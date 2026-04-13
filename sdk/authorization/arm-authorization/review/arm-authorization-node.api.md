@@ -4,14 +4,26 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type AccessRecommendationType = string;
+
+// @public
+export interface AccessReviewActorIdentity {
+    readonly principalId?: string;
+    readonly principalName?: string;
+    readonly principalType?: AccessReviewActorIdentityType;
+    readonly userPrincipalName?: string;
+}
 
 // @public
 export type AccessReviewActorIdentityType = string;
@@ -30,75 +42,61 @@ export interface AccessReviewContactedReviewer {
 }
 
 // @public
-export interface AccessReviewContactedReviewerListResult {
-    nextLink?: string;
-    value?: AccessReviewContactedReviewer[];
+export interface AccessReviewContactedReviewerProperties {
+    readonly createdDateTime?: Date;
+    readonly userDisplayName?: string;
+    readonly userPrincipalName?: string;
 }
 
 // @public
-export interface AccessReviewDecision {
+export interface AccessReviewDecision extends ProxyResource {
+    readonly appliedBy?: AccessReviewActorIdentity;
     readonly appliedDateTime?: Date;
     readonly applyResult?: AccessReviewApplyResult;
     decision?: AccessReviewResult;
-    readonly displayNamePropertiesPrincipalDisplayName?: string;
-    readonly displayNamePropertiesResourceDisplayName?: string;
-    readonly id?: string;
-    readonly idPropertiesPrincipalId?: string;
-    readonly idPropertiesResourceId?: string;
     insights?: AccessReviewDecisionInsight[];
     justification?: string;
-    membershipTypes?: AccessReviewDecisionPrincipalResourceMembershipType[];
-    readonly name?: string;
-    readonly principalIdPropertiesAppliedByPrincipalId?: string;
-    readonly principalIdPropertiesReviewedByPrincipalId?: string;
-    readonly principalNamePropertiesAppliedByPrincipalName?: string;
-    readonly principalNamePropertiesReviewedByPrincipalName?: string;
-    readonly principalTypePropertiesAppliedByPrincipalType?: AccessReviewActorIdentityType;
-    readonly principalTypePropertiesReviewedByPrincipalType?: AccessReviewActorIdentityType;
+    readonly principal?: AccessReviewDecisionIdentityUnion;
+    readonly principalResourceMembership?: AccessReviewDecisionPrincipalResourceMembership;
     readonly recommendation?: AccessRecommendationType;
+    readonly resource?: AccessReviewDecisionResource;
+    readonly reviewedBy?: AccessReviewActorIdentity;
     readonly reviewedDateTime?: Date;
-    readonly type?: string;
-    typePropertiesPrincipalType?: DecisionTargetType;
-    typePropertiesResourceType?: DecisionResourceType;
-    readonly userPrincipalNamePropertiesAppliedByUserPrincipalName?: string;
-    readonly userPrincipalNamePropertiesReviewedByUserPrincipalName?: string;
 }
 
 // @public
 export interface AccessReviewDecisionIdentity {
     readonly displayName?: string;
     readonly id?: string;
-    type: "user" | "servicePrincipal";
+    type: DecisionTargetType;
 }
 
-// @public (undocumented)
-export type AccessReviewDecisionIdentityUnion = AccessReviewDecisionIdentity | AccessReviewDecisionUserIdentity | AccessReviewDecisionServicePrincipalIdentity;
+// @public
+export type AccessReviewDecisionIdentityUnion = AccessReviewDecisionUserIdentity | AccessReviewDecisionServicePrincipalIdentity | AccessReviewDecisionIdentity;
 
 // @public
 export interface AccessReviewDecisionInsight {
     readonly id?: string;
-    readonly insightCreatedDateTime?: any;
     readonly name?: string;
+    properties?: AccessReviewDecisionInsightPropertiesUnion;
     readonly type?: string;
-    typePropertiesType?: AccessReviewDecisionInsightType;
 }
 
 // @public
 export interface AccessReviewDecisionInsightProperties {
-    readonly insightCreatedDateTime?: any;
-    type: "userSignInInsight";
+    readonly insightCreatedDateTime?: Date;
+    type: AccessReviewDecisionInsightType;
 }
 
-// @public (undocumented)
-export type AccessReviewDecisionInsightPropertiesUnion = AccessReviewDecisionInsightProperties | AccessReviewDecisionUserSignInInsightProperties;
+// @public
+export type AccessReviewDecisionInsightPropertiesUnion = AccessReviewDecisionUserSignInInsightProperties | AccessReviewDecisionInsightProperties;
 
 // @public
 export type AccessReviewDecisionInsightType = string;
 
 // @public
-export interface AccessReviewDecisionListResult {
-    nextLink?: string;
-    value?: AccessReviewDecision[];
+export interface AccessReviewDecisionPrincipalResourceMembership {
+    membershipTypes?: AccessReviewDecisionPrincipalResourceMembershipType[];
 }
 
 // @public
@@ -106,28 +104,25 @@ export type AccessReviewDecisionPrincipalResourceMembershipType = string;
 
 // @public
 export interface AccessReviewDecisionProperties {
+    readonly appliedBy?: AccessReviewActorIdentity;
     readonly appliedDateTime?: Date;
     readonly applyResult?: AccessReviewApplyResult;
     decision?: AccessReviewResult;
-    readonly displayNamePrincipalDisplayName?: string;
-    readonly displayNameResourceDisplayName?: string;
-    readonly idPrincipalId?: string;
-    readonly idResourceId?: string;
     insights?: AccessReviewDecisionInsight[];
     justification?: string;
-    membershipTypes?: AccessReviewDecisionPrincipalResourceMembershipType[];
-    readonly principalIdAppliedByPrincipalId?: string;
-    readonly principalIdReviewedByPrincipalId?: string;
-    readonly principalNameAppliedByPrincipalName?: string;
-    readonly principalNameReviewedByPrincipalName?: string;
-    readonly principalTypeAppliedByPrincipalType?: AccessReviewActorIdentityType;
-    readonly principalTypeReviewedByPrincipalType?: AccessReviewActorIdentityType;
+    readonly principal?: AccessReviewDecisionIdentityUnion;
+    readonly principalResourceMembership?: AccessReviewDecisionPrincipalResourceMembership;
     readonly recommendation?: AccessRecommendationType;
+    readonly resource?: AccessReviewDecisionResource;
+    readonly reviewedBy?: AccessReviewActorIdentity;
     readonly reviewedDateTime?: Date;
-    typePrincipalType?: DecisionTargetType;
-    typeResourceType?: DecisionResourceType;
-    readonly userPrincipalNameAppliedByUserPrincipalName?: string;
-    readonly userPrincipalNameReviewedByUserPrincipalName?: string;
+}
+
+// @public
+export interface AccessReviewDecisionResource {
+    readonly displayName?: string;
+    readonly id?: string;
+    type: DecisionResourceType;
 }
 
 // @public
@@ -144,186 +139,112 @@ export interface AccessReviewDecisionUserIdentity extends AccessReviewDecisionId
 
 // @public
 export interface AccessReviewDecisionUserSignInInsightProperties extends AccessReviewDecisionInsightProperties {
-    readonly lastSignInDateTime?: any;
+    readonly lastSignInDateTime?: Date;
     type: "userSignInInsight";
 }
 
 // @public
-export interface AccessReviewDefaultSettings {
+export interface AccessReviewDefaultSettings extends ProxyResource {
     autoApplyDecisionsEnabled?: boolean;
     defaultDecision?: DefaultDecisionType;
     defaultDecisionEnabled?: boolean;
-    endDate?: Date;
-    readonly id?: string;
     instanceDurationInDays?: number;
-    interval?: number;
     justificationRequiredOnApproval?: boolean;
     mailNotificationsEnabled?: boolean;
-    readonly name?: string;
-    numberOfOccurrences?: number;
     recommendationLookBackDuration?: string;
     recommendationsEnabled?: boolean;
+    recurrence?: AccessReviewRecurrenceSettings;
     reminderNotificationsEnabled?: boolean;
-    startDate?: Date;
-    readonly type?: string;
-    typePropertiesRecurrencePatternType?: AccessReviewRecurrencePatternType;
-    typePropertiesRecurrenceRangeType?: AccessReviewRecurrenceRangeType;
 }
 
 // @public
-export interface AccessReviewDefaultSettingsGetOptionalParams extends coreClient.OperationOptions {
+export interface AccessReviewDefaultSettingsGetOptionalParams extends OperationOptions {
 }
-
-// @public
-export type AccessReviewDefaultSettingsGetResponse = AccessReviewDefaultSettings;
 
 // @public
 export interface AccessReviewDefaultSettingsOperations {
-    get(options?: AccessReviewDefaultSettingsGetOptionalParams): Promise<AccessReviewDefaultSettingsGetResponse>;
-    put(properties: AccessReviewScheduleSettings, options?: AccessReviewDefaultSettingsPutOptionalParams): Promise<AccessReviewDefaultSettingsPutResponse>;
+    get: (options?: AccessReviewDefaultSettingsGetOptionalParams) => Promise<AccessReviewDefaultSettings>;
+    put: (properties: AccessReviewScheduleSettings, options?: AccessReviewDefaultSettingsPutOptionalParams) => Promise<AccessReviewDefaultSettings>;
 }
 
 // @public
-export interface AccessReviewDefaultSettingsPutOptionalParams extends coreClient.OperationOptions {
+export interface AccessReviewDefaultSettingsPutOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AccessReviewDefaultSettingsPutResponse = AccessReviewDefaultSettings;
-
-// @public
-export interface AccessReviewHistoryDefinition {
+export interface AccessReviewHistoryDefinition extends ProxyResource {
+    readonly createdBy?: AccessReviewActorIdentity;
     readonly createdDateTime?: Date;
     decisions?: AccessReviewResult[];
     displayName?: string;
-    endDate?: Date;
-    readonly id?: string;
     instances?: AccessReviewHistoryInstance[];
-    interval?: number;
-    readonly name?: string;
-    numberOfOccurrences?: number;
-    readonly principalId?: string;
-    readonly principalName?: string;
-    readonly principalType?: AccessReviewActorIdentityType;
     readonly reviewHistoryPeriodEndDateTime?: Date;
     readonly reviewHistoryPeriodStartDateTime?: Date;
     scopes?: AccessReviewScope[];
-    startDate?: Date;
+    settings?: AccessReviewHistoryScheduleSettings;
     readonly status?: AccessReviewHistoryDefinitionStatus;
-    readonly type?: string;
-    typePropertiesSettingsPatternType?: AccessReviewRecurrencePatternType;
-    typePropertiesSettingsRangeType?: AccessReviewRecurrenceRangeType;
-    readonly userPrincipalName?: string;
 }
 
 // @public
-export interface AccessReviewHistoryDefinitionCreateOptionalParams extends coreClient.OperationOptions {
+export interface AccessReviewHistoryDefinitionCreateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AccessReviewHistoryDefinitionCreateResponse = AccessReviewHistoryDefinition;
-
-// @public
-export interface AccessReviewHistoryDefinitionDeleteByIdOptionalParams extends coreClient.OperationOptions {
+export interface AccessReviewHistoryDefinitionDeleteByIdOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AccessReviewHistoryDefinitionInstance {
-    generateDownloadUri(historyDefinitionId: string, instanceId: string, options?: AccessReviewHistoryDefinitionInstanceGenerateDownloadUriOptionalParams): Promise<AccessReviewHistoryDefinitionInstanceGenerateDownloadUriResponse>;
+export interface AccessReviewHistoryDefinitionInstanceGenerateDownloadUriOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AccessReviewHistoryDefinitionInstanceGenerateDownloadUriOptionalParams extends coreClient.OperationOptions {
+export interface AccessReviewHistoryDefinitionInstanceOperations {
+    generateDownloadUri: (historyDefinitionId: string, instanceId: string, options?: AccessReviewHistoryDefinitionInstanceGenerateDownloadUriOptionalParams) => Promise<AccessReviewHistoryInstance>;
 }
 
 // @public
-export type AccessReviewHistoryDefinitionInstanceGenerateDownloadUriResponse = AccessReviewHistoryInstance;
-
-// @public
-export interface AccessReviewHistoryDefinitionInstanceListResult {
-    nextLink?: string;
-    value?: AccessReviewHistoryInstance[];
+export interface AccessReviewHistoryDefinitionInstancesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AccessReviewHistoryDefinitionInstances {
-    list(historyDefinitionId: string, options?: AccessReviewHistoryDefinitionInstancesListOptionalParams): PagedAsyncIterableIterator<AccessReviewHistoryInstance>;
-}
-
-// @public
-export interface AccessReviewHistoryDefinitionInstancesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AccessReviewHistoryDefinitionInstancesListNextResponse = AccessReviewHistoryDefinitionInstanceListResult;
-
-// @public
-export interface AccessReviewHistoryDefinitionInstancesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AccessReviewHistoryDefinitionInstancesListResponse = AccessReviewHistoryDefinitionInstanceListResult;
-
-// @public
-export interface AccessReviewHistoryDefinitionListResult {
-    nextLink?: string;
-    value?: AccessReviewHistoryDefinition[];
+export interface AccessReviewHistoryDefinitionInstancesOperations {
+    list: (historyDefinitionId: string, options?: AccessReviewHistoryDefinitionInstancesListOptionalParams) => PagedAsyncIterableIterator<AccessReviewHistoryInstance>;
 }
 
 // @public
 export interface AccessReviewHistoryDefinitionOperations {
-    create(historyDefinitionId: string, properties: AccessReviewHistoryDefinitionProperties, options?: AccessReviewHistoryDefinitionCreateOptionalParams): Promise<AccessReviewHistoryDefinitionCreateResponse>;
-    deleteById(historyDefinitionId: string, options?: AccessReviewHistoryDefinitionDeleteByIdOptionalParams): Promise<void>;
+    create: (historyDefinitionId: string, properties: AccessReviewHistoryDefinitionProperties, options?: AccessReviewHistoryDefinitionCreateOptionalParams) => Promise<AccessReviewHistoryDefinition>;
+    deleteById: (historyDefinitionId: string, options?: AccessReviewHistoryDefinitionDeleteByIdOptionalParams) => Promise<void>;
 }
 
 // @public
 export interface AccessReviewHistoryDefinitionProperties {
+    readonly createdBy?: AccessReviewActorIdentity;
     readonly createdDateTime?: Date;
     decisions?: AccessReviewResult[];
     displayName?: string;
-    endDate?: Date;
     instances?: AccessReviewHistoryInstance[];
-    interval?: number;
-    numberOfOccurrences?: number;
-    readonly principalId?: string;
-    readonly principalName?: string;
-    readonly principalType?: AccessReviewActorIdentityType;
     readonly reviewHistoryPeriodEndDateTime?: Date;
     readonly reviewHistoryPeriodStartDateTime?: Date;
     scopes?: AccessReviewScope[];
-    startDate?: Date;
+    settings?: AccessReviewHistoryScheduleSettings;
     readonly status?: AccessReviewHistoryDefinitionStatus;
-    typeSettingsPatternType?: AccessReviewRecurrencePatternType;
-    typeSettingsRangeType?: AccessReviewRecurrenceRangeType;
-    readonly userPrincipalName?: string;
 }
 
 // @public
-export interface AccessReviewHistoryDefinitions {
-    getById(historyDefinitionId: string, options?: AccessReviewHistoryDefinitionsGetByIdOptionalParams): Promise<AccessReviewHistoryDefinitionsGetByIdResponse>;
-    list(options?: AccessReviewHistoryDefinitionsListOptionalParams): PagedAsyncIterableIterator<AccessReviewHistoryDefinition>;
+export interface AccessReviewHistoryDefinitionsGetByIdOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AccessReviewHistoryDefinitionsGetByIdOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AccessReviewHistoryDefinitionsGetByIdResponse = AccessReviewHistoryDefinition;
-
-// @public
-export interface AccessReviewHistoryDefinitionsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AccessReviewHistoryDefinitionsListNextResponse = AccessReviewHistoryDefinitionListResult;
-
-// @public
-export interface AccessReviewHistoryDefinitionsListOptionalParams extends coreClient.OperationOptions {
+export interface AccessReviewHistoryDefinitionsListOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type AccessReviewHistoryDefinitionsListResponse = AccessReviewHistoryDefinitionListResult;
+export interface AccessReviewHistoryDefinitionsOperations {
+    getById: (historyDefinitionId: string, options?: AccessReviewHistoryDefinitionsGetByIdOptionalParams) => Promise<AccessReviewHistoryDefinition>;
+    list: (options?: AccessReviewHistoryDefinitionsListOptionalParams) => PagedAsyncIterableIterator<AccessReviewHistoryDefinition>;
+}
 
 // @public
 export type AccessReviewHistoryDefinitionStatus = string;
@@ -344,114 +265,91 @@ export interface AccessReviewHistoryInstance {
 }
 
 // @public
-export interface AccessReviewInstance {
+export interface AccessReviewHistoryInstanceProperties {
+    displayName?: string;
+    readonly downloadUri?: string;
+    expiration?: Date;
+    fulfilledDateTime?: Date;
+    reviewHistoryPeriodEndDateTime?: Date;
+    reviewHistoryPeriodStartDateTime?: Date;
+    runDateTime?: Date;
+    readonly status?: AccessReviewHistoryDefinitionStatus;
+}
+
+// @public
+export interface AccessReviewHistoryScheduleSettings {
+    endDate?: Date;
+    interval?: number;
+    numberOfOccurrences?: number;
+    startDate?: Date;
+    type?: AccessReviewRecurrencePatternType;
+    typeRangeType?: AccessReviewRecurrenceRangeType;
+}
+
+// @public
+export interface AccessReviewInstance extends ProxyResource {
     backupReviewers?: AccessReviewReviewer[];
     endDateTime?: Date;
-    readonly id?: string;
-    readonly name?: string;
     reviewers?: AccessReviewReviewer[];
     readonly reviewersType?: AccessReviewInstanceReviewersType;
     startDateTime?: Date;
     readonly status?: AccessReviewInstanceStatus;
-    readonly type?: string;
 }
 
 // @public
-export interface AccessReviewInstanceAcceptRecommendationsOptionalParams extends coreClient.OperationOptions {
+export interface AccessReviewInstanceAcceptRecommendationsOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AccessReviewInstanceApplyDecisionsOptionalParams extends coreClient.OperationOptions {
+export interface AccessReviewInstanceApplyDecisionsOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AccessReviewInstanceContactedReviewers {
-    list(scheduleDefinitionId: string, id: string, options?: AccessReviewInstanceContactedReviewersListOptionalParams): PagedAsyncIterableIterator<AccessReviewContactedReviewer>;
+export interface AccessReviewInstanceContactedReviewersListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AccessReviewInstanceContactedReviewersListNextOptionalParams extends coreClient.OperationOptions {
+export interface AccessReviewInstanceContactedReviewersOperations {
+    list: (scheduleDefinitionId: string, id: string, options?: AccessReviewInstanceContactedReviewersListOptionalParams) => PagedAsyncIterableIterator<AccessReviewContactedReviewer>;
 }
 
 // @public
-export type AccessReviewInstanceContactedReviewersListNextResponse = AccessReviewContactedReviewerListResult;
-
-// @public
-export interface AccessReviewInstanceContactedReviewersListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AccessReviewInstanceContactedReviewersListResponse = AccessReviewContactedReviewerListResult;
-
-// @public
-export interface AccessReviewInstanceDecisions {
-    list(scheduleDefinitionId: string, id: string, options?: AccessReviewInstanceDecisionsListOptionalParams): PagedAsyncIterableIterator<AccessReviewDecision>;
-}
-
-// @public
-export interface AccessReviewInstanceDecisionsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AccessReviewInstanceDecisionsListNextResponse = AccessReviewDecisionListResult;
-
-// @public
-export interface AccessReviewInstanceDecisionsListOptionalParams extends coreClient.OperationOptions {
+export interface AccessReviewInstanceDecisionsListOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type AccessReviewInstanceDecisionsListResponse = AccessReviewDecisionListResult;
-
-// @public
-export interface AccessReviewInstanceListResult {
-    nextLink?: string;
-    value?: AccessReviewInstance[];
+export interface AccessReviewInstanceDecisionsOperations {
+    list: (scheduleDefinitionId: string, id: string, options?: AccessReviewInstanceDecisionsListOptionalParams) => PagedAsyncIterableIterator<AccessReviewDecision>;
 }
 
 // @public
-export interface AccessReviewInstanceMyDecisions {
-    getById(scheduleDefinitionId: string, id: string, decisionId: string, options?: AccessReviewInstanceMyDecisionsGetByIdOptionalParams): Promise<AccessReviewInstanceMyDecisionsGetByIdResponse>;
-    list(scheduleDefinitionId: string, id: string, options?: AccessReviewInstanceMyDecisionsListOptionalParams): PagedAsyncIterableIterator<AccessReviewDecision>;
-    patch(scheduleDefinitionId: string, id: string, decisionId: string, properties: AccessReviewDecisionProperties, options?: AccessReviewInstanceMyDecisionsPatchOptionalParams): Promise<AccessReviewInstanceMyDecisionsPatchResponse>;
+export interface AccessReviewInstanceMyDecisionsGetByIdOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AccessReviewInstanceMyDecisionsGetByIdOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AccessReviewInstanceMyDecisionsGetByIdResponse = AccessReviewDecision;
-
-// @public
-export interface AccessReviewInstanceMyDecisionsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AccessReviewInstanceMyDecisionsListNextResponse = AccessReviewDecisionListResult;
-
-// @public
-export interface AccessReviewInstanceMyDecisionsListOptionalParams extends coreClient.OperationOptions {
+export interface AccessReviewInstanceMyDecisionsListOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type AccessReviewInstanceMyDecisionsListResponse = AccessReviewDecisionListResult;
-
-// @public
-export interface AccessReviewInstanceMyDecisionsPatchOptionalParams extends coreClient.OperationOptions {
+export interface AccessReviewInstanceMyDecisionsOperations {
+    getById: (scheduleDefinitionId: string, id: string, decisionId: string, options?: AccessReviewInstanceMyDecisionsGetByIdOptionalParams) => Promise<AccessReviewDecision>;
+    list: (scheduleDefinitionId: string, id: string, options?: AccessReviewInstanceMyDecisionsListOptionalParams) => PagedAsyncIterableIterator<AccessReviewDecision>;
+    patch: (scheduleDefinitionId: string, id: string, decisionId: string, properties: AccessReviewDecisionProperties, options?: AccessReviewInstanceMyDecisionsPatchOptionalParams) => Promise<AccessReviewDecision>;
 }
 
 // @public
-export type AccessReviewInstanceMyDecisionsPatchResponse = AccessReviewDecision;
+export interface AccessReviewInstanceMyDecisionsPatchOptionalParams extends OperationOptions {
+}
 
 // @public
 export interface AccessReviewInstanceOperations {
-    acceptRecommendations(scheduleDefinitionId: string, id: string, options?: AccessReviewInstanceAcceptRecommendationsOptionalParams): Promise<void>;
-    applyDecisions(scheduleDefinitionId: string, id: string, options?: AccessReviewInstanceApplyDecisionsOptionalParams): Promise<void>;
-    resetDecisions(scheduleDefinitionId: string, id: string, options?: AccessReviewInstanceResetDecisionsOptionalParams): Promise<void>;
-    sendReminders(scheduleDefinitionId: string, id: string, options?: AccessReviewInstanceSendRemindersOptionalParams): Promise<void>;
-    stop(scheduleDefinitionId: string, id: string, options?: AccessReviewInstanceStopOptionalParams): Promise<void>;
+    acceptRecommendations: (scheduleDefinitionId: string, id: string, options?: AccessReviewInstanceAcceptRecommendationsOptionalParams) => Promise<void>;
+    applyDecisions: (scheduleDefinitionId: string, id: string, options?: AccessReviewInstanceApplyDecisionsOptionalParams) => Promise<void>;
+    resetDecisions: (scheduleDefinitionId: string, id: string, options?: AccessReviewInstanceResetDecisionsOptionalParams) => Promise<void>;
+    sendReminders: (scheduleDefinitionId: string, id: string, options?: AccessReviewInstanceSendRemindersOptionalParams) => Promise<void>;
+    stop: (scheduleDefinitionId: string, id: string, options?: AccessReviewInstanceStopOptionalParams) => Promise<void>;
 }
 
 // @public
@@ -465,92 +363,87 @@ export interface AccessReviewInstanceProperties {
 }
 
 // @public
-export interface AccessReviewInstanceResetDecisionsOptionalParams extends coreClient.OperationOptions {
+export interface AccessReviewInstanceResetDecisionsOptionalParams extends OperationOptions {
 }
 
 // @public
 export type AccessReviewInstanceReviewersType = string;
 
 // @public
-export interface AccessReviewInstances {
-    create(scheduleDefinitionId: string, id: string, properties: AccessReviewInstanceProperties, options?: AccessReviewInstancesCreateOptionalParams): Promise<AccessReviewInstancesCreateResponse>;
-    getById(scheduleDefinitionId: string, id: string, options?: AccessReviewInstancesGetByIdOptionalParams): Promise<AccessReviewInstancesGetByIdResponse>;
-    list(scheduleDefinitionId: string, options?: AccessReviewInstancesListOptionalParams): PagedAsyncIterableIterator<AccessReviewInstance>;
+export interface AccessReviewInstancesAssignedForMyApprovalGetByIdOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AccessReviewInstancesAssignedForMyApproval {
-    getById(scheduleDefinitionId: string, id: string, options?: AccessReviewInstancesAssignedForMyApprovalGetByIdOptionalParams): Promise<AccessReviewInstancesAssignedForMyApprovalGetByIdResponse>;
-    list(scheduleDefinitionId: string, options?: AccessReviewInstancesAssignedForMyApprovalListOptionalParams): PagedAsyncIterableIterator<AccessReviewInstance>;
-}
-
-// @public
-export interface AccessReviewInstancesAssignedForMyApprovalGetByIdOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AccessReviewInstancesAssignedForMyApprovalGetByIdResponse = AccessReviewInstance;
-
-// @public
-export interface AccessReviewInstancesAssignedForMyApprovalListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AccessReviewInstancesAssignedForMyApprovalListNextResponse = AccessReviewInstanceListResult;
-
-// @public
-export interface AccessReviewInstancesAssignedForMyApprovalListOptionalParams extends coreClient.OperationOptions {
+export interface AccessReviewInstancesAssignedForMyApprovalListOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type AccessReviewInstancesAssignedForMyApprovalListResponse = AccessReviewInstanceListResult;
-
-// @public
-export interface AccessReviewInstancesCreateOptionalParams extends coreClient.OperationOptions {
+export interface AccessReviewInstancesAssignedForMyApprovalOperations {
+    getById: (scheduleDefinitionId: string, id: string, options?: AccessReviewInstancesAssignedForMyApprovalGetByIdOptionalParams) => Promise<AccessReviewInstance>;
+    list: (scheduleDefinitionId: string, options?: AccessReviewInstancesAssignedForMyApprovalListOptionalParams) => PagedAsyncIterableIterator<AccessReviewInstance>;
 }
 
 // @public
-export type AccessReviewInstancesCreateResponse = AccessReviewInstance;
-
-// @public
-export interface AccessReviewInstanceSendRemindersOptionalParams extends coreClient.OperationOptions {
+export interface AccessReviewInstancesCreateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AccessReviewInstancesGetByIdOptionalParams extends coreClient.OperationOptions {
+export interface AccessReviewInstanceSendRemindersOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AccessReviewInstancesGetByIdResponse = AccessReviewInstance;
-
-// @public
-export interface AccessReviewInstancesListNextOptionalParams extends coreClient.OperationOptions {
+export interface AccessReviewInstancesGetByIdOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AccessReviewInstancesListNextResponse = AccessReviewInstanceListResult;
-
-// @public
-export interface AccessReviewInstancesListOptionalParams extends coreClient.OperationOptions {
+export interface AccessReviewInstancesListOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type AccessReviewInstancesListResponse = AccessReviewInstanceListResult;
+export interface AccessReviewInstancesOperations {
+    create: (scheduleDefinitionId: string, id: string, properties: AccessReviewInstanceProperties, options?: AccessReviewInstancesCreateOptionalParams) => Promise<AccessReviewInstance>;
+    getById: (scheduleDefinitionId: string, id: string, options?: AccessReviewInstancesGetByIdOptionalParams) => Promise<AccessReviewInstance>;
+    list: (scheduleDefinitionId: string, options?: AccessReviewInstancesListOptionalParams) => PagedAsyncIterableIterator<AccessReviewInstance>;
+}
 
 // @public
 export type AccessReviewInstanceStatus = string;
 
 // @public
-export interface AccessReviewInstanceStopOptionalParams extends coreClient.OperationOptions {
+export interface AccessReviewInstanceStopOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AccessReviewRecurrencePattern {
+    interval?: number;
+    type?: AccessReviewRecurrencePatternType;
 }
 
 // @public
 export type AccessReviewRecurrencePatternType = string;
 
 // @public
+export interface AccessReviewRecurrenceRange {
+    endDate?: Date;
+    numberOfOccurrences?: number;
+    startDate?: Date;
+    type?: AccessReviewRecurrenceRangeType;
+}
+
+// @public
 export type AccessReviewRecurrenceRangeType = string;
+
+// @public
+export interface AccessReviewRecurrenceSettings {
+    endDate?: Date;
+    interval?: number;
+    numberOfOccurrences?: number;
+    startDate?: Date;
+    type?: AccessReviewRecurrencePatternType;
+    typeRangeType?: AccessReviewRecurrenceRangeType;
+}
 
 // @public
 export type AccessReviewResult = string;
@@ -565,53 +458,18 @@ export interface AccessReviewReviewer {
 export type AccessReviewReviewerType = string;
 
 // @public
-export interface AccessReviewScheduleDefinition {
-    readonly assignmentState?: AccessReviewScopeAssignmentState;
-    autoApplyDecisionsEnabled?: boolean;
+export interface AccessReviewScheduleDefinition extends ProxyResource {
     backupReviewers?: AccessReviewReviewer[];
-    defaultDecision?: DefaultDecisionType;
-    defaultDecisionEnabled?: boolean;
+    readonly createdBy?: AccessReviewActorIdentity;
     descriptionForAdmins?: string;
     descriptionForReviewers?: string;
     displayName?: string;
-    endDate?: Date;
-    excludeResourceId?: string;
-    excludeRoleDefinitionId?: string;
-    expandNestedMemberships?: boolean;
-    readonly id?: string;
-    inactiveDuration?: string;
-    includeAccessBelowResource?: boolean;
-    includeInheritedAccess?: boolean;
-    instanceDurationInDays?: number;
     instances?: AccessReviewInstance[];
-    interval?: number;
-    justificationRequiredOnApproval?: boolean;
-    mailNotificationsEnabled?: boolean;
-    readonly name?: string;
-    numberOfOccurrences?: number;
-    readonly principalId?: string;
-    readonly principalName?: string;
-    readonly principalTypePropertiesCreatedByPrincipalType?: AccessReviewActorIdentityType;
-    readonly principalTypePropertiesScopePrincipalType?: AccessReviewScopePrincipalType;
-    recommendationLookBackDuration?: string;
-    recommendationsEnabled?: boolean;
-    reminderNotificationsEnabled?: boolean;
-    readonly resourceId?: string;
     reviewers?: AccessReviewReviewer[];
     readonly reviewersType?: AccessReviewScheduleDefinitionReviewersType;
-    readonly roleDefinitionId?: string;
-    startDate?: Date;
+    readonly scope?: AccessReviewScope;
+    settings?: AccessReviewScheduleSettings;
     readonly status?: AccessReviewScheduleDefinitionStatus;
-    readonly type?: string;
-    typePropertiesSettingsRecurrencePatternType?: AccessReviewRecurrencePatternType;
-    typePropertiesSettingsRecurrenceRangeType?: AccessReviewRecurrenceRangeType;
-    readonly userPrincipalName?: string;
-}
-
-// @public
-export interface AccessReviewScheduleDefinitionListResult {
-    nextLink?: string;
-    value?: AccessReviewScheduleDefinition[];
 }
 
 // @public
@@ -624,7 +482,6 @@ export interface AccessReviewScheduleDefinitionProperties {
     descriptionForAdmins?: string;
     descriptionForReviewers?: string;
     displayName?: string;
-    endDate?: Date;
     excludeResourceId?: string;
     excludeRoleDefinitionId?: string;
     expandNestedMemberships?: boolean;
@@ -633,25 +490,21 @@ export interface AccessReviewScheduleDefinitionProperties {
     includeInheritedAccess?: boolean;
     instanceDurationInDays?: number;
     instances?: AccessReviewInstance[];
-    interval?: number;
     justificationRequiredOnApproval?: boolean;
     mailNotificationsEnabled?: boolean;
-    numberOfOccurrences?: number;
     readonly principalId?: string;
     readonly principalName?: string;
-    readonly principalTypeCreatedByPrincipalType?: AccessReviewActorIdentityType;
+    readonly principalType?: AccessReviewActorIdentityType;
     readonly principalTypeScopePrincipalType?: AccessReviewScopePrincipalType;
     recommendationLookBackDuration?: string;
     recommendationsEnabled?: boolean;
+    recurrence?: AccessReviewRecurrenceSettings;
     reminderNotificationsEnabled?: boolean;
     readonly resourceId?: string;
     reviewers?: AccessReviewReviewer[];
     readonly reviewersType?: AccessReviewScheduleDefinitionReviewersType;
     readonly roleDefinitionId?: string;
-    startDate?: Date;
     readonly status?: AccessReviewScheduleDefinitionStatus;
-    typeSettingsRecurrencePatternType?: AccessReviewRecurrencePatternType;
-    typeSettingsRecurrenceRangeType?: AccessReviewRecurrenceRangeType;
     readonly userPrincipalName?: string;
 }
 
@@ -659,69 +512,43 @@ export interface AccessReviewScheduleDefinitionProperties {
 export type AccessReviewScheduleDefinitionReviewersType = string;
 
 // @public
-export interface AccessReviewScheduleDefinitions {
-    createOrUpdateById(scheduleDefinitionId: string, properties: AccessReviewScheduleDefinitionProperties, options?: AccessReviewScheduleDefinitionsCreateOrUpdateByIdOptionalParams): Promise<AccessReviewScheduleDefinitionsCreateOrUpdateByIdResponse>;
-    deleteById(scheduleDefinitionId: string, options?: AccessReviewScheduleDefinitionsDeleteByIdOptionalParams): Promise<void>;
-    getById(scheduleDefinitionId: string, options?: AccessReviewScheduleDefinitionsGetByIdOptionalParams): Promise<AccessReviewScheduleDefinitionsGetByIdResponse>;
-    list(options?: AccessReviewScheduleDefinitionsListOptionalParams): PagedAsyncIterableIterator<AccessReviewScheduleDefinition>;
-    stop(scheduleDefinitionId: string, options?: AccessReviewScheduleDefinitionsStopOptionalParams): Promise<void>;
-}
-
-// @public
-export interface AccessReviewScheduleDefinitionsAssignedForMyApproval {
-    list(options?: AccessReviewScheduleDefinitionsAssignedForMyApprovalListOptionalParams): PagedAsyncIterableIterator<AccessReviewScheduleDefinition>;
-}
-
-// @public
-export interface AccessReviewScheduleDefinitionsAssignedForMyApprovalListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AccessReviewScheduleDefinitionsAssignedForMyApprovalListNextResponse = AccessReviewScheduleDefinitionListResult;
-
-// @public
-export interface AccessReviewScheduleDefinitionsAssignedForMyApprovalListOptionalParams extends coreClient.OperationOptions {
+export interface AccessReviewScheduleDefinitionsAssignedForMyApprovalListOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type AccessReviewScheduleDefinitionsAssignedForMyApprovalListResponse = AccessReviewScheduleDefinitionListResult;
-
-// @public
-export interface AccessReviewScheduleDefinitionsCreateOrUpdateByIdOptionalParams extends coreClient.OperationOptions {
+export interface AccessReviewScheduleDefinitionsAssignedForMyApprovalOperations {
+    list: (options?: AccessReviewScheduleDefinitionsAssignedForMyApprovalListOptionalParams) => PagedAsyncIterableIterator<AccessReviewScheduleDefinition>;
 }
 
 // @public
-export type AccessReviewScheduleDefinitionsCreateOrUpdateByIdResponse = AccessReviewScheduleDefinition;
-
-// @public
-export interface AccessReviewScheduleDefinitionsDeleteByIdOptionalParams extends coreClient.OperationOptions {
+export interface AccessReviewScheduleDefinitionsCreateOrUpdateByIdOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AccessReviewScheduleDefinitionsGetByIdOptionalParams extends coreClient.OperationOptions {
+export interface AccessReviewScheduleDefinitionsDeleteByIdOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AccessReviewScheduleDefinitionsGetByIdResponse = AccessReviewScheduleDefinition;
-
-// @public
-export interface AccessReviewScheduleDefinitionsListNextOptionalParams extends coreClient.OperationOptions {
+export interface AccessReviewScheduleDefinitionsGetByIdOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AccessReviewScheduleDefinitionsListNextResponse = AccessReviewScheduleDefinitionListResult;
-
-// @public
-export interface AccessReviewScheduleDefinitionsListOptionalParams extends coreClient.OperationOptions {
+export interface AccessReviewScheduleDefinitionsListOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type AccessReviewScheduleDefinitionsListResponse = AccessReviewScheduleDefinitionListResult;
+export interface AccessReviewScheduleDefinitionsOperations {
+    createOrUpdateById: (scheduleDefinitionId: string, properties: AccessReviewScheduleDefinitionProperties, options?: AccessReviewScheduleDefinitionsCreateOrUpdateByIdOptionalParams) => Promise<AccessReviewScheduleDefinition>;
+    deleteById: (scheduleDefinitionId: string, options?: AccessReviewScheduleDefinitionsDeleteByIdOptionalParams) => Promise<void>;
+    getById: (scheduleDefinitionId: string, options?: AccessReviewScheduleDefinitionsGetByIdOptionalParams) => Promise<AccessReviewScheduleDefinition>;
+    list: (options?: AccessReviewScheduleDefinitionsListOptionalParams) => PagedAsyncIterableIterator<AccessReviewScheduleDefinition>;
+    stop: (scheduleDefinitionId: string, options?: AccessReviewScheduleDefinitionsStopOptionalParams) => Promise<void>;
+}
 
 // @public
-export interface AccessReviewScheduleDefinitionsStopOptionalParams extends coreClient.OperationOptions {
+export interface AccessReviewScheduleDefinitionsStopOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -732,18 +559,14 @@ export interface AccessReviewScheduleSettings {
     autoApplyDecisionsEnabled?: boolean;
     defaultDecision?: DefaultDecisionType;
     defaultDecisionEnabled?: boolean;
-    endDate?: Date;
     instanceDurationInDays?: number;
-    interval?: number;
     justificationRequiredOnApproval?: boolean;
     mailNotificationsEnabled?: boolean;
-    numberOfOccurrences?: number;
+    pattern?: AccessReviewRecurrencePattern;
+    range?: AccessReviewRecurrenceRange;
     recommendationLookBackDuration?: string;
     recommendationsEnabled?: boolean;
     reminderNotificationsEnabled?: boolean;
-    startDate?: Date;
-    typeRecurrencePatternType?: AccessReviewRecurrencePatternType;
-    typeRecurrenceRangeType?: AccessReviewRecurrenceRangeType;
 }
 
 // @public
@@ -767,202 +590,133 @@ export type AccessReviewScopeAssignmentState = string;
 export type AccessReviewScopePrincipalType = string;
 
 // @public
-export interface Alert {
+export interface Alert extends ExtensionResource {
     readonly alertConfiguration?: AlertConfiguration;
     readonly alertDefinition?: AlertDefinition;
     readonly alertIncidents?: AlertIncident[];
-    readonly id?: string;
     readonly incidentCount?: number;
     isActive?: boolean;
     readonly lastModifiedDateTime?: Date;
     readonly lastScannedDateTime?: Date;
-    readonly name?: string;
     readonly scope?: string;
-    readonly type?: string;
 }
 
 // @public
-export interface AlertConfiguration {
-    alertConfigurationType?: string;
-    readonly alertDefinition?: AlertDefinition;
-    readonly alertDefinitionId?: string;
-    readonly id?: string;
-    isEnabled?: boolean;
-    readonly name?: string;
-    readonly scope?: string;
-    readonly type?: string;
-}
-
-// @public
-export interface AlertConfigurationListResult {
-    nextLink?: string;
-    value?: AlertConfiguration[];
+export interface AlertConfiguration extends ExtensionResource {
+    properties?: AlertConfigurationPropertiesUnion;
 }
 
 // @public
 export interface AlertConfigurationProperties {
-    alertConfigurationType: "AzureRolesAssignedOutsidePimAlertConfiguration" | "DuplicateRoleCreatedAlertConfiguration" | "TooManyOwnersAssignedToResourceAlertConfiguration" | "TooManyPermanentOwnersAssignedToResourceAlertConfiguration";
+    alertConfigurationType: string;
     readonly alertDefinition?: AlertDefinition;
     readonly alertDefinitionId?: string;
     isEnabled?: boolean;
     readonly scope?: string;
 }
 
-// @public (undocumented)
-export type AlertConfigurationPropertiesUnion = AlertConfigurationProperties | AzureRolesAssignedOutsidePimAlertConfigurationProperties | DuplicateRoleCreatedAlertConfigurationProperties | TooManyOwnersAssignedToResourceAlertConfigurationProperties | TooManyPermanentOwnersAssignedToResourceAlertConfigurationProperties;
+// @public
+export type AlertConfigurationPropertiesUnion = AzureRolesAssignedOutsidePimAlertConfigurationProperties | DuplicateRoleCreatedAlertConfigurationProperties | TooManyOwnersAssignedToResourceAlertConfigurationProperties | TooManyPermanentOwnersAssignedToResourceAlertConfigurationProperties | AlertConfigurationProperties;
 
 // @public
-export interface AlertConfigurations {
-    get(scope: string, alertId: string, options?: AlertConfigurationsGetOptionalParams): Promise<AlertConfigurationsGetResponse>;
-    listForScope(scope: string, options?: AlertConfigurationsListForScopeOptionalParams): PagedAsyncIterableIterator<AlertConfiguration>;
-    update(scope: string, alertId: string, parameters: AlertConfiguration, options?: AlertConfigurationsUpdateOptionalParams): Promise<void>;
+export interface AlertConfigurationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AlertConfigurationsGetOptionalParams extends coreClient.OperationOptions {
+export interface AlertConfigurationsListForScopeOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AlertConfigurationsGetResponse = AlertConfiguration;
-
-// @public
-export interface AlertConfigurationsListForScopeNextOptionalParams extends coreClient.OperationOptions {
+export interface AlertConfigurationsOperations {
+    get: (scope: string, alertId: string, options?: AlertConfigurationsGetOptionalParams) => Promise<AlertConfiguration>;
+    listForScope: (scope: string, options?: AlertConfigurationsListForScopeOptionalParams) => PagedAsyncIterableIterator<AlertConfiguration>;
+    update: (scope: string, alertId: string, parameters: AlertConfiguration, options?: AlertConfigurationsUpdateOptionalParams) => Promise<void>;
 }
 
 // @public
-export type AlertConfigurationsListForScopeNextResponse = AlertConfigurationListResult;
-
-// @public
-export interface AlertConfigurationsListForScopeOptionalParams extends coreClient.OperationOptions {
+export interface AlertConfigurationsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AlertConfigurationsListForScopeResponse = AlertConfigurationListResult;
-
-// @public
-export interface AlertConfigurationsUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface AlertDefinition {
+export interface AlertDefinition extends ExtensionResource {
     readonly description?: string;
     readonly displayName?: string;
     readonly howToPrevent?: string;
-    readonly id?: string;
     readonly isConfigurable?: boolean;
     readonly isRemediatable?: boolean;
     readonly mitigationSteps?: string;
-    readonly name?: string;
     readonly scope?: string;
     readonly securityImpact?: string;
     readonly severityLevel?: SeverityLevel;
-    readonly type?: string;
 }
 
 // @public
-export interface AlertDefinitionListResult {
-    nextLink?: string;
-    value?: AlertDefinition[];
+export interface AlertDefinitionProperties {
+    readonly description?: string;
+    readonly displayName?: string;
+    readonly howToPrevent?: string;
+    readonly isConfigurable?: boolean;
+    readonly isRemediatable?: boolean;
+    readonly mitigationSteps?: string;
+    readonly scope?: string;
+    readonly securityImpact?: string;
+    readonly severityLevel?: SeverityLevel;
 }
 
 // @public
-export interface AlertDefinitions {
-    get(scope: string, alertDefinitionId: string, options?: AlertDefinitionsGetOptionalParams): Promise<AlertDefinitionsGetResponse>;
-    listForScope(scope: string, options?: AlertDefinitionsListForScopeOptionalParams): PagedAsyncIterableIterator<AlertDefinition>;
+export interface AlertDefinitionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AlertDefinitionsGetOptionalParams extends coreClient.OperationOptions {
+export interface AlertDefinitionsListForScopeOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AlertDefinitionsGetResponse = AlertDefinition;
-
-// @public
-export interface AlertDefinitionsListForScopeNextOptionalParams extends coreClient.OperationOptions {
+export interface AlertDefinitionsOperations {
+    get: (scope: string, alertDefinitionId: string, options?: AlertDefinitionsGetOptionalParams) => Promise<AlertDefinition>;
+    listForScope: (scope: string, options?: AlertDefinitionsListForScopeOptionalParams) => PagedAsyncIterableIterator<AlertDefinition>;
 }
 
 // @public
-export type AlertDefinitionsListForScopeNextResponse = AlertDefinitionListResult;
-
-// @public
-export interface AlertDefinitionsListForScopeOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AlertDefinitionsListForScopeResponse = AlertDefinitionListResult;
-
-// @public
-export interface AlertIncident {
-    alertIncidentType?: string;
-    readonly id?: string;
-    readonly name?: string;
-    readonly type?: string;
-}
-
-// @public
-export interface AlertIncidentListResult {
-    nextLink?: string;
-    value?: AlertIncident[];
+export interface AlertIncident extends ExtensionResource {
+    properties?: AlertIncidentPropertiesUnion;
 }
 
 // @public
 export interface AlertIncidentProperties {
-    alertIncidentType: "AzureRolesAssignedOutsidePimAlertIncident" | "DuplicateRoleCreatedAlertIncident" | "TooManyOwnersAssignedToResourceAlertIncident" | "TooManyPermanentOwnersAssignedToResourceAlertIncident";
-}
-
-// @public (undocumented)
-export type AlertIncidentPropertiesUnion = AlertIncidentProperties | AzureRolesAssignedOutsidePimAlertIncidentProperties | DuplicateRoleCreatedAlertIncidentProperties | TooManyOwnersAssignedToResourceAlertIncidentProperties | TooManyPermanentOwnersAssignedToResourceAlertIncidentProperties;
-
-// @public
-export interface AlertIncidents {
-    get(scope: string, alertId: string, alertIncidentId: string, options?: AlertIncidentsGetOptionalParams): Promise<AlertIncidentsGetResponse>;
-    listForScope(scope: string, alertId: string, options?: AlertIncidentsListForScopeOptionalParams): PagedAsyncIterableIterator<AlertIncident>;
-    remediate(scope: string, alertId: string, alertIncidentId: string, options?: AlertIncidentsRemediateOptionalParams): Promise<void>;
+    alertIncidentType: string;
 }
 
 // @public
-export interface AlertIncidentsGetOptionalParams extends coreClient.OperationOptions {
+export type AlertIncidentPropertiesUnion = AzureRolesAssignedOutsidePimAlertIncidentProperties | DuplicateRoleCreatedAlertIncidentProperties | TooManyOwnersAssignedToResourceAlertIncidentProperties | TooManyPermanentOwnersAssignedToResourceAlertIncidentProperties | AlertIncidentProperties;
+
+// @public
+export interface AlertIncidentsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AlertIncidentsGetResponse = AlertIncident;
-
-// @public
-export interface AlertIncidentsListForScopeNextOptionalParams extends coreClient.OperationOptions {
+export interface AlertIncidentsListForScopeOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AlertIncidentsListForScopeNextResponse = AlertIncidentListResult;
-
-// @public
-export interface AlertIncidentsListForScopeOptionalParams extends coreClient.OperationOptions {
+export interface AlertIncidentsOperations {
+    get: (scope: string, alertId: string, alertIncidentId: string, options?: AlertIncidentsGetOptionalParams) => Promise<AlertIncident>;
+    listForScope: (scope: string, alertId: string, options?: AlertIncidentsListForScopeOptionalParams) => PagedAsyncIterableIterator<AlertIncident>;
+    remediate: (scope: string, alertId: string, alertIncidentId: string, options?: AlertIncidentsRemediateOptionalParams) => Promise<void>;
 }
 
 // @public
-export type AlertIncidentsListForScopeResponse = AlertIncidentListResult;
-
-// @public
-export interface AlertIncidentsRemediateOptionalParams extends coreClient.OperationOptions {
+export interface AlertIncidentsRemediateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AlertListResult {
-    nextLink?: string;
-    value?: Alert[];
+export interface AlertOperationGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AlertOperation {
-    get(scope: string, operationId: string, options?: AlertOperationGetOptionalParams): Promise<AlertOperationGetResponse>;
+export interface AlertOperationOperations {
+    get: (scope: string, operationId: string, options?: AlertOperationGetOptionalParams) => Promise<AlertOperationResult>;
 }
-
-// @public
-export interface AlertOperationGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AlertOperationGetResponse = AlertOperationResult;
 
 // @public
 export interface AlertOperationResult {
@@ -975,69 +729,54 @@ export interface AlertOperationResult {
 }
 
 // @public
-export interface Alerts {
-    beginRefresh(scope: string, alertId: string, options?: AlertsRefreshOptionalParams): Promise<SimplePollerLike<OperationState<AlertsRefreshResponse>, AlertsRefreshResponse>>;
-    beginRefreshAll(scope: string, options?: AlertsRefreshAllOptionalParams): Promise<SimplePollerLike<OperationState<AlertsRefreshAllResponse>, AlertsRefreshAllResponse>>;
-    beginRefreshAllAndWait(scope: string, options?: AlertsRefreshAllOptionalParams): Promise<AlertsRefreshAllResponse>;
-    beginRefreshAndWait(scope: string, alertId: string, options?: AlertsRefreshOptionalParams): Promise<AlertsRefreshResponse>;
-    get(scope: string, alertId: string, options?: AlertsGetOptionalParams): Promise<AlertsGetResponse>;
-    listForScope(scope: string, options?: AlertsListForScopeOptionalParams): PagedAsyncIterableIterator<Alert>;
-    update(scope: string, alertId: string, parameters: Alert, options?: AlertsUpdateOptionalParams): Promise<void>;
+export interface AlertProperties {
+    readonly alertConfiguration?: AlertConfiguration;
+    readonly alertDefinition?: AlertDefinition;
+    readonly alertIncidents?: AlertIncident[];
+    readonly incidentCount?: number;
+    isActive?: boolean;
+    readonly lastModifiedDateTime?: Date;
+    readonly lastScannedDateTime?: Date;
+    readonly scope?: string;
 }
 
 // @public
-export interface AlertsGetOptionalParams extends coreClient.OperationOptions {
+export interface AlertsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AlertsGetResponse = Alert;
-
-// @public
-export interface AlertsListForScopeNextOptionalParams extends coreClient.OperationOptions {
+export interface AlertsListForScopeOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AlertsListForScopeNextResponse = AlertListResult;
-
-// @public
-export interface AlertsListForScopeOptionalParams extends coreClient.OperationOptions {
+export interface AlertsOperations {
+    // @deprecated (undocumented)
+    beginRefresh: (scope: string, alertId: string, options?: AlertsRefreshOptionalParams) => Promise<SimplePollerLike<OperationState<AlertOperationResult>, AlertOperationResult>>;
+    // @deprecated (undocumented)
+    beginRefreshAll: (scope: string, options?: AlertsRefreshAllOptionalParams) => Promise<SimplePollerLike<OperationState<AlertOperationResult>, AlertOperationResult>>;
+    // @deprecated (undocumented)
+    beginRefreshAllAndWait: (scope: string, options?: AlertsRefreshAllOptionalParams) => Promise<AlertOperationResult>;
+    // @deprecated (undocumented)
+    beginRefreshAndWait: (scope: string, alertId: string, options?: AlertsRefreshOptionalParams) => Promise<AlertOperationResult>;
+    get: (scope: string, alertId: string, options?: AlertsGetOptionalParams) => Promise<Alert>;
+    listForScope: (scope: string, options?: AlertsListForScopeOptionalParams) => PagedAsyncIterableIterator<Alert>;
+    refresh: (scope: string, alertId: string, options?: AlertsRefreshOptionalParams) => PollerLike<OperationState<AlertOperationResult>, AlertOperationResult>;
+    refreshAll: (scope: string, options?: AlertsRefreshAllOptionalParams) => PollerLike<OperationState<AlertOperationResult>, AlertOperationResult>;
+    update: (scope: string, alertId: string, parameters: Alert, options?: AlertsUpdateOptionalParams) => Promise<void>;
 }
 
 // @public
-export type AlertsListForScopeResponse = AlertListResult;
-
-// @public
-export interface AlertsRefreshAllHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface AlertsRefreshAllOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AlertsRefreshAllOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AlertsRefreshAllResponse = AlertsRefreshAllHeaders & AlertOperationResult;
-
-// @public
-export interface AlertsRefreshHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface AlertsRefreshOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AlertsRefreshOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AlertsRefreshResponse = AlertsRefreshHeaders & AlertOperationResult;
-
-// @public
-export interface AlertsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface AlertsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -1065,112 +804,98 @@ export interface ApprovalStage {
 // @public
 export type AssignmentType = string;
 
-// @public (undocumented)
-export class AuthorizationManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AuthorizationManagementClientOptionalParams);
-    constructor(credentials: coreAuth.TokenCredential, options?: AuthorizationManagementClientOptionalParams);
-    // (undocumented)
-    accessReviewDefaultSettingsOperations: AccessReviewDefaultSettingsOperations;
-    // (undocumented)
-    accessReviewHistoryDefinitionInstance: AccessReviewHistoryDefinitionInstance;
-    // (undocumented)
-    accessReviewHistoryDefinitionInstances: AccessReviewHistoryDefinitionInstances;
-    // (undocumented)
-    accessReviewHistoryDefinitionOperations: AccessReviewHistoryDefinitionOperations;
-    // (undocumented)
-    accessReviewHistoryDefinitions: AccessReviewHistoryDefinitions;
-    // (undocumented)
-    accessReviewInstanceContactedReviewers: AccessReviewInstanceContactedReviewers;
-    // (undocumented)
-    accessReviewInstanceDecisions: AccessReviewInstanceDecisions;
-    // (undocumented)
-    accessReviewInstanceMyDecisions: AccessReviewInstanceMyDecisions;
-    // (undocumented)
-    accessReviewInstanceOperations: AccessReviewInstanceOperations;
-    // (undocumented)
-    accessReviewInstances: AccessReviewInstances;
-    // (undocumented)
-    accessReviewInstancesAssignedForMyApproval: AccessReviewInstancesAssignedForMyApproval;
-    // (undocumented)
-    accessReviewScheduleDefinitions: AccessReviewScheduleDefinitions;
-    // (undocumented)
-    accessReviewScheduleDefinitionsAssignedForMyApproval: AccessReviewScheduleDefinitionsAssignedForMyApproval;
-    // (undocumented)
-    alertConfigurations: AlertConfigurations;
-    // (undocumented)
-    alertDefinitions: AlertDefinitions;
-    // (undocumented)
-    alertIncidents: AlertIncidents;
-    // (undocumented)
-    alertOperation: AlertOperation;
-    // (undocumented)
-    alerts: Alerts;
-    // (undocumented)
-    classicAdministrators: ClassicAdministrators;
-    // (undocumented)
-    denyAssignments: DenyAssignments;
-    // (undocumented)
-    eligibleChildResources: EligibleChildResources;
-    // (undocumented)
-    globalAdministrator: GlobalAdministrator;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    permissions: Permissions;
-    // (undocumented)
-    providerOperationsMetadataOperations: ProviderOperationsMetadataOperations;
-    // (undocumented)
-    roleAssignments: RoleAssignments;
-    // (undocumented)
-    roleAssignmentScheduleInstances: RoleAssignmentScheduleInstances;
-    // (undocumented)
-    roleAssignmentScheduleRequests: RoleAssignmentScheduleRequests;
-    // (undocumented)
-    roleAssignmentSchedules: RoleAssignmentSchedules;
-    // (undocumented)
-    roleDefinitions: RoleDefinitions;
-    // (undocumented)
-    roleEligibilityScheduleInstances: RoleEligibilityScheduleInstances;
-    // (undocumented)
-    roleEligibilityScheduleRequests: RoleEligibilityScheduleRequests;
-    // (undocumented)
-    roleEligibilitySchedules: RoleEligibilitySchedules;
-    // (undocumented)
-    roleManagementPolicies: RoleManagementPolicies;
-    // (undocumented)
-    roleManagementPolicyAssignments: RoleManagementPolicyAssignments;
-    // (undocumented)
-    scopeAccessReviewDefaultSettings: ScopeAccessReviewDefaultSettings;
-    // (undocumented)
-    scopeAccessReviewHistoryDefinition: ScopeAccessReviewHistoryDefinition;
-    // (undocumented)
-    scopeAccessReviewHistoryDefinitionInstance: ScopeAccessReviewHistoryDefinitionInstance;
-    // (undocumented)
-    scopeAccessReviewHistoryDefinitionInstances: ScopeAccessReviewHistoryDefinitionInstances;
-    // (undocumented)
-    scopeAccessReviewHistoryDefinitions: ScopeAccessReviewHistoryDefinitions;
-    // (undocumented)
-    scopeAccessReviewInstance: ScopeAccessReviewInstance;
-    // (undocumented)
-    scopeAccessReviewInstanceContactedReviewers: ScopeAccessReviewInstanceContactedReviewers;
-    // (undocumented)
-    scopeAccessReviewInstanceDecisions: ScopeAccessReviewInstanceDecisions;
-    // (undocumented)
-    scopeAccessReviewInstances: ScopeAccessReviewInstances;
-    // (undocumented)
-    scopeAccessReviewScheduleDefinitions: ScopeAccessReviewScheduleDefinitions;
-    // (undocumented)
-    subscriptionId?: string;
-    // (undocumented)
-    tenantLevelAccessReviewInstanceContactedReviewers: TenantLevelAccessReviewInstanceContactedReviewers;
+// @public
+export interface AttributeNamespace extends ProxyResource {
 }
 
 // @public
-export interface AuthorizationManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
-    endpoint?: string;
+export interface AttributeNamespaceCreateRequest {
+    namespaceOwnerPrincipalId: string;
+}
+
+// @public
+export interface AttributeNamespacesCreateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AttributeNamespacesDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AttributeNamespacesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AttributeNamespacesOperations {
+    create: (attributeNamespace: string, parameters: AttributeNamespaceCreateRequest, options?: AttributeNamespacesCreateOptionalParams) => Promise<AttributeNamespace>;
+    delete: (attributeNamespace: string, options?: AttributeNamespacesDeleteOptionalParams) => Promise<void>;
+    get: (attributeNamespace: string, options?: AttributeNamespacesGetOptionalParams) => Promise<AttributeNamespace>;
+}
+
+// @public (undocumented)
+export class AuthorizationManagementClient {
+    constructor(credential: TokenCredential, options?: AuthorizationManagementClientOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: AuthorizationManagementClientOptionalParams);
+    readonly accessReviewDefaultSettings: AccessReviewDefaultSettingsOperations;
+    readonly accessReviewHistoryDefinition: AccessReviewHistoryDefinitionOperations;
+    readonly accessReviewHistoryDefinitionInstance: AccessReviewHistoryDefinitionInstanceOperations;
+    readonly accessReviewHistoryDefinitionInstances: AccessReviewHistoryDefinitionInstancesOperations;
+    readonly accessReviewHistoryDefinitions: AccessReviewHistoryDefinitionsOperations;
+    readonly accessReviewInstance: AccessReviewInstanceOperations;
+    readonly accessReviewInstanceContactedReviewers: AccessReviewInstanceContactedReviewersOperations;
+    readonly accessReviewInstanceDecisions: AccessReviewInstanceDecisionsOperations;
+    readonly accessReviewInstanceMyDecisions: AccessReviewInstanceMyDecisionsOperations;
+    readonly accessReviewInstances: AccessReviewInstancesOperations;
+    readonly accessReviewInstancesAssignedForMyApproval: AccessReviewInstancesAssignedForMyApprovalOperations;
+    readonly accessReviewScheduleDefinitions: AccessReviewScheduleDefinitionsOperations;
+    readonly accessReviewScheduleDefinitionsAssignedForMyApproval: AccessReviewScheduleDefinitionsAssignedForMyApprovalOperations;
+    readonly alertConfigurations: AlertConfigurationsOperations;
+    readonly alertDefinitions: AlertDefinitionsOperations;
+    readonly alertIncidents: AlertIncidentsOperations;
+    readonly alertOperation: AlertOperationOperations;
+    readonly alerts: AlertsOperations;
+    readonly attributeNamespaces: AttributeNamespacesOperations;
+    readonly classicAdministrators: ClassicAdministratorsOperations;
+    readonly denyAssignments: DenyAssignmentsOperations;
+    readonly eligibleChildResources: EligibleChildResourcesOperations;
+    readonly globalAdministrator: GlobalAdministratorOperations;
+    readonly operations: OperationsOperations;
+    readonly permissions: PermissionsOperations;
+    readonly pipeline: Pipeline;
+    readonly providerOperationsMetadata: ProviderOperationsMetadataOperations;
+    readonly roleAssignments: RoleAssignmentsOperations;
+    readonly roleAssignmentScheduleInstances: RoleAssignmentScheduleInstancesOperations;
+    readonly roleAssignmentScheduleRequests: RoleAssignmentScheduleRequestsOperations;
+    readonly roleAssignmentSchedules: RoleAssignmentSchedulesOperations;
+    readonly roleDefinitions: RoleDefinitionsOperations;
+    readonly roleEligibilityScheduleInstances: RoleEligibilityScheduleInstancesOperations;
+    readonly roleEligibilityScheduleRequests: RoleEligibilityScheduleRequestsOperations;
+    readonly roleEligibilitySchedules: RoleEligibilitySchedulesOperations;
+    readonly roleManagementPolicies: RoleManagementPoliciesOperations;
+    readonly roleManagementPolicyAssignments: RoleManagementPolicyAssignmentsOperations;
+    readonly scopeAccessReviewDefaultSettings: ScopeAccessReviewDefaultSettingsOperations;
+    readonly scopeAccessReviewHistoryDefinition: ScopeAccessReviewHistoryDefinitionOperations;
+    readonly scopeAccessReviewHistoryDefinitionInstance: ScopeAccessReviewHistoryDefinitionInstanceOperations;
+    readonly scopeAccessReviewHistoryDefinitionInstances: ScopeAccessReviewHistoryDefinitionInstancesOperations;
+    readonly scopeAccessReviewHistoryDefinitions: ScopeAccessReviewHistoryDefinitionsOperations;
+    readonly scopeAccessReviewInstance: ScopeAccessReviewInstanceOperations;
+    readonly scopeAccessReviewInstanceContactedReviewers: ScopeAccessReviewInstanceContactedReviewersOperations;
+    readonly scopeAccessReviewInstanceDecisions: ScopeAccessReviewInstanceDecisionsOperations;
+    readonly scopeAccessReviewInstances: ScopeAccessReviewInstancesOperations;
+    readonly scopeAccessReviewScheduleDefinitions: ScopeAccessReviewScheduleDefinitionsOperations;
+    readonly tenantLevelAccessReviewInstanceContactedReviewers: TenantLevelAccessReviewInstanceContactedReviewersOperations;
+}
+
+// @public
+export interface AuthorizationManagementClientOptionalParams extends ClientOptions {
+    cloudSetting?: AzureSupportedClouds;
+}
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
 }
 
 // @public
@@ -1194,6 +919,9 @@ export interface AzureRolesAssignedOutsidePimAlertIncidentProperties extends Ale
 }
 
 // @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
 export interface ClassicAdministrator {
     emailAddress?: string;
     id?: string;
@@ -1203,29 +931,19 @@ export interface ClassicAdministrator {
 }
 
 // @public
-export interface ClassicAdministratorListResult {
-    nextLink?: string;
-    value?: ClassicAdministrator[];
+export interface ClassicAdministratorProperties {
+    emailAddress?: string;
+    role?: string;
 }
 
 // @public
-export interface ClassicAdministrators {
-    list(options?: ClassicAdministratorsListOptionalParams): PagedAsyncIterableIterator<ClassicAdministrator>;
+export interface ClassicAdministratorsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ClassicAdministratorsListNextOptionalParams extends coreClient.OperationOptions {
+export interface ClassicAdministratorsOperations {
+    list: (options?: ClassicAdministratorsListOptionalParams) => PagedAsyncIterableIterator<ClassicAdministrator>;
 }
-
-// @public
-export type ClassicAdministratorsListNextResponse = ClassicAdministratorListResult;
-
-// @public
-export interface ClassicAdministratorsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ClassicAdministratorsListResponse = ClassicAdministratorListResult;
 
 // @public
 export interface CloudError {
@@ -1239,6 +957,14 @@ export interface CloudErrorBody {
 }
 
 // @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
+export type CreatedByType = string;
+
+// @public
 export type DecisionResourceType = string;
 
 // @public
@@ -1248,38 +974,26 @@ export type DecisionTargetType = string;
 export type DefaultDecisionType = string;
 
 // @public
-export interface DenyAssignment {
+export interface DenyAssignment extends ExtensionResource {
     condition?: string;
     conditionVersion?: string;
     readonly createdBy?: string;
     readonly createdOn?: Date;
+    denyAssignmentEffect?: DenyAssignmentEffect;
     denyAssignmentName?: string;
     description?: string;
     doNotApplyToChildScopes?: boolean;
-    excludePrincipals?: Principal[];
-    readonly id?: string;
+    excludePrincipals?: DenyAssignmentPrincipal[];
     isSystemProtected?: boolean;
-    readonly name?: string;
     permissions?: DenyAssignmentPermission[];
-    principals?: Principal[];
-    scope?: string;
-    readonly type?: string;
+    principals?: DenyAssignmentPrincipal[];
+    readonly scope?: string;
     readonly updatedBy?: string;
     readonly updatedOn?: Date;
 }
 
 // @public
-export interface DenyAssignmentFilter {
-    denyAssignmentName?: string;
-    gdprExportPrincipalId?: string;
-    principalId?: string;
-}
-
-// @public
-export interface DenyAssignmentListResult {
-    nextLink?: string;
-    value?: DenyAssignment[];
-}
+export type DenyAssignmentEffect = string;
 
 // @public
 export interface DenyAssignmentPermission {
@@ -1292,88 +1006,80 @@ export interface DenyAssignmentPermission {
 }
 
 // @public
-export interface DenyAssignments {
-    get(scope: string, denyAssignmentId: string, options?: DenyAssignmentsGetOptionalParams): Promise<DenyAssignmentsGetResponse>;
-    getById(denyAssignmentId: string, options?: DenyAssignmentsGetByIdOptionalParams): Promise<DenyAssignmentsGetByIdResponse>;
-    list(options?: DenyAssignmentsListOptionalParams): PagedAsyncIterableIterator<DenyAssignment>;
-    listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options?: DenyAssignmentsListForResourceOptionalParams): PagedAsyncIterableIterator<DenyAssignment>;
-    listForResourceGroup(resourceGroupName: string, options?: DenyAssignmentsListForResourceGroupOptionalParams): PagedAsyncIterableIterator<DenyAssignment>;
-    listForScope(scope: string, options?: DenyAssignmentsListForScopeOptionalParams): PagedAsyncIterableIterator<DenyAssignment>;
+export interface DenyAssignmentPrincipal {
+    id?: string;
+    type?: DenyAssignmentPrincipalType;
 }
 
 // @public
-export interface DenyAssignmentsGetByIdOptionalParams extends coreClient.OperationOptions {
+export type DenyAssignmentPrincipalType = string;
+
+// @public
+export interface DenyAssignmentProperties {
+    condition?: string;
+    conditionVersion?: string;
+    readonly createdBy?: string;
+    readonly createdOn?: Date;
+    denyAssignmentEffect?: DenyAssignmentEffect;
+    denyAssignmentName?: string;
+    description?: string;
+    doNotApplyToChildScopes?: boolean;
+    excludePrincipals?: DenyAssignmentPrincipal[];
+    isSystemProtected?: boolean;
+    permissions?: DenyAssignmentPermission[];
+    principals?: DenyAssignmentPrincipal[];
+    readonly scope?: string;
+    readonly updatedBy?: string;
+    readonly updatedOn?: Date;
 }
 
 // @public
-export type DenyAssignmentsGetByIdResponse = DenyAssignment;
-
-// @public
-export interface DenyAssignmentsGetOptionalParams extends coreClient.OperationOptions {
+export interface DenyAssignmentsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DenyAssignmentsGetResponse = DenyAssignment;
-
-// @public
-export interface DenyAssignmentsListForResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface DenyAssignmentsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DenyAssignmentsListForResourceGroupNextResponse = DenyAssignmentListResult;
+export interface DenyAssignmentsGetByIdOptionalParams extends OperationOptions {
+}
 
 // @public
-export interface DenyAssignmentsListForResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface DenyAssignmentsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DenyAssignmentsListForResourceGroupOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type DenyAssignmentsListForResourceGroupResponse = DenyAssignmentListResult;
-
-// @public
-export interface DenyAssignmentsListForResourceNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DenyAssignmentsListForResourceNextResponse = DenyAssignmentListResult;
-
-// @public
-export interface DenyAssignmentsListForResourceOptionalParams extends coreClient.OperationOptions {
+export interface DenyAssignmentsListForResourceOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type DenyAssignmentsListForResourceResponse = DenyAssignmentListResult;
-
-// @public
-export interface DenyAssignmentsListForScopeNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DenyAssignmentsListForScopeNextResponse = DenyAssignmentListResult;
-
-// @public
-export interface DenyAssignmentsListForScopeOptionalParams extends coreClient.OperationOptions {
+export interface DenyAssignmentsListForScopeOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type DenyAssignmentsListForScopeResponse = DenyAssignmentListResult;
-
-// @public
-export interface DenyAssignmentsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DenyAssignmentsListNextResponse = DenyAssignmentListResult;
-
-// @public
-export interface DenyAssignmentsListOptionalParams extends coreClient.OperationOptions {
+export interface DenyAssignmentsListOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type DenyAssignmentsListResponse = DenyAssignmentListResult;
+export interface DenyAssignmentsOperations {
+    createOrUpdate: (scope: string, denyAssignmentId: string, parameters: DenyAssignment, options?: DenyAssignmentsCreateOrUpdateOptionalParams) => Promise<DenyAssignment>;
+    delete: (scope: string, denyAssignmentId: string, options?: DenyAssignmentsDeleteOptionalParams) => Promise<void>;
+    get: (scope: string, denyAssignmentId: string, options?: DenyAssignmentsGetOptionalParams) => Promise<DenyAssignment>;
+    getById: (denyAssignmentId: string, options?: DenyAssignmentsGetByIdOptionalParams) => Promise<DenyAssignment>;
+    list: (options?: DenyAssignmentsListOptionalParams) => PagedAsyncIterableIterator<DenyAssignment>;
+    listForResource: (resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options?: DenyAssignmentsListForResourceOptionalParams) => PagedAsyncIterableIterator<DenyAssignment>;
+    listForResourceGroup: (resourceGroupName: string, options?: DenyAssignmentsListForResourceGroupOptionalParams) => PagedAsyncIterableIterator<DenyAssignment>;
+    listForScope: (scope: string, options?: DenyAssignmentsListForScopeOptionalParams) => PagedAsyncIterableIterator<DenyAssignment>;
+}
 
 // @public
 export interface DuplicateRoleCreatedAlertConfigurationProperties extends AlertConfigurationProperties {
@@ -1396,29 +1102,13 @@ export interface EligibleChildResource {
 }
 
 // @public
-export interface EligibleChildResources {
-    list(scope: string, options?: EligibleChildResourcesGetOptionalParams): PagedAsyncIterableIterator<EligibleChildResource>;
-}
-
-// @public
-export interface EligibleChildResourcesGetNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type EligibleChildResourcesGetNextResponse = EligibleChildResourcesListResult;
-
-// @public
-export interface EligibleChildResourcesGetOptionalParams extends coreClient.OperationOptions {
+export interface EligibleChildResourcesListOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type EligibleChildResourcesGetResponse = EligibleChildResourcesListResult;
-
-// @public
-export interface EligibleChildResourcesListResult {
-    nextLink?: string;
-    value?: EligibleChildResource[];
+export interface EligibleChildResourcesOperations {
+    list: (scope: string, options?: EligibleChildResourcesListOptionalParams) => PagedAsyncIterableIterator<EligibleChildResource>;
 }
 
 // @public
@@ -1426,7 +1116,7 @@ export type EnablementRules = string;
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -1455,7 +1145,10 @@ export interface ErrorResponse {
     error?: ErrorDetail;
 }
 
-// @public (undocumented)
+// @public
+export type ExcludedPrincipalTypes = string;
+
+// @public
 export interface ExpandedProperties {
     principal?: ExpandedPropertiesPrincipal;
     roleDefinition?: ExpandedPropertiesRoleDefinition;
@@ -1485,15 +1178,16 @@ export interface ExpandedPropertiesScope {
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
-export interface GlobalAdministrator {
-    elevateAccess(options?: GlobalAdministratorElevateAccessOptionalParams): Promise<void>;
+export interface ExtensionResource extends Resource {
 }
 
 // @public
-export interface GlobalAdministratorElevateAccessOptionalParams extends coreClient.OperationOptions {
+export interface GlobalAdministratorElevateAccessOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface GlobalAdministratorOperations {
+    elevateAccess: (options?: GlobalAdministratorElevateAccessOptionalParams) => Promise<void>;
 }
 
 // @public
@@ -1640,6 +1334,14 @@ export enum KnownAssignmentType {
 }
 
 // @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
+}
+
+// @public
 export enum KnownDecisionResourceType {
     AzureRole = "azureRole"
 }
@@ -1658,10 +1360,22 @@ export enum KnownDefaultDecisionType {
 }
 
 // @public
+export enum KnownDenyAssignmentEffect {
+    Audit = "audit",
+    Enforced = "enforced"
+}
+
+// @public
 export enum KnownEnablementRules {
     Justification = "Justification",
     MultiFactorAuthentication = "MultiFactorAuthentication",
     Ticketing = "Ticketing"
+}
+
+// @public
+export enum KnownExcludedPrincipalTypes {
+    ServicePrincipalsAsRequestor = "ServicePrincipalsAsRequestor",
+    ServicePrincipalsAsTarget = "ServicePrincipalsAsTarget"
 }
 
 // @public
@@ -1681,6 +1395,13 @@ export enum KnownNotificationLevel {
     All = "All",
     Critical = "Critical",
     None = "None"
+}
+
+// @public
+export enum KnownPIMOnlyMode {
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    ReportOnly = "ReportOnly"
 }
 
 // @public
@@ -1724,7 +1445,8 @@ export enum KnownRoleManagementPolicyRuleType {
     RoleManagementPolicyAuthenticationContextRule = "RoleManagementPolicyAuthenticationContextRule",
     RoleManagementPolicyEnablementRule = "RoleManagementPolicyEnablementRule",
     RoleManagementPolicyExpirationRule = "RoleManagementPolicyExpirationRule",
-    RoleManagementPolicyNotificationRule = "RoleManagementPolicyNotificationRule"
+    RoleManagementPolicyNotificationRule = "RoleManagementPolicyNotificationRule",
+    RoleManagementPolicyPimOnlyModeRule = "RoleManagementPolicyPimOnlyModeRule"
 }
 
 // @public
@@ -1768,6 +1490,13 @@ export enum KnownType {
 }
 
 // @public
+export enum KnownUsersOrServicePrincipalSetUserType {
+    Group = "Group",
+    ServicePrincipal = "ServicePrincipal",
+    User = "User"
+}
+
+// @public
 export enum KnownUserType {
     Group = "Group",
     User = "User"
@@ -1799,29 +1528,25 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationListResult {
-    nextLink?: string;
-    value?: Operation[];
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
 // @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
 }
 
 // @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+export interface PageSettings {
+    continuationToken?: string;
 }
-
-// @public
-export type OperationsListResponse = OperationListResult;
 
 // @public
 export interface Permission {
@@ -1834,46 +1559,30 @@ export interface Permission {
 }
 
 // @public
-export interface PermissionGetResult {
-    nextLink?: string;
-    value?: Permission[];
+export interface PermissionsListForResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Permissions {
-    listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options?: PermissionsListForResourceOptionalParams): PagedAsyncIterableIterator<Permission>;
-    listForResourceGroup(resourceGroupName: string, options?: PermissionsListForResourceGroupOptionalParams): PagedAsyncIterableIterator<Permission>;
+export interface PermissionsListForResourceOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface PermissionsListForResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface PermissionsOperations {
+    listForResource: (resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options?: PermissionsListForResourceOptionalParams) => PagedAsyncIterableIterator<Permission>;
+    listForResourceGroup: (resourceGroupName: string, options?: PermissionsListForResourceGroupOptionalParams) => PagedAsyncIterableIterator<Permission>;
 }
 
 // @public
-export type PermissionsListForResourceGroupNextResponse = PermissionGetResult;
+export type PIMOnlyMode = string;
 
 // @public
-export interface PermissionsListForResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface PIMOnlyModeSettings {
+    excludedAssignmentTypes?: ExcludedPrincipalTypes[];
+    excludes?: UsersOrServicePrincipalSet[];
+    mode?: PIMOnlyMode;
 }
 
 // @public
-export type PermissionsListForResourceGroupResponse = PermissionGetResult;
-
-// @public
-export interface PermissionsListForResourceNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PermissionsListForResourceNextResponse = PermissionGetResult;
-
-// @public
-export interface PermissionsListForResourceOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PermissionsListForResourceResponse = PermissionGetResult;
-
-// @public (undocumented)
 export interface PolicyAssignmentProperties {
     policy?: PolicyAssignmentPropertiesPolicy;
     roleDefinition?: PolicyAssignmentPropertiesRoleDefinition;
@@ -1901,7 +1610,7 @@ export interface PolicyAssignmentPropertiesScope {
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface PolicyProperties {
     readonly scope?: PolicyPropertiesScope;
 }
@@ -1931,52 +1640,34 @@ export interface ProviderOperation {
     isDataAction?: boolean;
     name?: string;
     origin?: string;
-    properties?: Record<string, unknown>;
+    properties?: any;
 }
 
 // @public
-export interface ProviderOperationsMetadata {
+export interface ProviderOperationsMetadata extends SettableResource {
     displayName?: string;
-    id?: string;
-    name?: string;
     operations?: ProviderOperation[];
     resourceTypes?: ResourceType[];
-    type?: string;
 }
 
 // @public
-export interface ProviderOperationsMetadataGetOptionalParams extends coreClient.OperationOptions {
+export interface ProviderOperationsMetadataGetOptionalParams extends OperationOptions {
     expand?: string;
 }
 
 // @public
-export type ProviderOperationsMetadataGetResponse = ProviderOperationsMetadata;
-
-// @public
-export interface ProviderOperationsMetadataListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProviderOperationsMetadataListNextResponse = ProviderOperationsMetadataListResult;
-
-// @public
-export interface ProviderOperationsMetadataListOptionalParams extends coreClient.OperationOptions {
+export interface ProviderOperationsMetadataListOptionalParams extends OperationOptions {
     expand?: string;
-}
-
-// @public
-export type ProviderOperationsMetadataListResponse = ProviderOperationsMetadataListResult;
-
-// @public
-export interface ProviderOperationsMetadataListResult {
-    nextLink?: string;
-    value?: ProviderOperationsMetadata[];
 }
 
 // @public
 export interface ProviderOperationsMetadataOperations {
-    get(resourceProviderNamespace: string, options?: ProviderOperationsMetadataGetOptionalParams): Promise<ProviderOperationsMetadataGetResponse>;
-    list(options?: ProviderOperationsMetadataListOptionalParams): PagedAsyncIterableIterator<ProviderOperationsMetadata>;
+    get: (resourceProviderNamespace: string, options?: ProviderOperationsMetadataGetOptionalParams) => Promise<ProviderOperationsMetadata>;
+    list: (options?: ProviderOperationsMetadataListOptionalParams) => PagedAsyncIterableIterator<ProviderOperationsMetadata>;
+}
+
+// @public
+export interface ProxyResource extends Resource {
 }
 
 // @public
@@ -1997,6 +1688,14 @@ export type RecordAllDecisionsResult = string;
 export type RequestType = string;
 
 // @public
+export interface Resource {
+    readonly id?: string;
+    readonly name?: string;
+    readonly systemData?: SystemData;
+    readonly type?: string;
+}
+
+// @public
 export interface ResourceType {
     displayName?: string;
     name?: string;
@@ -2004,20 +1703,27 @@ export interface ResourceType {
 }
 
 // @public
-export interface RoleAssignment {
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: AuthorizationManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface RoleAssignment extends ExtensionResource {
     condition?: string;
     conditionVersion?: string;
     readonly createdBy?: string;
     readonly createdOn?: Date;
     delegatedManagedIdentityResourceId?: string;
     description?: string;
-    readonly id?: string;
-    readonly name?: string;
     principalId?: string;
     principalType?: PrincipalType;
     roleDefinitionId?: string;
     readonly scope?: string;
-    readonly type?: string;
     readonly updatedBy?: string;
     readonly updatedOn?: Date;
 }
@@ -2039,42 +1745,31 @@ export interface RoleAssignmentCreateParameters {
 }
 
 // @public
-export interface RoleAssignmentFilter {
-    principalId?: string;
+export interface RoleAssignmentProperties {
+    condition?: string;
+    conditionVersion?: string;
+    readonly createdBy?: string;
+    readonly createdOn?: Date;
+    delegatedManagedIdentityResourceId?: string;
+    description?: string;
+    principalId: string;
+    principalType?: PrincipalType;
+    roleDefinitionId: string;
+    readonly scope?: string;
+    readonly updatedBy?: string;
+    readonly updatedOn?: Date;
 }
 
 // @public
-export interface RoleAssignmentListResult {
-    readonly nextLink?: string;
-    value?: RoleAssignment[];
-}
-
-// @public
-export interface RoleAssignments {
-    create(scope: string, roleAssignmentName: string, parameters: RoleAssignmentCreateParameters, options?: RoleAssignmentsCreateOptionalParams): Promise<RoleAssignmentsCreateResponse>;
-    createById(roleAssignmentId: string, parameters: RoleAssignmentCreateParameters, options?: RoleAssignmentsCreateByIdOptionalParams): Promise<RoleAssignmentsCreateByIdResponse>;
-    delete(scope: string, roleAssignmentName: string, options?: RoleAssignmentsDeleteOptionalParams): Promise<RoleAssignmentsDeleteResponse>;
-    deleteById(roleAssignmentId: string, options?: RoleAssignmentsDeleteByIdOptionalParams): Promise<RoleAssignmentsDeleteByIdResponse>;
-    get(scope: string, roleAssignmentName: string, options?: RoleAssignmentsGetOptionalParams): Promise<RoleAssignmentsGetResponse>;
-    getById(roleAssignmentId: string, options?: RoleAssignmentsGetByIdOptionalParams): Promise<RoleAssignmentsGetByIdResponse>;
-    listForResource(resourceGroupName: string, resourceProviderNamespace: string, resourceType: string, resourceName: string, options?: RoleAssignmentsListForResourceOptionalParams): PagedAsyncIterableIterator<RoleAssignment>;
-    listForResourceGroup(resourceGroupName: string, options?: RoleAssignmentsListForResourceGroupOptionalParams): PagedAsyncIterableIterator<RoleAssignment>;
-    listForScope(scope: string, options?: RoleAssignmentsListForScopeOptionalParams): PagedAsyncIterableIterator<RoleAssignment>;
-    listForSubscription(options?: RoleAssignmentsListForSubscriptionOptionalParams): PagedAsyncIterableIterator<RoleAssignment>;
-}
-
-// @public
-export interface RoleAssignmentSchedule {
+export interface RoleAssignmentSchedule extends ExtensionResource {
     assignmentType?: AssignmentType;
     condition?: string;
     conditionVersion?: string;
     createdOn?: Date;
     endDateTime?: Date;
     expandedProperties?: ExpandedProperties;
-    readonly id?: string;
     linkedRoleEligibilityScheduleId?: string;
     memberType?: MemberType;
-    readonly name?: string;
     principalId?: string;
     principalType?: PrincipalType;
     roleAssignmentScheduleRequestId?: string;
@@ -2082,30 +1777,20 @@ export interface RoleAssignmentSchedule {
     scope?: string;
     startDateTime?: Date;
     status?: Status;
-    readonly type?: string;
     updatedOn?: Date;
 }
 
 // @public
-export interface RoleAssignmentScheduleFilter {
-    principalId?: string;
-    roleDefinitionId?: string;
-    status?: string;
-}
-
-// @public
-export interface RoleAssignmentScheduleInstance {
+export interface RoleAssignmentScheduleInstance extends ExtensionResource {
     assignmentType?: AssignmentType;
     condition?: string;
     conditionVersion?: string;
     createdOn?: Date;
     endDateTime?: Date;
     expandedProperties?: ExpandedProperties;
-    readonly id?: string;
     linkedRoleEligibilityScheduleId?: string;
     linkedRoleEligibilityScheduleInstanceId?: string;
     memberType?: MemberType;
-    readonly name?: string;
     originRoleAssignmentId?: string;
     principalId?: string;
     principalType?: PrincipalType;
@@ -2114,68 +1799,73 @@ export interface RoleAssignmentScheduleInstance {
     scope?: string;
     startDateTime?: Date;
     status?: Status;
-    readonly type?: string;
 }
 
 // @public
-export interface RoleAssignmentScheduleInstanceFilter {
+export interface RoleAssignmentScheduleInstanceProperties {
+    assignmentType?: AssignmentType;
+    condition?: string;
+    conditionVersion?: string;
+    createdOn?: Date;
+    endDateTime?: Date;
+    expandedProperties?: ExpandedProperties;
+    linkedRoleEligibilityScheduleId?: string;
+    linkedRoleEligibilityScheduleInstanceId?: string;
+    memberType?: MemberType;
+    originRoleAssignmentId?: string;
     principalId?: string;
+    principalType?: PrincipalType;
     roleAssignmentScheduleId?: string;
     roleDefinitionId?: string;
-    status?: string;
+    scope?: string;
+    startDateTime?: Date;
+    status?: Status;
 }
 
 // @public
-export interface RoleAssignmentScheduleInstanceListResult {
-    nextLink?: string;
-    value?: RoleAssignmentScheduleInstance[];
+export interface RoleAssignmentScheduleInstancesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RoleAssignmentScheduleInstances {
-    get(scope: string, roleAssignmentScheduleInstanceName: string, options?: RoleAssignmentScheduleInstancesGetOptionalParams): Promise<RoleAssignmentScheduleInstancesGetResponse>;
-    listForScope(scope: string, options?: RoleAssignmentScheduleInstancesListForScopeOptionalParams): PagedAsyncIterableIterator<RoleAssignmentScheduleInstance>;
-}
-
-// @public
-export interface RoleAssignmentScheduleInstancesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RoleAssignmentScheduleInstancesGetResponse = RoleAssignmentScheduleInstance;
-
-// @public
-export interface RoleAssignmentScheduleInstancesListForScopeNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RoleAssignmentScheduleInstancesListForScopeNextResponse = RoleAssignmentScheduleInstanceListResult;
-
-// @public
-export interface RoleAssignmentScheduleInstancesListForScopeOptionalParams extends coreClient.OperationOptions {
+export interface RoleAssignmentScheduleInstancesListForScopeOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type RoleAssignmentScheduleInstancesListForScopeResponse = RoleAssignmentScheduleInstanceListResult;
-
-// @public
-export interface RoleAssignmentScheduleListResult {
-    nextLink?: string;
-    value?: RoleAssignmentSchedule[];
+export interface RoleAssignmentScheduleInstancesOperations {
+    get: (scope: string, roleAssignmentScheduleInstanceName: string, options?: RoleAssignmentScheduleInstancesGetOptionalParams) => Promise<RoleAssignmentScheduleInstance>;
+    listForScope: (scope: string, options?: RoleAssignmentScheduleInstancesListForScopeOptionalParams) => PagedAsyncIterableIterator<RoleAssignmentScheduleInstance>;
 }
 
 // @public
-export interface RoleAssignmentScheduleRequest {
+export interface RoleAssignmentScheduleProperties {
+    assignmentType?: AssignmentType;
+    condition?: string;
+    conditionVersion?: string;
+    createdOn?: Date;
+    endDateTime?: Date;
+    expandedProperties?: ExpandedProperties;
+    linkedRoleEligibilityScheduleId?: string;
+    memberType?: MemberType;
+    principalId?: string;
+    principalType?: PrincipalType;
+    roleAssignmentScheduleRequestId?: string;
+    roleDefinitionId?: string;
+    scope?: string;
+    startDateTime?: Date;
+    status?: Status;
+    updatedOn?: Date;
+}
+
+// @public
+export interface RoleAssignmentScheduleRequest extends ExtensionResource {
     readonly approvalId?: string;
     condition?: string;
     conditionVersion?: string;
     readonly createdOn?: Date;
     readonly expandedProperties?: ExpandedProperties;
-    readonly id?: string;
     justification?: string;
     linkedRoleEligibilityScheduleId?: string;
-    readonly name?: string;
     principalId?: string;
     readonly principalType?: PrincipalType;
     readonly requestorId?: string;
@@ -2187,21 +1877,28 @@ export interface RoleAssignmentScheduleRequest {
     targetRoleAssignmentScheduleId?: string;
     targetRoleAssignmentScheduleInstanceId?: string;
     ticketInfo?: RoleAssignmentScheduleRequestPropertiesTicketInfo;
-    readonly type?: string;
 }
 
 // @public
-export interface RoleAssignmentScheduleRequestFilter {
-    principalId?: string;
-    requestorId?: string;
-    roleDefinitionId?: string;
-    status?: string;
-}
-
-// @public
-export interface RoleAssignmentScheduleRequestListResult {
-    nextLink?: string;
-    value?: RoleAssignmentScheduleRequest[];
+export interface RoleAssignmentScheduleRequestProperties {
+    readonly approvalId?: string;
+    condition?: string;
+    conditionVersion?: string;
+    readonly createdOn?: Date;
+    readonly expandedProperties?: ExpandedProperties;
+    justification?: string;
+    linkedRoleEligibilityScheduleId?: string;
+    principalId: string;
+    readonly principalType?: PrincipalType;
+    readonly requestorId?: string;
+    requestType: RequestType;
+    roleDefinitionId: string;
+    scheduleInfo?: RoleAssignmentScheduleRequestPropertiesScheduleInfo;
+    readonly scope?: string;
+    readonly status?: Status;
+    targetRoleAssignmentScheduleId?: string;
+    targetRoleAssignmentScheduleInstanceId?: string;
+    ticketInfo?: RoleAssignmentScheduleRequestPropertiesTicketInfo;
 }
 
 // @public
@@ -2224,283 +1921,181 @@ export interface RoleAssignmentScheduleRequestPropertiesTicketInfo {
 }
 
 // @public
-export interface RoleAssignmentScheduleRequests {
-    cancel(scope: string, roleAssignmentScheduleRequestName: string, options?: RoleAssignmentScheduleRequestsCancelOptionalParams): Promise<void>;
-    create(scope: string, roleAssignmentScheduleRequestName: string, parameters: RoleAssignmentScheduleRequest, options?: RoleAssignmentScheduleRequestsCreateOptionalParams): Promise<RoleAssignmentScheduleRequestsCreateResponse>;
-    get(scope: string, roleAssignmentScheduleRequestName: string, options?: RoleAssignmentScheduleRequestsGetOptionalParams): Promise<RoleAssignmentScheduleRequestsGetResponse>;
-    listForScope(scope: string, options?: RoleAssignmentScheduleRequestsListForScopeOptionalParams): PagedAsyncIterableIterator<RoleAssignmentScheduleRequest>;
-    validate(scope: string, roleAssignmentScheduleRequestName: string, parameters: RoleAssignmentScheduleRequest, options?: RoleAssignmentScheduleRequestsValidateOptionalParams): Promise<RoleAssignmentScheduleRequestsValidateResponse>;
+export interface RoleAssignmentScheduleRequestsCancelOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RoleAssignmentScheduleRequestsCancelOptionalParams extends coreClient.OperationOptions {
+export interface RoleAssignmentScheduleRequestsCreateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RoleAssignmentScheduleRequestsCreateOptionalParams extends coreClient.OperationOptions {
+export interface RoleAssignmentScheduleRequestsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RoleAssignmentScheduleRequestsCreateResponse = RoleAssignmentScheduleRequest;
-
-// @public
-export interface RoleAssignmentScheduleRequestsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RoleAssignmentScheduleRequestsGetResponse = RoleAssignmentScheduleRequest;
-
-// @public
-export interface RoleAssignmentScheduleRequestsListForScopeNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RoleAssignmentScheduleRequestsListForScopeNextResponse = RoleAssignmentScheduleRequestListResult;
-
-// @public
-export interface RoleAssignmentScheduleRequestsListForScopeOptionalParams extends coreClient.OperationOptions {
+export interface RoleAssignmentScheduleRequestsListForScopeOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type RoleAssignmentScheduleRequestsListForScopeResponse = RoleAssignmentScheduleRequestListResult;
-
-// @public
-export interface RoleAssignmentScheduleRequestsValidateOptionalParams extends coreClient.OperationOptions {
+export interface RoleAssignmentScheduleRequestsOperations {
+    cancel: (scope: string, roleAssignmentScheduleRequestName: string, options?: RoleAssignmentScheduleRequestsCancelOptionalParams) => Promise<void>;
+    create: (scope: string, roleAssignmentScheduleRequestName: string, parameters: RoleAssignmentScheduleRequest, options?: RoleAssignmentScheduleRequestsCreateOptionalParams) => Promise<RoleAssignmentScheduleRequest>;
+    get: (scope: string, roleAssignmentScheduleRequestName: string, options?: RoleAssignmentScheduleRequestsGetOptionalParams) => Promise<RoleAssignmentScheduleRequest>;
+    listForScope: (scope: string, options?: RoleAssignmentScheduleRequestsListForScopeOptionalParams) => PagedAsyncIterableIterator<RoleAssignmentScheduleRequest>;
+    validate: (scope: string, roleAssignmentScheduleRequestName: string, parameters: RoleAssignmentScheduleRequest, options?: RoleAssignmentScheduleRequestsValidateOptionalParams) => Promise<RoleAssignmentScheduleRequest>;
 }
 
 // @public
-export type RoleAssignmentScheduleRequestsValidateResponse = RoleAssignmentScheduleRequest;
-
-// @public
-export interface RoleAssignmentSchedules {
-    get(scope: string, roleAssignmentScheduleName: string, options?: RoleAssignmentSchedulesGetOptionalParams): Promise<RoleAssignmentSchedulesGetResponse>;
-    listForScope(scope: string, options?: RoleAssignmentSchedulesListForScopeOptionalParams): PagedAsyncIterableIterator<RoleAssignmentSchedule>;
+export interface RoleAssignmentScheduleRequestsValidateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RoleAssignmentSchedulesGetOptionalParams extends coreClient.OperationOptions {
+export interface RoleAssignmentSchedulesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RoleAssignmentSchedulesGetResponse = RoleAssignmentSchedule;
-
-// @public
-export interface RoleAssignmentSchedulesListForScopeNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RoleAssignmentSchedulesListForScopeNextResponse = RoleAssignmentScheduleListResult;
-
-// @public
-export interface RoleAssignmentSchedulesListForScopeOptionalParams extends coreClient.OperationOptions {
+export interface RoleAssignmentSchedulesListForScopeOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type RoleAssignmentSchedulesListForScopeResponse = RoleAssignmentScheduleListResult;
-
-// @public
-export interface RoleAssignmentsCreateByIdOptionalParams extends coreClient.OperationOptions {
+export interface RoleAssignmentSchedulesOperations {
+    get: (scope: string, roleAssignmentScheduleName: string, options?: RoleAssignmentSchedulesGetOptionalParams) => Promise<RoleAssignmentSchedule>;
+    listForScope: (scope: string, options?: RoleAssignmentSchedulesListForScopeOptionalParams) => PagedAsyncIterableIterator<RoleAssignmentSchedule>;
 }
 
 // @public
-export type RoleAssignmentsCreateByIdResponse = RoleAssignment;
-
-// @public
-export interface RoleAssignmentsCreateOptionalParams extends coreClient.OperationOptions {
+export interface RoleAssignmentsCreateByIdOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RoleAssignmentsCreateResponse = RoleAssignment;
+export interface RoleAssignmentsCreateOptionalParams extends OperationOptions {
+}
 
 // @public
-export interface RoleAssignmentsDeleteByIdOptionalParams extends coreClient.OperationOptions {
+export interface RoleAssignmentsDeleteByIdOptionalParams extends OperationOptions {
     tenantId?: string;
 }
 
 // @public
-export type RoleAssignmentsDeleteByIdResponse = RoleAssignment;
-
-// @public
-export interface RoleAssignmentsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface RoleAssignmentsDeleteOptionalParams extends OperationOptions {
     tenantId?: string;
 }
 
 // @public
-export type RoleAssignmentsDeleteResponse = RoleAssignment;
-
-// @public
-export interface RoleAssignmentsGetByIdOptionalParams extends coreClient.OperationOptions {
+export interface RoleAssignmentsGetByIdOptionalParams extends OperationOptions {
     tenantId?: string;
 }
 
 // @public
-export type RoleAssignmentsGetByIdResponse = RoleAssignment;
-
-// @public
-export interface RoleAssignmentsGetOptionalParams extends coreClient.OperationOptions {
+export interface RoleAssignmentsGetOptionalParams extends OperationOptions {
     tenantId?: string;
 }
 
 // @public
-export type RoleAssignmentsGetResponse = RoleAssignment;
-
-// @public
-export interface RoleAssignmentsListForResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RoleAssignmentsListForResourceGroupNextResponse = RoleAssignmentListResult;
-
-// @public
-export interface RoleAssignmentsListForResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface RoleAssignmentsListForResourceGroupOptionalParams extends OperationOptions {
     filter?: string;
     tenantId?: string;
 }
 
 // @public
-export type RoleAssignmentsListForResourceGroupResponse = RoleAssignmentListResult;
-
-// @public
-export interface RoleAssignmentsListForResourceNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RoleAssignmentsListForResourceNextResponse = RoleAssignmentListResult;
-
-// @public
-export interface RoleAssignmentsListForResourceOptionalParams extends coreClient.OperationOptions {
+export interface RoleAssignmentsListForResourceOptionalParams extends OperationOptions {
     filter?: string;
     tenantId?: string;
 }
 
 // @public
-export type RoleAssignmentsListForResourceResponse = RoleAssignmentListResult;
-
-// @public
-export interface RoleAssignmentsListForScopeNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RoleAssignmentsListForScopeNextResponse = RoleAssignmentListResult;
-
-// @public
-export interface RoleAssignmentsListForScopeOptionalParams extends coreClient.OperationOptions {
+export interface RoleAssignmentsListForScopeOptionalParams extends OperationOptions {
     filter?: string;
     skipToken?: string;
     tenantId?: string;
 }
 
 // @public
-export type RoleAssignmentsListForScopeResponse = RoleAssignmentListResult;
-
-// @public
-export interface RoleAssignmentsListForSubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RoleAssignmentsListForSubscriptionNextResponse = RoleAssignmentListResult;
-
-// @public
-export interface RoleAssignmentsListForSubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface RoleAssignmentsListForSubscriptionOptionalParams extends OperationOptions {
     filter?: string;
     tenantId?: string;
 }
 
 // @public
-export type RoleAssignmentsListForSubscriptionResponse = RoleAssignmentListResult;
+export interface RoleAssignmentsOperations {
+    create: (scope: string, roleAssignmentName: string, parameters: RoleAssignmentCreateParameters, options?: RoleAssignmentsCreateOptionalParams) => Promise<RoleAssignment>;
+    createById: (roleAssignmentId: string, parameters: RoleAssignmentCreateParameters, options?: RoleAssignmentsCreateByIdOptionalParams) => Promise<RoleAssignment>;
+    delete: (scope: string, roleAssignmentName: string, options?: RoleAssignmentsDeleteOptionalParams) => Promise<RoleAssignment>;
+    deleteById: (roleAssignmentId: string, options?: RoleAssignmentsDeleteByIdOptionalParams) => Promise<RoleAssignment>;
+    get: (scope: string, roleAssignmentName: string, options?: RoleAssignmentsGetOptionalParams) => Promise<RoleAssignment>;
+    getById: (roleAssignmentId: string, options?: RoleAssignmentsGetByIdOptionalParams) => Promise<RoleAssignment>;
+    listForResource: (resourceGroupName: string, resourceProviderNamespace: string, resourceType: string, resourceName: string, options?: RoleAssignmentsListForResourceOptionalParams) => PagedAsyncIterableIterator<RoleAssignment>;
+    listForResourceGroup: (resourceGroupName: string, options?: RoleAssignmentsListForResourceGroupOptionalParams) => PagedAsyncIterableIterator<RoleAssignment>;
+    listForScope: (scope: string, options?: RoleAssignmentsListForScopeOptionalParams) => PagedAsyncIterableIterator<RoleAssignment>;
+    listForSubscription: (options?: RoleAssignmentsListForSubscriptionOptionalParams) => PagedAsyncIterableIterator<RoleAssignment>;
+}
 
 // @public
-export interface RoleDefinition {
+export interface RoleDefinition extends ProxyResource {
     assignableScopes?: string[];
     readonly createdBy?: string;
     readonly createdOn?: Date;
     description?: string;
-    readonly id?: string;
-    readonly name?: string;
     permissions?: Permission[];
     roleName?: string;
     roleType?: string;
-    readonly type?: string;
     readonly updatedBy?: string;
     readonly updatedOn?: Date;
 }
 
 // @public
-export interface RoleDefinitionFilter {
+export interface RoleDefinitionProperties {
+    assignableScopes?: string[];
+    readonly createdBy?: string;
+    readonly createdOn?: Date;
+    description?: string;
+    permissions?: Permission[];
     roleName?: string;
-    type?: string;
+    roleType?: string;
+    readonly updatedBy?: string;
+    readonly updatedOn?: Date;
 }
 
 // @public
-export interface RoleDefinitionListResult {
-    nextLink?: string;
-    value?: RoleDefinition[];
+export interface RoleDefinitionsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RoleDefinitions {
-    createOrUpdate(scope: string, roleDefinitionId: string, roleDefinition: RoleDefinition, options?: RoleDefinitionsCreateOrUpdateOptionalParams): Promise<RoleDefinitionsCreateOrUpdateResponse>;
-    delete(scope: string, roleDefinitionId: string, options?: RoleDefinitionsDeleteOptionalParams): Promise<RoleDefinitionsDeleteResponse>;
-    get(scope: string, roleDefinitionId: string, options?: RoleDefinitionsGetOptionalParams): Promise<RoleDefinitionsGetResponse>;
-    getById(roleId: string, options?: RoleDefinitionsGetByIdOptionalParams): Promise<RoleDefinitionsGetByIdResponse>;
-    list(scope: string, options?: RoleDefinitionsListOptionalParams): PagedAsyncIterableIterator<RoleDefinition>;
+export interface RoleDefinitionsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RoleDefinitionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface RoleDefinitionsGetByIdOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RoleDefinitionsCreateOrUpdateResponse = RoleDefinition;
-
-// @public
-export interface RoleDefinitionsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface RoleDefinitionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RoleDefinitionsDeleteResponse = RoleDefinition;
-
-// @public
-export interface RoleDefinitionsGetByIdOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RoleDefinitionsGetByIdResponse = RoleDefinition;
-
-// @public
-export interface RoleDefinitionsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RoleDefinitionsGetResponse = RoleDefinition;
-
-// @public
-export interface RoleDefinitionsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RoleDefinitionsListNextResponse = RoleDefinitionListResult;
-
-// @public
-export interface RoleDefinitionsListOptionalParams extends coreClient.OperationOptions {
+export interface RoleDefinitionsListOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type RoleDefinitionsListResponse = RoleDefinitionListResult;
+export interface RoleDefinitionsOperations {
+    createOrUpdate: (scope: string, roleDefinitionId: string, roleDefinition: RoleDefinition, options?: RoleDefinitionsCreateOrUpdateOptionalParams) => Promise<RoleDefinition>;
+    delete: (scope: string, roleDefinitionId: string, options?: RoleDefinitionsDeleteOptionalParams) => Promise<RoleDefinition>;
+    get: (scope: string, roleDefinitionId: string, options?: RoleDefinitionsGetOptionalParams) => Promise<RoleDefinition>;
+    getById: (roleId: string, options?: RoleDefinitionsGetByIdOptionalParams) => Promise<RoleDefinition>;
+    list: (scope: string, options?: RoleDefinitionsListOptionalParams) => PagedAsyncIterableIterator<RoleDefinition>;
+}
 
 // @public
-export interface RoleEligibilitySchedule {
+export interface RoleEligibilitySchedule extends ExtensionResource {
     condition?: string;
     conditionVersion?: string;
     createdOn?: Date;
     endDateTime?: Date;
     expandedProperties?: ExpandedProperties;
-    readonly id?: string;
     memberType?: MemberType;
-    readonly name?: string;
     principalId?: string;
     principalType?: PrincipalType;
     roleDefinitionId?: string;
@@ -2508,27 +2103,17 @@ export interface RoleEligibilitySchedule {
     scope?: string;
     startDateTime?: Date;
     status?: Status;
-    readonly type?: string;
     updatedOn?: Date;
 }
 
 // @public
-export interface RoleEligibilityScheduleFilter {
-    principalId?: string;
-    roleDefinitionId?: string;
-    status?: string;
-}
-
-// @public
-export interface RoleEligibilityScheduleInstance {
+export interface RoleEligibilityScheduleInstance extends ExtensionResource {
     condition?: string;
     conditionVersion?: string;
     createdOn?: Date;
     endDateTime?: Date;
     expandedProperties?: ExpandedProperties;
-    readonly id?: string;
     memberType?: MemberType;
-    readonly name?: string;
     principalId?: string;
     principalType?: PrincipalType;
     roleDefinitionId?: string;
@@ -2536,67 +2121,66 @@ export interface RoleEligibilityScheduleInstance {
     scope?: string;
     startDateTime?: Date;
     status?: Status;
-    readonly type?: string;
 }
 
 // @public
-export interface RoleEligibilityScheduleInstanceFilter {
+export interface RoleEligibilityScheduleInstanceProperties {
+    condition?: string;
+    conditionVersion?: string;
+    createdOn?: Date;
+    endDateTime?: Date;
+    expandedProperties?: ExpandedProperties;
+    memberType?: MemberType;
     principalId?: string;
+    principalType?: PrincipalType;
     roleDefinitionId?: string;
     roleEligibilityScheduleId?: string;
-    status?: string;
+    scope?: string;
+    startDateTime?: Date;
+    status?: Status;
 }
 
 // @public
-export interface RoleEligibilityScheduleInstanceListResult {
-    nextLink?: string;
-    value?: RoleEligibilityScheduleInstance[];
+export interface RoleEligibilityScheduleInstancesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RoleEligibilityScheduleInstances {
-    get(scope: string, roleEligibilityScheduleInstanceName: string, options?: RoleEligibilityScheduleInstancesGetOptionalParams): Promise<RoleEligibilityScheduleInstancesGetResponse>;
-    listForScope(scope: string, options?: RoleEligibilityScheduleInstancesListForScopeOptionalParams): PagedAsyncIterableIterator<RoleEligibilityScheduleInstance>;
-}
-
-// @public
-export interface RoleEligibilityScheduleInstancesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RoleEligibilityScheduleInstancesGetResponse = RoleEligibilityScheduleInstance;
-
-// @public
-export interface RoleEligibilityScheduleInstancesListForScopeNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RoleEligibilityScheduleInstancesListForScopeNextResponse = RoleEligibilityScheduleInstanceListResult;
-
-// @public
-export interface RoleEligibilityScheduleInstancesListForScopeOptionalParams extends coreClient.OperationOptions {
+export interface RoleEligibilityScheduleInstancesListForScopeOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type RoleEligibilityScheduleInstancesListForScopeResponse = RoleEligibilityScheduleInstanceListResult;
-
-// @public
-export interface RoleEligibilityScheduleListResult {
-    nextLink?: string;
-    value?: RoleEligibilitySchedule[];
+export interface RoleEligibilityScheduleInstancesOperations {
+    get: (scope: string, roleEligibilityScheduleInstanceName: string, options?: RoleEligibilityScheduleInstancesGetOptionalParams) => Promise<RoleEligibilityScheduleInstance>;
+    listForScope: (scope: string, options?: RoleEligibilityScheduleInstancesListForScopeOptionalParams) => PagedAsyncIterableIterator<RoleEligibilityScheduleInstance>;
 }
 
 // @public
-export interface RoleEligibilityScheduleRequest {
+export interface RoleEligibilityScheduleProperties {
+    condition?: string;
+    conditionVersion?: string;
+    createdOn?: Date;
+    endDateTime?: Date;
+    expandedProperties?: ExpandedProperties;
+    memberType?: MemberType;
+    principalId?: string;
+    principalType?: PrincipalType;
+    roleDefinitionId?: string;
+    roleEligibilityScheduleRequestId?: string;
+    scope?: string;
+    startDateTime?: Date;
+    status?: Status;
+    updatedOn?: Date;
+}
+
+// @public
+export interface RoleEligibilityScheduleRequest extends ExtensionResource {
     readonly approvalId?: string;
     condition?: string;
     conditionVersion?: string;
     readonly createdOn?: Date;
     readonly expandedProperties?: ExpandedProperties;
-    readonly id?: string;
     justification?: string;
-    readonly name?: string;
     principalId?: string;
     readonly principalType?: PrincipalType;
     readonly requestorId?: string;
@@ -2608,21 +2192,27 @@ export interface RoleEligibilityScheduleRequest {
     targetRoleEligibilityScheduleId?: string;
     targetRoleEligibilityScheduleInstanceId?: string;
     ticketInfo?: RoleEligibilityScheduleRequestPropertiesTicketInfo;
-    readonly type?: string;
 }
 
 // @public
-export interface RoleEligibilityScheduleRequestFilter {
-    principalId?: string;
-    requestorId?: string;
-    roleDefinitionId?: string;
-    status?: string;
-}
-
-// @public
-export interface RoleEligibilityScheduleRequestListResult {
-    nextLink?: string;
-    value?: RoleEligibilityScheduleRequest[];
+export interface RoleEligibilityScheduleRequestProperties {
+    readonly approvalId?: string;
+    condition?: string;
+    conditionVersion?: string;
+    readonly createdOn?: Date;
+    readonly expandedProperties?: ExpandedProperties;
+    justification?: string;
+    principalId: string;
+    readonly principalType?: PrincipalType;
+    readonly requestorId?: string;
+    requestType: RequestType;
+    roleDefinitionId: string;
+    scheduleInfo?: RoleEligibilityScheduleRequestPropertiesScheduleInfo;
+    readonly scope?: string;
+    readonly status?: Status;
+    targetRoleEligibilityScheduleId?: string;
+    targetRoleEligibilityScheduleInstanceId?: string;
+    ticketInfo?: RoleEligibilityScheduleRequestPropertiesTicketInfo;
 }
 
 // @public
@@ -2645,136 +2235,85 @@ export interface RoleEligibilityScheduleRequestPropertiesTicketInfo {
 }
 
 // @public
-export interface RoleEligibilityScheduleRequests {
-    cancel(scope: string, roleEligibilityScheduleRequestName: string, options?: RoleEligibilityScheduleRequestsCancelOptionalParams): Promise<void>;
-    create(scope: string, roleEligibilityScheduleRequestName: string, parameters: RoleEligibilityScheduleRequest, options?: RoleEligibilityScheduleRequestsCreateOptionalParams): Promise<RoleEligibilityScheduleRequestsCreateResponse>;
-    get(scope: string, roleEligibilityScheduleRequestName: string, options?: RoleEligibilityScheduleRequestsGetOptionalParams): Promise<RoleEligibilityScheduleRequestsGetResponse>;
-    listForScope(scope: string, options?: RoleEligibilityScheduleRequestsListForScopeOptionalParams): PagedAsyncIterableIterator<RoleEligibilityScheduleRequest>;
-    validate(scope: string, roleEligibilityScheduleRequestName: string, parameters: RoleEligibilityScheduleRequest, options?: RoleEligibilityScheduleRequestsValidateOptionalParams): Promise<RoleEligibilityScheduleRequestsValidateResponse>;
+export interface RoleEligibilityScheduleRequestsCancelOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RoleEligibilityScheduleRequestsCancelOptionalParams extends coreClient.OperationOptions {
+export interface RoleEligibilityScheduleRequestsCreateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RoleEligibilityScheduleRequestsCreateOptionalParams extends coreClient.OperationOptions {
+export interface RoleEligibilityScheduleRequestsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RoleEligibilityScheduleRequestsCreateResponse = RoleEligibilityScheduleRequest;
-
-// @public
-export interface RoleEligibilityScheduleRequestsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RoleEligibilityScheduleRequestsGetResponse = RoleEligibilityScheduleRequest;
-
-// @public
-export interface RoleEligibilityScheduleRequestsListForScopeNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RoleEligibilityScheduleRequestsListForScopeNextResponse = RoleEligibilityScheduleRequestListResult;
-
-// @public
-export interface RoleEligibilityScheduleRequestsListForScopeOptionalParams extends coreClient.OperationOptions {
+export interface RoleEligibilityScheduleRequestsListForScopeOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type RoleEligibilityScheduleRequestsListForScopeResponse = RoleEligibilityScheduleRequestListResult;
-
-// @public
-export interface RoleEligibilityScheduleRequestsValidateOptionalParams extends coreClient.OperationOptions {
+export interface RoleEligibilityScheduleRequestsOperations {
+    cancel: (scope: string, roleEligibilityScheduleRequestName: string, options?: RoleEligibilityScheduleRequestsCancelOptionalParams) => Promise<void>;
+    create: (scope: string, roleEligibilityScheduleRequestName: string, parameters: RoleEligibilityScheduleRequest, options?: RoleEligibilityScheduleRequestsCreateOptionalParams) => Promise<RoleEligibilityScheduleRequest>;
+    get: (scope: string, roleEligibilityScheduleRequestName: string, options?: RoleEligibilityScheduleRequestsGetOptionalParams) => Promise<RoleEligibilityScheduleRequest>;
+    listForScope: (scope: string, options?: RoleEligibilityScheduleRequestsListForScopeOptionalParams) => PagedAsyncIterableIterator<RoleEligibilityScheduleRequest>;
+    validate: (scope: string, roleEligibilityScheduleRequestName: string, parameters: RoleEligibilityScheduleRequest, options?: RoleEligibilityScheduleRequestsValidateOptionalParams) => Promise<RoleEligibilityScheduleRequest>;
 }
 
 // @public
-export type RoleEligibilityScheduleRequestsValidateResponse = RoleEligibilityScheduleRequest;
-
-// @public
-export interface RoleEligibilitySchedules {
-    get(scope: string, roleEligibilityScheduleName: string, options?: RoleEligibilitySchedulesGetOptionalParams): Promise<RoleEligibilitySchedulesGetResponse>;
-    listForScope(scope: string, options?: RoleEligibilitySchedulesListForScopeOptionalParams): PagedAsyncIterableIterator<RoleEligibilitySchedule>;
+export interface RoleEligibilityScheduleRequestsValidateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RoleEligibilitySchedulesGetOptionalParams extends coreClient.OperationOptions {
+export interface RoleEligibilitySchedulesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RoleEligibilitySchedulesGetResponse = RoleEligibilitySchedule;
-
-// @public
-export interface RoleEligibilitySchedulesListForScopeNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RoleEligibilitySchedulesListForScopeNextResponse = RoleEligibilityScheduleListResult;
-
-// @public
-export interface RoleEligibilitySchedulesListForScopeOptionalParams extends coreClient.OperationOptions {
+export interface RoleEligibilitySchedulesListForScopeOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type RoleEligibilitySchedulesListForScopeResponse = RoleEligibilityScheduleListResult;
-
-// @public
-export interface RoleManagementPolicies {
-    delete(scope: string, roleManagementPolicyName: string, options?: RoleManagementPoliciesDeleteOptionalParams): Promise<void>;
-    get(scope: string, roleManagementPolicyName: string, options?: RoleManagementPoliciesGetOptionalParams): Promise<RoleManagementPoliciesGetResponse>;
-    listForScope(scope: string, options?: RoleManagementPoliciesListForScopeOptionalParams): PagedAsyncIterableIterator<RoleManagementPolicy>;
-    update(scope: string, roleManagementPolicyName: string, parameters: RoleManagementPolicy, options?: RoleManagementPoliciesUpdateOptionalParams): Promise<RoleManagementPoliciesUpdateResponse>;
+export interface RoleEligibilitySchedulesOperations {
+    get: (scope: string, roleEligibilityScheduleName: string, options?: RoleEligibilitySchedulesGetOptionalParams) => Promise<RoleEligibilitySchedule>;
+    listForScope: (scope: string, options?: RoleEligibilitySchedulesListForScopeOptionalParams) => PagedAsyncIterableIterator<RoleEligibilitySchedule>;
 }
 
 // @public
-export interface RoleManagementPoliciesDeleteOptionalParams extends coreClient.OperationOptions {
+export interface RoleManagementPoliciesDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RoleManagementPoliciesGetOptionalParams extends coreClient.OperationOptions {
+export interface RoleManagementPoliciesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RoleManagementPoliciesGetResponse = RoleManagementPolicy;
-
-// @public
-export interface RoleManagementPoliciesListForScopeNextOptionalParams extends coreClient.OperationOptions {
+export interface RoleManagementPoliciesListForScopeOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RoleManagementPoliciesListForScopeNextResponse = RoleManagementPolicyListResult;
-
-// @public
-export interface RoleManagementPoliciesListForScopeOptionalParams extends coreClient.OperationOptions {
+export interface RoleManagementPoliciesOperations {
+    delete: (scope: string, roleManagementPolicyName: string, options?: RoleManagementPoliciesDeleteOptionalParams) => Promise<void>;
+    get: (scope: string, roleManagementPolicyName: string, options?: RoleManagementPoliciesGetOptionalParams) => Promise<RoleManagementPolicy>;
+    listForScope: (scope: string, options?: RoleManagementPoliciesListForScopeOptionalParams) => PagedAsyncIterableIterator<RoleManagementPolicy>;
+    update: (scope: string, roleManagementPolicyName: string, parameters: RoleManagementPolicy, options?: RoleManagementPoliciesUpdateOptionalParams) => Promise<RoleManagementPolicy>;
 }
 
 // @public
-export type RoleManagementPoliciesListForScopeResponse = RoleManagementPolicyListResult;
-
-// @public
-export interface RoleManagementPoliciesUpdateOptionalParams extends coreClient.OperationOptions {
+export interface RoleManagementPoliciesUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RoleManagementPoliciesUpdateResponse = RoleManagementPolicy;
-
-// @public
-export interface RoleManagementPolicy {
+export interface RoleManagementPolicy extends ExtensionResource {
     description?: string;
     displayName?: string;
     readonly effectiveRules?: RoleManagementPolicyRuleUnion[];
-    readonly id?: string;
     isOrganizationDefault?: boolean;
     readonly lastModifiedBy?: Principal;
     readonly lastModifiedDateTime?: Date;
-    readonly name?: string;
     readonly policyProperties?: PolicyProperties;
     rules?: RoleManagementPolicyRuleUnion[];
     scope?: string;
-    readonly type?: string;
 }
 
 // @public
@@ -2784,61 +2323,46 @@ export interface RoleManagementPolicyApprovalRule extends RoleManagementPolicyRu
 }
 
 // @public
-export interface RoleManagementPolicyAssignment {
-    readonly id?: string;
-    readonly name?: string;
+export interface RoleManagementPolicyAssignment extends ExtensionResource {
+    readonly effectiveRules?: RoleManagementPolicyRuleUnion[];
     readonly policyAssignmentProperties?: PolicyAssignmentProperties;
     policyId?: string;
     roleDefinitionId?: string;
     scope?: string;
-    readonly type?: string;
 }
 
 // @public
-export interface RoleManagementPolicyAssignmentListResult {
-    nextLink?: string;
-    value?: RoleManagementPolicyAssignment[];
+export interface RoleManagementPolicyAssignmentProperties {
+    readonly effectiveRules?: RoleManagementPolicyRuleUnion[];
+    readonly policyAssignmentProperties?: PolicyAssignmentProperties;
+    policyId?: string;
+    roleDefinitionId?: string;
+    scope?: string;
 }
 
 // @public
-export interface RoleManagementPolicyAssignments {
-    create(scope: string, roleManagementPolicyAssignmentName: string, parameters: RoleManagementPolicyAssignment, options?: RoleManagementPolicyAssignmentsCreateOptionalParams): Promise<RoleManagementPolicyAssignmentsCreateResponse>;
-    delete(scope: string, roleManagementPolicyAssignmentName: string, options?: RoleManagementPolicyAssignmentsDeleteOptionalParams): Promise<void>;
-    get(scope: string, roleManagementPolicyAssignmentName: string, options?: RoleManagementPolicyAssignmentsGetOptionalParams): Promise<RoleManagementPolicyAssignmentsGetResponse>;
-    listForScope(scope: string, options?: RoleManagementPolicyAssignmentsListForScopeOptionalParams): PagedAsyncIterableIterator<RoleManagementPolicyAssignment>;
+export interface RoleManagementPolicyAssignmentsCreateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RoleManagementPolicyAssignmentsCreateOptionalParams extends coreClient.OperationOptions {
+export interface RoleManagementPolicyAssignmentsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RoleManagementPolicyAssignmentsCreateResponse = RoleManagementPolicyAssignment;
-
-// @public
-export interface RoleManagementPolicyAssignmentsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface RoleManagementPolicyAssignmentsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RoleManagementPolicyAssignmentsGetOptionalParams extends coreClient.OperationOptions {
+export interface RoleManagementPolicyAssignmentsListForScopeOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RoleManagementPolicyAssignmentsGetResponse = RoleManagementPolicyAssignment;
-
-// @public
-export interface RoleManagementPolicyAssignmentsListForScopeNextOptionalParams extends coreClient.OperationOptions {
+export interface RoleManagementPolicyAssignmentsOperations {
+    create: (scope: string, roleManagementPolicyAssignmentName: string, parameters: RoleManagementPolicyAssignment, options?: RoleManagementPolicyAssignmentsCreateOptionalParams) => Promise<RoleManagementPolicyAssignment>;
+    delete: (scope: string, roleManagementPolicyAssignmentName: string, options?: RoleManagementPolicyAssignmentsDeleteOptionalParams) => Promise<void>;
+    get: (scope: string, roleManagementPolicyAssignmentName: string, options?: RoleManagementPolicyAssignmentsGetOptionalParams) => Promise<RoleManagementPolicyAssignment>;
+    listForScope: (scope: string, options?: RoleManagementPolicyAssignmentsListForScopeOptionalParams) => PagedAsyncIterableIterator<RoleManagementPolicyAssignment>;
 }
-
-// @public
-export type RoleManagementPolicyAssignmentsListForScopeNextResponse = RoleManagementPolicyAssignmentListResult;
-
-// @public
-export interface RoleManagementPolicyAssignmentsListForScopeOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RoleManagementPolicyAssignmentsListForScopeResponse = RoleManagementPolicyAssignmentListResult;
 
 // @public
 export interface RoleManagementPolicyAuthenticationContextRule extends RoleManagementPolicyRule {
@@ -2855,15 +2379,10 @@ export interface RoleManagementPolicyEnablementRule extends RoleManagementPolicy
 
 // @public
 export interface RoleManagementPolicyExpirationRule extends RoleManagementPolicyRule {
+    exceptionMembers?: UserSet[];
     isExpirationRequired?: boolean;
     maximumDuration?: string;
     ruleType: "RoleManagementPolicyExpirationRule";
-}
-
-// @public
-export interface RoleManagementPolicyListResult {
-    nextLink?: string;
-    value?: RoleManagementPolicy[];
 }
 
 // @public
@@ -2877,9 +2396,28 @@ export interface RoleManagementPolicyNotificationRule extends RoleManagementPoli
 }
 
 // @public
+export interface RoleManagementPolicyPimOnlyModeRule extends RoleManagementPolicyRule {
+    pimOnlyModeSettings?: PIMOnlyModeSettings;
+    ruleType: "RoleManagementPolicyPimOnlyModeRule";
+}
+
+// @public
+export interface RoleManagementPolicyProperties {
+    description?: string;
+    displayName?: string;
+    readonly effectiveRules?: RoleManagementPolicyRuleUnion[];
+    isOrganizationDefault?: boolean;
+    readonly lastModifiedBy?: Principal;
+    readonly lastModifiedDateTime?: Date;
+    readonly policyProperties?: PolicyProperties;
+    rules?: RoleManagementPolicyRuleUnion[];
+    scope?: string;
+}
+
+// @public
 export interface RoleManagementPolicyRule {
     id?: string;
-    ruleType: "RoleManagementPolicyApprovalRule" | "RoleManagementPolicyAuthenticationContextRule" | "RoleManagementPolicyEnablementRule" | "RoleManagementPolicyExpirationRule" | "RoleManagementPolicyNotificationRule";
+    ruleType: RoleManagementPolicyRuleType;
     target?: RoleManagementPolicyRuleTarget;
 }
 
@@ -2896,279 +2434,221 @@ export interface RoleManagementPolicyRuleTarget {
 // @public
 export type RoleManagementPolicyRuleType = string;
 
-// @public (undocumented)
-export type RoleManagementPolicyRuleUnion = RoleManagementPolicyRule | RoleManagementPolicyApprovalRule | RoleManagementPolicyAuthenticationContextRule | RoleManagementPolicyEnablementRule | RoleManagementPolicyExpirationRule | RoleManagementPolicyNotificationRule;
+// @public
+export type RoleManagementPolicyRuleUnion = RoleManagementPolicyApprovalRule | RoleManagementPolicyAuthenticationContextRule | RoleManagementPolicyEnablementRule | RoleManagementPolicyExpirationRule | RoleManagementPolicyNotificationRule | RoleManagementPolicyPimOnlyModeRule | RoleManagementPolicyRule;
 
 // @public
-export interface ScopeAccessReviewDefaultSettings {
-    get(scope: string, options?: ScopeAccessReviewDefaultSettingsGetOptionalParams): Promise<ScopeAccessReviewDefaultSettingsGetResponse>;
-    put(scope: string, properties: AccessReviewScheduleSettings, options?: ScopeAccessReviewDefaultSettingsPutOptionalParams): Promise<ScopeAccessReviewDefaultSettingsPutResponse>;
+export interface ScopeAccessReviewDefaultSettingsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ScopeAccessReviewDefaultSettingsGetOptionalParams extends coreClient.OperationOptions {
+export interface ScopeAccessReviewDefaultSettingsOperations {
+    get: (scope: string, options?: ScopeAccessReviewDefaultSettingsGetOptionalParams) => Promise<AccessReviewDefaultSettings>;
+    put: (scope: string, properties: AccessReviewScheduleSettings, options?: ScopeAccessReviewDefaultSettingsPutOptionalParams) => Promise<AccessReviewDefaultSettings>;
 }
 
 // @public
-export type ScopeAccessReviewDefaultSettingsGetResponse = AccessReviewDefaultSettings;
-
-// @public
-export interface ScopeAccessReviewDefaultSettingsPutOptionalParams extends coreClient.OperationOptions {
+export interface ScopeAccessReviewDefaultSettingsPutOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ScopeAccessReviewDefaultSettingsPutResponse = AccessReviewDefaultSettings;
-
-// @public
-export interface ScopeAccessReviewHistoryDefinition {
-    create(scope: string, historyDefinitionId: string, properties: AccessReviewHistoryDefinitionProperties, options?: ScopeAccessReviewHistoryDefinitionCreateOptionalParams): Promise<ScopeAccessReviewHistoryDefinitionCreateResponse>;
-    deleteById(scope: string, historyDefinitionId: string, options?: ScopeAccessReviewHistoryDefinitionDeleteByIdOptionalParams): Promise<void>;
+export interface ScopeAccessReviewHistoryDefinitionCreateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ScopeAccessReviewHistoryDefinitionCreateOptionalParams extends coreClient.OperationOptions {
+export interface ScopeAccessReviewHistoryDefinitionDeleteByIdOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ScopeAccessReviewHistoryDefinitionCreateResponse = AccessReviewHistoryDefinition;
-
-// @public
-export interface ScopeAccessReviewHistoryDefinitionDeleteByIdOptionalParams extends coreClient.OperationOptions {
+export interface ScopeAccessReviewHistoryDefinitionInstanceGenerateDownloadUriOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ScopeAccessReviewHistoryDefinitionInstance {
-    generateDownloadUri(scope: string, historyDefinitionId: string, instanceId: string, options?: ScopeAccessReviewHistoryDefinitionInstanceGenerateDownloadUriOptionalParams): Promise<ScopeAccessReviewHistoryDefinitionInstanceGenerateDownloadUriResponse>;
+export interface ScopeAccessReviewHistoryDefinitionInstanceOperations {
+    generateDownloadUri: (scope: string, historyDefinitionId: string, instanceId: string, options?: ScopeAccessReviewHistoryDefinitionInstanceGenerateDownloadUriOptionalParams) => Promise<AccessReviewHistoryInstance>;
 }
 
 // @public
-export interface ScopeAccessReviewHistoryDefinitionInstanceGenerateDownloadUriOptionalParams extends coreClient.OperationOptions {
+export interface ScopeAccessReviewHistoryDefinitionInstancesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ScopeAccessReviewHistoryDefinitionInstanceGenerateDownloadUriResponse = AccessReviewHistoryInstance;
-
-// @public
-export interface ScopeAccessReviewHistoryDefinitionInstances {
-    list(scope: string, historyDefinitionId: string, options?: ScopeAccessReviewHistoryDefinitionInstancesListOptionalParams): PagedAsyncIterableIterator<AccessReviewHistoryInstance>;
+export interface ScopeAccessReviewHistoryDefinitionInstancesOperations {
+    list: (scope: string, historyDefinitionId: string, options?: ScopeAccessReviewHistoryDefinitionInstancesListOptionalParams) => PagedAsyncIterableIterator<AccessReviewHistoryInstance>;
 }
 
 // @public
-export interface ScopeAccessReviewHistoryDefinitionInstancesListNextOptionalParams extends coreClient.OperationOptions {
+export interface ScopeAccessReviewHistoryDefinitionOperations {
+    create: (scope: string, historyDefinitionId: string, properties: AccessReviewHistoryDefinitionProperties, options?: ScopeAccessReviewHistoryDefinitionCreateOptionalParams) => Promise<AccessReviewHistoryDefinition>;
+    deleteById: (scope: string, historyDefinitionId: string, options?: ScopeAccessReviewHistoryDefinitionDeleteByIdOptionalParams) => Promise<void>;
 }
 
 // @public
-export type ScopeAccessReviewHistoryDefinitionInstancesListNextResponse = AccessReviewHistoryDefinitionInstanceListResult;
-
-// @public
-export interface ScopeAccessReviewHistoryDefinitionInstancesListOptionalParams extends coreClient.OperationOptions {
+export interface ScopeAccessReviewHistoryDefinitionsGetByIdOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ScopeAccessReviewHistoryDefinitionInstancesListResponse = AccessReviewHistoryDefinitionInstanceListResult;
-
-// @public
-export interface ScopeAccessReviewHistoryDefinitions {
-    getById(scope: string, historyDefinitionId: string, options?: ScopeAccessReviewHistoryDefinitionsGetByIdOptionalParams): Promise<ScopeAccessReviewHistoryDefinitionsGetByIdResponse>;
-    list(scope: string, options?: ScopeAccessReviewHistoryDefinitionsListOptionalParams): PagedAsyncIterableIterator<AccessReviewHistoryDefinition>;
-}
-
-// @public
-export interface ScopeAccessReviewHistoryDefinitionsGetByIdOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ScopeAccessReviewHistoryDefinitionsGetByIdResponse = AccessReviewHistoryDefinition;
-
-// @public
-export interface ScopeAccessReviewHistoryDefinitionsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ScopeAccessReviewHistoryDefinitionsListNextResponse = AccessReviewHistoryDefinitionListResult;
-
-// @public
-export interface ScopeAccessReviewHistoryDefinitionsListOptionalParams extends coreClient.OperationOptions {
+export interface ScopeAccessReviewHistoryDefinitionsListOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type ScopeAccessReviewHistoryDefinitionsListResponse = AccessReviewHistoryDefinitionListResult;
-
-// @public
-export interface ScopeAccessReviewInstance {
-    applyDecisions(scope: string, scheduleDefinitionId: string, id: string, options?: ScopeAccessReviewInstanceApplyDecisionsOptionalParams): Promise<void>;
-    recordAllDecisions(scope: string, scheduleDefinitionId: string, id: string, properties: RecordAllDecisionsProperties, options?: ScopeAccessReviewInstanceRecordAllDecisionsOptionalParams): Promise<void>;
-    resetDecisions(scope: string, scheduleDefinitionId: string, id: string, options?: ScopeAccessReviewInstanceResetDecisionsOptionalParams): Promise<void>;
-    sendReminders(scope: string, scheduleDefinitionId: string, id: string, options?: ScopeAccessReviewInstanceSendRemindersOptionalParams): Promise<void>;
-    stop(scope: string, scheduleDefinitionId: string, id: string, options?: ScopeAccessReviewInstanceStopOptionalParams): Promise<void>;
+export interface ScopeAccessReviewHistoryDefinitionsOperations {
+    getById: (scope: string, historyDefinitionId: string, options?: ScopeAccessReviewHistoryDefinitionsGetByIdOptionalParams) => Promise<AccessReviewHistoryDefinition>;
+    list: (scope: string, options?: ScopeAccessReviewHistoryDefinitionsListOptionalParams) => PagedAsyncIterableIterator<AccessReviewHistoryDefinition>;
 }
 
 // @public
-export interface ScopeAccessReviewInstanceApplyDecisionsOptionalParams extends coreClient.OperationOptions {
+export interface ScopeAccessReviewInstanceApplyDecisionsOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ScopeAccessReviewInstanceContactedReviewers {
-    list(scope: string, scheduleDefinitionId: string, id: string, options?: ScopeAccessReviewInstanceContactedReviewersListOptionalParams): PagedAsyncIterableIterator<AccessReviewContactedReviewer>;
+export interface ScopeAccessReviewInstanceContactedReviewersListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ScopeAccessReviewInstanceContactedReviewersListNextOptionalParams extends coreClient.OperationOptions {
+export interface ScopeAccessReviewInstanceContactedReviewersOperations {
+    list: (scope: string, scheduleDefinitionId: string, id: string, options?: ScopeAccessReviewInstanceContactedReviewersListOptionalParams) => PagedAsyncIterableIterator<AccessReviewContactedReviewer>;
 }
 
 // @public
-export type ScopeAccessReviewInstanceContactedReviewersListNextResponse = AccessReviewContactedReviewerListResult;
-
-// @public
-export interface ScopeAccessReviewInstanceContactedReviewersListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ScopeAccessReviewInstanceContactedReviewersListResponse = AccessReviewContactedReviewerListResult;
-
-// @public
-export interface ScopeAccessReviewInstanceDecisions {
-    list(scope: string, scheduleDefinitionId: string, id: string, options?: ScopeAccessReviewInstanceDecisionsListOptionalParams): PagedAsyncIterableIterator<AccessReviewDecision>;
-}
-
-// @public
-export interface ScopeAccessReviewInstanceDecisionsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ScopeAccessReviewInstanceDecisionsListNextResponse = AccessReviewDecisionListResult;
-
-// @public
-export interface ScopeAccessReviewInstanceDecisionsListOptionalParams extends coreClient.OperationOptions {
+export interface ScopeAccessReviewInstanceDecisionsListOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type ScopeAccessReviewInstanceDecisionsListResponse = AccessReviewDecisionListResult;
-
-// @public
-export interface ScopeAccessReviewInstanceRecordAllDecisionsOptionalParams extends coreClient.OperationOptions {
+export interface ScopeAccessReviewInstanceDecisionsOperations {
+    list: (scope: string, scheduleDefinitionId: string, id: string, options?: ScopeAccessReviewInstanceDecisionsListOptionalParams) => PagedAsyncIterableIterator<AccessReviewDecision>;
 }
 
 // @public
-export interface ScopeAccessReviewInstanceResetDecisionsOptionalParams extends coreClient.OperationOptions {
+export interface ScopeAccessReviewInstanceOperations {
+    applyDecisions: (scope: string, scheduleDefinitionId: string, id: string, options?: ScopeAccessReviewInstanceApplyDecisionsOptionalParams) => Promise<void>;
+    recordAllDecisions: (scope: string, scheduleDefinitionId: string, id: string, properties: RecordAllDecisionsProperties, options?: ScopeAccessReviewInstanceRecordAllDecisionsOptionalParams) => Promise<void>;
+    resetDecisions: (scope: string, scheduleDefinitionId: string, id: string, options?: ScopeAccessReviewInstanceResetDecisionsOptionalParams) => Promise<void>;
+    sendReminders: (scope: string, scheduleDefinitionId: string, id: string, options?: ScopeAccessReviewInstanceSendRemindersOptionalParams) => Promise<void>;
+    stop: (scope: string, scheduleDefinitionId: string, id: string, options?: ScopeAccessReviewInstanceStopOptionalParams) => Promise<void>;
 }
 
 // @public
-export interface ScopeAccessReviewInstances {
-    create(scope: string, scheduleDefinitionId: string, id: string, properties: AccessReviewInstanceProperties, options?: ScopeAccessReviewInstancesCreateOptionalParams): Promise<ScopeAccessReviewInstancesCreateResponse>;
-    getById(scope: string, scheduleDefinitionId: string, id: string, options?: ScopeAccessReviewInstancesGetByIdOptionalParams): Promise<ScopeAccessReviewInstancesGetByIdResponse>;
-    list(scope: string, scheduleDefinitionId: string, options?: ScopeAccessReviewInstancesListOptionalParams): PagedAsyncIterableIterator<AccessReviewInstance>;
+export interface ScopeAccessReviewInstanceRecordAllDecisionsOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ScopeAccessReviewInstancesCreateOptionalParams extends coreClient.OperationOptions {
+export interface ScopeAccessReviewInstanceResetDecisionsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ScopeAccessReviewInstancesCreateResponse = AccessReviewInstance;
-
-// @public
-export interface ScopeAccessReviewInstanceSendRemindersOptionalParams extends coreClient.OperationOptions {
+export interface ScopeAccessReviewInstancesCreateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ScopeAccessReviewInstancesGetByIdOptionalParams extends coreClient.OperationOptions {
+export interface ScopeAccessReviewInstanceSendRemindersOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ScopeAccessReviewInstancesGetByIdResponse = AccessReviewInstance;
-
-// @public
-export interface ScopeAccessReviewInstancesListNextOptionalParams extends coreClient.OperationOptions {
+export interface ScopeAccessReviewInstancesGetByIdOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ScopeAccessReviewInstancesListNextResponse = AccessReviewInstanceListResult;
-
-// @public
-export interface ScopeAccessReviewInstancesListOptionalParams extends coreClient.OperationOptions {
+export interface ScopeAccessReviewInstancesListOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type ScopeAccessReviewInstancesListResponse = AccessReviewInstanceListResult;
-
-// @public
-export interface ScopeAccessReviewInstanceStopOptionalParams extends coreClient.OperationOptions {
+export interface ScopeAccessReviewInstancesOperations {
+    create: (scope: string, scheduleDefinitionId: string, id: string, properties: AccessReviewInstanceProperties, options?: ScopeAccessReviewInstancesCreateOptionalParams) => Promise<AccessReviewInstance>;
+    getById: (scope: string, scheduleDefinitionId: string, id: string, options?: ScopeAccessReviewInstancesGetByIdOptionalParams) => Promise<AccessReviewInstance>;
+    list: (scope: string, scheduleDefinitionId: string, options?: ScopeAccessReviewInstancesListOptionalParams) => PagedAsyncIterableIterator<AccessReviewInstance>;
 }
 
 // @public
-export interface ScopeAccessReviewScheduleDefinitions {
-    createOrUpdateById(scope: string, scheduleDefinitionId: string, properties: AccessReviewScheduleDefinitionProperties, options?: ScopeAccessReviewScheduleDefinitionsCreateOrUpdateByIdOptionalParams): Promise<ScopeAccessReviewScheduleDefinitionsCreateOrUpdateByIdResponse>;
-    deleteById(scope: string, scheduleDefinitionId: string, options?: ScopeAccessReviewScheduleDefinitionsDeleteByIdOptionalParams): Promise<void>;
-    getById(scope: string, scheduleDefinitionId: string, options?: ScopeAccessReviewScheduleDefinitionsGetByIdOptionalParams): Promise<ScopeAccessReviewScheduleDefinitionsGetByIdResponse>;
-    list(scope: string, options?: ScopeAccessReviewScheduleDefinitionsListOptionalParams): PagedAsyncIterableIterator<AccessReviewScheduleDefinition>;
-    stop(scope: string, scheduleDefinitionId: string, options?: ScopeAccessReviewScheduleDefinitionsStopOptionalParams): Promise<void>;
+export interface ScopeAccessReviewInstanceStopOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ScopeAccessReviewScheduleDefinitionsCreateOrUpdateByIdOptionalParams extends coreClient.OperationOptions {
+export interface ScopeAccessReviewScheduleDefinitionsCreateOrUpdateByIdOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ScopeAccessReviewScheduleDefinitionsCreateOrUpdateByIdResponse = AccessReviewScheduleDefinition;
-
-// @public
-export interface ScopeAccessReviewScheduleDefinitionsDeleteByIdOptionalParams extends coreClient.OperationOptions {
+export interface ScopeAccessReviewScheduleDefinitionsDeleteByIdOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ScopeAccessReviewScheduleDefinitionsGetByIdOptionalParams extends coreClient.OperationOptions {
+export interface ScopeAccessReviewScheduleDefinitionsGetByIdOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ScopeAccessReviewScheduleDefinitionsGetByIdResponse = AccessReviewScheduleDefinition;
-
-// @public
-export interface ScopeAccessReviewScheduleDefinitionsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ScopeAccessReviewScheduleDefinitionsListNextResponse = AccessReviewScheduleDefinitionListResult;
-
-// @public
-export interface ScopeAccessReviewScheduleDefinitionsListOptionalParams extends coreClient.OperationOptions {
+export interface ScopeAccessReviewScheduleDefinitionsListOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type ScopeAccessReviewScheduleDefinitionsListResponse = AccessReviewScheduleDefinitionListResult;
+export interface ScopeAccessReviewScheduleDefinitionsOperations {
+    createOrUpdateById: (scope: string, scheduleDefinitionId: string, properties: AccessReviewScheduleDefinitionProperties, options?: ScopeAccessReviewScheduleDefinitionsCreateOrUpdateByIdOptionalParams) => Promise<AccessReviewScheduleDefinition>;
+    deleteById: (scope: string, scheduleDefinitionId: string, options?: ScopeAccessReviewScheduleDefinitionsDeleteByIdOptionalParams) => Promise<void>;
+    getById: (scope: string, scheduleDefinitionId: string, options?: ScopeAccessReviewScheduleDefinitionsGetByIdOptionalParams) => Promise<AccessReviewScheduleDefinition>;
+    list: (scope: string, options?: ScopeAccessReviewScheduleDefinitionsListOptionalParams) => PagedAsyncIterableIterator<AccessReviewScheduleDefinition>;
+    stop: (scope: string, scheduleDefinitionId: string, options?: ScopeAccessReviewScheduleDefinitionsStopOptionalParams) => Promise<void>;
+}
 
 // @public
-export interface ScopeAccessReviewScheduleDefinitionsStopOptionalParams extends coreClient.OperationOptions {
+export interface ScopeAccessReviewScheduleDefinitionsStopOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SettableResource {
+    id?: string;
+    name?: string;
+    type?: string;
 }
 
 // @public
 export type SeverityLevel = string;
 
 // @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
+
+// @public
 export type Status = string;
 
 // @public
-export interface TenantLevelAccessReviewInstanceContactedReviewers {
-    list(scheduleDefinitionId: string, id: string, options?: TenantLevelAccessReviewInstanceContactedReviewersListOptionalParams): PagedAsyncIterableIterator<AccessReviewContactedReviewer>;
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
 }
 
 // @public
-export interface TenantLevelAccessReviewInstanceContactedReviewersListNextOptionalParams extends coreClient.OperationOptions {
+export interface TenantLevelAccessReviewInstanceContactedReviewersListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type TenantLevelAccessReviewInstanceContactedReviewersListNextResponse = AccessReviewContactedReviewerListResult;
-
-// @public
-export interface TenantLevelAccessReviewInstanceContactedReviewersListOptionalParams extends coreClient.OperationOptions {
+export interface TenantLevelAccessReviewInstanceContactedReviewersOperations {
+    list: (scheduleDefinitionId: string, id: string, options?: TenantLevelAccessReviewInstanceContactedReviewersListOptionalParams) => PagedAsyncIterableIterator<AccessReviewContactedReviewer>;
 }
-
-// @public
-export type TenantLevelAccessReviewInstanceContactedReviewersListResponse = AccessReviewContactedReviewerListResult;
 
 // @public
 export interface TooManyOwnersAssignedToResourceAlertConfigurationProperties extends AlertConfigurationProperties {
@@ -3210,19 +2690,17 @@ export interface UserSet {
 }
 
 // @public
+export interface UsersOrServicePrincipalSet {
+    displayName?: string;
+    id?: string;
+    type?: UsersOrServicePrincipalSetUserType;
+}
+
+// @public
+export type UsersOrServicePrincipalSetUserType = string;
+
+// @public
 export type UserType = string;
-
-// @public
-export interface ValidationResponse {
-    errorInfo?: ValidationResponseErrorInfo;
-    readonly isValid?: boolean;
-}
-
-// @public
-export interface ValidationResponseErrorInfo {
-    readonly code?: string;
-    readonly message?: string;
-}
 
 // (No @packageDocumentation comment for this package)
 

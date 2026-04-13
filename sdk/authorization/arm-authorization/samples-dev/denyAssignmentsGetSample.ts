@@ -1,23 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get the specified deny assignment.
- *
- * @summary Get the specified deny assignment.
- * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/stable/2022-04-01/examples/GetDenyAssignmentByNameId.json
- */
-
 import { AuthorizationManagementClient } from "@azure/arm-authorization";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to get the specified deny assignment.
+ *
+ * @summary get the specified deny assignment.
+ * x-ms-original-file: 2024-07-01-preview/GetDenyAssignmentByNameId.json
+ */
 async function getDenyAssignmentByName(): Promise<void> {
-  const scope = "subscriptions/subId/resourcegroups/rgname";
-  const denyAssignmentId = "denyAssignmentId";
   const credential = new DefaultAzureCredential();
   const client = new AuthorizationManagementClient(credential);
-  const result = await client.denyAssignments.get(scope, denyAssignmentId);
+  const result = await client.denyAssignments.get(
+    "subscriptions/a925f2f7-5c63-4b7b-8799-25a5f97bc3b2/resourceGroups/rgname",
+    "denyAssignmentId",
+  );
   console.log(result);
 }
 
