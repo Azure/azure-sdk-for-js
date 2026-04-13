@@ -28,9 +28,9 @@ on:
             core.warning(`Could not remove label: ${e.message}`);
           }
 labels: [docs-review-needed]
-if: github.event.label.name == 'docs-review-needed'
+if: github.event.label.name == 'docs-review-needed' || github.event_name == 'workflow_dispatch'
 concurrency:
-  group: "gh-aw-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref || github.run_id }}-${{ github.event.label.name || '' }}"
+  group: "gh-aw-${{ github.workflow }}-${{ github.event.pull_request.number || github.event.inputs.item_number || github.run_id }}-${{ github.event.label.name || '' }}"
   cancel-in-progress: true
 description: "Scribe: Review a pull request for documentation completeness and consistency"
 permissions:

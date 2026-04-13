@@ -28,9 +28,9 @@ on:
             core.warning(`Could not remove label: ${e.message}`);
           }
 labels: [architecture-review-needed]
-if: github.event.label.name == 'architecture-review-needed'
+if: github.event.label.name == 'architecture-review-needed' || github.event_name == 'workflow_dispatch'
 concurrency:
-  group: "gh-aw-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref || github.run_id }}-${{ github.event.label.name || '' }}"
+  group: "gh-aw-${{ github.workflow }}-${{ github.event.pull_request.number || github.event.inputs.item_number || github.run_id }}-${{ github.event.label.name || '' }}"
   cancel-in-progress: true
 description: "Archie: Review a pull request for public API design issues"
 permissions:
