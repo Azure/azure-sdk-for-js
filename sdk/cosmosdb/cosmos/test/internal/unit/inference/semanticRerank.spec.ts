@@ -50,7 +50,7 @@ describe("Container.semanticRerank", { timeout: 10000 }, () => {
   });
 
   it("should throw when inference endpoint is not configured", async () => {
-    const originalEnv = process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT;
+    const savedEnv = process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT;
     delete process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT;
 
     try {
@@ -70,8 +70,8 @@ describe("Container.semanticRerank", { timeout: 10000 }, () => {
         client.dispose();
       }
     } finally {
-      if (originalEnv !== undefined) {
-        process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT = originalEnv;
+      if (savedEnv !== undefined) {
+        process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT = savedEnv;
       }
     }
   });
