@@ -1,4 +1,10 @@
 # Release History
+## 4.9.3 (Unreleased)
+
+### Bugs Fixed
+
+- [#38124](https://github.com/Azure/azure-sdk-for-js/pull/38124) Fixed incorrect SQL filter generation in ORDER BY queries with continuation tokens. Backslashes and single quotes in `orderByItem` values are now properly escaped in `formatValueForSQL` before being embedded in WHERE clauses.
+
 ## 4.9.2 (2026-03-16)
 
 ### Bugs Fixed

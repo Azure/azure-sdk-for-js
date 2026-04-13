@@ -13,25 +13,25 @@ describe("OrderByQueryRangeStrategy", function () {
     strategy = new OrderByQueryRangeStrategy();
   });
 
+  const createRange = (id: string, min: string, max: string): PartitionKeyRange => ({
+    id,
+    minInclusive: min,
+    maxExclusive: max,
+    ridPrefix: parseInt(id),
+    throughputFraction: 1,
+    status: "online",
+    parents: [],
+  });
+
+  const createContinuationRange = (
+    range: PartitionKeyRange,
+    token: string,
+  ): PartitionRangeWithContinuationToken => ({
+    range,
+    continuationToken: token,
+  });
+
   describe("filterPartitionRanges", function () {
-    const createRange = (id: string, min: string, max: string): PartitionKeyRange => ({
-      id,
-      minInclusive: min,
-      maxExclusive: max,
-      ridPrefix: parseInt(id),
-      throughputFraction: 1,
-      status: "online",
-      parents: [],
-    });
-
-    const createContinuationRange = (
-      range: PartitionKeyRange,
-      token: string,
-    ): PartitionRangeWithContinuationToken => ({
-      range,
-      continuationToken: token,
-    });
-
     describe("Edge Cases", function () {
       it("should return empty result when targetRanges is null", function () {
         const result = strategy.filterPartitionRanges(null as any);
@@ -748,6 +748,277 @@ describe("OrderByQueryRangeStrategy", function () {
   describe("getStrategyType", function () {
     it("should return correct strategy type", function () {
       expect(strategy.getStrategyType()).toBe("OrderByQuery");
+    });
+  });
+
+  describe("formatValueForSQL escaping via filterPartitionRanges", function () {
+    /**
+     * Helper to get the filteringCondition produced for a given orderByItem value.
+     * Uses a single range so the target range filter (\>= for ASC) is returned.
+     */
+    function getFilterCondition(value: any): string | undefined {
+      const ranges = [createRange("1", "", "FF")];
+      const contRanges = [createContinuationRange(ranges[0], "token1")];
+      const queryInfo = {
+        queryInfo: {
+          queryInfo: {
+            orderBy: ["Ascending"],
+            orderByExpressions: ["c.field1"],
+          },
+        },
+        orderByItems: [{ item: value }],
+      };
+      const result = strategy.filterPartitionRanges(ranges, contRanges, queryInfo);
+      return result.rangeTokenPairs[0]?.filteringCondition;
+    }
+
+    // --- Type handling ---
+    it("should not alter strings without special characters", function () {
+      const condition = getFilterCondition("normal string");
+      expect(condition).toContain("'normal string'");
+    });
+
+    it("should handle null values", function () {
+      expect(getFilterCondition(null)).toContain("null");
+    });
+
+    it("should handle number values", function () {
+      expect(getFilterCondition(42)).toContain("42");
+    });
+
+    it("should handle boolean values", function () {
+      expect(getFilterCondition(true)).toContain("true");
+    });
+
+    it("should handle empty string", function () {
+      expect(getFilterCondition("")).toContain("''");
+    });
+
+    // --- Core backslash escaping ---
+    it("should escape \\u2013 to prevent SQL unicode interpretation (original bug)", function () {
+      const value = "Gold\u005cu2013Foran"; // Gold\u2013Foran
+      const condition = getFilterCondition(value);
+      expect(condition).toContain("'Gold\\\\u2013Foran'");
+    });
+
+    it("should escape a single backslash", function () {
+      const condition = getFilterCondition("\\");
+      expect(condition).toContain("'\\\\'");
+    });
+
+    it("should escape trailing backslash", function () {
+      const condition = getFilterCondition("path\\");
+      expect(condition).toContain("'path\\\\'");
+    });
+
+    it("should escape triple backslash (odd count)", function () {
+      const condition = getFilterCondition("\\\\\\");
+      expect(condition).toContain("'\\\\\\\\\\\\'");
+    });
+
+    it("should escape 20 consecutive backslashes", function () {
+      const condition = getFilterCondition("\\".repeat(20));
+      expect(condition).toContain(`'${"\\\\".repeat(20)}'`);
+    });
+
+    // --- Core quote escaping ---
+    it("should escape a single quote as \\u0027", function () {
+      const condition = getFilterCondition("'");
+      expect(condition).toContain("'\\u0027'");
+    });
+
+    it("should escape consecutive single quotes", function () {
+      const condition = getFilterCondition("'''");
+      expect(condition).toContain("'\\u0027\\u0027\\u0027'");
+    });
+
+    it("should escape doubled quotes in context", function () {
+      const condition = getFilterCondition("it''s a ''test''");
+      expect(condition).toContain("'it\\u0027\\u0027s a \\u0027\\u0027test\\u0027\\u0027'");
+    });
+
+    // --- Backslash + quote interaction (the critical ambiguity case) ---
+    it("should escape both backslash and quote in one string", function () {
+      const condition = getFilterCondition("it's a \\test");
+      expect(condition).toContain("'it\\u0027s a \\\\test'");
+    });
+
+    it("should escape backslash immediately before quote (\\' ambiguity)", function () {
+      const condition = getFilterCondition("\\'");
+      expect(condition).toContain("'\\\\\\u0027'");
+    });
+
+    it("should escape quote immediately before backslash", function () {
+      const condition = getFilterCondition("'\\");
+      expect(condition).toContain("'\\u0027\\\\'");
+    });
+
+    it("should escape backslash-quote-backslash sandwich", function () {
+      const condition = getFilterCondition("\\'\\");
+      expect(condition).toContain("'\\\\\\u0027\\\\'");
+    });
+
+    it("should escape 5 backslash-quote pairs", function () {
+      const condition = getFilterCondition("\\'".repeat(5));
+      expect(condition).toContain(`'${"\\\\\\u0027".repeat(5)}'`);
+    });
+
+    it("should escape triple backslash followed by quote", function () {
+      const condition = getFilterCondition("\\\\\\'");
+      expect(condition).toContain("'\\\\\\\\\\\\\\u0027'");
+    });
+
+    // --- Unicode escape sequences in stored data ---
+    it("should escape literal \\u0027 in value (our escape target)", function () {
+      const value = "has\u005cu0027literal";
+      const condition = getFilterCondition(value);
+      expect(condition).toContain("'has\\\\u0027literal'");
+    });
+
+    it("should escape literal \\u005c (unicode for backslash itself)", function () {
+      const value = "\u005cu005c";
+      const condition = getFilterCondition(value);
+      expect(condition).toContain("'\\\\u005c'");
+    });
+
+    it("should escape incomplete unicode \\u00", function () {
+      const value = "\u005cu00";
+      const condition = getFilterCondition(value);
+      expect(condition).toContain("'\\\\u00'");
+    });
+
+    it("should escape \\u followed by quote", function () {
+      const condition = getFilterCondition("\\u'");
+      expect(condition).toContain("'\\\\u\\u0027'");
+    });
+
+    // --- Backslash + escape letters ---
+    it("should escape all 26 backslash+letter combinations", function () {
+      const letters = "abcdefghijklmnopqrstuvwxyz";
+      const value = letters
+        .split("")
+        .map((c) => `\\${c}`)
+        .join("");
+      const condition = getFilterCondition(value);
+      const expected = letters
+        .split("")
+        .map((c) => `\\\\${c}`)
+        .join("");
+      expect(condition).toContain(`'${expected}'`);
+    });
+
+    it("should escape \\r\\n\\t together", function () {
+      const condition = getFilterCondition("\\r\\n\\t");
+      expect(condition).toContain("'\\\\r\\\\n\\\\t'");
+    });
+
+    it("should escape double-backslash before escape letters (\\\\n\\\\t\\\\r)", function () {
+      const condition = getFilterCondition("\\\\n\\\\t\\\\r");
+      expect(condition).toContain("'\\\\\\\\n\\\\\\\\t\\\\\\\\r'");
+    });
+
+    // --- Nested combos: escapes + quotes interleaved ---
+    it("should escape quote wrapping an escape sequence ('\\n')", function () {
+      const condition = getFilterCondition("'\\n'");
+      expect(condition).toContain("'\\u0027\\\\n\\u0027'");
+    });
+
+    it("should escape \\n\\\\\\n (escape, backslash-pair, escape)", function () {
+      const condition = getFilterCondition("\\n\\\\\\n");
+      expect(condition).toContain("'\\\\n\\\\\\\\\\\\n'");
+    });
+
+    it("should escape \\t\\n'\\t\\n (interleaved escapes with quote)", function () {
+      const condition = getFilterCondition("\\t\\n'\\t\\n");
+      expect(condition).toContain("'\\\\t\\\\n\\u0027\\\\t\\\\n'");
+    });
+
+    it("should escape \\u0027\\n\\u0027 (literal unicode-quotes with escape between)", function () {
+      const value = "\u005cu0027\\n\u005cu0027";
+      const condition = getFilterCondition(value);
+      expect(condition).toContain("'\\\\u0027\\\\n\\\\u0027'");
+    });
+
+    // --- Hex-like and regex ---
+    it("should escape hex-like sequences \\x41\\x42\\x43", function () {
+      const condition = getFilterCondition("\\x41\\x42\\x43");
+      expect(condition).toContain("'\\\\x41\\\\x42\\\\x43'");
+    });
+
+    it("should escape regex-like pattern \\d+\\.\\d+\\.\\d+", function () {
+      const condition = getFilterCondition("\\d+\\.\\d+\\.\\d+");
+      expect(condition).toContain("'\\\\d+\\\\.\\\\d+\\\\.\\\\d+'");
+    });
+
+    // --- Realistic values ---
+    it("should escape Windows path with quotes", function () {
+      const condition = getFilterCondition("C:\\Program Files\\O'Reilly\\book\\chapter1.txt");
+      expect(condition).toContain(
+        "'C:\\\\Program Files\\\\O\\u0027Reilly\\\\book\\\\chapter1.txt'",
+      );
+    });
+
+    it("should escape SQL query embedded as a value", function () {
+      const value = "SELECT * FROM c WHERE c.name = 'O\\'Brien' AND c.path = '\\\\server'";
+      const condition = getFilterCondition(value);
+      expect(condition).toContain(
+        "'SELECT * FROM c WHERE c.name = \\u0027O\\\\\\u0027Brien\\u0027 AND c.path = \\u0027\\\\\\\\server\\u0027'",
+      );
+    });
+
+    it("should escape log entry with mixed escapes and quotes", function () {
+      const value = "2024-01-01\\t[WARN]\\tUser 'admin' path=C:\\temp\\n\\tStack: Error\\n";
+      const condition = getFilterCondition(value);
+      expect(condition).toContain(
+        "'2024-01-01\\\\t[WARN]\\\\tUser \\u0027admin\\u0027 path=C:\\\\temp\\\\n\\\\tStack: Error\\\\n'",
+      );
+    });
+
+    // --- Adversarial: SQL injection ---
+    it("should escape SQL injection with backslash-quote", function () {
+      const condition = getFilterCondition("val\\' OR 1=1 --");
+      expect(condition).toContain("'val\\\\\\u0027 OR 1=1 --'");
+    });
+
+    it("should escape SQL injection with closing literal", function () {
+      const condition = getFilterCondition("') OR ('1'='1");
+      expect(condition).toContain("'\\u0027) OR (\\u00271\\u0027=\\u00271'");
+    });
+
+    it("should pass through percent and SQL comment chars unchanged", function () {
+      const condition = getFilterCondition("100% done; DROP TABLE --");
+      expect(condition).toContain("'100% done; DROP TABLE --'");
+    });
+
+    // --- Kitchen sink combos ---
+    it("should escape all dangerous chars combined: \\'\\\\\\u0027\\u2013\\n\\t", function () {
+      const value = "\\'\\\\\\u0027\\u2013\\n\\t";
+      const condition = getFilterCondition(value);
+      expect(condition).toContain("'\\\\\\u0027\\\\\\\\\\\\u0027\\\\u2013\\\\n\\\\t'");
+    });
+
+    it("should escape 5 quotes + 5 backslashes + 5 quotes symmetrically", function () {
+      const condition = getFilterCondition("'''''\\\\\\\\\\'''''");
+      const expected = "\\u0027".repeat(5) + "\\\\".repeat(5) + "\\u0027".repeat(5);
+      expect(condition).toContain(`'${expected}'`);
+    });
+
+    it("should escape long string with every escape type scattered", function () {
+      const value =
+        "The quick brown fox\\n jumped over\\t the 'lazy' dog.\\\\ The path was C:\\Users\\test\\file.txt and it\\'s value had \\u2013 dashes \\u0027quotes\\u0027 end.";
+      const condition = getFilterCondition(value);
+      expect(condition).toContain("\\\\n jumped over\\\\t");
+      expect(condition).toContain("\\u0027lazy\\u0027");
+      expect(condition).toContain("C:\\\\Users\\\\test\\\\file.txt");
+      expect(condition).toContain("it\\\\\\u0027s value");
+      expect(condition).toContain("\\\\u2013 dashes");
+      expect(condition).toContain("\\\\u0027quotes\\\\u0027");
+    });
+
+    // --- Double quotes (non-SQL-special, verify no interference) ---
+    it("should pass through double quotes unchanged", function () {
+      const condition = getFilterCondition('\\"hello\\"');
+      expect(condition).toContain("'\\\\\"hello\\\\\"'");
     });
   });
 });
