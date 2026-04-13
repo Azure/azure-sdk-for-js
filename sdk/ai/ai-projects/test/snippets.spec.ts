@@ -3,15 +3,18 @@
 
 import type { VitestTestContext } from "@azure-tools/test-recorder";
 import { AIProjectClient, DatasetVersion } from "../src/index.js";
+import type { VersionRefIndicator } from "../src/index.js";
 import { useAzureMonitor } from "@azure/monitor-opentelemetry";
 import type { AzureMonitorOpenTelemetryOptions } from "@azure/monitor-opentelemetry";
 import type {
   AzureAISearchIndex,
   Connection,
   DatasetVersionUnion,
+  MCPTool,
   ModelDeployment,
+  ToolUnion,
 } from "../src/index.js";
-import { isRestError } from "@azure/core-rest-pipeline";
+import { isRestError, RestError } from "@azure/core-rest-pipeline";
 import { DefaultAzureCredential } from "@azure/identity";
 import type { JobCreateParams } from "openai/resources/fine-tuning/jobs";
 import { it, describe } from "vitest";
@@ -944,6 +947,75 @@ Be direct and efficient. When you reach the search results page, read and descri
       },
     });
     console.log("Created fine-tuning job:\n", JSON.stringify(fineTuningJob));
+  });
+
+  it("beta-agents", async function () {
+    const agentName = "MyBetaAgent";
+    const isolationKey = "sample-isolation-key";
+
+    // Create a session for the agent
+    const versionIndicator: VersionRefIndicator = {
+      type: "version_ref",
+      agent_version: "1.0",
+    };
+    const session = await project.beta.agents.createSession(
+      agentName,
+      isolationKey,
+      versionIndicator,
+    );
+    console.log(`Session created: ${session.agent_session_id}`);
+
+    // Upload a file to the session sandbox
+    const filePath = "/sandbox/hello.txt";
+    const fileContent = new TextEncoder().encode("Hello from the beta agents sample!");
+    const uploadResult = await project.beta.agents.uploadSessionFile(
+      agentName,
+      session.agent_session_id,
+      filePath,
+      fileContent,
+    );
+    console.log(`Uploaded file: ${uploadResult.path} (${uploadResult.bytes_written} bytes)`);
+  });
+
+  it("skills", async function () {
+    const skillName = "sample-skill";
+
+    // Create a new skill
+    const created = await project.beta.skills.create(skillName, {
+      description: "Example skill created by the @azure/ai-projects sample.",
+      instructions: "You are a helpful assistant that answers questions concisely.",
+      metadata: { owner: "sample" },
+    });
+    console.log(`Skill created: ${created.name} (id: ${created.skill_id})`);
+
+    // Retrieve the skill
+    const fetched = await project.beta.skills.get(skillName);
+    console.log(`Retrieved skill: ${fetched.name} (id: ${fetched.skill_id})`);
+  });
+
+  it("toolboxes", async function () {
+    const toolboxName = "mcp";
+
+    // Define tools for the toolbox
+    const tools: ToolUnion[] = [
+      {
+        type: "mcp",
+        server_label: "api_specs",
+        server_url: "https://github.com/Azure/azure-rest-api-specs",
+        require_approval: "never",
+      } satisfies MCPTool,
+    ];
+
+    // Create a new toolbox version
+    const created = await project.beta.toolboxes.createVersion(toolboxName, tools, {
+      description: "Example toolbox created by the @azure/ai-projects sample.",
+      metadata: { status: "created" },
+    });
+    console.log(`Toolbox: ${created.name} (tools: ${created.tools.length})`);
+
+    // Retrieve the toolbox
+    const fetched = await project.beta.toolboxes.get(toolboxName);
+    console.log(`Retrieved toolbox: ${fetched.name} (${fetched.id})`);
   });
 
   it("tracing", async function () {
