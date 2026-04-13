@@ -6,7 +6,6 @@ import * as path from "node:path";
 import { WarpError } from "./types.ts";
 import type { WarpConfig, ModuleType } from "./types.ts";
 import type { CompileResult } from "./compiler.ts";
-import { inferModuleType } from "./config.ts";
 
 /** Narrow `unknown` to a plain object record. */
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -26,17 +25,17 @@ export function resolveExportsMap(
 ): Record<string, unknown> {
   const exportsMap: Record<string, unknown> = {};
 
-  for (const [subpath, sourcePath] of Object.entries(config.exports)) {
-    // Pass-through entries (e.g. "./package.json": "./package.json")
-    if (!/\.(?:ts|mts|cts)$/.test(sourcePath)) {
-      exportsMap[subpath] = sourcePath;
+  for (const [subpath, sourceEntry] of Object.entries(config.exports)) {
+    // Pass-through for non-TS files (e.g. "./package.json")
+    if (!/\.(?:ts|mts|cts)$/.test(sourceEntry)) {
+      exportsMap[subpath] = sourceEntry;
       continue;
     }
 
     const conditions: Record<string, Record<string, string>> = {};
 
     for (const result of results) {
-      const distPath = sourceToDistPath(sourcePath, result.rootDir, result.outDir, packageRoot);
+      const distPath = sourceToDistPath(sourceEntry, result.rootDir, result.outDir, packageRoot);
       const distJsPath = distPath
         .replace(/\.mts$/, ".mjs")
         .replace(/\.cts$/, ".cjs")
@@ -93,7 +92,6 @@ export async function writeExportsToPackageJson(
   exportsMap: Record<string, unknown>,
   results: CompileResult[],
   packageRoot: string,
-  compilerOptions?: Map<string, number | undefined>,
 ): Promise<void> {
   const pkgPath = path.join(packageRoot, "package.json");
   let pkg: Record<string, unknown>;
@@ -133,7 +131,7 @@ export async function writeExportsToPackageJson(
     if (existing === newContent) {
       // Exports and package.json are identical — skip write entirely.
       // Still write module-type shims below since outDirs were cleaned.
-      await writeModuleTypeShims(results, compilerOptions);
+      await writeModuleTypeShims(results);
       return;
     }
   } catch {
@@ -155,29 +153,19 @@ export async function writeExportsToPackageJson(
 
   // Write module-type shim into each target's outDir — in parallel since
   // they write to independent directories.
-  await writeModuleTypeShims(results, compilerOptions);
+  await writeModuleTypeShims(results);
 }
 
 /**
  * Write a `{"type": "module"|"commonjs"}` shim into each target's outDir.
  */
-async function writeModuleTypeShims(
-  results: CompileResult[],
-  compilerOptions?: Map<string, number | undefined>,
-): Promise<void> {
+async function writeModuleTypeShims(results: CompileResult[]): Promise<void> {
   await Promise.all(
     results.map(async (result) => {
       const shimPath = path.join(result.outDir, "package.json");
       await fsp.mkdir(path.dirname(shimPath), { recursive: true });
 
-      let moduleType: ModuleType;
-      if (result.target.moduleType) {
-        moduleType = result.target.moduleType;
-      } else if (compilerOptions) {
-        moduleType = inferModuleType(compilerOptions.get(result.target.name));
-      } else {
-        moduleType = "module";
-      }
+      const moduleType: ModuleType = result.target.moduleType ?? "module";
 
       await fsp.writeFile(shimPath, `${JSON.stringify({ type: moduleType }, null, 2)}\n`, "utf-8");
     }),

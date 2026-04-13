@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 export { stopJob, startJob, list, $delete, update, createOrUpdate, get } from "./operations.js";
-export {
-  type JobDefinitionsStopJobOptionalParams,
-  type JobDefinitionsStartJobOptionalParams,
-  type JobDefinitionsListOptionalParams,
-  type JobDefinitionsDeleteOptionalParams,
-  type JobDefinitionsUpdateOptionalParams,
-  type JobDefinitionsCreateOrUpdateOptionalParams,
-  type JobDefinitionsGetOptionalParams,
+export type {
+  JobDefinitionsStopJobOptionalParams,
+  JobDefinitionsStartJobOptionalParams,
+  JobDefinitionsListOptionalParams,
+  JobDefinitionsDeleteOptionalParams,
+  JobDefinitionsUpdateOptionalParams,
+  JobDefinitionsCreateOrUpdateOptionalParams,
+  JobDefinitionsGetOptionalParams,
 } from "./options.js";

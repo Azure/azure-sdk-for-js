@@ -510,22 +510,22 @@ describe("BatchingReceiver unit tests", () => {
       let fn = getRemainingWaitTimeInMsFn(10, 2);
       // 1ms has elapsed so we're comparing 9ms vs 2ms
       vi.advanceTimersByTime(1);
-      assert.equal(2, fn());
+      assert.equal(fn(), 2);
 
       fn = getRemainingWaitTimeInMsFn(10, 2);
       // 9ms has elapsed so we're comparing 1ms vs 2ms
       vi.advanceTimersByTime(9);
-      assert.equal(1, fn());
+      assert.equal(fn(), 1);
 
       fn = getRemainingWaitTimeInMsFn(10, 2);
       // 8ms has elapsed so we're comparing 2ms vs 2ms
       vi.advanceTimersByTime(8);
-      assert.equal(2, fn());
+      assert.equal(fn(), 2);
 
       fn = getRemainingWaitTimeInMsFn(10, 2);
       // 11ms has elapsed so we're comparing -1ms vs 2ms (we'll just treat that as "don't wait, just return what you have")
       vi.advanceTimersByTime(11);
-      assert.equal(0, fn());
+      assert.equal(fn(), 0);
     });
   });
 
@@ -849,7 +849,7 @@ describe("BatchingReceiver unit tests", () => {
 
     const results = await receiveMessagesPromise;
 
-    assert.equal(1, results.length);
+    assert.equal(results.length, 1);
   });
 });
 

@@ -79,7 +79,7 @@ function resolveFiltersToConcreteNames(filters) {
  * @param {string} action - which action to execute
  * @param {string[]} filters - Any array of strings containing ["direction packageName"...]
  * @param {string[]} extraParams - what parameters to pass
- * @param {boolean} ciFlag - whether it is in CI
+ * @param {boolean|undefined} [ciFlag=undefined] ciFlag - whether it is in CI
  */
 export function runAllWithDirection(action, filters, extraParams, ciFlag) {
   console.dir({
@@ -111,7 +111,7 @@ export function runAllWithDirection(action, filters, extraParams, ciFlag) {
     // Example: node eng/tools/ci-runner/index.js test:node servicebus template -packages "azure-service-bus,azure-template" --ci
     ciFlag &&
     // 2. Ensure not in "live" or "record" mode (run only in playback mode)
-    !["live", "record"].includes(process.env.TEST_MODE) &&
+    (!process.env.TEST_MODE || !["live", "record"].includes(process.env.TEST_MODE)) &&
     // 3. Ensure the action is either 'test:node' or 'test:browser' (unit tests)
     ["test:node", "test:browser"].includes(action)
   ) {

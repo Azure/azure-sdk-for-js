@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-kubernetesconfiguration-extensions",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0",
   "description": "A generated SDK for ExtensionsClient.",
   "engines": {
     "node": ">=20.0.0"
@@ -190,6 +190,6 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-kubernetesconfiguration-extensions?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-kubernetesconfiguration-extensions"
   }
 }

@@ -10,7 +10,7 @@ import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { ClientSecretCredential } from "@azure/identity";
 import type { MockInstance } from "vitest";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { SecretClient } from "../../src/index.js";
+import { KnownContentType, SecretClient } from "../../src/index.js";
 import { LATEST_API_VERSION } from "../../src/secretsModels.js";
 
 describe("The Secrets client should set the serviceVersion", () => {
@@ -73,5 +73,44 @@ describe("The Secrets client should set the serviceVersion", () => {
         }),
       );
     }
+  });
+
+  it("should include outContentType=PEM in the URL when specified in getSecret", async () => {
+    const client = new SecretClient(keyVaultUrl, credential, {
+      httpClient: mockHttpClient,
+    });
+    await client.getSecret("secretName", { outContentType: KnownContentType.PEM });
+
+    expect(spy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        url: expect.stringContaining("outContentType=application%2Fx-pem-file"),
+      }),
+    );
+  });
+
+  it("should include outContentType=PFX in the URL when specified in getSecret", async () => {
+    const client = new SecretClient(keyVaultUrl, credential, {
+      httpClient: mockHttpClient,
+    });
+    await client.getSecret("secretName", { outContentType: KnownContentType.PFX });
+
+    expect(spy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        url: expect.stringContaining("outContentType=application%2Fx-pkcs12"),
+      }),
+    );
+  });
+
+  it("should not include outContentType in the URL when not specified in getSecret", async () => {
+    const client = new SecretClient(keyVaultUrl, credential, {
+      httpClient: mockHttpClient,
+    });
+    await client.getSecret("secretName");
+
+    expect(spy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        url: expect.not.stringContaining("outContentType"),
+      }),
+    );
   });
 });

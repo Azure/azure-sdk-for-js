@@ -152,17 +152,14 @@ describe("transformations", function () {
           },
         });
         const sans = corePolicy.x509CertificateProperties!.subjectAlternativeNames!;
-        assert.deepEqual(sans.uniformResourceIdentifiers, [
-          "https://example.com",
-          "https://contoso.com",
-        ]);
+        assert.deepEqual(sans.uris, ["https://example.com", "https://contoso.com"]);
       });
 
       it("toPublicPolicy maps uniformResourceIdentifiers back from the core model", () => {
         const corePolicy: CoreCertificatePolicy = {
           x509CertificateProperties: {
             subjectAlternativeNames: {
-              uniformResourceIdentifiers: ["https://example.com"],
+              uris: ["https://example.com"],
             },
           },
         };
@@ -225,7 +222,7 @@ describe("transformations", function () {
             x509CertificateProperties: {
               subjectAlternativeNames: {
                 ipAddresses: ["10.0.0.1"],
-                uniformResourceIdentifiers: ["https://example.com"],
+                uris: ["https://example.com"],
               },
             },
           },

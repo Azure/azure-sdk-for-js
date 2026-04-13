@@ -307,13 +307,13 @@ export function isSyntheticSource(attributes: Attributes): boolean {
 /**
  * Truncates each custom dimension value individually.
  * Gen AI properties in {@link CUSTOM_DIMENSIONS_GENAI_KEYS} are truncated to 256KB;
- * all other properties are truncated to 64KB.
+ * all other properties are truncated to 8KB.
  * @internal
  */
 export function truncateCustomDimensions(properties: Record<string, unknown>): {
   [propertyName: string]: string;
 } {
-  const defaultMaxSize = MaxPropertyLengths.SIXTEEN_BIT;
+  const defaultMaxSize = MaxPropertyLengths.THIRTEEN_BIT;
   const genaiMaxSize = MaxPropertyLengths.EIGHTEEN_BIT;
   const result: { [propertyName: string]: string } = {};
   let truncated = false;

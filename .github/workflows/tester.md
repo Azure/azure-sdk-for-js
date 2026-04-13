@@ -1,9 +1,12 @@
 ---
 on:
-  pull_request_target:
+  pull_request:
     types: [labeled]
 labels: [test-review-needed]
-if: github.event.label.name == 'test-review-needed'
+if: github.event.label.name == 'test-review-needed' && github.event.pull_request.head.repo.fork == false
+concurrency:
+  group: "gh-aw-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref || github.run_id }}-${{ github.event.label.name || '' }}"
+  cancel-in-progress: true
 description: "Tester: Review a pull request for test coverage and quality"
 permissions:
   contents: read
@@ -13,7 +16,7 @@ tools:
   github:
     toolsets: [context, repos, pull_requests, actions]
     min-integrity: unapproved
-  bash: true
+  bash: ["cat", "date", "echo", "grep", "head", "ls", "pwd", "sort", "tail", "uniq", "wc"]
   cache-memory:
   repo-memory:
 safe-outputs:
