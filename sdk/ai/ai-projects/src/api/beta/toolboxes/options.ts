@@ -5,7 +5,7 @@ import type { ToolboxPolicies, PageOrder } from "../../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface DeleteVersionOptionalParams extends OperationOptions {}
+export interface BetaToolboxesDeleteVersionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface BetaToolboxesDeleteOptionalParams extends OperationOptions {}
@@ -14,10 +14,10 @@ export interface BetaToolboxesDeleteOptionalParams extends OperationOptions {}
 export interface BetaToolboxesUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface GetVersionOptionalParams extends OperationOptions {}
+export interface BetaToolboxesGetVersionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ListVersionsOptionalParams extends OperationOptions {
+export interface BetaToolboxesListVersionsOptionalParams extends OperationOptions {
   /**
    * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
    * default is 20.
@@ -72,7 +72,7 @@ export interface BetaToolboxesListOptionalParams extends OperationOptions {
 export interface BetaToolboxesGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface CreateVersionOptionalParams extends OperationOptions {
+export interface BetaToolboxesCreateVersionOptionalParams extends OperationOptions {
   /** A human-readable description of the toolbox. */
   description?: string;
   /** Arbitrary key-value metadata to associate with the toolbox. */

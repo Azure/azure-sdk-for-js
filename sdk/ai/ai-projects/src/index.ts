@@ -464,14 +464,14 @@ export type {
   BetaSkillsCreateOptionalParams,
 } from "./api/beta/skills/index.js";
 export type {
-  DeleteVersionOptionalParams,
+  BetaToolboxesDeleteVersionOptionalParams,
   BetaToolboxesDeleteOptionalParams,
   BetaToolboxesUpdateOptionalParams,
-  GetVersionOptionalParams,
-  ListVersionsOptionalParams,
+  BetaToolboxesGetVersionOptionalParams,
+  BetaToolboxesListVersionsOptionalParams,
   BetaToolboxesListOptionalParams,
   BetaToolboxesGetOptionalParams,
-  CreateVersionOptionalParams,
+  BetaToolboxesCreateVersionOptionalParams,
 } from "./api/beta/toolboxes/index.js";
 export type {
   AgentsOperations,

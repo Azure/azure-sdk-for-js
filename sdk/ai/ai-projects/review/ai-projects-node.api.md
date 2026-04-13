@@ -778,11 +778,26 @@ export interface BetaSkillsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface BetaToolboxesCreateVersionOptionalParams extends OperationOptions {
+    description?: string;
+    metadata?: Record<string, string>;
+    policies?: ToolboxPolicies;
+}
+
+// @public
 export interface BetaToolboxesDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface BetaToolboxesDeleteVersionOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface BetaToolboxesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaToolboxesGetVersionOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -794,14 +809,22 @@ export interface BetaToolboxesListOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface BetaToolboxesListVersionsOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: PageOrder;
+}
+
+// @public
 export interface BetaToolboxesOperations {
-    createVersion: (toolboxName: string, tools: ToolUnion[], options?: CreateVersionOptionalParams) => Promise<ToolboxVersionObject>;
+    createVersion: (toolboxName: string, tools: ToolUnion[], options?: BetaToolboxesCreateVersionOptionalParams) => Promise<ToolboxVersionObject>;
     delete: (toolboxName: string, options?: BetaToolboxesDeleteOptionalParams) => Promise<void>;
-    deleteVersion: (toolboxName: string, version: string, options?: DeleteVersionOptionalParams) => Promise<void>;
+    deleteVersion: (toolboxName: string, version: string, options?: BetaToolboxesDeleteVersionOptionalParams) => Promise<void>;
     get: (toolboxName: string, options?: BetaToolboxesGetOptionalParams) => Promise<ToolboxObject>;
-    getVersion: (toolboxName: string, version: string, options?: GetVersionOptionalParams) => Promise<ToolboxVersionObject>;
+    getVersion: (toolboxName: string, version: string, options?: BetaToolboxesGetVersionOptionalParams) => Promise<ToolboxVersionObject>;
     list: (options?: BetaToolboxesListOptionalParams) => PagedAsyncIterableIterator<ToolboxObject>;
-    listVersions: (toolboxName: string, options?: ListVersionsOptionalParams) => PagedAsyncIterableIterator<ToolboxVersionObject>;
+    listVersions: (toolboxName: string, options?: BetaToolboxesListVersionsOptionalParams) => PagedAsyncIterableIterator<ToolboxVersionObject>;
     update: (toolboxName: string, defaultVersion: string, options?: BetaToolboxesUpdateOptionalParams) => Promise<ToolboxObject>;
 }
 
@@ -1104,13 +1127,6 @@ export interface CreateFromPackageOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface CreateVersionOptionalParams extends OperationOptions {
-    description?: string;
-    metadata?: Record<string, string>;
-    policies?: ToolboxPolicies;
-}
-
-// @public
 export type CredentialType = "ApiKey" | "AAD" | "SAS" | "CustomKeys" | "None" | "AgenticIdentityToken_Preview";
 
 // @public
@@ -1266,10 +1282,6 @@ export interface DeleteMemoryStoreResponse {
 export interface DeleteSkillResponse {
     deleted: boolean;
     name: string;
-}
-
-// @public
-export interface DeleteVersionOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -1659,10 +1671,6 @@ export interface FunctionToolParam {
 }
 
 // @public
-export interface GetVersionOptionalParams extends OperationOptions {
-}
-
-// @public
 export type GrammarSyntax = "lark" | "regex";
 
 // @public
@@ -1888,14 +1896,6 @@ export type IsolationKeySourceUnion = EntraIsolationKeySource | HeaderIsolationK
 // @public
 export enum KnownApiVersions {
     v1 = "v1"
-}
-
-// @public
-export interface ListVersionsOptionalParams extends OperationOptions {
-    after?: string;
-    before?: string;
-    limit?: number;
-    order?: PageOrder;
 }
 
 // @public
