@@ -826,7 +826,6 @@ export interface CosmosClientOptions {
     diagnosticLevel?: CosmosDbDiagnosticLevel;
     endpoint?: string;
     httpClient?: HttpClient;
-    inferenceEndpoint?: string;
     key?: string;
     permissionFeed?: PermissionDefinition[];
     resourceTokens?: {

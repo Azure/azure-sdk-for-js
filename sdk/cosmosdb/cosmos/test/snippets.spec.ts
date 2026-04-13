@@ -1847,7 +1847,6 @@ describe("snippets", () => {
     const client = new CosmosClient({
       endpoint,
       aadCredentials,
-      inferenceEndpoint: "https://your-account.dbinference.azure.com",
     });
     // @ts-preserve-whitespace
     const { database } = await client.databases.createIfNotExists({ id: "Test Database" });

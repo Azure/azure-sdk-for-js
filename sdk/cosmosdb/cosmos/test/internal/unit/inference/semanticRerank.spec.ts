@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import type { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 import { CosmosClient } from "../../../../src/CosmosClient.js";
 
@@ -15,6 +15,22 @@ class MockTokenCredential implements TokenCredential {
 }
 
 describe("Container.semanticRerank", { timeout: 10000 }, () => {
+  let originalEnv: string | undefined;
+
+  beforeEach(() => {
+    originalEnv = process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT;
+    process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT =
+      "https://test-inference.dbinference.azure.com";
+  });
+
+  afterEach(() => {
+    if (originalEnv !== undefined) {
+      process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT = originalEnv;
+    } else {
+      delete process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT;
+    }
+  });
+
   it("should throw when client is not using AAD authentication", async () => {
     const client = new CosmosClient({
       endpoint: "https://test-account.documents.azure.com:443/",
@@ -64,7 +80,6 @@ describe("Container.semanticRerank", { timeout: 10000 }, () => {
     const client = new CosmosClient({
       endpoint: "https://test-account.documents.azure.com:443/",
       aadCredentials: new MockTokenCredential(),
-      inferenceEndpoint: "https://test-inference.dbinference.azure.com",
     });
 
     const container = client.database("testdb").container("testcol");
@@ -79,7 +94,6 @@ describe("Container.semanticRerank", { timeout: 10000 }, () => {
     const client = new CosmosClient({
       endpoint: "https://test-account.documents.azure.com:443/",
       aadCredentials: new MockTokenCredential(),
-      inferenceEndpoint: "https://test-inference.dbinference.azure.com",
     });
 
     // Dispose should not throw

@@ -1,0 +1,24 @@
+{
+  "extends": "./build.json",
+  "include": [
+    "../src/**/*.ts",
+    "../src/**/*.mts",
+    "../src/**/*.tsx",
+    "../src/**/*.json"
+  ],
+  "exclude": [
+    "../src/package.json",
+    "../src/encryption/AeadAes256CbcHmacSha256Algorithm/AeadAes256CbcHmacSha256Algorithm-browser.mts",
+    "../src/encryption/Cache/ProtectedDataEncryptionKeyCache-browser.mts",
+    "../src/encryption/EncryptionKey/DataEncryptionKey-browser.mts",
+    "../src/request/defaultAgent-browser.mts",
+    "../src/utils/atob-browser.mts",
+    "../src/utils/digest-browser.mts",
+    "../src/utils/envUtils-browser.mts",
+    "../src/utils/hmac-browser.mts",
+    "../src/utils/globalCrypto-react-native.mts"
+  ],
+  "compilerOptions": {
+    "outDir": "../.tshy-build/esm"
+  }
+}

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import type { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 import type { HttpClient, PipelineResponse } from "@azure/core-rest-pipeline";
 import { InferenceService } from "../../../../src/inference/InferenceService.js";
@@ -20,12 +20,27 @@ function createMockOptions(overrides?: Partial<CosmosClientOptions>): CosmosClie
   return {
     endpoint: "https://test-account.documents.azure.com:443/",
     aadCredentials: new MockTokenCredential(),
-    inferenceEndpoint: "https://test-inference.dbinference.azure.com",
     ...overrides,
   };
 }
 
 describe("InferenceService", { timeout: 10000 }, () => {
+  let originalEnv: string | undefined;
+
+  beforeEach(() => {
+    originalEnv = process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT;
+    process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT =
+      "https://test-inference.dbinference.azure.com";
+  });
+
+  afterEach(() => {
+    if (originalEnv !== undefined) {
+      process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT = originalEnv;
+    } else {
+      delete process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT;
+    }
+  });
+
   describe("constructor", () => {
     it("should throw when aadCredentials is not provided", () => {
       assert.throws(
@@ -35,22 +50,15 @@ describe("InferenceService", { timeout: 10000 }, () => {
     });
 
     it("should throw when no inference endpoint is configured", () => {
-      const originalEnv = process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT;
       delete process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT;
-      try {
-        assert.throws(
-          () =>
-            new InferenceService({
-              endpoint: "https://test.documents.azure.com",
-              aadCredentials: new MockTokenCredential(),
-            }),
-          /Inference endpoint is required/,
-        );
-      } finally {
-        if (originalEnv !== undefined) {
-          process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT = originalEnv;
-        }
-      }
+      assert.throws(
+        () =>
+          new InferenceService({
+            endpoint: "https://test.documents.azure.com",
+            aadCredentials: new MockTokenCredential(),
+          }),
+        /Inference endpoint is required/,
+      );
     });
 
     it("should succeed with valid AAD credentials and inference endpoint", () => {
@@ -58,48 +66,15 @@ describe("InferenceService", { timeout: 10000 }, () => {
       assert.isDefined(service);
     });
 
-    it("should read inference endpoint from environment variable as fallback", () => {
-      const originalEnv = process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT;
+    it("should read inference endpoint from environment variable", () => {
       process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT =
         "https://env-inference.dbinference.azure.com";
-      try {
-        const service = new InferenceService({
-          endpoint: "https://test.documents.azure.com",
-          aadCredentials: new MockTokenCredential(),
-        });
-        // Verify the resolved endpoint actually uses the env var value
-        const resolvedUrl = (service as any).inferenceEndpointUrl as string;
-        assert.include(resolvedUrl, "env-inference");
-      } finally {
-        if (originalEnv !== undefined) {
-          process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT = originalEnv;
-        } else {
-          delete process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT;
-        }
-      }
-    });
-
-    it("should prefer client option over environment variable", () => {
-      const originalEnv = process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT;
-      process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT =
-        "https://env-inference.dbinference.azure.com";
-      try {
-        const service = new InferenceService(
-          createMockOptions({
-            inferenceEndpoint: "https://client-option-inference.dbinference.azure.com",
-          }),
-        );
-        // Verify the resolved endpoint uses the client option, not the env var
-        const resolvedUrl = (service as any).inferenceEndpointUrl as string;
-        assert.include(resolvedUrl, "client-option-inference");
-        assert.notInclude(resolvedUrl, "env-inference");
-      } finally {
-        if (originalEnv !== undefined) {
-          process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT = originalEnv;
-        } else {
-          delete process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT;
-        }
-      }
+      const service = new InferenceService({
+        endpoint: "https://test.documents.azure.com",
+        aadCredentials: new MockTokenCredential(),
+      });
+      const resolvedUrl = (service as any).inferenceEndpointUrl as string;
+      assert.include(resolvedUrl, "env-inference");
     });
   });
 
