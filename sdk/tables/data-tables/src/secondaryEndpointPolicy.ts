@@ -39,11 +39,11 @@ export function injectSecondaryEndpointHeader(options: OperationOptions): Operat
     ...options,
     requestOptions: {
       ...options.requestOptions,
-      customHeaders: {
-        ...options.requestOptions?.customHeaders,
+      headers: {
+        ...(options.requestOptions as any)?.headers,
         ...headerToInject,
       },
-    },
+    } as any,
   };
 }
 
