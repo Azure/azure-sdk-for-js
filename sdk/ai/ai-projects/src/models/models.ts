@@ -106,7 +106,7 @@ export interface AgentVersion {
   /** The blueprint for the agent */
   readonly blueprint_reference?: AgentBlueprintReferenceUnion;
   /** The current status of the agent version. */
-  status: "creating" | "active" | "failed" | "deleting" | "deleted";
+  status?: "creating" | "active" | "failed" | "deleting" | "deleted";
   /** The unique GUID identifier of the agent. */
   readonly agent_guid?: string;
 }
