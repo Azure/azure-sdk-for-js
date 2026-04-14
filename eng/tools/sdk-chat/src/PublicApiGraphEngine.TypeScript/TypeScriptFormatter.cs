@@ -94,7 +94,7 @@ public static class TypeScriptFormatter
         var lines = content.Split('\n');
         var preamble = new List<string>();       // /// <reference>, comments at top
         var imports = new List<string>();         // import type { ... } from "...";
-        var declareModuleBlocks = new List<string>(); // existing declare module blocks
+        var declareModuleBlocks = new List<(string ModuleName, List<string> Lines)>();
         var mainBody = new List<string>();        // everything else (main package types)
 
         // Parse the file into sections
@@ -128,9 +128,11 @@ public static class TypeScriptFormatter
                 continue;
             }
 
-            // declare module "..." { ... } blocks → collect as-is
+            // declare module "..." { ... } blocks → collect with module name
             if (trimmed.StartsWith("declare module "))
             {
+                var moduleNameMatch = Regex.Match(trimmed, @"declare module ""([^""]+)""");
+                var moduleName = moduleNameMatch.Success ? moduleNameMatch.Groups[1].Value : "";
                 var block = new List<string> { line };
                 i++;
                 int braceDepth = line.Contains('{') ? 1 : 0;
@@ -145,7 +147,7 @@ public static class TypeScriptFormatter
                     block.Add(blockLine);
                     i++;
                 }
-                declareModuleBlocks.Add(string.Join("\n", block));
+                declareModuleBlocks.Add((moduleName, block));
                 continue;
             }
 
@@ -154,15 +156,79 @@ public static class TypeScriptFormatter
             i++;
         }
 
-        // Build the restructured output
+        // 3. Build type name → module name map from all declare module blocks
+        var typeToModule = new Dictionary<string, string>(StringComparer.Ordinal);
+        var moduleExportedTypes = new Dictionary<string, HashSet<string>>(StringComparer.Ordinal);
+        var exportPattern = new Regex(
+            @"export\s+(?:declare\s+)?(?:interface|class|type|enum|function|const|let|var|abstract\s+class)\s+(\w+)",
+            RegexOptions.Compiled);
+
+        foreach (var (moduleName, blockLines) in declareModuleBlocks)
+        {
+            var types = new HashSet<string>(StringComparer.Ordinal);
+            foreach (var blockLine in blockLines)
+            {
+                var match = exportPattern.Match(blockLine);
+                if (match.Success)
+                {
+                    var typeName = match.Groups[1].Value;
+                    types.Add(typeName);
+                    typeToModule.TryAdd(typeName, moduleName);
+                }
+            }
+            moduleExportedTypes[moduleName] = types;
+        }
+
+        // 4. For each dep block, find cross-dep type references and inject imports
+        var processedBlocks = new List<string>();
+        foreach (var (moduleName, blockLines) in declareModuleBlocks)
+        {
+            var neededImports = new Dictionary<string, HashSet<string>>(StringComparer.Ordinal);
+            var ownTypes = moduleExportedTypes.GetValueOrDefault(moduleName) ?? [];
+
+            // Join block body (skip first line = declare module, last line = })
+            var bodyText = string.Join("\n", blockLines.Skip(1).SkipLast(1));
+
+            foreach (var (typeName, ownerModule) in typeToModule)
+            {
+                if (ownerModule == moduleName) continue;
+                if (ownTypes.Contains(typeName)) continue;
+
+                // Check if this type name appears as a word boundary in the block body
+                if (Regex.IsMatch(bodyText, @$"\b{Regex.Escape(typeName)}\b"))
+                {
+                    if (!neededImports.ContainsKey(ownerModule))
+                        neededImports[ownerModule] = new HashSet<string>(StringComparer.Ordinal);
+                    neededImports[ownerModule].Add(typeName);
+                }
+            }
+
+            if (neededImports.Count > 0)
+            {
+                var newBlock = new List<string> { blockLines[0] };
+                foreach (var (sourceModule, typeNames) in neededImports.OrderBy(kv => kv.Key))
+                {
+                    var sorted = typeNames.OrderBy(t => t, StringComparer.Ordinal);
+                    newBlock.Add($"    import type {{ {string.Join(", ", sorted)} }} from \"{sourceModule}\";");
+                }
+                newBlock.AddRange(blockLines.Skip(1));
+                processedBlocks.Add(string.Join("\n", newBlock));
+            }
+            else
+            {
+                processedBlocks.Add(string.Join("\n", blockLines));
+            }
+        }
+
+        // 5. Build the restructured output
         var sb = new StringBuilder();
 
         // Preamble (references, header comments)
         foreach (var line in preamble)
             sb.AppendLine(line);
 
-        // Dependency declare module blocks first (so they're defined before the main module references them)
-        foreach (var block in declareModuleBlocks)
+        // Dependency declare module blocks first
+        foreach (var block in processedBlocks)
         {
             sb.AppendLine(block);
             sb.AppendLine();
