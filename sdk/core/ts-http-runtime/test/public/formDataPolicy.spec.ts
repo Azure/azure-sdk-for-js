@@ -34,6 +34,29 @@ export async function performRequest(formData: FormDataMap): Promise<PipelineRes
   return policy.sendRequest(request, next);
 }
 
+function createFakeFile(content: Uint8Array, name: string, options: { type?: string } = {}): File {
+  // Mimics what core-rest-pipeline's createFile() returns in Node:
+  // a plain object cast as File, NOT a real File instance.
+  return {
+    arrayBuffer: async () => content.buffer,
+    bytes: () => {
+      throw new Error("Not implemented");
+    },
+    slice: () => {
+      throw new Error("Not implemented");
+    },
+    text: () => {
+      throw new Error("Not implemented");
+    },
+    stream: () => new Blob([content]).stream(),
+    type: options.type ?? "",
+    lastModified: new Date().getTime(),
+    webkitRelativePath: "",
+    size: content.byteLength,
+    name,
+  } as File;
+}
+
 describe("formDataPolicy", function () {
   it("prepares x-www-form-urlencoded form data correctly", async function () {
     const request = createPipelineRequest({
@@ -142,5 +165,40 @@ describe("formDataPolicy", function () {
       }),
       body: stringToUint8Array("👻👻", "utf-8"),
     });
+  });
+
+  it("preserves filename from a real File object", async function () {
+    const file = new File([new Uint8Array([1, 2, 3])], "real-file.txt", {
+      type: "text/plain",
+    });
+    const result = await performRequest({ attachment: file });
+    const parts = (result.request.multipartBody as any).parts as BodyPart[];
+    assert.equal(parts.length, 1);
+    const disposition = parts[0].headers.get("Content-Disposition");
+    assert.include(disposition, 'filename="real-file.txt"');
+    assert.equal(parts[0].headers.get("Content-Type"), "text/plain");
+  });
+
+  it("preserves filename from a File-like object (e.g. createFile helper)", async function () {
+    const fakeFile = createFakeFile(new Uint8Array([1, 2, 3]), "fake-file.bin", {
+      type: "application/octet-stream",
+    });
+    // Verify this is NOT a real File instance (matches createFile behavior in Node)
+    assert.isFalse(fakeFile instanceof File);
+    const result = await performRequest({ attachment: fakeFile });
+    const parts = (result.request.multipartBody as any).parts as BodyPart[];
+    assert.equal(parts.length, 1);
+    const disposition = parts[0].headers.get("Content-Disposition");
+    assert.include(disposition, 'filename="fake-file.bin"');
+  });
+
+  it("falls back to 'blob' when File-like object has no name", async function () {
+    const blob = new Blob([new Uint8Array([1, 2, 3])], { type: "image/png" });
+    const result = await performRequest({ attachment: blob });
+    const parts = (result.request.multipartBody as any).parts as BodyPart[];
+    assert.equal(parts.length, 1);
+    const disposition = parts[0].headers.get("Content-Disposition");
+    assert.include(disposition, 'filename="blob"');
+    assert.equal(parts[0].headers.get("Content-Type"), "image/png");
   });
 });

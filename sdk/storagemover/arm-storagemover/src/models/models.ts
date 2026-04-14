@@ -290,8 +290,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -706,8 +706,8 @@ export type Minute = number;
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -1142,14 +1142,16 @@ export function azureKeyVaultS3WithHmacCredentialsDeserializer(
 export enum KnownS3WithHmacSourceType {
   /** MINIO */
   Minio = "MINIO",
-  /** BACKBLAZE */
-  Backblaze = "BACKBLAZE",
   /** IBM */
   IBM = "IBM",
-  /** CLOUDFLARE */
-  Cloudflare = "CLOUDFLARE",
   /** GCS */
   GCS = "GCS",
+  /** ALIBABA */
+  Alibaba = "ALIBABA",
+  /** DELL_EMC */
+  DellEMC = "DELL_EMC",
+  /** OTHER */
+  Other = "OTHER",
 }
 
 /**
@@ -1158,10 +1160,11 @@ export enum KnownS3WithHmacSourceType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **MINIO** \
- * **BACKBLAZE** \
  * **IBM** \
- * **CLOUDFLARE** \
- * **GCS**
+ * **GCS** \
+ * **ALIBABA** \
+ * **DELL_EMC** \
+ * **OTHER**
  */
 export type S3WithHmacSourceType = string;
 
@@ -1415,8 +1418,8 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
-  return item;
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
 }
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
@@ -2009,9 +2012,9 @@ export interface _JobDefinitionPropertiesSourceTargetMap {
 }
 
 export function _jobDefinitionPropertiesSourceTargetMapSerializer(
-  item: _JobDefinitionPropertiesSourceTargetMap,
+  _item: _JobDefinitionPropertiesSourceTargetMap,
 ): any {
-  return item;
+  return {};
 }
 
 export function _jobDefinitionPropertiesSourceTargetMapDeserializer(
@@ -2111,11 +2114,11 @@ export function targetEndpointPropertiesDeserializer(item: any): TargetEndpointP
 /** Schedule information for the Job Definition. */
 export interface ScheduleInfo {
   /** Type of schedule — Monthly, Weekly, or Daily */
-  frequency: Frequency;
+  frequency?: Frequency;
   /** Whether the schedule is currently active */
-  isActive: boolean;
+  isActive?: boolean;
   /** Time of day to execute (hours and minutes) */
-  executionTime?: Time;
+  executionTime?: SchedulerTime;
   /** Specific one-time execution date and time */
   startDate?: Date;
   /** Days of the week for weekly schedules */
@@ -2134,7 +2137,7 @@ export function scheduleInfoSerializer(item: ScheduleInfo): any {
     isActive: item["isActive"],
     executionTime: !item["executionTime"]
       ? item["executionTime"]
-      : timeSerializer(item["executionTime"]),
+      : schedulerTimeSerializer(item["executionTime"]),
     startDate: !item["startDate"] ? item["startDate"] : item["startDate"].toISOString(),
     daysOfWeek: !item["daysOfWeek"]
       ? item["daysOfWeek"]
@@ -2157,7 +2160,7 @@ export function scheduleInfoDeserializer(item: any): ScheduleInfo {
     isActive: item["isActive"],
     executionTime: !item["executionTime"]
       ? item["executionTime"]
-      : timeDeserializer(item["executionTime"]),
+      : schedulerTimeDeserializer(item["executionTime"]),
     startDate: !item["startDate"] ? item["startDate"] : new Date(item["startDate"]),
     daysOfWeek: !item["daysOfWeek"]
       ? item["daysOfWeek"]
@@ -2184,6 +2187,8 @@ export enum KnownFrequency {
   Daily = "Daily",
   /** Onetime */
   Onetime = "Onetime",
+  /** No schedule frequency. The job definition will not run on a schedule. */
+  None = "None",
 }
 
 /**
@@ -2194,9 +2199,29 @@ export enum KnownFrequency {
  * **Monthly** \
  * **Weekly** \
  * **Daily** \
- * **Onetime**
+ * **Onetime** \
+ * **None**: No schedule frequency. The job definition will not run on a schedule.
  */
 export type Frequency = string;
+
+/** The time of day. */
+export interface SchedulerTime {
+  /** The hour element of the time. Allowed values range from 0 (start of the selected day) to 24 (end of the selected day). Hour value 24 cannot be combined with any other minute value but 0. */
+  hour?: number;
+  /** The minute element of the time. Allowed values are 0 and 30. If not specified, its value defaults to 0. */
+  minute?: Minute;
+}
+
+export function schedulerTimeSerializer(item: SchedulerTime): any {
+  return { hour: item["hour"], minute: item["minute"] };
+}
+
+export function schedulerTimeDeserializer(item: any): SchedulerTime {
+  return {
+    hour: item["hour"],
+    minute: item["minute"],
+  };
+}
 
 /** The Data integrity validation mode. */
 export enum KnownDataIntegrityValidation {
@@ -2245,6 +2270,8 @@ export interface JobDefinitionUpdateProperties {
   connections?: string[];
   /** Data Integrity Validation mode. */
   dataIntegrityValidation?: DataIntegrityValidation;
+  /** Schedule information for the Job Definition. */
+  schedule?: ScheduleInfo;
 }
 
 export function jobDefinitionUpdatePropertiesSerializer(item: JobDefinitionUpdateProperties): any {
@@ -2258,6 +2285,7 @@ export function jobDefinitionUpdatePropertiesSerializer(item: JobDefinitionUpdat
           return p;
         }),
     dataIntegrityValidation: item["dataIntegrityValidation"],
+    schedule: !item["schedule"] ? item["schedule"] : scheduleInfoSerializer(item["schedule"]),
   };
 }
 

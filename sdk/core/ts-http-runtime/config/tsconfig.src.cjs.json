@@ -1,0 +1,4 @@
+{
+  "extends": "../../../../eng/tsconfigs/src.cjs.json",
+  "include": ["../src/index.ts", "../src/**/internal.ts"]
+}
