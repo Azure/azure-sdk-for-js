@@ -185,6 +185,19 @@ describe("Serializer", function () {
       assert.equal(serializedObject, base64str);
     });
 
+    it("should correctly serialize a ByteArray subarray", function () {
+      const mapper: Mapper = {
+        type: { name: "ByteArray" },
+        required: false,
+        serializedName: "ByteArray",
+      };
+      const full = stringToByteArray("XXJavascriptYY");
+      const subarray = full.subarray(2, 12);
+      const base64str = "SmF2YXNjcmlwdA==";
+      const serializedObject = Serializer.serialize(mapper, subarray, "stringBody");
+      assert.equal(serializedObject, base64str);
+    });
+
     it("should correctly serialize a Date Object", function () {
       const dateObj = new Date("2015-01-01");
       const dateISO = "2015-01-01";
