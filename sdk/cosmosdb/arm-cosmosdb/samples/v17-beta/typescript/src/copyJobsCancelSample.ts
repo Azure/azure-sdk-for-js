@@ -3,31 +3,23 @@
 
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Cancels a Copy Job.
+ * This sample demonstrates how to cancels a Copy Job.
  *
- * @summary Cancels a Copy Job.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/copy-jobs/CosmosDBCopyJobCancel.json
+ * @summary cancels a Copy Job.
+ * x-ms-original-file: 2025-11-01-preview/copy-jobs/CosmosDBCopyJobCancel.json
  */
-async function cosmosDbCopyJobCancel(): Promise<void> {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const accountName = "ddb1";
-  const jobName = "j1";
+async function cosmosDBCopyJobCancel(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.copyJobs.cancel(
-    resourceGroupName,
-    accountName,
-    jobName,
-  );
+  const result = await client.copyJobs.cancel("rg1", "ddb1", "j1");
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await cosmosDbCopyJobCancel();
+  await cosmosDBCopyJobCancel();
 }
 
 main().catch(console.error);
