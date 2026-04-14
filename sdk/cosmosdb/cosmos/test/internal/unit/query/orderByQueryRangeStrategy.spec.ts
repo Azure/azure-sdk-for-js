@@ -1020,5 +1020,11 @@ describe("OrderByQueryRangeStrategy", function () {
       const condition = getFilterCondition('\\"hello\\"');
       expect(condition).toContain("'\\\\\"hello\\\\\"'");
     });
+
+    // --- Real unicode characters (no backslash, should pass through unchanged) ---
+    it("should pass through real en-dash character unchanged", function () {
+      const condition = getFilterCondition("Gold\u2013Foran");
+      expect(condition).toContain("'Gold\u2013Foran'");
+    });
   });
 });
