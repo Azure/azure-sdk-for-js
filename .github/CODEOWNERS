@@ -516,7 +516,7 @@
 # PRLabel: %Mgmt
 /sdk/datacatalog/arm-datacatalog/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/datafactory/arm-datafactory/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
