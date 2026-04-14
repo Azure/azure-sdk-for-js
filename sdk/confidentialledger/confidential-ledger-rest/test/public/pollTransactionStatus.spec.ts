@@ -123,7 +123,7 @@ describe("pollTransactionStatus", () => {
     });
     // Attach the rejection handler before advancing timers to avoid unhandled rejection
     const expectation = expect(promise).rejects.toThrow(
-      "Transaction tx-4 not found after 2 retries",
+      /Transaction tx-4 not found after 2 retries/,
     );
     await vi.advanceTimersByTimeAsync(100);
     await expectation;
