@@ -13,6 +13,7 @@ import type {
 import type { Pipeline, PipelinePolicy } from "../pipeline.js";
 import type { PipelineOptions } from "../createPipelineFromOptions.js";
 import type { LogPolicyOptions } from "../policies/logPolicy.js";
+import type { NodeReadableStream, WebReadableStream } from "#platform/types";
 import type { AuthScheme } from "../auth/schemes.js";
 import type { ClientCredential } from "../auth/credentials.js";
 
@@ -206,7 +207,7 @@ export type HttpNodeStreamResponse = HttpResponse & {
   /**
    * Streamable body
    */
-  body?: NodeJS.ReadableStream;
+  body?: NodeReadableStream;
 };
 
 /**
@@ -216,7 +217,7 @@ export type HttpBrowserStreamResponse = HttpResponse & {
   /**
    * Streamable body
    */
-  body?: ReadableStream<Uint8Array>;
+  body?: WebReadableStream<Uint8Array>;
 };
 
 /**
