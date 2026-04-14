@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, expect, afterEach, vi } from "vitest";
-import { wrapAbortSignalLike } from "../../src/util/wrapAbortSignal.js";
+import { wrapAbortSignalLike } from "../../../src/util/wrapAbortSignal.js";
 
 describe("wrapAbortSignalLike", () => {
   afterEach(() => {
@@ -87,5 +87,39 @@ describe("wrapAbortSignalLike", () => {
 
     expect(abortSignal.aborted).toBe(true);
     expect(abortSignal.reason).toBe(customReason);
+  });
+
+  it("should handle signal-like objects without a reason property", () => {
+    const signalLike = {
+      aborted: true,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+    };
+
+    const { abortSignal, cleanup } = wrapAbortSignalLike(signalLike);
+
+    expect(abortSignal.aborted).toBe(true);
+    expect(cleanup).toBeUndefined();
+  });
+
+  it("should handle abort without reason on non-aborted signal-like", () => {
+    let registeredHandler: (() => void) | undefined;
+    const signalLike = {
+      aborted: false,
+      addEventListener: vi.fn((_: string, handler: () => void) => {
+        registeredHandler = handler;
+      }),
+      removeEventListener: vi.fn(),
+    };
+
+    const { abortSignal } = wrapAbortSignalLike(signalLike);
+
+    expect(abortSignal.aborted).toBe(false);
+
+    // Simulate abort without a reason property
+    signalLike.aborted = true;
+    registeredHandler!();
+
+    expect(abortSignal.aborted).toBe(true);
   });
 });
