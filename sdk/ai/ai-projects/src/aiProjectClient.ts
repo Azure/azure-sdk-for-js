@@ -47,7 +47,6 @@ export type { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
  * @property {BetaOperations} beta - The operation groups for beta include beta features:
  * - Memory Stores
  * - Evaluators
- * - Evaluation Rules
  * - Evaluation Taxonomies
  * - Insights
  * - Schedules
@@ -116,7 +115,6 @@ export class AIProjectClient {
   /** The operation groups for beta include beta features:
    * - Memory Stores
    * - Evaluators
-   * - Evaluation Rules
    * - Evaluation Taxonomies
    * - Insights
    * - Schedules
