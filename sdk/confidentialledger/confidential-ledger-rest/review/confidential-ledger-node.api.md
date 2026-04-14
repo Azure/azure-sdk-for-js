@@ -1348,6 +1348,23 @@ export interface PagingOptions<TResponse> {
     customGetPage?: GetPage<PaginateReturn<TResponse>[]>;
 }
 
+// @public
+export function pollTransactionStatus(client: ConfidentialLedgerClient, transactionId: string, options?: PollTransactionStatusOptions): Promise<PollTransactionStatusResult>;
+
+// @public
+export interface PollTransactionStatusOptions {
+    abortSignal?: AbortSignal;
+    intervalInMs?: number;
+    max404Retries?: number;
+}
+
+// @public
+export interface PollTransactionStatusResult {
+    response: GetTransactionStatus200Response;
+    state: "Committed";
+    transactionId: string;
+}
+
 // @public (undocumented)
 export interface ReceiptContentsOutput {
     // (undocumented)
