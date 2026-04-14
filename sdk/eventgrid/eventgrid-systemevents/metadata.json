@@ -1,6 +1,8 @@
 {
-  "apiVersion": "2024-01-01",
-  "emitterVersion": "0.48.1",
+  "apiVersions": {
+    "Microsoft.EventGrid.SystemEvents": "2024-01-01"
+  },
+  "emitterVersion": "0.52.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.EventGrid.SystemEvents",
     "CrossLanguageDefinitionId": {
