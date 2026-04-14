@@ -90,10 +90,8 @@ public static class TypeScriptFormatter
         sb.AppendLine("  \"compilerOptions\": {");
         sb.AppendLine("    \"strict\": true,");
         sb.AppendLine("    \"noEmit\": true,");
+        sb.AppendLine("    \"composite\": true,");
         sb.AppendLine("    \"skipLibCheck\": true,");
-        sb.AppendLine("    \"target\": \"ES2020\",");
-        sb.AppendLine("    \"module\": \"ES2020\",");
-        sb.AppendLine("    \"moduleResolution\": \"node\",");
 
         if (isBrowser)
             sb.AppendLine("    \"lib\": [\"ES2020\", \"DOM\", \"DOM.Iterable\"]");

@@ -123,6 +123,19 @@ public class ApiEntityCommand : Command
                         await File.WriteAllTextAsync(Path.Combine(targetDir, "tsconfig.json"), tsconfigContent, ct);
                         ConsoleUx.Success($"Wrote {target}/ ({new FileInfo(dtsFile).Length / 1024}KB)");
                     }
+
+                    // Write root tsconfig.json with references to all target folders
+                    var references = string.Join(",\n    ", targets.Keys.Order().Select(t => $"{{ \"path\": \"./{t}\" }}"));
+                    var rootTsconfig = $$"""
+                        {
+                          "files": [],
+                          "references": [
+                            {{references}}
+                          ]
+                        }
+                        """;
+                    await File.WriteAllTextAsync(Path.Combine(outputPath, "tsconfig.json"), rootTsconfig, ct);
+                    ConsoleUx.Success("Wrote tsconfig.json (solution root)");
                 }
                 else if (!string.IsNullOrEmpty(outputPath))
                 {
