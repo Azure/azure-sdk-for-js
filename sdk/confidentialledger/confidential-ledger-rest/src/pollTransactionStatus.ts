@@ -106,10 +106,11 @@ export async function pollTransactionStatus(
     if (statusCode === 404) {
       notFoundRetryCount++;
       if (notFoundRetryCount > max404Retries) {
-        throw new Error(
+        logger.warning(
           `Transaction ${transactionId} not found after ${max404Retries} retries. ` +
             `The transaction may not have been replicated to this node.`,
         );
+        throw new Error(`Transaction ${transactionId} not found after ${max404Retries} retries`);
       }
       logger.info(
         `Transaction ${transactionId} returned 404 (retry ${notFoundRetryCount}/${max404Retries}). ` +
@@ -135,8 +136,11 @@ export async function pollTransactionStatus(
       const errorResponse = response as GetTransactionStatusDefaultResponse;
       const errorBody = errorResponse.body as ConfidentialLedgerErrorOutput | undefined;
       const errorMessage = errorBody?.error?.message ?? "Unknown error";
-      throw new Error(
+      logger.warning(
         `Unexpected status ${response.status} while polling transaction ${transactionId}: ${errorMessage}`,
+      );
+      throw new Error(
+        `Unexpected status ${response.status} while polling transaction ${transactionId}`,
       );
     }
 
