@@ -172,7 +172,7 @@ describe("pollTransactionStatus", () => {
 
     const promise = pollTransactionStatus(client, "tx-7", { intervalInMs: 10 });
 
-    await expect(promise).rejects.toThrow("Unexpected status 500 while polling transaction tx-7");
+    await expect(promise).rejects.toThrow(/Unexpected status 500 while polling transaction tx-7/);
   });
 
   it("should throw on unexpected error status codes (e.g. 401)", async () => {
@@ -180,7 +180,7 @@ describe("pollTransactionStatus", () => {
 
     const promise = pollTransactionStatus(client, "tx-8", { intervalInMs: 10 });
 
-    await expect(promise).rejects.toThrow("Unexpected status 401 while polling transaction tx-8");
+    await expect(promise).rejects.toThrow(/Unexpected status 401 while polling transaction tx-8/);
   });
 
   it("should respect the abort signal", async () => {
@@ -223,7 +223,7 @@ describe("pollTransactionStatus", () => {
     const promise = pollTransactionStatus(client, "tx-10", { intervalInMs: 10 });
     // Attach the rejection handler before advancing timers to avoid unhandled rejection
     const expectation = expect(promise).rejects.toThrow(
-      "Transaction tx-10 not found after 10 retries",
+      /Transaction tx-10 not found after 10 retries/,
     );
     await vi.advanceTimersByTimeAsync(500);
     await expectation;

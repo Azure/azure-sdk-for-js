@@ -167,12 +167,17 @@ function delay(ms: number, abortSignal?: AbortSignal): Promise<void> {
       return;
     }
 
+    let onAbort: (() => void) | undefined;
+
     const timer = setTimeout(() => {
+      if (onAbort) {
+        abortSignal!.removeEventListener("abort", onAbort);
+      }
       resolve();
     }, ms);
 
     if (abortSignal) {
-      const onAbort = (): void => {
+      onAbort = (): void => {
         clearTimeout(timer);
         reject(new Error("The polling operation was aborted."));
       };
