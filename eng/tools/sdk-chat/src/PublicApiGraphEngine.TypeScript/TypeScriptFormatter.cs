@@ -53,13 +53,15 @@ public static class TypeScriptFormatter
                 .Where(m => (m.Condition ?? "default") == condition)
                 .ToList();
 
-            // Filter resolved dependencies to those matching this condition
+            // Filter resolved dependencies to those matching this condition.
+            // For each dependency, prefer modules with an exact condition match;
+            // fall back to modules with no condition (null/default) if no exact match.
             var conditionResolvedDeps = index.ResolvedDependencies?
-                .Select(dep => dep with
+                .Select(dep =>
                 {
-                    Modules = dep.Modules
-                        .Where(m => (m.Condition ?? "default") == condition)
-                        .ToList()
+                    var exactMatch = dep.Modules.Where(m => m.Condition == condition).ToList();
+                    var fallback = dep.Modules.Where(m => string.IsNullOrWhiteSpace(m.Condition)).ToList();
+                    return dep with { Modules = exactMatch.Count > 0 ? exactMatch : fallback };
                 })
                 .Where(dep => dep.Modules.Count > 0)
                 .ToList();
@@ -70,12 +72,127 @@ public static class TypeScriptFormatter
                 ResolvedDependencies = conditionResolvedDeps is { Count: > 0 } ? conditionResolvedDeps : null,
             };
 
-            var dts = Format(subIndex, condition);
+            var rawDts = Format(subIndex, condition);
+            var dts = WrapInDeclareModules(rawDts, index.Package);
             var tsconfig = GenerateTsconfig(condition);
             result[condition] = (dts, tsconfig);
         }
 
         return result;
+    }
+
+    /// <summary>
+    /// Restructures a generated .d.ts so that every block lives inside a declare module.
+    /// Dependency types stay in their own declare module blocks (moved to the top).
+    /// The main package types are wrapped in declare module "package-name" { ... }.
+    /// Top-level import type statements become imports inside the main declare module block.
+    /// The result is a script file (no top-level import/export) so tsc won't resolve
+    /// against node_modules.
+    /// </summary>
+    private static string WrapInDeclareModules(string content, string packageName)
+    {
+        var lines = content.Split('\n');
+        var preamble = new List<string>();       // /// <reference>, comments at top
+        var imports = new List<string>();         // import type { ... } from "...";
+        var declareModuleBlocks = new List<string>(); // existing declare module blocks
+        var mainBody = new List<string>();        // everything else (main package types)
+
+        // Parse the file into sections
+        int i = 0;
+
+        // 1. Collect preamble (reference directives, blank lines, comments before first real content)
+        while (i < lines.Length)
+        {
+            var line = lines[i];
+            var trimmed = line.TrimStart();
+            if (trimmed.StartsWith("///") || trimmed.StartsWith("// ") || trimmed == "//" || string.IsNullOrWhiteSpace(trimmed))
+            {
+                preamble.Add(line);
+                i++;
+            }
+            else
+                break;
+        }
+
+        // 2. Categorize remaining lines
+        while (i < lines.Length)
+        {
+            var line = lines[i];
+            var trimmed = line.TrimStart();
+
+            // import type lines → collect for inside main declare module
+            if (trimmed.StartsWith("import type ") || trimmed.StartsWith("import {"))
+            {
+                imports.Add(line);
+                i++;
+                continue;
+            }
+
+            // declare module "..." { ... } blocks → collect as-is
+            if (trimmed.StartsWith("declare module "))
+            {
+                var block = new List<string> { line };
+                i++;
+                int braceDepth = line.Contains('{') ? 1 : 0;
+                while (i < lines.Length && braceDepth > 0)
+                {
+                    var blockLine = lines[i];
+                    foreach (var ch in blockLine)
+                    {
+                        if (ch == '{') braceDepth++;
+                        else if (ch == '}') braceDepth--;
+                    }
+                    block.Add(blockLine);
+                    i++;
+                }
+                declareModuleBlocks.Add(string.Join("\n", block));
+                continue;
+            }
+
+            // Everything else → main body
+            mainBody.Add(line);
+            i++;
+        }
+
+        // Build the restructured output
+        var sb = new StringBuilder();
+
+        // Preamble (references, header comments)
+        foreach (var line in preamble)
+            sb.AppendLine(line);
+
+        // Dependency declare module blocks first (so they're defined before the main module references them)
+        foreach (var block in declareModuleBlocks)
+        {
+            sb.AppendLine(block);
+            sb.AppendLine();
+        }
+
+        // Main package wrapped in declare module
+        sb.AppendLine($"declare module \"{packageName}\" {{");
+
+        // Imports inside the declare module block
+        foreach (var imp in imports)
+            sb.AppendLine($"  {imp}");
+
+        if (imports.Count > 0)
+            sb.AppendLine();
+
+        // Main body indented; strip 'declare' from 'export declare' since we're inside an ambient context
+        foreach (var line in mainBody)
+        {
+            if (string.IsNullOrWhiteSpace(line))
+                sb.AppendLine();
+            else
+            {
+                var adjusted = line.Replace("export declare ", "export ");
+                sb.AppendLine($"  {adjusted}");
+            }
+        }
+
+        sb.AppendLine("}");
+
+        return sb.ToString();
     }
 
     /// <summary>
@@ -88,15 +205,16 @@ public static class TypeScriptFormatter
         var sb = new StringBuilder();
         sb.AppendLine("{");
         sb.AppendLine("  \"compilerOptions\": {");
-        sb.AppendLine("    \"strict\": true,");
         sb.AppendLine("    \"noEmit\": true,");
-        sb.AppendLine("    \"composite\": true,");
-        sb.AppendLine("    \"skipLibCheck\": true,");
+        sb.AppendLine("    \"types\": [],");
 
         if (isBrowser)
-            sb.AppendLine("    \"lib\": [\"ES2020\", \"DOM\", \"DOM.Iterable\"]");
+        {
+            sb.AppendLine("    \"composite\": true,");
+            sb.AppendLine("    \"lib\": [\"ES2023\", \"DOM\", \"DOM.Iterable\"]");
+        }
         else
-            sb.AppendLine("    \"lib\": [\"ES2020\"]");
+            sb.AppendLine("    \"composite\": true");
 
         sb.AppendLine("  },");
         sb.AppendLine("  \"include\": [\"./*.d.ts\"]");
@@ -804,44 +922,76 @@ public static class TypeScriptFormatter
                     }
                 }
 
-                sb.AppendLine($"declare module \"{moduleName}\" {{");
-                sb.AppendLine();
-
-                // Emit Node.js import references per module
-                foreach (var (nodeModule, nodeTypes) in nodeImports)
-                    sb.AppendLine($"    import {{ {string.Join(", ", nodeTypes)} }} from \"{nodeModule}\";");
-
-                if (depsForThisCondition is not null)
+                if (targetCondition is not null)
                 {
-                    foreach (var (depModuleName, depClasses, depInterfaces, depEnums, depTypes, depFunctions) in depsForThisCondition)
-                    {
-                        var importNames = new List<string>();
-                        foreach (var c in depClasses) importNames.Add(c.Name);
-                        foreach (var i in depInterfaces) importNames.Add(i.Name);
-                        foreach (var e in depEnums) importNames.Add(e.Name);
-                        foreach (var t in depTypes) importNames.Add(t.Name);
-
-                        if (importNames.Count > 0)
-                            sb.AppendLine($"    import {{ {string.Join(", ", importNames)} }} from \"{depModuleName}\";");
-                    }
+                    // Per-target mode: emit main types at top level
+                    sb.AppendLine($"// --- {moduleName} ---");
+                    sb.AppendLine();
+                    sb.Append(mainBody);
+                    sb.AppendLine();
                 }
-
-                // Emit cross-condition import statements
-                foreach (var (importModule, importTypes) in mainCrossImports.OrderBy(kv => kv.Key))
-                    sb.AppendLine($"    import {{ {string.Join(", ", importTypes)} }} from \"{importModule}\";");
-
-                if (depsForThisCondition is not null || mainCrossImports.Count > 0 || nodeImports.Count > 0)
+                else
+                {
+                    sb.AppendLine($"declare module \"{moduleName}\" {{");
                     sb.AppendLine();
 
-                sb.Append(mainBody);
+                    // Emit Node.js import references per module
+                    foreach (var (nodeModule, nodeTypes) in nodeImports)
+                        sb.AppendLine($"    import {{ {string.Join(", ", nodeTypes)} }} from \"{nodeModule}\";");
 
-                sb.AppendLine("}");
-                sb.AppendLine();
+                    if (depsForThisCondition is not null)
+                    {
+                        foreach (var (depModuleName, depClasses, depInterfaces, depEnums, depTypes, depFunctions) in depsForThisCondition)
+                        {
+                            var importNames = new List<string>();
+                            foreach (var c in depClasses) importNames.Add(c.Name);
+                            foreach (var i in depInterfaces) importNames.Add(i.Name);
+                            foreach (var e in depEnums) importNames.Add(e.Name);
+                            foreach (var t in depTypes) importNames.Add(t.Name);
+
+                            if (importNames.Count > 0)
+                                sb.AppendLine($"    import {{ {string.Join(", ", importNames)} }} from \"{depModuleName}\";");
+                        }
+                    }
+
+                    // Emit cross-condition import statements
+                    foreach (var (importModule, importTypes) in mainCrossImports.OrderBy(kv => kv.Key))
+                        sb.AppendLine($"    import {{ {string.Join(", ", importTypes)} }} from \"{importModule}\";");
+
+                    if (depsForThisCondition is not null || mainCrossImports.Count > 0 || nodeImports.Count > 0)
+                        sb.AppendLine();
+
+                    sb.Append(mainBody);
+
+                    sb.AppendLine("}");
+                    sb.AppendLine();
+                }
             }
         }
         else
         {
-            // Simple case: single export path, single condition
+            // Simple case: single export path, single condition.
+            // Emit import statements for dependency types so top-level code can reference
+            // types defined in declare module blocks below.
+            if (index.Dependencies is not null)
+            {
+                foreach (var dep in index.Dependencies)
+                {
+                    if (dep.IsNode) continue;
+                    var importNames = new List<string>();
+                    foreach (var c in dep.Classes ?? []) importNames.Add(c.Name);
+                    foreach (var i in dep.Interfaces ?? []) importNames.Add(i.Name);
+                    foreach (var e in dep.Enums ?? []) importNames.Add(e.Name);
+                    foreach (var t in dep.Types ?? [])
+                    {
+                        if (!IsSelfReferentialAlias(t)) importNames.Add(t.Name);
+                    }
+                    if (importNames.Count > 0)
+                        sb.AppendLine($"import type {{ {string.Join(", ", importNames)} }} from \"{dep.Package}\";");
+                }
+                sb.AppendLine();
+            }
+
             var prioritizedClasses = GetPrioritizedClasses(allClasses, typeDeps);
 
             // First pass: Include client classes and their dependencies

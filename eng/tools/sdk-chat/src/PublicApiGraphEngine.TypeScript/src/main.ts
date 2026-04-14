@@ -226,34 +226,48 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
         }
     }
 
-    // Second pass: propagate conditions to non-entry modules that are imported
-    // by entry point files. Assigns the most-fundamental (lowest-priority) condition
-    // inherited from direct importers that are themselves entry points.
-    // Example: shared.d.ts is imported by index.d.ts (condition "default"), so
-    // it inherits "default" even though it's not a direct entry point in exports.
-    const entryFileConditions = new Map<string, string>(); // absolute path → condition
+    // Second pass: propagate conditions transitively to non-entry modules.
+    // Uses BFS: entry files seed the queue, then any file that gains a condition
+    // propagates it to the files it imports, continuing until no more changes.
+    const fileConditions = new Map<string, string>(); // absolute path → condition
     for (const entry of entryEntries) {
         const absPath = path.resolve(entry.filePath);
-        const existing = entryFileConditions.get(absPath);
+        const existing = fileConditions.get(absPath);
         if (!existing || getConditionPriority(entry.condition) < getConditionPriority(existing)) {
-            entryFileConditions.set(absPath, entry.condition);
+            fileConditions.set(absPath, entry.condition);
         }
     }
-    for (const [module, sourceFile] of moduleSourceFileMap) {
-        if (module.condition !== undefined) continue;
-        let inheritedCondition: string | undefined;
-        for (const refSf of sourceFile.getReferencingSourceFiles()) {
-            const refPath = path.resolve(refSf.getFilePath());
-            const cond = entryFileConditions.get(refPath);
-            if (cond !== undefined) {
-                if (inheritedCondition === undefined || getConditionPriority(cond) < getConditionPriority(inheritedCondition)) {
-                    inheritedCondition = cond;
+
+    // Build a map from source file path → module for quick lookup
+    const pathToModuleSource = new Map<string, [ModuleInfo, SourceFile][]>();
+    for (const pair of moduleSourceFileMap) {
+        const absPath = path.resolve(pair[1].getFilePath());
+        if (!pathToModuleSource.has(absPath)) pathToModuleSource.set(absPath, []);
+        pathToModuleSource.get(absPath)!.push(pair);
+    }
+
+    // BFS: propagate conditions through import edges
+    let changed = true;
+    while (changed) {
+        changed = false;
+        for (const [module, sourceFile] of moduleSourceFileMap) {
+            if (module.condition !== undefined) continue;
+            let inheritedCondition: string | undefined;
+            for (const refSf of sourceFile.getReferencingSourceFiles()) {
+                const refPath = path.resolve(refSf.getFilePath());
+                const cond = fileConditions.get(refPath);
+                if (cond !== undefined) {
+                    if (inheritedCondition === undefined || getConditionPriority(cond) < getConditionPriority(inheritedCondition)) {
+                        inheritedCondition = cond;
+                    }
                 }
             }
-        }
-        if (inheritedCondition !== undefined) {
-            module.condition = inheritedCondition;
-            // Inherited conditions don't have a chain — the chain belongs to the entry module
+            if (inheritedCondition !== undefined) {
+                module.condition = inheritedCondition;
+                const thisPath = path.resolve(sourceFile.getFilePath());
+                fileConditions.set(thisPath, inheritedCondition);
+                changed = true;
+            }
         }
     }
 
