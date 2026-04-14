@@ -50,6 +50,7 @@ const replaceableVariables = {
   AI_SEARCH_INDEX_VERSION: "1.0",
   AI_SEARCH_CONNECTION_NAME: "sample_index_connection",
   IMAGE_GENERATION_MODEL_DEPLOYMENT_NAME: "gpt-image-1",
+  FOUNDRY_AGENT_CONTAINER_IMAGE: "my_agent_container_image",
 } as const;
 
 const recorderEnvSetup: RecorderStartOptions = {
@@ -106,6 +107,7 @@ const recorderEnvSetup: RecorderStartOptions = {
           "InstrumentationKey=00000000-0000-0000-0000-000000000000;IngestionEndpoint=https://region.applicationinsights.azure.com/;LiveEndpoint=https://region.livediagnostics.monitor.azure.com/;ApplicationId=00000000-0000-0000-0000-000000000000",
       },
       { jsonPath: "properties.credentials.key", value: replaceableVariables.API_KEY },
+      { jsonPath: "$.definition.image", value: replaceableVariables.FOUNDRY_AGENT_CONTAINER_IMAGE },
     ],
   },
   removeCentralSanitizers: ["AZSDK3430", "AZSDK3493", "AZSDK4001"],

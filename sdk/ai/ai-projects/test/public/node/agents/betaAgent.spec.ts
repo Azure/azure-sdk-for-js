@@ -15,16 +15,17 @@ import type {
 import { buffer } from "node:stream/consumers";
 
 const agentName = "beta-agent-test";
-const image = process.env["FOUNDRY_AGENT_CONTAINER_IMAGE"] || "<agent image>";
 
 describe("beta agents - session CRUD and file operations", () => {
   let recorder: Recorder;
   let projectsClient: AIProjectClient;
   let agents: AgentsOperations;
   let betaAgents: BetaAgentsOperations;
+  let image: string;
 
   beforeEach(async function (context: VitestTestContext) {
     recorder = await createRecorder(context);
+    image = process.env["FOUNDRY_AGENT_CONTAINER_IMAGE"] || "my_agent_container_image";
     projectsClient = createProjectsClient(recorder);
     agents = projectsClient.agents;
     betaAgents = projectsClient.beta.agents;
