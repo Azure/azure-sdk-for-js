@@ -2391,8 +2391,10 @@ export interface SemanticRerankOptions {
     abortSignal?: AbortSignal;
     additionalOptions?: Record<string, unknown>;
     batchSize?: number;
+    documentType?: string;
     returnDocuments?: boolean;
     sort?: boolean;
+    targetPaths?: string;
     topK?: number;
 }
 

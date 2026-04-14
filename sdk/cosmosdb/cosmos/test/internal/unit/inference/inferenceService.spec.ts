@@ -158,7 +158,7 @@ describe("InferenceService", { timeout: 10000 }, () => {
       assert.equal(parsedBody.custom_param, "value");
     });
 
-    it("should throw on non-success HTTP status", async () => {
+    it("should throw on non-success HTTP status with plain text body", async () => {
       const service = new InferenceService(createMockOptions());
 
       const pipeline = (service as any).pipeline;
@@ -174,7 +174,59 @@ describe("InferenceService", { timeout: 10000 }, () => {
         assert.fail("Should have thrown");
       } catch (e: any) {
         assert.include(e.message, "status 500");
+        assert.include(e.message, "Internal Server Error");
       }
+    });
+
+    it("should surface structured error payload from service", async () => {
+      const service = new InferenceService(createMockOptions());
+
+      const pipeline = (service as any).pipeline;
+      pipeline.sendRequest = async () => ({
+        headers: { toJSON: () => ({ "x-ms-request-id": "err-id" }) } as any,
+        request: {} as any,
+        status: 400,
+        bodyAsText: JSON.stringify({
+          code: "InvalidRequest",
+          message: "Error while formatting json document for the target paths Tas.",
+          details: null,
+        }),
+      });
+
+      try {
+        await service.semanticRerank("query", ["doc"]);
+        assert.fail("Should have thrown");
+      } catch (e: any) {
+        assert.equal(e.code, "InvalidRequest");
+        assert.include(e.message, "Error while formatting json document");
+        assert.isDefined(e.headers);
+      }
+    });
+
+    it("should include documentType and targetPaths in payload", async () => {
+      let capturedBody: string | undefined;
+
+      const service = new InferenceService(createMockOptions());
+
+      const pipeline = (service as any).pipeline;
+      pipeline.sendRequest = async (_client: HttpClient, request: any) => {
+        capturedBody = request.body;
+        return {
+          headers: { toJSON: () => ({}) } as any,
+          request: {} as any,
+          status: 200,
+          bodyAsText: JSON.stringify({ Scores: [] }),
+        };
+      };
+
+      await service.semanticRerank("test query", ["doc1"], {
+        documentType: "json",
+        targetPaths: "/name,/description",
+      });
+
+      const parsedBody = JSON.parse(capturedBody!);
+      assert.equal(parsedBody.document_type, "json");
+      assert.equal(parsedBody.target_paths, "/name,/description");
     });
 
     it("should handle empty scores in response", async () => {

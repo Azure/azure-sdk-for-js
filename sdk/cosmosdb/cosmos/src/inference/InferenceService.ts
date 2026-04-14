@@ -143,6 +143,12 @@ export class InferenceService {
       if (options.sort !== undefined) {
         payload["sort"] = options.sort;
       }
+      if (options.documentType !== undefined) {
+        payload["document_type"] = options.documentType;
+      }
+      if (options.targetPaths !== undefined) {
+        payload["target_paths"] = options.targetPaths;
+      }
       if (options.additionalOptions) {
         for (const [key, value] of Object.entries(options.additionalOptions)) {
           payload[key] = value;
@@ -168,10 +174,28 @@ export class InferenceService {
    */
   private parseResponse(response: PipelineResponse): SemanticRerankResult {
     if (response.status < 200 || response.status >= 300) {
-      const errorResponse = new ErrorResponse(
-        `Semantic rerank request failed with status ${response.status}: ${response.bodyAsText}`,
-      );
-      errorResponse.code = response.status;
+      let serviceCode: string | number = response.status;
+      let serviceMessage = `Semantic rerank request failed with status ${response.status}`;
+
+      // Parse the error payload to surface the service's code, message, and details
+      try {
+        const errorBody = JSON.parse(response.bodyAsText || "{}");
+        if (errorBody.code) {
+          serviceCode = errorBody.code;
+        }
+        if (errorBody.message) {
+          serviceMessage = errorBody.message;
+        }
+        if (errorBody.details) {
+          serviceMessage += ` Details: ${JSON.stringify(errorBody.details)}`;
+        }
+      } catch {
+        // If parsing fails, fall back to raw body text
+        serviceMessage += `: ${response.bodyAsText}`;
+      }
+
+      const errorResponse = new ErrorResponse(serviceMessage);
+      errorResponse.code = serviceCode;
       errorResponse.headers = response.headers.toJSON() as Record<string, string>;
       throw errorResponse;
     }
