@@ -4,15 +4,26 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type AllowedEndpointRecordType = string;
 
 // @public
 export type AlwaysServe = string;
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface CheckTrafficManagerRelativeDnsNameAvailabilityParameters {
@@ -32,6 +43,11 @@ export interface CloudErrorBody {
     message?: string;
     target?: string;
 }
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
 export interface DeleteOperationResult {
@@ -67,6 +83,24 @@ export interface Endpoint extends ProxyResource {
 export type EndpointMonitorStatus = string;
 
 // @public
+export interface EndpointProperties {
+    alwaysServe?: AlwaysServe;
+    customHeaders?: EndpointPropertiesCustomHeadersItem[];
+    endpointLocation?: string;
+    endpointMonitorStatus?: EndpointMonitorStatus;
+    endpointStatus?: EndpointStatus;
+    geoMapping?: string[];
+    minChildEndpoints?: number;
+    minChildEndpointsIPv4?: number;
+    minChildEndpointsIPv6?: number;
+    priority?: number;
+    subnets?: EndpointPropertiesSubnetsItem[];
+    target?: string;
+    targetResourceId?: string;
+    weight?: number;
+}
+
+// @public
 export interface EndpointPropertiesCustomHeadersItem {
     name?: string;
     value?: string;
@@ -80,65 +114,55 @@ export interface EndpointPropertiesSubnetsItem {
 }
 
 // @public
-export interface Endpoints {
-    createOrUpdate(resourceGroupName: string, profileName: string, endpointType: EndpointType, endpointName: string, parameters: Endpoint, options?: EndpointsCreateOrUpdateOptionalParams): Promise<EndpointsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, profileName: string, endpointType: EndpointType, endpointName: string, options?: EndpointsDeleteOptionalParams): Promise<EndpointsDeleteResponse>;
-    get(resourceGroupName: string, profileName: string, endpointType: EndpointType, endpointName: string, options?: EndpointsGetOptionalParams): Promise<EndpointsGetResponse>;
-    update(resourceGroupName: string, profileName: string, endpointType: EndpointType, endpointName: string, parameters: Endpoint, options?: EndpointsUpdateOptionalParams): Promise<EndpointsUpdateResponse>;
+export interface EndpointsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface EndpointsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface EndpointsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type EndpointsCreateOrUpdateResponse = Endpoint;
-
-// @public
-export interface EndpointsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface EndpointsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type EndpointsDeleteResponse = DeleteOperationResult;
-
-// @public
-export interface EndpointsGetOptionalParams extends coreClient.OperationOptions {
+export interface EndpointsOperations {
+    createOrUpdate: (resourceGroupName: string, profileName: string, endpointType: EndpointType, endpointName: string, parameters: Endpoint, options?: EndpointsCreateOrUpdateOptionalParams) => Promise<Endpoint>;
+    delete: (resourceGroupName: string, profileName: string, endpointType: EndpointType, endpointName: string, options?: EndpointsDeleteOptionalParams) => Promise<DeleteOperationResult>;
+    get: (resourceGroupName: string, profileName: string, endpointType: EndpointType, endpointName: string, options?: EndpointsGetOptionalParams) => Promise<Endpoint>;
+    updateV2: (resourceGroupName: string, profileName: string, endpointType: EndpointType, endpointName: string, parameters: EndpointUpdate, options?: EndpointsUpdateV2OptionalParams) => Promise<Endpoint>;
 }
-
-// @public
-export type EndpointsGetResponse = Endpoint;
 
 // @public
 export type EndpointStatus = string;
 
 // @public
-export interface EndpointsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface EndpointsUpdateV2OptionalParams extends OperationOptions {
 }
-
-// @public
-export type EndpointsUpdateResponse = Endpoint;
 
 // @public
 export type EndpointType = "AzureEndpoints" | "ExternalEndpoints" | "NestedEndpoints";
 
 // @public
-export interface GeographicHierarchies {
-    getDefault(options?: GeographicHierarchiesGetDefaultOptionalParams): Promise<GeographicHierarchiesGetDefaultResponse>;
+export interface EndpointUpdate {
+    readonly id?: string;
+    readonly name?: string;
+    properties?: EndpointProperties;
+    readonly type?: string;
 }
 
 // @public
-export interface GeographicHierarchiesGetDefaultOptionalParams extends coreClient.OperationOptions {
+export interface GeographicHierarchiesGetDefaultOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GeographicHierarchiesGetDefaultResponse = TrafficManagerGeographicHierarchy;
+export interface GeographicHierarchiesOperations {
+    getDefault: (options?: GeographicHierarchiesGetDefaultOptionalParams) => Promise<TrafficManagerGeographicHierarchy>;
+}
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
-export interface HeatMap {
-    get(resourceGroupName: string, profileName: string, options?: HeatMapGetOptionalParams): Promise<HeatMapGetResponse>;
+export interface GeographicHierarchyProperties {
+    geographicHierarchy?: Region;
 }
 
 // @public
@@ -148,13 +172,10 @@ export interface HeatMapEndpoint {
 }
 
 // @public
-export interface HeatMapGetOptionalParams extends coreClient.OperationOptions {
+export interface HeatMapGetOptionalParams extends OperationOptions {
     botRight?: number[];
     topLeft?: number[];
 }
-
-// @public
-export type HeatMapGetResponse = HeatMapModel;
 
 // @public
 export interface HeatMapModel extends ProxyResource {
@@ -163,6 +184,22 @@ export interface HeatMapModel extends ProxyResource {
     startTime?: Date;
     trafficFlows?: TrafficFlow[];
 }
+
+// @public
+export interface HeatMapOperations {
+    get: (resourceGroupName: string, profileName: string, heatMapType: HeatMapType, options?: HeatMapGetOptionalParams) => Promise<HeatMapModel>;
+}
+
+// @public
+export interface HeatMapProperties {
+    endpoints?: HeatMapEndpoint[];
+    endTime?: Date;
+    startTime?: Date;
+    trafficFlows?: TrafficFlow[];
+}
+
+// @public
+export type HeatMapType = "default";
 
 // @public
 export enum KnownAllowedEndpointRecordType {
@@ -218,6 +255,13 @@ export enum KnownProfileStatus {
 }
 
 // @public
+export enum KnownRecordType {
+    A = "A",
+    Aaaa = "AAAA",
+    Cname = "CNAME"
+}
+
+// @public
 export enum KnownTrafficRoutingMethod {
     Geographic = "Geographic",
     MultiValue = "MultiValue",
@@ -231,6 +275,12 @@ export enum KnownTrafficRoutingMethod {
 export enum KnownTrafficViewEnrollmentStatus {
     Disabled = "Disabled",
     Enabled = "Enabled"
+}
+
+// @public
+export enum KnownVersions {
+    V20220401 = "2022-04-01",
+    V20240401Preview = "2024-04-01-preview"
 }
 
 // @public
@@ -262,6 +312,18 @@ export interface MonitorConfigExpectedStatusCodeRangesItem {
 export type MonitorProtocol = string;
 
 // @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
+
+// @public
 export interface Profile extends TrackedResource {
     allowedEndpointRecordTypes?: AllowedEndpointRecordType[];
     dnsConfig?: DnsConfig;
@@ -269,88 +331,96 @@ export interface Profile extends TrackedResource {
     maxReturn?: number;
     monitorConfig?: MonitorConfig;
     profileStatus?: ProfileStatus;
+    recordType?: RecordType;
     trafficRoutingMethod?: TrafficRoutingMethod;
     trafficViewEnrollmentStatus?: TrafficViewEnrollmentStatus;
-}
-
-// @public
-export interface ProfileListResult {
-    value?: Profile[];
 }
 
 // @public
 export type ProfileMonitorStatus = string;
 
 // @public
-export interface Profiles {
-    checkTrafficManagerNameAvailabilityV2(parameters: CheckTrafficManagerRelativeDnsNameAvailabilityParameters, options?: ProfilesCheckTrafficManagerNameAvailabilityV2OptionalParams): Promise<ProfilesCheckTrafficManagerNameAvailabilityV2Response>;
-    checkTrafficManagerRelativeDnsNameAvailability(parameters: CheckTrafficManagerRelativeDnsNameAvailabilityParameters, options?: ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityOptionalParams): Promise<ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityResponse>;
-    createOrUpdate(resourceGroupName: string, profileName: string, parameters: Profile, options?: ProfilesCreateOrUpdateOptionalParams): Promise<ProfilesCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, profileName: string, options?: ProfilesDeleteOptionalParams): Promise<ProfilesDeleteResponse>;
-    get(resourceGroupName: string, profileName: string, options?: ProfilesGetOptionalParams): Promise<ProfilesGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: ProfilesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Profile>;
-    listBySubscription(options?: ProfilesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Profile>;
-    update(resourceGroupName: string, profileName: string, parameters: Profile, options?: ProfilesUpdateOptionalParams): Promise<ProfilesUpdateResponse>;
+export interface ProfileProperties {
+    allowedEndpointRecordTypes?: AllowedEndpointRecordType[];
+    dnsConfig?: DnsConfig;
+    endpoints?: Endpoint[];
+    maxReturn?: number;
+    monitorConfig?: MonitorConfig;
+    profileStatus?: ProfileStatus;
+    recordType?: RecordType;
+    trafficRoutingMethod?: TrafficRoutingMethod;
+    trafficViewEnrollmentStatus?: TrafficViewEnrollmentStatus;
 }
 
 // @public
-export interface ProfilesCheckTrafficManagerNameAvailabilityV2OptionalParams extends coreClient.OperationOptions {
+export interface ProfilePropertiesUpdate {
+    allowedEndpointRecordTypes?: AllowedEndpointRecordType[];
+    dnsConfig?: DnsConfig;
+    endpoints?: EndpointUpdate[];
+    maxReturn?: number;
+    monitorConfig?: MonitorConfig;
+    profileStatus?: ProfileStatus;
+    recordType?: RecordType;
+    trafficRoutingMethod?: TrafficRoutingMethod;
+    trafficViewEnrollmentStatus?: TrafficViewEnrollmentStatus;
 }
 
 // @public
-export type ProfilesCheckTrafficManagerNameAvailabilityV2Response = TrafficManagerNameAvailability;
-
-// @public
-export interface ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+export interface ProfilesCheckTrafficManagerNameAvailabilityV2OptionalParams extends OperationOptions {
 }
 
 // @public
-export type ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityResponse = TrafficManagerNameAvailability;
-
-// @public
-export interface ProfilesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ProfilesCreateOrUpdateResponse = Profile;
-
-// @public
-export interface ProfilesDeleteOptionalParams extends coreClient.OperationOptions {
+export interface ProfilesCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ProfilesDeleteResponse = DeleteOperationResult;
-
-// @public
-export interface ProfilesGetOptionalParams extends coreClient.OperationOptions {
+export interface ProfilesDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ProfilesGetResponse = Profile;
-
-// @public
-export interface ProfilesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface ProfilesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ProfilesListByResourceGroupResponse = ProfileListResult;
-
-// @public
-export interface ProfilesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface ProfilesListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ProfilesListBySubscriptionResponse = ProfileListResult;
+export interface ProfilesListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ProfilesOperations {
+    checkTrafficManagerNameAvailabilityV2: (parameters: CheckTrafficManagerRelativeDnsNameAvailabilityParameters, options?: ProfilesCheckTrafficManagerNameAvailabilityV2OptionalParams) => Promise<TrafficManagerNameAvailability>;
+    checkTrafficManagerRelativeDnsNameAvailability: (parameters: CheckTrafficManagerRelativeDnsNameAvailabilityParameters, options?: ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityOptionalParams) => Promise<TrafficManagerNameAvailability>;
+    createOrUpdate: (resourceGroupName: string, profileName: string, parameters: Profile, options?: ProfilesCreateOrUpdateOptionalParams) => Promise<Profile>;
+    delete: (resourceGroupName: string, profileName: string, options?: ProfilesDeleteOptionalParams) => Promise<DeleteOperationResult>;
+    get: (resourceGroupName: string, profileName: string, options?: ProfilesGetOptionalParams) => Promise<Profile>;
+    listByResourceGroup: (resourceGroupName: string, options?: ProfilesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Profile>;
+    listBySubscription: (options?: ProfilesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<Profile>;
+    updateV2: (resourceGroupName: string, profileName: string, parameters: ProfileUpdate, options?: ProfilesUpdateV2OptionalParams) => Promise<Profile>;
+}
 
 // @public
 export type ProfileStatus = string;
 
 // @public
-export interface ProfilesUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ProfilesUpdateV2OptionalParams extends OperationOptions {
 }
 
 // @public
-export type ProfilesUpdateResponse = Profile;
+export interface ProfileUpdate {
+    readonly id?: string;
+    readonly location?: string;
+    readonly name?: string;
+    properties?: ProfilePropertiesUpdate;
+    tags?: Record<string, string>;
+    readonly type?: string;
+}
 
 // @public
 export interface ProxyResource extends Resource {
@@ -362,6 +432,9 @@ export interface QueryExperience {
     latency?: number;
     queryCount: number;
 }
+
+// @public
+export type RecordType = string;
 
 // @public
 export interface Region {
@@ -380,9 +453,7 @@ export interface Resource {
 // @public
 export interface TrackedResource extends Resource {
     location?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -399,31 +470,21 @@ export interface TrafficManagerGeographicHierarchy extends ProxyResource {
 }
 
 // @public (undocumented)
-export class TrafficManagerManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: TrafficManagerManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    endpoints: Endpoints;
-    // (undocumented)
-    geographicHierarchies: GeographicHierarchies;
-    // (undocumented)
-    heatMap: HeatMap;
-    // (undocumented)
-    profiles: Profiles;
-    // (undocumented)
-    subscriptionId: string;
-    // (undocumented)
-    trafficManagerUserMetricsKeys: TrafficManagerUserMetricsKeys;
+export class TrafficManagerManagementClient {
+    constructor(credential: TokenCredential, options?: TrafficManagerManagementClientOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: TrafficManagerManagementClientOptionalParams);
+    readonly endpoints: EndpointsOperations;
+    readonly geographicHierarchies: GeographicHierarchiesOperations;
+    readonly heatMap: HeatMapOperations;
+    readonly pipeline: Pipeline;
+    readonly profiles: ProfilesOperations;
+    readonly trafficManagerUserMetricsKeys: TrafficManagerUserMetricsKeysOperations;
 }
 
 // @public
-export interface TrafficManagerManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface TrafficManagerManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -436,32 +497,23 @@ export interface TrafficManagerNameAvailability {
 }
 
 // @public
-export interface TrafficManagerUserMetricsKeys {
-    createOrUpdate(options?: TrafficManagerUserMetricsKeysCreateOrUpdateOptionalParams): Promise<TrafficManagerUserMetricsKeysCreateOrUpdateResponse>;
-    delete(options?: TrafficManagerUserMetricsKeysDeleteOptionalParams): Promise<TrafficManagerUserMetricsKeysDeleteResponse>;
-    get(options?: TrafficManagerUserMetricsKeysGetOptionalParams): Promise<TrafficManagerUserMetricsKeysGetResponse>;
+export interface TrafficManagerUserMetricsKeysCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface TrafficManagerUserMetricsKeysCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface TrafficManagerUserMetricsKeysDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type TrafficManagerUserMetricsKeysCreateOrUpdateResponse = UserMetricsModel;
-
-// @public
-export interface TrafficManagerUserMetricsKeysDeleteOptionalParams extends coreClient.OperationOptions {
+export interface TrafficManagerUserMetricsKeysGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type TrafficManagerUserMetricsKeysDeleteResponse = DeleteOperationResult;
-
-// @public
-export interface TrafficManagerUserMetricsKeysGetOptionalParams extends coreClient.OperationOptions {
+export interface TrafficManagerUserMetricsKeysOperations {
+    createOrUpdate: (options?: TrafficManagerUserMetricsKeysCreateOrUpdateOptionalParams) => Promise<UserMetricsModel>;
+    delete: (options?: TrafficManagerUserMetricsKeysDeleteOptionalParams) => Promise<DeleteOperationResult>;
+    get: (options?: TrafficManagerUserMetricsKeysGetOptionalParams) => Promise<UserMetricsModel>;
 }
-
-// @public
-export type TrafficManagerUserMetricsKeysGetResponse = UserMetricsModel;
 
 // @public
 export type TrafficRoutingMethod = string;
@@ -471,6 +523,11 @@ export type TrafficViewEnrollmentStatus = string;
 
 // @public
 export interface UserMetricsModel extends ProxyResource {
+    key?: string;
+}
+
+// @public
+export interface UserMetricsProperties {
     key?: string;
 }
 
