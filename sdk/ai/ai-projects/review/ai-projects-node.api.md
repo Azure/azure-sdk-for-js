@@ -273,7 +273,7 @@ export class AIProjectClient {
     readonly deployments: DeploymentsOperations;
     get endpoint(): string;
     readonly evaluationRules: EvaluationRulesOperations;
-    getOpenAIClient(opts?: ClientOptions_2): OpenAI;
+    getOpenAIClient(optsWithAzureAgent?: OpenAIClientOptionsWithAzureAgent): OpenAI;
     readonly indexes: IndexesOperations;
     readonly telemetry: TelemetryOperations;
 }
@@ -327,6 +327,14 @@ export interface AutoCodeInterpreterToolParam {
     memory_limit?: ContainerMemoryLimit;
     network_policy?: ContainerNetworkPolicyParamUnion;
     type: "auto";
+}
+
+// @public (undocumented)
+export interface AzureAgentConfig {
+    // (undocumented)
+    agentName: string;
+    // (undocumented)
+    allowPreview: boolean;
 }
 
 // @public
@@ -2138,6 +2146,12 @@ export interface OneTimeTrigger extends Trigger {
     timeZone?: string;
     triggerAt: string;
     type: "OneTime";
+}
+
+// @public (undocumented)
+export interface OpenAIClientOptionsWithAzureAgent extends ClientOptions_2 {
+    // (undocumented)
+    azureConfig?: AzureAgentConfig;
 }
 
 // @public

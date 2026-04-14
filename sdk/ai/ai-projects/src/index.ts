@@ -495,6 +495,10 @@ export type {
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 
 export type {
+  AzureAgentConfig,
+  OpenAIClientOptionsWithAzureAgent,
+} from "./azureAgent.interface.js";
+export type {
   TextResponseFormatConfiguration,
   TextResponseFormatConfigurationResponseFormatText,
   TextResponseFormatConfigurationResponseFormatJsonObject,

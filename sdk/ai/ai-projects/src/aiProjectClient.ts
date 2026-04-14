@@ -3,7 +3,6 @@
 /* eslint-disable tsdoc/syntax */
 
 import OpenAI from "openai";
-import type { ClientOptions as OpenAIClientOptions } from "openai";
 import { getBearerTokenProvider } from "@azure/identity";
 import type { AIProjectContext, AIProjectClientOptionalParams } from "./api/index.js";
 import { createAIProject } from "./api/index.js";
@@ -27,6 +26,8 @@ import type { TokenCredential } from "@azure/core-auth";
 import { overwriteOpenAIClient } from "./overwriteOpenAIClient.js";
 import { getCustomFetch } from "./getCustomFetch.js";
 import { getOpenAIDefaultHeaders } from "./util.js";
+import type { OpenAIClientOptionsWithAzureAgent } from "./azureAgent.interface.js";
+import { KnownApiVersions } from "./models/models.js";
 
 export type { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
 
@@ -131,8 +132,9 @@ export class AIProjectClient {
    * @returns the OpenAI client
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-  public getOpenAIClient(opts?: OpenAIClientOptions): OpenAI {
+  public getOpenAIClient(optsWithAzureAgent?: OpenAIClientOptionsWithAzureAgent): OpenAI {
     const scope = "https://ai.azure.com/.default";
+    const { azureConfig, ...opts } = optsWithAzureAgent || {};
     let customFetch: NonNullable<ConstructorParameters<typeof OpenAI>[0]>["fetch"];
 
     if (
@@ -141,19 +143,54 @@ export class AIProjectClient {
       customFetch = getCustomFetch(this._azureScopeClient.pipeline, this._options.httpClient);
     }
 
+    let baseURL: string;
+    if (opts?.baseURL) {
+      baseURL = opts.baseURL;
+    } else if (azureConfig?.agentName) {
+      if (!azureConfig.allowPreview) {
+        throw new Error(
+          "Calling `getOpenAIClient` with an `agentName` requires you to set `allowPreview: true`" +
+            "\nwhen providing azureConfig. Note that preview features are under development and " +
+            "\nsubject to change. They should not be used in production environments.",
+        );
+      }
+      baseURL = `${this._endpoint}/agents/${azureConfig.agentName}/endpoint/protocols/openai`;
+    } else {
+      baseURL = `${this._endpoint}/openai/v1`;
+    }
+
     const defaultHeaders = getOpenAIDefaultHeaders(
       opts?.defaultHeaders,
       this._options?.userAgentOptions?.userAgentPrefix,
     );
 
-    // Destructure opts to exclude defaultHeaders, then override specific properties
-    const { defaultHeaders: _ignoredHeaders, ...restOpts } = opts || {};
+    // When targeting an agent endpoint, add the foundry-features header if not already set
+    if (azureConfig?.agentName && !defaultHeaders.has("foundry-features")) {
+      defaultHeaders.set("foundry-features", "HostedAgents=V1Preview,AgentEndpoints=V1Preview");
+    }
+
+    // When targeting an agent endpoint, add api-version to defaultQuery if not already present
+    const defaultQuery = {
+      ...(opts?.defaultQuery || {}),
+    };
+    if (azureConfig?.agentName && !defaultQuery["api-version"]) {
+      defaultQuery["api-version"] = this._options.apiVersion ?? KnownApiVersions.v1;
+    }
+
+    // Destructure opts to exclude defaultHeaders, baseURL, and defaultQuery, then override specific properties
+    const {
+      defaultHeaders: _ignoredHeaders,
+      baseURL: _ignoredBaseURL,
+      defaultQuery: _ignoredQuery,
+      ...restOpts
+    } = opts || {};
     const openAIOptions: ConstructorParameters<typeof OpenAI>[0] = {
       ...restOpts,
       apiKey: getBearerTokenProvider(this._credential, scope),
-      baseURL: `${this._endpoint}/openai/v1`,
+      baseURL,
       dangerouslyAllowBrowser: true,
       defaultHeaders: defaultHeaders.toJSON({ preserveCase: true }),
+      defaultQuery: Object.keys(defaultQuery).length > 0 ? defaultQuery : undefined,
       fetch: customFetch,
     };
 
