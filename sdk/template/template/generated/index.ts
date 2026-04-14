@@ -8,22 +8,22 @@ import {
 } from "./static-helpers/pagingHelpers.js";
 
 export { WidgetAnalyticsClient } from "./widgetAnalyticsClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
-export {
+export type { RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller } from "./restorePollerHelpers.js";
+export type {
   WidgetSuite,
   FakedSharedModel,
   ResourceOperationStatusWidgetSuiteWidgetSuiteError,
-  KnownOperationState,
   OperationState,
-  KnownVersions,
 } from "./models/index.js";
-export { WidgetAnalyticsClientOptionalParams } from "./api/index.js";
-export {
+export { KnownOperationState, KnownVersions } from "./models/index.js";
+export type { WidgetAnalyticsClientOptionalParams } from "./api/index.js";
+export type {
   WidgetsListWidgetsOptionalParams,
   WidgetsDeleteWidgetOptionalParams,
   WidgetsCreateOrUpdateWidgetOptionalParams,
   WidgetsGetWidgetOperationStatusOptionalParams,
   WidgetsGetWidgetOptionalParams,
 } from "./api/widgets/index.js";
-export { WidgetsOperations } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export type { WidgetsOperations } from "./classic/index.js";
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
