@@ -1,4 +1,4 @@
-# @azure/arm-communication client library samples for TypeScript
+# @azure/arm-communication client library samples for TypeScript (Beta)
 
 These sample programs show how to use the TypeScript client libraries for @azure/arm-communication in some common scenarios.
 
@@ -96,48 +96,48 @@ node dist/communicationServicesCheckNameAvailabilitySample.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[communicationserviceschecknameavailabilitysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5/typescript/src/communicationServicesCheckNameAvailabilitySample.ts
-[communicationservicescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5/typescript/src/communicationServicesCreateOrUpdateSample.ts
-[communicationservicesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5/typescript/src/communicationServicesDeleteSample.ts
-[communicationservicesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5/typescript/src/communicationServicesGetSample.ts
-[communicationserviceslinknotificationhubsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5/typescript/src/communicationServicesLinkNotificationHubSample.ts
-[communicationserviceslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5/typescript/src/communicationServicesListByResourceGroupSample.ts
-[communicationserviceslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5/typescript/src/communicationServicesListBySubscriptionSample.ts
-[communicationserviceslistkeyssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5/typescript/src/communicationServicesListKeysSample.ts
-[communicationservicesregeneratekeysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5/typescript/src/communicationServicesRegenerateKeySample.ts
-[communicationservicesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5/typescript/src/communicationServicesUpdateSample.ts
-[domainscancelverificationsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5/typescript/src/domainsCancelVerificationSample.ts
-[domainscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5/typescript/src/domainsCreateOrUpdateSample.ts
-[domainsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5/typescript/src/domainsDeleteSample.ts
-[domainsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5/typescript/src/domainsGetSample.ts
-[domainsinitiateverificationsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5/typescript/src/domainsInitiateVerificationSample.ts
-[domainslistbyemailserviceresourcesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5/typescript/src/domainsListByEmailServiceResourceSample.ts
-[domainsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5/typescript/src/domainsUpdateSample.ts
-[emailservicescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5/typescript/src/emailServicesCreateOrUpdateSample.ts
-[emailservicesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5/typescript/src/emailServicesDeleteSample.ts
-[emailservicesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5/typescript/src/emailServicesGetSample.ts
-[emailserviceslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5/typescript/src/emailServicesListByResourceGroupSample.ts
-[emailserviceslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5/typescript/src/emailServicesListBySubscriptionSample.ts
-[emailserviceslistverifiedexchangeonlinedomainssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5/typescript/src/emailServicesListVerifiedExchangeOnlineDomainsSample.ts
-[emailservicesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5/typescript/src/emailServicesUpdateSample.ts
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5/typescript/src/operationsListSample.ts
-[senderusernamescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5/typescript/src/senderUsernamesCreateOrUpdateSample.ts
-[senderusernamesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5/typescript/src/senderUsernamesDeleteSample.ts
-[senderusernamesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5/typescript/src/senderUsernamesGetSample.ts
-[senderusernameslistbydomainssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5/typescript/src/senderUsernamesListByDomainsSample.ts
-[smtpusernamescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5/typescript/src/smtpUsernamesCreateOrUpdateSample.ts
-[smtpusernamesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5/typescript/src/smtpUsernamesDeleteSample.ts
-[smtpusernamesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5/typescript/src/smtpUsernamesGetSample.ts
-[smtpusernameslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5/typescript/src/smtpUsernamesListSample.ts
-[suppressionlistaddressescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5/typescript/src/suppressionListAddressesCreateOrUpdateSample.ts
-[suppressionlistaddressesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5/typescript/src/suppressionListAddressesDeleteSample.ts
-[suppressionlistaddressesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5/typescript/src/suppressionListAddressesGetSample.ts
-[suppressionlistaddresseslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5/typescript/src/suppressionListAddressesListSample.ts
-[suppressionlistscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5/typescript/src/suppressionListsCreateOrUpdateSample.ts
-[suppressionlistsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5/typescript/src/suppressionListsDeleteSample.ts
-[suppressionlistsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5/typescript/src/suppressionListsGetSample.ts
-[suppressionlistslistbydomainsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5/typescript/src/suppressionListsListByDomainSample.ts
-[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-communication
+[communicationserviceschecknameavailabilitysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5-beta/typescript/src/communicationServicesCheckNameAvailabilitySample.ts
+[communicationservicescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5-beta/typescript/src/communicationServicesCreateOrUpdateSample.ts
+[communicationservicesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5-beta/typescript/src/communicationServicesDeleteSample.ts
+[communicationservicesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5-beta/typescript/src/communicationServicesGetSample.ts
+[communicationserviceslinknotificationhubsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5-beta/typescript/src/communicationServicesLinkNotificationHubSample.ts
+[communicationserviceslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5-beta/typescript/src/communicationServicesListByResourceGroupSample.ts
+[communicationserviceslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5-beta/typescript/src/communicationServicesListBySubscriptionSample.ts
+[communicationserviceslistkeyssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5-beta/typescript/src/communicationServicesListKeysSample.ts
+[communicationservicesregeneratekeysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5-beta/typescript/src/communicationServicesRegenerateKeySample.ts
+[communicationservicesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5-beta/typescript/src/communicationServicesUpdateSample.ts
+[domainscancelverificationsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5-beta/typescript/src/domainsCancelVerificationSample.ts
+[domainscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5-beta/typescript/src/domainsCreateOrUpdateSample.ts
+[domainsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5-beta/typescript/src/domainsDeleteSample.ts
+[domainsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5-beta/typescript/src/domainsGetSample.ts
+[domainsinitiateverificationsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5-beta/typescript/src/domainsInitiateVerificationSample.ts
+[domainslistbyemailserviceresourcesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5-beta/typescript/src/domainsListByEmailServiceResourceSample.ts
+[domainsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5-beta/typescript/src/domainsUpdateSample.ts
+[emailservicescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5-beta/typescript/src/emailServicesCreateOrUpdateSample.ts
+[emailservicesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5-beta/typescript/src/emailServicesDeleteSample.ts
+[emailservicesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5-beta/typescript/src/emailServicesGetSample.ts
+[emailserviceslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5-beta/typescript/src/emailServicesListByResourceGroupSample.ts
+[emailserviceslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5-beta/typescript/src/emailServicesListBySubscriptionSample.ts
+[emailserviceslistverifiedexchangeonlinedomainssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5-beta/typescript/src/emailServicesListVerifiedExchangeOnlineDomainsSample.ts
+[emailservicesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5-beta/typescript/src/emailServicesUpdateSample.ts
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5-beta/typescript/src/operationsListSample.ts
+[senderusernamescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5-beta/typescript/src/senderUsernamesCreateOrUpdateSample.ts
+[senderusernamesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5-beta/typescript/src/senderUsernamesDeleteSample.ts
+[senderusernamesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5-beta/typescript/src/senderUsernamesGetSample.ts
+[senderusernameslistbydomainssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5-beta/typescript/src/senderUsernamesListByDomainsSample.ts
+[smtpusernamescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5-beta/typescript/src/smtpUsernamesCreateOrUpdateSample.ts
+[smtpusernamesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5-beta/typescript/src/smtpUsernamesDeleteSample.ts
+[smtpusernamesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5-beta/typescript/src/smtpUsernamesGetSample.ts
+[smtpusernameslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5-beta/typescript/src/smtpUsernamesListSample.ts
+[suppressionlistaddressescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5-beta/typescript/src/suppressionListAddressesCreateOrUpdateSample.ts
+[suppressionlistaddressesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5-beta/typescript/src/suppressionListAddressesDeleteSample.ts
+[suppressionlistaddressesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5-beta/typescript/src/suppressionListAddressesGetSample.ts
+[suppressionlistaddresseslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5-beta/typescript/src/suppressionListAddressesListSample.ts
+[suppressionlistscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5-beta/typescript/src/suppressionListsCreateOrUpdateSample.ts
+[suppressionlistsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5-beta/typescript/src/suppressionListsDeleteSample.ts
+[suppressionlistsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5-beta/typescript/src/suppressionListsGetSample.ts
+[suppressionlistslistbydomainsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v5-beta/typescript/src/suppressionListsListByDomainSample.ts
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-communication?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/arm-communication/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

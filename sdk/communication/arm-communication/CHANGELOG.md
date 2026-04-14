@@ -1,6 +1,7 @@
 # Release History
 
-## 5.0.0 (2026-04-13)
+## 5.0.0-beta.1 (2026-04-14)
+Compared with version 4.2.0
 
 ### Features Added
   - Added operation CommunicationServicesOperations.createOrUpdate

@@ -1,8 +1,8 @@
 {
-  "name": "@azure-samples/arm-communication-js",
+  "name": "@azure-samples/arm-communication-js-beta",
   "private": true,
   "version": "1.0.0",
-  "description": "@azure/arm-communication client library samples for JavaScript",
+  "description": "@azure/arm-communication client library samples for JavaScript (Beta)",
   "engines": {
     "node": ">=20.0.0"
   },
@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/arm-communication",
   "dependencies": {
-    "@azure/arm-communication": "latest",
+    "@azure/arm-communication": "next",
     "dotenv": "latest",
     "@azure/identity": "^4.13.0"
   },
