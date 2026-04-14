@@ -527,6 +527,10 @@ export interface BetaEvaluatorsDeleteVersionOptionalParams extends OperationOpti
 export interface BetaEvaluatorsGetVersionOptionalParams extends OperationOptions {
 }
 
+// @public @deprecated (undocumented)
+export interface BetaEvaluatorsListLatestVersionsOptionalParams extends BetaEvaluatorsListOptionalParams {
+}
+
 // @public
 export interface BetaEvaluatorsListOptionalParams extends OperationOptions {
     evaluatorType?: EvaluatorType | "all";
@@ -654,11 +658,8 @@ export interface BetaOperations {
     insights: BetaInsightsOperations;
     memoryStores: BetaMemoryStoresOperations;
     redTeams: BetaRedTeamsOperations;
-    // (undocumented)
     schedules: BetaSchedulesOperations;
-    // (undocumented)
     skills: BetaSkillsOperations;
-    // (undocumented)
     toolboxes: BetaToolboxesOperations;
 }
 
@@ -2515,8 +2516,23 @@ export interface TextResponseFormat {
     type: TextResponseFormatConfigurationType;
 }
 
+// @public @deprecated (undocumented)
+export interface TextResponseFormatConfiguration extends TextResponseFormat {
+}
+
+// @public @deprecated (undocumented)
+export interface TextResponseFormatConfigurationResponseFormatJsonObject extends TextResponseFormatJsonObject {
+}
+
+// @public @deprecated (undocumented)
+export interface TextResponseFormatConfigurationResponseFormatText extends TextResponseFormatText {
+}
+
 // @public
 export type TextResponseFormatConfigurationType = "text" | "json_schema" | "json_object";
+
+// @public @deprecated (undocumented)
+export type TextResponseFormatConfigurationUnion = TextResponseFormatUnion;
 
 // @public
 export interface TextResponseFormatJsonObject extends TextResponseFormat {

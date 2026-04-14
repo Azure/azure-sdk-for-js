@@ -4,8 +4,13 @@
 
 ### Breaking Changes
 
-- Change `container_protocol_versions` property from required to optional in output types.
+- Change `container_protocol_versions` property from required to optional in `HostedAgentDefinition` output types.
 - Change `code_type` property from required to optional in `getVersion` output type.
+- Rename interface `TextResponseFormatConfiguration` to `TextResponseFormat`
+- Rename interface `TextResponseFormatConfigurationResponseFormatText` to `TextResponseFormatText`
+- Rename interface `TextResponseFormatConfigurationResponseFormatJsonObject` to `TextResponseFormatJsonObject`
+- Rename interface `TextResponseFormatConfigurationUnion` to `TextResponseFormatUnion`
+- Rename interface `BetaEvaluatorsListLatestVersionsOptionalParams` to `BetaEvaluatorsListOptionalParams`
 
 ### Features Added
 

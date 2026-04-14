@@ -23,8 +23,11 @@ import { _getBetaToolboxesOperations } from "./toolboxes/index.js";
 
 /** Interface representing a Beta operations. */
 export interface BetaOperations {
+  /** Operations for managing skills. */
   skills: BetaSkillsOperations;
+  /** Operations for managing toolboxes. */
   toolboxes: BetaToolboxesOperations;
+  /** Operations for managing schedules. */
   schedules: BetaSchedulesOperations;
   /** Operations for managing red team evaluations. */
   redTeams: BetaRedTeamsOperations;
@@ -42,8 +45,11 @@ export interface BetaOperations {
 
 export function _getBetaOperations(context: AIProjectContext): BetaOperations {
   return {
+    /** Operations for managing skills. */
     skills: _getBetaSkillsOperations(context),
+    /** Operations for managing toolboxes. */
     toolboxes: _getBetaToolboxesOperations(context),
+    /** Operations for managing schedules. */
     schedules: _getBetaSchedulesOperations(context),
     /** Operations for managing red team evaluations. */
     redTeams: _getBetaRedTeamsOperations(context),

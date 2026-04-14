@@ -493,3 +493,11 @@ export type {
   BetaToolboxesOperations,
 } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+
+export type {
+  TextResponseFormatConfiguration,
+  TextResponseFormatConfigurationResponseFormatText,
+  TextResponseFormatConfigurationResponseFormatJsonObject,
+  TextResponseFormatConfigurationUnion,
+  BetaEvaluatorsListLatestVersionsOptionalParams,
+} from "./deprecate.interface.js";
