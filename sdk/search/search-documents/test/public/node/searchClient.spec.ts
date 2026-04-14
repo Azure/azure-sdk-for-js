@@ -9,7 +9,6 @@ import type {
   SearchFieldArray,
   SearchIndex,
   SearchIndexClient,
-  SelectArray,
   SelectFields,
 } from "../../../src/index.js";
 import { AzureKeyCredential, IndexDocumentsBatch, SearchClient } from "../../../src/index.js";
@@ -210,7 +209,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
         "tags",
       ];
 
-      const select: SelectArray<SelectFields<Hotel>> = ["hotelId", "address/city", "rooms/type"];
+      const select: SelectFields<Hotel>[] = ["hotelId", "address/city", "rooms/type"];
       const selectNarrowed = ["hotelId", "address/city", "rooms/type"] as const;
 
       const selectPromises = [
