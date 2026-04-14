@@ -135,7 +135,7 @@ See the [JavaScript Codegen Quick Start for Test](https://github.com/Azure/azure
       - Make sure `pwsh` command works at this step (If you follow the above link, `pwsh` is typically added to the system environment variables by default)
     - Add `dev-tool` to the `devDependencies` in the `package.json`.
 
-    The package you are migrating needs to be using the new version of the recorder that uses the test proxy (`@azure-tools/test-recorder@^3.0.0`).
+    The package needs to use the current version of the recorder that uses the test proxy (`@azure-tools/test-recorder@^4.0.0`).
 
     Then, we need to generate a `assets.json` file. If your package is new or has never been pushed before, you could use below commands:
 

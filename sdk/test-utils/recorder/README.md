@@ -13,7 +13,7 @@ Our recorder tool package `@azure-tools/test-recorder` attempts to provide an an
 
 **Note 1: For Asset Sync workflow to push out the test recordings to `Azure/azure-sdk-assets` repository, refer to [asset-sync-workflow](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/ASSET_SYNC_WORKFLOW.md).**
 
-**Note 2: Refer to [testing-commands](https://github.com/Azure/azure-sdk-for-js/wiki/Golden-Testing-Commands) if you need help on commands to run during testing.**
+**Note 2: Refer to [testing-commands](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/golden-testing-commands.md) if you need help on commands to run during testing.**
 
 This library provides interfaces and helper methods to equip the SDKs in the `azure-sdk-for-js` repo with the recording and playback capabilities for the tests, it targets HTTP requests in both Node.js and the Browsers.
 
@@ -310,7 +310,8 @@ describe(`TableServiceClient tests`, () => {
   `record`, the recorder assisted by the test-proxy tool will create a recording file with the contents of the HTTP requests as well as the responses.
 
   If the package has been onboarded to asset-sync workflow, the recording will be located under the `.assets/` directory at the root of the repository. 
-    - To view the recording, refer to `.assets/.breadcrumb` to find the entry that matches your SDK. This will give you the name of the directory within `.assets` that your recordings are located in.
+    - Run `npx dev-tool test-proxy diff` to see what recordings changed, or `npx dev-tool vscode recordings show` to view changes in VS Code's Source Control panel.
+    - To manually browse recordings, refer to `.assets/.breadcrumb` to find the entry that matches your SDK. This will give you the name of the directory within `.assets` that your recordings are located in.
     - Refer to [asset sync workflow](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/ASSET_SYNC_WORKFLOW.md#workflow-with-asset-sync-enabled) for more understanding and further steps.
 
   **Note:** The recordings are no longer stored directly in your SDK's directory (`recordings/node/*` or `recordings/browsers/*`). Instead, they are managed externally through the Asset-Sync workflow.
@@ -476,7 +477,10 @@ For detailed troubleshooting steps related to Asset Sync workflow, refer to the 
   Yes. Run `npx dev-tool test-proxy restore` beforehand to download recordings.
 
 - **How do I inspect my recordings?**  
-  Inspect recordings in the `.assets` directory at the root of the repository. See [Inspecting Recordings](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/ASSET_SYNC_WORKFLOW.md#inspecting-recordings-with-asset-sync-enabled).
+  You can inspect recording changes in several ways:
+  - **CLI diff**: Run `npx dev-tool test-proxy diff` from your package directory to see what changed. Use `--stat` for a summary.
+  - **VS Code Source Control panel**: Run `npx dev-tool vscode recordings show` to make asset repos visible in VS Code's Source Control sidebar with full visual diffs. Run `npx dev-tool vscode recordings hide` to disable it.
+  - **Manual**: Browse the `.assets` directory at the root of the repository. See [Inspecting Recordings](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/ASSET_SYNC_WORKFLOW.md#inspecting-recordings-with-asset-sync-enabled).
 
 - **Test succeeds in record mode, but why are the recordings not saved?**  
   Make sure you're stopping the recorder with `await recorder.stop()` at the end of your test.

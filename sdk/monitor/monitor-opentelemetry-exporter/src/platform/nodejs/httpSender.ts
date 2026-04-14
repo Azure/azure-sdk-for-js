@@ -3,28 +3,26 @@
 
 import url from "node:url";
 import { diag } from "@opentelemetry/api";
-import type { FullOperationResponse } from "@azure/core-client";
-import { redirectPolicyName } from "@azure/core-rest-pipeline";
+import { bearerTokenAuthenticationPolicyName, redirectPolicyName } from "@azure/core-rest-pipeline";
+import type { Pipeline, PipelineResponse } from "@azure/core-rest-pipeline";
 import type { SenderResult } from "../../types.js";
-import type {
-  TelemetryItem as Envelope,
-  ApplicationInsightsClientOptionalParams,
-  TrackOptionalParams,
-} from "../../generated/index.js";
+import type { TelemetryItem as Envelope } from "../../generated/index.js";
 import { ApplicationInsightsClient } from "../../generated/index.js";
 import type { AzureMonitorExporterOptions } from "../../config.js";
 import { BaseSender } from "./baseSender.js";
+import type { TokenCredential } from "@azure/core-auth";
 import { parseRetryAfterHeader } from "../../utils/breezeUtils.js";
 
-const applicationInsightsResource = "https://monitor.azure.com//.default";
+const applicationInsightsResource = "https://monitor.azure.com/.default";
 
 /**
  * Exporter HTTP sender class
  * @internal
  */
 export class HttpSender extends BaseSender {
-  private readonly appInsightsClient: ApplicationInsightsClient;
-  private appInsightsClientOptions: ApplicationInsightsClientOptionalParams;
+  private appInsightsClient: ApplicationInsightsClient;
+  private readonly credential?: TokenCredential;
+  public appInsightsClientOptions: AzureMonitorExporterOptions;
 
   constructor(options: {
     endpointUrl: string;
@@ -42,18 +40,54 @@ export class HttpSender extends BaseSender {
     };
 
     if (this.appInsightsClientOptions.credential) {
-      // Add credentialScopes
-      if (options.aadAudience) {
-        this.appInsightsClientOptions.credentialScopes = [options.aadAudience];
-      } else {
-        // Default
-        this.appInsightsClientOptions.credentialScopes = [applicationInsightsResource];
+      const scopes = options.aadAudience ? [options.aadAudience] : [applicationInsightsResource];
+      this.appInsightsClientOptions.credentials = { scopes };
+    } else if (
+      !this.appInsightsClientOptions.credentials?.scopes &&
+      (this.appInsightsClientOptions as any).credentialScopes
+    ) {
+      // Backward compat: map ServiceClientOptions.credentialScopes to ClientOptions.credentials.scopes
+      const legacy = (this.appInsightsClientOptions as any).credentialScopes;
+      this.appInsightsClientOptions.credentials = {
+        scopes: Array.isArray(legacy) ? legacy : [legacy],
+      };
+    }
+
+    const { credential, ...clientOptions } = this.appInsightsClientOptions;
+    this.credential = credential as TokenCredential | undefined;
+
+    this.appInsightsClient = this.createClient(clientOptions);
+  }
+
+  private createClient(
+    clientOptions: Omit<AzureMonitorExporterOptions, "credential">,
+  ): ApplicationInsightsClient {
+    // Extract pipeline from options — ServiceClientOptions allowed passing a pre-built pipeline,
+    // but the TypeSpec-generated REST client always creates its own. If a user passed one,
+    // we adopt its policies onto the generated client's pipeline for backward compatibility.
+    const userPipeline: Pipeline | undefined = (clientOptions as any).pipeline;
+
+    const client = new ApplicationInsightsClient(this.credential as any, clientOptions);
+
+    // Expose host for tests and redirect handling
+    (client as any).host = clientOptions.host;
+
+    // If user provided a pre-built pipeline, copy its policies onto the generated client's pipeline
+    if (userPipeline) {
+      for (const policy of userPipeline.getOrderedPolicies()) {
+        if (!client.pipeline.getOrderedPolicies().some((p) => p.name === policy.name)) {
+          client.pipeline.addPolicy(policy);
+        }
       }
     }
-    this.appInsightsClient = new ApplicationInsightsClient(this.appInsightsClientOptions);
 
     // Handle redirects in HTTP Sender
-    this.appInsightsClient.pipeline.removePolicy({ name: redirectPolicyName });
+    if (!this.appInsightsClientOptions.credential) {
+      client.pipeline.removePolicy({ name: bearerTokenAuthenticationPolicyName });
+    }
+
+    client.pipeline.removePolicy({ name: redirectPolicyName });
+    return client;
   }
 
   /**
@@ -61,19 +95,16 @@ export class HttpSender extends BaseSender {
    * @internal
    */
   async send(envelopes: Envelope[]): Promise<SenderResult> {
-    const options: TrackOptionalParams = {};
-    let response: FullOperationResponse | undefined;
-    function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
-      response = rawResponse;
-      if (options.onResponse) {
-        options.onResponse(rawResponse, flatResponse);
-      }
-    }
+    let response: PipelineResponse | undefined;
+    // The TypeSpec-generated client throws RestError for non-200/206 responses.
+    // For success responses, we capture the raw response via onResponse callback
+    // and return it as a SenderResult. Error responses propagate as RestError
+    // so baseSender.exportEnvelopes() catch block can handle retries, redirects, etc.
     await this.appInsightsClient.track(envelopes, {
-      ...options,
-      onResponse,
+      onResponse(rawResponse) {
+        response = rawResponse;
+      },
     });
-
     return {
       statusCode: response?.status,
       result: response?.bodyAsText ?? "",
@@ -93,7 +124,9 @@ export class HttpSender extends BaseSender {
     if (location) {
       const locUrl = new url.URL(location);
       if (locUrl && locUrl.host) {
-        this.appInsightsClient.host = "https://" + locUrl.host;
+        this.appInsightsClientOptions.host = "https://" + locUrl.host;
+        const { credential, ...clientOptions } = this.appInsightsClientOptions;
+        this.appInsightsClient = this.createClient(clientOptions);
       }
     }
   }

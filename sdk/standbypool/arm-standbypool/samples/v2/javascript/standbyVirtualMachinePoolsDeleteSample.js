@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a StandbyVirtualMachinePoolResource
  *
  * @summary delete a StandbyVirtualMachinePoolResource
- * x-ms-original-file: 2025-03-01/StandbyVirtualMachinePools_Delete.json
+ * x-ms-original-file: 2025-10-01/StandbyVirtualMachinePools_Delete.json
  */
 async function standbyVirtualMachinePoolsDelete() {
   const credential = new DefaultAzureCredential();

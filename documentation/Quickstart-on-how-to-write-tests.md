@@ -34,7 +34,7 @@ This page is to help you write and run tests quickly for Javascript Codegen SDK 
 
 The Azure SDK test framework uses the [`test-recorder`](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md) library, which in turn rests upon on a HTTP recording system ([testproxy](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy)) that enables tests dependent on network interaction to be run offline.
 
-Please notice that this quickstart is based on 3.x.y version of recorder tool (`@azure-tools/test-recorder`).
+Please note that this quickstart is based on version 4.x of the recorder tool (`@azure-tools/test-recorder`), which uses the language-agnostic [test proxy server](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy) and the [asset-sync workflow](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/ASSET_SYNC_WORKFLOW.md).
 
 # Prerequisites
 

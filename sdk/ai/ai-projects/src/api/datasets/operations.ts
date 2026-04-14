@@ -34,6 +34,7 @@ import type {
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import { ContainerClient } from "@azure/storage-blob";
+import { logger } from "../../logger.js";
 export function _getCredentialsSend(
   context: Client,
   name: string,
@@ -402,22 +403,22 @@ async function createDatasetAndGetItsContainer(
   }
 
   // Optional debug logging
-  console.debug(
+  logger.verbose(
     `[createDatasetAndGetItsContainer] pendingUploadResponse.pendingUploadId = ${pendingUploadResponse.pendingUploadId}`,
   );
-  console.debug(
+  logger.verbose(
     `[createDatasetAndGetItsContainer] pendingUploadResponse.pendingUploadType = ${pendingUploadResponse.pendingUploadType}`,
   );
-  console.debug(
+  logger.verbose(
     `[createDatasetAndGetItsContainer] blobReference.blobUri = ${blobReference.blobUri}`,
   );
-  console.debug(
+  logger.verbose(
     `[createDatasetAndGetItsContainer] blobReference.storageAccountArmId = ${blobReference.storageAccountArmId}`,
   );
-  console.debug(
+  logger.verbose(
     `[createDatasetAndGetItsContainer] blobReference.credential.sasUri = ${blobReference.credential.sasUri}`,
   );
-  console.debug(
+  logger.verbose(
     `[createDatasetAndGetItsContainer] blobReference.credential.type = ${blobReference.credential.type}`,
   );
 
@@ -538,7 +539,7 @@ export async function uploadFolder(
     // Create blob name as relative path from the base folder
     const relativePath = nodePath.relative(folderPath, filePath).split(nodePath.sep).join("/");
 
-    console.debug(
+    logger.verbose(
       `[uploadFolderAndCreate] Start uploading file '${filePath}' as blob '${relativePath}'`,
     );
 
@@ -548,7 +549,7 @@ export async function uploadFolder(
     // Upload the file using a readable stream for better performance
     const fileStream = fs.createReadStream(filePath);
     await blobClient.uploadStream(fileStream);
-    console.debug(
+    logger.verbose(
       `[uploadFolderAndCreate] Done uploading file '${filePath}' as blob '${relativePath}'`,
     );
   }

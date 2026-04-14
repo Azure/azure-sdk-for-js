@@ -802,15 +802,20 @@ function serializeCompositeType(
     const additionalPropertiesMapper = resolveAdditionalProperties(serializer, mapper, objectName);
     if (additionalPropertiesMapper) {
       const propNames = Object.keys(modelProps);
-      for (const clientPropName in object) {
+      for (const clientPropName of Object.keys(object)) {
         const isAdditionalProperty = propNames.every((pn) => pn !== clientPropName);
         if (isAdditionalProperty) {
-          payload[clientPropName] = serializer.serialize(
-            additionalPropertiesMapper,
-            object[clientPropName],
-            objectName + '["' + clientPropName + '"]',
-            options,
-          );
+          Object.defineProperty(payload, clientPropName, {
+            value: serializer.serialize(
+              additionalPropertiesMapper,
+              object[clientPropName],
+              objectName + '["' + clientPropName + '"]',
+              options,
+            ),
+            enumerable: true,
+            configurable: true,
+            writable: true,
+          });
         }
       }
     }
@@ -931,12 +936,12 @@ function deserializeCompositeType(
           */
           const wrapped = responseBody[xmlName!];
           const elementList = wrapped?.[xmlElementName!] ?? [];
-          instance[key] = serializer.deserialize(
-            propertyMapper,
-            elementList,
-            propertyObjectName,
-            options,
-          );
+          Object.defineProperty(instance, key, {
+            value: serializer.deserialize(propertyMapper, elementList, propertyObjectName, options),
+            enumerable: true,
+            configurable: true,
+            writable: true,
+          });
           handledPropertyNames.push(xmlName!);
         } else {
           const property = responseBody[propertyName!];
@@ -1016,7 +1021,7 @@ function deserializeCompositeType(
   const additionalPropertiesMapper = mapper.type.additionalProperties;
   if (additionalPropertiesMapper) {
     const isAdditionalProperty = (responsePropName: string): boolean => {
-      for (const clientPropName in modelProps) {
+      for (const clientPropName of Object.keys(modelProps)) {
         const paths = splitSerializeName(modelProps[clientPropName].serializedName);
         if (paths[0] === responsePropName) {
           return false;
@@ -1025,14 +1030,20 @@ function deserializeCompositeType(
       return true;
     };
 
-    for (const responsePropName in responseBody) {
+    for (const responsePropName of Object.keys(responseBody)) {
       if (isAdditionalProperty(responsePropName)) {
-        instance[responsePropName] = serializer.deserialize(
+        const deserializedValue = serializer.deserialize(
           additionalPropertiesMapper,
           responseBody[responsePropName],
           objectName + '["' + responsePropName + '"]',
           options,
         );
+        Object.defineProperty(instance, responsePropName, {
+          value: deserializedValue,
+          enumerable: true,
+          configurable: true,
+          writable: true,
+        });
       }
     }
   } else if (responseBody && !options.ignoreUnknownProperties) {
@@ -1042,7 +1053,12 @@ function deserializeCompositeType(
         !handledPropertyNames.includes(key) &&
         !isSpecialXmlProperty(key, options)
       ) {
-        instance[key] = responseBody[key];
+        Object.defineProperty(instance, key, {
+          value: responseBody[key],
+          enumerable: true,
+          configurable: true,
+          writable: true,
+        });
       }
     }
   }

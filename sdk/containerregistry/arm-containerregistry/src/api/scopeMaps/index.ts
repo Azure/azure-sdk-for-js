@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 export { list, $delete, update, create, get } from "./operations.js";
-export {
-  type ScopeMapsListOptionalParams,
-  type ScopeMapsDeleteOptionalParams,
-  type ScopeMapsUpdateOptionalParams,
-  type ScopeMapsCreateOptionalParams,
-  type ScopeMapsGetOptionalParams,
+export type {
+  ScopeMapsListOptionalParams,
+  ScopeMapsDeleteOptionalParams,
+  ScopeMapsUpdateOptionalParams,
+  ScopeMapsCreateOptionalParams,
+  ScopeMapsGetOptionalParams,
 } from "./options.js";

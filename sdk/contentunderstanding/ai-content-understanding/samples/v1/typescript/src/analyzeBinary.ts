@@ -14,6 +14,10 @@
  * - prebuilt-audioSearch: Transcribes audio content with speaker diarization
  * - prebuilt-videoSearch: Analyzes video content with visual frame extraction
  * - prebuilt-imageSearch: Analyzes standalone images and returns a summary
+ *
+ * It also demonstrates content range filtering to target specific pages:
+ * - "3-": Pages 3 onward
+ * - "1-3,5,9-": Pages 1-3, page 5, and pages 9 onward
  */
 
 import "dotenv/config";
@@ -49,22 +53,63 @@ export async function main(): Promise<void> {
   console.log(`  File size: ${pdfBytes.length.toLocaleString()} bytes`);
 
   // Analyze the document using analyzeBinary
-  const poller = client.analyzeBinary("prebuilt-documentSearch", pdfBytes);
+  const poller = client.analyzeBinary("prebuilt-documentSearch", pdfBytes, "application/pdf");
   const result = await poller.pollUntilDone();
+
+  // ======================================================================
+  // Content range examples: analyze specific pages of a multi-page document
+  // ======================================================================
+  const multiPagePath = path.join("..", "..", "assets", "mixed_financial_invoices.pdf");
+  const multiPageBytes = fs.readFileSync(multiPagePath);
+  console.log(`\nAnalyzing ${multiPagePath} with content ranges...`);
+  console.log(`  File size: ${multiPageBytes.length.toLocaleString()} bytes`);
+
+  // Analyze only pages 3 onward.
+  console.log('\nAnalyzing pages 3 onward with content range "3-"...');
+  const rangePoller = client.analyzeBinary(
+    "prebuilt-documentSearch",
+    multiPageBytes,
+    "application/pdf",
+    { contentRange: "3-" },
+  );
+  const rangeResult = await rangePoller.pollUntilDone();
+  if (rangeResult.contents && rangeResult.contents.length > 0) {
+    const doc = rangeResult.contents[0] as DocumentContent;
+    console.log(
+      `  Content range analysis returned pages ${doc.startPageNumber} - ${doc.endPageNumber}`,
+    );
+  }
+
+  // Analyze pages 1-3, page 5, and pages 9 onward.
+  console.log('\nAnalyzing combined pages (1-3, 5, 9-) with content range "1-3,5,9-"...');
+  const combinePoller = client.analyzeBinary(
+    "prebuilt-documentSearch",
+    multiPageBytes,
+    "application/pdf",
+    { contentRange: "1-3,5,9-" },
+  );
+  const combineResult = await combinePoller.pollUntilDone();
+  if (combineResult.contents && combineResult.contents.length > 0) {
+    const doc = combineResult.contents[0] as DocumentContent;
+    console.log(
+      `  Combined content range analysis returned pages ${doc.startPageNumber} - ${doc.endPageNumber}`,
+    );
+  }
 
   // Display markdown content
   console.log("\nMarkdown Content:");
   console.log("=".repeat(50));
 
+  // A PDF file has only one content element even if it contains multiple pages
   if (result.contents && result.contents.length > 0) {
     const content = result.contents[0];
     if (content.markdown) {
       console.log(content.markdown);
     } else {
-      console.log("No markdown content available.");
+      console.log("No markdown content was returned for this document.");
     }
   } else {
-    console.log("No content found in the analysis result.");
+    console.log("No content items were returned for this analysis.");
   }
 
   console.log("=".repeat(50));
@@ -76,11 +121,30 @@ export async function main(): Promise<void> {
     // Check if this is document content to access document-specific properties
     if (content.kind === "document") {
       const documentContent = content as DocumentContent;
-      console.log("\nDocument Information:");
-      console.log(`  Start page: ${documentContent.startPageNumber}`);
-      console.log(`  End page: ${documentContent.endPageNumber}`);
-      const totalPages = documentContent.endPageNumber - documentContent.startPageNumber + 1;
-      console.log(`  Total pages: ${totalPages}`);
+      console.log(`\nDocument type: ${documentContent.mimeType ?? "(unknown)"}`);
+      console.log(`Start page: ${documentContent.startPageNumber}`);
+      console.log(`End page: ${documentContent.endPageNumber}`);
+
+      // Check for pages
+      if (documentContent.pages && documentContent.pages.length > 0) {
+        console.log(`\nNumber of pages: ${documentContent.pages.length}`);
+        for (const page of documentContent.pages) {
+          const unit = documentContent.unit ?? "units";
+          console.log(`  Page ${page.pageNumber}: ${page.width} x ${page.height} ${unit}`);
+        }
+      }
+
+      // Check for tables
+      if (documentContent.tables && documentContent.tables.length > 0) {
+        console.log(`\nNumber of tables: ${documentContent.tables.length}`);
+        let tableCounter = 1;
+        for (const table of documentContent.tables) {
+          console.log(
+            `  Table ${tableCounter}: ${table.rowCount} rows x ${table.columnCount} columns`,
+          );
+          tableCounter++;
+        }
+      }
     }
   }
 }

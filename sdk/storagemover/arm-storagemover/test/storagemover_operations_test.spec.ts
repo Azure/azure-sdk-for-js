@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { StorageMoverClient } from "../src/storageMoverClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -195,7 +196,7 @@ describe.skip("storageMover test", () => {
 
   it("endpoints list test", async () => {
     const resArray = new Array();
-    for await (let item of client.endpoints.list(resourceGroup, storageMoverName)) {
+    for await (const item of client.endpoints.list(resourceGroup, storageMoverName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 2);
@@ -203,7 +204,7 @@ describe.skip("storageMover test", () => {
 
   it("agent list test", async () => {
     const resArray = new Array();
-    for await (let item of client.agents.list(resourceGroup, storageMoverName)) {
+    for await (const item of client.agents.list(resourceGroup, storageMoverName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -211,7 +212,7 @@ describe.skip("storageMover test", () => {
 
   it("projects list test", async () => {
     const resArray = new Array();
-    for await (let item of client.projects.list(resourceGroup, storageMoverName)) {
+    for await (const item of client.projects.list(resourceGroup, storageMoverName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -219,7 +220,7 @@ describe.skip("storageMover test", () => {
 
   it("jobDefinitions list test", async () => {
     const resArray = new Array();
-    for await (let item of client.jobDefinitions.list(
+    for await (const item of client.jobDefinitions.list(
       resourceGroup,
       storageMoverName,
       projectName,
@@ -231,7 +232,7 @@ describe.skip("storageMover test", () => {
 
   it("storageMovers list test", async () => {
     const resArray = new Array();
-    for await (let item of client.storageMovers.listBySubscription()) {
+    for await (const item of client.storageMovers.listBySubscription()) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -239,7 +240,7 @@ describe.skip("storageMover test", () => {
 
   it("jobDefinitions delete test", async () => {
     const resArray = new Array();
-    for await (let item of client.jobDefinitions.list(
+    for await (const item of client.jobDefinitions.list(
       resourceGroup,
       storageMoverName,
       projectName,
@@ -251,7 +252,7 @@ describe.skip("storageMover test", () => {
 
   it("agent delete test", async () => {
     const resArray = new Array();
-    for await (let item of client.agents.list(resourceGroup, storageMoverName)) {
+    for await (const item of client.agents.list(resourceGroup, storageMoverName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
@@ -259,7 +260,7 @@ describe.skip("storageMover test", () => {
 
   it("endpoints delete test", async () => {
     const resArray = new Array();
-    for await (let item of client.endpoints.list(resourceGroup, storageMoverName)) {
+    for await (const item of client.endpoints.list(resourceGroup, storageMoverName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
@@ -267,7 +268,7 @@ describe.skip("storageMover test", () => {
 
   it("projects delete test", async () => {
     const resArray = new Array();
-    for await (let item of client.projects.list(resourceGroup, storageMoverName)) {
+    for await (const item of client.projects.list(resourceGroup, storageMoverName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
@@ -275,7 +276,7 @@ describe.skip("storageMover test", () => {
 
   it("storageMovers delete test", async () => {
     const resArray = new Array();
-    for await (let item of client.storageMovers.listBySubscription()) {
+    for await (const item of client.storageMovers.listBySubscription()) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);

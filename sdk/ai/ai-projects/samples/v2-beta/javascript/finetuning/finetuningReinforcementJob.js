@@ -14,8 +14,8 @@ const fs = require("fs");
 const path = require("path");
 require("dotenv/config");
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint string>";
-const modelName = process.env["MODEL_DEPLOYMENT_NAME"] || "o4-mini";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint string>";
+const modelName = process.env["FOUNDRY_MODEL_NAME"] || "o4-mini";
 const trainingFilePath = path.join(__dirname, "data", "rft_training_set.jsonl");
 const validationFilePath = path.join(__dirname, "data", "rft_validation_set.jsonl");
 

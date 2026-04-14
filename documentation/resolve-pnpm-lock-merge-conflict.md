@@ -1,3 +1,5 @@
+# Resolve pnpm-lock Merge Conflicts
+
 Here's the recommended process to resolve merge conflicts of `pnpm-lock.yaml` in your pull request (assuming your upstream remote is named "upstream"):
 
 1. Find out your upstream remote name for `Azure/azure-sdk-for-js` repository: `git remote -v`

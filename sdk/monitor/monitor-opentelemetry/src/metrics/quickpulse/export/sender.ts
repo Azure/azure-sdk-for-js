@@ -40,7 +40,7 @@ export class QuickpulseSender {
   private endpointUrl: string;
   private credential: TokenCredential;
   private credentialScopes: string[];
-  // @ts-expect-error - accessed by tests via bracket notation
+  // @ts-expect-error - assigned in constructor, accessed by tests via bracket notation
   private quickpulseClientOptions: {
     credential?: TokenCredential;
     credentialScopes?: string[];

@@ -71,6 +71,15 @@ export interface WarpTarget {
  */
 export interface WarpConfig {
   /**
+   * Path to a base config file to inherit from, resolved relative to this
+   * config file. The base config's `exports` and `targets` are used as
+   * defaults; any `exports` or `targets` in this config are merged on top.
+   *
+   * - `exports`: shallow merge — child keys are added to (and override) base keys.
+   * - `targets`: child replaces the base targets entirely when specified.
+   */
+  extends?: string;
+  /**
    * Exports map expressed in terms of source files.
    * Keys are subpath patterns (e.g. ".", "./models").
    * Values are source file paths (e.g. "./src/index.ts") or literal pass-through

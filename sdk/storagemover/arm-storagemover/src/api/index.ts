@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  createStorageMover,
-  type StorageMoverContext,
-  type StorageMoverClientOptionalParams,
+export type {
+  StorageMoverContext,
+  StorageMoverClientOptionalParams,
 } from "./storageMoverContext.js";
+export { createStorageMover } from "./storageMoverContext.js";

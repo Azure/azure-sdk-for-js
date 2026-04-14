@@ -9,11 +9,11 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
-  type StandbyVirtualMachinePoolsListBySubscriptionOptionalParams,
-  type StandbyVirtualMachinePoolsListByResourceGroupOptionalParams,
-  type StandbyVirtualMachinePoolsUpdateOptionalParams,
-  type StandbyVirtualMachinePoolsDeleteOptionalParams,
-  type StandbyVirtualMachinePoolsCreateOrUpdateOptionalParams,
-  type StandbyVirtualMachinePoolsGetOptionalParams,
+export type {
+  StandbyVirtualMachinePoolsListBySubscriptionOptionalParams,
+  StandbyVirtualMachinePoolsListByResourceGroupOptionalParams,
+  StandbyVirtualMachinePoolsUpdateOptionalParams,
+  StandbyVirtualMachinePoolsDeleteOptionalParams,
+  StandbyVirtualMachinePoolsCreateOrUpdateOptionalParams,
+  StandbyVirtualMachinePoolsGetOptionalParams,
 } from "./options.js";

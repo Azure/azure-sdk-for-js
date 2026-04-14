@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all Agents in a Storage Mover.
  *
  * @summary lists all Agents in a Storage Mover.
- * x-ms-original-file: 2025-07-01/Agents_List_MaximumSet.json
+ * x-ms-original-file: 2025-12-01/Agents_List_MaximumSet.json
  */
 async function agentsListMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function agentsListMaximumSet(): Promise<void> {
  * This sample demonstrates how to lists all Agents in a Storage Mover.
  *
  * @summary lists all Agents in a Storage Mover.
- * x-ms-original-file: 2025-07-01/Agents_List_MinimumSet.json
+ * x-ms-original-file: 2025-12-01/Agents_List_MinimumSet.json
  */
 async function agentsListMinimumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

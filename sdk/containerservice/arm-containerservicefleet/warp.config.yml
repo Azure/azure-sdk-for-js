@@ -1,26 +1,34 @@
+# warp.config.yml — build configuration
+
 exports:
   "./package.json": "./package.json"
   ".": "./src/index.ts"
   "./api": "./src/api/index.ts"
-  "./api/autoUpgradeProfileOperations": "./src/api/autoUpgradeProfileOperations/index.ts"
-  "./api/autoUpgradeProfiles": "./src/api/autoUpgradeProfiles/index.ts"
-  "./api/fleetUpdateStrategies": "./src/api/fleetUpdateStrategies/index.ts"
-  "./api/updateRuns": "./src/api/updateRuns/index.ts"
-  "./api/gates": "./src/api/gates/index.ts"
-  "./api/fleetManagedNamespaces": "./src/api/fleetManagedNamespaces/index.ts"
-  "./api/fleetMembers": "./src/api/fleetMembers/index.ts"
-  "./api/fleets": "./src/api/fleets/index.ts"
-  "./api/operations": "./src/api/operations/index.ts"
+  "./api/autoUpgradeProfileOperations": "src/api/autoUpgradeProfileOperations/index.ts"
+  "./api/autoUpgradeProfiles": "src/api/autoUpgradeProfiles/index.ts"
+  "./api/fleetUpdateStrategies": "src/api/fleetUpdateStrategies/index.ts"
+  "./api/updateRuns": "src/api/updateRuns/index.ts"
+  "./api/gates": "src/api/gates/index.ts"
+  "./api/fleetManagedNamespaces": "src/api/fleetManagedNamespaces/index.ts"
+  "./api/fleetMembers": "src/api/fleetMembers/index.ts"
+  "./api/fleets": "src/api/fleets/index.ts"
+  "./api/operations": "src/api/operations/index.ts"
   "./models": "./src/models/index.ts"
 
 targets:
   - name: browser
     tsconfig: "../../../tsconfig.src.browser.json"
+    polyfillSuffix: "-browser"
+
   - name: react-native
     tsconfig: "../../../tsconfig.src.react-native.json"
+    polyfillSuffix: "-react-native"
+
   - name: esm
     condition: import
     tsconfig: "../../../tsconfig.src.esm.json"
+
   - name: commonjs
     condition: require
     tsconfig: "../../../tsconfig.src.cjs.json"
+    moduleType: commonjs

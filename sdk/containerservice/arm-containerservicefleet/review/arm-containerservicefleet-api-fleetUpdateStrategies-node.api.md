@@ -34,6 +34,8 @@ export interface FleetUpdateStrategiesGetOptionalParams extends OperationOptions
 
 // @public
 export interface FleetUpdateStrategiesListByFleetOptionalParams extends OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public

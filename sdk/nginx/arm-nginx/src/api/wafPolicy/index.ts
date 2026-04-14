@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 export { $delete, create, get, list } from "./operations.js";
-export {
-  type WafPolicyDeleteOptionalParams,
-  type WafPolicyCreateOptionalParams,
-  type WafPolicyGetOptionalParams,
-  type WafPolicyListOptionalParams,
+export type {
+  WafPolicyDeleteOptionalParams,
+  WafPolicyCreateOptionalParams,
+  WafPolicyGetOptionalParams,
+  WafPolicyListOptionalParams,
 } from "./options.js";

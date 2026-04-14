@@ -17,7 +17,7 @@ async function cachesCreateOrUpdate() {
   const result = await client.caches.createOrUpdate("myRG", "account1", "pool1", "cache1", {
     location: "eastus",
     properties: {
-      filepath: "cache-west-us2-01",
+      filePath: "cache-west-us2-01",
       size: 107374182400,
       ldap: "Enabled",
       ldapServerType: "OpenLDAP",

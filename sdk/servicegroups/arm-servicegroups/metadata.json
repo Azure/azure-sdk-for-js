@@ -1,0 +1,31 @@
+{
+  "apiVersions": {
+    "Microsoft.Management": "2024-02-01-preview"
+  },
+  "emitterVersion": "0.51.0",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Microsoft.Management",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-servicegroups!ServiceGroup:interface": "Microsoft.Management.ServiceGroup",
+      "@azure/arm-servicegroups!ServiceGroupProperties:interface": "Microsoft.Management.ServiceGroupProperties",
+      "@azure/arm-servicegroups!ParentServiceGroupProperties:interface": "Microsoft.Management.ParentServiceGroupProperties",
+      "@azure/arm-servicegroups!ProxyResource:interface": "Azure.ResourceManager.CommonTypes.ProxyResource",
+      "@azure/arm-servicegroups!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
+      "@azure/arm-servicegroups!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
+      "@azure/arm-servicegroups!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+      "@azure/arm-servicegroups!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+      "@azure/arm-servicegroups!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-servicegroups!ArmOperationStatusResourceProvisioningState:interface": "Azure.ResourceManager.ArmOperationStatus",
+      "@azure/arm-servicegroups!ServiceGroupCollectionResponse:interface": "Microsoft.Management.ServiceGroupCollectionResponse",
+      "@azure/arm-servicegroups!KnownProvisioningState:enum": "Microsoft.Management.ProvisioningState",
+      "@azure/arm-servicegroups!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
+      "@azure/arm-servicegroups!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
+      "@azure/arm-servicegroups!KnownVersions:enum": "Microsoft.Management.Versions",
+      "@azure/arm-servicegroups!ServiceGroupsManagementClient#deleteServiceGroup:member(1)": "Microsoft.Management.ServiceGroups.deleteServiceGroup",
+      "@azure/arm-servicegroups!ServiceGroupsManagementClient#updateServiceGroup:member(1)": "Microsoft.Management.ServiceGroups.updateServiceGroup",
+      "@azure/arm-servicegroups!ServiceGroupsManagementClient#createOrUpdateServiceGroup:member(1)": "Microsoft.Management.ServiceGroups.createOrUpdateServiceGroup",
+      "@azure/arm-servicegroups!ServiceGroupsOperations#listAncestors:member": "Microsoft.Management.ServiceGroups.listAncestors",
+      "@azure/arm-servicegroups!ServiceGroupsOperations#get:member": "Microsoft.Management.ServiceGroups.get"
+    }
+  }
+}

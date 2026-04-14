@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a StandbyContainerGroupPoolResource
  *
  * @summary delete a StandbyContainerGroupPoolResource
- * x-ms-original-file: 2025-03-01/StandbyContainerGroupPools_Delete.json
+ * x-ms-original-file: 2025-10-01/StandbyContainerGroupPools_Delete.json
  */
 async function standbyContainerGroupPoolsDelete() {
   const credential = new DefaultAzureCredential();

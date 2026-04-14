@@ -45,7 +45,7 @@ describe("Call Automation Main Client Live Tests", { skip: !isNodeLike }, () => 
   });
 
   afterEach(async () => {
-    persistEvents(testName);
+    await persistEvents(testName);
     serviceBusReceivers.forEach((receiver) => {
       receiver.close();
     });

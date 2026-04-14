@@ -42,20 +42,20 @@ describe("http request related tests", () => {
         syncTokens.addSyncTokenFromHeaderValue("a=value;sn=0");
 
         // note that 'sn' is purposefully not serialized
-        assert.equal("a=value", syncTokens.getSyncTokenHeaderValue());
+        assert.equal(syncTokens.getSyncTokenHeaderValue(), "a=value");
 
         syncTokens.addSyncTokenFromHeaderValue("b=value2;sn=0");
-        assert.equal("a=value,b=value2", splitAndSort(syncTokens.getSyncTokenHeaderValue()));
+        assert.equal(splitAndSort(syncTokens.getSyncTokenHeaderValue()), "a=value,b=value2");
 
         // now we'll rev the sequence number field - it should overwrite the original value
         // for b
         syncTokens.addSyncTokenFromHeaderValue("b=value2.1;sn=1");
-        assert.equal("a=value,b=value2.1", splitAndSort(syncTokens.getSyncTokenHeaderValue()));
+        assert.equal(splitAndSort(syncTokens.getSyncTokenHeaderValue()), "a=value,b=value2.1");
 
         // sending in an older version of an existing key should do nothing
         syncTokens.addSyncTokenFromHeaderValue("b=value2.1;sn=0");
         // note that 'b' didn't change
-        assert.equal("a=value,b=value2.1", splitAndSort(syncTokens.getSyncTokenHeaderValue()));
+        assert.equal(splitAndSort(syncTokens.getSyncTokenHeaderValue()), "a=value,b=value2.1");
 
         // and sending in multiple values acts the same as passing them in one
         // at a time.

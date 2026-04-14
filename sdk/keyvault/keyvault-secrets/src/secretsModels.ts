@@ -3,12 +3,12 @@
 
 import type * as coreClient from "@azure-rest/core-client";
 import type { ExtendedCommonClientOptions } from "@azure/keyvault-common";
-import type { DeletionRecoveryLevel } from "./models/models.js";
+import type { ContentType, DeletionRecoveryLevel } from "./models/models.js";
 
 /**
  * The latest supported KeyVault service API version
  */
-export const LATEST_API_VERSION = "7.6";
+export const LATEST_API_VERSION = "2025-07-01";
 
 /**
  * The optional parameters accepted by the KeyVault's KeyClient
@@ -17,7 +17,7 @@ export interface SecretClientOptions extends ExtendedCommonClientOptions {
   /**
    * The accepted versions of the KeyVault's service API.
    */
-  serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3" | "7.4" | "7.5" | "7.6";
+  serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3" | "7.4" | "7.5" | "7.6" | "2025-07-01";
 
   /**
    * Whether to disable verification that the authentication challenge resource matches the Key Vault domain.
@@ -140,6 +140,12 @@ export interface SecretProperties {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   recoverableDays?: number;
+  /**
+   * Identifier of the previous secret version. Only populated when the secret was retrieved using
+   * API version 2025-07-01 or later for a certificate-backed secret.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly previousVersion?: string;
 }
 
 /**
@@ -288,6 +294,12 @@ export interface GetSecretOptions extends coreClient.OperationOptions {
    * specified the latest version of the secret will be retrieved.
    */
   version?: string;
+  /**
+   * The media type (MIME type) of the certificate. If a supported format is specified,
+   * the certificate content is converted to the requested format. Currently, only PFX to PEM
+   * conversion is supported. Use {@link KnownContentType} for known values.
+   */
+  outContentType?: ContentType;
 }
 
 /**

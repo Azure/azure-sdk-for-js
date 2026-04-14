@@ -17,9 +17,9 @@
  * npm install @azure/ai-projects @azure/identity dotenv
  *
  * Set these environment variables with your own values:
- * 1) AZURE_AI_PROJECT_ENDPOINT - Required. The Azure AI Project endpoint, as found in the Overview
+ * 1) FOUNDRY_PROJECT_ENDPOINT - Required. The Azure AI Project endpoint, as found in the Overview
  *    page of your Microsoft Foundry portal.
- * 2) MODEL_DEPLOYMENT_NAME - Required. The deployment name of the AI model, as found under the "Name" column in
+ * 2) FOUNDRY_MODEL_NAME - Required. The deployment name of the AI model, as found under the "Name" column in
  *    the "Models + endpoints" tab in your Microsoft Foundry project.
  */
 
@@ -27,8 +27,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const { AIProjectClient } = require("@azure/ai-projects");
 require("dotenv/config");
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
-const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+const modelDeploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
 
 async function main() {
   // Create AI Project client

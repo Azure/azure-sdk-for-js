@@ -129,7 +129,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
       for await (const result of searchResults.results) {
         resultIds.push(result.document.hotelId);
       }
-      assert.deepEqual(["1", "9", "3"], resultIds);
+      assert.deepEqual(resultIds, ["1", "9", "3"]);
     });
 
     it("count returns the correct document count", async () => {
@@ -466,7 +466,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
       for await (const result of searchResults.results) {
         resultIds.push(result.document.hotelId);
       }
-      assert.deepEqual(["1"], resultIds);
+      assert.deepEqual(resultIds, ["1"]);
     });
 
     it("search with vector", async () => {
