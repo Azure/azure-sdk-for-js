@@ -6,6 +6,7 @@ import type {
   GetTransactionStatus200Response,
   GetTransactionStatusDefaultResponse,
 } from "./responses.js";
+import type { ConfidentialLedgerErrorOutput } from "./outputModels.js";
 import { logger } from "./logger.js";
 
 /**
@@ -132,10 +133,8 @@ export async function pollTransactionStatus(
     // Any other non-200 status is an unexpected error — throw immediately.
     if (statusCode !== 200) {
       const errorResponse = response as GetTransactionStatusDefaultResponse;
-      const errorMessage =
-        errorResponse.body && "error" in errorResponse.body
-          ? ((errorResponse.body as any).error?.message ?? "Unknown error")
-          : "Unknown error";
+      const errorBody = errorResponse.body as ConfidentialLedgerErrorOutput | undefined;
+      const errorMessage = errorBody?.error?.message ?? "Unknown error";
       throw new Error(
         `Unexpected status ${response.status} while polling transaction ${transactionId}: ${errorMessage}`,
       );

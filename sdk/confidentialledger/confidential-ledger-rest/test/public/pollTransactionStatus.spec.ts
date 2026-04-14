@@ -229,7 +229,7 @@ describe("pollTransactionStatus", () => {
     await expectation;
   });
 
-  it("should reset nothing for 404 count when 406 is intermixed", async () => {
+  it("should maintain cumulative 404 count when 406 responses are intermixed", async () => {
     // 404 count is cumulative across all retries
     const client = createMockClient([
       createErrorResponse(404),
