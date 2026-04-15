@@ -1,4 +1,4 @@
-# gh-aw-metadata: {"schema_version":"v3","frontmatter_hash":"8c84fb211cbde67cf0ce51b40bb552aa7d5a8c8540c37f474338296266f150cc","compiler_version":"v0.68.3","strict":true,"agent_id":"copilot"}
+# gh-aw-metadata: {"schema_version":"v3","frontmatter_hash":"84d59832a99d9bb4f8e19eca0161b446c169ced02733172b0421fced1b2dc4cc","compiler_version":"v0.68.3","strict":true,"agent_id":"copilot"}
 # gh-aw-manifest: {"version":1,"secrets":["COPILOT_GITHUB_TOKEN","GH_AW_GITHUB_MCP_SERVER_TOKEN","GH_AW_GITHUB_TOKEN","GITHUB_TOKEN"],"actions":[{"repo":"actions/checkout","sha":"de0fac2e4500dabe0009e67214ff5f5447ce83dd","version":"v6.0.2"},{"repo":"actions/download-artifact","sha":"3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c","version":"v8.0.1"},{"repo":"actions/github-script","sha":"373c709c69115d41ff229c7e5df9f8788daa9553","version":"v9"},{"repo":"actions/upload-artifact","sha":"043fb46d1a93c77aae656e7c1c64a875d1fc6a0a","version":"v7.0.1"},{"repo":"github/gh-aw-actions/setup","sha":"ba90f2186d7ad780ec640f364005fa24e797b360","version":"v0.68.3"}],"containers":[{"image":"ghcr.io/github/gh-aw-firewall/agent:0.25.20"},{"image":"ghcr.io/github/gh-aw-firewall/api-proxy:0.25.20"},{"image":"ghcr.io/github/gh-aw-firewall/squid:0.25.20"},{"image":"ghcr.io/github/gh-aw-mcpg:v0.2.19"},{"image":"ghcr.io/github/github-mcp-server:v0.32.0"},{"image":"node:lts-alpine"}]}
 #    ___                   _   _      
 #   / _ \                 | | (_)     
@@ -204,14 +204,14 @@ jobs:
         run: |
           bash "${RUNNER_TEMP}/gh-aw/actions/create_prompt_first.sh"
           {
-          cat << 'GH_AW_PROMPT_1ec2c02d21d10616_EOF'
+          cat << 'GH_AW_PROMPT_6adbd1467b42a762_EOF'
           <system>
-          GH_AW_PROMPT_1ec2c02d21d10616_EOF
+          GH_AW_PROMPT_6adbd1467b42a762_EOF
           cat "${RUNNER_TEMP}/gh-aw/prompts/xpia.md"
           cat "${RUNNER_TEMP}/gh-aw/prompts/temp_folder_prompt.md"
           cat "${RUNNER_TEMP}/gh-aw/prompts/markdown.md"
           cat "${RUNNER_TEMP}/gh-aw/prompts/safe_outputs_prompt.md"
-          cat << 'GH_AW_PROMPT_1ec2c02d21d10616_EOF'
+          cat << 'GH_AW_PROMPT_6adbd1467b42a762_EOF'
           <safe-output-tools>
           Tools: add_comment(max:2), close_issue, add_labels(max:7), remove_labels(max:7), assign_to_user, missing_tool, missing_data, noop, mention_owners
           </safe-output-tools>
@@ -243,12 +243,12 @@ jobs:
           {{/if}}
           </github-context>
           
-          GH_AW_PROMPT_1ec2c02d21d10616_EOF
+          GH_AW_PROMPT_6adbd1467b42a762_EOF
           cat "${RUNNER_TEMP}/gh-aw/prompts/github_mcp_tools_with_safeoutputs_prompt.md"
-          cat << 'GH_AW_PROMPT_1ec2c02d21d10616_EOF'
+          cat << 'GH_AW_PROMPT_6adbd1467b42a762_EOF'
           </system>
           {{#runtime-import .github/workflows/issue-triage.md}}
-          GH_AW_PROMPT_1ec2c02d21d10616_EOF
+          GH_AW_PROMPT_6adbd1467b42a762_EOF
           } > "$GH_AW_PROMPT"
       - name: Interpolate variables and render templates
         uses: actions/github-script@373c709c69115d41ff229c7e5df9f8788daa9553 # v9
@@ -325,7 +325,9 @@ jobs:
   agent:
     needs: activation
     runs-on: ubuntu-latest
-    permissions: read-all
+    permissions:
+      contents: read
+      issues: read
     env:
       DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
       GH_AW_ASSETS_ALLOWED_EXTS: ""
@@ -418,9 +420,9 @@ jobs:
           mkdir -p "${RUNNER_TEMP}/gh-aw/safeoutputs"
           mkdir -p /tmp/gh-aw/safeoutputs
           mkdir -p /tmp/gh-aw/mcp-logs/safeoutputs
-          cat > "${RUNNER_TEMP}/gh-aw/safeoutputs/config.json" << 'GH_AW_SAFE_OUTPUTS_CONFIG_2bfee6c2afae500c_EOF'
+          cat > "${RUNNER_TEMP}/gh-aw/safeoutputs/config.json" << 'GH_AW_SAFE_OUTPUTS_CONFIG_878fd9bc857286de_EOF'
           {"add_comment":{"max":2,"target":"*"},"add_labels":{"max":7,"target":"*"},"assign_to_user":{"max":1,"target":"*"},"close_issue":{"max":1,"target":"*"},"create_report_incomplete_issue":{},"mention_owners":{"description":"Post a routing comment @mentioning team owners on the triggering issue; bypasses safe-outputs mention neutralization","inputs":{"message":{"default":null,"description":"The comment body text without any @mentions or @ symbols","required":true,"type":"string"},"owners":{"default":null,"description":"Comma-separated GitHub usernames to notify, without the @ prefix (e.g. 'user1, user2, Azure/team-name')","required":true,"type":"string"}},"output":"Owner mention comment posted"},"missing_data":{},"missing_tool":{},"noop":{"max":1,"report-as-issue":"false"},"remove_labels":{"max":7,"target":"*"},"report_incomplete":{}}
-          GH_AW_SAFE_OUTPUTS_CONFIG_2bfee6c2afae500c_EOF
+          GH_AW_SAFE_OUTPUTS_CONFIG_878fd9bc857286de_EOF
       - name: Write Safe Outputs Tools
         env:
           GH_AW_TOOLS_META_JSON: |
@@ -706,7 +708,7 @@ jobs:
           export MCP_GATEWAY_DOCKER_COMMAND='docker run -i --rm --network host -v /var/run/docker.sock:/var/run/docker.sock -e MCP_GATEWAY_PORT -e MCP_GATEWAY_DOMAIN -e MCP_GATEWAY_API_KEY -e MCP_GATEWAY_PAYLOAD_DIR -e MCP_GATEWAY_PAYLOAD_SIZE_THRESHOLD -e DEBUG -e MCP_GATEWAY_LOG_DIR -e GH_AW_MCP_LOG_DIR -e GH_AW_SAFE_OUTPUTS -e GH_AW_SAFE_OUTPUTS_CONFIG_PATH -e GH_AW_SAFE_OUTPUTS_TOOLS_PATH -e GH_AW_ASSETS_BRANCH -e GH_AW_ASSETS_MAX_SIZE_KB -e GH_AW_ASSETS_ALLOWED_EXTS -e DEFAULT_BRANCH -e GITHUB_MCP_SERVER_TOKEN -e GITHUB_MCP_GUARD_MIN_INTEGRITY -e GITHUB_MCP_GUARD_REPOS -e GITHUB_REPOSITORY -e GITHUB_SERVER_URL -e GITHUB_SHA -e GITHUB_WORKSPACE -e GITHUB_TOKEN -e GITHUB_RUN_ID -e GITHUB_RUN_NUMBER -e GITHUB_RUN_ATTEMPT -e GITHUB_JOB -e GITHUB_ACTION -e GITHUB_EVENT_NAME -e GITHUB_EVENT_PATH -e GITHUB_ACTOR -e GITHUB_ACTOR_ID -e GITHUB_TRIGGERING_ACTOR -e GITHUB_WORKFLOW -e GITHUB_WORKFLOW_REF -e GITHUB_WORKFLOW_SHA -e GITHUB_REF -e GITHUB_REF_NAME -e GITHUB_REF_TYPE -e GITHUB_HEAD_REF -e GITHUB_BASE_REF -e GH_AW_SAFE_OUTPUTS_PORT -e GH_AW_SAFE_OUTPUTS_API_KEY -v /tmp/gh-aw/mcp-payloads:/tmp/gh-aw/mcp-payloads:rw -v /opt:/opt:ro -v /tmp:/tmp:rw -v '"${GITHUB_WORKSPACE}"':'"${GITHUB_WORKSPACE}"':rw ghcr.io/github/gh-aw-mcpg:v0.2.19'
           
           mkdir -p /home/runner/.copilot
-          cat << GH_AW_MCP_CONFIG_9f0476495dccde30_EOF | bash "${RUNNER_TEMP}/gh-aw/actions/start_mcp_gateway.sh"
+          cat << GH_AW_MCP_CONFIG_b042268b20abc9a5_EOF | bash "${RUNNER_TEMP}/gh-aw/actions/start_mcp_gateway.sh"
           {
             "mcpServers": {
               "github": {
@@ -750,7 +752,7 @@ jobs:
               "payloadDir": "${MCP_GATEWAY_PAYLOAD_DIR}"
             }
           }
-          GH_AW_MCP_CONFIG_9f0476495dccde30_EOF
+          GH_AW_MCP_CONFIG_b042268b20abc9a5_EOF
       - name: Download activation artifact
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
@@ -1328,60 +1330,69 @@ jobs:
               await failSafe('No mention_owners items in agent output');
               return;
             }
+            if (items.length > 1) {
+              await failSafe(`Expected exactly one mention_owners item, received ${items.length}`);
+              return;
+            }
 
-            for (const item of items) {
-              if (!item.owners || typeof item.owners !== 'string' || !item.owners.trim()) {
-                await failSafe('mention_owners item missing owners field');
+            const item = items[0];
+            if (!item.owners || typeof item.owners !== 'string' || !item.owners.trim()) {
+              await failSafe('mention_owners item missing owners field');
+              return;
+            }
+
+            const mentions = item.owners
+              .split(/[\s,]+/)
+              .map(s => s.trim())
+              .filter(Boolean)
+              .map(raw => {
+                const normalized = raw.replace(/^\\?@/, '');
+                if (/\r|\n/.test(normalized)) return null;
+                if (!/^[A-Za-z0-9-]+(?:\/[A-Za-z0-9-]+)?$/.test(normalized)) return null;
+                return `@${normalized}`;
+              })
+              .filter(Boolean)
+              .slice(0, 20);
+
+            if (mentions.length === 0) {
+              await failSafe('No valid owners after parsing owners field');
+              return;
+            }
+
+            let sanitizedMessage = '';
+            if (item.message != null) {
+              if (typeof item.message !== 'string') {
+                await failSafe('mention_owners item message must be a string');
                 return;
               }
-
-              const mentions = item.owners
-                .split(/[\s,]+/)
-                .map(s => s.trim())
-                .filter(Boolean)
-                .map(raw => {
-                  const normalized = raw.replace(/^\\?@/, '');
-                  if (/\r|\n/.test(normalized)) return null;
-                  if (!/^[A-Za-z0-9-]+(?:\/[A-Za-z0-9-]+)?$/.test(normalized)) return null;
-                  return `@${normalized}`;
-                })
-                .filter(Boolean);
-
-              if (mentions.length === 0) {
-                await failSafe('No valid owners after parsing owners field');
-                return;
+              sanitizedMessage = item.message
+                .replace(/[\r\n]+/g, ' ')
+                .replace(/@/g, '')
+                .replace(/\s+/g, ' ')
+                .trim();
+              if (sanitizedMessage.length > 500) {
+                sanitizedMessage = sanitizedMessage.slice(0, 500).trim();
               }
+            }
 
-              let sanitizedMessage = '';
-              if (item.message != null) {
-                if (typeof item.message !== 'string') {
-                  await failSafe('mention_owners item message must be a string');
-                  return;
-                }
-                sanitizedMessage = item.message
-                  .replace(/[\r\n]+/g, ' ')
-                  .replace(/@/g, '')
-                  .replace(/\s+/g, ' ')
-                  .trim();
-                if (sanitizedMessage.length > 500) {
-                  sanitizedMessage = sanitizedMessage.slice(0, 500).trim();
-                }
-              }
+            const body = sanitizedMessage
+              ? `${sanitizedMessage}\n\n//cc: ${mentions.join(' ')}`
+              : mentions.join(' ');
 
-              const body = sanitizedMessage
-                ? `${sanitizedMessage}\n\n//cc: ${mentions.join(' ')}`
-                : mentions.join(' ');
+            if (body.length > 2000) {
+              await failSafe('Constructed comment body exceeds 2000 characters');
+              return;
+            }
 
-              try {
-                await github.rest.issues.createComment({
-                  owner, repo, issue_number: issueNumber,
-                  body
-                });
-                core.info(`Posted routing comment on #${issueNumber} mentioning: ${mentions.join(', ')}`);
-              } catch (apiError) {
-                await failSafe(`GitHub API error posting comment: ${apiError.message}`);
-                return;
-              }
+            try {
+              await github.rest.issues.createComment({
+                owner, repo, issue_number: issueNumber,
+                body
+              });
+              core.info(`Posted routing comment on #${issueNumber} mentioning: ${mentions.join(', ')}`);
+            } catch (apiError) {
+              await failSafe(`GitHub API error posting comment: ${apiError.message}`);
+              return;
             }
 
   safe_outputs:

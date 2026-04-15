@@ -18,7 +18,9 @@ on:
   roles: all
   reaction: eyes
 
-permissions: read-all
+permissions:
+  contents: read
+  issues: read
 
 concurrency:
   group: "gh-aw-${{ github.workflow }}-${{ github.event.issue.number || github.event.inputs.issue_number || github.run_id }}"
@@ -147,60 +149,69 @@ safe-outputs:
                 await failSafe('No mention_owners items in agent output');
                 return;
               }
+              if (items.length > 1) {
+                await failSafe(`Expected exactly one mention_owners item, received ${items.length}`);
+                return;
+              }
 
-              for (const item of items) {
-                if (!item.owners || typeof item.owners !== 'string' || !item.owners.trim()) {
-                  await failSafe('mention_owners item missing owners field');
+              const item = items[0];
+              if (!item.owners || typeof item.owners !== 'string' || !item.owners.trim()) {
+                await failSafe('mention_owners item missing owners field');
+                return;
+              }
+
+              const mentions = item.owners
+                .split(/[\s,]+/)
+                .map(s => s.trim())
+                .filter(Boolean)
+                .map(raw => {
+                  const normalized = raw.replace(/^\\?@/, '');
+                  if (/\r|\n/.test(normalized)) return null;
+                  if (!/^[A-Za-z0-9-]+(?:\/[A-Za-z0-9-]+)?$/.test(normalized)) return null;
+                  return `@${normalized}`;
+                })
+                .filter(Boolean)
+                .slice(0, 20);
+
+              if (mentions.length === 0) {
+                await failSafe('No valid owners after parsing owners field');
+                return;
+              }
+
+              let sanitizedMessage = '';
+              if (item.message != null) {
+                if (typeof item.message !== 'string') {
+                  await failSafe('mention_owners item message must be a string');
                   return;
                 }
-
-                const mentions = item.owners
-                  .split(/[\s,]+/)
-                  .map(s => s.trim())
-                  .filter(Boolean)
-                  .map(raw => {
-                    const normalized = raw.replace(/^\\?@/, '');
-                    if (/\r|\n/.test(normalized)) return null;
-                    if (!/^[A-Za-z0-9-]+(?:\/[A-Za-z0-9-]+)?$/.test(normalized)) return null;
-                    return `@${normalized}`;
-                  })
-                  .filter(Boolean);
-
-                if (mentions.length === 0) {
-                  await failSafe('No valid owners after parsing owners field');
-                  return;
+                sanitizedMessage = item.message
+                  .replace(/[\r\n]+/g, ' ')
+                  .replace(/@/g, '')
+                  .replace(/\s+/g, ' ')
+                  .trim();
+                if (sanitizedMessage.length > 500) {
+                  sanitizedMessage = sanitizedMessage.slice(0, 500).trim();
                 }
+              }
 
-                let sanitizedMessage = '';
-                if (item.message != null) {
-                  if (typeof item.message !== 'string') {
-                    await failSafe('mention_owners item message must be a string');
-                    return;
-                  }
-                  sanitizedMessage = item.message
-                    .replace(/[\r\n]+/g, ' ')
-                    .replace(/@/g, '')
-                    .replace(/\s+/g, ' ')
-                    .trim();
-                  if (sanitizedMessage.length > 500) {
-                    sanitizedMessage = sanitizedMessage.slice(0, 500).trim();
-                  }
-                }
+              const body = sanitizedMessage
+                ? `${sanitizedMessage}\n\n//cc: ${mentions.join(' ')}`
+                : mentions.join(' ');
 
-                const body = sanitizedMessage
-                  ? `${sanitizedMessage}\n\n//cc: ${mentions.join(' ')}`
-                  : mentions.join(' ');
+              if (body.length > 2000) {
+                await failSafe('Constructed comment body exceeds 2000 characters');
+                return;
+              }
 
-                try {
-                  await github.rest.issues.createComment({
-                    owner, repo, issue_number: issueNumber,
-                    body
-                  });
-                  core.info(`Posted routing comment on #${issueNumber} mentioning: ${mentions.join(', ')}`);
-                } catch (apiError) {
-                  await failSafe(`GitHub API error posting comment: ${apiError.message}`);
-                  return;
-                }
+              try {
+                await github.rest.issues.createComment({
+                  owner, repo, issue_number: issueNumber,
+                  body
+                });
+                core.info(`Posted routing comment on #${issueNumber} mentioning: ${mentions.join(', ')}`);
+              } catch (apiError) {
+                await failSafe(`GitHub API error posting comment: ${apiError.message}`);
+                return;
               }
 
 timeout-minutes: 10
