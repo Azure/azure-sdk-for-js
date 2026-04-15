@@ -12,6 +12,7 @@ import {
   type CheckConfigurationSettingsOptions,
   type ConfigurationSetting,
   type ConfigurationSettingId,
+  type ConfigurationSnapshot,
   type CreateSnapshotOptions,
   type CreateSnapshotResponse,
   type DeleteConfigurationSettingOptions,
@@ -20,7 +21,6 @@ import {
   type GetConfigurationSettingResponse,
   type GetSnapshotOptions,
   type GetSnapshotResponse,
-  type HttpResponseField,
   type ListConfigurationSettingPage,
   type ListConfigurationSettingsForSnapshotOptions,
   type ListConfigurationSettingsOptions,
@@ -41,20 +41,6 @@ import {
   type UpdateSnapshotOptions,
   type UpdateSnapshotResponse,
 } from "./models.js";
-import type {
-  AppConfigurationGetKeyValuesHeaders,
-  AppConfigurationGetRevisionsHeaders,
-  AppConfigurationGetSnapshotsHeaders,
-  AppConfigurationCheckKeyValuesHeaders,
-  GetKeyValuesResponse,
-  GetRevisionsResponse,
-  GetSnapshotsResponse,
-  CheckKeyValuesResponse,
-  ConfigurationSnapshot,
-  GetLabelsResponse,
-  AppConfigurationGetLabelsHeaders,
-} from "./generated/src/models/index.js";
-import type { InternalClientPipelineOptions } from "@azure/core-client";
 import type { PagedAsyncIterableIterator, PagedResult } from "@azure/core-paging";
 import { getPagedAsyncIterator } from "@azure/core-paging";
 import type { PipelinePolicy, RestError } from "@azure/core-rest-pipeline";
@@ -82,12 +68,37 @@ import {
   getScope,
   makeConfigurationSettingEmpty,
   serializeAsConfigurationSettingParam,
+  snapshotInfoToGenerated,
   transformKeyValue,
   transformKeyValueResponse,
   transformKeyValueResponseWithStatusCode,
   transformSnapshotResponse,
 } from "./internal/helpers.js";
-import { AzureAppConfigurationClient } from "./generated/azureAppConfigurationClient.js";
+import {
+  AzureAppConfigurationClient,
+  type AzureAppConfigurationClientOptionalParams,
+} from "./generated/azureAppConfigurationClient.js";
+import type {
+  _KeyValueListResult,
+  _LabelListResult,
+  _SnapshotListResult,
+} from "./generated/models/models.js";
+import {
+  _getKeyValuesSend,
+  _getKeyValuesDeserialize,
+  _checkKeyValuesSend,
+  _checkKeyValuesDeserialize,
+  _getRevisionsSend,
+  _getRevisionsDeserialize,
+  _getLabelsSend,
+  _getLabelsDeserialize,
+  _getSnapshotsSend,
+  _getSnapshotsDeserialize,
+  _createSnapshotSend,
+  _createSnapshotDeserialize,
+} from "./generated/api/operations.js";
+import { getLongRunningPoller } from "./generated/static-helpers/pollingHelpers.js";
+import type { AzureAppConfigurationContext } from "./generated/api/azureAppConfigurationContext.js";
 import type { FeatureFlagValue } from "./featureFlag.js";
 import type { SecretReferenceValue } from "./secretReference.js";
 import type { SnapshotReferenceValue } from "./snapshotReference.js";
@@ -98,19 +109,6 @@ import type { OperationState, PollerLike } from "@azure/core-lro";
 import { appConfigurationApiVersion } from "./internal/constants.js";
 
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
-const deserializationContentTypes = {
-  json: [
-    "application/vnd.microsoft.appconfig.kvset+json",
-    "application/vnd.microsoft.appconfig.kv+json",
-    "application/vnd.microsoft.appconfig.kvs+json",
-    "application/vnd.microsoft.appconfig.keyset+json",
-    "application/vnd.microsoft.appconfig.revs+json",
-    "application/vnd.microsoft.appconfig.snapshotset+json",
-    "application/vnd.microsoft.appconfig.snapshot+json",
-    "application/vnd.microsoft.appconfig.labelset+json",
-    "application/json",
-  ],
-};
 
 /**
  * Provides internal configuration options for AppConfigurationClient.
@@ -185,21 +183,19 @@ export class AppConfigurationClient {
       }
     }
 
-    const internalClientPipelineOptions: InternalClientPipelineOptions = {
+    const generatedClientOptions: AzureAppConfigurationClientOptionalParams = {
       ...appConfigOptions,
       loggingOptions: {
         logger: logger.info,
       },
-      deserializationOptions: {
-        expectedContentTypes: deserializationContentTypes,
-      },
+      apiVersion: options?.apiVersion ?? appConfigurationApiVersion,
     };
 
     this._syncTokens = appConfigOptions.syncTokens || new SyncTokens();
     this.client = new AzureAppConfigurationClient(
       appConfigEndpoint,
       appConfigCredential,
-      { ...internalClientPipelineOptions, apiVersion: options?.apiVersion ?? appConfigurationApiVersion },
+      generatedClientOptions,
     );
     this.client.pipeline.addPolicy(
       audienceErrorHandlingPolicy(appConfigOptions?.audience !== undefined),
@@ -251,12 +247,16 @@ export class AppConfigurationClient {
         const keyValue = serializeAsConfigurationSettingParam(configurationSetting);
         logger.info("[addConfigurationSetting] Creating a key value pair");
         try {
-          const originalResponse = await this.client.putKeyValue(configurationSetting.key, {
-            ifNoneMatch: "*",
-            label: configurationSetting.label,
-            entity: keyValue,
-            ...updatedOptions,
-          });
+          const originalResponse = await this.client.putKeyValue(
+            "application/json",
+            configurationSetting.key,
+            {
+              ifNoneMatch: "*",
+              label: configurationSetting.label,
+              entity: keyValue,
+              ...updatedOptions,
+            },
+          );
           const response = transformKeyValueResponse(originalResponse);
           assertResponse(response);
           return response;
@@ -484,11 +484,11 @@ export class AppConfigurationClient {
               { ...options, etag },
               pageLink,
             );
-            const link = response._response?.headers?.get("link");
+            const link = response._response?.headers?.["link"] as string | undefined;
             const continuationToken = link ? extractAfterTokenFromLinkHeader(link) : undefined;
             const currentResponse: ListConfigurationSettingPage = {
               ...response,
-              etag: response._response?.headers?.get("etag"),
+              etag: response._response?.headers?.["etag"] as string | undefined,
               items: [],
               continuationToken: continuationToken,
               _response: response._response,
@@ -617,22 +617,26 @@ export class AppConfigurationClient {
     return getPagedAsyncIterator(pagedResult);
   }
 
+  private get _context(): AzureAppConfigurationContext {
+    return (this.client as any)._client as AzureAppConfigurationContext;
+  }
+
   private async sendLabelsRequest(
     options: SendLabelsRequestOptions & PageSettings = {},
     pageLink: string | undefined,
-  ): Promise<GetLabelsResponse & HttpResponseField<AppConfigurationGetLabelsHeaders>> {
+  ): Promise<_LabelListResult & { _response: any }> {
     return tracingClient.withSpan(
       "AppConfigurationClient.listConfigurationSettings",
       options,
       async (updatedOptions) => {
-        const response = await this.client.getLabels({
+        const rawResponse = await _getLabelsSend(this._context, {
           ...updatedOptions,
           ...formatAcceptDateTime(options),
           ...formatLabelsFiltersAndSelect(options),
           after: pageLink,
         });
-
-        return response as GetLabelsResponse & HttpResponseField<AppConfigurationGetLabelsHeaders>;
+        const parsed = await _getLabelsDeserialize(rawResponse);
+        return Object.assign(parsed, { _response: rawResponse });
       },
     );
   }
@@ -640,21 +644,20 @@ export class AppConfigurationClient {
   private async sendConfigurationSettingsRequest(
     options: SendConfigurationSettingsOptions & PageSettings = {},
     pageLink: string | undefined,
-  ): Promise<GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>> {
+  ): Promise<_KeyValueListResult & { _response: any }> {
     return tracingClient.withSpan(
       "AppConfigurationClient.listConfigurationSettings",
       options,
       async (updatedOptions) => {
-        const response = await this.client.getKeyValues({
+        const rawResponse = await _getKeyValuesSend(this._context, {
           ...updatedOptions,
           ...formatAcceptDateTime(options),
           ...formatConfigurationSettingsFiltersAndSelect(options),
           ...checkAndFormatIfAndIfNoneMatch({ etag: options.etag }, { onlyIfChanged: true }),
           after: pageLink,
         });
-
-        return response as GetKeyValuesResponse &
-          HttpResponseField<AppConfigurationGetKeyValuesHeaders>;
+        const parsed = await _getKeyValuesDeserialize(rawResponse);
+        return Object.assign(parsed, { _response: rawResponse });
       },
     );
   }
@@ -662,21 +665,20 @@ export class AppConfigurationClient {
   private async checkConfigurationSettingsRequest(
     options: SendConfigurationSettingsOptions & PageSettings = {},
     pageLink: string | undefined,
-  ): Promise<CheckKeyValuesResponse & HttpResponseField<AppConfigurationCheckKeyValuesHeaders>> {
+  ): Promise<{ _response: any }> {
     return tracingClient.withSpan(
       "AppConfigurationClient.checkConfigurationSettings",
       options,
       async (updatedOptions) => {
-        const response = await this.client.checkKeyValues({
+        const rawResponse = await _checkKeyValuesSend(this._context, {
           ...updatedOptions,
           ...formatAcceptDateTime(options),
           ...formatConfigurationSettingsFiltersAndSelect(options),
           ...checkAndFormatIfAndIfNoneMatch({ etag: options.etag }, { onlyIfChanged: true }),
           after: pageLink,
         });
-
-        return response as CheckKeyValuesResponse &
-          HttpResponseField<AppConfigurationCheckKeyValuesHeaders>;
+        await _checkKeyValuesDeserialize(rawResponse);
+        return { _response: rawResponse };
       },
     );
   }
@@ -727,20 +729,19 @@ export class AppConfigurationClient {
   private async sendRevisionsRequest(
     options: ListConfigurationSettingsOptions & PageSettings = {},
     pageLink: string | undefined,
-  ): Promise<GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>> {
+  ): Promise<_KeyValueListResult & { _response: any }> {
     return tracingClient.withSpan(
       "AppConfigurationClient.listRevisions",
       options,
       async (updatedOptions) => {
-        const response = await this.client.getRevisions({
+        const rawResponse = await _getRevisionsSend(this._context, {
           ...updatedOptions,
           ...formatAcceptDateTime(options),
           ...formatFiltersAndSelect(updatedOptions),
           after: pageLink,
         });
-
-        return response as GetRevisionsResponse &
-          HttpResponseField<AppConfigurationGetRevisionsHeaders>;
+        const parsed = await _getRevisionsDeserialize(rawResponse);
+        return Object.assign(parsed, { _response: rawResponse });
       },
     );
   }
@@ -779,7 +780,7 @@ export class AppConfigurationClient {
         const keyValue = serializeAsConfigurationSettingParam(configurationSetting);
         logger.info("[setConfigurationSetting] Setting new key value");
         const response = transformKeyValueResponse(
-          await this.client.putKeyValue(configurationSetting.key, {
+          await this.client.putKeyValue("application/json", configurationSetting.key, {
             ...updatedOptions,
             label: configurationSetting.label,
             entity: keyValue,
@@ -849,9 +850,32 @@ export class AppConfigurationClient {
     return tracingClient.withSpan(
       `${AppConfigurationClient.name}.beginCreateSnapshot`,
       options,
-      (updatedOptions) =>
-        this.client.beginCreateSnapshot(snapshot.name, snapshot, { ...updatedOptions }),
-    );
+      async (updatedOptions) => {
+        const generatedSnapshot = snapshotInfoToGenerated(snapshot);
+        const poller = getLongRunningPoller(
+          this._context,
+          async (result) =>
+            transformSnapshotResponse(
+              await _createSnapshotDeserialize(result),
+            ) as CreateSnapshotResponse,
+          ["201", "200", "202"],
+          {
+            updateIntervalInMs: updatedOptions?.updateIntervalInMs,
+            abortSignal: updatedOptions?.abortSignal,
+            getInitialResponse: () =>
+              _createSnapshotSend(
+                this._context,
+                "application/vnd.microsoft.appconfig.snapshot+json",
+                snapshot.name,
+                generatedSnapshot,
+                updatedOptions,
+              ),
+            resourceLocationConfig: "original-uri",
+          },
+        );
+        return poller;
+      }
+    ) as unknown as Promise<PollerLike<OperationState<CreateSnapshotResponse>, CreateSnapshotResponse>>;
   }
 
   /**
@@ -860,14 +884,36 @@ export class AppConfigurationClient {
    */
   beginCreateSnapshotAndWait(
     snapshot: SnapshotInfo,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: CreateSnapshotOptions = {},
   ): Promise<CreateSnapshotResponse> {
     return tracingClient.withSpan(
       `${AppConfigurationClient.name}.beginCreateSnapshotAndWait`,
       options,
-      (updatedOptions) =>
-        this.client.beginCreateSnapshotAndWait(snapshot.name, snapshot, { ...updatedOptions }),
+      async (updatedOptions) => {
+        const generatedSnapshot = snapshotInfoToGenerated(snapshot);
+        const poller = getLongRunningPoller(
+          this._context,
+          async (result) =>
+            transformSnapshotResponse(
+              await _createSnapshotDeserialize(result),
+            ) as CreateSnapshotResponse,
+          ["201", "200", "202"],
+          {
+            updateIntervalInMs: updatedOptions?.updateIntervalInMs,
+            abortSignal: updatedOptions?.abortSignal,
+            getInitialResponse: () =>
+              _createSnapshotSend(
+                this._context,
+                "application/vnd.microsoft.appconfig.snapshot+json",
+                snapshot.name,
+                generatedSnapshot,
+                updatedOptions,
+              ),
+            resourceLocationConfig: "original-uri",
+          },
+        );
+        return poller.pollUntilDone();
+      },
     );
   }
 
@@ -935,6 +981,7 @@ export class AppConfigurationClient {
       async (updatedOptions) => {
         logger.info("[recoverSnapshot] Recover a snapshot");
         const originalResponse = await this.client.updateSnapshot(
+          "application/merge-patch+json",
           name,
           { status: "ready" },
           {
@@ -980,6 +1027,7 @@ export class AppConfigurationClient {
       async (updatedOptions) => {
         logger.info("[archiveSnapshot] Archive a snapshot");
         const originalResponse = await this.client.updateSnapshot(
+          "application/merge-patch+json",
           name,
           { status: "archived" },
           {
@@ -1027,7 +1075,8 @@ export class AppConfigurationClient {
         const response = await this.sendSnapShotsRequest(options, pageLink);
         const currentResponse = {
           ...response,
-          items: response.items != null ? response.items : [],
+          items:
+            response.items != null ? response.items.map((s) => transformSnapshotResponse(s)) : [],
           continuationToken: response.nextLink
             ? extractAfterTokenFromNextLink(response.nextLink)
             : undefined,
@@ -1045,19 +1094,18 @@ export class AppConfigurationClient {
   private async sendSnapShotsRequest(
     options: ListSnapshotsOptions & PageSettings = {},
     pageLink: string | undefined,
-  ): Promise<GetSnapshotsResponse & HttpResponseField<AppConfigurationGetSnapshotsHeaders>> {
+  ): Promise<_SnapshotListResult & { _response: any }> {
     return tracingClient.withSpan(
       "AppConfigurationClient.listSnapshots",
       options,
       async (updatedOptions) => {
-        const response = await this.client.getSnapshots({
+        const rawResponse = await _getSnapshotsSend(this._context, {
           ...updatedOptions,
           ...formatSnapshotFiltersAndSelect(options),
           after: pageLink,
         });
-
-        return response as GetSnapshotsResponse &
-          HttpResponseField<AppConfigurationGetSnapshotsHeaders>;
+        const parsed = await _getSnapshotsDeserialize(rawResponse);
+        return Object.assign(parsed, { _response: rawResponse });
       },
     );
   }
