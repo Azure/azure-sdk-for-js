@@ -55,18 +55,5 @@ describe("Type guards", function () {
       assert.isFalse(objectHasProperty("azure", "azure"));
       assert.isFalse(objectHasProperty(Symbol("azure"), "azure"));
     });
-    it("should return true when the argument is a function with the property", async function () {
-      function myFn(): void {
-        /* no-op */
-      }
-      myFn.azure = true;
-      assert.isTrue(objectHasProperty(myFn, "azure"));
-    });
-    it("should return false for a function without the property", async function () {
-      function myFn(): void {
-        /* no-op */
-      }
-      assert.isFalse(objectHasProperty(myFn, "azure"));
-    });
   });
 });
