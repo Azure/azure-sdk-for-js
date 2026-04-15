@@ -1027,6 +1027,32 @@ describe("BearerTokenAuthenticationPolicy", function () {
     });
   });
 
+  it("should not throw when 401 response has no WWW-Authenticate header", async function () {
+    const tokenExpiration = Date.now() + 1000 * 60;
+    const getToken = vi.fn<() => Promise<AccessToken | null>>();
+    getToken.mockResolvedValue({
+      token: "token",
+      expiresOnTimestamp: tokenExpiration,
+    });
+    const credential: TokenCredential = {
+      getToken,
+    };
+    const tokenScopes = ["test-scope"];
+    const request = createPipelineRequest({ url: "https://example.com" });
+
+    const next = vi.fn<SendRequest>();
+    const responseWithoutChallenge: PipelineResponse = {
+      headers: createHttpHeaders(),
+      request,
+      status: 401,
+    };
+    next.mockResolvedValue(responseWithoutChallenge);
+
+    const policy = createBearerTokenPolicy(tokenScopes, credential);
+    const response = await policy.sendRequest(request, next);
+    assert.strictEqual(response.status, 401);
+  });
+
   function createBearerTokenPolicy(
     scopes: string | string[],
     credential: TokenCredential,

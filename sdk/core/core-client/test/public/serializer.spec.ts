@@ -17,11 +17,7 @@ const Serializer = createSerializer(Mappers);
 const valid_uuid = "ceaafd1e-f936-429f-bbfc-82ee75dddc33";
 
 function stringToByteArray(str: string): Uint8Array {
-  if (typeof Buffer === "function") {
-    return Buffer.from(str, "utf-8");
-  } else {
-    return new TextEncoder().encode(str);
-  }
+  return new TextEncoder().encode(str);
 }
 
 describe("Serializer", function () {

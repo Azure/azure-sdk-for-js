@@ -21,11 +21,7 @@ describe("HttpsPipeline", function () {
           headers: {} as HttpHeaders,
           status: 0 as number,
           request,
-          bodyAsText: "" as string,
-          readableStreamBody: {} as NodeJS.ReadableStream,
-          blobBody: {} as Promise<Blob>,
-          browserStreamBody: {} as ReadableStream<Uint8Array<ArrayBufferLike>>,
-        };
+        } satisfies PipelineResponse;
       },
     });
     expectTypeOf(
