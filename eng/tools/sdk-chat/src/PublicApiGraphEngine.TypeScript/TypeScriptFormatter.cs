@@ -1010,10 +1010,10 @@ public static class TypeScriptFormatter
                         foreach (var (depModuleName, depClasses, depInterfaces, depEnums, depTypes, depFunctions) in depsForThisCondition)
                         {
                             var importNames = new List<string>();
-                            foreach (var c in depClasses) importNames.Add(c.Name);
-                            foreach (var i in depInterfaces) importNames.Add(i.Name);
-                            foreach (var e in depEnums) importNames.Add(e.Name);
-                            foreach (var t in depTypes) importNames.Add(t.Name);
+                            foreach (var c in depClasses) if (!mainOwnTypes.Contains(c.Name)) importNames.Add(c.Name);
+                            foreach (var i in depInterfaces) if (!mainOwnTypes.Contains(i.Name)) importNames.Add(i.Name);
+                            foreach (var e in depEnums) if (!mainOwnTypes.Contains(e.Name)) importNames.Add(e.Name);
+                            foreach (var t in depTypes) if (!mainOwnTypes.Contains(t.Name)) importNames.Add(t.Name);
 
                             if (importNames.Count > 0)
                                 sb.AppendLine($"    import {{ {string.Join(", ", importNames)} }} from \"{depModuleName}\";");
@@ -1045,12 +1045,12 @@ public static class TypeScriptFormatter
                 {
                     if (dep.IsNode) continue;
                     var importNames = new List<string>();
-                    foreach (var c in dep.Classes ?? []) importNames.Add(c.Name);
-                    foreach (var i in dep.Interfaces ?? []) importNames.Add(i.Name);
-                    foreach (var e in dep.Enums ?? []) importNames.Add(e.Name);
+                    foreach (var c in dep.Classes ?? []) if (!allTypeNames.Contains(c.Name)) importNames.Add(c.Name);
+                    foreach (var i in dep.Interfaces ?? []) if (!allTypeNames.Contains(i.Name)) importNames.Add(i.Name);
+                    foreach (var e in dep.Enums ?? []) if (!allTypeNames.Contains(e.Name)) importNames.Add(e.Name);
                     foreach (var t in dep.Types ?? [])
                     {
-                        if (!IsSelfReferentialAlias(t)) importNames.Add(t.Name);
+                        if (!IsSelfReferentialAlias(t) && !allTypeNames.Contains(t.Name)) importNames.Add(t.Name);
                     }
                     if (importNames.Count > 0)
                         sb.AppendLine($"import type {{ {string.Join(", ", importNames)} }} from \"{dep.Package}\";");
