@@ -72,7 +72,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
     // Progress handlers
     type Handler = (state: TState) => void;
     const handlers = new Map<symbol, Handler>();
-    const handleProgressEvents = async (): Promise<void> => handlers.forEach((h) => h(state));
+    const handleProgressEvents = (): void => handlers.forEach((h) => h(state));
     const cancelErrMsg = "Operation was canceled";
     let currentPollIntervalInMs = intervalInMs;
 
