@@ -27,7 +27,7 @@ concurrency:
 tools:
   web-fetch:
   github:
-    toolsets: [issues]
+    toolsets: [issues, repos]
     # Triage must read issues from all users, including external
     # customers with NONE author_association; without this, the
     # auto-applied "approved" policy filters them out via DIFC
@@ -171,8 +171,24 @@ safe-outputs:
                   return;
                 }
 
-                const body = item.message
-                  ? `${item.message}\n\n//cc: ${mentions.join(' ')}`
+                let sanitizedMessage = '';
+                if (item.message != null) {
+                  if (typeof item.message !== 'string') {
+                    await failSafe('mention_owners item message must be a string');
+                    return;
+                  }
+                  sanitizedMessage = item.message
+                    .replace(/[\r\n]+/g, ' ')
+                    .replace(/@/g, '')
+                    .replace(/\s+/g, ' ')
+                    .trim();
+                  if (sanitizedMessage.length > 500) {
+                    sanitizedMessage = sanitizedMessage.slice(0, 500).trim();
+                  }
+                }
+
+                const body = sanitizedMessage
+                  ? `${sanitizedMessage}\n\n//cc: ${mentions.join(' ')}`
                   : mentions.join(' ');
 
                 try {
@@ -397,7 +413,7 @@ If a replacement package is mentioned in the deprecation message, append:
 The replacement is `<replacement package>`. Please consider re-filing your issue against the replacement package.
 ```
 
-2. Close the issue (via `close_issue`)
+2. Close the issue via `close_issue`, providing a non-empty `body`. Use the same deprecation text from the comment above as the `body`.
 3. Exit — skip all remaining steps
 
 ## Step 5: Owner Lookup and Routing
