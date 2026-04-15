@@ -709,28 +709,35 @@ export function extractNamespace(mod: ModuleDeclaration, ctx: ExtractionContext)
 
     const result: NamespaceInfo = { name };
 
+    // In ambient/declare namespace blocks (common in .d.ts files), members
+    // are implicitly exported even without an explicit `export` keyword.
+    // Use isAmbient() to detect this and skip the isExported() check.
+    const isAmbient = mod.isAmbient();
+    const isVisible = (node: { isExported(): boolean }): boolean =>
+        isAmbient || node.isExported();
+
     const classes = mod.getClasses()
-        .filter(c => c.isExported() && c.getName() && !hasInternalOrHiddenTag(c))
+        .filter(c => isVisible(c) && c.getName() && !hasInternalOrHiddenTag(c))
         .map(c => extractClass(c, ctx));
     if (classes.length) result.classes = classes;
 
     const interfaces = mod.getInterfaces()
-        .filter(i => i.isExported() && !hasInternalOrHiddenTag(i))
+        .filter(i => isVisible(i) && !hasInternalOrHiddenTag(i))
         .map(i => extractInterface(i, ctx));
     if (interfaces.length) result.interfaces = interfaces;
 
     const enums = mod.getEnums()
-        .filter(e => e.isExported() && !hasInternalOrHiddenTag(e))
+        .filter(e => isVisible(e) && !hasInternalOrHiddenTag(e))
         .map(e => extractEnum(e, ctx));
     if (enums.length) result.enums = enums;
 
     const typeAliases = mod.getTypeAliases()
-        .filter(t => t.isExported() && !hasInternalOrHiddenTag(t))
+        .filter(t => isVisible(t) && !hasInternalOrHiddenTag(t))
         .map(t => extractTypeAlias(t, ctx));
     if (typeAliases.length) result.types = typeAliases;
 
     const functions = mod.getFunctions()
-        .filter(f => f.isExported() && !hasInternalOrHiddenTag(f))
+        .filter(f => isVisible(f) && !hasInternalOrHiddenTag(f))
         .filter(f => f.isOverload() || f.getOverloads().length === 0)
         .map(f => extractFunction(f, ctx))
         .filter((f): f is FunctionInfo => f !== undefined);

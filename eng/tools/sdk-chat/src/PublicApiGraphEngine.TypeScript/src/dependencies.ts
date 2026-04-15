@@ -349,6 +349,26 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
         }
     }
 
+    // Collect namespace import aliases from dependency source files so that
+    // type text like `API.AllModels` or `Shared.Response` is stripped to just
+    // `AllModels` / `Response`. Without this, dep-internal barrel aliases
+    // leak into the generated output as unresolved namespace references.
+    const visitedDepFiles = new Set<string>();
+    function collectNsAliasesFromFile(sf: SourceFile): void {
+        const fp = sf.getFilePath();
+        if (visitedDepFiles.has(fp)) return;
+        visitedDepFiles.add(fp);
+        for (const imp of sf.getImportDeclarations()) {
+            const nsImport = imp.getNamespaceImport();
+            if (nsImport) {
+                ctx.namespaceAliases.add(nsImport.getText());
+            }
+        }
+    }
+    for (const [, entry] of importResolutionMap) {
+        collectNsAliasesFromFile(entry.resolvedFile);
+    }
+
     let pendingTypes = new Map(typesByPackage);
     while (pendingTypes.size > 0) {
         const newPending = new Map<string, Set<string>>();
@@ -415,18 +435,23 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
 
                 allResolved.set(typeName, { packageName, type: result.graphed, kind: result.kind });
 
+                // Collect namespace aliases from the declaration's source file
+                // (catches dep-internal barrel aliases from files reached via
+                // re-exports, not just the initial barrel).
+                collectNsAliasesFromFile(result.declaration.getSourceFile());
+
                 // Companion namespace extraction: if the resolved type is an
-                // interface/class and the same file has a namespace with the
-                // same name (declaration merging), extract it too.
+                // interface/class/type and the same file has a namespace with
+                // the same name (declaration merging), extract it too.
+                // Use the declaration's source file (not the barrel/re-export file)
+                // so we find the namespace where it's actually defined.
                 if (result.kind !== "namespace") {
-                    const resolvedFile = resolution?.resolvedFile ?? packageResolutionMap.get(packageName);
-                    if (resolvedFile) {
-                        const companionMod = resolvedFile.getModules().find(m => m.getName() === typeName);
-                        if (companionMod) {
-                            const nsInfo = extractNamespace(companionMod, ctx);
-                            if (nsInfo) {
-                                allResolved.set(`__ns__${typeName}`, { packageName, type: nsInfo, kind: "namespace" });
-                            }
+                    const declFile = result.declaration.getSourceFile();
+                    const companionMod = declFile.getModules().find(m => m.getName() === typeName);
+                    if (companionMod) {
+                        const nsInfo = extractNamespace(companionMod, ctx);
+                        if (nsInfo) {
+                            allResolved.set(`__ns__${typeName}`, { packageName, type: nsInfo, kind: "namespace" });
                         }
                     }
                 }
