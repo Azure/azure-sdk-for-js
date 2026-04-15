@@ -15,6 +15,8 @@ on:
         description: Issue number to triage
         required: true
         type: string
+  roles: all
+  reaction: eyes
   permissions:
     issues: write
   steps:
@@ -148,7 +150,27 @@ tools:
 network:
   allowed:
     - defaults
-    - node
+    - "registry.npmjs.org"
+
+safe-outputs:
+  report-failure-as-issue: false
+  add-labels:
+    max: 7
+    target: "*"
+  remove-labels:
+    max: 7
+    target: "*"
+  add-comment:
+    max: 2
+    target: "*"
+  assign-to-user:
+    max: 1
+    target: "*"
+  close-issue:
+    max: 1
+    target: "*"
+  noop:
+    report-as-issue: false
 
 timeout-minutes: 10
 ---
@@ -208,7 +230,7 @@ The following accounts bypass the normal customer evaluation; they are routed th
 - `microsoft-github-policy-service[bot]`
 - `github-actions[bot]`
 
-If the author matches the bot allowlist, continue directly to Step 3 without adding any author-classification labels
+If the author matches the bot allowlist, continue directly to Step 3 without adding any author-classification labels. Note: unlike some other Azure SDK repositories, this repository does not have a "bot" label; bot-filed issues are triaged through label prediction and ownership routing without special classification
 
 ### Author Association Check
 
