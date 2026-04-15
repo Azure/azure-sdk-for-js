@@ -225,4 +225,10 @@ export default (parser: FlatConfig.Parser): FlatConfig.ConfigArray => [
       "@azure/azure-sdk/ts-use-cjs-polyfill": "error",
     },
   },
+  {
+    files: ["**/src/**/*.{ts,cts,mts,tsx}"],
+    rules: {
+      "no-console": "error",
+    },
+  },
 ];
