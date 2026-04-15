@@ -61,4 +61,25 @@ describe("formDataPolicy", function () {
       assert.deepEqual([...content], [0x01, 0x02, 0x03]);
     });
   });
+
+  describe("file uploads", function () {
+    it("handles subarray content correctly in createFile", async function () {
+      const backing = new Uint8Array([0x00, 0x01, 0x02, 0x03, 0x04]);
+      const subarray = backing.subarray(1, 4);
+      const result = await performRequest({
+        file: createFile(subarray, "sub.bin"),
+      });
+
+      const parts = (result.request.multipartBody as MultipartRequestBody).parts;
+      assert.equal(parts.length, 1, "expected 1 part");
+
+      const body = parts[0].body;
+      assert.isTrue(
+        typeof (body as unknown as Record<string, unknown>).arrayBuffer === "function",
+        "expected body to have arrayBuffer method",
+      );
+      const content = new Uint8Array(await (body as Blob).arrayBuffer());
+      assert.deepEqual([...content], [0x01, 0x02, 0x03]);
+    });
+  });
 });
