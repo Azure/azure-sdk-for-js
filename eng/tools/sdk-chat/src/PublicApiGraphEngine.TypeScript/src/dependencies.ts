@@ -418,6 +418,17 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
                     // For classes/interfaces, also traverse members' types
                     const decl = result.declaration;
                     if (Node.isClassDeclaration(decl) || Node.isInterfaceDeclaration(decl)) {
+                        // Traverse type parameter constraints and defaults to discover
+                        // sub-dependencies (e.g., PollerLike<TState extends OperationState<TResult>, TResult>
+                        // needs OperationState from @azure/core-lro)
+                        for (const tp of decl.getTypeParameters()) {
+                            try {
+                                const constraint = tp.getConstraint();
+                                if (constraint) collectTypeRefsFromTypeNode(constraint, ctx, subRefs);
+                                const defaultType = tp.getDefault();
+                                if (defaultType) collectTypeRefsFromTypeNode(defaultType, ctx, subRefs);
+                            } catch { /* benign */ }
+                        }
                         // Also traverse heritage clauses (implements/extends) to discover
                         // base types that getBaseTypes() on the class type might miss
                         if (Node.isClassDeclaration(decl)) {
@@ -472,6 +483,15 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
                     }
                     // For type aliases, also traverse the underlying type's structure
                     if (Node.isTypeAliasDeclaration(result.declaration)) {
+                        // Traverse type parameter constraints and defaults
+                        for (const tp of result.declaration.getTypeParameters()) {
+                            try {
+                                const constraint = tp.getConstraint();
+                                if (constraint) collectTypeRefsFromTypeNode(constraint, ctx, subRefs);
+                                const defaultType = tp.getDefault();
+                                if (defaultType) collectTypeRefsFromTypeNode(defaultType, ctx, subRefs);
+                            } catch { /* benign */ }
+                        }
                         const typeNode = result.declaration.getTypeNode();
                         if (typeNode) {
                             const resolvedType = typeNode.getType();
@@ -480,6 +500,15 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
                     }
                     // For functions, traverse parameter and return types for sub-dependencies
                     if (Node.isFunctionDeclaration(result.declaration)) {
+                        // Traverse type parameter constraints and defaults
+                        for (const tp of result.declaration.getTypeParameters()) {
+                            try {
+                                const constraint = tp.getConstraint();
+                                if (constraint) collectTypeRefsFromTypeNode(constraint, ctx, subRefs);
+                                const defaultType = tp.getDefault();
+                                if (defaultType) collectTypeRefsFromTypeNode(defaultType, ctx, subRefs);
+                            } catch { /* benign */ }
+                        }
                         for (const param of result.declaration.getParameters()) {
                             try {
                                 const pType = param.getType();
@@ -503,7 +532,7 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
                     }
                     if (!subRef.packageName) continue;
                     if (isNodePackage(subRef.packageName)) continue;
-                    if (definedTypes.has(subRef.name)) continue;
+                    if (subRef.packageName === api.package && definedTypes.has(subRef.name)) continue;
                     if (processed.has(subRef.name)) continue;
                     if (allResolved.has(subRef.name)) continue;
 
