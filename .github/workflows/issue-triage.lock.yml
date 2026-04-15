@@ -1,4 +1,4 @@
-# gh-aw-metadata: {"schema_version":"v3","frontmatter_hash":"0f6ed8a6a3da0704dbe083372b4d455a18d280ad207c077b52d41cc9c68f8adc","compiler_version":"v0.68.3","strict":true,"agent_id":"copilot"}
+# gh-aw-metadata: {"schema_version":"v3","frontmatter_hash":"12e992e28852990aebadad410809f1d1411ef6ffee944b2c984c1f0ba60bb029","compiler_version":"v0.68.3","strict":true,"agent_id":"copilot"}
 # gh-aw-manifest: {"version":1,"secrets":["COPILOT_GITHUB_TOKEN","GH_AW_GITHUB_MCP_SERVER_TOKEN","GH_AW_GITHUB_TOKEN","GITHUB_TOKEN"],"actions":[{"repo":"actions/checkout","sha":"de0fac2e4500dabe0009e67214ff5f5447ce83dd","version":"v6.0.2"},{"repo":"actions/download-artifact","sha":"3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c","version":"v8.0.1"},{"repo":"actions/github-script","sha":"373c709c69115d41ff229c7e5df9f8788daa9553","version":"v9"},{"repo":"actions/upload-artifact","sha":"043fb46d1a93c77aae656e7c1c64a875d1fc6a0a","version":"v7.0.1"},{"repo":"github/gh-aw-actions/setup","sha":"ba90f2186d7ad780ec640f364005fa24e797b360","version":"v0.68.3"}],"containers":[{"image":"ghcr.io/github/gh-aw-firewall/agent:0.25.20"},{"image":"ghcr.io/github/gh-aw-firewall/api-proxy:0.25.20"},{"image":"ghcr.io/github/gh-aw-firewall/squid:0.25.20"},{"image":"ghcr.io/github/gh-aw-mcpg:v0.2.19"},{"image":"ghcr.io/github/github-mcp-server:v0.32.0"},{"image":"node:lts-alpine"}]}
 #    ___                   _   _      
 #   / _ \                 | | (_)     
@@ -54,18 +54,7 @@ name: "Agentic Triage"
   issues:
     types:
     - opened
-  # permissions: # Permissions applied to pre-activation job
-    # issues: write
   # roles: all # Roles processed as role check in pre-activation job
-  # steps: # Steps injected into pre-activation job
-  # - env:
-      # DISPATCH_ISSUE_NUMBER: ${{ github.event.inputs.issue_number || '' }}
-    # id: mention_owners
-    # if: always()
-    # name: Post mention comment
-    # uses: actions/github-script@v9
-    # with:
-      # script: "const fs = require('fs');\nconst outputFile = process.env.GH_AW_AGENT_OUTPUT;\n\nfunction resolveIssueNumber() {\n  if (Number.isInteger(context.issue?.number) && context.issue.number > 0) {\n    return context.issue.number;\n  }\n  const parsed = parseInt(process.env.DISPATCH_ISSUE_NUMBER, 10);\n  if (Number.isInteger(parsed) && parsed > 0) {\n    return parsed;\n  }\n  return null;\n}\n\nconst issueNumber = resolveIssueNumber();\nconst owner = context.repo.owner;\nconst repo = context.repo.repo;\n\nif (issueNumber === null) {\n  core.setFailed(`Unable to determine a valid issue number. context.issue.number=${context.issue?.number ?? 'undefined'}, DISPATCH_ISSUE_NUMBER=${process.env.DISPATCH_ISSUE_NUMBER ?? 'undefined'}`);\n  return;\n}\n\nasync function failSafe(reason) {\n  core.error(`mention_owners failed: ${reason}`);\n  try {\n    await github.rest.issues.addLabels({\n      owner, repo, issue_number: issueNumber,\n      labels: ['needs-team-triage']\n    });\n    await github.rest.issues.createComment({\n      owner, repo, issue_number: issueNumber,\n      body: '⚠️ Automated triage was unable to complete owner notification for this issue. Routing for manual triage'\n    });\n  } catch (recoveryError) {\n    core.error(`Recovery also failed: ${recoveryError.message}`);\n  }\n  core.setFailed(reason);\n}\n\nif (!outputFile) {\n  await failSafe('No agent output path provided');\n  return;\n}\nif (!fs.existsSync(outputFile)) {\n  await failSafe(`Agent output file not found: ${outputFile}`);\n  return;\n}\n\nlet agentOutput;\ntry {\n  agentOutput = JSON.parse(fs.readFileSync(outputFile, 'utf8'));\n} catch (parseError) {\n  await failSafe(`Failed to parse agent output: ${parseError.message}`);\n  return;\n}\n\nif (!agentOutput || !Array.isArray(agentOutput.items)) {\n  await failSafe('Agent output missing items array');\n  return;\n}\n\nconst items = agentOutput.items.filter(i => i.type === 'mention_owners');\nif (items.length === 0) {\n  await failSafe('No mention_owners items in agent output');\n  return;\n}\n\nfor (const item of items) {\n  if (!item.owners || typeof item.owners !== 'string' || !item.owners.trim()) {\n    await failSafe('mention_owners item missing owners field');\n    return;\n  }\n\n  const mentions = item.owners\n    .split(/[\\s,]+/)\n    .map(s => s.trim())\n    .filter(Boolean)\n    .map(raw => {\n      const normalized = raw.replace(/^\\\\?@/, '');\n      if (/\\r|\\n/.test(normalized)) return null;\n      if (!/^[A-Za-z0-9-]+(?:\\/[A-Za-z0-9-]+)?$/.test(normalized)) return null;\n      return `@${normalized}`;\n    })\n    .filter(Boolean);\n\n  if (mentions.length === 0) {\n    await failSafe('No valid owners after parsing owners field');\n    return;\n  }\n\n  const body = item.message\n    ? `${item.message}\\n\\n//cc: ${mentions.join(' ')}`\n    : mentions.join(' ');\n\n  try {\n    await github.rest.issues.createComment({\n      owner, repo, issue_number: issueNumber,\n      body\n    });\n    core.info(`Posted routing comment on #${issueNumber} mentioning: ${mentions.join(', ')}`);\n  } catch (apiError) {\n    await failSafe(`GitHub API error posting comment: ${apiError.message}`);\n    return;\n  }\n}\n"
   workflow_dispatch:
     inputs:
       aw_context:
@@ -87,8 +76,6 @@ run-name: "Agentic Triage"
 
 jobs:
   activation:
-    needs: pre_activation
-    if: needs.pre_activation.outputs.activated == 'true'
     runs-on: ubuntu-slim
     permissions:
       actions: read
@@ -114,7 +101,6 @@ jobs:
         with:
           destination: ${{ runner.temp }}/gh-aw/actions
           job-name: ${{ github.job }}
-          trace-id: ${{ needs.pre_activation.outputs.setup-trace-id }}
       - name: Generate agentic run info
         id: generate_aw_info
         env:
@@ -217,16 +203,16 @@ jobs:
         run: |
           bash "${RUNNER_TEMP}/gh-aw/actions/create_prompt_first.sh"
           {
-          cat << 'GH_AW_PROMPT_8982145d55779609_EOF'
+          cat << 'GH_AW_PROMPT_8168bbcdae01207e_EOF'
           <system>
-          GH_AW_PROMPT_8982145d55779609_EOF
+          GH_AW_PROMPT_8168bbcdae01207e_EOF
           cat "${RUNNER_TEMP}/gh-aw/prompts/xpia.md"
           cat "${RUNNER_TEMP}/gh-aw/prompts/temp_folder_prompt.md"
           cat "${RUNNER_TEMP}/gh-aw/prompts/markdown.md"
           cat "${RUNNER_TEMP}/gh-aw/prompts/safe_outputs_prompt.md"
-          cat << 'GH_AW_PROMPT_8982145d55779609_EOF'
+          cat << 'GH_AW_PROMPT_8168bbcdae01207e_EOF'
           <safe-output-tools>
-          Tools: add_comment(max:2), close_issue, add_labels(max:7), remove_labels(max:7), assign_to_user, missing_tool, missing_data, noop
+          Tools: add_comment(max:2), close_issue, add_labels(max:7), remove_labels(max:7), assign_to_user, missing_tool, missing_data, noop, mention_owners
           </safe-output-tools>
           <github-context>
           The following GitHub context information is available for this workflow:
@@ -256,12 +242,12 @@ jobs:
           {{/if}}
           </github-context>
           
-          GH_AW_PROMPT_8982145d55779609_EOF
+          GH_AW_PROMPT_8168bbcdae01207e_EOF
           cat "${RUNNER_TEMP}/gh-aw/prompts/github_mcp_tools_with_safeoutputs_prompt.md"
-          cat << 'GH_AW_PROMPT_8982145d55779609_EOF'
+          cat << 'GH_AW_PROMPT_8168bbcdae01207e_EOF'
           </system>
           {{#runtime-import .github/workflows/issue-triage.md}}
-          GH_AW_PROMPT_8982145d55779609_EOF
+          GH_AW_PROMPT_8168bbcdae01207e_EOF
           } > "$GH_AW_PROMPT"
       - name: Interpolate variables and render templates
         uses: actions/github-script@373c709c69115d41ff229c7e5df9f8788daa9553 # v9
@@ -290,7 +276,6 @@ jobs:
           GH_AW_GITHUB_REPOSITORY: ${{ github.repository }}
           GH_AW_GITHUB_RUN_ID: ${{ github.run_id }}
           GH_AW_GITHUB_WORKSPACE: ${{ github.workspace }}
-          GH_AW_NEEDS_PRE_ACTIVATION_OUTPUTS_ACTIVATED: ${{ needs.pre_activation.outputs.activated }}
         with:
           script: |
             const { setupGlobals } = require('${{ runner.temp }}/gh-aw/actions/setup_globals.cjs');
@@ -311,8 +296,7 @@ jobs:
                 GH_AW_GITHUB_EVENT_PULL_REQUEST_NUMBER: process.env.GH_AW_GITHUB_EVENT_PULL_REQUEST_NUMBER,
                 GH_AW_GITHUB_REPOSITORY: process.env.GH_AW_GITHUB_REPOSITORY,
                 GH_AW_GITHUB_RUN_ID: process.env.GH_AW_GITHUB_RUN_ID,
-                GH_AW_GITHUB_WORKSPACE: process.env.GH_AW_GITHUB_WORKSPACE,
-                GH_AW_NEEDS_PRE_ACTIVATION_OUTPUTS_ACTIVATED: process.env.GH_AW_NEEDS_PRE_ACTIVATION_OUTPUTS_ACTIVATED
+                GH_AW_GITHUB_WORKSPACE: process.env.GH_AW_GITHUB_WORKSPACE
               }
             });
       - name: Validate prompt placeholders
@@ -340,8 +324,7 @@ jobs:
   agent:
     needs: activation
     runs-on: ubuntu-latest
-    permissions:
-      issues: read
+    permissions: read-all
     env:
       DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
       GH_AW_ASSETS_ALLOWED_EXTS: ""
@@ -351,6 +334,7 @@ jobs:
       GH_AW_WORKFLOW_ID_SANITIZED: issuetriage
     outputs:
       agentic_engine_timeout: ${{ steps.detect-copilot-errors.outputs.agentic_engine_timeout || 'false' }}
+      checkout_pr_success: ${{ steps.checkout-pr.outputs.checkout_pr_success || 'true' }}
       effective_tokens: ${{ steps.parse-mcp-gateway.outputs.effective_tokens }}
       has_patch: ${{ steps.collect_output.outputs.has_patch }}
       inference_access_error: ${{ steps.detect-copilot-errors.outputs.inference_access_error || 'false' }}
@@ -399,6 +383,20 @@ jobs:
           SERVER_URL_STRIPPED="${SERVER_URL#https://}"
           git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@${SERVER_URL_STRIPPED}/${REPO_NAME}.git"
           echo "Git configured with standard GitHub Actions identity"
+      - name: Checkout PR branch
+        id: checkout-pr
+        if: |
+          github.event.pull_request || github.event.issue.pull_request
+        uses: actions/github-script@373c709c69115d41ff229c7e5df9f8788daa9553 # v9
+        env:
+          GH_TOKEN: ${{ secrets.GH_AW_GITHUB_MCP_SERVER_TOKEN || secrets.GH_AW_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
+        with:
+          github-token: ${{ secrets.GH_AW_GITHUB_MCP_SERVER_TOKEN || secrets.GH_AW_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
+          script: |
+            const { setupGlobals } = require('${{ runner.temp }}/gh-aw/actions/setup_globals.cjs');
+            setupGlobals(core, github, context, exec, io, getOctokit);
+            const { main } = require('${{ runner.temp }}/gh-aw/actions/checkout_pr_branch.cjs');
+            await main();
       - name: Install GitHub Copilot CLI
         run: bash "${RUNNER_TEMP}/gh-aw/actions/install_copilot_cli.sh" 1.0.21
         env:
@@ -419,9 +417,9 @@ jobs:
           mkdir -p "${RUNNER_TEMP}/gh-aw/safeoutputs"
           mkdir -p /tmp/gh-aw/safeoutputs
           mkdir -p /tmp/gh-aw/mcp-logs/safeoutputs
-          cat > "${RUNNER_TEMP}/gh-aw/safeoutputs/config.json" << 'GH_AW_SAFE_OUTPUTS_CONFIG_0aac8ec49726ac58_EOF'
-          {"add_comment":{"max":2,"target":"*"},"add_labels":{"max":7,"target":"*"},"assign_to_user":{"max":1,"target":"*"},"close_issue":{"max":1,"target":"*"},"create_report_incomplete_issue":{},"missing_data":{},"missing_tool":{},"noop":{"max":1,"report-as-issue":"false"},"remove_labels":{"max":7,"target":"*"},"report_incomplete":{}}
-          GH_AW_SAFE_OUTPUTS_CONFIG_0aac8ec49726ac58_EOF
+          cat > "${RUNNER_TEMP}/gh-aw/safeoutputs/config.json" << 'GH_AW_SAFE_OUTPUTS_CONFIG_8824e8649bf68c9e_EOF'
+          {"add_comment":{"max":2,"target":"*"},"add_labels":{"max":7,"target":"*"},"assign_to_user":{"max":1,"target":"*"},"close_issue":{"max":1,"target":"*"},"create_report_incomplete_issue":{},"mention_owners":{"description":"Post a routing comment @mentioning team owners on the triggering issue; bypasses safe-outputs mention neutralization","inputs":{"message":{"default":null,"description":"The comment body text without any @mentions or @ symbols","required":true,"type":"string"},"owners":{"default":null,"description":"Comma-separated GitHub usernames to notify, without the @ prefix (e.g. 'user1, user2, Azure/team-name')","required":true,"type":"string"}},"output":"Owner mention comment posted"},"missing_data":{},"missing_tool":{},"noop":{"max":1,"report-as-issue":"false"},"remove_labels":{"max":7,"target":"*"},"report_incomplete":{}}
+          GH_AW_SAFE_OUTPUTS_CONFIG_8824e8649bf68c9e_EOF
       - name: Write Safe Outputs Tools
         env:
           GH_AW_TOOLS_META_JSON: |
@@ -433,7 +431,30 @@ jobs:
                 "remove_labels": " CONSTRAINTS: Maximum 7 label(s) can be removed. Target: *."
               },
               "repo_params": {},
-              "dynamic_tools": []
+              "dynamic_tools": [
+                {
+                  "description": "Post a routing comment @mentioning team owners on the triggering issue; bypasses safe-outputs mention neutralization",
+                  "inputSchema": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "message": {
+                        "description": "The comment body text without any @mentions or @ symbols",
+                        "type": "string"
+                      },
+                      "owners": {
+                        "description": "Comma-separated GitHub usernames to notify, without the @ prefix (e.g. 'user1, user2, Azure/team-name')",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "message",
+                      "owners"
+                    ],
+                    "type": "object"
+                  },
+                  "name": "mention_owners"
+                }
+              ]
             }
           GH_AW_VALIDATION_JSON: |
             {
@@ -684,7 +705,7 @@ jobs:
           export MCP_GATEWAY_DOCKER_COMMAND='docker run -i --rm --network host -v /var/run/docker.sock:/var/run/docker.sock -e MCP_GATEWAY_PORT -e MCP_GATEWAY_DOMAIN -e MCP_GATEWAY_API_KEY -e MCP_GATEWAY_PAYLOAD_DIR -e MCP_GATEWAY_PAYLOAD_SIZE_THRESHOLD -e DEBUG -e MCP_GATEWAY_LOG_DIR -e GH_AW_MCP_LOG_DIR -e GH_AW_SAFE_OUTPUTS -e GH_AW_SAFE_OUTPUTS_CONFIG_PATH -e GH_AW_SAFE_OUTPUTS_TOOLS_PATH -e GH_AW_ASSETS_BRANCH -e GH_AW_ASSETS_MAX_SIZE_KB -e GH_AW_ASSETS_ALLOWED_EXTS -e DEFAULT_BRANCH -e GITHUB_MCP_SERVER_TOKEN -e GITHUB_MCP_GUARD_MIN_INTEGRITY -e GITHUB_MCP_GUARD_REPOS -e GITHUB_REPOSITORY -e GITHUB_SERVER_URL -e GITHUB_SHA -e GITHUB_WORKSPACE -e GITHUB_TOKEN -e GITHUB_RUN_ID -e GITHUB_RUN_NUMBER -e GITHUB_RUN_ATTEMPT -e GITHUB_JOB -e GITHUB_ACTION -e GITHUB_EVENT_NAME -e GITHUB_EVENT_PATH -e GITHUB_ACTOR -e GITHUB_ACTOR_ID -e GITHUB_TRIGGERING_ACTOR -e GITHUB_WORKFLOW -e GITHUB_WORKFLOW_REF -e GITHUB_WORKFLOW_SHA -e GITHUB_REF -e GITHUB_REF_NAME -e GITHUB_REF_TYPE -e GITHUB_HEAD_REF -e GITHUB_BASE_REF -e GH_AW_SAFE_OUTPUTS_PORT -e GH_AW_SAFE_OUTPUTS_API_KEY -v /tmp/gh-aw/mcp-payloads:/tmp/gh-aw/mcp-payloads:rw -v /opt:/opt:ro -v /tmp:/tmp:rw -v '"${GITHUB_WORKSPACE}"':'"${GITHUB_WORKSPACE}"':rw ghcr.io/github/gh-aw-mcpg:v0.2.19'
           
           mkdir -p /home/runner/.copilot
-          cat << GH_AW_MCP_CONFIG_41f23a83c1747242_EOF | bash "${RUNNER_TEMP}/gh-aw/actions/start_mcp_gateway.sh"
+          cat << GH_AW_MCP_CONFIG_d3ba1aa37497db35_EOF | bash "${RUNNER_TEMP}/gh-aw/actions/start_mcp_gateway.sh"
           {
             "mcpServers": {
               "github": {
@@ -728,7 +749,7 @@ jobs:
               "payloadDir": "${MCP_GATEWAY_PAYLOAD_DIR}"
             }
           }
-          GH_AW_MCP_CONFIG_41f23a83c1747242_EOF
+          GH_AW_MCP_CONFIG_d3ba1aa37497db35_EOF
       - name: Download activation artifact
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
@@ -923,6 +944,7 @@ jobs:
       - activation
       - agent
       - detection
+      - mention_owners
       - safe_outputs
     if: >
       always() && (needs.agent.result != 'skipped' || needs.activation.outputs.lockdown_check_failed == 'true' ||
@@ -1036,6 +1058,7 @@ jobs:
           GH_AW_WORKFLOW_ID: "issue-triage"
           GH_AW_ENGINE_ID: "copilot"
           GH_AW_SECRET_VERIFICATION_RESULT: ${{ needs.activation.outputs.secret_verification_result }}
+          GH_AW_CHECKOUT_PR_SUCCESS: ${{ needs.agent.outputs.checkout_pr_success }}
           GH_AW_INFERENCE_ACCESS_ERROR: ${{ needs.agent.outputs.inference_access_error }}
           GH_AW_MCP_POLICY_ERROR: ${{ needs.agent.outputs.mcp_policy_error }}
           GH_AW_AGENTIC_ENGINE_TIMEOUT: ${{ needs.agent.outputs.agentic_engine_timeout }}
@@ -1210,28 +1233,31 @@ jobs:
             const { main } = require('${{ runner.temp }}/gh-aw/actions/parse_threat_detection_results.cjs');
             await main();
 
-  pre_activation:
-    runs-on: ubuntu-slim
+  mention_owners:
+    needs:
+      - agent
+      - detection
+    if: (!cancelled()) && needs.agent.result != 'skipped' && contains(needs.agent.outputs.output_types, 'mention_owners')
+    runs-on: ubuntu-latest
     permissions:
       issues: write
-    outputs:
-      activated: ${{ 'true' }}
-      matched_command: ''
-      mention_owners_result: ${{ steps.mention_owners.outcome }}
-      setup-trace-id: ${{ steps.setup.outputs.trace-id }}
     steps:
-      - name: Setup Scripts
-        id: setup
-        uses: github/gh-aw-actions/setup@ba90f2186d7ad780ec640f364005fa24e797b360 # v0.68.3
+      - name: Download agent output artifact
+        continue-on-error: true
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
-          destination: ${{ runner.temp }}/gh-aw/actions
-          job-name: ${{ github.job }}
+          name: agent
+          path: ${{ runner.temp }}/gh-aw/safe-jobs/
+      - name: Configure Safe Job Environment Variables
+        id: setup-safe-job-env
+        run: |
+          find "${RUNNER_TEMP}/gh-aw/safe-jobs/" -type f -print
+          echo "GH_AW_AGENT_OUTPUT=${RUNNER_TEMP}/gh-aw/safe-jobs/agent_output.json" >> "$GITHUB_OUTPUT"
       - name: Post mention comment
-        id: mention_owners
-        if: always()
         uses: actions/github-script@373c709c69115d41ff229c7e5df9f8788daa9553 # v9
         env:
           DISPATCH_ISSUE_NUMBER: ${{ github.event.inputs.issue_number || '' }}
+          GH_AW_AGENT_OUTPUT: ${{ steps.setup-safe-job-env.outputs.GH_AW_AGENT_OUTPUT }}
         with:
           script: |
             const fs = require('fs');
@@ -1412,6 +1438,7 @@ jobs:
           GH_AW_ALLOWED_DOMAINS: "api.business.githubcopilot.com,api.enterprise.githubcopilot.com,api.github.com,api.githubcopilot.com,api.individual.githubcopilot.com,api.snapcraft.io,archive.ubuntu.com,azure.archive.ubuntu.com,crl.geotrust.com,crl.globalsign.com,crl.identrust.com,crl.sectigo.com,crl.thawte.com,crl.usertrust.com,crl.verisign.com,crl3.digicert.com,crl4.digicert.com,crls.ssl.com,github.com,host.docker.internal,json-schema.org,json.schemastore.org,keyserver.ubuntu.com,ocsp.digicert.com,ocsp.geotrust.com,ocsp.globalsign.com,ocsp.identrust.com,ocsp.sectigo.com,ocsp.ssl.com,ocsp.thawte.com,ocsp.usertrust.com,ocsp.verisign.com,packagecloud.io,packages.cloud.google.com,packages.microsoft.com,ppa.launchpad.net,raw.githubusercontent.com,registry.npmjs.org,s.symcb.com,s.symcd.com,security.ubuntu.com,telemetry.enterprise.githubcopilot.com,ts-crl.ws.symantec.com,ts-ocsp.ws.symantec.com,www.googleapis.com"
           GITHUB_SERVER_URL: ${{ github.server_url }}
           GITHUB_API_URL: ${{ github.api_url }}
+          GH_AW_SAFE_OUTPUT_JOBS: "{\"mention_owners\":\"\"}"
           GH_AW_SAFE_OUTPUTS_HANDLER_CONFIG: "{\"add_comment\":{\"max\":2,\"target\":\"*\"},\"add_labels\":{\"max\":7,\"target\":\"*\"},\"assign_to_user\":{\"max\":1,\"target\":\"*\"},\"close_issue\":{\"max\":1,\"target\":\"*\"},\"create_report_incomplete_issue\":{},\"missing_data\":{},\"missing_tool\":{},\"noop\":{\"max\":1,\"report-as-issue\":\"false\"},\"remove_labels\":{\"max\":7,\"target\":\"*\"},\"report_incomplete\":{}}"
         with:
           github-token: ${{ secrets.GH_AW_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}

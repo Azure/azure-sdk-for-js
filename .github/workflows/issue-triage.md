@@ -17,126 +17,8 @@ on:
         type: string
   roles: all
   reaction: eyes
-  permissions:
-    issues: write
-  steps:
-    - name: Post mention comment
-      id: mention_owners
-      if: always()
-      uses: actions/github-script@v9
-      env:
-        DISPATCH_ISSUE_NUMBER: "${{ github.event.inputs.issue_number || '' }}"
-      with:
-        script: |
-          const fs = require('fs');
-          const outputFile = process.env.GH_AW_AGENT_OUTPUT;
 
-          function resolveIssueNumber() {
-            if (Number.isInteger(context.issue?.number) && context.issue.number > 0) {
-              return context.issue.number;
-            }
-            const parsed = parseInt(process.env.DISPATCH_ISSUE_NUMBER, 10);
-            if (Number.isInteger(parsed) && parsed > 0) {
-              return parsed;
-            }
-            return null;
-          }
-
-          const issueNumber = resolveIssueNumber();
-          const owner = context.repo.owner;
-          const repo = context.repo.repo;
-
-          if (issueNumber === null) {
-            core.setFailed(`Unable to determine a valid issue number. context.issue.number=${context.issue?.number ?? 'undefined'}, DISPATCH_ISSUE_NUMBER=${process.env.DISPATCH_ISSUE_NUMBER ?? 'undefined'}`);
-            return;
-          }
-
-          async function failSafe(reason) {
-            core.error(`mention_owners failed: ${reason}`);
-            try {
-              await github.rest.issues.addLabels({
-                owner, repo, issue_number: issueNumber,
-                labels: ['needs-team-triage']
-              });
-              await github.rest.issues.createComment({
-                owner, repo, issue_number: issueNumber,
-                body: '⚠️ Automated triage was unable to complete owner notification for this issue. Routing for manual triage'
-              });
-            } catch (recoveryError) {
-              core.error(`Recovery also failed: ${recoveryError.message}`);
-            }
-            core.setFailed(reason);
-          }
-
-          if (!outputFile) {
-            await failSafe('No agent output path provided');
-            return;
-          }
-          if (!fs.existsSync(outputFile)) {
-            await failSafe(`Agent output file not found: ${outputFile}`);
-            return;
-          }
-
-          let agentOutput;
-          try {
-            agentOutput = JSON.parse(fs.readFileSync(outputFile, 'utf8'));
-          } catch (parseError) {
-            await failSafe(`Failed to parse agent output: ${parseError.message}`);
-            return;
-          }
-
-          if (!agentOutput || !Array.isArray(agentOutput.items)) {
-            await failSafe('Agent output missing items array');
-            return;
-          }
-
-          const items = agentOutput.items.filter(i => i.type === 'mention_owners');
-          if (items.length === 0) {
-            await failSafe('No mention_owners items in agent output');
-            return;
-          }
-
-          for (const item of items) {
-            if (!item.owners || typeof item.owners !== 'string' || !item.owners.trim()) {
-              await failSafe('mention_owners item missing owners field');
-              return;
-            }
-
-            const mentions = item.owners
-              .split(/[\s,]+/)
-              .map(s => s.trim())
-              .filter(Boolean)
-              .map(raw => {
-                const normalized = raw.replace(/^\\?@/, '');
-                if (/\r|\n/.test(normalized)) return null;
-                if (!/^[A-Za-z0-9-]+(?:\/[A-Za-z0-9-]+)?$/.test(normalized)) return null;
-                return `@${normalized}`;
-              })
-              .filter(Boolean);
-
-            if (mentions.length === 0) {
-              await failSafe('No valid owners after parsing owners field');
-              return;
-            }
-
-            const body = item.message
-              ? `${item.message}\n\n//cc: ${mentions.join(' ')}`
-              : mentions.join(' ');
-
-            try {
-              await github.rest.issues.createComment({
-                owner, repo, issue_number: issueNumber,
-                body
-              });
-              core.info(`Posted routing comment on #${issueNumber} mentioning: ${mentions.join(', ')}`);
-            } catch (apiError) {
-              await failSafe(`GitHub API error posting comment: ${apiError.message}`);
-              return;
-            }
-          }
-
-permissions:
-  issues: read
+permissions: read-all
 
 tools:
   web-fetch:
@@ -171,6 +53,135 @@ safe-outputs:
     target: "*"
   noop:
     report-as-issue: false
+  jobs:
+    mention_owners:
+      description: "Post a routing comment @mentioning team owners on the triggering issue; bypasses safe-outputs mention neutralization"
+      runs-on: ubuntu-latest
+      output: "Owner mention comment posted"
+      permissions:
+        issues: write
+      inputs:
+        message:
+          description: "The comment body text without any @mentions or @ symbols"
+          required: true
+          type: string
+        owners:
+          description: "Comma-separated GitHub usernames to notify, without the @ prefix (e.g. 'user1, user2, Azure/team-name')"
+          required: true
+          type: string
+      steps:
+        - name: Post mention comment
+          uses: actions/github-script@v9
+          env:
+            DISPATCH_ISSUE_NUMBER: "${{ github.event.inputs.issue_number || '' }}"
+          with:
+            script: |
+              const fs = require('fs');
+              const outputFile = process.env.GH_AW_AGENT_OUTPUT;
+
+              function resolveIssueNumber() {
+                if (Number.isInteger(context.issue?.number) && context.issue.number > 0) {
+                  return context.issue.number;
+                }
+                const parsed = parseInt(process.env.DISPATCH_ISSUE_NUMBER, 10);
+                if (Number.isInteger(parsed) && parsed > 0) {
+                  return parsed;
+                }
+                return null;
+              }
+
+              const issueNumber = resolveIssueNumber();
+              const owner = context.repo.owner;
+              const repo = context.repo.repo;
+
+              if (issueNumber === null) {
+                core.setFailed(`Unable to determine a valid issue number. context.issue.number=${context.issue?.number ?? 'undefined'}, DISPATCH_ISSUE_NUMBER=${process.env.DISPATCH_ISSUE_NUMBER ?? 'undefined'}`);
+                return;
+              }
+
+              async function failSafe(reason) {
+                core.error(`mention_owners failed: ${reason}`);
+                try {
+                  await github.rest.issues.addLabels({
+                    owner, repo, issue_number: issueNumber,
+                    labels: ['needs-team-triage']
+                  });
+                  await github.rest.issues.createComment({
+                    owner, repo, issue_number: issueNumber,
+                    body: '⚠️ Automated triage was unable to complete owner notification for this issue. Routing for manual triage'
+                  });
+                } catch (recoveryError) {
+                  core.error(`Recovery also failed: ${recoveryError.message}`);
+                }
+                core.setFailed(reason);
+              }
+
+              if (!outputFile) {
+                await failSafe('No agent output path provided');
+                return;
+              }
+              if (!fs.existsSync(outputFile)) {
+                await failSafe(`Agent output file not found: ${outputFile}`);
+                return;
+              }
+
+              let agentOutput;
+              try {
+                agentOutput = JSON.parse(fs.readFileSync(outputFile, 'utf8'));
+              } catch (parseError) {
+                await failSafe(`Failed to parse agent output: ${parseError.message}`);
+                return;
+              }
+
+              if (!agentOutput || !Array.isArray(agentOutput.items)) {
+                await failSafe('Agent output missing items array');
+                return;
+              }
+
+              const items = agentOutput.items.filter(i => i.type === 'mention_owners');
+              if (items.length === 0) {
+                await failSafe('No mention_owners items in agent output');
+                return;
+              }
+
+              for (const item of items) {
+                if (!item.owners || typeof item.owners !== 'string' || !item.owners.trim()) {
+                  await failSafe('mention_owners item missing owners field');
+                  return;
+                }
+
+                const mentions = item.owners
+                  .split(/[\s,]+/)
+                  .map(s => s.trim())
+                  .filter(Boolean)
+                  .map(raw => {
+                    const normalized = raw.replace(/^\\?@/, '');
+                    if (/\r|\n/.test(normalized)) return null;
+                    if (!/^[A-Za-z0-9-]+(?:\/[A-Za-z0-9-]+)?$/.test(normalized)) return null;
+                    return `@${normalized}`;
+                  })
+                  .filter(Boolean);
+
+                if (mentions.length === 0) {
+                  await failSafe('No valid owners after parsing owners field');
+                  return;
+                }
+
+                const body = item.message
+                  ? `${item.message}\n\n//cc: ${mentions.join(' ')}`
+                  : mentions.join(' ');
+
+                try {
+                  await github.rest.issues.createComment({
+                    owner, repo, issue_number: issueNumber,
+                    body
+                  });
+                  core.info(`Posted routing comment on #${issueNumber} mentioning: ${mentions.join(', ')}`);
+                } catch (apiError) {
+                  await failSafe(`GitHub API error posting comment: ${apiError.message}`);
+                  return;
+                }
+              }
 
 timeout-minutes: 10
 ---
@@ -207,8 +218,8 @@ Note: The gh-aw runtime provides additional baseline defenses including the XPIA
 - If triggered by `workflow_dispatch`: the issue number is `${{ github.event.inputs.issue_number }}`
 
 Note the issue number — you must include it in every safe-output tool call:
-- For `add-labels`, `remove-labels`, and `add-comment`: pass it as `item_number`
-- For `assign-to-user` and `close-issue`: pass it as `issue_number`
+- For `add_labels`, `remove_labels`, and `add_comment`: pass it as `item_number`
+- For `assign_to_user` and `close_issue`: pass it as `issue_number`
 
 Retrieve the issue using the `get_issue` tool
 
@@ -299,7 +310,7 @@ The following labels require human judgment and are never assigned by automatic 
 - **"Mgmt-EngSys"** (color #ffeb77): For management SDK tooling and generation issues.
 - **"Service"** (color #ffeb77): For issues with the REST API or Azure service behavior outside SDK control.
 
-If any of these labels are part of the most confident label prediction, treat the prediction as low confidence and fall back to applying "needs-triage" only. Any labels applied in earlier steps should be removed, leaving ONLY `needs-triage`
+If any of these labels are part of the most confident label prediction, treat the prediction as low confidence and fall back to applying "needs-triage" only. Any category or service labels tentatively predicted in this step should be discarded, but preserve author-classification labels from Step 2 ("customer-reported", "bot", "question")
 
 ### Using Previous Issues as Reference
 
@@ -339,7 +350,9 @@ IF you can confidently predict exactly one category label AND exactly one servic
     - Continue to Step 4
 
 ELSE:
-    - Remove any labels applied in earlier steps, leaving ONLY "needs-triage"
+    - Do not apply any category or service labels from this step
+    - Preserve author-classification labels from Step 2 ("customer-reported", "bot", "question")
+    - Add "needs-triage"
     - Skip to Step 7
 ```
 
@@ -367,7 +380,7 @@ Determine the npm package name conservatively:
 
 If all versions are deprecated:
 
-1. Post a comment (via `add-comment`) with this exact text, substituting values:
+1. Post a comment (via `add_comment`) with this exact text, substituting values:
 
 ```
 This package has been deprecated and is no longer supported. Unfortunately, we cannot assist with this issue.
@@ -380,7 +393,7 @@ If a replacement package is mentioned in the deprecation message, append:
 The replacement is `<replacement package>`. Please consider re-filing your issue against the replacement package.
 ```
 
-2. Close the issue (via `close-issue`)
+2. Close the issue (via `close_issue`)
 3. Exit — skip all remaining steps
 
 ## Step 5: Owner Lookup and Routing
