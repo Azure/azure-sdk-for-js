@@ -6,6 +6,7 @@ import type {
     MethodInfo,
     PropertyInfo,
     IndexSignatureInfo,
+    NamespaceInfo,
 } from "./models.js";
 import type { ExtractionContext } from "./context.js";
 import { PRIMITIVE_TYPES } from "./context.js";
@@ -78,6 +79,7 @@ export function validateSelfContainment(api: ApiIndex, ctx: ExtractionContext): 
         for (const e of mod.enums || []) defined.add(e.name);
         for (const t of mod.types || []) defined.add(t.name);
         for (const f of mod.functions || []) { if (f.name) defined.add(f.name); }
+        addNamespaceDefinedTypes(mod.namespaces, defined);
     }
     if (api.dependencies) {
         for (const dep of api.dependencies) {
@@ -86,6 +88,7 @@ export function validateSelfContainment(api: ApiIndex, ctx: ExtractionContext): 
             for (const e of dep.enums || []) defined.add(e.name);
             for (const t of dep.types || []) defined.add(t.name);
             for (const f of dep.functions || []) { if (f.name) defined.add(f.name); }
+            addNamespaceDefinedTypes(dep.namespaces, defined);
         }
     }
 
@@ -199,6 +202,7 @@ export function getDefinedTypes(api: ApiIndex): Set<string> {
         for (const en of mod.enums || []) defined.add(en.name);
         for (const t of mod.types || []) defined.add(t.name);
         for (const fn of mod.functions || []) { if (fn.name) defined.add(fn.name); }
+        addNamespaceDefinedTypes(mod.namespaces, defined);
     }
     return defined;
 }
@@ -289,3 +293,15 @@ export function computeReachableTypes(api: ApiIndex): Set<string> {
     return reachable;
 }
 
+function addNamespaceDefinedTypes(namespaces: NamespaceInfo[] | undefined, defined: Set<string>): void {
+    if (!namespaces) return;
+    for (const ns of namespaces) {
+        defined.add(ns.name);
+        for (const c of ns.classes || []) defined.add(c.name);
+        for (const i of ns.interfaces || []) defined.add(i.name);
+        for (const e of ns.enums || []) defined.add(e.name);
+        for (const t of ns.types || []) defined.add(t.name);
+        for (const f of ns.functions || []) { if (f.name) defined.add(f.name); }
+        addNamespaceDefinedTypes(ns.namespaces, defined);
+    }
+}

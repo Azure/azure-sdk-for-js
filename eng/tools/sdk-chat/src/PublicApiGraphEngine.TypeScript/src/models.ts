@@ -137,6 +137,17 @@ export interface ModuleInfo {
     enums?: EnumInfo[];
     types?: TypeAliasInfo[];
     functions?: FunctionInfo[];
+    namespaces?: NamespaceInfo[];
+}
+
+export interface NamespaceInfo {
+    name: string;
+    classes?: ClassInfo[];
+    interfaces?: InterfaceInfo[];
+    enums?: EnumInfo[];
+    types?: TypeAliasInfo[];
+    functions?: FunctionInfo[];
+    namespaces?: NamespaceInfo[];
 }
 
 export interface ApiIndex {
@@ -165,6 +176,7 @@ export interface DependencyInfo {
     enums?: EnumInfo[];
     types?: TypeAliasInfo[];
     functions?: FunctionInfo[];
+    namespaces?: NamespaceInfo[];
 }
 
 /**

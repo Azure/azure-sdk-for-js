@@ -160,7 +160,7 @@ public static class TypeScriptFormatter
         var typeToModule = new Dictionary<string, string>(StringComparer.Ordinal);
         var moduleExportedTypes = new Dictionary<string, HashSet<string>>(StringComparer.Ordinal);
         var exportPattern = new Regex(
-            @"export\s+(?:declare\s+)?(?:interface|class|type|enum|function|const|let|var|abstract\s+class)\s+(\w+)",
+            @"export\s+(?:declare\s+)?(?:interface|class|type|enum|function|const|let|var|abstract\s+class|namespace)\s+(\w+)",
             RegexOptions.Compiled);
 
         foreach (var (moduleName, blockLines) in declareModuleBlocks)
@@ -588,14 +588,14 @@ public static class TypeScriptFormatter
         {
             // Group types by (exportPath, condition)
             var moduleGroups = new Dictionary<string, (List<ClassInfo> Classes, List<InterfaceInfo> Interfaces,
-                List<EnumInfo> Enums, List<TypeAliasInfo> Types, List<FunctionInfo> Functions)>();
+                List<EnumInfo> Enums, List<TypeAliasInfo> Types, List<FunctionInfo> Functions, List<NamespaceInfo> Namespaces)>();
 
             void AddToGroup(string groupKey, ClassInfo? cls = null, InterfaceInfo? iface = null,
-                EnumInfo? en = null, TypeAliasInfo? ta = null, FunctionInfo? fn = null)
+                EnumInfo? en = null, TypeAliasInfo? ta = null, FunctionInfo? fn = null, NamespaceInfo? ns = null)
             {
                 if (!moduleGroups.TryGetValue(groupKey, out var g))
                 {
-                    g = ([], [], [], [], []);
+                    g = ([], [], [], [], [], []);
                     moduleGroups[groupKey] = g;
                 }
                 if (cls is not null && !g.Classes.Any(x => x.Name == cls.Name))
@@ -613,6 +613,7 @@ public static class TypeScriptFormatter
                     && !g.Classes.Any(x => x.Name == ta.Name)
                     && !g.Interfaces.Any(x => x.Name == ta.Name)) g.Types.Add(ta);
                 if (fn is not null && !g.Functions.Any(x => x.Name == fn.Name)) g.Functions.Add(fn);
+                if (ns is not null && !g.Namespaces.Any(x => x.Name == ns.Name)) g.Namespaces.Add(ns);
             }
 
             foreach (var module in index.Modules)
@@ -630,6 +631,7 @@ public static class TypeScriptFormatter
                 foreach (var e in module.Enums ?? []) AddToGroup(GroupKey(null), en: e);
                 foreach (var t in module.Types ?? []) AddToGroup(GroupKey(null), ta: t);
                 foreach (var f in module.Functions ?? []) AddToGroup(GroupKey(f.ExportPath), fn: f);
+                foreach (var n in module.Namespaces ?? []) AddToGroup(GroupKey(null), ns: n);
             }
 
             // Sort groups: by exportPath first (. before subpaths), then condition alphabetically
@@ -646,7 +648,7 @@ public static class TypeScriptFormatter
         // Maps condition → list of (depModuleName, types) for rendering nested declare modules.
         var depsByCondition = new Dictionary<string, List<(string ModuleName, List<ClassInfo> Classes,
             List<InterfaceInfo> Interfaces, List<EnumInfo> Enums, List<TypeAliasInfo> Types,
-            List<FunctionInfo> Functions)>>();
+            List<FunctionInfo> Functions, List<NamespaceInfo> Namespaces)>>();
 
         if (index.ResolvedDependencies is not null)
         {
@@ -669,7 +671,7 @@ public static class TypeScriptFormatter
             {
                 var depsForCond = new List<(string ModuleName, List<ClassInfo> Classes,
                     List<InterfaceInfo> Interfaces, List<EnumInfo> Enums, List<TypeAliasInfo> Types,
-                    List<FunctionInfo> Functions)>();
+                    List<FunctionInfo> Functions, List<NamespaceInfo> Namespaces)>();
 
                 foreach (var dep in index.ResolvedDependencies)
                 {
@@ -685,6 +687,7 @@ public static class TypeScriptFormatter
                     var enums = new List<EnumInfo>();
                     var types = new List<TypeAliasInfo>();
                     var functions = new List<FunctionInfo>();
+                    var namespaces = new List<NamespaceInfo>();
                     var seenNames = new HashSet<string>();
 
                     foreach (var module in dep.Modules.Where(m => (m.Condition ?? "default") == matchedCond))
@@ -699,9 +702,11 @@ public static class TypeScriptFormatter
                             if (t.Type != "unresolved" && !IsSelfReferentialAlias(t) && seenNames.Add(t.Name)) types.Add(t);
                         foreach (var f in module.Functions ?? [])
                             if (f.Name is not null && seenNames.Add(f.Name)) functions.Add(f);
+                        foreach (var n in module.Namespaces ?? [])
+                            if (seenNames.Add(n.Name)) namespaces.Add(n);
                     }
 
-                    if (classes.Count + interfaces.Count + enums.Count + types.Count + functions.Count == 0)
+                    if (classes.Count + interfaces.Count + enums.Count + types.Count + functions.Count + namespaces.Count == 0)
                         continue;
 
                     var depHasMultipleConditions = depConds.Count > 1;
@@ -709,7 +714,7 @@ public static class TypeScriptFormatter
                         ? $"{dep.Package}/{matchedCond}"
                         : dep.Package;
 
-                    depsForCond.Add((depModuleName, classes, interfaces, enums, types, functions));
+                    depsForCond.Add((depModuleName, classes, interfaces, enums, types, functions, namespaces));
                 }
 
                 if (depsForCond.Count > 0)
@@ -742,7 +747,7 @@ public static class TypeScriptFormatter
             {
                 var depsForCond = new List<(string ModuleName, List<ClassInfo> Classes,
                     List<InterfaceInfo> Interfaces, List<EnumInfo> Enums, List<TypeAliasInfo> Types,
-                    List<FunctionInfo> Functions)>();
+                    List<FunctionInfo> Functions, List<NamespaceInfo> Namespaces)>();
 
                 foreach (var dep in index.Dependencies)
                 {
@@ -752,8 +757,9 @@ public static class TypeScriptFormatter
                     var enums = dep.Enums?.ToList() ?? [];
                     var types = dep.Types?.Where(t => t.Type != "unresolved" && !IsSelfReferentialAlias(t)).ToList() ?? [];
                     List<FunctionInfo> functions = [];
+                    var namespaces = dep.Namespaces?.ToList() ?? [];
 
-                    if (classes.Count + interfaces.Count + enums.Count + types.Count == 0)
+                    if (classes.Count + interfaces.Count + enums.Count + types.Count + namespaces.Count == 0)
                         continue;
 
                     // Determine module name using condition matching.
@@ -774,7 +780,7 @@ public static class TypeScriptFormatter
                         depModuleName = dep.Package;
                     }
 
-                    depsForCond.Add((depModuleName, classes, interfaces, enums, types, functions));
+                    depsForCond.Add((depModuleName, classes, interfaces, enums, types, functions, namespaces));
                 }
 
                 if (depsForCond.Count > 0)
@@ -785,7 +791,7 @@ public static class TypeScriptFormatter
         // Helper to render types inside a declare module block
         void RenderModuleTypes(StringBuilder target, List<ClassInfo> classes, List<InterfaceInfo> interfaces,
             List<EnumInfo> enums, List<TypeAliasInfo> typeAliases, List<FunctionInfo> functions,
-            bool prioritize = false)
+            List<NamespaceInfo>? namespaces = null, bool prioritize = false)
         {
             var renderClasses = prioritize ? GetPrioritizedClasses(classes, typeDeps) : classes;
             foreach (var cls in renderClasses)
@@ -820,6 +826,12 @@ public static class TypeScriptFormatter
                 if (target.Length >= maxLength) break;
                 var fnStr = IndentBlock(FormatReachabilityComment(fn.Name, reachabilityChains) + FormatFunction(fn, insideDeclareModule: true));
                 if (target.Length + fnStr.Length <= maxLength) { target.Append(fnStr); includedItems++; }
+            }
+            foreach (var ns in namespaces ?? [])
+            {
+                if (target.Length >= maxLength) break;
+                var nsStr = IndentBlock(FormatNamespace(ns, insideDeclareModule: true));
+                if (target.Length + nsStr.Length <= maxLength) { target.Append(nsStr); includedItems++; }
             }
         }
 
@@ -881,7 +893,7 @@ public static class TypeScriptFormatter
                 {
                     // Build a map of typeName → depModuleName for cross-dep imports
                     var typeToDepModule = new Dictionary<string, string>(StringComparer.Ordinal);
-                    foreach (var (dmn, dcs, dis, des, dts, dfs) in depsForThisCondition)
+                    foreach (var (dmn, dcs, dis, des, dts, dfs, _) in depsForThisCondition)
                     {
                         foreach (var c in dcs) typeToDepModule.TryAdd(c.Name, dmn);
                         foreach (var i in dis) typeToDepModule.TryAdd(i.Name, dmn);
@@ -889,14 +901,14 @@ public static class TypeScriptFormatter
                         foreach (var t in dts) typeToDepModule.TryAdd(t.Name, dmn);
                     }
 
-                    foreach (var (depModuleName, depClasses, depInterfaces, depEnums, depTypes, depFunctions) in depsForThisCondition)
+                    foreach (var (depModuleName, depClasses, depInterfaces, depEnums, depTypes, depFunctions, depNamespaces) in depsForThisCondition)
                     {
                         if (sb.Length >= maxLength) break;
                         if (!emittedDepModules.Add(depModuleName)) continue;
 
                         // Render body first so we can scan for cross-dep type references
                         var depBodySb = new StringBuilder();
-                        RenderModuleTypes(depBodySb, depClasses, depInterfaces, depEnums, depTypes, depFunctions);
+                        RenderModuleTypes(depBodySb, depClasses, depInterfaces, depEnums, depTypes, depFunctions, depNamespaces);
                         var depBody = depBodySb.ToString();
 
                         // Collect type names defined in THIS dep module
@@ -964,7 +976,7 @@ public static class TypeScriptFormatter
 
                 // Render the main package module body to a buffer for cross-module scanning
                 var mainBodySb = new StringBuilder();
-                RenderModuleTypes(mainBodySb, group.Classes, group.Interfaces, group.Enums, group.Types, group.Functions, prioritize: true);
+                RenderModuleTypes(mainBodySb, group.Classes, group.Interfaces, group.Enums, group.Types, group.Functions, group.Namespaces, prioritize: true);
                 var mainBody = mainBodySb.ToString();
 
                 // Collect own type names for this main module
@@ -1007,7 +1019,7 @@ public static class TypeScriptFormatter
 
                     if (depsForThisCondition is not null)
                     {
-                        foreach (var (depModuleName, depClasses, depInterfaces, depEnums, depTypes, depFunctions) in depsForThisCondition)
+                        foreach (var (depModuleName, depClasses, depInterfaces, depEnums, depTypes, depFunctions, _) in depsForThisCondition)
                         {
                             var importNames = new List<string>();
                             foreach (var c in depClasses) if (!mainOwnTypes.Contains(c.Name)) importNames.Add(c.Name);
@@ -1182,7 +1194,8 @@ public static class TypeScriptFormatter
                 if (dep.IsNode) continue;
 
                 var hasContent = (dep.Interfaces?.Count ?? 0) + (dep.Classes?.Count ?? 0)
-                    + (dep.Enums?.Count ?? 0) + (dep.Types?.Where(t => !IsSelfReferentialAlias(t)).Count() ?? 0) > 0;
+                    + (dep.Enums?.Count ?? 0) + (dep.Types?.Where(t => !IsSelfReferentialAlias(t)).Count() ?? 0)
+                    + (dep.Namespaces?.Count ?? 0) > 0;
                 if (!hasContent) continue;
 
                 sb.AppendLine();
@@ -1213,6 +1226,12 @@ public static class TypeScriptFormatter
                     if (IsSelfReferentialAlias(t)) continue;
                     var typeStr = IndentBlock(FormatTypeAlias(t, insideDeclareModule: true));
                     if (sb.Length + typeStr.Length <= maxLength) { sb.Append(typeStr); includedItems++; }
+                }
+                foreach (var ns in dep.Namespaces ?? [])
+                {
+                    if (sb.Length >= maxLength) break;
+                    var nsStr = IndentBlock(FormatNamespace(ns, insideDeclareModule: true));
+                    if (sb.Length + nsStr.Length <= maxLength) { sb.Append(nsStr); includedItems++; }
                 }
 
                 sb.AppendLine("}");
@@ -1404,6 +1423,29 @@ public static class TypeScriptFormatter
         var fnTypeParams = !string.IsNullOrEmpty(fn.TypeParams) ? $"<{fn.TypeParams}>" : "";
         var ret = !string.IsNullOrEmpty(fn.Ret) ? $": {fn.Ret}" : ": void";
         sb.AppendLine($"{prefix}function {fn.Name}{fnTypeParams}({fn.Sig}){ret};");
+        sb.AppendLine();
+        return sb.ToString();
+    }
+
+    /// <summary>Formats a NamespaceInfo as a TypeScript namespace block.</summary>
+    private static string FormatNamespace(NamespaceInfo ns, bool insideDeclareModule = false)
+    {
+        var sb = new StringBuilder();
+        var prefix = insideDeclareModule ? "export " : "export declare ";
+        sb.AppendLine($"{prefix}namespace {ns.Name} {{");
+        foreach (var cls in ns.Classes ?? [])
+            sb.Append(IndentBlock(FormatClass(cls, insideDeclareModule: true)));
+        foreach (var iface in ns.Interfaces ?? [])
+            sb.Append(IndentBlock(FormatInterface(iface, insideDeclareModule: true)));
+        foreach (var e in ns.Enums ?? [])
+            sb.Append(IndentBlock(FormatEnum(e, insideDeclareModule: true)));
+        foreach (var t in ns.Types ?? [])
+            sb.Append(IndentBlock(FormatTypeAlias(t, insideDeclareModule: true)));
+        foreach (var f in ns.Functions ?? [])
+            sb.Append(IndentBlock(FormatFunction(f, insideDeclareModule: true)));
+        foreach (var sub in ns.Namespaces ?? [])
+            sb.Append(IndentBlock(FormatNamespace(sub, insideDeclareModule: true)));
+        sb.AppendLine("}");
         sb.AppendLine();
         return sb.ToString();
     }

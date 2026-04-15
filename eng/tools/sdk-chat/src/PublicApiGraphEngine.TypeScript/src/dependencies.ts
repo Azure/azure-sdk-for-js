@@ -9,6 +9,7 @@ import {
     FunctionDeclaration,
     TypeAliasDeclaration,
     EnumDeclaration,
+    ModuleDeclaration,
     Node,
     Type,
     ExportedDeclarations,
@@ -26,6 +27,7 @@ import type {
     ApiIndex,
     ModuleInfo,
     ResolvedTypeRef,
+    NamespaceInfo,
 } from "./models.js";
 import { ExtractionContext, PRIMITIVE_TYPES } from "./context.js";
 import { getDefinedTypes } from "./reachability.js";
@@ -38,6 +40,7 @@ import {
     extractEnum,
     extractTypeAlias,
     extractFunction,
+    extractNamespace,
 } from "./extractors.js";
 import {
     collectTypeRefsFromType,
@@ -120,9 +123,9 @@ export function buildImportResolutionMap(project: Project): {
 }
 
 export type ExtractResult = {
-    graphed: ClassInfo | InterfaceInfo | EnumInfo | TypeAliasInfo | FunctionInfo;
+    graphed: ClassInfo | InterfaceInfo | EnumInfo | TypeAliasInfo | FunctionInfo | NamespaceInfo;
     declaration: Node;
-    kind: "class" | "interface" | "enum" | "type" | "function";
+    kind: "class" | "interface" | "enum" | "type" | "function" | "namespace";
 };
 
 /**
@@ -150,6 +153,10 @@ export function extractDeclaration(
     if (kind === "FunctionDeclaration") {
         const fnInfo = extractFunction(decl as FunctionDeclaration, ctx);
         if (fnInfo) return { graphed: fnInfo, declaration: decl, kind: "function" };
+    }
+    if (kind === "ModuleDeclaration") {
+        const nsInfo = extractNamespace(decl as ModuleDeclaration, ctx);
+        if (nsInfo) return { graphed: nsInfo, declaration: decl, kind: "namespace" };
     }
     return null;
 }
@@ -330,7 +337,7 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
     // When a dependency type is resolved, we use ts-morph's type system to
     // walk its declaration and find all referenced external types — no string
     // tokenization or heuristics.
-    const allResolved = new Map<string, { packageName: string; type: ClassInfo | InterfaceInfo | EnumInfo | TypeAliasInfo | FunctionInfo; kind: "class" | "interface" | "enum" | "type" | "function" }>();
+    const allResolved = new Map<string, { packageName: string; type: ClassInfo | InterfaceInfo | EnumInfo | TypeAliasInfo | FunctionInfo | NamespaceInfo; kind: "class" | "interface" | "enum" | "type" | "function" | "namespace" }>();
     const allUnresolved = new Set<string>();
     const processed = new Set<string>();
 
@@ -353,7 +360,7 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
                 if (processed.has(typeName)) continue;
                 processed.add(typeName);
                 const resolution = importResolutionMap.get(typeName);
-                let result: { graphed: ClassInfo | InterfaceInfo | EnumInfo | TypeAliasInfo | FunctionInfo; declaration: Node; kind: "class" | "interface" | "enum" | "type" | "function" } | null = null;
+                let result: { graphed: ClassInfo | InterfaceInfo | EnumInfo | TypeAliasInfo | FunctionInfo | NamespaceInfo; declaration: Node; kind: "class" | "interface" | "enum" | "type" | "function" | "namespace" } | null = null;
 
                 if (resolution) {
                     const isDefault = defaultImportedTypes.has(typeName);
@@ -407,6 +414,22 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
                 }
 
                 allResolved.set(typeName, { packageName, type: result.graphed, kind: result.kind });
+
+                // Companion namespace extraction: if the resolved type is an
+                // interface/class and the same file has a namespace with the
+                // same name (declaration merging), extract it too.
+                if (result.kind !== "namespace") {
+                    const resolvedFile = resolution?.resolvedFile ?? packageResolutionMap.get(packageName);
+                    if (resolvedFile) {
+                        const companionMod = resolvedFile.getModules().find(m => m.getName() === typeName);
+                        if (companionMod) {
+                            const nsInfo = extractNamespace(companionMod, ctx);
+                            if (nsInfo) {
+                                allResolved.set(`__ns__${typeName}`, { packageName, type: nsInfo, kind: "namespace" });
+                            }
+                        }
+                    }
+                }
 
                 // Use AST-based type traversal to discover sub-dependencies
                 const subRefs = new Set<ResolvedTypeRef>();
@@ -594,6 +617,9 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
                 break;
             case "function":
                 (depInfo.functions ??= []).push(type as FunctionInfo);
+                break;
+            case "namespace":
+                (depInfo.namespaces ??= []).push(type as NamespaceInfo);
                 break;
         }
     }

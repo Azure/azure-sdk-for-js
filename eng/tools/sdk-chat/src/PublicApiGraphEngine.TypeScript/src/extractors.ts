@@ -13,6 +13,7 @@ import {
     ConstructorDeclaration,
     ParameterDeclaration,
     IndexSignatureDeclaration,
+    ModuleDeclaration,
     JSDocableNode,
     Node,
     Type,
@@ -31,6 +32,7 @@ import type {
     TypeAliasInfo,
     FunctionInfo,
     ModuleInfo,
+    NamespaceInfo,
 } from "./models.js";
 import type { ExtractionContext } from "./context.js";
 import { displayType, stripImportPrefix } from "./formatter.js";
@@ -701,6 +703,52 @@ export function extractFunction(fn: FunctionDeclaration, ctx: ExtractionContext)
     return result;
 }
 
+export function extractNamespace(mod: ModuleDeclaration, ctx: ExtractionContext): NamespaceInfo | null {
+    const name = mod.getName();
+    if (!name) return null;
+
+    const result: NamespaceInfo = { name };
+
+    const classes = mod.getClasses()
+        .filter(c => c.isExported() && c.getName() && !hasInternalOrHiddenTag(c))
+        .map(c => extractClass(c, ctx));
+    if (classes.length) result.classes = classes;
+
+    const interfaces = mod.getInterfaces()
+        .filter(i => i.isExported() && !hasInternalOrHiddenTag(i))
+        .map(i => extractInterface(i, ctx));
+    if (interfaces.length) result.interfaces = interfaces;
+
+    const enums = mod.getEnums()
+        .filter(e => e.isExported() && !hasInternalOrHiddenTag(e))
+        .map(e => extractEnum(e, ctx));
+    if (enums.length) result.enums = enums;
+
+    const typeAliases = mod.getTypeAliases()
+        .filter(t => t.isExported() && !hasInternalOrHiddenTag(t))
+        .map(t => extractTypeAlias(t, ctx));
+    if (typeAliases.length) result.types = typeAliases;
+
+    const functions = mod.getFunctions()
+        .filter(f => f.isExported() && !hasInternalOrHiddenTag(f))
+        .filter(f => f.isOverload() || f.getOverloads().length === 0)
+        .map(f => extractFunction(f, ctx))
+        .filter((f): f is FunctionInfo => f !== undefined);
+    if (functions.length) result.functions = functions;
+
+    const nested = mod.getModules()
+        .map(m => extractNamespace(m, ctx))
+        .filter((ns): ns is NamespaceInfo => ns !== null);
+    if (nested.length) result.namespaces = nested;
+
+    if (!result.classes && !result.interfaces && !result.enums &&
+        !result.types && !result.functions && !result.namespaces) {
+        return null;
+    }
+
+    return result;
+}
+
 export function extractModule(sourceFile: SourceFile, moduleName: string, ctx: ExtractionContext): ModuleInfo | null {
     const result: ModuleInfo = { name: moduleName };
 
@@ -737,13 +785,20 @@ export function extractModule(sourceFile: SourceFile, moduleName: string, ctx: E
         .filter((f): f is FunctionInfo => f !== undefined);
     if (functions.length) result.functions = functions;
 
+    const namespaces = sourceFile.getModules()
+        .filter(m => m.isExported() && !hasInternalOrHiddenTag(m))
+        .map(m => extractNamespace(m, ctx))
+        .filter((ns): ns is NamespaceInfo => ns !== null);
+    if (namespaces.length) result.namespaces = namespaces;
+
     // Check if anything was graphed
     if (
         !result.classes &&
         !result.interfaces &&
         !result.enums &&
         !result.types &&
-        !result.functions
+        !result.functions &&
+        !result.namespaces
     ) {
         return null;
     }

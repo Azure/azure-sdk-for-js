@@ -184,6 +184,11 @@ public sealed record DependencyInfo
     [JsonPropertyName("conditions")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<string>? Conditions { get; init; }
+
+    /// <summary>Namespaces (declaration merging companions) from this package.</summary>
+    [JsonPropertyName("namespaces")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<NamespaceInfo>? Namespaces { get; init; }
 }
 
 /// <summary>A TypeScript module/file.</summary>
@@ -218,6 +223,11 @@ public sealed record ModuleInfo
 
     [JsonPropertyName("functions")]
     public IReadOnlyList<FunctionInfo>? Functions { get; init; }
+
+    /// <summary>Namespaces declared in this module.</summary>
+    [JsonPropertyName("namespaces")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<NamespaceInfo>? Namespaces { get; init; }
 }
 
 /// <summary>A class declaration.</summary>
@@ -723,6 +733,37 @@ public sealed record ConstructorInfo
     [JsonPropertyName("deprecatedMsg")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? DeprecatedMessage { get; init; }
+}
+
+/// <summary>A TypeScript namespace (for declaration merging companions).</summary>
+public sealed record NamespaceInfo
+{
+    [JsonPropertyName("name")]
+    public string Name { get; init; } = "";
+
+    [JsonPropertyName("classes")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<ClassInfo>? Classes { get; init; }
+
+    [JsonPropertyName("interfaces")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<InterfaceInfo>? Interfaces { get; init; }
+
+    [JsonPropertyName("enums")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<EnumInfo>? Enums { get; init; }
+
+    [JsonPropertyName("types")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<TypeAliasInfo>? Types { get; init; }
+
+    [JsonPropertyName("functions")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<FunctionInfo>? Functions { get; init; }
+
+    [JsonPropertyName("namespaces")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<NamespaceInfo>? Namespaces { get; init; }
 }
 
 public sealed record ParameterInfo

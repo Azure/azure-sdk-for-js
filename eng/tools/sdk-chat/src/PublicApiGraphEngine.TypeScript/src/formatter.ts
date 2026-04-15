@@ -15,6 +15,7 @@ import type {
     IndexSignatureInfo,
     ConstructorInfo,
     ModuleInfo,
+    NamespaceInfo,
 } from "./models.js";
 
 const _nsAliasRegexCache = new Map<string, RegExp>();
@@ -220,6 +221,11 @@ export function formatStubs(api: ApiIndex): string {
                 lines.push(`${indent}}`);
                 lines.push("");
             }
+
+            // Namespaces
+            for (const ns of module.namespaces || []) {
+                lines.push(...formatNamespaceLines(ns, indent));
+            }
         }
 
         if (needsModuleBlocks) {
@@ -341,11 +347,57 @@ export function formatStubs(api: ApiIndex): string {
                 lines.push("");
             }
 
+            // Namespaces
+            for (const ns of dep.namespaces || []) {
+                lines.push(...formatNamespaceLines(ns, indent));
+            }
+
             lines.push("}");
         }
     }
 
     return lines.join("\n");
+}
+
+function formatNamespaceLines(ns: NamespaceInfo, indent: string): string[] {
+    const lines: string[] = [];
+    lines.push(`${indent}export namespace ${ns.name} {`);
+    for (const cls of ns.classes || []) {
+        lines.push(`${indent}    export class ${cls.name} {}`);
+    }
+    for (const iface of ns.interfaces || []) {
+        const ext = iface.extends?.length ? ` extends ${iface.extends.join(", ")}` : "";
+        const tp = iface.typeParams ? `<${iface.typeParams}>` : "";
+        lines.push(`${indent}    export interface ${iface.name}${tp}${ext} {`);
+        for (const p of iface.properties || []) {
+            const opt = p.optional ? "?" : "";
+            const ro = p.readonly ? "readonly " : "";
+            lines.push(`${indent}        ${ro}${p.name}${opt}: ${p.type};`);
+        }
+        for (const m of iface.methods || []) {
+            const ret = m.ret ? `: ${m.ret}` : "";
+            lines.push(`${indent}        ${m.name}(${m.sig})${ret};`);
+        }
+        lines.push(`${indent}    }`);
+    }
+    for (const e of ns.enums || []) {
+        lines.push(`${indent}    export enum ${e.name} {`);
+        lines.push(`${indent}        ${e.values.join(", ")}`);
+        lines.push(`${indent}    }`);
+    }
+    for (const t of ns.types || []) {
+        lines.push(`${indent}    export type ${t.name} = ${t.type};`);
+    }
+    for (const f of ns.functions || []) {
+        const ret = f.ret ? `: ${f.ret}` : "";
+        lines.push(`${indent}    export function ${f.name}(${f.sig})${ret};`);
+    }
+    for (const sub of ns.namespaces || []) {
+        lines.push(...formatNamespaceLines(sub, indent + "    "));
+    }
+    lines.push(`${indent}}`);
+    lines.push("");
+    return lines;
 }
 
 export function toJson(api: ApiIndex, pretty: boolean = false): string {
