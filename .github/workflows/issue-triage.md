@@ -20,6 +20,10 @@ on:
 
 permissions: read-all
 
+concurrency:
+  group: "gh-aw-${{ github.workflow }}-${{ github.event.issue.number || github.event.inputs.issue_number || github.run_id }}"
+  cancel-in-progress: true
+
 tools:
   web-fetch:
   github:
@@ -108,7 +112,7 @@ safe-outputs:
                   });
                   await github.rest.issues.createComment({
                     owner, repo, issue_number: issueNumber,
-                    body: '⚠️ Automated triage was unable to complete owner notification for this issue. Routing for manual triage'
+                    body: '⚠️ Automated triage was unable to complete owner notification for this issue. The `needs-team-triage` label has been applied, and maintainers will review it manually.'
                   });
                 } catch (recoveryError) {
                   core.error(`Recovery also failed: ${recoveryError.message}`);
