@@ -55,11 +55,14 @@ import type {
   ContentUnderstandingDefaults,
   CopyAuthorization,
   AnalysisInput,
+  UsageDetails,
 } from "./models/models.js";
+import { usageDetailsDeserializer } from "./models/models.js";
 import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 import type { Pipeline } from "@azure/core-rest-pipeline";
+import { logger } from "./logger.js";
 
 export type { ContentUnderstandingClientOptionalParams } from "./api/contentUnderstandingContext.js";
 
@@ -91,13 +94,15 @@ export interface AnalyzeBinaryOptionalParams extends OperationOptions {
 }
 
 // CUSTOMIZATION: SDK-IMPROVEMENT: Custom poller type that exposes `operationId` for users to call
-// `getResult`, `getResultFile`, and `deleteResult` methods.
+// `getResult`, `getResultFile`, and `deleteResult` methods, and `usage` for billing/metering details.
 export interface AnalysisResultPoller extends PollerLike<
   OperationState<AnalysisResult>,
   AnalysisResult
 > {
   /** The operation ID */
   operationId?: string;
+  /** Usage details of the analyze operation. Available after the operation completes. */
+  usage?: UsageDetails;
 }
 
 export class ContentUnderstandingClient {
@@ -249,6 +254,7 @@ export class ContentUnderstandingClient {
     options: AnalyzeBinaryOptionalParams = { requestOptions: {} },
   ): AnalysisResultPoller {
     let operationId: string | undefined;
+    let usage: UsageDetails | undefined;
     const getInitialResponse = async (): Promise<PathUncheckedResponse> => {
       const res = await _analyzeBinarySend(this._client, analyzerId, binaryInput, contentType, {
         ...options,
@@ -261,22 +267,38 @@ export class ContentUnderstandingClient {
       return res;
     };
 
-    const poller = getLongRunningPoller(
-      this._client,
-      _analyzeBinaryDeserialize,
-      ["202", "200", "201"],
-      {
-        // CUSTOMIZATION: SDK-IMPROVEMENT: Default polling interval to 3 seconds for
-        // Content Understanding operations (generated code defaults to 2 seconds).
-        updateIntervalInMs: options?.updateIntervalInMs ?? 3000,
-        abortSignal: options?.abortSignal,
-        getInitialResponse,
-        resourceLocationConfig: "operation-location",
-      },
-    ) as AnalysisResultPoller;
+    // CUSTOMIZATION: SDK-IMPROVEMENT: Wrap deserializer to capture `usage` from the operation
+    // status envelope before extracting the `result` field.
+    // Usage deserialization is guarded with try/catch so a malformed usage field
+    // doesn't prevent the user from getting their AnalysisResult.
+    const deserializeWithUsage = async (result: PathUncheckedResponse): Promise<AnalysisResult> => {
+      if (result?.body?.usage) {
+        try {
+          usage = usageDetailsDeserializer(result.body.usage);
+        } catch (e) {
+          logger.warning("Failed to deserialize usage details from analyze response", e);
+        }
+      }
+      return _analyzeBinaryDeserialize(result);
+    };
+
+    const poller = getLongRunningPoller(this._client, deserializeWithUsage, ["202", "200", "201"], {
+      // CUSTOMIZATION: SDK-IMPROVEMENT: Default polling interval to 3 seconds for
+      // Content Understanding operations (generated code defaults to 2 seconds).
+      updateIntervalInMs: options?.updateIntervalInMs ?? 3000,
+      abortSignal: options?.abortSignal,
+      getInitialResponse,
+      resourceLocationConfig: "operation-location",
+    }) as AnalysisResultPoller;
 
     Object.defineProperty(poller, "operationId", {
       get: () => operationId,
+      enumerable: true,
+      configurable: true,
+    });
+
+    Object.defineProperty(poller, "usage", {
+      get: () => usage,
       enumerable: true,
       configurable: true,
     });
@@ -295,6 +317,7 @@ export class ContentUnderstandingClient {
     options: AnalyzeOptionalParams = { requestOptions: {} },
   ): AnalysisResultPoller {
     let operationId: string | undefined;
+    let usage: UsageDetails | undefined;
     const getInitialResponse = async (): Promise<PathUncheckedResponse> => {
       const res = await _analyzeSend(this._client, analyzerId, inputs, {
         ...options,
@@ -307,7 +330,22 @@ export class ContentUnderstandingClient {
       return res;
     };
 
-    const poller = getLongRunningPoller(this._client, _analyzeDeserialize, ["202", "200", "201"], {
+    // CUSTOMIZATION: SDK-IMPROVEMENT: Wrap deserializer to capture `usage` from the operation
+    // status envelope before extracting the `result` field.
+    // Usage deserialization is guarded with try/catch so a malformed usage field
+    // doesn't prevent the user from getting their AnalysisResult.
+    const deserializeWithUsage = async (result: PathUncheckedResponse): Promise<AnalysisResult> => {
+      if (result?.body?.usage) {
+        try {
+          usage = usageDetailsDeserializer(result.body.usage);
+        } catch (e) {
+          logger.warning("Failed to deserialize usage details from analyze response", e);
+        }
+      }
+      return _analyzeDeserialize(result);
+    };
+
+    const poller = getLongRunningPoller(this._client, deserializeWithUsage, ["202", "200", "201"], {
       // CUSTOMIZATION: SDK-IMPROVEMENT: Default polling interval to 3 seconds for
       // Content Understanding operations (generated code defaults to 2 seconds).
       updateIntervalInMs: options?.updateIntervalInMs ?? 3000,
@@ -318,6 +356,12 @@ export class ContentUnderstandingClient {
 
     Object.defineProperty(poller, "operationId", {
       get: () => operationId,
+      enumerable: true,
+      configurable: true,
+    });
+
+    Object.defineProperty(poller, "usage", {
+      get: () => usage,
       enumerable: true,
       configurable: true,
     });
