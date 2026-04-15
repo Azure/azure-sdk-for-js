@@ -16,10 +16,7 @@ export function encodeString(value: string): string {
  * @internal
  */
 export function encodeByteArray(value: Uint8Array): string {
-  const bufferValue =
-    value instanceof Buffer
-      ? value
-      : Buffer.from(value.buffer as ArrayBufferLike, value.byteOffset, value.byteLength);
+  const bufferValue = Buffer.isBuffer(value) ? value : Buffer.from(value);
   return bufferValue.toString("base64");
 }
 
