@@ -13,6 +13,7 @@ import {
     Node,
     Type,
     ExportedDeclarations,
+    ImportDeclaration,
     ts,
 } from "ts-morph";
 import * as fs from "fs";
@@ -30,7 +31,7 @@ import type {
     NamespaceInfo,
 } from "./models.js";
 import { ExtractionContext, PRIMITIVE_TYPES } from "./context.js";
-import { getDefinedTypes } from "./reachability.js";
+import { getDefinedTypes, extractTypeNamesFromSignature, extractQualifiedMemberNames } from "./reachability.js";
 import {
     getTypeFromDeclaration,
     getParametersFromDeclaration,
@@ -47,6 +48,7 @@ import {
     collectTypeRefsFromTypeNode,
 } from "./type-refs.js";
 import { isNodeBuiltinModule, isNodePackage } from "./node-builtins.js";
+import { stripImportPrefix } from "./formatter.js";
 
 /**
  * Builds a map of type names to their resolved import declarations.
@@ -126,6 +128,8 @@ export type ExtractResult = {
     graphed: ClassInfo | InterfaceInfo | EnumInfo | TypeAliasInfo | FunctionInfo | NamespaceInfo;
     declaration: Node;
     kind: "class" | "interface" | "enum" | "type" | "function" | "namespace";
+    /** True when the type was found via non-exported fallback (file-scoped declarations). */
+    fromFallback?: boolean;
 };
 
 /**
@@ -137,6 +141,13 @@ export function extractDeclaration(
     decl: Node,
     ctx: ExtractionContext,
 ): ExtractResult | null {
+    // Pre-collect namespace import aliases from the declaration's source file
+    // so that displayType / stripImportPrefix can strip qualified names
+    // (e.g., TranscriptionSessionsAPI.TranscriptionSessions → TranscriptionSessions)
+    // during extraction.  This covers both top-level extraction and nested
+    // namespace member extraction (companion namespaces).
+    preCollectNsAliases(decl.getSourceFile(), ctx);
+
     const kind = decl.getKindName();
     if (kind === "ClassDeclaration") {
         return { graphed: extractClass(decl as ClassDeclaration, ctx), declaration: decl, kind: "class" };
@@ -158,7 +169,83 @@ export function extractDeclaration(
         const nsInfo = extractNamespace(decl as ModuleDeclaration, ctx);
         if (nsInfo) return { graphed: nsInfo, declaration: decl, kind: "namespace" };
     }
+    // Handle variable declarations (e.g., `export declare function toFile(...)`,
+    // `declare const brand: unique symbol`) by emitting a synthetic type alias.
+    // These are values referenced via `typeof` in the public API surface.
+    if (kind === "VariableDeclaration") {
+        const varDecl = decl as import("ts-morph").VariableDeclaration;
+        const name = varDecl.getName();
+        if (name) {
+            const typeNode = varDecl.getTypeNode();
+            const typeText = typeNode
+                ? typeNode.getText()
+                : varDecl.getType()?.getText() ?? "unknown";
+            const syntheticAlias: TypeAliasInfo = { name, type: typeText };
+            return { graphed: syntheticAlias, declaration: decl, kind: "type" };
+        }
+    }
     return null;
+}
+
+/**
+ * Eagerly collects namespace import aliases from a source file so that
+ * `displayType` / `stripImportPrefix` can strip qualified names
+ * (e.g., `AudioAPI.AudioResponseFormat` → `AudioResponseFormat`) during
+ * type extraction.  Must be called BEFORE `extractDeclaration` to ensure the
+ * aliases are already in `ctx.namespaceAliases` when type text is rendered.
+ *
+ * Handles two patterns:
+ * 1. `import * as X from "..."` — X is a namespace alias.
+ * 2. `import { X } from "..."` where X is a value (class/function) that also
+ *    has a companion namespace (declaration merging). In this case X.Y in type
+ *    text refers to a namespace member, and the X. prefix should be stripped
+ *    because the member Y is extracted as a top-level dependency.
+ */
+
+/**
+ * Detects named imports that have companion namespaces (declaration merging)
+ * and adds them to `ctx.namespaceAliases` so that qualified references like
+ * `Runs.RunStep` get their prefix stripped during type text rendering.
+ *
+ * A companion namespace exists when a named import resolves to a symbol that
+ * has both a value declaration (class, function, or variable) and a namespace
+ * declaration (declaration merging pattern).
+ */
+export function collectCompanionNamespaceAliases(
+    imp: ImportDeclaration,
+    ctx: ExtractionContext,
+): void {
+    for (const named of imp.getNamedImports()) {
+        try {
+            const sym = named.getSymbol();
+            if (!sym) continue;
+            const target = sym.getAliasedSymbol() ?? sym;
+            const decls = target.getDeclarations();
+            const hasNamespace = decls.some(d => Node.isModuleDeclaration(d));
+            if (hasNamespace) {
+                const hasValue = decls.some(d =>
+                    Node.isClassDeclaration(d) ||
+                    Node.isFunctionDeclaration(d) ||
+                    Node.isVariableDeclaration(d));
+                if (hasValue) {
+                    ctx.namespaceAliases.add(named.getName());
+                }
+            }
+        } catch { /* benign — symbol resolution may fail for unresolved imports */ }
+    }
+}
+
+const _preCollectedFiles = new WeakSet<SourceFile>();
+function preCollectNsAliases(sf: SourceFile, ctx: ExtractionContext): void {
+    if (_preCollectedFiles.has(sf)) return;
+    _preCollectedFiles.add(sf);
+    for (const imp of sf.getImportDeclarations()) {
+        const nsImport = imp.getNamespaceImport();
+        if (nsImport) {
+            ctx.namespaceAliases.add(nsImport.getText());
+        }
+        collectCompanionNamespaceAliases(imp, ctx);
+    }
 }
 
 /**
@@ -195,6 +282,14 @@ export function extractTypeFromResolvedModule(
                 if (!decls) continue;
 
                 for (const decl of decls) {
+                    // Pre-collect namespace import aliases from the declaration's
+                    // source file BEFORE extracting it.  displayType() uses
+                    // ctx.namespaceAliases to strip qualified names such as
+                    // `AudioAPI.AudioResponseFormat` → `AudioResponseFormat`.
+                    // Without this, the aliases are only collected after extraction
+                    // (in the caller) and the qualified names leak into the output.
+                    preCollectNsAliases(decl.getSourceFile(), ctx);
+
                     const result = extractDeclaration(decl, ctx);
                     if (result) return result;
 
@@ -210,10 +305,12 @@ export function extractTypeFromResolvedModule(
                             // exist (TypeScript declaration merging).
                             const classDecl = aliasedDecls.find(d => d.getKindName() === "ClassDeclaration");
                             if (classDecl) {
+                                preCollectNsAliases(classDecl.getSourceFile(), ctx);
                                 const r = extractDeclaration(classDecl, ctx);
                                 if (r) return r;
                             }
                             for (const aDecl of aliasedDecls) {
+                                preCollectNsAliases(aDecl.getSourceFile(), ctx);
                                 const r = extractDeclaration(aDecl, ctx);
                                 if (r) return r;
                             }
@@ -224,6 +321,81 @@ export function extractTypeFromResolvedModule(
         }
     } catch (e) {
         ctx.warn("DEP_EXTRACT", `Failed to extract '${typeName}': ${e instanceof Error ? e.message : String(e)}`, typeName);
+    }
+
+    // Fallback: search for file-scoped (non-exported) declarations.
+    // Some dependency-internal types (e.g., `type HeaderValue = ...` or
+    // `declare const brand_privateNullableHeaders: unique symbol`) are not
+    // exported but appear in the rendered text of exported types. We emit
+    // them as synthetic type aliases so the output compiles.
+    //
+    // Results from this fallback are marked with `fromFallback: true` so
+    // the caller can skip sub-dependency discovery — non-exported types
+    // often reference other internal types that would cascade into
+    // unresolvable chains.
+    try {
+        for (const stmt of resolvedFile.getStatements()) {
+            if (Node.isTypeAliasDeclaration(stmt) && stmt.getName() === typeName) {
+                preCollectNsAliases(stmt.getSourceFile(), ctx);
+                // Use the compiler's resolved type text rather than source text.
+                // Non-exported type aliases often contain internal references
+                // (e.g., `NotAny<BunRequestInit>`) that won't resolve in output.
+                // The compiler resolves these to their actual types.
+                const resolvedType = stmt.getType();
+                const rawText = resolvedType?.getText(stmt) ?? "unknown";
+                const typeText = stripImportPrefix(rawText, false, ctx.namespaceAliases);
+                const typeParams = stmt.getTypeParameters().map(
+                    tp => stripImportPrefix(tp.getText(), false, ctx.namespaceAliases)
+                );
+                const syntheticAlias: TypeAliasInfo = {
+                    name: typeName,
+                    type: typeText,
+                };
+                if (typeParams.length > 0) {
+                    syntheticAlias.typeParams = typeParams.join(", ");
+                }
+                return { graphed: syntheticAlias, declaration: stmt, kind: "type", fromFallback: true };
+            }
+            if (Node.isInterfaceDeclaration(stmt) && stmt.getName() === typeName) {
+                preCollectNsAliases(stmt.getSourceFile(), ctx);
+                const result = extractDeclaration(stmt, ctx);
+                if (result) return { ...result, fromFallback: true };
+            }
+            if (Node.isClassDeclaration(stmt) && stmt.getName() === typeName) {
+                preCollectNsAliases(stmt.getSourceFile(), ctx);
+                const result = extractDeclaration(stmt, ctx);
+                if (result) return { ...result, fromFallback: true };
+            }
+            if (Node.isEnumDeclaration(stmt) && stmt.getName() === typeName) {
+                preCollectNsAliases(stmt.getSourceFile(), ctx);
+                const result = extractDeclaration(stmt, ctx);
+                if (result) return { ...result, fromFallback: true };
+            }
+            if (Node.isFunctionDeclaration(stmt) && stmt.getName() === typeName) {
+                preCollectNsAliases(stmt.getSourceFile(), ctx);
+                const result = extractDeclaration(stmt, ctx);
+                if (result) return { ...result, fromFallback: true };
+            }
+            // Handle variable declarations (e.g., `declare const x: unique symbol`)
+            // by emitting a synthetic type alias with `typeof` semantics.
+            if (Node.isVariableStatement(stmt)) {
+                for (const varDecl of stmt.getDeclarationList().getDeclarations()) {
+                    if (varDecl.getName() === typeName) {
+                        const typeNode = varDecl.getTypeNode();
+                        const typeText = typeNode
+                            ? typeNode.getText()
+                            : varDecl.getType()?.getText() ?? "unknown";
+                        const syntheticAlias: TypeAliasInfo = {
+                            name: typeName,
+                            type: typeText,
+                        };
+                        return { graphed: syntheticAlias, declaration: varDecl, kind: "type", fromFallback: true };
+                    }
+                }
+            }
+        }
+    } catch (e) {
+        ctx.warn("DEP_EXTRACT_FALLBACK", `Fallback failed for '${typeName}': ${e instanceof Error ? e.message : String(e)}`, typeName);
     }
 
     return null;
@@ -363,10 +535,171 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
             if (nsImport) {
                 ctx.namespaceAliases.add(nsImport.getText());
             }
+            // Also detect named imports with companion namespaces
+            collectCompanionNamespaceAliases(imp, ctx);
         }
     }
     for (const [, entry] of importResolutionMap) {
         collectNsAliasesFromFile(entry.resolvedFile);
+    }
+
+    /**
+     * Collects sub-dependency type references from a single AST declaration node.
+     * Handles class/interface members, type alias bodies, function parameters/returns,
+     * and namespace members (recursively). This centralises the traversal logic so
+     * that both top-level dependency types and companion/nested namespaces share the
+     * same discovery path.
+     */
+    function collectSubRefsFromDeclaration(
+        decl: Node,
+        ctx: ExtractionContext,
+        subRefs: Set<ResolvedTypeRef>,
+        parentName: string,
+    ): void {
+        try {
+            const declType = getTypeFromDeclaration(decl);
+            if (declType) {
+                collectTypeRefsFromType(declType, ctx, subRefs);
+            }
+        } catch { /* benign */ }
+
+        if (Node.isClassDeclaration(decl) || Node.isInterfaceDeclaration(decl)) {
+            for (const tp of decl.getTypeParameters()) {
+                try {
+                    const constraint = tp.getConstraint();
+                    if (constraint) collectTypeRefsFromTypeNode(constraint, ctx, subRefs);
+                    const defaultType = tp.getDefault();
+                    if (defaultType) collectTypeRefsFromTypeNode(defaultType, ctx, subRefs);
+                } catch { /* benign */ }
+            }
+            if (Node.isClassDeclaration(decl)) {
+                const extendsExpr = decl.getExtends();
+                if (extendsExpr) {
+                    try {
+                        const extendsType = extendsExpr.getType();
+                        if (extendsType) collectTypeRefsFromType(extendsType, ctx, subRefs);
+                    } catch { /* benign */ }
+                }
+                for (const impl of decl.getImplements()) {
+                    try {
+                        const implType = impl.getType();
+                        if (implType) collectTypeRefsFromType(implType, ctx, subRefs);
+                    } catch { /* benign */ }
+                }
+            }
+            if (Node.isInterfaceDeclaration(decl)) {
+                for (const ext of decl.getExtends()) {
+                    try {
+                        const extType = ext.getType();
+                        if (extType) collectTypeRefsFromType(extType, ctx, subRefs);
+                    } catch { /* benign */ }
+                }
+            }
+            for (const member of decl.getMembers()) {
+                try {
+                    const memberType = getTypeFromDeclaration(member);
+                    if (memberType) collectTypeRefsFromType(memberType, ctx, subRefs);
+                    if (Node.isPropertySignature(member) || Node.isPropertyDeclaration(member)) {
+                        const memberTypeNode = member.getTypeNode();
+                        if (memberTypeNode) collectTypeRefsFromTypeNode(memberTypeNode, ctx, subRefs);
+                    }
+                    const params = getParametersFromDeclaration(member);
+                    for (const p of params) {
+                        const pType = p.getType();
+                        if (pType) collectTypeRefsFromType(pType, ctx, subRefs);
+                        const pTypeNode = p.getTypeNode();
+                        if (pTypeNode) collectTypeRefsFromTypeNode(pTypeNode, ctx, subRefs);
+                    }
+                    const retType = getReturnTypeFromDeclaration(member);
+                    if (retType) collectTypeRefsFromType(retType, ctx, subRefs);
+                    if (Node.isMethodSignature(member) || Node.isMethodDeclaration(member)) {
+                        const retTypeNode = member.getReturnTypeNode();
+                        if (retTypeNode) collectTypeRefsFromTypeNode(retTypeNode, ctx, subRefs);
+                        // Traverse method-level type parameter constraints and defaults
+                        // (e.g., `parse<Params extends SomeType, P = ExtractFoo<Params>>(...)`)
+                        for (const tp of member.getTypeParameters()) {
+                            try {
+                                const constraint = tp.getConstraint();
+                                if (constraint) collectTypeRefsFromTypeNode(constraint, ctx, subRefs);
+                                const defaultType = tp.getDefault();
+                                if (defaultType) collectTypeRefsFromTypeNode(defaultType, ctx, subRefs);
+                            } catch { /* benign */ }
+                        }
+                    }
+                } catch (e) { ctx.warn("DEP_MEMBER_TRAVERSE", `Failed for member of '${parentName}': ${e instanceof Error ? e.message : String(e)}`, parentName); }
+            }
+        }
+
+        if (Node.isTypeAliasDeclaration(decl)) {
+            for (const tp of decl.getTypeParameters()) {
+                try {
+                    const constraint = tp.getConstraint();
+                    if (constraint) collectTypeRefsFromTypeNode(constraint, ctx, subRefs);
+                    const defaultType = tp.getDefault();
+                    if (defaultType) collectTypeRefsFromTypeNode(defaultType, ctx, subRefs);
+                } catch { /* benign */ }
+            }
+            const typeNode = decl.getTypeNode();
+            if (typeNode) {
+                try {
+                    const resolvedType = typeNode.getType();
+                    if (resolvedType) collectTypeRefsFromType(resolvedType, ctx, subRefs);
+                } catch { /* benign */ }
+                // Also walk the TypeNode AST to catch type names that the
+                // compiler erases (e.g., simple aliases like `HeaderValue` → `string | undefined | null`)
+                try {
+                    collectTypeRefsFromTypeNode(typeNode, ctx, subRefs);
+                } catch { /* benign */ }
+            }
+        }
+
+        if (Node.isFunctionDeclaration(decl)) {
+            for (const tp of decl.getTypeParameters()) {
+                try {
+                    const constraint = tp.getConstraint();
+                    if (constraint) collectTypeRefsFromTypeNode(constraint, ctx, subRefs);
+                    const defaultType = tp.getDefault();
+                    if (defaultType) collectTypeRefsFromTypeNode(defaultType, ctx, subRefs);
+                } catch { /* benign */ }
+            }
+            for (const param of decl.getParameters()) {
+                try {
+                    const pType = param.getType();
+                    if (pType) collectTypeRefsFromType(pType, ctx, subRefs);
+                    const pTypeNode = param.getTypeNode();
+                    if (pTypeNode) collectTypeRefsFromTypeNode(pTypeNode, ctx, subRefs);
+                } catch (e) { ctx.warn("DEP_FUNC_PARAM_TRAVERSE", `Failed for param of '${parentName}': ${e instanceof Error ? e.message : String(e)}`, parentName); }
+            }
+            try {
+                const retType = getReturnTypeFromDeclaration(decl);
+                if (retType) collectTypeRefsFromType(retType, ctx, subRefs);
+                const retTypeNode = decl.getReturnTypeNode();
+                if (retTypeNode) collectTypeRefsFromTypeNode(retTypeNode, ctx, subRefs);
+            } catch { /* benign */ }
+        }
+
+        if (Node.isModuleDeclaration(decl)) {
+            collectSubRefsFromNamespace(decl, ctx, subRefs, parentName);
+        }
+    }
+
+    /**
+     * Recursively traverses a namespace (ModuleDeclaration) and collects
+     * sub-dependency type references from all its exported members.
+     */
+    function collectSubRefsFromNamespace(
+        mod: ModuleDeclaration,
+        ctx: ExtractionContext,
+        subRefs: Set<ResolvedTypeRef>,
+        parentName: string,
+    ): void {
+        try {
+            for (const [, decls] of mod.getExportedDeclarations()) {
+                for (const d of decls) {
+                    collectSubRefsFromDeclaration(d, ctx, subRefs, parentName);
+                }
+            }
+        } catch (e) { ctx.warn("DEP_NS_TRAVERSE", `Failed for namespace '${parentName}': ${e instanceof Error ? e.message : String(e)}`, parentName); }
     }
 
     let pendingTypes = new Map(typesByPackage);
@@ -380,7 +713,7 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
                 if (processed.has(typeName)) continue;
                 processed.add(typeName);
                 const resolution = importResolutionMap.get(typeName);
-                let result: { graphed: ClassInfo | InterfaceInfo | EnumInfo | TypeAliasInfo | FunctionInfo | NamespaceInfo; declaration: Node; kind: "class" | "interface" | "enum" | "type" | "function" | "namespace" } | null = null;
+                let result: ExtractResult | null = null;
 
                 if (resolution) {
                     const isDefault = defaultImportedTypes.has(typeName);
@@ -445,9 +778,22 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
                 // the same name (declaration merging), extract it too.
                 // Use the declaration's source file (not the barrel/re-export file)
                 // so we find the namespace where it's actually defined.
+                let companionMod: ModuleDeclaration | undefined;
                 if (result.kind !== "namespace") {
                     const declFile = result.declaration.getSourceFile();
-                    const companionMod = declFile.getModules().find(m => m.getName() === typeName);
+                    companionMod = declFile.getModules().find(m => m.getName() === typeName);
+                    // If not found at file level, check the parent namespace.
+                    // Handles nested declaration merging (e.g., ChatCompletion.Choice
+                    // interface + ChatCompletion.Choice namespace).
+                    if (!companionMod) {
+                        const parent = result.declaration.getParent();
+                        if (Node.isModuleBlock(parent)) {
+                            const parentMod = parent.getParent();
+                            if (Node.isModuleDeclaration(parentMod)) {
+                                companionMod = parentMod.getModules().find(m => m.getName() === typeName);
+                            }
+                        }
+                    }
                     if (companionMod) {
                         const nsInfo = extractNamespace(companionMod, ctx);
                         if (nsInfo) {
@@ -456,119 +802,25 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
                     }
                 }
 
-                // Use AST-based type traversal to discover sub-dependencies
+                // Use AST-based type traversal to discover sub-dependencies.
+                // Skip sub-dependency discovery for types resolved via the
+                // non-exported fallback — they are internal types whose
+                // sub-references often cascade into unresolvable chains
+                // (e.g., platform-specific globals, deep internal types).
+                if (!result.fromFallback) {
+                // Reset the visited-types set before each traversal so that types
+                // already seen during the initial extraction phase (or a previous
+                // dependency's traversal) can be re-discovered as sub-dependencies
+                // of the current type. Without this, the WeakSet guard in
+                // collectTypeRefsFromType skips types that were visited in an
+                // earlier call context but need to be added to THIS subRefs set.
+                ctx.typeRefs.resetVisited();
                 const subRefs = new Set<ResolvedTypeRef>();
                 try {
-                    const declType = getTypeFromDeclaration(result.declaration);
-                    if (declType) {
-                        collectTypeRefsFromType(declType, ctx, subRefs);
-                    }
-                    // For classes/interfaces, also traverse members' types
-                    const decl = result.declaration;
-                    if (Node.isClassDeclaration(decl) || Node.isInterfaceDeclaration(decl)) {
-                        // Traverse type parameter constraints and defaults to discover
-                        // sub-dependencies (e.g., PollerLike<TState extends OperationState<TResult>, TResult>
-                        // needs OperationState from @azure/core-lro)
-                        for (const tp of decl.getTypeParameters()) {
-                            try {
-                                const constraint = tp.getConstraint();
-                                if (constraint) collectTypeRefsFromTypeNode(constraint, ctx, subRefs);
-                                const defaultType = tp.getDefault();
-                                if (defaultType) collectTypeRefsFromTypeNode(defaultType, ctx, subRefs);
-                            } catch { /* benign */ }
-                        }
-                        // Also traverse heritage clauses (implements/extends) to discover
-                        // base types that getBaseTypes() on the class type might miss
-                        if (Node.isClassDeclaration(decl)) {
-                            const extendsExpr = decl.getExtends();
-                            if (extendsExpr) {
-                                try {
-                                    const extendsType = extendsExpr.getType();
-                                    if (extendsType) collectTypeRefsFromType(extendsType, ctx, subRefs);
-                                } catch { /* benign */ }
-                            }
-                            for (const impl of decl.getImplements()) {
-                                try {
-                                    const implType = impl.getType();
-                                    if (implType) collectTypeRefsFromType(implType, ctx, subRefs);
-                                } catch { /* benign */ }
-                            }
-                        }
-                        if (Node.isInterfaceDeclaration(decl)) {
-                            for (const ext of decl.getExtends()) {
-                                try {
-                                    const extType = ext.getType();
-                                    if (extType) collectTypeRefsFromType(extType, ctx, subRefs);
-                                } catch { /* benign */ }
-                            }
-                        }
-                        for (const member of decl.getMembers()) {
-                            try {
-                                const memberType = getTypeFromDeclaration(member);
-                                if (memberType) collectTypeRefsFromType(memberType, ctx, subRefs);
-                                // Also collect from TypeNodes to catch simple type aliases
-                                // that TypeScript resolves away (e.g., type X = Y)
-                                if (Node.isPropertySignature(member) || Node.isPropertyDeclaration(member)) {
-                                    const memberTypeNode = member.getTypeNode();
-                                    if (memberTypeNode) collectTypeRefsFromTypeNode(memberTypeNode, ctx, subRefs);
-                                }
-                                const params = getParametersFromDeclaration(member);
-                                for (const p of params) {
-                                    const pType = p.getType();
-                                    if (pType) collectTypeRefsFromType(pType, ctx, subRefs);
-                                    const pTypeNode = p.getTypeNode();
-                                    if (pTypeNode) collectTypeRefsFromTypeNode(pTypeNode, ctx, subRefs);
-                                }
-                                const retType = getReturnTypeFromDeclaration(member);
-                                if (retType) collectTypeRefsFromType(retType, ctx, subRefs);
-                                // Collect from return type node
-                                if (Node.isMethodSignature(member) || Node.isMethodDeclaration(member)) {
-                                    const retTypeNode = member.getReturnTypeNode();
-                                    if (retTypeNode) collectTypeRefsFromTypeNode(retTypeNode, ctx, subRefs);
-                                }
-                            } catch (e) { ctx.warn("DEP_MEMBER_TRAVERSE", `Failed for member of '${typeName}': ${e instanceof Error ? e.message : String(e)}`, typeName); }
-                        }
-                    }
-                    // For type aliases, also traverse the underlying type's structure
-                    if (Node.isTypeAliasDeclaration(result.declaration)) {
-                        // Traverse type parameter constraints and defaults
-                        for (const tp of result.declaration.getTypeParameters()) {
-                            try {
-                                const constraint = tp.getConstraint();
-                                if (constraint) collectTypeRefsFromTypeNode(constraint, ctx, subRefs);
-                                const defaultType = tp.getDefault();
-                                if (defaultType) collectTypeRefsFromTypeNode(defaultType, ctx, subRefs);
-                            } catch { /* benign */ }
-                        }
-                        const typeNode = result.declaration.getTypeNode();
-                        if (typeNode) {
-                            const resolvedType = typeNode.getType();
-                            if (resolvedType) collectTypeRefsFromType(resolvedType, ctx, subRefs);
-                        }
-                    }
-                    // For functions, traverse parameter and return types for sub-dependencies
-                    if (Node.isFunctionDeclaration(result.declaration)) {
-                        // Traverse type parameter constraints and defaults
-                        for (const tp of result.declaration.getTypeParameters()) {
-                            try {
-                                const constraint = tp.getConstraint();
-                                if (constraint) collectTypeRefsFromTypeNode(constraint, ctx, subRefs);
-                                const defaultType = tp.getDefault();
-                                if (defaultType) collectTypeRefsFromTypeNode(defaultType, ctx, subRefs);
-                            } catch { /* benign */ }
-                        }
-                        for (const param of result.declaration.getParameters()) {
-                            try {
-                                const pType = param.getType();
-                                if (pType) collectTypeRefsFromType(pType, ctx, subRefs);
-                                const pTypeNode = param.getTypeNode();
-                                if (pTypeNode) collectTypeRefsFromTypeNode(pTypeNode, ctx, subRefs);
-                            } catch (e) { ctx.warn("DEP_FUNC_PARAM_TRAVERSE", `Failed for param of '${typeName}': ${e instanceof Error ? e.message : String(e)}`, typeName); }
-                        }
-                        const retType = getReturnTypeFromDeclaration(result.declaration);
-                        if (retType) collectTypeRefsFromType(retType, ctx, subRefs);
-                        const retTypeNode = result.declaration.getReturnTypeNode();
-                        if (retTypeNode) collectTypeRefsFromTypeNode(retTypeNode, ctx, subRefs);
+                    collectSubRefsFromDeclaration(result.declaration, ctx, subRefs, typeName);
+                    // Also traverse companion namespace members for sub-dependencies
+                    if (companionMod) {
+                        collectSubRefsFromNamespace(companionMod, ctx, subRefs, typeName);
                     }
                 } catch (e) { ctx.warn("DEP_TYPE_TRAVERSE", `Failed for '${typeName}': ${e instanceof Error ? e.message : String(e)}`, typeName); }
 
@@ -613,6 +865,7 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
                     if (!newPending.has(subRef.packageName)) newPending.set(subRef.packageName, new Set());
                     newPending.get(subRef.packageName)!.add(subRef.name);
                 }
+                } // end if (!result.fromFallback)
             }
         }
 
@@ -648,6 +901,13 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
                 break;
         }
     }
+
+    // Filter namespace members to only include those reachable from the API surface.
+    // Companion namespaces are extracted eagerly (all exported members), but only
+    // members whose names appear as type references in the non-namespace resolved
+    // types should be retained. This prevents unreferenced type aliases (e.g.,
+    // Conversations.Items.InputTextContent) from appearing in the output.
+    filterUnreachableNamespaceMembers(allResolved, depByPackage, api, definedTypes);
 
     // Add Node.js dependencies as simple type-name references (no extraction).
     // These are emitted as import statements, not declare module blocks.
@@ -1092,6 +1352,290 @@ export function buildResolvedDependencies(
                 modules,
             });
         }
+    }
+
+    return result;
+}
+
+// ============================================================================
+// Namespace Member Reachability Filtering
+// ============================================================================
+
+/**
+ * Collects type names referenced by a single entity's type signatures.
+ * Scans extends, implements, type alias bodies, method/constructor/function
+ * signatures, property types, and type parameter constraints.
+ */
+function collectReferencedNamesFromEntity(
+    entity: ClassInfo | InterfaceInfo | EnumInfo | TypeAliasInfo | FunctionInfo,
+    kind: "class" | "interface" | "enum" | "type" | "function",
+    refs: Set<string>,
+): void {
+    const scan = (s: string | undefined) => {
+        if (!s) return;
+        for (const name of extractTypeNamesFromSignature(s)) refs.add(name);
+        // Also extract qualified member names (e.g., Foo.Bar → Bar) to handle
+        // namespace-qualified references where the member name might be ALL_CAPS
+        // (like URL) and would be skipped by extractTypeNamesFromSignature.
+        for (const name of extractQualifiedMemberNames(s)) refs.add(name);
+    };
+
+    switch (kind) {
+        case "class": {
+            const cls = entity as ClassInfo;
+            scan(cls.extends);
+            for (const impl of cls.implements ?? []) scan(impl);
+            scan(cls.typeParams);
+            for (const ctor of cls.constructors ?? []) {
+                scan(ctor.sig);
+                for (const p of ctor.params ?? []) scan(p.type);
+            }
+            for (const m of cls.methods ?? []) {
+                scan(m.sig); scan(m.ret); scan(m.typeParams);
+                for (const p of m.params ?? []) scan(p.type);
+            }
+            for (const p of cls.properties ?? []) scan(p.type);
+            for (const ix of cls.indexSignatures ?? []) { scan(ix.keyType); scan(ix.valueType); }
+            break;
+        }
+        case "interface": {
+            const iface = entity as InterfaceInfo;
+            for (const ext of iface.extends ?? []) scan(ext);
+            scan(iface.typeParams);
+            for (const m of iface.methods ?? []) {
+                scan(m.sig); scan(m.ret); scan(m.typeParams);
+                for (const p of m.params ?? []) scan(p.type);
+            }
+            for (const p of iface.properties ?? []) scan(p.type);
+            for (const ix of iface.indexSignatures ?? []) { scan(ix.keyType); scan(ix.valueType); }
+            break;
+        }
+        case "type": {
+            const t = entity as TypeAliasInfo;
+            scan(t.type); scan(t.typeParams);
+            break;
+        }
+        case "function": {
+            const fn = entity as FunctionInfo;
+            scan(fn.sig); scan(fn.ret); scan(fn.typeParams);
+            for (const p of fn.params ?? []) scan(p.type);
+            break;
+        }
+        // enums have no type references to scan
+    }
+}
+
+/**
+ * Collects type names referenced by all members of a namespace (recursively).
+ */
+function collectReferencedNamesFromNamespace(ns: NamespaceInfo, refs: Set<string>): void {
+    for (const c of ns.classes ?? []) collectReferencedNamesFromEntity(c, "class", refs);
+    for (const i of ns.interfaces ?? []) collectReferencedNamesFromEntity(i, "interface", refs);
+    for (const e of ns.enums ?? []) collectReferencedNamesFromEntity(e, "enum", refs);
+    for (const t of ns.types ?? []) collectReferencedNamesFromEntity(t, "type", refs);
+    for (const f of ns.functions ?? []) collectReferencedNamesFromEntity(f, "function", refs);
+    for (const nested of ns.namespaces ?? []) collectReferencedNamesFromNamespace(nested, refs);
+}
+
+/**
+ * Filters namespace members to only include those reachable from the main
+ * package's API surface and non-namespace dependency types.
+ *
+ * Uses a rooted BFS: seeds from (1) all types defined in the main package's
+ * modules, and (2) all non-namespace resolved dependency types. Then walks
+ * into namespace members, only retaining members whose names appear in the
+ * accumulated reference set.
+ *
+ * This prevents eagerly-extracted companion namespace members from appearing
+ * in the output when nothing in the API surface references them.
+ */
+function filterUnreachableNamespaceMembers(
+    allResolved: Map<string, { packageName: string; type: ClassInfo | InterfaceInfo | EnumInfo | TypeAliasInfo | FunctionInfo | NamespaceInfo; kind: "class" | "interface" | "enum" | "type" | "function" | "namespace" }>,
+    depByPackage: Map<string, DependencyInfo>,
+    api: ApiIndex,
+    definedTypes: Set<string>,
+): void {
+    // Phase 1: Collect all type names referenced by non-namespace root types.
+    // These are the "seed" references that determine which namespace members
+    // are needed. We exclude namespace members themselves to prevent dead
+    // members from self-justifying their retention.
+    const referencedNames = new Set<string>();
+
+    // Seed from main package modules
+    for (const mod of api.modules) {
+        for (const c of mod.classes ?? []) collectReferencedNamesFromEntity(c, "class", referencedNames);
+        for (const i of mod.interfaces ?? []) collectReferencedNamesFromEntity(i, "interface", referencedNames);
+        for (const t of mod.types ?? []) collectReferencedNamesFromEntity(t, "type", referencedNames);
+        for (const f of mod.functions ?? []) collectReferencedNamesFromEntity(f, "function", referencedNames);
+        for (const e of mod.enums ?? []) collectReferencedNamesFromEntity(e, "enum", referencedNames);
+        // Also scan namespace members within main package modules
+        for (const ns of mod.namespaces ?? []) collectReferencedNamesFromNamespace(ns, referencedNames);
+    }
+
+    // Seed from non-namespace resolved dependency types
+    for (const [key, { type, kind }] of allResolved) {
+        if (kind === "namespace") continue; // Skip namespaces — they contain the members we're filtering
+        collectReferencedNamesFromEntity(type as ClassInfo | InterfaceInfo | EnumInfo | TypeAliasInfo | FunctionInfo, kind, referencedNames);
+    }
+
+    // Also add all defined types — main package type names are always reachable
+    for (const name of definedTypes) referencedNames.add(name);
+
+    // Also add all non-namespace resolved type names — these are directly needed
+    for (const [key, { kind }] of allResolved) {
+        if (kind !== "namespace" && !key.startsWith("__ns__")) {
+            referencedNames.add(key);
+        }
+    }
+
+    // Phase 2: BFS walk into namespaces. When a namespace member is retained
+    // (its name is in the reference set), scan its type signatures to discover
+    // additional referenced names, potentially retaining further members.
+    // Track which entity objects have been expanded to avoid redundant re-scanning.
+    // Uses object identity (not names) because different types at different namespace
+    // depths can share the same name (e.g., ChatCompletion.Choice vs ChatCompletionChunk.Choice).
+    const expandedEntities = new WeakSet<object>();
+    let changed = true;
+    while (changed) {
+        changed = false;
+        for (const [, depInfo] of depByPackage) {
+            for (const ns of depInfo.namespaces ?? []) {
+                if (expandReachableFromNamespace(ns, referencedNames, expandedEntities)) {
+                    changed = true;
+                }
+            }
+        }
+    }
+
+    // Phase 3: Filter namespace members, keeping only reachable ones.
+    for (const [, depInfo] of depByPackage) {
+        if (depInfo.namespaces) {
+            depInfo.namespaces = depInfo.namespaces
+                .map(ns => filterNamespaceMembers(ns, referencedNames))
+                .filter((ns): ns is NamespaceInfo => ns !== null);
+            if (depInfo.namespaces.length === 0) depInfo.namespaces = undefined;
+        }
+    }
+}
+
+/**
+ * Computes the set of type names that are siblings (classes/interfaces/types)
+ * of nested namespaces within a given namespace. Used to determine companion
+ * namespaces locally — a nested namespace is a companion if there's a
+ * same-named class/interface/type at the same level.
+ */
+function getSiblingTypeNames(ns: NamespaceInfo): Set<string> {
+    const names = new Set<string>();
+    for (const c of ns.classes ?? []) names.add(c.name);
+    for (const i of ns.interfaces ?? []) names.add(i.name);
+    for (const t of ns.types ?? []) names.add(t.name);
+    return names;
+}
+
+/**
+ * Scans a namespace's members and adds newly-reachable member references
+ * to the reference set. Returns true if any new names were added.
+ * Uses `expanded` to skip members that have already been scanned.
+ *
+ * Companion detection is LOCAL: when a nested namespace's name matches
+ * a sibling class/interface/type within the SAME parent namespace, it's
+ * a companion namespace (from declaration merging). For companions, the
+ * name in refs means the CLASS/INTERFACE is referenced, not the namespace
+ * members. For pure (non-companion) namespaces, the name in refs means
+ * the namespace is used as a type and all members form the type's structure.
+ */
+function expandReachableFromNamespace(ns: NamespaceInfo, refs: Set<string>, expanded: WeakSet<object>): boolean {
+    let added = false;
+
+    const tryExpand = (entity: ClassInfo | InterfaceInfo | EnumInfo | TypeAliasInfo | FunctionInfo, name: string, kind: "class" | "interface" | "enum" | "type" | "function") => {
+        if (refs.has(name) && !expanded.has(entity)) {
+            expanded.add(entity);
+            const before = refs.size;
+            collectReferencedNamesFromEntity(entity, kind, refs);
+            if (refs.size > before) added = true;
+        }
+    };
+
+    for (const c of ns.classes ?? []) tryExpand(c, c.name, "class");
+    for (const i of ns.interfaces ?? []) tryExpand(i, i.name, "interface");
+    for (const e of ns.enums ?? []) tryExpand(e, e.name, "enum");
+    for (const t of ns.types ?? []) tryExpand(t, t.name, "type");
+    for (const f of ns.functions ?? []) { if (f.name) tryExpand(f, f.name, "function"); }
+
+    // Determine companion status locally: a nested namespace is a companion
+    // if it has a same-named class/interface/type sibling within THIS namespace.
+    const siblingTypes = getSiblingTypeNames(ns);
+
+    for (const nested of ns.namespaces ?? []) {
+        // When a nested namespace's name is in refs and it's NOT a companion
+        // (no same-named sibling type at this level), the namespace itself is
+        // used as a type (e.g., `delta: Choice.Delta`). Add all its direct
+        // members to refs since they form the type's structure.
+        if (refs.has(nested.name) && !siblingTypes.has(nested.name)) {
+            const before = refs.size;
+            addAllMemberNames(nested, refs);
+            if (refs.size > before) added = true;
+        }
+        if (expandReachableFromNamespace(nested, refs, expanded)) added = true;
+    }
+
+    return added;
+}
+
+/**
+ * Adds all direct member names of a namespace to the reference set.
+ * Used when a namespace is referenced as a type position.
+ */
+function addAllMemberNames(ns: NamespaceInfo, refs: Set<string>): void {
+    for (const c of ns.classes ?? []) refs.add(c.name);
+    for (const i of ns.interfaces ?? []) refs.add(i.name);
+    for (const e of ns.enums ?? []) refs.add(e.name);
+    for (const t of ns.types ?? []) refs.add(t.name);
+    for (const f of ns.functions ?? []) { if (f.name) refs.add(f.name); }
+    for (const nested of ns.namespaces ?? []) refs.add(nested.name);
+}
+
+/**
+ * Filters a namespace to only include members whose names are in the
+ * reference set. Returns null if the namespace becomes empty.
+ * Processes bottom-up: nested namespaces are filtered first, and a
+ * parent namespace is retained if any child survives.
+ */
+export function filterNamespaceMembers(ns: NamespaceInfo, refs: Set<string>): NamespaceInfo | null {
+    const result: NamespaceInfo = { name: ns.name };
+
+    if (ns.classes) {
+        const filtered = ns.classes.filter(c => refs.has(c.name));
+        if (filtered.length) result.classes = filtered;
+    }
+    if (ns.interfaces) {
+        const filtered = ns.interfaces.filter(i => refs.has(i.name));
+        if (filtered.length) result.interfaces = filtered;
+    }
+    if (ns.enums) {
+        const filtered = ns.enums.filter(e => refs.has(e.name));
+        if (filtered.length) result.enums = filtered;
+    }
+    if (ns.types) {
+        const filtered = ns.types.filter(t => refs.has(t.name));
+        if (filtered.length) result.types = filtered;
+    }
+    if (ns.functions) {
+        const filtered = ns.functions.filter(f => f.name && refs.has(f.name));
+        if (filtered.length) result.functions = filtered;
+    }
+    // Filter nested namespaces bottom-up
+    if (ns.namespaces) {
+        const filtered = ns.namespaces
+            .map(n => filterNamespaceMembers(n, refs))
+            .filter((n): n is NamespaceInfo => n !== null);
+        if (filtered.length) result.namespaces = filtered;
+    }
+
+    // Keep namespace if any member survived
+    if (!result.classes && !result.interfaces && !result.enums &&
+        !result.types && !result.functions && !result.namespaces) {
+        return null;
     }
 
     return result;

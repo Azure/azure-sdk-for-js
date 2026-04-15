@@ -46,6 +46,7 @@ public static class TypeScriptFormatter
         if (conditions.Count == 0)
             conditions = ["default"];
 
+
         foreach (var condition in conditions)
         {
             // Filter modules for this condition
@@ -55,13 +56,16 @@ public static class TypeScriptFormatter
 
             // Filter resolved dependencies to those matching this condition.
             // For each dependency, prefer modules with an exact condition match;
-            // fall back to modules with no condition (null/default) if no exact match.
+            // fall back to "default" condition or null/whitespace if no exact match.
             var conditionResolvedDeps = index.ResolvedDependencies?
                 .Select(dep =>
                 {
                     var exactMatch = dep.Modules.Where(m => m.Condition == condition).ToList();
-                    var fallback = dep.Modules.Where(m => string.IsNullOrWhiteSpace(m.Condition)).ToList();
-                    return dep with { Modules = exactMatch.Count > 0 ? exactMatch : fallback };
+                    var defaultFallback = dep.Modules
+                        .Where(m => string.IsNullOrWhiteSpace(m.Condition) ||
+                                    string.Equals(m.Condition, "default", StringComparison.OrdinalIgnoreCase))
+                        .ToList();
+                    return dep with { Modules = exactMatch.Count > 0 ? exactMatch : defaultFallback };
                 })
                 .Where(dep => dep.Modules.Count > 0)
                 .ToList();
@@ -74,7 +78,8 @@ public static class TypeScriptFormatter
 
             var rawDts = Format(subIndex, condition);
             var dts = WrapInDeclareModules(rawDts, index.Package);
-            var tsconfig = GenerateTsconfig(condition);
+            var hasNodeDependency = index.Dependencies?.Any(d => d.IsNode) == true;
+            var tsconfig = GenerateTsconfig(hasNodeDependency, dts);
             result[condition] = (dts, tsconfig);
         }
 
@@ -156,7 +161,9 @@ public static class TypeScriptFormatter
             i++;
         }
 
-        // 3. Build type name → module name map from all declare module blocks
+        // 3. Build type name → module name map from all declare module blocks.
+        //    Only count top-level exports (brace depth 1 inside the declare module block)
+        //    to avoid picking up nested namespace/class members like FineTuningJob.Error.
         var typeToModule = new Dictionary<string, string>(StringComparer.Ordinal);
         var moduleExportedTypes = new Dictionary<string, HashSet<string>>(StringComparer.Ordinal);
         var exportPattern = new Regex(
@@ -166,14 +173,30 @@ public static class TypeScriptFormatter
         foreach (var (moduleName, blockLines) in declareModuleBlocks)
         {
             var types = new HashSet<string>(StringComparer.Ordinal);
+            int braceDepth = 0;
             foreach (var blockLine in blockLines)
             {
-                var match = exportPattern.Match(blockLine);
-                if (match.Success)
+                // Check exports at the depth BEFORE this line's braces are counted,
+                // so "export interface Foo {" is matched at depth 1 (top-level inside
+                // the declare module block) rather than depth 2 (after counting the
+                // opening brace for the interface body).
+                var depthBeforeLine = braceDepth;
+                // Track brace depth: depth 1 = top-level inside declare module { ... }
+                foreach (var ch in blockLine)
                 {
-                    var typeName = match.Groups[1].Value;
-                    types.Add(typeName);
-                    typeToModule.TryAdd(typeName, moduleName);
+                    if (ch == '{') braceDepth++;
+                    else if (ch == '}') braceDepth--;
+                }
+                // Only match exports at depth 1 (directly inside the module block)
+                if (depthBeforeLine == 1)
+                {
+                    var match = exportPattern.Match(blockLine);
+                    if (match.Success)
+                    {
+                        var typeName = match.Groups[1].Value;
+                        types.Add(typeName);
+                        typeToModule.TryAdd(typeName, moduleName);
+                    }
                 }
             }
             moduleExportedTypes[moduleName] = types;
@@ -220,12 +243,45 @@ public static class TypeScriptFormatter
             }
         }
 
+        // 4b. Generate ambient stubs for DOM global constructors that conflict with type names
+        //     used in dependency modules. In browser targets, DOM provides Audio and Image as
+        //     constructor values (not types) and EventListener as a non-generic interface.
+        //     When dep modules use these as types (e.g., Array<Image>), tsc errors with
+        //     TS2749 or TS2315. Global `declare interface` stubs fix this.
+        var allContent = string.Join("\n", processedBlocks) + "\n" +
+                         string.Join("\n", mainBody) + "\n" +
+                         string.Join("\n", imports);
+        var allTopLevelExports = new HashSet<string>(
+            moduleExportedTypes.Values.SelectMany(s => s), StringComparer.Ordinal);
+
+        var platformStubs = new List<string>();
+        var domTypeStubs = new (string name, string declaration)[]
+        {
+            ("Audio", "interface Audio {}"),
+            ("Image", "interface Image {}"),
+            ("EventListener", "interface EventListener<Events = any, Event extends keyof Events = any> { (...args: any[]): void; }"),
+        };
+        foreach (var (name, declaration) in domTypeStubs)
+        {
+            if (Regex.IsMatch(allContent, @$"\b{Regex.Escape(name)}\b") &&
+                !allTopLevelExports.Contains(name))
+                platformStubs.Add($"declare {declaration}");
+        }
+
         // 5. Build the restructured output
         var sb = new StringBuilder();
 
         // Preamble (references, header comments)
         foreach (var line in preamble)
             sb.AppendLine(line);
+
+        // DOM collision stubs (only if needed)
+        if (platformStubs.Count > 0)
+        {
+            foreach (var stub in platformStubs)
+                sb.AppendLine(stub);
+            sb.AppendLine();
+        }
 
         // Dependency declare module blocks first
         foreach (var block in processedBlocks)
@@ -262,25 +318,113 @@ public static class TypeScriptFormatter
     }
 
     /// <summary>
+    /// Known DOM global type names that require the "DOM" lib in tsconfig.
+    /// Checked with word-boundary matching to avoid false positives from
+    /// types like "AudioConfig" or "ImageProcessor".
+    /// </summary>
+    private static readonly HashSet<string> DomGlobalTypes = new(StringComparer.Ordinal)
+    {
+        "AbortSignal", "ReadableStream", "WritableStream",
+        "EventTarget", "EventListener",
+        "Blob", "File", "FormData", "Headers", "Request", "Response",
+        "URL", "URLSearchParams", "TextEncoder", "TextDecoder",
+        "ReadableStreamDefaultReader", "WritableStreamDefaultWriter",
+        "Audio", "Image",
+    };
+
+    /// <summary>
+    /// Known Node.js global type names and namespace prefixes that require @types/node.
+    /// Used as a content-based fallback when the dependency graph does not have
+    /// an <see cref="DependencyInfo.IsNode"/> entry (e.g. types are referenced
+    /// but not tracked as explicit dependencies).
+    /// </summary>
+    private static readonly HashSet<string> NodeGlobalIdentifiers = new(StringComparer.Ordinal)
+    {
+        "Buffer", "NodeJS", "FsReadStream",
+    };
+
+    /// <summary>
+    /// Checks whether <paramref name="typeName"/> appears as a standalone identifier
+    /// in <paramref name="content"/> (i.e. not as a substring of a longer identifier).
+    /// </summary>
+    private static bool ContainsTypeIdentifier(string content, string typeName)
+    {
+        int index = 0;
+        while ((index = content.IndexOf(typeName, index, StringComparison.Ordinal)) >= 0)
+        {
+            bool startOk = index == 0
+                || (!char.IsLetterOrDigit(content[index - 1]) && content[index - 1] != '_');
+            int endPos = index + typeName.Length;
+            bool endOk = endPos >= content.Length
+                || (!char.IsLetterOrDigit(content[endPos]) && content[endPos] != '_');
+            if (startOk && endOk) return true;
+            index++;
+        }
+        return false;
+    }
+
+    /// <summary>
     /// Generates a tsconfig.json for a specific export condition target.
     /// Browser targets get "dom" lib; node targets get @types/node.
+    /// <paramref name="hasNodeDependency"/> is derived from the dependency graph's
+    /// <see cref="DependencyInfo.IsNode"/> flag rather than scanning rendered text.
     /// </summary>
-    private static string GenerateTsconfig(string condition)
+    private static string GenerateTsconfig(bool hasNodeDependency, string dtsContent)
     {
-        var isBrowser = condition.Equals("browser", StringComparison.OrdinalIgnoreCase);
+        // Use graph-based IsNode flag first; fall back to word-boundary content
+        // scanning for node globals that may not be tracked as explicit deps.
+        var needsNodeTypes = hasNodeDependency
+            || dtsContent.Contains("/// <reference types=\"node\"", StringComparison.Ordinal);
+        if (!needsNodeTypes)
+        {
+            foreach (var id in NodeGlobalIdentifiers)
+            {
+                if (ContainsTypeIdentifier(dtsContent, id))
+                {
+                    needsNodeTypes = true;
+                    break;
+                }
+            }
+        }
+
+        // Include DOM lib when the output references DOM globals using
+        // word-boundary-aware matching to avoid false positives.
+        var needsDomLib = false;
+        foreach (var typeName in DomGlobalTypes)
+        {
+            if (ContainsTypeIdentifier(dtsContent, typeName))
+            {
+                needsDomLib = true;
+                break;
+            }
+        }
+
+        var libs = new List<string> { "ES2023" };
+        if (needsDomLib)
+        {
+            libs.Add("DOM");
+            libs.Add("DOM.Iterable");
+        }
+
         var sb = new StringBuilder();
         sb.AppendLine("{");
         sb.AppendLine("  \"compilerOptions\": {");
         sb.AppendLine("    \"noEmit\": true,");
-        sb.AppendLine("    \"types\": [],");
 
-        if (isBrowser)
+        if (needsNodeTypes)
+            sb.AppendLine("    \"types\": [\"node\"],");
+        else
+            sb.AppendLine("    \"types\": [],");
+
+        sb.Append("    \"composite\": true");
+
+        if (libs.Count > 1) // more than just ES2023
         {
-            sb.AppendLine("    \"composite\": true,");
-            sb.AppendLine("    \"lib\": [\"ES2023\", \"DOM\", \"DOM.Iterable\"]");
+            sb.AppendLine(",");
+            sb.AppendLine($"    \"lib\": [{string.Join(", ", libs.Select(l => $"\"{l}\""))}]");
         }
         else
-            sb.AppendLine("    \"composite\": true");
+            sb.AppendLine();
 
         sb.AppendLine("  },");
         sb.AppendLine("  \"include\": [\"./*.d.ts\"]");
@@ -558,6 +702,10 @@ public static class TypeScriptFormatter
         int includedItems = 0;
         HashSet<string> includedTypeNames = [];
 
+        // Aliased imports for collision resolution: populated by the simple/sectioned paths,
+        // post-processed at the end of the method to rewrite generic references.
+        var aliasedImportsSimple = new Dictionary<string, (string Alias, string Package)>(StringComparer.Ordinal);
+
         // Unified rendering: group types by (exportPath, condition) pair.
         // Each group becomes a `declare module` block in the output.
         // Types use their own ExportPath if set, falling back to the module's.
@@ -581,6 +729,55 @@ public static class TypeScriptFormatter
                 foreach (var t in dep.Types ?? []) typeNames.Add(t.Name);
                 if (typeNames.Count > 0)
                     nodeImports[dep.Package] = typeNames;
+            }
+        }
+
+        // Helper to render types inside a declare module block.
+        // Defined here (outside the needsSections scope) so both the sectioned
+        // and simple rendering paths can use it.
+        void RenderModuleTypes(StringBuilder target, List<ClassInfo> classes, List<InterfaceInfo> interfaces,
+            List<EnumInfo> enums, List<TypeAliasInfo> typeAliases, List<FunctionInfo> functions,
+            List<NamespaceInfo>? namespaces = null, bool prioritize = false)
+        {
+            var renderClasses = prioritize ? GetPrioritizedClasses(classes, typeDeps) : classes;
+            foreach (var cls in renderClasses)
+            {
+                if (target.Length >= maxLength) break;
+                var classStr = IndentBlock(FormatReachabilityComment(cls.Name, reachabilityChains) + FormatClass(cls, insideDeclareModule: true));
+                if (target.Length + classStr.Length > maxLength - 100 && includedItems > 0) break;
+                target.Append(classStr);
+                includedTypeNames.Add(cls.Name);
+                includedItems++;
+            }
+            foreach (var iface in interfaces)
+            {
+                if (target.Length >= maxLength) break;
+                var ifaceStr = IndentBlock(FormatReachabilityComment(iface.Name, reachabilityChains) + FormatInterface(iface, insideDeclareModule: true));
+                if (target.Length + ifaceStr.Length <= maxLength) { target.Append(ifaceStr); includedTypeNames.Add(iface.Name); includedItems++; }
+            }
+            foreach (var en in enums)
+            {
+                if (target.Length >= maxLength) break;
+                var enumStr = IndentBlock(FormatReachabilityComment(en.Name, reachabilityChains) + FormatEnum(en, insideDeclareModule: true));
+                if (target.Length + enumStr.Length <= maxLength) { target.Append(enumStr); includedTypeNames.Add(en.Name); includedItems++; }
+            }
+            foreach (var ta in typeAliases)
+            {
+                if (target.Length >= maxLength) break;
+                var typeStr = IndentBlock(FormatReachabilityComment(ta.Name, reachabilityChains) + FormatTypeAlias(ta, insideDeclareModule: true));
+                if (target.Length + typeStr.Length <= maxLength) { target.Append(typeStr); includedTypeNames.Add(ta.Name); includedItems++; }
+            }
+            foreach (var fn in functions)
+            {
+                if (target.Length >= maxLength) break;
+                var fnStr = IndentBlock(FormatReachabilityComment(fn.Name, reachabilityChains) + FormatFunction(fn, insideDeclareModule: true));
+                if (target.Length + fnStr.Length <= maxLength) { target.Append(fnStr); includedItems++; }
+            }
+            foreach (var ns in namespaces ?? [])
+            {
+                if (target.Length >= maxLength) break;
+                var nsStr = IndentBlock(FormatNamespace(ns, insideDeclareModule: true));
+                if (target.Length + nsStr.Length <= maxLength) { target.Append(nsStr); includedItems++; }
             }
         }
 
@@ -756,10 +953,10 @@ public static class TypeScriptFormatter
                     var interfaces = dep.Interfaces?.ToList() ?? [];
                     var enums = dep.Enums?.ToList() ?? [];
                     var types = dep.Types?.Where(t => t.Type != "unresolved" && !IsSelfReferentialAlias(t)).ToList() ?? [];
-                    List<FunctionInfo> functions = [];
+                    var functions = dep.Functions?.ToList() ?? [];
                     var namespaces = dep.Namespaces?.ToList() ?? [];
 
-                    if (classes.Count + interfaces.Count + enums.Count + types.Count + namespaces.Count == 0)
+                    if (classes.Count + interfaces.Count + enums.Count + types.Count + functions.Count + namespaces.Count == 0)
                         continue;
 
                     // Determine module name using condition matching.
@@ -785,53 +982,6 @@ public static class TypeScriptFormatter
 
                 if (depsForCond.Count > 0)
                     depsByCondition[mainCond] = depsForCond;
-            }
-        }
-
-        // Helper to render types inside a declare module block
-        void RenderModuleTypes(StringBuilder target, List<ClassInfo> classes, List<InterfaceInfo> interfaces,
-            List<EnumInfo> enums, List<TypeAliasInfo> typeAliases, List<FunctionInfo> functions,
-            List<NamespaceInfo>? namespaces = null, bool prioritize = false)
-        {
-            var renderClasses = prioritize ? GetPrioritizedClasses(classes, typeDeps) : classes;
-            foreach (var cls in renderClasses)
-            {
-                if (target.Length >= maxLength) break;
-                var classStr = IndentBlock(FormatReachabilityComment(cls.Name, reachabilityChains) + FormatClass(cls, insideDeclareModule: true));
-                if (target.Length + classStr.Length > maxLength - 100 && includedItems > 0) break;
-                target.Append(classStr);
-                includedTypeNames.Add(cls.Name);
-                includedItems++;
-            }
-            foreach (var iface in interfaces)
-            {
-                if (target.Length >= maxLength) break;
-                var ifaceStr = IndentBlock(FormatReachabilityComment(iface.Name, reachabilityChains) + FormatInterface(iface, insideDeclareModule: true));
-                if (target.Length + ifaceStr.Length <= maxLength) { target.Append(ifaceStr); includedTypeNames.Add(iface.Name); includedItems++; }
-            }
-            foreach (var en in enums)
-            {
-                if (target.Length >= maxLength) break;
-                var enumStr = IndentBlock(FormatReachabilityComment(en.Name, reachabilityChains) + FormatEnum(en, insideDeclareModule: true));
-                if (target.Length + enumStr.Length <= maxLength) { target.Append(enumStr); includedTypeNames.Add(en.Name); includedItems++; }
-            }
-            foreach (var ta in typeAliases)
-            {
-                if (target.Length >= maxLength) break;
-                var typeStr = IndentBlock(FormatReachabilityComment(ta.Name, reachabilityChains) + FormatTypeAlias(ta, insideDeclareModule: true));
-                if (target.Length + typeStr.Length <= maxLength) { target.Append(typeStr); includedTypeNames.Add(ta.Name); includedItems++; }
-            }
-            foreach (var fn in functions)
-            {
-                if (target.Length >= maxLength) break;
-                var fnStr = IndentBlock(FormatReachabilityComment(fn.Name, reachabilityChains) + FormatFunction(fn, insideDeclareModule: true));
-                if (target.Length + fnStr.Length <= maxLength) { target.Append(fnStr); includedItems++; }
-            }
-            foreach (var ns in namespaces ?? [])
-            {
-                if (target.Length >= maxLength) break;
-                var nsStr = IndentBlock(FormatNamespace(ns, insideDeclareModule: true));
-                if (target.Length + nsStr.Length <= maxLength) { target.Append(nsStr); includedItems++; }
             }
         }
 
@@ -899,6 +1049,7 @@ public static class TypeScriptFormatter
                         foreach (var i in dis) typeToDepModule.TryAdd(i.Name, dmn);
                         foreach (var e in des) typeToDepModule.TryAdd(e.Name, dmn);
                         foreach (var t in dts) typeToDepModule.TryAdd(t.Name, dmn);
+                        foreach (var f in dfs) if (f.Name is not null) typeToDepModule.TryAdd(f.Name, dmn);
                     }
 
                     foreach (var (depModuleName, depClasses, depInterfaces, depEnums, depTypes, depFunctions, depNamespaces) in depsForThisCondition)
@@ -1019,16 +1170,47 @@ public static class TypeScriptFormatter
 
                     if (depsForThisCondition is not null)
                     {
+                        // Collect aliased imports for dep types that collide with main types
+                        // but are needed in their generic form (e.g., dep has OperationState<T>
+                        // while main has non-generic OperationState).
+                        var aliasedImports = new Dictionary<string, (string Alias, string Module)>(StringComparer.Ordinal);
+
                         foreach (var (depModuleName, depClasses, depInterfaces, depEnums, depTypes, depFunctions, _) in depsForThisCondition)
                         {
                             var importNames = new List<string>();
-                            foreach (var c in depClasses) if (!mainOwnTypes.Contains(c.Name)) importNames.Add(c.Name);
-                            foreach (var i in depInterfaces) if (!mainOwnTypes.Contains(i.Name)) importNames.Add(i.Name);
-                            foreach (var e in depEnums) if (!mainOwnTypes.Contains(e.Name)) importNames.Add(e.Name);
-                            foreach (var t in depTypes) if (!mainOwnTypes.Contains(t.Name)) importNames.Add(t.Name);
+
+                            // Helper: check if a dep type collides with a main type and needs aliased import
+                            void CheckImport(string name, bool isGeneric)
+                            {
+                                if (!mainOwnTypes.Contains(name))
+                                {
+                                    importNames.Add(name);
+                                }
+                                else if (isGeneric && Regex.IsMatch(mainBody, @$"\b{Regex.Escape(name)}<"))
+                                {
+                                    // Collision: dep type is generic and used with generic args in main body.
+                                    // Generate a safe alias using the dep module name.
+                                    var moduleSuffix = depModuleName.Split('/').Last().Replace("-", "");
+                                    var alias = $"_{moduleSuffix}_{name}";
+                                    aliasedImports.TryAdd(name, (alias, depModuleName));
+                                }
+                            }
+
+                            foreach (var c in depClasses) CheckImport(c.Name, !string.IsNullOrEmpty(c.TypeParams));
+                            foreach (var i in depInterfaces) CheckImport(i.Name, !string.IsNullOrEmpty(i.TypeParams));
+                            foreach (var e in depEnums) CheckImport(e.Name, false);
+                            foreach (var t in depTypes) CheckImport(t.Name, !string.IsNullOrEmpty(t.TypeParams));
 
                             if (importNames.Count > 0)
                                 sb.AppendLine($"    import {{ {string.Join(", ", importNames)} }} from \"{depModuleName}\";");
+                        }
+
+                        // Emit aliased imports and rewrite main body references
+                        foreach (var (originalName, (alias, sourceModule)) in aliasedImports)
+                        {
+                            sb.AppendLine($"    import type {{ {originalName} as {alias} }} from \"{sourceModule}\";");
+                            // Replace generic usages: "OriginalName<" → "Alias<"
+                            mainBody = Regex.Replace(mainBody, @$"\b{Regex.Escape(originalName)}<", $"{alias}<");
                         }
                     }
 
@@ -1051,22 +1233,47 @@ public static class TypeScriptFormatter
             // Simple case: single export path, single condition.
             // Emit import statements for dependency types so top-level code can reference
             // types defined in declare module blocks below.
+
             if (index.Dependencies is not null)
             {
                 foreach (var dep in index.Dependencies)
                 {
                     if (dep.IsNode) continue;
                     var importNames = new List<string>();
-                    foreach (var c in dep.Classes ?? []) if (!allTypeNames.Contains(c.Name)) importNames.Add(c.Name);
-                    foreach (var i in dep.Interfaces ?? []) if (!allTypeNames.Contains(i.Name)) importNames.Add(i.Name);
-                    foreach (var e in dep.Enums ?? []) if (!allTypeNames.Contains(e.Name)) importNames.Add(e.Name);
+
+                    // Helper: check collision and decide between direct import or aliased import
+                    void CheckSimpleImport(string name, bool isGeneric)
+                    {
+                        if (!allTypeNames.Contains(name))
+                        {
+                            importNames.Add(name);
+                        }
+                        else if (isGeneric)
+                        {
+                            // Collision: dep type is generic, main type has same name.
+                            // Use aliased import so generic references can be rewritten.
+                            var pkgSuffix = dep.Package.Split('/').Last().Replace("-", "");
+                            var alias = $"_{pkgSuffix}_{name}";
+                            aliasedImportsSimple.TryAdd(name, (alias, dep.Package));
+                        }
+                    }
+
+                    foreach (var c in dep.Classes ?? []) CheckSimpleImport(c.Name, !string.IsNullOrEmpty(c.TypeParams));
+                    foreach (var i in dep.Interfaces ?? []) CheckSimpleImport(i.Name, !string.IsNullOrEmpty(i.TypeParams));
+                    foreach (var e in dep.Enums ?? []) CheckSimpleImport(e.Name, false);
                     foreach (var t in dep.Types ?? [])
                     {
-                        if (!IsSelfReferentialAlias(t) && !allTypeNames.Contains(t.Name)) importNames.Add(t.Name);
+                        if (!IsSelfReferentialAlias(t))
+                            CheckSimpleImport(t.Name, !string.IsNullOrEmpty(t.TypeParams));
                     }
                     if (importNames.Count > 0)
                         sb.AppendLine($"import type {{ {string.Join(", ", importNames)} }} from \"{dep.Package}\";");
                 }
+
+                // Emit aliased imports for collision types
+                foreach (var (originalName, (alias, package)) in aliasedImportsSimple)
+                    sb.AppendLine($"import type {{ {originalName} as {alias} }} from \"{package}\";");
+
                 sb.AppendLine();
             }
 
@@ -1157,6 +1364,19 @@ public static class TypeScriptFormatter
             }
         }
 
+        // Include remaining type aliases if space permits
+        foreach (var typeDef in allTypes.Where(t => !includedTypeNames.Contains(t.Name)))
+        {
+            if (sb.Length >= maxLength) break;
+            var typeStr = FormatReachabilityComment(typeDef.Name, reachabilityChains) + FormatTypeAlias(typeDef);
+            if (sb.Length + typeStr.Length <= maxLength)
+            {
+                sb.Append(typeStr);
+                includedTypeNames.Add(typeDef.Name);
+                includedItems++;
+            }
+        }
+
         // Include remaining functions if space permits (limit to first 20)
         int funcCount = 0;
         foreach (var fn in allFunctions.Where(f => f.ExportPath is null).Take(20))
@@ -1193,47 +1413,20 @@ public static class TypeScriptFormatter
                 if (sb.Length >= maxLength) break;
                 if (dep.IsNode) continue;
 
-                var hasContent = (dep.Interfaces?.Count ?? 0) + (dep.Classes?.Count ?? 0)
-                    + (dep.Enums?.Count ?? 0) + (dep.Types?.Where(t => !IsSelfReferentialAlias(t)).Count() ?? 0)
-                    + (dep.Namespaces?.Count ?? 0) > 0;
-                if (!hasContent) continue;
+                var classes = dep.Classes?.ToList() ?? [];
+                var interfaces = dep.Interfaces?.ToList() ?? [];
+                var enums = dep.Enums?.ToList() ?? [];
+                var types = dep.Types?.Where(t => !IsSelfReferentialAlias(t)).ToList() ?? [];
+                var functions = dep.Functions?.ToList() ?? [];
+                var namespaces = dep.Namespaces?.ToList() ?? [];
+
+                if (classes.Count + interfaces.Count + enums.Count + types.Count + functions.Count + namespaces.Count == 0)
+                    continue;
 
                 sb.AppendLine();
                 sb.AppendLine($"declare module \"{dep.Package}\" {{");
                 sb.AppendLine();
-
-                foreach (var iface in dep.Interfaces ?? [])
-                {
-                    if (sb.Length >= maxLength) break;
-                    var ifaceStr = IndentBlock(FormatInterface(iface, insideDeclareModule: true));
-                    if (sb.Length + ifaceStr.Length <= maxLength) { sb.Append(ifaceStr); includedItems++; }
-                }
-                foreach (var cls in dep.Classes ?? [])
-                {
-                    if (sb.Length >= maxLength) break;
-                    var clsStr = IndentBlock(FormatClass(cls, insideDeclareModule: true));
-                    if (sb.Length + clsStr.Length <= maxLength) { sb.Append(clsStr); includedItems++; }
-                }
-                foreach (var e in dep.Enums ?? [])
-                {
-                    if (sb.Length >= maxLength) break;
-                    var enumStr = IndentBlock(FormatEnum(e, insideDeclareModule: true));
-                    if (sb.Length + enumStr.Length <= maxLength) { sb.Append(enumStr); includedItems++; }
-                }
-                foreach (var t in dep.Types ?? [])
-                {
-                    if (sb.Length >= maxLength) break;
-                    if (IsSelfReferentialAlias(t)) continue;
-                    var typeStr = IndentBlock(FormatTypeAlias(t, insideDeclareModule: true));
-                    if (sb.Length + typeStr.Length <= maxLength) { sb.Append(typeStr); includedItems++; }
-                }
-                foreach (var ns in dep.Namespaces ?? [])
-                {
-                    if (sb.Length >= maxLength) break;
-                    var nsStr = IndentBlock(FormatNamespace(ns, insideDeclareModule: true));
-                    if (sb.Length + nsStr.Length <= maxLength) { sb.Append(nsStr); includedItems++; }
-                }
-
+                RenderModuleTypes(sb, classes, interfaces, enums, types, functions, namespaces);
                 sb.AppendLine("}");
             }
         }
@@ -1244,7 +1437,49 @@ public static class TypeScriptFormatter
             sb.AppendLine($"// ... truncated ({totalItems - includedItems} items omitted)");
         }
 
-        return sb.ToString();
+        // Post-process: rewrite generic references for aliased collision imports.
+        // When a dep type was imported with an alias (e.g., OperationState as _corelro_OperationState)
+        // because a main type with the same name shadows it, rewrite all generic usages
+        // (e.g., "OperationState<T>") to use the alias.
+        // IMPORTANT: Only rewrite outside dependency declare module blocks so the dep's own
+        // definition of the type (e.g., `export interface OperationState<TResult>`) is preserved.
+        var result = sb.ToString();
+        if (aliasedImportsSimple.Count > 0)
+        {
+            var lines = result.Split('\n');
+            int depModuleDepth = 0; // > 0 means we're inside a dep declare module block
+            for (int i = 0; i < lines.Length; i++)
+            {
+                var trimmed = lines[i].TrimStart();
+                if (depModuleDepth == 0 && trimmed.StartsWith("declare module "))
+                {
+                    // Entering a dep declare module block. Count braces on this line.
+                    foreach (char c in lines[i])
+                    {
+                        if (c == '{') depModuleDepth++;
+                        else if (c == '}') depModuleDepth--;
+                    }
+                    continue;
+                }
+                if (depModuleDepth > 0)
+                {
+                    foreach (char c in lines[i])
+                    {
+                        if (c == '{') depModuleDepth++;
+                        else if (c == '}') depModuleDepth--;
+                    }
+                    continue; // Don't rewrite inside dep blocks
+                }
+                // Outside dep blocks: apply alias replacements
+                foreach (var (originalName, (alias, _)) in aliasedImportsSimple)
+                {
+                    lines[i] = Regex.Replace(lines[i], @$"\b{Regex.Escape(originalName)}<", $"{alias}<");
+                }
+            }
+            result = string.Join('\n', lines);
+        }
+
+        return result;
     }
 
     private static List<ClassInfo> GetPrioritizedClasses(List<ClassInfo> classes, Dictionary<string, HashSet<string>> deps)
@@ -1405,6 +1640,16 @@ public static class TypeScriptFormatter
         if (!string.IsNullOrEmpty(t.Doc))
             sb.AppendLine($"/** {t.Doc} */");
         var prefix = insideDeclareModule ? "export " : exportKeyword ? "export declare " : "declare ";
+
+        // `unique symbol` is only valid as a const declaration type, not in a
+        // type alias.  Emit as `const x: unique symbol` instead.
+        if (t.Type?.Trim() == "unique symbol")
+        {
+            sb.AppendLine($"{prefix}const {t.Name}: unique symbol;");
+            sb.AppendLine();
+            return sb.ToString();
+        }
+
         var typeParams = !string.IsNullOrEmpty(t.TypeParams) ? $"<{t.TypeParams}>" : "";
         var typeValue = t.Type == "unresolved" || t.Type == t.Name ? "unknown" : t.Type;
         sb.AppendLine($"{prefix}type {t.Name}{typeParams} = {typeValue};");

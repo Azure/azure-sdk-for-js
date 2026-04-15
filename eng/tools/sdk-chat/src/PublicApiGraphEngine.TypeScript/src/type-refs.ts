@@ -214,16 +214,20 @@ export function collectTypeRefsFromType(
 
         const declaration = declarations[0];
 
-        // Only track type-level declarations (class, interface, enum, type alias).
-        // Method/property/function declarations are NOT types — but we still
+        // Track type-level declarations (class, interface, enum, type alias)
+        // and top-level function declarations (which can be used via `typeof fn`
+        // and need to be extracted as dependency exports).
+        // Method/property declarations are NOT tracked — but we still
         // recurse into their parameter and return types below.
-        const isTypeDeclaration =
+        const isTrackableDeclaration =
             Node.isClassDeclaration(declaration) ||
             Node.isInterfaceDeclaration(declaration) ||
             Node.isEnumDeclaration(declaration) ||
-            Node.isTypeAliasDeclaration(declaration);
+            Node.isTypeAliasDeclaration(declaration) ||
+            Node.isFunctionDeclaration(declaration) ||
+            Node.isVariableDeclaration(declaration);
 
-        if (!isTypeDeclaration) {
+        if (!isTrackableDeclaration) {
             // For method/function-like declarations, recurse into param & return types
             const params = getParametersFromDeclaration(declaration);
             for (const p of params) {
@@ -320,6 +324,14 @@ export function collectTypeRefsFromType(
         // Process call signatures (for callable interfaces/types)
         for (const sig of type.getCallSignatures()) {
             try {
+                // Traverse type parameter constraints and defaults on signatures
+                // (e.g., `parse<Params extends SomeType, P = ExtractFoo<Params>>(...)`)
+                for (const tp of sig.getTypeParameters()) {
+                    const constraint = tp.getConstraint();
+                    if (constraint) collectTypeRefsFromType(constraint, ctx, refs);
+                    const defaultType = tp.getDefault();
+                    if (defaultType) collectTypeRefsFromType(defaultType, ctx, refs);
+                }
                 for (const param of sig.getParameters()) {
                     const paramDecls = param.getDeclarations();
                     if (paramDecls.length > 0) {
@@ -328,12 +340,37 @@ export function collectTypeRefsFromType(
                     }
                 }
                 collectTypeRefsFromType(sig.getReturnType(), ctx, refs);
+                // Also traverse the declaration's TypeNode for type names
+                // erased by the compiler (aliases in defaults/constraints)
+                try {
+                    const sigDecl = sig.getDeclaration();
+                    if (sigDecl && (
+                        Node.isCallSignatureDeclaration(sigDecl) ||
+                        Node.isConstructSignatureDeclaration(sigDecl) ||
+                        Node.isFunctionDeclaration(sigDecl) ||
+                        Node.isMethodDeclaration(sigDecl) ||
+                        Node.isMethodSignature(sigDecl)
+                    )) {
+                        for (const tp of sigDecl.getTypeParameters()) {
+                            const constraintNode = tp.getConstraint();
+                            if (constraintNode) collectTypeRefsFromTypeNode(constraintNode, ctx, refs);
+                            const defaultNode = tp.getDefault();
+                            if (defaultNode) collectTypeRefsFromTypeNode(defaultNode, ctx, refs);
+                        }
+                    }
+                } catch { /* benign — some signatures may not have accessible declarations */ }
             } catch (e) { ctx.warn("TYPE_TRAVERSE", e instanceof Error ? e.message : String(e)); }
         }
 
         // Process construct signatures
         for (const sig of type.getConstructSignatures()) {
             try {
+                for (const tp of sig.getTypeParameters()) {
+                    const constraint = tp.getConstraint();
+                    if (constraint) collectTypeRefsFromType(constraint, ctx, refs);
+                    const defaultType = tp.getDefault();
+                    if (defaultType) collectTypeRefsFromType(defaultType, ctx, refs);
+                }
                 for (const param of sig.getParameters()) {
                     const paramDecls = param.getDeclarations();
                     if (paramDecls.length > 0) {
@@ -416,7 +453,9 @@ export function collectTypeRefsFromTypeNode(
                                 Node.isTypeAliasDeclaration(decl) ||
                                 Node.isClassDeclaration(decl) ||
                                 Node.isInterfaceDeclaration(decl) ||
-                                Node.isEnumDeclaration(decl)
+                                Node.isEnumDeclaration(decl) ||
+                                Node.isFunctionDeclaration(decl) ||
+                                Node.isVariableDeclaration(decl)
                             ) {
                                 const sf = decl.getSourceFile();
                                 if (!isDefaultLibFile(ctx.project, sf)) {
@@ -443,7 +482,9 @@ export function collectTypeRefsFromTypeNode(
                                             Node.isTypeAliasDeclaration(targetDecl) ||
                                             Node.isClassDeclaration(targetDecl) ||
                                             Node.isInterfaceDeclaration(targetDecl) ||
-                                            Node.isEnumDeclaration(targetDecl)
+                                            Node.isEnumDeclaration(targetDecl) ||
+                                            Node.isFunctionDeclaration(targetDecl) ||
+                                            Node.isVariableDeclaration(targetDecl)
                                         ) {
                                             const sf = targetDecl.getSourceFile();
                                             if (!isDefaultLibFile(ctx.project, sf)) {
@@ -469,6 +510,40 @@ export function collectTypeRefsFromTypeNode(
             // Recurse into type arguments: Promise<Foo> → visit Foo
             for (const typeArg of node.getTypeArguments()) {
                 collectTypeRefsFromTypeNode(typeArg, ctx, refs);
+            }
+            return;
+        }
+
+        // TypeQuery nodes: `typeof someValue` — references a value by name.
+        // The TypeScript type printer preserves `typeof X` in rendered text,
+        // so we must track the referenced value as a dependency.
+        if (Node.isTypeQuery(node)) {
+            const exprName = node.getExprName();
+            const name = Node.isQualifiedName(exprName)
+                ? exprName.getRight().getText()
+                : exprName.getText();
+            if (!PRIMITIVE_TYPES.has(name) && !ctx.isBuiltinType(name)) {
+                try {
+                    const symbol = exprName.getSymbol();
+                    if (symbol) {
+                        // Follow alias chains (import specifiers)
+                        const targetSymbol = symbol.getAliasedSymbol() ?? symbol;
+                        const decls = targetSymbol.getDeclarations();
+                        if (decls && decls.length > 0) {
+                            const decl = decls[0];
+                            const sf = decl.getSourceFile();
+                            if (!isDefaultLibFile(ctx.project, sf)) {
+                                const fp = sf.getFilePath();
+                                refs.add({
+                                    name,
+                                    fullName: targetSymbol.getFullyQualifiedName?.() ?? name,
+                                    declarationPath: fp,
+                                    packageName: resolvePackageNameFromPath(fp, ctx),
+                                });
+                            }
+                        }
+                    }
+                } catch { /* non-fatal */ }
             }
             return;
         }
@@ -503,7 +578,9 @@ export function collectTypeRefsFromTypeNode(
                                         Node.isTypeAliasDeclaration(targetDecl) ||
                                         Node.isClassDeclaration(targetDecl) ||
                                         Node.isInterfaceDeclaration(targetDecl) ||
-                                        Node.isEnumDeclaration(targetDecl)
+                                        Node.isEnumDeclaration(targetDecl) ||
+                                        Node.isFunctionDeclaration(targetDecl) ||
+                                        Node.isVariableDeclaration(targetDecl)
                                     ) {
                                         const sf = targetDecl.getSourceFile();
                                         if (!isDefaultLibFile(ctx.project, sf)) {
@@ -524,7 +601,9 @@ export function collectTypeRefsFromTypeNode(
                                 Node.isTypeAliasDeclaration(decl) ||
                                 Node.isClassDeclaration(decl) ||
                                 Node.isInterfaceDeclaration(decl) ||
-                                Node.isEnumDeclaration(decl)
+                                Node.isEnumDeclaration(decl) ||
+                                Node.isFunctionDeclaration(decl) ||
+                                Node.isVariableDeclaration(decl)
                             ) {
                                 const sf = decl.getSourceFile();
                                 if (!isDefaultLibFile(ctx.project, sf)) {
@@ -552,6 +631,37 @@ export function collectTypeRefsFromTypeNode(
         // For compound type nodes (union, intersection, tuple, array, function, etc.)
         // recurse into all child nodes
         for (const child of node.forEachChildAsArray()) {
+            // Handle computed property names (e.g., `[brand_privateNullableHeaders]: true`)
+            // that reference values (const/variable declarations) by name.
+            if (Node.isComputedPropertyName(child)) {
+                try {
+                    const expr = child.getExpression();
+                    // Only track simple identifiers, not property access or complex expressions
+                    if (Node.isIdentifier(expr)) {
+                        const name = expr.getText();
+                        if (!PRIMITIVE_TYPES.has(name) && !ctx.isBuiltinType(name)) {
+                            const symbol = expr.getSymbol();
+                            if (symbol) {
+                                const targetSymbol = symbol.getAliasedSymbol() ?? symbol;
+                                const decls = targetSymbol.getDeclarations();
+                                if (decls && decls.length > 0) {
+                                    const decl = decls[0];
+                                    const sf = decl.getSourceFile();
+                                    if (!isDefaultLibFile(ctx.project, sf)) {
+                                        const fp = sf.getFilePath();
+                                        refs.add({
+                                            name,
+                                            fullName: targetSymbol.getFullyQualifiedName?.() ?? name,
+                                            declarationPath: fp,
+                                            packageName: resolvePackageNameFromPath(fp, ctx),
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } catch { /* non-fatal */ }
+            }
             collectTypeRefsFromTypeNode(child, ctx, refs);
         }
     } catch (e) { ctx.warn("TYPE_NODE_TRAVERSE", e instanceof Error ? e.message : String(e)); }

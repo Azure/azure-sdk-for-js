@@ -49,6 +49,30 @@ export function extractTypeNamesFromSignature(sig: string): Set<string> {
 }
 
 /**
+ * Extracts namespace-qualified member names from type signatures.
+ * For qualified references like `Foo.Bar`, `Ns.Sub.Member`, captures every
+ * segment after the first (i.e., `Bar`, `Sub`, `Member`). This complements
+ * extractTypeNamesFromSignature which may skip ALL_CAPS identifiers like
+ * `URL` that are valid namespace members.
+ */
+const DOTTED_CHAIN_RE = /\b([A-Za-z_$][A-Za-z0-9_$]*(?:\.[A-Za-z_$][A-Za-z0-9_$]*)+)\b/g;
+
+export function extractQualifiedMemberNames(sig: string): Set<string> {
+    const cleaned = sig.replace(COMMENT_AND_STRING_RE, " ");
+    const names = new Set<string>();
+    let m: RegExpExecArray | null;
+    DOTTED_CHAIN_RE.lastIndex = 0;
+    while ((m = DOTTED_CHAIN_RE.exec(cleaned)) !== null) {
+        // Split on dots and add every segment after the first
+        const parts = m[1].split(".");
+        for (let i = 1; i < parts.length; i++) {
+            names.add(parts[i]);
+        }
+    }
+    return names;
+}
+
+/**
  * Extracts declared type parameter names from a typeParams string.
  * E.g., "<T, K extends string, V = number>" → {"T", "K", "V"}
  */

@@ -12,14 +12,16 @@
     "build": "tsc -p src/tsconfig.json",
     "clean": "rm -rf dist",
     "rebuild": "npm run clean && npm run build",
-    "start": "node dist/graph_api.js"
+    "start": "node dist/graph_api.js",
+    "test": "vitest run"
   },
   "dependencies": {
     "ts-morph": "^27.0.2"
   },
   "devDependencies": {
     "@types/node": "^22.13.1",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.4"
   },
   "engines": {
     "node": ">=20.0.0"

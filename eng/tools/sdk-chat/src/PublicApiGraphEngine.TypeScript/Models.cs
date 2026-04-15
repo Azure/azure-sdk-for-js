@@ -180,6 +180,11 @@ public sealed record DependencyInfo
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<TypeAliasInfo>? Types { get; init; }
 
+    /// <summary>Functions from this package that are referenced in the API.</summary>
+    [JsonPropertyName("functions")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<FunctionInfo>? Functions { get; init; }
+
     /// <summary>Export conditions from the dependency's package.json (e.g. ["browser","import","require"]).</summary>
     [JsonPropertyName("conditions")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

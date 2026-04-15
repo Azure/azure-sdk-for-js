@@ -36,6 +36,7 @@ import type {
 } from "./models.js";
 import type { ExtractionContext } from "./context.js";
 import { displayType, stripImportPrefix } from "./formatter.js";
+import { collectCompanionNamespaceAliases } from "./dependencies.js";
 
 // ============================================================================
 // Engine Functions
@@ -198,7 +199,15 @@ export function extractMethod(method: MethodDeclaration, ctx: ExtractionContext)
     // Also collect from TypeNode to catch simple type aliases resolved away by TS
     if (returnTypeNode) ctx.typeRefs.collectFromTypeNode(returnTypeNode);
 
-    const typeParams = method.getTypeParameters().map(t => t.getText()).join(", ");
+    const typeParams = method.getTypeParameters().map(t => stripImportPrefix(t.getText(), false, ctx.namespaceAliases)).join(", ");
+
+    // Traverse type parameter constraints and defaults for dependency tracking
+    for (const tp of method.getTypeParameters()) {
+        const constraint = tp.getConstraint();
+        if (constraint) ctx.typeRefs.collectFromType(constraint.getType());
+        const defaultType = tp.getDefault();
+        if (defaultType) ctx.typeRefs.collectFromType(defaultType.getType());
+    }
 
     const result: MethodInfo = {
         name: method.getName(),
@@ -270,6 +279,14 @@ export function extractClass(cls: ClassDeclaration, ctx: ExtractionContext): Cla
     const name = cls.getName();
     if (!name) throw new Error("Class must have a name");
 
+    // Collect namespace import aliases from the class's source file so that
+    // displayType can strip qualified names during member extraction.
+    const clsSf = cls.getSourceFile();
+    for (const imp of clsSf.getImportDeclarations()) {
+        const nsImport = imp.getNamespaceImport();
+        if (nsImport) ctx.namespaceAliases.add(nsImport.getText());
+    }
+
     ctx.typeRefs.pushContext(name);
 
     const result: ClassInfo = { name };
@@ -302,7 +319,7 @@ export function extractClass(cls: ClassDeclaration, ctx: ExtractionContext): Cla
     }
 
     // Type parameters
-    const typeParams = cls.getTypeParameters().map((t) => t.getText());
+    const typeParams = cls.getTypeParameters().map((t) => stripImportPrefix(t.getText(), false, ctx.namespaceAliases));
     if (typeParams.length) result.typeParams = typeParams.join(", ");
 
     // Traverse type parameter constraints and defaults for dependency tracking
@@ -417,7 +434,15 @@ export function extractInterfaceMethod(method: Node, ctx: ExtractionContext): Me
     // Also collect from TypeNode to catch simple type aliases resolved away by TS
     if (returnTypeNode) ctx.typeRefs.collectFromTypeNode(returnTypeNode);
 
-    const typeParams = method.getTypeParameters().map(t => t.getText()).join(", ");
+    const typeParams = method.getTypeParameters().map(t => stripImportPrefix(t.getText(), false, ctx.namespaceAliases)).join(", ");
+
+    // Traverse type parameter constraints and defaults for dependency tracking
+    for (const tp of method.getTypeParameters()) {
+        const constraint = tp.getConstraint();
+        if (constraint) ctx.typeRefs.collectFromType(constraint.getType());
+        const defaultType = tp.getDefault();
+        if (defaultType) ctx.typeRefs.collectFromType(defaultType.getType());
+    }
 
     const result: MethodInfo = {
         name: method.getName(),
@@ -523,7 +548,7 @@ export function extractInterface(iface: InterfaceDeclaration, ctx: ExtractionCon
     }
 
     // Type parameters
-    const typeParams = iface.getTypeParameters().map((t) => t.getText());
+    const typeParams = iface.getTypeParameters().map((t) => stripImportPrefix(t.getText(), false, ctx.namespaceAliases));
     if (typeParams.length) result.typeParams = typeParams.join(", ");
 
     // Traverse type parameter constraints and defaults for dependency tracking
@@ -634,7 +659,7 @@ export function extractTypeAlias(alias: TypeAliasDeclaration, ctx: ExtractionCon
     };
 
     // Capture type parameters (e.g., <T> on type aliases)
-    const typeParams = alias.getTypeParameters().map(tp => tp.getText());
+    const typeParams = alias.getTypeParameters().map(tp => stripImportPrefix(tp.getText(), false, ctx.namespaceAliases));
     if (typeParams.length > 0) result.typeParams = typeParams.join(", ");
 
     // Traverse type parameter constraints and defaults for dependency tracking
@@ -669,7 +694,7 @@ export function extractFunction(fn: FunctionDeclaration, ctx: ExtractionContext)
         ctx.typeRefs.collectFromType(returnType);
     }
 
-    const typeParams = fn.getTypeParameters().map(t => t.getText()).join(", ");
+    const typeParams = fn.getTypeParameters().map(t => stripImportPrefix(t.getText(), false, ctx.namespaceAliases)).join(", ");
 
     // Traverse type parameter constraints and defaults for dependency tracking
     for (const tp of fn.getTypeParameters()) {
@@ -706,6 +731,20 @@ export function extractFunction(fn: FunctionDeclaration, ctx: ExtractionContext)
 export function extractNamespace(mod: ModuleDeclaration, ctx: ExtractionContext): NamespaceInfo | null {
     const name = mod.getName();
     if (!name) return null;
+
+    // Eagerly collect namespace import aliases from the module's source file
+    // so that displayType / stripImportPrefix can strip qualified names during
+    // member extraction (e.g., TranscriptionSessionsAPI.X → X).
+    const sf = mod.getSourceFile();
+    for (const imp of sf.getImportDeclarations()) {
+        const nsImport = imp.getNamespaceImport();
+        if (nsImport) {
+            ctx.namespaceAliases.add(nsImport.getText());
+        }
+        // Also detect named imports with companion namespaces
+        // (e.g., `import { Runs } from "..."` where Runs is a class+namespace)
+        collectCompanionNamespaceAliases(imp, ctx);
+    }
 
     const result: NamespaceInfo = { name };
 
@@ -747,6 +786,33 @@ export function extractNamespace(mod: ModuleDeclaration, ctx: ExtractionContext)
         .map(m => extractNamespace(m, ctx))
         .filter((ns): ns is NamespaceInfo => ns !== null);
     if (nested.length) result.namespaces = nested;
+
+    // Fallback for re-export-only namespaces (e.g., `export { type X as X }`)
+    // where getClasses/getInterfaces/etc. return nothing because the namespace
+    // has no direct declarations. Use getExportedDeclarations() to resolve
+    // the re-exported types.
+    if (!result.classes && !result.interfaces && !result.enums &&
+        !result.types && !result.functions && !result.namespaces) {
+        const seen = new Set<string>();
+        for (const [exportName, decls] of mod.getExportedDeclarations()) {
+            if (seen.has(exportName)) continue;
+            seen.add(exportName);
+            for (const decl of decls) {
+                if (Node.isInterfaceDeclaration(decl) && !hasInternalOrHiddenTag(decl)) {
+                    (result.interfaces ??= []).push(extractInterface(decl, ctx));
+                } else if (Node.isClassDeclaration(decl) && decl.getName() && !hasInternalOrHiddenTag(decl)) {
+                    (result.classes ??= []).push(extractClass(decl, ctx));
+                } else if (Node.isEnumDeclaration(decl) && !hasInternalOrHiddenTag(decl)) {
+                    (result.enums ??= []).push(extractEnum(decl, ctx));
+                } else if (Node.isTypeAliasDeclaration(decl) && !hasInternalOrHiddenTag(decl)) {
+                    (result.types ??= []).push(extractTypeAlias(decl, ctx));
+                } else if (Node.isModuleDeclaration(decl)) {
+                    const nsInfo = extractNamespace(decl, ctx);
+                    if (nsInfo) (result.namespaces ??= []).push(nsInfo);
+                }
+            }
+        }
+    }
 
     if (!result.classes && !result.interfaces && !result.enums &&
         !result.types && !result.functions && !result.namespaces) {
