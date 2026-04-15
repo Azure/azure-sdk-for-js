@@ -53,11 +53,7 @@ export function collectTypeRefsFromType(
         const visited = ctx.typeRefs.typeVisited;
 
         // Use the compiler's internal type object identity to detect cycles.
-        // Unlike getText()-based keys, object identity has zero collisions
-        // and cannot conflate structurally similar but distinct types.
         const compilerType = type.compilerType;
-        if (visited.has(compilerType)) return;
-        visited.add(compilerType);
 
         // Get the underlying TypeScript type
         const tsType = type.compilerType;
@@ -72,10 +68,12 @@ export function collectTypeRefsFromType(
             return;
         }
 
-        // Check for type alias symbols BEFORE union/intersection handling.
+        // Check for type alias symbols BEFORE the visited guard.
         // Type aliases like `HttpMethods = "GET" | "PUT" | ...` are resolved
         // by TypeScript to their underlying union type, erasing the alias.
-        // We need to capture the alias as a type reference before recursing.
+        // We must capture the alias as a type reference regardless of whether
+        // the underlying type has been visited, because different call contexts
+        // need the alias in their own ref sets.
         const aliasSymbol = type.getAliasSymbol();
         if (aliasSymbol) {
             const aliasName = aliasSymbol.getName();
@@ -99,6 +97,11 @@ export function collectTypeRefsFromType(
                 }
             }
         }
+
+        // Cycle/dedup guard: only recurse into the type graph once per type object.
+        // The alias capture above runs unconditionally so every context gets alias refs.
+        if (visited.has(compilerType)) return;
+        visited.add(compilerType);
 
         // Handle union types
         if (type.isUnion()) {

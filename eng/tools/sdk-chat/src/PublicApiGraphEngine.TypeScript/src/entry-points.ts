@@ -276,9 +276,33 @@ export function resolveSourceFile(rootPath: string, filePath: string): string | 
         return directPath;
     }
 
-    // 2. TypeScript module resolution (respects tsconfig paths, rootDirs, etc.)
+    // 2. Heuristic: map dist output paths back to src/ source files.
+    // Package.json exports typically point to dist/{esm,commonjs,browser,...}/index.js
+    // but in source mode we need the original src/index.ts.
+    const distPrefixes = [
+        "dist/esm/", "dist/commonjs/", "dist/browser/",
+        "dist/react-native/", "dist/workerd/", "dist/cjs/", "dist/",
+    ];
+    for (const prefix of distPrefixes) {
+        if (filePath.startsWith(prefix)) {
+            const remainder = filePath.slice(prefix.length)
+                .replace(/\.d\.ts$/, ".ts")
+                .replace(/\.d\.mts$/, ".mts")
+                .replace(/\.d\.cts$/, ".cts")
+                .replace(/\.js$/, ".ts")
+                .replace(/\.mjs$/, ".mts")
+                .replace(/\.cjs$/, ".cts");
+            const srcPath = path.join(rootPath, "src", remainder);
+            if (fs.existsSync(srcPath)) {
+                return srcPath;
+            }
+        }
+    }
+
+    // 3. TypeScript module resolution (respects tsconfig paths, rootDirs, etc.)
+    // Prefer .ts source files over .d.ts declarations.
     const tsResolved = tryTypeScriptModuleResolution(rootPath, filePath);
-    if (tsResolved) {
+    if (tsResolved && !tsResolved.endsWith(".d.ts") && !tsResolved.endsWith(".d.mts") && !tsResolved.endsWith(".d.cts")) {
         return tsResolved;
     }
 
