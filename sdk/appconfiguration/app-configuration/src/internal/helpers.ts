@@ -15,6 +15,7 @@ import {
   type SnapshotResponse,
   type EtagEntity,
   type ListLabelsOptions,
+  type SnapshotInfo,
   KnownAppConfigAudience,
 } from "../models.js";
 import type { FeatureFlagValue } from "../featureFlag.js";
@@ -23,8 +24,13 @@ import type {
   GetKeyValuesOptionalParams,
   GetLabelsOptionalParams,
   GetSnapshotsOptionalParams,
+} from "../generated/api/options.js";
+import type {
   KeyValue,
-} from "../generated/src/models/index.js";
+  Snapshot,
+  KeyValueFields,
+  SnapshotFields,
+} from "../generated/models/models.js";
 import type { SecretReferenceValue } from "../secretReference.js";
 import { SecretReferenceHelper, secretReferenceContentType } from "../secretReference.js";
 import type { SnapshotReferenceValue } from "../snapshotReference.js";
@@ -170,8 +176,8 @@ export function formatSnapshotFiltersAndSelect(
 ): Pick<GetSnapshotsOptionalParams, "name" | "select" | "status"> {
   return {
     name: listSnapshotOptions.nameFilter,
-    status: listSnapshotOptions.statusFilter,
-    select: listSnapshotOptions.fields,
+    status: listSnapshotOptions.statusFilter as any,
+    select: listSnapshotOptions.fields as SnapshotFields[] | undefined,
   };
 }
 
@@ -271,10 +277,11 @@ export function makeConfigurationSettingEmpty(
  * @internal
  */
 export function transformKeyValue<T>(kvp: T & KeyValue): T & ConfigurationSetting {
-  const setting: T & ConfigurationSetting & KeyValue = {
+  const setting = {
     value: undefined,
     ...kvp,
     isReadOnly: !!kvp.locked,
+    lastModified: kvp.lastModified ? new Date(kvp.lastModified) : undefined,
   };
   delete setting.locked;
   if (!setting.label) {
@@ -406,16 +413,49 @@ export function transformKeyValueResponse<T extends KeyValue & { eTag?: string }
 /**
  * @internal
  */
-export function transformSnapshotResponse<T extends ConfigurationSnapshot>(
-  snapshot: T,
-): SnapshotResponse {
+export function transformSnapshotResponse<T extends Snapshot>(snapshot: T): SnapshotResponse {
+  const configSnapshot: ConfigurationSnapshot = {
+    name: snapshot.name,
+    status: snapshot.status,
+    filters: (snapshot.filters ?? []).map((f) => ({
+      keyFilter: f.key,
+      labelFilter: f.label,
+      tagsFilter: f.tags,
+    })),
+    compositionType: snapshot.compositionType,
+    createdOn: snapshot.created ? new Date(snapshot.created) : undefined,
+    expiresOn: snapshot.expires ? new Date(snapshot.expires) : undefined,
+    retentionPeriodInSeconds: snapshot.retentionPeriod,
+    sizeInBytes: snapshot.size,
+    itemCount: snapshot.itemsCount,
+    tags: snapshot.tags,
+    etag: snapshot.etag,
+  };
   if (hasUnderscoreResponse(snapshot)) {
-    Object.defineProperty(snapshot, "_response", {
+    Object.defineProperty(configSnapshot, "_response", {
       enumerable: false,
-      value: snapshot._response,
+      value: (snapshot as any)._response,
     });
   }
-  return snapshot as any;
+  return configSnapshot as unknown as SnapshotResponse;
+}
+
+/**
+ * Converts a public-facing SnapshotInfo to the generated Snapshot type.
+ * @internal
+ */
+export function snapshotInfoToGenerated(snapshot: SnapshotInfo): Snapshot {
+  return {
+    name: snapshot.name,
+    filters: snapshot.filters.map((f) => ({
+      key: f.keyFilter,
+      label: f.labelFilter,
+      tags: f.tagsFilter,
+    })),
+    compositionType: snapshot.compositionType as any,
+    retentionPeriod: snapshot.retentionPeriodInSeconds,
+    tags: snapshot.tags,
+  };
 }
 
 /**
@@ -429,7 +469,7 @@ export function transformSnapshotResponse<T extends ConfigurationSnapshot>(
  */
 export function formatFieldsForSelect(
   fieldNames: (keyof ConfigurationSetting)[] | undefined,
-): string[] | undefined {
+): KeyValueFields[] | undefined {
   if (fieldNames == null) {
     return undefined;
   }
@@ -447,7 +487,7 @@ export function formatFieldsForSelect(
     }
   });
 
-  return mappedFieldNames;
+  return mappedFieldNames as KeyValueFields[];
 }
 
 /**
