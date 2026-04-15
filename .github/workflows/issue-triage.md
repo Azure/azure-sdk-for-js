@@ -230,7 +230,7 @@ The following accounts bypass the normal customer evaluation; they are routed th
 - `microsoft-github-policy-service[bot]`
 - `github-actions[bot]`
 
-If the author matches the bot allowlist, continue directly to Step 3 without adding any author-classification labels. Note: unlike some other Azure SDK repositories, this repository does not have a "bot" label; bot-filed issues are triaged through label prediction and ownership routing without special classification
+If the author matches the bot allowlist, add the "bot" label and continue to Step 3
 
 ### Author Association Check
 
@@ -254,7 +254,7 @@ This returns a JSON array of the user's **public** organization memberships; if 
 
 ```
 IF the author matches the bot allowlist:
-    - Do NOT add "customer-reported", "question", or any other labels in this step
+    - Add "bot" label only — do NOT add "customer-reported", "question", or any other labels in this step
     - Continue to Step 3
 
 IF author_association is OWNER, MEMBER, or COLLABORATOR
