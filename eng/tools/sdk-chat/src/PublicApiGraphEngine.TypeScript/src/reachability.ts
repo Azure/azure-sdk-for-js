@@ -96,8 +96,6 @@ export function extractDeclaredTypeParamNames(typeParamStr: string | undefined):
  */
 export function validateSelfContainment(api: ApiIndex, ctx: ExtractionContext): void {
     const { defined, referenced, declaredTypeParams } = collectDefinedAndReferenced(api);
-
-    // Check each referenced name: is it defined, builtin, or node/web?
     const dangling: string[] = [];
     for (const name of referenced) {
         if (defined.has(name)) continue;
@@ -136,7 +134,7 @@ const NODE_GLOBAL_TYPES = new Set([
 export function computeAmbientTypes(
     api: ApiIndex, ctx: ExtractionContext,
 ): Record<string, string[]> {
-    const { defined, referenced, declaredTypeParams } = collectDefinedAndReferenced(api, true);
+    const { defined, referenced, qualifiedReferences, declaredTypeParams } = collectDefinedAndReferenced(api, true);
 
     // Compute the set of unresolved type names — referenced but not self-contained
     const unresolved = new Set<string>();
@@ -155,6 +153,17 @@ export function computeAmbientTypes(
         (result[category] ??= new Set()).add(name);
     }
 
+    // Build a map from namespace prefix to qualified references (e.g., "NodeJS" → ["NodeJS.ReadableStream"])
+    // so we can show the full qualified name instead of just the namespace prefix.
+    const qualifiedByPrefix = new Map<string, string[]>();
+    for (const qr of qualifiedReferences) {
+        const dot = qr.indexOf(".");
+        if (dot > 0) {
+            const prefix = qr.substring(0, dot);
+            (qualifiedByPrefix.get(prefix) ?? (() => { const a: string[] = []; qualifiedByPrefix.set(prefix, a); return a; })()).push(qr);
+        }
+    }
+
     // 1. Classify builtins (DOM/ES) — use the category tracked during extraction
     //    (which was determined from symbol declaration file paths)
     for (const [category, names] of ctx.referencedBuiltins) {
@@ -167,9 +176,16 @@ export function computeAmbientTypes(
     }
 
     // 2. Remaining unresolved types: check if they're known Node.js globals
+    //    For namespace prefixes (e.g., "NodeJS"), expand to full qualified names
     for (const name of unresolved) {
         if (NODE_GLOBAL_TYPES.has(name)) {
-            addToCategory("node", name);
+            const qualifiedNames = qualifiedByPrefix.get(name);
+            if (qualifiedNames && qualifiedNames.length > 0) {
+                // Show the full qualified references instead of just the namespace
+                for (const qn of qualifiedNames) addToCategory("node", qn);
+            } else {
+                addToCategory("node", name);
+            }
         }
     }
 
@@ -196,6 +212,7 @@ export function computeAmbientTypes(
 function collectDefinedAndReferenced(api: ApiIndex, includeDependencyReferences = false): {
     defined: Set<string>;
     referenced: Set<string>;
+    qualifiedReferences: Set<string>;
     declaredTypeParams: Set<string>;
 } {
     // Collect all defined type names (from main modules + dependencies)
@@ -230,11 +247,20 @@ function collectDefinedAndReferenced(api: ApiIndex, includeDependencyReferences 
 
     // Collect all type names referenced in signatures
     const referenced = new Set<string>();
+    // Also track qualified references (e.g., "NodeJS.ReadableStream") for ambient type display
+    const qualifiedReferences = new Set<string>();
 
     function scanType(typeStr: string | undefined): void {
         if (!typeStr) return;
         for (const name of extractTypeNamesFromSignature(typeStr)) {
             referenced.add(name);
+        }
+        // Capture dotted references like NodeJS.ReadableStream
+        const cleaned = typeStr.replace(COMMENT_AND_STRING_RE, " ");
+        let m: RegExpExecArray | null;
+        DOTTED_CHAIN_RE.lastIndex = 0;
+        while ((m = DOTTED_CHAIN_RE.exec(cleaned)) !== null) {
+            qualifiedReferences.add(m[1]);
         }
     }
 
@@ -305,7 +331,7 @@ function collectDefinedAndReferenced(api: ApiIndex, includeDependencyReferences 
         }
     }
 
-    return { defined, referenced, declaredTypeParams };
+    return { defined, referenced, qualifiedReferences, declaredTypeParams };
 }
 
 // ============================================================================
