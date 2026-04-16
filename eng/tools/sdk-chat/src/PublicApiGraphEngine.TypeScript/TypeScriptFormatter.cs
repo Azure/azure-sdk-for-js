@@ -316,7 +316,7 @@ public static class TypeScriptFormatter
     /// </summary>
     private static readonly HashSet<string> NodeGlobalIdentifiers = new(StringComparer.Ordinal)
     {
-        "Buffer", "NodeJS", "FsReadStream",
+        "Buffer", "NodeJS", "FsReadStream", "KeyObject",
     };
 
     /// <summary>
@@ -344,31 +344,46 @@ public static class TypeScriptFormatter
     /// builtin types that actually appear in the rendered .d.ts content.
     /// This filters out transitive internal types (like IteratorYieldResult)
     /// that the compiler resolves but never appear in signatures.
+    /// Also lists Node.js types detected via NodeGlobalIdentifiers scanning.
     /// </summary>
     private static string ReplaceAmbientTypesPlaceholder(
         string dtsContent, Dictionary<string, List<string>>? referencedBuiltins)
     {
         const string placeholder = "// __AMBIENT_TYPES_PLACEHOLDER__";
-        if (referencedBuiltins is not { Count: > 0 })
-            return dtsContent.Replace(placeholder + "\n", "").Replace(placeholder + "\r\n", "");
 
         var lines = new List<string>();
-        foreach (var (category, types) in referencedBuiltins.OrderBy(kv => kv.Key))
+
+        // Builtin types from ES/DOM libs
+        if (referencedBuiltins is { Count: > 0 })
         {
-            var present = types.Where(t => ContainsTypeIdentifier(dtsContent, t)).ToList();
-            if (present.Count == 0) continue;
-            var label = category.ToUpperInvariant() switch
+            foreach (var (category, types) in referencedBuiltins.OrderBy(kv => kv.Key))
             {
-                "DOM" => "DOM lib",
-                "ES" => "ES lib",
-                _ => category,
-            };
-            lines.Add($"// Ambient types from {label}: {string.Join(", ", present)}");
+                var present = types.Where(t => ContainsTypeIdentifier(dtsContent, t)).ToList();
+                if (present.Count == 0) continue;
+                var label = category.ToUpperInvariant() switch
+                {
+                    "DOM" => "DOM lib",
+                    "ES" => "ES lib",
+                    _ => category,
+                };
+                lines.Add($"// Ambient types from {label}: {string.Join(", ", present)}");
+            }
         }
 
-        var replacement = lines.Count > 0
-            ? "//" + Environment.NewLine + string.Join(Environment.NewLine, lines)
-            : "";
+        // Node.js types detected by scanning content for known Node globals
+        {
+            var nodeTypes = NodeGlobalIdentifiers
+                .Where(t => ContainsTypeIdentifier(dtsContent, t))
+                .OrderBy(t => t, StringComparer.Ordinal)
+                .ToList();
+            if (nodeTypes.Count > 0)
+                lines.Add($"// Ambient types from Node.js: {string.Join(", ", nodeTypes)}");
+        }
+
+        if (lines.Count == 0)
+            return dtsContent.Replace(placeholder + "\n", "").Replace(placeholder + "\r\n", "");
+
+        var replacement = "//" + Environment.NewLine + string.Join(Environment.NewLine, lines);
         return dtsContent.Replace(placeholder, replacement);
     }
 
