@@ -11,6 +11,7 @@
 - Rename interface `TextResponseFormatConfigurationResponseFormatJsonObject` to `TextResponseFormatJsonObject`
 - Rename interface `TextResponseFormatConfigurationUnion` to `TextResponseFormatUnion`
 - Rename interface `BetaEvaluatorsListLatestVersionsOptionalParams` to `BetaEvaluatorsListOptionalParams`
+- Rename `id` property in `Schedule` interface to `schedule_id`
 
 ### Features Added
 
@@ -21,6 +22,7 @@
 ### Bugs Fixed
 
 - Fix `createFilePartDescriptor` in multipart upload to use an existence/type guard instead of a truthy check, correctly handling edge cases like empty string contents.
+- Remove redundant `foundryFeatures` property from `EvaluationRulesCreateOrUpdateOptionalParam`
 
 ## 2.0.2 (2026-04-06)
 
