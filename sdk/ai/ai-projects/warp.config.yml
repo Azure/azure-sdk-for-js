@@ -1,4 +1,4 @@
-# warp.config.yml — build configuration
+# warp.config.yml — @azure/ai-projects build configuration
 
 exports:
   "./package.json": "./package.json"
@@ -20,3 +20,4 @@ targets:
   - name: commonjs
     condition: require
     tsconfig: "../../../tsconfig.src.cjs.json"
+    moduleType: commonjs

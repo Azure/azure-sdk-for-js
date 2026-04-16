@@ -3796,7 +3796,7 @@ export interface ToolChoiceAllowed extends ToolChoiceParam {
    *   ]
    *   ```
    */
-  tools: Record<string, any>[];
+  tools: Record<string, unknown>[];
 }
 
 export function toolChoiceAllowedSerializer(item: ToolChoiceAllowed): any {
