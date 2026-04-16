@@ -616,7 +616,8 @@ public static class TypeScriptFormatter
         bool isBrowserTarget = targetCondition?.Equals("browser", StringComparison.OrdinalIgnoreCase) == true;
         if (!isBrowserTarget)
             sb.AppendLine("/// <reference types=\"node\" />");
-        sb.AppendLine("/// <reference lib=\"es2020\" />");
+        var esLib = index.EsLib ?? "esnext";
+        sb.AppendLine($"/// <reference lib=\"{esLib}\" />");
         sb.AppendLine($"// {index.Package} - Public API Surface");
         sb.AppendLine("// Graphed by PublicApiGraphEngine.TypeScript");
         // Placeholder for ambient types comment — filled after content is rendered

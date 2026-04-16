@@ -10,6 +10,7 @@
 import {
     Project,
     SourceFile,
+    ts,
 } from "ts-morph";
 import * as fs from "fs";
 import * as path from "path";
@@ -55,6 +56,50 @@ function detectPackageVersion(rootPath: string, packageJsonPath?: string): strin
     if (fs.existsSync(pkgPath)) {
         const pkg = JSON.parse(fs.readFileSync(pkgPath, "utf8"));
         return pkg.version || undefined;
+    }
+    return undefined;
+}
+
+/**
+ * Resolves the ES lib target from the package's tsconfig chain.
+ * Tries tsconfig.src.json first (common in azure-sdk-for-js), then tsconfig.json.
+ * Returns a normalized lowercase lib name like "es2023", or undefined if not found.
+ */
+function detectEsLib(rootPath: string, packageJsonPath?: string): string | undefined {
+    const pkgPath = packageJsonPath ?? path.join(rootPath, "package.json");
+    const packageRoot = fs.existsSync(pkgPath) ? path.dirname(pkgPath) : rootPath;
+    // Prefer tsconfig.src.json (azure-sdk convention for source compilation options)
+    const candidates = [
+        path.join(packageRoot, "tsconfig.src.json"),
+        path.join(packageRoot, "tsconfig.json"),
+    ];
+    for (const configPath of candidates) {
+        if (!fs.existsSync(configPath)) continue;
+        try {
+            const configFile = ts.readConfigFile(configPath, ts.sys!.readFile);
+            if (configFile.error) continue;
+            const parsed = ts.parseJsonConfigFileContent(
+                configFile.config, ts.sys!, path.dirname(configPath),
+            );
+            // Check explicit lib array first — it's more specific than target
+            if (parsed.options.lib && parsed.options.lib.length > 0) {
+                // Find the highest ES lib (e.g. "lib.es2023.d.ts" → "es2023")
+                const esLibs = parsed.options.lib
+                    .map((l: string) => l.replace(/^lib\./, "").replace(/\.d\.ts$/, ""))
+                    .filter((l: string) => /^es\d{4,}$/i.test(l))
+                    .sort();
+                if (esLibs.length > 0) return esLibs[esLibs.length - 1].toLowerCase();
+            }
+            // Fall back to target
+            if (parsed.options.target !== undefined) {
+                const targetName = ts.ScriptTarget[parsed.options.target];
+                if (targetName && /^ES\d{4,}$/i.test(targetName)) {
+                    return targetName.toLowerCase();
+                }
+            }
+        } catch {
+            continue;
+        }
     }
     return undefined;
 }
@@ -291,6 +336,7 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
         package: packageName,
         version: packageVersion,
         modules: modules.sort((a, b) => a.name.localeCompare(b.name)),
+        esLib: detectEsLib(rootPath, options.packageJsonPath),
     };
 
     // Populate referencedTypes on all entities from compiler-resolved type refs.

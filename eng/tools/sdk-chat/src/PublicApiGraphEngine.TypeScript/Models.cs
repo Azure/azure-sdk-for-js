@@ -38,6 +38,11 @@ public sealed record ApiIndex : IApiIndex
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Dictionary<string, List<string>>? ReferencedBuiltins { get; init; }
 
+    /// <summary>The ES lib target resolved from the package's tsconfig (e.g. "es2023").</summary>
+    [JsonPropertyName("esLib")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? EsLib { get; init; }
+
     [JsonPropertyName("diagnostics")]
     public IReadOnlyList<ApiDiagnostic> Diagnostics { get; init; } = [];
 

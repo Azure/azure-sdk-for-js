@@ -160,6 +160,8 @@ export interface ApiIndex {
     resolvedDependencies?: ApiIndex[];
     /** Builtin types referenced in the API, categorized by lib source (dom, es) */
     referencedBuiltins?: Record<string, string[]>;
+    /** The ES lib target resolved from the package's tsconfig (e.g. "es2023") */
+    esLib?: string;
 }
 
 /**
