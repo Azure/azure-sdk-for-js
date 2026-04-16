@@ -577,6 +577,20 @@ public static class TypeScriptFormatter
         foreach (var i in allInterfaces) allTypeNames.Add(i.Name);
         foreach (var e in allEnums) allTypeNames.Add(e.Name);
         foreach (var t in allTypes) allTypeNames.Add(t.Name);
+        // Extended set includes dep types — used only for BFS reachability edges,
+        // not for CollectReferencedTypes on main package types (which would cause
+        // unresolved cross-module references).
+        HashSet<string> allTypeNamesWithDeps = new(allTypeNames);
+        if (index.Dependencies is not null)
+        {
+            foreach (var dep in index.Dependencies)
+            {
+                foreach (var c in dep.Classes ?? []) allTypeNamesWithDeps.Add(c.Name);
+                foreach (var i in dep.Interfaces ?? []) allTypeNamesWithDeps.Add(i.Name);
+                foreach (var e in dep.Enums ?? []) allTypeNamesWithDeps.Add(e.Name);
+                foreach (var t in dep.Types ?? []) allTypeNamesWithDeps.Add(t.Name);
+            }
+        }
 
         // Detect distinct conditions and build type→conditions mapping
         var distinctConditions = index.Modules
@@ -623,23 +637,48 @@ public static class TypeScriptFormatter
         var enumsByName = SafeToDictionary(allEnums, e => e.Name);
         var typesByName = SafeToDictionary(allTypes, t => t.Name);
 
-        // Build dependency graph for classes, interfaces, and type aliases
+        // Build dependency graph for classes, interfaces, and type aliases.
+        // Use allTypeNamesWithDeps so BFS can trace from main types into dep types.
         var typeDeps = new Dictionary<string, HashSet<string>>();
         HashSet<string> reusableDeps2 = [];
         foreach (var cls in allClasses)
         {
-            cls.CollectReferencedTypes(allTypeNames, reusableDeps2);
+            cls.CollectReferencedTypes(allTypeNamesWithDeps, reusableDeps2);
             typeDeps[cls.Name] = new HashSet<string>(reusableDeps2);
         }
         foreach (var iface in allInterfaces)
         {
-            iface.CollectReferencedTypes(allTypeNames, reusableDeps2);
+            iface.CollectReferencedTypes(allTypeNamesWithDeps, reusableDeps2);
             typeDeps[iface.Name] = new HashSet<string>(reusableDeps2);
         }
         foreach (var t in allTypes)
         {
-            t.CollectReferencedTypes(allTypeNames, reusableDeps2);
+            t.CollectReferencedTypes(allTypeNamesWithDeps, reusableDeps2);
             typeDeps[t.Name] = new HashSet<string>(reusableDeps2);
+        }
+        // Include dependency types in the graph so BFS can trace reachability
+        // from main package entry points through into dependency modules.
+        // Use allTypeNamesWithDeps so dep-to-dep edges are also discovered.
+        if (index.Dependencies is not null)
+        {
+            foreach (var dep in index.Dependencies)
+            {
+                foreach (var cls in dep.Classes ?? [])
+                {
+                    cls.CollectReferencedTypes(allTypeNamesWithDeps, reusableDeps2);
+                    typeDeps.TryAdd(cls.Name, new HashSet<string>(reusableDeps2));
+                }
+                foreach (var iface in dep.Interfaces ?? [])
+                {
+                    iface.CollectReferencedTypes(allTypeNamesWithDeps, reusableDeps2);
+                    typeDeps.TryAdd(iface.Name, new HashSet<string>(reusableDeps2));
+                }
+                foreach (var t in dep.Types ?? [])
+                {
+                    t.CollectReferencedTypes(allTypeNamesWithDeps, reusableDeps2);
+                    typeDeps.TryAdd(t.Name, new HashSet<string>(reusableDeps2));
+                }
+            }
         }
 
         // Compute reachability chains from entry points via BFS
