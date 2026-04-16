@@ -5,10 +5,14 @@ import { describe, it, assert } from "vitest";
 import * as MediaMappers from "../testMappers2.js";
 import type {
   CompositeMapper,
+  CompositeMapperType,
   DictionaryMapper,
+  DictionaryMapperType,
   EnumMapper,
+  EnumMapperType,
   Mapper,
   SequenceMapper,
+  SequenceMapperType,
 } from "../../src/index.js";
 import { createSerializer } from "../../src/index.js";
 import { Mappers } from "../testMappers1.js";
@@ -2174,5 +2178,1899 @@ describe("Serializer", function () {
         ],
       });
     });
+  });
+});
+
+describe("serializer coverage", () => {
+  const serializer = createSerializer({}, false);
+
+  describe("bufferToBase64Url / base64UrlToByteArray edge cases", () => {
+    it("should serialize Base64Url type with valid Uint8Array", () => {
+      const result = serializer.serialize(
+        { type: { name: "Base64Url" }, serializedName: "test" },
+        new Uint8Array([1, 2, 3]),
+        "testObj",
+      );
+      assert.isString(result);
+    });
+
+    it("should deserialize Base64Url type", () => {
+      const result = serializer.deserialize(
+        { type: { name: "Base64Url" }, serializedName: "test" },
+        "AQID",
+        "testObj",
+      );
+      assert.instanceOf(result, Uint8Array);
+    });
+
+    it("should return undefined for falsy Base64Url deserialization", () => {
+      const result = serializer.deserialize(
+        { type: { name: "Base64Url" }, serializedName: "test" },
+        "",
+        "testObj",
+      );
+      assert.isUndefined(result);
+    });
+
+    it("should return undefined for falsy buffer in bufferToBase64Url path", () => {
+      const result = serializer.serialize(
+        { type: { name: "Base64Url" }, serializedName: "test" },
+        null,
+        "testObj",
+      );
+      assert.isNull(result);
+    });
+  });
+
+  describe("serializeBasicTypes", () => {
+    it("should throw for Number type with non-number value", () => {
+      assert.throws(
+        () =>
+          serializer.serialize(
+            { type: { name: "Number" }, serializedName: "test" },
+            "notANumber",
+            "testObj",
+          ),
+        /must be of type number/,
+      );
+    });
+
+    it("should throw for String type with non-string value", () => {
+      assert.throws(
+        () =>
+          serializer.serialize(
+            { type: { name: "String" }, serializedName: "test" },
+            123,
+            "testObj",
+          ),
+        /must be of type string/,
+      );
+    });
+
+    it("should throw for Boolean type with non-boolean value", () => {
+      assert.throws(
+        () =>
+          serializer.serialize(
+            { type: { name: "Boolean" }, serializedName: "test" },
+            "notBool",
+            "testObj",
+          ),
+        /must be of type boolean/,
+      );
+    });
+
+    it("should throw for Uuid type with invalid uuid", () => {
+      assert.throws(
+        () =>
+          serializer.serialize(
+            { type: { name: "Uuid" }, serializedName: "test" },
+            "not-a-uuid",
+            "testObj",
+          ),
+        /must be of type string and a valid uuid/,
+      );
+    });
+
+    it("should throw for Stream type with invalid stream value", () => {
+      assert.throws(
+        () =>
+          serializer.serialize(
+            { type: { name: "Stream" }, serializedName: "test" },
+            12345,
+            "testObj",
+          ),
+        /must be a string, Blob, ArrayBuffer/,
+      );
+    });
+
+    it("should accept a function as Stream type", () => {
+      const fn = () => {};
+      const result = serializer.serialize(
+        { type: { name: "Stream" }, serializedName: "test" },
+        fn,
+        "testObj",
+      );
+      assert.strictEqual(result, fn);
+    });
+
+    it("should accept ArrayBuffer as Stream type", () => {
+      const buf = new ArrayBuffer(8);
+      const result = serializer.serialize(
+        { type: { name: "Stream" }, serializedName: "test" },
+        buf,
+        "testObj",
+      );
+      assert.strictEqual(result, buf);
+    });
+
+    it("should accept ArrayBufferView as Stream type", () => {
+      const view = new Uint8Array(8);
+      const result = serializer.serialize(
+        { type: { name: "Stream" }, serializedName: "test" },
+        view,
+        "testObj",
+      );
+      assert.strictEqual(result, view);
+    });
+  });
+
+  describe("serializeDateTypes", () => {
+    it("should serialize Date type from Date object", () => {
+      const d = new Date("2023-06-15T00:00:00Z");
+      const result = serializer.serialize(
+        { type: { name: "Date" }, serializedName: "test" },
+        d,
+        "testObj",
+      );
+      assert.strictEqual(result, "2023-06-15");
+    });
+
+    it("should serialize Date type from string", () => {
+      const result = serializer.serialize(
+        { type: { name: "Date" }, serializedName: "test" },
+        "2023-06-15",
+        "testObj",
+      );
+      assert.strictEqual(result, "2023-06-15");
+    });
+
+    it("should throw for Date type with invalid value", () => {
+      assert.throws(
+        () =>
+          serializer.serialize(
+            { type: { name: "Date" }, serializedName: "test" },
+            12345,
+            "testObj",
+          ),
+        /must be an instanceof Date or a string in ISO8601 format/,
+      );
+    });
+
+    it("should serialize DateTime type from Date object", () => {
+      const d = new Date("2023-06-15T10:30:00Z");
+      const result = serializer.serialize(
+        { type: { name: "DateTime" }, serializedName: "test" },
+        d,
+        "testObj",
+      );
+      assert.include(result, "2023-06-15");
+    });
+
+    it("should serialize DateTime type from string", () => {
+      const result = serializer.serialize(
+        { type: { name: "DateTime" }, serializedName: "test" },
+        "2023-06-15T10:30:00Z",
+        "testObj",
+      );
+      assert.include(result, "2023-06-15");
+    });
+
+    it("should throw for DateTime type with invalid value", () => {
+      assert.throws(
+        () =>
+          serializer.serialize(
+            { type: { name: "DateTime" }, serializedName: "test" },
+            {},
+            "testObj",
+          ),
+        /must be an instanceof Date or a string in ISO8601 format/,
+      );
+    });
+
+    it("should serialize DateTimeRfc1123 type from Date object", () => {
+      const d = new Date("2023-06-15T10:30:00Z");
+      const result = serializer.serialize(
+        { type: { name: "DateTimeRfc1123" }, serializedName: "test" },
+        d,
+        "testObj",
+      );
+      assert.isString(result);
+    });
+
+    it("should serialize DateTimeRfc1123 type from string", () => {
+      const result = serializer.serialize(
+        { type: { name: "DateTimeRfc1123" }, serializedName: "test" },
+        "Thu, 15 Jun 2023 10:30:00 GMT",
+        "testObj",
+      );
+      assert.isString(result);
+    });
+
+    it("should throw for DateTimeRfc1123 type with invalid value", () => {
+      assert.throws(
+        () =>
+          serializer.serialize(
+            { type: { name: "DateTimeRfc1123" }, serializedName: "test" },
+            {},
+            "testObj",
+          ),
+        /must be an instanceof Date or a string in RFC-1123 format/,
+      );
+    });
+
+    it("should serialize UnixTime type from Date object", () => {
+      const d = new Date("2023-06-15T10:30:00Z");
+      const result = serializer.serialize(
+        { type: { name: "UnixTime" }, serializedName: "test" },
+        d,
+        "testObj",
+      );
+      assert.isNumber(result);
+    });
+
+    it("should serialize UnixTime type from date string (line 396)", () => {
+      const result = serializer.serialize(
+        { type: { name: "UnixTime" }, serializedName: "test" },
+        "2023-06-15T10:30:00Z",
+        "testObj",
+      );
+      assert.isNumber(result);
+      assert.strictEqual(result, Math.floor(new Date("2023-06-15T10:30:00Z").getTime() / 1000));
+    });
+
+    it("should throw for UnixTime type with invalid value", () => {
+      assert.throws(
+        () =>
+          serializer.serialize(
+            { type: { name: "UnixTime" }, serializedName: "test" },
+            {},
+            "testObj",
+          ),
+        /must be an instanceof Date or a string/,
+      );
+    });
+
+    it("should serialize TimeSpan type with valid duration", () => {
+      const result = serializer.serialize(
+        { type: { name: "TimeSpan" }, serializedName: "test" },
+        "P1D",
+        "testObj",
+      );
+      assert.strictEqual(result, "P1D");
+    });
+
+    it("should throw for TimeSpan type with invalid duration", () => {
+      assert.throws(
+        () =>
+          serializer.serialize(
+            { type: { name: "TimeSpan" }, serializedName: "test" },
+            "notADuration",
+            "testObj",
+          ),
+        /must be a string in ISO 8601 format/,
+      );
+    });
+
+    it("should deserialize UnixTime type", () => {
+      const result = serializer.deserialize(
+        { type: { name: "UnixTime" }, serializedName: "test" },
+        1686826200,
+        "testObj",
+      );
+      assert.instanceOf(result, Date);
+    });
+
+    it("should return undefined for falsy UnixTime deserialization", () => {
+      const result = serializer.deserialize(
+        { type: { name: "UnixTime" }, serializedName: "test" },
+        0,
+        "testObj",
+      );
+      assert.isUndefined(result);
+    });
+  });
+
+  describe("serializeSequenceType", () => {
+    it("should throw for non-array input", () => {
+      assert.throws(
+        () =>
+          serializer.serialize(
+            {
+              type: {
+                name: "Sequence",
+                element: { type: { name: "String" } },
+              },
+              serializedName: "test",
+            } as SequenceMapper,
+            "notAnArray",
+            "testObj",
+          ),
+        /must be of type Array/,
+      );
+    });
+
+    it("should throw for missing element metadata", () => {
+      assert.throws(
+        () =>
+          serializer.serialize(
+            {
+              type: { name: "Sequence" } as Pick<SequenceMapperType, "name">,
+              serializedName: "test",
+            },
+            [1, 2],
+            "testObj",
+          ),
+        /element" metadata for an Array must be defined/,
+      );
+    });
+  });
+
+  describe("serializeDictionaryType", () => {
+    it("should throw for non-object input", () => {
+      assert.throws(
+        () =>
+          serializer.serialize(
+            {
+              type: {
+                name: "Dictionary",
+                value: { type: { name: "String" } },
+              },
+              serializedName: "test",
+            } as DictionaryMapper,
+            "notAnObject",
+            "testObj",
+          ),
+        /must be of type object/,
+      );
+    });
+
+    it("should throw for missing value metadata", () => {
+      assert.throws(
+        () =>
+          serializer.serialize(
+            {
+              type: { name: "Dictionary" } as Pick<DictionaryMapperType, "name">,
+              serializedName: "test",
+            },
+            { a: 1 },
+            "testObj",
+          ),
+        /"value" metadata for a Dictionary must be defined/,
+      );
+    });
+  });
+
+  describe("deserializeDictionaryType", () => {
+    it("should throw for missing value metadata", () => {
+      assert.throws(
+        () =>
+          serializer.deserialize(
+            {
+              type: { name: "Dictionary" } as Pick<DictionaryMapperType, "name">,
+              serializedName: "test",
+            },
+            { a: 1 },
+            "testObj",
+          ),
+        /"value" metadata for a Dictionary must be defined/,
+      );
+    });
+  });
+
+  describe("deserializeSequenceType", () => {
+    it("should throw for missing element metadata", () => {
+      assert.throws(
+        () =>
+          serializer.deserialize(
+            {
+              type: { name: "Sequence" } as Pick<SequenceMapperType, "name">,
+              serializedName: "test",
+            },
+            [1, 2],
+            "testObj",
+          ),
+        /element" metadata for an Array must be defined/,
+      );
+    });
+
+    it("should wrap non-array into array (xml2js quirk)", () => {
+      const result = serializer.deserialize(
+        {
+          type: {
+            name: "Sequence",
+            element: { type: { name: "Number" } },
+          },
+          serializedName: "test",
+        } as SequenceMapper,
+        42,
+        "testObj",
+      );
+      assert.deepStrictEqual(result, [42]);
+    });
+
+    it("should return falsy responseBody as-is", () => {
+      const result = serializer.deserialize(
+        {
+          type: {
+            name: "Sequence",
+            element: { type: { name: "Number" } },
+          },
+          serializedName: "test",
+        } as SequenceMapper,
+        null,
+        "testObj",
+      );
+      assert.isNull(result);
+    });
+
+    it("should look up Composite element by className from modelMappers", () => {
+      const childMapper: CompositeMapper = {
+        serializedName: "Child",
+        type: {
+          name: "Composite",
+          className: "Child",
+          modelProperties: {
+            id: { serializedName: "id", type: { name: "Number" } },
+          },
+        },
+      };
+      const s = createSerializer({ Child: childMapper }, false);
+      const result = s.deserialize(
+        {
+          type: {
+            name: "Sequence",
+            element: {
+              type: { name: "Composite", className: "Child" },
+            },
+          },
+          serializedName: "test",
+        } as SequenceMapper,
+        [{ id: 1 }, { id: 2 }],
+        "testObj",
+      );
+      assert.deepStrictEqual(result, [{ id: 1 }, { id: 2 }]);
+    });
+  });
+
+  describe("resolveModelProperties / resolveReferencedMapper", () => {
+    it("should throw when className is not provided", () => {
+      assert.throws(
+        () =>
+          serializer.serialize(
+            {
+              type: { name: "Composite" } as Pick<CompositeMapperType, "name">,
+              serializedName: "test",
+            },
+            { a: 1 },
+            "testObj",
+          ),
+        /Class name for model/,
+      );
+    });
+
+    it("should throw when referenced mapper is not found", () => {
+      assert.throws(
+        () =>
+          serializer.serialize(
+            {
+              type: { name: "Composite", className: "NonExistent" },
+              serializedName: "test",
+            } as CompositeMapper,
+            { a: 1 },
+            "testObj",
+          ),
+        /mapper\(\) cannot be null or undefined/,
+      );
+    });
+
+    it("should throw when modelProperties are not found on referenced mapper", () => {
+      const s = createSerializer(
+        { Broken: { serializedName: "Broken", type: { name: "Composite", className: "Broken" } } },
+        false,
+      );
+      assert.throws(
+        () =>
+          s.serialize(
+            {
+              type: { name: "Composite", className: "Broken" },
+              serializedName: "test",
+            } as CompositeMapper,
+            { a: 1 },
+            "testObj",
+          ),
+        /modelProperties cannot be null or undefined/,
+      );
+    });
+  });
+
+  describe("serializeCompositeType - additionalProperties", () => {
+    it("should serialize additionalProperties", () => {
+      const mapper: CompositeMapper = {
+        serializedName: "Test",
+        type: {
+          name: "Composite",
+          className: "Test",
+          modelProperties: {
+            id: { serializedName: "id", type: { name: "Number" } },
+          },
+          additionalProperties: { type: { name: "String" } },
+        },
+      };
+      const result = serializer.serialize(mapper, { id: 1, extra: "value" }, "testObj");
+      assert.strictEqual(result.id, 1);
+      assert.strictEqual(result.extra, "value");
+    });
+
+    it("should resolve additionalProperties from referenced mapper", () => {
+      const refMapper: CompositeMapper = {
+        serializedName: "Ref",
+        type: {
+          name: "Composite",
+          className: "Ref",
+          modelProperties: {
+            id: { serializedName: "id", type: { name: "Number" } },
+          },
+          additionalProperties: { type: { name: "String" } },
+        },
+      };
+      const s = createSerializer({ Ref: refMapper }, false);
+      const mapper: CompositeMapper = {
+        serializedName: "Test",
+        type: {
+          name: "Composite",
+          className: "Ref",
+        },
+      };
+      const result = s.serialize(mapper, { id: 1, extra: "value" }, "testObj");
+      assert.strictEqual(result.id, 1);
+      assert.strictEqual(result.extra, "value");
+    });
+  });
+
+  describe("deserializeCompositeType", () => {
+    it("should handle headerCollectionPrefix", () => {
+      const mapper: CompositeMapper = {
+        serializedName: "Headers",
+        type: {
+          name: "Composite",
+          modelProperties: {
+            metadata: {
+              serializedName: "metadata",
+              type: {
+                name: "Dictionary",
+                value: { type: { name: "String" } },
+              },
+              headerCollectionPrefix: "x-ms-meta-",
+            } as DictionaryMapper,
+          },
+        },
+      };
+      const result = serializer.deserialize(
+        mapper,
+        {
+          "x-ms-meta-key1": "val1",
+          "x-ms-meta-key2": "val2",
+          other: "ignored",
+        },
+        "testObj",
+      );
+      assert.deepStrictEqual(result.metadata, { key1: "val1", key2: "val2" });
+    });
+
+    it("should handle ignoreUnknownProperties option", () => {
+      const mapper: CompositeMapper = {
+        serializedName: "Test",
+        type: {
+          name: "Composite",
+          modelProperties: {
+            id: { serializedName: "id", type: { name: "Number" } },
+          },
+        },
+      };
+      const result = serializer.deserialize(mapper, { id: 1, unknownProp: "hello" }, "testObj", {
+        xml: {},
+        ignoreUnknownProperties: true,
+      });
+      assert.strictEqual(result.id, 1);
+      assert.isUndefined(result.unknownProp);
+    });
+
+    it("should pass through unknown properties when ignoreUnknownProperties is false/default", () => {
+      const mapper: CompositeMapper = {
+        serializedName: "Test",
+        type: {
+          name: "Composite",
+          modelProperties: {
+            id: { serializedName: "id", type: { name: "Number" } },
+          },
+        },
+      };
+      const result = serializer.deserialize(mapper, { id: 1, unknownProp: "hello" }, "testObj");
+      assert.strictEqual(result.id, 1);
+      assert.strictEqual(result.unknownProp, "hello");
+    });
+
+    it("should handle paging deserialization (serializedName === '')", () => {
+      const mapper: CompositeMapper = {
+        serializedName: "PagedResult",
+        type: {
+          name: "Composite",
+          modelProperties: {
+            value: {
+              serializedName: "",
+              type: {
+                name: "Sequence",
+                element: { type: { name: "Number" } },
+              },
+            },
+            nextLink: {
+              serializedName: "nextLink",
+              type: { name: "String" },
+            },
+          },
+        },
+      };
+      // The paging path checks Array.isArray(responseBody[key]) && serializedName === ""
+      // responseBody must have a "value" key that is an array
+      const body = { value: [1, 2, 3], nextLink: "https://next" };
+      const result = serializer.deserialize(mapper, body, "testObj");
+      assert.deepStrictEqual(Array.from(result), [1, 2, 3]);
+      assert.strictEqual(result.nextLink, "https://next");
+    });
+
+    it("should handle nested serializedName paths with null intermediate", () => {
+      const mapper: CompositeMapper = {
+        serializedName: "Test",
+        type: {
+          name: "Composite",
+          modelProperties: {
+            deepValue: {
+              serializedName: "level1.level2",
+              type: { name: "String" },
+            },
+          },
+        },
+      };
+      const result = serializer.deserialize(mapper, { level1: null }, "testObj");
+      assert.isUndefined(result.deepValue);
+    });
+
+    it("should handle additionalProperties during deserialization", () => {
+      const mapper: CompositeMapper = {
+        serializedName: "Test",
+        type: {
+          name: "Composite",
+          modelProperties: {
+            id: { serializedName: "id", type: { name: "Number" } },
+          },
+          additionalProperties: { type: { name: "String" } },
+        },
+      };
+      const result = serializer.deserialize(mapper, { id: 1, extra: "extraVal" }, "testObj");
+      assert.strictEqual(result.id, 1);
+      assert.strictEqual(result.extra, "extraVal");
+    });
+  });
+
+  describe("serializeByteArrayType", () => {
+    it("should throw for non-Uint8Array input", () => {
+      assert.throws(
+        () =>
+          serializer.serialize(
+            { type: { name: "ByteArray" }, serializedName: "test" },
+            "notABuffer",
+            "testObj",
+          ),
+        /must be of type Uint8Array/,
+      );
+    });
+  });
+
+  describe("serialize nullable/required edge cases", () => {
+    it("should throw when required and nullable and value is undefined", () => {
+      assert.throws(
+        () =>
+          serializer.serialize(
+            {
+              type: { name: "String" },
+              serializedName: "test",
+              required: true,
+              nullable: true,
+            },
+            undefined,
+            "testObj",
+          ),
+        /cannot be undefined/,
+      );
+    });
+
+    it("should throw when not required and nullable is false and value is null", () => {
+      assert.throws(
+        () =>
+          serializer.serialize(
+            {
+              type: { name: "String" },
+              serializedName: "test",
+              required: false,
+              nullable: false,
+            },
+            null,
+            "testObj",
+          ),
+        /cannot be null/,
+      );
+    });
+  });
+
+  describe("validateConstraints", () => {
+    it("should validate ExclusiveMaximum", () => {
+      assert.throws(
+        () =>
+          serializer.validateConstraints(
+            {
+              type: { name: "Number" },
+              serializedName: "test",
+              constraints: { ExclusiveMaximum: 10 },
+            },
+            10,
+            "testObj",
+          ),
+        /ExclusiveMaximum/,
+      );
+    });
+
+    it("should validate ExclusiveMinimum", () => {
+      assert.throws(
+        () =>
+          serializer.validateConstraints(
+            {
+              type: { name: "Number" },
+              serializedName: "test",
+              constraints: { ExclusiveMinimum: 5 },
+            },
+            5,
+            "testObj",
+          ),
+        /ExclusiveMinimum/,
+      );
+    });
+
+    it("should validate InclusiveMaximum", () => {
+      assert.throws(
+        () =>
+          serializer.validateConstraints(
+            {
+              type: { name: "Number" },
+              serializedName: "test",
+              constraints: { InclusiveMaximum: 10 },
+            },
+            11,
+            "testObj",
+          ),
+        /InclusiveMaximum/,
+      );
+    });
+
+    it("should validate InclusiveMinimum", () => {
+      assert.throws(
+        () =>
+          serializer.validateConstraints(
+            {
+              type: { name: "Number" },
+              serializedName: "test",
+              constraints: { InclusiveMinimum: 5 },
+            },
+            4,
+            "testObj",
+          ),
+        /InclusiveMinimum/,
+      );
+    });
+
+    it("should validate MaxItems", () => {
+      assert.throws(
+        () =>
+          serializer.validateConstraints(
+            {
+              type: { name: "Sequence", element: { type: { name: "String" } } },
+              serializedName: "test",
+              constraints: { MaxItems: 2 },
+            },
+            [1, 2, 3],
+            "testObj",
+          ),
+        /MaxItems/,
+      );
+    });
+
+    it("should validate MinItems", () => {
+      assert.throws(
+        () =>
+          serializer.validateConstraints(
+            {
+              type: { name: "Sequence", element: { type: { name: "String" } } },
+              serializedName: "test",
+              constraints: { MinItems: 2 },
+            },
+            [1],
+            "testObj",
+          ),
+        /MinItems/,
+      );
+    });
+
+    it("should validate MaxLength", () => {
+      assert.throws(
+        () =>
+          serializer.validateConstraints(
+            {
+              type: { name: "String" },
+              serializedName: "test",
+              constraints: { MaxLength: 3 },
+            },
+            "abcd",
+            "testObj",
+          ),
+        /MaxLength/,
+      );
+    });
+
+    it("should validate MinLength", () => {
+      assert.throws(
+        () =>
+          serializer.validateConstraints(
+            {
+              type: { name: "String" },
+              serializedName: "test",
+              constraints: { MinLength: 3 },
+            },
+            "ab",
+            "testObj",
+          ),
+        /MinLength/,
+      );
+    });
+
+    it("should validate MultipleOf", () => {
+      assert.throws(
+        () =>
+          serializer.validateConstraints(
+            {
+              type: { name: "Number" },
+              serializedName: "test",
+              constraints: { MultipleOf: 3 },
+            },
+            7,
+            "testObj",
+          ),
+        /MultipleOf/,
+      );
+    });
+
+    it("should validate Pattern", () => {
+      assert.throws(
+        () =>
+          serializer.validateConstraints(
+            {
+              type: { name: "String" },
+              serializedName: "test",
+              constraints: { Pattern: /^[a-z]+$/ },
+            },
+            "ABC123",
+            "testObj",
+          ),
+        /Pattern/,
+      );
+    });
+
+    it("should validate UniqueItems", () => {
+      assert.throws(
+        () =>
+          serializer.validateConstraints(
+            {
+              type: { name: "Sequence", element: { type: { name: "Number" } } },
+              serializedName: "test",
+              constraints: { UniqueItems: true },
+            },
+            [1, 2, 2],
+            "testObj",
+          ),
+        /UniqueItems/,
+      );
+    });
+
+    it("should not validate constraints for null/undefined values", () => {
+      // Should not throw
+      serializer.validateConstraints(
+        {
+          type: { name: "Number" },
+          serializedName: "test",
+          constraints: { InclusiveMaximum: 10 },
+        },
+        null,
+        "testObj",
+      );
+      serializer.validateConstraints(
+        {
+          type: { name: "Number" },
+          serializedName: "test",
+          constraints: { InclusiveMaximum: 10 },
+        },
+        undefined,
+        "testObj",
+      );
+    });
+  });
+
+  describe("serializeEnumType", () => {
+    it("should throw for missing allowedValues", () => {
+      assert.throws(
+        () =>
+          serializer.serialize(
+            {
+              type: { name: "Enum" } as Pick<EnumMapperType, "name">,
+              serializedName: "test",
+            },
+            "value",
+            "testObj",
+          ),
+        /Please provide a set of allowedValues/,
+      );
+    });
+
+    it("should throw for value not in allowedValues", () => {
+      assert.throws(
+        () =>
+          serializer.serialize(
+            {
+              type: { name: "Enum", allowedValues: ["a", "b"] },
+              serializedName: "test",
+            },
+            "c",
+            "testObj",
+          ),
+        /is not a valid value/,
+      );
+    });
+  });
+
+  describe("XML serialization - sequence element xmlNamespace", () => {
+    const xmlSerializer = createSerializer({}, true);
+
+    it("should add xmlns to Composite element in XML sequence", () => {
+      const mapper: SequenceMapper = {
+        serializedName: "Items",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              modelProperties: {
+                id: { serializedName: "id", type: { name: "Number" } },
+              },
+            },
+            xmlNamespace: "http://example.com",
+            xmlNamespacePrefix: "ex",
+          } as CompositeMapper,
+        },
+      };
+      const result = xmlSerializer.serialize(mapper, [{ id: 1 }], "testObj");
+      assert.deepStrictEqual(result[0].$, { "xmlns:ex": "http://example.com" });
+    });
+
+    it("should add xmlns to non-Composite element in XML sequence", () => {
+      const mapper: SequenceMapper = {
+        serializedName: "Items",
+        type: {
+          name: "Sequence",
+          element: {
+            type: { name: "String" },
+            xmlNamespace: "http://example.com",
+            serializedName: "item",
+          },
+        },
+      };
+      const result = xmlSerializer.serialize(mapper, ["hello"], "testObj");
+      assert.strictEqual(result[0]._, "hello");
+      assert.deepStrictEqual(result[0].$, { xmlns: "http://example.com" });
+    });
+  });
+
+  describe("XML deserialization - isXML branches", () => {
+    const xmlSerializer = createSerializer({}, true);
+
+    it("should handle xmlIsAttribute", () => {
+      const mapper: CompositeMapper = {
+        serializedName: "Test",
+        type: {
+          name: "Composite",
+          modelProperties: {
+            name: {
+              serializedName: "name",
+              xmlName: "name",
+              xmlIsAttribute: true,
+              type: { name: "String" },
+            },
+          },
+        },
+      };
+      const result = xmlSerializer.deserialize(mapper, { $: { name: "testValue" } }, "testObj");
+      assert.strictEqual(result.name, "testValue");
+    });
+
+    it("should handle xmlIsMsText with xmlCharKey", () => {
+      const mapper: CompositeMapper = {
+        serializedName: "Test",
+        type: {
+          name: "Composite",
+          modelProperties: {
+            content: {
+              serializedName: "content",
+              xmlName: "content",
+              xmlIsMsText: true,
+              type: { name: "String" },
+            },
+          },
+        },
+      };
+      const result = xmlSerializer.deserialize(mapper, { _: "textContent" }, "testObj");
+      assert.strictEqual(result.content, "textContent");
+    });
+
+    it("should handle xmlIsMsText with string responseBody", () => {
+      const mapper: CompositeMapper = {
+        serializedName: "Test",
+        type: {
+          name: "Composite",
+          modelProperties: {
+            content: {
+              serializedName: "content",
+              xmlName: "content",
+              xmlIsMsText: true,
+              type: { name: "String" },
+            },
+          },
+        },
+      };
+      const result = xmlSerializer.deserialize(mapper, "directString", "testObj");
+      assert.strictEqual(result.content, "directString");
+    });
+
+    it("should handle xmlIsWrapped", () => {
+      const mapper: CompositeMapper = {
+        serializedName: "Test",
+        type: {
+          name: "Composite",
+          modelProperties: {
+            items: {
+              serializedName: "items",
+              xmlName: "Items",
+              xmlElementName: "Item",
+              xmlIsWrapped: true,
+              type: {
+                name: "Sequence",
+                element: { type: { name: "String" } },
+              },
+            },
+          },
+        },
+      };
+      const result = xmlSerializer.deserialize(mapper, { Items: { Item: ["a", "b"] } }, "testObj");
+      assert.deepStrictEqual(result.items, ["a", "b"]);
+    });
+
+    it("should handle xmlIsWrapped with missing wrapped element", () => {
+      const mapper: CompositeMapper = {
+        serializedName: "Test",
+        type: {
+          name: "Composite",
+          modelProperties: {
+            items: {
+              serializedName: "items",
+              xmlName: "Items",
+              xmlElementName: "Item",
+              xmlIsWrapped: true,
+              type: {
+                name: "Sequence",
+                element: { type: { name: "String" } },
+              },
+            },
+          },
+        },
+      };
+      const result = xmlSerializer.deserialize(mapper, { Items: {} }, "testObj");
+      assert.deepStrictEqual(result.items, []);
+    });
+
+    it("should serialize xmlIsAttribute in Composite", () => {
+      const mapper: CompositeMapper = {
+        serializedName: "Test",
+        type: {
+          name: "Composite",
+          modelProperties: {
+            name: {
+              serializedName: "name",
+              xmlName: "name",
+              xmlIsAttribute: true,
+              type: { name: "String" },
+            },
+          },
+        },
+      };
+      const result = xmlSerializer.serialize(mapper, { name: "testValue" }, "testObj");
+      assert.deepStrictEqual(result.$, { name: "testValue" });
+    });
+
+    it("should serialize xmlIsWrapped in Composite", () => {
+      const mapper: CompositeMapper = {
+        serializedName: "Test",
+        type: {
+          name: "Composite",
+          modelProperties: {
+            items: {
+              serializedName: "items",
+              xmlName: "Items",
+              xmlElementName: "Item",
+              xmlIsWrapped: true,
+              type: {
+                name: "Sequence",
+                element: { type: { name: "String" } },
+              },
+            },
+          },
+        },
+      };
+      const result = xmlSerializer.serialize(mapper, { items: ["a", "b"] }, "testObj");
+      assert.deepStrictEqual(result.Items, { Item: ["a", "b"] });
+    });
+  });
+
+  describe("deserialize - XML body with $ and _ keys", () => {
+    const xmlSerializer = createSerializer({}, true);
+
+    it("should reduce responseBody to xmlCharKey when both $ and _ present", () => {
+      const result = xmlSerializer.deserialize(
+        { type: { name: "String" }, serializedName: "test" },
+        { $: { attr: "val" }, _: "bodyContent" },
+        "testObj",
+      );
+      assert.strictEqual(result, "bodyContent");
+    });
+  });
+
+  describe("deserialize - Boolean strings", () => {
+    it("should parse 'true' string as boolean true", () => {
+      const result = serializer.deserialize(
+        { type: { name: "Boolean" }, serializedName: "test" },
+        "true",
+        "testObj",
+      );
+      assert.strictEqual(result, true);
+    });
+
+    it("should parse 'false' string as boolean false", () => {
+      const result = serializer.deserialize(
+        { type: { name: "Boolean" }, serializedName: "test" },
+        "false",
+        "testObj",
+      );
+      assert.strictEqual(result, false);
+    });
+
+    it("should return raw boolean value", () => {
+      const result = serializer.deserialize(
+        { type: { name: "Boolean" }, serializedName: "test" },
+        true,
+        "testObj",
+      );
+      assert.strictEqual(result, true);
+    });
+  });
+
+  describe("deserialize - Number", () => {
+    it("should parse NaN number as raw value", () => {
+      const result = serializer.deserialize(
+        { type: { name: "Number" }, serializedName: "test" },
+        "notANumber",
+        "testObj",
+      );
+      assert.strictEqual(result, "notANumber");
+    });
+  });
+
+  describe("deserialize - Date types", () => {
+    it("should deserialize Date type", () => {
+      const result = serializer.deserialize(
+        { type: { name: "Date" }, serializedName: "test" },
+        "2023-06-15",
+        "testObj",
+      );
+      assert.instanceOf(result, Date);
+    });
+
+    it("should deserialize DateTime type", () => {
+      const result = serializer.deserialize(
+        { type: { name: "DateTime" }, serializedName: "test" },
+        "2023-06-15T10:30:00Z",
+        "testObj",
+      );
+      assert.instanceOf(result, Date);
+    });
+
+    it("should deserialize DateTimeRfc1123 type", () => {
+      const result = serializer.deserialize(
+        { type: { name: "DateTimeRfc1123" }, serializedName: "test" },
+        "Thu, 15 Jun 2023 10:30:00 GMT",
+        "testObj",
+      );
+      assert.instanceOf(result, Date);
+    });
+
+    it("should deserialize ByteArray type", () => {
+      const result = serializer.deserialize(
+        { type: { name: "ByteArray" }, serializedName: "test" },
+        "AQID",
+        "testObj",
+      );
+      assert.instanceOf(result, Uint8Array);
+    });
+  });
+
+  describe("serialize - readOnly property skipping", () => {
+    it("should skip readOnly properties during serialization", () => {
+      const mapper: CompositeMapper = {
+        serializedName: "Test",
+        type: {
+          name: "Composite",
+          modelProperties: {
+            id: { serializedName: "id", readOnly: true, type: { name: "Number" } },
+            name: { serializedName: "name", type: { name: "String" } },
+          },
+        },
+      };
+      const result = serializer.serialize(mapper, { id: 1, name: "test" }, "testObj");
+      assert.isUndefined(result.id);
+      assert.strictEqual(result.name, "test");
+    });
+  });
+
+  describe("serialize - nested serializedName paths", () => {
+    it("should create intermediate objects for nested paths", () => {
+      const mapper: CompositeMapper = {
+        serializedName: "Test",
+        type: {
+          name: "Composite",
+          modelProperties: {
+            deepProp: {
+              serializedName: "level1.level2.value",
+              type: { name: "String" },
+            },
+          },
+        },
+      };
+      const result = serializer.serialize(mapper, { deepProp: "hello" }, "testObj");
+      assert.strictEqual(result.level1.level2.value, "hello");
+    });
+  });
+
+  describe("serialize - isConstant", () => {
+    it("should use defaultValue for isConstant mapper", () => {
+      const result = serializer.serialize(
+        {
+          type: { name: "String" },
+          serializedName: "test",
+          isConstant: true,
+          defaultValue: "constantValue",
+        },
+        "anyValue",
+        "testObj",
+      );
+      assert.strictEqual(result, "constantValue");
+    });
+  });
+
+  describe("deserialize - isConstant", () => {
+    it("should return defaultValue for isConstant mapper during deserialization", () => {
+      const result = serializer.deserialize(
+        {
+          type: { name: "String" },
+          serializedName: "test",
+          isConstant: true,
+          defaultValue: "constantValue",
+        },
+        "anyResponseValue",
+        "testObj",
+      );
+      assert.strictEqual(result, "constantValue");
+    });
+  });
+
+  describe("deserialize - defaultValue", () => {
+    it("should return defaultValue when responseBody is undefined", () => {
+      const result = serializer.deserialize(
+        {
+          type: { name: "String" },
+          serializedName: "test",
+          defaultValue: "defaultVal",
+        },
+        undefined,
+        "testObj",
+      );
+      assert.strictEqual(result, "defaultVal");
+    });
+  });
+
+  describe("XML Sequence edge case - empty list", () => {
+    const xmlSerializer = createSerializer({}, true);
+
+    it("should return empty array for undefined XML non-wrapped Sequence", () => {
+      const result = xmlSerializer.deserialize(
+        {
+          type: {
+            name: "Sequence",
+            element: { type: { name: "String" } },
+          },
+          serializedName: "test",
+        } as SequenceMapper,
+        undefined,
+        "testObj",
+      );
+      assert.deepStrictEqual(result, []);
+    });
+
+    it("should return defaultValue for wrapped XML Sequence that is undefined", () => {
+      const result = xmlSerializer.deserialize(
+        {
+          type: {
+            name: "Sequence",
+            element: { type: { name: "String" } },
+          },
+          serializedName: "test",
+          xmlIsWrapped: true,
+          defaultValue: [],
+        } as SequenceMapper,
+        undefined,
+        "testObj",
+      );
+      assert.deepStrictEqual(result, []);
+    });
+  });
+
+  describe("serialize - xmlNamespace on Composite", () => {
+    const xmlSerializer = createSerializer({}, true);
+
+    it("should add xmlNamespace to Composite root", () => {
+      const mapper: CompositeMapper = {
+        serializedName: "Test",
+        xmlNamespace: "http://example.com",
+        xmlNamespacePrefix: "ex",
+        type: {
+          name: "Composite",
+          modelProperties: {
+            name: { serializedName: "name", xmlName: "name", type: { name: "String" } },
+          },
+        },
+      };
+      const result = xmlSerializer.serialize(mapper, { name: "test" }, "testObj");
+      assert.deepStrictEqual(result.$, { "xmlns:ex": "http://example.com" });
+    });
+  });
+
+  describe("serialize - Dictionary with xmlNamespace", () => {
+    const xmlSerializer = createSerializer({}, true);
+
+    it("should add xmlNamespace to Dictionary root", () => {
+      const mapper: DictionaryMapper = {
+        serializedName: "Dict",
+        xmlNamespace: "http://example.com",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      };
+      const result = xmlSerializer.serialize(mapper, { key: "val" }, "testObj");
+      assert.deepStrictEqual(result.$, { xmlns: "http://example.com" });
+    });
+  });
+
+  describe("getXmlObjectValue", () => {
+    const xmlSerializer = createSerializer({}, true);
+
+    it("should add xmlns to non-Composite type with xmlNamespace", () => {
+      const mapper: CompositeMapper = {
+        serializedName: "Test",
+        type: {
+          name: "Composite",
+          modelProperties: {
+            value: {
+              serializedName: "value",
+              xmlName: "value",
+              xmlNamespace: "http://example.com",
+              type: { name: "String" },
+            },
+          },
+        },
+      };
+      const result = xmlSerializer.serialize(mapper, { value: "hello" }, "testObj");
+      assert.strictEqual(result.value._, "hello");
+      assert.deepStrictEqual(result.value.$, { xmlns: "http://example.com" });
+    });
+
+    it("should not duplicate xmlns for Composite type that already has $", () => {
+      const childMapper: CompositeMapper = {
+        serializedName: "Child",
+        type: {
+          name: "Composite",
+          className: "Child",
+          modelProperties: {
+            id: { serializedName: "id", xmlName: "id", type: { name: "Number" } },
+          },
+        },
+      };
+      const s = createSerializer({ Child: childMapper }, true);
+      const mapper: CompositeMapper = {
+        serializedName: "Parent",
+        type: {
+          name: "Composite",
+          modelProperties: {
+            child: {
+              serializedName: "child",
+              xmlName: "child",
+              xmlNamespace: "http://example.com",
+              type: {
+                name: "Composite",
+                className: "Child",
+              },
+            },
+          },
+        },
+      };
+      // Serialize with a child that will get $ added via xmlNamespace on parent property
+      const result = s.serialize(mapper, { child: { id: 1 } }, "testObj");
+      assert.ok(result.child);
+    });
+  });
+
+  describe("polymorphic mapper", () => {
+    it("should find polymorphic mapper during serialization", () => {
+      const baseMapper: CompositeMapper = {
+        serializedName: "Animal",
+        type: {
+          name: "Composite",
+          className: "Animal",
+          uberParent: "Animal",
+          polymorphicDiscriminator: {
+            serializedName: "kind",
+            clientName: "kind",
+          },
+          modelProperties: {
+            kind: { serializedName: "kind", type: { name: "String" } },
+          },
+        },
+      };
+      const dogMapper: CompositeMapper = {
+        serializedName: "Dog",
+        type: {
+          name: "Composite",
+          className: "Dog",
+          uberParent: "Animal",
+          modelProperties: {
+            kind: { serializedName: "kind", type: { name: "String" } },
+            bark: { serializedName: "bark", type: { name: "Boolean" } },
+          },
+        },
+      };
+      const s = createSerializer(
+        {
+          Animal: baseMapper,
+          Dog: dogMapper,
+          discriminators: {
+            "Animal.Dog": dogMapper,
+          },
+        },
+        false,
+      );
+      const result = s.serialize(baseMapper, { kind: "Dog", bark: true }, "testObj");
+      assert.strictEqual(result.kind, "Dog");
+      assert.strictEqual(result.bark, true);
+    });
+
+    it("should find polymorphic mapper during deserialization", () => {
+      const baseMapper: CompositeMapper = {
+        serializedName: "Animal",
+        type: {
+          name: "Composite",
+          className: "Animal",
+          uberParent: "Animal",
+          polymorphicDiscriminator: {
+            serializedName: "kind",
+            clientName: "kind",
+          },
+          modelProperties: {
+            kind: { serializedName: "kind", type: { name: "String" } },
+          },
+        },
+      };
+      const dogMapper: CompositeMapper = {
+        serializedName: "Dog",
+        type: {
+          name: "Composite",
+          className: "Dog",
+          uberParent: "Animal",
+          modelProperties: {
+            kind: { serializedName: "kind", type: { name: "String" } },
+            bark: { serializedName: "bark", type: { name: "Boolean" } },
+          },
+        },
+      };
+      const s = createSerializer(
+        {
+          Animal: baseMapper,
+          Dog: dogMapper,
+          discriminators: {
+            "Animal.Dog": dogMapper,
+          },
+        },
+        false,
+      );
+      const result = s.deserialize(baseMapper, { kind: "Dog", bark: true }, "testObj");
+      assert.strictEqual(result.kind, "Dog");
+      assert.strictEqual(result.bark, true);
+    });
+  });
+
+  describe("splitSerializeName with escaped dots", () => {
+    it("should handle escaped dots in serializedName", () => {
+      const mapper: CompositeMapper = {
+        serializedName: "Test",
+        type: {
+          name: "Composite",
+          modelProperties: {
+            dotProp: {
+              serializedName: "level1\\.level2",
+              type: { name: "String" },
+            },
+          },
+        },
+      };
+      const result = serializer.serialize(mapper, { dotProp: "value" }, "testObj");
+      assert.strictEqual(result["level1.level2"], "value");
+    });
+  });
+
+  describe("Composite serialization - polymorphic discriminator default value", () => {
+    it("should use mapper serializedName as discriminator value when toSerialize is undefined", () => {
+      const baseMapper: CompositeMapper = {
+        serializedName: "BaseType",
+        type: {
+          name: "Composite",
+          className: "BaseType",
+          uberParent: "BaseType",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type",
+          },
+          modelProperties: {
+            type: { serializedName: "type", type: { name: "String" } },
+            name: { serializedName: "name", type: { name: "String" } },
+          },
+        },
+      };
+      const s = createSerializer(
+        {
+          BaseType: baseMapper,
+          discriminators: {},
+        },
+        false,
+      );
+      const result = s.serialize(baseMapper, { name: "test" }, "testObj");
+      assert.strictEqual(result.type, "BaseType");
+    });
+  });
+
+  describe("serialize - Composite with empty object for undefined/null values", () => {
+    it("should handle null values in Composite", () => {
+      const mapper: CompositeMapper = {
+        serializedName: "Test",
+        type: {
+          name: "Composite",
+          modelProperties: {
+            value: { serializedName: "value", type: { name: "String" } },
+          },
+        },
+      };
+      const result = serializer.serialize(mapper, null, "testObj");
+      assert.isNull(result);
+    });
+  });
+
+  describe("getPolymorphicDiscriminatorRecursively - uberParent/className lookup", () => {
+    it("should look up polymorphicDiscriminator from uberParent", () => {
+      const parentMapper: CompositeMapper = {
+        serializedName: "Parent",
+        type: {
+          name: "Composite",
+          className: "Parent",
+          uberParent: "Parent",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type",
+          },
+          modelProperties: {
+            type: { serializedName: "type", type: { name: "String" } },
+          },
+        },
+      };
+      const childMapper: CompositeMapper = {
+        serializedName: "Child",
+        type: {
+          name: "Composite",
+          className: "Child",
+          uberParent: "Parent",
+          modelProperties: {
+            type: { serializedName: "type", type: { name: "String" } },
+            extra: { serializedName: "extra", type: { name: "String" } },
+          },
+        },
+      };
+      const s = createSerializer(
+        {
+          Parent: parentMapper,
+          Child: childMapper,
+          discriminators: { "Parent.Child": childMapper },
+        },
+        false,
+      );
+      const result = s.deserialize(childMapper, { type: "Child", extra: "val" }, "testObj");
+      assert.strictEqual(result.extra, "val");
+    });
+  });
+});
+
+describe("serializer - Dictionary deserialization with falsy body", () => {
+  it("should return falsy responseBody for Dictionary (0)", () => {
+    const serializer = createSerializer({}, false);
+    // 0 is falsy but not null/undefined, so it passes the null check at line 233
+    // and reaches deserializeDictionaryType which returns it at line 1091
+    const result = serializer.deserialize(
+      {
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+        serializedName: "test",
+      } as DictionaryMapper,
+      0,
+      "testObj",
+    );
+    assert.strictEqual(result, 0);
+  });
+  it("should return falsy responseBody for Dictionary (empty string)", () => {
+    const serializer = createSerializer({}, false);
+    const result = serializer.deserialize(
+      {
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+        serializedName: "test",
+      } as DictionaryMapper,
+      "",
+      "testObj",
+    );
+    assert.strictEqual(result, "");
+  });
+});
+
+describe("serializer - Sequence deserialization with falsy body", () => {
+  it("should return falsy responseBody for Sequence (0)", () => {
+    const serializer = createSerializer({}, false);
+    const result = serializer.deserialize(
+      {
+        type: {
+          name: "Sequence",
+          element: { type: { name: "String" } },
+        },
+        serializedName: "test",
+      } as SequenceMapper,
+      0,
+      "testObj",
+    );
+    assert.strictEqual(result, 0);
+  });
+  it("should return falsy responseBody for Sequence (false)", () => {
+    const serializer = createSerializer({}, false);
+    const result = serializer.deserialize(
+      {
+        type: {
+          name: "Sequence",
+          element: { type: { name: "String" } },
+        },
+        serializedName: "test",
+      } as SequenceMapper,
+      false,
+      "testObj",
+    );
+    assert.strictEqual(result, false);
+  });
+});
+
+describe("serializer - polymorphic discriminator default during deserialization", () => {
+  it("should use mapper.serializedName as discriminator when value is missing", () => {
+    const baseMapper: CompositeMapper = {
+      serializedName: "Animal",
+      type: {
+        name: "Composite",
+        className: "Animal",
+        uberParent: "Animal",
+        polymorphicDiscriminator: {
+          serializedName: "kind",
+          clientName: "kind",
+        },
+        modelProperties: {
+          kind: { serializedName: "kind", type: { name: "String" } },
+          name: { serializedName: "name", type: { name: "String" } },
+        },
+      },
+    };
+    const s = createSerializer({ Animal: baseMapper, discriminators: {} }, false);
+    // When kind is not present in the response body, it should default to mapper.serializedName
+    const result = s.deserialize(baseMapper, { name: "Fido" }, "testObj");
+    assert.strictEqual(result.kind, "Animal");
+  });
+});
+
+describe("serializer - Sequence element className lookup", () => {
+  it("should look up Composite element by className from modelMappers during serialization", () => {
+    const childMapper: CompositeMapper = {
+      serializedName: "Child",
+      type: {
+        name: "Composite",
+        className: "Child",
+        modelProperties: {
+          id: { serializedName: "id", type: { name: "Number" } },
+          name: { serializedName: "name", type: { name: "String" } },
+        },
+      },
+    };
+    const s = createSerializer({ Child: childMapper }, false);
+    const result = s.serialize(
+      {
+        type: {
+          name: "Sequence",
+          element: {
+            type: { name: "Composite", className: "Child" },
+          },
+        },
+        serializedName: "test",
+      } as SequenceMapper,
+      [{ id: 1, name: "a" }],
+      "testObj",
+    );
+    assert.deepStrictEqual(result, [{ id: 1, name: "a" }]);
+  });
+});
+
+describe("serializer - getXmlObjectValue Composite with existing $ attr (lines 845-849)", () => {
+  it("should return as-is when Composite already has $ from its own xmlNamespace", () => {
+    // Child model WITH xmlNamespace - its serialization adds $ to payload
+    const childModel: CompositeMapper = {
+      serializedName: "ChildModel",
+      xmlNamespace: "http://child.com",
+      xmlNamespacePrefix: "ch",
+      type: {
+        name: "Composite",
+        className: "ChildModel",
+        modelProperties: {
+          text: {
+            serializedName: "text",
+            xmlName: "text",
+            type: { name: "String" },
+          },
+        },
+      },
+    };
+
+    const parentMapper: CompositeMapper = {
+      serializedName: "ParentModel",
+      type: {
+        name: "Composite",
+        modelProperties: {
+          child: {
+            serializedName: "child",
+            xmlName: "child",
+            xmlNamespace: "http://outer.com",
+            xmlNamespacePrefix: "outer",
+            type: {
+              name: "Composite",
+              className: "ChildModel",
+            },
+          } as CompositeMapper,
+        },
+      },
+    };
+
+    const s = createSerializer({ ChildModel: childModel }, true);
+    const result = s.serialize(parentMapper, { child: { text: "hello" } }, "testObj");
+    // child should have $ from its own xmlNamespace (line 845 path)
+    assert.ok(result.child);
+    assert.ok(result.child.$);
+    assert.strictEqual(result.child.text, "hello");
+  });
+
+  it("should add xmlns for Composite without existing $ attr", () => {
+    // Child model with NO properties - so the for loop doesn't execute,
+    // and $ is never set on the payload by serializeCompositeType
+    const childModelEmpty: CompositeMapper = {
+      serializedName: "ChildEmpty",
+      type: {
+        name: "Composite",
+        className: "ChildEmpty",
+        modelProperties: {},
+      },
+    };
+
+    const parentMapper: CompositeMapper = {
+      serializedName: "ParentModel2",
+      type: {
+        name: "Composite",
+        modelProperties: {
+          child: {
+            serializedName: "child",
+            xmlName: "child",
+            xmlNamespace: "http://outer.com",
+            type: {
+              name: "Composite",
+              className: "ChildEmpty",
+            },
+          } as CompositeMapper,
+        },
+      },
+    };
+
+    const s = createSerializer({ ChildEmpty: childModelEmpty }, true);
+    const result = s.serialize(parentMapper, { child: {} }, "testObj");
+    // getXmlObjectValue adds $ since child didn't have it (lines 847-849)
+    assert.ok(result.child);
+    assert.ok(result.child.$);
+    assert.strictEqual(result.child.$["xmlns"], "http://outer.com");
+  });
+
+  it("should wrap non-Composite value with xmlNamespace (lines 852-855)", () => {
+    // A non-Composite property (e.g., String) with xmlNamespace
+    // goes through the non-Composite path in getXmlObjectValue
+    const mapper: CompositeMapper = {
+      serializedName: "Parent",
+      type: {
+        name: "Composite",
+        modelProperties: {
+          value: {
+            serializedName: "value",
+            xmlName: "value",
+            xmlNamespace: "http://ns.com",
+            xmlNamespacePrefix: "ns",
+            type: { name: "String" },
+          },
+        },
+      },
+    };
+
+    const s = createSerializer({}, true);
+    const result = s.serialize(mapper, { value: "hello" }, "testObj");
+    // The String value should be wrapped: { _: "hello", $: { "xmlns:ns": "http://ns.com" } }
+    assert.ok(result.value);
+    assert.ok(result.value.$);
+    assert.strictEqual(result.value.$["xmlns:ns"], "http://ns.com");
+    assert.strictEqual(result.value._, "hello");
   });
 });

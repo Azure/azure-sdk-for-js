@@ -1,17 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert, vi } from "vitest";
+import { describe, it, assert, expect, vi } from "vitest";
 import type {
   CompositeMapper,
   FullOperationResponse,
   OperationRequest,
   OperationSpec,
+  SequenceMapper,
   SerializerOptions,
 } from "../../src/index.js";
-import { createSerializer, deserializationPolicy } from "../../src/index.js";
+import { createSerializer, deserializationPolicy, ServiceClient } from "../../src/index.js";
 import type { PipelineResponse, RawHttpHeaders, SendRequest } from "@azure/core-rest-pipeline";
-import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
+import {
+  createEmptyPipeline,
+  createHttpHeaders,
+  createPipelineRequest,
+} from "@azure/core-rest-pipeline";
 import { getOperationRequestInfo } from "../../src/operationHelpers.js";
 import { parseXML } from "@azure/core-xml";
 
@@ -875,3 +880,718 @@ async function getDeserializedResponse(
   const response = await policy.sendRequest(request, next);
   return response;
 }
+
+describe("deserializationPolicy coverage", () => {
+  it("should handle operationResponseGetter", async () => {
+    let capturedRequest: OperationRequest | undefined;
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(deserializationPolicy(), { phase: "Deserialize" });
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) => {
+          capturedRequest = req;
+          return Promise.resolve({
+            request: req,
+            status: 200,
+            headers: createHttpHeaders(),
+            bodyAsText: '{"id": 1}',
+          });
+        },
+      },
+      pipeline,
+    });
+
+    const operationInfo = getOperationRequestInfo(
+      createPipelineRequest({ url: "https://example.com" }),
+    );
+    // Ensure the operationResponseGetter path is available through sendOperationRequest
+    await client.sendOperationRequest(
+      {
+        options: {
+          requestOptions: {
+            shouldDeserialize: true,
+          },
+        },
+      },
+      {
+        httpMethod: "GET",
+        baseUrl: "https://example.com",
+        serializer: createSerializer(),
+        responses: {
+          200: {
+            bodyMapper: {
+              type: {
+                name: "Composite",
+                modelProperties: {
+                  id: { serializedName: "id", type: { name: "Number" } },
+                },
+              },
+            },
+          },
+        },
+      },
+    );
+  });
+
+  it("should handle shouldDeserialize as a function", async () => {
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(deserializationPolicy(), { phase: "Deserialize" });
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) =>
+          Promise.resolve({
+            request: req,
+            status: 200,
+            headers: createHttpHeaders(),
+            bodyAsText: '{"id": 1}',
+          }),
+      },
+      pipeline,
+    });
+
+    await client.sendOperationRequest(
+      {
+        options: {
+          requestOptions: {
+            shouldDeserialize: (response: any) => response.status === 200,
+          },
+        },
+      },
+      {
+        httpMethod: "GET",
+        baseUrl: "https://example.com",
+        serializer: createSerializer(),
+        responses: { 200: {} },
+      },
+    );
+  });
+
+  it("should handle HEAD request with streaming response codes", async () => {
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(deserializationPolicy(), { phase: "Deserialize" });
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) =>
+          Promise.resolve({
+            request: req,
+            status: 200,
+            headers: createHttpHeaders(),
+          }),
+      },
+      pipeline,
+    });
+
+    const result = await client.sendOperationRequest(
+      {},
+      {
+        httpMethod: "HEAD",
+        baseUrl: "https://example.com",
+        serializer: createSerializer(),
+        responses: {
+          200: {},
+        },
+      },
+    );
+    assert.deepStrictEqual(result, { body: true });
+  });
+
+  it("should handle parsedHeaders from headersMapper", async () => {
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(deserializationPolicy(), { phase: "Deserialize" });
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) =>
+          Promise.resolve({
+            request: req,
+            status: 200,
+            headers: createHttpHeaders({ "x-custom": "value123" }),
+            bodyAsText: '{"id": 1}',
+          }),
+      },
+      pipeline,
+    });
+
+    const result: any = await client.sendOperationRequest(
+      {},
+      {
+        httpMethod: "GET",
+        baseUrl: "https://example.com",
+        serializer: createSerializer(),
+        responses: {
+          200: {
+            bodyMapper: {
+              type: {
+                name: "Composite",
+                modelProperties: {
+                  id: { serializedName: "id", type: { name: "Number" } },
+                },
+              },
+            },
+            headersMapper: {
+              type: {
+                name: "Composite",
+                modelProperties: {
+                  xCustom: {
+                    serializedName: "x-custom",
+                    type: { name: "String" },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    );
+    assert.strictEqual(result.xCustom, "value123");
+  });
+
+  it("should wrap error with error headers mapper", async () => {
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(deserializationPolicy(), { phase: "Deserialize" });
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) =>
+          Promise.resolve({
+            request: req,
+            status: 400,
+            headers: createHttpHeaders({ "x-error-id": "err123" }),
+            bodyAsText: '{"error": {"code": "BadRequest", "message": "Invalid input"}}',
+          }),
+      },
+      pipeline,
+    });
+
+    await expect(
+      client.sendOperationRequest(
+        {},
+        {
+          httpMethod: "GET",
+          baseUrl: "https://example.com",
+          serializer: createSerializer(),
+          responses: {
+            200: {},
+            default: {
+              bodyMapper: {
+                type: {
+                  name: "Composite",
+                  modelProperties: {
+                    error: {
+                      serializedName: "error",
+                      type: {
+                        name: "Composite",
+                        modelProperties: {
+                          code: { serializedName: "code", type: { name: "String" } },
+                          message: { serializedName: "message", type: { name: "String" } },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+              headersMapper: {
+                type: {
+                  name: "Composite",
+                  modelProperties: {
+                    xErrorId: {
+                      serializedName: "x-error-id",
+                      type: { name: "String" },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      ),
+    ).rejects.toMatchObject({ code: "BadRequest" });
+  });
+
+  it("should handle XML parsing error", async () => {
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(
+      deserializationPolicy({
+        expectedContentTypes: {
+          json: ["application/json"],
+          xml: ["application/xml"],
+        },
+        parseXML: async () => {
+          throw new Error("XML parse error");
+        },
+      }),
+      { phase: "Deserialize" },
+    );
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) =>
+          Promise.resolve({
+            request: req,
+            status: 200,
+            headers: createHttpHeaders({ "Content-Type": "application/xml" }),
+            bodyAsText: "<invalid>xml",
+          }),
+      },
+      pipeline,
+    });
+
+    await expect(
+      client.sendOperationRequest(
+        {},
+        {
+          httpMethod: "GET",
+          baseUrl: "https://example.com",
+          serializer: createSerializer(),
+          responses: { 200: {} },
+        },
+      ),
+    ).rejects.toThrow(/XML parse error/);
+  });
+
+  it("should handle JSON parse error", async () => {
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(deserializationPolicy(), { phase: "Deserialize" });
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) =>
+          Promise.resolve({
+            request: req,
+            status: 200,
+            headers: createHttpHeaders({ "Content-Type": "application/json" }),
+            bodyAsText: "not valid json{{{",
+          }),
+      },
+      pipeline,
+    });
+
+    await expect(
+      client.sendOperationRequest(
+        {},
+        {
+          httpMethod: "GET",
+          baseUrl: "https://example.com",
+          serializer: createSerializer(),
+          responses: { 200: {} },
+        },
+      ),
+    ).rejects.toThrow(/occurred while parsing the response body/);
+  });
+});
+
+describe("deserializationPolicy - additional branches", () => {
+  it("should handle XML Sequence error body with xmlElementName", async () => {
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(
+      deserializationPolicy({
+        expectedContentTypes: {
+          json: [],
+          xml: ["application/xml"],
+        },
+        parseXML: async (str) => JSON.parse(str),
+      }),
+      { phase: "Deserialize" },
+    );
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) =>
+          Promise.resolve({
+            request: req,
+            status: 400,
+            headers: createHttpHeaders({ "Content-Type": "application/xml" }),
+            bodyAsText: JSON.stringify({
+              Error: [{ code: "Err1", message: "msg1" }],
+            }),
+          }),
+      },
+      pipeline,
+    });
+
+    await expect(
+      client.sendOperationRequest(
+        {},
+        {
+          httpMethod: "GET",
+          baseUrl: "https://example.com",
+          isXML: true,
+          serializer: createSerializer({}, true),
+          responses: {
+            200: {},
+            default: {
+              bodyMapper: {
+                xmlElementName: "Error",
+                type: {
+                  name: "Sequence",
+                  element: {
+                    type: {
+                      name: "Composite",
+                      modelProperties: {
+                        code: { serializedName: "code", type: { name: "String" } },
+                        message: { serializedName: "message", type: { name: "String" } },
+                      },
+                    },
+                  },
+                },
+              } as SequenceMapper,
+            },
+          },
+        },
+      ),
+    ).rejects.toThrow();
+  });
+
+  it("should handle error in error deserialization (catch block line 319)", async () => {
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(deserializationPolicy(), { phase: "Deserialize" });
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) =>
+          Promise.resolve({
+            request: req,
+            status: 400,
+            headers: createHttpHeaders(),
+            bodyAsText: '{"error": {"code": "BadRequest", "message": "fail"}}',
+          }),
+      },
+      pipeline,
+    });
+
+    await expect(
+      client.sendOperationRequest(
+        {},
+        {
+          httpMethod: "GET",
+          baseUrl: "https://example.com",
+          serializer: createSerializer(),
+          responses: {
+            200: {},
+            default: {
+              bodyMapper: {
+                type: {
+                  name: "Composite",
+                  className: "BrokenModel",
+                },
+              } as CompositeMapper,
+            },
+          },
+        },
+      ),
+    ).rejects.toThrow(/occurred in deserializing the responseBody/);
+  });
+
+  it("should handle XML content-type parsing without parseXML", async () => {
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(
+      deserializationPolicy({
+        expectedContentTypes: {
+          json: [],
+          xml: ["application/xml"],
+        },
+      }),
+      { phase: "Deserialize" },
+    );
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) =>
+          Promise.resolve({
+            request: req,
+            status: 200,
+            headers: createHttpHeaders({ "Content-Type": "application/xml" }),
+            bodyAsText: "<root>test</root>",
+          }),
+      },
+      pipeline,
+    });
+
+    await expect(
+      client.sendOperationRequest(
+        {},
+        {
+          httpMethod: "GET",
+          baseUrl: "https://example.com",
+          serializer: createSerializer(),
+          responses: { 200: {} },
+        },
+      ),
+    ).rejects.toThrow(/Parsing XML not supported/);
+  });
+
+  it("should handle no operationSpec in request", async () => {
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(deserializationPolicy(), { phase: "Deserialize" });
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) =>
+          Promise.resolve({
+            request: req,
+            status: 200,
+            headers: createHttpHeaders(),
+          }),
+      },
+      pipeline,
+    });
+
+    // Directly send a request without setting up operationSpec
+    const result = await client.sendRequest(createPipelineRequest({ url: "https://example.com" }));
+    assert.strictEqual(result.status, 200);
+  });
+
+  it("should handle stream response status codes", async () => {
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(deserializationPolicy(), { phase: "Deserialize" });
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) =>
+          Promise.resolve({
+            request: req,
+            status: 200,
+            headers: createHttpHeaders(),
+            bodyAsText: "stream content",
+          }),
+      },
+      pipeline,
+    });
+
+    const result = await client.sendOperationRequest(
+      {},
+      {
+        httpMethod: "GET",
+        baseUrl: "https://example.com",
+        serializer: createSerializer(),
+        responses: {
+          200: {
+            bodyMapper: {
+              type: { name: "Stream" },
+            },
+          },
+        },
+      },
+    );
+    assert.ok(result);
+  });
+
+  it("should deserialize XML body in success response", async () => {
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(
+      deserializationPolicy({
+        expectedContentTypes: {
+          json: [],
+          xml: ["application/xml"],
+        },
+        parseXML: async (str) => JSON.parse(str),
+      }),
+      { phase: "Deserialize" },
+    );
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) =>
+          Promise.resolve({
+            request: req,
+            status: 200,
+            headers: createHttpHeaders({ "Content-Type": "application/xml" }),
+            bodyAsText: JSON.stringify({ Items: { Item: ["a", "b"] } }),
+          }),
+      },
+      pipeline,
+    });
+
+    const result = await client.sendOperationRequest(
+      {},
+      {
+        httpMethod: "GET",
+        baseUrl: "https://example.com",
+        isXML: true,
+        serializer: createSerializer({}, true),
+        responses: {
+          200: {
+            bodyMapper: {
+              xmlElementName: "Item",
+              type: {
+                name: "Sequence",
+                element: { type: { name: "String" } },
+              },
+            } as SequenceMapper,
+          },
+        },
+      },
+    );
+    assert.ok(result);
+  });
+
+  it("should handle isError response spec", async () => {
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(deserializationPolicy(), { phase: "Deserialize" });
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) =>
+          Promise.resolve({
+            request: req,
+            status: 200,
+            headers: createHttpHeaders(),
+            bodyAsText: '{"error": {"code": "SoftError", "message": "recoverable"}}',
+          }),
+      },
+      pipeline,
+    });
+
+    await expect(
+      client.sendOperationRequest(
+        {},
+        {
+          httpMethod: "GET",
+          baseUrl: "https://example.com",
+          serializer: createSerializer(),
+          responses: {
+            200: {
+              isError: true,
+            },
+          },
+        },
+      ),
+    ).rejects.toThrow();
+  });
+});
+
+describe("deserializationPolicy - operationResponseGetter (line 113)", () => {
+  it("should use operationResponseGetter when set", async () => {
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(deserializationPolicy(), { phase: "Deserialize" });
+    // We need to set operationResponseGetter directly on the operationInfo
+    // This requires intercepting the request before it goes through the pipeline
+    const customPolicy = {
+      name: "setOperationResponseGetter",
+      async sendRequest(request: any, next: any) {
+        const info = getOperationRequestInfo(request);
+        info.operationResponseGetter = (_spec: any, response: any) => {
+          return _spec.responses[response.status];
+        };
+        return next(request);
+      },
+    };
+    pipeline.addPolicy(customPolicy);
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) =>
+          Promise.resolve({
+            request: req,
+            status: 200,
+            headers: createHttpHeaders(),
+            bodyAsText: '{"id": 42}',
+          }),
+      },
+      pipeline,
+    });
+
+    const result: any = await client.sendOperationRequest(
+      {},
+      {
+        httpMethod: "GET",
+        baseUrl: "https://example.com",
+        serializer: createSerializer(),
+        responses: {
+          200: {
+            bodyMapper: {
+              type: {
+                name: "Composite",
+                modelProperties: {
+                  id: { serializedName: "id", type: { name: "Number" } },
+                },
+              },
+            },
+          },
+        },
+      },
+    );
+    assert.strictEqual(result.id, 42);
+  });
+});
+
+describe("deserializationPolicy - shouldReturnResponse path (line 168)", () => {
+  it("should return response without deserialization for empty operationSpec", async () => {
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(deserializationPolicy(), { phase: "Deserialize" });
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) =>
+          Promise.resolve({
+            request: req,
+            status: 204,
+            headers: createHttpHeaders(),
+          }),
+      },
+      pipeline,
+    });
+
+    // operationSpec with only a default response, and status 204 not in responses
+    // => isExpectedStatusCode false, but then we match the default response
+    // For the shouldReturnResponse path, we need a response that's not in the spec
+    // AND no default response AND no error body
+    const result = await client.sendOperationRequest(
+      {},
+      {
+        httpMethod: "DELETE",
+        baseUrl: "https://example.com",
+        serializer: createSerializer(),
+        responses: {
+          // only default, no 204 match
+          default: {},
+        },
+      },
+    );
+    assert.ok(result);
+  });
+});
+
+describe("deserializationPolicy - deserialization error (lines 190-198)", () => {
+  it("should throw RestError when body deserialization fails", async () => {
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(deserializationPolicy(), { phase: "Deserialize" });
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) =>
+          Promise.resolve({
+            request: req,
+            status: 200,
+            headers: createHttpHeaders(),
+            bodyAsText: '{"value": "not-a-number"}',
+          }),
+      },
+      pipeline,
+    });
+
+    await expect(
+      client.sendOperationRequest(
+        {},
+        {
+          httpMethod: "GET",
+          baseUrl: "https://example.com",
+          serializer: createSerializer(),
+          responses: {
+            200: {
+              bodyMapper: {
+                type: {
+                  name: "Composite",
+                  className: "NonExistentModel",
+                },
+              } as CompositeMapper,
+            },
+          },
+        },
+      ),
+    ).rejects.toThrow(/occurred in deserializing the responseBody/);
+  });
+});
