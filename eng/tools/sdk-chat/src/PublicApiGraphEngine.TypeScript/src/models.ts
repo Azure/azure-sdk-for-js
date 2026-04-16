@@ -174,6 +174,8 @@ export interface ApiIndex {
 export interface DependencyInfo {
     /** The npm package name */
     package: string;
+    /** The installed package version (e.g. "2.1.0") */
+    version?: string;
     /** Whether this dependency is from the Node.js runtime (@types/node) */
     isNode?: boolean;
     /** Export conditions from the dependency's package.json (e.g. ["browser","import","require"]) */

@@ -81,7 +81,7 @@ public static class TypeScriptFormatter
             };
 
             var rawDts = Format(subIndex, condition);
-            var dts = WrapInDeclareModules(rawDts, index.Package);
+            var dts = WrapInDeclareModules(rawDts, index.Package, index.Version, index.Dependencies);
 
             // Replace ambient types placeholder with actual list of builtins
             // found in the rendered content.
@@ -103,8 +103,17 @@ public static class TypeScriptFormatter
     /// The result is a script file (no top-level import/export) so tsc won't resolve
     /// against node_modules.
     /// </summary>
-    private static string WrapInDeclareModules(string content, string packageName)
+    private static string WrapInDeclareModules(string content, string packageName, string? packageVersion, IReadOnlyList<DependencyInfo>? dependencies)
     {
+        // Build a lookup from package name to version for annotating declare module blocks
+        var versionLookup = new Dictionary<string, string>(StringComparer.Ordinal);
+        if (packageVersion != null)
+            versionLookup[packageName] = packageVersion;
+        if (dependencies != null)
+            foreach (var dep in dependencies)
+                if (dep.Version != null)
+                    versionLookup[dep.Package] = dep.Version;
+
         var lines = content.Split('\n');
         var preamble = new List<string>();       // /// <reference>, comments at top
         var imports = new List<string>();         // import type { ... } from "...";
@@ -213,6 +222,14 @@ public static class TypeScriptFormatter
 
         // 4. For each dep block, find cross-dep type references and inject imports
         var processedBlocks = new List<string>();
+        // Helper to annotate a "declare module" line with the package version
+        string AnnotateDeclareModule(string declareLine, string modName)
+        {
+            if (versionLookup.TryGetValue(modName, out var ver))
+                return $"{declareLine} // {ver}";
+            return declareLine;
+        }
+
         foreach (var (moduleName, blockLines) in declareModuleBlocks)
         {
             var neededImports = new Dictionary<string, HashSet<string>>(StringComparer.Ordinal);
@@ -235,9 +252,11 @@ public static class TypeScriptFormatter
                 }
             }
 
+            var annotatedFirst = AnnotateDeclareModule(blockLines[0], moduleName);
+
             if (neededImports.Count > 0)
             {
-                var newBlock = new List<string> { blockLines[0] };
+                var newBlock = new List<string> { annotatedFirst };
                 foreach (var (sourceModule, typeNames) in neededImports.OrderBy(kv => kv.Key))
                 {
                     var sorted = typeNames.OrderBy(t => t, StringComparer.Ordinal);
@@ -248,7 +267,9 @@ public static class TypeScriptFormatter
             }
             else
             {
-                processedBlocks.Add(string.Join("\n", blockLines));
+                var allLines = new List<string> { annotatedFirst };
+                allLines.AddRange(blockLines.Skip(1));
+                processedBlocks.Add(string.Join("\n", allLines));
             }
         }
 
@@ -267,7 +288,8 @@ public static class TypeScriptFormatter
         }
 
         // Main package wrapped in declare module
-        sb.AppendLine($"declare module \"{packageName}\" {{");
+        var mainDeclare = $"declare module \"{packageName}\" {{";
+        sb.AppendLine(AnnotateDeclareModule(mainDeclare, packageName));
 
         // Imports inside the declare module block
         foreach (var imp in imports)

@@ -877,7 +877,11 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
     const depByPackage = new Map<string, DependencyInfo>();
     for (const [typeName, { packageName, type, kind }] of allResolved) {
         if (!depByPackage.has(packageName)) {
-            depByPackage.set(packageName, { package: packageName, isNode: isNodePackage(packageName) || undefined });
+            depByPackage.set(packageName, {
+                package: packageName,
+                version: getPackageVersion(rootPath, packageName),
+                isNode: isNodePackage(packageName) || undefined,
+            });
         }
         const depInfo = depByPackage.get(packageName)!;
         switch (kind) {
@@ -1125,6 +1129,28 @@ export function findPackageInNodeModules(startDir: string, packageName: string):
         current = parent;
     }
     return false;
+}
+
+/**
+ * Reads the installed version of a dependency package.
+ */
+export function getPackageVersion(startDir: string, packageName: string): string | undefined {
+    let current = path.resolve(startDir);
+    const root = path.parse(current).root;
+    while (true) {
+        const pkgJsonPath = path.join(current, "node_modules", packageName, "package.json");
+        if (fs.existsSync(pkgJsonPath)) {
+            try {
+                const pkgJson = JSON.parse(fs.readFileSync(pkgJsonPath, "utf-8"));
+                return pkgJson.version || undefined;
+            } catch { /* benign */ }
+            return undefined;
+        }
+        const parent = path.dirname(current);
+        if (parent === current || current === root) break;
+        current = parent;
+    }
+    return undefined;
 }
 
 /**

@@ -168,6 +168,11 @@ public sealed record DependencyInfo
     [JsonPropertyName("package")]
     public string Package { get; init; } = "";
 
+    /// <summary>The installed package version (e.g. "2.1.0").</summary>
+    [JsonPropertyName("version")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Version { get; init; }
+
     /// <summary>Whether this dependency is from the Node.js runtime (@types/node).</summary>
     [JsonPropertyName("isNode")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
