@@ -25,7 +25,11 @@ public static class TypeScriptFormatter
         return dict;
     }
 
-    public static string Format(ApiIndex index, string? targetCondition = null) => Format(index, int.MaxValue, targetCondition);
+    public static string Format(ApiIndex index, string? targetCondition = null)
+    {
+        var result = Format(index, int.MaxValue, targetCondition);
+        return ReplaceAmbientTypesPlaceholder(result, index.ReferencedBuiltins);
+    }
 
     /// <summary>
     /// Formats the API surface as separate files per export condition (browser, import, require, etc.).
@@ -78,6 +82,11 @@ public static class TypeScriptFormatter
 
             var rawDts = Format(subIndex, condition);
             var dts = WrapInDeclareModules(rawDts, index.Package);
+
+            // Replace ambient types placeholder with actual list of builtins
+            // found in the rendered content.
+            dts = ReplaceAmbientTypesPlaceholder(dts, index.ReferencedBuiltins);
+
             var hasNodeDependency = index.Dependencies?.Any(d => d.IsNode) == true;
             var tsconfig = GenerateTsconfig(hasNodeDependency, dts);
             result[condition] = (dts, tsconfig);
@@ -331,6 +340,39 @@ public static class TypeScriptFormatter
     }
 
     /// <summary>
+    /// Replaces the ambient types placeholder with a comment listing only the
+    /// builtin types that actually appear in the rendered .d.ts content.
+    /// This filters out transitive internal types (like IteratorYieldResult)
+    /// that the compiler resolves but never appear in signatures.
+    /// </summary>
+    private static string ReplaceAmbientTypesPlaceholder(
+        string dtsContent, Dictionary<string, List<string>>? referencedBuiltins)
+    {
+        const string placeholder = "// __AMBIENT_TYPES_PLACEHOLDER__";
+        if (referencedBuiltins is not { Count: > 0 })
+            return dtsContent.Replace(placeholder + "\n", "").Replace(placeholder + "\r\n", "");
+
+        var lines = new List<string>();
+        foreach (var (category, types) in referencedBuiltins.OrderBy(kv => kv.Key))
+        {
+            var present = types.Where(t => ContainsTypeIdentifier(dtsContent, t)).ToList();
+            if (present.Count == 0) continue;
+            var label = category.ToUpperInvariant() switch
+            {
+                "DOM" => "DOM lib",
+                "ES" => "ES lib",
+                _ => category,
+            };
+            lines.Add($"// Ambient types from {label}: {string.Join(", ", present)}");
+        }
+
+        var replacement = lines.Count > 0
+            ? "//" + Environment.NewLine + string.Join(Environment.NewLine, lines)
+            : "";
+        return dtsContent.Replace(placeholder, replacement);
+    }
+
+    /// <summary>
     /// Generates a tsconfig.json for a specific export condition target.
     /// Browser targets get "dom" lib; node targets get @types/node.
     /// <paramref name="hasNodeDependency"/> is derived from the dependency graph's
@@ -562,23 +604,9 @@ public static class TypeScriptFormatter
         sb.AppendLine("/// <reference lib=\"es2020\" />");
         sb.AppendLine($"// {index.Package} - Public API Surface");
         sb.AppendLine("// Graphed by PublicApiGraphEngine.TypeScript");
-
-        // Emit summary of referenced builtin types by category
-        if (index.ReferencedBuiltins is { Count: > 0 })
-        {
-            sb.AppendLine("//");
-            foreach (var (category, types) in index.ReferencedBuiltins.OrderBy(kv => kv.Key))
-            {
-                var label = category.ToUpperInvariant() switch
-                {
-                    "DOM" => "DOM lib",
-                    "ES" => "ES lib",
-                    _ => category,
-                };
-                sb.AppendLine($"// Ambient types from {label}: {string.Join(", ", types)}");
-            }
-        }
-
+        // Placeholder for ambient types comment — filled after content is rendered
+        const string ambientPlaceholder = "// __AMBIENT_TYPES_PLACEHOLDER__";
+        sb.AppendLine(ambientPlaceholder);
         sb.AppendLine();
 
         // Get all classes, interfaces, and enums for prioritization
