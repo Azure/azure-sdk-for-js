@@ -45,6 +45,35 @@ describe("createAbortablePromise", function () {
     aborter.abort();
     await expect(promise).rejects.toThrowError(abortErrorMsg);
   });
+
+  it("should reject immediately if abort signal is already aborted", async function () {
+    const aborter = new AbortController();
+    aborter.abort();
+    const promise = createAbortablePromise(
+      (resolve) => {
+        setTimeout(() => resolve(undefined), 1000);
+      },
+      {
+        abortSignal: aborter.signal,
+        abortErrorMsg: "Already aborted",
+      },
+    );
+    await expect(promise).rejects.toThrowError("Already aborted");
+  });
+
+  it("should reject when buildPromise calls reject", async function () {
+    const promise = createAbortablePromise((_resolve, reject) => {
+      reject(new Error("build error"));
+    });
+    await expect(promise).rejects.toThrowError("build error");
+  });
+
+  it("should reject when buildPromise throws synchronously", async function () {
+    const promise = createAbortablePromise(() => {
+      throw new Error("sync throw");
+    });
+    await expect(promise).rejects.toThrowError("sync throw");
+  });
 });
 
 describe("cancelablePromiseRace", function () {
