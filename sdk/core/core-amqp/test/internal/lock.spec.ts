@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert, beforeEach } from "vitest";
+import { describe, it, assert, expect, beforeEach } from "vitest";
 import { AbortError } from "@azure/abort-controller";
 import type { CancellableAsyncLock } from "../../src/util/lock.js";
 import { CancellableAsyncLockImpl } from "../../src/util/lock.js";
@@ -383,27 +383,22 @@ describe("CancellableAsyncLock", function () {
     it("clamps negative timeoutInMs to 0 and rejects with OperationTimeoutError", async function () {
       const abortController = new AbortController();
       // Hold the lock so the second acquire must wait and hit the timeout
-      let releaseFirst!: () => void;
-      const firstHeld = new Promise<void>((resolve) => {
-        releaseFirst = resolve;
-      });
-      const firstTask = lock.acquire("negative-timeout-key", () => firstHeld, {
+      let resolve = (): void => {};
+      const held = new Promise<void>((r) => (resolve = r));
+      const firstTask = lock.acquire("negative-timeout-key", () => held, {
         timeoutInMs: 5000,
         abortSignal: abortController.signal,
       });
 
       // Second acquire with negative timeout should clamp to 0 and reject immediately
-      try {
-        await lock.acquire("negative-timeout-key", async () => "should not run", {
+      await expect(
+        lock.acquire("negative-timeout-key", async () => "should not run", {
           timeoutInMs: -100,
           abortSignal: abortController.signal,
-        });
-        assert.fail("Should have thrown OperationTimeoutError");
-      } catch (err: any) {
-        assert.instanceOf(err, OperationTimeoutError);
-      }
+        }),
+      ).rejects.toThrow(/timed out/);
 
-      releaseFirst();
+      resolve();
       await firstTask;
     });
   });

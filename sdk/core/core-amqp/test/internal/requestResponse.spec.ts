@@ -974,17 +974,13 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
       const connectionStub = createConnectionStub();
       const link = await RequestResponseLink.create(connectionStub, {}, {});
 
-      try {
-        await link.sendRequest(
+      // The OperationTimeoutError is wrapped by translate() into a MessagingError
+      await expect(
+        link.sendRequest(
           { body: "test" },
           { timeoutInMs: -500, requestName: "negativeTimeoutTest" },
-        );
-        assert.fail("Should have thrown");
-      } catch (err: any) {
-        // The OperationTimeoutError is wrapped by translate() into a MessagingError
-        assert.equal(err.name, "MessagingError");
-        assert.include(err.message, "timed out");
-      }
+        ),
+      ).rejects.toThrow(/timed out/);
     });
   });
 });
