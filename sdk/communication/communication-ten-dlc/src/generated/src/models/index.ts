@@ -179,6 +179,8 @@ export interface USCampaign {
   messageDetails?: MessageDetails;
   /** A list of summarized data of attachments currently added to the 10DLC Campaign */
   attachments?: CampaignAttachmentSummary[];
+  /** The Number Pool status for this campaign. Determines the maximum number of phone numbers that can be assigned. */
+  numberPoolStatus?: NumberPoolStatus;
 }
 
 /** Information about the campaign. */
@@ -460,6 +462,13 @@ export type AttachmentType =
   | "termsOfService"
   | "privacyPolicy"
   | "other";
+/** Defines values for NumberPoolStatus. */
+export type NumberPoolStatus =
+  | "None"
+  | "Requested"
+  | "ActivationPending"
+  | "Activated"
+  | "ActivationFailed";
 /** Defines values for FileType. */
 export type FileType = "png" | "jpg" | "jpeg" | "pdf";
 /** Defines values for PhoneNumberCapabilityType. */

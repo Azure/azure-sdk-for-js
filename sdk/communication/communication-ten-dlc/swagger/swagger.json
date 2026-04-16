@@ -1535,6 +1535,22 @@
           "items": {
             "$ref": "#/definitions/CampaignAttachmentSummary"
           }
+        },
+        "numberPoolStatus": {
+          "description": "The Number Pool status for this campaign. Determines the maximum number of phone numbers that can be assigned.",
+          "enum": [
+            "None",
+            "Requested",
+            "ActivationPending",
+            "Activated",
+            "ActivationFailed"
+          ],
+          "type": "string",
+          "x-nullable": true,
+          "x-ms-enum": {
+            "name": "NumberPoolStatus",
+            "modelAsString": true
+          }
         }
       }
     },

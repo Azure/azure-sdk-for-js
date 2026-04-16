@@ -536,6 +536,13 @@ export const USCampaign: coreClient.CompositeMapper = {
           },
         },
       },
+      numberPoolStatus: {
+        serializedName: "numberPoolStatus",
+        nullable: true,
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };

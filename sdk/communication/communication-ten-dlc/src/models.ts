@@ -95,6 +95,7 @@ export {
   ContentType,
   EntityType,
   MessageDetails,
+  NumberPoolStatus,
   ReviewNote,
   StockExchange,
   SubContentType,
