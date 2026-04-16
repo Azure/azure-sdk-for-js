@@ -381,6 +381,7 @@ describe("CancellableAsyncLock", function () {
     });
 
     it("clamps negative timeoutInMs to 0 and rejects with OperationTimeoutError", async function () {
+      const abortController = new AbortController();
       // Hold the lock so the second acquire must wait and hit the timeout
       let releaseFirst!: () => void;
       const firstHeld = new Promise<void>((resolve) => {
@@ -388,12 +389,14 @@ describe("CancellableAsyncLock", function () {
       });
       const firstTask = lock.acquire("negative-timeout-key", () => firstHeld, {
         timeoutInMs: 5000,
+        abortSignal: abortController.signal,
       });
 
       // Second acquire with negative timeout should clamp to 0 and reject immediately
       try {
         await lock.acquire("negative-timeout-key", async () => "should not run", {
           timeoutInMs: -100,
+          abortSignal: abortController.signal,
         });
         assert.fail("Should have thrown OperationTimeoutError");
       } catch (err: any) {
