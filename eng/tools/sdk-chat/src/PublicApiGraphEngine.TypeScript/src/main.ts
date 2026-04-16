@@ -89,7 +89,10 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
     if (fs.existsSync(mainPkgJsonPath)) {
         try {
             const mainPkg = JSON.parse(fs.readFileSync(mainPkgJsonPath, "utf-8"));
-            for (const depName of Object.keys(mainPkg.dependencies ?? {})) {
+            for (const depName of [
+                ...Object.keys(mainPkg.dependencies ?? {}),
+                ...Object.keys(mainPkg.peerDependencies ?? {}),
+            ]) {
                 ctx.directDependencies.add(depName);
             }
         } catch { /* non-fatal */ }
