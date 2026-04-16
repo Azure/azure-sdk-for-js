@@ -223,3 +223,42 @@ describe("Errors", function () {
     });
   });
 });
+
+describe("errors.ts - additional coverage", () => {
+  it("translate maps AMQP error with status-code: 404 in description to MessagingEntityNotFoundError", () => {
+    const err: any = {
+      name: "AmqpProtocolError",
+      condition: "amqp:not-found",
+      description: "The messaging entity blah could not be found. status-code: 404",
+    };
+    const translated = Errors.translate(err) as Errors.MessagingError;
+    assert.equal(translated.code, "MessagingEntityNotFoundError");
+  });
+
+  it("translate maps AMQP error with 'messaging entity could not be found' to MessagingEntityNotFoundError", () => {
+    const err: any = {
+      name: "AmqpProtocolError",
+      condition: "amqp:not-found",
+      description: "The messaging entity 'myentity' could not be found.",
+    };
+    const translated = Errors.translate(err) as Errors.MessagingError;
+    assert.equal(translated.code, "MessagingEntityNotFoundError");
+  });
+
+  it("translate handles already-translated MessagingError", () => {
+    const err = new Errors.MessagingError("already translated");
+    const translated = Errors.translate(err);
+    assert.strictEqual(translated, err);
+  });
+
+  it("translate handles MessageWaitTimeout condition", () => {
+    const err: any = {
+      name: "AmqpProtocolError",
+      condition: "com.microsoft:message-wait-timeout",
+      description: "No messages available",
+    };
+    const translated = Errors.translate(err) as Errors.MessagingError;
+    assert.equal(translated.name, "MessagingError");
+    assert.equal(translated.code, "MessageWaitTimeout");
+  });
+});

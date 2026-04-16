@@ -5,6 +5,12 @@ import { describe, it, assert, beforeEach } from "vitest";
 import { AbortError } from "@azure/abort-controller";
 import type { CancellableAsyncLock } from "../../src/util/lock.js";
 import { CancellableAsyncLockImpl } from "../../src/util/lock.js";
+
+type CancellableAsyncLockPrivate = CancellableAsyncLockImpl & {
+  _keyMap: Map<string, unknown[]>;
+  _removeTaskDetails: (key: string, taskDetails: unknown) => void;
+  _execute: (key: string) => Promise<void>;
+};
 import { OperationTimeoutError } from "rhea-promise";
 import { delay } from "../../src/index.js";
 import { settleAllTasks } from "../utils/utils.js";
@@ -379,5 +385,93 @@ describe("CancellableAsyncLock", function () {
         }
       }
     });
+  });
+});
+
+describe("lock.ts - edge cases", () => {
+  it("handles empty queue during processing", async () => {
+    const { CancellableAsyncLockImpl } = await import("../../src/util/lock.js");
+    const lock = new CancellableAsyncLockImpl();
+
+    // Simple task to verify the lock works
+    const result = await lock.acquire("test-key", async () => "done", {
+      abortSignal: undefined,
+      timeoutInMs: undefined,
+    });
+    assert.equal(result, "done");
+  });
+
+  it("handles timeout removing a task from the queue", async () => {
+    const { CancellableAsyncLockImpl } = await import("../../src/util/lock.js");
+    const { delay: coreDelay } = await import("@azure/core-util");
+    const lock = new CancellableAsyncLockImpl();
+
+    // Task 1: Hold the lock for a bit
+    const task1 = lock.acquire(
+      "key",
+      async () => {
+        await coreDelay(50);
+        return 1;
+      },
+      { abortSignal: undefined, timeoutInMs: undefined },
+    );
+
+    // Task 2: Times out immediately
+    const task2 = lock
+      .acquire(
+        "key",
+        async () => {
+          return 2;
+        },
+        { abortSignal: undefined, timeoutInMs: 0 },
+      )
+      .catch((err) => {
+        // Catch the timeout error to prevent unhandled rejection
+        assert.equal(err.name, "OperationTimeoutError");
+        return "timed-out";
+      });
+
+    const result1 = await task1;
+    assert.equal(result1, 1);
+
+    const result2 = await task2;
+    assert.equal(result2, "timed-out");
+  });
+});
+
+describe("lock.ts - _removeTaskDetails with empty queue (line 212)", () => {
+  it("_removeTaskDetails returns early when taskQueue is empty", async () => {
+    const { CancellableAsyncLockImpl } = await import("../../src/util/lock.js");
+    const lock = new CancellableAsyncLockImpl();
+
+    // Access private method via type assertion
+    const lockPrivate = lock as unknown as CancellableAsyncLockPrivate;
+
+    // Call _removeTaskDetails with a key that doesn't exist in the map
+    lockPrivate._removeTaskDetails("nonexistent-key", {});
+    // Should not throw - just returns early (line 211-212)
+  });
+
+  it("_removeTaskDetails returns early when taskQueue is empty array", async () => {
+    const { CancellableAsyncLockImpl } = await import("../../src/util/lock.js");
+    const lock = new CancellableAsyncLockImpl();
+
+    const lockPrivate = lock as unknown as CancellableAsyncLockPrivate;
+    // Set an empty array in the key map
+    lockPrivate._keyMap.set("empty-key", []);
+
+    // Call _removeTaskDetails - should hit the !taskQueue.length branch (line 210)
+    lockPrivate._removeTaskDetails("empty-key", {});
+  });
+
+  it("_execute returns early when taskQueue is empty (line 173-174)", async () => {
+    const { CancellableAsyncLockImpl } = await import("../../src/util/lock.js");
+    const lock = new CancellableAsyncLockImpl();
+
+    const lockPrivate = lock as unknown as CancellableAsyncLockPrivate;
+    // Ensure no task queue exists for the key
+    // Call _execute directly
+    await lockPrivate._execute("no-tasks-key");
+    // Should return immediately without error (line 173-174)
   });
 });

@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, vi } from "vitest";
 import { CbsClient, ConnectionConfig, ConnectionContextBase, Constants } from "../../src/index.js";
 import { Connection } from "rhea-promise";
+import type { Session, Sender, AwaitableSender, Receiver } from "rhea-promise";
 import type { ConnectionOptions as TlsConnectionOptions } from "node:tls";
 
 describe("ConnectionContextBase", function () {
@@ -346,5 +347,70 @@ describe("ConnectionContextBase", function () {
         assert.notEqual(context[field], refreshableFields[field]);
       }
     });
+  });
+});
+
+describe("ConnectionContextBase - CoreAmqpConnection", () => {
+  it("createSender sets maxListeners to 1000", async () => {
+    const { ConnectionContextBase, ConnectionConfig } = await import("../../src/index.js");
+    const connectionString =
+      "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
+    const config = ConnectionConfig.create(connectionString, "mypath");
+    const context = ConnectionContextBase.create({
+      config,
+      connectionProperties: {
+        product: "MSJSClient",
+        userAgent: "/js-amqp-client",
+        version: "1.0.0",
+      },
+    });
+    const conn = context.connection;
+
+    // Mock the parent class methods
+    const mockSender = {
+      setMaxListeners: vi.fn(),
+    };
+    const mockAwaitableSender = {
+      setMaxListeners: vi.fn(),
+    };
+    const mockReceiver = {
+      setMaxListeners: vi.fn(),
+    };
+
+    const createSessionSpy = vi.spyOn(conn, "createSession").mockResolvedValue({
+      createSender: () => Promise.resolve(mockSender),
+      createAwaitableSender: () => Promise.resolve(mockAwaitableSender),
+      createReceiver: () => Promise.resolve(mockReceiver),
+    } as unknown as Session);
+
+    // Test createSender by calling the Connection's createSession then the session's createSender
+    // But CoreAmqpConnection overrides createSender directly on Connection
+    // We need to mock super.createSender, super.createAwaitableSender, super.createReceiver
+
+    // Use prototype chain to test
+    const rheaPromise = await import("rhea-promise");
+    vi.spyOn(rheaPromise.Connection.prototype, "createSender").mockResolvedValue(
+      mockSender as unknown as Sender,
+    );
+    vi.spyOn(rheaPromise.Connection.prototype, "createAwaitableSender").mockResolvedValue(
+      mockAwaitableSender as unknown as AwaitableSender,
+    );
+    vi.spyOn(rheaPromise.Connection.prototype, "createReceiver").mockResolvedValue(
+      mockReceiver as unknown as Receiver,
+    );
+
+    const sender = await conn.createSender();
+    assert.isTrue(mockSender.setMaxListeners.mock.calls.length > 0);
+    assert.equal(mockSender.setMaxListeners.mock.calls[0][0], 1000);
+
+    const awaitableSender = await conn.createAwaitableSender();
+    assert.isTrue(mockAwaitableSender.setMaxListeners.mock.calls.length > 0);
+    assert.equal(mockAwaitableSender.setMaxListeners.mock.calls[0][0], 1000);
+
+    const receiver = await conn.createReceiver();
+    assert.isTrue(mockReceiver.setMaxListeners.mock.calls.length > 0);
+    assert.equal(mockReceiver.setMaxListeners.mock.calls[0][0], 1000);
+
+    createSessionSpy.mockRestore();
   });
 });
