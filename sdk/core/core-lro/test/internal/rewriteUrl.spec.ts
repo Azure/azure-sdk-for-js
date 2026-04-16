@@ -66,3 +66,12 @@ describe("rewriteUrl", () => {
     assert.equal(result, "https://new.example.com:8080/path");
   });
 });
+
+describe("http/utils.ts coverage", () => {
+  it("throws when relative URL cannot be resolved with invalid baseUrl", () => {
+    // relative URL that can't be parsed even with baseUrl as base
+    assert.throws(() => {
+      rewriteUrl({ url: "://malformed", baseUrl: "not-a-url" });
+    }, /Invalid input URL provided/);
+  });
+});
