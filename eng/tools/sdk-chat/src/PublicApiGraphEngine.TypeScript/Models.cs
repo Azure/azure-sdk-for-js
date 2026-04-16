@@ -33,10 +33,13 @@ public sealed record ApiIndex : IApiIndex
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<ApiIndex>? ResolvedDependencies { get; init; }
 
-    /// <summary>Builtin types referenced in the API, categorized by lib source (dom, es).</summary>
-    [JsonPropertyName("referencedBuiltins")]
+    /// <summary>
+    /// Ambient types needed by the API surface — referenced but not defined in the output.
+    /// Keyed by source category ("dom", "es", "node"), values are sorted type name arrays.
+    /// </summary>
+    [JsonPropertyName("ambientTypes")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Dictionary<string, List<string>>? ReferencedBuiltins { get; init; }
+    public Dictionary<string, List<string>>? AmbientTypes { get; init; }
 
     /// <summary>The ES lib target resolved from the package's tsconfig (e.g. "es2023").</summary>
     [JsonPropertyName("esLib")]

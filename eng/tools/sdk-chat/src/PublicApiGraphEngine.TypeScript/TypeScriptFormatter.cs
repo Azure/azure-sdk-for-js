@@ -28,7 +28,7 @@ public static class TypeScriptFormatter
     public static string Format(ApiIndex index, string? targetCondition = null)
     {
         var result = Format(index, int.MaxValue, targetCondition);
-        return ReplaceAmbientTypesPlaceholder(result, index.ReferencedBuiltins);
+        return ReplaceAmbientTypesPlaceholder(result, index.AmbientTypes);
     }
 
     /// <summary>
@@ -85,7 +85,7 @@ public static class TypeScriptFormatter
 
             // Replace ambient types placeholder with actual list of builtins
             // found in the rendered content.
-            dts = ReplaceAmbientTypesPlaceholder(dts, index.ReferencedBuiltins);
+            dts = ReplaceAmbientTypesPlaceholder(dts, index.AmbientTypes);
 
             var hasNodeDependency = index.Dependencies?.Any(d => d.IsNode) == true;
             var tsconfig = GenerateTsconfig(hasNodeDependency, dts);
@@ -339,74 +339,34 @@ public static class TypeScriptFormatter
         return false;
     }
 
-    /// <summary>
-    /// Checks whether <paramref name="typeName"/> is defined as a type declaration
-    /// (interface, class, type alias, or enum) in the rendered content.
-    /// Types that are self-defined don't need ambient resolution.
-    /// </summary>
-    private static bool IsDefinedAsType(string content, string typeName)
-    {
-        // Match patterns like: interface X {, class X {, type X =, enum X {
-        // Preceded by optional "export" and whitespace
-        ReadOnlySpan<string> keywords = ["interface ", "class ", "type ", "enum "];
-        foreach (var keyword in keywords)
-        {
-            var needle = keyword + typeName;
-            int index = 0;
-            while ((index = content.IndexOf(needle, index, StringComparison.Ordinal)) >= 0)
-            {
-                int endPos = index + needle.Length;
-                bool endOk = endPos >= content.Length
-                    || !char.IsLetterOrDigit(content[endPos]) && content[endPos] != '_';
-                if (endOk) return true;
-                index++;
-            }
-        }
-        return false;
-    }
 
     /// <summary>
-    /// Replaces the ambient types placeholder with a comment listing only the
-    /// builtin types that actually appear in the rendered .d.ts content.
-    /// This filters out transitive internal types (like IteratorYieldResult)
-    /// that the compiler resolves but never appear in signatures.
-    /// Also lists Node.js types detected via NodeGlobalIdentifiers scanning.
+    /// Replaces the ambient types placeholder with a comment listing
+    /// the pre-computed ambient types from the TS engine.
+    /// Ambient types are those referenced in signatures but not defined
+    /// in the output — they must come from the runtime environment.
     /// </summary>
     private static string ReplaceAmbientTypesPlaceholder(
-        string dtsContent, Dictionary<string, List<string>>? referencedBuiltins)
+        string dtsContent, Dictionary<string, List<string>>? ambientTypes)
     {
         const string placeholder = "// __AMBIENT_TYPES_PLACEHOLDER__";
 
         var lines = new List<string>();
 
-        // Builtin types from ES/DOM libs — only those not self-defined in the output
-        if (referencedBuiltins is { Count: > 0 })
+        if (ambientTypes is { Count: > 0 })
         {
-            foreach (var (category, types) in referencedBuiltins.OrderBy(kv => kv.Key))
+            foreach (var (category, types) in ambientTypes.OrderBy(kv => kv.Key))
             {
-                var present = types
-                    .Where(t => ContainsTypeIdentifier(dtsContent, t) && !IsDefinedAsType(dtsContent, t))
-                    .ToList();
-                if (present.Count == 0) continue;
+                if (types.Count == 0) continue;
                 var label = category.ToUpperInvariant() switch
                 {
                     "DOM" => "DOM lib",
                     "ES" => "ES lib",
+                    "NODE" => "Node.js",
                     _ => category,
                 };
-                lines.Add($"// Ambient types from {label}: {string.Join(", ", present)}");
+                lines.Add($"// Ambient types from {label}: {string.Join(", ", types)}");
             }
-        }
-
-        // Node.js types detected by scanning content for known Node globals
-        // (only those not self-defined as compat interfaces in the output)
-        {
-            var nodeTypes = NodeGlobalIdentifiers
-                .Where(t => ContainsTypeIdentifier(dtsContent, t) && !IsDefinedAsType(dtsContent, t))
-                .OrderBy(t => t, StringComparer.Ordinal)
-                .ToList();
-            if (nodeTypes.Count > 0)
-                lines.Add($"// Ambient types from Node.js: {string.Join(", ", nodeTypes)}");
         }
 
         if (lines.Count == 0)

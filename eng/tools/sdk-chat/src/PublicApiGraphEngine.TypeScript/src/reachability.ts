@@ -95,6 +95,109 @@ export function extractDeclaredTypeParamNames(typeParamStr: string | undefined):
  * Emits SELF_CONTAINMENT diagnostics to stderr for each dangling reference.
  */
 export function validateSelfContainment(api: ApiIndex, ctx: ExtractionContext): void {
+    const { defined, referenced, declaredTypeParams } = collectDefinedAndReferenced(api);
+
+    // Check each referenced name: is it defined, builtin, or node/web?
+    const dangling: string[] = [];
+    for (const name of referenced) {
+        if (defined.has(name)) continue;
+        if (PRIMITIVE_TYPES.has(name)) continue;
+        if (ctx.isBuiltinType(name)) continue;
+        if (declaredTypeParams.has(name)) continue;
+        dangling.push(name);
+    }
+
+    if (dangling.length > 0) {
+        const sorted = dangling.sort();
+        console.error(`Self-containment: ${sorted.length} type(s) referenced in signatures but not defined: ${sorted.join(", ")}`);
+    }
+}
+
+/**
+ * Known Node.js global type names that come from @types/node and may appear
+ * in API signatures without being explicitly defined in the output.
+ */
+const NODE_GLOBAL_TYPES = new Set([
+    "Buffer", "NodeJS", "FsReadStream", "KeyObject", "Readable", "Writable",
+    "Stream", "EventEmitter", "IncomingMessage", "ServerResponse",
+]);
+
+/**
+ * Computes the set of ambient types needed by the API surface.
+ * These are type names that appear in signatures but are NOT defined in the
+ * output — they must come from the runtime environment (DOM lib, ES lib, or Node.js).
+ *
+ * Classification:
+ * - Types tracked as builtins during extraction (ctx.referencedBuiltins) that are
+ *   unresolved → classified by their lib source (dom/es) using symbol declaration paths
+ * - Remaining unresolved types matching known Node.js globals → "node"
+ * - Other unresolved types are ignored (they're dangling references, not ambient types)
+ */
+export function computeAmbientTypes(
+    api: ApiIndex, ctx: ExtractionContext,
+): Record<string, string[]> {
+    const { defined, referenced, declaredTypeParams } = collectDefinedAndReferenced(api, true);
+
+    // Compute the set of unresolved type names — referenced but not self-contained
+    const unresolved = new Set<string>();
+    for (const name of referenced) {
+        if (defined.has(name)) continue;
+        if (PRIMITIVE_TYPES.has(name)) continue;
+        if (declaredTypeParams.has(name)) continue;
+        unresolved.add(name);
+    }
+
+    if (unresolved.size === 0) return {};
+
+    const result: Record<string, Set<string>> = {};
+
+    function addToCategory(category: string, name: string): void {
+        (result[category] ??= new Set()).add(name);
+    }
+
+    // 1. Classify builtins (DOM/ES) — use the category tracked during extraction
+    //    (which was determined from symbol declaration file paths)
+    for (const [category, names] of ctx.referencedBuiltins) {
+        for (const name of names) {
+            if (unresolved.has(name)) {
+                addToCategory(category, name);
+                unresolved.delete(name);
+            }
+        }
+    }
+
+    // 2. Remaining unresolved types: check if they're known Node.js globals
+    for (const name of unresolved) {
+        if (NODE_GLOBAL_TYPES.has(name)) {
+            addToCategory("node", name);
+        }
+    }
+
+    // Convert Sets to sorted arrays
+    const out: Record<string, string[]> = {};
+    for (const [cat, names] of Object.entries(result).sort(([a], [b]) => a.localeCompare(b))) {
+        if (names.size > 0) out[cat] = [...names].sort();
+    }
+    return out;
+}
+
+// ============================================================================
+// Shared helpers for self-containment analysis
+// ============================================================================
+
+/**
+ * Collects all defined type names, all referenced type names, and all
+ * declared generic type parameters from the API index.
+ *
+ * @param includeDependencyReferences - When true, also scans dependency type
+ *   bodies for referenced type names (needed for ambient type computation).
+ *   When false (default), only scans main module signatures (for self-containment).
+ */
+function collectDefinedAndReferenced(api: ApiIndex, includeDependencyReferences = false): {
+    defined: Set<string>;
+    referenced: Set<string>;
+    declaredTypeParams: Set<string>;
+} {
     // Collect all defined type names (from main modules + dependencies)
     const defined = new Set<string>();
     for (const mod of api.modules) {
@@ -117,9 +220,6 @@ export function validateSelfContainment(api: ApiIndex, ctx: ExtractionContext): 
     }
 
     // Collect declared generic type parameter names to exclude from dangling check.
-    // These are declaration-site names (T, K, V, TResult, etc.) that appear in
-    // signatures but are not standalone types — they are bound by the enclosing
-    // generic declaration.
     const declaredTypeParams = new Set<string>();
 
     function collectTypeParams(typeParamStr: string | undefined): void {
@@ -159,8 +259,8 @@ export function validateSelfContainment(api: ApiIndex, ctx: ExtractionContext): 
         }
     }
 
-    for (const mod of api.modules) {
-        for (const c of mod.classes || []) {
+    function scanEntities(source: { classes?: any[]; interfaces?: any[]; types?: any[]; functions?: any[]; namespaces?: NamespaceInfo[] }): void {
+        for (const c of source.classes || []) {
             collectTypeParams(c.typeParams);
             scanType(c.extends);
             for (const impl of c.implements || []) scanType(impl);
@@ -173,7 +273,7 @@ export function validateSelfContainment(api: ApiIndex, ctx: ExtractionContext): 
                 for (const p of ctor.params || []) scanType(p.type);
             }
         }
-        for (const i of mod.interfaces || []) {
+        for (const i of source.interfaces || []) {
             collectTypeParams(i.typeParams);
             for (const ext of i.extends || []) scanType(ext);
             scanType(i.typeParams);
@@ -181,12 +281,12 @@ export function validateSelfContainment(api: ApiIndex, ctx: ExtractionContext): 
             scanProperties(i.properties);
             scanIndexSigs(i.indexSignatures);
         }
-        for (const t of mod.types || []) {
+        for (const t of source.types || []) {
             collectTypeParams(t.typeParams);
             scanType(t.type);
             scanType(t.typeParams);
         }
-        for (const f of mod.functions || []) {
+        for (const f of source.functions || []) {
             collectTypeParams(f.typeParams);
             scanType(f.sig);
             scanType(f.ret);
@@ -195,20 +295,17 @@ export function validateSelfContainment(api: ApiIndex, ctx: ExtractionContext): 
         }
     }
 
-    // Check each referenced name: is it defined, builtin, or node/web?
-    const dangling: string[] = [];
-    for (const name of referenced) {
-        if (defined.has(name)) continue;
-        if (PRIMITIVE_TYPES.has(name)) continue;
-        if (ctx.isBuiltinType(name)) continue;
-        if (declaredTypeParams.has(name)) continue;
-        dangling.push(name);
+    for (const mod of api.modules) {
+        scanEntities(mod);
     }
 
-    if (dangling.length > 0) {
-        const sorted = dangling.sort();
-        console.error(`Self-containment: ${sorted.length} type(s) referenced in signatures but not defined: ${sorted.join(", ")}`);
+    if (includeDependencyReferences && api.dependencies) {
+        for (const dep of api.dependencies) {
+            scanEntities(dep);
+        }
     }
+
+    return { defined, referenced, declaredTypeParams };
 }
 
 // ============================================================================

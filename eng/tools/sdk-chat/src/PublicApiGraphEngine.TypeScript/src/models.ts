@@ -158,8 +158,12 @@ export interface ApiIndex {
     dependencies?: DependencyInfo[];
     /** Fully resolved dependency packages with condition-aware modules */
     resolvedDependencies?: ApiIndex[];
-    /** Builtin types referenced in the API, categorized by lib source (dom, es) */
-    referencedBuiltins?: Record<string, string[]>;
+    /**
+     * Ambient types needed by the API surface — referenced but not defined in the output.
+     * Keyed by source category ("dom", "es", "node"), values are sorted type name arrays.
+     * Only includes types that must come from the runtime environment.
+     */
+    ambientTypes?: Record<string, string[]>;
     /** The ES lib target resolved from the package's tsconfig (e.g. "es2023") */
     esLib?: string;
 }

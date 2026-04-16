@@ -28,7 +28,7 @@ import {
     getConditionPriority,
 } from "./entry-points.js";
 import type { EngineOptions, ExportEntry } from "./entry-points.js";
-import { computeReachableTypes, validateSelfContainment } from "./reachability.js";
+import { computeReachableTypes, validateSelfContainment, computeAmbientTypes } from "./reachability.js";
 import {
     resolveTransitiveDependencies,
     buildResolvedDependencies,
@@ -483,13 +483,10 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
     // .d.ts output incomplete.
     validateSelfContainment(baseResult, ctx);
 
-    // Populate referencedBuiltins from the context
-    if (ctx.referencedBuiltins.size > 0) {
-        const builtins: Record<string, string[]> = {};
-        for (const [category, names] of ctx.referencedBuiltins) {
-            builtins[category] = [...names].sort();
-        }
-        baseResult.referencedBuiltins = builtins;
+    // Compute ambient types: unresolved references classified by source (dom/es/node)
+    const ambientTypes = computeAmbientTypes(baseResult, ctx);
+    if (Object.keys(ambientTypes).length > 0) {
+        baseResult.ambientTypes = ambientTypes;
     }
 
     return baseResult;
