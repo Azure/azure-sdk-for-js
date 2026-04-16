@@ -1625,8 +1625,8 @@ export enum KnownTransformationSerializationFormat {
 export enum KnownVersions {
     "V2024-11-01" = "2024-11-01",
     V20250401 = "2025-04-01",
-    Versions20251001 = "2025-10-01",
-    Versions20260301 = "2026-03-01"
+    V20251001 = "2025-10-01",
+    V20260301 = "2026-03-01"
 }
 
 // @public

@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.0 (2026-04-09)
+## 2.0.0 (2026-04-16)
 
 ### Features Added
   - Added operation group AkriConnectorOperations
@@ -216,8 +216,8 @@
   - Added Enum KnownResourceHealthState
   - Enum KnownEndpointType has a new value OpenTelemetry
   - Enum KnownVersions has a new value V20250401
-  - Enum KnownVersions has a new value Versions20251001
-  - Enum KnownVersions has a new value Versions20260301
+  - Enum KnownVersions has a new value V20251001
+  - Enum KnownVersions has a new value V20260301
 
 ### Breaking Changes
   - Operation BrokerAuthenticationOperations.createOrUpdate has a new signature
