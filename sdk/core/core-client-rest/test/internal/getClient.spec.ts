@@ -293,6 +293,120 @@ describe("getClient", () => {
       .get();
   });
 
+  describe("HTTP methods", () => {
+    it("should support post method", async () => {
+      let policyExecuted = false;
+      const client = getClient("https://example.org", { httpClient });
+      const validationPolicy: PipelinePolicy = {
+        name: "validationPolicy",
+        sendRequest: (req, next) => {
+          policyExecuted = true;
+          assert.equal(req.method, "POST");
+          return next(req);
+        },
+      };
+      client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
+      await client.pathUnchecked("/foo").post();
+      assert.isTrue(policyExecuted, "Validation policy should have executed");
+    });
+
+    it("should support put method", async () => {
+      let policyExecuted = false;
+      const client = getClient("https://example.org", { httpClient });
+      const validationPolicy: PipelinePolicy = {
+        name: "validationPolicy",
+        sendRequest: (req, next) => {
+          policyExecuted = true;
+          assert.equal(req.method, "PUT");
+          return next(req);
+        },
+      };
+      client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
+      await client.pathUnchecked("/foo").put();
+      assert.isTrue(policyExecuted, "Validation policy should have executed");
+    });
+
+    it("should support patch method", async () => {
+      let policyExecuted = false;
+      const client = getClient("https://example.org", { httpClient });
+      const validationPolicy: PipelinePolicy = {
+        name: "validationPolicy",
+        sendRequest: (req, next) => {
+          policyExecuted = true;
+          assert.equal(req.method, "PATCH");
+          return next(req);
+        },
+      };
+      client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
+      await client.pathUnchecked("/foo").patch();
+      assert.isTrue(policyExecuted, "Validation policy should have executed");
+    });
+
+    it("should support delete method", async () => {
+      let policyExecuted = false;
+      const client = getClient("https://example.org", { httpClient });
+      const validationPolicy: PipelinePolicy = {
+        name: "validationPolicy",
+        sendRequest: (req, next) => {
+          policyExecuted = true;
+          assert.equal(req.method, "DELETE");
+          return next(req);
+        },
+      };
+      client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
+      await client.pathUnchecked("/foo").delete();
+      assert.isTrue(policyExecuted, "Validation policy should have executed");
+    });
+
+    it("should support head method", async () => {
+      let policyExecuted = false;
+      const client = getClient("https://example.org", { httpClient });
+      const validationPolicy: PipelinePolicy = {
+        name: "validationPolicy",
+        sendRequest: (req, next) => {
+          policyExecuted = true;
+          assert.equal(req.method, "HEAD");
+          return next(req);
+        },
+      };
+      client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
+      await client.pathUnchecked("/foo").head();
+      assert.isTrue(policyExecuted, "Validation policy should have executed");
+    });
+
+    it("should support options method", async () => {
+      let policyExecuted = false;
+      const client = getClient("https://example.org", { httpClient });
+      const validationPolicy: PipelinePolicy = {
+        name: "validationPolicy",
+        sendRequest: (req, next) => {
+          policyExecuted = true;
+          assert.equal(req.method, "OPTIONS");
+          return next(req);
+        },
+      };
+      client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
+      await client.pathUnchecked("/foo").options();
+      assert.isTrue(policyExecuted, "Validation policy should have executed");
+    });
+
+    it("should support trace method", async () => {
+      let policyExecuted = false;
+      const client = getClient("https://example.org", { httpClient });
+      const validationPolicy: PipelinePolicy = {
+        name: "validationPolicy",
+        sendRequest: (req, next) => {
+          policyExecuted = true;
+          assert.equal(req.method, "TRACE");
+          return next(req);
+        },
+      };
+      client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
+      await client.pathUnchecked("/foo").trace();
+      assert.isTrue(policyExecuted, "Validation policy should have executed");
+    });
+  });
+
   describe("when pipeline is passed via options", () => {
     it("should use the provided pipeline when passed via second parameter (options only)", async () => {
       let customPolicyInvoked = false;
