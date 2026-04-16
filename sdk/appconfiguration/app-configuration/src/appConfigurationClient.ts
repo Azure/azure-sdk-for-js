@@ -44,7 +44,7 @@ import {
 import type { PagedAsyncIterableIterator, PagedResult } from "@azure/core-paging";
 import { getPagedAsyncIterator } from "@azure/core-paging";
 import type { PipelinePolicy, RestError } from "@azure/core-rest-pipeline";
-import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import { bearerTokenAuthenticationPolicyName } from "@azure/core-rest-pipeline";
 import { audienceErrorHandlingPolicy } from "./internal/audienceErrorHandlingPolicy.js";
 import { SyncTokens, syncTokenPolicy } from "./internal/syncTokenPolicy.js";
 import { queryParamPolicy } from "./internal/queryParamPolicy.js";
@@ -154,8 +154,9 @@ export class AppConfigurationClient {
     let appConfigOptions: InternalAppConfigurationClientOptions = {};
     let appConfigCredential: TokenCredential | KeyCredential;
     let appConfigEndpoint: string;
-    let authPolicy: PipelinePolicy;
-    let scope: string;
+    let appConfigAuthPolicy: PipelinePolicy | undefined;
+    let authPolicyName: string | undefined;
+    let tokenCredentialScopes: string[] | undefined;
 
     if (isTokenCredential(tokenCredentialOrOptions)) {
       appConfigOptions = (options as InternalAppConfigurationClientOptions) || {};
@@ -163,22 +164,20 @@ export class AppConfigurationClient {
       appConfigEndpoint = connectionStringOrEndpoint.endsWith("/")
         ? connectionStringOrEndpoint.slice(0, -1)
         : connectionStringOrEndpoint;
-      scope = getScope(appConfigEndpoint, appConfigOptions.audience);
-      authPolicy = bearerTokenAuthenticationPolicy({
-        scopes: scope,
-        credential: appConfigCredential,
-      });
+      authPolicyName = bearerTokenAuthenticationPolicyName;
+      tokenCredentialScopes = [getScope(appConfigEndpoint, appConfigOptions.audience)];
     } else {
       appConfigOptions = (tokenCredentialOrOptions as InternalAppConfigurationClientOptions) || {};
       const regexMatch = connectionStringOrEndpoint?.match(ConnectionStringRegex);
       if (regexMatch) {
         appConfigEndpoint = regexMatch[1];
         appConfigCredential = { key: regexMatch[2] };
-        authPolicy = appConfigKeyCredentialPolicy(regexMatch[2], regexMatch[3]);
+        appConfigAuthPolicy = appConfigKeyCredentialPolicy(regexMatch[2], regexMatch[3]);
+        authPolicyName = appConfigAuthPolicy.name;
       } else {
         throw new Error(
           `Invalid connection string. Valid connection strings should match the regex '${ConnectionStringRegex.source}'.` +
-            ` To mitigate the issue, please refer to the troubleshooting guide here at https://aka.ms/azsdk/js/app-configuration/troubleshoot.`,
+          ` To mitigate the issue, please refer to the troubleshooting guide here at https://aka.ms/azsdk/js/app-configuration/troubleshoot.`,
         );
       }
     }
@@ -191,20 +190,31 @@ export class AppConfigurationClient {
       apiVersion: options?.apiVersion ?? appConfigurationApiVersion,
     };
 
+    if (tokenCredentialScopes) {
+      generatedClientOptions.credentials = {
+        ...(generatedClientOptions.credentials ?? {}),
+        scopes: tokenCredentialScopes,
+      };
+    }
+
     this._syncTokens = appConfigOptions.syncTokens || new SyncTokens();
     this.client = new AzureAppConfigurationClient(
       appConfigEndpoint,
       appConfigCredential,
       generatedClientOptions,
     );
-    this.client.pipeline.addPolicy(
-      audienceErrorHandlingPolicy(appConfigOptions?.audience !== undefined),
-      {
-        phase: "Sign",
-        beforePolicies: [authPolicy.name],
-      },
-    );
-    this.client.pipeline.addPolicy(authPolicy, { phase: "Sign" });
+    if (isTokenCredential(tokenCredentialOrOptions) && authPolicyName) {
+      this.client.pipeline.addPolicy(
+        audienceErrorHandlingPolicy(appConfigOptions?.audience !== undefined),
+        {
+          phase: "Sign",
+          beforePolicies: [authPolicyName],
+        },
+      );
+    }
+    if (appConfigAuthPolicy) {
+      this.client.pipeline.addPolicy(appConfigAuthPolicy, { phase: "Sign" });
+    }
     this.client.pipeline.addPolicy(queryParamPolicy());
     this.client.pipeline.addPolicy(syncTokenPolicy(this._syncTokens), { afterPhase: "Retry" });
   }
@@ -401,53 +411,53 @@ export class AppConfigurationClient {
     const pageEtags = options.pageEtags ? [...options.pageEtags] : undefined;
     delete options.pageEtags;
     const pagedResult: PagedResult<ListConfigurationSettingPage, PageSettings, string | undefined> =
-      {
-        firstPageLink: undefined,
-        getPage: async (pageLink: string | undefined) => {
-          const etag = pageEtags?.shift();
-          try {
-            const response = await this.sendConfigurationSettingsRequest(
-              { ...options, etag },
-              pageLink,
+    {
+      firstPageLink: undefined,
+      getPage: async (pageLink: string | undefined) => {
+        const etag = pageEtags?.shift();
+        try {
+          const response = await this.sendConfigurationSettingsRequest(
+            { ...options, etag },
+            pageLink,
+          );
+          const currentResponse: ListConfigurationSettingPage = {
+            ...response,
+            items: response.items != null ? response.items?.map(transformKeyValue) : [],
+            continuationToken: response.nextLink
+              ? extractAfterTokenFromNextLink(response.nextLink)
+              : undefined,
+            _response: response._response,
+          };
+          return {
+            page: currentResponse,
+            nextPageLink: currentResponse.continuationToken,
+          };
+        } catch (error) {
+          const err = error as RestError;
+
+          const link = err.response?.headers?.get("link");
+          const continuationToken = link ? extractAfterTokenFromLinkHeader(link) : undefined;
+
+          if (err.statusCode === 304) {
+            err.message = `Status 304: No updates for this page`;
+            logger.info(
+              `[listConfigurationSettings] No updates for this page. The current etag for the page is ${etag}`,
             );
-            const currentResponse: ListConfigurationSettingPage = {
-              ...response,
-              items: response.items != null ? response.items?.map(transformKeyValue) : [],
-              continuationToken: response.nextLink
-                ? extractAfterTokenFromNextLink(response.nextLink)
-                : undefined,
-              _response: response._response,
-            };
             return {
-              page: currentResponse,
-              nextPageLink: currentResponse.continuationToken,
+              page: {
+                items: [],
+                etag,
+                _response: { ...err.response, status: 304 },
+              } as unknown as ListConfigurationSettingPage,
+              nextPageLink: continuationToken,
             };
-          } catch (error) {
-            const err = error as RestError;
-
-            const link = err.response?.headers?.get("link");
-            const continuationToken = link ? extractAfterTokenFromLinkHeader(link) : undefined;
-
-            if (err.statusCode === 304) {
-              err.message = `Status 304: No updates for this page`;
-              logger.info(
-                `[listConfigurationSettings] No updates for this page. The current etag for the page is ${etag}`,
-              );
-              return {
-                page: {
-                  items: [],
-                  etag,
-                  _response: { ...err.response, status: 304 },
-                } as unknown as ListConfigurationSettingPage,
-                nextPageLink: continuationToken,
-              };
-            }
-
-            throw err;
           }
-        },
-        toElements: (page) => page.items,
-      };
+
+          throw err;
+        }
+      },
+      toElements: (page) => page.items,
+    };
     return getPagedAsyncIterator(pagedResult);
   }
 
@@ -475,54 +485,54 @@ export class AppConfigurationClient {
     const pageEtags = options.pageEtags ? [...options.pageEtags] : undefined;
     delete options.pageEtags;
     const pagedResult: PagedResult<ListConfigurationSettingPage, PageSettings, string | undefined> =
-      {
-        firstPageLink: undefined,
-        getPage: async (pageLink: string | undefined) => {
-          const etag = pageEtags?.shift();
-          try {
-            const response = await this.checkConfigurationSettingsRequest(
-              { ...options, etag },
-              pageLink,
+    {
+      firstPageLink: undefined,
+      getPage: async (pageLink: string | undefined) => {
+        const etag = pageEtags?.shift();
+        try {
+          const response = await this.checkConfigurationSettingsRequest(
+            { ...options, etag },
+            pageLink,
+          );
+          const link = response._response?.headers?.["link"] as string | undefined;
+          const continuationToken = link ? extractAfterTokenFromLinkHeader(link) : undefined;
+          const currentResponse: ListConfigurationSettingPage = {
+            ...response,
+            etag: response._response?.headers?.["etag"] as string | undefined,
+            items: [],
+            continuationToken: continuationToken,
+            _response: response._response,
+          };
+          return {
+            page: currentResponse,
+            nextPageLink: currentResponse.continuationToken,
+          };
+        } catch (error) {
+          const err = error as RestError;
+
+          const link = err.response?.headers?.get("link");
+          const continuationToken = link ? extractAfterTokenFromLinkHeader(link) : undefined;
+
+          if (err.statusCode === 304) {
+            err.message = `Status 304: No updates for this page`;
+            logger.info(
+              `[checkConfigurationSettings] No updates for this page. The current etag for the page is ${etag}`,
             );
-            const link = response._response?.headers?.["link"] as string | undefined;
-            const continuationToken = link ? extractAfterTokenFromLinkHeader(link) : undefined;
-            const currentResponse: ListConfigurationSettingPage = {
-              ...response,
-              etag: response._response?.headers?.["etag"] as string | undefined,
-              items: [],
-              continuationToken: continuationToken,
-              _response: response._response,
-            };
             return {
-              page: currentResponse,
-              nextPageLink: currentResponse.continuationToken,
+              page: {
+                items: [],
+                etag,
+                _response: { ...err.response, status: 304 },
+              } as unknown as ListConfigurationSettingPage,
+              nextPageLink: continuationToken,
             };
-          } catch (error) {
-            const err = error as RestError;
-
-            const link = err.response?.headers?.get("link");
-            const continuationToken = link ? extractAfterTokenFromLinkHeader(link) : undefined;
-
-            if (err.statusCode === 304) {
-              err.message = `Status 304: No updates for this page`;
-              logger.info(
-                `[checkConfigurationSettings] No updates for this page. The current etag for the page is ${etag}`,
-              );
-              return {
-                page: {
-                  items: [],
-                  etag,
-                  _response: { ...err.response, status: 304 },
-                } as unknown as ListConfigurationSettingPage,
-                nextPageLink: continuationToken,
-              };
-            }
-
-            throw err;
           }
-        },
-        toElements: (page) => page.items,
-      };
+
+          throw err;
+        }
+      },
+      toElements: (page) => page.items,
+    };
     return getPagedAsyncIterator(pagedResult);
   }
 
@@ -551,27 +561,27 @@ export class AppConfigurationClient {
     options: ListConfigurationSettingsForSnapshotOptions = {},
   ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
     const pagedResult: PagedResult<ListConfigurationSettingPage, PageSettings, string | undefined> =
-      {
-        firstPageLink: undefined,
-        getPage: async (pageLink: string | undefined) => {
-          const response = await this.sendConfigurationSettingsRequest(
-            { snapshotName, ...options },
-            pageLink,
-          );
-          const currentResponse = {
-            ...response,
-            items: response.items != null ? response.items?.map(transformKeyValue) : [],
-            continuationToken: response.nextLink
-              ? extractAfterTokenFromNextLink(response.nextLink)
-              : undefined,
-          };
-          return {
-            page: currentResponse,
-            nextPageLink: currentResponse.continuationToken,
-          };
-        },
-        toElements: (page) => page.items,
-      };
+    {
+      firstPageLink: undefined,
+      getPage: async (pageLink: string | undefined) => {
+        const response = await this.sendConfigurationSettingsRequest(
+          { snapshotName, ...options },
+          pageLink,
+        );
+        const currentResponse = {
+          ...response,
+          items: response.items != null ? response.items?.map(transformKeyValue) : [],
+          continuationToken: response.nextLink
+            ? extractAfterTokenFromNextLink(response.nextLink)
+            : undefined,
+        };
+        return {
+          page: currentResponse,
+          nextPageLink: currentResponse.continuationToken,
+        };
+      },
+      toElements: (page) => page.items,
+    };
     return getPagedAsyncIterator(pagedResult);
   }
 
