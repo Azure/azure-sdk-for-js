@@ -1,10 +1,21 @@
 # Release History
 
-## 7.10.0-beta.4 (2026-03-10)
+## 7.10.0-beta.5 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
 
 ### Bugs Fixed
 
 - Fixed `TimeoutNegativeWarning` on Node.js v24+ when timeout budget is exceeded during CBS authentication by clamping remaining-time computations to a minimum of 0. [#38166](https://github.com/Azure/azure-sdk-for-js/pull/38166)
+
+### Other Changes
+
+## 7.10.0-beta.4 (2026-03-10)
+
+### Bugs Fixed
+
 - Restored previous message batch delete behavior
 
 ## 7.10.0-beta.3 (2026-02-10)
