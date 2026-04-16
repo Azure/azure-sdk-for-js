@@ -35,6 +35,7 @@ export const PRIMITIVE_TYPES = new Set([
 ]);
 
 
+
 export class ExtractionContext {
     /** The ts-morph Project used for this extraction. */
     readonly project: Project;
@@ -50,6 +51,14 @@ export class ExtractionContext {
      * type references so stubs are self-contained.
      */
     namespaceAliases: Set<string> = new Set();
+
+    /**
+     * Package names of the main package's direct production dependencies.
+     * Used by the collision detector to avoid pulling in transitive deps
+     * (e.g., undici via openai) when a type name collides with a builtin.
+     * Populated by `extractPackage()` after reading the main package's package.json.
+     */
+    directDependencies: Set<string> = new Set();
 
     /** Lazily-resolved builtin type names from TypeScript lib files. */
     private _discoveredBuiltins: Set<string> | undefined;
@@ -116,7 +125,17 @@ export class ExtractionContext {
 
 /**
  * Scans all source files from TypeScript lib to collect
- * every declared interface, class, type alias, enum, and variable name.
+ * every declared interface, class, type alias, and enum name.
+ *
+ * NOTE: Variable declarations (e.g., `declare var Audio`, `declare var Image`)
+ * are intentionally excluded. DOM globals like Audio and Image are declared as
+ * `declare var` with constructor signatures but have NO corresponding interface
+ * or class declaration. Including them causes false positives: when a package
+ * exports a type with the same name (e.g., openai's `Audio` class), the type
+ * reference resolver incorrectly classifies it as a builtin and skips it.
+ *
+ * Legitimate global objects that are also used as types (JSON, Math, Array, etc.)
+ * always have matching interface declarations, so they are still captured.
  */
 function discoverBuiltinTypes(project: Project): Set<string> {
     const builtins = new Set<string>();
@@ -160,13 +179,6 @@ function discoverBuiltinTypes(project: Project): Set<string> {
             }
             for (const enumDecl of sourceFile.getEnums()) {
                 builtins.add(enumDecl.getName());
-            }
-            // Also collect variable declarations (e.g., "declare var console: Console")
-            // which define global objects like JSON, Math, Reflect, Atomics, Intl
-            for (const varStmt of sourceFile.getVariableStatements()) {
-                for (const decl of varStmt.getDeclarations()) {
-                    builtins.add(decl.getName());
-                }
             }
         } catch {
             // Skip files that fail to parse (non-fatal)

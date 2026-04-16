@@ -178,6 +178,7 @@ public class TypeScriptPublicApiGraphEngine : IPublicApiGraphEngine<ApiIndex>
             ct).ConfigureAwait(false);
 
         await streamResult.CompleteAsync().ConfigureAwait(false);
+
         var stderrDiagnostics = ParseStderrDiagnostics(streamResult.StandardError);
 
         if (!streamResult.Success)

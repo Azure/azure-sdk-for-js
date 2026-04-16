@@ -82,6 +82,19 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
     // (builtins, type collector, package name cache) for this extraction run.
     const ctx = createExtractionContext(project);
 
+    // Populate direct dependencies from the main package's package.json.
+    // This tells the collision detector which packages are expected deps
+    // vs transitive deps that shouldn't be pulled in.
+    const mainPkgJsonPath = options.packageJsonPath ?? path.join(rootPath, "package.json");
+    if (fs.existsSync(mainPkgJsonPath)) {
+        try {
+            const mainPkg = JSON.parse(fs.readFileSync(mainPkgJsonPath, "utf-8"));
+            for (const depName of Object.keys(mainPkg.dependencies ?? {})) {
+                ctx.directDependencies.add(depName);
+            }
+        } catch { /* non-fatal */ }
+    }
+
     // Find source files
     const srcDir = path.join(rootPath, "src");
     const sourceDir = options.mode === "compiled"

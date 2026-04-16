@@ -243,45 +243,12 @@ public static class TypeScriptFormatter
             }
         }
 
-        // 4b. Generate ambient stubs for DOM global constructors that conflict with type names
-        //     used in dependency modules. In browser targets, DOM provides Audio and Image as
-        //     constructor values (not types) and EventListener as a non-generic interface.
-        //     When dep modules use these as types (e.g., Array<Image>), tsc errors with
-        //     TS2749 or TS2315. Global `declare interface` stubs fix this.
-        var allContent = string.Join("\n", processedBlocks) + "\n" +
-                         string.Join("\n", mainBody) + "\n" +
-                         string.Join("\n", imports);
-        var allTopLevelExports = new HashSet<string>(
-            moduleExportedTypes.Values.SelectMany(s => s), StringComparer.Ordinal);
-
-        var platformStubs = new List<string>();
-        var domTypeStubs = new (string name, string declaration)[]
-        {
-            ("Audio", "interface Audio {}"),
-            ("Image", "interface Image {}"),
-            ("EventListener", "interface EventListener<Events = any, Event extends keyof Events = any> { (...args: any[]): void; }"),
-        };
-        foreach (var (name, declaration) in domTypeStubs)
-        {
-            if (Regex.IsMatch(allContent, @$"\b{Regex.Escape(name)}\b") &&
-                !allTopLevelExports.Contains(name))
-                platformStubs.Add($"declare {declaration}");
-        }
-
         // 5. Build the restructured output
         var sb = new StringBuilder();
 
         // Preamble (references, header comments)
         foreach (var line in preamble)
             sb.AppendLine(line);
-
-        // DOM collision stubs (only if needed)
-        if (platformStubs.Count > 0)
-        {
-            foreach (var stub in platformStubs)
-                sb.AppendLine(stub);
-            sb.AppendLine();
-        }
 
         // Dependency declare module blocks first
         foreach (var block in processedBlocks)

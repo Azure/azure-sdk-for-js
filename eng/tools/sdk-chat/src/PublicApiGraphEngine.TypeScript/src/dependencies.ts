@@ -1316,8 +1316,24 @@ export function buildResolvedDependencies(
 
         const modules: ModuleInfo[] = [];
 
+        // Collect all exported names across ALL conditions to identify
+        // non-exported (internal) types that need special handling.
+        const allExportedNames = new Set<string>();
+        const conditionExports = new Map<string, Set<string>>();
         for (const [condition, typesPath] of conditionPaths) {
             const exportedNames = getExportedTypeNamesFromFile(typesPath, ctx.project);
+            conditionExports.set(condition, exportedNames);
+            for (const name of exportedNames) allExportedNames.add(name);
+        }
+
+        // Internal types: present in the dependency but not exported from any
+        // condition. These are non-exported types (e.g., openai's internal
+        // EventListener<Events, Event>) that are referenced by exported types.
+        // They must be included in every condition module so the output compiles.
+        const internalTypes = (dep.types ?? []).filter(t =>
+            t.type !== "unresolved" && !allExportedNames.has(t.name) && !allExportedNames.has(t.type));
+
+        for (const [condition, exportedNames] of conditionExports) {
             if (exportedNames.size === 0) continue;
 
             const classes = (dep.classes ?? []).filter(c => exportedNames.has(c.name));
@@ -1325,8 +1341,17 @@ export function buildResolvedDependencies(
             const enums = (dep.enums ?? []).filter(e => exportedNames.has(e.name));
             // For type aliases, also include synthetic aliases (e.g. ProxyOptions = ProxySettings)
             // whose target type IS an exported name, even though the alias itself isn't exported.
+            // Also include internal (non-exported) types used by exported types.
             const types = (dep.types ?? []).filter(t =>
                 t.type !== "unresolved" && (exportedNames.has(t.name) || exportedNames.has(t.type)));
+            // Merge internal types, avoiding duplicates
+            const seenTypeNames = new Set(types.map(t => t.name));
+            for (const it of internalTypes) {
+                if (!seenTypeNames.has(it.name)) {
+                    types.push(it);
+                    seenTypeNames.add(it.name);
+                }
+            }
             const functions = (dep.functions ?? []).filter(f => f.name && exportedNames.has(f.name));
 
             if (classes.length + interfaces.length + enums.length + types.length + functions.length === 0) continue;

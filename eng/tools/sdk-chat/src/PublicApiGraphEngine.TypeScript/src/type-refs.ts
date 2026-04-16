@@ -159,9 +159,44 @@ export function collectTypeRefsFromType(
         // Get the type name
         const typeName = symbol.getName();
 
-        // Skip primitives and builtins — but still process type arguments
-        // for generic builtins like Promise<T>, Map<K,V>, Array<T>, etc.
-        if (!typeName || PRIMITIVE_TYPES.has(typeName) || ctx.isBuiltinType(typeName)) {
+        // Skip primitives — always safe, no declarations to check.
+        if (!typeName || PRIMITIVE_TYPES.has(typeName)) {
+            const typeArgs = type.getTypeArguments();
+            for (const typeArg of typeArgs) {
+                collectTypeRefsFromType(typeArg, ctx, refs);
+            }
+            return;
+        }
+
+        // For names that match a TypeScript lib builtin (Promise, Array, EventListener, etc.),
+        // verify via the symbol's actual declaration source. Package types that share names
+        // with DOM globals (Audio, Image, EventListener, etc.) must not be skipped.
+        //
+        // When a collision is detected (builtin name but non-lib declaration), register
+        // the ref but skip deep member traversal — the dependency module extraction
+        // handles transitive type discovery for dependency packages separately.
+        if (ctx.isBuiltinType(typeName)) {
+            try {
+                const decls = symbol.getDeclarations();
+                if (decls && decls.length > 0) {
+                    const sf = decls[0].getSourceFile();
+                    if (!isDefaultLibFile(ctx.project, sf)) {
+                        const fp = sf.getFilePath();
+                        const pkg = resolvePackageNameFromPath(fp, ctx);
+                        // Only register collision refs for direct dependencies.
+                        // Transitive deps (e.g., undici via openai) must not be
+                        // pulled in just because they share a name with a builtin.
+                        if (pkg && ctx.directDependencies.has(pkg)) {
+                            refs.add({
+                                name: typeName,
+                                fullName: symbol.getFullyQualifiedName?.() ?? typeName,
+                                declarationPath: fp,
+                                packageName: pkg,
+                            });
+                        }
+                    }
+                }
+            } catch { /* fallback: treat as builtin */ }
             const typeArgs = type.getTypeArguments();
             for (const typeArg of typeArgs) {
                 collectTypeRefsFromType(typeArg, ctx, refs);
