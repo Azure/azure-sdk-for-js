@@ -178,6 +178,8 @@ export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo 
 export interface LocationBasedLaunchBulkInstancesOperation extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: LaunchBulkInstancesOperationProperties;
+  /** The location name. */
+  readonly location: string;
   /** Zones in which the LaunchBulkInstancesOperation is available */
   zones?: string[];
   /** Resource tags. */
@@ -2657,9 +2659,9 @@ export type DeleteOptions = string;
 /** Specifies the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations */
 export enum KnownNetworkApiVersion {
   /** 2020-11-01 version */
-  _20201101 = "2020-11-01",
+  NetworkApiVersion20201101 = "2020-11-01",
   /** 2022-11-01 version */
-  _20221101 = "2022-11-01",
+  NetworkApiVersion20221101 = "2022-11-01",
 }
 
 /**
@@ -3975,8 +3977,8 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
-  return item;
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
 }
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
@@ -4023,8 +4025,8 @@ export function planDeserializer(item: any): Plan {
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -4050,8 +4052,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -4876,5 +4878,5 @@ export function cancelOperationsResponseDeserializer(item: any): CancelOperation
 /** BulkActions API versions */
 export enum KnownVersions {
   /** 2026-02-01-preview version */
-  _20260201Preview = "2026-02-01-preview",
+  Versions20260201Preview = "2026-02-01-preview",
 }

@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-computebulkactions",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "A generated SDK for ComputeBulkActionsClient.",
   "engines": {
     "node": ">=20.0.0"
@@ -136,38 +136,38 @@
     },
     "./api/bulkActions": {
       "browser": {
-        "types": "./dist/browser/api/bulkActions/index.d.ts",
-        "default": "./dist/browser/api/bulkActions/index.js"
+        "types": "./dist/browser/src/api/bulkActions/index.d.ts",
+        "default": "./dist/browser/src/api/bulkActions/index.js"
       },
       "react-native": {
-        "types": "./dist/react-native/api/bulkActions/index.d.ts",
-        "default": "./dist/react-native/api/bulkActions/index.js"
+        "types": "./dist/react-native/src/api/bulkActions/index.d.ts",
+        "default": "./dist/react-native/src/api/bulkActions/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/bulkActions/index.d.ts",
-        "default": "./dist/esm/api/bulkActions/index.js"
+        "types": "./dist/esm/src/api/bulkActions/index.d.ts",
+        "default": "./dist/esm/src/api/bulkActions/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/bulkActions/index.d.ts",
-        "default": "./dist/commonjs/api/bulkActions/index.js"
+        "types": "./dist/commonjs/src/api/bulkActions/index.d.ts",
+        "default": "./dist/commonjs/src/api/bulkActions/index.js"
       }
     },
     "./api/operations": {
       "browser": {
-        "types": "./dist/browser/api/operations/index.d.ts",
-        "default": "./dist/browser/api/operations/index.js"
+        "types": "./dist/browser/src/api/operations/index.d.ts",
+        "default": "./dist/browser/src/api/operations/index.js"
       },
       "react-native": {
-        "types": "./dist/react-native/api/operations/index.d.ts",
-        "default": "./dist/react-native/api/operations/index.js"
+        "types": "./dist/react-native/src/api/operations/index.d.ts",
+        "default": "./dist/react-native/src/api/operations/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/operations/index.d.ts",
-        "default": "./dist/esm/api/operations/index.js"
+        "types": "./dist/esm/src/api/operations/index.d.ts",
+        "default": "./dist/esm/src/api/operations/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/operations/index.d.ts",
-        "default": "./dist/commonjs/api/operations/index.js"
+        "types": "./dist/commonjs/src/api/operations/index.d.ts",
+        "default": "./dist/commonjs/src/api/operations/index.js"
       }
     },
     "./models": {
