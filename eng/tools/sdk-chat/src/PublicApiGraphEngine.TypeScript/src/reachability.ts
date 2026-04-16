@@ -120,6 +120,19 @@ const NODE_GLOBAL_TYPES = new Set([
     "Stream", "EventEmitter", "IncomingMessage", "ServerResponse",
 ]);
 
+// Types available from BOTH DOM lib and @types/node globals.
+// When we have exclusive Node.js types (Buffer, NodeJS.ReadableStream, etc.),
+// the output will include `/// <reference types="node" />` which already provides
+// these types — so they should be listed under "node" instead of "dom".
+const DOM_NODE_SHARED_TYPES = new Set([
+    "AbortController", "AbortSignal",
+    "Blob", "File", "FormData", "Headers", "Request", "Response",
+    "ReadableStream", "WritableStream",
+    "URL", "URLSearchParams",
+    "TextEncoder", "TextDecoder",
+    "Event", "EventTarget",
+]);
+
 /**
  * Computes the set of ambient types needed by the API surface.
  * These are type names that appear in signatures but are NOT defined in the
@@ -181,11 +194,26 @@ export function computeAmbientTypes(
         if (NODE_GLOBAL_TYPES.has(name)) {
             const qualifiedNames = qualifiedByPrefix.get(name);
             if (qualifiedNames && qualifiedNames.length > 0) {
-                // Show the full qualified references instead of just the namespace
                 for (const qn of qualifiedNames) addToCategory("node", qn);
             } else {
                 addToCategory("node", name);
             }
+        }
+    }
+
+    // 3. If we have exclusive Node.js types, move shared DOM/Node types from "dom" to "node".
+    //    `/// <reference types="node" />` already provides these types, so listing them
+    //    under DOM would be redundant.
+    if (result["node"]?.size) {
+        const dom = result["dom"];
+        if (dom) {
+            for (const name of [...dom]) {
+                if (DOM_NODE_SHARED_TYPES.has(name)) {
+                    dom.delete(name);
+                    addToCategory("node", name);
+                }
+            }
+            if (dom.size === 0) delete result["dom"];
         }
     }
 
