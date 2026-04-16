@@ -562,6 +562,23 @@ public static class TypeScriptFormatter
         sb.AppendLine("/// <reference lib=\"es2020\" />");
         sb.AppendLine($"// {index.Package} - Public API Surface");
         sb.AppendLine("// Graphed by PublicApiGraphEngine.TypeScript");
+
+        // Emit summary of referenced builtin types by category
+        if (index.ReferencedBuiltins is { Count: > 0 })
+        {
+            sb.AppendLine("//");
+            foreach (var (category, types) in index.ReferencedBuiltins.OrderBy(kv => kv.Key))
+            {
+                var label = category.ToUpperInvariant() switch
+                {
+                    "DOM" => "DOM lib",
+                    "ES" => "ES lib",
+                    _ => category,
+                };
+                sb.AppendLine($"// Ambient types from {label}: {string.Join(", ", types)}");
+            }
+        }
+
         sb.AppendLine();
 
         // Get all classes, interfaces, and enums for prioritization

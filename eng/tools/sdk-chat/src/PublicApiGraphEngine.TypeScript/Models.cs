@@ -33,6 +33,11 @@ public sealed record ApiIndex : IApiIndex
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<ApiIndex>? ResolvedDependencies { get; init; }
 
+    /// <summary>Builtin types referenced in the API, categorized by lib source (dom, es).</summary>
+    [JsonPropertyName("referencedBuiltins")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Dictionary<string, List<string>>? ReferencedBuiltins { get; init; }
+
     [JsonPropertyName("diagnostics")]
     public IReadOnlyList<ApiDiagnostic> Diagnostics { get; init; } = [];
 

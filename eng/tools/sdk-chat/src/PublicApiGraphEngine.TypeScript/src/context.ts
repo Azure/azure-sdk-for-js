@@ -34,6 +34,17 @@ export const PRIMITIVE_TYPES = new Set([
     "undefined", "null", "void", "never", "any", "unknown", "object",
 ]);
 
+/** Well-known DOM type names for heuristic classification. */
+const DOM_TYPE_NAMES = new Set([
+    "AbortSignal", "ReadableStream", "WritableStream",
+    "EventTarget", "EventListener", "Event", "EventInit",
+    "Blob", "File", "FormData", "Headers", "Request", "Response",
+    "URL", "URLSearchParams", "TextEncoder", "TextDecoder",
+    "ReadableStreamDefaultReader", "WritableStreamDefaultWriter",
+    "Audio", "Image", "WebSocket", "Worker", "MessagePort",
+    "ReadableStreamDefaultController", "TransformStream",
+]);
+
 
 
 export class ExtractionContext {
@@ -60,6 +71,13 @@ export class ExtractionContext {
      */
     directDependencies: Set<string> = new Set();
 
+    /**
+     * Builtin type names actually referenced (and skipped) during extraction,
+     * keyed by category: "dom", "es", or "node".
+     * Populated by type-refs.ts when a builtin type is encountered.
+     */
+    referencedBuiltins: Map<string, Set<string>> = new Map();
+
     /** Lazily-resolved builtin type names from TypeScript lib files. */
     private _discoveredBuiltins: Set<string> | undefined;
 
@@ -84,6 +102,39 @@ export class ExtractionContext {
     isBuiltinType(typeName: string): boolean {
         if (PRIMITIVE_TYPES.has(typeName)) return true;
         return this.discoveredBuiltins.has(typeName);
+    }
+
+    /**
+     * Records a builtin type name as referenced, categorized by lib source.
+     * Called by type-refs when a builtin is encountered and skipped.
+     */
+    trackReferencedBuiltin(typeName: string, symbol?: { getDeclarations?(): { getSourceFile(): SourceFile }[] }): void {
+        if (PRIMITIVE_TYPES.has(typeName)) return;
+        const category = this.classifyBuiltinSource(typeName, symbol);
+        let set = this.referencedBuiltins.get(category);
+        if (!set) {
+            set = new Set();
+            this.referencedBuiltins.set(category, set);
+        }
+        set.add(typeName);
+    }
+
+    /**
+     * Classifies a builtin type by its lib source: "dom", "es", or "node".
+     */
+    private classifyBuiltinSource(typeName: string, symbol?: { getDeclarations?(): { getSourceFile(): SourceFile }[] }): string {
+        try {
+            const decls = symbol?.getDeclarations?.();
+            if (decls && decls.length > 0) {
+                const filePath = decls[0].getSourceFile().getFilePath().toLowerCase();
+                const fileName = filePath.split("/").pop() ?? "";
+                if (fileName.includes("lib.dom") || fileName.includes("lib.webworker")) return "dom";
+                if (fileName.includes("lib.es") || fileName.includes("lib.scripthost")) return "es";
+            }
+        } catch { /* fall through to heuristic */ }
+        // Heuristic fallback based on well-known DOM type names
+        if (DOM_TYPE_NAMES.has(typeName)) return "dom";
+        return "es";
     }
 
     /**

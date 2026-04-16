@@ -176,6 +176,7 @@ export function collectTypeRefsFromType(
         // the ref but skip deep member traversal — the dependency module extraction
         // handles transitive type discovery for dependency packages separately.
         if (ctx.isBuiltinType(typeName)) {
+            ctx.trackReferencedBuiltin(typeName, symbol);
             try {
                 const decls = symbol.getDeclarations();
                 if (decls && decls.length > 0) {

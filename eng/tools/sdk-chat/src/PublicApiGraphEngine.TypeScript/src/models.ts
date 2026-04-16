@@ -158,6 +158,8 @@ export interface ApiIndex {
     dependencies?: DependencyInfo[];
     /** Fully resolved dependency packages with condition-aware modules */
     resolvedDependencies?: ApiIndex[];
+    /** Builtin types referenced in the API, categorized by lib source (dom, es) */
+    referencedBuiltins?: Record<string, string[]>;
 }
 
 /**

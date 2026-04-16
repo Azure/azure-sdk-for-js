@@ -437,6 +437,15 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
     // .d.ts output incomplete.
     validateSelfContainment(baseResult, ctx);
 
+    // Populate referencedBuiltins from the context
+    if (ctx.referencedBuiltins.size > 0) {
+        const builtins: Record<string, string[]> = {};
+        for (const [category, names] of ctx.referencedBuiltins) {
+            builtins[category] = [...names].sort();
+        }
+        baseResult.referencedBuiltins = builtins;
+    }
+
     return baseResult;
 }
 
