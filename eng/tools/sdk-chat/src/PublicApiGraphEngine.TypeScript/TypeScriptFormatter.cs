@@ -340,6 +340,32 @@ public static class TypeScriptFormatter
     }
 
     /// <summary>
+    /// Checks whether <paramref name="typeName"/> is defined as a type declaration
+    /// (interface, class, type alias, or enum) in the rendered content.
+    /// Types that are self-defined don't need ambient resolution.
+    /// </summary>
+    private static bool IsDefinedAsType(string content, string typeName)
+    {
+        // Match patterns like: interface X {, class X {, type X =, enum X {
+        // Preceded by optional "export" and whitespace
+        ReadOnlySpan<string> keywords = ["interface ", "class ", "type ", "enum "];
+        foreach (var keyword in keywords)
+        {
+            var needle = keyword + typeName;
+            int index = 0;
+            while ((index = content.IndexOf(needle, index, StringComparison.Ordinal)) >= 0)
+            {
+                int endPos = index + needle.Length;
+                bool endOk = endPos >= content.Length
+                    || !char.IsLetterOrDigit(content[endPos]) && content[endPos] != '_';
+                if (endOk) return true;
+                index++;
+            }
+        }
+        return false;
+    }
+
+    /// <summary>
     /// Replaces the ambient types placeholder with a comment listing only the
     /// builtin types that actually appear in the rendered .d.ts content.
     /// This filters out transitive internal types (like IteratorYieldResult)
@@ -353,12 +379,14 @@ public static class TypeScriptFormatter
 
         var lines = new List<string>();
 
-        // Builtin types from ES/DOM libs
+        // Builtin types from ES/DOM libs — only those not self-defined in the output
         if (referencedBuiltins is { Count: > 0 })
         {
             foreach (var (category, types) in referencedBuiltins.OrderBy(kv => kv.Key))
             {
-                var present = types.Where(t => ContainsTypeIdentifier(dtsContent, t)).ToList();
+                var present = types
+                    .Where(t => ContainsTypeIdentifier(dtsContent, t) && !IsDefinedAsType(dtsContent, t))
+                    .ToList();
                 if (present.Count == 0) continue;
                 var label = category.ToUpperInvariant() switch
                 {
@@ -371,9 +399,10 @@ public static class TypeScriptFormatter
         }
 
         // Node.js types detected by scanning content for known Node globals
+        // (only those not self-defined as compat interfaces in the output)
         {
             var nodeTypes = NodeGlobalIdentifiers
-                .Where(t => ContainsTypeIdentifier(dtsContent, t))
+                .Where(t => ContainsTypeIdentifier(dtsContent, t) && !IsDefinedAsType(dtsContent, t))
                 .OrderBy(t => t, StringComparer.Ordinal)
                 .ToList();
             if (nodeTypes.Count > 0)
