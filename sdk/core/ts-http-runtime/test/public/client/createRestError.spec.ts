@@ -98,4 +98,18 @@ describe("createRestError", () => {
     assert.equal(error.code, undefined);
     assert.equal(error.message, "Unexpected status code: 400");
   });
+
+  it("should create a rest error with response bodyAsText when response body is a string", () => {
+    const response = {
+      status: "404",
+      headers: {},
+      request: {} as PipelineRequest,
+      body: "error body",
+    };
+    const error = createRestError(response);
+    assert.equal(error.statusCode, 404);
+    assert.equal(error.code, undefined);
+    assert.equal(error.message, "Unexpected status code: 404");
+    assert.equal(error.response?.bodyAsText, "error body");
+  });
 });

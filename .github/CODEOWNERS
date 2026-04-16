@@ -274,6 +274,10 @@
 # PRLabel: %Operator Nexus - Network Cloud
 /sdk/networkcloud/    @Azure/azure-sdk-write-networkcloud
 
+# ServiceLabel: %PostgreSQL Auth
+# PRLabel: %Postgresql
+/sdk/postgresql/postgresql-auth/ @alxhghs @carlovi81 @mattboentoro @nasc17 @nehrao1 @rmendiza
+
 # PRLabel: %Purview
 /sdk/purview/    @qiaozha
 
@@ -1715,6 +1719,8 @@ sdk/relationships/arm-relationships/ @qiaozha @MaryGao @JialinHuang803
 # Eng Sys and CODEOWNERS
 #########################
 /eng/                                    @mikeharder @weshaggard @benbp
+/eng/tsconfigs/                          @Azure/azure-sdk-for-js-core
+/eng/vitestconfigs/                      @Azure/azure-sdk-for-js-core
 /eng/common/                             @Azure/azure-sdk-eng
 /eng/ignore-links.txt                    @Azure/azure-sdk-eng @Azure/azure-sdk-js-dev
 /.config/1espt/                          @benbp @weshaggard
