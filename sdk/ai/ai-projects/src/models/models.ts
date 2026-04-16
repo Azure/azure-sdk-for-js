@@ -4163,7 +4163,7 @@ export interface TextResponseFormatJsonSchema extends TextResponseFormat {
    *   underscores and dashes, with a maximum length of 64.
    */
   name: string;
-  schema: Record<string, any>;
+  schema: Record<string, unknown>;
   strict?: boolean;
 }
 
@@ -4251,9 +4251,9 @@ export interface StructuredInputDefinition {
   /** A human-readable description of the input. */
   description?: string;
   /** The default value for the input if no run-time value is provided. */
-  default_value?: any;
+  default_value?: unknown;
   /** The JSON schema for the structured input (optional). */
-  schema?: Record<string, any>;
+  schema?: Record<string, unknown>;
   /** Whether the input property is required when the agent is invoked. */
   required?: boolean;
 }

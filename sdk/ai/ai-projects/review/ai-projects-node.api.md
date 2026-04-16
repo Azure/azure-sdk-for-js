@@ -2470,10 +2470,10 @@ export interface SpecificFunctionShellParam extends ToolChoiceParam {
 
 // @public
 export interface StructuredInputDefinition {
-    default_value?: any;
+    default_value?: unknown;
     description?: string;
     required?: boolean;
-    schema?: Record<string, any>;
+    schema?: Record<string, unknown>;
 }
 
 // @public
@@ -2558,7 +2558,7 @@ export interface TextResponseFormatJsonSchema extends TextResponseFormat {
     description?: string;
     name: string;
     // (undocumented)
-    schema: Record<string, any>;
+    schema: Record<string, unknown>;
     // (undocumented)
     strict?: boolean;
     type: "json_schema";
