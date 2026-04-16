@@ -1,6 +1,6 @@
 # Release History
 
-## 17.0.0-beta.3 (2026-04-14)
+## 17.0.0-beta.3 (2026-04-16)
 Compared with version 16.4.0
 
 ### Features Added
@@ -366,7 +366,6 @@ Compared with version 16.4.0
   - Added Interface GremlinRoleAssignmentResourceProperties
   - Added Interface GremlinRoleDefinitionResource
   - Added Interface GremlinRoleDefinitionResourceProperties
-  - Added Interface ManagedServiceIdentityUserAssignedIdentities
   - Added Interface MaterializedViewDefinition
   - Added Interface MaterializedViewDetails
   - Added Interface MaterializedViewsProperties
@@ -650,7 +649,6 @@ Compared with version 16.4.0
   - Operation DatabaseAccounts.beginFailoverPriorityChangeAndWait has a new signature
   - Operation DatabaseAccounts.beginUpdate has a new signature
   - Operation DatabaseAccounts.beginUpdateAndWait has a new signature
-  - Operation DatabaseAccounts.checkNameExists has a new signature
   - Operation DatabaseAccounts.get has a new signature
   - Operation Fleet.beginDeleteAndWait has a new signature
   - Operation Fleetspace.beginDeleteAndWait has a new signature
@@ -668,7 +666,6 @@ Compared with version 16.4.0
   - Operation SqlResources.beginDeleteSqlTriggerAndWait has a new signature
   - Operation SqlResources.beginDeleteSqlUserDefinedFunctionAndWait has a new signature
   - Operation TableResources.beginDeleteTableAndWait has a new signature
-  - Removed Interface Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties
   - Removed Interface DataTransferServiceResource
   - Removed Interface ExtendedResourceProperties
   - Removed Interface GraphAPIComputeServiceResource

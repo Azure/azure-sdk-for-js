@@ -661,6 +661,12 @@ export interface CommandPublicResource {
 export type CommandStatus = string;
 
 // @public
+export interface Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
+
+// @public
 export interface ComponentsM9L909SchemasCassandraclusterpublicstatusPropertiesDatacentersItemsPropertiesNodesItems {
     address?: string;
     cassandraProcessStatus?: string;
@@ -1136,6 +1142,11 @@ export interface DatabaseAccountListReadOnlyKeysResult {
 export interface DatabaseAccountRegenerateKeyParameters {
     keyKind: KeyKind;
 }
+
+// @public (undocumented)
+export type DatabaseAccountsCheckNameExistsResponse = {
+    body: boolean;
+};
 
 // @public
 export interface DatabaseAccountUpdateParameters {
@@ -2379,13 +2390,7 @@ export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type?: ResourceIdentityType;
-    userAssignedIdentities?: Record<string, ManagedServiceIdentityUserAssignedIdentities>;
-}
-
-// @public
-export interface ManagedServiceIdentityUserAssignedIdentities {
-    readonly clientId?: string;
-    readonly principalId?: string;
+    userAssignedIdentities?: Record<string, Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties>;
 }
 
 // @public

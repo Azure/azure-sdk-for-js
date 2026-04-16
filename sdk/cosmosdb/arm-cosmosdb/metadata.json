@@ -46,7 +46,7 @@
       "@azure/arm-cosmosdb!DatabaseAccountKeysMetadata:interface": "Microsoft.DocumentDB.DatabaseAccountKeysMetadata",
       "@azure/arm-cosmosdb!AccountKeyMetadata:interface": "Microsoft.DocumentDB.AccountKeyMetadata",
       "@azure/arm-cosmosdb!ManagedServiceIdentity:interface": "Microsoft.DocumentDB.ManagedServiceIdentity",
-      "@azure/arm-cosmosdb!ManagedServiceIdentityUserAssignedIdentities:interface": "Microsoft.DocumentDB.ManagedServiceIdentityUserAssignedIdentities",
+      "@azure/arm-cosmosdb!Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties:interface": "Microsoft.DocumentDB.ManagedServiceIdentityUserAssignedIdentities",
       "@azure/arm-cosmosdb!DatabaseAccountCreateUpdateParameters:interface": "Microsoft.DocumentDB.DatabaseAccountCreateUpdateParameters",
       "@azure/arm-cosmosdb!DatabaseAccountCreateUpdateProperties:interface": "Microsoft.DocumentDB.DatabaseAccountCreateUpdateProperties",
       "@azure/arm-cosmosdb!ARMResourceProperties:interface": "Microsoft.DocumentDB.ARMResourceProperties",

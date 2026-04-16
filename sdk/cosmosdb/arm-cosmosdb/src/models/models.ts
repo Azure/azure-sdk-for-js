@@ -1668,7 +1668,10 @@ export interface ManagedServiceIdentity {
   /** The type of identity used for the resource. The type 'SystemAssigned,UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the service. */
   type?: ResourceIdentityType;
   /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: Record<string, ManagedServiceIdentityUserAssignedIdentities>;
+  userAssignedIdentities?: Record<
+    string,
+    Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties
+  >;
 }
 
 export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
@@ -1676,7 +1679,7 @@ export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): 
     type: item["type"],
     userAssignedIdentities: !item["userAssignedIdentities"]
       ? item["userAssignedIdentities"]
-      : managedServiceIdentityUserAssignedIdentitiesRecordSerializer(
+      : components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalpropertiesRecordSerializer(
           item["userAssignedIdentities"],
         ),
   };
@@ -1689,7 +1692,7 @@ export function managedServiceIdentityDeserializer(item: any): ManagedServiceIde
     type: item["type"],
     userAssignedIdentities: !item["userAssignedIdentities"]
       ? item["userAssignedIdentities"]
-      : managedServiceIdentityUserAssignedIdentitiesRecordDeserializer(
+      : components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalpropertiesRecordDeserializer(
           item["userAssignedIdentities"],
         ),
   };
@@ -1702,47 +1705,57 @@ export type ResourceIdentityType =
   | "SystemAssigned,UserAssigned"
   | "None";
 
-export function managedServiceIdentityUserAssignedIdentitiesRecordSerializer(
-  item: Record<string, ManagedServiceIdentityUserAssignedIdentities>,
+export function components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalpropertiesRecordSerializer(
+  item: Record<
+    string,
+    Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties
+  >,
 ): Record<string, any> {
   const result: Record<string, any> = {};
   Object.keys(item).map((key) => {
     result[key] = !item[key]
       ? item[key]
-      : managedServiceIdentityUserAssignedIdentitiesSerializer(item[key]);
+      : components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalpropertiesSerializer(
+          item[key],
+        );
   });
   return result;
 }
 
-export function managedServiceIdentityUserAssignedIdentitiesRecordDeserializer(
+export function components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalpropertiesRecordDeserializer(
   item: Record<string, any>,
-): Record<string, ManagedServiceIdentityUserAssignedIdentities> {
+): Record<
+  string,
+  Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties
+> {
   const result: Record<string, any> = {};
   Object.keys(item).map((key) => {
     result[key] = !item[key]
       ? item[key]
-      : managedServiceIdentityUserAssignedIdentitiesDeserializer(item[key]);
+      : components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalpropertiesDeserializer(
+          item[key],
+        );
   });
   return result;
 }
 
-/** model interface ManagedServiceIdentityUserAssignedIdentities */
-export interface ManagedServiceIdentityUserAssignedIdentities {
+/** model interface Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties */
+export interface Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties {
   /** The principal id of user assigned identity. */
   readonly principalId?: string;
   /** The client id of user assigned identity. */
   readonly clientId?: string;
 }
 
-export function managedServiceIdentityUserAssignedIdentitiesSerializer(
-  _item: ManagedServiceIdentityUserAssignedIdentities,
+export function components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalpropertiesSerializer(
+  _item: Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties,
 ): any {
   return {};
 }
 
-export function managedServiceIdentityUserAssignedIdentitiesDeserializer(
+export function components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalpropertiesDeserializer(
   item: any,
-): ManagedServiceIdentityUserAssignedIdentities {
+): Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties {
   return {
     principalId: item["principalId"],
     clientId: item["clientId"],
@@ -17006,3 +17019,5 @@ export function _fleetspaceAccountResourcePropertiesDeserializer(item: any) {
         ),
   };
 }
+
+export type DatabaseAccountsCheckNameExistsResponse = { body: boolean };

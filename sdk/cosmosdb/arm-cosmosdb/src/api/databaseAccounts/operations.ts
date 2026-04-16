@@ -19,6 +19,7 @@ import type {
   Usage,
   _MetricDefinitionsListResult,
   MetricDefinition,
+  DatabaseAccountsCheckNameExistsResponse,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
@@ -82,7 +83,9 @@ export function _checkNameExistsSend(
   return context.path(path).head({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _checkNameExistsDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _checkNameExistsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<DatabaseAccountsCheckNameExistsResponse> {
   const expectedStatuses = ["200", "404"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -91,7 +94,7 @@ export async function _checkNameExistsDeserialize(result: PathUncheckedResponse)
     throw error;
   }
 
-  return;
+  return { body: result.status.startsWith("2") };
 }
 
 /** Checks that the Azure Cosmos DB account name already exists. A valid account name may contain only lowercase letters, numbers, and the '-' character, and must be between 3 and 50 characters. */
@@ -99,7 +102,7 @@ export async function checkNameExists(
   context: Client,
   accountName: string,
   options: DatabaseAccountsCheckNameExistsOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<DatabaseAccountsCheckNameExistsResponse> {
   const result = await _checkNameExistsSend(context, accountName, options);
   return _checkNameExistsDeserialize(result);
 }

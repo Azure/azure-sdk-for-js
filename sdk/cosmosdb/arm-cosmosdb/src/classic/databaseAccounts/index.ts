@@ -55,6 +55,7 @@ import type {
   Metric,
   Usage,
   MetricDefinition,
+  DatabaseAccountsCheckNameExistsResponse,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
@@ -67,7 +68,7 @@ export interface DatabaseAccountsOperations {
   checkNameExists: (
     accountName: string,
     options?: DatabaseAccountsCheckNameExistsOptionalParams,
-  ) => Promise<void>;
+  ) => Promise<DatabaseAccountsCheckNameExistsResponse>;
   /** Retrieves metric definitions for the given database account. */
   listMetricDefinitions: (
     resourceGroupName: string,

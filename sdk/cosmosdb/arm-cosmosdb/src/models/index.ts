@@ -56,7 +56,7 @@ export type {
   DefaultPriorityLevel,
   ManagedServiceIdentity,
   ResourceIdentityType,
-  ManagedServiceIdentityUserAssignedIdentities,
+  Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties,
   DatabaseAccountKind,
   ProxyResource,
   Resource,
@@ -489,6 +489,7 @@ export type {
   FleetspaceAccountResource,
   FleetspaceAccountProperties,
   FleetspaceAccountPropertiesGlobalDatabaseAccountProperties,
+  DatabaseAccountsCheckNameExistsResponse,
 } from "./models.js";
 export {
   KnownConnectorOffer,

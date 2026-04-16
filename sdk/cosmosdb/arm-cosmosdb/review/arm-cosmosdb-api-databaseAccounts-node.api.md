@@ -13,7 +13,7 @@ import type { PollerLike } from '@azure/core-lro';
 export function $delete(context: CosmosDBManagementContext, resourceGroupName: string, accountName: string, options?: DatabaseAccountsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function checkNameExists(context: CosmosDBManagementContext, accountName: string, options?: DatabaseAccountsCheckNameExistsOptionalParams): Promise<void>;
+export function checkNameExists(context: CosmosDBManagementContext, accountName: string, options?: DatabaseAccountsCheckNameExistsOptionalParams): Promise<DatabaseAccountsCheckNameExistsResponse>;
 
 // @public
 export function createOrUpdate(context: CosmosDBManagementContext, resourceGroupName: string, accountName: string, createUpdateParameters: DatabaseAccountCreateUpdateParameters, options?: DatabaseAccountsCreateOrUpdateOptionalParams): PollerLike<OperationState<DatabaseAccountGetResults>, DatabaseAccountGetResults>;

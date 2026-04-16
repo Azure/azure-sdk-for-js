@@ -1176,6 +1176,12 @@ export interface CommandPublicResource {
 export type CommandStatus = string;
 
 // @public
+export interface Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
+
+// @public
 export interface ComponentsM9L909SchemasCassandraclusterpublicstatusPropertiesDatacentersItemsPropertiesNodesItems {
     address?: string;
     cassandraProcessStatus?: string;
@@ -1774,6 +1780,11 @@ export interface DatabaseAccountRegionOperations {
 export interface DatabaseAccountsCheckNameExistsOptionalParams extends OperationOptions {
 }
 
+// @public (undocumented)
+export type DatabaseAccountsCheckNameExistsResponse = {
+    body: boolean;
+};
+
 // @public
 export interface DatabaseAccountsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
@@ -1870,7 +1881,7 @@ export interface DatabaseAccountsOperations {
     beginUpdate: (resourceGroupName: string, accountName: string, updateParameters: DatabaseAccountUpdateParameters, options?: DatabaseAccountsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DatabaseAccountGetResults>, DatabaseAccountGetResults>>;
     // @deprecated (undocumented)
     beginUpdateAndWait: (resourceGroupName: string, accountName: string, updateParameters: DatabaseAccountUpdateParameters, options?: DatabaseAccountsUpdateOptionalParams) => Promise<DatabaseAccountGetResults>;
-    checkNameExists: (accountName: string, options?: DatabaseAccountsCheckNameExistsOptionalParams) => Promise<void>;
+    checkNameExists: (accountName: string, options?: DatabaseAccountsCheckNameExistsOptionalParams) => Promise<DatabaseAccountsCheckNameExistsResponse>;
     createOrUpdate: (resourceGroupName: string, accountName: string, createUpdateParameters: DatabaseAccountCreateUpdateParameters, options?: DatabaseAccountsCreateOrUpdateOptionalParams) => PollerLike<OperationState<DatabaseAccountGetResults>, DatabaseAccountGetResults>;
     delete: (resourceGroupName: string, accountName: string, options?: DatabaseAccountsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     failoverPriorityChange: (resourceGroupName: string, accountName: string, failoverParameters: FailoverPolicies, options?: DatabaseAccountsFailoverPriorityChangeOptionalParams) => PollerLike<OperationState<void>, void>;
@@ -3650,13 +3661,7 @@ export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type?: ResourceIdentityType;
-    userAssignedIdentities?: Record<string, ManagedServiceIdentityUserAssignedIdentities>;
-}
-
-// @public
-export interface ManagedServiceIdentityUserAssignedIdentities {
-    readonly clientId?: string;
-    readonly principalId?: string;
+    userAssignedIdentities?: Record<string, Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties>;
 }
 
 // @public
