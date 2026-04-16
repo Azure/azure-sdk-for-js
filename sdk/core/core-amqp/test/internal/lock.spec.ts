@@ -379,5 +379,29 @@ describe("CancellableAsyncLock", function () {
         }
       }
     });
+
+    it("clamps negative timeoutInMs to 0 and rejects with OperationTimeoutError", async function () {
+      // Hold the lock so the second acquire must wait and hit the timeout
+      let releaseFirst!: () => void;
+      const firstHeld = new Promise<void>((resolve) => {
+        releaseFirst = resolve;
+      });
+      const firstTask = lock.acquire("negative-timeout-key", () => firstHeld, {
+        timeoutInMs: 5000,
+      });
+
+      // Second acquire with negative timeout should clamp to 0 and reject immediately
+      try {
+        await lock.acquire("negative-timeout-key", async () => "should not run", {
+          timeoutInMs: -100,
+        });
+        assert.fail("Should have thrown OperationTimeoutError");
+      } catch (err: any) {
+        assert.instanceOf(err, OperationTimeoutError);
+      }
+
+      releaseFirst();
+      await firstTask;
+    });
   });
 });
