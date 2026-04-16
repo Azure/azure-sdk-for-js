@@ -329,7 +329,7 @@ export interface AutoCodeInterpreterToolParam {
     type: "auto";
 }
 
-// @public (undocumented)
+// @public
 export interface AzureAgentConfig {
     // (undocumented)
     agentName: string;
@@ -2148,9 +2148,8 @@ export interface OneTimeTrigger extends Trigger {
     type: "OneTime";
 }
 
-// @public (undocumented)
+// @public
 export interface OpenAIClientOptionsWithAzureAgent extends ClientOptions_2 {
-    // (undocumented)
     azureConfig?: AzureAgentConfig;
 }
 
@@ -2604,7 +2603,7 @@ export interface ToolboxVersionObject {
 // @public
 export interface ToolChoiceAllowed extends ToolChoiceParam {
     mode: "auto" | "required";
-    tools: Record<string, any>[];
+    tools: Record<string, unknown>[];
     type: "allowed_tools";
 }
 
