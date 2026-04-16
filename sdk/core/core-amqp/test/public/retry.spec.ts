@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, expect } from "vitest";
 import type { RetryConfig } from "../../src/index.js";
 import {
   Constants,
@@ -459,5 +459,92 @@ function assertAggregateError(err: unknown, check: RegExp): asserts err is Aggre
         }
       });
     });
+  });
+});
+
+describe("retry - additional coverage", () => {
+  it("uses default retryOptions when none provided", async () => {
+    let callCount = 0;
+    const result = await (
+      await import("../../src/retry.js")
+    ).retry({
+      operation: async () => {
+        callCount++;
+        return "ok";
+      },
+      connectionId: "conn-1",
+      operationType: (await import("../../src/retry.js")).RetryOperationType.cbsAuth,
+    });
+    assert.equal(result, "ok");
+    assert.equal(callCount, 1);
+  });
+
+  it("uses defaults for negative retryDelayInMs and maxRetryDelayInMs", async () => {
+    let callCount = 0;
+    const { retry, RetryOperationType } = await import("../../src/retry.js");
+    const result = await retry({
+      operation: async () => {
+        callCount++;
+        return "ok";
+      },
+      connectionId: "conn-1",
+      operationType: RetryOperationType.cbsAuth,
+      retryOptions: {
+        maxRetries: 0,
+        retryDelayInMs: -1,
+        maxRetryDelayInMs: -1,
+      },
+    });
+    assert.equal(result, "ok");
+    assert.equal(callCount, 1);
+  });
+
+  it("checks network when ServiceCommunicationError and connectionHost provided", async () => {
+    const { retry, RetryOperationType } = await import("../../src/retry.js");
+    const { MessagingError, ErrorNameConditionMapper } = await import("../../src/errors.js");
+
+    let callCount = 0;
+    try {
+      await retry({
+        operation: async () => {
+          callCount++;
+          const err: any = {
+            condition: ErrorNameConditionMapper.ServiceCommunicationError,
+            description: "Connection lost",
+          };
+          throw err;
+        },
+        connectionId: "conn-1",
+        operationType: RetryOperationType.cbsAuth,
+        connectionHost: "localhost",
+        retryOptions: {
+          maxRetries: 0,
+          retryDelayInMs: 100,
+        },
+      });
+      assert.fail("Should have thrown");
+    } catch {
+      // The error should have been thrown after the network check
+      assert.equal(callCount, 1);
+    }
+  });
+});
+
+describe("retry - isDelivery branch", () => {
+  it("succeeds with a delivery-like result object (does not log result)", async () => {
+    const { retry, RetryOperationType } = await import("../../src/retry.js");
+    const deliveryResult = {
+      id: 1,
+      settled: true,
+      remote_settled: false,
+      format: 0,
+    };
+    const result = await retry({
+      operation: async () => deliveryResult,
+      connectionId: "conn-1",
+      operationType: RetryOperationType.sendMessage,
+      retryOptions: { maxRetries: 0 },
+    });
+    assert.deepEqual(result, deliveryResult);
   });
 });

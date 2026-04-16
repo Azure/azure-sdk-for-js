@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, expect, vi } from "vitest";
 import type {
   CompositeMapper,
   DictionaryMapper,
@@ -38,6 +38,7 @@ import {
   getOperationRequestInfo,
 } from "../../src/operationHelpers.js";
 import type { TokenCredential } from "@azure/core-auth";
+import type { TracingContext } from "@azure/core-tracing";
 import { assertServiceClientResponse } from "../utils/serviceClient.js";
 import { deserializationPolicy } from "../../src/deserializationPolicy.js";
 import { getCachedDefaultHttpClient } from "../../src/httpClientCache.js";
@@ -1577,3 +1578,81 @@ async function testSendOperationRequest(
   assert(request!);
   assert(request!.url.endsWith(expected), `"${request!.url}" does not end with "${expected}"`);
 }
+
+describe("ServiceClient requestOptions coverage", () => {
+  it("should pass through timeout, progress callbacks, shouldDeserialize, abortSignal, tracingOptions", async () => {
+    let capturedRequest: OperationRequest | undefined;
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(serializationPolicy(), { phase: "Serialize" });
+    pipeline.addPolicy(deserializationPolicy(), { phase: "Deserialize" });
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) => {
+          capturedRequest = req;
+          return Promise.resolve({
+            request: req,
+            status: 200,
+            headers: createHttpHeaders(),
+          });
+        },
+      },
+      pipeline,
+    });
+
+    const onUploadProgress = vi.fn();
+    const onDownloadProgress = vi.fn();
+    const abortController = new AbortController();
+
+    await client.sendOperationRequest(
+      {
+        options: {
+          requestOptions: {
+            timeout: 5000,
+            onUploadProgress,
+            onDownloadProgress,
+            shouldDeserialize: false,
+          },
+          abortSignal: abortController.signal,
+          tracingOptions: { tracingContext: {} as unknown as TracingContext },
+        },
+      },
+      {
+        httpMethod: "GET",
+        baseUrl: "https://example.com",
+        serializer: createSerializer(),
+        responses: { 200: {} },
+      },
+    );
+
+    assert.ok(capturedRequest);
+    assert.strictEqual(capturedRequest!.timeout, 5000);
+    assert.strictEqual(capturedRequest!.onUploadProgress, onUploadProgress);
+    assert.strictEqual(capturedRequest!.onDownloadProgress, onDownloadProgress);
+    assert.strictEqual(capturedRequest!.abortSignal, abortController.signal);
+    assert.ok(capturedRequest!.tracingOptions);
+  });
+});
+
+describe("ServiceClient - no endpoint", () => {
+  it("should throw when no endpoint and no baseUrl in operationSpec", async () => {
+    const pipeline = createEmptyPipeline();
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) =>
+          Promise.resolve({ request: req, status: 200, headers: createHttpHeaders() }),
+      },
+      pipeline,
+    });
+
+    await expect(
+      client.sendOperationRequest(
+        {},
+        {
+          httpMethod: "GET",
+          serializer: createSerializer(),
+          responses: { 200: {} },
+        },
+      ),
+    ).rejects.toThrow(/must have a endpoint string property/);
+  });
+});

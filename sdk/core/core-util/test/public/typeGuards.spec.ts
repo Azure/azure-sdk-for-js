@@ -30,6 +30,11 @@ describe("Type guards", function () {
         "object contains properties `a` and `b`",
       );
     });
+    it("should return false when the argument is not an object", async function () {
+      assert.isFalse(isObjectWithProperties(null, ["a"]));
+      assert.isFalse(isObjectWithProperties(undefined, ["a"]));
+      assert.isFalse(isObjectWithProperties("string", ["a"]));
+    });
     it("should return false when the object does not contain at least one listed property", async function () {
       assert.isFalse(isObjectWithProperties({ a: 1, b: 2, c: 3 }, ["d"]));
       assert.isFalse(

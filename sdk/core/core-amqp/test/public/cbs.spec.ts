@@ -1,11 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert, vi } from "vitest";
+import { describe, it, assert, expect, vi } from "vitest";
 import { CbsClient, TokenType, defaultCancellableLock } from "../../src/index.js";
-import { Connection } from "rhea-promise";
-import { createConnectionStub } from "../utils/createConnectionStub.js";
+import { Connection, SenderEvents, ReceiverEvents } from "rhea-promise";
+import type { Message as RheaMessage, Session, AwaitableSender, Receiver } from "rhea-promise";
+import { createConnectionStub, createFullConnectionStub } from "../utils/createConnectionStub.js";
+import { RequestResponseLink } from "../../src/requestResponseLink.js";
+import EventEmitter from "events";
 import { isError } from "@azure/core-util";
+
+type CbsClientPrivate = CbsClient & { _cbsSenderReceiverLink: RequestResponseLink };
 
 describe("CbsClient", function () {
   const TEST_FAILURE = "Test failure";
@@ -63,7 +68,7 @@ describe("CbsClient", function () {
     it("honors abortSignal", async function () {
       const connectionStub = new Connection();
       // Stub 'open' because creating a real connection will fail.
-      vi.spyOn(connectionStub, "open").mockResolvedValue({} as any);
+      vi.spyOn(connectionStub, "open").mockResolvedValue(undefined as unknown as Connection);
 
       const cbsClient = new CbsClient(connectionStub, "lock");
 
@@ -143,6 +148,218 @@ describe("CbsClient", function () {
           assert.equal((err as Error).name, "AbortError");
         }
       });
+    });
+  });
+});
+
+describe("CbsClient - close, remove, isOpen", () => {
+  it("close() when not open is a no-op", async () => {
+    const cbsClient = new CbsClient(new Connection(), "lock");
+    // Should not throw when not open
+    await cbsClient.close();
+  });
+
+  it("close() when open closes the link", async () => {
+    const connectionStub = createFullConnectionStub();
+    const cbsClient = new CbsClient(connectionStub, "lock");
+    await cbsClient.init();
+    assert.isTrue(cbsClient.isOpen());
+    await cbsClient.close();
+    assert.isFalse(cbsClient.isOpen());
+  });
+
+  it("close() wraps errors from link.close()", async () => {
+    const connectionStub = createFullConnectionStub();
+    const cbsClient = new CbsClient(connectionStub, "lock");
+    await cbsClient.init();
+    // Make the underlying link's close throw
+    const link = (cbsClient as unknown as CbsClientPrivate)._cbsSenderReceiverLink;
+    vi.spyOn(link, "close").mockRejectedValue(new Error("close failed"));
+    await expect(cbsClient.close()).rejects.toThrow(/An error occurred while closing the cbs link/);
+  });
+
+  it("close() wraps non-Error with stack from link.close()", async () => {
+    const connectionStub = createFullConnectionStub();
+    const cbsClient = new CbsClient(connectionStub, "lock");
+    await cbsClient.init();
+    const link = (cbsClient as unknown as CbsClientPrivate)._cbsSenderReceiverLink;
+    vi.spyOn(link, "close").mockRejectedValue({ something: "not an error" });
+    await expect(cbsClient.close()).rejects.toThrow(/An error occurred while closing the cbs link/);
+  });
+
+  it("remove() when not open is a no-op", () => {
+    const cbsClient = new CbsClient(new Connection(), "lock");
+    // Should not throw
+    cbsClient.remove();
+  });
+
+  it("remove() when open removes the link", async () => {
+    const connectionStub = createFullConnectionStub();
+    const cbsClient = new CbsClient(connectionStub, "lock");
+    await cbsClient.init();
+    assert.isTrue(cbsClient.isOpen());
+    cbsClient.remove();
+    assert.isFalse(cbsClient.isOpen());
+  });
+
+  it("remove() wraps errors from link.remove()", async () => {
+    const connectionStub = createFullConnectionStub();
+    const cbsClient = new CbsClient(connectionStub, "lock");
+    await cbsClient.init();
+    const link = (cbsClient as unknown as CbsClientPrivate)._cbsSenderReceiverLink;
+    vi.spyOn(link, "remove").mockImplementation(() => {
+      throw new Error("remove failed");
+    });
+    expect(() => cbsClient.remove()).toThrow(/An error occurred while removing the cbs link/);
+  });
+
+  it("remove() wraps non-Error from link.remove()", async () => {
+    const connectionStub = createFullConnectionStub();
+    const cbsClient = new CbsClient(connectionStub, "lock");
+    await cbsClient.init();
+    const link = (cbsClient as unknown as CbsClientPrivate)._cbsSenderReceiverLink;
+    vi.spyOn(link, "remove").mockImplementation(() => {
+      throw { something: "not an error" };
+    });
+    expect(() => cbsClient.remove()).toThrow(/An error occurred while removing the cbs link/);
+  });
+
+  it("isOpen() returns false when no link", () => {
+    const cbsClient = new CbsClient(new Connection(), "lock");
+    assert.isFalse(cbsClient.isOpen());
+  });
+
+  it("negotiateClaim succeeds when link is open", async () => {
+    const connectionStub = createFullConnectionStub();
+    const cbsClient = new CbsClient(connectionStub, "lock");
+    await cbsClient.init();
+    // Mock sendRequest on the underlying link
+    const link = (cbsClient as unknown as CbsClientPrivate)._cbsSenderReceiverLink;
+    vi.spyOn(link, "sendRequest").mockResolvedValue({
+      correlation_id: "test-id",
+      application_properties: {
+        "status-code": 200,
+        "status-description": "OK",
+      },
+    } as RheaMessage);
+    const response = await cbsClient.negotiateClaim("audience", "token", TokenType.CbsTokenTypeSas);
+    assert.equal(response.statusCode, 200);
+    assert.equal(response.statusDescription, "OK");
+  });
+
+  it("negotiateClaim propagates errors from sendRequest", async () => {
+    const connectionStub = createFullConnectionStub();
+    const cbsClient = new CbsClient(connectionStub, "lock");
+    await cbsClient.init();
+    const link = (cbsClient as unknown as CbsClientPrivate)._cbsSenderReceiverLink;
+    vi.spyOn(link, "sendRequest").mockRejectedValue(new Error("send failed"));
+    await expect(
+      cbsClient.negotiateClaim("audience", "token", TokenType.CbsTokenTypeSas),
+    ).rejects.toThrow("send failed");
+  });
+
+  it("negotiateClaim propagates non-Error throws", async () => {
+    const connectionStub = createFullConnectionStub();
+    const cbsClient = new CbsClient(connectionStub, "lock");
+    await cbsClient.init();
+    const link = (cbsClient as unknown as CbsClientPrivate)._cbsSenderReceiverLink;
+    vi.spyOn(link, "sendRequest").mockRejectedValue("string error");
+    await expect(
+      cbsClient.negotiateClaim("audience", "token", TokenType.CbsTokenTypeSas),
+    ).rejects.toBe("string error");
+  });
+});
+
+describe("CbsClient - init already open branch and error handlers", () => {
+  it("init when already open reuses existing link", async () => {
+    const connectionStub = createFullConnectionStub();
+    const cbsClient = new CbsClient(connectionStub, "lock");
+    await cbsClient.init();
+    assert.isTrue(cbsClient.isOpen());
+    // Call init again - should hit the "already open" branch
+    await cbsClient.init();
+    assert.isTrue(cbsClient.isOpen());
+  });
+
+  it("sender error handler on cbs link fires without throwing", async () => {
+    const connectionStub = createFullConnectionStub();
+    const cbsClient = new CbsClient(connectionStub, "lock");
+    await cbsClient.init();
+    const link = (cbsClient as unknown as CbsClientPrivate)._cbsSenderReceiverLink;
+    // Trigger sender error event - the handler registered in cbs.ts init()
+    link.sender.emit(SenderEvents.senderError, {
+      connection: { options: { id: "connection-1" } },
+      sender: { error: new Error("sender error") },
+    });
+    // Should not throw, just logs
+    assert.isTrue(cbsClient.isOpen());
+  });
+
+  it("receiver error handler on cbs link fires without throwing", async () => {
+    const connectionStub = createFullConnectionStub();
+    const cbsClient = new CbsClient(connectionStub, "lock");
+    await cbsClient.init();
+    const link = (cbsClient as unknown as CbsClientPrivate)._cbsSenderReceiverLink;
+    // Trigger receiver error event - the handler registered in cbs.ts init()
+    link.receiver.emit(ReceiverEvents.receiverError, {
+      connection: { options: { id: "connection-1" } },
+      receiver: { error: new Error("receiver error") },
+    });
+    // Should not throw, just logs
+    assert.isTrue(cbsClient.isOpen());
+  });
+});
+
+describe("cbs.ts - onSessionError callback", () => {
+  it("onSessionError handler fires without throwing", async () => {
+    // Create a connection stub that captures receiverOptions
+    let capturedRxOpt: any = null;
+    const connectionStub = new Connection();
+    vi.spyOn(connectionStub, "open").mockResolvedValue(undefined as unknown as Connection);
+    vi.spyOn(connectionStub, "createSession").mockResolvedValue({
+      connection: {
+        id: "connection-1",
+        options: { id: "connection-1" },
+      },
+      isOpen: () => true,
+      remove: vi.fn(),
+      close: vi.fn(),
+      createSender: () => {
+        const senderEmitter = new EventEmitter();
+        Object.assign(senderEmitter, {
+          send: () => {},
+          isOpen: () => true,
+          remove: vi.fn(),
+          close: vi.fn(),
+          name: "cbs-sender",
+        });
+        return Promise.resolve(senderEmitter as unknown as AwaitableSender);
+      },
+      createReceiver: (opts: any) => {
+        capturedRxOpt = opts;
+        const receiverEmitter = new EventEmitter();
+        Object.assign(receiverEmitter, {
+          isOpen: () => true,
+          remove: vi.fn(),
+          close: vi.fn(),
+          name: "cbs-receiver",
+        });
+        return Promise.resolve(receiverEmitter as unknown as Receiver);
+      },
+    } as unknown as Session);
+    vi.spyOn(connectionStub, "id", "get").mockReturnValue("connection-1");
+
+    const cbsClient = new CbsClient(connectionStub, "lock");
+    await cbsClient.init();
+
+    // Now call the captured onSessionError handler
+    assert.isDefined(capturedRxOpt, "Receiver options should have been captured");
+    assert.isDefined(capturedRxOpt.onSessionError, "onSessionError should be defined");
+
+    // Call the handler - should not throw
+    capturedRxOpt.onSessionError({
+      connection: { options: { id: "connection-1" } },
+      session: { error: { condition: "amqp:internal-error", description: "test error" } },
     });
   });
 });

@@ -436,3 +436,62 @@ describe("authorizeRequestOnClaimChallenge", function () {
     );
   });
 });
+
+describe("authorizeRequestOnClaimChallenge coverage", () => {
+  it("should handle malformed WWW-Authenticate header (no claims)", async () => {
+    const request = createPipelineRequest({ url: "https://example.com" });
+    const result = await authorizeRequestOnClaimChallenge({
+      async getAccessToken() {
+        return { token: "token", expiresOnTimestamp: Date.now() + 3600000 };
+      },
+      scopes: [],
+      response: {
+        headers: createHttpHeaders({
+          "WWW-Authenticate": 'Bearer realm="test"',
+        }),
+        request,
+        status: 401,
+      },
+      request,
+    });
+    assert.isFalse(result);
+  });
+
+  it("should handle empty WWW-Authenticate header", async () => {
+    const request = createPipelineRequest({ url: "https://example.com" });
+    const result = await authorizeRequestOnClaimChallenge({
+      async getAccessToken() {
+        return { token: "token", expiresOnTimestamp: Date.now() + 3600000 };
+      },
+      scopes: [],
+      response: {
+        headers: createHttpHeaders(),
+        request,
+        status: 401,
+      },
+      request,
+    });
+    assert.isFalse(result);
+  });
+});
+
+describe("authorizeRequestOnClaimChallenge - parseCAEChallenge fallback (line 76)", () => {
+  it("should handle completely unparseable WWW-Authenticate value", async () => {
+    const request = createPipelineRequest({ url: "https://example.com" });
+    const result = await authorizeRequestOnClaimChallenge({
+      async getAccessToken() {
+        return { token: "token", expiresOnTimestamp: Date.now() + 3600000 };
+      },
+      scopes: [],
+      response: {
+        headers: createHttpHeaders({
+          "WWW-Authenticate": "NotBearer gibberish",
+        }),
+        request,
+        status: 401,
+      },
+      request,
+    });
+    assert.isFalse(result);
+  });
+});

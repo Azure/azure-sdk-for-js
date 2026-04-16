@@ -3,38 +3,39 @@
 
 import { describe, it, assert, vi, afterEach, beforeEach } from "vitest";
 import { getHeaderName, setPlatformSpecificData } from "../../../src/util/userAgentPlatform.js";
-import process from "process";
+import process from "node:process";
 import os from "node:os";
+
+vi.mock("node:process", async () => {
+  const actual = (await vi.importActual("node:process")) as Record<string, unknown>;
+  return {
+    default: {
+      ...(actual.default as Record<string, unknown>),
+      versions: {},
+    },
+  };
+});
+
+vi.mock("node:os", async () => {
+  const actual = (await vi.importActual("node:os")) as Record<string, unknown>;
+  return {
+    default: {
+      ...(actual.default as Record<string, unknown>),
+      versions: {},
+    },
+  };
+});
 
 describe("userAgentPlatform", () => {
   it("should return 'User-Agent' as the header name", () => {
     assert.equal(getHeaderName(), "User-Agent");
   });
 
-  vi.mock("node:process", async () => {
-    const actual = await vi.importActual("node:process");
-    return {
-      default: {
-        ...(actual as any).default,
-        versions: {},
-      },
-    };
-  });
-
-  vi.mock("node:os", async () => {
-    const actual = await vi.importActual("node:os");
-    return {
-      default: {
-        ...(actual as any).default,
-        versions: {},
-      },
-    };
-  });
-
   beforeEach(() => {
-    (vi.mocked(os) as any).type = () => "Linux";
-    (vi.mocked(os) as any).release = () => "6.13.8";
-    (vi.mocked(os) as any).arch = () => "x64";
+    const mockedOs = vi.mocked(os) as unknown as Record<string, () => string>;
+    mockedOs.type = () => "Linux";
+    mockedOs.release = () => "6.13.8";
+    mockedOs.arch = () => "x64";
   });
 
   afterEach(() => {
@@ -42,7 +43,10 @@ describe("userAgentPlatform", () => {
   });
 
   it("should handle an empty process.versions", async () => {
-    (vi.mocked(process) as any).versions = undefined;
+    const mockedProcess = vi.mocked(process) as unknown as {
+      versions: typeof process.versions | undefined;
+    };
+    mockedProcess.versions = undefined;
     const map = new Map<string, string>();
 
     await setPlatformSpecificData(map);
@@ -53,7 +57,8 @@ describe("userAgentPlatform", () => {
   });
 
   it("should handle a Node.js process.versions with Bun", async () => {
-    (vi.mocked(process) as any).versions = { bun: "1.0.0" };
+    const mockedProcess = vi.mocked(process) as unknown as { versions: Record<string, string> };
+    mockedProcess.versions = { bun: "1.0.0" };
     const map = new Map<string, string>();
 
     await setPlatformSpecificData(map);
@@ -65,7 +70,8 @@ describe("userAgentPlatform", () => {
   });
 
   it("should handle a Node.js process.versions with Deno", async () => {
-    (vi.mocked(process) as any).versions = { deno: "2.0.0" };
+    const mockedProcess = vi.mocked(process) as unknown as { versions: Record<string, string> };
+    mockedProcess.versions = { deno: "2.0.0" };
     const map = new Map<string, string>();
 
     await setPlatformSpecificData(map);
@@ -76,8 +82,21 @@ describe("userAgentPlatform", () => {
     assert.isFalse(map.has("Bun"));
   });
 
+  it("should handle a process.versions with no known runtime", async () => {
+    const mockedProcess = vi.mocked(process) as unknown as { versions: Record<string, string> };
+    mockedProcess.versions = { v8: "12.0.0" };
+    const map = new Map<string, string>();
+
+    await setPlatformSpecificData(map);
+
+    assert.isFalse(map.has("Node"));
+    assert.isFalse(map.has("Deno"));
+    assert.isFalse(map.has("Bun"));
+  });
+
   it("should handle a Node.js process.versions", async () => {
-    (vi.mocked(process) as any).versions = { node: "20.0.0" };
+    const mockedProcess = vi.mocked(process) as unknown as { versions: Record<string, string> };
+    mockedProcess.versions = { node: "20.0.0" };
     const map = new Map<string, string>();
 
     await setPlatformSpecificData(map);

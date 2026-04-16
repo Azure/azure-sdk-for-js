@@ -65,3 +65,34 @@ describe("SasTokenProvider", function (): void {
     assert.equal(tokenInfo.expiresOnTimestamp, 0);
   });
 });
+
+describe("SasTokenProvider", () => {
+  it("createSasTokenProvider with sharedAccessSignature", () => {
+    const provider = createSasTokenProvider({
+      sharedAccessSignature: "SharedAccessSignature sr=test&sig=abc&se=123&skn=key",
+    });
+    assert.isTrue(provider.isSasTokenProvider);
+  });
+
+  it("getToken with SASCredential returns the signature directly", async () => {
+    const provider = createSasTokenProvider({
+      sharedAccessSignature: "SharedAccessSignature sr=test&sig=abc&se=123&skn=key",
+    });
+    const token = await provider.getToken("audience");
+    assert.equal(token.token, "SharedAccessSignature sr=test&sig=abc&se=123&skn=key");
+    assert.equal(token.expiresOnTimestamp, 0);
+  });
+
+  it("getToken with NamedKeyCredential returns a generated token", async () => {
+    const provider = createSasTokenProvider({
+      sharedAccessKeyName: "keyName",
+      sharedAccessKey: "key",
+    });
+    const token = await provider.getToken("audience");
+    assert.isString(token.token);
+    assert.include(token.token, "SharedAccessSignature");
+    assert.include(token.token, "sr=audience");
+    assert.include(token.token, "skn=keyName");
+    assert.isAbove(token.expiresOnTimestamp, 0);
+  });
+});
