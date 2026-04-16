@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to The operation to create or update the run command.
- *
- * @summary The operation to create or update the run command.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/runCommandExamples/VirtualMachineRunCommand_CreateOrUpdate.json
- */
-
+import type {
+  VirtualMachineRunCommand} from "@azure/arm-compute";
 import {
-  VirtualMachineRunCommand,
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to The operation to create or update the run command.
+ *
+ * @summary The operation to create or update the run command.
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/runCommandExamples/VirtualMachineRunCommand_CreateOrUpdate.json
+ */
 async function createOrUpdateARunCommand(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";

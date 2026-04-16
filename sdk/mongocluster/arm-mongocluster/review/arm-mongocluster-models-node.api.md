@@ -62,8 +62,8 @@ export type CreateMode = string;
 
 // @public
 export interface CustomerManagedKeyEncryptionProperties {
-    keyEncryptionKeyIdentity: KeyEncryptionKeyIdentity;
-    keyEncryptionKeyUrl: string;
+    keyEncryptionKeyIdentity?: KeyEncryptionKeyIdentity;
+    keyEncryptionKeyUrl?: string;
 }
 
 // @public
@@ -152,8 +152,8 @@ export type IdentityProviderUnion = EntraIdentityProvider | IdentityProvider;
 
 // @public
 export interface KeyEncryptionKeyIdentity {
-    identityType: KeyEncryptionKeyIdentityType;
-    userAssignedIdentityResourceId: string;
+    identityType?: KeyEncryptionKeyIdentityType;
+    userAssignedIdentityResourceId?: string;
 }
 
 // @public
@@ -323,12 +323,8 @@ export enum KnownUserRole {
 
 // @public
 export enum KnownVersions {
-    V20240301Preview = "2024-03-01-preview",
-    V20240601Preview = "2024-06-01-preview",
     V20240701 = "2024-07-01",
-    V20241001Preview = "2024-10-01-preview",
-    V20250401Preview = "2025-04-01-preview",
-    V20250701Preview = "2025-07-01-preview"
+    V20250901 = "2025-09-01"
 }
 
 // @public
@@ -407,6 +403,7 @@ export interface MongoClusterUpdateProperties {
     backup?: BackupProperties;
     compute?: ComputeProperties;
     dataApi?: DataApiProperties;
+    encryption?: EncryptionProperties;
     highAvailability?: HighAvailabilityProperties;
     previewFeatures?: PreviewFeature[];
     publicNetworkAccess?: PublicNetworkAccess;
@@ -541,9 +538,7 @@ export interface ShardingProperties {
 
 // @public
 export interface StorageProperties {
-    iops?: number;
     sizeGb?: number;
-    throughput?: number;
     type?: StorageType;
 }
 

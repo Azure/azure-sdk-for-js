@@ -16,7 +16,7 @@ const pageMap = new WeakMap<object, PageInfo>();
  * Given the last `.value` produced by the `byPage` iterator,
  * returns a continuation token that can be used to begin paging from
  * that point later.
- * @param page - An object from accessing `value` on the IteratorResult from a `byPage` iterator.
+ * @param page An object from accessing `value` on the IteratorResult from a `byPage` iterator.
  * @returns The continuation token that can be passed into byPage() during future calls.
  */
 export function getContinuationToken(page: unknown): string | undefined {

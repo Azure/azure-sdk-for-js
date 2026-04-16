@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to generates an update run for a given auto upgrade profile.
  *
  * @summary generates an update run for a given auto upgrade profile.
- * x-ms-original-file: 2025-04-01-preview/AutoUpgradeProfileOperations_GenerateUpdateRun_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-02-01-preview/AutoUpgradeProfileOperations_GenerateUpdateRun.json
  */
-
-import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
-import { DefaultAzureCredential } from "@azure/identity";
-
-async function autoUpgradeProfileOperationsGenerateUpdateRunMaximumSet(): Promise<void> {
+async function autoUpgradeProfileOperationsGenerateUpdateRun(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
@@ -24,7 +23,7 @@ async function autoUpgradeProfileOperationsGenerateUpdateRunMaximumSet(): Promis
 }
 
 async function main(): Promise<void> {
-  await autoUpgradeProfileOperationsGenerateUpdateRunMaximumSet();
+  await autoUpgradeProfileOperationsGenerateUpdateRun();
 }
 
 main().catch(console.error);

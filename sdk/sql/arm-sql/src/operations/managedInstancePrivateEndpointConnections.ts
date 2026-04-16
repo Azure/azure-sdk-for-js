@@ -28,9 +28,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ManagedInstancePrivateEndpointConnections operations. */
-export class ManagedInstancePrivateEndpointConnectionsImpl
-  implements ManagedInstancePrivateEndpointConnections
-{
+export class ManagedInstancePrivateEndpointConnectionsImpl implements ManagedInstancePrivateEndpointConnections {
   private readonly client: SqlManagementClient;
 
   /**

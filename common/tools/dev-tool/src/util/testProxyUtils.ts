@@ -2,9 +2,22 @@
 // Licensed under the MIT License.
 
 import { ChildProcess, exec, spawn, SpawnOptions } from "node:child_process";
+import { checkWithTimeout } from "./checkWithTimeout";
 import { createPrinter } from "./printer";
 import { ProjectInfo, resolveProject, resolveRoot } from "./resolveProject";
-import fs from "fs-extra";
+import {
+  access,
+  chmod,
+  constants,
+  lstat,
+  mkdir,
+  readdir,
+  readFile,
+  rm,
+  symlink,
+  unlink,
+} from "node:fs/promises";
+import { createWriteStream, existsSync } from "node:fs";
 import path from "node:path";
 import { extract } from "tar";
 import * as unzipper from "unzipper";
@@ -68,6 +81,13 @@ const AVAILABLE_TEST_PROXY_BINARIES: TestProxyBinary[] = [
   {
     platform: "win32",
     architecture: "x64",
+    fileName: "test-proxy-standalone-win-x64.zip",
+    executableLocation: "Azure.Sdk.Tools.TestProxy.exe",
+  },
+  {
+    // Windows ARM64 supports x64 emulation
+    platform: "win32",
+    architecture: "arm64",
     fileName: "test-proxy-standalone-win-x64.zip",
     executableLocation: "Azure.Sdk.Tools.TestProxy.exe",
   },
@@ -156,18 +176,18 @@ export async function getTestProxyExecutable(): Promise<string> {
 
   // Check the executable is already downloaded and is, in fact, executable. If it's not, download it.
   try {
-    await fs.access(executableLocation, fs.constants.X_OK);
+    await access(executableLocation, constants.X_OK);
     log(`Test proxy executable already exists at ${executableLocation}, not downloading it.`);
   } catch {
     // Nuking the root .test-proxy folder, without the version, ensures that older versions of the test proxy
     // get cleaned up, so we don't end up with a ton of different test proxy versions using up disk space.
-    await fs.remove(downloadLocation);
+    await rm(downloadLocation, { recursive: true, force: true });
 
-    await fs.mkdirp(downloadLocationWithVersion);
+    await mkdir(downloadLocationWithVersion, { recursive: true });
     await downloadTestProxy(downloadLocationWithVersion, getDownloadUrl(binary, targetVersion));
 
     // Mark the executable as executable by all
-    await fs.chmod(executableLocation, 0o755);
+    await chmod(executableLocation, 0o755);
   }
 
   cachedTestProxyExecutableLocation = executableLocation;
@@ -209,7 +229,7 @@ export async function runTestProxyCommand(argv: string[]): Promise<void> {
     stdio: "inherit",
     env: { ...process.env },
   }).result;
-  if (await fs.pathExists("assets.json")) {
+  if (existsSync("assets.json")) {
     await linkRecordingsDirectory();
   }
 }
@@ -246,10 +266,10 @@ export async function linkRecordingsDirectory() {
 
   const symlinkLocation = path.join(project.path, "_recordings");
 
-  if (await fs.pathExists(symlinkLocation)) {
-    const stat = await fs.lstat(symlinkLocation);
+  if (existsSync(symlinkLocation)) {
+    const stat = await lstat(symlinkLocation);
     if (stat.isSymbolicLink()) {
-      await fs.unlink(symlinkLocation);
+      await unlink(symlinkLocation);
     } else {
       log.warn(
         "Could not create symbolic link to recordings directory: a file exists at _recordings already.",
@@ -260,10 +280,187 @@ export async function linkRecordingsDirectory() {
 
   // Try and create a symlink but fail gracefully if it doesn't work
   try {
-    await fs.symlink(relativeRecordingsDirectory, symlinkLocation);
+    await symlink(relativeRecordingsDirectory, symlinkLocation);
   } catch (e) {
     log.warn("Could not create symbolic link to recordings directory");
     log.warn(e);
+  }
+}
+
+export interface DiffOptions {
+  stat?: boolean;
+}
+
+/**
+ * Converts a path to use forward slashes (POSIX style).
+ * Breadcrumb files and git pathspecs use forward slashes on all platforms.
+ */
+function toPosixPath(p: string): string {
+  return p.split(path.sep).join("/");
+}
+
+/**
+ * Locates the asset-sync clone directory for a given package by reading
+ * breadcrumb entries under `.assets/`. Supports both:
+ *
+ * - The documented single-file format: `.assets/.breadcrumb`
+ * - The multi-file format: `.assets/breadcrumb/*.breadcrumb`
+ *
+ * Returns the clone root path, or undefined if no clone is found.
+ */
+async function findAssetCloneDirectory(
+  repoRoot: string,
+  projectRelativeToRoot: string,
+): Promise<string | undefined> {
+  const assetsDir = path.join(repoRoot, ".assets");
+  const singleBreadcrumbPath = path.join(assetsDir, ".breadcrumb");
+  const multiBreadcrumbDir = path.join(assetsDir, "breadcrumb");
+
+  const breadcrumbEntries: string[] = [];
+
+  if (existsSync(singleBreadcrumbPath)) {
+    const fileContent = (await readFile(singleBreadcrumbPath, "utf-8")).trim();
+    for (const line of fileContent.split(/\r?\n/)) {
+      const trimmed = line.trim();
+      if (trimmed) {
+        breadcrumbEntries.push(trimmed);
+      }
+    }
+  } else if (existsSync(multiBreadcrumbDir)) {
+    const files = await readdir(multiBreadcrumbDir);
+    for (const file of files) {
+      if (!file.endsWith(".breadcrumb")) continue;
+      const content = (await readFile(path.join(multiBreadcrumbDir, file), "utf-8")).trim();
+      if (content) {
+        breadcrumbEntries.push(content);
+      }
+    }
+  } else {
+    return undefined;
+  }
+
+  const expectedAssetsPath = toPosixPath(path.join(projectRelativeToRoot, "assets.json"));
+
+  for (const entry of breadcrumbEntries) {
+    // Format: <assetsJsonRelPath>;<cloneDirName>;<tag>
+    const parts = entry.split(";");
+    if (parts.length < 2 || !parts[1] || parts[1].trim().length === 0) {
+      continue;
+    }
+    if (toPosixPath(parts[0]) === expectedAssetsPath) {
+      return path.join(assetsDir, parts[1]);
+    }
+  }
+
+  return undefined;
+}
+
+/**
+ * Shows what test recordings have changed since the last push or restore.
+ * Runs `git status` and optionally `git diff` inside the asset-sync clone
+ * scoped to the current package's recording subtree.
+ */
+export async function printRecordingsDiff(
+  project: ProjectInfo,
+  options: DiffOptions = {},
+): Promise<void> {
+  const assetsJsonPath = path.join(project.path, "assets.json");
+  if (!existsSync(assetsJsonPath)) {
+    log.error("No assets.json found in the current package — is asset sync set up?");
+    return;
+  }
+
+  const root = await resolveRoot();
+  const projectRelativeToRoot = path.relative(root, project.path);
+
+  // Locate the asset clone directory via breadcrumb (no test-proxy binary needed)
+  const cloneDir = await findAssetCloneDirectory(root, projectRelativeToRoot);
+  if (!cloneDir || !existsSync(cloneDir)) {
+    log.error(
+      "Could not locate the recordings directory. Have you run `dev-tool test-proxy restore`?",
+    );
+    return;
+  }
+
+  // Read AssetsRepoPrefixPath from assets.json to build the correct subtree path
+  const assetsJson = JSON.parse(await readFile(assetsJsonPath, "utf-8"));
+  const prefix: string = assetsJson.AssetsRepoPrefixPath ?? "";
+  const recordingsSubtree = toPosixPath(
+    prefix
+      ? path.join(prefix, projectRelativeToRoot, "recordings")
+      : path.join(projectRelativeToRoot, "recordings"),
+  );
+
+  // Check for any changes (staged, unstaged, or untracked)
+  const { stdout: statusOutput } = await execPromise(
+    `git status --porcelain -- "${recordingsSubtree}"`,
+    { cwd: cloneDir },
+  );
+
+  if (!statusOutput.trim()) {
+    log.success("No recording changes detected — recordings are clean.");
+    return;
+  }
+
+  // Show summary header
+  const lines = statusOutput.trim().split("\n");
+  const added = lines.filter((l) => l.startsWith("?") || l.startsWith("A")).length;
+  const modified = lines.filter((l) => l.startsWith(" M") || l.startsWith("M")).length;
+  const deleted = lines.filter((l) => l.startsWith(" D") || l.startsWith("D")).length;
+
+  log.info(`\nRecording changes for ${project.name}:`);
+  log.info(
+    `  ${lines.length} file(s) changed: +${added} added, ~${modified} modified, -${deleted} deleted\n`,
+  );
+
+  // Always show the file list
+  for (const line of lines) {
+    const status = line.substring(0, 2).trim();
+    const file = line.substring(3);
+    const label =
+      status === "??" ? "new" : status === "M" ? "modified" : status === "D" ? "deleted" : status;
+    log(`  [${label}] ${file}`);
+  }
+
+  // Show full diff unless --stat
+  if (options.stat) {
+    log.info("\n(Use without --stat to see full diffs)");
+  } else {
+    log.info(""); // blank line before diffs
+
+    // Diff for tracked changes (both staged and unstaged)
+    if (modified > 0 || deleted > 0) {
+      const { stdout: diffOutput } = await execPromise(
+        `git diff --no-color -- "${recordingsSubtree}"`,
+        { cwd: cloneDir, maxBuffer: 10 * 1024 * 1024 },
+      );
+      const { stdout: cachedDiffOutput } = await execPromise(
+        `git diff --cached --no-color -- "${recordingsSubtree}"`,
+        { cwd: cloneDir, maxBuffer: 10 * 1024 * 1024 },
+      );
+      if (diffOutput.trim()) {
+        process.stdout.write(diffOutput);
+      }
+      if (cachedDiffOutput.trim()) {
+        process.stdout.write(cachedDiffOutput);
+      }
+    }
+
+    // Show content of new untracked files (truncated)
+    const untrackedFiles = lines.filter((l) => l.startsWith("??")).map((l) => l.substring(3));
+
+    for (const file of untrackedFiles) {
+      const filePath = path.join(cloneDir, file);
+      try {
+        const content = await readFile(filePath, "utf-8");
+        const preview =
+          content.length > 2000 ? content.substring(0, 2000) + "\n... (truncated)" : content;
+        log.info(`\n--- new file: ${file} ---`);
+        process.stdout.write(preview + "\n");
+      } catch {
+        // Skip files that can't be read
+      }
+    }
   }
 }
 
@@ -298,9 +495,25 @@ export async function startTestProxy(): Promise<TestProxy> {
     `https://0.0.0.0:${process.env.TEST_PROXY_HTTPS_PORT ?? 5001}/`,
   ]);
 
-  const log = fs.createWriteStream("./testProxyOutput.log", { flags: "a" });
-  testProxy.command.stdout?.pipe(log);
-  testProxy.command.stderr?.pipe(log);
+  const logFile = createWriteStream("./testProxyOutput.log", { flags: "a" });
+  testProxy.command.stdout?.pipe(logFile);
+  testProxy.command.stderr?.pipe(logFile);
+
+  // Wait for the proxy to be ready before allowing tests to run.
+  // If readiness fails, clean up the spawned process to avoid orphans.
+  const ready = await checkWithTimeout(isProxyToolActive, 500, 30000);
+  if (!ready) {
+    logFile.end();
+    testProxy.command.kill("SIGKILL");
+    try {
+      await testProxy.result;
+    } catch {
+      // Ignore errors from the killed process.
+    }
+    throw new Error(
+      `Test proxy did not become ready within 30s at http://localhost:${process.env.TEST_PROXY_HTTP_PORT ?? 5000}`,
+    );
+  }
 
   return {
     async stop() {
@@ -345,12 +558,12 @@ async function getTargetVersion() {
   try {
     let contentInVersionFile: string;
     const overrideFile = `${path.join(await resolveRoot(), "eng/target_proxy_version.txt")}`;
-    const overrideExists = await fs.exists(overrideFile);
+    const overrideExists = existsSync(overrideFile);
 
     if (overrideExists) {
-      contentInVersionFile = await fs.readFile(overrideFile, "utf-8");
+      contentInVersionFile = await readFile(overrideFile, "utf-8");
     } else {
-      contentInVersionFile = await fs.readFile(
+      contentInVersionFile = await readFile(
         `${path.join(await resolveRoot(), "eng/common/testproxy/target_version.txt")}`,
         "utf-8",
       );

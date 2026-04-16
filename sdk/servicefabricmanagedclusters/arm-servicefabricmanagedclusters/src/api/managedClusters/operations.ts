@@ -1,30 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricManagedClustersManagementContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { ServiceFabricManagedClustersManagementContext as Client } from "../index.js";
+import type {
   ManagedCluster,
-  managedClusterSerializer,
-  managedClusterDeserializer,
   ManagedClusterUpdateParameters,
-  managedClusterUpdateParametersSerializer,
   _ManagedClusterListResult,
-  _managedClusterListResultDeserializer,
-  FaultSimulationIdContent,
-  faultSimulationIdContentSerializer,
-  FaultSimulation,
-  faultSimulationDeserializer,
-  _FaultSimulationListResult,
-  _faultSimulationListResultDeserializer,
-  FaultSimulationContentWrapper,
-  faultSimulationContentWrapperSerializer,
 } from "../../models/models.js";
 import {
-  ManagedClustersStopFaultSimulationOptionalParams,
-  ManagedClustersStartFaultSimulationOptionalParams,
-  ManagedClustersListFaultSimulationOptionalParams,
-  ManagedClustersGetFaultSimulationOptionalParams,
+  errorResponseDeserializer,
+  managedClusterSerializer,
+  managedClusterDeserializer,
+  managedClusterUpdateParametersSerializer,
+  _managedClusterListResultDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
   ManagedClustersListBySubscriptionOptionalParams,
   ManagedClustersListByResourceGroupOptionalParams,
   ManagedClustersDeleteOptionalParams,
@@ -32,284 +26,19 @@ import {
   ManagedClustersCreateOrUpdateOptionalParams,
   ManagedClustersGetOptionalParams,
 } from "./options.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
-
-export function _stopFaultSimulationSend(
-  context: Client,
-  resourceGroupName: string,
-  clusterName: string,
-  parameters: FaultSimulationIdContent,
-  options: ManagedClustersStopFaultSimulationOptionalParams = {
-    requestOptions: {},
-  },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/stopFaultSimulation{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      clusterName: clusterName,
-      "api%2Dversion": context.apiVersion,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: faultSimulationIdContentSerializer(parameters),
-  });
-}
-
-export async function _stopFaultSimulationDeserialize(
-  result: PathUncheckedResponse,
-): Promise<FaultSimulation> {
-  const expectedStatuses = ["202", "200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
-    throw error;
-  }
-
-  return faultSimulationDeserializer(result.body);
-}
-
-/** Stops a fault simulation on the cluster. */
-export function stopFaultSimulation(
-  context: Client,
-  resourceGroupName: string,
-  clusterName: string,
-  parameters: FaultSimulationIdContent,
-  options: ManagedClustersStopFaultSimulationOptionalParams = {
-    requestOptions: {},
-  },
-): PollerLike<OperationState<FaultSimulation>, FaultSimulation> {
-  return getLongRunningPoller(context, _stopFaultSimulationDeserialize, ["202", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _stopFaultSimulationSend(context, resourceGroupName, clusterName, parameters, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
-}
-
-export function _startFaultSimulationSend(
-  context: Client,
-  resourceGroupName: string,
-  clusterName: string,
-  parameters: FaultSimulationContentWrapper,
-  options: ManagedClustersStartFaultSimulationOptionalParams = {
-    requestOptions: {},
-  },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/startFaultSimulation{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      clusterName: clusterName,
-      "api%2Dversion": context.apiVersion,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: faultSimulationContentWrapperSerializer(parameters),
-  });
-}
-
-export async function _startFaultSimulationDeserialize(
-  result: PathUncheckedResponse,
-): Promise<FaultSimulation> {
-  const expectedStatuses = ["202", "200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
-    throw error;
-  }
-
-  return faultSimulationDeserializer(result.body);
-}
-
-/** Starts a fault simulation on the cluster. */
-export function startFaultSimulation(
-  context: Client,
-  resourceGroupName: string,
-  clusterName: string,
-  parameters: FaultSimulationContentWrapper,
-  options: ManagedClustersStartFaultSimulationOptionalParams = {
-    requestOptions: {},
-  },
-): PollerLike<OperationState<FaultSimulation>, FaultSimulation> {
-  return getLongRunningPoller(context, _startFaultSimulationDeserialize, ["202", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _startFaultSimulationSend(context, resourceGroupName, clusterName, parameters, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
-}
-
-export function _listFaultSimulationSend(
-  context: Client,
-  resourceGroupName: string,
-  clusterName: string,
-  options: ManagedClustersListFaultSimulationOptionalParams = {
-    requestOptions: {},
-  },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/listFaultSimulation{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      clusterName: clusterName,
-      "api%2Dversion": context.apiVersion,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
-}
-
-export async function _listFaultSimulationDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_FaultSimulationListResult> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
-    throw error;
-  }
-
-  return _faultSimulationListResultDeserializer(result.body);
-}
-
-/** Gets the list of recent fault simulations for the cluster. */
-export function listFaultSimulation(
-  context: Client,
-  resourceGroupName: string,
-  clusterName: string,
-  options: ManagedClustersListFaultSimulationOptionalParams = {
-    requestOptions: {},
-  },
-): PagedAsyncIterableIterator<FaultSimulation> {
-  return buildPagedAsyncIterator(
-    context,
-    () => _listFaultSimulationSend(context, resourceGroupName, clusterName, options),
-    _listFaultSimulationDeserialize,
-    ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
-  );
-}
-
-export function _getFaultSimulationSend(
-  context: Client,
-  resourceGroupName: string,
-  clusterName: string,
-  parameters: FaultSimulationIdContent,
-  options: ManagedClustersGetFaultSimulationOptionalParams = {
-    requestOptions: {},
-  },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/getFaultSimulation{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      clusterName: clusterName,
-      "api%2Dversion": context.apiVersion,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: faultSimulationIdContentSerializer(parameters),
-  });
-}
-
-export async function _getFaultSimulationDeserialize(
-  result: PathUncheckedResponse,
-): Promise<FaultSimulation> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
-    throw error;
-  }
-
-  return faultSimulationDeserializer(result.body);
-}
-
-/** Gets a fault simulation by the simulationId. */
-export async function getFaultSimulation(
-  context: Client,
-  resourceGroupName: string,
-  clusterName: string,
-  parameters: FaultSimulationIdContent,
-  options: ManagedClustersGetFaultSimulationOptionalParams = {
-    requestOptions: {},
-  },
-): Promise<FaultSimulation> {
-  const result = await _getFaultSimulationSend(
-    context,
-    resourceGroupName,
-    clusterName,
-    parameters,
-    options,
-  );
-  return _getFaultSimulationDeserialize(result);
-}
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listBySubscriptionSend(
   context: Client,
-  options: ManagedClustersListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  options: ManagedClustersListBySubscriptionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabric/managedClusters{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -317,10 +46,7 @@ export function _listBySubscriptionSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -340,32 +66,28 @@ export async function _listBySubscriptionDeserialize(
 /** Gets all Service Fabric cluster resources created or in the process of being created in the subscription. */
 export function listBySubscription(
   context: Client,
-  options: ManagedClustersListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  options: ManagedClustersListBySubscriptionOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ManagedCluster> {
   return buildPagedAsyncIterator(
     context,
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-02-01" },
   );
 }
 
 export function _listByResourceGroupSend(
   context: Client,
   resourceGroupName: string,
-  options: ManagedClustersListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: ManagedClustersListByResourceGroupOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -373,10 +95,7 @@ export function _listByResourceGroupSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -397,16 +116,14 @@ export async function _listByResourceGroupDeserialize(
 export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
-  options: ManagedClustersListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: ManagedClustersListByResourceGroupOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ManagedCluster> {
   return buildPagedAsyncIterator(
     context,
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-02-01" },
   );
 }
 
@@ -422,19 +139,13 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -465,6 +176,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, clusterName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-02-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -481,7 +193,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -490,16 +202,13 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: managedClusterUpdateParametersSerializer(parameters),
   });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<ManagedCluster> {
-  const expectedStatuses = ["200"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -510,15 +219,21 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 }
 
 /** Update the tags of of a Service Fabric managed cluster resource with the specified name. */
-export async function update(
+export function update(
   context: Client,
   resourceGroupName: string,
   clusterName: string,
   parameters: ManagedClusterUpdateParameters,
   options: ManagedClustersUpdateOptionalParams = { requestOptions: {} },
-): Promise<ManagedCluster> {
-  const result = await _updateSend(context, resourceGroupName, clusterName, parameters, options);
-  return _updateDeserialize(result);
+): PollerLike<OperationState<ManagedCluster>, ManagedCluster> {
+  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _updateSend(context, resourceGroupName, clusterName, parameters, options),
+    resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-02-01",
+  }) as PollerLike<OperationState<ManagedCluster>, ManagedCluster>;
 }
 
 export function _createOrUpdateSend(
@@ -534,7 +249,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -543,10 +258,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: managedClusterSerializer(parameters),
   });
 }
@@ -554,7 +266,7 @@ export function _createOrUpdateSend(
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<ManagedCluster> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -572,12 +284,13 @@ export function createOrUpdate(
   parameters: ManagedCluster,
   options: ManagedClustersCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<ManagedCluster>, ManagedCluster> {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, clusterName, parameters, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-02-01",
   }) as PollerLike<OperationState<ManagedCluster>, ManagedCluster>;
 }
 
@@ -593,7 +306,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -601,10 +314,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 

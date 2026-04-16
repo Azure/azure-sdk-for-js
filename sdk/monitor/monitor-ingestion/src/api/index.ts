@@ -3,8 +3,8 @@
 
 export {
   createLogsIngestion,
-  LogsIngestionContext,
-  LogsIngestionClientOptions,
+  type LogsIngestionContext,
+  type LogsIngestionClientOptions,
 } from "./logsIngestionContext.js";
 export { upload } from "./operations.js";
-export { LogsUploadOptions } from "./options.js";
+export type { LogsUploadOptions } from "./options.js";

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update a Gate
  *
  * @summary update a Gate
- * x-ms-original-file: 2025-04-01-preview/Gates_Update.json
+ * x-ms-original-file: 2026-02-01-preview/Gates_Update.json
  */
 async function updatesAGateResource() {
   const credential = new DefaultAzureCredential();

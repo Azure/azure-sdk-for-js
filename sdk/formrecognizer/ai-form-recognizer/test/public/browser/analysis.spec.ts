@@ -32,10 +32,7 @@ describe("analysis (browser)", { timeout: 60000 }, () => {
     );
     const { documents: receipts } = await poller.pollUntilDone();
 
-    assert.ok(
-      receipts && receipts.length > 0,
-      `Expected at least one receipt, but got ${receipts}`,
-    );
+    assert.isNotEmpty(receipts);
     const receipt = receipts![0];
     assert.equal(receipt.docType, "receipt.retailMeal");
   });

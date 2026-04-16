@@ -49,7 +49,7 @@ node labelsCreateAndUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env DEFENDEREASM_SUBSCRIPTION_ID="<defendereasm subscription id>" DEFENDEREASM_RESOURCE_GROUP="<defendereasm resource group>" node labelsCreateAndUpdateSample.js
+cross-env DEFENDEREASM_SUBSCRIPTION_ID="<defendereasm subscription id>" DEFENDEREASM_RESOURCE_GROUP="<defendereasm resource group>" node labelsCreateAndUpdateSample.js
 ```
 
 ## Next Steps

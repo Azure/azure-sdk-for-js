@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import assert from "node:assert";
 import path from "node:path";
 import { JsonConfig } from "../../../../src/shared/jsonConfig.js";
-import { afterAll, afterEach, beforeEach, describe, it, vi } from "vitest";
+import { afterAll, afterEach, assert, beforeEach, describe, it, vi } from "vitest";
 
 describe("Json Config", () => {
   let originalEnv: NodeJS.ProcessEnv;

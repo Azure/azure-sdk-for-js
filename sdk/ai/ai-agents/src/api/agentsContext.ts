@@ -3,8 +3,9 @@
 
 import { logger } from "../logger.js";
 import { KnownVersions } from "../models/models.js";
-import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
-import { TokenCredential } from "@azure/core-auth";
+import type { Client, ClientOptions } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
+import type { TokenCredential } from "@azure/core-auth";
 
 export interface AgentsContext extends Client {
   /** The API version to use for this operation. */
@@ -26,7 +27,7 @@ export function createAgents(
 ): AgentsContext {
   const endpointUrl = options.endpoint ?? String(endpointParam);
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-ai-agents/1.2.0-beta.1`;
+  const userAgentInfo = `azsdk-js-ai-agents/1.2.0-beta.2`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;

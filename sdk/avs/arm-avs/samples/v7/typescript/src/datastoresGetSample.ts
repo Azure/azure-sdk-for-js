@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a Datastore
  *
  * @summary get a Datastore
- * x-ms-original-file: 2024-09-01/Datastores_Get.json
+ * x-ms-original-file: 2025-09-01/Datastores_Get.json
  */
 async function datastoresGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

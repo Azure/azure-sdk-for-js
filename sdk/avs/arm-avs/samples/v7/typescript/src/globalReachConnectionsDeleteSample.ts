@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a GlobalReachConnection
  *
  * @summary delete a GlobalReachConnection
- * x-ms-original-file: 2024-09-01/GlobalReachConnections_Delete.json
+ * x-ms-original-file: 2025-09-01/GlobalReachConnections_Delete.json
  */
 async function globalReachConnectionsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

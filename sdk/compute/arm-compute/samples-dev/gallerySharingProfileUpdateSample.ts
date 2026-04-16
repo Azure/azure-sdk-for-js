@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { SharingUpdate} from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Update sharing profile of a gallery.
  *
  * @summary Update sharing profile of a gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/Gallery_AddToSharingProfile.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2025-03-03/examples/galleryExamples/Gallery_AddToSharingProfile.json
  */
-
-import { SharingUpdate, ComputeManagementClient } from "@azure/arm-compute";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function addSharingIdToTheSharingProfileOfAGallery(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -45,7 +45,7 @@ async function addSharingIdToTheSharingProfileOfAGallery(): Promise<void> {
  * This sample demonstrates how to Update sharing profile of a gallery.
  *
  * @summary Update sharing profile of a gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/Gallery_ResetSharingProfile.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2025-03-03/examples/galleryExamples/Gallery_ResetSharingProfile.json
  */
 async function resetSharingProfileOfAGallery(): Promise<void> {
   const subscriptionId =
@@ -68,7 +68,7 @@ async function resetSharingProfileOfAGallery(): Promise<void> {
  * This sample demonstrates how to Update sharing profile of a gallery.
  *
  * @summary Update sharing profile of a gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/Gallery_EnableCommunityGallery.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2025-03-03/examples/galleryExamples/Gallery_EnableCommunityGallery.json
  */
 async function shareAGalleryToCommunity(): Promise<void> {
   const subscriptionId =

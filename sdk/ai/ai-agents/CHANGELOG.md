@@ -1,14 +1,10 @@
 # Release History
 
-## 1.2.0-beta.2 (Unreleased)
+## 1.2.0-beta.2 (2025-09-26)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Add `ToolUtility.createBrowserAutomationTool` to support browser automation tool in agent
 
 ## 1.2.0-beta.1 (2025-09-18)
 

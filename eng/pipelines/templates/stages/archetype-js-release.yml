@@ -3,17 +3,14 @@ parameters:
   TestPipeline: false
   ArtifactName: packages
   DependsOn: Build
-  Registry: https://registry.npmjs.org/
-  PrivateRegistry: https://pkgs.dev.azure.com/azure-sdk/internal/_packaging/azure-sdk-for-js-pr/npm/registry/
   TargetDocRepoOwner: ''
   TargetDocRepoName: ''
   ServiceDirectory: ''
 
-
 stages:
   - ${{if and(in(variables['Build.Reason'], 'Manual', ''), eq(variables['System.TeamProject'], 'internal'))}}:
       - ${{ each artifact in parameters.Artifacts }}:
-          - stage:
+          - stage: 'Release_${{artifact.safename}}'
             variables:
               - template: /eng/pipelines/templates/variables/globals.yml
               - template: /eng/pipelines/templates/variables/image.yml
@@ -37,6 +34,13 @@ stages:
                       PackageName: '@azure/template'
                       ServiceDirectory: template
                       TestPipeline: ${{ parameters.TestPipeline }}
+                  - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
+                    parameters:
+                      npmrcPath: $(Agent.TempDirectory)/create-release-tag/.npmrc
+                      registryUrl: '$(PublicDevOpsRegistry)'
+                  - script: >
+                      ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz && npm install --userconfig=$(Agent.TempDirectory)/create-release-tag/.npmrc `ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz`
+                    displayName: Validating package can be installed
                   - template: /eng/common/pipelines/templates/steps/verify-changelog.yml
                     parameters:
                       PackageName: ${{artifact.name}}
@@ -58,6 +62,7 @@ stages:
                       ReleaseSha: $(Build.SourceVersion)
                       RepoId: Azure/azure-sdk-for-js
                       WorkingDirectory: $(System.DefaultWorkingDirectory)
+                      NpmConfigUserConfig: $(Agent.TempDirectory)/create-release-tag/.npmrc
 
               - ${{ if ne(artifact.skipPublishPackage, 'true') }}:
                   - template: /eng/common/pipelines/templates/jobs/npm-publish.yml
@@ -66,12 +71,24 @@ stages:
                       DeploymentName: PublishPackage_${{ replace(artifact.name, '-', '_') }}
                       ArtifactName: ${{ parameters.ArtifactName }}
                       ArtifactSubPath: '${{ artifact.name }}'
-                      Registry: 'https://registry.npmjs.org/'
+
+                  - template: /eng/common/pipelines/templates/jobs/npm-publish.yml
+                    parameters:
+                      DependsOn: TagRepository
+                      DeploymentName: PublishPackage_${{ replace(artifact.name, '-', '_') }}_To_DevFeed
+                      ArtifactName: ${{ parameters.ArtifactName }}
+                      ArtifactSubPath: '${{ artifact.name }}'
+                      Registry: $(PublicDevOpsRegistry)
 
               - ${{ if ne(artifact.skipPublishDocMs, 'true') }}:
                   - job: PublishDocs
                     displayName: Docs.MS Release
-                    condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'))
+                    condition: >-
+                      and(
+                        succeeded(),
+                        ne(variables['Skip.PublishDocs'], 'true'),
+                        ne(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-js-pr')
+                      )
                     dependsOn: PublishPackage_${{ replace(artifact.name, '-', '_') }}
                     pool:
                       name: $(LINUXPOOL)
@@ -85,6 +102,8 @@ stages:
                             - .github/CODEOWNERS
                       - download: current
                       - template: /eng/pipelines/templates/steps/install-rex-validation-tool.yml
+                        parameters:
+                          NpmConfigRegistry: $(PublicNpmRegistry)
                       - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
                         parameters:
                           PackageInfoLocations:
@@ -99,11 +118,17 @@ stages:
                             - metadata/
                             - ci-configs/packages-latest.json
                             - ci-configs/packages-preview.json
+                          NpmConfigRegistry: $(PublicNpmRegistry)
 
               - ${{ if ne(artifact.skipPublishDocGithubIo, 'true') }}:
                   - job: PublishDocsGitHubIO
                     displayName: Publish Docs to GitHubIO Blob Storage
-                    condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'))
+                    condition: >-
+                      and(
+                        succeeded(),
+                        ne(variables['Skip.PublishDocs'], 'true'),
+                        ne(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-js-pr')
+                      )
                     dependsOn: PublishPackage_${{ replace(artifact.name, '-', '_') }}
                     pool:
                       name: $(LINUXPOOL)
@@ -151,42 +176,6 @@ stages:
                           ConfigFileDir: $(Pipeline.Workspace)/packages/PackageInfo
                           PackageArtifactName: ${{ artifact.name }}
 
-                      - bash: |
-                          npm ci
-                        workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/eng-package-utils
-                        displayName: Install eng-package-utils tool dependencies
-
-                      - bash: |
-                          npm ci
-                        workingDirectory: ./eng/tools/versioning
-                        displayName: Install versioning tool dependencies
-
-                      - bash: |
-                          node ./eng/tools/versioning/increment.js --artifact-name ${{ artifact.name }} --repo-root .
-                        displayName: Increment package version
-
-                      - bash: |
-                          npm install -g pnpm
-                        displayName: Install Pnpm
-
-                      - bash: |
-                          pnpm install --no-frozen-lockfile
-                        displayName: "Install dependencies"
-
-                      # Disabled until packages can be updated to support ES2019 syntax.
-                      # - bash: |
-                      #     npm install -g ./common/tools/dev-tool
-                      #     npm install ./eng/tools/eng-package-utils
-                      #     node ./eng/tools/eng-package-utils/update-samples.js ${{ artifact.name }}
-                      #   displayName: Update samples
-
-                      - template: /eng/common/pipelines/templates/steps/create-pull-request.yml
-                        parameters:
-                          RepoName: azure-sdk-for-js
-                          PRBranchName: post-release-automation-${{ parameters.ServiceDirectory }}-$(Build.BuildId)
-                          CommitMsg: Post release automated changes for ${{ artifact.name }}
-                          PRTitle: Post release automated changes for ${{ parameters.ServiceDirectory }} releases
-                          CloseAfterOpenForTesting: ${{ parameters.TestPipeline }}
   - stage: Integration
     dependsOn: ${{ parameters.DependsOn }}
     condition: and(succeeded(), or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal'))))
@@ -199,14 +188,21 @@ stages:
           Tag: 'dev'
           ArtifactName: ${{ parameters.ArtifactName }}-dev-publish
           ${{ if eq(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-js')}}:
-            Registry: 'https://registry.npmjs.org/'
+            Registry: '$(PublicDevOpsRegistry)'
           ${{ else }}:
-            Registry: 'https://pkgs.dev.azure.com/azure-sdk/internal/_packaging/azure-sdk-for-js-pr/npm/registry/'
+            Registry: '$(PrivateDevOpsRegistry)'
           FailOnMissingPackages: false
           Environment: 'none'
 
       - job: PublishDocsToNightlyBranch
-        condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'))
+        # Wait for publishing job to complete before running
+        dependsOn: 'PublishPackage'
+        condition: >-
+          and(
+            succeeded(),
+            ne(variables['Skip.PublishDocs'], 'true'),
+            ne(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-js-pr')
+          )
         pool:
           name: $(LINUXPOOL)
           image: $(LINUXVMIMAGE)
@@ -221,9 +217,19 @@ stages:
           - pwsh: |
               Get-ChildItem -Recurse $(Pipeline.Workspace)/${{parameters.ArtifactName}}/
             displayName: Show visible artifacts
+          - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
+            parameters:
+              npmrcPath: $(Agent.TempDirectory)/publish-docs/.npmrc
+              ${{ if eq(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-js')}}:
+                registryUrl: '$(PublicDevOpsRegistry)'
+              ${{ else }}:
+                registryUrl: '$(PrivateDevOpsRegistry)'
           - template: /eng/pipelines/templates/steps/install-rex-validation-tool.yml
+            parameters:
+              NpmConfigUserConfig: $(Agent.TempDirectory)/publish-docs/.npmrc
           - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
             parameters:
+              NpmConfigUserConfig: $(Agent.TempDirectory)/publish-docs/.npmrc
               PackageInfoLocations:
                 - ${{ each artifact in parameters.Artifacts }}:
                     - ${{if ne(artifact.skipPublishDocMs, 'true')}}:
@@ -239,4 +245,8 @@ stages:
                 - metadata/
                 - ci-configs/packages-latest.json
                 - ci-configs/packages-preview.json
+              ${{ if eq(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-js')}}:
+                PackageSourceOverride: '$(PublicDevOpsRegistry)'
+              ${{ else }}:
+                PackageSourceOverride: '$(PrivateDevOpsRegistry)'
           - template: /eng/common/pipelines/templates/steps/docsms-ensure-validation.yml

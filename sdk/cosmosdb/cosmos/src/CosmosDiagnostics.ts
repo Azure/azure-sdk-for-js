@@ -97,6 +97,10 @@ export type ClientConfigDiagnostic = {
    * SDK version
    */
   sDKVersion: string;
+  /**
+   * True if `aadScope` were supplied during client initialization.
+   */
+  aadScopeOverride?: boolean;
 };
 
 /**

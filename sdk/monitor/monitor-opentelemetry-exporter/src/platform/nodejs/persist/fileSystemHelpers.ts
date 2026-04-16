@@ -41,6 +41,19 @@ export const confirmDirExists = async (directory: string): Promise<void> => {
     if (!stats.isDirectory()) {
       throw new Error("Path existed but was not a directory");
     }
+
+    const ownerUid = stats.uid;
+    const currentUid = typeof process.getuid === "function" ? process.getuid() : undefined;
+    if (
+      ownerUid !== undefined &&
+      currentUid !== undefined &&
+      ownerUid !== currentUid &&
+      ownerUid !== 0
+    ) {
+      throw new Error(
+        `Directory ${directory} is owned by uid ${ownerUid}, not the current user (${currentUid}) or admin (uid 0).`,
+      );
+    }
   } catch (err: any) {
     if (err && err.code === "ENOENT") {
       try {
@@ -52,6 +65,9 @@ export const confirmDirExists = async (directory: string): Promise<void> => {
           throw mkdirErr;
         }
       }
+    } else {
+      // Propagate non-ENOENT errors (e.g., ownership mismatch, permission issues)
+      throw err;
     }
   }
 };

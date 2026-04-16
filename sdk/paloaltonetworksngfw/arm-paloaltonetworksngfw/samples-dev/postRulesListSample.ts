@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to List PostRulesResource resources by Tenant
- *
- * @summary List PostRulesResource resources by Tenant
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/PostRules_List_MaximumSet_Gen.json
- */
-
 import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to List PostRulesResource resources by Tenant
+ *
+ * @summary List PostRulesResource resources by Tenant
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/PostRules_List_MaximumSet_Gen.json
+ */
 async function postRulesListMaximumSetGen(): Promise<void> {
   const globalRulestackName = "lrs1";
   const credential = new DefaultAzureCredential();
@@ -27,7 +26,7 @@ async function postRulesListMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to List PostRulesResource resources by Tenant
  *
  * @summary List PostRulesResource resources by Tenant
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/PostRules_List_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/PostRules_List_MinimumSet_Gen.json
  */
 async function postRulesListMinimumSetGen(): Promise<void> {
   const globalRulestackName = "lrs1";

@@ -65,25 +65,27 @@ describe("netapp test", () => {
   });
 
   it("accounts create test", async () => {
-    const res = await client.accounts.beginCreateOrUpdateAndWait(
+    const res = await client.accounts.createOrUpdate(
       resourceGroup,
       accountName,
       {
         location: location,
-        activeDirectories: [
-          {
-            aesEncryption: true,
-            dns: "10.10.10.3",
-            domain: "10.10.10.3",
-            ldapOverTLS: false,
-            ldapSigning: false,
-            organizationalUnit: "OU=Engineering",
-            password: "ad_password",
-            site: "SiteName",
-            smbServerName: "SMBServer",
-            username: "ad_user_name",
-          },
-        ],
+        properties: {
+          activeDirectories: [
+            {
+              aesEncryption: true,
+              dns: "10.10.10.3",
+              domain: "10.10.10.3",
+              ldapOverTLS: false,
+              ldapSigning: false,
+              organizationalUnit: "OU=Engineering",
+              password: "ad_password",
+              site: "SiteName",
+              smbServerName: "SMBServer",
+              username: "ad_user_name",
+            },
+          ],
+        },
       },
       testPollingOptions,
     );
@@ -105,7 +107,7 @@ describe("netapp test", () => {
 
   it("accounts delete test", async () => {
     const resArray = new Array();
-    await client.accounts.beginDeleteAndWait(resourceGroup, accountName, testPollingOptions);
+    await client.accounts.delete(resourceGroup, accountName, testPollingOptions);
     for await (const item of client.accounts.list(resourceGroup)) {
       resArray.push(item);
     }
@@ -116,7 +118,11 @@ describe("netapp test", () => {
     const name = "accName";
     const typeParam = "Microsoft.NetApp/netAppAccounts";
     const rg = "myRG";
-    const result = await client.netAppResource.checkNameAvailability(location, name, typeParam, rg);
+    const result = await client.netAppResource.checkNameAvailability(location, {
+      name: name,
+      type: typeParam,
+      resourceGroup: rg,
+    });
     console.log(result);
   });
 });

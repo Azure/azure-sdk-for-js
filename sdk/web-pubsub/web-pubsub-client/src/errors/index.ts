@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AckMessageError } from "../models/messages.js";
+import type { AckMessageError, InvokeResponseError } from "../models/messages.js";
 
 /**
  * Error when sending message failed
@@ -41,4 +41,36 @@ export interface SendMessageErrorOptions {
    * The error details from the service
    */
   errorDetail?: AckMessageError;
+}
+
+export interface InvocationErrorOptions {
+  /**
+   * The invocation id of the request.
+   */
+  invocationId: string;
+  /**
+   * Error details from the service if available.
+   */
+  errorDetail?: InvokeResponseError;
+}
+
+/**
+ * Error thrown when an invocation fails or is cancelled.
+ */
+export class InvocationError extends Error {
+  /**
+   * The invocation id of the request.
+   */
+  public invocationId: string;
+  /**
+   * Error details from the service if available.
+   */
+  public errorDetail?: InvokeResponseError;
+
+  constructor(message: string, options: InvocationErrorOptions) {
+    super(message);
+    this.name = "InvocationError";
+    this.invocationId = options.invocationId;
+    this.errorDetail = options.errorDetail;
+  }
 }

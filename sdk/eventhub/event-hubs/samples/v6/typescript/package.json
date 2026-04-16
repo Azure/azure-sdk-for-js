@@ -34,14 +34,15 @@
     "rhea-promise": "^3.0.0",
     "@azure/core-amqp": "^4.3.2",
     "@azure/keyvault-secrets": "^4.9.0",
-    "@azure/identity": "^4.8.0",
+    "@azure/identity": "^4.13.0",
     "ws": "^8.2.0",
     "https-proxy-agent": "^7.0.0"
   },
   "devDependencies": {
     "@types/ws": "^8.18.1",
     "@types/node": "^20.0.0",
-    "typescript": "~5.8.2",
-    "rimraf": "latest"
+    "cross-env": "latest",
+    "rimraf": "latest",
+    "typescript": "~5.9.3"
   }
 }

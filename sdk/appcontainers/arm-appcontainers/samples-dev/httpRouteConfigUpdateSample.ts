@@ -1,20 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type {
+  HttpRouteConfig} from "@azure/arm-appcontainers";
 import {
-  HttpRouteConfig,
   ContainerAppsAPIClient,
 } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 /**
- * This sample demonstrates how to Patches an http route config resource. Only patching of tags is supported
+ * This sample demonstrates how to Patches a Http Route Config resource. Only patching of tags is supported
  *
- * @summary Patches an http route config resource. Only patching of tags is supported
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2025-02-02-preview/examples/HttpRouteConfig_Patch.json
+ * @summary Patches a Http Route Config resource. Only patching of tags is supported
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/HttpRouteConfig_Patch.json
  */
-async function patchManagedHttpRoute(): Promise<void> {
+async function patchAHttpRouteConfig(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -41,7 +42,7 @@ async function patchManagedHttpRoute(): Promise<void> {
               match: { path: "/v1", caseSensitive: true },
             },
           ],
-          targets: [{ containerApp: "capp-1", revision: "rev-1", weight: 100 }],
+          targets: [{ containerApp: "capp-1", revision: "capp-1--0000001" }],
         },
       ],
     },
@@ -58,7 +59,7 @@ async function patchManagedHttpRoute(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await patchManagedHttpRoute();
+  await patchAHttpRouteConfig();
 }
 
 main().catch(console.error);

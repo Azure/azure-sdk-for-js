@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Export logs that show total throttled Api requests for this subscription in the given time window.
- *
- * @summary Export logs that show total throttled Api requests for this subscription in the given time window.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/logAnalyticExamples/LogAnalytics_ThrottledRequests.json
- */
-
+import type {
+  ThrottledRequestsInput} from "@azure/arm-compute";
 import {
-  ThrottledRequestsInput,
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Export logs that show total throttled Api requests for this subscription in the given time window.
+ *
+ * @summary Export logs that show total throttled Api requests for this subscription in the given time window.
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/logAnalyticExamples/LogAnalytics_ThrottledRequests.json
+ */
 async function exportLogsWhichContainAllThrottledApiRequestsMadeToComputeResourceProviderWithinTheGivenTimePeriod(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";

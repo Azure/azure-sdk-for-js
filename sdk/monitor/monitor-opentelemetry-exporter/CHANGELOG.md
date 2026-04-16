@@ -1,5 +1,67 @@
 # Release History
 
+## 1.0.0-beta.40 (Unreleased)
+
+### Breaking Changes
+
+- The `AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT` environment variable is no longer supported. All custom dimension values are truncated to 8KB by default.
+
+### Features Added
+
+- Persisted telemetry files from previous sessions are now sent immediately on startup instead of waiting for the first successful export plus a 60-second retry interval.
+- All persisted files are now processed at startup, not just one file per retry cycle.
+- Outdated persisted telemetry is cleaned from disk before sending on startup.
+- The exporter now respects the `Retry-After` header from the backend when scheduling retries for retriable responses.
+- Throttled telemetry (429 responses) is now persisted to disk for retry instead of being silently dropped.
+- Specific GenAI properties are now truncated to 256KB instead of being exempt from truncation limits.
+
+### Other Changes
+
+- Revert custom properties limit to 8KB.
+
+### Bugs Fixed
+
+- When multiple `Retry-After` headers are received, the exporter now compares absolute deadlines to ensure envelopes are sent at the latest required time.
+
+## 1.0.0-beta.39 (2026-02-20)
+
+### Features Added 
+
+- Add ownership checks for storage directories.
+- Added a 64KB size limit on custom dimensions. Individual custom dimension values greater than 64KB are truncated to the upper limit of 64KB. Set the `AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT` environment variable to `"true"` to disable this limit for scenarios requiring larger payloads.
+
+### Bugs Fixed
+
+- Fixed an issue where telemetry rejected by ingestion-side sampling was incorrectly persisted for retry, causing offline storage to fill up unnecessarily.
+
+### 1.0.0-beta.38 (2026-01-16)
+
+### Features Added
+
+- Remove limit on custom properties field on both logs and spans.
+- Updated customer SDK Stats metric names from preview format to stable format.
+
+### 1.0.0-beta.37 (2026-01-15)
+
+### Features Added
+
+- Populate the `microsoft.applicationId` resource attribute from the Application Insights connection string when it is not already provided.
+
+### Other Changes
+
+- Detect AKS when the `KUBERNETES_SERVICE_HOST` environment variable is defined.
+- Statsbeat exports now report success on failed sends to prevent PeriodicExportingMetricReader errors from surfacing to customers.
+
+## 1.0.0-beta.36 (2025-11-10)
+
+### Bugs Fixed
+
+- Fixed dynamic import of the exporter package.
+
+- Add support for multiuser permissions in unix.
+
+- Add support for log message serialization for complex objects.
+
 ## 1.0.0-beta.35 (2025-09-16)
 
 ### Other Changes

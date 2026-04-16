@@ -103,7 +103,7 @@ export interface CancelWorkflowRunMediaTypesParam {
 export type CancelWorkflowRunParameters = CancelWorkflowRunMediaTypesParam & CancelWorkflowRunBodyParam & RequestParameters;
 
 // @public
-function createClient(endpoint: string, credentials: TokenCredential, { apiVersion, ...options }?: PurviewWorkflowClientOptions): PurviewWorkflowClient;
+function createClient(endpoint: string, credentials: TokenCredential, input?: PurviewWorkflowClientOptions): PurviewWorkflowClient;
 export default createClient;
 
 // @public

@@ -30,9 +30,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies operations. */
-export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImpl
-  implements ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies
-{
+export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImpl implements ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies {
   private readonly client: SqlManagementClient;
 
   /**

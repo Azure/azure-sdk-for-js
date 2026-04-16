@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to The operation to perform maintenance on a virtual machine.
- *
- * @summary The operation to perform maintenance on a virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineExamples/VirtualMachine_PerformMaintenance_MaximumSet_Gen.json
- */
-
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to The operation to perform maintenance on a virtual machine.
+ *
+ * @summary The operation to perform maintenance on a virtual machine.
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_PerformMaintenance_MaximumSet_Gen.json
+ */
 async function virtualMachinePerformMaintenanceMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -31,7 +30,7 @@ async function virtualMachinePerformMaintenanceMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to The operation to perform maintenance on a virtual machine.
  *
  * @summary The operation to perform maintenance on a virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineExamples/VirtualMachine_PerformMaintenance_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_PerformMaintenance_MinimumSet_Gen.json
  */
 async function virtualMachinePerformMaintenanceMinimumSetGen(): Promise<void> {
   const subscriptionId =

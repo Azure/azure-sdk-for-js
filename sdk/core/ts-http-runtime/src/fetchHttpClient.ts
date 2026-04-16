@@ -12,6 +12,15 @@ import type {
 import { RestError } from "./restError.js";
 import { createHttpHeaders } from "./httpHeaders.js";
 import { isNodeReadableStream, isWebReadableStream } from "./util/typeGuards.js";
+import { arrayBufferViewToArrayBuffer } from "./util/arrayBuffer.js";
+
+// The Fetch spec requires `duplex: "half"` when body is a ReadableStream,
+// but TypeScript's lib.dom.d.ts hasn't added it to RequestInit yet.
+declare global {
+  interface RequestInit {
+    duplex?: "half";
+  }
+}
 
 /**
  * Checks if the body is a Blob or Blob-like
@@ -76,7 +85,7 @@ async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> 
     // init.duplex must be set when body is a ReadableStream object.
     // currently "half" is the only valid value.
     if (streaming) {
-      (requestInit as any).duplex = "half";
+      requestInit.duplex = "half";
     }
     /**
      * Developers of the future:
@@ -221,15 +230,7 @@ function buildPipelineHeaders(httpResponse: Response): PipelineHeaders {
 }
 
 interface BuildRequestBodyResponse {
-  body:
-    | string
-    | Blob
-    | ReadableStream<Uint8Array>
-    | ArrayBuffer
-    | ArrayBufferView
-    | FormData
-    | null
-    | undefined;
+  body?: BodyInit | null;
   streaming: boolean;
 }
 
@@ -239,9 +240,19 @@ function buildRequestBody(request: PipelineRequest): BuildRequestBodyResponse {
     throw new Error("Node streams are not supported in browser environment.");
   }
 
-  return isWebReadableStream(body)
-    ? { streaming: true, body: buildBodyStream(body, { onProgress: request.onUploadProgress }) }
-    : { streaming: false, body };
+  if (isWebReadableStream(body)) {
+    return {
+      streaming: true,
+      body: buildBodyStream(body, { onProgress: request.onUploadProgress }),
+    };
+  } else if (typeof body === "object" && body && "buffer" in body) {
+    // ArrayBufferView
+    return { streaming: false, body: arrayBufferViewToArrayBuffer(body) };
+  } else if (body === undefined) {
+    return { streaming: false };
+  } else {
+    return { streaming: false, body };
+  }
 }
 
 /**

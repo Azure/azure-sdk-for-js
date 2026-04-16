@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list WorkloadNetworkDhcp resources by WorkloadNetwork
  *
  * @summary list WorkloadNetworkDhcp resources by WorkloadNetwork
- * x-ms-original-file: 2024-09-01/WorkloadNetworks_ListDhcp.json
+ * x-ms-original-file: 2025-09-01/WorkloadNetworks_ListDhcp.json
  */
 async function workloadNetworksListDhcp(): Promise<void> {
   const credential = new DefaultAzureCredential();

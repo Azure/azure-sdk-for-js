@@ -49,7 +49,7 @@ export interface ContractModelOutput {
 }
 
 // @public
-function createClient(endpoint: string, credentials: TokenCredential, { apiVersion, ...options }?: DeviceUpdateClientOptions): DeviceUpdateClient;
+function createClient(endpoint: string, credentials: TokenCredential, input?: DeviceUpdateClientOptions): DeviceUpdateClient;
 export default createClient;
 
 // @public

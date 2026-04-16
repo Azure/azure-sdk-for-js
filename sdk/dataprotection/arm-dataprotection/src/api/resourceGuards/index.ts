@@ -1,0 +1,43 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export {
+  listBackupSecurityPINRequestsObjects,
+  getDefaultBackupSecurityPINRequestsObject,
+  listDeleteProtectedItemRequestsObjects,
+  getDefaultDeleteProtectedItemRequestsObject,
+  listUpdateProtectionPolicyRequestsObjects,
+  getDefaultUpdateProtectionPolicyRequestsObject,
+  listUpdateProtectedItemRequestsObjects,
+  getDefaultUpdateProtectedItemRequestsObject,
+  listDisableSoftDeleteRequestsObjects,
+  getDefaultDisableSoftDeleteRequestsObject,
+  listResourcesInSubscription,
+  listResourcesInResourceGroup,
+  $delete,
+  patch,
+  put,
+  get,
+  listDeleteResourceGuardProxyRequestsObjects,
+  getDefaultDeleteResourceGuardProxyRequestsObject,
+} from "./operations.js";
+export {
+  type ResourceGuardsListBackupSecurityPINRequestsObjectsOptionalParams,
+  type ResourceGuardsGetDefaultBackupSecurityPINRequestsObjectOptionalParams,
+  type ResourceGuardsListDeleteProtectedItemRequestsObjectsOptionalParams,
+  type ResourceGuardsGetDefaultDeleteProtectedItemRequestsObjectOptionalParams,
+  type ResourceGuardsListUpdateProtectionPolicyRequestsObjectsOptionalParams,
+  type ResourceGuardsGetDefaultUpdateProtectionPolicyRequestsObjectOptionalParams,
+  type ResourceGuardsListUpdateProtectedItemRequestsObjectsOptionalParams,
+  type ResourceGuardsGetDefaultUpdateProtectedItemRequestsObjectOptionalParams,
+  type ResourceGuardsListDisableSoftDeleteRequestsObjectsOptionalParams,
+  type ResourceGuardsGetDefaultDisableSoftDeleteRequestsObjectOptionalParams,
+  type ResourceGuardsListResourcesInSubscriptionOptionalParams,
+  type ResourceGuardsListResourcesInResourceGroupOptionalParams,
+  type ResourceGuardsDeleteOptionalParams,
+  type ResourceGuardsPatchOptionalParams,
+  type ResourceGuardsPutOptionalParams,
+  type ResourceGuardsGetOptionalParams,
+  type ResourceGuardsListDeleteResourceGuardProxyRequestsObjectsOptionalParams,
+  type ResourceGuardsGetDefaultDeleteResourceGuardProxyRequestsObjectOptionalParams,
+} from "./options.js";

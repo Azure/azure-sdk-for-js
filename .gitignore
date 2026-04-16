@@ -185,12 +185,6 @@ _recordings
 
 sdk/template/template-dpg/src/src
 
-# tshy
-.tshy
-.tshy-build-tmp
-.tshy-build
-sdk/**/src/package.json
-
 # sshkey
 sdk/**/sshKey
 sdk/**/sshKey.pub
@@ -203,3 +197,7 @@ sdk/**/sshKey.pub
 
 # turbo
 .turbo
+
+# vitest browser test artifacts
+.vitest-attachments/
+**/__screenshots__/

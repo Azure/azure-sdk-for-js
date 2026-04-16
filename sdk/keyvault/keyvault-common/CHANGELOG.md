@@ -1,14 +1,10 @@
 # Release History
 
-## 2.0.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 2.1.0 (2026-04-09)
 
 ### Other Changes
+
+- Added `ExtendedCommonClientOptions`, `CommonClientOptions`, `KeepAliveOptions`, and `RedirectOptions` type exports for use by Key Vault client packages.
 
 ## 2.0.0 (2024-10-16)
 

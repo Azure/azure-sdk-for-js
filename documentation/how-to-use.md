@@ -1,3 +1,5 @@
+# How to Use the Azure SDK for JavaScript
+
 In this document, we will give a brief introduction on how to use the JavaScript SDK for new users.
 
 1. Prepare your environment.  

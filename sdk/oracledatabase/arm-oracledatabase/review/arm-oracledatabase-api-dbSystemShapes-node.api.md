@@ -4,8 +4,8 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
+import type { Client } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
 export interface DbSystemShapesGetOptionalParams extends OperationOptions {
@@ -13,6 +13,7 @@ export interface DbSystemShapesGetOptionalParams extends OperationOptions {
 
 // @public
 export interface DbSystemShapesListByLocationOptionalParams extends OperationOptions {
+    shapeAttribute?: string;
     zone?: string;
 }
 

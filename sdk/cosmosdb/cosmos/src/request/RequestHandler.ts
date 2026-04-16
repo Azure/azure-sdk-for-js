@@ -47,13 +47,15 @@ async function httpRequest(
 
   // Wrap users passed abort events and call our own internal abort()
   const userSignal = requestContext.options && requestContext.options.abortSignal;
+  let userSignalListener: EventListener | undefined = undefined;
   if (userSignal) {
     if (userSignal.aborted) {
       controller.abort();
     } else {
-      userSignal.addEventListener("abort", () => {
+      userSignalListener = () => {
         controller.abort();
-      });
+      };
+      userSignal.addEventListener("abort", userSignalListener);
     }
   }
 
@@ -62,8 +64,8 @@ async function httpRequest(
   // set a shorter timeout to allow for quicker failover in case of partition unavailability.
   // This is to ensure that read requests can quickly failover to another partition if the current one is unavailable.
   if (
-    (requestContext.connectionPolicy.enablePartitionLevelFailover ||
-      requestContext.connectionPolicy.enablePartitionLevelCircuitBreaker) &&
+    (requestContext.globalPartitionEndpointManager?.isPartitionLevelAutomaticFailoverEnabled() ||
+      requestContext.globalPartitionEndpointManager?.isPartitionLevelCircuitBreakerEnabled()) &&
     requestContext.partitionKeyRangeId &&
     requestContext.resourceType === ResourceType.item &&
     isReadRequest(requestContext.operationType)
@@ -112,7 +114,6 @@ async function httpRequest(
     if (error.name === "AbortError") {
       // If the user passed signal caused the abort, cancel the timeout and rethrow the error
       if (userSignal && userSignal.aborted === true) {
-        clearTimeout(timeout);
         throw error;
       }
       throw new TimeoutError(
@@ -120,9 +121,14 @@ async function httpRequest(
       );
     }
     throw error;
+  } finally {
+    clearTimeout(timeout);
+
+    if (userSignal && userSignalListener) {
+      userSignal.removeEventListener("abort", userSignalListener);
+    }
   }
 
-  clearTimeout(timeout);
   const result =
     response.status === 204 || response.status === 304 || response.bodyAsText === ""
       ? null

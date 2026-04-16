@@ -12,7 +12,7 @@ export type CreatedByType = string;
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -51,6 +51,21 @@ export enum KnownOrigin {
 }
 
 // @public
+export enum KnownPrivateEndpointConnectionProvisioningState {
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownPrivateEndpointServiceConnectionStatus {
+    Approved = "Approved",
+    Pending = "Pending",
+    Rejected = "Rejected"
+}
+
+// @public
 export enum KnownProvisioningState {
     Accepted = "Accepted",
     Canceled = "Canceled",
@@ -59,6 +74,12 @@ export enum KnownProvisioningState {
     Provisioning = "Provisioning",
     Succeeded = "Succeeded",
     Updating = "Updating"
+}
+
+// @public
+export enum KnownPublicNetworkAccess {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -76,9 +97,15 @@ export enum KnownRedundancyState {
 }
 
 // @public
+export enum KnownSchedulerSkuName {
+    Consumption = "Consumption",
+    Dedicated = "Dedicated"
+}
+
+// @public
 export enum KnownVersions {
-    V20241001Preview = "2024-10-01-preview",
-    V20250401Preview = "2025-04-01-preview"
+    V20251101 = "2025-11-01",
+    V20260201 = "2026-02-01"
 }
 
 // @public
@@ -99,7 +126,56 @@ export interface OperationDisplay {
 }
 
 // @public
+export interface OptionalPropertiesUpdateableProperties {
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+}
+
+// @public
 export type Origin = string;
+
+// @public
+export interface PrivateEndpoint {
+    readonly id?: string;
+}
+
+// @public
+export interface PrivateEndpointConnection extends Resource {
+    properties?: PrivateEndpointConnectionProperties;
+}
+
+// @public
+export interface PrivateEndpointConnectionProperties {
+    readonly groupIds?: string[];
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+}
+
+// @public
+export type PrivateEndpointConnectionProvisioningState = string;
+
+// @public
+export interface PrivateEndpointConnectionUpdate {
+    properties?: OptionalPropertiesUpdateableProperties;
+}
+
+// @public
+export type PrivateEndpointServiceConnectionStatus = string;
+
+// @public
+export interface PrivateLinkResourceProperties {
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
+}
+
+// @public
+export interface PrivateLinkServiceConnectionState {
+    actionsRequired?: string;
+    description?: string;
+    status?: PrivateEndpointServiceConnectionStatus;
+}
 
 // @public
 export type ProvisioningState = string;
@@ -107,6 +183,9 @@ export type ProvisioningState = string;
 // @public
 export interface ProxyResource extends Resource {
 }
+
+// @public
+export type PublicNetworkAccess = string;
 
 // @public
 export type PurgeableOrchestrationState = string;
@@ -145,10 +224,17 @@ export interface Scheduler extends TrackedResource {
 }
 
 // @public
+export interface SchedulerPrivateLinkResource extends Resource {
+    properties?: PrivateLinkResourceProperties;
+}
+
+// @public
 export interface SchedulerProperties {
     readonly endpoint?: string;
     ipAllowlist: string[];
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccess;
     sku: SchedulerSku;
 }
 
@@ -157,20 +243,24 @@ export interface SchedulerPropertiesUpdate {
     readonly endpoint?: string;
     ipAllowlist?: string[];
     readonly provisioningState?: ProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccess;
     sku?: SchedulerSkuUpdate;
 }
 
 // @public
 export interface SchedulerSku {
     capacity?: number;
-    name: string;
+    name: SchedulerSkuName;
     readonly redundancyState?: RedundancyState;
 }
 
 // @public
+export type SchedulerSkuName = string;
+
+// @public
 export interface SchedulerSkuUpdate {
     capacity?: number;
-    name?: string;
+    name?: SchedulerSkuName;
     readonly redundancyState?: RedundancyState;
 }
 

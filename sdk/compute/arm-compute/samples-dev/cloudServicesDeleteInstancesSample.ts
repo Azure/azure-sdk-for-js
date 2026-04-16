@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type {
+  RoleInstances,
+  CloudServicesDeleteInstancesOptionalParams} from "@azure/arm-compute";
+import {
+  ComputeManagementClient,
+} from "@azure/arm-compute";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Deletes role instances in a cloud service.
  *
  * @summary Deletes role instances in a cloud service.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2024-11-04/examples/CloudServiceRoleInstance_Delete_ByCloudService.json
  */
-
-import {
-  RoleInstances,
-  CloudServicesDeleteInstancesOptionalParams,
-  ComputeManagementClient,
-} from "@azure/arm-compute";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function deleteCloudServiceRoleInstancesInACloudService(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";

@@ -9,11 +9,11 @@ import * as MOCKS from "./constants.js";
 
 declare module "vitest" {
   type MyEnvVarKeys = {
-    [K in (typeof EnvVarKeys)[keyof typeof EnvVarKeys]]: string;
+    [K in (typeof EnvVarKeys)[keyof typeof EnvVarKeys]]: K extends typeof EnvVarKeys.TEST_MODE
+      ? string | undefined
+      : string;
   };
-  export interface ProvidedContext extends MyEnvVarKeys {
-    [EnvVarKeys.TEST_MODE]: string | undefined;
-  }
+  export interface ProvidedContext extends MyEnvVarKeys {}
 }
 
 function assertEnvironmentVariable<

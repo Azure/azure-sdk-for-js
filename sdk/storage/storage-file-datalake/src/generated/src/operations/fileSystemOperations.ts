@@ -23,7 +23,7 @@ import {
   FileSystemListPathsOptionalParams,
   FileSystemListPathsResponse,
   FileSystemListBlobHierarchySegmentOptionalParams,
-  FileSystemListBlobHierarchySegmentResponse
+  FileSystemListBlobHierarchySegmentResponse,
 } from "../models/index.js";
 
 /** Class containing FileSystemOperations operations. */
@@ -44,7 +44,7 @@ export class FileSystemOperationsImpl implements FileSystemOperations {
    * @param options The options parameters.
    */
   create(
-    options?: FileSystemCreateOptionalParams
+    options?: FileSystemCreateOptionalParams,
   ): Promise<FileSystemCreateResponse> {
     return this.client.sendOperationRequest({ options }, createOperationSpec);
   }
@@ -52,15 +52,15 @@ export class FileSystemOperationsImpl implements FileSystemOperations {
   /**
    * Set properties for the FileSystem.  This operation supports conditional HTTP requests.  For more
    * information, see [Specifying Conditional Headers for Blob Service
-   * Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
+   * Operations](https://learn.microsoft.com/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
    * @param options The options parameters.
    */
   setProperties(
-    options?: FileSystemSetPropertiesOptionalParams
+    options?: FileSystemSetPropertiesOptionalParams,
   ): Promise<FileSystemSetPropertiesResponse> {
     return this.client.sendOperationRequest(
       { options },
-      setPropertiesOperationSpec
+      setPropertiesOperationSpec,
     );
   }
 
@@ -69,11 +69,11 @@ export class FileSystemOperationsImpl implements FileSystemOperations {
    * @param options The options parameters.
    */
   getProperties(
-    options?: FileSystemGetPropertiesOptionalParams
+    options?: FileSystemGetPropertiesOptionalParams,
   ): Promise<FileSystemGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       { options },
-      getPropertiesOperationSpec
+      getPropertiesOperationSpec,
     );
   }
 
@@ -86,11 +86,11 @@ export class FileSystemOperationsImpl implements FileSystemOperations {
    * filesystem, will fail with status code 404 (Not Found) while the filesystem is being deleted. This
    * operation supports conditional HTTP requests.  For more information, see [Specifying Conditional
    * Headers for Blob Service
-   * Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
+   * Operations](https://learn.microsoft.com/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
    * @param options The options parameters.
    */
   delete(
-    options?: FileSystemDeleteOptionalParams
+    options?: FileSystemDeleteOptionalParams,
   ): Promise<FileSystemDeleteResponse> {
     return this.client.sendOperationRequest({ options }, deleteOperationSpec);
   }
@@ -102,11 +102,11 @@ export class FileSystemOperationsImpl implements FileSystemOperations {
    */
   listPaths(
     recursive: boolean,
-    options?: FileSystemListPathsOptionalParams
+    options?: FileSystemListPathsOptionalParams,
   ): Promise<FileSystemListPathsResponse> {
     return this.client.sendOperationRequest(
       { recursive, options },
-      listPathsOperationSpec
+      listPathsOperationSpec,
     );
   }
 
@@ -115,11 +115,11 @@ export class FileSystemOperationsImpl implements FileSystemOperations {
    * @param options The options parameters.
    */
   listBlobHierarchySegment(
-    options?: FileSystemListBlobHierarchySegmentOptionalParams
+    options?: FileSystemListBlobHierarchySegmentOptionalParams,
   ): Promise<FileSystemListBlobHierarchySegmentResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBlobHierarchySegmentOperationSpec
+      listBlobHierarchySegmentOperationSpec,
     );
   }
 }
@@ -133,12 +133,12 @@ const createOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     201: {
-      headersMapper: Mappers.FileSystemCreateHeaders
+      headersMapper: Mappers.FileSystemCreateHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.FileSystemCreateExceptionHeaders
-    }
+      headersMapper: Mappers.FileSystemCreateExceptionHeaders,
+    },
   },
   queryParameters: [Parameters.timeout, Parameters.resource1],
   urlParameters: [Parameters.url],
@@ -146,21 +146,21 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.accept,
     Parameters.requestId,
     Parameters.version,
-    Parameters.properties
+    Parameters.properties,
   ],
-  serializer
+  serializer,
 };
 const setPropertiesOperationSpec: coreClient.OperationSpec = {
   path: "/{filesystem}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      headersMapper: Mappers.FileSystemSetPropertiesHeaders
+      headersMapper: Mappers.FileSystemSetPropertiesHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.FileSystemSetPropertiesExceptionHeaders
-    }
+      headersMapper: Mappers.FileSystemSetPropertiesExceptionHeaders,
+    },
   },
   queryParameters: [Parameters.timeout, Parameters.resource1],
   urlParameters: [Parameters.url],
@@ -170,42 +170,42 @@ const setPropertiesOperationSpec: coreClient.OperationSpec = {
     Parameters.version,
     Parameters.properties,
     Parameters.ifModifiedSince,
-    Parameters.ifUnmodifiedSince
+    Parameters.ifUnmodifiedSince,
   ],
-  serializer
+  serializer,
 };
 const getPropertiesOperationSpec: coreClient.OperationSpec = {
   path: "/{filesystem}",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.FileSystemGetPropertiesHeaders
+      headersMapper: Mappers.FileSystemGetPropertiesHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.FileSystemGetPropertiesExceptionHeaders
-    }
+      headersMapper: Mappers.FileSystemGetPropertiesExceptionHeaders,
+    },
   },
   queryParameters: [Parameters.timeout, Parameters.resource1],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.accept,
     Parameters.requestId,
-    Parameters.version
+    Parameters.version,
   ],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/{filesystem}",
   httpMethod: "DELETE",
   responses: {
     202: {
-      headersMapper: Mappers.FileSystemDeleteHeaders
+      headersMapper: Mappers.FileSystemDeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.FileSystemDeleteExceptionHeaders
-    }
+      headersMapper: Mappers.FileSystemDeleteExceptionHeaders,
+    },
   },
   queryParameters: [Parameters.timeout, Parameters.resource1],
   urlParameters: [Parameters.url],
@@ -214,9 +214,9 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.requestId,
     Parameters.version,
     Parameters.ifModifiedSince,
-    Parameters.ifUnmodifiedSince
+    Parameters.ifUnmodifiedSince,
   ],
-  serializer
+  serializer,
 };
 const listPathsOperationSpec: coreClient.OperationSpec = {
   path: "/{filesystem}",
@@ -224,12 +224,12 @@ const listPathsOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.PathList,
-      headersMapper: Mappers.FileSystemListPathsHeaders
+      headersMapper: Mappers.FileSystemListPathsHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.FileSystemListPathsExceptionHeaders
-    }
+      headersMapper: Mappers.FileSystemListPathsExceptionHeaders,
+    },
   },
   queryParameters: [
     Parameters.continuation,
@@ -238,15 +238,16 @@ const listPathsOperationSpec: coreClient.OperationSpec = {
     Parameters.resource1,
     Parameters.path,
     Parameters.recursive,
-    Parameters.upn
+    Parameters.upn,
+    Parameters.beginFrom,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.accept,
     Parameters.requestId,
-    Parameters.version
+    Parameters.version,
   ],
-  serializer
+  serializer,
 };
 const listBlobHierarchySegmentOperationSpec: coreClient.OperationSpec = {
   path: "/{filesystem}",
@@ -254,12 +255,12 @@ const listBlobHierarchySegmentOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ListBlobsHierarchySegmentResponse,
-      headersMapper: Mappers.FileSystemListBlobHierarchySegmentHeaders
+      headersMapper: Mappers.FileSystemListBlobHierarchySegmentHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.FileSystemListBlobHierarchySegmentExceptionHeaders
-    }
+      headersMapper: Mappers.FileSystemListBlobHierarchySegmentExceptionHeaders,
+    },
   },
   queryParameters: [
     Parameters.prefix,
@@ -270,14 +271,14 @@ const listBlobHierarchySegmentOperationSpec: coreClient.OperationSpec = {
     Parameters.delimiter,
     Parameters.marker,
     Parameters.include,
-    Parameters.showonly
+    Parameters.showonly,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.requestId,
     Parameters.version,
-    Parameters.accept1
+    Parameters.accept1,
   ],
   isXML: true,
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };

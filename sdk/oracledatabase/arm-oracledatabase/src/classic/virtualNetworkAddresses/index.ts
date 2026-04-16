@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
-import { VirtualNetworkAddress } from "../../models/models.js";
-import {
-  VirtualNetworkAddressesListByParentOptionalParams,
-  VirtualNetworkAddressesDeleteOptionalParams,
-  VirtualNetworkAddressesGetOptionalParams,
-  VirtualNetworkAddressesCreateOrUpdateOptionalParams,
-} from "../../api/virtualNetworkAddresses/options.js";
+import type { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
 import {
   listByParent,
   $delete,
   get,
   createOrUpdate,
 } from "../../api/virtualNetworkAddresses/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  VirtualNetworkAddressesListByParentOptionalParams,
+  VirtualNetworkAddressesDeleteOptionalParams,
+  VirtualNetworkAddressesGetOptionalParams,
+  VirtualNetworkAddressesCreateOrUpdateOptionalParams,
+} from "../../api/virtualNetworkAddresses/options.js";
+import type { VirtualNetworkAddress } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a VirtualNetworkAddresses operations. */
 export interface VirtualNetworkAddressesOperations {

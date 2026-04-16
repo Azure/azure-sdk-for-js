@@ -1,15 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
-import { ScriptExecution } from "../../models/models.js";
-import {
-  ScriptExecutionsGetExecutionLogsOptionalParams,
-  ScriptExecutionsDeleteOptionalParams,
-  ScriptExecutionsCreateOrUpdateOptionalParams,
-  ScriptExecutionsGetOptionalParams,
-  ScriptExecutionsListOptionalParams,
-} from "../../api/scriptExecutions/options.js";
+import type { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
 import {
   getExecutionLogs,
   $delete,
@@ -17,8 +9,16 @@ import {
   get,
   list,
 } from "../../api/scriptExecutions/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  ScriptExecutionsGetExecutionLogsOptionalParams,
+  ScriptExecutionsDeleteOptionalParams,
+  ScriptExecutionsCreateOrUpdateOptionalParams,
+  ScriptExecutionsGetOptionalParams,
+  ScriptExecutionsListOptionalParams,
+} from "../../api/scriptExecutions/options.js";
+import type { ScriptExecution } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ScriptExecutions operations. */
 export interface ScriptExecutionsOperations {

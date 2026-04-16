@@ -22,6 +22,16 @@ import type { HttpInstrumentationConfig } from "@opentelemetry/instrumentation-h
 import type { IncomingMessage, RequestOptions } from "node:http";
 
 describe("snippets", () => {
+  it("ReadmeSampleESMUsage", () => {
+    useAzureMonitor({
+      azureMonitorExporterOptions: {
+        connectionString: process.env.APPLICATIONINSIGHTS_CONNECTION_STRING,
+      },
+    });
+
+    // Your application code follows...
+  });
+
   it("ReadmeSampleUseAzureMonitor", () => {
     const options: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
@@ -48,6 +58,7 @@ describe("snippets", () => {
       instrumentationOptions: {
         // Instrumentations generating traces
         azureSdk: { enabled: true },
+        azureFunctions: { enabled: true },
         http: { enabled: true },
         mongoDb: { enabled: true },
         mySql: { enabled: true },
@@ -67,6 +78,7 @@ describe("snippets", () => {
       resource: resource,
       logRecordProcessors: [],
       spanProcessors: [],
+      views: [],
     };
 
     useAzureMonitor(options);

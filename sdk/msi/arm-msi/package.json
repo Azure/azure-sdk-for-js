@@ -8,9 +8,9 @@
     "node": ">=20.0.0"
   },
   "dependencies": {
-    "@azure/core-paging": "^1.6.2",
-    "@azure/core-client": "^1.9.2",
     "@azure/core-auth": "^1.9.0",
+    "@azure/core-client": "^1.9.2",
+    "@azure/core-paging": "^1.6.2",
     "@azure/core-rest-pipeline": "^1.19.0",
     "tslib": "^2.8.1"
   },
@@ -28,18 +28,20 @@
   "types": "./dist/commonjs/index.d.ts",
   "type": "module",
   "devDependencies": {
-    "typescript": "catalog:",
-    "dotenv": "catalog:testing",
+    "@azure-tools/test-credential": "workspace:^",
+    "@azure-tools/test-recorder": "workspace:^",
+    "@azure-tools/test-utils-vitest": "workspace:^",
     "@azure/dev-tool": "workspace:^",
     "@azure/identity": "catalog:internal",
     "@azure/logger": "^1.1.4",
-    "@azure-tools/test-recorder": "workspace:^",
-    "@azure-tools/test-credential": "workspace:^",
-    "@azure-tools/test-utils-vitest": "workspace:^",
     "@types/node": "catalog:",
-    "@vitest/browser": "catalog:testing",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
+    "cross-env": "catalog:",
+    "dotenv": "catalog:testing",
     "playwright": "catalog:testing",
+    "rimraf": "catalog:",
+    "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
   "repository": "github:Azure/azure-sdk-for-js",
@@ -55,9 +57,9 @@
   ],
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "build:samples": "tsc -p tsconfig.samples.json",
+    "build:samples": "tsc -p tsconfig.samples.json && dev-tool samples publish -f",
     "check-format": "echo skipped",
-    "clean": "dev-tool run vendored rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
+    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "execute:samples": "echo skipped",
     "extract-api": "dev-tool run extract-api",
     "format": "echo skipped",
@@ -80,22 +82,6 @@
   "autoPublish": true,
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
-  "tshy": {
-    "project": "../../../tsconfig.src.build.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false
-  },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/msi/arm-msi",
   "//sampleConfiguration": {
     "productName": "",

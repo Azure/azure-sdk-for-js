@@ -1,20 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
-import { PrivateCloud, PrivateCloudUpdate, AdminCredentials } from "../../models/models.js";
+import type { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
 import {
-  PrivateCloudsListAdminCredentialsOptionalParams,
-  PrivateCloudsRotateNsxtPasswordOptionalParams,
-  PrivateCloudsRotateVcenterPasswordOptionalParams,
-  PrivateCloudsDeleteOptionalParams,
-  PrivateCloudsUpdateOptionalParams,
-  PrivateCloudsCreateOrUpdateOptionalParams,
-  PrivateCloudsGetOptionalParams,
-  PrivateCloudsListInSubscriptionOptionalParams,
-  PrivateCloudsListOptionalParams,
-} from "../../api/privateClouds/options.js";
-import {
+  getVcfLicense,
   listAdminCredentials,
   rotateNsxtPassword,
   rotateVcenterPassword,
@@ -25,11 +14,35 @@ import {
   listInSubscription,
   list,
 } from "../../api/privateClouds/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  PrivateCloudsGetVcfLicenseOptionalParams,
+  PrivateCloudsListAdminCredentialsOptionalParams,
+  PrivateCloudsRotateNsxtPasswordOptionalParams,
+  PrivateCloudsRotateVcenterPasswordOptionalParams,
+  PrivateCloudsDeleteOptionalParams,
+  PrivateCloudsUpdateOptionalParams,
+  PrivateCloudsCreateOrUpdateOptionalParams,
+  PrivateCloudsGetOptionalParams,
+  PrivateCloudsListInSubscriptionOptionalParams,
+  PrivateCloudsListOptionalParams,
+} from "../../api/privateClouds/options.js";
+import type {
+  PrivateCloud,
+  VcfLicenseUnion,
+  PrivateCloudUpdate,
+  AdminCredentials,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a PrivateClouds operations. */
 export interface PrivateCloudsOperations {
+  /** Get the license for the private cloud */
+  getVcfLicense: (
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: PrivateCloudsGetVcfLicenseOptionalParams,
+  ) => Promise<VcfLicenseUnion>;
   /** List the admin credentials for the private cloud */
   listAdminCredentials: (
     resourceGroupName: string,
@@ -92,6 +105,11 @@ export interface PrivateCloudsOperations {
 
 function _getPrivateClouds(context: AzureVMwareSolutionAPIContext) {
   return {
+    getVcfLicense: (
+      resourceGroupName: string,
+      privateCloudName: string,
+      options?: PrivateCloudsGetVcfLicenseOptionalParams,
+    ) => getVcfLicense(context, resourceGroupName, privateCloudName, options),
     listAdminCredentials: (
       resourceGroupName: string,
       privateCloudName: string,

@@ -106,7 +106,7 @@ export class HybridContainerServiceClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-hybridcontainerservice/1.0.1`;
+    const packageDetails = `azsdk-js-arm-hybridcontainerservice/1.0.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

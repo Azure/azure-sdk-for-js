@@ -3,7 +3,7 @@
 
 export { update, createOrUpdate, get } from "./operations.js";
 export {
-  GroupQuotaLocationSettingsUpdateOptionalParams,
-  GroupQuotaLocationSettingsCreateOrUpdateOptionalParams,
-  GroupQuotaLocationSettingsGetOptionalParams,
+  type GroupQuotaLocationSettingsUpdateOptionalParams,
+  type GroupQuotaLocationSettingsCreateOrUpdateOptionalParams,
+  type GroupQuotaLocationSettingsGetOptionalParams,
 } from "./options.js";

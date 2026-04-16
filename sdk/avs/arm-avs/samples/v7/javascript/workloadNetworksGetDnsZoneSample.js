@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a WorkloadNetworkDnsZone
  *
  * @summary get a WorkloadNetworkDnsZone
- * x-ms-original-file: 2024-09-01/WorkloadNetworks_GetDnsZone.json
+ * x-ms-original-file: 2025-09-01/WorkloadNetworks_GetDnsZone.json
  */
 async function workloadNetworksGetDnsZone() {
   const credential = new DefaultAzureCredential();

@@ -14,7 +14,7 @@ license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/40a953243ea428918de6e63758e853b7a24aa59a/specification/purview/data-plane/Azure.Analytics.Purview.Share/preview/2023-05-30-preview/share.json
-package-version: 1.0.0-beta.4
+package-version: 1.0.0-beta.5
 rest-level-client: true
 add-credentials: true
 credential-scopes: "https://purview.azure.net/.default"

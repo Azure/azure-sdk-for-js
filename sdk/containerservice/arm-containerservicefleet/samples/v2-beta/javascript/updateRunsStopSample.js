@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+const { ContainerServiceFleetClient } = require("@azure/arm-containerservicefleet");
+const { DefaultAzureCredential } = require("@azure/identity");
+
 /**
  * This sample demonstrates how to stops an UpdateRun.
  *
  * @summary stops an UpdateRun.
- * x-ms-original-file: 2025-04-01-preview/UpdateRuns_Stop.json
+ * x-ms-original-file: 2026-02-01-preview/UpdateRuns_Stop.json
  */
-
-const { ContainerServiceFleetClient } = require("@azure/arm-containerservicefleet");
-const { DefaultAzureCredential } = require("@azure/identity");
-
 async function stopsAnUpdateRun() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
@@ -19,25 +18,8 @@ async function stopsAnUpdateRun() {
   console.log(result);
 }
 
-/**
- * This sample demonstrates how to stops an UpdateRun.
- *
- * @summary stops an UpdateRun.
- * x-ms-original-file: 2025-04-01-preview/UpdateRuns_Stop_MaximumSet_Gen.json
- */
-async function stopsAnUpdateRunGeneratedByMaximumSetRule() {
-  const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new ContainerServiceFleetClient(credential, subscriptionId);
-  const result = await client.updateRuns.stop("rgfleets", "fleet1", "fleet1", {
-    ifMatch: "jb",
-  });
-  console.log(result);
-}
-
 async function main() {
   await stopsAnUpdateRun();
-  await stopsAnUpdateRunGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

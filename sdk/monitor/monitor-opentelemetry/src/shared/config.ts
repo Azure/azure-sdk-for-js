@@ -13,11 +13,13 @@ import type {
   AzureMonitorOpenTelemetryOptions,
   InstrumentationOptions,
 } from "../types.js";
+import type { Sampler } from "@opentelemetry/sdk-trace-base";
 import type { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
 import { EnvConfig } from "./envConfig.js";
 import { JsonConfig } from "./jsonConfig.js";
 import { Logger } from "./logging/index.js";
 import {
+  azureAksDetector,
   azureAppServiceDetector,
   azureFunctionsDetector,
   azureVmDetector,
@@ -47,6 +49,8 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
   enablePerformanceCounters?: boolean;
   /** Metric export interval in milliseconds */
   public metricExportIntervalMillis: number;
+  /** Custom OpenTelemetry sampler (env-only) */
+  public sampler?: Sampler;
 
   private _resource: Resource = emptyResource();
 
@@ -70,7 +74,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
     // Default values
     this.azureMonitorExporterOptions = {};
     this.samplingRatio = 1;
-    this.tracesPerSecond = undefined;
+    this.tracesPerSecond = 5;
     this.enableLiveMetrics = true;
     this.enableStandardMetrics = true;
     this.enableTraceBasedSamplingForLogs = false;
@@ -79,6 +83,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
     this.instrumentationOptions = {
       http: { enabled: true },
       azureSdk: { enabled: true },
+      azureFunctions: { enabled: true },
       mongoDb: { enabled: true },
       mySql: { enabled: true },
       postgreSql: { enabled: true },
@@ -139,6 +144,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
       envConfig.samplingRatio !== undefined ? envConfig.samplingRatio : this.samplingRatio;
     this.tracesPerSecond =
       envConfig.tracesPerSecond !== undefined ? envConfig.tracesPerSecond : this.tracesPerSecond;
+    this.sampler = envConfig.sampler ?? this.sampler;
   }
 
   private _mergeJsonConfig(): void {
@@ -190,7 +196,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
 
     // Load resource attributes from Azure
     const azureResource: Resource = detectResources({
-      detectors: [azureAppServiceDetector, azureFunctionsDetector],
+      detectors: [azureAksDetector, azureAppServiceDetector, azureFunctionsDetector],
     });
     this._resource = resource.merge(azureResource);
 

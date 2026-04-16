@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-computelimit": ["./src/index.ts"],
+      "@azure/arm-computelimit/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

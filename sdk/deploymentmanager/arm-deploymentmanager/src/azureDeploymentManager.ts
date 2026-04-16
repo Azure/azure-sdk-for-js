@@ -67,7 +67,7 @@ export class AzureDeploymentManager extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-deploymentmanager/4.0.0-beta.5`;
+    const packageDetails = `azsdk-js-arm-deploymentmanager/4.0.0-beta.6`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

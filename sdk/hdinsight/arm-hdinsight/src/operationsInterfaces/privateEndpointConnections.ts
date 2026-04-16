@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type {
   PrivateEndpointConnection,
   PrivateEndpointConnectionsListByClusterOptionalParams,
   PrivateEndpointConnectionsCreateOrUpdateOptionalParams,

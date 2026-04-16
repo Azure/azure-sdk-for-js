@@ -1,5 +1,63 @@
 # Release History
 
+## 3.1.0 (2026-04-06)
+
+### Features Added
+  - Added operation group ConnectionsOperations
+  - Added Interface AzureKeyVaultS3WithHmacCredentials
+  - Added Interface Connection
+  - Added Interface ConnectionProperties
+  - Added Interface ConnectionsCreateOrUpdateOptionalParams
+  - Added Interface ConnectionsDeleteOptionalParams
+  - Added Interface ConnectionsGetOptionalParams
+  - Added Interface ConnectionsListOptionalParams
+  - Added Interface JobRunWarning
+  - Added Interface S3WithHmacEndpointProperties
+  - Added Interface S3WithHmacEndpointUpdateProperties
+  - Added Interface ScheduleInfo
+  - Added Interface SchedulerTime
+  - Interface AzureMultiCloudConnectorEndpointProperties has a new optional parameter endpointKind
+  - Interface AzureStorageBlobContainerEndpointProperties has a new optional parameter endpointKind
+  - Interface AzureStorageNfsFileShareEndpointProperties has a new optional parameter endpointKind
+  - Interface AzureStorageSmbFileShareEndpointProperties has a new optional parameter endpointKind
+  - Interface EndpointBaseProperties has a new optional parameter endpointKind
+  - Interface JobDefinitionProperties has a new optional parameter connections
+  - Interface JobDefinitionProperties has a new optional parameter dataIntegrityValidation
+  - Interface JobDefinitionProperties has a new optional parameter preservePermissions
+  - Interface JobDefinitionProperties has a new optional parameter schedule
+  - Interface JobDefinitionUpdateProperties has a new optional parameter connections
+  - Interface JobDefinitionUpdateProperties has a new optional parameter dataIntegrityValidation
+  - Interface JobDefinitionUpdateProperties has a new optional parameter schedule
+  - Interface JobRunProperties has a new optional parameter scheduledExecutionTime
+  - Interface JobRunProperties has a new optional parameter triggerType
+  - Interface JobRunProperties has a new optional parameter warnings
+  - Interface NfsMountEndpointProperties has a new optional parameter endpointKind
+  - Interface SmbMountEndpointProperties has a new optional parameter endpointKind
+  - Added Type Alias ConnectionStatus
+  - Added Type Alias DataIntegrityValidation
+  - Added Type Alias EndpointKind
+  - Added Type Alias Frequency
+  - Added Type Alias S3WithHmacSourceType
+  - Added Type Alias TriggerType
+  - Added Enum KnownConnectionStatus
+  - Added Enum KnownDataIntegrityValidation
+  - Added Enum KnownEndpointKind
+  - Added Enum KnownFrequency
+  - Added Enum KnownS3WithHmacSourceType
+  - Added Enum KnownTriggerType
+  - Enum KnownCredentialType has a new value AzureKeyVaultS3WithHmac
+  - Enum KnownEndpointType has a new value S3WithHmac
+  - Enum KnownVersions has a new value V20250801
+  - Enum KnownVersions has a new value V20251201
+
+## 3.0.1 (2025-10-15)
+
+### Features Added
+  - NFS V4 Support added
+
+### Other Changes
+- API version upgraded to 2025-07-01
+
 ## 3.0.0 (2025-09-04)
 
 ### Features Added
@@ -154,6 +212,11 @@
   - Type alias "EndpointBasePropertiesUnion" has been changed
   - Type alias "EndpointBaseUpdatePropertiesUnion" has been changed
 
+## 2.1.1 (2025-08-22)
+
+### Other Changes
+
+  - Other fixes
     
 ## 2.1.0 (2024-06-13)
     

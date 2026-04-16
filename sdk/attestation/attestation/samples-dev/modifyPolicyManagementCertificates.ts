@@ -42,7 +42,7 @@ function byteArrayToHex(value: Uint8Array): string {
 }
 
 async function modifyPolicyManagementCertificates(): Promise<void> {
-  await writeBanner("Get Current Attestation Policy Management Certificates.");
+  writeBanner("Get Current Attestation Policy Management Certificates.");
 
   // Use the specified attestion URL.
   const endpoint = process.env.ATTESTATION_ISOLATED_URL;

@@ -70,8 +70,10 @@ export class DiagFileConsoleLogger implements DiagLogger {
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public error(message?: any, ...args: any[]): void {
-    // Filter out warnings about accessing resource attributes before async attributes are settled
     if (this._shouldFilterResourceAttributeWarning(message, args)) {
+      return;
+    }
+    if (this._shouldFilterAzureMonitorExporterWarning(message)) {
       return;
     }
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -80,8 +82,10 @@ export class DiagFileConsoleLogger implements DiagLogger {
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public warn(message?: any, ...args: any[]): void {
-    // Filter out warnings about accessing resource attributes before async attributes are settled
     if (this._shouldFilterResourceAttributeWarning(message, args)) {
+      return;
+    }
+    if (this._shouldFilterAzureMonitorExporterWarning(message)) {
       return;
     }
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -90,18 +94,36 @@ export class DiagFileConsoleLogger implements DiagLogger {
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public info(message?: any, ...args: any[]): void {
+    if (this._shouldFilterResourceAttributeWarning(message, args)) {
+      return;
+    }
+    if (this._shouldFilterAzureMonitorExporterWarning(message)) {
+      return;
+    }
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.logMessage(message, args);
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public debug(message?: any, ...args: any[]): void {
+    if (this._shouldFilterResourceAttributeWarning(message, args)) {
+      return;
+    }
+    if (this._shouldFilterAzureMonitorExporterWarning(message)) {
+      return;
+    }
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.logMessage(message, args);
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public verbose(message?: any, ...args: any[]): void {
+    if (this._shouldFilterResourceAttributeWarning(message, args)) {
+      return;
+    }
+    if (this._shouldFilterAzureMonitorExporterWarning(message)) {
+      return;
+    }
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.logMessage(message, args);
   }
@@ -132,28 +154,29 @@ export class DiagFileConsoleLogger implements DiagLogger {
       "accessing resource attributes before async attributes settled",
       "resource attributes being accessed before async attributes finished",
       "async attributes settled",
+      "unsettled resource attribute",
       "resource attributes accessed before async detection completed",
       "module @azure/core-tracing has been loaded before @azure/opentelemetry-instrumentation-azure-sdk",
     ];
 
+    const stringsToInspect: string[] = [];
     if (typeof message === "string") {
-      if (messagesToFilter.some((filterText) => message.toLowerCase().includes(filterText))) {
-        return true;
-      }
+      stringsToInspect.push(message.toLowerCase());
     }
-
-    // Check if the message is in the args array
     if (args && Array.isArray(args)) {
       for (const arg of args) {
         if (typeof arg === "string") {
-          if (messagesToFilter.some((filterText) => arg.toLowerCase().includes(filterText))) {
-            return true;
-          }
+          stringsToInspect.push(arg.toLowerCase());
         }
       }
     }
 
-    // Also check if message starts with the warning text (in case it's formatted differently)
+    for (const text of stringsToInspect) {
+      if (messagesToFilter.some((filterText) => text.includes(filterText))) {
+        return true;
+      }
+    }
+
     if (typeof message === "string") {
       const messageParts = message.split(" ");
       if (
@@ -167,6 +190,21 @@ export class DiagFileConsoleLogger implements DiagLogger {
     }
 
     return false;
+  }
+
+  private _shouldFilterAzureMonitorExporterWarning(message?: any): boolean {
+    if (typeof message !== "string") {
+      return false;
+    }
+
+    const text = message.toLowerCase();
+    if (!text.includes("otel_metrics_exporter")) {
+      return false;
+    }
+
+    const matchesUnsupportedValue = text.includes("unsupported otel_metrics_exporter value");
+
+    return matchesUnsupportedValue && text.includes("azure_monitor");
   }
 
   private async _storeToDisk(args: any): Promise<void> {

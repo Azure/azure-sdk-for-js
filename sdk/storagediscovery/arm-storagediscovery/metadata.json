@@ -1,4 +1,38 @@
 {
-  "apiVersion": "2025-06-01-preview",
-  "emitterVersion": "0.42.0"
+  "apiVersion": "2025-09-01",
+  "emitterVersion": "0.44.1",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Microsoft.StorageDiscovery",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-storagediscovery!StorageDiscoveryWorkspace:interface": "Microsoft.StorageDiscovery.StorageDiscoveryWorkspace",
+      "@azure/arm-storagediscovery!StorageDiscoveryWorkspaceProperties:interface": "Microsoft.StorageDiscovery.StorageDiscoveryWorkspaceProperties",
+      "@azure/arm-storagediscovery!StorageDiscoveryScope:interface": "Microsoft.StorageDiscovery.StorageDiscoveryScope",
+      "@azure/arm-storagediscovery!TrackedResource:interface": "Azure.ResourceManager.CommonTypes.TrackedResource",
+      "@azure/arm-storagediscovery!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
+      "@azure/arm-storagediscovery!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
+      "@azure/arm-storagediscovery!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+      "@azure/arm-storagediscovery!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+      "@azure/arm-storagediscovery!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-storagediscovery!StorageDiscoveryWorkspaceUpdate:interface": "Microsoft.StorageDiscovery.StorageDiscoveryWorkspaceUpdate",
+      "@azure/arm-storagediscovery!StorageDiscoveryWorkspacePropertiesUpdate:interface": "Microsoft.StorageDiscovery.StorageDiscoveryWorkspacePropertiesUpdate",
+      "@azure/arm-storagediscovery!StorageDiscoveryWorkspaceListResult:interface": "Azure.ResourceManager.ResourceListResult",
+      "@azure/arm-storagediscovery!OperationListResult:interface": "Azure.ResourceManager.CommonTypes.OperationListResult",
+      "@azure/arm-storagediscovery!Operation:interface": "Azure.ResourceManager.CommonTypes.Operation",
+      "@azure/arm-storagediscovery!OperationDisplay:interface": "Azure.ResourceManager.CommonTypes.OperationDisplay",
+      "@azure/arm-storagediscovery!KnownStorageDiscoverySku:enum": "Microsoft.StorageDiscovery.StorageDiscoverySku",
+      "@azure/arm-storagediscovery!KnownStorageDiscoveryResourceType:enum": "Microsoft.StorageDiscovery.StorageDiscoveryResourceType",
+      "@azure/arm-storagediscovery!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
+      "@azure/arm-storagediscovery!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
+      "@azure/arm-storagediscovery!KnownOrigin:enum": "Azure.ResourceManager.CommonTypes.Origin",
+      "@azure/arm-storagediscovery!KnownActionType:enum": "Azure.ResourceManager.CommonTypes.ActionType",
+      "@azure/arm-storagediscovery!KnownApiVersion:enum": "Microsoft.StorageDiscovery.ApiVersion",
+      "@azure/arm-storagediscovery!OperationsOperations#list:member": "Azure.ResourceManager.Operations.list",
+      "@azure/arm-storagediscovery!StorageDiscoveryWorkspacesOperations#listBySubscription:member": "Microsoft.StorageDiscovery.StorageDiscoveryWorkspaces.listBySubscription",
+      "@azure/arm-storagediscovery!StorageDiscoveryWorkspacesOperations#listByResourceGroup:member": "Microsoft.StorageDiscovery.StorageDiscoveryWorkspaces.listByResourceGroup",
+      "@azure/arm-storagediscovery!StorageDiscoveryWorkspacesOperations#delete:member": "Microsoft.StorageDiscovery.StorageDiscoveryWorkspaces.delete",
+      "@azure/arm-storagediscovery!StorageDiscoveryWorkspacesOperations#update:member": "Microsoft.StorageDiscovery.StorageDiscoveryWorkspaces.update",
+      "@azure/arm-storagediscovery!StorageDiscoveryWorkspacesOperations#createOrUpdate:member": "Microsoft.StorageDiscovery.StorageDiscoveryWorkspaces.createOrUpdate",
+      "@azure/arm-storagediscovery!StorageDiscoveryWorkspacesOperations#get:member": "Microsoft.StorageDiscovery.StorageDiscoveryWorkspaces.get"
+    }
+  }
 }

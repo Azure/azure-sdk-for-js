@@ -2,7 +2,7 @@
   "name": "@azure/monitor-opentelemetry-exporter",
   "author": "Microsoft Corporation",
   "sdk-type": "client",
-  "version": "1.0.0-beta.35",
+  "version": "1.0.0-beta.40",
   "description": "Application Insights exporter for the OpenTelemetry JavaScript (Node.js) SDK",
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
@@ -10,12 +10,12 @@
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "tsc -p tsconfig.samples.json",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "clean": "dev-tool run vendored rimraf --glob dist-esm types dist",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf --glob dist-esm types dist",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "generate:client": "autorest --typescript ./swagger/README.md",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "generate:client": "tsp-client update -d && npm run format",
     "lint": "eslint package.json src test",
     "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
     "pack": "pnpm pack 2>&1",
@@ -45,16 +45,8 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/applicationInsightsClient.ts",
-        "prefix": "packageDetails"
-      },
-      {
         "path": "src/utils/constants/applicationinsights.ts",
         "prefix": "packageVersion"
-      },
-      {
-        "path": "swagger/README.md",
-        "prefix": "package-version"
       }
     ]
   },
@@ -77,16 +69,20 @@
     "@opentelemetry/instrumentation-http": "^0.205.0",
     "@opentelemetry/sdk-trace-node": "^2.1.0",
     "@types/node": "catalog:",
-    "@vitest/browser": "catalog:testing",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
+    "cross-env": "catalog:",
     "dotenv": "catalog:testing",
     "eslint": "catalog:",
     "nock": "catalog:testing",
     "playwright": "catalog:testing",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
   "dependencies": {
+    "@azure-rest/core-client": "^2.5.2",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-client": "^1.9.2",
     "@azure/core-rest-pipeline": "^1.19.0",
@@ -112,18 +108,6 @@
     "cloud"
   ],
   "type": "module",
-  "tshy": {
-    "project": "../../../tsconfig.src.build.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "selfLink": false
-  },
   "exports": {
     "./package.json": "./package.json",
     ".": {

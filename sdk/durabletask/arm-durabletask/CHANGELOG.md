@@ -1,26 +1,44 @@
 # Release History
-    
-## 1.0.0-beta.2 (2025-04-17)
-Compared with version 1.0.0-beta.1
-    
-### Features Added
 
-  - Added operation group RetentionPoliciesOperations
-  - Added Interface RetentionPoliciesCreateOrReplaceOptionalParams
-  - Added Interface RetentionPoliciesDeleteOptionalParams
-  - Added Interface RetentionPoliciesGetOptionalParams
-  - Added Interface RetentionPoliciesListBySchedulerOptionalParams
-  - Added Interface RetentionPoliciesUpdateOptionalParams
-  - Added Interface RetentionPolicy
-  - Added Interface RetentionPolicyDetails
-  - Added Interface RetentionPolicyProperties
-  - Added Type Alias PurgeableOrchestrationState
-  - Added Enum KnownPurgeableOrchestrationState
-  - Enum KnownVersions has a new value V20250401Preview
-    
-    
-## 1.0.0-beta.1 (2025-03-25)
+## 1.1.0 (2026-03-09)
 
 ### Features Added
+  - Added operation SchedulersOperations.createOrUpdatePrivateEndpointConnection
+  - Added operation SchedulersOperations.deletePrivateEndpointConnection
+  - Added operation SchedulersOperations.getPrivateEndpointConnection
+  - Added operation SchedulersOperations.getPrivateLink
+  - Added operation SchedulersOperations.listPrivateEndpointConnections
+  - Added operation SchedulersOperations.listPrivateLinks
+  - Added operation SchedulersOperations.updatePrivateEndpointConnection
+  - Added Interface OptionalPropertiesUpdateableProperties
+  - Added Interface PrivateEndpoint
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateEndpointConnectionUpdate
+  - Added Interface PrivateLinkResourceProperties
+  - Added Interface PrivateLinkServiceConnectionState
+  - Added Interface SchedulerPrivateLinkResource
+  - Added Interface SchedulersCreateOrUpdatePrivateEndpointConnectionOptionalParams
+  - Added Interface SchedulersDeletePrivateEndpointConnectionOptionalParams
+  - Added Interface SchedulersGetPrivateEndpointConnectionOptionalParams
+  - Added Interface SchedulersGetPrivateLinkOptionalParams
+  - Added Interface SchedulersListPrivateEndpointConnectionsOptionalParams
+  - Added Interface SchedulersListPrivateLinksOptionalParams
+  - Added Interface SchedulersUpdatePrivateEndpointConnectionOptionalParams
+  - Interface SchedulerProperties has a new optional parameter privateEndpointConnections
+  - Interface SchedulerProperties has a new optional parameter publicNetworkAccess
+  - Interface SchedulerPropertiesUpdate has a new optional parameter publicNetworkAccess
+  - Added Type Alias PrivateEndpointConnectionProvisioningState
+  - Added Type Alias PrivateEndpointServiceConnectionStatus
+  - Added Type Alias PublicNetworkAccess
+  - Added Enum KnownPrivateEndpointConnectionProvisioningState
+  - Added Enum KnownPrivateEndpointServiceConnectionStatus
+  - Added Enum KnownPublicNetworkAccess
+  - Enum KnownVersions has a new value V20260201
 
-Initial release of the Azure DurableTask package
+    
+## 1.0.0 (2025-09-25)
+
+### Features Added
+
+This is the first stable version with the package of @azure/arm-durabletask

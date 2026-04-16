@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import fs from "fs-extra";
+import { access, copyFile, cp, mkdtemp, readdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import pr from "node:child_process";
 import os from "node:os";
@@ -128,14 +128,14 @@ main`;
   return scriptContent;
 }
 
-function createDockerContextDirectory(
+async function createDockerContextDirectory(
   dockerContextDirectory: string,
   containerWorkspacePath: string,
   samplesPath: string,
   envPath: string,
   artifactPath?: string,
   logFilePath?: string,
-): void {
+): Promise<void> {
   const stringIsAValidUrl = (s: string) => {
     try {
       new URL(s);
@@ -148,19 +148,22 @@ function createDockerContextDirectory(
     throw new Error("artifact_path is a required argument but it was not passed");
   }
   const envFileName = path.basename(envPath);
-  fs.copySync(samplesPath, path.join(dockerContextDirectory, "samples"));
+  await cp(samplesPath, path.join(dockerContextDirectory, "samples"), { recursive: true });
   let artifactURL: string | undefined = undefined;
-  if (fs.existsSync(artifactPath)) {
+  try {
+    await access(artifactPath);
     const artifactName = path.basename(artifactPath);
-    fs.copyFileSync(artifactPath, path.join(dockerContextDirectory, artifactName));
+    await copyFile(artifactPath, path.join(dockerContextDirectory, artifactName));
     artifactURL = `${containerWorkspacePath}/${artifactName}`;
-  } else if (stringIsAValidUrl(artifactPath)) {
-    artifactURL = artifactPath;
-  } else {
-    throw new Error(`artifact path passed does not exist: ${artifactPath}`);
+  } catch {
+    if (stringIsAValidUrl(artifactPath)) {
+      artifactURL = artifactPath;
+    } else {
+      throw new Error(`artifact path passed does not exist: ${artifactPath}`);
+    }
   }
-  fs.copyFileSync(envPath, path.join(dockerContextDirectory, envFileName));
-  fs.writeFileSync(
+  await copyFile(envPath, path.join(dockerContextDirectory, envFileName));
+  await writeFile(
     path.join(dockerContextDirectory, "run_samples.sh"),
     buildRunSamplesScript(
       containerWorkspacePath,
@@ -283,7 +286,7 @@ export default leafCommand(commandInfo, async (options) => {
   ];
   const dockerContextDirectory: string =
     options["context-directory-path"] === ""
-      ? await fs.mkdtemp(path.join(os.tmpdir(), "context"))
+      ? await mkdtemp(path.join(os.tmpdir(), "context"))
       : options["context-directory-path"];
   const pkg = await resolveProject(options.directory);
   const samplesPath = path.join(pkg.path, "samples");
@@ -299,7 +302,7 @@ export default leafCommand(commandInfo, async (options) => {
   const stdoutListener = (chunk: Buffer | string) => log.info(chunk.toString());
   const stderrListener = (chunk: Buffer | string) => log.error(chunk.toString());
   async function cleanupBefore(): Promise<void> {
-    const dockerContextDirectoryChildren = await fs.readdir(dockerContextDirectory);
+    const dockerContextDirectoryChildren = await readdir(dockerContextDirectory);
     await cleanup(
       // If the directory is empty, we will not delete it.
       dockerContextDirectoryChildren.length === 0 ? undefined : dockerContextDirectory,
@@ -315,8 +318,8 @@ export default leafCommand(commandInfo, async (options) => {
       keepDockerImages ? undefined : dockerImageNames,
     );
   }
-  function createDockerContextDirectoryThunk(): void {
-    createDockerContextDirectory(
+  async function createDockerContextDirectoryThunk(): Promise<void> {
+    await createDockerContextDirectory(
       dockerContextDirectory,
       containerWorkspace,
       samplesPath,
@@ -342,7 +345,7 @@ export default leafCommand(commandInfo, async (options) => {
     }
   }
   await cleanupBefore();
-  createDockerContextDirectoryThunk();
+  await createDockerContextDirectoryThunk();
   await runContainers();
   await cleanupAfter();
 

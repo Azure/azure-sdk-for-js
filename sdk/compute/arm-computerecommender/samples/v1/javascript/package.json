@@ -1,0 +1,33 @@
+{
+  "name": "@azure-samples/arm-computerecommender-js",
+  "private": true,
+  "version": "1.0.0",
+  "description": "@azure/arm-computerecommender client library samples for JavaScript",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/compute/arm-computerecommender"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/compute/arm-computerecommender",
+  "dependencies": {
+    "@azure/arm-computerecommender": "latest",
+    "dotenv": "latest",
+    "@azure/identity": "^4.9.0"
+  }
+}

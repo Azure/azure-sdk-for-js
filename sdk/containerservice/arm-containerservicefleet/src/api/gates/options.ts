@@ -1,10 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "@azure-rest/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface GatesListByFleetOptionalParams extends OperationOptions {}
+export interface GatesListByFleetOptionalParams extends OperationOptions {
+  /** Filter the result list using the given expression. */
+  filter?: string;
+  /** The number of result items to return. */
+  top?: number;
+  /** The page-continuation token to use with a paged version of this API. */
+  skipToken?: string;
+}
 
 /** Optional parameters. */
 export interface GatesUpdateOptionalParams extends OperationOptions {

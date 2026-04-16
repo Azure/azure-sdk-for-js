@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
 import {
   PageSettings,
   ContinuablePage,
@@ -35,7 +36,22 @@ export {
   KnownCreatedByType,
   CreatedByType,
   ApplicationUpdateParameters,
+  ApplicationUpdateParametersProperties,
   RuntimeResumeApplicationUpgradeParameters,
+  RuntimeUpdateApplicationUpgradeParameters,
+  KnownRuntimeUpgradeKind,
+  RuntimeUpgradeKind,
+  RuntimeApplicationHealthPolicy,
+  RuntimeServiceTypeHealthPolicy,
+  RuntimeRollingUpgradeUpdateMonitoringPolicy,
+  KnownRuntimeRollingUpgradeMode,
+  RuntimeRollingUpgradeMode,
+  KnownRuntimeFailureAction,
+  RuntimeFailureAction,
+  ApplicationFetchHealthRequest,
+  KnownHealthFilter,
+  HealthFilter,
+  RestartDeployedCodePackageRequest,
   ApplicationTypeResource,
   ApplicationTypeResourceProperties,
   ApplicationTypeUpdateParameters,
@@ -90,6 +106,9 @@ export {
   AveragePartitionLoadScalingTrigger,
   AverageServiceLoadScalingTrigger,
   ServiceUpdateParameters,
+  RestartReplicaRequest,
+  KnownRestartKind,
+  RestartKind,
   ManagedClusterCodeVersionResult,
   ManagedClusterVersionDetails,
   KnownOsType,
@@ -145,21 +164,6 @@ export {
   SkuName,
   TrackedResource,
   ManagedClusterUpdateParameters,
-  FaultSimulationIdContent,
-  FaultSimulation,
-  KnownFaultSimulationStatus,
-  FaultSimulationStatus,
-  FaultSimulationDetails,
-  NodeTypeFaultSimulation,
-  KnownSfmcOperationStatus,
-  SfmcOperationStatus,
-  FaultSimulationContent,
-  FaultSimulationContentUnion,
-  KnownFaultKind,
-  FaultKind,
-  FaultSimulationConstraints,
-  ZoneFaultSimulationContent,
-  FaultSimulationContentWrapper,
   ManagedAzResiliencyStatus,
   ResourceAzStatus,
   ManagedMaintenanceWindowStatus,
@@ -216,6 +220,9 @@ export {
 } from "./models/index.js";
 export { ServiceFabricManagedClustersManagementClientOptionalParams } from "./api/index.js";
 export {
+  ApplicationsRestartDeployedCodePackageOptionalParams,
+  ApplicationsFetchHealthOptionalParams,
+  ApplicationsUpdateUpgradeOptionalParams,
   ApplicationsStartRollbackOptionalParams,
   ApplicationsResumeUpgradeOptionalParams,
   ApplicationsReadUpgradeOptionalParams,
@@ -242,10 +249,6 @@ export {
 export { ManagedApplyMaintenanceWindowPostOptionalParams } from "./api/managedApplyMaintenanceWindow/index.js";
 export { ManagedAzResiliencyStatusGetOptionalParams } from "./api/managedAzResiliencyStatus/index.js";
 export {
-  ManagedClustersStopFaultSimulationOptionalParams,
-  ManagedClustersStartFaultSimulationOptionalParams,
-  ManagedClustersListFaultSimulationOptionalParams,
-  ManagedClustersGetFaultSimulationOptionalParams,
   ManagedClustersListBySubscriptionOptionalParams,
   ManagedClustersListByResourceGroupOptionalParams,
   ManagedClustersDeleteOptionalParams,
@@ -265,10 +268,6 @@ export {
   ManagedUnsupportedVMSizesGetOptionalParams,
 } from "./api/managedUnsupportedVMSizes/index.js";
 export {
-  NodeTypesListFaultSimulationOptionalParams,
-  NodeTypesGetFaultSimulationOptionalParams,
-  NodeTypesStopFaultSimulationOptionalParams,
-  NodeTypesStartFaultSimulationOptionalParams,
   NodeTypesStartOptionalParams,
   NodeTypesRestartOptionalParams,
   NodeTypesReimageOptionalParams,
@@ -286,6 +285,7 @@ export { OperationResultsGetOptionalParams } from "./api/operationResults/index.
 export { OperationsListOptionalParams } from "./api/operations/index.js";
 export { OperationStatusGetOptionalParams } from "./api/operationStatus/index.js";
 export {
+  ServicesRestartReplicaOptionalParams,
   ServicesListByApplicationsOptionalParams,
   ServicesDeleteOptionalParams,
   ServicesUpdateOptionalParams,
@@ -310,3 +310,4 @@ export {
   ServicesOperations,
 } from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds, AzureSupportedClouds };

@@ -9,6 +9,7 @@ import {
   type AddConfigurationSettingParam,
   type AddConfigurationSettingResponse,
   type AppConfigurationClientOptions,
+  type CheckConfigurationSettingsOptions,
   type ConfigurationSetting,
   type ConfigurationSettingId,
   type CreateSnapshotOptions,
@@ -44,9 +45,11 @@ import type {
   AppConfigurationGetKeyValuesHeaders,
   AppConfigurationGetRevisionsHeaders,
   AppConfigurationGetSnapshotsHeaders,
+  AppConfigurationCheckKeyValuesHeaders,
   GetKeyValuesResponse,
   GetRevisionsResponse,
   GetSnapshotsResponse,
+  CheckKeyValuesResponse,
   ConfigurationSnapshot,
   GetLabelsResponse,
   AppConfigurationGetLabelsHeaders,
@@ -56,7 +59,9 @@ import type { PagedAsyncIterableIterator, PagedResult } from "@azure/core-paging
 import { getPagedAsyncIterator } from "@azure/core-paging";
 import type { PipelinePolicy, RestError } from "@azure/core-rest-pipeline";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import { SyncTokens, syncTokenPolicy } from "./internal/synctokenpolicy.js";
+import { audienceErrorHandlingPolicy } from "./internal/audienceErrorHandlingPolicy.js";
+import { SyncTokens, syncTokenPolicy } from "./internal/syncTokenPolicy.js";
+import { queryParamPolicy } from "./internal/queryParamPolicy.js";
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type {
@@ -85,6 +90,7 @@ import {
 import { AppConfiguration } from "./generated/src/appConfiguration.js";
 import type { FeatureFlagValue } from "./featureFlag.js";
 import type { SecretReferenceValue } from "./secretReference.js";
+import type { SnapshotReferenceValue } from "./snapshotReference.js";
 import { appConfigKeyCredentialPolicy } from "./appConfigCredential.js";
 import { tracingClient } from "./internal/tracing.js";
 import { logger } from "./logger.js";
@@ -194,7 +200,15 @@ export class AppConfigurationClient {
       options?.apiVersion ?? appConfigurationApiVersion,
       internalClientPipelineOptions,
     );
+    this.client.pipeline.addPolicy(
+      audienceErrorHandlingPolicy(appConfigOptions?.audience !== undefined),
+      {
+        phase: "Sign",
+        beforePolicies: [authPolicy.name],
+      },
+    );
     this.client.pipeline.addPolicy(authPolicy, { phase: "Sign" });
+    this.client.pipeline.addPolicy(queryParamPolicy());
     this.client.pipeline.addPolicy(syncTokenPolicy(this._syncTokens), { afterPhase: "Retry" });
   }
 
@@ -225,7 +239,8 @@ export class AppConfigurationClient {
     configurationSetting:
       | AddConfigurationSettingParam
       | AddConfigurationSettingParam<FeatureFlagValue>
-      | AddConfigurationSettingParam<SecretReferenceValue>,
+      | AddConfigurationSettingParam<SecretReferenceValue>
+      | AddConfigurationSettingParam<SnapshotReferenceValue>,
     options: AddConfigurationSettingOptions = {},
   ): Promise<AddConfigurationSettingResponse> {
     return tracingClient.withSpan(
@@ -436,6 +451,81 @@ export class AppConfigurationClient {
   }
 
   /**
+   * Checks settings from the Azure App Configuration service using a HEAD request, returning only headers without the response body.
+   * This is useful for efficiently checking if settings have changed by comparing ETags.
+   *
+   * Example code:
+   * ```ts snippet:CheckConfigurationSettings
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { AppConfigurationClient } from "@azure/app-configuration";
+   *
+   * // The endpoint for your App Configuration resource
+   * const endpoint = "https://example.azconfig.io";
+   * const credential = new DefaultAzureCredential();
+   * const client = new AppConfigurationClient(endpoint, credential);
+   *
+   * const pageIterator = client.checkConfigurationSettings({ keyFilter: "MyKey" }).byPage();
+   * ```
+   * @param options - Optional parameters for the request.
+   */
+  checkConfigurationSettings(
+    options: CheckConfigurationSettingsOptions = {},
+  ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
+    const pageEtags = options.pageEtags ? [...options.pageEtags] : undefined;
+    delete options.pageEtags;
+    const pagedResult: PagedResult<ListConfigurationSettingPage, PageSettings, string | undefined> =
+      {
+        firstPageLink: undefined,
+        getPage: async (pageLink: string | undefined) => {
+          const etag = pageEtags?.shift();
+          try {
+            const response = await this.checkConfigurationSettingsRequest(
+              { ...options, etag },
+              pageLink,
+            );
+            const link = response._response?.headers?.get("link");
+            const continuationToken = link ? extractAfterTokenFromLinkHeader(link) : undefined;
+            const currentResponse: ListConfigurationSettingPage = {
+              ...response,
+              etag: response._response?.headers?.get("etag"),
+              items: [],
+              continuationToken: continuationToken,
+              _response: response._response,
+            };
+            return {
+              page: currentResponse,
+              nextPageLink: currentResponse.continuationToken,
+            };
+          } catch (error) {
+            const err = error as RestError;
+
+            const link = err.response?.headers?.get("link");
+            const continuationToken = link ? extractAfterTokenFromLinkHeader(link) : undefined;
+
+            if (err.statusCode === 304) {
+              err.message = `Status 304: No updates for this page`;
+              logger.info(
+                `[checkConfigurationSettings] No updates for this page. The current etag for the page is ${etag}`,
+              );
+              return {
+                page: {
+                  items: [],
+                  etag,
+                  _response: { ...err.response, status: 304 },
+                } as unknown as ListConfigurationSettingPage,
+                nextPageLink: continuationToken,
+              };
+            }
+
+            throw err;
+          }
+        },
+        toElements: (page) => page.items,
+      };
+    return getPagedAsyncIterator(pagedResult);
+  }
+
+  /**
    * Lists settings from the Azure App Configuration service for snapshots based on name, optionally
    * filtered by key names, labels and accept datetime.
    *
@@ -568,6 +658,28 @@ export class AppConfigurationClient {
     );
   }
 
+  private async checkConfigurationSettingsRequest(
+    options: SendConfigurationSettingsOptions & PageSettings = {},
+    pageLink: string | undefined,
+  ): Promise<CheckKeyValuesResponse & HttpResponseField<AppConfigurationCheckKeyValuesHeaders>> {
+    return tracingClient.withSpan(
+      "AppConfigurationClient.checkConfigurationSettings",
+      options,
+      async (updatedOptions) => {
+        const response = await this.client.checkKeyValues({
+          ...updatedOptions,
+          ...formatAcceptDateTime(options),
+          ...formatConfigurationSettingsFiltersAndSelect(options),
+          ...checkAndFormatIfAndIfNoneMatch({ etag: options.etag }, { onlyIfChanged: true }),
+          after: pageLink,
+        });
+
+        return response as CheckKeyValuesResponse &
+          HttpResponseField<AppConfigurationCheckKeyValuesHeaders>;
+      },
+    );
+  }
+
   /**
    * Lists revisions of a set of keys, optionally filtered by key names,
    * labels and accept datetime.
@@ -655,7 +767,8 @@ export class AppConfigurationClient {
     configurationSetting:
       | SetConfigurationSettingParam
       | SetConfigurationSettingParam<FeatureFlagValue>
-      | SetConfigurationSettingParam<SecretReferenceValue>,
+      | SetConfigurationSettingParam<SecretReferenceValue>
+      | SetConfigurationSettingParam<SnapshotReferenceValue>,
     options: SetConfigurationSettingOptions = {},
   ): Promise<SetConfigurationSettingResponse> {
     return tracingClient.withSpan(

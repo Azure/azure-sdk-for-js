@@ -38,12 +38,12 @@ describe("RateLimitedSampler", () => {
     it("returns a value between 0 and 100", () => {
       sampler = new RateLimitedSampler(1);
       const rate = sampler.getSampleRate();
-      assert.ok(rate >= 0 && rate <= 100);
+      assert.isTrue(rate >= 0 && rate <= 100);
     });
     it("returns ~0 for very small requestsPerSecond", () => {
       sampler = new RateLimitedSampler(0.00001);
       const rate = sampler.getSampleRate();
-      assert.ok(
+      assert.isTrue(
         rate <= 1,
         `Expected sample rate to be very low for very small requestsPerSecond, got ${rate}`,
       );

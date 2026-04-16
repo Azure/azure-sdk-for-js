@@ -7,10 +7,16 @@
 const {
   AppConfigurationClient,
   featureFlagContentType,
-  parseFeatureFlag,
-  featureFlagPrefix
+  featureFlagPrefix,
 } = require("@azure/app-configuration");
 const { DefaultAzureCredential } = require("@azure/identity");
+
+// Use configuration provider and feature management library to consume feature flags
+const { load } = require("@azure/app-configuration-provider");
+const {
+  ConfigurationMapFeatureFlagProvider,
+  FeatureManager,
+} = require("@microsoft/feature-management");
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -24,6 +30,7 @@ async function main() {
     isReadOnly: false,
     contentType: featureFlagContentType,
     value: {
+      id: featureFlagName,
       enabled: false,
       description: "I'm a description",
       conditions: {
@@ -71,18 +78,19 @@ async function main() {
       refresh: {
         enabled: true,
         // refreshIntervalInMs: 30_000, // Optional. Default: 30 seconds
-      }
-    }
+      },
+    },
   });
 
   console.log(`Use feature management library to consume feature flags`);
   const featureManager = new FeatureManager(
-    new ConfigurationMapFeatureFlagProvider(appConfigProvider));
+    new ConfigurationMapFeatureFlagProvider(appConfigProvider),
+  );
 
   let isEnabled = await featureManager.isEnabled(featureFlagName);
   console.log(`Is featureFlag enabled? ${isEnabled}`);
 
-  const targetingContext: ITargetingContext = { userId: "test@contoso.com" };
+  const targetingContext = { userId: "test@contoso.com" };
   isEnabled = await featureManager.isEnabled(featureFlagName, targetingContext);
   console.log(`Is featureFlag enabled for test@contoso.com? ${isEnabled}`);
 
@@ -103,7 +111,7 @@ async function main() {
     // The feature flag will not be enabled for everyone as targeting filter is configured
     isEnabled = await featureManager.isEnabled(featureFlagName);
     console.log(`Is featureFlag enabled? ${isEnabled}`);
-    
+
     isEnabled = await featureManager.isEnabled(featureFlagName, targetingContext);
     console.log(`Is featureFlag enabled for test@contoso.com? ${isEnabled}`);
   }
@@ -126,4 +134,4 @@ main().catch((err) => {
   process.exit(1);
 });
 
-module.exports = { main, isTimeWindowClientFilter };
+module.exports = { main };

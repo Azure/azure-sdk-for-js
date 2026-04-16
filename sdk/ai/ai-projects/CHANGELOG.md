@@ -1,14 +1,89 @@
 # Release History
 
-## 1.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 2.0.2 (2026-04-06)
 
 ### Bugs Fixed
 
+- Replace `console.debug` calls with Azure SDK logger to prevent secret leakage (e.g. SAS URIs) in unconditional console output.
+
+## 2.0.1 (2026-03-13)
+
+### Bugs Fixed
+
+- Fix polling for memory store update operations that cannot complete.
+
+## 2.0.0 (2026-03-06)
+
+### Breaking changes
+
+- change `RedTeam` property `target` from required to optional.
+- remove `container_app` from `AgentKind` and `ContainerAppAgentDefinition` from `AgentDefinitionUnion`.
+- rename `CodeInterpreterContainerAuto` type (see API reference for the new type name).
+- update memory store `items` property type to match the latest service API (this may require code changes where `items` is accessed).
+- rename `ImageGenActionEnum` type to `ImageGenAction`.
+- rename `project.beta.evaluators.listLatestVersions` method to `project.beta.evaluators.list`.
+- change `project.connections.get` method parameter `includeCredentials` to be part of options bag parameter instead of a separate boolean parameter.
+- change `project.connections.getDefault` method parameter `includeCredentials` to be part of options bag parameter instead of a separate boolean parameter.
+
+## 2.0.0-beta.5 (2026-02-24)
+
+### Features Added
+- Add `project.beta` route for accessing beta features, including:
+  - `project.beta.schedules`
+  - `project.beta.redTeams`
+  - `project.beta.memoryStores`
+  - `project.beta.insights`
+  - `project.beta.evaluators`
+  - `project.beta.evaluationTaxonomies`
+
+
+## 2.0.0-beta.4 (2026-01-29)
+
+### Breaking changes
+
+- To align with OpenAI naming conventions, use "Tool" suffix for class names describing Azure tools that are generally available (stable release):
+  - Rename class `AzureAISearchAgentTool` to `AzureAISearchTool`
+  - Rename class `OpenApiAgentTool` to `OpenApiTool`
+  - Rename class `AzureFunctionAgentTool` to `AzureFunctionTool`
+  - Rename class `BingGroundingAgentTool` to `BingGroundingTool`
+- To align with OpenAI naming conventions, use "PreviewTool" suffix for class names describing Azure tools in preview:
+  - Rename class `MicrosoftFabricAgentTool` to `MicrosoftFabricPreviewTool`
+  - Rename class `SharepointAgentTool` to `SharepointPreviewTool`
+  - Rename class `BingCustomSearchAgentTool` to `BingCustomSearchPreviewTool`
+  - Rename class `BrowserAutomationAgentTool` to `BrowserAutomationPreviewTool`
+  - Rename class `A2ATool` to `A2APreviewTool`
+
+- `ResponsesUserMessageItemParam` removed as a valid ItemUnion member.
+
+## 2.0.0-beta.3 (2026-01-09)
+
+### Bugs Fixed
+
+- fix response json schema deserializer 
+
+## 2.0.0-beta.2 (2025-12-02)
+
+### Breaking changes
+
+- add back `project.telemetry` route, give users access to get Application Insights connection string for their AI Foundry Project
+
+## 2.0.0-beta.1 (2025-11-12)
+
+### Breaking changes
+
+- add `project.agents` route, built on top OpenAI's "Responses" protocol
+- add `project.getOpenAIClient` method to get an authenticated OpenAI client for your AI Foundry Project
+- add `project.redTeams` route
+- remove `project.inference` route
+- remove `project.telemetry` route
+- remove `project.getAzureOpenAIClient` method
+- remove `project.enableTelemetry` method
+
+## 1.0.1 (2025-10-15)
+
 ### Other Changes
+
+- Update dependency package `openai` version to `6.1.0`
 
 ## 1.0.0 (2025-08-06)
 

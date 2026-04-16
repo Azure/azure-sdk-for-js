@@ -4,11 +4,7 @@
 import * as msalClient from "$internal/msal/nodeFlows/msalClient.js";
 
 import type { AuthenticationResult } from "@azure/msal-node";
-import {
-  ClientApplication,
-  ConfidentialClientApplication,
-  PublicClientApplication,
-} from "@azure/msal-node";
+import { ConfidentialClientApplication, PublicClientApplication } from "@azure/msal-node";
 import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
 import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
 import type { Recorder } from "@azure-tools/test-recorder";
@@ -36,11 +32,8 @@ describe("MsalClient", function () {
       ({ cleanup, recorder } = await msalNodeTestSetup(ctx));
     });
 
-    it("supports getTokenByClientSecret", async function (ctx) {
-      if (isLiveMode()) {
-        // https://github.com/Azure/azure-sdk-for-js/issues/29929
-        ctx.skip();
-      }
+    it.skipIf(isLiveMode())("supports getTokenByClientSecret", async function () {
+      // https://github.com/Azure/azure-sdk-for-js/issues/29929
       const scopes = ["https://vault.azure.net/.default"];
       const clientSecret = env.IDENTITY_SP_CLIENT_SECRET || env.AZURE_CLIENT_SECRET!;
       const clientId = env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!;
@@ -48,7 +41,7 @@ describe("MsalClient", function () {
 
       const clientOptions = recorder.configureClientOptions({});
       const client = msalClient.createMsalClient(clientId, tenantId, {
-        tokenCredentialOptions: { additionalPolicies: clientOptions.additionalPolicies },
+        additionalPolicies: clientOptions.additionalPolicies,
       });
 
       const accessToken = await client.getTokenByClientSecret(scopes, clientSecret);
@@ -56,18 +49,15 @@ describe("MsalClient", function () {
       assert.isNotNaN(accessToken.expiresOnTimestamp);
     });
 
-    it("supports getTokenByDeviceCode", async function (ctx) {
-      if (isLiveMode()) {
-        // Skip in CI live tests since this credential requires user interaction.
-        ctx.skip();
-      }
+    it.skipIf(isLiveMode())("supports getTokenByDeviceCode", async function () {
+      // Skip in CI live tests since this credential requires user interaction.
       const scopes = ["https://vault.azure.net/.default"];
       const clientId = DeveloperSignOnClientId;
       const tenantId = env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!;
 
       const clientOptions = recorder.configureClientOptions({});
       const client = msalClient.createMsalClient(clientId, tenantId, {
-        tokenCredentialOptions: { additionalPolicies: clientOptions.additionalPolicies },
+        additionalPolicies: clientOptions.additionalPolicies,
       });
 
       const accessToken = await client.getTokenByDeviceCode(scopes, (info) => {
@@ -85,7 +75,7 @@ describe("MsalClient", function () {
 
       const clientOptions = recorder.configureClientOptions({});
       const client = msalClient.createMsalClient(clientId, tenantId, {
-        tokenCredentialOptions: { additionalPolicies: clientOptions.additionalPolicies },
+        additionalPolicies: clientOptions.additionalPolicies,
       });
 
       const accessToken = await client.getTokenByUsernamePassword(scopes, username, password);
@@ -338,7 +328,7 @@ describe("MsalClient", function () {
         });
 
         const silentAuthSpy = vi
-          .spyOn(ClientApplication.prototype, "acquireTokenSilent")
+          .spyOn(PublicClientApplication.prototype, "acquireTokenSilent")
           .mockResolvedValue({
             accessToken: "token",
             expiresOn: new Date(),
@@ -359,7 +349,7 @@ describe("MsalClient", function () {
 
       it("attempts silent authentication without AuthenticationRecord", async function () {
         const silentAuthStub = vi
-          .spyOn(ClientApplication.prototype, "acquireTokenSilent")
+          .spyOn(PublicClientApplication.prototype, "acquireTokenSilent")
           .mockResolvedValue({
             accessToken: "token",
             expiresOn: new Date(),
@@ -408,7 +398,7 @@ describe("MsalClient", function () {
           },
         });
 
-        vi.spyOn(ClientApplication.prototype, "acquireTokenSilent").mockRejectedValue(
+        vi.spyOn(PublicClientApplication.prototype, "acquireTokenSilent").mockRejectedValue(
           new AbortError("operation has been aborted"),
         ); // AbortErrors should get re-thrown
 
@@ -421,7 +411,7 @@ describe("MsalClient", function () {
 
       it("throws when silentAuthentication fails and disableAutomaticAuthentication is true", async function () {
         const scopes = ["https://vault.azure.net/.default"];
-        vi.spyOn(ClientApplication.prototype, "acquireTokenSilent").mockRejectedValue(
+        vi.spyOn(PublicClientApplication.prototype, "acquireTokenSilent").mockRejectedValue(
           new AuthenticationRequiredError({ scopes }),
         );
 

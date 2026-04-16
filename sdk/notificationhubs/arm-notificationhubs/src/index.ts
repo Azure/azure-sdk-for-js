@@ -9,4 +9,4 @@
 export { getContinuationToken } from "./pagingHelper.js";
 export * from "./models/index.js";
 export { NotificationHubsManagementClient } from "./notificationHubsManagementClient.js";
-export * from "./operationsInterfaces/index.js";
+export type * from "./operationsInterfaces/index.js";

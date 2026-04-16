@@ -12,8 +12,8 @@ import type { NotebookOperationResultGetOptionalParams } from "../models/index.j
 export interface NotebookOperationResult {
   /**
    * Get notebook operation result
-   * @param operationId - Operation ID.
-   * @param options - The options parameters.
+   * @param operationId Operation ID.
+   * @param options The options parameters.
    */
   get(operationId: string, options?: NotebookOperationResultGetOptionalParams): Promise<void>;
 }

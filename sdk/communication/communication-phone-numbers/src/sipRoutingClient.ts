@@ -26,7 +26,7 @@ import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { tracingClient } from "./generated/src/tracing.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
-export * from "./models.js";
+export type * from "./models.js";
 
 /**
  * Client options used to configure the SipRoutingClient API requests.

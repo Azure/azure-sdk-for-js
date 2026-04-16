@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets information about a database in a Redis Enterprise cluster.
- *
- * @summary Gets information about a database in a Redis Enterprise cluster.
- * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2025-05-01-preview/examples/RedisEnterpriseDatabasesGet.json
- */
-
 import { RedisEnterpriseManagementClient } from "@azure/arm-redisenterprisecache";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Gets information about a database in a Redis Enterprise cluster.
+ *
+ * @summary Gets information about a database in a Redis Enterprise cluster.
+ * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/RedisEnterprise/stable/2025-07-01/examples/RedisEnterpriseDatabasesGet.json
+ */
 async function redisEnterpriseDatabasesGet(): Promise<void> {
   const subscriptionId =
     process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] ||

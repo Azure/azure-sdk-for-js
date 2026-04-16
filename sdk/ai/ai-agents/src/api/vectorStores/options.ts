@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   VectorStoreConfiguration,
   VectorStoreExpirationPolicy,
   VectorStoreChunkingStrategyRequestUnion,
   ListSortOrder,
 } from "../../models/models.js";
-import { OperationOptions } from "@azure-rest/core-client";
-import { PollingOptionsParams } from "../options.js";
+import type { OperationOptions } from "@azure-rest/core-client";
+import type { PollingOptionsParams } from "../options.js";
 
 /** Optional parameters. */
 export interface VectorStoresDeleteVectorStoreOptionalParams extends OperationOptions {}
@@ -28,8 +28,7 @@ export interface VectorStoresGetVectorStoreOptionalParams extends OperationOptio
 
 /** Optional parameters. */
 export interface VectorStoresCreateVectorStoreOptionalParams
-  extends OperationOptions,
-    PollingOptionsParams {
+  extends OperationOptions, PollingOptionsParams {
   /** A list of file IDs that the vector store should use. Useful for tools like `file_search` that can access files. */
   fileIds?: string[];
   /** The name of the vector store. */

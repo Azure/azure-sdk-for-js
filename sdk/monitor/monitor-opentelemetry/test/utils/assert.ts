@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import assert from "node:assert";
+import { assert } from "vitest";
 import type { Expectation } from "./types.js";
 import type {
   MetricsData,

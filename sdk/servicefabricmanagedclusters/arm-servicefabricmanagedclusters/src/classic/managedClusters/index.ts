@@ -1,31 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
+import type { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
 import {
-  ManagedCluster,
-  ManagedClusterUpdateParameters,
-  FaultSimulationIdContent,
-  FaultSimulation,
-  FaultSimulationContentWrapper,
-} from "../../models/models.js";
-import {
-  ManagedClustersStopFaultSimulationOptionalParams,
-  ManagedClustersStartFaultSimulationOptionalParams,
-  ManagedClustersListFaultSimulationOptionalParams,
-  ManagedClustersGetFaultSimulationOptionalParams,
-  ManagedClustersListBySubscriptionOptionalParams,
-  ManagedClustersListByResourceGroupOptionalParams,
-  ManagedClustersDeleteOptionalParams,
-  ManagedClustersUpdateOptionalParams,
-  ManagedClustersCreateOrUpdateOptionalParams,
-  ManagedClustersGetOptionalParams,
-} from "../../api/managedClusters/options.js";
-import {
-  stopFaultSimulation,
-  startFaultSimulation,
-  listFaultSimulation,
-  getFaultSimulation,
   listBySubscription,
   listByResourceGroup,
   $delete,
@@ -33,38 +10,20 @@ import {
   createOrUpdate,
   get,
 } from "../../api/managedClusters/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  ManagedClustersListBySubscriptionOptionalParams,
+  ManagedClustersListByResourceGroupOptionalParams,
+  ManagedClustersDeleteOptionalParams,
+  ManagedClustersUpdateOptionalParams,
+  ManagedClustersCreateOrUpdateOptionalParams,
+  ManagedClustersGetOptionalParams,
+} from "../../api/managedClusters/options.js";
+import type { ManagedCluster, ManagedClusterUpdateParameters } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ManagedClusters operations. */
 export interface ManagedClustersOperations {
-  /** Stops a fault simulation on the cluster. */
-  stopFaultSimulation: (
-    resourceGroupName: string,
-    clusterName: string,
-    parameters: FaultSimulationIdContent,
-    options?: ManagedClustersStopFaultSimulationOptionalParams,
-  ) => PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
-  /** Starts a fault simulation on the cluster. */
-  startFaultSimulation: (
-    resourceGroupName: string,
-    clusterName: string,
-    parameters: FaultSimulationContentWrapper,
-    options?: ManagedClustersStartFaultSimulationOptionalParams,
-  ) => PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
-  /** Gets the list of recent fault simulations for the cluster. */
-  listFaultSimulation: (
-    resourceGroupName: string,
-    clusterName: string,
-    options?: ManagedClustersListFaultSimulationOptionalParams,
-  ) => PagedAsyncIterableIterator<FaultSimulation>;
-  /** Gets a fault simulation by the simulationId. */
-  getFaultSimulation: (
-    resourceGroupName: string,
-    clusterName: string,
-    parameters: FaultSimulationIdContent,
-    options?: ManagedClustersGetFaultSimulationOptionalParams,
-  ) => Promise<FaultSimulation>;
   /** Gets all Service Fabric cluster resources created or in the process of being created in the subscription. */
   listBySubscription: (
     options?: ManagedClustersListBySubscriptionOptionalParams,
@@ -91,7 +50,7 @@ export interface ManagedClustersOperations {
     clusterName: string,
     parameters: ManagedClusterUpdateParameters,
     options?: ManagedClustersUpdateOptionalParams,
-  ) => Promise<ManagedCluster>;
+  ) => PollerLike<OperationState<ManagedCluster>, ManagedCluster>;
   /** Create or update a Service Fabric managed cluster resource with the specified name. */
   createOrUpdate: (
     resourceGroupName: string,
@@ -109,29 +68,6 @@ export interface ManagedClustersOperations {
 
 function _getManagedClusters(context: ServiceFabricManagedClustersManagementContext) {
   return {
-    stopFaultSimulation: (
-      resourceGroupName: string,
-      clusterName: string,
-      parameters: FaultSimulationIdContent,
-      options?: ManagedClustersStopFaultSimulationOptionalParams,
-    ) => stopFaultSimulation(context, resourceGroupName, clusterName, parameters, options),
-    startFaultSimulation: (
-      resourceGroupName: string,
-      clusterName: string,
-      parameters: FaultSimulationContentWrapper,
-      options?: ManagedClustersStartFaultSimulationOptionalParams,
-    ) => startFaultSimulation(context, resourceGroupName, clusterName, parameters, options),
-    listFaultSimulation: (
-      resourceGroupName: string,
-      clusterName: string,
-      options?: ManagedClustersListFaultSimulationOptionalParams,
-    ) => listFaultSimulation(context, resourceGroupName, clusterName, options),
-    getFaultSimulation: (
-      resourceGroupName: string,
-      clusterName: string,
-      parameters: FaultSimulationIdContent,
-      options?: ManagedClustersGetFaultSimulationOptionalParams,
-    ) => getFaultSimulation(context, resourceGroupName, clusterName, parameters, options),
     listBySubscription: (options?: ManagedClustersListBySubscriptionOptionalParams) =>
       listBySubscription(context, options),
     listByResourceGroup: (

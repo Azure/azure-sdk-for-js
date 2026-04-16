@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 export {
+  configureExascale,
   addStorageCapacity,
   listByResourceGroup,
   $delete,
@@ -11,11 +12,12 @@ export {
   listBySubscription,
 } from "./operations.js";
 export {
-  CloudExadataInfrastructuresAddStorageCapacityOptionalParams,
-  CloudExadataInfrastructuresListByResourceGroupOptionalParams,
-  CloudExadataInfrastructuresDeleteOptionalParams,
-  CloudExadataInfrastructuresUpdateOptionalParams,
-  CloudExadataInfrastructuresGetOptionalParams,
-  CloudExadataInfrastructuresCreateOrUpdateOptionalParams,
-  CloudExadataInfrastructuresListBySubscriptionOptionalParams,
+  type CloudExadataInfrastructuresConfigureExascaleOptionalParams,
+  type CloudExadataInfrastructuresAddStorageCapacityOptionalParams,
+  type CloudExadataInfrastructuresListByResourceGroupOptionalParams,
+  type CloudExadataInfrastructuresDeleteOptionalParams,
+  type CloudExadataInfrastructuresUpdateOptionalParams,
+  type CloudExadataInfrastructuresGetOptionalParams,
+  type CloudExadataInfrastructuresCreateOrUpdateOptionalParams,
+  type CloudExadataInfrastructuresListBySubscriptionOptionalParams,
 } from "./options.js";

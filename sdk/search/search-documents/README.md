@@ -33,7 +33,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/search-documents)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/search-documents)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/search-documents?view=azure-node-preview)
 - [REST API documentation](https://learn.microsoft.com/rest/api/searchservice/)
 - [Product documentation](https://learn.microsoft.com/azure/search/)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/search/search-documents/samples)

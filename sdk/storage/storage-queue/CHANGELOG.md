@@ -1,14 +1,31 @@
 # Release History
 
-## 12.28.1 (Unreleased)
+## 12.30.0-beta.1 (2026-03-05)
 
 ### Features Added
 
-### Breaking Changes
+- Added support for service version 2026-04-06.
+- Added cross-tenant support for Principal-Bound User Delegation SAS.
 
-### Bugs Fixed
+## 12.29.0 (2026-01-16)
 
-### Other Changes
+### Features Added
+
+- Includes all features released in 12.29.0-beta.1.
+
+## 12.29.0-beta.1 (2025-11-24)
+
+### Features Added
+
+- Added support for service version 2026-02-06.
+- Added support for User Delegation SAS.
+- Added support for Principal-Bound Identity User Delegation SAS.
+
+## 12.28.1 (2025-10-16)
+
+### Features Added
+
+- Includes all features released in 12.28.0-beta.1.
 
 ## 12.27.0 (2025-07-22)
 

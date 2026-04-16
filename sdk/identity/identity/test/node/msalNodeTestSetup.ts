@@ -74,6 +74,7 @@ export async function msalNodeTestSetup(
         AZURE_IDENTITY_MULTI_TENANT_TENANT_ID: "99999999-9999-9999-9999-999999999999",
         AZURE_IDENTITY_MULTI_TENANT_CLIENT_ID: "azure_multi_tenant_client_id",
         AZURE_IDENTITY_MULTI_TENANT_CLIENT_SECRET: "azure_multi_tenant_client_secret",
+        SKIP_SP_LIVE_TESTS: "true",
       },
       sanitizerOptions: {
         headerSanitizers: [

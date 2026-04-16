@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Updates an existing Redis Enterprise cluster
- *
- * @summary Updates an existing Redis Enterprise cluster
- * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2025-05-01-preview/examples/RedisEnterpriseUpdate.json
- */
-
+import type {
+  ClusterUpdate} from "@azure/arm-redisenterprisecache";
 import {
-  ClusterUpdate,
   RedisEnterpriseManagementClient,
 } from "@azure/arm-redisenterprisecache";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Updates an existing Redis Enterprise cluster
+ *
+ * @summary Updates an existing Redis Enterprise cluster
+ * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/RedisEnterprise/stable/2025-07-01/examples/RedisEnterpriseUpdate.json
+ */
 async function redisEnterpriseUpdate(): Promise<void> {
   const subscriptionId =
     process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] ||
@@ -24,6 +24,7 @@ async function redisEnterpriseUpdate(): Promise<void> {
   const clusterName = "cache1";
   const parameters: ClusterUpdate = {
     minimumTlsVersion: "1.2",
+    publicNetworkAccess: "Enabled",
     sku: { name: "EnterpriseFlash_F300", capacity: 9 },
     tags: { tag1: "value1" },
   };

@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
-import { DbSystemShape } from "../../models/models.js";
-import {
+import type { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
+import { listByLocation, get } from "../../api/dbSystemShapes/operations.js";
+import type {
   DbSystemShapesListByLocationOptionalParams,
   DbSystemShapesGetOptionalParams,
 } from "../../api/dbSystemShapes/options.js";
-import { listByLocation, get } from "../../api/dbSystemShapes/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { DbSystemShape } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DbSystemShapes operations. */
 export interface DbSystemShapesOperations {

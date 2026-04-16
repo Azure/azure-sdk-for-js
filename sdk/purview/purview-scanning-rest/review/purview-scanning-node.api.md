@@ -2397,7 +2397,7 @@ export interface ConsumerKeyCredentialPropertiesOutput {
 }
 
 // @public
-function createClient(endpoint: string, credentials: TokenCredential, { apiVersion, ...options }?: PurviewScanningRestClientOptions): PurviewScanningRestClient;
+function createClient(endpoint: string, credentials: TokenCredential, input?: PurviewScanningRestClientOptions): PurviewScanningRestClient;
 export default createClient;
 
 // @public

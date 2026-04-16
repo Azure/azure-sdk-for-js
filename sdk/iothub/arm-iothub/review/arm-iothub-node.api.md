@@ -4,11 +4,11 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
+import type * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { OperationState } from '@azure/core-lro';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type AccessRights = "RegistryRead" | "RegistryWrite" | "ServiceConnect" | "DeviceConnect" | "RegistryRead, RegistryWrite" | "RegistryRead, ServiceConnect" | "RegistryRead, DeviceConnect" | "RegistryWrite, ServiceConnect" | "RegistryWrite, DeviceConnect" | "ServiceConnect, DeviceConnect" | "RegistryRead, RegistryWrite, ServiceConnect" | "RegistryRead, RegistryWrite, DeviceConnect" | "RegistryRead, ServiceConnect, DeviceConnect" | "RegistryWrite, ServiceConnect, DeviceConnect" | "RegistryRead, RegistryWrite, ServiceConnect, DeviceConnect";
@@ -61,6 +61,7 @@ export interface CertificateProperties {
     readonly created?: Date;
     readonly expiry?: Date;
     isVerified?: boolean;
+    policyResourceId?: string;
     readonly subject?: string;
     readonly thumbprint?: string;
     readonly updated?: Date;
@@ -72,6 +73,7 @@ export interface CertificatePropertiesWithNonce {
     readonly created?: Date;
     readonly expiry?: Date;
     readonly isVerified?: boolean;
+    policyResourceId?: string;
     readonly subject?: string;
     readonly thumbprint?: string;
     readonly updated?: Date;
@@ -154,6 +156,18 @@ export type CreatedByType = string;
 
 // @public
 export type DefaultAction = string;
+
+// @public
+export interface DeviceRegistry {
+    identityResourceId?: string;
+    namespaceResourceId?: string;
+}
+
+// @public
+export interface EncryptionPropertiesDescription {
+    keySource?: string;
+    keyVaultProperties?: KeyVaultKeyProperties[];
+}
 
 // @public
 export interface EndpointHealthData {
@@ -383,17 +397,21 @@ export interface IotHubProperties {
     authorizationPolicies?: SharedAccessSignatureAuthorizationRule[];
     cloudToDevice?: CloudToDeviceProperties;
     comments?: string;
+    deviceRegistry?: DeviceRegistry;
+    deviceStreams?: IotHubPropertiesDeviceStreams;
     disableDeviceSAS?: boolean;
     disableLocalAuth?: boolean;
     disableModuleSAS?: boolean;
     enableDataResidency?: boolean;
     enableFileUploadNotifications?: boolean;
+    encryption?: EncryptionPropertiesDescription;
     eventHubEndpoints?: {
         [propertyName: string]: EventHubProperties;
     };
     features?: Capabilities;
     readonly hostName?: string;
     ipFilterRules?: IpFilterRule[];
+    ipVersion?: IpVersion;
     readonly locations?: IotHubLocationDescription[];
     messagingEndpoints?: {
         [propertyName: string]: MessagingEndpointProperties;
@@ -404,11 +422,17 @@ export interface IotHubProperties {
     readonly provisioningState?: string;
     publicNetworkAccess?: PublicNetworkAccess;
     restrictOutboundNetworkAccess?: boolean;
+    rootCertificate?: RootCertificateProperties;
     routing?: RoutingProperties;
     readonly state?: string;
     storageEndpoints?: {
         [propertyName: string]: StorageEndpointProperties;
     };
+}
+
+// @public
+export interface IotHubPropertiesDeviceStreams {
+    streamingEndpoints?: string[];
 }
 
 // @public
@@ -470,6 +494,11 @@ export interface IotHubResourceCreateEventHubConsumerGroupOptionalParams extends
 
 // @public
 export type IotHubResourceCreateEventHubConsumerGroupResponse = EventHubConsumerGroupInfo;
+
+// @public
+export interface IotHubResourceCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+}
 
 // @public
 export interface IotHubResourceCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
@@ -677,13 +706,18 @@ export interface IotHubResourceTestRouteOptionalParams extends coreClient.Operat
 export type IotHubResourceTestRouteResponse = TestRouteResult;
 
 // @public
+export interface IotHubResourceUpdateHeaders {
+    azureAsyncOperation?: string;
+}
+
+// @public
 export interface IotHubResourceUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type IotHubResourceUpdateResponse = IotHubDescription;
+export type IotHubResourceUpdateResponse = IotHubResourceUpdateHeaders & IotHubDescription;
 
 // @public
 export type IotHubScaleType = "Automatic" | "Manual" | "None";
@@ -712,7 +746,7 @@ export interface IotHubSkuInfo {
 }
 
 // @public
-export type IotHubSkuTier = "Free" | "Standard" | "Basic";
+export type IotHubSkuTier = "Free" | "Standard" | "Basic" | "Generation2";
 
 // @public
 export type IpFilterActionType = "Accept" | "Reject";
@@ -723,6 +757,9 @@ export interface IpFilterRule {
     filterName: string;
     ipMask: string;
 }
+
+// @public
+export type IpVersion = string;
 
 // @public
 export interface JobResponse {
@@ -747,6 +784,12 @@ export type JobStatus = "unknown" | "enqueued" | "running" | "completed" | "fail
 
 // @public
 export type JobType = string;
+
+// @public
+export interface KeyVaultKeyProperties {
+    identity?: ManagedIdentity;
+    keyIdentifier?: string;
+}
 
 // @public
 export enum KnownAuthenticationType {
@@ -795,9 +838,17 @@ export enum KnownIotHubSku {
     B2 = "B2",
     B3 = "B3",
     F1 = "F1",
+    GEN2 = "GEN2",
     S1 = "S1",
     S2 = "S2",
     S3 = "S3"
+}
+
+// @public
+export enum KnownIpVersion {
+    Ipv4 = "ipv4",
+    Ipv4Ipv6 = "ipv4ipv6",
+    Ipv6 = "ipv6"
 }
 
 // @public
@@ -845,7 +896,9 @@ export enum KnownRoutingSource {
     DeviceJobLifecycleEvents = "DeviceJobLifecycleEvents",
     DeviceLifecycleEvents = "DeviceLifecycleEvents",
     DeviceMessages = "DeviceMessages",
+    DigitalTwinChangeEvents = "DigitalTwinChangeEvents",
     Invalid = "Invalid",
+    MqttBrokerMessages = "MqttBrokerMessages",
     TwinChangeEvents = "TwinChangeEvents"
 }
 
@@ -1007,6 +1060,11 @@ export interface PrivateEndpointConnectionsListOptionalParams extends coreClient
 export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnection[];
 
 // @public
+export interface PrivateEndpointConnectionsUpdateHeaders {
+    azureAsyncOperation?: string;
+}
+
+// @public
 export interface PrivateEndpointConnectionsUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1085,6 +1143,12 @@ export interface ResourceProviderCommonGetSubscriptionQuotaOptionalParams extend
 
 // @public
 export type ResourceProviderCommonGetSubscriptionQuotaResponse = UserSubscriptionQuotaListResult;
+
+// @public
+export interface RootCertificateProperties {
+    enableRootCertificateV2?: boolean;
+    readonly lastUpdatedTimeUtc?: Date;
+}
 
 // @public
 export interface RouteCompilationError {

@@ -59,7 +59,7 @@ describe("Segment", async () => {
   it("getChange round robin in shards", async () => {
     const segmentFactory = new SegmentFactory(shardFactoryStub);
     const segment = await segmentFactory.create(containerClientStub, manifestPath);
-    assert.ok(segment.hasNext());
+    assert.isTrue(segment.hasNext());
     assert.equal(segment.dateTime.getTime(), dateTime.getTime());
 
     // round robin
@@ -107,7 +107,7 @@ describe("Segment", async () => {
       SegmentPath: "idx/segments/2020/03/25/0200/meta.json",
       ShardCursors: [],
     } as any);
-    assert.ok(segment.hasNext());
+    assert.isTrue(segment.hasNext());
     assert.equal(segment.dateTime.getTime(), dateTime.getTime());
     const segmentCursor = segment.getCursor();
     assert.equal(segmentCursor.CurrentShardPath, CurrentShardPath);

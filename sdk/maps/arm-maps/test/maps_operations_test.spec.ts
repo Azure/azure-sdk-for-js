@@ -51,8 +51,8 @@ describe("maps test", () => {
       recorder.configureClientOptions({}),
     );
     location = "eastus";
-    resourceGroup = "myjstest";
-    resourcename = "resourcetest";
+    resourceGroup = "SSS3PT_myjstest";
+    resourcename = "resourcetest1";
   });
 
   afterEach(async () => {
@@ -111,6 +111,7 @@ describe("maps test", () => {
   // should run this case several minutes later
   it("accounts delete test", async () => {
     const resArray = new Array();
+    await client.accounts.delete(resourceGroup, resourcename);
     for await (const item of client.accounts.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }

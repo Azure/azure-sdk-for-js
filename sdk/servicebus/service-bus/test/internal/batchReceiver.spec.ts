@@ -333,11 +333,11 @@ describe("Batching Receiver", () => {
       // we need to validate that the message has arrived (peek will just return immediately
       // if the queue/subscription is empty)
       const [receivedMessage] = await receiver.receiveMessages(1);
-      assert.ok(receivedMessage);
+      assert.isDefined(receivedMessage);
       await receiver.abandonMessage(receivedMessage); // put the message back
 
       const [peekedMsg] = await receiver.peekMessages(1);
-      assert.ok(peekedMsg);
+      assert.isDefined(peekedMsg);
 
       should.equal(
         !peekedMsg.lockToken,
@@ -972,8 +972,8 @@ describe("Batching Receiver", () => {
           await receiver.receiveMessages(10);
           throw new Error(testFailureMessage);
         } catch (err: any) {
-          assert.ok(err.name === "Error");
-          assert.ok(err.message.match(/Test: fake connection failure/));
+          assert.equal(err.name, "Error");
+          assert.match(err.message, /Test: fake connection failure/);
         }
 
         await onDetachedCalledPromise;

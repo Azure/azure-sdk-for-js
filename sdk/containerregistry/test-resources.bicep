@@ -27,6 +27,6 @@ resource anonymousContainerRegistry 'Microsoft.ContainerRegistry/registries@2023
 
 // Outputs
 output CONTAINER_REGISTRY_NAME string = baseName
-output CONTAINER_REGISTRY_ENDPOINT string = containerRegistry.properties.loginServer
+output CONTAINER_REGISTRY_ENDPOINT string = 'https://${containerRegistry.properties.loginServer}'
 output CONTAINER_REGISTRY_ANONYMOUS_NAME string = anonRegistryName
-output CONTAINER_REGISTRY_ANONYMOUS_ENDPOINT string = anonymousContainerRegistry.properties.loginServer
+output CONTAINER_REGISTRY_ANONYMOUS_ENDPOINT string = 'https://${anonymousContainerRegistry.properties.loginServer}'

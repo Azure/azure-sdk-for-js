@@ -18,6 +18,7 @@ import { tokenExchangeMsi } from "./tokenExchangeMsi.js";
 import { mapScopesToResource, serviceFabricErrorMessage } from "./utils.js";
 import type { MsalToken, ValidMsalToken } from "../../msal/types.js";
 import type {
+  InternalManagedIdentityCredentialOptions,
   ManagedIdentityCredentialClientIdOptions,
   ManagedIdentityCredentialObjectIdOptions,
   ManagedIdentityCredentialResourceIdOptions,
@@ -45,6 +46,7 @@ export class ManagedIdentityCredential implements TokenCredential {
     intervalIncrement: 2,
   };
   private isAvailableIdentityClient: IdentityClient;
+  private sendProbeRequest: boolean;
 
   /**
    * Creates an instance of ManagedIdentityCredential with the client ID of a
@@ -94,7 +96,8 @@ export class ManagedIdentityCredential implements TokenCredential {
     }
     this.resourceId = (_options as ManagedIdentityCredentialResourceIdOptions)?.resourceId;
     this.objectId = (_options as ManagedIdentityCredentialObjectIdOptions)?.objectId;
-
+    this.sendProbeRequest =
+      (_options as InternalManagedIdentityCredentialOptions)?.sendProbeRequest ?? false;
     // For JavaScript users.
     const providedIds = [
       { key: "clientId", value: this.clientId },
@@ -247,7 +250,7 @@ export class ManagedIdentityCredential implements TokenCredential {
           }
 
           return result;
-        } else if (isImdsMsi) {
+        } else if (isImdsMsi && this.sendProbeRequest) {
           // In the IMDS scenario we will probe the IMDS endpoint to ensure it's available before trying to get a token.
           // If the IMDS endpoint is not available and this is the source that MSAL will use, we will fail-fast with an error that tells DAC to move to the next credential.
           logger.getToken.info("Using the IMDS endpoint to probe for availability.");
@@ -268,7 +271,8 @@ export class ManagedIdentityCredential implements TokenCredential {
 
         // If we got this far, it means:
         // - This is not a tokenExchangeMsi,
-        // - We already probed for IMDS endpoint availability and failed-fast if it's unreachable.
+        // - We already probed for IMDS endpoint availability and failed-fast if it's unreachable,
+        // or we skip probing because the credential is set in DAC.
         // We can proceed normally by calling MSAL for a token.
         logger.getToken.info("Calling into MSAL for managed identity token.");
         const token = await this.managedIdentityApp.acquireToken({

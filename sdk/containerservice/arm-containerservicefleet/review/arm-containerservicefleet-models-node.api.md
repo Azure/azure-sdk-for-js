@@ -8,6 +8,14 @@
 export type ActionType = string;
 
 // @public
+export type AdoptionPolicy = string;
+
+// @public
+export interface Affinity {
+    clusterAffinity?: ClusterAffinity;
+}
+
+// @public
 export interface AgentProfile {
     subnetId?: string;
     vmSize?: string;
@@ -61,7 +69,31 @@ export interface AutoUpgradeProfileStatus {
 }
 
 // @public
+export interface ClusterAffinity {
+    requiredDuringSchedulingIgnoredDuringExecution?: ClusterSelector;
+}
+
+// @public
+export interface ClusterResourcePlacementSpec {
+    policy?: PlacementPolicy;
+}
+
+// @public
+export interface ClusterSelector {
+    clusterSelectorTerms: ClusterSelectorTerm[];
+}
+
+// @public
+export interface ClusterSelectorTerm {
+    labelSelector?: LabelSelector;
+    propertySelector?: PropertySelector;
+}
+
+// @public
 export type CreatedByType = string;
+
+// @public
+export type DeletePolicy = string;
 
 // @public
 export interface ErrorAdditionalInfo {
@@ -109,6 +141,43 @@ export interface FleetHubProfile {
     readonly fqdn?: string;
     readonly kubernetesVersion?: string;
     readonly portalFqdn?: string;
+}
+
+// @public
+export interface FleetManagedNamespace extends TrackedResource {
+    adoptionPolicy?: AdoptionPolicy;
+    deletePolicy?: DeletePolicy;
+    readonly eTag?: string;
+    managedNamespaceProperties?: ManagedNamespaceProperties;
+    readonly portalFqdn?: string;
+    propagationPolicy?: PropagationPolicy;
+    readonly provisioningState?: FleetManagedNamespaceProvisioningState;
+    readonly status?: FleetManagedNamespaceStatus;
+}
+
+// @public
+export interface FleetManagedNamespacePatch {
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface FleetManagedNamespaceProperties {
+    adoptionPolicy: AdoptionPolicy;
+    deletePolicy: DeletePolicy;
+    managedNamespaceProperties?: ManagedNamespaceProperties;
+    readonly portalFqdn?: string;
+    propagationPolicy?: PropagationPolicy;
+    readonly provisioningState?: FleetManagedNamespaceProvisioningState;
+    readonly status?: FleetManagedNamespaceStatus;
+}
+
+// @public
+export type FleetManagedNamespaceProvisioningState = string;
+
+// @public
+export interface FleetManagedNamespaceStatus {
+    readonly lastOperationError?: ErrorDetail;
+    readonly lastOperationId?: string;
 }
 
 // @public
@@ -240,6 +309,13 @@ export enum KnownActionType {
 }
 
 // @public
+export enum KnownAdoptionPolicy {
+    Always = "Always",
+    IfIdentical = "IfIdentical",
+    Never = "Never"
+}
+
+// @public
 export enum KnownAutoUpgradeLastTriggerStatus {
     Failed = "Failed",
     Succeeded = "Succeeded"
@@ -264,6 +340,22 @@ export enum KnownCreatedByType {
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
+}
+
+// @public
+export enum KnownDeletePolicy {
+    Delete = "Delete",
+    Keep = "Keep"
+}
+
+// @public
+export enum KnownFleetManagedNamespaceProvisioningState {
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
 }
 
 // @public
@@ -313,6 +405,14 @@ export enum KnownGateType {
 }
 
 // @public
+export enum KnownLabelSelectorOperator {
+    DoesNotExist = "DoesNotExist",
+    Exists = "Exists",
+    In = "In",
+    NotIn = "NotIn"
+}
+
+// @public
 export enum KnownManagedClusterUpgradeType {
     ControlPlaneOnly = "ControlPlaneOnly",
     Full = "Full",
@@ -342,6 +442,39 @@ export enum KnownOrigin {
 }
 
 // @public
+export enum KnownPlacementType {
+    PickAll = "PickAll",
+    PickFixed = "PickFixed"
+}
+
+// @public
+export enum KnownPolicyRule {
+    AllowAll = "AllowAll",
+    AllowSameNamespace = "AllowSameNamespace",
+    DenyAll = "DenyAll"
+}
+
+// @public
+export enum KnownPropagationType {
+    Placement = "Placement"
+}
+
+// @public
+export enum KnownPropertySelectorOperator {
+    Eq = "Eq",
+    Ge = "Ge",
+    Gt = "Gt",
+    Le = "Le",
+    Lt = "Lt",
+    Ne = "Ne"
+}
+
+// @public
+export enum KnownTaintEffect {
+    NoSchedule = "NoSchedule"
+}
+
+// @public
 export enum KnownTargetType {
     AfterStageWait = "AfterStageWait",
     Group = "Group",
@@ -353,6 +486,12 @@ export enum KnownTargetType {
 export enum KnownTiming {
     After = "After",
     Before = "Before"
+}
+
+// @public
+export enum KnownTolerationOperator {
+    Equal = "Equal",
+    Exists = "Exists"
 }
 
 // @public
@@ -393,7 +532,25 @@ export enum KnownVersions {
     V20240401 = "2024-04-01",
     V20240502Preview = "2024-05-02-preview",
     V20250301 = "2025-03-01",
-    V20250401Preview = "2025-04-01-preview"
+    V20250401Preview = "2025-04-01-preview",
+    V20250801Preview = "2025-08-01-preview",
+    V20260201Preview = "2026-02-01-preview"
+}
+
+// @public
+export interface LabelSelector {
+    matchExpressions?: LabelSelectorRequirement[];
+    matchLabels?: Record<string, string>;
+}
+
+// @public
+export type LabelSelectorOperator = string;
+
+// @public
+export interface LabelSelectorRequirement {
+    key: string;
+    operator: LabelSelectorOperator;
+    values?: string[];
 }
 
 // @public
@@ -410,6 +567,14 @@ export interface ManagedClusterUpgradeSpec {
 
 // @public
 export type ManagedClusterUpgradeType = string;
+
+// @public
+export interface ManagedNamespaceProperties {
+    annotations?: Record<string, string>;
+    defaultNetworkPolicy?: NetworkPolicy;
+    defaultResourceQuota?: ResourceQuota;
+    labels?: Record<string, string>;
+}
 
 // @public
 export interface ManagedServiceIdentity {
@@ -429,6 +594,12 @@ export interface MemberUpdateStatus {
     readonly name?: string;
     readonly operationId?: string;
     readonly status?: UpdateStatus;
+}
+
+// @public
+export interface NetworkPolicy {
+    egress?: PolicyRule;
+    ingress?: PolicyRule;
 }
 
 // @public
@@ -471,6 +642,49 @@ export interface OperationDisplay {
 export type Origin = string;
 
 // @public
+export interface PlacementPolicy {
+    affinity?: Affinity;
+    clusterNames?: string[];
+    placementType?: PlacementType;
+    tolerations?: Toleration[];
+}
+
+// @public
+export interface PlacementProfile {
+    defaultClusterResourcePlacement?: ClusterResourcePlacementSpec;
+}
+
+// @public
+export type PlacementType = string;
+
+// @public
+export type PolicyRule = string;
+
+// @public
+export interface PropagationPolicy {
+    placementProfile?: PlacementProfile;
+    type: PropagationType;
+}
+
+// @public
+export type PropagationType = string;
+
+// @public
+export interface PropertySelector {
+    matchExpressions: PropertySelectorRequirement[];
+}
+
+// @public
+export type PropertySelectorOperator = string;
+
+// @public
+export interface PropertySelectorRequirement {
+    name: string;
+    operator: PropertySelectorOperator;
+    values: string[];
+}
+
+// @public
 export interface ProxyResource extends Resource {
 }
 
@@ -480,6 +694,14 @@ export interface Resource {
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
+}
+
+// @public
+export interface ResourceQuota {
+    cpuLimit?: string;
+    cpuRequest?: string;
+    memoryLimit?: string;
+    memoryRequest?: string;
 }
 
 // @public
@@ -504,10 +726,24 @@ export interface SystemData {
 }
 
 // @public
+export type TaintEffect = string;
+
+// @public
 export type TargetType = string;
 
 // @public
 export type Timing = string;
+
+// @public
+export interface Toleration {
+    effect?: TaintEffect;
+    key?: string;
+    operator?: TolerationOperator;
+    value?: string;
+}
+
+// @public
+export type TolerationOperator = string;
 
 // @public
 export interface TrackedResource extends Resource {
@@ -519,6 +755,7 @@ export interface TrackedResource extends Resource {
 export interface UpdateGroup {
     afterGates?: GateConfiguration[];
     beforeGates?: GateConfiguration[];
+    maxConcurrency?: string;
     name: string;
 }
 
@@ -526,6 +763,7 @@ export interface UpdateGroup {
 export interface UpdateGroupStatus {
     readonly afterGates?: UpdateRunGateStatus[];
     readonly beforeGates?: UpdateRunGateStatus[];
+    readonly maxConcurrency?: number;
     readonly members?: MemberUpdateStatus[];
     readonly name?: string;
     readonly status?: UpdateStatus;
@@ -583,6 +821,7 @@ export interface UpdateStage {
     afterStageWaitInSeconds?: number;
     beforeGates?: GateConfiguration[];
     groups?: UpdateGroup[];
+    maxConcurrency?: string;
     name: string;
 }
 
@@ -592,6 +831,7 @@ export interface UpdateStageStatus {
     readonly afterStageWaitStatus?: WaitStatus;
     readonly beforeGates?: UpdateRunGateStatus[];
     readonly groups?: UpdateGroupStatus[];
+    readonly maxConcurrency?: number;
     readonly name?: string;
     readonly status?: UpdateStatus;
 }

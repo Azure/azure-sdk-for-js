@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AccessToken, TokenCredential } from "@azure/core-auth";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import type { OnBehalfOfCredentialOptions } from "./onBehalfOfCredentialOptions.js";
 import { credentialLogger, formatError } from "../util/logging.js";
 
 const credentialName = "OnBehalfOfCredential";
@@ -15,12 +16,12 @@ export class OnBehalfOfCredential implements TokenCredential {
   /**
    * Only available in Node.js
    */
-  constructor() {
+  constructor(_options: OnBehalfOfCredentialOptions) {
     logger.info(formatError("", BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }
 
-  public getToken(): Promise<AccessToken | null> {
+  public getToken(_scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken | null> {
     logger.getToken.info(formatError("", BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }

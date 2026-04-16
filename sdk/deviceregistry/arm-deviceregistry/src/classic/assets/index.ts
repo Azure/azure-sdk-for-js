@@ -1,26 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DeviceRegistryManagementContext } from "../../api/deviceRegistryManagementContext.js";
+import type { DeviceRegistryManagementContext } from "../../api/deviceRegistryManagementContext.js";
 import {
-  assetsListBySubscription,
-  assetsListByResourceGroup,
-  assetsDelete,
-  assetsUpdate,
-  assetsCreateOrReplace,
-  assetsGet,
-} from "../../api/assets/index.js";
-import { Asset, AssetUpdate } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
-import {
+  listBySubscription,
+  listByResourceGroup,
+  $delete,
+  update,
+  createOrReplace,
+  get,
+} from "../../api/assets/operations.js";
+import type {
   AssetsListBySubscriptionOptionalParams,
   AssetsListByResourceGroupOptionalParams,
   AssetsDeleteOptionalParams,
   AssetsUpdateOptionalParams,
   AssetsCreateOrReplaceOptionalParams,
   AssetsGetOptionalParams,
-} from "../../api/options.js";
+} from "../../api/assets/options.js";
+import type { Asset, AssetUpdate } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Assets operations. */
 export interface AssetsOperations {
@@ -34,6 +34,11 @@ export interface AssetsOperations {
     options?: AssetsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<Asset>;
   /** Delete a Asset */
+  /**
+   *  @fixme delete is a reserved word that cannot be used as an operation name.
+   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+   *         to the operation to override the generated name.
+   */
   delete: (
     resourceGroupName: string,
     assetName: string,
@@ -64,27 +69,27 @@ export interface AssetsOperations {
 function _getAssets(context: DeviceRegistryManagementContext) {
   return {
     listBySubscription: (options?: AssetsListBySubscriptionOptionalParams) =>
-      assetsListBySubscription(context, options),
+      listBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: AssetsListByResourceGroupOptionalParams,
-    ) => assetsListByResourceGroup(context, resourceGroupName, options),
+    ) => listByResourceGroup(context, resourceGroupName, options),
     delete: (resourceGroupName: string, assetName: string, options?: AssetsDeleteOptionalParams) =>
-      assetsDelete(context, resourceGroupName, assetName, options),
+      $delete(context, resourceGroupName, assetName, options),
     update: (
       resourceGroupName: string,
       assetName: string,
       properties: AssetUpdate,
       options?: AssetsUpdateOptionalParams,
-    ) => assetsUpdate(context, resourceGroupName, assetName, properties, options),
+    ) => update(context, resourceGroupName, assetName, properties, options),
     createOrReplace: (
       resourceGroupName: string,
       assetName: string,
       resource: Asset,
       options?: AssetsCreateOrReplaceOptionalParams,
-    ) => assetsCreateOrReplace(context, resourceGroupName, assetName, resource, options),
+    ) => createOrReplace(context, resourceGroupName, assetName, resource, options),
     get: (resourceGroupName: string, assetName: string, options?: AssetsGetOptionalParams) =>
-      assetsGet(context, resourceGroupName, assetName, options),
+      get(context, resourceGroupName, assetName, options),
   };
 }
 

@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
+import type {
   PrivateLinkResourcesListOptionalParams,
   PrivateLinkResourcesListResponse,
   PrivateLinkResourcesGetOptionalParams,
-  PrivateLinkResourcesGetResponse
+  PrivateLinkResourcesGetResponse,
 } from "../models/index.js";
 
 /** Interface representing a PrivateLinkResourcesOperations. */
@@ -24,7 +24,7 @@ export interface PrivateLinkResourcesOperations {
   list(
     resourceGroupName: string,
     resourceName: string,
-    options?: PrivateLinkResourcesListOptionalParams
+    options?: PrivateLinkResourcesListOptionalParams,
   ): Promise<PrivateLinkResourcesListResponse>;
   /**
    * Get the specified private link resource for the given IotHub
@@ -37,6 +37,6 @@ export interface PrivateLinkResourcesOperations {
     resourceGroupName: string,
     resourceName: string,
     groupId: string,
-    options?: PrivateLinkResourcesGetOptionalParams
+    options?: PrivateLinkResourcesGetOptionalParams,
   ): Promise<PrivateLinkResourcesGetResponse>;
 }

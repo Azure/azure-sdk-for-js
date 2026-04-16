@@ -1,0 +1,51 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { DeploymentStacksClient } = require("@azure/arm-resourcesdeploymentstacks");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to creates or updates a Deployment stack at the specified scope.
+ *
+ * @summary creates or updates a Deployment stack at the specified scope.
+ * x-ms-original-file: 2025-07-01/DeploymentStackWhatIfResultsSubscriptionCreate.json
+ */
+async function createOrUpdateASubscriptionScopedDeploymentStackWhatIfResult() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new DeploymentStacksClient(credential, subscriptionId);
+  const result = await client.deploymentStacksWhatIfResultsAtSubscription.createOrUpdate(
+    "simpleDeploymentStackWhatIfResult",
+    {
+      location: "eastus",
+      properties: {
+        deploymentStackResourceId:
+          "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deploymentStacks/simpleDeploymentStack",
+        retentionInterval: "P7D",
+        templateLink: { uri: "https://example.com/exampleTemplate.json" },
+        parameters: {},
+        actionOnUnmanage: {
+          resources: "delete",
+          resourceGroups: "delete",
+          managementGroups: "detach",
+        },
+        denySettings: { mode: "none", applyToChildScopes: false },
+        extensionConfigs: {
+          contoso: {
+            additionalProperties: {
+              configOne: { value: "config1Value" },
+              configTwo: { value: true },
+            },
+          },
+        },
+      },
+    },
+  );
+  console.log(result);
+}
+
+async function main() {
+  await createOrUpdateASubscriptionScopedDeploymentStackWhatIfResult();
+}
+
+main().catch(console.error);

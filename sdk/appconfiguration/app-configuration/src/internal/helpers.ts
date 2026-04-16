@@ -27,6 +27,8 @@ import type {
 } from "../generated/src/models/index.js";
 import type { SecretReferenceValue } from "../secretReference.js";
 import { SecretReferenceHelper, secretReferenceContentType } from "../secretReference.js";
+import type { SnapshotReferenceValue } from "../snapshotReference.js";
+import { SnapshotReferenceHelper, snapshotReferenceContentType } from "../snapshotReference.js";
 import { isDefined } from "@azure/core-util";
 import { logger } from "../logger.js";
 import type { OperationOptions } from "@azure/core-client";
@@ -37,9 +39,7 @@ import type { OperationOptions } from "@azure/core-client";
  * result.
  */
 export interface SendConfigurationSettingsOptions
-  extends OperationOptions,
-    ListSettingsOptions,
-    EtagEntity {
+  extends OperationOptions, ListSettingsOptions, EtagEntity {
   /**
    * A filter used get configuration setting for a snapshot. Not valid when used with 'key' and 'label' filters
    */
@@ -302,6 +302,19 @@ function isConfigSettingWithSecretReferenceValue(
 /**
  * @internal
  */
+function isConfigSettingWithSnapshotReferenceValue(
+  setting: any,
+): setting is ConfigurationSetting<SnapshotReferenceValue> {
+  return (
+    setting.contentType === snapshotReferenceContentType &&
+    isDefined(setting.value) &&
+    typeof setting.value !== "string"
+  );
+}
+
+/**
+ * @internal
+ */
 function isConfigSettingWithFeatureFlagValue(
   setting: any,
 ): setting is ConfigurationSetting<FeatureFlagValue> {
@@ -326,7 +339,8 @@ export function serializeAsConfigurationSettingParam(
   setting:
     | ConfigurationSettingParam
     | ConfigurationSettingParam<FeatureFlagValue>
-    | ConfigurationSettingParam<SecretReferenceValue>,
+    | ConfigurationSettingParam<SecretReferenceValue>
+    | ConfigurationSettingParam<SnapshotReferenceValue>,
 ): ConfigurationSettingParam {
   if (isSimpleConfigSetting(setting)) {
     return setting as ConfigurationSettingParam;
@@ -337,6 +351,9 @@ export function serializeAsConfigurationSettingParam(
     }
     if (isConfigSettingWithSecretReferenceValue(setting)) {
       return SecretReferenceHelper.toConfigurationSettingParam(setting);
+    }
+    if (isConfigSettingWithSnapshotReferenceValue(setting)) {
+      return SnapshotReferenceHelper.toConfigurationSettingParam(setting);
     }
   } catch (error: any) {
     return setting as ConfigurationSettingParam;

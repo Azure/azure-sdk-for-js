@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to List private link resources for a given managed environment.
  *
  * @summary List private link resources for a given managed environment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2025-02-02-preview/examples/ManagedEnvironmentPrivateLinkResources_List.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/ManagedEnvironmentPrivateLinkResources_List.json
  */
 async function listPrivateLinkResourcesByManagedEnvironment(): Promise<void> {
   const subscriptionId =

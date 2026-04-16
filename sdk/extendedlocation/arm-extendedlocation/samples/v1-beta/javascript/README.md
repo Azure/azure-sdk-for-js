@@ -50,7 +50,7 @@ node customLocationsCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env EXTENDEDLOCATION_SUBSCRIPTION_ID="<extendedlocation subscription id>" EXTENDEDLOCATION_RESOURCE_GROUP="<extendedlocation resource group>" node customLocationsCreateOrUpdateSample.js
+cross-env EXTENDEDLOCATION_SUBSCRIPTION_ID="<extendedlocation subscription id>" EXTENDEDLOCATION_RESOURCE_GROUP="<extendedlocation resource group>" node customLocationsCreateOrUpdateSample.js
 ```
 
 ## Next Steps

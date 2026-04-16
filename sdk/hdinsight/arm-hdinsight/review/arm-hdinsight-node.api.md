@@ -4,11 +4,11 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
+import type * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { OperationState } from '@azure/core-lro';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AaddsResourceDetails {
@@ -629,6 +629,13 @@ export interface EncryptionInTransitProperties {
 }
 
 // @public
+export interface EntraUserInfo {
+    displayName?: string;
+    objectId?: string;
+    upn?: string;
+}
+
+// @public
 export interface ErrorResponse {
     code?: string;
     message?: string;
@@ -773,6 +780,7 @@ export type FilterMode = string;
 export interface GatewaySettings {
     readonly isCredentialEnabled?: string;
     readonly password?: string;
+    restAuthEntraUsers?: EntraUserInfo[];
     readonly userName?: string;
 }
 
@@ -1556,6 +1564,7 @@ export interface UpdateClusterIdentityCertificateParameters {
 export interface UpdateGatewaySettingsParameters {
     isCredentialEnabled?: boolean;
     password?: string;
+    restAuthEntraUsers?: EntraUserInfo[];
     userName?: string;
 }
 

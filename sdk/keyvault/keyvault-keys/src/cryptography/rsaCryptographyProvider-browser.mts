@@ -11,6 +11,10 @@ import { LocalCryptographyUnsupportedError } from "./models.js";
  * never be called.
  */
 export class RsaCryptographyProvider implements CryptographyProvider {
+  constructor(key?: unknown) {
+    void key;
+  }
+
   encrypt(): never {
     throw new LocalCryptographyUnsupportedError(
       "RSA Local cryptography is not supported in the browser.",

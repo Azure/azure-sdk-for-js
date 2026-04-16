@@ -5,7 +5,9 @@ import {
   Constants,
   GitHubActionsConstants,
   InternalEnvironmentVariables,
+  RunConfigConstants,
   ServiceEnvironmentVariable,
+  UploadConstants,
 } from "../../src/common/constants.js";
 import {
   getAccessToken,
@@ -23,6 +25,13 @@ import {
   getRunName,
   isValidGuid,
   ValidateRunID,
+  getHtmlReporterOutputFolder,
+  getContentType,
+  calculateOptimalConcurrency,
+  collectAllFiles,
+  getPortalTestRunUrl,
+  getStorageAccountNameFromUri,
+  getTestRunConfig,
 } from "../../src/utils/utils.js";
 import * as packageManager from "../../src/utils/packageManager.js";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
@@ -33,6 +42,10 @@ import { EntraIdAccessToken } from "../../src/common/entraIdAccessToken.js";
 import { createEntraIdAccessToken } from "../../src/common/entraIdAccessToken.js";
 import { CI_PROVIDERS } from "../../src/utils/cIInfoProvider.js";
 import * as childProcess from "node:child_process";
+import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
+import { tmpdir } from "node:os";
+import type { FullConfig } from "@playwright/test";
 
 vi.mock("child_process", async (importOriginal) => {
   const actual = await importOriginal<typeof import("child_process")>();
@@ -109,6 +122,7 @@ describe("Service Utils", () => {
     vi.stubEnv(InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION, Constants.LatestAPIVersion);
     vi.spyOn(console, "error");
     vi.spyOn(console, "log");
+    vi.mocked(process.exit).mockReset();
   });
 
   afterEach(() => {
@@ -152,7 +166,7 @@ describe("Service Utils", () => {
     const runId = "2021-10-11T07:00:00.000Z";
     const escapeRunId = encodeURIComponent(runId);
     const os = "windows";
-    const expected = `wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers?runId=${escapeRunId}&os=${os}&api-version=${Constants.LatestAPIVersion}`;
+    const expected = `wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers?runId=${escapeRunId}&os=${os}&sourceType=PlaywrightWorkspacesTestRun&api-version=${Constants.LatestAPIVersion}`;
     expect(getServiceWSEndpoint(runId, os, Constants.LatestAPIVersion)).to.equal(expected);
 
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
@@ -164,7 +178,7 @@ describe("Service Utils", () => {
     const runId = "2021-10-11T07:00:00.000Z";
     const escapeRunId = encodeURIComponent(runId);
     const os = "windows";
-    const expected = `wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers?runId=${escapeRunId}&os=${os}&api-version=${Constants.LatestAPIVersion}`;
+    const expected = `wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers?runId=${escapeRunId}&os=${os}&sourceType=PlaywrightWorkspacesTestRun&api-version=${Constants.LatestAPIVersion}`;
     expect(getServiceWSEndpoint(runId, os, Constants.LatestAPIVersion)).to.equal(expected);
 
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
@@ -744,5 +758,220 @@ describe("Service Utils", () => {
 
     // Restore the mock
     vi.resetAllMocks();
+  });
+
+  describe("getHtmlReporterOutputFolder", () => {
+    it("should return default folder when reporter config is absent", () => {
+      const config = { reporter: undefined } as unknown as FullConfig;
+      expect(getHtmlReporterOutputFolder(config)).toBe("playwright-report");
+    });
+
+    it("should return default folder when html reporter is configured without options", () => {
+      const config = { reporter: ["html"] } as unknown as FullConfig;
+      expect(getHtmlReporterOutputFolder(config)).toBe("playwright-report");
+    });
+
+    it("should return configured output folder from html reporter options", () => {
+      const config = {
+        reporter: [["html", { outputFolder: "custom-report" }]],
+      } as unknown as FullConfig;
+
+      expect(getHtmlReporterOutputFolder(config)).toBe("custom-report");
+    });
+  });
+
+  describe("getContentType", () => {
+    it("should return known content type when extension is mapped", () => {
+      expect(getContentType("report/index.html")).toBe("text/html");
+      expect(getContentType("assets/app.js")).toBe("application/javascript");
+    });
+
+    it("should return default content type for unknown extensions", () => {
+      expect(getContentType("report/data.bin")).toBe("application/octet-stream");
+    });
+  });
+
+  describe("calculateOptimalConcurrency", () => {
+    it("should cap concurrency by file count when total files are small", () => {
+      const files = Array.from({ length: 6 }, () => ({ size: 10 }));
+      expect(calculateOptimalConcurrency(files)).toBe(6);
+    });
+
+    it("should scale concurrency for many small files", () => {
+      const totalFiles = 500;
+      const files = Array.from({ length: totalFiles }, () => ({
+        size: UploadConstants.SMALL_FILE_THRESHOLD - 1,
+      }));
+      const expected = Math.floor(
+        Math.min(
+          UploadConstants.MAX_CONCURRENCY,
+          Math.max(UploadConstants.BASE_CONCURRENCY, totalFiles / 50),
+        ),
+      );
+
+      expect(calculateOptimalConcurrency(files)).toBe(expected);
+    });
+
+    it("should adjust concurrency for very large folders", () => {
+      const totalFiles = 1200;
+      const files = Array.from({ length: totalFiles }, () => ({
+        size: UploadConstants.SMALL_FILE_THRESHOLD + 1,
+      }));
+      const expected = Math.floor(
+        Math.min(
+          UploadConstants.MAX_CONCURRENCY,
+          UploadConstants.BASE_CONCURRENCY + Math.floor(totalFiles / 200),
+        ),
+      );
+
+      expect(calculateOptimalConcurrency(files)).toBe(expected);
+    });
+
+    it("should fall back to base concurrency for mixed workloads", () => {
+      const files = Array.from({ length: 100 }, (_, index) => ({
+        size:
+          index % 2 === 0
+            ? UploadConstants.SMALL_FILE_THRESHOLD + 10
+            : UploadConstants.SMALL_FILE_THRESHOLD + 20,
+      }));
+
+      const expected = Math.floor(
+        Math.min(UploadConstants.MAX_CONCURRENCY, UploadConstants.BASE_CONCURRENCY),
+      );
+
+      expect(calculateOptimalConcurrency(files)).toBe(expected);
+    });
+  });
+
+  describe("collectAllFiles", () => {
+    it("should collect files with normalized relative paths and content types", () => {
+      const root = mkdtempSync(join(tmpdir(), "playwright-utils-"));
+      const nestedDir = join(root, "nested");
+      mkdirSync(nestedDir);
+      const fileOne = join(root, "index.html");
+      const fileTwo = join(nestedDir, "trace.zip");
+
+      writeFileSync(fileOne, "<html></html>");
+      writeFileSync(fileTwo, "binarydata");
+
+      const result = collectAllFiles(root, root, "run-123");
+      const sorted = [...result].sort((a, b) => a.relativePath.localeCompare(b.relativePath));
+
+      expect(sorted).toHaveLength(2);
+      expect(sorted[0]).toMatchObject({
+        relativePath: "run-123/index.html",
+        contentType: "text/html",
+      });
+      expect(sorted[1]).toMatchObject({
+        relativePath: "run-123/nested/trace.zip",
+        contentType: "application/zip",
+      });
+
+      rmSync(root, { recursive: true, force: true });
+    });
+  });
+
+  describe("getPortalTestRunUrl", () => {
+    const originalEnv = process.env;
+
+    beforeEach(() => {
+      process.env = { ...originalEnv };
+      process.env._MPT_SERVICE_RUN_ID = "test-run-id-123";
+    });
+
+    afterEach(() => {
+      process.env = originalEnv;
+    });
+
+    it("should build a portal URL with correct format", () => {
+      const resourceId =
+        "/subscriptions/sub-id/resourceGroups/rg-name/providers/Microsoft.LoadTestService/playwrightWorkspaces/workspace-name";
+
+      const portalUrl = getPortalTestRunUrl(resourceId);
+      expect(portalUrl).toBe(
+        `https://ms.portal.azure.com/#view/Microsoft_Azure_CloudNativeTesting/TestReport.ReactView/testRunId/${encodeURIComponent("test-run-id-123")}/resourceId/${encodeURIComponent("/subscriptions/sub-id/resourceGroups/rg-name/providers/Microsoft.LoadTestService/playwrightWorkspaces/workspace-name")}`,
+      );
+    });
+
+    it("should throw when resourceId is null or empty", () => {
+      expect(() => getPortalTestRunUrl("")).toThrow(
+        "Missing required parameter: resourceId is required",
+      );
+      expect(() => getPortalTestRunUrl(null as any)).toThrow(
+        "Missing required parameter: resourceId is required",
+      );
+      expect(() => getPortalTestRunUrl(undefined as any)).toThrow(
+        "Missing required parameter: resourceId is required",
+      );
+    });
+
+    it("should throw when run ID is not available", () => {
+      delete process.env._MPT_SERVICE_RUN_ID;
+      const resourceId =
+        "/subscriptions/sub/resourceGroups/rg/providers/Microsoft.LoadTestService/playwrightWorkspaces/workspace";
+
+      expect(() => getPortalTestRunUrl(resourceId)).toThrow(
+        "Run ID is required but not found in environment variables",
+      );
+    });
+  });
+
+  describe("getStorageAccountNameFromUri", () => {
+    it("should extract account name from storage URI", () => {
+      const account = getStorageAccountNameFromUri(
+        "https://exampleaccount.blob.core.windows.net/container/path",
+      );
+      expect(account).toBe("exampleaccount");
+    });
+
+    it("should return null for non-blob endpoints", () => {
+      const account = getStorageAccountNameFromUri("https://exampleaccount.table.core.windows.net");
+      expect(account).toBeNull();
+    });
+
+    it("should return null when URI is invalid", () => {
+      const account = getStorageAccountNameFromUri("not-a-valid-uri");
+      expect(account).toBeNull();
+    });
+  });
+
+  describe("getTestRunConfig", () => {
+    it("should prefer explicit workers when provided", () => {
+      const config = {
+        workers: 8,
+        version: "1.42.0",
+        metadata: { actualWorkers: 4 },
+      } as unknown as FullConfig;
+
+      const result = getTestRunConfig(config);
+      expect(result).toEqual({
+        framework: {
+          name: RunConfigConstants.TEST_FRAMEWORK_NAME,
+          version: "1.42.0",
+          runnerName: RunConfigConstants.TEST_FRAMEWORK_RUNNERNAME,
+        },
+        sdkLanguage: RunConfigConstants.TEST_SDK_LANGUAGE,
+        maxWorkers: 8,
+      });
+    });
+
+    it("should fall back to metadata workers when workers are undefined", () => {
+      const config = {
+        workers: undefined,
+        version: "1.42.0",
+        metadata: { actualWorkers: 6 },
+      } as unknown as FullConfig;
+
+      const result = getTestRunConfig(config);
+      expect(result).toEqual({
+        framework: {
+          name: RunConfigConstants.TEST_FRAMEWORK_NAME,
+          version: "1.42.0",
+          runnerName: RunConfigConstants.TEST_FRAMEWORK_RUNNERNAME,
+        },
+        sdkLanguage: RunConfigConstants.TEST_SDK_LANGUAGE,
+        maxWorkers: 6,
+      });
+    });
   });
 });

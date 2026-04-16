@@ -1,24 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricManagedClustersManagementContext as Client } from "../index.js";
+import type { ServiceFabricManagedClustersManagementContext as Client } from "../index.js";
 import { errorResponseDeserializer } from "../../models/models.js";
-import { ManagedApplyMaintenanceWindowPostOptionalParams } from "./options.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { ManagedApplyMaintenanceWindowPostOptionalParams } from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _postSend(
   context: Client,
   resourceGroupName: string,
   clusterName: string,
-  options: ManagedApplyMaintenanceWindowPostOptionalParams = {
-    requestOptions: {},
-  },
+  options: ManagedApplyMaintenanceWindowPostOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applyMaintenanceWindow{?api%2Dversion}",
@@ -26,19 +20,13 @@ export function _postSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _postDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -57,9 +45,7 @@ export async function post(
   context: Client,
   resourceGroupName: string,
   clusterName: string,
-  options: ManagedApplyMaintenanceWindowPostOptionalParams = {
-    requestOptions: {},
-  },
+  options: ManagedApplyMaintenanceWindowPostOptionalParams = { requestOptions: {} },
 ): Promise<void> {
   const result = await _postSend(context, resourceGroupName, clusterName, options);
   return _postDeserialize(result);

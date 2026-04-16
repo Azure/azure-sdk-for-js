@@ -46,7 +46,7 @@ export type DeployConfig = {
 };
 
 // @public
-export function deployNodeJS(serviceInformation: ServiceInformation, name: string, fallbackConfigPath?: string, { rootLocal, interactiveBrowserCredentialOptions, }?: DeployConfig): Promise<void>;
+export function deployNodeJS(serviceInformation: ServiceInformation, name: string, fallbackConfigPath?: string, input?: DeployConfig): Promise<void>;
 
 // @public
 export interface EditorData<Values extends ValuesCommon> extends PortalData {

@@ -23,5 +23,8 @@
   "dependencies": {
     "special-characters": "latest",
     "dotenv": "latest"
+  },
+  "devDependencies": {
+    "cross-env": "latest"
   }
 }

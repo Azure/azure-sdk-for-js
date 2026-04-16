@@ -37,8 +37,7 @@ export enum KnownActionType {
 
 // @public
 export enum KnownApiVersion {
-    // (undocumented)
-    V20250601Preview = "2025-06-01-preview"
+    V20250901 = "2025-09-01"
 }
 
 // @public

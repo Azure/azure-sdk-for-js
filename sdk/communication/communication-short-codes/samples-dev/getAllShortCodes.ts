@@ -22,7 +22,7 @@ export async function main(): Promise<void> {
   const client = new ShortCodesClient(connectionString);
 
   // get all short codes for a resource
-  const shortCodes = await client.listShortCodes({
+  const shortCodes = client.listShortCodes({
     onResponse:
       (response) =>
       (res = response) => {

@@ -1,25 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CodeSigningClient } from "./codeSigningClient.js";
+import type { CodeSigningClient } from "./codeSigningClient.js";
+import { _$deleteDeserialize, _createDeserialize } from "./api/certificateProfiles/operations.js";
 import {
-  _createDeserialize,
+  _$deleteDeserialize as _$deleteDeserializeCodeSigningAccounts,
   _updateDeserialize,
-  _$deleteDeserialize,
-} from "./api/codeSigningAccounts/index.js";
-import {
-  _createDeserialize as _createDeserializeCertificateProfiles,
-  _$deleteDeserialize as _$deleteDeserializeCertificateProfiles,
-} from "./api/certificateProfiles/index.js";
+  _createDeserialize as _createDeserializeCodeSigningAccounts,
+} from "./api/codeSigningAccounts/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import { AbortSignalLike } from "@azure/abort-controller";
-import {
-  PollerLike,
-  OperationState,
-  deserializeState,
-  ResourceLocationConfig,
-} from "@azure/core-lro";
+import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { PollerLike, OperationState, ResourceLocationConfig } from "@azure/core-lro";
+import { deserializeState } from "@azure/core-lro";
 
 export interface RestorePollerOptions<
   TResult,
@@ -79,29 +72,33 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
 }
 
 interface DeserializationHelper {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   deserializer: Function;
   expectedStatuses: string[];
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CodeSigning/codeSigningAccounts/{accountName}":
-    { deserializer: _createDeserialize, expectedStatuses: ["200", "201"] },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CodeSigning/codeSigningAccounts/{accountName}":
-    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202"] },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CodeSigning/codeSigningAccounts/{accountName}":
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CodeSigning/codeSigningAccounts/{accountName}/certificateProfiles/{profileName}":
     {
       deserializer: _$deleteDeserialize,
       expectedStatuses: ["202", "204", "200"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CodeSigning/codeSigningAccounts/{accountName}/certificateProfiles/{profileName}":
     {
-      deserializer: _createDeserializeCertificateProfiles,
-      expectedStatuses: ["200", "201"],
+      deserializer: _createDeserialize,
+      expectedStatuses: ["200", "201", "202"],
     },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CodeSigning/codeSigningAccounts/{accountName}/certificateProfiles/{profileName}":
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CodeSigning/codeSigningAccounts/{accountName}":
     {
-      deserializer: _$deleteDeserializeCertificateProfiles,
+      deserializer: _$deleteDeserializeCodeSigningAccounts,
       expectedStatuses: ["202", "204", "200"],
+    },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CodeSigning/codeSigningAccounts/{accountName}":
+    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CodeSigning/codeSigningAccounts/{accountName}":
+    {
+      deserializer: _createDeserializeCodeSigningAccounts,
+      expectedStatuses: ["200", "201", "202"],
     },
 };
 

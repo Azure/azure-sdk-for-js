@@ -28,7 +28,7 @@ modelerfour.lenient-model-deduplication: true
 package-name: "@azure-rest/purview-administration"
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
-package-version: 1.0.0-beta.3
+package-version: 1.0.0-beta.4
 rest-level-client: true
 add-credentials: true
 credential-scopes: "https://purview.azure.net/.default"

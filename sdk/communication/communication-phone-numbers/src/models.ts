@@ -62,11 +62,10 @@ export interface ListAvailableCountriesOptions extends OperationOptions {}
 /**
  * Additional options that can be passed to the Toll-Free area codes request.
  */
-export interface ListTollFreeAreaCodesOptions
-  extends Omit<
-    PhoneNumbersListAreaCodesOptionalParams,
-    "assignmentType" | "locality" | "administrativeDivision"
-  > {}
+export interface ListTollFreeAreaCodesOptions extends Omit<
+  PhoneNumbersListAreaCodesOptionalParams,
+  "assignmentType" | "locality" | "administrativeDivision"
+> {}
 
 /**
  * Additional options that can be passed to the Geographic area codes request.
@@ -76,8 +75,10 @@ export interface ListGeographicAreaCodesOptions extends PhoneNumbersListAreaCode
 /**
  * Additional options that can be passed to the Mobile area codes request.
  */
-export interface ListMobileAreaCodesOptions
-  extends Omit<PhoneNumbersListAreaCodesOptionalParams, "locality" | "administrativeDivision"> {}
+export interface ListMobileAreaCodesOptions extends Omit<
+  PhoneNumbersListAreaCodesOptionalParams,
+  "locality" | "administrativeDivision"
+> {}
 
 /**
  * Additional options that can be passed to the available localities request.
@@ -169,7 +170,7 @@ export interface BrowseAvailableNumbersOptions extends coreClient.OperationOptio
  */
 export type PurchaseReservationResult = PhoneNumbersPurchaseReservationHeaders;
 
-export {
+export type {
   AvailablePhoneNumber,
   CommunicationError,
   PhoneNumberAdministrativeDivision,
@@ -201,7 +202,7 @@ export {
   ReservationStatus,
 } from "./generated/src/models/index.js";
 
-export { SipRoutingError, SipTrunkRoute } from "./generated/src/siprouting/models/index.js";
+export type { SipRoutingError, SipTrunkRoute } from "./generated/src/siprouting/models/index.js";
 
 /**
  * Represents a SIP trunk for routing calls. See RFC 4904.

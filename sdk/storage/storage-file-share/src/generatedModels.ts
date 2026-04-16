@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { UserDelegationKey } from "@azure/storage-common";
 import type {
   CopyStatusType,
   DirectoryDeleteHeaders,
@@ -39,6 +40,8 @@ import type {
   ShareSetMetadataHeaders,
   ShareStats,
   ShareSetPropertiesHeaders,
+  ServiceGetUserDelegationKeyHeaders,
+  UserDelegationKey as UserDelegationKeyModel,
 } from "./generated/src/models/index.js";
 import type {
   FileDownloadResponse,
@@ -527,6 +530,10 @@ export interface FileDownloadHeaders {
   leaseStatus?: LeaseStatusType;
   /** Properties of NFS files. */
   posixProperties?: FilePosixProperties;
+  /** Indicates the response body contains a structured message and specifies the message schema version and properties. */
+  structuredBodyType?: string;
+  /** The length of the blob/file content inside the message body when the response body is returned as a structured message. Will always be smaller than Content-Length. */
+  structuredContentLength?: number;
   /** Error Code */
   errorCode?: string;
 }
@@ -571,7 +578,7 @@ export type FileRenameResponse = WithResponse<FileRenameHeaders, FileRenameHeade
 
 // explicitly exporting types that we need.
 
-export {
+export type {
   CopyStatusType,
   DeleteSnapshotsOptionType,
   FileDownloadOptionalParams,
@@ -612,6 +619,7 @@ export {
   ServiceGetPropertiesHeaders,
   ListSharesResponse as ListSharesResponseModel,
   RetentionPolicy,
+  ServiceGetUserDelegationKeyHeaders,
   ServiceListSharesSegmentHeaders,
   ServiceSetPropertiesHeaders,
   ShareCreatePermissionHeaders,
@@ -634,16 +642,20 @@ export {
   LeaseStateType,
   LeaseStatusType,
   CopyFileSmbInfo,
+  ShareNfsSettings,
+  ShareNfsSettingsEncryptionInTransit,
   ShareProtocolSettings,
   ShareSmbSettings,
+  ShareSmbSettingsEncryptionInTransit,
   SmbMultichannel,
   ShareFileRangeList,
   ClearRange,
   ShareAccessTier,
   ShareRootSquash,
+  UserDelegationKey as UserDelegationKeyModel,
 } from "./generated/src/models/index.js";
 
-export {
+export type {
   FileDownloadResponse as RawFileDownloadResponse,
   FileSetHttpHeadersHeaders as FileSetHTTPHeadersHeaders,
 } from "./models.js";
@@ -734,3 +746,12 @@ export interface ListHandlesResponse {
   handleList?: HandleItem[];
   continuationToken: string;
 }
+
+/**
+ * Contains response data for the {@link getUserDelegationKey} operation.
+ */
+export declare type ServiceGetUserDelegationKeyResponse = WithResponse<
+  UserDelegationKey & ServiceGetUserDelegationKeyHeaders,
+  ServiceGetUserDelegationKeyHeaders,
+  UserDelegationKeyModel
+>;

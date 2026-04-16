@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { BareMetalMachineKeySet} from "@azure/arm-networkcloud";
+import { NetworkCloud } from "@azure/arm-networkcloud";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Create a new bare metal machine key set or update the existing one for the provided cluster.
  *
  * @summary Create a new bare metal machine key set or update the existing one for the provided cluster.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/BareMetalMachineKeySets_Create.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-09-01/examples/BareMetalMachineKeySets_Create.json
  */
-
-import { BareMetalMachineKeySet, NetworkCloud } from "@azure/arm-networkcloud";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function createOrUpdateBareMetalMachineKeySetOfCluster(): Promise<void> {
   const subscriptionId =
     process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||
@@ -30,7 +30,8 @@ async function createOrUpdateBareMetalMachineKeySetOfCluster(): Promise<void> {
     jumpHostsAllowed: ["192.0.2.1", "192.0.2.5"],
     location: "location",
     osGroupName: "standardAccessGroup",
-    privilegeLevel: "Standard",
+    privilegeLevel: "Other",
+    privilegeLevelName: "SecurityScanner",
     tags: { key1: "myvalue1", key2: "myvalue2" },
     userList: [
       {

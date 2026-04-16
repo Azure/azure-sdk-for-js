@@ -35,7 +35,7 @@ import { _getUsagesOperations } from "./classic/usages/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { AzureQuotaExtensionAPIOptionalParams } from "./api/azureQuotaExtensionAPIContext.js";
+export { type AzureQuotaExtensionAPIOptionalParams } from "./api/azureQuotaExtensionAPIContext.js";
 
 export class AzureQuotaExtensionAPI {
   private _client: AzureQuotaExtensionAPIContext;

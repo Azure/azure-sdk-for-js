@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
-import { Addon } from "../../models/models.js";
-import {
+import type { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
+import { $delete, createOrUpdate, get, list } from "../../api/addons/operations.js";
+import type {
   AddonsDeleteOptionalParams,
   AddonsCreateOrUpdateOptionalParams,
   AddonsGetOptionalParams,
   AddonsListOptionalParams,
 } from "../../api/addons/options.js";
-import { $delete, createOrUpdate, get, list } from "../../api/addons/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { Addon } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Addons operations. */
 export interface AddonsOperations {

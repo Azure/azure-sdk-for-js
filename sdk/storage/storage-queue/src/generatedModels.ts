@@ -16,11 +16,14 @@ import type {
   QueueSetMetadataHeaders,
   ServiceGetPropertiesHeaders,
   ServiceGetStatisticsHeaders,
+  ServiceGetUserDelegationKeyHeaders,
   ServiceListQueuesSegmentHeaders,
   ServiceSetPropertiesHeaders,
+  UserDelegationKey as UserDelegationKeyModel,
 } from "./generated/src/index.js";
+import type { UserDelegationKey } from "@azure/storage-common";
 
-export {
+export type {
   AccessPolicy,
   CorsRule,
   DequeuedMessageItem,
@@ -49,9 +52,11 @@ export {
   RetentionPolicy,
   ServiceGetPropertiesHeaders,
   ServiceGetStatisticsHeaders,
+  ServiceGetUserDelegationKeyHeaders,
   ServiceListQueuesSegmentHeaders,
   ServiceSetPropertiesHeaders,
   SignedIdentifier as SignedIdentifierModel,
+  UserDelegationKey as UserDelegationKeyModel,
 } from "./generated/src/models/index.js";
 
 /** Contains response data for the getProperties operation. */
@@ -115,3 +120,12 @@ export type MessageIdUpdateResponse = WithResponse<MessageIdUpdateHeaders, Messa
 
 /** Contains response data for the delete operation. */
 export type MessageIdDeleteResponse = WithResponse<MessageIdDeleteHeaders, MessageIdDeleteHeaders>;
+
+/**
+ * Contains response data for the {@link getUserDelegationKey} operation.
+ */
+export declare type ServiceGetUserDelegationKeyResponse = WithResponse<
+  UserDelegationKey & ServiceGetUserDelegationKeyHeaders,
+  ServiceGetUserDelegationKeyHeaders,
+  UserDelegationKeyModel
+>;

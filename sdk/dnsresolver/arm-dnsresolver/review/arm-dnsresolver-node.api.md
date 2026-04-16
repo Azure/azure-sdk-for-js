@@ -4,11 +4,11 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
+import type * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { OperationState } from '@azure/core-lro';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type Action = string;
@@ -42,8 +42,8 @@ export interface DnsForwardingRuleset extends TrackedResource {
 
 // @public
 export interface DnsForwardingRulesetListResult {
-    readonly nextLink?: string;
-    value?: DnsForwardingRuleset[];
+    nextLink?: string;
+    value: DnsForwardingRuleset[];
 }
 
 // @public
@@ -69,6 +69,12 @@ export interface DnsForwardingRulesets {
 }
 
 // @public
+export interface DnsForwardingRulesetsCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface DnsForwardingRulesetsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -78,6 +84,12 @@ export interface DnsForwardingRulesetsCreateOrUpdateOptionalParams extends coreC
 
 // @public
 export type DnsForwardingRulesetsCreateOrUpdateResponse = DnsForwardingRuleset;
+
+// @public
+export interface DnsForwardingRulesetsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface DnsForwardingRulesetsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -139,6 +151,12 @@ export interface DnsForwardingRulesetsListOptionalParams extends coreClient.Oper
 export type DnsForwardingRulesetsListResponse = DnsForwardingRulesetListResult;
 
 // @public
+export interface DnsForwardingRulesetsUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface DnsForwardingRulesetsUpdateOptionalParams extends coreClient.OperationOptions {
     ifMatch?: string;
     resumeFrom?: string;
@@ -182,8 +200,8 @@ export interface DnsResolverDomainListPatch {
 
 // @public
 export interface DnsResolverDomainListResult {
-    readonly nextLink?: string;
-    value?: DnsResolverDomainList[];
+    nextLink?: string;
+    value: DnsResolverDomainList[];
 }
 
 // @public
@@ -203,8 +221,8 @@ export interface DnsResolverDomainLists {
 
 // @public
 export interface DnsResolverDomainListsBulkHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -219,6 +237,12 @@ export interface DnsResolverDomainListsBulkOptionalParams extends coreClient.Ope
 export type DnsResolverDomainListsBulkResponse = DnsResolverDomainList;
 
 // @public
+export interface DnsResolverDomainListsCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface DnsResolverDomainListsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -231,8 +255,8 @@ export type DnsResolverDomainListsCreateOrUpdateResponse = DnsResolverDomainList
 
 // @public
 export interface DnsResolverDomainListsDeleteHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -284,8 +308,8 @@ export type DnsResolverDomainListsListResponse = DnsResolverDomainListResult;
 
 // @public
 export interface DnsResolverDomainListsUpdateHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -300,8 +324,8 @@ export type DnsResolverDomainListsUpdateResponse = DnsResolverDomainList;
 
 // @public
 export interface DnsResolverListResult {
-    readonly nextLink?: string;
-    value?: DnsResolver[];
+    nextLink?: string;
+    value: DnsResolver[];
 }
 
 // @public (undocumented)
@@ -364,6 +388,12 @@ export interface DnsResolverPolicies {
 }
 
 // @public
+export interface DnsResolverPoliciesCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface DnsResolverPoliciesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -376,8 +406,8 @@ export type DnsResolverPoliciesCreateOrUpdateResponse = DnsResolverPolicy;
 
 // @public
 export interface DnsResolverPoliciesDeleteHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -443,8 +473,8 @@ export type DnsResolverPoliciesListResponse = DnsResolverPolicyListResult;
 
 // @public
 export interface DnsResolverPoliciesUpdateHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -466,8 +496,8 @@ export interface DnsResolverPolicy extends TrackedResource {
 
 // @public
 export interface DnsResolverPolicyListResult {
-    readonly nextLink?: string;
-    value?: DnsResolverPolicy[];
+    nextLink?: string;
+    value: DnsResolverPolicy[];
 }
 
 // @public
@@ -486,8 +516,8 @@ export interface DnsResolverPolicyVirtualNetworkLink extends TrackedResource {
 
 // @public
 export interface DnsResolverPolicyVirtualNetworkLinkListResult {
-    readonly nextLink?: string;
-    value?: DnsResolverPolicyVirtualNetworkLink[];
+    nextLink?: string;
+    value: DnsResolverPolicyVirtualNetworkLink[];
 }
 
 // @public
@@ -510,6 +540,12 @@ export interface DnsResolverPolicyVirtualNetworkLinks {
 }
 
 // @public
+export interface DnsResolverPolicyVirtualNetworkLinksCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface DnsResolverPolicyVirtualNetworkLinksCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -522,8 +558,8 @@ export type DnsResolverPolicyVirtualNetworkLinksCreateOrUpdateResponse = DnsReso
 
 // @public
 export interface DnsResolverPolicyVirtualNetworkLinksDeleteHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -560,8 +596,8 @@ export type DnsResolverPolicyVirtualNetworkLinksListResponse = DnsResolverPolicy
 
 // @public
 export interface DnsResolverPolicyVirtualNetworkLinksUpdateHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -589,6 +625,12 @@ export interface DnsResolvers {
 }
 
 // @public
+export interface DnsResolversCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface DnsResolversCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -598,6 +640,12 @@ export interface DnsResolversCreateOrUpdateOptionalParams extends coreClient.Ope
 
 // @public
 export type DnsResolversCreateOrUpdateResponse = DnsResolver;
+
+// @public
+export interface DnsResolversDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface DnsResolversDeleteOptionalParams extends coreClient.OperationOptions {
@@ -662,6 +710,12 @@ export type DnsResolversListResponse = DnsResolverListResult;
 export type DnsResolverState = string;
 
 // @public
+export interface DnsResolversUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface DnsResolversUpdateOptionalParams extends coreClient.OperationOptions {
     ifMatch?: string;
     resumeFrom?: string;
@@ -674,9 +728,10 @@ export type DnsResolversUpdateResponse = DnsResolver;
 // @public
 export interface DnsSecurityRule extends TrackedResource {
     action: DnsSecurityRuleAction;
-    dnsResolverDomainLists: SubResource[];
+    dnsResolverDomainLists?: SubResource[];
     dnsSecurityRuleState?: DnsSecurityRuleState;
     readonly etag?: string;
+    managedDomainLists?: ManagedDomainList[];
     priority: number;
     readonly provisioningState?: ProvisioningState;
 }
@@ -688,8 +743,8 @@ export interface DnsSecurityRuleAction {
 
 // @public
 export interface DnsSecurityRuleListResult {
-    readonly nextLink?: string;
-    value?: DnsSecurityRule[];
+    nextLink?: string;
+    value: DnsSecurityRule[];
 }
 
 // @public
@@ -697,6 +752,7 @@ export interface DnsSecurityRulePatch {
     action?: DnsSecurityRuleAction;
     dnsResolverDomainLists?: SubResource[];
     dnsSecurityRuleState?: DnsSecurityRuleState;
+    managedDomainLists?: ManagedDomainList[];
     priority?: number;
     tags?: {
         [propertyName: string]: string;
@@ -716,6 +772,12 @@ export interface DnsSecurityRules {
 }
 
 // @public
+export interface DnsSecurityRulesCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface DnsSecurityRulesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -728,8 +790,8 @@ export type DnsSecurityRulesCreateOrUpdateResponse = DnsSecurityRule;
 
 // @public
 export interface DnsSecurityRulesDeleteHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -769,8 +831,8 @@ export type DnsSecurityRuleState = string;
 
 // @public
 export interface DnsSecurityRulesUpdateHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -817,8 +879,8 @@ export interface ForwardingRule extends ProxyResource {
 
 // @public
 export interface ForwardingRuleListResult {
-    readonly nextLink?: string;
-    value?: ForwardingRule[];
+    nextLink?: string;
+    value: ForwardingRule[];
 }
 
 // @public
@@ -899,8 +961,8 @@ export interface InboundEndpoint extends TrackedResource {
 
 // @public
 export interface InboundEndpointListResult {
-    readonly nextLink?: string;
-    value?: InboundEndpoint[];
+    nextLink?: string;
+    value: InboundEndpoint[];
 }
 
 // @public
@@ -923,6 +985,12 @@ export interface InboundEndpoints {
 }
 
 // @public
+export interface InboundEndpointsCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface InboundEndpointsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -932,6 +1000,12 @@ export interface InboundEndpointsCreateOrUpdateOptionalParams extends coreClient
 
 // @public
 export type InboundEndpointsCreateOrUpdateResponse = InboundEndpoint;
+
+// @public
+export interface InboundEndpointsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface InboundEndpointsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -961,6 +1035,12 @@ export interface InboundEndpointsListOptionalParams extends coreClient.Operation
 
 // @public
 export type InboundEndpointsListResponse = InboundEndpointListResult;
+
+// @public
+export interface InboundEndpointsUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface InboundEndpointsUpdateOptionalParams extends coreClient.OperationOptions {
@@ -1028,6 +1108,11 @@ export enum KnownIpAllocationMethod {
 }
 
 // @public
+export enum KnownManagedDomainList {
+    AzureDnsThreatIntel = "AzureDnsThreatIntel"
+}
+
+// @public
 export enum KnownProvisioningState {
     Canceled = "Canceled",
     Creating = "Creating",
@@ -1036,6 +1121,9 @@ export enum KnownProvisioningState {
     Succeeded = "Succeeded",
     Updating = "Updating"
 }
+
+// @public
+export type ManagedDomainList = string;
 
 // @public
 export interface OutboundEndpoint extends TrackedResource {
@@ -1047,8 +1135,8 @@ export interface OutboundEndpoint extends TrackedResource {
 
 // @public
 export interface OutboundEndpointListResult {
-    readonly nextLink?: string;
-    value?: OutboundEndpoint[];
+    nextLink?: string;
+    value: OutboundEndpoint[];
 }
 
 // @public
@@ -1071,6 +1159,12 @@ export interface OutboundEndpoints {
 }
 
 // @public
+export interface OutboundEndpointsCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface OutboundEndpointsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -1080,6 +1174,12 @@ export interface OutboundEndpointsCreateOrUpdateOptionalParams extends coreClien
 
 // @public
 export type OutboundEndpointsCreateOrUpdateResponse = OutboundEndpoint;
+
+// @public
+export interface OutboundEndpointsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface OutboundEndpointsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -1109,6 +1209,12 @@ export interface OutboundEndpointsListOptionalParams extends coreClient.Operatio
 
 // @public
 export type OutboundEndpointsListResponse = OutboundEndpointListResult;
+
+// @public
+export interface OutboundEndpointsUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface OutboundEndpointsUpdateOptionalParams extends coreClient.OperationOptions {
@@ -1142,8 +1248,8 @@ export interface SubResource {
 
 // @public
 export interface SubResourceListResult {
-    readonly nextLink?: string;
-    value?: SubResource[];
+    nextLink?: string;
+    value: SubResource[];
 }
 
 // @public
@@ -1178,8 +1284,8 @@ export interface VirtualNetworkDnsForwardingRuleset {
 
 // @public
 export interface VirtualNetworkDnsForwardingRulesetListResult {
-    readonly nextLink?: string;
-    value?: VirtualNetworkDnsForwardingRuleset[];
+    nextLink?: string;
+    value: VirtualNetworkDnsForwardingRuleset[];
 }
 
 // @public
@@ -1194,8 +1300,8 @@ export interface VirtualNetworkLink extends ProxyResource {
 
 // @public
 export interface VirtualNetworkLinkListResult {
-    readonly nextLink?: string;
-    value?: VirtualNetworkLink[];
+    nextLink?: string;
+    value: VirtualNetworkLink[];
 }
 
 // @public
@@ -1218,6 +1324,12 @@ export interface VirtualNetworkLinks {
 }
 
 // @public
+export interface VirtualNetworkLinksCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface VirtualNetworkLinksCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -1227,6 +1339,12 @@ export interface VirtualNetworkLinksCreateOrUpdateOptionalParams extends coreCli
 
 // @public
 export type VirtualNetworkLinksCreateOrUpdateResponse = VirtualNetworkLink;
+
+// @public
+export interface VirtualNetworkLinksDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface VirtualNetworkLinksDeleteOptionalParams extends coreClient.OperationOptions {
@@ -1256,6 +1374,12 @@ export interface VirtualNetworkLinksListOptionalParams extends coreClient.Operat
 
 // @public
 export type VirtualNetworkLinksListResponse = VirtualNetworkLinkListResult;
+
+// @public
+export interface VirtualNetworkLinksUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface VirtualNetworkLinksUpdateOptionalParams extends coreClient.OperationOptions {

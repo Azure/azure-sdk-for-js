@@ -24,9 +24,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DataWarehouseUserActivitiesOperations operations. */
-export class DataWarehouseUserActivitiesOperationsImpl
-  implements DataWarehouseUserActivitiesOperations
-{
+export class DataWarehouseUserActivitiesOperationsImpl implements DataWarehouseUserActivitiesOperations {
   private readonly client: SqlManagementClient;
 
   /**

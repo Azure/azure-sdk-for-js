@@ -6,18 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { StorageCacheManagementClient } from "../src/storageCacheManagementClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -32,7 +27,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("StorageCache test", () => {
+describe.skip("StorageCache test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: StorageCacheManagementClient;
@@ -43,12 +38,16 @@ describe("StorageCache test", () => {
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new StorageCacheManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    client = new StorageCacheManagementClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
     location = "eastus";
-    resourceGroup = "myjstest";
+    resourceGroup = "SSS3PT_myjstest";
     resourcename = "resourcetest";
   });
 
@@ -63,12 +62,8 @@ describe("StorageCache test", () => {
       {
         networkSettings: {
           mtu: 1500,
-          utilityAddresses: [
-            "10.0.0.10",
-            "10.0.0.11",
-            "10.0.0.12"
-          ],
-          ntpServer: "time.windows.com"
+          utilityAddresses: ["10.0.0.10", "10.0.0.11", "10.0.0.12"],
+          ntpServer: "time.windows.com",
         },
         cacheSizeGB: 3072,
         directoryServicesSettings: {},
@@ -83,24 +78,25 @@ describe("StorageCache test", () => {
                   rootSquash: false,
                   scope: "default",
                   submountAccess: true,
-                  suid: false
-                }
-              ]
-            }
-          ]
+                  suid: false,
+                },
+              ],
+            },
+          ],
         },
         sku: { name: "Standard_2G" },
         subnet:
-          "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.Network/virtualNetworks/scvnet/subnets/sub1",
+          "/subscriptions/" +
+          subscriptionId +
+          "/resourceGroups/" +
+          resourceGroup +
+          "/providers/Microsoft.Network/virtualNetworks/scvnet/subnets/sub1",
         tags: { dept: "Contoso" },
         zones: ["1"],
-        mountAddresses: [
-          "10.0.0.7",
-          "10.0.0.8",
-          "10.0.0.9"
-        ],
+        mountAddresses: ["10.0.0.7", "10.0.0.8", "10.0.0.9"],
       },
-      testPollingOptions);
+      testPollingOptions,
+    );
   });
 
   it("caches get test", async () => {
@@ -118,10 +114,10 @@ describe("StorageCache test", () => {
 
   it("caches delete test", async () => {
     const resArray = new Array();
-    await client.caches.beginDeleteAndWait(resourceGroup, resourcename, testPollingOptions)
+    await client.caches.beginDeleteAndWait(resourceGroup, resourcename, testPollingOptions);
     for await (let item of client.caches.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
-})
+});

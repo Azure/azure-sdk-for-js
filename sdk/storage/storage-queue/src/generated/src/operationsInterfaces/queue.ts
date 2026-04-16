@@ -18,7 +18,7 @@ import {
   QueueGetAccessPolicyOptionalParams,
   QueueGetAccessPolicyResponse,
   QueueSetAccessPolicyOptionalParams,
-  QueueSetAccessPolicyResponse
+  QueueSetAccessPolicyResponse,
 } from "../models/index.js";
 
 /** Interface representing a Queue. */
@@ -39,7 +39,7 @@ export interface Queue {
    * @param options The options parameters.
    */
   getProperties(
-    options?: QueueGetPropertiesOptionalParams
+    options?: QueueGetPropertiesOptionalParams,
   ): Promise<QueueGetPropertiesResponse>;
   /**
    * sets user-defined metadata on the specified queue. Metadata is associated with the queue as
@@ -47,7 +47,7 @@ export interface Queue {
    * @param options The options parameters.
    */
   setMetadata(
-    options?: QueueSetMetadataOptionalParams
+    options?: QueueSetMetadataOptionalParams,
   ): Promise<QueueSetMetadataResponse>;
   /**
    * returns details about any stored access policies specified on the queue that may be used with Shared
@@ -55,13 +55,13 @@ export interface Queue {
    * @param options The options parameters.
    */
   getAccessPolicy(
-    options?: QueueGetAccessPolicyOptionalParams
+    options?: QueueGetAccessPolicyOptionalParams,
   ): Promise<QueueGetAccessPolicyResponse>;
   /**
    * sets stored access policies for the queue that may be used with Shared Access Signatures
    * @param options The options parameters.
    */
   setAccessPolicy(
-    options?: QueueSetAccessPolicyOptionalParams
+    options?: QueueSetAccessPolicyOptionalParams,
   ): Promise<QueueSetAccessPolicyResponse>;
 }

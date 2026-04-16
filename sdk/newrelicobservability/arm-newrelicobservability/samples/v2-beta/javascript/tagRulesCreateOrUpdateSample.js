@@ -1,0 +1,85 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { NewRelicObservability } = require("@azure/arm-newrelicobservability");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
+
+/**
+ * This sample demonstrates how to Creates a new set of tag rules for a specific New Relic monitor resource, determining which Azure resources are monitored based on their tags
+ *
+ * @summary Creates a new set of tag rules for a specific New Relic monitor resource, determining which Azure resources are monitored based on their tags
+ * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/preview/2025-05-01-preview/examples/TagRules_CreateOrUpdate_MaximumSet_Gen.json
+ */
+async function tagRulesCreateOrUpdateMaximumSetGen() {
+  const subscriptionId =
+    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["NEWRELICOBSERVABILITY_RESOURCE_GROUP"] || "rgopenapi";
+  const monitorName = "ipxmlcbonyxtolzejcjshkmlron";
+  const ruleSetName = "bxcantgzggsepbhqmedjqyrqeezmfb";
+  const resource = {
+    logRules: {
+      filteringTags: [
+        {
+          name: "saokgpjvdlorciqbjmjxazpee",
+          action: "Include",
+          value: "sarxrqsxouhdjwsrqqicbeirdb",
+        },
+      ],
+      sendAadLogs: "Enabled",
+      sendActivityLogs: "Enabled",
+      sendSubscriptionLogs: "Enabled",
+    },
+    metricRules: {
+      filteringTags: [
+        {
+          name: "saokgpjvdlorciqbjmjxazpee",
+          action: "Include",
+          value: "sarxrqsxouhdjwsrqqicbeirdb",
+        },
+      ],
+      userEmail: "test@testing.com",
+    },
+    provisioningState: "Accepted",
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new NewRelicObservability(credential, subscriptionId);
+  const result = await client.tagRules.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    monitorName,
+    ruleSetName,
+    resource,
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Creates a new set of tag rules for a specific New Relic monitor resource, determining which Azure resources are monitored based on their tags
+ *
+ * @summary Creates a new set of tag rules for a specific New Relic monitor resource, determining which Azure resources are monitored based on their tags
+ * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/preview/2025-05-01-preview/examples/TagRules_CreateOrUpdate_MinimumSet_Gen.json
+ */
+async function tagRulesCreateOrUpdateMinimumSetGen() {
+  const subscriptionId =
+    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["NEWRELICOBSERVABILITY_RESOURCE_GROUP"] || "rgopenapi";
+  const monitorName = "ipxmlcbonyxtolzejcjshkmlron";
+  const ruleSetName = "bxcantgzggsepbhqmedjqyrqeezmfb";
+  const resource = {};
+  const credential = new DefaultAzureCredential();
+  const client = new NewRelicObservability(credential, subscriptionId);
+  const result = await client.tagRules.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    monitorName,
+    ruleSetName,
+    resource,
+  );
+  console.log(result);
+}
+
+async function main() {
+  await tagRulesCreateOrUpdateMaximumSetGen();
+  await tagRulesCreateOrUpdateMinimumSetGen();
+}
+
+main().catch(console.error);

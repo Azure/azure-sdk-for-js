@@ -4,7 +4,7 @@ import { RestError } from "@azure/core-rest-pipeline";
 import { DeleteCertificatePoller } from "../../src/lro/delete/poller.js";
 import { RecoverDeletedCertificatePoller } from "../../src/lro/recover/poller.js";
 import type { KeyVaultClient } from "../../src/keyVaultClient.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, expect } from "vitest";
 
 describe("The LROs properly throw on unexpected errors", () => {
   const vaultUrl = `https://keyvaultname.vault.azure.net`;
@@ -56,7 +56,7 @@ describe("The LROs properly throw on unexpected errors", () => {
       await poller.poll();
       await poller.poll();
 
-      assert.isUndefined(poller.getOperationState().isCompleted);
+      expect(poller.getOperationState().isCompleted).toBeFalsy();
     });
 
     it("Errors other than 403 and 404 throw", async () => {
@@ -142,7 +142,7 @@ describe("The LROs properly throw on unexpected errors", () => {
       await poller.poll();
       await poller.poll();
 
-      assert.isUndefined(poller.getOperationState().isCompleted);
+      expect(poller.getOperationState().isCompleted).toBeFalsy();
     });
 
     it("Errors other than 403 and 404 throw", async () => {

@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { AzureVMwareSolutionAPI } from "@azure/arm-avs";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to delete a ExpressRouteAuthorization
  *
  * @summary delete a ExpressRouteAuthorization
- * x-ms-original-file: 2024-09-01/Authorizations_Delete.json
+ * x-ms-original-file: 2025-09-01/Authorizations_Delete.json
  */
-
-import { AzureVMwareSolutionAPI } from "@azure/arm-avs";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function authorizationsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

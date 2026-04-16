@@ -1,0 +1,16 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/identity": ["./src/index.ts"]
+    }
+  },
+  "include": ["./test/public/**/*.ts", "./test/*.ts", "./test/node/**/*.ts", "./src"],
+  "exclude": [
+    "./src/**/*-browser.mts",
+    "./src/**/*-react-native.mts",
+    "./src/msal/browserFlows",
+    "./test/**/browser",
+    "./test/snippets.spec.ts"
+  ]
+}

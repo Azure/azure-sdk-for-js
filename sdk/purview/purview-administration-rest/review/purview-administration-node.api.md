@@ -556,10 +556,10 @@ interface ComplexReplacerConfigOutput {
 }
 
 // @public
-function createClient(endpoint: string, credentials: TokenCredential, { apiVersion, ...options }?: PurviewMetadataPoliciesClientOptions): PurviewMetadataPoliciesClient;
+function createClient(endpoint: string, credentials: TokenCredential, input?: PurviewMetadataPoliciesClientOptions): PurviewMetadataPoliciesClient;
 
 // @public
-function createClient_2(endpoint: string, credentials: TokenCredential, { apiVersion, ...options }?: PurviewAccountClientOptions): PurviewAccountClient;
+function createClient_2(endpoint: string, credentials: TokenCredential, input?: PurviewAccountClientOptions): PurviewAccountClient;
 
 // @public
 interface DataPlaneAccountUpdateParameters {

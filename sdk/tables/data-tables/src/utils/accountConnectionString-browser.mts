@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ConnectionString } from "./internalModels.js";
+import type { ClientParamsFromConnectionString, ConnectionString } from "./internalModels.js";
 import type { TableServiceClientOptions } from "../index.js";
 
 /**
@@ -10,11 +10,10 @@ import type { TableServiceClientOptions } from "../index.js";
  * @param _extractedCreds - parsed connection string
  * @param _options - TablesServiceClient options
  */
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type, @typescript-eslint/explicit-module-boundary-types
 export function fromAccountConnectionString(
   _connectionString: ConnectionString,
   _options?: TableServiceClientOptions,
-) {
+): ClientParamsFromConnectionString {
   throw new Error("Account connection string is only supported in Node.js environment");
 }
 

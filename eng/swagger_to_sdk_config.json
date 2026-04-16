@@ -36,6 +36,15 @@
     "breakingChangesLabel": "BreakingChange-JavaScript-Sdk",
     "buildScript": {
       "path": "./eng/scripts/build-sdk.ps1"
+    },
+    "updateChangelogContentScript": {
+      "path": "./eng/scripts/update-changelog-content.ps1"
+    },
+    "updateVersionScript": {
+      "path": "./eng/scripts/update-version.ps1"
+    },
+    "updateMetadataScript": {
+      "path": "./eng/scripts/update-metadata.ps1"
     }
   }
 }

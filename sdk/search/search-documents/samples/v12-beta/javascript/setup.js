@@ -5,8 +5,8 @@
  * Defines the utility methods.
  */
 
-require("dotenv/config");
 const { KnownAnalyzerNames } = require("@azure/search-documents");
+require("dotenv/config");
 const { env } = require("node:process");
 const WAIT_TIME = 4000;
 

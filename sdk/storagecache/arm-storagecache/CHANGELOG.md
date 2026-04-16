@@ -1,14 +1,106 @@
 # Release History
 
-## 8.0.1 (Unreleased)
+## 8.2.0 (2026-03-19)
 
 ### Features Added
+  - Added operation group ExpansionJobs
+  - Added Interface ExpansionJob
+  - Added Interface ExpansionJobsCreateOrUpdateHeaders
+  - Added Interface ExpansionJobsCreateOrUpdateOptionalParams
+  - Added Interface ExpansionJobsDeleteHeaders
+  - Added Interface ExpansionJobsDeleteOptionalParams
+  - Added Interface ExpansionJobsGetOptionalParams
+  - Added Interface ExpansionJobsListByAmlFilesystemOptionalParams
+  - Added Interface ExpansionJobsListResult
+  - Added Interface ExpansionJobsUpdateHeaders
+  - Added Interface ExpansionJobsUpdateOptionalParams
+  - Added Interface ExpansionJobUpdate
+  - Interface AmlFilesystem has a new optional parameter clusterUuid
+  - Interface AmlFilesystem has a new optional parameter currentStorageCapacityTiB
+  - Added Type Alias ExpansionJobPropertiesProvisioningState
+  - Added Type Alias ExpansionJobsCreateOrUpdateResponse
+  - Added Type Alias ExpansionJobsDeleteResponse
+  - Added Type Alias ExpansionJobsGetResponse
+  - Added Type Alias ExpansionJobsListByAmlFilesystemNextResponse
+  - Added Type Alias ExpansionJobsListByAmlFilesystemResponse
+  - Added Type Alias ExpansionJobStatusType
+  - Added Type Alias ExpansionJobsUpdateResponse
+  - Added Enum KnownExpansionJobPropertiesProvisioningState
+  - Added Enum KnownExpansionJobStatusType
+  - Enum KnownAmlFilesystemHealthStateType has a new value Expanding
 
-### Breaking Changes
+## 8.1.0 (2025-09-26)
 
-### Bugs Fixed
+### Features Added
+  - Added operation group AutoExportJobs
+  - Added operation group AutoImportJobs
+  - Added Interface AutoExportJob
+  - Added Interface AutoExportJobsCreateOrUpdateHeaders
+  - Added Interface AutoExportJobsCreateOrUpdateOptionalParams
+  - Added Interface AutoExportJobsDeleteHeaders
+  - Added Interface AutoExportJobsDeleteOptionalParams
+  - Added Interface AutoExportJobsGetOptionalParams
+  - Added Interface AutoExportJobsListByAmlFilesystemOptionalParams
+  - Added Interface AutoExportJobsListResult
+  - Added Interface AutoExportJobsUpdateHeaders
+  - Added Interface AutoExportJobsUpdateOptionalParams
+  - Added Interface AutoExportJobUpdate
+  - Added Interface AutoImportJob
+  - Added Interface AutoImportJobPropertiesStatusBlobSyncEvents
+  - Added Interface AutoImportJobsCreateOrUpdateHeaders
+  - Added Interface AutoImportJobsCreateOrUpdateOptionalParams
+  - Added Interface AutoImportJobsDeleteHeaders
+  - Added Interface AutoImportJobsDeleteOptionalParams
+  - Added Interface AutoImportJobsGetOptionalParams
+  - Added Interface AutoImportJobsListByAmlFilesystemOptionalParams
+  - Added Interface AutoImportJobsListResult
+  - Added Interface AutoImportJobsUpdateHeaders
+  - Added Interface AutoImportJobsUpdateOptionalParams
+  - Added Interface AutoImportJobUpdate
+  - Added Interface Cache
+  - Interface ImportJob has a new optional parameter adminStatus
+  - Interface ImportJob has a new optional parameter importedDirectories
+  - Interface ImportJob has a new optional parameter importedFiles
+  - Interface ImportJob has a new optional parameter importedSymlinks
+  - Interface ImportJob has a new optional parameter preexistingDirectories
+  - Interface ImportJob has a new optional parameter preexistingFiles
+  - Interface ImportJob has a new optional parameter preexistingSymlinks
+  - Interface ImportJobUpdate has a new optional parameter adminStatus
+  - Added Type Alias AutoExportJobAdminStatus
+  - Added Type Alias AutoExportJobProvisioningStateType
+  - Added Type Alias AutoExportJobsCreateOrUpdateResponse
+  - Added Type Alias AutoExportJobsDeleteResponse
+  - Added Type Alias AutoExportJobsGetResponse
+  - Added Type Alias AutoExportJobsListByAmlFilesystemNextResponse
+  - Added Type Alias AutoExportJobsListByAmlFilesystemResponse
+  - Added Type Alias AutoExportJobsUpdateResponse
+  - Added Type Alias AutoExportStatusType
+  - Added Type Alias AutoImportJobPropertiesAdminStatus
+  - Added Type Alias AutoImportJobPropertiesProvisioningState
+  - Added Type Alias AutoImportJobsCreateOrUpdateResponse
+  - Added Type Alias AutoImportJobsDeleteResponse
+  - Added Type Alias AutoImportJobsGetResponse
+  - Added Type Alias AutoImportJobsListByAmlFilesystemNextResponse
+  - Added Type Alias AutoImportJobsListByAmlFilesystemResponse
+  - Added Type Alias AutoImportJobState
+  - Added Type Alias AutoImportJobsUpdateResponse
+  - Added Type Alias AutoImportJobUpdatePropertiesAdminStatus
+  - Added Type Alias ImportJobAdminStatus
+  - Added Enum KnownAutoExportJobAdminStatus
+  - Added Enum KnownAutoExportJobProvisioningStateType
+  - Added Enum KnownAutoExportStatusType
+  - Added Enum KnownAutoImportJobPropertiesAdminStatus
+  - Added Enum KnownAutoImportJobPropertiesProvisioningState
+  - Added Enum KnownAutoImportJobState
+  - Added Enum KnownAutoImportJobUpdatePropertiesAdminStatus
+  - Added Enum KnownImportJobAdminStatus
+
+
+## 8.0.1 (2025-08-21)
 
 ### Other Changes
+
+  - Other fixes
 
 ## 8.0.0 (2024-05-13)
     

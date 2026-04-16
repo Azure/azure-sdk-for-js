@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import fs from "fs-extra";
+import { cp, readFile, rm, writeFile } from "node:fs/promises";
+import { existsSync } from "node:fs";
 import path from "node:path";
 import { createPrinter } from "../../util/printer";
 import { findMatchingFiles } from "../../util/findMatchingFiles";
@@ -41,7 +42,7 @@ async function enableLocalRun(
   pkgName: string,
   usePackages: boolean,
 ) {
-  const fileContents = await fs.readFile(fileName, { encoding: "utf-8" });
+  const fileContents = await readFile(fileName, { encoding: "utf-8" });
   const isTs = fileName.endsWith(".ts");
 
   let outputContent = fileContents;
@@ -80,7 +81,7 @@ async function enableLocalRun(
   );
 
   log("Updating imports in", fileName);
-  return fs.writeFile(fileName, outputContent, { encoding: "utf-8" });
+  return writeFile(fileName, outputContent, { encoding: "utf-8" });
 }
 
 async function* cat<T>(...generators: AsyncIterable<T>[]): AsyncIterable<T> {
@@ -96,11 +97,11 @@ export default leafCommand(commandInfo, async (options) => {
 
   // Create dist-samples and copy to it
   const outputDir = path.join(pkg.path, "dist-samples");
-  if (fs.existsSync(outputDir)) {
+  if (existsSync(outputDir)) {
     log.info("Cleaning up old dist-samples folder.");
-    await fs.remove(outputDir);
+    await rm(outputDir, { recursive: true, force: true });
   }
-  await fs.copy(path.join(pkg.path, "samples"), outputDir);
+  await cp(path.join(pkg.path, "samples"), outputDir, { recursive: true });
 
   const tsDir = path.join(outputDir, "typescript", "src");
   const tsFiles = findMatchingFiles(

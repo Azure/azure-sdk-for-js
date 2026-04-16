@@ -42,7 +42,7 @@ node createJob.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env HEALTHDATAAISERVICES_DEID_SERVICE_ENDPOINT="<healthdataaiservices deid service endpoint>" HEALTHDATAAISERVICES_STORAGE_ACCOUNT_LOCATION="<healthdataaiservices storage account location>" OUTPUT_PREFIX="<output prefix>" node createJob.js
+cross-env HEALTHDATAAISERVICES_DEID_SERVICE_ENDPOINT="<healthdataaiservices deid service endpoint>" HEALTHDATAAISERVICES_STORAGE_ACCOUNT_LOCATION="<healthdataaiservices storage account location>" OUTPUT_PREFIX="<output prefix>" node createJob.js
 ```
 
 ## Next Steps

@@ -62,7 +62,7 @@ export class SqlVirtualMachineManagementClient extends coreClient.ServiceClient 
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-sqlvirtualmachine/5.0.0-beta.9`;
+    const packageDetails = `azsdk-js-arm-sqlvirtualmachine/5.0.0-beta.10`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

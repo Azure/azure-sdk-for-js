@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
+export type {
   SecretSetParameters,
   SecretAttributes,
-  KnownDeletionRecoveryLevel,
   DeletionRecoveryLevel,
   SecretBundle,
   KeyVaultError,
@@ -15,5 +14,6 @@ export {
   DeletedSecretItem,
   BackupSecretResult,
   SecretRestoreParameters,
-  KnownVersions,
+  ContentType,
 } from "./models.js";
+export { KnownDeletionRecoveryLevel, KnownContentType, KnownVersions } from "./models.js";

@@ -1,18 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type {
+  GlobalRulestackListAdvancedSecurityObjectsOptionalParams} from "@azure/arm-paloaltonetworksngfw";
+import {
+  PaloAltoNetworksCloudngfw,
+} from "@azure/arm-paloaltonetworksngfw";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Get the list of advanced security objects
  *
  * @summary Get the list of advanced security objects
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_listAdvancedSecurityObjects_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/GlobalRulestack_listAdvancedSecurityObjects_MaximumSet_Gen.json
  */
-
-import type { GlobalRulestackListAdvancedSecurityObjectsOptionalParams } from "@azure/arm-paloaltonetworksngfw";
-import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function globalRulestackListAdvancedSecurityObjectsMaximumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const skip = "a6a321";
@@ -36,7 +38,7 @@ async function globalRulestackListAdvancedSecurityObjectsMaximumSetGen(): Promis
  * This sample demonstrates how to Get the list of advanced security objects
  *
  * @summary Get the list of advanced security objects
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_listAdvancedSecurityObjects_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/GlobalRulestack_listAdvancedSecurityObjects_MinimumSet_Gen.json
  */
 async function globalRulestackListAdvancedSecurityObjectsMinimumSetGen(): Promise<void> {
   const globalRulestackName = "praval";

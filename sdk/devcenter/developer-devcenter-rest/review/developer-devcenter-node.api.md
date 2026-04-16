@@ -35,7 +35,7 @@ export interface CatalogOutput {
 }
 
 // @public
-function createClient(endpointParam: string, credentials: TokenCredential, { apiVersion, ...options }?: AzureDeveloperDevCenterClientOptions): AzureDeveloperDevCenterClient;
+function createClient(endpointParam: string, credentials: TokenCredential, input?: AzureDeveloperDevCenterClientOptions): AzureDeveloperDevCenterClient;
 export default createClient;
 
 // @public

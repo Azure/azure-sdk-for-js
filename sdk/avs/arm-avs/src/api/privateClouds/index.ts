@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 export {
+  getVcfLicense,
   listAdminCredentials,
   rotateNsxtPassword,
   rotateVcenterPassword,
@@ -13,13 +14,14 @@ export {
   list,
 } from "./operations.js";
 export {
-  PrivateCloudsListAdminCredentialsOptionalParams,
-  PrivateCloudsRotateNsxtPasswordOptionalParams,
-  PrivateCloudsRotateVcenterPasswordOptionalParams,
-  PrivateCloudsDeleteOptionalParams,
-  PrivateCloudsUpdateOptionalParams,
-  PrivateCloudsCreateOrUpdateOptionalParams,
-  PrivateCloudsGetOptionalParams,
-  PrivateCloudsListInSubscriptionOptionalParams,
-  PrivateCloudsListOptionalParams,
+  type PrivateCloudsGetVcfLicenseOptionalParams,
+  type PrivateCloudsListAdminCredentialsOptionalParams,
+  type PrivateCloudsRotateNsxtPasswordOptionalParams,
+  type PrivateCloudsRotateVcenterPasswordOptionalParams,
+  type PrivateCloudsDeleteOptionalParams,
+  type PrivateCloudsUpdateOptionalParams,
+  type PrivateCloudsCreateOrUpdateOptionalParams,
+  type PrivateCloudsGetOptionalParams,
+  type PrivateCloudsListInSubscriptionOptionalParams,
+  type PrivateCloudsListOptionalParams,
 } from "./options.js";

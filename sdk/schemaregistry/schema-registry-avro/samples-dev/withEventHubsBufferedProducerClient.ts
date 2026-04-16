@@ -101,7 +101,7 @@ export async function main(): Promise<void> {
   console.log(`Message was added to the queue and is about to be sent`);
 
   // Wait for a bit before cleaning up the sample
-  await setTimeout(async () => {
+  setTimeout(async () => {
     await eventHubsBufferedProducerClient.close({ flush: true });
     console.log(`Exiting sample`);
   }, 30 * 1000);

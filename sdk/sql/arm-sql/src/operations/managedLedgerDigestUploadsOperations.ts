@@ -30,9 +30,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ManagedLedgerDigestUploadsOperations operations. */
-export class ManagedLedgerDigestUploadsOperationsImpl
-  implements ManagedLedgerDigestUploadsOperations
-{
+export class ManagedLedgerDigestUploadsOperationsImpl implements ManagedLedgerDigestUploadsOperations {
   private readonly client: SqlManagementClient;
 
   /**

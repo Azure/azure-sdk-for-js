@@ -24,6 +24,11 @@ export class MinAggregator implements Aggregator {
    * Add the provided item to aggregation result.
    */
   public aggregate(other: MinAggregateResult): void {
+    // Skip aggregation if other.min is undefined (empty partition with count:0)
+    if (other.min === undefined) {
+      return;
+    }
+
     if (this.value === undefined) {
       // || typeof this.value === "object"
       this.value = other.min;

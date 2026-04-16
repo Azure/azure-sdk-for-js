@@ -1,22 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type {
+  LocalRulestackResource} from "@azure/arm-paloaltonetworksngfw";
+import {
+  PaloAltoNetworksCloudngfw,
+} from "@azure/arm-paloaltonetworksngfw";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Create a LocalRulestackResource
  *
  * @summary Create a LocalRulestackResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRulestacks_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/LocalRulestacks_CreateOrUpdate_MaximumSet_Gen.json
  */
-
-import type { LocalRulestackResource } from "@azure/arm-paloaltonetworksngfw";
-import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function localRulestacksCreateOrUpdateMaximumSetGen(): Promise<void> {
   const subscriptionId =
-    process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] || "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
-  const resourceGroupName = process.env["PALOALTONETWORKSNGFW_RESOURCE_GROUP"] || "rgopenapi";
+    process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] ||
+    "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
+  const resourceGroupName =
+    process.env["PALOALTONETWORKSNGFW_RESOURCE_GROUP"] || "rgopenapi";
   const localRulestackName = "lrs1";
   const resource: LocalRulestackResource = {
     description: "local rulestacks",
@@ -60,12 +64,14 @@ async function localRulestacksCreateOrUpdateMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to Create a LocalRulestackResource
  *
  * @summary Create a LocalRulestackResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRulestacks_CreateOrUpdate_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/LocalRulestacks_CreateOrUpdate_MinimumSet_Gen.json
  */
 async function localRulestacksCreateOrUpdateMinimumSetGen(): Promise<void> {
   const subscriptionId =
-    process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] || "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
-  const resourceGroupName = process.env["PALOALTONETWORKSNGFW_RESOURCE_GROUP"] || "rgopenapi";
+    process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] ||
+    "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
+  const resourceGroupName =
+    process.env["PALOALTONETWORKSNGFW_RESOURCE_GROUP"] || "rgopenapi";
   const localRulestackName = "lrs1";
   const resource: LocalRulestackResource = { location: "eastus" };
   const credential = new DefaultAzureCredential();

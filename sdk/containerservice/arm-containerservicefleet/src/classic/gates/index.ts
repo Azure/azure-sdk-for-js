@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerServiceFleetContext } from "../../api/containerServiceFleetContext.js";
+import type { ContainerServiceFleetContext } from "../../api/containerServiceFleetContext.js";
 import { listByFleet, update, get } from "../../api/gates/operations.js";
-import {
+import type {
   GatesListByFleetOptionalParams,
   GatesUpdateOptionalParams,
   GatesGetOptionalParams,
 } from "../../api/gates/options.js";
-import { Gate, GatePatch } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { Gate, GatePatch } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Gates operations. */
 export interface GatesOperations {

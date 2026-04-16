@@ -34,10 +34,581 @@ import type {
   SparkJobDefinitionDebugSparkJobDefinitionOptionalParams,
   SparkJobDefinitionDebugSparkJobDefinitionResponse,
   SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceNextResponse,
-  SparkBatchJob,
 } from "../models/index.js";
-import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
 
+/// <reference lib="esnext.asynciterable" />
+/** Class containing SparkJobDefinitionOperations operations. */
+export class SparkJobDefinitionOperationsImpl implements SparkJobDefinitionOperations {
+  private readonly client: ArtifactsClient;
+
+  /**
+   * Initialize a new instance of the class SparkJobDefinitionOperations class.
+   * @param client Reference to the service client
+   */
+  constructor(client: ArtifactsClient) {
+    this.client = client;
+  }
+
+  /**
+   * Lists spark job definitions.
+   * @param options The options parameters.
+   */
+  public listSparkJobDefinitionsByWorkspace(
+    options?: SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceOptionalParams,
+  ): PagedAsyncIterableIterator<SparkJobDefinitionResource> {
+    const iter = this.getSparkJobDefinitionsByWorkspacePagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.getSparkJobDefinitionsByWorkspacePagingPage(options, settings);
+      },
+    };
+  }
+
+  private async *getSparkJobDefinitionsByWorkspacePagingPage(
+    options?: SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<SparkJobDefinitionResource[]> {
+    let result: SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._getSparkJobDefinitionsByWorkspace(options);
+      const page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._getSparkJobDefinitionsByWorkspaceNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      const page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *getSparkJobDefinitionsByWorkspacePagingAll(
+    options?: SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceOptionalParams,
+  ): AsyncIterableIterator<SparkJobDefinitionResource> {
+    for await (const page of this.getSparkJobDefinitionsByWorkspacePagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists spark job definitions.
+   * @param options The options parameters.
+   */
+  private async _getSparkJobDefinitionsByWorkspace(
+    options?: SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceOptionalParams,
+  ): Promise<SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceResponse> {
+    return tracingClient.withSpan(
+      "ArtifactsClient._getSparkJobDefinitionsByWorkspace",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          getSparkJobDefinitionsByWorkspaceOperationSpec,
+        ) as Promise<SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceResponse>;
+      },
+    );
+  }
+
+  /**
+   * Creates or updates a Spark Job Definition.
+   * @param sparkJobDefinitionName The spark job definition name.
+   * @param sparkJobDefinition Spark Job Definition resource definition.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateSparkJobDefinition(
+    sparkJobDefinitionName: string,
+    sparkJobDefinition: SparkJobDefinitionResource,
+    options?: SparkJobDefinitionCreateOrUpdateSparkJobDefinitionOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse>,
+      SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse> => {
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginCreateOrUpdateSparkJobDefinition",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(
+            args,
+            spec,
+          ) as Promise<SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse>;
+        },
+      );
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { sparkJobDefinitionName, sparkJobDefinition, options },
+      spec: createOrUpdateSparkJobDefinitionOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse,
+      OperationState<SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Creates or updates a Spark Job Definition.
+   * @param sparkJobDefinitionName The spark job definition name.
+   * @param sparkJobDefinition Spark Job Definition resource definition.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateSparkJobDefinitionAndWait(
+    sparkJobDefinitionName: string,
+    sparkJobDefinition: SparkJobDefinitionResource,
+    options?: SparkJobDefinitionCreateOrUpdateSparkJobDefinitionOptionalParams,
+  ): Promise<SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse> {
+    const poller = await this.beginCreateOrUpdateSparkJobDefinition(
+      sparkJobDefinitionName,
+      sparkJobDefinition,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Gets a Spark Job Definition.
+   * @param sparkJobDefinitionName The spark job definition name.
+   * @param options The options parameters.
+   */
+  async getSparkJobDefinition(
+    sparkJobDefinitionName: string,
+    options?: SparkJobDefinitionGetSparkJobDefinitionOptionalParams,
+  ): Promise<SparkJobDefinitionGetSparkJobDefinitionResponse> {
+    return tracingClient.withSpan(
+      "ArtifactsClient.getSparkJobDefinition",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { sparkJobDefinitionName, options },
+          getSparkJobDefinitionOperationSpec,
+        ) as Promise<SparkJobDefinitionGetSparkJobDefinitionResponse>;
+      },
+    );
+  }
+
+  /**
+   * Deletes a Spark Job Definition.
+   * @param sparkJobDefinitionName The spark job definition name.
+   * @param options The options parameters.
+   */
+  async beginDeleteSparkJobDefinition(
+    sparkJobDefinitionName: string,
+    options?: SparkJobDefinitionDeleteSparkJobDefinitionOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginDeleteSparkJobDefinition",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<void>;
+        },
+      );
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { sparkJobDefinitionName, options },
+      spec: deleteSparkJobDefinitionOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes a Spark Job Definition.
+   * @param sparkJobDefinitionName The spark job definition name.
+   * @param options The options parameters.
+   */
+  async beginDeleteSparkJobDefinitionAndWait(
+    sparkJobDefinitionName: string,
+    options?: SparkJobDefinitionDeleteSparkJobDefinitionOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginDeleteSparkJobDefinition(sparkJobDefinitionName, options);
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Executes the spark job definition.
+   * @param sparkJobDefinitionName The spark job definition name.
+   * @param options The options parameters.
+   */
+  async beginExecuteSparkJobDefinition(
+    sparkJobDefinitionName: string,
+    options?: SparkJobDefinitionExecuteSparkJobDefinitionOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<SparkJobDefinitionExecuteSparkJobDefinitionResponse>,
+      SparkJobDefinitionExecuteSparkJobDefinitionResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<SparkJobDefinitionExecuteSparkJobDefinitionResponse> => {
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginExecuteSparkJobDefinition",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(
+            args,
+            spec,
+          ) as Promise<SparkJobDefinitionExecuteSparkJobDefinitionResponse>;
+        },
+      );
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { sparkJobDefinitionName, options },
+      spec: executeSparkJobDefinitionOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      SparkJobDefinitionExecuteSparkJobDefinitionResponse,
+      OperationState<SparkJobDefinitionExecuteSparkJobDefinitionResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Executes the spark job definition.
+   * @param sparkJobDefinitionName The spark job definition name.
+   * @param options The options parameters.
+   */
+  async beginExecuteSparkJobDefinitionAndWait(
+    sparkJobDefinitionName: string,
+    options?: SparkJobDefinitionExecuteSparkJobDefinitionOptionalParams,
+  ): Promise<SparkJobDefinitionExecuteSparkJobDefinitionResponse> {
+    const poller = await this.beginExecuteSparkJobDefinition(sparkJobDefinitionName, options);
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Renames a sparkJobDefinition.
+   * @param sparkJobDefinitionName The spark job definition name.
+   * @param request proposed new name.
+   * @param options The options parameters.
+   */
+  async beginRenameSparkJobDefinition(
+    sparkJobDefinitionName: string,
+    request: ArtifactRenameRequest,
+    options?: SparkJobDefinitionRenameSparkJobDefinitionOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginRenameSparkJobDefinition",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<void>;
+        },
+      );
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { sparkJobDefinitionName, request, options },
+      spec: renameSparkJobDefinitionOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Renames a sparkJobDefinition.
+   * @param sparkJobDefinitionName The spark job definition name.
+   * @param request proposed new name.
+   * @param options The options parameters.
+   */
+  async beginRenameSparkJobDefinitionAndWait(
+    sparkJobDefinitionName: string,
+    request: ArtifactRenameRequest,
+    options?: SparkJobDefinitionRenameSparkJobDefinitionOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginRenameSparkJobDefinition(
+      sparkJobDefinitionName,
+      request,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Debug the spark job definition.
+   * @param sparkJobDefinitionAzureResource Spark Job Definition resource definition.
+   * @param options The options parameters.
+   */
+  async beginDebugSparkJobDefinition(
+    sparkJobDefinitionAzureResource: SparkJobDefinitionResource,
+    options?: SparkJobDefinitionDebugSparkJobDefinitionOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<SparkJobDefinitionDebugSparkJobDefinitionResponse>,
+      SparkJobDefinitionDebugSparkJobDefinitionResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<SparkJobDefinitionDebugSparkJobDefinitionResponse> => {
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginDebugSparkJobDefinition",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(
+            args,
+            spec,
+          ) as Promise<SparkJobDefinitionDebugSparkJobDefinitionResponse>;
+        },
+      );
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { sparkJobDefinitionAzureResource, options },
+      spec: debugSparkJobDefinitionOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      SparkJobDefinitionDebugSparkJobDefinitionResponse,
+      OperationState<SparkJobDefinitionDebugSparkJobDefinitionResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Debug the spark job definition.
+   * @param sparkJobDefinitionAzureResource Spark Job Definition resource definition.
+   * @param options The options parameters.
+   */
+  async beginDebugSparkJobDefinitionAndWait(
+    sparkJobDefinitionAzureResource: SparkJobDefinitionResource,
+    options?: SparkJobDefinitionDebugSparkJobDefinitionOptionalParams,
+  ): Promise<SparkJobDefinitionDebugSparkJobDefinitionResponse> {
+    const poller = await this.beginDebugSparkJobDefinition(
+      sparkJobDefinitionAzureResource,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * GetSparkJobDefinitionsByWorkspaceNext
+   * @param nextLink The nextLink from the previous successful call to the
+   *                 GetSparkJobDefinitionsByWorkspace method.
+   * @param options The options parameters.
+   */
+  private async _getSparkJobDefinitionsByWorkspaceNext(
+    nextLink: string,
+    options?: SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceNextOptionalParams,
+  ): Promise<SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceNextResponse> {
+    return tracingClient.withSpan(
+      "ArtifactsClient._getSparkJobDefinitionsByWorkspaceNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { nextLink, options },
+          getSparkJobDefinitionsByWorkspaceNextOperationSpec,
+        ) as Promise<SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceNextResponse>;
+      },
+    );
+  }
+}
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
@@ -204,612 +775,3 @@ const getSparkJobDefinitionsByWorkspaceNextOperationSpec: coreClient.OperationSp
   headerParameters: [Parameters.accept],
   serializer,
 };
-
-/** Class containing SparkJobDefinitionOperations operations. */
-export class SparkJobDefinitionOperationsImpl implements SparkJobDefinitionOperations {
-  private readonly client: ArtifactsClient;
-
-  /**
-   * Initialize a new instance of the class SparkJobDefinitionOperations class.
-   * @param client - Reference to the service client
-   */
-  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-  constructor(client: ArtifactsClient) {
-    this.client = client;
-  }
-
-  /**
-   * Lists spark job definitions.
-   * @param options - The options parameters.
-   */
-  public listSparkJobDefinitionsByWorkspace(
-    options?: SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceOptionalParams,
-  ): PagedAsyncIterableIterator<SparkJobDefinitionResource> {
-    const iter = this.getSparkJobDefinitionsByWorkspacePagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.getSparkJobDefinitionsByWorkspacePagingPage(options, settings);
-      },
-    };
-  }
-
-  private async *getSparkJobDefinitionsByWorkspacePagingPage(
-    options?: SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<SparkJobDefinitionResource[]> {
-    let result: SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._getSparkJobDefinitionsByWorkspace(options);
-      const page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._getSparkJobDefinitionsByWorkspaceNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      const page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *getSparkJobDefinitionsByWorkspacePagingAll(
-    options?: SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceOptionalParams,
-  ): AsyncIterableIterator<SparkJobDefinitionResource> {
-    for await (const page of this.getSparkJobDefinitionsByWorkspacePagingPage(options)) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Lists spark job definitions.
-   * @param options - The options parameters.
-   */
-  private async _getSparkJobDefinitionsByWorkspace(
-    options?: SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceOptionalParams,
-  ): Promise<SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient._getSparkJobDefinitionsByWorkspace",
-      options ?? {},
-      async (updatedOptions) => {
-        return this.client.sendOperationRequest(
-          { updatedOptions },
-          getSparkJobDefinitionsByWorkspaceOperationSpec,
-        ) as Promise<SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceResponse>;
-      },
-    );
-  }
-
-  /**
-   * Creates or updates a Spark Job Definition.
-   * @param sparkJobDefinitionName - The spark job definition name.
-   * @param sparkJobDefinition - Spark Job Definition resource definition.
-   * @param options - The options parameters.
-   */
-  async beginCreateOrUpdateSparkJobDefinition(
-    sparkJobDefinitionName: string,
-    sparkJobDefinition: SparkJobDefinitionResource,
-    options?: SparkJobDefinitionCreateOrUpdateSparkJobDefinitionOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse>,
-      SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse> => {
-      return tracingClient.withSpan(
-        "ArtifactsClient.beginCreateOrUpdateSparkJobDefinition",
-        options ?? {},
-        async () => {
-          return this.client.sendOperationRequest(
-            args,
-            spec,
-          ) as Promise<SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse>;
-        },
-      );
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<{
-      flatResponse: SparkJobDefinitionResource;
-      rawResponse: {
-        statusCode: number;
-        body: any;
-        headers: RawHttpHeaders;
-      };
-    }> => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { sparkJobDefinitionName, sparkJobDefinition, options },
-      spec: createOrUpdateSparkJobDefinitionOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse,
-      OperationState<SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Creates or updates a Spark Job Definition.
-   * @param sparkJobDefinitionName - The spark job definition name.
-   * @param sparkJobDefinition - Spark Job Definition resource definition.
-   * @param options - The options parameters.
-   */
-  async beginCreateOrUpdateSparkJobDefinitionAndWait(
-    sparkJobDefinitionName: string,
-    sparkJobDefinition: SparkJobDefinitionResource,
-    options?: SparkJobDefinitionCreateOrUpdateSparkJobDefinitionOptionalParams,
-  ): Promise<SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse> {
-    const poller = await this.beginCreateOrUpdateSparkJobDefinition(
-      sparkJobDefinitionName,
-      sparkJobDefinition,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Gets a Spark Job Definition.
-   * @param sparkJobDefinitionName - The spark job definition name.
-   * @param options - The options parameters.
-   */
-  async getSparkJobDefinition(
-    sparkJobDefinitionName: string,
-    options?: SparkJobDefinitionGetSparkJobDefinitionOptionalParams,
-  ): Promise<SparkJobDefinitionGetSparkJobDefinitionResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.getSparkJobDefinition",
-      options ?? {},
-      async (updatedOptions) => {
-        return this.client.sendOperationRequest(
-          { sparkJobDefinitionName, updatedOptions },
-          getSparkJobDefinitionOperationSpec,
-        ) as Promise<SparkJobDefinitionGetSparkJobDefinitionResponse>;
-      },
-    );
-  }
-
-  /**
-   * Deletes a Spark Job Definition.
-   * @param sparkJobDefinitionName - The spark job definition name.
-   * @param options - The options parameters.
-   */
-  async beginDeleteSparkJobDefinition(
-    sparkJobDefinitionName: string,
-    options?: SparkJobDefinitionDeleteSparkJobDefinitionOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return tracingClient.withSpan(
-        "ArtifactsClient.beginDeleteSparkJobDefinition",
-        options ?? {},
-        async () => {
-          return this.client.sendOperationRequest(args, spec) as Promise<void>;
-        },
-      );
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<{
-      flatResponse: void;
-      rawResponse: {
-        statusCode: number;
-        body: any;
-        headers: RawHttpHeaders;
-      };
-    }> => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { sparkJobDefinitionName, options },
-      spec: deleteSparkJobDefinitionOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Deletes a Spark Job Definition.
-   * @param sparkJobDefinitionName - The spark job definition name.
-   * @param options - The options parameters.
-   */
-  async beginDeleteSparkJobDefinitionAndWait(
-    sparkJobDefinitionName: string,
-    options?: SparkJobDefinitionDeleteSparkJobDefinitionOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginDeleteSparkJobDefinition(sparkJobDefinitionName, options);
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Executes the spark job definition.
-   * @param sparkJobDefinitionName - The spark job definition name.
-   * @param options - The options parameters.
-   */
-  async beginExecuteSparkJobDefinition(
-    sparkJobDefinitionName: string,
-    options?: SparkJobDefinitionExecuteSparkJobDefinitionOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<SparkJobDefinitionExecuteSparkJobDefinitionResponse>,
-      SparkJobDefinitionExecuteSparkJobDefinitionResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<SparkJobDefinitionExecuteSparkJobDefinitionResponse> => {
-      return tracingClient.withSpan(
-        "ArtifactsClient.beginExecuteSparkJobDefinition",
-        options ?? {},
-        async () => {
-          return this.client.sendOperationRequest(
-            args,
-            spec,
-          ) as Promise<SparkJobDefinitionExecuteSparkJobDefinitionResponse>;
-        },
-      );
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<{
-      flatResponse: SparkBatchJob;
-      rawResponse: {
-        statusCode: number;
-        body: any;
-        headers: RawHttpHeaders;
-      };
-    }> => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { sparkJobDefinitionName, options },
-      spec: executeSparkJobDefinitionOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      SparkJobDefinitionExecuteSparkJobDefinitionResponse,
-      OperationState<SparkJobDefinitionExecuteSparkJobDefinitionResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Executes the spark job definition.
-   * @param sparkJobDefinitionName - The spark job definition name.
-   * @param options - The options parameters.
-   */
-  async beginExecuteSparkJobDefinitionAndWait(
-    sparkJobDefinitionName: string,
-    options?: SparkJobDefinitionExecuteSparkJobDefinitionOptionalParams,
-  ): Promise<SparkJobDefinitionExecuteSparkJobDefinitionResponse> {
-    const poller = await this.beginExecuteSparkJobDefinition(sparkJobDefinitionName, options);
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Renames a sparkJobDefinition.
-   * @param sparkJobDefinitionName - The spark job definition name.
-   * @param request - proposed new name.
-   * @param options - The options parameters.
-   */
-  async beginRenameSparkJobDefinition(
-    sparkJobDefinitionName: string,
-    request: ArtifactRenameRequest,
-    options?: SparkJobDefinitionRenameSparkJobDefinitionOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return tracingClient.withSpan(
-        "ArtifactsClient.beginRenameSparkJobDefinition",
-        options ?? {},
-        async () => {
-          return this.client.sendOperationRequest(args, spec) as Promise<void>;
-        },
-      );
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<{
-      flatResponse: void;
-      rawResponse: {
-        statusCode: number;
-        body: any;
-        headers: RawHttpHeaders;
-      };
-    }> => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { sparkJobDefinitionName, request, options },
-      spec: renameSparkJobDefinitionOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Renames a sparkJobDefinition.
-   * @param sparkJobDefinitionName - The spark job definition name.
-   * @param request - proposed new name.
-   * @param options - The options parameters.
-   */
-  async beginRenameSparkJobDefinitionAndWait(
-    sparkJobDefinitionName: string,
-    request: ArtifactRenameRequest,
-    options?: SparkJobDefinitionRenameSparkJobDefinitionOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginRenameSparkJobDefinition(
-      sparkJobDefinitionName,
-      request,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Debug the spark job definition.
-   * @param sparkJobDefinitionAzureResource - Spark Job Definition resource definition.
-   * @param options - The options parameters.
-   */
-  async beginDebugSparkJobDefinition(
-    sparkJobDefinitionAzureResource: SparkJobDefinitionResource,
-    options?: SparkJobDefinitionDebugSparkJobDefinitionOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<SparkJobDefinitionDebugSparkJobDefinitionResponse>,
-      SparkJobDefinitionDebugSparkJobDefinitionResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<SparkJobDefinitionDebugSparkJobDefinitionResponse> => {
-      return tracingClient.withSpan(
-        "ArtifactsClient.beginDebugSparkJobDefinition",
-        options ?? {},
-        async () => {
-          return this.client.sendOperationRequest(
-            args,
-            spec,
-          ) as Promise<SparkJobDefinitionDebugSparkJobDefinitionResponse>;
-        },
-      );
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<{
-      flatResponse: SparkBatchJob;
-      rawResponse: {
-        statusCode: number;
-        body: any;
-        headers: RawHttpHeaders;
-      };
-    }> => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { sparkJobDefinitionAzureResource, options },
-      spec: debugSparkJobDefinitionOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      SparkJobDefinitionDebugSparkJobDefinitionResponse,
-      OperationState<SparkJobDefinitionDebugSparkJobDefinitionResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Debug the spark job definition.
-   * @param sparkJobDefinitionAzureResource - Spark Job Definition resource definition.
-   * @param options - The options parameters.
-   */
-  async beginDebugSparkJobDefinitionAndWait(
-    sparkJobDefinitionAzureResource: SparkJobDefinitionResource,
-    options?: SparkJobDefinitionDebugSparkJobDefinitionOptionalParams,
-  ): Promise<SparkJobDefinitionDebugSparkJobDefinitionResponse> {
-    const poller = await this.beginDebugSparkJobDefinition(
-      sparkJobDefinitionAzureResource,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * GetSparkJobDefinitionsByWorkspaceNext
-   * @param nextLink - The nextLink from the previous successful call to the
-   *                 GetSparkJobDefinitionsByWorkspace method.
-   * @param options - The options parameters.
-   */
-  private async _getSparkJobDefinitionsByWorkspaceNext(
-    nextLink: string,
-    options?: SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceNextOptionalParams,
-  ): Promise<SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceNextResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient._getSparkJobDefinitionsByWorkspaceNext",
-      options ?? {},
-      async (updatedOptions) => {
-        return this.client.sendOperationRequest(
-          { nextLink, updatedOptions },
-          getSparkJobDefinitionsByWorkspaceNextOperationSpec,
-        ) as Promise<SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceNextResponse>;
-      },
-    );
-  }
-}

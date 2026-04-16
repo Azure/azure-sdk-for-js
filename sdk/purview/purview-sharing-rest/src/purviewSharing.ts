@@ -25,7 +25,7 @@ export default function createClient(
   { apiVersion = "2023-05-30-preview", ...options }: PurviewSharingClientOptions = {},
 ): PurviewSharingClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpoint}`;
-  const userAgentInfo = `azsdk-js-purview-sharing-rest/1.0.0-beta.4`;
+  const userAgentInfo = `azsdk-js-purview-sharing-rest/1.0.0-beta.5`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

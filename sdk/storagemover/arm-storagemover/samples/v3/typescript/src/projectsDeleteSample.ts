@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a Project resource.
  *
  * @summary deletes a Project resource.
- * x-ms-original-file: 2025-07-01/Projects_Delete.json
+ * x-ms-original-file: 2025-12-01/Projects_Delete.json
  */
 async function projectsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -767,6 +767,17 @@
         },
         "multipleNumbersJustification": {
           "type": "string"
+        },
+        "privacyPolicyUrl": {
+          "description": "URL to the privacy policy for the campaign.",
+          "type": "string"
+        },
+        "termsAndConditionsUrl": {
+          "description": "URL to the terms and conditions for the campaign.",
+          "type": "string"
+        },
+        "businessRegistrationDetails": {
+          "$ref": "#/definitions/BusinessRegistrationDetails"
         }
       }
     },
@@ -1141,6 +1152,64 @@
           "readOnly": true,
           "$ref": "#/definitions/CommunicationError",
           "description": "The inner error if any."
+        }
+      }
+    },
+    "BusinessRegistrationDetails": {
+      "description": "Business registration details for Toll-Free Verification compliance.",
+      "type": "object",
+      "properties": {
+        "businessRegistrationNumber": {
+          "description": "Business registration number (e.g. EIN, VAT number). Max 500 chars.",
+          "type": "string",
+          "maxLength": 500
+        },
+        "businessEntityType": {
+          "description": "Type of business entity.",
+          "enum": [
+            "SOLE_PROPRIETOR",
+            "PRIVATE_PROFIT",
+            "PUBLIC_PROFIT",
+            "NON_PROFIT",
+            "GOVERNMENT"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "BusinessEntityType",
+            "modelAsString": true
+          }
+        },
+        "businessRegistrationType": {
+          "description": "Type of business registration.",
+          "enum": [
+            "EIN",
+            "CBN",
+            "NEQ",
+            "PROVINCIAL_NUMBER",
+            "CRN",
+            "VAT",
+            "ACN",
+            "ABN",
+            "BRN",
+            "SIREN",
+            "SIRET",
+            "NZBN",
+            "UST_IDNR",
+            "CIF",
+            "NIF",
+            "CNPJ",
+            "UID",
+            "OTHER"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "BusinessRegistrationType",
+            "modelAsString": true
+          }
+        },
+        "businessRegistrationCountry": {
+          "description": "Country where the business is registered. ISO 3166-1 Alpha-2 format.",
+          "type": "string"
         }
       }
     }

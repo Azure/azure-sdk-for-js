@@ -37,6 +37,10 @@ export interface VectorEmbedding {
  */
 export enum VectorEmbeddingDataType {
   /**
+   * 16-bit floating point number.
+   */
+  Float16 = "float16",
+  /**
    * 32-bit floating point number.
    */
   Float32 = "float32",

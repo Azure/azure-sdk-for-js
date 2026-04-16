@@ -1,15 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-declare global {
-  interface FormData {}
-  interface Blob {}
-  interface File {}
-  interface ReadableStream<R = any> {}
-  interface TransformStream<I = any, O = any> {}
-}
-
 export { AbortError } from "./abort-controller/AbortError.js";
+export type { NodeReadableStream, NodeBuffer, WebReadableStream } from "#platform/types";
 export {
   createClientLogger,
   getLogLevel,
@@ -43,8 +36,8 @@ export type {
   PipelineRetryOptions,
 } from "./interfaces.js";
 export { createHttpHeaders } from "./httpHeaders.js";
-export * from "./auth/schemes.js";
-export * from "./auth/oauth2Flows.js";
+export type * from "./auth/schemes.js";
+export type * from "./auth/oauth2Flows.js";
 export {
   type BasicCredential,
   type BearerTokenCredential,
@@ -63,8 +56,8 @@ export {
   createEmptyPipeline,
 } from "./pipeline.js";
 export { RestError, isRestError, type RestErrorOptions } from "./restError.js";
-export { stringToUint8Array, uint8ArrayToString, type EncodingType } from "./util/bytesEncoding.js";
-export { createDefaultHttpClient } from "./defaultHttpClient.js";
+export { stringToUint8Array, uint8ArrayToString, type EncodingType } from "#platform/bytesEncoding";
+export { createDefaultHttpClient } from "#platform/httpClient";
 export { getClient } from "./client/getClient.js";
 export { operationOptionsToRequestParameters } from "./client/operationOptionHelpers.js";
 export { createRestError } from "./client/restError.js";

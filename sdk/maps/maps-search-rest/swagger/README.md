@@ -27,7 +27,7 @@ license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/maps/data-plane/Search/stable/2023-06-01/search.json
-package-version: 2.0.0-beta.4
+package-version: 2.0.0-beta.5
 rest-level-client: true
 # Although maps service supports key-credentials and Microsoft Entra ID, maps service requires header "ms-x-client-id", which is different from the standard Microsoft Entra ID, so we don't generate Microsoft Entra ID code and implement ourselves.
 # For auth configuration, please refer to: https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/RLC-quickstart.md#how-to-configure-authentication

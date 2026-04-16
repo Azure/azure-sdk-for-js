@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Delete a private endpoint connection for a given managed environment.
  *
  * @summary Delete a private endpoint connection for a given managed environment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2025-02-02-preview/examples/ManagedEnvironmentPrivateEndpointConnections_Delete.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/ManagedEnvironmentPrivateEndpointConnections_Delete.json
  */
 async function deleteAPrivateEndpointConnectionByManagedEnvironment(): Promise<void> {
   const subscriptionId =

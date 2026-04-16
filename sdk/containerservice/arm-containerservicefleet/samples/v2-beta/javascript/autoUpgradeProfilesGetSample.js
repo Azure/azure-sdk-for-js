@@ -1,31 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to get a AutoUpgradeProfile
- *
- * @summary get a AutoUpgradeProfile
- * x-ms-original-file: 2025-04-01-preview/AutoUpgradeProfiles_Get.json
- */
-
 const { ContainerServiceFleetClient } = require("@azure/arm-containerservicefleet");
 const { DefaultAzureCredential } = require("@azure/identity");
 
-async function getsAnAutoUpgradeProfileResource() {
-  const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new ContainerServiceFleetClient(credential, subscriptionId);
-  const result = await client.autoUpgradeProfiles.get("rg1", "fleet1", "autoupgradeprofile1");
-  console.log(result);
-}
-
 /**
  * This sample demonstrates how to get a AutoUpgradeProfile
  *
  * @summary get a AutoUpgradeProfile
- * x-ms-original-file: 2025-04-01-preview/AutoUpgradeProfiles_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-02-01-preview/AutoUpgradeProfiles_Get.json
  */
-async function getsAnAutoUpgradeProfileResourceGeneratedByMaximumSetRule() {
+async function getsAnAutoUpgradeProfileResource() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
@@ -35,7 +20,6 @@ async function getsAnAutoUpgradeProfileResourceGeneratedByMaximumSetRule() {
 
 async function main() {
   await getsAnAutoUpgradeProfileResource();
-  await getsAnAutoUpgradeProfileResourceGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

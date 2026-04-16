@@ -43,7 +43,7 @@ node accountsCreateAndUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env GRAPHSERVICES_SUBSCRIPTION_ID="<graphservices subscription id>" GRAPHSERVICES_RESOURCE_GROUP="<graphservices resource group>" node accountsCreateAndUpdateSample.js
+cross-env GRAPHSERVICES_SUBSCRIPTION_ID="<graphservices subscription id>" GRAPHSERVICES_RESOURCE_GROUP="<graphservices resource group>" node accountsCreateAndUpdateSample.js
 ```
 
 ## Next Steps

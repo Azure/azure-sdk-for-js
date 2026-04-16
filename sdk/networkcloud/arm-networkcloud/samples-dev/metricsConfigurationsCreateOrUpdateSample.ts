@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create new or update the existing metrics configuration of the provided cluster.
- *
- * @summary Create new or update the existing metrics configuration of the provided cluster.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/ClusterMetricsConfigurations_Create.json
- */
-
+import type {
+  ClusterMetricsConfiguration} from "@azure/arm-networkcloud";
 import {
-  ClusterMetricsConfiguration,
   NetworkCloud,
 } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Create new or update the existing metrics configuration of the provided cluster.
+ *
+ * @summary Create new or update the existing metrics configuration of the provided cluster.
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-09-01/examples/ClusterMetricsConfigurations_Create.json
+ */
 async function createOrUpdateMetricsConfigurationOfCluster(): Promise<void> {
   const subscriptionId =
     process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||

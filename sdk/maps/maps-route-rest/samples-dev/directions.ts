@@ -68,7 +68,7 @@ async function main(): Promise<void> {
     throw getRouteDirectionsResult.body.error;
   }
 
-  await getRouteDirectionsResult.body.routes.forEach(({ summary, legs }) => {
+  getRouteDirectionsResult.body.routes.forEach(({ summary, legs }) => {
     console.log(
       `The total distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`,
     );
@@ -126,7 +126,7 @@ async function main(): Promise<void> {
     throw routeDirectionsWithParamResult.body.error;
   }
 
-  await getRouteDirectionsResult.body.routes.forEach(({ summary, legs }) => {
+  getRouteDirectionsResult.body.routes.forEach(({ summary, legs }) => {
     console.log(
       `The total distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`,
     );
@@ -186,7 +186,7 @@ async function main(): Promise<void> {
     routeDirectionBatchInitRes as RouteRequestRouteDirectionsBatchSync200Response
   ).body;
   console.log(`${summary.successfulRequests}/${summary.totalRequests} requests succeeded.`);
-  await batchItems.forEach((item, index) => {
+  batchItems.forEach((item, index) => {
     if (item.response.error) {
       console.error(`Request ${index} failed with error: ${item.response.error.message}`);
     } else {

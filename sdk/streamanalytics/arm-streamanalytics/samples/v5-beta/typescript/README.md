@@ -98,7 +98,7 @@ node dist/clustersCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env STREAMANALYTICS_SUBSCRIPTION_ID="<streamanalytics subscription id>" STREAMANALYTICS_RESOURCE_GROUP="<streamanalytics resource group>" node dist/clustersCreateOrUpdateSample.js
+cross-env STREAMANALYTICS_SUBSCRIPTION_ID="<streamanalytics subscription id>" STREAMANALYTICS_RESOURCE_GROUP="<streamanalytics resource group>" node dist/clustersCreateOrUpdateSample.js
 ```
 
 ## Next Steps

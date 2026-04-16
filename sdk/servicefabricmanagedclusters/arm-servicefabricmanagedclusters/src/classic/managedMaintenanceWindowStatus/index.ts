@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
-import { ManagedMaintenanceWindowStatus } from "../../models/models.js";
-import { ManagedMaintenanceWindowStatusGetOptionalParams } from "../../api/managedMaintenanceWindowStatus/options.js";
+import type { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
 import { get } from "../../api/managedMaintenanceWindowStatus/operations.js";
+import type { ManagedMaintenanceWindowStatusGetOptionalParams } from "../../api/managedMaintenanceWindowStatus/options.js";
+import type { ManagedMaintenanceWindowStatus } from "../../models/models.js";
 
 /** Interface representing a ManagedMaintenanceWindowStatus operations. */
 export interface ManagedMaintenanceWindowStatusOperations {

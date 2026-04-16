@@ -1,5 +1,31 @@
 # Release History
 
+## 1.23.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.23.0 (2026-03-05)
+
+### Features Added
+
+- Added `allowCrossOriginRedirects` option to `RedirectPolicyOptions`. [#37384](https://github.com/Azure/azure-sdk-for-js/pull/37384)
+
+### Bugs Fixed
+
+- The redirect policy now only follows same-origin redirects by default. Set `allowCrossOriginRedirects` to `true` to restore the previous behavior. [#37384](https://github.com/Azure/azure-sdk-for-js/pull/37384)
+
+## 1.22.2 (2025-11-06)
+
+### Bugs Fixed
+
+- Fix invalid format of "User-Agent" header value [Issue #36383](https://github.com/Azure/azure-sdk-for-js/issues/36383)
+
 ## 1.22.1 (2025-09-11)
 
 ### Other Changes

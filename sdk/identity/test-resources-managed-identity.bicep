@@ -33,7 +33,7 @@ param adminUserName string = 'azureuser'
 param principalUserType string = 'User'
 
 // https://learn.microsoft.com/azure/role-based-access-control/built-in-roles
-var blobOwner = subscriptionResourceId('Microsoft.Authorization/roleDefinitions','b7e6dc6d-f1e8-4753-8033-0f276bb0955b') // Storage Blob Data Owner
+var blobContributor = subscriptionResourceId('Microsoft.Authorization/roleDefinitions','ba92f5b4-2d11-453d-a403-e96b0029c9fe') // Storage Blob Data Contributor
 var serviceOwner = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '17d1049b-9a84-46fb-8f53-869881c3d3ab')
 var acrPull = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '7f951dda-4ed3-4680-a7ca-43fe172d538d') // ACR Pull
 var websiteContributor = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'de139f84-1756-47ae-9be6-808fbbe84772') // Website Contributor
@@ -48,27 +48,27 @@ resource userAssignedIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@
 
 resource blobRoleWeb 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   scope: storageAccount
-  name: guid(resourceGroup().id, blobOwner)
+  name: guid(resourceGroup().id, blobContributor)
   properties: {
     principalId: web.identity.principalId
-    roleDefinitionId: blobOwner
+    roleDefinitionId: blobContributor
     principalType: 'ServicePrincipal'
   }
 }
 
 resource blobRoleFunc 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   scope: storageAccount
-  name: guid(resourceGroup().id, blobOwner, 'azureFunction')
+  name: guid(resourceGroup().id, blobContributor, 'azureFunction')
   properties: {
     principalId: azureFunction.identity.principalId
-    roleDefinitionId: blobOwner
+    roleDefinitionId: blobContributor
     principalType: 'ServicePrincipal'
   }
 }
 
 resource blobRoleCluster 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   scope: storageAccount
-  name: guid(resourceGroup().id, blobOwner, 'kubernetes')
+  name: guid(resourceGroup().id, blobContributor, 'kubernetes')
   properties: {
     principalId: kubernetesCluster.identity.principalId
     roleDefinitionId: serviceOwner
@@ -78,7 +78,7 @@ resource blobRoleCluster 'Microsoft.Authorization/roleAssignments@2022-04-01' = 
 
 resource blobRole2 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   scope: storageAccountUserAssigned
-  name: guid(resourceGroup().id, blobOwner, userAssignedIdentity.id)
+  name: guid(resourceGroup().id, blobContributor, userAssignedIdentity.id)
   properties: {
     principalId: userAssignedIdentity.properties.principalId
     roleDefinitionId: serviceOwner
@@ -305,7 +305,7 @@ resource kubernetesCluster 'Microsoft.ContainerService/managedClusters@2023-06-0
       {
         name: 'agentpool'
         count: 1
-        vmSize: 'Standard_D2s_v5'
+        vmSize: 'Standard_D2s_v3'
         osDiskSizeGB: 128
         osDiskType: 'Managed'
         kubeletDiskType: 'OS'
@@ -338,6 +338,142 @@ resource kubernetesCluster 'Microsoft.ContainerService/managedClusters@2023-06-0
   }
 }
 
+
+resource publicIP 'Microsoft.Network/publicIPAddresses@2023-05-01' = {
+  name: '${baseName}PublicIP'
+  location: location
+  sku: {
+    name: 'Standard'
+  }
+  properties: {
+    publicIPAllocationMethod: 'Static'
+  }
+}
+
+resource nsg 'Microsoft.Network/networkSecurityGroups@2024-07-01' = {
+  name: '${baseName}NSG'
+  location: location
+  properties: {
+    securityRules: [
+      {
+        name: 'AllowHTTP'
+        properties: {
+          description: 'Allow HTTP traffic on port 80'
+          protocol: 'Tcp'
+          sourcePortRange: '*'
+          destinationPortRange: '80'
+          sourceAddressPrefix: '*'
+          destinationAddressPrefix: '*'
+          access: 'Allow'
+          priority: 1000
+          direction: 'Inbound'
+        }
+      }
+    ]
+  }
+}
+
+resource vnet 'Microsoft.Network/virtualNetworks@2024-07-01' = {
+  name: '${baseName}vnet'
+  location: location
+  properties: {
+    addressSpace: {
+      addressPrefixes: [
+        '10.0.0.0/16'
+      ]
+    }
+    subnets: [
+      {
+        name: '${baseName}subnet'
+        properties: {
+          addressPrefix: '10.0.0.0/24'
+          defaultOutboundAccess: false
+          networkSecurityGroup: {
+            id: nsg.id
+          }
+        }
+      }
+    ]
+  }
+}
+
+resource networkInterface 'Microsoft.Network/networkInterfaces@2024-07-01' = {
+  name: '${baseName}NIC'
+  location: location
+  properties: {
+    ipConfigurations: [
+      {
+        name: 'myIPConfig'
+        properties: {
+          privateIPAllocationMethod: 'Dynamic'
+          subnet: {
+            id: vnet.properties.subnets[0].id
+          }
+          publicIPAddress: {
+            id: publicIP.id
+          }
+        }
+      }
+    ]
+  }
+}
+
+resource virtualMachine 'Microsoft.Compute/virtualMachines@2024-07-01' = {
+  name: '${baseName}vm'
+  location: location
+  identity: {
+    type: 'SystemAssigned, UserAssigned'
+    userAssignedIdentities: {
+      '${userAssignedIdentity.id}': {}
+    }
+  }
+  properties: {
+    hardwareProfile: {
+      vmSize: 'Standard_DS1_v2'
+    }
+    osProfile: {
+      computerName: '${baseName}vm'
+      adminUsername: adminUserName
+      customData: base64('''
+#cloud-config
+package_update: true
+packages:
+  - docker.io
+runcmd:
+  - curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+  - az login --identity --allow-no-subscriptions
+''')
+      linuxConfiguration: {
+        disablePasswordAuthentication: true
+        ssh: {
+          publicKeys: [
+            {
+              path: '/home/${adminUserName}/.ssh/authorized_keys'
+              keyData: sshPubKey
+            }
+          ]
+        }
+      }
+    }
+    storageProfile: {
+      imageReference: {
+        publisher: 'Canonical'
+        offer: 'ubuntu-24_04-lts'
+        sku: 'server'
+        version: 'latest'
+      }
+      osDisk: {
+          createOption: 'FromImage'
+      }
+    }
+    networkProfile: {
+      networkInterfaces: [{
+          id: networkInterface.id
+      }]
+    }
+  }
+}
+
 output IdentityWebAppName string = web.name
 output IdentityWebAppPlan string = farm.name
 output IdentityUserDefinedIdentity string = userAssignedIdentity.id
@@ -357,3 +493,5 @@ output IdentityAcrLoginServer string = acrResource.properties.loginServer
 output IdentityTenantID string = tenantId
 output IdentityClientID string = testApplicationId
 output IdentityFunctionsCustomHandlerPort string = '80'
+output IdentityVMName string = virtualMachine.name
+output IdentityVMPublicIP string = publicIP.properties.ipAddress

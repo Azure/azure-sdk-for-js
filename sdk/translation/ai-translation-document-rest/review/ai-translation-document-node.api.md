@@ -55,7 +55,7 @@ export interface CancelTranslationDefaultResponse extends HttpResponse {
 export type CancelTranslationParameters = RequestParameters;
 
 // @public
-function createClient(endpointParam: string, credentials: TokenCredential | KeyCredential, { apiVersion, ...options }?: DocumentTranslationClientOptions): DocumentTranslationClient;
+function createClient(endpointParam: string, credentials: TokenCredential | KeyCredential, input?: DocumentTranslationClientOptions): DocumentTranslationClient;
 export default createClient;
 
 // @public

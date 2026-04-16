@@ -79,9 +79,9 @@ function Set-GitHubIssue($Package) {
 Write-Host "Running pnpm update --recursive --no-save"
 pnpm update --recursive --no-save
 
-Write-Host "Running pnpm outdated --format json --recursive"
+Write-Host "Running 'pnpm --filter=!@azure/arm-* --filter=!@azure-rest/arm-*  outdated --format json --recursive'"
 $env:NODE_OPTIONS = "--max-old-space-size=16384"
-$pnpmOutdatedOutput = pnpm outdated --format json --recursive
+$pnpmOutdatedOutput = & pnpm --filter=!@azure/arm-* --filter=!@azure-rest/arm-* outdated --format json --recursive | Where-Object { -not ($_.StartsWith(" WARN ", [System.StringComparison]::OrdinalIgnoreCase)) }
 
 $availableUpdates = $pnpmOutdatedOutput | ConvertFrom-Json
 

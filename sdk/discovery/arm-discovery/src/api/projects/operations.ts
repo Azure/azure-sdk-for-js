@@ -1,0 +1,319 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import type { DiscoveryContext as Client } from "../index.js";
+import type { Project, ProjectUpdate, _ProjectListResult } from "../../models/models.js";
+import {
+  errorResponseDeserializer,
+  projectSerializer,
+  projectDeserializer,
+  projectUpdateSerializer,
+  _projectListResultDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
+  ProjectsListByWorkspaceOptionalParams,
+  ProjectsDeleteOptionalParams,
+  ProjectsUpdateOptionalParams,
+  ProjectsCreateOrUpdateOptionalParams,
+  ProjectsGetOptionalParams,
+} from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
+
+export function _listByWorkspaceSend(
+  context: Client,
+  resourceGroupName: string,
+  workspaceName: string,
+  options: ProjectsListByWorkspaceOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Discovery/workspaces/{workspaceName}/projects{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      workspaceName: workspaceName,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _listByWorkspaceDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_ProjectListResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return _projectListResultDeserializer(result.body);
+}
+
+/** List Project resources by Workspace */
+export function listByWorkspace(
+  context: Client,
+  resourceGroupName: string,
+  workspaceName: string,
+  options: ProjectsListByWorkspaceOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<Project> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listByWorkspaceSend(context, resourceGroupName, workspaceName, options),
+    _listByWorkspaceDeserialize,
+    ["200"],
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-02-01-preview",
+    },
+  );
+}
+
+export function _$deleteSend(
+  context: Client,
+  resourceGroupName: string,
+  workspaceName: string,
+  projectName: string,
+  options: ProjectsDeleteOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Discovery/workspaces/{workspaceName}/projects/{projectName}{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      workspaceName: workspaceName,
+      projectName: projectName,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
+}
+
+export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["202", "204", "200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return;
+}
+
+/** Delete a Project */
+/**
+ *  @fixme delete is a reserved word that cannot be used as an operation name.
+ *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+ *         to the operation to override the generated name.
+ */
+export function $delete(
+  context: Client,
+  resourceGroupName: string,
+  workspaceName: string,
+  projectName: string,
+  options: ProjectsDeleteOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _$deleteSend(context, resourceGroupName, workspaceName, projectName, options),
+    resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-02-01-preview",
+  }) as PollerLike<OperationState<void>, void>;
+}
+
+export function _updateSend(
+  context: Client,
+  resourceGroupName: string,
+  workspaceName: string,
+  projectName: string,
+  properties: ProjectUpdate,
+  options: ProjectsUpdateOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Discovery/workspaces/{workspaceName}/projects/{projectName}{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      workspaceName: workspaceName,
+      projectName: projectName,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: projectUpdateSerializer(properties),
+  });
+}
+
+export async function _updateDeserialize(result: PathUncheckedResponse): Promise<Project> {
+  const expectedStatuses = ["200", "202", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return projectDeserializer(result.body);
+}
+
+/** Update a Project */
+export function update(
+  context: Client,
+  resourceGroupName: string,
+  workspaceName: string,
+  projectName: string,
+  properties: ProjectUpdate,
+  options: ProjectsUpdateOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<Project>, Project> {
+  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _updateSend(context, resourceGroupName, workspaceName, projectName, properties, options),
+    resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-02-01-preview",
+  }) as PollerLike<OperationState<Project>, Project>;
+}
+
+export function _createOrUpdateSend(
+  context: Client,
+  resourceGroupName: string,
+  workspaceName: string,
+  projectName: string,
+  resource: Project,
+  options: ProjectsCreateOrUpdateOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Discovery/workspaces/{workspaceName}/projects/{projectName}{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      workspaceName: workspaceName,
+      projectName: projectName,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: projectSerializer(resource),
+  });
+}
+
+export async function _createOrUpdateDeserialize(result: PathUncheckedResponse): Promise<Project> {
+  const expectedStatuses = ["200", "201", "202"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return projectDeserializer(result.body);
+}
+
+/** Create a Project */
+export function createOrUpdate(
+  context: Client,
+  resourceGroupName: string,
+  workspaceName: string,
+  projectName: string,
+  resource: Project,
+  options: ProjectsCreateOrUpdateOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<Project>, Project> {
+  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _createOrUpdateSend(
+        context,
+        resourceGroupName,
+        workspaceName,
+        projectName,
+        resource,
+        options,
+      ),
+    resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2026-02-01-preview",
+  }) as PollerLike<OperationState<Project>, Project>;
+}
+
+export function _getSend(
+  context: Client,
+  resourceGroupName: string,
+  workspaceName: string,
+  projectName: string,
+  options: ProjectsGetOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Discovery/workspaces/{workspaceName}/projects/{projectName}{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      workspaceName: workspaceName,
+      projectName: projectName,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<Project> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return projectDeserializer(result.body);
+}
+
+/** Get a Project */
+export async function get(
+  context: Client,
+  resourceGroupName: string,
+  workspaceName: string,
+  projectName: string,
+  options: ProjectsGetOptionalParams = { requestOptions: {} },
+): Promise<Project> {
+  const result = await _getSend(context, resourceGroupName, workspaceName, projectName, options);
+  return _getDeserialize(result);
+}

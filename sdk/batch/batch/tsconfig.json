@@ -1,8 +1,14 @@
 {
-  "extends": "../../../tsconfig",
-  "compilerOptions": {
-    "outDir": "./dist-esm",
-    "declarationDir": "./types"
-  },
-  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
+  "references": [
+    {
+      "path": "./tsconfig.src.json"
+    },
+    {
+      "path": "./tsconfig.test.json"
+    },
+    {
+      "path": "./tsconfig.snippets.json"
+    }
+  ],
+  "files": []
 }

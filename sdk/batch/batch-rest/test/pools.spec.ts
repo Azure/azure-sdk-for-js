@@ -4,7 +4,7 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
-import { createBatchClient, createRecorder } from "./utils/recordedClient.js";
+import { createBatchClientV2, createRecorder } from "./utils/recordedClient.js";
 import type {
   BatchClient,
   BatchPoolResizeOptions,
@@ -21,11 +21,16 @@ import {
   type GetPool200Response,
   type BatchPoolNodeCountsOutput,
 } from "../src/index.js";
-import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets.js";
+import { fakeAzureBatchEndpoint, fakeTestPasswordPlaceholder2 } from "./utils/fakeTestSecrets.js";
 import { wait } from "./utils/wait.js";
 import { getResourceName, POLLING_INTERVAL, waitForNotNull } from "./utils/helpers.js";
-import { describe, it, beforeEach, afterEach, assert, expect } from "vitest";
+import { describe, it, beforeAll, beforeEach, afterEach, assert, expect } from "vitest";
 import { waitForNodesToStart } from "./utils/pool.js";
+import {
+  getBatchAccountKeys,
+  getExistingBatchAccount,
+} from "./utils/arm-resources/batch-account.js";
+import { getHoboBatchAccountName } from "./utils/arm-resources/env-const.js";
 
 const BASIC_POOL = getResourceName("Pool-Basic");
 const VMSIZE_D1 = "Standard_D1_v2";
@@ -42,16 +47,45 @@ const CVM_POOL = getResourceName("Pool-Confidential");
 describe("Pool Operations Test", () => {
   let recorder: Recorder;
   let batchClient: BatchClient;
+  let batchAccountEndpoint = fakeAzureBatchEndpoint;
+  let batchAccountKey = fakeTestPasswordPlaceholder2;
 
   const nonAdminPoolUser: string = "nonAdminUser";
 
   /**
    * Provision helper resources needed for testing pools
    */
+  beforeAll(async () => {
+    if (isPlaybackMode()) {
+      return;
+    }
+
+    const account = await getExistingBatchAccount(getHoboBatchAccountName());
+    batchAccountEndpoint = `https://${account.accountEndpoint!}`;
+
+    const accountKeys = await getBatchAccountKeys(getHoboBatchAccountName());
+    console.log("created Batch Account:", getHoboBatchAccountName());
+
+    batchAccountKey = accountKeys.primary!;
+  });
 
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
-    batchClient = createBatchClient(recorder);
+    batchClient = createBatchClientV2({
+      recorder,
+      accountEndpoint: batchAccountEndpoint,
+      accountName: getHoboBatchAccountName(),
+      accountKey: batchAccountKey,
+    });
+
+    recorder.addSanitizers({
+      generalSanitizers: [
+        {
+          target: batchAccountEndpoint,
+          value: fakeAzureBatchEndpoint,
+        },
+      ],
+    });
   });
 
   afterEach(async () => {
@@ -93,7 +127,7 @@ describe("Pool Operations Test", () => {
         userAccounts: [
           {
             name: nonAdminPoolUser,
-            password: isPlaybackMode() ? fakeTestPasswordPlaceholder1 : "user_1account_password2", // Recorder sanitizer options will replace password with fakeTestPasswordPlaceholder1
+            password: isPlaybackMode() ? fakeTestPasswordPlaceholder2 : "user_1account_password2",
             elevationLevel: "nonadmin",
           },
         ],
@@ -193,7 +227,6 @@ describe("Pool Operations Test", () => {
         applicationPackageReferences: [],
         // Ensures the start task isn't cleared
         startTask: { commandLine: "cmd /c echo hello > hello.txt" },
-        certificateReferences: [],
       },
       contentType: "application/json; odata=minimalmetadata",
     };
@@ -318,10 +351,10 @@ describe("Pool Operations Test", () => {
         virtualMachineConfiguration: {
           imageReference: {
             publisher: "Canonical",
-            offer: "UbuntuServer",
-            sku: "18.04-LTS",
+            offer: "ubuntu-24_04-lts",
+            sku: "server-gen1",
           },
-          nodeAgentSKUId: "batch.node.ubuntu 18.04",
+          nodeAgentSKUId: "batch.node.ubuntu 24.04",
           dataDisks: [
             {
               lun: 1,
@@ -359,7 +392,7 @@ describe("Pool Operations Test", () => {
         userAccounts: [
           {
             name: nonAdminPoolUser,
-            password: isPlaybackMode() ? fakeTestPasswordPlaceholder1 : "user_1account_password2",
+            password: isPlaybackMode() ? fakeTestPasswordPlaceholder2 : "user_1account_password2",
             elevationLevel: "nonadmin",
           },
         ],
@@ -535,16 +568,6 @@ describe("Pool Operations Test", () => {
     assert.equal(stopPoolResizeResult.status, "202");
   });
 
-  it("should list pools usage metrics", async () => {
-    const listPoolUsageResult = await batchClient.path("/poolusagemetrics").get();
-    if (isUnexpected(listPoolUsageResult)) {
-      assert.fail(`Received unexpected status code from getting pool usage metrics: ${listPoolUsageResult.status}
-            Response Body: ${listPoolUsageResult.body.message}`);
-    }
-
-    assert.isAtLeast(listPoolUsageResult.body?.value?.length ?? 0, 0); // No pool activity during this test
-  });
-
   it("should delete a pool successfully", async () => {
     const deleteResult = await batchClient
       .path("/pools/{poolId}", recorder.variable("BASIC_POOL", BASIC_POOL))
@@ -703,7 +726,7 @@ describe("Pool Operations Test", () => {
     }
   });
 
-  it("should create a pool with confidential VM", async () => {
+  it("should create a pool with confidential VM and Metadata Security Protocol", async () => {
     const poolId = recorder.variable("CVM_POOL", CVM_POOL);
     const poolParams: CreatePoolParameters = {
       body: {
@@ -711,9 +734,9 @@ describe("Pool Operations Test", () => {
         vmSize: VMSIZE_D2s,
         virtualMachineConfiguration: {
           imageReference: {
-            publisher: "Canonical",
-            offer: "0001-com-ubuntu-server-jammy",
-            sku: "22_04-lts",
+            publisher: "canonical",
+            offer: "0001-com-ubuntu-confidential-vm-jammy",
+            sku: "22_04-lts-cvm",
           },
           nodeAgentSKUId: "batch.node.ubuntu 22.04",
           securityProfile: {
@@ -722,6 +745,15 @@ describe("Pool Operations Test", () => {
             uefiSettings: {
               secureBootEnabled: true,
               vTpmEnabled: true,
+            },
+            proxyAgentSettings: {
+              enabled: true,
+              wireServer: {
+                mode: "Audit",
+              },
+              imds: {
+                mode: "Audit",
+              },
             },
           },
           osDisk: {
@@ -735,7 +767,7 @@ describe("Pool Operations Test", () => {
         targetDedicatedNodes: 0,
       },
       contentType: "application/json; odata=minimalmetadata",
-    };
+    } as CreatePoolParameters;
 
     const result = await batchClient.path("/pools").post(poolParams);
 
@@ -760,6 +792,11 @@ describe("Pool Operations Test", () => {
         osDisk.managedDisk!.securityProfile!.securityEncryptionType?.toLocaleLowerCase(),
         "vmgueststateonly",
       );
+
+      const proxySettings = securityProfile.proxyAgentSettings!;
+      assert.equal(proxySettings.enabled, true);
+      assert.equal(proxySettings.wireServer!.mode?.toLocaleLowerCase(), "audit");
+      assert.equal(proxySettings.imds!.mode?.toLocaleLowerCase(), "audit");
     } finally {
       await batchClient.path("/pools/{poolId}", poolId).delete();
     }

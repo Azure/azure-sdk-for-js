@@ -125,6 +125,25 @@ export const CampaignBrief: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      privacyPolicyUrl: {
+        serializedName: "privacyPolicyUrl",
+        type: {
+          name: "String",
+        },
+      },
+      termsAndConditionsUrl: {
+        serializedName: "termsAndConditionsUrl",
+        type: {
+          name: "String",
+        },
+      },
+      businessRegistrationDetails: {
+        serializedName: "businessRegistrationDetails",
+        type: {
+          name: "Composite",
+          className: "BusinessRegistrationDetails",
+        },
+      },
     },
   },
 };
@@ -370,6 +389,42 @@ export const Option: coreClient.CompositeMapper = {
               name: "String",
             },
           },
+        },
+      },
+    },
+  },
+};
+
+export const BusinessRegistrationDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BusinessRegistrationDetails",
+    modelProperties: {
+      businessRegistrationNumber: {
+        constraints: {
+          MaxLength: 500,
+        },
+        serializedName: "businessRegistrationNumber",
+        type: {
+          name: "String",
+        },
+      },
+      businessEntityType: {
+        serializedName: "businessEntityType",
+        type: {
+          name: "String",
+        },
+      },
+      businessRegistrationType: {
+        serializedName: "businessRegistrationType",
+        type: {
+          name: "String",
+        },
+      },
+      businessRegistrationCountry: {
+        serializedName: "businessRegistrationCountry",
+        type: {
+          name: "String",
         },
       },
     },

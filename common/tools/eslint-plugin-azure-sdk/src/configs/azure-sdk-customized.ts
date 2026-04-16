@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { FlatConfig, SharedConfig } from "@typescript-eslint/utils/ts-eslint";
-import { fixupPluginRules } from "@eslint/compat";
+import { type FixupPluginDefinition, fixupPluginRules } from "@eslint/compat";
 import n from "eslint-plugin-n";
 import noOnlyTests from "eslint-plugin-no-only-tests";
 import tsdoc from "eslint-plugin-tsdoc";
@@ -11,6 +11,11 @@ const tsEslintCustomization: Record<string, SharedConfig.RuleEntry> = {
   "@typescript-eslint/no-invalid-this": "off",
   "@typescript-eslint/no-require-imports": "error",
   "@typescript-eslint/consistent-type-imports": "warn",
+  "@typescript-eslint/consistent-type-exports": "off",
+  "@azure/azure-sdk/ts-consistent-type-exports": [
+    "error",
+    { fixMixedExportsWithInlineTypeSpecifier: true },
+  ],
   "@typescript-eslint/no-use-before-define": ["error", { functions: false, classes: false }],
   "@typescript-eslint/explicit-module-boundary-types": ["error"],
   "@typescript-eslint/no-redeclare": ["error", { builtinGlobals: true }],
@@ -148,7 +153,7 @@ const noOnlyTestsCustomization = {
 const tsdocCustomization = {
   name: "tsdoc-azsdk-customized",
   plugins: {
-    tsdoc: fixupPluginRules(tsdoc),
+    tsdoc: fixupPluginRules(tsdoc as FixupPluginDefinition),
   },
   rules: {
     "tsdoc/syntax": "error",

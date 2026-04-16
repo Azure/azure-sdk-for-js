@@ -454,7 +454,7 @@ export interface ObservedEventOutput {
 // Warning: (ae-forgotten-export) The symbol "OnlineExperimentationClient_2" needs to be exported by the entry point index.d.ts
 //
 // @public
-export function OnlineExperimentationClient(endpointParam: string, credentials: TokenCredential, { apiVersion, ...options }?: OnlineExperimentationClientOptions): OnlineExperimentationClient_2;
+export function OnlineExperimentationClient(endpointParam: string, credentials: TokenCredential, input?: OnlineExperimentationClientOptions): OnlineExperimentationClient_2;
 
 // @public
 export interface OnlineExperimentationClientOptions extends ClientOptions {

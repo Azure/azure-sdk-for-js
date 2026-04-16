@@ -24,6 +24,11 @@ jobs:
       steps:
         - template: /eng/pipelines/templates/steps/use-node-version.yml
 
+        - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
+          parameters:
+            npmrcPath: $(CommonNpmrcPath)
+            registryUrl: '$(PublicDevOpsRegistry)'
+
         # As of npm v7, "npm install -g" no longer installs local dependencies as part of the global install.
         # As a workaround, we run "npm install --prod" before "npm install -g".
         # https://github.com/npm/cli/issues/2968

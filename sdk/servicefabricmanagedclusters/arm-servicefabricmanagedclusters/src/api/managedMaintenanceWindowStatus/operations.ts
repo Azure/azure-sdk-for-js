@@ -1,28 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricManagedClustersManagementContext as Client } from "../index.js";
+import type { ServiceFabricManagedClustersManagementContext as Client } from "../index.js";
+import type { ManagedMaintenanceWindowStatus } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  ManagedMaintenanceWindowStatus,
   managedMaintenanceWindowStatusDeserializer,
 } from "../../models/models.js";
-import { ManagedMaintenanceWindowStatusGetOptionalParams } from "./options.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { ManagedMaintenanceWindowStatusGetOptionalParams } from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _getSend(
   context: Client,
   resourceGroupName: string,
   clusterName: string,
-  options: ManagedMaintenanceWindowStatusGetOptionalParams = {
-    requestOptions: {},
-  },
+  options: ManagedMaintenanceWindowStatusGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/getMaintenanceWindowStatus{?api%2Dversion}",
@@ -30,7 +24,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -38,10 +32,7 @@ export function _getSend(
   );
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -63,9 +54,7 @@ export async function get(
   context: Client,
   resourceGroupName: string,
   clusterName: string,
-  options: ManagedMaintenanceWindowStatusGetOptionalParams = {
-    requestOptions: {},
-  },
+  options: ManagedMaintenanceWindowStatusGetOptionalParams = { requestOptions: {} },
 ): Promise<ManagedMaintenanceWindowStatus> {
   const result = await _getSend(context, resourceGroupName, clusterName, options);
   return _getDeserialize(result);

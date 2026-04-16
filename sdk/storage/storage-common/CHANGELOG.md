@@ -1,14 +1,39 @@
 # Release History
 
-## 12.1.1 (Unreleased)
+## 12.4.0-beta.1 (2026-03-05)
 
 ### Features Added
 
-### Breaking Changes
+- Added functions `structuredMessageDecodingStream` and `structuredMessageEncoding` to parsing and construct structured message with CRC64 checksum for content validation.
+- Added property of `signedDelegatedUserTid` in `UserDelegationKey`
+
+## 12.3.0 (2026-02-03)
+
+### Features Added
+
+- Added `NodeJSReadableStream` interface that extends `NodeJS.ReadableStream` with a `destroy()` method, enabling type-safe stream cancellation across storage packages.
 
 ### Bugs Fixed
 
-### Other Changes
+- Fixed duplicate ESM exports that caused compatibility issues with ESM loaders like `import-in-the-middle`.
+
+## 12.2.0 (2026-01-16)
+
+### Features Added
+
+- Includes all features released in 12.2.0-beta.1
+
+## 12.2.0-beta.1 (2025-11-24)
+
+### Features Added
+
+- Added support for UserDelegationKeyCredential.
+
+## 12.1.1 (2025-10-16)
+
+### Features Added
+
+- Includes all features released in 12.1.0-beta.1
 
 ## 12.0.0 (2025-07-22)
 

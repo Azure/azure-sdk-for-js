@@ -29,7 +29,8 @@ export interface PageList {
  * Contains response data for the {@link BlobClient.getPageRanges} operation.
  */
 export interface PageBlobGetPageRangesResponse
-  extends PageList,
+  extends
+    PageList,
     PageBlobGetPageRangesHeaders,
     ResponseWithBody<PageBlobGetPageRangesHeaders, PageList> {}
 
@@ -37,7 +38,8 @@ export interface PageBlobGetPageRangesResponse
  * Contains response data for the {@link BlobClient.getPageRangesDiff} operation.
  */
 export interface PageBlobGetPageRangesDiffResponse
-  extends PageList,
+  extends
+    PageList,
     PageBlobGetPageRangesDiffHeaders,
     ResponseWithBody<PageBlobGetPageRangesDiffHeaders, PageList> {}
 

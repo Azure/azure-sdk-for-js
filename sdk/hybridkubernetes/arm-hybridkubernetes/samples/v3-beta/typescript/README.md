@@ -67,7 +67,7 @@ node dist/connectedClusterCreateOrReplaceSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env HYBRIDKUBERNETES_SUBSCRIPTION_ID="<hybridkubernetes subscription id>" HYBRIDKUBERNETES_RESOURCE_GROUP="<hybridkubernetes resource group>" node dist/connectedClusterCreateOrReplaceSample.js
+cross-env HYBRIDKUBERNETES_SUBSCRIPTION_ID="<hybridkubernetes subscription id>" HYBRIDKUBERNETES_RESOURCE_GROUP="<hybridkubernetes resource group>" node dist/connectedClusterCreateOrReplaceSample.js
 ```
 
 ## Next Steps

@@ -6,4 +6,4 @@ declare global {
 }
 
 export { AbortError } from "./AbortError.js";
-export { AbortSignalLike } from "./AbortSignalLike.js";
+export type { AbortSignalLike } from "./AbortSignalLike.js";

@@ -4,9 +4,9 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { ClientOptions } from '@azure-rest/core-client';
-import { TokenCredential } from '@azure/core-auth';
+import type { Client } from '@azure-rest/core-client';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export function createStorage(credential: TokenCredential, subscriptionId: string, options?: StorageClientOptionalParams): StorageContext;
@@ -14,6 +14,7 @@ export function createStorage(credential: TokenCredential, subscriptionId: strin
 // @public
 export interface StorageClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public

@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-edgeactions": ["./src/index.ts"],
+      "@azure/arm-edgeactions/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

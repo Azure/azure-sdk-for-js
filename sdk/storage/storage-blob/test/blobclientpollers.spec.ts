@@ -69,7 +69,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     const poller = await newBlobClient.beginCopyFromURL(blobClient.url, testPollerProperties);
 
     const result = await poller.pollUntilDone();
-    assert.ok(result.copyId);
+    assert.isDefined(result.copyId);
 
     const properties1 = await blobClient.getProperties();
     const properties2 = await newBlobClient.getProperties();
@@ -78,7 +78,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
 
     // A service feature is being rolling out which will sanitize the sig field
     // so we remove it before comparing urls.
-    assert.ok(properties2.copySource, "Expecting valid 'properties2.copySource");
+    assert.isDefined(properties2.copySource, "Expecting valid 'properties2.copySource");
 
     const sanitizedActualUrl = new URL(properties2.copySource!);
     sanitizedActualUrl.searchParams.delete("sig");
@@ -109,8 +109,8 @@ describe("BlobClient beginCopyFromURL Poller", () => {
       }
     } while (!poller.isDone());
 
-    assert.ok(result!);
-    assert.ok(result!.copyId);
+    assert.isDefined(result!);
+    assert.isDefined(result!.copyId);
 
     const properties1 = await blobClient.getProperties();
     const properties2 = await newBlobClient.getProperties();
@@ -119,7 +119,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
 
     // A service feature is being rolling out which will sanitize the sig field
     // so we remove it before comparing urls.
-    assert.ok(properties2.copySource, "Expecting valid 'properties2.copySource");
+    assert.isDefined(properties2.copySource, "Expecting valid 'properties2.copySource");
 
     const sanitizedActualUrl = new URL(properties2.copySource!);
     sanitizedActualUrl.searchParams.delete("sig");
@@ -211,7 +211,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
       ...testPollerProperties,
     });
     const result = await poller2.pollUntilDone();
-    assert.ok(result.copyId);
+    assert.isDefined(result.copyId);
     assert.equal(result.copyStatus, "success", "Poller2 copy failed.");
   });
 });

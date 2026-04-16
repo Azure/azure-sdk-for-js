@@ -3,8 +3,10 @@
 
 import { logger } from "../logger.js";
 import { KnownVersions } from "../models/models.js";
-import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
-import { TokenCredential } from "@azure/core-auth";
+import type { Client, ClientOptions } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
+import type { TokenCredential } from "@azure/core-auth";
+import { SDK_VERSION } from "../constants.js";
 
 /** The key vault client performs cryptographic key operations and vault operations against the Key Vault service. */
 export interface KeyVaultContext extends Client {
@@ -28,7 +30,7 @@ export function createKeyVault(
 ): KeyVaultContext {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? String(endpointParam);
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-keyvault-certificates/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-keyvault-certificates/${SDK_VERSION}`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;
@@ -42,7 +44,7 @@ export function createKeyVault(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  const apiVersion = options.apiVersion ?? "7.6";
+  const apiVersion = options.apiVersion ?? KnownVersions.V20250701;
   clientContext.pipeline.addPolicy({
     name: "ClientApiVersionPolicy",
     sendRequest: (req, next) => {

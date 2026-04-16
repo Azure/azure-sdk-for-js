@@ -1,37 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
+import type { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
 import {
-  FaultSimulationIdContent,
-  FaultSimulation,
-  FaultSimulationContentWrapper,
-  NodeType,
-  NodeTypeUpdateParameters,
-  NodeTypeActionParameters,
-} from "../../models/models.js";
-import {
-  NodeTypesListFaultSimulationOptionalParams,
-  NodeTypesGetFaultSimulationOptionalParams,
-  NodeTypesStopFaultSimulationOptionalParams,
-  NodeTypesStartFaultSimulationOptionalParams,
-  NodeTypesStartOptionalParams,
-  NodeTypesRestartOptionalParams,
-  NodeTypesReimageOptionalParams,
-  NodeTypesRedeployOptionalParams,
-  NodeTypesDeleteNodeOptionalParams,
-  NodeTypesDeallocateOptionalParams,
-  NodeTypesListByManagedClustersOptionalParams,
-  NodeTypesDeleteOptionalParams,
-  NodeTypesUpdateOptionalParams,
-  NodeTypesCreateOrUpdateOptionalParams,
-  NodeTypesGetOptionalParams,
-} from "../../api/nodeTypes/options.js";
-import {
-  listFaultSimulation,
-  getFaultSimulation,
-  stopFaultSimulation,
-  startFaultSimulation,
   start,
   restart,
   reimage,
@@ -44,42 +15,29 @@ import {
   createOrUpdate,
   get,
 } from "../../api/nodeTypes/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  NodeTypesStartOptionalParams,
+  NodeTypesRestartOptionalParams,
+  NodeTypesReimageOptionalParams,
+  NodeTypesRedeployOptionalParams,
+  NodeTypesDeleteNodeOptionalParams,
+  NodeTypesDeallocateOptionalParams,
+  NodeTypesListByManagedClustersOptionalParams,
+  NodeTypesDeleteOptionalParams,
+  NodeTypesUpdateOptionalParams,
+  NodeTypesCreateOrUpdateOptionalParams,
+  NodeTypesGetOptionalParams,
+} from "../../api/nodeTypes/options.js";
+import type {
+  NodeType,
+  NodeTypeUpdateParameters,
+  NodeTypeActionParameters,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a NodeTypes operations. */
 export interface NodeTypesOperations {
-  /** Gets the list of recent fault simulations for the node type. */
-  listFaultSimulation: (
-    resourceGroupName: string,
-    clusterName: string,
-    nodeTypeName: string,
-    options?: NodeTypesListFaultSimulationOptionalParams,
-  ) => PagedAsyncIterableIterator<FaultSimulation>;
-  /** Gets a fault simulation by the simulationId. */
-  getFaultSimulation: (
-    resourceGroupName: string,
-    clusterName: string,
-    nodeTypeName: string,
-    parameters: FaultSimulationIdContent,
-    options?: NodeTypesGetFaultSimulationOptionalParams,
-  ) => Promise<FaultSimulation>;
-  /** Stops a fault simulation on the node type. */
-  stopFaultSimulation: (
-    resourceGroupName: string,
-    clusterName: string,
-    nodeTypeName: string,
-    parameters: FaultSimulationIdContent,
-    options?: NodeTypesStopFaultSimulationOptionalParams,
-  ) => PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
-  /** Starts a fault simulation on the node type. */
-  startFaultSimulation: (
-    resourceGroupName: string,
-    clusterName: string,
-    nodeTypeName: string,
-    parameters: FaultSimulationContentWrapper,
-    options?: NodeTypesStartFaultSimulationOptionalParams,
-  ) => PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
   /** Starts one or more nodes on the node type. It will trigger an allocation of the fabric node if needed and activate them. */
   start: (
     resourceGroupName: string,
@@ -146,7 +104,7 @@ export interface NodeTypesOperations {
     nodeTypeName: string,
     options?: NodeTypesDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
-  /** Update the configuration of a node type of a given managed cluster, only updating tags. */
+  /** Update the configuration of a node type of a given managed cluster, only updating tags or capacity. */
   update: (
     resourceGroupName: string,
     clusterName: string,
@@ -173,57 +131,6 @@ export interface NodeTypesOperations {
 
 function _getNodeTypes(context: ServiceFabricManagedClustersManagementContext) {
   return {
-    listFaultSimulation: (
-      resourceGroupName: string,
-      clusterName: string,
-      nodeTypeName: string,
-      options?: NodeTypesListFaultSimulationOptionalParams,
-    ) => listFaultSimulation(context, resourceGroupName, clusterName, nodeTypeName, options),
-    getFaultSimulation: (
-      resourceGroupName: string,
-      clusterName: string,
-      nodeTypeName: string,
-      parameters: FaultSimulationIdContent,
-      options?: NodeTypesGetFaultSimulationOptionalParams,
-    ) =>
-      getFaultSimulation(
-        context,
-        resourceGroupName,
-        clusterName,
-        nodeTypeName,
-        parameters,
-        options,
-      ),
-    stopFaultSimulation: (
-      resourceGroupName: string,
-      clusterName: string,
-      nodeTypeName: string,
-      parameters: FaultSimulationIdContent,
-      options?: NodeTypesStopFaultSimulationOptionalParams,
-    ) =>
-      stopFaultSimulation(
-        context,
-        resourceGroupName,
-        clusterName,
-        nodeTypeName,
-        parameters,
-        options,
-      ),
-    startFaultSimulation: (
-      resourceGroupName: string,
-      clusterName: string,
-      nodeTypeName: string,
-      parameters: FaultSimulationContentWrapper,
-      options?: NodeTypesStartFaultSimulationOptionalParams,
-    ) =>
-      startFaultSimulation(
-        context,
-        resourceGroupName,
-        clusterName,
-        nodeTypeName,
-        parameters,
-        options,
-      ),
     start: (
       resourceGroupName: string,
       clusterName: string,

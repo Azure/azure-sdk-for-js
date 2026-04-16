@@ -38,6 +38,7 @@ export type PlaywrightServiceAdditionalOptions = {
     connectTimeout?: number;
     slowMo?: number;
     exposeNetwork?: string;
+    useCloudHostedBrowsers?: boolean;
     credential?: TokenCredential;
     runName?: string;
     apiVersion?: "2025-09-01";

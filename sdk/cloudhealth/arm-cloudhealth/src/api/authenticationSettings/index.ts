@@ -3,8 +3,8 @@
 
 export { listByHealthModel, $delete, createOrUpdate, get } from "./operations.js";
 export {
-  AuthenticationSettingsListByHealthModelOptionalParams,
-  AuthenticationSettingsDeleteOptionalParams,
-  AuthenticationSettingsCreateOrUpdateOptionalParams,
-  AuthenticationSettingsGetOptionalParams,
+  type AuthenticationSettingsListByHealthModelOptionalParams,
+  type AuthenticationSettingsDeleteOptionalParams,
+  type AuthenticationSettingsCreateOrUpdateOptionalParams,
+  type AuthenticationSettingsGetOptionalParams,
 } from "./options.js";

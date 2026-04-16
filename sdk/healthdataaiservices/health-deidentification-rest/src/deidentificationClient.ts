@@ -22,9 +22,9 @@ export interface DeidentificationClientOptions extends ClientOptions {
 export default function createClient(
   endpointParam: string,
   credentials: TokenCredential,
-  { apiVersion = "2024-11-15", ...options }: DeidentificationClientOptions = {},
+  { apiVersion = "2025-07-15-preview", ...options }: DeidentificationClientOptions = {},
 ): DeidentificationClient {
-  const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}`;
+  const endpointUrl = options.endpoint ?? `${endpointParam}`;
   const userAgentInfo = `azsdk-js-health-deidentification-rest/1.0.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix

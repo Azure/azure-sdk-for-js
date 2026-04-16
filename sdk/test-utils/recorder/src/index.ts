@@ -4,22 +4,22 @@
 export { Recorder } from "./recorder.js";
 export { relativeRecordingsPath } from "./utils/relativePathCalculator.js";
 export {
-  SanitizerOptions,
-  RecorderStartOptions,
+  type SanitizerOptions,
+  type RecorderStartOptions,
   isLiveMode,
   isPlaybackMode,
   isRecordMode,
   assertEnvironmentVariable,
   setEnvironmentVariables,
   testPollingOptions,
-  FindReplaceSanitizer,
-  RegexSanitizer,
-  StringSanitizer,
-  HeaderSanitizer,
-  ConnectionStringSanitizer,
-  RemoveHeaderSanitizer,
+  type FindReplaceSanitizer,
+  type RegexSanitizer,
+  type StringSanitizer,
+  type HeaderSanitizer,
+  type ConnectionStringSanitizer,
+  type RemoveHeaderSanitizer,
 } from "./utils/utils.js";
 export { delay } from "./utils/delay.js";
 export { env } from "./utils/env.js";
-export { CustomMatcherOptions } from "./matcher.js";
-export { TestInfo, VitestTestContext, isVitestTestContext } from "./testInfo.js";
+export type { CustomMatcherOptions } from "./matcher.js";
+export { type TestInfo, type VitestTestContext, isVitestTestContext } from "./testInfo.js";

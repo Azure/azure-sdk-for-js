@@ -44,7 +44,7 @@ export interface CheckPrincipalAccessResponseOutput {
 }
 
 // @public
-function createClient(endpoint: string, credentials: TokenCredential, { apiVersion, ...options }?: AccessControlRestClientOptions): AccessControlRestClient;
+function createClient(endpoint: string, credentials: TokenCredential, input?: AccessControlRestClientOptions): AccessControlRestClient;
 export default createClient;
 
 // @public

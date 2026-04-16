@@ -1,33 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Delete a backup instance in a backup vault
- *
- * @summary Delete a backup instance in a backup vault
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2025-07-01/examples/BackupInstanceOperations/DeleteBackupInstance.json
- */
-
 import { DataProtectionClient } from "@azure/arm-dataprotection";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to delete a backup instance in a backup vault
+ *
+ * @summary delete a backup instance in a backup vault
+ * x-ms-original-file: 2025-07-01/BackupInstanceOperations/DeleteBackupInstance.json
+ */
 async function deleteBackupInstance(): Promise<void> {
-  const subscriptionId =
-    process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
-    "04cf684a-d41f-4550-9f70-7708a3a2283b";
-  const resourceGroupName =
-    process.env["DATAPROTECTION_RESOURCE_GROUP"] || "000pikumar";
-  const vaultName = "PratikPrivatePreviewVault1";
-  const backupInstanceName = "testInstance1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "04cf684a-d41f-4550-9f70-7708a3a2283b";
   const client = new DataProtectionClient(credential, subscriptionId);
-  const result = await client.backupInstances.beginDeleteAndWait(
-    resourceGroupName,
-    vaultName,
-    backupInstanceName,
-  );
-  console.log(result);
+  await client.backupInstances.delete("000pikumar", "PratikPrivatePreviewVault1", "testInstance1");
 }
 
 async function main(): Promise<void> {

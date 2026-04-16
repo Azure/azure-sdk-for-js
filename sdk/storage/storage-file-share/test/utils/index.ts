@@ -291,3 +291,13 @@ export async function compareBodyWithUint8Array(
   const buf = await streamToBuffer(response.readableStreamBody!);
   return buf.equals(Buffer.from(uint8arry.buffer, uint8arry.byteOffset, uint8arry.byteLength));
 }
+
+export function getSignatureFromSasUrl(sasUrl: string): string {
+  const url = new URL(sasUrl);
+  const signature = url.searchParams.get("sig");
+  return signature!;
+}
+
+export function parseJwt(token: string): any {
+  return JSON.parse(Buffer.from(token.split(".")[1], "base64").toString());
+}

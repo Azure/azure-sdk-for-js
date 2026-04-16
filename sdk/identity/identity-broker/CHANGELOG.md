@@ -1,16 +1,16 @@
 # Release History
 
-## 1.3.0 (Unreleased)
+## 1.4.0 (2026-04-08)
+
+### Other Changes
+
+- Updated `@azure/msal-node` to `^5.1.0` and `@azure/msal-node-extensions` to `^5.1.0`. [#37780](https://github.com/Azure/azure-sdk-for-js/pull/37780)
+
+## 1.3.0 (2025-11-06)
 
 ### Features Added
 
-- Added support for Mac OS broker authentication. [#35683](https://github.com/Azure/azure-sdk-for-js/pull/35683)
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Added support for Linux broker authentication. [#36460](https://github.com/Azure/azure-sdk-for-js/pull/36460)
 
 ## 1.2.0 (2025-02-18)
 

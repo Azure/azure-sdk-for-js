@@ -64,6 +64,7 @@ import { DependencyTypes } from "../../src/utils/constants/applicationinsights.j
 import { hrTimeToDate } from "../../src/utils/common.js";
 import { describe, it, assert } from "vitest";
 import { spanToReadableSpan } from "../utils/spanToReadableSpan.js";
+import { APPLICATION_ID_RESOURCE_KEY } from "../../src/Declarations/Constants.js";
 
 const context = getInstance();
 
@@ -87,19 +88,21 @@ function assertEnvelope(
   expectedTags: Tags,
   expectedProperties: Properties,
   expectedMeasurements: Measurements | undefined,
-  expectedBaseData: Partial<RequestData | RemoteDependencyData>,
+  expectedBaseData: Partial<
+    RequestData | RemoteDependencyData | TelemetryExceptionData | MessageData
+  >,
   expectedTime?: Date,
 ): void {
   assert.strictEqual(Context.sdkVersion, packageJson.version);
-  assert.ok(envelope);
+  assert.isDefined(envelope);
   assert.strictEqual(envelope.name, name);
   assert.strictEqual(envelope.sampleRate, sampleRate);
   assert.deepStrictEqual(envelope.data?.baseType, baseType);
 
   assert.strictEqual(envelope.instrumentationKey, "ikey");
-  assert.ok(envelope.time);
-  assert.ok(envelope.version);
-  assert.ok(envelope.data);
+  assert.isDefined(envelope.time);
+  assert.isDefined(envelope.version);
+  assert.isDefined(envelope.data);
 
   if (expectedTime) {
     assert.deepStrictEqual(envelope.time, expectedTime);
@@ -123,8 +126,10 @@ function assertEnvelope(
     expectedMeasurements,
   );
   // Not posibble to get specific time + duration in these tests
-  if (envelope.data?.baseData) {
-    delete envelope.data.baseData.duration;
+  const baseData = envelope.data?.baseData as any;
+  if (baseData) {
+    delete baseData.duration;
+    delete baseData.kind;
   }
   assert.deepStrictEqual(envelope.data?.baseData, expectedBaseData as MonitorDomain);
 }
@@ -133,6 +138,30 @@ const emptyMeasurements: Measurements = {};
 
 describe("spanUtils.ts", () => {
   describe("#readableSpanToEnvelope", () => {
+    it("does not attach applicationId to span envelopes", () => {
+      const tracerWithAppId = new BasicTracerProvider({
+        resource: resourceFromAttributes({
+          [SEMRESATTRS_SERVICE_INSTANCE_ID]: "instance-id",
+          [SEMRESATTRS_SERVICE_NAME]: "svc",
+          [SEMRESATTRS_SERVICE_NAMESPACE]: "ns",
+          [APPLICATION_ID_RESOURCE_KEY]: "app-from-resource",
+        }),
+      }).getTracer("appIdTracer");
+
+      const span = tracerWithAppId.startSpan("span-with-app-id", { kind: SpanKind.CLIENT });
+      span.end();
+      const readableSpan = spanToReadableSpan(span);
+
+      const envelope = readableSpanToEnvelope(readableSpan, "ikey");
+
+      assert.isUndefined(envelope.tags?.[APPLICATION_ID_RESOURCE_KEY]);
+      assert.isUndefined(
+        (envelope.data?.baseData as Partial<RequestData | RemoteDependencyData>)?.properties?.[
+          APPLICATION_ID_RESOURCE_KEY
+        ],
+      );
+    });
+
     describe("GRPC", () => {
       it("should create a Request Envelope for Server Spans", () => {
         const spanOptions: SpanOptions = {
@@ -501,7 +530,7 @@ describe("spanUtils.ts", () => {
         const expectedProperties = {
           "az.namespace": "Microsoft.EventHub",
         };
-        const expectedBaseData: Partial<RequestData> = {
+        const expectedBaseData: Partial<RemoteDependencyData> = {
           id: `${span.spanContext().spanId}`,
           name: "span",
           success: true,
@@ -995,7 +1024,11 @@ describe("spanUtils.ts", () => {
         const readableSpan = spanToReadableSpan(span);
 
         const envelope = readableSpanToEnvelope(readableSpan, "ikey");
-        assert.strictEqual(envelope.data!.baseData!.success, false);
+        const requestData = (envelope as any).data?.baseData;
+        if (!requestData || !("responseCode" in requestData)) {
+          assert.fail("Expected RequestData");
+        }
+        assert.strictEqual(requestData.success, false);
       });
       it("Request Envelope should not override user set SpanStatus", () => {
         const spanOptions: SpanOptions = {
@@ -1010,7 +1043,11 @@ describe("spanUtils.ts", () => {
         span.end();
         const readableSpan = spanToReadableSpan(span);
         const envelope = readableSpanToEnvelope(readableSpan, "ikey");
-        assert.strictEqual(envelope.data!.baseData!.success, true);
+        const requestData = (envelope as any).data?.baseData;
+        if (!requestData || !("responseCode" in requestData)) {
+          assert.fail("Expected RequestData");
+        }
+        assert.strictEqual(requestData.success, true);
       });
     });
 
@@ -1472,7 +1509,7 @@ describe("spanUtils.ts", () => {
 
     const expectedTags: Tags = {};
     expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
-    assert.ok(envelopes.length === 1);
+    assert.equal(envelopes.length, 1);
   });
   it("should create message envelope for span events", () => {
     const spanOptions: SpanOptions = {
@@ -1535,6 +1572,52 @@ describe("spanUtils.ts", () => {
       expectedBaseData,
     );
   });
+  it("should truncate custom properties at 13-bit limit for spans", () => {
+    // Create a property value that exceeds the 13-bit (8192 byte) limit
+    const longPropertyValue = "a".repeat(MaxPropertyLengths.THIRTEEN_BIT + 1000);
+    const spanOptions: SpanOptions = {
+      kind: SpanKind.SERVER,
+    };
+    const span = tracer.startSpan("span", spanOptions, ROOT_CONTEXT);
+    span.setAttributes({
+      "custom.longProperty": longPropertyValue,
+    });
+    span.setStatus({
+      code: SpanStatusCode.OK,
+    });
+    span.end();
+    const readableSpan = spanToReadableSpan(span);
+    const envelope = readableSpanToEnvelope(readableSpan, "ikey");
+
+    // Verify the property value IS truncated to 8KB
+    const resultValue = (envelope as any).data?.baseData?.properties?.["custom.longProperty"];
+    assert.isTrue(
+      Buffer.byteLength(resultValue, "utf-8") <= MaxPropertyLengths.THIRTEEN_BIT,
+      "Custom properties should be truncated at 13-bit limit",
+    );
+  });
+  it("should truncate custom properties at 13-bit limit for span events", () => {
+    // Create a property value that exceeds the 13-bit (8192 byte) limit
+    const longPropertyValue = "b".repeat(MaxPropertyLengths.THIRTEEN_BIT + 500);
+    const spanOptions: SpanOptions = {
+      kind: SpanKind.SERVER,
+    };
+    const span = tracer.startSpan("span", spanOptions, ROOT_CONTEXT);
+    span.addEvent("test-event", {
+      "custom.longEventProperty": longPropertyValue,
+    });
+    span.end();
+    const envelopes = spanEventsToEnvelopes(spanToReadableSpan(span), "ikey");
+
+    // Verify the property value IS truncated to 8KB
+    const resultValue = (envelopes[0].data?.baseData as MessageData)?.properties?.[
+      "custom.longEventProperty"
+    ];
+    assert.isTrue(
+      Buffer.byteLength(resultValue!, "utf-8") <= MaxPropertyLengths.THIRTEEN_BIT,
+      "Custom properties on span events should be truncated at 13-bit limit",
+    );
+  });
   it("should ensure ATTR_ENDUSER_ID is not included in properties", () => {
     const spanOptions: SpanOptions = {
       kind: SpanKind.SERVER,
@@ -1583,7 +1666,9 @@ describe("spanUtils.ts", () => {
 
     // Specifically verify that ATTR_ENDUSER_ID is not in properties
     assert.ok(
-      !envelope.data?.baseData?.properties?.[experimentalOpenTelemetryValues.ATTR_ENDUSER_ID],
+      !(envelope as any).data?.baseData?.properties?.[
+        experimentalOpenTelemetryValues.ATTR_ENDUSER_ID
+      ],
       "ATTR_ENDUSER_ID should not be included in properties",
     );
   });
@@ -1636,7 +1721,7 @@ describe("spanUtils.ts", () => {
 
     // Specifically verify that ATTR_ENDUSER_PSEUDO_ID is not in properties
     assert.ok(
-      !envelope.data?.baseData?.properties?.[
+      !(envelope as any).data?.baseData?.properties?.[
         experimentalOpenTelemetryValues.ATTR_ENDUSER_PSEUDO_ID
       ],
       "ATTR_ENDUSER_PSEUDO_ID should not be included in properties",

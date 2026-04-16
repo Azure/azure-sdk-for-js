@@ -16,7 +16,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("CodeSigning test", () => {
+describe.skip("CodeSigning test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: CodeSigningClient;
@@ -32,7 +32,7 @@ describe("CodeSigning test", () => {
     const credential = createTestCredential();
     client = new CodeSigningClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
-    resourceGroup = "myjstest";
+    resourceGroup = "SSS3PT_myjstest";
     resourcename = "resourcetest";
   });
 

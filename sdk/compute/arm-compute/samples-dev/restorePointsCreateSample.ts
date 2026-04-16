@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { RestorePoint} from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to The operation to create the restore point. Updating properties of an existing restore point is not allowed
  *
  * @summary The operation to create the restore point. Updating properties of an existing restore point is not allowed
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/restorePointExamples/RestorePoint_Copy_BetweenRegions.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/restorePointExamples/RestorePoint_Copy_BetweenRegions.json
  */
-
-import { RestorePoint, ComputeManagementClient } from "@azure/arm-compute";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function copyARestorePointToADifferentRegion(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -39,7 +39,7 @@ async function copyARestorePointToADifferentRegion(): Promise<void> {
  * This sample demonstrates how to The operation to create the restore point. Updating properties of an existing restore point is not allowed
  *
  * @summary The operation to create the restore point. Updating properties of an existing restore point is not allowed
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/restorePointExamples/RestorePoint_Create.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/restorePointExamples/RestorePoint_Create.json
  */
 async function createARestorePoint(): Promise<void> {
   const subscriptionId =
@@ -54,6 +54,7 @@ async function createARestorePoint(): Promise<void> {
         id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/disk123",
       },
     ],
+    instantAccessDurationMinutes: 120,
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);

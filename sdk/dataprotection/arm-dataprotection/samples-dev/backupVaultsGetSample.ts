@@ -1,72 +1,55 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Returns a resource belonging to a resource group.
- *
- * @summary Returns a resource belonging to a resource group.
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2025-07-01/examples/VaultCRUD/GetBackupVault.json
- */
-
 import { DataProtectionClient } from "@azure/arm-dataprotection";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to returns a resource belonging to a resource group.
+ *
+ * @summary returns a resource belonging to a resource group.
+ * x-ms-original-file: 2025-07-01/VaultCRUD/GetBackupVault.json
+ */
 async function getBackupVault(): Promise<void> {
-  const subscriptionId =
-    process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
-    "0b352192-dcac-4cc7-992e-a96190ccc68c";
-  const resourceGroupName =
-    process.env["DATAPROTECTION_RESOURCE_GROUP"] || "SampleResourceGroup";
-  const vaultName = "swaggerExample";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "0b352192-dcac-4cc7-992e-a96190ccc68c";
   const client = new DataProtectionClient(credential, subscriptionId);
-  const result = await client.backupVaults.get(resourceGroupName, vaultName);
+  const result = await client.backupVaults.get("SampleResourceGroup", "swaggerExample");
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Returns a resource belonging to a resource group.
+ * This sample demonstrates how to returns a resource belonging to a resource group.
  *
- * @summary Returns a resource belonging to a resource group.
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2025-07-01/examples/VaultCRUD/GetBackupVaultWithCMK.json
+ * @summary returns a resource belonging to a resource group.
+ * x-ms-original-file: 2025-07-01/VaultCRUD/GetBackupVaultWithCMK.json
  */
-async function getBackupVaultWithCmk(): Promise<void> {
-  const subscriptionId =
-    process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
-    "0b352192-dcac-4cc7-992e-a96190ccc68c";
-  const resourceGroupName =
-    process.env["DATAPROTECTION_RESOURCE_GROUP"] || "SampleResourceGroup";
-  const vaultName = "swaggerExample";
+async function getBackupVaultWithCMK(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "0b352192-dcac-4cc7-992e-a96190ccc68c";
   const client = new DataProtectionClient(credential, subscriptionId);
-  const result = await client.backupVaults.get(resourceGroupName, vaultName);
+  const result = await client.backupVaults.get("SampleResourceGroup", "swaggerExample");
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Returns a resource belonging to a resource group.
+ * This sample demonstrates how to returns a resource belonging to a resource group.
  *
- * @summary Returns a resource belonging to a resource group.
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2025-07-01/examples/VaultCRUD/GetBackupVaultWithMSI.json
+ * @summary returns a resource belonging to a resource group.
+ * x-ms-original-file: 2025-07-01/VaultCRUD/GetBackupVaultWithMSI.json
  */
-async function getBackupVaultWithMsi(): Promise<void> {
-  const subscriptionId =
-    process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
-    "0b352192-dcac-4cc7-992e-a96190ccc68c";
-  const resourceGroupName =
-    process.env["DATAPROTECTION_RESOURCE_GROUP"] || "SampleResourceGroup";
-  const vaultName = "swaggerExample";
+async function getBackupVaultWithMSI(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "0b352192-dcac-4cc7-992e-a96190ccc68c";
   const client = new DataProtectionClient(credential, subscriptionId);
-  const result = await client.backupVaults.get(resourceGroupName, vaultName);
+  const result = await client.backupVaults.get("SampleResourceGroup", "swaggerExample");
   console.log(result);
 }
 
 async function main(): Promise<void> {
   await getBackupVault();
-  await getBackupVaultWithCmk();
-  await getBackupVaultWithMsi();
+  await getBackupVaultWithCMK();
+  await getBackupVaultWithMSI();
 }
 
 main().catch(console.error);

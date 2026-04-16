@@ -53,9 +53,7 @@ function createMockEnvelopes(
       instrumentationKey: "00000000-0000-0000-0000-000000000000",
       data: {
         baseType: baseType,
-        baseData: {
-          version: 2,
-        },
+        baseData: undefined,
       },
     };
 
@@ -77,9 +75,9 @@ describe("CustomerSDKStatsMetrics", () => {
     endpointUrl: "https://test.endpoint.com",
   };
 
-  beforeEach(() => {
-    // Use getInstance to get the singleton
-    customerSDKStatsMetrics = CustomerSDKStatsMetrics.getInstance(mockOptions);
+  beforeEach(async () => {
+    // Use getInstance to get the singleton (now async)
+    customerSDKStatsMetrics = await CustomerSDKStatsMetrics.getInstance(mockOptions);
   });
 
   afterEach(async () => {

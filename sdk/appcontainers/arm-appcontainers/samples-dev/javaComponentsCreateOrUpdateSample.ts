@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates a Java Component in a Managed Environment.
- *
- * @summary Creates or updates a Java Component in a Managed Environment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/JavaComponents_CreateOrUpdate.json
- */
-
+import type {
+  JavaComponent} from "@azure/arm-appcontainers";
 import {
-  JavaComponent,
   ContainerAppsAPIClient,
 } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Creates or updates a Java Component in a Managed Environment.
+ *
+ * @summary Creates or updates a Java Component in a Managed Environment.
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/JavaComponents_CreateOrUpdate.json
+ */
 async function createOrUpdateJavaComponent(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
@@ -51,7 +51,7 @@ async function createOrUpdateJavaComponent(): Promise<void> {
  * This sample demonstrates how to Creates or updates a Java Component in a Managed Environment.
  *
  * @summary Creates or updates a Java Component in a Managed Environment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/JavaComponents_CreateOrUpdate_ServiceBind.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/JavaComponents_CreateOrUpdate_ServiceBind.json
  */
 async function createOrUpdateJavaComponentWithServiceBinds(): Promise<void> {
   const subscriptionId =

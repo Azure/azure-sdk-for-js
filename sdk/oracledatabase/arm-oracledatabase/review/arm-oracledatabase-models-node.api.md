@@ -138,7 +138,7 @@ export interface AutonomousDatabaseBaseProperties {
     readonly provisioningState?: AzureResourceProvisioningState;
     readonly remoteDisasterRecoveryConfiguration?: DisasterRecoveryConfigurationDetails;
     role?: RoleType;
-    scheduledOperations?: ScheduledOperationsType;
+    scheduledOperationsList?: ScheduledOperationsType[];
     readonly serviceConsoleUrl?: string;
     readonly sqlWebDeveloperUrl?: string;
     subnetId?: string;
@@ -209,6 +209,14 @@ export interface AutonomousDatabaseFromBackupTimestampProperties extends Autonom
 }
 
 // @public
+export interface AutonomousDatabaseLifecycleAction {
+    action: AutonomousDatabaseLifecycleActionEnum;
+}
+
+// @public
+export type AutonomousDatabaseLifecycleActionEnum = string;
+
+// @public
 export type AutonomousDatabaseLifecycleState = string;
 
 // @public
@@ -264,7 +272,7 @@ export interface AutonomousDatabaseUpdateProperties {
     peerDbId?: string;
     permissionLevel?: PermissionLevelType;
     role?: RoleType;
-    scheduledOperations?: ScheduledOperationsTypeUpdate;
+    scheduledOperationsList?: ScheduledOperationsTypeUpdate[];
     whitelistedIps?: string[];
 }
 
@@ -298,6 +306,9 @@ export type AzureResourceProvisioningState = string;
 export interface AzureSubscriptions {
     azureSubscriptionIds: string[];
 }
+
+// @public
+export type BaseDbSystemShapes = string;
 
 // @public
 export type CloneType = string;
@@ -336,6 +347,7 @@ export interface CloudExadataInfrastructureProperties {
     readonly definedFileSystemConfiguration?: DefinedFileSystemConfiguration[];
     displayName: string;
     readonly estimatedPatchingTime?: EstimatedPatchingTime;
+    readonly exascaleConfig?: ExascaleConfigDetails;
     readonly lastMaintenanceRunId?: string;
     readonly lifecycleDetails?: string;
     readonly lifecycleState?: CloudExadataInfrastructureLifecycleState;
@@ -400,6 +412,7 @@ export interface CloudVmClusterProperties {
     readonly diskRedundancy?: DiskRedundancy;
     displayName: string;
     domain?: string;
+    exascaleDbStorageVaultId?: string;
     fileSystemConfigurationDetails?: FileSystemConfigurationDetails[];
     giVersion: string;
     hostname: string;
@@ -426,6 +439,7 @@ export interface CloudVmClusterProperties {
     scanListenerPortTcpSsl?: number;
     readonly shape?: string;
     sshPublicKeys: string[];
+    readonly storageManagementType?: ExadataVmClusterStorageManagementType;
     storageSizeInGbs?: number;
     subnetId: string;
     readonly subnetOcid?: string;
@@ -461,6 +475,11 @@ export interface CloudVmClusterUpdateProperties {
 
 // @public
 export type ComputeModel = string;
+
+// @public
+export interface ConfigureExascaleCloudExadataInfrastructureDetails {
+    totalStorageInGbs: number;
+}
 
 // @public
 export interface ConnectionStringType {
@@ -520,7 +539,7 @@ export type DayOfWeekName = string;
 
 // @public
 export interface DayOfWeekUpdate {
-    name: DayOfWeekName;
+    name?: DayOfWeekName;
 }
 
 // @public
@@ -631,6 +650,69 @@ export interface DbServerProperties {
 export type DbServerProvisioningState = string;
 
 // @public
+export interface DbSystem extends TrackedResource {
+    properties?: DbSystemProperties;
+    zones?: string[];
+}
+
+// @public
+export interface DbSystemBaseProperties {
+    clusterName?: string;
+    computeCount?: number;
+    computeModel?: ComputeModel;
+    readonly dataStorageSizeInGbs?: number;
+    dbSystemOptions?: DbSystemOptions;
+    diskRedundancy?: DiskRedundancyType;
+    displayName?: string;
+    domainV2?: string;
+    readonly gridImageOcid?: string;
+    hostname: string;
+    initialDataStorageSizeInGb?: number;
+    licenseModelV2?: LicenseModel;
+    readonly lifecycleDetails?: string;
+    readonly lifecycleState?: DbSystemLifecycleState;
+    readonly listenerPort?: number;
+    readonly memorySizeInGbs?: number;
+    networkAnchorId: string;
+    nodeCount?: number;
+    readonly ocid?: string;
+    readonly ociUrl?: string;
+    readonly provisioningState?: AzureResourceProvisioningState;
+    resourceAnchorId: string;
+    readonly scanDnsName?: string;
+    readonly scanIps?: string[];
+    shape: string;
+    source?: DbSystemSourceType;
+    sshPublicKeys: string[];
+    storageVolumePerformanceMode?: StorageVolumePerformanceMode;
+    timeZone?: string;
+    readonly version?: string;
+}
+
+// @public
+export type DbSystemBasePropertiesUnion = DbSystemProperties | DbSystemBaseProperties;
+
+// @public
+export type DbSystemDatabaseEditionType = string;
+
+// @public
+export type DbSystemLifecycleState = string;
+
+// @public
+export interface DbSystemOptions {
+    storageManagement?: StorageManagementType;
+}
+
+// @public
+export interface DbSystemProperties extends DbSystemBaseProperties {
+    adminPassword?: string;
+    databaseEdition: DbSystemDatabaseEditionType;
+    dbVersion: string;
+    pdbName?: string;
+    source: "None";
+}
+
+// @public
 export interface DbSystemShape extends ProxyResource {
     properties?: DbSystemShapeProperties;
 }
@@ -659,8 +741,38 @@ export interface DbSystemShapeProperties {
     minMemoryPerNodeInGbs?: number;
     minStorageCount?: number;
     runtimeMinimumCoreCount?: number;
+    shapeAttributes?: string[];
     shapeFamily?: string;
     shapeName: string;
+}
+
+// @public
+export type DbSystemSourceType = string;
+
+// @public
+export interface DbSystemUpdate {
+    properties?: DbSystemUpdateProperties;
+    tags?: Record<string, string>;
+    zones?: string[];
+}
+
+// @public
+export interface DbSystemUpdateProperties {
+    source?: "None";
+}
+
+// @public
+export interface DbVersion extends ProxyResource {
+    properties?: DbVersionProperties;
+}
+
+// @public
+export interface DbVersionProperties {
+    isLatestForMajorVersion?: boolean;
+    isPreviewDbVersion?: boolean;
+    isUpgradeSupported?: boolean;
+    supportsPdb?: boolean;
+    version: string;
 }
 
 // @public
@@ -684,6 +796,15 @@ export type DisasterRecoveryType = string;
 
 // @public
 export type DiskRedundancy = string;
+
+// @public
+export type DiskRedundancyType = string;
+
+// @public
+export interface DnsForwardingRule {
+    domainNames: string;
+    forwardingIpAddress: string;
+}
 
 // @public
 export interface DnsPrivateView extends ProxyResource {
@@ -764,6 +885,9 @@ export interface ExadataIormConfig {
 }
 
 // @public
+export type ExadataVmClusterStorageManagementType = string;
+
+// @public
 export interface ExadbVmCluster extends TrackedResource {
     properties?: ExadbVmClusterProperties;
     zones?: string[];
@@ -805,6 +929,7 @@ export interface ExadbVmClusterProperties {
     scanListenerPortTcp?: number;
     scanListenerPortTcpSsl?: number;
     shape: string;
+    shapeAttribute?: ShapeAttribute;
     readonly snapshotFileSystemStorage?: ExadbVmClusterStorageDetails;
     sshPublicKeys: string[];
     subnetId: string;
@@ -834,6 +959,12 @@ export interface ExadbVmClusterUpdate {
 // @public
 export interface ExadbVmClusterUpdateProperties {
     nodeCount?: number;
+}
+
+// @public
+export interface ExascaleConfigDetails {
+    availableStorageInGbs?: number;
+    totalStorageInGbs: number;
 }
 
 // @public
@@ -881,8 +1012,10 @@ export type ExascaleDbStorageVaultLifecycleState = string;
 // @public
 export interface ExascaleDbStorageVaultProperties {
     additionalFlashCacheInPercent?: number;
+    readonly attachedShapeAttributes?: ShapeAttribute[];
     description?: string;
     displayName: string;
+    exadataInfrastructureId?: string;
     readonly highCapacityDatabaseStorage?: ExascaleDbStorageDetails;
     highCapacityDatabaseStorageInput: ExascaleDbStorageInputDetails;
     readonly lifecycleDetails?: string;
@@ -999,6 +1132,13 @@ export enum KnownAutonomousDatabaseBackupType {
 }
 
 // @public
+export enum KnownAutonomousDatabaseLifecycleActionEnum {
+    Restart = "Restart",
+    Start = "Start",
+    Stop = "Stop"
+}
+
+// @public
 export enum KnownAutonomousDatabaseLifecycleState {
     Available = "Available",
     AvailableNeedsAttention = "AvailableNeedsAttention",
@@ -1035,6 +1175,11 @@ export enum KnownAzureResourceProvisioningState {
     Failed = "Failed",
     Provisioning = "Provisioning",
     Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownBaseDbSystemShapes {
+    VMStandardX86 = "VM.Standard.x86"
 }
 
 // @public
@@ -1174,6 +1319,34 @@ export enum KnownDbServerProvisioningState {
 }
 
 // @public
+export enum KnownDbSystemDatabaseEditionType {
+    EnterpriseEdition = "EnterpriseEdition",
+    EnterpriseEditionDeveloper = "EnterpriseEditionDeveloper",
+    EnterpriseEditionExtreme = "EnterpriseEditionExtreme",
+    EnterpriseEditionHighPerformance = "EnterpriseEditionHighPerformance",
+    StandardEdition = "StandardEdition"
+}
+
+// @public
+export enum KnownDbSystemLifecycleState {
+    Available = "Available",
+    Failed = "Failed",
+    MaintenanceInProgress = "MaintenanceInProgress",
+    Migrated = "Migrated",
+    NeedsAttention = "NeedsAttention",
+    Provisioning = "Provisioning",
+    Terminated = "Terminated",
+    Terminating = "Terminating",
+    Updating = "Updating",
+    Upgrading = "Upgrading"
+}
+
+// @public
+export enum KnownDbSystemSourceType {
+    None = "None"
+}
+
+// @public
 export enum KnownDisasterRecoveryType {
     Adg = "Adg",
     BackupBased = "BackupBased"
@@ -1181,6 +1354,12 @@ export enum KnownDisasterRecoveryType {
 
 // @public
 export enum KnownDiskRedundancy {
+    High = "High",
+    Normal = "Normal"
+}
+
+// @public
+export enum KnownDiskRedundancyType {
     High = "High",
     Normal = "Normal"
 }
@@ -1200,6 +1379,12 @@ export enum KnownDnsPrivateZonesLifecycleState {
     Deleted = "Deleted",
     Deleting = "Deleting",
     Updating = "Updating"
+}
+
+// @public
+export enum KnownExadataVmClusterStorageManagementType {
+    ASM = "ASM",
+    Exascale = "Exascale"
 }
 
 // @public
@@ -1390,9 +1575,23 @@ export enum KnownSessionModeType {
 }
 
 // @public
+export enum KnownShapeAttribute {
+    BlockStorage = "BLOCK_STORAGE",
+    SmartStorage = "SMART_STORAGE"
+}
+
+// @public
 export enum KnownShapeFamily {
     Exadata = "EXADATA",
     ExadbXs = "EXADB_XS"
+}
+
+// @public
+export enum KnownShapeFamilyType {
+    Exadata = "EXADATA",
+    ExadbXs = "EXADB_XS",
+    SingleNode = "SINGLENODE",
+    VirtualMachine = "VIRTUALMACHINE"
 }
 
 // @public
@@ -1404,6 +1603,17 @@ export enum KnownSourceType {
     CrossRegionDisasterRecovery = "CrossRegionDisasterRecovery",
     Database = "Database",
     None = "None"
+}
+
+// @public
+export enum KnownStorageManagementType {
+    LVM = "LVM"
+}
+
+// @public
+export enum KnownStorageVolumePerformanceMode {
+    Balanced = "Balanced",
+    HighPerformance = "HighPerformance"
 }
 
 // @public
@@ -1430,7 +1640,8 @@ export enum KnownTlsAuthenticationType {
 export enum KnownVersions {
     V20230901 = "2023-09-01",
     V20240601 = "2024-06-01",
-    V20250301 = "2025-03-01"
+    V20250301 = "2025-03-01",
+    V20250901 = "2025-09-01"
 }
 
 // @public
@@ -1488,6 +1699,50 @@ export interface Month {
 
 // @public
 export type MonthName = string;
+
+// @public
+export interface NetworkAnchor extends TrackedResource {
+    properties?: NetworkAnchorProperties;
+    zones?: string[];
+}
+
+// @public
+export interface NetworkAnchorProperties {
+    readonly cidrBlock?: string;
+    readonly dnsForwardingEndpointIpAddress?: string;
+    readonly dnsForwardingEndpointNsgRulesUrl?: string;
+    dnsForwardingRules?: DnsForwardingRule[];
+    readonly dnsForwardingRulesUrl?: string;
+    dnsListeningEndpointAllowedCidrs?: string;
+    readonly dnsListeningEndpointIpAddress?: string;
+    readonly dnsListeningEndpointNsgRulesUrl?: string;
+    isOracleDnsForwardingEndpointEnabled?: boolean;
+    isOracleDnsListeningEndpointEnabled?: boolean;
+    isOracleToAzureDnsZoneSyncEnabled?: boolean;
+    ociBackupCidrBlock?: string;
+    readonly ociSubnetId?: string;
+    ociVcnDnsLabel?: string;
+    readonly ociVcnId?: string;
+    readonly provisioningState?: AzureResourceProvisioningState;
+    resourceAnchorId: string;
+    subnetId: string;
+    readonly vnetId?: string;
+}
+
+// @public
+export interface NetworkAnchorUpdate {
+    properties?: NetworkAnchorUpdateProperties;
+    tags?: Record<string, string>;
+    zones?: string[];
+}
+
+// @public
+export interface NetworkAnchorUpdateProperties {
+    isOracleDnsForwardingEndpointEnabled?: boolean;
+    isOracleDnsListeningEndpointEnabled?: boolean;
+    isOracleToAzureDnsZoneSyncEnabled?: boolean;
+    ociBackupCidrBlock?: string;
+}
 
 // @public
 export interface NsgCidr {
@@ -1657,6 +1912,22 @@ export interface Resource {
 }
 
 // @public
+export interface ResourceAnchor extends TrackedResource {
+    properties?: ResourceAnchorProperties;
+}
+
+// @public
+export interface ResourceAnchorProperties {
+    readonly linkedCompartmentId?: string;
+    readonly provisioningState?: AzureResourceProvisioningState;
+}
+
+// @public
+export interface ResourceAnchorUpdate {
+    tags?: Record<string, string>;
+}
+
+// @public
 export type ResourceProvisioningState = string;
 
 // @public
@@ -1692,7 +1963,7 @@ export interface ScheduledOperationsType {
 
 // @public
 export interface ScheduledOperationsTypeUpdate {
-    dayOfWeek: DayOfWeekUpdate;
+    dayOfWeek?: DayOfWeekUpdate;
     scheduledStartTime?: string;
     scheduledStopTime?: string;
 }
@@ -1701,10 +1972,22 @@ export interface ScheduledOperationsTypeUpdate {
 export type SessionModeType = string;
 
 // @public
+export type ShapeAttribute = string;
+
+// @public
 export type ShapeFamily = string;
 
 // @public
+export type ShapeFamilyType = string;
+
+// @public
 export type SourceType = string;
+
+// @public
+export type StorageManagementType = string;
+
+// @public
+export type StorageVolumePerformanceMode = string;
 
 // @public
 export type SyntaxFormatType = string;

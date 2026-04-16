@@ -2792,8 +2792,7 @@ export interface CapacityReservationGroupInstanceViewOutput {
 }
 
 /** The instance view of a capacity reservation that includes the name of the capacity reservation. It is used for the response to the instance view of a capacity reservation group. */
-export interface CapacityReservationInstanceViewWithNameOutput
-  extends CapacityReservationInstanceViewOutput {
+export interface CapacityReservationInstanceViewWithNameOutput extends CapacityReservationInstanceViewOutput {
   /** The name of the capacity reservation. */
   readonly name?: string;
 }
@@ -3909,8 +3908,7 @@ export interface GalleryImageVersionPropertiesOutput {
 }
 
 /** The publishing profile of a gallery image Version. */
-export interface GalleryImageVersionPublishingProfileOutput
-  extends GalleryArtifactPublishingProfileBaseOutput {}
+export interface GalleryImageVersionPublishingProfileOutput extends GalleryArtifactPublishingProfileBaseOutput {}
 
 /** Describes the basic gallery artifact publishing profile. */
 export interface GalleryArtifactPublishingProfileBaseOutput {
@@ -4103,8 +4101,7 @@ export interface GalleryApplicationVersionPropertiesOutput {
 }
 
 /** The publishing profile of a gallery image version. */
-export interface GalleryApplicationVersionPublishingProfileOutput
-  extends GalleryArtifactPublishingProfileBaseOutput {
+export interface GalleryApplicationVersionPublishingProfileOutput extends GalleryArtifactPublishingProfileBaseOutput {
   /** The source image from which the Image Version is going to be created. */
   source: UserArtifactSourceOutput;
   manageActions?: UserArtifactManageOutput;

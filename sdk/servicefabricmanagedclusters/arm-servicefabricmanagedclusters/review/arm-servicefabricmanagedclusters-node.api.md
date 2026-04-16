@@ -4,14 +4,14 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type Access = string;
@@ -33,6 +33,15 @@ export interface AddRemoveIncrementalNamedPartitionScalingMechanism extends Scal
 }
 
 // @public
+export interface ApplicationFetchHealthRequest {
+    deployedApplicationsHealthStateFilter?: HealthFilter;
+    eventsHealthStateFilter?: HealthFilter;
+    excludeHealthStatistics?: boolean;
+    servicesHealthStateFilter?: HealthFilter;
+    timeout?: number;
+}
+
+// @public
 export interface ApplicationHealthPolicy {
     considerWarningAsError: boolean;
     defaultServiceTypeHealthPolicy?: ServiceTypeHealthPolicy;
@@ -44,8 +53,12 @@ export interface ApplicationHealthPolicy {
 export interface ApplicationResource extends ProxyResource {
     identity?: ManagedIdentity;
     location?: string;
-    properties?: ApplicationResourceProperties;
+    managedIdentities?: ApplicationUserAssignedIdentity[];
+    parameters?: Record<string, string>;
+    readonly provisioningState?: string;
     tags?: Record<string, string>;
+    upgradePolicy?: ApplicationUpgradePolicy;
+    version?: string;
 }
 
 // @public
@@ -68,6 +81,11 @@ export interface ApplicationsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface ApplicationsFetchHealthOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface ApplicationsGetOptionalParams extends OperationOptions {
 }
 
@@ -79,16 +97,24 @@ export interface ApplicationsListOptionalParams extends OperationOptions {
 export interface ApplicationsOperations {
     createOrUpdate: (resourceGroupName: string, clusterName: string, applicationName: string, parameters: ApplicationResource, options?: ApplicationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ApplicationResource>, ApplicationResource>;
     delete: (resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    fetchHealth: (resourceGroupName: string, clusterName: string, applicationName: string, parameters: ApplicationFetchHealthRequest, options?: ApplicationsFetchHealthOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsGetOptionalParams) => Promise<ApplicationResource>;
     list: (resourceGroupName: string, clusterName: string, options?: ApplicationsListOptionalParams) => PagedAsyncIterableIterator<ApplicationResource>;
     readUpgrade: (resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsReadUpgradeOptionalParams) => PollerLike<OperationState<void>, void>;
+    restartDeployedCodePackage: (resourceGroupName: string, clusterName: string, applicationName: string, parameters: RestartDeployedCodePackageRequest, options?: ApplicationsRestartDeployedCodePackageOptionalParams) => PollerLike<OperationState<void>, void>;
     resumeUpgrade: (resourceGroupName: string, clusterName: string, applicationName: string, parameters: RuntimeResumeApplicationUpgradeParameters, options?: ApplicationsResumeUpgradeOptionalParams) => PollerLike<OperationState<void>, void>;
     startRollback: (resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsStartRollbackOptionalParams) => PollerLike<OperationState<void>, void>;
-    update: (resourceGroupName: string, clusterName: string, applicationName: string, parameters: ApplicationUpdateParameters, options?: ApplicationsUpdateOptionalParams) => Promise<ApplicationResource>;
+    update: (resourceGroupName: string, clusterName: string, applicationName: string, parameters: ApplicationUpdateParameters, options?: ApplicationsUpdateOptionalParams) => PollerLike<OperationState<ApplicationResource>, ApplicationResource>;
+    updateUpgrade: (resourceGroupName: string, clusterName: string, applicationName: string, parameters: RuntimeUpdateApplicationUpgradeParameters, options?: ApplicationsUpdateUpgradeOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
 // @public
 export interface ApplicationsReadUpgradeOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ApplicationsRestartDeployedCodePackageOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -104,12 +130,18 @@ export interface ApplicationsStartRollbackOptionalParams extends OperationOption
 
 // @public
 export interface ApplicationsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ApplicationsUpdateUpgradeOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
 export interface ApplicationTypeResource extends ProxyResource {
     location?: string;
-    properties?: ApplicationTypeResourceProperties;
+    readonly provisioningState?: string;
     tags?: Record<string, string>;
 }
 
@@ -155,8 +187,9 @@ export interface ApplicationTypeUpdateParameters {
 
 // @public
 export interface ApplicationTypeVersionResource extends ProxyResource {
+    appPackageUrl?: string;
     location?: string;
-    properties?: ApplicationTypeVersionResourceProperties;
+    readonly provisioningState?: string;
     tags?: Record<string, string>;
 }
 
@@ -209,7 +242,13 @@ export interface ApplicationTypeVersionUpdateParameters {
 
 // @public
 export interface ApplicationUpdateParameters {
+    properties?: ApplicationUpdateParametersProperties;
     tags?: Record<string, string>;
+}
+
+// @public
+export interface ApplicationUpdateParametersProperties {
+    parameters?: Record<string, string>;
 }
 
 // @public
@@ -265,6 +304,16 @@ export interface AzureActiveDirectory {
     clusterApplication?: string;
     tenantId?: string;
 }
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface ClientCertificate {
@@ -367,60 +416,15 @@ export type EvictionPolicyType = string;
 export type FailureAction = string;
 
 // @public
-export type FaultKind = string;
-
-// @public
-export interface FaultSimulation {
-    details?: FaultSimulationDetails;
-    endTime?: Date;
-    simulationId?: string;
-    startTime?: Date;
-    status?: FaultSimulationStatus;
-}
-
-// @public
-export interface FaultSimulationConstraints {
-    expirationTime?: Date;
-}
-
-// @public
-export interface FaultSimulationContent {
-    constraints?: FaultSimulationConstraints;
-    faultKind: FaultKind;
-    force?: boolean;
-}
-
-// @public
-export type FaultSimulationContentUnion = ZoneFaultSimulationContent | FaultSimulationContent;
-
-// @public
-export interface FaultSimulationContentWrapper {
-    parameters: FaultSimulationContentUnion;
-}
-
-// @public
-export interface FaultSimulationDetails {
-    clusterId?: string;
-    nodeTypeFaultSimulation?: NodeTypeFaultSimulation[];
-    operationId?: string;
-    parameters?: FaultSimulationContentUnion;
-}
-
-// @public
-export interface FaultSimulationIdContent {
-    simulationId: string;
-}
-
-// @public
-export type FaultSimulationStatus = string;
-
-// @public
 export interface FrontendConfiguration {
     applicationGatewayBackendAddressPoolId?: string;
     ipAddressType?: IPAddressType;
     loadBalancerBackendAddressPoolId?: string;
     loadBalancerInboundNatPoolId?: string;
 }
+
+// @public
+export type HealthFilter = string;
 
 // @public
 export type IPAddressType = string;
@@ -523,18 +527,13 @@ export enum KnownFailureAction {
 }
 
 // @public
-export enum KnownFaultKind {
-    Zone = "Zone"
-}
-
-// @public
-export enum KnownFaultSimulationStatus {
-    Active = "Active",
-    Done = "Done",
-    StartFailed = "StartFailed",
-    Starting = "Starting",
-    StopFailed = "StopFailed",
-    Stopping = "Stopping"
+export enum KnownHealthFilter {
+    All = "All",
+    Default = "Default",
+    Error = "Error",
+    None = "None",
+    Ok = "Ok",
+    Warning = "Warning"
 }
 
 // @public
@@ -645,9 +644,32 @@ export enum KnownPublicIPAddressVersion {
 }
 
 // @public
+export enum KnownRestartKind {
+    Simultaneous = "Simultaneous"
+}
+
+// @public
 export enum KnownRollingUpgradeMode {
     Monitored = "Monitored",
     UnmonitoredAuto = "UnmonitoredAuto"
+}
+
+// @public
+export enum KnownRuntimeFailureAction {
+    Manual = "Manual",
+    Rollback = "Rollback"
+}
+
+// @public
+export enum KnownRuntimeRollingUpgradeMode {
+    Monitored = "Monitored",
+    UnmonitoredAuto = "UnmonitoredAuto",
+    UnmonitoredManual = "UnmonitoredManual"
+}
+
+// @public
+export enum KnownRuntimeUpgradeKind {
+    Rolling = "Rolling"
 }
 
 // @public
@@ -711,16 +733,6 @@ export enum KnownServiceScalingTriggerKind {
 }
 
 // @public
-export enum KnownSfmcOperationStatus {
-    Aborted = "Aborted",
-    Canceled = "Canceled",
-    Created = "Created",
-    Failed = "Failed",
-    Started = "Started",
-    Succeeded = "Succeeded"
-}
-
-// @public
 export enum KnownSkuName {
     Basic = "Basic",
     Standard = "Standard"
@@ -734,9 +746,7 @@ export enum KnownUpdateType {
 
 // @public
 export enum KnownVersions {
-    V20241101Preview = "2024-11-01-preview",
-    // (undocumented)
-    V20250301Preview = "2025-03-01-preview"
+    V20260201 = "2026-02-01"
 }
 
 // @public
@@ -803,9 +813,52 @@ export interface ManagedAzResiliencyStatusOperations {
 
 // @public
 export interface ManagedCluster extends TrackedResource {
+    addonFeatures?: ManagedClusterAddOnFeature[];
+    adminPassword?: string;
+    adminUserName?: string;
+    allocatedOutboundPorts?: number;
+    allowRdpAccess?: boolean;
+    applicationTypeVersionsCleanupPolicy?: ApplicationTypeVersionsCleanupPolicy;
+    autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope;
+    auxiliarySubnets?: Subnet[];
+    azureActiveDirectory?: AzureActiveDirectory;
+    clientConnectionPort?: number;
+    clients?: ClientCertificate[];
+    readonly clusterCertificateThumbprints?: string[];
+    clusterCodeVersion?: string;
+    readonly clusterId?: string;
+    readonly clusterState?: ClusterState;
+    clusterUpgradeCadence?: ClusterUpgradeCadence;
+    clusterUpgradeMode?: ClusterUpgradeMode;
+    ddosProtectionPlanId?: string;
+    dnsName?: string;
+    enableAutoOSUpgrade?: boolean;
+    enableHttpGatewayExclusiveAuthMode?: boolean;
+    enableIpv6?: boolean;
+    enableOutboundOnlyNodeTypes?: boolean;
+    enableServicePublicIP?: boolean;
     readonly etag?: string;
-    properties?: ManagedClusterProperties;
+    fabricSettings?: SettingsSectionDescription[];
+    readonly fqdn?: string;
+    httpGatewayConnectionPort?: number;
+    httpGatewayTokenAuthConnectionPort?: number;
+    ipTags?: IpTag[];
+    readonly ipv4Address?: string;
+    readonly ipv6Address?: string;
+    loadBalancingRules?: LoadBalancingRule[];
+    networkSecurityRules?: NetworkSecurityRule[];
+    readonly provisioningState?: ManagedResourceProvisioningState;
+    publicIPPrefixId?: string;
+    publicIPv6PrefixId?: string;
+    serviceEndpoints?: ServiceEndpoint[];
+    skipManagedNsgAssignment?: boolean;
     sku: Sku;
+    subnetId?: string;
+    upgradeDescription?: ClusterUpgradePolicy;
+    useCustomVnet?: boolean;
+    vmImage?: string;
+    zonalResiliency?: boolean;
+    zonalUpdateMode?: ZonalUpdateMode;
 }
 
 // @public
@@ -813,9 +866,11 @@ export type ManagedClusterAddOnFeature = string;
 
 // @public
 export interface ManagedClusterCodeVersionResult {
+    clusterCodeVersion?: string;
     id?: string;
     name?: string;
-    properties?: ManagedClusterVersionDetails;
+    osType?: OsType;
+    supportExpiryUtc?: Date;
     type?: string;
 }
 
@@ -843,6 +898,7 @@ export interface ManagedClusterProperties {
     enableAutoOSUpgrade?: boolean;
     enableHttpGatewayExclusiveAuthMode?: boolean;
     enableIpv6?: boolean;
+    enableOutboundOnlyNodeTypes?: boolean;
     enableServicePublicIP?: boolean;
     fabricSettings?: SettingsSectionDescription[];
     readonly fqdn?: string;
@@ -857,6 +913,7 @@ export interface ManagedClusterProperties {
     publicIPPrefixId?: string;
     publicIPv6PrefixId?: string;
     serviceEndpoints?: ServiceEndpoint[];
+    skipManagedNsgAssignment?: boolean;
     subnetId?: string;
     upgradeDescription?: ClusterUpgradePolicy;
     useCustomVnet?: boolean;
@@ -876,10 +933,6 @@ export interface ManagedClustersDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ManagedClustersGetFaultSimulationOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface ManagedClustersGetOptionalParams extends OperationOptions {
 }
 
@@ -892,35 +945,18 @@ export interface ManagedClustersListBySubscriptionOptionalParams extends Operati
 }
 
 // @public
-export interface ManagedClustersListFaultSimulationOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface ManagedClustersOperations {
     createOrUpdate: (resourceGroupName: string, clusterName: string, parameters: ManagedCluster, options?: ManagedClustersCreateOrUpdateOptionalParams) => PollerLike<OperationState<ManagedCluster>, ManagedCluster>;
     delete: (resourceGroupName: string, clusterName: string, options?: ManagedClustersDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, clusterName: string, options?: ManagedClustersGetOptionalParams) => Promise<ManagedCluster>;
-    getFaultSimulation: (resourceGroupName: string, clusterName: string, parameters: FaultSimulationIdContent, options?: ManagedClustersGetFaultSimulationOptionalParams) => Promise<FaultSimulation>;
     listByResourceGroup: (resourceGroupName: string, options?: ManagedClustersListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ManagedCluster>;
     listBySubscription: (options?: ManagedClustersListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<ManagedCluster>;
-    listFaultSimulation: (resourceGroupName: string, clusterName: string, options?: ManagedClustersListFaultSimulationOptionalParams) => PagedAsyncIterableIterator<FaultSimulation>;
-    startFaultSimulation: (resourceGroupName: string, clusterName: string, parameters: FaultSimulationContentWrapper, options?: ManagedClustersStartFaultSimulationOptionalParams) => PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
-    stopFaultSimulation: (resourceGroupName: string, clusterName: string, parameters: FaultSimulationIdContent, options?: ManagedClustersStopFaultSimulationOptionalParams) => PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
-    update: (resourceGroupName: string, clusterName: string, parameters: ManagedClusterUpdateParameters, options?: ManagedClustersUpdateOptionalParams) => Promise<ManagedCluster>;
-}
-
-// @public
-export interface ManagedClustersStartFaultSimulationOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ManagedClustersStopFaultSimulationOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
+    update: (resourceGroupName: string, clusterName: string, parameters: ManagedClusterUpdateParameters, options?: ManagedClustersUpdateOptionalParams) => PollerLike<OperationState<ManagedCluster>, ManagedCluster>;
 }
 
 // @public
 export interface ManagedClustersUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1047,9 +1083,62 @@ export interface NetworkSecurityRule {
 
 // @public
 export interface NodeType extends ProxyResource {
-    properties?: NodeTypeProperties;
+    additionalDataDisks?: VmssDataDisk[];
+    additionalNetworkInterfaceConfigurations?: AdditionalNetworkInterfaceConfiguration[];
+    applicationPorts?: EndpointRangeDescription;
+    capacities?: Record<string, string>;
+    computerNamePrefix?: string;
+    dataDiskLetter?: string;
+    dataDiskSizeGB?: number;
+    dataDiskType?: DiskType;
+    dscpConfigurationId?: string;
+    enableAcceleratedNetworking?: boolean;
+    enableEncryptionAtHost?: boolean;
+    enableNodePublicIP?: boolean;
+    enableNodePublicIPv6?: boolean;
+    enableOverProvisioning?: boolean;
+    enableResilientEphemeralOsDisk?: boolean;
+    ephemeralPorts?: EndpointRangeDescription;
+    evictionPolicy?: EvictionPolicyType;
+    frontendConfigurations?: FrontendConfiguration[];
+    hostGroupId?: string;
+    isOutboundOnly?: boolean;
+    isPrimary?: boolean;
+    isSpotVM?: boolean;
+    isStateless?: boolean;
+    multiplePlacementGroups?: boolean;
+    natConfigurations?: NodeTypeNatConfig[];
+    natGatewayId?: string;
+    networkSecurityRules?: NetworkSecurityRule[];
+    placementProperties?: Record<string, string>;
+    readonly provisioningState?: ManagedResourceProvisioningState;
+    secureBootEnabled?: boolean;
+    securityEncryptionType?: SecurityEncryptionType;
+    securityType?: SecurityType;
+    serviceArtifactReferenceId?: string;
     sku?: NodeTypeSku;
+    spotRestoreTimeout?: string;
+    subnetId?: string;
     tags?: Record<string, string>;
+    useDefaultPublicLoadBalancer?: boolean;
+    useEphemeralOSDisk?: boolean;
+    useTempDataDisk?: boolean;
+    vmApplications?: VmApplication[];
+    vmExtensions?: VmssExtension[];
+    vmImageOffer?: string;
+    vmImagePlan?: VmImagePlan;
+    vmImagePublisher?: string;
+    vmImageResourceId?: string;
+    vmImageSku?: string;
+    vmImageVersion?: string;
+    vmInstanceCount?: number;
+    vmManagedIdentity?: VmManagedIdentity;
+    vmSecrets?: VaultSecretGroup[];
+    vmSetupActions?: VmSetupAction[];
+    vmSharedGalleryImageId?: string;
+    vmSize?: string;
+    zoneBalance?: boolean;
+    zones?: string[];
 }
 
 // @public
@@ -1064,14 +1153,6 @@ export interface NodeTypeAvailableSku {
     readonly capacity?: NodeTypeSkuCapacity;
     readonly resourceType?: string;
     readonly sku?: NodeTypeSupportedSku;
-}
-
-// @public
-export interface NodeTypeFaultSimulation {
-    nodeTypeName?: string;
-    operationId?: string;
-    operationStatus?: SfmcOperationStatus;
-    status?: FaultSimulationStatus;
 }
 
 // @public
@@ -1097,10 +1178,12 @@ export interface NodeTypeProperties {
     enableNodePublicIP?: boolean;
     enableNodePublicIPv6?: boolean;
     enableOverProvisioning?: boolean;
+    enableResilientEphemeralOsDisk?: boolean;
     ephemeralPorts?: EndpointRangeDescription;
     evictionPolicy?: EvictionPolicyType;
     frontendConfigurations?: FrontendConfiguration[];
     hostGroupId?: string;
+    isOutboundOnly?: boolean;
     isPrimary: boolean;
     isSpotVM?: boolean;
     isStateless?: boolean;
@@ -1158,10 +1241,6 @@ export interface NodeTypesDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface NodeTypesGetFaultSimulationOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface NodeTypesGetOptionalParams extends OperationOptions {
 }
 
@@ -1197,25 +1276,17 @@ export interface NodeTypesListByManagedClustersOptionalParams extends OperationO
 }
 
 // @public
-export interface NodeTypesListFaultSimulationOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface NodeTypesOperations {
     createOrUpdate: (resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeType, options?: NodeTypesCreateOrUpdateOptionalParams) => PollerLike<OperationState<NodeType>, NodeType>;
     deallocate: (resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesDeallocateOptionalParams) => PollerLike<OperationState<void>, void>;
     delete: (resourceGroupName: string, clusterName: string, nodeTypeName: string, options?: NodeTypesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     deleteNode: (resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesDeleteNodeOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, clusterName: string, nodeTypeName: string, options?: NodeTypesGetOptionalParams) => Promise<NodeType>;
-    getFaultSimulation: (resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: FaultSimulationIdContent, options?: NodeTypesGetFaultSimulationOptionalParams) => Promise<FaultSimulation>;
     listByManagedClusters: (resourceGroupName: string, clusterName: string, options?: NodeTypesListByManagedClustersOptionalParams) => PagedAsyncIterableIterator<NodeType>;
-    listFaultSimulation: (resourceGroupName: string, clusterName: string, nodeTypeName: string, options?: NodeTypesListFaultSimulationOptionalParams) => PagedAsyncIterableIterator<FaultSimulation>;
     redeploy: (resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesRedeployOptionalParams) => PollerLike<OperationState<void>, void>;
     reimage: (resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesReimageOptionalParams) => PollerLike<OperationState<void>, void>;
     restart: (resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesRestartOptionalParams) => PollerLike<OperationState<void>, void>;
     start: (resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesStartOptionalParams) => PollerLike<OperationState<void>, void>;
-    startFaultSimulation: (resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: FaultSimulationContentWrapper, options?: NodeTypesStartFaultSimulationOptionalParams) => PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
-    stopFaultSimulation: (resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: FaultSimulationIdContent, options?: NodeTypesStopFaultSimulationOptionalParams) => PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
     update: (resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeUpdateParameters, options?: NodeTypesUpdateOptionalParams) => PollerLike<OperationState<NodeType>, NodeType>;
 }
 
@@ -1235,17 +1306,7 @@ export interface NodeTypesRestartOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface NodeTypesStartFaultSimulationOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
 export interface NodeTypesStartOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface NodeTypesStopFaultSimulationOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -1379,6 +1440,27 @@ export interface ResourceAzStatus {
 }
 
 // @public
+export interface RestartDeployedCodePackageRequest {
+    codePackageInstanceId: string;
+    codePackageName: string;
+    nodeName: string;
+    serviceManifestName: string;
+    servicePackageActivationId?: string;
+}
+
+// @public
+export type RestartKind = string;
+
+// @public
+export interface RestartReplicaRequest {
+    forceRestart?: boolean;
+    partitionId: string;
+    replicaIds: number[];
+    restartKind: RestartKind;
+    timeout?: number;
+}
+
+// @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ServiceFabricManagedClustersManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
 // @public (undocumented)
@@ -1402,9 +1484,55 @@ export interface RollingUpgradeMonitoringPolicy {
 }
 
 // @public
+export interface RuntimeApplicationHealthPolicy {
+    considerWarningAsError: boolean;
+    defaultServiceTypeHealthPolicy?: RuntimeServiceTypeHealthPolicy;
+    maxPercentUnhealthyDeployedApplications: number;
+    serviceTypeHealthPolicyMap?: Record<string, RuntimeServiceTypeHealthPolicy>;
+}
+
+// @public
+export type RuntimeFailureAction = string;
+
+// @public
 export interface RuntimeResumeApplicationUpgradeParameters {
     upgradeDomainName?: string;
 }
+
+// @public
+export type RuntimeRollingUpgradeMode = string;
+
+// @public
+export interface RuntimeRollingUpgradeUpdateMonitoringPolicy {
+    failureAction?: RuntimeFailureAction;
+    forceRestart?: boolean;
+    healthCheckRetryTimeoutInMilliseconds?: string;
+    healthCheckStableDurationInMilliseconds?: string;
+    healthCheckWaitDurationInMilliseconds?: string;
+    instanceCloseDelayDurationInSeconds?: number;
+    replicaSetCheckTimeoutInMilliseconds?: number;
+    rollingUpgradeMode: RuntimeRollingUpgradeMode;
+    upgradeDomainTimeoutInMilliseconds?: string;
+    upgradeTimeoutInMilliseconds?: string;
+}
+
+// @public
+export interface RuntimeServiceTypeHealthPolicy {
+    maxPercentUnhealthyPartitionsPerService: number;
+    maxPercentUnhealthyReplicasPerPartition: number;
+    maxPercentUnhealthyServices: number;
+}
+
+// @public
+export interface RuntimeUpdateApplicationUpgradeParameters {
+    applicationHealthPolicy?: RuntimeApplicationHealthPolicy;
+    name: string;
+    updateDescription?: RuntimeRollingUpgradeUpdateMonitoringPolicy;
+    upgradeKind: RuntimeUpgradeKind;
+}
+
+// @public
+export type RuntimeUpgradeKind = string;
 
 // @public
 export interface ScalingMechanism {
@@ -1448,11 +1576,13 @@ export type ServiceCorrelationScheme = string;
 // @public
 export interface ServiceEndpoint {
     locations?: string[];
+    networkIdentifier?: string;
     service: string;
 }
 
 // @public (undocumented)
 export class ServiceFabricManagedClustersManagementClient {
+    constructor(credential: TokenCredential, options?: ServiceFabricManagedClustersManagementClientOptionalParams);
     constructor(credential: TokenCredential, subscriptionId: string, options?: ServiceFabricManagedClustersManagementClientOptionalParams);
     readonly applications: ApplicationsOperations;
     readonly applicationTypes: ApplicationTypesOperations;
@@ -1475,6 +1605,7 @@ export class ServiceFabricManagedClustersManagementClient {
 // @public
 export interface ServiceFabricManagedClustersManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -1597,7 +1728,13 @@ export interface ServicesOperations {
     delete: (resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, options?: ServicesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, options?: ServicesGetOptionalParams) => Promise<ServiceResource>;
     listByApplications: (resourceGroupName: string, clusterName: string, applicationName: string, options?: ServicesListByApplicationsOptionalParams) => PagedAsyncIterableIterator<ServiceResource>;
+    restartReplica: (resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, parameters: RestartReplicaRequest, options?: ServicesRestartReplicaOptionalParams) => PollerLike<OperationState<void>, void>;
     update: (resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, parameters: ServiceUpdateParameters, options?: ServicesUpdateOptionalParams) => Promise<ServiceResource>;
+}
+
+// @public
+export interface ServicesRestartReplicaOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1627,9 +1764,6 @@ export interface SettingsSectionDescription {
     name: string;
     parameters: SettingsParameterDescription[];
 }
-
-// @public
-export type SfmcOperationStatus = string;
 
 // @public
 export interface SingletonPartitionScheme extends Partition {
@@ -1764,8 +1898,18 @@ export interface VmssDataDisk {
 
 // @public
 export interface VmssExtension {
+    autoUpgradeMinorVersion?: boolean;
+    enableAutomaticUpgrade?: boolean;
+    forceUpdateTag?: string;
     name: string;
-    properties: VmssExtensionProperties;
+    protectedSettings?: any;
+    provisionAfterExtensions?: string[];
+    readonly provisioningState?: string;
+    publisher: string;
+    settings?: any;
+    setupOrder?: VmssExtensionSetupOrder[];
+    type: string;
+    typeHandlerVersion: string;
 }
 
 // @public
@@ -1788,12 +1932,6 @@ export type VmssExtensionSetupOrder = string;
 
 // @public
 export type ZonalUpdateMode = string;
-
-// @public
-export interface ZoneFaultSimulationContent extends FaultSimulationContent {
-    faultKind: "Zone";
-    zones?: string[];
-}
 
 // (No @packageDocumentation comment for this package)
 

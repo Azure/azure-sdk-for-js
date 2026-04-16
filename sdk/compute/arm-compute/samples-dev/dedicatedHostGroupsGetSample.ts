@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Retrieves information about a dedicated host group.
- *
- * @summary Retrieves information about a dedicated host group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/dedicatedHostExamples/DedicatedHostGroup_Get.json
- */
-
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Retrieves information about a dedicated host group.
+ *
+ * @summary Retrieves information about a dedicated host group.
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/dedicatedHostExamples/DedicatedHostGroup_Get.json
+ */
 async function createADedicatedHostGroup(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";
@@ -31,7 +30,7 @@ async function createADedicatedHostGroup(): Promise<void> {
  * This sample demonstrates how to Retrieves information about a dedicated host group.
  *
  * @summary Retrieves information about a dedicated host group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/dedicatedHostExamples/DedicatedHostGroup_Get_UltraSSDEnabledDedicatedHostGroup.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/dedicatedHostExamples/DedicatedHostGroup_Get_UltraSSDEnabledDedicatedHostGroup.json
  */
 async function createAnUltraSsdEnabledDedicatedHostGroup(): Promise<void> {
   const subscriptionId =

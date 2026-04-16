@@ -18,7 +18,7 @@ import type { FetchFunctionCallback } from "./defaultQueryExecutionContext.js";
 import { FetchResult, FetchResultType } from "./FetchResult.js";
 import { getInitialHeader } from "./headerUtils.js";
 import type { CosmosHeaders } from "./headerUtils.js";
-import type { SqlQuerySpec } from "./index.js";
+import type { SqlQuerySpec, FilterStrategy } from "./index.js";
 
 /** @hidden */
 export class DocumentProducer {
@@ -35,6 +35,8 @@ export class DocumentProducer {
   public startEpk: string;
   public endEpk: string;
   public populateEpkRangeHeaders: boolean;
+  private filter?: FilterStrategy;
+  private queryExecutionInfo?: { reverseRidEnabled: boolean; reverseIndexScan: boolean };
 
   /**
    * Provides the Target Partition Range Query Execution Context.
@@ -54,6 +56,7 @@ export class DocumentProducer {
     startEpk?: string,
     endEpk?: string,
     populateEpkRangeHeaders: boolean = false,
+    filter?: FilterStrategy,
   ) {
     // TODO: any options
     this.collectionLink = collectionLink;
@@ -75,6 +78,7 @@ export class DocumentProducer {
     this.startEpk = startEpk;
     this.endEpk = endEpk;
     this.populateEpkRangeHeaders = populateEpkRangeHeaders;
+    this.filter = filter;
   }
   public peekBufferedItems(): any[] {
     const bufferedResults = [];
@@ -171,10 +175,19 @@ export class DocumentProducer {
     }
 
     try {
-      const { result: resources, headers: headerResponse } =
+      const { result: resourcesResult, headers: headerResponse } =
         await this.internalExecutionContext.fetchMore(diagnosticNode);
+      let resources = resourcesResult;
       ++this.generation;
       this._updateStates(undefined, resources === undefined);
+      if (headerResponse && headerResponse["x-ms-cosmos-query-execution-info"]) {
+        this.queryExecutionInfo = JSON.parse(headerResponse["x-ms-cosmos-query-execution-info"]);
+      }
+
+      if (this.filter && resources) {
+        resources = this.filter.applyFilter(resources);
+      }
+
       if (resources !== undefined) {
         // add fetched header to the 1st element in the buffer
         let addHeaderToFetchResult = true;
@@ -215,7 +228,7 @@ export class DocumentProducer {
     }
   }
 
-  public getTargetParitionKeyRange(): PartitionKeyRange {
+  public getTargetPartitionKeyRange(): PartitionKeyRange {
     return this.targetPartitionKeyRange;
   }
   /**
@@ -259,7 +272,7 @@ export class DocumentProducer {
       if (result === undefined || result.length === 0) {
         return { result: undefined, headers };
       }
-      return { result, headers }; //
+      return { result, headers };
     } catch (err: any) {
       this._updateStates(err, err.item === undefined);
       throw err;
@@ -332,5 +345,11 @@ export class DocumentProducer {
 
     // If the internal buffer is empty, return empty result
     return { result: [], headers: getInitialHeader() };
+  }
+
+  public getQueryExecutionInfo():
+    | { reverseRidEnabled: boolean; reverseIndexScan: boolean }
+    | undefined {
+    return this.queryExecutionInfo;
   }
 }

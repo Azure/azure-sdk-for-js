@@ -81,7 +81,7 @@ export interface AcsCallStartedEventData extends AcsCallingEvent {
 // @public
 export interface AcsChatAzureBotCommandReceivedInThreadEventData extends AcsChatMessageEventInThreadBase {
     messageBody: string;
-    metadata?: Record<string, string>;
+    readonly metadata?: Record<string, string>;
 }
 
 // @public
@@ -111,14 +111,14 @@ export interface AcsChatMessageDeletedInThreadEventData extends AcsChatMessageEv
 export interface AcsChatMessageEditedEventData extends AcsChatMessageEventBase {
     editTime: Date;
     messageBody: string;
-    metadata?: Record<string, string>;
+    readonly metadata?: Record<string, string>;
 }
 
 // @public
 export interface AcsChatMessageEditedInThreadEventData extends AcsChatMessageEventInThreadBase {
     editTime: Date;
     messageBody: string;
-    metadata?: Record<string, string>;
+    readonly metadata?: Record<string, string>;
 }
 
 // @public
@@ -127,6 +127,7 @@ export interface AcsChatMessageEventBase extends AcsChatEventBase {
     messageId: string;
     senderCommunicationIdentifier: CommunicationIdentifierModel;
     senderDisplayName?: string;
+    sequenceId?: number;
     type: string;
     version: number;
 }
@@ -137,6 +138,7 @@ export interface AcsChatMessageEventInThreadBase extends AcsChatEventInThreadBas
     messageId: string;
     senderCommunicationIdentifier: CommunicationIdentifierModel;
     senderDisplayName?: string;
+    sequenceId?: number;
     type: string;
     version: number;
 }
@@ -144,13 +146,13 @@ export interface AcsChatMessageEventInThreadBase extends AcsChatEventInThreadBas
 // @public
 export interface AcsChatMessageReceivedEventData extends AcsChatMessageEventBase {
     messageBody: string;
-    metadata?: Record<string, string>;
+    readonly metadata?: Record<string, string>;
 }
 
 // @public
 export interface AcsChatMessageReceivedInThreadEventData extends AcsChatMessageEventInThreadBase {
     messageBody: string;
-    metadata?: Record<string, string>;
+    readonly metadata?: Record<string, string>;
 }
 
 // @public
@@ -184,26 +186,41 @@ export interface AcsChatParticipantRemovedFromThreadWithUserEventData extends Ac
 }
 
 // @public
+export interface AcsChatRetentionPolicy {
+    deleteThreadAfterDays?: number;
+    kind?: AcsChatRetentionPolicyKind;
+}
+
+// @public
+export type AcsChatRetentionPolicyKind = string;
+
+// @public
 export interface AcsChatThreadCreatedEventData extends AcsChatThreadEventInThreadBase {
     createdByCommunicationIdentifier: CommunicationIdentifierModel;
-    metadata?: Record<string, string>;
+    readonly metadata?: Record<string, string>;
     readonly participants: AcsChatThreadParticipant[];
     properties: Record<string, any>;
+    retentionPolicy?: AcsChatRetentionPolicy;
 }
 
 // @public
 export interface AcsChatThreadCreatedWithUserEventData extends AcsChatThreadEventBase {
     createdByCommunicationIdentifier: CommunicationIdentifierModel;
-    metadata?: Record<string, string>;
+    readonly metadata?: Record<string, string>;
     readonly participants: AcsChatThreadParticipant[];
     properties: Record<string, any>;
+    retentionPolicy?: AcsChatRetentionPolicy;
 }
 
 // @public
 export interface AcsChatThreadDeletedEventData extends AcsChatThreadEventInThreadBase {
     deletedByCommunicationIdentifier: CommunicationIdentifierModel;
     deleteTime: Date;
+    reason?: AcsChatThreadDeletedReasonType;
 }
+
+// @public
+export type AcsChatThreadDeletedReasonType = string;
 
 // @public
 export interface AcsChatThreadEventBase extends AcsChatEventBase {
@@ -220,7 +237,7 @@ export interface AcsChatThreadEventInThreadBase extends AcsChatEventInThreadBase
 // @public
 export interface AcsChatThreadParticipant {
     displayName?: string;
-    metadata?: Record<string, string>;
+    readonly metadata?: Record<string, string>;
     participantCommunicationIdentifier: CommunicationIdentifierModel;
 }
 
@@ -228,16 +245,18 @@ export interface AcsChatThreadParticipant {
 export interface AcsChatThreadPropertiesUpdatedEventData extends AcsChatThreadEventInThreadBase {
     editedByCommunicationIdentifier: CommunicationIdentifierModel;
     editTime: Date;
-    metadata: Record<string, string>;
+    readonly metadata: Record<string, string>;
     properties: Record<string, any>;
+    retentionPolicy?: AcsChatRetentionPolicy;
 }
 
 // @public
 export interface AcsChatThreadPropertiesUpdatedPerUserEventData extends AcsChatThreadEventBase {
     editedByCommunicationIdentifier: CommunicationIdentifierModel;
     editTime: Date;
-    metadata?: Record<string, string>;
+    readonly metadata?: Record<string, string>;
     properties: Record<string, any>;
+    retentionPolicy?: AcsChatRetentionPolicy;
 }
 
 // @public
@@ -249,7 +268,7 @@ export interface AcsChatThreadWithUserDeletedEventData extends AcsChatThreadEven
 // @public
 export interface AcsChatTypingIndicatorReceivedInThreadEventData extends AcsChatMessageEventInThreadBase {
     messageBody: string;
-    metadata?: Record<string, string>;
+    readonly metadata?: Record<string, string>;
 }
 
 // @public
@@ -285,8 +304,8 @@ export interface AcsEmailEngagementTrackingReportReceivedEventData {
 
 // @public
 export interface AcsIncomingCallCustomContext {
-    sipHeaders: Record<string, string>;
-    voipHeaders: Record<string, string>;
+    readonly sipHeaders: Record<string, string>;
+    readonly voipHeaders: Record<string, string>;
 }
 
 // @public
@@ -488,9 +507,9 @@ export interface AcsRouterJobDeletedEventData extends AcsRouterJobEventData {
 
 // @public
 export interface AcsRouterJobEventData extends AcsRouterEventData {
-    labels: Record<string, string>;
+    readonly labels: Record<string, string>;
     queueId?: string;
-    tags: Record<string, string>;
+    readonly tags: Record<string, string>;
 }
 
 // @public
@@ -555,7 +574,7 @@ export type AcsRouterLabelOperator = string;
 // @public
 export interface AcsRouterQueueDetails {
     id?: string;
-    labels: Record<string, string>;
+    readonly labels: Record<string, string>;
     name?: string;
 }
 
@@ -579,13 +598,13 @@ export interface AcsRouterWorkerEventData extends AcsRouterEventData {
 // @public
 export interface AcsRouterWorkerOfferAcceptedEventData extends AcsRouterWorkerEventData {
     assignmentId?: string;
-    jobLabels: Record<string, string>;
+    readonly jobLabels: Record<string, string>;
     jobPriority?: number;
-    jobTags: Record<string, string>;
+    readonly jobTags: Record<string, string>;
     offerId?: string;
     queueId?: string;
-    workerLabels: Record<string, string>;
-    workerTags: Record<string, string>;
+    readonly workerLabels: Record<string, string>;
+    readonly workerTags: Record<string, string>;
 }
 
 // @public
@@ -603,14 +622,14 @@ export interface AcsRouterWorkerOfferExpiredEventData extends AcsRouterWorkerEve
 // @public
 export interface AcsRouterWorkerOfferIssuedEventData extends AcsRouterWorkerEventData {
     expiresOn: Date;
-    jobLabels: Record<string, string>;
+    readonly jobLabels: Record<string, string>;
     jobPriority?: number;
-    jobTags: Record<string, string>;
+    readonly jobTags: Record<string, string>;
     offeredOn: Date;
     offerId?: string;
     queueId?: string;
-    workerLabels: Record<string, string>;
-    workerTags: Record<string, string>;
+    readonly workerLabels: Record<string, string>;
+    readonly workerTags: Record<string, string>;
 }
 
 // @public
@@ -622,9 +641,9 @@ export interface AcsRouterWorkerOfferRevokedEventData extends AcsRouterWorkerEve
 // @public
 export interface AcsRouterWorkerRegisteredEventData {
     readonly channelConfigurations: AcsRouterChannelConfiguration[];
-    labels: Record<string, string>;
+    readonly labels: Record<string, string>;
     readonly queueAssignments: AcsRouterQueueDetails[];
-    tags: Record<string, string>;
+    readonly tags: Record<string, string>;
     totalCapacity?: number;
     workerId?: string;
 }
@@ -645,9 +664,9 @@ export type AcsRouterWorkerSelectorState = string;
 // @public
 export interface AcsRouterWorkerUpdatedEventData {
     readonly channelConfigurations: AcsRouterChannelConfiguration[];
-    labels: Record<string, string>;
+    readonly labels: Record<string, string>;
     readonly queueAssignments: AcsRouterQueueDetails[];
-    tags: Record<string, string>;
+    readonly tags: Record<string, string>;
     totalCapacity?: number;
     readonly updatedWorkerProperties: AcsRouterUpdatedWorkerProperty[];
     workerId?: string;
@@ -1003,7 +1022,7 @@ export interface AvsScriptExecutionFailedEventData extends AvsScriptExecutionEve
 
 // @public
 export interface AvsScriptExecutionFinishedEventData extends AvsScriptExecutionEventData {
-    namedOutputs: Record<string, string>;
+    readonly namedOutputs: Record<string, string>;
 }
 
 // @public
@@ -1216,8 +1235,8 @@ export interface DeviceLifeCycleEvent {
 // @public
 export interface DeviceTelemetryEvent {
     body: Record<string, any>;
-    properties: Record<string, string>;
-    systemProperties: Record<string, string>;
+    readonly properties: Record<string, string>;
+    readonly systemProperties: Record<string, string>;
 }
 
 // @public
@@ -1282,7 +1301,7 @@ export interface EventGridEvent<T> {
 
 // @public
 export interface EventGridMqttClientCreatedOrUpdatedEventData extends EventGridMqttClientEventData {
-    attributes: Record<string, string>;
+    readonly attributes: Record<string, string>;
     createdOn: Date;
     state: EventGridMqttClientState;
     updatedOn: Date;
@@ -1416,112 +1435,112 @@ export function isSystemEvent<T extends KnownSystemEventTypes>(eventType: T, eve
 
 // @public
 export interface KeyVaultAccessPolicyChangedEventData {
-    exp?: number;
-    id?: string;
-    nbf?: number;
-    objectName?: string;
-    objectType?: string;
-    vaultName?: string;
-    version?: string;
+    exp: number;
+    id: string;
+    nbf: number;
+    objectName: string;
+    objectType: string;
+    vaultName: string;
+    version: string;
 }
 
 // @public
 export interface KeyVaultCertificateExpiredEventData {
-    exp?: number;
-    id?: string;
-    nbf?: number;
-    objectName?: string;
-    objectType?: string;
-    vaultName?: string;
-    version?: string;
+    exp: number;
+    id: string;
+    nbf: number;
+    objectName: string;
+    objectType: string;
+    vaultName: string;
+    version: string;
 }
 
 // @public
 export interface KeyVaultCertificateNearExpiryEventData {
-    exp?: number;
-    id?: string;
-    nbf?: number;
-    objectName?: string;
-    objectType?: string;
-    vaultName?: string;
-    version?: string;
+    exp: number;
+    id: string;
+    nbf: number;
+    objectName: string;
+    objectType: string;
+    vaultName: string;
+    version: string;
 }
 
 // @public
 export interface KeyVaultCertificateNewVersionCreatedEventData {
-    exp?: number;
-    id?: string;
-    nbf?: number;
-    objectName?: string;
-    objectType?: string;
-    vaultName?: string;
-    version?: string;
+    exp: number;
+    id: string;
+    nbf: number;
+    objectName: string;
+    objectType: string;
+    vaultName: string;
+    version: string;
 }
 
 // @public
 export interface KeyVaultKeyExpiredEventData {
-    exp?: number;
-    id?: string;
-    nbf?: number;
-    objectName?: string;
-    objectType?: string;
-    vaultName?: string;
-    version?: string;
+    exp: number;
+    id: string;
+    nbf: number;
+    objectName: string;
+    objectType: string;
+    vaultName: string;
+    version: string;
 }
 
 // @public
 export interface KeyVaultKeyNearExpiryEventData {
-    exp?: number;
-    id?: string;
-    nbf?: number;
-    objectName?: string;
-    objectType?: string;
-    vaultName?: string;
-    version?: string;
+    exp: number;
+    id: string;
+    nbf: number;
+    objectName: string;
+    objectType: string;
+    vaultName: string;
+    version: string;
 }
 
 // @public
 export interface KeyVaultKeyNewVersionCreatedEventData {
-    exp?: number;
-    id?: string;
-    nbf?: number;
-    objectName?: string;
-    objectType?: string;
-    vaultName?: string;
-    version?: string;
+    exp: number;
+    id: string;
+    nbf: number;
+    objectName: string;
+    objectType: string;
+    vaultName: string;
+    version: string;
 }
 
 // @public
 export interface KeyVaultSecretExpiredEventData {
-    exp?: number;
-    id?: string;
-    nbf?: number;
-    objectName?: string;
-    objectType?: string;
-    vaultName?: string;
-    version?: string;
+    exp: number;
+    id: string;
+    nbf: number;
+    objectName: string;
+    objectType: string;
+    vaultName: string;
+    version: string;
 }
 
 // @public
 export interface KeyVaultSecretNearExpiryEventData {
-    exp?: number;
-    id?: string;
-    nbf?: number;
-    objectName?: string;
-    objectType?: string;
-    vaultName?: string;
-    version?: string;
+    exp: number;
+    id: string;
+    nbf: number;
+    objectName: string;
+    objectType: string;
+    vaultName: string;
+    version: string;
 }
 
 // @public
 export interface KeyVaultSecretNewVersionCreatedEventData {
-    exp?: number;
-    id?: string;
-    nbf?: number;
-    objectName?: string;
-    objectType?: string;
-    vaultName?: string;
-    version?: string;
+    exp: number;
+    id: string;
+    nbf: number;
+    objectName: string;
+    objectType: string;
+    vaultName: string;
+    version: string;
 }
 
 // @public
@@ -1537,6 +1556,18 @@ export enum KnownAcsCallParticipantKind {
     Consumer = "Consumer",
     Organizer = "Organizer",
     Presenter = "Presenter"
+}
+
+// @public
+export enum KnownAcsChatRetentionPolicyKind {
+    None = "none",
+    ThreadCreationDate = "threadCreationDate"
+}
+
+// @public
+export enum KnownAcsChatThreadDeletedReasonType {
+    DeletedByPolicy = "deletedByPolicy",
+    DeletedByUser = "deletedByUser"
 }
 
 // @public
@@ -2069,7 +2100,7 @@ export interface RedisScalingCompletedEventData {
 // @public
 export interface ResourceActionCancelEventData {
     authorization: ResourceAuthorization;
-    claims: Record<string, string>;
+    readonly claims: Record<string, string>;
     correlationId?: string;
     httpRequest: ResourceHttpRequest;
     operationName?: string;
@@ -2084,7 +2115,7 @@ export interface ResourceActionCancelEventData {
 // @public
 export interface ResourceActionFailureEventData {
     authorization: ResourceAuthorization;
-    claims: Record<string, string>;
+    readonly claims: Record<string, string>;
     correlationId?: string;
     httpRequest: ResourceHttpRequest;
     operationName?: string;
@@ -2099,7 +2130,7 @@ export interface ResourceActionFailureEventData {
 // @public
 export interface ResourceActionSuccessEventData {
     authorization: ResourceAuthorization;
-    claims: Record<string, string>;
+    readonly claims: Record<string, string>;
     correlationId?: string;
     httpRequest: ResourceHttpRequest;
     operationName?: string;
@@ -2114,14 +2145,14 @@ export interface ResourceActionSuccessEventData {
 // @public
 export interface ResourceAuthorization {
     action?: string;
-    evidence: Record<string, string>;
+    readonly evidence: Record<string, string>;
     scope?: string;
 }
 
 // @public
 export interface ResourceDeleteCancelEventData {
     authorization: ResourceAuthorization;
-    claims: Record<string, string>;
+    readonly claims: Record<string, string>;
     correlationId?: string;
     httpRequest: ResourceHttpRequest;
     operationName?: string;
@@ -2136,7 +2167,7 @@ export interface ResourceDeleteCancelEventData {
 // @public
 export interface ResourceDeleteFailureEventData {
     authorization: ResourceAuthorization;
-    claims: Record<string, string>;
+    readonly claims: Record<string, string>;
     correlationId?: string;
     httpRequest: ResourceHttpRequest;
     operationName?: string;
@@ -2151,7 +2182,7 @@ export interface ResourceDeleteFailureEventData {
 // @public
 export interface ResourceDeleteSuccessEventData {
     authorization: ResourceAuthorization;
-    claims: Record<string, string>;
+    readonly claims: Record<string, string>;
     correlationId?: string;
     httpRequest: ResourceHttpRequest;
     operationName?: string;
@@ -2214,8 +2245,8 @@ export interface ResourceNotificationsResourceUpdatedDetails {
     id: string;
     location?: string;
     name: string;
-    properties?: Record<string, any>;
-    tags?: Record<string, string>;
+    readonly properties?: Record<string, any>;
+    readonly tags?: Record<string, string>;
     type: string;
 }
 
@@ -2229,7 +2260,7 @@ export interface ResourceNotificationsResourceUpdatedEventData {
 // @public
 export interface ResourceWriteCancelEventData {
     authorization: ResourceAuthorization;
-    claims: Record<string, string>;
+    readonly claims: Record<string, string>;
     correlationId?: string;
     httpRequest: ResourceHttpRequest;
     operationName?: string;
@@ -2244,7 +2275,7 @@ export interface ResourceWriteCancelEventData {
 // @public
 export interface ResourceWriteFailureEventData {
     authorization: ResourceAuthorization;
-    claims: Record<string, string>;
+    readonly claims: Record<string, string>;
     correlationId?: string;
     httpRequest: ResourceHttpRequest;
     operationName?: string;
@@ -2259,7 +2290,7 @@ export interface ResourceWriteFailureEventData {
 // @public
 export interface ResourceWriteSuccessEventData {
     authorization: ResourceAuthorization;
-    claims: Record<string, string>;
+    readonly claims: Record<string, string>;
     correlationId?: string;
     httpRequest: ResourceHttpRequest;
     operationName?: string;
@@ -2580,6 +2611,10 @@ export interface SystemEventNameToEventData {
     "Microsoft.AVS.ScriptExecutionFailed": AvsScriptExecutionFailedEventData;
     "Microsoft.AVS.ScriptExecutionFinished": AvsScriptExecutionFinishedEventData;
     "Microsoft.AVS.ScriptExecutionStarted": AvsScriptExecutionStartedEventData;
+    "Microsoft.Cache.ExportRDBCompleted": RedisExportRDBCompletedEventData;
+    "Microsoft.Cache.ImportRDBCompleted": RedisImportRDBCompletedEventData;
+    "Microsoft.Cache.PatchingCompleted": RedisPatchingCompletedEventData;
+    "Microsoft.Cache.ScalingCompleted": RedisScalingCompletedEventData;
     "Microsoft.Communication.AdvancedMessageDeliveryStatusUpdated": AcsMessageDeliveryStatusUpdatedEventData;
     "Microsoft.Communication.AdvancedMessageReceived": AcsMessageReceivedEventData;
     "Microsoft.Communication.CallEnded": AcsCallEndedEventData;
@@ -2595,9 +2630,12 @@ export interface SystemEventNameToEventData {
     "Microsoft.Communication.ChatMessageReceivedInThread": AcsChatMessageReceivedInThreadEventData;
     "Microsoft.Communication.ChatParticipantAddedToThreadWithUser": AcsChatParticipantAddedToThreadWithUserEventData;
     "Microsoft.Communication.ChatParticipantRemovedFromThreadWithUser": AcsChatParticipantRemovedFromThreadWithUserEventData;
+    "Microsoft.Communication.ChatThreadCreated": AcsChatThreadCreatedEventData;
     "Microsoft.Communication.ChatThreadCreatedWithUser": AcsChatThreadCreatedWithUserEventData;
+    "Microsoft.Communication.ChatThreadDeleted": AcsChatThreadDeletedEventData;
     "Microsoft.Communication.ChatThreadParticipantAdded": AcsChatParticipantAddedToThreadEventData;
     "Microsoft.Communication.ChatThreadParticipantRemoved": AcsChatParticipantRemovedFromThreadEventData;
+    "Microsoft.Communication.ChatThreadPropertiesUpdated": AcsChatThreadPropertiesUpdatedEventData;
     "Microsoft.Communication.ChatThreadPropertiesUpdatedPerUser": AcsChatThreadPropertiesUpdatedPerUserEventData;
     "Microsoft.Communication.ChatThreadWithUserDeleted": AcsChatThreadWithUserDeletedEventData;
     "Microsoft.Communication.ChatTypingIndicatorReceivedInThread": AcsChatTypingIndicatorReceivedInThreadEventData;
@@ -2617,7 +2655,7 @@ export interface SystemEventNameToEventData {
     "Microsoft.Communication.RouterJobSchedulingFailed": AcsRouterJobSchedulingFailedEventData;
     "Microsoft.Communication.RouterJobUnassigned": AcsRouterJobUnassignedEventData;
     "Microsoft.Communication.RouterJobWaitingForActivation": AcsRouterJobWaitingForActivationEventData;
-    "Microsoft.Communication.RouterJobWorkerSelectorsExpire": AcsRouterJobWorkerSelectorsExpiredEventData;
+    "Microsoft.Communication.RouterJobWorkerSelectorsExpired": AcsRouterJobWorkerSelectorsExpiredEventData;
     "Microsoft.Communication.RouterWorkerDeleted": AcsRouterWorkerDeletedEventData;
     "Microsoft.Communication.RouterWorkerDeregistered": AcsRouterWorkerDeregisteredEventData;
     "Microsoft.Communication.RouterWorkerOfferAccepted": AcsRouterWorkerOfferAcceptedEventData;
@@ -2659,9 +2697,9 @@ export interface SystemEventNameToEventData {
     "Microsoft.HealthcareApis.DicomImageCreated": HealthcareDicomImageCreatedEventData;
     "Microsoft.HealthcareApis.DicomImageDeleted": HealthcareDicomImageDeletedEventData;
     "Microsoft.HealthcareApis.DicomImageUpdated": HealthcareDicomImageUpdatedEventData;
-    "Microsoft.HealthcareApis.FhirDeletedCreated": HealthcareFhirResourceDeletedEventData;
     "Microsoft.HealthcareApis.FhirResourceCreated": HealthcareFhirResourceCreatedEventData;
-    "Microsoft.HealthcareApis.FhirUpdatedCreated": HealthcareFhirResourceUpdatedEventData;
+    "Microsoft.HealthcareApis.FhirResourceDeleted": HealthcareFhirResourceDeletedEventData;
+    "Microsoft.HealthcareApis.FhirResourceUpdated": HealthcareFhirResourceUpdatedEventData;
     "Microsoft.KeyVault.CertificateExpired": KeyVaultCertificateExpiredEventData;
     "Microsoft.KeyVault.CertificateNearExpiry": KeyVaultCertificateNearExpiryEventData;
     "Microsoft.KeyVault.CertificateNewVersionCreated": KeyVaultCertificateNewVersionCreatedEventData;
@@ -2683,6 +2721,7 @@ export interface SystemEventNameToEventData {
     "Microsoft.PolicyInsights.PolicyStateChanged": PolicyInsightsPolicyStateChangedEventData;
     "Microsoft.PolicyInsights.PolicyStateCreated": PolicyInsightsPolicyStateCreatedEventData;
     "Microsoft.PolicyInsights.PolicyStateDeleted": PolicyInsightsPolicyStateDeletedEventData;
+    "Microsoft.ResourceNotifications.ContainerServiceEventResources.ScheduledEventEmitted": ResourceNotificationsContainerServiceEventResourcesScheduledEventData;
     "Microsoft.ResourceNotifications.HealthResources.AvailabilityStatusChanged": ResourceNotificationsHealthResourcesAvailabilityStatusChangedEventData;
     "Microsoft.ResourceNotifications.HealthResources.ResourceAnnotated": ResourceNotificationsHealthResourcesAnnotatedEventData;
     "Microsoft.ResourceNotifications.Resources.CreatedOrUpdated": ResourceNotificationsResourceManagementCreatedOrUpdatedEventData;
@@ -2696,8 +2735,12 @@ export interface SystemEventNameToEventData {
     "Microsoft.Resources.ResourceWriteCancel": ResourceWriteCancelEventData;
     "Microsoft.Resources.ResourceWriteFailure": ResourceWriteFailureEventData;
     "Microsoft.Resources.ResourceWriteSuccess": ResourceWriteSuccessEventData;
+    "Microsoft.ServiceBus.ActiveMessagesAvailablePeriodicNotifications": ServiceBusActiveMessagesAvailablePeriodicNotificationsEventData;
     "Microsoft.ServiceBus.ActiveMessagesAvailableWithNoListeners": ServiceBusActiveMessagesAvailableWithNoListenersEventData;
+    "Microsoft.ServiceBus.DeadletterMessagesAvailablePeriodicNotifications": ServiceBusDeadletterMessagesAvailablePeriodicNotificationsEventData;
     "Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListeners": ServiceBusDeadletterMessagesAvailableWithNoListenersEventData;
+    "Microsoft.SignalRService.ClientConnectionConnected": SignalRServiceClientConnectionConnectedEventData;
+    "Microsoft.SignalRService.ClientConnectionDisconnected": SignalRServiceClientConnectionDisconnectedEventData;
     "Microsoft.Storage.AsyncOperationInitiated": StorageAsyncOperationInitiatedEventData;
     "Microsoft.Storage.BlobCreated": StorageBlobCreatedEventData;
     "Microsoft.Storage.BlobDeleted": StorageBlobDeletedEventData;

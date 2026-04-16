@@ -56,7 +56,7 @@ export function randomUUID(): string;
 
 // @public
 export class Sanitizer {
-    constructor({ additionalAllowedHeaderNames: allowedHeaderNames, additionalAllowedQueryParameters: allowedQueryParameters, }?: SanitizerOptions);
+    constructor(input?: SanitizerOptions);
     sanitize(obj: unknown): string;
     sanitizeUrl(value: string): string;
 }

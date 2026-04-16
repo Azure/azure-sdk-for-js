@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a ScriptExecution
  *
  * @summary get a ScriptExecution
- * x-ms-original-file: 2024-09-01/ScriptExecutions_Get.json
+ * x-ms-original-file: 2025-09-01/ScriptExecutions_Get.json
  */
 async function scriptExecutionsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

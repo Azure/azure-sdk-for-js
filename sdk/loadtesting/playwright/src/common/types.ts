@@ -4,7 +4,7 @@
 import type { ConnectOptions } from "@playwright/test";
 import type { ServiceAuth, ServiceOS, SDKLanguage } from "./constants.js";
 import type { TokenCredential } from "@azure/identity";
-import { CIInfo } from "../utils/cIInfoProvider.js";
+import type { CIInfo } from "../utils/cIInfoProvider.js";
 
 // Public APIs
 
@@ -114,6 +114,15 @@ export type PlaywrightServiceAdditionalOptions = {
   /**
    * @public
    *
+   * Use cloud hosted browsers.
+   *
+   * @defaultValue `true`
+   */
+  useCloudHostedBrowsers?: boolean;
+
+  /**
+   * @public
+   *
    * Custom token credential for Entra ID authentication. Learn more at {@link https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/using-azure-identity.md | Using Azure Identity}.
    *
    * @defaultValue `DefaultAzureCredential`
@@ -196,3 +205,28 @@ export type TestRunCreatePayload = {
   config?: RunConfig;
   ciConfig?: CIInfo;
 };
+
+export type WorkspaceMetaData = {
+  id?: string;
+  resourceId?: string;
+  name?: string;
+  state?: string;
+  subscriptionId?: string;
+  subscriptionState?: string;
+  tenantId?: string;
+  location?: string;
+  regionalAffinity?: string;
+  localAuth?: string;
+  storageUri?: string;
+  reporting?: string;
+};
+
+export interface UploadResult {
+  success: boolean;
+  errorMessage?: string;
+  failedFileCount?: number;
+  totalFiles?: number;
+  failedFiles?: string[];
+  failedFileDetails?: Array<{ fileName: string; error: string }>;
+  partialSuccess?: boolean;
+}

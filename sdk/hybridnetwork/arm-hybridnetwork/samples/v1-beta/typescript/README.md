@@ -125,7 +125,7 @@ node dist/artifactManifestsCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env HYBRIDNETWORK_SUBSCRIPTION_ID="<hybridnetwork subscription id>" HYBRIDNETWORK_RESOURCE_GROUP="<hybridnetwork resource group>" node dist/artifactManifestsCreateOrUpdateSample.js
+cross-env HYBRIDNETWORK_SUBSCRIPTION_ID="<hybridnetwork subscription id>" HYBRIDNETWORK_RESOURCE_GROUP="<hybridnetwork resource group>" node dist/artifactManifestsCreateOrUpdateSample.js
 ```
 
 ## Next Steps

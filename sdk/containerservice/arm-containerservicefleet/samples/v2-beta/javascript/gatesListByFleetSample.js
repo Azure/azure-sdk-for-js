@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list Gate resources by Fleet
  *
  * @summary list Gate resources by Fleet
- * x-ms-original-file: 2025-04-01-preview/Gates_ListByFleet.json
+ * x-ms-original-file: 2026-02-01-preview/Gates_ListByFleet.json
  */
 async function listsTheGatesOfAFleet() {
   const credential = new DefaultAzureCredential();

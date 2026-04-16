@@ -13,8 +13,7 @@ import { KeyVaultKeyPollOperation } from "../keyVaultKeyPoller.js";
 /**
  * An interface representing the state of a delete key's poll operation
  */
-export interface RecoverDeletedKeyPollOperationState
-  extends KeyVaultKeyPollOperationState<KeyVaultKey> {}
+export interface RecoverDeletedKeyPollOperationState extends KeyVaultKeyPollOperationState<KeyVaultKey> {}
 
 export class RecoverDeletedKeyPollOperation extends KeyVaultKeyPollOperation<
   RecoverDeletedKeyPollOperationState,

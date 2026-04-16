@@ -24,6 +24,15 @@ export interface AddRemoveIncrementalNamedPartitionScalingMechanism extends Scal
 }
 
 // @public
+export interface ApplicationFetchHealthRequest {
+    deployedApplicationsHealthStateFilter?: HealthFilter;
+    eventsHealthStateFilter?: HealthFilter;
+    excludeHealthStatistics?: boolean;
+    servicesHealthStateFilter?: HealthFilter;
+    timeout?: number;
+}
+
+// @public
 export interface ApplicationHealthPolicy {
     considerWarningAsError: boolean;
     defaultServiceTypeHealthPolicy?: ServiceTypeHealthPolicy;
@@ -35,8 +44,12 @@ export interface ApplicationHealthPolicy {
 export interface ApplicationResource extends ProxyResource {
     identity?: ManagedIdentity;
     location?: string;
-    properties?: ApplicationResourceProperties;
+    managedIdentities?: ApplicationUserAssignedIdentity[];
+    parameters?: Record<string, string>;
+    readonly provisioningState?: string;
     tags?: Record<string, string>;
+    upgradePolicy?: ApplicationUpgradePolicy;
+    version?: string;
 }
 
 // @public
@@ -51,7 +64,7 @@ export interface ApplicationResourceProperties {
 // @public
 export interface ApplicationTypeResource extends ProxyResource {
     location?: string;
-    properties?: ApplicationTypeResourceProperties;
+    readonly provisioningState?: string;
     tags?: Record<string, string>;
 }
 
@@ -67,8 +80,9 @@ export interface ApplicationTypeUpdateParameters {
 
 // @public
 export interface ApplicationTypeVersionResource extends ProxyResource {
+    appPackageUrl?: string;
     location?: string;
-    properties?: ApplicationTypeVersionResourceProperties;
+    readonly provisioningState?: string;
     tags?: Record<string, string>;
 }
 
@@ -90,7 +104,13 @@ export interface ApplicationTypeVersionUpdateParameters {
 
 // @public
 export interface ApplicationUpdateParameters {
+    properties?: ApplicationUpdateParametersProperties;
     tags?: Record<string, string>;
+}
+
+// @public
+export interface ApplicationUpdateParametersProperties {
+    parameters?: Record<string, string>;
 }
 
 // @public
@@ -243,60 +263,15 @@ export type EvictionPolicyType = string;
 export type FailureAction = string;
 
 // @public
-export type FaultKind = string;
-
-// @public
-export interface FaultSimulation {
-    details?: FaultSimulationDetails;
-    endTime?: Date;
-    simulationId?: string;
-    startTime?: Date;
-    status?: FaultSimulationStatus;
-}
-
-// @public
-export interface FaultSimulationConstraints {
-    expirationTime?: Date;
-}
-
-// @public
-export interface FaultSimulationContent {
-    constraints?: FaultSimulationConstraints;
-    faultKind: FaultKind;
-    force?: boolean;
-}
-
-// @public
-export type FaultSimulationContentUnion = ZoneFaultSimulationContent | FaultSimulationContent;
-
-// @public
-export interface FaultSimulationContentWrapper {
-    parameters: FaultSimulationContentUnion;
-}
-
-// @public
-export interface FaultSimulationDetails {
-    clusterId?: string;
-    nodeTypeFaultSimulation?: NodeTypeFaultSimulation[];
-    operationId?: string;
-    parameters?: FaultSimulationContentUnion;
-}
-
-// @public
-export interface FaultSimulationIdContent {
-    simulationId: string;
-}
-
-// @public
-export type FaultSimulationStatus = string;
-
-// @public
 export interface FrontendConfiguration {
     applicationGatewayBackendAddressPoolId?: string;
     ipAddressType?: IPAddressType;
     loadBalancerBackendAddressPoolId?: string;
     loadBalancerInboundNatPoolId?: string;
 }
+
+// @public
+export type HealthFilter = string;
 
 // @public
 export type IPAddressType = string;
@@ -399,18 +374,13 @@ export enum KnownFailureAction {
 }
 
 // @public
-export enum KnownFaultKind {
-    Zone = "Zone"
-}
-
-// @public
-export enum KnownFaultSimulationStatus {
-    Active = "Active",
-    Done = "Done",
-    StartFailed = "StartFailed",
-    Starting = "Starting",
-    StopFailed = "StopFailed",
-    Stopping = "Stopping"
+export enum KnownHealthFilter {
+    All = "All",
+    Default = "Default",
+    Error = "Error",
+    None = "None",
+    Ok = "Ok",
+    Warning = "Warning"
 }
 
 // @public
@@ -521,9 +491,32 @@ export enum KnownPublicIPAddressVersion {
 }
 
 // @public
+export enum KnownRestartKind {
+    Simultaneous = "Simultaneous"
+}
+
+// @public
 export enum KnownRollingUpgradeMode {
     Monitored = "Monitored",
     UnmonitoredAuto = "UnmonitoredAuto"
+}
+
+// @public
+export enum KnownRuntimeFailureAction {
+    Manual = "Manual",
+    Rollback = "Rollback"
+}
+
+// @public
+export enum KnownRuntimeRollingUpgradeMode {
+    Monitored = "Monitored",
+    UnmonitoredAuto = "UnmonitoredAuto",
+    UnmonitoredManual = "UnmonitoredManual"
+}
+
+// @public
+export enum KnownRuntimeUpgradeKind {
+    Rolling = "Rolling"
 }
 
 // @public
@@ -587,16 +580,6 @@ export enum KnownServiceScalingTriggerKind {
 }
 
 // @public
-export enum KnownSfmcOperationStatus {
-    Aborted = "Aborted",
-    Canceled = "Canceled",
-    Created = "Created",
-    Failed = "Failed",
-    Started = "Started",
-    Succeeded = "Succeeded"
-}
-
-// @public
 export enum KnownSkuName {
     Basic = "Basic",
     Standard = "Standard"
@@ -610,9 +593,7 @@ export enum KnownUpdateType {
 
 // @public
 export enum KnownVersions {
-    V20241101Preview = "2024-11-01-preview",
-    // (undocumented)
-    V20250301Preview = "2025-03-01-preview"
+    V20260201 = "2026-02-01"
 }
 
 // @public
@@ -661,9 +642,52 @@ export interface ManagedAzResiliencyStatus {
 
 // @public
 export interface ManagedCluster extends TrackedResource {
+    addonFeatures?: ManagedClusterAddOnFeature[];
+    adminPassword?: string;
+    adminUserName?: string;
+    allocatedOutboundPorts?: number;
+    allowRdpAccess?: boolean;
+    applicationTypeVersionsCleanupPolicy?: ApplicationTypeVersionsCleanupPolicy;
+    autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope;
+    auxiliarySubnets?: Subnet[];
+    azureActiveDirectory?: AzureActiveDirectory;
+    clientConnectionPort?: number;
+    clients?: ClientCertificate[];
+    readonly clusterCertificateThumbprints?: string[];
+    clusterCodeVersion?: string;
+    readonly clusterId?: string;
+    readonly clusterState?: ClusterState;
+    clusterUpgradeCadence?: ClusterUpgradeCadence;
+    clusterUpgradeMode?: ClusterUpgradeMode;
+    ddosProtectionPlanId?: string;
+    dnsName?: string;
+    enableAutoOSUpgrade?: boolean;
+    enableHttpGatewayExclusiveAuthMode?: boolean;
+    enableIpv6?: boolean;
+    enableOutboundOnlyNodeTypes?: boolean;
+    enableServicePublicIP?: boolean;
     readonly etag?: string;
-    properties?: ManagedClusterProperties;
+    fabricSettings?: SettingsSectionDescription[];
+    readonly fqdn?: string;
+    httpGatewayConnectionPort?: number;
+    httpGatewayTokenAuthConnectionPort?: number;
+    ipTags?: IpTag[];
+    readonly ipv4Address?: string;
+    readonly ipv6Address?: string;
+    loadBalancingRules?: LoadBalancingRule[];
+    networkSecurityRules?: NetworkSecurityRule[];
+    readonly provisioningState?: ManagedResourceProvisioningState;
+    publicIPPrefixId?: string;
+    publicIPv6PrefixId?: string;
+    serviceEndpoints?: ServiceEndpoint[];
+    skipManagedNsgAssignment?: boolean;
     sku: Sku;
+    subnetId?: string;
+    upgradeDescription?: ClusterUpgradePolicy;
+    useCustomVnet?: boolean;
+    vmImage?: string;
+    zonalResiliency?: boolean;
+    zonalUpdateMode?: ZonalUpdateMode;
 }
 
 // @public
@@ -671,9 +695,11 @@ export type ManagedClusterAddOnFeature = string;
 
 // @public
 export interface ManagedClusterCodeVersionResult {
+    clusterCodeVersion?: string;
     id?: string;
     name?: string;
-    properties?: ManagedClusterVersionDetails;
+    osType?: OsType;
+    supportExpiryUtc?: Date;
     type?: string;
 }
 
@@ -701,6 +727,7 @@ export interface ManagedClusterProperties {
     enableAutoOSUpgrade?: boolean;
     enableHttpGatewayExclusiveAuthMode?: boolean;
     enableIpv6?: boolean;
+    enableOutboundOnlyNodeTypes?: boolean;
     enableServicePublicIP?: boolean;
     fabricSettings?: SettingsSectionDescription[];
     readonly fqdn?: string;
@@ -715,6 +742,7 @@ export interface ManagedClusterProperties {
     publicIPPrefixId?: string;
     publicIPv6PrefixId?: string;
     serviceEndpoints?: ServiceEndpoint[];
+    skipManagedNsgAssignment?: boolean;
     subnetId?: string;
     upgradeDescription?: ClusterUpgradePolicy;
     useCustomVnet?: boolean;
@@ -800,9 +828,62 @@ export interface NetworkSecurityRule {
 
 // @public
 export interface NodeType extends ProxyResource {
-    properties?: NodeTypeProperties;
+    additionalDataDisks?: VmssDataDisk[];
+    additionalNetworkInterfaceConfigurations?: AdditionalNetworkInterfaceConfiguration[];
+    applicationPorts?: EndpointRangeDescription;
+    capacities?: Record<string, string>;
+    computerNamePrefix?: string;
+    dataDiskLetter?: string;
+    dataDiskSizeGB?: number;
+    dataDiskType?: DiskType;
+    dscpConfigurationId?: string;
+    enableAcceleratedNetworking?: boolean;
+    enableEncryptionAtHost?: boolean;
+    enableNodePublicIP?: boolean;
+    enableNodePublicIPv6?: boolean;
+    enableOverProvisioning?: boolean;
+    enableResilientEphemeralOsDisk?: boolean;
+    ephemeralPorts?: EndpointRangeDescription;
+    evictionPolicy?: EvictionPolicyType;
+    frontendConfigurations?: FrontendConfiguration[];
+    hostGroupId?: string;
+    isOutboundOnly?: boolean;
+    isPrimary?: boolean;
+    isSpotVM?: boolean;
+    isStateless?: boolean;
+    multiplePlacementGroups?: boolean;
+    natConfigurations?: NodeTypeNatConfig[];
+    natGatewayId?: string;
+    networkSecurityRules?: NetworkSecurityRule[];
+    placementProperties?: Record<string, string>;
+    readonly provisioningState?: ManagedResourceProvisioningState;
+    secureBootEnabled?: boolean;
+    securityEncryptionType?: SecurityEncryptionType;
+    securityType?: SecurityType;
+    serviceArtifactReferenceId?: string;
     sku?: NodeTypeSku;
+    spotRestoreTimeout?: string;
+    subnetId?: string;
     tags?: Record<string, string>;
+    useDefaultPublicLoadBalancer?: boolean;
+    useEphemeralOSDisk?: boolean;
+    useTempDataDisk?: boolean;
+    vmApplications?: VmApplication[];
+    vmExtensions?: VmssExtension[];
+    vmImageOffer?: string;
+    vmImagePlan?: VmImagePlan;
+    vmImagePublisher?: string;
+    vmImageResourceId?: string;
+    vmImageSku?: string;
+    vmImageVersion?: string;
+    vmInstanceCount?: number;
+    vmManagedIdentity?: VmManagedIdentity;
+    vmSecrets?: VaultSecretGroup[];
+    vmSetupActions?: VmSetupAction[];
+    vmSharedGalleryImageId?: string;
+    vmSize?: string;
+    zoneBalance?: boolean;
+    zones?: string[];
 }
 
 // @public
@@ -817,14 +898,6 @@ export interface NodeTypeAvailableSku {
     readonly capacity?: NodeTypeSkuCapacity;
     readonly resourceType?: string;
     readonly sku?: NodeTypeSupportedSku;
-}
-
-// @public
-export interface NodeTypeFaultSimulation {
-    nodeTypeName?: string;
-    operationId?: string;
-    operationStatus?: SfmcOperationStatus;
-    status?: FaultSimulationStatus;
 }
 
 // @public
@@ -850,10 +923,12 @@ export interface NodeTypeProperties {
     enableNodePublicIP?: boolean;
     enableNodePublicIPv6?: boolean;
     enableOverProvisioning?: boolean;
+    enableResilientEphemeralOsDisk?: boolean;
     ephemeralPorts?: EndpointRangeDescription;
     evictionPolicy?: EvictionPolicyType;
     frontendConfigurations?: FrontendConfiguration[];
     hostGroupId?: string;
+    isOutboundOnly?: boolean;
     isPrimary: boolean;
     isSpotVM?: boolean;
     isStateless?: boolean;
@@ -994,6 +1069,27 @@ export interface ResourceAzStatus {
 }
 
 // @public
+export interface RestartDeployedCodePackageRequest {
+    codePackageInstanceId: string;
+    codePackageName: string;
+    nodeName: string;
+    serviceManifestName: string;
+    servicePackageActivationId?: string;
+}
+
+// @public
+export type RestartKind = string;
+
+// @public
+export interface RestartReplicaRequest {
+    forceRestart?: boolean;
+    partitionId: string;
+    replicaIds: number[];
+    restartKind: RestartKind;
+    timeout?: number;
+}
+
+// @public
 export type RollingUpgradeMode = string;
 
 // @public
@@ -1007,9 +1103,55 @@ export interface RollingUpgradeMonitoringPolicy {
 }
 
 // @public
+export interface RuntimeApplicationHealthPolicy {
+    considerWarningAsError: boolean;
+    defaultServiceTypeHealthPolicy?: RuntimeServiceTypeHealthPolicy;
+    maxPercentUnhealthyDeployedApplications: number;
+    serviceTypeHealthPolicyMap?: Record<string, RuntimeServiceTypeHealthPolicy>;
+}
+
+// @public
+export type RuntimeFailureAction = string;
+
+// @public
 export interface RuntimeResumeApplicationUpgradeParameters {
     upgradeDomainName?: string;
 }
+
+// @public
+export type RuntimeRollingUpgradeMode = string;
+
+// @public
+export interface RuntimeRollingUpgradeUpdateMonitoringPolicy {
+    failureAction?: RuntimeFailureAction;
+    forceRestart?: boolean;
+    healthCheckRetryTimeoutInMilliseconds?: string;
+    healthCheckStableDurationInMilliseconds?: string;
+    healthCheckWaitDurationInMilliseconds?: string;
+    instanceCloseDelayDurationInSeconds?: number;
+    replicaSetCheckTimeoutInMilliseconds?: number;
+    rollingUpgradeMode: RuntimeRollingUpgradeMode;
+    upgradeDomainTimeoutInMilliseconds?: string;
+    upgradeTimeoutInMilliseconds?: string;
+}
+
+// @public
+export interface RuntimeServiceTypeHealthPolicy {
+    maxPercentUnhealthyPartitionsPerService: number;
+    maxPercentUnhealthyReplicasPerPartition: number;
+    maxPercentUnhealthyServices: number;
+}
+
+// @public
+export interface RuntimeUpdateApplicationUpgradeParameters {
+    applicationHealthPolicy?: RuntimeApplicationHealthPolicy;
+    name: string;
+    updateDescription?: RuntimeRollingUpgradeUpdateMonitoringPolicy;
+    upgradeKind: RuntimeUpgradeKind;
+}
+
+// @public
+export type RuntimeUpgradeKind = string;
 
 // @public
 export interface ScalingMechanism {
@@ -1053,6 +1195,7 @@ export type ServiceCorrelationScheme = string;
 // @public
 export interface ServiceEndpoint {
     locations?: string[];
+    networkIdentifier?: string;
     service: string;
 }
 
@@ -1175,9 +1318,6 @@ export interface SettingsSectionDescription {
     name: string;
     parameters: SettingsParameterDescription[];
 }
-
-// @public
-export type SfmcOperationStatus = string;
 
 // @public
 export interface SingletonPartitionScheme extends Partition {
@@ -1312,8 +1452,18 @@ export interface VmssDataDisk {
 
 // @public
 export interface VmssExtension {
+    autoUpgradeMinorVersion?: boolean;
+    enableAutomaticUpgrade?: boolean;
+    forceUpdateTag?: string;
     name: string;
-    properties: VmssExtensionProperties;
+    protectedSettings?: any;
+    provisionAfterExtensions?: string[];
+    readonly provisioningState?: string;
+    publisher: string;
+    settings?: any;
+    setupOrder?: VmssExtensionSetupOrder[];
+    type: string;
+    typeHandlerVersion: string;
 }
 
 // @public
@@ -1336,12 +1486,6 @@ export type VmssExtensionSetupOrder = string;
 
 // @public
 export type ZonalUpdateMode = string;
-
-// @public
-export interface ZoneFaultSimulationContent extends FaultSimulationContent {
-    faultKind: "Zone";
-    zones?: string[];
-}
 
 // (No @packageDocumentation comment for this package)
 

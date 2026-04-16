@@ -1,0 +1,43 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export {
+  validateCrossRegionRestore,
+  triggerCrossRegionRestore,
+  validateForRestore,
+  syncBackupInstance,
+  suspendBackups,
+  stopProtection,
+  resumeProtection,
+  resumeBackups,
+  triggerRestore,
+  triggerRehydrate,
+  validateForModifyBackup,
+  adhocBackup,
+  $delete,
+  createOrUpdate,
+  get,
+  validateForBackup,
+  list,
+  getBackupInstanceOperationResult,
+} from "./operations.js";
+export {
+  type BackupInstancesValidateCrossRegionRestoreOptionalParams,
+  type BackupInstancesTriggerCrossRegionRestoreOptionalParams,
+  type BackupInstancesValidateForRestoreOptionalParams,
+  type BackupInstancesSyncBackupInstanceOptionalParams,
+  type BackupInstancesSuspendBackupsOptionalParams,
+  type BackupInstancesStopProtectionOptionalParams,
+  type BackupInstancesResumeProtectionOptionalParams,
+  type BackupInstancesResumeBackupsOptionalParams,
+  type BackupInstancesTriggerRestoreOptionalParams,
+  type BackupInstancesTriggerRehydrateOptionalParams,
+  type BackupInstancesValidateForModifyBackupOptionalParams,
+  type BackupInstancesAdhocBackupOptionalParams,
+  type BackupInstancesDeleteOptionalParams,
+  type BackupInstancesCreateOrUpdateOptionalParams,
+  type BackupInstancesGetOptionalParams,
+  type BackupInstancesValidateForBackupOptionalParams,
+  type BackupInstancesListOptionalParams,
+  type BackupInstancesGetBackupInstanceOperationResultOptionalParams,
+} from "./options.js";

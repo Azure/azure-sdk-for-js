@@ -2,17 +2,15 @@
 
 These sample programs show how to use the JavaScript client libraries for Azure Template in some common scenarios.
 
-| **File Name**                                         | **Description**                                                            |
-| ----------------------------------------------------- | -------------------------------------------------------------------------- |
-| [getConfigurationSetting.js][getconfigurationsetting] | Demonstrates the use of a ConfigurationClient to retrieve a setting value. |
+| **File Name**             | **Description**                                                                                             |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| [getWidget.js][getwidget] | The summary tag will be used by our sample publishing tool to provide a description in the samples' README. |
 
 ## Prerequisites
 
 The sample programs are compatible with [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule).
 
-You need [an Azure subscription][freesub] and the following Azure resources to run these sample programs:
-
-- [Azure App Configuration][createinstance_azureappconfiguration]
+You need [an Azure subscription][freesub] to run these sample programs.
 
 Samples retrieve credentials to access the service endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
 
@@ -33,21 +31,20 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node getConfigurationSetting.js
+node getWidget.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env APPCONFIG_ENDPOINT="<appconfig endpoint>" APPCONFIG_TEST_SETTING_KEY="<appconfig test setting key>" node getConfigurationSetting.js
+cross-env WIDGET_ANALYTICS_ENDPOINT="<widget analytics endpoint>" node getWidget.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[getconfigurationsetting]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/template/template/samples/v1-beta/javascript/getConfigurationSetting.js
+[getwidget]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/template/template/samples/v1-beta/javascript/getWidget.js
 [apiref]: https://learn.microsoft.com/javascript/api/
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azureappconfiguration]: https://learn.microsoft.com/azure/azure-app-configuration/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/template/template/README.md

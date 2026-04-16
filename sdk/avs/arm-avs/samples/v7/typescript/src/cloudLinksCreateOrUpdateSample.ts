@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a CloudLink
  *
  * @summary create a CloudLink
- * x-ms-original-file: 2024-09-01/CloudLinks_CreateOrUpdate.json
+ * x-ms-original-file: 2025-09-01/CloudLinks_CreateOrUpdate.json
  */
 async function cloudLinksCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

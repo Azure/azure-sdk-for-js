@@ -1,0 +1,9 @@
+extends: ../../../warp.base.config.yml
+exports:
+  "./api": "./src/api/index.ts"
+  "./api/enterpriseMccCacheNodesOperations": "./src/api/enterpriseMccCacheNodesOperations/index.ts"
+  "./api/enterpriseMccCustomers": "./src/api/enterpriseMccCustomers/index.ts"
+  "./api/ispCacheNodesOperations": "./src/api/ispCacheNodesOperations/index.ts"
+  "./api/ispCustomers": "./src/api/ispCustomers/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"

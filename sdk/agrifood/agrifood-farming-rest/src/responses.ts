@@ -1217,8 +1217,7 @@ export interface InsightAttachmentsListByPartyIdModelIdAndResourceDefaultHeaders
 }
 
 /** Returns a paginated list of insight resources. */
-export interface InsightAttachmentsListByPartyIdModelIdAndResourceDefaultResponse
-  extends HttpResponse {
+export interface InsightAttachmentsListByPartyIdModelIdAndResourceDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & InsightAttachmentsListByPartyIdModelIdAndResourceDefaultHeaders;

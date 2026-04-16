@@ -4,11 +4,11 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
+import type * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { OperationState } from '@azure/core-lro';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AccessControlRules {
@@ -66,6 +66,7 @@ export type ActionType = string;
 
 // @public
 export interface AdditionalCapabilities {
+    enableFips1403Encryption?: boolean;
     hibernationEnabled?: boolean;
     ultraSSDEnabled?: boolean;
 }
@@ -86,6 +87,11 @@ export interface AdditionalUnattendContent {
 
 // @public
 export type AggregatedReplicationState = string;
+
+// @public
+export interface AllInstancesDown {
+    automaticallyApprove?: boolean;
+}
 
 // @public
 export type AllocationStrategy = string;
@@ -357,6 +363,7 @@ export interface CapacityReservation extends TrackedResource {
     readonly provisioningState?: string;
     readonly provisioningTime?: Date;
     readonly reservationId?: string;
+    scheduleProfile?: ScheduleProfile;
     sku: Sku;
     readonly timeCreated?: Date;
     readonly virtualMachinesAssociated?: SubResourceReadOnly[];
@@ -367,6 +374,7 @@ export interface CapacityReservation extends TrackedResource {
 export interface CapacityReservationGroup extends TrackedResource {
     readonly capacityReservations?: SubResourceReadOnly[];
     readonly instanceView?: CapacityReservationGroupInstanceView;
+    reservationType?: ReservationType;
     sharingProfile?: ResourceSharingProfile;
     readonly virtualMachinesAssociated?: SubResourceReadOnly[];
     zones?: string[];
@@ -458,6 +466,7 @@ export type CapacityReservationGroupsUpdateResponse = CapacityReservationGroup;
 export interface CapacityReservationGroupUpdate extends UpdateResource {
     readonly capacityReservations?: SubResourceReadOnly[];
     readonly instanceView?: CapacityReservationGroupInstanceView;
+    reservationType?: ReservationType;
     sharingProfile?: ResourceSharingProfile;
     readonly virtualMachinesAssociated?: SubResourceReadOnly[];
 }
@@ -570,6 +579,7 @@ export interface CapacityReservationUpdate extends UpdateResource {
     readonly provisioningState?: string;
     readonly provisioningTime?: Date;
     readonly reservationId?: string;
+    scheduleProfile?: ScheduleProfile;
     sku?: Sku;
     readonly timeCreated?: Date;
     readonly virtualMachinesAssociated?: SubResourceReadOnly[];
@@ -1257,6 +1267,10 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     galleryInVMAccessControlProfileVersions: GalleryInVMAccessControlProfileVersions;
     // (undocumented)
+    galleryScripts: GalleryScripts;
+    // (undocumented)
+    galleryScriptVersions: GalleryScriptVersions;
+    // (undocumented)
     gallerySharingProfile: GallerySharingProfile;
     // (undocumented)
     images: Images;
@@ -1373,8 +1387,8 @@ export interface DataDisk {
     createOption: DiskCreateOptionTypes;
     deleteOption?: DiskDeleteOptionTypes;
     detachOption?: DiskDetachOptionTypes;
-    readonly diskIopsReadWrite?: number;
-    readonly diskMBpsReadWrite?: number;
+    diskIopsReadWrite?: number;
+    diskMBpsReadWrite?: number;
     diskSizeGB?: number;
     image?: VirtualHardDisk;
     lun: number;
@@ -2202,6 +2216,7 @@ export type DiskRestorePointGrantAccessResponse = AccessUri;
 export interface DiskRestorePointInstanceView {
     id?: string;
     replicationStatus?: DiskRestorePointReplicationStatus;
+    snapshotAccessState?: SnapshotAccessState;
 }
 
 // @public
@@ -2501,12 +2516,13 @@ export interface ErrorResponse {
 // @public
 export interface EventGridAndResourceGraph {
     enable?: boolean;
+    scheduledEventsApiVersion?: string;
 }
 
 // @public
 export interface ExecutedValidation {
     executionTime?: Date;
-    status?: ValidationStatus;
+    readonly status?: ValidationStatus;
     type?: string;
     version?: string;
 }
@@ -2898,6 +2914,7 @@ export interface GalleryArtifactPublishingProfileBase {
     readonly publishedDate?: Date;
     replicaCount?: number;
     replicationMode?: ReplicationMode;
+    storageAccountStrategy?: StorageAccountStrategy;
     storageAccountType?: StorageAccountType;
     targetExtendedLocations?: GalleryTargetExtendedLocation[];
     targetRegions?: TargetRegion[];
@@ -3475,6 +3492,245 @@ export interface GalleryResourceProfileVersionPropertiesBase {
 }
 
 // @public
+export interface GalleryScript extends TrackedResource {
+    properties?: GalleryScriptProperties;
+}
+
+// @public
+export interface GalleryScriptList {
+    nextLink?: string;
+    value: GalleryScript[];
+}
+
+// @public
+export interface GalleryScriptParameter extends GenericGalleryParameter {
+    enumValues?: string[];
+    maxValue?: string;
+    minValue?: string;
+    type?: GalleryScriptParameterType;
+}
+
+// @public
+export type GalleryScriptParameterType = string;
+
+// @public
+export interface GalleryScriptProperties {
+    description?: string;
+    endOfLifeDate?: Date;
+    eula?: string;
+    privacyStatementUri?: string;
+    readonly provisioningState?: GalleryProvisioningState;
+    releaseNoteUri?: string;
+    supportedOSType: OperatingSystemTypes;
+}
+
+// @public
+export interface GalleryScripts {
+    beginCreateOrUpdate(resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScript: GalleryScript, options?: GalleryScriptsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryScriptsCreateOrUpdateResponse>, GalleryScriptsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScript: GalleryScript, options?: GalleryScriptsCreateOrUpdateOptionalParams): Promise<GalleryScriptsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, galleryName: string, galleryScriptName: string, options?: GalleryScriptsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<GalleryScriptsDeleteResponse>, GalleryScriptsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, galleryName: string, galleryScriptName: string, options?: GalleryScriptsDeleteOptionalParams): Promise<GalleryScriptsDeleteResponse>;
+    beginUpdate(resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScript: GalleryScriptUpdate, options?: GalleryScriptsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryScriptsUpdateResponse>, GalleryScriptsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScript: GalleryScriptUpdate, options?: GalleryScriptsUpdateOptionalParams): Promise<GalleryScriptsUpdateResponse>;
+    get(resourceGroupName: string, galleryName: string, galleryScriptName: string, options?: GalleryScriptsGetOptionalParams): Promise<GalleryScriptsGetResponse>;
+    listByGallery(resourceGroupName: string, galleryName: string, options?: GalleryScriptsListByGalleryOptionalParams): PagedAsyncIterableIterator<GalleryScript>;
+}
+
+// @public
+export interface GalleryScriptsCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface GalleryScriptsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GalleryScriptsCreateOrUpdateResponse = GalleryScript;
+
+// @public
+export interface GalleryScriptsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface GalleryScriptsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GalleryScriptsDeleteResponse = GalleryScriptsDeleteHeaders;
+
+// @public
+export interface GalleryScriptsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GalleryScriptsGetResponse = GalleryScript;
+
+// @public
+export interface GalleryScriptsListByGalleryNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GalleryScriptsListByGalleryNextResponse = GalleryScriptList;
+
+// @public
+export interface GalleryScriptsListByGalleryOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GalleryScriptsListByGalleryResponse = GalleryScriptList;
+
+// @public
+export interface GalleryScriptsUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface GalleryScriptsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GalleryScriptsUpdateResponse = GalleryScript;
+
+// @public
+export interface GalleryScriptUpdate extends UpdateResourceDefinition {
+    description?: string;
+    endOfLifeDate?: Date;
+    eula?: string;
+    privacyStatementUri?: string;
+    readonly provisioningState?: GalleryProvisioningState;
+    releaseNoteUri?: string;
+    supportedOSType?: OperatingSystemTypes;
+}
+
+// @public
+export interface GalleryScriptVersion extends TrackedResource {
+    properties?: GalleryScriptVersionProperties;
+}
+
+// @public
+export interface GalleryScriptVersionList {
+    nextLink?: string;
+    value: GalleryScriptVersion[];
+}
+
+// @public
+export interface GalleryScriptVersionProperties {
+    readonly provisioningState?: GalleryProvisioningState;
+    publishingProfile: GalleryScriptVersionPublishingProfile;
+    readonly replicationStatus?: ReplicationStatus;
+    safetyProfile?: GalleryScriptVersionSafetyProfile;
+}
+
+// @public
+export interface GalleryScriptVersionPublishingProfile extends GalleryArtifactPublishingProfileBase {
+    source: ScriptSource;
+}
+
+// @public
+export interface GalleryScriptVersions {
+    beginCreateOrUpdate(resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScriptVersionName: string, galleryScriptVersion: GalleryScriptVersion, options?: GalleryScriptVersionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryScriptVersionsCreateOrUpdateResponse>, GalleryScriptVersionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScriptVersionName: string, galleryScriptVersion: GalleryScriptVersion, options?: GalleryScriptVersionsCreateOrUpdateOptionalParams): Promise<GalleryScriptVersionsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScriptVersionName: string, options?: GalleryScriptVersionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<GalleryScriptVersionsDeleteResponse>, GalleryScriptVersionsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScriptVersionName: string, options?: GalleryScriptVersionsDeleteOptionalParams): Promise<GalleryScriptVersionsDeleteResponse>;
+    beginUpdate(resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScriptVersionName: string, galleryScriptVersion: GalleryScriptVersionUpdate, options?: GalleryScriptVersionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryScriptVersionsUpdateResponse>, GalleryScriptVersionsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScriptVersionName: string, galleryScriptVersion: GalleryScriptVersionUpdate, options?: GalleryScriptVersionsUpdateOptionalParams): Promise<GalleryScriptVersionsUpdateResponse>;
+    get(resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScriptVersionName: string, options?: GalleryScriptVersionsGetOptionalParams): Promise<GalleryScriptVersionsGetResponse>;
+    listByGalleryScript(resourceGroupName: string, galleryName: string, galleryScriptName: string, options?: GalleryScriptVersionsListByGalleryScriptOptionalParams): PagedAsyncIterableIterator<GalleryScriptVersion>;
+}
+
+// @public
+export interface GalleryScriptVersionSafetyProfile extends GalleryArtifactSafetyProfileBase {
+}
+
+// @public
+export interface GalleryScriptVersionsCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface GalleryScriptVersionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GalleryScriptVersionsCreateOrUpdateResponse = GalleryScriptVersion;
+
+// @public
+export interface GalleryScriptVersionsDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface GalleryScriptVersionsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GalleryScriptVersionsDeleteResponse = GalleryScriptVersionsDeleteHeaders;
+
+// @public
+export interface GalleryScriptVersionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GalleryScriptVersionsGetResponse = GalleryScriptVersion;
+
+// @public
+export interface GalleryScriptVersionsListByGalleryScriptNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GalleryScriptVersionsListByGalleryScriptNextResponse = GalleryScriptVersionList;
+
+// @public
+export interface GalleryScriptVersionsListByGalleryScriptOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GalleryScriptVersionsListByGalleryScriptResponse = GalleryScriptVersionList;
+
+// @public
+export interface GalleryScriptVersionsUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface GalleryScriptVersionsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GalleryScriptVersionsUpdateResponse = GalleryScriptVersion;
+
+// @public
+export interface GalleryScriptVersionUpdate extends UpdateResourceDefinition {
+    readonly provisioningState?: GalleryProvisioningState;
+    publishingProfile?: GalleryScriptVersionPublishingProfile;
+    readonly replicationStatus?: ReplicationStatus;
+    safetyProfile?: GalleryScriptVersionSafetyProfile;
+}
+
+// @public
 export type GallerySharingPermissionTypes = string;
 
 // @public
@@ -3532,6 +3788,14 @@ export interface GalleryUpdate extends UpdateResourceDefinition {
 }
 
 // @public
+export interface GenericGalleryParameter {
+    defaultValue?: string;
+    description?: string;
+    name: string;
+    required?: boolean;
+}
+
+// @public
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
@@ -3547,6 +3811,9 @@ export interface HardwareProfile {
     vmSize?: VirtualMachineSizeTypes;
     vmSizeProperties?: VMSizeProperties;
 }
+
+// @public
+export type HighSpeedInterconnectPlacement = string;
 
 // @public
 export type HostCaching = "None" | "ReadOnly" | "ReadWrite";
@@ -4151,10 +4418,25 @@ export enum KnownGalleryProvisioningState {
 }
 
 // @public
+export enum KnownGalleryScriptParameterType {
+    Boolean = "Boolean",
+    Double = "Double",
+    Enum = "Enum",
+    Int = "Int",
+    String = "String"
+}
+
+// @public
 export enum KnownGallerySharingPermissionTypes {
     Community = "Community",
     Groups = "Groups",
     Private = "Private"
+}
+
+// @public
+export enum KnownHighSpeedInterconnectPlacement {
+    None = "None",
+    Trunk = "Trunk"
 }
 
 // @public
@@ -4270,7 +4552,14 @@ export enum KnownOrchestrationMode {
 
 // @public
 export enum KnownOrchestrationServiceNames {
-    AutomaticRepairs = "AutomaticRepairs"
+    AutomaticRepairs = "AutomaticRepairs",
+    AutomaticZoneRebalancing = "AutomaticZoneRebalancing"
+}
+
+// @public
+export enum KnownOrchestrationServiceOperationStatus {
+    Completed = "Completed",
+    InProgress = "InProgress"
 }
 
 // @public
@@ -4415,6 +4704,12 @@ export enum KnownReplicationStatusTypes {
 }
 
 // @public
+export enum KnownReservationType {
+    Block = "Block",
+    Targeted = "Targeted"
+}
+
+// @public
 export enum KnownResilientVMDeletionStatus {
     Disabled = "Disabled",
     Enabled = "Enabled",
@@ -4444,6 +4739,12 @@ export enum KnownRestorePointEncryptionType {
 // @public
 export enum KnownRestorePointExpandOptions {
     InstanceView = "instanceView"
+}
+
+// @public
+export enum KnownScriptShellTypes {
+    Default = "Default",
+    Powershell7 = "Powershell7"
 }
 
 // @public
@@ -4523,6 +4824,12 @@ export enum KnownSoftDeletedArtifactTypes {
 export enum KnownSshEncryptionTypes {
     Ed25519 = "Ed25519",
     RSA = "RSA"
+}
+
+// @public
+export enum KnownStorageAccountStrategy {
+    DefaultStandardLRS = "DefaultStandard_LRS",
+    PreferStandardZRS = "PreferStandard_ZRS"
 }
 
 // @public
@@ -4839,7 +5146,8 @@ export enum KnownZonalPlatformFaultDomainAlignMode {
 
 // @public
 export enum KnownZonePlacementPolicyType {
-    Any = "Any"
+    Any = "Any",
+    Auto = "Auto"
 }
 
 // @public
@@ -5009,6 +5317,12 @@ export interface ManagedDiskParameters extends SubResource {
 }
 
 // @public
+export interface MaxInstancePercentPerZonePolicy {
+    enabled?: boolean;
+    value?: number;
+}
+
+// @public
 export interface MigrateToVirtualMachineScaleSetInput {
     virtualMachineScaleSetFlexible: SubResource;
 }
@@ -5109,6 +5423,9 @@ export type OrchestrationMode = string;
 export type OrchestrationServiceNames = string;
 
 // @public
+export type OrchestrationServiceOperationStatus = string;
+
+// @public
 export type OrchestrationServiceState = string;
 
 // @public
@@ -5122,6 +5439,8 @@ export interface OrchestrationServiceStateInput {
 
 // @public
 export interface OrchestrationServiceSummary {
+    readonly lastStatusChangeTime?: Date;
+    readonly latestOperationStatus?: OrchestrationServiceOperationStatus;
     readonly serviceName?: OrchestrationServiceNames;
     readonly serviceState?: OrchestrationServiceState;
 }
@@ -5475,6 +5794,7 @@ export interface ProximityPlacementGroupUpdate extends UpdateResource {
 
 // @public
 export interface ProxyAgentSettings {
+    addProxyAgentExtension?: boolean;
     enabled?: boolean;
     imds?: HostEndpointSettings;
     keyIncarnationId?: number;
@@ -5568,10 +5888,14 @@ export interface RequestRateByIntervalInput extends LogAnalyticsInputBase {
 }
 
 // @public
+export type ReservationType = string;
+
+// @public
 export interface ResiliencyPolicy {
     automaticZoneRebalancingPolicy?: AutomaticZoneRebalancingPolicy;
     resilientVMCreationPolicy?: ResilientVMCreationPolicy;
     resilientVMDeletionPolicy?: ResilientVMDeletionPolicy;
+    zoneAllocationPolicy?: ZoneAllocationPolicy;
 }
 
 // @public
@@ -5746,6 +6070,7 @@ export interface RestorePoint extends ProxyResource {
     consistencyMode?: ConsistencyModeTypes;
     excludeDisks?: ApiEntityReference[];
     readonly instanceView?: RestorePointInstanceView;
+    instantAccessDurationMinutes?: number;
     readonly provisioningState?: string;
     sourceMetadata?: RestorePointSourceMetadata;
     sourceRestorePoint?: ApiEntityReference;
@@ -5754,6 +6079,7 @@ export interface RestorePoint extends ProxyResource {
 
 // @public
 export interface RestorePointCollection extends TrackedResource {
+    instantAccess?: boolean;
     readonly provisioningState?: string;
     readonly restorePointCollectionId?: string;
     readonly restorePoints?: RestorePoint[];
@@ -5850,6 +6176,7 @@ export type RestorePointCollectionsUpdateResponse = RestorePointCollection;
 
 // @public
 export interface RestorePointCollectionUpdate extends UpdateResource {
+    instantAccess?: boolean;
     readonly provisioningState?: string;
     readonly restorePointCollectionId?: string;
     readonly restorePoints?: RestorePoint[];
@@ -6127,6 +6454,7 @@ export interface ScheduledEventsAdditionalPublishingTargets {
 
 // @public
 export interface ScheduledEventsPolicy {
+    allInstancesDown?: AllInstancesDown;
     scheduledEventsAdditionalPublishingTargets?: ScheduledEventsAdditionalPublishingTargets;
     userInitiatedReboot?: UserInitiatedReboot;
     userInitiatedRedeploy?: UserInitiatedRedeploy;
@@ -6136,6 +6464,21 @@ export interface ScheduledEventsPolicy {
 export interface ScheduledEventsProfile {
     osImageNotificationProfile?: OSImageNotificationProfile;
     terminateNotificationProfile?: TerminateNotificationProfile;
+}
+
+// @public
+export interface ScheduleProfile {
+    end?: string;
+    start?: string;
+}
+
+// @public
+export type ScriptShellTypes = string;
+
+// @public
+export interface ScriptSource {
+    parameters?: GalleryScriptParameter[];
+    scriptLink: string;
 }
 
 // @public
@@ -6751,6 +7094,9 @@ export interface StatusCodeCount {
 
 // @public
 export type StatusLevelTypes = "Info" | "Warning" | "Error";
+
+// @public
+export type StorageAccountStrategy = string;
 
 // @public
 export type StorageAccountType = string;
@@ -7492,6 +7838,9 @@ export interface VirtualMachineNetworkInterfaceConfiguration {
     name: string;
     networkSecurityGroup?: SubResource;
     primary?: boolean;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -7532,6 +7881,9 @@ export interface VirtualMachinePublicIPAddressConfiguration {
     publicIPAllocationMethod?: PublicIPAllocationMethod;
     publicIPPrefix?: SubResource;
     sku?: PublicIPAddressSku;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -7609,7 +7961,9 @@ export type VirtualMachineRunCommandsCreateOrUpdateResponse = VirtualMachineRunC
 // @public
 export interface VirtualMachineRunCommandScriptSource {
     commandId?: string;
+    galleryScriptReferenceId?: string;
     script?: string;
+    scriptShell?: ScriptShellTypes;
     scriptUri?: string;
     scriptUriManagedIdentity?: RunCommandManagedIdentity;
 }
@@ -7796,10 +8150,12 @@ export interface VirtualMachineScaleSet extends TrackedResource {
     doNotRunExtensionsOnOverprovisionedVMs?: boolean;
     readonly etag?: string;
     extendedLocation?: ExtendedLocation;
+    highSpeedInterconnectPlacement?: HighSpeedInterconnectPlacement;
     hostGroup?: SubResource;
     identity?: VirtualMachineScaleSetIdentity;
     orchestrationMode?: OrchestrationMode;
     overprovision?: boolean;
+    placement?: Placement;
     plan?: Plan;
     platformFaultDomainCount?: number;
     priorityMixPolicy?: PriorityMixPolicy;
@@ -8057,6 +8413,9 @@ export interface VirtualMachineScaleSetNetworkConfiguration {
     name: string;
     networkSecurityGroup?: SubResource;
     primary?: boolean;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -8109,6 +8468,9 @@ export interface VirtualMachineScaleSetPublicIPAddressConfiguration {
     publicIPAddressVersion?: IPVersion;
     publicIPPrefix?: SubResource;
     sku?: PublicIPAddressSku;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -8202,6 +8564,8 @@ export interface VirtualMachineScaleSets {
     beginReimageAndWait(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsReimageOptionalParams): Promise<void>;
     beginRestart(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsRestartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRestartAndWait(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsRestartOptionalParams): Promise<void>;
+    beginScaleOut(resourceGroupName: string, vmScaleSetName: string, parameters: VMScaleSetScaleOutInput, options?: VirtualMachineScaleSetsScaleOutOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginScaleOutAndWait(resourceGroupName: string, vmScaleSetName: string, parameters: VMScaleSetScaleOutInput, options?: VirtualMachineScaleSetsScaleOutOptionalParams): Promise<void>;
     beginSetOrchestrationServiceState(resourceGroupName: string, vmScaleSetName: string, parameters: OrchestrationServiceStateInput, options?: VirtualMachineScaleSetsSetOrchestrationServiceStateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginSetOrchestrationServiceStateAndWait(resourceGroupName: string, vmScaleSetName: string, parameters: OrchestrationServiceStateInput, options?: VirtualMachineScaleSetsSetOrchestrationServiceStateOptionalParams): Promise<void>;
     beginStart(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsStartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
@@ -8505,6 +8869,18 @@ export interface VirtualMachineScaleSetsRestartOptionalParams extends coreClient
 }
 
 // @public
+export interface VirtualMachineScaleSetsScaleOutHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface VirtualMachineScaleSetsScaleOutOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface VirtualMachineScaleSetsSetOrchestrationServiceStateHeaders {
     location?: string;
     retryAfter?: number;
@@ -8615,6 +8991,9 @@ export interface VirtualMachineScaleSetUpdateNetworkConfiguration {
     name?: string;
     networkSecurityGroup?: SubResource;
     primary?: boolean;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -8651,6 +9030,9 @@ export interface VirtualMachineScaleSetUpdatePublicIPAddressConfiguration {
     idleTimeoutInMinutes?: number;
     name?: string;
     publicIPPrefix?: SubResource;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -9676,6 +10058,17 @@ export interface VMScaleSetConvertToSinglePlacementGroupInput {
 }
 
 // @public
+export interface VMScaleSetScaleOutInput {
+    capacity: number;
+    properties?: VMScaleSetScaleOutInputProperties;
+}
+
+// @public
+export interface VMScaleSetScaleOutInputProperties {
+    zone?: string;
+}
+
+// @public
 export interface VMSizeProperties {
     vCPUsAvailable?: number;
     vCPUsPerCore?: number;
@@ -9699,6 +10092,8 @@ export interface WindowsParameters {
     kbNumbersToExclude?: string[];
     kbNumbersToInclude?: string[];
     maxPatchPublishDate?: Date;
+    patchNameMasksToExclude?: string[];
+    patchNameMasksToInclude?: string[];
 }
 
 // @public
@@ -9729,6 +10124,12 @@ export interface WinRMListener {
 
 // @public
 export type ZonalPlatformFaultDomainAlignMode = string;
+
+// @public
+export interface ZoneAllocationPolicy {
+    maxInstancePercentPerZonePolicy?: MaxInstancePercentPerZonePolicy;
+    maxZoneCount?: number;
+}
 
 // @public
 export type ZonePlacementPolicyType = string;

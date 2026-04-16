@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes the specified Certificate.
- *
- * @summary Deletes the specified Certificate.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/ConnectedEnvironmentsCertificate_Delete.json
- */
-
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Deletes the specified Certificate.
+ *
+ * @summary Deletes the specified Certificate.
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/ConnectedEnvironmentsCertificate_Delete.json
+ */
 async function deleteCertificate(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
@@ -22,11 +21,12 @@ async function deleteCertificate(): Promise<void> {
   const certificateName = "certificate-firendly-name";
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
-  const result = await client.connectedEnvironmentsCertificates.delete(
-    resourceGroupName,
-    connectedEnvironmentName,
-    certificateName,
-  );
+  const result =
+    await client.connectedEnvironmentsCertificates.beginDeleteAndWait(
+      resourceGroupName,
+      connectedEnvironmentName,
+      certificateName,
+    );
   console.log(result);
 }
 

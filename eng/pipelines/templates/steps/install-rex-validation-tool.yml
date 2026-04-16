@@ -1,4 +1,17 @@
+parameters:
+  - name: NpmConfigUserConfig
+    type: string
+    default: ''
+  - name: NpmConfigRegistry
+    type: string
+    default: ''
+
 steps:
   - pwsh: |
       npm install -g "@microsoft/type2docfx@$(Get-Content eng/scripts/docs/type2docfx.version.txt)"
     displayName: Install @microsoft/type2docfx for package validation
+    env:
+      ${{ if ne(parameters.NpmConfigUserConfig, '') }}:
+        NPM_CONFIG_USERCONFIG: ${{ parameters.NpmConfigUserConfig }}
+      ${{ if ne(parameters.NpmConfigRegistry, '') }}:
+        NPM_CONFIG_REGISTRY: ${{ parameters.NpmConfigRegistry }}

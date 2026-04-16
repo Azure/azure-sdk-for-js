@@ -1,6 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * @summary Demonstrates how to get the SIP routing configuration for an Azure Communication Service resource.
+ * @azsdk-weight 40
+ */
+
 import { SipRoutingClient } from "@azure/communication-phone-numbers";
 
 import "dotenv/config";
@@ -16,13 +21,13 @@ export async function main(): Promise<void> {
   const client = new SipRoutingClient(connectionString);
 
   // Get trunks
-  const trunks = await client.listTrunks();
+  const trunks = client.listTrunks();
   for await (const trunk of trunks) {
     console.log(`Trunk ${trunk.fqdn}:${trunk.sipSignalingPort}`);
   }
 
   // Get routes
-  const routes = await client.listRoutes();
+  const routes = client.listRoutes();
   for await (const route of routes) {
     console.log(`Route ${route.name} with pattern ${route.numberPattern}`);
     console.log(`Route's trunks: ${route.trunks?.join()}`);

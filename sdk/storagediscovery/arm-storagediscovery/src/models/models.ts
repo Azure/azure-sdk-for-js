@@ -279,7 +279,7 @@ export enum KnownCreatedByType {
 
 /**
  * The kind of entity that created the resource. \
- * {@link KnownCreatedByType} can be used interchangeably with createdByType,
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **User**: The entity was created by a user. \
@@ -537,5 +537,6 @@ export type ActionType = string;
 
 /** Known values of {@link ApiVersion} that the service accepts. */
 export enum KnownApiVersion {
-  V20250601Preview = "2025-06-01-preview",
+  /** 2025-09-01 */
+  V20250901 = "2025-09-01",
 }

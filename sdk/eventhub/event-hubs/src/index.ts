@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { EventData, ReceivedEventData } from "./eventData.js";
-export { WebSocketImpl } from "rhea-promise";
-export { LastEnqueuedEventProperties } from "./partitionReceiver.js";
-export { OperationOptions } from "./util/operationOptions.js";
-export {
+export type { EventData, ReceivedEventData } from "./eventData.js";
+export type { WebSocketImpl } from "rhea-promise";
+export type { LastEnqueuedEventProperties } from "./partitionReceiver.js";
+export type { OperationOptions } from "./util/operationOptions.js";
+export type {
   EventHubClientOptions,
   EventHubConsumerClientOptions,
   LoadBalancingOptions,
@@ -18,15 +18,15 @@ export {
 export { EventHubConsumerClient } from "./eventHubConsumerClient.js";
 export { EventHubProducerClient } from "./eventHubProducerClient.js";
 export {
-  BufferedCloseOptions,
+  type BufferedCloseOptions,
   EventHubBufferedProducerClient,
-  EventHubBufferedProducerClientOptions,
-  EnqueueEventOptions,
-  BufferedFlushOptions,
-  OnSendEventsErrorContext,
-  OnSendEventsSuccessContext,
+  type EventHubBufferedProducerClientOptions,
+  type EnqueueEventOptions,
+  type BufferedFlushOptions,
+  type OnSendEventsErrorContext,
+  type OnSendEventsSuccessContext,
 } from "./eventHubBufferedProducerClient.js";
-export {
+export type {
   SubscribeOptions,
   Subscription,
   SubscriptionEventHandlers,
@@ -36,18 +36,23 @@ export {
   ProcessCloseHandler,
   ProcessEventsHandler,
 } from "./eventHubConsumerClientModels.js";
-export { EventPosition, latestEventPosition, earliestEventPosition } from "./eventPosition.js";
-export { PartitionProperties, EventHubProperties } from "./managementClient.js";
-export { EventDataBatch, TryAddOptions } from "./eventDataBatch.js";
-export { Checkpoint } from "./partitionProcessor.js";
-export { CheckpointStore, PartitionOwnership } from "./eventProcessor.js";
+export { type EventPosition, latestEventPosition, earliestEventPosition } from "./eventPosition.js";
+export type { PartitionProperties, EventHubProperties } from "./managementClient.js";
+export type { EventDataBatch, TryAddOptions } from "./eventDataBatch.js";
+export type { Checkpoint } from "./partitionProcessor.js";
+export type { CheckpointStore, PartitionOwnership } from "./eventProcessor.js";
 export { CloseReason } from "./models/public.js";
-export { MessagingError, RetryOptions, RetryMode, WebSocketOptions } from "@azure/core-amqp";
-export { TokenCredential } from "@azure/core-auth";
+export {
+  MessagingError,
+  type RetryOptions,
+  RetryMode,
+  type WebSocketOptions,
+} from "@azure/core-amqp";
+export type { TokenCredential } from "@azure/core-auth";
 export { logger } from "./logger.js";
 export {
   parseEventHubConnectionString,
-  EventHubConnectionStringProperties,
+  type EventHubConnectionStringProperties,
 } from "./util/connectionStringUtils.js";
 
 export * from "./eventDataAdapter.js";

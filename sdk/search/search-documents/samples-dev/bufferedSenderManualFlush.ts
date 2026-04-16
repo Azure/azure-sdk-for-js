@@ -12,9 +12,9 @@ import {
   SearchIndexClient,
   SearchIndexingBufferedSender,
 } from "@azure/search-documents";
+import "dotenv/config";
 import type { Hotel } from "./interfaces.js";
 import { createIndex, delay, documentKeyRetriever, WAIT_TIME } from "./setup.js";
-import "dotenv/config";
 
 /**
  * This sample is to demonstrate the use of SearchIndexingBufferedSender.
@@ -53,20 +53,20 @@ export async function main(): Promise<void> {
     );
 
     bufferedClient.on("batchAdded", (response: any) => {
-      console.log(`Batch Added Event has been receieved: ${response}`);
+      console.log(`Batch Added Event has been received: ${response}`);
     });
 
     bufferedClient.on("beforeDocumentSent", (response: any) => {
-      console.log(`Before Document Sent Event has been receieved: ${response}`);
+      console.log(`Before Document Sent Event has been received: ${response}`);
     });
 
     bufferedClient.on("batchSucceeded", (response: any) => {
-      console.log("Batch Succeeded Event has been receieved....");
+      console.log("Batch Succeeded Event has been received....");
       console.log(response);
     });
 
     bufferedClient.on("batchFailed", (response: any) => {
-      console.log("Batch Failed Event has been receieved....");
+      console.log("Batch Failed Event has been received....");
       console.log(response);
     });
 
@@ -103,4 +103,6 @@ export async function main(): Promise<void> {
   await delay(WAIT_TIME);
 }
 
-main();
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});

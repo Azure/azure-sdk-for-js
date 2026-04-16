@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
-import { LongRunningOperationResult } from "../../models/models.js";
-import { OperationStatusGetOptionalParams } from "../../api/operationStatus/options.js";
+import type { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
 import { get } from "../../api/operationStatus/operations.js";
+import type { OperationStatusGetOptionalParams } from "../../api/operationStatus/options.js";
+import type { LongRunningOperationResult } from "../../models/models.js";
 
 /** Interface representing a OperationStatus operations. */
 export interface OperationStatusOperations {

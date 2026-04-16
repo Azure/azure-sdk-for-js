@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
-import { DbNode, DbNodeAction } from "../../models/models.js";
-import {
+import type { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
+import { action, listByParent, get } from "../../api/dbNodes/operations.js";
+import type {
   DbNodesActionOptionalParams,
   DbNodesListByParentOptionalParams,
   DbNodesGetOptionalParams,
 } from "../../api/dbNodes/options.js";
-import { action, listByParent, get } from "../../api/dbNodes/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { DbNode, DbNodeAction } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DbNodes operations. */
 export interface DbNodesOperations {

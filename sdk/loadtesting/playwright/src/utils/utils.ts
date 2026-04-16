@@ -8,6 +8,9 @@ import {
   ServiceEnvironmentVariable,
   RunConfigConstants,
   GitHubActionsConstants,
+  BrowserSessionSourceType,
+  UrlConstants,
+  UploadConstants,
 } from "../common/constants.js";
 import { ServiceErrorMessageConstants } from "../common/messages.js";
 import { coreLogger } from "../common/logger.js";
@@ -17,10 +20,13 @@ import { randomUUID } from "node:crypto";
 import { parseJwt } from "./parseJwt.js";
 import { getPlaywrightVersion } from "./getPlaywrightVersion.js";
 import { createEntraIdAccessToken } from "../common/entraIdAccessToken.js";
-import { FullConfig } from "@playwright/test";
-import { CI_PROVIDERS, CIInfo } from "./cIInfoProvider.js";
+import type { FullConfig } from "@playwright/test";
+import type { CIInfo } from "./cIInfoProvider.js";
+import { CI_PROVIDERS } from "./cIInfoProvider.js";
 import { exec } from "child_process";
 import { getPackageVersionFromFolder } from "./getPackageVersion.js";
+import { readdirSync, statSync } from "fs";
+import { join, relative } from "path";
 
 // Re-exporting for backward compatibility
 export { getPlaywrightVersion } from "./getPlaywrightVersion.js";
@@ -40,8 +46,6 @@ export const getPackageVersion = (): string => {
   }
   return "unknown-version";
 };
-
-// const playwrightServiceConfig = new PlaywrightServiceConfig();
 
 export const exitWithFailureMessage = (
   error: {
@@ -125,7 +129,7 @@ export const getAndSetRunId = (): string => {
 };
 
 export const getServiceWSEndpoint = (runId: string, os: string, apiVersion: string): string => {
-  return `${getServiceBaseURL()}?runId=${encodeURIComponent(runId)}&os=${os}&api-version=${apiVersion}`;
+  return `${getServiceBaseURL()}?runId=${encodeURIComponent(runId)}&os=${os}&sourceType=${BrowserSessionSourceType.PLAYWRIGHT_WORKSPACES_TEST_RUN}&api-version=${apiVersion}`;
 };
 
 export const validateServiceUrl = (): void => {
@@ -149,7 +153,7 @@ export const validateMptPAT = (
     const accessToken = getAccessToken();
     const result = populateValuesFromServiceUrl();
     if (!accessToken) {
-      validationFailureCallback(ServiceErrorMessageConstants.NO_AUTH_ERROR);
+      validationFailureCallback(ServiceErrorMessageConstants.NO_AUTH_ERROR_PAT_TOKEN);
     }
     const claims = parseJwt<Partial<AccessTokenClaims>>(accessToken!);
     if (!claims.exp) {
@@ -180,7 +184,7 @@ const warnAboutTokenExpiry = (expirationTime: number, currentTime: number): void
 export const warnIfAccessTokenCloseToExpiry = (): void => {
   const accessToken = getAccessToken();
   if (!accessToken) {
-    throw new Error(ServiceErrorMessageConstants.NO_AUTH_ERROR.message);
+    throw new Error(ServiceErrorMessageConstants.NO_AUTH_ERROR_PAT_TOKEN.message);
   }
   const claims = parseJwt<JwtPayload>(accessToken!);
   const currentTime = Date.now();
@@ -197,7 +201,7 @@ export const fetchOrValidateAccessToken = async (credential?: TokenCredential): 
   }
   const token = getAccessToken();
   if (!token) {
-    throw new Error(ServiceErrorMessageConstants.NO_AUTH_ERROR.message);
+    throw new Error(ServiceErrorMessageConstants.NO_AUTH_ERROR_ENTRA_TOKEN.message);
   }
   return token;
 };
@@ -255,7 +259,7 @@ export function getTestRunApiUrl(): string {
   if (!result?.region || !result?.domain || !result?.accountId) {
     exitWithFailureMessage(ServiceErrorMessageConstants.NO_SERVICE_URL_ERROR);
   }
-  const baseUrl = `https://${result?.region}.reporting.api.${result?.domain}/playwrightworkspaces/${result?.accountId}/test-runs`;
+  const baseUrl = `https://${result?.region}.${UrlConstants.ReportingApiSubdomain}.${result?.domain}/${UrlConstants.PlaywrightWorkspacesPath}/${result?.accountId}/${UrlConstants.TestRunsPath}`;
   const url = runId ? `${baseUrl}/${runId}` : baseUrl;
 
   return `${url}?api-version=${Constants.LatestAPIVersion}`;
@@ -323,3 +327,180 @@ export function extractErrorMessage(responseBody: string): string {
     return responseBody;
   }
 }
+
+export function getWorkspaceMetaDataApiUrl(): string {
+  const result = populateValuesFromServiceUrl();
+
+  if (!result?.region || !result?.domain || !result?.accountId) {
+    exitWithFailureMessage(ServiceErrorMessageConstants.NO_SERVICE_URL_ERROR);
+  }
+  const baseUrl = `https://${result?.region}.${UrlConstants.ApiSubdomain}.${result?.domain}/${UrlConstants.PlaywrightWorkspacesPath}/${result?.accountId}`;
+
+  return `${baseUrl}?api-version=${Constants.LatestAPIVersion}`;
+}
+
+export function getHtmlReporterOutputFolder(config: FullConfig | undefined): string {
+  const defaultFolder = "playwright-report";
+
+  if (!config?.reporter) {
+    return defaultFolder;
+  }
+
+  for (const reporter of config.reporter) {
+    if (Array.isArray(reporter)) {
+      const [reporterName, options] = reporter;
+      if (reporterName === "html" && options && typeof options === "object") {
+        return (options as any).outputFolder || defaultFolder;
+      }
+    } else if (typeof reporter === "string" && reporter === "html") {
+      return defaultFolder;
+    }
+  }
+
+  return defaultFolder;
+}
+
+export function getContentType(filePath: string): string {
+  const ext = filePath.toLowerCase().split(".").pop();
+
+  const contentTypes: { [key: string]: string } = {
+    html: "text/html",
+    css: "text/css",
+    js: "application/javascript",
+    json: "application/json",
+    png: "image/png",
+    jpg: "image/jpeg",
+    jpeg: "image/jpeg",
+    svg: "image/svg+xml",
+    ico: "image/x-icon",
+    txt: "text/plain",
+    ttf: "font/ttf",
+    woff: "font/woff",
+    woff2: "font/woff2",
+    webmanifest: "application/manifest+json",
+    map: "application/json",
+    xml: "application/xml",
+    pdf: "application/pdf",
+    zip: "application/zip",
+  };
+
+  return contentTypes[ext || ""] || "application/octet-stream";
+}
+
+export function calculateOptimalConcurrency(files: Array<{ size: number }>): number {
+  const totalFiles = files.length;
+  const totalSize = files.reduce((sum, f) => sum + f.size, 0);
+  const avgFileSize = totalSize / totalFiles;
+
+  let optimalConcurrency: number;
+
+  if (totalFiles <= 10) {
+    optimalConcurrency = Math.min(totalFiles, 10);
+  } else if (avgFileSize < UploadConstants.SMALL_FILE_THRESHOLD) {
+    optimalConcurrency = Math.min(
+      UploadConstants.MAX_CONCURRENCY,
+      Math.max(UploadConstants.BASE_CONCURRENCY, totalFiles / 50),
+    );
+  } else if (totalFiles > 1000) {
+    optimalConcurrency = Math.min(
+      UploadConstants.MAX_CONCURRENCY,
+      UploadConstants.BASE_CONCURRENCY + Math.floor(totalFiles / 200),
+    );
+  } else {
+    optimalConcurrency = Math.min(
+      UploadConstants.MAX_CONCURRENCY,
+      UploadConstants.BASE_CONCURRENCY,
+    );
+  }
+
+  return Math.floor(optimalConcurrency);
+}
+
+export function collectAllFiles(
+  folderPath: string,
+  basePath: string,
+  runIdFolderPrefix?: string,
+): Array<{
+  fullPath: string;
+  relativePath: string;
+  size: number;
+  contentType: string;
+}> {
+  const files: Array<{
+    fullPath: string;
+    relativePath: string;
+    size: number;
+    contentType: string;
+  }> = [];
+
+  const stack = [folderPath];
+
+  while (stack.length > 0) {
+    const currentPath = stack.pop()!;
+
+    try {
+      const items = readdirSync(currentPath);
+
+      for (const item of items) {
+        const itemPath = join(currentPath, item);
+        const stats = statSync(itemPath);
+
+        if (stats.isDirectory()) {
+          stack.push(itemPath);
+        } else {
+          let relativePath = relative(basePath, itemPath).split("\\").join("/");
+
+          if (runIdFolderPrefix) {
+            relativePath = `${runIdFolderPrefix}/${relativePath}`;
+          }
+
+          files.push({
+            fullPath: itemPath,
+            relativePath,
+            size: stats.size,
+            contentType: getContentType(itemPath),
+          });
+        }
+      }
+    } catch (error) {
+      continue;
+    }
+  }
+
+  return files;
+}
+
+export function getPortalTestRunUrl(resourceId: string): string {
+  if (!resourceId) {
+    throw new Error("Missing required parameter: resourceId is required");
+  }
+  const runId = process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
+  if (!runId) {
+    throw new Error("Run ID is required but not found in environment variables");
+  }
+
+  return `${UrlConstants.AzurePortalBaseUrl}/${UrlConstants.TestReportViewPath}/testRunId/${encodeURIComponent(runId)}/resourceId/${encodeURIComponent(resourceId)}`;
+}
+
+export const getStorageAccountNameFromUri = (storageUri: string): string | null => {
+  try {
+    if (!storageUri || typeof storageUri !== "string") {
+      return null;
+    }
+
+    const url = new URL(storageUri);
+    const hostname = url.hostname;
+
+    // Extract storage account name from hostname pattern: {accountname}.blob.core.windows.net
+    const match = hostname.match(/^([^.]+)\.blob\.core\.windows\.net$/i);
+
+    if (match && match[1]) {
+      return match[1];
+    }
+
+    return null;
+  } catch (error) {
+    console.warn("Failed to extract storage account name from URI:", storageUri, error);
+    return null;
+  }
+};

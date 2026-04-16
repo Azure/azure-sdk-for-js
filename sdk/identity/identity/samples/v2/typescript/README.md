@@ -64,7 +64,7 @@ node dist/clientSecretCredential.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env AZURE_TENANT_ID="<azure tenant id>" AZURE_CLIENT_ID="<azure client id>" AZURE_CLIENT_SECRET="<azure client secret>" node dist/clientSecretCredential.js
+cross-env AZURE_TENANT_ID="<azure tenant id>" AZURE_CLIENT_ID="<azure client id>" AZURE_CLIENT_SECRET="<azure client secret>" node dist/clientSecretCredential.js
 ```
 
 ## Next Steps

@@ -155,9 +155,13 @@ const createAzurePlaywrightConfig = (
     globalFunctions.globalSetup = globalPaths.setup;
     globalFunctions.globalTeardown = globalPaths.teardown;
   }
-
   performOneTimeOperation(options);
-
+  if (options?.useCloudHostedBrowsers === false) {
+    console.log("\nRunning tests using local browsers.");
+    return {
+      ...globalFunctions,
+    };
+  }
   if (!process.env[InternalEnvironmentVariables.MPT_CLOUD_HOSTED_BROWSER_USED]) {
     process.env[InternalEnvironmentVariables.MPT_CLOUD_HOSTED_BROWSER_USED] = "true";
     console.log("\nRunning tests using Playwright workspaces.");
@@ -237,7 +241,7 @@ const getConnectOptions = async (
   }
 
   if (!token) {
-    throw new Error(ServiceErrorMessageConstants.NO_AUTH_ERROR.message);
+    throw new Error(ServiceErrorMessageConstants.NO_AUTH_ERROR_PAT_TOKEN.message);
   }
 
   return {

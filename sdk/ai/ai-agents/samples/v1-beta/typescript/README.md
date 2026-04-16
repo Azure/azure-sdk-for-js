@@ -19,6 +19,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [agentsBasics.ts][agentsbasics]                                               | demonstrates how to use basic agent operations.                                                                            |
 | [agentsBingGrounding.ts][agentsbinggrounding]                                 | demonstrates how to use agent operations with the Grounding with Bing Search tool.                                         |
 | [agentsBingGroundingWithStreaming.ts][agentsbinggroundingwithstreaming]       | demonstrates how to use agent operations with the Grounding with Bing Search tool using streaming.                         |
+| [agentsBrowserAutomation.ts][agentsbrowserautomation]                         | demonstrates how to use agent operations with the Browser Automation tool.                                                 |
 | [agentsConnectedAgents.ts][agentsconnectedagents]                             | This sample demonstrates how to use Agent operations with the Connected Agent tool from the Azure Agents service.          |
 | [agentsImageInputWithBase64.ts][agentsimageinputwithbase64]                   | This sample demonstrates how to use basic agent operations with image input (base64 encoded) for the Azure Agents service. |
 | [agentsImageInputWithFile.ts][agentsimageinputwithfile]                       | This sample demonstrates how to use basic agent operations using image file input for the Azure Agents service.            |
@@ -89,7 +90,7 @@ node dist/codeInterpreterWithStreaming.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env PROJECT_ENDPOINT="<project endpoint>" MODEL_DEPLOYMENT_NAME="<model deployment name>" node dist/codeInterpreterWithStreaming.js
+cross-env PROJECT_ENDPOINT="<project endpoint>" MODEL_DEPLOYMENT_NAME="<model deployment name>" node dist/codeInterpreterWithStreaming.js
 ```
 
 ## Next Steps
@@ -102,6 +103,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [agentsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsBasics.ts
 [agentsbinggrounding]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsBingGrounding.ts
 [agentsbinggroundingwithstreaming]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsBingGroundingWithStreaming.ts
+[agentsbrowserautomation]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsBrowserAutomation.ts
 [agentsconnectedagents]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsConnectedAgents.ts
 [agentsimageinputwithbase64]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsImageInputWithBase64.ts
 [agentsimageinputwithfile]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsImageInputWithFile.ts

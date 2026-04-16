@@ -253,15 +253,13 @@ export interface DeviceManagementDeleteDeviceClassDefaultResponse extends HttpRe
 }
 
 /** Gets a list of installable updates for a device class. */
-export interface DeviceManagementListInstallableUpdatesForDeviceClass200Response
-  extends HttpResponse {
+export interface DeviceManagementListInstallableUpdatesForDeviceClass200Response extends HttpResponse {
   status: "200";
   body: UpdateInfoListOutput;
 }
 
 /** Gets a list of installable updates for a device class. */
-export interface DeviceManagementListInstallableUpdatesForDeviceClassDefaultResponse
-  extends HttpResponse {
+export interface DeviceManagementListInstallableUpdatesForDeviceClassDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -456,8 +454,7 @@ export interface DeviceManagementListDeviceClassSubgroupsForGroup200Response ext
 }
 
 /** Get the device class subgroups for the group. A device class subgroup is the set of devices within the group that share the same device class. All devices within the same device class are compatible with the same updates. */
-export interface DeviceManagementListDeviceClassSubgroupsForGroupDefaultResponse
-  extends HttpResponse {
+export interface DeviceManagementListDeviceClassSubgroupsForGroupDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -486,70 +483,60 @@ export interface DeviceManagementDeleteDeviceClassSubgroupDefaultResponse extend
 }
 
 /** Get device class subgroup update compliance information such as how many devices are on their latest update, how many need new updates, and how many are in progress on receiving a new update. */
-export interface DeviceManagementGetDeviceClassSubgroupUpdateCompliance200Response
-  extends HttpResponse {
+export interface DeviceManagementGetDeviceClassSubgroupUpdateCompliance200Response extends HttpResponse {
   status: "200";
   body: UpdateComplianceOutput;
 }
 
 /** Get device class subgroup update compliance information such as how many devices are on their latest update, how many need new updates, and how many are in progress on receiving a new update. */
-export interface DeviceManagementGetDeviceClassSubgroupUpdateComplianceDefaultResponse
-  extends HttpResponse {
+export interface DeviceManagementGetDeviceClassSubgroupUpdateComplianceDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** Get the best available update for a device class subgroup and a count of how many devices need this update. */
-export interface DeviceManagementGetBestUpdatesForDeviceClassSubgroup200Response
-  extends HttpResponse {
+export interface DeviceManagementGetBestUpdatesForDeviceClassSubgroup200Response extends HttpResponse {
   status: "200";
   body: DeviceClassSubgroupUpdatableDevicesOutput;
 }
 
 /** Get the best available update for a device class subgroup and a count of how many devices need this update. */
-export interface DeviceManagementGetBestUpdatesForDeviceClassSubgroupDefaultResponse
-  extends HttpResponse {
+export interface DeviceManagementGetBestUpdatesForDeviceClassSubgroupDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** Gets a list of deployments for a device class subgroup. */
-export interface DeviceManagementListDeploymentsForDeviceClassSubgroup200Response
-  extends HttpResponse {
+export interface DeviceManagementListDeploymentsForDeviceClassSubgroup200Response extends HttpResponse {
   status: "200";
   body: DeploymentsListOutput;
 }
 
 /** Gets a list of deployments for a device class subgroup. */
-export interface DeviceManagementListDeploymentsForDeviceClassSubgroupDefaultResponse
-  extends HttpResponse {
+export interface DeviceManagementListDeploymentsForDeviceClassSubgroupDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** Gets the deployment properties. */
-export interface DeviceManagementGetDeploymentForDeviceClassSubgroup200Response
-  extends HttpResponse {
+export interface DeviceManagementGetDeploymentForDeviceClassSubgroup200Response extends HttpResponse {
   status: "200";
   body: DeploymentOutput;
 }
 
 /** Gets the deployment properties. */
-export interface DeviceManagementGetDeploymentForDeviceClassSubgroupDefaultResponse
-  extends HttpResponse {
+export interface DeviceManagementGetDeploymentForDeviceClassSubgroupDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** Deletes a device class subgroup deployment. */
-export interface DeviceManagementDeleteDeploymentForDeviceClassSubgroup204Response
-  extends HttpResponse {
+export interface DeviceManagementDeleteDeploymentForDeviceClassSubgroup204Response extends HttpResponse {
   status: "204";
 }
 
 /** Deletes a device class subgroup deployment. */
-export interface DeviceManagementDeleteDeploymentForDeviceClassSubgroupDefaultResponse
-  extends HttpResponse {
+export interface DeviceManagementDeleteDeploymentForDeviceClassSubgroupDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -579,29 +566,25 @@ export interface DeviceManagementRetryDeploymentDefaultResponse extends HttpResp
 }
 
 /** Gets the status of a deployment including a breakdown of how many devices in the deployment are in progress, completed, or failed. */
-export interface DeviceManagementGetDeviceClassSubgroupDeploymentStatus200Response
-  extends HttpResponse {
+export interface DeviceManagementGetDeviceClassSubgroupDeploymentStatus200Response extends HttpResponse {
   status: "200";
   body: DeviceClassSubgroupDeploymentStatusOutput;
 }
 
 /** Gets the status of a deployment including a breakdown of how many devices in the deployment are in progress, completed, or failed. */
-export interface DeviceManagementGetDeviceClassSubgroupDeploymentStatusDefaultResponse
-  extends HttpResponse {
+export interface DeviceManagementGetDeviceClassSubgroupDeploymentStatusDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** Gets a list of devices in a deployment along with their state. Useful for getting a list of failed devices. */
-export interface DeviceManagementListDeviceStatesForDeviceClassSubgroupDeployment200Response
-  extends HttpResponse {
+export interface DeviceManagementListDeviceStatesForDeviceClassSubgroupDeployment200Response extends HttpResponse {
   status: "200";
   body: DeploymentDeviceStatesListOutput;
 }
 
 /** Gets a list of devices in a deployment along with their state. Useful for getting a list of failed devices. */
-export interface DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentDefaultResponse
-  extends HttpResponse {
+export interface DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -684,8 +667,7 @@ export interface DeviceManagementGetLogCollectionDetailedStatus200Response exten
 }
 
 /** Get log collection with detailed status */
-export interface DeviceManagementGetLogCollectionDetailedStatusDefaultResponse
-  extends HttpResponse {
+export interface DeviceManagementGetLogCollectionDetailedStatusDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }

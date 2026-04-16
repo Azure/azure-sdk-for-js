@@ -1,18 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { StorageContext as Client } from "../index.js";
+import type {
   FileSystemResource,
-  fileSystemResourceSerializer,
-  fileSystemResourceDeserializer,
   FileSystemResourceUpdate,
-  fileSystemResourceUpdateSerializer,
   _FileSystemResourceListResult,
-  _fileSystemResourceListResultDeserializer,
 } from "../../models/models.js";
 import {
+  errorResponseDeserializer,
+  fileSystemResourceSerializer,
+  fileSystemResourceDeserializer,
+  fileSystemResourceUpdateSerializer,
+  _fileSystemResourceListResultDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
   FileSystemsListBySubscriptionOptionalParams,
   FileSystemsListByResourceGroupOptionalParams,
   FileSystemsDeleteOptionalParams,
@@ -20,19 +26,9 @@ import {
   FileSystemsCreateOrUpdateOptionalParams,
   FileSystemsGetOptionalParams,
 } from "./options.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listBySubscriptionSend(
   context: Client,
@@ -50,10 +46,7 @@ export function _listBySubscriptionSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -87,9 +80,7 @@ export function listBySubscription(
 export function _listByResourceGroupSend(
   context: Client,
   resourceGroupName: string,
-  options: FileSystemsListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: FileSystemsListByResourceGroupOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dell.Storage/filesystems{?api%2Dversion}",
@@ -104,10 +95,7 @@ export function _listByResourceGroupSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -128,9 +116,7 @@ export async function _listByResourceGroupDeserialize(
 export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
-  options: FileSystemsListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: FileSystemsListByResourceGroupOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<FileSystemResource> {
   return buildPagedAsyncIterator(
     context,
@@ -159,17 +145,11 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "204", "200"];
+  const expectedStatuses = ["202", "204", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -191,7 +171,7 @@ export function $delete(
   filesystemName: string,
   options: FileSystemsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, filesystemName, options),
@@ -221,10 +201,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: fileSystemResourceUpdateSerializer(properties),
   });
 }
@@ -276,10 +253,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: fileSystemResourceSerializer(resource),
   });
 }
@@ -334,10 +308,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 

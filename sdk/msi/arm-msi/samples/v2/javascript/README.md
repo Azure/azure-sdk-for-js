@@ -48,7 +48,7 @@ node federatedIdentityCredentialsCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env MSI_SUBSCRIPTION_ID="<msi subscription id>" MSI_RESOURCE_GROUP="<msi resource group>" node federatedIdentityCredentialsCreateOrUpdateSample.js
+cross-env MSI_SUBSCRIPTION_ID="<msi subscription id>" MSI_RESOURCE_GROUP="<msi resource group>" node federatedIdentityCredentialsCreateOrUpdateSample.js
 ```
 
 ## Next Steps

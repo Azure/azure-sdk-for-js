@@ -3,6 +3,6 @@
 
 export {
   createDashboardManagement,
-  DashboardManagementContext,
-  DashboardManagementClientOptionalParams,
+  type DashboardManagementContext,
+  type DashboardManagementClientOptionalParams,
 } from "./dashboardManagementContext.js";

@@ -4,8 +4,8 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
+import type { Client } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
 export function get(context: OracleDatabaseManagementContext, location: string, giversionname: string, options?: GiVersionsGetOptionalParams): Promise<GiVersion>;
@@ -17,6 +17,7 @@ export interface GiVersionsGetOptionalParams extends OperationOptions {
 // @public
 export interface GiVersionsListByLocationOptionalParams extends OperationOptions {
     shape?: SystemShapes;
+    shapeAttribute?: string;
     zone?: string;
 }
 

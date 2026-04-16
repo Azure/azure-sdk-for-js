@@ -6,10 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
+import type {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   IotHubDescription as IotHubDescriptionMapper,
@@ -23,7 +23,7 @@ import {
   CertificateDescription as CertificateDescriptionMapper,
   CertificateVerificationDescription as CertificateVerificationDescriptionMapper,
   FailoverInput as FailoverInputMapper,
-  PrivateEndpointConnection as PrivateEndpointConnectionMapper
+  PrivateEndpointConnection as PrivateEndpointConnectionMapper,
 } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
@@ -33,9 +33,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -44,22 +44,22 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-06-30",
+    defaultValue: "2025-08-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -68,10 +68,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -80,9 +80,9 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -91,9 +91,9 @@ export const resourceGroupName: OperationURLParameter = {
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceName: OperationURLParameter = {
@@ -102,9 +102,9 @@ export const resourceName: OperationURLParameter = {
     serializedName: "resourceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -114,14 +114,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const iotHubDescription: OperationParameter = {
   parameterPath: "iotHubDescription",
-  mapper: IotHubDescriptionMapper
+  mapper: IotHubDescriptionMapper,
 };
 
 export const ifMatch: OperationParameter = {
@@ -129,14 +129,14 @@ export const ifMatch: OperationParameter = {
   mapper: {
     serializedName: "If-Match",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const iotHubTags: OperationParameter = {
   parameterPath: "iotHubTags",
-  mapper: TagsResourceMapper
+  mapper: TagsResourceMapper,
 };
 
 export const eventHubEndpointName: OperationURLParameter = {
@@ -145,9 +145,9 @@ export const eventHubEndpointName: OperationURLParameter = {
     serializedName: "eventHubEndpointName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const name: OperationURLParameter = {
@@ -156,14 +156,14 @@ export const name: OperationURLParameter = {
     serializedName: "name",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const consumerGroupBody: OperationParameter = {
   parameterPath: "consumerGroupBody",
-  mapper: EventHubConsumerGroupBodyDescriptionMapper
+  mapper: EventHubConsumerGroupBodyDescriptionMapper,
 };
 
 export const jobId: OperationURLParameter = {
@@ -172,9 +172,9 @@ export const jobId: OperationURLParameter = {
     serializedName: "jobId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const iotHubName: OperationURLParameter = {
@@ -183,24 +183,24 @@ export const iotHubName: OperationURLParameter = {
     serializedName: "iotHubName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const operationInputs: OperationParameter = {
   parameterPath: "operationInputs",
-  mapper: OperationInputsMapper
+  mapper: OperationInputsMapper,
 };
 
 export const input: OperationParameter = {
   parameterPath: "input",
-  mapper: TestAllRoutesInputMapper
+  mapper: TestAllRoutesInputMapper,
 };
 
 export const input1: OperationParameter = {
   parameterPath: "input",
-  mapper: TestRouteInputMapper
+  mapper: TestRouteInputMapper,
 };
 
 export const keyName: OperationURLParameter = {
@@ -209,38 +209,38 @@ export const keyName: OperationURLParameter = {
     serializedName: "keyName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const exportDevicesParameters: OperationParameter = {
   parameterPath: "exportDevicesParameters",
-  mapper: ExportDevicesRequestMapper
+  mapper: ExportDevicesRequestMapper,
 };
 
 export const importDevicesParameters: OperationParameter = {
   parameterPath: "importDevicesParameters",
-  mapper: ImportDevicesRequestMapper
+  mapper: ImportDevicesRequestMapper,
 };
 
 export const certificateName: OperationURLParameter = {
   parameterPath: "certificateName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[A-Za-z0-9-._]{1,64}$")
+      Pattern: new RegExp("^[A-Za-z0-9-._]{1,64}$"),
     },
     serializedName: "certificateName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const certificateDescription: OperationParameter = {
   parameterPath: "certificateDescription",
-  mapper: CertificateDescriptionMapper
+  mapper: CertificateDescriptionMapper,
 };
 
 export const ifMatch1: OperationParameter = {
@@ -249,19 +249,19 @@ export const ifMatch1: OperationParameter = {
     serializedName: "If-Match",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const certificateVerificationBody: OperationParameter = {
   parameterPath: "certificateVerificationBody",
-  mapper: CertificateVerificationDescriptionMapper
+  mapper: CertificateVerificationDescriptionMapper,
 };
 
 export const failoverInput: OperationParameter = {
   parameterPath: "failoverInput",
-  mapper: FailoverInputMapper
+  mapper: FailoverInputMapper,
 };
 
 export const groupId: OperationURLParameter = {
@@ -270,9 +270,9 @@ export const groupId: OperationURLParameter = {
     serializedName: "groupId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const privateEndpointConnectionName: OperationURLParameter = {
@@ -281,12 +281,12 @@ export const privateEndpointConnectionName: OperationURLParameter = {
     serializedName: "privateEndpointConnectionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const privateEndpointConnection: OperationParameter = {
   parameterPath: "privateEndpointConnection",
-  mapper: PrivateEndpointConnectionMapper
+  mapper: PrivateEndpointConnectionMapper,
 };

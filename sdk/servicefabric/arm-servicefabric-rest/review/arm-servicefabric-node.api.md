@@ -1169,7 +1169,7 @@ export interface ClusterVersionsListDefaultResponse extends HttpResponse {
 export type ClusterVersionsListParameters = RequestParameters;
 
 // @public
-function createClient(credentials: TokenCredential, { apiVersion, ...options }?: ServiceFabricClientOptions): ServiceFabricClient;
+function createClient(credentials: TokenCredential, input?: ServiceFabricClientOptions): ServiceFabricClient;
 export default createClient;
 
 // @public

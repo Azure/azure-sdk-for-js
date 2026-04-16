@@ -1,18 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type {
+  PrefixListGlobalRulestackResource} from "@azure/arm-paloaltonetworksngfw";
+import {
+  PaloAltoNetworksCloudngfw,
+} from "@azure/arm-paloaltonetworksngfw";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Create a PrefixListGlobalRulestackResource
  *
  * @summary Create a PrefixListGlobalRulestackResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/PrefixListGlobalRulestack_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/PrefixListGlobalRulestack_CreateOrUpdate_MaximumSet_Gen.json
  */
-
-import type { PrefixListGlobalRulestackResource } from "@azure/arm-paloaltonetworksngfw";
-import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function prefixListGlobalRulestackCreateOrUpdateMaximumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const name = "armid1";
@@ -25,11 +27,12 @@ async function prefixListGlobalRulestackCreateOrUpdateMaximumSetGen(): Promise<v
   };
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential);
-  const result = await client.prefixListGlobalRulestack.beginCreateOrUpdateAndWait(
-    globalRulestackName,
-    name,
-    resource,
-  );
+  const result =
+    await client.prefixListGlobalRulestack.beginCreateOrUpdateAndWait(
+      globalRulestackName,
+      name,
+      resource,
+    );
   console.log(result);
 }
 
@@ -37,7 +40,7 @@ async function prefixListGlobalRulestackCreateOrUpdateMaximumSetGen(): Promise<v
  * This sample demonstrates how to Create a PrefixListGlobalRulestackResource
  *
  * @summary Create a PrefixListGlobalRulestackResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/PrefixListGlobalRulestack_CreateOrUpdate_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/PrefixListGlobalRulestack_CreateOrUpdate_MinimumSet_Gen.json
  */
 async function prefixListGlobalRulestackCreateOrUpdateMinimumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
@@ -47,11 +50,12 @@ async function prefixListGlobalRulestackCreateOrUpdateMinimumSetGen(): Promise<v
   };
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential);
-  const result = await client.prefixListGlobalRulestack.beginCreateOrUpdateAndWait(
-    globalRulestackName,
-    name,
-    resource,
-  );
+  const result =
+    await client.prefixListGlobalRulestack.beginCreateOrUpdateAndWait(
+      globalRulestackName,
+      name,
+      resource,
+    );
   console.log(result);
 }
 

@@ -3,7 +3,8 @@
 import { OperationType, ResourceType, isReadRequest } from "./common/index.js";
 import type { CosmosClientOptions } from "./CosmosClientOptions.js";
 import type { Location, DatabaseAccount } from "./documents/index.js";
-import type { SharedOptions, RequestOptions, ChangeFeedIteratorOptions } from "./index.js";
+import type { RequestOptions } from "./index.js";
+import type { ResolveServiceEndpointOptions } from "./GlobalEndpointManagerOptions.js";
 import { Constants } from "./common/constants.js";
 import type { ResourceResponse } from "./request/index.js";
 import { MetadataLookUpType } from "./CosmosDiagnostics.js";
@@ -39,15 +40,30 @@ export class GlobalEndpointManager {
 
   public preferredLocationsCount: number;
   /**
-   * Flag to enable/disable the Per Partition Level Failover (PPAF)
+   * Flag to enable/disable the Per Partition Level Failover (PPAF). Contains the value from the Connection policy.
    * @internal
    */
-  public enablePartitionLevelFailover: boolean;
+  private enablePartitionLevelFailover: boolean;
   /**
-   * Flag to enable/disable the Per Partition Level Circuit Breaker (PPCB)
+   * Flag to enable/disable the Per Partition Level Circuit Breaker (PPCB). Contains the value from the Connection policy.
    * @internal
    */
-  public enablePartitionLevelCircuitBreaker: boolean;
+  private enablePartitionLevelCircuitBreaker: boolean;
+  /**
+   * Cached PPAF enablement status from the last account refresh
+   * @internal
+   */
+  public lastKnownPPAFEnabled: boolean;
+  /**
+   * Cached circuit breaker timer enablement status
+   * @internal
+   */
+  public lastKnownPPCBEnabled: boolean;
+  /**
+   * Event that is raised when circuit breaker timer should start or stop based on PPAF/PPCB status changes
+   * @internal
+   */
+  public onEnablePartitionLevelFailoverConfigChanged?: (isEnabled: boolean) => void;
 
   /**
    * @param options - The document client instance.
@@ -68,8 +84,9 @@ export class GlobalEndpointManager {
     this.preferredLocationsCount = this.preferredLocations ? this.preferredLocations.length : 0;
     this.enablePartitionLevelFailover = options.connectionPolicy.enablePartitionLevelFailover;
     this.enablePartitionLevelCircuitBreaker =
-      options.connectionPolicy.enablePartitionLevelCircuitBreaker ||
-      options.connectionPolicy.enablePartitionLevelFailover;
+      options.connectionPolicy.enablePartitionLevelCircuitBreaker;
+    this.lastKnownPPCBEnabled = options.connectionPolicy.enablePartitionLevelCircuitBreaker;
+    this.lastKnownPPAFEnabled = false;
   }
 
   /**
@@ -147,17 +164,14 @@ export class GlobalEndpointManager {
   }
 
   private getEffectiveExcludedLocations(
-    options: SharedOptions | ChangeFeedIteratorOptions = {},
+    excludedLocations: string[] = [],
     resourceType: ResourceType,
   ): Set<string> {
     if (!canApplyExcludedLocations(resourceType)) {
       return new Set();
     }
-    const excludedLocations = options?.excludedLocations;
 
-    return excludedLocations?.length
-      ? new Set(excludedLocations.map(normalizeEndpoint))
-      : new Set();
+    return excludedLocations.length ? new Set(excludedLocations.map(normalizeEndpoint)) : new Set();
   }
 
   private filterExcludedLocations(
@@ -177,10 +191,30 @@ export class GlobalEndpointManager {
     diagnosticNode: DiagnosticNodeInternal,
     resourceType: ResourceType,
     operationType: OperationType,
-    startServiceEndpointIndex: number = 0,
-    options: SharedOptions | ChangeFeedIteratorOptions = {}, // add to support request-level excluded region(location)
+    startServiceEndpointIndex: number = 0, // Represents the starting index for selecting servers.
   ): Promise<string> {
-    // startServiceEndpointIndex : This is used to indicate the starting index for selecting servers.
+    return this.resolveServiceEndpointInternal({
+      diagnosticNode: diagnosticNode,
+      resourceType: resourceType,
+      operationType: operationType,
+      startServiceEndpointIndex: startServiceEndpointIndex,
+    });
+  }
+
+  /**
+   * @internal
+   */
+  public async resolveServiceEndpointInternal(
+    resolveServiceEndpointOptions: ResolveServiceEndpointOptions,
+  ): Promise<string> {
+    // Extract all fields from ResolveServiceEndpointOptions
+    const {
+      diagnosticNode,
+      resourceType,
+      operationType,
+      startServiceEndpointIndex,
+      excludedLocations = [],
+    } = resolveServiceEndpointOptions;
 
     // If endpoint discovery is disabled, always use the user provided endpoint
 
@@ -210,23 +244,28 @@ export class GlobalEndpointManager {
       this.writeableLocations = resourceResponse.resource.writableLocations;
       this.readableLocations = resourceResponse.resource.readableLocations;
       this.enableMultipleWriteLocations = resourceResponse.resource.enableMultipleWritableLocations;
-      this.refreshPPAFFeatureFlag(resourceResponse.resource.enablePerPartitionFailoverBehavior);
+      if (this.enablePartitionLevelFailover) {
+        this.refreshPPAFFeatureFlag(resourceResponse.resource);
+      }
     }
 
     const locations = isReadRequest(operationType)
       ? this.readableLocations
       : this.writeableLocations;
 
-    const excludedLocations = this.getEffectiveExcludedLocations(options, resourceType);
+    const effectiveExcludedLocations = this.getEffectiveExcludedLocations(
+      excludedLocations,
+      resourceType,
+    );
     diagnosticNode.addData(
-      { excludedLocations: Array.from(excludedLocations) },
+      { excludedLocations: Array.from(effectiveExcludedLocations) },
       "excluded_locations",
     );
 
     // Filter locations based on exclusions
     const availableLocations = this.filterExcludedLocations(
       this.preferredLocations,
-      excludedLocations,
+      effectiveExcludedLocations,
     );
 
     let location;
@@ -259,7 +298,9 @@ export class GlobalEndpointManager {
         ? locations.slice(startServiceEndpointIndex)
         : locations;
       location = locationsToSearch.find((loc) => {
-        return loc.unavailable !== true && !excludedLocations.has(normalizeEndpoint(loc.name));
+        return (
+          loc.unavailable !== true && !effectiveExcludedLocations.has(normalizeEndpoint(loc.name))
+        );
       });
     }
 
@@ -279,9 +320,11 @@ export class GlobalEndpointManager {
       this.isRefreshing = true;
       const databaseAccount = await this.getDatabaseAccountFromAnyEndpoint(diagnosticNode);
       if (databaseAccount) {
+        if (this.enablePartitionLevelFailover) {
+          this.refreshPPAFFeatureFlag(databaseAccount);
+        }
         this.refreshStaleUnavailableLocations();
         this.refreshEndpoints(databaseAccount);
-        this.refreshPPAFFeatureFlag(databaseAccount.enablePerPartitionFailoverBehavior);
       }
       this.isRefreshing = false;
     }
@@ -434,16 +477,32 @@ export class GlobalEndpointManager {
   }
 
   /**
-   * Refreshes the enablePartitionLevelFailover and enablePartitionLevelCircuitBreaker flag
-   * based on the value from database account.
-   * @param enablePerPartitionFailoverBehavior - value from database account
+   * Checks for changes in PPAF enablement status and raises events if they have changed.
+   * It also manages circuit breaker timer state.
+   * @internal
    */
-  private refreshPPAFFeatureFlag(enablePerPartitionFailoverBehavior: boolean): void {
-    // If the enablePartitionLevelFailover is true, but PPAF is not enabled on the account,
-    // we will override it to false.
-    if (enablePerPartitionFailoverBehavior === false) {
-      this.enablePartitionLevelFailover = enablePerPartitionFailoverBehavior;
-      this.enablePartitionLevelCircuitBreaker = enablePerPartitionFailoverBehavior;
+  private refreshPPAFFeatureFlag(databaseAccount: DatabaseAccount): void {
+    let shouldEnableCircuitBreakerTimer = false;
+    if (this.enablePartitionLevelCircuitBreaker) {
+      // If PPCB is enabled in connection policy, always run circuit breaker
+      shouldEnableCircuitBreakerTimer = true;
+    } else {
+      // If PPCB is disabled, circuit breaker timer depends on PPAF flags
+      if (!this.enablePartitionLevelFailover) {
+        // If PPAF is disabled in connection policy, don't run circuit breaker ever.
+        shouldEnableCircuitBreakerTimer = false;
+      } else {
+        shouldEnableCircuitBreakerTimer =
+          databaseAccount.enablePerPartitionFailover ?? this.lastKnownPPAFEnabled ?? false;
+      }
+    }
+
+    this.lastKnownPPAFEnabled = databaseAccount.enablePerPartitionFailover;
+
+    // Only trigger callback if the circuit breaker timer state has changed
+    if (this.lastKnownPPCBEnabled !== shouldEnableCircuitBreakerTimer) {
+      this.lastKnownPPCBEnabled = shouldEnableCircuitBreakerTimer;
+      this.onEnablePartitionLevelFailoverConfigChanged?.(shouldEnableCircuitBreakerTimer);
     }
   }
 }

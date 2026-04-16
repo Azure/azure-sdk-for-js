@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list WorkloadNetworkDhcp resources by WorkloadNetwork
  *
  * @summary list WorkloadNetworkDhcp resources by WorkloadNetwork
- * x-ms-original-file: 2024-09-01/WorkloadNetworks_ListDhcp.json
+ * x-ms-original-file: 2025-09-01/WorkloadNetworks_ListDhcp.json
  */
 async function workloadNetworksListDhcp() {
   const credential = new DefaultAzureCredential();

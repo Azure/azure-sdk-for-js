@@ -112,7 +112,7 @@ async function getServiceStatistics(client: SearchIndexClient): Promise<void> {
 
 async function listIndexes(client: SearchIndexClient): Promise<void> {
   console.log(`List Indexes Operation`);
-  const result = await client.listIndexes();
+  const result = client.listIndexes();
   let listOfIndexes = await result.next();
 
   console.log(`List of Indexes`);

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list ProvisionedNetwork resources by PrivateCloud
  *
  * @summary list ProvisionedNetwork resources by PrivateCloud
- * x-ms-original-file: 2024-09-01/ProvisionedNetworks_List.json
+ * x-ms-original-file: 2025-09-01/ProvisionedNetworks_List.json
  */
 async function provisionedNetworksList() {
   const credential = new DefaultAzureCredential();

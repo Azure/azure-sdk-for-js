@@ -4,8 +4,7 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface AssociationsInterfaceListByTrafficControllerOptionalParams
-  extends OperationOptions {}
+export interface AssociationsInterfaceListByTrafficControllerOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface AssociationsInterfaceDeleteOptionalParams extends OperationOptions {

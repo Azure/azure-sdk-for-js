@@ -4,8 +4,7 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface DedicatedHsmListOutboundNetworkDependenciesEndpointsOptionalParams
-  extends OperationOptions {}
+export interface DedicatedHsmListOutboundNetworkDependenciesEndpointsOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface DedicatedHsmListBySubscriptionOptionalParams extends OperationOptions {

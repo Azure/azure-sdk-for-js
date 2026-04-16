@@ -52,45 +52,34 @@ export interface ScheduledActionsCreateOrUpdateOptionalParams extends OperationO
 export interface ScheduledActionsGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ScheduledActionsVirtualMachinesGetOperationErrorsOptionalParams
-  extends OperationOptions {}
+export interface ScheduledActionsVirtualMachinesGetOperationErrorsOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ScheduledActionsVirtualMachinesCancelOperationsOptionalParams
-  extends OperationOptions {}
+export interface ScheduledActionsVirtualMachinesCancelOperationsOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams
-  extends OperationOptions {}
+export interface ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ScheduledActionsVirtualMachinesExecuteDeleteOptionalParams
-  extends OperationOptions {}
+export interface ScheduledActionsVirtualMachinesExecuteDeleteOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ScheduledActionsVirtualMachinesExecuteCreateOptionalParams
-  extends OperationOptions {}
+export interface ScheduledActionsVirtualMachinesExecuteCreateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ScheduledActionsVirtualMachinesExecuteStartOptionalParams
-  extends OperationOptions {}
+export interface ScheduledActionsVirtualMachinesExecuteStartOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ScheduledActionsVirtualMachinesExecuteHibernateOptionalParams
-  extends OperationOptions {}
+export interface ScheduledActionsVirtualMachinesExecuteHibernateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams
-  extends OperationOptions {}
+export interface ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ScheduledActionsVirtualMachinesSubmitStartOptionalParams
-  extends OperationOptions {}
+export interface ScheduledActionsVirtualMachinesSubmitStartOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams
-  extends OperationOptions {}
+export interface ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams
-  extends OperationOptions {}
+export interface ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams extends OperationOptions {}

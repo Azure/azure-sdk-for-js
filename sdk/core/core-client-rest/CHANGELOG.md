@@ -1,5 +1,11 @@
 # Release History
 
+## 2.6.0 (2026-04-07)
+
+### Features Added
+
+- support passing `pipeline` via `ClientOptions`. [PR #37253](https://github.com/Azure/azure-sdk-for-js/pull/37253)
+
 ## 2.5.1 (2025-09-11)
 
 ### Other Changes

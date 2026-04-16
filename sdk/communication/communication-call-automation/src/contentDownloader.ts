@@ -101,19 +101,21 @@ export class ContentDownloaderImpl {
       tracingOptions: options?.tracingOptions,
     };
 
+    // Validate range parameters
     if (options.length && !options.offset) {
-      throw Error("Download offset value must not be empty if length is set.");
-    } else if (options.length && options.offset) {
-      options.length = options.offset + options.length - 1;
+      throw new Error("Download offset value must not be empty if length is set.");
     }
 
-    let rangeHeader = "bytes=" + options.offset;
-    if (options.length) rangeHeader += "-" + options.length;
-
+    // Set standard headers
     opt.headers?.set("OriginalUrl", sourceLocationUrl);
     opt.headers?.set("x-ms-host", endpoint.host);
     opt.headers?.set("accept", "application/json");
-    opt.headers?.set("Range", rangeHeader);
+
+    // Add Range header if partial download is requested
+    if (options.offset !== undefined) {
+      const rangeHeader = this.buildRangeHeader(options.offset, options.length);
+      opt.headers?.set("Range", rangeHeader);
+    }
 
     const req = createPipelineRequest(opt);
 
@@ -127,5 +129,30 @@ export class ContentDownloaderImpl {
       throw { status: results.status };
     }
     return results;
+  }
+
+  /**
+   * Builds HTTP Range header for partial content requests.
+   * @param offset - Starting byte position (0-based)
+   * @param length - Number of bytes to download (optional)
+   * @returns Formatted Range header value
+   *
+   * @example
+   * buildRangeHeader(1, 100)     // "bytes=1-100" (first 100 bytes)
+   * buildRangeHeader(100, 50)    // "bytes=100-149" (50 bytes starting at 100)
+   * buildRangeHeader(100)        // "bytes=100-" (from byte 100 to end)
+   */
+  private buildRangeHeader(offset: number, length?: number): string {
+    // HTTP Range header uses inclusive end position
+    // Format: "bytes=start-end" where both start and end are inclusive
+
+    if (length !== undefined && length > 0) {
+      // Calculate inclusive end position from offset and length
+      const endPosition = offset + length - 1;
+      return `bytes=${offset}-${endPosition}`;
+    } else {
+      // Open-ended range: from offset to end of file
+      return `bytes=${offset}-`;
+    }
   }
 }

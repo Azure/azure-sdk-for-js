@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Revert rulestack configuration
- *
- * @summary Revert rulestack configuration
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_revert_MaximumSet_Gen.json
- */
-
 import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Revert rulestack configuration
+ *
+ * @summary Revert rulestack configuration
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/GlobalRulestack_revert_MaximumSet_Gen.json
+ */
 async function globalRulestackRevertMaximumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const credential = new DefaultAzureCredential();
@@ -24,7 +23,7 @@ async function globalRulestackRevertMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to Revert rulestack configuration
  *
  * @summary Revert rulestack configuration
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_revert_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/GlobalRulestack_revert_MinimumSet_Gen.json
  */
 async function globalRulestackRevertMinimumSetGen(): Promise<void> {
   const globalRulestackName = "praval";

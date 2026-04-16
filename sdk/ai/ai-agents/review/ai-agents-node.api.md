@@ -4,12 +4,12 @@
 
 ```ts
 
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
 import type { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { StreamableMethod } from '@azure-rest/core-client';
+import type { PollerLike } from '@azure/core-lro';
+import type { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -1798,6 +1798,9 @@ export class ToolUtility {
     };
     static createBingGroundingTool(searchConfigurations: BingGroundingSearchConfiguration[]): {
         definition: BingGroundingToolDefinition;
+    };
+    static createBrowserAutomationTool(connectionId: string): {
+        definition: BrowserAutomationToolDefinition;
     };
     static createCodeInterpreterTool(fileIds?: string[], dataSources?: Array<VectorStoreDataSource>): {
         definition: CodeInterpreterToolDefinition;

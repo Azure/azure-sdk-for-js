@@ -54,7 +54,7 @@ node dist/marketplaceAgreementsCancelSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env MARKETPLACEORDERING_SUBSCRIPTION_ID="<marketplaceordering subscription id>" node dist/marketplaceAgreementsCancelSample.js
+cross-env MARKETPLACEORDERING_SUBSCRIPTION_ID="<marketplaceordering subscription id>" node dist/marketplaceAgreementsCancelSample.js
 ```
 
 ## Next Steps

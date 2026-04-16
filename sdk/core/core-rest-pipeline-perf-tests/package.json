@@ -48,7 +48,7 @@
     "@azure/core-rest-pipeline": "^1.22.0",
     "dotenv": "^16.0.0",
     "tslib": "^2.8.1",
-    "undici": "^7.1.0"
+    "undici": "^8.0.2"
   },
   "devDependencies": {
     "@azure/dev-tool": "workspace:^",
@@ -56,8 +56,11 @@
     "@types/express": "^5.0.3",
     "@types/node": "catalog:",
     "concurrently": "^9.2.1",
+    "cross-env": "catalog:",
     "eslint": "catalog:",
-    "express": "^5.1.0",
+    "express": "catalog:internal",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
     "typescript": "catalog:"
   },
   "scripts": {
@@ -74,16 +77,5 @@
     "test:browser": "echo skipped",
     "test:node": "echo skipped",
     "update-snippets": "dev-tool run update-snippets"
-  },
-  "tshy": {
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "selfLink": false
   }
 }

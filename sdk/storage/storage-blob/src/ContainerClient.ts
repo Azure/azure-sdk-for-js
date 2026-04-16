@@ -7,8 +7,8 @@ import { isNodeLike } from "@azure/core-util";
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { AnonymousCredential } from "./credentials/AnonymousCredential.js";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
+import type { UserDelegationKey } from "@azure/storage-common";
+import { AnonymousCredential, StorageSharedKeyCredential } from "@azure/storage-common";
 import type { Container } from "./generated/src/operationsInterfaces/index.js";
 import type {
   BlobDeleteResponse,
@@ -43,6 +43,8 @@ import type {
   Tags,
   ContainerRequestConditions,
   ModifiedAccessConditions,
+  BlobClientOptions,
+  BlobClientConfig,
 } from "./models.js";
 import type { PipelineLike, StoragePipelineOptions } from "./Pipeline.js";
 import { newPipeline, isPipelineLike } from "./Pipeline.js";
@@ -89,7 +91,6 @@ import type {
   ContainerListBlobHierarchySegmentResponse as ContainerListBlobHierarchySegmentResponseModel,
   ContainerGetAccountInfoHeaders,
 } from "./generated/src/index.js";
-import type { UserDelegationKey } from "./BlobServiceClient.js";
 
 /**
  * Options to configure {@link ContainerClient.create} operation.
@@ -366,6 +367,10 @@ interface ContainerListBlobsSegmentOptions extends CommonOptions {
    * specify one or more datasets to include in the response.
    */
   include?: ListBlobsIncludeItem[];
+  /** Specifies the relative path to list paths from.
+   * For non-recursive list, only one entity level is supported;
+   * For recursive list, multiple entity levels are supported. (Inclusive) */
+  startFrom?: string;
 }
 
 /**
@@ -503,6 +508,10 @@ export interface ContainerListBlobsOptions extends CommonOptions {
    * Specifies whether blob legal hold be returned in the response.
    */
   includeLegalHold?: boolean;
+  /** Specifies the relative path to list paths from.
+   * For non-recursive list, only one entity level is supported;
+   * For recursive list, multiple entity levels are supported. (Inclusive) */
+  startFrom?: string;
 }
 
 /**
@@ -598,6 +607,8 @@ export class ContainerClient extends StorageClient {
 
   private _containerName: string;
 
+  private blobClientConfig?: BlobClientConfig;
+
   /**
    * The name of the container.
    */
@@ -638,7 +649,7 @@ export class ContainerClient extends StorageClient {
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: StoragePipelineOptions,
+    options?: BlobClientOptions,
   );
   /**
    * Creates an instance of ContainerClient.
@@ -653,7 +664,7 @@ export class ContainerClient extends StorageClient {
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    */
-  constructor(url: string, pipeline: PipelineLike);
+  constructor(url: string, pipeline: PipelineLike, options?: BlobClientConfig);
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName?:
@@ -664,13 +675,13 @@ export class ContainerClient extends StorageClient {
       | PipelineLike,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: StoragePipelineOptions,
+    options?: BlobClientOptions,
   ) {
     let pipeline: PipelineLike;
     let url: string;
     options = options || {};
     if (isPipelineLike(credentialOrPipelineOrContainerName)) {
-      // (url: string, pipeline: Pipeline)
+      // (url: string, pipeline: Pipeline, options?: BlobClientConfig)
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
     } else if (
@@ -730,6 +741,7 @@ export class ContainerClient extends StorageClient {
     super(url, pipeline);
     this._containerName = this.getContainerNameFromUrl();
     this.containerContext = this.storageClientContext.container;
+    this.blobClientConfig = options;
   }
 
   /**
@@ -837,7 +849,11 @@ export class ContainerClient extends StorageClient {
    * @returns A new BlobClient object for the given blob name.
    */
   public getBlobClient(blobName: string): BlobClient {
-    return new BlobClient(appendToURLPath(this.url, EscapePath(blobName)), this.pipeline);
+    return new BlobClient(
+      appendToURLPath(this.url, EscapePath(blobName)),
+      this.pipeline,
+      this.blobClientConfig,
+    );
   }
 
   /**
@@ -846,7 +862,11 @@ export class ContainerClient extends StorageClient {
    * @param blobName - An append blob name
    */
   public getAppendBlobClient(blobName: string): AppendBlobClient {
-    return new AppendBlobClient(appendToURLPath(this.url, EscapePath(blobName)), this.pipeline);
+    return new AppendBlobClient(
+      appendToURLPath(this.url, EscapePath(blobName)),
+      this.pipeline,
+      this.blobClientConfig,
+    );
   }
 
   /**
@@ -877,7 +897,11 @@ export class ContainerClient extends StorageClient {
    * ```
    */
   public getBlockBlobClient(blobName: string): BlockBlobClient {
-    return new BlockBlobClient(appendToURLPath(this.url, EscapePath(blobName)), this.pipeline);
+    return new BlockBlobClient(
+      appendToURLPath(this.url, EscapePath(blobName)),
+      this.pipeline,
+      this.blobClientConfig,
+    );
   }
 
   /**
@@ -886,7 +910,11 @@ export class ContainerClient extends StorageClient {
    * @param blobName - A page blob name
    */
   public getPageBlobClient(blobName: string): PageBlobClient {
-    return new PageBlobClient(appendToURLPath(this.url, EscapePath(blobName)), this.pipeline);
+    return new PageBlobClient(
+      appendToURLPath(this.url, EscapePath(blobName)),
+      this.pipeline,
+      this.blobClientConfig,
+    );
   }
 
   /**

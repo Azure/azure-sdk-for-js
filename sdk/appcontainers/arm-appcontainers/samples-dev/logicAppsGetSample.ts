@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets a logic app extension resource.
  *
  * @summary Gets a logic app extension resource.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2025-02-02-preview/examples/LogicApps_Get.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/LogicApps_Get.json
  */
 async function getLogicAppExtensionByName(): Promise<void> {
   const subscriptionId =

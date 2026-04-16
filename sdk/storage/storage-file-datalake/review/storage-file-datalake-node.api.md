@@ -5,10 +5,10 @@
 ```ts
 
 import type { AbortSignalLike } from '@azure/abort-controller';
-import { AnonymousCredential } from '@azure/storage-blob';
-import { AnonymousCredentialPolicy } from '@azure/storage-blob';
+import { AnonymousCredential } from '@azure/storage-common';
+import { AnonymousCredentialPolicy } from '@azure/storage-common';
 import { AzureLogger } from '@azure/logger';
-import { BaseRequestPolicy } from '@azure/storage-blob';
+import { BaseRequestPolicy } from '@azure/storage-common';
 import type { BlobLeaseClient } from '@azure/storage-blob';
 import type { BlobQueryArrowConfiguration } from '@azure/storage-blob';
 import type { ContainerRenameResponse } from '@azure/storage-blob';
@@ -16,13 +16,14 @@ import type { ContainerUndeleteResponse } from '@azure/storage-blob';
 import * as coreClient from '@azure/core-client';
 import * as coreHttpCompat from '@azure/core-http-compat';
 import * as coreRestPipeline from '@azure/core-rest-pipeline';
-import { Credential as Credential_2 } from '@azure/storage-blob';
-import { CredentialPolicy } from '@azure/storage-blob';
+import { Credential as Credential_2 } from '@azure/storage-common';
+import { CredentialPolicy } from '@azure/storage-common';
+import { CredentialPolicyCreator } from '@azure/storage-common';
 import { ServiceGetPropertiesResponse as DataLakeServiceGetPropertiesResponse } from '@azure/storage-blob';
 import { BlobServiceProperties as DataLakeServiceProperties } from '@azure/storage-blob';
 import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
 import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
-import { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
+import type { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
 import { isPipelineLike } from '@azure/storage-blob';
 import type { KeepAliveOptions } from '@azure/core-http-compat';
 import { Lease } from '@azure/storage-blob';
@@ -30,6 +31,7 @@ import { LeaseAccessConditions } from '@azure/storage-blob';
 import { LeaseOperationOptions } from '@azure/storage-blob';
 import { LeaseOperationResponse } from '@azure/storage-blob';
 import type { ModifiedAccessConditions as ModifiedAccessConditions_3 } from '@azure/storage-blob';
+import { NodeJSReadableStream } from '@azure/storage-blob';
 import type { OperationTracingOptions } from '@azure/core-tracing';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { Pipeline } from '@azure/storage-blob';
@@ -47,17 +49,18 @@ import { ServiceListContainersSegmentResponse } from '@azure/storage-blob';
 import type { ServiceRenameContainerOptions } from '@azure/storage-blob';
 import type { ServiceSetPropertiesOptions } from '@azure/storage-blob';
 import type { ServiceSetPropertiesResponse } from '@azure/storage-blob';
-import { StorageBrowserPolicy } from '@azure/storage-blob';
-import { StorageBrowserPolicyFactory } from '@azure/storage-blob';
-import { StorageRetryOptions } from '@azure/storage-blob';
-import { StorageRetryPolicy } from '@azure/storage-blob';
-import { StorageRetryPolicyFactory } from '@azure/storage-blob';
-import { StorageRetryPolicyType } from '@azure/storage-blob';
-import { StorageSharedKeyCredential } from '@azure/storage-blob';
-import { StorageSharedKeyCredentialPolicy } from '@azure/storage-blob';
+import { StorageBrowserPolicy } from '@azure/storage-common';
+import { StorageBrowserPolicyFactory } from '@azure/storage-common';
+import { StorageRetryOptions } from '@azure/storage-common';
+import { StorageRetryPolicy } from '@azure/storage-common';
+import { StorageRetryPolicyFactory } from '@azure/storage-common';
+import { StorageRetryPolicyType } from '@azure/storage-common';
+import { StorageSharedKeyCredential } from '@azure/storage-common';
+import { StorageSharedKeyCredentialPolicy } from '@azure/storage-common';
 import type { TokenCredential } from '@azure/core-auth';
 import type { TransferProgressEvent } from '@azure/core-rest-pipeline';
 import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
+import { UserDelegationKey } from '@azure/storage-common';
 import { UserDelegationKeyModel } from '@azure/storage-blob';
 import { WebResourceLike as WebResource } from '@azure/core-http-compat';
 import type { WithResponse } from '@azure/storage-blob';
@@ -252,6 +255,8 @@ export interface CommonGenerateSasUrlOptions {
     identifier?: string;
     ipRange?: SasIPRange;
     protocol?: SASProtocol;
+    requestHeaders?: RequestHeaders;
+    requestQueryParameters?: RequestQueryParameters;
     startsOn?: Date;
     version?: string;
 }
@@ -276,12 +281,23 @@ export { Credential_2 as Credential }
 
 export { CredentialPolicy }
 
+export { CredentialPolicyCreator }
+
 // @public
 export class DataLakeAclChangeFailedError extends Error {
     constructor(error: RestError | Error, continuationToken?: string);
     continuationToken?: string;
     innerError: RestError | Error;
 }
+
+// @public
+export interface DataLakeClientConfig {
+    downloadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
+    uploadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
+}
+
+// @public
+export type DataLakeClientOptions = StoragePipelineOptions & DataLakeClientConfig;
 
 // @public
 export class DataLakeDirectoryClient extends DataLakePathClient {
@@ -299,8 +315,8 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
 
 // @public
 export class DataLakeFileClient extends DataLakePathClient {
-    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
-    constructor(url: string, pipeline: Pipeline);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: DataLakeClientOptions);
+    constructor(url: string, pipeline: Pipeline, options?: DataLakeClientConfig);
     append(body: HttpRequestBody, offset: number, length: number, options?: FileAppendOptions): Promise<FileAppendResponse>;
     create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
     create(options?: FileCreateOptions): Promise<FileCreateResponse>;
@@ -326,8 +342,8 @@ export class DataLakeFileClient extends DataLakePathClient {
 //
 // @public
 export class DataLakeFileSystemClient extends StorageClient {
-    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
-    constructor(url: string, pipeline: Pipeline);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: DataLakeClientOptions);
+    constructor(url: string, pipeline: Pipeline, options?: DataLakeClientConfig);
     create(options?: FileSystemCreateOptions): Promise<FileSystemCreateResponse>;
     createIfNotExists(options?: FileSystemCreateOptions): Promise<FileSystemCreateIfNotExistsResponse>;
     delete(options?: FileSystemDeleteOptions): Promise<FileSystemDeleteResponse>;
@@ -348,6 +364,13 @@ export class DataLakeFileSystemClient extends StorageClient {
     setAccessPolicy(access?: PublicAccessType, fileSystemAcl?: SignedIdentifier<AccessPolicy>[], options?: FileSystemSetAccessPolicyOptions): Promise<FileSystemSetAccessPolicyResponse>;
     setMetadata(metadata?: Metadata, options?: FileSystemSetMetadataOptions): Promise<FileSystemSetMetadataResponse>;
     undeletePath(deletedPath: string, deletionId: string, options?: FileSystemUndeletePathOption): Promise<FileSystemUndeletePathResponse>;
+}
+
+// @public
+export interface DataLakeGetUserDelegationKeyParameters {
+    delegatedUserTenantId: string;
+    expiresOn: Date;
+    startsOn: Date;
 }
 
 // @public (undocumented)
@@ -371,8 +394,8 @@ export class DataLakeLeaseClient {
 
 // @public
 export class DataLakePathClient extends StorageClient {
-    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
-    constructor(url: string, pipeline: Pipeline);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: DataLakeClientOptions);
+    constructor(url: string, pipeline: Pipeline, options?: DataLakeClientConfig);
     create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
     createIfNotExists(resourceType: PathResourceTypeModel, options?: PathCreateIfNotExistsOptions): Promise<PathCreateIfNotExistsResponse>;
     delete(recursive?: boolean, options?: PathDeleteOptions): Promise<PathDeleteResponse>;
@@ -424,6 +447,7 @@ export interface DataLakeSASSignatureValues {
     contentLanguage?: string;
     contentType?: string;
     correlationId?: string;
+    delegatedUserObjectId?: string;
     directoryDepth?: number;
     encryptionScope?: string;
     expiresOn?: Date;
@@ -435,6 +459,8 @@ export interface DataLakeSASSignatureValues {
     permissions?: DataLakeSASPermissions | DirectorySASPermissions | FileSystemSASPermissions;
     preauthorizedAgentObjectId?: string;
     protocol?: SASProtocol;
+    requestHeaders?: RequestHeaders;
+    requestQueryParameters?: RequestQueryParameters;
     snapshotTime?: string;
     startsOn?: Date;
     version?: string;
@@ -442,14 +468,15 @@ export interface DataLakeSASSignatureValues {
 
 // @public
 export class DataLakeServiceClient extends StorageClient {
-    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
-    constructor(url: string, pipeline: Pipeline);
-    static fromConnectionString(connectionString: string, options?: StoragePipelineOptions): DataLakeServiceClient;
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: DataLakeClientOptions);
+    constructor(url: string, pipeline: Pipeline, options?: DataLakeClientConfig);
+    static fromConnectionString(connectionString: string, options?: DataLakeClientOptions): DataLakeServiceClient;
     generateAccountSasUrl(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
     generateSasStringToSign(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
     getFileSystemClient(fileSystemName: string): DataLakeFileSystemClient;
     getProperties(options?: ServiceGetPropertiesOptions): Promise<DataLakeServiceGetPropertiesResponse>;
     getUserDelegationKey(startsOn: Date, expiresOn: Date, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
+    getUserDelegationKey(parameters: DataLakeGetUserDelegationKeyParameters, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
     listFileSystems(options?: ServiceListFileSystemsOptions): PagedAsyncIterableIterator<FileSystemItem, ServiceListFileSystemsSegmentResponse>;
     setProperties(properties: DataLakeServiceProperties, options?: ServiceSetPropertiesOptions): Promise<ServiceSetPropertiesResponse>;
     undeleteFileSystem(deletedFileSystemName: string, deleteFileSystemVersion: string, options?: ServiceUndeleteFileSystemOptions): Promise<{
@@ -526,6 +553,7 @@ export interface FileAppendOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     // (undocumented)
     conditions?: LeaseAccessConditions;
+    contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     customerProvidedKey?: CpkInfo;
     flush?: boolean;
     // Warning: (ae-forgotten-export) The symbol "LeaseAction" needs to be exported by the entry point index.d.ts
@@ -592,6 +620,7 @@ export interface FileParallelUploadOptions extends CommonOptions {
     chunkSize?: number;
     close?: boolean;
     conditions?: DataLakeRequestConditions;
+    contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     customerProvidedKey?: CpkInfo;
     encryptionContext?: string;
     maxConcurrency?: number;
@@ -713,6 +742,8 @@ export interface FileReadHeaders {
     permissions?: PathPermissions;
     // (undocumented)
     requestId?: string;
+    structuredBodyType?: string;
+    structuredContentLength?: number;
     // (undocumented)
     version?: string;
 }
@@ -723,6 +754,7 @@ export interface FileReadOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     // (undocumented)
     conditions?: DataLakeRequestConditions;
+    contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     customerProvidedKey?: CpkInfo;
     // (undocumented)
     maxRetryRequests?: number;
@@ -737,7 +769,7 @@ export interface FileReadOptions extends CommonOptions {
 // @public (undocumented)
 export type FileReadResponse = WithResponse<FileReadHeaders & {
     contentAsBlob?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
+    readableStreamBody?: NodeJSReadableStream;
 }, FileReadHeaders>;
 
 // @public
@@ -746,6 +778,7 @@ export interface FileReadToBufferOptions extends CommonOptions {
     chunkSize?: number;
     concurrency?: number;
     conditions?: DataLakeRequestConditions;
+    contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     customerProvidedKey?: CpkInfo;
     maxRetryRequestsPerChunk?: number;
     onProgress?: (progress: TransferProgressEvent) => void;
@@ -1177,6 +1210,7 @@ export interface ListPathsOptions extends CommonOptions {
     path?: string;
     // (undocumented)
     recursive?: boolean;
+    startFrom?: string;
     // (undocumented)
     userPrincipalName?: boolean;
 }
@@ -1201,6 +1235,8 @@ export type ModifiedAccessConditions = Omit<ModifiedAccessConditions_3, "ifTags"
 
 // @public
 export function newPipeline(credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
+
+export { NodeJSReadableStream }
 
 // @public (undocumented)
 export interface Path {
@@ -1255,6 +1291,7 @@ export interface PathAppendDataHeaders {
     isServerEncrypted?: boolean;
     leaseRenewed?: boolean;
     requestId?: string;
+    structuredBodyType?: string;
     version?: string;
     xMsContentCrc64?: Uint8Array;
 }
@@ -1537,10 +1574,16 @@ export interface PathGetPropertiesHeadersModel {
     contentMD5?: string;
     contentRange?: string;
     contentType?: string;
+    creationTime?: Date;
     date?: Date;
+    encryptionContext?: string;
+    encryptionKeySha256?: string;
+    encryptionScope?: string;
     errorCode?: string;
     etag?: string;
+    expiresOn?: Date;
     group?: string;
+    isServerEncrypted?: boolean;
     lastModified?: Date;
     leaseDuration?: string;
     leaseState?: string;
@@ -1579,6 +1622,7 @@ export interface PathHttpHeaders {
     contentMD5?: Uint8Array;
     // (undocumented)
     contentType?: string;
+    transactionalContentHash?: Uint8Array;
 }
 
 // @public (undocumented)
@@ -1840,12 +1884,18 @@ export interface RemovePathAccessControlItem {
     entityId?: string;
 }
 
+// @public
+export type RequestHeaders = Record<string, string>;
+
 export { RequestPolicy as IHttpClient }
 export { RequestPolicy }
 
 export { RequestPolicyFactory }
 
 export { RequestPolicyOptions }
+
+// @public
+export type RequestQueryParameters = Record<string, string>;
 
 export { RestError }
 
@@ -1873,7 +1923,7 @@ export enum SASProtocol {
 
 // @public
 export class SASQueryParameters {
-    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, directoryDepth?: number, preauthorizedAgentObjectId?: string, agentObjectId?: string, correlationId?: string, encryptionScope?: string);
+    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, directoryDepth?: number, preauthorizedAgentObjectId?: string, agentObjectId?: string, correlationId?: string, encryptionScope?: string, delegatedUserObjectId?: string, requestHeaderKeys?: string, requestQueryParameterKeys?: string);
     constructor(version: string, signature: string, options?: SASQueryParametersOptions);
     readonly agentObjectId?: string;
     readonly cacheControl?: string;
@@ -1882,6 +1932,7 @@ export class SASQueryParameters {
     readonly contentLanguage?: string;
     readonly contentType?: string;
     readonly correlationId?: string;
+    readonly delegatedUserObjectId?: string;
     readonly directoryDepth?: number;
     readonly encryptionScope?: string;
     readonly expiresOn?: Date;
@@ -1890,6 +1941,8 @@ export class SASQueryParameters {
     readonly permissions?: string;
     readonly preauthorizedAgentObjectId?: string;
     readonly protocol?: SASProtocol;
+    readonly requestHeaderKeys?: string;
+    readonly requestQueryParameterKeys?: string;
     readonly resource?: string;
     readonly resourceTypes?: string;
     readonly services?: string;
@@ -1908,6 +1961,7 @@ export interface SASQueryParametersOptions {
     contentLanguage?: string;
     contentType?: string;
     correlationId?: string;
+    delegatedUserObjectId?: string;
     directoryDepth?: number;
     encryptionScope?: string;
     expiresOn?: Date;
@@ -1916,6 +1970,8 @@ export interface SASQueryParametersOptions {
     permissions?: string;
     preauthorizedAgentObjectId?: string;
     protocol?: SASProtocol;
+    requestHeaderKeys?: string;
+    requestQueryParameterKeys?: string;
     resource?: string;
     resourceTypes?: string;
     services?: string;
@@ -2004,6 +2060,9 @@ export { StorageBrowserPolicy }
 export { StorageBrowserPolicyFactory }
 
 // @public
+export type StorageChecksumAlgorithm = "Auto" | "None" | "Customized" | "StorageCrc64";
+
+// @public
 export enum StorageDataLakeAudience {
     StorageOAuthScopes = "https://storage.azure.com/.default"
 }
@@ -2039,23 +2098,7 @@ export const ToBlobEndpointHostMappings: string[][];
 // @public (undocumented)
 export const ToDfsEndpointHostMappings: string[][];
 
-// @public (undocumented)
-export interface UserDelegationKey {
-    // (undocumented)
-    signedExpiresOn: Date;
-    // (undocumented)
-    signedObjectId: string;
-    // (undocumented)
-    signedService: string;
-    // (undocumented)
-    signedStartsOn: Date;
-    // (undocumented)
-    signedTenantId: string;
-    // (undocumented)
-    signedVersion: string;
-    // (undocumented)
-    value: string;
-}
+export { UserDelegationKey }
 
 export { UserDelegationKeyModel }
 

@@ -79,7 +79,7 @@ node dist/botConnectionCreateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env BOTSERVICE_SUBSCRIPTION_ID="<botservice subscription id>" BOTSERVICE_RESOURCE_GROUP="<botservice resource group>" node dist/botConnectionCreateSample.js
+cross-env BOTSERVICE_SUBSCRIPTION_ID="<botservice subscription id>" BOTSERVICE_RESOURCE_GROUP="<botservice resource group>" node dist/botConnectionCreateSample.js
 ```
 
 ## Next Steps

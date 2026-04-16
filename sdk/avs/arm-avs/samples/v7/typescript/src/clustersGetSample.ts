@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a Cluster
  *
  * @summary get a Cluster
- * x-ms-original-file: 2024-09-01/Clusters_Get.json
+ * x-ms-original-file: 2025-09-01/Clusters_Get.json
  */
 async function clustersGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

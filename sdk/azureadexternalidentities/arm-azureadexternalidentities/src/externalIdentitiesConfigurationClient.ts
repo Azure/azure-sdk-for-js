@@ -51,7 +51,7 @@ export class ExternalIdentitiesConfigurationClient extends coreClient.ServiceCli
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-azureadexternalidentities/1.0.4`;
+    const packageDetails = `azsdk-js-arm-azureadexternalidentities/1.0.5`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

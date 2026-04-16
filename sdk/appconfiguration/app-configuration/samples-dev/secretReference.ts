@@ -3,7 +3,6 @@
 
 /**
  * @summary SecretReference represents a configuration setting that references as KeyVault secret.
- *
  * @azsdk-weight 30
  */
 import {

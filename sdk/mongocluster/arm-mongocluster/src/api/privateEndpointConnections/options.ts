@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "@azure-rest/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsDeleteOptionalParams extends OperationOptions {
@@ -19,5 +19,4 @@ export interface PrivateEndpointConnectionsCreateOptionalParams extends Operatio
 export interface PrivateEndpointConnectionsGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionsListByMongoClusterOptionalParams
-  extends OperationOptions {}
+export interface PrivateEndpointConnectionsListByMongoClusterOptionalParams extends OperationOptions {}

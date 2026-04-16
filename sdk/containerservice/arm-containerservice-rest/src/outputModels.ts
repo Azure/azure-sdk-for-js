@@ -219,8 +219,7 @@ export interface CreationDataOutput {
 }
 
 /** Profile for the container service agent pool. */
-export interface ManagedClusterAgentPoolProfileOutput
-  extends ManagedClusterAgentPoolProfilePropertiesOutput {
+export interface ManagedClusterAgentPoolProfileOutput extends ManagedClusterAgentPoolProfilePropertiesOutput {
   /** Windows agent pool names must be 6 characters or less. */
   name: string;
 }

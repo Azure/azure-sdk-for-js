@@ -4,10 +4,10 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PollerLike } from '@azure/core-lro';
+import type { Client } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PollerLike } from '@azure/core-lro';
 
 // @public
 export function $delete(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, options?: ManagedClustersDeleteOptionalParams): PollerLike<OperationState<void>, void>;
@@ -19,16 +19,10 @@ export function createOrUpdate(context: ServiceFabricManagedClustersManagementCo
 export function get(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, options?: ManagedClustersGetOptionalParams): Promise<ManagedCluster>;
 
 // @public
-export function getFaultSimulation(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, parameters: FaultSimulationIdContent, options?: ManagedClustersGetFaultSimulationOptionalParams): Promise<FaultSimulation>;
-
-// @public
 export function listByResourceGroup(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, options?: ManagedClustersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ManagedCluster>;
 
 // @public
 export function listBySubscription(context: ServiceFabricManagedClustersManagementContext, options?: ManagedClustersListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ManagedCluster>;
-
-// @public
-export function listFaultSimulation(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, options?: ManagedClustersListFaultSimulationOptionalParams): PagedAsyncIterableIterator<FaultSimulation>;
 
 // @public
 export interface ManagedClustersCreateOrUpdateOptionalParams extends OperationOptions {
@@ -38,10 +32,6 @@ export interface ManagedClustersCreateOrUpdateOptionalParams extends OperationOp
 // @public
 export interface ManagedClustersDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
-}
-
-// @public
-export interface ManagedClustersGetFaultSimulationOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -57,31 +47,12 @@ export interface ManagedClustersListBySubscriptionOptionalParams extends Operati
 }
 
 // @public
-export interface ManagedClustersListFaultSimulationOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ManagedClustersStartFaultSimulationOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ManagedClustersStopFaultSimulationOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
 export interface ManagedClustersUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
-export function startFaultSimulation(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, parameters: FaultSimulationContentWrapper, options?: ManagedClustersStartFaultSimulationOptionalParams): PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
-
-// @public
-export function stopFaultSimulation(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, parameters: FaultSimulationIdContent, options?: ManagedClustersStopFaultSimulationOptionalParams): PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
-
-// @public
-export function update(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, parameters: ManagedClusterUpdateParameters, options?: ManagedClustersUpdateOptionalParams): Promise<ManagedCluster>;
+export function update(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, parameters: ManagedClusterUpdateParameters, options?: ManagedClustersUpdateOptionalParams): PollerLike<OperationState<ManagedCluster>, ManagedCluster>;
 
 // (No @packageDocumentation comment for this package)
 

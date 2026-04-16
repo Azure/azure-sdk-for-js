@@ -129,7 +129,7 @@ export interface CaptionResultOutput {
 }
 
 // @public
-function createClient(endpointParam: string, credentials: TokenCredential | KeyCredential, { apiVersion, ...options }?: ImageAnalysisClientOptions): ImageAnalysisClient;
+function createClient(endpointParam: string, credentials: TokenCredential | KeyCredential, input?: ImageAnalysisClientOptions): ImageAnalysisClient;
 export default createClient;
 
 // @public

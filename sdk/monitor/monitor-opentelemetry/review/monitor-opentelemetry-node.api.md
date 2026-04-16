@@ -11,6 +11,7 @@ import type { MetricReader } from '@opentelemetry/sdk-metrics';
 import { NodeSDK } from '@opentelemetry/sdk-node';
 import type { Resource } from '@opentelemetry/resources';
 import type { SpanProcessor } from '@opentelemetry/sdk-trace-base';
+import type { ViewOptions } from '@opentelemetry/sdk-metrics';
 
 // @public
 export interface AzureMonitorOpenTelemetryOptions {
@@ -27,6 +28,7 @@ export interface AzureMonitorOpenTelemetryOptions {
     samplingRatio?: number;
     spanProcessors?: SpanProcessor[];
     tracesPerSecond?: number;
+    views?: ViewOptions[];
 }
 
 // @public
@@ -40,6 +42,7 @@ export function _getSdkInstance(): NodeSDK | undefined;
 
 // @public
 export interface InstrumentationOptions {
+    azureFunctions?: InstrumentationConfig;
     azureSdk?: InstrumentationConfig;
     bunyan?: InstrumentationConfig;
     http?: InstrumentationConfig;

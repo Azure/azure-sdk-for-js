@@ -11,7 +11,7 @@
 
 const { AppConfigurationClient } = require("@azure/app-configuration");
 const { isSystemEvent, EventGridDeserializer } = require("@azure/eventgrid");
-const { appConfigTestEvent } = require("./testData");
+const { appConfigTestEvent } = require("./testData.js");
 
 // Load the .env file if it exists
 const dotenv = require("dotenv");
