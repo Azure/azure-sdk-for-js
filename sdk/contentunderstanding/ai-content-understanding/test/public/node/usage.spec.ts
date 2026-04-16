@@ -32,9 +32,9 @@ describe("AnalysisResultPoller usage", () => {
     videoHours: 0,
     contextualizationTokens: 1234,
     tokens: {
-      "gpt-4.1:input": 500,
-      "gpt-4.1:cached_input": 200,
-      "gpt-4.1:output": 100,
+      "gpt-4.1-input": 500,
+      "gpt-4.1-cached_input": 200,
+      "gpt-4.1-output": 100,
     },
   };
 
@@ -84,9 +84,9 @@ describe("AnalysisResultPoller usage", () => {
     assert.equal(usage!.documentPagesBasic, 1);
     assert.equal(usage!.contextualizationTokens, 1234);
     assert.deepEqual(usage!.tokens, {
-      "gpt-4.1:input": 500,
-      "gpt-4.1:cached_input": 200,
-      "gpt-4.1:output": 100,
+      "gpt-4.1-input": 500,
+      "gpt-4.1-cached_input": 200,
+      "gpt-4.1-output": 100,
     });
   });
 
@@ -163,9 +163,9 @@ describe("AnalysisResultPoller usage", () => {
       videoHours: 1.25,
       contextualizationTokens: 5000,
       tokens: {
-        "gpt-4.1:input": 1000,
-        "gpt-4.1:output": 500,
-        "text-embedding-3-large:input": 2000,
+        "gpt-4.1-input": 1000,
+        "gpt-4.1-output": 500,
+        "text-embedding-3-large-input": 2000,
       },
     };
 
@@ -192,7 +192,7 @@ describe("AnalysisResultPoller usage", () => {
     assert.equal(usage.videoHours, 1.25);
     assert.equal(usage.contextualizationTokens, 5000);
     assert.equal(Object.keys(usage.tokens!).length, 3);
-    assert.equal(usage.tokens!["text-embedding-3-large:input"], 2000);
+    assert.equal(usage.tokens!["text-embedding-3-large-input"], 2000);
   });
 
   it("should not fail the poll when usage has malformed data", async () => {
