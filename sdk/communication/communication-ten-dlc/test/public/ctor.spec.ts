@@ -26,7 +26,7 @@ describe("TenDlcClient - constructor", () => {
     assert.instanceOf(client, TenDlcClient);
   });
 
-  it("successfully instantiates with with endpoint and managed identity", function (this: Context) {
+  it("successfully instantiates with with endpoint and managed identity", function () {
     const client = new TenDlcClient(endpoint, createMockToken());
     assert.instanceOf(client, TenDlcClient);
   });

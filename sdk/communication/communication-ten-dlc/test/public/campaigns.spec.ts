@@ -34,10 +34,13 @@ describe("TenDlcClient - Campaigns", function () {
 
   it("successfully inserts campaign", async () => {
     const options = {
-      brandId: id,
-      name: "Test Campaign",
-      campaignDetails: {},
-      messageDetails: messageDetails,
+      body: {
+        id,
+        brandId: id,
+        name: "Test Campaign",
+        campaignDetails: {},
+        messageDetails: messageDetails,
+      },
     };
 
     const campaign = await client.upsertUSCampaign(id, options);
@@ -52,10 +55,13 @@ describe("TenDlcClient - Campaigns", function () {
 
   it("successfully updates campaign", async () => {
     const options = {
-      brandId: id,
-      name: "Test Campaign",
-      campaignDetails: {},
-      messageDetails: messageDetails,
+      body: {
+        id,
+        brandId: id,
+        name: "Test Campaign",
+        campaignDetails: {},
+        messageDetails: messageDetails,
+      },
     };
     let campaign = await client.upsertUSCampaign(id, options);
     assert.equal(campaign.id, id);
@@ -66,10 +72,13 @@ describe("TenDlcClient - Campaigns", function () {
 
     messageDetails.useCase.sampleMessages = ["updatedSampleMessages"];
     const newOptions = {
-      brandId: id,
-      name: "Test Campaign",
-      campaignDetails: {},
-      messageDetails: messageDetails,
+      body: {
+        id,
+        brandId: id,
+        name: "Test Campaign",
+        campaignDetails: {},
+        messageDetails: messageDetails,
+      },
     };
 
     campaign = await client.upsertUSCampaign(id, newOptions);
@@ -84,10 +93,13 @@ describe("TenDlcClient - Campaigns", function () {
 
   it("can list all us campaigns", async function () {
     const options = {
-      brandId: id,
-      name: "Test Campaign",
-      campaignDetails: {},
-      messageDetails: {},
+      body: {
+        id,
+        brandId: id,
+        name: "Test Campaign",
+        campaignDetails: {},
+        messageDetails: {},
+      },
     };
 
     client.upsertUSCampaign(id, options);

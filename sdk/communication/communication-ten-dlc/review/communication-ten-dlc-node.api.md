@@ -134,9 +134,6 @@ export interface ListCostsOptions extends TenDlcGetCostsOptionalParams {
 }
 
 // @public
-export type NumberPoolStatus = "None" | "Requested" | "ActivationPending" | "Activated" | "ActivationFailed";
-
-// @public
 export interface MessageDetails {
     hasAgeGatedContent?: boolean;
     hasDirectLending?: boolean;
@@ -152,6 +149,9 @@ export interface MessageDetails {
     termsAndConditionsAccepted?: boolean;
     useCase?: UseCase;
 }
+
+// @public
+export type NumberPoolStatus = "None" | "Requested" | "ActivationPending" | "Activated" | "ActivationFailed";
 
 // @public
 export interface ReviewNote {

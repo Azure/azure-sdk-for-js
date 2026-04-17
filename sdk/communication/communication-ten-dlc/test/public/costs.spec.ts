@@ -14,7 +14,7 @@ describe("TenDlcClient - Costs", function () {
     ({ client, recorder } = await createRecordedClient(ctx));
   });
 
-  afterEach(async (ctx) => {
+  afterEach(async () => {
     await recorder.stop();
   });
 

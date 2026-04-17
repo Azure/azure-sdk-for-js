@@ -79,7 +79,7 @@ export interface SubmitBrandForVettingOptionalParams extends TenDlcSubmitUSBrand
  */
 export interface SubmitCampaignOptionalParams extends TenDlcSubmitUSCampaignOptionalParams {}
 
-export {
+export type {
   Address,
   AlternateBusinessIdType,
   BillingFrequency,
