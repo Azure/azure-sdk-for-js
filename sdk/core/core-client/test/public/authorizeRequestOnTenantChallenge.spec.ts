@@ -104,7 +104,7 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
       },
     });
 
-    const calledOnce = false;
+    let calledOnce = false;
 
     await policy.sendRequest(
       {
@@ -117,6 +117,7 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
       },
       async (req) => {
         if (!calledOnce) {
+          calledOnce = true;
           assert.equal(req.headers.get("authorization"), "Bearer originalToken");
           return {
             headers: createHttpHeaders({
@@ -149,7 +150,7 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
       },
     });
 
-    const calledOnce = false;
+    let calledOnce = false;
 
     await policy.sendRequest(
       {
@@ -162,6 +163,7 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
       },
       async (req) => {
         if (!calledOnce) {
+          calledOnce = true;
           assert.equal(req.headers.get("authorization"), "Bearer originalToken");
           return {
             headers: createHttpHeaders({
@@ -194,7 +196,7 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
       },
     });
 
-    const calledOnce = false;
+    let calledOnce = false;
 
     await policy.sendRequest(
       {
@@ -207,6 +209,7 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
       },
       async (req) => {
         if (!calledOnce) {
+          calledOnce = true;
           assert.equal(req.headers.get("authorization"), "Bearer originalToken");
           return {
             headers: createHttpHeaders({
