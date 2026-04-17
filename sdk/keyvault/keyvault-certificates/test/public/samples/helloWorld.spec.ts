@@ -123,7 +123,6 @@ describe("helloWorld", () => {
   // Operation snippets
 
   it("ReadmeSampleCreateCertificate", async () => {
-    // @snippet ReadmeSampleCreateCertificate
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -131,6 +130,7 @@ describe("helloWorld", () => {
     // @ts-preserve-whitespace
     const client = new CertificateClient(url, credential);
     // @ts-preserve-whitespace
+    // @snippet ReadmeSampleCreateCertificate
     const certificateName = "MyCertificateName";
     // @ts-preserve-whitespace
     // Note: Sending `Self` as the `issuerName` of the certificate's policy will create a self-signed certificate.
@@ -142,7 +142,6 @@ describe("helloWorld", () => {
   });
 
   it("ReadmeSampleCreateCertificateWithOptions", async () => {
-    // @snippet ReadmeSampleCreateCertificateWithOptions
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -150,6 +149,7 @@ describe("helloWorld", () => {
     // @ts-preserve-whitespace
     const client = new CertificateClient(url, credential);
     // @ts-preserve-whitespace
+    // @snippet ReadmeSampleCreateCertificateWithOptions
     const certificateName = "MyCertificateName";
     // @ts-preserve-whitespace
     // Note: Sending `Self` as the `issuerName` of the certificate's policy will create a self-signed certificate.
@@ -170,7 +170,6 @@ describe("helloWorld", () => {
   });
 
   it("ReadmeSampleCreateCertificatePoller", async () => {
-    // @snippet ReadmeSampleCreateCertificatePoller
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -178,6 +177,7 @@ describe("helloWorld", () => {
     // @ts-preserve-whitespace
     const client = new CertificateClient(url, credential);
     // @ts-preserve-whitespace
+    // @snippet ReadmeSampleCreateCertificatePoller
     const certificateName = "MyCertificateName";
     const certificatePolicy = {
       issuerName: "Self",
@@ -196,7 +196,6 @@ describe("helloWorld", () => {
   });
 
   it("ReadmeSampleCreateCertificatePollerIndividualCalls", async () => {
-    // @snippet ReadmeSampleCreateCertificatePollerIndividualCalls
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -204,6 +203,7 @@ describe("helloWorld", () => {
     // @ts-preserve-whitespace
     const client = new CertificateClient(url, credential);
     // @ts-preserve-whitespace
+    // @snippet ReadmeSampleCreateCertificatePollerIndividualCalls
     const certificateName = "MyCertificateName";
     const certificatePolicy = {
       issuerName: "Self",
@@ -224,7 +224,6 @@ describe("helloWorld", () => {
   });
 
   it("ReadmeSampleGetCertificate", async () => {
-    // @snippet ReadmeSampleGetCertificate
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -232,6 +231,7 @@ describe("helloWorld", () => {
     // @ts-preserve-whitespace
     const client = new CertificateClient(url, credential);
     // @ts-preserve-whitespace
+    // @snippet ReadmeSampleGetCertificate
     const certificateName = "MyCertificateName";
     // @ts-preserve-whitespace
     const latestCertificate = await client.getCertificate(certificateName);
@@ -248,7 +248,6 @@ describe("helloWorld", () => {
   });
 
   it("ReadmeSampleGetCertificateFullInfo", async () => {
-    // @snippet ReadmeSampleGetCertificateFullInfo
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -256,6 +255,7 @@ describe("helloWorld", () => {
     // @ts-preserve-whitespace
     const secretClient = new SecretClient(keyVaultUrl, credential);
     // @ts-preserve-whitespace
+    // @snippet ReadmeSampleGetCertificateFullInfo
     const certificateName = "MyCertificateName";
     // @ts-preserve-whitespace
     // Assuming you've already created a Key Vault certificate,
@@ -271,7 +271,6 @@ describe("helloWorld", () => {
   });
 
   it("ReadmeSampleCreateCertificatePEM", async () => {
-    // @snippet ReadmeSampleCreateCertificatePEM
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -279,6 +278,7 @@ describe("helloWorld", () => {
     // @ts-preserve-whitespace
     const client = new CertificateClient(keyVaultUrl, credential);
     const secretClient = new SecretClient(keyVaultUrl, credential);
+    // @snippet ReadmeSampleCreateCertificatePEM
     // Creating the certificate
     const certificateName = "MyCertificate";
     const createPoller = await client.beginCreateCertificate(certificateName, {
@@ -297,7 +297,6 @@ describe("helloWorld", () => {
   });
 
   it("ReadmeSampleUpdateCertificate", async () => {
-    // @snippet ReadmeSampleUpdateCertificate
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -305,6 +304,7 @@ describe("helloWorld", () => {
     // @ts-preserve-whitespace
     const client = new CertificateClient(keyVaultUrl, credential);
     // @ts-preserve-whitespace
+    // @snippet ReadmeSampleUpdateCertificate
     const certificateName = "MyCertificate";
     // @ts-preserve-whitespace
     const result = await client.getCertificate(certificateName);
@@ -318,7 +318,6 @@ describe("helloWorld", () => {
   });
 
   it("ReadmeSampleUpdateCertificatePolicy", async () => {
-    // @snippet ReadmeSampleUpdateCertificatePolicy
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -326,6 +325,7 @@ describe("helloWorld", () => {
     // @ts-preserve-whitespace
     const client = new CertificateClient(keyVaultUrl, credential);
     // @ts-preserve-whitespace
+    // @snippet ReadmeSampleUpdateCertificatePolicy
     const certificateName = "MyCertificate";
     // @ts-preserve-whitespace
     const result = client.getCertificate(certificateName);
@@ -338,7 +338,6 @@ describe("helloWorld", () => {
   });
 
   it("CertificateClientGetCertificate", async () => {
-    // @snippet CertificateClientGetCertificate
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -346,6 +345,7 @@ describe("helloWorld", () => {
     // @ts-preserve-whitespace
     const client = new CertificateClient(keyVaultUrl, credential);
     // @ts-preserve-whitespace
+    // @snippet CertificateClientGetCertificate
     const certificateName = "MyCertificate";
     // @ts-preserve-whitespace
     const result = await client.getCertificate(certificateName);
@@ -354,7 +354,6 @@ describe("helloWorld", () => {
   });
 
   it("CertificateClientGetCertificateVersion", async () => {
-    // @snippet CertificateClientGetCertificateVersion
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -362,6 +361,7 @@ describe("helloWorld", () => {
     // @ts-preserve-whitespace
     const client = new CertificateClient(url, credential);
     // @ts-preserve-whitespace
+    // @snippet CertificateClientGetCertificateVersion
     const certificateName = "MyCertificateName";
     // @ts-preserve-whitespace
     const latestCertificate = await client.getCertificate(certificateName);
@@ -378,7 +378,6 @@ describe("helloWorld", () => {
   });
 
   it("CertificateClientUpdateCertificate", async () => {
-    // @snippet CertificateClientUpdateCertificate
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -386,6 +385,7 @@ describe("helloWorld", () => {
     // @ts-preserve-whitespace
     const client = new CertificateClient(url, credential);
     // @ts-preserve-whitespace
+    // @snippet CertificateClientUpdateCertificate
     // You may pass an empty string for version which will update
     // the latest version of the certificate
     await client.updateCertificateProperties("MyCertificate", "", {
@@ -397,7 +397,6 @@ describe("helloWorld", () => {
   });
 
   it("CertificateClientGetCertificatePolicy", async () => {
-    // @snippet CertificateClientGetCertificatePolicy
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -405,6 +404,7 @@ describe("helloWorld", () => {
     // @ts-preserve-whitespace
     const client = new CertificateClient(url, credential);
     // @ts-preserve-whitespace
+    // @snippet CertificateClientGetCertificatePolicy
     const policy = await client.getCertificatePolicy("MyCertificate");
     console.log(policy);
     // @snippet-end CertificateClientGetCertificatePolicy

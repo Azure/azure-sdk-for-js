@@ -111,7 +111,6 @@ describe("listCertificates", () => {
   // Operation snippets
 
   it("ReadmeSampleListCertificates", async () => {
-    // @snippet ReadmeSampleListCertificates
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -119,6 +118,7 @@ describe("listCertificates", () => {
     // @ts-preserve-whitespace
     const client = new CertificateClient(keyVaultUrl, credential);
     // @ts-preserve-whitespace
+    // @snippet ReadmeSampleListCertificates
     const certificateName = "MyCertificate";
     // @ts-preserve-whitespace
     for await (const certificateProperties of client.listPropertiesOfCertificates()) {
@@ -136,7 +136,6 @@ describe("listCertificates", () => {
   });
 
   it("ReadmeSampleListCertificatesByPage", async () => {
-    // @snippet ReadmeSampleListCertificatesByPage
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -144,6 +143,7 @@ describe("listCertificates", () => {
     // @ts-preserve-whitespace
     const client = new CertificateClient(keyVaultUrl, credential);
     // @ts-preserve-whitespace
+    // @snippet ReadmeSampleListCertificatesByPage
     const certificateName = "MyCertificate";
     // @ts-preserve-whitespace
     for await (const page of client.listPropertiesOfCertificates().byPage()) {
@@ -165,7 +165,6 @@ describe("listCertificates", () => {
   });
 
   it("IndexListCertificates", async () => {
-    // @snippet IndexListCertificates
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -173,6 +172,7 @@ describe("listCertificates", () => {
     // @ts-preserve-whitespace
     const client = new CertificateClient(keyVaultUrl, credential);
     // @ts-preserve-whitespace
+    // @snippet IndexListCertificates
     // All in one call
     for await (const certificateProperties of client.listPropertiesOfCertificates()) {
       console.log(certificateProperties);
@@ -188,7 +188,6 @@ describe("listCertificates", () => {
   });
 
   it("IndexListCertificateVersions", async () => {
-    // @snippet IndexListCertificateVersions
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -196,6 +195,7 @@ describe("listCertificates", () => {
     // @ts-preserve-whitespace
     const client = new CertificateClient(keyVaultUrl, credential);
     // @ts-preserve-whitespace
+    // @snippet IndexListCertificateVersions
     for await (const certificateProperties of client.listPropertiesOfCertificateVersions(
       "MyCertificate",
     )) {

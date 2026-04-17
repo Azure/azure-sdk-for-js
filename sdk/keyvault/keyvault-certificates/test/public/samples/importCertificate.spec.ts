@@ -103,7 +103,6 @@ describe("importCertificate", () => {
   // Operation snippets
 
   it("CertificateClientImportCertificate", async () => {
-    // @snippet CertificateClientImportCertificate
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -112,6 +111,7 @@ describe("importCertificate", () => {
     const client = new CertificateClient(url, credential);
     const secretClient = new SecretClient(url, credential);
     // @ts-preserve-whitespace
+    // @snippet CertificateClientImportCertificate
     const certificateSecret = await secretClient.getSecret("MyCertificate");
     const base64EncodedCertificate = certificateSecret.value!;
     // @ts-preserve-whitespace

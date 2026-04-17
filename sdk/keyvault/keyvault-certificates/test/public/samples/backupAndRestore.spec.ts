@@ -77,7 +77,6 @@ describe("backupAndRestore", () => {
   // Operation snippets
 
   it("CertificateClientBackupCertificate", async () => {
-    // @snippet CertificateClientBackupCertificate
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -85,6 +84,7 @@ describe("backupAndRestore", () => {
     // @ts-preserve-whitespace
     const client = new CertificateClient(url, credential);
     // @ts-preserve-whitespace
+    // @snippet CertificateClientBackupCertificate
     await client.beginCreateCertificate("MyCertificate", {
       issuerName: "Self",
       subject: "cn=MyCert",
@@ -94,7 +94,6 @@ describe("backupAndRestore", () => {
   });
 
   it("CertificateClientRestoreCertificateBackup", async () => {
-    // @snippet CertificateClientRestoreCertificateBackup
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -102,6 +101,7 @@ describe("backupAndRestore", () => {
     // @ts-preserve-whitespace
     const client = new CertificateClient(url, credential);
     // @ts-preserve-whitespace
+    // @snippet CertificateClientRestoreCertificateBackup
     await client.beginCreateCertificate("MyCertificate", {
       issuerName: "Self",
       subject: "cn=MyCert",

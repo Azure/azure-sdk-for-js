@@ -91,7 +91,6 @@ describe("operations", () => {
   // Operation snippets
 
   it("CertificateClientGetCertificateOperation", async () => {
-    // @snippet CertificateClientGetCertificateOperation
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -99,6 +98,7 @@ describe("operations", () => {
     // @ts-preserve-whitespace
     const client = new CertificateClient(url, credential);
     // @ts-preserve-whitespace
+    // @snippet CertificateClientGetCertificateOperation
     const createPoller = await client.beginCreateCertificate("MyCertificate", {
       issuerName: "Self",
       subject: "cn=MyCert",
@@ -113,7 +113,6 @@ describe("operations", () => {
   });
 
   it("CertificateClientDeleteCertificateOperation", async () => {
-    // @snippet CertificateClientDeleteCertificateOperation
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -121,6 +120,7 @@ describe("operations", () => {
     // @ts-preserve-whitespace
     const client = new CertificateClient(url, credential);
     // @ts-preserve-whitespace
+    // @snippet CertificateClientDeleteCertificateOperation
     await client.beginCreateCertificate("MyCertificate", {
       issuerName: "Self",
       subject: "cn=MyCert",

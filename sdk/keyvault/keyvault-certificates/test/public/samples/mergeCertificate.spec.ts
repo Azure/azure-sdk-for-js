@@ -94,7 +94,6 @@ ${base64Csr}
   // Operation snippets
 
   it("CertificateClientMergeCertificate", async () => {
-    // @snippet CertificateClientMergeCertificate
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -102,6 +101,7 @@ ${base64Csr}
     // @ts-preserve-whitespace
     const client = new CertificateClient(url, credential);
     // @ts-preserve-whitespace
+    // @snippet CertificateClientMergeCertificate
     await client.beginCreateCertificate("MyCertificate", {
       issuerName: "Unknown",
       subject: "cn=MyCert",

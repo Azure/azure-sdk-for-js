@@ -75,7 +75,6 @@ describe("deleteAndRecover", () => {
   // Operation snippets
 
   it("ReadmeSampleDeleteCertificate", async () => {
-    // @snippet ReadmeSampleDeleteCertificate
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -83,6 +82,7 @@ describe("deleteAndRecover", () => {
     // @ts-preserve-whitespace
     const client = new CertificateClient(keyVaultUrl, credential);
     // @ts-preserve-whitespace
+    // @snippet ReadmeSampleDeleteCertificate
     const certificateName = "MyCertificate";
     // @ts-preserve-whitespace
     const poller = await client.beginDeleteCertificate(certificateName);
@@ -108,7 +108,6 @@ describe("deleteAndRecover", () => {
   });
 
   it("CertificateClientListDeletedCertificates", async () => {
-    // @snippet CertificateClientListDeletedCertificates
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -116,6 +115,7 @@ describe("deleteAndRecover", () => {
     // @ts-preserve-whitespace
     const client = new CertificateClient(url, credential);
     // @ts-preserve-whitespace
+    // @snippet CertificateClientListDeletedCertificates
     for await (const deletedCertificate of client.listDeletedCertificates()) {
       console.log(deletedCertificate);
     }
@@ -129,7 +129,6 @@ describe("deleteAndRecover", () => {
   });
 
   it("CertificateClientGetDeletedCertificate", async () => {
-    // @snippet CertificateClientGetDeletedCertificate
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -137,13 +136,13 @@ describe("deleteAndRecover", () => {
     // @ts-preserve-whitespace
     const client = new CertificateClient(url, credential);
     // @ts-preserve-whitespace
+    // @snippet CertificateClientGetDeletedCertificate
     const deletedCertificate = await client.getDeletedCertificate("MyDeletedCertificate");
     console.log("Deleted certificate:", deletedCertificate);
     // @snippet-end CertificateClientGetDeletedCertificate
   });
 
   it("CertificateClientPurgeDeletedCertificate", async () => {
-    // @snippet CertificateClientPurgeDeletedCertificate
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -151,6 +150,7 @@ describe("deleteAndRecover", () => {
     // @ts-preserve-whitespace
     const client = new CertificateClient(url, credential);
     // @ts-preserve-whitespace
+    // @snippet CertificateClientPurgeDeletedCertificate
     const deletePoller = await client.beginDeleteCertificate("MyCertificate");
     await deletePoller.pollUntilDone();
     // @ts-preserve-whitespace
@@ -160,7 +160,6 @@ describe("deleteAndRecover", () => {
   });
 
   it("CertificateClientRecoverDeletedCertificate", async () => {
-    // @snippet CertificateClientRecoverDeletedCertificate
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -168,6 +167,7 @@ describe("deleteAndRecover", () => {
     // @ts-preserve-whitespace
     const client = new CertificateClient(url, credential);
     // @ts-preserve-whitespace
+    // @snippet CertificateClientRecoverDeletedCertificate
     const deletePoller = await client.beginDeleteCertificate("MyCertificate");
     await deletePoller.pollUntilDone();
     // @ts-preserve-whitespace

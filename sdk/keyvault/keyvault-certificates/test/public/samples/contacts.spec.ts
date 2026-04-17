@@ -83,7 +83,6 @@ describe("contacts", () => {
   // Operation snippets
 
   it("CertificateClientDeleteContacts", async () => {
-    // @snippet CertificateClientDeleteContacts
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -91,12 +90,12 @@ describe("contacts", () => {
     // @ts-preserve-whitespace
     const client = new CertificateClient(keyVaultUrl, credential);
     // @ts-preserve-whitespace
+    // @snippet CertificateClientDeleteContacts
     await client.deleteContacts();
     // @snippet-end CertificateClientDeleteContacts
   });
 
   it("CertificateClientSetContacts", async () => {
-    // @snippet CertificateClientSetContacts
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -104,6 +103,7 @@ describe("contacts", () => {
     // @ts-preserve-whitespace
     const client = new CertificateClient(keyVaultUrl, credential);
     // @ts-preserve-whitespace
+    // @snippet CertificateClientSetContacts
     await client.setContacts([
       {
         email: "b@b.com",
@@ -115,7 +115,6 @@ describe("contacts", () => {
   });
 
   it("CertificateClientGetContacts", async () => {
-    // @snippet CertificateClientGetContacts
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -123,6 +122,7 @@ describe("contacts", () => {
     // @ts-preserve-whitespace
     const client = new CertificateClient(keyVaultUrl, credential);
     // @ts-preserve-whitespace
+    // @snippet CertificateClientGetContacts
     const contacts = await client.getContacts();
     for (const contact of contacts) {
       console.log(contact);

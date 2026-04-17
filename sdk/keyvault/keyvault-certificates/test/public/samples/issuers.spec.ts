@@ -94,7 +94,6 @@ describe("issuers", () => {
   // Operation snippets
 
   it("CertificateClientListIssuers", async () => {
-    // @snippet CertificateClientListIssuers
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -102,6 +101,7 @@ describe("issuers", () => {
     // @ts-preserve-whitespace
     const client = new CertificateClient(keyVaultUrl, credential);
     // @ts-preserve-whitespace
+    // @snippet CertificateClientListIssuers
     await client.createIssuer("IssuerName", "Test");
     // @ts-preserve-whitespace
     // All in one call
@@ -119,7 +119,6 @@ describe("issuers", () => {
   });
 
   it("CertificateClientCreateIssuer", async () => {
-    // @snippet CertificateClientCreateIssuer
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -127,12 +126,12 @@ describe("issuers", () => {
     // @ts-preserve-whitespace
     const client = new CertificateClient(keyVaultUrl, credential);
     // @ts-preserve-whitespace
+    // @snippet CertificateClientCreateIssuer
     await client.createIssuer("IssuerName", "Test");
     // @snippet-end CertificateClientCreateIssuer
   });
 
   it("CertificateClientUpdateIssuer", async () => {
-    // @snippet CertificateClientUpdateIssuer
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -140,6 +139,7 @@ describe("issuers", () => {
     // @ts-preserve-whitespace
     const client = new CertificateClient(keyVaultUrl, credential);
     // @ts-preserve-whitespace
+    // @snippet CertificateClientUpdateIssuer
     await client.updateIssuer("IssuerName", {
       provider: "Provider2",
     });
@@ -147,7 +147,6 @@ describe("issuers", () => {
   });
 
   it("CertificateClientGetIssuer", async () => {
-    // @snippet CertificateClientGetIssuer
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -155,13 +154,13 @@ describe("issuers", () => {
     // @ts-preserve-whitespace
     const client = new CertificateClient(keyVaultUrl, credential);
     // @ts-preserve-whitespace
+    // @snippet CertificateClientGetIssuer
     const certificateIssuer = await client.getIssuer("IssuerName");
     console.log(certificateIssuer);
     // @snippet-end CertificateClientGetIssuer
   });
 
   it("CertificateClientDeleteIssuer", async () => {
-    // @snippet CertificateClientDeleteIssuer
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -169,6 +168,7 @@ describe("issuers", () => {
     // @ts-preserve-whitespace
     const client = new CertificateClient(keyVaultUrl, credential);
     // @ts-preserve-whitespace
+    // @snippet CertificateClientDeleteIssuer
     await client.deleteIssuer("IssuerName");
     // @snippet-end CertificateClientDeleteIssuer
   });
