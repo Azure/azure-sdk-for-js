@@ -2504,7 +2504,7 @@ describe("serializer", () => {
         () =>
           serializer.serialize(
             {
-              type: { name: "Sequence" } as Pick<SequenceMapperType, "name">,
+              type: { name: "Sequence" } as unknown as SequenceMapperType,
               serializedName: "test",
             },
             [1, 2],
@@ -2539,7 +2539,7 @@ describe("serializer", () => {
         () =>
           serializer.serialize(
             {
-              type: { name: "Dictionary" } as Pick<DictionaryMapperType, "name">,
+              type: { name: "Dictionary" } as unknown as DictionaryMapperType,
               serializedName: "test",
             },
             { a: 1 },
@@ -2556,7 +2556,7 @@ describe("serializer", () => {
         () =>
           serializer.deserialize(
             {
-              type: { name: "Dictionary" } as Pick<DictionaryMapperType, "name">,
+              type: { name: "Dictionary" } as unknown as DictionaryMapperType,
               serializedName: "test",
             },
             { a: 1 },
@@ -2573,7 +2573,7 @@ describe("serializer", () => {
         () =>
           serializer.deserialize(
             {
-              type: { name: "Sequence" } as Pick<SequenceMapperType, "name">,
+              type: { name: "Sequence" } as unknown as SequenceMapperType,
               serializedName: "test",
             },
             [1, 2],
@@ -2648,7 +2648,7 @@ describe("serializer", () => {
         () =>
           serializer.serialize(
             {
-              type: { name: "Composite" } as Pick<CompositeMapperType, "name">,
+              type: { name: "Composite" } as unknown as CompositeMapperType,
               serializedName: "test",
             },
             { a: 1 },
@@ -3118,7 +3118,7 @@ describe("serializer", () => {
         () =>
           serializer.serialize(
             {
-              type: { name: "Enum" } as Pick<EnumMapperType, "name">,
+              type: { name: "Enum" } as unknown as EnumMapperType,
               serializedName: "test",
             },
             "value",

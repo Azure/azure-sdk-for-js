@@ -883,14 +883,12 @@ async function getDeserializedResponse(
 
 describe("deserializationPolicy", () => {
   it("should handle operationResponseGetter", async () => {
-    let capturedRequest: OperationRequest | undefined;
     const pipeline = createEmptyPipeline();
     pipeline.addPolicy(deserializationPolicy(), { phase: "Deserialize" });
 
     const client = new ServiceClient({
       httpClient: {
         sendRequest: (req) => {
-          capturedRequest = req;
           return Promise.resolve({
             request: req,
             status: 200,
@@ -902,9 +900,6 @@ describe("deserializationPolicy", () => {
       pipeline,
     });
 
-    const operationInfo = getOperationRequestInfo(
-      createPipelineRequest({ url: "https://example.com" }),
-    );
     // Ensure the operationResponseGetter path is available through sendOperationRequest
     await client.sendOperationRequest(
       {

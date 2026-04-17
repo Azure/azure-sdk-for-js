@@ -1176,7 +1176,7 @@ describe("serializationPolicy - XML serialization", () => {
   });
 
   it("should serialize Stream body without JSON.stringify in non-XML", async () => {
-    const streamBody = { pipe: vi.fn(), on: vi.fn() };
+    const streamBody = { pipe: vi.fn(), on: vi.fn() } as unknown as NodeJS.ReadableStream;
     let capturedRequest: OperationRequest | undefined;
     const pipeline = createEmptyPipeline();
     pipeline.addPolicy(serializationPolicy(), { phase: "Serialize" });
@@ -1320,7 +1320,7 @@ describe("serializationPolicy - prepareXMLRootList non-array (line 257)", () => 
 
 describe("serializationPolicy - XML Stream body should not be stringified", () => {
   it("should pass stream through in XML mode", async () => {
-    const streamBody = { pipe: vi.fn(), on: vi.fn() };
+    const streamBody = { pipe: vi.fn(), on: vi.fn() } as unknown as NodeJS.ReadableStream;
     let capturedRequest: OperationRequest | undefined;
     const pipeline = createEmptyPipeline();
     pipeline.addPolicy(

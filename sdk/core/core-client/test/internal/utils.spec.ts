@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import type { CompositeMapper, FullOperationResponse } from "../../src/index.js";
+import type { CompositeMapper, FullOperationResponse, OperationResponseMap } from "../../src/index.js";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { flattenResponse } from "../../src/utils.js";
 
@@ -65,15 +65,15 @@ describe("flattenResponse", () => {
 
 describe("flattenResponse - Stream response", () => {
   it("should return stream properties for Stream body type", () => {
-    const mockStream = { pipe: () => {} };
+    const mockStream = { pipe: () => {} } as unknown as NodeJS.ReadableStream;
     const fullResponse: FullOperationResponse = {
       request: defaultRequest(),
       status: 200,
       headers: createHttpHeaders(),
-      readableStreamBody: mockStream as NodeJS.ReadableStream,
+      readableStreamBody: mockStream,
       parsedHeaders: { "x-header": "val" },
     };
-    const responseSpec = {
+    const responseSpec: OperationResponseMap = {
       bodyMapper: {
         type: { name: "Stream" },
       },
