@@ -4,7 +4,7 @@
 import { describe, it, assert } from "vitest";
 import { createClientPipeline } from "../../src/pipeline.js";
 
-describe("pipeline coverage", () => {
+describe("pipeline", () => {
   it("should add bearerTokenAuthenticationPolicy when credentialOptions is provided", () => {
     const pipeline = createClientPipeline({
       credentialOptions: {

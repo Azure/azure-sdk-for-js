@@ -881,7 +881,7 @@ async function getDeserializedResponse(
   return response;
 }
 
-describe("deserializationPolicy coverage", () => {
+describe("deserializationPolicy", () => {
   it("should handle operationResponseGetter", async () => {
     let capturedRequest: OperationRequest | undefined;
     const pipeline = createEmptyPipeline();

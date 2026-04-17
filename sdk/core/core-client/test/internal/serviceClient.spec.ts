@@ -1579,7 +1579,7 @@ async function testSendOperationRequest(
   assert(request!.url.endsWith(expected), `"${request!.url}" does not end with "${expected}"`);
 }
 
-describe("ServiceClient requestOptions coverage", () => {
+describe("ServiceClient requestOptions", () => {
   it("should pass through timeout, progress callbacks, shouldDeserialize, abortSignal, tracingOptions", async () => {
     let capturedRequest: OperationRequest | undefined;
     const pipeline = createEmptyPipeline();

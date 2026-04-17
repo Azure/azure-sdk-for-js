@@ -437,7 +437,7 @@ describe("authorizeRequestOnClaimChallenge", function () {
   });
 });
 
-describe("authorizeRequestOnClaimChallenge coverage", () => {
+describe("authorizeRequestOnClaimChallenge", () => {
   it("should handle malformed WWW-Authenticate header (no claims)", async () => {
     const request = createPipelineRequest({ url: "https://example.com" });
     const result = await authorizeRequestOnClaimChallenge({

@@ -2181,7 +2181,7 @@ describe("Serializer", function () {
   });
 });
 
-describe("serializer coverage", () => {
+describe("serializer", () => {
   const serializer = createSerializer({}, false);
 
   describe("bufferToBase64Url / base64UrlToByteArray edge cases", () => {

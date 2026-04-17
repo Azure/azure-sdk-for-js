@@ -447,7 +447,7 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
   });
 });
 
-describe("authorizeRequestOnTenantChallenge coverage", () => {
+describe("authorizeRequestOnTenantChallenge", () => {
   it("should return false when getAccessToken returns null", async () => {
     const { authorizeRequestOnTenantChallenge: authorizeOnTenant } =
       await import("../../src/authorizeRequestOnTenantChallenge.js");

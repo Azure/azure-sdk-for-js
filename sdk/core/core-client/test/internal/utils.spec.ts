@@ -6,7 +6,7 @@ import type { CompositeMapper, FullOperationResponse } from "../../src/index.js"
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { flattenResponse } from "../../src/utils.js";
 
-describe("flattenResponse coverage", () => {
+describe("flattenResponse", () => {
   it("should copy model properties with serializedName into array response", () => {
     const fullResponse: FullOperationResponse = {
       request: createPipelineRequest({ url: "https://example.com", method: "GET" }),

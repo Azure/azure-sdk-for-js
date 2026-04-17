@@ -11,7 +11,7 @@ import {
   getOperationRequestInfo,
 } from "../../src/operationHelpers.js";
 
-describe("operationHelpers coverage", () => {
+describe("operationHelpers", () => {
   it("should handle composite parameterPath (object form)", () => {
     const result = getOperationArgumentValueFromParameter(
       { propA: "valueA", propB: "valueB" },

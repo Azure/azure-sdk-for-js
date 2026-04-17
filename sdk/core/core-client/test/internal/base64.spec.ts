@@ -4,7 +4,7 @@
 import { describe, it, assert } from "vitest";
 import { encodeByteArray } from "../../src/base64.js";
 
-describe("base64 coverage", () => {
+describe("base64", () => {
   it("should handle Buffer input directly in encodeByteArray", () => {
     const buf = Buffer.from("hello world");
     const result = encodeByteArray(buf);

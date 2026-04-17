@@ -852,7 +852,7 @@ function stringToByteArray(str: string): Uint8Array {
   return new TextEncoder().encode(str);
 }
 
-describe("serializationPolicy coverage", () => {
+describe("serializationPolicy", () => {
   it("should serialize formData parameters", async () => {
     let capturedRequest: OperationRequest | undefined;
     const pipeline = createEmptyPipeline();

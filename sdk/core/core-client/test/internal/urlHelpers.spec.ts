@@ -255,7 +255,7 @@ describe("getRequestUrl", function () {
   });
 });
 
-describe("urlHelpers coverage", () => {
+describe("urlHelpers", () => {
   it("should handle triple duplicate query params (array push path)", () => {
     const result = appendQueryParams("https://example.com?a=1&a=2&a=3", new Map(), new Set());
     // After parsing, a=1&a=2 becomes array, then a=3 is pushed
