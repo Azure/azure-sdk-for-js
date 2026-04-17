@@ -77,9 +77,7 @@ describe("setClientRequestIdPolicy", function () {
     assert.isFalse(pipelineRequest.headers.has(customHeaderName));
     await pipeline.sendRequest(httpClient, pipelineRequest);
   });
-});
 
-describe("setClientRequestIdPolicy", function () {
   it("does not overwrite an existing header", async function () {
     const policy = setClientRequestIdPolicy();
     const request = createPipelineRequest({ url: "https://example.com" });

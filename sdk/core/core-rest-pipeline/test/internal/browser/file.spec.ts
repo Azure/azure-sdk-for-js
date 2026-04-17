@@ -30,15 +30,19 @@ describe("file utilities (browser)", function () {
       assert.deepEqual([...view], [42, 43, 44]);
     });
 
-    it("handles Uint8Array backed by SharedArrayBuffer via map copy", function () {
-      const shared = new SharedArrayBuffer(4);
-      const view = new Uint8Array(shared);
-      view.set([10, 20, 30, 40]);
-      const file = createFile(view, "shared.bin");
-      assert.equal(file.name, "shared.bin");
-      assert.equal(file.size, 4);
-      assert.instanceOf(file, File);
-    });
+    // SharedArrayBuffer requires cross-origin isolation headers
+    it.runIf(typeof SharedArrayBuffer !== "undefined")(
+      "handles Uint8Array backed by SharedArrayBuffer via map copy",
+      function () {
+        const shared = new SharedArrayBuffer(4);
+        const view = new Uint8Array(shared);
+        view.set([10, 20, 30, 40]);
+        const file = createFile(view, "shared.bin");
+        assert.equal(file.name, "shared.bin");
+        assert.equal(file.size, 4);
+        assert.instanceOf(file, File);
+      },
+    );
 
     it("handles subarray of a larger buffer", async function () {
       const largeBuffer = new ArrayBuffer(10);

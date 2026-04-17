@@ -29,9 +29,7 @@ describe("NdJsonPolicy", function () {
     const result = await policy.sendRequest(request, next);
     assert.strictEqual(result.request.body, `{"a":1}\n{"b":2}\n{"c":3}\n`);
   });
-});
 
-describe("ndJsonPolicy", function () {
   function createMockNext(): SendRequest {
     const next = vi.fn<SendRequest>();
     next.mockImplementation(async (request) => ({

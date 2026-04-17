@@ -367,7 +367,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
       token: "mock-token",
       expiresOnTimestamp: tokenExpiration,
     });
-    // simulate failure of retriving the token, rejecting with an error would also work
+    // simulate failure of retrieving the token, rejecting with an error would also work
     // but returning null exercises a slightly different code path
     getToken.mockResolvedValueOnce(null);
     const credential: TokenCredential = {
