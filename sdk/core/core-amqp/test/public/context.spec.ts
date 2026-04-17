@@ -7,19 +7,21 @@ import { Connection } from "rhea-promise";
 import type { Session, Sender, AwaitableSender, Receiver } from "rhea-promise";
 import type { ConnectionOptions as TlsConnectionOptions } from "node:tls";
 
+const connectionString =
+  "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
+const path = "mypath";
+const defaultConnectionProperties = {
+  product: "MSJSClient",
+  userAgent: "/js-amqp-client",
+  version: "1.0.0",
+};
+
 describe("ConnectionContextBase", function () {
   it("should be created with required parameters", function () {
-    const connectionString =
-      "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
-    const path = "mypath";
     const config = ConnectionConfig.create(connectionString, path);
     const context = ConnectionContextBase.create({
       config: config,
-      connectionProperties: {
-        product: "MSJSClient",
-        userAgent: "/js-amqp-client",
-        version: "1.0.0",
-      },
+      connectionProperties: defaultConnectionProperties,
     });
     assert.isDefined(context.config);
     assert.isDefined(context.connection);
@@ -36,17 +38,10 @@ describe("ConnectionContextBase", function () {
   });
 
   it("should set host and hostname to the same value by default", function () {
-    const connectionString =
-      "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
-    const path = "mypath";
     const config = ConnectionConfig.create(connectionString, path);
     const context = ConnectionContextBase.create({
       config: config,
-      connectionProperties: {
-        product: "MSJSClient",
-        userAgent: "/js-amqp-client",
-        version: "1.0.0",
-      },
+      connectionProperties: defaultConnectionProperties,
     });
     assert.isDefined(context.config);
     assert.isDefined(context.connection);
@@ -66,18 +61,11 @@ describe("ConnectionContextBase", function () {
   });
 
   it("should allow setting host and hostname to different values", function () {
-    const connectionString =
-      "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
-    const path = "mypath";
     const config = ConnectionConfig.create(connectionString, path);
     config.amqpHostname = "127.0.0.1";
     const context = ConnectionContextBase.create({
       config: config,
-      connectionProperties: {
-        product: "MSJSClient",
-        userAgent: "/js-amqp-client",
-        version: "1.0.0",
-      },
+      connectionProperties: defaultConnectionProperties,
     });
     assert.isDefined(context.config);
     assert.isDefined(context.connection);
@@ -97,18 +85,11 @@ describe("ConnectionContextBase", function () {
   });
 
   it("should allow specifying a port", function () {
-    const connectionString =
-      "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
-    const path = "mypath";
     const config = ConnectionConfig.create(connectionString, path);
     config.port = 1111;
     const context = ConnectionContextBase.create({
       config: config,
-      connectionProperties: {
-        product: "MSJSClient",
-        userAgent: "/js-amqp-client",
-        version: "1.0.0",
-      },
+      connectionProperties: defaultConnectionProperties,
     });
     assert.isDefined(context.config);
     assert.isDefined(context.connection);
@@ -127,17 +108,10 @@ describe("ConnectionContextBase", function () {
   });
 
   it("should have a default port (5671)", function () {
-    const connectionString =
-      "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
-    const path = "mypath";
     const config = ConnectionConfig.create(connectionString, path);
     const context = ConnectionContextBase.create({
       config: config,
-      connectionProperties: {
-        product: "MSJSClient",
-        userAgent: "/js-amqp-client",
-        version: "1.0.0",
-      },
+      connectionProperties: defaultConnectionProperties,
     });
     assert.isDefined(context.config);
     assert.isDefined(context.connection);
@@ -159,20 +133,13 @@ describe("ConnectionContextBase", function () {
     const websockets: any = () => {
       /** Empty function on purpose for the sake of mocking */
     };
-    const connectionString =
-      "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
-    const path = "mypath";
     const config = ConnectionConfig.create(connectionString, path);
     config.webSocket = websockets;
     config.amqpHostname = config.host;
     config.host = "127.0.0.1";
     const context = ConnectionContextBase.create({
       config: config,
-      connectionProperties: {
-        product: "MSJSClient",
-        userAgent: "/js-amqp-client",
-        version: "1.0.0",
-      },
+      connectionProperties: defaultConnectionProperties,
     });
     assert.isDefined(context.config);
     assert.isDefined(context.connection);
@@ -197,18 +164,11 @@ describe("ConnectionContextBase", function () {
     const websockets: any = () => {
       /** Empty function on purpose for the sake of mocking */
     };
-    const connectionString =
-      "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
-    const path = "mypath";
     const config = ConnectionConfig.create(connectionString, path);
     config.webSocket = websockets;
     const context = ConnectionContextBase.create({
       config: config,
-      connectionProperties: {
-        product: "MSJSClient",
-        userAgent: "/js-amqp-client",
-        version: "1.0.0",
-      },
+      connectionProperties: defaultConnectionProperties,
     });
     assert.isDefined(context.config);
     assert.isDefined(context.connection);
@@ -231,19 +191,12 @@ describe("ConnectionContextBase", function () {
     const websockets: any = () => {
       /** Empty function on purpose for the sake of mocking */
     };
-    const connectionString =
-      "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
-    const path = "mypath";
     const config = ConnectionConfig.create(connectionString, path);
     config.webSocket = websockets;
     config.port = 1111;
     const context = ConnectionContextBase.create({
       config: config,
-      connectionProperties: {
-        product: "MSJSClient",
-        userAgent: "/js-amqp-client",
-        version: "1.0.0",
-      },
+      connectionProperties: defaultConnectionProperties,
     });
     assert.isDefined(context.config);
     assert.isDefined(context.connection);
@@ -266,9 +219,6 @@ describe("ConnectionContextBase", function () {
   });
 
   it("Throws error if user-agent string length is greater than 512 characters", function () {
-    const connectionString =
-      "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
-    const path = "mypath";
     const config = ConnectionConfig.create(connectionString, path);
 
     const userAgentString = "user-agent-string".repeat(32);
@@ -288,15 +238,10 @@ describe("ConnectionContextBase", function () {
   it("disables tls when connecting to the development emulator", async function () {
     const connectionString =
       "Endpoint=sb://localhost;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep;UseDevelopmentEmulator=true";
-    const path = "mypath";
     const config = ConnectionConfig.create(connectionString, path);
     const context = ConnectionContextBase.create({
       config: config,
-      connectionProperties: {
-        product: "MSJSClient",
-        userAgent: "/js-amqp-client",
-        version: "1.0.0",
-      },
+      connectionProperties: defaultConnectionProperties,
     });
     assert.isDefined(context.connection);
     assert.instanceOf(context.connection, Connection);
@@ -306,17 +251,10 @@ describe("ConnectionContextBase", function () {
 
   describe("#refreshConnection", function () {
     it("should update fields on the context", function () {
-      const connectionString =
-        "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
-      const path = "mypath";
-      const config = ConnectionConfig.create(connectionString, path);
+        const config = ConnectionConfig.create(connectionString, path);
       const context = ConnectionContextBase.create({
         config: config,
-        connectionProperties: {
-          product: "MSJSClient",
-          userAgent: "/js-amqp-client",
-          version: "1.0.0",
-        },
+        connectionProperties: defaultConnectionProperties,
       });
       // hold onto the refreshable values of the context
       // so we can be sure they change after the refresh call.
@@ -353,16 +291,10 @@ describe("ConnectionContextBase", function () {
 describe("ConnectionContextBase - CoreAmqpConnection", () => {
   it("createSender sets maxListeners to 1000", async () => {
     const { ConnectionContextBase, ConnectionConfig } = await import("../../src/index.js");
-    const connectionString =
-      "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
     const config = ConnectionConfig.create(connectionString, "mypath");
     const context = ConnectionContextBase.create({
       config,
-      connectionProperties: {
-        product: "MSJSClient",
-        userAgent: "/js-amqp-client",
-        version: "1.0.0",
-      },
+      connectionProperties: defaultConnectionProperties,
     });
     const conn = context.connection;
 

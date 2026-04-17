@@ -15,6 +15,8 @@ import { OperationTimeoutError } from "rhea-promise";
 import { delay } from "../../src/index.js";
 import { settleAllTasks } from "../utils/utils.js";
 
+const defaultOptions = { timeoutInMs: undefined, abortSignal: undefined };
+
 describe("CancellableAsyncLock", function () {
   const TEST_FAILURE = "Test failure";
 
@@ -48,7 +50,7 @@ describe("CancellableAsyncLock", function () {
           async () => {
             throw new Error("I break things!");
           },
-          { timeoutInMs: undefined, abortSignal: undefined },
+          defaultOptions,
         );
         throw new Error(TEST_FAILURE);
       } catch (err) {
@@ -71,7 +73,7 @@ describe("CancellableAsyncLock", function () {
               await delay(taskCount - i);
               return i;
             },
-            { timeoutInMs: undefined, abortSignal: undefined },
+            defaultOptions,
           ),
         );
       }
@@ -107,7 +109,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 0;
           },
-          { timeoutInMs: undefined, abortSignal: undefined },
+          defaultOptions,
         ),
         lock.acquire(
           "1",
@@ -115,7 +117,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 2;
           },
-          { timeoutInMs: undefined, abortSignal: undefined },
+          defaultOptions,
         ),
         lock.acquire(
           "2",
@@ -123,7 +125,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 1;
           },
-          { timeoutInMs: undefined, abortSignal: undefined },
+          defaultOptions,
         ),
         lock.acquire(
           "1",
@@ -131,7 +133,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 3;
           },
-          { timeoutInMs: undefined, abortSignal: undefined },
+          defaultOptions,
         ),
       ];
 
@@ -165,7 +167,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 0;
           },
-          { timeoutInMs: undefined, abortSignal: undefined },
+          defaultOptions,
         ),
         lock.acquire(
           "lock",
@@ -173,7 +175,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 1;
           },
-          { timeoutInMs: undefined, abortSignal: undefined },
+          defaultOptions,
         ),
         lock.acquire(
           "lock",
@@ -189,7 +191,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 3;
           },
-          { timeoutInMs: undefined, abortSignal: undefined },
+          defaultOptions,
         ),
         lock.acquire(
           "lock",
@@ -227,7 +229,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 0;
           },
-          { timeoutInMs: undefined, abortSignal: undefined },
+          defaultOptions,
         ),
         lock.acquire(
           "lock",
@@ -235,7 +237,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 1;
           },
-          { timeoutInMs: undefined, abortSignal: undefined },
+          defaultOptions,
         ),
         lock.acquire(
           "lock",
@@ -251,7 +253,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 3;
           },
-          { timeoutInMs: undefined, abortSignal: undefined },
+          defaultOptions,
         ),
         lock.acquire(
           "lock",
@@ -312,7 +314,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 0;
           },
-          { timeoutInMs: undefined, abortSignal: undefined },
+          defaultOptions,
         ),
         lock.acquire(
           "lock",
@@ -320,7 +322,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 1;
           },
-          { timeoutInMs: undefined, abortSignal: undefined },
+          defaultOptions,
         ),
         lock.acquire(
           "lock",
@@ -336,7 +338,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 3;
           },
-          { timeoutInMs: undefined, abortSignal: undefined },
+          defaultOptions,
         ),
         lock.acquire(
           "lock",
@@ -394,10 +396,7 @@ describe("lock.ts", () => {
     const lock = new CancellableAsyncLockImpl();
 
     // Simple task to verify the lock works
-    const result = await lock.acquire("test-key", async () => "done", {
-      abortSignal: undefined,
-      timeoutInMs: undefined,
-    });
+    const result = await lock.acquire("test-key", async () => "done", defaultOptions);
     assert.equal(result, "done");
   });
 
@@ -413,7 +412,7 @@ describe("lock.ts", () => {
         await coreDelay(50);
         return 1;
       },
-      { abortSignal: undefined, timeoutInMs: undefined },
+      defaultOptions,
     );
 
     // Task 2: Times out immediately
