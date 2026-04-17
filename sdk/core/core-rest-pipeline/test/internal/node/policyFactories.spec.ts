@@ -50,9 +50,24 @@ describe("Policy factory functions", function () {
       assert.equal(policy.name, agentPolicyName);
     });
 
-    it("can be called with an agent option", function () {
-      const policy = agentPolicy({} as Agent);
-      assert.equal(policy.name, agentPolicyName);
+    it("sets agent on the request when provided", async function () {
+      const customAgent = {} as Agent;
+      const policy = agentPolicy(customAgent);
+      const request = defaultRequest();
+      const next = createMockNext();
+      await policy.sendRequest(request, next);
+      assert.strictEqual(request.agent, customAgent);
+    });
+
+    it("does not override an existing agent on the request", async function () {
+      const existingAgent = { existing: true } as unknown as Agent;
+      const policyAgent = { policy: true } as unknown as Agent;
+      const policy = agentPolicy(policyAgent);
+      const request = defaultRequest();
+      request.agent = existingAgent;
+      const next = createMockNext();
+      await policy.sendRequest(request, next);
+      assert.strictEqual(request.agent, existingAgent);
     });
 
     it("sends a request through the policy", async function () {
@@ -70,9 +85,30 @@ describe("Policy factory functions", function () {
       assert.equal(policy.name, proxyPolicyName);
     });
 
-    it("can be called with proxy settings", function () {
+    it("sets a proxy agent on the request when proxy settings are provided", async function () {
       const policy = proxyPolicy({ host: "http://proxy.example.com", port: 8080 });
-      assert.equal(policy.name, proxyPolicyName);
+      const request = defaultRequest();
+      const next = createMockNext();
+      await policy.sendRequest(request, next);
+      assert.isDefined(request.agent, "proxy policy should set an agent on the request");
+    });
+
+    it("does not set a proxy agent when the request already has an agent", async function () {
+      const existingAgent = { existing: true } as unknown as Agent;
+      const policy = proxyPolicy({ host: "http://proxy.example.com", port: 8080 });
+      const request = defaultRequest();
+      request.agent = existingAgent;
+      const next = createMockNext();
+      await policy.sendRequest(request, next);
+      assert.strictEqual(request.agent, existingAgent);
+    });
+
+    it("sends a request through the policy", async function () {
+      const policy = proxyPolicy();
+      const request = defaultRequest();
+      const next = createMockNext();
+      const response = await policy.sendRequest(request, next);
+      assert.equal(response.status, 200);
     });
   });
 
@@ -111,9 +147,24 @@ describe("Policy factory functions", function () {
       assert.equal(policy.name, tlsPolicyName);
     });
 
-    it("can be called with TLS settings", function () {
-      const policy = tlsPolicy({ ca: "test-ca" } as TlsSettings);
-      assert.equal(policy.name, tlsPolicyName);
+    it("sets tlsSettings on the request when provided", async function () {
+      const settings = { ca: "test-ca" } as TlsSettings;
+      const policy = tlsPolicy(settings);
+      const request = defaultRequest();
+      const next = createMockNext();
+      await policy.sendRequest(request, next);
+      assert.strictEqual(request.tlsSettings, settings);
+    });
+
+    it("does not override existing tlsSettings on the request", async function () {
+      const existingSettings = { ca: "existing-ca" } as TlsSettings;
+      const policySettings = { ca: "policy-ca" } as TlsSettings;
+      const policy = tlsPolicy(policySettings);
+      const request = defaultRequest();
+      request.tlsSettings = existingSettings;
+      const next = createMockNext();
+      await policy.sendRequest(request, next);
+      assert.strictEqual(request.tlsSettings, existingSettings);
     });
 
     it("sends a request through the policy", async function () {
