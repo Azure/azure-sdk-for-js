@@ -18,8 +18,10 @@ import {
   type TracingContext,
   type TracingSpan,
   type TracingSpanOptions,
+  createTracingClient,
   useInstrumenter,
 } from "@azure/core-tracing";
+import { getUserAgentValue } from "../../src/util/userAgent.js";
 
 // Mock createTracingClient for testing the error path
 vi.mock("@azure/core-tracing", async (importOriginal) => {
@@ -38,9 +40,6 @@ vi.mock("../../src/util/userAgent.js", async (importOriginal) => {
     getUserAgentValue: vi.fn(original.getUserAgentValue),
   };
 });
-
-import { createTracingClient } from "@azure/core-tracing";
-import { getUserAgentValue } from "../../src/util/userAgent.js";
 
 class MockSpan implements TracingSpan {
   spanAttributes: Record<string, unknown> = {};

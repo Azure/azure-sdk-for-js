@@ -3,6 +3,7 @@
 
 import { describe, it, assert, vi } from "vitest";
 import { getUserAgentValue, getUserAgentHeaderName } from "../../../src/util/userAgent.js";
+import { setPlatformSpecificData } from "../../../src/util/userAgentPlatform.js";
 
 // Access the internal getUserAgentString logic through getUserAgentValue
 // by mocking setPlatformSpecificData to add an entry with an empty value
@@ -14,8 +15,6 @@ vi.mock("../../../src/util/userAgentPlatform.js", async (importOriginal) => {
     setPlatformSpecificData: vi.fn(original.setPlatformSpecificData),
   };
 });
-
-import { setPlatformSpecificData } from "../../../src/util/userAgentPlatform.js";
 
 describe("userAgent utils", function () {
   it("getUserAgentHeaderName returns User-Agent", function () {
