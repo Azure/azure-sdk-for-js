@@ -23,6 +23,7 @@ import { ResourceResponse } from "./request/index.js";
 import { checkURL } from "./utils/checkURL.js";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "./utils/diagnostics.js";
 import { GlobalPartitionEndpointManager } from "./globalPartitionEndpointManager.js";
+import { defaultLogger } from "./common/logger.js";
 
 /**
  * Provides a client-side logical representation of the Azure Cosmos DB database account.
@@ -371,7 +372,7 @@ export class CosmosClient {
           DiagnosticNodeType.BACKGROUND_REFRESH_THREAD,
         );
       } catch (e: any) {
-        console.warn("Failed to refresh endpoints", e);
+        defaultLogger.warning("Failed to refresh endpoints", e);
       }
     }, refreshRate);
     if (this.endpointRefresher.unref && typeof this.endpointRefresher.unref === "function") {

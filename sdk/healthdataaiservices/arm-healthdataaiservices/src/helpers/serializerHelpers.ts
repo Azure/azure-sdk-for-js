@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { logger } from "../logger.js";
+
 export function serializeRecord<T extends string | number | boolean | Date | null, R>(
   item: Record<string, T>,
 ): Record<string, R>;
@@ -22,7 +24,7 @@ export function serializeRecord<T, R>(
           acc[key] = serializer(value);
         }
       } else {
-        console.warn(`Don't know how to serialize ${item[key]}`);
+        logger.warning(`Don't know how to serialize ${item[key]}`);
         acc[key] = item[key] as any;
       }
       return acc;

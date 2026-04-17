@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import type { IncomingMessage } from "node:http";
+import { logger } from "./logger.js";
 
 function isJsonObject(obj: any): boolean {
   return obj && typeof obj === "object" && !Array.isArray(obj);
@@ -21,7 +22,7 @@ export function fromBase64JsonString(base64String: string | undefined): Record<s
     const parsed = JSON.parse(buf);
     return isJsonObject(parsed) ? parsed : {};
   } catch (e: any) {
-    console.warn("Unexpected state format:" + e);
+    logger.warning("Unexpected state format:", e);
     return {};
   }
 }

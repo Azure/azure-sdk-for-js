@@ -3,6 +3,7 @@
 
 import type { XmlOptions } from "./xml.common.js";
 import { XML_ATTRKEY, XML_CHARKEY } from "./xml.common.js";
+import { logger } from "./logger.js";
 
 if (!document || !DOMParser || !Node || !XMLSerializer) {
   throw new Error(
@@ -24,7 +25,7 @@ try {
     });
   }
 } catch (e: any) {
-  console.warn('Could not create trusted types policy "@azure/core-xml#xml.browser"');
+  logger.warning('Could not create trusted types policy "@azure/core-xml#xml.browser"');
 }
 
 const doc = document.implementation.createDocument(null, null, null);
