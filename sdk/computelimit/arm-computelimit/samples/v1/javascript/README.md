@@ -67,6 +67,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [sharedlimitsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1/javascript/sharedLimitsDeleteSample.js
 [sharedlimitsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1/javascript/sharedLimitsGetSample.js
 [sharedlimitslistbysubscriptionlocationresourcesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1/javascript/sharedLimitsListBySubscriptionLocationResourceSample.js
-[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-computelimit?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-computelimit
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/computelimit/arm-computelimit/README.md
