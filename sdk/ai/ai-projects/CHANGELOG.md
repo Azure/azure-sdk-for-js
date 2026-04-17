@@ -6,11 +6,6 @@
 
 - Change `container_protocol_versions` property from required to optional in `HostedAgentDefinition` output types.
 - Change `code_type` property from required to optional in `getVersion` output type.
-- Rename interface `TextResponseFormatConfiguration` to `TextResponseFormat`
-- Rename interface `TextResponseFormatConfigurationResponseFormatText` to `TextResponseFormatText`
-- Rename interface `TextResponseFormatConfigurationResponseFormatJsonObject` to `TextResponseFormatJsonObject`
-- Rename interface `TextResponseFormatConfigurationUnion` to `TextResponseFormatUnion`
-- Rename interface `BetaEvaluatorsListLatestVersionsOptionalParams` to `BetaEvaluatorsListOptionalParams`
 - Rename `id` property in `Schedule` interface to `schedule_id`
 
 ### Features Added
@@ -21,8 +16,15 @@
 
 ### Bugs Fixed
 
-- Fix `createFilePartDescriptor` in multipart upload to use an existence/type guard instead of a truthy check, correctly handling edge cases like empty string contents.
 - Remove redundant `foundryFeatures` property from `EvaluationRulesCreateOrUpdateOptionalParam`
+
+### Other Changes
+
+- Deprecated `TextResponseFormatConfiguration` in favor of `TextResponseFormat`
+- Deprecated `TextResponseFormatConfigurationResponseFormatText` in favor of `TextResponseFormatText`
+- Deprecated `TextResponseFormatConfigurationResponseFormatJsonObject` in favor of `TextResponseFormatJsonObject`
+- Deprecated `TextResponseFormatConfigurationUnion` in favor of `TextResponseFormatUnion`
+- Deprecated `BetaEvaluatorsListLatestVersionsOptionalParams` in favor of `BetaEvaluatorsListOptionalParams`
 
 ## 2.0.2 (2026-04-06)
 

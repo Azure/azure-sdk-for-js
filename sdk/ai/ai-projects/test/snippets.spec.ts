@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { VitestTestContext } from "@azure-tools/test-recorder";
-import { AIProjectClient, DatasetVersion } from "../src/index.js";
+import { AIProjectClient, DatasetVersion, RestError } from "../src/index.js";
 import type { VersionRefIndicator } from "../src/index.js";
 import { useAzureMonitor } from "@azure/monitor-opentelemetry";
 import type { AzureMonitorOpenTelemetryOptions } from "@azure/monitor-opentelemetry";
@@ -14,7 +14,7 @@ import type {
   ModelDeployment,
   ToolUnion,
 } from "../src/index.js";
-import { isRestError, RestError } from "@azure/core-rest-pipeline";
+import { isRestError } from "@azure/core-rest-pipeline";
 import { DefaultAzureCredential } from "@azure/identity";
 import type { JobCreateParams } from "openai/resources/fine-tuning/jobs";
 import { it, describe } from "vitest";
