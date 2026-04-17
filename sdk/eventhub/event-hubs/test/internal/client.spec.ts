@@ -19,7 +19,16 @@ function createNoOpCred(): NoOpCredential {
 
 async function validateConnectionError(promise: Promise<unknown>): Promise<void> {
   await expect(promise).to.be.rejected.then((err) => {
-    expect(err)
+    const messagingError =
+      err instanceof MessagingError
+        ? err
+        : err instanceof AggregateError
+          ? [...err.errors].reverse().find((innerError): innerError is MessagingError => {
+              return innerError instanceof MessagingError;
+            })
+          : err;
+
+    expect(messagingError)
       .to.be.an.instanceOf(MessagingError)
       .and.has.property("code", isNodeLike ? "ENOTFOUND" : "ServiceCommunicationError");
     return err;
