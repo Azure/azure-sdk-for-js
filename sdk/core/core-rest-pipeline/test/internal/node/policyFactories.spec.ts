@@ -3,8 +3,9 @@
 
 import { describe, it, assert, vi } from "vitest";
 import {
-  type PipelineResponse,
+  type Agent,
   type SendRequest,
+  type TlsSettings,
   createHttpHeaders,
   createPipelineRequest,
 } from "../../../src/index.js";
@@ -50,7 +51,7 @@ describe("Policy factory functions", function () {
     });
 
     it("can be called with an agent option", function () {
-      const policy = agentPolicy({ http: undefined, https: undefined });
+      const policy = agentPolicy({} as Agent);
       assert.equal(policy.name, agentPolicyName);
     });
 
@@ -111,7 +112,7 @@ describe("Policy factory functions", function () {
     });
 
     it("can be called with TLS settings", function () {
-      const policy = tlsPolicy({ certificateThumbprint: "abc" });
+      const policy = tlsPolicy({ ca: "test-ca" } as TlsSettings);
       assert.equal(policy.name, tlsPolicyName);
     });
 
