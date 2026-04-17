@@ -1,0 +1,4 @@
+{
+  "extends": "../../../../eng/tsconfigs/src.react-native.json",
+  "include": ["../src/index.ts", "../src/**/internal.ts"]
+}
