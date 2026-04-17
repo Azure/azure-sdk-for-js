@@ -116,7 +116,7 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-certificateregistration?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-certificateregistration"
   },
   "exports": {
     "./package.json": "./package.json",
