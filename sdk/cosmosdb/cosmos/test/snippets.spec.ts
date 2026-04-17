@@ -1856,7 +1856,7 @@ describe("snippets", () => {
     const result = await container.semanticRerank(
       "most economical with multiple adjustments",
       queryResults,
-      { returnDocuments: true, topK: 10, sort: true },
+      { return_documents: true, top_k: 10, sort: true },
     );
     // Access the top-ranked document
     if (result.rerankScores.length > 0) {

@@ -317,7 +317,7 @@ export class ClientContext {
         diagnosticNode: DiagnosticNodeInternal;
         partitionKeyRangeId?: string;
     }): Promise<Response_2<T & Resource>>;
-    semanticRerank(rerankContext: string, documents: string[], options?: SemanticRerankOptions): Promise<SemanticRerankResult>;
+    semanticRerank(context: string, documents: string[], options?: SemanticRerankOptions): Promise<SemanticRerankResult>;
     // (undocumented)
     upsert<T, U = T>(input: {
         body: T;
@@ -732,7 +732,7 @@ export class Container {
     readPartitionKeyRanges(feedOptions?: FeedOptions): QueryIterator<PartitionKeyRange>;
     replace(body: ContainerDefinition, options?: RequestOptions): Promise<ContainerResponse>;
     get scripts(): Scripts;
-    semanticRerank(rerankContext: string, documents: string[], options?: SemanticRerankOptions): Promise<SemanticRerankResult>;
+    semanticRerank(context: string, documents: string[], options?: SemanticRerankOptions): Promise<SemanticRerankResult>;
     get url(): string;
 }
 
@@ -2387,16 +2387,7 @@ export class Scripts {
 }
 
 // @public
-export interface SemanticRerankOptions {
-    abortSignal?: AbortSignal;
-    additionalOptions?: Record<string, unknown>;
-    batchSize?: number;
-    documentType?: string;
-    returnDocuments?: boolean;
-    sort?: boolean;
-    targetPaths?: string;
-    topK?: number;
-}
+export type SemanticRerankOptions = Record<string, unknown>;
 
 // @public
 export interface SemanticRerankResult {

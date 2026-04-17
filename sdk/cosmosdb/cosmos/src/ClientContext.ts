@@ -1127,12 +1127,12 @@ export class ClientContext {
    * @returns The reranking results including scores, latency, and token usage.
    */
   public async semanticRerank(
-    rerankContext: string,
+    context: string,
     documents: string[],
     options?: SemanticRerankOptions,
   ): Promise<SemanticRerankResult> {
     const service = this.getOrCreateInferenceService();
-    return service.semanticRerank(rerankContext, documents, options);
+    return service.semanticRerank(context, documents, options);
   }
 
   /**

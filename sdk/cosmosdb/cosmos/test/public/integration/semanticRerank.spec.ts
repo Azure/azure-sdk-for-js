@@ -52,12 +52,12 @@ describe.skipIf(!hasRequiredEnv)("SemanticRerankIntegration", { timeout: 120000 
       "Madrid is the capital of Spain.",
     ];
 
-    const rerankContext = "What is the capital of France?";
+    const context = "What is the capital of France?";
 
-    const result: SemanticRerankResult = await container.semanticRerank(rerankContext, documents, {
-      returnDocuments: true,
-      topK: 10,
-      batchSize: 32,
+    const result: SemanticRerankResult = await container.semanticRerank(context, documents, {
+      return_documents: true,
+      top_k: 10,
+      batch_size: 32,
     });
 
     // Verify scores are returned and correctly ordered
@@ -74,7 +74,7 @@ describe.skipIf(!hasRequiredEnv)("SemanticRerankIntegration", { timeout: 120000 
     for (const score of result.rerankScores) {
       assert.isNumber(score.score, "Score should be a number");
       assert.isNumber(score.index, "Index should be a number");
-      assert.isString(score.document, "Document should be a string when returnDocuments is true");
+      assert.isString(score.document, "Document should be a string when return_documents is true");
     }
 
     // Verify metadata
@@ -163,18 +163,13 @@ describe.skipIf(!hasRequiredEnv)("SemanticRerankIntegration", { timeout: 120000 
       assert.isAbove(documents.length, 0, "Should have documents from query");
 
       // Step 3: Rerank the query results using semantic reranker
-      const rerankContext =
-        "most economical with multiple pulley adjustments and ideal for home gyms";
+      const context = "most economical with multiple pulley adjustments and ideal for home gyms";
 
-      const result: SemanticRerankResult = await container.semanticRerank(
-        rerankContext,
-        documents,
-        {
-          returnDocuments: true,
-          topK: 10,
-          batchSize: 32,
-        },
-      );
+      const result: SemanticRerankResult = await container.semanticRerank(context, documents, {
+        return_documents: true,
+        top_k: 10,
+        batch_size: 32,
+      });
 
       // Step 4: Verify the rerank result
       assert.isAbove(result.rerankScores.length, 0, "Should have rerank scores");

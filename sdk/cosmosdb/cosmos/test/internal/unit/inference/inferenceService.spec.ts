@@ -143,11 +143,11 @@ describe("InferenceService", { timeout: 10000 }, () => {
       };
 
       await service.semanticRerank("test query", ["doc1"], {
-        returnDocuments: true,
-        topK: 10,
-        batchSize: 32,
+        return_documents: true,
+        top_k: 10,
+        batch_size: 32,
         sort: true,
-        additionalOptions: { custom_param: "value" },
+        custom_param: "value",
       });
 
       const parsedBody = JSON.parse(capturedBody!);
@@ -203,7 +203,7 @@ describe("InferenceService", { timeout: 10000 }, () => {
       }
     });
 
-    it("should include documentType and targetPaths in payload", async () => {
+    it("should include document_type and target_paths in payload", async () => {
       let capturedBody: string | undefined;
 
       const service = new InferenceService(createMockOptions());
@@ -220,8 +220,8 @@ describe("InferenceService", { timeout: 10000 }, () => {
       };
 
       await service.semanticRerank("test query", ["doc1"], {
-        documentType: "json",
-        targetPaths: "/name,/description",
+        document_type: "json",
+        target_paths: "/name,/description",
       });
 
       const parsedBody = JSON.parse(capturedBody!);

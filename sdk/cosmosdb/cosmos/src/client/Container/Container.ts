@@ -696,7 +696,7 @@ export class Container {
   /**
    * Rerank a list of documents using semantic reranking via the Cosmos DB Inference Service.
    * This method uses a semantic reranker to score and reorder the provided documents
-   * based on their relevance to the given reranking context.
+   * based on their relevance to the given context.
    *
    * The semantic reranking requests use a separate HTTP pipeline from the main Cosmos DB client
    * and do not use the default SDK retry policies.
@@ -705,9 +705,18 @@ export class Container {
    * 1. Configure AAD authentication via `aadCredentials` in `CosmosClientOptions`
    * 2. Set the `AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT` environment variable
    *
-   * @param rerankContext - The context (e.g. query string) to use for reranking the documents.
+   * @param context - The context (e.g. query string) to use for reranking the documents.
    * @param documents - A list of documents (as JSON strings) to be reranked.
-   * @param options - Optional settings for the reranking request.
+   * @param options - Optional dictionary of settings for the reranking request.
+   *   Known service options:
+   *   - `return_documents` (boolean) — include reranked documents in the response.
+   *   - `top_k` (number) — max number of top-ranked documents to return.
+   *   - `batch_size` (number) — batch size for processing documents.
+   *   - `sort` (boolean) — sort results by relevance score in descending order.
+   *   - `document_type` (`"string"` | `"json"`) — type of documents being reranked.
+   *   - `target_paths` (string) — comma-separated JSON paths (when document_type is `"json"`).
+   *   - `abortSignal` (AbortSignal) — signal to cancel the request.
+   *   Any additional keys are forwarded as-is to the inference service.
    * @returns The reranking results including scored documents, latency, and token usage.
    *
    * @example Semantic reranking of query results
@@ -729,7 +738,7 @@ export class Container {
    * const result = await container.semanticRerank(
    *   "most economical with multiple adjustments",
    *   queryResults,
-   *   { returnDocuments: true, topK: 10, sort: true },
+   *   { return_documents: true, top_k: 10, sort: true },
    * );
    * // Access the top-ranked document
    * if (result.rerankScores.length > 0) {
@@ -744,11 +753,11 @@ export class Container {
    * ```
    */
   public async semanticRerank(
-    rerankContext: string,
+    context: string,
     documents: string[],
     options?: SemanticRerankOptions,
   ): Promise<SemanticRerankResult> {
-    return this.clientContext.semanticRerank(rerankContext, documents, options);
+    return this.clientContext.semanticRerank(context, documents, options);
   }
 
   /**

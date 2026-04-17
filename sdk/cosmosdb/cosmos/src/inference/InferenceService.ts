@@ -29,6 +29,8 @@ const INFERENCE_DEFAULT_SCOPE = "https://dbinference.azure.com/.default";
 const INFERENCE_DEFAULT_TIMEOUT_MS = 120_000;
 /** Environment variable name for the inference endpoint. */
 const INFERENCE_ENDPOINT_ENV_VAR = "AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT";
+/** Keys that are not part of the inference service payload. */
+const NON_PAYLOAD_KEYS = new Set(["abortSignal"]);
 
 /**
  * Provides functionality to interact with the Cosmos DB Inference Service for semantic reranking.
@@ -57,23 +59,23 @@ export class InferenceService {
 
   /**
    * Sends a semantic rerank request to the inference service.
-   * @param rerankContext - The context (e.g. query string) to use for reranking.
+   * @param context - The context (e.g. query string) to use for reranking.
    * @param documents - The documents to be reranked.
    * @param options - Optional settings for the reranking request.
    * @returns The reranking results including scores, latency, and token usage.
    */
   async semanticRerank(
-    rerankContext: string,
+    context: string,
     documents: string[],
     options?: SemanticRerankOptions,
   ): Promise<SemanticRerankResult> {
-    const payload = this.buildPayload(rerankContext, documents, options);
+    const payload = this.buildPayload(context, documents, options);
 
     const request = createPipelineRequest({
       url: this.inferenceEndpointUrl,
       method: "POST",
       body: JSON.stringify(payload),
-      abortSignal: options?.abortSignal,
+      abortSignal: options?.["abortSignal"] as AbortSignal | undefined,
       timeout: INFERENCE_DEFAULT_TIMEOUT_MS,
     });
 
@@ -124,40 +126,23 @@ export class InferenceService {
    * Builds the JSON payload for the semantic rerank request.
    */
   private buildPayload(
-    rerankContext: string,
+    context: string,
     documents: string[],
     options?: SemanticRerankOptions,
   ): Record<string, unknown> {
     const payload: Record<string, unknown> = {};
 
     if (options) {
-      if (options.returnDocuments !== undefined) {
-        payload["return_documents"] = options.returnDocuments;
-      }
-      if (options.topK !== undefined) {
-        payload["top_k"] = options.topK;
-      }
-      if (options.batchSize !== undefined) {
-        payload["batch_size"] = options.batchSize;
-      }
-      if (options.sort !== undefined) {
-        payload["sort"] = options.sort;
-      }
-      if (options.documentType !== undefined) {
-        payload["document_type"] = options.documentType;
-      }
-      if (options.targetPaths !== undefined) {
-        payload["target_paths"] = options.targetPaths;
-      }
-      if (options.additionalOptions) {
-        for (const [key, value] of Object.entries(options.additionalOptions)) {
+      // Forward all option keys except non-payload keys (e.g. abortSignal)
+      for (const [key, value] of Object.entries(options)) {
+        if (!NON_PAYLOAD_KEYS.has(key) && value !== undefined) {
           payload[key] = value;
         }
       }
     }
 
-    // Required fields are set last to prevent additionalOptions from overriding them
-    payload["query"] = rerankContext;
+    // Required fields are set last to prevent options from overriding them
+    payload["query"] = context;
     payload["documents"] = documents;
 
     return payload;

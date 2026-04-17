@@ -2,26 +2,17 @@
 // Licensed under the MIT License.
 
 /**
- * Options for a semantic reranking request.
+ * Options for a semantic reranking request, passed as a flat dictionary.
+ *
+ * Known service options (all optional):
+ * - `return_documents` (boolean) — if true, the reranked documents are included in the response.
+ * - `top_k` (number) — the maximum number of top-ranked documents to return.
+ * - `batch_size` (number) — the batch size for processing documents.
+ * - `sort` (boolean) — if true, results are sorted by relevance score in descending order.
+ * - `document_type` (`"string"` | `"json"`) — the type of documents being reranked.
+ * - `target_paths` (string) — comma-separated JSON paths to extract text from (when document_type is `"json"`).
+ * - `abortSignal` (AbortSignal) — signal to cancel the request (not sent as part of the payload).
+ *
+ * Any additional keys are forwarded as-is to the inference service payload.
  */
-export interface SemanticRerankOptions {
-  /**
-   * AbortSignal to cancel the request.
-   * See https://developer.mozilla.org/en-US/docs/Web/API/AbortController
-   */
-  abortSignal?: AbortSignal;
-  /** If true, the reranked documents will be included in the response. */
-  returnDocuments?: boolean;
-  /** The maximum number of top-ranked documents to return. */
-  topK?: number;
-  /** The batch size for processing documents. */
-  batchSize?: number;
-  /** If true, the results will be sorted by relevance score in descending order. */
-  sort?: boolean;
-  /** Type of documents being reranked. Supported values are "string" and "json". */
-  documentType?: string;
-  /** If documentType is "json", the list of JSON paths to extract text from for reranking. Comma-separated string. */
-  targetPaths?: string;
-  /** Additional custom options to include in the inference request payload. */
-  additionalOptions?: Record<string, unknown>;
-}
+export type SemanticRerankOptions = Record<string, unknown>;
