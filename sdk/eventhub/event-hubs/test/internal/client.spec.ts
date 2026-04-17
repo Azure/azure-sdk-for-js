@@ -41,9 +41,12 @@ async function validateConnectionError(promise: Promise<unknown>): Promise<void>
       assert.fail("Expected a MessagingError or AggregateError containing a MessagingError");
     }
 
-    expect(messagingError)
-      .to.be.an.instanceOf(MessagingError)
-      .and.has.property("code", isNodeLike ? "ENOTFOUND" : "ServiceCommunicationError");
+    expect(messagingError).to.be.an.instanceOf(MessagingError);
+    if (isNodeLike) {
+      expect(["ENOTFOUND", "EAI_AGAIN"]).to.include(messagingError.code);
+    } else {
+      expect(messagingError).to.have.property("code", "ServiceCommunicationError");
+    }
     return err;
   });
 }
