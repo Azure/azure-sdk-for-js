@@ -1,6 +1,8 @@
 {
-  "apiVersion": "2025-08-15",
-  "emitterVersion": "0.46.0",
+  "apiVersions": {
+    "Microsoft.ComputeLimit": "2025-08-15"
+  },
+  "emitterVersion": "0.52.2",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.ComputeLimit",
     "CrossLanguageDefinitionId": {

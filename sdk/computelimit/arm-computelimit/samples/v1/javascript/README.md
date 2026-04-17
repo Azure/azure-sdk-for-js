@@ -1,4 +1,4 @@
-# @azure/arm-computelimit client library samples for JavaScript (Beta)
+# @azure/arm-computelimit client library samples for JavaScript
 
 These sample programs show how to use the JavaScript client libraries for @azure/arm-computelimit in some common scenarios.
 
@@ -42,7 +42,7 @@ npm install
 node guestSubscriptionsCreateSample.js
 ```
 
-Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
 node guestSubscriptionsCreateSample.js
@@ -52,15 +52,15 @@ node guestSubscriptionsCreateSample.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[guestsubscriptionscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1-beta/javascript/guestSubscriptionsCreateSample.js
-[guestsubscriptionsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1-beta/javascript/guestSubscriptionsDeleteSample.js
-[guestsubscriptionsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1-beta/javascript/guestSubscriptionsGetSample.js
-[guestsubscriptionslistbysubscriptionlocationresourcesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1-beta/javascript/guestSubscriptionsListBySubscriptionLocationResourceSample.js
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1-beta/javascript/operationsListSample.js
-[sharedlimitscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1-beta/javascript/sharedLimitsCreateSample.js
-[sharedlimitsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1-beta/javascript/sharedLimitsDeleteSample.js
-[sharedlimitsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1-beta/javascript/sharedLimitsGetSample.js
-[sharedlimitslistbysubscriptionlocationresourcesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1-beta/javascript/sharedLimitsListBySubscriptionLocationResourceSample.js
-[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-computelimit?view=azure-node-preview
+[guestsubscriptionscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1/javascript/guestSubscriptionsCreateSample.js
+[guestsubscriptionsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1/javascript/guestSubscriptionsDeleteSample.js
+[guestsubscriptionsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1/javascript/guestSubscriptionsGetSample.js
+[guestsubscriptionslistbysubscriptionlocationresourcesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1/javascript/guestSubscriptionsListBySubscriptionLocationResourceSample.js
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1/javascript/operationsListSample.js
+[sharedlimitscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1/javascript/sharedLimitsCreateSample.js
+[sharedlimitsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1/javascript/sharedLimitsDeleteSample.js
+[sharedlimitsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1/javascript/sharedLimitsGetSample.js
+[sharedlimitslistbysubscriptionlocationresourcesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1/javascript/sharedLimitsListBySubscriptionLocationResourceSample.js
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-computelimit
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/computelimit/arm-computelimit/README.md

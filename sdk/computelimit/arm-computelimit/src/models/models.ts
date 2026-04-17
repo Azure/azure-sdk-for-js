@@ -2,9 +2,10 @@
 // Licensed under the MIT License.
 
 /**
- * This file contains only generated model types and (de)serializers.
- * Disable this rule for deserializer functions which require 'any' for raw JSON input.
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
@@ -51,7 +52,7 @@ export function operationDeserializer(item: any): Operation {
   };
 }
 
-/** Localized display information for and operation. */
+/** Localized display information for an operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
   readonly provider?: string;
@@ -207,8 +208,8 @@ export interface GuestSubscriptionProperties {
   readonly provisioningState?: ResourceProvisioningState;
 }
 
-export function guestSubscriptionPropertiesSerializer(item: GuestSubscriptionProperties): any {
-  return item;
+export function guestSubscriptionPropertiesSerializer(_item: GuestSubscriptionProperties): any {
+  return {};
 }
 
 export function guestSubscriptionPropertiesDeserializer(item: any): GuestSubscriptionProperties {
@@ -241,8 +242,8 @@ export type ResourceProvisioningState = string;
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -268,8 +269,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -403,8 +404,8 @@ export interface SharedLimitProperties {
   readonly provisioningState?: ResourceProvisioningState;
 }
 
-export function sharedLimitPropertiesSerializer(item: SharedLimitProperties): any {
-  return item;
+export function sharedLimitPropertiesSerializer(_item: SharedLimitProperties): any {
+  return {};
 }
 
 export function sharedLimitPropertiesDeserializer(item: any): SharedLimitProperties {
