@@ -411,7 +411,8 @@ describe("tracingPolicy", function () {
 
     await policy.sendRequest(request, next);
     assert.isTrue(nonRecordingSpan.endCalled, "non-recording span should be ended");
-    // The span attributes should not be set for status code since we returned early
+    // No http.status_code attribute since tryProcessResponse is never called
+    assert.isUndefined(nonRecordingSpan.getAttribute("http.status_code"));
   });
 
   it("sets serviceRequestId attribute when x-ms-request-id header is present", async () => {
@@ -433,7 +434,8 @@ describe("tracingPolicy", function () {
 
     assert.isDefined(activeInstrumenter.lastSpanCreated, "Expected span to be created");
     const span = activeInstrumenter.lastSpanCreated;
-    assert.equal(span.getAttribute("serviceRequestId"), "test-request-id");
+    assert.equal(span?.getAttribute("serviceRequestId"), "test-request-id");
+    assert.equal(span?.getAttribute("http.status_code"), 200);
   });
 
   it("handles error thrown by span.setStatus in tryProcessError", async () => {
@@ -470,10 +472,9 @@ describe("tracingPolicy", function () {
     await expect(policy.sendRequest(request, next)).rejects.toThrow("generic error");
     assert.isDefined(activeInstrumenter.lastSpanCreated, "Expected span to be created");
     const span = activeInstrumenter.lastSpanCreated;
-    assert.equal(span.status?.status, "error");
-    assert.isTrue(span.endCalled);
-    // No http.status_code should be set for non-RestError
-    assert.isUndefined(span.getAttribute("http.status_code"));
+    assert.equal(span?.status?.status, "error");
+    assert.isTrue(span?.endCalled);
+    assert.isUndefined(span?.getAttribute("http.status_code"));
   });
 
   it("handles non-Error thrown values in tryProcessError", async () => {
@@ -489,14 +490,12 @@ describe("tracingPolicy", function () {
     await expect(policy.sendRequest(request, next)).rejects.toEqual("string error");
     assert.isDefined(activeInstrumenter.lastSpanCreated, "Expected span to be created");
     const span = activeInstrumenter.lastSpanCreated;
-    assert.equal(span.status?.status, "error");
-    // error should be undefined since "string error" is not an Error instance
-    assert.isUndefined((span.status as { error?: unknown })?.error);
-    assert.isTrue(span.endCalled);
+    assert.equal(span?.status?.status, "error");
+    assert.isUndefined((span?.status as { error?: unknown })?.error);
+    assert.isTrue(span?.endCalled);
   });
 
-  it("sets http.user_agent attribute to an empty string when userAgent is empty", async () => {
-    // Mock getUserAgentValue to return empty string to exercise the false branch of `if (userAgent)`
+  it("does not overwrite http.user_agent when userAgent is empty", async () => {
     vi.mocked(getUserAgentValue).mockResolvedValue("");
 
     const policy = tracingPolicy();
@@ -515,6 +514,8 @@ describe("tracingPolicy", function () {
     await policy.sendRequest(request, next);
     assert.isDefined(activeInstrumenter.lastSpanCreated, "Expected span to be created");
     const span = activeInstrumenter.lastSpanCreated;
-    assert.equal(span.getAttribute("http.user_agent"), "");
+    // userAgent is "" — the initial spanAttributes object sets http.user_agent to "",
+    // and the if(userAgent) guard skips the redundant overwrite
+    assert.equal(span?.getAttribute("http.user_agent"), "");
   });
 });
