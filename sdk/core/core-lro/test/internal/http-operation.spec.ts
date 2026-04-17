@@ -208,7 +208,6 @@ describe("http/operation.ts", () => {
       });
       const result = inferLroMode(rawResponse, "azure-async-operation");
       assert.equal(result?.mode, "OperationLocation");
-      // azure-async-operation getDefault returns undefined, so PATCH falls back to requestPath
       assert.equal(result?.resourceLocation, "https://example.com/resource");
     });
 
@@ -221,7 +220,6 @@ describe("http/operation.ts", () => {
       });
       const result = inferLroMode(rawResponse, "operation-location");
       assert.equal(result?.mode, "OperationLocation");
-      // operation-location getDefault returns undefined, PATCH falls back to requestPath
       assert.equal(result?.resourceLocation, "https://example.com/resource");
     });
 
@@ -304,7 +302,6 @@ describe("http/operation.ts", () => {
           location: "https://example.com/location",
         },
       });
-      // default config means location is used for PATCH
       const result = inferLroMode(rawResponse);
       assert.equal(result?.resourceLocation, "https://example.com/location");
     });
@@ -316,7 +313,6 @@ describe("http/operation.ts", () => {
           "operation-location": "https://example.com/poll",
         },
       });
-      // no location header and no specific config -> getDefault returns undefined for location -> falls back to requestPath
       const result = inferLroMode(rawResponse);
       assert.equal(result?.resourceLocation, "https://example.com/resource");
     });

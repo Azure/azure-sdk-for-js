@@ -33,7 +33,7 @@ describe("pollHttpOperation without processResult", () => {
       setErrorAsResult: false,
     });
 
-    // Without processResult, the flatResponse should be used as-is
+
     assert.deepEqual(state.result, { id: "result-123", statusCode: 200 });
   });
 });

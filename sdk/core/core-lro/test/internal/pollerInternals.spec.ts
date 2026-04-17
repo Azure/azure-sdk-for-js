@@ -129,7 +129,6 @@ describe("processOperationStatus with isDone callback", () => {
 
     await poller.submitted();
     const state = await poller.poll();
-    // Status is still "running" since we return "running"
     assert.equal(state.status, "running");
   });
 });

@@ -1,17 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * Tests for poller.ts lines 107 and 155: the `if (!state) throw` guards
- * that fire when initOperation resolves without setting state.
- */
-
 import { describe, it, expect, vi } from "vitest";
 import { buildCreatePoller } from "../../src/poller/poller.js";
 import type { OperationState } from "../../src/index.js";
-
-// Mock initOperation to resolve with undefined, so the `.then((s) => (state = s))`
-// sets state to undefined, triggering the `if (!state)` guards.
 vi.mock("../../src/poller/operation.js", async (importOriginal) => {
   const original = await importOriginal<typeof import("../../src/poller/operation.js")>();
   return {
