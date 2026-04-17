@@ -82,8 +82,8 @@ describe("skip-typecheck optimization", () => {
       compilerOptions: {
         outDir: "./dist/cjs",
         rootDir: "./src",
-        module: "CommonJS",
-        moduleResolution: "Node10",
+        module: "Node16",
+        moduleResolution: "Node16",
         target: "ES2023",
         declaration: true,
         strict: true,
@@ -100,7 +100,12 @@ describe("skip-typecheck optimization", () => {
         exports: { ".": "./src/index.ts" },
         targets: [
           { name: "esm", condition: "import", tsconfig: "./tsconfig.esm.json" },
-          { name: "cjs", condition: "require", tsconfig: "./tsconfig.cjs.json" },
+          {
+            name: "cjs",
+            condition: "require",
+            tsconfig: "./tsconfig.cjs.json",
+            moduleType: "commonjs",
+          },
         ],
       }),
     );
@@ -200,7 +205,7 @@ describe("skip-typecheck optimization", () => {
     expect(esmJs).not.toContain("exports.");
   });
 
-  it("keeps NodeNext secondary targets in the expected module format on transpile fast path", async () => {
+  it("keeps NodeNext secondary targets as ESM and moduleType=commonjs targets as CJS", async () => {
     await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
     await fs.writeFile(path.join(tmpDir, "src/index.ts"), 'export const value: string = "ok";\n');
 
@@ -218,7 +223,7 @@ describe("skip-typecheck optimization", () => {
     };
 
     // Keep module=NodeNext but alter a non-semantic option so this target
-    // is not dedup-copied and must use transpileFiles fast path.
+    // is not dedup-copied and must compile separately (skip-typecheck path).
     const esmFastTsconfig = {
       compilerOptions: {
         outDir: "./dist/esm-fast",
@@ -233,13 +238,13 @@ describe("skip-typecheck optimization", () => {
       include: ["src/**/*.ts"],
     };
 
-    // Also NodeNext, but explicitly tagged as commonjs via warp target metadata.
+    // CommonJS target uses module=Node16 with moduleType="commonjs".
     const cjsFastTsconfig = {
       compilerOptions: {
         outDir: "./dist/cjs-fast",
         rootDir: "./src",
-        module: "NodeNext",
-        moduleResolution: "NodeNext",
+        module: "Node16",
+        moduleResolution: "Node16",
         target: "ES2023",
         declaration: true,
         strict: true,
@@ -355,8 +360,8 @@ describe("polyfill + skip-typecheck interaction", () => {
         compilerOptions: {
           ...baseTsconfig.compilerOptions,
           outDir: "./dist/cjs",
-          module: "CommonJS",
-          moduleResolution: "Node10",
+          module: "Node16",
+          moduleResolution: "Node16",
         },
       }),
     );
@@ -373,7 +378,12 @@ describe("polyfill + skip-typecheck interaction", () => {
             tsconfig: "./tsconfig.browser.json",
             polyfillSuffix: "-browser",
           },
-          { name: "cjs", condition: "require", tsconfig: "./tsconfig.cjs.json" },
+          {
+            name: "cjs",
+            condition: "require",
+            tsconfig: "./tsconfig.cjs.json",
+            moduleType: "commonjs",
+          },
         ],
       }),
     );
@@ -447,7 +457,7 @@ describe("parallel compilation", () => {
     );
     await fs.writeFile(
       path.join(dir, "tsconfig.cjs.json"),
-      JSON.stringify(mkTsconfig("./dist/cjs", { module: "CommonJS", moduleResolution: "Node10" })),
+      JSON.stringify(mkTsconfig("./dist/cjs", { module: "Node16", moduleResolution: "Node16" })),
     );
     await fs.writeFile(
       path.join(dir, "tsconfig.browser.json"),
@@ -466,7 +476,12 @@ describe("parallel compilation", () => {
             tsconfig: "./tsconfig.browser.json",
             polyfillSuffix: "-browser",
           },
-          { name: "cjs", condition: "require", tsconfig: "./tsconfig.cjs.json" },
+          {
+            name: "cjs",
+            condition: "require",
+            tsconfig: "./tsconfig.cjs.json",
+            moduleType: "commonjs",
+          },
         ],
       }),
     );

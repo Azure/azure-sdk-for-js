@@ -58,8 +58,14 @@ export interface AgentPool extends ProxyResource {
   readonly currentOrchestratorVersion?: string;
   /** The version of node image */
   readonly nodeImageVersion?: string;
+  /** Defines the upgrade strategy for the agent pool. The default is Rolling. */
+  upgradeStrategy?: UpgradeStrategy;
+  /** Whether to enable the full-cache ephemeral OS disk feature. When this feature is enabled, the entire operating system will be locally cached on the ephemeral OS disk, preventing E17 events caused by network failures. */
+  enableOSDiskFullCaching?: boolean;
   /** Settings for upgrading the agentpool */
   upgradeSettings?: AgentPoolUpgradeSettings;
+  /** Settings for Blue-Green upgrade on the agentpool. Applies when upgrade strategy is set to BlueGreen. */
+  upgradeSettingsBlueGreen?: AgentPoolBlueGreenUpgradeSettings;
   /** The current deployment or provisioning state. */
   readonly provisioningState?: string;
   /** Whether the Agent Pool is running or stopped. When an Agent Pool is first created it is initially Running. The Agent Pool can be stopped by setting this field to Stopped. A stopped Agent Pool stops all of its VMs and does not accrue billing charges. An Agent Pool can only be stopped if it is Running and provisioning state is Succeeded */
@@ -82,6 +88,8 @@ export interface AgentPool extends ProxyResource {
   nodeLabels?: Record<string, string>;
   /** The taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule. */
   nodeTaints?: string[];
+  /** Taints added on the nodes during creation that will not be reconciled by AKS. These taints will not be reconciled by AKS and can be removed with a kubectl call. This field can be modified after node pool is created, but nodes will not be recreated with new taints until another operation that requires recreation (e.g. node image upgrade) happens. These taints allow for required configuration to run before the node is ready to accept workloads, for example 'key1=value1:NoSchedule' that then can be removed with `kubectl taint nodes node1 key1=value1:NoSchedule-` */
+  nodeInitializationTaints?: string[];
   /** The ID for Proximity Placement Group. */
   proximityPlacementGroupID?: string;
   /** The Kubelet configuration on the agent pool nodes. */
@@ -112,6 +120,8 @@ export interface AgentPool extends ProxyResource {
   gpuProfile?: GPUProfile;
   /** Profile specific to a managed agent pool in Gateway mode. This field cannot be set if agent pool mode is not Gateway. */
   gatewayProfile?: AgentPoolGatewayProfile;
+  /** Configuration for using artifact streaming on AKS. */
+  artifactStreamingProfile?: AgentPoolArtifactStreamingProfile;
   /** Specifications on VirtualMachines agent pool. */
   virtualMachinesProfile?: VirtualMachinesProfile;
   /** The status of nodes in a VirtualMachines agent pool. */
@@ -120,6 +130,8 @@ export interface AgentPool extends ProxyResource {
   status?: AgentPoolStatus;
   /** Configures the per-node local DNS, with VnetDNS and KubeDNS overrides. LocalDNS helps improve performance and reliability of DNS resolution in an AKS cluster. For more details see aka.ms/aks/localdns. */
   localDNSProfile?: LocalDNSProfile;
+  /** Settings to determine the node customization used to provision nodes in a pool. */
+  nodeCustomizationProfile?: NodeCustomizationProfile;
 }
 
 export function agentPoolSerializer(item: AgentPool): any {
@@ -145,7 +157,10 @@ export function agentPoolSerializer(item: AgentPool): any {
       "type",
       "mode",
       "orchestratorVersion",
+      "upgradeStrategy",
+      "enableOSDiskFullCaching",
       "upgradeSettings",
+      "upgradeSettingsBlueGreen",
       "powerState",
       "availabilityZones",
       "enableNodePublicIP",
@@ -156,6 +171,7 @@ export function agentPoolSerializer(item: AgentPool): any {
       "tags",
       "nodeLabels",
       "nodeTaints",
+      "nodeInitializationTaints",
       "proximityPlacementGroupID",
       "kubeletConfig",
       "linuxOSConfig",
@@ -171,10 +187,12 @@ export function agentPoolSerializer(item: AgentPool): any {
       "securityProfile",
       "gpuProfile",
       "gatewayProfile",
+      "artifactStreamingProfile",
       "virtualMachinesProfile",
       "virtualMachineNodesStatus",
       "status",
       "localDNSProfile",
+      "nodeCustomizationProfile",
     ])
       ? undefined
       : _agentPoolPropertiesSerializer(item),
@@ -243,8 +261,14 @@ export interface ManagedClusterAgentPoolProfileProperties {
   readonly currentOrchestratorVersion?: string;
   /** The version of node image */
   readonly nodeImageVersion?: string;
+  /** Defines the upgrade strategy for the agent pool. The default is Rolling. */
+  upgradeStrategy?: UpgradeStrategy;
+  /** Whether to enable the full-cache ephemeral OS disk feature. When this feature is enabled, the entire operating system will be locally cached on the ephemeral OS disk, preventing E17 events caused by network failures. */
+  enableOSDiskFullCaching?: boolean;
   /** Settings for upgrading the agentpool */
   upgradeSettings?: AgentPoolUpgradeSettings;
+  /** Settings for Blue-Green upgrade on the agentpool. Applies when upgrade strategy is set to BlueGreen. */
+  upgradeSettingsBlueGreen?: AgentPoolBlueGreenUpgradeSettings;
   /** The current deployment or provisioning state. */
   readonly provisioningState?: string;
   /** Whether the Agent Pool is running or stopped. When an Agent Pool is first created it is initially Running. The Agent Pool can be stopped by setting this field to Stopped. A stopped Agent Pool stops all of its VMs and does not accrue billing charges. An Agent Pool can only be stopped if it is Running and provisioning state is Succeeded */
@@ -267,6 +291,8 @@ export interface ManagedClusterAgentPoolProfileProperties {
   nodeLabels?: Record<string, string>;
   /** The taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule. */
   nodeTaints?: string[];
+  /** Taints added on the nodes during creation that will not be reconciled by AKS. These taints will not be reconciled by AKS and can be removed with a kubectl call. This field can be modified after node pool is created, but nodes will not be recreated with new taints until another operation that requires recreation (e.g. node image upgrade) happens. These taints allow for required configuration to run before the node is ready to accept workloads, for example 'key1=value1:NoSchedule' that then can be removed with `kubectl taint nodes node1 key1=value1:NoSchedule-` */
+  nodeInitializationTaints?: string[];
   /** The ID for Proximity Placement Group. */
   proximityPlacementGroupID?: string;
   /** The Kubelet configuration on the agent pool nodes. */
@@ -297,6 +323,8 @@ export interface ManagedClusterAgentPoolProfileProperties {
   gpuProfile?: GPUProfile;
   /** Profile specific to a managed agent pool in Gateway mode. This field cannot be set if agent pool mode is not Gateway. */
   gatewayProfile?: AgentPoolGatewayProfile;
+  /** Configuration for using artifact streaming on AKS. */
+  artifactStreamingProfile?: AgentPoolArtifactStreamingProfile;
   /** Specifications on VirtualMachines agent pool. */
   virtualMachinesProfile?: VirtualMachinesProfile;
   /** The status of nodes in a VirtualMachines agent pool. */
@@ -305,6 +333,8 @@ export interface ManagedClusterAgentPoolProfileProperties {
   status?: AgentPoolStatus;
   /** Configures the per-node local DNS, with VnetDNS and KubeDNS overrides. LocalDNS helps improve performance and reliability of DNS resolution in an AKS cluster. For more details see aka.ms/aks/localdns. */
   localDNSProfile?: LocalDNSProfile;
+  /** Settings to determine the node customization used to provision nodes in a pool. */
+  nodeCustomizationProfile?: NodeCustomizationProfile;
 }
 
 export function managedClusterAgentPoolProfilePropertiesSerializer(
@@ -331,9 +361,14 @@ export function managedClusterAgentPoolProfilePropertiesSerializer(
     type: item["type"],
     mode: item["mode"],
     orchestratorVersion: item["orchestratorVersion"],
+    upgradeStrategy: item["upgradeStrategy"],
+    enableOSDiskFullCaching: item["enableOSDiskFullCaching"],
     upgradeSettings: !item["upgradeSettings"]
       ? item["upgradeSettings"]
       : agentPoolUpgradeSettingsSerializer(item["upgradeSettings"]),
+    upgradeSettingsBlueGreen: !item["upgradeSettingsBlueGreen"]
+      ? item["upgradeSettingsBlueGreen"]
+      : agentPoolBlueGreenUpgradeSettingsSerializer(item["upgradeSettingsBlueGreen"]),
     powerState: !item["powerState"] ? item["powerState"] : powerStateSerializer(item["powerState"]),
     availabilityZones: !item["availabilityZones"]
       ? item["availabilityZones"]
@@ -350,6 +385,11 @@ export function managedClusterAgentPoolProfilePropertiesSerializer(
     nodeTaints: !item["nodeTaints"]
       ? item["nodeTaints"]
       : item["nodeTaints"].map((p: any) => {
+          return p;
+        }),
+    nodeInitializationTaints: !item["nodeInitializationTaints"]
+      ? item["nodeInitializationTaints"]
+      : item["nodeInitializationTaints"].map((p: any) => {
           return p;
         }),
     proximityPlacementGroupID: item["proximityPlacementGroupID"],
@@ -381,6 +421,9 @@ export function managedClusterAgentPoolProfilePropertiesSerializer(
     gatewayProfile: !item["gatewayProfile"]
       ? item["gatewayProfile"]
       : agentPoolGatewayProfileSerializer(item["gatewayProfile"]),
+    artifactStreamingProfile: !item["artifactStreamingProfile"]
+      ? item["artifactStreamingProfile"]
+      : agentPoolArtifactStreamingProfileSerializer(item["artifactStreamingProfile"]),
     virtualMachinesProfile: !item["virtualMachinesProfile"]
       ? item["virtualMachinesProfile"]
       : virtualMachinesProfileSerializer(item["virtualMachinesProfile"]),
@@ -391,6 +434,9 @@ export function managedClusterAgentPoolProfilePropertiesSerializer(
     localDNSProfile: !item["localDNSProfile"]
       ? item["localDNSProfile"]
       : localDNSProfileSerializer(item["localDNSProfile"]),
+    nodeCustomizationProfile: !item["nodeCustomizationProfile"]
+      ? item["nodeCustomizationProfile"]
+      : nodeCustomizationProfileSerializer(item["nodeCustomizationProfile"]),
   };
 }
 
@@ -421,9 +467,14 @@ export function managedClusterAgentPoolProfilePropertiesDeserializer(
     orchestratorVersion: item["orchestratorVersion"],
     currentOrchestratorVersion: item["currentOrchestratorVersion"],
     nodeImageVersion: item["nodeImageVersion"],
+    upgradeStrategy: item["upgradeStrategy"],
+    enableOSDiskFullCaching: item["enableOSDiskFullCaching"],
     upgradeSettings: !item["upgradeSettings"]
       ? item["upgradeSettings"]
       : agentPoolUpgradeSettingsDeserializer(item["upgradeSettings"]),
+    upgradeSettingsBlueGreen: !item["upgradeSettingsBlueGreen"]
+      ? item["upgradeSettingsBlueGreen"]
+      : agentPoolBlueGreenUpgradeSettingsDeserializer(item["upgradeSettingsBlueGreen"]),
     provisioningState: item["provisioningState"],
     powerState: !item["powerState"]
       ? item["powerState"]
@@ -449,6 +500,11 @@ export function managedClusterAgentPoolProfilePropertiesDeserializer(
     nodeTaints: !item["nodeTaints"]
       ? item["nodeTaints"]
       : item["nodeTaints"].map((p: any) => {
+          return p;
+        }),
+    nodeInitializationTaints: !item["nodeInitializationTaints"]
+      ? item["nodeInitializationTaints"]
+      : item["nodeInitializationTaints"].map((p: any) => {
           return p;
         }),
     proximityPlacementGroupID: item["proximityPlacementGroupID"],
@@ -482,6 +538,9 @@ export function managedClusterAgentPoolProfilePropertiesDeserializer(
     gatewayProfile: !item["gatewayProfile"]
       ? item["gatewayProfile"]
       : agentPoolGatewayProfileDeserializer(item["gatewayProfile"]),
+    artifactStreamingProfile: !item["artifactStreamingProfile"]
+      ? item["artifactStreamingProfile"]
+      : agentPoolArtifactStreamingProfileDeserializer(item["artifactStreamingProfile"]),
     virtualMachinesProfile: !item["virtualMachinesProfile"]
       ? item["virtualMachinesProfile"]
       : virtualMachinesProfileDeserializer(item["virtualMachinesProfile"]),
@@ -492,6 +551,9 @@ export function managedClusterAgentPoolProfilePropertiesDeserializer(
     localDNSProfile: !item["localDNSProfile"]
       ? item["localDNSProfile"]
       : localDNSProfileDeserializer(item["localDNSProfile"]),
+    nodeCustomizationProfile: !item["nodeCustomizationProfile"]
+      ? item["nodeCustomizationProfile"]
+      : nodeCustomizationProfileDeserializer(item["nodeCustomizationProfile"]),
   };
 }
 
@@ -537,6 +599,8 @@ export enum KnownWorkloadRuntime {
   OCIContainer = "OCIContainer",
   /** Nodes will use Krustlet to run WASM workloads using the WASI provider (Preview). */
   WasmWasi = "WasmWasi",
+  /** Nodes can use (Kata + Cloud Hypervisor + Hyper-V) to enable Nested VM-based pods (Preview). Due to the use Hyper-V, AKS node OS itself is a nested VM (the root OS) of Hyper-V. Thus it can only be used with VM series that support Nested Virtualization such as Dv3 series. This naming convention will be deprecated in future releases in favor of KataVmIsolation. */
+  KataMshvVmIsolation = "KataMshvVmIsolation",
   /** Nodes can use (Kata + Cloud Hypervisor + Hyper-V) to enable Nested VM-based pods. Due to the use Hyper-V, AKS node OS itself is a nested VM (the root OS) of Hyper-V. Thus it can only be used with VM series that support Nested Virtualization such as Dv3 series. */
   KataVmIsolation = "KataVmIsolation",
 }
@@ -548,6 +612,7 @@ export enum KnownWorkloadRuntime {
  * ### Known values supported by the service
  * **OCIContainer**: Nodes will use Kubelet to run standard OCI container workloads. \
  * **WasmWasi**: Nodes will use Krustlet to run WASM workloads using the WASI provider (Preview). \
+ * **KataMshvVmIsolation**: Nodes can use (Kata + Cloud Hypervisor + Hyper-V) to enable Nested VM-based pods (Preview). Due to the use Hyper-V, AKS node OS itself is a nested VM (the root OS) of Hyper-V. Thus it can only be used with VM series that support Nested Virtualization such as Dv3 series. This naming convention will be deprecated in future releases in favor of KataVmIsolation. \
  * **KataVmIsolation**: Nodes can use (Kata + Cloud Hypervisor + Hyper-V) to enable Nested VM-based pods. Due to the use Hyper-V, AKS node OS itself is a nested VM (the root OS) of Hyper-V. Thus it can only be used with VM series that support Nested Virtualization such as Dv3 series.
  */
 export type WorkloadRuntime = string;
@@ -597,6 +662,10 @@ export enum KnownOssku {
   /** Use AzureLinux3 as the OS for node images. Azure Linux is a container-optimized Linux distro built by Microsoft, visit https://aka.ms/azurelinux for more information. For limitations, visit https://aka.ms/aks/node-images. For OS migration guidance, see https://aka.ms/aks/upgrade-os-version. */
   AzureLinux3 = "AzureLinux3",
   /** Deprecated OSSKU. Microsoft recommends that new deployments choose 'AzureLinux' instead. */
+  Mariner = "Mariner",
+  /** Use Flatcar Container Linux as the OS for node images. Flatcar is a container-optimized, security-focused Linux OS, with an immutable filesystem and part of the Cloud Native Computing Foundation (CNCF). For more information about Flatcar Container Linux for AKS, see aka.ms/aks/flatcar-container-linux-for-aks */
+  Flatcar = "Flatcar",
+  /** Deprecated OSSKU. Microsoft recommends that new deployments choose 'AzureLinux' instead. */
   CBLMariner = "CBLMariner",
   /** Use Windows2019 as the OS for node images. Unsupported for system node pools. Windows2019 only supports Windows2019 containers; it cannot run Windows2022 containers and vice versa. */
   Windows2019 = "Windows2019",
@@ -604,6 +673,10 @@ export enum KnownOssku {
   Windows2022 = "Windows2022",
   /** Use Ubuntu2204 as the OS for node images, however, Ubuntu 22.04 may not be supported for all nodepools. For limitations and supported kubernetes versions, see https://aka.ms/aks/supported-ubuntu-versions */
   Ubuntu2204 = "Ubuntu2204",
+  /** Use Windows2025 as the OS for node images. Unsupported for system node pools. Windows2025 supports Windows2022 and Windows 2025 containers; it cannot run Windows2019 containers and vice versa. */
+  Windows2025 = "Windows2025",
+  /** Use Windows Annual Channel version as the OS for node images. Unsupported for system node pools. Details about supported container images and kubernetes versions under different AKS Annual Channel versions could be seen in https://aka.ms/aks/windows-annual-channel-details. */
+  WindowsAnnual = "WindowsAnnual",
   /** Use Ubuntu2404 as the OS for node images, however, Ubuntu 24.04 may not be supported for all nodepools. For limitations and supported kubernetes versions, see see https://aka.ms/aks/supported-ubuntu-versions */
   Ubuntu2404 = "Ubuntu2404",
 }
@@ -616,10 +689,14 @@ export enum KnownOssku {
  * **Ubuntu**: Use Ubuntu as the OS for node images. \
  * **AzureLinux**: Use AzureLinux as the OS for node images. Azure Linux is a container-optimized Linux distro built by Microsoft, visit https:\//aka.ms\/azurelinux for more information. \
  * **AzureLinux3**: Use AzureLinux3 as the OS for node images. Azure Linux is a container-optimized Linux distro built by Microsoft, visit https:\//aka.ms\/azurelinux for more information. For limitations, visit https:\//aka.ms\/aks\/node-images. For OS migration guidance, see https:\//aka.ms\/aks\/upgrade-os-version. \
+ * **Mariner**: Deprecated OSSKU. Microsoft recommends that new deployments choose 'AzureLinux' instead. \
+ * **Flatcar**: Use Flatcar Container Linux as the OS for node images. Flatcar is a container-optimized, security-focused Linux OS, with an immutable filesystem and part of the Cloud Native Computing Foundation (CNCF). For more information about Flatcar Container Linux for AKS, see aka.ms\/aks\/flatcar-container-linux-for-aks \
  * **CBLMariner**: Deprecated OSSKU. Microsoft recommends that new deployments choose 'AzureLinux' instead. \
  * **Windows2019**: Use Windows2019 as the OS for node images. Unsupported for system node pools. Windows2019 only supports Windows2019 containers; it cannot run Windows2022 containers and vice versa. \
  * **Windows2022**: Use Windows2022 as the OS for node images. Unsupported for system node pools. Windows2022 only supports Windows2022 containers; it cannot run Windows2019 containers and vice versa. \
  * **Ubuntu2204**: Use Ubuntu2204 as the OS for node images, however, Ubuntu 22.04 may not be supported for all nodepools. For limitations and supported kubernetes versions, see https:\//aka.ms\/aks\/supported-ubuntu-versions \
+ * **Windows2025**: Use Windows2025 as the OS for node images. Unsupported for system node pools. Windows2025 supports Windows2022 and Windows 2025 containers; it cannot run Windows2019 containers and vice versa. \
+ * **WindowsAnnual**: Use Windows Annual Channel version as the OS for node images. Unsupported for system node pools. Details about supported container images and kubernetes versions under different AKS Annual Channel versions could be seen in https:\//aka.ms\/aks\/windows-annual-channel-details. \
  * **Ubuntu2404**: Use Ubuntu2404 as the OS for node images, however, Ubuntu 24.04 may not be supported for all nodepools. For limitations and supported kubernetes versions, see see https:\//aka.ms\/aks\/supported-ubuntu-versions
  */
 export type Ossku = string;
@@ -671,6 +748,10 @@ export enum KnownAgentPoolMode {
   User = "User",
   /** Gateway agent pools are dedicated to providing static egress IPs to pods. For more details, see https://aka.ms/aks/static-egress-gateway. */
   Gateway = "Gateway",
+  /** ManagedSystem is a system pool managed by AKS. The pool scales dynamically according to cluster usage, and has additional automated monitoring and healing capabilities. There can only be one ManagedSystem pool, and it is recommended to delete all other system pools for the best experience. */
+  ManagedSystem = "ManagedSystem",
+  /** Machines agent pools are dedicated to hosting machines. Only limited operations, such as creation and deletion, are allowed at the pool level. Please use the machine APIs to manage the full machine lifecycle. */
+  Machines = "Machines",
 }
 
 /**
@@ -680,9 +761,29 @@ export enum KnownAgentPoolMode {
  * ### Known values supported by the service
  * **System**: System agent pools are primarily for hosting critical system pods such as CoreDNS and metrics-server. System agent pools osType must be Linux. System agent pools VM SKU must have at least 2vCPUs and 4GB of memory. \
  * **User**: User agent pools are primarily for hosting your application pods. \
- * **Gateway**: Gateway agent pools are dedicated to providing static egress IPs to pods. For more details, see https:\//aka.ms\/aks\/static-egress-gateway.
+ * **Gateway**: Gateway agent pools are dedicated to providing static egress IPs to pods. For more details, see https:\//aka.ms\/aks\/static-egress-gateway. \
+ * **ManagedSystem**: ManagedSystem is a system pool managed by AKS. The pool scales dynamically according to cluster usage, and has additional automated monitoring and healing capabilities. There can only be one ManagedSystem pool, and it is recommended to delete all other system pools for the best experience. \
+ * **Machines**: Machines agent pools are dedicated to hosting machines. Only limited operations, such as creation and deletion, are allowed at the pool level. Please use the machine APIs to manage the full machine lifecycle.
  */
 export type AgentPoolMode = string;
+
+/** Defines the upgrade strategy for the agent pool. The default is Rolling. */
+export enum KnownUpgradeStrategy {
+  /** Specifies that the agent pool will conduct rolling upgrade. This is the default upgrade strategy. */
+  Rolling = "Rolling",
+  /** Specifies that the agent pool will conduct blue-green upgrade. */
+  BlueGreen = "BlueGreen",
+}
+
+/**
+ * Defines the upgrade strategy for the agent pool. The default is Rolling. \
+ * {@link KnownUpgradeStrategy} can be used interchangeably with UpgradeStrategy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Rolling**: Specifies that the agent pool will conduct rolling upgrade. This is the default upgrade strategy. \
+ * **BlueGreen**: Specifies that the agent pool will conduct blue-green upgrade.
+ */
+export type UpgradeStrategy = string;
 
 /** Settings for upgrading an agentpool */
 export interface AgentPoolUpgradeSettings {
@@ -690,6 +791,8 @@ export interface AgentPoolUpgradeSettings {
   maxSurge?: string;
   /** The maximum number or percentage of nodes that can be simultaneously unavailable during upgrade. This can either be set to an integer (e.g. '1') or a percentage (e.g. '5%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 0. For more information, including best practices, see: https://learn.microsoft.com/en-us/azure/aks/upgrade-cluster */
   maxUnavailable?: string;
+  /** The maximum number or percentage of extra nodes that are allowed to be blocked in the agent pool during an upgrade when undrainable node behavior is Cordon. This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is maxSurge. This must always be greater than or equal to maxSurge. For more information, including best practices, see: https://learn.microsoft.com/en-us/azure/aks/upgrade-cluster */
+  maxBlockedNodes?: string;
   /** The drain timeout for a node. The amount of time (in minutes) to wait on eviction of pods and graceful termination per node. This eviction wait time honors waiting on pod disruption budgets. If this time is exceeded, the upgrade fails. If not specified, the default is 30 minutes. */
   drainTimeoutInMinutes?: number;
   /** The soak duration for a node. The amount of time (in minutes) to wait after draining a node and before reimaging it and moving on to next node. If not specified, the default is 0 minutes. */
@@ -702,6 +805,7 @@ export function agentPoolUpgradeSettingsSerializer(item: AgentPoolUpgradeSetting
   return {
     maxSurge: item["maxSurge"],
     maxUnavailable: item["maxUnavailable"],
+    maxBlockedNodes: item["maxBlockedNodes"],
     drainTimeoutInMinutes: item["drainTimeoutInMinutes"],
     nodeSoakDurationInMinutes: item["nodeSoakDurationInMinutes"],
     undrainableNodeBehavior: item["undrainableNodeBehavior"],
@@ -712,6 +816,7 @@ export function agentPoolUpgradeSettingsDeserializer(item: any): AgentPoolUpgrad
   return {
     maxSurge: item["maxSurge"],
     maxUnavailable: item["maxUnavailable"],
+    maxBlockedNodes: item["maxBlockedNodes"],
     drainTimeoutInMinutes: item["drainTimeoutInMinutes"],
     nodeSoakDurationInMinutes: item["nodeSoakDurationInMinutes"],
     undrainableNodeBehavior: item["undrainableNodeBehavior"],
@@ -735,6 +840,40 @@ export enum KnownUndrainableNodeBehavior {
  * **Schedule**: AKS will mark the blocked nodes schedulable, but the blocked nodes are not upgraded. A best-effort attempt will be made to delete all surge nodes. The upgrade operation and the managed cluster will be in failed state if there are any blocked nodes.
  */
 export type UndrainableNodeBehavior = string;
+
+/** Settings for blue-green upgrade on an agentpool */
+export interface AgentPoolBlueGreenUpgradeSettings {
+  /** The number or percentage of nodes to drain in batch during blue-green upgrade. Must be a non-zero number. This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total number of blue nodes of the initial upgrade operation. For percentages, fractional nodes are rounded up. If not specified, the default is 10%. For more information, including best practices, see: https://learn.microsoft.com/en-us/azure/aks/upgrade-cluster */
+  drainBatchSize?: string;
+  /** The drain timeout for a node, i.e., the amount of time (in minutes) to wait on eviction of pods and graceful termination per node. This eviction wait time honors waiting on pod disruption budgets. If this time is exceeded, the upgrade fails. If not specified, the default is 30 minutes. */
+  drainTimeoutInMinutes?: number;
+  /** The soak duration after draining a batch of nodes, i.e., the amount of time (in minutes) to wait after draining a batch of nodes before moving on the next batch. If not specified, the default is 15 minutes. */
+  batchSoakDurationInMinutes?: number;
+  /** The soak duration for a node pool, i.e., the amount of time (in minutes) to wait after all old nodes are drained before we remove the old nodes. If not specified, the default is 60 minutes. Only applicable for blue-green upgrade strategy. */
+  finalSoakDurationInMinutes?: number;
+}
+
+export function agentPoolBlueGreenUpgradeSettingsSerializer(
+  item: AgentPoolBlueGreenUpgradeSettings,
+): any {
+  return {
+    drainBatchSize: item["drainBatchSize"],
+    drainTimeoutInMinutes: item["drainTimeoutInMinutes"],
+    batchSoakDurationInMinutes: item["batchSoakDurationInMinutes"],
+    finalSoakDurationInMinutes: item["finalSoakDurationInMinutes"],
+  };
+}
+
+export function agentPoolBlueGreenUpgradeSettingsDeserializer(
+  item: any,
+): AgentPoolBlueGreenUpgradeSettings {
+  return {
+    drainBatchSize: item["drainBatchSize"],
+    drainTimeoutInMinutes: item["drainTimeoutInMinutes"],
+    batchSoakDurationInMinutes: item["batchSoakDurationInMinutes"],
+    finalSoakDurationInMinutes: item["finalSoakDurationInMinutes"],
+  };
+}
 
 /** Describes the Power State of the cluster */
 export interface PowerState {
@@ -830,6 +969,8 @@ export interface KubeletConfig {
   containerLogMaxFiles?: number;
   /** The maximum number of processes per pod. */
   podMaxPids?: number;
+  /** Specifies the default seccomp profile applied to all workloads. If not specified, 'Unconfined' will be used by default. */
+  seccompDefault?: SeccompDefault;
 }
 
 export function kubeletConfigSerializer(item: KubeletConfig): any {
@@ -849,6 +990,7 @@ export function kubeletConfigSerializer(item: KubeletConfig): any {
     containerLogMaxSizeMB: item["containerLogMaxSizeMB"],
     containerLogMaxFiles: item["containerLogMaxFiles"],
     podMaxPids: item["podMaxPids"],
+    seccompDefault: item["seccompDefault"],
   };
 }
 
@@ -869,8 +1011,27 @@ export function kubeletConfigDeserializer(item: any): KubeletConfig {
     containerLogMaxSizeMB: item["containerLogMaxSizeMB"],
     containerLogMaxFiles: item["containerLogMaxFiles"],
     podMaxPids: item["podMaxPids"],
+    seccompDefault: item["seccompDefault"],
   };
 }
+
+/** Specifies the default seccomp profile applied to all workloads. If not specified, 'Unconfined' will be used by default. */
+export enum KnownSeccompDefault {
+  /** No seccomp profile is applied, allowing all system calls. */
+  Unconfined = "Unconfined",
+  /** The default seccomp profile for container runtime is applied, which restricts certain system calls for enhanced security. */
+  RuntimeDefault = "RuntimeDefault",
+}
+
+/**
+ * Specifies the default seccomp profile applied to all workloads. If not specified, 'Unconfined' will be used by default. \
+ * {@link KnownSeccompDefault} can be used interchangeably with SeccompDefault,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unconfined**: No seccomp profile is applied, allowing all system calls. \
+ * **RuntimeDefault**: The default seccomp profile for container runtime is applied, which restricts certain system calls for enhanced security.
+ */
+export type SeccompDefault = string;
 
 /** OS configurations of Linux agent nodes. See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details. */
 export interface LinuxOSConfig {
@@ -1244,6 +1405,8 @@ export enum KnownAgentPoolSSHAccess {
   LocalUser = "LocalUser",
   /** SSH service will be turned off on the node. */
   Disabled = "Disabled",
+  /** SSH to node with EntraId integration. More information can be found under https://aka.ms/aks/ssh/aad */
+  EntraId = "EntraId",
 }
 
 /**
@@ -1252,7 +1415,8 @@ export enum KnownAgentPoolSSHAccess {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **LocalUser**: Can SSH onto the node as a local user using private key. \
- * **Disabled**: SSH service will be turned off on the node.
+ * **Disabled**: SSH service will be turned off on the node. \
+ * **EntraId**: SSH to node with EntraId integration. More information can be found under https:\//aka.ms\/aks\/ssh\/aad
  */
 export type AgentPoolSSHAccess = string;
 
@@ -1260,15 +1424,25 @@ export type AgentPoolSSHAccess = string;
 export interface GPUProfile {
   /** Whether to install GPU drivers. When it's not specified, default is Install. */
   driver?: GPUDriver;
+  /** Specify the type of GPU driver to install when creating Windows agent pools. If not provided, AKS selects the driver based on system compatibility. This cannot be changed once the AgentPool has been created. This cannot be set on Linux AgentPools. For Linux AgentPools, the driver is selected based on system compatibility. */
+  driverType?: DriverType;
+  /** NVIDIA-specific GPU settings. */
+  nvidia?: NvidiaGPUProfile;
 }
 
 export function gpuProfileSerializer(item: GPUProfile): any {
-  return { driver: item["driver"] };
+  return {
+    driver: item["driver"],
+    driverType: item["driverType"],
+    nvidia: !item["nvidia"] ? item["nvidia"] : nvidiaGPUProfileSerializer(item["nvidia"]),
+  };
 }
 
 export function gpuProfileDeserializer(item: any): GPUProfile {
   return {
     driver: item["driver"],
+    driverType: item["driverType"],
+    nvidia: !item["nvidia"] ? item["nvidia"] : nvidiaGPUProfileDeserializer(item["nvidia"]),
   };
 }
 
@@ -1290,6 +1464,82 @@ export enum KnownGPUDriver {
  */
 export type GPUDriver = string;
 
+/** Specify the type of GPU driver to install when creating Windows agent pools. If not provided, AKS selects the driver based on system compatibility. This cannot be changed once the AgentPool has been created. This cannot be set on Linux AgentPools. For Linux AgentPools, the driver is selected based on system compatibility. */
+export enum KnownDriverType {
+  /** Install the GRID driver for the GPU, suitable for applications requiring virtualization support. */
+  Grid = "GRID",
+  /** Install the CUDA driver for the GPU, optimized for computational tasks in scientific computing and data-intensive applications. */
+  Cuda = "CUDA",
+}
+
+/**
+ * Specify the type of GPU driver to install when creating Windows agent pools. If not provided, AKS selects the driver based on system compatibility. This cannot be changed once the AgentPool has been created. This cannot be set on Linux AgentPools. For Linux AgentPools, the driver is selected based on system compatibility. \
+ * {@link KnownDriverType} can be used interchangeably with DriverType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **GRID**: Install the GRID driver for the GPU, suitable for applications requiring virtualization support. \
+ * **CUDA**: Install the CUDA driver for the GPU, optimized for computational tasks in scientific computing and data-intensive applications.
+ */
+export type DriverType = string;
+
+/** NVIDIA-specific GPU settings */
+export interface NvidiaGPUProfile {
+  /** The Managed GPU experience installs additional components, such as the Data Center GPU Manager (DCGM) metrics for monitoring, on top of the GPU driver for you. For more details of what is installed, check out aka.ms/aks/managed-gpu. */
+  managementMode?: ManagementMode;
+  /** Sets the MIG (Multi-Instance GPU) strategy that will be used for managed MIG support. For more information about the different strategies, visit aka.ms/aks/managed-gpu. When not specified, the default is None. */
+  migStrategy?: MigStrategy;
+}
+
+export function nvidiaGPUProfileSerializer(item: NvidiaGPUProfile): any {
+  return { managementMode: item["managementMode"], migStrategy: item["migStrategy"] };
+}
+
+export function nvidiaGPUProfileDeserializer(item: any): NvidiaGPUProfile {
+  return {
+    managementMode: item["managementMode"],
+    migStrategy: item["migStrategy"],
+  };
+}
+
+/** The Managed GPU experience installs additional components, such as the Data Center GPU Manager (DCGM) metrics for monitoring, on top of the GPU driver for you. For more details of what is installed, check out aka.ms/aks/managed-gpu. */
+export enum KnownManagementMode {
+  /** Managed GPU experience is disabled for NVIDIA GPUs. */
+  Unmanaged = "Unmanaged",
+  /** Managed GPU experience is enabled for NVIDIA GPUs. */
+  Managed = "Managed",
+}
+
+/**
+ * The Managed GPU experience installs additional components, such as the Data Center GPU Manager (DCGM) metrics for monitoring, on top of the GPU driver for you. For more details of what is installed, check out aka.ms/aks/managed-gpu. \
+ * {@link KnownManagementMode} can be used interchangeably with ManagementMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unmanaged**: Managed GPU experience is disabled for NVIDIA GPUs. \
+ * **Managed**: Managed GPU experience is enabled for NVIDIA GPUs.
+ */
+export type ManagementMode = string;
+
+/** Sets the MIG (Multi-Instance GPU) strategy that will be used for managed MIG support. For more information about the different strategies, visit aka.ms/aks/managed-gpu. When not specified, the default is None. */
+export enum KnownMigStrategy {
+  /** Don't set a MIG strategy. If you previously had one set, this will override it and set remove the set MIG strategy. */
+  None = "None",
+  /** Set the MIG strategy for managed MIG as single. */
+  Single = "Single",
+  /** Set the MIG strategy for managed MIG as mixed. */
+  Mixed = "Mixed",
+}
+
+/**
+ * Sets the MIG (Multi-Instance GPU) strategy that will be used for managed MIG support. For more information about the different strategies, visit aka.ms/aks/managed-gpu. When not specified, the default is None. \
+ * {@link KnownMigStrategy} can be used interchangeably with MigStrategy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: Don't set a MIG strategy. If you previously had one set, this will override it and set remove the set MIG strategy. \
+ * **Single**: Set the MIG strategy for managed MIG as single. \
+ * **Mixed**: Set the MIG strategy for managed MIG as mixed.
+ */
+export type MigStrategy = string;
+
 /** Profile of the managed cluster gateway agent pool. */
 export interface AgentPoolGatewayProfile {
   /** The Gateway agent pool associates one public IPPrefix for each static egress gateway to provide public egress. The size of Public IPPrefix should be selected by the user. Each node in the agent pool is assigned with one IP from the IPPrefix. The IPPrefix size thus serves as a cap on the size of the Gateway agent pool. Due to Azure public IPPrefix size limitation, the valid value range is [28, 31] (/31 = 2 nodes/IPs, /30 = 4 nodes/IPs, /29 = 8 nodes/IPs, /28 = 16 nodes/IPs). The default value is 31. */
@@ -1303,6 +1553,26 @@ export function agentPoolGatewayProfileSerializer(item: AgentPoolGatewayProfile)
 export function agentPoolGatewayProfileDeserializer(item: any): AgentPoolGatewayProfile {
   return {
     publicIPPrefixSize: item["publicIPPrefixSize"],
+  };
+}
+
+/** Artifact streaming profile for the agent pool. */
+export interface AgentPoolArtifactStreamingProfile {
+  /** Artifact streaming speeds up the cold-start of containers on a node through on-demand image loading. To use this feature, container images must also enable artifact streaming on ACR. If not specified, the default is false. */
+  enabled?: boolean;
+}
+
+export function agentPoolArtifactStreamingProfileSerializer(
+  item: AgentPoolArtifactStreamingProfile,
+): any {
+  return { enabled: item["enabled"] };
+}
+
+export function agentPoolArtifactStreamingProfileDeserializer(
+  item: any,
+): AgentPoolArtifactStreamingProfile {
+  return {
+    enabled: item["enabled"],
   };
 }
 
@@ -1326,17 +1596,25 @@ export function virtualMachinesProfileDeserializer(item: any): VirtualMachinesPr
 export interface ScaleProfile {
   /** Specifications on how to scale the VirtualMachines agent pool to a fixed size. */
   manual?: ManualScaleProfile[];
+  /** Specifications on how to auto-scale the VirtualMachines agent pool within a predefined size range. */
+  autoscale?: AutoScaleProfile;
 }
 
 export function scaleProfileSerializer(item: ScaleProfile): any {
   return {
     manual: !item["manual"] ? item["manual"] : manualScaleProfileArraySerializer(item["manual"]),
+    autoscale: !item["autoscale"]
+      ? item["autoscale"]
+      : autoScaleProfileSerializer(item["autoscale"]),
   };
 }
 
 export function scaleProfileDeserializer(item: any): ScaleProfile {
   return {
     manual: !item["manual"] ? item["manual"] : manualScaleProfileArrayDeserializer(item["manual"]),
+    autoscale: !item["autoscale"]
+      ? item["autoscale"]
+      : autoScaleProfileDeserializer(item["autoscale"]),
   };
 }
 
@@ -1368,6 +1646,28 @@ export function manualScaleProfileDeserializer(item: any): ManualScaleProfile {
   return {
     size: item["size"],
     count: item["count"],
+  };
+}
+
+/** Specifications on auto-scaling. */
+export interface AutoScaleProfile {
+  /** VM size that AKS will use when creating and scaling e.g. 'Standard_E4s_v3', 'Standard_E16s_v3' or 'Standard_D16s_v5'. */
+  size?: string;
+  /** The minimum number of nodes of the specified sizes. */
+  minCount?: number;
+  /** The maximum number of nodes of the specified sizes. */
+  maxCount?: number;
+}
+
+export function autoScaleProfileSerializer(item: AutoScaleProfile): any {
+  return { size: item["size"], minCount: item["minCount"], maxCount: item["maxCount"] };
+}
+
+export function autoScaleProfileDeserializer(item: any): AutoScaleProfile {
+  return {
+    size: item["size"],
+    minCount: item["minCount"],
+    maxCount: item["maxCount"],
   };
 }
 
@@ -1711,6 +2011,22 @@ export enum KnownLocalDNSServeStale {
  */
 export type LocalDNSServeStale = string;
 
+/** Settings to determine the node customization used to provision nodes in a pool. */
+export interface NodeCustomizationProfile {
+  /** The resource ID of the node customization resource to use. This can be a version. Omitting the version will use the latest version of the node customization. */
+  nodeCustomizationId?: string;
+}
+
+export function nodeCustomizationProfileSerializer(item: NodeCustomizationProfile): any {
+  return { nodeCustomizationId: item["nodeCustomizationId"] };
+}
+
+export function nodeCustomizationProfileDeserializer(item: any): NodeCustomizationProfile {
+  return {
+    nodeCustomizationId: item["nodeCustomizationId"],
+  };
+}
+
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
@@ -1939,6 +2255,10 @@ export interface AgentPoolUpgradeProfile extends ProxyResource {
   osType: OSType;
   /** List of orchestrator types and versions available for upgrade. */
   upgrades?: AgentPoolUpgradeProfilePropertiesUpgradesItem[];
+  /** List of components grouped by kubernetes major.minor version. */
+  componentsByReleases?: ComponentsByRelease[];
+  /** List of historical good versions for rollback operations. */
+  readonly recentlyUsedVersions?: AgentPoolRecentlyUsedVersion[];
   /** The latest AKS supported node image version. */
   latestNodeImageVersion?: string;
 }
@@ -1963,6 +2283,10 @@ export interface AgentPoolUpgradeProfileProperties {
   osType: OSType;
   /** List of orchestrator types and versions available for upgrade. */
   upgrades?: AgentPoolUpgradeProfilePropertiesUpgradesItem[];
+  /** List of components grouped by kubernetes major.minor version. */
+  componentsByReleases?: ComponentsByRelease[];
+  /** List of historical good versions for rollback operations. */
+  readonly recentlyUsedVersions?: AgentPoolRecentlyUsedVersion[];
   /** The latest AKS supported node image version. */
   latestNodeImageVersion?: string;
 }
@@ -1976,6 +2300,12 @@ export function agentPoolUpgradeProfilePropertiesDeserializer(
     upgrades: !item["upgrades"]
       ? item["upgrades"]
       : agentPoolUpgradeProfilePropertiesUpgradesItemArrayDeserializer(item["upgrades"]),
+    componentsByReleases: !item["componentsByReleases"]
+      ? item["componentsByReleases"]
+      : componentsByReleaseArrayDeserializer(item["componentsByReleases"]),
+    recentlyUsedVersions: !item["recentlyUsedVersions"]
+      ? item["recentlyUsedVersions"]
+      : agentPoolRecentlyUsedVersionArrayDeserializer(item["recentlyUsedVersions"]),
     latestNodeImageVersion: item["latestNodeImageVersion"],
   };
 }
@@ -1994,6 +2324,8 @@ export interface AgentPoolUpgradeProfilePropertiesUpgradesItem {
   kubernetesVersion?: string;
   /** Whether the Kubernetes version is currently in preview. */
   isPreview?: boolean;
+  /** Whether the Kubernetes version is out of support. */
+  isOutOfSupport?: boolean;
 }
 
 export function agentPoolUpgradeProfilePropertiesUpgradesItemDeserializer(
@@ -2002,6 +2334,80 @@ export function agentPoolUpgradeProfilePropertiesUpgradesItemDeserializer(
   return {
     kubernetesVersion: item["kubernetesVersion"],
     isPreview: item["isPreview"],
+    isOutOfSupport: item["isOutOfSupport"],
+  };
+}
+
+export function componentsByReleaseArrayDeserializer(result: Array<ComponentsByRelease>): any[] {
+  return result.map((item) => {
+    return componentsByReleaseDeserializer(item);
+  });
+}
+
+/** components of given Kubernetes version. */
+export interface ComponentsByRelease {
+  /** The Kubernetes version (major.minor). */
+  kubernetesVersion?: string;
+  /** components of current or upgraded Kubernetes version in the cluster. */
+  components?: Component[];
+}
+
+export function componentsByReleaseDeserializer(item: any): ComponentsByRelease {
+  return {
+    kubernetesVersion: item["kubernetesVersion"],
+    components: !item["components"]
+      ? item["components"]
+      : componentArrayDeserializer(item["components"]),
+  };
+}
+
+export function componentArrayDeserializer(result: Array<Component>): any[] {
+  return result.map((item) => {
+    return componentDeserializer(item);
+  });
+}
+
+/** Component information for a Kubernetes version. */
+export interface Component {
+  /** Component name. */
+  name?: string;
+  /** Component version. */
+  version?: string;
+  /** If upgraded component version contains breaking changes from the current version. To see a detailed description of what the breaking changes are, visit https://learn.microsoft.com/azure/aks/supported-kubernetes-versions?tabs=azure-cli#aks-components-breaking-changes-by-version. */
+  hasBreakingChanges?: boolean;
+}
+
+export function componentDeserializer(item: any): Component {
+  return {
+    name: item["name"],
+    version: item["version"],
+    hasBreakingChanges: item["hasBreakingChanges"],
+  };
+}
+
+export function agentPoolRecentlyUsedVersionArrayDeserializer(
+  result: Array<AgentPoolRecentlyUsedVersion>,
+): any[] {
+  return result.map((item) => {
+    return agentPoolRecentlyUsedVersionDeserializer(item);
+  });
+}
+
+/** A historical version that can be used for rollback operations. */
+export interface AgentPoolRecentlyUsedVersion {
+  /** The Kubernetes version (major.minor.patch) available for rollback. */
+  orchestratorVersion?: string;
+  /** The node image version available for rollback. */
+  nodeImageVersion?: string;
+  /** The timestamp when this version was last used. */
+  timestamp?: Date;
+}
+
+export function agentPoolRecentlyUsedVersionDeserializer(item: any): AgentPoolRecentlyUsedVersion {
+  return {
+    orchestratorVersion: item["orchestratorVersion"],
+    nodeImageVersion: item["nodeImageVersion"],
+    timestamp: !item["timestamp"] ? item["timestamp"] : new Date(item["timestamp"]),
   };
 }
 
@@ -2021,6 +2427,8 @@ export interface ManagedCluster extends TrackedResource {
   readonly provisioningState?: string;
   /** The Power State of the cluster. */
   readonly powerState?: PowerState;
+  /** CreationData to be used to specify the source Snapshot ID if the cluster will be created/upgraded using a snapshot. */
+  creationData?: CreationData;
   /** The max number of agent pools for the managed cluster. */
   readonly maxAgentPools?: number;
   /** The version of Kubernetes specified by the user. Both patch version <major.minor.patch> (e.g. 1.20.13) and <major.minor> (e.g. 1.20) are supported. When <major.minor> is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same <major.minor> once it has been created (e.g. 1.14.x -> 1.14) will not trigger an upgrade, even if a newer patch version is available. When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades must be performed sequentially by major version number. For example, upgrades between 1.14.x -> 1.15.x or 1.15.x -> 1.16.x are allowed, however 1.14.x -> 1.16.x is not allowed. See [upgrading an AKS cluster](https://docs.microsoft.com/azure/aks/upgrade-cluster) for more details. */
@@ -2059,6 +2467,8 @@ export interface ManagedCluster extends TrackedResource {
   enableRbac?: boolean;
   /** The support plan for the Managed Cluster. If unspecified, the default is 'KubernetesOfficial'. */
   supportPlan?: KubernetesSupportPlan;
+  /** Enable namespace as Azure resource. The default value is false. It can be enabled/disabled on creation and updating of the managed cluster. See [https://aka.ms/NamespaceARMResource](https://aka.ms/NamespaceARMResource) for more details on Namespace as a ARM Resource. */
+  enableNamespaceResources?: boolean;
   /** The network configuration profile. */
   networkProfile?: ContainerServiceNetworkProfile;
   /** The Azure Active Directory configuration. */
@@ -2105,6 +2515,12 @@ export interface ManagedCluster extends TrackedResource {
   bootstrapProfile?: ManagedClusterBootstrapProfile;
   /** AI toolchain operator settings that apply to the whole cluster. */
   aiToolchainOperatorProfile?: ManagedClusterAIToolchainOperatorProfile;
+  /** Profile of the pod scheduler configuration. */
+  schedulerProfile?: SchedulerProfile;
+  /** Settings for hosted system addons. For more information, see https://aka.ms/aks/automatic/systemcomponents. */
+  hostedSystemProfile?: ManagedClusterHostedSystemProfile;
+  /** Health monitor profile for the managed cluster. */
+  healthMonitorProfile?: ManagedClusterHealthMonitorProfile;
   /** Contains read-only information about the Managed Cluster. */
   status?: ManagedClusterStatus;
 }
@@ -2114,6 +2530,7 @@ export function managedClusterSerializer(item: ManagedCluster): any {
     tags: item["tags"],
     location: item["location"],
     properties: areAllPropsUndefined(item, [
+      "creationData",
       "kubernetesVersion",
       "dnsPrefix",
       "fqdnSubdomain",
@@ -2128,6 +2545,7 @@ export function managedClusterSerializer(item: ManagedCluster): any {
       "nodeResourceGroupProfile",
       "enableRBAC",
       "supportPlan",
+      "enableNamespaceResources",
       "networkProfile",
       "aadProfile",
       "autoUpgradeProfile",
@@ -2150,6 +2568,9 @@ export function managedClusterSerializer(item: ManagedCluster): any {
       "nodeProvisioningProfile",
       "bootstrapProfile",
       "aiToolchainOperatorProfile",
+      "schedulerProfile",
+      "hostedSystemProfile",
+      "healthMonitorProfile",
       "status",
     ])
       ? undefined
@@ -2198,6 +2619,8 @@ export interface ManagedClusterProperties {
   readonly provisioningState?: string;
   /** The Power State of the cluster. */
   readonly powerState?: PowerState;
+  /** CreationData to be used to specify the source Snapshot ID if the cluster will be created/upgraded using a snapshot. */
+  creationData?: CreationData;
   /** The max number of agent pools for the managed cluster. */
   readonly maxAgentPools?: number;
   /** The version of Kubernetes specified by the user. Both patch version <major.minor.patch> (e.g. 1.20.13) and <major.minor> (e.g. 1.20) are supported. When <major.minor> is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same <major.minor> once it has been created (e.g. 1.14.x -> 1.14) will not trigger an upgrade, even if a newer patch version is available. When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades must be performed sequentially by major version number. For example, upgrades between 1.14.x -> 1.15.x or 1.15.x -> 1.16.x are allowed, however 1.14.x -> 1.16.x is not allowed. See [upgrading an AKS cluster](https://docs.microsoft.com/azure/aks/upgrade-cluster) for more details. */
@@ -2236,6 +2659,8 @@ export interface ManagedClusterProperties {
   enableRbac?: boolean;
   /** The support plan for the Managed Cluster. If unspecified, the default is 'KubernetesOfficial'. */
   supportPlan?: KubernetesSupportPlan;
+  /** Enable namespace as Azure resource. The default value is false. It can be enabled/disabled on creation and updating of the managed cluster. See [https://aka.ms/NamespaceARMResource](https://aka.ms/NamespaceARMResource) for more details on Namespace as a ARM Resource. */
+  enableNamespaceResources?: boolean;
   /** The network configuration profile. */
   networkProfile?: ContainerServiceNetworkProfile;
   /** The Azure Active Directory configuration. */
@@ -2282,12 +2707,21 @@ export interface ManagedClusterProperties {
   bootstrapProfile?: ManagedClusterBootstrapProfile;
   /** AI toolchain operator settings that apply to the whole cluster. */
   aiToolchainOperatorProfile?: ManagedClusterAIToolchainOperatorProfile;
+  /** Profile of the pod scheduler configuration. */
+  schedulerProfile?: SchedulerProfile;
+  /** Settings for hosted system addons. For more information, see https://aka.ms/aks/automatic/systemcomponents. */
+  hostedSystemProfile?: ManagedClusterHostedSystemProfile;
+  /** Health monitor profile for the managed cluster. */
+  healthMonitorProfile?: ManagedClusterHealthMonitorProfile;
   /** Contains read-only information about the Managed Cluster. */
   status?: ManagedClusterStatus;
 }
 
 export function managedClusterPropertiesSerializer(item: ManagedClusterProperties): any {
   return {
+    creationData: !item["creationData"]
+      ? item["creationData"]
+      : creationDataSerializer(item["creationData"]),
     kubernetesVersion: item["kubernetesVersion"],
     dnsPrefix: item["dnsPrefix"],
     fqdnSubdomain: item["fqdnSubdomain"],
@@ -2318,6 +2752,7 @@ export function managedClusterPropertiesSerializer(item: ManagedClusterPropertie
       : managedClusterNodeResourceGroupProfileSerializer(item["nodeResourceGroupProfile"]),
     enableRBAC: item["enableRbac"],
     supportPlan: item["supportPlan"],
+    enableNamespaceResources: item["enableNamespaceResources"],
     networkProfile: !item["networkProfile"]
       ? item["networkProfile"]
       : containerServiceNetworkProfileSerializer(item["networkProfile"]),
@@ -2378,6 +2813,15 @@ export function managedClusterPropertiesSerializer(item: ManagedClusterPropertie
     aiToolchainOperatorProfile: !item["aiToolchainOperatorProfile"]
       ? item["aiToolchainOperatorProfile"]
       : managedClusterAIToolchainOperatorProfileSerializer(item["aiToolchainOperatorProfile"]),
+    schedulerProfile: !item["schedulerProfile"]
+      ? item["schedulerProfile"]
+      : schedulerProfileSerializer(item["schedulerProfile"]),
+    hostedSystemProfile: !item["hostedSystemProfile"]
+      ? item["hostedSystemProfile"]
+      : managedClusterHostedSystemProfileSerializer(item["hostedSystemProfile"]),
+    healthMonitorProfile: !item["healthMonitorProfile"]
+      ? item["healthMonitorProfile"]
+      : managedClusterHealthMonitorProfileSerializer(item["healthMonitorProfile"]),
     status: !item["status"] ? item["status"] : managedClusterStatusSerializer(item["status"]),
   };
 }
@@ -2388,6 +2832,9 @@ export function managedClusterPropertiesDeserializer(item: any): ManagedClusterP
     powerState: !item["powerState"]
       ? item["powerState"]
       : powerStateDeserializer(item["powerState"]),
+    creationData: !item["creationData"]
+      ? item["creationData"]
+      : creationDataDeserializer(item["creationData"]),
     maxAgentPools: item["maxAgentPools"],
     kubernetesVersion: item["kubernetesVersion"],
     currentKubernetesVersion: item["currentKubernetesVersion"],
@@ -2423,6 +2870,7 @@ export function managedClusterPropertiesDeserializer(item: any): ManagedClusterP
       : managedClusterNodeResourceGroupProfileDeserializer(item["nodeResourceGroupProfile"]),
     enableRbac: item["enableRBAC"],
     supportPlan: item["supportPlan"],
+    enableNamespaceResources: item["enableNamespaceResources"],
     networkProfile: !item["networkProfile"]
       ? item["networkProfile"]
       : containerServiceNetworkProfileDeserializer(item["networkProfile"]),
@@ -2484,6 +2932,15 @@ export function managedClusterPropertiesDeserializer(item: any): ManagedClusterP
     aiToolchainOperatorProfile: !item["aiToolchainOperatorProfile"]
       ? item["aiToolchainOperatorProfile"]
       : managedClusterAIToolchainOperatorProfileDeserializer(item["aiToolchainOperatorProfile"]),
+    schedulerProfile: !item["schedulerProfile"]
+      ? item["schedulerProfile"]
+      : schedulerProfileDeserializer(item["schedulerProfile"]),
+    hostedSystemProfile: !item["hostedSystemProfile"]
+      ? item["hostedSystemProfile"]
+      : managedClusterHostedSystemProfileDeserializer(item["hostedSystemProfile"]),
+    healthMonitorProfile: !item["healthMonitorProfile"]
+      ? item["healthMonitorProfile"]
+      : managedClusterHealthMonitorProfileDeserializer(item["healthMonitorProfile"]),
     status: !item["status"] ? item["status"] : managedClusterStatusDeserializer(item["status"]),
   };
 }
@@ -2534,9 +2991,14 @@ export function managedClusterAgentPoolProfileSerializer(
     type: item["type"],
     mode: item["mode"],
     orchestratorVersion: item["orchestratorVersion"],
+    upgradeStrategy: item["upgradeStrategy"],
+    enableOSDiskFullCaching: item["enableOSDiskFullCaching"],
     upgradeSettings: !item["upgradeSettings"]
       ? item["upgradeSettings"]
       : agentPoolUpgradeSettingsSerializer(item["upgradeSettings"]),
+    upgradeSettingsBlueGreen: !item["upgradeSettingsBlueGreen"]
+      ? item["upgradeSettingsBlueGreen"]
+      : agentPoolBlueGreenUpgradeSettingsSerializer(item["upgradeSettingsBlueGreen"]),
     powerState: !item["powerState"] ? item["powerState"] : powerStateSerializer(item["powerState"]),
     availabilityZones: !item["availabilityZones"]
       ? item["availabilityZones"]
@@ -2553,6 +3015,11 @@ export function managedClusterAgentPoolProfileSerializer(
     nodeTaints: !item["nodeTaints"]
       ? item["nodeTaints"]
       : item["nodeTaints"].map((p: any) => {
+          return p;
+        }),
+    nodeInitializationTaints: !item["nodeInitializationTaints"]
+      ? item["nodeInitializationTaints"]
+      : item["nodeInitializationTaints"].map((p: any) => {
           return p;
         }),
     proximityPlacementGroupID: item["proximityPlacementGroupID"],
@@ -2584,6 +3051,9 @@ export function managedClusterAgentPoolProfileSerializer(
     gatewayProfile: !item["gatewayProfile"]
       ? item["gatewayProfile"]
       : agentPoolGatewayProfileSerializer(item["gatewayProfile"]),
+    artifactStreamingProfile: !item["artifactStreamingProfile"]
+      ? item["artifactStreamingProfile"]
+      : agentPoolArtifactStreamingProfileSerializer(item["artifactStreamingProfile"]),
     virtualMachinesProfile: !item["virtualMachinesProfile"]
       ? item["virtualMachinesProfile"]
       : virtualMachinesProfileSerializer(item["virtualMachinesProfile"]),
@@ -2594,6 +3064,9 @@ export function managedClusterAgentPoolProfileSerializer(
     localDNSProfile: !item["localDNSProfile"]
       ? item["localDNSProfile"]
       : localDNSProfileSerializer(item["localDNSProfile"]),
+    nodeCustomizationProfile: !item["nodeCustomizationProfile"]
+      ? item["nodeCustomizationProfile"]
+      : nodeCustomizationProfileSerializer(item["nodeCustomizationProfile"]),
     name: item["name"],
   };
 }
@@ -2625,9 +3098,14 @@ export function managedClusterAgentPoolProfileDeserializer(
     orchestratorVersion: item["orchestratorVersion"],
     currentOrchestratorVersion: item["currentOrchestratorVersion"],
     nodeImageVersion: item["nodeImageVersion"],
+    upgradeStrategy: item["upgradeStrategy"],
+    enableOSDiskFullCaching: item["enableOSDiskFullCaching"],
     upgradeSettings: !item["upgradeSettings"]
       ? item["upgradeSettings"]
       : agentPoolUpgradeSettingsDeserializer(item["upgradeSettings"]),
+    upgradeSettingsBlueGreen: !item["upgradeSettingsBlueGreen"]
+      ? item["upgradeSettingsBlueGreen"]
+      : agentPoolBlueGreenUpgradeSettingsDeserializer(item["upgradeSettingsBlueGreen"]),
     provisioningState: item["provisioningState"],
     powerState: !item["powerState"]
       ? item["powerState"]
@@ -2653,6 +3131,11 @@ export function managedClusterAgentPoolProfileDeserializer(
     nodeTaints: !item["nodeTaints"]
       ? item["nodeTaints"]
       : item["nodeTaints"].map((p: any) => {
+          return p;
+        }),
+    nodeInitializationTaints: !item["nodeInitializationTaints"]
+      ? item["nodeInitializationTaints"]
+      : item["nodeInitializationTaints"].map((p: any) => {
           return p;
         }),
     proximityPlacementGroupID: item["proximityPlacementGroupID"],
@@ -2686,6 +3169,9 @@ export function managedClusterAgentPoolProfileDeserializer(
     gatewayProfile: !item["gatewayProfile"]
       ? item["gatewayProfile"]
       : agentPoolGatewayProfileDeserializer(item["gatewayProfile"]),
+    artifactStreamingProfile: !item["artifactStreamingProfile"]
+      ? item["artifactStreamingProfile"]
+      : agentPoolArtifactStreamingProfileDeserializer(item["artifactStreamingProfile"]),
     virtualMachinesProfile: !item["virtualMachinesProfile"]
       ? item["virtualMachinesProfile"]
       : virtualMachinesProfileDeserializer(item["virtualMachinesProfile"]),
@@ -2696,6 +3182,9 @@ export function managedClusterAgentPoolProfileDeserializer(
     localDNSProfile: !item["localDNSProfile"]
       ? item["localDNSProfile"]
       : localDNSProfileDeserializer(item["localDNSProfile"]),
+    nodeCustomizationProfile: !item["nodeCustomizationProfile"]
+      ? item["nodeCustomizationProfile"]
+      : nodeCustomizationProfileDeserializer(item["nodeCustomizationProfile"]),
     name: item["name"],
   };
 }
@@ -3310,6 +3799,10 @@ export interface ContainerServiceNetworkProfile {
   serviceCidrs?: string[];
   /** The IP families used to specify IP versions available to the cluster. IP families are used to determine single-stack or dual-stack clusters. For single-stack, the expected value is IPv4. For dual-stack, the expected values are IPv4 and IPv6. */
   ipFamilies?: IpFamily[];
+  /** Defines access to special link local addresses (Azure Instance Metadata Service, aka IMDS) for pods with hostNetwork=false. if not specified, the default is 'IMDS'. */
+  podLinkLocalAccess?: PodLinkLocalAccess;
+  /** Holds configuration customizations for kube-proxy. Any values not defined will use the kube-proxy defaulting behavior. See https://v<version>.docs.kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/ where <version> is represented by a <major version>-<minor version> string. Kubernetes version 1.23 would be '1-23'. */
+  kubeProxyConfig?: ContainerServiceNetworkProfileKubeProxyConfig;
 }
 
 export function containerServiceNetworkProfileSerializer(
@@ -3353,6 +3846,10 @@ export function containerServiceNetworkProfileSerializer(
       : item["ipFamilies"].map((p: any) => {
           return p;
         }),
+    podLinkLocalAccess: item["podLinkLocalAccess"],
+    kubeProxyConfig: !item["kubeProxyConfig"]
+      ? item["kubeProxyConfig"]
+      : containerServiceNetworkProfileKubeProxyConfigSerializer(item["kubeProxyConfig"]),
   };
 }
 
@@ -3397,6 +3894,10 @@ export function containerServiceNetworkProfileDeserializer(
       : item["ipFamilies"].map((p: any) => {
           return p;
         }),
+    podLinkLocalAccess: item["podLinkLocalAccess"],
+    kubeProxyConfig: !item["kubeProxyConfig"]
+      ? item["kubeProxyConfig"]
+      : containerServiceNetworkProfileKubeProxyConfigDeserializer(item["kubeProxyConfig"]),
   };
 }
 
@@ -3633,6 +4134,8 @@ export function advancedNetworkingSecurityTransitEncryptionDeserializer(
 export enum KnownTransitEncryptionType {
   /** Enable WireGuard encryption. Refer to https://docs.cilium.io/en/latest/security/network/encryption-wireguard/ on use cases and implementation details */
   WireGuard = "WireGuard",
+  /** Enables mTLS authentication and encryption for pod-to-pod traffic within the cluster. Refer to https://aka.ms/acnsciliummtls for relevant documentation. */
+  MTLS = "mTLS",
   /** Disable Transit encryption */
   None = "None",
 }
@@ -3643,6 +4146,7 @@ export enum KnownTransitEncryptionType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **WireGuard**: Enable WireGuard encryption. Refer to https:\//docs.cilium.io\/en\/latest\/security\/network\/encryption-wireguard\/ on use cases and implementation details \
+ * **mTLS**: Enables mTLS authentication and encryption for pod-to-pod traffic within the cluster. Refer to https:\//aka.ms\/acnsciliummtls for relevant documentation. \
  * **None**: Disable Transit encryption
  */
 export type TransitEncryptionType = string;
@@ -3691,6 +4195,8 @@ export enum KnownOutboundType {
   UserDefinedRouting = "userDefinedRouting",
   /** The AKS-managed NAT gateway is used for egress. */
   ManagedNATGateway = "managedNATGateway",
+  /** The AKS-managed NAT gateway V2 is used for egress. */
+  ManagedNATGatewayV2 = "managedNATGatewayV2",
   /** The user-assigned NAT gateway associated to the cluster subnet is used for egress. This is an advanced scenario and requires proper network configuration. */
   UserAssignedNATGateway = "userAssignedNATGateway",
   /** The AKS cluster is not set with any outbound-type. All AKS nodes follows Azure VM default outbound behavior. Please refer to https://azure.microsoft.com/en-us/updates/default-outbound-access-for-vms-in-azure-will-be-retired-transition-to-a-new-method-of-internet-access/ */
@@ -3705,6 +4211,7 @@ export enum KnownOutboundType {
  * **loadBalancer**: The load balancer is used for egress through an AKS assigned public IP. This supports Kubernetes services of type 'loadBalancer'. For more information see [outbound type loadbalancer](https:\//docs.microsoft.com\/azure\/aks\/egress-outboundtype#outbound-type-of-loadbalancer). \
  * **userDefinedRouting**: Egress paths must be defined by the user. This is an advanced scenario and requires proper network configuration. For more information see [outbound type userDefinedRouting](https:\//docs.microsoft.com\/azure\/aks\/egress-outboundtype#outbound-type-of-userdefinedrouting). \
  * **managedNATGateway**: The AKS-managed NAT gateway is used for egress. \
+ * **managedNATGatewayV2**: The AKS-managed NAT gateway V2 is used for egress. \
  * **userAssignedNATGateway**: The user-assigned NAT gateway associated to the cluster subnet is used for egress. This is an advanced scenario and requires proper network configuration. \
  * **none**: The AKS cluster is not set with any outbound-type. All AKS nodes follows Azure VM default outbound behavior. Please refer to https:\//azure.microsoft.com\/en-us\/updates\/default-outbound-access-for-vms-in-azure-will-be-retired-transition-to-a-new-method-of-internet-access\/
  */
@@ -3746,6 +4253,8 @@ export interface ManagedClusterLoadBalancerProfile {
   enableMultipleStandardLoadBalancers?: boolean;
   /** The type of the managed inbound Load Balancer BackendPool. */
   backendPoolType?: BackendPoolType;
+  /** The health probing behavior for External Traffic Policy Cluster services. */
+  clusterServiceLoadBalancerHealthProbeMode?: ClusterServiceLoadBalancerHealthProbeMode;
 }
 
 export function managedClusterLoadBalancerProfileSerializer(
@@ -3765,6 +4274,7 @@ export function managedClusterLoadBalancerProfileSerializer(
     idleTimeoutInMinutes: item["idleTimeoutInMinutes"],
     enableMultipleStandardLoadBalancers: item["enableMultipleStandardLoadBalancers"],
     backendPoolType: item["backendPoolType"],
+    clusterServiceLoadBalancerHealthProbeMode: item["clusterServiceLoadBalancerHealthProbeMode"],
   };
 }
 
@@ -3788,6 +4298,7 @@ export function managedClusterLoadBalancerProfileDeserializer(
     idleTimeoutInMinutes: item["idleTimeoutInMinutes"],
     enableMultipleStandardLoadBalancers: item["enableMultipleStandardLoadBalancers"],
     backendPoolType: item["backendPoolType"],
+    clusterServiceLoadBalancerHealthProbeMode: item["clusterServiceLoadBalancerHealthProbeMode"],
   };
 }
 
@@ -3912,12 +4423,38 @@ export enum KnownBackendPoolType {
  */
 export type BackendPoolType = string;
 
+/** The health probing behavior for External Traffic Policy Cluster services. */
+export enum KnownClusterServiceLoadBalancerHealthProbeMode {
+  /** Each External Traffic Policy Cluster service will have its own health probe targeting service nodePort. */
+  ServiceNodePort = "ServiceNodePort",
+  /** All External Traffic Policy Cluster services in a Standard Load Balancer will have a dedicated health probe targeting the backend nodes' kube-proxy health check port 10256. */
+  Shared = "Shared",
+}
+
+/**
+ * The health probing behavior for External Traffic Policy Cluster services. \
+ * {@link KnownClusterServiceLoadBalancerHealthProbeMode} can be used interchangeably with ClusterServiceLoadBalancerHealthProbeMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ServiceNodePort**: Each External Traffic Policy Cluster service will have its own health probe targeting service nodePort. \
+ * **Shared**: All External Traffic Policy Cluster services in a Standard Load Balancer will have a dedicated health probe targeting the backend nodes' kube-proxy health check port 10256.
+ */
+export type ClusterServiceLoadBalancerHealthProbeMode = string;
+
 /** Profile of the managed cluster NAT gateway. */
 export interface ManagedClusterNATGatewayProfile {
   /** Profile of the managed outbound IP resources of the cluster NAT gateway. */
   managedOutboundIPProfile?: ManagedClusterManagedOutboundIPProfile;
   /** The effective outbound IP resources of the cluster NAT gateway. */
   readonly effectiveOutboundIPs?: ResourceReference[];
+  /** Desired outbound IP Prefix resources for the managed NAT Gateway. Only compatible with NAT Gateway V2. */
+  outboundIPPrefixes?: {
+    publicIPPrefixes?: string[];
+  };
+  /** Desired outbound IP resources for the managed NAT Gateway. */
+  outboundIPs?: {
+    publicIPs?: string[];
+  };
   /** Desired outbound flow idle timeout in minutes. Allowed values are in the range of 4 to 120 (inclusive). The default value is 4 minutes. */
   idleTimeoutInMinutes?: number;
 }
@@ -3929,6 +4466,12 @@ export function managedClusterNATGatewayProfileSerializer(
     managedOutboundIPProfile: !item["managedOutboundIPProfile"]
       ? item["managedOutboundIPProfile"]
       : managedClusterManagedOutboundIPProfileSerializer(item["managedOutboundIPProfile"]),
+    outboundIPPrefixes: !item["outboundIPPrefixes"]
+      ? item["outboundIPPrefixes"]
+      : _managedClusterNATGatewayProfileOutboundIpPrefixesSerializer(item["outboundIPPrefixes"]),
+    outboundIPs: !item["outboundIPs"]
+      ? item["outboundIPs"]
+      : _managedClusterNATGatewayProfileOutboundIPsSerializer(item["outboundIPs"]),
     idleTimeoutInMinutes: item["idleTimeoutInMinutes"],
   };
 }
@@ -3943,6 +4486,12 @@ export function managedClusterNATGatewayProfileDeserializer(
     effectiveOutboundIPs: !item["effectiveOutboundIPs"]
       ? item["effectiveOutboundIPs"]
       : resourceReferenceArrayDeserializer(item["effectiveOutboundIPs"]),
+    outboundIPPrefixes: !item["outboundIPPrefixes"]
+      ? item["outboundIPPrefixes"]
+      : _managedClusterNATGatewayProfileOutboundIpPrefixesDeserializer(item["outboundIPPrefixes"]),
+    outboundIPs: !item["outboundIPs"]
+      ? item["outboundIPs"]
+      : _managedClusterNATGatewayProfileOutboundIPsDeserializer(item["outboundIPs"]),
     idleTimeoutInMinutes: item["idleTimeoutInMinutes"],
   };
 }
@@ -3951,12 +4500,14 @@ export function managedClusterNATGatewayProfileDeserializer(
 export interface ManagedClusterManagedOutboundIPProfile {
   /** The desired number of outbound IPs created/managed by Azure. Allowed values must be in the range of 1 to 16 (inclusive). The default value is 1. */
   count?: number;
+  /** The desired number of IPv6 outbound IPs created/managed by Azure. Allowed values must be in the range of 1 to 16 (inclusive). */
+  countIPv6?: number;
 }
 
 export function managedClusterManagedOutboundIPProfileSerializer(
   item: ManagedClusterManagedOutboundIPProfile,
 ): any {
-  return { count: item["count"] };
+  return { count: item["count"], countIPv6: item["countIPv6"] };
 }
 
 export function managedClusterManagedOutboundIPProfileDeserializer(
@@ -3964,6 +4515,67 @@ export function managedClusterManagedOutboundIPProfileDeserializer(
 ): ManagedClusterManagedOutboundIPProfile {
   return {
     count: item["count"],
+    countIPv6: item["countIPv6"],
+  };
+}
+
+/** model interface _ManagedClusterNATGatewayProfileOutboundIpPrefixes */
+export interface _ManagedClusterNATGatewayProfileOutboundIpPrefixes {
+  /** A list of public IP prefix resources. */
+  publicIPPrefixes?: string[];
+}
+
+export function _managedClusterNATGatewayProfileOutboundIpPrefixesSerializer(
+  item: _ManagedClusterNATGatewayProfileOutboundIpPrefixes,
+): any {
+  return {
+    publicIPPrefixes: !item["publicIPPrefixes"]
+      ? item["publicIPPrefixes"]
+      : item["publicIPPrefixes"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function _managedClusterNATGatewayProfileOutboundIpPrefixesDeserializer(
+  item: any,
+): _ManagedClusterNATGatewayProfileOutboundIpPrefixes {
+  return {
+    publicIPPrefixes: !item["publicIPPrefixes"]
+      ? item["publicIPPrefixes"]
+      : item["publicIPPrefixes"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** model interface _ManagedClusterNATGatewayProfileOutboundIPs */
+export interface _ManagedClusterNATGatewayProfileOutboundIPs {
+  /** A list of public IP resources. */
+  publicIPs?: string[];
+}
+
+export function _managedClusterNATGatewayProfileOutboundIPsSerializer(
+  item: _ManagedClusterNATGatewayProfileOutboundIPs,
+): any {
+  return {
+    publicIPs: !item["publicIPs"]
+      ? item["publicIPs"]
+      : item["publicIPs"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function _managedClusterNATGatewayProfileOutboundIPsDeserializer(
+  item: any,
+): _ManagedClusterNATGatewayProfileOutboundIPs {
+  return {
+    publicIPs: !item["publicIPs"]
+      ? item["publicIPs"]
+      : item["publicIPs"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -4004,6 +4616,131 @@ export enum KnownIpFamily {
  * **IPv6**: IPv6 family
  */
 export type IpFamily = string;
+
+/** Defines access to special link local addresses (Azure Instance Metadata Service, aka IMDS) for pods with hostNetwork=false. If not specified, the default is 'IMDS'. */
+export enum KnownPodLinkLocalAccess {
+  /** Pods with hostNetwork=false can access Azure Instance Metadata Service (IMDS) without restriction. */
+  Imds = "IMDS",
+  /** Pods with hostNetwork=false cannot access Azure Instance Metadata Service (IMDS). */
+  None = "None",
+}
+
+/**
+ * Defines access to special link local addresses (Azure Instance Metadata Service, aka IMDS) for pods with hostNetwork=false. If not specified, the default is 'IMDS'. \
+ * {@link KnownPodLinkLocalAccess} can be used interchangeably with PodLinkLocalAccess,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **IMDS**: Pods with hostNetwork=false can access Azure Instance Metadata Service (IMDS) without restriction. \
+ * **None**: Pods with hostNetwork=false cannot access Azure Instance Metadata Service (IMDS).
+ */
+export type PodLinkLocalAccess = string;
+
+/** Holds configuration customizations for kube-proxy. Any values not defined will use the kube-proxy defaulting behavior. See https://v<version>.docs.kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/ where <version> is represented by a <major version>-<minor version> string. Kubernetes version 1.23 would be '1-23'. */
+export interface ContainerServiceNetworkProfileKubeProxyConfig {
+  /** Whether to enable on kube-proxy on the cluster (if no 'kubeProxyConfig' exists, kube-proxy is enabled in AKS by default without these customizations). */
+  enabled?: boolean;
+  /** Specify which proxy mode to use ('IPTABLES', 'IPVS' or 'NFTABLES') */
+  mode?: Mode;
+  /** Holds configuration customizations for IPVS. May only be specified if 'mode' is set to 'IPVS'. */
+  ipvsConfig?: ContainerServiceNetworkProfileKubeProxyConfigIpvsConfig;
+}
+
+export function containerServiceNetworkProfileKubeProxyConfigSerializer(
+  item: ContainerServiceNetworkProfileKubeProxyConfig,
+): any {
+  return {
+    enabled: item["enabled"],
+    mode: item["mode"],
+    ipvsConfig: !item["ipvsConfig"]
+      ? item["ipvsConfig"]
+      : containerServiceNetworkProfileKubeProxyConfigIpvsConfigSerializer(item["ipvsConfig"]),
+  };
+}
+
+export function containerServiceNetworkProfileKubeProxyConfigDeserializer(
+  item: any,
+): ContainerServiceNetworkProfileKubeProxyConfig {
+  return {
+    enabled: item["enabled"],
+    mode: item["mode"],
+    ipvsConfig: !item["ipvsConfig"]
+      ? item["ipvsConfig"]
+      : containerServiceNetworkProfileKubeProxyConfigIpvsConfigDeserializer(item["ipvsConfig"]),
+  };
+}
+
+/** Specify which proxy mode to use ('IPTABLES', 'IPVS' or 'NFTABLES') */
+export enum KnownMode {
+  /** IPTables proxy mode */
+  Iptables = "IPTABLES",
+  /** IPVS proxy mode. Must be using Kubernetes version >= 1.22. */
+  Ipvs = "IPVS",
+  /** NFTables proxy mode. Must be using Kubernetes version >= 1.33. */
+  Nftables = "NFTABLES",
+}
+
+/**
+ * Specify which proxy mode to use ('IPTABLES', 'IPVS' or 'NFTABLES') \
+ * {@link KnownMode} can be used interchangeably with Mode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **IPTABLES**: IPTables proxy mode \
+ * **IPVS**: IPVS proxy mode. Must be using Kubernetes version >= 1.22. \
+ * **NFTABLES**: NFTables proxy mode. Must be using Kubernetes version >= 1.33.
+ */
+export type Mode = string;
+
+/** Holds configuration customizations for IPVS. May only be specified if 'mode' is set to 'IPVS'. */
+export interface ContainerServiceNetworkProfileKubeProxyConfigIpvsConfig {
+  /** IPVS scheduler, for more information please see http://www.linuxvirtualserver.org/docs/scheduling.html. */
+  scheduler?: IpvsScheduler;
+  /** The timeout value used for idle IPVS TCP sessions in seconds. Must be a positive integer value. */
+  tcpTimeoutSeconds?: number;
+  /** The timeout value used for IPVS TCP sessions after receiving a FIN in seconds. Must be a positive integer value. */
+  tcpFinTimeoutSeconds?: number;
+  /** The timeout value used for IPVS UDP packets in seconds. Must be a positive integer value. */
+  udpTimeoutSeconds?: number;
+}
+
+export function containerServiceNetworkProfileKubeProxyConfigIpvsConfigSerializer(
+  item: ContainerServiceNetworkProfileKubeProxyConfigIpvsConfig,
+): any {
+  return {
+    scheduler: item["scheduler"],
+    tcpTimeoutSeconds: item["tcpTimeoutSeconds"],
+    tcpFinTimeoutSeconds: item["tcpFinTimeoutSeconds"],
+    udpTimeoutSeconds: item["udpTimeoutSeconds"],
+  };
+}
+
+export function containerServiceNetworkProfileKubeProxyConfigIpvsConfigDeserializer(
+  item: any,
+): ContainerServiceNetworkProfileKubeProxyConfigIpvsConfig {
+  return {
+    scheduler: item["scheduler"],
+    tcpTimeoutSeconds: item["tcpTimeoutSeconds"],
+    tcpFinTimeoutSeconds: item["tcpFinTimeoutSeconds"],
+    udpTimeoutSeconds: item["udpTimeoutSeconds"],
+  };
+}
+
+/** IPVS scheduler, for more information please see http://www.linuxvirtualserver.org/docs/scheduling.html. */
+export enum KnownIpvsScheduler {
+  /** Round Robin */
+  RoundRobin = "RoundRobin",
+  /** Least Connection */
+  LeastConnection = "LeastConnection",
+}
+
+/**
+ * IPVS scheduler, for more information please see http://www.linuxvirtualserver.org/docs/scheduling.html. \
+ * {@link KnownIpvsScheduler} can be used interchangeably with IpvsScheduler,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **RoundRobin**: Round Robin \
+ * **LeastConnection**: Least Connection
+ */
+export type IpvsScheduler = string;
 
 /** AADProfile specifies attributes for Azure Active Directory integration. For more details see [managed AAD on AKS](https://docs.microsoft.com/azure/aks/managed-aad). */
 export interface ManagedClusterAADProfile {
@@ -4437,6 +5174,8 @@ export interface ManagedClusterHttpProxyConfig {
   httpsProxy?: string;
   /** The endpoints that should not go through proxy. */
   noProxy?: string[];
+  /** A read-only list of all endpoints for which traffic should not be sent to the proxy. This list is a superset of noProxy and values injected by AKS. */
+  readonly effectiveNoProxy?: string[];
   /** Alternative CA cert to use for connecting to proxy servers. */
   trustedCa?: string;
   /** Whether to enable HTTP proxy. If disabled, the specified proxy configuration will be not be set on pods and nodes. If not specified, the default is true. */
@@ -4468,6 +5207,11 @@ export function managedClusterHttpProxyConfigDeserializer(
       : item["noProxy"].map((p: any) => {
           return p;
         }),
+    effectiveNoProxy: !item["effectiveNoProxy"]
+      ? item["effectiveNoProxy"]
+      : item["effectiveNoProxy"].map((p: any) => {
+          return p;
+        }),
     trustedCa: item["trustedCa"],
     enabled: item["enabled"],
   };
@@ -4479,12 +5223,20 @@ export interface ManagedClusterSecurityProfile {
   defender?: ManagedClusterSecurityProfileDefender;
   /** Azure Key Vault [key management service](https://kubernetes.io/docs/tasks/administer-cluster/kms-provider/) settings for the security profile. */
   azureKeyVaultKms?: AzureKeyVaultKms;
+  /** Encryption at rest of Kubernetes resource objects. More information on this can be found under https://aka.ms/aks/kubernetesResourceObjectEncryption */
+  kubernetesResourceObjectEncryptionProfile?: KubernetesResourceObjectEncryptionProfile;
   /** Workload identity settings for the security profile. Workload identity enables Kubernetes applications to access Azure cloud resources securely with Azure AD. See https://aka.ms/aks/wi for more details. */
   workloadIdentity?: ManagedClusterSecurityProfileWorkloadIdentity;
   /** Image Cleaner settings for the security profile. */
   imageCleaner?: ManagedClusterSecurityProfileImageCleaner;
+  /** Image integrity is a feature that works with Azure Policy to verify image integrity by signature. This will not have any effect unless Azure Policy is applied to enforce image signatures. See https://aka.ms/aks/image-integrity for how to use this feature via policy. */
+  imageIntegrity?: ManagedClusterSecurityProfileImageIntegrity;
+  /** [Node Restriction](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#noderestriction) settings for the security profile. */
+  nodeRestriction?: ManagedClusterSecurityProfileNodeRestriction;
   /** A list of up to 10 base64 encoded CAs that will be added to the trust store on all nodes in the cluster. For more information see [Custom CA Trust Certificates](https://learn.microsoft.com/en-us/azure/aks/custom-certificate-authority). */
   customCATrustCertificates?: Uint8Array[];
+  /** Defines service account based image pull settings. */
+  serviceAccountImagePullProfile?: ServiceAccountImagePullProfile;
 }
 
 export function managedClusterSecurityProfileSerializer(item: ManagedClusterSecurityProfile): any {
@@ -4495,17 +5247,31 @@ export function managedClusterSecurityProfileSerializer(item: ManagedClusterSecu
     azureKeyVaultKms: !item["azureKeyVaultKms"]
       ? item["azureKeyVaultKms"]
       : azureKeyVaultKmsSerializer(item["azureKeyVaultKms"]),
+    kubernetesResourceObjectEncryptionProfile: !item["kubernetesResourceObjectEncryptionProfile"]
+      ? item["kubernetesResourceObjectEncryptionProfile"]
+      : kubernetesResourceObjectEncryptionProfileSerializer(
+          item["kubernetesResourceObjectEncryptionProfile"],
+        ),
     workloadIdentity: !item["workloadIdentity"]
       ? item["workloadIdentity"]
       : managedClusterSecurityProfileWorkloadIdentitySerializer(item["workloadIdentity"]),
     imageCleaner: !item["imageCleaner"]
       ? item["imageCleaner"]
       : managedClusterSecurityProfileImageCleanerSerializer(item["imageCleaner"]),
+    imageIntegrity: !item["imageIntegrity"]
+      ? item["imageIntegrity"]
+      : managedClusterSecurityProfileImageIntegritySerializer(item["imageIntegrity"]),
+    nodeRestriction: !item["nodeRestriction"]
+      ? item["nodeRestriction"]
+      : managedClusterSecurityProfileNodeRestrictionSerializer(item["nodeRestriction"]),
     customCATrustCertificates: !item["customCATrustCertificates"]
       ? item["customCATrustCertificates"]
       : item["customCATrustCertificates"].map((p: any) => {
           return uint8ArrayToString(p, "base64");
         }),
+    serviceAccountImagePullProfile: !item["serviceAccountImagePullProfile"]
+      ? item["serviceAccountImagePullProfile"]
+      : serviceAccountImagePullProfileSerializer(item["serviceAccountImagePullProfile"]),
   };
 }
 
@@ -4519,17 +5285,31 @@ export function managedClusterSecurityProfileDeserializer(
     azureKeyVaultKms: !item["azureKeyVaultKms"]
       ? item["azureKeyVaultKms"]
       : azureKeyVaultKmsDeserializer(item["azureKeyVaultKms"]),
+    kubernetesResourceObjectEncryptionProfile: !item["kubernetesResourceObjectEncryptionProfile"]
+      ? item["kubernetesResourceObjectEncryptionProfile"]
+      : kubernetesResourceObjectEncryptionProfileDeserializer(
+          item["kubernetesResourceObjectEncryptionProfile"],
+        ),
     workloadIdentity: !item["workloadIdentity"]
       ? item["workloadIdentity"]
       : managedClusterSecurityProfileWorkloadIdentityDeserializer(item["workloadIdentity"]),
     imageCleaner: !item["imageCleaner"]
       ? item["imageCleaner"]
       : managedClusterSecurityProfileImageCleanerDeserializer(item["imageCleaner"]),
+    imageIntegrity: !item["imageIntegrity"]
+      ? item["imageIntegrity"]
+      : managedClusterSecurityProfileImageIntegrityDeserializer(item["imageIntegrity"]),
+    nodeRestriction: !item["nodeRestriction"]
+      ? item["nodeRestriction"]
+      : managedClusterSecurityProfileNodeRestrictionDeserializer(item["nodeRestriction"]),
     customCATrustCertificates: !item["customCATrustCertificates"]
       ? item["customCATrustCertificates"]
       : item["customCATrustCertificates"].map((p: any) => {
           return typeof p === "string" ? stringToUint8Array(p, "base64") : p;
         }),
+    serviceAccountImagePullProfile: !item["serviceAccountImagePullProfile"]
+      ? item["serviceAccountImagePullProfile"]
+      : serviceAccountImagePullProfileDeserializer(item["serviceAccountImagePullProfile"]),
   };
 }
 
@@ -4539,6 +5319,8 @@ export interface ManagedClusterSecurityProfileDefender {
   logAnalyticsWorkspaceResourceId?: string;
   /** Microsoft Defender threat detection for Cloud settings for the security profile. */
   securityMonitoring?: ManagedClusterSecurityProfileDefenderSecurityMonitoring;
+  /** Microsoft Defender settings for security gating, validates container images eligibility for deployment based on Defender for Containers security findings. Using Admission Controller, it either audits or prevents the deployment of images that do not meet security standards. */
+  securityGating?: ManagedClusterSecurityProfileDefenderSecurityGating;
 }
 
 export function managedClusterSecurityProfileDefenderSerializer(
@@ -4551,6 +5333,9 @@ export function managedClusterSecurityProfileDefenderSerializer(
       : managedClusterSecurityProfileDefenderSecurityMonitoringSerializer(
           item["securityMonitoring"],
         ),
+    securityGating: !item["securityGating"]
+      ? item["securityGating"]
+      : managedClusterSecurityProfileDefenderSecurityGatingSerializer(item["securityGating"]),
   };
 }
 
@@ -4564,6 +5349,9 @@ export function managedClusterSecurityProfileDefenderDeserializer(
       : managedClusterSecurityProfileDefenderSecurityMonitoringDeserializer(
           item["securityMonitoring"],
         ),
+    securityGating: !item["securityGating"]
+      ? item["securityGating"]
+      : managedClusterSecurityProfileDefenderSecurityGatingDeserializer(item["securityGating"]),
   };
 }
 
@@ -4584,6 +5372,90 @@ export function managedClusterSecurityProfileDefenderSecurityMonitoringDeseriali
 ): ManagedClusterSecurityProfileDefenderSecurityMonitoring {
   return {
     enabled: item["enabled"],
+  };
+}
+
+/** Microsoft Defender settings for security gating, validates container images eligibility for deployment based on Defender for Containers security findings. Using Admission Controller, it either audits or prevents the deployment of images that do not meet security standards. */
+export interface ManagedClusterSecurityProfileDefenderSecurityGating {
+  /** Whether to enable Defender security gating. When enabled, the gating feature will scan container images and audit or block the deployment of images that do not meet security standards according to the configured security rules. */
+  enabled?: boolean;
+  /** List of identities that the admission controller will make use of in order to pull security artifacts from the registry. These are the same identities used by the cluster to pull container images. Each identity provided should have federated identity credential attached to it. */
+  identities?: ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem[];
+  /** In use only while registry access granted by secret rather than managed identity. Set whether to grant the Defender gating agent access to the cluster's secrets for pulling images from registries. If secret access is denied and the registry requires pull secrets, the add-on will not perform any image validation. Default value is false. */
+  allowSecretAccess?: boolean;
+}
+
+export function managedClusterSecurityProfileDefenderSecurityGatingSerializer(
+  item: ManagedClusterSecurityProfileDefenderSecurityGating,
+): any {
+  return {
+    enabled: item["enabled"],
+    identities: !item["identities"]
+      ? item["identities"]
+      : managedClusterSecurityProfileDefenderSecurityGatingIdentitiesItemArraySerializer(
+          item["identities"],
+        ),
+    allowSecretAccess: item["allowSecretAccess"],
+  };
+}
+
+export function managedClusterSecurityProfileDefenderSecurityGatingDeserializer(
+  item: any,
+): ManagedClusterSecurityProfileDefenderSecurityGating {
+  return {
+    enabled: item["enabled"],
+    identities: !item["identities"]
+      ? item["identities"]
+      : managedClusterSecurityProfileDefenderSecurityGatingIdentitiesItemArrayDeserializer(
+          item["identities"],
+        ),
+    allowSecretAccess: item["allowSecretAccess"],
+  };
+}
+
+export function managedClusterSecurityProfileDefenderSecurityGatingIdentitiesItemArraySerializer(
+  result: Array<ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem>,
+): any[] {
+  return result.map((item) => {
+    return managedClusterSecurityProfileDefenderSecurityGatingIdentitiesItemSerializer(item);
+  });
+}
+
+export function managedClusterSecurityProfileDefenderSecurityGatingIdentitiesItemArrayDeserializer(
+  result: Array<ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem>,
+): any[] {
+  return result.map((item) => {
+    return managedClusterSecurityProfileDefenderSecurityGatingIdentitiesItemDeserializer(item);
+  });
+}
+
+/** Identity information used by Defender security gating to access container registries. */
+export interface ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem {
+  /** The container registry for which the identity will be used; the identity specified here should have a federated identity credential attached to it. */
+  azureContainerRegistry?: string;
+  /** The identity object used to access the registry */
+  identity?: UserAssignedIdentity;
+}
+
+export function managedClusterSecurityProfileDefenderSecurityGatingIdentitiesItemSerializer(
+  item: ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem,
+): any {
+  return {
+    azureContainerRegistry: item["azureContainerRegistry"],
+    identity: !item["identity"]
+      ? item["identity"]
+      : userAssignedIdentitySerializer(item["identity"]),
+  };
+}
+
+export function managedClusterSecurityProfileDefenderSecurityGatingIdentitiesItemDeserializer(
+  item: any,
+): ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem {
+  return {
+    azureContainerRegistry: item["azureContainerRegistry"],
+    identity: !item["identity"]
+      ? item["identity"]
+      : userAssignedIdentityDeserializer(item["identity"]),
   };
 }
 
@@ -4635,6 +5507,44 @@ export enum KnownKeyVaultNetworkAccessTypes {
  */
 export type KeyVaultNetworkAccessTypes = string;
 
+/** Encryption at rest of Kubernetes resource objects using service-managed keys. More information on this can be found under https://aka.ms/aks/kubernetesResourceObjectEncryption. */
+export interface KubernetesResourceObjectEncryptionProfile {
+  /** Whether to enable encryption at rest of Kubernetes resource objects using service-managed keys. More information on this can be found under https://aka.ms/aks/kubernetesResourceObjectEncryption. */
+  infrastructureEncryption?: InfrastructureEncryption;
+}
+
+export function kubernetesResourceObjectEncryptionProfileSerializer(
+  item: KubernetesResourceObjectEncryptionProfile,
+): any {
+  return { infrastructureEncryption: item["infrastructureEncryption"] };
+}
+
+export function kubernetesResourceObjectEncryptionProfileDeserializer(
+  item: any,
+): KubernetesResourceObjectEncryptionProfile {
+  return {
+    infrastructureEncryption: item["infrastructureEncryption"],
+  };
+}
+
+/** Whether to enable encryption at rest of Kubernetes resource objects using service-managed keys. More information on this can be found under https://aka.ms/aks/kubernetesResourceObjectEncryption. */
+export enum KnownInfrastructureEncryption {
+  /** Encryption at rest of Kubernetes resource objects using service-managed keys is enabled. More information on this can be found under https://aka.ms/aks/kubernetesResourceObjectEncryption. */
+  Enabled = "Enabled",
+  /** Encryption at rest of Kubernetes resource objects using service-managed keys is disabled. More information on this can be found under https://aka.ms/aks/kubernetesResourceObjectEncryption. */
+  Disabled = "Disabled",
+}
+
+/**
+ * Whether to enable encryption at rest of Kubernetes resource objects using service-managed keys. More information on this can be found under https://aka.ms/aks/kubernetesResourceObjectEncryption. \
+ * {@link KnownInfrastructureEncryption} can be used interchangeably with InfrastructureEncryption,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: Encryption at rest of Kubernetes resource objects using service-managed keys is enabled. More information on this can be found under https:\//aka.ms\/aks\/kubernetesResourceObjectEncryption. \
+ * **Disabled**: Encryption at rest of Kubernetes resource objects using service-managed keys is disabled. More information on this can be found under https:\//aka.ms\/aks\/kubernetesResourceObjectEncryption.
+ */
+export type InfrastructureEncryption = string;
+
 /** Workload identity settings for the security profile. */
 export interface ManagedClusterSecurityProfileWorkloadIdentity {
   /** Whether to enable workload identity. */
@@ -4675,6 +5585,69 @@ export function managedClusterSecurityProfileImageCleanerDeserializer(
   return {
     enabled: item["enabled"],
     intervalHours: item["intervalHours"],
+  };
+}
+
+/** Image integrity related settings for the security profile. */
+export interface ManagedClusterSecurityProfileImageIntegrity {
+  /** Whether to enable image integrity. The default value is false. */
+  enabled?: boolean;
+}
+
+export function managedClusterSecurityProfileImageIntegritySerializer(
+  item: ManagedClusterSecurityProfileImageIntegrity,
+): any {
+  return { enabled: item["enabled"] };
+}
+
+export function managedClusterSecurityProfileImageIntegrityDeserializer(
+  item: any,
+): ManagedClusterSecurityProfileImageIntegrity {
+  return {
+    enabled: item["enabled"],
+  };
+}
+
+/** Node Restriction settings for the security profile. */
+export interface ManagedClusterSecurityProfileNodeRestriction {
+  /** Whether to enable Node Restriction */
+  enabled?: boolean;
+}
+
+export function managedClusterSecurityProfileNodeRestrictionSerializer(
+  item: ManagedClusterSecurityProfileNodeRestriction,
+): any {
+  return { enabled: item["enabled"] };
+}
+
+export function managedClusterSecurityProfileNodeRestrictionDeserializer(
+  item: any,
+): ManagedClusterSecurityProfileNodeRestriction {
+  return {
+    enabled: item["enabled"],
+  };
+}
+
+/** Profile for configuring image pull authentication to use service account scoped managed identities for authentication instead of node scoped managed identity (kubelet identity) for authentication to Azure Container Registry. For more information, refer to https://aka.ms/aks/identity-binding/acr-image-pull/docs */
+export interface ServiceAccountImagePullProfile {
+  /** Indicates whether service account based image pull is enabled, for which identity bindings are required for the managed identity to be used for authentication. For more information, refer to https://aka.ms/aks/identity-binding-docs. */
+  enabled?: boolean;
+  /** Optional. The default managed identity resource ID used for image pulls at the cluster level. When configured, this identity is used if a Pod’s service account does not explicitly specify an identity for pulling images. If not configured and no identity is specified at service account level, image will be pulled via anonymous authentication. */
+  defaultManagedIdentityId?: string;
+}
+
+export function serviceAccountImagePullProfileSerializer(
+  item: ServiceAccountImagePullProfile,
+): any {
+  return { enabled: item["enabled"], defaultManagedIdentityId: item["defaultManagedIdentityId"] };
+}
+
+export function serviceAccountImagePullProfileDeserializer(
+  item: any,
+): ServiceAccountImagePullProfile {
+  return {
+    enabled: item["enabled"],
+    defaultManagedIdentityId: item["defaultManagedIdentityId"],
   };
 }
 
@@ -4728,12 +5701,14 @@ export function managedClusterStorageProfileDeserializer(item: any): ManagedClus
 export interface ManagedClusterStorageProfileDiskCSIDriver {
   /** Whether to enable AzureDisk CSI Driver. The default value is true. */
   enabled?: boolean;
+  /** The version of AzureDisk CSI Driver. The default value is v1. */
+  version?: string;
 }
 
 export function managedClusterStorageProfileDiskCSIDriverSerializer(
   item: ManagedClusterStorageProfileDiskCSIDriver,
 ): any {
-  return { enabled: item["enabled"] };
+  return { enabled: item["enabled"], version: item["version"] };
 }
 
 export function managedClusterStorageProfileDiskCSIDriverDeserializer(
@@ -4741,6 +5716,7 @@ export function managedClusterStorageProfileDiskCSIDriverDeserializer(
 ): ManagedClusterStorageProfileDiskCSIDriver {
   return {
     enabled: item["enabled"],
+    version: item["version"],
   };
 }
 
@@ -4808,6 +5784,10 @@ export function managedClusterStorageProfileBlobCSIDriverDeserializer(
 export interface ManagedClusterIngressProfile {
   /** App Routing settings for the ingress profile. You can find an overview and onboarding guide for this feature at https://learn.microsoft.com/en-us/azure/aks/app-routing?tabs=default%2Cdeploy-app-default. */
   webAppRouting?: ManagedClusterIngressProfileWebAppRouting;
+  /** Settings for the managed Gateway API installation */
+  gatewayAPI?: ManagedClusterIngressProfileGatewayConfiguration;
+  /** Settings for the managed Application Load Balancer installation */
+  applicationLoadBalancer?: ManagedClusterIngressProfileApplicationLoadBalancer;
 }
 
 export function managedClusterIngressProfileSerializer(item: ManagedClusterIngressProfile): any {
@@ -4815,6 +5795,14 @@ export function managedClusterIngressProfileSerializer(item: ManagedClusterIngre
     webAppRouting: !item["webAppRouting"]
       ? item["webAppRouting"]
       : managedClusterIngressProfileWebAppRoutingSerializer(item["webAppRouting"]),
+    gatewayAPI: !item["gatewayAPI"]
+      ? item["gatewayAPI"]
+      : managedClusterIngressProfileGatewayConfigurationSerializer(item["gatewayAPI"]),
+    applicationLoadBalancer: !item["applicationLoadBalancer"]
+      ? item["applicationLoadBalancer"]
+      : managedClusterIngressProfileApplicationLoadBalancerSerializer(
+          item["applicationLoadBalancer"],
+        ),
   };
 }
 
@@ -4823,6 +5811,14 @@ export function managedClusterIngressProfileDeserializer(item: any): ManagedClus
     webAppRouting: !item["webAppRouting"]
       ? item["webAppRouting"]
       : managedClusterIngressProfileWebAppRoutingDeserializer(item["webAppRouting"]),
+    gatewayAPI: !item["gatewayAPI"]
+      ? item["gatewayAPI"]
+      : managedClusterIngressProfileGatewayConfigurationDeserializer(item["gatewayAPI"]),
+    applicationLoadBalancer: !item["applicationLoadBalancer"]
+      ? item["applicationLoadBalancer"]
+      : managedClusterIngressProfileApplicationLoadBalancerDeserializer(
+          item["applicationLoadBalancer"],
+        ),
   };
 }
 
@@ -4830,12 +5826,16 @@ export function managedClusterIngressProfileDeserializer(item: any): ManagedClus
 export interface ManagedClusterIngressProfileWebAppRouting {
   /** Whether to enable the Application Routing add-on. */
   enabled?: boolean;
+  /** Configurations for Gateway API providers to be used for managed ingress with App Routing. See https://aka.ms/k8s-gateway-api for more information on the Gateway API. */
+  gatewayAPIImplementations?: ManagedClusterWebAppRoutingGatewayAPIImplementations;
   /** Resource IDs of the DNS zones to be associated with the Application Routing add-on. Used only when Application Routing add-on is enabled. Public and private DNS zones can be in different resource groups, but all public DNS zones must be in the same resource group and all private DNS zones must be in the same resource group. */
   dnsZoneResourceIds?: string[];
   /** Configuration for the default NginxIngressController. See more at https://learn.microsoft.com/en-us/azure/aks/app-routing-nginx-configuration#the-default-nginx-ingress-controller. */
   nginx?: ManagedClusterIngressProfileNginx;
   /** Managed identity of the Application Routing add-on. This is the identity that should be granted permissions, for example, to manage the associated Azure DNS resource and get certificates from Azure Key Vault. See [this overview of the add-on](https://learn.microsoft.com/en-us/azure/aks/web-app-routing?tabs=with-osm) for more instructions. */
   readonly identity?: UserAssignedIdentity;
+  /** Configuration for the Default Domain. This is a unique, autogenerated domain that comes with a signed TLS Certificate allowing for secure HTTPS. See [the Default Domain documentation](https://aka.ms/aks/defaultdomain) for more instructions. */
+  defaultDomain?: ManagedClusterIngressDefaultDomainProfile;
 }
 
 export function managedClusterIngressProfileWebAppRoutingSerializer(
@@ -4843,6 +5843,11 @@ export function managedClusterIngressProfileWebAppRoutingSerializer(
 ): any {
   return {
     enabled: item["enabled"],
+    gatewayAPIImplementations: !item["gatewayAPIImplementations"]
+      ? item["gatewayAPIImplementations"]
+      : managedClusterWebAppRoutingGatewayAPIImplementationsSerializer(
+          item["gatewayAPIImplementations"],
+        ),
     dnsZoneResourceIds: !item["dnsZoneResourceIds"]
       ? item["dnsZoneResourceIds"]
       : item["dnsZoneResourceIds"].map((p: any) => {
@@ -4851,6 +5856,9 @@ export function managedClusterIngressProfileWebAppRoutingSerializer(
     nginx: !item["nginx"]
       ? item["nginx"]
       : managedClusterIngressProfileNginxSerializer(item["nginx"]),
+    defaultDomain: !item["defaultDomain"]
+      ? item["defaultDomain"]
+      : managedClusterIngressDefaultDomainProfileSerializer(item["defaultDomain"]),
   };
 }
 
@@ -4859,6 +5867,11 @@ export function managedClusterIngressProfileWebAppRoutingDeserializer(
 ): ManagedClusterIngressProfileWebAppRouting {
   return {
     enabled: item["enabled"],
+    gatewayAPIImplementations: !item["gatewayAPIImplementations"]
+      ? item["gatewayAPIImplementations"]
+      : managedClusterWebAppRoutingGatewayAPIImplementationsDeserializer(
+          item["gatewayAPIImplementations"],
+        ),
     dnsZoneResourceIds: !item["dnsZoneResourceIds"]
       ? item["dnsZoneResourceIds"]
       : item["dnsZoneResourceIds"].map((p: any) => {
@@ -4870,8 +5883,73 @@ export function managedClusterIngressProfileWebAppRoutingDeserializer(
     identity: !item["identity"]
       ? item["identity"]
       : userAssignedIdentityDeserializer(item["identity"]),
+    defaultDomain: !item["defaultDomain"]
+      ? item["defaultDomain"]
+      : managedClusterIngressDefaultDomainProfileDeserializer(item["defaultDomain"]),
   };
 }
+
+/** Configurations for Gateway API providers to be used for managed ingress with App Routing. */
+export interface ManagedClusterWebAppRoutingGatewayAPIImplementations {
+  /** Configuration for using a sidecar-less Istio control plane for managed ingress via the Gateway API with App Routing. See https://aka.ms/gateway-on-istio for information on using Istio for ingress via the Gateway API. */
+  appRoutingIstio?: ManagedClusterAppRoutingIstio;
+}
+
+export function managedClusterWebAppRoutingGatewayAPIImplementationsSerializer(
+  item: ManagedClusterWebAppRoutingGatewayAPIImplementations,
+): any {
+  return {
+    appRoutingIstio: !item["appRoutingIstio"]
+      ? item["appRoutingIstio"]
+      : managedClusterAppRoutingIstioSerializer(item["appRoutingIstio"]),
+  };
+}
+
+export function managedClusterWebAppRoutingGatewayAPIImplementationsDeserializer(
+  item: any,
+): ManagedClusterWebAppRoutingGatewayAPIImplementations {
+  return {
+    appRoutingIstio: !item["appRoutingIstio"]
+      ? item["appRoutingIstio"]
+      : managedClusterAppRoutingIstioDeserializer(item["appRoutingIstio"]),
+  };
+}
+
+/** Configuration for using a sidecar-less Istio control plane for managed ingress via the Gateway API with App Routing. See https://aka.ms/gateway-on-istio for information on using Istio for ingress via the Gateway API. */
+export interface ManagedClusterAppRoutingIstio {
+  /** Whether to enable Istio as a Gateway API implementation for managed ingress with App Routing. */
+  mode?: GatewayAPIIstioEnabled;
+}
+
+export function managedClusterAppRoutingIstioSerializer(item: ManagedClusterAppRoutingIstio): any {
+  return { mode: item["mode"] };
+}
+
+export function managedClusterAppRoutingIstioDeserializer(
+  item: any,
+): ManagedClusterAppRoutingIstio {
+  return {
+    mode: item["mode"],
+  };
+}
+
+/** Whether to enable Istio as a Gateway API implementation for managed ingress with App Routing. */
+export enum KnownGatewayAPIIstioEnabled {
+  /** Enables managed ingress via the Gateway API using a sidecar-less Istio controlplane. */
+  Enabled = "Enabled",
+  /** Disables the sidecar-less istio control plane for managed ingress via the Gateway API. */
+  Disabled = "Disabled",
+}
+
+/**
+ * Whether to enable Istio as a Gateway API implementation for managed ingress with App Routing. \
+ * {@link KnownGatewayAPIIstioEnabled} can be used interchangeably with GatewayAPIIstioEnabled,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: Enables managed ingress via the Gateway API using a sidecar-less Istio controlplane. \
+ * **Disabled**: Disables the sidecar-less istio control plane for managed ingress via the Gateway API.
+ */
+export type GatewayAPIIstioEnabled = string;
 
 /** Nginx ingress controller configuration for the managed cluster ingress profile. */
 export interface ManagedClusterIngressProfileNginx {
@@ -4917,12 +5995,100 @@ export enum KnownNginxIngressControllerType {
  */
 export type NginxIngressControllerType = string;
 
+/** Default domain profile for the managed cluster ingress profile. */
+export interface ManagedClusterIngressDefaultDomainProfile {
+  /** Whether to enable Default Domain. */
+  enabled?: boolean;
+  /** The unique fully qualified domain name assigned to the cluster. This will not change even if disabled then reenabled. */
+  readonly domainName?: string;
+}
+
+export function managedClusterIngressDefaultDomainProfileSerializer(
+  item: ManagedClusterIngressDefaultDomainProfile,
+): any {
+  return { enabled: item["enabled"] };
+}
+
+export function managedClusterIngressDefaultDomainProfileDeserializer(
+  item: any,
+): ManagedClusterIngressDefaultDomainProfile {
+  return {
+    enabled: item["enabled"],
+    domainName: item["domainName"],
+  };
+}
+
+/** Configuration for the ingress managed gateway. See https://aka.ms/k8s-gateway-api for more details. */
+export interface ManagedClusterIngressProfileGatewayConfiguration {
+  /** Configuration for the managed Gateway API installation. If not specified, the default is 'Disabled'. See https://aka.ms/k8s-gateway-api for more details. */
+  installation?: ManagedGatewayType;
+}
+
+export function managedClusterIngressProfileGatewayConfigurationSerializer(
+  item: ManagedClusterIngressProfileGatewayConfiguration,
+): any {
+  return { installation: item["installation"] };
+}
+
+export function managedClusterIngressProfileGatewayConfigurationDeserializer(
+  item: any,
+): ManagedClusterIngressProfileGatewayConfiguration {
+  return {
+    installation: item["installation"],
+  };
+}
+
+/** Configuration for the managed Gateway API installation. If not specified, the default is 'Disabled'. See https://aka.ms/k8s-gateway-api for more details. */
+export enum KnownManagedGatewayType {
+  /** Gateway API CRDs will not be reconciled on your cluster. */
+  Disabled = "Disabled",
+  /** The latest Gateway CRD bundle from the standard channel that is compatible with your Kubernetes version will be reconciled onto your cluster. See https://gateway-api.sigs.k8s.io/concepts/versioning/ for more details. */
+  Standard = "Standard",
+}
+
+/**
+ * Configuration for the managed Gateway API installation. If not specified, the default is 'Disabled'. See https://aka.ms/k8s-gateway-api for more details. \
+ * {@link KnownManagedGatewayType} can be used interchangeably with ManagedGatewayType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled**: Gateway API CRDs will not be reconciled on your cluster. \
+ * **Standard**: The latest Gateway CRD bundle from the standard channel that is compatible with your Kubernetes version will be reconciled onto your cluster. See https:\//gateway-api.sigs.k8s.io\/concepts\/versioning\/ for more details.
+ */
+export type ManagedGatewayType = string;
+
+/** Application Load Balancer settings for the ingress profile. */
+export interface ManagedClusterIngressProfileApplicationLoadBalancer {
+  /** Whether to enable Application Load Balancer. */
+  enabled?: boolean;
+  /** Managed identity of the Application Load Balancer add-on. This is the identity that should be granted permissions to manage the associated Application Gateway for Containers resource. */
+  readonly identity?: UserAssignedIdentity;
+}
+
+export function managedClusterIngressProfileApplicationLoadBalancerSerializer(
+  item: ManagedClusterIngressProfileApplicationLoadBalancer,
+): any {
+  return { enabled: item["enabled"] };
+}
+
+export function managedClusterIngressProfileApplicationLoadBalancerDeserializer(
+  item: any,
+): ManagedClusterIngressProfileApplicationLoadBalancer {
+  return {
+    enabled: item["enabled"],
+    identity: !item["identity"]
+      ? item["identity"]
+      : userAssignedIdentityDeserializer(item["identity"]),
+  };
+}
+
 /** PublicNetworkAccess of the managedCluster. Allow or deny public network access for AKS */
 export enum KnownPublicNetworkAccess {
   /** Inbound/Outbound to the managedCluster is allowed. */
   Enabled = "Enabled",
   /** Inbound traffic to managedCluster is disabled, traffic from managedCluster is allowed. */
   Disabled = "Disabled",
+  /** Inbound/Outbound traffic is managed by Microsoft.Network/NetworkSecurityPerimeters. */
+  SecuredByPerimeter = "SecuredByPerimeter",
 }
 
 /**
@@ -4931,7 +6097,8 @@ export enum KnownPublicNetworkAccess {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Enabled**: Inbound\/Outbound to the managedCluster is allowed. \
- * **Disabled**: Inbound traffic to managedCluster is disabled, traffic from managedCluster is allowed.
+ * **Disabled**: Inbound traffic to managedCluster is disabled, traffic from managedCluster is allowed. \
+ * **SecuredByPerimeter**: Inbound\/Outbound traffic is managed by Microsoft.Network\/NetworkSecurityPerimeters.
  */
 export type PublicNetworkAccess = string;
 
@@ -4997,12 +6164,14 @@ export function managedClusterWorkloadAutoScalerProfileKedaDeserializer(
 export interface ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler {
   /** Whether to enable VPA. Default value is false. */
   enabled: boolean;
+  /** Whether VPA add-on is enabled and configured to scale AKS-managed add-ons. */
+  addonAutoscaling?: AddonAutoscaling;
 }
 
 export function managedClusterWorkloadAutoScalerProfileVerticalPodAutoscalerSerializer(
   item: ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler,
 ): any {
-  return { enabled: item["enabled"] };
+  return { enabled: item["enabled"], addonAutoscaling: item["addonAutoscaling"] };
 }
 
 export function managedClusterWorkloadAutoScalerProfileVerticalPodAutoscalerDeserializer(
@@ -5010,13 +6179,36 @@ export function managedClusterWorkloadAutoScalerProfileVerticalPodAutoscalerDese
 ): ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler {
   return {
     enabled: item["enabled"],
+    addonAutoscaling: item["addonAutoscaling"],
   };
 }
+
+/** Whether VPA add-on is enabled and configured to scale AKS-managed add-ons. */
+export enum KnownAddonAutoscaling {
+  /** Feature to autoscale AKS-managed add-ons is enabled. The default VPA update mode is Initial mode. */
+  Enabled = "Enabled",
+  /** Feature to autoscale AKS-managed add-ons is disabled. */
+  Disabled = "Disabled",
+}
+
+/**
+ * Whether VPA add-on is enabled and configured to scale AKS-managed add-ons. \
+ * {@link KnownAddonAutoscaling} can be used interchangeably with AddonAutoscaling,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: Feature to autoscale AKS-managed add-ons is enabled. The default VPA update mode is Initial mode. \
+ * **Disabled**: Feature to autoscale AKS-managed add-ons is disabled.
+ */
+export type AddonAutoscaling = string;
 
 /** Azure Monitor addon profiles for monitoring the managed cluster. */
 export interface ManagedClusterAzureMonitorProfile {
   /** Metrics profile for the Azure Monitor managed service for Prometheus addon. Collect out-of-the-box Kubernetes infrastructure metrics to send to an Azure Monitor Workspace and configure additional scraping for custom targets. See aka.ms/AzureManagedPrometheus for an overview. */
   metrics?: ManagedClusterAzureMonitorProfileMetrics;
+  /** Azure Monitor Container Insights Profile for Kubernetes Events, Inventory and Container stdout & stderr logs etc. See aka.ms/AzureMonitorContainerInsights for an overview. */
+  containerInsights?: ManagedClusterAzureMonitorProfileContainerInsights;
+  /** Application Monitoring Profile for Kubernetes Application Container. Collects application logs, metrics and traces through auto-instrumentation of the application using Azure Monitor OpenTelemetry based SDKs. See aka.ms/AzureMonitorApplicationMonitoring for an overview. */
+  appMonitoring?: ManagedClusterAzureMonitorProfileAppMonitoring;
 }
 
 export function managedClusterAzureMonitorProfileSerializer(
@@ -5026,6 +6218,12 @@ export function managedClusterAzureMonitorProfileSerializer(
     metrics: !item["metrics"]
       ? item["metrics"]
       : managedClusterAzureMonitorProfileMetricsSerializer(item["metrics"]),
+    containerInsights: !item["containerInsights"]
+      ? item["containerInsights"]
+      : managedClusterAzureMonitorProfileContainerInsightsSerializer(item["containerInsights"]),
+    appMonitoring: !item["appMonitoring"]
+      ? item["appMonitoring"]
+      : managedClusterAzureMonitorProfileAppMonitoringSerializer(item["appMonitoring"]),
   };
 }
 
@@ -5036,6 +6234,12 @@ export function managedClusterAzureMonitorProfileDeserializer(
     metrics: !item["metrics"]
       ? item["metrics"]
       : managedClusterAzureMonitorProfileMetricsDeserializer(item["metrics"]),
+    containerInsights: !item["containerInsights"]
+      ? item["containerInsights"]
+      : managedClusterAzureMonitorProfileContainerInsightsDeserializer(item["containerInsights"]),
+    appMonitoring: !item["appMonitoring"]
+      ? item["appMonitoring"]
+      : managedClusterAzureMonitorProfileAppMonitoringDeserializer(item["appMonitoring"]),
   };
 }
 
@@ -5092,6 +6296,186 @@ export function managedClusterAzureMonitorProfileKubeStateMetricsDeserializer(
   return {
     metricLabelsAllowlist: item["metricLabelsAllowlist"],
     metricAnnotationsAllowList: item["metricAnnotationsAllowList"],
+  };
+}
+
+/** Azure Monitor Container Insights Profile for Kubernetes Events, Inventory and Container stdout & stderr logs etc. See aka.ms/AzureMonitorContainerInsights for an overview. */
+export interface ManagedClusterAzureMonitorProfileContainerInsights {
+  /** Indicates if Azure Monitor Container Insights Logs Addon is enabled or not. */
+  enabled?: boolean;
+  /** Fully Qualified ARM Resource Id of Azure Log Analytics Workspace for storing Azure Monitor Container Insights Logs. */
+  logAnalyticsWorkspaceResourceId?: string;
+  /** The syslog host port. If not specified, the default port is 28330. */
+  syslogPort?: number;
+  /** Indicates whether custom metrics collection has to be disabled or not. If not specified the default is false. No custom metrics will be emitted if this field is false but the container insights enabled field is false */
+  disableCustomMetrics?: boolean;
+  /** Indicates whether prometheus metrics scraping is disabled or not. If not specified the default is false. No prometheus metrics will be emitted if this field is false but the container insights enabled field is false */
+  disablePrometheusMetricsScraping?: boolean;
+  /** Configures container network logs ingestion with Azure Monitor. Which network logs to ingest is controlled by the CRD found in the following links. No network logs are ingested by default. More information on container network logs can be found at https://aka.ms/ContainerNetworkLogsDoc. More information on configuring container network log can be found at https://aka.ms/acns/howtoenablecnl. If not specified, the default is Disabled. */
+  containerNetworkLogs?: ContainerNetworkLogs;
+}
+
+export function managedClusterAzureMonitorProfileContainerInsightsSerializer(
+  item: ManagedClusterAzureMonitorProfileContainerInsights,
+): any {
+  return {
+    enabled: item["enabled"],
+    logAnalyticsWorkspaceResourceId: item["logAnalyticsWorkspaceResourceId"],
+    syslogPort: item["syslogPort"],
+    disableCustomMetrics: item["disableCustomMetrics"],
+    disablePrometheusMetricsScraping: item["disablePrometheusMetricsScraping"],
+    containerNetworkLogs: item["containerNetworkLogs"],
+  };
+}
+
+export function managedClusterAzureMonitorProfileContainerInsightsDeserializer(
+  item: any,
+): ManagedClusterAzureMonitorProfileContainerInsights {
+  return {
+    enabled: item["enabled"],
+    logAnalyticsWorkspaceResourceId: item["logAnalyticsWorkspaceResourceId"],
+    syslogPort: item["syslogPort"],
+    disableCustomMetrics: item["disableCustomMetrics"],
+    disablePrometheusMetricsScraping: item["disablePrometheusMetricsScraping"],
+    containerNetworkLogs: item["containerNetworkLogs"],
+  };
+}
+
+/** Configures container network logs ingestion with Azure Monitor. Which network logs to ingest is controlled by the CRD found in the following links. No network logs are ingested by default. More information on container network logs can be found at https://aka.ms/ContainerNetworkLogsDoc. More information on configuring container network log can be found at https://aka.ms/acns/howtoenablecnl. If not specified, the default is Disabled. */
+export enum KnownContainerNetworkLogs {
+  /** Azure monitor ingestion of container network logs is disabled */
+  Disabled = "Disabled",
+  /** Azure monitor ingestion of container network logs is enabled */
+  Enabled = "Enabled",
+}
+
+/**
+ * Configures container network logs ingestion with Azure Monitor. Which network logs to ingest is controlled by the CRD found in the following links. No network logs are ingested by default. More information on container network logs can be found at https://aka.ms/ContainerNetworkLogsDoc. More information on configuring container network log can be found at https://aka.ms/acns/howtoenablecnl. If not specified, the default is Disabled. \
+ * {@link KnownContainerNetworkLogs} can be used interchangeably with ContainerNetworkLogs,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled**: Azure monitor ingestion of container network logs is disabled \
+ * **Enabled**: Azure monitor ingestion of container network logs is enabled
+ */
+export type ContainerNetworkLogs = string;
+
+/** Application Monitoring Profile for Kubernetes Application Container. Collects application logs, metrics and traces through auto-instrumentation of the application using Azure Monitor OpenTelemetry based SDKs. See aka.ms/AzureMonitorApplicationMonitoring for an overview. */
+export interface ManagedClusterAzureMonitorProfileAppMonitoring {
+  /** Application Monitoring Auto Instrumentation for Kubernetes Application Container. Deploys web hook to auto-instrument Azure Monitor OpenTelemetry based SDKs to collect OpenTelemetry metrics, logs and traces of the application. See aka.ms/AzureMonitorApplicationMonitoring for an overview. */
+  autoInstrumentation?: ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation;
+  /** Application Monitoring Open Telemetry Metrics Profile for Kubernetes Application Container Metrics. Collects OpenTelemetry metrics of the application using Azure Monitor OpenTelemetry based SDKs. See aka.ms/AzureMonitorApplicationMonitoring for an overview. */
+  openTelemetryMetrics?: ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics;
+  /** Application Monitoring Open Telemetry Metrics Profile for Kubernetes Application Container Logs and Traces. Collects OpenTelemetry logs and traces of the application using Azure Monitor OpenTelemetry based SDKs. See aka.ms/AzureMonitorApplicationMonitoring for an overview. */
+  openTelemetryLogs?: ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs;
+}
+
+export function managedClusterAzureMonitorProfileAppMonitoringSerializer(
+  item: ManagedClusterAzureMonitorProfileAppMonitoring,
+): any {
+  return {
+    autoInstrumentation: !item["autoInstrumentation"]
+      ? item["autoInstrumentation"]
+      : managedClusterAzureMonitorProfileAppMonitoringAutoInstrumentationSerializer(
+          item["autoInstrumentation"],
+        ),
+    openTelemetryMetrics: !item["openTelemetryMetrics"]
+      ? item["openTelemetryMetrics"]
+      : managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetricsSerializer(
+          item["openTelemetryMetrics"],
+        ),
+    openTelemetryLogs: !item["openTelemetryLogs"]
+      ? item["openTelemetryLogs"]
+      : managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsSerializer(
+          item["openTelemetryLogs"],
+        ),
+  };
+}
+
+export function managedClusterAzureMonitorProfileAppMonitoringDeserializer(
+  item: any,
+): ManagedClusterAzureMonitorProfileAppMonitoring {
+  return {
+    autoInstrumentation: !item["autoInstrumentation"]
+      ? item["autoInstrumentation"]
+      : managedClusterAzureMonitorProfileAppMonitoringAutoInstrumentationDeserializer(
+          item["autoInstrumentation"],
+        ),
+    openTelemetryMetrics: !item["openTelemetryMetrics"]
+      ? item["openTelemetryMetrics"]
+      : managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetricsDeserializer(
+          item["openTelemetryMetrics"],
+        ),
+    openTelemetryLogs: !item["openTelemetryLogs"]
+      ? item["openTelemetryLogs"]
+      : managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsDeserializer(
+          item["openTelemetryLogs"],
+        ),
+  };
+}
+
+/** Application Monitoring Auto Instrumentation for Kubernetes Application Container. Deploys web hook to auto-instrument Azure Monitor OpenTelemetry based SDKs to collect OpenTelemetry metrics, logs and traces of the application. See aka.ms/AzureMonitorApplicationMonitoring for an overview. */
+export interface ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation {
+  /** Indicates if Application Monitoring Auto Instrumentation is enabled or not. */
+  enabled?: boolean;
+}
+
+export function managedClusterAzureMonitorProfileAppMonitoringAutoInstrumentationSerializer(
+  item: ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation,
+): any {
+  return { enabled: item["enabled"] };
+}
+
+export function managedClusterAzureMonitorProfileAppMonitoringAutoInstrumentationDeserializer(
+  item: any,
+): ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation {
+  return {
+    enabled: item["enabled"],
+  };
+}
+
+/** Application Monitoring Open Telemetry Metrics Profile for Kubernetes Application Container Metrics. Collects OpenTelemetry metrics of the application using Azure Monitor OpenTelemetry based SDKs. See aka.ms/AzureMonitorApplicationMonitoring for an overview. */
+export interface ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics {
+  /** Indicates if Application Monitoring Open Telemetry Metrics is enabled or not. */
+  enabled?: boolean;
+  /** The Open Telemetry host port for Open Telemetry metrics. If not specified, the default port is 28333. */
+  port?: number;
+}
+
+export function managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetricsSerializer(
+  item: ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics,
+): any {
+  return { enabled: item["enabled"], port: item["port"] };
+}
+
+export function managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetricsDeserializer(
+  item: any,
+): ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics {
+  return {
+    enabled: item["enabled"],
+    port: item["port"],
+  };
+}
+
+/** Application Monitoring Open Telemetry Metrics Profile for Kubernetes Application Container Logs and Traces. Collects OpenTelemetry logs and traces of the application using Azure Monitor OpenTelemetry based SDKs. See aka.ms/AzureMonitorApplicationMonitoring for an overview. */
+export interface ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs {
+  /** Indicates if Application Monitoring Open Telemetry Logs and traces is enabled or not. */
+  enabled?: boolean;
+  /** The Open Telemetry host port for Open Telemetry logs and traces. If not specified, the default port is 28331. */
+  port?: number;
+}
+
+export function managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsSerializer(
+  item: ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs,
+): any {
+  return { enabled: item["enabled"], port: item["port"] };
+}
+
+export function managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsDeserializer(
+  item: any,
+): ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs {
+  return {
+    enabled: item["enabled"],
+    port: item["port"],
   };
 }
 
@@ -5538,6 +6922,136 @@ export function managedClusterAIToolchainOperatorProfileDeserializer(
 ): ManagedClusterAIToolchainOperatorProfile {
   return {
     enabled: item["enabled"],
+  };
+}
+
+/** The pod scheduler profile for the cluster. */
+export interface SchedulerProfile {
+  /** Mapping of each scheduler instance to its profile. */
+  schedulerInstanceProfiles?: SchedulerProfileSchedulerInstanceProfiles;
+}
+
+export function schedulerProfileSerializer(item: SchedulerProfile): any {
+  return {
+    schedulerInstanceProfiles: !item["schedulerInstanceProfiles"]
+      ? item["schedulerInstanceProfiles"]
+      : schedulerProfileSchedulerInstanceProfilesSerializer(item["schedulerInstanceProfiles"]),
+  };
+}
+
+export function schedulerProfileDeserializer(item: any): SchedulerProfile {
+  return {
+    schedulerInstanceProfiles: !item["schedulerInstanceProfiles"]
+      ? item["schedulerInstanceProfiles"]
+      : schedulerProfileSchedulerInstanceProfilesDeserializer(item["schedulerInstanceProfiles"]),
+  };
+}
+
+/** Mapping of each scheduler instance to its profile. */
+export interface SchedulerProfileSchedulerInstanceProfiles {
+  /** The scheduler profile for the upstream scheduler instance. */
+  upstream?: SchedulerInstanceProfile;
+}
+
+export function schedulerProfileSchedulerInstanceProfilesSerializer(
+  item: SchedulerProfileSchedulerInstanceProfiles,
+): any {
+  return {
+    upstream: !item["upstream"]
+      ? item["upstream"]
+      : schedulerInstanceProfileSerializer(item["upstream"]),
+  };
+}
+
+export function schedulerProfileSchedulerInstanceProfilesDeserializer(
+  item: any,
+): SchedulerProfileSchedulerInstanceProfiles {
+  return {
+    upstream: !item["upstream"]
+      ? item["upstream"]
+      : schedulerInstanceProfileDeserializer(item["upstream"]),
+  };
+}
+
+/** The scheduler profile for a single scheduler instance. */
+export interface SchedulerInstanceProfile {
+  /** The config customization mode for this scheduler instance. */
+  schedulerConfigMode?: SchedulerConfigMode;
+}
+
+export function schedulerInstanceProfileSerializer(item: SchedulerInstanceProfile): any {
+  return { schedulerConfigMode: item["schedulerConfigMode"] };
+}
+
+export function schedulerInstanceProfileDeserializer(item: any): SchedulerInstanceProfile {
+  return {
+    schedulerConfigMode: item["schedulerConfigMode"],
+  };
+}
+
+/** The config customization mode for this scheduler instance. */
+export enum KnownSchedulerConfigMode {
+  /** No config customization. Use default configuration. */
+  Default = "Default",
+  /** Enable config customization. Customer can specify scheduler configuration via a CRD. See aka.ms/aks/scheduler-crd for details. */
+  ManagedByCRD = "ManagedByCRD",
+}
+
+/**
+ * The config customization mode for this scheduler instance. \
+ * {@link KnownSchedulerConfigMode} can be used interchangeably with SchedulerConfigMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default**: No config customization. Use default configuration. \
+ * **ManagedByCRD**: Enable config customization. Customer can specify scheduler configuration via a CRD. See aka.ms\/aks\/scheduler-crd for details.
+ */
+export type SchedulerConfigMode = string;
+
+/** Settings for hosted system addons. */
+export interface ManagedClusterHostedSystemProfile {
+  /** Whether to enable hosted system addons for the cluster. */
+  enabled?: boolean;
+}
+
+export function managedClusterHostedSystemProfileSerializer(
+  item: ManagedClusterHostedSystemProfile,
+): any {
+  return { enabled: item["enabled"] };
+}
+
+export function managedClusterHostedSystemProfileDeserializer(
+  item: any,
+): ManagedClusterHostedSystemProfile {
+  return {
+    enabled: item["enabled"],
+  };
+}
+
+/** Health monitor profile for the managed cluster. */
+export interface ManagedClusterHealthMonitorProfile {
+  /** Whether to enable continuous control plane and addon monitor. */
+  enableContinuousControlPlaneAndAddonMonitor?: boolean;
+  /** Whether to enable on-demand monitor. */
+  enableOnDemandMonitor?: boolean;
+}
+
+export function managedClusterHealthMonitorProfileSerializer(
+  item: ManagedClusterHealthMonitorProfile,
+): any {
+  return {
+    enableContinuousControlPlaneAndAddonMonitor:
+      item["enableContinuousControlPlaneAndAddonMonitor"],
+    enableOnDemandMonitor: item["enableOnDemandMonitor"],
+  };
+}
+
+export function managedClusterHealthMonitorProfileDeserializer(
+  item: any,
+): ManagedClusterHealthMonitorProfile {
+  return {
+    enableContinuousControlPlaneAndAddonMonitor:
+      item["enableContinuousControlPlaneAndAddonMonitor"],
+    enableOnDemandMonitor: item["enableOnDemandMonitor"],
   };
 }
 
@@ -6116,6 +7630,24 @@ export function endpointDetailDeserializer(item: any): EndpointDetail {
   };
 }
 
+/** The names of the load balancers to rebalance. If set to empty, all load balancers will be rebalanced. */
+export interface RebalanceLoadBalancersRequestBody {
+  /** The load balancer names list. */
+  loadBalancerNames?: string[];
+}
+
+export function rebalanceLoadBalancersRequestBodySerializer(
+  item: RebalanceLoadBalancersRequestBody,
+): any {
+  return {
+    loadBalancerNames: !item["loadBalancerNames"]
+      ? item["loadBalancerNames"]
+      : item["loadBalancerNames"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
 /** The list of available upgrades for compute pools. */
 export interface ManagedClusterUpgradeProfile extends ProxyResource {
   /** The list of available upgrade versions for the control plane. */
@@ -6163,6 +7695,8 @@ export interface ManagedClusterPoolUpgradeProfile {
   osType: OSType;
   /** List of orchestrator types and versions available for upgrade. */
   upgrades?: ManagedClusterPoolUpgradeProfileUpgradesItem[];
+  /** List of components grouped by kubernetes major.minor version. */
+  componentsByReleases?: ComponentsByRelease[];
 }
 
 export function managedClusterPoolUpgradeProfileDeserializer(
@@ -6175,6 +7709,9 @@ export function managedClusterPoolUpgradeProfileDeserializer(
     upgrades: !item["upgrades"]
       ? item["upgrades"]
       : managedClusterPoolUpgradeProfileUpgradesItemArrayDeserializer(item["upgrades"]),
+    componentsByReleases: !item["componentsByReleases"]
+      ? item["componentsByReleases"]
+      : componentsByReleaseArrayDeserializer(item["componentsByReleases"]),
   };
 }
 
@@ -6192,6 +7729,8 @@ export interface ManagedClusterPoolUpgradeProfileUpgradesItem {
   kubernetesVersion?: string;
   /** Whether the Kubernetes version is currently in preview. */
   isPreview?: boolean;
+  /** Whether the Kubernetes version is out of support. */
+  isOutOfSupport?: boolean;
 }
 
 export function managedClusterPoolUpgradeProfileUpgradesItemDeserializer(
@@ -6200,6 +7739,7 @@ export function managedClusterPoolUpgradeProfileUpgradesItemDeserializer(
   return {
     kubernetesVersion: item["kubernetesVersion"],
     isPreview: item["isPreview"],
+    isOutOfSupport: item["isOutOfSupport"],
   };
 }
 
@@ -6208,6 +7748,162 @@ export function managedClusterPoolUpgradeProfileArrayDeserializer(
 ): any[] {
   return result.map((item) => {
     return managedClusterPoolUpgradeProfileDeserializer(item);
+  });
+}
+
+/** Available Guardrails Version */
+export interface GuardrailsAvailableVersion extends ProxyResource {
+  /** Whether the version is default or not and support info. */
+  properties: GuardrailsAvailableVersionsProperties;
+}
+
+export function guardrailsAvailableVersionDeserializer(item: any): GuardrailsAvailableVersion {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: guardrailsAvailableVersionsPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Whether the version is default or not and support info. */
+export interface GuardrailsAvailableVersionsProperties {
+  /** Whether this is the default version. */
+  readonly isDefaultVersion?: boolean;
+  /** Whether the version is preview or stable. */
+  readonly support?: GuardrailsSupport;
+}
+
+export function guardrailsAvailableVersionsPropertiesDeserializer(
+  item: any,
+): GuardrailsAvailableVersionsProperties {
+  return {
+    isDefaultVersion: item["isDefaultVersion"],
+    support: item["support"],
+  };
+}
+
+/** Whether the version is preview or stable. */
+export enum KnownGuardrailsSupport {
+  /** The version is preview. It is not recommended to use preview versions on critical production clusters. The preview version may not support all use-cases. */
+  Preview = "Preview",
+  /** The version is stable and can be used on critical production clusters. */
+  Stable = "Stable",
+}
+
+/**
+ * Whether the version is preview or stable. \
+ * {@link KnownGuardrailsSupport} can be used interchangeably with GuardrailsSupport,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Preview**: The version is preview. It is not recommended to use preview versions on critical production clusters. The preview version may not support all use-cases. \
+ * **Stable**: The version is stable and can be used on critical production clusters.
+ */
+export type GuardrailsSupport = string;
+
+/** Hold values properties, which is array of GuardrailsVersions */
+export interface _GuardrailsAvailableVersionsList {
+  /** The GuardrailsAvailableVersion items on this page */
+  value: GuardrailsAvailableVersion[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _guardrailsAvailableVersionsListDeserializer(
+  item: any,
+): _GuardrailsAvailableVersionsList {
+  return {
+    value: guardrailsAvailableVersionArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function guardrailsAvailableVersionArrayDeserializer(
+  result: Array<GuardrailsAvailableVersion>,
+): any[] {
+  return result.map((item) => {
+    return guardrailsAvailableVersionDeserializer(item);
+  });
+}
+
+/** Available Safeguards Version */
+export interface SafeguardsAvailableVersion extends ProxyResource {
+  /** Whether the version is default or not and support info. */
+  properties: SafeguardsAvailableVersionsProperties;
+}
+
+export function safeguardsAvailableVersionDeserializer(item: any): SafeguardsAvailableVersion {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: safeguardsAvailableVersionsPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Whether the version is default or not and support info. */
+export interface SafeguardsAvailableVersionsProperties {
+  /** Whether this is the default version. */
+  readonly isDefaultVersion?: boolean;
+  /** Whether the version is preview or stable. */
+  readonly support?: SafeguardsSupport;
+}
+
+export function safeguardsAvailableVersionsPropertiesDeserializer(
+  item: any,
+): SafeguardsAvailableVersionsProperties {
+  return {
+    isDefaultVersion: item["isDefaultVersion"],
+    support: item["support"],
+  };
+}
+
+/** Whether the version is preview or stable. */
+export enum KnownSafeguardsSupport {
+  /** The version is preview. It is not recommended to use preview versions on critical production clusters. The preview version may not support all use-cases. */
+  Preview = "Preview",
+  /** The version is stable and can be used on critical production clusters. */
+  Stable = "Stable",
+}
+
+/**
+ * Whether the version is preview or stable. \
+ * {@link KnownSafeguardsSupport} can be used interchangeably with SafeguardsSupport,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Preview**: The version is preview. It is not recommended to use preview versions on critical production clusters. The preview version may not support all use-cases. \
+ * **Stable**: The version is stable and can be used on critical production clusters.
+ */
+export type SafeguardsSupport = string;
+
+/** Hold values properties, which is array of SafeguardsVersions */
+export interface _SafeguardsAvailableVersionsList {
+  /** The SafeguardsAvailableVersion items on this page */
+  value: SafeguardsAvailableVersion[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _safeguardsAvailableVersionsListDeserializer(
+  item: any,
+): _SafeguardsAvailableVersionsList {
+  return {
+    value: safeguardsAvailableVersionArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function safeguardsAvailableVersionArrayDeserializer(
+  result: Array<SafeguardsAvailableVersion>,
+): any[] {
+  return result.map((item) => {
+    return safeguardsAvailableVersionDeserializer(item);
   });
 }
 
@@ -7179,6 +8875,14 @@ export interface Machine extends ProxyResource {
   readonly zones?: string[];
 }
 
+export function machineSerializer(item: Machine): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : machinePropertiesSerializer(item["properties"]),
+  };
+}
+
 export function machineDeserializer(item: any): Machine {
   return {
     id: item["id"],
@@ -7204,6 +8908,59 @@ export interface MachineProperties {
   readonly network?: MachineNetworkProperties;
   /** Azure resource id of the machine. It can be used to GET underlying VM Instance */
   readonly resourceId?: string;
+  /** The hardware and GPU settings of the machine. */
+  hardware?: MachineHardwareProfile;
+  /** The operating system and disk used by the machine. */
+  operatingSystem?: MachineOSProfile;
+  /** The Kubernetes configurations used by the machine. */
+  kubernetes?: MachineKubernetesProfile;
+  /** Machine only allows 'System' and 'User' mode. */
+  mode?: AgentPoolMode;
+  /** The security settings of the machine. */
+  security?: MachineSecurityProfile;
+  /** The priority for the machine. If not specified, the default is 'Regular'. */
+  priority?: ScaleSetPriority;
+  /** The eviction policy for machine. This cannot be specified unless the priority is 'Spot'. If not specified, the default is 'Delete'. */
+  evictionPolicy?: ScaleSetEvictionPolicy;
+  /** The properties having to do with machine billing. */
+  billing?: MachineBillingProfile;
+  /** The version of node image. */
+  readonly nodeImageVersion?: string;
+  /** The current deployment or provisioning state. */
+  readonly provisioningState?: string;
+  /** The tags to be persisted on the machine. */
+  tags?: Record<string, string>;
+  /** Unique read-only string used to implement optimistic concurrency. The eTag value will change when the resource is updated. Specify an if-match or if-none-match header with the eTag value for a subsequent request to enable optimistic concurrency per the normal eTag convention. */
+  readonly eTag?: string;
+  /** Contains read-only information about the machine. */
+  readonly status?: MachineStatus;
+  /** Configures the per-node local DNS, with VnetDNS and KubeDNS overrides. LocalDNS helps improve performance and reliability of DNS resolution in an AKS cluster. For more details see aka.ms/aks/localdns. */
+  localDNSProfile?: LocalDNSProfile;
+}
+
+export function machinePropertiesSerializer(item: MachineProperties): any {
+  return {
+    hardware: !item["hardware"]
+      ? item["hardware"]
+      : machineHardwareProfileSerializer(item["hardware"]),
+    operatingSystem: !item["operatingSystem"]
+      ? item["operatingSystem"]
+      : machineOSProfileSerializer(item["operatingSystem"]),
+    kubernetes: !item["kubernetes"]
+      ? item["kubernetes"]
+      : machineKubernetesProfileSerializer(item["kubernetes"]),
+    mode: item["mode"],
+    security: !item["security"]
+      ? item["security"]
+      : machineSecurityProfileSerializer(item["security"]),
+    priority: item["priority"],
+    evictionPolicy: item["evictionPolicy"],
+    billing: !item["billing"] ? item["billing"] : machineBillingProfileSerializer(item["billing"]),
+    tags: item["tags"],
+    localDNSProfile: !item["localDNSProfile"]
+      ? item["localDNSProfile"]
+      : localDNSProfileSerializer(item["localDNSProfile"]),
+  };
 }
 
 export function machinePropertiesDeserializer(item: any): MachineProperties {
@@ -7212,6 +8969,34 @@ export function machinePropertiesDeserializer(item: any): MachineProperties {
       ? item["network"]
       : machineNetworkPropertiesDeserializer(item["network"]),
     resourceId: item["resourceId"],
+    hardware: !item["hardware"]
+      ? item["hardware"]
+      : machineHardwareProfileDeserializer(item["hardware"]),
+    operatingSystem: !item["operatingSystem"]
+      ? item["operatingSystem"]
+      : machineOSProfileDeserializer(item["operatingSystem"]),
+    kubernetes: !item["kubernetes"]
+      ? item["kubernetes"]
+      : machineKubernetesProfileDeserializer(item["kubernetes"]),
+    mode: item["mode"],
+    security: !item["security"]
+      ? item["security"]
+      : machineSecurityProfileDeserializer(item["security"]),
+    priority: item["priority"],
+    evictionPolicy: item["evictionPolicy"],
+    billing: !item["billing"]
+      ? item["billing"]
+      : machineBillingProfileDeserializer(item["billing"]),
+    nodeImageVersion: item["nodeImageVersion"],
+    provisioningState: item["provisioningState"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    eTag: item["eTag"],
+    status: !item["status"] ? item["status"] : machineStatusDeserializer(item["status"]),
+    localDNSProfile: !item["localDNSProfile"]
+      ? item["localDNSProfile"]
+      : localDNSProfileDeserializer(item["localDNSProfile"]),
   };
 }
 
@@ -7219,6 +9004,16 @@ export function machinePropertiesDeserializer(item: any): MachineProperties {
 export interface MachineNetworkProperties {
   /** IPv4, IPv6 addresses of the machine */
   readonly ipAddresses?: MachineIpAddress[];
+  /** The ID of the subnet which node and optionally pods will join on startup. If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName} */
+  vnetSubnetID?: string;
+  /** The ID of the subnet which pods will join when launched. If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName} */
+  podSubnetID?: string;
+  /** Whether the machine is allocated its own public IP. Some scenarios may require the machine to receive their own dedicated public IP addresses. A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine to minimize hops. The default is false. */
+  enableNodePublicIP?: boolean;
+  /** The public IP prefix ID which VM node should use IPs from. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName} */
+  nodePublicIPPrefixID?: string;
+  /** IPTags of instance-level public IPs. */
+  nodePublicIPTags?: IPTag[];
 }
 
 export function machineNetworkPropertiesDeserializer(item: any): MachineNetworkProperties {
@@ -7226,6 +9021,13 @@ export function machineNetworkPropertiesDeserializer(item: any): MachineNetworkP
     ipAddresses: !item["ipAddresses"]
       ? item["ipAddresses"]
       : machineIpAddressArrayDeserializer(item["ipAddresses"]),
+    vnetSubnetID: item["vnetSubnetID"],
+    podSubnetID: item["podSubnetID"],
+    enableNodePublicIP: item["enableNodePublicIP"],
+    nodePublicIPPrefixID: item["nodePublicIPPrefixID"],
+    nodePublicIPTags: !item["nodePublicIPTags"]
+      ? item["nodePublicIPTags"]
+      : ipTagArrayDeserializer(item["nodePublicIPTags"]),
   };
 }
 
@@ -7250,6 +9052,308 @@ export function machineIpAddressDeserializer(item: any): MachineIpAddress {
   };
 }
 
+/** The hardware and GPU settings of the machine. */
+export interface MachineHardwareProfile {
+  /** The size of the VM. VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods might fail to run correctly. For more details on restricted VM sizes, see: https://docs.microsoft.com/azure/aks/quotas-skus-regions */
+  vmSize?: string;
+  /** GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU. */
+  gpuInstanceProfile?: GPUInstanceProfile;
+  /** The GPU settings of the machine. */
+  gpuProfile?: GPUProfile;
+  /** Whether to enable UltraSSD */
+  ultraSsdEnabled?: boolean;
+}
+
+export function machineHardwareProfileSerializer(item: MachineHardwareProfile): any {
+  return {
+    vmSize: item["vmSize"],
+    gpuInstanceProfile: item["gpuInstanceProfile"],
+    gpuProfile: !item["gpuProfile"] ? item["gpuProfile"] : gpuProfileSerializer(item["gpuProfile"]),
+    ultraSsdEnabled: item["ultraSsdEnabled"],
+  };
+}
+
+export function machineHardwareProfileDeserializer(item: any): MachineHardwareProfile {
+  return {
+    vmSize: item["vmSize"],
+    gpuInstanceProfile: item["gpuInstanceProfile"],
+    gpuProfile: !item["gpuProfile"]
+      ? item["gpuProfile"]
+      : gpuProfileDeserializer(item["gpuProfile"]),
+    ultraSsdEnabled: item["ultraSsdEnabled"],
+  };
+}
+
+/** The operating system and disk used by the machine. */
+export interface MachineOSProfile {
+  /** The operating system type. The default is Linux. */
+  osType?: OSType;
+  /** Specifies the OS SKU used by the agent pool. If not specified, the default is Ubuntu if OSType=Linux or Windows2019 if OSType=Windows. And the default Windows OSSKU will be changed to Windows2022 after Windows2019 is deprecated. */
+  osSKU?: Ossku;
+  /** OS Disk Size in GB to be used to specify the disk size for every machine in the master/agent pool. If you specify 0, it will apply the default osDisk size according to the vmSize specified. */
+  osDiskSizeGB?: number;
+  /** The OS disk type to be used for machines in the agent pool. The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os). */
+  osDiskType?: OSDiskType;
+  /** Whether to use a FIPS-enabled OS. */
+  enableFips?: boolean;
+  /** The Linux machine's specific profile. */
+  linuxProfile?: MachineOSProfileLinuxProfile;
+  /** The Windows machine's specific profile. */
+  windowsProfile?: AgentPoolWindowsProfile;
+}
+
+export function machineOSProfileSerializer(item: MachineOSProfile): any {
+  return {
+    osType: item["osType"],
+    osSKU: item["osSKU"],
+    osDiskSizeGB: item["osDiskSizeGB"],
+    osDiskType: item["osDiskType"],
+    enableFIPS: item["enableFips"],
+    linuxProfile: !item["linuxProfile"]
+      ? item["linuxProfile"]
+      : machineOSProfileLinuxProfileSerializer(item["linuxProfile"]),
+    windowsProfile: !item["windowsProfile"]
+      ? item["windowsProfile"]
+      : agentPoolWindowsProfileSerializer(item["windowsProfile"]),
+  };
+}
+
+export function machineOSProfileDeserializer(item: any): MachineOSProfile {
+  return {
+    osType: item["osType"],
+    osSKU: item["osSKU"],
+    osDiskSizeGB: item["osDiskSizeGB"],
+    osDiskType: item["osDiskType"],
+    enableFips: item["enableFIPS"],
+    linuxProfile: !item["linuxProfile"]
+      ? item["linuxProfile"]
+      : machineOSProfileLinuxProfileDeserializer(item["linuxProfile"]),
+    windowsProfile: !item["windowsProfile"]
+      ? item["windowsProfile"]
+      : agentPoolWindowsProfileDeserializer(item["windowsProfile"]),
+  };
+}
+
+/** The Linux machine's specific profile. */
+export interface MachineOSProfileLinuxProfile {
+  /** The OS configuration of Linux machine. */
+  linuxOSConfig?: LinuxOSConfig;
+  /** Message of the day for Linux nodes, base64-encoded. A base64-encoded string which will be written to /etc/motd after decoding. This allows customization of the message of the day for Linux nodes. It must not be specified for Windows nodes. It must be a static string (i.e., will be printed raw and not be executed as a script). */
+  messageOfTheDay?: string;
+}
+
+export function machineOSProfileLinuxProfileSerializer(item: MachineOSProfileLinuxProfile): any {
+  return {
+    linuxOSConfig: !item["linuxOSConfig"]
+      ? item["linuxOSConfig"]
+      : linuxOSConfigSerializer(item["linuxOSConfig"]),
+    messageOfTheDay: item["messageOfTheDay"],
+  };
+}
+
+export function machineOSProfileLinuxProfileDeserializer(item: any): MachineOSProfileLinuxProfile {
+  return {
+    linuxOSConfig: !item["linuxOSConfig"]
+      ? item["linuxOSConfig"]
+      : linuxOSConfigDeserializer(item["linuxOSConfig"]),
+    messageOfTheDay: item["messageOfTheDay"],
+  };
+}
+
+/** The Kubernetes configurations used by the machine. */
+export interface MachineKubernetesProfile {
+  /** The node labels on the machine. */
+  nodeLabels?: Record<string, string>;
+  /** The version of Kubernetes specified by the user. Both patch version <major.minor.patch> and <major.minor> are supported. When <major.minor> is specified, the latest supported patch version is chosen automatically. */
+  orchestratorVersion?: string;
+  /** The version of Kubernetes running on the machine. If orchestratorVersion was a fully specified version <major.minor.patch>, this field will be exactly equal to it. If orchestratorVersion was <major.minor>, this field will contain the full <major.minor.patch> version being used. */
+  readonly currentOrchestratorVersion?: string;
+  /** Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral storage. */
+  kubeletDiskType?: KubeletDiskType;
+  /** The Kubelet configuration on the machine. */
+  kubeletConfig?: KubeletConfig;
+  /** Taints added on the node during creation that will not be reconciled by AKS. These taints will not be reconciled by AKS and can be removed with a kubectl call. These taints allow for required configuration to run before the node is ready to accept workloads, for example 'key1=value1:NoSchedule' that then can be removed with `kubectl taint nodes node1 key1=value1:NoSchedule-` */
+  nodeInitializationTaints?: string[];
+  /** The taints added to new node during machine create. For example, key=value:NoSchedule. */
+  nodeTaints?: string[];
+  /** The maximum number of pods that can run on a node. */
+  maxPods?: number;
+  /** The node name in the Kubernetes cluster. */
+  readonly nodeName?: string;
+  /** Determines the type of workload a node can run. */
+  workloadRuntime?: WorkloadRuntime;
+  /** Configuration for using artifact streaming on AKS. */
+  artifactStreamingProfile?: AgentPoolArtifactStreamingProfile;
+}
+
+export function machineKubernetesProfileSerializer(item: MachineKubernetesProfile): any {
+  return {
+    nodeLabels: item["nodeLabels"],
+    orchestratorVersion: item["orchestratorVersion"],
+    kubeletDiskType: item["kubeletDiskType"],
+    kubeletConfig: !item["kubeletConfig"]
+      ? item["kubeletConfig"]
+      : kubeletConfigSerializer(item["kubeletConfig"]),
+    nodeInitializationTaints: !item["nodeInitializationTaints"]
+      ? item["nodeInitializationTaints"]
+      : item["nodeInitializationTaints"].map((p: any) => {
+          return p;
+        }),
+    nodeTaints: !item["nodeTaints"]
+      ? item["nodeTaints"]
+      : item["nodeTaints"].map((p: any) => {
+          return p;
+        }),
+    maxPods: item["maxPods"],
+    workloadRuntime: item["workloadRuntime"],
+    artifactStreamingProfile: !item["artifactStreamingProfile"]
+      ? item["artifactStreamingProfile"]
+      : agentPoolArtifactStreamingProfileSerializer(item["artifactStreamingProfile"]),
+  };
+}
+
+export function machineKubernetesProfileDeserializer(item: any): MachineKubernetesProfile {
+  return {
+    nodeLabels: !item["nodeLabels"]
+      ? item["nodeLabels"]
+      : Object.fromEntries(
+          Object.entries(item["nodeLabels"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    orchestratorVersion: item["orchestratorVersion"],
+    currentOrchestratorVersion: item["currentOrchestratorVersion"],
+    kubeletDiskType: item["kubeletDiskType"],
+    kubeletConfig: !item["kubeletConfig"]
+      ? item["kubeletConfig"]
+      : kubeletConfigDeserializer(item["kubeletConfig"]),
+    nodeInitializationTaints: !item["nodeInitializationTaints"]
+      ? item["nodeInitializationTaints"]
+      : item["nodeInitializationTaints"].map((p: any) => {
+          return p;
+        }),
+    nodeTaints: !item["nodeTaints"]
+      ? item["nodeTaints"]
+      : item["nodeTaints"].map((p: any) => {
+          return p;
+        }),
+    maxPods: item["maxPods"],
+    nodeName: item["nodeName"],
+    workloadRuntime: item["workloadRuntime"],
+    artifactStreamingProfile: !item["artifactStreamingProfile"]
+      ? item["artifactStreamingProfile"]
+      : agentPoolArtifactStreamingProfileDeserializer(item["artifactStreamingProfile"]),
+  };
+}
+
+/** The security settings of the machine. */
+export interface MachineSecurityProfile {
+  /** vTPM is a Trusted Launch feature for configuring a dedicated secure vault for keys and measurements held locally on the node. For more details, see aka.ms/aks/trustedlaunch. If not specified, the default is false. */
+  enableVtpm?: boolean;
+  /** Secure Boot is a feature of Trusted Launch which ensures that only signed operating systems and drivers can boot. For more details, see aka.ms/aks/trustedlaunch.  If not specified, the default is false. */
+  enableSecureBoot?: boolean;
+  /** SSH access method of an agent pool. */
+  sshAccess?: AgentPoolSSHAccess;
+  /** Whether to enable host based OS and data drive encryption. This is only supported on certain VM sizes and in certain Azure regions. For more information, see: https://docs.microsoft.com/azure/aks/enable-host-encryption */
+  enableEncryptionAtHost?: boolean;
+}
+
+export function machineSecurityProfileSerializer(item: MachineSecurityProfile): any {
+  return {
+    enableVTPM: item["enableVtpm"],
+    enableSecureBoot: item["enableSecureBoot"],
+    sshAccess: item["sshAccess"],
+    enableEncryptionAtHost: item["enableEncryptionAtHost"],
+  };
+}
+
+export function machineSecurityProfileDeserializer(item: any): MachineSecurityProfile {
+  return {
+    enableVtpm: item["enableVTPM"],
+    enableSecureBoot: item["enableSecureBoot"],
+    sshAccess: item["sshAccess"],
+    enableEncryptionAtHost: item["enableEncryptionAtHost"],
+  };
+}
+
+/** The properties having to do with machine billing. */
+export interface MachineBillingProfile {
+  /** The max price (in US Dollars) you are willing to pay for spot instances. Possible values are any decimal value greater than zero or -1 which indicates default price to be up-to on-demand. For more details on spot pricing, see [spot VMs pricing](https://docs.microsoft.com/azure/virtual-machines/spot-vms#pricing) */
+  spotMaxPrice?: number;
+}
+
+export function machineBillingProfileSerializer(item: MachineBillingProfile): any {
+  return { spotMaxPrice: item["spotMaxPrice"] };
+}
+
+export function machineBillingProfileDeserializer(item: any): MachineBillingProfile {
+  return {
+    spotMaxPrice: item["spotMaxPrice"],
+  };
+}
+
+/** Contains read-only information about the machine. */
+export interface MachineStatus {
+  /** The error details information of the machine. Preserves the detailed info of failure. If there was no error, this field is omitted. */
+  readonly provisioningError?: ErrorDetail;
+  /** Specifies the time at which the machine was created. */
+  readonly creationTimestamp?: Date;
+  /** The drift action of the machine. Indicates whether a machine has deviated from its expected state due to changes in managed cluster properties, requiring corrective action. */
+  readonly driftAction?: DriftAction;
+  /** Reason for machine drift. Provides detailed information on why the machine has drifted. This field is omitted if the machine is up to date. */
+  readonly driftReason?: string;
+  /** Virtual machine state. Indicates the current state of the underlying virtual machine. */
+  readonly vmState?: VmState;
+}
+
+export function machineStatusDeserializer(item: any): MachineStatus {
+  return {
+    provisioningError: !item["provisioningError"]
+      ? item["provisioningError"]
+      : errorDetailDeserializer(item["provisioningError"]),
+    creationTimestamp: !item["creationTimestamp"]
+      ? item["creationTimestamp"]
+      : new Date(item["creationTimestamp"]),
+    driftAction: item["driftAction"],
+    driftReason: item["driftReason"],
+    vmState: item["vmState"],
+  };
+}
+
+/** The drift action of the machine. Indicates whether a machine has deviated from its expected state due to changes in managed cluster properties, requiring corrective action. */
+export enum KnownDriftAction {
+  /** The machine is up to date. */
+  Synced = "Synced",
+  /** The machine has drifted and needs to be deleted and recreated. */
+  Recreate = "Recreate",
+}
+
+/**
+ * The drift action of the machine. Indicates whether a machine has deviated from its expected state due to changes in managed cluster properties, requiring corrective action. \
+ * {@link KnownDriftAction} can be used interchangeably with DriftAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Synced**: The machine is up to date. \
+ * **Recreate**: The machine has drifted and needs to be deleted and recreated.
+ */
+export type DriftAction = string;
+
+/** Virtual machine state. Indicates the current state of the underlying virtual machine. */
+export enum KnownVmState {
+  /** The virtual machine is currently running. */
+  Running = "Running",
+  /** The virtual machine has been deleted by the user or due to spot eviction. */
+  Deleted = "Deleted",
+}
+
+/**
+ * Virtual machine state. Indicates the current state of the underlying virtual machine. \
+ * {@link KnownVmState} can be used interchangeably with VmState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Running**: The virtual machine is currently running. \
+ * **Deleted**: The virtual machine has been deleted by the user or due to spot eviction.
+ */
+export type VmState = string;
+
 /** The response of a Machine list operation. */
 export interface _MachineListResult {
   /** The Machine items on this page */
@@ -7263,6 +9367,12 @@ export function _machineListResultDeserializer(item: any): _MachineListResult {
     value: machineArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
+}
+
+export function machineArraySerializer(result: Array<Machine>): any[] {
+  return result.map((item) => {
+    return machineSerializer(item);
+  });
 }
 
 export function machineArrayDeserializer(result: Array<Machine>): any[] {
@@ -7558,6 +9668,8 @@ export function snapshotPropertiesDeserializer(item: any): SnapshotProperties {
 export enum KnownSnapshotType {
   /** The snapshot is a snapshot of a node pool. */
   NodePool = "NodePool",
+  /** The snapshot is a snapshot of a managed cluster. */
+  ManagedCluster = "ManagedCluster",
 }
 
 /**
@@ -7565,7 +9677,8 @@ export enum KnownSnapshotType {
  * {@link KnownSnapshotType} can be used interchangeably with SnapshotType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **NodePool**: The snapshot is a snapshot of a node pool.
+ * **NodePool**: The snapshot is a snapshot of a node pool. \
+ * **ManagedCluster**: The snapshot is a snapshot of a managed cluster.
  */
 export type SnapshotType = string;
 
@@ -7593,6 +9706,161 @@ export function snapshotArraySerializer(result: Array<Snapshot>): any[] {
 export function snapshotArrayDeserializer(result: Array<Snapshot>): any[] {
   return result.map((item) => {
     return snapshotDeserializer(item);
+  });
+}
+
+/** A managed cluster snapshot resource. */
+export interface ManagedClusterSnapshot extends TrackedResource {
+  /** CreationData to be used to specify the source resource ID to create this snapshot. */
+  creationData?: CreationData;
+  /** The type of a snapshot. The default is NodePool. */
+  snapshotType?: SnapshotType;
+  /** What the properties will be showed when getting managed cluster snapshot. Those properties are read-only. */
+  readonly managedClusterPropertiesReadOnly?: ManagedClusterPropertiesForSnapshot;
+}
+
+export function managedClusterSnapshotSerializer(item: ManagedClusterSnapshot): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: areAllPropsUndefined(item, ["creationData", "snapshotType"])
+      ? undefined
+      : _managedClusterSnapshotPropertiesSerializer(item),
+  };
+}
+
+export function managedClusterSnapshotDeserializer(item: any): ManagedClusterSnapshot {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ...(!item["properties"]
+      ? item["properties"]
+      : _managedClusterSnapshotPropertiesDeserializer(item["properties"])),
+  };
+}
+
+/** Properties for a managed cluster snapshot. */
+export interface ManagedClusterSnapshotProperties {
+  /** CreationData to be used to specify the source resource ID to create this snapshot. */
+  creationData?: CreationData;
+  /** The type of a snapshot. The default is NodePool. */
+  snapshotType?: SnapshotType;
+  /** What the properties will be showed when getting managed cluster snapshot. Those properties are read-only. */
+  readonly managedClusterPropertiesReadOnly?: ManagedClusterPropertiesForSnapshot;
+}
+
+export function managedClusterSnapshotPropertiesSerializer(
+  item: ManagedClusterSnapshotProperties,
+): any {
+  return {
+    creationData: !item["creationData"]
+      ? item["creationData"]
+      : creationDataSerializer(item["creationData"]),
+    snapshotType: item["snapshotType"],
+  };
+}
+
+export function managedClusterSnapshotPropertiesDeserializer(
+  item: any,
+): ManagedClusterSnapshotProperties {
+  return {
+    creationData: !item["creationData"]
+      ? item["creationData"]
+      : creationDataDeserializer(item["creationData"]),
+    snapshotType: item["snapshotType"],
+    managedClusterPropertiesReadOnly: !item["managedClusterPropertiesReadOnly"]
+      ? item["managedClusterPropertiesReadOnly"]
+      : managedClusterPropertiesForSnapshotDeserializer(item["managedClusterPropertiesReadOnly"]),
+  };
+}
+
+/** managed cluster properties for snapshot, these properties are read only. */
+export interface ManagedClusterPropertiesForSnapshot {
+  /** The current kubernetes version. */
+  kubernetesVersion?: string;
+  /** The current managed cluster sku. */
+  sku?: ManagedClusterSKU;
+  /** Whether the cluster has enabled Kubernetes Role-Based Access Control or not. */
+  enableRbac?: boolean;
+  /** The current network profile. */
+  readonly networkProfile?: NetworkProfileForSnapshot;
+}
+
+export function managedClusterPropertiesForSnapshotDeserializer(
+  item: any,
+): ManagedClusterPropertiesForSnapshot {
+  return {
+    kubernetesVersion: item["kubernetesVersion"],
+    sku: !item["sku"] ? item["sku"] : managedClusterSKUDeserializer(item["sku"]),
+    enableRbac: item["enableRbac"],
+    networkProfile: !item["networkProfile"]
+      ? item["networkProfile"]
+      : networkProfileForSnapshotDeserializer(item["networkProfile"]),
+  };
+}
+
+/** network profile for managed cluster snapshot, these properties are read only. */
+export interface NetworkProfileForSnapshot {
+  /** networkPlugin for managed cluster snapshot. */
+  networkPlugin?: NetworkPlugin;
+  /** NetworkPluginMode for managed cluster snapshot. */
+  networkPluginMode?: NetworkPluginMode;
+  /** networkPolicy for managed cluster snapshot. */
+  networkPolicy?: NetworkPolicy;
+  /** networkMode for managed cluster snapshot. */
+  networkMode?: NetworkMode;
+  /** loadBalancerSku for managed cluster snapshot. */
+  loadBalancerSku?: LoadBalancerSku;
+}
+
+export function networkProfileForSnapshotDeserializer(item: any): NetworkProfileForSnapshot {
+  return {
+    networkPlugin: item["networkPlugin"],
+    networkPluginMode: item["networkPluginMode"],
+    networkPolicy: item["networkPolicy"],
+    networkMode: item["networkMode"],
+    loadBalancerSku: item["loadBalancerSku"],
+  };
+}
+
+/** The response of a ManagedClusterSnapshot list operation. */
+export interface _ManagedClusterSnapshotListResult {
+  /** The ManagedClusterSnapshot items on this page */
+  value: ManagedClusterSnapshot[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _managedClusterSnapshotListResultDeserializer(
+  item: any,
+): _ManagedClusterSnapshotListResult {
+  return {
+    value: managedClusterSnapshotArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function managedClusterSnapshotArraySerializer(
+  result: Array<ManagedClusterSnapshot>,
+): any[] {
+  return result.map((item) => {
+    return managedClusterSnapshotSerializer(item);
+  });
+}
+
+export function managedClusterSnapshotArrayDeserializer(
+  result: Array<ManagedClusterSnapshot>,
+): any[] {
+  return result.map((item) => {
+    return managedClusterSnapshotDeserializer(item);
   });
 }
 
@@ -7715,6 +9983,821 @@ export function trustedAccessRoleBindingArrayDeserializer(
   });
 }
 
+/** The configurations regarding multiple standard load balancers. If not supplied, single load balancer mode will be used. Multiple standard load balancers mode will be used if at lease one configuration is supplied. There has to be a configuration named `kubernetes`. The name field will be the name of the corresponding public load balancer. There will be an internal load balancer created if needed, and the name will be `<name>-internal`. The internal lb shares the same configurations as the external one. The internal lbs are not needed to be included in LoadBalancer list. */
+export interface LoadBalancer extends ProxyResource {
+  /** Required field. A string value that must specify the ID of an existing agent pool. All nodes in the given pool will always be added to this load balancer. This agent pool must have at least one node and minCount>=1 for autoscaling operations. An agent pool can only be the primary pool for a single load balancer. */
+  primaryAgentPoolName?: string;
+  /** Whether to automatically place services on the load balancer. If not supplied, the default value is true. If set to false manually, both of the external and the internal load balancer will not be selected for services unless they explicitly target it. */
+  allowServicePlacement?: boolean;
+  /** Only services that must match this selector can be placed on this load balancer. */
+  serviceLabelSelector?: LabelSelector;
+  /** Services created in namespaces that match the selector can be placed on this load balancer. */
+  serviceNamespaceSelector?: LabelSelector;
+  /** Nodes that match this selector will be possible members of this load balancer. */
+  nodeSelector?: LabelSelector;
+  /** The current provisioning state. */
+  readonly provisioningState?: string;
+}
+
+export function loadBalancerSerializer(item: LoadBalancer): any {
+  return {
+    properties: areAllPropsUndefined(item, [
+      "primaryAgentPoolName",
+      "allowServicePlacement",
+      "serviceLabelSelector",
+      "serviceNamespaceSelector",
+      "nodeSelector",
+    ])
+      ? undefined
+      : _loadBalancerPropertiesSerializer(item),
+  };
+}
+
+export function loadBalancerDeserializer(item: any): LoadBalancer {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ...(!item["properties"]
+      ? item["properties"]
+      : _loadBalancerPropertiesDeserializer(item["properties"])),
+  };
+}
+
+/** Properties for a load balancer resource. */
+export interface LoadBalancerProperties {
+  /** Required field. A string value that must specify the ID of an existing agent pool. All nodes in the given pool will always be added to this load balancer. This agent pool must have at least one node and minCount>=1 for autoscaling operations. An agent pool can only be the primary pool for a single load balancer. */
+  primaryAgentPoolName: string;
+  /** Whether to automatically place services on the load balancer. If not supplied, the default value is true. If set to false manually, both of the external and the internal load balancer will not be selected for services unless they explicitly target it. */
+  allowServicePlacement?: boolean;
+  /** Only services that must match this selector can be placed on this load balancer. */
+  serviceLabelSelector?: LabelSelector;
+  /** Services created in namespaces that match the selector can be placed on this load balancer. */
+  serviceNamespaceSelector?: LabelSelector;
+  /** Nodes that match this selector will be possible members of this load balancer. */
+  nodeSelector?: LabelSelector;
+  /** The current provisioning state. */
+  readonly provisioningState?: string;
+}
+
+export function loadBalancerPropertiesSerializer(item: LoadBalancerProperties): any {
+  return {
+    primaryAgentPoolName: item["primaryAgentPoolName"],
+    allowServicePlacement: item["allowServicePlacement"],
+    serviceLabelSelector: !item["serviceLabelSelector"]
+      ? item["serviceLabelSelector"]
+      : labelSelectorSerializer(item["serviceLabelSelector"]),
+    serviceNamespaceSelector: !item["serviceNamespaceSelector"]
+      ? item["serviceNamespaceSelector"]
+      : labelSelectorSerializer(item["serviceNamespaceSelector"]),
+    nodeSelector: !item["nodeSelector"]
+      ? item["nodeSelector"]
+      : labelSelectorSerializer(item["nodeSelector"]),
+  };
+}
+
+export function loadBalancerPropertiesDeserializer(item: any): LoadBalancerProperties {
+  return {
+    primaryAgentPoolName: item["primaryAgentPoolName"],
+    allowServicePlacement: item["allowServicePlacement"],
+    serviceLabelSelector: !item["serviceLabelSelector"]
+      ? item["serviceLabelSelector"]
+      : labelSelectorDeserializer(item["serviceLabelSelector"]),
+    serviceNamespaceSelector: !item["serviceNamespaceSelector"]
+      ? item["serviceNamespaceSelector"]
+      : labelSelectorDeserializer(item["serviceNamespaceSelector"]),
+    nodeSelector: !item["nodeSelector"]
+      ? item["nodeSelector"]
+      : labelSelectorDeserializer(item["nodeSelector"]),
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** A label selector is a label query over a set of resources. The result of matchLabels and matchExpressions are ANDed. An empty label selector matches all objects. A null label selector matches no objects. */
+export interface LabelSelector {
+  /** matchLabels is an array of {key=value} pairs. A single {key=value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is `key`, the operator is `In`, and the values array contains only `value`. The requirements are ANDed. */
+  matchLabels?: string[];
+  /** matchExpressions is a list of label selector requirements. The requirements are ANDed. */
+  matchExpressions?: LabelSelectorRequirement[];
+}
+
+export function labelSelectorSerializer(item: LabelSelector): any {
+  return {
+    matchLabels: !item["matchLabels"]
+      ? item["matchLabels"]
+      : item["matchLabels"].map((p: any) => {
+          return p;
+        }),
+    matchExpressions: !item["matchExpressions"]
+      ? item["matchExpressions"]
+      : labelSelectorRequirementArraySerializer(item["matchExpressions"]),
+  };
+}
+
+export function labelSelectorDeserializer(item: any): LabelSelector {
+  return {
+    matchLabels: !item["matchLabels"]
+      ? item["matchLabels"]
+      : item["matchLabels"].map((p: any) => {
+          return p;
+        }),
+    matchExpressions: !item["matchExpressions"]
+      ? item["matchExpressions"]
+      : labelSelectorRequirementArrayDeserializer(item["matchExpressions"]),
+  };
+}
+
+export function labelSelectorRequirementArraySerializer(
+  result: Array<LabelSelectorRequirement>,
+): any[] {
+  return result.map((item) => {
+    return labelSelectorRequirementSerializer(item);
+  });
+}
+
+export function labelSelectorRequirementArrayDeserializer(
+  result: Array<LabelSelectorRequirement>,
+): any[] {
+  return result.map((item) => {
+    return labelSelectorRequirementDeserializer(item);
+  });
+}
+
+/** A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values. */
+export interface LabelSelectorRequirement {
+  /** key is the label key that the selector applies to. */
+  key?: string;
+  /** operator represents a key's relationship to a set of values. Valid operators are In and NotIn */
+  operator?: Operator;
+  /** values is an array of string values, the values array must be non-empty. */
+  values?: string[];
+}
+
+export function labelSelectorRequirementSerializer(item: LabelSelectorRequirement): any {
+  return {
+    key: item["key"],
+    operator: item["operator"],
+    values: !item["values"]
+      ? item["values"]
+      : item["values"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function labelSelectorRequirementDeserializer(item: any): LabelSelectorRequirement {
+  return {
+    key: item["key"],
+    operator: item["operator"],
+    values: !item["values"]
+      ? item["values"]
+      : item["values"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** operator represents a key's relationship to a set of values. Valid operators are In and NotIn */
+export enum KnownOperator {
+  /** The value of the key should be in the given list. */
+  In = "In",
+  /** The value of the key should not be in the given list. */
+  NotIn = "NotIn",
+  /** The value of the key should exist. */
+  Exists = "Exists",
+  /** The value of the key should not exist. */
+  DoesNotExist = "DoesNotExist",
+}
+
+/**
+ * operator represents a key's relationship to a set of values. Valid operators are In and NotIn \
+ * {@link KnownOperator} can be used interchangeably with Operator,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **In**: The value of the key should be in the given list. \
+ * **NotIn**: The value of the key should not be in the given list. \
+ * **Exists**: The value of the key should exist. \
+ * **DoesNotExist**: The value of the key should not exist.
+ */
+export type Operator = string;
+
+/** The response of a LoadBalancer list operation. */
+export interface _LoadBalancerListResult {
+  /** The LoadBalancer items on this page */
+  value: LoadBalancer[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _loadBalancerListResultDeserializer(item: any): _LoadBalancerListResult {
+  return {
+    value: loadBalancerArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function loadBalancerArraySerializer(result: Array<LoadBalancer>): any[] {
+  return result.map((item) => {
+    return loadBalancerSerializer(item);
+  });
+}
+
+export function loadBalancerArrayDeserializer(result: Array<LoadBalancer>): any[] {
+  return result.map((item) => {
+    return loadBalancerDeserializer(item);
+  });
+}
+
+/** The IdentityBinding resource. */
+export interface IdentityBinding extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: IdentityBindingProperties;
+  /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
+  readonly eTag?: string;
+}
+
+export function identityBindingSerializer(item: IdentityBinding): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : identityBindingPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function identityBindingDeserializer(item: any): IdentityBinding {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : identityBindingPropertiesDeserializer(item["properties"]),
+    eTag: item["eTag"],
+  };
+}
+
+/** IdentityBinding properties. */
+export interface IdentityBindingProperties {
+  /** Managed identity profile for the identity binding. */
+  managedIdentity: IdentityBindingManagedIdentityProfile;
+  /** The OIDC issuer URL of the IdentityBinding. */
+  readonly oidcIssuer?: IdentityBindingOidcIssuerProfile;
+  /** The status of the last operation. */
+  readonly provisioningState?: IdentityBindingProvisioningState;
+}
+
+export function identityBindingPropertiesSerializer(item: IdentityBindingProperties): any {
+  return {
+    managedIdentity: identityBindingManagedIdentityProfileSerializer(item["managedIdentity"]),
+  };
+}
+
+export function identityBindingPropertiesDeserializer(item: any): IdentityBindingProperties {
+  return {
+    managedIdentity: identityBindingManagedIdentityProfileDeserializer(item["managedIdentity"]),
+    oidcIssuer: !item["oidcIssuer"]
+      ? item["oidcIssuer"]
+      : identityBindingOidcIssuerProfileDeserializer(item["oidcIssuer"]),
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** Managed identity profile for the identity binding. */
+export interface IdentityBindingManagedIdentityProfile {
+  /** The resource ID of the managed identity. */
+  resourceId: string;
+  /** The object ID of the managed identity. */
+  readonly objectId?: string;
+  /** The client ID of the managed identity. */
+  readonly clientId?: string;
+  /** The tenant ID of the managed identity. */
+  readonly tenantId?: string;
+}
+
+export function identityBindingManagedIdentityProfileSerializer(
+  item: IdentityBindingManagedIdentityProfile,
+): any {
+  return { resourceId: item["resourceId"] };
+}
+
+export function identityBindingManagedIdentityProfileDeserializer(
+  item: any,
+): IdentityBindingManagedIdentityProfile {
+  return {
+    resourceId: item["resourceId"],
+    objectId: item["objectId"],
+    clientId: item["clientId"],
+    tenantId: item["tenantId"],
+  };
+}
+
+/** IdentityBinding OIDC issuer profile. */
+export interface IdentityBindingOidcIssuerProfile {
+  /** The OIDC issuer URL of the IdentityBinding. */
+  readonly oidcIssuerUrl?: string;
+}
+
+export function identityBindingOidcIssuerProfileDeserializer(
+  item: any,
+): IdentityBindingOidcIssuerProfile {
+  return {
+    oidcIssuerUrl: item["oidcIssuerUrl"],
+  };
+}
+
+/** The provisioning state of the last accepted operation. */
+export enum KnownIdentityBindingProvisioningState {
+  /** Resource has been created. */
+  Succeeded = "Succeeded",
+  /** Resource creation failed. */
+  Failed = "Failed",
+  /** Resource creation was canceled. */
+  Canceled = "Canceled",
+  /** The identity binding is being created. */
+  Creating = "Creating",
+  /** The identity binding is being updated. */
+  Updating = "Updating",
+  /** The identity binding is being deleted. */
+  Deleting = "Deleting",
+}
+
+/**
+ * The provisioning state of the last accepted operation. \
+ * {@link KnownIdentityBindingProvisioningState} can be used interchangeably with IdentityBindingProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled. \
+ * **Creating**: The identity binding is being created. \
+ * **Updating**: The identity binding is being updated. \
+ * **Deleting**: The identity binding is being deleted.
+ */
+export type IdentityBindingProvisioningState = string;
+
+/** The response of a IdentityBinding list operation. */
+export interface _IdentityBindingListResult {
+  /** The IdentityBinding items on this page */
+  value: IdentityBinding[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _identityBindingListResultDeserializer(item: any): _IdentityBindingListResult {
+  return {
+    value: identityBindingArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function identityBindingArraySerializer(result: Array<IdentityBinding>): any[] {
+  return result.map((item) => {
+    return identityBindingSerializer(item);
+  });
+}
+
+export function identityBindingArrayDeserializer(result: Array<IdentityBinding>): any[] {
+  return result.map((item) => {
+    return identityBindingDeserializer(item);
+  });
+}
+
+/** Configuration for JWT authenticator in the managed cluster. */
+export interface JWTAuthenticator extends ProxyResource {
+  /** The properties of JWTAuthenticator. For details on how to configure the properties of a JWT authenticator, please refer to the Kubernetes documentation: https://kubernetes.io/docs/reference/access-authn-authz/authentication/#using-authentication-configuration. Please note that not all fields available in the Kubernetes documentation are supported by AKS. For troubleshooting, please see https://aka.ms/aks-external-issuers-docs. */
+  properties: JWTAuthenticatorProperties;
+}
+
+export function jwtAuthenticatorSerializer(item: JWTAuthenticator): any {
+  return { properties: jwtAuthenticatorPropertiesSerializer(item["properties"]) };
+}
+
+export function jwtAuthenticatorDeserializer(item: any): JWTAuthenticator {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: jwtAuthenticatorPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** The properties of JWTAuthenticator. For details on how to configure the properties of a JWT authenticator, please refer to the Kubernetes documentation: https://kubernetes.io/docs/reference/access-authn-authz/authentication/#using-authentication-configuration. Please note that not all fields available in the Kubernetes documentation are supported by AKS. For troubleshooting, please see https://aka.ms/aks-external-issuers-docs. */
+export interface JWTAuthenticatorProperties {
+  /** The current provisioning state of the JWT authenticator. */
+  readonly provisioningState?: JWTAuthenticatorProvisioningState;
+  /** The JWT OIDC issuer details. */
+  issuer: JWTAuthenticatorIssuer;
+  /** The rules that are applied to validate token claims to authenticate users. All the expressions must evaluate to true for validation to succeed. */
+  claimValidationRules?: JWTAuthenticatorValidationRule[];
+  /** The mappings that define how user attributes are extracted from the token claims. */
+  claimMappings: JWTAuthenticatorClaimMappings;
+  /** The rules that are applied to the mapped user before completing authentication. All the expressions must evaluate to true for validation to succeed. */
+  userValidationRules?: JWTAuthenticatorValidationRule[];
+}
+
+export function jwtAuthenticatorPropertiesSerializer(item: JWTAuthenticatorProperties): any {
+  return {
+    issuer: jwtAuthenticatorIssuerSerializer(item["issuer"]),
+    claimValidationRules: !item["claimValidationRules"]
+      ? item["claimValidationRules"]
+      : jwtAuthenticatorValidationRuleArraySerializer(item["claimValidationRules"]),
+    claimMappings: jwtAuthenticatorClaimMappingsSerializer(item["claimMappings"]),
+    userValidationRules: !item["userValidationRules"]
+      ? item["userValidationRules"]
+      : jwtAuthenticatorValidationRuleArraySerializer(item["userValidationRules"]),
+  };
+}
+
+export function jwtAuthenticatorPropertiesDeserializer(item: any): JWTAuthenticatorProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    issuer: jwtAuthenticatorIssuerDeserializer(item["issuer"]),
+    claimValidationRules: !item["claimValidationRules"]
+      ? item["claimValidationRules"]
+      : jwtAuthenticatorValidationRuleArrayDeserializer(item["claimValidationRules"]),
+    claimMappings: jwtAuthenticatorClaimMappingsDeserializer(item["claimMappings"]),
+    userValidationRules: !item["userValidationRules"]
+      ? item["userValidationRules"]
+      : jwtAuthenticatorValidationRuleArrayDeserializer(item["userValidationRules"]),
+  };
+}
+
+/** The provisioning state of the last accepted operation. */
+export enum KnownJWTAuthenticatorProvisioningState {
+  /** Resource has been created. */
+  Succeeded = "Succeeded",
+  /** Resource creation failed. */
+  Failed = "Failed",
+  /** Resource creation was canceled. */
+  Canceled = "Canceled",
+  /** The JWT authenticator is being created. */
+  Creating = "Creating",
+  /** The JWT authenticator is being updated. */
+  Updating = "Updating",
+  /** The JWT authenticator is being deleted. */
+  Deleting = "Deleting",
+}
+
+/**
+ * The provisioning state of the last accepted operation. \
+ * {@link KnownJWTAuthenticatorProvisioningState} can be used interchangeably with JWTAuthenticatorProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled. \
+ * **Creating**: The JWT authenticator is being created. \
+ * **Updating**: The JWT authenticator is being updated. \
+ * **Deleting**: The JWT authenticator is being deleted.
+ */
+export type JWTAuthenticatorProvisioningState = string;
+
+/** The OIDC issuer details for JWTAuthenticator. */
+export interface JWTAuthenticatorIssuer {
+  /** The issuer URL. The URL must begin with the scheme https and cannot contain a query string or fragment. This must match the "iss" claim in the presented JWT, and the issuer returned from discovery. */
+  url: string;
+  /** The set of acceptable audiences the JWT must be issued to. At least one is required. When multiple is set, AudienceMatchPolicy is used in API Server configuration. */
+  audiences: string[];
+}
+
+export function jwtAuthenticatorIssuerSerializer(item: JWTAuthenticatorIssuer): any {
+  return {
+    url: item["url"],
+    audiences: item["audiences"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+export function jwtAuthenticatorIssuerDeserializer(item: any): JWTAuthenticatorIssuer {
+  return {
+    url: item["url"],
+    audiences: item["audiences"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+export function jwtAuthenticatorValidationRuleArraySerializer(
+  result: Array<JWTAuthenticatorValidationRule>,
+): any[] {
+  return result.map((item) => {
+    return jwtAuthenticatorValidationRuleSerializer(item);
+  });
+}
+
+export function jwtAuthenticatorValidationRuleArrayDeserializer(
+  result: Array<JWTAuthenticatorValidationRule>,
+): any[] {
+  return result.map((item) => {
+    return jwtAuthenticatorValidationRuleDeserializer(item);
+  });
+}
+
+/** The validation rule for JWTAuthenticator. */
+export interface JWTAuthenticatorValidationRule {
+  /** The CEL expression used to validate the claim or attribute. */
+  expression: string;
+  /** The validation error message. */
+  message?: string;
+}
+
+export function jwtAuthenticatorValidationRuleSerializer(
+  item: JWTAuthenticatorValidationRule,
+): any {
+  return { expression: item["expression"], message: item["message"] };
+}
+
+export function jwtAuthenticatorValidationRuleDeserializer(
+  item: any,
+): JWTAuthenticatorValidationRule {
+  return {
+    expression: item["expression"],
+    message: item["message"],
+  };
+}
+
+/** The claim mappings for JWTAuthenticator. */
+export interface JWTAuthenticatorClaimMappings {
+  /** The expression to extract username attribute from the token claims. */
+  username: JWTAuthenticatorClaimMappingExpression;
+  /** The expression to extract groups attribute from the token claims. When not provided, no groups are extracted from the token claims. */
+  groups?: JWTAuthenticatorClaimMappingExpression;
+  /** The expression to extract uid attribute from the token claims. When not provided, no uid is extracted from the token claims. */
+  uid?: JWTAuthenticatorClaimMappingExpression;
+  /** The expression to extract extra attribute from the token claims. When not provided, no extra attributes are extracted from the token claims. */
+  extra?: JWTAuthenticatorExtraClaimMappingExpression[];
+}
+
+export function jwtAuthenticatorClaimMappingsSerializer(item: JWTAuthenticatorClaimMappings): any {
+  return {
+    username: jwtAuthenticatorClaimMappingExpressionSerializer(item["username"]),
+    groups: !item["groups"]
+      ? item["groups"]
+      : jwtAuthenticatorClaimMappingExpressionSerializer(item["groups"]),
+    uid: !item["uid"] ? item["uid"] : jwtAuthenticatorClaimMappingExpressionSerializer(item["uid"]),
+    extra: !item["extra"]
+      ? item["extra"]
+      : jwtAuthenticatorExtraClaimMappingExpressionArraySerializer(item["extra"]),
+  };
+}
+
+export function jwtAuthenticatorClaimMappingsDeserializer(
+  item: any,
+): JWTAuthenticatorClaimMappings {
+  return {
+    username: jwtAuthenticatorClaimMappingExpressionDeserializer(item["username"]),
+    groups: !item["groups"]
+      ? item["groups"]
+      : jwtAuthenticatorClaimMappingExpressionDeserializer(item["groups"]),
+    uid: !item["uid"]
+      ? item["uid"]
+      : jwtAuthenticatorClaimMappingExpressionDeserializer(item["uid"]),
+    extra: !item["extra"]
+      ? item["extra"]
+      : jwtAuthenticatorExtraClaimMappingExpressionArrayDeserializer(item["extra"]),
+  };
+}
+
+/** The claim mapping expression for JWTAuthenticator. */
+export interface JWTAuthenticatorClaimMappingExpression {
+  /** The CEL expression used to access token claims. */
+  expression: string;
+}
+
+export function jwtAuthenticatorClaimMappingExpressionSerializer(
+  item: JWTAuthenticatorClaimMappingExpression,
+): any {
+  return { expression: item["expression"] };
+}
+
+export function jwtAuthenticatorClaimMappingExpressionDeserializer(
+  item: any,
+): JWTAuthenticatorClaimMappingExpression {
+  return {
+    expression: item["expression"],
+  };
+}
+
+export function jwtAuthenticatorExtraClaimMappingExpressionArraySerializer(
+  result: Array<JWTAuthenticatorExtraClaimMappingExpression>,
+): any[] {
+  return result.map((item) => {
+    return jwtAuthenticatorExtraClaimMappingExpressionSerializer(item);
+  });
+}
+
+export function jwtAuthenticatorExtraClaimMappingExpressionArrayDeserializer(
+  result: Array<JWTAuthenticatorExtraClaimMappingExpression>,
+): any[] {
+  return result.map((item) => {
+    return jwtAuthenticatorExtraClaimMappingExpressionDeserializer(item);
+  });
+}
+
+/** The extra claim mapping expression for JWTAuthenticator. */
+export interface JWTAuthenticatorExtraClaimMappingExpression {
+  /** The key of the extra attribute. */
+  key: string;
+  /** The CEL expression used to extract the value of the extra attribute. */
+  valueExpression: string;
+}
+
+export function jwtAuthenticatorExtraClaimMappingExpressionSerializer(
+  item: JWTAuthenticatorExtraClaimMappingExpression,
+): any {
+  return { key: item["key"], valueExpression: item["valueExpression"] };
+}
+
+export function jwtAuthenticatorExtraClaimMappingExpressionDeserializer(
+  item: any,
+): JWTAuthenticatorExtraClaimMappingExpression {
+  return {
+    key: item["key"],
+    valueExpression: item["valueExpression"],
+  };
+}
+
+/** The response of a JWTAuthenticator list operation. */
+export interface _JWTAuthenticatorListResult {
+  /** The JWTAuthenticator items on this page */
+  value: JWTAuthenticator[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _jwtAuthenticatorListResultDeserializer(item: any): _JWTAuthenticatorListResult {
+  return {
+    value: jwtAuthenticatorArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function jwtAuthenticatorArraySerializer(result: Array<JWTAuthenticator>): any[] {
+  return result.map((item) => {
+    return jwtAuthenticatorSerializer(item);
+  });
+}
+
+export function jwtAuthenticatorArrayDeserializer(result: Array<JWTAuthenticator>): any[] {
+  return result.map((item) => {
+    return jwtAuthenticatorDeserializer(item);
+  });
+}
+
+/** Mesh membership of a managed cluster. */
+export interface MeshMembership extends ProxyResource {
+  /** Mesh membership properties of a managed cluster. */
+  properties?: MeshMembershipProperties;
+  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
+  managedBy?: string;
+  /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
+  readonly eTag?: string;
+}
+
+export function meshMembershipSerializer(item: MeshMembership): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : meshMembershipPropertiesSerializer(item["properties"]),
+    managedBy: item["managedBy"],
+  };
+}
+
+export function meshMembershipDeserializer(item: any): MeshMembership {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : meshMembershipPropertiesDeserializer(item["properties"]),
+    managedBy: item["managedBy"],
+    eTag: item["eTag"],
+  };
+}
+
+/** Mesh membership properties of a managed cluster. */
+export interface MeshMembershipProperties {
+  /** The current provisioning state of the Mesh Membership. */
+  readonly provisioningState?: MeshMembershipProvisioningState;
+  /** Profile for configuring private connectivity between the mesh control plane and member clusters. When configured, communication between the mesh control plane and this member cluster occurs over private network instead of public networks. Visit https://aka.ms/applink for more information. */
+  privateConnectProfile?: MeshMembershipPrivateConnectProfile;
+  /** The ARM resource id for the managed mesh member. This is of the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppLink/applinks/{appLinkName}/appLinkMembers/{appLinkMemberName}'. Visit https://aka.ms/applink for more information. */
+  managedMeshID: string;
+}
+
+export function meshMembershipPropertiesSerializer(item: MeshMembershipProperties): any {
+  return {
+    privateConnectProfile: !item["privateConnectProfile"]
+      ? item["privateConnectProfile"]
+      : meshMembershipPrivateConnectProfileSerializer(item["privateConnectProfile"]),
+    managedMeshID: item["managedMeshID"],
+  };
+}
+
+export function meshMembershipPropertiesDeserializer(item: any): MeshMembershipProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    privateConnectProfile: !item["privateConnectProfile"]
+      ? item["privateConnectProfile"]
+      : meshMembershipPrivateConnectProfileDeserializer(item["privateConnectProfile"]),
+    managedMeshID: item["managedMeshID"],
+  };
+}
+
+/** The provisioning state of the last accepted operation. */
+export enum KnownMeshMembershipProvisioningState {
+  /** Resource creation was canceled. */
+  Canceled = "Canceled",
+  /** The Mesh Membership is being created. */
+  Creating = "Creating",
+  /** The Mesh Membership is being deleted. */
+  Deleting = "Deleting",
+  /** Resource creation failed. */
+  Failed = "Failed",
+  /** Resource has been created. */
+  Succeeded = "Succeeded",
+  /** The Mesh Membership is being updated. */
+  Updating = "Updating",
+}
+
+/**
+ * The provisioning state of the last accepted operation. \
+ * {@link KnownMeshMembershipProvisioningState} can be used interchangeably with MeshMembershipProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Canceled**: Resource creation was canceled. \
+ * **Creating**: The Mesh Membership is being created. \
+ * **Deleting**: The Mesh Membership is being deleted. \
+ * **Failed**: Resource creation failed. \
+ * **Succeeded**: Resource has been created. \
+ * **Updating**: The Mesh Membership is being updated.
+ */
+export type MeshMembershipProvisioningState = string;
+
+/** Private connect profile for mesh membership. */
+export interface MeshMembershipPrivateConnectProfile {
+  /** The private IP address of the member cluster private FQDN. This is a read-only property populated by the service. */
+  readonly privateIpAddress?: string;
+  /** The delegated subnet resource ID. Customer can provide their own subnet, or AKS will allocate one if not specified. When providing your own subnet, the minimum required size is /28 */
+  subnetResourceId?: string;
+}
+
+export function meshMembershipPrivateConnectProfileSerializer(
+  item: MeshMembershipPrivateConnectProfile,
+): any {
+  return { subnetResourceId: item["subnetResourceId"] };
+}
+
+export function meshMembershipPrivateConnectProfileDeserializer(
+  item: any,
+): MeshMembershipPrivateConnectProfile {
+  return {
+    privateIpAddress: item["privateIpAddress"],
+    subnetResourceId: item["subnetResourceId"],
+  };
+}
+
+/** The result of a request to list mesh memberships in a managed cluster. */
+export interface _MeshMembershipsListResult {
+  /** The list of mesh memberships. */
+  value: MeshMembership[];
+  /** The URL to get the next set of mesh membership results. */
+  nextLink?: string;
+}
+
+export function _meshMembershipsListResultDeserializer(item: any): _MeshMembershipsListResult {
+  return {
+    value: meshMembershipArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function meshMembershipArraySerializer(result: Array<MeshMembership>): any[] {
+  return result.map((item) => {
+    return meshMembershipSerializer(item);
+  });
+}
+
+export function meshMembershipArrayDeserializer(result: Array<MeshMembership>): any[] {
+  return result.map((item) => {
+    return meshMembershipDeserializer(item);
+  });
+}
+
 /** The List Operation response. */
 export interface _OperationListResult {
   /** The list of operations */
@@ -7778,6 +10861,67 @@ export function operationValueDisplayDeserializer(item: any): OperationValueDisp
     resource: item["resource"],
     description: item["description"],
     provider: item["provider"],
+  };
+}
+
+/** The current status of an async operation. */
+export interface OperationStatusResult {
+  /** Fully qualified ID for the async operation. */
+  id?: string;
+  /** Name of the async operation. */
+  name?: string;
+  /** Operation status. */
+  status: string;
+  /** Percent of the operation that is complete. */
+  percentComplete?: number;
+  /** The start time of the operation. */
+  startTime?: Date;
+  /** The end time of the operation. */
+  endTime?: Date;
+  /** The operations list. */
+  operations?: OperationStatusResult[];
+  /** If present, details of the operation error. */
+  error?: ErrorDetail;
+  /** Fully qualified ID of the resource against which the original async operation was started. */
+  readonly resourceId?: string;
+}
+
+export function operationStatusResultDeserializer(item: any): OperationStatusResult {
+  return {
+    id: item["id"],
+    name: item["name"],
+    status: item["status"],
+    percentComplete: item["percentComplete"],
+    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
+    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
+    operations: !item["operations"]
+      ? item["operations"]
+      : operationStatusResultArrayDeserializer(item["operations"]),
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    resourceId: item["resourceId"],
+  };
+}
+
+export function operationStatusResultArrayDeserializer(
+  result: Array<OperationStatusResult>,
+): any[] {
+  return result.map((item) => {
+    return operationStatusResultDeserializer(item);
+  });
+}
+
+/** The operations list. It contains an URL link to get the next set of results. */
+export interface _OperationStatusResultList {
+  /** The OperationStatusResult items on this page */
+  value: OperationStatusResult[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _operationStatusResultListDeserializer(item: any): _OperationStatusResultList {
+  return {
+    value: operationStatusResultArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
   };
 }
 
@@ -7886,6 +11030,387 @@ export function trustedAccessRoleRuleDeserializer(item: any): TrustedAccessRoleR
   };
 }
 
+/** Holds an array NodeImageVersions */
+export interface _NodeImageVersionsListResult {
+  /** The NodeImageVersion items on this page */
+  value: NodeImageVersion[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _nodeImageVersionsListResultDeserializer(item: any): _NodeImageVersionsListResult {
+  return {
+    value: nodeImageVersionArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function nodeImageVersionArrayDeserializer(result: Array<NodeImageVersion>): any[] {
+  return result.map((item) => {
+    return nodeImageVersionDeserializer(item);
+  });
+}
+
+/** node image version profile for given major.minor.patch release. */
+export interface NodeImageVersion {
+  /** The operating system of the node image. Example: AKSUbuntu */
+  os?: string;
+  /** The SKU or flavor of the node image. Example: 2004gen2containerd */
+  sku?: string;
+  /** major.minor.patch version of the node image version release. Example: 2024.02.02 */
+  version?: string;
+  /** The OS + SKU + version of the node image. Example: AKSUbuntu-1804gen2containerd-2024.02.02 */
+  fullName?: string;
+}
+
+export function nodeImageVersionDeserializer(item: any): NodeImageVersion {
+  return {
+    os: item["os"],
+    sku: item["sku"],
+    version: item["version"],
+    fullName: item["fullName"],
+  };
+}
+
+/** The List Resource Skus operation response. */
+export interface _VmSkusListResult {
+  /** The ResourceSku items on this page */
+  value: ResourceSku[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _vmSkusListResultDeserializer(item: any): _VmSkusListResult {
+  return {
+    value: resourceSkuArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function resourceSkuArrayDeserializer(result: Array<ResourceSku>): any[] {
+  return result.map((item) => {
+    return resourceSkuDeserializer(item);
+  });
+}
+
+/** Describes an available Compute SKU. */
+export interface ResourceSku {
+  /** The type of resource the SKU applies to. */
+  readonly resourceType?: string;
+  /** The name of SKU. */
+  readonly name?: string;
+  /** Specifies the tier of virtual machines in a scale set.<br /><br /> Possible Values:<br /><br /> **Standard**<br /><br /> **Basic** */
+  readonly tier?: string;
+  /** The Size of the SKU. */
+  readonly size?: string;
+  /** The Family of this particular SKU. */
+  readonly family?: string;
+  /** The Kind of resources that are supported in this SKU. */
+  readonly kind?: string;
+  /** Specifies the number of virtual machines in the scale set. */
+  readonly capacity?: ResourceSkuCapacity;
+  /** The set of locations that the SKU is available. */
+  readonly locations?: string[];
+  /** A list of locations and availability zones in those locations where the SKU is available. */
+  readonly locationInfo?: ResourceSkuLocationInfo[];
+  /** The api versions that support this SKU. */
+  readonly apiVersions?: string[];
+  /** Metadata for retrieving price info. */
+  readonly costs?: ResourceSkuCosts[];
+  /** A name value pair to describe the capability. */
+  readonly capabilities?: ResourceSkuCapabilities[];
+  /** The restrictions because of which SKU cannot be used. This is empty if there are no restrictions. */
+  readonly restrictions?: ResourceSkuRestrictions[];
+}
+
+export function resourceSkuDeserializer(item: any): ResourceSku {
+  return {
+    resourceType: item["resourceType"],
+    name: item["name"],
+    tier: item["tier"],
+    size: item["size"],
+    family: item["family"],
+    kind: item["kind"],
+    capacity: !item["capacity"]
+      ? item["capacity"]
+      : resourceSkuCapacityDeserializer(item["capacity"]),
+    locations: !item["locations"]
+      ? item["locations"]
+      : item["locations"].map((p: any) => {
+          return p;
+        }),
+    locationInfo: !item["locationInfo"]
+      ? item["locationInfo"]
+      : resourceSkuLocationInfoArrayDeserializer(item["locationInfo"]),
+    apiVersions: !item["apiVersions"]
+      ? item["apiVersions"]
+      : item["apiVersions"].map((p: any) => {
+          return p;
+        }),
+    costs: !item["costs"] ? item["costs"] : resourceSkuCostsArrayDeserializer(item["costs"]),
+    capabilities: !item["capabilities"]
+      ? item["capabilities"]
+      : resourceSkuCapabilitiesArrayDeserializer(item["capabilities"]),
+    restrictions: !item["restrictions"]
+      ? item["restrictions"]
+      : resourceSkuRestrictionsArrayDeserializer(item["restrictions"]),
+  };
+}
+
+/** Describes scaling information of a SKU. */
+export interface ResourceSkuCapacity {
+  /** The minimum capacity. */
+  readonly minimum?: number;
+  /** The maximum capacity that can be set. */
+  readonly maximum?: number;
+  /** The default capacity. */
+  readonly default?: number;
+  /** The scale type applicable to the sku. */
+  readonly scaleType?: ResourceSkuCapacityScaleType;
+}
+
+export function resourceSkuCapacityDeserializer(item: any): ResourceSkuCapacity {
+  return {
+    minimum: item["minimum"],
+    maximum: item["maximum"],
+    default: item["default"],
+    scaleType: item["scaleType"],
+  };
+}
+
+/** The scale type applicable to the sku. */
+export enum KnownResourceSkuCapacityScaleType {
+  /** Automatic scaling */
+  Automatic = "Automatic",
+  /** Manual scaling */
+  Manual = "Manual",
+  /** No scaling */
+  None = "None",
+}
+
+/**
+ * The scale type applicable to the sku. \
+ * {@link KnownResourceSkuCapacityScaleType} can be used interchangeably with ResourceSkuCapacityScaleType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Automatic**: Automatic scaling \
+ * **Manual**: Manual scaling \
+ * **None**: No scaling
+ */
+export type ResourceSkuCapacityScaleType = string;
+
+export function resourceSkuLocationInfoArrayDeserializer(
+  result: Array<ResourceSkuLocationInfo>,
+): any[] {
+  return result.map((item) => {
+    return resourceSkuLocationInfoDeserializer(item);
+  });
+}
+
+/** Describes an available Compute SKU Location Information. */
+export interface ResourceSkuLocationInfo {
+  /** Location of the SKU */
+  readonly location?: string;
+  /** List of availability zones where the SKU is supported. */
+  readonly zones?: string[];
+  /** Details of capabilities available to a SKU in specific zones. */
+  readonly zoneDetails?: ResourceSkuZoneDetails[];
+  /** The names of extended locations. */
+  readonly extendedLocations?: string[];
+  /** The type of the extended location. */
+  readonly type?: ExtendedLocationTypes;
+}
+
+export function resourceSkuLocationInfoDeserializer(item: any): ResourceSkuLocationInfo {
+  return {
+    location: item["location"],
+    zones: !item["zones"]
+      ? item["zones"]
+      : item["zones"].map((p: any) => {
+          return p;
+        }),
+    zoneDetails: !item["zoneDetails"]
+      ? item["zoneDetails"]
+      : resourceSkuZoneDetailsArrayDeserializer(item["zoneDetails"]),
+    extendedLocations: !item["extendedLocations"]
+      ? item["extendedLocations"]
+      : item["extendedLocations"].map((p: any) => {
+          return p;
+        }),
+    type: item["type"],
+  };
+}
+
+export function resourceSkuZoneDetailsArrayDeserializer(
+  result: Array<ResourceSkuZoneDetails>,
+): any[] {
+  return result.map((item) => {
+    return resourceSkuZoneDetailsDeserializer(item);
+  });
+}
+
+/** Describes The zonal capabilities of a SKU. */
+export interface ResourceSkuZoneDetails {
+  /** The set of zones that the SKU is available in with the specified capabilities. */
+  readonly name?: string[];
+  /** A list of capabilities that are available for the SKU in the specified list of zones. */
+  readonly capabilities?: ResourceSkuCapabilities[];
+}
+
+export function resourceSkuZoneDetailsDeserializer(item: any): ResourceSkuZoneDetails {
+  return {
+    name: !item["name"]
+      ? item["name"]
+      : item["name"].map((p: any) => {
+          return p;
+        }),
+    capabilities: !item["capabilities"]
+      ? item["capabilities"]
+      : resourceSkuCapabilitiesArrayDeserializer(item["capabilities"]),
+  };
+}
+
+export function resourceSkuCapabilitiesArrayDeserializer(
+  result: Array<ResourceSkuCapabilities>,
+): any[] {
+  return result.map((item) => {
+    return resourceSkuCapabilitiesDeserializer(item);
+  });
+}
+
+/** Describes The SKU capabilities object. */
+export interface ResourceSkuCapabilities {
+  /** An invariant to describe the feature. */
+  readonly name?: string;
+  /** An invariant if the feature is measured by quantity. */
+  readonly value?: string;
+}
+
+export function resourceSkuCapabilitiesDeserializer(item: any): ResourceSkuCapabilities {
+  return {
+    name: item["name"],
+    value: item["value"],
+  };
+}
+
+export function resourceSkuCostsArrayDeserializer(result: Array<ResourceSkuCosts>): any[] {
+  return result.map((item) => {
+    return resourceSkuCostsDeserializer(item);
+  });
+}
+
+/** Describes metadata for retrieving price info. */
+export interface ResourceSkuCosts {
+  /** Used for querying price from commerce. */
+  readonly meterID?: string;
+  /** The multiplier is needed to extend the base metered cost. */
+  readonly quantity?: number;
+  /** An invariant to show the extended unit. */
+  readonly extendedUnit?: string;
+}
+
+export function resourceSkuCostsDeserializer(item: any): ResourceSkuCosts {
+  return {
+    meterID: item["meterID"],
+    quantity: item["quantity"],
+    extendedUnit: item["extendedUnit"],
+  };
+}
+
+export function resourceSkuRestrictionsArrayDeserializer(
+  result: Array<ResourceSkuRestrictions>,
+): any[] {
+  return result.map((item) => {
+    return resourceSkuRestrictionsDeserializer(item);
+  });
+}
+
+/** Describes scaling information of a SKU. */
+export interface ResourceSkuRestrictions {
+  /** The type of restrictions. */
+  readonly type?: ResourceSkuRestrictionsType;
+  /** The value of restrictions. If the restriction type is set to location. This would be different locations where the SKU is restricted. */
+  readonly values?: string[];
+  /** The information about the restriction where the SKU cannot be used. */
+  readonly restrictionInfo?: ResourceSkuRestrictionInfo;
+  /** The reason for restriction. */
+  readonly reasonCode?: ResourceSkuRestrictionsReasonCode;
+}
+
+export function resourceSkuRestrictionsDeserializer(item: any): ResourceSkuRestrictions {
+  return {
+    type: item["type"],
+    values: !item["values"]
+      ? item["values"]
+      : item["values"].map((p: any) => {
+          return p;
+        }),
+    restrictionInfo: !item["restrictionInfo"]
+      ? item["restrictionInfo"]
+      : resourceSkuRestrictionInfoDeserializer(item["restrictionInfo"]),
+    reasonCode: item["reasonCode"],
+  };
+}
+
+/** The type of restrictions. */
+export enum KnownResourceSkuRestrictionsType {
+  /** Location restriction */
+  Location = "Location",
+  /** Zone restriction */
+  Zone = "Zone",
+}
+
+/**
+ * The type of restrictions. \
+ * {@link KnownResourceSkuRestrictionsType} can be used interchangeably with ResourceSkuRestrictionsType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Location**: Location restriction \
+ * **Zone**: Zone restriction
+ */
+export type ResourceSkuRestrictionsType = string;
+
+/** Describes an available Compute SKU Restriction Information. */
+export interface ResourceSkuRestrictionInfo {
+  /** Locations where the SKU is restricted */
+  readonly locations?: string[];
+  /** List of availability zones where the SKU is restricted. */
+  readonly zones?: string[];
+}
+
+export function resourceSkuRestrictionInfoDeserializer(item: any): ResourceSkuRestrictionInfo {
+  return {
+    locations: !item["locations"]
+      ? item["locations"]
+      : item["locations"].map((p: any) => {
+          return p;
+        }),
+    zones: !item["zones"]
+      ? item["zones"]
+      : item["zones"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** The reason for restriction. */
+export enum KnownResourceSkuRestrictionsReasonCode {
+  /** Quota ID restriction */
+  QuotaId = "QuotaId",
+  /** Not available for subscription */
+  NotAvailableForSubscription = "NotAvailableForSubscription",
+}
+
+/**
+ * The reason for restriction. \
+ * {@link KnownResourceSkuRestrictionsReasonCode} can be used interchangeably with ResourceSkuRestrictionsReasonCode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **QuotaId**: Quota ID restriction \
+ * **NotAvailableForSubscription**: Not available for subscription
+ */
+export type ResourceSkuRestrictionsReasonCode = string;
+
 /** The format of the kubeconfig credential. */
 export enum KnownFormat {
   /** Return azure auth-provider kubeconfig. This format is deprecated in v1.22 and will be fully removed in v1.26. See: https://aka.ms/k8s/changes-1-26. */
@@ -7910,6 +11435,8 @@ export enum KnownVersions {
   V20251001 = "2025-10-01",
   /** The 2026-01-01 API version. */
   V20260101 = "2026-01-01",
+  /** The 2026-01-02-preview API version. */
+  V20260102Preview = "2026-01-02-preview",
 }
 
 export function _agentPoolPropertiesSerializer(item: AgentPool): any {
@@ -7934,9 +11461,14 @@ export function _agentPoolPropertiesSerializer(item: AgentPool): any {
     type: item["typePropertiesType"],
     mode: item["mode"],
     orchestratorVersion: item["orchestratorVersion"],
+    upgradeStrategy: item["upgradeStrategy"],
+    enableOSDiskFullCaching: item["enableOSDiskFullCaching"],
     upgradeSettings: !item["upgradeSettings"]
       ? item["upgradeSettings"]
       : agentPoolUpgradeSettingsSerializer(item["upgradeSettings"]),
+    upgradeSettingsBlueGreen: !item["upgradeSettingsBlueGreen"]
+      ? item["upgradeSettingsBlueGreen"]
+      : agentPoolBlueGreenUpgradeSettingsSerializer(item["upgradeSettingsBlueGreen"]),
     powerState: !item["powerState"] ? item["powerState"] : powerStateSerializer(item["powerState"]),
     availabilityZones: !item["availabilityZones"]
       ? item["availabilityZones"]
@@ -7953,6 +11485,11 @@ export function _agentPoolPropertiesSerializer(item: AgentPool): any {
     nodeTaints: !item["nodeTaints"]
       ? item["nodeTaints"]
       : item["nodeTaints"].map((p: any) => {
+          return p;
+        }),
+    nodeInitializationTaints: !item["nodeInitializationTaints"]
+      ? item["nodeInitializationTaints"]
+      : item["nodeInitializationTaints"].map((p: any) => {
           return p;
         }),
     proximityPlacementGroupID: item["proximityPlacementGroupID"],
@@ -7984,6 +11521,9 @@ export function _agentPoolPropertiesSerializer(item: AgentPool): any {
     gatewayProfile: !item["gatewayProfile"]
       ? item["gatewayProfile"]
       : agentPoolGatewayProfileSerializer(item["gatewayProfile"]),
+    artifactStreamingProfile: !item["artifactStreamingProfile"]
+      ? item["artifactStreamingProfile"]
+      : agentPoolArtifactStreamingProfileSerializer(item["artifactStreamingProfile"]),
     virtualMachinesProfile: !item["virtualMachinesProfile"]
       ? item["virtualMachinesProfile"]
       : virtualMachinesProfileSerializer(item["virtualMachinesProfile"]),
@@ -7994,6 +11534,9 @@ export function _agentPoolPropertiesSerializer(item: AgentPool): any {
     localDNSProfile: !item["localDNSProfile"]
       ? item["localDNSProfile"]
       : localDNSProfileSerializer(item["localDNSProfile"]),
+    nodeCustomizationProfile: !item["nodeCustomizationProfile"]
+      ? item["nodeCustomizationProfile"]
+      : nodeCustomizationProfileSerializer(item["nodeCustomizationProfile"]),
   };
 }
 
@@ -8022,9 +11565,14 @@ export function _agentPoolPropertiesDeserializer(item: any) {
     orchestratorVersion: item["orchestratorVersion"],
     currentOrchestratorVersion: item["currentOrchestratorVersion"],
     nodeImageVersion: item["nodeImageVersion"],
+    upgradeStrategy: item["upgradeStrategy"],
+    enableOSDiskFullCaching: item["enableOSDiskFullCaching"],
     upgradeSettings: !item["upgradeSettings"]
       ? item["upgradeSettings"]
       : agentPoolUpgradeSettingsDeserializer(item["upgradeSettings"]),
+    upgradeSettingsBlueGreen: !item["upgradeSettingsBlueGreen"]
+      ? item["upgradeSettingsBlueGreen"]
+      : agentPoolBlueGreenUpgradeSettingsDeserializer(item["upgradeSettingsBlueGreen"]),
     provisioningState: item["provisioningState"],
     powerState: !item["powerState"]
       ? item["powerState"]
@@ -8050,6 +11598,11 @@ export function _agentPoolPropertiesDeserializer(item: any) {
     nodeTaints: !item["nodeTaints"]
       ? item["nodeTaints"]
       : item["nodeTaints"].map((p: any) => {
+          return p;
+        }),
+    nodeInitializationTaints: !item["nodeInitializationTaints"]
+      ? item["nodeInitializationTaints"]
+      : item["nodeInitializationTaints"].map((p: any) => {
           return p;
         }),
     proximityPlacementGroupID: item["proximityPlacementGroupID"],
@@ -8083,6 +11636,9 @@ export function _agentPoolPropertiesDeserializer(item: any) {
     gatewayProfile: !item["gatewayProfile"]
       ? item["gatewayProfile"]
       : agentPoolGatewayProfileDeserializer(item["gatewayProfile"]),
+    artifactStreamingProfile: !item["artifactStreamingProfile"]
+      ? item["artifactStreamingProfile"]
+      : agentPoolArtifactStreamingProfileDeserializer(item["artifactStreamingProfile"]),
     virtualMachinesProfile: !item["virtualMachinesProfile"]
       ? item["virtualMachinesProfile"]
       : virtualMachinesProfileDeserializer(item["virtualMachinesProfile"]),
@@ -8093,6 +11649,9 @@ export function _agentPoolPropertiesDeserializer(item: any) {
     localDNSProfile: !item["localDNSProfile"]
       ? item["localDNSProfile"]
       : localDNSProfileDeserializer(item["localDNSProfile"]),
+    nodeCustomizationProfile: !item["nodeCustomizationProfile"]
+      ? item["nodeCustomizationProfile"]
+      : nodeCustomizationProfileDeserializer(item["nodeCustomizationProfile"]),
   };
 }
 
@@ -8113,12 +11672,21 @@ export function _agentPoolUpgradeProfilePropertiesDeserializer(item: any) {
     upgrades: !item["upgrades"]
       ? item["upgrades"]
       : agentPoolUpgradeProfilePropertiesUpgradesItemArrayDeserializer(item["upgrades"]),
+    componentsByReleases: !item["componentsByReleases"]
+      ? item["componentsByReleases"]
+      : componentsByReleaseArrayDeserializer(item["componentsByReleases"]),
+    recentlyUsedVersions: !item["recentlyUsedVersions"]
+      ? item["recentlyUsedVersions"]
+      : agentPoolRecentlyUsedVersionArrayDeserializer(item["recentlyUsedVersions"]),
     latestNodeImageVersion: item["latestNodeImageVersion"],
   };
 }
 
 export function _managedClusterPropertiesSerializer(item: ManagedCluster): any {
   return {
+    creationData: !item["creationData"]
+      ? item["creationData"]
+      : creationDataSerializer(item["creationData"]),
     kubernetesVersion: item["kubernetesVersion"],
     dnsPrefix: item["dnsPrefix"],
     fqdnSubdomain: item["fqdnSubdomain"],
@@ -8149,6 +11717,7 @@ export function _managedClusterPropertiesSerializer(item: ManagedCluster): any {
       : managedClusterNodeResourceGroupProfileSerializer(item["nodeResourceGroupProfile"]),
     enableRBAC: item["enableRbac"],
     supportPlan: item["supportPlan"],
+    enableNamespaceResources: item["enableNamespaceResources"],
     networkProfile: !item["networkProfile"]
       ? item["networkProfile"]
       : containerServiceNetworkProfileSerializer(item["networkProfile"]),
@@ -8209,6 +11778,15 @@ export function _managedClusterPropertiesSerializer(item: ManagedCluster): any {
     aiToolchainOperatorProfile: !item["aiToolchainOperatorProfile"]
       ? item["aiToolchainOperatorProfile"]
       : managedClusterAIToolchainOperatorProfileSerializer(item["aiToolchainOperatorProfile"]),
+    schedulerProfile: !item["schedulerProfile"]
+      ? item["schedulerProfile"]
+      : schedulerProfileSerializer(item["schedulerProfile"]),
+    hostedSystemProfile: !item["hostedSystemProfile"]
+      ? item["hostedSystemProfile"]
+      : managedClusterHostedSystemProfileSerializer(item["hostedSystemProfile"]),
+    healthMonitorProfile: !item["healthMonitorProfile"]
+      ? item["healthMonitorProfile"]
+      : managedClusterHealthMonitorProfileSerializer(item["healthMonitorProfile"]),
     status: !item["status"] ? item["status"] : managedClusterStatusSerializer(item["status"]),
   };
 }
@@ -8219,6 +11797,9 @@ export function _managedClusterPropertiesDeserializer(item: any) {
     powerState: !item["powerState"]
       ? item["powerState"]
       : powerStateDeserializer(item["powerState"]),
+    creationData: !item["creationData"]
+      ? item["creationData"]
+      : creationDataDeserializer(item["creationData"]),
     maxAgentPools: item["maxAgentPools"],
     kubernetesVersion: item["kubernetesVersion"],
     currentKubernetesVersion: item["currentKubernetesVersion"],
@@ -8254,6 +11835,7 @@ export function _managedClusterPropertiesDeserializer(item: any) {
       : managedClusterNodeResourceGroupProfileDeserializer(item["nodeResourceGroupProfile"]),
     enableRbac: item["enableRBAC"],
     supportPlan: item["supportPlan"],
+    enableNamespaceResources: item["enableNamespaceResources"],
     networkProfile: !item["networkProfile"]
       ? item["networkProfile"]
       : containerServiceNetworkProfileDeserializer(item["networkProfile"]),
@@ -8315,6 +11897,15 @@ export function _managedClusterPropertiesDeserializer(item: any) {
     aiToolchainOperatorProfile: !item["aiToolchainOperatorProfile"]
       ? item["aiToolchainOperatorProfile"]
       : managedClusterAIToolchainOperatorProfileDeserializer(item["aiToolchainOperatorProfile"]),
+    schedulerProfile: !item["schedulerProfile"]
+      ? item["schedulerProfile"]
+      : schedulerProfileDeserializer(item["schedulerProfile"]),
+    hostedSystemProfile: !item["hostedSystemProfile"]
+      ? item["hostedSystemProfile"]
+      : managedClusterHostedSystemProfileDeserializer(item["hostedSystemProfile"]),
+    healthMonitorProfile: !item["healthMonitorProfile"]
+      ? item["healthMonitorProfile"]
+      : managedClusterHealthMonitorProfileDeserializer(item["healthMonitorProfile"]),
     status: !item["status"] ? item["status"] : managedClusterStatusDeserializer(item["status"]),
   };
 }
@@ -8424,6 +12015,27 @@ export function _snapshotPropertiesDeserializer(item: any) {
   };
 }
 
+export function _managedClusterSnapshotPropertiesSerializer(item: ManagedClusterSnapshot): any {
+  return {
+    creationData: !item["creationData"]
+      ? item["creationData"]
+      : creationDataSerializer(item["creationData"]),
+    snapshotType: item["snapshotType"],
+  };
+}
+
+export function _managedClusterSnapshotPropertiesDeserializer(item: any) {
+  return {
+    creationData: !item["creationData"]
+      ? item["creationData"]
+      : creationDataDeserializer(item["creationData"]),
+    snapshotType: item["snapshotType"],
+    managedClusterPropertiesReadOnly: !item["managedClusterPropertiesReadOnly"]
+      ? item["managedClusterPropertiesReadOnly"]
+      : managedClusterPropertiesForSnapshotDeserializer(item["managedClusterPropertiesReadOnly"]),
+  };
+}
+
 export function _trustedAccessRoleBindingPropertiesSerializer(item: TrustedAccessRoleBinding): any {
   return {
     sourceResourceId: item["sourceResourceId"],
@@ -8440,6 +12052,39 @@ export function _trustedAccessRoleBindingPropertiesDeserializer(item: any) {
     roles: item["roles"].map((p: any) => {
       return p;
     }),
+  };
+}
+
+export function _loadBalancerPropertiesSerializer(item: LoadBalancer): any {
+  return {
+    primaryAgentPoolName: item["primaryAgentPoolName"],
+    allowServicePlacement: item["allowServicePlacement"],
+    serviceLabelSelector: !item["serviceLabelSelector"]
+      ? item["serviceLabelSelector"]
+      : labelSelectorSerializer(item["serviceLabelSelector"]),
+    serviceNamespaceSelector: !item["serviceNamespaceSelector"]
+      ? item["serviceNamespaceSelector"]
+      : labelSelectorSerializer(item["serviceNamespaceSelector"]),
+    nodeSelector: !item["nodeSelector"]
+      ? item["nodeSelector"]
+      : labelSelectorSerializer(item["nodeSelector"]),
+  };
+}
+
+export function _loadBalancerPropertiesDeserializer(item: any) {
+  return {
+    primaryAgentPoolName: item["primaryAgentPoolName"],
+    allowServicePlacement: item["allowServicePlacement"],
+    serviceLabelSelector: !item["serviceLabelSelector"]
+      ? item["serviceLabelSelector"]
+      : labelSelectorDeserializer(item["serviceLabelSelector"]),
+    serviceNamespaceSelector: !item["serviceNamespaceSelector"]
+      ? item["serviceNamespaceSelector"]
+      : labelSelectorDeserializer(item["serviceNamespaceSelector"]),
+    nodeSelector: !item["nodeSelector"]
+      ? item["nodeSelector"]
+      : labelSelectorDeserializer(item["nodeSelector"]),
+    provisioningState: item["provisioningState"],
   };
 }
 

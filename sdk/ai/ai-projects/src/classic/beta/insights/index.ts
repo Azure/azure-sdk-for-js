@@ -16,7 +16,7 @@ export interface BetaInsightsOperations {
   /** List all insights in reverse chronological order (newest first). */
   list: (options?: BetaInsightsListOptionalParams) => PagedAsyncIterableIterator<Insight>;
   /** Get a specific insight by Id. */
-  get: (id: string, options?: BetaInsightsGetOptionalParams) => Promise<Insight>;
+  get: (insightId: string, options?: BetaInsightsGetOptionalParams) => Promise<Insight>;
   /** Generate Insights */
   generate: (insight: Insight, options?: BetaInsightsGenerateOptionalParams) => Promise<Insight>;
 }
@@ -24,7 +24,8 @@ export interface BetaInsightsOperations {
 function _getBetaInsights(context: AIProjectContext) {
   return {
     list: (options?: BetaInsightsListOptionalParams) => list(context, options),
-    get: (id: string, options?: BetaInsightsGetOptionalParams) => get(context, id, options),
+    get: (insightId: string, options?: BetaInsightsGetOptionalParams) =>
+      get(context, insightId, options),
     generate: (insight: Insight, options?: BetaInsightsGenerateOptionalParams) =>
       generate(context, insight, options),
   };

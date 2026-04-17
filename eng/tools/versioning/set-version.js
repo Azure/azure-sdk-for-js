@@ -45,7 +45,7 @@ const argv = yargs(hideBin(process.argv))
       type: "boolean",
     },
   })
-  .help().argv;
+  .help().parseSync();
 
 async function main(argv) {
   const artifactName = argv["artifact-name"];

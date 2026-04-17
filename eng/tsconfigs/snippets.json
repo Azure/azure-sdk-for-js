@@ -1,0 +1,4 @@
+{
+  "extends": "./samples.json",
+  "include": ["${configDir}/../test/snippets.spec.ts"]
+}

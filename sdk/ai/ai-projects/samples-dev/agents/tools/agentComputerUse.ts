@@ -25,7 +25,6 @@ import {
   loadScreenshotAssets,
   handleComputerActionAndTakeScreenshot,
   printFinalOutput,
-  type ComputerAction,
 } from "./computerUseUtil.js";
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
@@ -89,7 +88,7 @@ Be direct and efficient. When you reach the search results page, read and descri
       truncation: "auto",
     },
     {
-      body: { agent: { name: agent.name, type: "agent_reference" } },
+      body: { agent_reference: { name: agent.name, type: "agent_reference" } },
     },
   );
 
@@ -120,7 +119,7 @@ Be direct and efficient. When you reach the search results page, read and descri
       console.log("Incomplete computer call, skipping...");
       continue;
     }
-    const action: ComputerAction = computerCall.action;
+    const action = computerCall.action;
     const callId: string = computerCall.call_id;
 
     console.log(`Processing computer call (ID: ${callId})`);
@@ -151,7 +150,7 @@ Be direct and efficient. When you reach the search results page, read and descri
         truncation: "auto",
       },
       {
-        body: { agent: { name: agent.name, type: "agent_reference" } },
+        body: { agent_reference: { name: agent.name, type: "agent_reference" } },
       },
     );
 

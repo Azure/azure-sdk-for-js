@@ -109,7 +109,7 @@ export class KeyVaultClient {
   /** The get key attestation operation returns the key along with its attestation blob. This operation requires the keys/get permission. */
   getKeyAttestation(
     keyName: string,
-    keyVersion: string,
+    keyVersion: string | undefined,
     options: GetKeyAttestationOptionalParams = { requestOptions: {} },
   ): Promise<KeyBundle> {
     return getKeyAttestation(this._client, keyName, keyVersion, options);
@@ -174,7 +174,7 @@ export class KeyVaultClient {
   /** The release key operation is applicable to all key types. The target key must be marked exportable. This operation requires the keys/release permission. */
   release(
     keyName: string,
-    keyVersion: string,
+    keyVersion: string | undefined,
     parameters: KeyReleaseParameters,
     options: ReleaseOptionalParams = { requestOptions: {} },
   ): Promise<KeyReleaseResult> {

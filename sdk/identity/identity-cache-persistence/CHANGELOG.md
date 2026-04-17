@@ -1,12 +1,6 @@
 # Release History
 
-## 1.2.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 1.3.0 (2026-04-08)
 
 ### Other Changes
 

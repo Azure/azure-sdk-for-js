@@ -2,15 +2,20 @@
 // Licensed under the MIT License.
 
 import { defineConfig } from "vitest/config";
-import { playwright } from '@vitest/browser-playwright'
+import { playwright } from "@vitest/browser-playwright";
 import browserMap from "@azure-tools/vite-plugin-browser-test-map";
-import { AzureSDKReporter, makeAliases } from "./vitest.shared.config.js";
+import {
+  AzureSDKReporter,
+  makeAliases,
+  fixCoreLroExternalization,
+} from "./vitest.shared.config.js";
 
 function makeBrowserAliases(rootDir: string) {
   return makeAliases(rootDir, { distDir: `./dist/browser`, indexFile: `index.js` });
 }
 
 export default defineConfig({
+  plugins: [fixCoreLroExternalization()],
   define: {
     "process.env": process.env,
   },
@@ -24,6 +29,7 @@ export default defineConfig({
     include: ["dist-test/**/*.spec.js"],
     exclude: [
       "dist-test/**/node/*.spec.js",
+      "dist-test/**/react-native/**",
       "dist-test/snippets.spec.js",
       "dist-test/integration/**/*.spec.js",
       "dist-test/stress/**/*.js",
@@ -40,7 +46,7 @@ export default defineConfig({
       provider: playwright({
         launchOptions: {
           args: ["--disable-web-security"],
-        }
+        },
       }),
     },
     fakeTimers: {

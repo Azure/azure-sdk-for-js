@@ -56,6 +56,7 @@ export type ClientOptions = PipelineOptions & {
     additionalPolicies?: AdditionalPolicyConfig[];
     httpClient?: HttpClient;
     loggingOptions?: LogPolicyOptions;
+    pipeline?: Pipeline;
 };
 
 // @public

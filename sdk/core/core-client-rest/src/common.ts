@@ -374,6 +374,13 @@ export type ClientOptions = PipelineOptions & {
    * Options to configure request/response logging.
    */
   loggingOptions?: LogPolicyOptions;
+
+  /**
+   * Pipeline to use for the client. If not provided, a default pipeline will be created using the options provided.
+   * Use with caution -- when setting this option, all client options that are used in the creation of the default pipeline
+   * will be ignored.
+   */
+  pipeline?: Pipeline;
 };
 
 /**

@@ -10,12 +10,12 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
-  type PlaywrightWorkspacesCheckNameAvailabilityOptionalParams,
-  type PlaywrightWorkspacesListBySubscriptionOptionalParams,
-  type PlaywrightWorkspacesListByResourceGroupOptionalParams,
-  type PlaywrightWorkspacesDeleteOptionalParams,
-  type PlaywrightWorkspacesUpdateOptionalParams,
-  type PlaywrightWorkspacesCreateOrUpdateOptionalParams,
-  type PlaywrightWorkspacesGetOptionalParams,
+export type {
+  PlaywrightWorkspacesCheckNameAvailabilityOptionalParams,
+  PlaywrightWorkspacesListBySubscriptionOptionalParams,
+  PlaywrightWorkspacesListByResourceGroupOptionalParams,
+  PlaywrightWorkspacesDeleteOptionalParams,
+  PlaywrightWorkspacesUpdateOptionalParams,
+  PlaywrightWorkspacesCreateOrUpdateOptionalParams,
+  PlaywrightWorkspacesGetOptionalParams,
 } from "./options.js";
