@@ -34,7 +34,10 @@ describe("clientHelpers", () => {
     assert.isNotEmpty(policies, "default pipeline should contain policies");
 
     const apiVersionPolicy = policies.find((p) => p.name === apiVersionPolicyName);
-    assert.isDefined(apiVersionPolicy, `Pipeline policy not found in the default pipeline: ${apiVersionPolicyName}`);
+    assert.isDefined(
+      apiVersionPolicy,
+      `Pipeline policy not found in the default pipeline: ${apiVersionPolicyName}`,
+    );
     assert.strictEqual(apiVersionPolicy!.name, apiVersionPolicyName);
   });
 
