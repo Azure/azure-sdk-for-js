@@ -1,118 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert, expect, vi } from "vitest";
+import { describe, it, assert, vi } from "vitest";
 import { deserializeState, initOperation, pollOperation } from "../../src/poller/operation.js";
 import { buildCreatePoller } from "../../src/poller/poller.js";
 import type { OperationState } from "../../src/poller/models.js";
-import { createTestPoller } from "../utils/router.js";
 import { makeState } from "../utils/utils.js";
 
 describe("poller/operation.ts", () => {
   describe("deserializeState", () => {
     it("throws for invalid JSON", () => {
       assert.throws(() => deserializeState("not valid json"), /Unable to deserialize input state/);
-    });
-  });
-
-  describe("simplifyError with innererror (via processOperationStatus)", () => {
-    it("traverses innererror chain and appends messages", async () => {
-      const pollingPath = "path/poll";
-      const poller = createTestPoller({
-        routes: [
-          {
-            method: "PUT",
-            status: 202,
-            headers: {
-              "operation-location": pollingPath,
-            },
-          },
-          {
-            method: "GET",
-            path: pollingPath,
-            status: 200,
-            body: JSON.stringify({
-              status: "Failed",
-              error: {
-                code: "OuterCode",
-                message: "Outer message",
-                innererror: {
-                  code: "InnerCode",
-                  message: "Inner message",
-                  innererror: {
-                    code: "DeepCode",
-                    message: "Deep message",
-                  },
-                },
-              },
-            }),
-          },
-        ],
-        throwOnNon2xxResponse: true,
-      });
-
-      await expect(poller.pollUntilDone()).rejects.toThrow(/DeepCode/);
-    });
-
-    it("appends period to message when missing", async () => {
-      const pollingPath = "path/poll";
-      const poller = createTestPoller({
-        routes: [
-          {
-            method: "PUT",
-            status: 202,
-            headers: {
-              "operation-location": pollingPath,
-            },
-          },
-          {
-            method: "GET",
-            path: pollingPath,
-            status: 200,
-            body: JSON.stringify({
-              status: "Failed",
-              error: {
-                code: "ErrCode",
-                message: "No period at end",
-                innererror: {
-                  code: "Inner",
-                  message: "Inner detail",
-                },
-              },
-            }),
-          },
-        ],
-        throwOnNon2xxResponse: true,
-      });
-
-      await expect(poller.pollUntilDone()).rejects.toThrow(/No period at end\. Inner detail/);
-    });
-  });
-
-  describe("setStateError", () => {
-    it("sets state to failed when poll throws an operation error", async () => {
-      const pollingPath = "path/poll";
-      const poller = createTestPoller({
-        routes: [
-          {
-            method: "PUT",
-            status: 202,
-            headers: {
-              "operation-location": pollingPath,
-            },
-          },
-          // The poll request will get a 500 which throws RestError
-          {
-            method: "GET",
-            path: pollingPath,
-            status: 500,
-            body: JSON.stringify({ error: { code: "ServerError", message: "fail" } }),
-          },
-        ],
-        throwOnNon2xxResponse: true,
-      });
-
-      await expect(poller.pollUntilDone()).rejects.toThrow();
     });
   });
 });
@@ -233,73 +131,5 @@ describe("processOperationStatus with isDone callback", () => {
     const state = await poller.poll();
     // Status is still "running" since we return "running"
     assert.equal(state.status, "running");
-  });
-});
-
-describe("processOperationStatus setErrorAsResult=true includes failed in done states", () => {
-  it("sets result when status is failed and setErrorAsResult is true", async () => {
-    const pollingPath = "path/poll-err-result";
-    const poller = createTestPoller({
-      routes: [
-        {
-          method: "PUT",
-          status: 202,
-          headers: {
-            "operation-location": pollingPath,
-          },
-        },
-        {
-          method: "GET",
-          path: pollingPath,
-          status: 200,
-          body: JSON.stringify({
-            status: "Failed",
-            error: { code: "SomeError", message: "Something went wrong" },
-          }),
-        },
-      ],
-      throwOnNon2xxResponse: false,
-    });
-
-    const result = await poller.pollUntilDone();
-    assert.isDefined(result);
-    assert.deepInclude(result, { status: "Failed" });
-    assert.isTrue(poller.isDone);
-  });
-});
-
-describe("operation.ts branch: appendReadableErrorMessage with message ending in period", () => {
-  it("does not double-add a period when message already ends with one", async () => {
-    const pollingPath = "path/poll-period";
-    const poller = createTestPoller({
-      routes: [
-        {
-          method: "PUT",
-          status: 202,
-          headers: {
-            "operation-location": pollingPath,
-          },
-        },
-        {
-          method: "GET",
-          path: pollingPath,
-          status: 200,
-          body: JSON.stringify({
-            status: "Failed",
-            error: {
-              code: "Err",
-              message: "Something failed.",
-              innererror: {
-                code: "Inner",
-                message: "Inner detail.",
-              },
-            },
-          }),
-        },
-      ],
-      throwOnNon2xxResponse: true,
-    });
-
-    await expect(poller.pollUntilDone()).rejects.toThrow(/Something failed\. Inner detail\./);
   });
 });

@@ -313,4 +313,166 @@ describe("createHttpPoller", () => {
       assert.deepInclude(result, { status: "Failed" });
     });
   });
+
+  describe("error handling", () => {
+    it("traverses innererror chain and appends messages", async () => {
+      const pollingPath = "path/poll";
+      const poller = createTestPoller({
+        routes: [
+          {
+            method: "PUT",
+            status: 202,
+            headers: {
+              "operation-location": pollingPath,
+            },
+          },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 200,
+            body: JSON.stringify({
+              status: "Failed",
+              error: {
+                code: "OuterCode",
+                message: "Outer message",
+                innererror: {
+                  code: "InnerCode",
+                  message: "Inner message",
+                  innererror: {
+                    code: "DeepCode",
+                    message: "Deep message",
+                  },
+                },
+              },
+            }),
+          },
+        ],
+        throwOnNon2xxResponse: true,
+      });
+
+      await expect(poller.pollUntilDone()).rejects.toThrow(/DeepCode/);
+    });
+
+    it("appends period to message when missing", async () => {
+      const pollingPath = "path/poll";
+      const poller = createTestPoller({
+        routes: [
+          {
+            method: "PUT",
+            status: 202,
+            headers: {
+              "operation-location": pollingPath,
+            },
+          },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 200,
+            body: JSON.stringify({
+              status: "Failed",
+              error: {
+                code: "ErrCode",
+                message: "No period at end",
+                innererror: {
+                  code: "Inner",
+                  message: "Inner detail",
+                },
+              },
+            }),
+          },
+        ],
+        throwOnNon2xxResponse: true,
+      });
+
+      await expect(poller.pollUntilDone()).rejects.toThrow(/No period at end\. Inner detail/);
+    });
+
+    it("does not double-add a period when message already ends with one", async () => {
+      const pollingPath = "path/poll-period";
+      const poller = createTestPoller({
+        routes: [
+          {
+            method: "PUT",
+            status: 202,
+            headers: {
+              "operation-location": pollingPath,
+            },
+          },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 200,
+            body: JSON.stringify({
+              status: "Failed",
+              error: {
+                code: "Err",
+                message: "Something failed.",
+                innererror: {
+                  code: "Inner",
+                  message: "Inner detail.",
+                },
+              },
+            }),
+          },
+        ],
+        throwOnNon2xxResponse: true,
+      });
+
+      await expect(poller.pollUntilDone()).rejects.toThrow(/Something failed\. Inner detail\./);
+    });
+
+    it("sets state to failed when poll throws an operation error", async () => {
+      const pollingPath = "path/poll";
+      const poller = createTestPoller({
+        routes: [
+          {
+            method: "PUT",
+            status: 202,
+            headers: {
+              "operation-location": pollingPath,
+            },
+          },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 500,
+            body: JSON.stringify({ error: { code: "ServerError", message: "fail" } }),
+          },
+        ],
+        throwOnNon2xxResponse: true,
+      });
+
+      await expect(poller.pollUntilDone()).rejects.toThrow();
+    });
+
+    it("sets result when status is failed and setErrorAsResult is true", async () => {
+      const pollingPath = "path/poll-err-result";
+      const poller = createTestPoller({
+        routes: [
+          {
+            method: "PUT",
+            status: 202,
+            headers: {
+              "operation-location": pollingPath,
+            },
+          },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 200,
+            body: JSON.stringify({
+              status: "Failed",
+              error: { code: "SomeError", message: "Something went wrong" },
+            }),
+          },
+        ],
+        throwOnNon2xxResponse: false,
+      });
+
+      const result = await poller.pollUntilDone();
+      assert.isDefined(result);
+      assert.deepInclude(result, { status: "Failed" });
+      assert.isTrue(poller.isDone);
+    });
+  });
 });
