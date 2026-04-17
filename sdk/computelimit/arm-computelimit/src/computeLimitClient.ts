@@ -3,16 +3,20 @@
 
 import type { ComputeLimitContext, ComputeLimitClientOptionalParams } from "./api/index.js";
 import { createComputeLimit } from "./api/index.js";
+import type { FeaturesOperations } from "./classic/features/index.js";
+import { _getFeaturesOperations } from "./classic/features/index.js";
 import type { GuestSubscriptionsOperations } from "./classic/guestSubscriptions/index.js";
 import { _getGuestSubscriptionsOperations } from "./classic/guestSubscriptions/index.js";
 import type { OperationsOperations } from "./classic/operations/index.js";
 import { _getOperationsOperations } from "./classic/operations/index.js";
 import type { SharedLimitsOperations } from "./classic/sharedLimits/index.js";
 import { _getSharedLimitsOperations } from "./classic/sharedLimits/index.js";
+import type { VmFamiliesOperations } from "./classic/vmFamilies/index.js";
+import { _getVmFamiliesOperations } from "./classic/vmFamilies/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type ComputeLimitClientOptionalParams } from "./api/computeLimitContext.js";
+export type { ComputeLimitClientOptionalParams } from "./api/computeLimitContext.js";
 
 export class ComputeLimitClient {
   private _client: ComputeLimitContext;
@@ -34,11 +38,17 @@ export class ComputeLimitClient {
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
+    this.vmFamilies = _getVmFamiliesOperations(this._client);
+    this.features = _getFeaturesOperations(this._client);
     this.sharedLimits = _getSharedLimitsOperations(this._client);
     this.guestSubscriptions = _getGuestSubscriptionsOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
   }
 
+  /** The operation groups for vmFamilies */
+  public readonly vmFamilies: VmFamiliesOperations;
+  /** The operation groups for features */
+  public readonly features: FeaturesOperations;
   /** The operation groups for sharedLimits */
   public readonly sharedLimits: SharedLimitsOperations;
   /** The operation groups for guestSubscriptions */
