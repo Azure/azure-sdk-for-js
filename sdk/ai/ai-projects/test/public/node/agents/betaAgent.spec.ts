@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createRecorder, createProjectsClient } from "../../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import type {
@@ -25,7 +26,7 @@ describe("beta agents - session CRUD and file operations", () => {
 
   beforeEach(async function (context: VitestTestContext) {
     recorder = await createRecorder(context);
-    image = process.env["FOUNDRY_AGENT_CONTAINER_IMAGE"] || "my_agent_container_image";
+    image = assertEnvironmentVariable("FOUNDRY_AGENT_CONTAINER_IMAGE");
     projectsClient = createProjectsClient(recorder);
     agents = projectsClient.agents;
     betaAgents = projectsClient.beta.agents;
@@ -56,14 +57,12 @@ describe("beta agents - session CRUD and file operations", () => {
     assert.isNotNull(agent);
     assert.isNotNull(agent.name);
     assert.isNotNull(agent.version);
-    console.log(`Agent created (name: ${agent.name}, version: ${agent.version})`);
 
     // Poll until agent version is active
     for (let attempt = 0; attempt < 60; attempt++) {
       await new Promise((resolve) => setTimeout(resolve, 3_000));
       const versionDetails = await agents.getVersion(agentName, agent.version);
       const status = versionDetails.status;
-      console.log(`Agent version status: ${status} (attempt ${attempt + 1})`);
       if (status === "active") break;
       if (status === "failed") {
         throw new Error(`Agent version provisioning failed: ${JSON.stringify(versionDetails)}`);
@@ -84,13 +83,11 @@ describe("beta agents - session CRUD and file operations", () => {
     assert.isNotNull(session);
     assert.isNotNull(session.agent_session_id);
     assert.isNotNull(session.status);
-    console.log(`Session created (id: ${session.agent_session_id}, status: ${session.status})`);
 
     // Retrieve the session
     const fetched = await betaAgents.getSession(agentName, session.agent_session_id);
     assert.isNotNull(fetched);
     assert.equal(fetched.agent_session_id, session.agent_session_id);
-    console.log(`Retrieved session (id: ${fetched.agent_session_id}, status: ${fetched.status})`);
 
     // List sessions
     const sessions = [];
@@ -98,7 +95,6 @@ describe("beta agents - session CRUD and file operations", () => {
       sessions.push(item);
     }
     assert.isTrue(sessions.length >= 1);
-    console.log(`Found ${sessions.length} session(s)`);
 
     // Upload a file to the session sandbox
     const filePath = "/sandbox/hello.txt";
@@ -112,7 +108,6 @@ describe("beta agents - session CRUD and file operations", () => {
     assert.isNotNull(uploadResult);
     assert.isNotNull(uploadResult.path);
     assert.isTrue(uploadResult.bytes_written > 0);
-    console.log(`Uploaded file: ${uploadResult.path} (${uploadResult.bytes_written} bytes)`);
 
     // List files in the session sandbox
     const listing = await betaAgents.listSessionFiles(
@@ -123,7 +118,6 @@ describe("beta agents - session CRUD and file operations", () => {
     assert.isNotNull(listing);
     assert.isArray(listing.entries);
     assert.isTrue(listing.entries.length >= 1);
-    console.log(`Files in /sandbox: ${listing.entries.map((e) => e.name).join(", ")}`);
 
     // Download the file back
     const downloadResult = await betaAgents.downloadSessionFile(
@@ -142,19 +136,15 @@ describe("beta agents - session CRUD and file operations", () => {
       const downloaded = new Uint8Array(await buffer(downloadResult.readableStreamBody));
       const text = new TextDecoder().decode(downloaded);
       assert.equal(text, "Hello from the beta agents test!");
-      console.log(`Downloaded file content: ${text}`);
     }
 
     // Delete the file
     await betaAgents.deleteSessionFile(agentName, session.agent_session_id, filePath);
-    console.log(`Deleted file: ${filePath}`);
 
     // Delete the session
     await betaAgents.deleteSession(agentName, session.agent_session_id, isolationKey);
-    console.log("Session deleted");
 
     // Delete the agent version
     await agents.deleteVersion(agentName, agent.version);
-    console.log("Agent deleted");
   }, 300_000);
 });
