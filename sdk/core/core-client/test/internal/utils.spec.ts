@@ -2,7 +2,11 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import type { CompositeMapper, FullOperationResponse, OperationResponseMap } from "../../src/index.js";
+import type {
+  CompositeMapper,
+  FullOperationResponse,
+  OperationResponseMap,
+} from "../../src/index.js";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { flattenResponse } from "../../src/utils.js";
 
