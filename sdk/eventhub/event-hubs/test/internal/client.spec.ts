@@ -37,12 +37,11 @@ function getMessagingError(err: unknown): MessagingError | undefined {
 async function validateConnectionError(promise: Promise<unknown>): Promise<void> {
   await expect(promise).to.be.rejected.then((err) => {
     const messagingError = getMessagingError(err);
-    expect(
-      messagingError,
-      "Expected a MessagingError or AggregateError containing a MessagingError",
-    ).to.exist;
+    if (!messagingError) {
+      assert.fail("Expected a MessagingError or AggregateError containing a MessagingError");
+    }
 
-    expect(messagingError!)
+    expect(messagingError)
       .to.be.an.instanceOf(MessagingError)
       .and.has.property("code", isNodeLike ? "ENOTFOUND" : "ServiceCommunicationError");
     return err;
