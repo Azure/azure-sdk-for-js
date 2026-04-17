@@ -354,7 +354,7 @@ class NonRecordingSpan extends MockSpan {
   }
 }
 
-describe("tracingPolicy - additional coverage", function () {
+describe("tracingPolicy - edge cases", function () {
   let activeInstrumenter: MockInstrumenter;
 
   beforeEach(() => {

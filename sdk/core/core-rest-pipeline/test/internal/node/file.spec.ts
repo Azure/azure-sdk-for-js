@@ -10,7 +10,7 @@ import {
   hasRawContent,
 } from "../../../src/util/file.js";
 
-describe("file utilities - additional coverage", function () {
+describe("file utilities - edge cases", function () {
   describe("createFile", function () {
     it("creates a file with default options", function () {
       const content = new Uint8Array([1, 2, 3]);

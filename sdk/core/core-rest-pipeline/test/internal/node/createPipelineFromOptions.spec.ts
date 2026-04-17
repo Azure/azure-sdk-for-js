@@ -4,7 +4,7 @@
 import { describe, it, assert } from "vitest";
 import { createPipelineFromOptions } from "../../../src/createPipelineFromOptions.js";
 
-describe("createPipelineFromOptions - additional coverage", function () {
+describe("createPipelineFromOptions - edge cases", function () {
   it("creates a pipeline with agent option", function () {
     const pipeline = createPipelineFromOptions({
       agent: { http: undefined, https: undefined },

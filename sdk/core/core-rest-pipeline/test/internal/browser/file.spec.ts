@@ -4,7 +4,7 @@
 import { describe, it, assert } from "vitest";
 import { createFile, createFileFromStream } from "../../../src/util/file.js";
 
-describe("file utilities - browser coverage", function () {
+describe("file utilities (browser)", function () {
   describe("createFile (browser path)", function () {
     it("creates a File using the native File constructor", function () {
       const content = new Uint8Array([1, 2, 3]);

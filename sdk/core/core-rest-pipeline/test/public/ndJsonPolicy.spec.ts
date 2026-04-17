@@ -31,7 +31,7 @@ describe("NdJsonPolicy", function () {
   });
 });
 
-describe("ndJsonPolicy - branch coverage", function () {
+describe("ndJsonPolicy - edge cases", function () {
   function createMockNext(): SendRequest {
     const next = vi.fn<SendRequest>();
     next.mockImplementation(async (request) => ({

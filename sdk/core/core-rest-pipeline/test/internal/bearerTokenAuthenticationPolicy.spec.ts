@@ -366,7 +366,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
       expiresOnTimestamp: tokenExpiration,
     });
     // simulate failure of retriving the token, rejecting with an error would also work
-    // but returning null exercises a slightly different code path for better coverage
+    // but returning null exercises a slightly different code path for a slightly different code path
     getToken.mockResolvedValueOnce(null);
     const credential: TokenCredential = {
       getToken,
@@ -1141,7 +1141,7 @@ function matrix<T extends ReadonlyArray<readonly unknown[]>>(
   }
 }
 
-describe("BearerTokenAuthenticationPolicy - additional coverage", function () {
+describe("BearerTokenAuthenticationPolicy - edge cases", function () {
   beforeEach(() => {
     vi.useFakeTimers({ now: Date.now() });
   });

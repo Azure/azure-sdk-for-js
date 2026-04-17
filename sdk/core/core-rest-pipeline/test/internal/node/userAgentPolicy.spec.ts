@@ -9,7 +9,7 @@ import {
   userAgentPolicy,
 } from "../../../src/index.js";
 
-describe("userAgentPolicy - branch coverage", function () {
+describe("userAgentPolicy - edge cases", function () {
   it("does not overwrite an existing User-Agent header", async function () {
     const policy = userAgentPolicy();
     const request = createPipelineRequest({ url: "https://example.com" });

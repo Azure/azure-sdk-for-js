@@ -17,7 +17,7 @@ vi.mock("../../../src/util/userAgentPlatform.js", async (importOriginal) => {
 
 import { setPlatformSpecificData } from "../../../src/util/userAgentPlatform.js";
 
-describe("userAgent utils - additional coverage", function () {
+describe("userAgent utils - edge cases", function () {
   it("getUserAgentHeaderName returns User-Agent", function () {
     assert.equal(getUserAgentHeaderName(), "User-Agent");
   });

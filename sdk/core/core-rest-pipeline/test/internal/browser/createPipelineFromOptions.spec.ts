@@ -5,7 +5,7 @@ import { describe, it, assert } from "vitest";
 import type { Agent, TlsSettings } from "../../../src/interfaces.js";
 import { createPipelineFromOptions } from "../../../src/index.js";
 
-describe("createPipelineFromOptions - browser coverage", function () {
+describe("createPipelineFromOptions (browser)", function () {
   it("creates a pipeline without Node-only policies in browser", function () {
     const pipeline = createPipelineFromOptions({});
     const policies = pipeline.getOrderedPolicies();

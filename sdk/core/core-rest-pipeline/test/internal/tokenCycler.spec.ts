@@ -5,7 +5,7 @@ import type { TokenCredential } from "@azure/core-auth";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 import { createTokenCycler, DEFAULT_CYCLER_OPTIONS } from "../../src/util/tokenCycler.js";
 
-describe("tokenCycler - additional coverage", function () {
+describe("tokenCycler - edge cases", function () {
   beforeEach(() => {
     vi.useFakeTimers({ now: Date.now() });
   });
