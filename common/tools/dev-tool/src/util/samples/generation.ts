@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { readFileSync } from "node:fs";
+import { readFileSync, existsSync } from "node:fs";
 import { stat as statFile } from "node:fs/promises";
 import path from "node:path";
 import semver from "semver";
@@ -407,6 +407,11 @@ export async function makeSamplesFactory(
 
   const finalSourcePath = sourcePath ?? path.join(projectInfo.path, DEV_SAMPLES_BASE);
 
+  // Prefer sample.env from the staging/source directory (auto-generated), fall back to package root
+  const sampleEnvPath = existsSync(path.join(finalSourcePath, "sample.env"))
+    ? path.join(finalSourcePath, "sample.env")
+    : path.join(projectInfo.path, "sample.env");
+
   const info = await makeSampleGenerationInfo(projectInfo, finalSourcePath, versionFolder, onError);
   info.isBeta = isBeta;
 
@@ -455,7 +460,7 @@ export async function makeSamplesFactory(
               file("package.json", () => jsonify(createPackageJson(info, OutputKind.TypeScript))),
               // All of the tsconfigs we use for samples should be the same.
               file("tsconfig.json", () => createTsconfig(projectInfo)),
-              copy("sample.env", path.join(projectInfo.path, "sample.env")),
+              copy("sample.env", sampleEnvPath),
               // We copy the samples sources in to the `src` folder on the typescript side
               dir("src", [
                 ...info.moduleInfos.map(({ relativeSourcePath, filePath }) =>
@@ -469,7 +474,7 @@ export async function makeSamplesFactory(
                 createReadme(OutputKind.JavaScript, info, path.relative(repoRoot, outputDirectory)),
               ),
               file("package.json", () => jsonify(createPackageJson(info, OutputKind.JavaScript))),
-              copy("sample.env", path.join(projectInfo.path, "sample.env")),
+              copy("sample.env", sampleEnvPath),
               // Extract the JS Module Text from the module info structures
               ...info.moduleInfos
                 // Only include the modules if they were not skipped
