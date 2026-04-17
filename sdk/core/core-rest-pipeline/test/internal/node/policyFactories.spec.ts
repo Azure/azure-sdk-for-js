@@ -30,6 +30,8 @@ import {
 } from "../../../src/policies/throttlingRetryPolicy.js";
 import { exponentialRetryPolicy } from "../../../src/policies/exponentialRetryPolicy.js";
 
+const defaultRequest = () => createPipelineRequest({ url: "https://example.com" });
+
 describe("Policy factory functions", function () {
   function createMockNext(): SendRequest {
     const next = vi.fn<SendRequest>();
@@ -54,7 +56,7 @@ describe("Policy factory functions", function () {
 
     it("sends a request through the policy", async function () {
       const policy = agentPolicy();
-      const request = createPipelineRequest({ url: "https://example.com" });
+      const request = defaultRequest();
       const next = createMockNext();
       const response = await policy.sendRequest(request, next);
       assert.equal(response.status, 200);
@@ -115,7 +117,7 @@ describe("Policy factory functions", function () {
 
     it("sends a request through the policy", async function () {
       const policy = tlsPolicy();
-      const request = createPipelineRequest({ url: "https://example.com" });
+      const request = defaultRequest();
       const next = createMockNext();
       const response = await policy.sendRequest(request, next);
       assert.equal(response.status, 200);
@@ -140,7 +142,7 @@ describe("Policy factory functions", function () {
           retry: () => ({ retryAfterInMs: undefined }),
         },
       ]);
-      const request = createPipelineRequest({ url: "https://example.com" });
+      const request = defaultRequest();
       const next = createMockNext();
       const response = await policy.sendRequest(request, next);
       assert.equal(response.status, 200);
@@ -168,7 +170,7 @@ describe("Policy factory functions", function () {
 
     it("sends a request through the policy", async function () {
       const policy = defaultRetryPolicy();
-      const request = createPipelineRequest({ url: "https://example.com" });
+      const request = defaultRequest();
       const next = createMockNext();
       const response = await policy.sendRequest(request, next);
       assert.equal(response.status, 200);
@@ -192,7 +194,7 @@ describe("Policy factory functions", function () {
 
     it("sends a request through the policy", async function () {
       const policy = systemErrorRetryPolicy();
-      const request = createPipelineRequest({ url: "https://example.com" });
+      const request = defaultRequest();
       const next = createMockNext();
       const response = await policy.sendRequest(request, next);
       assert.equal(response.status, 200);
@@ -212,7 +214,7 @@ describe("Policy factory functions", function () {
 
     it("sends a request through the policy", async function () {
       const policy = throttlingRetryPolicy();
-      const request = createPipelineRequest({ url: "https://example.com" });
+      const request = defaultRequest();
       const next = createMockNext();
       const response = await policy.sendRequest(request, next);
       assert.equal(response.status, 200);
@@ -236,7 +238,7 @@ describe("Policy factory functions", function () {
 
     it("sends a request through the policy", async function () {
       const policy = exponentialRetryPolicy();
-      const request = createPipelineRequest({ url: "https://example.com" });
+      const request = defaultRequest();
       const next = createMockNext();
       const response = await policy.sendRequest(request, next);
       assert.equal(response.status, 200);

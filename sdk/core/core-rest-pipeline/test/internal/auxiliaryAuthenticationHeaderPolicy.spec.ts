@@ -13,6 +13,8 @@ import {
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 import { DEFAULT_CYCLER_OPTIONS } from "../../src/util/tokenCycler.js";
 
+const defaultRequest = () => createPipelineRequest({ url: "https://example.com" });
+
 const { refreshWindowInMs: defaultRefreshWindow } = DEFAULT_CYCLER_OPTIONS;
 
 describe("AuxiliaryAuthenticationHeaderPolicy", function () {
@@ -33,7 +35,7 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
       getToken: fakeGetToken,
     };
 
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,
@@ -81,7 +83,7 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
       getToken: fakeGetToken2,
     };
 
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,
@@ -112,7 +114,7 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
     const shortCredential = new MockRefreshAzureCredential(tokenExpiration);
     const longCredential = new MockRefreshAzureCredential(Date.now() + expireDelayMs * 3);
 
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,
@@ -162,7 +164,7 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
     const getTokenDelay = 100;
     const credential = new MockRefreshAzureCredential(tokenExpiration, getTokenDelay);
 
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,
@@ -231,7 +233,7 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
       getToken: fakeGetToken2,
     };
 
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,
@@ -298,7 +300,7 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
   });
 
   it("skips setting header when credentials is an empty array", async function () {
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,
@@ -317,7 +319,7 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
   });
 
   it("skips setting header when credentials is undefined", async function () {
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,

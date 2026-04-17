@@ -18,6 +18,8 @@ import {
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 import { DEFAULT_CYCLER_OPTIONS } from "../../src/util/tokenCycler.js";
 
+const defaultRequest = () => createPipelineRequest({ url: "https://example.com" });
+
 const { refreshWindowInMs: defaultRefreshWindow } = DEFAULT_CYCLER_OPTIONS;
 
 interface Challenge {
@@ -147,7 +149,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
       getToken: fakeGetToken,
     };
 
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,
@@ -170,7 +172,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
   it("refreshes the token on initial request", async () => {
     const expiresOn = Date.now() + 1000 * 60; // One minute later.
     const credential = new MockRefreshAzureCredential(expiresOn);
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
 
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
@@ -191,7 +193,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     let tokenExpiration = Date.now() + expireDelayMs;
     const credential = new MockRefreshAzureCredential(tokenExpiration);
 
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,
@@ -231,7 +233,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     const getTokenDelay = 100;
     const credential = new MockRefreshAzureCredential(tokenExpiration, { getTokenDelay });
 
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,
@@ -262,7 +264,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     const getTokenDelay = 100;
     const credential = new MockRefreshAzureCredential(tokenExpiration, { getTokenDelay });
 
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,
@@ -297,7 +299,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     const getTokenDelay = 100;
     const credential = new MockRefreshAzureCredential(tokenExpiration, { getTokenDelay });
 
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,
@@ -372,7 +374,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
       getToken,
     };
     const scopes = ["test-scope"];
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
 
     async function authorizeRequestOnChallenge(
       options: AuthorizeRequestOnChallengeOptions,
@@ -434,7 +436,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
       refreshAfterTimestamp: tokenRefreshAfter,
     });
 
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,
@@ -479,7 +481,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
       getToken,
     };
     const tokenScopes = ["test-scope"];
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
 
     const next = vi.fn<SendRequest>();
 
@@ -520,7 +522,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
       getToken,
     };
     const tokenScopes = ["test-scope"];
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
 
     const next = vi.fn<SendRequest>();
     const requestError = new Error("Arbitray error");
@@ -563,7 +565,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
         })(),
       });
 
-      const request = createPipelineRequest({ url: "https://example.com" });
+      const request = defaultRequest();
 
       const challengeResponse: PipelineResponse = {
         headers: createHttpHeaders({
@@ -608,7 +610,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
           getToken,
         };
         const tokenScopes = ["test-scope"];
-        const request = createPipelineRequest({ url: "https://example.com" });
+        const request = defaultRequest();
 
         const challengeResponse: PipelineResponse = {
           headers: createHttpHeaders({
@@ -681,7 +683,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
           getToken,
         };
         const scopes = ["test-scope"];
-        const request = createPipelineRequest({ url: "https://example.com" });
+        const request = defaultRequest();
 
         const challengeResponse: PipelineResponse = {
           headers: createHttpHeaders({
@@ -788,7 +790,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
         let lastChallenge: string = "";
         let containNonCAEChallenge = false;
 
-        const request = createPipelineRequest({ url: "https://example.com" });
+        const request = defaultRequest();
         const next = vi.fn<SendRequest>();
         // Mock response based on the order provided
         for (const challengeType of testCase.challengeOrder) {
@@ -888,7 +890,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
         getToken,
       };
       const tokenScopes = ["test-scope"];
-      const request = createPipelineRequest({ url: "https://example.com" });
+      const request = defaultRequest();
 
       const challengeResponse: PipelineResponse = {
         headers: createHttpHeaders({
@@ -953,7 +955,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
         getToken,
       };
       const scopes = ["test-scope"];
-      const request = createPipelineRequest({ url: "https://example.com" });
+      const request = defaultRequest();
 
       const challengeResponse: PipelineResponse = {
         headers: createHttpHeaders({
@@ -1038,7 +1040,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
       getToken,
     };
     const tokenScopes = ["test-scope"];
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
 
     const next = vi.fn<SendRequest>();
     const responseWithoutChallenge: PipelineResponse = {
@@ -1158,7 +1160,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     });
     const credential: TokenCredential = { getToken };
     const scopes = ["test-scope"];
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
 
     // First response: non-CAE challenge (handled by custom callback)
     const nonCaeChallengeResponse: PipelineResponse = {
@@ -1228,7 +1230,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
 
     const credential: TokenCredential = { getToken };
     const scopes = ["test-scope"];
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
 
     // First: non-CAE challenge
     const nonCaeChallengeResponse: PipelineResponse = {
@@ -1285,7 +1287,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
 
   it("handles second CAE challenge after custom handler when no credential provided", async function () {
     const scopes = ["test-scope"];
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
 
     const nonCaeChallengeResponse: PipelineResponse = {
       headers: createHttpHeaders({
@@ -1341,7 +1343,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
       }),
     };
     const scopes = ["test-scope"];
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
 
     // 401 with empty WWW-Authenticate
     const challengeResponse: PipelineResponse = {
@@ -1365,7 +1367,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
   it("does not retry when authorizeRequestOnCaeChallenge returns false", async function () {
     // No credential → getAccessToken returns null → authorizeRequestOnCaeChallenge returns false
     const scopes = ["test-scope"];
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
 
     // CAE challenge response with valid base64 claims
     const caeResponse: PipelineResponse = {
@@ -1400,7 +1402,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
       }),
     };
     const scopes = ["test-scope"];
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
 
     // Non-CAE 401 challenge
     const challengeResponse: PipelineResponse = {
@@ -1436,7 +1438,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
         expiresOnTimestamp: tokenExpiration,
       }),
     };
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
 
     // CAE challenge with valid claims
     const caeResponse: PipelineResponse = {
@@ -1474,7 +1476,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
         expiresOnTimestamp: tokenExpiration,
       }),
     };
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
 
     // Non-CAE challenge
     const nonCaeChallengeResponse: PipelineResponse = {
