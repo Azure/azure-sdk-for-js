@@ -4,8 +4,7 @@
 import { describe, it, assert } from "vitest";
 import { buildCreatePoller } from "../../src/poller/poller.js";
 import { getOperationStatus, getOperationLocation } from "../../src/http/operation.js";
-import type { OperationResponse } from "../../src/http/models.js";
-import type { OperationState } from "../../src/poller/models.js";
+import type { OperationResponse, OperationState } from "../../src/index.js";
 import { makeRawResponse, makeState } from "../utils/utils.js";
 
 describe("getProvisioningState via Body mode", () => {

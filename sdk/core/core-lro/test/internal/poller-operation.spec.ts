@@ -4,7 +4,7 @@
 import { describe, it, assert, vi } from "vitest";
 import { deserializeState, initOperation, pollOperation } from "../../src/poller/operation.js";
 import { buildCreatePoller } from "../../src/poller/poller.js";
-import type { OperationState } from "../../src/poller/models.js";
+import type { OperationState } from "../../src/index.js";
 import { makeState } from "../utils/utils.js";
 
 describe("poller/operation.ts", () => {

@@ -4,9 +4,8 @@
 import type { HttpMethods, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import { createHttpHeaders, isRestError } from "@azure/core-rest-pipeline";
 import type { ResponseBody } from "../../src/http/models.js";
-import type { RawResponse } from "../../src/http/models.js";
 import { assert } from "vitest";
-import type { OperationState, RestorableOperationState } from "../../src/index.js";
+import type { OperationState, RawResponse, RestorableOperationState } from "../../src/index.js";
 
 export interface RouteProcessor {
   method: string;

@@ -13,7 +13,7 @@ import {
   isOperationError,
   pollHttpOperation,
 } from "../../src/http/operation.js";
-import type { OperationResponse } from "../../src/http/models.js";
+import type { OperationResponse } from "../../src/index.js";
 import { makeRawResponse, makeState } from "../utils/utils.js";
 
 describe("http/operation.ts", () => {

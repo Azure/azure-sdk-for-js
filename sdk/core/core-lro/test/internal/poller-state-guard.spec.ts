@@ -8,7 +8,7 @@
 
 import { describe, it, expect, vi } from "vitest";
 import { buildCreatePoller } from "../../src/poller/poller.js";
-import type { OperationState } from "../../src/poller/models.js";
+import type { OperationState } from "../../src/index.js";
 
 // Mock initOperation to resolve with undefined, so the `.then((s) => (state = s))`
 // sets state to undefined, triggering the `if (!state)` guards.
