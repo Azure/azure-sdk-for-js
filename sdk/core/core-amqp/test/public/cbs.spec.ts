@@ -354,7 +354,7 @@ describe("cbs.ts - onSessionError callback", () => {
 
     // Now call the captured onSessionError handler
     assert.isDefined(capturedRxOpt, "Receiver options should have been captured");
-    assert.isDefined(capturedRxOpt.onSessionError, "onSessionError should be defined");
+    assert.isFunction(capturedRxOpt.onSessionError, "onSessionError should be a function");
 
     // Call the handler - should not throw
     capturedRxOpt.onSessionError({

@@ -113,7 +113,7 @@ describe("utils.ts functions", () => {
   describe("getGlobalProperty", () => {
     it("returns a global property", () => {
       const result = getGlobalProperty("setTimeout");
-      assert.isDefined(result);
+      assert.strictEqual(result, setTimeout);
     });
 
     it("returns undefined for non-existing property", () => {
