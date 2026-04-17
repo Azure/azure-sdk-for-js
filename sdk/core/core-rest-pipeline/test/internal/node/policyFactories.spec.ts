@@ -130,7 +130,7 @@ describe("Policy factory functions", function () {
           retry: () => ({ retryAfterInMs: undefined }),
         },
       ]);
-      assert.isDefined(policy.name);
+      assert.strictEqual(policy.name, "retryPolicy");
     });
 
     it("sends a request through the policy", async function () {
@@ -151,7 +151,7 @@ describe("Policy factory functions", function () {
         [{ name: "testStrategy", retry: () => ({ retryAfterInMs: undefined }) }],
         { maxRetries: 5 },
       );
-      assert.isDefined(policy.name);
+      assert.strictEqual(policy.name, "retryPolicy");
     });
   });
 
@@ -222,7 +222,7 @@ describe("Policy factory functions", function () {
   describe("exponentialRetryPolicy", function () {
     it("creates a policy that wraps retryPolicy", function () {
       const policy = exponentialRetryPolicy();
-      assert.isDefined(policy.name);
+      assert.strictEqual(policy.name, "retryPolicy");
     });
 
     it("can be called with options", function () {
@@ -231,7 +231,7 @@ describe("Policy factory functions", function () {
         retryDelayInMs: 500,
         maxRetryDelayInMs: 10000,
       });
-      assert.isDefined(policy.name);
+      assert.strictEqual(policy.name, "retryPolicy");
     });
 
     it("sends a request through the policy", async function () {

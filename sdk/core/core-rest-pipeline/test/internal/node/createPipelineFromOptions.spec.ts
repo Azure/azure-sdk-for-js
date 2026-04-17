@@ -10,10 +10,10 @@ describe("createPipelineFromOptions", function () {
       agent: { http: undefined, https: undefined },
     });
     assert.isDefined(pipeline);
-    // agentPolicy should be in the pipeline
     const policies = pipeline.getOrderedPolicies();
     const agentPol = policies.find((p) => p.name === "agentPolicy");
     assert.isDefined(agentPol);
+    assert.strictEqual(agentPol!.name, "agentPolicy");
   });
 
   it("creates a pipeline with tlsOptions", function () {
@@ -24,6 +24,7 @@ describe("createPipelineFromOptions", function () {
     const policies = pipeline.getOrderedPolicies();
     const tlsPol = policies.find((p) => p.name === "tlsPolicy");
     assert.isDefined(tlsPol);
+    assert.strictEqual(tlsPol!.name, "tlsPolicy");
   });
 
   it("creates a pipeline with both agent and tls options", function () {
@@ -33,7 +34,11 @@ describe("createPipelineFromOptions", function () {
     });
     assert.isDefined(pipeline);
     const policies = pipeline.getOrderedPolicies();
-    assert.isDefined(policies.find((p) => p.name === "agentPolicy"));
-    assert.isDefined(policies.find((p) => p.name === "tlsPolicy"));
+    const agentPol = policies.find((p) => p.name === "agentPolicy");
+    assert.isDefined(agentPol);
+    assert.strictEqual(agentPol!.name, "agentPolicy");
+    const tlsPol = policies.find((p) => p.name === "tlsPolicy");
+    assert.isDefined(tlsPol);
+    assert.strictEqual(tlsPol!.name, "tlsPolicy");
   });
 });
