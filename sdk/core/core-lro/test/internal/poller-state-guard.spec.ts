@@ -37,14 +37,14 @@ describe("poller.ts state guard", () => {
     });
   }
 
-  it("pollUntilDone should throw when state is not set (line 107)", async () => {
+  it("pollUntilDone should throw when state is not set", async () => {
     const poller = createBrokenPoller();
     await expect(poller.pollUntilDone()).rejects.toThrow(
       "Poller should be initialized but it is not!",
     );
   });
 
-  it("poll should throw when state is not set (line 155)", async () => {
+  it("poll should throw when state is not set", async () => {
     const poller = createBrokenPoller();
     await expect(poller.poll()).rejects.toThrow("Poller should be initialized but it is not!");
   });

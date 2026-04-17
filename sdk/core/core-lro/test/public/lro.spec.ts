@@ -3549,7 +3549,7 @@ describe("createHttpPoller", () => {
       await expect(poller.pollUntilDone()).rejects.toThrow(/canceled/i);
     });
 
-    it("uses setDelay when polling interval is provided via retry-after", async () => {
+    it("respects retry-after header during polling", async () => {
       const pollingPath = "path/poll-retry";
       const poller = createTestPoller({
         routes: [
@@ -3565,7 +3565,7 @@ describe("createHttpPoller", () => {
             path: pollingPath,
             status: 200,
             headers: {
-              "retry-after": "0",
+              "retry-after": "1",
             },
             body: JSON.stringify({ status: "InProgress" }),
           },

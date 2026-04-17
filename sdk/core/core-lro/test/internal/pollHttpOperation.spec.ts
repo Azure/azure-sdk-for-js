@@ -33,7 +33,6 @@ describe("pollHttpOperation without processResult", () => {
       setErrorAsResult: false,
     });
 
-
     assert.deepEqual(state.result, { id: "result-123", statusCode: 200 });
   });
 });

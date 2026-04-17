@@ -65,7 +65,7 @@ describe("getOperationStatus for ResourceLocation mode", () => {
 });
 
 describe("buildCreatePoller", () => {
-  it("setDelay is called when getPollingInterval returns a value", async () => {
+  it("completes polling when getPollingInterval is provided", async () => {
     let pollCount = 0;
     const createPoller = buildCreatePoller<any, any, OperationState<any>>({
       getStatusFromInitialResponse: () => "running",

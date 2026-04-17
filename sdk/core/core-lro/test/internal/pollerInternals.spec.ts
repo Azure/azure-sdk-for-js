@@ -99,8 +99,8 @@ describe("initOperation", () => {
   });
 });
 
-describe("processOperationStatus with isDone callback", () => {
-  it("uses custom isDone to determine completion", async () => {
+describe("buildCreatePoller with custom getStatusFromPollResponse", () => {
+  it("keeps status as running when getStatusFromPollResponse returns running", async () => {
     let pollCount = 0;
     const createPoller = buildCreatePoller<any, any, OperationState<any>>({
       getStatusFromInitialResponse: () => "running",
