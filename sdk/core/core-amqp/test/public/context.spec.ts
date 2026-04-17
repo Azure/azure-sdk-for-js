@@ -251,7 +251,7 @@ describe("ConnectionContextBase", function () {
 
   describe("#refreshConnection", function () {
     it("should update fields on the context", function () {
-        const config = ConnectionConfig.create(connectionString, path);
+      const config = ConnectionConfig.create(connectionString, path);
       const context = ConnectionContextBase.create({
         config: config,
         connectionProperties: defaultConnectionProperties,
