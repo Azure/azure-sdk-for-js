@@ -30,3 +30,4 @@ extends:
         safeName: azureaaiprojects
       - name: azure-ai-agents
         safeName: azureaaiagents
+
