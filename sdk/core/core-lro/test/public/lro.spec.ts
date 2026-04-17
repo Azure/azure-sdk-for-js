@@ -3549,7 +3549,7 @@ describe("createHttpPoller", () => {
       await expect(poller.pollUntilDone()).rejects.toThrow(/canceled/i);
     });
 
-    it("respects retry-after header during polling", async () => {
+    it("completes polling when retry-after header is present", async () => {
       const pollingPath = "path/poll-retry";
       const poller = createTestPoller({
         routes: [

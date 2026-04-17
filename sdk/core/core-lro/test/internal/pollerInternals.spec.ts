@@ -130,5 +130,6 @@ describe("buildCreatePoller with custom getStatusFromPollResponse", () => {
     await poller.submitted();
     const state = await poller.poll();
     assert.equal(state.status, "running");
+    assert.isAbove(pollCount, 0, "getStatusFromPollResponse should have been called");
   });
 });

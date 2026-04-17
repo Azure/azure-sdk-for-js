@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, vi } from "vitest";
 import { buildCreatePoller } from "../../src/poller/poller.js";
 import { getOperationStatus, getOperationLocation } from "../../src/http/operation.js";
 import type { OperationResponse, OperationState } from "../../src/index.js";
@@ -67,6 +67,7 @@ describe("getOperationStatus for ResourceLocation mode", () => {
 describe("buildCreatePoller", () => {
   it("completes polling when getPollingInterval is provided", async () => {
     let pollCount = 0;
+    const getPollingInterval = vi.fn().mockReturnValue(42);
     const createPoller = buildCreatePoller<any, any, OperationState<any>>({
       getStatusFromInitialResponse: () => "running",
       getStatusFromPollResponse: () => {
@@ -75,7 +76,7 @@ describe("buildCreatePoller", () => {
       },
       isOperationError: () => false,
       getResourceLocation: () => undefined,
-      getPollingInterval: () => 42,
+      getPollingInterval: getPollingInterval,
       resolveOnUnsuccessful: false,
     });
 
@@ -95,6 +96,10 @@ describe("buildCreatePoller", () => {
     assert.equal(state.status, "running");
     const finalState = await poller.poll();
     assert.equal(finalState.status, "succeeded");
+    assert.isTrue(
+      getPollingInterval.mock.calls.length > 0,
+      "getPollingInterval should have been called",
+    );
   });
 
   it("handles poll with !state guard (defense check)", async () => {
