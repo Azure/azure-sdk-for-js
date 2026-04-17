@@ -503,5 +503,4 @@ export type {
   TextResponseFormatConfigurationResponseFormatText,
   TextResponseFormatConfigurationResponseFormatJsonObject,
   TextResponseFormatConfigurationUnion,
-  BetaEvaluatorsListLatestVersionsOptionalParams,
 } from "./deprecate.interface.js";

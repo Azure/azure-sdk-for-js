@@ -8,9 +8,13 @@ import type { ClientOptions as OpenAIClientOptions } from "openai";
  */
 
 interface AzureAgentConfig {
-  // Whether to allow preview features for the agent.
+  /**
+   * Whether to allow preview features for the agent.
+   */
   allowPreview: boolean;
-  // The name of the agent.
+  /**
+   * The name of the agent.
+   */
   agentName: string;
 }
 

@@ -8,8 +8,6 @@ import type {
   TextResponseFormatUnion,
 } from "./models/index.js";
 
-import type { BetaEvaluatorsListOptionalParams } from "./api/beta/evaluators/index.js";
-
 /** @deprecated Use `TextResponseFormat` instead. */
 export interface TextResponseFormatConfiguration extends TextResponseFormat {}
 /** @deprecated Use `TextResponseFormatText` instead. */
@@ -18,5 +16,3 @@ export interface TextResponseFormatConfigurationResponseFormatText extends TextR
 export interface TextResponseFormatConfigurationResponseFormatJsonObject extends TextResponseFormatJsonObject {}
 /** @deprecated Use `TextResponseFormatUnion` instead. */
 export type TextResponseFormatConfigurationUnion = TextResponseFormatUnion;
-/** @deprecated Use `BetaEvaluatorsListOptionalParams` instead. */
-export interface BetaEvaluatorsListLatestVersionsOptionalParams extends BetaEvaluatorsListOptionalParams {}

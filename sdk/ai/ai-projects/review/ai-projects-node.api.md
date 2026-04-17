@@ -332,9 +332,7 @@ export interface AutoCodeInterpreterToolParam {
 
 // @public
 export interface AzureAgentConfig {
-    // (undocumented)
     agentName: string;
-    // (undocumented)
     allowPreview: boolean;
 }
 
@@ -534,10 +532,6 @@ export interface BetaEvaluatorsDeleteVersionOptionalParams extends OperationOpti
 
 // @public
 export interface BetaEvaluatorsGetVersionOptionalParams extends OperationOptions {
-}
-
-// @public @deprecated (undocumented)
-export interface BetaEvaluatorsListLatestVersionsOptionalParams extends BetaEvaluatorsListOptionalParams {
 }
 
 // @public

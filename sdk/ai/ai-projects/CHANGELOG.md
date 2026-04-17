@@ -24,7 +24,6 @@
 - Deprecated `TextResponseFormatConfigurationResponseFormatText` in favor of `TextResponseFormatText`
 - Deprecated `TextResponseFormatConfigurationResponseFormatJsonObject` in favor of `TextResponseFormatJsonObject`
 - Deprecated `TextResponseFormatConfigurationUnion` in favor of `TextResponseFormatUnion`
-- Deprecated `BetaEvaluatorsListLatestVersionsOptionalParams` in favor of `BetaEvaluatorsListOptionalParams`
 
 ## 2.0.2 (2026-04-06)
 
