@@ -4,11 +4,15 @@
 
 ```ts
 
-import type * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
-import type { PagedAsyncIterableIterator } from '@azure/core-paging';
-import type { SimplePollerLike } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AccessControlRules {
@@ -34,9 +38,7 @@ export type AccessControlRulesMode = string;
 export interface AccessControlRulesPrivilege {
     name: string;
     path: string;
-    queryParameters?: {
-        [propertyName: string]: string;
-    };
+    queryParameters?: Record<string, string>;
 }
 
 // @public
@@ -79,9 +81,9 @@ export interface AdditionalReplicaSet {
 
 // @public
 export interface AdditionalUnattendContent {
-    componentName?: "Microsoft-Windows-Shell-Setup";
+    componentName?: ComponentNames;
     content?: string;
-    passName?: "OobeSystem";
+    passName?: PassNames;
     settingName?: SettingNames;
 }
 
@@ -191,124 +193,80 @@ export interface AvailabilitySet extends TrackedResource {
 }
 
 // @public
-export interface AvailabilitySetListResult {
-    nextLink?: string;
-    value: AvailabilitySet[];
+export interface AvailabilitySetProperties {
+    platformFaultDomainCount?: number;
+    platformUpdateDomainCount?: number;
+    proximityPlacementGroup?: SubResource;
+    scheduledEventsPolicy?: ScheduledEventsPolicy;
+    readonly statuses?: InstanceViewStatus[];
+    virtualMachines?: SubResource[];
+    readonly virtualMachineScaleSetMigrationInfo?: VirtualMachineScaleSetMigrationInfo;
 }
 
 // @public
-export interface AvailabilitySets {
-    beginConvertToVirtualMachineScaleSet(resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsConvertToVirtualMachineScaleSetOptionalParams): Promise<SimplePollerLike<OperationState<AvailabilitySetsConvertToVirtualMachineScaleSetResponse>, AvailabilitySetsConvertToVirtualMachineScaleSetResponse>>;
-    beginConvertToVirtualMachineScaleSetAndWait(resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsConvertToVirtualMachineScaleSetOptionalParams): Promise<AvailabilitySetsConvertToVirtualMachineScaleSetResponse>;
-    cancelMigrationToVirtualMachineScaleSet(resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsCancelMigrationToVirtualMachineScaleSetOptionalParams): Promise<void>;
-    createOrUpdate(resourceGroupName: string, availabilitySetName: string, parameters: AvailabilitySet, options?: AvailabilitySetsCreateOrUpdateOptionalParams): Promise<AvailabilitySetsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsGetOptionalParams): Promise<AvailabilitySetsGetResponse>;
-    list(resourceGroupName: string, options?: AvailabilitySetsListOptionalParams): PagedAsyncIterableIterator<AvailabilitySet>;
-    listAvailableSizes(resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsListAvailableSizesOptionalParams): PagedAsyncIterableIterator<VirtualMachineSize>;
-    listBySubscription(options?: AvailabilitySetsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<AvailabilitySet>;
-    startMigrationToVirtualMachineScaleSet(resourceGroupName: string, availabilitySetName: string, parameters: MigrateToVirtualMachineScaleSetInput, options?: AvailabilitySetsStartMigrationToVirtualMachineScaleSetOptionalParams): Promise<void>;
-    update(resourceGroupName: string, availabilitySetName: string, parameters: AvailabilitySetUpdate, options?: AvailabilitySetsUpdateOptionalParams): Promise<AvailabilitySetsUpdateResponse>;
-    validateMigrationToVirtualMachineScaleSet(resourceGroupName: string, availabilitySetName: string, parameters: MigrateToVirtualMachineScaleSetInput, options?: AvailabilitySetsValidateMigrationToVirtualMachineScaleSetOptionalParams): Promise<void>;
+export interface AvailabilitySetsCancelMigrationToVirtualMachineScaleSetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AvailabilitySetsCancelMigrationToVirtualMachineScaleSetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface AvailabilitySetsConvertToVirtualMachineScaleSetHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface AvailabilitySetsConvertToVirtualMachineScaleSetOptionalParams extends coreClient.OperationOptions {
+export interface AvailabilitySetsConvertToVirtualMachineScaleSetOptionalParams extends OperationOptions {
     parameters?: ConvertToVirtualMachineScaleSetInput;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AvailabilitySetsConvertToVirtualMachineScaleSetResponse = AvailabilitySetsConvertToVirtualMachineScaleSetHeaders;
-
-// @public
-export interface AvailabilitySetsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface AvailabilitySetsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AvailabilitySetsCreateOrUpdateResponse = AvailabilitySet;
-
-// @public
-export interface AvailabilitySetsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface AvailabilitySetsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AvailabilitySetsGetOptionalParams extends coreClient.OperationOptions {
+export interface AvailabilitySetsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AvailabilitySetsGetResponse = AvailabilitySet;
-
-// @public
-export type AvailabilitySetSkuTypes = string;
-
-// @public
-export interface AvailabilitySetsListAvailableSizesNextOptionalParams extends coreClient.OperationOptions {
+export interface AvailabilitySetsListAvailableSizesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AvailabilitySetsListAvailableSizesNextResponse = VirtualMachineSizeListResult;
-
-// @public
-export interface AvailabilitySetsListAvailableSizesOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AvailabilitySetsListAvailableSizesResponse = VirtualMachineSizeListResult;
-
-// @public
-export interface AvailabilitySetsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AvailabilitySetsListBySubscriptionNextResponse = AvailabilitySetListResult;
-
-// @public
-export interface AvailabilitySetsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface AvailabilitySetsListBySubscriptionOptionalParams extends OperationOptions {
     expand?: string;
 }
 
 // @public
-export type AvailabilitySetsListBySubscriptionResponse = AvailabilitySetListResult;
-
-// @public
-export interface AvailabilitySetsListNextOptionalParams extends coreClient.OperationOptions {
+export interface AvailabilitySetsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AvailabilitySetsListNextResponse = AvailabilitySetListResult;
-
-// @public
-export interface AvailabilitySetsListOptionalParams extends coreClient.OperationOptions {
+export interface AvailabilitySetsOperations {
+    // @deprecated (undocumented)
+    beginConvertToVirtualMachineScaleSet: (resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsConvertToVirtualMachineScaleSetOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginConvertToVirtualMachineScaleSetAndWait: (resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsConvertToVirtualMachineScaleSetOptionalParams) => Promise<void>;
+    cancelMigrationToVirtualMachineScaleSet: (resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsCancelMigrationToVirtualMachineScaleSetOptionalParams) => Promise<void>;
+    convertToVirtualMachineScaleSet: (resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsConvertToVirtualMachineScaleSetOptionalParams) => PollerLike<OperationState<void>, void>;
+    createOrUpdate: (resourceGroupName: string, availabilitySetName: string, parameters: AvailabilitySet, options?: AvailabilitySetsCreateOrUpdateOptionalParams) => Promise<AvailabilitySet>;
+    delete: (resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsGetOptionalParams) => Promise<AvailabilitySet>;
+    list: (resourceGroupName: string, options?: AvailabilitySetsListOptionalParams) => PagedAsyncIterableIterator<AvailabilitySet>;
+    listAvailableSizes: (resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsListAvailableSizesOptionalParams) => PagedAsyncIterableIterator<VirtualMachineSize>;
+    listBySubscription: (options?: AvailabilitySetsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<AvailabilitySet>;
+    startMigrationToVirtualMachineScaleSet: (resourceGroupName: string, availabilitySetName: string, parameters: MigrateToVirtualMachineScaleSetInput, options?: AvailabilitySetsStartMigrationToVirtualMachineScaleSetOptionalParams) => Promise<void>;
+    update: (resourceGroupName: string, availabilitySetName: string, parameters: AvailabilitySetUpdate, options?: AvailabilitySetsUpdateOptionalParams) => Promise<AvailabilitySet>;
+    validateMigrationToVirtualMachineScaleSet: (resourceGroupName: string, availabilitySetName: string, parameters: MigrateToVirtualMachineScaleSetInput, options?: AvailabilitySetsValidateMigrationToVirtualMachineScaleSetOptionalParams) => Promise<void>;
 }
 
 // @public
-export type AvailabilitySetsListResponse = AvailabilitySetListResult;
-
-// @public
-export interface AvailabilitySetsStartMigrationToVirtualMachineScaleSetOptionalParams extends coreClient.OperationOptions {
+export interface AvailabilitySetsStartMigrationToVirtualMachineScaleSetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AvailabilitySetsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface AvailabilitySetsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AvailabilitySetsUpdateResponse = AvailabilitySet;
-
-// @public
-export interface AvailabilitySetsValidateMigrationToVirtualMachineScaleSetOptionalParams extends coreClient.OperationOptions {
+export interface AvailabilitySetsValidateMigrationToVirtualMachineScaleSetOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -334,6 +292,16 @@ export interface AvailablePatchSummary {
     readonly startTime?: Date;
     readonly status?: PatchOperationStatus;
 }
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface BillingProfile {
@@ -380,7 +348,7 @@ export interface CapacityReservationGroup extends TrackedResource {
     zones?: string[];
 }
 
-// @public (undocumented)
+// @public
 export interface CapacityReservationGroupInstanceView {
     readonly capacityReservations?: CapacityReservationInstanceViewWithName[];
     readonly sharedSubscriptionIds?: SubResourceReadOnly[];
@@ -390,77 +358,51 @@ export interface CapacityReservationGroupInstanceView {
 export type CapacityReservationGroupInstanceViewTypes = string;
 
 // @public
-export interface CapacityReservationGroupListResult {
-    nextLink?: string;
-    value: CapacityReservationGroup[];
+export interface CapacityReservationGroupProperties {
+    readonly capacityReservations?: SubResourceReadOnly[];
+    readonly instanceView?: CapacityReservationGroupInstanceView;
+    reservationType?: ReservationType;
+    sharingProfile?: ResourceSharingProfile;
+    readonly virtualMachinesAssociated?: SubResourceReadOnly[];
 }
 
 // @public
-export interface CapacityReservationGroups {
-    createOrUpdate(resourceGroupName: string, capacityReservationGroupName: string, parameters: CapacityReservationGroup, options?: CapacityReservationGroupsCreateOrUpdateOptionalParams): Promise<CapacityReservationGroupsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, capacityReservationGroupName: string, options?: CapacityReservationGroupsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, capacityReservationGroupName: string, options?: CapacityReservationGroupsGetOptionalParams): Promise<CapacityReservationGroupsGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: CapacityReservationGroupsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<CapacityReservationGroup>;
-    listBySubscription(options?: CapacityReservationGroupsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<CapacityReservationGroup>;
-    update(resourceGroupName: string, capacityReservationGroupName: string, parameters: CapacityReservationGroupUpdate, options?: CapacityReservationGroupsUpdateOptionalParams): Promise<CapacityReservationGroupsUpdateResponse>;
+export interface CapacityReservationGroupsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface CapacityReservationGroupsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface CapacityReservationGroupsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CapacityReservationGroupsCreateOrUpdateResponse = CapacityReservationGroup;
-
-// @public
-export interface CapacityReservationGroupsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface CapacityReservationGroupsGetOptionalParams extends coreClient.OperationOptions {
+export interface CapacityReservationGroupsGetOptionalParams extends OperationOptions {
     expand?: CapacityReservationGroupInstanceViewTypes;
 }
 
 // @public
-export type CapacityReservationGroupsGetResponse = CapacityReservationGroup;
-
-// @public
-export interface CapacityReservationGroupsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CapacityReservationGroupsListByResourceGroupNextResponse = CapacityReservationGroupListResult;
-
-// @public
-export interface CapacityReservationGroupsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface CapacityReservationGroupsListByResourceGroupOptionalParams extends OperationOptions {
     expand?: ExpandTypesForGetCapacityReservationGroups;
 }
 
 // @public
-export type CapacityReservationGroupsListByResourceGroupResponse = CapacityReservationGroupListResult;
-
-// @public
-export interface CapacityReservationGroupsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CapacityReservationGroupsListBySubscriptionNextResponse = CapacityReservationGroupListResult;
-
-// @public
-export interface CapacityReservationGroupsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface CapacityReservationGroupsListBySubscriptionOptionalParams extends OperationOptions {
     expand?: ExpandTypesForGetCapacityReservationGroups;
     resourceIdsOnly?: ResourceIdOptionsForGetCapacityReservationGroups;
 }
 
 // @public
-export type CapacityReservationGroupsListBySubscriptionResponse = CapacityReservationGroupListResult;
-
-// @public
-export interface CapacityReservationGroupsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface CapacityReservationGroupsOperations {
+    createOrUpdate: (resourceGroupName: string, capacityReservationGroupName: string, parameters: CapacityReservationGroup, options?: CapacityReservationGroupsCreateOrUpdateOptionalParams) => Promise<CapacityReservationGroup>;
+    delete: (resourceGroupName: string, capacityReservationGroupName: string, options?: CapacityReservationGroupsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, capacityReservationGroupName: string, options?: CapacityReservationGroupsGetOptionalParams) => Promise<CapacityReservationGroup>;
+    listByResourceGroup: (resourceGroupName: string, options?: CapacityReservationGroupsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<CapacityReservationGroup>;
+    listBySubscription: (options?: CapacityReservationGroupsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<CapacityReservationGroup>;
+    update: (resourceGroupName: string, capacityReservationGroupName: string, parameters: CapacityReservationGroupUpdate, options?: CapacityReservationGroupsUpdateOptionalParams) => Promise<CapacityReservationGroup>;
 }
 
 // @public
-export type CapacityReservationGroupsUpdateResponse = CapacityReservationGroup;
+export interface CapacityReservationGroupsUpdateOptionalParams extends OperationOptions {
+}
 
 // @public
 export interface CapacityReservationGroupUpdate extends UpdateResource {
@@ -486,91 +428,67 @@ export interface CapacityReservationInstanceViewWithName extends CapacityReserva
 }
 
 // @public
-export interface CapacityReservationListResult {
-    nextLink?: string;
-    value: CapacityReservation[];
-}
-
-// @public
 export interface CapacityReservationProfile {
     capacityReservationGroup?: SubResource;
 }
 
 // @public
-export interface CapacityReservations {
-    beginCreateOrUpdate(resourceGroupName: string, capacityReservationGroupName: string, capacityReservationName: string, parameters: CapacityReservation, options?: CapacityReservationsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CapacityReservationsCreateOrUpdateResponse>, CapacityReservationsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, capacityReservationGroupName: string, capacityReservationName: string, parameters: CapacityReservation, options?: CapacityReservationsCreateOrUpdateOptionalParams): Promise<CapacityReservationsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, capacityReservationGroupName: string, capacityReservationName: string, options?: CapacityReservationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, capacityReservationGroupName: string, capacityReservationName: string, options?: CapacityReservationsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, capacityReservationGroupName: string, capacityReservationName: string, parameters: CapacityReservationUpdate, options?: CapacityReservationsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CapacityReservationsUpdateResponse>, CapacityReservationsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, capacityReservationGroupName: string, capacityReservationName: string, parameters: CapacityReservationUpdate, options?: CapacityReservationsUpdateOptionalParams): Promise<CapacityReservationsUpdateResponse>;
-    get(resourceGroupName: string, capacityReservationGroupName: string, capacityReservationName: string, options?: CapacityReservationsGetOptionalParams): Promise<CapacityReservationsGetResponse>;
-    listByCapacityReservationGroup(resourceGroupName: string, capacityReservationGroupName: string, options?: CapacityReservationsListByCapacityReservationGroupOptionalParams): PagedAsyncIterableIterator<CapacityReservation>;
+export interface CapacityReservationProperties {
+    readonly instanceView?: CapacityReservationInstanceView;
+    readonly platformFaultDomainCount?: number;
+    readonly provisioningState?: string;
+    readonly provisioningTime?: Date;
+    readonly reservationId?: string;
+    scheduleProfile?: ScheduleProfile;
+    readonly timeCreated?: Date;
+    readonly virtualMachinesAssociated?: SubResourceReadOnly[];
 }
 
 // @public
-export interface CapacityReservationsCreateOrUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface CapacityReservationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CapacityReservationsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type CapacityReservationsCreateOrUpdateResponse = CapacityReservation;
-
-// @public
-export interface CapacityReservationsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface CapacityReservationsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CapacityReservationsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface CapacityReservationsGetOptionalParams extends coreClient.OperationOptions {
+export interface CapacityReservationsGetOptionalParams extends OperationOptions {
     expand?: CapacityReservationInstanceViewTypes;
 }
 
 // @public
-export type CapacityReservationsGetResponse = CapacityReservation;
-
-// @public
-export interface CapacityReservationsListByCapacityReservationGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface CapacityReservationsListByCapacityReservationGroupOptionalParams extends OperationOptions {
+    expand?: ExpandTypesForGetCapacityReservationGroups;
 }
 
 // @public
-export type CapacityReservationsListByCapacityReservationGroupNextResponse = CapacityReservationListResult;
-
-// @public
-export interface CapacityReservationsListByCapacityReservationGroupOptionalParams extends coreClient.OperationOptions {
+export interface CapacityReservationsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, capacityReservationGroupName: string, capacityReservationName: string, parameters: CapacityReservation, options?: CapacityReservationsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<CapacityReservation>, CapacityReservation>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, capacityReservationGroupName: string, capacityReservationName: string, parameters: CapacityReservation, options?: CapacityReservationsCreateOrUpdateOptionalParams) => Promise<CapacityReservation>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, capacityReservationGroupName: string, capacityReservationName: string, options?: CapacityReservationsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, capacityReservationGroupName: string, capacityReservationName: string, options?: CapacityReservationsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, capacityReservationGroupName: string, capacityReservationName: string, parameters: CapacityReservationUpdate, options?: CapacityReservationsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<CapacityReservation>, CapacityReservation>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, capacityReservationGroupName: string, capacityReservationName: string, parameters: CapacityReservationUpdate, options?: CapacityReservationsUpdateOptionalParams) => Promise<CapacityReservation>;
+    createOrUpdate: (resourceGroupName: string, capacityReservationGroupName: string, capacityReservationName: string, parameters: CapacityReservation, options?: CapacityReservationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<CapacityReservation>, CapacityReservation>;
+    delete: (resourceGroupName: string, capacityReservationGroupName: string, capacityReservationName: string, options?: CapacityReservationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, capacityReservationGroupName: string, capacityReservationName: string, options?: CapacityReservationsGetOptionalParams) => Promise<CapacityReservation>;
+    listByCapacityReservationGroup: (resourceGroupName: string, capacityReservationGroupName: string, options?: CapacityReservationsListByCapacityReservationGroupOptionalParams) => PagedAsyncIterableIterator<CapacityReservation>;
+    update: (resourceGroupName: string, capacityReservationGroupName: string, capacityReservationName: string, parameters: CapacityReservationUpdate, options?: CapacityReservationsUpdateOptionalParams) => PollerLike<OperationState<CapacityReservation>, CapacityReservation>;
 }
 
 // @public
-export type CapacityReservationsListByCapacityReservationGroupResponse = CapacityReservationListResult;
-
-// @public
-export interface CapacityReservationsUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface CapacityReservationsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CapacityReservationsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type CapacityReservationsUpdateResponse = CapacityReservation;
 
 // @public
 export interface CapacityReservationUpdate extends UpdateResource {
@@ -597,504 +515,30 @@ export interface CloudError {
 }
 
 // @public
-export interface CloudService {
-    readonly id?: string;
-    location: string;
-    readonly name?: string;
-    properties?: CloudServiceProperties;
-    readonly systemData?: SystemData;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    readonly type?: string;
-    zones?: string[];
+export interface CommunityGalleriesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface CloudServiceExtensionProfile {
-    extensions?: Extension[];
+export interface CommunityGalleriesOperations {
+    get: (location: string, publicGalleryName: string, options?: CommunityGalleriesGetOptionalParams) => Promise<CommunityGallery>;
 }
-
-// @public
-export interface CloudServiceExtensionProperties {
-    autoUpgradeMinorVersion?: boolean;
-    forceUpdateTag?: string;
-    protectedSettings?: any;
-    protectedSettingsFromKeyVault?: CloudServiceVaultAndSecretReference;
-    readonly provisioningState?: string;
-    publisher?: string;
-    rolesAppliedTo?: string[];
-    settings?: any;
-    type?: string;
-    typeHandlerVersion?: string;
-}
-
-// @public
-export interface CloudServiceInstanceView {
-    readonly privateIds?: string[];
-    roleInstance?: InstanceViewStatusesSummary;
-    readonly sdkVersion?: string;
-    readonly statuses?: ResourceInstanceViewStatus[];
-}
-
-// @public
-export interface CloudServiceListResult {
-    nextLink?: string;
-    value: CloudService[];
-}
-
-// @public
-export interface CloudServiceNetworkProfile {
-    loadBalancerConfigurations?: LoadBalancerConfiguration[];
-    slotType?: CloudServiceSlotType;
-    swappableCloudService?: SubResource;
-}
-
-// @public
-export interface CloudServiceOperatingSystems {
-    getOSFamily(location: string, osFamilyName: string, options?: CloudServiceOperatingSystemsGetOSFamilyOptionalParams): Promise<CloudServiceOperatingSystemsGetOSFamilyResponse>;
-    getOSVersion(location: string, osVersionName: string, options?: CloudServiceOperatingSystemsGetOSVersionOptionalParams): Promise<CloudServiceOperatingSystemsGetOSVersionResponse>;
-    listOSFamilies(location: string, options?: CloudServiceOperatingSystemsListOSFamiliesOptionalParams): PagedAsyncIterableIterator<OSFamily>;
-    listOSVersions(location: string, options?: CloudServiceOperatingSystemsListOSVersionsOptionalParams): PagedAsyncIterableIterator<OSVersion>;
-}
-
-// @public
-export interface CloudServiceOperatingSystemsGetOSFamilyOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CloudServiceOperatingSystemsGetOSFamilyResponse = OSFamily;
-
-// @public
-export interface CloudServiceOperatingSystemsGetOSVersionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CloudServiceOperatingSystemsGetOSVersionResponse = OSVersion;
-
-// @public
-export interface CloudServiceOperatingSystemsListOSFamiliesNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CloudServiceOperatingSystemsListOSFamiliesNextResponse = OSFamilyListResult;
-
-// @public
-export interface CloudServiceOperatingSystemsListOSFamiliesOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CloudServiceOperatingSystemsListOSFamiliesResponse = OSFamilyListResult;
-
-// @public
-export interface CloudServiceOperatingSystemsListOSVersionsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CloudServiceOperatingSystemsListOSVersionsNextResponse = OSVersionListResult;
-
-// @public
-export interface CloudServiceOperatingSystemsListOSVersionsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CloudServiceOperatingSystemsListOSVersionsResponse = OSVersionListResult;
-
-// @public
-export interface CloudServiceOsProfile {
-    secrets?: CloudServiceVaultSecretGroup[];
-}
-
-// @public
-export interface CloudServiceProperties {
-    allowModelOverride?: boolean;
-    configuration?: string;
-    configurationUrl?: string;
-    extensionProfile?: CloudServiceExtensionProfile;
-    networkProfile?: CloudServiceNetworkProfile;
-    osProfile?: CloudServiceOsProfile;
-    packageUrl?: string;
-    readonly provisioningState?: string;
-    roleProfile?: CloudServiceRoleProfile;
-    startCloudService?: boolean;
-    readonly uniqueId?: string;
-    upgradeMode?: CloudServiceUpgradeMode;
-}
-
-// @public
-export interface CloudServiceRole {
-    readonly id?: string;
-    readonly location?: string;
-    readonly name?: string;
-    properties?: CloudServiceRoleProperties;
-    sku?: CloudServiceRoleSku;
-    readonly type?: string;
-}
-
-// @public
-export interface CloudServiceRoleInstances {
-    beginDelete(roleInstanceName: string, resourceGroupName: string, cloudServiceName: string, options?: CloudServiceRoleInstancesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(roleInstanceName: string, resourceGroupName: string, cloudServiceName: string, options?: CloudServiceRoleInstancesDeleteOptionalParams): Promise<void>;
-    beginRebuild(roleInstanceName: string, resourceGroupName: string, cloudServiceName: string, options?: CloudServiceRoleInstancesRebuildOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRebuildAndWait(roleInstanceName: string, resourceGroupName: string, cloudServiceName: string, options?: CloudServiceRoleInstancesRebuildOptionalParams): Promise<void>;
-    beginReimage(roleInstanceName: string, resourceGroupName: string, cloudServiceName: string, options?: CloudServiceRoleInstancesReimageOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginReimageAndWait(roleInstanceName: string, resourceGroupName: string, cloudServiceName: string, options?: CloudServiceRoleInstancesReimageOptionalParams): Promise<void>;
-    beginRestart(roleInstanceName: string, resourceGroupName: string, cloudServiceName: string, options?: CloudServiceRoleInstancesRestartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRestartAndWait(roleInstanceName: string, resourceGroupName: string, cloudServiceName: string, options?: CloudServiceRoleInstancesRestartOptionalParams): Promise<void>;
-    get(roleInstanceName: string, resourceGroupName: string, cloudServiceName: string, options?: CloudServiceRoleInstancesGetOptionalParams): Promise<CloudServiceRoleInstancesGetResponse>;
-    getInstanceView(roleInstanceName: string, resourceGroupName: string, cloudServiceName: string, options?: CloudServiceRoleInstancesGetInstanceViewOptionalParams): Promise<CloudServiceRoleInstancesGetInstanceViewResponse>;
-    getRemoteDesktopFile(roleInstanceName: string, resourceGroupName: string, cloudServiceName: string, options?: CloudServiceRoleInstancesGetRemoteDesktopFileOptionalParams): Promise<CloudServiceRoleInstancesGetRemoteDesktopFileResponse>;
-    list(resourceGroupName: string, cloudServiceName: string, options?: CloudServiceRoleInstancesListOptionalParams): PagedAsyncIterableIterator<RoleInstance>;
-}
-
-// @public
-export interface CloudServiceRoleInstancesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface CloudServiceRoleInstancesGetInstanceViewOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CloudServiceRoleInstancesGetInstanceViewResponse = RoleInstanceView;
-
-// @public
-export interface CloudServiceRoleInstancesGetOptionalParams extends coreClient.OperationOptions {
-    expand?: InstanceViewTypes;
-}
-
-// @public
-export interface CloudServiceRoleInstancesGetRemoteDesktopFileOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CloudServiceRoleInstancesGetRemoteDesktopFileResponse = {
-    blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
-};
-
-// @public
-export type CloudServiceRoleInstancesGetResponse = RoleInstance;
-
-// @public
-export interface CloudServiceRoleInstancesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CloudServiceRoleInstancesListNextResponse = RoleInstanceListResult;
-
-// @public
-export interface CloudServiceRoleInstancesListOptionalParams extends coreClient.OperationOptions {
-    expand?: InstanceViewTypes;
-}
-
-// @public
-export type CloudServiceRoleInstancesListResponse = RoleInstanceListResult;
-
-// @public
-export interface CloudServiceRoleInstancesRebuildOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface CloudServiceRoleInstancesReimageOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface CloudServiceRoleInstancesRestartOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface CloudServiceRoleListResult {
-    nextLink?: string;
-    value: CloudServiceRole[];
-}
-
-// @public
-export interface CloudServiceRoleProfile {
-    roles?: CloudServiceRoleProfileProperties[];
-}
-
-// @public
-export interface CloudServiceRoleProfileProperties {
-    name?: string;
-    sku?: CloudServiceRoleSku;
-}
-
-// @public
-export interface CloudServiceRoleProperties {
-    readonly uniqueId?: string;
-}
-
-// @public
-export interface CloudServiceRoles {
-    get(roleName: string, resourceGroupName: string, cloudServiceName: string, options?: CloudServiceRolesGetOptionalParams): Promise<CloudServiceRolesGetResponse>;
-    list(resourceGroupName: string, cloudServiceName: string, options?: CloudServiceRolesListOptionalParams): PagedAsyncIterableIterator<CloudServiceRole>;
-}
-
-// @public
-export interface CloudServiceRolesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CloudServiceRolesGetResponse = CloudServiceRole;
-
-// @public
-export interface CloudServiceRoleSku {
-    capacity?: number;
-    name?: string;
-    tier?: string;
-}
-
-// @public
-export interface CloudServiceRolesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CloudServiceRolesListNextResponse = CloudServiceRoleListResult;
-
-// @public
-export interface CloudServiceRolesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CloudServiceRolesListResponse = CloudServiceRoleListResult;
-
-// @public
-export interface CloudServices {
-    beginCreateOrUpdate(resourceGroupName: string, cloudServiceName: string, options?: CloudServicesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CloudServicesCreateOrUpdateResponse>, CloudServicesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, cloudServiceName: string, options?: CloudServicesCreateOrUpdateOptionalParams): Promise<CloudServicesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, cloudServiceName: string, options?: CloudServicesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, cloudServiceName: string, options?: CloudServicesDeleteOptionalParams): Promise<void>;
-    beginDeleteInstances(resourceGroupName: string, cloudServiceName: string, options?: CloudServicesDeleteInstancesOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteInstancesAndWait(resourceGroupName: string, cloudServiceName: string, options?: CloudServicesDeleteInstancesOptionalParams): Promise<void>;
-    beginPowerOff(resourceGroupName: string, cloudServiceName: string, options?: CloudServicesPowerOffOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginPowerOffAndWait(resourceGroupName: string, cloudServiceName: string, options?: CloudServicesPowerOffOptionalParams): Promise<void>;
-    beginRebuild(resourceGroupName: string, cloudServiceName: string, options?: CloudServicesRebuildOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRebuildAndWait(resourceGroupName: string, cloudServiceName: string, options?: CloudServicesRebuildOptionalParams): Promise<void>;
-    beginReimage(resourceGroupName: string, cloudServiceName: string, options?: CloudServicesReimageOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginReimageAndWait(resourceGroupName: string, cloudServiceName: string, options?: CloudServicesReimageOptionalParams): Promise<void>;
-    beginRestart(resourceGroupName: string, cloudServiceName: string, options?: CloudServicesRestartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRestartAndWait(resourceGroupName: string, cloudServiceName: string, options?: CloudServicesRestartOptionalParams): Promise<void>;
-    beginStart(resourceGroupName: string, cloudServiceName: string, options?: CloudServicesStartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginStartAndWait(resourceGroupName: string, cloudServiceName: string, options?: CloudServicesStartOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, cloudServiceName: string, options?: CloudServicesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CloudServicesUpdateResponse>, CloudServicesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, cloudServiceName: string, options?: CloudServicesUpdateOptionalParams): Promise<CloudServicesUpdateResponse>;
-    get(resourceGroupName: string, cloudServiceName: string, options?: CloudServicesGetOptionalParams): Promise<CloudServicesGetResponse>;
-    getInstanceView(resourceGroupName: string, cloudServiceName: string, options?: CloudServicesGetInstanceViewOptionalParams): Promise<CloudServicesGetInstanceViewResponse>;
-    list(resourceGroupName: string, options?: CloudServicesListOptionalParams): PagedAsyncIterableIterator<CloudService>;
-    listAll(options?: CloudServicesListAllOptionalParams): PagedAsyncIterableIterator<CloudService>;
-}
-
-// @public
-export interface CloudServicesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    parameters?: CloudService;
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type CloudServicesCreateOrUpdateResponse = CloudService;
-
-// @public
-export interface CloudServicesDeleteInstancesOptionalParams extends coreClient.OperationOptions {
-    parameters?: RoleInstances;
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface CloudServicesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface CloudServicesGetInstanceViewOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CloudServicesGetInstanceViewResponse = CloudServiceInstanceView;
-
-// @public
-export interface CloudServicesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CloudServicesGetResponse = CloudService;
-
-// @public
-export interface CloudServicesListAllNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CloudServicesListAllNextResponse = CloudServiceListResult;
-
-// @public
-export interface CloudServicesListAllOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CloudServicesListAllResponse = CloudServiceListResult;
-
-// @public
-export interface CloudServicesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CloudServicesListNextResponse = CloudServiceListResult;
-
-// @public
-export interface CloudServicesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CloudServicesListResponse = CloudServiceListResult;
-
-// @public
-export type CloudServiceSlotType = string;
-
-// @public
-export interface CloudServicesPowerOffOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface CloudServicesRebuildOptionalParams extends coreClient.OperationOptions {
-    parameters?: RoleInstances;
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface CloudServicesReimageOptionalParams extends coreClient.OperationOptions {
-    parameters?: RoleInstances;
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface CloudServicesRestartOptionalParams extends coreClient.OperationOptions {
-    parameters?: RoleInstances;
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface CloudServicesStartOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface CloudServicesUpdateDomain {
-    beginWalkUpdateDomain(resourceGroupName: string, cloudServiceName: string, updateDomain: number, options?: CloudServicesUpdateDomainWalkUpdateDomainOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginWalkUpdateDomainAndWait(resourceGroupName: string, cloudServiceName: string, updateDomain: number, options?: CloudServicesUpdateDomainWalkUpdateDomainOptionalParams): Promise<void>;
-    getUpdateDomain(resourceGroupName: string, cloudServiceName: string, updateDomain: number, options?: CloudServicesUpdateDomainGetUpdateDomainOptionalParams): Promise<CloudServicesUpdateDomainGetUpdateDomainResponse>;
-    listUpdateDomains(resourceGroupName: string, cloudServiceName: string, options?: CloudServicesUpdateDomainListUpdateDomainsOptionalParams): PagedAsyncIterableIterator<UpdateDomain>;
-}
-
-// @public
-export interface CloudServicesUpdateDomainGetUpdateDomainOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CloudServicesUpdateDomainGetUpdateDomainResponse = UpdateDomain;
-
-// @public
-export interface CloudServicesUpdateDomainListUpdateDomainsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CloudServicesUpdateDomainListUpdateDomainsNextResponse = UpdateDomainListResult;
-
-// @public
-export interface CloudServicesUpdateDomainListUpdateDomainsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CloudServicesUpdateDomainListUpdateDomainsResponse = UpdateDomainListResult;
-
-// @public
-export interface CloudServicesUpdateDomainWalkUpdateDomainOptionalParams extends coreClient.OperationOptions {
-    parameters?: UpdateDomain;
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface CloudServicesUpdateOptionalParams extends coreClient.OperationOptions {
-    parameters?: CloudServiceUpdate;
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type CloudServicesUpdateResponse = CloudService;
-
-// @public (undocumented)
-export interface CloudServiceUpdate {
-    tags?: {
-        [propertyName: string]: string;
-    };
-}
-
-// @public
-export type CloudServiceUpgradeMode = string;
-
-// @public
-export interface CloudServiceVaultAndSecretReference {
-    secretUrl?: string;
-    sourceVault?: SubResource;
-}
-
-// @public
-export interface CloudServiceVaultCertificate {
-    certificateUrl?: string;
-    isBootstrapCertificate?: boolean;
-}
-
-// @public
-export interface CloudServiceVaultSecretGroup {
-    sourceVault?: SubResource;
-    vaultCertificates?: CloudServiceVaultCertificate[];
-}
-
-// @public
-export interface CommunityGalleries {
-    get(location: string, publicGalleryName: string, options?: CommunityGalleriesGetOptionalParams): Promise<CommunityGalleriesGetResponse>;
-}
-
-// @public
-export interface CommunityGalleriesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CommunityGalleriesGetResponse = CommunityGallery;
 
 // @public
 export interface CommunityGallery extends PirCommunityGalleryResource {
-    artifactTags?: {
-        [propertyName: string]: string;
-    };
+    artifactTags?: Record<string, string>;
     communityMetadata?: CommunityGalleryMetadata;
     disclaimer?: string;
 }
 
 // @public
+export interface CommunityGalleryIdentifier {
+    uniqueId?: string;
+}
+
+// @public
 export interface CommunityGalleryImage extends PirCommunityGalleryResource {
     architecture?: Architecture;
-    artifactTags?: {
-        [propertyName: string]: string;
-    };
+    artifactTags?: Record<string, string>;
     disallowed?: Disallowed;
     disclaimer?: string;
     endOfLifeDate?: Date;
@@ -1117,43 +561,40 @@ export interface CommunityGalleryImageIdentifier {
 }
 
 // @public
-export interface CommunityGalleryImageList {
-    nextLink?: string;
-    value: CommunityGalleryImage[];
+export interface CommunityGalleryImageProperties {
+    architecture?: Architecture;
+    artifactTags?: Record<string, string>;
+    disallowed?: Disallowed;
+    disclaimer?: string;
+    endOfLifeDate?: Date;
+    eula?: string;
+    features?: GalleryImageFeature[];
+    hyperVGeneration?: HyperVGeneration;
+    identifier: CommunityGalleryImageIdentifier;
+    osState: OperatingSystemStateTypes;
+    osType: OperatingSystemTypes;
+    privacyStatementUri?: string;
+    purchasePlan?: ImagePurchasePlan;
+    recommended?: RecommendedMachineConfiguration;
 }
 
 // @public
-export interface CommunityGalleryImages {
-    get(location: string, publicGalleryName: string, galleryImageName: string, options?: CommunityGalleryImagesGetOptionalParams): Promise<CommunityGalleryImagesGetResponse>;
-    list(location: string, publicGalleryName: string, options?: CommunityGalleryImagesListOptionalParams): PagedAsyncIterableIterator<CommunityGalleryImage>;
+export interface CommunityGalleryImagesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface CommunityGalleryImagesGetOptionalParams extends coreClient.OperationOptions {
+export interface CommunityGalleryImagesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CommunityGalleryImagesGetResponse = CommunityGalleryImage;
-
-// @public
-export interface CommunityGalleryImagesListNextOptionalParams extends coreClient.OperationOptions {
+export interface CommunityGalleryImagesOperations {
+    get: (location: string, publicGalleryName: string, galleryImageName: string, options?: CommunityGalleryImagesGetOptionalParams) => Promise<CommunityGalleryImage>;
+    list: (location: string, publicGalleryName: string, options?: CommunityGalleryImagesListOptionalParams) => PagedAsyncIterableIterator<CommunityGalleryImage>;
 }
-
-// @public
-export type CommunityGalleryImagesListNextResponse = CommunityGalleryImageList;
-
-// @public
-export interface CommunityGalleryImagesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CommunityGalleryImagesListResponse = CommunityGalleryImageList;
 
 // @public
 export interface CommunityGalleryImageVersion extends PirCommunityGalleryResource {
-    artifactTags?: {
-        [propertyName: string]: string;
-    };
+    artifactTags?: Record<string, string>;
     disclaimer?: string;
     endOfLifeDate?: Date;
     excludeFromLatest?: boolean;
@@ -1162,37 +603,28 @@ export interface CommunityGalleryImageVersion extends PirCommunityGalleryResourc
 }
 
 // @public
-export interface CommunityGalleryImageVersionList {
-    nextLink?: string;
-    value: CommunityGalleryImageVersion[];
+export interface CommunityGalleryImageVersionProperties {
+    artifactTags?: Record<string, string>;
+    disclaimer?: string;
+    endOfLifeDate?: Date;
+    excludeFromLatest?: boolean;
+    publishedDate?: Date;
+    storageProfile?: SharedGalleryImageVersionStorageProfile;
 }
 
 // @public
-export interface CommunityGalleryImageVersions {
-    get(location: string, publicGalleryName: string, galleryImageName: string, galleryImageVersionName: string, options?: CommunityGalleryImageVersionsGetOptionalParams): Promise<CommunityGalleryImageVersionsGetResponse>;
-    list(location: string, publicGalleryName: string, galleryImageName: string, options?: CommunityGalleryImageVersionsListOptionalParams): PagedAsyncIterableIterator<CommunityGalleryImageVersion>;
+export interface CommunityGalleryImageVersionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface CommunityGalleryImageVersionsGetOptionalParams extends coreClient.OperationOptions {
+export interface CommunityGalleryImageVersionsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CommunityGalleryImageVersionsGetResponse = CommunityGalleryImageVersion;
-
-// @public
-export interface CommunityGalleryImageVersionsListNextOptionalParams extends coreClient.OperationOptions {
+export interface CommunityGalleryImageVersionsOperations {
+    get: (location: string, publicGalleryName: string, galleryImageName: string, galleryImageVersionName: string, options?: CommunityGalleryImageVersionsGetOptionalParams) => Promise<CommunityGalleryImageVersion>;
+    list: (location: string, publicGalleryName: string, galleryImageName: string, options?: CommunityGalleryImageVersionsListOptionalParams) => PagedAsyncIterableIterator<CommunityGalleryImageVersion>;
 }
-
-// @public
-export type CommunityGalleryImageVersionsListNextResponse = CommunityGalleryImageVersionList;
-
-// @public
-export interface CommunityGalleryImageVersionsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CommunityGalleryImageVersionsListResponse = CommunityGalleryImageVersionList;
 
 // @public
 export interface CommunityGalleryInfo {
@@ -1213,127 +645,75 @@ export interface CommunityGalleryMetadata {
     publisherUri?: string;
 }
 
-// @public (undocumented)
-export class ComputeManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ComputeManagementClientOptionalParams);
-    // (undocumented)
-    availabilitySets: AvailabilitySets;
-    // (undocumented)
-    capacityReservationGroups: CapacityReservationGroups;
-    // (undocumented)
-    capacityReservations: CapacityReservations;
-    // (undocumented)
-    cloudServiceOperatingSystems: CloudServiceOperatingSystems;
-    // (undocumented)
-    cloudServiceRoleInstances: CloudServiceRoleInstances;
-    // (undocumented)
-    cloudServiceRoles: CloudServiceRoles;
-    // (undocumented)
-    cloudServices: CloudServices;
-    // (undocumented)
-    cloudServicesUpdateDomain: CloudServicesUpdateDomain;
-    // (undocumented)
-    communityGalleries: CommunityGalleries;
-    // (undocumented)
-    communityGalleryImages: CommunityGalleryImages;
-    // (undocumented)
-    communityGalleryImageVersions: CommunityGalleryImageVersions;
-    // (undocumented)
-    dedicatedHostGroups: DedicatedHostGroups;
-    // (undocumented)
-    dedicatedHosts: DedicatedHosts;
-    // (undocumented)
-    diskAccesses: DiskAccesses;
-    // (undocumented)
-    diskEncryptionSets: DiskEncryptionSets;
-    // (undocumented)
-    diskRestorePointOperations: DiskRestorePointOperations;
-    // (undocumented)
-    disks: Disks;
-    // (undocumented)
-    galleries: Galleries;
-    // (undocumented)
-    galleryApplications: GalleryApplications;
-    // (undocumented)
-    galleryApplicationVersions: GalleryApplicationVersions;
-    // (undocumented)
-    galleryImages: GalleryImages;
-    // (undocumented)
-    galleryImageVersions: GalleryImageVersions;
-    // (undocumented)
-    galleryInVMAccessControlProfiles: GalleryInVMAccessControlProfiles;
-    // (undocumented)
-    galleryInVMAccessControlProfileVersions: GalleryInVMAccessControlProfileVersions;
-    // (undocumented)
-    galleryScripts: GalleryScripts;
-    // (undocumented)
-    galleryScriptVersions: GalleryScriptVersions;
-    // (undocumented)
-    gallerySharingProfile: GallerySharingProfile;
-    // (undocumented)
-    images: Images;
-    // (undocumented)
-    logAnalytics: LogAnalytics;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    proximityPlacementGroups: ProximityPlacementGroups;
-    // (undocumented)
-    resourceSkus: ResourceSkus;
-    // (undocumented)
-    restorePointCollections: RestorePointCollections;
-    // (undocumented)
-    restorePoints: RestorePoints;
-    // (undocumented)
-    sharedGalleries: SharedGalleries;
-    // (undocumented)
-    sharedGalleryImages: SharedGalleryImages;
-    // (undocumented)
-    sharedGalleryImageVersions: SharedGalleryImageVersions;
-    // (undocumented)
-    snapshots: Snapshots;
-    // (undocumented)
-    softDeletedResource: SoftDeletedResource;
-    // (undocumented)
-    sshPublicKeys: SshPublicKeys;
-    // (undocumented)
-    subscriptionId: string;
-    // (undocumented)
-    usageOperations: UsageOperations;
-    // (undocumented)
-    virtualMachineExtensionImages: VirtualMachineExtensionImages;
-    // (undocumented)
-    virtualMachineExtensions: VirtualMachineExtensions;
-    // (undocumented)
-    virtualMachineImages: VirtualMachineImages;
-    // (undocumented)
-    virtualMachineImagesEdgeZone: VirtualMachineImagesEdgeZone;
-    // (undocumented)
-    virtualMachineRunCommands: VirtualMachineRunCommands;
-    // (undocumented)
-    virtualMachines: VirtualMachines;
-    // (undocumented)
-    virtualMachineScaleSetExtensions: VirtualMachineScaleSetExtensions;
-    // (undocumented)
-    virtualMachineScaleSetRollingUpgrades: VirtualMachineScaleSetRollingUpgrades;
-    // (undocumented)
-    virtualMachineScaleSets: VirtualMachineScaleSets;
-    // (undocumented)
-    virtualMachineScaleSetVMExtensions: VirtualMachineScaleSetVMExtensions;
-    // (undocumented)
-    virtualMachineScaleSetVMRunCommands: VirtualMachineScaleSetVMRunCommands;
-    // (undocumented)
-    virtualMachineScaleSetVMs: VirtualMachineScaleSetVMs;
-    // (undocumented)
-    virtualMachineSizes: VirtualMachineSizes;
+// @public
+export interface CommunityGalleryProperties {
+    artifactTags?: Record<string, string>;
+    communityMetadata?: CommunityGalleryMetadata;
+    disclaimer?: string;
 }
 
 // @public
-export interface ComputeManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
-    endpoint?: string;
+export type ComponentNames = "Microsoft-Windows-Shell-Setup";
+
+// @public (undocumented)
+export class ComputeClient {
+    constructor(credential: TokenCredential, options?: ComputeClientOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: ComputeClientOptionalParams);
+    readonly availabilitySets: AvailabilitySetsOperations;
+    readonly capacityReservationGroups: CapacityReservationGroupsOperations;
+    readonly capacityReservations: CapacityReservationsOperations;
+    readonly communityGalleries: CommunityGalleriesOperations;
+    readonly communityGalleryImages: CommunityGalleryImagesOperations;
+    readonly communityGalleryImageVersions: CommunityGalleryImageVersionsOperations;
+    readonly dedicatedHostGroups: DedicatedHostGroupsOperations;
+    readonly dedicatedHosts: DedicatedHostsOperations;
+    readonly diskAccesses: DiskAccessesOperations;
+    readonly diskEncryptionSets: DiskEncryptionSetsOperations;
+    readonly diskRestorePoint: DiskRestorePointOperations;
+    readonly disks: DisksOperations;
+    readonly galleries: GalleriesOperations;
+    readonly galleryApplications: GalleryApplicationsOperations;
+    readonly galleryApplicationVersions: GalleryApplicationVersionsOperations;
+    readonly galleryImages: GalleryImagesOperations;
+    readonly galleryImageVersions: GalleryImageVersionsOperations;
+    readonly galleryInVMAccessControlProfiles: GalleryInVMAccessControlProfilesOperations;
+    readonly galleryInVMAccessControlProfileVersions: GalleryInVMAccessControlProfileVersionsOperations;
+    readonly galleryScripts: GalleryScriptsOperations;
+    readonly galleryScriptVersions: GalleryScriptVersionsOperations;
+    readonly gallerySharingProfile: GallerySharingProfileOperations;
+    readonly images: ImagesOperations;
+    readonly logAnalytics: LogAnalyticsOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly proximityPlacementGroups: ProximityPlacementGroupsOperations;
+    readonly resourceSkus: ResourceSkusOperations;
+    readonly restorePointCollections: RestorePointCollectionsOperations;
+    readonly restorePoints: RestorePointsOperations;
+    readonly sharedGalleries: SharedGalleriesOperations;
+    readonly sharedGalleryImages: SharedGalleryImagesOperations;
+    readonly sharedGalleryImageVersions: SharedGalleryImageVersionsOperations;
+    readonly snapshots: SnapshotsOperations;
+    readonly softDeletedResource: SoftDeletedResourceOperations;
+    readonly sshPublicKeys: SshPublicKeysOperations;
+    readonly usage: UsageOperations;
+    readonly virtualMachineExtensionImages: VirtualMachineExtensionImagesOperations;
+    readonly virtualMachineExtensions: VirtualMachineExtensionsOperations;
+    readonly virtualMachineImages: VirtualMachineImagesOperations;
+    readonly virtualMachineImagesEdgeZone: VirtualMachineImagesEdgeZoneOperations;
+    readonly virtualMachineRunCommands: VirtualMachineRunCommandsOperations;
+    readonly virtualMachines: VirtualMachinesOperations;
+    readonly virtualMachineScaleSetExtensions: VirtualMachineScaleSetExtensionsOperations;
+    readonly virtualMachineScaleSetRollingUpgrades: VirtualMachineScaleSetRollingUpgradesOperations;
+    readonly virtualMachineScaleSets: VirtualMachineScaleSetsOperations;
+    readonly virtualMachineScaleSetVMExtensions: VirtualMachineScaleSetVMExtensionsOperations;
+    readonly virtualMachineScaleSetVMRunCommands: VirtualMachineScaleSetVMRunCommandsOperations;
+    readonly virtualMachineScaleSetVMs: VirtualMachineScaleSetVMsOperations;
+    readonly virtualMachineSizes: VirtualMachineSizesOperations;
+}
+
+// @public
+export interface ComputeClientOptionalParams extends ClientOptions {
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -1341,6 +721,11 @@ export type ConfidentialVMEncryptionType = string;
 
 // @public
 export type ConsistencyModeTypes = string;
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
 export interface ConvertToVirtualMachineScaleSetInput {
@@ -1461,15 +846,18 @@ export interface DedicatedHostGroup extends TrackedResource {
     zones?: string[];
 }
 
-// @public (undocumented)
+// @public
 export interface DedicatedHostGroupInstanceView {
     hosts?: DedicatedHostInstanceViewWithName[];
 }
 
 // @public
-export interface DedicatedHostGroupListResult {
-    nextLink?: string;
-    value: DedicatedHostGroup[];
+export interface DedicatedHostGroupProperties {
+    additionalCapabilities?: DedicatedHostGroupPropertiesAdditionalCapabilities;
+    readonly hosts?: SubResourceReadOnly[];
+    readonly instanceView?: DedicatedHostGroupInstanceView;
+    platformFaultDomainCount: number;
+    supportAutomaticPlacement?: boolean;
 }
 
 // @public
@@ -1478,68 +866,39 @@ export interface DedicatedHostGroupPropertiesAdditionalCapabilities {
 }
 
 // @public
-export interface DedicatedHostGroups {
-    createOrUpdate(resourceGroupName: string, hostGroupName: string, parameters: DedicatedHostGroup, options?: DedicatedHostGroupsCreateOrUpdateOptionalParams): Promise<DedicatedHostGroupsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, hostGroupName: string, options?: DedicatedHostGroupsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, hostGroupName: string, options?: DedicatedHostGroupsGetOptionalParams): Promise<DedicatedHostGroupsGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: DedicatedHostGroupsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<DedicatedHostGroup>;
-    listBySubscription(options?: DedicatedHostGroupsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<DedicatedHostGroup>;
-    update(resourceGroupName: string, hostGroupName: string, parameters: DedicatedHostGroupUpdate, options?: DedicatedHostGroupsUpdateOptionalParams): Promise<DedicatedHostGroupsUpdateResponse>;
+export interface DedicatedHostGroupsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DedicatedHostGroupsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface DedicatedHostGroupsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DedicatedHostGroupsCreateOrUpdateResponse = DedicatedHostGroup;
-
-// @public
-export interface DedicatedHostGroupsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface DedicatedHostGroupsGetOptionalParams extends coreClient.OperationOptions {
+export interface DedicatedHostGroupsGetOptionalParams extends OperationOptions {
     expand?: InstanceViewTypes;
 }
 
 // @public
-export type DedicatedHostGroupsGetResponse = DedicatedHostGroup;
-
-// @public
-export interface DedicatedHostGroupsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface DedicatedHostGroupsListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DedicatedHostGroupsListByResourceGroupNextResponse = DedicatedHostGroupListResult;
-
-// @public
-export interface DedicatedHostGroupsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface DedicatedHostGroupsListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DedicatedHostGroupsListByResourceGroupResponse = DedicatedHostGroupListResult;
-
-// @public
-export interface DedicatedHostGroupsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface DedicatedHostGroupsOperations {
+    createOrUpdate: (resourceGroupName: string, hostGroupName: string, parameters: DedicatedHostGroup, options?: DedicatedHostGroupsCreateOrUpdateOptionalParams) => Promise<DedicatedHostGroup>;
+    delete: (resourceGroupName: string, hostGroupName: string, options?: DedicatedHostGroupsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, hostGroupName: string, options?: DedicatedHostGroupsGetOptionalParams) => Promise<DedicatedHostGroup>;
+    listByResourceGroup: (resourceGroupName: string, options?: DedicatedHostGroupsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<DedicatedHostGroup>;
+    listBySubscription: (options?: DedicatedHostGroupsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<DedicatedHostGroup>;
+    update: (resourceGroupName: string, hostGroupName: string, parameters: DedicatedHostGroupUpdate, options?: DedicatedHostGroupsUpdateOptionalParams) => Promise<DedicatedHostGroup>;
 }
 
 // @public
-export type DedicatedHostGroupsListBySubscriptionNextResponse = DedicatedHostGroupListResult;
-
-// @public
-export interface DedicatedHostGroupsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface DedicatedHostGroupsUpdateOptionalParams extends OperationOptions {
 }
-
-// @public
-export type DedicatedHostGroupsListBySubscriptionResponse = DedicatedHostGroupListResult;
-
-// @public
-export interface DedicatedHostGroupsUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DedicatedHostGroupsUpdateResponse = DedicatedHostGroup;
 
 // @public
 export interface DedicatedHostGroupUpdate extends UpdateResource {
@@ -1567,141 +926,87 @@ export interface DedicatedHostInstanceViewWithName extends DedicatedHostInstance
 export type DedicatedHostLicenseTypes = "None" | "Windows_Server_Hybrid" | "Windows_Server_Perpetual";
 
 // @public
-export interface DedicatedHostListResult {
-    nextLink?: string;
-    value: DedicatedHost[];
+export interface DedicatedHostProperties {
+    autoReplaceOnFailure?: boolean;
+    readonly hostId?: string;
+    readonly instanceView?: DedicatedHostInstanceView;
+    licenseType?: DedicatedHostLicenseTypes;
+    platformFaultDomain?: number;
+    readonly provisioningState?: string;
+    readonly provisioningTime?: Date;
+    readonly timeCreated?: Date;
+    readonly virtualMachines?: SubResourceReadOnly[];
 }
 
 // @public
-export interface DedicatedHosts {
-    beginCreateOrUpdate(resourceGroupName: string, hostGroupName: string, hostName: string, parameters: DedicatedHost, options?: DedicatedHostsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DedicatedHostsCreateOrUpdateResponse>, DedicatedHostsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, hostGroupName: string, hostName: string, parameters: DedicatedHost, options?: DedicatedHostsCreateOrUpdateOptionalParams): Promise<DedicatedHostsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsDeleteOptionalParams): Promise<void>;
-    beginRedeploy(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsRedeployOptionalParams): Promise<SimplePollerLike<OperationState<DedicatedHostsRedeployResponse>, DedicatedHostsRedeployResponse>>;
-    beginRedeployAndWait(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsRedeployOptionalParams): Promise<DedicatedHostsRedeployResponse>;
-    beginRestart(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsRestartOptionalParams): Promise<SimplePollerLike<OperationState<DedicatedHostsRestartResponse>, DedicatedHostsRestartResponse>>;
-    beginRestartAndWait(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsRestartOptionalParams): Promise<DedicatedHostsRestartResponse>;
-    beginUpdate(resourceGroupName: string, hostGroupName: string, hostName: string, parameters: DedicatedHostUpdate, options?: DedicatedHostsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DedicatedHostsUpdateResponse>, DedicatedHostsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, hostGroupName: string, hostName: string, parameters: DedicatedHostUpdate, options?: DedicatedHostsUpdateOptionalParams): Promise<DedicatedHostsUpdateResponse>;
-    get(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsGetOptionalParams): Promise<DedicatedHostsGetResponse>;
-    listAvailableSizes(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsListAvailableSizesOptionalParams): PagedAsyncIterableIterator<string>;
-    listByHostGroup(resourceGroupName: string, hostGroupName: string, options?: DedicatedHostsListByHostGroupOptionalParams): PagedAsyncIterableIterator<DedicatedHost>;
-}
-
-// @public
-export interface DedicatedHostsCreateOrUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DedicatedHostsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DedicatedHostsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DedicatedHostsCreateOrUpdateResponse = DedicatedHost;
-
-// @public
-export interface DedicatedHostsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DedicatedHostsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DedicatedHostsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface DedicatedHostsGetOptionalParams extends coreClient.OperationOptions {
+export interface DedicatedHostsGetOptionalParams extends OperationOptions {
     expand?: InstanceViewTypes;
 }
 
 // @public
-export type DedicatedHostsGetResponse = DedicatedHost;
-
-// @public
-export interface DedicatedHostSizeListResult {
-    nextLink?: string;
-    value?: string[];
+export interface DedicatedHostsListAvailableSizesOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DedicatedHostsListAvailableSizesNextOptionalParams extends coreClient.OperationOptions {
+export interface DedicatedHostsListByHostGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DedicatedHostsListAvailableSizesNextResponse = DedicatedHostSizeListResult;
-
-// @public
-export interface DedicatedHostsListAvailableSizesOptionalParams extends coreClient.OperationOptions {
+export interface DedicatedHostsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, hostGroupName: string, hostName: string, parameters: DedicatedHost, options?: DedicatedHostsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DedicatedHost>, DedicatedHost>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, hostGroupName: string, hostName: string, parameters: DedicatedHost, options?: DedicatedHostsCreateOrUpdateOptionalParams) => Promise<DedicatedHost>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRedeploy: (resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsRedeployOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRedeployAndWait: (resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsRedeployOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRestart: (resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsRestartOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRestartAndWait: (resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsRestartOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, hostGroupName: string, hostName: string, parameters: DedicatedHostUpdate, options?: DedicatedHostsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DedicatedHost>, DedicatedHost>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, hostGroupName: string, hostName: string, parameters: DedicatedHostUpdate, options?: DedicatedHostsUpdateOptionalParams) => Promise<DedicatedHost>;
+    createOrUpdate: (resourceGroupName: string, hostGroupName: string, hostName: string, parameters: DedicatedHost, options?: DedicatedHostsCreateOrUpdateOptionalParams) => PollerLike<OperationState<DedicatedHost>, DedicatedHost>;
+    delete: (resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsGetOptionalParams) => Promise<DedicatedHost>;
+    listAvailableSizes: (resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsListAvailableSizesOptionalParams) => PagedAsyncIterableIterator<string>;
+    listByHostGroup: (resourceGroupName: string, hostGroupName: string, options?: DedicatedHostsListByHostGroupOptionalParams) => PagedAsyncIterableIterator<DedicatedHost>;
+    redeploy: (resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsRedeployOptionalParams) => PollerLike<OperationState<void>, void>;
+    restart: (resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsRestartOptionalParams) => PollerLike<OperationState<void>, void>;
+    update: (resourceGroupName: string, hostGroupName: string, hostName: string, parameters: DedicatedHostUpdate, options?: DedicatedHostsUpdateOptionalParams) => PollerLike<OperationState<DedicatedHost>, DedicatedHost>;
 }
 
 // @public
-export type DedicatedHostsListAvailableSizesResponse = DedicatedHostSizeListResult;
-
-// @public
-export interface DedicatedHostsListByHostGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DedicatedHostsListByHostGroupNextResponse = DedicatedHostListResult;
-
-// @public
-export interface DedicatedHostsListByHostGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DedicatedHostsListByHostGroupResponse = DedicatedHostListResult;
-
-// @public
-export interface DedicatedHostsRedeployHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DedicatedHostsRedeployOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DedicatedHostsRedeployOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DedicatedHostsRedeployResponse = DedicatedHostsRedeployHeaders;
-
-// @public
-export interface DedicatedHostsRestartHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DedicatedHostsRestartOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DedicatedHostsRestartOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DedicatedHostsRestartResponse = DedicatedHostsRestartHeaders;
-
-// @public
-export interface DedicatedHostsUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DedicatedHostsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DedicatedHostsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type DedicatedHostsUpdateResponse = DedicatedHostsUpdateHeaders & DedicatedHost;
 
 // @public
 export interface DedicatedHostUpdate extends UpdateResource {
@@ -1804,168 +1109,99 @@ export interface DiskAccess extends TrackedResource {
 }
 
 // @public
-export interface DiskAccesses {
-    beginCreateOrUpdate(resourceGroupName: string, diskAccessName: string, diskAccess: DiskAccess, options?: DiskAccessesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DiskAccessesCreateOrUpdateResponse>, DiskAccessesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, diskAccessName: string, diskAccess: DiskAccess, options?: DiskAccessesCreateOrUpdateOptionalParams): Promise<DiskAccessesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, diskAccessName: string, options?: DiskAccessesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, diskAccessName: string, options?: DiskAccessesDeleteOptionalParams): Promise<void>;
-    beginDeleteAPrivateEndpointConnection(resourceGroupName: string, diskAccessName: string, privateEndpointConnectionName: string, options?: DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAPrivateEndpointConnectionAndWait(resourceGroupName: string, diskAccessName: string, privateEndpointConnectionName: string, options?: DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, diskAccessName: string, diskAccess: DiskAccessUpdate, options?: DiskAccessesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DiskAccessesUpdateResponse>, DiskAccessesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, diskAccessName: string, diskAccess: DiskAccessUpdate, options?: DiskAccessesUpdateOptionalParams): Promise<DiskAccessesUpdateResponse>;
-    beginUpdateAPrivateEndpointConnection(resourceGroupName: string, diskAccessName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams): Promise<SimplePollerLike<OperationState<DiskAccessesUpdateAPrivateEndpointConnectionResponse>, DiskAccessesUpdateAPrivateEndpointConnectionResponse>>;
-    beginUpdateAPrivateEndpointConnectionAndWait(resourceGroupName: string, diskAccessName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams): Promise<DiskAccessesUpdateAPrivateEndpointConnectionResponse>;
-    get(resourceGroupName: string, diskAccessName: string, options?: DiskAccessesGetOptionalParams): Promise<DiskAccessesGetResponse>;
-    getAPrivateEndpointConnection(resourceGroupName: string, diskAccessName: string, privateEndpointConnectionName: string, options?: DiskAccessesGetAPrivateEndpointConnectionOptionalParams): Promise<DiskAccessesGetAPrivateEndpointConnectionResponse>;
-    getPrivateLinkResources(resourceGroupName: string, diskAccessName: string, options?: DiskAccessesGetPrivateLinkResourcesOptionalParams): Promise<DiskAccessesGetPrivateLinkResourcesResponse>;
-    list(options?: DiskAccessesListOptionalParams): PagedAsyncIterableIterator<DiskAccess>;
-    listByResourceGroup(resourceGroupName: string, options?: DiskAccessesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<DiskAccess>;
-    listPrivateEndpointConnections(resourceGroupName: string, diskAccessName: string, options?: DiskAccessesListPrivateEndpointConnectionsOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
-}
-
-// @public
-export interface DiskAccessesCreateOrUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DiskAccessesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DiskAccessesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DiskAccessesCreateOrUpdateResponse = DiskAccess;
-
-// @public
-export interface DiskAccessesDeleteAPrivateEndpointConnectionHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface DiskAccessesDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DiskAccessesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DiskAccessesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface DiskAccessesGetAPrivateEndpointConnectionOptionalParams extends coreClient.OperationOptions {
+export interface DiskAccessesGetAPrivateEndpointConnectionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DiskAccessesGetAPrivateEndpointConnectionResponse = PrivateEndpointConnection;
-
-// @public
-export interface DiskAccessesGetOptionalParams extends coreClient.OperationOptions {
+export interface DiskAccessesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DiskAccessesGetPrivateLinkResourcesOptionalParams extends coreClient.OperationOptions {
+export interface DiskAccessesGetPrivateLinkResourcesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DiskAccessesGetPrivateLinkResourcesResponse = PrivateLinkResourceListResult;
-
-// @public
-export type DiskAccessesGetResponse = DiskAccess;
-
-// @public
-export interface DiskAccessesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface DiskAccessesListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DiskAccessesListByResourceGroupNextResponse = DiskAccessList;
-
-// @public
-export interface DiskAccessesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface DiskAccessesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DiskAccessesListByResourceGroupResponse = DiskAccessList;
-
-// @public
-export interface DiskAccessesListNextOptionalParams extends coreClient.OperationOptions {
+export interface DiskAccessesListPrivateEndpointConnectionsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DiskAccessesListNextResponse = DiskAccessList;
-
-// @public
-export interface DiskAccessesListOptionalParams extends coreClient.OperationOptions {
+export interface DiskAccessesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, diskAccessName: string, diskAccess: DiskAccess, options?: DiskAccessesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DiskAccess>, DiskAccess>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, diskAccessName: string, diskAccess: DiskAccess, options?: DiskAccessesCreateOrUpdateOptionalParams) => Promise<DiskAccess>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, diskAccessName: string, options?: DiskAccessesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, diskAccessName: string, options?: DiskAccessesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginDeleteAPrivateEndpointConnection: (resourceGroupName: string, diskAccessName: string, privateEndpointConnectionName: string, options?: DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAPrivateEndpointConnectionAndWait: (resourceGroupName: string, diskAccessName: string, privateEndpointConnectionName: string, options?: DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, diskAccessName: string, diskAccess: DiskAccessUpdate, options?: DiskAccessesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DiskAccess>, DiskAccess>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, diskAccessName: string, diskAccess: DiskAccessUpdate, options?: DiskAccessesUpdateOptionalParams) => Promise<DiskAccess>;
+    // @deprecated (undocumented)
+    beginUpdateAPrivateEndpointConnection: (resourceGroupName: string, diskAccessName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>>;
+    // @deprecated (undocumented)
+    beginUpdateAPrivateEndpointConnectionAndWait: (resourceGroupName: string, diskAccessName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams) => Promise<PrivateEndpointConnection>;
+    createOrUpdate: (resourceGroupName: string, diskAccessName: string, diskAccess: DiskAccess, options?: DiskAccessesCreateOrUpdateOptionalParams) => PollerLike<OperationState<DiskAccess>, DiskAccess>;
+    delete: (resourceGroupName: string, diskAccessName: string, options?: DiskAccessesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    deleteAPrivateEndpointConnection: (resourceGroupName: string, diskAccessName: string, privateEndpointConnectionName: string, options?: DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, diskAccessName: string, options?: DiskAccessesGetOptionalParams) => Promise<DiskAccess>;
+    getAPrivateEndpointConnection: (resourceGroupName: string, diskAccessName: string, privateEndpointConnectionName: string, options?: DiskAccessesGetAPrivateEndpointConnectionOptionalParams) => Promise<PrivateEndpointConnection>;
+    getPrivateLinkResources: (resourceGroupName: string, diskAccessName: string, options?: DiskAccessesGetPrivateLinkResourcesOptionalParams) => Promise<PrivateLinkResourceListResult>;
+    list: (options?: DiskAccessesListOptionalParams) => PagedAsyncIterableIterator<DiskAccess>;
+    listByResourceGroup: (resourceGroupName: string, options?: DiskAccessesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<DiskAccess>;
+    listPrivateEndpointConnections: (resourceGroupName: string, diskAccessName: string, options?: DiskAccessesListPrivateEndpointConnectionsOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
+    update: (resourceGroupName: string, diskAccessName: string, diskAccess: DiskAccessUpdate, options?: DiskAccessesUpdateOptionalParams) => PollerLike<OperationState<DiskAccess>, DiskAccess>;
+    updateAPrivateEndpointConnection: (resourceGroupName: string, diskAccessName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams) => PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
 }
 
 // @public
-export interface DiskAccessesListPrivateEndpointConnectionsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DiskAccessesListPrivateEndpointConnectionsNextResponse = PrivateEndpointConnectionListResult;
-
-// @public
-export interface DiskAccessesListPrivateEndpointConnectionsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DiskAccessesListPrivateEndpointConnectionsResponse = PrivateEndpointConnectionListResult;
-
-// @public
-export type DiskAccessesListResponse = DiskAccessList;
-
-// @public
-export interface DiskAccessesUpdateAPrivateEndpointConnectionHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DiskAccessesUpdateAPrivateEndpointConnectionResponse = PrivateEndpointConnection;
-
-// @public
-export interface DiskAccessesUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DiskAccessesUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DiskAccessesUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DiskAccessesUpdateResponse = DiskAccess;
-
-// @public
-export interface DiskAccessList {
-    nextLink?: string;
-    value: DiskAccess[];
+export interface DiskAccessProperties {
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: string;
+    readonly timeCreated?: Date;
 }
 
 // @public
 export interface DiskAccessUpdate {
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -2000,119 +1236,62 @@ export interface DiskEncryptionSet extends TrackedResource {
 export type DiskEncryptionSetIdentityType = string;
 
 // @public
-export interface DiskEncryptionSetList {
-    nextLink?: string;
-    value: DiskEncryptionSet[];
-}
-
-// @public
 export interface DiskEncryptionSetParameters extends SubResource {
 }
 
 // @public
-export interface DiskEncryptionSets {
-    beginCreateOrUpdate(resourceGroupName: string, diskEncryptionSetName: string, diskEncryptionSet: DiskEncryptionSet, options?: DiskEncryptionSetsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DiskEncryptionSetsCreateOrUpdateResponse>, DiskEncryptionSetsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, diskEncryptionSetName: string, diskEncryptionSet: DiskEncryptionSet, options?: DiskEncryptionSetsCreateOrUpdateOptionalParams): Promise<DiskEncryptionSetsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, diskEncryptionSetName: string, options?: DiskEncryptionSetsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, diskEncryptionSetName: string, options?: DiskEncryptionSetsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, diskEncryptionSetName: string, diskEncryptionSet: DiskEncryptionSetUpdate, options?: DiskEncryptionSetsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DiskEncryptionSetsUpdateResponse>, DiskEncryptionSetsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, diskEncryptionSetName: string, diskEncryptionSet: DiskEncryptionSetUpdate, options?: DiskEncryptionSetsUpdateOptionalParams): Promise<DiskEncryptionSetsUpdateResponse>;
-    get(resourceGroupName: string, diskEncryptionSetName: string, options?: DiskEncryptionSetsGetOptionalParams): Promise<DiskEncryptionSetsGetResponse>;
-    list(options?: DiskEncryptionSetsListOptionalParams): PagedAsyncIterableIterator<DiskEncryptionSet>;
-    listAssociatedResources(resourceGroupName: string, diskEncryptionSetName: string, options?: DiskEncryptionSetsListAssociatedResourcesOptionalParams): PagedAsyncIterableIterator<string>;
-    listByResourceGroup(resourceGroupName: string, options?: DiskEncryptionSetsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<DiskEncryptionSet>;
-}
-
-// @public
-export interface DiskEncryptionSetsCreateOrUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DiskEncryptionSetsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DiskEncryptionSetsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DiskEncryptionSetsCreateOrUpdateResponse = DiskEncryptionSet;
-
-// @public
-export interface DiskEncryptionSetsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DiskEncryptionSetsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DiskEncryptionSetsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface DiskEncryptionSetsGetOptionalParams extends coreClient.OperationOptions {
+export interface DiskEncryptionSetsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DiskEncryptionSetsGetResponse = DiskEncryptionSet;
-
-// @public
-export interface DiskEncryptionSetsListAssociatedResourcesNextOptionalParams extends coreClient.OperationOptions {
+export interface DiskEncryptionSetsListAssociatedResourcesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DiskEncryptionSetsListAssociatedResourcesNextResponse = ResourceUriList;
-
-// @public
-export interface DiskEncryptionSetsListAssociatedResourcesOptionalParams extends coreClient.OperationOptions {
+export interface DiskEncryptionSetsListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DiskEncryptionSetsListAssociatedResourcesResponse = ResourceUriList;
-
-// @public
-export interface DiskEncryptionSetsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface DiskEncryptionSetsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DiskEncryptionSetsListByResourceGroupNextResponse = DiskEncryptionSetList;
-
-// @public
-export interface DiskEncryptionSetsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface DiskEncryptionSetsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, diskEncryptionSetName: string, diskEncryptionSet: DiskEncryptionSet, options?: DiskEncryptionSetsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DiskEncryptionSet>, DiskEncryptionSet>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, diskEncryptionSetName: string, diskEncryptionSet: DiskEncryptionSet, options?: DiskEncryptionSetsCreateOrUpdateOptionalParams) => Promise<DiskEncryptionSet>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, diskEncryptionSetName: string, options?: DiskEncryptionSetsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, diskEncryptionSetName: string, options?: DiskEncryptionSetsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, diskEncryptionSetName: string, diskEncryptionSet: DiskEncryptionSetUpdate, options?: DiskEncryptionSetsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DiskEncryptionSet>, DiskEncryptionSet>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, diskEncryptionSetName: string, diskEncryptionSet: DiskEncryptionSetUpdate, options?: DiskEncryptionSetsUpdateOptionalParams) => Promise<DiskEncryptionSet>;
+    createOrUpdate: (resourceGroupName: string, diskEncryptionSetName: string, diskEncryptionSet: DiskEncryptionSet, options?: DiskEncryptionSetsCreateOrUpdateOptionalParams) => PollerLike<OperationState<DiskEncryptionSet>, DiskEncryptionSet>;
+    delete: (resourceGroupName: string, diskEncryptionSetName: string, options?: DiskEncryptionSetsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, diskEncryptionSetName: string, options?: DiskEncryptionSetsGetOptionalParams) => Promise<DiskEncryptionSet>;
+    list: (options?: DiskEncryptionSetsListOptionalParams) => PagedAsyncIterableIterator<DiskEncryptionSet>;
+    listAssociatedResources: (resourceGroupName: string, diskEncryptionSetName: string, options?: DiskEncryptionSetsListAssociatedResourcesOptionalParams) => PagedAsyncIterableIterator<string>;
+    listByResourceGroup: (resourceGroupName: string, options?: DiskEncryptionSetsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<DiskEncryptionSet>;
+    update: (resourceGroupName: string, diskEncryptionSetName: string, diskEncryptionSet: DiskEncryptionSetUpdate, options?: DiskEncryptionSetsUpdateOptionalParams) => PollerLike<OperationState<DiskEncryptionSet>, DiskEncryptionSet>;
 }
 
 // @public
-export type DiskEncryptionSetsListByResourceGroupResponse = DiskEncryptionSetList;
-
-// @public
-export interface DiskEncryptionSetsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DiskEncryptionSetsListNextResponse = DiskEncryptionSetList;
-
-// @public
-export interface DiskEncryptionSetsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DiskEncryptionSetsListResponse = DiskEncryptionSetList;
-
-// @public
-export interface DiskEncryptionSetsUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DiskEncryptionSetsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DiskEncryptionSetsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type DiskEncryptionSetsUpdateResponse = DiskEncryptionSet;
 
 // @public
 export interface DiskEncryptionSettings {
@@ -2131,9 +1310,15 @@ export interface DiskEncryptionSetUpdate {
     federatedClientId?: string;
     identity?: EncryptionSetIdentity;
     rotationToLatestKeyVersionEnabled?: boolean;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface DiskEncryptionSetUpdateProperties {
+    activeKey?: KeyForDiskEncryptionSet;
+    encryptionType?: DiskEncryptionSetType;
+    federatedClientId?: string;
+    rotationToLatestKeyVersionEnabled?: boolean;
 }
 
 // @public
@@ -2149,9 +1334,40 @@ export interface DiskInstanceView {
 }
 
 // @public
-export interface DiskList {
-    nextLink?: string;
-    value: Disk[];
+export interface DiskProperties {
+    availabilityPolicy?: AvailabilityPolicy;
+    burstingEnabled?: boolean;
+    readonly burstingEnabledTime?: Date;
+    completionPercent?: number;
+    creationData: CreationData;
+    dataAccessAuthMode?: DataAccessAuthMode;
+    diskAccessId?: string;
+    diskIopsReadOnly?: number;
+    diskIopsReadWrite?: number;
+    diskMBpsReadOnly?: number;
+    diskMBpsReadWrite?: number;
+    readonly diskSizeBytes?: number;
+    diskSizeGB?: number;
+    readonly diskState?: DiskState;
+    encryption?: Encryption;
+    encryptionSettingsCollection?: EncryptionSettingsCollection;
+    hyperVGeneration?: HyperVGeneration;
+    readonly lastOwnershipUpdateTime?: Date;
+    maxShares?: number;
+    networkAccessPolicy?: NetworkAccessPolicy;
+    optimizedForFrequentAttach?: boolean;
+    osType?: OperatingSystemTypes;
+    readonly propertyUpdatesInProgress?: PropertyUpdatesInProgress;
+    readonly provisioningState?: string;
+    publicNetworkAccess?: PublicNetworkAccess;
+    purchasePlan?: DiskPurchasePlan;
+    securityProfile?: DiskSecurityProfile;
+    readonly shareInfo?: ShareInfoElement[];
+    supportedCapabilities?: SupportedCapabilities;
+    supportsHibernation?: boolean;
+    tier?: string;
+    readonly timeCreated?: Date;
+    readonly uniqueId?: string;
 }
 
 // @public
@@ -2191,26 +1407,13 @@ export interface DiskRestorePointAttributes extends SubResourceReadOnly {
 }
 
 // @public
-export interface DiskRestorePointGetOptionalParams extends coreClient.OperationOptions {
+export interface DiskRestorePointGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DiskRestorePointGetResponse = DiskRestorePoint;
-
-// @public
-export interface DiskRestorePointGrantAccessHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DiskRestorePointGrantAccessOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DiskRestorePointGrantAccessOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type DiskRestorePointGrantAccessResponse = AccessUri;
 
 // @public
 export interface DiskRestorePointInstanceView {
@@ -2220,33 +1423,45 @@ export interface DiskRestorePointInstanceView {
 }
 
 // @public
-export interface DiskRestorePointList {
-    nextLink?: string;
-    value: DiskRestorePoint[];
+export interface DiskRestorePointListByRestorePointOptionalParams extends OperationOptions {
 }
-
-// @public
-export interface DiskRestorePointListByRestorePointNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DiskRestorePointListByRestorePointNextResponse = DiskRestorePointList;
-
-// @public
-export interface DiskRestorePointListByRestorePointOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DiskRestorePointListByRestorePointResponse = DiskRestorePointList;
 
 // @public
 export interface DiskRestorePointOperations {
-    beginGrantAccess(resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, diskRestorePointName: string, grantAccessData: GrantAccessData, options?: DiskRestorePointGrantAccessOptionalParams): Promise<SimplePollerLike<OperationState<DiskRestorePointGrantAccessResponse>, DiskRestorePointGrantAccessResponse>>;
-    beginGrantAccessAndWait(resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, diskRestorePointName: string, grantAccessData: GrantAccessData, options?: DiskRestorePointGrantAccessOptionalParams): Promise<DiskRestorePointGrantAccessResponse>;
-    beginRevokeAccess(resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, diskRestorePointName: string, options?: DiskRestorePointRevokeAccessOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRevokeAccessAndWait(resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, diskRestorePointName: string, options?: DiskRestorePointRevokeAccessOptionalParams): Promise<void>;
-    get(resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, diskRestorePointName: string, options?: DiskRestorePointGetOptionalParams): Promise<DiskRestorePointGetResponse>;
-    listByRestorePoint(resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, options?: DiskRestorePointListByRestorePointOptionalParams): PagedAsyncIterableIterator<DiskRestorePoint>;
+    // @deprecated (undocumented)
+    beginGrantAccess: (resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, diskRestorePointName: string, grantAccessData: GrantAccessData, options?: DiskRestorePointGrantAccessOptionalParams) => Promise<SimplePollerLike<OperationState<AccessUri>, AccessUri>>;
+    // @deprecated (undocumented)
+    beginGrantAccessAndWait: (resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, diskRestorePointName: string, grantAccessData: GrantAccessData, options?: DiskRestorePointGrantAccessOptionalParams) => Promise<AccessUri>;
+    // @deprecated (undocumented)
+    beginRevokeAccess: (resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, diskRestorePointName: string, options?: DiskRestorePointRevokeAccessOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRevokeAccessAndWait: (resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, diskRestorePointName: string, options?: DiskRestorePointRevokeAccessOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, diskRestorePointName: string, options?: DiskRestorePointGetOptionalParams) => Promise<DiskRestorePoint>;
+    grantAccess: (resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, diskRestorePointName: string, grantAccessData: GrantAccessData, options?: DiskRestorePointGrantAccessOptionalParams) => PollerLike<OperationState<AccessUri>, AccessUri>;
+    listByRestorePoint: (resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, options?: DiskRestorePointListByRestorePointOptionalParams) => PagedAsyncIterableIterator<DiskRestorePoint>;
+    revokeAccess: (resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, diskRestorePointName: string, options?: DiskRestorePointRevokeAccessOptionalParams) => PollerLike<OperationState<void>, void>;
+}
+
+// @public
+export interface DiskRestorePointProperties {
+    completionPercent?: number;
+    diskAccessId?: string;
+    readonly encryption?: Encryption;
+    readonly familyId?: string;
+    hyperVGeneration?: HyperVGeneration;
+    readonly logicalSectorSize?: number;
+    networkAccessPolicy?: NetworkAccessPolicy;
+    readonly osType?: OperatingSystemTypes;
+    publicNetworkAccess?: PublicNetworkAccess;
+    purchasePlan?: DiskPurchasePlan;
+    readonly replicationState?: string;
+    securityProfile?: DiskSecurityProfile;
+    readonly sourceResourceId?: string;
+    readonly sourceResourceLocation?: string;
+    readonly sourceUniqueId?: string;
+    supportedCapabilities?: SupportedCapabilities;
+    supportsHibernation?: boolean;
+    readonly timeCreated?: Date;
 }
 
 // @public
@@ -2256,58 +1471,17 @@ export interface DiskRestorePointReplicationStatus {
 }
 
 // @public
-export interface DiskRestorePointRevokeAccessHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DiskRestorePointRevokeAccessOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DiskRestorePointRevokeAccessOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface Disks {
-    beginCreateOrUpdate(resourceGroupName: string, diskName: string, disk: Disk, options?: DisksCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DisksCreateOrUpdateResponse>, DisksCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, diskName: string, disk: Disk, options?: DisksCreateOrUpdateOptionalParams): Promise<DisksCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, diskName: string, options?: DisksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, diskName: string, options?: DisksDeleteOptionalParams): Promise<void>;
-    beginGrantAccess(resourceGroupName: string, diskName: string, grantAccessData: GrantAccessData, options?: DisksGrantAccessOptionalParams): Promise<SimplePollerLike<OperationState<DisksGrantAccessResponse>, DisksGrantAccessResponse>>;
-    beginGrantAccessAndWait(resourceGroupName: string, diskName: string, grantAccessData: GrantAccessData, options?: DisksGrantAccessOptionalParams): Promise<DisksGrantAccessResponse>;
-    beginRevokeAccess(resourceGroupName: string, diskName: string, options?: DisksRevokeAccessOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRevokeAccessAndWait(resourceGroupName: string, diskName: string, options?: DisksRevokeAccessOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, diskName: string, disk: DiskUpdate, options?: DisksUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DisksUpdateResponse>, DisksUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, diskName: string, disk: DiskUpdate, options?: DisksUpdateOptionalParams): Promise<DisksUpdateResponse>;
-    get(resourceGroupName: string, diskName: string, options?: DisksGetOptionalParams): Promise<DisksGetResponse>;
-    list(options?: DisksListOptionalParams): PagedAsyncIterableIterator<Disk>;
-    listByResourceGroup(resourceGroupName: string, options?: DisksListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Disk>;
-}
-
-// @public
-export interface DisksCreateOrUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DisksCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DisksCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DisksCreateOrUpdateResponse = Disk;
-
-// @public
-export interface DisksDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DisksDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DisksDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -2321,26 +1495,13 @@ export interface DiskSecurityProfile {
 export type DiskSecurityTypes = string;
 
 // @public
-export interface DisksGetOptionalParams extends coreClient.OperationOptions {
+export interface DisksGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DisksGetResponse = Disk;
-
-// @public
-export interface DisksGrantAccessHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DisksGrantAccessOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DisksGrantAccessOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type DisksGrantAccessResponse = AccessUri;
 
 // @public
 export interface DiskSku {
@@ -2349,42 +1510,47 @@ export interface DiskSku {
 }
 
 // @public
-export interface DisksListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface DisksListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DisksListByResourceGroupNextResponse = DiskList;
-
-// @public
-export interface DisksListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface DisksListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DisksListByResourceGroupResponse = DiskList;
-
-// @public
-export interface DisksListNextOptionalParams extends coreClient.OperationOptions {
+export interface DisksOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, diskName: string, disk: Disk, options?: DisksCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Disk>, Disk>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, diskName: string, disk: Disk, options?: DisksCreateOrUpdateOptionalParams) => Promise<Disk>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, diskName: string, options?: DisksDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, diskName: string, options?: DisksDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginGrantAccess: (resourceGroupName: string, diskName: string, grantAccessData: GrantAccessData, options?: DisksGrantAccessOptionalParams) => Promise<SimplePollerLike<OperationState<AccessUri>, AccessUri>>;
+    // @deprecated (undocumented)
+    beginGrantAccessAndWait: (resourceGroupName: string, diskName: string, grantAccessData: GrantAccessData, options?: DisksGrantAccessOptionalParams) => Promise<AccessUri>;
+    // @deprecated (undocumented)
+    beginRevokeAccess: (resourceGroupName: string, diskName: string, options?: DisksRevokeAccessOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRevokeAccessAndWait: (resourceGroupName: string, diskName: string, options?: DisksRevokeAccessOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, diskName: string, disk: DiskUpdate, options?: DisksUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Disk>, Disk>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, diskName: string, disk: DiskUpdate, options?: DisksUpdateOptionalParams) => Promise<Disk>;
+    createOrUpdate: (resourceGroupName: string, diskName: string, disk: Disk, options?: DisksCreateOrUpdateOptionalParams) => PollerLike<OperationState<Disk>, Disk>;
+    delete: (resourceGroupName: string, diskName: string, options?: DisksDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, diskName: string, options?: DisksGetOptionalParams) => Promise<Disk>;
+    grantAccess: (resourceGroupName: string, diskName: string, grantAccessData: GrantAccessData, options?: DisksGrantAccessOptionalParams) => PollerLike<OperationState<AccessUri>, AccessUri>;
+    list: (options?: DisksListOptionalParams) => PagedAsyncIterableIterator<Disk>;
+    listByResourceGroup: (resourceGroupName: string, options?: DisksListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Disk>;
+    revokeAccess: (resourceGroupName: string, diskName: string, options?: DisksRevokeAccessOptionalParams) => PollerLike<OperationState<void>, void>;
+    update: (resourceGroupName: string, diskName: string, disk: DiskUpdate, options?: DisksUpdateOptionalParams) => PollerLike<OperationState<Disk>, Disk>;
 }
 
 // @public
-export type DisksListNextResponse = DiskList;
-
-// @public
-export interface DisksListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DisksListResponse = DiskList;
-
-// @public
-export interface DisksRevokeAccessHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DisksRevokeAccessOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DisksRevokeAccessOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -2395,19 +1561,9 @@ export type DiskState = string;
 export type DiskStorageAccountTypes = string;
 
 // @public
-export interface DisksUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DisksUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DisksUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type DisksUpdateResponse = Disk;
 
 // @public
 export interface DiskUpdate {
@@ -2432,9 +1588,32 @@ export interface DiskUpdate {
     sku?: DiskSku;
     supportedCapabilities?: SupportedCapabilities;
     supportsHibernation?: boolean;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
+    tier?: string;
+}
+
+// @public
+export interface DiskUpdateProperties {
+    availabilityPolicy?: AvailabilityPolicy;
+    burstingEnabled?: boolean;
+    dataAccessAuthMode?: DataAccessAuthMode;
+    diskAccessId?: string;
+    diskIopsReadOnly?: number;
+    diskIopsReadWrite?: number;
+    diskMBpsReadOnly?: number;
+    diskMBpsReadWrite?: number;
+    diskSizeGB?: number;
+    encryption?: Encryption;
+    encryptionSettingsCollection?: EncryptionSettingsCollection;
+    maxShares?: number;
+    networkAccessPolicy?: NetworkAccessPolicy;
+    optimizedForFrequentAttach?: boolean;
+    osType?: OperatingSystemTypes;
+    readonly propertyUpdatesInProgress?: PropertyUpdatesInProgress;
+    publicNetworkAccess?: PublicNetworkAccess;
+    purchasePlan?: DiskPurchasePlan;
+    supportedCapabilities?: SupportedCapabilities;
+    supportsHibernation?: boolean;
     tier?: string;
 }
 
@@ -2466,9 +1645,19 @@ export interface EncryptionSetIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type?: DiskEncryptionSetIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentitiesValue;
-    };
+    userAssignedIdentities?: Record<string, UserAssignedIdentitiesValue>;
+}
+
+// @public
+export interface EncryptionSetProperties {
+    activeKey?: KeyForDiskEncryptionSet;
+    readonly autoKeyRotationError?: ApiError;
+    encryptionType?: DiskEncryptionSetType;
+    federatedClientId?: string;
+    readonly lastKeyRotationTimestamp?: Date;
+    readonly previousKeys?: KeyForDiskEncryptionSet[];
+    readonly provisioningState?: string;
+    rotationToLatestKeyVersionEnabled?: boolean;
 }
 
 // @public
@@ -2522,7 +1711,7 @@ export interface EventGridAndResourceGraph {
 // @public
 export interface ExecutedValidation {
     executionTime?: Date;
-    readonly status?: ValidationStatus;
+    status?: ValidationStatus;
     type?: string;
     version?: string;
 }
@@ -2555,105 +1744,58 @@ export type ExtendedLocationType = string;
 export type ExtendedLocationTypes = string;
 
 // @public
-export interface Extension {
-    name?: string;
-    properties?: CloudServiceExtensionProperties;
-}
-
-// @public
 export type FileFormat = string;
 
 // @public
-export interface Galleries {
-    beginCreateOrUpdate(resourceGroupName: string, galleryName: string, gallery: Gallery, options?: GalleriesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleriesCreateOrUpdateResponse>, GalleriesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, galleryName: string, gallery: Gallery, options?: GalleriesCreateOrUpdateOptionalParams): Promise<GalleriesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, galleryName: string, options?: GalleriesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, galleryName: string, options?: GalleriesDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, galleryName: string, gallery: GalleryUpdate, options?: GalleriesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleriesUpdateResponse>, GalleriesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, galleryName: string, gallery: GalleryUpdate, options?: GalleriesUpdateOptionalParams): Promise<GalleriesUpdateResponse>;
-    get(resourceGroupName: string, galleryName: string, options?: GalleriesGetOptionalParams): Promise<GalleriesGetResponse>;
-    list(options?: GalleriesListOptionalParams): PagedAsyncIterableIterator<Gallery>;
-    listByResourceGroup(resourceGroupName: string, options?: GalleriesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Gallery>;
-}
-
-// @public
-export interface GalleriesCreateOrUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleriesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleriesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type GalleriesCreateOrUpdateResponse = Gallery;
-
-// @public
-export interface GalleriesDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleriesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleriesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface GalleriesGetOptionalParams extends coreClient.OperationOptions {
+export interface GalleriesGetOptionalParams extends OperationOptions {
     expand?: GalleryExpandParams;
     select?: SelectPermissions;
 }
 
 // @public
-export type GalleriesGetResponse = Gallery;
-
-// @public
-export interface GalleriesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface GalleriesListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GalleriesListByResourceGroupNextResponse = GalleryList;
-
-// @public
-export interface GalleriesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface GalleriesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GalleriesListByResourceGroupResponse = GalleryList;
-
-// @public
-export interface GalleriesListNextOptionalParams extends coreClient.OperationOptions {
+export interface GalleriesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, galleryName: string, gallery: Gallery, options?: GalleriesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Gallery>, Gallery>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, galleryName: string, gallery: Gallery, options?: GalleriesCreateOrUpdateOptionalParams) => Promise<Gallery>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, galleryName: string, options?: GalleriesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, galleryName: string, options?: GalleriesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, galleryName: string, gallery: GalleryUpdate, options?: GalleriesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Gallery>, Gallery>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, galleryName: string, gallery: GalleryUpdate, options?: GalleriesUpdateOptionalParams) => Promise<Gallery>;
+    createOrUpdate: (resourceGroupName: string, galleryName: string, gallery: Gallery, options?: GalleriesCreateOrUpdateOptionalParams) => PollerLike<OperationState<Gallery>, Gallery>;
+    delete: (resourceGroupName: string, galleryName: string, options?: GalleriesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, galleryName: string, options?: GalleriesGetOptionalParams) => Promise<Gallery>;
+    list: (options?: GalleriesListOptionalParams) => PagedAsyncIterableIterator<Gallery>;
+    listByResourceGroup: (resourceGroupName: string, options?: GalleriesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Gallery>;
+    update: (resourceGroupName: string, galleryName: string, gallery: GalleryUpdate, options?: GalleriesUpdateOptionalParams) => PollerLike<OperationState<Gallery>, Gallery>;
 }
 
 // @public
-export type GalleriesListNextResponse = GalleryList;
-
-// @public
-export interface GalleriesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type GalleriesListResponse = GalleryList;
-
-// @public
-export interface GalleriesUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleriesUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleriesUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type GalleriesUpdateResponse = GalleriesUpdateHeaders & Gallery;
 
 // @public
 export interface Gallery extends TrackedResource {
@@ -2698,88 +1840,62 @@ export interface GalleryApplicationCustomActionParameter {
 export type GalleryApplicationCustomActionParameterType = "String" | "ConfigurationDataBlob" | "LogOutputBlob";
 
 // @public
-export interface GalleryApplicationList {
-    nextLink?: string;
-    value: GalleryApplication[];
+export interface GalleryApplicationProperties {
+    customActions?: GalleryApplicationCustomAction[];
+    description?: string;
+    endOfLifeDate?: Date;
+    eula?: string;
+    privacyStatementUri?: string;
+    releaseNoteUri?: string;
+    supportedOSType: OperatingSystemTypes;
 }
 
 // @public
-export interface GalleryApplications {
-    beginCreateOrUpdate(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplication: GalleryApplication, options?: GalleryApplicationsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryApplicationsCreateOrUpdateResponse>, GalleryApplicationsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplication: GalleryApplication, options?: GalleryApplicationsCreateOrUpdateOptionalParams): Promise<GalleryApplicationsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, galleryName: string, galleryApplicationName: string, options?: GalleryApplicationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, galleryName: string, galleryApplicationName: string, options?: GalleryApplicationsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplication: GalleryApplicationUpdate, options?: GalleryApplicationsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryApplicationsUpdateResponse>, GalleryApplicationsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplication: GalleryApplicationUpdate, options?: GalleryApplicationsUpdateOptionalParams): Promise<GalleryApplicationsUpdateResponse>;
-    get(resourceGroupName: string, galleryName: string, galleryApplicationName: string, options?: GalleryApplicationsGetOptionalParams): Promise<GalleryApplicationsGetResponse>;
-    listByGallery(resourceGroupName: string, galleryName: string, options?: GalleryApplicationsListByGalleryOptionalParams): PagedAsyncIterableIterator<GalleryApplication>;
-}
-
-// @public
-export interface GalleryApplicationsCreateOrUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleryApplicationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleryApplicationsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type GalleryApplicationsCreateOrUpdateResponse = GalleryApplication;
 
 // @public
 export type GalleryApplicationScriptRebootBehavior = string;
 
 // @public
-export interface GalleryApplicationsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleryApplicationsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleryApplicationsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface GalleryApplicationsGetOptionalParams extends coreClient.OperationOptions {
+export interface GalleryApplicationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GalleryApplicationsGetResponse = GalleryApplication;
-
-// @public
-export interface GalleryApplicationsListByGalleryNextOptionalParams extends coreClient.OperationOptions {
+export interface GalleryApplicationsListByGalleryOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GalleryApplicationsListByGalleryNextResponse = GalleryApplicationList;
-
-// @public
-export interface GalleryApplicationsListByGalleryOptionalParams extends coreClient.OperationOptions {
+export interface GalleryApplicationsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplication: GalleryApplication, options?: GalleryApplicationsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<GalleryApplication>, GalleryApplication>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplication: GalleryApplication, options?: GalleryApplicationsCreateOrUpdateOptionalParams) => Promise<GalleryApplication>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, galleryName: string, galleryApplicationName: string, options?: GalleryApplicationsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, galleryName: string, galleryApplicationName: string, options?: GalleryApplicationsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplication: GalleryApplicationUpdate, options?: GalleryApplicationsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<GalleryApplication>, GalleryApplication>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplication: GalleryApplicationUpdate, options?: GalleryApplicationsUpdateOptionalParams) => Promise<GalleryApplication>;
+    createOrUpdate: (resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplication: GalleryApplication, options?: GalleryApplicationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<GalleryApplication>, GalleryApplication>;
+    delete: (resourceGroupName: string, galleryName: string, galleryApplicationName: string, options?: GalleryApplicationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, galleryName: string, galleryApplicationName: string, options?: GalleryApplicationsGetOptionalParams) => Promise<GalleryApplication>;
+    listByGallery: (resourceGroupName: string, galleryName: string, options?: GalleryApplicationsListByGalleryOptionalParams) => PagedAsyncIterableIterator<GalleryApplication>;
+    update: (resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplication: GalleryApplicationUpdate, options?: GalleryApplicationsUpdateOptionalParams) => PollerLike<OperationState<GalleryApplication>, GalleryApplication>;
 }
 
 // @public
-export type GalleryApplicationsListByGalleryResponse = GalleryApplicationList;
-
-// @public
-export interface GalleryApplicationsUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleryApplicationsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleryApplicationsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type GalleryApplicationsUpdateResponse = GalleryApplicationsUpdateHeaders & GalleryApplication;
 
 // @public
 export interface GalleryApplicationUpdate extends UpdateResourceDefinition {
@@ -2801,16 +1917,16 @@ export interface GalleryApplicationVersion extends TrackedResource {
 }
 
 // @public
-export interface GalleryApplicationVersionList {
-    nextLink?: string;
-    value: GalleryApplicationVersion[];
+export interface GalleryApplicationVersionProperties {
+    readonly provisioningState?: GalleryProvisioningState;
+    publishingProfile: GalleryApplicationVersionPublishingProfile;
+    readonly replicationStatus?: ReplicationStatus;
+    safetyProfile?: GalleryApplicationVersionSafetyProfile;
 }
 
 // @public
 export interface GalleryApplicationVersionPublishingProfile extends GalleryArtifactPublishingProfileBase {
-    advancedSettings?: {
-        [propertyName: string]: string;
-    };
+    advancedSettings?: Record<string, string>;
     customActions?: GalleryApplicationCustomAction[];
     enableHealthCheck?: boolean;
     // (undocumented)
@@ -2820,84 +1936,53 @@ export interface GalleryApplicationVersionPublishingProfile extends GalleryArtif
 }
 
 // @public
-export interface GalleryApplicationVersions {
-    beginCreateOrUpdate(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, galleryApplicationVersion: GalleryApplicationVersion, options?: GalleryApplicationVersionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryApplicationVersionsCreateOrUpdateResponse>, GalleryApplicationVersionsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, galleryApplicationVersion: GalleryApplicationVersion, options?: GalleryApplicationVersionsCreateOrUpdateOptionalParams): Promise<GalleryApplicationVersionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, options?: GalleryApplicationVersionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, options?: GalleryApplicationVersionsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, galleryApplicationVersion: GalleryApplicationVersionUpdate, options?: GalleryApplicationVersionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryApplicationVersionsUpdateResponse>, GalleryApplicationVersionsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, galleryApplicationVersion: GalleryApplicationVersionUpdate, options?: GalleryApplicationVersionsUpdateOptionalParams): Promise<GalleryApplicationVersionsUpdateResponse>;
-    get(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, options?: GalleryApplicationVersionsGetOptionalParams): Promise<GalleryApplicationVersionsGetResponse>;
-    listByGalleryApplication(resourceGroupName: string, galleryName: string, galleryApplicationName: string, options?: GalleryApplicationVersionsListByGalleryApplicationOptionalParams): PagedAsyncIterableIterator<GalleryApplicationVersion>;
-}
-
-// @public
 export interface GalleryApplicationVersionSafetyProfile extends GalleryArtifactSafetyProfileBase {
 }
 
 // @public
-export interface GalleryApplicationVersionsCreateOrUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleryApplicationVersionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleryApplicationVersionsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type GalleryApplicationVersionsCreateOrUpdateResponse = GalleryApplicationVersion;
-
-// @public
-export interface GalleryApplicationVersionsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleryApplicationVersionsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleryApplicationVersionsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface GalleryApplicationVersionsGetOptionalParams extends coreClient.OperationOptions {
+export interface GalleryApplicationVersionsGetOptionalParams extends OperationOptions {
     expand?: ReplicationStatusTypes;
 }
 
 // @public
-export type GalleryApplicationVersionsGetResponse = GalleryApplicationVersion;
-
-// @public
-export interface GalleryApplicationVersionsListByGalleryApplicationNextOptionalParams extends coreClient.OperationOptions {
+export interface GalleryApplicationVersionsListByGalleryApplicationOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GalleryApplicationVersionsListByGalleryApplicationNextResponse = GalleryApplicationVersionList;
-
-// @public
-export interface GalleryApplicationVersionsListByGalleryApplicationOptionalParams extends coreClient.OperationOptions {
+export interface GalleryApplicationVersionsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, galleryApplicationVersion: GalleryApplicationVersion, options?: GalleryApplicationVersionsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<GalleryApplicationVersion>, GalleryApplicationVersion>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, galleryApplicationVersion: GalleryApplicationVersion, options?: GalleryApplicationVersionsCreateOrUpdateOptionalParams) => Promise<GalleryApplicationVersion>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, options?: GalleryApplicationVersionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, options?: GalleryApplicationVersionsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, galleryApplicationVersion: GalleryApplicationVersionUpdate, options?: GalleryApplicationVersionsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<GalleryApplicationVersion>, GalleryApplicationVersion>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, galleryApplicationVersion: GalleryApplicationVersionUpdate, options?: GalleryApplicationVersionsUpdateOptionalParams) => Promise<GalleryApplicationVersion>;
+    createOrUpdate: (resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, galleryApplicationVersion: GalleryApplicationVersion, options?: GalleryApplicationVersionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<GalleryApplicationVersion>, GalleryApplicationVersion>;
+    delete: (resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, options?: GalleryApplicationVersionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, options?: GalleryApplicationVersionsGetOptionalParams) => Promise<GalleryApplicationVersion>;
+    listByGalleryApplication: (resourceGroupName: string, galleryName: string, galleryApplicationName: string, options?: GalleryApplicationVersionsListByGalleryApplicationOptionalParams) => PagedAsyncIterableIterator<GalleryApplicationVersion>;
+    update: (resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, galleryApplicationVersion: GalleryApplicationVersionUpdate, options?: GalleryApplicationVersionsUpdateOptionalParams) => PollerLike<OperationState<GalleryApplicationVersion>, GalleryApplicationVersion>;
 }
 
 // @public
-export type GalleryApplicationVersionsListByGalleryApplicationResponse = GalleryApplicationVersionList;
-
-// @public
-export interface GalleryApplicationVersionsUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleryApplicationVersionsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleryApplicationVersionsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type GalleryApplicationVersionsUpdateResponse = GalleryApplicationVersionsUpdateHeaders & GalleryApplicationVersion;
 
 // @public
 export interface GalleryApplicationVersionUpdate extends UpdateResourceDefinition {
@@ -2977,9 +2062,7 @@ export interface GalleryIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type?: ResourceIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentitiesValue;
-    };
+    userAssignedIdentities?: Record<string, UserAssignedIdentitiesValue>;
 }
 
 // @public
@@ -3017,85 +2100,68 @@ export interface GalleryImageIdentifier {
 }
 
 // @public
-export interface GalleryImageList {
-    nextLink?: string;
-    value: GalleryImage[];
+export interface GalleryImageProperties {
+    allowUpdateImage?: boolean;
+    architecture?: Architecture;
+    description?: string;
+    disallowed?: Disallowed;
+    endOfLifeDate?: Date;
+    eula?: string;
+    features?: GalleryImageFeature[];
+    hyperVGeneration?: HyperVGeneration;
+    identifier: GalleryImageIdentifier;
+    osState: OperatingSystemStateTypes;
+    osType: OperatingSystemTypes;
+    privacyStatementUri?: string;
+    readonly provisioningState?: GalleryProvisioningState;
+    purchasePlan?: ImagePurchasePlan;
+    recommended?: RecommendedMachineConfiguration;
+    releaseNoteUri?: string;
 }
 
 // @public
-export interface GalleryImages {
-    beginCreateOrUpdate(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImage: GalleryImage, options?: GalleryImagesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryImagesCreateOrUpdateResponse>, GalleryImagesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImage: GalleryImage, options?: GalleryImagesCreateOrUpdateOptionalParams): Promise<GalleryImagesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, galleryName: string, galleryImageName: string, options?: GalleryImagesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, galleryName: string, galleryImageName: string, options?: GalleryImagesDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImage: GalleryImageUpdate, options?: GalleryImagesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryImagesUpdateResponse>, GalleryImagesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImage: GalleryImageUpdate, options?: GalleryImagesUpdateOptionalParams): Promise<GalleryImagesUpdateResponse>;
-    get(resourceGroupName: string, galleryName: string, galleryImageName: string, options?: GalleryImagesGetOptionalParams): Promise<GalleryImagesGetResponse>;
-    listByGallery(resourceGroupName: string, galleryName: string, options?: GalleryImagesListByGalleryOptionalParams): PagedAsyncIterableIterator<GalleryImage>;
-}
-
-// @public
-export interface GalleryImagesCreateOrUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleryImagesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleryImagesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type GalleryImagesCreateOrUpdateResponse = GalleryImage;
-
-// @public
-export interface GalleryImagesDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleryImagesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleryImagesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface GalleryImagesGetOptionalParams extends coreClient.OperationOptions {
+export interface GalleryImagesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GalleryImagesGetResponse = GalleryImage;
-
-// @public
-export interface GalleryImagesListByGalleryNextOptionalParams extends coreClient.OperationOptions {
+export interface GalleryImagesListByGalleryOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GalleryImagesListByGalleryNextResponse = GalleryImageList;
-
-// @public
-export interface GalleryImagesListByGalleryOptionalParams extends coreClient.OperationOptions {
+export interface GalleryImagesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImage: GalleryImage, options?: GalleryImagesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<GalleryImage>, GalleryImage>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImage: GalleryImage, options?: GalleryImagesCreateOrUpdateOptionalParams) => Promise<GalleryImage>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, galleryName: string, galleryImageName: string, options?: GalleryImagesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, galleryName: string, galleryImageName: string, options?: GalleryImagesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImage: GalleryImageUpdate, options?: GalleryImagesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<GalleryImage>, GalleryImage>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImage: GalleryImageUpdate, options?: GalleryImagesUpdateOptionalParams) => Promise<GalleryImage>;
+    createOrUpdate: (resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImage: GalleryImage, options?: GalleryImagesCreateOrUpdateOptionalParams) => PollerLike<OperationState<GalleryImage>, GalleryImage>;
+    delete: (resourceGroupName: string, galleryName: string, galleryImageName: string, options?: GalleryImagesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, galleryName: string, galleryImageName: string, options?: GalleryImagesGetOptionalParams) => Promise<GalleryImage>;
+    listByGallery: (resourceGroupName: string, galleryName: string, options?: GalleryImagesListByGalleryOptionalParams) => PagedAsyncIterableIterator<GalleryImage>;
+    update: (resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImage: GalleryImageUpdate, options?: GalleryImagesUpdateOptionalParams) => PollerLike<OperationState<GalleryImage>, GalleryImage>;
 }
 
 // @public
-export type GalleryImagesListByGalleryResponse = GalleryImageList;
-
-// @public
-export interface GalleryImagesUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleryImagesUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleryImagesUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type GalleryImagesUpdateResponse = GalleryImagesUpdateHeaders & GalleryImage;
 
 // @public
 export interface GalleryImageUpdate extends UpdateResourceDefinition {
@@ -3130,25 +2196,19 @@ export interface GalleryImageVersion extends TrackedResource {
 }
 
 // @public
-export interface GalleryImageVersionList {
-    nextLink?: string;
-    value: GalleryImageVersion[];
+export interface GalleryImageVersionProperties {
+    readonly provisioningState?: GalleryProvisioningState;
+    publishingProfile?: GalleryImageVersionPublishingProfile;
+    readonly replicationStatus?: ReplicationStatus;
+    restore?: boolean;
+    safetyProfile?: GalleryImageVersionSafetyProfile;
+    securityProfile?: ImageVersionSecurityProfile;
+    storageProfile: GalleryImageVersionStorageProfile;
+    readonly validationsProfile?: ValidationsProfile;
 }
 
 // @public
 export interface GalleryImageVersionPublishingProfile extends GalleryArtifactPublishingProfileBase {
-}
-
-// @public
-export interface GalleryImageVersions {
-    beginCreateOrUpdate(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, galleryImageVersion: GalleryImageVersion, options?: GalleryImageVersionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryImageVersionsCreateOrUpdateResponse>, GalleryImageVersionsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, galleryImageVersion: GalleryImageVersion, options?: GalleryImageVersionsCreateOrUpdateOptionalParams): Promise<GalleryImageVersionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, options?: GalleryImageVersionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, options?: GalleryImageVersionsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, galleryImageVersion: GalleryImageVersionUpdate, options?: GalleryImageVersionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryImageVersionsUpdateResponse>, GalleryImageVersionsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, galleryImageVersion: GalleryImageVersionUpdate, options?: GalleryImageVersionsUpdateOptionalParams): Promise<GalleryImageVersionsUpdateResponse>;
-    get(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, options?: GalleryImageVersionsGetOptionalParams): Promise<GalleryImageVersionsGetResponse>;
-    listByGalleryImage(resourceGroupName: string, galleryName: string, galleryImageName: string, options?: GalleryImageVersionsListByGalleryImageOptionalParams): PagedAsyncIterableIterator<GalleryImageVersion>;
 }
 
 // @public
@@ -3159,53 +2219,44 @@ export interface GalleryImageVersionSafetyProfile extends GalleryArtifactSafetyP
 }
 
 // @public
-export interface GalleryImageVersionsCreateOrUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleryImageVersionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleryImageVersionsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type GalleryImageVersionsCreateOrUpdateResponse = GalleryImageVersion;
-
-// @public
-export interface GalleryImageVersionsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleryImageVersionsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleryImageVersionsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface GalleryImageVersionsGetOptionalParams extends coreClient.OperationOptions {
+export interface GalleryImageVersionsGetOptionalParams extends OperationOptions {
     expand?: ReplicationStatusTypes;
 }
 
 // @public
-export type GalleryImageVersionsGetResponse = GalleryImageVersion;
-
-// @public
-export interface GalleryImageVersionsListByGalleryImageNextOptionalParams extends coreClient.OperationOptions {
+export interface GalleryImageVersionsListByGalleryImageOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GalleryImageVersionsListByGalleryImageNextResponse = GalleryImageVersionList;
-
-// @public
-export interface GalleryImageVersionsListByGalleryImageOptionalParams extends coreClient.OperationOptions {
+export interface GalleryImageVersionsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, galleryImageVersion: GalleryImageVersion, options?: GalleryImageVersionsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<GalleryImageVersion>, GalleryImageVersion>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, galleryImageVersion: GalleryImageVersion, options?: GalleryImageVersionsCreateOrUpdateOptionalParams) => Promise<GalleryImageVersion>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, options?: GalleryImageVersionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, options?: GalleryImageVersionsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, galleryImageVersion: GalleryImageVersionUpdate, options?: GalleryImageVersionsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<GalleryImageVersion>, GalleryImageVersion>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, galleryImageVersion: GalleryImageVersionUpdate, options?: GalleryImageVersionsUpdateOptionalParams) => Promise<GalleryImageVersion>;
+    createOrUpdate: (resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, galleryImageVersion: GalleryImageVersion, options?: GalleryImageVersionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<GalleryImageVersion>, GalleryImageVersion>;
+    delete: (resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, options?: GalleryImageVersionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, options?: GalleryImageVersionsGetOptionalParams) => Promise<GalleryImageVersion>;
+    listByGalleryImage: (resourceGroupName: string, galleryName: string, galleryImageName: string, options?: GalleryImageVersionsListByGalleryImageOptionalParams) => PagedAsyncIterableIterator<GalleryImageVersion>;
+    update: (resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, galleryImageVersion: GalleryImageVersionUpdate, options?: GalleryImageVersionsUpdateOptionalParams) => PollerLike<OperationState<GalleryImageVersion>, GalleryImageVersion>;
 }
-
-// @public
-export type GalleryImageVersionsListByGalleryImageResponse = GalleryImageVersionList;
 
 // @public
 export interface GalleryImageVersionStorageProfile {
@@ -3215,19 +2266,9 @@ export interface GalleryImageVersionStorageProfile {
 }
 
 // @public
-export interface GalleryImageVersionsUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleryImageVersionsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleryImageVersionsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type GalleryImageVersionsUpdateResponse = GalleryImageVersionsUpdateHeaders & GalleryImageVersion;
 
 // @public
 export interface GalleryImageVersionUefiSettings {
@@ -3253,12 +2294,6 @@ export interface GalleryInVMAccessControlProfile extends TrackedResource {
 }
 
 // @public
-export interface GalleryInVMAccessControlProfileList {
-    nextLink?: string;
-    value: GalleryInVMAccessControlProfile[];
-}
-
-// @public
 export interface GalleryInVMAccessControlProfileProperties extends GalleryResourceProfilePropertiesBase {
     applicableHostEndpoint: EndpointTypes;
     description?: string;
@@ -3266,82 +2301,48 @@ export interface GalleryInVMAccessControlProfileProperties extends GalleryResour
 }
 
 // @public
-export interface GalleryInVMAccessControlProfiles {
-    beginCreateOrUpdate(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, galleryInVMAccessControlProfile: GalleryInVMAccessControlProfile, options?: GalleryInVMAccessControlProfilesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryInVMAccessControlProfilesCreateOrUpdateResponse>, GalleryInVMAccessControlProfilesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, galleryInVMAccessControlProfile: GalleryInVMAccessControlProfile, options?: GalleryInVMAccessControlProfilesCreateOrUpdateOptionalParams): Promise<GalleryInVMAccessControlProfilesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, options?: GalleryInVMAccessControlProfilesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<GalleryInVMAccessControlProfilesDeleteResponse>, GalleryInVMAccessControlProfilesDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, options?: GalleryInVMAccessControlProfilesDeleteOptionalParams): Promise<GalleryInVMAccessControlProfilesDeleteResponse>;
-    beginUpdate(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, galleryInVMAccessControlProfile: GalleryInVMAccessControlProfileUpdate, options?: GalleryInVMAccessControlProfilesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryInVMAccessControlProfilesUpdateResponse>, GalleryInVMAccessControlProfilesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, galleryInVMAccessControlProfile: GalleryInVMAccessControlProfileUpdate, options?: GalleryInVMAccessControlProfilesUpdateOptionalParams): Promise<GalleryInVMAccessControlProfilesUpdateResponse>;
-    get(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, options?: GalleryInVMAccessControlProfilesGetOptionalParams): Promise<GalleryInVMAccessControlProfilesGetResponse>;
-    listByGallery(resourceGroupName: string, galleryName: string, options?: GalleryInVMAccessControlProfilesListByGalleryOptionalParams): PagedAsyncIterableIterator<GalleryInVMAccessControlProfile>;
-}
-
-// @public
-export interface GalleryInVMAccessControlProfilesCreateOrUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleryInVMAccessControlProfilesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleryInVMAccessControlProfilesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type GalleryInVMAccessControlProfilesCreateOrUpdateResponse = GalleryInVMAccessControlProfile;
-
-// @public
-export interface GalleryInVMAccessControlProfilesDeleteHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface GalleryInVMAccessControlProfilesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleryInVMAccessControlProfilesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type GalleryInVMAccessControlProfilesDeleteResponse = GalleryInVMAccessControlProfilesDeleteHeaders;
-
-// @public
-export interface GalleryInVMAccessControlProfilesGetOptionalParams extends coreClient.OperationOptions {
+export interface GalleryInVMAccessControlProfilesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GalleryInVMAccessControlProfilesGetResponse = GalleryInVMAccessControlProfile;
-
-// @public
-export interface GalleryInVMAccessControlProfilesListByGalleryNextOptionalParams extends coreClient.OperationOptions {
+export interface GalleryInVMAccessControlProfilesListByGalleryOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GalleryInVMAccessControlProfilesListByGalleryNextResponse = GalleryInVMAccessControlProfileList;
-
-// @public
-export interface GalleryInVMAccessControlProfilesListByGalleryOptionalParams extends coreClient.OperationOptions {
+export interface GalleryInVMAccessControlProfilesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, galleryInVMAccessControlProfile: GalleryInVMAccessControlProfile, options?: GalleryInVMAccessControlProfilesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<GalleryInVMAccessControlProfile>, GalleryInVMAccessControlProfile>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, galleryInVMAccessControlProfile: GalleryInVMAccessControlProfile, options?: GalleryInVMAccessControlProfilesCreateOrUpdateOptionalParams) => Promise<GalleryInVMAccessControlProfile>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, options?: GalleryInVMAccessControlProfilesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, options?: GalleryInVMAccessControlProfilesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, galleryInVMAccessControlProfile: GalleryInVMAccessControlProfileUpdate, options?: GalleryInVMAccessControlProfilesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<GalleryInVMAccessControlProfile>, GalleryInVMAccessControlProfile>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, galleryInVMAccessControlProfile: GalleryInVMAccessControlProfileUpdate, options?: GalleryInVMAccessControlProfilesUpdateOptionalParams) => Promise<GalleryInVMAccessControlProfile>;
+    createOrUpdate: (resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, galleryInVMAccessControlProfile: GalleryInVMAccessControlProfile, options?: GalleryInVMAccessControlProfilesCreateOrUpdateOptionalParams) => PollerLike<OperationState<GalleryInVMAccessControlProfile>, GalleryInVMAccessControlProfile>;
+    delete: (resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, options?: GalleryInVMAccessControlProfilesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, options?: GalleryInVMAccessControlProfilesGetOptionalParams) => Promise<GalleryInVMAccessControlProfile>;
+    listByGallery: (resourceGroupName: string, galleryName: string, options?: GalleryInVMAccessControlProfilesListByGalleryOptionalParams) => PagedAsyncIterableIterator<GalleryInVMAccessControlProfile>;
+    update: (resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, galleryInVMAccessControlProfile: GalleryInVMAccessControlProfileUpdate, options?: GalleryInVMAccessControlProfilesUpdateOptionalParams) => PollerLike<OperationState<GalleryInVMAccessControlProfile>, GalleryInVMAccessControlProfile>;
 }
 
 // @public
-export type GalleryInVMAccessControlProfilesListByGalleryResponse = GalleryInVMAccessControlProfileList;
-
-// @public
-export interface GalleryInVMAccessControlProfilesUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleryInVMAccessControlProfilesUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleryInVMAccessControlProfilesUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type GalleryInVMAccessControlProfilesUpdateResponse = GalleryInVMAccessControlProfilesUpdateHeaders & GalleryInVMAccessControlProfile;
 
 // @public
 export interface GalleryInVMAccessControlProfileUpdate extends UpdateResourceDefinition {
@@ -3361,12 +2362,6 @@ export interface GalleryInVMAccessControlProfileVersion extends TrackedResource 
 }
 
 // @public
-export interface GalleryInVMAccessControlProfileVersionList {
-    nextLink?: string;
-    value: GalleryInVMAccessControlProfileVersion[];
-}
-
-// @public
 export interface GalleryInVMAccessControlProfileVersionProperties extends GalleryResourceProfileVersionPropertiesBase {
     defaultAccess: EndpointAccess;
     mode: AccessControlRulesMode;
@@ -3374,82 +2369,48 @@ export interface GalleryInVMAccessControlProfileVersionProperties extends Galler
 }
 
 // @public
-export interface GalleryInVMAccessControlProfileVersions {
-    beginCreateOrUpdate(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, galleryInVMAccessControlProfileVersion: GalleryInVMAccessControlProfileVersion, options?: GalleryInVMAccessControlProfileVersionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryInVMAccessControlProfileVersionsCreateOrUpdateResponse>, GalleryInVMAccessControlProfileVersionsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, galleryInVMAccessControlProfileVersion: GalleryInVMAccessControlProfileVersion, options?: GalleryInVMAccessControlProfileVersionsCreateOrUpdateOptionalParams): Promise<GalleryInVMAccessControlProfileVersionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, options?: GalleryInVMAccessControlProfileVersionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<GalleryInVMAccessControlProfileVersionsDeleteResponse>, GalleryInVMAccessControlProfileVersionsDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, options?: GalleryInVMAccessControlProfileVersionsDeleteOptionalParams): Promise<GalleryInVMAccessControlProfileVersionsDeleteResponse>;
-    beginUpdate(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, galleryInVMAccessControlProfileVersion: GalleryInVMAccessControlProfileVersionUpdate, options?: GalleryInVMAccessControlProfileVersionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryInVMAccessControlProfileVersionsUpdateResponse>, GalleryInVMAccessControlProfileVersionsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, galleryInVMAccessControlProfileVersion: GalleryInVMAccessControlProfileVersionUpdate, options?: GalleryInVMAccessControlProfileVersionsUpdateOptionalParams): Promise<GalleryInVMAccessControlProfileVersionsUpdateResponse>;
-    get(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, options?: GalleryInVMAccessControlProfileVersionsGetOptionalParams): Promise<GalleryInVMAccessControlProfileVersionsGetResponse>;
-    listByGalleryInVMAccessControlProfile(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, options?: GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileOptionalParams): PagedAsyncIterableIterator<GalleryInVMAccessControlProfileVersion>;
-}
-
-// @public
-export interface GalleryInVMAccessControlProfileVersionsCreateOrUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleryInVMAccessControlProfileVersionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleryInVMAccessControlProfileVersionsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type GalleryInVMAccessControlProfileVersionsCreateOrUpdateResponse = GalleryInVMAccessControlProfileVersion;
-
-// @public
-export interface GalleryInVMAccessControlProfileVersionsDeleteHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface GalleryInVMAccessControlProfileVersionsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleryInVMAccessControlProfileVersionsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type GalleryInVMAccessControlProfileVersionsDeleteResponse = GalleryInVMAccessControlProfileVersionsDeleteHeaders;
-
-// @public
-export interface GalleryInVMAccessControlProfileVersionsGetOptionalParams extends coreClient.OperationOptions {
+export interface GalleryInVMAccessControlProfileVersionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GalleryInVMAccessControlProfileVersionsGetResponse = GalleryInVMAccessControlProfileVersion;
-
-// @public
-export interface GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileNextOptionalParams extends coreClient.OperationOptions {
+export interface GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileNextResponse = GalleryInVMAccessControlProfileVersionList;
-
-// @public
-export interface GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileOptionalParams extends coreClient.OperationOptions {
+export interface GalleryInVMAccessControlProfileVersionsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, galleryInVMAccessControlProfileVersion: GalleryInVMAccessControlProfileVersion, options?: GalleryInVMAccessControlProfileVersionsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<GalleryInVMAccessControlProfileVersion>, GalleryInVMAccessControlProfileVersion>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, galleryInVMAccessControlProfileVersion: GalleryInVMAccessControlProfileVersion, options?: GalleryInVMAccessControlProfileVersionsCreateOrUpdateOptionalParams) => Promise<GalleryInVMAccessControlProfileVersion>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, options?: GalleryInVMAccessControlProfileVersionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, options?: GalleryInVMAccessControlProfileVersionsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, galleryInVMAccessControlProfileVersion: GalleryInVMAccessControlProfileVersionUpdate, options?: GalleryInVMAccessControlProfileVersionsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<GalleryInVMAccessControlProfileVersion>, GalleryInVMAccessControlProfileVersion>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, galleryInVMAccessControlProfileVersion: GalleryInVMAccessControlProfileVersionUpdate, options?: GalleryInVMAccessControlProfileVersionsUpdateOptionalParams) => Promise<GalleryInVMAccessControlProfileVersion>;
+    createOrUpdate: (resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, galleryInVMAccessControlProfileVersion: GalleryInVMAccessControlProfileVersion, options?: GalleryInVMAccessControlProfileVersionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<GalleryInVMAccessControlProfileVersion>, GalleryInVMAccessControlProfileVersion>;
+    delete: (resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, options?: GalleryInVMAccessControlProfileVersionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, options?: GalleryInVMAccessControlProfileVersionsGetOptionalParams) => Promise<GalleryInVMAccessControlProfileVersion>;
+    listByGalleryInVMAccessControlProfile: (resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, options?: GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileOptionalParams) => PagedAsyncIterableIterator<GalleryInVMAccessControlProfileVersion>;
+    update: (resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, galleryInVMAccessControlProfileVersion: GalleryInVMAccessControlProfileVersionUpdate, options?: GalleryInVMAccessControlProfileVersionsUpdateOptionalParams) => PollerLike<OperationState<GalleryInVMAccessControlProfileVersion>, GalleryInVMAccessControlProfileVersion>;
 }
 
 // @public
-export type GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileResponse = GalleryInVMAccessControlProfileVersionList;
-
-// @public
-export interface GalleryInVMAccessControlProfileVersionsUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleryInVMAccessControlProfileVersionsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleryInVMAccessControlProfileVersionsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type GalleryInVMAccessControlProfileVersionsUpdateResponse = GalleryInVMAccessControlProfileVersionsUpdateHeaders & GalleryInVMAccessControlProfileVersion;
 
 // @public
 export interface GalleryInVMAccessControlProfileVersionUpdate extends UpdateResourceDefinition {
@@ -3464,14 +2425,17 @@ export interface GalleryInVMAccessControlProfileVersionUpdate extends UpdateReso
 }
 
 // @public
-export interface GalleryList {
-    nextLink?: string;
-    securityProfile?: ImageVersionSecurityProfile;
-    value: Gallery[];
+export interface GalleryOSDiskImage extends GalleryDiskImage {
 }
 
 // @public
-export interface GalleryOSDiskImage extends GalleryDiskImage {
+export interface GalleryProperties {
+    description?: string;
+    identifier?: GalleryIdentifier;
+    readonly provisioningState?: GalleryProvisioningState;
+    sharingProfile?: SharingProfile;
+    readonly sharingStatus?: SharingStatus;
+    softDeletePolicy?: SoftDeletePolicy;
 }
 
 // @public
@@ -3497,12 +2461,6 @@ export interface GalleryScript extends TrackedResource {
 }
 
 // @public
-export interface GalleryScriptList {
-    nextLink?: string;
-    value: GalleryScript[];
-}
-
-// @public
 export interface GalleryScriptParameter extends GenericGalleryParameter {
     enumValues?: string[];
     maxValue?: string;
@@ -3525,82 +2483,48 @@ export interface GalleryScriptProperties {
 }
 
 // @public
-export interface GalleryScripts {
-    beginCreateOrUpdate(resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScript: GalleryScript, options?: GalleryScriptsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryScriptsCreateOrUpdateResponse>, GalleryScriptsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScript: GalleryScript, options?: GalleryScriptsCreateOrUpdateOptionalParams): Promise<GalleryScriptsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, galleryName: string, galleryScriptName: string, options?: GalleryScriptsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<GalleryScriptsDeleteResponse>, GalleryScriptsDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, galleryName: string, galleryScriptName: string, options?: GalleryScriptsDeleteOptionalParams): Promise<GalleryScriptsDeleteResponse>;
-    beginUpdate(resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScript: GalleryScriptUpdate, options?: GalleryScriptsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryScriptsUpdateResponse>, GalleryScriptsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScript: GalleryScriptUpdate, options?: GalleryScriptsUpdateOptionalParams): Promise<GalleryScriptsUpdateResponse>;
-    get(resourceGroupName: string, galleryName: string, galleryScriptName: string, options?: GalleryScriptsGetOptionalParams): Promise<GalleryScriptsGetResponse>;
-    listByGallery(resourceGroupName: string, galleryName: string, options?: GalleryScriptsListByGalleryOptionalParams): PagedAsyncIterableIterator<GalleryScript>;
-}
-
-// @public
-export interface GalleryScriptsCreateOrUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleryScriptsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleryScriptsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type GalleryScriptsCreateOrUpdateResponse = GalleryScript;
-
-// @public
-export interface GalleryScriptsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleryScriptsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleryScriptsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type GalleryScriptsDeleteResponse = GalleryScriptsDeleteHeaders;
-
-// @public
-export interface GalleryScriptsGetOptionalParams extends coreClient.OperationOptions {
+export interface GalleryScriptsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GalleryScriptsGetResponse = GalleryScript;
-
-// @public
-export interface GalleryScriptsListByGalleryNextOptionalParams extends coreClient.OperationOptions {
+export interface GalleryScriptsListByGalleryOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GalleryScriptsListByGalleryNextResponse = GalleryScriptList;
-
-// @public
-export interface GalleryScriptsListByGalleryOptionalParams extends coreClient.OperationOptions {
+export interface GalleryScriptsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScript: GalleryScript, options?: GalleryScriptsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<GalleryScript>, GalleryScript>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScript: GalleryScript, options?: GalleryScriptsCreateOrUpdateOptionalParams) => Promise<GalleryScript>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, galleryName: string, galleryScriptName: string, options?: GalleryScriptsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, galleryName: string, galleryScriptName: string, options?: GalleryScriptsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScript: GalleryScriptUpdate, options?: GalleryScriptsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<GalleryScript>, GalleryScript>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScript: GalleryScriptUpdate, options?: GalleryScriptsUpdateOptionalParams) => Promise<GalleryScript>;
+    createOrUpdate: (resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScript: GalleryScript, options?: GalleryScriptsCreateOrUpdateOptionalParams) => PollerLike<OperationState<GalleryScript>, GalleryScript>;
+    delete: (resourceGroupName: string, galleryName: string, galleryScriptName: string, options?: GalleryScriptsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, galleryName: string, galleryScriptName: string, options?: GalleryScriptsGetOptionalParams) => Promise<GalleryScript>;
+    listByGallery: (resourceGroupName: string, galleryName: string, options?: GalleryScriptsListByGalleryOptionalParams) => PagedAsyncIterableIterator<GalleryScript>;
+    update: (resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScript: GalleryScriptUpdate, options?: GalleryScriptsUpdateOptionalParams) => PollerLike<OperationState<GalleryScript>, GalleryScript>;
 }
 
 // @public
-export type GalleryScriptsListByGalleryResponse = GalleryScriptList;
-
-// @public
-export interface GalleryScriptsUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleryScriptsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleryScriptsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type GalleryScriptsUpdateResponse = GalleryScript;
 
 // @public
 export interface GalleryScriptUpdate extends UpdateResourceDefinition {
@@ -3619,12 +2543,6 @@ export interface GalleryScriptVersion extends TrackedResource {
 }
 
 // @public
-export interface GalleryScriptVersionList {
-    nextLink?: string;
-    value: GalleryScriptVersion[];
-}
-
-// @public
 export interface GalleryScriptVersionProperties {
     readonly provisioningState?: GalleryProvisioningState;
     publishingProfile: GalleryScriptVersionPublishingProfile;
@@ -3638,89 +2556,52 @@ export interface GalleryScriptVersionPublishingProfile extends GalleryArtifactPu
 }
 
 // @public
-export interface GalleryScriptVersions {
-    beginCreateOrUpdate(resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScriptVersionName: string, galleryScriptVersion: GalleryScriptVersion, options?: GalleryScriptVersionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryScriptVersionsCreateOrUpdateResponse>, GalleryScriptVersionsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScriptVersionName: string, galleryScriptVersion: GalleryScriptVersion, options?: GalleryScriptVersionsCreateOrUpdateOptionalParams): Promise<GalleryScriptVersionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScriptVersionName: string, options?: GalleryScriptVersionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<GalleryScriptVersionsDeleteResponse>, GalleryScriptVersionsDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScriptVersionName: string, options?: GalleryScriptVersionsDeleteOptionalParams): Promise<GalleryScriptVersionsDeleteResponse>;
-    beginUpdate(resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScriptVersionName: string, galleryScriptVersion: GalleryScriptVersionUpdate, options?: GalleryScriptVersionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryScriptVersionsUpdateResponse>, GalleryScriptVersionsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScriptVersionName: string, galleryScriptVersion: GalleryScriptVersionUpdate, options?: GalleryScriptVersionsUpdateOptionalParams): Promise<GalleryScriptVersionsUpdateResponse>;
-    get(resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScriptVersionName: string, options?: GalleryScriptVersionsGetOptionalParams): Promise<GalleryScriptVersionsGetResponse>;
-    listByGalleryScript(resourceGroupName: string, galleryName: string, galleryScriptName: string, options?: GalleryScriptVersionsListByGalleryScriptOptionalParams): PagedAsyncIterableIterator<GalleryScriptVersion>;
-}
-
-// @public
 export interface GalleryScriptVersionSafetyProfile extends GalleryArtifactSafetyProfileBase {
 }
 
 // @public
-export interface GalleryScriptVersionsCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleryScriptVersionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleryScriptVersionsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type GalleryScriptVersionsCreateOrUpdateResponse = GalleryScriptVersion;
-
-// @public
-export interface GalleryScriptVersionsDeleteHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleryScriptVersionsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleryScriptVersionsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type GalleryScriptVersionsDeleteResponse = GalleryScriptVersionsDeleteHeaders;
-
-// @public
-export interface GalleryScriptVersionsGetOptionalParams extends coreClient.OperationOptions {
+export interface GalleryScriptVersionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GalleryScriptVersionsGetResponse = GalleryScriptVersion;
-
-// @public
-export interface GalleryScriptVersionsListByGalleryScriptNextOptionalParams extends coreClient.OperationOptions {
+export interface GalleryScriptVersionsListByGalleryScriptOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GalleryScriptVersionsListByGalleryScriptNextResponse = GalleryScriptVersionList;
-
-// @public
-export interface GalleryScriptVersionsListByGalleryScriptOptionalParams extends coreClient.OperationOptions {
+export interface GalleryScriptVersionsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScriptVersionName: string, galleryScriptVersion: GalleryScriptVersion, options?: GalleryScriptVersionsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<GalleryScriptVersion>, GalleryScriptVersion>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScriptVersionName: string, galleryScriptVersion: GalleryScriptVersion, options?: GalleryScriptVersionsCreateOrUpdateOptionalParams) => Promise<GalleryScriptVersion>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScriptVersionName: string, options?: GalleryScriptVersionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScriptVersionName: string, options?: GalleryScriptVersionsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScriptVersionName: string, galleryScriptVersion: GalleryScriptVersionUpdate, options?: GalleryScriptVersionsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<GalleryScriptVersion>, GalleryScriptVersion>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScriptVersionName: string, galleryScriptVersion: GalleryScriptVersionUpdate, options?: GalleryScriptVersionsUpdateOptionalParams) => Promise<GalleryScriptVersion>;
+    createOrUpdate: (resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScriptVersionName: string, galleryScriptVersion: GalleryScriptVersion, options?: GalleryScriptVersionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<GalleryScriptVersion>, GalleryScriptVersion>;
+    delete: (resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScriptVersionName: string, options?: GalleryScriptVersionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScriptVersionName: string, options?: GalleryScriptVersionsGetOptionalParams) => Promise<GalleryScriptVersion>;
+    listByGalleryScript: (resourceGroupName: string, galleryName: string, galleryScriptName: string, options?: GalleryScriptVersionsListByGalleryScriptOptionalParams) => PagedAsyncIterableIterator<GalleryScriptVersion>;
+    update: (resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScriptVersionName: string, galleryScriptVersion: GalleryScriptVersionUpdate, options?: GalleryScriptVersionsUpdateOptionalParams) => PollerLike<OperationState<GalleryScriptVersion>, GalleryScriptVersion>;
 }
 
 // @public
-export type GalleryScriptVersionsListByGalleryScriptResponse = GalleryScriptVersionList;
-
-// @public
-export interface GalleryScriptVersionsUpdateHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleryScriptVersionsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleryScriptVersionsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type GalleryScriptVersionsUpdateResponse = GalleryScriptVersion;
 
 // @public
 export interface GalleryScriptVersionUpdate extends UpdateResourceDefinition {
@@ -3734,25 +2615,18 @@ export interface GalleryScriptVersionUpdate extends UpdateResourceDefinition {
 export type GallerySharingPermissionTypes = string;
 
 // @public
-export interface GallerySharingProfile {
-    beginUpdate(resourceGroupName: string, galleryName: string, sharingUpdate: SharingUpdate, options?: GallerySharingProfileUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GallerySharingProfileUpdateResponse>, GallerySharingProfileUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, galleryName: string, sharingUpdate: SharingUpdate, options?: GallerySharingProfileUpdateOptionalParams): Promise<GallerySharingProfileUpdateResponse>;
+export interface GallerySharingProfileOperations {
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, galleryName: string, sharingUpdate: SharingUpdate, options?: GallerySharingProfileUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<SharingUpdate>, SharingUpdate>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, galleryName: string, sharingUpdate: SharingUpdate, options?: GallerySharingProfileUpdateOptionalParams) => Promise<SharingUpdate>;
+    update: (resourceGroupName: string, galleryName: string, sharingUpdate: SharingUpdate, options?: GallerySharingProfileUpdateOptionalParams) => PollerLike<OperationState<SharingUpdate>, SharingUpdate>;
 }
 
 // @public
-export interface GallerySharingProfileUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GallerySharingProfileUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GallerySharingProfileUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type GallerySharingProfileUpdateResponse = SharingUpdate;
 
 // @public
 export interface GallerySoftDeletedResource extends TrackedResource {
@@ -3762,12 +2636,13 @@ export interface GallerySoftDeletedResource extends TrackedResource {
 }
 
 // @public
-export interface GallerySoftDeletedResourceList {
-    nextLink?: string;
-    value: GallerySoftDeletedResource[];
+export interface GallerySoftDeletedResourceProperties {
+    resourceArmId?: string;
+    softDeletedArtifactType?: SoftDeletedArtifactTypes;
+    softDeletedTime?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryTargetExtendedLocation {
     encryption?: EncryptionImages;
     extendedLocation?: GalleryExtendedLocation;
@@ -3794,9 +2669,6 @@ export interface GenericGalleryParameter {
     name: string;
     required?: boolean;
 }
-
-// @public
-export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface GrantAccessData {
@@ -3874,15 +2746,17 @@ export interface ImageDiskReference {
 }
 
 // @public
-export interface ImageListResult {
-    nextLink?: string;
-    value: Image[];
-}
-
-// @public
 export interface ImageOSDisk extends ImageDisk {
     osState: OperatingSystemStateTypes;
     osType: OperatingSystemTypes;
+}
+
+// @public
+export interface ImageProperties {
+    hyperVGeneration?: HyperVGenerationTypes;
+    readonly provisioningState?: string;
+    sourceVirtualMachine?: SubResource;
+    storageProfile?: ImageStorageProfile;
 }
 
 // @public
@@ -3904,80 +2778,49 @@ export interface ImageReference extends SubResource {
 }
 
 // @public
-export interface Images {
-    beginCreateOrUpdate(resourceGroupName: string, imageName: string, parameters: Image, options?: ImagesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ImagesCreateOrUpdateResponse>, ImagesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, imageName: string, parameters: Image, options?: ImagesCreateOrUpdateOptionalParams): Promise<ImagesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, imageName: string, options?: ImagesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, imageName: string, options?: ImagesDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, imageName: string, parameters: ImageUpdate, options?: ImagesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ImagesUpdateResponse>, ImagesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, imageName: string, parameters: ImageUpdate, options?: ImagesUpdateOptionalParams): Promise<ImagesUpdateResponse>;
-    get(resourceGroupName: string, imageName: string, options?: ImagesGetOptionalParams): Promise<ImagesGetResponse>;
-    list(options?: ImagesListOptionalParams): PagedAsyncIterableIterator<Image>;
-    listByResourceGroup(resourceGroupName: string, options?: ImagesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Image>;
-}
-
-// @public
-export interface ImagesCreateOrUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface ImagesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ImagesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ImagesCreateOrUpdateResponse = Image;
-
-// @public
-export interface ImagesDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface ImagesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ImagesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ImagesGetOptionalParams extends coreClient.OperationOptions {
+export interface ImagesGetOptionalParams extends OperationOptions {
     expand?: string;
 }
 
 // @public
-export type ImagesGetResponse = Image;
-
-// @public
-export interface ImagesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface ImagesListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ImagesListByResourceGroupNextResponse = ImageListResult;
-
-// @public
-export interface ImagesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface ImagesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ImagesListByResourceGroupResponse = ImageListResult;
-
-// @public
-export interface ImagesListNextOptionalParams extends coreClient.OperationOptions {
+export interface ImagesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, imageName: string, parameters: Image, options?: ImagesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Image>, Image>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, imageName: string, parameters: Image, options?: ImagesCreateOrUpdateOptionalParams) => Promise<Image>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, imageName: string, options?: ImagesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, imageName: string, options?: ImagesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, imageName: string, parameters: ImageUpdate, options?: ImagesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Image>, Image>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, imageName: string, parameters: ImageUpdate, options?: ImagesUpdateOptionalParams) => Promise<Image>;
+    createOrUpdate: (resourceGroupName: string, imageName: string, parameters: Image, options?: ImagesCreateOrUpdateOptionalParams) => PollerLike<OperationState<Image>, Image>;
+    delete: (resourceGroupName: string, imageName: string, options?: ImagesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, imageName: string, options?: ImagesGetOptionalParams) => Promise<Image>;
+    list: (options?: ImagesListOptionalParams) => PagedAsyncIterableIterator<Image>;
+    listByResourceGroup: (resourceGroupName: string, options?: ImagesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Image>;
+    update: (resourceGroupName: string, imageName: string, parameters: ImageUpdate, options?: ImagesUpdateOptionalParams) => PollerLike<OperationState<Image>, Image>;
 }
-
-// @public
-export type ImagesListNextResponse = ImageListResult;
-
-// @public
-export interface ImagesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ImagesListResponse = ImageListResult;
 
 // @public
 export type ImageState = string;
@@ -3990,19 +2833,9 @@ export interface ImageStorageProfile {
 }
 
 // @public
-export interface ImagesUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface ImagesUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ImagesUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type ImagesUpdateResponse = Image;
 
 // @public
 export interface ImageUpdate extends UpdateResource {
@@ -4024,23 +2857,12 @@ export interface InnerError {
 }
 
 // @public
-export interface InstanceSku {
-    readonly name?: string;
-    readonly tier?: string;
-}
-
-// @public
 export interface InstanceViewStatus {
     code?: string;
     displayStatus?: string;
     level?: StatusLevelTypes;
     message?: string;
     time?: Date;
-}
-
-// @public
-export interface InstanceViewStatusesSummary {
-    readonly statusesSummary?: StatusCodeCount[];
 }
 
 // @public
@@ -4145,12 +2967,6 @@ export enum KnownAvailabilityPolicyDiskDelay {
 }
 
 // @public
-export enum KnownAvailabilitySetSkuTypes {
-    Aligned = "Aligned",
-    Classic = "Classic"
-}
-
-// @public
 export enum KnownCapacityReservationGroupInstanceViewTypes {
     InstanceView = "instanceView"
 }
@@ -4158,19 +2974,6 @@ export enum KnownCapacityReservationGroupInstanceViewTypes {
 // @public
 export enum KnownCapacityReservationInstanceViewTypes {
     InstanceView = "instanceView"
-}
-
-// @public
-export enum KnownCloudServiceSlotType {
-    Production = "Production",
-    Staging = "Staging"
-}
-
-// @public
-export enum KnownCloudServiceUpgradeMode {
-    Auto = "Auto",
-    Manual = "Manual",
-    Simultaneous = "Simultaneous"
 }
 
 // @public
@@ -4286,7 +3089,7 @@ export enum KnownDiskSecurityTypes {
     ConfidentialVMDiskEncryptedWithCustomerKey = "ConfidentialVM_DiskEncryptedWithCustomerKey",
     ConfidentialVMDiskEncryptedWithPlatformKey = "ConfidentialVM_DiskEncryptedWithPlatformKey",
     ConfidentialVMNonPersistedTPM = "ConfidentialVM_NonPersistedTPM",
-    ConfidentialVMVmguestStateOnlyEncryptedWithPlatformKey = "ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey",
+    ConfidentialVMVMGuestStateOnlyEncryptedWithPlatformKey = "ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey",
     TrustedLaunch = "TrustedLaunch"
 }
 
@@ -4518,8 +3321,8 @@ export enum KnownNetworkAccessPolicy {
 
 // @public
 export enum KnownNetworkApiVersion {
-    TwoThousandTwenty1101 = "2020-11-01",
-    TwoThousandTwentyTwo1101 = "2022-11-01"
+    NetworkApiVersion20201101 = "2020-11-01",
+    NetworkApiVersion20221101 = "2022-11-01"
 }
 
 // @public
@@ -5205,73 +4008,14 @@ export interface LinuxVMGuestPatchAutomaticByPlatformSettings {
 export type LinuxVMGuestPatchMode = string;
 
 // @public
-export interface ListUsagesResult {
-    nextLink?: string;
-    value: Usage[];
-}
-
-// @public
-export interface LoadBalancerConfiguration {
-    id?: string;
-    name: string;
-    properties: LoadBalancerConfigurationProperties;
-}
-
-// @public
-export interface LoadBalancerConfigurationProperties {
-    frontendIpConfigurations: LoadBalancerFrontendIpConfiguration[];
-}
-
-// @public
-export interface LoadBalancerFrontendIpConfiguration {
-    name: string;
-    properties: LoadBalancerFrontendIpConfigurationProperties;
-}
-
-// @public
-export interface LoadBalancerFrontendIpConfigurationProperties {
-    privateIPAddress?: string;
-    publicIPAddress?: SubResource;
-    subnet?: SubResource;
-}
-
-// @public
-export interface LogAnalytics {
-    beginExportRequestRateByInterval(location: string, parameters: RequestRateByIntervalInput, options?: LogAnalyticsExportRequestRateByIntervalOptionalParams): Promise<SimplePollerLike<OperationState<LogAnalyticsExportRequestRateByIntervalResponse>, LogAnalyticsExportRequestRateByIntervalResponse>>;
-    beginExportRequestRateByIntervalAndWait(location: string, parameters: RequestRateByIntervalInput, options?: LogAnalyticsExportRequestRateByIntervalOptionalParams): Promise<LogAnalyticsExportRequestRateByIntervalResponse>;
-    beginExportThrottledRequests(location: string, parameters: ThrottledRequestsInput, options?: LogAnalyticsExportThrottledRequestsOptionalParams): Promise<SimplePollerLike<OperationState<LogAnalyticsExportThrottledRequestsResponse>, LogAnalyticsExportThrottledRequestsResponse>>;
-    beginExportThrottledRequestsAndWait(location: string, parameters: ThrottledRequestsInput, options?: LogAnalyticsExportThrottledRequestsOptionalParams): Promise<LogAnalyticsExportThrottledRequestsResponse>;
-}
-
-// @public
-export interface LogAnalyticsExportRequestRateByIntervalHeaders {
-    azureAsyncOperation?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface LogAnalyticsExportRequestRateByIntervalOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface LogAnalyticsExportRequestRateByIntervalOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type LogAnalyticsExportRequestRateByIntervalResponse = LogAnalyticsOperationResult;
-
-// @public
-export interface LogAnalyticsExportThrottledRequestsHeaders {
-    azureAsyncOperation?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface LogAnalyticsExportThrottledRequestsOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface LogAnalyticsExportThrottledRequestsOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type LogAnalyticsExportThrottledRequestsResponse = LogAnalyticsOperationResult;
 
 // @public
 export interface LogAnalyticsInputBase {
@@ -5288,6 +4032,20 @@ export interface LogAnalyticsInputBase {
 // @public
 export interface LogAnalyticsOperationResult {
     readonly properties?: LogAnalyticsOutput;
+}
+
+// @public
+export interface LogAnalyticsOperations {
+    // @deprecated (undocumented)
+    beginExportRequestRateByInterval: (location: string, parameters: RequestRateByIntervalInput, options?: LogAnalyticsExportRequestRateByIntervalOptionalParams) => Promise<SimplePollerLike<OperationState<LogAnalyticsOperationResult>, LogAnalyticsOperationResult>>;
+    // @deprecated (undocumented)
+    beginExportRequestRateByIntervalAndWait: (location: string, parameters: RequestRateByIntervalInput, options?: LogAnalyticsExportRequestRateByIntervalOptionalParams) => Promise<LogAnalyticsOperationResult>;
+    // @deprecated (undocumented)
+    beginExportThrottledRequests: (location: string, parameters: ThrottledRequestsInput, options?: LogAnalyticsExportThrottledRequestsOptionalParams) => Promise<SimplePollerLike<OperationState<LogAnalyticsOperationResult>, LogAnalyticsOperationResult>>;
+    // @deprecated (undocumented)
+    beginExportThrottledRequestsAndWait: (location: string, parameters: ThrottledRequestsInput, options?: LogAnalyticsExportThrottledRequestsOptionalParams) => Promise<LogAnalyticsOperationResult>;
+    exportRequestRateByInterval: (location: string, parameters: RequestRateByIntervalInput, options?: LogAnalyticsExportRequestRateByIntervalOptionalParams) => PollerLike<OperationState<LogAnalyticsOperationResult>, LogAnalyticsOperationResult>;
+    exportThrottledRequests: (location: string, parameters: ThrottledRequestsInput, options?: LogAnalyticsExportThrottledRequestsOptionalParams) => PollerLike<OperationState<LogAnalyticsOperationResult>, LogAnalyticsOperationResult>;
 }
 
 // @public
@@ -5359,6 +4117,12 @@ export interface NetworkInterfaceReference extends SubResource {
 }
 
 // @public
+export interface NetworkInterfaceReferenceProperties {
+    deleteOption?: DeleteOptions;
+    primary?: boolean;
+}
+
+// @public
 export interface NetworkProfile {
     networkApiVersion?: NetworkApiVersion;
     networkInterfaceConfigurations?: VirtualMachineNetworkInterfaceConfiguration[];
@@ -5392,29 +4156,13 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: Operation[];
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
-
-// @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationListResult;
 
 // @public
 export type OrchestrationMode = string;
@@ -5481,28 +4229,6 @@ export interface OSDiskImageSecurityProfile {
 }
 
 // @public
-export interface OSFamily {
-    readonly id?: string;
-    readonly location?: string;
-    readonly name?: string;
-    properties?: OSFamilyProperties;
-    readonly type?: string;
-}
-
-// @public
-export interface OSFamilyListResult {
-    nextLink?: string;
-    value: OSFamily[];
-}
-
-// @public
-export interface OSFamilyProperties {
-    readonly label?: string;
-    readonly name?: string;
-    readonly versions?: OSVersionPropertiesBase[];
-}
-
-// @public (undocumented)
 export interface OSImageNotificationProfile {
     enable?: boolean;
     notBeforeTimeout?: string;
@@ -5528,37 +4254,19 @@ export interface OSProfileProvisioningData {
 }
 
 // @public
-export interface OSVersion {
-    readonly id?: string;
-    readonly location?: string;
-    readonly name?: string;
-    properties?: OSVersionProperties;
-    readonly type?: string;
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
 }
 
 // @public
-export interface OSVersionListResult {
-    nextLink?: string;
-    value: OSVersion[];
+export interface PageSettings {
+    continuationToken?: string;
 }
 
 // @public
-export interface OSVersionProperties {
-    readonly family?: string;
-    readonly familyLabel?: string;
-    readonly isActive?: boolean;
-    readonly isDefault?: boolean;
-    readonly label?: string;
-    readonly version?: string;
-}
-
-// @public
-export interface OSVersionPropertiesBase {
-    readonly isActive?: boolean;
-    readonly isDefault?: boolean;
-    readonly label?: string;
-    readonly version?: string;
-}
+export type PassNames = "OobeSystem";
 
 // @public
 export type PatchAssessmentState = string;
@@ -5655,9 +4363,10 @@ export interface PrivateEndpointConnection extends ProxyResource {
 }
 
 // @public
-export interface PrivateEndpointConnectionListResult {
-    nextLink?: string;
-    value: PrivateEndpointConnection[];
+export interface PrivateEndpointConnectionProperties {
+    readonly privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
 }
 
 // @public
@@ -5679,6 +4388,13 @@ export interface PrivateLinkResource {
 // @public
 export interface PrivateLinkResourceListResult {
     value?: PrivateLinkResource[];
+}
+
+// @public
+export interface PrivateLinkResourceProperties {
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
 }
 
 // @public
@@ -5711,9 +4427,13 @@ export interface ProximityPlacementGroup extends TrackedResource {
 }
 
 // @public
-export interface ProximityPlacementGroupListResult {
-    nextLink?: string;
-    value: ProximityPlacementGroup[];
+export interface ProximityPlacementGroupProperties {
+    readonly availabilitySets?: SubResourceWithColocationStatus[];
+    colocationStatus?: InstanceViewStatus;
+    intent?: ProximityPlacementGroupPropertiesIntent;
+    proximityPlacementGroupType?: ProximityPlacementGroupType;
+    readonly virtualMachines?: SubResourceWithColocationStatus[];
+    readonly virtualMachineScaleSets?: SubResourceWithColocationStatus[];
 }
 
 // @public
@@ -5722,68 +4442,39 @@ export interface ProximityPlacementGroupPropertiesIntent {
 }
 
 // @public
-export interface ProximityPlacementGroups {
-    createOrUpdate(resourceGroupName: string, proximityPlacementGroupName: string, parameters: ProximityPlacementGroup, options?: ProximityPlacementGroupsCreateOrUpdateOptionalParams): Promise<ProximityPlacementGroupsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, proximityPlacementGroupName: string, options?: ProximityPlacementGroupsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, proximityPlacementGroupName: string, options?: ProximityPlacementGroupsGetOptionalParams): Promise<ProximityPlacementGroupsGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: ProximityPlacementGroupsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ProximityPlacementGroup>;
-    listBySubscription(options?: ProximityPlacementGroupsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ProximityPlacementGroup>;
-    update(resourceGroupName: string, proximityPlacementGroupName: string, parameters: ProximityPlacementGroupUpdate, options?: ProximityPlacementGroupsUpdateOptionalParams): Promise<ProximityPlacementGroupsUpdateResponse>;
+export interface ProximityPlacementGroupsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ProximityPlacementGroupsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ProximityPlacementGroupsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ProximityPlacementGroupsCreateOrUpdateResponse = ProximityPlacementGroup;
-
-// @public
-export interface ProximityPlacementGroupsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface ProximityPlacementGroupsGetOptionalParams extends coreClient.OperationOptions {
+export interface ProximityPlacementGroupsGetOptionalParams extends OperationOptions {
     includeColocationStatus?: string;
 }
 
 // @public
-export type ProximityPlacementGroupsGetResponse = ProximityPlacementGroup;
-
-// @public
-export interface ProximityPlacementGroupsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface ProximityPlacementGroupsListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ProximityPlacementGroupsListByResourceGroupNextResponse = ProximityPlacementGroupListResult;
-
-// @public
-export interface ProximityPlacementGroupsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface ProximityPlacementGroupsListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ProximityPlacementGroupsListByResourceGroupResponse = ProximityPlacementGroupListResult;
-
-// @public
-export interface ProximityPlacementGroupsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface ProximityPlacementGroupsOperations {
+    createOrUpdate: (resourceGroupName: string, proximityPlacementGroupName: string, parameters: ProximityPlacementGroup, options?: ProximityPlacementGroupsCreateOrUpdateOptionalParams) => Promise<ProximityPlacementGroup>;
+    delete: (resourceGroupName: string, proximityPlacementGroupName: string, options?: ProximityPlacementGroupsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, proximityPlacementGroupName: string, options?: ProximityPlacementGroupsGetOptionalParams) => Promise<ProximityPlacementGroup>;
+    listByResourceGroup: (resourceGroupName: string, options?: ProximityPlacementGroupsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ProximityPlacementGroup>;
+    listBySubscription: (options?: ProximityPlacementGroupsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<ProximityPlacementGroup>;
+    update: (resourceGroupName: string, proximityPlacementGroupName: string, parameters: ProximityPlacementGroupUpdate, options?: ProximityPlacementGroupsUpdateOptionalParams) => Promise<ProximityPlacementGroup>;
 }
 
 // @public
-export type ProximityPlacementGroupsListBySubscriptionNextResponse = ProximityPlacementGroupListResult;
-
-// @public
-export interface ProximityPlacementGroupsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface ProximityPlacementGroupsUpdateOptionalParams extends OperationOptions {
 }
-
-// @public
-export type ProximityPlacementGroupsListBySubscriptionResponse = ProximityPlacementGroupListResult;
-
-// @public
-export interface ProximityPlacementGroupsUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProximityPlacementGroupsUpdateResponse = ProximityPlacementGroup;
 
 // @public
 export type ProximityPlacementGroupType = string;
@@ -5926,21 +4617,12 @@ export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "SystemAs
 export type ResourceIdOptionsForGetCapacityReservationGroups = string;
 
 // @public
-export interface ResourceInstanceViewStatus {
-    readonly code?: string;
-    readonly displayStatus?: string;
-    level?: StatusLevelTypes;
-    readonly message?: string;
-    readonly time?: Date;
-}
-
-// @public
 export interface ResourceRange {
     max?: number;
     min?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface ResourceSharingProfile {
     subscriptionIds?: SubResource[];
 }
@@ -6016,53 +4698,20 @@ export type ResourceSkuRestrictionsReasonCode = "QuotaId" | "NotAvailableForSubs
 export type ResourceSkuRestrictionsType = "Location" | "Zone";
 
 // @public
-export interface ResourceSkus {
-    list(options?: ResourceSkusListOptionalParams): PagedAsyncIterableIterator<ResourceSku>;
-}
-
-// @public
-export interface ResourceSkusListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ResourceSkusListNextResponse = ResourceSkusResult;
-
-// @public
-export interface ResourceSkusListOptionalParams extends coreClient.OperationOptions {
+export interface ResourceSkusListOptionalParams extends OperationOptions {
     filter?: string;
     includeExtendedLocations?: string;
 }
 
 // @public
-export type ResourceSkusListResponse = ResourceSkusResult;
-
-// @public
-export interface ResourceSkusResult {
-    nextLink?: string;
-    value: ResourceSku[];
+export interface ResourceSkusOperations {
+    list: (options?: ResourceSkusListOptionalParams) => PagedAsyncIterableIterator<ResourceSku>;
 }
 
 // @public
 export interface ResourceSkuZoneDetails {
     readonly capabilities?: ResourceSkuCapabilities[];
     readonly name?: string[];
-}
-
-// @public
-export interface ResourceUriList {
-    nextLink?: string;
-    value: string[];
-}
-
-// @public
-export interface ResourceWithOptionalLocation {
-    readonly id?: string;
-    location?: string;
-    readonly name?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    readonly type?: string;
 }
 
 // @public
@@ -6090,76 +4739,49 @@ export interface RestorePointCollection extends TrackedResource {
 export type RestorePointCollectionExpandOptions = string;
 
 // @public
-export interface RestorePointCollectionListResult {
-    nextLink?: string;
-    value: RestorePointCollection[];
+export interface RestorePointCollectionProperties {
+    instantAccess?: boolean;
+    readonly provisioningState?: string;
+    readonly restorePointCollectionId?: string;
+    readonly restorePoints?: RestorePoint[];
+    source?: RestorePointCollectionSourceProperties;
 }
 
 // @public
-export interface RestorePointCollections {
-    beginDelete(resourceGroupName: string, restorePointCollectionName: string, options?: RestorePointCollectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, restorePointCollectionName: string, options?: RestorePointCollectionsDeleteOptionalParams): Promise<void>;
-    createOrUpdate(resourceGroupName: string, restorePointCollectionName: string, parameters: RestorePointCollection, options?: RestorePointCollectionsCreateOrUpdateOptionalParams): Promise<RestorePointCollectionsCreateOrUpdateResponse>;
-    get(resourceGroupName: string, restorePointCollectionName: string, options?: RestorePointCollectionsGetOptionalParams): Promise<RestorePointCollectionsGetResponse>;
-    list(resourceGroupName: string, options?: RestorePointCollectionsListOptionalParams): PagedAsyncIterableIterator<RestorePointCollection>;
-    listAll(options?: RestorePointCollectionsListAllOptionalParams): PagedAsyncIterableIterator<RestorePointCollection>;
-    update(resourceGroupName: string, restorePointCollectionName: string, parameters: RestorePointCollectionUpdate, options?: RestorePointCollectionsUpdateOptionalParams): Promise<RestorePointCollectionsUpdateResponse>;
+export interface RestorePointCollectionsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RestorePointCollectionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RestorePointCollectionsCreateOrUpdateResponse = RestorePointCollection;
-
-// @public
-export interface RestorePointCollectionsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface RestorePointCollectionsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface RestorePointCollectionsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface RestorePointCollectionsGetOptionalParams extends coreClient.OperationOptions {
+export interface RestorePointCollectionsGetOptionalParams extends OperationOptions {
     expand?: RestorePointCollectionExpandOptions;
 }
 
 // @public
-export type RestorePointCollectionsGetResponse = RestorePointCollection;
-
-// @public
-export interface RestorePointCollectionsListAllNextOptionalParams extends coreClient.OperationOptions {
+export interface RestorePointCollectionsListAllOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RestorePointCollectionsListAllNextResponse = RestorePointCollectionListResult;
-
-// @public
-export interface RestorePointCollectionsListAllOptionalParams extends coreClient.OperationOptions {
+export interface RestorePointCollectionsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RestorePointCollectionsListAllResponse = RestorePointCollectionListResult;
-
-// @public
-export interface RestorePointCollectionsListNextOptionalParams extends coreClient.OperationOptions {
+export interface RestorePointCollectionsOperations {
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, restorePointCollectionName: string, options?: RestorePointCollectionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, restorePointCollectionName: string, options?: RestorePointCollectionsDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, restorePointCollectionName: string, parameters: RestorePointCollection, options?: RestorePointCollectionsCreateOrUpdateOptionalParams) => Promise<RestorePointCollection>;
+    delete: (resourceGroupName: string, restorePointCollectionName: string, options?: RestorePointCollectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, restorePointCollectionName: string, options?: RestorePointCollectionsGetOptionalParams) => Promise<RestorePointCollection>;
+    list: (resourceGroupName: string, options?: RestorePointCollectionsListOptionalParams) => PagedAsyncIterableIterator<RestorePointCollection>;
+    listAll: (options?: RestorePointCollectionsListAllOptionalParams) => PagedAsyncIterableIterator<RestorePointCollection>;
+    update: (resourceGroupName: string, restorePointCollectionName: string, parameters: RestorePointCollectionUpdate, options?: RestorePointCollectionsUpdateOptionalParams) => Promise<RestorePointCollection>;
 }
-
-// @public
-export type RestorePointCollectionsListNextResponse = RestorePointCollectionListResult;
-
-// @public
-export interface RestorePointCollectionsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RestorePointCollectionsListResponse = RestorePointCollectionListResult;
 
 // @public
 export interface RestorePointCollectionSourceProperties {
@@ -6168,11 +4790,8 @@ export interface RestorePointCollectionSourceProperties {
 }
 
 // @public
-export interface RestorePointCollectionsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface RestorePointCollectionsUpdateOptionalParams extends OperationOptions {
 }
-
-// @public
-export type RestorePointCollectionsUpdateResponse = RestorePointCollection;
 
 // @public
 export interface RestorePointCollectionUpdate extends UpdateResource {
@@ -6202,48 +4821,46 @@ export interface RestorePointInstanceView {
 }
 
 // @public
-export interface RestorePoints {
-    beginCreate(resourceGroupName: string, restorePointCollectionName: string, restorePointName: string, parameters: RestorePoint, options?: RestorePointsCreateOptionalParams): Promise<SimplePollerLike<OperationState<RestorePointsCreateResponse>, RestorePointsCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, restorePointCollectionName: string, restorePointName: string, parameters: RestorePoint, options?: RestorePointsCreateOptionalParams): Promise<RestorePointsCreateResponse>;
-    beginDelete(resourceGroupName: string, restorePointCollectionName: string, restorePointName: string, options?: RestorePointsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, restorePointCollectionName: string, restorePointName: string, options?: RestorePointsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, restorePointCollectionName: string, restorePointName: string, options?: RestorePointsGetOptionalParams): Promise<RestorePointsGetResponse>;
+export interface RestorePointProperties {
+    consistencyMode?: ConsistencyModeTypes;
+    excludeDisks?: ApiEntityReference[];
+    readonly instanceView?: RestorePointInstanceView;
+    instantAccessDurationMinutes?: number;
+    readonly provisioningState?: string;
+    sourceMetadata?: RestorePointSourceMetadata;
+    sourceRestorePoint?: ApiEntityReference;
+    timeCreated?: Date;
 }
 
 // @public
-export interface RestorePointsCreateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface RestorePointsCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface RestorePointsCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type RestorePointsCreateResponse = RestorePointsCreateHeaders & RestorePoint;
-
-// @public
-export interface RestorePointsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface RestorePointsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface RestorePointsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface RestorePointsGetOptionalParams extends coreClient.OperationOptions {
+export interface RestorePointsGetOptionalParams extends OperationOptions {
     expand?: RestorePointExpandOptions;
 }
 
 // @public
-export type RestorePointsGetResponse = RestorePoint;
+export interface RestorePointsOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, restorePointCollectionName: string, restorePointName: string, parameters: RestorePoint, options?: RestorePointsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<RestorePoint>, RestorePoint>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, restorePointCollectionName: string, restorePointName: string, parameters: RestorePoint, options?: RestorePointsCreateOptionalParams) => Promise<RestorePoint>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, restorePointCollectionName: string, restorePointName: string, options?: RestorePointsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, restorePointCollectionName: string, restorePointName: string, options?: RestorePointsDeleteOptionalParams) => Promise<void>;
+    create: (resourceGroupName: string, restorePointCollectionName: string, restorePointName: string, parameters: RestorePoint, options?: RestorePointsCreateOptionalParams) => PollerLike<OperationState<RestorePoint>, RestorePoint>;
+    delete: (resourceGroupName: string, restorePointCollectionName: string, restorePointName: string, options?: RestorePointsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, restorePointCollectionName: string, restorePointName: string, options?: RestorePointsGetOptionalParams) => Promise<RestorePoint>;
+}
 
 // @public
 export interface RestorePointSourceMetadata {
@@ -6290,52 +4907,19 @@ export interface RestorePointSourceVMStorageProfile {
 }
 
 // @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ComputeClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface RetrieveBootDiagnosticsDataResult {
     readonly consoleScreenshotBlobUri?: string;
     readonly serialConsoleLogBlobUri?: string;
-}
-
-// @public
-export interface RoleInstance {
-    readonly id?: string;
-    readonly location?: string;
-    readonly name?: string;
-    properties?: RoleInstanceProperties;
-    sku?: InstanceSku;
-    readonly tags?: {
-        [propertyName: string]: string;
-    };
-    readonly type?: string;
-}
-
-// @public
-export interface RoleInstanceListResult {
-    nextLink?: string;
-    value: RoleInstance[];
-}
-
-// @public
-export interface RoleInstanceNetworkProfile {
-    readonly networkInterfaces?: SubResource[];
-}
-
-// @public
-export interface RoleInstanceProperties {
-    instanceView?: RoleInstanceView;
-    networkProfile?: RoleInstanceNetworkProfile;
-}
-
-// @public
-export interface RoleInstances {
-    roleInstances: string[];
-}
-
-// @public
-export interface RoleInstanceView {
-    readonly platformFaultDomain?: number;
-    readonly platformUpdateDomain?: number;
-    readonly privateId?: string;
-    readonly statuses?: ResourceInstanceViewStatus[];
 }
 
 // @public
@@ -6388,6 +4972,14 @@ export interface RollingUpgradeStatusInfo extends TrackedResource {
 }
 
 // @public
+export interface RollingUpgradeStatusInfoProperties {
+    readonly error?: ApiError;
+    readonly policy?: RollingUpgradePolicy;
+    readonly progress?: RollingUpgradeProgressInfo;
+    readonly runningStatus?: RollingUpgradeRunningStatus;
+}
+
+// @public
 export interface RunCommandDocument extends RunCommandDocumentBase {
     parameters?: RunCommandParameterDefinition[];
     script: string[];
@@ -6416,12 +5008,6 @@ export interface RunCommandInputParameter {
 }
 
 // @public
-export interface RunCommandListResult {
-    nextLink?: string;
-    value: RunCommandDocumentBase[];
-}
-
-// @public
 export interface RunCommandManagedIdentity {
     clientId?: string;
     objectId?: string;
@@ -6435,7 +5021,7 @@ export interface RunCommandParameterDefinition {
     type: string;
 }
 
-// @public (undocumented)
+// @public
 export interface RunCommandResult {
     value?: InstanceViewStatus[];
 }
@@ -6447,7 +5033,7 @@ export interface ScaleInPolicy {
     rules?: VirtualMachineScaleSetScaleInRules[];
 }
 
-// @public (undocumented)
+// @public
 export interface ScheduledEventsAdditionalPublishingTargets {
     eventGridAndResourceGraph?: EventGridAndResourceGraph;
 }
@@ -6460,7 +5046,7 @@ export interface ScheduledEventsPolicy {
     userInitiatedRedeploy?: UserInitiatedRedeploy;
 }
 
-// @public (undocumented)
+// @public
 export interface ScheduledEventsProfile {
     osImageNotificationProfile?: OSImageNotificationProfile;
     terminateNotificationProfile?: TerminateNotificationProfile;
@@ -6522,38 +5108,23 @@ export interface ServiceArtifactReference {
 export type SettingNames = "AutoLogon" | "FirstLogonCommands";
 
 // @public
-export interface SharedGalleries {
-    get(location: string, galleryUniqueName: string, options?: SharedGalleriesGetOptionalParams): Promise<SharedGalleriesGetResponse>;
-    list(location: string, options?: SharedGalleriesListOptionalParams): PagedAsyncIterableIterator<SharedGallery>;
+export interface SharedGalleriesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SharedGalleriesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SharedGalleriesGetResponse = SharedGallery;
-
-// @public
-export interface SharedGalleriesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SharedGalleriesListNextResponse = SharedGalleryList;
-
-// @public
-export interface SharedGalleriesListOptionalParams extends coreClient.OperationOptions {
+export interface SharedGalleriesListOptionalParams extends OperationOptions {
     sharedTo?: SharedToValues;
 }
 
 // @public
-export type SharedGalleriesListResponse = SharedGalleryList;
+export interface SharedGalleriesOperations {
+    get: (location: string, galleryUniqueName: string, options?: SharedGalleriesGetOptionalParams) => Promise<SharedGallery>;
+    list: (location: string, options?: SharedGalleriesListOptionalParams) => PagedAsyncIterableIterator<SharedGallery>;
+}
 
 // @public
 export interface SharedGallery extends PirSharedGalleryResource {
-    readonly artifactTags?: {
-        [propertyName: string]: string;
-    };
+    readonly artifactTags?: Record<string, string>;
 }
 
 // @public
@@ -6571,11 +5142,14 @@ export interface SharedGalleryDiskImage {
 export type SharedGalleryHostCaching = string;
 
 // @public
+export interface SharedGalleryIdentifier {
+    uniqueId?: string;
+}
+
+// @public
 export interface SharedGalleryImage extends PirSharedGalleryResource {
     architecture?: Architecture;
-    artifactTags?: {
-        [propertyName: string]: string;
-    };
+    artifactTags?: Record<string, string>;
     disallowed?: Disallowed;
     endOfLifeDate?: Date;
     eula?: string;
@@ -6590,44 +5164,40 @@ export interface SharedGalleryImage extends PirSharedGalleryResource {
 }
 
 // @public
-export interface SharedGalleryImageList {
-    nextLink?: string;
-    value: SharedGalleryImage[];
+export interface SharedGalleryImageProperties {
+    architecture?: Architecture;
+    artifactTags?: Record<string, string>;
+    disallowed?: Disallowed;
+    endOfLifeDate?: Date;
+    eula?: string;
+    features?: GalleryImageFeature[];
+    hyperVGeneration?: HyperVGeneration;
+    identifier: GalleryImageIdentifier;
+    osState: OperatingSystemStateTypes;
+    osType: OperatingSystemTypes;
+    privacyStatementUri?: string;
+    purchasePlan?: ImagePurchasePlan;
+    recommended?: RecommendedMachineConfiguration;
 }
 
 // @public
-export interface SharedGalleryImages {
-    get(location: string, galleryUniqueName: string, galleryImageName: string, options?: SharedGalleryImagesGetOptionalParams): Promise<SharedGalleryImagesGetResponse>;
-    list(location: string, galleryUniqueName: string, options?: SharedGalleryImagesListOptionalParams): PagedAsyncIterableIterator<SharedGalleryImage>;
+export interface SharedGalleryImagesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SharedGalleryImagesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SharedGalleryImagesGetResponse = SharedGalleryImage;
-
-// @public
-export interface SharedGalleryImagesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SharedGalleryImagesListNextResponse = SharedGalleryImageList;
-
-// @public
-export interface SharedGalleryImagesListOptionalParams extends coreClient.OperationOptions {
+export interface SharedGalleryImagesListOptionalParams extends OperationOptions {
     sharedTo?: SharedToValues;
 }
 
 // @public
-export type SharedGalleryImagesListResponse = SharedGalleryImageList;
+export interface SharedGalleryImagesOperations {
+    get: (location: string, galleryUniqueName: string, galleryImageName: string, options?: SharedGalleryImagesGetOptionalParams) => Promise<SharedGalleryImage>;
+    list: (location: string, galleryUniqueName: string, options?: SharedGalleryImagesListOptionalParams) => PagedAsyncIterableIterator<SharedGalleryImage>;
+}
 
 // @public
 export interface SharedGalleryImageVersion extends PirSharedGalleryResource {
-    artifactTags?: {
-        [propertyName: string]: string;
-    };
+    artifactTags?: Record<string, string>;
     endOfLifeDate?: Date;
     excludeFromLatest?: boolean;
     publishedDate?: Date;
@@ -6635,38 +5205,28 @@ export interface SharedGalleryImageVersion extends PirSharedGalleryResource {
 }
 
 // @public
-export interface SharedGalleryImageVersionList {
-    nextLink?: string;
-    value: SharedGalleryImageVersion[];
+export interface SharedGalleryImageVersionProperties {
+    artifactTags?: Record<string, string>;
+    endOfLifeDate?: Date;
+    excludeFromLatest?: boolean;
+    publishedDate?: Date;
+    storageProfile?: SharedGalleryImageVersionStorageProfile;
 }
 
 // @public
-export interface SharedGalleryImageVersions {
-    get(location: string, galleryUniqueName: string, galleryImageName: string, galleryImageVersionName: string, options?: SharedGalleryImageVersionsGetOptionalParams): Promise<SharedGalleryImageVersionsGetResponse>;
-    list(location: string, galleryUniqueName: string, galleryImageName: string, options?: SharedGalleryImageVersionsListOptionalParams): PagedAsyncIterableIterator<SharedGalleryImageVersion>;
+export interface SharedGalleryImageVersionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SharedGalleryImageVersionsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SharedGalleryImageVersionsGetResponse = SharedGalleryImageVersion;
-
-// @public
-export interface SharedGalleryImageVersionsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SharedGalleryImageVersionsListNextResponse = SharedGalleryImageVersionList;
-
-// @public
-export interface SharedGalleryImageVersionsListOptionalParams extends coreClient.OperationOptions {
+export interface SharedGalleryImageVersionsListOptionalParams extends OperationOptions {
     sharedTo?: SharedToValues;
 }
 
 // @public
-export type SharedGalleryImageVersionsListResponse = SharedGalleryImageVersionList;
+export interface SharedGalleryImageVersionsOperations {
+    get: (location: string, galleryUniqueName: string, galleryImageName: string, galleryImageVersionName: string, options?: SharedGalleryImageVersionsGetOptionalParams) => Promise<SharedGalleryImageVersion>;
+    list: (location: string, galleryUniqueName: string, galleryImageName: string, options?: SharedGalleryImageVersionsListOptionalParams) => PagedAsyncIterableIterator<SharedGalleryImageVersion>;
+}
 
 // @public
 export interface SharedGalleryImageVersionStorageProfile {
@@ -6675,19 +5235,18 @@ export interface SharedGalleryImageVersionStorageProfile {
 }
 
 // @public
-export interface SharedGalleryList {
-    nextLink?: string;
-    value: SharedGallery[];
+export interface SharedGalleryOSDiskImage extends SharedGalleryDiskImage {
 }
 
 // @public
-export interface SharedGalleryOSDiskImage extends SharedGalleryDiskImage {
+export interface SharedGalleryProperties {
+    readonly artifactTags?: Record<string, string>;
 }
 
 // @public
 export type SharedToValues = string;
 
-// @public (undocumented)
+// @public
 export interface ShareInfoElement {
     readonly vmUri?: string;
 }
@@ -6725,6 +5284,28 @@ export interface SharingUpdate {
 
 // @public
 export type SharingUpdateOperationTypes = string;
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
 
 // @public
 export interface Sku {
@@ -6780,76 +5361,51 @@ export interface Snapshot extends TrackedResource {
 export type SnapshotAccessState = string;
 
 // @public
-export interface SnapshotList {
-    nextLink?: string;
-    value: Snapshot[];
+export interface SnapshotProperties {
+    completionPercent?: number;
+    copyCompletionError?: CopyCompletionError;
+    creationData: CreationData;
+    dataAccessAuthMode?: DataAccessAuthMode;
+    diskAccessId?: string;
+    readonly diskSizeBytes?: number;
+    diskSizeGB?: number;
+    readonly diskState?: DiskState;
+    encryption?: Encryption;
+    encryptionSettingsCollection?: EncryptionSettingsCollection;
+    hyperVGeneration?: HyperVGeneration;
+    incremental?: boolean;
+    readonly incrementalSnapshotFamilyId?: string;
+    networkAccessPolicy?: NetworkAccessPolicy;
+    osType?: OperatingSystemTypes;
+    readonly provisioningState?: string;
+    publicNetworkAccess?: PublicNetworkAccess;
+    purchasePlan?: DiskPurchasePlan;
+    securityProfile?: DiskSecurityProfile;
+    readonly snapshotAccessState?: SnapshotAccessState;
+    supportedCapabilities?: SupportedCapabilities;
+    supportsHibernation?: boolean;
+    readonly timeCreated?: Date;
+    readonly uniqueId?: string;
 }
 
 // @public
-export interface Snapshots {
-    beginCreateOrUpdate(resourceGroupName: string, snapshotName: string, snapshot: Snapshot, options?: SnapshotsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SnapshotsCreateOrUpdateResponse>, SnapshotsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, snapshotName: string, snapshot: Snapshot, options?: SnapshotsCreateOrUpdateOptionalParams): Promise<SnapshotsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, snapshotName: string, options?: SnapshotsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, snapshotName: string, options?: SnapshotsDeleteOptionalParams): Promise<void>;
-    beginGrantAccess(resourceGroupName: string, snapshotName: string, grantAccessData: GrantAccessData, options?: SnapshotsGrantAccessOptionalParams): Promise<SimplePollerLike<OperationState<SnapshotsGrantAccessResponse>, SnapshotsGrantAccessResponse>>;
-    beginGrantAccessAndWait(resourceGroupName: string, snapshotName: string, grantAccessData: GrantAccessData, options?: SnapshotsGrantAccessOptionalParams): Promise<SnapshotsGrantAccessResponse>;
-    beginRevokeAccess(resourceGroupName: string, snapshotName: string, options?: SnapshotsRevokeAccessOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRevokeAccessAndWait(resourceGroupName: string, snapshotName: string, options?: SnapshotsRevokeAccessOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, snapshotName: string, snapshot: SnapshotUpdate, options?: SnapshotsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SnapshotsUpdateResponse>, SnapshotsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, snapshotName: string, snapshot: SnapshotUpdate, options?: SnapshotsUpdateOptionalParams): Promise<SnapshotsUpdateResponse>;
-    get(resourceGroupName: string, snapshotName: string, options?: SnapshotsGetOptionalParams): Promise<SnapshotsGetResponse>;
-    list(options?: SnapshotsListOptionalParams): PagedAsyncIterableIterator<Snapshot>;
-    listByResourceGroup(resourceGroupName: string, options?: SnapshotsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Snapshot>;
-}
-
-// @public
-export interface SnapshotsCreateOrUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface SnapshotsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface SnapshotsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type SnapshotsCreateOrUpdateResponse = Snapshot;
-
-// @public
-export interface SnapshotsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface SnapshotsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface SnapshotsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface SnapshotsGetOptionalParams extends coreClient.OperationOptions {
+export interface SnapshotsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SnapshotsGetResponse = Snapshot;
-
-// @public
-export interface SnapshotsGrantAccessHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface SnapshotsGrantAccessOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface SnapshotsGrantAccessOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type SnapshotsGrantAccessResponse = AccessUri;
 
 // @public
 export interface SnapshotSku {
@@ -6858,42 +5414,47 @@ export interface SnapshotSku {
 }
 
 // @public
-export interface SnapshotsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface SnapshotsListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SnapshotsListByResourceGroupNextResponse = SnapshotList;
-
-// @public
-export interface SnapshotsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface SnapshotsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SnapshotsListByResourceGroupResponse = SnapshotList;
-
-// @public
-export interface SnapshotsListNextOptionalParams extends coreClient.OperationOptions {
+export interface SnapshotsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, snapshotName: string, snapshot: Snapshot, options?: SnapshotsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Snapshot>, Snapshot>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, snapshotName: string, snapshot: Snapshot, options?: SnapshotsCreateOrUpdateOptionalParams) => Promise<Snapshot>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, snapshotName: string, options?: SnapshotsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, snapshotName: string, options?: SnapshotsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginGrantAccess: (resourceGroupName: string, snapshotName: string, grantAccessData: GrantAccessData, options?: SnapshotsGrantAccessOptionalParams) => Promise<SimplePollerLike<OperationState<AccessUri>, AccessUri>>;
+    // @deprecated (undocumented)
+    beginGrantAccessAndWait: (resourceGroupName: string, snapshotName: string, grantAccessData: GrantAccessData, options?: SnapshotsGrantAccessOptionalParams) => Promise<AccessUri>;
+    // @deprecated (undocumented)
+    beginRevokeAccess: (resourceGroupName: string, snapshotName: string, options?: SnapshotsRevokeAccessOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRevokeAccessAndWait: (resourceGroupName: string, snapshotName: string, options?: SnapshotsRevokeAccessOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, snapshotName: string, snapshot: SnapshotUpdate, options?: SnapshotsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Snapshot>, Snapshot>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, snapshotName: string, snapshot: SnapshotUpdate, options?: SnapshotsUpdateOptionalParams) => Promise<Snapshot>;
+    createOrUpdate: (resourceGroupName: string, snapshotName: string, snapshot: Snapshot, options?: SnapshotsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Snapshot>, Snapshot>;
+    delete: (resourceGroupName: string, snapshotName: string, options?: SnapshotsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, snapshotName: string, options?: SnapshotsGetOptionalParams) => Promise<Snapshot>;
+    grantAccess: (resourceGroupName: string, snapshotName: string, grantAccessData: GrantAccessData, options?: SnapshotsGrantAccessOptionalParams) => PollerLike<OperationState<AccessUri>, AccessUri>;
+    list: (options?: SnapshotsListOptionalParams) => PagedAsyncIterableIterator<Snapshot>;
+    listByResourceGroup: (resourceGroupName: string, options?: SnapshotsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Snapshot>;
+    revokeAccess: (resourceGroupName: string, snapshotName: string, options?: SnapshotsRevokeAccessOptionalParams) => PollerLike<OperationState<void>, void>;
+    update: (resourceGroupName: string, snapshotName: string, snapshot: SnapshotUpdate, options?: SnapshotsUpdateOptionalParams) => PollerLike<OperationState<Snapshot>, Snapshot>;
 }
 
 // @public
-export type SnapshotsListNextResponse = SnapshotList;
-
-// @public
-export interface SnapshotsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SnapshotsListResponse = SnapshotList;
-
-// @public
-export interface SnapshotsRevokeAccessHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface SnapshotsRevokeAccessOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface SnapshotsRevokeAccessOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -6901,19 +5462,9 @@ export interface SnapshotsRevokeAccessOptionalParams extends coreClient.Operatio
 export type SnapshotStorageAccountTypes = string;
 
 // @public
-export interface SnapshotsUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface SnapshotsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface SnapshotsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type SnapshotsUpdateResponse = Snapshot;
 
 // @public
 export interface SnapshotUpdate {
@@ -6929,32 +5480,35 @@ export interface SnapshotUpdate {
     readonly snapshotAccessState?: SnapshotAccessState;
     supportedCapabilities?: SupportedCapabilities;
     supportsHibernation?: boolean;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface SnapshotUpdateProperties {
+    dataAccessAuthMode?: DataAccessAuthMode;
+    diskAccessId?: string;
+    diskSizeGB?: number;
+    encryption?: Encryption;
+    encryptionSettingsCollection?: EncryptionSettingsCollection;
+    networkAccessPolicy?: NetworkAccessPolicy;
+    osType?: OperatingSystemTypes;
+    publicNetworkAccess?: PublicNetworkAccess;
+    readonly snapshotAccessState?: SnapshotAccessState;
+    supportedCapabilities?: SupportedCapabilities;
+    supportsHibernation?: boolean;
 }
 
 // @public
 export type SoftDeletedArtifactTypes = string;
 
 // @public
-export interface SoftDeletedResource {
-    listByArtifactName(resourceGroupName: string, galleryName: string, artifactType: string, artifactName: string, options?: SoftDeletedResourceListByArtifactNameOptionalParams): PagedAsyncIterableIterator<GallerySoftDeletedResource>;
+export interface SoftDeletedResourceListByArtifactNameOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SoftDeletedResourceListByArtifactNameNextOptionalParams extends coreClient.OperationOptions {
+export interface SoftDeletedResourceOperations {
+    listByArtifactName: (resourceGroupName: string, galleryName: string, artifactType: string, artifactName: string, options?: SoftDeletedResourceListByArtifactNameOptionalParams) => PagedAsyncIterableIterator<GallerySoftDeletedResource>;
 }
-
-// @public
-export type SoftDeletedResourceListByArtifactNameNextResponse = GallerySoftDeletedResourceList;
-
-// @public
-export interface SoftDeletedResourceListByArtifactNameOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SoftDeletedResourceListByArtifactNameResponse = GallerySoftDeletedResourceList;
 
 // @public
 export interface SoftDeletePolicy {
@@ -7004,92 +5558,53 @@ export interface SshPublicKeyResource extends TrackedResource {
 }
 
 // @public
-export interface SshPublicKeys {
-    create(resourceGroupName: string, sshPublicKeyName: string, parameters: SshPublicKeyResource, options?: SshPublicKeysCreateOptionalParams): Promise<SshPublicKeysCreateResponse>;
-    delete(resourceGroupName: string, sshPublicKeyName: string, options?: SshPublicKeysDeleteOptionalParams): Promise<void>;
-    generateKeyPair(resourceGroupName: string, sshPublicKeyName: string, options?: SshPublicKeysGenerateKeyPairOptionalParams): Promise<SshPublicKeysGenerateKeyPairResponse>;
-    get(resourceGroupName: string, sshPublicKeyName: string, options?: SshPublicKeysGetOptionalParams): Promise<SshPublicKeysGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: SshPublicKeysListByResourceGroupOptionalParams): PagedAsyncIterableIterator<SshPublicKeyResource>;
-    listBySubscription(options?: SshPublicKeysListBySubscriptionOptionalParams): PagedAsyncIterableIterator<SshPublicKeyResource>;
-    update(resourceGroupName: string, sshPublicKeyName: string, parameters: SshPublicKeyUpdateResource, options?: SshPublicKeysUpdateOptionalParams): Promise<SshPublicKeysUpdateResponse>;
-}
-
-// @public
-export interface SshPublicKeysCreateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SshPublicKeysCreateResponse = SshPublicKeyResource;
-
-// @public
-export interface SshPublicKeysDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface SshPublicKeysGenerateKeyPairOptionalParams extends coreClient.OperationOptions {
-    parameters?: SshGenerateKeyPairInputParameters;
-}
-
-// @public
-export type SshPublicKeysGenerateKeyPairResponse = SshPublicKeyGenerateKeyPairResult;
-
-// @public
-export interface SshPublicKeysGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SshPublicKeysGetResponse = SshPublicKeyResource;
-
-// @public
-export interface SshPublicKeysGroupListResult {
-    nextLink?: string;
-    value: SshPublicKeyResource[];
-}
-
-// @public
-export interface SshPublicKeysListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SshPublicKeysListByResourceGroupNextResponse = SshPublicKeysGroupListResult;
-
-// @public
-export interface SshPublicKeysListByResourceGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SshPublicKeysListByResourceGroupResponse = SshPublicKeysGroupListResult;
-
-// @public
-export interface SshPublicKeysListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SshPublicKeysListBySubscriptionNextResponse = SshPublicKeysGroupListResult;
-
-// @public
-export interface SshPublicKeysListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SshPublicKeysListBySubscriptionResponse = SshPublicKeysGroupListResult;
-
-// @public
-export interface SshPublicKeysUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SshPublicKeysUpdateResponse = SshPublicKeyResource;
-
-// @public
-export interface SshPublicKeyUpdateResource extends UpdateResource {
+export interface SshPublicKeyResourceProperties {
     publicKey?: string;
 }
 
 // @public
-export interface StatusCodeCount {
-    readonly code?: string;
-    readonly count?: number;
+export interface SshPublicKeysCreateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SshPublicKeysDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SshPublicKeysGenerateKeyPairOptionalParams extends OperationOptions {
+    parameters?: SshGenerateKeyPairInputParameters;
+}
+
+// @public
+export interface SshPublicKeysGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SshPublicKeysListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SshPublicKeysListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SshPublicKeysOperations {
+    create: (resourceGroupName: string, sshPublicKeyName: string, parameters: SshPublicKeyResource, options?: SshPublicKeysCreateOptionalParams) => Promise<SshPublicKeyResource>;
+    delete: (resourceGroupName: string, sshPublicKeyName: string, options?: SshPublicKeysDeleteOptionalParams) => Promise<void>;
+    generateKeyPair: (resourceGroupName: string, sshPublicKeyName: string, options?: SshPublicKeysGenerateKeyPairOptionalParams) => Promise<SshPublicKeyGenerateKeyPairResult>;
+    get: (resourceGroupName: string, sshPublicKeyName: string, options?: SshPublicKeysGetOptionalParams) => Promise<SshPublicKeyResource>;
+    listByResourceGroup: (resourceGroupName: string, options?: SshPublicKeysListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<SshPublicKeyResource>;
+    listBySubscription: (options?: SshPublicKeysListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<SshPublicKeyResource>;
+    update: (resourceGroupName: string, sshPublicKeyName: string, parameters: SshPublicKeyUpdateResource, options?: SshPublicKeysUpdateOptionalParams) => Promise<SshPublicKeyResource>;
+}
+
+// @public
+export interface SshPublicKeysUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SshPublicKeyUpdateResource extends UpdateResource {
+    publicKey?: string;
 }
 
 // @public
@@ -7113,17 +5628,17 @@ export interface StorageProfile {
     osDisk?: OSDisk;
 }
 
-// @public (undocumented)
+// @public
 export interface SubResource {
     id?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SubResourceReadOnly {
     readonly id?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SubResourceWithColocationStatus extends SubResource {
     colocationStatus?: InstanceViewStatus;
 }
@@ -7159,7 +5674,7 @@ export interface TargetRegion {
     storageAccountType?: StorageAccountType;
 }
 
-// @public (undocumented)
+// @public
 export interface TerminateNotificationProfile {
     enable?: boolean;
     notBeforeTimeout?: string;
@@ -7172,9 +5687,7 @@ export interface ThrottledRequestsInput extends LogAnalyticsInputBase {
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -7204,31 +5717,15 @@ export interface UefiSettings {
 export type UefiSignatureTemplateName = string;
 
 // @public
-export interface UpdateDomain {
-    readonly id?: string;
-    readonly name?: string;
-}
-
-// @public
-export interface UpdateDomainListResult {
-    nextLink?: string;
-    value: UpdateDomain[];
-}
-
-// @public
 export interface UpdateResource {
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
 export interface UpdateResourceDefinition {
     readonly id?: string;
     readonly name?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
     readonly type?: string;
 }
 
@@ -7281,18 +5778,8 @@ export interface Usage {
 }
 
 // @public
-export interface UsageListNextOptionalParams extends coreClient.OperationOptions {
+export interface UsageListOptionalParams extends OperationOptions {
 }
-
-// @public
-export type UsageListNextResponse = ListUsagesResult;
-
-// @public
-export interface UsageListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type UsageListResponse = ListUsagesResult;
 
 // @public
 export interface UsageName {
@@ -7302,10 +5789,10 @@ export interface UsageName {
 
 // @public
 export interface UsageOperations {
-    list(location: string, options?: UsageListOptionalParams): PagedAsyncIterableIterator<Usage>;
+    list: (location: string, options?: UsageListOptionalParams) => PagedAsyncIterableIterator<Usage>;
 }
 
-// @public (undocumented)
+// @public
 export interface UserArtifactManage {
     install: string;
     remove: string;
@@ -7325,7 +5812,7 @@ export interface UserArtifactSource {
     mediaLink: string;
 }
 
-// @public (undocumented)
+// @public
 export interface UserAssignedIdentitiesValue {
     readonly clientId?: string;
     readonly principalId?: string;
@@ -7479,35 +5966,37 @@ export interface VirtualMachineExtensionImage extends TrackedResource {
 }
 
 // @public
-export interface VirtualMachineExtensionImages {
-    get(location: string, publisherName: string, typeParam: string, version: string, options?: VirtualMachineExtensionImagesGetOptionalParams): Promise<VirtualMachineExtensionImagesGetResponse>;
-    listTypes(location: string, publisherName: string, options?: VirtualMachineExtensionImagesListTypesOptionalParams): Promise<VirtualMachineExtensionImagesListTypesResponse>;
-    listVersions(location: string, publisherName: string, typeParam: string, options?: VirtualMachineExtensionImagesListVersionsOptionalParams): Promise<VirtualMachineExtensionImagesListVersionsResponse>;
+export interface VirtualMachineExtensionImageProperties {
+    computeRole: string;
+    handlerSchema: string;
+    operatingSystem: string;
+    supportsMultipleExtensions?: boolean;
+    vmScaleSetEnabled?: boolean;
 }
 
 // @public
-export interface VirtualMachineExtensionImagesGetOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineExtensionImagesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type VirtualMachineExtensionImagesGetResponse = VirtualMachineExtensionImage;
-
-// @public
-export interface VirtualMachineExtensionImagesListTypesOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineExtensionImagesListTypesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type VirtualMachineExtensionImagesListTypesResponse = VirtualMachineExtensionImage[];
-
-// @public
-export interface VirtualMachineExtensionImagesListVersionsOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineExtensionImagesListVersionsOptionalParams extends OperationOptions {
     filter?: string;
+    // (undocumented)
     orderby?: string;
+    // (undocumented)
     top?: number;
 }
 
 // @public
-export type VirtualMachineExtensionImagesListVersionsResponse = VirtualMachineExtensionImage[];
+export interface VirtualMachineExtensionImagesOperations {
+    get: (location: string, publisherName: string, typeParam: string, version: string, options?: VirtualMachineExtensionImagesGetOptionalParams) => Promise<VirtualMachineExtensionImage>;
+    listTypes: (location: string, publisherName: string, options?: VirtualMachineExtensionImagesListTypesOptionalParams) => Promise<VirtualMachineExtensionImage[]>;
+    listVersions: (location: string, publisherName: string, typeParam: string, options?: VirtualMachineExtensionImagesListVersionsOptionalParams) => Promise<VirtualMachineExtensionImage[]>;
+}
 
 // @public
 export interface VirtualMachineExtensionInstanceView {
@@ -7519,59 +6008,41 @@ export interface VirtualMachineExtensionInstanceView {
 }
 
 // @public
-export interface VirtualMachineExtensions {
-    beginCreateOrUpdate(resourceGroupName: string, vmName: string, vmExtensionName: string, extensionParameters: VirtualMachineExtension, options?: VirtualMachineExtensionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineExtensionsCreateOrUpdateResponse>, VirtualMachineExtensionsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, vmName: string, vmExtensionName: string, extensionParameters: VirtualMachineExtension, options?: VirtualMachineExtensionsCreateOrUpdateOptionalParams): Promise<VirtualMachineExtensionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, vmName: string, vmExtensionName: string, options?: VirtualMachineExtensionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, vmName: string, vmExtensionName: string, options?: VirtualMachineExtensionsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, vmName: string, vmExtensionName: string, extensionParameters: VirtualMachineExtensionUpdate, options?: VirtualMachineExtensionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineExtensionsUpdateResponse>, VirtualMachineExtensionsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, vmName: string, vmExtensionName: string, extensionParameters: VirtualMachineExtensionUpdate, options?: VirtualMachineExtensionsUpdateOptionalParams): Promise<VirtualMachineExtensionsUpdateResponse>;
-    get(resourceGroupName: string, vmName: string, vmExtensionName: string, options?: VirtualMachineExtensionsGetOptionalParams): Promise<VirtualMachineExtensionsGetResponse>;
-    list(resourceGroupName: string, vmName: string, options?: VirtualMachineExtensionsListOptionalParams): Promise<VirtualMachineExtensionsListResponse>;
+export interface VirtualMachineExtensionProperties {
+    autoUpgradeMinorVersion?: boolean;
+    enableAutomaticUpgrade?: boolean;
+    forceUpdateTag?: string;
+    instanceView?: VirtualMachineExtensionInstanceView;
+    protectedSettings?: any;
+    protectedSettingsFromKeyVault?: KeyVaultSecretReference;
+    provisionAfterExtensions?: string[];
+    readonly provisioningState?: string;
+    publisher?: string;
+    settings?: any;
+    suppressFailures?: boolean;
+    type?: string;
+    typeHandlerVersion?: string;
 }
 
 // @public
-export interface VirtualMachineExtensionsCreateOrUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineExtensionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineExtensionsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type VirtualMachineExtensionsCreateOrUpdateResponse = VirtualMachineExtension;
-
-// @public
-export interface VirtualMachineExtensionsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineExtensionsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineExtensionsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface VirtualMachineExtensionsGetOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineExtensionsGetOptionalParams extends OperationOptions {
     expand?: string;
 }
 
 // @public
-export type VirtualMachineExtensionsGetResponse = VirtualMachineExtension;
-
-// @public
-export interface VirtualMachineExtensionsListOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineExtensionsListOptionalParams extends OperationOptions {
     expand?: string;
 }
-
-// @public
-export type VirtualMachineExtensionsListResponse = VirtualMachineExtensionsListResult;
 
 // @public
 export interface VirtualMachineExtensionsListResult {
@@ -7579,22 +6050,47 @@ export interface VirtualMachineExtensionsListResult {
 }
 
 // @public
-export interface VirtualMachineExtensionsUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
+export interface VirtualMachineExtensionsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, vmName: string, vmExtensionName: string, extensionParameters: VirtualMachineExtension, options?: VirtualMachineExtensionsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<VirtualMachineExtension>, VirtualMachineExtension>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, vmName: string, vmExtensionName: string, extensionParameters: VirtualMachineExtension, options?: VirtualMachineExtensionsCreateOrUpdateOptionalParams) => Promise<VirtualMachineExtension>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, vmName: string, vmExtensionName: string, options?: VirtualMachineExtensionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, vmName: string, vmExtensionName: string, options?: VirtualMachineExtensionsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, vmName: string, vmExtensionName: string, extensionParameters: VirtualMachineExtensionUpdate, options?: VirtualMachineExtensionsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<VirtualMachineExtension>, VirtualMachineExtension>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, vmName: string, vmExtensionName: string, extensionParameters: VirtualMachineExtensionUpdate, options?: VirtualMachineExtensionsUpdateOptionalParams) => Promise<VirtualMachineExtension>;
+    createOrUpdate: (resourceGroupName: string, vmName: string, vmExtensionName: string, extensionParameters: VirtualMachineExtension, options?: VirtualMachineExtensionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<VirtualMachineExtension>, VirtualMachineExtension>;
+    delete: (resourceGroupName: string, vmName: string, vmExtensionName: string, options?: VirtualMachineExtensionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, vmName: string, vmExtensionName: string, options?: VirtualMachineExtensionsGetOptionalParams) => Promise<VirtualMachineExtension>;
+    list: (resourceGroupName: string, vmName: string, options?: VirtualMachineExtensionsListOptionalParams) => Promise<VirtualMachineExtensionsListResult>;
+    update: (resourceGroupName: string, vmName: string, vmExtensionName: string, extensionParameters: VirtualMachineExtensionUpdate, options?: VirtualMachineExtensionsUpdateOptionalParams) => PollerLike<OperationState<VirtualMachineExtension>, VirtualMachineExtension>;
 }
 
 // @public
-export interface VirtualMachineExtensionsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineExtensionsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type VirtualMachineExtensionsUpdateResponse = VirtualMachineExtensionsUpdateHeaders & VirtualMachineExtension;
+export interface VirtualMachineExtensionUpdate extends UpdateResource {
+    autoUpgradeMinorVersion?: boolean;
+    enableAutomaticUpgrade?: boolean;
+    forceUpdateTag?: string;
+    protectedSettings?: any;
+    protectedSettingsFromKeyVault?: KeyVaultSecretReference;
+    publisher?: string;
+    settings?: any;
+    suppressFailures?: boolean;
+    type?: string;
+    typeHandlerVersion?: string;
+}
 
 // @public
-export interface VirtualMachineExtensionUpdate extends UpdateResource {
+export interface VirtualMachineExtensionUpdateProperties {
     autoUpgradeMinorVersion?: boolean;
     enableAutomaticUpgrade?: boolean;
     forceUpdateTag?: string;
@@ -7617,9 +6113,7 @@ export interface VirtualMachineIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type?: ResourceIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentitiesValue;
-    };
+    userAssignedIdentities?: Record<string, UserAssignedIdentitiesValue>;
 }
 
 // @public
@@ -7643,127 +6137,107 @@ export interface VirtualMachineImageFeature {
 }
 
 // @public
+export interface VirtualMachineImageProperties {
+    architecture?: ArchitectureTypes;
+    automaticOSUpgradeProperties?: AutomaticOSUpgradeProperties;
+    dataDiskImages?: DataDiskImage[];
+    disallowed?: DisallowedConfiguration;
+    // (undocumented)
+    features?: VirtualMachineImageFeature[];
+    hyperVGeneration?: HyperVGenerationTypes;
+    imageDeprecationStatus?: ImageDeprecationStatus;
+    osDiskImage?: OSDiskImage;
+    plan?: PurchasePlan;
+}
+
+// @public
 export interface VirtualMachineImageResource extends SubResource {
     extendedLocation?: ExtendedLocation;
     location: string;
     name: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
-export interface VirtualMachineImages {
-    get(location: string, publisherName: string, offer: string, skus: string, version: string, options?: VirtualMachineImagesGetOptionalParams): Promise<VirtualMachineImagesGetResponse>;
-    list(location: string, publisherName: string, offer: string, skus: string, options?: VirtualMachineImagesListOptionalParams): Promise<VirtualMachineImagesListResponse>;
-    listByEdgeZone(location: string, edgeZone: string, options?: VirtualMachineImagesListByEdgeZoneOptionalParams): Promise<VirtualMachineImagesListByEdgeZoneResponse>;
-    listOffers(location: string, publisherName: string, options?: VirtualMachineImagesListOffersOptionalParams): Promise<VirtualMachineImagesListOffersResponse>;
-    listPublishers(location: string, options?: VirtualMachineImagesListPublishersOptionalParams): Promise<VirtualMachineImagesListPublishersResponse>;
-    listSkus(location: string, publisherName: string, offer: string, options?: VirtualMachineImagesListSkusOptionalParams): Promise<VirtualMachineImagesListSkusResponse>;
+export interface VirtualMachineImagesEdgeZoneGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VirtualMachineImagesEdgeZoneListOffersOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VirtualMachineImagesEdgeZoneListOptionalParams extends OperationOptions {
+    expand?: string;
+    orderby?: string;
+    top?: number;
+}
+
+// @public
+export interface VirtualMachineImagesEdgeZoneListPublishersOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VirtualMachineImagesEdgeZoneListSkusOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VirtualMachineImagesEdgeZoneOperations {
+    get: (location: string, edgeZone: string, publisherName: string, offer: string, skus: string, version: string, options?: VirtualMachineImagesEdgeZoneGetOptionalParams) => Promise<VirtualMachineImage>;
+    list: (location: string, edgeZone: string, publisherName: string, offer: string, skus: string, options?: VirtualMachineImagesEdgeZoneListOptionalParams) => Promise<VirtualMachineImageResource[]>;
+    listOffers: (location: string, edgeZone: string, publisherName: string, options?: VirtualMachineImagesEdgeZoneListOffersOptionalParams) => Promise<VirtualMachineImageResource[]>;
+    listPublishers: (location: string, edgeZone: string, options?: VirtualMachineImagesEdgeZoneListPublishersOptionalParams) => Promise<VirtualMachineImageResource[]>;
+    listSkus: (location: string, edgeZone: string, publisherName: string, offer: string, options?: VirtualMachineImagesEdgeZoneListSkusOptionalParams) => Promise<VirtualMachineImageResource[]>;
+}
+
+// @public
+export interface VirtualMachineImagesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VirtualMachineImagesListByEdgeZoneOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VirtualMachineImagesListOffersOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VirtualMachineImagesListOptionalParams extends OperationOptions {
+    expand?: string;
     // (undocumented)
-    listWithProperties(location: string, publisherName: string, offer: string, skus: string, expand: string, options?: VirtualMachineImagesListWithPropertiesOptionalParams): Promise<VirtualMachineImagesListWithPropertiesResponse>;
-}
-
-// @public
-export interface VirtualMachineImagesEdgeZone {
-    get(location: string, edgeZone: string, publisherName: string, offer: string, skus: string, version: string, options?: VirtualMachineImagesEdgeZoneGetOptionalParams): Promise<VirtualMachineImagesEdgeZoneGetResponse>;
-    list(location: string, edgeZone: string, publisherName: string, offer: string, skus: string, options?: VirtualMachineImagesEdgeZoneListOptionalParams): Promise<VirtualMachineImagesEdgeZoneListResponse>;
-    listOffers(location: string, edgeZone: string, publisherName: string, options?: VirtualMachineImagesEdgeZoneListOffersOptionalParams): Promise<VirtualMachineImagesEdgeZoneListOffersResponse>;
-    listPublishers(location: string, edgeZone: string, options?: VirtualMachineImagesEdgeZoneListPublishersOptionalParams): Promise<VirtualMachineImagesEdgeZoneListPublishersResponse>;
-    listSkus(location: string, edgeZone: string, publisherName: string, offer: string, options?: VirtualMachineImagesEdgeZoneListSkusOptionalParams): Promise<VirtualMachineImagesEdgeZoneListSkusResponse>;
-}
-
-// @public
-export interface VirtualMachineImagesEdgeZoneGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VirtualMachineImagesEdgeZoneGetResponse = VirtualMachineImage;
-
-// @public
-export interface VirtualMachineImagesEdgeZoneListOffersOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VirtualMachineImagesEdgeZoneListOffersResponse = VirtualMachineImageResource[];
-
-// @public
-export interface VirtualMachineImagesEdgeZoneListOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
     orderby?: string;
+    // (undocumented)
     top?: number;
 }
 
 // @public
-export interface VirtualMachineImagesEdgeZoneListPublishersOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineImagesListPublishersOptionalParams extends OperationOptions {
 }
 
 // @public
-export type VirtualMachineImagesEdgeZoneListPublishersResponse = VirtualMachineImageResource[];
-
-// @public
-export type VirtualMachineImagesEdgeZoneListResponse = VirtualMachineImageResource[];
-
-// @public
-export interface VirtualMachineImagesEdgeZoneListSkusOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineImagesListSkusOptionalParams extends OperationOptions {
 }
 
 // @public
-export type VirtualMachineImagesEdgeZoneListSkusResponse = VirtualMachineImageResource[];
-
-// @public
-export interface VirtualMachineImagesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VirtualMachineImagesGetResponse = VirtualMachineImage;
-
-// @public
-export interface VirtualMachineImagesListByEdgeZoneOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VirtualMachineImagesListByEdgeZoneResponse = VmImagesInEdgeZoneListResult;
-
-// @public
-export interface VirtualMachineImagesListOffersOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VirtualMachineImagesListOffersResponse = VirtualMachineImageResource[];
-
-// @public
-export interface VirtualMachineImagesListOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
+export interface VirtualMachineImagesListWithPropertiesOptionalParams extends OperationOptions {
+    // (undocumented)
     orderby?: string;
+    // (undocumented)
     top?: number;
 }
 
 // @public
-export interface VirtualMachineImagesListPublishersOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineImagesOperations {
+    get: (location: string, publisherName: string, offer: string, skus: string, version: string, options?: VirtualMachineImagesGetOptionalParams) => Promise<VirtualMachineImage>;
+    list: (location: string, publisherName: string, offer: string, skus: string, options?: VirtualMachineImagesListOptionalParams) => Promise<VirtualMachineImageResource[]>;
+    listByEdgeZone: (location: string, edgeZone: string, options?: VirtualMachineImagesListByEdgeZoneOptionalParams) => Promise<VmImagesInEdgeZoneListResult>;
+    listOffers: (location: string, publisherName: string, options?: VirtualMachineImagesListOffersOptionalParams) => Promise<VirtualMachineImageResource[]>;
+    listPublishers: (location: string, options?: VirtualMachineImagesListPublishersOptionalParams) => Promise<VirtualMachineImageResource[]>;
+    listSkus: (location: string, publisherName: string, offer: string, options?: VirtualMachineImagesListSkusOptionalParams) => Promise<VirtualMachineImageResource[]>;
+    // (undocumented)
+    listWithProperties: (location: string, publisherName: string, offer: string, skus: string, expand: string, options?: VirtualMachineImagesListWithPropertiesOptionalParams) => Promise<VirtualMachineImage[]>;
 }
-
-// @public
-export type VirtualMachineImagesListPublishersResponse = VirtualMachineImageResource[];
-
-// @public
-export type VirtualMachineImagesListResponse = VirtualMachineImageResource[];
-
-// @public
-export interface VirtualMachineImagesListSkusOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VirtualMachineImagesListSkusResponse = VirtualMachineImageResource[];
-
-// @public
-export interface VirtualMachineImagesListWithPropertiesOptionalParams extends coreClient.OperationOptions {
-    orderby?: string;
-    top?: number;
-}
-
-// @public
-export type VirtualMachineImagesListWithPropertiesResponse = VirtualMachineImage[];
 
 // @public
 export interface VirtualMachineInstallPatchesParameters {
@@ -7817,12 +6291,6 @@ export interface VirtualMachineIpTag {
 }
 
 // @public
-export interface VirtualMachineListResult {
-    nextLink?: string;
-    value: VirtualMachine[];
-}
-
-// @public
 export interface VirtualMachineNetworkInterfaceConfiguration {
     auxiliaryMode?: NetworkInterfaceAuxiliaryMode;
     auxiliarySku?: NetworkInterfaceAuxiliarySku;
@@ -7838,9 +6306,24 @@ export interface VirtualMachineNetworkInterfaceConfiguration {
     name: string;
     networkSecurityGroup?: SubResource;
     primary?: boolean;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface VirtualMachineNetworkInterfaceConfigurationProperties {
+    auxiliaryMode?: NetworkInterfaceAuxiliaryMode;
+    auxiliarySku?: NetworkInterfaceAuxiliarySku;
+    deleteOption?: DeleteOptions;
+    disableTcpStateTracking?: boolean;
+    dnsSettings?: VirtualMachineNetworkInterfaceDnsSettingsConfiguration;
+    // (undocumented)
+    dscpConfiguration?: SubResource;
+    enableAcceleratedNetworking?: boolean;
+    enableFpga?: boolean;
+    enableIPForwarding?: boolean;
+    ipConfigurations: VirtualMachineNetworkInterfaceIPConfiguration[];
+    networkSecurityGroup?: SubResource;
+    primary?: boolean;
 }
 
 // @public
@@ -7861,6 +6344,17 @@ export interface VirtualMachineNetworkInterfaceIPConfiguration {
 }
 
 // @public
+export interface VirtualMachineNetworkInterfaceIPConfigurationProperties {
+    applicationGatewayBackendAddressPools?: SubResource[];
+    applicationSecurityGroups?: SubResource[];
+    loadBalancerBackendAddressPools?: SubResource[];
+    primary?: boolean;
+    privateIPAddressVersion?: IPVersions;
+    publicIPAddressConfiguration?: VirtualMachinePublicIPAddressConfiguration;
+    subnet?: SubResource;
+}
+
+// @public
 export interface VirtualMachinePatchStatus {
     availablePatchSummary?: AvailablePatchSummary;
     readonly configurationStatuses?: InstanceViewStatus[];
@@ -7869,6 +6363,37 @@ export interface VirtualMachinePatchStatus {
 
 // @public
 export type VirtualMachinePriorityTypes = string;
+
+// @public
+export interface VirtualMachineProperties {
+    additionalCapabilities?: AdditionalCapabilities;
+    applicationProfile?: ApplicationProfile;
+    availabilitySet?: SubResource;
+    billingProfile?: BillingProfile;
+    capacityReservation?: CapacityReservationProfile;
+    diagnosticsProfile?: DiagnosticsProfile;
+    evictionPolicy?: VirtualMachineEvictionPolicyTypes;
+    extensionsTimeBudget?: string;
+    hardwareProfile?: HardwareProfile;
+    host?: SubResource;
+    hostGroup?: SubResource;
+    readonly instanceView?: VirtualMachineInstanceView;
+    licenseType?: string;
+    networkProfile?: NetworkProfile;
+    osProfile?: OSProfile;
+    platformFaultDomain?: number;
+    priority?: VirtualMachinePriorityTypes;
+    readonly provisioningState?: string;
+    proximityPlacementGroup?: SubResource;
+    scheduledEventsPolicy?: ScheduledEventsPolicy;
+    scheduledEventsProfile?: ScheduledEventsProfile;
+    securityProfile?: SecurityProfile;
+    storageProfile?: StorageProfile;
+    readonly timeCreated?: Date;
+    userData?: string;
+    virtualMachineScaleSet?: SubResource;
+    readonly vmId?: string;
+}
 
 // @public
 export interface VirtualMachinePublicIPAddressConfiguration {
@@ -7881,9 +6406,18 @@ export interface VirtualMachinePublicIPAddressConfiguration {
     publicIPAllocationMethod?: PublicIPAllocationMethod;
     publicIPPrefix?: SubResource;
     sku?: PublicIPAddressSku;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface VirtualMachinePublicIPAddressConfigurationProperties {
+    deleteOption?: DeleteOptions;
+    dnsSettings?: VirtualMachinePublicIPAddressDnsSettingsConfiguration;
+    idleTimeoutInMinutes?: number;
+    ipTags?: VirtualMachineIpTag[];
+    publicIPAddressVersion?: IPVersions;
+    publicIPAllocationMethod?: PublicIPAllocationMethod;
+    publicIPPrefix?: SubResource;
 }
 
 // @public
@@ -7930,33 +6464,27 @@ export interface VirtualMachineRunCommandInstanceView {
 }
 
 // @public
-export interface VirtualMachineRunCommands {
-    beginCreateOrUpdate(resourceGroupName: string, vmName: string, runCommandName: string, runCommand: VirtualMachineRunCommand, options?: VirtualMachineRunCommandsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineRunCommandsCreateOrUpdateResponse>, VirtualMachineRunCommandsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, vmName: string, runCommandName: string, runCommand: VirtualMachineRunCommand, options?: VirtualMachineRunCommandsCreateOrUpdateOptionalParams): Promise<VirtualMachineRunCommandsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, vmName: string, runCommandName: string, options?: VirtualMachineRunCommandsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, vmName: string, runCommandName: string, options?: VirtualMachineRunCommandsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, vmName: string, runCommandName: string, runCommand: VirtualMachineRunCommandUpdate, options?: VirtualMachineRunCommandsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineRunCommandsUpdateResponse>, VirtualMachineRunCommandsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, vmName: string, runCommandName: string, runCommand: VirtualMachineRunCommandUpdate, options?: VirtualMachineRunCommandsUpdateOptionalParams): Promise<VirtualMachineRunCommandsUpdateResponse>;
-    get(location: string, commandId: string, options?: VirtualMachineRunCommandsGetOptionalParams): Promise<VirtualMachineRunCommandsGetResponse>;
-    getByVirtualMachine(resourceGroupName: string, vmName: string, runCommandName: string, options?: VirtualMachineRunCommandsGetByVirtualMachineOptionalParams): Promise<VirtualMachineRunCommandsGetByVirtualMachineResponse>;
-    list(location: string, options?: VirtualMachineRunCommandsListOptionalParams): PagedAsyncIterableIterator<RunCommandDocumentBase>;
-    listByVirtualMachine(resourceGroupName: string, vmName: string, options?: VirtualMachineRunCommandsListByVirtualMachineOptionalParams): PagedAsyncIterableIterator<VirtualMachineRunCommand>;
+export interface VirtualMachineRunCommandProperties {
+    asyncExecution?: boolean;
+    errorBlobManagedIdentity?: RunCommandManagedIdentity;
+    errorBlobUri?: string;
+    readonly instanceView?: VirtualMachineRunCommandInstanceView;
+    outputBlobManagedIdentity?: RunCommandManagedIdentity;
+    outputBlobUri?: string;
+    parameters?: RunCommandInputParameter[];
+    protectedParameters?: RunCommandInputParameter[];
+    readonly provisioningState?: string;
+    runAsPassword?: string;
+    runAsUser?: string;
+    source?: VirtualMachineRunCommandScriptSource;
+    timeoutInSeconds?: number;
+    treatFailureAsDeploymentFailure?: boolean;
 }
 
 // @public
-export interface VirtualMachineRunCommandsCreateOrUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineRunCommandsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineRunCommandsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type VirtualMachineRunCommandsCreateOrUpdateResponse = VirtualMachineRunCommand;
 
 // @public
 export interface VirtualMachineRunCommandScriptSource {
@@ -7969,81 +6497,55 @@ export interface VirtualMachineRunCommandScriptSource {
 }
 
 // @public
-export interface VirtualMachineRunCommandsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineRunCommandsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineRunCommandsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface VirtualMachineRunCommandsGetByVirtualMachineOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineRunCommandsGetByVirtualMachineOptionalParams extends OperationOptions {
     expand?: string;
 }
 
 // @public
-export type VirtualMachineRunCommandsGetByVirtualMachineResponse = VirtualMachineRunCommand;
-
-// @public
-export interface VirtualMachineRunCommandsGetOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineRunCommandsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type VirtualMachineRunCommandsGetResponse = RunCommandDocument;
-
-// @public
-export interface VirtualMachineRunCommandsListByVirtualMachineNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VirtualMachineRunCommandsListByVirtualMachineNextResponse = VirtualMachineRunCommandsListResult;
-
-// @public
-export interface VirtualMachineRunCommandsListByVirtualMachineOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineRunCommandsListByVirtualMachineOptionalParams extends OperationOptions {
     expand?: string;
 }
 
 // @public
-export type VirtualMachineRunCommandsListByVirtualMachineResponse = VirtualMachineRunCommandsListResult;
-
-// @public
-export interface VirtualMachineRunCommandsListNextOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineRunCommandsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type VirtualMachineRunCommandsListNextResponse = RunCommandListResult;
-
-// @public
-export interface VirtualMachineRunCommandsListOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineRunCommandsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, vmName: string, runCommandName: string, runCommand: VirtualMachineRunCommand, options?: VirtualMachineRunCommandsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<VirtualMachineRunCommand>, VirtualMachineRunCommand>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, vmName: string, runCommandName: string, runCommand: VirtualMachineRunCommand, options?: VirtualMachineRunCommandsCreateOrUpdateOptionalParams) => Promise<VirtualMachineRunCommand>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, vmName: string, runCommandName: string, options?: VirtualMachineRunCommandsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, vmName: string, runCommandName: string, options?: VirtualMachineRunCommandsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, vmName: string, runCommandName: string, runCommand: VirtualMachineRunCommandUpdate, options?: VirtualMachineRunCommandsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<VirtualMachineRunCommand>, VirtualMachineRunCommand>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, vmName: string, runCommandName: string, runCommand: VirtualMachineRunCommandUpdate, options?: VirtualMachineRunCommandsUpdateOptionalParams) => Promise<VirtualMachineRunCommand>;
+    createOrUpdate: (resourceGroupName: string, vmName: string, runCommandName: string, runCommand: VirtualMachineRunCommand, options?: VirtualMachineRunCommandsCreateOrUpdateOptionalParams) => PollerLike<OperationState<VirtualMachineRunCommand>, VirtualMachineRunCommand>;
+    delete: (resourceGroupName: string, vmName: string, runCommandName: string, options?: VirtualMachineRunCommandsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (location: string, commandId: string, options?: VirtualMachineRunCommandsGetOptionalParams) => Promise<RunCommandDocument>;
+    getByVirtualMachine: (resourceGroupName: string, vmName: string, runCommandName: string, options?: VirtualMachineRunCommandsGetByVirtualMachineOptionalParams) => Promise<VirtualMachineRunCommand>;
+    list: (location: string, options?: VirtualMachineRunCommandsListOptionalParams) => PagedAsyncIterableIterator<RunCommandDocumentBase>;
+    listByVirtualMachine: (resourceGroupName: string, vmName: string, options?: VirtualMachineRunCommandsListByVirtualMachineOptionalParams) => PagedAsyncIterableIterator<VirtualMachineRunCommand>;
+    update: (resourceGroupName: string, vmName: string, runCommandName: string, runCommand: VirtualMachineRunCommandUpdate, options?: VirtualMachineRunCommandsUpdateOptionalParams) => PollerLike<OperationState<VirtualMachineRunCommand>, VirtualMachineRunCommand>;
 }
 
 // @public
-export type VirtualMachineRunCommandsListResponse = RunCommandListResult;
-
-// @public
-export interface VirtualMachineRunCommandsListResult {
-    nextLink?: string;
-    value: VirtualMachineRunCommand[];
-}
-
-// @public
-export interface VirtualMachineRunCommandsUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineRunCommandsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineRunCommandsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type VirtualMachineRunCommandsUpdateResponse = VirtualMachineRunCommandsUpdateHeaders & VirtualMachineRunCommand;
 
 // @public
 export interface VirtualMachineRunCommandUpdate extends UpdateResource {
@@ -8064,83 +6566,14 @@ export interface VirtualMachineRunCommandUpdate extends UpdateResource {
 }
 
 // @public
-export interface VirtualMachines {
-    beginAssessPatches(resourceGroupName: string, vmName: string, options?: VirtualMachinesAssessPatchesOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesAssessPatchesResponse>, VirtualMachinesAssessPatchesResponse>>;
-    beginAssessPatchesAndWait(resourceGroupName: string, vmName: string, options?: VirtualMachinesAssessPatchesOptionalParams): Promise<VirtualMachinesAssessPatchesResponse>;
-    beginAttachDetachDataDisks(resourceGroupName: string, vmName: string, parameters: AttachDetachDataDisksRequest, options?: VirtualMachinesAttachDetachDataDisksOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesAttachDetachDataDisksResponse>, VirtualMachinesAttachDetachDataDisksResponse>>;
-    beginAttachDetachDataDisksAndWait(resourceGroupName: string, vmName: string, parameters: AttachDetachDataDisksRequest, options?: VirtualMachinesAttachDetachDataDisksOptionalParams): Promise<VirtualMachinesAttachDetachDataDisksResponse>;
-    beginCapture(resourceGroupName: string, vmName: string, parameters: VirtualMachineCaptureParameters, options?: VirtualMachinesCaptureOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesCaptureResponse>, VirtualMachinesCaptureResponse>>;
-    beginCaptureAndWait(resourceGroupName: string, vmName: string, parameters: VirtualMachineCaptureParameters, options?: VirtualMachinesCaptureOptionalParams): Promise<VirtualMachinesCaptureResponse>;
-    beginConvertToManagedDisks(resourceGroupName: string, vmName: string, options?: VirtualMachinesConvertToManagedDisksOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginConvertToManagedDisksAndWait(resourceGroupName: string, vmName: string, options?: VirtualMachinesConvertToManagedDisksOptionalParams): Promise<void>;
-    beginCreateOrUpdate(resourceGroupName: string, vmName: string, parameters: VirtualMachine, options?: VirtualMachinesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesCreateOrUpdateResponse>, VirtualMachinesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, vmName: string, parameters: VirtualMachine, options?: VirtualMachinesCreateOrUpdateOptionalParams): Promise<VirtualMachinesCreateOrUpdateResponse>;
-    beginDeallocate(resourceGroupName: string, vmName: string, options?: VirtualMachinesDeallocateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeallocateAndWait(resourceGroupName: string, vmName: string, options?: VirtualMachinesDeallocateOptionalParams): Promise<void>;
-    beginDelete(resourceGroupName: string, vmName: string, options?: VirtualMachinesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, vmName: string, options?: VirtualMachinesDeleteOptionalParams): Promise<void>;
-    beginInstallPatches(resourceGroupName: string, vmName: string, installPatchesInput: VirtualMachineInstallPatchesParameters, options?: VirtualMachinesInstallPatchesOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesInstallPatchesResponse>, VirtualMachinesInstallPatchesResponse>>;
-    beginInstallPatchesAndWait(resourceGroupName: string, vmName: string, installPatchesInput: VirtualMachineInstallPatchesParameters, options?: VirtualMachinesInstallPatchesOptionalParams): Promise<VirtualMachinesInstallPatchesResponse>;
-    beginMigrateToVMScaleSet(resourceGroupName: string, vmName: string, options?: VirtualMachinesMigrateToVMScaleSetOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesMigrateToVMScaleSetResponse>, VirtualMachinesMigrateToVMScaleSetResponse>>;
-    beginMigrateToVMScaleSetAndWait(resourceGroupName: string, vmName: string, options?: VirtualMachinesMigrateToVMScaleSetOptionalParams): Promise<VirtualMachinesMigrateToVMScaleSetResponse>;
-    beginPerformMaintenance(resourceGroupName: string, vmName: string, options?: VirtualMachinesPerformMaintenanceOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginPerformMaintenanceAndWait(resourceGroupName: string, vmName: string, options?: VirtualMachinesPerformMaintenanceOptionalParams): Promise<void>;
-    beginPowerOff(resourceGroupName: string, vmName: string, options?: VirtualMachinesPowerOffOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginPowerOffAndWait(resourceGroupName: string, vmName: string, options?: VirtualMachinesPowerOffOptionalParams): Promise<void>;
-    beginReapply(resourceGroupName: string, vmName: string, options?: VirtualMachinesReapplyOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginReapplyAndWait(resourceGroupName: string, vmName: string, options?: VirtualMachinesReapplyOptionalParams): Promise<void>;
-    beginRedeploy(resourceGroupName: string, vmName: string, options?: VirtualMachinesRedeployOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRedeployAndWait(resourceGroupName: string, vmName: string, options?: VirtualMachinesRedeployOptionalParams): Promise<void>;
-    beginReimage(resourceGroupName: string, vmName: string, options?: VirtualMachinesReimageOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginReimageAndWait(resourceGroupName: string, vmName: string, options?: VirtualMachinesReimageOptionalParams): Promise<void>;
-    beginRestart(resourceGroupName: string, vmName: string, options?: VirtualMachinesRestartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRestartAndWait(resourceGroupName: string, vmName: string, options?: VirtualMachinesRestartOptionalParams): Promise<void>;
-    beginRunCommand(resourceGroupName: string, vmName: string, parameters: RunCommandInput, options?: VirtualMachinesRunCommandOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesRunCommandResponse>, VirtualMachinesRunCommandResponse>>;
-    beginRunCommandAndWait(resourceGroupName: string, vmName: string, parameters: RunCommandInput, options?: VirtualMachinesRunCommandOptionalParams): Promise<VirtualMachinesRunCommandResponse>;
-    beginStart(resourceGroupName: string, vmName: string, options?: VirtualMachinesStartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginStartAndWait(resourceGroupName: string, vmName: string, options?: VirtualMachinesStartOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, vmName: string, parameters: VirtualMachineUpdate, options?: VirtualMachinesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesUpdateResponse>, VirtualMachinesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, vmName: string, parameters: VirtualMachineUpdate, options?: VirtualMachinesUpdateOptionalParams): Promise<VirtualMachinesUpdateResponse>;
-    generalize(resourceGroupName: string, vmName: string, options?: VirtualMachinesGeneralizeOptionalParams): Promise<void>;
-    get(resourceGroupName: string, vmName: string, options?: VirtualMachinesGetOptionalParams): Promise<VirtualMachinesGetResponse>;
-    instanceView(resourceGroupName: string, vmName: string, options?: VirtualMachinesInstanceViewOptionalParams): Promise<VirtualMachinesInstanceViewResponse>;
-    list(resourceGroupName: string, options?: VirtualMachinesListOptionalParams): PagedAsyncIterableIterator<VirtualMachine>;
-    listAll(options?: VirtualMachinesListAllOptionalParams): PagedAsyncIterableIterator<VirtualMachine>;
-    listAvailableSizes(resourceGroupName: string, vmName: string, options?: VirtualMachinesListAvailableSizesOptionalParams): PagedAsyncIterableIterator<VirtualMachineSize>;
-    listByLocation(location: string, options?: VirtualMachinesListByLocationOptionalParams): PagedAsyncIterableIterator<VirtualMachine>;
-    retrieveBootDiagnosticsData(resourceGroupName: string, vmName: string, options?: VirtualMachinesRetrieveBootDiagnosticsDataOptionalParams): Promise<VirtualMachinesRetrieveBootDiagnosticsDataResponse>;
-    simulateEviction(resourceGroupName: string, vmName: string, options?: VirtualMachinesSimulateEvictionOptionalParams): Promise<void>;
-}
-
-// @public
-export interface VirtualMachinesAssessPatchesHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachinesAssessPatchesOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachinesAssessPatchesOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type VirtualMachinesAssessPatchesResponse = VirtualMachineAssessPatchesResult;
-
-// @public
-export interface VirtualMachinesAttachDetachDataDisksHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachinesAttachDetachDataDisksOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachinesAttachDetachDataDisksOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type VirtualMachinesAttachDetachDataDisksResponse = StorageProfile;
 
 // @public
 export interface VirtualMachineScaleSet extends TrackedResource {
@@ -8210,92 +6643,71 @@ export interface VirtualMachineScaleSetExtension extends SubResourceReadOnly {
 }
 
 // @public
-export interface VirtualMachineScaleSetExtensionListResult {
-    nextLink?: string;
-    value: VirtualMachineScaleSetExtension[];
-}
-
-// @public
 export interface VirtualMachineScaleSetExtensionProfile {
     extensions?: VirtualMachineScaleSetExtension[];
     extensionsTimeBudget?: string;
 }
 
 // @public
-export interface VirtualMachineScaleSetExtensions {
-    beginCreateOrUpdate(resourceGroupName: string, vmScaleSetName: string, vmssExtensionName: string, extensionParameters: VirtualMachineScaleSetExtension, options?: VirtualMachineScaleSetExtensionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineScaleSetExtensionsCreateOrUpdateResponse>, VirtualMachineScaleSetExtensionsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, vmScaleSetName: string, vmssExtensionName: string, extensionParameters: VirtualMachineScaleSetExtension, options?: VirtualMachineScaleSetExtensionsCreateOrUpdateOptionalParams): Promise<VirtualMachineScaleSetExtensionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, vmScaleSetName: string, vmssExtensionName: string, options?: VirtualMachineScaleSetExtensionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, vmScaleSetName: string, vmssExtensionName: string, options?: VirtualMachineScaleSetExtensionsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, vmScaleSetName: string, vmssExtensionName: string, extensionParameters: VirtualMachineScaleSetExtensionUpdate, options?: VirtualMachineScaleSetExtensionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineScaleSetExtensionsUpdateResponse>, VirtualMachineScaleSetExtensionsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, vmScaleSetName: string, vmssExtensionName: string, extensionParameters: VirtualMachineScaleSetExtensionUpdate, options?: VirtualMachineScaleSetExtensionsUpdateOptionalParams): Promise<VirtualMachineScaleSetExtensionsUpdateResponse>;
-    get(resourceGroupName: string, vmScaleSetName: string, vmssExtensionName: string, options?: VirtualMachineScaleSetExtensionsGetOptionalParams): Promise<VirtualMachineScaleSetExtensionsGetResponse>;
-    list(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetExtensionsListOptionalParams): PagedAsyncIterableIterator<VirtualMachineScaleSetExtension>;
+export interface VirtualMachineScaleSetExtensionProperties {
+    autoUpgradeMinorVersion?: boolean;
+    enableAutomaticUpgrade?: boolean;
+    forceUpdateTag?: string;
+    protectedSettings?: any;
+    protectedSettingsFromKeyVault?: KeyVaultSecretReference;
+    provisionAfterExtensions?: string[];
+    readonly provisioningState?: string;
+    publisher?: string;
+    settings?: any;
+    suppressFailures?: boolean;
+    type?: string;
+    typeHandlerVersion?: string;
 }
 
 // @public
-export interface VirtualMachineScaleSetExtensionsCreateOrUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineScaleSetExtensionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineScaleSetExtensionsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type VirtualMachineScaleSetExtensionsCreateOrUpdateResponse = VirtualMachineScaleSetExtension;
-
-// @public
-export interface VirtualMachineScaleSetExtensionsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineScaleSetExtensionsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineScaleSetExtensionsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface VirtualMachineScaleSetExtensionsGetOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineScaleSetExtensionsGetOptionalParams extends OperationOptions {
     expand?: string;
 }
 
 // @public
-export type VirtualMachineScaleSetExtensionsGetResponse = VirtualMachineScaleSetExtension;
-
-// @public
-export interface VirtualMachineScaleSetExtensionsListNextOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineScaleSetExtensionsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type VirtualMachineScaleSetExtensionsListNextResponse = VirtualMachineScaleSetExtensionListResult;
-
-// @public
-export interface VirtualMachineScaleSetExtensionsListOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineScaleSetExtensionsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, vmScaleSetName: string, vmssExtensionName: string, extensionParameters: VirtualMachineScaleSetExtension, options?: VirtualMachineScaleSetExtensionsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<VirtualMachineScaleSetExtension>, VirtualMachineScaleSetExtension>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, vmScaleSetName: string, vmssExtensionName: string, extensionParameters: VirtualMachineScaleSetExtension, options?: VirtualMachineScaleSetExtensionsCreateOrUpdateOptionalParams) => Promise<VirtualMachineScaleSetExtension>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, vmScaleSetName: string, vmssExtensionName: string, options?: VirtualMachineScaleSetExtensionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, vmScaleSetName: string, vmssExtensionName: string, options?: VirtualMachineScaleSetExtensionsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, vmScaleSetName: string, vmssExtensionName: string, extensionParameters: VirtualMachineScaleSetExtensionUpdate, options?: VirtualMachineScaleSetExtensionsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<VirtualMachineScaleSetExtension>, VirtualMachineScaleSetExtension>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, vmScaleSetName: string, vmssExtensionName: string, extensionParameters: VirtualMachineScaleSetExtensionUpdate, options?: VirtualMachineScaleSetExtensionsUpdateOptionalParams) => Promise<VirtualMachineScaleSetExtension>;
+    createOrUpdate: (resourceGroupName: string, vmScaleSetName: string, vmssExtensionName: string, extensionParameters: VirtualMachineScaleSetExtension, options?: VirtualMachineScaleSetExtensionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<VirtualMachineScaleSetExtension>, VirtualMachineScaleSetExtension>;
+    delete: (resourceGroupName: string, vmScaleSetName: string, vmssExtensionName: string, options?: VirtualMachineScaleSetExtensionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, vmScaleSetName: string, vmssExtensionName: string, options?: VirtualMachineScaleSetExtensionsGetOptionalParams) => Promise<VirtualMachineScaleSetExtension>;
+    list: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetExtensionsListOptionalParams) => PagedAsyncIterableIterator<VirtualMachineScaleSetExtension>;
+    update: (resourceGroupName: string, vmScaleSetName: string, vmssExtensionName: string, extensionParameters: VirtualMachineScaleSetExtensionUpdate, options?: VirtualMachineScaleSetExtensionsUpdateOptionalParams) => PollerLike<OperationState<VirtualMachineScaleSetExtension>, VirtualMachineScaleSetExtension>;
 }
 
 // @public
-export type VirtualMachineScaleSetExtensionsListResponse = VirtualMachineScaleSetExtensionListResult;
-
-// @public
-export interface VirtualMachineScaleSetExtensionsUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineScaleSetExtensionsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineScaleSetExtensionsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type VirtualMachineScaleSetExtensionsUpdateResponse = VirtualMachineScaleSetExtension;
 
 // @public
 export interface VirtualMachineScaleSetExtensionUpdate extends SubResourceReadOnly {
@@ -8325,9 +6737,7 @@ export interface VirtualMachineScaleSetIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type?: ResourceIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentitiesValue;
-    };
+    userAssignedIdentities?: Record<string, UserAssignedIdentitiesValue>;
 }
 
 // @public
@@ -8357,33 +6767,21 @@ export interface VirtualMachineScaleSetIPConfiguration {
 }
 
 // @public
+export interface VirtualMachineScaleSetIPConfigurationProperties {
+    applicationGatewayBackendAddressPools?: SubResource[];
+    applicationSecurityGroups?: SubResource[];
+    loadBalancerBackendAddressPools?: SubResource[];
+    loadBalancerInboundNatPools?: SubResource[];
+    primary?: boolean;
+    privateIPAddressVersion?: IPVersion;
+    publicIPAddressConfiguration?: VirtualMachineScaleSetPublicIPAddressConfiguration;
+    subnet?: ApiEntityReference;
+}
+
+// @public
 export interface VirtualMachineScaleSetIpTag {
     ipTagType?: string;
     tag?: string;
-}
-
-// @public
-export interface VirtualMachineScaleSetListOSUpgradeHistory {
-    nextLink?: string;
-    value: UpgradeOperationHistoricalStatusInfo[];
-}
-
-// @public
-export interface VirtualMachineScaleSetListResult {
-    nextLink?: string;
-    value: VirtualMachineScaleSet[];
-}
-
-// @public
-export interface VirtualMachineScaleSetListSkusResult {
-    nextLink?: string;
-    value: VirtualMachineScaleSetSku[];
-}
-
-// @public
-export interface VirtualMachineScaleSetListWithLinkResult {
-    nextLink?: string;
-    value: VirtualMachineScaleSet[];
 }
 
 // @public
@@ -8413,14 +6811,27 @@ export interface VirtualMachineScaleSetNetworkConfiguration {
     name: string;
     networkSecurityGroup?: SubResource;
     primary?: boolean;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
 export interface VirtualMachineScaleSetNetworkConfigurationDnsSettings {
     dnsServers?: string[];
+}
+
+// @public
+export interface VirtualMachineScaleSetNetworkConfigurationProperties {
+    auxiliaryMode?: NetworkInterfaceAuxiliaryMode;
+    auxiliarySku?: NetworkInterfaceAuxiliarySku;
+    deleteOption?: DeleteOptions;
+    disableTcpStateTracking?: boolean;
+    dnsSettings?: VirtualMachineScaleSetNetworkConfigurationDnsSettings;
+    enableAcceleratedNetworking?: boolean;
+    enableFpga?: boolean;
+    enableIPForwarding?: boolean;
+    ipConfigurations: VirtualMachineScaleSetIPConfiguration[];
+    networkSecurityGroup?: SubResource;
+    primary?: boolean;
 }
 
 // @public
@@ -8459,6 +6870,34 @@ export interface VirtualMachineScaleSetOSProfile {
 }
 
 // @public
+export interface VirtualMachineScaleSetProperties {
+    additionalCapabilities?: AdditionalCapabilities;
+    automaticRepairsPolicy?: AutomaticRepairsPolicy;
+    constrainedMaximumCapacity?: boolean;
+    doNotRunExtensionsOnOverprovisionedVMs?: boolean;
+    highSpeedInterconnectPlacement?: HighSpeedInterconnectPlacement;
+    hostGroup?: SubResource;
+    orchestrationMode?: OrchestrationMode;
+    overprovision?: boolean;
+    platformFaultDomainCount?: number;
+    priorityMixPolicy?: PriorityMixPolicy;
+    readonly provisioningState?: string;
+    proximityPlacementGroup?: SubResource;
+    resiliencyPolicy?: ResiliencyPolicy;
+    scaleInPolicy?: ScaleInPolicy;
+    scheduledEventsPolicy?: ScheduledEventsPolicy;
+    singlePlacementGroup?: boolean;
+    skuProfile?: SkuProfile;
+    spotRestorePolicy?: SpotRestorePolicy;
+    readonly timeCreated?: Date;
+    readonly uniqueId?: string;
+    upgradePolicy?: UpgradePolicy;
+    virtualMachineProfile?: VirtualMachineScaleSetVMProfile;
+    zonalPlatformFaultDomainAlignMode?: ZonalPlatformFaultDomainAlignMode;
+    zoneBalance?: boolean;
+}
+
+// @public
 export interface VirtualMachineScaleSetPublicIPAddressConfiguration {
     deleteOption?: DeleteOptions;
     dnsSettings?: VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings;
@@ -8468,9 +6907,7 @@ export interface VirtualMachineScaleSetPublicIPAddressConfiguration {
     publicIPAddressVersion?: IPVersion;
     publicIPPrefix?: SubResource;
     sku?: PublicIPAddressSku;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -8480,228 +6917,116 @@ export interface VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings {
 }
 
 // @public
+export interface VirtualMachineScaleSetPublicIPAddressConfigurationProperties {
+    deleteOption?: DeleteOptions;
+    dnsSettings?: VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings;
+    idleTimeoutInMinutes?: number;
+    ipTags?: VirtualMachineScaleSetIpTag[];
+    publicIPAddressVersion?: IPVersion;
+    publicIPPrefix?: SubResource;
+}
+
+// @public
 export interface VirtualMachineScaleSetReimageParameters extends VirtualMachineScaleSetVMReimageParameters {
     instanceIds?: string[];
 }
 
 // @public
-export interface VirtualMachineScaleSetRollingUpgrades {
-    beginCancel(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetRollingUpgradesCancelOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginCancelAndWait(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetRollingUpgradesCancelOptionalParams): Promise<void>;
-    beginStartExtensionUpgrade(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginStartExtensionUpgradeAndWait(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeOptionalParams): Promise<void>;
-    beginStartOSUpgrade(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetRollingUpgradesStartOSUpgradeOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginStartOSUpgradeAndWait(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetRollingUpgradesStartOSUpgradeOptionalParams): Promise<void>;
-    getLatest(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetRollingUpgradesGetLatestOptionalParams): Promise<VirtualMachineScaleSetRollingUpgradesGetLatestResponse>;
-}
-
-// @public
-export interface VirtualMachineScaleSetRollingUpgradesCancelHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineScaleSetRollingUpgradesCancelOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineScaleSetRollingUpgradesCancelOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface VirtualMachineScaleSetRollingUpgradesGetLatestOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineScaleSetRollingUpgradesGetLatestOptionalParams extends OperationOptions {
 }
 
 // @public
-export type VirtualMachineScaleSetRollingUpgradesGetLatestResponse = RollingUpgradeStatusInfo;
-
-// @public
-export interface VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeHeaders {
-    location?: string;
-    retryAfter?: number;
+export interface VirtualMachineScaleSetRollingUpgradesOperations {
+    // @deprecated (undocumented)
+    beginCancel: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetRollingUpgradesCancelOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginCancelAndWait: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetRollingUpgradesCancelOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginStartExtensionUpgrade: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginStartExtensionUpgradeAndWait: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginStartOSUpgrade: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetRollingUpgradesStartOSUpgradeOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginStartOSUpgradeAndWait: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetRollingUpgradesStartOSUpgradeOptionalParams) => Promise<void>;
+    cancel: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetRollingUpgradesCancelOptionalParams) => PollerLike<OperationState<void>, void>;
+    getLatest: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetRollingUpgradesGetLatestOptionalParams) => Promise<RollingUpgradeStatusInfo>;
+    startExtensionUpgrade: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeOptionalParams) => PollerLike<OperationState<void>, void>;
+    startOSUpgrade: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetRollingUpgradesStartOSUpgradeOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
 // @public
-export interface VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface VirtualMachineScaleSetRollingUpgradesStartOSUpgradeHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineScaleSetRollingUpgradesStartOSUpgradeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineScaleSetRollingUpgradesStartOSUpgradeOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface VirtualMachineScaleSets {
-    beginApproveRollingUpgrade(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsApproveRollingUpgradeOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineScaleSetsApproveRollingUpgradeResponse>, VirtualMachineScaleSetsApproveRollingUpgradeResponse>>;
-    beginApproveRollingUpgradeAndWait(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsApproveRollingUpgradeOptionalParams): Promise<VirtualMachineScaleSetsApproveRollingUpgradeResponse>;
-    beginCreateOrUpdate(resourceGroupName: string, vmScaleSetName: string, parameters: VirtualMachineScaleSet, options?: VirtualMachineScaleSetsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineScaleSetsCreateOrUpdateResponse>, VirtualMachineScaleSetsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, vmScaleSetName: string, parameters: VirtualMachineScaleSet, options?: VirtualMachineScaleSetsCreateOrUpdateOptionalParams): Promise<VirtualMachineScaleSetsCreateOrUpdateResponse>;
-    beginDeallocate(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsDeallocateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeallocateAndWait(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsDeallocateOptionalParams): Promise<void>;
-    beginDelete(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsDeleteOptionalParams): Promise<void>;
-    beginDeleteInstances(resourceGroupName: string, vmScaleSetName: string, vmInstanceIDs: VirtualMachineScaleSetVMInstanceRequiredIDs, options?: VirtualMachineScaleSetsDeleteInstancesOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteInstancesAndWait(resourceGroupName: string, vmScaleSetName: string, vmInstanceIDs: VirtualMachineScaleSetVMInstanceRequiredIDs, options?: VirtualMachineScaleSetsDeleteInstancesOptionalParams): Promise<void>;
-    beginPerformMaintenance(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsPerformMaintenanceOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginPerformMaintenanceAndWait(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsPerformMaintenanceOptionalParams): Promise<void>;
-    beginPowerOff(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsPowerOffOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginPowerOffAndWait(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsPowerOffOptionalParams): Promise<void>;
-    beginReapply(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsReapplyOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginReapplyAndWait(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsReapplyOptionalParams): Promise<void>;
-    beginRedeploy(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsRedeployOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRedeployAndWait(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsRedeployOptionalParams): Promise<void>;
-    beginReimage(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsReimageOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginReimageAll(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsReimageAllOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginReimageAllAndWait(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsReimageAllOptionalParams): Promise<void>;
-    beginReimageAndWait(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsReimageOptionalParams): Promise<void>;
-    beginRestart(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsRestartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRestartAndWait(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsRestartOptionalParams): Promise<void>;
-    beginScaleOut(resourceGroupName: string, vmScaleSetName: string, parameters: VMScaleSetScaleOutInput, options?: VirtualMachineScaleSetsScaleOutOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginScaleOutAndWait(resourceGroupName: string, vmScaleSetName: string, parameters: VMScaleSetScaleOutInput, options?: VirtualMachineScaleSetsScaleOutOptionalParams): Promise<void>;
-    beginSetOrchestrationServiceState(resourceGroupName: string, vmScaleSetName: string, parameters: OrchestrationServiceStateInput, options?: VirtualMachineScaleSetsSetOrchestrationServiceStateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginSetOrchestrationServiceStateAndWait(resourceGroupName: string, vmScaleSetName: string, parameters: OrchestrationServiceStateInput, options?: VirtualMachineScaleSetsSetOrchestrationServiceStateOptionalParams): Promise<void>;
-    beginStart(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsStartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginStartAndWait(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsStartOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, vmScaleSetName: string, parameters: VirtualMachineScaleSetUpdate, options?: VirtualMachineScaleSetsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineScaleSetsUpdateResponse>, VirtualMachineScaleSetsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, vmScaleSetName: string, parameters: VirtualMachineScaleSetUpdate, options?: VirtualMachineScaleSetsUpdateOptionalParams): Promise<VirtualMachineScaleSetsUpdateResponse>;
-    beginUpdateInstances(resourceGroupName: string, vmScaleSetName: string, vmInstanceIDs: VirtualMachineScaleSetVMInstanceRequiredIDs, options?: VirtualMachineScaleSetsUpdateInstancesOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginUpdateInstancesAndWait(resourceGroupName: string, vmScaleSetName: string, vmInstanceIDs: VirtualMachineScaleSetVMInstanceRequiredIDs, options?: VirtualMachineScaleSetsUpdateInstancesOptionalParams): Promise<void>;
-    convertToSinglePlacementGroup(resourceGroupName: string, vmScaleSetName: string, parameters: VMScaleSetConvertToSinglePlacementGroupInput, options?: VirtualMachineScaleSetsConvertToSinglePlacementGroupOptionalParams): Promise<void>;
-    forceRecoveryServiceFabricPlatformUpdateDomainWalk(resourceGroupName: string, vmScaleSetName: string, platformUpdateDomain: number, options?: VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkOptionalParams): Promise<VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkResponse>;
-    get(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsGetOptionalParams): Promise<VirtualMachineScaleSetsGetResponse>;
-    getInstanceView(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsGetInstanceViewOptionalParams): Promise<VirtualMachineScaleSetsGetInstanceViewResponse>;
-    list(resourceGroupName: string, options?: VirtualMachineScaleSetsListOptionalParams): PagedAsyncIterableIterator<VirtualMachineScaleSet>;
-    listAll(options?: VirtualMachineScaleSetsListAllOptionalParams): PagedAsyncIterableIterator<VirtualMachineScaleSet>;
-    listByLocation(location: string, options?: VirtualMachineScaleSetsListByLocationOptionalParams): PagedAsyncIterableIterator<VirtualMachineScaleSet>;
-    listOSUpgradeHistory(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsGetOSUpgradeHistoryOptionalParams): PagedAsyncIterableIterator<UpgradeOperationHistoricalStatusInfo>;
-    listSkus(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsListSkusOptionalParams): PagedAsyncIterableIterator<VirtualMachineScaleSetSku>;
-}
-
-// @public
-export interface VirtualMachineScaleSetsApproveRollingUpgradeHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineScaleSetsApproveRollingUpgradeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineScaleSetsApproveRollingUpgradeOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
     vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
 }
-
-// @public
-export type VirtualMachineScaleSetsApproveRollingUpgradeResponse = VirtualMachineScaleSetsApproveRollingUpgradeHeaders;
 
 // @public
 export type VirtualMachineScaleSetScaleInRules = string;
 
 // @public
-export interface VirtualMachineScaleSetsConvertToSinglePlacementGroupOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineScaleSetsConvertToSinglePlacementGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface VirtualMachineScaleSetsCreateOrUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineScaleSetsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineScaleSetsCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type VirtualMachineScaleSetsCreateOrUpdateResponse = VirtualMachineScaleSet;
-
-// @public
-export interface VirtualMachineScaleSetsDeallocateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineScaleSetsDeallocateOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineScaleSetsDeallocateOptionalParams extends OperationOptions {
     hibernate?: boolean;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
     vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
 }
 
 // @public
-export interface VirtualMachineScaleSetsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineScaleSetsDeleteInstancesHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineScaleSetsDeleteInstancesOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineScaleSetsDeleteInstancesOptionalParams extends OperationOptions {
     forceDeletion?: boolean;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface VirtualMachineScaleSetsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineScaleSetsDeleteOptionalParams extends OperationOptions {
     forceDeletion?: boolean;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkOptionalParams extends OperationOptions {
     placementGroupId?: string;
     zone?: string;
 }
 
 // @public
-export type VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkResponse = RecoveryWalkResponse;
-
-// @public
-export interface VirtualMachineScaleSetsGetInstanceViewOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineScaleSetsGetInstanceViewOptionalParams extends OperationOptions {
 }
 
 // @public
-export type VirtualMachineScaleSetsGetInstanceViewResponse = VirtualMachineScaleSetInstanceView;
-
-// @public
-export interface VirtualMachineScaleSetsGetOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineScaleSetsGetOptionalParams extends OperationOptions {
     expand?: ExpandTypesForGetVMScaleSets;
 }
 
 // @public
-export interface VirtualMachineScaleSetsGetOSUpgradeHistoryNextOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineScaleSetsGetOSUpgradeHistoryOptionalParams extends OperationOptions {
 }
-
-// @public
-export type VirtualMachineScaleSetsGetOSUpgradeHistoryNextResponse = VirtualMachineScaleSetListOSUpgradeHistory;
-
-// @public
-export interface VirtualMachineScaleSetsGetOSUpgradeHistoryOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VirtualMachineScaleSetsGetOSUpgradeHistoryResponse = VirtualMachineScaleSetListOSUpgradeHistory;
-
-// @public
-export type VirtualMachineScaleSetsGetResponse = VirtualMachineScaleSet;
 
 // @public
 export interface VirtualMachineScaleSetSku {
@@ -8722,185 +7047,173 @@ export interface VirtualMachineScaleSetSkuCapacity {
 export type VirtualMachineScaleSetSkuScaleType = "Automatic" | "None";
 
 // @public
-export interface VirtualMachineScaleSetsListAllNextOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineScaleSetsListAllOptionalParams extends OperationOptions {
 }
 
 // @public
-export type VirtualMachineScaleSetsListAllNextResponse = VirtualMachineScaleSetListWithLinkResult;
-
-// @public
-export interface VirtualMachineScaleSetsListAllOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineScaleSetsListByLocationOptionalParams extends OperationOptions {
 }
 
 // @public
-export type VirtualMachineScaleSetsListAllResponse = VirtualMachineScaleSetListWithLinkResult;
-
-// @public
-export interface VirtualMachineScaleSetsListByLocationNextOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineScaleSetsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type VirtualMachineScaleSetsListByLocationNextResponse = VirtualMachineScaleSetListResult;
-
-// @public
-export interface VirtualMachineScaleSetsListByLocationOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineScaleSetsListSkusOptionalParams extends OperationOptions {
 }
 
 // @public
-export type VirtualMachineScaleSetsListByLocationResponse = VirtualMachineScaleSetListResult;
-
-// @public
-export interface VirtualMachineScaleSetsListNextOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineScaleSetsOperations {
+    approveRollingUpgrade: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsApproveRollingUpgradeOptionalParams) => PollerLike<OperationState<void>, void>;
+    // @deprecated (undocumented)
+    beginApproveRollingUpgrade: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsApproveRollingUpgradeOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginApproveRollingUpgradeAndWait: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsApproveRollingUpgradeOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, vmScaleSetName: string, parameters: VirtualMachineScaleSet, options?: VirtualMachineScaleSetsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<VirtualMachineScaleSet>, VirtualMachineScaleSet>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, vmScaleSetName: string, parameters: VirtualMachineScaleSet, options?: VirtualMachineScaleSetsCreateOrUpdateOptionalParams) => Promise<VirtualMachineScaleSet>;
+    // @deprecated (undocumented)
+    beginDeallocate: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsDeallocateOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeallocateAndWait: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsDeallocateOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginDeleteInstances: (resourceGroupName: string, vmScaleSetName: string, vmInstanceIDs: VirtualMachineScaleSetVMInstanceRequiredIDs, options?: VirtualMachineScaleSetsDeleteInstancesOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteInstancesAndWait: (resourceGroupName: string, vmScaleSetName: string, vmInstanceIDs: VirtualMachineScaleSetVMInstanceRequiredIDs, options?: VirtualMachineScaleSetsDeleteInstancesOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginPerformMaintenance: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsPerformMaintenanceOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginPerformMaintenanceAndWait: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsPerformMaintenanceOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginPowerOff: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsPowerOffOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginPowerOffAndWait: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsPowerOffOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginReapply: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsReapplyOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginReapplyAndWait: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsReapplyOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRedeploy: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsRedeployOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRedeployAndWait: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsRedeployOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginReimage: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsReimageOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginReimageAll: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsReimageAllOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginReimageAllAndWait: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsReimageAllOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginReimageAndWait: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsReimageOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRestart: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsRestartOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRestartAndWait: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsRestartOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginScaleOut: (resourceGroupName: string, vmScaleSetName: string, parameters: VMScaleSetScaleOutInput, options?: VirtualMachineScaleSetsScaleOutOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginScaleOutAndWait: (resourceGroupName: string, vmScaleSetName: string, parameters: VMScaleSetScaleOutInput, options?: VirtualMachineScaleSetsScaleOutOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginSetOrchestrationServiceState: (resourceGroupName: string, vmScaleSetName: string, parameters: OrchestrationServiceStateInput, options?: VirtualMachineScaleSetsSetOrchestrationServiceStateOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginSetOrchestrationServiceStateAndWait: (resourceGroupName: string, vmScaleSetName: string, parameters: OrchestrationServiceStateInput, options?: VirtualMachineScaleSetsSetOrchestrationServiceStateOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginStart: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsStartOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginStartAndWait: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsStartOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, vmScaleSetName: string, parameters: VirtualMachineScaleSetUpdate, options?: VirtualMachineScaleSetsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<VirtualMachineScaleSet>, VirtualMachineScaleSet>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, vmScaleSetName: string, parameters: VirtualMachineScaleSetUpdate, options?: VirtualMachineScaleSetsUpdateOptionalParams) => Promise<VirtualMachineScaleSet>;
+    // @deprecated (undocumented)
+    beginUpdateInstances: (resourceGroupName: string, vmScaleSetName: string, vmInstanceIDs: VirtualMachineScaleSetVMInstanceRequiredIDs, options?: VirtualMachineScaleSetsUpdateInstancesOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginUpdateInstancesAndWait: (resourceGroupName: string, vmScaleSetName: string, vmInstanceIDs: VirtualMachineScaleSetVMInstanceRequiredIDs, options?: VirtualMachineScaleSetsUpdateInstancesOptionalParams) => Promise<void>;
+    convertToSinglePlacementGroup: (resourceGroupName: string, vmScaleSetName: string, parameters: VMScaleSetConvertToSinglePlacementGroupInput, options?: VirtualMachineScaleSetsConvertToSinglePlacementGroupOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, vmScaleSetName: string, parameters: VirtualMachineScaleSet, options?: VirtualMachineScaleSetsCreateOrUpdateOptionalParams) => PollerLike<OperationState<VirtualMachineScaleSet>, VirtualMachineScaleSet>;
+    deallocate: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsDeallocateOptionalParams) => PollerLike<OperationState<void>, void>;
+    delete: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    deleteInstances: (resourceGroupName: string, vmScaleSetName: string, vmInstanceIDs: VirtualMachineScaleSetVMInstanceRequiredIDs, options?: VirtualMachineScaleSetsDeleteInstancesOptionalParams) => PollerLike<OperationState<void>, void>;
+    forceRecoveryServiceFabricPlatformUpdateDomainWalk: (resourceGroupName: string, vmScaleSetName: string, platformUpdateDomain: number, options?: VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkOptionalParams) => Promise<RecoveryWalkResponse>;
+    get: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsGetOptionalParams) => Promise<VirtualMachineScaleSet>;
+    getInstanceView: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsGetInstanceViewOptionalParams) => Promise<VirtualMachineScaleSetInstanceView>;
+    getOSUpgradeHistory: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsGetOSUpgradeHistoryOptionalParams) => PagedAsyncIterableIterator<UpgradeOperationHistoricalStatusInfo>;
+    list: (resourceGroupName: string, options?: VirtualMachineScaleSetsListOptionalParams) => PagedAsyncIterableIterator<VirtualMachineScaleSet>;
+    listAll: (options?: VirtualMachineScaleSetsListAllOptionalParams) => PagedAsyncIterableIterator<VirtualMachineScaleSet>;
+    listByLocation: (location: string, options?: VirtualMachineScaleSetsListByLocationOptionalParams) => PagedAsyncIterableIterator<VirtualMachineScaleSet>;
+    listSkus: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsListSkusOptionalParams) => PagedAsyncIterableIterator<VirtualMachineScaleSetSku>;
+    performMaintenance: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsPerformMaintenanceOptionalParams) => PollerLike<OperationState<void>, void>;
+    powerOff: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsPowerOffOptionalParams) => PollerLike<OperationState<void>, void>;
+    reapply: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsReapplyOptionalParams) => PollerLike<OperationState<void>, void>;
+    redeploy: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsRedeployOptionalParams) => PollerLike<OperationState<void>, void>;
+    reimage: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsReimageOptionalParams) => PollerLike<OperationState<void>, void>;
+    reimageAll: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsReimageAllOptionalParams) => PollerLike<OperationState<void>, void>;
+    restart: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsRestartOptionalParams) => PollerLike<OperationState<void>, void>;
+    scaleOut: (resourceGroupName: string, vmScaleSetName: string, parameters: VMScaleSetScaleOutInput, options?: VirtualMachineScaleSetsScaleOutOptionalParams) => PollerLike<OperationState<void>, void>;
+    setOrchestrationServiceState: (resourceGroupName: string, vmScaleSetName: string, parameters: OrchestrationServiceStateInput, options?: VirtualMachineScaleSetsSetOrchestrationServiceStateOptionalParams) => PollerLike<OperationState<void>, void>;
+    start: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsStartOptionalParams) => PollerLike<OperationState<void>, void>;
+    update: (resourceGroupName: string, vmScaleSetName: string, parameters: VirtualMachineScaleSetUpdate, options?: VirtualMachineScaleSetsUpdateOptionalParams) => PollerLike<OperationState<VirtualMachineScaleSet>, VirtualMachineScaleSet>;
+    updateInstances: (resourceGroupName: string, vmScaleSetName: string, vmInstanceIDs: VirtualMachineScaleSetVMInstanceRequiredIDs, options?: VirtualMachineScaleSetsUpdateInstancesOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
 // @public
-export type VirtualMachineScaleSetsListNextResponse = VirtualMachineScaleSetListResult;
-
-// @public
-export interface VirtualMachineScaleSetsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VirtualMachineScaleSetsListResponse = VirtualMachineScaleSetListResult;
-
-// @public
-export interface VirtualMachineScaleSetsListSkusNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VirtualMachineScaleSetsListSkusNextResponse = VirtualMachineScaleSetListSkusResult;
-
-// @public
-export interface VirtualMachineScaleSetsListSkusOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VirtualMachineScaleSetsListSkusResponse = VirtualMachineScaleSetListSkusResult;
-
-// @public
-export interface VirtualMachineScaleSetsPerformMaintenanceHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineScaleSetsPerformMaintenanceOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineScaleSetsPerformMaintenanceOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
     vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
 }
 
 // @public
-export interface VirtualMachineScaleSetsPowerOffHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineScaleSetsPowerOffOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineScaleSetsPowerOffOptionalParams extends OperationOptions {
     skipShutdown?: boolean;
     updateIntervalInMs?: number;
     vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
 }
 
 // @public
-export interface VirtualMachineScaleSetsReapplyHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineScaleSetsReapplyOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineScaleSetsReapplyOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface VirtualMachineScaleSetsRedeployHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineScaleSetsRedeployOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineScaleSetsRedeployOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
     vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
 }
 
 // @public
-export interface VirtualMachineScaleSetsReimageAllHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineScaleSetsReimageAllOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineScaleSetsReimageAllOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
     vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
 }
 
 // @public
-export interface VirtualMachineScaleSetsReimageHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineScaleSetsReimageOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineScaleSetsReimageOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
     vmScaleSetReimageInput?: VirtualMachineScaleSetReimageParameters;
 }
 
 // @public
-export interface VirtualMachineScaleSetsRestartHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineScaleSetsRestartOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineScaleSetsRestartOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
     vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
 }
 
 // @public
-export interface VirtualMachineScaleSetsScaleOutHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineScaleSetsScaleOutOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineScaleSetsScaleOutOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface VirtualMachineScaleSetsSetOrchestrationServiceStateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineScaleSetsSetOrchestrationServiceStateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineScaleSetsSetOrchestrationServiceStateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface VirtualMachineScaleSetsStartHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineScaleSetsStartOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineScaleSetsStartOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
     vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
 }
@@ -8914,33 +7227,16 @@ export interface VirtualMachineScaleSetStorageProfile {
 }
 
 // @public
-export interface VirtualMachineScaleSetsUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineScaleSetsUpdateInstancesHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineScaleSetsUpdateInstancesOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineScaleSetsUpdateInstancesOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface VirtualMachineScaleSetsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineScaleSetsUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
-
-// @public
-export type VirtualMachineScaleSetsUpdateResponse = VirtualMachineScaleSetsUpdateHeaders & VirtualMachineScaleSet;
 
 // @public
 export interface VirtualMachineScaleSetUpdate extends UpdateResource {
@@ -8978,6 +7274,18 @@ export interface VirtualMachineScaleSetUpdateIPConfiguration {
 }
 
 // @public
+export interface VirtualMachineScaleSetUpdateIPConfigurationProperties {
+    applicationGatewayBackendAddressPools?: SubResource[];
+    applicationSecurityGroups?: SubResource[];
+    loadBalancerBackendAddressPools?: SubResource[];
+    loadBalancerInboundNatPools?: SubResource[];
+    primary?: boolean;
+    privateIPAddressVersion?: IPVersion;
+    publicIPAddressConfiguration?: VirtualMachineScaleSetUpdatePublicIPAddressConfiguration;
+    subnet?: ApiEntityReference;
+}
+
+// @public
 export interface VirtualMachineScaleSetUpdateNetworkConfiguration {
     auxiliaryMode?: NetworkInterfaceAuxiliaryMode;
     auxiliarySku?: NetworkInterfaceAuxiliarySku;
@@ -8991,9 +7299,22 @@ export interface VirtualMachineScaleSetUpdateNetworkConfiguration {
     name?: string;
     networkSecurityGroup?: SubResource;
     primary?: boolean;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface VirtualMachineScaleSetUpdateNetworkConfigurationProperties {
+    auxiliaryMode?: NetworkInterfaceAuxiliaryMode;
+    auxiliarySku?: NetworkInterfaceAuxiliarySku;
+    deleteOption?: DeleteOptions;
+    disableTcpStateTracking?: boolean;
+    dnsSettings?: VirtualMachineScaleSetNetworkConfigurationDnsSettings;
+    enableAcceleratedNetworking?: boolean;
+    enableFpga?: boolean;
+    enableIPForwarding?: boolean;
+    ipConfigurations?: VirtualMachineScaleSetUpdateIPConfiguration[];
+    networkSecurityGroup?: SubResource;
+    primary?: boolean;
 }
 
 // @public
@@ -9024,15 +7345,39 @@ export interface VirtualMachineScaleSetUpdateOSProfile {
 }
 
 // @public
+export interface VirtualMachineScaleSetUpdateProperties {
+    additionalCapabilities?: AdditionalCapabilities;
+    automaticRepairsPolicy?: AutomaticRepairsPolicy;
+    doNotRunExtensionsOnOverprovisionedVMs?: boolean;
+    overprovision?: boolean;
+    priorityMixPolicy?: PriorityMixPolicy;
+    proximityPlacementGroup?: SubResource;
+    resiliencyPolicy?: ResiliencyPolicy;
+    scaleInPolicy?: ScaleInPolicy;
+    singlePlacementGroup?: boolean;
+    skuProfile?: SkuProfile;
+    spotRestorePolicy?: SpotRestorePolicy;
+    upgradePolicy?: UpgradePolicy;
+    virtualMachineProfile?: VirtualMachineScaleSetUpdateVMProfile;
+    zonalPlatformFaultDomainAlignMode?: ZonalPlatformFaultDomainAlignMode;
+}
+
+// @public
 export interface VirtualMachineScaleSetUpdatePublicIPAddressConfiguration {
     deleteOption?: DeleteOptions;
     dnsSettings?: VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings;
     idleTimeoutInMinutes?: number;
     name?: string;
     publicIPPrefix?: SubResource;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface VirtualMachineScaleSetUpdatePublicIPAddressConfigurationProperties {
+    deleteOption?: DeleteOptions;
+    dnsSettings?: VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings;
+    idleTimeoutInMinutes?: number;
+    publicIPPrefix?: SubResource;
 }
 
 // @public
@@ -9110,63 +7455,49 @@ export interface VirtualMachineScaleSetVMExtension extends SubResourceReadOnly {
 }
 
 // @public
-export interface VirtualMachineScaleSetVMExtensions {
-    beginCreateOrUpdate(resourceGroupName: string, vmScaleSetName: string, instanceId: string, vmExtensionName: string, extensionParameters: VirtualMachineScaleSetVMExtension, options?: VirtualMachineScaleSetVMExtensionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineScaleSetVMExtensionsCreateOrUpdateResponse>, VirtualMachineScaleSetVMExtensionsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, vmScaleSetName: string, instanceId: string, vmExtensionName: string, extensionParameters: VirtualMachineScaleSetVMExtension, options?: VirtualMachineScaleSetVMExtensionsCreateOrUpdateOptionalParams): Promise<VirtualMachineScaleSetVMExtensionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, vmScaleSetName: string, instanceId: string, vmExtensionName: string, options?: VirtualMachineScaleSetVMExtensionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, vmScaleSetName: string, instanceId: string, vmExtensionName: string, options?: VirtualMachineScaleSetVMExtensionsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, vmScaleSetName: string, instanceId: string, vmExtensionName: string, extensionParameters: VirtualMachineScaleSetVMExtensionUpdate, options?: VirtualMachineScaleSetVMExtensionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineScaleSetVMExtensionsUpdateResponse>, VirtualMachineScaleSetVMExtensionsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, vmScaleSetName: string, instanceId: string, vmExtensionName: string, extensionParameters: VirtualMachineScaleSetVMExtensionUpdate, options?: VirtualMachineScaleSetVMExtensionsUpdateOptionalParams): Promise<VirtualMachineScaleSetVMExtensionsUpdateResponse>;
-    get(resourceGroupName: string, vmScaleSetName: string, instanceId: string, vmExtensionName: string, options?: VirtualMachineScaleSetVMExtensionsGetOptionalParams): Promise<VirtualMachineScaleSetVMExtensionsGetResponse>;
-    list(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMExtensionsListOptionalParams): Promise<VirtualMachineScaleSetVMExtensionsListResponse>;
-}
-
-// @public
-export interface VirtualMachineScaleSetVMExtensionsCreateOrUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineScaleSetVMExtensionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineScaleSetVMExtensionsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type VirtualMachineScaleSetVMExtensionsCreateOrUpdateResponse = VirtualMachineScaleSetVMExtension;
-
-// @public
-export interface VirtualMachineScaleSetVMExtensionsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineScaleSetVMExtensionsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineScaleSetVMExtensionsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface VirtualMachineScaleSetVMExtensionsGetOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineScaleSetVMExtensionsGetOptionalParams extends OperationOptions {
     expand?: string;
 }
 
 // @public
-export type VirtualMachineScaleSetVMExtensionsGetResponse = VirtualMachineScaleSetVMExtension;
-
-// @public
-export interface VirtualMachineScaleSetVMExtensionsListOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineScaleSetVMExtensionsListOptionalParams extends OperationOptions {
     expand?: string;
 }
-
-// @public
-export type VirtualMachineScaleSetVMExtensionsListResponse = VirtualMachineScaleSetVMExtensionsListResult;
 
 // @public
 export interface VirtualMachineScaleSetVMExtensionsListResult {
     value?: VirtualMachineScaleSetVMExtension[];
+}
+
+// @public
+export interface VirtualMachineScaleSetVMExtensionsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, vmExtensionName: string, extensionParameters: VirtualMachineScaleSetVMExtension, options?: VirtualMachineScaleSetVMExtensionsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<VirtualMachineScaleSetVMExtension>, VirtualMachineScaleSetVMExtension>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, vmExtensionName: string, extensionParameters: VirtualMachineScaleSetVMExtension, options?: VirtualMachineScaleSetVMExtensionsCreateOrUpdateOptionalParams) => Promise<VirtualMachineScaleSetVMExtension>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, vmExtensionName: string, options?: VirtualMachineScaleSetVMExtensionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, vmExtensionName: string, options?: VirtualMachineScaleSetVMExtensionsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, vmExtensionName: string, extensionParameters: VirtualMachineScaleSetVMExtensionUpdate, options?: VirtualMachineScaleSetVMExtensionsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<VirtualMachineScaleSetVMExtension>, VirtualMachineScaleSetVMExtension>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, vmExtensionName: string, extensionParameters: VirtualMachineScaleSetVMExtensionUpdate, options?: VirtualMachineScaleSetVMExtensionsUpdateOptionalParams) => Promise<VirtualMachineScaleSetVMExtension>;
+    createOrUpdate: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, vmExtensionName: string, extensionParameters: VirtualMachineScaleSetVMExtension, options?: VirtualMachineScaleSetVMExtensionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<VirtualMachineScaleSetVMExtension>, VirtualMachineScaleSetVMExtension>;
+    delete: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, vmExtensionName: string, options?: VirtualMachineScaleSetVMExtensionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, vmExtensionName: string, options?: VirtualMachineScaleSetVMExtensionsGetOptionalParams) => Promise<VirtualMachineScaleSetVMExtension>;
+    list: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMExtensionsListOptionalParams) => Promise<VirtualMachineScaleSetVMExtensionsListResult>;
+    update: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, vmExtensionName: string, extensionParameters: VirtualMachineScaleSetVMExtensionUpdate, options?: VirtualMachineScaleSetVMExtensionsUpdateOptionalParams) => PollerLike<OperationState<VirtualMachineScaleSetVMExtension>, VirtualMachineScaleSetVMExtension>;
 }
 
 // @public
@@ -9176,19 +7507,9 @@ export interface VirtualMachineScaleSetVMExtensionsSummary {
 }
 
 // @public
-export interface VirtualMachineScaleSetVMExtensionsUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineScaleSetVMExtensionsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineScaleSetVMExtensionsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type VirtualMachineScaleSetVMExtensionsUpdateResponse = VirtualMachineScaleSetVMExtensionsUpdateHeaders & VirtualMachineScaleSetVMExtension;
 
 // @public
 export interface VirtualMachineScaleSetVMExtensionUpdate extends SubResourceReadOnly {
@@ -9237,12 +7558,6 @@ export interface VirtualMachineScaleSetVMInstanceView {
 }
 
 // @public
-export interface VirtualMachineScaleSetVMListResult {
-    nextLink?: string;
-    value: VirtualMachineScaleSetVM[];
-}
-
-// @public
 export interface VirtualMachineScaleSetVMNetworkProfileConfiguration {
     networkInterfaceConfigurations?: VirtualMachineScaleSetNetworkConfiguration[];
 }
@@ -9270,6 +7585,29 @@ export interface VirtualMachineScaleSetVMProfile {
 }
 
 // @public
+export interface VirtualMachineScaleSetVMProperties {
+    additionalCapabilities?: AdditionalCapabilities;
+    availabilitySet?: SubResource;
+    diagnosticsProfile?: DiagnosticsProfile;
+    hardwareProfile?: HardwareProfile;
+    readonly instanceView?: VirtualMachineScaleSetVMInstanceView;
+    readonly latestModelApplied?: boolean;
+    licenseType?: string;
+    readonly modelDefinitionApplied?: string;
+    networkProfile?: NetworkProfile;
+    networkProfileConfiguration?: VirtualMachineScaleSetVMNetworkProfileConfiguration;
+    osProfile?: OSProfile;
+    protectionPolicy?: VirtualMachineScaleSetVMProtectionPolicy;
+    readonly provisioningState?: string;
+    resilientVMDeletionStatus?: ResilientVMDeletionStatus;
+    securityProfile?: SecurityProfile;
+    storageProfile?: StorageProfile;
+    readonly timeCreated?: Date;
+    userData?: string;
+    readonly vmId?: string;
+}
+
+// @public
 export interface VirtualMachineScaleSetVMProtectionPolicy {
     protectFromScaleIn?: boolean;
     protectFromScaleSetActions?: boolean;
@@ -9281,437 +7619,266 @@ export interface VirtualMachineScaleSetVMReimageParameters extends VirtualMachin
 }
 
 // @public
-export interface VirtualMachineScaleSetVMRunCommands {
-    beginCreateOrUpdate(resourceGroupName: string, vmScaleSetName: string, instanceId: string, runCommandName: string, runCommand: VirtualMachineRunCommand, options?: VirtualMachineScaleSetVMRunCommandsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineScaleSetVMRunCommandsCreateOrUpdateResponse>, VirtualMachineScaleSetVMRunCommandsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, vmScaleSetName: string, instanceId: string, runCommandName: string, runCommand: VirtualMachineRunCommand, options?: VirtualMachineScaleSetVMRunCommandsCreateOrUpdateOptionalParams): Promise<VirtualMachineScaleSetVMRunCommandsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, vmScaleSetName: string, instanceId: string, runCommandName: string, options?: VirtualMachineScaleSetVMRunCommandsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, vmScaleSetName: string, instanceId: string, runCommandName: string, options?: VirtualMachineScaleSetVMRunCommandsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, vmScaleSetName: string, instanceId: string, runCommandName: string, runCommand: VirtualMachineRunCommandUpdate, options?: VirtualMachineScaleSetVMRunCommandsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineScaleSetVMRunCommandsUpdateResponse>, VirtualMachineScaleSetVMRunCommandsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, vmScaleSetName: string, instanceId: string, runCommandName: string, runCommand: VirtualMachineRunCommandUpdate, options?: VirtualMachineScaleSetVMRunCommandsUpdateOptionalParams): Promise<VirtualMachineScaleSetVMRunCommandsUpdateResponse>;
-    get(resourceGroupName: string, vmScaleSetName: string, instanceId: string, runCommandName: string, options?: VirtualMachineScaleSetVMRunCommandsGetOptionalParams): Promise<VirtualMachineScaleSetVMRunCommandsGetResponse>;
-    list(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMRunCommandsListOptionalParams): PagedAsyncIterableIterator<VirtualMachineRunCommand>;
-}
-
-// @public
-export interface VirtualMachineScaleSetVMRunCommandsCreateOrUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineScaleSetVMRunCommandsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineScaleSetVMRunCommandsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type VirtualMachineScaleSetVMRunCommandsCreateOrUpdateResponse = VirtualMachineRunCommand;
-
-// @public
-export interface VirtualMachineScaleSetVMRunCommandsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineScaleSetVMRunCommandsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineScaleSetVMRunCommandsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface VirtualMachineScaleSetVMRunCommandsGetOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineScaleSetVMRunCommandsGetOptionalParams extends OperationOptions {
     expand?: string;
 }
 
 // @public
-export type VirtualMachineScaleSetVMRunCommandsGetResponse = VirtualMachineRunCommand;
-
-// @public
-export interface VirtualMachineScaleSetVMRunCommandsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VirtualMachineScaleSetVMRunCommandsListNextResponse = VirtualMachineRunCommandsListResult;
-
-// @public
-export interface VirtualMachineScaleSetVMRunCommandsListOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineScaleSetVMRunCommandsListOptionalParams extends OperationOptions {
     expand?: string;
 }
 
 // @public
-export type VirtualMachineScaleSetVMRunCommandsListResponse = VirtualMachineRunCommandsListResult;
-
-// @public
-export interface VirtualMachineScaleSetVMRunCommandsUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
+export interface VirtualMachineScaleSetVMRunCommandsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, runCommandName: string, runCommand: VirtualMachineRunCommand, options?: VirtualMachineScaleSetVMRunCommandsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<VirtualMachineRunCommand>, VirtualMachineRunCommand>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, runCommandName: string, runCommand: VirtualMachineRunCommand, options?: VirtualMachineScaleSetVMRunCommandsCreateOrUpdateOptionalParams) => Promise<VirtualMachineRunCommand>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, runCommandName: string, options?: VirtualMachineScaleSetVMRunCommandsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, runCommandName: string, options?: VirtualMachineScaleSetVMRunCommandsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, runCommandName: string, runCommand: VirtualMachineRunCommandUpdate, options?: VirtualMachineScaleSetVMRunCommandsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<VirtualMachineRunCommand>, VirtualMachineRunCommand>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, runCommandName: string, runCommand: VirtualMachineRunCommandUpdate, options?: VirtualMachineScaleSetVMRunCommandsUpdateOptionalParams) => Promise<VirtualMachineRunCommand>;
+    createOrUpdate: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, runCommandName: string, runCommand: VirtualMachineRunCommand, options?: VirtualMachineScaleSetVMRunCommandsCreateOrUpdateOptionalParams) => PollerLike<OperationState<VirtualMachineRunCommand>, VirtualMachineRunCommand>;
+    delete: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, runCommandName: string, options?: VirtualMachineScaleSetVMRunCommandsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, runCommandName: string, options?: VirtualMachineScaleSetVMRunCommandsGetOptionalParams) => Promise<VirtualMachineRunCommand>;
+    list: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMRunCommandsListOptionalParams) => PagedAsyncIterableIterator<VirtualMachineRunCommand>;
+    update: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, runCommandName: string, runCommand: VirtualMachineRunCommandUpdate, options?: VirtualMachineScaleSetVMRunCommandsUpdateOptionalParams) => PollerLike<OperationState<VirtualMachineRunCommand>, VirtualMachineRunCommand>;
 }
 
 // @public
-export interface VirtualMachineScaleSetVMRunCommandsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineScaleSetVMRunCommandsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type VirtualMachineScaleSetVMRunCommandsUpdateResponse = VirtualMachineScaleSetVMRunCommandsUpdateHeaders & VirtualMachineRunCommand;
-
-// @public
-export interface VirtualMachineScaleSetVMs {
-    beginApproveRollingUpgrade(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsApproveRollingUpgradeOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineScaleSetVMsApproveRollingUpgradeResponse>, VirtualMachineScaleSetVMsApproveRollingUpgradeResponse>>;
-    beginApproveRollingUpgradeAndWait(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsApproveRollingUpgradeOptionalParams): Promise<VirtualMachineScaleSetVMsApproveRollingUpgradeResponse>;
-    beginAttachDetachDataDisks(resourceGroupName: string, vmScaleSetName: string, instanceId: string, parameters: AttachDetachDataDisksRequest, options?: VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineScaleSetVMsAttachDetachDataDisksResponse>, VirtualMachineScaleSetVMsAttachDetachDataDisksResponse>>;
-    beginAttachDetachDataDisksAndWait(resourceGroupName: string, vmScaleSetName: string, instanceId: string, parameters: AttachDetachDataDisksRequest, options?: VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams): Promise<VirtualMachineScaleSetVMsAttachDetachDataDisksResponse>;
-    beginDeallocate(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsDeallocateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeallocateAndWait(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsDeallocateOptionalParams): Promise<void>;
-    beginDelete(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsDeleteOptionalParams): Promise<void>;
-    beginPerformMaintenance(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsPerformMaintenanceOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginPerformMaintenanceAndWait(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsPerformMaintenanceOptionalParams): Promise<void>;
-    beginPowerOff(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsPowerOffOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginPowerOffAndWait(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsPowerOffOptionalParams): Promise<void>;
-    beginRedeploy(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsRedeployOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRedeployAndWait(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsRedeployOptionalParams): Promise<void>;
-    beginReimage(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsReimageOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginReimageAll(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsReimageAllOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginReimageAllAndWait(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsReimageAllOptionalParams): Promise<void>;
-    beginReimageAndWait(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsReimageOptionalParams): Promise<void>;
-    beginRestart(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsRestartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRestartAndWait(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsRestartOptionalParams): Promise<void>;
-    beginRunCommand(resourceGroupName: string, vmScaleSetName: string, instanceId: string, parameters: RunCommandInput, options?: VirtualMachineScaleSetVMsRunCommandOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineScaleSetVMsRunCommandResponse>, VirtualMachineScaleSetVMsRunCommandResponse>>;
-    beginRunCommandAndWait(resourceGroupName: string, vmScaleSetName: string, instanceId: string, parameters: RunCommandInput, options?: VirtualMachineScaleSetVMsRunCommandOptionalParams): Promise<VirtualMachineScaleSetVMsRunCommandResponse>;
-    beginStart(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsStartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginStartAndWait(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsStartOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, vmScaleSetName: string, instanceId: string, parameters: VirtualMachineScaleSetVM, options?: VirtualMachineScaleSetVMsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineScaleSetVMsUpdateResponse>, VirtualMachineScaleSetVMsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, vmScaleSetName: string, instanceId: string, parameters: VirtualMachineScaleSetVM, options?: VirtualMachineScaleSetVMsUpdateOptionalParams): Promise<VirtualMachineScaleSetVMsUpdateResponse>;
-    get(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsGetOptionalParams): Promise<VirtualMachineScaleSetVMsGetResponse>;
-    getInstanceView(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsGetInstanceViewOptionalParams): Promise<VirtualMachineScaleSetVMsGetInstanceViewResponse>;
-    list(resourceGroupName: string, virtualMachineScaleSetName: string, options?: VirtualMachineScaleSetVMsListOptionalParams): PagedAsyncIterableIterator<VirtualMachineScaleSetVM>;
-    retrieveBootDiagnosticsData(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataOptionalParams): Promise<VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataResponse>;
-    simulateEviction(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsSimulateEvictionOptionalParams): Promise<void>;
-}
-
-// @public
-export interface VirtualMachineScaleSetVMsApproveRollingUpgradeHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineScaleSetVMsApproveRollingUpgradeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineScaleSetVMsApproveRollingUpgradeOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type VirtualMachineScaleSetVMsApproveRollingUpgradeResponse = VirtualMachineScaleSetVMsApproveRollingUpgradeHeaders;
-
-// @public
-export interface VirtualMachineScaleSetVMsAttachDetachDataDisksHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type VirtualMachineScaleSetVMsAttachDetachDataDisksResponse = StorageProfile;
-
-// @public
-export interface VirtualMachineScaleSetVMsDeallocateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineScaleSetVMsDeallocateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineScaleSetVMsDeallocateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface VirtualMachineScaleSetVMsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineScaleSetVMsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineScaleSetVMsDeleteOptionalParams extends OperationOptions {
     forceDeletion?: boolean;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface VirtualMachineScaleSetVMsGetInstanceViewOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineScaleSetVMsGetInstanceViewOptionalParams extends OperationOptions {
 }
 
 // @public
-export type VirtualMachineScaleSetVMsGetInstanceViewResponse = VirtualMachineScaleSetVMInstanceView;
-
-// @public
-export interface VirtualMachineScaleSetVMsGetOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineScaleSetVMsGetOptionalParams extends OperationOptions {
     expand?: InstanceViewTypes;
 }
 
 // @public
-export type VirtualMachineScaleSetVMsGetResponse = VirtualMachineScaleSetVM;
-
-// @public
-export interface VirtualMachineScaleSetVMsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VirtualMachineScaleSetVMsListNextResponse = VirtualMachineScaleSetVMListResult;
-
-// @public
-export interface VirtualMachineScaleSetVMsListOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineScaleSetVMsListOptionalParams extends OperationOptions {
     expand?: string;
     filter?: string;
     select?: string;
 }
 
 // @public
-export type VirtualMachineScaleSetVMsListResponse = VirtualMachineScaleSetVMListResult;
-
-// @public
-export interface VirtualMachineScaleSetVMsPerformMaintenanceHeaders {
-    location?: string;
-    retryAfter?: number;
+export interface VirtualMachineScaleSetVMsOperations {
+    approveRollingUpgrade: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsApproveRollingUpgradeOptionalParams) => PollerLike<OperationState<void>, void>;
+    attachDetachDataDisks: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, parameters: AttachDetachDataDisksRequest, options?: VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams) => PollerLike<OperationState<StorageProfile>, StorageProfile>;
+    // @deprecated (undocumented)
+    beginApproveRollingUpgrade: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsApproveRollingUpgradeOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginApproveRollingUpgradeAndWait: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsApproveRollingUpgradeOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginAttachDetachDataDisks: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, parameters: AttachDetachDataDisksRequest, options?: VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams) => Promise<SimplePollerLike<OperationState<StorageProfile>, StorageProfile>>;
+    // @deprecated (undocumented)
+    beginAttachDetachDataDisksAndWait: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, parameters: AttachDetachDataDisksRequest, options?: VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams) => Promise<StorageProfile>;
+    // @deprecated (undocumented)
+    beginDeallocate: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsDeallocateOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeallocateAndWait: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsDeallocateOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginPerformMaintenance: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsPerformMaintenanceOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginPerformMaintenanceAndWait: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsPerformMaintenanceOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginPowerOff: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsPowerOffOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginPowerOffAndWait: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsPowerOffOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRedeploy: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsRedeployOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRedeployAndWait: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsRedeployOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginReimage: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsReimageOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginReimageAll: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsReimageAllOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginReimageAllAndWait: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsReimageAllOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginReimageAndWait: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsReimageOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRestart: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsRestartOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRestartAndWait: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsRestartOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRunCommand: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, parameters: RunCommandInput, options?: VirtualMachineScaleSetVMsRunCommandOptionalParams) => Promise<SimplePollerLike<OperationState<RunCommandResult>, RunCommandResult>>;
+    // @deprecated (undocumented)
+    beginRunCommandAndWait: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, parameters: RunCommandInput, options?: VirtualMachineScaleSetVMsRunCommandOptionalParams) => Promise<RunCommandResult>;
+    // @deprecated (undocumented)
+    beginStart: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsStartOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginStartAndWait: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsStartOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, parameters: VirtualMachineScaleSetVM, options?: VirtualMachineScaleSetVMsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<VirtualMachineScaleSetVM>, VirtualMachineScaleSetVM>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, parameters: VirtualMachineScaleSetVM, options?: VirtualMachineScaleSetVMsUpdateOptionalParams) => Promise<VirtualMachineScaleSetVM>;
+    deallocate: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsDeallocateOptionalParams) => PollerLike<OperationState<void>, void>;
+    delete: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsGetOptionalParams) => Promise<VirtualMachineScaleSetVM>;
+    getInstanceView: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsGetInstanceViewOptionalParams) => Promise<VirtualMachineScaleSetVMInstanceView>;
+    list: (resourceGroupName: string, virtualMachineScaleSetName: string, options?: VirtualMachineScaleSetVMsListOptionalParams) => PagedAsyncIterableIterator<VirtualMachineScaleSetVM>;
+    performMaintenance: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsPerformMaintenanceOptionalParams) => PollerLike<OperationState<void>, void>;
+    powerOff: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsPowerOffOptionalParams) => PollerLike<OperationState<void>, void>;
+    redeploy: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsRedeployOptionalParams) => PollerLike<OperationState<void>, void>;
+    reimage: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsReimageOptionalParams) => PollerLike<OperationState<void>, void>;
+    reimageAll: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsReimageAllOptionalParams) => PollerLike<OperationState<void>, void>;
+    restart: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsRestartOptionalParams) => PollerLike<OperationState<void>, void>;
+    retrieveBootDiagnosticsData: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataOptionalParams) => Promise<RetrieveBootDiagnosticsDataResult>;
+    runCommand: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, parameters: RunCommandInput, options?: VirtualMachineScaleSetVMsRunCommandOptionalParams) => PollerLike<OperationState<RunCommandResult>, RunCommandResult>;
+    simulateEviction: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsSimulateEvictionOptionalParams) => Promise<void>;
+    start: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsStartOptionalParams) => PollerLike<OperationState<void>, void>;
+    update: (resourceGroupName: string, vmScaleSetName: string, instanceId: string, parameters: VirtualMachineScaleSetVM, options?: VirtualMachineScaleSetVMsUpdateOptionalParams) => PollerLike<OperationState<VirtualMachineScaleSetVM>, VirtualMachineScaleSetVM>;
 }
 
 // @public
-export interface VirtualMachineScaleSetVMsPerformMaintenanceOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineScaleSetVMsPerformMaintenanceOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface VirtualMachineScaleSetVMsPowerOffHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineScaleSetVMsPowerOffOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineScaleSetVMsPowerOffOptionalParams extends OperationOptions {
     skipShutdown?: boolean;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface VirtualMachineScaleSetVMsRedeployHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineScaleSetVMsRedeployOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineScaleSetVMsRedeployOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface VirtualMachineScaleSetVMsReimageAllHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineScaleSetVMsReimageAllOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineScaleSetVMsReimageAllOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface VirtualMachineScaleSetVMsReimageHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineScaleSetVMsReimageOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineScaleSetVMsReimageOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
     vmScaleSetVMReimageInput?: VirtualMachineScaleSetVMReimageParameters;
 }
 
 // @public
-export interface VirtualMachineScaleSetVMsRestartHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineScaleSetVMsRestartOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineScaleSetVMsRestartOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataOptionalParams extends OperationOptions {
     sasUriExpirationTimeInMinutes?: number;
 }
 
 // @public
-export type VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataResponse = RetrieveBootDiagnosticsDataResult;
-
-// @public
-export interface VirtualMachineScaleSetVMsRunCommandHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineScaleSetVMsRunCommandOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineScaleSetVMsRunCommandOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type VirtualMachineScaleSetVMsRunCommandResponse = RunCommandResult;
-
-// @public
-export interface VirtualMachineScaleSetVMsSimulateEvictionOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineScaleSetVMsSimulateEvictionOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface VirtualMachineScaleSetVMsStartHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineScaleSetVMsStartOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineScaleSetVMsStartOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface VirtualMachineScaleSetVMsUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachineScaleSetVMsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineScaleSetVMsUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type VirtualMachineScaleSetVMsUpdateResponse = VirtualMachineScaleSetVM;
-
-// @public
-export interface VirtualMachinesCaptureHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachinesCaptureOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachinesCaptureOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type VirtualMachinesCaptureResponse = VirtualMachineCaptureResult;
-
-// @public
-export interface VirtualMachinesConvertToManagedDisksHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachinesConvertToManagedDisksOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachinesConvertToManagedDisksOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface VirtualMachinesCreateOrUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachinesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachinesCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type VirtualMachinesCreateOrUpdateResponse = VirtualMachine;
-
-// @public
-export interface VirtualMachinesDeallocateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachinesDeallocateOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachinesDeallocateOptionalParams extends OperationOptions {
     hibernate?: boolean;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface VirtualMachinesDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachinesDeleteOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachinesDeleteOptionalParams extends OperationOptions {
     forceDeletion?: boolean;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface VirtualMachinesGeneralizeOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachinesGeneralizeOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface VirtualMachinesGetOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachinesGetOptionalParams extends OperationOptions {
     expand?: InstanceViewTypes;
 }
 
 // @public
-export type VirtualMachinesGetResponse = VirtualMachine;
-
-// @public
-export interface VirtualMachinesInstallPatchesHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachinesInstallPatchesOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachinesInstallPatchesOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type VirtualMachinesInstallPatchesResponse = VirtualMachineInstallPatchesResult;
-
-// @public
-export interface VirtualMachinesInstanceViewOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachinesInstanceViewOptionalParams extends OperationOptions {
 }
-
-// @public
-export type VirtualMachinesInstanceViewResponse = VirtualMachineInstanceView;
 
 // @public
 export interface VirtualMachineSize {
@@ -9724,109 +7891,43 @@ export interface VirtualMachineSize {
 }
 
 // @public
-export interface VirtualMachineSizeListResult {
-    nextLink?: string;
-    value?: VirtualMachineSize[];
+export interface VirtualMachineSizesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface VirtualMachineSizes {
-    list(location: string, options?: VirtualMachineSizesListOptionalParams): PagedAsyncIterableIterator<VirtualMachineSize>;
+export interface VirtualMachineSizesOperations {
+    list: (location: string, options?: VirtualMachineSizesListOptionalParams) => PagedAsyncIterableIterator<VirtualMachineSize>;
 }
-
-// @public
-export interface VirtualMachineSizesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VirtualMachineSizesListNextResponse = VirtualMachineSizeListResult;
-
-// @public
-export interface VirtualMachineSizesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VirtualMachineSizesListResponse = VirtualMachineSizeListResult;
 
 // @public
 export type VirtualMachineSizeTypes = string;
 
 // @public
-export interface VirtualMachinesListAllNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VirtualMachinesListAllNextResponse = VirtualMachineListResult;
-
-// @public
-export interface VirtualMachinesListAllOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachinesListAllOptionalParams extends OperationOptions {
     expand?: ExpandTypesForListVMs;
     filter?: string;
     statusOnly?: string;
 }
 
 // @public
-export type VirtualMachinesListAllResponse = VirtualMachineListResult;
-
-// @public
-export interface VirtualMachinesListAvailableSizesNextOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachinesListAvailableSizesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type VirtualMachinesListAvailableSizesNextResponse = VirtualMachineSizeListResult;
-
-// @public
-export interface VirtualMachinesListAvailableSizesOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachinesListByLocationOptionalParams extends OperationOptions {
 }
 
 // @public
-export type VirtualMachinesListAvailableSizesResponse = VirtualMachineSizeListResult;
-
-// @public
-export interface VirtualMachinesListByLocationNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VirtualMachinesListByLocationNextResponse = VirtualMachineListResult;
-
-// @public
-export interface VirtualMachinesListByLocationOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VirtualMachinesListByLocationResponse = VirtualMachineListResult;
-
-// @public
-export interface VirtualMachinesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VirtualMachinesListNextResponse = VirtualMachineListResult;
-
-// @public
-export interface VirtualMachinesListOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachinesListOptionalParams extends OperationOptions {
     expand?: ExpandTypeForListVMs;
     filter?: string;
 }
 
 // @public
-export type VirtualMachinesListResponse = VirtualMachineListResult;
-
-// @public
-export interface VirtualMachinesMigrateToVMScaleSetHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachinesMigrateToVMScaleSetOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachinesMigrateToVMScaleSetOptionalParams extends OperationOptions {
     parameters?: MigrateVMToVirtualMachineScaleSetInput;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
-
-// @public
-export type VirtualMachinesMigrateToVMScaleSetResponse = VirtualMachinesMigrateToVMScaleSetHeaders;
 
 // @public
 export interface VirtualMachineSoftwarePatchProperties {
@@ -9843,115 +7944,156 @@ export interface VirtualMachineSoftwarePatchProperties {
 }
 
 // @public
-export interface VirtualMachinesPerformMaintenanceHeaders {
-    location?: string;
-    retryAfter?: number;
+export interface VirtualMachinesOperations {
+    assessPatches: (resourceGroupName: string, vmName: string, options?: VirtualMachinesAssessPatchesOptionalParams) => PollerLike<OperationState<VirtualMachineAssessPatchesResult>, VirtualMachineAssessPatchesResult>;
+    attachDetachDataDisks: (resourceGroupName: string, vmName: string, parameters: AttachDetachDataDisksRequest, options?: VirtualMachinesAttachDetachDataDisksOptionalParams) => PollerLike<OperationState<StorageProfile>, StorageProfile>;
+    // @deprecated (undocumented)
+    beginAssessPatches: (resourceGroupName: string, vmName: string, options?: VirtualMachinesAssessPatchesOptionalParams) => Promise<SimplePollerLike<OperationState<VirtualMachineAssessPatchesResult>, VirtualMachineAssessPatchesResult>>;
+    // @deprecated (undocumented)
+    beginAssessPatchesAndWait: (resourceGroupName: string, vmName: string, options?: VirtualMachinesAssessPatchesOptionalParams) => Promise<VirtualMachineAssessPatchesResult>;
+    // @deprecated (undocumented)
+    beginAttachDetachDataDisks: (resourceGroupName: string, vmName: string, parameters: AttachDetachDataDisksRequest, options?: VirtualMachinesAttachDetachDataDisksOptionalParams) => Promise<SimplePollerLike<OperationState<StorageProfile>, StorageProfile>>;
+    // @deprecated (undocumented)
+    beginAttachDetachDataDisksAndWait: (resourceGroupName: string, vmName: string, parameters: AttachDetachDataDisksRequest, options?: VirtualMachinesAttachDetachDataDisksOptionalParams) => Promise<StorageProfile>;
+    // @deprecated (undocumented)
+    beginCapture: (resourceGroupName: string, vmName: string, parameters: VirtualMachineCaptureParameters, options?: VirtualMachinesCaptureOptionalParams) => Promise<SimplePollerLike<OperationState<VirtualMachineCaptureResult>, VirtualMachineCaptureResult>>;
+    // @deprecated (undocumented)
+    beginCaptureAndWait: (resourceGroupName: string, vmName: string, parameters: VirtualMachineCaptureParameters, options?: VirtualMachinesCaptureOptionalParams) => Promise<VirtualMachineCaptureResult>;
+    // @deprecated (undocumented)
+    beginConvertToManagedDisks: (resourceGroupName: string, vmName: string, options?: VirtualMachinesConvertToManagedDisksOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginConvertToManagedDisksAndWait: (resourceGroupName: string, vmName: string, options?: VirtualMachinesConvertToManagedDisksOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, vmName: string, parameters: VirtualMachine, options?: VirtualMachinesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<VirtualMachine>, VirtualMachine>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, vmName: string, parameters: VirtualMachine, options?: VirtualMachinesCreateOrUpdateOptionalParams) => Promise<VirtualMachine>;
+    // @deprecated (undocumented)
+    beginDeallocate: (resourceGroupName: string, vmName: string, options?: VirtualMachinesDeallocateOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeallocateAndWait: (resourceGroupName: string, vmName: string, options?: VirtualMachinesDeallocateOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, vmName: string, options?: VirtualMachinesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, vmName: string, options?: VirtualMachinesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginInstallPatches: (resourceGroupName: string, vmName: string, installPatchesInput: VirtualMachineInstallPatchesParameters, options?: VirtualMachinesInstallPatchesOptionalParams) => Promise<SimplePollerLike<OperationState<VirtualMachineInstallPatchesResult>, VirtualMachineInstallPatchesResult>>;
+    // @deprecated (undocumented)
+    beginInstallPatchesAndWait: (resourceGroupName: string, vmName: string, installPatchesInput: VirtualMachineInstallPatchesParameters, options?: VirtualMachinesInstallPatchesOptionalParams) => Promise<VirtualMachineInstallPatchesResult>;
+    // @deprecated (undocumented)
+    beginMigrateToVMScaleSet: (resourceGroupName: string, vmName: string, options?: VirtualMachinesMigrateToVMScaleSetOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginMigrateToVMScaleSetAndWait: (resourceGroupName: string, vmName: string, options?: VirtualMachinesMigrateToVMScaleSetOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginPerformMaintenance: (resourceGroupName: string, vmName: string, options?: VirtualMachinesPerformMaintenanceOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginPerformMaintenanceAndWait: (resourceGroupName: string, vmName: string, options?: VirtualMachinesPerformMaintenanceOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginPowerOff: (resourceGroupName: string, vmName: string, options?: VirtualMachinesPowerOffOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginPowerOffAndWait: (resourceGroupName: string, vmName: string, options?: VirtualMachinesPowerOffOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginReapply: (resourceGroupName: string, vmName: string, options?: VirtualMachinesReapplyOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginReapplyAndWait: (resourceGroupName: string, vmName: string, options?: VirtualMachinesReapplyOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRedeploy: (resourceGroupName: string, vmName: string, options?: VirtualMachinesRedeployOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRedeployAndWait: (resourceGroupName: string, vmName: string, options?: VirtualMachinesRedeployOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginReimage: (resourceGroupName: string, vmName: string, options?: VirtualMachinesReimageOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginReimageAndWait: (resourceGroupName: string, vmName: string, options?: VirtualMachinesReimageOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRestart: (resourceGroupName: string, vmName: string, options?: VirtualMachinesRestartOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRestartAndWait: (resourceGroupName: string, vmName: string, options?: VirtualMachinesRestartOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRunCommand: (resourceGroupName: string, vmName: string, parameters: RunCommandInput, options?: VirtualMachinesRunCommandOptionalParams) => Promise<SimplePollerLike<OperationState<RunCommandResult>, RunCommandResult>>;
+    // @deprecated (undocumented)
+    beginRunCommandAndWait: (resourceGroupName: string, vmName: string, parameters: RunCommandInput, options?: VirtualMachinesRunCommandOptionalParams) => Promise<RunCommandResult>;
+    // @deprecated (undocumented)
+    beginStart: (resourceGroupName: string, vmName: string, options?: VirtualMachinesStartOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginStartAndWait: (resourceGroupName: string, vmName: string, options?: VirtualMachinesStartOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, vmName: string, parameters: VirtualMachineUpdate, options?: VirtualMachinesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<VirtualMachine>, VirtualMachine>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, vmName: string, parameters: VirtualMachineUpdate, options?: VirtualMachinesUpdateOptionalParams) => Promise<VirtualMachine>;
+    capture: (resourceGroupName: string, vmName: string, parameters: VirtualMachineCaptureParameters, options?: VirtualMachinesCaptureOptionalParams) => PollerLike<OperationState<VirtualMachineCaptureResult>, VirtualMachineCaptureResult>;
+    convertToManagedDisks: (resourceGroupName: string, vmName: string, options?: VirtualMachinesConvertToManagedDisksOptionalParams) => PollerLike<OperationState<void>, void>;
+    createOrUpdate: (resourceGroupName: string, vmName: string, parameters: VirtualMachine, options?: VirtualMachinesCreateOrUpdateOptionalParams) => PollerLike<OperationState<VirtualMachine>, VirtualMachine>;
+    deallocate: (resourceGroupName: string, vmName: string, options?: VirtualMachinesDeallocateOptionalParams) => PollerLike<OperationState<void>, void>;
+    delete: (resourceGroupName: string, vmName: string, options?: VirtualMachinesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    generalize: (resourceGroupName: string, vmName: string, options?: VirtualMachinesGeneralizeOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, vmName: string, options?: VirtualMachinesGetOptionalParams) => Promise<VirtualMachine>;
+    installPatches: (resourceGroupName: string, vmName: string, installPatchesInput: VirtualMachineInstallPatchesParameters, options?: VirtualMachinesInstallPatchesOptionalParams) => PollerLike<OperationState<VirtualMachineInstallPatchesResult>, VirtualMachineInstallPatchesResult>;
+    instanceView: (resourceGroupName: string, vmName: string, options?: VirtualMachinesInstanceViewOptionalParams) => Promise<VirtualMachineInstanceView>;
+    list: (resourceGroupName: string, options?: VirtualMachinesListOptionalParams) => PagedAsyncIterableIterator<VirtualMachine>;
+    listAll: (options?: VirtualMachinesListAllOptionalParams) => PagedAsyncIterableIterator<VirtualMachine>;
+    listAvailableSizes: (resourceGroupName: string, vmName: string, options?: VirtualMachinesListAvailableSizesOptionalParams) => PagedAsyncIterableIterator<VirtualMachineSize>;
+    listByLocation: (location: string, options?: VirtualMachinesListByLocationOptionalParams) => PagedAsyncIterableIterator<VirtualMachine>;
+    migrateToVMScaleSet: (resourceGroupName: string, vmName: string, options?: VirtualMachinesMigrateToVMScaleSetOptionalParams) => PollerLike<OperationState<void>, void>;
+    performMaintenance: (resourceGroupName: string, vmName: string, options?: VirtualMachinesPerformMaintenanceOptionalParams) => PollerLike<OperationState<void>, void>;
+    powerOff: (resourceGroupName: string, vmName: string, options?: VirtualMachinesPowerOffOptionalParams) => PollerLike<OperationState<void>, void>;
+    reapply: (resourceGroupName: string, vmName: string, options?: VirtualMachinesReapplyOptionalParams) => PollerLike<OperationState<void>, void>;
+    redeploy: (resourceGroupName: string, vmName: string, options?: VirtualMachinesRedeployOptionalParams) => PollerLike<OperationState<void>, void>;
+    reimage: (resourceGroupName: string, vmName: string, options?: VirtualMachinesReimageOptionalParams) => PollerLike<OperationState<void>, void>;
+    restart: (resourceGroupName: string, vmName: string, options?: VirtualMachinesRestartOptionalParams) => PollerLike<OperationState<void>, void>;
+    retrieveBootDiagnosticsData: (resourceGroupName: string, vmName: string, options?: VirtualMachinesRetrieveBootDiagnosticsDataOptionalParams) => Promise<RetrieveBootDiagnosticsDataResult>;
+    runCommand: (resourceGroupName: string, vmName: string, parameters: RunCommandInput, options?: VirtualMachinesRunCommandOptionalParams) => PollerLike<OperationState<RunCommandResult>, RunCommandResult>;
+    simulateEviction: (resourceGroupName: string, vmName: string, options?: VirtualMachinesSimulateEvictionOptionalParams) => Promise<void>;
+    start: (resourceGroupName: string, vmName: string, options?: VirtualMachinesStartOptionalParams) => PollerLike<OperationState<void>, void>;
+    update: (resourceGroupName: string, vmName: string, parameters: VirtualMachineUpdate, options?: VirtualMachinesUpdateOptionalParams) => PollerLike<OperationState<VirtualMachine>, VirtualMachine>;
 }
 
 // @public
-export interface VirtualMachinesPerformMaintenanceOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachinesPerformMaintenanceOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface VirtualMachinesPowerOffHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachinesPowerOffOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachinesPowerOffOptionalParams extends OperationOptions {
     skipShutdown?: boolean;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface VirtualMachinesReapplyHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachinesReapplyOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachinesReapplyOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface VirtualMachinesRedeployHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachinesRedeployOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachinesRedeployOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface VirtualMachinesReimageHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachinesReimageOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachinesReimageOptionalParams extends OperationOptions {
     parameters?: VirtualMachineReimageParameters;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface VirtualMachinesRestartHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachinesRestartOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachinesRestartOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface VirtualMachinesRetrieveBootDiagnosticsDataOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachinesRetrieveBootDiagnosticsDataOptionalParams extends OperationOptions {
     sasUriExpirationTimeInMinutes?: number;
 }
 
 // @public
-export type VirtualMachinesRetrieveBootDiagnosticsDataResponse = RetrieveBootDiagnosticsDataResult;
-
-// @public
-export interface VirtualMachinesRunCommandHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachinesRunCommandOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachinesRunCommandOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type VirtualMachinesRunCommandResponse = RunCommandResult;
-
-// @public
-export interface VirtualMachinesSimulateEvictionOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachinesSimulateEvictionOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface VirtualMachinesStartHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachinesStartOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachinesStartOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -9962,21 +8104,11 @@ export interface VirtualMachineStatusCodeCount {
 }
 
 // @public
-export interface VirtualMachinesUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachinesUpdateOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachinesUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
-
-// @public
-export type VirtualMachinesUpdateResponse = VirtualMachinesUpdateHeaders & VirtualMachine;
 
 // @public
 export interface VirtualMachineUpdate extends UpdateResource {
@@ -10052,7 +8184,7 @@ export interface VmImagesInEdgeZoneListResult {
     value?: VirtualMachineImageResource[];
 }
 
-// @public (undocumented)
+// @public
 export interface VMScaleSetConvertToSinglePlacementGroupInput {
     activePlacementGroupId?: string;
 }
