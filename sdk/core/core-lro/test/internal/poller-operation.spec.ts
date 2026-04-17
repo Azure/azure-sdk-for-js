@@ -4,18 +4,8 @@
 import { describe, it, assert, expect, vi } from "vitest";
 import { deserializeState, initOperation, pollOperation } from "../../src/poller/operation.js";
 import { buildCreatePoller } from "../../src/poller/poller.js";
-import type { OperationResponse, RawResponse } from "../../src/http/models.js";
 import type { OperationState, RestorableOperationState } from "../../src/poller/models.js";
 import { createTestPoller } from "../utils/router.js";
-
-function makeRawResponse(overrides: Partial<RawResponse> = {}): RawResponse {
-  return {
-    statusCode: 200,
-    headers: {},
-    request: { method: "GET", url: "https://example.com/resource" },
-    ...overrides,
-  };
-}
 
 function makeState<TResult>(
   mode?: string,

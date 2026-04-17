@@ -405,7 +405,6 @@ describe("poller/poller.ts", () => {
 
 describe("buildCreatePoller", () => {
   it("setDelay is called when getPollingInterval returns a value", async () => {
-    let pollingInterval: number | undefined;
     let pollCount = 0;
     const createPoller = buildCreatePoller<any, any, OperationState<any>>({
       getStatusFromInitialResponse: () => "running",
