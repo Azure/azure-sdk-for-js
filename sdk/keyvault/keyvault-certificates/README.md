@@ -250,7 +250,7 @@ const certificatePolicy = {
   subject: "cn=MyCert",
 };
 
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const poller = await client.beginCreateCertificate(certificateName, certificatePolicy);
 
