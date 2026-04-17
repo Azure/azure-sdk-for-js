@@ -388,7 +388,7 @@ describe("CancellableAsyncLock", function () {
   });
 });
 
-describe("lock.ts - edge cases", () => {
+describe("lock.ts", () => {
   it("handles empty queue during processing", async () => {
     const { CancellableAsyncLockImpl } = await import("../../src/util/lock.js");
     const lock = new CancellableAsyncLockImpl();

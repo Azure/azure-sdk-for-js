@@ -462,7 +462,7 @@ function assertAggregateError(err: unknown, check: RegExp): asserts err is Aggre
   });
 });
 
-describe("retry - edge cases", () => {
+describe("retry", () => {
   it("uses default retryOptions when none provided", async () => {
     let callCount = 0;
     const result = await (

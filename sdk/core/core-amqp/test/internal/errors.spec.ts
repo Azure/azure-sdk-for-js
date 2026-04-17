@@ -224,7 +224,7 @@ describe("Errors", function () {
   });
 });
 
-describe("errors.ts - edge cases", () => {
+describe("errors.ts", () => {
   it("translate maps AMQP error with status-code: 404 in description to MessagingEntityNotFoundError", () => {
     const err: any = {
       name: "AmqpProtocolError",
