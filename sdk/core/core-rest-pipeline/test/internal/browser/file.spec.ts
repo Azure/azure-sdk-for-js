@@ -30,9 +30,7 @@ describe("file utilities (browser)", function () {
       assert.deepEqual([...view], [42, 43, 44]);
     });
 
-    it.runIf(typeof SharedArrayBuffer !== "undefined")(
-      "handles Uint8Array backed by SharedArrayBuffer via map copy",
-      function () {
+    it("handles Uint8Array backed by SharedArrayBuffer via map copy", function () {
         const shared = new SharedArrayBuffer(4);
         const view = new Uint8Array(shared);
         view.set([10, 20, 30, 40]);
