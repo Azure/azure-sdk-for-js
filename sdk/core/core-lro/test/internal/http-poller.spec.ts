@@ -3,31 +3,7 @@
 
 import { describe, it, assert, vi } from "vitest";
 import { pollHttpOperation } from "../../src/http/operation.js";
-import type { RawResponse } from "../../src/http/models.js";
-import type { OperationState, RestorableOperationState } from "../../src/poller/models.js";
-
-function makeRawResponse(overrides: Partial<RawResponse> = {}): RawResponse {
-  return {
-    statusCode: 200,
-    headers: {},
-    request: { method: "GET", url: "https://example.com/resource" },
-    ...overrides,
-  };
-}
-
-function makeState<TResult>(
-  mode?: string,
-  extra?: Partial<RestorableOperationState<TResult, OperationState<TResult>>>,
-): RestorableOperationState<TResult, OperationState<TResult>> {
-  return {
-    status: "running",
-    config: {
-      metadata: mode ? { mode } : undefined,
-      ...extra?.config,
-    },
-    ...extra,
-  } as RestorableOperationState<TResult, OperationState<TResult>>;
-}
+import { makeRawResponse, makeState } from "../utils/utils.js";
 
 describe("pollHttpOperation without processResult", () => {
   it("uses default flatResponse identity when processResult is not provided", async () => {

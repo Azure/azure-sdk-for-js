@@ -4,8 +4,9 @@
 import type { HttpMethods, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import { createHttpHeaders, isRestError } from "@azure/core-rest-pipeline";
 import type { ResponseBody } from "../../src/http/models.js";
+import type { RawResponse } from "../../src/http/models.js";
 import { assert } from "vitest";
-import type { OperationState } from "../../src/index.js";
+import type { OperationState, RestorableOperationState } from "../../src/index.js";
 
 export interface RouteProcessor {
   method: string;
@@ -137,4 +138,27 @@ export async function assertDivergentBehavior(inputs: {
       assert.deepEqual(await op, result);
     }
   }
+}
+
+export function makeRawResponse(overrides: Partial<RawResponse> = {}): RawResponse {
+  return {
+    statusCode: 200,
+    headers: {},
+    request: { method: "GET", url: "https://example.com/resource" },
+    ...overrides,
+  };
+}
+
+export function makeState<TResult>(
+  mode?: string,
+  extra?: Partial<RestorableOperationState<TResult, OperationState<TResult>>>,
+): RestorableOperationState<TResult, OperationState<TResult>> {
+  return {
+    status: "running",
+    config: {
+      metadata: mode ? { mode } : undefined,
+      ...extra?.config,
+    },
+    ...extra,
+  } as unknown as RestorableOperationState<TResult, OperationState<TResult>>;
 }

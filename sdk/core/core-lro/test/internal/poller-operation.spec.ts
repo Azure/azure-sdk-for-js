@@ -4,22 +4,9 @@
 import { describe, it, assert, expect, vi } from "vitest";
 import { deserializeState, initOperation, pollOperation } from "../../src/poller/operation.js";
 import { buildCreatePoller } from "../../src/poller/poller.js";
-import type { OperationState, RestorableOperationState } from "../../src/poller/models.js";
+import type { OperationState } from "../../src/poller/models.js";
 import { createTestPoller } from "../utils/router.js";
-
-function makeState<TResult>(
-  mode?: string,
-  extra?: Partial<RestorableOperationState<TResult, OperationState<TResult>>>,
-): RestorableOperationState<TResult, OperationState<TResult>> {
-  return {
-    status: "running",
-    config: {
-      metadata: mode ? { mode } : undefined,
-      ...extra?.config,
-    },
-    ...extra,
-  } as unknown as RestorableOperationState<TResult, OperationState<TResult>>;
-}
+import { makeState } from "../utils/utils.js";
 
 describe("poller/operation.ts", () => {
   describe("deserializeState", () => {

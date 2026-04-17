@@ -2,18 +2,9 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, expect, vi } from "vitest";
-import type { RawResponse } from "../../src/index.js";
 import { createHttpPoller } from "../../src/index.js";
 import { createTestPoller } from "../utils/router.js";
-
-function makeRawResponse(overrides: Partial<RawResponse> = {}): RawResponse {
-  return {
-    statusCode: 200,
-    headers: {},
-    request: { method: "GET", url: "https://example.com/resource" },
-    ...overrides,
-  };
-}
+import { makeRawResponse } from "../utils/utils.js";
 
 describe("createHttpPoller", () => {
   describe("withOperationLocation callback", () => {
