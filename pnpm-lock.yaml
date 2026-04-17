@@ -7814,9 +7814,6 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.39
-      '@types/react':
-        specifier: catalog:testing
-        version: 19.2.14
       '@vitest/browser-playwright':
         specifier: catalog:testing
         version: 4.1.4(playwright@1.59.1)(vite@7.3.1(@types/node@20.19.39)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3))(vitest@4.1.4)
