@@ -366,7 +366,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
       expiresOnTimestamp: tokenExpiration,
     });
     // simulate failure of retriving the token, rejecting with an error would also work
-    // but returning null exercises a slightly different code path for a slightly different code path
+    // but returning null exercises a slightly different code path
     getToken.mockResolvedValueOnce(null);
     const credential: TokenCredential = {
       getToken,
@@ -1200,9 +1200,11 @@ describe("BearerTokenAuthenticationPolicy", function () {
       challengeCallbacks: { authorizeRequestOnChallenge },
     });
 
-    // Should return the response (lines 291-294: unparsable claims after custom handler)
+    // Should return the CAE challenge response since claims are unparsable
     const response = await policy.sendRequest(request, next);
+    assert.strictEqual(response, caeChallengeWithBadClaims);
     assert.equal(response.status, 401);
+    expect(next).toHaveBeenCalledTimes(2);
   });
 
   it("handles second CAE challenge after custom handler with valid claims", async function () {
@@ -1322,12 +1324,13 @@ describe("BearerTokenAuthenticationPolicy", function () {
     });
 
     const response = await policy.sendRequest(request, next);
+    // Should return the CAE challenge response without retrying
+    assert.strictEqual(response, validCaeChallengeResponse);
     assert.equal(response.status, 401);
     expect(next).toHaveBeenCalledTimes(2);
   });
 
   it("skips CAE handling when WWW-Authenticate header value is empty", async function () {
-    // This test covers getCaeChallengeClaims line 377: early return when challenges is falsy.
     // An empty header value passes isChallengeResponse (has() returns true) but
     // getCaeChallengeClaims("") returns undefined since "" is falsy.
     const tokenExpiration = Date.now() + 1000 * 60;
@@ -1353,14 +1356,14 @@ describe("BearerTokenAuthenticationPolicy", function () {
     const policy = bearerTokenAuthenticationPolicy({ scopes, credential });
 
     const response = await policy.sendRequest(request, next);
-    // Should just return the 401 response since getCaeChallengeClaims returns undefined
+    assert.strictEqual(response, challengeResponse);
     assert.equal(response.status, 401);
-    // Only 1 call - no retry since claims is undefined
+    // Only 1 call — no retry since claims is undefined
     expect(next).toHaveBeenCalledOnce();
   });
 
   it("does not retry when authorizeRequestOnCaeChallenge returns false", async function () {
-    // Covers line 265: shouldSendRequest = false after first CAE challenge
+    // No credential → getAccessToken returns null → authorizeRequestOnCaeChallenge returns false
     const scopes = ["test-scope"];
     const request = createPipelineRequest({ url: "https://example.com" });
 
@@ -1383,13 +1386,12 @@ describe("BearerTokenAuthenticationPolicy", function () {
     });
 
     const response = await policy.sendRequest(request, next);
-    // Should return the 401 without retrying
+    assert.strictEqual(response, caeResponse);
     assert.equal(response.status, 401);
     expect(next).toHaveBeenCalledOnce();
   });
 
   it("does not retry when custom authorizeRequestOnChallenge returns false", async function () {
-    // Covers line 279: shouldSendRequest = false from custom challenge callback
     const tokenExpiration = Date.now() + 1000 * 60;
     const credential: TokenCredential = {
       getToken: async () => ({
@@ -1421,12 +1423,12 @@ describe("BearerTokenAuthenticationPolicy", function () {
     });
 
     const response = await policy.sendRequest(request, next);
+    assert.strictEqual(response, challengeResponse);
     assert.equal(response.status, 401);
     expect(next).toHaveBeenCalledOnce();
   });
 
   it("handles CAE challenge when scopes is a single string (not array)", async function () {
-    // Covers the `Array.isArray(scopes) ? scopes : [scopes]` false branches at lines 256, 271, 299
     const tokenExpiration = Date.now() + 1000 * 60;
     const credential: TokenCredential = {
       getToken: async () => ({
@@ -1465,7 +1467,6 @@ describe("BearerTokenAuthenticationPolicy", function () {
   });
 
   it("handles custom challenge then CAE challenge when scopes is a string", async function () {
-    // Covers line 271 and 299 ternary branches when scopes is a string
     const tokenExpiration = Date.now() + 1000 * 60;
     const credential: TokenCredential = {
       getToken: async () => ({
