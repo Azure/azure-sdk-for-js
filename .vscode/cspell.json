@@ -298,12 +298,13 @@
       ]
     },
     {
-      "filename": "sdk/communication/communication-ten-dlc/review/**/*.md",
+      "filename": "sdk/communication/communication-ten-dlc/**",
       "words": [
         "Giin",
         "Icex",
         "Sehk",
         "Szse",
+        "tendlc",
         "Twse",
         "Ucaas"
       ]

@@ -35,7 +35,7 @@ Once you have a key, you can authenticate the `TenDlcClient` with any of the fol
 
 ### Using a connection string
 
-```javascript
+```javascript snippet:ReadmeSampleCreateClient_ConnectionString
 const { TenDlcClient } = require("@azure-tools/communication-ten-dlc");
 
 const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
@@ -46,7 +46,7 @@ const client = new TenDlcClient(connectionString);
 
 If you use a key to initialize the client you will also need to provide the appropriate endpoint. You can get this endpoint from your Communication Services resource in [Azure Portal][azure_portal]. Once you have a key and endpoint, you can authenticate with the following code:
 
-```javascript
+```javascript snippet:ReadmeSampleCreateClient_KeyCredential
 const { AzureKeyCredential } = require("@azure/core-auth");
 const { TenDlcClient } = require("@azure-tools/communication-ten-dlc");
 
@@ -64,7 +64,7 @@ npm install @azure/identity
 
 The [`@azure/identity`][azure_identity] package provides a variety of credential types that your application can use to do this. The [README for `@azure/identity`][azure_identity_readme] provides more details and samples to get you started.
 
-```javascript
+```javascript snippet:ReadmeSampleCreateClient_DefaultAzureCredential
 const { DefaultAzureCredential } = require("@azure/identity");
 const { TenDlcClient } = require("@azure-tools/communication-ten-dlc");
 
