@@ -1,5 +1,30 @@
 # Release History
 
+## 2.1.0 (2026-04-16)
+
+### Breaking Changes
+
+- Change `container_protocol_versions` property from required to optional in `HostedAgentDefinition` output types.
+- Change `code_type` property from required to optional in `getVersion` output type.
+- Rename `id` property in `Schedule` interface to `schedule_id`
+
+### Features Added
+
+- Add `project.beta.agents` route for accessing beta agent operations such as managed agent identity blueprints, session files, and sessions
+- Add `project.beta.skills` route for accessing skills
+- Add `project.beta.toolboxes` route for accessing toolbox features
+
+### Bugs Fixed
+
+- Remove redundant `foundryFeatures` property from `EvaluationRulesCreateOrUpdateOptionalParam`
+
+### Other Changes
+
+- Deprecated `TextResponseFormatConfiguration` in favor of `TextResponseFormat`
+- Deprecated `TextResponseFormatConfigurationResponseFormatText` in favor of `TextResponseFormatText`
+- Deprecated `TextResponseFormatConfigurationResponseFormatJsonObject` in favor of `TextResponseFormatJsonObject`
+- Deprecated `TextResponseFormatConfigurationUnion` in favor of `TextResponseFormatUnion`
+
 ## 2.0.2 (2026-04-06)
 
 ### Bugs Fixed
