@@ -140,7 +140,7 @@ describe("poller/operation.ts", () => {
   });
 });
 
-describe("pollOperation edge cases", () => {
+describe("pollOperation", () => {
   it("does nothing when operationLocation is undefined", async () => {
     const state = makeState<any>("OperationLocation");
     state.config.operationLocation = undefined;
@@ -207,7 +207,7 @@ describe("pollOperation edge cases", () => {
   });
 });
 
-describe("initOperation edge cases", () => {
+describe("initOperation", () => {
   it("calls withOperationLocation when operationLocation is present", async () => {
     const locations: string[] = [];
     await initOperation({

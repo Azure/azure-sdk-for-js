@@ -123,7 +123,7 @@ describe("poller/poller.ts", () => {
     });
   });
 
-  describe("poll method edge cases", () => {
+  describe("poll method", () => {
     it("returns state directly when already succeeded and resolveOnUnsuccessful", async () => {
       const poller = createTestPoller({
         routes: [
@@ -200,7 +200,7 @@ describe("poller/poller.ts", () => {
     });
   });
 
-  describe("pollUntilDone edge cases", () => {
+  describe("pollUntilDone", () => {
     it("throws canceled error from pollUntilDone", async () => {
       const pollingPath = "path/poll-cancel2";
       const poller = createTestPoller({
@@ -400,7 +400,7 @@ describe("poller/poller.ts", () => {
   });
 });
 
-describe("buildCreatePoller edge cases", () => {
+describe("buildCreatePoller", () => {
   it("setDelay is called when getPollingInterval returns a value", async () => {
     let pollingInterval: number | undefined;
     let pollCount = 0;
