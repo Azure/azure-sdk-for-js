@@ -3,7 +3,7 @@
 
 import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import type { ContinuablePage } from "./static-helpers/pagingHelpers.js";
-
+export { RestError } from "@azure/core-rest-pipeline";
 export { AIProjectClient } from "./aiProjectClient.js";
 export type {
   Agent,
