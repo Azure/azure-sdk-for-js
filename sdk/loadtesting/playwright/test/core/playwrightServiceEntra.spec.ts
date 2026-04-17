@@ -6,6 +6,7 @@ import {
   EntraIdAccessTokenConstants,
   ServiceEnvironmentVariable,
 } from "../../src/common/constants.js";
+import { PlaywrightServiceConfig } from "../../src/common/playwrightServiceConfig.js";
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 
 describe("playwrightServiceEntra", () => {
@@ -32,12 +33,16 @@ describe("playwrightServiceEntra", () => {
       "fetchEntraIdAccessToken",
     ).mockResolvedValue(true);
     vi.spyOn(playwrightServiceEntra as any, "entraIdGlobalSetupRotationHandler");
+    vi.spyOn(playwrightServiceEntra as any, "prefetchStorageAccessToken").mockResolvedValue(
+      undefined,
+    );
 
     await playwrightServiceEntra.globalSetup();
 
     expect(
       (playwrightServiceEntra as any)["_entraIdAccessToken"].fetchEntraIdAccessToken,
     ).toHaveBeenCalledOnce();
+    expect((playwrightServiceEntra as any).prefetchStorageAccessToken).toHaveBeenCalledOnce();
     expect(
       (playwrightServiceEntra as any).entraIdGlobalSetupRotationHandler,
     ).toHaveBeenCalledOnce();
@@ -185,5 +190,77 @@ describe("playwrightServiceEntra", () => {
     expect(
       (playwrightServiceEntra as any)["_entraIdAccessToken"].fetchEntraIdAccessToken,
     ).not.toHaveBeenCalled();
+  });
+
+  it("should pre-fetch storage access token when credential is available", async () => {
+    const playwrightServiceEntraModule = await import("../../src/core/playwrightServiceEntra.js");
+    const playwrightServiceEntra = playwrightServiceEntraModule.default;
+    (playwrightServiceEntra as any)._entraIdAccessTokenRotationInterval = undefined;
+
+    const mockToken = { token: "storage-token", expiresOnTimestamp: Date.now() + 3600000 };
+    const mockCredential = {
+      getToken: vi.fn().mockResolvedValue(mockToken),
+    };
+    PlaywrightServiceConfig.instance.credential = mockCredential as any;
+    PlaywrightServiceConfig.instance.storageAccessToken = undefined;
+
+    await (playwrightServiceEntra as any).prefetchStorageAccessToken();
+
+    expect(mockCredential.getToken).toHaveBeenCalledWith(EntraIdAccessTokenConstants.STORAGE_SCOPE);
+    expect(PlaywrightServiceConfig.instance.storageAccessToken).toEqual(mockToken);
+
+    PlaywrightServiceConfig.instance.credential = undefined;
+    PlaywrightServiceConfig.instance.storageAccessToken = undefined;
+  });
+
+  it("should skip storage token pre-fetch when no credential is available", async () => {
+    const playwrightServiceEntraModule = await import("../../src/core/playwrightServiceEntra.js");
+    const playwrightServiceEntra = playwrightServiceEntraModule.default;
+    (playwrightServiceEntra as any)._entraIdAccessTokenRotationInterval = undefined;
+
+    PlaywrightServiceConfig.instance.credential = undefined;
+    PlaywrightServiceConfig.instance.storageAccessToken = undefined;
+
+    await (playwrightServiceEntra as any).prefetchStorageAccessToken();
+
+    expect(PlaywrightServiceConfig.instance.storageAccessToken).toBeUndefined();
+  });
+
+  it("should not throw when storage token pre-fetch fails", async () => {
+    const playwrightServiceEntraModule = await import("../../src/core/playwrightServiceEntra.js");
+    const playwrightServiceEntra = playwrightServiceEntraModule.default;
+    (playwrightServiceEntra as any)._entraIdAccessTokenRotationInterval = undefined;
+
+    const mockCredential = {
+      getToken: vi.fn().mockRejectedValue(new Error("token fetch failed")),
+    };
+    PlaywrightServiceConfig.instance.credential = mockCredential as any;
+    PlaywrightServiceConfig.instance.storageAccessToken = undefined;
+
+    await (playwrightServiceEntra as any).prefetchStorageAccessToken();
+
+    expect(mockCredential.getToken).toHaveBeenCalledWith(EntraIdAccessTokenConstants.STORAGE_SCOPE);
+    expect(PlaywrightServiceConfig.instance.storageAccessToken).toBeUndefined();
+
+    PlaywrightServiceConfig.instance.credential = undefined;
+  });
+
+  it("should not set storageAccessToken when getToken returns null", async () => {
+    const playwrightServiceEntraModule = await import("../../src/core/playwrightServiceEntra.js");
+    const playwrightServiceEntra = playwrightServiceEntraModule.default;
+    (playwrightServiceEntra as any)._entraIdAccessTokenRotationInterval = undefined;
+
+    const mockCredential = {
+      getToken: vi.fn().mockResolvedValue(null),
+    };
+    PlaywrightServiceConfig.instance.credential = mockCredential as any;
+    PlaywrightServiceConfig.instance.storageAccessToken = undefined;
+
+    await (playwrightServiceEntra as any).prefetchStorageAccessToken();
+
+    expect(mockCredential.getToken).toHaveBeenCalledWith(EntraIdAccessTokenConstants.STORAGE_SCOPE);
+    expect(PlaywrightServiceConfig.instance.storageAccessToken).toBeUndefined();
+
+    PlaywrightServiceConfig.instance.credential = undefined;
   });
 });

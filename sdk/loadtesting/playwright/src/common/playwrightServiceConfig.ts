@@ -24,6 +24,7 @@ class PlaywrightServiceConfig {
   public apiVersion: string;
   private _serviceAuthType: string = ServiceAuth.ENTRA_ID;
   public credential?: TokenCredential;
+  public storageAccessToken?: { token: string; expiresOnTimestamp: number };
 
   constructor() {
     this.serviceOs = (process.env[InternalEnvironmentVariables.MPT_SERVICE_OS] ||
