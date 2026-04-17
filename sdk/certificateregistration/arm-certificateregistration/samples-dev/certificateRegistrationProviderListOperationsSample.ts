@@ -3,13 +3,12 @@
 
 import { CertificateRegistrationManagementClient } from "@azure/arm-certificateregistration";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Description for Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider
+ * This sample demonstrates how to description for Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider
  *
- * @summary Description for Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider
- * x-ms-original-file: specification/certificateregistration/resource-manager/Microsoft.CertificateRegistration/CertificateRegistration/stable/2024-11-01/examples/ListOperations.json
+ * @summary description for Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider
+ * x-ms-original-file: 2024-11-01/ListOperations.json
  */
 async function listOperations(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -18,6 +17,7 @@ async function listOperations(): Promise<void> {
   for await (const item of client.certificateRegistrationProvider.listOperations()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

@@ -3,29 +3,25 @@
 
 const { CertificateRegistrationManagementClient } = require("@azure/arm-certificateregistration");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Description for List all certificates associated with a certificate order.
+ * This sample demonstrates how to description for List all certificates associated with a certificate order.
  *
- * @summary Description for List all certificates associated with a certificate order.
- * x-ms-original-file: specification/certificateregistration/resource-manager/Microsoft.CertificateRegistration/CertificateRegistration/stable/2024-11-01/examples/ListCertificatesByAppServiceCertificateOrder.json
+ * @summary description for List all certificates associated with a certificate order.
+ * x-ms-original-file: 2024-11-01/ListCertificatesByAppServiceCertificateOrder.json
  */
 async function listCertificatesByAppServiceCertificate() {
-  const subscriptionId =
-    process.env["CERTIFICATEREGISTRATION_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = process.env["CERTIFICATEREGISTRATION_RESOURCE_GROUP"] || "testrg123";
-  const certificateOrderName = "SampleCertificateOrderName";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new CertificateRegistrationManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.appServiceCertificateOrders.listCertificates(
-    resourceGroupName,
-    certificateOrderName,
+    "testrg123",
+    "SampleCertificateOrderName",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

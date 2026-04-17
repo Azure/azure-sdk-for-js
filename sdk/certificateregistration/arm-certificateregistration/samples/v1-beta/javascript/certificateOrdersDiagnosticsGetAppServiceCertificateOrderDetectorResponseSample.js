@@ -3,29 +3,22 @@
 
 const { CertificateRegistrationManagementClient } = require("@azure/arm-certificateregistration");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Description for Microsoft.CertificateRegistration call to get a detector response from App Lens.
+ * This sample demonstrates how to description for Microsoft.CertificateRegistration call to get a detector response from App Lens.
  *
- * @summary Description for Microsoft.CertificateRegistration call to get a detector response from App Lens.
- * x-ms-original-file: specification/certificateregistration/resource-manager/Microsoft.CertificateRegistration/CertificateRegistration/stable/2024-11-01/examples/Diagnostics_GetAppServiceCertificateOrderDetectorResponse.json
+ * @summary description for Microsoft.CertificateRegistration call to get a detector response from App Lens.
+ * x-ms-original-file: 2024-11-01/Diagnostics_GetAppServiceCertificateOrderDetectorResponse.json
  */
 async function getAppServiceCertificateOrderDetectorResponse() {
-  const subscriptionId =
-    process.env["CERTIFICATEREGISTRATION_SUBSCRIPTION_ID"] ||
-    "5700fc96-77b4-4f8d-afce-c353d8c443bd";
-  const resourceGroupName =
-    process.env["CERTIFICATEREGISTRATION_RESOURCE_GROUP"] || "Sample-WestUSResourceGroup";
-  const certificateOrderName = "SampleCertificateOrderName";
-  const detectorName = "AutoRenewStatus";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "5700fc96-77b4-4f8d-afce-c353d8c443bd";
   const client = new CertificateRegistrationManagementClient(credential, subscriptionId);
   const result =
     await client.certificateOrdersDiagnostics.getAppServiceCertificateOrderDetectorResponse(
-      resourceGroupName,
-      certificateOrderName,
-      detectorName,
+      "Sample-WestUSResourceGroup",
+      "SampleCertificateOrderName",
+      "AutoRenewStatus",
     );
   console.log(result);
 }

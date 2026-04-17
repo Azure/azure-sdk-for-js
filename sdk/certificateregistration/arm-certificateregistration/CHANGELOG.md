@@ -1,4 +1,192 @@
 # Release History
+
+## 1.0.0-beta.2 (2026-04-17)
+Compared with version 1.0.0-beta.1
+
+### Features Added
+  - Added operation AppServiceCertificateOrdersOperations.createOrUpdate
+  - Added operation AppServiceCertificateOrdersOperations.createOrUpdateCertificate
+  - Added Interface AppServiceCertificateOrderPatchResourceProperties
+  - Added Interface AppServiceCertificateOrderProperties
+  - Added Interface DetectorResponseProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface ProxyResource
+  - Added Interface ReissueCertificateOrderRequestProperties
+  - Added Interface RenewCertificateOrderRequestProperties
+  - Added Interface RestorePollerOptions
+  - Added Interface SimplePollerLike
+  - Added Interface SystemData
+  - Added Interface TrackedResource
+  - Interface AppServiceCertificateOrder has a new optional parameter systemData
+  - Interface AppServiceCertificateResource has a new optional parameter systemData
+  - Interface DetectorResponse has a new optional parameter systemData
+  - Interface Resource has a new optional parameter systemData
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias CreatedByType
+  - Added Enum AzureClouds
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownVersions
+
+### Breaking Changes
+  - Removed Interface ApiDefinitionInfo
+  - Removed Interface ApiManagementConfig
+  - Removed Interface AppServiceCertificateCollection
+  - Removed Interface AppServiceCertificateOrderCollection
+  - Removed Interface AppServiceEnvironment
+  - Removed Interface AppServicePlan
+  - Removed Interface AppServicePlanCollection
+  - Removed Interface ArmIdWrapper
+  - Removed Interface AseV3NetworkingConfiguration
+  - Removed Interface AutoHealActions
+  - Removed Interface AutoHealCustomAction
+  - Removed Interface AutoHealRules
+  - Removed Interface AutoHealTriggers
+  - Removed Interface AzureStorageInfoValue
+  - Removed Interface Capability
+  - Removed Interface Certificate
+  - Removed Interface CertificateCollection
+  - Removed Interface CertificatePatchResource
+  - Removed Interface CipherSuites
+  - Removed Interface CloningInfo
+  - Removed Interface ConnStringInfo
+  - Removed Interface Container
+  - Removed Interface ContainerResources
+  - Removed Interface CorsSettings
+  - Removed Interface CsmOperationCollection
+  - Removed Interface CsmUsageQuota
+  - Removed Interface CsmUsageQuotaCollection
+  - Removed Interface CustomDnsSuffixConfiguration
+  - Removed Interface CustomScaleRule
+  - Removed Interface Dapr
+  - Removed Interface DaprComponent
+  - Removed Interface DaprConfig
+  - Removed Interface DaprMetadata
+  - Removed Interface DeletedSite
+  - Removed Interface DetectorResponseCollection
+  - Removed Interface EnvironmentVar
+  - Removed Interface ErrorEntity
+  - Removed Interface Experiments
+  - Removed Interface ExtendedLocation
+  - Removed Interface FunctionAppConfig
+  - Removed Interface FunctionsAlwaysReadyConfig
+  - Removed Interface FunctionsDeployment
+  - Removed Interface FunctionsDeploymentStorage
+  - Removed Interface FunctionsDeploymentStorageAuthentication
+  - Removed Interface FunctionsRuntime
+  - Removed Interface FunctionsScaleAndConcurrency
+  - Removed Interface FunctionsScaleAndConcurrencyTriggers
+  - Removed Interface FunctionsScaleAndConcurrencyTriggersHttp
+  - Removed Interface HandlerMapping
+  - Removed Interface HostingEnvironmentProfile
+  - Removed Interface HostNameBinding
+  - Removed Interface HostNameBindingCollection
+  - Removed Interface HostNameSslState
+  - Removed Interface HttpScaleRule
+  - Removed Interface HybridConnection
+  - Removed Interface Identifier
+  - Removed Interface IdentifierCollection
+  - Removed Interface IpSecurityRestriction
+  - Removed Interface KubeEnvironmentProfile
+  - Removed Interface LocalizableString
+  - Removed Interface ManagedServiceIdentity
+  - Removed Interface NameValuePair
+  - Removed Interface Operation
+  - Removed Interface OutboundVnetRouting
+  - Removed Interface PrivateEndpointConnectionCollection
+  - Removed Interface PrivateLinkConnectionApprovalRequestResource
+  - Removed Interface PrivateLinkConnectionState
+  - Removed Interface PrivateLinkResource
+  - Removed Interface PrivateLinkResourceProperties
+  - Removed Interface PrivateLinkResourcesWrapper
+  - Removed Interface PushSettings
+  - Removed Interface QueueScaleRule
+  - Removed Interface RampUpRule
+  - Removed Interface RemotePrivateEndpointConnectionARMResource
+  - Removed Interface RequestsBasedTrigger
+  - Removed Interface ResourceConfig
+  - Removed Interface Scale
+  - Removed Interface ScaleRule
+  - Removed Interface ScaleRuleAuth
+  - Removed Interface Site
+  - Removed Interface SiteConfig
+  - Removed Interface SiteDnsConfig
+  - Removed Interface SiteLimits
+  - Removed Interface SiteMachineKey
+  - Removed Interface SkuCapacity
+  - Removed Interface SkuDescription
+  - Removed Interface SlotSwapStatus
+  - Removed Interface SlowRequestsBasedTrigger
+  - Removed Interface Snapshot
+  - Removed Interface StatusCodesBasedTrigger
+  - Removed Interface StatusCodesRangeBasedTrigger
+  - Removed Interface StringDictionary
+  - Removed Interface Template
+  - Removed Interface User
+  - Removed Interface UserAssignedIdentity
+  - Removed Interface VirtualApplication
+  - Removed Interface VirtualDirectory
+  - Removed Interface VirtualNetworkProfile
+  - Removed Interface VnetGateway
+  - Removed Interface VnetInfoResource
+  - Removed Interface VnetRoute
+  - Removed Interface WebAppCollection
+  - Interface Resource no longer has parameter kind
+  - Interface Resource no longer has parameter location
+  - Interface Resource no longer has parameter tags
+  - Removed Type Alias AuthenticationType
+  - Removed Type Alias AutoGeneratedDomainNameLabelScope
+  - Removed Type Alias AutoHealActionType
+  - Removed Type Alias AzureResourceType
+  - Removed Type Alias AzureStorageProtocol
+  - Removed Type Alias AzureStorageState
+  - Removed Type Alias AzureStorageType
+  - Removed Type Alias ClientCertMode
+  - Removed Type Alias ConnectionStringType
+  - Removed Type Alias CustomDnsSuffixProvisioningState
+  - Removed Type Alias CustomHostNameDnsRecordType
+  - Removed Type Alias DaprLogLevel
+  - Removed Type Alias DefaultAction
+  - Removed Type Alias FtpsState
+  - Removed Type Alias FunctionsDeploymentStorageType
+  - Removed Type Alias HostingEnvironmentStatus
+  - Removed Type Alias HostNameType
+  - Removed Type Alias HostType
+  - Removed Type Alias IpFilterTag
+  - Removed Type Alias IPMode
+  - Removed Type Alias LoadBalancingMode
+  - Removed Type Alias ManagedPipelineMode
+  - Removed Type Alias ManagedServiceIdentityType
+  - Removed Type Alias OperationStatus
+  - Removed Type Alias RedundancyMode
+  - Removed Type Alias RouteType
+  - Removed Type Alias RuntimeName
+  - Removed Type Alias ScmType
+  - Removed Type Alias SiteAvailabilityState
+  - Removed Type Alias SiteLoadBalancing
+  - Removed Type Alias SslState
+  - Removed Type Alias StatusOptions
+  - Removed Type Alias SupportedTlsVersions
+  - Removed Type Alias TlsCipherSuites
+  - Removed Type Alias UpgradeAvailability
+  - Removed Type Alias UpgradePreference
+  - Removed Type Alias UsageState
+  - Removed Enum KnownAuthenticationType
+  - Removed Enum KnownAzureStorageProtocol
+  - Removed Enum KnownDaprLogLevel
+  - Removed Enum KnownDefaultAction
+  - Removed Enum KnownFtpsState
+  - Removed Enum KnownFunctionsDeploymentStorageType
+  - Removed Enum KnownIpFilterTag
+  - Removed Enum KnownLoadBalancingMode
+  - Removed Enum KnownRouteType
+  - Removed Enum KnownRuntimeName
+  - Removed Enum KnownScmType
+  - Removed Enum KnownSupportedTlsVersions
+  - Removed Enum KnownTlsCipherSuites
+  - Removed Enum KnownUpgradeAvailability
+  - Removed Enum KnownUpgradePreference
+
     
 ## 1.0.0-beta.1 (2025-11-18)
 
