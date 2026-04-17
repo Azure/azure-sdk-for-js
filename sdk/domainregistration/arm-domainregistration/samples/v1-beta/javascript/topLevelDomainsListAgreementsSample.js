@@ -3,28 +3,25 @@
 
 const { DomainRegistrationManagementClient } = require("@azure/arm-domainregistration");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Description for Gets all legal agreements that user needs to accept before purchasing a domain.
+ * This sample demonstrates how to description for Gets all legal agreements that user needs to accept before purchasing a domain.
  *
- * @summary Description for Gets all legal agreements that user needs to accept before purchasing a domain.
- * x-ms-original-file: specification/domainregistration/resource-manager/Microsoft.DomainRegistration/DomainRegistration/stable/2024-11-01/examples/ListTopLevelDomainAgreements.json
+ * @summary description for Gets all legal agreements that user needs to accept before purchasing a domain.
+ * x-ms-original-file: 2024-11-01/ListTopLevelDomainAgreements.json
  */
 async function listTopLevelDomainAgreements() {
-  const subscriptionId =
-    process.env["DOMAINREGISTRATION_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const name = "in";
-  const agreementOption = {
-    forTransfer: false,
-    includePrivacy: true,
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new DomainRegistrationManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.topLevelDomains.listAgreements(name, agreementOption)) {
+  for await (const item of client.topLevelDomains.listAgreements("in", {
+    forTransfer: false,
+    includePrivacy: true,
+  })) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

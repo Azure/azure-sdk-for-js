@@ -1,41 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  DomainOwnershipIdentifier} from "@azure/arm-domainregistration";
-import {
-  DomainRegistrationManagementClient,
-} from "@azure/arm-domainregistration";
+import { DomainRegistrationManagementClient } from "@azure/arm-domainregistration";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Description for Creates an ownership identifier for a domain or updates identifier details for an existing identifier
+ * This sample demonstrates how to description for Creates an ownership identifier for a domain or updates identifier details for an existing identifier
  *
- * @summary Description for Creates an ownership identifier for a domain or updates identifier details for an existing identifier
- * x-ms-original-file: specification/domainregistration/resource-manager/Microsoft.DomainRegistration/DomainRegistration/stable/2024-11-01/examples/CreateAppServiceDomainOwnershipIdentifier.json
+ * @summary description for Creates an ownership identifier for a domain or updates identifier details for an existing identifier
+ * x-ms-original-file: 2024-11-01/CreateAppServiceDomainOwnershipIdentifier.json
  */
 async function createAppServiceDomainOwnershipIdentifier(): Promise<void> {
-  const subscriptionId =
-    process.env["DOMAINREGISTRATION_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["DOMAINREGISTRATION_RESOURCE_GROUP"] || "testrg123";
-  const domainName = "example.com";
-  const name = "SampleOwnershipId";
-  const domainOwnershipIdentifier: DomainOwnershipIdentifier = {
-    ownershipId: "SampleOwnershipId",
-  };
   const credential = new DefaultAzureCredential();
-  const client = new DomainRegistrationManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const client = new DomainRegistrationManagementClient(credential, subscriptionId);
   const result = await client.domains.createOrUpdateOwnershipIdentifier(
-    resourceGroupName,
-    domainName,
-    name,
-    domainOwnershipIdentifier,
+    "testrg123",
+    "example.com",
+    "SampleOwnershipId",
+    { ownershipId: "SampleOwnershipId" },
   );
   console.log(result);
 }

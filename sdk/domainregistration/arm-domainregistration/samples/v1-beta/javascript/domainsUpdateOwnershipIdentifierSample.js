@@ -3,30 +3,22 @@
 
 const { DomainRegistrationManagementClient } = require("@azure/arm-domainregistration");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Description for Creates an ownership identifier for a domain or updates identifier details for an existing identifier
+ * This sample demonstrates how to description for Creates an ownership identifier for a domain or updates identifier details for an existing identifier
  *
- * @summary Description for Creates an ownership identifier for a domain or updates identifier details for an existing identifier
- * x-ms-original-file: specification/domainregistration/resource-manager/Microsoft.DomainRegistration/DomainRegistration/stable/2024-11-01/examples/UpdateAppServiceDomainOwnershipIdentifier.json
+ * @summary description for Creates an ownership identifier for a domain or updates identifier details for an existing identifier
+ * x-ms-original-file: 2024-11-01/UpdateAppServiceDomainOwnershipIdentifier.json
  */
 async function updateAppServiceDomainOwnershipIdentifier() {
-  const subscriptionId =
-    process.env["DOMAINREGISTRATION_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = process.env["DOMAINREGISTRATION_RESOURCE_GROUP"] || "testrg123";
-  const domainName = "example.com";
-  const name = "SampleOwnershipId";
-  const domainOwnershipIdentifier = {
-    ownershipId: "SampleOwnershipId",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new DomainRegistrationManagementClient(credential, subscriptionId);
   const result = await client.domains.updateOwnershipIdentifier(
-    resourceGroupName,
-    domainName,
-    name,
-    domainOwnershipIdentifier,
+    "testrg123",
+    "example.com",
+    "SampleOwnershipId",
+    { ownershipId: "SampleOwnershipId" },
   );
   console.log(result);
 }

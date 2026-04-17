@@ -1,28 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  Domain} from "@azure/arm-domainregistration";
-import {
-  DomainRegistrationManagementClient,
-} from "@azure/arm-domainregistration";
+import { DomainRegistrationManagementClient } from "@azure/arm-domainregistration";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Description for Creates or updates a domain.
+ * This sample demonstrates how to description for Creates or updates a domain.
  *
- * @summary Description for Creates or updates a domain.
- * x-ms-original-file: specification/domainregistration/resource-manager/Microsoft.DomainRegistration/DomainRegistration/stable/2024-11-01/examples/CreateAppServiceDomain.json
+ * @summary description for Creates or updates a domain.
+ * x-ms-original-file: 2024-11-01/CreateAppServiceDomain.json
  */
 async function createAppServiceDomain(): Promise<void> {
-  const subscriptionId =
-    process.env["DOMAINREGISTRATION_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["DOMAINREGISTRATION_RESOURCE_GROUP"] || "testrg123";
-  const domainName = "example.com";
-  const domain: Domain = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const client = new DomainRegistrationManagementClient(credential, subscriptionId);
+  const result = await client.domains.createOrUpdate("testrg123", "example.com", {
+    location: "global",
     authCode: "exampleAuthCode",
     autoRenew: true,
     consent: {
@@ -99,20 +92,9 @@ async function createAppServiceDomain(): Promise<void> {
       phone: "1-245-534-2242",
     },
     dnsType: "DefaultDomainRegistrarDns",
-    location: "global",
     privacy: false,
     tags: {},
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new DomainRegistrationManagementClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.domains.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    domainName,
-    domain,
-  );
+  });
   console.log(result);
 }
 
