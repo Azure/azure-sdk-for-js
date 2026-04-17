@@ -79,7 +79,7 @@ describe("setClientRequestIdPolicy", function () {
   });
 });
 
-describe("setClientRequestIdPolicy - edge cases", function () {
+describe("setClientRequestIdPolicy", function () {
   it("does not overwrite an existing header", async function () {
     const policy = setClientRequestIdPolicy();
     const request = createPipelineRequest({ url: "https://example.com" });

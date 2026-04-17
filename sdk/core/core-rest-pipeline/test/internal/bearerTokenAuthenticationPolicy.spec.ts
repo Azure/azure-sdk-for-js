@@ -1141,7 +1141,7 @@ function matrix<T extends ReadonlyArray<readonly unknown[]>>(
   }
 }
 
-describe("BearerTokenAuthenticationPolicy - edge cases", function () {
+describe("BearerTokenAuthenticationPolicy", function () {
   beforeEach(() => {
     vi.useFakeTimers({ now: Date.now() });
   });

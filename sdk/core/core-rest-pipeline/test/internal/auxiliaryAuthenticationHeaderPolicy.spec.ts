@@ -289,7 +289,7 @@ class MockRefreshAzureCredential implements TokenCredential {
   }
 }
 
-describe("AuxiliaryAuthenticationHeaderPolicy - edge cases", function () {
+describe("AuxiliaryAuthenticationHeaderPolicy", function () {
   beforeEach(() => {
     vi.useFakeTimers({ now: Date.now() });
   });

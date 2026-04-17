@@ -36,6 +36,6 @@ describe("userAgentPolicy - edge cases", function () {
     await policy.sendRequest(request, next);
     const ua = request.headers.get("User-Agent");
     assert.isDefined(ua);
-    assert.isTrue(ua!.startsWith("my-prefix"));
+    assert.isTrue(ua?.startsWith("my-prefix"));
   });
 });

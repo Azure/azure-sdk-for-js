@@ -97,8 +97,8 @@ describe("Policy factory functions", function () {
     it("returns proxy settings when a proxy URL is provided", function () {
       const settings = getDefaultProxySettings("http://proxy.example.com:8080");
       assert.isDefined(settings);
-      assert.equal(settings!.host, "http://proxy.example.com");
-      assert.equal(settings!.port, 8080);
+      assert.equal(settings?.host, "http://proxy.example.com");
+      assert.equal(settings?.port, 8080);
     });
   });
 
