@@ -2184,7 +2184,7 @@ describe("Serializer", function () {
 describe("serializer", () => {
   const serializer = createSerializer({}, false);
 
-  describe("bufferToBase64Url / base64UrlToByteArray edge cases", () => {
+  describe("bufferToBase64Url / base64UrlToByteArray", () => {
     it("should serialize Base64Url type with valid Uint8Array", () => {
       const result = serializer.serialize(
         { type: { name: "Base64Url" }, serializedName: "test" },
@@ -2876,7 +2876,7 @@ describe("serializer", () => {
     });
   });
 
-  describe("serialize nullable/required edge cases", () => {
+  describe("serialize nullable/required", () => {
     it("should throw when required and nullable and value is undefined", () => {
       assert.throws(
         () =>
