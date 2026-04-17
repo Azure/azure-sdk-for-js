@@ -283,6 +283,7 @@ describe("poller/poller.ts", () => {
       const poller = createHttpPoller(lro);
       const result = await poller.pollUntilDone();
       assert.isDefined(result);
+      assert.deepEqual(result, { id: "1" });
     });
   });
 
@@ -310,6 +311,7 @@ describe("poller/poller.ts", () => {
 
       const result = await poller.pollUntilDone();
       assert.isDefined(result);
+      assert.deepInclude(result, { status: "Canceled" });
     });
 
     it("isDone returns true for failed state", async () => {
@@ -339,6 +341,7 @@ describe("poller/poller.ts", () => {
       const result = await poller.pollUntilDone();
       assert.isTrue(poller.isDone);
       assert.isDefined(result);
+      assert.deepInclude(result, { status: "Failed" });
     });
   });
 
@@ -463,5 +466,6 @@ describe("buildCreatePoller", () => {
     await poller.submitted();
     const state = await poller.poll();
     assert.isDefined(state);
+    assert.property(state, "status");
   });
 });

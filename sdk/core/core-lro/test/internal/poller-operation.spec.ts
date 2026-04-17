@@ -286,6 +286,7 @@ describe("processOperationStatus setErrorAsResult=true includes failed in done s
 
     const result = await poller.pollUntilDone();
     assert.isDefined(result);
+    assert.deepInclude(result, { status: "Failed" });
     assert.isTrue(poller.isDone);
   });
 });
