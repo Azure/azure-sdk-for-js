@@ -17,18 +17,32 @@ function createNoOpCred(): NoOpCredential {
   return new NoOpCredential();
 }
 
+function getMessagingError(err: unknown): MessagingError | undefined {
+  if (err instanceof MessagingError) {
+    return err;
+  }
+
+  if (err instanceof AggregateError) {
+    for (let i = err.errors.length - 1; i >= 0; i--) {
+      const innerError = err.errors[i];
+      if (innerError instanceof MessagingError) {
+        return innerError;
+      }
+    }
+  }
+
+  return undefined;
+}
+
 async function validateConnectionError(promise: Promise<unknown>): Promise<void> {
   await expect(promise).to.be.rejected.then((err) => {
-    const messagingError =
-      err instanceof MessagingError
-        ? err
-        : err instanceof AggregateError
-          ? [...err.errors].reverse().find((innerError): innerError is MessagingError => {
-              return innerError instanceof MessagingError;
-            })
-          : err;
+    const messagingError = getMessagingError(err);
+    expect(
+      messagingError,
+      "Expected a MessagingError or AggregateError containing a MessagingError",
+    ).to.exist;
 
-    expect(messagingError)
+    expect(messagingError!)
       .to.be.an.instanceOf(MessagingError)
       .and.has.property("code", isNodeLike ? "ENOTFOUND" : "ServiceCommunicationError");
     return err;
