@@ -31,7 +31,7 @@ import type {
     NamespaceInfo,
 } from "./models.js";
 import { ExtractionContext, PRIMITIVE_TYPES } from "./context.js";
-import { getDefinedTypes, extractTypeNamesFromSignature, extractQualifiedMemberNames } from "./reachability.js";
+import { getDefinedTypes } from "./reachability.js";
 import {
     getTypeFromDeclaration,
     getParametersFromDeclaration,
@@ -513,6 +513,9 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
     const allUnresolved = new Set<string>();
     const processed = new Set<string>();
 
+    // Track per-entity sub-dependency names so we can populate referencedTypes.
+    const entitySubRefNames = new Map<string, Set<string>>();
+
     // Pre-build packageName → SourceFile index for O(1) fallback lookups
     const packageToFile = new Map<string, SourceFile>();
     for (const [, entry] of importResolutionMap) {
@@ -824,6 +827,15 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
                     }
                 } catch (e) { ctx.warn("DEP_TYPE_TRAVERSE", `Failed for '${typeName}': ${e instanceof Error ? e.message : String(e)}`, typeName); }
 
+                // Record sub-ref names for referencedTypes population
+                const refNames = new Set<string>();
+                for (const subRef of subRefs) {
+                    refNames.add(subRef.name);
+                }
+                if (refNames.size > 0) {
+                    entitySubRefNames.set(typeName, refNames);
+                }
+
                 // Queue discovered sub-refs for resolution
                 for (const subRef of subRefs) {
                     // Track alias relationships from sub-deps
@@ -903,6 +915,27 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
             case "namespace":
                 (depInfo.namespaces ??= []).push(type as NamespaceInfo);
                 break;
+        }
+    }
+
+    // Populate referencedTypes on dependency entities from sub-ref tracking.
+    for (const dep of depByPackage.values()) {
+        for (const cls of dep.classes || []) {
+            const refs = entitySubRefNames.get(cls.name);
+            if (refs?.size) cls.referencedTypes = Array.from(refs);
+        }
+        for (const iface of dep.interfaces || []) {
+            const refs = entitySubRefNames.get(iface.name);
+            if (refs?.size) iface.referencedTypes = Array.from(refs);
+        }
+        for (const t of dep.types || []) {
+            const refs = entitySubRefNames.get(t.name);
+            if (refs?.size) t.referencedTypes = Array.from(refs);
+        }
+        for (const fn of dep.functions || []) {
+            if (!fn.name) continue;
+            const refs = entitySubRefNames.get(fn.name);
+            if (refs?.size) fn.referencedTypes = Array.from(refs);
         }
     }
 
@@ -1417,74 +1450,31 @@ export function buildResolvedDependencies(
  * Scans extends, implements, type alias bodies, method/constructor/function
  * signatures, property types, and type parameter constraints.
  */
+/**
+ * Collects type names referenced by an entity using its pre-computed
+ * `referencedTypes` array (populated from TypeReferenceCollector or
+ * entitySubRefNames during extraction).
+ */
 function collectReferencedNamesFromEntity(
     entity: ClassInfo | InterfaceInfo | EnumInfo | TypeAliasInfo | FunctionInfo,
-    kind: "class" | "interface" | "enum" | "type" | "function",
+    _kind: "class" | "interface" | "enum" | "type" | "function",
     refs: Set<string>,
 ): void {
-    const scan = (s: string | undefined) => {
-        if (!s) return;
-        for (const name of extractTypeNamesFromSignature(s)) refs.add(name);
-        // Also extract qualified member names (e.g., Foo.Bar → Bar) to handle
-        // namespace-qualified references where the member name might be ALL_CAPS
-        // (like URL) and would be skipped by extractTypeNamesFromSignature.
-        for (const name of extractQualifiedMemberNames(s)) refs.add(name);
-    };
-
-    switch (kind) {
-        case "class": {
-            const cls = entity as ClassInfo;
-            scan(cls.extends);
-            for (const impl of cls.implements ?? []) scan(impl);
-            scan(cls.typeParams);
-            for (const ctor of cls.constructors ?? []) {
-                scan(ctor.sig);
-                for (const p of ctor.params ?? []) scan(p.type);
-            }
-            for (const m of cls.methods ?? []) {
-                scan(m.sig); scan(m.ret); scan(m.typeParams);
-                for (const p of m.params ?? []) scan(p.type);
-            }
-            for (const p of cls.properties ?? []) scan(p.type);
-            for (const ix of cls.indexSignatures ?? []) { scan(ix.keyType); scan(ix.valueType); }
-            break;
-        }
-        case "interface": {
-            const iface = entity as InterfaceInfo;
-            for (const ext of iface.extends ?? []) scan(ext);
-            scan(iface.typeParams);
-            for (const m of iface.methods ?? []) {
-                scan(m.sig); scan(m.ret); scan(m.typeParams);
-                for (const p of m.params ?? []) scan(p.type);
-            }
-            for (const p of iface.properties ?? []) scan(p.type);
-            for (const ix of iface.indexSignatures ?? []) { scan(ix.keyType); scan(ix.valueType); }
-            break;
-        }
-        case "type": {
-            const t = entity as TypeAliasInfo;
-            scan(t.type); scan(t.typeParams);
-            break;
-        }
-        case "function": {
-            const fn = entity as FunctionInfo;
-            scan(fn.sig); scan(fn.ret); scan(fn.typeParams);
-            for (const p of fn.params ?? []) scan(p.type);
-            break;
-        }
-        // enums have no type references to scan
+    if ("referencedTypes" in entity) {
+        for (const name of (entity as { referencedTypes?: string[] }).referencedTypes ?? []) refs.add(name);
     }
 }
 
 /**
- * Collects type names referenced by all members of a namespace (recursively).
+ * Collects type names referenced by all members of a namespace (recursively)
+ * using their pre-computed `referencedTypes` arrays.
  */
 function collectReferencedNamesFromNamespace(ns: NamespaceInfo, refs: Set<string>): void {
-    for (const c of ns.classes ?? []) collectReferencedNamesFromEntity(c, "class", refs);
-    for (const i of ns.interfaces ?? []) collectReferencedNamesFromEntity(i, "interface", refs);
-    for (const e of ns.enums ?? []) collectReferencedNamesFromEntity(e, "enum", refs);
-    for (const t of ns.types ?? []) collectReferencedNamesFromEntity(t, "type", refs);
-    for (const f of ns.functions ?? []) collectReferencedNamesFromEntity(f, "function", refs);
+    for (const c of ns.classes ?? []) for (const name of c.referencedTypes ?? []) refs.add(name);
+    for (const i of ns.interfaces ?? []) for (const name of i.referencedTypes ?? []) refs.add(name);
+    for (const _e of ns.enums ?? []) { /* enums have no type references */ }
+    for (const t of ns.types ?? []) for (const name of t.referencedTypes ?? []) refs.add(name);
+    for (const f of ns.functions ?? []) for (const name of f.referencedTypes ?? []) refs.add(name);
     for (const nested of ns.namespaces ?? []) collectReferencedNamesFromNamespace(nested, refs);
 }
 

@@ -1,60 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import {
-  extractTypeNamesFromSignature,
-  extractQualifiedMemberNames,
+  computeAmbientTypes,
+  validateSelfContainment,
 } from "../reachability.js";
 import { filterNamespaceMembers } from "../dependencies.js";
-import type { NamespaceInfo } from "../models.js";
-
-describe("extractQualifiedMemberNames", () => {
-  it("extracts member names from qualified references", () => {
-    const names = extractQualifiedMemberNames("Array<Foo.Bar | Baz.Qux>");
-    expect(names).toContain("Bar");
-    expect(names).toContain("Qux");
-  });
-
-  it("extracts ALL_CAPS member names that extractTypeNamesFromSignature skips", () => {
-    const sig = "Array<ChatKitResponseOutputText.File | ChatKitResponseOutputText.URL>";
-
-    // extractTypeNamesFromSignature skips URL (ALL_CAPS)
-    const typeNames = extractTypeNamesFromSignature(sig);
-    expect(typeNames).toContain("ChatKitResponseOutputText");
-    expect(typeNames).toContain("File");
-    expect(typeNames).not.toContain("URL"); // filtered as ALL_CAPS
-
-    // extractQualifiedMemberNames captures it
-    const memberNames = extractQualifiedMemberNames(sig);
-    expect(memberNames).toContain("File");
-    expect(memberNames).toContain("URL");
-  });
-
-  it("handles deeply nested qualified names (A.B.C)", () => {
-    const names = extractQualifiedMemberNames("Ns.Sub.Member");
-    expect(names).toContain("Sub");
-    expect(names).toContain("Member");
-  });
-
-  it("captures ALL_CAPS leaf in deep chain (Ns.Sub.URL)", () => {
-    const names = extractQualifiedMemberNames("Array<Ns.Sub.URL>");
-    expect(names).toContain("Sub");
-    expect(names).toContain("URL");
-  });
-
-  it("does not match unqualified names", () => {
-    const names = extractQualifiedMemberNames("string | number | MyType");
-    expect(names.size).toBe(0);
-  });
-
-  it("ignores content inside string literals and comments", () => {
-    const names = extractQualifiedMemberNames('"Foo.Bar" /* Baz.Qux */ Real.Member');
-    expect(names).not.toContain("Bar");
-    expect(names).not.toContain("Qux");
-    expect(names).toContain("Member");
-  });
-});
+import type { ApiIndex, NamespaceInfo } from "../models.js";
+import type { ExtractionContext } from "../context.js";
 
 describe("filterNamespaceMembers", () => {
   it("keeps referenced members and removes unreferenced ones", () => {
@@ -204,5 +158,377 @@ describe("filterNamespaceMembers", () => {
     expect(result!.enums![0].name).toBe("KeepEnum");
     expect(result!.functions).toHaveLength(1);
     expect(result!.functions![0].name).toBe("keepFn");
+  });
+});
+
+// ---------------------------------------------------------------------------
+// computeAmbientTypes
+// ---------------------------------------------------------------------------
+
+/**
+ * Creates a minimal mock ExtractionContext for computeAmbientTypes tests.
+ * Only the fields read by computeAmbientTypes are provided.
+ */
+function mockCtx(
+  builtins: Map<string, Set<string>> = new Map(),
+): ExtractionContext {
+  const allNames = new Set<string>();
+  for (const names of builtins.values()) {
+    for (const n of names) allNames.add(n);
+  }
+  return {
+    referencedBuiltins: builtins,
+    discoveredBuiltins: allNames,
+    isBuiltinType(name: string) {
+      return allNames.has(name);
+    },
+  } as unknown as ExtractionContext;
+}
+
+/** Builds a minimal ApiIndex with one module from the given entities. */
+function apiWith(
+  entities: {
+    interfaces?: ApiIndex["modules"][0]["interfaces"];
+    types?: ApiIndex["modules"][0]["types"];
+    functions?: ApiIndex["modules"][0]["functions"];
+    classes?: ApiIndex["modules"][0]["classes"];
+  },
+  deps?: ApiIndex["dependencies"],
+): ApiIndex {
+  return {
+    package: "test-pkg",
+    modules: [{ name: "main", ...entities }],
+    dependencies: deps,
+  };
+}
+
+describe("computeAmbientTypes", () => {
+  it("classifies unresolved builtins by dom/es category", () => {
+    // AbortSignal and Promise referenced via referencedTypes but not defined
+    const api = apiWith({
+      interfaces: [
+        {
+          name: "MyClient",
+          methods: [{ name: "run", sig: "(signal: AbortSignal): Promise<void>" }],
+          referencedTypes: ["AbortSignal", "Promise"],
+        },
+      ],
+    });
+    const ctx = mockCtx(
+      new Map([
+        ["dom", new Set(["AbortSignal"])],
+        ["es", new Set(["Promise"])],
+      ]),
+    );
+
+    const result = computeAmbientTypes(api, ctx);
+    expect(result["dom"]).toContain("AbortSignal");
+    expect(result["es"]).toContain("Promise");
+  });
+
+  it("excludes types that are defined in the API", () => {
+    const api = apiWith({
+      interfaces: [
+        {
+          name: "MyOptions",
+          properties: [{ name: "client", type: "MyClient", readonly: false }],
+          referencedTypes: ["MyClient"],
+        },
+        { name: "MyClient", methods: [] },
+      ],
+    });
+    const ctx = mockCtx();
+
+    const result = computeAmbientTypes(api, ctx);
+    // MyClient is both defined and referenced — should NOT be ambient
+    expect(result["dom"]).toBeUndefined();
+    expect(result["es"]).toBeUndefined();
+    expect(result["node"]).toBeUndefined();
+  });
+
+  it("excludes primitive types", () => {
+    const api = apiWith({
+      interfaces: [
+        {
+          name: "Foo",
+          properties: [
+            { name: "a", type: "string" },
+            { name: "b", type: "number" },
+            { name: "c", type: "boolean" },
+          ],
+        },
+      ],
+    });
+    const ctx = mockCtx();
+
+    const result = computeAmbientTypes(api, ctx);
+    expect(Object.keys(result)).toHaveLength(0);
+  });
+
+  it("excludes generic type parameters", () => {
+    const api = apiWith({
+      interfaces: [
+        {
+          name: "Container",
+          typeParams: "T, K",
+          properties: [
+            { name: "value", type: "T" },
+            { name: "key", type: "K" },
+          ],
+        },
+      ],
+    });
+    const ctx = mockCtx();
+
+    const result = computeAmbientTypes(api, ctx);
+    expect(Object.keys(result)).toHaveLength(0);
+  });
+
+  it("classifies Node.js globals as 'node'", () => {
+    const api = apiWith({
+      functions: [
+        { name: "readData", sig: "(buf: Buffer): Readable", referencedTypes: ["Buffer", "Readable"] },
+      ],
+    });
+    // Buffer and Readable are NOT in referencedBuiltins (they come from @types/node)
+    const ctx = mockCtx();
+
+    const result = computeAmbientTypes(api, ctx);
+    expect(result["node"]).toContain("Buffer");
+    expect(result["node"]).toContain("Readable");
+  });
+
+  it("expands namespace prefixes to qualified names", () => {
+    // NodeJS used as "NodeJS.ReadableStream" — compiler tracks both the simple name and qualified ref
+    const api = apiWith({
+      functions: [
+        { name: "getStream", sig: "(): NodeJS.ReadableStream", referencedTypes: ["NodeJS"] },
+      ],
+    });
+    api.qualifiedReferencedTypes = ["NodeJS.ReadableStream"];
+    const ctx = mockCtx();
+
+    const result = computeAmbientTypes(api, ctx);
+    expect(result["node"]).toContain("NodeJS.ReadableStream");
+    // Should NOT contain bare "NodeJS" since it was expanded
+    expect(result["node"]).not.toContain("NodeJS");
+  });
+
+  it("moves shared DOM/Node types to 'node' when exclusive node types exist", () => {
+    // Buffer is an exclusive node type; AbortSignal is shared
+    const api = apiWith({
+      functions: [
+        { name: "doWork", sig: "(signal: AbortSignal, buf: Buffer): void", referencedTypes: ["AbortSignal", "Buffer"] },
+      ],
+    });
+    // AbortSignal tracked as dom builtin during extraction
+    const ctx = mockCtx(new Map([["dom", new Set(["AbortSignal"])]]));
+
+    const result = computeAmbientTypes(api, ctx);
+    // Buffer triggers "node" category; AbortSignal should move from dom to node
+    expect(result["node"]).toContain("Buffer");
+    expect(result["node"]).toContain("AbortSignal");
+    // dom category should be gone (or not contain AbortSignal)
+    expect(result["dom"]).toBeUndefined();
+  });
+
+  it("returns empty object when there are no unresolved types", () => {
+    const api = apiWith({
+      interfaces: [
+        {
+          name: "Simple",
+          properties: [{ name: "x", type: "string" }],
+        },
+      ],
+    });
+    const ctx = mockCtx();
+
+    const result = computeAmbientTypes(api, ctx);
+    expect(result).toEqual({});
+  });
+
+  it("finds types referenced in dependency type bodies", () => {
+    // AbortSignal only appears in a dependency type's referencedTypes, not in the main module
+    const api = apiWith(
+      {
+        interfaces: [
+          {
+            name: "MyClient",
+            properties: [{ name: "opts", type: "DepOptions" }],
+            referencedTypes: ["DepOptions"],
+          },
+        ],
+      },
+      [
+        {
+          package: "@dep/core",
+          types: [{ name: "DepOptions", type: "{ signal: AbortSignal }", referencedTypes: ["AbortSignal"] }],
+        },
+      ],
+    );
+    const ctx = mockCtx(new Map([["dom", new Set(["AbortSignal"])]]));
+
+    const result = computeAmbientTypes(api, ctx);
+    expect(result["dom"]).toContain("AbortSignal");
+  });
+});
+
+// ---------------------------------------------------------------------------
+// validateSelfContainment
+// ---------------------------------------------------------------------------
+
+describe("validateSelfContainment", () => {
+  it("emits no diagnostic when all referenced types are defined", () => {
+    const api = apiWith({
+      interfaces: [
+        {
+          name: "MyOptions",
+          properties: [{ name: "client", type: "MyClient" }],
+          referencedTypes: ["MyClient"],
+        },
+        { name: "MyClient", methods: [] },
+      ],
+    });
+    const ctx = mockCtx();
+    const spy = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    validateSelfContainment(api, ctx);
+
+    expect(spy).not.toHaveBeenCalled();
+    spy.mockRestore();
+  });
+
+  it("emits SELF_CONTAINMENT diagnostic for missing types", () => {
+    const api = apiWith({
+      interfaces: [
+        {
+          name: "MyClient",
+          properties: [{ name: "opts", type: "UnknownOptions" }],
+          referencedTypes: ["UnknownOptions"],
+        },
+      ],
+    });
+    const ctx = mockCtx();
+    const spy = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    validateSelfContainment(api, ctx);
+
+    expect(spy).toHaveBeenCalledOnce();
+    expect(spy.mock.calls[0][0]).toContain("UnknownOptions");
+    expect(spy.mock.calls[0][0]).toContain("Self-containment");
+    spy.mockRestore();
+  });
+
+  it("does not flag builtin types (Promise, Array, Map)", () => {
+    const api = apiWith({
+      functions: [
+        { name: "fetch", sig: "(url: string): Promise<Array<Map<string, number>>>", referencedTypes: ["Promise", "Array", "Map"] },
+      ],
+    });
+    const builtinNames = new Set(["Promise", "Array", "Map"]);
+    const ctx = {
+      referencedBuiltins: new Map([["es", builtinNames]]),
+      discoveredBuiltins: builtinNames,
+      isBuiltinType(name: string) {
+        return builtinNames.has(name);
+      },
+    } as unknown as ExtractionContext;
+    const spy = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    validateSelfContainment(api, ctx);
+
+    expect(spy).not.toHaveBeenCalled();
+    spy.mockRestore();
+  });
+
+  it("does not flag primitive types (string, number, boolean)", () => {
+    const api = apiWith({
+      interfaces: [
+        {
+          name: "Foo",
+          properties: [
+            { name: "a", type: "string" },
+            { name: "b", type: "number" },
+            { name: "c", type: "boolean" },
+          ],
+        },
+      ],
+    });
+    const ctx = mockCtx();
+    const spy = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    validateSelfContainment(api, ctx);
+
+    expect(spy).not.toHaveBeenCalled();
+    spy.mockRestore();
+  });
+
+  it("does not flag declared type parameters", () => {
+    const api = apiWith({
+      interfaces: [
+        {
+          name: "Container",
+          typeParams: "T, K extends string",
+          properties: [
+            { name: "value", type: "T" },
+            { name: "key", type: "K" },
+          ],
+        },
+      ],
+    });
+    const ctx = mockCtx();
+    const spy = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    validateSelfContainment(api, ctx);
+
+    expect(spy).not.toHaveBeenCalled();
+    spy.mockRestore();
+  });
+
+  it("flags Node globals (Buffer, NodeJS) since validateSelfContainment does not exclude them", () => {
+    // NODE_GLOBAL_TYPES is only used by computeAmbientTypes, not validateSelfContainment
+    const api = apiWith({
+      functions: [
+        { name: "readData", sig: "(buf: Buffer): NodeJS", referencedTypes: ["Buffer", "NodeJS"] },
+      ],
+    });
+    const ctx = mockCtx();
+    const spy = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    validateSelfContainment(api, ctx);
+
+    expect(spy).toHaveBeenCalledOnce();
+    expect(spy.mock.calls[0][0]).toContain("Buffer");
+    expect(spy.mock.calls[0][0]).toContain("NodeJS");
+    spy.mockRestore();
+  });
+
+  it("includes dependency-defined types in the defined set", () => {
+    // DepOptions is defined in dependencies, referenced in main module
+    const api = apiWith(
+      {
+        interfaces: [
+          {
+            name: "MyClient",
+            properties: [{ name: "opts", type: "DepOptions" }],
+            referencedTypes: ["DepOptions"],
+          },
+        ],
+      },
+      [
+        {
+          package: "@dep/core",
+          interfaces: [{ name: "DepOptions", methods: [], properties: [] }],
+        },
+      ],
+    );
+    const ctx = mockCtx();
+    const spy = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    validateSelfContainment(api, ctx);
+
+    // DepOptions from dependencies should be in the defined set → no diagnostic
+    expect(spy).not.toHaveBeenCalled();
+    spy.mockRestore();
   });
 });

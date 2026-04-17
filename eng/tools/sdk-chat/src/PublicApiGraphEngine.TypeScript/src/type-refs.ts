@@ -929,6 +929,23 @@ export class TypeReferenceCollector {
         return result;
     }
 
+    /**
+     * Returns a flat set of all qualified (dotted) reference names across all contexts.
+     * E.g., "NodeJS.ReadableStream" from fullName fields that contain dots.
+     */
+    getAllQualifiedRefNames(): Set<string> {
+        const result = new Set<string>();
+        for (const ref of this.refs.values()) {
+            const fn = ref.fullName;
+            // fullName may be quoted like `"NodeJS".ReadableStream` — normalize
+            const normalized = fn.replace(/"/g, "");
+            if (normalized.includes(".")) {
+                result.add(normalized);
+            }
+        }
+        return result;
+    }
+
     clear(): void {
         this.refs.clear();
         this.definedTypes.clear();

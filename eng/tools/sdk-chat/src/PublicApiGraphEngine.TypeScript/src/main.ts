@@ -362,6 +362,12 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
         }
     }
 
+    // Collect qualified (dotted) type references for ambient type display (e.g., NodeJS.ReadableStream)
+    const qualifiedRefs = ctx.typeRefs.getAllQualifiedRefNames();
+    if (qualifiedRefs.size > 0) {
+        baseResult.qualifiedReferencedTypes = [...qualifiedRefs];
+    }
+
     // Compute types reachable from entry points
     const reachableTypes = computeReachableTypes(baseResult);
 

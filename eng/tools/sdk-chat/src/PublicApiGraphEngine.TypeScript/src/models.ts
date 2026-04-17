@@ -166,6 +166,12 @@ export interface ApiIndex {
     ambientTypes?: Record<string, string[]>;
     /** The ES lib target resolved from the package's tsconfig (e.g. "es2023") */
     esLib?: string;
+    /**
+     * Qualified (dotted) type references from compiler resolution (e.g., "NodeJS.ReadableStream").
+     * Used for expanding namespace prefixes in ambient type display.
+     * Not serialized to JSON — populated transiently during extraction.
+     */
+    qualifiedReferencedTypes?: string[];
 }
 
 /**

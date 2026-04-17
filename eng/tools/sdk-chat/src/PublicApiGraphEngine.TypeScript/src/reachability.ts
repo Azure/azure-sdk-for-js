@@ -3,9 +3,6 @@
 
 import type {
     ApiIndex,
-    MethodInfo,
-    PropertyInfo,
-    IndexSignatureInfo,
     NamespaceInfo,
 } from "./models.js";
 import type { ExtractionContext } from "./context.js";
@@ -14,78 +11,6 @@ import { PRIMITIVE_TYPES } from "./context.js";
 // ============================================================================
 // Self-Containment Validation
 // ============================================================================
-
-/**
- * Tokenizes type strings to extract type-position identifiers.
- * Skips keywords, primitives, literals, and punctuation to yield only
- * names that must be resolvable in the output.
- */
-const TYPE_TOKEN_RE = /\b([A-Z][A-Za-z0-9_$]*)\b/g;
-const TYPE_KEYWORDS = new Set([
-    "extends", "implements", "readonly", "static", "async", "new",
-    "void", "null", "undefined", "true", "false", "keyof", "typeof",
-    "infer", "in", "out", "const", "declare", "export", "import",
-    "type", "interface", "class", "enum", "function", "namespace",
-]);
-// Matches identifiers that are ALL_CAPS with underscores — these are constants, not types.
-const ALL_CAPS_RE = /^[A-Z][A-Z0-9_]*$/;
-// Strip JSDoc/block comments, line comments, and string literals from type strings
-// before tokenizing to avoid matching words inside documentation.
-const COMMENT_AND_STRING_RE = /\/\*[\s\S]*?\*\/|\/\/[^\n]*|"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|`(?:[^`\\]|\\.)*`/g;
-
-export function extractTypeNamesFromSignature(sig: string): Set<string> {
-    // Remove comments and string literals to avoid matching prose words
-    const cleaned = sig.replace(COMMENT_AND_STRING_RE, " ");
-    const names = new Set<string>();
-    let m: RegExpExecArray | null;
-    TYPE_TOKEN_RE.lastIndex = 0;
-    while ((m = TYPE_TOKEN_RE.exec(cleaned)) !== null) {
-        const name = m[1];
-        if (!PRIMITIVE_TYPES.has(name) && !TYPE_KEYWORDS.has(name) && !ALL_CAPS_RE.test(name)) {
-            names.add(name);
-        }
-    }
-    return names;
-}
-
-/**
- * Extracts namespace-qualified member names from type signatures.
- * For qualified references like `Foo.Bar`, `Ns.Sub.Member`, captures every
- * segment after the first (i.e., `Bar`, `Sub`, `Member`). This complements
- * extractTypeNamesFromSignature which may skip ALL_CAPS identifiers like
- * `URL` that are valid namespace members.
- */
-const DOTTED_CHAIN_RE = /\b([A-Za-z_$][A-Za-z0-9_$]*(?:\.[A-Za-z_$][A-Za-z0-9_$]*)+)\b/g;
-
-export function extractQualifiedMemberNames(sig: string): Set<string> {
-    const cleaned = sig.replace(COMMENT_AND_STRING_RE, " ");
-    const names = new Set<string>();
-    let m: RegExpExecArray | null;
-    DOTTED_CHAIN_RE.lastIndex = 0;
-    while ((m = DOTTED_CHAIN_RE.exec(cleaned)) !== null) {
-        // Split on dots and add every segment after the first
-        const parts = m[1].split(".");
-        for (let i = 1; i < parts.length; i++) {
-            names.add(parts[i]);
-        }
-    }
-    return names;
-}
-
-/**
- * Extracts declared type parameter names from a typeParams string.
- * E.g., "<T, K extends string, V = number>" → {"T", "K", "V"}
- */
-export function extractDeclaredTypeParamNames(typeParamStr: string | undefined): Set<string> {
-    if (!typeParamStr) return new Set();
-    const params = new Set<string>();
-    // Split by comma, then take the first identifier in each segment
-    for (const segment of typeParamStr.split(",")) {
-        const match = segment.trim().match(/^([A-Z_$][A-Za-z0-9_$]*)/);
-        if (match) params.add(match[1]);
-    }
-    return params;
-}
 
 /**
  * Validates that the API index is self-contained: every type name referenced
@@ -147,7 +72,7 @@ const DOM_NODE_SHARED_TYPES = new Set([
 export function computeAmbientTypes(
     api: ApiIndex, ctx: ExtractionContext,
 ): Record<string, string[]> {
-    const { defined, referenced, qualifiedReferences, declaredTypeParams } = collectDefinedAndReferenced(api, true);
+    const { defined, referenced, declaredTypeParams } = collectDefinedAndReferenced(api, true);
 
     // Compute the set of unresolved type names — referenced but not self-contained
     const unresolved = new Set<string>();
@@ -167,13 +92,15 @@ export function computeAmbientTypes(
     }
 
     // Build a map from namespace prefix to qualified references (e.g., "NodeJS" → ["NodeJS.ReadableStream"])
-    // so we can show the full qualified name instead of just the namespace prefix.
+    // from compiler-resolved qualified type refs, so we can show full names instead of bare prefixes.
     const qualifiedByPrefix = new Map<string, string[]>();
-    for (const qr of qualifiedReferences) {
+    for (const qr of api.qualifiedReferencedTypes ?? []) {
         const dot = qr.indexOf(".");
         if (dot > 0) {
             const prefix = qr.substring(0, dot);
-            (qualifiedByPrefix.get(prefix) ?? (() => { const a: string[] = []; qualifiedByPrefix.set(prefix, a); return a; })()).push(qr);
+            let list = qualifiedByPrefix.get(prefix);
+            if (!list) { list = []; qualifiedByPrefix.set(prefix, list); }
+            list.push(qr);
         }
     }
 
@@ -233,14 +160,16 @@ export function computeAmbientTypes(
  * Collects all defined type names, all referenced type names, and all
  * declared generic type parameters from the API index.
  *
- * @param includeDependencyReferences - When true, also scans dependency type
- *   bodies for referenced type names (needed for ambient type computation).
- *   When false (default), only scans main module signatures (for self-containment).
+ * Uses pre-computed `referencedTypes` arrays (populated from compiler type
+ * resolution during extraction) instead of regex scanning of signature strings.
+ *
+ * @param includeDependencyReferences - When true, also collects referenced types
+ *   from dependency entities (needed for ambient type computation).
+ *   When false (default), only collects from main module entities (for self-containment).
  */
 function collectDefinedAndReferenced(api: ApiIndex, includeDependencyReferences = false): {
     defined: Set<string>;
     referenced: Set<string>;
-    qualifiedReferences: Set<string>;
     declaredTypeParams: Set<string>;
 } {
     // Collect all defined type names (from main modules + dependencies)
@@ -265,101 +194,58 @@ function collectDefinedAndReferenced(api: ApiIndex, includeDependencyReferences 
     }
 
     // Collect declared generic type parameter names to exclude from dangling check.
+    // Parse from typeParams strings (e.g., "<T, K extends string>" → {T, K}).
     const declaredTypeParams = new Set<string>();
-
     function collectTypeParams(typeParamStr: string | undefined): void {
-        for (const name of extractDeclaredTypeParamNames(typeParamStr)) {
-            declaredTypeParams.add(name);
+        if (!typeParamStr) return;
+        // Strip angle brackets, split by comma, take first identifier from each segment
+        const inner = typeParamStr.replace(/^<|>$/g, "");
+        for (const segment of inner.split(",")) {
+            const trimmed = segment.trim();
+            // First word-like identifier (letter or underscore start)
+            const match = trimmed.match(/^([A-Za-z_$][A-Za-z0-9_$]*)/);
+            if (match) declaredTypeParams.add(match[1]);
         }
     }
 
-    // Collect all type names referenced in signatures
+    // Collect all referenced type names from pre-computed referencedTypes arrays
     const referenced = new Set<string>();
-    // Also track qualified references (e.g., "NodeJS.ReadableStream") for ambient type display
-    const qualifiedReferences = new Set<string>();
 
-    function scanType(typeStr: string | undefined): void {
-        if (!typeStr) return;
-        for (const name of extractTypeNamesFromSignature(typeStr)) {
-            referenced.add(name);
-        }
-        // Capture dotted references like NodeJS.ReadableStream
-        const cleaned = typeStr.replace(COMMENT_AND_STRING_RE, " ");
-        let m: RegExpExecArray | null;
-        DOTTED_CHAIN_RE.lastIndex = 0;
-        while ((m = DOTTED_CHAIN_RE.exec(cleaned)) !== null) {
-            qualifiedReferences.add(m[1]);
-        }
-    }
-
-    function scanMethodSigs(methods: MethodInfo[] | undefined): void {
-        for (const m of methods || []) {
-            collectTypeParams(m.typeParams);
-            scanType(m.sig);
-            scanType(m.ret);
-            scanType(m.typeParams);
-            for (const p of m.params || []) scanType(p.type);
-        }
-    }
-
-    function scanProperties(props: PropertyInfo[] | undefined): void {
-        for (const p of props || []) scanType(p.type);
-    }
-
-    function scanIndexSigs(sigs: IndexSignatureInfo[] | undefined): void {
-        for (const s of sigs || []) {
-            scanType(s.keyType);
-            scanType(s.valueType);
-        }
-    }
-
-    function scanEntities(source: { classes?: any[]; interfaces?: any[]; types?: any[]; functions?: any[]; namespaces?: NamespaceInfo[] }): void {
+    function collectEntityRefs(source: {
+        classes?: { referencedTypes?: string[]; typeParams?: string }[];
+        interfaces?: { referencedTypes?: string[]; typeParams?: string }[];
+        types?: { referencedTypes?: string[]; typeParams?: string }[];
+        functions?: { referencedTypes?: string[]; typeParams?: string }[];
+    }): void {
         for (const c of source.classes || []) {
             collectTypeParams(c.typeParams);
-            scanType(c.extends);
-            for (const impl of c.implements || []) scanType(impl);
-            scanType(c.typeParams);
-            scanMethodSigs(c.methods);
-            scanProperties(c.properties);
-            scanIndexSigs(c.indexSignatures);
-            for (const ctor of c.constructors || []) {
-                scanType(ctor.sig);
-                for (const p of ctor.params || []) scanType(p.type);
-            }
+            for (const name of c.referencedTypes || []) referenced.add(name);
         }
         for (const i of source.interfaces || []) {
             collectTypeParams(i.typeParams);
-            for (const ext of i.extends || []) scanType(ext);
-            scanType(i.typeParams);
-            scanMethodSigs(i.methods);
-            scanProperties(i.properties);
-            scanIndexSigs(i.indexSignatures);
+            for (const name of i.referencedTypes || []) referenced.add(name);
         }
         for (const t of source.types || []) {
             collectTypeParams(t.typeParams);
-            scanType(t.type);
-            scanType(t.typeParams);
+            for (const name of t.referencedTypes || []) referenced.add(name);
         }
         for (const f of source.functions || []) {
             collectTypeParams(f.typeParams);
-            scanType(f.sig);
-            scanType(f.ret);
-            scanType(f.typeParams);
-            for (const p of f.params || []) scanType(p.type);
+            for (const name of f.referencedTypes || []) referenced.add(name);
         }
     }
 
     for (const mod of api.modules) {
-        scanEntities(mod);
+        collectEntityRefs(mod);
     }
 
     if (includeDependencyReferences && api.dependencies) {
         for (const dep of api.dependencies) {
-            scanEntities(dep);
+            collectEntityRefs(dep);
         }
     }
 
-    return { defined, referenced, qualifiedReferences, declaredTypeParams };
+    return { defined, referenced, declaredTypeParams };
 }
 
 // ============================================================================
