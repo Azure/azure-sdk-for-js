@@ -45,15 +45,15 @@ describe("calculateRetryDelay", function () {
     assert.isNumber(result.retryAfterInMs);
     // For attempt 0: exponentialDelay = 100 * 2^0 = 100, clampedDelay = 100
     // retryAfterInMs = 50 + random(0..50), so between 50 and 100
-    assert.isTrue(result.retryAfterInMs >= 50);
-    assert.isTrue(result.retryAfterInMs <= 100);
+    assert.isAtLeast(result.retryAfterInMs, 50);
+    assert.isAtMost(result.retryAfterInMs, 100);
   });
 
   it("should clamp to maxRetryDelayInMs", function () {
     const result = calculateRetryDelay(20, { retryDelayInMs: 100, maxRetryDelayInMs: 500 });
     // exponentialDelay = 100 * 2^20 = very large, clampedDelay = 500
     // retryAfterInMs = 250 + random(0..250), so between 250 and 500
-    assert.isTrue(result.retryAfterInMs >= 250);
-    assert.isTrue(result.retryAfterInMs <= 500);
+    assert.isAtLeast(result.retryAfterInMs, 250);
+    assert.isAtMost(result.retryAfterInMs, 500);
   });
 });
