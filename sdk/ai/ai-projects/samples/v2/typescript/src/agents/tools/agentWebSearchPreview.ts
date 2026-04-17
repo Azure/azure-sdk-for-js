@@ -13,8 +13,6 @@
  * [privacy statement](https://go.microsoft.com/fwlink/?LinkId=521839&clcid=0x409).
  * Customer data will flow outside the Azure compliance boundary. Learn more
  * [here](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/web-search?view=foundry&pivots=rest-api)
- *
- * @azsdk-weight 100
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
@@ -58,7 +56,7 @@ export async function main(): Promise<void> {
       tool_choice: "required",
     },
     {
-      body: { agent: { name: agent.name, type: "agent_reference" } },
+      body: { agent_reference: { name: agent.name, type: "agent_reference" } },
     },
   );
 

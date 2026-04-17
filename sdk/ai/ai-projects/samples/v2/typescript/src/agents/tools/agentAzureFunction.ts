@@ -8,8 +8,6 @@
  *
  * @summary This sample demonstrates how to create an agent with an Azure Function tool
  * that uses Storage Queue bindings for input and output, send a query, and clean up resources.
- *
- * @azsdk-weight 100
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
@@ -79,7 +77,7 @@ export async function main(): Promise<void> {
       input: "What is the weather in Seattle?",
     },
     {
-      body: { agent: { name: agent.name, type: "agent_reference" } },
+      body: { agent_reference: { name: agent.name, type: "agent_reference" } },
     },
   );
   console.log(`Response output: ${response.output_text}`);

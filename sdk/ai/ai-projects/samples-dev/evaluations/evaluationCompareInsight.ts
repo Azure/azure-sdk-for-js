@@ -143,7 +143,7 @@ export async function main(): Promise<void> {
         treatmentRunIds: [evalRun2.id],
       },
     });
-    console.log(`Started insight generation (id: ${compareInsight.id})`);
+    console.log(`Started insight generation (id: ${compareInsight.insight_id})`);
 
     // Poll for insight completion
     while (
@@ -151,7 +151,7 @@ export async function main(): Promise<void> {
       compareInsight.state !== "Failed" &&
       compareInsight.state !== "Canceled"
     ) {
-      compareInsight = await project.beta.insights.get(compareInsight.id ?? "");
+      compareInsight = await project.beta.insights.get(compareInsight.insight_id ?? "");
       console.log(`Waiting for insight to be generated...current status: ${compareInsight.state}`);
       await new Promise((resolve) => setTimeout(resolve, 5000));
     }

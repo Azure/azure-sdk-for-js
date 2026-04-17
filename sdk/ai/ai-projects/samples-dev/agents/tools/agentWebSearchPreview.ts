@@ -58,7 +58,7 @@ export async function main(): Promise<void> {
       tool_choice: "required",
     },
     {
-      body: { agent: { name: agent.name, type: "agent_reference" } },
+      body: { agent_reference: { name: agent.name, type: "agent_reference" } },
     },
   );
 
