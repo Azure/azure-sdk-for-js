@@ -38,7 +38,6 @@ describe("clientHelpers", () => {
       apiVersionPolicy,
       `Pipeline policy not found in the default pipeline: ${apiVersionPolicyName}`,
     );
-    assert.strictEqual(apiVersionPolicy!.name, apiVersionPolicyName);
   });
 
   it("should throw if key credentials but no Api Header Name", () => {
@@ -67,7 +66,6 @@ describe("clientHelpers", () => {
 
     const keyCredPolicy = policies.find((p) => p.name === keyCredentialAuthenticationPolicyName);
     assert.isDefined(keyCredPolicy, "pipeline should have keyCredentialAuthenticationPolicyName");
-    assert.strictEqual(keyCredPolicy!.name, keyCredentialAuthenticationPolicyName);
   });
 
   it("should create a default pipeline with TokenCredential", () => {
@@ -81,7 +79,6 @@ describe("clientHelpers", () => {
 
     const bearerPolicy = policies.find((p) => p.name === bearerTokenAuthenticationPolicyName);
     assert.isDefined(bearerPolicy, "pipeline should have bearerTokenAuthenticationPolicyName");
-    assert.strictEqual(bearerPolicy!.name, bearerTokenAuthenticationPolicyName);
 
     assert.isUndefined(
       policies.find((p) => p.name === keyCredentialAuthenticationPolicyName),
