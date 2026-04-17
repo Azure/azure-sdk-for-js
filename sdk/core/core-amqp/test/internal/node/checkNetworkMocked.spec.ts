@@ -6,6 +6,7 @@
  * This is necessary because ESM modules don't allow vi.spyOn on module exports.
  */
 import { describe, it, assert, vi, beforeEach } from "vitest";
+import { checkNetworkConnection } from "../../../src/util/checkNetworkConnection.js";
 
 const { mockResolve } = vi.hoisted(() => ({
   mockResolve: vi.fn(),
@@ -16,8 +17,6 @@ vi.mock("node:dns", () => ({
   TIMEOUT: "ETIMEOUT",
   resolve: mockResolve,
 }));
-
-import { checkNetworkConnection } from "../../../src/util/checkNetworkConnection.js";
 
 describe("checkNetworkConnection - mocked DNS", () => {
   it("returns false when DNS fails with ECONNREFUSED", async () => {
