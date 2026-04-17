@@ -86,6 +86,9 @@ const executeTestCase = async function (
       assert.fail("response.resource should not be null");
     }
   } catch (err: any) {
+    if (err?.name === "AssertionError" || err?.code === "ERR_ASSERTION") {
+      throw err;
+    }
     console.log("ERROR: " + err.code + " - " + err.message + " - " + err.stack);
     assert.strictEqual(err.code, scenario.expectedReadStatusCode);
   }
@@ -103,6 +106,9 @@ const executeTestCase = async function (
       assert.fail("response.resource should not be null");
     }
   } catch (err: any) {
+    if (err?.name === "AssertionError" || err?.code === "ERR_ASSERTION") {
+      throw err;
+    }
     console.log("ERROR: " + err.code + " - " + err.message + " - " + err.stack);
     assert.strictEqual(err.code, scenario.expectedReplaceStatusCode);
   }
@@ -111,6 +117,9 @@ const executeTestCase = async function (
     const response = await container.item(scenario.id, scenario.id).delete();
     assert.strictEqual(response.statusCode, scenario.expectedDeleteStatusCode);
   } catch (err: any) {
+    if (err?.name === "AssertionError" || err?.code === "ERR_ASSERTION") {
+      throw err;
+    }
     console.log("ERROR: " + err.code + " - " + err.message + " - " + err.stack);
     assert.strictEqual(err.code, scenario.expectedDeleteStatusCode);
   }
@@ -264,9 +273,9 @@ describe("Id encoding", { timeout: 10000 }, () => {
       name: "RGW_IdEndingWithWhitespace",
       id: "Test ",
       expectedCreateStatusCode: 201,
-      expectedReadStatusCode: 401,
-      expectedReplaceStatusCode: 401,
-      expectedDeleteStatusCode: 401,
+      expectedReadStatusCode: 200,
+      expectedReplaceStatusCode: 200,
+      expectedDeleteStatusCode: 204,
     };
 
     await executeTestCase(scenario);
@@ -290,9 +299,9 @@ describe("Id encoding", { timeout: 10000 }, () => {
       name: "RGW_IdEndingWithWhitespaces",
       id: "Test   ",
       expectedCreateStatusCode: 201,
-      expectedReadStatusCode: 401,
-      expectedReplaceStatusCode: 401,
-      expectedDeleteStatusCode: 401,
+      expectedReadStatusCode: 200,
+      expectedReplaceStatusCode: 200,
+      expectedDeleteStatusCode: 204,
     };
 
     await executeTestCase(scenario);
@@ -404,9 +413,9 @@ describe("Id encoding", { timeout: 10000 }, () => {
       name: "RGW_IdEndingWithPercentEncodedWhitespace",
       id: "IdEndingWithPercentEncodedWhitespace%20",
       expectedCreateStatusCode: 201,
-      expectedReadStatusCode: 401,
-      expectedReplaceStatusCode: 401,
-      expectedDeleteStatusCode: 401,
+      expectedReadStatusCode: 200,
+      expectedReplaceStatusCode: 200,
+      expectedDeleteStatusCode: 204,
     };
 
     await executeTestCase(scenario);
@@ -430,9 +439,9 @@ describe("Id encoding", { timeout: 10000 }, () => {
       name: "RGW_IdWithPercentEncodedSpecialChar",
       id: "WithPercentEncodedSpecialChar%E9%B1%80",
       expectedCreateStatusCode: 201,
-      expectedReadStatusCode: 401,
-      expectedReplaceStatusCode: 401,
-      expectedDeleteStatusCode: 401,
+      expectedReadStatusCode: 200,
+      expectedReplaceStatusCode: 200,
+      expectedDeleteStatusCode: 204,
     };
 
     await executeTestCase(scenario);
@@ -548,9 +557,9 @@ describe("Id encoding", { timeout: 10000 }, () => {
       name: "RGW_IdWithCarriageReturn",
       id: "With\rCarriageReturn",
       expectedCreateStatusCode: 201,
-      expectedReadStatusCode: undefined,
-      expectedReplaceStatusCode: undefined,
-      expectedDeleteStatusCode: undefined,
+      expectedReadStatusCode: 200,
+      expectedReplaceStatusCode: 200,
+      expectedDeleteStatusCode: 204,
     };
 
     await executeTestCase(scenario);
@@ -574,9 +583,9 @@ describe("Id encoding", { timeout: 10000 }, () => {
       name: "RGW_IdWithTab",
       id: "With\tTab",
       expectedCreateStatusCode: 201,
-      expectedReadStatusCode: undefined,
-      expectedReplaceStatusCode: undefined,
-      expectedDeleteStatusCode: undefined,
+      expectedReadStatusCode: 200,
+      expectedReplaceStatusCode: 200,
+      expectedDeleteStatusCode: 204,
     };
 
     await executeTestCase(scenario);
@@ -600,9 +609,9 @@ describe("Id encoding", { timeout: 10000 }, () => {
       name: "RGW_IdWithLineFeed",
       id: "With\nLineFeed",
       expectedCreateStatusCode: 201,
-      expectedReadStatusCode: undefined,
-      expectedReplaceStatusCode: undefined,
-      expectedDeleteStatusCode: undefined,
+      expectedReadStatusCode: 200,
+      expectedReplaceStatusCode: 200,
+      expectedDeleteStatusCode: 204,
     };
 
     await executeTestCase(scenario);
