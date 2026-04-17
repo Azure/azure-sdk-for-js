@@ -7,7 +7,7 @@ import process from "node:process";
 import os from "node:os";
 
 vi.mock("node:process", async () => {
-  const actual = (await vi.importActual("node:process")) as Record<string, unknown>;
+  const actual = await vi.importActual<typeof import("node:process")>("node:process");
   return {
     default: {
       ...(actual.default as Record<string, unknown>),
@@ -17,7 +17,7 @@ vi.mock("node:process", async () => {
 });
 
 vi.mock("node:os", async () => {
-  const actual = (await vi.importActual("node:os")) as Record<string, unknown>;
+  const actual = await vi.importActual<typeof import("node:os")>("node:os");
   return {
     default: {
       ...(actual.default as Record<string, unknown>),
