@@ -67,7 +67,7 @@ describe("rewriteUrl", () => {
   });
 });
 
-describe("http/utils.ts coverage", () => {
+describe("http/utils.ts", () => {
   it("throws when relative URL cannot be resolved with invalid baseUrl", () => {
     // relative URL that can't be parsed even with baseUrl as base
     assert.throws(() => {

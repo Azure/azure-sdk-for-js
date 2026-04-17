@@ -21,7 +21,7 @@ vi.mock("../../src/poller/operation.js", async (importOriginal) => {
 import { buildCreatePoller } from "../../src/poller/poller.js";
 import type { OperationState } from "../../src/poller/models.js";
 
-describe("poller.ts state guard coverage", () => {
+describe("poller.ts state guard", () => {
   function createBrokenPoller() {
     const createPoller = buildCreatePoller<unknown, unknown, OperationState<unknown>>({
       getOperationLocation: () => undefined,

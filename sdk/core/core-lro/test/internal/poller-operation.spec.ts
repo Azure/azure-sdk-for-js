@@ -31,7 +31,7 @@ function makeState<TResult>(
   } as unknown as RestorableOperationState<TResult, OperationState<TResult>>;
 }
 
-describe("poller/operation.ts coverage", () => {
+describe("poller/operation.ts", () => {
   describe("deserializeState", () => {
     it("throws for invalid JSON", () => {
       assert.throws(() => deserializeState("not valid json"), /Unable to deserialize input state/);

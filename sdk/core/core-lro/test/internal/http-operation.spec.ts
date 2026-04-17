@@ -39,7 +39,7 @@ function makeState<TResult>(
   } as RestorableOperationState<TResult, OperationState<TResult>>;
 }
 
-describe("http/operation.ts coverage", () => {
+describe("http/operation.ts", () => {
   describe("calculatePollingIntervalFromDate (via parseRetryAfter)", () => {
     it("returns undefined when retry-after date is in the past", () => {
       const pastDate = new Date(Date.now() - 100000).toUTCString();

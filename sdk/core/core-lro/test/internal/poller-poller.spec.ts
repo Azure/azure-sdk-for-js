@@ -32,7 +32,7 @@ function makeState<TResult>(
   } as unknown as RestorableOperationState<TResult, OperationState<TResult>>;
 }
 
-describe("poller/poller.ts coverage", () => {
+describe("poller/poller.ts", () => {
   describe("withOperationLocation callback", () => {
     it("calls withOperationLocation on initial and updated locations", async () => {
       const locations: string[] = [];
