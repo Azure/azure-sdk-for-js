@@ -115,7 +115,7 @@ export const defaultCancellableLock: CancellableAsyncLock = new CancellableAsync
  * the promise with the given value.
  */
 export class Timeout {
-  private _timer?: ReturnType<typeof setTimeout>;
+  private _timer?: number | NodeJS.Timeout;
 
   set<T>(t: number, value?: T): Promise<T> {
     return new Promise<T>((resolve, reject) => {

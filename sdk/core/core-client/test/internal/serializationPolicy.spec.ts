@@ -839,9 +839,5 @@ describe("serializationPolicy", function () {
 });
 
 function stringToByteArray(str: string): Uint8Array {
-  if (typeof Buffer === "function") {
-    return Buffer.from(str, "utf-8");
-  } else {
-    return new TextEncoder().encode(str);
-  }
+  return new TextEncoder().encode(str);
 }

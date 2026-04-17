@@ -274,6 +274,10 @@
 # PRLabel: %Operator Nexus - Network Cloud
 /sdk/networkcloud/    @Azure/azure-sdk-write-networkcloud
 
+# ServiceLabel: %PostgreSQL Auth
+# PRLabel: %Postgresql
+/sdk/postgresql/postgresql-auth/ @alxhghs @carlovi81 @mattboentoro @nasc17 @nehrao1 @rmendiza
+
 # PRLabel: %Purview
 /sdk/purview/    @qiaozha
 
@@ -1732,6 +1736,8 @@ sdk/servicegroups/arm-servicegroups/ @qiaozha @MaryGao @JialinHuang803
 /.github/workflows/sentinel.lock.yml     @deyaaeldeen @jeremymeng
 /.github/workflows/tester.md             @deyaaeldeen @jeremymeng
 /.github/workflows/tester.lock.yml       @deyaaeldeen @jeremymeng
+/.github/workflows/issue-triage.md       @deyaaeldeen @jeremymeng
+/.github/workflows/issue-triage.lock.yml @deyaaeldeen @jeremymeng
 /.github/agents/agentic-workflows.agent.md @deyaaeldeen @jeremymeng
 /.github/agents/archie.agent.md          @deyaaeldeen @jeremymeng @maorleger
 /.github/agents/dash.agent.md            @deyaaeldeen @jeremymeng

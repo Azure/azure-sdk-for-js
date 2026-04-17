@@ -17,11 +17,7 @@ const Serializer = createSerializer(Mappers);
 const valid_uuid = "ceaafd1e-f936-429f-bbfc-82ee75dddc33";
 
 function stringToByteArray(str: string): Uint8Array {
-  if (typeof Buffer === "function") {
-    return Buffer.from(str, "utf-8");
-  } else {
-    return new TextEncoder().encode(str);
-  }
+  return new TextEncoder().encode(str);
 }
 
 describe("Serializer", function () {
@@ -182,6 +178,19 @@ describe("Serializer", function () {
       const byteArray = stringToByteArray("Javascript");
       const base64str = "SmF2YXNjcmlwdA==";
       const serializedObject = Serializer.serialize(mapper, byteArray, "stringBody");
+      assert.equal(serializedObject, base64str);
+    });
+
+    it("should correctly serialize a ByteArray subarray", function () {
+      const mapper: Mapper = {
+        type: { name: "ByteArray" },
+        required: false,
+        serializedName: "ByteArray",
+      };
+      const full = stringToByteArray("XXJavascriptYY");
+      const subarray = full.subarray(2, 12);
+      const base64str = "SmF2YXNjcmlwdA==";
+      const serializedObject = Serializer.serialize(mapper, subarray, "stringBody");
       assert.equal(serializedObject, base64str);
     });
 
