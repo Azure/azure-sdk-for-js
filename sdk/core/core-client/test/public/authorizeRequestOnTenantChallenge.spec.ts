@@ -11,6 +11,8 @@ import {
 } from "@azure/core-rest-pipeline";
 import { authorizeRequestOnTenantChallenge } from "../../src/index.js";
 
+const defaultRequest = () => createPipelineRequest({ url: "https://example.com" });
+
 describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
   const fakeGuid = "3a4e2c3b-defc-466c-b0c8-6a419bf92858";
   let getTokenStub: Mock<
@@ -454,13 +456,13 @@ describe("authorizeRequestOnTenantChallenge", () => {
     const fakeGuid = "3a4e2c3b-defc-466c-b0c8-6a419bf92858";
     const result = await authorizeOnTenant({
       getAccessToken: async () => null,
-      request: createPipelineRequest({ url: "https://example.com" }),
+      request: defaultRequest(),
       response: {
         status: 401,
         headers: createHttpHeaders({
           "WWW-Authenticate": `Bearer authorization_uri=https://login.microsoftonline.com/${fakeGuid}/oauth2/authorize resource_id=https://storage.azure.com`,
         }),
-        request: createPipelineRequest({ url: "https://example.com" }),
+        request: defaultRequest(),
       },
       scopes: ["https://storage.azure.com/.default"],
     });
@@ -472,11 +474,11 @@ describe("authorizeRequestOnTenantChallenge", () => {
       await import("../../src/authorizeRequestOnTenantChallenge.js");
     const result = await authorizeOnTenant({
       getAccessToken: async () => ({ token: "t", expiresOnTimestamp: Date.now() + 3600000 }),
-      request: createPipelineRequest({ url: "https://example.com" }),
+      request: defaultRequest(),
       response: {
         status: 200,
         headers: createHttpHeaders(),
-        request: createPipelineRequest({ url: "https://example.com" }),
+        request: defaultRequest(),
       },
       scopes: ["https://storage.azure.com/.default"],
     });
@@ -488,13 +490,13 @@ describe("authorizeRequestOnTenantChallenge", () => {
       await import("../../src/authorizeRequestOnTenantChallenge.js");
     const result = await authorizeOnTenant({
       getAccessToken: async () => ({ token: "t", expiresOnTimestamp: Date.now() + 3600000 }),
-      request: createPipelineRequest({ url: "https://example.com" }),
+      request: defaultRequest(),
       response: {
         status: 401,
         headers: createHttpHeaders({
           "WWW-Authenticate": `Bearer authorization_uri=https://login.microsoftonline.com/not-a-uuid/oauth2/authorize resource_id=https://storage.azure.com`,
         }),
-        request: createPipelineRequest({ url: "https://example.com" }),
+        request: defaultRequest(),
       },
       scopes: ["https://storage.azure.com/.default"],
     });
@@ -506,11 +508,11 @@ describe("authorizeRequestOnTenantChallenge", () => {
       await import("../../src/authorizeRequestOnTenantChallenge.js");
     const result = await authorizeOnTenant({
       getAccessToken: async () => ({ token: "t", expiresOnTimestamp: Date.now() + 3600000 }),
-      request: createPipelineRequest({ url: "https://example.com" }),
+      request: defaultRequest(),
       response: {
         status: 401,
         headers: createHttpHeaders(),
-        request: createPipelineRequest({ url: "https://example.com" }),
+        request: defaultRequest(),
       },
       scopes: ["https://storage.azure.com/.default"],
     });
@@ -521,7 +523,7 @@ describe("authorizeRequestOnTenantChallenge", () => {
     const { authorizeRequestOnTenantChallenge: authorizeOnTenant } =
       await import("../../src/authorizeRequestOnTenantChallenge.js");
     const fakeGuid = "3a4e2c3b-defc-466c-b0c8-6a419bf92858";
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
     const result = await authorizeOnTenant({
       getAccessToken: async () => ({
         token: "myToken",
@@ -534,7 +536,7 @@ describe("authorizeRequestOnTenantChallenge", () => {
         headers: createHttpHeaders({
           "WWW-Authenticate": `Bearer authorization_uri=https://login.microsoftonline.com/${fakeGuid}/oauth2/authorize resource_id=https://storage.azure.com`,
         }),
-        request: createPipelineRequest({ url: "https://example.com" }),
+        request: defaultRequest(),
       },
       scopes: ["https://storage.azure.com/.default"],
     });

@@ -6,10 +6,12 @@ import type { CompositeMapper, FullOperationResponse } from "../../src/index.js"
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { flattenResponse } from "../../src/utils.js";
 
+const defaultRequest = () => createPipelineRequest({ url: "https://example.com", method: "GET" });
+
 describe("flattenResponse", () => {
   it("should copy model properties with serializedName into array response", () => {
     const fullResponse: FullOperationResponse = {
-      request: createPipelineRequest({ url: "https://example.com", method: "GET" }),
+      request: defaultRequest(),
       status: 200,
       headers: createHttpHeaders(),
       parsedBody: Object.assign([1, 2, 3], { nextLink: "https://next" }),
@@ -37,7 +39,7 @@ describe("flattenResponse", () => {
 
   it("should copy parsedHeaders into pageable array response", () => {
     const fullResponse: FullOperationResponse = {
-      request: createPipelineRequest({ url: "https://example.com", method: "GET" }),
+      request: defaultRequest(),
       status: 200,
       headers: createHttpHeaders(),
       parsedBody: [1, 2, 3],
@@ -65,7 +67,7 @@ describe("flattenResponse - Stream response", () => {
   it("should return stream properties for Stream body type", () => {
     const mockStream = { pipe: () => {} };
     const fullResponse: FullOperationResponse = {
-      request: createPipelineRequest({ url: "https://example.com", method: "GET" }),
+      request: defaultRequest(),
       status: 200,
       headers: createHttpHeaders(),
       readableStreamBody: mockStream as NodeJS.ReadableStream,
