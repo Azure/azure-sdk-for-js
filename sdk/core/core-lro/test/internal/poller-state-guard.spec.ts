@@ -7,6 +7,8 @@
  */
 
 import { describe, it, expect, vi } from "vitest";
+import { buildCreatePoller } from "../../src/poller/poller.js";
+import type { OperationState } from "../../src/poller/models.js";
 
 // Mock initOperation to resolve with undefined, so the `.then((s) => (state = s))`
 // sets state to undefined, triggering the `if (!state)` guards.
@@ -17,9 +19,6 @@ vi.mock("../../src/poller/operation.js", async (importOriginal) => {
     initOperation: vi.fn().mockResolvedValue(undefined),
   };
 });
-
-import { buildCreatePoller } from "../../src/poller/poller.js";
-import type { OperationState } from "../../src/poller/models.js";
 
 describe("poller.ts state guard", () => {
   function createBrokenPoller() {
