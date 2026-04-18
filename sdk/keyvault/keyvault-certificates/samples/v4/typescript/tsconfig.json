@@ -2,17 +2,20 @@
   "compilerOptions": {
     "target": "ES2023",
     "module": "commonjs",
-    "lib": [],
+    "lib": [
+      "ESNext"
+    ],
     "importHelpers": true,
-    "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "moduleResolution": "node10",
-    "esModuleInterop": true,
+    "types": [
+      "node"
+    ],
     "outDir": "./dist",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "moduleResolution": "node10"
   },
   "include": [
     "./src"

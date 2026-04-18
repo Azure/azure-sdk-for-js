@@ -21,8 +21,7 @@
     "cloud",
     "typescript",
     "browser",
-    "isomorphic",
-    "keyvault"
+    "isomorphic"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -33,11 +32,15 @@
   "dependencies": {
     "@azure/keyvault-certificates": "latest",
     "dotenv": "latest",
-    "@azure/identity": "^4.6.0"
+    "@azure/identity": "^4.13.0",
+    "@azure/logger": "^1.2.0",
+    "@azure/keyvault-secrets": "^4.9.0",
+    "@azure/core-util": "^1.12.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
-    "typescript": "~5.8.2",
-    "rimraf": "latest"
+    "cross-env": "latest",
+    "rimraf": "latest",
+    "typescript": "~6.0.2"
   }
 }

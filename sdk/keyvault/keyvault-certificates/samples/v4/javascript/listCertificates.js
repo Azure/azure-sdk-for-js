@@ -5,25 +5,16 @@
  * @summary List certificates, lists a certificate's versions, and lists deleted certificates in various ways.
  */
 
-const { CertificateClient } = require("@azure/keyvault-certificates");
 const { DefaultAzureCredential } = require("@azure/identity");
+const { CertificateClient } = require("@azure/keyvault-certificates");
 // Load the .env file if it exists
 require("dotenv/config");
 
-async function main() {
-  // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
-  // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
-  // about DefaultAzureCredential and the other credentials that are available for use.
-  // If you're using MSI, DefaultAzureCredential should "just work".
-  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-  const credential = new DefaultAzureCredential();
+let client;
+let certificateName1;
+let certificateName2;
 
-  const client = new CertificateClient(url, credential);
-
-  const uniqueString = new Date().getTime();
-  const certificateName1 = `list-1${uniqueString}`;
-  const certificateName2 = `list-2${uniqueString}`;
-
+async function createCertificates() {
   // Creating two self-signed certificates. They will appear as pending initially.
   await client.beginCreateCertificate(certificateName1, {
     issuerName: "Self",
@@ -33,13 +24,9 @@ async function main() {
     issuerName: "Self",
     subject: "cn=MyCert",
   });
+}
 
-  // Listing all the available certificates in a single call.
-  // The certificates we just created are still pending at this point.
-  for await (const certificate of client.listPropertiesOfCertificates({ includePending: true })) {
-    console.log("Certificate from a single call: ", certificate);
-  }
-
+async function listCertificatesByPage() {
   // Listing all the available certificates by pages.
   let pageCount = 0;
   for await (const page of client.listPropertiesOfCertificates({ includePending: true }).byPage()) {
@@ -48,7 +35,19 @@ async function main() {
     }
     pageCount++;
   }
+}
 
+async function listAllCertificates() {
+  // Listing all the available certificates in a single call.
+  // The certificates we just created are still pending at this point.
+  for await (const certificate of client.listPropertiesOfCertificates({
+    includePending: true,
+  })) {
+    console.log("Certificate from a single call: ", certificate);
+  }
+}
+
+async function updateAndListCertificateVersions() {
   // Updating one of the certificates to retrieve the certificate versions afterwards
   const updatedCertificate = await client.updateCertificateProperties(certificateName1, "", {
     tags: {
@@ -56,27 +55,123 @@ async function main() {
     },
   });
   console.log("Updated certificate:", updatedCertificate);
-
   // Listing a certificate's versions
   for await (const item of client.listPropertiesOfCertificateVersions(certificateName1, {})) {
     const version = item.version;
     const certificate = await client.getCertificateVersion(certificateName1, version);
     console.log(`Certificate from version ${version}: `, certificate);
   }
+}
 
-  // Deleting both certificates
-  let deletePoller = await client.beginDeleteCertificate(certificateName1);
-  await deletePoller.pollUntilDone();
-  deletePoller = await client.beginDeleteCertificate(certificateName2);
-  await deletePoller.pollUntilDone();
+async function listAllCertificates2() {
+  const credential = new DefaultAzureCredential();
 
-  for await (const certificate of client.listDeletedCertificates({ includePending: true })) {
-    console.log("Deleted certificate: ", certificate);
+  const vaultName = "<YOUR KEYVAULT NAME>";
+  const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+
+  const client = new CertificateClient(keyVaultUrl, credential);
+
+  const certificateName = "MyCertificate";
+
+  for await (const certificateProperties of client.listPropertiesOfCertificates()) {
+    console.log("Certificate properties: ", certificateProperties);
+  }
+  for await (const deletedCertificate of client.listDeletedCertificates()) {
+    console.log("Deleted certificate: ", deletedCertificate);
+  }
+  for await (const certificateProperties of client.listPropertiesOfCertificateVersions(
+    certificateName,
+  )) {
+    console.log("Certificate properties: ", certificateProperties);
   }
 }
 
+async function listCertificatesByPage2() {
+  const credential = new DefaultAzureCredential();
+
+  const vaultName = "<YOUR KEYVAULT NAME>";
+  const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+
+  const client = new CertificateClient(keyVaultUrl, credential);
+
+  const certificateName = "MyCertificate";
+
+  for await (const page of client.listPropertiesOfCertificates().byPage()) {
+    for (const certificateProperties of page) {
+      console.log("Certificate properties: ", certificateProperties);
+    }
+  }
+  for await (const page of client.listDeletedCertificates().byPage()) {
+    for (const deletedCertificate of page) {
+      console.log("Deleted certificate: ", deletedCertificate);
+    }
+  }
+  for await (const page of client.listPropertiesOfCertificateVersions(certificateName).byPage()) {
+    for (const certificateProperties of page) {
+      console.log("Properties of certificate: ", certificateProperties);
+    }
+  }
+}
+
+async function listCertificateProperties() {
+  const credential = new DefaultAzureCredential();
+
+  const vaultName = "<YOUR KEYVAULT NAME>";
+  const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+
+  const client = new CertificateClient(keyVaultUrl, credential);
+
+  // All in one call
+  for await (const certificateProperties of client.listPropertiesOfCertificates()) {
+    console.log(certificateProperties);
+  }
+
+  // By pages
+  for await (const page of client.listPropertiesOfCertificates().byPage()) {
+    for (const certificateProperties of page) {
+      console.log(certificateProperties);
+    }
+  }
+}
+
+async function listCertificateVersions() {
+  const credential = new DefaultAzureCredential();
+
+  const vaultName = "<YOUR KEYVAULT NAME>";
+  const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+
+  const client = new CertificateClient(keyVaultUrl, credential);
+
+  for await (const certificateProperties of client.listPropertiesOfCertificateVersions(
+    "MyCertificate",
+  )) {
+    console.log(certificateProperties.version);
+  }
+}
+
+async function main() {
+  // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
+  // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
+  // about DefaultAzureCredential and the other credentials that are available for use.
+  // If you're using MSI, DefaultAzureCredential should "just work".
+  client = new CertificateClient(
+    process.env["KEYVAULT_URI"] || "<keyvault-url>",
+    new DefaultAzureCredential(),
+  );
+  certificateName1 = `list-1${new Date().getTime()}`;
+  certificateName2 = `list-2${new Date().getTime()}`;
+  await createCertificates();
+  await listCertificatesByPage();
+  await listAllCertificates();
+  await updateAndListCertificateVersions();
+  await listAllCertificates2();
+  await listCertificatesByPage2();
+  await listCertificateProperties();
+  await listCertificateVersions();
+}
+
 main().catch((error) => {
-  console.error("An error occurred:", error);
+  console.error(error);
   process.exit(1);
 });
 
