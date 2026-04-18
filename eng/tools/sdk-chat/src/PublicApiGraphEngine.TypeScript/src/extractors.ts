@@ -642,6 +642,8 @@ export function extractEnum(en: EnumDeclaration, ctx: ExtractionContext): EnumIn
         values,
     };
 
+    if (en.isConstEnum()) result.isConst = true;
+
     const deprecated = getDeprecatedInfo(en);
     if (deprecated.deprecated) result.deprecated = true;
     if (deprecated.deprecatedMsg) result.deprecatedMsg = deprecated.deprecatedMsg;

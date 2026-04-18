@@ -95,6 +95,8 @@ export interface EnumInfo {
     values: string[];
     deprecated?: boolean;
     deprecatedMsg?: string;
+    /** True when the enum is declared as `const enum`. */
+    isConst?: boolean;
 }
 
 export interface TypeAliasInfo {

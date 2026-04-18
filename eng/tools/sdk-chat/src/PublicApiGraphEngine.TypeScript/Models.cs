@@ -508,6 +508,10 @@ public sealed record EnumInfo
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? EntryPoint { get; init; }
 
+    [JsonPropertyName("isConst")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? IsConst { get; init; }
+
     [JsonPropertyName("values")]
     public IReadOnlyList<string>? Values { get; init; }
 }

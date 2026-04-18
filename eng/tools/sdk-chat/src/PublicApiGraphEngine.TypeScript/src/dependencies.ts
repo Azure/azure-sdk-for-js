@@ -67,19 +67,11 @@ export function splitDepKey(key: string): { packageName: string; typeName: strin
     return { packageName: key.substring(0, idx), typeName: key.substring(idx + 1) };
 }
 
-/**
- * Canonicalize a module specifier to its package root.
- * `"@azure/core-client/types"` → `"@azure/core-client"`
- * `"openai/resources"`         → `"openai"`
- * `"openai"`                   → `"openai"`
- */
-export function getPackageRoot(specifier: string): string {
-    if (specifier.startsWith("@")) {
-        const parts = specifier.split("/");
-        return parts.length >= 2 ? `${parts[0]}/${parts[1]}` : specifier;
-    }
-    return specifier.split("/")[0];
-}
+// Re-export from shared utility to avoid circular imports (type-refs ↔ dependencies).
+// The local import makes the function available in this module; the re-export
+// keeps backward compatibility for consumers that import from dependencies.ts.
+import { getPackageRoot } from "./utils.js";
+export { getPackageRoot };
 
 /**
  * Builds a map of (package, type) → resolvedFile for dependency resolution.

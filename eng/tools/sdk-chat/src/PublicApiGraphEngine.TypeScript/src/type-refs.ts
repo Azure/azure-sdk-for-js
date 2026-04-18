@@ -25,6 +25,7 @@ import * as path from "path";
 import type { ResolvedTypeRef } from "./models.js";
 import { ExtractionContext, PRIMITIVE_TYPES, isDefaultLibFile } from "./context.js";
 import { isNodeBuiltinModule } from "./node-builtins.js";
+import { getPackageRoot } from "./utils.js";
 import {
     getTypeFromDeclaration,
     getParametersFromDeclaration,
@@ -812,6 +813,11 @@ export class TypeReferenceCollector {
                 // Only external packages (not relative imports)
                 if (moduleSpecifier.startsWith(".")) continue;
 
+                // Canonicalize subpath specifiers to the package root
+                // (e.g. "openai/resources" → "openai") so that the same
+                // package isn't recorded under multiple keys.
+                const packageName = getPackageRoot(moduleSpecifier);
+
                 // Default import
                 const defaultImport = imp.getDefaultImport();
                 if (defaultImport) {
@@ -823,13 +829,13 @@ export class TypeReferenceCollector {
                     if (isNodeBuiltinModule(moduleSpecifier)) {
                         this.namespaceImports.add(defaultImport.getText());
                     } else {
-                        this.importedTypes.set(defaultImport.getText(), moduleSpecifier);
+                        this.importedTypes.set(defaultImport.getText(), packageName);
                     }
                 }
 
                 // Named imports
                 for (const named of imp.getNamedImports()) {
-                    this.importedTypes.set(named.getName(), moduleSpecifier);
+                    this.importedTypes.set(named.getName(), packageName);
                 }
 
                 // Namespace import — track separately since these are module

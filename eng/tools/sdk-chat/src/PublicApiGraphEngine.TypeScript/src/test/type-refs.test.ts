@@ -333,4 +333,61 @@ describe("extractEnum", () => {
     const info = extractEnum(en, ctx);
     expect(info.values).toEqual(["A = 0", 'B = "b"']);
   });
+
+  it("const enum should set isConst: true", () => {
+    const ctx = makeCtx();
+    const src = ctx.project.createSourceFile(
+      "const-enum.ts",
+      "export const enum Dir { Up, Down }",
+    );
+    const en = src.getEnumOrThrow("Dir");
+    const info = extractEnum(en, ctx);
+    expect(info.isConst).toBe(true);
+    expect(info.values).toEqual(["Up", "Down"]);
+  });
+
+  it("regular enum should have isConst undefined", () => {
+    const ctx = makeCtx();
+    const src = ctx.project.createSourceFile(
+      "regular-enum.ts",
+      "export enum Color { Red, Green, Blue }",
+    );
+    const en = src.getEnumOrThrow("Color");
+    const info = extractEnum(en, ctx);
+    expect(info.isConst).toBeUndefined();
+  });
+
+  it("const enum with string initializers preserves isConst and initializers", () => {
+    const ctx = makeCtx();
+    const src = ctx.project.createSourceFile(
+      "const-str-enum.ts",
+      'export const enum Lang { TS = "ts", JS = "js" }',
+    );
+    const en = src.getEnumOrThrow("Lang");
+    const info = extractEnum(en, ctx);
+    expect(info.isConst).toBe(true);
+    expect(info.values).toEqual(['TS = "ts"', 'JS = "js"']);
+  });
+});
+
+describe("collectFromImportDeclarations", () => {
+  it("canonicalizes subpath import specifiers to package root", () => {
+    const ctx = makeCtx();
+    const src = ctx.project.createSourceFile(
+      "main.ts",
+      `
+      import type { Foo } from "openai/resources";
+      import type { Bar } from "@azure/core-client/types";
+      import type { Baz } from "simple";
+      export interface Out { foo: Foo; bar: Bar; baz: Baz; }
+      `,
+    );
+
+    ctx.typeRefs.collectFromImportDeclarations([src]);
+    const imported = ctx.typeRefs.getImportedPackages();
+
+    expect(imported.get("Foo")).toBe("openai");
+    expect(imported.get("Bar")).toBe("@azure/core-client");
+    expect(imported.get("Baz")).toBe("simple");
+  });
 });
