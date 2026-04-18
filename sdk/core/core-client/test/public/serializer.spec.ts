@@ -1306,7 +1306,7 @@ describe("Serializer", function () {
       const mapper = Mappers.PetAP;
       const result = serializer.deserialize(mapper, responseBody, "responseBody");
       assert.equal(result.id, 5);
-      assert.equal(result.status, true);
+      assert.isTrue(result.status);
       assert.equal(result.eyeColor, "brown");
       assert.equal(result.favoriteFood, "bones");
       assert.equal(result.odatalocation, "westus");
