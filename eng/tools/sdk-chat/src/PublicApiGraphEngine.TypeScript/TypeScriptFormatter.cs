@@ -182,7 +182,10 @@ public static class TypeScriptFormatter
         // 3. Build type name → module name map from all declare module blocks.
         //    Only count top-level exports (brace depth 1 inside the declare module block)
         //    to avoid picking up nested namespace/class members like FineTuningJob.Error.
+        //    When multiple modules export the same type name, the first module is the "primary"
+        //    owner; subsequent modules' types are aliased to avoid duplicate identifier errors.
         var typeToModule = new Dictionary<string, string>(StringComparer.Ordinal);
+        var typeToAllModules = new Dictionary<string, List<string>>(StringComparer.Ordinal);
         var moduleExportedTypes = new Dictionary<string, HashSet<string>>(StringComparer.Ordinal);
         var exportPattern = new Regex(
             @"export\s+(?:declare\s+)?(?:interface|class|type|enum|function|const|let|var|abstract\s+class|namespace)\s+(\w+)",
@@ -194,18 +197,12 @@ public static class TypeScriptFormatter
             int braceDepth = 0;
             foreach (var blockLine in blockLines)
             {
-                // Check exports at the depth BEFORE this line's braces are counted,
-                // so "export interface Foo {" is matched at depth 1 (top-level inside
-                // the declare module block) rather than depth 2 (after counting the
-                // opening brace for the interface body).
                 var depthBeforeLine = braceDepth;
-                // Track brace depth: depth 1 = top-level inside declare module { ... }
                 foreach (var ch in blockLine)
                 {
                     if (ch == '{') braceDepth++;
                     else if (ch == '}') braceDepth--;
                 }
-                // Only match exports at depth 1 (directly inside the module block)
                 if (depthBeforeLine == 1)
                 {
                     var match = exportPattern.Match(blockLine);
@@ -214,6 +211,9 @@ public static class TypeScriptFormatter
                         var typeName = match.Groups[1].Value;
                         types.Add(typeName);
                         typeToModule.TryAdd(typeName, moduleName);
+                        if (!typeToAllModules.TryGetValue(typeName, out var modules))
+                            typeToAllModules[typeName] = modules = [];
+                        modules.Add(moduleName);
                     }
                 }
             }
@@ -1253,24 +1253,40 @@ public static class TypeScriptFormatter
                         // while main has non-generic OperationState).
                         var aliasedImports = new Dictionary<string, (string Alias, string Module)>(StringComparer.Ordinal);
 
+                        // Track which type names have already been claimed by a dep module.
+                        // When a second dep exports the same name, it must be aliased.
+                        var claimedByDep = new Dictionary<string, string>(StringComparer.Ordinal);
+
                         foreach (var (depModuleName, depClasses, depInterfaces, depEnums, depTypes, depFunctions, _) in depsForThisCondition)
                         {
                             var importNames = new List<string>();
 
-                            // Helper: check if a dep type collides with a main type and needs aliased import
+                            // Helper: check if a dep type collides with a main type or another dep type
                             void CheckImport(string name, bool isGeneric)
                             {
-                                if (!mainOwnTypes.Contains(name))
+                                if (mainOwnTypes.Contains(name))
                                 {
-                                    importNames.Add(name);
+                                    if (isGeneric && Regex.IsMatch(mainBody, @$"\b{Regex.Escape(name)}<"))
+                                    {
+                                        // Collision with main: dep type is generic and used with generic args.
+                                        var moduleSuffix = depModuleName.Split('/').Last().Replace("-", "");
+                                        var alias = $"_{moduleSuffix}_{name}";
+                                        aliasedImports.TryAdd(name, (alias, depModuleName));
+                                    }
+                                    // else: main owns the name, skip the dep import entirely
                                 }
-                                else if (isGeneric && Regex.IsMatch(mainBody, @$"\b{Regex.Escape(name)}<"))
+                                else if (claimedByDep.TryGetValue(name, out var prevModule) && prevModule != depModuleName)
                                 {
-                                    // Collision: dep type is generic and used with generic args in main body.
-                                    // Generate a safe alias using the dep module name.
+                                    // Cross-dep collision: another dep already claimed this name.
+                                    // Alias THIS dep's version and rewrite references in the main body.
                                     var moduleSuffix = depModuleName.Split('/').Last().Replace("-", "");
                                     var alias = $"_{moduleSuffix}_{name}";
-                                    aliasedImports.TryAdd(name, (alias, depModuleName));
+                                    aliasedImports.TryAdd(name + "\0" + depModuleName, (alias, depModuleName));
+                                }
+                                else
+                                {
+                                    importNames.Add(name);
+                                    claimedByDep.TryAdd(name, depModuleName);
                                 }
                             }
 
@@ -1284,11 +1300,15 @@ public static class TypeScriptFormatter
                         }
 
                         // Emit aliased imports and rewrite main body references
-                        foreach (var (originalName, (alias, sourceModule)) in aliasedImports)
+                        foreach (var (aliasKey, (alias, sourceModule)) in aliasedImports)
                         {
+                            // aliasKey may be "Name" (main collision) or "Name\0module" (cross-dep collision)
+                            var originalName = aliasKey.Contains('\0') ? aliasKey[..aliasKey.IndexOf('\0')] : aliasKey;
                             sb.AppendLine($"    import type {{ {originalName} as {alias} }} from \"{sourceModule}\";");
-                            // Replace generic usages: "OriginalName<" → "Alias<"
-                            mainBody = Regex.Replace(mainBody, @$"\b{Regex.Escape(originalName)}<", $"{alias}<");
+                            if (!aliasKey.Contains('\0'))
+                            {
+                                mainBody = Regex.Replace(mainBody, @$"\b{Regex.Escape(originalName)}<", $"{alias}<");
+                            }
                         }
                     }
 
@@ -1314,6 +1334,9 @@ public static class TypeScriptFormatter
 
             if (index.Dependencies is not null)
             {
+                // Track which type names have been claimed by a dep for cross-dep collision detection.
+                var claimedByDepSimple = new Dictionary<string, string>(StringComparer.Ordinal);
+
                 foreach (var dep in index.Dependencies)
                 {
                     if (dep.IsNode) continue;
@@ -1322,17 +1345,27 @@ public static class TypeScriptFormatter
                     // Helper: check collision and decide between direct import or aliased import
                     void CheckSimpleImport(string name, bool isGeneric)
                     {
-                        if (!allTypeNames.Contains(name))
+                        if (allTypeNames.Contains(name))
                         {
-                            importNames.Add(name);
+                            if (isGeneric)
+                            {
+                                // Collision with main: dep type is generic, main type has same name.
+                                var pkgSuffix = dep.Package.Split('/').Last().Replace("-", "");
+                                var alias = $"_{pkgSuffix}_{name}";
+                                aliasedImportsSimple.TryAdd(name, (alias, dep.Package));
+                            }
                         }
-                        else if (isGeneric)
+                        else if (claimedByDepSimple.TryGetValue(name, out var prevPkg) && prevPkg != dep.Package)
                         {
-                            // Collision: dep type is generic, main type has same name.
-                            // Use aliased import so generic references can be rewritten.
+                            // Cross-dep collision: another dep already claimed this name.
                             var pkgSuffix = dep.Package.Split('/').Last().Replace("-", "");
                             var alias = $"_{pkgSuffix}_{name}";
-                            aliasedImportsSimple.TryAdd(name, (alias, dep.Package));
+                            aliasedImportsSimple.TryAdd(name + "\0" + dep.Package, (alias, dep.Package));
+                        }
+                        else
+                        {
+                            importNames.Add(name);
+                            claimedByDepSimple.TryAdd(name, dep.Package);
                         }
                     }
 
@@ -1349,8 +1382,11 @@ public static class TypeScriptFormatter
                 }
 
                 // Emit aliased imports for collision types
-                foreach (var (originalName, (alias, package)) in aliasedImportsSimple)
+                foreach (var (key, (alias, package)) in aliasedImportsSimple)
+                {
+                    var originalName = key.Contains('\0') ? key[..key.IndexOf('\0')] : key;
                     sb.AppendLine($"import type {{ {originalName} as {alias} }} from \"{package}\";");
+                }
 
                 sb.AppendLine();
             }
@@ -1549,8 +1585,9 @@ public static class TypeScriptFormatter
                     continue; // Don't rewrite inside dep blocks
                 }
                 // Outside dep blocks: apply alias replacements
-                foreach (var (originalName, (alias, _)) in aliasedImportsSimple)
+                foreach (var (key, (alias, _)) in aliasedImportsSimple)
                 {
+                    var originalName = key.Contains('\0') ? key[..key.IndexOf('\0')] : key;
                     lines[i] = Regex.Replace(lines[i], @$"\b{Regex.Escape(originalName)}<", $"{alias}<");
                 }
             }

@@ -8,6 +8,10 @@ import {
   extractDeclaration,
   extractTypeFromResolvedModule,
   filterNamespaceMembers,
+  makeDepKey,
+  splitDepKey,
+  getPackageRoot,
+  buildImportResolutionMap,
 } from "../dependencies.js";
 import type { NamespaceInfo } from "../models.js";
 import { createExtractionContext } from "../type-refs.js";
@@ -300,5 +304,127 @@ describe("filterNamespaceMembers", () => {
     const names = result!.functions!.map((f) => f.name);
     expect(names).toContain("parse");
     expect(names).not.toContain("format");
+  });
+});
+
+describe("makeDepKey / splitDepKey", () => {
+  it("round-trips package and type name", () => {
+    const key = makeDepKey("@azure/core-client", "PipelineOptions");
+    expect(key).toContain("\0");
+    const { packageName, typeName } = splitDepKey(key);
+    expect(packageName).toBe("@azure/core-client");
+    expect(typeName).toBe("PipelineOptions");
+  });
+
+  it("differentiates same type from different packages", () => {
+    const keyA = makeDepKey("pkg-a", "Foo");
+    const keyB = makeDepKey("pkg-b", "Foo");
+    expect(keyA).not.toBe(keyB);
+  });
+
+  it("handles __ns__ prefixed type names", () => {
+    const key = makeDepKey("openai", "__ns__Completions");
+    const { packageName, typeName } = splitDepKey(key);
+    expect(packageName).toBe("openai");
+    expect(typeName).toBe("__ns__Completions");
+  });
+});
+
+describe("getPackageRoot", () => {
+  it("returns scoped package root from subpath", () => {
+    expect(getPackageRoot("@azure/core-client/types")).toBe("@azure/core-client");
+  });
+
+  it("returns scoped package root when no subpath", () => {
+    expect(getPackageRoot("@azure/core-client")).toBe("@azure/core-client");
+  });
+
+  it("returns unscoped package root from subpath", () => {
+    expect(getPackageRoot("openai/resources")).toBe("openai");
+  });
+
+  it("returns unscoped package root when no subpath", () => {
+    expect(getPackageRoot("openai")).toBe("openai");
+  });
+});
+
+describe("buildImportResolutionMap (qualified keys)", () => {
+  it("uses qualified keys that prevent same-name collisions", () => {
+    const project = new Project({
+      useInMemoryFileSystem: true,
+      compilerOptions: {
+        target: ts.ScriptTarget.ES2022,
+        module: ts.ModuleKind.NodeNext,
+        moduleResolution: ts.ModuleResolutionKind.NodeNext,
+        declaration: true,
+        strict: true,
+      },
+    });
+
+    // Create two "dependency" source files inside node_modules
+    project.createSourceFile(
+      "/node_modules/pkg-a/index.d.ts",
+      `export interface Config { host: string; }`
+    );
+    project.createSourceFile(
+      "/node_modules/pkg-b/index.d.ts",
+      `export interface Config { port: number; }`
+    );
+
+    // Main source imports Config from both packages
+    project.createSourceFile(
+      "/src/index.ts",
+      [
+        `import { Config as ConfigA } from "pkg-a";`,
+        `import { Config as ConfigB } from "pkg-b";`,
+        `export type Combined = ConfigA & ConfigB;`,
+      ].join("\n")
+    );
+
+    const { typeMap } = buildImportResolutionMap(project);
+
+    // Both "Config" entries should exist under qualified keys
+    const keyA = makeDepKey("pkg-a", "Config");
+    const keyB = makeDepKey("pkg-b", "Config");
+    expect(typeMap.has(keyA)).toBe(true);
+    expect(typeMap.has(keyB)).toBe(true);
+    expect(typeMap.get(keyA)!.packageName).toBe("pkg-a");
+    expect(typeMap.get(keyB)!.packageName).toBe("pkg-b");
+
+    // Alias keys should also be qualified
+    const aliasKeyA = makeDepKey("pkg-a", "ConfigA");
+    const aliasKeyB = makeDepKey("pkg-b", "ConfigB");
+    expect(typeMap.has(aliasKeyA)).toBe(true);
+    expect(typeMap.has(aliasKeyB)).toBe(true);
+  });
+
+  it("canonicalizes subpath module specifiers to package root", () => {
+    const project = new Project({
+      useInMemoryFileSystem: true,
+      compilerOptions: {
+        target: ts.ScriptTarget.ES2022,
+        module: ts.ModuleKind.NodeNext,
+        moduleResolution: ts.ModuleResolutionKind.NodeNext,
+        declaration: true,
+        strict: true,
+      },
+    });
+
+    project.createSourceFile(
+      "/node_modules/openai/resources.d.ts",
+      `export interface Chat { model: string; }`
+    );
+
+    project.createSourceFile(
+      "/src/index.ts",
+      `import { Chat } from "openai/resources";`
+    );
+
+    const { typeMap } = buildImportResolutionMap(project);
+
+    // The key should use the canonical root "openai", not "openai/resources"
+    const key = makeDepKey("openai", "Chat");
+    expect(typeMap.has(key)).toBe(true);
+    expect(typeMap.get(key)!.packageName).toBe("openai");
   });
 });

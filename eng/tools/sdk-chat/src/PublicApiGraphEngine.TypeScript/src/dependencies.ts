@@ -50,10 +50,42 @@ import {
 import { isNodeBuiltinModule, isNodePackage } from "./node-builtins.js";
 import { stripImportPrefix } from "./formatter.js";
 
+// ── Package-qualified key helpers ──────────────────────────────────────────
+// Multiple packages can export types with the same name.  All internal maps
+// (importResolutionMap, allResolved, processed, entitySubRefNames, …) use
+// composite keys  packageName + "\0" + typeName  so that same-named types
+// from different packages never collide.
+
+/** Build a package-qualified key for internal lookup maps. */
+export function makeDepKey(packageName: string, typeName: string): string {
+    return `${packageName}\0${typeName}`;
+}
+
+/** Split a package-qualified key back into its components. */
+export function splitDepKey(key: string): { packageName: string; typeName: string } {
+    const idx = key.indexOf("\0");
+    return { packageName: key.substring(0, idx), typeName: key.substring(idx + 1) };
+}
+
 /**
- * Builds a map of type names to their resolved import declarations.
- * Uses the existing project's module resolution to find types in dependencies,
- * handling named imports, default imports, and re-exports.
+ * Canonicalize a module specifier to its package root.
+ * `"@azure/core-client/types"` → `"@azure/core-client"`
+ * `"openai/resources"`         → `"openai"`
+ * `"openai"`                   → `"openai"`
+ */
+export function getPackageRoot(specifier: string): string {
+    if (specifier.startsWith("@")) {
+        const parts = specifier.split("/");
+        return parts.length >= 2 ? `${parts[0]}/${parts[1]}` : specifier;
+    }
+    return specifier.split("/")[0];
+}
+
+/**
+ * Builds a map of (package, type) → resolvedFile for dependency resolution.
+ * Keys are package-qualified via {@link makeDepKey} so that same-named types
+ * from different packages never collide.  Package names are canonicalized to
+ * package roots via {@link getPackageRoot}.
  */
 export function buildImportResolutionMap(project: Project): {
     typeMap: Map<string, { packageName: string; resolvedFile: SourceFile }>;
@@ -73,15 +105,21 @@ export function buildImportResolutionMap(project: Project): {
             const resolvedFile = importDecl.getModuleSpecifierSourceFile();
             if (!resolvedFile) continue;
 
+            const packageName = getPackageRoot(moduleSpecifier);
+
             // Named imports: import { Client, Foo } from "pkg"
             for (const namedImport of importDecl.getNamedImports()) {
                 const importedName = namedImport.getName();
                 const aliasName = namedImport.getAliasNode()?.getText();
-                if (!typeMap.has(importedName)) {
-                    typeMap.set(importedName, { packageName: moduleSpecifier, resolvedFile });
+                const key = makeDepKey(packageName, importedName);
+                if (!typeMap.has(key)) {
+                    typeMap.set(key, { packageName, resolvedFile });
                 }
-                if (aliasName && !typeMap.has(aliasName)) {
-                    typeMap.set(aliasName, { packageName: moduleSpecifier, resolvedFile });
+                if (aliasName) {
+                    const aliasKey = makeDepKey(packageName, aliasName);
+                    if (!typeMap.has(aliasKey)) {
+                        typeMap.set(aliasKey, { packageName, resolvedFile });
+                    }
                 }
             }
 
@@ -89,18 +127,16 @@ export function buildImportResolutionMap(project: Project): {
             const defaultImport = importDecl.getDefaultImport();
             if (defaultImport) {
                 const typeName = defaultImport.getText();
-                if (!typeMap.has(typeName)) {
-                    typeMap.set(typeName, { packageName: moduleSpecifier, resolvedFile });
+                const key = makeDepKey(packageName, typeName);
+                if (!typeMap.has(key)) {
+                    typeMap.set(key, { packageName, resolvedFile });
                 }
             }
 
             // Namespace imports: import * as X from "pkg"
-            // Store the package → resolvedFile mapping so types accessed via
-            // namespace-qualified syntax (e.g., X.Foo) can be resolved even
-            // though individual type names aren't in the per-type map.
             const nsImport = importDecl.getNamespaceImport();
-            if (nsImport && !packageMap.has(moduleSpecifier)) {
-                packageMap.set(moduleSpecifier, resolvedFile);
+            if (nsImport && !packageMap.has(packageName)) {
+                packageMap.set(packageName, resolvedFile);
             }
         }
 
@@ -112,10 +148,12 @@ export function buildImportResolutionMap(project: Project): {
             const resolvedFile = exportDecl.getModuleSpecifierSourceFile();
             if (!resolvedFile) continue;
 
+            const packageName = getPackageRoot(moduleSpecifier);
             for (const namedExport of exportDecl.getNamedExports()) {
                 const name = namedExport.getName();
-                if (!typeMap.has(name)) {
-                    typeMap.set(name, { packageName: moduleSpecifier, resolvedFile });
+                const key = makeDepKey(packageName, name);
+                if (!typeMap.has(key)) {
+                    typeMap.set(key, { packageName, resolvedFile });
                 }
             }
         }
@@ -422,13 +460,19 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
     // Build import resolution map using the existing project's module resolution
     const { typeMap: importResolutionMap, packageMap: packageResolutionMap } = buildImportResolutionMap(ctx.project);
 
-    // Collect default-imported type names for proper lookup strategy
+    // Collect default-imported type names for proper lookup strategy.
+    // Keyed by makeDepKey(packageName, typeName) to handle collisions.
     const defaultImportedTypes = new Set<string>();
     for (const sourceFile of ctx.project.getSourceFiles()) {
         if (sourceFile.getFilePath().includes("node_modules")) continue;
         for (const importDecl of sourceFile.getImportDeclarations()) {
             const defImport = importDecl.getDefaultImport();
-            if (defImport) defaultImportedTypes.add(defImport.getText());
+            if (defImport) {
+                const spec = importDecl.getModuleSpecifierValue();
+                if (spec) {
+                    defaultImportedTypes.add(makeDepKey(getPackageRoot(spec), defImport.getText()));
+                }
+            }
         }
     }
 
@@ -473,7 +517,7 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
         if (resolvedFile) {
             // Override any existing mapping — the compiler resolution
             // is more precise than ts-morph's module specifier resolution.
-            importResolutionMap.set(ref.name, { packageName: ref.packageName, resolvedFile });
+            importResolutionMap.set(makeDepKey(ref.packageName, ref.name), { packageName: ref.packageName, resolvedFile });
         }
     }
 
@@ -493,15 +537,15 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
         typesByPackage.get(ref.packageName)!.add(ref.name);
     }
 
-    // Track type alias names: maps source-level alias name → original exported name.
-    // For example, `import { ProxySettings as ProxyOptions }` produces:
-    //   typeAliasMap.set("ProxyOptions", "ProxySettings")
+    // Track type alias names: maps (package, aliasName) → originalExportedName.
+    // For example, `import { ProxySettings as ProxyOptions } from "pkg"` produces:
+    //   typeAliasMap.set(makeDepKey("pkg", "ProxyOptions"), "ProxySettings")
     // When extraction fails for the alias name, we try the original name and
     // emit a synthetic `type ProxyOptions = ProxySettings` alias.
     const typeAliasMap = new Map<string, string>();
     for (const ref of externalRefs) {
-        if (ref.originalName && ref.originalName !== ref.name) {
-            typeAliasMap.set(ref.name, ref.originalName);
+        if (ref.originalName && ref.originalName !== ref.name && ref.packageName) {
+            typeAliasMap.set(makeDepKey(ref.packageName, ref.name), ref.originalName);
         }
     }
 
@@ -509,11 +553,14 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
     // When a dependency type is resolved, we use ts-morph's type system to
     // walk its declaration and find all referenced external types — no string
     // tokenization or heuristics.
+    // All maps use package-qualified keys (makeDepKey) to prevent collisions
+    // when different packages export the same type name.
     const allResolved = new Map<string, { packageName: string; type: ClassInfo | InterfaceInfo | EnumInfo | TypeAliasInfo | FunctionInfo | NamespaceInfo; kind: "class" | "interface" | "enum" | "type" | "function" | "namespace" }>();
-    const allUnresolved = new Set<string>();
-    const processed = new Set<string>();
+    const allUnresolved = new Map<string, string>(); // qualified key → packageName
+    const processed = new Set<string>(); // qualified keys
 
     // Track per-entity sub-dependency names so we can populate referencedTypes.
+    // Keyed by makeDepKey(packageName, typeName).
     const entitySubRefNames = new Map<string, Set<string>>();
 
     // Pre-build packageName → SourceFile index for O(1) fallback lookups
@@ -801,13 +848,14 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
             // @types/node types are referenced as imports, not extracted.
             if (isNodePackage(packageName)) continue;
             for (const typeName of typeNames) {
-                if (processed.has(typeName)) continue;
-                processed.add(typeName);
-                const resolution = importResolutionMap.get(typeName);
+                const qKey = makeDepKey(packageName, typeName);
+                if (processed.has(qKey)) continue;
+                processed.add(qKey);
+                const resolution = importResolutionMap.get(qKey);
                 let result: ExtractResult | null = null;
 
                 if (resolution) {
-                    const isDefault = defaultImportedTypes.has(typeName);
+                    const isDefault = defaultImportedTypes.has(qKey);
                     result = extractTypeFromResolvedModule(typeName, resolution.resolvedFile, isDefault, ctx);
                 } else {
                     // For namespace-imported types (e.g., extLib.INetworkModule),
@@ -824,16 +872,17 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
                 // try extracting with the original exported name and emit a type alias.
                 // Example: `import { ProxySettings as ProxyOptions }` — extract
                 // ProxySettings and add `type ProxyOptions = ProxySettings`.
-                if (!result && typeAliasMap.has(typeName)) {
-                    const originalName = typeAliasMap.get(typeName)!;
+                if (!result && typeAliasMap.has(qKey)) {
+                    const originalName = typeAliasMap.get(qKey)!;
                     // Try using the existing resolution for the alias name
-                    const aliasResolution = resolution ?? importResolutionMap.get(originalName);
+                    const aliasResolution = resolution ?? importResolutionMap.get(makeDepKey(packageName, originalName));
                     if (aliasResolution) {
                         const origResult = extractTypeFromResolvedModule(originalName, aliasResolution.resolvedFile, false, ctx);
                         if (origResult) {
                             // Ensure the original type is also resolved
-                            if (!allResolved.has(originalName)) {
-                                allResolved.set(originalName, { packageName, type: origResult.graphed, kind: origResult.kind });
+                            const origKey = makeDepKey(packageName, originalName);
+                            if (!allResolved.has(origKey)) {
+                                allResolved.set(origKey, { packageName, type: origResult.graphed, kind: origResult.kind });
                             }
                             // Create synthetic type alias.
                             // For self-package aliases (e.g., `import { X as XInternal }
@@ -853,11 +902,11 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
                 }
 
                 if (!result) {
-                    allUnresolved.add(typeName);
+                    allUnresolved.set(qKey, packageName);
                     continue;
                 }
 
-                allResolved.set(typeName, { packageName, type: result.graphed, kind: result.kind });
+                allResolved.set(qKey, { packageName, type: result.graphed, kind: result.kind });
 
                 // For directly-resolved namespaces, populate per-member referencedTypes
                 if (result.kind === "namespace" && Node.isModuleDeclaration(result.declaration)) {
@@ -893,7 +942,7 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
                     if (companionMod) {
                         const nsInfo = extractNamespace(companionMod, ctx);
                         if (nsInfo) {
-                            allResolved.set(`__ns__${typeName}`, { packageName, type: nsInfo, kind: "namespace" });
+                            allResolved.set(makeDepKey(packageName, `__ns__${typeName}`), { packageName, type: nsInfo, kind: "namespace" });
                             // Populate per-member referencedTypes from AST declarations
                             populateNamespaceMemberRefs(nsInfo, companionMod, ctx);
                         }
@@ -930,7 +979,7 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
                     refNames.add(subRef.name);
                 }
                 if (refNames.size > 0) {
-                    entitySubRefNames.set(typeName, refNames);
+                    entitySubRefNames.set(qKey, refNames);
                 }
 
                 // Queue discovered sub-refs for resolution — skip for fallback
@@ -938,17 +987,18 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
                 if (!result.fromFallback) {
                 for (const subRef of subRefs) {
                     // Track alias relationships from sub-deps
-                    if (subRef.originalName && subRef.originalName !== subRef.name) {
-                        typeAliasMap.set(subRef.name, subRef.originalName);
+                    if (subRef.originalName && subRef.originalName !== subRef.name && subRef.packageName) {
+                        typeAliasMap.set(makeDepKey(subRef.packageName, subRef.name), subRef.originalName);
                     }
                     if (!subRef.packageName) continue;
                     if (isNodePackage(subRef.packageName)) continue;
                     if (subRef.packageName === api.package && definedTypes.has(subRef.name)) continue;
-                    if (processed.has(subRef.name)) continue;
-                    if (allResolved.has(subRef.name)) continue;
+                    const subQKey = makeDepKey(subRef.packageName, subRef.name);
+                    if (processed.has(subQKey)) continue;
+                    if (allResolved.has(subQKey)) continue;
 
                     // Register in import resolution map for resolution
-                    if (!importResolutionMap.has(subRef.name)) {
+                    if (!importResolutionMap.has(subQKey)) {
                         let resolvedFile: SourceFile | undefined;
                         // Prefer the exact declaration file when available — this handles
                         // multi-module packages where different types live in different files
@@ -966,7 +1016,7 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
                             resolvedFile = packageToFile.get(subRef.packageName);
                         }
                         if (resolvedFile) {
-                            importResolutionMap.set(subRef.name, { packageName: subRef.packageName, resolvedFile });
+                            importResolutionMap.set(subQKey, { packageName: subRef.packageName, resolvedFile });
                             if (!packageToFile.has(subRef.packageName)) {
                                 packageToFile.set(subRef.packageName, resolvedFile);
                             }
@@ -1018,22 +1068,23 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
     }
 
     // Populate referencedTypes on dependency entities from sub-ref tracking.
-    for (const dep of depByPackage.values()) {
+    // entitySubRefNames is keyed by makeDepKey(packageName, typeName).
+    for (const [pkgName, dep] of depByPackage) {
         for (const cls of dep.classes || []) {
-            const refs = entitySubRefNames.get(cls.name);
+            const refs = entitySubRefNames.get(makeDepKey(pkgName, cls.name));
             if (refs?.size) cls.referencedTypes = Array.from(refs);
         }
         for (const iface of dep.interfaces || []) {
-            const refs = entitySubRefNames.get(iface.name);
+            const refs = entitySubRefNames.get(makeDepKey(pkgName, iface.name));
             if (refs?.size) iface.referencedTypes = Array.from(refs);
         }
         for (const t of dep.types || []) {
-            const refs = entitySubRefNames.get(t.name);
+            const refs = entitySubRefNames.get(makeDepKey(pkgName, t.name));
             if (refs?.size) t.referencedTypes = Array.from(refs);
         }
         for (const fn of dep.functions || []) {
             if (!fn.name) continue;
-            const refs = entitySubRefNames.get(fn.name);
+            const refs = entitySubRefNames.get(makeDepKey(pkgName, fn.name));
             if (refs?.size) fn.referencedTypes = Array.from(refs);
         }
     }
@@ -1112,24 +1163,14 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
 
     // Add unresolved types (skip Node built-in modules — they don't have
     // installable type packages and would always be unresolved)
-    for (const typeName of allUnresolved) {
-        // Find which package it was supposed to come from
-        let pkg: string | undefined;
-        for (const ref of externalRefs) {
-            if (ref.name === typeName && ref.packageName) { pkg = ref.packageName; break; }
+    for (const [qKey, pkg] of allUnresolved) {
+        const { typeName } = splitDepKey(qKey);
+        if (isNodeBuiltinModule(pkg)) continue;
+        if (isNodePackage(pkg)) continue;
+        if (!depByPackage.has(pkg)) {
+            depByPackage.set(pkg, { package: pkg, isNode: isNodePackage(pkg) || undefined });
         }
-        if (!pkg) {
-            const res = importResolutionMap.get(typeName);
-            if (res) pkg = res.packageName;
-        }
-        if (pkg) {
-            if (isNodeBuiltinModule(pkg)) continue;
-            if (isNodePackage(pkg)) continue;
-            if (!depByPackage.has(pkg)) {
-                depByPackage.set(pkg, { package: pkg, isNode: isNodePackage(pkg) || undefined });
-            }
-            (depByPackage.get(pkg)!.types ??= []).push({ name: typeName, type: "unresolved" } as TypeAliasInfo);
-        }
+        (depByPackage.get(pkg)!.types ??= []).push({ name: typeName, type: "unresolved" } as TypeAliasInfo);
     }
 
     // Populate export conditions from each dependency's package.json
@@ -1623,8 +1664,11 @@ function filterUnreachableNamespaceMembers(
 
     // Also add all non-namespace resolved type names — these are directly needed
     for (const [key, { kind }] of allResolved) {
-        if (kind !== "namespace" && !key.startsWith("__ns__")) {
-            referencedNames.add(key);
+        if (kind !== "namespace") {
+            const { typeName } = splitDepKey(key);
+            if (!typeName.startsWith("__ns__")) {
+                referencedNames.add(typeName);
+            }
         }
     }
 
