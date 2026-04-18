@@ -3223,8 +3223,8 @@ matrix(
             const await2 = await poller;
             const await3 = await poller;
             assert.equal(await1.statusCode, 200);
-            assert.isTrue(await1 === await2);
-            assert.isTrue(await1 === await3);
+            assert.strictEqual(await1, await2);
+            assert.strictEqual(await1, await3);
           });
           it("thenable should return the same result", async () => {
             const poller = createTestPoller({
@@ -3248,7 +3248,7 @@ matrix(
               assert.equal(result.statusCode, 200);
               return result;
             });
-            assert.isTrue(await1 === await2);
+            assert.strictEqual(await1, await2);
             assert.equal(callbackCounts, 2);
             await poller.finally(() => callbackCounts++);
             assert.equal(callbackCounts, 3);
