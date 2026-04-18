@@ -96,13 +96,14 @@ describe("buildCreatePoller", () => {
     assert.equal(state.status, "running");
     const finalState = await poller.poll();
     assert.equal(finalState.status, "succeeded");
-    assert.isTrue(
-      getPollingInterval.mock.calls.length > 0,
+    assert.isAbove(
+      getPollingInterval.mock.calls.length,
+      0,
       "getPollingInterval should have been called",
     );
   });
 
-  it("handles poll with !state guard (defense check)", async () => {
+  it("returns a state object when polling", async () => {
     const createPoller = buildCreatePoller<any, any, OperationState<any>>({
       getStatusFromInitialResponse: () => "running",
       getStatusFromPollResponse: () => "running",
@@ -126,7 +127,6 @@ describe("buildCreatePoller", () => {
 
     await poller.submitted();
     const state = await poller.poll();
-    assert.isDefined(state);
     assert.property(state, "status");
   });
 });

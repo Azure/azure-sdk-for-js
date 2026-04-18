@@ -53,7 +53,7 @@ describe("pollOperation", () => {
       updateState,
     });
 
-    assert.isTrue(updateState.mock.calls.length > 0);
+    assert.isAbove(updateState.mock.calls.length, 0);
   });
 
   it("calls withOperationLocation with same location when getOperationLocation returns undefined", async () => {
