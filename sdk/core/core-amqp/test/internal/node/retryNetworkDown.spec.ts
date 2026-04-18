@@ -41,8 +41,9 @@ describe("retry - ConnectionLostError when checkNetworkConnection returns false"
       });
       assert.fail("Should have thrown");
     } catch (err: any) {
-      assert.isTrue(
-        mockCheckNetwork.mock.calls.length > 0,
+      assert.isAbove(
+        mockCheckNetwork.mock.calls.length,
+        0,
         "checkNetworkConnection should have been called",
       );
       assert.isAbove(callCount, 1, "Operation should have been retried");

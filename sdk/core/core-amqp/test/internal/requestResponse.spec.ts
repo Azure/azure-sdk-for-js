@@ -1064,7 +1064,7 @@ describe("RequestResponseLink - onSenderError", () => {
   });
 });
 
-describe("RequestResponseLink - timeout with abortSignal cleans up abort listener (line 163)", () => {
+describe("RequestResponseLink - timeout with abortSignal cleans up abort listener", () => {
   it("removes abort listener when timeout fires", async () => {
     const connectionStub = createFullConnectionStub();
     const link = await RequestResponseLink.create(connectionStub, {}, {});

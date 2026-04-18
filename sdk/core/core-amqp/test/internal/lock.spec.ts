@@ -436,7 +436,7 @@ describe("lock.ts", () => {
   });
 });
 
-describe("lock.ts - _removeTaskDetails with empty queue (line 212)", () => {
+describe("lock.ts - _removeTaskDetails with empty queue", () => {
   it("_removeTaskDetails returns early when taskQueue is empty", async () => {
     const lock = new CancellableAsyncLockImpl();
 
@@ -445,7 +445,7 @@ describe("lock.ts - _removeTaskDetails with empty queue (line 212)", () => {
 
     // Call _removeTaskDetails with a key that doesn't exist in the map
     lockPrivate._removeTaskDetails("nonexistent-key", {});
-    // Should not throw - just returns early (line 211-212)
+    // Should not throw - just returns early
   });
 
   it("_removeTaskDetails returns early when taskQueue is empty array", async () => {
@@ -455,17 +455,17 @@ describe("lock.ts - _removeTaskDetails with empty queue (line 212)", () => {
     // Set an empty array in the key map
     lockPrivate._keyMap.set("empty-key", []);
 
-    // Call _removeTaskDetails - should hit the !taskQueue.length branch (line 210)
+    // Call _removeTaskDetails - should hit the !taskQueue.length branch
     lockPrivate._removeTaskDetails("empty-key", {});
   });
 
-  it("_execute returns early when taskQueue is empty (line 173-174)", async () => {
+  it("_execute returns early when taskQueue is empty", async () => {
     const lock = new CancellableAsyncLockImpl();
 
     const lockPrivate = lock as unknown as CancellableAsyncLockPrivate;
     // Ensure no task queue exists for the key
     // Call _execute directly
     await lockPrivate._execute("no-tasks-key");
-    // Should return immediately without error (line 173-174)
+    // Should return immediately without error
   });
 });

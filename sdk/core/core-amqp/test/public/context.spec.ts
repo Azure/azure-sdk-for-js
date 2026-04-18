@@ -331,15 +331,15 @@ describe("ConnectionContextBase - CoreAmqpConnection", () => {
     );
 
     await conn.createSender();
-    assert.isTrue(mockSender.setMaxListeners.mock.calls.length > 0);
+    assert.isAbove(mockSender.setMaxListeners.mock.calls.length, 0);
     assert.equal(mockSender.setMaxListeners.mock.calls[0][0], 1000);
 
     await conn.createAwaitableSender();
-    assert.isTrue(mockAwaitableSender.setMaxListeners.mock.calls.length > 0);
+    assert.isAbove(mockAwaitableSender.setMaxListeners.mock.calls.length, 0);
     assert.equal(mockAwaitableSender.setMaxListeners.mock.calls[0][0], 1000);
 
     await conn.createReceiver();
-    assert.isTrue(mockReceiver.setMaxListeners.mock.calls.length > 0);
+    assert.isAbove(mockReceiver.setMaxListeners.mock.calls.length, 0);
     assert.equal(mockReceiver.setMaxListeners.mock.calls[0][0], 1000);
 
     createSessionSpy.mockRestore();
