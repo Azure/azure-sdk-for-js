@@ -14,7 +14,7 @@ describe("clientHelpers", () => {
     const pipeline = createDefaultPipeline(mockBaseUrl);
     const policies = pipeline.getOrderedPolicies();
 
-    assert.isDefined(policies, "default pipeline should contain policies");
+    assert.isAbove(policies.length, 0, "default pipeline should contain policies");
 
     assert.isUndefined(
       policies.find((p) => p.name === bearerTokenAuthenticationPolicyName),

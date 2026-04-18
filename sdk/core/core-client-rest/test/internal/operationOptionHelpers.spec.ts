@@ -18,9 +18,9 @@ describe("operationOptionsToRequestParameters", () => {
         headers: { "x-custom": "value" },
       },
     });
-    assert.equal(result.allowInsecureConnection, true);
+    assert.isTrue(result.allowInsecureConnection);
     assert.equal(result.timeout, 5000);
-    assert.equal(result.skipUrlEncoding, true);
+    assert.isTrue(result.skipUrlEncoding);
     assert.equal(result.onUploadProgress, onUpload);
     assert.equal(result.onDownloadProgress, onDownload);
     assert.deepEqual(result.headers, { "x-custom": "value" });

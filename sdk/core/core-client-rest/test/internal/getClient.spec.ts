@@ -161,7 +161,7 @@ describe("getClient", () => {
       ],
     });
     client.pipeline.addPolicy(retryPolicy, { phase: "Retry" });
-    assert(client);
+    assert.isDefined(client);
     const policies = client.pipeline.getOrderedPolicies();
     const policy2Index = policies.indexOf(policy2);
     const retryPolicyIndex = policies.indexOf(retryPolicy);
