@@ -289,46 +289,48 @@ describe("TypeReferenceCollector — getAllQualifiedRefNames", () => {
 });
 
 describe("extractEnum", () => {
-  it("detects string enum and populates stringValues", () => {
+  it("preserves string initializers faithfully", () => {
     const ctx = makeCtx();
     const src = ctx.project.createSourceFile(
       "str-enum.ts",
       'export enum Direction { Up = "UP", Down = "DOWN" }',
     );
     const en = src.getEnumOrThrow("Direction");
-    
     const info = extractEnum(en, ctx);
     expect(info.name).toBe("Direction");
-    expect(info.isStringEnum).toBe(true);
-    expect(info.stringValues).toEqual(["UP", "DOWN"]);
-    expect(info.values).toEqual(["Up", "Down"]);
+    expect(info.values).toEqual(['Up = "UP"', 'Down = "DOWN"']);
   });
 
-  it("does not mark numeric enum as string enum", () => {
+  it("omits initializer for auto-valued numeric members", () => {
     const ctx = makeCtx();
     const src = ctx.project.createSourceFile(
       "num-enum.ts",
       "export enum Status { Active, Inactive }",
     );
     const en = src.getEnumOrThrow("Status");
-    
     const info = extractEnum(en, ctx);
-    expect(info.name).toBe("Status");
-    expect(info.isStringEnum).toBeUndefined();
-    expect(info.stringValues).toBeUndefined();
     expect(info.values).toEqual(["Active", "Inactive"]);
   });
 
-  it("does not mark mixed enum as string enum", () => {
+  it("preserves explicit numeric initializers", () => {
+    const ctx = makeCtx();
+    const src = ctx.project.createSourceFile(
+      "num-init-enum.ts",
+      "export enum Code { Ok = 200, NotFound = 404 }",
+    );
+    const en = src.getEnumOrThrow("Code");
+    const info = extractEnum(en, ctx);
+    expect(info.values).toEqual(["Ok = 200", "NotFound = 404"]);
+  });
+
+  it("preserves mixed initializers faithfully", () => {
     const ctx = makeCtx();
     const src = ctx.project.createSourceFile(
       "mixed-enum.ts",
       'export enum Mixed { A = 0, B = "b" }',
     );
     const en = src.getEnumOrThrow("Mixed");
-    
     const info = extractEnum(en, ctx);
-    expect(info.isStringEnum).toBeUndefined();
-    expect(info.stringValues).toBeUndefined();
+    expect(info.values).toEqual(["A = 0", 'B = "b"']);
   });
 });

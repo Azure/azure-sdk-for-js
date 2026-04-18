@@ -91,11 +91,8 @@ export interface EnumInfo {
     exportPath?: string;
     reExportedFrom?: string;  // External package this is re-exported from
     doc?: string;
+    /** Member declarations, e.g. ["A", "B = \"hello\"", "C = 42"]. */
     values: string[];
-    /** True when every member has a string initializer (e.g. `A = "a"`). */
-    isStringEnum?: boolean;
-    /** The string initializer values, parallel to `values` (member names). */
-    stringValues?: string[];
     deprecated?: boolean;
     deprecatedMsg?: string;
 }
