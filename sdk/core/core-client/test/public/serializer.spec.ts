@@ -144,7 +144,7 @@ describe("Serializer", function () {
         serializedName: "Boolean",
       };
       const serializedObject = Serializer.serialize(mapper, false, "stringBody");
-      assert.equal(serializedObject, false);
+      assert.strictEqual(serializedObject, false);
     });
 
     it("should correctly serialize an Enum", function () {

@@ -901,7 +901,7 @@ describe("deserializationPolicy", () => {
     });
 
     // Ensure the operationResponseGetter path is available through sendOperationRequest
-    await client.sendOperationRequest(
+    const result = await client.sendOperationRequest(
       {
         options: {
           requestOptions: {
@@ -927,6 +927,7 @@ describe("deserializationPolicy", () => {
         },
       },
     );
+    assert.equal(result._response.status, 200);
   });
 
   it("should handle shouldDeserialize as a function", async () => {
@@ -946,7 +947,7 @@ describe("deserializationPolicy", () => {
       pipeline,
     });
 
-    await client.sendOperationRequest(
+    const result = await client.sendOperationRequest(
       {
         options: {
           requestOptions: {
@@ -961,6 +962,7 @@ describe("deserializationPolicy", () => {
         responses: { 200: {} },
       },
     );
+    assert.equal(result._response.status, 200);
   });
 
   it("should handle HEAD request with streaming response codes", async () => {
@@ -1371,7 +1373,7 @@ describe("deserializationPolicy - additional branches", () => {
         },
       },
     );
-    assert.ok(result);
+    assert.equal(result._response.status, 200);
   });
 
   it("should deserialize XML body in success response", async () => {
@@ -1420,7 +1422,7 @@ describe("deserializationPolicy - additional branches", () => {
         },
       },
     );
-    assert.ok(result);
+    assert.equal(result._response.status, 200);
   });
 
   it("should handle isError response spec", async () => {
@@ -1546,7 +1548,7 @@ describe("deserializationPolicy - shouldReturnResponse path", () => {
         },
       },
     );
-    assert.ok(result);
+    assert.equal(result._response.status, 204);
   });
 });
 
