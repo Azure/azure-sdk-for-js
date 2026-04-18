@@ -12,7 +12,7 @@ describe("Type guards", function () {
     it("should return false when the argument is null", async function () {
       assert.isFalse(isDefined(null));
     });
-    it("should return true for other primitive types", async function () {
+    it("should return true for primitives and objects", async function () {
       assert.isTrue(isDefined(true));
       assert.isTrue(isDefined(1));
       assert.isTrue(isDefined(BigInt(1)));
