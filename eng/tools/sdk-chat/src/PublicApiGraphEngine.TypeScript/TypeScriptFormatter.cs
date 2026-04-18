@@ -1278,10 +1278,9 @@ public static class TypeScriptFormatter
                                 else if (claimedByDep.TryGetValue(name, out var prevModule) && prevModule != depModuleName)
                                 {
                                     // Cross-dep collision: another dep already claimed this name.
-                                    // Alias THIS dep's version and rewrite references in the main body.
-                                    var moduleSuffix = depModuleName.Split('/').Last().Replace("-", "");
-                                    var alias = $"_{moduleSuffix}_{name}";
-                                    aliasedImports.TryAdd(name + "\0" + depModuleName, (alias, depModuleName));
+                                    // Skip importing dep2's version — it's already defined in its
+                                    // own declare module block and the first dep's version is
+                                    // directly imported into the main module.
                                 }
                                 else
                                 {
@@ -1302,13 +1301,8 @@ public static class TypeScriptFormatter
                         // Emit aliased imports and rewrite main body references
                         foreach (var (aliasKey, (alias, sourceModule)) in aliasedImports)
                         {
-                            // aliasKey may be "Name" (main collision) or "Name\0module" (cross-dep collision)
-                            var originalName = aliasKey.Contains('\0') ? aliasKey[..aliasKey.IndexOf('\0')] : aliasKey;
-                            sb.AppendLine($"    import type {{ {originalName} as {alias} }} from \"{sourceModule}\";");
-                            if (!aliasKey.Contains('\0'))
-                            {
-                                mainBody = Regex.Replace(mainBody, @$"\b{Regex.Escape(originalName)}<", $"{alias}<");
-                            }
+                            sb.AppendLine($"    import type {{ {aliasKey} as {alias} }} from \"{sourceModule}\";");
+                            mainBody = Regex.Replace(mainBody, @$"\b{Regex.Escape(aliasKey)}<", $"{alias}<");
                         }
                     }
 
@@ -1358,9 +1352,9 @@ public static class TypeScriptFormatter
                         else if (claimedByDepSimple.TryGetValue(name, out var prevPkg) && prevPkg != dep.Package)
                         {
                             // Cross-dep collision: another dep already claimed this name.
-                            var pkgSuffix = dep.Package.Split('/').Last().Replace("-", "");
-                            var alias = $"_{pkgSuffix}_{name}";
-                            aliasedImportsSimple.TryAdd(name + "\0" + dep.Package, (alias, dep.Package));
+                            // Skip importing dep2's version — it's already defined in its
+                            // own declare module block and the first dep's version is
+                            // directly imported at the top level.
                         }
                         else
                         {
@@ -1384,8 +1378,7 @@ public static class TypeScriptFormatter
                 // Emit aliased imports for collision types
                 foreach (var (key, (alias, package)) in aliasedImportsSimple)
                 {
-                    var originalName = key.Contains('\0') ? key[..key.IndexOf('\0')] : key;
-                    sb.AppendLine($"import type {{ {originalName} as {alias} }} from \"{package}\";");
+                    sb.AppendLine($"import type {{ {key} as {alias} }} from \"{package}\";");
                 }
 
                 sb.AppendLine();
@@ -1587,8 +1580,7 @@ public static class TypeScriptFormatter
                 // Outside dep blocks: apply alias replacements
                 foreach (var (key, (alias, _)) in aliasedImportsSimple)
                 {
-                    var originalName = key.Contains('\0') ? key[..key.IndexOf('\0')] : key;
-                    lines[i] = Regex.Replace(lines[i], @$"\b{Regex.Escape(originalName)}<", $"{alias}<");
+                    lines[i] = Regex.Replace(lines[i], @$"\b{Regex.Escape(key)}<", $"{alias}<");
                 }
             }
             result = string.Join('\n', lines);
@@ -1739,7 +1731,8 @@ public static class TypeScriptFormatter
         if (!string.IsNullOrEmpty(e.Doc))
             sb.AppendLine($"/** {e.Doc} */");
         var prefix = insideDeclareModule ? "export " : exportKeyword ? "export declare " : "declare ";
-        sb.AppendLine($"{prefix}enum {e.Name} {{");
+        var constPrefix = e.IsConst == true ? "const " : "";
+        sb.AppendLine($"{prefix}{constPrefix}enum {e.Name} {{");
         if (e.Values is not null)
             sb.AppendLine($"    {string.Join(", ", e.Values)}");
         sb.AppendLine("}");
