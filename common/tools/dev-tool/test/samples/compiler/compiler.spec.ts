@@ -377,6 +377,42 @@ describe("snippets", () => {
       expect(result.outputText).toContain("new Client()");
       expect(result.outputText).toContain("doSomething()");
     });
+
+    it("throws on unclosed snippet marker", () => {
+      const input = `\
+/** @summary unclosed snippet */
+import { describe, it } from "vitest";
+describe("x", () => {
+  it("y", async () => {
+    // @snippet Dangling
+    const x = 1;
+  });
+});
+`;
+      expect(() => compileSampleTest(input, { packageName: "@azure/test" })).toThrow(
+        /Unclosed snippet.*Dangling/,
+      );
+    });
+
+    it("throws on nested snippet markers", () => {
+      const input = `\
+/** @summary nested snippet */
+import { describe, it } from "vitest";
+describe("x", () => {
+  it("y", async () => {
+    // @snippet Outer
+    const x = 1;
+    // @snippet Inner
+    const y = 2;
+    // @snippet-end Inner
+    // @snippet-end Outer
+  });
+});
+`;
+      expect(() => compileSampleTest(input, { packageName: "@azure/test" })).toThrow(
+        /Nested snippet.*Inner.*inside.*Outer/,
+      );
+    });
   });
 
   // ── Test 5b: @ts-preserve-whitespace handling ─────────────────────

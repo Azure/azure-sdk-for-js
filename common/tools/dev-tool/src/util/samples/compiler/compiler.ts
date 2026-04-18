@@ -223,7 +223,7 @@ export function compileSampleTest(
   );
 
   // Step 10: Extract snippets and environment variables (before stripping markers)
-  const snippets = extractSnippets(rawOutputText);
+  const snippets = extractSnippets(rawOutputText, fileName);
   const envVars = [...extractEnvVars(rawOutputText), ...helperEnvVars];
   // Deduplicate and sort
   const uniqueEnvVars = [...new Set(envVars)].sort();
@@ -440,25 +440,41 @@ function postProcessOutput(text: string): string {
 /**
  * Extract snippet regions delimited by `// @snippet Name` and `// @snippet-end Name`.
  */
-function extractSnippets(text: string): Map<string, string> {
+function extractSnippets(text: string, fileName?: string): Map<string, string> {
   const snippets = new Map<string, string>();
   const lines = text.split("\n");
-  let current: { name: string; lines: string[] } | null = null;
+  let current: { name: string; lines: string[]; lineNumber: number } | null = null;
   const startRegex = /\/\/\s*@snippet\s+(\S+)/;
   const endRegex = /\/\/\s*@snippet-end\s+(\S+)/;
 
-  for (const line of lines) {
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
     const startMatch = line.match(startRegex);
     const endMatch = line.match(endRegex);
 
     if (endMatch && current && endMatch[1] === current.name) {
       snippets.set(current.name, current.lines.join("\n"));
       current = null;
-    } else if (startMatch && !endMatch && !current) {
-      current = { name: startMatch[1], lines: [] };
+    } else if (startMatch && !endMatch) {
+      if (current) {
+        throw new CompilerError(
+          `Nested snippet marker "@snippet ${startMatch[1]}" found inside "@snippet ${current.name}" (opened at line ${current.lineNumber})`,
+          fileName ?? "<unknown>",
+          i + 1,
+        );
+      }
+      current = { name: startMatch[1], lines: [], lineNumber: i + 1 };
     } else if (current) {
       current.lines.push(line);
     }
+  }
+
+  if (current) {
+    throw new CompilerError(
+      `Unclosed snippet marker "@snippet ${current.name}" (opened at line ${current.lineNumber})`,
+      fileName ?? "<unknown>",
+      current.lineNumber,
+    );
   }
 
   return snippets;

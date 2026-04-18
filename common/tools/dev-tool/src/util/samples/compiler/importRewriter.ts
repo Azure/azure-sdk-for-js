@@ -220,6 +220,8 @@ export function rewriteImports(
   const mergedTypeOnlySpecifiers: ts.ImportSpecifier[] = [];
   // Track non-named sourceCode imports (default, namespace)
   const nonNamedSourceImports: ts.ImportDeclaration[] = [];
+  // Track a surviving default import from source code for merging with named imports
+  let sourceDefaultName: string | undefined;
 
   for (const ci of classifiedImports) {
     if (ci.category === "test") continue;
@@ -244,7 +246,7 @@ export function rewriteImports(
         }
       }
 
-      // Default or namespace imports — rewrite individually
+      // Default or namespace imports
       if (clause.name || (clause.namedBindings && ts.isNamespaceImport(clause.namedBindings))) {
         const defaultName = clause.name;
         const defaultDead = defaultName ? deadBindings.has(defaultName.text) : false;
@@ -254,7 +256,11 @@ export function rewriteImports(
           ? deadBindings.has((clause.namedBindings as ts.NamespaceImport).name.text)
           : true;
 
-        if (keepDefault || (hasNs && !nsDead)) {
+        if (keepDefault && !hasNs) {
+          // Track default for merging with named imports
+          sourceDefaultName = defaultName!.text;
+        } else if (keepDefault || (hasNs && !nsDead)) {
+          // Namespace imports (with or without default) stay separate
           const newDefault = keepDefault
             ? ts.factory.createIdentifier(defaultName!.text)
             : undefined;
@@ -292,15 +298,29 @@ export function rewriteImports(
   }
 
   // Build merged sourceCode named imports (separate runtime and type-only)
+  // Include default import in the runtime merged statement if present
+  const defaultIdent = sourceDefaultName
+    ? ts.factory.createIdentifier(sourceDefaultName)
+    : undefined;
+
   if (mergedRuntimeSpecifiers.length > 0) {
     packageImports.push(
       ts.factory.createImportDeclaration(
         undefined,
         ts.factory.createImportClause(
           false,
-          undefined,
+          defaultIdent,
           ts.factory.createNamedImports(mergedRuntimeSpecifiers.map(cloneSpecifier)),
         ),
+        ts.factory.createStringLiteral(packageName),
+      ),
+    );
+  } else if (defaultIdent) {
+    // Default import only, no named imports to merge with
+    packageImports.push(
+      ts.factory.createImportDeclaration(
+        undefined,
+        ts.factory.createImportClause(false, defaultIdent, undefined),
         ts.factory.createStringLiteral(packageName),
       ),
     );

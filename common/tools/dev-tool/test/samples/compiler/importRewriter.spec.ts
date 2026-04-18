@@ -219,4 +219,33 @@ describe("rewriteImports", () => {
     // dotenv not auto-injected
     expect(texts).not.toContainEqual(expect.stringContaining("dotenv/config"));
   });
+
+  // 19. Default + named source imports merged into one statement
+  it("merges default and named source imports into a single statement", () => {
+    const ci = makeClassified(
+      'import Client, { Foo, Bar } from "../src/index.js";',
+      "sourceCode",
+    );
+    const { imports } = rewriteImports([ci], PKG, new Set());
+    const texts = printAll(imports);
+
+    // Should produce exactly one import
+    expect(texts).toHaveLength(1);
+    // That import should have both the default and named bindings
+    expect(texts[0]).toContain("Client");
+    expect(texts[0]).toContain("Foo");
+    expect(texts[0]).toContain("Bar");
+    expect(texts[0]).toContain(PKG);
+  });
+
+  // 20. Default-only source import still works alone
+  it("emits standalone default import when no named imports exist", () => {
+    const ci = makeClassified('import Client from "../src/index.js";', "sourceCode");
+    const { imports } = rewriteImports([ci], PKG, new Set());
+    const texts = printAll(imports);
+
+    expect(texts).toHaveLength(1);
+    expect(texts[0]).toContain("Client");
+    expect(texts[0]).toContain(PKG);
+  });
 });

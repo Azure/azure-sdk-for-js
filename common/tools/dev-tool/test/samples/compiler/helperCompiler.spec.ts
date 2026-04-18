@@ -260,7 +260,7 @@ import { DEEP } from "./c.js";
 export function getDeep(): string { return DEEP; }
 `;
 
-    const resolver: HelperResolver = (fromFile, specifier) => {
+    const resolver: HelperResolver = (_fromFile, specifier) => {
       if (specifier === "./b.js") {
         return { canonicalPath: "/b.ts", sourceText: bSource };
       }
