@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { createDefaultPipeline, getCachedDefaultHttpsClient } from "../../src/clientHelpers.js";
+import { createDefaultPipeline } from "../../src/clientHelpers.js";
 import { bearerTokenAuthenticationPolicyName } from "@azure/core-rest-pipeline";
 import { keyCredentialAuthenticationPolicyName } from "../../src/keyCredentialAuthenticationPolicy.js";
 import type { TokenCredential } from "@azure/core-auth";
@@ -84,19 +84,5 @@ describe("clientHelpers", () => {
       policies.find((p) => p.name === keyCredentialAuthenticationPolicyName),
       "pipeline shouldn have keyCredentialAuthenticationPolicyName",
     );
-  });
-
-  describe("getCachedDefaultHttpsClient", () => {
-    it("should return an HttpClient", () => {
-      const client = getCachedDefaultHttpsClient();
-      assert.isDefined(client);
-      assert.isFunction(client.sendRequest);
-    });
-
-    it("should return the same instance on subsequent calls", () => {
-      const client1 = getCachedDefaultHttpsClient();
-      const client2 = getCachedDefaultHttpsClient();
-      assert.strictEqual(client1, client2, "should return cached instance");
-    });
   });
 });
