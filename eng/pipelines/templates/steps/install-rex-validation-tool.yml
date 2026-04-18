@@ -8,10 +8,13 @@ parameters:
 
 steps:
   - pwsh: |
-      npm install -g "@microsoft/type2docfx@$(Get-Content eng/scripts/docs/type2docfx.version.txt)"
+      $npmArgs = @("install", "-g")
+      if ("${{ parameters.NpmConfigUserConfig }}" -ne "") {
+        $npmArgs += "--userconfig=${{ parameters.NpmConfigUserConfig }}"
+      }
+      if ("${{ parameters.NpmConfigRegistry }}" -ne "") {
+        $npmArgs += "--registry=${{ parameters.NpmConfigRegistry }}"
+      }
+      $npmArgs += "@microsoft/type2docfx@$(Get-Content eng/scripts/docs/type2docfx.version.txt)"
+      & npm @npmArgs
     displayName: Install @microsoft/type2docfx for package validation
-    env:
-      ${{ if ne(parameters.NpmConfigUserConfig, '') }}:
-        NPM_CONFIG_USERCONFIG: ${{ parameters.NpmConfigUserConfig }}
-      ${{ if ne(parameters.NpmConfigRegistry, '') }}:
-        NPM_CONFIG_REGISTRY: ${{ parameters.NpmConfigRegistry }}

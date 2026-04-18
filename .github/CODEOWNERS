@@ -1736,6 +1736,8 @@ sdk/servicegroups/arm-servicegroups/ @qiaozha @MaryGao @JialinHuang803
 /.github/workflows/sentinel.lock.yml     @deyaaeldeen @jeremymeng
 /.github/workflows/tester.md             @deyaaeldeen @jeremymeng
 /.github/workflows/tester.lock.yml       @deyaaeldeen @jeremymeng
+/.github/workflows/issue-triage.md       @deyaaeldeen @jeremymeng
+/.github/workflows/issue-triage.lock.yml @deyaaeldeen @jeremymeng
 /.github/agents/agentic-workflows.agent.md @deyaaeldeen @jeremymeng
 /.github/agents/archie.agent.md          @deyaaeldeen @jeremymeng @maorleger
 /.github/agents/dash.agent.md            @deyaaeldeen @jeremymeng
