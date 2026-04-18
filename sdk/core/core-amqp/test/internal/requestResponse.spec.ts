@@ -20,7 +20,7 @@ import EventEmitter from "events";
 import { createConnectionStub, createFullConnectionStub } from "../utils/createConnectionStub.js";
 import { isBrowser, isError } from "@azure/core-util";
 
-type RequestResponseLinkPrivate = RequestResponseLink & {
+type RequestResponseLinkPrivate = {
   _responsesMap: Map<string, DeferredPromiseWithCallback>;
 };
 

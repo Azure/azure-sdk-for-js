@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert, expect } from "vitest";
+import { describe, it, assert } from "vitest";
 import type { RetryConfig } from "../../src/index.js";
 import {
   Constants,
@@ -501,7 +501,7 @@ describe("retry", () => {
 
   it("checks network when ServiceCommunicationError and connectionHost provided", async () => {
     const { retry, RetryOperationType } = await import("../../src/retry.js");
-    const { MessagingError, ErrorNameConditionMapper } = await import("../../src/errors.js");
+    const { ErrorNameConditionMapper } = await import("../../src/errors.js");
 
     let callCount = 0;
     try {

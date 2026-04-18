@@ -6,7 +6,7 @@ import { AbortError } from "@azure/abort-controller";
 import type { CancellableAsyncLock } from "../../src/util/lock.js";
 import { CancellableAsyncLockImpl } from "../../src/util/lock.js";
 
-type CancellableAsyncLockPrivate = CancellableAsyncLockImpl & {
+type CancellableAsyncLockPrivate = {
   _keyMap: Map<string, unknown[]>;
   _removeTaskDetails: (key: string, taskDetails: unknown) => void;
   _execute: (key: string) => Promise<void>;

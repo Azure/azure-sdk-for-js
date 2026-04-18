@@ -10,7 +10,7 @@ import { RequestResponseLink } from "../../src/requestResponseLink.js";
 import EventEmitter from "events";
 import { isError } from "@azure/core-util";
 
-type CbsClientPrivate = CbsClient & { _cbsSenderReceiverLink: RequestResponseLink };
+type CbsClientPrivate = { _cbsSenderReceiverLink: RequestResponseLink };
 
 describe("CbsClient", function () {
   const TEST_FAILURE = "Test failure";
@@ -236,14 +236,15 @@ describe("CbsClient - close, remove, isOpen", () => {
     // Mock sendRequest on the underlying link
     const link = (cbsClient as unknown as CbsClientPrivate)._cbsSenderReceiverLink;
     vi.spyOn(link, "sendRequest").mockResolvedValue({
+      body: "",
       correlation_id: "test-id",
       application_properties: {
         "status-code": 200,
         "status-description": "OK",
       },
-    } as RheaMessage);
+    } as unknown as RheaMessage);
     const response = await cbsClient.negotiateClaim("audience", "token", TokenType.CbsTokenTypeSas);
-    assert.equal(response.statusCode, 200);
+    assert.equal(response.statusCode as any, 200);
     assert.equal(response.statusDescription, "OK");
   });
 

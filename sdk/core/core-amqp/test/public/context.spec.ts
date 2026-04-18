@@ -331,15 +331,15 @@ describe("ConnectionContextBase - CoreAmqpConnection", () => {
       mockReceiver as unknown as Receiver,
     );
 
-    const sender = await conn.createSender();
+    await conn.createSender();
     assert.isTrue(mockSender.setMaxListeners.mock.calls.length > 0);
     assert.equal(mockSender.setMaxListeners.mock.calls[0][0], 1000);
 
-    const awaitableSender = await conn.createAwaitableSender();
+    await conn.createAwaitableSender();
     assert.isTrue(mockAwaitableSender.setMaxListeners.mock.calls.length > 0);
     assert.equal(mockAwaitableSender.setMaxListeners.mock.calls[0][0], 1000);
 
-    const receiver = await conn.createReceiver();
+    await conn.createReceiver();
     assert.isTrue(mockReceiver.setMaxListeners.mock.calls.length > 0);
     assert.equal(mockReceiver.setMaxListeners.mock.calls[0][0], 1000);
 
