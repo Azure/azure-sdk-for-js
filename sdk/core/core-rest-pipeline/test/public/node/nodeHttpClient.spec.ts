@@ -502,6 +502,6 @@ describe("NodeHttpClient", function () {
     const promise = client.sendRequest(request);
     yieldHttpsResponse(createResponse(200));
     await Promise.all([promise, delay(10)]);
-    assert.equal(listenerRemoved, true);
+    assert.isTrue(listenerRemoved);
   });
 });
