@@ -180,6 +180,14 @@ export interface ApiIndex {
      * Not serialized to JSON — populated transiently during extraction.
      */
     qualifiedReferencedTypes?: string[];
+    /**
+     * Collision alias map: typeName → { packageName → aliasName }.
+     * When a type name appears in multiple packages, this records the alias
+     * each package's version should use. The "winner" (bare-name keeper)
+     * maps to the original name; others get `_<pkgSuffix>_<Name>`.
+     * Used by the C# formatter to emit aliased imports.
+     */
+    collisionAliases?: Record<string, Record<string, string>>;
 }
 
 /**

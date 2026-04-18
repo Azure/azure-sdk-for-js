@@ -46,6 +46,15 @@ public sealed record ApiIndex : IApiIndex
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? EsLib { get; init; }
 
+    /// <summary>
+    /// Collision alias map: typeName → { packageName → aliasName }.
+    /// When a type name appears in multiple packages, records the alias each
+    /// package's version should use. Built by the TS extraction engine.
+    /// </summary>
+    [JsonPropertyName("collisionAliases")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Dictionary<string, Dictionary<string, string>>? CollisionAliases { get; init; }
+
     [JsonPropertyName("diagnostics")]
     public IReadOnlyList<ApiDiagnostic> Diagnostics { get; init; } = [];
 

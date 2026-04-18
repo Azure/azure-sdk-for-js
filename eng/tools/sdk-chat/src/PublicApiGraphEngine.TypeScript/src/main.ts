@@ -38,6 +38,7 @@ import {
 import { isNodeBuiltinModule } from "./node-builtins.js";
 import { formatStubs, toJson } from "./formatter.js";
 import { analyzeUsage } from "./usage.js";
+import { resolveCollisions } from "./collision.js";
 
 // ============================================================================
 // Package Engine
@@ -447,6 +448,15 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
         const resolvedDeps = buildResolvedDependencies(dependencies, rootPath, ctx);
         if (resolvedDeps.length > 0) {
             baseResult.resolvedDependencies = resolvedDeps;
+        }
+
+        // Principled collision resolution: detect type name collisions between
+        // main and deps (and between deps), build an alias map, and rewrite
+        // main entity bodies to use aliased names where needed.
+        const contextRefPackages = ctx.typeRefs.getContextRefNamesWithPackages();
+        const collisionAliases = resolveCollisions(baseResult, contextRefPackages);
+        if (Object.keys(collisionAliases).length > 0) {
+            baseResult.collisionAliases = collisionAliases;
         }
     }
 

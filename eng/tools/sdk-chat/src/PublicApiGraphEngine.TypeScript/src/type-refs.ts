@@ -936,6 +936,29 @@ export class TypeReferenceCollector {
     }
 
     /**
+     * Returns per-entity type reference names with their package provenance.
+     * Each entity context name maps to a Map of typeName → packageName.
+     * This preserves which package each type reference came from, enabling
+     * principled collision resolution: within a single entity, each bare name
+     * resolves to exactly one package.
+     */
+    getContextRefNamesWithPackages(): Map<string, Map<string, string>> {
+        const result = new Map<string, Map<string, string>>();
+        for (const [ctx, refs] of this.refsByContext) {
+            const nameToPackage = new Map<string, string>();
+            for (const ref of refs.values()) {
+                if (ref.packageName) {
+                    nameToPackage.set(ref.name, ref.packageName);
+                }
+            }
+            if (nameToPackage.size > 0) {
+                result.set(ctx, nameToPackage);
+            }
+        }
+        return result;
+    }
+
+    /**
      * Returns a flat set of all qualified (dotted) reference names across all contexts.
      * E.g., "NodeJS.ReadableStream" from fullName fields that contain dots.
      */

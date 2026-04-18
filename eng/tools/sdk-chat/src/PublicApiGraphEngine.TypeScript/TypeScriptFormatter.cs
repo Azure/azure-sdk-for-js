@@ -780,9 +780,9 @@ public static class TypeScriptFormatter
         int includedItems = 0;
         HashSet<string> includedTypeNames = [];
 
-        // Aliased imports for collision resolution: populated by the simple/sectioned paths,
-        // post-processed at the end of the method to rewrite generic references.
-        var aliasedImportsSimple = new Dictionary<string, (string Alias, string Package)>(StringComparer.Ordinal);
+        // Collision alias map from the TS extraction engine (principled collision resolution).
+        // Maps typeName → { packageName → aliasName }. Populated by resolveCollisions() in TS.
+        var collisionAliases = index.CollisionAliases ?? new Dictionary<string, Dictionary<string, string>>();
 
         // Unified rendering: group types by (exportPath, condition) pair.
         // Each group becomes a `declare module` block in the output.
@@ -1248,61 +1248,68 @@ public static class TypeScriptFormatter
 
                     if (depsForThisCondition is not null)
                     {
-                        // Collect aliased imports for dep types that collide with main types
-                        // but are needed in their generic form (e.g., dep has OperationState<T>
-                        // while main has non-generic OperationState).
-                        var aliasedImports = new Dictionary<string, (string Alias, string Module)>(StringComparer.Ordinal);
-
-                        // Track which type names have already been claimed by a dep module.
-                        // When a second dep exports the same name, it must be aliased.
-                        var claimedByDep = new Dictionary<string, string>(StringComparer.Ordinal);
+                        // Build depModuleName → packageName mapping for collision alias lookups.
+                        // depModuleName may include a condition suffix (e.g., "pkg/import"),
+                        // so we need to map back to the bare package name.
+                        var depModuleToPackage = new Dictionary<string, string>(StringComparer.Ordinal);
+                        foreach (var (dmn, dcs, dis, des, dts, dfs, _) in depsForThisCondition)
+                        {
+                            // Package name is the module name without any condition suffix
+                            var pkgName = dmn;
+                            if (index.ResolvedDependencies is not null)
+                            {
+                                foreach (var rd in index.ResolvedDependencies)
+                                {
+                                    if (dmn == rd.Package || dmn.StartsWith(rd.Package + "/"))
+                                    {
+                                        pkgName = rd.Package;
+                                        break;
+                                    }
+                                }
+                            }
+                            else if (index.Dependencies is not null)
+                            {
+                                foreach (var d in index.Dependencies)
+                                {
+                                    if (dmn == d.Package || dmn.StartsWith(d.Package + "/"))
+                                    {
+                                        pkgName = d.Package;
+                                        break;
+                                    }
+                                }
+                            }
+                            depModuleToPackage.TryAdd(dmn, pkgName);
+                        }
 
                         foreach (var (depModuleName, depClasses, depInterfaces, depEnums, depTypes, depFunctions, _) in depsForThisCondition)
                         {
                             var importNames = new List<string>();
+                            var aliasedNames = new List<(string Name, string Alias)>();
+                            var pkgName = depModuleToPackage.GetValueOrDefault(depModuleName, depModuleName);
 
-                            // Helper: check if a dep type collides with a main type or another dep type
-                            void CheckImport(string name, bool isGeneric)
+                            void EmitImport(string name)
                             {
-                                if (mainOwnTypes.Contains(name))
+                                if (collisionAliases.TryGetValue(name, out var aliasEntry)
+                                    && aliasEntry.TryGetValue(pkgName, out var alias)
+                                    && alias != name)
                                 {
-                                    if (isGeneric && Regex.IsMatch(mainBody, @$"\b{Regex.Escape(name)}<"))
-                                    {
-                                        // Collision with main: dep type is generic and used with generic args.
-                                        var moduleSuffix = depModuleName.Split('/').Last().Replace("-", "");
-                                        var alias = $"_{moduleSuffix}_{name}";
-                                        aliasedImports.TryAdd(name, (alias, depModuleName));
-                                    }
-                                    // else: main owns the name, skip the dep import entirely
-                                }
-                                else if (claimedByDep.TryGetValue(name, out var prevModule) && prevModule != depModuleName)
-                                {
-                                    // Cross-dep collision: another dep already claimed this name.
-                                    // Skip importing dep2's version — it's already defined in its
-                                    // own declare module block and the first dep's version is
-                                    // directly imported into the main module.
+                                    aliasedNames.Add((name, alias));
                                 }
                                 else
                                 {
                                     importNames.Add(name);
-                                    claimedByDep.TryAdd(name, depModuleName);
                                 }
                             }
 
-                            foreach (var c in depClasses) CheckImport(c.Name, !string.IsNullOrEmpty(c.TypeParams));
-                            foreach (var i in depInterfaces) CheckImport(i.Name, !string.IsNullOrEmpty(i.TypeParams));
-                            foreach (var e in depEnums) CheckImport(e.Name, false);
-                            foreach (var t in depTypes) CheckImport(t.Name, !string.IsNullOrEmpty(t.TypeParams));
+                            foreach (var c in depClasses) EmitImport(c.Name);
+                            foreach (var i in depInterfaces) EmitImport(i.Name);
+                            foreach (var e in depEnums) EmitImport(e.Name);
+                            foreach (var t in depTypes) EmitImport(t.Name);
 
                             if (importNames.Count > 0)
                                 sb.AppendLine($"    import {{ {string.Join(", ", importNames)} }} from \"{depModuleName}\";");
-                        }
-
-                        // Emit aliased imports and rewrite main body references
-                        foreach (var (aliasKey, (alias, sourceModule)) in aliasedImports)
-                        {
-                            sb.AppendLine($"    import type {{ {aliasKey} as {alias} }} from \"{sourceModule}\";");
-                            mainBody = Regex.Replace(mainBody, @$"\b{Regex.Escape(aliasKey)}<", $"{alias}<");
+                            foreach (var (name, alias) in aliasedNames)
+                                sb.AppendLine($"    import type {{ {name} as {alias} }} from \"{depModuleName}\";");
                         }
                     }
 
@@ -1328,57 +1335,38 @@ public static class TypeScriptFormatter
 
             if (index.Dependencies is not null)
             {
-                // Track which type names have been claimed by a dep for cross-dep collision detection.
-                var claimedByDepSimple = new Dictionary<string, string>(StringComparer.Ordinal);
-
                 foreach (var dep in index.Dependencies)
                 {
                     if (dep.IsNode) continue;
                     var importNames = new List<string>();
+                    var aliasedNames = new List<(string Name, string Alias)>();
 
-                    // Helper: check collision and decide between direct import or aliased import
-                    void CheckSimpleImport(string name, bool isGeneric)
+                    void EmitSimpleImport(string name)
                     {
-                        if (allTypeNames.Contains(name))
+                        if (collisionAliases.TryGetValue(name, out var aliasEntry)
+                            && aliasEntry.TryGetValue(dep.Package, out var alias)
+                            && alias != name)
                         {
-                            if (isGeneric)
-                            {
-                                // Collision with main: dep type is generic, main type has same name.
-                                var pkgSuffix = dep.Package.Split('/').Last().Replace("-", "");
-                                var alias = $"_{pkgSuffix}_{name}";
-                                aliasedImportsSimple.TryAdd(name, (alias, dep.Package));
-                            }
-                        }
-                        else if (claimedByDepSimple.TryGetValue(name, out var prevPkg) && prevPkg != dep.Package)
-                        {
-                            // Cross-dep collision: another dep already claimed this name.
-                            // Skip importing dep2's version — it's already defined in its
-                            // own declare module block and the first dep's version is
-                            // directly imported at the top level.
+                            aliasedNames.Add((name, alias));
                         }
                         else
                         {
                             importNames.Add(name);
-                            claimedByDepSimple.TryAdd(name, dep.Package);
                         }
                     }
 
-                    foreach (var c in dep.Classes ?? []) CheckSimpleImport(c.Name, !string.IsNullOrEmpty(c.TypeParams));
-                    foreach (var i in dep.Interfaces ?? []) CheckSimpleImport(i.Name, !string.IsNullOrEmpty(i.TypeParams));
-                    foreach (var e in dep.Enums ?? []) CheckSimpleImport(e.Name, false);
+                    foreach (var c in dep.Classes ?? []) EmitSimpleImport(c.Name);
+                    foreach (var i in dep.Interfaces ?? []) EmitSimpleImport(i.Name);
+                    foreach (var e in dep.Enums ?? []) EmitSimpleImport(e.Name);
                     foreach (var t in dep.Types ?? [])
                     {
                         if (!IsSelfReferentialAlias(t))
-                            CheckSimpleImport(t.Name, !string.IsNullOrEmpty(t.TypeParams));
+                            EmitSimpleImport(t.Name);
                     }
                     if (importNames.Count > 0)
                         sb.AppendLine($"import type {{ {string.Join(", ", importNames)} }} from \"{dep.Package}\";");
-                }
-
-                // Emit aliased imports for collision types
-                foreach (var (key, (alias, package)) in aliasedImportsSimple)
-                {
-                    sb.AppendLine($"import type {{ {key} as {alias} }} from \"{package}\";");
+                    foreach (var (name, alias) in aliasedNames)
+                        sb.AppendLine($"import type {{ {name} as {alias} }} from \"{dep.Package}\";");
                 }
 
                 sb.AppendLine();
@@ -1544,49 +1532,10 @@ public static class TypeScriptFormatter
             sb.AppendLine($"// ... truncated ({totalItems - includedItems} items omitted)");
         }
 
-        // Post-process: rewrite generic references for aliased collision imports.
-        // When a dep type was imported with an alias (e.g., OperationState as _corelro_OperationState)
-        // because a main type with the same name shadows it, rewrite all generic usages
-        // (e.g., "OperationState<T>") to use the alias.
-        // IMPORTANT: Only rewrite outside dependency declare module blocks so the dep's own
-        // definition of the type (e.g., `export interface OperationState<TResult>`) is preserved.
-        var result = sb.ToString();
-        if (aliasedImportsSimple.Count > 0)
-        {
-            var lines = result.Split('\n');
-            int depModuleDepth = 0; // > 0 means we're inside a dep declare module block
-            for (int i = 0; i < lines.Length; i++)
-            {
-                var trimmed = lines[i].TrimStart();
-                if (depModuleDepth == 0 && trimmed.StartsWith("declare module "))
-                {
-                    // Entering a dep declare module block. Count braces on this line.
-                    foreach (char c in lines[i])
-                    {
-                        if (c == '{') depModuleDepth++;
-                        else if (c == '}') depModuleDepth--;
-                    }
-                    continue;
-                }
-                if (depModuleDepth > 0)
-                {
-                    foreach (char c in lines[i])
-                    {
-                        if (c == '{') depModuleDepth++;
-                        else if (c == '}') depModuleDepth--;
-                    }
-                    continue; // Don't rewrite inside dep blocks
-                }
-                // Outside dep blocks: apply alias replacements
-                foreach (var (key, (alias, _)) in aliasedImportsSimple)
-                {
-                    lines[i] = Regex.Replace(lines[i], @$"\b{Regex.Escape(key)}<", $"{alias}<");
-                }
-            }
-            result = string.Join('\n', lines);
-        }
-
-        return result;
+        // No post-processing needed: collision aliases are already applied to entity
+        // bodies by the TS extraction engine (resolveCollisions in collision.ts).
+        // The C# formatter just emits aliased imports based on collisionAliases above.
+        return sb.ToString();
     }
 
     private static List<ClassInfo> GetPrioritizedClasses(List<ClassInfo> classes, Dictionary<string, HashSet<string>> deps)
