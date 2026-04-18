@@ -227,7 +227,7 @@ describe("FetchHttpClient", function () {
 
     // Verify that only one chunk was loaded
     assert.equal(downloadCalled, 1);
-    assert.equal(chunk.done, false);
+    assert.isFalse(chunk.done);
   });
 
   it("should report download progress and decode chunks", async function () {
