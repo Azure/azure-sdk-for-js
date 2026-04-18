@@ -75,7 +75,7 @@ describe("Errors", function () {
       assert.equal(translatedError.code, testError.error.code);
       assert.equal(translatedError.message, testError.error.message);
       assert.equal(translatedError.stack, testError.error.stack);
-      assert.equal(translatedError.retryable, false);
+      assert.isFalse(translatedError.retryable);
     });
 
     it("Sets retryable to true, if input is custom error and name is OperationTimeoutError", function () {

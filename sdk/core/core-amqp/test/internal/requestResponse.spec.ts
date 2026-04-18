@@ -44,7 +44,7 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
     it("should create a RequestResponseLink", async function () {
       const connectionStub = createConnectionStub();
       const link = await RequestResponseLink.create(connectionStub, {}, {});
-      assert.isTrue(link instanceof RequestResponseLink);
+      assert.instanceOf(link, RequestResponseLink);
     });
 
     it("honors already aborted abortSignal", async function () {
@@ -249,7 +249,7 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
       errorWasThrown = true;
     }
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
-    assert.equal(errorWasThrown, true, "Error was not thrown");
+    assert.isTrue(errorWasThrown, "Error was not thrown");
   });
 
   it("should send parallel requests and receive responses correctly (one failure)", async function () {

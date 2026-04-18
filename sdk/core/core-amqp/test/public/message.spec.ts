@@ -27,10 +27,6 @@ describe("message", function () {
       const annotatedMessage = AmqpAnnotatedMessage.fromRheaMessage(rhMsg);
 
       const expectedTtl = rhMsg.absolute_expiry_time!.getTime() - rhMsg.creation_time!.getTime();
-      assert.isDefined(
-        annotatedMessage.header?.timeToLive,
-        "Expecting valid annotatedMsg.header.timeToLive",
-      );
       assert.equal(annotatedMessage.header!.timeToLive, expectedTtl);
     });
 
@@ -43,10 +39,6 @@ describe("message", function () {
       const annotatedMessage = AmqpAnnotatedMessage.fromRheaMessage(rhMsg);
 
       const expectedTtl = 49 * 24 * 60 * 60 * 1000;
-      assert.isDefined(
-        annotatedMessage.header?.timeToLive,
-        "Expecting valid annotatedMsg.header.timeToLive",
-      );
       assert.equal(annotatedMessage.header!.timeToLive, expectedTtl);
     });
 
