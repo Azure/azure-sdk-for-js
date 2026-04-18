@@ -3606,7 +3606,6 @@ describe("createHttpPoller", () => {
 
       const poller = createHttpPoller(lro);
       const result = await poller.pollUntilDone();
-      assert.isDefined(result);
       assert.deepEqual(result, { id: "1" });
     });
   });
@@ -3634,7 +3633,6 @@ describe("createHttpPoller", () => {
       });
 
       const result = await poller.pollUntilDone();
-      assert.isDefined(result);
       assert.deepInclude(result, { status: "Canceled" });
     });
 
@@ -3664,7 +3662,6 @@ describe("createHttpPoller", () => {
 
       const result = await poller.pollUntilDone();
       assert.isTrue(poller.isDone);
-      assert.isDefined(result);
       assert.deepInclude(result, { status: "Failed" });
     });
   });
@@ -3825,7 +3822,6 @@ describe("createHttpPoller", () => {
       });
 
       const result = await poller.pollUntilDone();
-      assert.isDefined(result);
       assert.deepInclude(result, { status: "Failed" });
       assert.isTrue(poller.isDone);
     });

@@ -211,7 +211,7 @@ describe("http/operation.ts", () => {
       assert.equal(result?.resourceLocation, "https://example.com/resource");
     });
 
-    it("handles PATCH with operation-location resourceLocationConfig returns undefined", () => {
+    it("parses operation-location and resource-location headers", () => {
       const rawResponse = makeRawResponse({
         request: { method: "PATCH", url: "https://example.com/resource" },
         headers: {
