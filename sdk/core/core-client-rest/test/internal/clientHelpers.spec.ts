@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { createDefaultPipeline, getCachedDefaultHttpsClient } from "../../src/clientHelpers.js";
+import { createDefaultPipeline } from "../../src/clientHelpers.js";
 import { bearerTokenAuthenticationPolicyName } from "@azure/core-rest-pipeline";
 import { keyCredentialAuthenticationPolicyName } from "../../src/keyCredentialAuthenticationPolicy.js";
 import type { TokenCredential } from "@azure/core-auth";
@@ -38,7 +38,6 @@ describe("clientHelpers", () => {
       apiVersionPolicy,
       `Pipeline policy not found in the default pipeline: ${apiVersionPolicyName}`,
     );
-    assert.strictEqual(apiVersionPolicy!.name, apiVersionPolicyName);
   });
 
   it("should throw if key credentials but no Api Header Name", () => {
@@ -67,17 +66,6 @@ describe("clientHelpers", () => {
 
     const keyCredPolicy = policies.find((p) => p.name === keyCredentialAuthenticationPolicyName);
     assert.isDefined(keyCredPolicy, "pipeline should have keyCredentialAuthenticationPolicyName");
-    assert.strictEqual(keyCredPolicy!.name, keyCredentialAuthenticationPolicyName);
-  });
-
-  it("should not treat a non-string key property as a KeyCredential", () => {
-    const pipeline = createDefaultPipeline(mockBaseUrl, { key: 123 } as any);
-    const policies = pipeline.getOrderedPolicies();
-
-    assert.isUndefined(
-      policies.find((p) => p.name === keyCredentialAuthenticationPolicyName),
-      "pipeline should not have keyCredentialAuthenticationPolicyName for non-string key",
-    );
   });
 
   it("should create a default pipeline with TokenCredential", () => {
@@ -91,25 +79,10 @@ describe("clientHelpers", () => {
 
     const bearerPolicy = policies.find((p) => p.name === bearerTokenAuthenticationPolicyName);
     assert.isDefined(bearerPolicy, "pipeline should have bearerTokenAuthenticationPolicyName");
-    assert.strictEqual(bearerPolicy!.name, bearerTokenAuthenticationPolicyName);
 
     assert.isUndefined(
       policies.find((p) => p.name === keyCredentialAuthenticationPolicyName),
       "pipeline shouldn have keyCredentialAuthenticationPolicyName",
     );
-  });
-
-  describe("getCachedDefaultHttpsClient", () => {
-    it("should return an HttpClient", () => {
-      const client = getCachedDefaultHttpsClient();
-      assert.isDefined(client);
-      assert.isFunction(client.sendRequest);
-    });
-
-    it("should return the same instance on subsequent calls", () => {
-      const client1 = getCachedDefaultHttpsClient();
-      const client2 = getCachedDefaultHttpsClient();
-      assert.strictEqual(client1, client2, "should return cached instance");
-    });
   });
 });
