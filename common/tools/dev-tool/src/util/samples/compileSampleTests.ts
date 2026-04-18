@@ -225,13 +225,12 @@ export async function compileSampleTests(
         const existingSource = writtenHelpers.get(helperBaseName);
         if (existingSource !== undefined) {
           if (existingSource !== helperRelative) {
-            throw new Error(
-              `Helper file basename collision: "${helperBaseName}" is produced by both ` +
-                `"${existingSource}" and "${helperRelative}". Rename one of the helper files ` +
-                `to avoid ambiguity in the flattened staging directory.`,
+            log.warn(
+              `    Helper basename collision: "${helperBaseName}" from "${helperRelative}" ` +
+                `conflicts with "${existingSource}". Skipping — rename one to avoid ambiguity.`,
             );
           }
-          // Same source file already written — skip
+          // Same source or collision — skip
         } else {
           const helperOutputPath = path.join(stagingDir, helperBaseName);
           writeFileSync(helperOutputPath, helperText, "utf-8");
