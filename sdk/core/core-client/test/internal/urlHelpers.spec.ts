@@ -370,7 +370,7 @@ describe("urlHelpers - appendPath branches", () => {
 });
 
 describe("urlHelpers - remaining uncovered lines", () => {
-  it("should handle empty path in appendPath (line 111)", () => {
+  it("should handle empty path in appendPath", () => {
     const serializer = createSerializer({}, false);
     // operationSpec.path is "{param}" which resolves to "" after replacement
     // This causes appendPath to be called with empty pathToAppend
@@ -395,7 +395,7 @@ describe("urlHelpers - remaining uncovered lines", () => {
     assert.strictEqual(url, "https://example.com");
   });
 
-  it("should add trailing slash to path without one (line 118)", () => {
+  it("should add trailing slash to path without one", () => {
     const serializer = createSerializer({}, false);
     const url = getRequestUrl(
       "https://example.com/api",
@@ -411,7 +411,7 @@ describe("urlHelpers - remaining uncovered lines", () => {
     assert.include(url, "api/items");
   });
 
-  it("should handle undefined value in combinedParams (line 307)", () => {
+  it("should handle undefined value in combinedParams", () => {
     // This covers the case where a param has no = sign (bare key)
     // simpleParseQueryParams gives value as undefined
     // When we later iterate, it hits the else branch at line 307
@@ -424,7 +424,7 @@ describe("urlHelpers - remaining uncovered lines", () => {
     assert.include(result, "other=val");
   });
 
-  it("should handle array push in simpleParseQueryParams for 3+ duplicate keys (line 243)", () => {
+  it("should handle array push in simpleParseQueryParams for 3+ duplicate keys", () => {
     // First two dups create an array, third dup pushes to the array
     const result = appendQueryParams(
       "https://example.com?x=1&x=2&x=3",

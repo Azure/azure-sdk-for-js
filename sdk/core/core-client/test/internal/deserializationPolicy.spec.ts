@@ -1458,7 +1458,7 @@ describe("deserializationPolicy - additional branches", () => {
   });
 });
 
-describe("deserializationPolicy - operationResponseGetter (line 113)", () => {
+describe("deserializationPolicy - operationResponseGetter", () => {
   it("should use operationResponseGetter when set", async () => {
     const pipeline = createEmptyPipeline();
     pipeline.addPolicy(deserializationPolicy(), { phase: "Deserialize" });
@@ -1513,7 +1513,7 @@ describe("deserializationPolicy - operationResponseGetter (line 113)", () => {
   });
 });
 
-describe("deserializationPolicy - shouldReturnResponse path (line 168)", () => {
+describe("deserializationPolicy - shouldReturnResponse path", () => {
   it("should return response without deserialization for empty operationSpec", async () => {
     const pipeline = createEmptyPipeline();
     pipeline.addPolicy(deserializationPolicy(), { phase: "Deserialize" });
@@ -1550,7 +1550,7 @@ describe("deserializationPolicy - shouldReturnResponse path (line 168)", () => {
   });
 });
 
-describe("deserializationPolicy - deserialization error (lines 190-198)", () => {
+describe("deserializationPolicy - deserialization error", () => {
   it("should throw RestError when body deserialization fails", async () => {
     const pipeline = createEmptyPipeline();
     pipeline.addPolicy(deserializationPolicy(), { phase: "Deserialize" });

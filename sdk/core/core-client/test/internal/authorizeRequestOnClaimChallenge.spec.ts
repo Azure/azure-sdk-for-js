@@ -477,7 +477,7 @@ describe("authorizeRequestOnClaimChallenge", () => {
   });
 });
 
-describe("authorizeRequestOnClaimChallenge - parseCAEChallenge fallback (line 76)", () => {
+describe("authorizeRequestOnClaimChallenge - parseCAEChallenge fallback", () => {
   it("should handle completely unparseable WWW-Authenticate value", async () => {
     const request = defaultRequest();
     const result = await authorizeRequestOnClaimChallenge({

@@ -113,7 +113,7 @@ describe("operationHelpers", () => {
   });
 });
 
-describe("operationHelpers - array parameterPath empty check (line 35)", () => {
+describe("operationHelpers - array parameterPath empty check", () => {
   it("should handle empty string parameterPath", () => {
     const result = getOperationArgumentValueFromParameter(
       { "": "rootValue" },

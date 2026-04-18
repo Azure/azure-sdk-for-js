@@ -1212,7 +1212,7 @@ describe("serializationPolicy - XML serialization", () => {
   });
 });
 
-describe("serializationPolicy - prepareXMLRootList non-array (line 257)", () => {
+describe("serializationPolicy - prepareXMLRootList non-array", () => {
   it("should serialize XML Sequence without namespace (prepareXMLRootList no-namespace path)", async () => {
     let capturedRequest: OperationRequest | undefined;
     const pipeline = createEmptyPipeline();
@@ -1263,7 +1263,7 @@ describe("serializationPolicy - prepareXMLRootList non-array (line 257)", () => 
     assert.isArray(parsed.Item);
   });
 
-  it("should wrap non-array value in prepareXMLRootList when body is null (line 257)", async () => {
+  it("should wrap non-array value in prepareXMLRootList when body is null", async () => {
     let capturedRequest: OperationRequest | undefined;
     const pipeline = createEmptyPipeline();
     pipeline.addPolicy(

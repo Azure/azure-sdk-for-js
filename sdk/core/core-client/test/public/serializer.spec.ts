@@ -2418,7 +2418,7 @@ describe("serializer", () => {
       assert.isNumber(result);
     });
 
-    it("should serialize UnixTime type from date string (line 396)", () => {
+    it("should serialize UnixTime type from date string", () => {
       const result = serializer.serialize(
         { type: { name: "UnixTime" }, serializedName: "test" },
         "2023-06-15T10:30:00Z",
@@ -3961,7 +3961,7 @@ describe("serializer - Sequence element className lookup", () => {
   });
 });
 
-describe("serializer - getXmlObjectValue Composite with existing $ attr (lines 845-849)", () => {
+describe("serializer - getXmlObjectValue Composite with existing $ attr", () => {
   it("should return as-is when Composite already has $ from its own xmlNamespace", () => {
     // Child model WITH xmlNamespace - its serialization adds $ to payload
     const childModel: CompositeMapper = {
@@ -4046,7 +4046,7 @@ describe("serializer - getXmlObjectValue Composite with existing $ attr (lines 8
     assert.strictEqual(result.child.$["xmlns"], "http://outer.com");
   });
 
-  it("should wrap non-Composite value with xmlNamespace (lines 852-855)", () => {
+  it("should wrap non-Composite value with xmlNamespace", () => {
     // A non-Composite property (e.g., String) with xmlNamespace
     // goes through the non-Composite path in getXmlObjectValue
     const mapper: CompositeMapper = {
