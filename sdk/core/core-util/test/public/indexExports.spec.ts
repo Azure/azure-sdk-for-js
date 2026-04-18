@@ -17,12 +17,13 @@ describe("index.ts re-exported functions", function () {
     const result = calculateRetryDelay(1, { retryDelayInMs: 100, maxRetryDelayInMs: 5000 });
     assert.isObject(result);
     assert.isNumber(result.retryAfterInMs);
-    assert.isTrue(result.retryAfterInMs >= 0);
+    assert.isAtLeast(result.retryAfterInMs, 0);
   });
 
   it("getRandomIntegerInclusive should return a number in range", function () {
     const val = getRandomIntegerInclusive(5, 10);
-    assert.isTrue(val >= 5 && val <= 10);
+    assert.isAtLeast(val, 5);
+    assert.isAtMost(val, 10);
   });
 
   it("isError should detect Error objects", function () {
