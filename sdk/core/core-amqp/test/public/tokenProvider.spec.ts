@@ -18,7 +18,7 @@ describe("SasTokenProvider", function (): void {
         /SharedAccessSignature sr=myaudience&sig=(.*)&se=\d{10}&skn=myKeyName/g,
       );
       // account for elapsed time between two Date.now() calls
-      assert.isTrue(tokenInfo.expiresOnTimestamp - expiry < 2);
+      assert.isBelow(tokenInfo.expiresOnTimestamp - expiry, 2);
     });
 
     it("should work as expected with `shareAccessKeyName` and `sharedAccessKey`", async function (): Promise<void> {
