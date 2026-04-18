@@ -119,9 +119,9 @@ export function compileSampleTest(
         helperFiles.set(ci.moduleSpecifier, helper.outputText);
         helperEnvVars.push(...helper.envVars);
 
-        // Collect nested helper files too
+        // Collect transitive nested helper files (already flattened by compileHelper)
         for (const [nestedSpec, nestedHelper] of helper.nestedHelpers) {
-          if (!nestedHelper.isEmpty) {
+          if (!nestedHelper.isEmpty && !helperFiles.has(nestedSpec)) {
             helperFiles.set(nestedSpec, nestedHelper.outputText);
             helperEnvVars.push(...nestedHelper.envVars);
           }

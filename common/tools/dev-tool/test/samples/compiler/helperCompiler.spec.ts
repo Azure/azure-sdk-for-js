@@ -229,4 +229,57 @@ export const X = process.env.FOO || "";
     expect(result.outputText).toContain("dotenv/config");
     expect(result.outputText).toContain("export const X");
   });
+
+  // --- Export forms ---
+
+  it("detects export default as surviving export", () => {
+    const source = `export default function main(): void { console.log("hello"); }\n`;
+    const result = compileHelper(source, "@azure/test", "defaultExport.ts");
+
+    expect(result.isEmpty).toBe(false);
+    expect(result.survivingExports).toContain("default");
+  });
+
+  it("detects export { x } as surviving export", () => {
+    const source = `
+function helper(): string { return "hi"; }
+export { helper };
+`;
+    const result = compileHelper(source, "@azure/test", "namedReExport.ts");
+
+    expect(result.isEmpty).toBe(false);
+    expect(result.survivingExports).toContain("helper");
+  });
+
+  // --- Transitive helper flattening ---
+
+  it("flattens 3-level deep helper chains into nestedHelpers", () => {
+    const cSource = `export const DEEP = "deep";\n`;
+    const bSource = `
+import { DEEP } from "./c.js";
+export function getDeep(): string { return DEEP; }
+`;
+
+    const resolver: HelperResolver = (fromFile, specifier) => {
+      if (specifier === "./b.js") {
+        return { canonicalPath: "/b.ts", sourceText: bSource };
+      }
+      if (specifier === "./c.js") {
+        return { canonicalPath: "/c.ts", sourceText: cSource };
+      }
+      return undefined;
+    };
+
+    const source = `
+import { getDeep } from "./b.js";
+export function run(): string { return getDeep(); }
+`;
+    const result = compileHelper(source, "@azure/test", "a.ts", resolver);
+
+    expect(result.isEmpty).toBe(false);
+    // Both b and c should be in nestedHelpers (flattened)
+    expect(result.nestedHelpers.has("./b.js")).toBe(true);
+    expect(result.nestedHelpers.has("./c.js")).toBe(true);
+    expect(result.nestedHelpers.get("./c.js")!.survivingExports).toContain("DEEP");
+  });
 });

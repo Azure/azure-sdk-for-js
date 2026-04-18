@@ -52,9 +52,32 @@ function collectSurvivingExports(sourceFile: ts.SourceFile): Set<string> {
   const exports = new Set<string>();
 
   for (const stmt of sourceFile.statements) {
+    // Handle export declarations: export { x, y } or export { x } from "..."
+    if (ts.isExportDeclaration(stmt)) {
+      if (stmt.exportClause && ts.isNamedExports(stmt.exportClause)) {
+        for (const spec of stmt.exportClause.elements) {
+          exports.add(spec.name.text);
+        }
+      }
+      continue;
+    }
+
+    // Handle export default (export default function/class/expression)
+    if (ts.isExportAssignment(stmt) && !stmt.isExportEquals) {
+      exports.add("default");
+      continue;
+    }
+
     const modifiers = ts.canHaveModifiers(stmt) ? ts.getModifiers(stmt) : undefined;
     const hasExport = modifiers?.some((m) => m.kind === ts.SyntaxKind.ExportKeyword);
     if (!hasExport) continue;
+
+    // export default function/class (has both export and default modifiers)
+    const hasDefault = modifiers?.some((m) => m.kind === ts.SyntaxKind.DefaultKeyword);
+    if (hasDefault) {
+      exports.add("default");
+      continue;
+    }
 
     if (ts.isFunctionDeclaration(stmt) && stmt.name) {
       exports.add(stmt.name.text);
@@ -180,6 +203,12 @@ export function compileHelper(
         emptyHelperSpecifiers.add(ci.moduleSpecifier);
       } else {
         nestedHelpers.set(ci.moduleSpecifier, nested);
+        // Flatten transitive nested helpers into our map
+        for (const [transitiveSpec, transitiveHelper] of nested.nestedHelpers) {
+          if (!nestedHelpers.has(transitiveSpec)) {
+            nestedHelpers.set(transitiveSpec, transitiveHelper);
+          }
+        }
       }
     }
   }
