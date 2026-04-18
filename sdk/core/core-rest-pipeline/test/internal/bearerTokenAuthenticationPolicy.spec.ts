@@ -331,7 +331,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
 
     const exceptionMessage =
       "the total time passed should be in the refresh room, plus the many getTokens that have happened so far";
-    assert.equal(expireDelayMs + 2 * getTokenDelay, Date.now() - startTime, exceptionMessage);
+    assert.equal(Date.now() - startTime, expireDelayMs + 2 * getTokenDelay, exceptionMessage);
   });
 
   it("throws if the target URI doesn't start with 'https'", async () => {
