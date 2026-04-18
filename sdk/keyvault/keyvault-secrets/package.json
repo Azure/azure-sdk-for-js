@@ -96,6 +96,7 @@
   },
   "devDependencies": {
     "@azure-tools/test-credential": "workspace:^",
+    "@azure-tools/test-publishing": "workspace:^",
     "@azure-tools/test-recorder": "workspace:^",
     "@azure-tools/test-utils-vitest": "workspace:^",
     "@azure/dev-tool": "workspace:^",

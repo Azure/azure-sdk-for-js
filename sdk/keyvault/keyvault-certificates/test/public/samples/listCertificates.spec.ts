@@ -11,6 +11,8 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { forPublishing } from "@azure-tools/test-publishing";
 import { describe, it, beforeEach, afterEach } from "vitest";
+// Load the .env file if it exists
+import "dotenv/config";
 
 describe("listCertificates", () => {
   let recorder: Recorder;
@@ -110,7 +112,7 @@ describe("listCertificates", () => {
 
   // Operation snippets
 
-  it("ReadmeSampleListCertificates", async () => {
+  it("list all certificates", async () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -135,7 +137,7 @@ describe("listCertificates", () => {
     // @snippet-end ReadmeSampleListCertificates
   });
 
-  it("ReadmeSampleListCertificatesByPage", async () => {
+  it("list certificates by page", async () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -164,7 +166,7 @@ describe("listCertificates", () => {
     // @snippet-end ReadmeSampleListCertificatesByPage
   });
 
-  it("IndexListCertificates", async () => {
+  it("list certificate properties", async () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -187,7 +189,7 @@ describe("listCertificates", () => {
     // @snippet-end IndexListCertificates
   });
 
-  it("IndexListCertificateVersions", async () => {
+  it("list certificate versions", async () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";

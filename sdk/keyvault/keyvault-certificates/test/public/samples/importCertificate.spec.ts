@@ -13,6 +13,8 @@ import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder"
 import { forPublishing } from "@azure-tools/test-publishing";
 import { describe, it, beforeEach, afterEach } from "vitest";
 import { isNodeLike } from "@azure/core-util";
+// Load the .env file if it exists
+import "dotenv/config";
 
 // This sample demonstrates how to import both PKCS#12 (PFX) and PEM-formatted certificates
 // into Azure Key Vault.
@@ -102,7 +104,7 @@ describe("importCertificate", () => {
 
   // Operation snippets
 
-  it("CertificateClientImportCertificate", async () => {
+  it("import a certificate", async () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";

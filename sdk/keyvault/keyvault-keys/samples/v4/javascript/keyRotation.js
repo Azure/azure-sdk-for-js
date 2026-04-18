@@ -5,28 +5,17 @@
  * @summary Creates and updates a key's automated rotation policy, and rotates a key on-demand.
  */
 
-const { KeyClient } = require("@azure/keyvault-keys");
 const { DefaultAzureCredential } = require("@azure/identity");
-const dayjs = require("dayjs");
-const duration = require("dayjs/plugin/duration");
-dayjs.extend(duration);
-
+const { KeyClient } = require("@azure/keyvault-keys");
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
-async function main() {
-  // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
-  // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
-  // about DefaultAzureCredential and the other credentials that are available for use.
-  const credential = new DefaultAzureCredential();
+let client;
 
-  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-  const client = new KeyClient(url, credential);
-
+async function createRotationPolicyAndRotate() {
   const keyName = `key-rotation-sample-key-${Date.now()}`;
   const key = await client.createKey(keyName, "EC");
   console.log("created key", key);
-
   // Set the key's automated rotation policy to rotate the key 30 days after the key is created.
   const policy = await client.updateKeyRotationPolicy(key.name, {
     lifetimeActions: [
@@ -37,34 +26,84 @@ async function main() {
     ],
   });
   console.log("created policy", policy);
-
   // Get the key's current rotation policy
   const currentPolicy = await client.getKeyRotationPolicy(key.name);
   console.log("fetched policy", currentPolicy);
-
   // Update the key's automated rotation policy to notify 30 days before the key expires.
   // By using the ISO8601 duration standard, interoperability with any 3rd party library that supports Durations is supported.
-  // In this example, we'll use Day.js (documented in https://day.js.org) to create the duration.
   // For more information on the ISO 8601 Duration standard, please refer to the Wikipedia page on Durations:
   // https://wikipedia.org/wiki/ISO_8601#Durations
   const updatedPolicy = await client.updateKeyRotationPolicy(key.name, {
     lifetimeActions: [
       {
         action: "Notify",
-        timeBeforeExpiry: dayjs.duration({ days: 30 }).toISOString(),
+        timeBeforeExpiry: "P30D",
       },
     ],
     expiresIn: "P90D",
   });
   console.log("updated policy", updatedPolicy);
-
   // Rotate the key on-demand, generating a new version of the key.
   const newKeyVersion = await client.rotateKey(key.name);
   console.log("rotated key", newKeyVersion);
 }
 
+async function getAKeyRotationPolicy() {
+  const keyName = "MyKeyName";
+  await client.createKey(keyName, "EC");
+
+  const result = await client.getKeyRotationPolicy(keyName);
+}
+
+async function updateAKeyRotationPolicy() {
+  const keyName = "MyKeyName";
+  await client.createKey(keyName, "EC");
+
+  const myPolicy = await client.getKeyRotationPolicy(keyName);
+
+  const setPolicy = await client.updateKeyRotationPolicy(keyName, myPolicy);
+}
+
+async function rotateAKey() {
+  const keyName = "MyKeyName";
+  await client.createKey(keyName, "EC");
+
+  // Set the key's automated rotation policy to rotate the key 30 days before expiry.
+  const policy = await client.updateKeyRotationPolicy(keyName, {
+    lifetimeActions: [
+      {
+        action: "Rotate",
+        timeBeforeExpiry: "P30D",
+      },
+    ],
+    // You may also specify the duration after which any newly rotated key will expire.
+    // In this case, any new key versions will expire after 90 days.
+    expiresIn: "P90D",
+  });
+
+  // You can get the current key rotation policy of a given key by calling the getKeyRotationPolicy method.
+  const currentPolicy = await client.getKeyRotationPolicy(keyName);
+
+  // Finally, you can rotate a key on-demand by creating a new version of the given key.
+  const rotatedKey = await client.rotateKey(keyName);
+}
+
+async function main() {
+  // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
+  // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
+  // about DefaultAzureCredential and the other credentials that are available for use.
+  client = new KeyClient(
+    process.env["KEYVAULT_URI"] || "<keyvault-url>",
+    new DefaultAzureCredential(),
+  );
+  await createRotationPolicyAndRotate();
+  await getAKeyRotationPolicy();
+  await updateAKeyRotationPolicy();
+  await rotateAKey();
+}
+
 main().catch((error) => {
-  console.error("An error occurred:", error);
+  console.error(error);
   process.exit(1);
 });
 

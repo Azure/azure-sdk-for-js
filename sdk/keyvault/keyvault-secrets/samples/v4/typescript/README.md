@@ -8,14 +8,15 @@ products:
 urlFragment: keyvault-secrets-typescript
 ---
 
-# Azure Key Vault Keys client library samples for TypeScript
+# Azure Key Vault Secrets client library samples for TypeScript
 
-These sample programs show how to use the TypeScript client libraries for Azure Key Vault Keys in some common scenarios.
+These sample programs show how to use the TypeScript client libraries for Azure Key Vault Secrets in some common scenarios.
 
 | **File Name**                           | **Description**                                                                                |
 | --------------------------------------- | ---------------------------------------------------------------------------------------------- |
 | [backupAndRestore.ts][backupandrestore] | Backs up an Azure Key Vault secret to a local file and restores from it.                       |
 | [deleteAndRecover.ts][deleteandrecover] | Deletes a secret and then recovers a deleted secret (this sample requires soft-delete to run). |
+| [gettingStarted.ts][gettingstarted]     | Authenticates with Azure Key Vault and creates a SecretClient.                                 |
 | [helloWorld.ts][helloworld]             | Uses a SecretClient to create, read, and update a secret in various ways.                      |
 | [listOperations.ts][listoperations]     | Uses a SecretClient to iterate over secrets and their versions.                                |
 
@@ -67,10 +68,10 @@ npm run build
 node dist/backupAndRestore.js
 ```
 
-Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env KEYVAULT_URI="<keyvault uri>" node dist/backupAndRestore.js
+npx cross-env KEYVAULT_URI="<keyvault uri>" node dist/backupAndRestore.js
 ```
 
 ## Next Steps
@@ -79,6 +80,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [backupandrestore]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-secrets/samples/v4/typescript/src/backupAndRestore.ts
 [deleteandrecover]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-secrets/samples/v4/typescript/src/deleteAndRecover.ts
+[gettingstarted]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-secrets/samples/v4/typescript/src/gettingStarted.ts
 [helloworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-secrets/samples/v4/typescript/src/helloWorld.ts
 [listoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-secrets/samples/v4/typescript/src/listOperations.ts
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/keyvault-secrets

@@ -73,11 +73,8 @@ import { CertificateClient } from "@azure/keyvault-certificates";
 
 const credential = new DefaultAzureCredential();
 
-// Build the URL to reach your key vault
-const vaultName = "<YOUR KEYVAULT NAME>";
-const url = `https://${vaultName}.vault.azure.net`;
+const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
-// Lastly, create our certificates client and connect to the service
 const client = new CertificateClient(url, credential);
 ```
 
@@ -109,8 +106,7 @@ import { CertificateClient } from "@azure/keyvault-certificates";
 
 const credential = new DefaultAzureCredential();
 
-const vaultName = "<YOUR KEYVAULT NAME>";
-const url = `https://${vaultName}.vault.azure.net`;
+const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
 // Change the Azure Key Vault service API version being used via the `serviceVersion` option
 const client = new CertificateClient(url, credential, {

@@ -15,6 +15,8 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { forPublishing } from "@azure-tools/test-publishing";
 import { describe, it, beforeEach, afterEach } from "vitest";
+// Load the .env file if it exists
+import "dotenv/config";
 
 describe("mergeCertificate", () => {
   let recorder: Recorder;
@@ -93,7 +95,7 @@ ${base64Csr}
 
   // Operation snippets
 
-  it("CertificateClientMergeCertificate", async () => {
+  it("merge a certificate", async () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";

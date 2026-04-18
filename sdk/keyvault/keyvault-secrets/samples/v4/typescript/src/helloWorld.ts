@@ -5,52 +5,78 @@
  * @summary Uses a SecretClient to create, read, and update a secret in various ways.
  */
 
-import { SecretClient } from "@azure/keyvault-secrets";
 import { DefaultAzureCredential } from "@azure/identity";
-
+import { SecretClient } from "@azure/keyvault-secrets";
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-export async function main(): Promise<void> {
-  // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
-  // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
-  // about DefaultAzureCredential and the other credentials that are available for use.
-  const credential = new DefaultAzureCredential();
+let client: SecretClient;
 
-  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-
-  const client = new SecretClient(url, credential);
-
+async function createAndReadASecret() {
   // Create a secret
   // The secret can be a string of any kind. For example,
   // a multiline text block such as an RSA private key with newline characters,
   // or a stringified JSON object, like `JSON.stringify({ mySecret: 'MySecretValue'})`.
   const uniqueString = new Date().getTime();
   const secretName = `secret${uniqueString}`;
+
   const result = await client.setSecret(secretName, "MySecretValue");
   console.log("result: ", result);
 
   // Read the secret we created
-  const secret = await client.getSecret(secretName);
-  console.log("secret: ", secret);
+  const latestSecret = await client.getSecret(secretName);
+  console.log(`Latest version of the secret ${secretName}: `, latestSecret);
+
+  const specificSecret = await client.getSecret(secretName, {
+      version: latestSecret.properties.version!,
+  });
+  console.log(`The secret ${secretName} at the version ${latestSecret.properties.version!}: `, specificSecret);
+}
+
+async function updateSecretProperties() {
+  const uniqueString = new Date().getTime();
+  const secretName = `secret${uniqueString}`;
+  await client.setSecret(secretName, "MySecretValue");
 
   // Update the secret with different attributes
-  const updatedSecret = await client.updateSecretProperties(
-    secretName,
-    result.properties.version!,
-    {
+  const result = await client.getSecret(secretName);
+  await client.updateSecretProperties(secretName, result.properties.version!, {
       enabled: false,
-    },
-  );
-  console.log("updated secret: ", updatedSecret);
+  });
+}
+
+async function deleteTheSecret() {
+  const uniqueString = new Date().getTime();
+  const secretName = `secret${uniqueString}`;
+  await client.setSecret(secretName, "MySecretValue");
 
   // Delete the secret
   // If we don't want to purge the secret later, we don't need to wait until this finishes
   await client.beginDeleteSecret(secretName);
 }
 
+async function createASecretWithAttributes() {
+  const uniqueString = new Date().getTime();
+  const secretName = `secret${uniqueString}`;
+
+  const result = await client.setSecret(secretName, "MySecretValue", {
+      enabled: false,
+  });
+}
+
+export async function main(): Promise<void> {
+  // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
+  // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
+  // about DefaultAzureCredential and the other credentials that are available for use.
+  client =
+      new SecretClient(process.env["KEYVAULT_URI"] || "<keyvault-url>", new DefaultAzureCredential());
+  await createAndReadASecret();
+  await updateSecretProperties();
+  await deleteTheSecret();
+  await createASecretWithAttributes();
+}
+
 main().catch((error) => {
-  console.error("An error occurred:", error);
+  console.error(error);
   process.exit(1);
 });

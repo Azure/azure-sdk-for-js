@@ -11,6 +11,8 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { forPublishing } from "@azure-tools/test-publishing";
 import { describe, it, beforeEach, afterEach } from "vitest";
+// Load the .env file if it exists
+import "dotenv/config";
 
 describe("deleteAndRecover", () => {
   let recorder: Recorder;
@@ -74,7 +76,7 @@ describe("deleteAndRecover", () => {
 
   // Operation snippets
 
-  it("ReadmeSampleDeleteCertificate", async () => {
+  it("delete a certificate", async () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -107,7 +109,7 @@ describe("deleteAndRecover", () => {
     // @snippet-end ReadmeSampleDeleteCertificate
   });
 
-  it("CertificateClientListDeletedCertificates", async () => {
+  it("list deleted certificates", async () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -128,7 +130,7 @@ describe("deleteAndRecover", () => {
     // @snippet-end CertificateClientListDeletedCertificates
   });
 
-  it("CertificateClientGetDeletedCertificate", async () => {
+  it("get a deleted certificate", async () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -142,7 +144,7 @@ describe("deleteAndRecover", () => {
     // @snippet-end CertificateClientGetDeletedCertificate
   });
 
-  it("CertificateClientPurgeDeletedCertificate", async () => {
+  it("purge a deleted certificate", async () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -159,7 +161,7 @@ describe("deleteAndRecover", () => {
     // @snippet-end CertificateClientPurgeDeletedCertificate
   });
 
-  it("CertificateClientRecoverDeletedCertificate", async () => {
+  it("recover a deleted certificate", async () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";

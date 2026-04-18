@@ -12,11 +12,12 @@ urlFragment: keyvault-keys-typescript
 
 These sample programs show how to use the TypeScript client libraries for Azure Key Vault Keys in some common scenarios.
 
-| **File Name**                   | **Description**                                                                     |
-| ------------------------------- | ----------------------------------------------------------------------------------- |
-| [cryptography.ts][cryptography] | Uses an Azure Key Vault key to sign/verify, encrypt/decrypt, and wrap/unwrap data.  |
-| [helloWorld.ts][helloworld]     | Creates, reads, lists, and deletes keys.                                            |
-| [keyRotation.ts][keyrotation]   | Creates and updates a key's automated rotation policy, and rotates a key on-demand. |
+| **File Name**                       | **Description**                                                                     |
+| ----------------------------------- | ----------------------------------------------------------------------------------- |
+| [cryptography.ts][cryptography]     | Uses an Azure Key Vault key to sign/verify, encrypt/decrypt, and wrap/unwrap data.  |
+| [gettingStarted.ts][gettingstarted] | Authenticates with Azure Key Vault and creates a KeyClient and CryptographyClient.  |
+| [helloWorld.ts][helloworld]         | Creates, reads, lists, and deletes keys.                                            |
+| [keyRotation.ts][keyrotation]       | Creates and updates a key's automated rotation policy, and rotates a key on-demand. |
 
 ## Prerequisites
 
@@ -66,10 +67,10 @@ npm run build
 node dist/cryptography.js
 ```
 
-Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env KEYVAULT_URI="<keyvault uri>" node dist/cryptography.js
+npx cross-env KEYVAULT_URI="<keyvault uri>" node dist/cryptography.js
 ```
 
 ## Next Steps
@@ -77,6 +78,7 @@ cross-env KEYVAULT_URI="<keyvault uri>" node dist/cryptography.js
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [cryptography]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v4/typescript/src/cryptography.ts
+[gettingstarted]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v4/typescript/src/gettingStarted.ts
 [helloworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v4/typescript/src/helloWorld.ts
 [keyrotation]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v4/typescript/src/keyRotation.ts
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/keyvault-keys

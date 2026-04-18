@@ -11,6 +11,8 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { forPublishing } from "@azure-tools/test-publishing";
 import { describe, it, beforeEach, afterEach } from "vitest";
+// Load the .env file if it exists
+import "dotenv/config";
 
 describe("backupAndRestore", () => {
   let recorder: Recorder;
@@ -76,7 +78,7 @@ describe("backupAndRestore", () => {
 
   // Operation snippets
 
-  it("CertificateClientBackupCertificate", async () => {
+  it("back up a certificate", async () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -93,7 +95,7 @@ describe("backupAndRestore", () => {
     // @snippet-end CertificateClientBackupCertificate
   });
 
-  it("CertificateClientRestoreCertificateBackup", async () => {
+  it("restore a certificate from backup", async () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";

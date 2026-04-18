@@ -12,11 +12,12 @@ urlFragment: keyvault-keys-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure Key Vault Keys in some common scenarios.
 
-| **File Name**                   | **Description**                                                                     |
-| ------------------------------- | ----------------------------------------------------------------------------------- |
-| [cryptography.js][cryptography] | Uses an Azure Key Vault key to sign/verify, encrypt/decrypt, and wrap/unwrap data.  |
-| [helloWorld.js][helloworld]     | Creates, reads, lists, and deletes keys.                                            |
-| [keyRotation.js][keyrotation]   | Creates and updates a key's automated rotation policy, and rotates a key on-demand. |
+| **File Name**                       | **Description**                                                                     |
+| ----------------------------------- | ----------------------------------------------------------------------------------- |
+| [cryptography.js][cryptography]     | Uses an Azure Key Vault key to sign/verify, encrypt/decrypt, and wrap/unwrap data.  |
+| [gettingStarted.js][gettingstarted] | Authenticates with Azure Key Vault and creates a KeyClient and CryptographyClient.  |
+| [helloWorld.js][helloworld]         | Creates, reads, lists, and deletes keys.                                            |
+| [keyRotation.js][keyrotation]       | Creates and updates a key's automated rotation policy, and rotates a key on-demand. |
 
 ## Prerequisites
 
@@ -54,10 +55,10 @@ npm install
 node cryptography.js
 ```
 
-Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env KEYVAULT_URI="<keyvault uri>" node cryptography.js
+npx cross-env KEYVAULT_URI="<keyvault uri>" node cryptography.js
 ```
 
 ## Next Steps
@@ -65,6 +66,7 @@ cross-env KEYVAULT_URI="<keyvault uri>" node cryptography.js
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [cryptography]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v4/javascript/cryptography.js
+[gettingstarted]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v4/javascript/gettingStarted.js
 [helloworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v4/javascript/helloWorld.js
 [keyrotation]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v4/javascript/keyRotation.js
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/keyvault-keys

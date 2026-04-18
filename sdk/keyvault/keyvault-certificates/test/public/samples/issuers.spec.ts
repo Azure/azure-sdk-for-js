@@ -11,6 +11,8 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { forPublishing } from "@azure-tools/test-publishing";
 import { describe, it, beforeEach, afterEach } from "vitest";
+// Load the .env file if it exists
+import "dotenv/config";
 
 describe("issuers", () => {
   let recorder: Recorder;
@@ -93,7 +95,7 @@ describe("issuers", () => {
 
   // Operation snippets
 
-  it("CertificateClientListIssuers", async () => {
+  it("list certificate issuers", async () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -118,7 +120,7 @@ describe("issuers", () => {
     // @snippet-end CertificateClientListIssuers
   });
 
-  it("CertificateClientCreateIssuer", async () => {
+  it("create a certificate issuer", async () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -131,7 +133,7 @@ describe("issuers", () => {
     // @snippet-end CertificateClientCreateIssuer
   });
 
-  it("CertificateClientUpdateIssuer", async () => {
+  it("update a certificate issuer", async () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -146,7 +148,7 @@ describe("issuers", () => {
     // @snippet-end CertificateClientUpdateIssuer
   });
 
-  it("CertificateClientGetIssuer", async () => {
+  it("get a certificate issuer", async () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -160,7 +162,7 @@ describe("issuers", () => {
     // @snippet-end CertificateClientGetIssuer
   });
 
-  it("CertificateClientDeleteIssuer", async () => {
+  it("delete a certificate issuer", async () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";

@@ -11,6 +11,8 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { forPublishing } from "@azure-tools/test-publishing";
 import { describe, it, beforeEach, afterEach } from "vitest";
+// Load the .env file if it exists
+import "dotenv/config";
 
 describe("contacts", () => {
   let recorder: Recorder;
@@ -82,7 +84,7 @@ describe("contacts", () => {
 
   // Operation snippets
 
-  it("CertificateClientDeleteContacts", async () => {
+  it("delete certificate contacts", async () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -95,7 +97,7 @@ describe("contacts", () => {
     // @snippet-end CertificateClientDeleteContacts
   });
 
-  it("CertificateClientSetContacts", async () => {
+  it("set certificate contacts", async () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
@@ -114,7 +116,7 @@ describe("contacts", () => {
     // @snippet-end CertificateClientSetContacts
   });
 
-  it("CertificateClientGetContacts", async () => {
+  it("get certificate contacts", async () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";

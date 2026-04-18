@@ -628,6 +628,162 @@ describe("test", () => {
   });
 });
 
+// ── Import graph following (helper compilation) ────────────────────────
+
+describe("compileSampleTest with helpers", () => {
+  const makeResolver = (files: Record<string, string>) => {
+    return (_fromFile: string, specifier: string) => {
+      const key = specifier.replace(/\.js$/, ".ts");
+      if (files[key]) {
+        return { canonicalPath: key, sourceText: files[key] };
+      }
+      return undefined;
+    };
+  };
+
+  it("compiles with a surviving helper (import kept, helper in helperFiles)", () => {
+    const helperSource = `
+import { MyClient } from "../src/index.js";
+
+export function createClient(): MyClient {
+  return new MyClient(process.env.ENDPOINT || "");
+}
+`;
+    const input = `\
+/** @summary test with helper */
+import { createClient } from "./helpers.js";
+import { describe, it } from "vitest";
+
+describe("test", () => {
+  it("x", async () => {
+    const client = createClient();
+    console.log(client);
+  });
+});
+`;
+    const result = compileSampleTest(input, {
+      packageName: "@azure/test",
+      resolveHelper: makeResolver({ "./helpers.ts": helperSource }),
+    });
+
+    expect(result.outputText).toContain("./helpers.js");
+    expect(result.helperFiles.size).toBe(1);
+    const helperOutput = result.helperFiles.get("./helpers.js");
+    expect(helperOutput).toBeDefined();
+    expect(helperOutput).toContain("export function createClient()");
+    expect(helperOutput).toContain('"@azure/test"');
+    // Helper env vars aggregated into main result
+    expect(result.envVars).toContain("ENDPOINT");
+  });
+
+  it("marks import dead when helper is pure test infrastructure", () => {
+    const testHelperSource = `
+import { Recorder } from "@azure-tools/test-recorder";
+
+export function createRecorder(ctx: unknown): Recorder {
+  return new Recorder(ctx);
+}
+`;
+    const input = `\
+/** @summary test with empty helper */
+import { createRecorder } from "./testUtils.js";
+import { MyClient } from "../src/index.js";
+import { describe, it } from "vitest";
+
+describe("test", () => {
+  it("x", async () => {
+    const client = new MyClient("url");
+    console.log(client);
+  });
+});
+`;
+    const result = compileSampleTest(input, {
+      packageName: "@azure/test",
+      resolveHelper: makeResolver({ "./testUtils.ts": testHelperSource }),
+    });
+
+    // testUtils import should be removed (empty helper)
+    expect(result.outputText).not.toContain("testUtils");
+    expect(result.outputText).not.toContain("createRecorder");
+    expect(result.helperFiles.size).toBe(0);
+    // MyClient should still be there
+    expect(result.outputText).toContain('"@azure/test"');
+  });
+
+  it("cascades dead bindings from empty helper through spec file", () => {
+    const testHelperSource = `
+import { Recorder } from "@azure-tools/test-recorder";
+export function createRecorder(): Recorder {
+  return new Recorder();
+}
+`;
+    const input = `\
+/** @summary cascade from empty helper */
+import { createRecorder } from "./testUtils.js";
+import { MyClient } from "../src/index.js";
+import { describe, it } from "vitest";
+
+describe("test", () => {
+  it("x", async () => {
+    const client = new MyClient("url");
+    console.log(client);
+  });
+});
+`;
+    const result = compileSampleTest(input, {
+      packageName: "@azure/test",
+      resolveHelper: makeResolver({ "./testUtils.ts": testHelperSource }),
+    });
+
+    // createRecorder is dead (empty helper) → import removed, binding cascaded
+    expect(result.outputText).not.toContain("createRecorder");
+    expect(result.outputText).not.toContain("testUtils");
+    expect(result.outputText).toContain("new MyClient");
+  });
+
+  it("keeps helper import as-is when resolver returns undefined", () => {
+    const input = `\
+/** @summary test unresolvable helper */
+import { helper } from "./missing.js";
+import { describe, it } from "vitest";
+
+describe("test", () => {
+  it("x", async () => {
+    helper();
+  });
+});
+`;
+    const result = compileSampleTest(input, {
+      packageName: "@azure/test",
+      resolveHelper: () => undefined,
+    });
+
+    // Import kept as-is (couldn't resolve) + warning
+    expect(result.outputText).toContain("./missing.js");
+    expect(result.warnings.length).toBeGreaterThan(0);
+    expect(result.warnings[0]).toContain("missing.js");
+  });
+
+  it("works without resolveHelper (backward compatible)", () => {
+    const input = `\
+/** @summary no resolver */
+import { helper } from "./helpers.js";
+import { describe, it } from "vitest";
+
+describe("test", () => {
+  it("x", async () => {
+    helper();
+  });
+});
+`;
+    const result = compileSampleTest(input, { packageName: "@azure/test" });
+
+    // Import kept as-is (no resolver)
+    expect(result.outputText).toContain("./helpers.js");
+    expect(result.helperFiles.size).toBe(0);
+  });
+});
+
 // ── generateSampleEnv tests ──────────────────────────────────────────
 
 import { generateSampleEnv } from "../../../src/util/samples/compileSampleTests.js";

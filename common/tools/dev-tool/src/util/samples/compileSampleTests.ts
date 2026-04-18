@@ -17,6 +17,7 @@ import { tmpdir } from "node:os";
 import { findMatchingFiles } from "../findMatchingFiles.js";
 import { createPrinter } from "../printer.js";
 import { compileSampleTest } from "./compiler/compiler.js";
+import type { HelperResolver, ResolvedHelper } from "./compiler/helperCompiler.js";
 
 const log = createPrinter("sample-tests");
 
@@ -128,6 +129,38 @@ export function generateSampleEnv(
 }
 
 /**
+ * Create a helper resolver that reads files relative to the importing file.
+ * Resolution is constrained to paths under testPublicPath.
+ */
+function createHelperResolver(testPublicPath: string): HelperResolver {
+  return (fromFile: string, specifier: string): ResolvedHelper | undefined => {
+    // Resolve the specifier relative to the importing file's directory
+    const fromDir = path.dirname(
+      path.isAbsolute(fromFile) ? fromFile : path.resolve(testPublicPath, fromFile),
+    );
+
+    // Try .ts extension (spec files import with .js, but source is .ts)
+    let resolved = path.resolve(fromDir, specifier.replace(/\.js$/, ".ts"));
+    if (!existsSync(resolved)) {
+      // Try as-is
+      resolved = path.resolve(fromDir, specifier);
+      if (!existsSync(resolved)) return undefined;
+    }
+
+    // Constrain to test/public/ root
+    const canonical = path.resolve(resolved);
+    if (!canonical.startsWith(path.resolve(testPublicPath) + path.sep)) {
+      return undefined;
+    }
+
+    return {
+      canonicalPath: canonical,
+      sourceText: readFileSync(canonical, "utf-8"),
+    };
+  };
+}
+
+/**
  * Compile all sample-test files in a package and write them to a staging directory.
  *
  * Returns null if no sample-test files are found.
@@ -146,12 +179,16 @@ export async function compileSampleTests(
 
   const stagingDir = await mkdtemp(path.join(tmpdir(), "sample-tests-"));
 
+  const testPublicPath = path.join(projectPath, "test", "public");
+  const resolveHelper = createHelperResolver(testPublicPath);
+
   let compiledCount = 0;
   const allEnvVars = new Set<string>();
+  const writtenHelpers = new Set<string>();
 
   try {
     for (const filePath of testFiles) {
-      const relativePath = path.relative(path.join(projectPath, "test", "public"), filePath);
+      const relativePath = path.relative(testPublicPath, filePath);
       const baseName = path.basename(relativePath, ".spec.ts") + ".ts";
       const outputPath = path.join(stagingDir, baseName);
 
@@ -161,6 +198,7 @@ export async function compileSampleTests(
       const result = compileSampleTest(sourceText, {
         packageName,
         fileName: relativePath,
+        resolveHelper,
       });
 
       if (result.warnings.length > 0) {
@@ -176,6 +214,21 @@ export async function compileSampleTests(
       mkdirSync(path.dirname(outputPath), { recursive: true });
       writeFileSync(outputPath, result.outputText, "utf-8");
       compiledCount++;
+
+      // Write compiled helper files to staging dir
+      for (const [helperSpecifier, helperText] of result.helperFiles) {
+        // Resolve helper path relative to spec file's directory
+        const helperRelative = path.normalize(
+          path.join(path.dirname(relativePath), helperSpecifier.replace(/\.js$/, ".ts")),
+        );
+        const helperBaseName = path.basename(helperRelative);
+        if (!writtenHelpers.has(helperBaseName)) {
+          const helperOutputPath = path.join(stagingDir, helperBaseName);
+          writeFileSync(helperOutputPath, helperText, "utf-8");
+          writtenHelpers.add(helperBaseName);
+          log.info(`    Helper: ${helperBaseName}`);
+        }
+      }
     }
   } catch (err: unknown) {
     // Clean up staging dir on failure so it doesn't leak
