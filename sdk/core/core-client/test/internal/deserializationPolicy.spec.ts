@@ -1242,7 +1242,7 @@ describe("deserializationPolicy - additional branches", () => {
     ).rejects.toThrow();
   });
 
-  it("should handle error in error deserialization (catch block line 319)", async () => {
+  it("should handle error in error deserialization", async () => {
     const pipeline = createEmptyPipeline();
     pipeline.addPolicy(deserializationPolicy(), { phase: "Deserialize" });
 
