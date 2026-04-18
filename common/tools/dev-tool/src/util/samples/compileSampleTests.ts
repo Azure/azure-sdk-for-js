@@ -184,7 +184,7 @@ export async function compileSampleTests(
 
   let compiledCount = 0;
   const allEnvVars = new Set<string>();
-  const writtenHelpers = new Set<string>();
+  const writtenHelpers = new Map<string, string>();
 
   try {
     for (const filePath of testFiles) {
@@ -222,10 +222,20 @@ export async function compileSampleTests(
           path.join(path.dirname(relativePath), helperSpecifier.replace(/\.js$/, ".ts")),
         );
         const helperBaseName = path.basename(helperRelative);
-        if (!writtenHelpers.has(helperBaseName)) {
+        const existingSource = writtenHelpers.get(helperBaseName);
+        if (existingSource !== undefined) {
+          if (existingSource !== helperRelative) {
+            throw new Error(
+              `Helper file basename collision: "${helperBaseName}" is produced by both ` +
+                `"${existingSource}" and "${helperRelative}". Rename one of the helper files ` +
+                `to avoid ambiguity in the flattened staging directory.`,
+            );
+          }
+          // Same source file already written — skip
+        } else {
           const helperOutputPath = path.join(stagingDir, helperBaseName);
           writeFileSync(helperOutputPath, helperText, "utf-8");
-          writtenHelpers.add(helperBaseName);
+          writtenHelpers.set(helperBaseName, helperRelative);
           log.info(`    Helper: ${helperBaseName}`);
         }
       }
