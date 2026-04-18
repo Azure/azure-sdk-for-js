@@ -216,6 +216,7 @@ function collectDefinedAndReferenced(api: ApiIndex, includeDependencyReferences 
         interfaces?: { referencedTypes?: string[]; typeParams?: string }[];
         types?: { referencedTypes?: string[]; typeParams?: string }[];
         functions?: { referencedTypes?: string[]; typeParams?: string }[];
+        namespaces?: NamespaceInfo[];
     }): void {
         for (const c of source.classes || []) {
             collectTypeParams(c.typeParams);
@@ -232,6 +233,9 @@ function collectDefinedAndReferenced(api: ApiIndex, includeDependencyReferences 
         for (const f of source.functions || []) {
             collectTypeParams(f.typeParams);
             for (const name of f.referencedTypes || []) referenced.add(name);
+        }
+        for (const ns of source.namespaces || []) {
+            collectEntityRefs(ns);
         }
     }
 
@@ -279,40 +283,32 @@ export function computeReachableTypes(api: ApiIndex): Set<string> {
     // Build reference graph from pre-computed referencedTypes fields.
     // These were populated from TypeReferenceCollector's compiler-resolved refs.
     const references = new Map<string, Set<string>>();
+
+    function addEntityRef(name: string, referencedTypes: string[] | undefined): void {
+        const refs = (referencedTypes ?? []).filter(t => allTypeNames.has(t));
+        if (refs.length) {
+            const existing = references.get(name);
+            if (existing) { for (const r of refs) existing.add(r); }
+            else { references.set(name, new Set(refs)); }
+        }
+    }
+
+    function buildRefsFromContainer(source: {
+        classes?: { name: string; referencedTypes?: string[] }[];
+        interfaces?: { name: string; referencedTypes?: string[] }[];
+        types?: { name: string; referencedTypes?: string[] }[];
+        functions?: { name?: string; referencedTypes?: string[] }[];
+        namespaces?: NamespaceInfo[];
+    }): void {
+        for (const cls of source.classes || []) addEntityRef(cls.name, cls.referencedTypes);
+        for (const iface of source.interfaces || []) addEntityRef(iface.name, iface.referencedTypes);
+        for (const t of source.types || []) addEntityRef(t.name, t.referencedTypes);
+        for (const fn of source.functions || []) { if (fn.name) addEntityRef(fn.name, fn.referencedTypes); }
+        for (const ns of source.namespaces || []) buildRefsFromContainer(ns);
+    }
+
     for (const mod of api.modules) {
-        for (const cls of mod.classes || []) {
-            const refs = (cls.referencedTypes ?? []).filter(t => allTypeNames.has(t));
-            if (refs.length) {
-                const existing = references.get(cls.name);
-                if (existing) { for (const r of refs) existing.add(r); }
-                else { references.set(cls.name, new Set(refs)); }
-            }
-        }
-        for (const iface of mod.interfaces || []) {
-            const refs = (iface.referencedTypes ?? []).filter(t => allTypeNames.has(t));
-            if (refs.length) {
-                const existing = references.get(iface.name);
-                if (existing) { for (const r of refs) existing.add(r); }
-                else { references.set(iface.name, new Set(refs)); }
-            }
-        }
-        for (const t of mod.types || []) {
-            const refs = (t.referencedTypes ?? []).filter(t2 => allTypeNames.has(t2));
-            if (refs.length) {
-                const existing = references.get(t.name);
-                if (existing) { for (const r of refs) existing.add(r); }
-                else { references.set(t.name, new Set(refs)); }
-            }
-        }
-        for (const fn of mod.functions || []) {
-            if (!fn.name) continue;
-            const refs = (fn.referencedTypes ?? []).filter(t => allTypeNames.has(t));
-            if (refs.length) {
-                const existing = references.get(fn.name);
-                if (existing) { for (const r of refs) existing.add(r); }
-                else { references.set(fn.name, new Set(refs)); }
-            }
-        }
+        buildRefsFromContainer(mod);
     }
 
     // BFS from entry points

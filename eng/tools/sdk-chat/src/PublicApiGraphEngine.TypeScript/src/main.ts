@@ -18,6 +18,7 @@ import type {
     ApiIndex,
     ModuleInfo,
     DependencyInfo,
+    NamespaceInfo,
 } from "./models.js";
 import { ExtractionContext } from "./context.js";
 import { createExtractionContext } from "./type-refs.js";
@@ -342,24 +343,30 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
     // Populate referencedTypes on all entities from compiler-resolved type refs.
     // This must happen before computeReachableTypes so BFS can use the data.
     const contextRefNames = ctx.typeRefs.getContextRefNames();
-    for (const mod of baseResult.modules) {
-        for (const cls of mod.classes || []) {
+    function populateEntityRefs(source: { classes?: { name: string; referencedTypes?: string[] }[]; interfaces?: { name: string; referencedTypes?: string[] }[]; types?: { name: string; referencedTypes?: string[] }[]; functions?: { name?: string; referencedTypes?: string[] }[]; namespaces?: NamespaceInfo[] }): void {
+        for (const cls of source.classes || []) {
             const refs = contextRefNames.get(cls.name);
             if (refs?.length) cls.referencedTypes = refs;
         }
-        for (const iface of mod.interfaces || []) {
+        for (const iface of source.interfaces || []) {
             const refs = contextRefNames.get(iface.name);
             if (refs?.length) iface.referencedTypes = refs;
         }
-        for (const t of mod.types || []) {
+        for (const t of source.types || []) {
             const refs = contextRefNames.get(t.name);
             if (refs?.length) t.referencedTypes = refs;
         }
-        for (const fn of mod.functions || []) {
+        for (const fn of source.functions || []) {
             if (!fn.name) continue;
             const refs = contextRefNames.get(fn.name);
             if (refs?.length) fn.referencedTypes = refs;
         }
+        for (const ns of source.namespaces || []) {
+            populateEntityRefs(ns);
+        }
+    }
+    for (const mod of baseResult.modules) {
+        populateEntityRefs(mod);
     }
 
     // Collect qualified (dotted) type references for ambient type display (e.g., NodeJS.ReadableStream)
