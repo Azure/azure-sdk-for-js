@@ -2933,6 +2933,7 @@ export enum KnownUpsertManagedServerOperationStepWithEstimatesAndDurationStatus 
 
 // @public
 export enum KnownVersions {
+    V20250101 = "2025-01-01",
     V20250201Preview = "2025-02-01-preview"
 }
 
@@ -4625,7 +4626,7 @@ export type ReplicaType = string;
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
-    readonly systemData?: Systemdata;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -5673,7 +5674,7 @@ export interface SyncMemberProperties {
 export type SyncMemberState = string;
 
 // @public
-export interface Systemdata {
+export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
     createdByType?: CreatedByType;

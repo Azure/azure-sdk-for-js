@@ -26,7 +26,7 @@ export type {
   ShortTermRetentionPolicyName,
   ProxyResource,
   Resource,
-  Systemdata,
+  SystemData,
   CreatedByType,
   DatabaseColumn,
   DatabaseColumnProperties,

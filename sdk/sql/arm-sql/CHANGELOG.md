@@ -1,6 +1,6 @@
 # Release History
 
-## 11.0.0-beta.5 (2026-04-10)
+## 11.0.0-beta.5 (2026-04-18)
 Compared with version 10.0.0
 
 ### Features Added
@@ -413,7 +413,6 @@ Compared with version 10.0.0
   - Added Interface SyncAgentProperties
   - Added Interface SyncGroupProperties
   - Added Interface SyncMemberProperties
-  - Added Interface Systemdata
   - Added Interface TdeCertificateProperties
   - Added Interface TimeZoneProperties
   - Added Interface TransparentDataEncryptionProperties
@@ -831,7 +830,6 @@ Compared with version 10.0.0
   - Removed Interface ServiceObjectivesGetOptionalParams
   - Removed Interface ServiceObjectivesListByServerOptionalParams
   - Removed Interface SloUsageMetric
-  - Removed Interface SystemData
   - Removed Interface UpsertManagedServerOperationStep
   - Type of parameter details of interface RecommendedAction is changed from {
         [propertyName: string]: Record<string, unknown>;

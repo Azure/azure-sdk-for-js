@@ -16,7 +16,7 @@
       "@azure/arm-sql!BackupShortTermRetentionPolicyProperties:interface": "Microsoft.Sql.BackupShortTermRetentionPolicyProperties",
       "@azure/arm-sql!ProxyResource:interface": "Azure.ResourceManager.CommonTypes.ProxyResource",
       "@azure/arm-sql!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
-      "@azure/arm-sql!systemdata:interface": "Azure.ResourceManager.CommonTypes.SystemData",
+      "@azure/arm-sql!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
       "@azure/arm-sql!ArmOperationStatusResourceProvisioningState:interface": "Azure.ResourceManager.ArmOperationStatus",
       "@azure/arm-sql!BackupShortTermRetentionPolicyListResult:interface": "Azure.ResourceManager.ResourceListResult",
       "@azure/arm-sql!DatabaseColumn:interface": "Microsoft.Sql.DatabaseColumn",

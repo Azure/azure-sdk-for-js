@@ -186,7 +186,7 @@ export function backupShortTermRetentionPolicyDeserializer(
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _backupShortTermRetentionPolicyPropertiesDeserializer(item["properties"])),
@@ -260,7 +260,7 @@ export function proxyResourceDeserializer(item: any): ProxyResource {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
   };
 }
 
@@ -273,7 +273,7 @@ export interface Resource {
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   readonly type?: string;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  readonly systemData?: Systemdata;
+  readonly systemData?: SystemData;
 }
 
 export function resourceSerializer(_item: Resource): any {
@@ -287,12 +287,12 @@ export function resourceDeserializer(item: any): Resource {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
   };
 }
 
 /** Metadata pertaining to creation and last modification of the resource. */
-export interface Systemdata {
+export interface SystemData {
   /** The identity that created the resource. */
   createdBy?: string;
   /** The type of identity that created the resource. */
@@ -307,7 +307,7 @@ export interface Systemdata {
   lastModifiedAt?: Date;
 }
 
-export function systemdataDeserializer(item: any): Systemdata {
+export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
@@ -396,7 +396,7 @@ export function databaseColumnDeserializer(item: any): DatabaseColumn {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _databaseColumnPropertiesDeserializer(item["properties"])),
@@ -601,7 +601,7 @@ export function restorePointDeserializer(item: any): RestorePoint {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _restorePointPropertiesDeserializer(item["properties"])),
@@ -743,7 +743,7 @@ export function sensitivityLabelDeserializer(item: any): SensitivityLabel {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _sensitivityLabelPropertiesDeserializer(item["properties"])),
@@ -1123,7 +1123,7 @@ export function databaseDeserializer(item: any): Database {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _databasePropertiesDeserializer(item["properties"])),
@@ -1945,7 +1945,7 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     tags: !item["tags"]
       ? item["tags"]
       : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
@@ -2446,7 +2446,7 @@ export function importExportOperationResultDeserializer(item: any): ImportExport
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _importExportOperationResultPropertiesDeserializer(item["properties"])),
@@ -2733,7 +2733,7 @@ export function replicationLinkDeserializer(item: any): ReplicationLink {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _replicationLinkPropertiesDeserializer(item["properties"])),
@@ -2970,7 +2970,7 @@ export function serverDeserializer(item: any): Server {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _serverPropertiesDeserializer(item["properties"])),
@@ -3702,7 +3702,7 @@ export function refreshExternalGovernanceStatusOperationResultDeserializer(
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _refreshExternalGovernanceStatusOperationResultPropertiesDeserializer(item["properties"])),
@@ -3925,7 +3925,7 @@ export function serverBlobAuditingPolicyDeserializer(item: any): ServerBlobAudit
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _serverBlobAuditingPolicyPropertiesDeserializer(item["properties"])),
@@ -4269,7 +4269,7 @@ export function databaseBlobAuditingPolicyDeserializer(item: any): DatabaseBlobA
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _databaseBlobAuditingPolicyPropertiesDeserializer(item["properties"])),
@@ -4601,7 +4601,7 @@ export function extendedDatabaseBlobAuditingPolicyDeserializer(
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _extendedDatabaseBlobAuditingPolicyPropertiesDeserializer(item["properties"])),
@@ -4950,7 +4950,7 @@ export function extendedServerBlobAuditingPolicyDeserializer(
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _extendedServerBlobAuditingPolicyPropertiesDeserializer(item["properties"])),
@@ -5194,7 +5194,7 @@ export function advisorDeserializer(item: any): Advisor {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _advisorPropertiesDeserializer(item["properties"])),
@@ -5329,7 +5329,7 @@ export function recommendedActionDeserializer(item: any): RecommendedAction {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _recommendedActionPropertiesDeserializer(item["properties"])),
@@ -5641,7 +5641,7 @@ export function databaseTableDeserializer(item: any): DatabaseTable {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _databaseTablePropertiesDeserializer(item["properties"])),
@@ -5694,7 +5694,7 @@ export function databaseSchemaDeserializer(item: any): DatabaseSchema {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
   };
 }
 
@@ -5762,7 +5762,7 @@ export function databaseSecurityAlertPolicyDeserializer(item: any): DatabaseSecu
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _databaseSecurityAlertPolicyPropertiesDeserializer(item["properties"])),
@@ -5896,7 +5896,7 @@ export function databaseSqlVulnerabilityAssessmentBaselineSetDeserializer(
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _databaseSqlVulnerabilityAssessmentBaselineSetPropertiesDeserializer(item["properties"])),
@@ -5981,7 +5981,7 @@ export function sqlVulnerabilityAssessmentDeserializer(item: any): SqlVulnerabil
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _sqlVulnerabilityAssessmentPropertiesDeserializer(item["properties"])),
@@ -6068,7 +6068,7 @@ export function databaseSqlVulnerabilityAssessmentRuleBaselineDeserializer(
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _databaseSqlVulnerabilityAssessmentRuleBaselinePropertiesDeserializer(item["properties"])),
@@ -6186,7 +6186,7 @@ export function sqlVulnerabilityAssessmentScanResultsDeserializer(
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _sqlVulnerabilityAssessmentScanResultsPropertiesDeserializer(item["properties"])),
@@ -6554,7 +6554,7 @@ export function sqlVulnerabilityAssessmentScanRecordDeserializer(
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _sqlVulnerabilityAssessmentScanRecordPropertiesDeserializer(item["properties"])),
@@ -6742,7 +6742,7 @@ export function databaseVulnerabilityAssessmentRuleBaselineDeserializer(
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _databaseVulnerabilityAssessmentRuleBaselinePropertiesDeserializer(item["properties"])),
@@ -6853,7 +6853,7 @@ export function databaseVulnerabilityAssessmentDeserializer(
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _databaseVulnerabilityAssessmentPropertiesDeserializer(item["properties"])),
@@ -7007,7 +7007,7 @@ export function vulnerabilityAssessmentScanRecordDeserializer(
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _vulnerabilityAssessmentScanRecordPropertiesDeserializer(item["properties"])),
@@ -7116,7 +7116,7 @@ export function databaseVulnerabilityAssessmentScansExportDeserializer(
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _databaseVulnerabilityAssessmentScansExportPropertiesDeserializer(item["properties"])),
@@ -7168,7 +7168,7 @@ export function dataMaskingPolicyDeserializer(item: any): DataMaskingPolicy {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _dataMaskingPolicyPropertiesDeserializer(item["properties"])),
@@ -7233,7 +7233,7 @@ export function deletedServerDeserializer(item: any): DeletedServer {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _deletedServerPropertiesDeserializer(item["properties"])),
@@ -7332,7 +7332,7 @@ export function distributedAvailabilityGroupDeserializer(item: any): Distributed
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _distributedAvailabilityGroupPropertiesDeserializer(item["properties"])),
@@ -7838,7 +7838,7 @@ export function managedDatabaseDeserializer(item: any): ManagedDatabase {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _managedDatabasePropertiesDeserializer(item["properties"])),
@@ -8260,7 +8260,7 @@ export function serverTrustGroupDeserializer(item: any): ServerTrustGroup {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _serverTrustGroupPropertiesDeserializer(item["properties"])),
@@ -8520,7 +8520,7 @@ export function managedInstanceDeserializer(item: any): ManagedInstance {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _managedInstancePropertiesDeserializer(item["properties"])),
@@ -9401,7 +9401,7 @@ export function refreshExternalGovernanceStatusOperationResultMIDeserializer(
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _refreshExternalGovernanceStatusOperationResultMIPropertiesDeserializer(
@@ -9728,7 +9728,7 @@ export function elasticPoolDeserializer(item: any): ElasticPool {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _elasticPoolPropertiesDeserializer(item["properties"])),
@@ -10035,7 +10035,7 @@ export function encryptionProtectorDeserializer(item: any): EncryptionProtector 
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _encryptionProtectorPropertiesDeserializer(item["properties"])),
@@ -10153,7 +10153,7 @@ export function endpointCertificateDeserializer(item: any): EndpointCertificate 
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _endpointCertificatePropertiesDeserializer(item["properties"])),
@@ -10241,7 +10241,7 @@ export function failoverGroupDeserializer(item: any): FailoverGroup {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _failoverGroupPropertiesDeserializer(item["properties"])),
@@ -10576,7 +10576,7 @@ export function geoBackupPolicyDeserializer(item: any): GeoBackupPolicy {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _geoBackupPolicyPropertiesDeserializer(item["properties"])),
@@ -10682,7 +10682,7 @@ export function instanceFailoverGroupDeserializer(item: any): InstanceFailoverGr
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _instanceFailoverGroupPropertiesDeserializer(item["properties"])),
@@ -10958,7 +10958,7 @@ export function instancePoolOperationDeserializer(item: any): InstancePoolOperat
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _instancePoolOperationPropertiesDeserializer(item["properties"])),
@@ -11133,7 +11133,7 @@ export function instancePoolDeserializer(item: any): InstancePool {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _instancePoolPropertiesDeserializer(item["properties"])),
@@ -11367,7 +11367,7 @@ export function jobExecutionDeserializer(item: any): JobExecution {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _jobExecutionPropertiesDeserializer(item["properties"])),
@@ -11567,7 +11567,7 @@ export function jobAgentDeserializer(item: any): JobAgent {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _jobAgentPropertiesDeserializer(item["properties"])),
@@ -11783,7 +11783,7 @@ export function jobCredentialDeserializer(item: any): JobCredential {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _jobCredentialPropertiesDeserializer(item["properties"])),
@@ -11861,7 +11861,7 @@ export function jobDeserializer(item: any): Job {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"] ? item["properties"] : _jobPropertiesDeserializer(item["properties"])),
   };
 }
@@ -11978,7 +11978,7 @@ export function jobPrivateEndpointDeserializer(item: any): JobPrivateEndpoint {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _jobPrivateEndpointPropertiesDeserializer(item["properties"])),
@@ -12071,7 +12071,7 @@ export function jobStepDeserializer(item: any): JobStep {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _jobStepPropertiesDeserializer(item["properties"])),
@@ -12315,7 +12315,7 @@ export function jobTargetGroupDeserializer(item: any): JobTargetGroup {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _jobTargetGroupPropertiesDeserializer(item["properties"])),
@@ -12432,7 +12432,7 @@ export function jobVersionDeserializer(item: any): JobVersion {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
   };
 }
 
@@ -12494,7 +12494,7 @@ export function longTermRetentionBackupDeserializer(item: any): LongTermRetentio
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _longTermRetentionBackupPropertiesDeserializer(item["properties"])),
@@ -12760,7 +12760,7 @@ export function longTermRetentionBackupOperationResultDeserializer(
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _longTermRetentionBackupOperationResultPropertiesDeserializer(item["properties"])),
@@ -12856,7 +12856,7 @@ export function managedInstanceLongTermRetentionBackupDeserializer(
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _managedInstanceLongTermRetentionBackupPropertiesDeserializer(item["properties"])),
@@ -12967,7 +12967,7 @@ export function longTermRetentionPolicyDeserializer(item: any): LongTermRetentio
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _longTermRetentionPolicyPropertiesDeserializer(item["properties"])),
@@ -13083,7 +13083,7 @@ export function managedBackupShortTermRetentionPolicyDeserializer(
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _managedBackupShortTermRetentionPolicyPropertiesDeserializer(item["properties"])),
@@ -13199,7 +13199,7 @@ export function managedDatabaseSecurityAlertPolicyDeserializer(
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _managedDatabaseSecurityAlertPolicyPropertiesDeserializer(item["properties"])),
@@ -13332,7 +13332,7 @@ export function managedInstanceAdministratorDeserializer(item: any): ManagedInst
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _managedInstanceAdministratorPropertiesDeserializer(item["properties"])),
@@ -13455,7 +13455,7 @@ export function managedInstanceAzureADOnlyAuthenticationDeserializer(
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _managedInstanceAzureADOnlyAuthenticationPropertiesDeserializer(item["properties"])),
@@ -13562,7 +13562,7 @@ export function managedInstanceDtcDeserializer(item: any): ManagedInstanceDtc {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _managedInstanceDtcPropertiesDeserializer(item["properties"])),
@@ -13770,7 +13770,7 @@ export function managedInstanceEncryptionProtectorDeserializer(
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _managedInstanceEncryptionProtectorPropertiesDeserializer(item["properties"])),
@@ -13878,7 +13878,7 @@ export function managedInstanceKeyDeserializer(item: any): ManagedInstanceKey {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _managedInstanceKeyPropertiesDeserializer(item["properties"])),
@@ -13982,7 +13982,7 @@ export function managedInstanceLongTermRetentionPolicyDeserializer(
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _managedInstanceLongTermRetentionPolicyPropertiesDeserializer(item["properties"])),
@@ -14110,7 +14110,7 @@ export function managedInstanceOperationDeserializer(item: any): ManagedInstance
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _managedInstanceOperationPropertiesDeserializer(item["properties"])),
@@ -14347,7 +14347,7 @@ export function managedInstancePrivateEndpointConnectionDeserializer(
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _managedInstancePrivateEndpointConnectionPropertiesDeserializer(item["properties"])),
@@ -14423,7 +14423,7 @@ export function managedInstanceVulnerabilityAssessmentDeserializer(
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _managedInstanceVulnerabilityAssessmentPropertiesDeserializer(item["properties"])),
@@ -14516,7 +14516,7 @@ export function managedServerDnsAliasDeserializer(item: any): ManagedServerDnsAl
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _managedServerDnsAliasPropertiesDeserializer(item["properties"])),
@@ -14634,7 +14634,7 @@ export function managedServerSecurityAlertPolicyDeserializer(
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _managedServerSecurityAlertPolicyPropertiesDeserializer(item["properties"])),
@@ -14692,7 +14692,7 @@ export function networkSecurityPerimeterConfigurationDeserializer(
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _networkSecurityPerimeterConfigurationPropertiesDeserializer(item["properties"])),
@@ -14946,7 +14946,7 @@ export function outboundFirewallRuleDeserializer(item: any): OutboundFirewallRul
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _outboundFirewallRulePropertiesDeserializer(item["properties"])),
@@ -15017,7 +15017,7 @@ export function privateEndpointConnectionDeserializer(item: any): PrivateEndpoin
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _privateEndpointConnectionPropertiesDeserializer(item["properties"])),
@@ -15070,7 +15070,7 @@ export function privateLinkResourceDeserializer(item: any): PrivateLinkResource 
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     properties: !item["properties"]
       ? item["properties"]
       : privateLinkResourcePropertiesDeserializer(item["properties"]),
@@ -15149,7 +15149,7 @@ export function recoverableDatabaseDeserializer(item: any): RecoverableDatabase 
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _recoverableDatabasePropertiesDeserializer(item["properties"])),
@@ -15220,7 +15220,7 @@ export function recoverableManagedDatabaseDeserializer(item: any): RecoverableMa
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _recoverableManagedDatabasePropertiesDeserializer(item["properties"])),
@@ -15297,7 +15297,7 @@ export function restorableDroppedDatabaseDeserializer(item: any): RestorableDrop
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _restorableDroppedDatabasePropertiesDeserializer(item["properties"])),
@@ -15393,7 +15393,7 @@ export function restorableDroppedManagedDatabaseDeserializer(
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _restorableDroppedManagedDatabasePropertiesDeserializer(item["properties"])),
@@ -15479,7 +15479,7 @@ export function serverAzureADAdministratorDeserializer(item: any): ServerAzureAD
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _serverAzureADAdministratorPropertiesDeserializer(item["properties"])),
@@ -15577,7 +15577,7 @@ export function serverAzureADOnlyAuthenticationDeserializer(
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _serverAzureADOnlyAuthenticationPropertiesDeserializer(item["properties"])),
@@ -15656,7 +15656,7 @@ export function serverConfigurationOptionDeserializer(item: any): ServerConfigur
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _serverConfigurationOptionPropertiesDeserializer(item["properties"])),
@@ -15753,7 +15753,7 @@ export function serverConnectionPolicyDeserializer(item: any): ServerConnectionP
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _serverConnectionPolicyPropertiesDeserializer(item["properties"])),
@@ -15901,7 +15901,7 @@ export function serverDevOpsAuditingSettingsDeserializer(item: any): ServerDevOp
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _serverDevOpsAuditingSettingsPropertiesDeserializer(item["properties"])),
@@ -16025,7 +16025,7 @@ export function serverDnsAliasDeserializer(item: any): ServerDnsAlias {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _serverDnsAliasPropertiesDeserializer(item["properties"])),
@@ -16112,7 +16112,7 @@ export function serverKeyDeserializer(item: any): ServerKey {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _serverKeyPropertiesDeserializer(item["properties"])),
@@ -16225,7 +16225,7 @@ export function serverSecurityAlertPolicyDeserializer(item: any): ServerSecurity
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _serverSecurityAlertPolicyPropertiesDeserializer(item["properties"])),
@@ -16292,7 +16292,7 @@ export function serverTrustCertificateDeserializer(item: any): ServerTrustCertif
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _serverTrustCertificatePropertiesDeserializer(item["properties"])),
@@ -16392,7 +16392,7 @@ export function serverVulnerabilityAssessmentDeserializer(
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _serverVulnerabilityAssessmentPropertiesDeserializer(item["properties"])),
@@ -16503,7 +16503,7 @@ export function startStopManagedInstanceScheduleDeserializer(
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _startStopManagedInstanceSchedulePropertiesDeserializer(item["properties"])),
@@ -16682,7 +16682,7 @@ export function subscriptionUsageDeserializer(item: any): SubscriptionUsage {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _subscriptionUsagePropertiesDeserializer(item["properties"])),
@@ -16764,7 +16764,7 @@ export function syncAgentDeserializer(item: any): SyncAgent {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _syncAgentPropertiesDeserializer(item["properties"])),
@@ -16913,7 +16913,7 @@ export function syncAgentLinkedDatabaseDeserializer(item: any): SyncAgentLinkedD
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _syncAgentLinkedDatabasePropertiesDeserializer(item["properties"])),
@@ -17028,7 +17028,7 @@ export function syncGroupDeserializer(item: any): SyncGroup {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _syncGroupPropertiesDeserializer(item["properties"])),
@@ -17642,7 +17642,7 @@ export function syncMemberDeserializer(item: any): SyncMember {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _syncMemberPropertiesDeserializer(item["properties"])),
@@ -17841,7 +17841,7 @@ export function timeZoneDeserializer(item: any): TimeZone {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _timeZonePropertiesDeserializer(item["properties"])),
@@ -17915,7 +17915,7 @@ export function virtualClusterDeserializer(item: any): VirtualCluster {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _virtualClusterPropertiesDeserializer(item["properties"])),
@@ -18011,7 +18011,7 @@ export function updateVirtualClusterDnsServersOperationDeserializer(
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _updateVirtualClusterDnsServersOperationPropertiesDeserializer(item["properties"])),
@@ -18081,7 +18081,7 @@ export function virtualNetworkRuleDeserializer(item: any): VirtualNetworkRule {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _virtualNetworkRulePropertiesDeserializer(item["properties"])),
@@ -18210,7 +18210,7 @@ export function workloadClassifierDeserializer(item: any): WorkloadClassifier {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _workloadClassifierPropertiesDeserializer(item["properties"])),
@@ -18322,7 +18322,7 @@ export function workloadGroupDeserializer(item: any): WorkloadGroup {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _workloadGroupPropertiesDeserializer(item["properties"])),
@@ -18456,7 +18456,7 @@ export function databaseOperationDeserializer(item: any): DatabaseOperation {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _databaseOperationPropertiesDeserializer(item["properties"])),
@@ -18610,7 +18610,7 @@ export function databaseUsageDeserializer(item: any): DatabaseUsage {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _databaseUsagePropertiesDeserializer(item["properties"])),
@@ -18738,7 +18738,7 @@ export function synapseLinkWorkspaceDeserializer(item: any): SynapseLinkWorkspac
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _synapseLinkWorkspacePropertiesDeserializer(item["properties"])),
@@ -18844,7 +18844,7 @@ export function serverOperationDeserializer(item: any): ServerOperation {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _serverOperationPropertiesDeserializer(item["properties"])),
@@ -18941,7 +18941,7 @@ export function serverUsageDeserializer(item: any): ServerUsage {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _serverUsagePropertiesDeserializer(item["properties"])),
@@ -19024,7 +19024,7 @@ export function databaseAdvancedThreatProtectionDeserializer(
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _databaseAdvancedThreatProtectionPropertiesDeserializer(item["properties"])),
@@ -19124,7 +19124,7 @@ export function databaseAutomaticTuningDeserializer(item: any): DatabaseAutomati
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _databaseAutomaticTuningPropertiesDeserializer(item["properties"])),
@@ -19370,7 +19370,7 @@ export function importExportExtensionsOperationResultDeserializer(
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _importExportExtensionsOperationResultPropertiesDeserializer(item["properties"])),
@@ -19565,7 +19565,7 @@ export function dataMaskingRuleDeserializer(item: any): DataMaskingRule {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     location: item["location"],
     kind: item["kind"],
     ...(!item["properties"]
@@ -19696,7 +19696,7 @@ export function dataWarehouseUserActivitiesDeserializer(item: any): DataWarehous
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _dataWarehouseUserActivitiesPropertiesDeserializer(item["properties"])),
@@ -19801,7 +19801,7 @@ export function securityEventDeserializer(item: any): SecurityEvent {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _securityEventPropertiesDeserializer(item["properties"])),
@@ -19947,7 +19947,7 @@ export function elasticPoolOperationDeserializer(item: any): ElasticPoolOperatio
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _elasticPoolOperationPropertiesDeserializer(item["properties"])),
@@ -20098,7 +20098,7 @@ export function ledgerDigestUploadsDeserializer(item: any): LedgerDigestUploads 
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _ledgerDigestUploadsPropertiesDeserializer(item["properties"])),
@@ -20192,7 +20192,7 @@ export function maintenanceWindowOptionsDeserializer(item: any): MaintenanceWind
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _maintenanceWindowOptionsPropertiesDeserializer(item["properties"])),
@@ -20291,7 +20291,7 @@ export function maintenanceWindowsDeserializer(item: any): MaintenanceWindows {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _maintenanceWindowsPropertiesDeserializer(item["properties"])),
@@ -20346,7 +20346,7 @@ export function managedDatabaseAdvancedThreatProtectionDeserializer(
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _managedDatabaseAdvancedThreatProtectionPropertiesDeserializer(item["properties"])),
@@ -20431,7 +20431,7 @@ export function managedDatabaseMoveOperationResultDeserializer(
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _managedDatabaseMoveOperationResultPropertiesDeserializer(item["properties"])),
@@ -20537,7 +20537,7 @@ export function managedInstanceQueryDeserializer(item: any): ManagedInstanceQuer
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _managedInstanceQueryPropertiesDeserializer(item["properties"])),
@@ -20600,7 +20600,7 @@ export function queryStatisticsDeserializer(item: any): QueryStatistics {
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _queryStatisticsPropertiesDeserializer(item["properties"])),
@@ -20664,7 +20664,7 @@ export function managedDatabaseRestoreDetailsResultDeserializer(
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _managedDatabaseRestoreDetailsResultPropertiesDeserializer(item["properties"])),
@@ -20859,7 +20859,7 @@ export function managedTransparentDataEncryptionDeserializer(
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _managedTransparentDataEncryptionPropertiesDeserializer(item["properties"])),
@@ -20958,7 +20958,7 @@ export function managedInstanceAdvancedThreatProtectionDeserializer(
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _managedInstanceAdvancedThreatProtectionPropertiesDeserializer(item["properties"])),
@@ -21011,7 +21011,7 @@ export function managedInstancePrivateLinkDeserializer(item: any): ManagedInstan
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     properties: !item["properties"]
       ? item["properties"]
       : managedInstancePrivateLinkPropertiesDeserializer(item["properties"]),
@@ -21094,7 +21094,7 @@ export function managedLedgerDigestUploadsDeserializer(item: any): ManagedLedger
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _managedLedgerDigestUploadsPropertiesDeserializer(item["properties"])),
@@ -21211,7 +21211,7 @@ export function serverAdvancedThreatProtectionDeserializer(
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _serverAdvancedThreatProtectionPropertiesDeserializer(item["properties"])),
@@ -21278,7 +21278,7 @@ export function serverAutomaticTuningDeserializer(item: any): ServerAutomaticTun
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _serverAutomaticTuningPropertiesDeserializer(item["properties"])),
@@ -21390,7 +21390,7 @@ export function sqlAgentConfigurationDeserializer(item: any): SqlAgentConfigurat
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _sqlAgentConfigurationPropertiesDeserializer(item["properties"])),
@@ -21462,7 +21462,7 @@ export function logicalDatabaseTransparentDataEncryptionDeserializer(
     type: item["type"],
     systemData: !item["systemData"]
       ? item["systemData"]
-      : systemdataDeserializer(item["systemData"]),
+      : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _logicalDatabaseTransparentDataEncryptionPropertiesDeserializer(item["properties"])),
@@ -22959,6 +22959,8 @@ export type CapabilityGroup = string;
 
 /** The available API versions. */
 export enum KnownVersions {
+  /** The 2025-01-01 API version. */
+  V20250101 = "2025-01-01",
   /** The 2025-02-01-preview API version. */
   V20250201Preview = "2025-02-01-preview",
 }
