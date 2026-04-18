@@ -50,7 +50,7 @@ describe("[Browser] Streams", () => {
     const reader = result.body!.getReader();
     // Read the first chunk
     const chunk = await reader.read();
-    assert.equal(chunk.done, false);
+    assert.isFalse(chunk.done);
     expect(fetchMock).toHaveBeenCalledOnce();
   });
 
@@ -75,6 +75,7 @@ describe("[Browser] Streams", () => {
 
     try {
       await client.pathUnchecked("/foo").get();
+      assert.fail("Expected an error to be thrown");
     } catch (e: any) {
       assert.match(e.message, /ExpectedException/);
     }
@@ -88,6 +89,7 @@ describe("[Browser] Streams", () => {
 
     try {
       await client.pathUnchecked("/foo").get().asBrowserStream();
+      assert.fail("Expected an error to be thrown");
     } catch (e: any) {
       assert.match(e.message, /ExpectedException/);
     }

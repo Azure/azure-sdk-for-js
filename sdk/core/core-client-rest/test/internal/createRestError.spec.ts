@@ -58,7 +58,7 @@ describe("createRestError", () => {
     assert.equal(error.message, "message");
   });
 
-  it("should create a rest error from an error message and a PathUnchecked response with standard error", () => {
+  it("should create a rest error from an error message and a PathUnchecked response with top-level error properties", () => {
     const response = {
       status: "400",
       headers: {},

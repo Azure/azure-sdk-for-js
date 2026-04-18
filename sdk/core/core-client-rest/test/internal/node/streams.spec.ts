@@ -75,6 +75,7 @@ describe("[Node] Streams", () => {
 
     try {
       await client.pathUnchecked("/foo").get();
+      assert.fail("Expected an error to be thrown");
     } catch (e: any) {
       assert.equal(e.message, "ExpectedException");
     }
@@ -90,6 +91,7 @@ describe("[Node] Streams", () => {
 
     try {
       await client.pathUnchecked("/foo").get().asNodeStream();
+      assert.fail("Expected an error to be thrown");
     } catch (e: any) {
       assert.equal(e.message, "ExpectedException");
     }
