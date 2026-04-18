@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using PublicApiGraphEngine.Contracts;
@@ -1739,6 +1740,17 @@ public static class TypeScriptFormatter
         if (!string.IsNullOrEmpty(e.Doc))
             sb.AppendLine($"/** {e.Doc} */");
         var prefix = insideDeclareModule ? "export " : exportKeyword ? "export declare " : "declare ";
+
+        // String enums are emitted as string literal union types so they stay
+        // structurally assignable to `string` (TS enums are nominal).
+        if (e.IsStringEnum == true && e.StringValues is { Count: > 0 })
+        {
+            var literals = string.Join(" | ", e.StringValues.Select(v => $"\"{v}\""));
+            sb.AppendLine($"{prefix}type {e.Name} = {literals};");
+            sb.AppendLine();
+            return sb.ToString();
+        }
+
         sb.AppendLine($"{prefix}enum {e.Name} {{");
         if (e.Values is not null)
             sb.AppendLine($"    {string.Join(", ", e.Values)}");

@@ -510,6 +510,14 @@ public sealed record EnumInfo
 
     [JsonPropertyName("values")]
     public IReadOnlyList<string>? Values { get; init; }
+
+    [JsonPropertyName("isStringEnum")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? IsStringEnum { get; init; }
+
+    [JsonPropertyName("stringValues")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<string>? StringValues { get; init; }
 }
 
 /// <summary>A type alias.</summary>

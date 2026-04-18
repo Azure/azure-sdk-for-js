@@ -628,11 +628,22 @@ export function extractInterface(iface: InterfaceDeclaration, ctx: ExtractionCon
 
 export function extractEnum(en: EnumDeclaration, ctx: ExtractionContext): EnumInfo {
     ctx.typeRefs.pushContext(en.getName());
+    const members = en.getMembers();
+    const names = members.map((m) => m.getName());
+    const resolvedValues = members.map((m) => m.getValue());
+    const isStringEnum =
+        members.length > 0 && resolvedValues.every((v) => typeof v === "string");
+
     const result: EnumInfo = {
         name: en.getName(),
         doc: getDocString(en),
-        values: en.getMembers().map((m) => m.getName()),
+        values: names,
     };
+
+    if (isStringEnum) {
+        result.isStringEnum = true;
+        result.stringValues = resolvedValues as string[];
+    }
 
     const deprecated = getDeprecatedInfo(en);
     if (deprecated.deprecated) result.deprecated = true;

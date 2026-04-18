@@ -5,6 +5,7 @@ import { describe, it, expect } from "vitest";
 import { Project, ts, Node } from "ts-morph";
 import type { ResolvedTypeRef } from "../models.js";
 import { collectTypeRefsFromTypeNode, createExtractionContext } from "../type-refs.js";
+import { extractEnum } from "../extractors.js";
 
 function makeCtx() {
   const project = new Project({
@@ -284,5 +285,50 @@ describe("TypeReferenceCollector — getAllQualifiedRefNames", () => {
     expect(contextRefs.has("MyNs.Client")).toBe(true);
     const refNames = contextRefs.get("MyNs.Client")!;
     expect(refNames).toContain("DepType");
+  });
+});
+
+describe("extractEnum", () => {
+  it("detects string enum and populates stringValues", () => {
+    const ctx = makeCtx();
+    const src = ctx.project.createSourceFile(
+      "str-enum.ts",
+      'export enum Direction { Up = "UP", Down = "DOWN" }',
+    );
+    const en = src.getEnumOrThrow("Direction");
+    
+    const info = extractEnum(en, ctx);
+    expect(info.name).toBe("Direction");
+    expect(info.isStringEnum).toBe(true);
+    expect(info.stringValues).toEqual(["UP", "DOWN"]);
+    expect(info.values).toEqual(["Up", "Down"]);
+  });
+
+  it("does not mark numeric enum as string enum", () => {
+    const ctx = makeCtx();
+    const src = ctx.project.createSourceFile(
+      "num-enum.ts",
+      "export enum Status { Active, Inactive }",
+    );
+    const en = src.getEnumOrThrow("Status");
+    
+    const info = extractEnum(en, ctx);
+    expect(info.name).toBe("Status");
+    expect(info.isStringEnum).toBeUndefined();
+    expect(info.stringValues).toBeUndefined();
+    expect(info.values).toEqual(["Active", "Inactive"]);
+  });
+
+  it("does not mark mixed enum as string enum", () => {
+    const ctx = makeCtx();
+    const src = ctx.project.createSourceFile(
+      "mixed-enum.ts",
+      'export enum Mixed { A = 0, B = "b" }',
+    );
+    const en = src.getEnumOrThrow("Mixed");
+    
+    const info = extractEnum(en, ctx);
+    expect(info.isStringEnum).toBeUndefined();
+    expect(info.stringValues).toBeUndefined();
   });
 });
