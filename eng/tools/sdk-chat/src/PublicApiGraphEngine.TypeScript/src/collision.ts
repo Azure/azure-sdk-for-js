@@ -57,6 +57,8 @@ export function resolveCollisions(
 
     // Find collisions: names that appear in main + any dep, or in 2+ deps
     const collisionAliases: CollisionAliasMap = {};
+    // Track all generated aliases to ensure uniqueness across the entire output
+    const usedAliases = new Set<string>([...mainTypeNames]);
 
     for (const [typeName, depPackages] of depTypesByName) {
         const mainOwns = mainTypeNames.has(typeName);
@@ -67,15 +69,16 @@ export function resolveCollisions(
             const entry: Record<string, string> = {};
             entry[api.package] = typeName; // main keeps bare name
             for (const pkg of packages) {
-                entry[pkg] = makeAlias(pkg, typeName);
+                entry[pkg] = uniqueAlias(pkg, typeName, usedAliases);
             }
             collisionAliases[typeName] = entry;
         } else if (!mainOwns && packages.length >= 2) {
             // Cross-dep collision: first dep (lexicographic) keeps bare name
             const entry: Record<string, string> = {};
             entry[packages[0]] = typeName; // first dep keeps bare name
+            usedAliases.add(typeName);
             for (let i = 1; i < packages.length; i++) {
-                entry[packages[i]] = makeAlias(packages[i], typeName);
+                entry[packages[i]] = uniqueAlias(packages[i], typeName, usedAliases);
             }
             collisionAliases[typeName] = entry;
         }
@@ -94,6 +97,25 @@ export function resolveCollisions(
     return collisionAliases;
 }
 
+/**
+ * Generate a unique alias for a collision.
+ * Base format: `_<pkgSuffix>_<TypeName>`. If that collides with an existing
+ * alias or main type name, append an incrementing counter (_2, _3, ...).
+ */
+function uniqueAlias(packageName: string, typeName: string, usedAliases: Set<string>): string {
+    const base = makeAlias(packageName, typeName);
+    if (!usedAliases.has(base)) {
+        usedAliases.add(base);
+        return base;
+    }
+    // Disambiguate with counter
+    let counter = 2;
+    while (usedAliases.has(`${base}_${counter}`)) counter++;
+    const alias = `${base}_${counter}`;
+    usedAliases.add(alias);
+    return alias;
+}
+
 function makeAlias(packageName: string, typeName: string): string {
     // Use last segment of package name with hyphens removed
     const parts = packageName.split("/");
@@ -101,19 +123,15 @@ function makeAlias(packageName: string, typeName: string): string {
     return `_${suffix}_${typeName}`;
 }
 
-function getAllDepTypeNames(dep: { classes?: { name: string }[]; interfaces?: { name: string }[]; enums?: { name: string }[]; types?: { name: string }[]; functions?: { name: string }[]; namespaces?: { name: string }[] }): string[] {
+function getAllDepTypeNames(dep: { classes?: { name: string }[]; interfaces?: { name: string }[]; enums?: { name: string }[]; types?: { name: string }[] }): string[] {
     const names: string[] = [];
     for (const c of dep.classes ?? []) names.push(c.name);
     for (const i of dep.interfaces ?? []) names.push(i.name);
     for (const e of dep.enums ?? []) names.push(e.name);
     for (const t of dep.types ?? []) names.push(t.name);
-    for (const f of dep.functions ?? []) if (f.name) names.push(f.name);
-    // Namespace names that are companion namespaces (declaration merging)
-    // are not independent types — they merge with the class/interface.
-    // Only collect top-level namespace names that aren't already collected.
-    for (const ns of dep.namespaces ?? []) {
-        if (!names.includes(ns.name)) names.push(ns.name);
-    }
+    // Functions and namespaces are excluded: the C# formatter only emits
+    // import statements for classes, interfaces, enums, and type aliases.
+    // Including them would create aliases that are never imported.
     return names;
 }
 
@@ -122,6 +140,9 @@ function collectTypeNames(source: { classes?: { name: string }[]; interfaces?: {
     for (const i of source.interfaces ?? []) out.add(i.name);
     for (const e of source.enums ?? []) out.add(e.name);
     for (const t of source.types ?? []) out.add(t.name);
+    // Include functions and namespaces for main type name collection so we
+    // detect collisions against all main-defined names, but these are only
+    // used for the "main owns this name" check, not for aliasing.
     for (const f of source.functions ?? []) if (f.name) out.add(f.name);
     for (const ns of source.namespaces ?? []) {
         out.add(ns.name);

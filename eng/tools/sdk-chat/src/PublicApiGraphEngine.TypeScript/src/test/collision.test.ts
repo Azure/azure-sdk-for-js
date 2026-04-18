@@ -112,6 +112,37 @@ describe("collision detection", () => {
     expect(result["OperationState"]["@azure/test-pkg"]).toBe("OperationState");
     expect(result["OperationState"]["dep-x"]).toBe("_depx_OperationState");
   });
+
+  it("generates unique aliases when package suffixes collide", () => {
+    // Two packages with the same suffix "corelro" after hyphen removal
+    const api = makeApi({
+      modules: [{ name: "main", types: [{ name: "State", type: "string" } as TypeAliasInfo] }],
+      dependencies: [
+        { package: "@azure/core-lro", interfaces: [{ name: "State" } as InterfaceInfo] },
+        { package: "corelro", types: [{ name: "State", type: "any" } as TypeAliasInfo] },
+      ],
+    });
+    const contextRefs = new Map<string, Map<string, string>>();
+    const result = resolveCollisions(api, contextRefs);
+
+    // Both deps should get aliases, and they must be different
+    const aliases = Object.values(result["State"]).filter(v => v !== "State");
+    expect(aliases).toHaveLength(2);
+    expect(new Set(aliases).size).toBe(2); // all unique
+  });
+
+  it("excludes dep functions and namespaces from collision detection", () => {
+    // Main has a function named "doWork", dep has a function named "doWork"
+    // Functions are not imported by the C# formatter, so no collision
+    const api = makeApi({
+      modules: [{ name: "main", functions: [{ name: "doWork", sig: "() => void" } as FunctionInfo] }],
+      dependencies: [{ package: "dep-a", functions: [{ name: "doWork", sig: "() => void" } as any] }],
+    });
+    const contextRefs = new Map<string, Map<string, string>>();
+    const result = resolveCollisions(api, contextRefs);
+    // No collision because dep functions aren't collected
+    expect(Object.keys(result)).toHaveLength(0);
+  });
 });
 
 describe("alias application to entity bodies", () => {
