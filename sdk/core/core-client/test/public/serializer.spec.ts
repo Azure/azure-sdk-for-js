@@ -122,6 +122,7 @@ describe("Serializer", function () {
       };
       try {
         Serializer.serialize(mapper, invalid_uuid, "uuidBody");
+        assert.fail("Expected an error to be thrown");
       } catch (error: any) {
         assert.match(error.message, /.*with value.*must be of type string and a valid uuid/gi);
       }
@@ -165,6 +166,7 @@ describe("Serializer", function () {
       };
       try {
         Serializer.serialize(mapper, 6, "enumBody");
+        assert.fail("Expected an error to be thrown");
       } catch (error: any) {
         assert.match(
           error.message,
@@ -361,6 +363,7 @@ describe("Serializer", function () {
       const array = [[1], ["2"], [undefined], [1, "2", {}, true, []]];
       try {
         Serializer.serialize(mapper, array, mapper.serializedName);
+        assert.fail("Expected an error to be thrown");
       } catch (err: any) {
         assert.equal(err.message, "arrayObj cannot be null or undefined.");
       }
@@ -2056,7 +2059,7 @@ describe("Serializer", function () {
         const result = serializer.deserialize(Fish, body, "");
 
         assert.equal(result.siblings.length, 3);
-        assert(result.siblings[1].picture);
+        assert.exists(result.siblings[1].picture);
         assert.equal(result.siblings[2].jawsize, 5);
       });
 
@@ -2099,7 +2102,7 @@ describe("Serializer", function () {
         const result = serializer.serialize(Fish, body, "");
 
         assert.equal(result.siblings.length, 3);
-        assert(result.siblings[1].picture);
+        assert.exists(result.siblings[1].picture);
         assert.equal(result.siblings[2].jawsize, 5);
       });
     });

@@ -138,7 +138,7 @@ describe("ServiceClient", function () {
 
       await client.sendOperationRequest(testOperationArgs, testOperationSpec);
 
-      assert(request!);
+      assert.exists(request);
       assert.deepEqual(request!.headers.get("authorization"), "Bearer testToken");
     });
 
@@ -165,7 +165,7 @@ describe("ServiceClient", function () {
 
       await client.sendOperationRequest(testOperationArgs, testOperationSpec);
 
-      assert(request!);
+      assert.exists(request);
       assert.deepEqual(request!.headers.get("authorization"), "Bearer testToken");
     });
 
@@ -192,7 +192,7 @@ describe("ServiceClient", function () {
 
       await client.sendOperationRequest(testOperationArgs, testOperationSpec);
 
-      assert(request!);
+      assert.exists(request);
       assert.deepEqual(request!.headers.get("authorization"), "Bearer testToken");
     });
   });
@@ -261,7 +261,7 @@ describe("ServiceClient", function () {
       },
     );
 
-    assert(request!);
+    assert.exists(request);
     assert.deepEqual(request!.headers.toJSON(), expected);
   });
 
@@ -296,7 +296,7 @@ describe("ServiceClient", function () {
       },
     );
 
-    assert(request!);
+    assert.exists(request);
     assert.strictEqual(JSON.stringify(operationResponse), "{}");
     assert.strictEqual(rawResponse?.status, 200);
     assert.strictEqual(rawResponse?.request, request!);
@@ -355,8 +355,8 @@ describe("ServiceClient", function () {
       assert.strictEqual(e.name, "RestError");
     }
 
-    assert(requestFailed, "Request should fail with unknown status");
-    assert(request!);
+    assert.isTrue(requestFailed, "Request should fail with unknown status");
+    assert.exists(request);
     assert.strictEqual(rawResponse?.status, 500);
     assert.strictEqual(rawResponse?.request, request!);
     assert.deepStrictEqual(flatResponse, { body: undefined });
@@ -1520,7 +1520,7 @@ describe("ServiceClient", function () {
       ],
     });
 
-    assert(client);
+    assert.exists(client);
     const policies = pipeline.getOrderedPolicies();
     assert.deepStrictEqual(policies, [policy2, retryPolicy, policy1]);
   });
@@ -1576,8 +1576,8 @@ async function testSendOperationRequest(
     },
   );
 
-  assert(request!);
-  assert(request!.url.endsWith(expected), `"${request!.url}" does not end with "${expected}"`);
+  assert.exists(request);
+  assert.isTrue(request!.url.endsWith(expected), `"${request!.url}" does not end with "${expected}"`);
 }
 
 describe("ServiceClient requestOptions", () => {

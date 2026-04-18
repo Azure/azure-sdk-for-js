@@ -549,7 +549,7 @@ describe("deserializationPolicy", function () {
         });
         assert.fail();
       } catch (e: any) {
-        assert(e);
+        assert.exists(e);
         assert.strictEqual(e.statusCode, 400);
         assert.include(e.message, "InternalServerError");
       }

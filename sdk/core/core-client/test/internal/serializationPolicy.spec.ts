@@ -892,7 +892,7 @@ describe("serializationPolicy", () => {
       },
     );
 
-    assert.ok(capturedRequest);
+    assert.exists(capturedRequest);
     assert.deepStrictEqual(capturedRequest?.formData, { file: "fileContent" });
   });
 
@@ -933,7 +933,7 @@ describe("serializationPolicy", () => {
       },
     );
 
-    assert.ok(capturedRequest);
+    assert.exists(capturedRequest);
     assert.strictEqual(capturedRequest?.body, "plain text content");
   });
 });
@@ -1018,7 +1018,7 @@ describe("serializationPolicy - XML serialization", () => {
       },
     );
 
-    assert.ok(capturedRequest);
+    assert.exists(capturedRequest);
     assert.isString(capturedRequest?.body);
   });
 
@@ -1064,7 +1064,7 @@ describe("serializationPolicy - XML serialization", () => {
       },
     );
 
-    assert.ok(capturedRequest);
+    assert.exists(capturedRequest);
   });
 
   it("should serialize XML with xmlNamespace on non-Composite/Sequence/Dictionary type", async () => {
@@ -1104,7 +1104,7 @@ describe("serializationPolicy - XML serialization", () => {
       },
     );
 
-    assert.ok(capturedRequest);
+    assert.exists(capturedRequest);
   });
 
   it("should handle serialization error in request body", async () => {
@@ -1171,7 +1171,7 @@ describe("serializationPolicy - XML serialization", () => {
       },
     );
 
-    assert.ok(capturedRequest);
+    assert.exists(capturedRequest);
     assert.strictEqual(capturedRequest?.body, "null");
   });
 
@@ -1207,7 +1207,7 @@ describe("serializationPolicy - XML serialization", () => {
       },
     );
 
-    assert.ok(capturedRequest);
+    assert.exists(capturedRequest);
     assert.strictEqual(capturedRequest?.body, streamBody);
   });
 });
@@ -1358,7 +1358,7 @@ describe("serializationPolicy - XML Stream body should not be stringified", () =
       },
     );
 
-    assert.ok(capturedRequest);
+    assert.exists(capturedRequest);
     // Stream should not be stringified
     assert.strictEqual(capturedRequest?.body, streamBody);
   });
@@ -1395,7 +1395,7 @@ describe("serializationPolicy - custom headers via requestOptions", () => {
       },
     );
 
-    assert.ok(capturedRequest);
+    assert.exists(capturedRequest);
     assert.strictEqual(capturedRequest?.headers.get("X-Custom"), "myValue");
   });
 });
