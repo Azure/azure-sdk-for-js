@@ -54,7 +54,7 @@ const httpRequestChecker: ClientRequest = {
   },
   end(chunk: unknown) {
     const isString = typeof chunk === "string";
-    assert(isString || Buffer.isBuffer(chunk), "Expected either string or Buffer");
+    assert.isTrue(isString || Buffer.isBuffer(chunk), "Expected either string or Buffer");
   },
 } as unknown as ClientRequest;
 
