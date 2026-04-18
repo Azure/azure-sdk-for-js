@@ -392,7 +392,6 @@ describe("CancellableAsyncLock", function () {
 
 describe("lock.ts", () => {
   it("handles empty queue during processing", async () => {
-    const { CancellableAsyncLockImpl } = await import("../../src/util/lock.js");
     const lock = new CancellableAsyncLockImpl();
 
     // Simple task to verify the lock works
@@ -401,7 +400,6 @@ describe("lock.ts", () => {
   });
 
   it("handles timeout removing a task from the queue", async () => {
-    const { CancellableAsyncLockImpl } = await import("../../src/util/lock.js");
     const { delay: coreDelay } = await import("@azure/core-util");
     const lock = new CancellableAsyncLockImpl();
 
@@ -440,7 +438,6 @@ describe("lock.ts", () => {
 
 describe("lock.ts - _removeTaskDetails with empty queue (line 212)", () => {
   it("_removeTaskDetails returns early when taskQueue is empty", async () => {
-    const { CancellableAsyncLockImpl } = await import("../../src/util/lock.js");
     const lock = new CancellableAsyncLockImpl();
 
     // Access private method via type assertion
@@ -452,7 +449,6 @@ describe("lock.ts - _removeTaskDetails with empty queue (line 212)", () => {
   });
 
   it("_removeTaskDetails returns early when taskQueue is empty array", async () => {
-    const { CancellableAsyncLockImpl } = await import("../../src/util/lock.js");
     const lock = new CancellableAsyncLockImpl();
 
     const lockPrivate = lock as unknown as CancellableAsyncLockPrivate;
@@ -464,7 +460,6 @@ describe("lock.ts - _removeTaskDetails with empty queue (line 212)", () => {
   });
 
   it("_execute returns early when taskQueue is empty (line 173-174)", async () => {
-    const { CancellableAsyncLockImpl } = await import("../../src/util/lock.js");
     const lock = new CancellableAsyncLockImpl();
 
     const lockPrivate = lock as unknown as CancellableAsyncLockPrivate;

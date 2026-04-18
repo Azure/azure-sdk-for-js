@@ -481,7 +481,6 @@ describe("retry", () => {
 
   it("uses defaults for negative retryDelayInMs and maxRetryDelayInMs", async () => {
     let callCount = 0;
-    const { retry, RetryOperationType } = await import("../../src/retry.js");
     const result = await retry({
       operation: async () => {
         callCount++;
@@ -500,7 +499,6 @@ describe("retry", () => {
   });
 
   it("checks network when ServiceCommunicationError and connectionHost provided", async () => {
-    const { retry, RetryOperationType } = await import("../../src/retry.js");
     const { ErrorNameConditionMapper } = await import("../../src/errors.js");
 
     let callCount = 0;
@@ -532,7 +530,6 @@ describe("retry", () => {
 
 describe("retry - isDelivery branch", () => {
   it("succeeds with a delivery-like result object (does not log result)", async () => {
-    const { retry, RetryOperationType } = await import("../../src/retry.js");
     const deliveryResult = {
       id: 1,
       settled: true,

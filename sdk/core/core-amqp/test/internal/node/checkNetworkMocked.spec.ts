@@ -68,8 +68,9 @@ describe("checkNetworkConnection (Node.js)", () => {
       };
     });
 
-    const { checkNetworkConnection } = await import("../../../src/util/checkNetworkConnection.js");
-    const result = await checkNetworkConnection("localhost");
+    const { checkNetworkConnection: check } =
+      await import("../../../src/util/checkNetworkConnection.js");
+    const result = await check("localhost");
     assert.isTrue(result);
   });
 
@@ -87,8 +88,9 @@ describe("checkNetworkConnection (Node.js)", () => {
       };
     });
 
-    const { checkNetworkConnection } = await import("../../../src/util/checkNetworkConnection.js");
-    const result = await checkNetworkConnection("thishostdoesnotexist12345.invalid");
+    const { checkNetworkConnection: check } =
+      await import("../../../src/util/checkNetworkConnection.js");
+    const result = await check("thishostdoesnotexist12345.invalid");
     assert.isTrue(result);
   });
 });
@@ -107,8 +109,9 @@ describe("checkNetworkConnection - DNS error codes", () => {
         cb(null);
       },
     }));
-    const { checkNetworkConnection } = await import("../../../src/util/checkNetworkConnection.js");
-    const result = await checkNetworkConnection("example.com");
+    const { checkNetworkConnection: check } =
+      await import("../../../src/util/checkNetworkConnection.js");
+    const result = await check("example.com");
     assert.isTrue(result);
   });
 
@@ -120,8 +123,9 @@ describe("checkNetworkConnection - DNS error codes", () => {
         cb({ code: "ECONNREFUSED" });
       },
     }));
-    const { checkNetworkConnection } = await import("../../../src/util/checkNetworkConnection.js");
-    const result = await checkNetworkConnection("example.com");
+    const { checkNetworkConnection: check } =
+      await import("../../../src/util/checkNetworkConnection.js");
+    const result = await check("example.com");
     assert.isFalse(result);
   });
 
@@ -133,8 +137,9 @@ describe("checkNetworkConnection - DNS error codes", () => {
         cb({ code: "ENOTFOUND" });
       },
     }));
-    const { checkNetworkConnection } = await import("../../../src/util/checkNetworkConnection.js");
-    const result = await checkNetworkConnection("example.com");
+    const { checkNetworkConnection: check } =
+      await import("../../../src/util/checkNetworkConnection.js");
+    const result = await check("example.com");
     assert.isTrue(result);
   });
 });

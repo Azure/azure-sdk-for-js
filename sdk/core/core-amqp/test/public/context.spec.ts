@@ -236,9 +236,9 @@ describe("ConnectionContextBase", function () {
   });
 
   it("disables tls when connecting to the development emulator", async function () {
-    const connectionString =
+    const emulatorConnectionString =
       "Endpoint=sb://localhost;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep;UseDevelopmentEmulator=true";
-    const config = ConnectionConfig.create(connectionString, path);
+    const config = ConnectionConfig.create(emulatorConnectionString, path);
     const context = ConnectionContextBase.create({
       config: config,
       connectionProperties: defaultConnectionProperties,
@@ -290,7 +290,6 @@ describe("ConnectionContextBase", function () {
 
 describe("ConnectionContextBase - CoreAmqpConnection", () => {
   it("createSender sets maxListeners to 1000", async () => {
-    const { ConnectionContextBase, ConnectionConfig } = await import("../../src/index.js");
     const config = ConnectionConfig.create(connectionString, "mypath");
     const context = ConnectionContextBase.create({
       config,
