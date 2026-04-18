@@ -78,6 +78,6 @@ describe("tokenCycler", function () {
 
     const token2 = await tokenPromise;
     assert.equal(token2.token, "refreshed-token");
-    assert.isTrue(callCount >= 3);
+    assert.isAtLeast(callCount, 3);
   });
 });
