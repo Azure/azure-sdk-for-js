@@ -4,6 +4,7 @@
 export interface MethodInfo {
     name: string;
     typeParams?: string;
+    declaredTypeParamNames?: string[];
     sig: string;
     params?: ParameterInfo[];
     ret?: string;
@@ -54,6 +55,7 @@ export interface ClassInfo {
     extends?: string;
     implements?: string[];
     typeParams?: string;
+    declaredTypeParamNames?: string[];
     doc?: string;
     deprecated?: boolean;
     deprecatedMsg?: string;
@@ -72,6 +74,7 @@ export interface InterfaceInfo {
     reExportedFrom?: string;  // External package this is re-exported from
     extends?: string[];
     typeParams?: string;
+    declaredTypeParamNames?: string[];
     doc?: string;
     deprecated?: boolean;
     deprecatedMsg?: string;
@@ -97,6 +100,7 @@ export interface TypeAliasInfo {
     name: string;
     type: string;
     typeParams?: string;
+    declaredTypeParamNames?: string[];
     entryPoint?: boolean;
     exportPath?: string;
     reExportedFrom?: string;  // External package this is re-exported from
@@ -110,6 +114,7 @@ export interface TypeAliasInfo {
 export interface FunctionInfo {
     name: string;
     typeParams?: string;
+    declaredTypeParamNames?: string[];
     entryPoint?: boolean;
     exportPath?: string;  // The subpath to import from (e.g., "." or "./client")
     reExportedFrom?: string;  // External package this is re-exported from

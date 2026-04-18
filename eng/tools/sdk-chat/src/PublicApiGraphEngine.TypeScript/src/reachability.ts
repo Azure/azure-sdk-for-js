@@ -194,44 +194,33 @@ function collectDefinedAndReferenced(api: ApiIndex, includeDependencyReferences 
     }
 
     // Collect declared generic type parameter names to exclude from dangling check.
-    // Parse from typeParams strings (e.g., "<T, K extends string>" → {T, K}).
+    // Uses pre-extracted declaredTypeParamNames from AST (no string parsing needed).
     const declaredTypeParams = new Set<string>();
-    function collectTypeParams(typeParamStr: string | undefined): void {
-        if (!typeParamStr) return;
-        // Strip angle brackets, split by comma, take first identifier from each segment
-        const inner = typeParamStr.replace(/^<|>$/g, "");
-        for (const segment of inner.split(",")) {
-            const trimmed = segment.trim();
-            // First word-like identifier (letter or underscore start)
-            const match = trimmed.match(/^([A-Za-z_$][A-Za-z0-9_$]*)/);
-            if (match) declaredTypeParams.add(match[1]);
-        }
-    }
 
     // Collect all referenced type names from pre-computed referencedTypes arrays
     const referenced = new Set<string>();
 
     function collectEntityRefs(source: {
-        classes?: { referencedTypes?: string[]; typeParams?: string }[];
-        interfaces?: { referencedTypes?: string[]; typeParams?: string }[];
-        types?: { referencedTypes?: string[]; typeParams?: string }[];
-        functions?: { referencedTypes?: string[]; typeParams?: string }[];
+        classes?: { referencedTypes?: string[]; declaredTypeParamNames?: string[] }[];
+        interfaces?: { referencedTypes?: string[]; declaredTypeParamNames?: string[] }[];
+        types?: { referencedTypes?: string[]; declaredTypeParamNames?: string[] }[];
+        functions?: { referencedTypes?: string[]; declaredTypeParamNames?: string[] }[];
         namespaces?: NamespaceInfo[];
     }): void {
         for (const c of source.classes || []) {
-            collectTypeParams(c.typeParams);
+            for (const name of c.declaredTypeParamNames || []) declaredTypeParams.add(name);
             for (const name of c.referencedTypes || []) referenced.add(name);
         }
         for (const i of source.interfaces || []) {
-            collectTypeParams(i.typeParams);
+            for (const name of i.declaredTypeParamNames || []) declaredTypeParams.add(name);
             for (const name of i.referencedTypes || []) referenced.add(name);
         }
         for (const t of source.types || []) {
-            collectTypeParams(t.typeParams);
+            for (const name of t.declaredTypeParamNames || []) declaredTypeParams.add(name);
             for (const name of t.referencedTypes || []) referenced.add(name);
         }
         for (const f of source.functions || []) {
-            collectTypeParams(f.typeParams);
+            for (const name of f.declaredTypeParamNames || []) declaredTypeParams.add(name);
             for (const name of f.referencedTypes || []) referenced.add(name);
         }
         for (const ns of source.namespaces || []) {
@@ -331,6 +320,9 @@ export function computeReachableTypes(api: ApiIndex): Set<string> {
         for (const fn of mod.functions || []) {
             if (fn.entryPoint && fn.name) { reachable.add(fn.name); queue.push(fn.name); }
         }
+        // Seed namespaces recursively — all namespace members in the main module
+        // are part of the public API surface.
+        seedNamespaces(mod.namespaces, reachable, queue);
     }
 
     let qi = 0;
@@ -348,6 +340,23 @@ export function computeReachableTypes(api: ApiIndex): Set<string> {
     }
 
     return reachable;
+}
+
+function seedNamespaces(
+    namespaces: NamespaceInfo[] | undefined,
+    reachable: Set<string>,
+    queue: string[],
+): void {
+    for (const ns of namespaces || []) {
+        reachable.add(ns.name);
+        queue.push(ns.name);
+        for (const c of ns.classes || []) { reachable.add(c.name); queue.push(c.name); }
+        for (const i of ns.interfaces || []) { reachable.add(i.name); queue.push(i.name); }
+        for (const e of ns.enums || []) { reachable.add(e.name); queue.push(e.name); }
+        for (const t of ns.types || []) { reachable.add(t.name); queue.push(t.name); }
+        for (const f of ns.functions || []) { if (f.name) { reachable.add(f.name); queue.push(f.name); } }
+        seedNamespaces(ns.namespaces, reachable, queue);
+    }
 }
 
 function addNamespaceDefinedTypes(namespaces: NamespaceInfo[] | undefined, defined: Set<string>): void {

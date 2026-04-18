@@ -343,36 +343,35 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
     // Populate referencedTypes on all entities from compiler-resolved type refs.
     // This must happen before computeReachableTypes so BFS can use the data.
     const contextRefNames = ctx.typeRefs.getContextRefNames();
-    function populateEntityRefs(source: { classes?: { name: string; referencedTypes?: string[] }[]; interfaces?: { name: string; referencedTypes?: string[] }[]; types?: { name: string; referencedTypes?: string[] }[]; functions?: { name?: string; referencedTypes?: string[] }[]; namespaces?: NamespaceInfo[] }): void {
+    function populateEntityRefs(source: { classes?: { name: string; referencedTypes?: string[] }[]; interfaces?: { name: string; referencedTypes?: string[] }[]; types?: { name: string; referencedTypes?: string[] }[]; functions?: { name?: string; referencedTypes?: string[] }[]; namespaces?: NamespaceInfo[] }, prefix = ""): void {
         for (const cls of source.classes || []) {
-            const refs = contextRefNames.get(cls.name);
+            const key = prefix ? `${prefix}.${cls.name}` : cls.name;
+            const refs = contextRefNames.get(key);
             if (refs?.length) cls.referencedTypes = refs;
         }
         for (const iface of source.interfaces || []) {
-            const refs = contextRefNames.get(iface.name);
+            const key = prefix ? `${prefix}.${iface.name}` : iface.name;
+            const refs = contextRefNames.get(key);
             if (refs?.length) iface.referencedTypes = refs;
         }
         for (const t of source.types || []) {
-            const refs = contextRefNames.get(t.name);
+            const key = prefix ? `${prefix}.${t.name}` : t.name;
+            const refs = contextRefNames.get(key);
             if (refs?.length) t.referencedTypes = refs;
         }
         for (const fn of source.functions || []) {
             if (!fn.name) continue;
-            const refs = contextRefNames.get(fn.name);
+            const key = prefix ? `${prefix}.${fn.name}` : fn.name;
+            const refs = contextRefNames.get(key);
             if (refs?.length) fn.referencedTypes = refs;
         }
         for (const ns of source.namespaces || []) {
-            populateEntityRefs(ns);
+            const nsPrefix = prefix ? `${prefix}.${ns.name}` : ns.name;
+            populateEntityRefs(ns, nsPrefix);
         }
     }
     for (const mod of baseResult.modules) {
         populateEntityRefs(mod);
-    }
-
-    // Collect qualified (dotted) type references for ambient type display (e.g., NodeJS.ReadableStream)
-    const qualifiedRefs = ctx.typeRefs.getAllQualifiedRefNames();
-    if (qualifiedRefs.size > 0) {
-        baseResult.qualifiedReferencedTypes = [...qualifiedRefs];
     }
 
     // Compute types reachable from entry points
@@ -393,6 +392,13 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
             (m.enums?.length ?? 0) > 0 || (m.types?.length ?? 0) > 0 ||
             (m.functions?.length ?? 0) > 0
         );
+    }
+
+    // Collect qualified (dotted) type references for ambient type display (e.g., NodeJS.ReadableStream).
+    // Placed after reachability pruning so downstream computeAmbientTypes sees the filtered API.
+    const qualifiedRefs = ctx.typeRefs.getAllQualifiedRefNames();
+    if (qualifiedRefs.size > 0) {
+        baseResult.qualifiedReferencedTypes = [...qualifiedRefs];
     }
 
     // Resolve transitive dependencies (scoped to reachable types)

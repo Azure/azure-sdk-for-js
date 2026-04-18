@@ -7,7 +7,9 @@ import {
   collectCompanionNamespaceAliases,
   extractDeclaration,
   extractTypeFromResolvedModule,
+  filterNamespaceMembers,
 } from "../dependencies.js";
+import type { NamespaceInfo } from "../models.js";
 import { createExtractionContext } from "../type-refs.js";
 
 function makeCtx() {
@@ -151,5 +153,152 @@ describe("extractTypeFromResolvedModule", () => {
     expect(result!.kind).toBe("interface");
     expect(result!.graphed.name).toBe("OperationOptions");
     expect(result!.fromFallback).toBeUndefined();
+  });
+});
+
+describe("filterNamespaceMembers", () => {
+  it("discovers new reachable members through referencedTypes expansion", () => {
+    // Member A is directly referenced. A.referencedTypes includes "B".
+    // Simulate BFS: upstream expands A's referencedTypes into the refs set.
+    const ns: NamespaceInfo = {
+      name: "Models",
+      interfaces: [
+        { name: "A", methods: [], properties: [], referencedTypes: ["B"] },
+        { name: "B", methods: [], properties: [] },
+        { name: "C", methods: [], properties: [] }, // unreachable
+      ],
+    };
+    // After BFS expansion, refs includes both "A" and "B" (from A's referencedTypes)
+    const refs = new Set(["A", "B"]);
+    const result = filterNamespaceMembers(ns, refs);
+    expect(result).not.toBeNull();
+    const names = result!.interfaces!.map((i) => i.name);
+    expect(names).toContain("A");
+    expect(names).toContain("B");
+    expect(names).not.toContain("C");
+  });
+
+  it("handles nested namespace member reachability through referencedTypes", () => {
+    const ns: NamespaceInfo = {
+      name: "Outer",
+      namespaces: [
+        {
+          name: "Inner",
+          types: [
+            { name: "Config", type: "{ key: string }", referencedTypes: ["Detail"] },
+            { name: "Detail", type: "{ value: number }" },
+            { name: "Unused", type: "string" },
+          ],
+        },
+      ],
+    };
+    // After BFS expansion, refs includes "Config" and "Detail"
+    const refs = new Set(["Config", "Detail"]);
+    const result = filterNamespaceMembers(ns, refs);
+    expect(result).not.toBeNull();
+    const inner = result!.namespaces![0];
+    const typeNames = inner.types!.map((t) => t.name);
+    expect(typeNames).toContain("Config");
+    expect(typeNames).toContain("Detail");
+    expect(typeNames).not.toContain("Unused");
+  });
+
+  it("handles members without referencedTypes gracefully", () => {
+    const ns: NamespaceInfo = {
+      name: "Simple",
+      interfaces: [
+        { name: "Referenced", methods: [], properties: [] }, // no referencedTypes
+        { name: "NotReferenced", methods: [], properties: [] },
+      ],
+    };
+    const refs = new Set(["Referenced"]);
+    const result = filterNamespaceMembers(ns, refs);
+    expect(result).not.toBeNull();
+    const names = result!.interfaces!.map((i) => i.name);
+    expect(names).toContain("Referenced");
+    expect(names).not.toContain("NotReferenced");
+  });
+
+  it("includes referenced enum members in namespaces", () => {
+    const ns: NamespaceInfo = {
+      name: "Enums",
+      enums: [
+        { name: "Status", values: ["Active", "Inactive"] },
+        { name: "Priority", values: ["High", "Low"] },
+      ],
+    };
+    const refs = new Set(["Status"]);
+    const result = filterNamespaceMembers(ns, refs);
+    expect(result).not.toBeNull();
+    const names = result!.enums!.map((e) => e.name);
+    expect(names).toContain("Status");
+    expect(names).not.toContain("Priority");
+  });
+
+  it("retains companion namespace members when companion class is referenced", () => {
+    // When "Choice" (a class) is referenced, companion namespace "Choice"
+    // members should be retained based on their own referencedTypes.
+    // After BFS: "Choice" and "ChoiceData" are in refs.
+    const ns: NamespaceInfo = {
+      name: "ChatCompletion",
+      classes: [
+        {
+          name: "Choice",
+          constructors: [],
+          methods: [],
+          properties: [],
+          referencedTypes: ["ChoiceData"],
+        },
+      ],
+      namespaces: [
+        {
+          name: "Choice", // companion namespace
+          types: [
+            { name: "ChoiceData", type: "{ text: string }" },
+            { name: "Unused", type: "never" },
+          ],
+        },
+      ],
+    };
+    const refs = new Set(["Choice", "ChoiceData"]);
+    const result = filterNamespaceMembers(ns, refs);
+    expect(result).not.toBeNull();
+    // The class "Choice" should be retained
+    expect(result!.classes).toBeDefined();
+    expect(result!.classes![0].name).toBe("Choice");
+    // The companion namespace "Choice" should exist with filtered members
+    expect(result!.namespaces).toBeDefined();
+    const companionTypes = result!.namespaces![0].types!.map((t) => t.name);
+    expect(companionTypes).toContain("ChoiceData");
+    expect(companionTypes).not.toContain("Unused");
+  });
+
+  it("returns null when no members match the reference set", () => {
+    const ns: NamespaceInfo = {
+      name: "Empty",
+      interfaces: [
+        { name: "Foo", methods: [], properties: [] },
+        { name: "Bar", methods: [], properties: [] },
+      ],
+    };
+    const refs = new Set(["Baz"]);
+    const result = filterNamespaceMembers(ns, refs);
+    expect(result).toBeNull();
+  });
+
+  it("filters functions in namespaces", () => {
+    const ns: NamespaceInfo = {
+      name: "Helpers",
+      functions: [
+        { name: "parse", sig: "(input: string) => any", referencedTypes: ["ParseResult"] },
+        { name: "format", sig: "(value: any) => string" },
+      ],
+    };
+    const refs = new Set(["parse"]);
+    const result = filterNamespaceMembers(ns, refs);
+    expect(result).not.toBeNull();
+    const names = result!.functions!.map((f) => f.name);
+    expect(names).toContain("parse");
+    expect(names).not.toContain("format");
   });
 });

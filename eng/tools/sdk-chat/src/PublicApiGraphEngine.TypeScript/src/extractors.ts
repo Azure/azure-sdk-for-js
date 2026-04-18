@@ -199,10 +199,11 @@ export function extractMethod(method: MethodDeclaration, ctx: ExtractionContext)
     // Also collect from TypeNode to catch simple type aliases resolved away by TS
     if (returnTypeNode) ctx.typeRefs.collectFromTypeNode(returnTypeNode);
 
-    const typeParams = method.getTypeParameters().map(t => stripImportPrefix(t.getText(), false, ctx.namespaceAliases)).join(", ");
+    const rawTypeParams = method.getTypeParameters();
+    const typeParams = rawTypeParams.map(t => stripImportPrefix(t.getText(), false, ctx.namespaceAliases)).join(", ");
 
     // Traverse type parameter constraints and defaults for dependency tracking
-    for (const tp of method.getTypeParameters()) {
+    for (const tp of rawTypeParams) {
         const constraint = tp.getConstraint();
         if (constraint) ctx.typeRefs.collectFromType(constraint.getType());
         const defaultType = tp.getDefault();
@@ -214,7 +215,10 @@ export function extractMethod(method: MethodDeclaration, ctx: ExtractionContext)
         sig: params,
     };
 
-    if (typeParams) result.typeParams = typeParams;
+    if (typeParams) {
+        result.typeParams = typeParams;
+        result.declaredTypeParamNames = rawTypeParams.map(tp => tp.getName());
+    }
 
     if (paramInfos.length) result.params = paramInfos;
 
@@ -319,11 +323,15 @@ export function extractClass(cls: ClassDeclaration, ctx: ExtractionContext): Cla
     }
 
     // Type parameters
-    const typeParams = cls.getTypeParameters().map((t) => stripImportPrefix(t.getText(), false, ctx.namespaceAliases));
-    if (typeParams.length) result.typeParams = typeParams.join(", ");
+    const rawTypeParams = cls.getTypeParameters();
+    const typeParams = rawTypeParams.map((t) => stripImportPrefix(t.getText(), false, ctx.namespaceAliases));
+    if (typeParams.length) {
+        result.typeParams = typeParams.join(", ");
+        result.declaredTypeParamNames = rawTypeParams.map(tp => tp.getName());
+    }
 
     // Traverse type parameter constraints and defaults for dependency tracking
-    for (const tp of cls.getTypeParameters()) {
+    for (const tp of rawTypeParams) {
         const constraint = tp.getConstraint();
         if (constraint) ctx.typeRefs.collectFromType(constraint.getType());
         const defaultType = tp.getDefault();
@@ -434,10 +442,11 @@ export function extractInterfaceMethod(method: Node, ctx: ExtractionContext): Me
     // Also collect from TypeNode to catch simple type aliases resolved away by TS
     if (returnTypeNode) ctx.typeRefs.collectFromTypeNode(returnTypeNode);
 
-    const typeParams = method.getTypeParameters().map(t => stripImportPrefix(t.getText(), false, ctx.namespaceAliases)).join(", ");
+    const rawTypeParams = method.getTypeParameters();
+    const typeParams = rawTypeParams.map(t => stripImportPrefix(t.getText(), false, ctx.namespaceAliases)).join(", ");
 
     // Traverse type parameter constraints and defaults for dependency tracking
-    for (const tp of method.getTypeParameters()) {
+    for (const tp of rawTypeParams) {
         const constraint = tp.getConstraint();
         if (constraint) ctx.typeRefs.collectFromType(constraint.getType());
         const defaultType = tp.getDefault();
@@ -449,7 +458,10 @@ export function extractInterfaceMethod(method: Node, ctx: ExtractionContext): Me
         sig: params,
     };
 
-    if (typeParams) result.typeParams = typeParams;
+    if (typeParams) {
+        result.typeParams = typeParams;
+        result.declaredTypeParamNames = rawTypeParams.map(tp => tp.getName());
+    }
 
     if (paramInfos.length) result.params = paramInfos;
 
@@ -548,11 +560,15 @@ export function extractInterface(iface: InterfaceDeclaration, ctx: ExtractionCon
     }
 
     // Type parameters
-    const typeParams = iface.getTypeParameters().map((t) => stripImportPrefix(t.getText(), false, ctx.namespaceAliases));
-    if (typeParams.length) result.typeParams = typeParams.join(", ");
+    const rawTypeParams = iface.getTypeParameters();
+    const typeParams = rawTypeParams.map((t) => stripImportPrefix(t.getText(), false, ctx.namespaceAliases));
+    if (typeParams.length) {
+        result.typeParams = typeParams.join(", ");
+        result.declaredTypeParamNames = rawTypeParams.map(tp => tp.getName());
+    }
 
     // Traverse type parameter constraints and defaults for dependency tracking
-    for (const tp of iface.getTypeParameters()) {
+    for (const tp of rawTypeParams) {
         const constraint = tp.getConstraint();
         if (constraint) ctx.typeRefs.collectFromType(constraint.getType());
         const defaultType = tp.getDefault();
@@ -659,11 +675,15 @@ export function extractTypeAlias(alias: TypeAliasDeclaration, ctx: ExtractionCon
     };
 
     // Capture type parameters (e.g., <T> on type aliases)
-    const typeParams = alias.getTypeParameters().map(tp => stripImportPrefix(tp.getText(), false, ctx.namespaceAliases));
-    if (typeParams.length > 0) result.typeParams = typeParams.join(", ");
+    const rawTypeParams = alias.getTypeParameters();
+    const typeParams = rawTypeParams.map(tp => stripImportPrefix(tp.getText(), false, ctx.namespaceAliases));
+    if (typeParams.length > 0) {
+        result.typeParams = typeParams.join(", ");
+        result.declaredTypeParamNames = rawTypeParams.map(tp => tp.getName());
+    }
 
     // Traverse type parameter constraints and defaults for dependency tracking
-    for (const tp of alias.getTypeParameters()) {
+    for (const tp of rawTypeParams) {
         const constraint = tp.getConstraint();
         if (constraint) ctx.typeRefs.collectFromType(constraint.getType());
         const defaultType = tp.getDefault();
@@ -694,10 +714,11 @@ export function extractFunction(fn: FunctionDeclaration, ctx: ExtractionContext)
         ctx.typeRefs.collectFromType(returnType);
     }
 
-    const typeParams = fn.getTypeParameters().map(t => stripImportPrefix(t.getText(), false, ctx.namespaceAliases)).join(", ");
+    const rawTypeParams = fn.getTypeParameters();
+    const typeParams = rawTypeParams.map(t => stripImportPrefix(t.getText(), false, ctx.namespaceAliases)).join(", ");
 
     // Traverse type parameter constraints and defaults for dependency tracking
-    for (const tp of fn.getTypeParameters()) {
+    for (const tp of rawTypeParams) {
         const constraint = tp.getConstraint();
         if (constraint) ctx.typeRefs.collectFromType(constraint.getType());
         const defaultType = tp.getDefault();
@@ -709,7 +730,10 @@ export function extractFunction(fn: FunctionDeclaration, ctx: ExtractionContext)
         sig: params,
     };
 
-    if (typeParams) result.typeParams = typeParams;
+    if (typeParams) {
+        result.typeParams = typeParams;
+        result.declaredTypeParamNames = rawTypeParams.map(tp => tp.getName());
+    }
 
     if (paramInfos.length) result.params = paramInfos;
 
@@ -747,6 +771,9 @@ export function extractNamespace(mod: ModuleDeclaration, ctx: ExtractionContext)
     }
 
     const result: NamespaceInfo = { name };
+
+    // Push namespace context so type refs are keyed by qualified path (e.g. "NS.Client")
+    ctx.typeRefs.pushContext(name);
 
     // In ambient/declare namespace blocks (common in .d.ts files), members
     // are implicitly exported even without an explicit `export` keyword.
@@ -816,9 +843,11 @@ export function extractNamespace(mod: ModuleDeclaration, ctx: ExtractionContext)
 
     if (!result.classes && !result.interfaces && !result.enums &&
         !result.types && !result.functions && !result.namespaces) {
+        ctx.typeRefs.popContext();
         return null;
     }
 
+    ctx.typeRefs.popContext();
     return result;
 }
 

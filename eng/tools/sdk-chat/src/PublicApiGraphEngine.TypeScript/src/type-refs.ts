@@ -754,7 +754,7 @@ export class TypeReferenceCollector {
     }
 
     private currentContext(): string | null {
-        return this.contextStack.length > 0 ? this.contextStack[this.contextStack.length - 1] : null;
+        return this.contextStack.length > 0 ? this.contextStack.join(".") : null;
     }
 
     collectFromType(type: Type): void {
@@ -937,10 +937,49 @@ export class TypeReferenceCollector {
         const result = new Set<string>();
         for (const ref of this.refs.values()) {
             const fn = ref.fullName;
-            // fullName may be quoted like `"NodeJS".ReadableStream` — normalize
-            const normalized = fn.replace(/"/g, "");
-            if (normalized.includes(".")) {
-                result.add(normalized);
+            if (!fn.includes(".")) continue;
+
+            // fullName may contain quoted segments like `"NodeJS".ReadableStream`
+            // or module paths like `"@azure/core-client".PipelineOptions`.
+            // Strip all quoted segments and their trailing dots to get the plain chain.
+            const stripped = fn.replace(/"[^"]*"\./g, "");
+            if (!stripped || !stripped.includes(".")) {
+                // After stripping, nothing useful remains (e.g. pure module path ref)
+                // OR no dots remain — check if the quoted prefix was a namespace
+                if (!fn.startsWith('"')) {
+                    // No quotes at all — plain dotted name, use as-is
+                    result.add(fn);
+                } else {
+                    // Has quoted prefix — parse it
+                    const match = fn.match(/^"([^"]+)"\.(.+)$/);
+                    if (match) {
+                        const prefix = match[1];
+                        const suffix = match[2];
+                        // Skip module paths (contain / or @)
+                        if (!prefix.includes("/") && !prefix.includes("@")) {
+                            result.add(`${prefix}.${suffix}`);
+                        }
+                    }
+                }
+                continue;
+            }
+
+            // Remaining stripped chain — verify all parts are valid identifiers
+            const parts = stripped.split(".");
+            const validIdent = /^[a-zA-Z_$][a-zA-Z0-9_$]*$/;
+            if (parts.every(p => validIdent.test(p))) {
+                // Reconstruct with any unquoted prefix from the original
+                const prefixMatch = fn.match(/^"([^"]+)"\./);
+                if (prefixMatch) {
+                    const prefix = prefixMatch[1];
+                    if (!prefix.includes("/") && !prefix.includes("@")) {
+                        result.add(`${prefix}.${stripped}`);
+                    } else {
+                        result.add(stripped);
+                    }
+                } else {
+                    result.add(stripped);
+                }
             }
         }
         return result;

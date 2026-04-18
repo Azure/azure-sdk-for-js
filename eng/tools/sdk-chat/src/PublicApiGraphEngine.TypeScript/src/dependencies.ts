@@ -705,6 +705,94 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
         } catch (e) { ctx.warn("DEP_NS_TRAVERSE", `Failed for namespace '${parentName}': ${e instanceof Error ? e.message : String(e)}`, parentName); }
     }
 
+    /**
+     * Collects type reference names from a single declaration node.
+     * Returns a Set of referenced type names (similar to collectSubRefsFromDeclaration
+     * but returns just names, not full ResolvedTypeRef objects).
+     */
+    function collectRefNamesFromDeclaration(
+        decl: Node,
+        ctx: ExtractionContext,
+    ): Set<string> {
+        const refs = new Set<ResolvedTypeRef>();
+        ctx.typeRefs.resetVisited();
+        try {
+            collectSubRefsFromDeclaration(decl, ctx, refs, "");
+        } catch { /* benign */ }
+        const names = new Set<string>();
+        for (const r of refs) {
+            names.add(r.name);
+        }
+        return names;
+    }
+
+    /**
+     * Recursively populates `referencedTypes` on every member inside a
+     * NamespaceInfo by finding the corresponding declaration in the
+     * ModuleDeclaration AST and collecting its type references.
+     */
+    function populateNamespaceMemberRefs(
+        nsInfo: NamespaceInfo,
+        mod: ModuleDeclaration,
+        ctx: ExtractionContext,
+    ): void {
+        // Build a map of exported declaration names → nodes for quick lookup
+        const declsByName = new Map<string, Node[]>();
+        try {
+            for (const [exportName, decls] of mod.getExportedDeclarations()) {
+                declsByName.set(exportName, [...decls]);
+            }
+        } catch { /* benign */ }
+
+        // Also add direct child declarations (classes, interfaces, etc.)
+        // that may not appear in getExportedDeclarations in ambient contexts
+        for (const c of mod.getClasses()) {
+            const n = c.getName();
+            if (n && !declsByName.has(n)) declsByName.set(n, [c]);
+        }
+        for (const i of mod.getInterfaces()) {
+            const n = i.getName();
+            if (n && !declsByName.has(n)) declsByName.set(n, [i]);
+        }
+        for (const t of mod.getTypeAliases()) {
+            const n = t.getName();
+            if (n && !declsByName.has(n)) declsByName.set(n, [t]);
+        }
+        for (const f of mod.getFunctions()) {
+            const n = f.getName();
+            if (n && !declsByName.has(n)) declsByName.set(n, [f]);
+        }
+
+        function populateEntity(entity: { name: string; referencedTypes?: string[] }): void {
+            const decls = declsByName.get(entity.name);
+            if (!decls || decls.length === 0) return;
+            const allNames = new Set<string>();
+            for (const d of decls) {
+                for (const name of collectRefNamesFromDeclaration(d, ctx)) {
+                    allNames.add(name);
+                }
+            }
+            if (allNames.size > 0) {
+                entity.referencedTypes = Array.from(allNames);
+            }
+        }
+
+        for (const cls of nsInfo.classes || []) populateEntity(cls);
+        for (const iface of nsInfo.interfaces || []) populateEntity(iface);
+        for (const t of nsInfo.types || []) populateEntity(t);
+        for (const fn of nsInfo.functions || []) {
+            if (fn.name) populateEntity(fn);
+        }
+
+        // Recurse into nested namespaces
+        for (const nested of nsInfo.namespaces || []) {
+            const nestedMod = mod.getModules().find(m => m.getName() === nested.name);
+            if (nestedMod) {
+                populateNamespaceMemberRefs(nested, nestedMod, ctx);
+            }
+        }
+    }
+
     let pendingTypes = new Map(typesByPackage);
     while (pendingTypes.size > 0) {
         const newPending = new Map<string, Set<string>>();
@@ -771,6 +859,11 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
 
                 allResolved.set(typeName, { packageName, type: result.graphed, kind: result.kind });
 
+                // For directly-resolved namespaces, populate per-member referencedTypes
+                if (result.kind === "namespace" && Node.isModuleDeclaration(result.declaration)) {
+                    populateNamespaceMemberRefs(result.graphed as NamespaceInfo, result.declaration, ctx);
+                }
+
                 // Collect namespace aliases from the declaration's source file
                 // (catches dep-internal barrel aliases from files reached via
                 // re-exports, not just the initial barrel).
@@ -801,16 +894,19 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
                         const nsInfo = extractNamespace(companionMod, ctx);
                         if (nsInfo) {
                             allResolved.set(`__ns__${typeName}`, { packageName, type: nsInfo, kind: "namespace" });
+                            // Populate per-member referencedTypes from AST declarations
+                            populateNamespaceMemberRefs(nsInfo, companionMod, ctx);
                         }
                     }
                 }
 
                 // Use AST-based type traversal to discover sub-dependencies.
-                // Skip sub-dependency discovery for types resolved via the
-                // non-exported fallback — they are internal types whose
-                // sub-references often cascade into unresolvable chains
+                // Always collect sub-refs so that referencedTypes is populated
+                // even for fallback-resolved types. Only the transitive
+                // resolution (queueing new types) is skipped for fallback types
+                // whose sub-references often cascade into unresolvable chains
                 // (e.g., platform-specific globals, deep internal types).
-                if (!result.fromFallback) {
+
                 // Reset the visited-types set before each traversal so that types
                 // already seen during the initial extraction phase (or a previous
                 // dependency's traversal) can be re-discovered as sub-dependencies
@@ -827,7 +923,8 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
                     }
                 } catch (e) { ctx.warn("DEP_TYPE_TRAVERSE", `Failed for '${typeName}': ${e instanceof Error ? e.message : String(e)}`, typeName); }
 
-                // Record sub-ref names for referencedTypes population
+                // Record sub-ref names for referencedTypes population (always,
+                // including fallback types, so they get non-empty referencedTypes).
                 const refNames = new Set<string>();
                 for (const subRef of subRefs) {
                     refNames.add(subRef.name);
@@ -836,7 +933,9 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
                     entitySubRefNames.set(typeName, refNames);
                 }
 
-                // Queue discovered sub-refs for resolution
+                // Queue discovered sub-refs for resolution — skip for fallback
+                // types to avoid chasing unresolvable transitive chains.
+                if (!result.fromFallback) {
                 for (const subRef of subRefs) {
                     // Track alias relationships from sub-deps
                     if (subRef.originalName && subRef.originalName !== subRef.name) {

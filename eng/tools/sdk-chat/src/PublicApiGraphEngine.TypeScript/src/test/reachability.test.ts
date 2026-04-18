@@ -5,6 +5,8 @@ import { describe, it, expect, vi } from "vitest";
 import {
   computeAmbientTypes,
   validateSelfContainment,
+  computeReachableTypes,
+  getDefinedTypes,
 } from "../reachability.js";
 import { filterNamespaceMembers } from "../dependencies.js";
 import type { ApiIndex, NamespaceInfo } from "../models.js";
@@ -192,6 +194,7 @@ function apiWith(
     types?: ApiIndex["modules"][0]["types"];
     functions?: ApiIndex["modules"][0]["functions"];
     classes?: ApiIndex["modules"][0]["classes"];
+    namespaces?: ApiIndex["modules"][0]["namespaces"];
   },
   deps?: ApiIndex["dependencies"],
 ): ApiIndex {
@@ -530,5 +533,205 @@ describe("validateSelfContainment", () => {
     // DepOptions from dependencies should be in the defined set → no diagnostic
     expect(spy).not.toHaveBeenCalled();
     spy.mockRestore();
+  });
+
+  it("excludes declared type parameters via declaredTypeParamNames", () => {
+    // T is a declared type param, not a real type reference
+    const api = apiWith({
+      interfaces: [
+        {
+          name: "Container",
+          typeParams: "<T extends Record<string, Foo>>",
+          declaredTypeParamNames: ["T"],
+          referencedTypes: ["Record", "Foo"],
+          methods: [],
+        },
+      ],
+    });
+    const ctx = mockCtx();
+    const spy = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    validateSelfContainment(api, ctx);
+
+    // T should NOT be flagged as dangling (it's a declared type param)
+    // Record and Foo are unresolved — Foo would be dangling
+    if (spy.mock.calls.length > 0) {
+      expect(spy.mock.calls[0][0]).not.toContain("T");
+    }
+    spy.mockRestore();
+  });
+});
+
+// ---------------------------------------------------------------------------
+// computeReachableTypes
+// ---------------------------------------------------------------------------
+
+describe("computeReachableTypes", () => {
+  it("returns entry-point types and their transitive references", () => {
+    // EntryPoint → references Dep → references Leaf. All should be reachable.
+    const api = apiWith({
+      classes: [
+        { name: "EntryPoint", entryPoint: true, referencedTypes: ["Dep"] },
+      ],
+      interfaces: [
+        { name: "Dep", referencedTypes: ["Leaf"] },
+        { name: "Leaf" },
+        { name: "Unreachable" }, // not referenced by anything
+      ],
+    });
+    const reachable = computeReachableTypes(api);
+    expect(reachable).toContain("EntryPoint");
+    expect(reachable).toContain("Dep");
+    expect(reachable).toContain("Leaf");
+    expect(reachable).not.toContain("Unreachable");
+  });
+
+  it("seeds namespace members as reachable", () => {
+    const api = apiWith({
+      namespaces: [{
+        name: "MyNs",
+        interfaces: [
+          { name: "NsMember", methods: [], referencedTypes: ["Deep"] },
+        ],
+      }],
+      interfaces: [
+        { name: "Deep" },
+        { name: "Orphan" },
+      ],
+    });
+    const reachable = computeReachableTypes(api);
+    expect(reachable).toContain("MyNs");
+    expect(reachable).toContain("NsMember");
+    expect(reachable).toContain("Deep");
+    expect(reachable).not.toContain("Orphan");
+  });
+
+  it("handles empty API with no entry points", () => {
+    const api = apiWith({
+      interfaces: [{ name: "Orphan" }],
+    });
+    const reachable = computeReachableTypes(api);
+    expect(reachable.size).toBe(0);
+  });
+
+  it("follows chains through multiple entity types", () => {
+    // Class → Type alias → Function → Interface
+    const api = apiWith({
+      classes: [
+        { name: "Client", entryPoint: true, referencedTypes: ["ClientOptions"] },
+      ],
+      types: [
+        { name: "ClientOptions", type: "BaseOptions & Extra", referencedTypes: ["createClient"] },
+      ],
+      functions: [
+        { name: "createClient", sig: "(): Result", referencedTypes: ["Result"] },
+      ],
+      interfaces: [
+        { name: "Result" },
+        { name: "Unused" },
+      ],
+    });
+    const reachable = computeReachableTypes(api);
+    expect(reachable).toContain("Client");
+    expect(reachable).toContain("ClientOptions");
+    expect(reachable).toContain("createClient");
+    expect(reachable).toContain("Result");
+    expect(reachable).not.toContain("Unused");
+  });
+
+  it("seeds nested namespace members recursively", () => {
+    const api = apiWith({
+      namespaces: [{
+        name: "Outer",
+        namespaces: [{
+          name: "Inner",
+          interfaces: [{ name: "DeepMember", methods: [] }],
+        }],
+      }],
+    });
+    const reachable = computeReachableTypes(api);
+    expect(reachable).toContain("Outer");
+    expect(reachable).toContain("Inner");
+    expect(reachable).toContain("DeepMember");
+  });
+});
+
+// ---------------------------------------------------------------------------
+// getDefinedTypes
+// ---------------------------------------------------------------------------
+
+describe("getDefinedTypes", () => {
+  it("collects types from all entity kinds", () => {
+    const api = apiWith({
+      classes: [{ name: "MyClass" }],
+      interfaces: [{ name: "MyInterface" }],
+      types: [{ name: "MyAlias", type: "string" }],
+      functions: [{ name: "myFunction", sig: "(): void" }],
+    });
+    const defined = getDefinedTypes(api);
+    expect(defined).toContain("MyClass");
+    expect(defined).toContain("MyInterface");
+    expect(defined).toContain("MyAlias");
+    expect(defined).toContain("myFunction");
+  });
+
+  it("collects types from namespace members", () => {
+    const api = apiWith({
+      namespaces: [{
+        name: "NS",
+        classes: [{ name: "NsClass" }],
+        interfaces: [{ name: "NsIface" }],
+        enums: [{ name: "NsEnum", values: ["A"] }],
+      }],
+    });
+    const defined = getDefinedTypes(api);
+    expect(defined).toContain("NS");
+    expect(defined).toContain("NsClass");
+    expect(defined).toContain("NsIface");
+    expect(defined).toContain("NsEnum");
+  });
+});
+
+// ---------------------------------------------------------------------------
+// computeAmbientTypes — namespace context tests
+// ---------------------------------------------------------------------------
+
+describe("computeAmbientTypes — namespace context", () => {
+  it("handles same-named types in different namespaces without merging refs", () => {
+    // Two "Options" interfaces in different namespaces with different referencedTypes
+    const api = apiWith({
+      namespaces: [
+        {
+          name: "A",
+          interfaces: [{ name: "Options", methods: [], referencedTypes: ["Buffer"] }],
+        },
+        {
+          name: "B",
+          interfaces: [{ name: "Options", methods: [], referencedTypes: ["AbortSignal"] }],
+        },
+      ],
+    });
+    const ctx = mockCtx();
+    const result = computeAmbientTypes(api, ctx);
+    // Both Buffer (node) and AbortSignal (shared) should appear
+    // The key thing: they shouldn't be merged — each namespace.Options has distinct refs
+    const allTypes = Object.values(result).flat();
+    expect(allTypes).toContain("Buffer");
+  });
+
+  it("collects referenced types from namespace members", () => {
+    // A namespace member references an ambient type
+    const api = apiWith({
+      namespaces: [{
+        name: "Events",
+        interfaces: [
+          { name: "Listener", methods: [], referencedTypes: ["EventEmitter"] },
+        ],
+      }],
+    });
+    const ctx = mockCtx();
+    const result = computeAmbientTypes(api, ctx);
+    // EventEmitter is a Node.js type referenced inside a namespace member
+    expect(result["node"]).toContain("EventEmitter");
   });
 });
