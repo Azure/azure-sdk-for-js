@@ -103,7 +103,7 @@ describe("getClient", () => {
       });
     });
 
-    it("should encode url when not skip query parameter encoding and api version parameter exists", async () => {
+    it("should preserve comma in query parameter when encoding is enabled and api version parameter exists", async () => {
       const apiVersion = "2021-11-18";
       const client = getClient("https://example.org", { apiVersion, httpClient });
       const validationPolicy: PipelinePolicy = {
@@ -163,8 +163,11 @@ describe("getClient", () => {
     client.pipeline.addPolicy(retryPolicy, { phase: "Retry" });
     assert(client);
     const policies = client.pipeline.getOrderedPolicies();
-    assert.isTrue(policies.indexOf(policy2) < policies.indexOf(retryPolicy));
-    assert.isTrue(policies.indexOf(retryPolicy) < policies.indexOf(policy1));
+    const policy2Index = policies.indexOf(policy2);
+    const retryPolicyIndex = policies.indexOf(retryPolicy);
+    const policy1Index = policies.indexOf(policy1);
+    assert.isBelow(policy2Index, retryPolicyIndex);
+    assert.isBelow(retryPolicyIndex, policy1Index);
   });
 
   it("should use the client setting for `allowInsecureConnection` when the request setting is undefined", async () => {
