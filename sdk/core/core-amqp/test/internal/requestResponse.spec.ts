@@ -340,17 +340,16 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
     const connectionStub = new Connection();
     const rcvr = new EventEmitter();
     let messageId: string = "";
-    let count = 0;
+    const sendSpy = vi.fn((request: any) => {
+      messageId = request.message_id;
+    });
     vi.mocked(connectionStub.createSession).mockResolvedValue({
       connection: {
         id: "connection-1",
       },
       createSender: () => {
         return Promise.resolve({
-          send: (request: any) => {
-            count++;
-            messageId = request.message_id;
-          },
+          send: sendSpy,
           on: () => {
             /* no_op */
           },
@@ -414,7 +413,7 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
 
     const message = await retry<RheaMessage>(config);
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
-    assert.equal(count, 2, "It should retry twice");
+    expect(sendSpy).toHaveBeenCalledTimes(2);
     assert.exists(message, "It should return a valid message");
     assert.equal(message.body, "Hello World!!", `Message '${message.body}' is not as expected`);
   });
