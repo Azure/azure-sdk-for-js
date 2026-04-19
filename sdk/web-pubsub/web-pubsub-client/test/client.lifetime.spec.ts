@@ -471,24 +471,20 @@ describe("WebPubSubClient", function () {
   }
 
   async function spinCheck(fn: () => void, intervalInMs?: number, maxTry?: number): Promise<void> {
-    if (!intervalInMs) {
-      intervalInMs = 10;
-    }
-    if (!maxTry) {
-      maxTry = 100;
-    }
+    const effectiveIntervalInMs = intervalInMs ?? 10;
+    const effectiveMaxTry = maxTry ?? 100;
 
     let tryCount = 0;
-    while (tryCount < maxTry) {
+    while (tryCount < effectiveMaxTry) {
       try {
         fn();
         return;
       } catch (err) {
         tryCount++;
-        if (tryCount >= maxTry) {
+        if (tryCount >= effectiveMaxTry) {
           throw err;
         }
-        await delay(intervalInMs);
+        await delay(effectiveIntervalInMs);
       }
     }
   }

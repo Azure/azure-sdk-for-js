@@ -21,7 +21,12 @@ export type WebPubSubMessage =
   | InvokeMessage
   | InvokeResponseMessage
   | CancelInvocationMessage
-  | PongMessage;
+  | PongMessage
+  | StreamDataMessage
+  | StreamEndMessage
+  | StreamAckMessage
+  | StreamNackMessage
+  | StreamClosedMessage;
 
 /**
  * The common of web pubsub message
@@ -61,7 +66,19 @@ export type DownstreamMessageType =
   /**
    * Type for InvokeResponseMessage
    */
-  | "invokeResponse";
+  | "invokeResponse"
+  /**
+   * Type for StreamAckMessage
+   */
+  | "streamAck"
+  /**
+   * Type for StreamNackMessage
+   */
+  | "streamNack"
+  /**
+   * Type for StreamClosedMessage
+   */
+  | "streamClosed";
 
 /**
  * Types for upstream messages
@@ -98,7 +115,15 @@ export type UpstreamMessageType =
   /**
    * Type for CancelInvocationMessage
    */
-  | "cancelInvocation";
+  | "cancelInvocation"
+  /**
+   * Type for StreamDataMessage
+   */
+  | "streamData"
+  /**
+   * Type for StreamEndMessage
+   */
+  | "streamEnd";
 
 /**
  * The ack message
@@ -210,6 +235,10 @@ export interface GroupDataMessage extends WebPubSubMessageBase {
    * The user id of the sender
    */
   fromUserId: string;
+  /**
+   * Streaming metadata when the payload belongs to a stream.
+   */
+  stream?: StreamInfo;
 }
 
 /**
@@ -232,6 +261,79 @@ export interface ServerDataMessage extends WebPubSubMessageBase {
    * The sequence id of the data. Only available in reliable protocols
    */
   sequenceId?: number;
+  /**
+   * Streaming metadata when the payload belongs to a stream.
+   */
+  stream?: StreamInfo;
+}
+
+/**
+ * Stream metadata attached to a downstream data message.
+ */
+export interface StreamInfo {
+  /**
+   * Stream identifier.
+   */
+  streamId: string;
+  /**
+   * Stream sequence identifier.
+   */
+  streamSequenceId: number;
+  /**
+   * Whether this message indicates the end of the stream.
+   */
+  endOfStream?: boolean;
+  /**
+   * Stream error detail when present.
+   */
+  error?: StreamDataError;
+}
+
+/**
+ * Stream error detail.
+ */
+export interface StreamDataError {
+  /**
+   * Error name.
+   */
+  name: string;
+  /**
+   * Optional error message.
+   */
+  message?: string;
+  /**
+   * Optional application-defined error code.
+   */
+  userErrorCode?: string;
+}
+
+/**
+ * Stream end error that a publisher can send to the service.
+ * The service decides the high-level error name classification.
+ */
+export interface StreamEndUserError {
+  /**
+   * Optional error message.
+   */
+  message?: string;
+  /**
+   * Optional application-defined error code.
+   */
+  userErrorCode?: string;
+}
+
+/**
+ * Stream descriptor attached to a sendToGroup control frame that opens a stream.
+ */
+export interface StartStreamOptions {
+  /**
+   * Stream identifier.
+   */
+  streamId: string;
+  /**
+   * Optional stream idle timeout in milliseconds.
+   */
+  idleTimeoutMs?: number;
 }
 
 /**
@@ -313,17 +415,21 @@ export interface SendToGroupMessage extends WebPubSubMessageBase {
    */
   ackId?: number;
   /**
-   * The data type
+   * The data type. Omit for a stream-start control frame.
    */
-  dataType: WebPubSubDataType;
+  dataType?: WebPubSubDataType;
   /**
-   * The data
+   * The data. Omit for a stream-start control frame.
    */
-  data: JSONTypes | ArrayBuffer;
+  data?: JSONTypes | ArrayBuffer;
   /**
    * Whether the message needs to echo to sender
    */
   noEcho: boolean;
+  /**
+   * Optional stream descriptor when this frame opens a stream.
+   */
+  stream?: StartStreamOptions;
 }
 
 /**
@@ -426,6 +532,112 @@ export interface CancelInvocationMessage extends WebPubSubMessageBase {
    * The invocation ID to cancel.
    */
   invocationId: string;
+}
+
+/**
+ * Stream data message. A payload with only `streamId` represents a keepalive.
+ */
+export interface StreamDataMessage extends WebPubSubMessageBase {
+  /**
+   * Message type.
+   */
+  readonly kind: "streamData";
+  /**
+   * Stream identifier.
+   */
+  streamId: string;
+  /**
+   * Stream sequence identifier.
+   */
+  streamSequenceId?: number;
+  /**
+   * Payload type.
+   */
+  dataType?: WebPubSubDataType;
+  /**
+   * Payload data.
+   */
+  data?: JSONTypes | ArrayBuffer;
+}
+
+/**
+ * Stream end message.
+ */
+export interface StreamEndMessage extends WebPubSubMessageBase {
+  /**
+   * Message type.
+   */
+  readonly kind: "streamEnd";
+  /**
+   * Stream identifier.
+   */
+  streamId: string;
+  /**
+   * Optional end error.
+   */
+  error?: StreamEndUserError;
+}
+
+/**
+ * Stream ack message.
+ */
+export interface StreamAckMessage extends WebPubSubMessageBase {
+  /**
+   * Message type.
+   */
+  readonly kind: "streamAck";
+  /**
+   * Stream identifier.
+   */
+  streamId: string;
+  /**
+   * Next expected stream sequence id.
+   */
+  expectedSequenceId: number;
+}
+
+/**
+ * Stream nack message.
+ */
+export interface StreamNackMessage extends WebPubSubMessageBase {
+  /**
+   * Message type.
+   */
+  readonly kind: "streamNack";
+  /**
+   * Stream identifier.
+   */
+  streamId: string;
+  /**
+   * Error name.
+   */
+  name: string;
+  /**
+   * Optional error message.
+   */
+  message?: string;
+  /**
+   * Next expected stream sequence id.
+   */
+  expectedSequenceId: number;
+}
+
+/**
+ * Stream closed message.
+ */
+export interface StreamClosedMessage extends WebPubSubMessageBase {
+  /**
+   * Message type.
+   */
+  readonly kind: "streamClosed";
+  /**
+   * Stream identifier.
+   */
+  streamId: string;
+  /**
+   * Optional close error.
+   */
+  error?: { name: string; message?: string };
 }
 
 /**

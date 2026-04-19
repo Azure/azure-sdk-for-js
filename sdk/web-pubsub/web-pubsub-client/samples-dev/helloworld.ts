@@ -51,23 +51,29 @@ async function main(): Promise<void> {
   });
 
   client.on("server-message", (e) => {
-    if (e.message.data instanceof ArrayBuffer) {
-      console.log(`Received message ${Buffer.from(e.message.data).toString("base64")}`);
-    } else {
-      console.log(`Received message ${JSON.stringify(e.message.data)}`);
-    }
+    console.log(`Received message ${formatPayload(e.message.data)}`);
   });
 
   client.on("group-message", (e) => {
-    if (e.message.data instanceof ArrayBuffer) {
-      console.log(
-        `Received message from ${e.message.group} ${Buffer.from(e.message.data).toString(
-          "base64",
-        )}`,
-      );
-    } else {
-      console.log(`Received message from ${e.message.group} ${JSON.stringify(e.message.data)}`);
-    }
+    console.log(`Received message from ${e.message.group} ${formatPayload(e.message.data)}`);
+  });
+
+  const streamSubscription = client.onStream(groupName, (streamId) => {
+    return {
+      onMessage: (args) => {
+        console.log(
+          `[stream:${streamId}] seq=${args.stream.streamSequenceId} ${formatPayload(args.data)}`,
+        );
+      },
+      onComplete: () => {
+        console.log(`[stream:${streamId}] completed`);
+      },
+      onError: (args) => {
+        console.log(
+          `[stream:${streamId}] failed: ${args.error?.name}${args.error?.message ? ` - ${args.error.message}` : ""}`,
+        );
+      },
+    };
   });
 
   await client.start();
@@ -88,7 +94,19 @@ async function main(): Promise<void> {
   await client.sendToGroup(groupName, "hello world after ping/pong", "text", {
     fireAndForget: true,
   });
+
+  const stream = await client.stream(groupName);
+  stream.onError((error) => {
+    console.log(
+      `[publisher:${stream.streamId}] failed: ${error.name}${error.message ? ` - ${error.message}` : ""}`,
+    );
+  });
+  await stream.publish("stream part 1", "text");
+  await stream.publish({ part: 2, text: "stream part 2" }, "json");
+  await stream.complete();
+
   await delay(200);
+  streamSubscription.close();
   client.stop();
   console.log("Client stopped");
 }
@@ -100,4 +118,11 @@ main().catch((e) => {
 
 function delay(ms: number): Promise<unknown> {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function formatPayload(payload: unknown): string {
+  if (payload instanceof ArrayBuffer) {
+    return Buffer.from(payload).toString("base64");
+  }
+  return JSON.stringify(payload);
 }
