@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { afterEach, assert, describe, it, vi } from "vitest";
+import { afterEach, assert, describe, expect, it, vi } from "vitest";
 import { delay, calculateRetryDelay } from "../../src/index.js";
 
 describe("delay", function () {
@@ -28,14 +28,11 @@ describe("delay", function () {
       abortSignal: controller.signal,
       abortErrorMsg: StandardAbortMessage,
     });
-    try {
-      controller.abort();
-      await delayPromise;
-      assert.fail();
-    } catch (err: any) {
-      assert.strictEqual(err.name, "AbortError");
-      assert.strictEqual(err.message, StandardAbortMessage);
-    }
+    controller.abort();
+    await expect(delayPromise).rejects.toMatchObject({
+      name: "AbortError",
+      message: StandardAbortMessage,
+    });
   });
 });
 
