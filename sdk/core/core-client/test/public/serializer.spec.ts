@@ -116,11 +116,10 @@ describe("Serializer", function () {
         required: false,
         serializedName: "Uuid",
       };
-      try {
-        Serializer.serialize(mapper, invalid_uuid, "uuidBody");
-      } catch (error: any) {
-        assert.match(error.message, /.*with value.*must be of type string and a valid uuid/gi);
-      }
+      assert.throws(
+        () => Serializer.serialize(mapper, invalid_uuid, "uuidBody"),
+        /.*with value.*must be of type string and a valid uuid/i,
+      );
     });
 
     it("should correctly serialize a number", function () {
@@ -159,14 +158,10 @@ describe("Serializer", function () {
         required: false,
         serializedName: "Enum",
       };
-      try {
-        Serializer.serialize(mapper, 6, "enumBody");
-      } catch (error: any) {
-        assert.match(
-          error.message,
-          /6 is not a valid value for enumBody\. The valid values are: \[1,2,3,4\]/gi,
-        );
-      }
+      assert.throws(
+        () => Serializer.serialize(mapper, 6, "enumBody"),
+        /6 is not a valid value for enumBody\. The valid values are: \[1,2,3,4\]/i,
+      );
     });
 
     it("should correctly serialize a ByteArray Object", function () {
@@ -355,11 +350,10 @@ describe("Serializer", function () {
         },
       };
       const array = [[1], ["2"], [undefined], [1, "2", {}, true, []]];
-      try {
-        Serializer.serialize(mapper, array, mapper.serializedName);
-      } catch (err: any) {
-        assert.equal(err.message, "arrayObj cannot be null or undefined.");
-      }
+      assert.throws(
+        () => Serializer.serialize(mapper, array, mapper.serializedName),
+        /arrayObj cannot be null or undefined\./,
+      );
     });
 
     it("should correctly serialize an array of dictionary of primitives", function () {
