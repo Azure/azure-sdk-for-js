@@ -258,7 +258,9 @@ export function collectCompanionNamespaceAliases(
                     Node.isFunctionDeclaration(d) ||
                     Node.isVariableDeclaration(d));
                 if (hasValue) {
-                    ctx.namespaceAliases.add(named.getName());
+                    // Use the local binding name (alias), not the original export name
+                    const localName = named.getAliasNode()?.getText() ?? named.getName();
+                    ctx.namespaceAliases.add(localName);
                 }
             }
         } catch { /* benign — symbol resolution may fail for unresolved imports */ }
@@ -1333,12 +1335,15 @@ export function getPackageExportConditions(startDir: string, packageName: string
             try {
                 const pkgJson = JSON.parse(fs.readFileSync(pkgJsonPath, "utf-8"));
                 const exports = pkgJson.exports;
-                if (exports && typeof exports === "object" && exports["."] && typeof exports["."] === "object") {
-                    const dotExport = exports["."];
-                    // Filter to runtime conditions, excluding metadata keys
-                    const skipKeys = new Set(["types", "react-native", "default"]);
-                    const conditions = Object.keys(dotExport).filter(k => !skipKeys.has(k));
-                    return conditions.length > 0 ? conditions : undefined;
+                if (exports && typeof exports === "object") {
+                    // Find the "." export, which may be nested at any level
+                    const dotExport = findDotExport(exports);
+                    if (dotExport && typeof dotExport === "object") {
+                        // Filter to runtime conditions, excluding metadata keys
+                        const skipKeys = new Set(["types", "react-native", "default"]);
+                        const conditions = collectConditionKeys(dotExport, skipKeys);
+                        return conditions.length > 0 ? conditions : undefined;
+                    }
                 }
             } catch { /* benign — can't read package.json */ }
             return undefined;
@@ -1367,20 +1372,15 @@ export function getPackageConditionTypePaths(startDir: string, packageName: stri
                 const result = new Map<string, string>();
                 const exportsObj = pkgJson.exports;
 
-                if (exportsObj && typeof exportsObj === "object" && exportsObj["."] && typeof exportsObj["."] === "object") {
-                    const dotExport = exportsObj["."];
-                    // Skip metadata-only conditions
-                    const skipKeys = new Set(["types", "react-native"]);
+                if (exportsObj && typeof exportsObj === "object") {
+                    // Find the "." export recursively
+                    const dotExport = findDotExport(exportsObj);
+                    if (dotExport && typeof dotExport === "object") {
+                        // Skip metadata-only conditions
+                        const skipKeys = new Set(["types", "react-native"]);
 
-                    for (const [condition, value] of Object.entries(dotExport)) {
-                        if (skipKeys.has(condition)) continue;
-                        const typesPath = resolveTypesPathFromCondition(value);
-                        if (typesPath) {
-                            const absPath = path.resolve(pkgDir, typesPath);
-                            if (fs.existsSync(absPath)) {
-                                result.set(condition, absPath);
-                            }
-                        }
+                        // Recursively traverse the condition map to find types paths
+                        collectConditionTypePaths(dotExport, skipKeys, pkgDir, result, []);
                     }
                 }
 
@@ -1401,6 +1401,96 @@ export function getPackageConditionTypePaths(startDir: string, packageName: stri
         current = parent;
     }
     return undefined;
+}
+
+/**
+ * Finds the "." export from a package.json exports object, handling
+ * cases where the "." key is directly at the top level or nested.
+ */
+function findDotExport(exports: Record<string, unknown>): unknown {
+    // Direct "." key
+    if ("." in exports) return exports["."];
+    // If no subpath keys (no keys starting with "."), the exports object itself
+    // IS the condition map for the root export (e.g., { "import": "...", "require": "..." })
+    const hasSubpaths = Object.keys(exports).some(k => k.startsWith("."));
+    if (!hasSubpaths) return exports;
+    return undefined;
+}
+
+/**
+ * Collects all condition keys from a condition map, recursively
+ * traversing nested objects. Skips keys in the skipKeys set.
+ */
+function collectConditionKeys(obj: unknown, skipKeys: Set<string>, depth = 0): string[] {
+    if (depth > 10 || typeof obj !== "object" || obj === null) return [];
+    const conditions: string[] = [];
+    for (const [key, value] of Object.entries(obj as Record<string, unknown>)) {
+        if (key.startsWith(".")) continue; // Skip subpath keys
+        if (skipKeys.has(key)) {
+            // Recurse into skipped conditions to find nested runtime conditions
+            conditions.push(...collectConditionKeys(value, skipKeys, depth + 1));
+            continue;
+        }
+        conditions.push(key);
+    }
+    return conditions;
+}
+
+/**
+ * Recursively traverses a condition map to collect types paths per condition.
+ * Follows the same recursive pattern as entry-points.ts extractExportPaths.
+ */
+function collectConditionTypePaths(
+    obj: unknown,
+    skipKeys: Set<string>,
+    pkgDir: string,
+    result: Map<string, string>,
+    conditionChain: string[],
+    depth = 0,
+): void {
+    if (depth > 10) return;
+
+    if (typeof obj === "string") {
+        // Terminal string value — resolve the types path
+        const typesPath = /\.d\.[mc]?ts$/.test(obj) ? obj : undefined;
+        if (typesPath) {
+            const condition = conditionChain.length > 0 ? conditionChain[conditionChain.length - 1] : "default";
+            const absPath = path.resolve(pkgDir, typesPath);
+            if (fs.existsSync(absPath) && !result.has(condition)) {
+                result.set(condition, absPath);
+            }
+        }
+        return;
+    }
+
+    if (typeof obj !== "object" || obj === null) return;
+
+    const entries = obj as Record<string, unknown>;
+    for (const [key, value] of Object.entries(entries)) {
+        if (key.startsWith(".")) continue;
+
+        if (key === "types") {
+            // "types" condition: resolve directly
+            const typesPath = resolveTypesPathFromCondition(value);
+            if (typesPath) {
+                // Assign to the most recent runtime condition in the chain, or "default"
+                const condition = conditionChain.length > 0 ? conditionChain[conditionChain.length - 1] : "default";
+                const absPath = path.resolve(pkgDir, typesPath);
+                if (fs.existsSync(absPath) && !result.has(condition)) {
+                    result.set(condition, absPath);
+                }
+            }
+            continue;
+        }
+
+        if (skipKeys.has(key)) {
+            collectConditionTypePaths(value, skipKeys, pkgDir, result, conditionChain, depth + 1);
+            continue;
+        }
+
+        // Runtime condition — recurse with it added to chain
+        collectConditionTypePaths(value, skipKeys, pkgDir, result, [...conditionChain, key], depth + 1);
+    }
 }
 
 /** Extract the .d.ts types path from a condition value in package.json exports. */
@@ -1484,7 +1574,7 @@ export function buildResolvedDependencies(
 
         const hasContent = (dep.classes?.length ?? 0) + (dep.interfaces?.length ?? 0)
             + (dep.enums?.length ?? 0) + (dep.types?.filter(t => t.type !== "unresolved").length ?? 0)
-            + (dep.functions?.length ?? 0) > 0;
+            + (dep.functions?.length ?? 0) + (dep.namespaces?.length ?? 0) > 0;
         if (!hasContent) continue;
 
         const conditionPaths = getPackageConditionTypePaths(rootPath, dep.package);
@@ -1500,6 +1590,7 @@ export function buildResolvedDependencies(
                     enums: dep.enums,
                     types: dep.types?.filter(t => t.type !== "unresolved"),
                     functions: dep.functions,
+                    namespaces: dep.namespaces,
                 }]
             });
             continue;
@@ -1544,8 +1635,13 @@ export function buildResolvedDependencies(
                 }
             }
             const functions = (dep.functions ?? []).filter(f => f.name && exportedNames.has(f.name));
+            // Filter namespace members: keep namespaces where the namespace name or
+            // any member name is in the exported set
+            const namespaces = (dep.namespaces ?? []).map(ns =>
+                filterNamespaceByExports(ns, exportedNames)
+            ).filter((ns): ns is NamespaceInfo => ns !== null);
 
-            if (classes.length + interfaces.length + enums.length + types.length + functions.length === 0) continue;
+            if (classes.length + interfaces.length + enums.length + types.length + functions.length + namespaces.length === 0) continue;
 
             // "default" condition maps to undefined (null in C#), which the
             // formatter treats as the fallback condition.
@@ -1559,6 +1655,7 @@ export function buildResolvedDependencies(
                 enums: enums.length > 0 ? enums : undefined,
                 types: types.length > 0 ? types : undefined,
                 functions: functions.length > 0 ? functions : undefined,
+                namespaces: namespaces.length > 0 ? namespaces : undefined,
             });
         }
 
@@ -1633,6 +1730,8 @@ function filterUnreachableNamespaceMembers(
     // are needed. We exclude namespace members themselves to prevent dead
     // members from self-justifying their retention.
     const referencedNames = new Set<string>();
+    // Package-qualified referenced names to prevent cross-package contamination
+    const qualifiedReferencedNames = new Set<string>();
 
     // Seed from main package modules
     for (const mod of api.modules) {
@@ -1646,20 +1745,26 @@ function filterUnreachableNamespaceMembers(
     }
 
     // Seed from non-namespace resolved dependency types
-    for (const [key, { type, kind }] of allResolved) {
+    for (const [key, { packageName, type, kind }] of allResolved) {
         if (kind === "namespace") continue; // Skip namespaces — they contain the members we're filtering
-        collectReferencedNamesFromEntity(type as ClassInfo | InterfaceInfo | EnumInfo | TypeAliasInfo | FunctionInfo, kind, referencedNames);
+        const pkgRefs = new Set<string>();
+        collectReferencedNamesFromEntity(type as ClassInfo | InterfaceInfo | EnumInfo | TypeAliasInfo | FunctionInfo, kind, pkgRefs);
+        for (const name of pkgRefs) {
+            referencedNames.add(name);
+            qualifiedReferencedNames.add(makeDepKey(packageName, name));
+        }
     }
 
     // Also add all defined types — main package type names are always reachable
     for (const name of definedTypes) referencedNames.add(name);
 
     // Also add all non-namespace resolved type names — these are directly needed
-    for (const [key, { kind }] of allResolved) {
+    for (const [key, { packageName, kind }] of allResolved) {
         if (kind !== "namespace") {
             const { typeName } = splitDepKey(key);
             if (!typeName.startsWith("__ns__")) {
                 referencedNames.add(typeName);
+                qualifiedReferencedNames.add(makeDepKey(packageName, typeName));
             }
         }
     }
@@ -1674,9 +1779,9 @@ function filterUnreachableNamespaceMembers(
     let changed = true;
     while (changed) {
         changed = false;
-        for (const [, depInfo] of depByPackage) {
+        for (const [pkgName, depInfo] of depByPackage) {
             for (const ns of depInfo.namespaces ?? []) {
-                if (expandReachableFromNamespace(ns, referencedNames, expandedEntities)) {
+                if (expandReachableFromNamespaceQualified(ns, referencedNames, qualifiedReferencedNames, expandedEntities, pkgName)) {
                     changed = true;
                 }
             }
@@ -1684,14 +1789,124 @@ function filterUnreachableNamespaceMembers(
     }
 
     // Phase 3: Filter namespace members, keeping only reachable ones.
-    for (const [, depInfo] of depByPackage) {
+    // Use package-qualified filtering per dependency to avoid cross-contamination.
+    for (const [pkgName, depInfo] of depByPackage) {
         if (depInfo.namespaces) {
             depInfo.namespaces = depInfo.namespaces
-                .map(ns => filterNamespaceMembers(ns, referencedNames))
+                .map(ns => filterNamespaceMembersQualified(ns, referencedNames, qualifiedReferencedNames, pkgName))
                 .filter((ns): ns is NamespaceInfo => ns !== null);
             if (depInfo.namespaces.length === 0) depInfo.namespaces = undefined;
         }
     }
+}
+
+/**
+ * Package-qualified version of expandReachableFromNamespace.
+ * Adds both simple and package-qualified names to the reference sets.
+ */
+function expandReachableFromNamespaceQualified(
+    ns: NamespaceInfo,
+    refs: Set<string>,
+    qualifiedRefs: Set<string>,
+    expanded: WeakSet<object>,
+    packageName: string,
+): boolean {
+    let added = false;
+
+    const tryExpand = (entity: ClassInfo | InterfaceInfo | EnumInfo | TypeAliasInfo | FunctionInfo, name: string, kind: "class" | "interface" | "enum" | "type" | "function") => {
+        // Check both simple name and package-qualified name
+        if ((refs.has(name) || qualifiedRefs.has(makeDepKey(packageName, name))) && !expanded.has(entity)) {
+            expanded.add(entity);
+            const before = refs.size;
+            const newRefs = new Set<string>();
+            collectReferencedNamesFromEntity(entity, kind, newRefs);
+            for (const r of newRefs) {
+                refs.add(r);
+                qualifiedRefs.add(makeDepKey(packageName, r));
+            }
+            if (refs.size > before) added = true;
+        }
+    };
+
+    for (const c of ns.classes ?? []) tryExpand(c, c.name, "class");
+    for (const i of ns.interfaces ?? []) tryExpand(i, i.name, "interface");
+    for (const e of ns.enums ?? []) tryExpand(e, e.name, "enum");
+    for (const t of ns.types ?? []) tryExpand(t, t.name, "type");
+    for (const f of ns.functions ?? []) { if (f.name) tryExpand(f, f.name, "function"); }
+
+    const siblingTypes = getSiblingTypeNames(ns);
+
+    for (const nested of ns.namespaces ?? []) {
+        if (refs.has(nested.name) && !siblingTypes.has(nested.name)) {
+            const before = refs.size;
+            addAllMemberNamesQualified(nested, refs, qualifiedRefs, packageName);
+            if (refs.size > before) added = true;
+        }
+        if (expandReachableFromNamespaceQualified(nested, refs, qualifiedRefs, expanded, packageName)) added = true;
+    }
+
+    return added;
+}
+
+/**
+ * Package-qualified version of addAllMemberNames.
+ */
+function addAllMemberNamesQualified(ns: NamespaceInfo, refs: Set<string>, qualifiedRefs: Set<string>, packageName: string): void {
+    for (const c of ns.classes ?? []) { refs.add(c.name); qualifiedRefs.add(makeDepKey(packageName, c.name)); }
+    for (const i of ns.interfaces ?? []) { refs.add(i.name); qualifiedRefs.add(makeDepKey(packageName, i.name)); }
+    for (const e of ns.enums ?? []) { refs.add(e.name); qualifiedRefs.add(makeDepKey(packageName, e.name)); }
+    for (const t of ns.types ?? []) { refs.add(t.name); qualifiedRefs.add(makeDepKey(packageName, t.name)); }
+    for (const f of ns.functions ?? []) { if (f.name) { refs.add(f.name); qualifiedRefs.add(makeDepKey(packageName, f.name)); } }
+    for (const nested of ns.namespaces ?? []) { refs.add(nested.name); qualifiedRefs.add(makeDepKey(packageName, nested.name)); }
+}
+
+/**
+ * Package-qualified version of filterNamespaceMembers.
+ * Checks both simple name and package-qualified name for membership.
+ */
+function filterNamespaceMembersQualified(
+    ns: NamespaceInfo,
+    refs: Set<string>,
+    qualifiedRefs: Set<string>,
+    packageName: string,
+): NamespaceInfo | null {
+    const isReachable = (name: string) => refs.has(name) || qualifiedRefs.has(makeDepKey(packageName, name));
+
+    const result: NamespaceInfo = { name: ns.name };
+
+    if (ns.classes) {
+        const filtered = ns.classes.filter(c => isReachable(c.name));
+        if (filtered.length) result.classes = filtered;
+    }
+    if (ns.interfaces) {
+        const filtered = ns.interfaces.filter(i => isReachable(i.name));
+        if (filtered.length) result.interfaces = filtered;
+    }
+    if (ns.enums) {
+        const filtered = ns.enums.filter(e => isReachable(e.name));
+        if (filtered.length) result.enums = filtered;
+    }
+    if (ns.types) {
+        const filtered = ns.types.filter(t => isReachable(t.name));
+        if (filtered.length) result.types = filtered;
+    }
+    if (ns.functions) {
+        const filtered = ns.functions.filter(f => f.name && isReachable(f.name));
+        if (filtered.length) result.functions = filtered;
+    }
+    if (ns.namespaces) {
+        const filtered = ns.namespaces
+            .map(n => filterNamespaceMembersQualified(n, refs, qualifiedRefs, packageName))
+            .filter((n): n is NamespaceInfo => n !== null);
+        if (filtered.length) result.namespaces = filtered;
+    }
+
+    if (!result.classes && !result.interfaces && !result.enums &&
+        !result.types && !result.functions && !result.namespaces) {
+        return null;
+    }
+
+    return result;
 }
 
 /**
@@ -1817,3 +2032,45 @@ export function filterNamespaceMembers(ns: NamespaceInfo, refs: Set<string>): Na
     return result;
 }
 
+/**
+ * Filters a namespace for buildResolvedDependencies by export names.
+ * Keeps members whose names are in the exported set.
+ * Returns null if the namespace becomes empty.
+ */
+function filterNamespaceByExports(ns: NamespaceInfo, exportedNames: Set<string>): NamespaceInfo | null {
+    const result: NamespaceInfo = { name: ns.name };
+
+    if (ns.classes) {
+        const f = ns.classes.filter(c => exportedNames.has(c.name));
+        if (f.length) result.classes = f;
+    }
+    if (ns.interfaces) {
+        const f = ns.interfaces.filter(i => exportedNames.has(i.name));
+        if (f.length) result.interfaces = f;
+    }
+    if (ns.enums) {
+        const f = ns.enums.filter(e => exportedNames.has(e.name));
+        if (f.length) result.enums = f;
+    }
+    if (ns.types) {
+        const f = ns.types.filter(t => exportedNames.has(t.name));
+        if (f.length) result.types = f;
+    }
+    if (ns.functions) {
+        const f = ns.functions.filter(fn => fn.name && exportedNames.has(fn.name));
+        if (f.length) result.functions = f;
+    }
+    if (ns.namespaces) {
+        const childNs = ns.namespaces
+            .map(n => filterNamespaceByExports(n, exportedNames))
+            .filter((n): n is NamespaceInfo => n !== null);
+        if (childNs.length) result.namespaces = childNs;
+    }
+
+    // Keep if namespace name is exported or any member survived
+    if (exportedNames.has(ns.name) || result.classes || result.interfaces ||
+        result.enums || result.types || result.functions || result.namespaces) {
+        return result;
+    }
+    return null;
+}

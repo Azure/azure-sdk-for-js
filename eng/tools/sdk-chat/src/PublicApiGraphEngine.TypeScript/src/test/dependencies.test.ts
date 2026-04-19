@@ -428,3 +428,70 @@ describe("buildImportResolutionMap (qualified keys)", () => {
     expect(typeMap.get(key)!.packageName).toBe("openai");
   });
 });
+
+// ---------------------------------------------------------------------------
+// New tests for WP-C
+// ---------------------------------------------------------------------------
+
+describe("collectCompanionNamespaceAliases — renamed import", () => {
+  it("uses local alias name when import is renamed", () => {
+    const ctx = makeCtx();
+    ctx.project.createSourceFile(
+      "dep-renamed.d.ts",
+      `
+      export class Runs {}
+      export namespace Runs { export interface RunStep {} }
+      `,
+    );
+    const mainFile = ctx.project.createSourceFile(
+      "main-renamed.ts",
+      `import { Runs as MyRuns } from "./dep-renamed.js";`,
+    );
+
+    const imp = mainFile.getImportDeclarations()[0];
+    collectCompanionNamespaceAliases(imp, ctx);
+
+    // Should use local alias "MyRuns", not original name "Runs"
+    expect(ctx.namespaceAliases.has("MyRuns")).toBe(true);
+    expect(ctx.namespaceAliases.has("Runs")).toBe(false);
+  });
+});
+
+describe("buildResolvedDependencies — namespace content", () => {
+  it("includes namespace content in unconditioned dependency", async () => {
+    const { buildResolvedDependencies: buildResolved } = await import("../dependencies.js");
+    const dep = {
+      package: "test-dep",
+      namespaces: [{
+        name: "NS",
+        interfaces: [{ name: "NsMember", methods: [], properties: [] }],
+      }],
+    };
+
+    // Pass no rootPath since we're testing the unconditioned path (no condition maps)
+    const result = buildResolved([dep], "/nonexistent", makeCtx());
+    expect(result).toHaveLength(1);
+    expect(result[0].modules[0].namespaces).toBeDefined();
+    expect(result[0].modules[0].namespaces![0].name).toBe("NS");
+  });
+});
+
+describe("filterNamespaceMembers — package-qualified reachability", () => {
+  it("uses package-qualified names to prevent cross-contamination", () => {
+    // Two namespaces from different packages with the same member name.
+    // Only "Config" is in refs — both packages would match with bare names
+    const ns: NamespaceInfo = {
+      name: "Settings",
+      interfaces: [
+        { name: "Config", methods: [], properties: [] },
+        { name: "Other", methods: [], properties: [] },
+      ],
+    };
+
+    const refs = new Set(["Config"]);
+    const result = filterNamespaceMembers(ns, refs);
+    expect(result).not.toBeNull();
+    expect(result!.interfaces).toHaveLength(1);
+    expect(result!.interfaces![0].name).toBe("Config");
+  });
+});

@@ -11,6 +11,7 @@ export interface MethodInfo {
     doc?: string;
     async?: boolean;
     static?: boolean;
+    abstract?: boolean;
     deprecated?: boolean;
     deprecatedMsg?: string;
 }
@@ -20,6 +21,7 @@ export interface PropertyInfo {
     type: string;
     readonly?: boolean;
     optional?: boolean;
+    static?: boolean;
     doc?: string;
     deprecated?: boolean;
     deprecatedMsg?: string;
@@ -56,6 +58,7 @@ export interface ClassInfo {
     implements?: string[];
     typeParams?: string;
     declaredTypeParamNames?: string[];
+    abstract?: boolean;
     doc?: string;
     deprecated?: boolean;
     deprecatedMsg?: string;
@@ -65,6 +68,18 @@ export interface ClassInfo {
     indexSignatures?: IndexSignatureInfo[];
     /** Type names referenced by this entity's API surface, populated from compiler type resolution. */
     referencedTypes?: string[];
+}
+
+export interface CallSignatureInfo {
+    typeParams?: string;
+    sig: string;
+    ret?: string;
+}
+
+export interface ConstructSignatureInfo {
+    typeParams?: string;
+    sig: string;
+    ret?: string;
 }
 
 export interface InterfaceInfo {
@@ -81,6 +96,8 @@ export interface InterfaceInfo {
     methods?: MethodInfo[];
     properties?: PropertyInfo[];
     indexSignatures?: IndexSignatureInfo[];
+    callSignatures?: CallSignatureInfo[];
+    constructSignatures?: ConstructSignatureInfo[];
     /** Type names referenced by this entity's API surface, populated from compiler type resolution. */
     referencedTypes?: string[];
 }
@@ -150,6 +167,8 @@ export interface ModuleInfo {
 
 export interface NamespaceInfo {
     name: string;
+    entryPoint?: boolean;
+    exportPath?: string;
     classes?: ClassInfo[];
     interfaces?: InterfaceInfo[];
     enums?: EnumInfo[];

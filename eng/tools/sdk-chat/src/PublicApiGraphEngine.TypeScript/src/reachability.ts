@@ -27,6 +27,9 @@ export function validateSelfContainment(api: ApiIndex, ctx: ExtractionContext): 
         if (PRIMITIVE_TYPES.has(name)) continue;
         if (ctx.isBuiltinType(name)) continue;
         if (declaredTypeParams.has(name)) continue;
+        // Exempt known Node.js global types and NodeJS.* prefixed types
+        if (NODE_GLOBAL_TYPES.has(name)) continue;
+        if (name.startsWith("NodeJS.")) continue;
         dangling.push(name);
     }
 
@@ -262,24 +265,46 @@ export function getDefinedTypes(api: ApiIndex): Set<string> {
 }
 
 /**
+ * Builds a qualified key for a graph node: `<moduleName>/<namespacePath>/<entityName>`.
+ * Top-level entities use `<moduleName>/<entityName>`.
+ */
+export function makeQualifiedKey(moduleName: string, entityName: string, namespacePath?: string): string {
+    return namespacePath ? `${moduleName}/${namespacePath}/${entityName}` : `${moduleName}/${entityName}`;
+}
+
+/**
  * Computes the set of type names reachable from entry points.
  * Walks the type reference graph starting from entry-point types,
  * using pre-computed referencedTypes from compiler type resolution.
+ *
+ * Uses qualified keys (`<module>/<ns>/<name>`) internally to prevent
+ * same-named entities in different modules from colliding.
+ * The returned set contains both qualified keys and simple names
+ * for backward compatibility with pruning code.
  */
 export function computeReachableTypes(api: ApiIndex): Set<string> {
     const allTypeNames = getDefinedTypes(api);
 
     // Build reference graph from pre-computed referencedTypes fields.
     // These were populated from TypeReferenceCollector's compiler-resolved refs.
+    // Keys are qualified; values are simple names filtered against allTypeNames.
     const references = new Map<string, Set<string>>();
 
-    function addEntityRef(name: string, referencedTypes: string[] | undefined): void {
+    function addEntityRef(qualifiedKey: string, referencedTypes: string[] | undefined): void {
         const refs = (referencedTypes ?? []).filter(t => allTypeNames.has(t));
         if (refs.length) {
-            const existing = references.get(name);
+            const existing = references.get(qualifiedKey);
             if (existing) { for (const r of refs) existing.add(r); }
-            else { references.set(name, new Set(refs)); }
+            else { references.set(qualifiedKey, new Set(refs)); }
         }
+    }
+
+    // Map from simple name → list of qualified keys, for BFS edge traversal
+    const nameToQualifiedKeys = new Map<string, string[]>();
+    function registerName(simpleName: string, qualifiedKey: string): void {
+        let list = nameToQualifiedKeys.get(simpleName);
+        if (!list) { list = []; nameToQualifiedKeys.set(simpleName, list); }
+        list.push(qualifiedKey);
     }
 
     function buildRefsFromContainer(source: {
@@ -288,52 +313,92 @@ export function computeReachableTypes(api: ApiIndex): Set<string> {
         types?: { name: string; referencedTypes?: string[] }[];
         functions?: { name?: string; referencedTypes?: string[] }[];
         namespaces?: NamespaceInfo[];
-    }): void {
-        for (const cls of source.classes || []) addEntityRef(cls.name, cls.referencedTypes);
-        for (const iface of source.interfaces || []) addEntityRef(iface.name, iface.referencedTypes);
-        for (const t of source.types || []) addEntityRef(t.name, t.referencedTypes);
-        for (const fn of source.functions || []) { if (fn.name) addEntityRef(fn.name, fn.referencedTypes); }
-        for (const ns of source.namespaces || []) buildRefsFromContainer(ns);
+    }, moduleName: string, nsPath?: string): void {
+        for (const cls of source.classes || []) {
+            const qk = makeQualifiedKey(moduleName, cls.name, nsPath);
+            addEntityRef(qk, cls.referencedTypes);
+            registerName(cls.name, qk);
+        }
+        for (const iface of source.interfaces || []) {
+            const qk = makeQualifiedKey(moduleName, iface.name, nsPath);
+            addEntityRef(qk, iface.referencedTypes);
+            registerName(iface.name, qk);
+        }
+        for (const t of source.types || []) {
+            const qk = makeQualifiedKey(moduleName, t.name, nsPath);
+            addEntityRef(qk, t.referencedTypes);
+            registerName(t.name, qk);
+        }
+        for (const fn of source.functions || []) {
+            if (fn.name) {
+                const qk = makeQualifiedKey(moduleName, fn.name, nsPath);
+                addEntityRef(qk, fn.referencedTypes);
+                registerName(fn.name, qk);
+            }
+        }
+        for (const ns of source.namespaces || []) {
+            const childNsPath = nsPath ? `${nsPath}.${ns.name}` : ns.name;
+            registerName(ns.name, makeQualifiedKey(moduleName, ns.name, nsPath));
+            buildRefsFromContainer(ns, moduleName, childNsPath);
+        }
     }
 
     for (const mod of api.modules) {
-        buildRefsFromContainer(mod);
+        buildRefsFromContainer(mod, mod.name);
     }
 
-    // BFS from entry points
+    // BFS from entry points — track both qualified keys and simple names
+    const reachableQualified = new Set<string>();
     const reachable = new Set<string>();
     const queue: string[] = [];
 
+    function seedEntity(name: string, moduleName: string, nsPath?: string): void {
+        const qk = makeQualifiedKey(moduleName, name, nsPath);
+        if (!reachableQualified.has(qk)) {
+            reachableQualified.add(qk);
+            reachable.add(name);
+            queue.push(name);
+        }
+    }
+
     for (const mod of api.modules) {
         for (const cls of mod.classes || []) {
-            if (cls.entryPoint) { reachable.add(cls.name); queue.push(cls.name); }
+            if (cls.entryPoint) seedEntity(cls.name, mod.name);
         }
         for (const iface of mod.interfaces || []) {
-            if (iface.entryPoint) { reachable.add(iface.name); queue.push(iface.name); }
+            if (iface.entryPoint) seedEntity(iface.name, mod.name);
         }
         for (const en of mod.enums || []) {
-            if (en.entryPoint) { reachable.add(en.name); queue.push(en.name); }
+            if (en.entryPoint) seedEntity(en.name, mod.name);
         }
         for (const t of mod.types || []) {
-            if (t.entryPoint) { reachable.add(t.name); queue.push(t.name); }
+            if (t.entryPoint) seedEntity(t.name, mod.name);
         }
         for (const fn of mod.functions || []) {
-            if (fn.entryPoint && fn.name) { reachable.add(fn.name); queue.push(fn.name); }
+            if (fn.entryPoint && fn.name) seedEntity(fn.name, mod.name);
         }
-        // Seed namespaces recursively — all namespace members in the main module
-        // are part of the public API surface.
-        seedNamespaces(mod.namespaces, reachable, queue);
+        // Only seed namespaces that are marked as entry points
+        seedNamespaces(mod.namespaces, reachable, reachableQualified, queue, mod.name);
     }
 
     let qi = 0;
     while (qi < queue.length) {
         const current = queue[qi++];
-        const refs = references.get(current);
-        if (refs) {
-            for (const ref of refs) {
-                if (!reachable.has(ref)) {
-                    reachable.add(ref);
-                    queue.push(ref);
+        // Look up all qualified keys for this simple name
+        const qkeys = nameToQualifiedKeys.get(current);
+        if (qkeys) {
+            for (const qk of qkeys) {
+                const refs = references.get(qk);
+                if (refs) {
+                    for (const ref of refs) {
+                        if (!reachable.has(ref)) {
+                            reachable.add(ref);
+                            queue.push(ref);
+                            // Mark all qualified instances as reachable
+                            const refQks = nameToQualifiedKeys.get(ref);
+                            if (refQks) { for (const rqk of refQks) reachableQualified.add(rqk); }
+                        }
+                    }
                 }
             }
         }
@@ -345,17 +410,29 @@ export function computeReachableTypes(api: ApiIndex): Set<string> {
 function seedNamespaces(
     namespaces: NamespaceInfo[] | undefined,
     reachable: Set<string>,
+    reachableQualified: Set<string>,
     queue: string[],
+    moduleName: string,
+    nsPath?: string,
+    parentIsEntryPoint?: boolean,
 ): void {
     for (const ns of namespaces || []) {
-        reachable.add(ns.name);
-        queue.push(ns.name);
+        // Only seed namespaces that are entry points or descendants of entry point namespaces
+        if (!ns.entryPoint && !parentIsEntryPoint) continue;
+        const qk = makeQualifiedKey(moduleName, ns.name, nsPath);
+        if (!reachableQualified.has(qk)) {
+            reachableQualified.add(qk);
+            reachable.add(ns.name);
+            queue.push(ns.name);
+        }
         for (const c of ns.classes || []) { reachable.add(c.name); queue.push(c.name); }
         for (const i of ns.interfaces || []) { reachable.add(i.name); queue.push(i.name); }
         for (const e of ns.enums || []) { reachable.add(e.name); queue.push(e.name); }
         for (const t of ns.types || []) { reachable.add(t.name); queue.push(t.name); }
         for (const f of ns.functions || []) { if (f.name) { reachable.add(f.name); queue.push(f.name); } }
-        seedNamespaces(ns.namespaces, reachable, queue);
+        const childNsPath = nsPath ? `${nsPath}.${ns.name}` : ns.name;
+        // Children of an entry-point namespace are also entry-point accessible
+        seedNamespaces(ns.namespaces, reachable, reachableQualified, queue, moduleName, childNsPath, true);
     }
 }
 

@@ -284,6 +284,10 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
                     }
                 }
             }
+            // Mark namespaces that are exported from entry points
+            if (module.namespaces) {
+                markEntryPointNamespaces(module.namespaces, entryPointSymbols);
+            }
             modules.push(module);
             moduleSourceFileMap.push([module, sourceFile]);
         }
@@ -386,20 +390,45 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
             if (mod.enums) mod.enums = mod.enums.filter(e => reachableTypes.has(e.name));
             if (mod.types) mod.types = mod.types.filter(t => reachableTypes.has(t.name));
             if (mod.functions) mod.functions = mod.functions.filter(f => f.name && reachableTypes.has(f.name));
+            // Filter namespace members against the reachable set
+            if (mod.namespaces) {
+                mod.namespaces = filterNamespaces(mod.namespaces, reachableTypes);
+            }
         }
-        // Remove empty modules
+        // Remove empty modules (including modules with only empty namespaces)
         baseResult.modules = baseResult.modules.filter(m =>
             (m.classes?.length ?? 0) > 0 || (m.interfaces?.length ?? 0) > 0 ||
             (m.enums?.length ?? 0) > 0 || (m.types?.length ?? 0) > 0 ||
-            (m.functions?.length ?? 0) > 0
+            (m.functions?.length ?? 0) > 0 || (m.namespaces?.length ?? 0) > 0
         );
     }
 
     // Collect qualified (dotted) type references for ambient type display (e.g., NodeJS.ReadableStream).
     // Placed after reachability pruning so downstream computeAmbientTypes sees the filtered API.
+    // Only include refs from entities that survived pruning (reachable).
     const qualifiedRefs = ctx.typeRefs.getAllQualifiedRefNames();
     if (qualifiedRefs.size > 0) {
-        baseResult.qualifiedReferencedTypes = [...qualifiedRefs];
+        if (reachableTypes.size > 0) {
+            // Filter to only include qualified refs whose prefix or full name relates to reachable entities
+            const reachableQualifiedRefs = new Set<string>();
+            const contextRefNames = ctx.typeRefs.getContextRefNames();
+            for (const [contextName, refs] of contextRefNames) {
+                // contextName is a simple or dotted entity name; check if the simple base name is reachable
+                const baseName = contextName.includes(".") ? contextName.split(".")[0] : contextName;
+                if (reachableTypes.has(baseName)) {
+                    for (const ref of refs) {
+                        if (qualifiedRefs.has(ref)) {
+                            reachableQualifiedRefs.add(ref);
+                        }
+                    }
+                }
+            }
+            if (reachableQualifiedRefs.size > 0) {
+                baseResult.qualifiedReferencedTypes = [...reachableQualifiedRefs];
+            }
+        } else {
+            baseResult.qualifiedReferencedTypes = [...qualifiedRefs];
+        }
     }
 
     // Resolve transitive dependencies (scoped to reachable types)
@@ -519,6 +548,70 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
     }
 
     return baseResult;
+}
+
+/**
+ * Recursively filters namespace members against a reachable set.
+ * Removes namespaces that become empty after filtering.
+ */
+function filterNamespaces(namespaces: NamespaceInfo[], reachableSet: Set<string>): NamespaceInfo[] | undefined {
+    const filtered: NamespaceInfo[] = [];
+    for (const ns of namespaces) {
+        const result: NamespaceInfo = { name: ns.name };
+        if (ns.entryPoint) result.entryPoint = ns.entryPoint;
+        if (ns.exportPath) result.exportPath = ns.exportPath;
+
+        if (ns.classes) {
+            const f = ns.classes.filter(c => reachableSet.has(c.name));
+            if (f.length) result.classes = f;
+        }
+        if (ns.interfaces) {
+            const f = ns.interfaces.filter(i => reachableSet.has(i.name));
+            if (f.length) result.interfaces = f;
+        }
+        if (ns.enums) {
+            const f = ns.enums.filter(e => reachableSet.has(e.name));
+            if (f.length) result.enums = f;
+        }
+        if (ns.types) {
+            const f = ns.types.filter(t => reachableSet.has(t.name));
+            if (f.length) result.types = f;
+        }
+        if (ns.functions) {
+            const f = ns.functions.filter(fn => fn.name && reachableSet.has(fn.name));
+            if (f.length) result.functions = f;
+        }
+        if (ns.namespaces) {
+            const childNs = filterNamespaces(ns.namespaces, reachableSet);
+            if (childNs?.length) result.namespaces = childNs;
+        }
+
+        // Keep namespace if any member survived
+        if (result.classes || result.interfaces || result.enums ||
+            result.types || result.functions || result.namespaces) {
+            filtered.push(result);
+        }
+    }
+    return filtered.length > 0 ? filtered : undefined;
+}
+
+/**
+ * Recursively marks namespaces that are exported from entry points.
+ */
+function markEntryPointNamespaces(
+    namespaces: NamespaceInfo[],
+    entryPointSymbols: Map<string, { exportPath: string; reExportedFrom?: string }>,
+): void {
+    for (const ns of namespaces) {
+        const exportInfo = entryPointSymbols.get(ns.name);
+        if (exportInfo !== undefined) {
+            ns.entryPoint = true;
+            ns.exportPath = exportInfo.exportPath;
+        }
+        if (ns.namespaces) {
+            markEntryPointNamespaces(ns.namespaces, entryPointSymbols);
+        }
+    }
 }
 
 
