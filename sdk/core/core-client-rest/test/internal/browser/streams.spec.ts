@@ -101,14 +101,8 @@ describe("[Browser] Streams", () => {
 
     const client = getClient(mockBaseUrl);
 
-    try {
-      await client.pathUnchecked("/foo").get().asNodeStream();
-      assert.fail("Expected error was not thrown");
-    } catch (e: any) {
-      assert.equal(
-        e.message,
-        "`isNodeStream` is not supported in the browser environment. Use `asBrowserStream` to obtain the response body stream.",
-      );
-    }
+    await expect(client.pathUnchecked("/foo").get().asNodeStream()).rejects.toThrow(
+      "`isNodeStream` is not supported in the browser environment. Use `asBrowserStream` to obtain the response body stream.",
+    );
   });
 });

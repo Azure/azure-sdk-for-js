@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert, afterEach, vi } from "vitest";
+import { describe, it, assert, expect, afterEach, vi } from "vitest";
 import type { ClientRequest, IncomingMessage } from "node:http";
 import { type IncomingHttpHeaders } from "node:http";
 import { PassThrough } from "node:stream";
@@ -108,15 +108,9 @@ describe("[Node] Streams", () => {
     const { getClient } = await import("../../../src/getClient.js");
     const client = getClient(mockBaseUrl);
 
-    try {
-      await client.pathUnchecked("/foo").get().asBrowserStream();
-      assert.fail("Expected error was not thrown");
-    } catch (e: any) {
-      assert.equal(
-        e.message,
-        "`asBrowserStream` is supported only in the browser environment. Use `asNodeStream` instead to obtain the response body stream. If you require a Web stream of the response in Node, consider using `Readable.toWeb` on the result of `asNodeStream`.",
-      );
-    }
+    await expect(client.pathUnchecked("/foo").get().asBrowserStream()).rejects.toThrow(
+      "`asBrowserStream` is supported only in the browser environment. Use `asNodeStream` instead to obtain the response body stream. If you require a Web stream of the response in Node, consider using `Readable.toWeb` on the result of `asNodeStream`.",
+    );
   });
 });
 
