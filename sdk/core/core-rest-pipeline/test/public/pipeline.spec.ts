@@ -53,8 +53,8 @@ describe("HttpsPipeline", function () {
     it("sets and overrides request properties", async function () {
       const testHttpClient: HttpClient = {
         sendRequest: async (request) => {
-          assert.strictEqual(request.requestOverrides?.timeout, 1);
-          assert.strictEqual(request.requestOverrides?.priority, "low");
+          assert.deepEqual(request.requestOverrides?.timeout, 1);
+          assert.deepEqual(request.requestOverrides?.priority, "low");
           const updated = {
             ...request,
             ...request.requestOverrides,

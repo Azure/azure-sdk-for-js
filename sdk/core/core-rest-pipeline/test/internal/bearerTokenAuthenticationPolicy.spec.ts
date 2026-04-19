@@ -630,7 +630,13 @@ describe("BearerTokenAuthenticationPolicy", function () {
 
         const policy = createBearerTokenPolicy(tokenScopes, credential);
 
-        const response = await policy.sendRequest(request, next);
+        let response: PipelineResponse;
+        try {
+          response = await policy.sendRequest(request, next);
+        } catch (e) {
+          // Should not encounter an error. A request with failed status code should be returned
+          assert.fail();
+        }
         // First getToken request will return a bad token
         expect(getToken).toHaveBeenCalledWith(tokenScopes, {
           abortSignal: undefined,
@@ -718,7 +724,13 @@ describe("BearerTokenAuthenticationPolicy", function () {
           },
         });
 
-        const response = await policy.sendRequest(request, next);
+        let response: PipelineResponse;
+        try {
+          response = await policy.sendRequest(request, next);
+        } catch (e) {
+          // Should not encounter an error. A request with failed status code should be returned
+          assert.fail();
+        }
         // First getToken request will return a bad token
         expect(getToken).toHaveBeenCalledWith(scopes, {
           enableCae: true,
@@ -809,7 +821,13 @@ describe("BearerTokenAuthenticationPolicy", function () {
             }
           }
         }
-        const response = await policy.sendRequest(request, next);
+        let response: PipelineResponse;
+        try {
+          response = await policy.sendRequest(request, next);
+        } catch (e) {
+          // Should not encounter an error. A request with failed status code should be returned
+          assert.fail();
+        }
         assert.strictEqual(testCase.numberOfGetTokenCalls, getTokenRequests);
         // Check value of getTokenRequests called based on the order of challenges
         for (let i = 0; i < testCase.numberOfGetTokenCalls; i++) {
@@ -894,7 +912,12 @@ describe("BearerTokenAuthenticationPolicy", function () {
       next.mockRejectedValueOnce(requestError).mockResolvedValueOnce(successResponse);
 
       const policy = createBearerTokenPolicy(tokenScopes, credential);
-      const response = await policy.sendRequest(request, next);
+      let response: PipelineResponse;
+      try {
+        response = await policy.sendRequest(request, next);
+      } catch (e) {
+        assert.fail();
+      }
       // First getToken request will return a bad token
       expect(getToken).toHaveBeenCalledWith(tokenScopes, {
         abortSignal: undefined,
@@ -982,7 +1005,13 @@ describe("BearerTokenAuthenticationPolicy", function () {
         },
       });
 
-      const response = await policy.sendRequest(request, next);
+      let response: PipelineResponse;
+      try {
+        response = await policy.sendRequest(request, next);
+      } catch (e) {
+        // Should not encounter an error
+        assert.fail();
+      }
       expect(getToken).toHaveBeenCalledWith(scopes, {
         abortSignal: undefined,
         tracingOptions: undefined,
