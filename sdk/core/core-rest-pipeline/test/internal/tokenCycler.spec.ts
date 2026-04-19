@@ -35,26 +35,18 @@ describe("tokenCycler", function () {
     // To cover lines 68 (catch block) and 85-87 (while loop):
     // Need: an existing token whose expiry is in the future but within forcedRefreshWindow
     // so mustRefresh is true AND Date.now() < refreshTimeout (= token.expiresOnTimestamp)
-    let callCount = 0;
     const tokenExpiry = Date.now() + 5000; // 5 seconds from now
 
+    const getToken = vi.fn<() => Promise<any>>();
+    getToken.mockResolvedValueOnce({ token: "initial-token", expiresOnTimestamp: tokenExpiry });
+    getToken.mockRejectedValueOnce(new Error("transient failure"));
+    getToken.mockResolvedValueOnce({
+      token: "refreshed-token",
+      expiresOnTimestamp: Date.now() + 1000 * 60 * 60,
+    });
+
     const credential: TokenCredential = {
-      getToken: async () => {
-        callCount++;
-        if (callCount === 1) {
-          // Initial token
-          return { token: "initial-token", expiresOnTimestamp: tokenExpiry };
-        }
-        if (callCount === 2) {
-          // During refresh, throw to hit line 68 (catch -> return null -> while loop)
-          throw new Error("transient failure");
-        }
-        // On retry, succeed
-        return {
-          token: "refreshed-token",
-          expiresOnTimestamp: Date.now() + 1000 * 60 * 60,
-        };
-      },
+      getToken: getToken as any,
     };
 
     const getAccessToken = createTokenCycler(credential, {
@@ -78,6 +70,6 @@ describe("tokenCycler", function () {
 
     const token2 = await tokenPromise;
     assert.equal(token2.token, "refreshed-token");
-    assert.isAtLeast(callCount, 3);
+    expect(getToken).toHaveBeenCalledTimes(3);
   });
 });

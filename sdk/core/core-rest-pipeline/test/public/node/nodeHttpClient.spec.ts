@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assert, describe, it, vi, beforeEach, afterEach } from "vitest";
+import { assert, expect, describe, it, vi, beforeEach, afterEach } from "vitest";
 import { PassThrough, Writable } from "stream";
 import type { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
 import type { AbortSignalLike } from "@azure/abort-controller";
@@ -137,12 +137,7 @@ describe("NodeHttpClient", function () {
     });
     const promise = client.sendRequest(request);
     controller.abort();
-    try {
-      await promise;
-      assert.fail("Expected await to throw");
-    } catch (e: any) {
-      assert.strictEqual(e.name, "AbortError");
-    }
+    await expect(promise).rejects.toMatchObject({ name: "AbortError" });
   });
 
   it("shouldn't be affected by requests cancelled late", async function () {
@@ -168,12 +163,7 @@ describe("NodeHttpClient", function () {
       abortSignal: controller.signal,
     });
     const promise = client.sendRequest(request);
-    try {
-      await promise;
-      assert.fail("Expected await to throw");
-    } catch (e: any) {
-      assert.strictEqual(e.name, "AbortError");
-    }
+    await expect(promise).rejects.toMatchObject({ name: "AbortError" });
   });
 
   it("should report upload and download progress", async function () {
@@ -211,12 +201,7 @@ describe("NodeHttpClient", function () {
     });
     const promise = client.sendRequest(request);
     vi.advanceTimersByTime(timeoutLength);
-    try {
-      await promise;
-      assert.fail("Expected await to throw");
-    } catch (e: any) {
-      assert.strictEqual(e.name, "AbortError");
-    }
+    await expect(promise).rejects.toMatchObject({ name: "AbortError" });
   });
 
   it("should stream response body on matching status code", async function () {
@@ -264,12 +249,7 @@ describe("NodeHttpClient", function () {
       url: "http://example.com",
     });
     const promise = client.sendRequest(request);
-    try {
-      await promise;
-      assert.fail("Expected await to throw");
-    } catch (e: any) {
-      assert.match(e.message, /^Cannot connect/, "Error should refuse connection");
-    }
+    await expect(promise).rejects.toThrow(/^Cannot connect/);
   });
 
   it("shouldn't throw when accessing HTTP and allowInsecureConnection is true", async function () {
@@ -452,12 +432,7 @@ describe("NodeHttpClient", function () {
     yieldHttpsResponse(streamResponse as unknown as IncomingMessage);
     controller.abort();
 
-    try {
-      await promise;
-      assert.fail("Expected await to throw");
-    } catch (e: any) {
-      assert.strictEqual(e.name, "AbortError");
-    }
+    await expect(promise).rejects.toMatchObject({ name: "AbortError" });
   });
 
   it("should release abort listener when stream body ends already", async function () {

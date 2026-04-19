@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 import { createPipelineRequest } from "../../../src/pipelineRequest.js";
 import { png } from "./mocks/encodedPng.js";
 import { createHttpHeaders } from "../../../src/httpHeaders.js";
@@ -109,12 +109,7 @@ describe("FetchHttpClient", function () {
     controller.abort();
     vi.advanceTimersByTime(1);
 
-    try {
-      await promise;
-      assert.fail(`Expected await to throw`);
-    } catch (e: any) {
-      assert.strictEqual(e.name, "AbortError");
-    }
+    await expect(promise).rejects.toMatchObject({ name: "AbortError" });
   });
 
   it("should return AbortError while reading stream", async function () {
@@ -141,7 +136,7 @@ describe("FetchHttpClient", function () {
     vi.advanceTimersByTime(100);
     controller.abort();
     vi.advanceTimersByTime(1);
-    try {
+    const readAll = async () => {
       const response = await promise;
       const reader = response.browserStreamBody!.getReader();
       let finishReading = false;
@@ -151,10 +146,8 @@ describe("FetchHttpClient", function () {
           finishReading = true;
         }
       }
-      assert.fail(`Expected await to throw`);
-    } catch (error: any) {
-      assert.strictEqual(error.name, "AbortError");
-    }
+    };
+    await expect(readAll()).rejects.toMatchObject({ name: "AbortError" });
   });
 
   it("shouldn't be affected by requests cancelled late", async function () {
@@ -188,12 +181,7 @@ describe("FetchHttpClient", function () {
       abortSignal: controller.signal,
     });
     const promise = client.sendRequest(request);
-    try {
-      await promise;
-      assert.fail("Expected await to throw");
-    } catch (e: any) {
-      assert.strictEqual(e.name, "AbortError");
-    }
+    await expect(promise).rejects.toMatchObject({ name: "AbortError" });
   });
 
   it("should load chunk by chunk", async function () {
@@ -481,12 +469,7 @@ describe("FetchHttpClient", function () {
     const promise = client.sendRequest(request);
     vi.advanceTimersByTime(timeoutLength);
 
-    try {
-      await promise;
-      assert.fail("Expected await to throw");
-    } catch (e: any) {
-      assert.strictEqual(e.name, "AbortError");
-    }
+    await expect(promise).rejects.toMatchObject({ name: "AbortError" });
   });
 
   it("should throw when accessing HTTP and allowInsecureConnection is false", async function () {
@@ -494,12 +477,7 @@ describe("FetchHttpClient", function () {
     const request = createPipelineRequest({
       url: "http://example.com",
     });
-    try {
-      await client.sendRequest(request);
-      assert.fail("Expected await to throw");
-    } catch (e: any) {
-      assert.match(e.message, /^Cannot connect/, "Error should refuse connection");
-    }
+    await expect(client.sendRequest(request)).rejects.toThrow(/^Cannot connect/);
   });
 
   it("shouldn't throw when accessing HTTP and allowInsecureConnection is true", async function () {

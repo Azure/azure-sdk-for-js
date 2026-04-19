@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, expect, vi } from "vitest";
 import { createFile, createFileFromStream } from "../../../src/util/file.js";
 
 describe("file utilities (browser)", function () {
@@ -88,16 +88,16 @@ describe("file utilities (browser)", function () {
     });
 
     it("stream() can be called multiple times for retries", async function () {
-      let callCount = 0;
-      const streamFactory = () => {
-        callCount++;
-        return new ReadableStream<Uint8Array>({
-          start(controller) {
-            controller.enqueue(new Uint8Array([callCount]));
-            controller.close();
-          },
-        });
-      };
+      const streamFactory = vi.fn<() => ReadableStream<Uint8Array>>();
+      streamFactory.mockImplementation(
+        () =>
+          new ReadableStream<Uint8Array>({
+            start(controller) {
+              controller.enqueue(new Uint8Array([streamFactory.mock.calls.length]));
+              controller.close();
+            },
+          }),
+      );
       const file = createFileFromStream(streamFactory, "retry.bin");
 
       // First call
@@ -112,7 +112,7 @@ describe("file utilities (browser)", function () {
       const { value: v2 } = await reader2.read();
       assert.equal(v2![0], 2);
 
-      assert.equal(callCount, 2);
+      expect(streamFactory).toHaveBeenCalledTimes(2);
     });
   });
 });

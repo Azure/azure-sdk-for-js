@@ -277,13 +277,9 @@ describe("BearerTokenAuthenticationPolicy", function () {
 
     credential.shouldThrow = true;
 
-    let error: Error | undefined;
-    try {
-      await policy.sendRequest(request, next);
-    } catch (e: any) {
-      error = e;
-    }
-    assert.equal(error?.message, "Failed to retrieve the token");
+    await expect(policy.sendRequest(request, next)).rejects.toThrow(
+      "Failed to retrieve the token",
+    );
 
     assert.strictEqual(
       credential.authCount,
@@ -343,15 +339,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     const policy = createBearerTokenPolicy("test-scope", credential);
     const next = vi.fn<SendRequest>();
 
-    let error: Error | undefined;
-    try {
-      await policy.sendRequest(request, next);
-    } catch (e: any) {
-      error = e;
-    }
-
-    assert.equal(
-      error?.message,
+    await expect(policy.sendRequest(request, next)).rejects.toThrow(
       "Bearer token authentication is not permitted for non-TLS protected (non-https) URLs.",
     );
   });
@@ -415,14 +403,9 @@ describe("BearerTokenAuthenticationPolicy", function () {
 
     next.mockResolvedValueOnce(challengeResponse);
 
-    let error: Error | undefined;
-    try {
-      await policy.sendRequest(request, next);
-    } catch (e: any) {
-      error = e;
-    }
-    assert.isDefined(error);
-    assert.equal(error?.message, "Failed to refresh access token.");
+    await expect(policy.sendRequest(request, next)).rejects.toThrow(
+      "Failed to refresh access token.",
+    );
   });
 
   it("correctly refreshes the accessToken when refreshAfterTimestamp", async () => {
