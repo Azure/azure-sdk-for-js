@@ -120,7 +120,9 @@ public class MalformedOutputTests
         var result = JsonSerializer.Deserialize("{}", TypeScript.SourceGenerationContext.Default.ApiIndex);
         Assert.NotNull(result);
         Assert.True(string.IsNullOrEmpty(result.Package));
-        Assert.Null(result.Modules);
+        // Modules defaults to empty list (not null) because the record initializer is `= []`
+        Assert.NotNull(result.Modules);
+        Assert.Empty(result.Modules);
     }
 
     #endregion

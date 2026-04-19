@@ -6,6 +6,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <RootNamespace>PublicApiGraphEngine.TypeScript</RootNamespace>
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+    <CompilerGeneratedFilesOutputPath>$(BaseIntermediateOutputPath)/GeneratedFiles</CompilerGeneratedFilesOutputPath>
     <!-- Pre-install npm dependencies during build (set to false to skip) -->
     <PreinstallNpmDependencies Condition="'$(PreinstallNpmDependencies)' == ''">true</PreinstallNpmDependencies>
   </PropertyGroup>
@@ -21,6 +23,15 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PublicApiGraphEngine.Contracts\PublicApiGraphEngine.Contracts.csproj" />
+    <ProjectReference Include="..\PublicApiGraphEngine.TypeScript.Generators\PublicApiGraphEngine.TypeScript.Generators.csproj">
+      <OutputItemType>Analyzer</OutputItemType>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+
+  <!-- Feed models.ts to the source generator -->
+  <ItemGroup>
+    <AdditionalFiles Include="src/models.ts" />
   </ItemGroup>
 
   <ItemGroup>

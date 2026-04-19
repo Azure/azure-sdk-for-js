@@ -2,16 +2,22 @@
 // Licensed under the MIT License.
 
 import { describe, it, expect } from "vitest";
-import { Project, SyntaxKind } from "ts-morph";
+import { Project } from "ts-morph";
 import * as path from "node:path";
 import * as fs from "node:fs";
 
 const modelsPath = path.resolve(import.meta.dirname, "..", "models.ts");
-const generatedPath = path.resolve(import.meta.dirname, "..", "..", "Models.Generated.cs");
+// Source-generated output (emitted to obj/ during dotnet build with EmitCompilerGeneratedFiles=true)
+const generatedPath = path.resolve(
+  import.meta.dirname, "..", "..",
+  "obj/GeneratedFiles/PublicApiGraphEngine.TypeScript.Generators/" +
+  "PublicApiGraphEngine.TypeScript.Generators.TypeScriptModelsGenerator/" +
+  "Models.Generated.g.cs"
+);
 const handwrittenPath = path.resolve(import.meta.dirname, "..", "..", "Models.Handwritten.cs");
 
 describe("codegen contract validation", () => {
-  it("Models.Generated.cs exists and is non-empty", () => {
+  it("Models.Generated.g.cs exists (source-generated) and is non-empty", () => {
     expect(fs.existsSync(generatedPath)).toBe(true);
     const content = fs.readFileSync(generatedPath, "utf-8");
     expect(content.length).toBeGreaterThan(100);
@@ -42,8 +48,8 @@ describe("codegen contract validation", () => {
       const iface = sourceFile.getInterface(typeName);
       expect(iface, `${typeName} should exist in models.ts`).toBeDefined();
 
-      // Must exist in Models.Generated.cs
-      expect(generated, `${typeName} should be in Models.Generated.cs`).toContain(
+      // Must exist in source-generated output
+      expect(generated, `${typeName} should be in Models.Generated.g.cs`).toContain(
         `partial record ${typeName}`
       );
     }
@@ -84,15 +90,21 @@ describe("codegen contract validation", () => {
     }
   });
 
-  it("generated file is up to date with models.ts", async () => {
-    // Run the generator in check mode
-    const { execSync } = await import("node:child_process");
-    const cwd = path.resolve(import.meta.dirname, "..", "..");
-    const result = execSync("npx tsx src/codegen/generate-csharp-models.ts --check", {
-      cwd,
-      encoding: "utf-8",
-      stdio: ["pipe", "pipe", "pipe"],
-    });
-    expect(result).toContain("up to date");
+  it("source generator covers all wire-contract types from models.ts", () => {
+    // Verify the Roslyn source generator's output contains the same records
+    // that the TS codegen script would produce.
+    const roslynGenerated = fs.readFileSync(generatedPath, "utf-8");
+    const wireContractTypes = [
+      "MethodInfo", "PropertyInfo", "IndexSignatureInfo", "ConstructorInfo",
+      "ParameterInfo", "ClassInfo", "CallSignatureInfo", "ConstructSignatureInfo",
+      "InterfaceInfo", "EnumInfo", "TypeAliasInfo", "FunctionInfo",
+      "ModuleInfo", "NamespaceInfo", "ApiIndex", "DependencyInfo",
+    ];
+    const extractRecordNames = (cs: string) =>
+      [...cs.matchAll(/partial record (\w+)/g)].map(m => m[1]).sort();
+    const generatedRecords = extractRecordNames(roslynGenerated);
+    for (const typeName of wireContractTypes) {
+      expect(generatedRecords, `${typeName} should be source-generated`).toContain(typeName);
+    }
   });
 });

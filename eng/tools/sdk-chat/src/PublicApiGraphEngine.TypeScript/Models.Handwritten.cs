@@ -7,6 +7,7 @@
 
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.Json.Serialization.Metadata;
 using PublicApiGraphEngine.Contracts;
 
 namespace PublicApiGraphEngine.TypeScript;
@@ -392,16 +393,37 @@ internal static class TypeScriptModelHelpers
                 }));
 }
 
-[JsonSourceGenerationOptions(
-    WriteIndented = false,
-    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull)]
-[JsonSerializable(typeof(ApiIndex))]
-internal sealed partial class SourceGenerationContext : JsonSerializerContext
+/// <summary>
+/// Provides pre-configured <see cref="JsonTypeInfo{T}"/> instances for serializing
+/// the source-generated model types. Replaces the STJ source generator because Roslyn
+/// source generators cannot see each other's output — our model records are generated
+/// by <c>TypeScriptModelsGenerator</c>, so the STJ generator would miss their properties.
+/// Uses <see cref="System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver"/>
+/// (reflection-based) which sees all properties at runtime.
+/// </summary>
+internal sealed class SourceGenerationContext
 {
-    private static readonly Lazy<SourceGenerationContext> _indented = new(
-        () => new SourceGenerationContext(
-            new JsonSerializerOptions(Default!.Options!) { WriteIndented = true }));
+    private readonly Lazy<JsonTypeInfo<ApiIndex>> _apiIndex;
+
+    private SourceGenerationContext(bool indented = false)
+    {
+#pragma warning disable IL2026, IL3050 // Dev tool, not AOT-deployed
+        var options = new JsonSerializerOptions
+        {
+            TypeInfoResolver = new DefaultJsonTypeInfoResolver(),
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+            WriteIndented = indented,
+        };
+#pragma warning restore IL2026, IL3050
+        _apiIndex = new(() => (JsonTypeInfo<ApiIndex>)options.GetTypeInfo(typeof(ApiIndex)));
+    }
+
+    /// <summary>Context configured for compact (non-indented) output.</summary>
+    public static SourceGenerationContext Default { get; } = new();
 
     /// <summary>Context configured for indented (pretty) output.</summary>
-    public static SourceGenerationContext Indented => _indented.Value;
+    public static SourceGenerationContext Indented { get; } = new(indented: true);
+
+    /// <summary>Type info for <see cref="ApiIndex"/> serialization/deserialization.</summary>
+    public JsonTypeInfo<ApiIndex> ApiIndex => _apiIndex.Value;
 }
