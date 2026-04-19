@@ -138,7 +138,7 @@ describe("ServiceClient", function () {
 
       await client.sendOperationRequest(testOperationArgs, testOperationSpec);
 
-      assert.exists(request);
+      assert.isOk(request!);
       assert.deepEqual(request!.headers.get("authorization"), "Bearer testToken");
     });
 
@@ -165,7 +165,7 @@ describe("ServiceClient", function () {
 
       await client.sendOperationRequest(testOperationArgs, testOperationSpec);
 
-      assert.exists(request);
+      assert.isOk(request!);
       assert.deepEqual(request!.headers.get("authorization"), "Bearer testToken");
     });
 
@@ -192,7 +192,7 @@ describe("ServiceClient", function () {
 
       await client.sendOperationRequest(testOperationArgs, testOperationSpec);
 
-      assert.exists(request);
+      assert.isOk(request!);
       assert.deepEqual(request!.headers.get("authorization"), "Bearer testToken");
     });
   });
@@ -261,7 +261,7 @@ describe("ServiceClient", function () {
       },
     );
 
-    assert.exists(request);
+    assert.isOk(request!);
     assert.deepEqual(request!.headers.toJSON(), expected);
   });
 
@@ -296,7 +296,7 @@ describe("ServiceClient", function () {
       },
     );
 
-    assert.exists(request);
+    assert.isOk(request!);
     assert.strictEqual(JSON.stringify(operationResponse), "{}");
     assert.strictEqual(rawResponse?.status, 200);
     assert.strictEqual(rawResponse?.request, request!);
@@ -356,7 +356,7 @@ describe("ServiceClient", function () {
     }
 
     assert.isTrue(requestFailed, "Request should fail with unknown status");
-    assert.exists(request);
+    assert.isOk(request!);
     assert.strictEqual(rawResponse?.status, 500);
     assert.strictEqual(rawResponse?.request, request!);
     assert.deepStrictEqual(flatResponse, { body: undefined });
@@ -1576,8 +1576,11 @@ async function testSendOperationRequest(
     },
   );
 
-  assert.exists(request);
-  assert.isTrue(request!.url.endsWith(expected), `"${request!.url}" does not end with "${expected}"`);
+  assert.isOk(request!);
+  assert.isTrue(
+    request!.url.endsWith(expected),
+    `"${request!.url}" does not end with "${expected}"`,
+  );
 }
 
 describe("ServiceClient requestOptions", () => {
