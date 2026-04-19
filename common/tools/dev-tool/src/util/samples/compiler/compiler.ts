@@ -8,17 +8,20 @@
  * Transforms a vitest-based sample-test file into publishable sample code.
  */
 
+import path from "node:path";
 import ts from "typescript";
 import type { CompiledSample, ClassifiedImport, SampleMetadata } from "./types.js";
 import { CompilerError } from "./types.js";
 import { parseSampleTestFile } from "./parser.js";
 import { classifyImports } from "./importClassifier.js";
 import { substituteForPublishing } from "./substitutor.js";
-import { eliminateDeadBindings } from "./deadBindingEliminator.js";
+import { eliminateDeadStatements } from "./deadBindingEliminator.js";
+import { createAnalyzer, resolveNamesToSymbols, type BindingAnalyzer } from "./bindingAnalyzer.js";
 import { descriptionToFunctionName } from "./codeGenerator.js";
 import { rewriteImports } from "./importRewriter.js";
 import { promoteLetToConst } from "./letConstPromoter.js";
 import { compileHelper } from "./helperCompiler.js";
+import { extractEnvVarNames } from "./envVarExtractor.js";
 import type { HelperResolver } from "./helperCompiler.js";
 
 export interface CompileOptions {
@@ -58,24 +61,38 @@ export function compileSampleTest(
 
   // Step 4: Print and re-parse to get a clean AST with substitutions applied
   const substitutedText = printer.printFile(transformedFile);
-  const subFile = createSourceFile(fileName, substitutedText);
-  const subParsed = parseSampleTestFile(subFile, fileName);
+
+  // Step 4b: Create ONE analyzer for the full substituted file (scope-aware symbol resolution)
+  const analyzer = createAnalyzer(substitutedText, fileName);
+  const subParsed = parseSampleTestFile(analyzer.sourceFile, fileName);
   if (!subParsed) {
     throw new CompilerError("Internal error: re-parse failed after substitution", fileName);
   }
 
-  // Step 5: Classify imports and collect dead binding names from test imports
-  const classified = classifyImports(subFile);
-  const deadBindings = collectDeadBindings(classified);
+  // Step 5: Classify imports and collect dead binding symbols from test imports
+  const classified = classifyImports(analyzer.sourceFile);
+  const deadSymbols = collectDeadSymbols(classified, analyzer);
 
   // Step 5a: Resolve local helper imports (import graph following)
   const helperFiles = new Map<string, string>();
   const helperEnvVars: string[] = [];
   const emptyHelperSpecifiers = new Set<string>();
   const warnings: string[] = [];
+  // Surface parser warnings
+  if (parsed.warnings) warnings.push(...parsed.warnings);
+  if (subParsed.warnings) warnings.push(...subParsed.warnings);
+
+  // Relativize a canonical (absolute) helper path to be relative to the sample file's directory.
+  const sampleDir = path.dirname(fileName);
+  const storedHelperKeys = new Set<string>();
+  function toRelativeHelperKey(canonicalPath: string): string {
+    const rel = path.relative(sampleDir, canonicalPath).split(path.sep).join("/");
+    return rel.startsWith(".") ? rel : "./" + rel;
+  }
 
   if (resolveHelper) {
     const visited = new Set<string>();
+    const helperCache = new Map<string, { helper: ReturnType<typeof compileHelper> }>();
     for (const ci of classified) {
       if (ci.category !== "localHelper") continue;
 
@@ -87,45 +104,51 @@ export function compileSampleTest(
         continue;
       }
 
-      if (visited.has(resolved.canonicalPath)) continue;
-      visited.add(resolved.canonicalPath);
+      let helper: ReturnType<typeof compileHelper>;
+      const cached = helperCache.get(resolved.canonicalPath);
+      if (cached) {
+        helper = cached.helper;
+      } else {
+        visited.add(resolved.canonicalPath);
 
-      const helper = compileHelper(
-        resolved.sourceText,
-        packageName,
-        resolved.canonicalPath,
-        resolveHelper,
-        visited,
-      );
+        helper = compileHelper(
+          resolved.sourceText,
+          packageName,
+          resolved.canonicalPath,
+          resolveHelper,
+          visited,
+        );
+        helperCache.set(resolved.canonicalPath, { helper });
 
-      if (helper.isEmpty) {
-        // Pure test helper: mark all imported bindings as dead
-        const clause = ci.node.importClause;
-        if (clause) {
-          if (clause.name) deadBindings.add(clause.name.text);
-          if (clause.namedBindings) {
-            if (ts.isNamedImports(clause.namedBindings)) {
-              for (const spec of clause.namedBindings.elements) {
-                deadBindings.add(spec.name.text);
-              }
-            } else if (ts.isNamespaceImport(clause.namedBindings)) {
-              deadBindings.add(clause.namedBindings.name.text);
+        // Surface warnings from helper compilations (only once per helper)
+        warnings.push(...helper.warnings);
+
+        if (!helper.isEmpty) {
+          // Helper has survivors: store compiled output under relative path
+          const relKey = toRelativeHelperKey(resolved.canonicalPath);
+          if (!storedHelperKeys.has(resolved.canonicalPath)) {
+            storedHelperKeys.add(resolved.canonicalPath);
+            helperFiles.set(relKey, helper.outputText);
+            helperEnvVars.push(...helper.envVars);
+          }
+
+          // Collect transitive nested helper files (already flattened by compileHelper)
+          for (const [nestedCanonical, nestedHelper] of helper.nestedHelpers) {
+            if (!nestedHelper.isEmpty && !storedHelperKeys.has(nestedCanonical)) {
+              storedHelperKeys.add(nestedCanonical);
+              helperFiles.set(toRelativeHelperKey(nestedCanonical), nestedHelper.outputText);
+              helperEnvVars.push(...nestedHelper.envVars);
             }
           }
         }
-        emptyHelperSpecifiers.add(ci.moduleSpecifier);
-      } else {
-        // Helper has survivors: keep import, store compiled output
-        helperFiles.set(ci.moduleSpecifier, helper.outputText);
-        helperEnvVars.push(...helper.envVars);
+      }
 
-        // Collect transitive nested helper files (already flattened by compileHelper)
-        for (const [nestedSpec, nestedHelper] of helper.nestedHelpers) {
-          if (!nestedHelper.isEmpty && !helperFiles.has(nestedSpec)) {
-            helperFiles.set(nestedSpec, nestedHelper.outputText);
-            helperEnvVars.push(...nestedHelper.envVars);
-          }
+      // Process THIS import's specifiers against the (possibly cached) result
+      if (helper.isEmpty) {
+        for (const sym of analyzer.getImportBindingSymbols(ci.node)) {
+          deadSymbols.add(sym);
         }
+        emptyHelperSpecifiers.add(ci.moduleSpecifier);
       }
     }
   }
@@ -137,56 +160,93 @@ export function compileSampleTest(
 
   // Step 5b: Validate that forPublishing expressions don't reference dead bindings
   for (const sub of substitutions) {
-    for (const name of sub.freeVariables) {
-      if (deadBindings.has(name)) {
+    const freeSymbols = resolveNamesToSymbols(analyzer, sub.freeVariables);
+    for (const sym of freeSymbols) {
+      if (deadSymbols.has(sym)) {
         throw new CompilerError(
-          `Symbol "${name}" in forPublishing expression is not available after cleanup (it was removed as test infrastructure)`,
+          `Symbol "${sym.name}" in forPublishing expression is not available after cleanup (it was removed as test infrastructure)`,
           fileName,
         );
       }
     }
   }
 
-  // Step 6: Clean scopes with cascading dead set
-  // Describe variables first — cascade feeds other scopes
-  const extendedDead = new Set(deadBindings);
-
-  const { surviving: varTexts, eliminated: varEliminated } = cleanScope(
-    subParsed.describeVariables,
-    subFile,
-    extendedDead,
-    printer,
+  // Step 6: Eliminate dead statements per scope (shared analyzer, no mini-files)
+  // Describe statements first — cascade feeds other scopes
+  const describeResult = eliminateDeadStatements(
+    subParsed.describeStatements,
+    deadSymbols,
+    analyzer,
     fileName,
   );
-  for (const name of varEliminated) extendedDead.add(name);
+  // Keep all surviving describe statements in original order AND extract var-only subset for
+  // let→const promotion. The ordered list is used during assembly so that non-var statements
+  // (expression statements, function declarations, etc.) stay in their original positions.
+  const survivingDescribeTexts = describeResult.survivingStatements
+    .map((s) => printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile));
+  const survivingVarTexts = describeResult.survivingStatements
+    .filter(ts.isVariableStatement)
+    .map((s) => printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile));
+
+  // beforeAll hooks — surviving statements become preamble BEFORE beforeEach
+  const beforeAllTexts: string[] = [];
+  for (const hook of subParsed.beforeAllHooks) {
+    const hookResult = eliminateDeadStatements(
+      hook.body,
+      deadSymbols,
+      analyzer,
+      fileName,
+    );
+    for (const s of hookResult.survivingStatements) {
+      beforeAllTexts.push(printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile));
+    }
+    if (hook.trailingComments) {
+      beforeAllTexts.push(hook.trailingComments);
+    }
+  }
 
   // beforeEach hooks — surviving statements become main() preamble
   const beforeEachTexts: string[] = [];
   for (const hook of subParsed.beforeEachHooks) {
-    const { surviving, eliminated } = cleanScope(
+    const hookResult = eliminateDeadStatements(
       hook.body,
-      subFile,
-      extendedDead,
-      printer,
+      deadSymbols,
+      analyzer,
       fileName,
     );
-    beforeEachTexts.push(...surviving);
-    for (const name of eliminated) extendedDead.add(name);
+    for (const s of hookResult.survivingStatements) {
+      beforeEachTexts.push(printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile));
+    }
+    if (hook.trailingComments) {
+      beforeEachTexts.push(hook.trailingComments);
+    }
   }
 
   // it block bodies
   const itBlockTexts: string[][] = [];
   for (const itBlock of subParsed.itBlocks) {
-    const { surviving } = cleanScope(itBlock.body, subFile, extendedDead, printer, fileName);
-    itBlockTexts.push(surviving);
+    const itResult = eliminateDeadStatements(
+      itBlock.body,
+      deadSymbols,
+      analyzer,
+      fileName,
+    );
+    const texts = itResult.survivingStatements.map((s) =>
+      printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile),
+    );
+    if (itBlock.trailingComments) {
+      texts.push(itBlock.trailingComments);
+    }
+    itBlockTexts.push(texts);
   }
 
   // Step 6b: Validate forPublishing expressions against extended dead set (includes cascaded)
   for (const sub of substitutions) {
-    for (const name of sub.freeVariables) {
-      if (extendedDead.has(name)) {
+    const freeSymbols = resolveNamesToSymbols(analyzer, sub.freeVariables);
+    for (const sym of freeSymbols) {
+      if (deadSymbols.has(sym)) {
         throw new CompilerError(
-          `Symbol "${name}" in forPublishing expression is not available after cleanup (it was removed as test infrastructure)`,
+          `Symbol "${sym.name}" in forPublishing expression is not available after cleanup (it was removed as test infrastructure)`,
           fileName,
         );
       }
@@ -195,7 +255,12 @@ export function compileSampleTest(
 
   // Step 7: Rewrite imports
   const dummyFile = createSourceFile("output.ts", "");
-  const { imports: rewrittenImports } = rewriteImports(filteredClassified, packageName, extendedDead, subFile);
+  const { imports: rewrittenImports } = rewriteImports(
+    filteredClassified,
+    packageName,
+    deadSymbols,
+    analyzer,
+  );
   const importTexts = rewrittenImports.map((imp) =>
     printer.printNode(ts.EmitHint.Unspecified, imp, dummyFile),
   );
@@ -213,18 +278,19 @@ export function compileSampleTest(
     return { name, bodyTexts: itBlockTexts[i] };
   });
 
-  // Step 9: Assemble final output text
+  // Step 9: Assemble final output text (beforeAll preamble comes before beforeEach)
   const rawOutputText = assembleOutput(
     parsed.metadata,
     importTexts,
-    varTexts,
+    survivingDescribeTexts,
+    survivingVarTexts,
     functions,
-    beforeEachTexts,
+    [...beforeAllTexts, ...beforeEachTexts],
   );
 
   // Step 10: Extract snippets and environment variables (before stripping markers)
   const snippets = extractSnippets(rawOutputText, fileName);
-  const envVars = [...extractEnvVars(rawOutputText), ...helperEnvVars];
+  const envVars = [...extractEnvVarNames(rawOutputText), ...helperEnvVars];
   // Deduplicate and sort
   const uniqueEnvVars = [...new Set(envVars)].sort();
 
@@ -248,57 +314,20 @@ function createSourceFile(fileName: string, text: string): ts.SourceFile {
 }
 
 /**
- * Collect all binding names introduced by test-category imports.
+ * Collect dead symbols from test-category imports using the shared analyzer.
  */
-function collectDeadBindings(classified: ClassifiedImport[]): Set<string> {
-  const dead = new Set<string>();
+function collectDeadSymbols(
+  classified: ClassifiedImport[],
+  analyzer: BindingAnalyzer,
+): Set<ts.Symbol> {
+  const dead = new Set<ts.Symbol>();
   for (const ci of classified) {
     if (ci.category !== "test") continue;
-    const clause = ci.node.importClause;
-    if (!clause) continue;
-    if (clause.name) dead.add(clause.name.text);
-    if (clause.namedBindings) {
-      if (ts.isNamedImports(clause.namedBindings)) {
-        for (const spec of clause.namedBindings.elements) {
-          dead.add(spec.name.text);
-        }
-      } else if (ts.isNamespaceImport(clause.namedBindings)) {
-        dead.add(clause.namedBindings.name.text);
-      }
+    for (const sym of analyzer.getImportBindingSymbols(ci.node)) {
+      dead.add(sym);
     }
   }
   return dead;
-}
-
-/**
- * Create a mini source file from the given statements, run dead-binding
- * elimination, and return the surviving statement texts.
- *
- * This approach preserves comments (including snippet markers) because each
- * statement is printed from its own source file where trivia is consistent.
- */
-function cleanScope(
-  stmts: readonly ts.Statement[],
-  srcFile: ts.SourceFile,
-  dead: Set<string>,
-  printer: ts.Printer,
-  fileName: string,
-): { surviving: string[]; eliminated: Set<string> } {
-  if (stmts.length === 0) return { surviving: [], eliminated: new Set() };
-
-  // Print statements from the substituted file (trivia is correct here)
-  const texts = stmts.map((s) => printer.printNode(ts.EmitHint.Unspecified, s, srcFile));
-  const miniText = texts.join("\n");
-  const miniFile = createSourceFile("mini.ts", miniText);
-
-  const result = eliminateDeadBindings(miniFile, dead, fileName);
-
-  // Print survivors from the mini file (trivia is consistent)
-  const survivingTexts = [...result.outputFile.statements].map((s) =>
-    printer.printNode(ts.EmitHint.Unspecified, s, result.outputFile),
-  );
-
-  return { surviving: survivingTexts, eliminated: result.eliminatedBindings };
 }
 
 /**
@@ -307,7 +336,8 @@ function cleanScope(
 function assembleOutput(
   metadata: SampleMetadata,
   importTexts: string[],
-  varTexts: string[],
+  describeTexts: string[],
+  describeVarTexts: string[],
   functions: Array<{ name: string; bodyTexts: string[] }>,
   mainPreambleTexts: string[],
 ): string {
@@ -341,29 +371,28 @@ function assembleOutput(
 
   if (functions.length === 1) {
     // Single-it optimization: inline everything into main(), promote let→const
-    const { promotedConsts, remainingVars, remainingPreamble } = promoteLetToConst(
-      varTexts,
+    const { remainingVars, statements: promotedPreamble } = promoteLetToConst(
+      describeVarTexts,
       mainPreambleTexts,
+      functions[0].bodyTexts,
     );
+
+    // Determine which var texts were promoted (so we can skip them in the ordered list)
+    const remainingVarSet = new Set(remainingVars);
+    const promotedVarSet = new Set(describeVarTexts.filter((v) => !remainingVarSet.has(v)));
 
     lines.push("export async function main(): Promise<void> {");
 
-    // Promoted const declarations first
-    for (const c of promotedConsts) {
-      for (const line of c.split("\n")) {
+    // Describe-scope statements in original order, skipping promoted vars
+    for (const s of describeTexts) {
+      if (promotedVarSet.has(s)) continue;
+      for (const line of s.split("\n")) {
         lines.push("  " + line);
       }
     }
 
-    // Remaining vars that couldn't be promoted
-    for (const v of remainingVars) {
-      for (const line of v.split("\n")) {
-        lines.push("  " + line);
-      }
-    }
-
-    // Remaining preamble statements
-    for (const stmt of remainingPreamble) {
+    // Promoted preamble statements (with promoted consts interleaved in order)
+    for (const stmt of promotedPreamble) {
       for (const line of stmt.split("\n")) {
         lines.push("  " + line);
       }
@@ -379,9 +408,9 @@ function assembleOutput(
     lines.push("}");
     lines.push("");
   } else {
-    // Multi-it: module-level vars + named functions + main() calling them
-    if (varTexts.length > 0) {
-      for (const v of varTexts) {
+    // Multi-it: module-level describe statements (in original order) + named functions + main()
+    if (describeTexts.length > 0) {
+      for (const v of describeTexts) {
         lines.push(v);
       }
       lines.push("");
@@ -480,26 +509,4 @@ function extractSnippets(text: string, fileName?: string): Map<string, string> {
   return snippets;
 }
 
-/**
- * Extract environment variable names from `process.env.X` and `process.env["X"]` patterns.
- */
-function extractEnvVars(text: string): string[] {
-  const vars = new Set<string>();
 
-  // process.env.VARIABLE_NAME
-  for (const match of text.matchAll(/process\.env\.([A-Za-z_][A-Za-z0-9_]*)/g)) {
-    vars.add(match[1]);
-  }
-
-  // process.env["VARIABLE_NAME"]
-  for (const match of text.matchAll(/process\.env\["([A-Za-z_][A-Za-z0-9_]*)"\]/g)) {
-    vars.add(match[1]);
-  }
-
-  // process.env['VARIABLE_NAME']
-  for (const match of text.matchAll(/process\.env\['([A-Za-z_][A-Za-z0-9_]*)'\]/g)) {
-    vars.add(match[1]);
-  }
-
-  return [...vars].sort();
-}

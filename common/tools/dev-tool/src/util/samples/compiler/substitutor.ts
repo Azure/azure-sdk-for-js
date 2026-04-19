@@ -3,6 +3,7 @@
 
 import ts from "typescript";
 import { Substitution, CompilerError } from "./types.js";
+import { isDeclarationName } from "./bindingAnalyzer.js";
 
 /**
  * Result of the forPublishing substitution pass.
@@ -39,19 +40,61 @@ function collectReferencedSymbols(node: ts.Expression): string[] {
  */
 export function collectFreeVariables(node: ts.Expression): Set<string> {
   const names = new Set<string>();
+  const localScopes: Set<string>[] = [];
+
+  function isLocal(name: string): boolean {
+    for (const scope of localScopes) {
+      if (scope.has(name)) return true;
+    }
+    return false;
+  }
+
   function visit(n: ts.Node): void {
     if (ts.isPropertyAccessExpression(n)) {
       // Only visit the left side (expression), not the .name
       visit(n.expression);
       return;
     }
-    if (ts.isIdentifier(n)) {
+
+    // Enter nested function/arrow scope — collect parameters
+    if (ts.isArrowFunction(n) || ts.isFunctionExpression(n)) {
+      const scope = new Set<string>();
+      for (const param of n.parameters) {
+        collectBindingNames(param.name, scope);
+      }
+      localScopes.push(scope);
+      ts.forEachChild(n, visit);
+      localScopes.pop();
+      return;
+    }
+
+    // Variable declarations inside expressions (rare but possible)
+    if (ts.isVariableDeclaration(n) && ts.isIdentifier(n.name)) {
+      if (localScopes.length > 0) {
+        localScopes[localScopes.length - 1].add(n.name.text);
+      }
+    }
+
+    if (ts.isIdentifier(n) && !isDeclarationName(n) && !isLocal(n.text)) {
       names.add(n.text);
     }
     ts.forEachChild(n, visit);
   }
+
   visit(node);
   return names;
+}
+
+function collectBindingNames(name: ts.BindingName, out: Set<string>): void {
+  if (ts.isIdentifier(name)) {
+    out.add(name.text);
+  } else if (ts.isObjectBindingPattern(name) || ts.isArrayBindingPattern(name)) {
+    for (const el of name.elements) {
+      if (ts.isBindingElement(el)) {
+        collectBindingNames(el.name, out);
+      }
+    }
+  }
 }
 
 /**
@@ -79,6 +122,15 @@ function validateAndExtract(
     const { line } = sourceFile.getLineAndCharacterOfPosition(second.getStart(sourceFile));
     throw new CompilerError(
       "Second argument to forPublishing must be an arrow function",
+      fileName,
+      line + 1,
+    );
+  }
+
+  if (second.parameters.length > 0) {
+    const { line } = sourceFile.getLineAndCharacterOfPosition(second.getStart(sourceFile));
+    throw new CompilerError(
+      "Arrow function in forPublishing must take no parameters (use a thunk: () => expr)",
       fileName,
       line + 1,
     );
@@ -113,13 +165,36 @@ export function substituteForPublishing(
 ): SubstitutionResult {
   const substitutions: Substitution[] = [];
 
+  // Find the local binding name for forPublishing from test-publishing import
+  let forPublishingLocalName: string | undefined;
+  for (const stmt of sourceFile.statements) {
+    if (!ts.isImportDeclaration(stmt) || !stmt.moduleSpecifier) continue;
+    const spec = ts.isStringLiteral(stmt.moduleSpecifier) ? stmt.moduleSpecifier.text : "";
+    if (!spec.includes("test-publishing")) continue;
+    const clause = stmt.importClause;
+    if (!clause?.namedBindings || !ts.isNamedImports(clause.namedBindings)) continue;
+    for (const el of clause.namedBindings.elements) {
+      // el.propertyName is the original name (when aliased), el.name is the local name
+      const originalName = el.propertyName?.text ?? el.name.text;
+      if (originalName === "forPublishing") {
+        forPublishingLocalName = el.name.text;
+        break;
+      }
+    }
+    if (forPublishingLocalName) break;
+  }
+
+  if (!forPublishingLocalName) {
+    return { transformedFile: sourceFile, substitutions: [] };
+  }
+
   const transformer: ts.TransformerFactory<ts.SourceFile> = (context) => {
     return (sf) => {
       function visitor(node: ts.Node): ts.Node {
         if (
           ts.isCallExpression(node) &&
           ts.isIdentifier(node.expression) &&
-          node.expression.text === "forPublishing"
+          node.expression.text === forPublishingLocalName
         ) {
           const publishedExpr = validateAndExtract(
             node as ts.CallExpression,

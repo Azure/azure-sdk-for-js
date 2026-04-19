@@ -42,25 +42,39 @@ export function parseSampleTestFile(
     throw new CompilerError("Could not extract describe callback body", fileName);
   }
 
-  // Check for nested describes
-  for (const stmt of callbackBody.statements) {
-    if (ts.isExpressionStatement(stmt) && ts.isCallExpression(stmt.expression)) {
-      const callee = stmt.expression.expression;
-      if (ts.isIdentifier(callee) && callee.text === "describe") {
-        const line = sourceFile.getLineAndCharacterOfPosition(stmt.getStart()).line + 1;
+  // Check for nested describes recursively (including describe.skip and describe.only)
+  function checkForNestedDescribe(node: ts.Node): void {
+    if (ts.isCallExpression(node)) {
+      const callee = node.expression;
+      const isDescribe =
+        (ts.isIdentifier(callee) && callee.text === "describe") ||
+        (ts.isPropertyAccessExpression(callee) &&
+          ts.isIdentifier(callee.expression) &&
+          callee.expression.text === "describe" &&
+          (callee.name.text === "skip" || callee.name.text === "only"));
+      if (isDescribe) {
+        const line = sourceFile.getLineAndCharacterOfPosition(node.getStart()).line + 1;
         throw new CompilerError("Nested describe blocks are not supported", fileName, line);
       }
     }
+    ts.forEachChild(node, checkForNestedDescribe);
+  }
+  for (const stmt of callbackBody.statements) {
+    checkForNestedDescribe(stmt);
   }
 
   const describeVariables: ts.VariableStatement[] = [];
+  const describeStatements: ts.Statement[] = [];
   const itBlocks: ParsedItBlock[] = [];
+  const beforeAllHooks: ParsedHook[] = [];
   const beforeEachHooks: ParsedHook[] = [];
+  const afterAllHooks: ParsedHook[] = [];
   const afterEachHooks: ParsedHook[] = [];
 
   for (const stmt of callbackBody.statements) {
     if (ts.isVariableStatement(stmt)) {
       describeVariables.push(stmt);
+      describeStatements.push(stmt);
       continue;
     }
 
@@ -74,31 +88,74 @@ export function parseSampleTestFile(
         itBlocks.push({
           description,
           body: body ? Array.from(body.statements) : [],
+          trailingComments: body ? extractTrailingComments(body, sourceFile) : "",
           node: stmt,
         });
-      } else if (calleeName === "beforeEach") {
-        const hook = parseHook("beforeEach", call, stmt);
+        continue;
+      }
+
+      if (calleeName === "beforeAll") {
+        const hook = parseHook("beforeAll", call, stmt, sourceFile);
+        beforeAllHooks.push(hook);
+        continue;
+      }
+
+      if (calleeName === "beforeEach") {
+        const hook = parseHook("beforeEach", call, stmt, sourceFile);
         beforeEachHooks.push(hook);
-      } else if (calleeName === "afterEach") {
-        const hook = parseHook("afterEach", call, stmt);
+        continue;
+      }
+
+      if (calleeName === "afterAll") {
+        const hook = parseHook("afterAll", call, stmt, sourceFile);
+        afterAllHooks.push(hook);
+        continue;
+      }
+
+      if (calleeName === "afterEach") {
+        const hook = parseHook("afterEach", call, stmt, sourceFile);
         afterEachHooks.push(hook);
+        continue;
       }
     }
+
+    // Everything else: function declarations, class declarations,
+    // unrecognized expression statements, etc.
+    describeStatements.push(stmt);
   }
 
   if (itBlocks.length === 0) {
     throw new CompilerError("No it blocks found in describe", fileName);
   }
 
+  // Detect non-import, non-describe top-level statements
+  const warnings: string[] = [];
+  for (const stmt of sourceFile.statements) {
+    // Skip imports and the describe statement
+    if (ts.isImportDeclaration(stmt)) {
+      continue;
+    }
+    if (stmt === describeStatement) {
+      continue;
+    }
+    // Any other top-level statement should be warned about
+    const line = sourceFile.getLineAndCharacterOfPosition(stmt.getStart()).line + 1;
+    warnings.push(`Non-import statement outside describe block will be dropped (line ${line})`);
+  }
+
   return {
     metadata,
     describeDescription,
     describeVariables,
+    describeStatements,
     itBlocks,
+    beforeAllHooks,
     beforeEachHooks,
+    afterAllHooks,
     afterEachHooks,
     imports: Array.from(imports),
     sourceFile,
+    warnings,
   };
 }
 
@@ -116,13 +173,17 @@ function parseMetadata(sourceFile: ts.SourceFile): SampleMetadata | null {
 
   const jsdocText = jsdocMatch[1];
 
-  // Extract @summary
-  const summaryMatch = jsdocText.match(/@summary\s+(.+?)(?:\n|\*\/|$)/);
+  // Extract @summary (may span multiple lines until next @tag or end of comment)
+  const summaryMatch = jsdocText.match(/@summary\s+([\s\S]*?)(?=\s*@\w|$)/);
   if (!summaryMatch) {
     return null;
   }
 
-  const summary = summaryMatch[1].replace(/\s*\*?\s*$/, "").trim();
+  const summary = summaryMatch[1]
+    .split("\n")
+    .map((line) => line.replace(/^\s*\*?\s*/, "").trim())
+    .filter((line) => line.length > 0)
+    .join(" ");
 
   const metadata: SampleMetadata = { summary };
 
@@ -156,6 +217,14 @@ function findDescribeStatement(
     if (ts.isExpressionStatement(stmt) && ts.isCallExpression(stmt.expression)) {
       const callee = stmt.expression.expression;
       if (ts.isIdentifier(callee) && callee.text === "describe") {
+        return stmt;
+      }
+      if (
+        ts.isPropertyAccessExpression(callee) &&
+        ts.isIdentifier(callee.expression) &&
+        callee.expression.text === "describe" &&
+        (callee.name.text === "skip" || callee.name.text === "only")
+      ) {
         return stmt;
       }
     }
@@ -200,6 +269,10 @@ function extractCallbackBody(call: ts.CallExpression): ts.Block | undefined {
       if (ts.isBlock(arg.body)) {
         return arg.body;
       }
+      // Expression body (e.g. () => expr): wrap in a synthetic block
+      if (ts.isArrowFunction(arg) && !ts.isBlock(arg.body)) {
+        return ts.factory.createBlock([ts.factory.createExpressionStatement(arg.body)]);
+      }
     }
   }
   return undefined;
@@ -209,9 +282,10 @@ function extractCallbackBody(call: ts.CallExpression): ts.Block | undefined {
  * Parse a beforeEach/afterEach call into a ParsedHook.
  */
 function parseHook(
-  kind: "beforeEach" | "afterEach",
+  kind: "beforeAll" | "afterAll" | "beforeEach" | "afterEach",
   call: ts.CallExpression,
   node: ts.ExpressionStatement,
+  sourceFile: ts.SourceFile,
 ): ParsedHook {
   const body = extractCallbackBody(call);
   let paramName: string | undefined;
@@ -232,7 +306,36 @@ function parseHook(
   return {
     kind,
     body: body ? Array.from(body.statements) : [],
+    trailingComments: body ? extractTrailingComments(body, sourceFile) : "",
     paramName,
     node,
   };
+}
+
+/**
+ * Extract comment lines between the last statement and the closing brace of a block.
+ * These trailing comments (e.g., `// @snippet-end Foo`) are leading trivia of the
+ * closing brace and aren't attached to any body statement.
+ */
+function extractTrailingComments(block: ts.Block, sourceFile: ts.SourceFile): string {
+  const statements = block.statements;
+  if (statements.length === 0) return "";
+
+  // Synthetic blocks (e.g. from expression-bodied arrows) have no source positions
+  if (block.pos === -1) return "";
+
+  const lastStmt = statements[statements.length - 1];
+  const lastStmtEnd = lastStmt.getEnd();
+  // The closing brace is the last character of the block
+  const closeBracePos = block.getEnd() - 1;
+
+  if (closeBracePos <= lastStmtEnd) return "";
+
+  const text = sourceFile.getFullText().substring(lastStmtEnd, closeBracePos);
+  const commentLines = text
+    .split("\n")
+    .filter((l) => l.trim().startsWith("//"))
+    .map((l) => l.trim());
+
+  return commentLines.join("\n");
 }

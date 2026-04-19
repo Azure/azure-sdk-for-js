@@ -490,6 +490,81 @@ describe("env", () => {
       const result = compileSampleTest(input, { packageName: "@azure/client" });
       expect(result.envVars).toContain("MY_VAR");
     });
+
+    it("extracts env vars from process.env destructuring", () => {
+      const input = `\
+/** @summary destructure env test */
+import { Client } from "../src/index.js";
+import { describe, it } from "vitest";
+
+describe("env", () => {
+  it("use env", async () => {
+    const { ENDPOINT, API_KEY } = process.env;
+    console.log(new Client(ENDPOINT, API_KEY));
+  });
+});
+`;
+      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      expect(result.envVars).toContain("ENDPOINT");
+      expect(result.envVars).toContain("API_KEY");
+    });
+
+    it("extracts both dot-access and destructured env vars", () => {
+      const input = `\
+/** @summary mixed env test */
+import { Client } from "../src/index.js";
+import { describe, it } from "vitest";
+
+describe("env", () => {
+  it("use env", async () => {
+    const url = process.env.URL || "";
+    const { KEY } = process.env;
+    console.log(new Client(url, KEY));
+  });
+});
+`;
+      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      expect(result.envVars).toContain("URL");
+      expect(result.envVars).toContain("KEY");
+      expect(result.envVars).toHaveLength(2);
+    });
+
+    it("extracts env var name from aliased destructuring", () => {
+      const input = `\
+/** @summary aliased destructure test */
+import { Client } from "../src/index.js";
+import { describe, it } from "vitest";
+
+describe("env", () => {
+  it("use env", async () => {
+    const { ENDPOINT: endpoint } = process.env;
+    console.log(new Client(endpoint));
+  });
+});
+`;
+      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      expect(result.envVars).toContain("ENDPOINT");
+      expect(result.envVars).toHaveLength(1);
+    });
+
+    it("extracts env var name from destructuring with default", () => {
+      const input = `\
+/** @summary default destructure test */
+import { Client } from "../src/index.js";
+import { describe, it } from "vitest";
+
+describe("env", () => {
+  it("use env", async () => {
+    const { ENDPOINT = "", API_KEY: key = "none" } = process.env;
+    console.log(new Client(ENDPOINT, key));
+  });
+});
+`;
+      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      expect(result.envVars).toContain("ENDPOINT");
+      expect(result.envVars).toContain("API_KEY");
+      expect(result.envVars).toHaveLength(2);
+    });
   });
 
   // ── Test 7: Error cases ─────────────────────────────────────────
@@ -618,6 +693,29 @@ describe("test", () => {
       );
     });
 
+    it("does not error when forPublishing arrow uses parameter that shadows a dead binding", () => {
+      const input = `\
+/** @summary parameter shadow test */
+import { vi } from "vitest";
+import { Client } from "../src/index.js";
+import { forPublishing } from "@azure-tools/test-publishing";
+import { describe, it } from "vitest";
+
+const mock = vi.fn();
+
+describe("test", () => {
+  it("x", async () => {
+    const items = [1, 2, 3];
+    const doubled = forPublishing(items, () => items.map((mock) => mock * 2));
+    console.log(doubled);
+  });
+});
+`;
+      // "mock" in the arrow param shadows the dead top-level mock — should not false-positive
+      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      expect(result.outputText).toContain("items.map((mock) => mock * 2)");
+    });
+
     it("compiles when forPublishing references process.env (global, not dead)", () => {
       const input = `\
 /** @summary test process.env */
@@ -636,6 +734,96 @@ describe("test", () => {
 `;
       const result = compileSampleTest(input, { packageName: "@azure/client" });
       expect(result.outputText).toContain("process.env.URL");
+    });
+  });
+
+  // ── Describe-scope statements (Fix 6) ──────────────────────────────
+
+  describe("describe-scope statements", () => {
+    it("preserves describe-scope function used in sample body", () => {
+      const input = `\
+/** @summary describe-scope function */
+import { describe, it } from "vitest";
+
+describe("sample", () => {
+  function formatKey(key: string) { return key.toUpperCase(); }
+  it("test", async () => {
+    const result = formatKey("hello");
+    console.log(result);
+  });
+});
+`;
+      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      expect(result.outputText).toContain("formatKey");
+    });
+
+    it("eliminates describe-scope function that references a dead binding", () => {
+      const input = `\
+/** @summary dead describe function */
+import { Recorder } from "@azure-tools/test-recorder";
+import { describe, it } from "vitest";
+
+describe("sample", () => {
+  function createRecorder() { return new Recorder(undefined); }
+  it("test", async () => {
+    console.log("hello");
+  });
+});
+`;
+      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      expect(result.outputText).not.toContain("createRecorder");
+      expect(result.outputText).not.toContain("Recorder");
+    });
+
+    it("preserves describe-scope class used in sample body", () => {
+      const input = `\
+/** @summary describe-scope class */
+import { describe, it } from "vitest";
+
+describe("sample", () => {
+  class Formatter { format(s: string) { return s.toUpperCase(); } }
+  it("test", async () => {
+    const f = new Formatter();
+    console.log(f.format("hello"));
+  });
+});
+`;
+      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      expect(result.outputText).toContain("Formatter");
+      expect(result.outputText).toContain("new Formatter()");
+    });
+  });
+
+  // ── Promotion ordering (Fix 7) ────────────────────────────────────
+
+  describe("promotion ordering", () => {
+    it("preserves interleaved order of promoted const and preamble statements", () => {
+      const input = `\
+/** @summary ordering test */
+import { Client } from "../src/index.js";
+import { describe, it, beforeEach } from "vitest";
+
+describe("sample", () => {
+  let endpoint: string;
+  let client: any;
+  beforeEach(() => {
+    endpoint = process.env.ENDPOINT || "default";
+    client = new Client(endpoint);
+  });
+  it("test", async () => {
+    console.log(client);
+  });
+});
+`;
+      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      // Both should be promoted to const inside main()
+      expect(result.outputText).toContain("const endpoint");
+      expect(result.outputText).toContain("const client");
+      // endpoint assignment must come before client assignment (order preserved)
+      const endpointIdx = result.outputText.indexOf("const endpoint");
+      const clientIdx = result.outputText.indexOf("const client");
+      expect(endpointIdx).toBeGreaterThanOrEqual(0);
+      expect(clientIdx).toBeGreaterThan(endpointIdx);
     });
   });
 
@@ -667,11 +855,18 @@ describe("test", () => {
 // ── Import graph following (helper compilation) ────────────────────────
 
 describe("compileSampleTest with helpers", () => {
+  // Simulate a real resolver that returns absolute canonical paths.
+  // The sample file lives at /project/test/sample.spec.ts and helpers are
+  // resolved relative to it.
+  const sampleFileName = "/project/test/sample.spec.ts";
   const makeResolver = (files: Record<string, string>) => {
-    return (_fromFile: string, specifier: string) => {
+    return (fromFile: string, specifier: string) => {
+      const fromDir = fromFile.substring(0, fromFile.lastIndexOf("/"));
       const key = specifier.replace(/\.js$/, ".ts");
+      // Build an absolute canonical path from the importing file's dir + specifier
+      const canonicalPath = fromDir + "/" + key.replace(/^\.\//, "");
       if (files[key]) {
-        return { canonicalPath: key, sourceText: files[key] };
+        return { canonicalPath, sourceText: files[key] };
       }
       return undefined;
     };
@@ -699,12 +894,13 @@ describe("test", () => {
 `;
     const result = compileSampleTest(input, {
       packageName: "@azure/test",
+      fileName: sampleFileName,
       resolveHelper: makeResolver({ "./helpers.ts": helperSource }),
     });
 
     expect(result.outputText).toContain("./helpers.js");
     expect(result.helperFiles.size).toBe(1);
-    const helperOutput = result.helperFiles.get("./helpers.js");
+    const helperOutput = result.helperFiles.get("./helpers.ts");
     expect(helperOutput).toBeDefined();
     expect(helperOutput).toContain("export function createClient()");
     expect(helperOutput).toContain('"@azure/test"');
@@ -735,6 +931,7 @@ describe("test", () => {
 `;
     const result = compileSampleTest(input, {
       packageName: "@azure/test",
+      fileName: sampleFileName,
       resolveHelper: makeResolver({ "./testUtils.ts": testHelperSource }),
     });
 
@@ -768,6 +965,7 @@ describe("test", () => {
 `;
     const result = compileSampleTest(input, {
       packageName: "@azure/test",
+      fileName: sampleFileName,
       resolveHelper: makeResolver({ "./testUtils.ts": testHelperSource }),
     });
 
@@ -791,6 +989,7 @@ describe("test", () => {
 `;
     const result = compileSampleTest(input, {
       packageName: "@azure/test",
+      fileName: sampleFileName,
       resolveHelper: () => undefined,
     });
 
@@ -817,6 +1016,163 @@ describe("test", () => {
     // Import kept as-is (no resolver)
     expect(result.outputText).toContain("./helpers.js");
     expect(result.helperFiles.size).toBe(0);
+  });
+
+  // --- Finding 3: Duplicate imports to same helper ---
+
+  it("handles duplicate imports from same empty helper", () => {
+    const testHelperSource = `
+import { Recorder } from "@azure-tools/test-recorder";
+export function a(): Recorder { return new Recorder(); }
+export function b(): Recorder { return new Recorder(); }
+`;
+    const input = `\
+/** @summary duplicate empty helper imports */
+import { a } from "./testUtils.js";
+import { b } from "./testUtils.js";
+import { MyClient } from "../src/index.js";
+import { describe, it } from "vitest";
+
+describe("test", () => {
+  it("x", async () => {
+    const client = new MyClient("url");
+    console.log(client);
+  });
+});
+`;
+    const result = compileSampleTest(input, {
+      packageName: "@azure/test",
+      fileName: sampleFileName,
+      resolveHelper: makeResolver({ "./testUtils.ts": testHelperSource }),
+    });
+
+    // Both a and b should be dead (empty helper) — neither import should survive
+    expect(result.outputText).not.toContain("testUtils");
+    expect(result.outputText).not.toContain("import { a }");
+    expect(result.outputText).not.toContain("import { b }");
+    expect(result.helperFiles.size).toBe(0);
+    expect(result.outputText).toContain('"@azure/test"');
+  });
+
+  it("handles duplicate imports from same surviving helper", () => {
+    const helperSource = `
+export function helper1(): string { return "one"; }
+export function helper2(): string { return "two"; }
+`;
+    const input = `\
+/** @summary duplicate surviving helper imports */
+import { helper1 } from "./utils.js";
+import { helper2 } from "./utils.js";
+import { describe, it } from "vitest";
+
+describe("test", () => {
+  it("x", async () => {
+    console.log(helper1());
+    console.log(helper2());
+  });
+});
+`;
+    const result = compileSampleTest(input, {
+      packageName: "@azure/test",
+      fileName: sampleFileName,
+      resolveHelper: makeResolver({ "./utils.ts": helperSource }),
+    });
+
+    // Both imports should survive and be present (merged or separate)
+    expect(result.outputText).toContain("helper1");
+    expect(result.outputText).toContain("helper2");
+    expect(result.helperFiles.size).toBe(1);
+    expect(result.helperFiles.has("./utils.ts")).toBe(true);
+  });
+
+  it("helperFiles keys are relative to sample file (subdirectory helper)", () => {
+    const helperSource = `
+export function doStuff(): string { return "stuff"; }
+`;
+    const input = `\
+/** @summary subdirectory helper */
+import { doStuff } from "./helpers/util.js";
+import { describe, it } from "vitest";
+
+describe("test", () => {
+  it("x", async () => {
+    console.log(doStuff());
+  });
+});
+`;
+    // Resolver returns absolute path: /project/test/helpers/util.ts
+    const resolver = (_fromFile: string, specifier: string) => {
+      const key = specifier.replace(/\.js$/, ".ts");
+      if (key === "./helpers/util.ts") {
+        return { canonicalPath: "/project/test/helpers/util.ts", sourceText: helperSource };
+      }
+      return undefined;
+    };
+    const result = compileSampleTest(input, {
+      packageName: "@azure/test",
+      fileName: sampleFileName,
+      resolveHelper: resolver,
+    });
+
+    expect(result.helperFiles.size).toBe(1);
+    expect(result.helperFiles.has("./helpers/util.ts")).toBe(true);
+  });
+});
+
+// ── beforeAll / afterAll compiler tests ──────────────────────────────
+
+describe("compileSampleTest — beforeAll/afterAll hooks", () => {
+  it("beforeAll setup appears in compiled output before beforeEach", () => {
+    const input = `\
+/** @summary beforeAll ordering */
+import { describe, it, beforeAll, beforeEach } from "vitest";
+import { MyClient } from "../src/index.js";
+
+describe("test", () => {
+  beforeAll(async () => {
+    const globalConn = "global";
+  });
+
+  beforeEach(async () => {
+    const localSetup = "local";
+  });
+
+  it("does stuff", async () => {
+    const x = 1;
+  });
+});
+`;
+    const result = compileSampleTest(input, { packageName: "@azure/test" });
+    // Both preamble items should appear in output
+    expect(result.outputText).toContain("globalConn");
+    expect(result.outputText).toContain("localSetup");
+    // beforeAll preamble should come before beforeEach preamble
+    const globalIdx = result.outputText.indexOf("globalConn");
+    const localIdx = result.outputText.indexOf("localSetup");
+    expect(globalIdx).toBeLessThan(localIdx);
+  });
+
+  it("afterAll cleanup is dropped from compiled output", () => {
+    const input = `\
+/** @summary afterAll dropped */
+import { describe, it, afterAll } from "vitest";
+import { MyClient } from "../src/index.js";
+
+describe("test", () => {
+  afterAll(async () => {
+    await cleanupGlobal();
+  });
+
+  it("does stuff", async () => {
+    const x = 1;
+  });
+});
+`;
+    const result = compileSampleTest(input, { packageName: "@azure/test" });
+    // afterAll body should NOT appear in output
+    expect(result.outputText).not.toContain("cleanupGlobal");
+    // The sample should still compile correctly
+    expect(result.outputText).toContain("main()");
   });
 });
 
@@ -880,5 +1236,56 @@ describe("generateSampleEnv", () => {
     const { content } = generateSampleEnv(["ENDPOINT", "API_KEY"], existing);
     const matches = content.match(/ENDPOINT=/g);
     expect(matches).toHaveLength(1);
+  });
+});
+
+// ── F1: let→const promotion skips vars reassigned in it-body ────────
+
+describe("let→const promotion with it-body reassignment", () => {
+  it("does not promote let when variable is reassigned in it-body", () => {
+    const input = `\
+/** @summary reassignment test */
+import { Client } from "../src/index.js";
+import { describe, it, beforeEach } from "vitest";
+
+describe("test", () => {
+  let client: any;
+  beforeEach(() => {
+    client = new Client("initial");
+  });
+  it("test", async () => {
+    client = new Client("updated");
+    console.log(client);
+  });
+});
+`;
+    const result = compileSampleTest(input, { packageName: "@azure/client" });
+    // Should NOT be promoted to const since it's reassigned in the body
+    expect(result.outputText).toContain("let client");
+    expect(result.outputText).not.toContain("const client");
+  });
+
+  it("preserves describe-scope statement order when non-var statements are interleaved", () => {
+    const input = `
+import { describe, it } from "vitest";
+import { Client } from "@azure/client";
+
+/** @sample @summary interleaved describe scope */
+describe("test", () => {
+  const config = { url: "https://example.com" };
+  console.log("initializing");
+  const client = new Client(config.url);
+  it("test", async () => {
+    console.log(client);
+  });
+});
+`;
+    const result = compileSampleTest(input, { packageName: "@azure/client" });
+    // Statement order must be preserved: config → console.log → client
+    const configIdx = result.outputText.indexOf('config');
+    const logIdx = result.outputText.indexOf('"initializing"');
+    const clientIdx = result.outputText.indexOf('new Client');
+    expect(configIdx).toBeLessThan(logIdx);
+    expect(logIdx).toBeLessThan(clientIdx);
   });
 });

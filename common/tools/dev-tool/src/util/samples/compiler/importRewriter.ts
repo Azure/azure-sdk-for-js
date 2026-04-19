@@ -3,6 +3,8 @@
 
 import ts from "typescript";
 import type { ClassifiedImport } from "./types.js";
+import { CompilerError } from "./types.js";
+import type { BindingAnalyzer } from "./bindingAnalyzer.js";
 
 /**
  * Copy leading comments from an original source node onto a newly created node.
@@ -130,7 +132,8 @@ function rebuildImport(
 function pruneAndRebuild(
   node: ts.ImportDeclaration,
   specifier: string,
-  deadBindings: Set<string>,
+  deadSymbols: Set<ts.Symbol>,
+  analyzer: BindingAnalyzer,
   attrs?: ts.ImportAttributes,
 ): ts.ImportDeclaration | undefined {
   const clause = node.importClause;
@@ -145,11 +148,16 @@ function pruneAndRebuild(
   }
 
   const defaultName = clause.name;
-  const defaultDead = defaultName ? deadBindings.has(defaultName.text) : false;
+  let defaultDead = false;
+  if (defaultName) {
+    const sym = analyzer.getSymbol(defaultName);
+    defaultDead = sym ? deadSymbols.has(sym) : false;
+  }
   const keepDefault = defaultName && !defaultDead;
 
   if (clause.namedBindings && ts.isNamespaceImport(clause.namedBindings)) {
-    const nsDead = deadBindings.has(clause.namedBindings.name.text);
+    const nsSym = analyzer.getSymbol(clause.namedBindings.name);
+    const nsDead = nsSym ? deadSymbols.has(nsSym) : false;
     if (nsDead && !keepDefault) return undefined;
     const newBindings = nsDead
       ? undefined
@@ -169,9 +177,10 @@ function pruneAndRebuild(
   }
 
   if (clause.namedBindings && ts.isNamedImports(clause.namedBindings)) {
-    const liveSpecifiers = clause.namedBindings.elements.filter(
-      (s) => !deadBindings.has(s.name.text),
-    );
+    const liveSpecifiers = clause.namedBindings.elements.filter((s) => {
+      const sym = analyzer.getSymbol(s.name);
+      return !sym || !deadSymbols.has(sym);
+    });
     if (liveSpecifiers.length === 0 && !keepDefault) return undefined;
     const newBindings =
       liveSpecifiers.length > 0
@@ -208,39 +217,64 @@ function pruneAndRebuild(
 export function rewriteImports(
   classifiedImports: ClassifiedImport[],
   packageName: string,
-  deadBindings: Set<string>,
-  sourceFile?: ts.SourceFile,
+  deadSymbols: Set<ts.Symbol>,
+  analyzer: BindingAnalyzer,
 ): RewriteResult {
   const packageImports: ts.ImportDeclaration[] = [];
   const localImports: ts.ImportDeclaration[] = [];
 
   // Collect named specifiers from sourceCode imports for merging
-  // Separate type-only from runtime specifiers
+  // Separate type-only from runtime specifiers, deduplicating by imported name
   const mergedRuntimeSpecifiers: ts.ImportSpecifier[] = [];
   const mergedTypeOnlySpecifiers: ts.ImportSpecifier[] = [];
+  const seenRuntime = new Set<string>();
+  const seenTypeOnly = new Set<string>();
   // Track non-named sourceCode imports (default, namespace)
   const nonNamedSourceImports: ts.ImportDeclaration[] = [];
   // Track a surviving default import from source code for merging with named imports
   let sourceDefaultName: string | undefined;
+  let sourceDefaultIsTypeOnly = false;
 
   for (const ci of classifiedImports) {
     if (ci.category === "test") continue;
 
     if (ci.category === "sourceCode") {
       const clause = ci.node.importClause;
-      if (!clause) continue; // side-effect source import
+      if (!clause) {
+        // Side-effect source import — preserve with package specifier
+        nonNamedSourceImports.push(
+          ts.factory.createImportDeclaration(
+            undefined,
+            undefined,
+            ts.factory.createStringLiteral(packageName),
+          ),
+        );
+        continue;
+      }
 
       // Determine if this is a type-only import at the declaration level
       const isTypeOnlyImport = clause.isTypeOnly;
 
-      // Collect live named specifiers for merging
+      // Collect live named specifiers for merging, deduplicating by key
       if (clause.namedBindings && ts.isNamedImports(clause.namedBindings)) {
         for (const spec of clause.namedBindings.elements) {
-          if (!deadBindings.has(spec.name.text)) {
+          const sym = analyzer.getSymbol(spec.name);
+          const isDead = sym ? deadSymbols.has(sym) : false;
+          if (!isDead) {
+            const localName = spec.name.text;
+            const key = spec.propertyName
+              ? `${spec.propertyName.text} as ${localName}`
+              : localName;
             if (isTypeOnlyImport || spec.isTypeOnly) {
-              mergedTypeOnlySpecifiers.push(spec);
+              if (!seenTypeOnly.has(key)) {
+                seenTypeOnly.add(key);
+                mergedTypeOnlySpecifiers.push(spec);
+              }
             } else {
-              mergedRuntimeSpecifiers.push(spec);
+              if (!seenRuntime.has(key)) {
+                seenRuntime.add(key);
+                mergedRuntimeSpecifiers.push(spec);
+              }
             }
           }
         }
@@ -249,16 +283,33 @@ export function rewriteImports(
       // Default or namespace imports
       if (clause.name || (clause.namedBindings && ts.isNamespaceImport(clause.namedBindings))) {
         const defaultName = clause.name;
-        const defaultDead = defaultName ? deadBindings.has(defaultName.text) : false;
+        const defaultDead = defaultName
+          ? (() => {
+              const sym = analyzer.getSymbol(defaultName);
+              return sym ? deadSymbols.has(sym) : false;
+            })()
+          : false;
         const keepDefault = defaultName && !defaultDead;
         const hasNs = clause.namedBindings && ts.isNamespaceImport(clause.namedBindings);
         const nsDead = hasNs
-          ? deadBindings.has((clause.namedBindings as ts.NamespaceImport).name.text)
+          ? (() => {
+              const sym = analyzer.getSymbol(
+                (clause.namedBindings as ts.NamespaceImport).name,
+              );
+              return sym ? deadSymbols.has(sym) : false;
+            })()
           : true;
 
         if (keepDefault && !hasNs) {
+          if (sourceDefaultName !== undefined) {
+            throw new CompilerError(
+              `Multiple default imports from source paths: "${sourceDefaultName}" and "${defaultName!.text}" cannot both be merged`,
+              "<import-rewriter>",
+            );
+          }
           // Track default for merging with named imports
           sourceDefaultName = defaultName!.text;
+          sourceDefaultIsTypeOnly = isTypeOnlyImport;
         } else if (keepDefault || (hasNs && !nsDead)) {
           // Namespace imports (with or without default) stay separate
           const newDefault = keepDefault
@@ -286,10 +337,10 @@ export function rewriteImports(
 
     // external, localHelper, dataFile
     const attrs = cloneAttributes(ci.node.attributes);
-    const rebuilt = pruneAndRebuild(ci.node, ci.moduleSpecifier, deadBindings, attrs);
+    const rebuilt = pruneAndRebuild(ci.node, ci.moduleSpecifier, deadSymbols, analyzer, attrs);
     if (!rebuilt) continue;
 
-    const withComments = sourceFile ? copyLeadingComments(rebuilt, ci.node, sourceFile) : rebuilt;
+    const withComments = copyLeadingComments(rebuilt, ci.node, analyzer.sourceFile);
     if (ci.category === "external") {
       packageImports.push(withComments);
     } else {
@@ -298,29 +349,41 @@ export function rewriteImports(
   }
 
   // Build merged sourceCode named imports (separate runtime and type-only)
-  // Include default import in the runtime merged statement if present
+  // Include default import in the runtime merged statement if present,
+  // unless the default is type-only and we have runtime named specifiers
   const defaultIdent = sourceDefaultName
     ? ts.factory.createIdentifier(sourceDefaultName)
     : undefined;
 
   if (mergedRuntimeSpecifiers.length > 0) {
+    const mergeDefault = defaultIdent && !sourceDefaultIsTypeOnly;
     packageImports.push(
       ts.factory.createImportDeclaration(
         undefined,
         ts.factory.createImportClause(
           false,
-          defaultIdent,
+          mergeDefault ? defaultIdent : undefined,
           ts.factory.createNamedImports(mergedRuntimeSpecifiers.map(cloneSpecifier)),
         ),
         ts.factory.createStringLiteral(packageName),
       ),
     );
+    // Emit type-only default separately if it can't merge with runtime
+    if (defaultIdent && sourceDefaultIsTypeOnly) {
+      packageImports.push(
+        ts.factory.createImportDeclaration(
+          undefined,
+          ts.factory.createImportClause(true, defaultIdent, undefined),
+          ts.factory.createStringLiteral(packageName),
+        ),
+      );
+    }
   } else if (defaultIdent) {
     // Default import only, no named imports to merge with
     packageImports.push(
       ts.factory.createImportDeclaration(
         undefined,
-        ts.factory.createImportClause(false, defaultIdent, undefined),
+        ts.factory.createImportClause(sourceDefaultIsTypeOnly, defaultIdent, undefined),
         ts.factory.createStringLiteral(packageName),
       ),
     );
@@ -351,19 +414,30 @@ export function rewriteImports(
   // Add non-named source imports (default/namespace)
   packageImports.push(...nonNamedSourceImports);
 
-  // Sort package imports alphabetically by specifier
-  packageImports.sort((a, b) => {
-    const specA = (a.moduleSpecifier as ts.StringLiteral).text;
-    const specB = (b.moduleSpecifier as ts.StringLiteral).text;
-    return specA.localeCompare(specB);
-  });
+  // Stable partition: side-effect-only imports first (in original order),
+  // then declarative imports sorted alphabetically
+  function stableSortImports(imports: ts.ImportDeclaration[]): void {
+    const sideEffect: ts.ImportDeclaration[] = [];
+    const declarative: ts.ImportDeclaration[] = [];
+    for (const imp of imports) {
+      if (!imp.importClause) {
+        sideEffect.push(imp);
+      } else {
+        declarative.push(imp);
+      }
+    }
+    declarative.sort((a, b) => {
+      const specA = (a.moduleSpecifier as ts.StringLiteral).text;
+      const specB = (b.moduleSpecifier as ts.StringLiteral).text;
+      return specA.localeCompare(specB);
+    });
+    // Replace in-place
+    imports.length = 0;
+    imports.push(...sideEffect, ...declarative);
+  }
 
-  // Sort local imports alphabetically
-  localImports.sort((a, b) => {
-    const specA = (a.moduleSpecifier as ts.StringLiteral).text;
-    const specB = (b.moduleSpecifier as ts.StringLiteral).text;
-    return specA.localeCompare(specB);
-  });
+  stableSortImports(packageImports);
+  stableSortImports(localImports);
 
   const result: ts.ImportDeclaration[] = [...packageImports];
 

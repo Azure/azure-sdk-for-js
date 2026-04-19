@@ -14,8 +14,10 @@
 
 import ts from "typescript";
 import { classifyImports } from "./importClassifier.js";
-import { eliminateDeadBindings } from "./deadBindingEliminator.js";
+import { eliminateDeadStatements } from "./deadBindingEliminator.js";
+import { createAnalyzer } from "./bindingAnalyzer.js";
 import { rewriteImports } from "./importRewriter.js";
+import { extractEnvVarNames } from "./envVarExtractor.js";
 
 /** Resolved helper file returned by the resolver callback. */
 export interface ResolvedHelper {
@@ -37,6 +39,8 @@ export interface CompiledHelper {
   isEmpty: boolean;
   /** Nested helpers compiled during this helper's compilation */
   nestedHelpers: Map<string, CompiledHelper>;
+  /** Warnings produced during compilation (e.g., unresolved nested helpers) */
+  warnings: string[];
 }
 
 /** Callback to resolve a helper import specifier to source text. */
@@ -46,18 +50,44 @@ export type HelperResolver = (
 ) => ResolvedHelper | undefined;
 
 /**
- * Collect export names from surviving top-level statements.
+ * Recursively collect all identifier names from a binding name (including destructuring).
  */
-function collectSurvivingExports(sourceFile: ts.SourceFile): Set<string> {
+function collectAllBindingNames(name: ts.BindingName, out: Set<string>): void {
+  if (ts.isIdentifier(name)) {
+    out.add(name.text);
+  } else if (ts.isObjectBindingPattern(name)) {
+    for (const el of name.elements) collectAllBindingNames(el.name, out);
+  } else if (ts.isArrayBindingPattern(name)) {
+    for (const el of name.elements) {
+      if (ts.isBindingElement(el)) collectAllBindingNames(el.name, out);
+    }
+  }
+}
+
+/**
+ * Collect export names from surviving statements.
+ */
+function collectSurvivingExportsFromStatements(
+  statements: readonly ts.Statement[],
+): Set<string> {
   const exports = new Set<string>();
 
-  for (const stmt of sourceFile.statements) {
+  for (const stmt of statements) {
     // Handle export declarations: export { x, y } or export { x } from "..."
     if (ts.isExportDeclaration(stmt)) {
+      // Skip type-only exports (e.g., export type { Foo } from "...")
+      if (stmt.isTypeOnly) continue;
+      
       if (stmt.exportClause && ts.isNamedExports(stmt.exportClause)) {
         for (const spec of stmt.exportClause.elements) {
           exports.add(spec.name.text);
         }
+      } else if (stmt.exportClause && ts.isNamespaceExport(stmt.exportClause)) {
+        // export * as ns from "..." — the alias is the exported name
+        exports.add(stmt.exportClause.name.text);
+      } else if (!stmt.exportClause && stmt.moduleSpecifier) {
+        // export * from "..." — re-exports all names from the module
+        exports.add("*");
       }
       continue;
     }
@@ -85,14 +115,8 @@ function collectSurvivingExports(sourceFile: ts.SourceFile): Set<string> {
       exports.add(stmt.name.text);
     } else if (ts.isVariableStatement(stmt)) {
       for (const decl of stmt.declarationList.declarations) {
-        if (ts.isIdentifier(decl.name)) {
-          exports.add(decl.name.text);
-        }
+        collectAllBindingNames(decl.name, exports);
       }
-    } else if (ts.isTypeAliasDeclaration(stmt)) {
-      exports.add(stmt.name.text);
-    } else if (ts.isInterfaceDeclaration(stmt)) {
-      exports.add(stmt.name.text);
     } else if (ts.isEnumDeclaration(stmt)) {
       exports.add(stmt.name.text);
     }
@@ -101,36 +125,6 @@ function collectSurvivingExports(sourceFile: ts.SourceFile): Set<string> {
   return exports;
 }
 
-/**
- * Get all binding names introduced by an import declaration.
- */
-function getImportBindings(node: ts.ImportDeclaration): string[] {
-  const names: string[] = [];
-  const clause = node.importClause;
-  if (!clause) return names;
-  if (clause.name) names.push(clause.name.text);
-  if (clause.namedBindings) {
-    if (ts.isNamedImports(clause.namedBindings)) {
-      for (const spec of clause.namedBindings.elements) {
-        names.push(spec.name.text);
-      }
-    } else if (ts.isNamespaceImport(clause.namedBindings)) {
-      names.push(clause.namedBindings.name.text);
-    }
-  }
-  return names;
-}
-
-/**
- * Extract environment variable names from source text.
- */
-function extractEnvVars(text: string): string[] {
-  const vars = new Set<string>();
-  for (const m of text.matchAll(/process\.env\.([A-Za-z_][A-Za-z0-9_]*)/g)) vars.add(m[1]);
-  for (const m of text.matchAll(/process\.env\["([A-Za-z_][A-Za-z0-9_]*)"\]/g)) vars.add(m[1]);
-  for (const m of text.matchAll(/process\.env\['([A-Za-z_][A-Za-z0-9_]*)'\]/g)) vars.add(m[1]);
-  return [...vars].sort();
-}
 
 /**
  * Compile a local helper file.
@@ -139,70 +133,87 @@ function extractEnvVars(text: string): string[] {
  * @param packageName - Package name for source-code import rewriting
  * @param fileName - File name for error messages and cycle detection
  * @param resolveHelper - Optional callback to resolve nested helper imports
- * @param visited - Set of canonical paths already being compiled (cycle detection)
+ * @param recursionStack - Set of canonical paths in the current call chain (cycle detection)
+ * @param helperCache - Cache of previously compiled helper results
  */
 export function compileHelper(
   sourceText: string,
   packageName: string,
   fileName: string,
   resolveHelper?: HelperResolver,
-  visited?: Set<string>,
+  recursionStack?: Set<string>,
+  helperCache?: Map<string, CompiledHelper>,
 ): CompiledHelper {
-  const currentVisited = visited ?? new Set<string>();
+  const currentStack = recursionStack ?? new Set<string>();
+  const currentCache = helperCache ?? new Map<string, CompiledHelper>();
   const printer = ts.createPrinter({ newLine: ts.NewLineKind.LineFeed });
 
-  // Parse
-  const sourceFile = ts.createSourceFile(
-    fileName,
-    sourceText,
-    ts.ScriptTarget.Latest,
-    true,
-    ts.ScriptKind.TS,
-  );
+  // Create ONE analyzer for the full helper file (scope-aware symbol resolution)
+  const analyzer = createAnalyzer(sourceText, fileName);
 
   // Classify imports
-  const classified = classifyImports(sourceFile);
+  const classified = classifyImports(analyzer.sourceFile);
 
-  // Collect dead bindings from test imports
-  const deadBindings = new Set<string>();
+  // Collect dead symbols from test imports
+  const deadSymbols = new Set<ts.Symbol>();
   for (const ci of classified) {
     if (ci.category !== "test") continue;
-    for (const name of getImportBindings(ci.node)) {
-      deadBindings.add(name);
+    for (const sym of analyzer.getImportBindingSymbols(ci.node)) {
+      deadSymbols.add(sym);
     }
   }
 
   // Resolve nested localHelper imports
   const nestedHelpers = new Map<string, CompiledHelper>();
   const emptyHelperSpecifiers = new Set<string>();
+  // Maps re-export module specifier → child's surviving export names
+  const childSurvivingExports = new Map<string, Set<string>>();
+  const warnings: string[] = [];
 
   if (resolveHelper) {
     for (const ci of classified) {
       if (ci.category !== "localHelper") continue;
 
       const resolved = resolveHelper(fileName, ci.moduleSpecifier);
-      if (!resolved) continue;
+      if (!resolved) {
+        warnings.push(
+          `Could not resolve nested helper "${ci.moduleSpecifier}" from "${fileName}"`,
+        );
+        continue;
+      }
 
-      // Cycle detection
-      if (currentVisited.has(resolved.canonicalPath)) continue;
+      // Cycle detection — skip if currently being compiled in this call chain
+      if (currentStack.has(resolved.canonicalPath)) continue;
 
-      currentVisited.add(resolved.canonicalPath);
-      const nested = compileHelper(
-        resolved.sourceText,
-        packageName,
-        resolved.canonicalPath,
-        resolveHelper,
-        currentVisited,
-      );
+      // Cache hit — reuse previously compiled result
+      let nested: CompiledHelper;
+      if (currentCache.has(resolved.canonicalPath)) {
+        nested = currentCache.get(resolved.canonicalPath)!;
+      } else {
+        currentStack.add(resolved.canonicalPath);
+        try {
+          nested = compileHelper(
+            resolved.sourceText,
+            packageName,
+            resolved.canonicalPath,
+            resolveHelper,
+            currentStack,
+            currentCache,
+          );
+          currentCache.set(resolved.canonicalPath, nested);
+        } finally {
+          currentStack.delete(resolved.canonicalPath);
+        }
+      }
 
       if (nested.isEmpty) {
-        // Pure test helper: mark all its import bindings as dead
-        for (const name of getImportBindings(ci.node)) {
-          deadBindings.add(name);
+        // Pure test helper: mark all its import bindings as dead (by symbol)
+        for (const sym of analyzer.getImportBindingSymbols(ci.node)) {
+          deadSymbols.add(sym);
         }
         emptyHelperSpecifiers.add(ci.moduleSpecifier);
       } else {
-        nestedHelpers.set(ci.moduleSpecifier, nested);
+        nestedHelpers.set(resolved.canonicalPath, nested);
         // Flatten transitive nested helpers into our map
         for (const [transitiveSpec, transitiveHelper] of nested.nestedHelpers) {
           if (!nestedHelpers.has(transitiveSpec)) {
@@ -210,30 +221,148 @@ export function compileHelper(
           }
         }
       }
+      // Collect warnings from nested helper compilations
+      warnings.push(...nested.warnings);
+    }
+
+    // Also resolve re-export declarations that reference local helper files:
+    //   export { foo } from "./helper.js"
+    //   export * from "./helper.js"
+    //   export * as ns from "./helper.js"
+    for (const stmt of analyzer.sourceFile.statements) {
+      if (
+        !ts.isExportDeclaration(stmt) ||
+        !stmt.moduleSpecifier ||
+        !ts.isStringLiteral(stmt.moduleSpecifier)
+      ) {
+        continue;
+      }
+
+      const specifier = stmt.moduleSpecifier.text;
+
+      // Apply same local-helper heuristic as importClassifier's categorize()
+      if (!specifier.startsWith("./") && !specifier.startsWith("../")) continue;
+      if (specifier.includes("/src/") || specifier.endsWith(".json")) continue;
+
+      const resolved = resolveHelper(fileName, specifier);
+      if (!resolved) {
+        warnings.push(
+          `Could not resolve nested helper re-export "${specifier}" from "${fileName}"`,
+        );
+        continue;
+      }
+
+      // Cycle detection — skip if currently being compiled in this call chain
+      if (currentStack.has(resolved.canonicalPath)) continue;
+
+      // Cache hit — reuse previously compiled result
+      let nested: CompiledHelper;
+      if (currentCache.has(resolved.canonicalPath)) {
+        nested = currentCache.get(resolved.canonicalPath)!;
+      } else {
+        currentStack.add(resolved.canonicalPath);
+        try {
+          nested = compileHelper(
+            resolved.sourceText,
+            packageName,
+            resolved.canonicalPath,
+            resolveHelper,
+            currentStack,
+            currentCache,
+          );
+          currentCache.set(resolved.canonicalPath, nested);
+        } finally {
+          currentStack.delete(resolved.canonicalPath);
+        }
+      }
+
+      if (nested.isEmpty) {
+        emptyHelperSpecifiers.add(specifier);
+      } else {
+        nestedHelpers.set(resolved.canonicalPath, nested);
+        childSurvivingExports.set(specifier, nested.survivingExports);
+        for (const [transitiveSpec, transitiveHelper] of nested.nestedHelpers) {
+          if (!nestedHelpers.has(transitiveSpec)) {
+            nestedHelpers.set(transitiveSpec, transitiveHelper);
+          }
+        }
+      }
+      warnings.push(...nested.warnings);
     }
   }
 
-  // Separate imports from other statements for dead-binding elimination
-  const nonImportStatements = sourceFile.statements.filter(
-    (s) => !ts.isImportDeclaration(s),
+  // Get non-import statements directly from the analyzer's sourceFile,
+  // filtering out export declarations that reference empty helpers and
+  // rewriting partial re-exports to only include surviving specifiers.
+  const nonImportStatements: ts.Statement[] = [];
+  for (const s of analyzer.sourceFile.statements) {
+    if (ts.isImportDeclaration(s)) continue;
+    if (
+      ts.isExportDeclaration(s) &&
+      s.moduleSpecifier &&
+      ts.isStringLiteral(s.moduleSpecifier)
+    ) {
+      const modSpec = s.moduleSpecifier.text;
+      if (emptyHelperSpecifiers.has(modSpec)) continue;
+
+      // Rewrite named re-exports against child's surviving exports
+      const childExports = childSurvivingExports.get(modSpec);
+      if (
+        childExports &&
+        s.exportClause &&
+        ts.isNamedExports(s.exportClause)
+      ) {
+        const surviving = s.exportClause.elements.filter((spec) =>
+          childExports.has(
+            (spec.propertyName ?? spec.name).text,
+          ),
+        );
+        if (surviving.length === 0) continue; // all specifiers dead
+        if (surviving.length < s.exportClause.elements.length) {
+          // Rewrite the export declaration with only surviving specifiers
+          const newClause = ts.factory.updateNamedExports(
+            s.exportClause,
+            surviving,
+          );
+          const newDecl = ts.factory.updateExportDeclaration(
+            s,
+            s.modifiers,
+            s.isTypeOnly,
+            newClause,
+            s.moduleSpecifier,
+            s.attributes,
+          );
+          nonImportStatements.push(newDecl);
+          continue;
+        }
+      }
+    }
+    nonImportStatements.push(s);
+  }
+
+  // Run dead-binding elimination (no mini-file — shared analyzer has full scope)
+  const elimination = eliminateDeadStatements(
+    nonImportStatements,
+    deadSymbols,
+    analyzer,
+    fileName,
   );
 
-  // Run dead-binding elimination on non-import statements
-  const miniText = nonImportStatements
-    .map((s) => printer.printNode(ts.EmitHint.Unspecified, s, sourceFile))
-    .join("\n");
-  const miniFile = ts.createSourceFile("helper-mini.ts", miniText, ts.ScriptTarget.Latest, true);
+  // Collect surviving exports from surviving statements
+  const survivingExports = collectSurvivingExportsFromStatements(
+    elimination.survivingStatements,
+  );
 
-  const elimination = eliminateDeadBindings(miniFile, deadBindings, fileName, {
-    treatTangledAsDead: true,
+  // A helper is empty only when no runtime statements survived elimination.
+  // Side-effect modules (e.g. polyfills) have no exports but DO have surviving
+  // statements — they must NOT be marked empty.
+  // Type-only survivors (type aliases, interfaces, type-only exports) do not count as runtime.
+  const runtimeSurvivors = elimination.survivingStatements.filter((s) => {
+    if (ts.isTypeAliasDeclaration(s) || ts.isInterfaceDeclaration(s)) return false;
+    if (ts.isExportDeclaration(s) && s.isTypeOnly) return false;
+    return true;
   });
-
-  // Collect surviving exports
-  const survivingExports = collectSurvivingExports(elimination.outputFile);
-
-  // If nothing survived that's exported, this is an empty helper
-  const hasAnySurvivors = elimination.outputFile.statements.length > 0;
-  const isEmpty = !hasAnySurvivors || survivingExports.size === 0;
+  const isEmpty = runtimeSurvivors.length === 0;
 
   if (isEmpty) {
     return {
@@ -242,32 +371,30 @@ export function compileHelper(
       envVars: [],
       isEmpty: true,
       nestedHelpers,
+      warnings,
     };
   }
-
-  // Merge dead bindings with eliminated ones for import pruning
-  const allDead = new Set([...deadBindings, ...elimination.eliminatedBindings]);
 
   // Filter out empty helper imports before rewriting
   const filteredClassified = classified.filter(
     (ci) => !emptyHelperSpecifiers.has(ci.moduleSpecifier),
   );
 
-  // Rewrite imports
+  // Rewrite imports (symbol-based pruning)
   const dummyFile = ts.createSourceFile("output.ts", "", ts.ScriptTarget.Latest, true);
   const { imports: rewrittenImports } = rewriteImports(
     filteredClassified,
     packageName,
-    allDead,
-    sourceFile,
+    deadSymbols,
+    analyzer,
   );
   const importTexts = rewrittenImports.map((imp) =>
     printer.printNode(ts.EmitHint.Unspecified, imp, dummyFile),
   );
 
-  // Print surviving statements
-  const stmtTexts = [...elimination.outputFile.statements].map((s) =>
-    printer.printNode(ts.EmitHint.Unspecified, s, elimination.outputFile),
+  // Print surviving statements from the analyzer's sourceFile
+  const stmtTexts = elimination.survivingStatements.map((s) =>
+    printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile),
   );
 
   // Assemble output
@@ -291,8 +418,9 @@ export function compileHelper(
   return {
     outputText,
     survivingExports,
-    envVars: extractEnvVars(outputText),
+    envVars: extractEnvVarNames(outputText),
     isEmpty: false,
     nestedHelpers,
+    warnings,
   };
 }

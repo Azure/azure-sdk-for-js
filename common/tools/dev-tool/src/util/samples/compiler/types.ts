@@ -54,6 +54,8 @@ export interface ParsedItBlock {
   description: string;
   /** The body statements of the callback */
   body: ts.Statement[];
+  /** Comments between the last body statement and the closing brace */
+  trailingComments: string;
   /** The original node */
   node: ts.ExpressionStatement;
 }
@@ -62,9 +64,11 @@ export interface ParsedItBlock {
  * A parsed `beforeEach` or `afterEach` block.
  */
 export interface ParsedHook {
-  kind: "beforeEach" | "afterEach";
+  kind: "beforeAll" | "afterAll" | "beforeEach" | "afterEach";
   /** The body statements of the callback */
   body: ts.Statement[];
+  /** Comments between the last body statement and the closing brace */
+  trailingComments: string;
   /** The parameter name if present (e.g., `ctx` in `beforeEach(async (ctx) => ...)`) */
   paramName?: string;
   /** The original node */
@@ -80,16 +84,24 @@ export interface ParsedSampleTestFile {
   describeDescription: string;
   /** `let` and `const` declarations at describe scope */
   describeVariables: ts.VariableStatement[];
+  /** All non-hook, non-it statements at describe scope (variables, functions, classes, etc.) */
+  describeStatements: ts.Statement[];
   /** Parsed it blocks in declaration order */
   itBlocks: ParsedItBlock[];
+  /** beforeAll hooks (usually 0 or 1) */
+  beforeAllHooks: ParsedHook[];
   /** beforeEach hooks (usually 0 or 1) */
   beforeEachHooks: ParsedHook[];
+  /** afterAll hooks (usually 0 or 1) */
+  afterAllHooks: ParsedHook[];
   /** afterEach hooks (usually 0 or 1) */
   afterEachHooks: ParsedHook[];
   /** All import declarations from the file */
   imports: ts.ImportDeclaration[];
   /** The full source file AST */
   sourceFile: ts.SourceFile;
+  /** Warnings detected during parsing (e.g., non-import statements outside describe) */
+  warnings: string[];
 }
 
 /**

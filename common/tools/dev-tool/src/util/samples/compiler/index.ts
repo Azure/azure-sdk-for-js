@@ -4,8 +4,7 @@
 export { classifyImport, classifyImports } from "./importClassifier.js";
 export { substituteForPublishing } from "./substitutor.js";
 export { parseSampleTestFile } from "./parser.js";
-export { eliminateDeadBindings } from "./deadBindingEliminator.js";
-export { generateSampleCode } from "./codeGenerator.js";
+export { eliminateDeadBindings, eliminateDeadStatements } from "./deadBindingEliminator.js";
 export { rewriteImports } from "./importRewriter.js";
 export { compileSampleTest } from "./compiler.js";
 export type { CompileOptions } from "./compiler.js";

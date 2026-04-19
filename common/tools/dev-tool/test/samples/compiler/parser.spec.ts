@@ -225,6 +225,67 @@ describe("first", function () {
 });
 `;
 
+const withDescribeFunction = `
+/** @summary with helper function */
+import { describe, it } from "vitest";
+
+describe("helpers", function () {
+  let client: Client;
+
+  function buildUri(): string {
+    return "https://example.com";
+  }
+
+  it("does stuff", async function () {
+    const uri = buildUri();
+  });
+});
+`;
+
+const multiLineSummary = `
+/**
+ * @summary This is a long summary
+ * that spans multiple lines and should
+ * be joined into one string.
+ * @azsdk-weight 10
+ */
+import { describe, it } from "vitest";
+
+describe("multiline", function () {
+  it("test", async function () {});
+});
+`;
+
+const multiLineSummaryNoFollowingTag = `
+/**
+ * @summary This summary spans
+ * two lines
+ */
+import { describe, it } from "vitest";
+
+describe("multiline-end", function () {
+  it("test", async function () {});
+});
+`;
+
+const describeSkip = `
+/** @summary describe skip */
+import { describe, it } from "vitest";
+
+describe.skip("skipped suite", function () {
+  it("test", async function () {});
+});
+`;
+
+const describeOnly = `
+/** @summary describe only */
+import { describe, it } from "vitest";
+
+describe.only("only suite", function () {
+  it("test", async function () {});
+});
+`;
+
 // ── Tests ────────────────────────────────────────────────────────────
 
 describe("parseSampleTestFile", () => {
@@ -350,5 +411,229 @@ describe("parseSampleTestFile", () => {
     const result = parse(jsdocBeforeImports)!;
     expect(result).not.toBeNull();
     expect(result.metadata.summary).toBe("first thing in file");
+  });
+
+  it("collects describeStatements including variables and function declarations", () => {
+    const result = parse(withDescribeFunction)!;
+    // describeStatements should include both the variable and the function declaration
+    expect(result.describeStatements).toHaveLength(2);
+  });
+
+  it("keeps describeVariables backward-compatible (only VariableStatements)", () => {
+    const result = parse(withDescribeFunction)!;
+    // describeVariables should only include the variable, not the function
+    expect(result.describeVariables).toHaveLength(1);
+  });
+
+  it("does not include function declarations in itBlocks", () => {
+    const result = parse(withDescribeFunction)!;
+    expect(result.itBlocks).toHaveLength(1);
+    expect(result.itBlocks[0].description).toBe("does stuff");
+  });
+
+  it("joins multi-line @summary into a single string", () => {
+    const result = parse(multiLineSummary)!;
+    expect(result.metadata.summary).toBe(
+      "This is a long summary that spans multiple lines and should be joined into one string.",
+    );
+    expect(result.metadata.weight).toBe(10);
+  });
+
+  it("joins multi-line @summary that ends at comment close", () => {
+    const result = parse(multiLineSummaryNoFollowingTag)!;
+    expect(result.metadata.summary).toBe("This summary spans two lines");
+  });
+
+  it("recognizes describe.skip as a describe block", () => {
+    const result = parse(describeSkip)!;
+    expect(result).not.toBeNull();
+    expect(result.describeDescription).toBe("skipped suite");
+    expect(result.itBlocks).toHaveLength(1);
+  });
+
+  it("recognizes describe.only as a describe block", () => {
+    const result = parse(describeOnly)!;
+    expect(result).not.toBeNull();
+    expect(result.describeDescription).toBe("only suite");
+    expect(result.itBlocks).toHaveLength(1);
+  });
+
+  it("extracts beforeAll body into preamble (before beforeEach)", () => {
+    const source = `
+/** @summary beforeAll test */
+import { describe, it, beforeAll } from "vitest";
+
+describe("setup", function () {
+  beforeAll(async function () {
+    const conn = await connect();
+  });
+
+  it("does stuff", async function () {
+    doStuff();
+  });
+});
+`;
+    const result = parse(source)!;
+    expect(result.beforeAllHooks).toHaveLength(1);
+    expect(result.beforeAllHooks[0].kind).toBe("beforeAll");
+    expect(result.beforeAllHooks[0].body.length).toBeGreaterThan(0);
+  });
+
+  it("afterAll is recognized as hook (not in describeStatements)", () => {
+    const source = `
+/** @summary afterAll test */
+import { describe, it, afterAll } from "vitest";
+
+describe("cleanup", function () {
+  afterAll(async function () {
+    cleanup();
+  });
+
+  it("does stuff", async function () {
+    doStuff();
+  });
+});
+`;
+    const result = parse(source)!;
+    expect(result.afterAllHooks).toHaveLength(1);
+    expect(result.afterAllHooks[0].kind).toBe("afterAll");
+    // afterAll should NOT appear in describeStatements
+    expect(result.describeStatements).toHaveLength(0);
+  });
+
+  it("throws CompilerError for nested describe.skip", () => {
+    const source = `
+/** @summary nested skip */
+import { describe, it } from "vitest";
+
+describe("outer", function () {
+  describe.skip("inner", function () {
+    it("test", async function () {});
+  });
+});
+`;
+    expect(() => parse(source)).toThrow(CompilerError);
+    expect(() => parse(source)).toThrow(/[Nn]ested describe/);
+  });
+
+  it("throws CompilerError for nested describe.only", () => {
+    const source = `
+/** @summary nested only */
+import { describe, it } from "vitest";
+
+describe("outer", function () {
+  describe.only("inner", function () {
+    it("test", async function () {});
+  });
+});
+`;
+    expect(() => parse(source)).toThrow(CompilerError);
+    expect(() => parse(source)).toThrow(/[Nn]ested describe/);
+  });
+
+  it("extracts expression-bodied it callback as a statement", () => {
+    const source = `
+/** @summary expression body */
+import { describe, it } from "vitest";
+
+describe("expr", function () {
+  it("logs", () => console.log("hi"));
+});
+`;
+    const result = parse(source)!;
+    expect(result.itBlocks).toHaveLength(1);
+    expect(result.itBlocks[0].body).toHaveLength(1);
+  });
+
+  it("extracts expression-bodied beforeEach callback as preamble", () => {
+    const source = `
+/** @summary expression beforeEach */
+import { describe, it, beforeEach } from "vitest";
+
+describe("expr-hook", function () {
+  beforeEach(() => setup());
+
+  it("test", async function () {
+    doStuff();
+  });
+});
+`;
+    const result = parse(source)!;
+    expect(result.beforeEachHooks).toHaveLength(1);
+    expect(result.beforeEachHooks[0].body).toHaveLength(1);
+  });
+
+  it("beforeAll + beforeEach combined in order", () => {
+    const source = `
+/** @summary combined hooks */
+import { describe, it, beforeAll, beforeEach } from "vitest";
+
+describe("ordered", function () {
+  beforeAll(async function () {
+    const global = globalSetup();
+  });
+
+  beforeEach(async function () {
+    const local = localSetup();
+  });
+
+  it("does stuff", async function () {
+    doStuff();
+  });
+});
+`;
+    const result = parse(source)!;
+    expect(result.beforeAllHooks).toHaveLength(1);
+    expect(result.beforeEachHooks).toHaveLength(1);
+    expect(result.beforeAllHooks[0].kind).toBe("beforeAll");
+    expect(result.beforeEachHooks[0].kind).toBe("beforeEach");
+  });
+
+  // ── F1: Top-level non-import statement warning ──────────────────────
+
+  it("warns about non-import top-level statements outside describe", () => {
+    const input = `
+/** @summary test */
+import { describe, it } from "vitest";
+
+const GLOBAL = "value";
+
+describe("test", () => {
+  it("x", async () => {
+    console.log("hello");
+  });
+});
+`;
+    const result = parse(input);
+    expect(result).not.toBeNull();
+    expect(result!.warnings.length).toBeGreaterThan(0);
+    expect(result!.warnings[0]).toContain("Non-import statement outside describe");
+  });
+
+  it("emits no warnings for valid file with only imports and describe", () => {
+    const result = parse(minimal);
+    expect(result).not.toBeNull();
+    expect(result!.warnings).toHaveLength(0);
+  });
+
+  // ── F7: Recursive nested describe detection ─────────────────────────
+
+  it("rejects describe inside if block", () => {
+    const input = `
+/** @summary test */
+import { describe, it } from "vitest";
+
+describe("test", () => {
+  if (true) {
+    describe("nested", () => {
+      it("x", async () => {});
+    });
+  }
+  it("y", async () => {
+    console.log("hello");
+  });
+});
+`;
+    expect(() => parse(input)).toThrow(/[Nn]ested describe/);
   });
 });

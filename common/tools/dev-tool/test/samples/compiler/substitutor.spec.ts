@@ -17,10 +17,21 @@ function printFile(sourceFile: ts.SourceFile): string {
 
 /** Helper: apply substitution to a source string and return trimmed output + substitutions. */
 function substitute(source: string, fileName?: string) {
-  const sf = parseSource(source, fileName);
+  // Inject forPublishing import if not already present
+  const sourceWithImport = source.includes("import")
+    ? source
+    : `import { forPublishing } from "@azure-tools/test-publishing";\n${source}`;
+  const sf = parseSource(sourceWithImport, fileName);
   const result = substituteForPublishing(sf, fileName);
+  
+  // Remove the injected import from output for cleaner test assertions
+  let output = normalizeWhitespace(printFile(result.transformedFile));
+  if (!source.includes("import")) {
+    output = output.replace(/import\s*\{\s*forPublishing\s*\}\s*from\s*"@azure-tools\/test-publishing";\s*/g, "").trim();
+  }
+  
   return {
-    output: normalizeWhitespace(printFile(result.transformedFile)),
+    output,
     substitutions: result.substitutions,
   };
 }
@@ -114,6 +125,15 @@ describe("substituteForPublishing", () => {
     ).toThrow(CompilerError);
   });
 
+  it("throws CompilerError for arrow with parameters", () => {
+    expect(() =>
+      substitute(`forPublishing(a, (v) => v + 1);`, "test.ts"),
+    ).toThrow(CompilerError);
+    expect(() =>
+      substitute(`forPublishing(a, (v) => v + 1);`, "test.ts"),
+    ).toThrow(/no parameters/);
+  });
+
   it("throws CompilerError for wrong number of args (too few)", () => {
     expect(() =>
       substitute(`forPublishing(a);`, "test.ts"),
@@ -160,6 +180,33 @@ describe("substituteForPublishing", () => {
     expect(substitutions[0].freeVariables).not.toContain("env");
     expect(substitutions[0].freeVariables).not.toContain("X");
   });
+
+  // ── F3: forPublishing aliased import ─────────────────────────────────
+
+  it("handles aliased forPublishing import", () => {
+    const input = `
+import { forPublishing as fp } from "@azure-tools/test-publishing";
+const x = fp("test", () => "published");
+`;
+    const sf = parseSource(input, "test.ts");
+    const result = substituteForPublishing(sf, "test.ts");
+    const output = normalizeWhitespace(printFile(result.transformedFile));
+    expect(result.substitutions).toHaveLength(1);
+    expect(output).toContain(`"published"`);
+    expect(output).not.toContain("fp(");
+  });
+
+  // ── F6: forPublishing import verification ───────────────────────────
+
+  it("does not substitute forPublishing without test-publishing import", () => {
+    const input = `
+function forPublishing(a: any, b: any) { return a; }
+const x = forPublishing("test", () => "published");
+`;
+    const sf = parseSource(input, "test.ts");
+    const result = substituteForPublishing(sf, "test.ts");
+    expect(result.substitutions.length).toBe(0);
+  });
 });
 
 // ── collectFreeVariables unit tests ─────────────────────────────────
@@ -193,5 +240,18 @@ describe("collectFreeVariables", () => {
     expect(collectFreeVariables(exprFrom("foo(bar, baz.qux);"))).toEqual(
       new Set(["foo", "bar", "baz"]),
     );
+  });
+
+  it("arrow with parameter shadowing excludes params", () => {
+    const result = collectFreeVariables(exprFrom("xs.map((x) => x + y);"));
+    expect(result).toContain("xs");
+    expect(result).toContain("y");
+    expect(result).not.toContain("x");
+  });
+
+  it("nested function expression excludes params", () => {
+    const result = collectFreeVariables(exprFrom("(function(a) { return a + b; })"));
+    expect(result).toContain("b");
+    expect(result).not.toContain("a");
   });
 });
