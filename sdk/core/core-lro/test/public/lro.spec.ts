@@ -3239,21 +3239,17 @@ matrix(
               ],
               throwOnNon2xxResponse,
             });
-            let callbackCounts = 0;
-            const await1 = await poller.then((result) => {
-              callbackCounts++;
+            const thenCallback = vi.fn((result: Result) => {
               assert.equal(result.statusCode, 200);
               return result;
             });
-            const await2 = await poller.then((result) => {
-              callbackCounts++;
-              assert.equal(result.statusCode, 200);
-              return result;
-            });
+            const await1 = await poller.then(thenCallback);
+            const await2 = await poller.then(thenCallback);
             assert.strictEqual(await1, await2);
-            assert.equal(callbackCounts, 2);
-            await poller.finally(() => callbackCounts++);
-            assert.equal(callbackCounts, 3);
+            expect(thenCallback).toHaveBeenCalledTimes(2);
+            const finallyCallback = vi.fn();
+            await poller.finally(finallyCallback);
+            expect(finallyCallback).toHaveBeenCalledTimes(1);
           });
           it("should trigger the whole polling process to server side only once", async () => {
             let pollCount = 0;
@@ -3346,16 +3342,16 @@ matrix(
               throwOnNon2xxResponse: true,
             });
             let err: any;
-            let callbackCounts = 0;
-            await poller.catch((e) => {
-              callbackCounts++;
+            const catchCallback = vi.fn((e: any) => {
               err = e;
             });
+            await poller.catch(catchCallback);
             assert.equal(err.message, errMsg);
             await expect(poller).rejects.toThrow(errMsg);
-            assert.equal(callbackCounts, 1);
-            await expect(poller.finally(() => callbackCounts++)).rejects.toThrow(errMsg);
-            assert.equal(callbackCounts, 2);
+            expect(catchCallback).toHaveBeenCalledTimes(1);
+            const finallyCallback = vi.fn();
+            await expect(poller.finally(finallyCallback)).rejects.toThrow(errMsg);
+            expect(finallyCallback).toHaveBeenCalledTimes(1);
           });
         });
       });

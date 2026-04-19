@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert, vi } from "vitest";
+import { describe, it, assert, expect, vi } from "vitest";
 import { deserializeState, initOperation, pollOperation } from "../../src/poller/operation.js";
 import { buildCreatePoller } from "../../src/poller/poller.js";
 import type { OperationState } from "../../src/index.js";
@@ -57,7 +57,7 @@ describe("pollOperation", () => {
   });
 
   it("calls withOperationLocation with same location when getOperationLocation returns undefined", async () => {
-    const locations: Array<{ loc: string; isUpdated: boolean }> = [];
+    const withOperationLocation = vi.fn();
     const state = makeState<any>("OperationLocation");
     state.config.operationLocation = "/poll";
 
@@ -71,31 +71,29 @@ describe("pollOperation", () => {
       isOperationError: () => false,
       setDelay: vi.fn(),
       setErrorAsResult: false,
-      withOperationLocation: (loc: string, isUpdated: boolean) =>
-        locations.push({ loc, isUpdated }),
+      withOperationLocation,
       getOperationLocation: () => undefined,
     });
 
-    assert.equal(locations.length, 1);
-    assert.equal(locations[0].loc, "/poll");
-    assert.isFalse(locations[0].isUpdated);
+    expect(withOperationLocation).toHaveBeenCalledTimes(1);
+    expect(withOperationLocation).toHaveBeenCalledWith("/poll", false);
   });
 });
 
 describe("initOperation", () => {
   it("calls withOperationLocation when operationLocation is present", async () => {
-    const locations: string[] = [];
+    const withOperationLocation = vi.fn();
     await initOperation({
       init: async () => ({
         response: { data: "init" },
         operationLocation: "/poll-loc",
       }),
       getOperationStatus: () => "running",
-      withOperationLocation: (loc: string) => locations.push(loc),
+      withOperationLocation,
       setErrorAsResult: false,
     });
 
-    assert.include(locations, "/poll-loc");
+    expect(withOperationLocation).toHaveBeenCalledWith("/poll-loc", false);
   });
 });
 
