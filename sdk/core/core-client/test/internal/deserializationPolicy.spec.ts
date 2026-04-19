@@ -454,19 +454,19 @@ describe("deserializationPolicy", function () {
         serializer,
       };
 
-      try {
-        await getDeserializedResponse({
+      await expect(
+        getDeserializedResponse({
           operationSpec,
           headers: { "x-ms-error-code": "InvalidResourceNameHeader" },
           bodyAsText: '{"message": "InvalidResourceNameBody"}',
           status: 500,
-        });
-        assert.fail();
-      } catch (e: any) {
-        assert.exists(e);
-        assert.strictEqual(e.response.parsedHeaders.errorCode, "InvalidResourceNameHeader");
-        assert.strictEqual(e.response.parsedBody.message, "InvalidResourceNameBody");
-      }
+        }),
+      ).rejects.toMatchObject({
+        response: {
+          parsedHeaders: { errorCode: "InvalidResourceNameHeader" },
+          parsedBody: { message: "InvalidResourceNameBody" },
+        },
+      });
     });
 
     it(`with non default error response headers`, async function () {
@@ -515,19 +515,19 @@ describe("deserializationPolicy", function () {
         serializer,
       };
 
-      try {
-        await getDeserializedResponse({
+      await expect(
+        getDeserializedResponse({
           operationSpec,
           headers: { "x-ms-error-code": "InvalidResourceNameHeader" },
           bodyAsText: '{"message": "InvalidResourceNameBody"}',
           status: 500,
-        });
-        assert.fail();
-      } catch (e: any) {
-        assert.exists(e);
-        assert.strictEqual(e.response.parsedHeaders.errorCode, "InvalidResourceNameHeader");
-        assert.strictEqual(e.response.parsedBody.message, "InvalidResourceNameBody");
-      }
+        }),
+      ).rejects.toMatchObject({
+        response: {
+          parsedHeaders: { errorCode: "InvalidResourceNameHeader" },
+          parsedBody: { message: "InvalidResourceNameBody" },
+        },
+      });
     });
 
     it(`should throw when the response code is not defined in the operationSpec`, async function () {
@@ -540,19 +540,17 @@ describe("deserializationPolicy", function () {
         },
         serializer,
       };
-      try {
-        await getDeserializedResponse({
+      await expect(
+        getDeserializedResponse({
           operationSpec,
           headers: {},
           bodyAsText: '{"message": "InternalServerError"}',
           status: 400,
-        });
-        assert.fail();
-      } catch (e: any) {
-        assert.exists(e);
-        assert.strictEqual(e.statusCode, 400);
-        assert.include(e.message, "InternalServerError");
-      }
+        }),
+      ).rejects.toMatchObject({
+        statusCode: 400,
+        message: expect.stringContaining("InternalServerError"),
+      });
     });
 
     it(`with non default complex error response`, async function () {
@@ -611,22 +609,24 @@ describe("deserializationPolicy", function () {
         serializer,
       };
 
-      try {
-        await getDeserializedResponse({
+      await expect(
+        getDeserializedResponse({
           operationSpec,
           headers: { "x-ms-error-code": "InvalidResourceNameHeader" },
           bodyAsText:
             '{"message1": "InvalidResourceNameBody1", "message2": "InvalidResourceNameBody2", "message3": "InvalidResourceNameBody3"}',
           status: 503,
-        });
-        assert.fail();
-      } catch (e: any) {
-        assert.exists(e);
-        assert.strictEqual(e.response.parsedHeaders.errorCode, "InvalidResourceNameHeader");
-        assert.strictEqual(e.response.parsedBody.message1, "InvalidResourceNameBody1");
-        assert.strictEqual(e.response.parsedBody.message2, "InvalidResourceNameBody2");
-        assert.strictEqual(e.response.parsedBody.message3, "InvalidResourceNameBody3");
-      }
+        }),
+      ).rejects.toMatchObject({
+        response: {
+          parsedHeaders: { errorCode: "InvalidResourceNameHeader" },
+          parsedBody: {
+            message1: "InvalidResourceNameBody1",
+            message2: "InvalidResourceNameBody2",
+            message3: "InvalidResourceNameBody3",
+          },
+        },
+      });
     });
 
     it(`with default error response body`, async function () {
@@ -666,25 +666,24 @@ describe("deserializationPolicy", function () {
         serializer,
       };
 
-      try {
-        await getDeserializedResponse({
+      await expect(
+        getDeserializedResponse({
           operationSpec,
           headers: {},
           bodyAsText:
             '{"Code": "ContainerAlreadyExists", "Message": "The specified container already exists."}',
           status: 500,
-        });
-        assert.fail();
-      } catch (e: any) {
-        assert.exists(e);
-        assert.strictEqual(e.code, "ContainerAlreadyExists");
-        assert.strictEqual(e.message, "The specified container already exists.");
-        assert.strictEqual(e.response.parsedBody.code, "ContainerAlreadyExists");
-        assert.strictEqual(
-          e.response.parsedBody.message,
-          "The specified container already exists.",
-        );
-      }
+        }),
+      ).rejects.toMatchObject({
+        code: "ContainerAlreadyExists",
+        message: "The specified container already exists.",
+        response: {
+          parsedBody: {
+            code: "ContainerAlreadyExists",
+            message: "The specified container already exists.",
+          },
+        },
+      });
     });
 
     it(`heuristic for error body without default body mapper`, async function () {
@@ -717,27 +716,26 @@ describe("deserializationPolicy", function () {
         serializer,
       };
 
-      try {
-        await getDeserializedResponse({
+      await expect(
+        getDeserializedResponse({
           operationSpec,
           headers: {},
           bodyAsText: `{"error":{"code":"SubscriptionNotFound","message":"The subscription 'ae0a5678-da86-4bd9-a3a2-9a7558415de5' could not be found."}}`,
           status: 404,
-        });
-        assert.fail();
-      } catch (e: any) {
-        assert.exists(e);
-        assert.strictEqual(e.code, "SubscriptionNotFound");
-        assert.strictEqual(
-          e.message,
-          "The subscription 'ae0a5678-da86-4bd9-a3a2-9a7558415de5' could not be found.",
-        );
-        assert.strictEqual(e.response.parsedBody.error.code, "SubscriptionNotFound");
-        assert.strictEqual(
-          e.response.parsedBody.error.message,
-          "The subscription 'ae0a5678-da86-4bd9-a3a2-9a7558415de5' could not be found.",
-        );
-      }
+        }),
+      ).rejects.toMatchObject({
+        code: "SubscriptionNotFound",
+        message: "The subscription 'ae0a5678-da86-4bd9-a3a2-9a7558415de5' could not be found.",
+        response: {
+          parsedBody: {
+            error: {
+              code: "SubscriptionNotFound",
+              message:
+                "The subscription 'ae0a5678-da86-4bd9-a3a2-9a7558415de5' could not be found.",
+            },
+          },
+        },
+      });
     });
 
     it(`json response with headers`, async function () {
