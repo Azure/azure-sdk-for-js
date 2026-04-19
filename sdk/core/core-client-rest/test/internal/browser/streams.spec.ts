@@ -63,7 +63,7 @@ describe("[Browser] Streams", () => {
 
     const result = await client.pathUnchecked("/foo").get();
 
-    assert.deepEqual(result.body, responseText);
+    assert.strictEqual(result.body, responseText);
     expect(fetchMock).toHaveBeenCalledOnce();
   });
 
@@ -73,12 +73,7 @@ describe("[Browser] Streams", () => {
     const fetchMock = vi.mocked(fetch);
     fetchMock.mockRejectedValue(new Error("ExpectedException"));
 
-    try {
-      await client.pathUnchecked("/foo").get();
-      assert.fail("Expected an error to be thrown");
-    } catch (e: any) {
-      assert.match(e.message, /ExpectedException/);
-    }
+    await expect(client.pathUnchecked("/foo").get()).rejects.toThrow(/ExpectedException/);
   });
 
   it("should be able to handle errors on streamed response", async () => {
@@ -87,12 +82,9 @@ describe("[Browser] Streams", () => {
     const fetchMock = vi.mocked(fetch);
     fetchMock.mockRejectedValue(new Error("ExpectedException"));
 
-    try {
-      await client.pathUnchecked("/foo").get().asBrowserStream();
-      assert.fail("Expected an error to be thrown");
-    } catch (e: any) {
-      assert.match(e.message, /ExpectedException/);
-    }
+    await expect(client.pathUnchecked("/foo").get().asBrowserStream()).rejects.toThrow(
+      /ExpectedException/,
+    );
   });
 
   it("should throw when attempting to use node streams", async () => {

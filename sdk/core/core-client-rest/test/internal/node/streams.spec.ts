@@ -43,7 +43,7 @@ describe("[Node] Streams", () => {
     const response = await promise;
     const stringBody = await readStreamToBuffer(response.body!);
 
-    assert.deepEqual(stringBody.toString(), JSON.stringify(expectedBody));
+    assert.strictEqual(stringBody.toString(), JSON.stringify(expectedBody));
   });
 
   it("should get a JSON body response", async () => {
@@ -73,12 +73,7 @@ describe("[Node] Streams", () => {
     const { getClient } = await import("../../../src/getClient.js");
     const client = getClient(mockBaseUrl);
 
-    try {
-      await client.pathUnchecked("/foo").get();
-      assert.fail("Expected an error to be thrown");
-    } catch (e: any) {
-      assert.equal(e.message, "ExpectedException");
-    }
+    await expect(client.pathUnchecked("/foo").get()).rejects.toThrow("ExpectedException");
   });
 
   it("should be able to handle errors on streamed response", async () => {
@@ -89,12 +84,9 @@ describe("[Node] Streams", () => {
     const { getClient } = await import("../../../src/getClient.js");
     const client = getClient(mockBaseUrl);
 
-    try {
-      await client.pathUnchecked("/foo").get().asNodeStream();
-      assert.fail("Expected an error to be thrown");
-    } catch (e: any) {
-      assert.equal(e.message, "ExpectedException");
-    }
+    await expect(client.pathUnchecked("/foo").get().asNodeStream()).rejects.toThrow(
+      "ExpectedException",
+    );
   });
 
   it("should throw when attempting to use browser streams", async () => {
