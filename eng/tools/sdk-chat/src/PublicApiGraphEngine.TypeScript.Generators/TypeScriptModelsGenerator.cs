@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System.Collections.Immutable;
 using System.Text;
-using System.Text.RegularExpressions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 
@@ -12,15 +10,18 @@ namespace PublicApiGraphEngine.TypeScript.Generators;
 /// <summary>
 /// Roslyn incremental source generator that produces C# model records from models.ts.
 ///
-/// Reads models.ts as an AdditionalFile, parses its TypeScript interface declarations,
-/// and emits Models.Generated.g.cs with partial sealed records for each wire-contract type.
-/// This eliminates model drift between the TypeScript extraction engine and C# formatter.
+/// Pipeline: models.ts → Tokenizer → Parser (recursive descent) → AST → Emitter → C# records.
+///
+/// The tokenizer converts source text into a token stream with line/column positions.
+/// The parser uses a formal grammar to produce a typed AST (no regex, no line splitting).
+/// The emitter maps AST type nodes to C# types with fail-closed behavior and validates
+/// that all configuration tables reference actual properties in the parsed interfaces.
 /// </summary>
 [Generator(LanguageNames.CSharp)]
 public class TypeScriptModelsGenerator : IIncrementalGenerator
 {
     /// <summary>Only these interfaces are part of the JSON wire contract.</summary>
-    private static readonly HashSet<string> AllowlistedTypes =
+    internal static readonly HashSet<string> AllowlistedTypes =
     [
         "MethodInfo", "PropertyInfo", "IndexSignatureInfo", "ConstructorInfo",
         "ParameterInfo", "ClassInfo", "CallSignatureInfo", "ConstructSignatureInfo",
@@ -28,9 +29,23 @@ public class TypeScriptModelsGenerator : IIncrementalGenerator
         "ModuleInfo", "NamespaceInfo", "ApiIndex", "DependencyInfo",
     ];
 
+    private static readonly DiagnosticDescriptor GenerationFailed = new(
+        "TSMODEL001", "TypeScript model generation failed",
+        "Failed to generate C# models from models.ts: {0}",
+        "CodeGeneration", DiagnosticSeverity.Error, isEnabledByDefault: true);
+
+    private static readonly DiagnosticDescriptor ParseWarning = new(
+        "TSMODEL002", "TypeScript parse diagnostic",
+        "{0}",
+        "CodeGeneration", DiagnosticSeverity.Warning, isEnabledByDefault: true);
+
+    private static readonly DiagnosticDescriptor ValidationWarning = new(
+        "TSMODEL003", "TypeScript model validation diagnostic",
+        "{0}",
+        "CodeGeneration", DiagnosticSeverity.Warning, isEnabledByDefault: true);
+
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        // Find models.ts among AdditionalFiles
         var modelsFile = context.AdditionalTextsProvider
             .Where(static file => Path.GetFileName(file.Path) == "models.ts")
             .Select(static (file, ct) => file.GetText(ct)?.ToString() ?? "");
@@ -41,22 +56,35 @@ public class TypeScriptModelsGenerator : IIncrementalGenerator
 
             try
             {
-                var interfaces = TypeScriptInterfaceParser.Parse(source);
-                var code = CSharpModelEmitter.Emit(interfaces, AllowlistedTypes);
-                ctx.AddSource("Models.Generated.g.cs", SourceText.From(code, Encoding.UTF8));
+                // Phase 1: Tokenize
+                var tokenizer = new TsTokenizer(source);
+                var tokens = tokenizer.Tokenize();
+
+                // Phase 2: Parse (recursive descent)
+                var parser = new TsParser(tokens);
+                var (file, parseDiags) = parser.Parse();
+
+                // Report parse diagnostics
+                foreach (var diag in parseDiags)
+                {
+                    ctx.ReportDiagnostic(Diagnostic.Create(ParseWarning, Location.None,
+                        $"{diag.Message} at {diag.Position}"));
+                }
+
+                // Phase 3: Emit C# with validation
+                var result = CSharpModelEmitter.Emit(file, AllowlistedTypes);
+
+                // Report validation diagnostics
+                foreach (var diag in result.Diagnostics)
+                {
+                    ctx.ReportDiagnostic(Diagnostic.Create(ValidationWarning, Location.None, diag));
+                }
+
+                ctx.AddSource("Models.Generated.g.cs", SourceText.From(result.Source, Encoding.UTF8));
             }
             catch (Exception ex)
             {
-                ctx.ReportDiagnostic(Diagnostic.Create(
-                    new DiagnosticDescriptor(
-                        "TSMODEL001",
-                        "TypeScript model generation failed",
-                        "Failed to generate C# models from models.ts: {0}",
-                        "CodeGeneration",
-                        DiagnosticSeverity.Error,
-                        isEnabledByDefault: true),
-                    Location.None,
-                    ex.Message));
+                ctx.ReportDiagnostic(Diagnostic.Create(GenerationFailed, Location.None, ex.Message));
             }
         });
     }

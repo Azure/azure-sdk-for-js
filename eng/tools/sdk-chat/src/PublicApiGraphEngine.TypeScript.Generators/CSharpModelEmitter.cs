@@ -6,8 +6,8 @@ using System.Text;
 namespace PublicApiGraphEngine.TypeScript.Generators;
 
 /// <summary>
-/// Emits C# partial sealed records from parsed TypeScript interfaces.
-/// Handles type mapping, JSON serialization attributes, and naming conventions.
+/// Emits C# partial sealed records from parsed TypeScript interface AST nodes.
+/// Uses structured AST for type mapping instead of string pattern matching.
 /// </summary>
 internal static class CSharpModelEmitter
 {
@@ -81,19 +81,35 @@ internal static class CSharpModelEmitter
         ["DependencyInfo"] = ["isNode"],
     };
 
-    /// <summary>Explicit C# type overrides (returned as-is, no nullable adjustment).</summary>
-    private static readonly Dictionary<string, Dictionary<string, string>> TypeOverrides = new()
+    /// <summary>
+    /// Explicit C# type overrides (returned as-is, no nullable adjustment).
+    /// Each entry also records the expected TS type shape for validation.
+    /// </summary>
+    internal static readonly Dictionary<string, Dictionary<string, (string CSharpType, string ExpectedTsType)>> TypeOverrides = new()
     {
-        ["DependencyInfo"] = new() { ["isNode"] = "bool" },
-        ["ApiIndex"] = new() { ["ambientTypes"] = "Dictionary<string, List<string>>?" },
+        ["DependencyInfo"] = new() { ["isNode"] = ("bool", "boolean") },
+        ["ApiIndex"] = new() { ["ambientTypes"] = ("Dictionary<string, List<string>>?", "Record<string, string[]>") },
+    };
+
+    /// <summary>
+    /// Exported interfaces in models.ts that are intentionally NOT generated as C# records.
+    /// Each entry includes a justification.
+    /// </summary>
+    internal static readonly Dictionary<string, string> IgnoredInterfaces = new()
+    {
+        ["ResolvedTypeRef"] = "Internal compiler type, not serialized to JSON output",
+        ["ExtractionDiagnostic"] = "Uses separate C# type in Contracts project (ApiDiagnostic)",
     };
 
     // -----------------------------------------------------------------------
     // Emission
     // -----------------------------------------------------------------------
 
-    internal static string Emit(List<TypeScriptInterfaceParser.TsInterface> interfaces, HashSet<string> allowlist)
+    internal sealed record EmitResult(string Source, IReadOnlyList<string> Diagnostics);
+
+    internal static EmitResult Emit(TsFile file, HashSet<string> allowlist)
     {
+        var diagnostics = new List<string>();
         var sb = new StringBuilder();
         sb.AppendLine("// Copyright (c) Microsoft Corporation.");
         sb.AppendLine("// Licensed under the MIT License.");
@@ -110,22 +126,34 @@ internal static class CSharpModelEmitter
         sb.AppendLine();
         sb.AppendLine("namespace PublicApiGraphEngine.TypeScript;");
 
+        // Validate: every exported interface must be accounted for
+        foreach (var iface in file.Interfaces)
+        {
+            if (!iface.IsExported) continue;
+            if (!allowlist.Contains(iface.Name) && !IgnoredInterfaces.ContainsKey(iface.Name))
+            {
+                diagnostics.Add(
+                    $"Exported interface '{iface.Name}' at {iface.Position} is neither in the allowlist nor explicitly ignored. " +
+                    "Add it to AllowlistedTypes or IgnoredInterfaces.");
+            }
+        }
+
         bool first = true;
-        foreach (var iface in interfaces)
+        foreach (var iface in file.Interfaces)
         {
             if (!allowlist.Contains(iface.Name)) continue;
 
             sb.AppendLine();
             if (!first) sb.AppendLine();
-            EmitRecord(sb, iface, allowlist);
+            EmitRecord(sb, iface, allowlist, diagnostics);
             first = false;
         }
 
         sb.AppendLine();
-        return sb.ToString();
+        return new EmitResult(sb.ToString(), diagnostics);
     }
 
-    private static void EmitRecord(StringBuilder sb, TypeScriptInterfaceParser.TsInterface iface, HashSet<string> allowlist)
+    private static void EmitRecord(StringBuilder sb, TsInterfaceDecl iface, HashSet<string> allowlist, List<string> diagnostics)
     {
         var baseType = BaseTypes.GetValueOrDefault(iface.Name);
         var baseClause = baseType is not null ? $" : {baseType}" : "";
@@ -134,132 +162,193 @@ internal static class CSharpModelEmitter
         sb.AppendLine("{");
 
         bool firstProp = true;
-        foreach (var prop in iface.Properties)
+        foreach (var member in iface.Members)
         {
-            if (ExcludedProperties.TryGetValue(iface.Name, out var excluded) && excluded.Contains(prop.Name))
+            if (ExcludedProperties.TryGetValue(iface.Name, out var excluded) && excluded.Contains(member.Name))
                 continue;
-            if (HandwrittenProperties.TryGetValue(iface.Name, out var handwritten) && handwritten.Contains(prop.Name))
+            if (HandwrittenProperties.TryGetValue(iface.Name, out var handwritten) && handwritten.Contains(member.Name))
                 continue;
 
             if (!firstProp) sb.AppendLine();
-            EmitProperty(sb, iface.Name, prop, allowlist);
+            EmitProperty(sb, iface.Name, member, allowlist, diagnostics);
             firstProp = false;
         }
 
         sb.AppendLine("}");
+
+        // Validate: every configured property reference exists in the actual interface
+        ValidateConfiguredProperties(iface, diagnostics);
     }
 
-    private static void EmitProperty(StringBuilder sb, string interfaceName, TypeScriptInterfaceParser.TsProperty prop, HashSet<string> allowlist)
+    private static void EmitProperty(StringBuilder sb, string interfaceName, TsMember member, HashSet<string> allowlist, List<string> diagnostics)
     {
-        var isRequired = IsRequired(interfaceName, prop.Name, prop.IsOptional);
+        var isRequired = IsRequired(interfaceName, member.Name, member.IsOptional);
         var nullable = !isRequired;
 
-        var csharpName = GetCSharpName(interfaceName, prop.Name);
-        var csharpType = MapType(prop.TypeText, nullable, interfaceName, prop.Name, allowlist);
+        var csharpName = GetCSharpName(interfaceName, member.Name);
+
+        // Type mapping via AST
+        string csharpType;
+        if (TypeOverrides.TryGetValue(interfaceName, out var overrides) && overrides.TryGetValue(member.Name, out var ov))
+        {
+            // Validate override: the actual TS type must match expected
+            var actualTs = member.Type.ToTypeScript();
+            if (actualTs != ov.ExpectedTsType)
+            {
+                diagnostics.Add(
+                    $"Type override for {interfaceName}.{member.Name}: expected TS type '{ov.ExpectedTsType}' " +
+                    $"but found '{actualTs}' at {member.Position}. Update TypeOverrides.");
+            }
+            csharpType = ov.CSharpType;
+        }
+        else
+        {
+            csharpType = MapTypeNode(member.Type, nullable, interfaceName, member.Name, allowlist);
+        }
 
         // XML doc
-        if (!string.IsNullOrEmpty(prop.DocComment))
+        if (!string.IsNullOrEmpty(member.DocComment))
         {
-            var escapedDoc = EscapeXml(prop.DocComment);
+            var escapedDoc = EscapeXml(member.DocComment);
             sb.AppendLine($"    /// <summary>{escapedDoc}</summary>");
         }
 
         // [JsonPropertyName]
-        sb.AppendLine($"    [JsonPropertyName(\"{prop.Name}\")]");
+        sb.AppendLine($"    [JsonPropertyName(\"{member.Name}\")]");
 
         // [JsonIgnore] for optional
         if (nullable)
         {
-            var condition = WhenWritingDefaultProperties.TryGetValue(interfaceName, out var defaults) && defaults.Contains(prop.Name)
+            var condition = WhenWritingDefaultProperties.TryGetValue(interfaceName, out var defaults) && defaults.Contains(member.Name)
                 ? "JsonIgnoreCondition.WhenWritingDefault"
                 : "JsonIgnoreCondition.WhenWritingNull";
             sb.AppendLine($"    [JsonIgnore(Condition = {condition})]");
         }
 
         // Property
-        var requiredKw = RequiredKeywordProperties.TryGetValue(interfaceName, out var reqKw) && reqKw.Contains(prop.Name) ? "required " : "";
+        var requiredKw = RequiredKeywordProperties.TryGetValue(interfaceName, out var reqKw) && reqKw.Contains(member.Name) ? "required " : "";
         var defaultValue = GetDefaultValue(csharpType, isRequired);
         var defaultSuffix = defaultValue is not null ? $" = {defaultValue};" : "";
         sb.AppendLine($"    public {requiredKw}{csharpType} {csharpName} {{ get; init; }}{defaultSuffix}");
     }
 
     // -----------------------------------------------------------------------
-    // Type mapping (recursive, fail-closed)
+    // AST-based type mapping (recursive, fail-closed)
     // -----------------------------------------------------------------------
 
-    internal static string MapType(string tsType, bool nullable, string interfaceName, string propName, HashSet<string> allowlist)
+    internal static string MapTypeNode(TsTypeNode node, bool nullable, string interfaceName, string propName, HashSet<string> allowlist)
     {
-        tsType = tsType.Trim();
-
-        // Explicit override (returned as-is)
-        if (TypeOverrides.TryGetValue(interfaceName, out var overrides) && overrides.TryGetValue(propName, out var overrideType))
-            return overrideType;
-
-        // string
-        if (tsType == "string")
-            return nullable ? "string?" : "string";
-
-        // boolean
-        if (tsType == "boolean")
-            return "bool?";
-
-        // number
-        if (tsType == "number")
-            return nullable ? "int?" : "int";
-
-        // Array: T[]
-        if (tsType.EndsWith("[]", StringComparison.Ordinal))
+        switch (node)
         {
-            var elementType = tsType[..^2].Trim();
-            var inner = MapType(elementType, false, interfaceName, propName, allowlist);
-            return nullable ? $"IReadOnlyList<{inner}>?" : $"IReadOnlyList<{inner}>";
-        }
+            case TsPrimitiveType prim:
+                return prim.Name switch
+                {
+                    "string" => nullable ? "string?" : "string",
+                    "boolean" => nullable ? "bool?" : "bool",
+                    "number" => nullable ? "int?" : "int",
+                    "undefined" or "null" or "void" => "object?",
+                    _ => throw new InvalidOperationException(
+                        $"Unsupported primitive type '{prim.Name}' in {interfaceName}.{propName} at {prim.Position}."),
+                };
 
-        // Record<K, V>
-        if (tsType.StartsWith("Record<", StringComparison.Ordinal) && tsType.EndsWith(">", StringComparison.Ordinal))
-        {
-            var inner = tsType["Record<".Length..^1];
-            var (key, value) = SplitGenericArgs(inner);
-            var keyType = MapType(key, false, interfaceName, propName, allowlist);
-            var valType = MapType(value, false, interfaceName, propName, allowlist);
-            return nullable ? $"Dictionary<{keyType}, {valType}>?" : $"Dictionary<{keyType}, {valType}>";
-        }
+            case TsStringLiteralType:
+                return nullable ? "string?" : "string";
 
-        // Model reference (e.g., ClassInfo, ModuleInfo)
-        if (allowlist.Contains(tsType))
-            return nullable ? $"{tsType}?" : tsType;
-
-        // String literal union (e.g., "info" | "warning" | "error")
-        if (tsType.Contains('|', StringComparison.Ordinal))
-        {
-            var parts = tsType.Split('|');
-            var allStringLike = parts.All(p =>
+            case TsArrayType arr:
             {
-                var t = p.Trim().Trim('"');
-                return t != p.Trim(); // was quoted
-            });
-            if (allStringLike) return nullable ? "string?" : "string";
-        }
+                var inner = MapTypeNode(arr.ElementType, false, interfaceName, propName, allowlist);
+                return nullable ? $"IReadOnlyList<{inner}>?" : $"IReadOnlyList<{inner}>";
+            }
 
-        throw new InvalidOperationException(
-            $"Unsupported TypeScript type '{tsType}' in {interfaceName}.{propName}. " +
-            $"Add it to TypeOverrides or extend the type mapper.");
+            case TsNamedType named when named.Name == "Record" && named.TypeArguments.Count == 2:
+            {
+                var keyType = MapTypeNode(named.TypeArguments[0], false, interfaceName, propName, allowlist);
+                var valType = MapTypeNode(named.TypeArguments[1], false, interfaceName, propName, allowlist);
+                return nullable ? $"Dictionary<{keyType}, {valType}>?" : $"Dictionary<{keyType}, {valType}>";
+            }
+
+            case TsNamedType named when allowlist.Contains(named.Name) && named.TypeArguments.Count == 0:
+                return nullable ? $"{named.Name}?" : named.Name;
+
+            case TsNamedType named:
+                throw new InvalidOperationException(
+                    $"Unsupported named type '{named.ToTypeScript()}' in {interfaceName}.{propName} at {named.Position}. " +
+                    "Is it missing from the allowlist?");
+
+            case TsUnionType union:
+                return MapUnionType(union, nullable, interfaceName, propName, allowlist);
+
+            case TsParenthesizedType paren:
+                return MapTypeNode(paren.Inner, nullable, interfaceName, propName, allowlist);
+
+            default:
+                throw new InvalidOperationException(
+                    $"Unsupported type node {node.GetType().Name} in {interfaceName}.{propName} at {node.Position}.");
+        }
     }
 
-    /// <summary>Split "K, V" where V itself may contain angle brackets.</summary>
-    private static (string Key, string Value) SplitGenericArgs(string args)
+    private static string MapUnionType(TsUnionType union, bool nullable, string interfaceName, string propName, HashSet<string> allowlist)
     {
-        int depth = 0;
-        for (int i = 0; i < args.Length; i++)
+        // Filter out undefined/null members (they just indicate nullability)
+        var nonNullMembers = union.Members
+            .Where(m => m is not TsPrimitiveType p || (p.Name != "undefined" && p.Name != "null"))
+            .ToList();
+
+        // If union contains undefined/null, it's nullable regardless of optionality
+        var hasNullability = nonNullMembers.Count < union.Members.Count;
+        if (hasNullability)
+            nullable = true;
+
+        // Single remaining type after stripping undefined/null
+        if (nonNullMembers.Count == 1)
+            return MapTypeNode(nonNullMembers[0], nullable, interfaceName, propName, allowlist);
+
+        // All string literals → map to string
+        if (nonNullMembers.All(m => m is TsStringLiteralType))
+            return nullable ? "string?" : "string";
+
+        throw new InvalidOperationException(
+            $"Unsupported union type '{union.ToTypeScript()}' in {interfaceName}.{propName} at {union.Position}. " +
+            "Only string literal unions and T | undefined are supported.");
+    }
+
+    // -----------------------------------------------------------------------
+    // Validation
+    // -----------------------------------------------------------------------
+
+    /// <summary>
+    /// Validates that all configured property references (excluded, handwritten, overrides, etc.)
+    /// actually exist in the parsed interface.
+    /// </summary>
+    private static void ValidateConfiguredProperties(TsInterfaceDecl iface, List<string> diagnostics)
+    {
+        var memberNames = iface.Members.Select(m => m.Name).ToHashSet();
+
+        void CheckSet(Dictionary<string, HashSet<string>> config, string configName)
         {
-            if (args[i] == '<') depth++;
-            else if (args[i] == '>') depth--;
-            else if (args[i] == ',' && depth == 0)
+            if (config.TryGetValue(iface.Name, out var names))
             {
-                return (args[..i].Trim(), args[(i + 1)..].Trim());
+                foreach (var name in names)
+                {
+                    if (!memberNames.Contains(name))
+                        diagnostics.Add($"{configName}[{iface.Name}] references property '{name}' which does not exist in models.ts.");
+                }
             }
         }
-        throw new InvalidOperationException($"Cannot split generic args: {args}");
+
+        CheckSet(ExcludedProperties, "ExcludedProperties");
+        CheckSet(HandwrittenProperties, "HandwrittenProperties");
+        CheckSet(RequiredKeywordProperties, "RequiredKeywordProperties");
+        CheckSet(WhenWritingDefaultProperties, "WhenWritingDefaultProperties");
+
+        if (TypeOverrides.TryGetValue(iface.Name, out var overrides))
+        {
+            foreach (var propName in overrides.Keys)
+            {
+                if (!memberNames.Contains(propName))
+                    diagnostics.Add($"TypeOverrides[{iface.Name}] references property '{propName}' which does not exist in models.ts.");
+            }
+        }
     }
 
     // -----------------------------------------------------------------------

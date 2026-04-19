@@ -34,6 +34,7 @@
     <ProjectReference Include="../../src/PublicApiGraphEngine.Python/PublicApiGraphEngine.Python.csproj" />
     <ProjectReference Include="../../src/PublicApiGraphEngine.Java/PublicApiGraphEngine.Java.csproj" />
     <ProjectReference Include="../../src/PublicApiGraphEngine.TypeScript/PublicApiGraphEngine.TypeScript.csproj" />
+    <ProjectReference Include="../../src/PublicApiGraphEngine.TypeScript.Generators/PublicApiGraphEngine.TypeScript.Generators.csproj" />
     <ProjectReference Include="../../src/PublicApiGraphEngine.Go/PublicApiGraphEngine.Go.csproj" />
     <ProjectReference Include="../../src/Microsoft.SdkChat/Microsoft.SdkChat.csproj" />
   </ItemGroup>
