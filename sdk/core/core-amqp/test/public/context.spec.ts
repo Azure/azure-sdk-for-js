@@ -31,9 +31,11 @@ describe("ConnectionContextBase", function () {
     assert.isFalse(context.wasConnectionCloseCalled);
     assert.instanceOf(context.connection, Connection);
     assert.equal(context.connection.options.transport, "tls");
-    assert.equal(context.connection.options.properties!.product, "MSJSClient");
-    assert.equal(context.connection.options.properties!["user-agent"], "/js-amqp-client");
-    assert.equal(context.connection.options.properties!.version, "1.0.0");
+    const properties = context.connection.options.properties;
+    assert.isDefined(properties);
+    assert.equal(properties.product, "MSJSClient");
+    assert.equal(properties["user-agent"], "/js-amqp-client");
+    assert.equal(properties.version, "1.0.0");
     assert.instanceOf(context.cbsSession, CbsClient);
   });
 
@@ -54,9 +56,11 @@ describe("ConnectionContextBase", function () {
     assert.equal(tlsConnectionOptions.host, "hostname.servicebus.windows.net");
     assert.isFalse(context.wasConnectionCloseCalled);
     assert.instanceOf(context.connection, Connection);
-    assert.equal(context.connection.options.properties!.product, "MSJSClient");
-    assert.equal(context.connection.options.properties!["user-agent"], "/js-amqp-client");
-    assert.equal(context.connection.options.properties!.version, "1.0.0");
+    const properties = context.connection.options.properties;
+    assert.isDefined(properties);
+    assert.equal(properties.product, "MSJSClient");
+    assert.equal(properties["user-agent"], "/js-amqp-client");
+    assert.equal(properties.version, "1.0.0");
     assert.instanceOf(context.cbsSession, CbsClient);
   });
 
@@ -78,9 +82,11 @@ describe("ConnectionContextBase", function () {
     assert.equal(tlsConnectionOptions.host, "hostname.servicebus.windows.net");
     assert.isFalse(context.wasConnectionCloseCalled);
     assert.instanceOf(context.connection, Connection);
-    assert.equal(context.connection.options.properties!.product, "MSJSClient");
-    assert.equal(context.connection.options.properties!["user-agent"], "/js-amqp-client");
-    assert.equal(context.connection.options.properties!.version, "1.0.0");
+    const properties = context.connection.options.properties;
+    assert.isDefined(properties);
+    assert.equal(properties.product, "MSJSClient");
+    assert.equal(properties["user-agent"], "/js-amqp-client");
+    assert.equal(properties.version, "1.0.0");
     assert.instanceOf(context.cbsSession, CbsClient);
   });
 
@@ -101,9 +107,11 @@ describe("ConnectionContextBase", function () {
     assert.equal(tlsConnectionOptions.port, 1111);
     assert.isFalse(context.wasConnectionCloseCalled);
     assert.instanceOf(context.connection, Connection);
-    assert.equal(context.connection.options.properties!.product, "MSJSClient");
-    assert.equal(context.connection.options.properties!["user-agent"], "/js-amqp-client");
-    assert.equal(context.connection.options.properties!.version, "1.0.0");
+    const properties = context.connection.options.properties;
+    assert.isDefined(properties);
+    assert.equal(properties.product, "MSJSClient");
+    assert.equal(properties["user-agent"], "/js-amqp-client");
+    assert.equal(properties.version, "1.0.0");
     assert.instanceOf(context.cbsSession, CbsClient);
   });
 
@@ -123,9 +131,11 @@ describe("ConnectionContextBase", function () {
     assert.equal(tlsConnectionOptions.port, 5671);
     assert.isFalse(context.wasConnectionCloseCalled);
     assert.instanceOf(context.connection, Connection);
-    assert.equal(context.connection.options.properties!.product, "MSJSClient");
-    assert.equal(context.connection.options.properties!["user-agent"], "/js-amqp-client");
-    assert.equal(context.connection.options.properties!.version, "1.0.0");
+    const properties = context.connection.options.properties;
+    assert.isDefined(properties);
+    assert.equal(properties.product, "MSJSClient");
+    assert.equal(properties["user-agent"], "/js-amqp-client");
+    assert.equal(properties.version, "1.0.0");
     assert.instanceOf(context.cbsSession, CbsClient);
   });
 
@@ -153,10 +163,14 @@ describe("ConnectionContextBase", function () {
     assert.equal(context.connection.options.hostname, "hostname.servicebus.windows.net");
     assert.isFalse(context.wasConnectionCloseCalled);
     assert.instanceOf(context.connection, Connection);
-    assert.equal(context.connection.options.properties!.product, "MSJSClient");
-    assert.equal(context.connection.options.properties!["user-agent"], "/js-amqp-client");
-    assert.equal(context.connection.options.properties!.version, "1.0.0");
-    assert.equal(context.connection.options.webSocketOptions!.url, `wss://127.0.0.1:443/`);
+    const properties = context.connection.options.properties;
+    assert.isDefined(properties);
+    assert.equal(properties.product, "MSJSClient");
+    assert.equal(properties["user-agent"], "/js-amqp-client");
+    assert.equal(properties.version, "1.0.0");
+    const webSocketOptions = context.connection.options.webSocketOptions;
+    assert.isDefined(webSocketOptions);
+    assert.equal(webSocketOptions.url, `wss://127.0.0.1:443/`);
     assert.instanceOf(context.cbsSession, CbsClient);
   });
 
@@ -177,13 +191,14 @@ describe("ConnectionContextBase", function () {
     assert.isDefined(context.negotiateClaimLock);
     assert.isFalse(context.wasConnectionCloseCalled);
     assert.instanceOf(context.connection, Connection);
-    assert.equal(context.connection.options.properties!.product, "MSJSClient");
-    assert.equal(context.connection.options.properties!["user-agent"], "/js-amqp-client");
-    assert.equal(context.connection.options.properties!.version, "1.0.0");
-    assert.equal(
-      context.connection.options.webSocketOptions!.url,
-      `wss://hostname.servicebus.windows.net:443/`,
-    );
+    const properties = context.connection.options.properties;
+    assert.isDefined(properties);
+    assert.equal(properties.product, "MSJSClient");
+    assert.equal(properties["user-agent"], "/js-amqp-client");
+    assert.equal(properties.version, "1.0.0");
+    const webSocketOptions = context.connection.options.webSocketOptions;
+    assert.isDefined(webSocketOptions);
+    assert.equal(webSocketOptions.url, `wss://hostname.servicebus.windows.net:443/`);
     assert.instanceOf(context.cbsSession, CbsClient);
   });
 
@@ -208,13 +223,14 @@ describe("ConnectionContextBase", function () {
     assert.equal(tlsConnectionOptions.port, 1111);
     assert.isFalse(context.wasConnectionCloseCalled);
     assert.instanceOf(context.connection, Connection);
-    assert.equal(context.connection.options.properties!.product, "MSJSClient");
-    assert.equal(context.connection.options.properties!["user-agent"], "/js-amqp-client");
-    assert.equal(context.connection.options.properties!.version, "1.0.0");
-    assert.equal(
-      context.connection.options.webSocketOptions!.url,
-      `wss://hostname.servicebus.windows.net:1111/`,
-    );
+    const properties = context.connection.options.properties;
+    assert.isDefined(properties);
+    assert.equal(properties.product, "MSJSClient");
+    assert.equal(properties["user-agent"], "/js-amqp-client");
+    assert.equal(properties.version, "1.0.0");
+    const webSocketOptions = context.connection.options.webSocketOptions;
+    assert.isDefined(webSocketOptions);
+    assert.equal(webSocketOptions.url, `wss://hostname.servicebus.windows.net:1111/`);
     assert.instanceOf(context.cbsSession, CbsClient);
   });
 
