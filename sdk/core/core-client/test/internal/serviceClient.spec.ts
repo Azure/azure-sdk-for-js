@@ -94,12 +94,10 @@ describe("ServiceClient", function () {
         },
       };
       try {
-        let request: OperationRequest;
         const client = new ServiceClient({
           httpClient: {
             sendRequest: (req) => {
-              request = req;
-              return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
+              return Promise.resolve({ request: req, status: 200, headers: createHttpHeaders() });
             },
           },
           credential,
@@ -124,22 +122,22 @@ describe("ServiceClient", function () {
         },
       };
 
-      let request: OperationRequest;
+      const sendRequest = vi.fn((req: PipelineRequest) =>
+        Promise.resolve({ request: req, status: 200, headers: createHttpHeaders() }),
+      );
       const client = new ServiceClient({
-        httpClient: {
-          sendRequest: (req) => {
-            request = req;
-            return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
-          },
-        },
+        httpClient: { sendRequest },
         credential,
         baseUri,
       });
 
       await client.sendOperationRequest(testOperationArgs, testOperationSpec);
 
-      assert.isOk(request!);
-      assert.deepEqual(request!.headers.get("authorization"), "Bearer testToken");
+      expect(sendRequest).toHaveBeenCalledOnce();
+      assert.deepEqual(
+        sendRequest.mock.calls[0][0].headers.get("authorization"),
+        "Bearer testToken",
+      );
     });
 
     it("should use endpoint to build scope", async function () {
@@ -151,22 +149,22 @@ describe("ServiceClient", function () {
         },
       };
 
-      let request: OperationRequest;
+      const sendRequest = vi.fn((req: PipelineRequest) =>
+        Promise.resolve({ request: req, status: 200, headers: createHttpHeaders() }),
+      );
       const client = new ServiceClient({
-        httpClient: {
-          sendRequest: (req) => {
-            request = req;
-            return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
-          },
-        },
+        httpClient: { sendRequest },
         credential,
         endpoint,
       });
 
       await client.sendOperationRequest(testOperationArgs, testOperationSpec);
 
-      assert.isOk(request!);
-      assert.deepEqual(request!.headers.get("authorization"), "Bearer testToken");
+      expect(sendRequest).toHaveBeenCalledOnce();
+      assert.deepEqual(
+        sendRequest.mock.calls[0][0].headers.get("authorization"),
+        "Bearer testToken",
+      );
     });
 
     it("should use the provided scope", async function () {
@@ -178,22 +176,22 @@ describe("ServiceClient", function () {
         },
       };
 
-      let request: OperationRequest;
+      const sendRequest = vi.fn((req: PipelineRequest) =>
+        Promise.resolve({ request: req, status: 200, headers: createHttpHeaders() }),
+      );
       const client = new ServiceClient({
-        httpClient: {
-          sendRequest: (req) => {
-            request = req;
-            return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
-          },
-        },
+        httpClient: { sendRequest },
         credential,
         credentialScopes: authScope,
       });
 
       await client.sendOperationRequest(testOperationArgs, testOperationSpec);
 
-      assert.isOk(request!);
-      assert.deepEqual(request!.headers.get("authorization"), "Bearer testToken");
+      expect(sendRequest).toHaveBeenCalledOnce();
+      assert.deepEqual(
+        sendRequest.mock.calls[0][0].headers.get("authorization"),
+        "Bearer testToken",
+      );
     });
   });
 
@@ -204,16 +202,13 @@ describe("ServiceClient", function () {
       unrelated: "42",
     };
 
-    let request: OperationRequest;
+    const sendRequest = vi.fn((req: PipelineRequest) =>
+      Promise.resolve({ request: req, status: 200, headers: createHttpHeaders() }),
+    );
     const pipeline = createEmptyPipeline();
     pipeline.addPolicy(serializationPolicy(), { phase: "Serialize" });
     const client = new ServiceClient({
-      httpClient: {
-        sendRequest: (req) => {
-          request = req;
-          return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
-        },
-      },
+      httpClient: { sendRequest },
       pipeline,
     });
 
@@ -261,23 +256,20 @@ describe("ServiceClient", function () {
       },
     );
 
-    assert.isOk(request!);
-    assert.deepEqual(request!.headers.toJSON(), expected);
+    expect(sendRequest).toHaveBeenCalledOnce();
+    assert.deepEqual(sendRequest.mock.calls[0][0].headers.toJSON(), expected);
   });
 
   it("should call onResponse with the full response", async function () {
-    let request: OperationRequest;
+    const sendRequest = vi.fn((req: PipelineRequest) =>
+      Promise.resolve({
+        request: req,
+        status: 200,
+        headers: createHttpHeaders({ "X-Extra-Info": "foo" }),
+      }),
+    );
     const client = new ServiceClient({
-      httpClient: {
-        sendRequest: (req) => {
-          request = req;
-          return Promise.resolve({
-            request,
-            status: 200,
-            headers: createHttpHeaders({ "X-Extra-Info": "foo" }),
-          });
-        },
-      },
+      httpClient: { sendRequest },
       pipeline: createEmptyPipeline(),
     });
 
@@ -296,29 +288,27 @@ describe("ServiceClient", function () {
       },
     );
 
-    assert.isOk(request!);
+    expect(sendRequest).toHaveBeenCalledOnce();
+    const request = sendRequest.mock.calls[0][0];
     assert.strictEqual(JSON.stringify(operationResponse), "{}");
     assert.strictEqual(rawResponse?.status, 200);
-    assert.strictEqual(rawResponse?.request, request!);
+    assert.strictEqual(rawResponse?.request, request);
     assert.strictEqual(rawResponse?.headers.get("X-Extra-Info"), "foo");
   });
 
   it("should call onResponse with the full response when encountering an unknown status", async function () {
-    let request: OperationRequest;
+    const sendRequest = vi.fn((req: PipelineRequest) =>
+      Promise.resolve({
+        request: req,
+        status: 500,
+        headers: createHttpHeaders(),
+      }),
+    );
 
     const pipeline = createEmptyPipeline();
     pipeline.addPolicy(deserializationPolicy());
     const client = new ServiceClient({
-      httpClient: {
-        sendRequest: (req) => {
-          request = req;
-          return Promise.resolve({
-            request,
-            status: 500,
-            headers: createHttpHeaders(),
-          });
-        },
-      },
+      httpClient: { sendRequest },
       pipeline,
     });
 
@@ -356,9 +346,10 @@ describe("ServiceClient", function () {
     }
 
     assert.isTrue(requestFailed, "Request should fail with unknown status");
-    assert.isOk(request!);
+    expect(sendRequest).toHaveBeenCalledOnce();
+    const request = sendRequest.mock.calls[0][0];
     assert.strictEqual(rawResponse?.status, 500);
-    assert.strictEqual(rawResponse?.request, request!);
+    assert.strictEqual(rawResponse?.request, request);
     assert.deepStrictEqual(flatResponse, { body: undefined });
     assert.strictEqual(caughtError, onResponseError);
   });
@@ -400,12 +391,10 @@ describe("ServiceClient", function () {
   });
 
   it("should deserialize response bodies", async function () {
-    let request: OperationRequest;
     const httpClient: HttpClient = {
       sendRequest: (req) => {
-        request = req;
         return Promise.resolve({
-          request,
+          request: req,
           status: 200,
           headers: createHttpHeaders(),
           bodyAsText: "[1,2,3]",
@@ -1325,14 +1314,12 @@ describe("ServiceClient", function () {
       serializer: createSerializer(),
     };
 
-    let request: OperationRequest;
     const pipeline = createEmptyPipeline();
     pipeline.addPolicy(serializationPolicy(), { phase: "Serialize" });
     const client = new ServiceClient({
       httpClient: {
         sendRequest: (req) => {
-          request = req;
-          return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
+          return Promise.resolve({ request: req, status: 200, headers: createHttpHeaders() });
         },
       },
       pipeline,
@@ -1409,14 +1396,12 @@ describe("ServiceClient", function () {
       serializer: createSerializer(),
     };
 
-    let request: OperationRequest;
     const pipeline = createEmptyPipeline();
     pipeline.addPolicy(serializationPolicy(), { phase: "Serialize" });
     const client = new ServiceClient({
       httpClient: {
         sendRequest: (req) => {
-          request = req;
-          return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
+          return Promise.resolve({ request: req, status: 200, headers: createHttpHeaders() });
         },
       },
       pipeline,
@@ -1436,7 +1421,6 @@ describe("ServiceClient", function () {
   });
 
   it("should not replace existing queries in request URLs", async function () {
-    let request: PipelineRequest;
     const topQueryParam: OperationQueryParameter = {
       parameterPath: ["options", "top"],
       mapper: {
@@ -1477,21 +1461,20 @@ describe("ServiceClient", function () {
       serializer: createSerializer(),
     };
 
+    const sendRequest = vi.fn((req: PipelineRequest) =>
+      Promise.resolve({
+        request: req,
+        status: 200,
+        headers: createHttpHeaders(),
+        bodyAsText: `"dummy string"`,
+      }),
+    );
     const client = new ServiceClient({
-      httpClient: {
-        sendRequest: (req) => {
-          request = req;
-          return Promise.resolve({
-            request: req,
-            status: 200,
-            headers: createHttpHeaders(),
-            bodyAsText: `"dummy string"`,
-          });
-        },
-      },
+      httpClient: { sendRequest },
     });
     await client.sendOperationRequest<string>({ options: { top: 10 } as any }, operationSpec);
-    assert.equal(request!.url, "https://example.com/path?$skip=10&$top=10");
+    expect(sendRequest).toHaveBeenCalledOnce();
+    assert.equal(sendRequest.mock.calls[0][0].url, "https://example.com/path?$skip=10&$top=10");
   });
 
   it("should insert policies in the correct pipeline position", async function () {
@@ -1532,14 +1515,11 @@ async function testSendOperationRequest(
   skipEncodingParameter: boolean,
   expected: string,
 ): Promise<void> {
-  let request: OperationRequest;
+  const sendRequest = vi.fn((req: PipelineRequest) =>
+    Promise.resolve({ request: req, status: 200, headers: createHttpHeaders() }),
+  );
   const client = new ServiceClient({
-    httpClient: {
-      sendRequest: (req) => {
-        request = req;
-        return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
-      },
-    },
+    httpClient: { sendRequest },
     pipeline: createEmptyPipeline(),
   });
 
@@ -1576,11 +1556,9 @@ async function testSendOperationRequest(
     },
   );
 
-  assert.isOk(request!);
-  assert.isTrue(
-    request!.url.endsWith(expected),
-    `"${request!.url}" does not end with "${expected}"`,
-  );
+  expect(sendRequest).toHaveBeenCalledOnce();
+  const request = sendRequest.mock.calls[0][0];
+  assert.isTrue(request.url.endsWith(expected), `"${request.url}" does not end with "${expected}"`);
 }
 
 describe("ServiceClient requestOptions", () => {
