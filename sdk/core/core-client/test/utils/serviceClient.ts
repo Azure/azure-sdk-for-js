@@ -4,7 +4,6 @@
 import { assert } from "vitest";
 import type {
   FullOperationResponse,
-  OperationRequest,
   OperationResponseMap,
   Serializer,
 } from "../../src/index.js";
@@ -34,12 +33,10 @@ export async function assertServiceClientResponse(
   testSpec: ServiceClientTestSpec,
   expectedResponse: unknown,
 ): Promise<void> {
-  let request: OperationRequest;
   const httpClient: HttpClient = {
     sendRequest: (req) => {
-      request = req;
       return Promise.resolve({
-        request,
+        request: req,
         status: 200,
         headers: testSpec.responseHeaders ?? createHttpHeaders(),
         bodyAsText: testSpec.responseBodyAsText,
