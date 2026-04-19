@@ -37,12 +37,20 @@ export type CollisionAliasMap = Record<string, Record<string, string>>;
  */
 export function resolveCollisions(
     api: ApiIndex,
-    contextRefPackages: Map<string, Map<string, string>>,
+    contextRefPackages: Map<string, Map<string, Set<string>>>,
 ): CollisionAliasMap {
-    // Collect all type names defined in the main package
-    const mainTypeNames = new Set<string>();
+    // Collect all names defined in main (including functions/namespaces) for the
+    // usedAliases seed set — we never want a generated alias to shadow ANY main name.
+    const allMainNames = new Set<string>();
     for (const mod of api.modules) {
-        collectTypeNames(mod, mainTypeNames);
+        collectTypeNames(mod, allMainNames);
+    }
+
+    // Collect only importable type names (classes, interfaces, enums, type aliases)
+    // for collision detection — functions and namespaces can't collide with type imports.
+    const mainImportableTypeNames = new Set<string>();
+    for (const mod of api.modules) {
+        collectMainImportableTypeNames(mod, mainImportableTypeNames);
     }
 
     // Collect all dep type names grouped by package
@@ -57,11 +65,17 @@ export function resolveCollisions(
 
     // Find collisions: names that appear in main + any dep, or in 2+ deps
     const collisionAliases: CollisionAliasMap = {};
-    // Track all generated aliases to ensure uniqueness across the entire output
-    const usedAliases = new Set<string>([...mainTypeNames]);
+    // Track all generated aliases to ensure uniqueness across the entire output.
+    // Seed with ALL main names (including functions/namespaces) and ALL dep type names
+    // to prevent generated aliases from colliding with any importable name.
+    const usedAliases = new Set<string>([...allMainNames]);
+    for (const dep of api.dependencies ?? []) {
+        if (dep.isNode) continue;
+        for (const name of getAllDepTypeNames(dep)) usedAliases.add(name);
+    }
 
     for (const [typeName, depPackages] of depTypesByName) {
-        const mainOwns = mainTypeNames.has(typeName);
+        const mainOwns = mainImportableTypeNames.has(typeName);
         const packages = Array.from(depPackages).sort(); // deterministic order
 
         if (mainOwns && packages.length >= 1) {
@@ -140,13 +154,26 @@ function collectTypeNames(source: { classes?: { name: string }[]; interfaces?: {
     for (const i of source.interfaces ?? []) out.add(i.name);
     for (const e of source.enums ?? []) out.add(e.name);
     for (const t of source.types ?? []) out.add(t.name);
-    // Include functions and namespaces for main type name collection so we
-    // detect collisions against all main-defined names, but these are only
-    // used for the "main owns this name" check, not for aliasing.
+    // Include functions and namespaces so generated aliases don't shadow them.
     for (const f of source.functions ?? []) if (f.name) out.add(f.name);
     for (const ns of source.namespaces ?? []) {
         out.add(ns.name);
         collectTypeNames(ns, out);
+    }
+}
+
+/**
+ * Collect only importable type names (classes, interfaces, enums, type aliases)
+ * from main modules. Functions and namespaces are excluded because they can't
+ * collide with type imports from dependencies.
+ */
+function collectMainImportableTypeNames(source: { classes?: { name: string }[]; interfaces?: { name: string }[]; enums?: { name: string }[]; types?: { name: string }[]; namespaces?: NamespaceInfo[] }, out: Set<string>): void {
+    for (const c of source.classes ?? []) out.add(c.name);
+    for (const i of source.interfaces ?? []) out.add(i.name);
+    for (const e of source.enums ?? []) out.add(e.name);
+    for (const t of source.types ?? []) out.add(t.name);
+    for (const ns of source.namespaces ?? []) {
+        collectMainImportableTypeNames(ns, out);
     }
 }
 
@@ -157,7 +184,7 @@ function collectTypeNames(source: { classes?: { name: string }[]; interfaces?: {
 function applyAliasesToModule(
     mod: { classes?: ClassInfo[]; interfaces?: InterfaceInfo[]; types?: TypeAliasInfo[]; functions?: FunctionInfo[]; namespaces?: NamespaceInfo[] },
     aliases: CollisionAliasMap,
-    contextRefPackages: Map<string, Map<string, string>>,
+    contextRefPackages: Map<string, Map<string, Set<string>>>,
     prefix: string,
 ): void {
     for (const cls of mod.classes ?? []) {
@@ -190,19 +217,23 @@ function applyAliasesToModule(
 /**
  * For a single entity, build the map of bare name → alias by looking up
  * which colliding types it references and from which package.
+ * If a type name comes from multiple packages (ambiguous), skip replacement.
  */
 function buildReplacementsForEntity(
     entityKey: string,
     aliases: CollisionAliasMap,
-    contextRefPackages: Map<string, Map<string, string>>,
+    contextRefPackages: Map<string, Map<string, Set<string>>>,
 ): Map<string, string> {
     const replacements = new Map<string, string>();
     const entityRefs = contextRefPackages.get(entityKey);
     if (!entityRefs) return replacements;
 
-    for (const [typeName, packageName] of entityRefs) {
+    for (const [typeName, packageNames] of entityRefs) {
         const aliasEntry = aliases[typeName];
         if (!aliasEntry) continue;
+        // If the type name comes from multiple packages, skip — ambiguous
+        if (packageNames.size !== 1) continue;
+        const packageName = packageNames.values().next().value!;
         const alias = aliasEntry[packageName];
         if (alias && alias !== typeName) {
             replacements.set(typeName, alias);
@@ -212,27 +243,91 @@ function buildReplacementsForEntity(
 }
 
 /**
- * Apply word-boundary replacements to a string.
- * Uses a regex that matches the bare type name at a word boundary.
+ * Replace standalone type identifiers in text using a character-by-character lexer.
+ * - Skips content inside string literals ("..." and '...')
+ * - Skips identifiers preceded by '.' (qualified access like Foo.Bar)
+ * - Only replaces standalone identifier tokens that match a key in replacements
  */
-function replaceInText(text: string, replacements: Map<string, string>): string {
-    let result = text;
-    for (const [from, to] of replacements) {
-        result = result.replace(new RegExp(`\\b${escapeRegExp(from)}\\b`, "g"), to);
+function replaceTypeIdentifiers(text: string, replacements: Map<string, string>): string {
+    const result: string[] = [];
+    let i = 0;
+    const len = text.length;
+
+    while (i < len) {
+        const ch = text[i];
+
+        // String literal: copy verbatim until closing quote
+        if (ch === '"' || ch === "'") {
+            const quote = ch;
+            result.push(quote);
+            i++;
+            while (i < len) {
+                const sc = text[i];
+                result.push(sc);
+                i++;
+                if (sc === quote) break;
+                // Skip escaped characters
+                if (sc === '\\' && i < len) {
+                    result.push(text[i]);
+                    i++;
+                }
+            }
+            continue;
+        }
+
+        // Identifier start character
+        if (isIdentStart(ch)) {
+            const start = i;
+            i++;
+            while (i < len && isIdentPart(text[i])) i++;
+            const ident = text.substring(start, i);
+
+            // Check if preceded by '.' — qualified access, don't replace
+            let precededByDot = false;
+            for (let j = start - 1; j >= 0; j--) {
+                const pc = text[j];
+                if (pc === ' ' || pc === '\t') continue; // skip whitespace
+                if (pc === '.') precededByDot = true;
+                break;
+            }
+
+            if (!precededByDot && replacements.has(ident)) {
+                result.push(replacements.get(ident)!);
+            } else {
+                result.push(ident);
+            }
+            continue;
+        }
+
+        // Any other character: copy verbatim
+        result.push(ch);
+        i++;
     }
-    return result;
+
+    return result.join('');
 }
 
-function escapeRegExp(s: string): string {
-    return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+function isIdentStart(ch: string): boolean {
+    const c = ch.charCodeAt(0);
+    return (c >= 65 && c <= 90) ||  // A-Z
+           (c >= 97 && c <= 122) || // a-z
+           c === 95 || c === 36;    // _ $
+}
+
+function isIdentPart(ch: string): boolean {
+    const c = ch.charCodeAt(0);
+    return (c >= 65 && c <= 90) ||  // A-Z
+           (c >= 97 && c <= 122) || // a-z
+           (c >= 48 && c <= 57) ||  // 0-9
+           c === 95 || c === 36;    // _ $
 }
 
 // --- Apply replacements to each entity type ---
 
 function applyToClass(cls: ClassInfo, r: Map<string, string>): void {
-    if (cls.extends) cls.extends = replaceInText(cls.extends, r);
-    if (cls.implements) cls.implements = cls.implements.map(i => replaceInText(i, r));
-    if (cls.typeParams) cls.typeParams = replaceInText(cls.typeParams, r);
+    if (cls.extends) cls.extends = replaceTypeIdentifiers(cls.extends, r);
+    if (cls.implements) cls.implements = cls.implements.map(i => replaceTypeIdentifiers(i, r));
+    if (cls.typeParams) cls.typeParams = replaceTypeIdentifiers(cls.typeParams, r);
     applyToConstructors(cls.constructors, r);
     applyToMethods(cls.methods, r);
     applyToProperties(cls.properties, r);
@@ -240,31 +335,31 @@ function applyToClass(cls: ClassInfo, r: Map<string, string>): void {
 }
 
 function applyToInterface(iface: InterfaceInfo, r: Map<string, string>): void {
-    if (iface.extends) iface.extends = iface.extends.map(e => replaceInText(e, r));
-    if (iface.typeParams) iface.typeParams = replaceInText(iface.typeParams, r);
+    if (iface.extends) iface.extends = iface.extends.map(e => replaceTypeIdentifiers(e, r));
+    if (iface.typeParams) iface.typeParams = replaceTypeIdentifiers(iface.typeParams, r);
     applyToMethods(iface.methods, r);
     applyToProperties(iface.properties, r);
     applyToIndexSignatures(iface.indexSignatures, r);
 }
 
 function applyToTypeAlias(t: TypeAliasInfo, r: Map<string, string>): void {
-    t.type = replaceInText(t.type, r);
-    if (t.typeParams) t.typeParams = replaceInText(t.typeParams, r);
+    t.type = replaceTypeIdentifiers(t.type, r);
+    if (t.typeParams) t.typeParams = replaceTypeIdentifiers(t.typeParams, r);
 }
 
 function applyToFunction(fn: FunctionInfo, r: Map<string, string>): void {
-    fn.sig = replaceInText(fn.sig, r);
-    if (fn.ret) fn.ret = replaceInText(fn.ret, r);
-    if (fn.typeParams) fn.typeParams = replaceInText(fn.typeParams, r);
+    fn.sig = replaceTypeIdentifiers(fn.sig, r);
+    if (fn.ret) fn.ret = replaceTypeIdentifiers(fn.ret, r);
+    if (fn.typeParams) fn.typeParams = replaceTypeIdentifiers(fn.typeParams, r);
     applyToParams(fn.params, r);
 }
 
 function applyToMethods(methods: MethodInfo[] | undefined, r: Map<string, string>): void {
     if (!methods) return;
     for (const m of methods) {
-        m.sig = replaceInText(m.sig, r);
-        if (m.ret) m.ret = replaceInText(m.ret, r);
-        if (m.typeParams) m.typeParams = replaceInText(m.typeParams, r);
+        m.sig = replaceTypeIdentifiers(m.sig, r);
+        if (m.ret) m.ret = replaceTypeIdentifiers(m.ret, r);
+        if (m.typeParams) m.typeParams = replaceTypeIdentifiers(m.typeParams, r);
         applyToParams(m.params, r);
     }
 }
@@ -272,14 +367,14 @@ function applyToMethods(methods: MethodInfo[] | undefined, r: Map<string, string
 function applyToProperties(props: PropertyInfo[] | undefined, r: Map<string, string>): void {
     if (!props) return;
     for (const p of props) {
-        p.type = replaceInText(p.type, r);
+        p.type = replaceTypeIdentifiers(p.type, r);
     }
 }
 
 function applyToConstructors(ctors: ConstructorInfo[] | undefined, r: Map<string, string>): void {
     if (!ctors) return;
     for (const c of ctors) {
-        c.sig = replaceInText(c.sig, r);
+        c.sig = replaceTypeIdentifiers(c.sig, r);
         applyToParams(c.params, r);
     }
 }
@@ -287,14 +382,14 @@ function applyToConstructors(ctors: ConstructorInfo[] | undefined, r: Map<string
 function applyToParams(params: ParameterInfo[] | undefined, r: Map<string, string>): void {
     if (!params) return;
     for (const p of params) {
-        p.type = replaceInText(p.type, r);
+        p.type = replaceTypeIdentifiers(p.type, r);
     }
 }
 
 function applyToIndexSignatures(sigs: IndexSignatureInfo[] | undefined, r: Map<string, string>): void {
     if (!sigs) return;
     for (const s of sigs) {
-        s.keyType = replaceInText(s.keyType, r);
-        s.valueType = replaceInText(s.valueType, r);
+        s.keyType = replaceTypeIdentifiers(s.keyType, r);
+        s.valueType = replaceTypeIdentifiers(s.valueType, r);
     }
 }

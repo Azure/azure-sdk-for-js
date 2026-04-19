@@ -287,30 +287,66 @@ public static class TypeScriptFormatter
             sb.AppendLine();
         }
 
-        // Main package wrapped in declare module
-        var mainDeclare = $"declare module \"{packageName}\" {{";
-        sb.AppendLine(AnnotateDeclareModule(mainDeclare, packageName));
-
-        // Imports inside the declare module block
-        foreach (var imp in imports)
-            sb.AppendLine($"  {imp}");
-
-        if (imports.Count > 0)
-            sb.AppendLine();
-
-        // Main body indented; strip 'declare' from 'export declare' since we're inside an ambient context
-        foreach (var line in mainBody)
+        // Main package body: detect per-target subpath markers (// --- moduleName ---)
+        // and split into separate declare module blocks for each subpath.
+        var subpathMarker = new Regex(@"^// --- (.+) ---$", RegexOptions.Compiled);
+        var subpathSections = new List<(string ModuleName, List<string> Lines)>();
         {
-            if (string.IsNullOrWhiteSpace(line))
-                sb.AppendLine();
-            else
+            string currentModule = packageName;
+            var currentLines = new List<string>();
+            foreach (var line in mainBody)
             {
-                var adjusted = line.Replace("export declare ", "export ");
-                sb.AppendLine($"  {adjusted}");
+                var markerMatch = subpathMarker.Match(line.Trim());
+                if (markerMatch.Success)
+                {
+                    // Save previous section if it has content
+                    if (currentLines.Count > 0 || subpathSections.Count == 0)
+                        subpathSections.Add((currentModule, currentLines));
+                    currentModule = markerMatch.Groups[1].Value;
+                    currentLines = [];
+                }
+                else
+                {
+                    currentLines.Add(line);
+                }
             }
+            subpathSections.Add((currentModule, currentLines));
         }
 
-        sb.AppendLine("}");
+        // Emit each subpath section as its own declare module block
+        foreach (var (sectionModule, sectionLines) in subpathSections)
+        {
+            // Skip empty sections (no non-blank lines)
+            if (sectionLines.All(l => string.IsNullOrWhiteSpace(l)))
+                continue;
+
+            var sectionDeclare = $"declare module \"{sectionModule}\" {{";
+            sb.AppendLine(AnnotateDeclareModule(sectionDeclare, sectionModule));
+
+            // Imports inside the declare module block (only in first section)
+            if (sectionModule == packageName)
+            {
+                foreach (var imp in imports)
+                    sb.AppendLine($"  {imp}");
+                if (imports.Count > 0)
+                    sb.AppendLine();
+            }
+
+            // Body indented; strip 'declare' from 'export declare' since we're inside an ambient context
+            foreach (var line in sectionLines)
+            {
+                if (string.IsNullOrWhiteSpace(line))
+                    sb.AppendLine();
+                else
+                {
+                    var adjusted = line.Replace("export declare ", "export ");
+                    sb.AppendLine($"  {adjusted}");
+                }
+            }
+
+            sb.AppendLine("}");
+            sb.AppendLine();
+        }
 
         return sb.ToString();
     }
@@ -1194,7 +1230,7 @@ public static class TypeScriptFormatter
 
                         // Emit cross-dep import statements
                         foreach (var (importModule, importTypes) in crossImports.OrderBy(kv => kv.Key))
-                            sb.AppendLine($"    import {{ {string.Join(", ", importTypes)} }} from \"{importModule}\";");
+                            sb.AppendLine($"    import type {{ {string.Join(", ", importTypes)} }} from \"{importModule}\";");
                         if (crossImports.Count > 0) sb.AppendLine();
 
                         sb.Append(depBody);
@@ -1244,7 +1280,7 @@ public static class TypeScriptFormatter
 
                     // Emit Node.js import references per module
                     foreach (var (nodeModule, nodeTypes) in nodeImports)
-                        sb.AppendLine($"    import {{ {string.Join(", ", nodeTypes)} }} from \"{nodeModule}\";");
+                        sb.AppendLine($"    import type {{ {string.Join(", ", nodeTypes)} }} from \"{nodeModule}\";");
 
                     if (depsForThisCondition is not null)
                     {
@@ -1307,7 +1343,7 @@ public static class TypeScriptFormatter
                             foreach (var t in depTypes) EmitImport(t.Name);
 
                             if (importNames.Count > 0)
-                                sb.AppendLine($"    import {{ {string.Join(", ", importNames)} }} from \"{depModuleName}\";");
+                                sb.AppendLine($"    import type {{ {string.Join(", ", importNames)} }} from \"{depModuleName}\";");
                             foreach (var (name, alias) in aliasedNames)
                                 sb.AppendLine($"    import type {{ {name} as {alias} }} from \"{depModuleName}\";");
                         }
@@ -1315,7 +1351,7 @@ public static class TypeScriptFormatter
 
                     // Emit cross-condition import statements
                     foreach (var (importModule, importTypes) in mainCrossImports.OrderBy(kv => kv.Key))
-                        sb.AppendLine($"    import {{ {string.Join(", ", importTypes)} }} from \"{importModule}\";");
+                        sb.AppendLine($"    import type {{ {string.Join(", ", importTypes)} }} from \"{importModule}\";");
 
                     if (depsForThisCondition is not null || mainCrossImports.Count > 0 || nodeImports.Count > 0)
                         sb.AppendLine();
@@ -1474,7 +1510,7 @@ public static class TypeScriptFormatter
 
         // Include remaining functions if space permits (limit to first 20)
         int funcCount = 0;
-        foreach (var fn in allFunctions.Where(f => f.ExportPath is null).Take(20))
+        foreach (var fn in allFunctions.Where(f => f.ExportPath is null or ".").Take(20))
         {
             if (sb.Length >= maxLength) break;
             var fnStr = FormatReachabilityComment(fn.Name, reachabilityChains) + FormatFunction(fn);
@@ -1483,6 +1519,19 @@ public static class TypeScriptFormatter
                 sb.Append(fnStr);
                 includedItems++;
                 funcCount++;
+            }
+        }
+
+        // Include namespaces from modules if space permits
+        var allNamespaces = index.Modules.SelectMany(m => m.Namespaces ?? []).ToList();
+        foreach (var ns in allNamespaces)
+        {
+            if (sb.Length >= maxLength) break;
+            var nsStr = FormatNamespace(ns);
+            if (sb.Length + nsStr.Length <= maxLength)
+            {
+                sb.Append(nsStr);
+                includedItems++;
             }
         }
 
@@ -1500,7 +1549,7 @@ public static class TypeScriptFormatter
             {
                 sb.AppendLine();
                 foreach (var (nodeModule, nodeTypes) in nodeImports)
-                    sb.AppendLine($"import {{ {string.Join(", ", nodeTypes)} }} from \"{nodeModule}\";");
+                    sb.AppendLine($"import type {{ {string.Join(", ", nodeTypes)} }} from \"{nodeModule}\";");
             }
 
             foreach (var dep in index.Dependencies)
@@ -1587,7 +1636,8 @@ public static class TypeScriptFormatter
         var impl = cls.Implements?.Count > 0 ? $" implements {string.Join(", ", cls.Implements)}" : "";
         var typeParams = !string.IsNullOrEmpty(cls.TypeParams) ? $"<{cls.TypeParams}>" : "";
         var prefix = insideDeclareModule ? "export " : exportKeyword ? "export declare " : "declare ";
-        sb.AppendLine($"{prefix}class {cls.Name}{typeParams}{ext}{impl} {{");
+        var abstractPrefix = cls.Abstract == true ? "abstract " : "";
+        sb.AppendLine($"{prefix}{abstractPrefix}class {cls.Name}{typeParams}{ext}{impl} {{");
 
         foreach (var prop in cls.Properties ?? [])
         {
@@ -1595,7 +1645,8 @@ public static class TypeScriptFormatter
                 sb.AppendLine($"    /** @deprecated{(string.IsNullOrWhiteSpace(prop.DeprecatedMessage) ? "" : $" {prop.DeprecatedMessage}")} */");
             var opt = prop.Optional == true ? "?" : "";
             var ro = prop.Readonly == true ? "readonly " : "";
-            sb.AppendLine($"    {ro}{prop.Name}{opt}: {prop.Type};");
+            var stat = prop.Static == true ? "static " : "";
+            sb.AppendLine($"    {stat}{ro}{prop.Name}{opt}: {prop.Type};");
         }
 
         foreach (var sig in cls.IndexSignatures ?? [])
@@ -1616,9 +1667,10 @@ public static class TypeScriptFormatter
             if (m.IsDeprecated == true)
                 sb.AppendLine($"    /** @deprecated{(string.IsNullOrWhiteSpace(m.DeprecatedMessage) ? "" : $" {m.DeprecatedMessage}")} */");
             var stat = m.Static == true ? "static " : "";
+            var abs = m.Abstract == true ? "abstract " : "";
             var mTypeParams = !string.IsNullOrEmpty(m.TypeParams) ? $"<{m.TypeParams}>" : "";
             var ret = !string.IsNullOrEmpty(m.Ret) ? $": {m.Ret}" : ": void";
-            sb.AppendLine($"    {stat}{m.Name}{mTypeParams}({m.Sig}){ret};");
+            sb.AppendLine($"    {abs}{stat}{m.Name}{mTypeParams}({m.Sig}){ret};");
         }
 
         if ((cls.Properties?.Count ?? 0) == 0 && (cls.Constructors?.Count ?? 0) == 0 && (cls.Methods?.Count ?? 0) == 0)
@@ -1665,6 +1717,20 @@ public static class TypeScriptFormatter
             var mTypeParams = !string.IsNullOrEmpty(m.TypeParams) ? $"<{m.TypeParams}>" : "";
             var ret = !string.IsNullOrEmpty(m.Ret) ? $": {m.Ret}" : ": void";
             sb.AppendLine($"    {m.Name}{mTypeParams}({m.Sig}){ret};");
+        }
+
+        foreach (var cs in iface.CallSignatures ?? [])
+        {
+            var csTypeParams = !string.IsNullOrEmpty(cs.TypeParams) ? $"<{cs.TypeParams}>" : "";
+            var csRet = !string.IsNullOrEmpty(cs.Ret) ? $": {cs.Ret}" : ": void";
+            sb.AppendLine($"    {csTypeParams}({cs.Sig}){csRet};");
+        }
+
+        foreach (var cts in iface.ConstructSignatures ?? [])
+        {
+            var ctsTypeParams = !string.IsNullOrEmpty(cts.TypeParams) ? $"<{cts.TypeParams}>" : "";
+            var ctsRet = !string.IsNullOrEmpty(cts.Ret) ? $": {cts.Ret}" : ": void";
+            sb.AppendLine($"    new {ctsTypeParams}({cts.Sig}){ctsRet};");
         }
 
         sb.AppendLine("}");

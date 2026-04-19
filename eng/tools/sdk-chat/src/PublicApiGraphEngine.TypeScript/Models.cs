@@ -241,6 +241,11 @@ public sealed record ModuleInfo
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? ExportPath { get; init; }
 
+    /// <summary>If this module is from a dependency, the package name.</summary>
+    [JsonPropertyName("fromPackage")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? FromPackage { get; init; }
+
     [JsonPropertyName("classes")]
     public IReadOnlyList<ClassInfo>? Classes { get; init; }
 
@@ -295,6 +300,14 @@ public sealed record ClassInfo
 
     [JsonPropertyName("typeParams")]
     public string? TypeParams { get; init; }
+
+    [JsonPropertyName("declaredTypeParamNames")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<string>? DeclaredTypeParamNames { get; init; }
+
+    [JsonPropertyName("abstract")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? Abstract { get; init; }
 
     [JsonPropertyName("doc")]
     public string? Doc { get; init; }
@@ -436,6 +449,10 @@ public sealed record InterfaceInfo
     [JsonPropertyName("typeParams")]
     public string? TypeParams { get; init; }
 
+    [JsonPropertyName("declaredTypeParamNames")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<string>? DeclaredTypeParamNames { get; init; }
+
     [JsonPropertyName("doc")]
     public string? Doc { get; init; }
 
@@ -456,6 +473,14 @@ public sealed record InterfaceInfo
     [JsonPropertyName("indexSignatures")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<IndexSignatureInfo>? IndexSignatures { get; init; }
+
+    [JsonPropertyName("callSignatures")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<CallSignatureInfo>? CallSignatures { get; init; }
+
+    [JsonPropertyName("constructSignatures")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<ConstructSignatureInfo>? ConstructSignatures { get; init; }
 
     /// <summary>Type names referenced in signatures, computed by the extraction engine.</summary>
     [JsonPropertyName("referencedTypes")]
@@ -517,6 +542,10 @@ public sealed record EnumInfo
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? EntryPoint { get; init; }
 
+    [JsonPropertyName("exportPath")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? ExportPath { get; init; }
+
     [JsonPropertyName("isConst")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? IsConst { get; init; }
@@ -546,6 +575,10 @@ public sealed record TypeAliasInfo
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? TypeParams { get; init; }
 
+    [JsonPropertyName("declaredTypeParamNames")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<string>? DeclaredTypeParamNames { get; init; }
+
     /// <summary>External package this type is re-exported from.</summary>
     [JsonPropertyName("reExportedFrom")]
     public string? ReExportedFrom { get; init; }
@@ -564,6 +597,10 @@ public sealed record TypeAliasInfo
     [JsonPropertyName("entryPoint")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? EntryPoint { get; init; }
+
+    [JsonPropertyName("exportPath")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? ExportPath { get; init; }
 
     /// <summary>Type names referenced in this type alias, computed by the extraction engine.</summary>
     [JsonPropertyName("referencedTypes")]
@@ -611,6 +648,10 @@ public sealed record FunctionInfo
     [JsonPropertyName("typeParams")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? TypeParams { get; init; }
+
+    [JsonPropertyName("declaredTypeParamNames")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<string>? DeclaredTypeParamNames { get; init; }
 
     [JsonPropertyName("sig")]
     public string Sig
@@ -667,6 +708,10 @@ public sealed record MethodInfo
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? TypeParams { get; init; }
 
+    [JsonPropertyName("declaredTypeParamNames")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<string>? DeclaredTypeParamNames { get; init; }
+
     [JsonPropertyName("sig")]
     public string Sig
     {
@@ -692,6 +737,10 @@ public sealed record MethodInfo
 
     [JsonPropertyName("static")]
     public bool? Static { get; init; }
+
+    [JsonPropertyName("abstract")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? Abstract { get; init; }
 
     [JsonPropertyName("deprecated")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -727,6 +776,10 @@ public sealed record PropertyInfo
 
     [JsonPropertyName("optional")]
     public bool? Optional { get; init; }
+
+    [JsonPropertyName("static")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? Static { get; init; }
 
     [JsonPropertyName("deprecated")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -777,6 +830,14 @@ public sealed record NamespaceInfo
     [JsonPropertyName("name")]
     public string Name { get; init; } = "";
 
+    [JsonPropertyName("entryPoint")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? EntryPoint { get; init; }
+
+    [JsonPropertyName("exportPath")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? ExportPath { get; init; }
+
     [JsonPropertyName("classes")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<ClassInfo>? Classes { get; init; }
@@ -800,6 +861,36 @@ public sealed record NamespaceInfo
     [JsonPropertyName("namespaces")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<NamespaceInfo>? Namespaces { get; init; }
+}
+
+/// <summary>A call signature on an interface (e.g., (x: number): string).</summary>
+public sealed record CallSignatureInfo
+{
+    [JsonPropertyName("typeParams")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? TypeParams { get; init; }
+
+    [JsonPropertyName("sig")]
+    public string Sig { get; init; } = "";
+
+    [JsonPropertyName("ret")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Ret { get; init; }
+}
+
+/// <summary>A construct signature on an interface (e.g., new (x: number): Foo).</summary>
+public sealed record ConstructSignatureInfo
+{
+    [JsonPropertyName("typeParams")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? TypeParams { get; init; }
+
+    [JsonPropertyName("sig")]
+    public string Sig { get; init; } = "";
+
+    [JsonPropertyName("ret")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Ret { get; init; }
 }
 
 public sealed record ParameterInfo

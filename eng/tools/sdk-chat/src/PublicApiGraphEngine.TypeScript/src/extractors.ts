@@ -33,6 +33,8 @@ import type {
     FunctionInfo,
     ModuleInfo,
     NamespaceInfo,
+    CallSignatureInfo,
+    ConstructSignatureInfo,
 } from "./models.js";
 import type { ExtractionContext } from "./context.js";
 import { displayType, stripImportPrefix } from "./formatter.js";
@@ -134,8 +136,9 @@ export function hasInternalOrHiddenTag(node: JSDocableNode): boolean {
 }
 
 export function formatParameter(p: ParameterDeclaration, ctx: ExtractionContext): string {
-    let sig = p.getName();
-    if (p.isOptional()) sig += "?";
+    let sig = p.isRestParameter() ? `...${p.getName()}` : p.getName();
+    // Rest parameters cannot be optional in TypeScript
+    if (p.isOptional() && !p.isRestParameter()) sig += "?";
     const type = p.getType();
     const typeNode = p.getTypeNode();
     const typeText = displayType(typeNode, type, p, ctx.namespaceAliases);
@@ -160,7 +163,8 @@ export function extractParameterInfo(p: ParameterDeclaration, namespaceAliases?:
     };
 
     if (p.getInitializer()) info.default = p.getInitializer()!.getText();
-    if (p.isOptional()) info.optional = true;
+    // Rest parameters cannot be optional in TypeScript
+    if (p.isOptional() && !p.isRestParameter()) info.optional = true;
     if (p.isRestParameter()) info.rest = true;
 
     return info;
@@ -229,6 +233,7 @@ export function extractMethod(method: MethodDeclaration, ctx: ExtractionContext)
 
     if (method.isAsync()) result.async = true;
     if (method.isStatic()) result.static = true;
+    if (method.isAbstract()) result.abstract = true;
 
     const deprecated = getDeprecatedInfo(method);
     if (deprecated.deprecated) result.deprecated = true;
@@ -253,6 +258,7 @@ export function extractProperty(prop: PropertyDeclaration, ctx: ExtractionContex
 
     if (prop.isReadonly()) result.readonly = true;
     if (prop.hasQuestionToken()) result.optional = true;
+    if (prop.isStatic()) result.static = true;
 
     const doc = getDocString(prop);
     if (doc) result.doc = doc;
@@ -294,6 +300,8 @@ export function extractClass(cls: ClassDeclaration, ctx: ExtractionContext): Cla
     ctx.typeRefs.pushContext(name);
 
     const result: ClassInfo = { name };
+
+    if (cls.isAbstract()) result.abstract = true;
 
     const deprecated = getDeprecatedInfo(cls);
     if (deprecated.deprecated) result.deprecated = true;
@@ -350,6 +358,33 @@ export function extractClass(cls: ClassDeclaration, ctx: ExtractionContext): Cla
         .map(c => extractConstructor(c, ctx));
     if (ctors.length) result.constructors = ctors;
 
+    // Constructor parameter properties — parameters with public modifier become class properties.
+    // Only include public ones (not protected/private — those aren't public API).
+    const paramProps: PropertyInfo[] = [];
+    for (const ctor of cls.getConstructors()) {
+        if (ctor.getScope() === "private" || ctor.getScope() === "protected") continue;
+        for (const p of ctor.getParameters()) {
+            const scope = p.getScope();
+            // Skip private and protected parameter properties
+            if (scope === "private" || scope === "protected") continue;
+            // Only include parameters with explicit `public` scope or readonly modifier (both create properties)
+            if (scope !== "public" && !p.isReadonly()) continue;
+            // This is a public parameter property
+            const paramType = p.getType();
+            const paramTypeNode = p.getTypeNode();
+            const typeText = displayType(paramTypeNode, paramType, p, ctx.namespaceAliases);
+            ctx.typeRefs.collectFromType(paramType);
+            if (paramTypeNode) ctx.typeRefs.collectFromTypeNode(paramTypeNode);
+            const paramProp: PropertyInfo = {
+                name: p.getName(),
+                type: typeText || "any",
+            };
+            if (p.isReadonly()) paramProp.readonly = true;
+            if (p.hasQuestionToken()) paramProp.optional = true;
+            paramProps.push(paramProp);
+        }
+    }
+
     // Methods — extract overload signatures when present, skip implementation.
     // Exclude private and protected methods — they are not part of the public API.
     const methods = cls
@@ -402,7 +437,7 @@ export function extractClass(cls: ClassDeclaration, ctx: ExtractionContext): Cla
             return accessorResult;
         });
 
-    const allProps = [...props, ...accessorProps];
+    const allProps = [...props, ...accessorProps, ...paramProps];
     if (allProps.length) result.properties = allProps;
 
     // Index signatures — e.g., [key: string]: unknown
@@ -477,11 +512,17 @@ export function extractInterfaceMethod(method: Node, ctx: ExtractionContext): Me
     return result;
 }
 
-export function extractInterfaceCallableProperty(prop: Node, ctx: ExtractionContext): MethodInfo | undefined {
+export function extractInterfaceCallableProperty(prop: Node, ctx: ExtractionContext): MethodInfo | PropertyInfo | undefined {
     if (!Node.isPropertySignature(prop)) return undefined;
 
     const typeNode = prop.getTypeNode();
     if (!typeNode || !Node.isFunctionTypeNode(typeNode)) return undefined;
+
+    // If the property is optional or readonly, keep it as a PropertyInfo
+    // since method syntax is not equivalent for optional/readonly callable properties.
+    if (prop.hasQuestionToken() || prop.isReadonly()) {
+        return extractInterfaceProperty(prop, ctx);
+    }
 
     const paramInfos = typeNode.getParameters().map(p => extractParameterInfo(p, ctx.namespaceAliases));
     const params = typeNode.getParameters().map(p => formatParameter(p, ctx)).join(", ");
@@ -598,7 +639,12 @@ export function extractInterface(iface: InterfaceDeclaration, ctx: ExtractionCon
         if (Node.isPropertySignature(prop) && hasInternalOrHiddenTag(prop)) continue;
         const callable = extractInterfaceCallableProperty(prop, ctx);
         if (callable) {
-            methods.push(callable);
+            // callable may be a MethodInfo (required, non-readonly) or PropertyInfo (optional/readonly)
+            if ("sig" in callable) {
+                methods.push(callable as MethodInfo);
+            } else {
+                props.push(callable as PropertyInfo);
+            }
             continue;
         }
         const graphed = extractInterfaceProperty(prop, ctx);
@@ -621,6 +667,56 @@ export function extractInterface(iface: InterfaceDeclaration, ctx: ExtractionCon
             return indexSig;
         });
     if (indexSigs.length) result.indexSignatures = indexSigs;
+
+    // Call signatures — e.g., (x: string): number
+    const callSigs: CallSignatureInfo[] = iface
+        .getCallSignatures()
+        .map((sig) => {
+            const params = sig.getParameters().map(p => formatParameter(p, ctx)).join(", ");
+            const returnType = sig.getReturnType();
+            const returnTypeNode = sig.getReturnTypeNode();
+            const ret = displayType(returnTypeNode, returnType, sig, ctx.namespaceAliases);
+            if (returnType) ctx.typeRefs.collectFromType(returnType);
+            if (returnTypeNode) ctx.typeRefs.collectFromTypeNode(returnTypeNode);
+            const rawTypeParams = sig.getTypeParameters();
+            const typeParams = rawTypeParams.map(t => stripImportPrefix(t.getText(), false, ctx.namespaceAliases)).join(", ");
+            for (const tp of rawTypeParams) {
+                const constraint = tp.getConstraint();
+                if (constraint) ctx.typeRefs.collectFromType(constraint.getType());
+                const defaultType = tp.getDefault();
+                if (defaultType) ctx.typeRefs.collectFromType(defaultType.getType());
+            }
+            const callSig: CallSignatureInfo = { sig: params };
+            if (typeParams) callSig.typeParams = typeParams;
+            if (ret && ret !== "void") callSig.ret = ret;
+            return callSig;
+        });
+    if (callSigs.length) result.callSignatures = callSigs;
+
+    // Construct signatures — e.g., new(): Foo
+    const constructSigs: ConstructSignatureInfo[] = iface
+        .getConstructSignatures()
+        .map((sig) => {
+            const params = sig.getParameters().map(p => formatParameter(p, ctx)).join(", ");
+            const returnType = sig.getReturnType();
+            const returnTypeNode = sig.getReturnTypeNode();
+            const ret = displayType(returnTypeNode, returnType, sig, ctx.namespaceAliases);
+            if (returnType) ctx.typeRefs.collectFromType(returnType);
+            if (returnTypeNode) ctx.typeRefs.collectFromTypeNode(returnTypeNode);
+            const rawTypeParams = sig.getTypeParameters();
+            const typeParams = rawTypeParams.map(t => stripImportPrefix(t.getText(), false, ctx.namespaceAliases)).join(", ");
+            for (const tp of rawTypeParams) {
+                const constraint = tp.getConstraint();
+                if (constraint) ctx.typeRefs.collectFromType(constraint.getType());
+                const defaultType = tp.getDefault();
+                if (defaultType) ctx.typeRefs.collectFromType(defaultType.getType());
+            }
+            const constructSig: ConstructSignatureInfo = { sig: params };
+            if (typeParams) constructSig.typeParams = typeParams;
+            if (ret && ret !== "void") constructSig.ret = ret;
+            return constructSig;
+        });
+    if (constructSigs.length) result.constructSignatures = constructSigs;
 
     ctx.typeRefs.popContext();
     return result;
@@ -723,6 +819,9 @@ export function extractFunction(fn: FunctionDeclaration, ctx: ExtractionContext)
     if (returnType) {
         ctx.typeRefs.collectFromType(returnType);
     }
+    // Also collect from TypeNode to catch simple type aliases resolved away by TS
+    const returnTypeNode = fn.getReturnTypeNode();
+    if (returnTypeNode) ctx.typeRefs.collectFromTypeNode(returnTypeNode);
 
     const rawTypeParams = fn.getTypeParameters();
     const typeParams = rawTypeParams.map(t => stripImportPrefix(t.getText(), false, ctx.namespaceAliases)).join(", ");
@@ -800,7 +899,7 @@ export function extractNamespace(mod: ModuleDeclaration, ctx: ExtractionContext)
     const interfaces = mod.getInterfaces()
         .filter(i => isVisible(i) && !hasInternalOrHiddenTag(i))
         .map(i => extractInterface(i, ctx));
-    if (interfaces.length) result.interfaces = interfaces;
+    if (interfaces.length) result.interfaces = mergeInterfaces(interfaces);
 
     const enums = mod.getEnums()
         .filter(e => isVisible(e) && !hasInternalOrHiddenTag(e))
@@ -822,7 +921,7 @@ export function extractNamespace(mod: ModuleDeclaration, ctx: ExtractionContext)
     const nested = mod.getModules()
         .map(m => extractNamespace(m, ctx))
         .filter((ns): ns is NamespaceInfo => ns !== null);
-    if (nested.length) result.namespaces = nested;
+    if (nested.length) result.namespaces = mergeNamespaces(nested);
 
     // Fallback for re-export-only namespaces (e.g., `export { type X as X }`)
     // where getClasses/getInterfaces/etc. return nothing because the namespace
@@ -861,6 +960,72 @@ export function extractNamespace(mod: ModuleDeclaration, ctx: ExtractionContext)
     return result;
 }
 
+// ============================================================================
+// Declaration merging helpers
+// ============================================================================
+
+/**
+ * Merges interfaces with the same name into single entries (declaration merging).
+ * Concatenates methods, properties, indexSignatures, callSignatures, constructSignatures,
+ * and deduplicates extends arrays.
+ */
+function mergeInterfaces(interfaces: InterfaceInfo[]): InterfaceInfo[] {
+    const map = new Map<string, InterfaceInfo>();
+    for (const iface of interfaces) {
+        const existing = map.get(iface.name);
+        if (!existing) {
+            // Clone to avoid mutating the original
+            map.set(iface.name, { ...iface });
+            continue;
+        }
+        // Merge members
+        if (iface.methods?.length) existing.methods = [...(existing.methods ?? []), ...iface.methods];
+        if (iface.properties?.length) existing.properties = [...(existing.properties ?? []), ...iface.properties];
+        if (iface.indexSignatures?.length) existing.indexSignatures = [...(existing.indexSignatures ?? []), ...iface.indexSignatures];
+        if (iface.callSignatures?.length) existing.callSignatures = [...(existing.callSignatures ?? []), ...iface.callSignatures];
+        if (iface.constructSignatures?.length) existing.constructSignatures = [...(existing.constructSignatures ?? []), ...iface.constructSignatures];
+        // Merge extends (deduplicate)
+        if (iface.extends?.length) {
+            const extSet = new Set(existing.extends ?? []);
+            for (const e of iface.extends) extSet.add(e);
+            existing.extends = [...extSet];
+        }
+        // Merge referencedTypes (deduplicate)
+        if (iface.referencedTypes?.length) {
+            const refSet = new Set(existing.referencedTypes ?? []);
+            for (const r of iface.referencedTypes) refSet.add(r);
+            existing.referencedTypes = [...refSet];
+        }
+    }
+    return [...map.values()];
+}
+
+/**
+ * Merges namespaces with the same name into single entries (declaration merging).
+ * Recursively merges all member arrays.
+ */
+function mergeNamespaces(namespaces: NamespaceInfo[]): NamespaceInfo[] {
+    const map = new Map<string, NamespaceInfo>();
+    for (const ns of namespaces) {
+        const existing = map.get(ns.name);
+        if (!existing) {
+            map.set(ns.name, { ...ns });
+            continue;
+        }
+        if (ns.classes?.length) existing.classes = [...(existing.classes ?? []), ...ns.classes];
+        if (ns.interfaces?.length) {
+            existing.interfaces = mergeInterfaces([...(existing.interfaces ?? []), ...ns.interfaces]);
+        }
+        if (ns.enums?.length) existing.enums = [...(existing.enums ?? []), ...ns.enums];
+        if (ns.types?.length) existing.types = [...(existing.types ?? []), ...ns.types];
+        if (ns.functions?.length) existing.functions = [...(existing.functions ?? []), ...ns.functions];
+        if (ns.namespaces?.length) {
+            existing.namespaces = mergeNamespaces([...(existing.namespaces ?? []), ...ns.namespaces]);
+        }
+    }
+    return [...map.values()];
+}
+
 export function extractModule(sourceFile: SourceFile, moduleName: string, ctx: ExtractionContext): ModuleInfo | null {
     const result: ModuleInfo = { name: moduleName };
 
@@ -875,7 +1040,7 @@ export function extractModule(sourceFile: SourceFile, moduleName: string, ctx: E
         .getInterfaces()
         .filter((i) => i.isExported() && !hasInternalOrHiddenTag(i))
         .map(i => extractInterface(i, ctx));
-    if (interfaces.length) result.interfaces = interfaces;
+    if (interfaces.length) result.interfaces = mergeInterfaces(interfaces);
 
     const enums = sourceFile
         .getEnums()
@@ -901,7 +1066,7 @@ export function extractModule(sourceFile: SourceFile, moduleName: string, ctx: E
         .filter(m => m.isExported() && !hasInternalOrHiddenTag(m))
         .map(m => extractNamespace(m, ctx))
         .filter((ns): ns is NamespaceInfo => ns !== null);
-    if (namespaces.length) result.namespaces = namespaces;
+    if (namespaces.length) result.namespaces = mergeNamespaces(namespaces);
 
     // Check if anything was graphed
     if (

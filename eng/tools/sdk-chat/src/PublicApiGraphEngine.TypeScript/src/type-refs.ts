@@ -833,9 +833,10 @@ export class TypeReferenceCollector {
                     }
                 }
 
-                // Named imports
+                // Named imports — track the local binding name (alias if present)
                 for (const named of imp.getNamedImports()) {
-                    this.importedTypes.set(named.getName(), packageName);
+                    const localName = named.getAliasNode()?.getText() ?? named.getName();
+                    this.importedTypes.set(localName, packageName);
                 }
 
                 // Namespace import — track separately since these are module
@@ -937,22 +938,32 @@ export class TypeReferenceCollector {
 
     /**
      * Returns per-entity type reference names with their package provenance.
-     * Each entity context name maps to a Map of typeName → packageName.
-     * This preserves which package each type reference came from, enabling
-     * principled collision resolution: within a single entity, each bare name
-     * resolves to exactly one package.
+     * Each entity context name maps to a Map of typeName → Set<packageName>.
+     * This preserves all packages each type reference came from, enabling
+     * principled collision resolution: if a type name comes from multiple
+     * packages within a single entity, it's ambiguous and should be skipped.
      */
-    getContextRefNamesWithPackages(): Map<string, Map<string, string>> {
-        const result = new Map<string, Map<string, string>>();
+    getContextRefNamesWithPackages(): Map<string, Map<string, Set<string>>> {
+        const result = new Map<string, Map<string, Set<string>>>();
         for (const [ctx, refs] of this.refsByContext) {
-            const nameToPackage = new Map<string, string>();
+            const nameToPackages = new Map<string, Set<string>>();
             for (const ref of refs.values()) {
                 if (ref.packageName) {
-                    nameToPackage.set(ref.name, ref.packageName);
+                    if (!nameToPackages.has(ref.name)) nameToPackages.set(ref.name, new Set());
+                    nameToPackages.get(ref.name)!.add(ref.packageName);
                 }
             }
-            if (nameToPackage.size > 0) {
-                result.set(ctx, nameToPackage);
+            // Also include import-declaration fallback data: for types that appear
+            // in context refs by name but lack packageName from compiler resolution,
+            // use the imported package info (handles aliased imports and unresolved deps).
+            for (const ref of refs.values()) {
+                if (!ref.packageName && this.importedTypes.has(ref.name)) {
+                    if (!nameToPackages.has(ref.name)) nameToPackages.set(ref.name, new Set());
+                    nameToPackages.get(ref.name)!.add(this.importedTypes.get(ref.name)!);
+                }
+            }
+            if (nameToPackages.size > 0) {
+                result.set(ctx, nameToPackages);
             }
         }
         return result;

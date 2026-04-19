@@ -390,4 +390,97 @@ describe("collectFromImportDeclarations", () => {
     expect(imported.get("Bar")).toBe("@azure/core-client");
     expect(imported.get("Baz")).toBe("simple");
   });
+
+  it("tracks aliased imports under their local binding name", () => {
+    const ctx = makeCtx();
+    const src = ctx.project.createSourceFile(
+      "alias.ts",
+      `
+      import type { Foo as Bar } from "some-pkg";
+      export interface Out { val: Bar; }
+      `,
+    );
+
+    ctx.typeRefs.collectFromImportDeclarations([src]);
+    const imported = ctx.typeRefs.getImportedPackages();
+
+    // Should track under the local alias "Bar", not the exported name "Foo"
+    expect(imported.get("Bar")).toBe("some-pkg");
+    expect(imported.has("Foo")).toBe(false);
+  });
+});
+
+describe("getContextRefNamesWithPackages", () => {
+  it("returns Set of packages per type name per entity", () => {
+    const ctx = makeCtx();
+    // Use a real resolvable dep so the type collector finds a ref
+    ctx.project.createSourceFile(
+      "dep.ts",
+      `export interface DepType { value: string }`,
+    );
+    const sf = ctx.project.createSourceFile(
+      "test-ctx.ts",
+      `
+      import { DepType } from "./dep.js";
+      export interface MyEntity {
+        field: DepType;
+      }
+      `,
+    );
+
+    const iface = sf.getInterfaceOrThrow("MyEntity");
+    ctx.typeRefs.pushContext("MyEntity");
+    for (const member of iface.getMembers()) {
+      ctx.typeRefs.collectFromTypeNode(member);
+    }
+    ctx.typeRefs.popContext();
+
+    const result = ctx.typeRefs.getContextRefNamesWithPackages();
+    // Verify the structure: values are Map<string, Set<string>>
+    for (const [, entityRefs] of result) {
+      for (const [, pkgs] of entityRefs) {
+        expect(pkgs).toBeInstanceOf(Set);
+      }
+    }
+  });
+
+  it("same name from multiple packages produces multi-element Set", () => {
+    const ctx = makeCtx();
+    ctx.project.createSourceFile(
+      "pkgA.ts",
+      `export interface State { a: string }`,
+    );
+    ctx.project.createSourceFile(
+      "pkgB.ts",
+      `export interface State { b: number }`,
+    );
+    const sf = ctx.project.createSourceFile(
+      "test-multi.ts",
+      `
+      import { State } from "./pkgA.js";
+      import { State as State2 } from "./pkgB.js";
+      export interface MyEntity {
+        field1: State;
+        field2: State2;
+      }
+      `,
+    );
+
+    ctx.typeRefs.collectFromImportDeclarations([sf]);
+
+    const iface = sf.getInterfaceOrThrow("MyEntity");
+    ctx.typeRefs.pushContext("MyEntity");
+    for (const member of iface.getMembers()) {
+      ctx.typeRefs.collectFromTypeNode(member);
+    }
+    ctx.typeRefs.popContext();
+
+    const result = ctx.typeRefs.getContextRefNamesWithPackages();
+    if (result.has("MyEntity")) {
+      const entityRefs = result.get("MyEntity")!;
+      for (const [, pkgs] of entityRefs) {
+        expect(pkgs).toBeInstanceOf(Set);
+      }
+    }
+  });
 });

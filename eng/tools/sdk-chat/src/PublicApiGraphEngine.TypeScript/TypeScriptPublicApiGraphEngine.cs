@@ -455,12 +455,12 @@ public class TypeScriptPublicApiGraphEngine : IPublicApiGraphEngine<ApiIndex>
             args.Add("compiled");
             args.Add("--dts-root");
             args.Add(dtsRoot);
+        }
 
-            if (!string.IsNullOrWhiteSpace(packageJsonPath))
-            {
-                args.Add("--package-json");
-                args.Add(packageJsonPath!);
-            }
+        if (!string.IsNullOrWhiteSpace(packageJsonPath))
+        {
+            args.Add("--package-json");
+            args.Add(packageJsonPath!);
         }
 
         return args;
