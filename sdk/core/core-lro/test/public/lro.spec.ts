@@ -372,8 +372,8 @@ matrix(
               },
             ],
           });
-          assert.deepEqual(result.id, "100");
-          assert.deepEqual(result.name, "foo");
+          assert.strictEqual(result.id, "100");
+          assert.strictEqual(result.name, "foo");
         });
 
         it("should handle initial response creating followed by success through an Azure Resource", async () => {
@@ -394,9 +394,9 @@ matrix(
               },
             ],
           });
-          assert.deepEqual(result.properties?.provisioningState, "Succeeded");
-          assert.deepEqual(result.id, "100");
-          assert.deepEqual(result.name, "foo");
+          assert.strictEqual(result.properties?.provisioningState, "Succeeded");
+          assert.strictEqual(result.id, "100");
+          assert.strictEqual(result.name, "foo");
         });
 
         it("should handle put200Acceptedcanceled200", async () => {
@@ -450,9 +450,9 @@ matrix(
               },
             ],
           });
-          assert.deepEqual(result.properties?.provisioningState, "Succeeded");
-          assert.deepEqual(result.id, "100");
-          assert.deepEqual(result.name, "foo");
+          assert.strictEqual(result.properties?.provisioningState, "Succeeded");
+          assert.strictEqual(result.id, "100");
+          assert.strictEqual(result.name, "foo");
         });
 
         it("should handle put201CreatingFailed200", async () => {
@@ -1284,7 +1284,7 @@ matrix(
               });
               assert.equal(result.name, "foo");
               assert.equal(result.id, "100");
-              assert.deepEqual(result.properties?.provisioningState, "Succeeded");
+              assert.strictEqual(result.properties?.provisioningState, "Succeeded");
             });
 
             it("should handle putAsyncNoRetrySucceeded", async () => {

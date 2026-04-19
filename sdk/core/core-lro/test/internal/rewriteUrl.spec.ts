@@ -7,7 +7,7 @@ import { rewriteUrl } from "../../src/http/utils.js";
 describe("rewriteUrl", () => {
   it("should return undefined when the input url is undefined", () => {
     const result = rewriteUrl({ url: undefined, baseUrl: "https://new.example.com" });
-    assert.equal(result, undefined);
+    assert.isUndefined(result);
   });
 
   it("should return the original url when baseUrl is undefined", () => {
