@@ -13,6 +13,8 @@ import type {
     ConstructorInfo,
     IndexSignatureInfo,
     ParameterInfo,
+    CallSignatureInfo,
+    ConstructSignatureInfo,
 } from "./models.js";
 
 /**
@@ -340,6 +342,8 @@ function applyToInterface(iface: InterfaceInfo, r: Map<string, string>): void {
     applyToMethods(iface.methods, r);
     applyToProperties(iface.properties, r);
     applyToIndexSignatures(iface.indexSignatures, r);
+    applyToCallSignatures(iface.callSignatures, r);
+    applyToConstructSignatures(iface.constructSignatures, r);
 }
 
 function applyToTypeAlias(t: TypeAliasInfo, r: Map<string, string>): void {
@@ -391,5 +395,23 @@ function applyToIndexSignatures(sigs: IndexSignatureInfo[] | undefined, r: Map<s
     for (const s of sigs) {
         s.keyType = replaceTypeIdentifiers(s.keyType, r);
         s.valueType = replaceTypeIdentifiers(s.valueType, r);
+    }
+}
+
+function applyToCallSignatures(sigs: CallSignatureInfo[] | undefined, r: Map<string, string>): void {
+    if (!sigs) return;
+    for (const s of sigs) {
+        s.sig = replaceTypeIdentifiers(s.sig, r);
+        if (s.ret) s.ret = replaceTypeIdentifiers(s.ret, r);
+        if (s.typeParams) s.typeParams = replaceTypeIdentifiers(s.typeParams, r);
+    }
+}
+
+function applyToConstructSignatures(sigs: ConstructSignatureInfo[] | undefined, r: Map<string, string>): void {
+    if (!sigs) return;
+    for (const s of sigs) {
+        s.sig = replaceTypeIdentifiers(s.sig, r);
+        if (s.ret) s.ret = replaceTypeIdentifiers(s.ret, r);
+        if (s.typeParams) s.typeParams = replaceTypeIdentifiers(s.typeParams, r);
     }
 }

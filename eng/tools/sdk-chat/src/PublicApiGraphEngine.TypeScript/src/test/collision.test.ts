@@ -3,7 +3,7 @@
 
 import { describe, it, expect } from "vitest";
 import { resolveCollisions, type CollisionAliasMap } from "../collision.js";
-import type { ApiIndex, ClassInfo, InterfaceInfo, TypeAliasInfo, FunctionInfo } from "../models.js";
+import type { ApiIndex, ClassInfo, InterfaceInfo, TypeAliasInfo, FunctionInfo, CallSignatureInfo, ConstructSignatureInfo } from "../models.js";
 
 /** Helper to build contextRefPackages in the new Map<string, Map<string, Set<string>>> format */
 function makeContextRefs(
@@ -209,6 +209,71 @@ describe("alias application to entity bodies", () => {
     expect(updated.constructors![0].sig).toContain(alias);
     expect(updated.constructors![0].params![0].type).toContain(alias);
     expect(updated.indexSignatures![0].valueType).toBe(`${alias}<B>`);
+  });
+
+  it("rewrites interface call signatures", () => {
+    const iface: InterfaceInfo = {
+      name: "Callable",
+      callSignatures: [
+        { sig: "x: OperationState", ret: "OperationState", typeParams: "T extends OperationState" },
+      ],
+    };
+
+    const api = makeApi({
+      modules: [{
+        name: "main",
+        types: [{ name: "OperationState", type: "string" } as TypeAliasInfo],
+        interfaces: [iface],
+      }],
+      dependencies: [{
+        package: "@azure/core-lro",
+        interfaces: [{ name: "OperationState", typeParams: "<T>" } as InterfaceInfo],
+      }],
+    });
+
+    const contextRefs = makeContextRefs([
+      ["Callable", [["OperationState", "@azure/core-lro"]]],
+    ]);
+
+    resolveCollisions(api, contextRefs);
+    const alias = "_corelro_OperationState";
+
+    const updated = api.modules[0].interfaces![0];
+    expect(updated.callSignatures![0].sig).toBe(`x: ${alias}`);
+    expect(updated.callSignatures![0].ret).toBe(alias);
+    expect(updated.callSignatures![0].typeParams).toBe(`T extends ${alias}`);
+  });
+
+  it("rewrites interface construct signatures", () => {
+    const iface: InterfaceInfo = {
+      name: "Constructable",
+      constructSignatures: [
+        { sig: "x: OperationState", ret: "OperationState" },
+      ],
+    };
+
+    const api = makeApi({
+      modules: [{
+        name: "main",
+        types: [{ name: "OperationState", type: "string" } as TypeAliasInfo],
+        interfaces: [iface],
+      }],
+      dependencies: [{
+        package: "@azure/core-lro",
+        interfaces: [{ name: "OperationState", typeParams: "<T>" } as InterfaceInfo],
+      }],
+    });
+
+    const contextRefs = makeContextRefs([
+      ["Constructable", [["OperationState", "@azure/core-lro"]]],
+    ]);
+
+    resolveCollisions(api, contextRefs);
+    const alias = "_corelro_OperationState";
+
+    const updated = api.modules[0].interfaces![0];
+    expect(updated.constructSignatures![0].sig).toBe(`x: ${alias}`);
+    expect(updated.constructSignatures![0].ret).toBe(alias);
   });
 
   it("rewrites interface extends and methods", () => {

@@ -730,6 +730,7 @@ export class TypeReferenceCollector {
     }
     private contextStack: string[] = []; // stack of enclosing type names
     private refsByContext = new Map<string, Map<string, ResolvedTypeRef>>(); // context -> deduped refs
+    private _currentModule = ""; // current module name for context key qualification
 
     private static refKey(ref: ResolvedTypeRef): string {
         return `${ref.name}|${ref.packageName || ''}`;
@@ -744,6 +745,11 @@ export class TypeReferenceCollector {
         this.definedTypes.add(name);
     }
 
+    /** Set the current module name. Context keys become `module:entityKey`. */
+    setModule(name: string): void {
+        this._currentModule = name;
+    }
+
     /** Push a context (enclosing type name) before extracting a class/interface/etc. */
     pushContext(typeName: string): void {
         this.contextStack.push(typeName);
@@ -755,7 +761,22 @@ export class TypeReferenceCollector {
     }
 
     private currentContext(): string | null {
-        return this.contextStack.length > 0 ? this.contextStack.join(".") : null;
+        if (this.contextStack.length === 0) return null;
+        const entityKey = this.contextStack.join(".");
+        return this._currentModule ? `${this._currentModule}:${entityKey}` : entityKey;
+    }
+
+    /**
+     * Parse a qualified context key into its module and entity parts.
+     * Keys with a module prefix have the form `module:entityKey`.
+     * Legacy keys without a colon are treated as having no module.
+     */
+    private static parseContextKey(key: string): { module: string; entity: string } {
+        const colonIdx = key.indexOf(":");
+        if (colonIdx >= 0) {
+            return { module: key.slice(0, colonIdx), entity: key.slice(colonIdx + 1) };
+        }
+        return { module: "", entity: key };
     }
 
     collectFromType(type: Type): void {
@@ -864,9 +885,14 @@ export class TypeReferenceCollector {
 
         if (reachableTypes) {
             scopedRefs = new Map<string, ResolvedTypeRef>();
-            for (const typeName of reachableTypes) {
-                const contextRefs = this.refsByContext.get(typeName);
-                if (contextRefs) {
+            // Iterate ALL context entries; check if the entity's leaf name (or full
+            // dotted entity key) is in the reachable set.  This handles namespace
+            // members stored under dotted keys like "Inner.Client" — the reachable
+            // set contains simple names such as "Client".
+            for (const [contextKey, contextRefs] of this.refsByContext) {
+                const { entity: entityKey } = TypeReferenceCollector.parseContextKey(contextKey);
+                const leafName = entityKey.includes(".") ? entityKey.split(".").pop()! : entityKey;
+                if (reachableTypes.has(entityKey) || reachableTypes.has(leafName)) {
                     for (const [key, ref] of contextRefs) {
                         scopedRefs.set(key, ref);
                     }
@@ -896,12 +922,12 @@ export class TypeReferenceCollector {
             // When scoped, only include fallback types referenced by reachable entities
             if (scopedContextNames) {
                 let referencedByReachable = false;
-                for (const ctxName of scopedContextNames) {
-                    const ctxRefs = this.refsByContext.get(ctxName);
-                    if (ctxRefs) {
-                        for (const ref of ctxRefs.values()) {
-                            if (ref.name === typeName) { referencedByReachable = true; break; }
-                        }
+                for (const [contextKey, ctxRefs] of this.refsByContext) {
+                    const { entity: entityKey } = TypeReferenceCollector.parseContextKey(contextKey);
+                    const leafName = entityKey.includes(".") ? entityKey.split(".").pop()! : entityKey;
+                    if (!scopedContextNames.has(entityKey) && !scopedContextNames.has(leafName)) continue;
+                    for (const ref of ctxRefs.values()) {
+                        if (ref.name === typeName) { referencedByReachable = true; break; }
                     }
                     if (referencedByReachable) break;
                 }
@@ -923,15 +949,20 @@ export class TypeReferenceCollector {
      * Returns per-entity type reference names.
      * Each entity (class, interface, function, type alias) context name maps
      * to the set of type names it references, extracted from compiler type resolution.
+     * When `moduleName` is provided, only entries for that module are returned
+     * and keys are stripped of the module prefix (yielding entity-local keys).
      */
-    getContextRefNames(): Map<string, string[]> {
+    getContextRefNames(moduleName?: string): Map<string, string[]> {
         const result = new Map<string, string[]>();
         for (const [ctx, refs] of this.refsByContext) {
-            const names = new Set<string>();
+            const { module: mod, entity } = TypeReferenceCollector.parseContextKey(ctx);
+            // Always use entity-local keys; when filtering by module, skip non-matching entries
+            if (moduleName !== undefined && mod !== moduleName) continue;
+            const names = new Set<string>(result.get(entity));
             for (const ref of refs.values()) {
                 names.add(ref.name);
             }
-            result.set(ctx, Array.from(names));
+            result.set(entity, Array.from(names));
         }
         return result;
     }
@@ -942,11 +973,16 @@ export class TypeReferenceCollector {
      * This preserves all packages each type reference came from, enabling
      * principled collision resolution: if a type name comes from multiple
      * packages within a single entity, it's ambiguous and should be skipped.
+     * When `moduleName` is provided, only entries for that module are returned
+     * and keys are stripped of the module prefix (yielding entity-local keys).
      */
-    getContextRefNamesWithPackages(): Map<string, Map<string, Set<string>>> {
+    getContextRefNamesWithPackages(moduleName?: string): Map<string, Map<string, Set<string>>> {
         const result = new Map<string, Map<string, Set<string>>>();
         for (const [ctx, refs] of this.refsByContext) {
-            const nameToPackages = new Map<string, Set<string>>();
+            const { module: mod, entity } = TypeReferenceCollector.parseContextKey(ctx);
+            // Always use entity-local keys; when filtering by module, skip non-matching entries
+            if (moduleName !== undefined && mod !== moduleName) continue;
+            const nameToPackages = result.get(entity) ?? new Map<string, Set<string>>();
             for (const ref of refs.values()) {
                 if (ref.packageName) {
                     if (!nameToPackages.has(ref.name)) nameToPackages.set(ref.name, new Set());
@@ -963,7 +999,7 @@ export class TypeReferenceCollector {
                 }
             }
             if (nameToPackages.size > 0) {
-                result.set(ctx, nameToPackages);
+                result.set(entity, nameToPackages);
             }
         }
         return result;

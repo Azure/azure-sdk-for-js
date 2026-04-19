@@ -336,7 +336,104 @@ public class TypeScriptPublicApiGraphEngine : IPublicApiGraphEngine<ApiIndex>
                         CrossLanguageId = map is not null && map.Ids.TryGetValue(funcId, out var funcXId) ? funcXId : null,
                     };
                 }).ToList(),
+                Namespaces = module.Namespaces?.Select(ns => FinalizeNamespace(ns, index.Package, ns.Name, map)).ToList(),
             }).ToList(),
+        };
+
+    private static NamespaceInfo FinalizeNamespace(NamespaceInfo ns, string packageName, string nsPath, CrossLanguageMap? map)
+        => ns with
+        {
+            Classes = ns.Classes?.Select(cls =>
+            {
+                var typeId = cls.Id ?? BuildTypeId(packageName, $"{nsPath}.{cls.Name}");
+                return cls with
+                {
+                    Id = typeId,
+                    CrossLanguageId = map is not null && map.Ids.TryGetValue(typeId, out var xId) ? xId : null,
+                    Constructors = cls.Constructors?.Select(ctor =>
+                    {
+                        var ctorId = ctor.Id ?? BuildMemberId(typeId, "constructor");
+                        return ctor with
+                        {
+                            Id = ctorId,
+                            CrossLanguageId = map is not null && map.Ids.TryGetValue(ctorId, out var ctorXId) ? ctorXId : null,
+                        };
+                    }).ToList(),
+                    Methods = cls.Methods?.Select(method =>
+                    {
+                        var methodId = method.Id ?? BuildMemberId(typeId, method.Name);
+                        return method with
+                        {
+                            Id = methodId,
+                            CrossLanguageId = map is not null && map.Ids.TryGetValue(methodId, out var methodXId) ? methodXId : null,
+                        };
+                    }).ToList(),
+                    Properties = cls.Properties?.Select(property =>
+                    {
+                        var propId = property.Id ?? BuildMemberId(typeId, property.Name);
+                        return property with
+                        {
+                            Id = propId,
+                            CrossLanguageId = map is not null && map.Ids.TryGetValue(propId, out var propXId) ? propXId : null,
+                        };
+                    }).ToList(),
+                };
+            }).ToList(),
+            Interfaces = ns.Interfaces?.Select(iface =>
+            {
+                var typeId = iface.Id ?? BuildTypeId(packageName, $"{nsPath}.{iface.Name}");
+                return iface with
+                {
+                    Id = typeId,
+                    CrossLanguageId = map is not null && map.Ids.TryGetValue(typeId, out var xId) ? xId : null,
+                    Methods = iface.Methods?.Select(method =>
+                    {
+                        var methodId = method.Id ?? BuildMemberId(typeId, method.Name);
+                        return method with
+                        {
+                            Id = methodId,
+                            CrossLanguageId = map is not null && map.Ids.TryGetValue(methodId, out var methodXId) ? methodXId : null,
+                        };
+                    }).ToList(),
+                    Properties = iface.Properties?.Select(property =>
+                    {
+                        var propId = property.Id ?? BuildMemberId(typeId, property.Name);
+                        return property with
+                        {
+                            Id = propId,
+                            CrossLanguageId = map is not null && map.Ids.TryGetValue(propId, out var propXId) ? propXId : null,
+                        };
+                    }).ToList(),
+                };
+            }).ToList(),
+            Enums = ns.Enums?.Select(en =>
+            {
+                var enumId = en.Id ?? BuildTypeId(packageName, $"{nsPath}.{en.Name}");
+                return en with
+                {
+                    Id = enumId,
+                    CrossLanguageId = map is not null && map.Ids.TryGetValue(enumId, out var xId) ? xId : null,
+                };
+            }).ToList(),
+            Types = ns.Types?.Select(type =>
+            {
+                var typeId = type.Id ?? BuildTypeId(packageName, $"{nsPath}.{type.Name}");
+                return type with
+                {
+                    Id = typeId,
+                    CrossLanguageId = map is not null && map.Ids.TryGetValue(typeId, out var xId) ? xId : null,
+                };
+            }).ToList(),
+            Functions = ns.Functions?.Select(function =>
+            {
+                var funcId = function.Id ?? BuildTypeId(packageName, $"{nsPath}.{function.Name}");
+                return function with
+                {
+                    Id = funcId,
+                    CrossLanguageId = map is not null && map.Ids.TryGetValue(funcId, out var xId) ? xId : null,
+                };
+            }).ToList(),
+            Namespaces = ns.Namespaces?.Select(child => FinalizeNamespace(child, packageName, $"{nsPath}.{child.Name}", map)).ToList(),
         };
 
     private static string BuildTypeId(string packageName, string typeName)

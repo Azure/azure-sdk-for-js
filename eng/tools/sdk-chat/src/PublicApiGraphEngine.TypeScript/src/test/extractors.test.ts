@@ -354,6 +354,26 @@ describe("extractors", () => {
       const processMethod = (info.methods ?? []).find((m) => m.name === "process");
       expect(processMethod).toBeDefined();
     });
+
+    it("extracts type parameters from generic callable property", () => {
+      const ctx = makeCtx();
+      const sf = ctx.project.createSourceFile(
+        "test.ts",
+        `
+        export interface Foo { value: string }
+        export interface Bar<T> { data: T }
+        export interface Handler {
+          handler: <T extends Foo>(x: T) => Bar<T>;
+        }`,
+      );
+      const iface = sf.getInterfaceOrThrow("Handler");
+      const info = extractInterface(iface, ctx);
+
+      const handlerMethod = (info.methods ?? []).find((m) => m.name === "handler");
+      expect(handlerMethod).toBeDefined();
+      expect(handlerMethod!.typeParams).toBe("T extends Foo");
+      expect(handlerMethod!.declaredTypeParamNames).toEqual(["T"]);
+    });
   });
 
   // Issue 8: Function return-type ref tracking

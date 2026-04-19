@@ -2037,7 +2037,12 @@ export function filterNamespaceMembers(ns: NamespaceInfo, refs: Set<string>): Na
  * Keeps members whose names are in the exported set.
  * Returns null if the namespace becomes empty.
  */
-function filterNamespaceByExports(ns: NamespaceInfo, exportedNames: Set<string>): NamespaceInfo | null {
+export function filterNamespaceByExports(ns: NamespaceInfo, exportedNames: Set<string>): NamespaceInfo | null {
+    // If the namespace itself is exported, keep it with all its members
+    if (exportedNames.has(ns.name)) {
+        return { ...ns };
+    }
+
     const result: NamespaceInfo = { name: ns.name };
 
     if (ns.classes) {
@@ -2067,8 +2072,7 @@ function filterNamespaceByExports(ns: NamespaceInfo, exportedNames: Set<string>)
         if (childNs.length) result.namespaces = childNs;
     }
 
-    // Keep if namespace name is exported or any member survived
-    if (exportedNames.has(ns.name) || result.classes || result.interfaces ||
+    if (result.classes || result.interfaces ||
         result.enums || result.types || result.functions || result.namespaces) {
         return result;
     }

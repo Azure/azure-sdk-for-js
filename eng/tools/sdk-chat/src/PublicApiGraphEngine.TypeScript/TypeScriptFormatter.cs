@@ -187,9 +187,14 @@ public static class TypeScriptFormatter
         var typeToModule = new Dictionary<string, string>(StringComparer.Ordinal);
         var typeToAllModules = new Dictionary<string, List<string>>(StringComparer.Ordinal);
         var moduleExportedTypes = new Dictionary<string, HashSet<string>>(StringComparer.Ordinal);
-        var exportPattern = new Regex(
-            @"export\s+(?:declare\s+)?(?:interface|class|type|enum|function|const|let|var|abstract\s+class|namespace)\s+(\w+)",
-            RegexOptions.Compiled);
+
+        // Keyword prefixes that precede a type/symbol name in export declarations.
+        // "const enum" must come before "const" so it matches first.
+        string[] exportKeywords =
+        [
+            "abstract class", "const enum", "interface", "class", "type", "enum",
+            "function", "namespace", "const", "let", "var"
+        ];
 
         foreach (var (moduleName, blockLines) in declareModuleBlocks)
         {
@@ -205,10 +210,9 @@ public static class TypeScriptFormatter
                 }
                 if (depthBeforeLine == 1)
                 {
-                    var match = exportPattern.Match(blockLine);
-                    if (match.Success)
+                    var typeName = ParseExportedSymbolName(blockLine, exportKeywords);
+                    if (typeName is not null)
                     {
-                        var typeName = match.Groups[1].Value;
                         types.Add(typeName);
                         typeToModule.TryAdd(typeName, moduleName);
                         if (!typeToAllModules.TryGetValue(typeName, out var modules))
@@ -323,14 +327,11 @@ public static class TypeScriptFormatter
             var sectionDeclare = $"declare module \"{sectionModule}\" {{";
             sb.AppendLine(AnnotateDeclareModule(sectionDeclare, sectionModule));
 
-            // Imports inside the declare module block (only in first section)
-            if (sectionModule == packageName)
-            {
-                foreach (var imp in imports)
-                    sb.AppendLine($"  {imp}");
-                if (imports.Count > 0)
-                    sb.AppendLine();
-            }
+            // Imports inside the declare module block
+            foreach (var imp in imports)
+                sb.AppendLine($"  {imp}");
+            if (imports.Count > 0)
+                sb.AppendLine();
 
             // Body indented; strip 'declare' from 'export declare' since we're inside an ambient context
             foreach (var line in sectionLines)
@@ -806,6 +807,12 @@ public static class TypeScriptFormatter
             exportPaths.Add(iface.ExportPath!);
         foreach (var fn in allFunctions.Where(f => f.ExportPath is not null))
             exportPaths.Add(fn.ExportPath!);
+        foreach (var en in allEnums.Where(e => e.ExportPath is not null))
+            exportPaths.Add(en.ExportPath!);
+        foreach (var ta in allTypes.Where(t => t.ExportPath is not null))
+            exportPaths.Add(ta.ExportPath!);
+        foreach (var ns in index.Modules.SelectMany(m => m.Namespaces ?? []).Where(n => n.ExportPath is not null))
+            exportPaths.Add(ns.ExportPath!);
 
         // Sort export paths: "." first, then alphabetically
         var sortedExportPaths = exportPaths
@@ -939,10 +946,10 @@ public static class TypeScriptFormatter
 
                 foreach (var c in module.Classes ?? []) AddToGroup(GroupKey(c.ExportPath), cls: c);
                 foreach (var i in module.Interfaces ?? []) AddToGroup(GroupKey(i.ExportPath), iface: i);
-                foreach (var e in module.Enums ?? []) AddToGroup(GroupKey(null), en: e);
-                foreach (var t in module.Types ?? []) AddToGroup(GroupKey(null), ta: t);
+                foreach (var e in module.Enums ?? []) AddToGroup(GroupKey(e.ExportPath), en: e);
+                foreach (var t in module.Types ?? []) AddToGroup(GroupKey(t.ExportPath), ta: t);
                 foreach (var f in module.Functions ?? []) AddToGroup(GroupKey(f.ExportPath), fn: f);
-                foreach (var n in module.Namespaces ?? []) AddToGroup(GroupKey(null), ns: n);
+                foreach (var n in module.Namespaces ?? []) AddToGroup(GroupKey(n.ExportPath), ns: n);
             }
 
             // Sort groups: by exportPath first (. before subpaths), then condition alphabetically
@@ -1949,5 +1956,52 @@ public static class TypeScriptFormatter
         }
 
         return "";
+    }
+
+    /// <summary>
+    /// Parses an export declaration line using string operations (no regex) and returns
+    /// the exported symbol name, or null if the line is not an export declaration.
+    /// Handles patterns like: export interface Foo, export declare class Bar, export const enum Baz.
+    /// <paramref name="keywords"/> must be ordered so multi-word keywords (e.g. "const enum")
+    /// precede their single-word prefixes (e.g. "const").
+    /// </summary>
+    private static string? ParseExportedSymbolName(string line, string[] keywords)
+    {
+        var trimmed = line.AsSpan().TrimStart();
+        if (!trimmed.StartsWith("export".AsSpan(), StringComparison.Ordinal))
+            return null;
+
+        // Skip "export" and any following whitespace
+        trimmed = trimmed["export".Length..].TrimStart();
+
+        // Skip optional "declare" keyword
+        if (trimmed.StartsWith("declare".AsSpan(), StringComparison.Ordinal))
+        {
+            var afterDeclare = trimmed["declare".Length..];
+            if (afterDeclare.Length > 0 && char.IsWhiteSpace(afterDeclare[0]))
+                trimmed = afterDeclare.TrimStart();
+        }
+
+        // Match against keyword list (longest/multi-word first)
+        foreach (var kw in keywords)
+        {
+            if (!trimmed.StartsWith(kw.AsSpan(), StringComparison.Ordinal))
+                continue;
+
+            var afterKw = trimmed[kw.Length..];
+            if (afterKw.Length == 0 || !char.IsWhiteSpace(afterKw[0]))
+                continue;
+
+            // Extract the identifier after the keyword
+            afterKw = afterKw.TrimStart();
+            int end = 0;
+            while (end < afterKw.Length && (char.IsLetterOrDigit(afterKw[end]) || afterKw[end] == '_' || afterKw[end] == '$'))
+                end++;
+            if (end > 0)
+                return afterKw[..end].ToString();
+            break;
+        }
+
+        return null;
     }
 }

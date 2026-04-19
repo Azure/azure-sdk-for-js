@@ -537,10 +537,27 @@ export function extractInterfaceCallableProperty(prop: Node, ctx: ExtractionCont
     // Also collect from TypeNode to catch simple type aliases resolved away by TS
     if (returnTypeNode) ctx.typeRefs.collectFromTypeNode(returnTypeNode);
 
+    // Extract type parameters from the function type (e.g., <T extends Foo>)
+    const rawTypeParams = typeNode.getTypeParameters();
+    const typeParams = rawTypeParams.map(t => stripImportPrefix(t.getText(), false, ctx.namespaceAliases)).join(", ");
+
+    // Traverse type parameter constraints and defaults for dependency tracking
+    for (const tp of rawTypeParams) {
+        const constraint = tp.getConstraint();
+        if (constraint) ctx.typeRefs.collectFromType(constraint.getType());
+        const defaultType = tp.getDefault();
+        if (defaultType) ctx.typeRefs.collectFromType(defaultType.getType());
+    }
+
     const result: MethodInfo = {
         name: prop.getName(),
         sig: params,
     };
+
+    if (typeParams) {
+        result.typeParams = typeParams;
+        result.declaredTypeParamNames = rawTypeParams.map(tp => tp.getName());
+    }
 
     if (paramInfos.length) result.params = paramInfos;
 

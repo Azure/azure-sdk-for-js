@@ -7,6 +7,7 @@ import {
   collectCompanionNamespaceAliases,
   extractDeclaration,
   extractTypeFromResolvedModule,
+  filterNamespaceByExports,
   filterNamespaceMembers,
   makeDepKey,
   splitDepKey,
@@ -493,5 +494,43 @@ describe("filterNamespaceMembers — package-qualified reachability", () => {
     expect(result).not.toBeNull();
     expect(result!.interfaces).toHaveLength(1);
     expect(result!.interfaces![0].name).toBe("Config");
+  });
+});
+
+describe("filterNamespaceByExports", () => {
+  it("keeps namespace with all members when namespace name is exported", () => {
+    const ns = {
+      name: "Foo",
+      interfaces: [{ name: "Bar", members: [] }],
+    };
+    const exportedNames = new Set(["Foo"]);
+    const result = filterNamespaceByExports(ns, exportedNames);
+    expect(result).not.toBeNull();
+    expect(result!.name).toBe("Foo");
+    expect(result!.interfaces).toHaveLength(1);
+    expect(result!.interfaces![0].name).toBe("Bar");
+  });
+
+  it("filters members when only member name is exported", () => {
+    const ns = {
+      name: "Foo",
+      interfaces: [{ name: "Bar", members: [] }],
+    };
+    const exportedNames = new Set(["Bar"]);
+    const result = filterNamespaceByExports(ns, exportedNames);
+    expect(result).not.toBeNull();
+    expect(result!.name).toBe("Foo");
+    expect(result!.interfaces).toHaveLength(1);
+    expect(result!.interfaces![0].name).toBe("Bar");
+  });
+
+  it("drops namespace when neither namespace nor members are exported", () => {
+    const ns = {
+      name: "Foo",
+      interfaces: [{ name: "Bar", members: [] }],
+    };
+    const exportedNames = new Set(["Other"]);
+    const result = filterNamespaceByExports(ns, exportedNames);
+    expect(result).toBeNull();
   });
 });

@@ -288,6 +288,106 @@ describe("TypeReferenceCollector — getAllQualifiedRefNames", () => {
   });
 });
 
+describe("getExternalRefs — namespace member deps", () => {
+  it("collects refs from namespace members when leaf name is in reachable set", () => {
+    const ctx = makeCtx();
+    ctx.project.createSourceFile(
+      "dep.ts",
+      `export interface DepType { value: string }`,
+    );
+    const sf = ctx.project.createSourceFile(
+      "test.ts",
+      `
+      import { DepType } from "./dep.js";
+      export namespace Inner {
+        export interface Client {
+          doWork(): DepType;
+        }
+      }
+      `,
+    );
+
+    // Simulate extraction: push nested context for namespace member
+    ctx.typeRefs.setModule("testMod");
+    const ns = sf.getModuleOrThrow("Inner");
+    const iface = ns.getInterfaceOrThrow("Client");
+    ctx.typeRefs.pushContext("Inner");
+    ctx.typeRefs.pushContext("Client");
+    for (const member of iface.getMembers()) {
+      ctx.typeRefs.collectFromTypeNode(member);
+    }
+    ctx.typeRefs.popContext();
+    ctx.typeRefs.popContext();
+
+    // Verify the ref was collected under the dotted context key
+    const contextRefs = ctx.typeRefs.getContextRefNames("testMod");
+    expect(contextRefs.has("Inner.Client")).toBe(true);
+    expect(contextRefs.get("Inner.Client")).toContain("DepType");
+
+    // Simulate a reachable set that contains the leaf name "Client"
+    // (as computeReachableTypes would produce).
+    // getExternalRefs filters to refs with packageName OR falls back to importedTypes.
+    // DepType resolves from a local file — it won't have a packageName and won't be
+    // in importedTypes. So we directly verify the scoping: refs ARE collected from
+    // the namespace member context when its leaf name is reachable.
+    // To verify external ref collection end-to-end, also add DepType as an import.
+    ctx.typeRefs.collectFromImportDeclarations([
+      ctx.project.createSourceFile(
+        "fake-import.ts",
+        `import { DepType } from "ext-pkg";`,
+      ),
+    ]);
+
+    const reachable = new Set(["Inner", "Client"]);
+    const externalRefs = ctx.typeRefs.getExternalRefs(reachable);
+    const refNames = externalRefs.map((r) => r.name);
+    expect(refNames).toContain("DepType");
+  });
+
+  it("does not collect refs from unreachable namespace members", () => {
+    const ctx = makeCtx();
+    ctx.project.createSourceFile(
+      "dep.ts",
+      `export interface DepType { value: string }`,
+    );
+    const sf = ctx.project.createSourceFile(
+      "test.ts",
+      `
+      import { DepType } from "./dep.js";
+      export namespace Inner {
+        export interface Client {
+          doWork(): DepType;
+        }
+      }
+      `,
+    );
+
+    ctx.typeRefs.collectFromImportDeclarations([
+      ctx.project.createSourceFile(
+        "fake-import.ts",
+        `import { DepType } from "ext-pkg";`,
+      ),
+    ]);
+
+    ctx.typeRefs.setModule("testMod");
+    const ns = sf.getModuleOrThrow("Inner");
+    const iface = ns.getInterfaceOrThrow("Client");
+    ctx.typeRefs.pushContext("Inner");
+    ctx.typeRefs.pushContext("Client");
+    for (const member of iface.getMembers()) {
+      ctx.typeRefs.collectFromTypeNode(member);
+    }
+    ctx.typeRefs.popContext();
+    ctx.typeRefs.popContext();
+
+    // Reachable set does NOT contain "Client" — refs should not be collected
+    const reachable = new Set(["SomeOtherType"]);
+    const externalRefs = ctx.typeRefs.getExternalRefs(reachable);
+    const refNames = externalRefs.map((r) => r.name);
+    expect(refNames).not.toContain("DepType");
+  });
+});
+
 describe("extractEnum", () => {
   it("preserves string initializers faithfully", () => {
     const ctx = makeCtx();
@@ -482,5 +582,64 @@ describe("getContextRefNamesWithPackages", () => {
         expect(pkgs).toBeInstanceOf(Set);
       }
     }
+  });
+
+  it("two entities with same name in different modules have separate provenance", () => {
+    const ctx = makeCtx();
+    ctx.project.createSourceFile(
+      "depA.ts",
+      `export interface DepA { a: string }`,
+    );
+    ctx.project.createSourceFile(
+      "depB.ts",
+      `export interface DepB { b: number }`,
+    );
+    const sfA = ctx.project.createSourceFile(
+      "moduleA.ts",
+      `
+      import { DepA } from "./depA.js";
+      export interface Options { field: DepA; }
+      `,
+    );
+    const sfB = ctx.project.createSourceFile(
+      "moduleB.ts",
+      `
+      import { DepB } from "./depB.js";
+      export interface Options { field: DepB; }
+      `,
+    );
+
+    // Extract Options in module "modA"
+    ctx.typeRefs.setModule("modA");
+    const ifaceA = sfA.getInterfaceOrThrow("Options");
+    ctx.typeRefs.pushContext("Options");
+    for (const member of ifaceA.getMembers()) {
+      ctx.typeRefs.collectFromTypeNode(member);
+    }
+    ctx.typeRefs.popContext();
+
+    // Extract Options in module "modB"
+    ctx.typeRefs.setModule("modB");
+    const ifaceB = sfB.getInterfaceOrThrow("Options");
+    ctx.typeRefs.pushContext("Options");
+    for (const member of ifaceB.getMembers()) {
+      ctx.typeRefs.collectFromTypeNode(member);
+    }
+    ctx.typeRefs.popContext();
+
+    // When queried with module filter, each module's Options has separate refs
+    const refsA = ctx.typeRefs.getContextRefNames("modA");
+    const refsB = ctx.typeRefs.getContextRefNames("modB");
+    expect(refsA.has("Options")).toBe(true);
+    expect(refsB.has("Options")).toBe(true);
+    expect(refsA.get("Options")).toContain("DepA");
+    expect(refsA.get("Options")).not.toContain("DepB");
+    expect(refsB.get("Options")).toContain("DepB");
+    expect(refsB.get("Options")).not.toContain("DepA");
+
+    // Without module filter, results merge across modules
+    const refsAll = ctx.typeRefs.getContextRefNames();
+    expect(refsAll.get("Options")).toContain("DepA");
+    expect(refsAll.get("Options")).toContain("DepB");
   });
 });

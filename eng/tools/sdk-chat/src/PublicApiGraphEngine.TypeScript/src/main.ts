@@ -217,6 +217,7 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
             moduleName = moduleName.slice(0, -6) || "index";
         }
 
+        ctx.typeRefs.setModule(moduleName);
         const module = extractModule(sourceFile, moduleName, ctx);
         if (module) {
             // Set module condition+exportPath from entryEntries by file path.
@@ -347,8 +348,7 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
 
     // Populate referencedTypes on all entities from compiler-resolved type refs.
     // This must happen before computeReachableTypes so BFS can use the data.
-    const contextRefNames = ctx.typeRefs.getContextRefNames();
-    function populateEntityRefs(source: { classes?: { name: string; referencedTypes?: string[] }[]; interfaces?: { name: string; referencedTypes?: string[] }[]; types?: { name: string; referencedTypes?: string[] }[]; functions?: { name?: string; referencedTypes?: string[] }[]; namespaces?: NamespaceInfo[] }, prefix = ""): void {
+    function populateEntityRefs(source: { classes?: { name: string; referencedTypes?: string[] }[]; interfaces?: { name: string; referencedTypes?: string[] }[]; types?: { name: string; referencedTypes?: string[] }[]; functions?: { name?: string; referencedTypes?: string[] }[]; namespaces?: NamespaceInfo[] }, contextRefNames: Map<string, string[]>, prefix = ""): void {
         for (const cls of source.classes || []) {
             const key = prefix ? `${prefix}.${cls.name}` : cls.name;
             const refs = contextRefNames.get(key);
@@ -372,11 +372,12 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
         }
         for (const ns of source.namespaces || []) {
             const nsPrefix = prefix ? `${prefix}.${ns.name}` : ns.name;
-            populateEntityRefs(ns, nsPrefix);
+            populateEntityRefs(ns, contextRefNames, nsPrefix);
         }
     }
     for (const mod of baseResult.modules) {
-        populateEntityRefs(mod);
+        const contextRefNames = ctx.typeRefs.getContextRefNames(mod.name);
+        populateEntityRefs(mod, contextRefNames);
     }
 
     // Compute types reachable from entry points
@@ -411,10 +412,12 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
         if (reachableTypes.size > 0) {
             // Filter to only include qualified refs whose prefix or full name relates to reachable entities
             const reachableQualifiedRefs = new Set<string>();
-            const contextRefNames = ctx.typeRefs.getContextRefNames();
-            for (const [contextName, refs] of contextRefNames) {
-                // contextName is a simple or dotted entity name; check if the simple base name is reachable
-                const baseName = contextName.includes(".") ? contextName.split(".")[0] : contextName;
+            const allContextRefNames = ctx.typeRefs.getContextRefNames();
+            for (const [contextName, refs] of allContextRefNames) {
+                // contextName may be module-qualified (e.g. "mod:NS.Client"); extract the entity part
+                const entityKey = contextName.includes(":") ? contextName.slice(contextName.indexOf(":") + 1) : contextName;
+                // entityKey is a simple or dotted entity name; check if the simple base name is reachable
+                const baseName = entityKey.includes(".") ? entityKey.split(".")[0] : entityKey;
                 if (reachableTypes.has(baseName)) {
                     for (const ref of refs) {
                         if (qualifiedRefs.has(ref)) {
