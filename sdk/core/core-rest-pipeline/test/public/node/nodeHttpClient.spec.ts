@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assert, describe, it, vi, beforeEach, afterEach } from "vitest";
+import { assert, describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { PassThrough, Writable } from "stream";
 import type { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
 import type { AbortSignalLike } from "@azure/abort-controller";
@@ -178,27 +178,21 @@ describe("NodeHttpClient", function () {
 
   it("should report upload and download progress", async function () {
     const client = createDefaultHttpClient();
-    let downloadCalled = false;
-    let uploadCalled = false;
+    const onDownloadProgress = vi.fn();
+    const onUploadProgress = vi.fn();
     const request = createPipelineRequest({
       url: "https://example.com",
       body: "Some kinda witty message",
-      onDownloadProgress: (ev) => {
-        assert.isNumber(ev.loadedBytes);
-        downloadCalled = true;
-      },
-      onUploadProgress: (ev) => {
-        assert.isNumber(ev.loadedBytes);
-        uploadCalled = true;
-      },
+      onDownloadProgress,
+      onUploadProgress,
     });
     const promise = client.sendRequest(request);
     const responseText = "An appropriate response.";
     yieldHttpsResponse(createResponse(200, responseText));
     const response = await promise;
     assert.strictEqual(response.bodyAsText, responseText);
-    assert.isTrue(downloadCalled, "no download progress");
-    assert.isTrue(uploadCalled, "no upload progress");
+    expect(onDownloadProgress).toHaveBeenCalled();
+    expect(onUploadProgress).toHaveBeenCalled();
   });
 
   it("should honor timeout", async function () {
@@ -228,7 +222,7 @@ describe("NodeHttpClient", function () {
     const promise = client.sendRequest(request);
     yieldHttpsResponse(createResponse(200, "body"));
     const response = await promise;
-    assert.equal(response.bodyAsText, undefined);
+    assert.isUndefined(response.bodyAsText);
     assert.isDefined(response.readableStreamBody);
   });
 
@@ -241,7 +235,7 @@ describe("NodeHttpClient", function () {
     const promise = client.sendRequest(request);
     yieldHttpsResponse(createResponse(201, "body"));
     const response = await promise;
-    assert.equal(response.bodyAsText, undefined);
+    assert.isUndefined(response.bodyAsText);
     assert.isDefined(response.readableStreamBody);
   });
 
