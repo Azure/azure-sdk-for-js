@@ -73,7 +73,11 @@ describe("[Browser] Streams", () => {
     const fetchMock = vi.mocked(fetch);
     fetchMock.mockRejectedValue(new Error("ExpectedException"));
 
-    await expect(client.pathUnchecked("/foo").get()).rejects.toThrow(/ExpectedException/);
+    try {
+      await client.pathUnchecked("/foo").get();
+    } catch (e: any) {
+      assert.match(e.message, /ExpectedException/);
+    }
   });
 
   it("should be able to handle errors on streamed response", async () => {
@@ -82,9 +86,11 @@ describe("[Browser] Streams", () => {
     const fetchMock = vi.mocked(fetch);
     fetchMock.mockRejectedValue(new Error("ExpectedException"));
 
-    await expect(client.pathUnchecked("/foo").get().asBrowserStream()).rejects.toThrow(
-      /ExpectedException/,
-    );
+    try {
+      await client.pathUnchecked("/foo").get().asBrowserStream();
+    } catch (e: any) {
+      assert.match(e.message, /ExpectedException/);
+    }
   });
 
   it("should throw when attempting to use node streams", async () => {
@@ -93,8 +99,14 @@ describe("[Browser] Streams", () => {
 
     const client = getClient(mockBaseUrl);
 
-    await expect(client.pathUnchecked("/foo").get().asNodeStream()).rejects.toThrow(
-      "`isNodeStream` is not supported in the browser environment. Use `asBrowserStream` to obtain the response body stream.",
-    );
+    try {
+      await client.pathUnchecked("/foo").get().asNodeStream();
+      assert.fail("Expected error was not thrown");
+    } catch (e: any) {
+      assert.equal(
+        e.message,
+        "`isNodeStream` is not supported in the browser environment. Use `asBrowserStream` to obtain the response body stream.",
+      );
+    }
   });
 });

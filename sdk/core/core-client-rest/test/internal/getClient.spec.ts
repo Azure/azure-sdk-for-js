@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert, vi, expect } from "vitest";
+import { describe, it, assert } from "vitest";
 import { getClient } from "../../src/getClient.js";
 import { isNodeLike } from "@typespec/ts-http-runtime/internal/util";
 import type {
@@ -204,18 +204,20 @@ describe("getClient", () => {
   });
 
   it("stream methods should call onResponse", async () => {
+    let called = false;
     const fakeHttpClient: HttpClient = {
       sendRequest: async (request) => {
         return { headers: createHttpHeaders(), status: 200, request };
       },
     };
 
-    const onResponseFn = vi.fn();
     const client = getClient("https://example.org", {
       httpClient: fakeHttpClient,
     });
     const res = client.pathUnchecked("/foo").get({
-      onResponse: onResponseFn,
+      onResponse: () => {
+        called = true;
+      },
     });
 
     if (isNodeLike) {
@@ -223,10 +225,11 @@ describe("getClient", () => {
     } else {
       await res.asBrowserStream();
     }
-    expect(onResponseFn).toHaveBeenCalled();
+    assert.isTrue(called);
   });
 
   it("onResponse legacyError is passed in", async () => {
+    let called = false;
     const fakeHttpClient: HttpClient = {
       sendRequest: async () => {
         throw new RestError("error", {
@@ -235,21 +238,21 @@ describe("getClient", () => {
       },
     };
 
-    const onResponseFn = vi.fn((_: any, err: any, legacyError: any) => {
-      assert.isDefined(err);
-      assert.equal(err, legacyError);
-    });
     const client = getClient("https://example.org", {
       httpClient: fakeHttpClient,
     });
 
     try {
       await client.pathUnchecked("/foo").get({
-        onResponse: onResponseFn,
+        onResponse: (_, err, legacyError) => {
+          assert.isDefined(err);
+          assert.equal(err, legacyError);
+          called = true;
+        },
       });
       assert.fail("Expected error to be thrown");
     } catch (e: unknown) {
-      expect(onResponseFn).toHaveBeenCalled();
+      assert.isTrue(called);
     }
   });
 
@@ -292,11 +295,14 @@ describe("getClient", () => {
 
   describe("when pipeline is passed via options", () => {
     it("should use the provided pipeline when passed via second parameter (options only)", async () => {
-      const sendRequestFn = vi.fn((req: PipelineRequest, next: SendRequest) => next(req));
+      let customPolicyInvoked = false;
       const customPipeline = createEmptyPipeline();
       const customPolicy: PipelinePolicy = {
         name: "customTrackingPolicy",
-        sendRequest: sendRequestFn,
+        sendRequest: (req, next) => {
+          customPolicyInvoked = true;
+          return next(req);
+        },
       };
       customPipeline.addPolicy(customPolicy);
 
@@ -306,15 +312,21 @@ describe("getClient", () => {
       });
 
       await client.pathUnchecked("/foo").get();
-      expect(sendRequestFn).toHaveBeenCalled();
+      assert.isTrue(
+        customPolicyInvoked,
+        "Custom pipeline policy should have been invoked when pipeline passed via second parameter",
+      );
     });
 
     it("should use the provided pipeline when passed via third parameter (with TokenCredential)", async () => {
-      const sendRequestFn = vi.fn((req: PipelineRequest, next: SendRequest) => next(req));
+      let customPolicyInvoked = false;
       const customPipeline = createEmptyPipeline();
       const customPolicy: PipelinePolicy = {
         name: "customTrackingPolicy",
-        sendRequest: sendRequestFn,
+        sendRequest: (req, next) => {
+          customPolicyInvoked = true;
+          return next(req);
+        },
       };
       customPipeline.addPolicy(customPolicy);
 
@@ -328,15 +340,21 @@ describe("getClient", () => {
       });
 
       await client.pathUnchecked("/foo").get();
-      expect(sendRequestFn).toHaveBeenCalled();
+      assert.isTrue(
+        customPolicyInvoked,
+        "Custom pipeline policy should have been invoked when pipeline passed via third parameter with TokenCredential",
+      );
     });
 
     it("should use the provided pipeline when passed via third parameter (with KeyCredential)", async () => {
-      const sendRequestFn = vi.fn((req: PipelineRequest, next: SendRequest) => next(req));
+      let customPolicyInvoked = false;
       const customPipeline = createEmptyPipeline();
       const customPolicy: PipelinePolicy = {
         name: "customTrackingPolicy",
-        sendRequest: sendRequestFn,
+        sendRequest: (req, next) => {
+          customPolicyInvoked = true;
+          return next(req);
+        },
       };
       customPipeline.addPolicy(customPolicy);
 
@@ -350,7 +368,10 @@ describe("getClient", () => {
       });
 
       await client.pathUnchecked("/foo").get();
-      expect(sendRequestFn).toHaveBeenCalled();
+      assert.isTrue(
+        customPolicyInvoked,
+        "Custom pipeline policy should have been invoked when pipeline passed via third parameter with KeyCredential",
+      );
     });
 
     it("should preserve custom pipeline policies order", async () => {

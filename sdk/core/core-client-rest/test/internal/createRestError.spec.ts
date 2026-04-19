@@ -83,7 +83,7 @@ describe("createRestError", () => {
     };
     const error = createRestError("error message", response);
     assert.equal(error.statusCode, 400);
-    assert.isUndefined(error.code);
+    assert.equal(error.code, undefined);
     assert.equal(error.message, "error message");
   });
 
@@ -96,7 +96,7 @@ describe("createRestError", () => {
     };
     const error = createRestError(response);
     assert.equal(error.statusCode, 400);
-    assert.isUndefined(error.code);
+    assert.equal(error.code, undefined);
     assert.equal(error.message, "Unexpected status code: 400");
   });
 });
