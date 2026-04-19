@@ -2487,7 +2487,8 @@ matrix(
           });
           assert.equal(serialized, expectedSerialized);
           assert.isNotNull(poller.operationState);
-          assert.equal(poller.operationState!.status, "running");
+          const operationState = poller.operationState;
+          assert.equal(operationState?.status, "running");
           pollCount = 0;
           const restoredPoller = createTestPoller({
             routes: pollingRoutes,
@@ -2707,7 +2708,8 @@ matrix(
               result: { ...body, statusCode: 200 },
             },
           });
-          assert.deepEqual(poller.result!.results, [1, 2]);
+          assert.isDefined(poller.result);
+          assert.deepEqual(poller.result?.results, [1, 2]);
         });
       });
       describe("abort signals", function () {
@@ -2898,7 +2900,7 @@ matrix(
           assert.deepEqual(retResult, result);
           assert.equal(pollCount, 11);
           assert.isNotNull(poller.operationState);
-          assert.equal(poller.operationState!.status, "succeeded");
+          assert.equal(poller.operationState?.status, "succeeded");
           assert.deepEqual(poller.result, retResult);
           assert.equal(poller.result, result);
           // duplicate awaitting would not trigger extra pollings
@@ -3153,7 +3155,7 @@ matrix(
           await poller.submitted();
           assert.equal(pollCount, 0);
           assert.isNotNull(poller.operationState);
-          assert.equal(poller.operationState!.status, "running");
+          assert.equal(poller.operationState?.status, "running");
         });
         it("handles polling response with unknown success status", async () => {
           const poller = createTestPoller({
