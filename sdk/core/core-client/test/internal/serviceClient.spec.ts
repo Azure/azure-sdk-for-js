@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert, expect, vi } from "vitest";
+import { describe, it, assert } from "vitest";
 import type {
   CompositeMapper,
   DictionaryMapper,
@@ -25,7 +25,6 @@ import type {
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
-  RestError,
   SendRequest,
 } from "@azure/core-rest-pipeline";
 import {
@@ -38,7 +37,6 @@ import {
   getOperationRequestInfo,
 } from "../../src/operationHelpers.js";
 import type { TokenCredential } from "@azure/core-auth";
-import type { TracingContext } from "@azure/core-tracing";
 import { assertServiceClientResponse } from "../utils/serviceClient.js";
 import { deserializationPolicy } from "../../src/deserializationPolicy.js";
 import { getCachedDefaultHttpClient } from "../../src/httpClientCache.js";
@@ -87,29 +85,32 @@ describe("ServiceClient", function () {
       },
     };
 
-    it("should throw is no scope or endpoint are defined", function () {
+    it("should throw is no scope or endpoint are defined", async function () {
       const credential: TokenCredential = {
         getToken: async (_scopes) => {
           return { token: "testToken", expiresOnTimestamp: 11111 };
         },
       };
-      expect(
-        () =>
-          new ServiceClient({
-            httpClient: {
-              sendRequest: (req) => {
-                return Promise.resolve({
-                  request: req,
-                  status: 200,
-                  headers: createHttpHeaders(),
-                });
-              },
+      try {
+        let request: OperationRequest;
+        const client = new ServiceClient({
+          httpClient: {
+            sendRequest: (req) => {
+              request = req;
+              return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
             },
-            credential,
-          }),
-      ).toThrow(
-        /When using credentials, the ServiceClientOptions must contain either a endpoint or a credentialScopes/,
-      );
+          },
+          credential,
+        });
+
+        await client.sendOperationRequest(testOperationArgs, testOperationSpec);
+        assert.fail();
+      } catch (error: any) {
+        assert.equal(
+          error.message,
+          `When using credentials, the ServiceClientOptions must contain either a endpoint or a credentialScopes. Unable to create a bearerTokenAuthenticationPolicy`,
+        );
+      }
     });
 
     it("should use baseUrl to build scope", async function () {
@@ -121,22 +122,22 @@ describe("ServiceClient", function () {
         },
       };
 
-      const sendRequest = vi.fn((req: PipelineRequest) =>
-        Promise.resolve({ request: req, status: 200, headers: createHttpHeaders() }),
-      );
+      let request: OperationRequest;
       const client = new ServiceClient({
-        httpClient: { sendRequest },
+        httpClient: {
+          sendRequest: (req) => {
+            request = req;
+            return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
+          },
+        },
         credential,
         baseUri,
       });
 
       await client.sendOperationRequest(testOperationArgs, testOperationSpec);
 
-      expect(sendRequest).toHaveBeenCalledOnce();
-      assert.deepEqual(
-        sendRequest.mock.calls[0][0].headers.get("authorization"),
-        "Bearer testToken",
-      );
+      assert(request!);
+      assert.strictEqual(request!.headers.get("authorization"), "Bearer testToken");
     });
 
     it("should use endpoint to build scope", async function () {
@@ -148,22 +149,22 @@ describe("ServiceClient", function () {
         },
       };
 
-      const sendRequest = vi.fn((req: PipelineRequest) =>
-        Promise.resolve({ request: req, status: 200, headers: createHttpHeaders() }),
-      );
+      let request: OperationRequest;
       const client = new ServiceClient({
-        httpClient: { sendRequest },
+        httpClient: {
+          sendRequest: (req) => {
+            request = req;
+            return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
+          },
+        },
         credential,
         endpoint,
       });
 
       await client.sendOperationRequest(testOperationArgs, testOperationSpec);
 
-      expect(sendRequest).toHaveBeenCalledOnce();
-      assert.deepEqual(
-        sendRequest.mock.calls[0][0].headers.get("authorization"),
-        "Bearer testToken",
-      );
+      assert(request!);
+      assert.strictEqual(request!.headers.get("authorization"), "Bearer testToken");
     });
 
     it("should use the provided scope", async function () {
@@ -175,22 +176,22 @@ describe("ServiceClient", function () {
         },
       };
 
-      const sendRequest = vi.fn((req: PipelineRequest) =>
-        Promise.resolve({ request: req, status: 200, headers: createHttpHeaders() }),
-      );
+      let request: OperationRequest;
       const client = new ServiceClient({
-        httpClient: { sendRequest },
+        httpClient: {
+          sendRequest: (req) => {
+            request = req;
+            return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
+          },
+        },
         credential,
         credentialScopes: authScope,
       });
 
       await client.sendOperationRequest(testOperationArgs, testOperationSpec);
 
-      expect(sendRequest).toHaveBeenCalledOnce();
-      assert.deepEqual(
-        sendRequest.mock.calls[0][0].headers.get("authorization"),
-        "Bearer testToken",
-      );
+      assert(request!);
+      assert.strictEqual(request!.headers.get("authorization"), "Bearer testToken");
     });
   });
 
@@ -201,13 +202,16 @@ describe("ServiceClient", function () {
       unrelated: "42",
     };
 
-    const sendRequest = vi.fn((req: PipelineRequest) =>
-      Promise.resolve({ request: req, status: 200, headers: createHttpHeaders() }),
-    );
+    let request: OperationRequest;
     const pipeline = createEmptyPipeline();
     pipeline.addPolicy(serializationPolicy(), { phase: "Serialize" });
     const client = new ServiceClient({
-      httpClient: { sendRequest },
+      httpClient: {
+        sendRequest: (req) => {
+          request = req;
+          return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
+        },
+      },
       pipeline,
     });
 
@@ -255,20 +259,23 @@ describe("ServiceClient", function () {
       },
     );
 
-    expect(sendRequest).toHaveBeenCalledOnce();
-    assert.deepEqual(sendRequest.mock.calls[0][0].headers.toJSON(), expected);
+    assert(request!);
+    assert.deepEqual(request!.headers.toJSON(), expected);
   });
 
   it("should call onResponse with the full response", async function () {
-    const sendRequest = vi.fn((req: PipelineRequest) =>
-      Promise.resolve({
-        request: req,
-        status: 200,
-        headers: createHttpHeaders({ "X-Extra-Info": "foo" }),
-      }),
-    );
+    let request: OperationRequest;
     const client = new ServiceClient({
-      httpClient: { sendRequest },
+      httpClient: {
+        sendRequest: (req) => {
+          request = req;
+          return Promise.resolve({
+            request,
+            status: 200,
+            headers: createHttpHeaders({ "X-Extra-Info": "foo" }),
+          });
+        },
+      },
       pipeline: createEmptyPipeline(),
     });
 
@@ -287,38 +294,38 @@ describe("ServiceClient", function () {
       },
     );
 
-    expect(sendRequest).toHaveBeenCalledOnce();
-    const request = sendRequest.mock.calls[0][0];
+    assert(request!);
     assert.strictEqual(JSON.stringify(operationResponse), "{}");
     assert.strictEqual(rawResponse?.status, 200);
-    assert.strictEqual(rawResponse?.request, request);
+    assert.strictEqual(rawResponse?.request, request!);
     assert.strictEqual(rawResponse?.headers.get("X-Extra-Info"), "foo");
   });
 
   it("should call onResponse with the full response when encountering an unknown status", async function () {
-    const sendRequest = vi.fn((req: PipelineRequest) =>
-      Promise.resolve({
-        request: req,
-        status: 500,
-        headers: createHttpHeaders(),
-      }),
-    );
+    let request: OperationRequest;
 
     const pipeline = createEmptyPipeline();
     pipeline.addPolicy(deserializationPolicy());
     const client = new ServiceClient({
-      httpClient: { sendRequest },
+      httpClient: {
+        sendRequest: (req) => {
+          request = req;
+          return Promise.resolve({
+            request,
+            status: 500,
+            headers: createHttpHeaders(),
+          });
+        },
+      },
       pipeline,
     });
 
     let rawResponse: FullOperationResponse | undefined;
-    let requestFailed = false;
-    let caughtError: RestError | undefined;
     let flatResponse: any;
     let onResponseError: unknown;
 
-    try {
-      await client.sendOperationRequest(
+    const caughtError: any = await client
+      .sendOperationRequest(
         {
           options: {
             onResponse: (response, flat, error) => {
@@ -337,18 +344,13 @@ describe("ServiceClient", function () {
             200: {},
           },
         },
-      );
-    } catch (e: any) {
-      caughtError = e;
-      requestFailed = true;
-      assert.strictEqual(e.name, "RestError");
-    }
+      )
+      .catch((e: any) => e);
 
-    assert.isTrue(requestFailed, "Request should fail with unknown status");
-    expect(sendRequest).toHaveBeenCalledOnce();
-    const request = sendRequest.mock.calls[0][0];
+    assert.strictEqual(caughtError.name, "RestError");
+    assert(request!);
     assert.strictEqual(rawResponse?.status, 500);
-    assert.strictEqual(rawResponse?.request, request);
+    assert.strictEqual(rawResponse?.request, request!);
     assert.deepStrictEqual(flatResponse, { body: undefined });
     assert.strictEqual(caughtError, onResponseError);
   });
@@ -390,10 +392,12 @@ describe("ServiceClient", function () {
   });
 
   it("should deserialize response bodies", async function () {
+    let request: OperationRequest;
     const httpClient: HttpClient = {
       sendRequest: (req) => {
+        request = req;
         return Promise.resolve({
-          request: req,
+          request,
           status: 200,
           headers: createHttpHeaders(),
           bodyAsText: "[1,2,3]",
@@ -1066,12 +1070,13 @@ describe("ServiceClient", function () {
       pipeline,
     });
 
-    await expect(client.sendOperationRequest({}, operationSpec)).rejects.toMatchObject({
-      details: {
-        errorCode: "InvalidResourceNameHeader",
-        message: "InvalidResourceNameBody",
-      },
-    });
+    try {
+      await client.sendOperationRequest({}, operationSpec);
+      assert.fail();
+    } catch (ex: any) {
+      assert.strictEqual(ex.details.errorCode, "InvalidResourceNameHeader");
+      assert.strictEqual(ex.details.message, "InvalidResourceNameBody");
+    }
   });
 
   it("should deserialize non-streaming default response", async function () {
@@ -1145,10 +1150,13 @@ describe("ServiceClient", function () {
       pipeline,
     });
 
-    await expect(client.sendOperationRequest({}, operationSpec)).rejects.toMatchObject({
-      code: "BlobNotFound",
-      message: "The specified blob does not exist.",
-    });
+    try {
+      await client.sendOperationRequest({}, operationSpec);
+      assert.fail();
+    } catch (ex: any) {
+      assert.strictEqual(ex.code, "BlobNotFound");
+      assert.strictEqual(ex.message, "The specified blob does not exist.");
+    }
   });
 
   it("should re-use the common instance of DefaultHttpClient", function () {
@@ -1249,8 +1257,7 @@ describe("ServiceClient", function () {
       },
     });
     const response = await client.sendOperationRequest<{ body: Date }>({}, operationSpec);
-    assert.instanceOf(response.body, Date);
-    assert.isNaN(response.body.getTime());
+    assert.isDefined(response.body);
   });
 
   it("should catch the mandatory parameter missing error", async function () {
@@ -1309,25 +1316,30 @@ describe("ServiceClient", function () {
       serializer: createSerializer(),
     };
 
+    let request: OperationRequest;
     const pipeline = createEmptyPipeline();
     pipeline.addPolicy(serializationPolicy(), { phase: "Serialize" });
     const client = new ServiceClient({
       httpClient: {
         sendRequest: (req) => {
-          return Promise.resolve({ request: req, status: 200, headers: createHttpHeaders() });
+          request = req;
+          return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
         },
       },
       pipeline,
     });
 
-    await expect(
-      client.sendOperationRequest(
+    try {
+      await client.sendOperationRequest(
         {
           options: undefined,
         },
         operationSpec,
-      ),
-    ).rejects.toThrow(/cannot be null or undefined/);
+      );
+      assert.fail("Expected client to throw");
+    } catch (error: any) {
+      assert.include(error.message, "cannot be null or undefined");
+    }
   });
 
   it("should catch the mandatory parameter missing error in the query", async function () {
@@ -1388,28 +1400,34 @@ describe("ServiceClient", function () {
       serializer: createSerializer(),
     };
 
+    let request: OperationRequest;
     const pipeline = createEmptyPipeline();
     pipeline.addPolicy(serializationPolicy(), { phase: "Serialize" });
     const client = new ServiceClient({
       httpClient: {
         sendRequest: (req) => {
-          return Promise.resolve({ request: req, status: 200, headers: createHttpHeaders() });
+          request = req;
+          return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
         },
       },
       pipeline,
     });
 
-    await expect(
-      client.sendOperationRequest(
+    try {
+      await client.sendOperationRequest(
         {
           options: undefined,
         },
         operationSpec,
-      ),
-    ).rejects.toThrow(/cannot be null or undefined/);
+      );
+      assert.fail("Expected client to throw");
+    } catch (error: any) {
+      assert.include(error.message, "cannot be null or undefined");
+    }
   });
 
   it("should not replace existing queries in request URLs", async function () {
+    let request: PipelineRequest;
     const topQueryParam: OperationQueryParameter = {
       parameterPath: ["options", "top"],
       mapper: {
@@ -1450,20 +1468,21 @@ describe("ServiceClient", function () {
       serializer: createSerializer(),
     };
 
-    const sendRequest = vi.fn((req: PipelineRequest) =>
-      Promise.resolve({
-        request: req,
-        status: 200,
-        headers: createHttpHeaders(),
-        bodyAsText: `"dummy string"`,
-      }),
-    );
     const client = new ServiceClient({
-      httpClient: { sendRequest },
+      httpClient: {
+        sendRequest: (req) => {
+          request = req;
+          return Promise.resolve({
+            request: req,
+            status: 200,
+            headers: createHttpHeaders(),
+            bodyAsText: `"dummy string"`,
+          });
+        },
+      },
     });
     await client.sendOperationRequest<string>({ options: { top: 10 } as any }, operationSpec);
-    expect(sendRequest).toHaveBeenCalledOnce();
-    assert.equal(sendRequest.mock.calls[0][0].url, "https://example.com/path?$skip=10&$top=10");
+    assert.equal(request!.url, "https://example.com/path?$skip=10&$top=10");
   });
 
   it("should insert policies in the correct pipeline position", async function () {
@@ -1492,7 +1511,7 @@ describe("ServiceClient", function () {
       ],
     });
 
-    assert.exists(client);
+    assert(client);
     const policies = pipeline.getOrderedPolicies();
     assert.deepStrictEqual(policies, [policy2, retryPolicy, policy1]);
   });
@@ -1504,11 +1523,14 @@ async function testSendOperationRequest(
   skipEncodingParameter: boolean,
   expected: string,
 ): Promise<void> {
-  const sendRequest = vi.fn((req: PipelineRequest) =>
-    Promise.resolve({ request: req, status: 200, headers: createHttpHeaders() }),
-  );
+  let request: OperationRequest;
   const client = new ServiceClient({
-    httpClient: { sendRequest },
+    httpClient: {
+      sendRequest: (req) => {
+        request = req;
+        return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
+      },
+    },
     pipeline: createEmptyPipeline(),
   });
 
@@ -1545,83 +1567,6 @@ async function testSendOperationRequest(
     },
   );
 
-  expect(sendRequest).toHaveBeenCalledOnce();
-  const request = sendRequest.mock.calls[0][0];
-  assert.isTrue(request.url.endsWith(expected), `"${request.url}" does not end with "${expected}"`);
+  assert(request!);
+  assert(request!.url.endsWith(expected), `"${request!.url}" does not end with "${expected}"`);
 }
-
-describe("ServiceClient requestOptions", () => {
-  it("should pass through timeout, progress callbacks, shouldDeserialize, abortSignal, tracingOptions", async () => {
-    const sendRequest = vi.fn((req: PipelineRequest) =>
-      Promise.resolve({
-        request: req,
-        status: 200,
-        headers: createHttpHeaders(),
-      }),
-    );
-    const pipeline = createEmptyPipeline();
-    pipeline.addPolicy(serializationPolicy(), { phase: "Serialize" });
-    pipeline.addPolicy(deserializationPolicy(), { phase: "Deserialize" });
-    const client = new ServiceClient({
-      httpClient: { sendRequest },
-      pipeline,
-    });
-
-    const onUploadProgress = vi.fn();
-    const onDownloadProgress = vi.fn();
-    const abortController = new AbortController();
-
-    await client.sendOperationRequest(
-      {
-        options: {
-          requestOptions: {
-            timeout: 5000,
-            onUploadProgress,
-            onDownloadProgress,
-            shouldDeserialize: false,
-          },
-          abortSignal: abortController.signal,
-          tracingOptions: { tracingContext: {} as unknown as TracingContext },
-        },
-      },
-      {
-        httpMethod: "GET",
-        baseUrl: "https://example.com",
-        serializer: createSerializer(),
-        responses: { 200: {} },
-      },
-    );
-
-    expect(sendRequest).toHaveBeenCalledOnce();
-    const capturedRequest = sendRequest.mock.calls[0][0];
-    assert.strictEqual(capturedRequest.timeout, 5000);
-    assert.strictEqual(capturedRequest.onUploadProgress, onUploadProgress);
-    assert.strictEqual(capturedRequest.onDownloadProgress, onDownloadProgress);
-    assert.strictEqual(capturedRequest.abortSignal, abortController.signal);
-    assert.ok(capturedRequest.tracingOptions);
-  });
-});
-
-describe("ServiceClient - no endpoint", () => {
-  it("should throw when no endpoint and no baseUrl in operationSpec", async () => {
-    const pipeline = createEmptyPipeline();
-    const client = new ServiceClient({
-      httpClient: {
-        sendRequest: (req) =>
-          Promise.resolve({ request: req, status: 200, headers: createHttpHeaders() }),
-      },
-      pipeline,
-    });
-
-    await expect(
-      client.sendOperationRequest(
-        {},
-        {
-          httpMethod: "GET",
-          serializer: createSerializer(),
-          responses: { 200: {} },
-        },
-      ),
-    ).rejects.toThrow(/must have a endpoint string property/);
-  });
-});

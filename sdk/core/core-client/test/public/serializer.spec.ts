@@ -1743,7 +1743,7 @@ describe("Serializer", function () {
         );
 
         assert.equal(result.content, "justastring");
-        assert.equal(result.encoded, undefined);
+        assert.isUndefined(result.encoded);
       });
 
       it("should handle xmlIsMsText flag with customized XML_CHARKEY", function () {
