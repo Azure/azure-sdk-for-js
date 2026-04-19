@@ -351,13 +351,12 @@ describe("NodeHttpClient", function () {
   it("should handle NodeJS.ReadableStream bodies correctly", async function () {
     const requestText = "testing resettable stream";
     const client = createDefaultHttpClient();
-    let bodySent = false;
+    const writeFn = vi.fn((chunk: any, _: any, next: () => void) => {
+      assert.equal(chunk.toString(), requestText, "Unexpected body");
+      next();
+    });
     const writable = new Writable({
-      write: (chunk, _, next) => {
-        bodySent = true;
-        assert.equal(chunk.toString(), requestText, "Unexpected body");
-        next();
-      },
+      write: writeFn,
     }) as unknown as ClientRequest;
     vi.mocked(https.request).mockReturnValueOnce(writable);
 
@@ -369,19 +368,18 @@ describe("NodeHttpClient", function () {
     const promise = client.sendRequest(request);
     yieldHttpsResponse(createResponse(200));
     await promise;
-    assert.isTrue(bodySent, "body should have been piped to request");
+    expect(writeFn).toHaveBeenCalled();
   });
 
   it("should handle () => NodeJS.ReadableStream bodies correctly", async function () {
     const requestText = "testing resettable stream";
     const client = createDefaultHttpClient();
-    let bodySent = false;
+    const writeFn = vi.fn((chunk: any, _: any, next: () => void) => {
+      assert.equal(chunk.toString(), requestText, "Unexpected body");
+      next();
+    });
     const writable = new Writable({
-      write: (chunk, _, next) => {
-        bodySent = true;
-        assert.equal(chunk.toString(), requestText, "Unexpected body");
-        next();
-      },
+      write: writeFn,
     }) as unknown as ClientRequest;
     vi.mocked(https.request).mockReturnValueOnce(writable);
 
@@ -395,7 +393,7 @@ describe("NodeHttpClient", function () {
     const promise = client.sendRequest(request);
     yieldHttpsResponse(createResponse(200));
     await promise;
-    assert.isTrue(bodySent, "body should have been piped to request");
+    expect(writeFn).toHaveBeenCalled();
   });
 
   it("should return an AbortError when aborted while reading the HTTP response", async function () {
@@ -440,7 +438,11 @@ describe("NodeHttpClient", function () {
     vi.mocked(https.request).mockReturnValueOnce(writable);
 
     const controller = new AbortController();
-    let listenerRemoved = false;
+    const removeEventListenerFn = vi.fn(
+      (_type: "abort", listener: (this: AbortSignalLike, ev: any) => any, options?: any): void => {
+        controller.signal.removeEventListener("abort", listener, options);
+      },
+    );
     const abortSignal: AbortSignalLike = {
       aborted: false,
       addEventListener: function (
@@ -450,14 +452,7 @@ describe("NodeHttpClient", function () {
       ): void {
         controller.signal.addEventListener("abort", listener, options);
       },
-      removeEventListener: function (
-        _type: "abort",
-        listener: (this: AbortSignalLike, ev: any) => any,
-        options?: any,
-      ): void {
-        listenerRemoved = true;
-        controller.signal.removeEventListener("abort", listener, options);
-      },
+      removeEventListener: removeEventListenerFn,
     };
 
     const stream = new PassThrough();
@@ -471,6 +466,6 @@ describe("NodeHttpClient", function () {
     const promise = client.sendRequest(request);
     yieldHttpsResponse(createResponse(200));
     await Promise.all([promise, delay(10)]);
-    assert.isTrue(listenerRemoved);
+    expect(removeEventListenerFn).toHaveBeenCalled();
   });
 });

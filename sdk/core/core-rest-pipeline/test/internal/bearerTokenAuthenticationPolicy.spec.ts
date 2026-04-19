@@ -673,21 +673,18 @@ describe("BearerTokenAuthenticationPolicy", function () {
           status: 200,
         };
 
-        let isCallbackCalled = false;
-        async function authorizeRequestOnChallenge(
-          options: AuthorizeRequestOnChallengeOptions,
-        ): Promise<boolean> {
-          isCallbackCalled = true; // Enable CAE true by default
-
-          assert.equal(testCase.challenge, options.response.headers.get("WWW-Authenticate"));
-          // Should set the good token here in the second get access token
-          const token = await options.getAccessToken(scopes, {});
-          if (token) {
-            options.request.headers.set("Authorization", `Bearer ${token.token}`);
-            return true;
-          }
-          return false;
-        }
+        const authorizeRequestOnChallenge = vi.fn(
+          async (options: AuthorizeRequestOnChallengeOptions): Promise<boolean> => {
+            assert.equal(testCase.challenge, options.response.headers.get("WWW-Authenticate"));
+            // Should set the good token here in the second get access token
+            const token = await options.getAccessToken(scopes, {});
+            if (token) {
+              options.request.headers.set("Authorization", `Bearer ${token.token}`);
+              return true;
+            }
+            return false;
+          },
+        );
 
         const next = vi.fn<SendRequest>();
         // Mocked a challenge response and a successful response
@@ -708,7 +705,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
           abortSignal: undefined,
           tracingOptions: undefined,
         });
-        assert.isTrue(isCallbackCalled);
+        expect(authorizeRequestOnChallenge).toHaveBeenCalled();
         assert.strictEqual(response.request.headers.get("Authorization"), `Bearer good-token`);
       });
     });
@@ -717,10 +714,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
       // Test different scenarios with challenges in different order
       it(`Multiple challenges returned: ${testCase.testName}`, async function () {
         const tokenExpiration = Date.now() + 1000 * 60;
-        // Account for the 1st getToken requests called in the intial request
-        let getTokenRequests = 0;
         const getToken = vi.fn<() => Promise<AccessToken | null>>(async () => {
-          getTokenRequests++;
           return {
             token: "token",
             expiresOnTimestamp: tokenExpiration,
@@ -732,21 +726,19 @@ describe("BearerTokenAuthenticationPolicy", function () {
         };
         const scopes = ["test-scope"];
 
-        let isCallbackCalled = false;
-        async function authorizeRequestOnChallenge(
-          options: AuthorizeRequestOnChallengeOptions,
-        ): Promise<boolean> {
-          isCallbackCalled = true;
-          // Should set the good token here in the second get access token
-          const token = await options.getAccessToken(scopes, {
-            claims: standardNonCAEChallenge.expectedClaims,
-          });
-          if (token) {
-            options.request.headers.set("Authorization", `Bearer ${token.token}`);
-            return true;
-          }
-          return false;
-        }
+        const authorizeRequestOnChallenge = vi.fn(
+          async (options: AuthorizeRequestOnChallengeOptions): Promise<boolean> => {
+            // Should set the good token here in the second get access token
+            const token = await options.getAccessToken(scopes, {
+              claims: standardNonCAEChallenge.expectedClaims,
+            });
+            if (token) {
+              options.request.headers.set("Authorization", `Bearer ${token.token}`);
+              return true;
+            }
+            return false;
+          },
+        );
 
         const policy = bearerTokenAuthenticationPolicy({
           scopes,
@@ -793,7 +785,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
           }
         }
         const response = await policy.sendRequest(request, next);
-        assert.strictEqual(testCase.numberOfGetTokenCalls, getTokenRequests);
+        expect(getToken).toHaveBeenCalledTimes(testCase.numberOfGetTokenCalls);
         // Check value of getTokenRequests called based on the order of challenges
         for (let i = 0; i < testCase.numberOfGetTokenCalls; i++) {
           const challengeType = testCase.challengeOrder[i];
@@ -823,7 +815,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
           }
         }
         if (containNonCAEChallenge) {
-          assert.isTrue(isCallbackCalled);
+          expect(authorizeRequestOnChallenge).toHaveBeenCalled();
         }
         if (testCase.shouldResolved) {
           assert.strictEqual(response.status, 200);
@@ -929,25 +921,23 @@ describe("BearerTokenAuthenticationPolicy", function () {
         status: 200,
       };
 
-      let isCallbackCalled = false;
-      async function authorizeRequestOnChallenge(
-        options: AuthorizeRequestOnChallengeOptions,
-      ): Promise<boolean> {
-        isCallbackCalled = true;
-        assert.equal(
-          standardNonCAEChallenge.challenge,
-          options.response.headers.get("WWW-Authenticate"),
-        );
-        // Should set the good token here in the second get access token
-        const token = await options.getAccessToken(scopes, {
-          claims: "a claim",
-        });
-        if (token) {
-          options.request.headers.set("Authorization", `Bearer ${token.token}`);
-          return true;
-        }
-        return false;
-      }
+      const authorizeRequestOnChallenge = vi.fn(
+        async (options: AuthorizeRequestOnChallengeOptions): Promise<boolean> => {
+          assert.equal(
+            standardNonCAEChallenge.challenge,
+            options.response.headers.get("WWW-Authenticate"),
+          );
+          // Should set the good token here in the second get access token
+          const token = await options.getAccessToken(scopes, {
+            claims: "a claim",
+          });
+          if (token) {
+            options.request.headers.set("Authorization", `Bearer ${token.token}`);
+            return true;
+          }
+          return false;
+        },
+      );
 
       const next = vi.fn<SendRequest>();
       const requestError = new RestError("Bad Request.", {
@@ -976,7 +966,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
         tracingOptions: undefined,
         claims: "a claim",
       });
-      assert.isTrue(isCallbackCalled);
+      expect(authorizeRequestOnChallenge).toHaveBeenCalled();
       assert.strictEqual(response.request.headers.get("Authorization"), `Bearer good-token`);
     });
   });
