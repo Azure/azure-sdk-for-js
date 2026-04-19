@@ -692,7 +692,7 @@ public class TypeScriptFormatterFixTests
             // If BlobOptions is referenced in the dep body, it should be imported
             if (depBlock.Contains("BlobOptions"))
             {
-                Assert.Contains("import { BlobOptions }", depBlock);
+                Assert.Contains("import type { BlobOptions }", depBlock);
             }
         }
     }
@@ -745,8 +745,8 @@ public class TypeScriptFormatterFixTests
         var requireBlock = ExtractDeclareModuleBlock(stubs, "@test/node-cond/require");
         Assert.NotNull(importBlock);
         Assert.NotNull(requireBlock);
-        Assert.Contains("import { Buffer } from \"node:buffer\"", importBlock);
-        Assert.Contains("import { Buffer } from \"node:buffer\"", requireBlock);
+        Assert.Contains("import type { Buffer } from \"node:buffer\"", importBlock);
+        Assert.Contains("import type { Buffer } from \"node:buffer\"", requireBlock);
     }
 
     // =========================================================================
@@ -811,7 +811,7 @@ public class TypeScriptFormatterFixTests
         var rootImport = ExtractDeclareModuleBlock(stubs, "@test/cross-subpath/import");
         if (rootImport is not null && rootImport.Contains("SubHelper"))
         {
-            Assert.Contains("import { SubHelper }", rootImport);
+            Assert.Contains("import type { SubHelper }", rootImport);
         }
     }
 
@@ -943,7 +943,7 @@ public class TypeScriptFormatterFixTests
         var stubs = api.ToStubs();
 
         Assert.Contains("/// <reference types=\"node\" />", stubs);
-        Assert.Contains("/// <reference lib=\"es2020\" />", stubs);
+        Assert.Contains("/// <reference lib=\"esnext\" />", stubs);
         Assert.Contains("@azure/storage-blob - Public API Surface", stubs);
         Assert.Contains("PublicApiGraphEngine.TypeScript", stubs);
     }

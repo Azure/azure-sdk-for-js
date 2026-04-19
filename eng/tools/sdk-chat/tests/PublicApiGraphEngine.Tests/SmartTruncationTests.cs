@@ -180,7 +180,7 @@ public class SmartTruncationTests
         return new DotNet.ApiIndex
         {
             Package = "TestPackage",
-            Namespaces = [new NamespaceInfo { Name = "TestNamespace", Types = types }]
+            Namespaces = [new DotNet.NamespaceInfo { Name = "TestNamespace", Types = types }]
         };
     }
 
@@ -189,7 +189,7 @@ public class SmartTruncationTests
         return new DotNet.ApiIndex
         {
             Package = "TestPackage",
-            Namespaces = [new NamespaceInfo
+            Namespaces = [new DotNet.NamespaceInfo
             {
                 Name = "TestNamespace",
                 Types =
@@ -223,7 +223,7 @@ public class SmartTruncationTests
         return new DotNet.ApiIndex
         {
             Package = "TestPackage",
-            Namespaces = [new NamespaceInfo
+            Namespaces = [new DotNet.NamespaceInfo
             {
                 Name = "TestNamespace",
                 Types =
@@ -1311,7 +1311,7 @@ public class SmartTruncationTests
             Package = "MultiNsPackage",
             Namespaces =
             [
-                new NamespaceInfo
+                new DotNet.NamespaceInfo
                 {
                     Name = "Namespace.One",
                     Types =
@@ -1325,7 +1325,7 @@ public class SmartTruncationTests
                         }
                     ]
                 },
-                new NamespaceInfo
+                new DotNet.NamespaceInfo
                 {
                     Name = "Namespace.Two",
                     Types =
@@ -1360,7 +1360,7 @@ public class SmartTruncationTests
             Package = "CoverageNsPackage",
             Namespaces =
             [
-                new NamespaceInfo
+                new DotNet.NamespaceInfo
                 {
                     Name = "MyNamespace",
                     Types =
@@ -2248,7 +2248,7 @@ public class SmartTruncationTests
             Package = "TestPkg",
             Namespaces =
             [
-                new NamespaceInfo
+                new DotNet.NamespaceInfo
                 {
                     Name = "TestNs",
                     Types =

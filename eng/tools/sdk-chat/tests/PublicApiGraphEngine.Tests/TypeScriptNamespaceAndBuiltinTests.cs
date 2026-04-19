@@ -556,8 +556,8 @@ public class TsCompiled_CombinedImportTests : IClassFixture<TypeScriptNamespaceA
         Assert.DoesNotContain("EventEmitter = unknown", stubs);
         Assert.DoesNotContain("Readable = unknown", stubs);
 
-        // Node types should appear as per-module import statements
-        Assert.Contains("import {", stubs);
+        // Node types should appear as per-module import type statements
+        Assert.Contains("import type {", stubs);
         Assert.Contains("from \"node:child_process\"", stubs);
         Assert.Contains("from \"node:events\"", stubs);
         Assert.Contains("from \"node:stream\"", stubs);

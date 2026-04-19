@@ -943,7 +943,7 @@ public class StdlibDetectionTests
 
         var stubs = api.ToStubs();
         // @types/node types should appear as import references, not declare module blocks
-        Assert.Contains("import { IncomingMessage } from \"@types/node\"", stubs);
+        Assert.Contains("import type { IncomingMessage } from \"@types/node\"", stubs);
         Assert.DoesNotContain("declare module \"@types/node\"", stubs);
         Assert.Contains("@example/core-rest-pipeline", stubs);
     }

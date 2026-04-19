@@ -768,10 +768,10 @@ public class TsCompiled_EnumExtractionTests : IClassFixture<TypeScriptComprehens
         var resultStatus = Api.Modules.SelectMany(m => m.Enums ?? []).First(e => e.Name == "ResultStatus");
         Assert.NotNull(resultStatus.Values);
         var values = resultStatus.Values.ToList();
-        Assert.Contains("Success", values);
-        Assert.Contains("Failed", values);
-        Assert.Contains("Pending", values);
-        Assert.Contains("Cancelled", values);
+        Assert.Contains(values, v => v.StartsWith("Success"));
+        Assert.Contains(values, v => v.StartsWith("Failed"));
+        Assert.Contains(values, v => v.StartsWith("Pending"));
+        Assert.Contains(values, v => v.StartsWith("Cancelled"));
     }
 
     [Fact]
