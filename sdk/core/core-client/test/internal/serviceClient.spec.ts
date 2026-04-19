@@ -1563,21 +1563,18 @@ async function testSendOperationRequest(
 
 describe("ServiceClient requestOptions", () => {
   it("should pass through timeout, progress callbacks, shouldDeserialize, abortSignal, tracingOptions", async () => {
-    let capturedRequest: OperationRequest | undefined;
+    const sendRequest = vi.fn((req: PipelineRequest) =>
+      Promise.resolve({
+        request: req,
+        status: 200,
+        headers: createHttpHeaders(),
+      }),
+    );
     const pipeline = createEmptyPipeline();
     pipeline.addPolicy(serializationPolicy(), { phase: "Serialize" });
     pipeline.addPolicy(deserializationPolicy(), { phase: "Deserialize" });
     const client = new ServiceClient({
-      httpClient: {
-        sendRequest: (req) => {
-          capturedRequest = req;
-          return Promise.resolve({
-            request: req,
-            status: 200,
-            headers: createHttpHeaders(),
-          });
-        },
-      },
+      httpClient: { sendRequest },
       pipeline,
     });
 
@@ -1606,12 +1603,13 @@ describe("ServiceClient requestOptions", () => {
       },
     );
 
-    assert.ok(capturedRequest);
-    assert.strictEqual(capturedRequest!.timeout, 5000);
-    assert.strictEqual(capturedRequest!.onUploadProgress, onUploadProgress);
-    assert.strictEqual(capturedRequest!.onDownloadProgress, onDownloadProgress);
-    assert.strictEqual(capturedRequest!.abortSignal, abortController.signal);
-    assert.ok(capturedRequest!.tracingOptions);
+    expect(sendRequest).toHaveBeenCalledOnce();
+    const capturedRequest = sendRequest.mock.calls[0][0];
+    assert.strictEqual(capturedRequest.timeout, 5000);
+    assert.strictEqual(capturedRequest.onUploadProgress, onUploadProgress);
+    assert.strictEqual(capturedRequest.onDownloadProgress, onDownloadProgress);
+    assert.strictEqual(capturedRequest.abortSignal, abortController.signal);
+    assert.ok(capturedRequest.tracingOptions);
   });
 });
 
