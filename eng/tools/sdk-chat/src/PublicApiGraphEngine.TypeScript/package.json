@@ -13,7 +13,9 @@
     "clean": "rm -rf dist",
     "rebuild": "npm run clean && npm run build",
     "start": "node dist/graph_api.js",
-    "test": "vitest run"
+    "test": "vitest run",
+    "generate:models": "tsx src/codegen/generate-csharp-models.ts",
+    "check:models": "tsx src/codegen/generate-csharp-models.ts --check"
   },
   "dependencies": {
     "ts-morph": "^27.0.2"
