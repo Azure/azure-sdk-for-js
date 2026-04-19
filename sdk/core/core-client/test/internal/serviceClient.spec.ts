@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert, expect } from "vitest";
+import { describe, it, assert } from "vitest";
 import type {
   CompositeMapper,
   DictionaryMapper,
@@ -86,29 +86,32 @@ describe("ServiceClient", function () {
       },
     };
 
-    it("should throw is no scope or endpoint are defined", function () {
+    it("should throw is no scope or endpoint are defined", async function () {
       const credential: TokenCredential = {
         getToken: async (_scopes) => {
           return { token: "testToken", expiresOnTimestamp: 11111 };
         },
       };
-      expect(
-        () =>
-          new ServiceClient({
-            httpClient: {
-              sendRequest: (req) => {
-                return Promise.resolve({
-                  request: req,
-                  status: 200,
-                  headers: createHttpHeaders(),
-                });
-              },
+      try {
+        let request: OperationRequest;
+        const client = new ServiceClient({
+          httpClient: {
+            sendRequest: (req) => {
+              request = req;
+              return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
             },
-            credential,
-          }),
-      ).toThrow(
-        /When using credentials, the ServiceClientOptions must contain either a endpoint or a credentialScopes\. Unable to create a bearerTokenAuthenticationPolicy/,
-      );
+          },
+          credential,
+        });
+
+        await client.sendOperationRequest(testOperationArgs, testOperationSpec);
+        assert.fail();
+      } catch (error: any) {
+        assert.equal(
+          error.message,
+          `When using credentials, the ServiceClientOptions must contain either a endpoint or a credentialScopes. Unable to create a bearerTokenAuthenticationPolicy`,
+        );
+      }
     });
 
     it("should use baseUrl to build scope", async function () {
@@ -1074,12 +1077,13 @@ describe("ServiceClient", function () {
       pipeline,
     });
 
-    await expect(client.sendOperationRequest({}, operationSpec)).rejects.toMatchObject({
-      details: {
-        errorCode: "InvalidResourceNameHeader",
-        message: "InvalidResourceNameBody",
-      },
-    });
+    try {
+      await client.sendOperationRequest({}, operationSpec);
+      assert.fail();
+    } catch (ex: any) {
+      assert.strictEqual(ex.details.errorCode, "InvalidResourceNameHeader");
+      assert.strictEqual(ex.details.message, "InvalidResourceNameBody");
+    }
   });
 
   it("should deserialize non-streaming default response", async function () {
@@ -1153,10 +1157,13 @@ describe("ServiceClient", function () {
       pipeline,
     });
 
-    await expect(client.sendOperationRequest({}, operationSpec)).rejects.toMatchObject({
-      code: "BlobNotFound",
-      message: "The specified blob does not exist.",
-    });
+    try {
+      await client.sendOperationRequest({}, operationSpec);
+      assert.fail();
+    } catch (ex: any) {
+      assert.strictEqual(ex.code, "BlobNotFound");
+      assert.strictEqual(ex.message, "The specified blob does not exist.");
+    }
   });
 
   it("should re-use the common instance of DefaultHttpClient", function () {
@@ -1329,14 +1336,17 @@ describe("ServiceClient", function () {
       pipeline,
     });
 
-    await expect(
-      client.sendOperationRequest(
+    try {
+      await client.sendOperationRequest(
         {
           options: undefined,
         },
         operationSpec,
-      ),
-    ).rejects.toThrow(/cannot be null or undefined/);
+      );
+      assert.fail("Expected client to throw");
+    } catch (error: any) {
+      assert.include(error.message, "cannot be null or undefined");
+    }
   });
 
   it("should catch the mandatory parameter missing error in the query", async function () {
@@ -1410,14 +1420,17 @@ describe("ServiceClient", function () {
       pipeline,
     });
 
-    await expect(
-      client.sendOperationRequest(
+    try {
+      await client.sendOperationRequest(
         {
           options: undefined,
         },
         operationSpec,
-      ),
-    ).rejects.toThrow(/cannot be null or undefined/);
+      );
+      assert.fail("Expected client to throw");
+    } catch (error: any) {
+      assert.include(error.message, "cannot be null or undefined");
+    }
   });
 
   it("should not replace existing queries in request URLs", async function () {
