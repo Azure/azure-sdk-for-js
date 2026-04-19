@@ -2438,7 +2438,7 @@ matrix(
             statusCode: 200,
           };
           const pollingPath = `pollingPath`;
-          let pollCount = 0;
+          const pollSpy = vi.fn();
           const pollingRoutes = [
             ...Array(10).fill({
               method: "GET",
@@ -2466,12 +2466,12 @@ matrix(
             throwOnNon2xxResponse,
             implName,
             updateState: () => {
-              pollCount++;
+              pollSpy();
             },
           });
           assert.isUndefined(poller.operationState);
           const serialized = await poller.serialize();
-          assert.equal(pollCount, 0);
+          expect(pollSpy).not.toHaveBeenCalled();
           const expectedSerialized = JSON.stringify({
             state: {
               status: "running",
@@ -2486,32 +2486,32 @@ matrix(
           assert.equal(serialized, expectedSerialized);
           assert.isNotNull(poller.operationState);
           assert.equal(poller.operationState!.status, "running");
-          pollCount = 0;
+          pollSpy.mockClear();
           const restoredPoller = createTestPoller({
             routes: pollingRoutes,
             restoreFrom: serialized,
             implName,
             throwOnNon2xxResponse,
             updateState: () => {
-              pollCount++;
+              pollSpy();
             },
           });
-          assert.equal(pollCount, 0);
+          expect(pollSpy).not.toHaveBeenCalled();
           assert.deepEqual(retResult, await restoredPoller);
-          assert.equal(pollCount, 11);
+          expect(pollSpy).toHaveBeenCalledTimes(11);
           assert.equal(restoredPoller.operationState?.status, "succeeded");
           assert.deepEqual(restoredPoller.result, retResult);
           assert.isUndefined(poller.result);
           // duplicate awaitting would not trigger extra pollings
           await restoredPoller;
-          assert.equal(pollCount, 11);
+          expect(pollSpy).toHaveBeenCalledTimes(11);
         });
       });
 
       describe("mutate state", () => {
         it("The state can be mutated in onProgress", async () => {
           let setState = false;
-          let check = false;
+          const checkSpy = vi.fn();
           const pollingPath = `pollingPath`;
           await runLro({
             routes: [
@@ -2547,16 +2547,16 @@ matrix(
                 setState = true;
               } else {
                 assert.isDefined((state as any).x);
-                check = true;
+                checkSpy();
               }
             },
           });
-          assert.isTrue(check);
+          expect(checkSpy).toHaveBeenCalled();
         });
 
         it("The state can be mutated in updateState", async () => {
           let setState = false;
-          let check = false;
+          const checkSpy = vi.fn();
           const pollingPath = `pollingPath`;
           await runLro({
             routes: [
@@ -2592,11 +2592,11 @@ matrix(
                 setState = true;
               } else {
                 assert.isDefined((state as any).x);
-                check = true;
+                checkSpy();
               }
             },
           });
-          assert.isTrue(check);
+          expect(checkSpy).toHaveBeenCalled();
         });
       });
 
@@ -2710,7 +2710,7 @@ matrix(
       });
       describe("abort signals", function () {
         it("poll can be aborted", async () => {
-          let pollCount = 0;
+          const pollSpy = vi.fn();
           const pollingPath = "pollingPath";
           const poller = createTestPoller({
             routes: [
@@ -2737,13 +2737,13 @@ matrix(
             implName,
             throwOnNon2xxResponse,
             updateState: () => {
-              pollCount++;
+              pollSpy();
             },
           });
           const abortController = new AbortController();
           await poller.poll();
           abortController.abort();
-          assert.equal(pollCount, 1);
+          expect(pollSpy).toHaveBeenCalledTimes(1);
           await assertError(
             poller.poll({
               abortSignal: abortController.signal,
@@ -2756,7 +2756,7 @@ matrix(
         });
 
         it("pollUntilDone can be aborted", async () => {
-          let pollCount = 0;
+          const pollSpy = vi.fn();
           const pollingPath = "pollingPath";
           const poller = createTestPoller({
             routes: [
@@ -2783,13 +2783,13 @@ matrix(
             throwOnNon2xxResponse,
             implName,
             updateState: () => {
-              pollCount++;
+              pollSpy();
             },
           });
           const abortController = new AbortController();
           await poller.poll();
           abortController.abort();
-          assert.equal(pollCount, 1);
+          expect(pollSpy).toHaveBeenCalledTimes(1);
           await assertError(
             poller.pollUntilDone({
               abortSignal: abortController.signal,
@@ -2798,12 +2798,12 @@ matrix(
               messagePattern: /The operation was aborted/,
             },
           );
-          assert.equal(pollCount, 1);
+          expect(pollSpy).toHaveBeenCalledTimes(1);
           assert.isFalse(poller.isDone);
         });
 
         it("pollUntilDone() respects the abort signal", async () => {
-          let pollCount = 0;
+          const pollSpy = vi.fn();
           const pollingPath = "pollingPath";
           const abortController = new AbortController();
           const poller = createTestPoller({
@@ -2831,19 +2831,19 @@ matrix(
             throwOnNon2xxResponse,
             implName,
             updateState: () => {
-              pollCount++;
-              if (pollCount === 10) {
+              pollSpy();
+              if (pollSpy.mock.calls.length === 10) {
                 abortController.abort();
               }
             },
           });
           await poller.poll();
-          assert.equal(pollCount, 1);
+          expect(pollSpy).toHaveBeenCalledTimes(1);
           const promise = poller.pollUntilDone({
             abortSignal: abortController.signal,
           });
           await assertError(promise);
-          assert.equal(pollCount, 10);
+          expect(pollSpy).toHaveBeenCalledTimes(10);
           assert.isFalse(poller.isDone);
         });
       });
@@ -2859,7 +2859,7 @@ matrix(
             statusCode: 200,
           };
           const pollingPath = `pollingPath`;
-          let pollCount = 0;
+          const pollSpy = vi.fn();
           const pollingRoutes = [
             {
               method: "POST",
@@ -2886,22 +2886,22 @@ matrix(
             throwOnNon2xxResponse,
             implName,
             updateState: () => {
-              pollCount++;
+              pollSpy();
             },
           });
           assert.isUndefined(poller.operationState);
           assert.isUndefined(poller.result);
-          assert.equal(pollCount, 0);
+          expect(pollSpy).not.toHaveBeenCalled();
           const result = await poller;
           assert.deepEqual(retResult, result);
-          assert.equal(pollCount, 11);
+          expect(pollSpy).toHaveBeenCalledTimes(11);
           assert.isNotNull(poller.operationState);
           assert.equal(poller.operationState!.status, "succeeded");
           assert.deepEqual(poller.result, retResult);
           assert.equal(poller.result, result);
           // duplicate awaitting would not trigger extra pollings
           await poller;
-          assert.equal(pollCount, 11);
+          expect(pollSpy).toHaveBeenCalledTimes(11);
         });
         it("poll() doesn't poll after the poller is in a succeed status", async function () {
           const poller = createTestPoller({
@@ -3117,7 +3117,7 @@ matrix(
           assert.isUndefined(result.properties?.provisioningState);
         });
         it("submitted() is resolved once the initial response is back and poller state is ready", async () => {
-          let pollCount = 0;
+          const pollSpy = vi.fn();
           const pollingPath = "pollingPath";
           const poller = createTestPoller({
             routes: [
@@ -3144,12 +3144,12 @@ matrix(
             implName,
             throwOnNon2xxResponse,
             updateState: () => {
-              pollCount++;
+              pollSpy();
             },
           });
           assert.isUndefined(poller.operationState);
           await poller.submitted();
-          assert.equal(pollCount, 0);
+          expect(pollSpy).not.toHaveBeenCalled();
           assert.isNotNull(poller.operationState);
           assert.equal(poller.operationState!.status, "running");
         });
@@ -3252,7 +3252,7 @@ matrix(
             assert.equal(callbackCounts, 3);
           });
           it("should trigger the whole polling process to server side only once", async () => {
-            let pollCount = 0;
+            const pollSpy = vi.fn();
             const pollingPath = "pollingPath";
             const poller = createTestPoller({
               routes: [
@@ -3279,13 +3279,13 @@ matrix(
               implName,
               throwOnNon2xxResponse,
               updateState: () => {
-                pollCount++;
+                pollSpy();
               },
             });
             await poller;
             await poller;
             await poller;
-            assert.equal(pollCount, 11);
+            expect(pollSpy).toHaveBeenCalledTimes(11);
           });
           it("should catch the same error in multiple times", async () => {
             const body = { status: "canceled", results: [1, 2] };
