@@ -3,7 +3,7 @@
 
 import type { ImplementationName, Result } from "../utils/utils.js";
 import { assertDivergentBehavior, assertError, createDoubleHeaders } from "../utils/utils.js";
-import { describe, it, assert, expect } from "vitest";
+import { describe, it, assert, expect, vi } from "vitest";
 import { createRunLroWith, createTestPoller } from "../utils/router.js";
 import { delay } from "@azure/core-util";
 import { matrix } from "@azure-tools/test-utils-vitest";

@@ -77,9 +77,9 @@ describe("createAbortablePromise", function () {
 });
 
 describe("cancelablePromiseRace", function () {
-  let function1Aborted = false;
-  let function2Aborted = false;
-  let function3Aborted = false;
+  const cleanup1 = vi.fn();
+  const cleanup2 = vi.fn();
+  const cleanup3 = vi.fn();
   const function1Delay = 1000;
   let function2Delay = 2000;
   const function3Delay = 5000; // Default: function1Delay < function2Delay < function3Delay
@@ -95,7 +95,7 @@ describe("cancelablePromiseRace", function () {
       {
         cleanupBeforeAbort: () => {
           clearTimeout(token);
-          function1Aborted = true;
+          cleanup1();
         },
         abortSignal: abortOptions.abortSignal,
       },
@@ -111,7 +111,7 @@ describe("cancelablePromiseRace", function () {
       {
         cleanupBeforeAbort: () => {
           clearTimeout(token);
-          function2Aborted = true;
+          cleanup2();
         },
         abortSignal: abortOptions.abortSignal,
       },
@@ -130,7 +130,7 @@ describe("cancelablePromiseRace", function () {
       {
         cleanupBeforeAbort: () => {
           clearTimeout(token);
-          function3Aborted = true;
+          cleanup3();
         },
         abortSignal: abortOptions.abortSignal,
       },
@@ -139,17 +139,17 @@ describe("cancelablePromiseRace", function () {
 
   afterEach(function () {
     // reset to default values
-    function1Aborted = false;
-    function2Aborted = false;
+    cleanup1.mockClear();
+    cleanup2.mockClear();
+    cleanup3.mockClear();
     function2Delay = 2000;
-    function3Aborted = false;
   });
 
   it("should resolve with the first promise that resolves, abort the rest", async function () {
     await cancelablePromiseRace<[number, string, void]>([function1, function2, function3]); // 1 finishes first, 2&3 are aborted
-    assert.isFalse(function1Aborted); // checks 1 is not aborted
-    assert.isTrue(function2Aborted); // checks 2 is aborted
-    assert.isTrue(function3Aborted); // checks 3 is aborted
+    expect(cleanup1).not.toHaveBeenCalled(); // checks 1 is not aborted
+    expect(cleanup2).toHaveBeenCalled(); // checks 2 is aborted
+    expect(cleanup3).toHaveBeenCalled(); // checks 3 is aborted
   });
 
   it("should reject with the first promise that rejects, abort the rest", async function () {
@@ -158,26 +158,21 @@ describe("cancelablePromiseRace", function () {
       await cancelablePromiseRace<[number, string, void]>([function1, function2, function3]),
       function2Message,
     ); // 2 rejects and finishes first, 1&3 are aborted
-    assert.isTrue(function1Aborted); // checks 1 is aborted
-    assert.isFalse(function2Aborted); // checks 2 is not aborted
-    assert.isTrue(function3Aborted); // checks 3 is aborted
+    expect(cleanup1).toHaveBeenCalled(); // checks 1 is aborted
+    expect(cleanup2).not.toHaveBeenCalled(); // checks 2 is not aborted
+    expect(cleanup3).toHaveBeenCalled(); // checks 3 is aborted
   });
 
   it("should respect the abort signal supplied", async function () {
     const aborter = new AbortController();
     setTimeout(() => aborter.abort(), function1Delay / 2);
-    let errorThrown = false;
-    try {
-      await cancelablePromiseRace<[number, string, void]>([function1, function2, function3], {
+    await expect(
+      cancelablePromiseRace<[number, string, void]>([function1, function2, function3], {
         abortSignal: aborter.signal,
-      }); // all are aborted
-    } catch (error) {
-      errorThrown = true;
-      assert.strictEqual((error as { message: string }).message, "The operation was aborted.");
-    }
-    assert.isTrue(errorThrown);
-    assert.isTrue(function1Aborted); // checks 1 is aborted
-    assert.isTrue(function2Aborted); // checks 2 is aborted
-    assert.isTrue(function3Aborted); // checks 3 is aborted
+      }),
+    ).rejects.toThrow("The operation was aborted.");
+    expect(cleanup1).toHaveBeenCalled(); // checks 1 is aborted
+    expect(cleanup2).toHaveBeenCalled(); // checks 2 is aborted
+    expect(cleanup3).toHaveBeenCalled(); // checks 3 is aborted
   });
 });
