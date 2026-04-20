@@ -1666,6 +1666,9 @@ sdk/appnetwork/arm-appnetwork/ @qiaozha @MaryGao @JialinHuang803
 # PRLabel: %Mgmt
 sdk/servicegroups/arm-servicegroups/ @qiaozha @MaryGao @JialinHuang803
 
+# PRLabel: %Mgmt
+sdk/relationships/arm-relationships/ @qiaozha @MaryGao @JialinHuang803
+
 ###########
 # Config
 ###########
