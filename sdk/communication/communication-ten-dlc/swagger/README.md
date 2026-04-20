@@ -5,9 +5,9 @@
 ## Configuration
 
 ```yaml
-package-name: "@azure/communication-ten-dlc"
+package-name: "@azure-tools/communication-ten-dlc"
 description: 10 DLC administration client
-package-version: "1.0.0"
+package-version: "1.0.0-beta.1"
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 input-file: ./swagger.json

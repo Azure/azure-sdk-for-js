@@ -21,12 +21,12 @@ describe("TenDlcClient - constructor", () => {
     });
   });
 
-  it("successfully instantiates with with endpoint and access key", function () {
+  it("successfully instantiates with endpoint and access key", function () {
     const client = new TenDlcClient(endpoint, new AzureKeyCredential(accessKey));
     assert.instanceOf(client, TenDlcClient);
   });
 
-  it("successfully instantiates with with endpoint and managed identity", function () {
+  it("successfully instantiates with endpoint and managed identity", function () {
     const client = new TenDlcClient(endpoint, createMockToken());
     assert.instanceOf(client, TenDlcClient);
   });

@@ -109,18 +109,9 @@ export class TenDlcClient {
       brandDetails: {},
     },
   ): Promise<USBrand> {
-    const { span, updatedOptions } = tracingClient.startSpan("TenDlcClient-upsertUSBrand", options);
-    try {
-      return this.client.tenDlc.upsertUSBrand(brandId, brandId, updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan("TenDlcClient-upsertUSBrand", options, (updatedOptions) =>
+      this.client.tenDlc.upsertUSBrand(brandId, brandId, updatedOptions),
+    );
   }
 
   /**
@@ -138,21 +129,9 @@ export class TenDlcClient {
       },
     },
   ): Promise<USCampaign> {
-    const { span, updatedOptions } = tracingClient.startSpan(
-      "TenDlcClient-upsertUSCampaign",
-      options,
+    return tracingClient.withSpan("TenDlcClient-upsertUSCampaign", options, (updatedOptions) =>
+      this.client.tenDlc.upsertUSCampaign(campaignId, updatedOptions),
     );
-    try {
-      return this.client.tenDlc.upsertUSCampaign(campaignId, updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -163,18 +142,9 @@ export class TenDlcClient {
    * @returns A promise that resolves when the brand is successfully deleted.
    */
   public deleteUSBrand(brandId: string, options: DeleteBrandOptionalParams = {}): Promise<void> {
-    const { span, updatedOptions } = tracingClient.startSpan("TenDlcClient-deleteUSBrand", options);
-    try {
-      return this.client.tenDlc.deleteUSBrand(brandId, updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan("TenDlcClient-deleteUSBrand", options, (updatedOptions) =>
+      this.client.tenDlc.deleteUSBrand(brandId, updatedOptions),
+    );
   }
 
   /**
@@ -188,21 +158,9 @@ export class TenDlcClient {
     campaignId: string,
     options: DeleteCampaignOptionalParams = {},
   ): Promise<void> {
-    const { span, updatedOptions } = tracingClient.startSpan(
-      "TenDlcClient-deleteUSCampaign",
-      options,
+    return tracingClient.withSpan("TenDlcClient-deleteUSCampaign", options, (updatedOptions) =>
+      this.client.tenDlc.deleteUSCampaign(campaignId, updatedOptions),
     );
-    try {
-      return this.client.tenDlc.deleteUSCampaign(campaignId, updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -213,18 +171,9 @@ export class TenDlcClient {
    * @returns The USBrand object.
    */
   public getUSBrand(brandId: string, options: GetBrandOptionalParams = {}): Promise<USBrand> {
-    const { span, updatedOptions } = tracingClient.startSpan("TenDlcClient-getUSBrand", options);
-    try {
-      return this.client.tenDlc.getUSBrand(brandId, updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan("TenDlcClient-getUSBrand", options, (updatedOptions) =>
+      this.client.tenDlc.getUSBrand(brandId, updatedOptions),
+    );
   }
 
   /**
@@ -259,18 +208,9 @@ export class TenDlcClient {
     campaignId: string,
     options: GetCampaignOptionalParams = {},
   ): Promise<USCampaign> {
-    const { span, updatedOptions } = tracingClient.startSpan("TenDlcClient-getUSCampaign", options);
-    try {
-      return this.client.tenDlc.getUSCampaign(campaignId, updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan("TenDlcClient-getUSCampaign", options, (updatedOptions) =>
+      this.client.tenDlc.getUSCampaign(campaignId, updatedOptions),
+    );
   }
 
   /**
@@ -388,18 +328,9 @@ export class TenDlcClient {
     brandId: string,
     options?: TenDlcCancelUSBrandOptionalParams,
   ): Promise<TenDlcCancelUSBrandResponse> {
-    const { span } = tracingClient.startSpan("TenDLCClient.cancelUSBrand", options);
-    try {
-      return this.client.tenDlc.cancelUSBrand(brandId, options);
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan("TenDLCClient.cancelUSBrand", options ?? {}, (updatedOptions) =>
+      this.client.tenDlc.cancelUSBrand(brandId, updatedOptions),
+    );
   }
 
   /**
@@ -413,18 +344,11 @@ export class TenDlcClient {
     campaignId: string,
     options?: TenDlcCancelUSCampaignOptionalParams,
   ): Promise<TenDlcCancelUSCampaignResponse> {
-    const { span } = tracingClient.startSpan("TenDLCClient.cancelUSCampaign", options);
-    try {
-      return this.client.tenDlc.cancelUSCampaign(campaignId, options);
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "TenDLCClient.cancelUSCampaign",
+      options ?? {},
+      (updatedOptions) => this.client.tenDlc.cancelUSCampaign(campaignId, updatedOptions),
+    );
   }
 
   public getUSCampaignAttachment(

@@ -46,8 +46,8 @@ describe("TenDlcClient - Campaigns", function () {
     const campaign = await client.upsertUSCampaign(id, options);
     assert.equal(campaign.id, id);
     assert.equal(
-      campaign.messageDetails?.useCase?.sampleMessages?.values,
-      messageDetails.useCase.sampleMessages.values,
+      campaign.messageDetails?.useCase?.sampleMessages?.join(","),
+      messageDetails.useCase.sampleMessages.join(","),
     );
 
     await client.deleteUSCampaign(id);
@@ -66,8 +66,8 @@ describe("TenDlcClient - Campaigns", function () {
     let campaign = await client.upsertUSCampaign(id, options);
     assert.equal(campaign.id, id);
     assert.equal(
-      campaign.messageDetails?.useCase?.sampleMessages?.values,
-      messageDetails.useCase.sampleMessages.values,
+      campaign.messageDetails?.useCase?.sampleMessages?.join(","),
+      messageDetails.useCase.sampleMessages.join(","),
     );
 
     messageDetails.useCase.sampleMessages = ["updatedSampleMessages"];
@@ -84,8 +84,8 @@ describe("TenDlcClient - Campaigns", function () {
     campaign = await client.upsertUSCampaign(id, newOptions);
     assert.equal(campaign.id, id);
     assert.equal(
-      campaign.messageDetails?.useCase?.sampleMessages?.values,
-      messageDetails.useCase.sampleMessages.values,
+      campaign.messageDetails?.useCase?.sampleMessages?.join(","),
+      messageDetails.useCase.sampleMessages.join(","),
     );
 
     await client.deleteUSCampaign(id);
@@ -102,7 +102,7 @@ describe("TenDlcClient - Campaigns", function () {
       },
     };
 
-    client.upsertUSCampaign(id, options);
+    await client.upsertUSCampaign(id, options);
     for await (const campaign of client.listUSCampaigns()) {
       assert.isNotNull(campaign);
     }

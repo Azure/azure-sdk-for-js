@@ -21,8 +21,8 @@ export function createTenDlcPagingPolicy(host: string): PipelinePolicy {
   return {
     name: "tenDlcPagingPolicy",
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      const response: FullOperationResponse = await next(request);
-      let nextLink: string = response?.parsedBody?.nextLink;
+      const response = (await next(request)) as FullOperationResponse;
+      let nextLink: string | undefined = response?.parsedBody?.nextLink;
 
       if (nextLink && !nextLink.startsWith(host)) {
         nextLink = host.endsWith("/") ? nextLink.substring(1) : nextLink;
