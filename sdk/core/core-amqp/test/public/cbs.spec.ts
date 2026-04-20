@@ -325,7 +325,7 @@ describe("CbsClient - init already open branch and error handlers", () => {
 describe("cbs.ts - onSessionError callback", () => {
   it("onSessionError handler fires without throwing", async () => {
     // Create a connection stub that captures receiverOptions
-    let capturedRxOpt: Record<string, Function> | null = null;
+    let capturedRxOpt: Record<string, (...args: unknown[]) => unknown> | null = null;
     const connectionStub = new Connection();
     vi.spyOn(connectionStub, "open").mockResolvedValue(
       undefined as unknown as Awaited<ReturnType<Connection["open"]>>,
@@ -345,7 +345,7 @@ describe("cbs.ts - onSessionError callback", () => {
             }),
           );
         },
-        createReceiver: (opts: Record<string, Function>) => {
+        createReceiver: (opts: Record<string, (...args: unknown[]) => unknown>) => {
           capturedRxOpt = opts;
           return Promise.resolve(
             createMockReceiver({
