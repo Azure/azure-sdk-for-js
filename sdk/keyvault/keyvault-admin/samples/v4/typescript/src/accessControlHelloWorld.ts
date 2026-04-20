@@ -5,12 +5,12 @@
  * @summary Uses an AccessControlClient to list, create, and assign roles to users.
  */
 
+// Load the .env file if it exists
+import "dotenv/config";
 import { randomUUID } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 import { KeyVaultAccessControlClient, KnownKeyVaultDataAction, KnownKeyVaultRoleScope } from "@azure/keyvault-admin";
 import type { KeyVaultPermission } from "@azure/keyvault-admin";
-// Load the .env file if it exists
-import "dotenv/config";
 
 let client: KeyVaultAccessControlClient;
 
@@ -19,6 +19,7 @@ async function listRoleAssignments() {
   for await (const roleAssignment of client.listRoleAssignments("/")) {
       console.log("Role assignment: ", roleAssignment);
   }
+
 }
 
 async function listRoleDefinitions() {
@@ -26,12 +27,14 @@ async function listRoleDefinitions() {
   for await (const roleDefinitions of client.listRoleDefinitions("/")) {
       console.log("Role definition: ", roleDefinitions);
   }
+
 }
 
 async function getRoleDefinition() {
 
   const roleDefinition = await client.getRoleDefinition("/", "b86a8fe4-44ce-4948-aee5-eccb2c155cd7");
   console.log(roleDefinition);
+
 }
 
 async function setRoleDefinition() {
@@ -57,6 +60,7 @@ async function deleteRoleDefinition() {
   });
 
   await client.deleteRoleDefinition("/", roleDefinition.name);
+
 }
 
 async function createRoleAssignment() {
@@ -90,6 +94,7 @@ async function deleteRoleAssignment() {
   const roleAssignment = await client.createRoleAssignment("/", "295c179b-9ad3-4117-99cd-b1aa66cf4517", roleDefinition.id, principalId);
 
   await client.deleteRoleAssignment(roleAssignment.properties.scope, roleAssignment.name);
+
 }
 
 async function createAndManageRoleDefinitionIntegration() {

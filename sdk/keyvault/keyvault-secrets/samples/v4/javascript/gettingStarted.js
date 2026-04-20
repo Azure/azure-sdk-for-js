@@ -5,11 +5,11 @@
  * @summary Authenticates with Azure Key Vault and creates a SecretClient.
  */
 
+// Load the .env file if it exists
+require("dotenv/config");
 const { DefaultAzureCredential, InteractiveBrowserCredential } = require("@azure/identity");
 const { SecretClient } = require("@azure/keyvault-secrets");
 const { setLogLevel } = require("@azure/logger");
-// Load the .env file if it exists
-require("dotenv/config");
 
 async function createASecretClient() {
   const credential = new DefaultAzureCredential();

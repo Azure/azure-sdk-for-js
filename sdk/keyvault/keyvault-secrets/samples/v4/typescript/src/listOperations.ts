@@ -5,10 +5,10 @@
  * @summary Uses a SecretClient to iterate over secrets and their versions.
  */
 
-import { DefaultAzureCredential } from "@azure/identity";
-import { SecretClient } from "@azure/keyvault-secrets";
 // Load the .env file if it exists
 import "dotenv/config";
+import { DefaultAzureCredential } from "@azure/identity";
+import { SecretClient } from "@azure/keyvault-secrets";
 
 let client: SecretClient;
 
@@ -77,6 +77,7 @@ async function listAllSecretTypes() {
   for await (const versionProperties of client.listPropertiesOfSecretVersions(secretName)) {
       console.log("Version properties: ", versionProperties);
   }
+
 }
 
 async function listAllSecretTypesByPage() {
@@ -99,6 +100,7 @@ async function listAllSecretTypesByPage() {
           console.log("Version properties: ", versionProperties);
       }
   }
+
 }
 
 export async function main(): Promise<void> {

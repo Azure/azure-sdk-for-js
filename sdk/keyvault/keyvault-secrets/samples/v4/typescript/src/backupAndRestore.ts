@@ -5,10 +5,10 @@
  * @summary Backs up an Azure Key Vault secret to a local file and restores from it.
  */
 
-import { DefaultAzureCredential } from "@azure/identity";
-import { SecretClient } from "@azure/keyvault-secrets";
 // Load the .env file if it exists
 import "dotenv/config";
+import { DefaultAzureCredential } from "@azure/identity";
+import { SecretClient } from "@azure/keyvault-secrets";
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 /**

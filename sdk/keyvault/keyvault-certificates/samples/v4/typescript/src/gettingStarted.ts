@@ -5,11 +5,11 @@
  * @summary Authenticates with Azure Key Vault and creates a CertificateClient.
  */
 
+// Load the .env file if it exists
+import "dotenv/config";
 import { DefaultAzureCredential } from "@azure/identity";
 import { CertificateClient } from "@azure/keyvault-certificates";
 import { setLogLevel } from "@azure/logger";
-// Load the .env file if it exists
-import "dotenv/config";
 
 async function createACertificateClient() {
 
@@ -18,6 +18,7 @@ async function createACertificateClient() {
   const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   const client = new CertificateClient(url, credential);
+
 }
 
 async function createACertificateClientWithASpecificVersion() {
@@ -30,11 +31,13 @@ async function createACertificateClientWithASpecificVersion() {
   const client = new CertificateClient(url, credential, {
       serviceVersion: "7.5",
   });
+
 }
 
 async function setTheLogLevel() {
 
   setLogLevel("info");
+
 }
 
 export async function main(): Promise<void> {

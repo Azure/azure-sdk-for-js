@@ -5,10 +5,10 @@
  * @summary Creates a self-signed certificate, then makes a backup from it, then deletes it and purges it, and finally restores it.
  */
 
-import { DefaultAzureCredential } from "@azure/identity";
-import { CertificateClient } from "@azure/keyvault-certificates";
 // Load the .env file if it exists
 import "dotenv/config";
+import { DefaultAzureCredential } from "@azure/identity";
+import { CertificateClient } from "@azure/keyvault-certificates";
 
 let client: CertificateClient;
 let certificateName: string;
@@ -43,6 +43,7 @@ async function backUpACertificate() {
       subject: "cn=MyCert",
   });
   const backup = await client.backupCertificate("MyCertificate");
+
 }
 
 async function restoreACertificateFromBackup() {
@@ -64,6 +65,7 @@ async function restoreACertificateFromBackup() {
 
   // Some time is required before we're able to restore the certificate
   await client.restoreCertificateBackup(backup!);
+
 }
 
 export async function main(): Promise<void> {

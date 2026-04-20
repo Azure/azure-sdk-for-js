@@ -5,10 +5,10 @@
  * @summary Uses a BackupClient to backup and fully restore an Azure Key Vault Managed HSM using Azure Storage Blob.
  */
 
-const { DefaultAzureCredential } = require("@azure/identity");
-const { KeyVaultBackupClient } = require("@azure/keyvault-admin");
 // Load the .env file if it exists
 require("dotenv/config");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { KeyVaultBackupClient } = require("@azure/keyvault-admin");
 
 let client;
 

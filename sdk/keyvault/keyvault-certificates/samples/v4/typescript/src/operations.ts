@@ -5,10 +5,10 @@
  * @summary Uses a CertificateClient to create, update, and delete a certificate's operation.
  */
 
-import { DefaultAzureCredential } from "@azure/identity";
-import { CertificateClient } from "@azure/keyvault-certificates";
 // Load the .env file if it exists
 import "dotenv/config";
+import { DefaultAzureCredential } from "@azure/identity";
+import { CertificateClient } from "@azure/keyvault-certificates";
 
 let client: CertificateClient;
 let certificateName: string;
@@ -64,6 +64,7 @@ async function getACertificateOperation() {
 
   const certificateOperation = poller.getOperationState().certificateOperation;
   console.log(certificateOperation);
+
 }
 
 async function deleteACertificateOperation() {
@@ -81,6 +82,8 @@ async function deleteACertificateOperation() {
   await client.deleteCertificateOperation("MyCertificate");
 
   await client.getCertificateOperation("MyCertificate");
+  // Throws error: Pending certificate not found: "MyCertificate"
+
 }
 
 export async function main(): Promise<void> {

@@ -5,10 +5,10 @@
  * @summary Backs up an Azure Key Vault secret to a local file and restores from it.
  */
 
-const { DefaultAzureCredential } = require("@azure/identity");
-const { SecretClient } = require("@azure/keyvault-secrets");
 // Load the .env file if it exists
 require("dotenv/config");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { SecretClient } = require("@azure/keyvault-secrets");
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 /**

@@ -5,6 +5,8 @@
  * @summary Uses an AccessControlClient to list, create, and assign roles to users.
  */
 
+// Load the .env file if it exists
+require("dotenv/config");
 const { randomUUID } = require("@azure/core-util");
 const { DefaultAzureCredential } = require("@azure/identity");
 const {
@@ -12,9 +14,6 @@ const {
   KnownKeyVaultDataAction,
   KnownKeyVaultRoleScope,
 } = require("@azure/keyvault-admin");
-// Load the .env file if it exists
-require("dotenv/config");
-
 let client;
 
 async function listRoleAssignments() {

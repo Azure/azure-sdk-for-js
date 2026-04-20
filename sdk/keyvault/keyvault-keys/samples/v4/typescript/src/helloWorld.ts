@@ -5,10 +5,10 @@
  * @summary Creates, reads, lists, and deletes keys.
  */
 
-import { DefaultAzureCredential } from "@azure/identity";
-import { KeyClient } from "@azure/keyvault-keys";
 // Load the .env file if it exists
 import "dotenv/config";
+import { DefaultAzureCredential } from "@azure/identity";
+import { KeyClient } from "@azure/keyvault-keys";
 
 let client: KeyClient;
 
@@ -66,6 +66,7 @@ async function createAKey() {
   const keyName = "MyKeyName";
   const result = await client.createKey(keyName, "RSA");
   console.log("result: ", result);
+
 }
 
 async function createAnEcKey() {
@@ -73,6 +74,7 @@ async function createAnEcKey() {
   const keyName = "MyKeyName";
   const result = await client.createEcKey(keyName, { curve: "P-256" });
   console.log("result: ", result);
+
 }
 
 async function createAnRsaKey() {
@@ -80,6 +82,7 @@ async function createAnRsaKey() {
   const keyName = "MyKeyName";
   const result = await client.createRsaKey("MyKey", { keySize: 2048 });
   console.log("result: ", result);
+
 }
 
 async function createAnOctKey() {
@@ -87,6 +90,7 @@ async function createAnOctKey() {
   const keyName = "MyKeyName";
   const result = await client.createOctKey("MyKey", { hsm: true });
   console.log("result: ", result);
+
 }
 
 async function importAKey() {
@@ -107,12 +111,14 @@ async function importAKey() {
   };
 
   const result = await client.importKey("MyKey", jsonWebKey);
+
 }
 
 async function getACryptographyClient() {
 
   // Get a cryptography client for a given key
   const cryptographyClient = client.getCryptographyClient("MyKey");
+
 }
 
 async function getAKey() {
@@ -124,6 +130,7 @@ async function getAKey() {
 
   const specificKey = await client.getKey(keyName, { version: latestKey.properties.version! });
   console.log(`The key ${keyName} at the version ${latestKey.properties.version!}: `, specificKey);
+
 }
 
 async function getKeyAttestation() {
@@ -137,6 +144,7 @@ async function getKeyAttestation() {
       version: latestKey.properties.version!,
   });
   console.log(`The key ${keyName} at the version ${latestKey.properties.version!}: `, specificKey);
+
 }
 
 async function createAKeyWithAttributes() {
@@ -147,6 +155,7 @@ async function createAKeyWithAttributes() {
       enabled: false,
   });
   console.log("result: ", result);
+
 }
 
 async function updateKeyProperties() {
@@ -157,6 +166,7 @@ async function updateKeyProperties() {
   await client.updateKeyProperties(keyName, result.properties.version, {
       enabled: false,
   });
+
 }
 
 async function deleteAKey() {
@@ -165,6 +175,7 @@ async function deleteAKey() {
 
   const poller = await client.beginDeleteKey(keyName);
   await poller.pollUntilDone();
+
 }
 
 async function releaseAKey() {
@@ -172,6 +183,7 @@ async function releaseAKey() {
   const keyName = "MyKeyName";
 
   const result = await client.releaseKey("myKey", "<attestation-target>");
+
 }
 
 async function getADeletedKey() {
@@ -181,6 +193,7 @@ async function getADeletedKey() {
   await deletePoller.pollUntilDone();
 
   await client.getDeletedKey(keyName);
+
 }
 
 async function purgeADeletedKey() {
@@ -191,6 +204,7 @@ async function purgeADeletedKey() {
   await deletePoller.pollUntilDone();
 
   await client.purgeDeletedKey(keyName);
+
 }
 
 async function recoverADeletedKey() {
@@ -202,6 +216,7 @@ async function recoverADeletedKey() {
 
   const recoverPoller = await client.beginRecoverDeletedKey(keyName);
   const recoveredKey = await recoverPoller.pollUntilDone();
+
 }
 
 async function backUpAKey() {
@@ -209,6 +224,7 @@ async function backUpAKey() {
   await client.createKey(keyName, "RSA");
 
   const backupContents = await client.backupKey(keyName);
+
 }
 
 async function restoreAKeyFromBackup() {
@@ -218,11 +234,13 @@ async function restoreAKeyFromBackup() {
   const backupContents = await client.backupKey(keyName);
 
   const key = await client.restoreKeyBackup(backupContents);
+
 }
 
 async function getRandomBytes() {
 
   const bytes = await client.getRandomBytes(10);
+
 }
 
 async function deleteAKeyWithSoftDelete() {
@@ -248,6 +266,7 @@ async function deleteAKeyWithSoftDelete() {
 
   // And here is how to purge a deleted key
   await client.purgeDeletedKey(keyName);
+
 }
 
 async function deleteAKeyAndWaitForCompletion() {
@@ -262,6 +281,7 @@ async function deleteAKeyAndWaitForCompletion() {
   // Or you can wait until the key finishes being deleted:
   deletedKey = await poller.pollUntilDone();
   console.log(deletedKey);
+
 }
 
 async function deleteAKeyAndPollIndividually() {
@@ -278,6 +298,7 @@ async function deleteAKeyAndPollIndividually() {
   }
 
   console.log(`The key ${keyName} is fully deleted`);
+
 }
 
 async function listAllKeys() {
@@ -294,6 +315,7 @@ async function listAllKeys() {
   for await (const versionProperties of client.listPropertiesOfKeyVersions(keyName)) {
       console.log("Version properties: ", versionProperties);
   }
+
 }
 
 async function listKeysByPage() {
@@ -316,6 +338,7 @@ async function listKeysByPage() {
           console.log("Version: ", versionProperties);
       }
   }
+
 }
 
 export async function main(): Promise<void> {

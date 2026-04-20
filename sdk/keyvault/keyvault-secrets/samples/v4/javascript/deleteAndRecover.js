@@ -5,10 +5,10 @@
  * @summary Deletes a secret and then recovers a deleted secret (this sample requires soft-delete to run).
  */
 
-const { DefaultAzureCredential } = require("@azure/identity");
-const { SecretClient } = require("@azure/keyvault-secrets");
 // Load the .env file if it exists
 require("dotenv/config");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { SecretClient } = require("@azure/keyvault-secrets");
 
 let client;
 

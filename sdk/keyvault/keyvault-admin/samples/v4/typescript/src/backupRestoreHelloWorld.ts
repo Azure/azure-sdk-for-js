@@ -5,10 +5,10 @@
  * @summary Uses a BackupClient to backup and fully restore an Azure Key Vault Managed HSM using Azure Storage Blob.
  */
 
-import { DefaultAzureCredential } from "@azure/identity";
-import { KeyVaultBackupClient } from "@azure/keyvault-admin";
 // Load the .env file if it exists
 import "dotenv/config";
+import { DefaultAzureCredential } from "@azure/identity";
+import { KeyVaultBackupClient } from "@azure/keyvault-admin";
 
 let client: KeyVaultBackupClient;
 
@@ -28,6 +28,7 @@ async function beginPreBackupWithSas() {
   // Waiting until it's done
   const result = await poller.pollUntilDone();
   console.log(result);
+
 }
 
 async function beginPreBackupWithoutSas() {
@@ -45,6 +46,7 @@ async function beginPreBackupWithoutSas() {
   // Waiting until it's done
   const result = await poller.pollUntilDone();
   console.log(result);
+
 }
 
 async function beginBackupWithSas() {
@@ -63,6 +65,7 @@ async function beginBackupWithSas() {
   // Waiting until it's done
   const backupUri = await poller.pollUntilDone();
   console.log(backupUri);
+
 }
 
 async function beginBackupWithoutSas() {
@@ -80,6 +83,7 @@ async function beginBackupWithoutSas() {
   // Waiting until it's done
   const backupUri = await poller.pollUntilDone();
   console.log(backupUri);
+
 }
 
 async function beginRestoreWithSas() {
@@ -98,6 +102,7 @@ async function beginRestoreWithSas() {
   // Waiting until it's done
   const backupUri = await poller.pollUntilDone();
   console.log(backupUri);
+
 }
 
 async function beginRestoreWithoutSas() {
@@ -114,6 +119,7 @@ async function beginRestoreWithoutSas() {
 
   // Waiting until it's done
   await poller.pollUntilDone();
+
 }
 
 async function beginPreRestoreWithSas() {
@@ -131,6 +137,7 @@ async function beginPreRestoreWithSas() {
 
   // Waiting until it's done
   await poller.pollUntilDone();
+
 }
 
 async function beginPreRestoreWithoutSas() {
@@ -147,6 +154,7 @@ async function beginPreRestoreWithoutSas() {
 
   // Waiting until it's done
   await poller.pollUntilDone();
+
 }
 
 async function backupAndRestoreIntegration() {

@@ -5,11 +5,11 @@
  * @summary Uses a BackupClient to backup and restore a specific key in an Azure Key Vault Managed HSM using Azure Storage Blob.
  */
 
+// Load the .env file if it exists
+import "dotenv/config";
 import { DefaultAzureCredential } from "@azure/identity";
 import { KeyVaultBackupClient } from "@azure/keyvault-admin";
 import { KeyClient } from "@azure/keyvault-keys";
-// Load the .env file if it exists
-import "dotenv/config";
 
 let client: KeyVaultBackupClient;
 let keyClient: KeyClient;
@@ -31,6 +31,7 @@ async function beginSelectiveKeyRestoreWithSas() {
 
   // Waiting until it's done
   await poller.pollUntilDone();
+
 }
 
 async function beginSelectiveKeyRestoreWithoutSas() {
@@ -47,6 +48,7 @@ async function beginSelectiveKeyRestoreWithoutSas() {
 
   // Waiting until it's done
   await poller.pollUntilDone();
+
 }
 
 async function backupAndSelectiveKeyRestoreIntegration() {

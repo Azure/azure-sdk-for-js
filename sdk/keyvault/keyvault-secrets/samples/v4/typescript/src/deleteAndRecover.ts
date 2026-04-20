@@ -5,10 +5,10 @@
  * @summary Deletes a secret and then recovers a deleted secret (this sample requires soft-delete to run).
  */
 
-import { DefaultAzureCredential } from "@azure/identity";
-import { SecretClient } from "@azure/keyvault-secrets";
 // Load the .env file if it exists
 import "dotenv/config";
+import { DefaultAzureCredential } from "@azure/identity";
+import { SecretClient } from "@azure/keyvault-secrets";
 
 let client: SecretClient;
 
@@ -36,6 +36,7 @@ async function deleteAndRecoverASecret() {
   const recoverPoller = await client.beginRecoverDeletedSecret(bankAccountSecretName);
   const recoveredSecret = await recoverPoller.pollUntilDone();
   console.log(recoveredSecret);
+
 }
 
 async function deleteAndPurgeASecret() {
@@ -94,6 +95,7 @@ async function softDeleteLifecycle() {
 
   // And then, to purge the deleted secret:
   await client.purgeDeletedSecret(secretName);
+
 }
 
 async function deleteAndWait() {
@@ -109,6 +111,7 @@ async function deleteAndWait() {
   // Or you can wait until the secret finishes being deleted:
   deletedSecret = await poller.pollUntilDone();
   console.log(deletedSecret);
+
 }
 
 async function deleteAndPollIndividually() {
@@ -125,6 +128,7 @@ async function deleteAndPollIndividually() {
   }
 
   console.log(`The secret ${secretName} is fully deleted`);
+
 }
 
 export async function main(): Promise<void> {

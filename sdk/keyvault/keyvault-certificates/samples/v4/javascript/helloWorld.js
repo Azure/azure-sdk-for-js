@@ -5,11 +5,11 @@
  * @summary Uses a CertificateClient in various ways to read a certificate as well as update a certificate's tags.
  */
 
+// Load the .env file if it exists
+require("dotenv/config");
 const { DefaultAzureCredential } = require("@azure/identity");
 const { CertificateClient, DefaultCertificatePolicy } = require("@azure/keyvault-certificates");
 const { SecretClient } = require("@azure/keyvault-secrets");
-// Load the .env file if it exists
-require("dotenv/config");
 const { writeFileSync } = require("node:fs");
 
 let client;

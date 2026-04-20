@@ -5,6 +5,8 @@
  * @summary Creates a certificate with an unknown issuer and signs it using a fake certificate authority and the mergeCertificate API.
  */
 
+// Load the .env file if it exists
+import "dotenv/config";
 import { DefaultAzureCredential } from "@azure/identity";
 import { CertificateClient } from "@azure/keyvault-certificates";
 // Copyright (c) Microsoft Corporation.
@@ -13,8 +15,6 @@ import { CertificateClient } from "@azure/keyvault-certificates";
  * @summary Creates a certificate with an unknown issuer and signs it using a fake certificate authority and the mergeCertificate API.
  */
 import * as childProcess from "child_process";
-// Load the .env file if it exists
-import "dotenv/config";
 import { execSync } from "node:child_process";
 import fs from "node:fs";
 import { readFileSync, writeFileSync } from "node:fs";
@@ -85,6 +85,7 @@ async function mergeACertificate2() {
   const base64Crt = readFileSync("test.crt").toString().split("\n").slice(1, -1).join("");
 
   await client.mergeCertificate("MyCertificate", [Buffer.from(base64Crt)]);
+
 }
 
 export async function main(): Promise<void> {

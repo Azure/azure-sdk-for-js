@@ -5,6 +5,8 @@
  * @summary Creates a certificate with an unknown issuer and signs it using a fake certificate authority and the mergeCertificate API.
  */
 
+// Load the .env file if it exists
+require("dotenv/config");
 const { DefaultAzureCredential } = require("@azure/identity");
 const { CertificateClient } = require("@azure/keyvault-certificates");
 // Copyright (c) Microsoft Corporation.
@@ -13,8 +15,6 @@ const { CertificateClient } = require("@azure/keyvault-certificates");
  * @summary Creates a certificate with an unknown issuer and signs it using a fake certificate authority and the mergeCertificate API.
  */
 const childProcess = require("child_process");
-// Load the .env file if it exists
-require("dotenv/config");
 const { execSync } = require("node:child_process");
 const fs = require("node:fs");
 const { readFileSync, writeFileSync } = require("node:fs");

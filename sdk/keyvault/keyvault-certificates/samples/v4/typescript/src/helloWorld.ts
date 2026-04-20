@@ -5,12 +5,12 @@
  * @summary Uses a CertificateClient in various ways to read a certificate as well as update a certificate's tags.
  */
 
+// Load the .env file if it exists
+import "dotenv/config";
 import { DefaultAzureCredential } from "@azure/identity";
 import { CertificateClient, DefaultCertificatePolicy } from "@azure/keyvault-certificates";
 import type { CertificatePolicy, UpdateCertificateOptions } from "@azure/keyvault-certificates";
 import { SecretClient } from "@azure/keyvault-secrets";
-// Load the .env file if it exists
-import "dotenv/config";
 import { writeFileSync } from "node:fs";
 
 let client: CertificateClient;
@@ -82,6 +82,7 @@ async function createACertificate2() {
       issuerName: "Self",
       subject: "cn=MyCert",
   });
+
 }
 
 async function createACertificateWithOptions() {
@@ -108,6 +109,7 @@ async function createACertificateWithOptions() {
       enabled,
       tags,
   });
+
 }
 
 async function createACertificateWithPolling() {
@@ -132,6 +134,7 @@ async function createACertificateWithPolling() {
   // Or you can wait until the certificate finishes being signed:
   const keyVaultCertificate = await poller.pollUntilDone();
   console.log(keyVaultCertificate);
+
 }
 
 async function createACertificateAndPollIndividually() {
@@ -158,6 +161,7 @@ async function createACertificateAndPollIndividually() {
   }
 
   console.log(`The certificate ${certificateName} is fully created`);
+
 }
 
 async function getACertificate() {
@@ -174,6 +178,7 @@ async function getACertificate() {
   console.log(`Latest version of the certificate ${certificateName}: `, latestCertificate);
   const specificCertificate = await client.getCertificateVersion(certificateName, latestCertificate.properties.version);
   console.log(`The certificate ${certificateName} at the version ${latestCertificate.properties.version}: `, specificCertificate);
+
 }
 
 async function getCertificateWithFullInformation() {
@@ -195,6 +200,7 @@ async function getCertificateWithFullInformation() {
 
   // You can write this into a file:
   writeFileSync("myCertificate.p12", PKCS12Certificate);
+
 }
 
 async function createAPemCertificate() {
@@ -220,6 +226,7 @@ async function createAPemCertificate() {
   const PEMPair = certificateSecret.value!;
 
   console.log(PEMPair);
+
 }
 
 async function updateACertificate() {
@@ -239,6 +246,7 @@ async function updateACertificate() {
           myCustomTag: "myCustomTagsValue",
       },
   });
+
 }
 
 async function updateACertificatePolicy() {
@@ -257,6 +265,7 @@ async function updateACertificatePolicy() {
       issuerName: "Self",
       subject: "cn=MyCert",
   });
+
 }
 
 async function getCertificateProperties() {
@@ -271,6 +280,7 @@ async function getCertificateProperties() {
 
   const result = await client.getCertificate(certificateName);
   console.log(result.name);
+
 }
 
 async function getASpecificCertificateVersion() {
@@ -287,6 +297,7 @@ async function getASpecificCertificateVersion() {
   console.log(`Latest version of the certificate ${certificateName}: `, latestCertificate);
   const specificCertificate = await client.getCertificateVersion(certificateName, latestCertificate.properties.version);
   console.log(`The certificate ${certificateName} at the version ${latestCertificate.properties.version}: `, specificCertificate);
+
 }
 
 async function updateCertificateProperties() {
@@ -304,6 +315,7 @@ async function updateCertificateProperties() {
           customTag: "value",
       },
   });
+
 }
 
 async function getACertificatePolicy() {
@@ -316,6 +328,7 @@ async function getACertificatePolicy() {
 
   const policy = await client.getCertificatePolicy("MyCertificate");
   console.log(policy);
+
 }
 
 export async function main(): Promise<void> {

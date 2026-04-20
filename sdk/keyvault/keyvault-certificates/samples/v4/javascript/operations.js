@@ -5,10 +5,10 @@
  * @summary Uses a CertificateClient to create, update, and delete a certificate's operation.
  */
 
-const { DefaultAzureCredential } = require("@azure/identity");
-const { CertificateClient } = require("@azure/keyvault-certificates");
 // Load the .env file if it exists
 require("dotenv/config");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { CertificateClient } = require("@azure/keyvault-certificates");
 
 let client;
 let certificateName;
@@ -80,6 +80,7 @@ async function deleteACertificateOperation() {
   await client.deleteCertificateOperation("MyCertificate");
 
   await client.getCertificateOperation("MyCertificate");
+  // Throws error: Pending certificate not found: "MyCertificate"
 }
 
 async function main() {

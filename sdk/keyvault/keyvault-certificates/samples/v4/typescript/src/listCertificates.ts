@@ -5,10 +5,10 @@
  * @summary List certificates, lists a certificate's versions, and lists deleted certificates in various ways.
  */
 
-import { DefaultAzureCredential } from "@azure/identity";
-import { CertificateClient } from "@azure/keyvault-certificates";
 // Load the .env file if it exists
 import "dotenv/config";
+import { DefaultAzureCredential } from "@azure/identity";
+import { CertificateClient } from "@azure/keyvault-certificates";
 
 let client: CertificateClient;
 let certificateName1: string;
@@ -84,6 +84,7 @@ async function listAllCertificates2() {
   for await (const certificateProperties of client.listPropertiesOfCertificateVersions(certificateName)) {
       console.log("Certificate properties: ", certificateProperties);
   }
+
 }
 
 async function listCertificatesByPage2() {
@@ -111,6 +112,7 @@ async function listCertificatesByPage2() {
           console.log("Properties of certificate: ", certificateProperties);
       }
   }
+
 }
 
 async function listCertificateProperties() {
@@ -132,6 +134,7 @@ async function listCertificateProperties() {
           console.log(certificateProperties);
       }
   }
+
 }
 
 async function listCertificateVersions() {
@@ -145,6 +148,7 @@ async function listCertificateVersions() {
   for await (const certificateProperties of client.listPropertiesOfCertificateVersions("MyCertificate")) {
       console.log(certificateProperties.version!);
   }
+
 }
 
 export async function main(): Promise<void> {

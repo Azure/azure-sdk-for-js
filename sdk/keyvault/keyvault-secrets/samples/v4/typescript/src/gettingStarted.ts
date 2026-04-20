@@ -5,11 +5,11 @@
  * @summary Authenticates with Azure Key Vault and creates a SecretClient.
  */
 
+// Load the .env file if it exists
+import "dotenv/config";
 import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
 import { SecretClient } from "@azure/keyvault-secrets";
 import { setLogLevel } from "@azure/logger";
-// Load the .env file if it exists
-import "dotenv/config";
 
 async function createASecretClient() {
 
@@ -18,6 +18,7 @@ async function createASecretClient() {
   const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   const client = new SecretClient(url, credential);
+
 }
 
 async function createASecretClientInTheBrowser() {
@@ -28,6 +29,7 @@ async function createASecretClientInTheBrowser() {
   });
   const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
   const client = new SecretClient(url, credential);
+
 }
 
 async function createASecretClientWithASpecificVersion() {
@@ -40,11 +42,13 @@ async function createASecretClientWithASpecificVersion() {
   const client = new SecretClient(url, credential, {
       serviceVersion: "7.0", // Or 7.1
   });
+
 }
 
 async function setTheLogLevel() {
 
   setLogLevel("info");
+
 }
 
 export async function main(): Promise<void> {

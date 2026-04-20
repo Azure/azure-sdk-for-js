@@ -5,12 +5,12 @@
  * @summary Imports a PFX and PEM certificate and then deletes them.
  */
 
+// Load the .env file if it exists
+import "dotenv/config";
 import { isNodeLike } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 import { CertificateClient, WellKnownIssuer } from "@azure/keyvault-certificates";
 import { SecretClient } from "@azure/keyvault-secrets";
-// Load the .env file if it exists
-import "dotenv/config";
 
 let client: CertificateClient;
 
@@ -69,6 +69,7 @@ async function importACertificate() {
       ? Buffer.from(base64EncodedCertificate, "base64")
       : Uint8Array.from(atob(base64EncodedCertificate), (c) => c.charCodeAt(0));
   await client.importCertificate("MyCertificate", buffer);
+
 }
 
 export async function main(): Promise<void> {

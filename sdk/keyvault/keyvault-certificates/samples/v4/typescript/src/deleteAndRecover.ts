@@ -5,10 +5,10 @@
  * @summary Creates a self-signed certificate, deletes it, and then recovers it (soft-delete is required for this sample to run).
  */
 
-import { DefaultAzureCredential } from "@azure/identity";
-import { CertificateClient } from "@azure/keyvault-certificates";
 // Load the .env file if it exists
 import "dotenv/config";
+import { DefaultAzureCredential } from "@azure/identity";
+import { CertificateClient } from "@azure/keyvault-certificates";
 
 let client: CertificateClient;
 let certificateName: string;
@@ -61,6 +61,7 @@ async function deleteACertificate() {
 
   // If a certificate is done and the Key Vault has soft-delete enabled, the certificate can be purged with:
   await client.purgeDeletedCertificate(certificateName);
+
 }
 
 async function listDeletedCertificates() {
@@ -80,6 +81,7 @@ async function listDeletedCertificates() {
           console.log(deletedCertificate);
       }
   }
+
 }
 
 async function getADeletedCertificate() {
@@ -92,6 +94,7 @@ async function getADeletedCertificate() {
 
   const deletedCertificate = await client.getDeletedCertificate("MyDeletedCertificate");
   console.log("Deleted certificate:", deletedCertificate);
+
 }
 
 async function purgeADeletedCertificate() {
@@ -107,6 +110,7 @@ async function purgeADeletedCertificate() {
 
   // Deleting a certificate takes time, make sure to wait before purging it
   client.purgeDeletedCertificate("MyCertificate");
+
 }
 
 async function recoverADeletedCertificate() {
@@ -125,6 +129,7 @@ async function recoverADeletedCertificate() {
   // Waiting until it's done
   const certificate = await recoverPoller.pollUntilDone();
   console.log(certificate);
+
 }
 
 export async function main(): Promise<void> {

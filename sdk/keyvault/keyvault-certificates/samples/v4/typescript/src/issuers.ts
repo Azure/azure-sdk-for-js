@@ -5,10 +5,10 @@
  * @summary Creates, updates and deletes certificate issuers.
  */
 
-import { DefaultAzureCredential } from "@azure/identity";
-import { CertificateClient } from "@azure/keyvault-certificates";
 // Load the .env file if it exists
 import "dotenv/config";
+import { DefaultAzureCredential } from "@azure/identity";
+import { CertificateClient } from "@azure/keyvault-certificates";
 
 let client: CertificateClient;
 let certificateName: string;
@@ -66,6 +66,7 @@ async function listCertificateIssuers() {
           console.log(issuerProperties);
       }
   }
+
 }
 
 async function createACertificateIssuer() {
@@ -77,6 +78,7 @@ async function createACertificateIssuer() {
   const client = new CertificateClient(keyVaultUrl, credential);
 
   await client.createIssuer("IssuerName", "Test");
+
 }
 
 async function updateACertificateIssuer() {
@@ -90,6 +92,7 @@ async function updateACertificateIssuer() {
   await client.updateIssuer("IssuerName", {
       provider: "Provider2",
   });
+
 }
 
 async function getACertificateIssuer() {
@@ -102,6 +105,7 @@ async function getACertificateIssuer() {
 
   const certificateIssuer = await client.getIssuer("IssuerName");
   console.log(certificateIssuer);
+
 }
 
 async function deleteACertificateIssuer() {
@@ -113,6 +117,7 @@ async function deleteACertificateIssuer() {
   const client = new CertificateClient(keyVaultUrl, credential);
 
   await client.deleteIssuer("IssuerName");
+
 }
 
 export async function main(): Promise<void> {

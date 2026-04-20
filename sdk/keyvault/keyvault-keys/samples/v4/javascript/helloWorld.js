@@ -5,10 +5,10 @@
  * @summary Creates, reads, lists, and deletes keys.
  */
 
-const { DefaultAzureCredential } = require("@azure/identity");
-const { KeyClient } = require("@azure/keyvault-keys");
 // Load the .env file if it exists
 require("dotenv/config");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { KeyClient } = require("@azure/keyvault-keys");
 
 let client;
 

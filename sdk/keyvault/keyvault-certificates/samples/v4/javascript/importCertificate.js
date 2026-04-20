@@ -5,12 +5,12 @@
  * @summary Imports a PFX and PEM certificate and then deletes them.
  */
 
+// Load the .env file if it exists
+require("dotenv/config");
 const { isNodeLike } = require("@azure/core-util");
 const { DefaultAzureCredential } = require("@azure/identity");
 const { CertificateClient, WellKnownIssuer } = require("@azure/keyvault-certificates");
 const { SecretClient } = require("@azure/keyvault-secrets");
-// Load the .env file if it exists
-require("dotenv/config");
 
 let client;
 

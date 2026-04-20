@@ -5,11 +5,11 @@
  * @summary Uses a BackupClient to backup and restore a specific key in an Azure Key Vault Managed HSM using Azure Storage Blob.
  */
 
+// Load the .env file if it exists
+require("dotenv/config");
 const { DefaultAzureCredential } = require("@azure/identity");
 const { KeyVaultBackupClient } = require("@azure/keyvault-admin");
 const { KeyClient } = require("@azure/keyvault-keys");
-// Load the .env file if it exists
-require("dotenv/config");
 
 let client;
 let keyClient;
