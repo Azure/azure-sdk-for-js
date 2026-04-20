@@ -29,7 +29,7 @@ import {
     getConditionPriority,
 } from "./entry-points.js";
 import type { EngineOptions, ExportEntry } from "./entry-points.js";
-import { computeReachableTypes, validateSelfContainment, computeAmbientTypes } from "./reachability.js";
+import { computeReachableTypes, validateSelfContainment, computeAmbientTypes, makeQualifiedKey } from "./reachability.js";
 import {
     resolveTransitiveDependencies,
     buildResolvedDependencies,
@@ -47,12 +47,30 @@ import { emitDiagnostic } from "./diagnostics.js";
 
 /**
  * Checks whether a context entity key (possibly dotted, e.g. "NS.Client")
- * has any segment present in the reachable set.
- * This ensures nested qualified names like "NS.Client" are considered
- * reachable if either "NS" or "Client" is in the reachable set.
+ * is reachable given a set of qualified keys (e.g. "mod/NS/Client").
+ * Builds a qualified key from the module name and entity key segments,
+ * then checks if it exists in the reachable set.
+ * Falls back to checking if any segment matches the last part of any qualified key
+ * when no module context is available.
  */
-export function isEntityKeyReachable(entityKey: string, reachableTypes: Set<string>): boolean {
-    return entityKey.split(".").some(seg => reachableTypes.has(seg));
+export function isEntityKeyReachable(entityKey: string, reachableTypes: Set<string>, moduleName?: string): boolean {
+    if (moduleName) {
+        // Build qualified key from module + entity key
+        // entityKey may be dotted like "NS.Client" → nsPath="NS", name="Client"
+        const parts = entityKey.split(".");
+        const entityName = parts.pop()!;
+        const nsPath = parts.length > 0 ? parts.join(".") : undefined;
+        return reachableTypes.has(makeQualifiedKey(moduleName, entityName, nsPath));
+    }
+    // Without module context, check if any qualified key ends with the entity name
+    for (const qk of reachableTypes) {
+        const lastSlash = qk.lastIndexOf("/");
+        const simpleName = lastSlash >= 0 ? qk.substring(lastSlash + 1) : qk;
+        if (entityKey.split(".").some(seg => seg === simpleName)) {
+            return true;
+        }
+    }
+    return false;
 }
 
 // ============================================================================
@@ -177,6 +195,27 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
 
     for (const pattern of patterns) {
         project.addSourceFilesAtPaths(pattern);
+    }
+
+    // Check for critical compilation errors before extraction
+    const preDiagnostics = project.getPreEmitDiagnostics();
+    const errors = preDiagnostics.filter(d => d.getCategory() === ts.DiagnosticCategory.Error);
+    if (errors.length > 0) {
+        for (const err of errors.slice(0, 10)) {
+            emitDiagnostic({
+                code: "SYNTAX_ERROR",
+                message: typeof err.getMessageText() === "string" 
+                    ? err.getMessageText() as string 
+                    : (err.getMessageText() as any).getMessageText?.() ?? String(err.getMessageText()),
+                severity: "error",
+                target: err.getSourceFile()?.getFilePath(),
+            });
+        }
+        emitDiagnostic({
+            code: "SYNTAX_ERRORS_FOUND",
+            message: `${errors.length} compilation error(s) found; extraction may be incomplete`,
+            severity: "warning",
+        });
     }
 
     // Detect entry point files and extract exported symbols
@@ -403,17 +442,17 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
     // Compute types reachable from entry points
     const reachableTypes = computeReachableTypes(baseResult);
 
-    // Filter modules to only include reachable types
+    // Filter modules to only include reachable types (using qualified keys)
     if (reachableTypes.size > 0) {
         for (const mod of baseResult.modules) {
-            if (mod.classes) mod.classes = mod.classes.filter(c => reachableTypes.has(c.name));
-            if (mod.interfaces) mod.interfaces = mod.interfaces.filter(i => reachableTypes.has(i.name));
-            if (mod.enums) mod.enums = mod.enums.filter(e => reachableTypes.has(e.name));
-            if (mod.types) mod.types = mod.types.filter(t => reachableTypes.has(t.name));
-            if (mod.functions) mod.functions = mod.functions.filter(f => f.name && reachableTypes.has(f.name));
+            if (mod.classes) mod.classes = mod.classes.filter(c => reachableTypes.has(makeQualifiedKey(mod.name, c.name)));
+            if (mod.interfaces) mod.interfaces = mod.interfaces.filter(i => reachableTypes.has(makeQualifiedKey(mod.name, i.name)));
+            if (mod.enums) mod.enums = mod.enums.filter(e => reachableTypes.has(makeQualifiedKey(mod.name, e.name)));
+            if (mod.types) mod.types = mod.types.filter(t => reachableTypes.has(makeQualifiedKey(mod.name, t.name)));
+            if (mod.functions) mod.functions = mod.functions.filter(f => f.name && reachableTypes.has(makeQualifiedKey(mod.name, f.name)));
             // Filter namespace members against the reachable set
             if (mod.namespaces) {
-                mod.namespaces = filterNamespaces(mod.namespaces, reachableTypes);
+                mod.namespaces = filterNamespaces(mod.namespaces, reachableTypes, mod.name);
             }
         }
         // Remove empty modules (including modules with only empty namespaces)
@@ -430,18 +469,17 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
     const qualifiedRefs = ctx.typeRefs.getAllQualifiedRefNames();
     if (qualifiedRefs.size > 0) {
         if (reachableTypes.size > 0) {
-            // Filter to only include qualified refs whose prefix or full name relates to reachable entities
+            // Filter to only include qualified refs whose owning entity is reachable.
+            // Iterate per-module so we can build proper qualified keys for comparison.
             const reachableQualifiedRefs = new Set<string>();
-            const allContextRefNames = ctx.typeRefs.getContextRefNames();
-            for (const [contextName, refs] of allContextRefNames) {
-                // contextName may be module-qualified (e.g. "mod:NS.Client"); extract the entity part
-                const entityKey = contextName.includes(":") ? contextName.slice(contextName.indexOf(":") + 1) : contextName;
-                // entityKey is a simple or dotted entity name (e.g. "NS.Client");
-                // check if any segment of the qualified name is in the reachable set
-                if (isEntityKeyReachable(entityKey, reachableTypes)) {
-                    for (const ref of refs) {
-                        if (qualifiedRefs.has(ref)) {
-                            reachableQualifiedRefs.add(ref);
+            for (const mod of baseResult.modules) {
+                const moduleContextRefNames = ctx.typeRefs.getContextRefNames(mod.name);
+                for (const [entityKey, refs] of moduleContextRefNames) {
+                    if (isEntityKeyReachable(entityKey, reachableTypes, mod.name)) {
+                        for (const ref of refs) {
+                            if (qualifiedRefs.has(ref)) {
+                                reachableQualifiedRefs.add(ref);
+                            }
                         }
                     }
                 }
@@ -555,17 +593,17 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
     }
 
     // Emit collected extraction diagnostics to stderr as structured JSON.
-    // Deduplicate and summarize to avoid noise from repetitive type traversal warnings.
     if (ctx.diagnostics.length > 0) {
-        const byCode = new Map<string, number>();
-        for (const d of ctx.diagnostics) {
-            byCode.set(d.code, (byCode.get(d.code) ?? 0) + 1);
+        const MAX_INDIVIDUAL = 20;
+        const emitted = Math.min(ctx.diagnostics.length, MAX_INDIVIDUAL);
+        for (let i = 0; i < emitted; i++) {
+            emitDiagnostic(ctx.diagnostics[i]);
         }
-        for (const [code, count] of byCode) {
+        if (ctx.diagnostics.length > MAX_INDIVIDUAL) {
             emitDiagnostic({
-                code,
-                message: `Extraction diagnostic: ${code} occurred ${count} time(s)`,
-                severity: "warning",
+                code: "EXTRACTION_DIAGNOSTICS_TRUNCATED",
+                message: `${ctx.diagnostics.length - MAX_INDIVIDUAL} additional diagnostics suppressed`,
+                severity: "info",
             });
         }
     }
@@ -590,35 +628,36 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
  * Recursively filters namespace members against a reachable set.
  * Removes namespaces that become empty after filtering.
  */
-function filterNamespaces(namespaces: NamespaceInfo[], reachableSet: Set<string>): NamespaceInfo[] | undefined {
+function filterNamespaces(namespaces: NamespaceInfo[], reachableSet: Set<string>, moduleName: string, nsPath?: string): NamespaceInfo[] | undefined {
     const filtered: NamespaceInfo[] = [];
     for (const ns of namespaces) {
+        const currentNsPath = nsPath ? `${nsPath}.${ns.name}` : ns.name;
         const result: NamespaceInfo = { name: ns.name };
         if (ns.entryPoint) result.entryPoint = ns.entryPoint;
         if (ns.exportPath) result.exportPath = ns.exportPath;
 
         if (ns.classes) {
-            const f = ns.classes.filter(c => reachableSet.has(c.name));
+            const f = ns.classes.filter(c => reachableSet.has(makeQualifiedKey(moduleName, c.name, currentNsPath)));
             if (f.length) result.classes = f;
         }
         if (ns.interfaces) {
-            const f = ns.interfaces.filter(i => reachableSet.has(i.name));
+            const f = ns.interfaces.filter(i => reachableSet.has(makeQualifiedKey(moduleName, i.name, currentNsPath)));
             if (f.length) result.interfaces = f;
         }
         if (ns.enums) {
-            const f = ns.enums.filter(e => reachableSet.has(e.name));
+            const f = ns.enums.filter(e => reachableSet.has(makeQualifiedKey(moduleName, e.name, currentNsPath)));
             if (f.length) result.enums = f;
         }
         if (ns.types) {
-            const f = ns.types.filter(t => reachableSet.has(t.name));
+            const f = ns.types.filter(t => reachableSet.has(makeQualifiedKey(moduleName, t.name, currentNsPath)));
             if (f.length) result.types = f;
         }
         if (ns.functions) {
-            const f = ns.functions.filter(fn => fn.name && reachableSet.has(fn.name));
+            const f = ns.functions.filter(fn => fn.name && reachableSet.has(makeQualifiedKey(moduleName, fn.name, currentNsPath)));
             if (f.length) result.functions = f;
         }
         if (ns.namespaces) {
-            const childNs = filterNamespaces(ns.namespaces, reachableSet);
+            const childNs = filterNamespaces(ns.namespaces, reachableSet, moduleName, currentNsPath);
             if (childNs?.length) result.namespaces = childNs;
         }
 

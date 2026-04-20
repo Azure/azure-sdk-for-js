@@ -172,10 +172,32 @@ public class TypeScriptPublicApiGraphEngine : IPublicApiGraphEngine<ApiIndex>
             return (null, ApiDiagnosticsPostProcessor.PrependDiagnostics(engineInputDiagnostics, ParseStderrDiagnostics(streamResult.StandardError)));
         }
 
-        var index = await JsonSerializer.DeserializeAsync(
-            streamResult.StandardOutputStream,
-            SourceGenerationContext.Default.ApiIndex,
-            ct).ConfigureAwait(false);
+        using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(ct);
+        timeoutCts.CancelAfter(EngineTimeout.Value);
+
+        ApiIndex? index = null;
+        try
+        {
+            index = await JsonSerializer.DeserializeAsync(
+                streamResult.StandardOutputStream,
+                SourceGenerationContext.Default.ApiIndex,
+                timeoutCts.Token).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException) when (ct.IsCancellationRequested)
+        {
+            // Caller cancelled — propagate normally
+            await streamResult.CompleteAsync().ConfigureAwait(false);
+            throw;
+        }
+        catch (Exception ex) when (ex is JsonException or OperationCanceledException)
+        {
+            // Engine timeout or malformed JSON
+            await streamResult.CompleteAsync().ConfigureAwait(false);
+            var errorDetail = streamResult.TimedOut
+                ? $"TypeScript engine timed out after {EngineTimeout.Value.TotalSeconds}s"
+                : $"TypeScript engine output could not be deserialized: {ex.Message}. Stderr: {streamResult.StandardError}";
+            throw new InvalidOperationException(errorDetail, ex);
+        }
 
         await streamResult.CompleteAsync().ConfigureAwait(false);
 
@@ -255,7 +277,7 @@ public class TypeScriptPublicApiGraphEngine : IPublicApiGraphEngine<ApiIndex>
                         CrossLanguageId = map is not null && map.Ids.TryGetValue(typeId, out var clsXId) ? clsXId : null,
                         Constructors = cls.Constructors?.Select(ctor =>
                         {
-                            var ctorId = ctor.Id ?? BuildMemberId(typeId, "constructor");
+                            var ctorId = ctor.Id ?? BuildMemberId(typeId, "constructor", ctor.Params);
                             return ctor with
                             {
                                 Id = ctorId,
@@ -264,7 +286,7 @@ public class TypeScriptPublicApiGraphEngine : IPublicApiGraphEngine<ApiIndex>
                         }).ToList(),
                         Methods = cls.Methods?.Select(method =>
                         {
-                            var methodId = method.Id ?? BuildMemberId(typeId, method.Name);
+                            var methodId = method.Id ?? BuildMemberId(typeId, method.Name, method.Params);
                             return method with
                             {
                                 Id = methodId,
@@ -291,7 +313,7 @@ public class TypeScriptPublicApiGraphEngine : IPublicApiGraphEngine<ApiIndex>
                         CrossLanguageId = map is not null && map.Ids.TryGetValue(typeId, out var ifaceXId) ? ifaceXId : null,
                         Methods = iface.Methods?.Select(method =>
                         {
-                            var methodId = method.Id ?? BuildMemberId(typeId, method.Name);
+                            var methodId = method.Id ?? BuildMemberId(typeId, method.Name, method.Params);
                             return method with
                             {
                                 Id = methodId,
@@ -329,7 +351,7 @@ public class TypeScriptPublicApiGraphEngine : IPublicApiGraphEngine<ApiIndex>
                 }).ToList(),
                 Functions = module.Functions?.Select(function =>
                 {
-                    var funcId = function.Id ?? BuildTypeId(index.Package, function.Name);
+                    var funcId = function.Id ?? BuildFunctionId(BuildTypeId(index.Package, function.Name), function.Params);
                     return function with
                     {
                         Id = funcId,
@@ -352,7 +374,7 @@ public class TypeScriptPublicApiGraphEngine : IPublicApiGraphEngine<ApiIndex>
                     CrossLanguageId = map is not null && map.Ids.TryGetValue(typeId, out var xId) ? xId : null,
                     Constructors = cls.Constructors?.Select(ctor =>
                     {
-                        var ctorId = ctor.Id ?? BuildMemberId(typeId, "constructor");
+                        var ctorId = ctor.Id ?? BuildMemberId(typeId, "constructor", ctor.Params);
                         return ctor with
                         {
                             Id = ctorId,
@@ -361,7 +383,7 @@ public class TypeScriptPublicApiGraphEngine : IPublicApiGraphEngine<ApiIndex>
                     }).ToList(),
                     Methods = cls.Methods?.Select(method =>
                     {
-                        var methodId = method.Id ?? BuildMemberId(typeId, method.Name);
+                        var methodId = method.Id ?? BuildMemberId(typeId, method.Name, method.Params);
                         return method with
                         {
                             Id = methodId,
@@ -388,7 +410,7 @@ public class TypeScriptPublicApiGraphEngine : IPublicApiGraphEngine<ApiIndex>
                     CrossLanguageId = map is not null && map.Ids.TryGetValue(typeId, out var xId) ? xId : null,
                     Methods = iface.Methods?.Select(method =>
                     {
-                        var methodId = method.Id ?? BuildMemberId(typeId, method.Name);
+                        var methodId = method.Id ?? BuildMemberId(typeId, method.Name, method.Params);
                         return method with
                         {
                             Id = methodId,
@@ -426,7 +448,7 @@ public class TypeScriptPublicApiGraphEngine : IPublicApiGraphEngine<ApiIndex>
             }).ToList(),
             Functions = ns.Functions?.Select(function =>
             {
-                var funcId = function.Id ?? BuildTypeId(packageName, $"{nsPath}.{function.Name}");
+                var funcId = function.Id ?? BuildFunctionId(BuildTypeId(packageName, $"{nsPath}.{function.Name}"), function.Params);
                 return function with
                 {
                     Id = funcId,
@@ -439,8 +461,45 @@ public class TypeScriptPublicApiGraphEngine : IPublicApiGraphEngine<ApiIndex>
     private static string BuildTypeId(string packageName, string typeName)
         => string.IsNullOrWhiteSpace(packageName) ? typeName : $"{packageName}.{typeName}";
 
-    private static string BuildMemberId(string typeId, string memberName)
-        => $"{typeId}.{memberName}";
+    private static string BuildMemberId(string typeId, string memberName, IReadOnlyList<ParameterInfo>? parameters = null)
+    {
+        var baseId = $"{typeId}.{memberName}";
+        if (parameters is null or { Count: 0 })
+            return baseId;
+
+        // Add parameter signature hash to disambiguate overloads
+        var paramSig = string.Join(",", parameters.Select(p => p.Type ?? "unknown"));
+        var hash = Fnv1aHash(paramSig);
+        return $"{baseId}({parameters.Count}#{hash:X8})";
+    }
+
+    private static string BuildFunctionId(string baseTypeId, IReadOnlyList<ParameterInfo>? parameters)
+    {
+        if (parameters is null or { Count: 0 })
+            return baseTypeId;
+
+        // Add parameter signature hash to disambiguate overloaded functions
+        var paramSig = string.Join(",", parameters.Select(p => p.Type ?? "unknown"));
+        var hash = Fnv1aHash(paramSig);
+        return $"{baseTypeId}({parameters.Count}#{hash:X8})";
+    }
+
+    /// <summary>
+    /// Deterministic FNV-1a hash for parameter signatures.
+    /// Unlike string.GetHashCode, this produces identical results across processes and runs.
+    /// </summary>
+    private static uint Fnv1aHash(string text)
+    {
+        const uint fnvOffsetBasis = 2166136261u;
+        const uint fnvPrime = 16777619u;
+        uint hash = fnvOffsetBasis;
+        foreach (char c in text)
+        {
+            hash ^= c;
+            hash *= fnvPrime;
+        }
+        return hash;
+    }
 
     private static IReadOnlyList<ApiDiagnostic> ParseStderrDiagnostics(string? stderr)
     {

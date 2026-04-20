@@ -111,15 +111,17 @@ export interface ExportEntry {
  * @param rootOnly - If true, only extract from the "." export
  * @returns Array of {exportPath, filePath} pairs
  */
+const VALID_EXTENSIONS = [".ts", ".d.ts", ".mts", ".d.mts", ".cts", ".d.cts", ".js", ".mjs", ".cjs"];
+function hasValidExtension(filePath: string): boolean {
+    return VALID_EXTENSIONS.some(ext => filePath.endsWith(ext));
+}
+
 export function extractExportPaths(exports: string | Record<string, unknown>, rootOnly: boolean = false): ExportEntry[] {
     const resolved = resolveExports(exports);
 
     return resolved
         .filter((r) => !rootOnly || r.exportPath === ".")
-        .filter((r) =>
-            r.filePath.endsWith(".ts") || r.filePath.endsWith(".d.ts") ||
-            r.filePath.endsWith(".js") || r.filePath.endsWith(".mjs")
-        )
+        .filter((r) => hasValidExtension(r.filePath))
         .map((r) => ({
             exportPath: r.exportPath,
             condition: normalizeCondition(
@@ -434,6 +436,19 @@ export function extractExportedSymbols(project: Project, entryEntries: ExportEnt
             const isExternalPackage = moduleSpecifier && !moduleSpecifier.startsWith(".") && !moduleSpecifier.startsWith("/");
 
             if (isExternalPackage) {
+                // Handle export * from "pkg" (star re-exports)
+                if (exportDecl.getNamedExports().length === 0 && !exportDecl.isTypeOnly()) {
+                    // Star re-export — record as a marker for dependency resolution
+                    const markerName = `*:${moduleSpecifier}`;
+                    if (!exportedSymbols.has(markerName)) {
+                        exportedSymbols.set(markerName, {
+                            exportPath: entry.exportPath,
+                            condition: entry.condition,
+                            reExportedFrom: moduleSpecifier,
+                        });
+                    }
+                }
+
                 for (const namedExport of exportDecl.getNamedExports()) {
                     const name = namedExport.getAliasNode()?.getText() ?? namedExport.getName();
                     if (!exportedSymbols.has(name)) {

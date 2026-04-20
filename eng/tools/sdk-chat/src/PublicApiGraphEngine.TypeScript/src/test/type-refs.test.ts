@@ -324,12 +324,12 @@ describe("getExternalRefs — namespace member deps", () => {
     expect(contextRefs.has("Inner.Client")).toBe(true);
     expect(contextRefs.get("Inner.Client")).toContain("DepType");
 
-    // Simulate a reachable set that contains the leaf name "Client"
-    // (as computeReachableTypes would produce).
+    // Simulate a reachable set that contains qualified keys
+    // (as computeReachableTypes now produces).
     // getExternalRefs filters to refs with packageName OR falls back to importedTypes.
     // DepType resolves from a local file — it won't have a packageName and won't be
     // in importedTypes. So we directly verify the scoping: refs ARE collected from
-    // the namespace member context when its leaf name is reachable.
+    // the namespace member context when its qualified key is reachable.
     // To verify external ref collection end-to-end, also add DepType as an import.
     ctx.typeRefs.collectFromImportDeclarations([
       ctx.project.createSourceFile(
@@ -338,7 +338,7 @@ describe("getExternalRefs — namespace member deps", () => {
       ),
     ]);
 
-    const reachable = new Set(["Inner", "Client"]);
+    const reachable = new Set(["testMod/Inner", "testMod/Inner/Client"]);
     const externalRefs = ctx.typeRefs.getExternalRefs(reachable);
     const refNames = externalRefs.map((r) => r.name);
     expect(refNames).toContain("DepType");
@@ -380,8 +380,8 @@ describe("getExternalRefs — namespace member deps", () => {
     ctx.typeRefs.popContext();
     ctx.typeRefs.popContext();
 
-    // Reachable set does NOT contain "Client" — refs should not be collected
-    const reachable = new Set(["SomeOtherType"]);
+    // Reachable set does NOT contain the qualified key for "Client" — refs should not be collected
+    const reachable = new Set(["testMod/SomeOtherType"]);
     const externalRefs = ctx.typeRefs.getExternalRefs(reachable);
     const refNames = externalRefs.map((r) => r.name);
     expect(refNames).not.toContain("DepType");

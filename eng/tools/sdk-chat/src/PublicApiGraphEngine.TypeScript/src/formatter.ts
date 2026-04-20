@@ -245,9 +245,8 @@ export function formatStubs(api: ApiIndex): string {
             // Functions
             for (const fn of module.functions || []) {
                 if (fn.doc) lines.push(`${indent}/** ${fn.doc} */`);
-                const async = fn.async ? "async " : "";
                 const ret = fn.ret ? `: ${fn.ret}` : "";
-                lines.push(`${indent}export ${async}function ${fn.name}(${fn.sig})${ret};`);
+                lines.push(`${indent}export function ${fn.name}(${fn.sig})${ret};`);
                 lines.push("");
             }
 
@@ -286,9 +285,8 @@ export function formatStubs(api: ApiIndex): string {
                 }
 
                 for (const m of iface.methods || []) {
-                    const async = m.async ? "async " : "";
                     const ret = m.ret ? `: ${m.ret}` : "";
-                    lines.push(`${indent}    ${async}${m.name}(${m.sig})${ret};`);
+                    lines.push(`${indent}    ${m.name}(${m.sig})${ret};`);
                 }
 
                 lines.push(`${indent}}`);
@@ -319,10 +317,9 @@ export function formatStubs(api: ApiIndex): string {
                 }
 
                 for (const m of cls.methods || []) {
-                    const async = m.async ? "async " : "";
                     const stat = m.static ? "static " : "";
                     const ret = m.ret ? `: ${m.ret}` : "";
-                    lines.push(`${indent}    ${stat}${async}${m.name}(${m.sig})${ret};`);
+                    lines.push(`${indent}    ${stat}${m.name}(${m.sig})${ret};`);
                 }
 
                 if (!cls.properties?.length && !cls.constructors?.length && !cls.methods?.length) {
@@ -451,10 +448,9 @@ export function formatStubs(api: ApiIndex): string {
             // Functions
             for (const fn of dep.functions || []) {
                 if (fn.doc) lines.push(`${indent}/** ${fn.doc} */`);
-                const async = fn.async ? "async " : "";
                 const ret = fn.ret ? `: ${fn.ret}` : "";
                 const typeParams = fn.typeParams ? `<${fn.typeParams}>` : "";
-                lines.push(`${indent}export ${async}function ${fn.name}${typeParams}(${fn.sig})${ret};`);
+                lines.push(`${indent}export function ${fn.name}${typeParams}(${fn.sig})${ret};`);
                 lines.push("");
             }
 
@@ -474,7 +470,37 @@ function formatNamespaceLines(ns: NamespaceInfo, indent: string): string[] {
     const lines: string[] = [];
     lines.push(`${indent}export namespace ${ns.name} {`);
     for (const cls of ns.classes || []) {
-        lines.push(`${indent}    export class ${cls.name} {}`);
+        const ext = cls.extends ? ` extends ${cls.extends}` : "";
+        const impl = cls.implements?.length ? ` implements ${cls.implements.join(", ")}` : "";
+        const tp = cls.typeParams ? `<${cls.typeParams}>` : "";
+        lines.push(`${indent}    export class ${cls.name}${tp}${ext}${impl} {`);
+
+        for (const p of cls.properties || []) {
+            const opt = p.optional ? "?" : "";
+            const ro = p.readonly ? "readonly " : "";
+            lines.push(`${indent}        ${ro}${p.name}${opt}: ${p.type};`);
+        }
+
+        for (const sig of cls.indexSignatures || []) {
+            const ro = sig.readonly ? "readonly " : "";
+            lines.push(`${indent}        ${ro}[${sig.keyName}: ${sig.keyType}]: ${sig.valueType};`);
+        }
+
+        for (const ctor of cls.constructors || []) {
+            lines.push(`${indent}        constructor(${ctor.sig});`);
+        }
+
+        for (const m of cls.methods || []) {
+            const stat = m.static ? "static " : "";
+            const ret = m.ret ? `: ${m.ret}` : "";
+            lines.push(`${indent}        ${stat}${m.name}(${m.sig})${ret};`);
+        }
+
+        if (!cls.properties?.length && !cls.constructors?.length && !cls.methods?.length) {
+            lines.push(`${indent}        // empty`);
+        }
+
+        lines.push(`${indent}    }`);
     }
     for (const iface of ns.interfaces || []) {
         const ext = iface.extends?.length ? ` extends ${iface.extends.join(", ")}` : "";
@@ -484,6 +510,10 @@ function formatNamespaceLines(ns: NamespaceInfo, indent: string): string[] {
             const opt = p.optional ? "?" : "";
             const ro = p.readonly ? "readonly " : "";
             lines.push(`${indent}        ${ro}${p.name}${opt}: ${p.type};`);
+        }
+        for (const sig of iface.indexSignatures || []) {
+            const ro = sig.readonly ? "readonly " : "";
+            lines.push(`${indent}        ${ro}[${sig.keyName}: ${sig.keyType}]: ${sig.valueType};`);
         }
         for (const m of iface.methods || []) {
             const ret = m.ret ? `: ${m.ret}` : "";
@@ -512,6 +542,10 @@ function formatNamespaceLines(ns: NamespaceInfo, indent: string): string[] {
 }
 
 export function toJson(api: ApiIndex, pretty: boolean = false): string {
-    return pretty ? JSON.stringify(api, null, 2) : JSON.stringify(api);
+    const replacer = (key: string, value: unknown): unknown => {
+        if (key === "qualifiedReferencedTypes") return undefined;
+        return value;
+    };
+    return pretty ? JSON.stringify(api, replacer, 2) : JSON.stringify(api, replacer);
 }
 

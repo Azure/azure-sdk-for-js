@@ -49,7 +49,7 @@ import {
 } from "./type-refs.js";
 import { isNodeBuiltinModule, isNodePackage } from "./node-builtins.js";
 import { stripImportPrefix } from "./formatter.js";
-import { resolveExports, findDotExport } from "./exports-resolver.js";
+import { resolveExports, findDotExport, findSubpathExport, hasNonRootSubpaths } from "./exports-resolver.js";
 
 // ── Package-qualified key helpers ──────────────────────────────────────────
 // Multiple packages can export types with the same name.  All internal maps
@@ -71,8 +71,8 @@ export function splitDepKey(key: string): { packageName: string; typeName: strin
 // Re-export from shared utility to avoid circular imports (type-refs ↔ dependencies).
 // The local import makes the function available in this module; the re-export
 // keeps backward compatibility for consumers that import from dependencies.ts.
-import { getPackageRoot } from "./utils.js";
-export { getPackageRoot };
+import { getPackageRoot, getImportSubpath } from "./utils.js";
+export { getPackageRoot, getImportSubpath };
 
 /**
  * Builds a map of (package, type) → resolvedFile for dependency resolution.
@@ -81,10 +81,10 @@ export { getPackageRoot };
  * package roots via {@link getPackageRoot}.
  */
 export function buildImportResolutionMap(project: Project): {
-    typeMap: Map<string, { packageName: string; resolvedFile: SourceFile }>;
+    typeMap: Map<string, { packageName: string; resolvedFile: SourceFile; subpath: string }>;
     packageMap: Map<string, SourceFile>;
 } {
-    const typeMap = new Map<string, { packageName: string; resolvedFile: SourceFile }>();
+    const typeMap = new Map<string, { packageName: string; resolvedFile: SourceFile; subpath: string }>();
     const packageMap = new Map<string, SourceFile>();
 
     for (const sourceFile of project.getSourceFiles()) {
@@ -99,6 +99,7 @@ export function buildImportResolutionMap(project: Project): {
             if (!resolvedFile) continue;
 
             const packageName = getPackageRoot(moduleSpecifier);
+            const subpath = getImportSubpath(moduleSpecifier);
 
             // Named imports: import { Client, Foo } from "pkg"
             for (const namedImport of importDecl.getNamedImports()) {
@@ -106,12 +107,12 @@ export function buildImportResolutionMap(project: Project): {
                 const aliasName = namedImport.getAliasNode()?.getText();
                 const key = makeDepKey(packageName, importedName);
                 if (!typeMap.has(key)) {
-                    typeMap.set(key, { packageName, resolvedFile });
+                    typeMap.set(key, { packageName, resolvedFile, subpath });
                 }
                 if (aliasName) {
                     const aliasKey = makeDepKey(packageName, aliasName);
                     if (!typeMap.has(aliasKey)) {
-                        typeMap.set(aliasKey, { packageName, resolvedFile });
+                        typeMap.set(aliasKey, { packageName, resolvedFile, subpath });
                     }
                 }
             }
@@ -122,7 +123,7 @@ export function buildImportResolutionMap(project: Project): {
                 const typeName = defaultImport.getText();
                 const key = makeDepKey(packageName, typeName);
                 if (!typeMap.has(key)) {
-                    typeMap.set(key, { packageName, resolvedFile });
+                    typeMap.set(key, { packageName, resolvedFile, subpath });
                 }
             }
 
@@ -142,11 +143,12 @@ export function buildImportResolutionMap(project: Project): {
             if (!resolvedFile) continue;
 
             const packageName = getPackageRoot(moduleSpecifier);
+            const subpath = getImportSubpath(moduleSpecifier);
             for (const namedExport of exportDecl.getNamedExports()) {
                 const name = namedExport.getName();
                 const key = makeDepKey(packageName, name);
                 if (!typeMap.has(key)) {
-                    typeMap.set(key, { packageName, resolvedFile });
+                    typeMap.set(key, { packageName, resolvedFile, subpath });
                 }
             }
         }
@@ -455,6 +457,16 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
     // Build import resolution map using the existing project's module resolution
     const { typeMap: importResolutionMap, packageMap: packageResolutionMap } = buildImportResolutionMap(ctx.project);
 
+    // Build per-type subpath map from the import resolution map.
+    // Tracks which import subpath each type came from, used later to split
+    // DependencyInfo entries by subpath when the package uses subpath exports.
+    const typeSubpathMap = new Map<string, string>(); // makeDepKey → subpath
+    for (const [key, entry] of importResolutionMap) {
+        if (entry.subpath !== ".") {
+            typeSubpathMap.set(key, entry.subpath);
+        }
+    }
+
     // Collect default-imported type names for proper lookup strategy.
     // Keyed by makeDepKey(packageName, typeName) to handle collisions.
     const defaultImportedTypes = new Set<string>();
@@ -757,7 +769,8 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
         ctx: ExtractionContext,
     ): Set<string> {
         const refs = new Set<ResolvedTypeRef>();
-        ctx.typeRefs.resetVisited();
+        // Per-call visited sets are now created inside collectTypeRefsFromType,
+        // so no manual reset is needed.
         try {
             collectSubRefsFromDeclaration(decl, ctx, refs, "");
         } catch { /* benign */ }
@@ -951,13 +964,9 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
                 // whose sub-references often cascade into unresolvable chains
                 // (e.g., platform-specific globals, deep internal types).
 
-                // Reset the visited-types set before each traversal so that types
-                // already seen during the initial extraction phase (or a previous
-                // dependency's traversal) can be re-discovered as sub-dependencies
-                // of the current type. Without this, the WeakSet guard in
-                // collectTypeRefsFromType skips types that were visited in an
-                // earlier call context but need to be added to THIS subRefs set.
-                ctx.typeRefs.resetVisited();
+                // Each call to collectTypeRefsFromType now creates its own
+                // per-call visited set, so types discovered for one entity are
+                // never skipped when traversing another entity's type graph.
                 const subRefs = new Set<ResolvedTypeRef>();
                 try {
                     collectSubRefsFromDeclaration(result.declaration, ctx, subRefs, typeName);
@@ -1173,7 +1182,8 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
         }
     }
 
-    return Array.from(depByPackage.values()).sort((a, b) => a.package.localeCompare(b.package));
+    const flatDeps = Array.from(depByPackage.values()).sort((a, b) => a.package.localeCompare(b.package));
+    return splitDependenciesBySubpath(flatDeps, typeSubpathMap, rootPath);
 }
 
 /**
@@ -1384,7 +1394,7 @@ export function getPackageVersion(startDir: string, packageName: string): string
  * (e.g. ["browser", "import", "require"]), filtering out meta-keys like
  * "react-native" and "types".
  */
-export function getPackageExportConditions(startDir: string, packageName: string): string[] | undefined {
+export function getPackageExportConditions(startDir: string, packageName: string, subpath: string = "."): string[] | undefined {
     let current = path.resolve(startDir);
     const root = path.parse(current).root;
     while (true) {
@@ -1394,12 +1404,12 @@ export function getPackageExportConditions(startDir: string, packageName: string
                 const pkgJson = JSON.parse(fs.readFileSync(pkgJsonPath, "utf-8"));
                 const exportsField = pkgJson.exports;
                 if (exportsField && typeof exportsField === "object") {
-                    const dotExport = findDotExport(exportsField);
-                    if (dotExport && typeof dotExport === "object") {
-                        // Use the shared resolver to walk the "." export and
+                    const targetExport = findSubpathExport(exportsField, subpath);
+                    if (targetExport && typeof targetExport === "object") {
+                        // Use the shared resolver to walk the export and
                         // collect unique runtime condition keys.
                         const skipKeys = new Set(["types", "react-native", "default"]);
-                        const resolved = resolveExports(dotExport);
+                        const resolved = resolveExports(targetExport);
                         const conditionSet = new Set<string>();
                         for (const entry of resolved) {
                             for (const c of entry.conditionChain) {
@@ -1431,7 +1441,7 @@ export function getPackageExportConditions(startDir: string, packageName: string
  * attributes each `.d.ts` path to the appropriate runtime condition from its
  * condition chain.
  */
-export function getPackageConditionTypePaths(startDir: string, packageName: string): Map<string, string> | undefined {
+export function getPackageConditionTypePaths(startDir: string, packageName: string, subpath: string = "."): Map<string, string> | undefined {
     let current = path.resolve(startDir);
     const root = path.parse(current).root;
     while (true) {
@@ -1444,10 +1454,10 @@ export function getPackageConditionTypePaths(startDir: string, packageName: stri
                 const exportsObj = pkgJson.exports;
 
                 if (exportsObj && typeof exportsObj === "object") {
-                    const dotExport = findDotExport(exportsObj);
-                    if (dotExport && typeof dotExport === "object") {
-                        // Walk the "." export with the shared resolver
-                        const resolved = resolveExports(dotExport);
+                    const targetExport = findSubpathExport(exportsObj, subpath);
+                    if (targetExport && typeof targetExport === "object") {
+                        // Walk the target export with the shared resolver
+                        const resolved = resolveExports(targetExport);
                         const skipKeys = new Set(["types", "react-native"]);
 
                         for (const entry of resolved) {
@@ -1467,8 +1477,8 @@ export function getPackageConditionTypePaths(startDir: string, packageName: stri
                     }
                 }
 
-                // If no "default" entry, use the top-level "types" field
-                if (!result.has("default") && pkgJson.types) {
+                // If no "default" entry and looking at root, use the top-level "types" field
+                if (!result.has("default") && subpath === "." && pkgJson.types) {
                     const absPath = path.resolve(pkgDir, pkgJson.types);
                     if (fs.existsSync(absPath)) {
                         result.set("default", absPath);
@@ -1563,6 +1573,132 @@ export function getExportedTypeNamesFromFile(dtsPath: string, project: Project):
 }
 
 /**
+ * Splits DependencyInfo entries by import subpath when the package has subpath
+ * exports in its package.json. Types imported from different subpaths of the
+ * same package (e.g., `@azure/core-rest-pipeline` vs `@azure/core-rest-pipeline/policies`)
+ * are separated into distinct DependencyInfo entries so the C# side knows which
+ * subpath to import from.
+ *
+ * Only splits when the package declares non-root subpath exports (e.g., `"./policies"`
+ * in the exports map). Packages without subpath exports are left unchanged.
+ */
+function splitDependenciesBySubpath(
+    deps: DependencyInfo[],
+    subpathMap: Map<string, string>,
+    rootPath: string,
+): DependencyInfo[] {
+    const result: DependencyInfo[] = [];
+    for (const dep of deps) {
+        // Skip Node.js deps — they don't use subpath exports
+        if (dep.isNode) {
+            result.push(dep);
+            continue;
+        }
+
+        // Check if the package actually has subpath exports
+        if (!packageHasSubpathExports(rootPath, dep.package)) {
+            result.push(dep);
+            continue;
+        }
+
+        // Collect subpath for each entity
+        const entitySubpaths = new Map<string, string>();
+        const allSubpaths = new Set<string>();
+
+        function recordEntity(name: string): void {
+            const subpath = subpathMap.get(makeDepKey(dep.package, name)) ?? ".";
+            entitySubpaths.set(name, subpath);
+            allSubpaths.add(subpath);
+        }
+
+        for (const c of dep.classes ?? []) recordEntity(c.name);
+        for (const i of dep.interfaces ?? []) recordEntity(i.name);
+        for (const e of dep.enums ?? []) recordEntity(e.name);
+        for (const t of dep.types ?? []) recordEntity(t.name);
+        for (const f of dep.functions ?? []) { if (f.name) recordEntity(f.name); }
+        for (const ns of dep.namespaces ?? []) recordEntity(ns.name);
+
+        // If only root subpath, keep as-is
+        if (allSubpaths.size <= 1 && (allSubpaths.has(".") || allSubpaths.size === 0)) {
+            result.push(dep);
+            continue;
+        }
+
+        // Split by subpath
+        for (const subpath of [...allSubpaths].sort()) {
+            const isForSubpath = (name: string) => (entitySubpaths.get(name) ?? ".") === subpath;
+            const splitDep: DependencyInfo = {
+                package: dep.package,
+                subpath: subpath !== "." ? subpath : undefined,
+                version: dep.version,
+                isNode: dep.isNode,
+            };
+            // Recompute conditions for this specific subpath
+            const conditions = getPackageExportConditions(rootPath, dep.package, subpath);
+            if (conditions && conditions.length > 0) {
+                splitDep.conditions = conditions;
+            }
+
+            if (dep.classes) {
+                const f = dep.classes.filter(c => isForSubpath(c.name));
+                if (f.length) splitDep.classes = f;
+            }
+            if (dep.interfaces) {
+                const f = dep.interfaces.filter(i => isForSubpath(i.name));
+                if (f.length) splitDep.interfaces = f;
+            }
+            if (dep.enums) {
+                const f = dep.enums.filter(e => isForSubpath(e.name));
+                if (f.length) splitDep.enums = f;
+            }
+            if (dep.types) {
+                const f = dep.types.filter(t => isForSubpath(t.name));
+                if (f.length) splitDep.types = f;
+            }
+            if (dep.functions) {
+                const f = dep.functions.filter(fn => fn.name ? isForSubpath(fn.name) : false);
+                if (f.length) splitDep.functions = f;
+            }
+            if (dep.namespaces) {
+                const f = dep.namespaces.filter(ns => isForSubpath(ns.name));
+                if (f.length) splitDep.namespaces = f;
+            }
+
+            const hasContent = splitDep.classes || splitDep.interfaces || splitDep.enums
+                || splitDep.types || splitDep.functions || splitDep.namespaces;
+            if (hasContent) result.push(splitDep);
+        }
+    }
+    return result;
+}
+
+/**
+ * Returns true when a package's package.json exports field contains non-root
+ * subpath keys (e.g., `"./policies"`, `"./browser"`).
+ */
+function packageHasSubpathExports(startDir: string, packageName: string): boolean {
+    let current = path.resolve(startDir);
+    const root = path.parse(current).root;
+    while (true) {
+        const pkgJsonPath = path.join(current, "node_modules", packageName, "package.json");
+        if (fs.existsSync(pkgJsonPath)) {
+            try {
+                const pkgJson = JSON.parse(fs.readFileSync(pkgJsonPath, "utf-8"));
+                const exportsField = pkgJson.exports;
+                if (exportsField && typeof exportsField === "object" && !Array.isArray(exportsField)) {
+                    return hasNonRootSubpaths(exportsField as Record<string, unknown>);
+                }
+            } catch { /* benign */ }
+            return false;
+        }
+        const parent = path.dirname(current);
+        if (parent === current || current === root) break;
+        current = parent;
+    }
+    return false;
+}
+
+/**
  * Builds condition-aware resolved dependencies from flat DependencyInfo[].
  * For each dep, reads its package.json exports to discover conditions,
  * resolves the .d.ts entry point per condition, checks which of the needed
@@ -1583,14 +1719,16 @@ export function buildResolvedDependencies(
             + (dep.functions?.length ?? 0) + (dep.namespaces?.length ?? 0) > 0;
         if (!hasContent) continue;
 
-        const conditionPaths = getPackageConditionTypePaths(rootPath, dep.package);
+        const conditionPaths = getPackageConditionTypePaths(rootPath, dep.package, dep.subpath ?? ".");
 
         if (!conditionPaths || conditionPaths.size === 0) {
             // No conditional exports — single unconditioned module with all types
             result.push({
                 package: dep.package,
+                subpath: dep.subpath,
                 modules: [{
                     name: dep.package,
+                    exportPath: dep.subpath,
                     classes: dep.classes,
                     interfaces: dep.interfaces,
                     enums: dep.enums,
@@ -1655,6 +1793,7 @@ export function buildResolvedDependencies(
 
             modules.push({
                 name: dep.package,
+                exportPath: dep.subpath,
                 condition: conditionValue,
                 classes: classes.length > 0 ? classes : undefined,
                 interfaces: interfaces.length > 0 ? interfaces : undefined,
@@ -1668,6 +1807,7 @@ export function buildResolvedDependencies(
         if (modules.length > 0) {
             result.push({
                 package: dep.package,
+                subpath: dep.subpath,
                 modules,
             });
         }

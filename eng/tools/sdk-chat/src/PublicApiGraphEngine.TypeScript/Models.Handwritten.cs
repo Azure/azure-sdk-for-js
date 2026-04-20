@@ -131,6 +131,107 @@ public sealed partial record ApiIndex
                     EntryPoint = t.EntryPoint == true,
                 };
             }
+
+            // Recurse into namespaces to include types declared inside them
+            foreach (var ns in m.Namespaces ?? [])
+            {
+                foreach (var item in GetDiagnosticTypesFromNamespace(ns))
+                    yield return item;
+            }
+        }
+    }
+
+    private static IEnumerable<DiagnosticTypeInfo> GetDiagnosticTypesFromNamespace(NamespaceInfo ns)
+    {
+        foreach (var c in ns.Classes ?? [])
+        {
+            yield return new DiagnosticTypeInfo
+            {
+                Name = $"{ns.Name}.{c.Name}",
+                Id = c.Id,
+                Doc = c.Doc,
+                Kind = "class",
+                IsDeprecated = c.IsDeprecated == true,
+                Callables = (c.Methods ?? []).Select(method => new DiagnosticCallableInfo
+                {
+                    Name = method.Name,
+                    Id = method.Id,
+                    ParameterTypes = (method.Params ?? []).Select(p => p.Type).ToList(),
+                    OptionalParameterCount = (method.Params ?? []).Count(p => p.IsOptional == true || p.Default is not null),
+                    ReturnType = method.Ret,
+                }).Concat((c.Constructors ?? []).Select(ctor => new DiagnosticCallableInfo
+                {
+                    Name = c.Name,
+                    Id = ctor.Id,
+                    ParameterTypes = (ctor.Params ?? []).Select(p => p.Type).ToList(),
+                    OptionalParameterCount = (ctor.Params ?? []).Count(p => p.IsOptional == true || p.Default is not null),
+                })).ToList(),
+                Properties = (c.Properties ?? []).Select(p => new DiagnosticPropertyInfo
+                {
+                    Name = p.Name,
+                    TypeName = p.Type,
+                    IsDeprecated = p.IsDeprecated == true,
+                    IsOptional = p.Optional == true,
+                    IsReadOnly = p.Readonly == true,
+                }).ToList(),
+            };
+        }
+        foreach (var i in ns.Interfaces ?? [])
+        {
+            yield return new DiagnosticTypeInfo
+            {
+                Name = $"{ns.Name}.{i.Name}",
+                Id = i.Id,
+                Doc = i.Doc,
+                Kind = "interface",
+                IsDeprecated = i.IsDeprecated == true,
+                Callables = (i.Methods ?? []).Select(method => new DiagnosticCallableInfo
+                {
+                    Name = method.Name,
+                    Id = method.Id,
+                    ParameterTypes = (method.Params ?? []).Select(p => p.Type).ToList(),
+                    OptionalParameterCount = (method.Params ?? []).Count(p => p.IsOptional == true || p.Default is not null),
+                    ReturnType = method.Ret,
+                }).ToList(),
+                Properties = (i.Properties ?? []).Select(p => new DiagnosticPropertyInfo
+                {
+                    Name = p.Name,
+                    TypeName = p.Type,
+                    IsDeprecated = p.IsDeprecated == true,
+                    IsOptional = p.Optional == true,
+                    IsReadOnly = p.Readonly == true,
+                }).ToList(),
+            };
+        }
+        foreach (var e in ns.Enums ?? [])
+        {
+            yield return new DiagnosticTypeInfo
+            {
+                Name = $"{ns.Name}.{e.Name}",
+                Id = e.Id,
+                Doc = e.Doc,
+                Kind = "enum",
+                IsDeprecated = e.IsDeprecated == true,
+            };
+        }
+        foreach (var t in ns.Types ?? [])
+        {
+            yield return new DiagnosticTypeInfo
+            {
+                Name = $"{ns.Name}.{t.Name}",
+                Id = t.Id,
+                Doc = t.Doc,
+                Kind = "type",
+                IsDeprecated = t.IsDeprecated == true,
+            };
+        }
+        // Recurse into sub-namespaces
+        foreach (var sub in ns.Namespaces ?? [])
+        {
+            foreach (var item in GetDiagnosticTypesFromNamespace(sub))
+            {
+                yield return item with { Name = $"{ns.Name}.{item.Name}" };
+            }
         }
     }
 

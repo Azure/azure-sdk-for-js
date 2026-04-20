@@ -59,7 +59,11 @@ internal sealed class TsParser
             }
             else
             {
-                // Skip any non-interface token
+                // Skip non-interface token; warn if a doc comment was orphaned
+                if (doc is not null)
+                {
+                    Error($"Doc comment is not followed by an interface declaration — skipped", Current().Position);
+                }
                 Advance();
             }
         }

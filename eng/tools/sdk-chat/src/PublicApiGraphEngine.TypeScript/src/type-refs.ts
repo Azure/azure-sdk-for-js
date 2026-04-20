@@ -39,19 +39,23 @@ import {
  * @param type The Type object to analyze
  * @param ctx The extraction context for this run
  * @param refs Set to collect resolved type references
- * @param visited Set of already visited type IDs to prevent infinite recursion
+ * @param visited Optional per-call visited set for cycle detection within a single traversal.
+ *               When omitted a fresh set is created, ensuring each top-level call traverses
+ *               the full type graph independently.
  */
 export function collectTypeRefsFromType(
     type: Type,
     ctx: ExtractionContext,
     refs: Set<ResolvedTypeRef>,
+    visited?: WeakSet<object>,
 ): void {
     if (!type) return;
 
     // Wrap in try-catch to handle malformed declarations that can throw in ts-morph
     try {
-        // Use the collector's shared visited set for cross-call deduplication.
-        const visited = ctx.typeRefs.typeVisited;
+        // Per-call visited set: each top-level invocation creates its own set so
+        // that entity B is not affected by types entity A already traversed.
+        if (!visited) visited = new WeakSet<object>();
 
         // Use the compiler's internal type object identity to detect cycles.
         const compilerType = type.compilerType;
@@ -107,7 +111,7 @@ export function collectTypeRefsFromType(
         // Handle union types
         if (type.isUnion()) {
             for (const unionType of type.getUnionTypes()) {
-                collectTypeRefsFromType(unionType, ctx, refs);
+                collectTypeRefsFromType(unionType, ctx, refs, visited);
             }
             return;
         }
@@ -115,7 +119,7 @@ export function collectTypeRefsFromType(
         // Handle intersection types
         if (type.isIntersection()) {
             for (const intersectionType of type.getIntersectionTypes()) {
-                collectTypeRefsFromType(intersectionType, ctx, refs);
+                collectTypeRefsFromType(intersectionType, ctx, refs, visited);
             }
             return;
         }
@@ -124,7 +128,7 @@ export function collectTypeRefsFromType(
         if (type.isArray()) {
             const elementType = type.getArrayElementType();
             if (elementType) {
-                collectTypeRefsFromType(elementType, ctx, refs);
+                collectTypeRefsFromType(elementType, ctx, refs, visited);
             }
             return;
         }
@@ -132,7 +136,7 @@ export function collectTypeRefsFromType(
         // Handle tuple types
         if (type.isTuple()) {
             for (const tupleElement of type.getTupleElements()) {
-                collectTypeRefsFromType(tupleElement, ctx, refs);
+                collectTypeRefsFromType(tupleElement, ctx, refs, visited);
             }
             return;
         }
@@ -148,10 +152,10 @@ export function collectTypeRefsFromType(
                         const paramDecls = param.getDeclarations();
                         if (paramDecls.length > 0) {
                             const paramType = getTypeFromDeclaration(paramDecls[0]);
-                            if (paramType) collectTypeRefsFromType(paramType, ctx, refs);
+                            if (paramType) collectTypeRefsFromType(paramType, ctx, refs, visited);
                         }
                     }
-                    collectTypeRefsFromType(sig.getReturnType(), ctx, refs);
+                    collectTypeRefsFromType(sig.getReturnType(), ctx, refs, visited);
                 } catch (e) { ctx.warn("TYPE_TRAVERSE", e instanceof Error ? e.message : String(e)); }
             }
             return;
@@ -164,7 +168,7 @@ export function collectTypeRefsFromType(
         if (!typeName || PRIMITIVE_TYPES.has(typeName)) {
             const typeArgs = type.getTypeArguments();
             for (const typeArg of typeArgs) {
-                collectTypeRefsFromType(typeArg, ctx, refs);
+                collectTypeRefsFromType(typeArg, ctx, refs, visited);
             }
             return;
         }
@@ -201,7 +205,7 @@ export function collectTypeRefsFromType(
             } catch { /* fallback: treat as builtin */ }
             const typeArgs = type.getTypeArguments();
             for (const typeArg of typeArgs) {
-                collectTypeRefsFromType(typeArg, ctx, refs);
+                collectTypeRefsFromType(typeArg, ctx, refs, visited);
             }
             return;
         }
@@ -217,7 +221,7 @@ export function collectTypeRefsFromType(
                     const propDecls = prop.getDeclarations();
                     if (propDecls.length > 0) {
                         const propType = getTypeFromDeclaration(propDecls[0]);
-                        if (propType) collectTypeRefsFromType(propType, ctx, refs);
+                        if (propType) collectTypeRefsFromType(propType, ctx, refs, visited);
                     }
                 } catch (e) { ctx.warn("TYPE_TRAVERSE", e instanceof Error ? e.message : String(e)); }
             }
@@ -227,20 +231,20 @@ export function collectTypeRefsFromType(
                         const paramDecls = param.getDeclarations();
                         if (paramDecls.length > 0) {
                             const paramType = getTypeFromDeclaration(paramDecls[0]);
-                            if (paramType) collectTypeRefsFromType(paramType, ctx, refs);
+                            if (paramType) collectTypeRefsFromType(paramType, ctx, refs, visited);
                         }
                     }
-                    collectTypeRefsFromType(sig.getReturnType(), ctx, refs);
+                    collectTypeRefsFromType(sig.getReturnType(), ctx, refs, visited);
                 } catch (e) { ctx.warn("TYPE_TRAVERSE", e instanceof Error ? e.message : String(e)); }
             }
             // Traverse index signature value types (e.g. { [key: string]: FormDataValue })
             try {
                 const stringIndexType = type.getStringIndexType();
-                if (stringIndexType) collectTypeRefsFromType(stringIndexType, ctx, refs);
+                if (stringIndexType) collectTypeRefsFromType(stringIndexType, ctx, refs, visited);
             } catch (e) { ctx.warn("TYPE_TRAVERSE", e instanceof Error ? e.message : String(e)); }
             try {
                 const numberIndexType = type.getNumberIndexType();
-                if (numberIndexType) collectTypeRefsFromType(numberIndexType, ctx, refs);
+                if (numberIndexType) collectTypeRefsFromType(numberIndexType, ctx, refs, visited);
             } catch (e) { ctx.warn("TYPE_TRAVERSE", e instanceof Error ? e.message : String(e)); }
             return;
         }
@@ -270,18 +274,18 @@ export function collectTypeRefsFromType(
             for (const p of params) {
                 try {
                     const pType = p.getType();
-                    if (pType) collectTypeRefsFromType(pType, ctx, refs);
+                    if (pType) collectTypeRefsFromType(pType, ctx, refs, visited);
                 } catch (e) { ctx.warn("TYPE_TRAVERSE", e instanceof Error ? e.message : String(e)); }
             }
             const retType = getReturnTypeFromDeclaration(declaration);
-            if (retType) collectTypeRefsFromType(retType, ctx, refs);
+            if (retType) collectTypeRefsFromType(retType, ctx, refs, visited);
             // For non-function-like declarations (properties, variables) where
             // getParametersFromDeclaration and getReturnTypeFromDeclaration both
             // return nothing, traverse the declaration's own type so references
             // in `typeof someVariable` or property types are not silently dropped.
             if (params.length === 0 && !retType) {
                 const declType = getTypeFromDeclaration(declaration);
-                if (declType) collectTypeRefsFromType(declType, ctx, refs);
+                if (declType) collectTypeRefsFromType(declType, ctx, refs, visited);
             }
             return;
         }
@@ -294,7 +298,7 @@ export function collectTypeRefsFromType(
             // Still process type arguments for generic builtins (e.g. Promise<T>)
             const typeArgs = type.getTypeArguments();
             for (const typeArg of typeArgs) {
-                collectTypeRefsFromType(typeArg, ctx, refs);
+                collectTypeRefsFromType(typeArg, ctx, refs, visited);
             }
             return;
         }
@@ -313,13 +317,13 @@ export function collectTypeRefsFromType(
         // Recursively process generic type arguments
         const typeArgs = type.getTypeArguments();
         for (const typeArg of typeArgs) {
-            collectTypeRefsFromType(typeArg, ctx, refs);
+            collectTypeRefsFromType(typeArg, ctx, refs, visited);
         }
 
         // Process base types for classes/interfaces
         const baseTypes = type.getBaseTypes();
         for (const baseType of baseTypes) {
-            collectTypeRefsFromType(baseType, ctx, refs);
+            collectTypeRefsFromType(baseType, ctx, refs, visited);
         }
 
         // Process PUBLIC members (properties, methods, call/construct/index signatures)
@@ -353,7 +357,7 @@ export function collectTypeRefsFromType(
                         continue;
                     }
                     const propType = getTypeFromDeclaration(decl);
-                    if (propType) collectTypeRefsFromType(propType, ctx, refs);
+                    if (propType) collectTypeRefsFromType(propType, ctx, refs, visited);
                 }
             } catch (e) { ctx.warn("TYPE_TRAVERSE", e instanceof Error ? e.message : String(e)); }
         }
@@ -365,18 +369,18 @@ export function collectTypeRefsFromType(
                 // (e.g., `parse<Params extends SomeType, P = ExtractFoo<Params>>(...)`)
                 for (const tp of sig.getTypeParameters()) {
                     const constraint = tp.getConstraint();
-                    if (constraint) collectTypeRefsFromType(constraint, ctx, refs);
+                    if (constraint) collectTypeRefsFromType(constraint, ctx, refs, visited);
                     const defaultType = tp.getDefault();
-                    if (defaultType) collectTypeRefsFromType(defaultType, ctx, refs);
+                    if (defaultType) collectTypeRefsFromType(defaultType, ctx, refs, visited);
                 }
                 for (const param of sig.getParameters()) {
                     const paramDecls = param.getDeclarations();
                     if (paramDecls.length > 0) {
                         const paramType = getTypeFromDeclaration(paramDecls[0]);
-                        if (paramType) collectTypeRefsFromType(paramType, ctx, refs);
+                        if (paramType) collectTypeRefsFromType(paramType, ctx, refs, visited);
                     }
                 }
-                collectTypeRefsFromType(sig.getReturnType(), ctx, refs);
+                collectTypeRefsFromType(sig.getReturnType(), ctx, refs, visited);
                 // Also traverse the declaration's TypeNode for type names
                 // erased by the compiler (aliases in defaults/constraints)
                 try {
@@ -404,18 +408,18 @@ export function collectTypeRefsFromType(
             try {
                 for (const tp of sig.getTypeParameters()) {
                     const constraint = tp.getConstraint();
-                    if (constraint) collectTypeRefsFromType(constraint, ctx, refs);
+                    if (constraint) collectTypeRefsFromType(constraint, ctx, refs, visited);
                     const defaultType = tp.getDefault();
-                    if (defaultType) collectTypeRefsFromType(defaultType, ctx, refs);
+                    if (defaultType) collectTypeRefsFromType(defaultType, ctx, refs, visited);
                 }
                 for (const param of sig.getParameters()) {
                     const paramDecls = param.getDeclarations();
                     if (paramDecls.length > 0) {
                         const paramType = getTypeFromDeclaration(paramDecls[0]);
-                        if (paramType) collectTypeRefsFromType(paramType, ctx, refs);
+                        if (paramType) collectTypeRefsFromType(paramType, ctx, refs, visited);
                     }
                 }
-                collectTypeRefsFromType(sig.getReturnType(), ctx, refs);
+                collectTypeRefsFromType(sig.getReturnType(), ctx, refs, visited);
             } catch (e) { ctx.warn("TYPE_TRAVERSE", e instanceof Error ? e.message : String(e)); }
         }
     } catch (e) {
@@ -916,14 +920,20 @@ export class TypeReferenceCollector {
 
         if (reachableTypes) {
             scopedRefs = new Map<string, ResolvedTypeRef>();
-            // Iterate ALL context entries; check if the entity's leaf name (or full
-            // dotted entity key) is in the reachable set.  This handles namespace
-            // members stored under dotted keys like "Inner.Client" — the reachable
-            // set contains simple names such as "Client".
+            // Iterate ALL context entries; check if the entity is in the reachable set
+            // using qualified keys.  The reachable set contains qualified keys like
+            // "moduleName/nsPath/entityName".  We build qualified keys from context
+            // metadata (module + entity) and check membership.
             for (const [contextKey, contextRefs] of this.refsByContext) {
-                const { entity: entityKey } = TypeReferenceCollector.parseContextKey(contextKey);
+                const { module: mod, entity: entityKey } = TypeReferenceCollector.parseContextKey(contextKey);
+                // Build qualified key from module + entity
+                const parts = entityKey.split(".");
+                const entityName = parts.pop()!;
+                const nsPath = parts.length > 0 ? parts.join(".") : undefined;
+                const qualifiedKey = nsPath ? `${mod}/${nsPath}/${entityName}` : `${mod}/${entityName}`;
+                // Also check simple/leaf name for backward compat with non-qualified reachable sets
                 const leafName = entityKey.includes(".") ? entityKey.split(".").pop()! : entityKey;
-                if (reachableTypes.has(entityKey) || reachableTypes.has(leafName)) {
+                if (reachableTypes.has(qualifiedKey) || reachableTypes.has(entityKey) || reachableTypes.has(leafName)) {
                     for (const [key, ref] of contextRefs) {
                         scopedRefs.set(key, ref);
                     }
@@ -954,9 +964,14 @@ export class TypeReferenceCollector {
             if (scopedContextNames) {
                 let referencedByReachable = false;
                 for (const [contextKey, ctxRefs] of this.refsByContext) {
-                    const { entity: entityKey } = TypeReferenceCollector.parseContextKey(contextKey);
-                    const leafName = entityKey.includes(".") ? entityKey.split(".").pop()! : entityKey;
-                    if (!scopedContextNames.has(entityKey) && !scopedContextNames.has(leafName)) continue;
+                    const { module: mod2, entity: entityKey2 } = TypeReferenceCollector.parseContextKey(contextKey);
+                    // Build qualified key for comparison
+                    const parts2 = entityKey2.split(".");
+                    const eName2 = parts2.pop()!;
+                    const nsP2 = parts2.length > 0 ? parts2.join(".") : undefined;
+                    const qk2 = nsP2 ? `${mod2}/${nsP2}/${eName2}` : `${mod2}/${eName2}`;
+                    const leafName2 = entityKey2.includes(".") ? entityKey2.split(".").pop()! : entityKey2;
+                    if (!scopedContextNames.has(qk2) && !scopedContextNames.has(entityKey2) && !scopedContextNames.has(leafName2)) continue;
                     for (const ref of ctxRefs.values()) {
                         if (ref.name === typeName) { referencedByReachable = true; break; }
                     }

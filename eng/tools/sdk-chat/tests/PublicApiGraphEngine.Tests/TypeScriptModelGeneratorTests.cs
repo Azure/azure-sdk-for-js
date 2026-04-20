@@ -19,7 +19,7 @@ public class TypeScriptModelGeneratorTests
     [Fact]
     public void Tokenizer_SimpleInterface_ProducesCorrectTokens()
     {
-        var tokens = new TsTokenizer("export interface Foo { name: string; }").Tokenize();
+        var (tokens, _) = new TsTokenizer("export interface Foo { name: string; }").Tokenize();
         Assert.Equal(TsTokenKind.Export, tokens[0].Kind);
         Assert.Equal(TsTokenKind.Interface, tokens[1].Kind);
         Assert.Equal(TsTokenKind.Identifier, tokens[2].Kind);
@@ -38,7 +38,7 @@ public class TypeScriptModelGeneratorTests
     [Fact]
     public void Tokenizer_StringLiteral_HandlesEscapes()
     {
-        var tokens = new TsTokenizer("\"hello \\\"world\\\"\"").Tokenize();
+        var (tokens, _) = new TsTokenizer("\"hello \\\"world\\\"\"").Tokenize();
         Assert.Equal(TsTokenKind.StringLiteral, tokens[0].Kind);
         Assert.Equal("hello \"world\"", tokens[0].Value);
     }
@@ -46,7 +46,7 @@ public class TypeScriptModelGeneratorTests
     [Fact]
     public void Tokenizer_LineComment_IsSkipped()
     {
-        var tokens = new TsTokenizer("name // comment\ntype").Tokenize();
+        var (tokens, _) = new TsTokenizer("name // comment\ntype").Tokenize();
         Assert.Equal("name", tokens[0].Value);
         Assert.Equal("type", tokens[1].Value);
     }
@@ -56,7 +56,7 @@ public class TypeScriptModelGeneratorTests
     {
         // Regression: "exportPath?: string;  // The subpath to import from (e.g., "." or "./client")"
         // The old line-based parser would truncate at "://"
-        var tokens = new TsTokenizer("exportPath?: string;  // The subpath to import from").Tokenize();
+        var (tokens, _) = new TsTokenizer("exportPath?: string;  // The subpath to import from").Tokenize();
         var identTokens = tokens.Where(t => t.Kind == TsTokenKind.Identifier).ToList();
         Assert.Equal("exportPath", identTokens[0].Value);
         Assert.Equal("string", identTokens[1].Value);
@@ -68,7 +68,7 @@ public class TypeScriptModelGeneratorTests
         var source = """
             /** Single-line doc comment */
             """;
-        var tokens = new TsTokenizer(source).Tokenize();
+        var (tokens, _) = new TsTokenizer(source).Tokenize();
         Assert.Equal(TsTokenKind.DocComment, tokens[0].Kind);
         Assert.Equal("Single-line doc comment", tokens[0].Value);
     }
@@ -82,7 +82,7 @@ public class TypeScriptModelGeneratorTests
              * Second line.
              */
             """;
-        var tokens = new TsTokenizer(source).Tokenize();
+        var (tokens, _) = new TsTokenizer(source).Tokenize();
         Assert.Equal(TsTokenKind.DocComment, tokens[0].Kind);
         Assert.Equal("First line. Second line.", tokens[0].Value);
     }
@@ -90,7 +90,7 @@ public class TypeScriptModelGeneratorTests
     [Fact]
     public void Tokenizer_BlockComment_IsSkipped()
     {
-        var tokens = new TsTokenizer("name /* block comment */ type").Tokenize();
+        var (tokens, _) = new TsTokenizer("name /* block comment */ type").Tokenize();
         Assert.Equal(TsTokenKind.Identifier, tokens[0].Kind);
         Assert.Equal("name", tokens[0].Value);
         Assert.Equal(TsTokenKind.Identifier, tokens[1].Kind);
@@ -103,7 +103,7 @@ public class TypeScriptModelGeneratorTests
     public void Tokenizer_TracksLineAndColumn()
     {
         var source = "export\ninterface";
-        var tokens = new TsTokenizer(source).Tokenize();
+        var (tokens, _) = new TsTokenizer(source).Tokenize();
         Assert.Equal(1, tokens[0].Position.Line);
         Assert.Equal(1, tokens[0].Position.Column);
         Assert.Equal(2, tokens[1].Position.Line);
@@ -474,8 +474,9 @@ public class TypeScriptModelGeneratorTests
     public void EndToEnd_ModelsTs_EmitsWithoutErrors()
     {
         var source = File.ReadAllText(GetModelsPath());
-        var tokens = new TsTokenizer(source).Tokenize();
+        var (tokens, tokenDiags) = new TsTokenizer(source).Tokenize();
         var (file, parseDiags) = new TsParser(tokens).Parse();
+        Assert.Empty(tokenDiags);
         Assert.Empty(parseDiags);
 
         var result = CSharpModelEmitter.Emit(file, TypeScriptModelsGenerator.AllowlistedTypes);
@@ -488,8 +489,8 @@ public class TypeScriptModelGeneratorTests
     public void EndToEnd_ModelsTs_TypeOverridesMatch()
     {
         var source = File.ReadAllText(GetModelsPath());
-        var tokens = new TsTokenizer(source).Tokenize();
-        var (file, _) = new TsParser(tokens).Parse();
+        var (tokens, _) = new TsTokenizer(source).Tokenize();
+        var (file, _2) = new TsParser(tokens).Parse();
 
         // Verify all type overrides reference real properties with expected TS types
         foreach (var (ifaceName, props) in CSharpModelEmitter.TypeOverrides)
@@ -522,8 +523,8 @@ public class TypeScriptModelGeneratorTests
     public void EndToEnd_ReadonlyProperty_InClassInfo_Generated()
     {
         var source = File.ReadAllText(GetModelsPath());
-        var tokens = new TsTokenizer(source).Tokenize();
-        var (file, _) = new TsParser(tokens).Parse();
+        var (tokens, _) = new TsTokenizer(source).Tokenize();
+        var (file, _2) = new TsParser(tokens).Parse();
         var result = CSharpModelEmitter.Emit(file, TypeScriptModelsGenerator.AllowlistedTypes);
 
         // "readonly" as property in IndexSignatureInfo
@@ -540,8 +541,8 @@ public class TypeScriptModelGeneratorTests
     public void Validation_UnaccountedExportedInterface_ProducesDiagnostic()
     {
         var source = "export interface Unknown { x: string; }";
-        var tokens = new TsTokenizer(source).Tokenize();
-        var (file, _) = new TsParser(tokens).Parse();
+        var (tokens, _) = new TsTokenizer(source).Tokenize();
+        var (file, _2) = new TsParser(tokens).Parse();
 
         // Use empty allowlist and empty ignore list
         var result = CSharpModelEmitter.Emit(file, []);
@@ -554,7 +555,7 @@ public class TypeScriptModelGeneratorTests
 
     private static (TsFile File, IReadOnlyList<TsParser.ParseDiagnostic> Diagnostics) ParseSource(string source)
     {
-        var tokens = new TsTokenizer(source).Tokenize();
+        var (tokens, _) = new TsTokenizer(source).Tokenize();
         return new TsParser(tokens).Parse();
     }
 

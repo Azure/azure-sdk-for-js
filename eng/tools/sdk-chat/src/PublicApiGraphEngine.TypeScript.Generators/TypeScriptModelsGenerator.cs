@@ -58,7 +58,14 @@ public class TypeScriptModelsGenerator : IIncrementalGenerator
             {
                 // Phase 1: Tokenize
                 var tokenizer = new TsTokenizer(source);
-                var tokens = tokenizer.Tokenize();
+                var (tokens, tokenDiags) = tokenizer.Tokenize();
+
+                // Report tokenizer diagnostics
+                foreach (var diag in tokenDiags)
+                {
+                    ctx.ReportDiagnostic(Diagnostic.Create(ParseWarning, Location.None,
+                        $"{diag.Message} at {diag.Position}"));
+                }
 
                 // Phase 2: Parse (recursive descent)
                 var parser = new TsParser(tokens);

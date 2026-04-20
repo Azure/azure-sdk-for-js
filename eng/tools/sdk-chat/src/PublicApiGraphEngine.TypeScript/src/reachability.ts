@@ -347,9 +347,9 @@ export function makeQualifiedKey(moduleName: string, entityName: string, namespa
  * 3. Build a condensed DAG of SCC nodes and BFS from entry-point SCCs.
  * 4. If any type in an SCC is reachable, ALL types in that SCC are reachable.
  *
- * Uses qualified keys internally to prevent same-named entities in different
- * modules from colliding. The returned set contains simple names for
- * backward compatibility with pruning code.
+ * Uses qualified keys (`module/entity` or `module/nsPath/entity`) throughout
+ * to prevent same-named entities in different modules from colliding.
+ * The returned set contains these qualified keys.
  */
 export function computeReachableTypes(api: ApiIndex): Set<string> {
     const allTypeNames = getDefinedTypes(api);
@@ -498,14 +498,11 @@ export function computeReachableTypes(api: ApiIndex): Set<string> {
         }
     }
 
-    // Collect simple names from all reachable SCCs
+    // Collect qualified keys from all reachable SCCs
     const reachable = new Set<string>();
     for (const sccIdx of reachableSccIndices) {
         for (const qk of sccs[sccIdx]) {
-            // Extract simple name from qualified key (last segment after the last '/')
-            const lastSlash = qk.lastIndexOf("/");
-            const simpleName = lastSlash >= 0 ? qk.substring(lastSlash + 1) : qk;
-            reachable.add(simpleName);
+            reachable.add(qk);
         }
     }
 

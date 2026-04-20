@@ -76,10 +76,19 @@ public static class TypeScriptFormatter
                 .Where(dep => dep.Modules.Count > 0)
                 .ToList();
 
+            // Filter out node:* dependencies for targets that don't have Node.js builtins
+            bool isNonNodeTarget = string.Equals(condition, "browser", StringComparison.OrdinalIgnoreCase)
+                || string.Equals(condition, "react-native", StringComparison.OrdinalIgnoreCase);
+
+            var filteredDeps = isNonNodeTarget && index.Dependencies is not null
+                ? index.Dependencies.Where(d => !d.IsNode).ToList()
+                : index.Dependencies;
+
             var subIndex = index with
             {
                 Modules = conditionModules,
                 ResolvedDependencies = conditionResolvedDeps is { Count: > 0 } ? conditionResolvedDeps : null,
+                Dependencies = filteredDeps is { Count: > 0 } ? filteredDeps : null,
             };
 
             var dts = Format(subIndex, condition);
@@ -88,7 +97,7 @@ public static class TypeScriptFormatter
             // found in the rendered content.
             dts = ReplaceAmbientTypesPlaceholder(dts, index.AmbientTypes);
 
-            var hasNodeDependency = index.Dependencies?.Any(d => d.IsNode) == true;
+            var hasNodeDependency = filteredDeps?.Any(d => d.IsNode) == true;
             var tsconfig = GenerateTsconfig(hasNodeDependency, index.AmbientTypes, dts);
             result[condition] = (dts, tsconfig);
         }

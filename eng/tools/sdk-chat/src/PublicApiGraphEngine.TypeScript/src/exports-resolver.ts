@@ -122,3 +122,21 @@ export function findDotExport(exports: Record<string, unknown>): unknown {
     if (!hasSubpaths) return exports;
     return undefined;
 }
+
+/**
+ * Finds a specific subpath export from a package.json exports object.
+ * For `"."` delegates to {@link findDotExport}; otherwise looks up the
+ * subpath key directly (e.g., `"./policies"` → `exports["./policies"]`).
+ */
+export function findSubpathExport(exports: Record<string, unknown>, subpath: string): unknown {
+    if (subpath === ".") return findDotExport(exports);
+    return exports[subpath];
+}
+
+/**
+ * Returns `true` when the package.json `exports` field contains subpath keys
+ * other than `"."` (e.g., `"./policies"`, `"./browser"`).
+ */
+export function hasNonRootSubpaths(exports: Record<string, unknown>): boolean {
+    return Object.keys(exports).some(k => k.startsWith("./"));
+}

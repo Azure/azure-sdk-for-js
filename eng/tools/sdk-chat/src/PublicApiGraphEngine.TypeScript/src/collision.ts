@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { ts } from "ts-morph";
+import { emitDiagnostic } from "./diagnostics.js";
 import type {
     ApiIndex,
     ClassInfo,
@@ -264,7 +265,12 @@ export function replaceTypeIdentifiers(text: string, replacements: Map<string, s
         // Graceful degradation: if the fragment can't be parsed by any wrapper
         // strategy, emit a diagnostic warning and return the original text unchanged.
         const message = e instanceof Error ? e.message : String(e);
-        console.error(`Collision rewrite skipped: ${message}`);
+        emitDiagnostic({
+            code: "COLLISION_REWRITE_SKIP",
+            message: `Collision rewrite skipped: ${message}`,
+            severity: "warning",
+            target: text.substring(0, 80),
+        });
         return text;
     }
 }

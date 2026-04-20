@@ -122,8 +122,8 @@ public static class TypeNameParser
         for (int i = 0; i < text.Length; i++)
         {
             var c = text[i];
-            if (c is '(' or '<' or '[') depth++;
-            else if (c is ')' or '>' or ']') depth--;
+            if (c is '(' or '<' or '[' or '{') depth++;
+            else if (c is ')' or '>' or ']' or '}') depth--;
             else if (c == ':' && depth == 0) return i;
         }
         return -1;
@@ -175,8 +175,8 @@ public static class TypeNameParser
         for (int i = 0; i < text.Length; i++)
         {
             var c = text[i];
-            if (c is '(' or '<' or '[') depth++;
-            else if (c is ')' or '>' or ']') depth--;
+            if (c is '(' or '<' or '[' or '{') depth++;
+            else if (c is ')' or '>' or ']' or '}') depth--;
             else if (c == separator && depth == 0)
             {
                 results.Add(text[start..i].Trim());

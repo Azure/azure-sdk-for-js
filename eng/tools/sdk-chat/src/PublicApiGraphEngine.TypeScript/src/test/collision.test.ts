@@ -698,13 +698,21 @@ describe("AST-based replaceTypeIdentifiers", () => {
     });
 
     it("emits a diagnostic warning to stderr for unparseable fragments", () => {
-      const spy = vi.spyOn(console, "error").mockImplementation(() => {});
+      const chunks: string[] = [];
+      const spy = vi.spyOn(process.stderr, "write").mockImplementation((chunk: string | Uint8Array) => {
+        chunks.push(typeof chunk === "string" ? chunk : new TextDecoder().decode(chunk));
+        return true;
+      });
       try {
         replaceTypeIdentifiers("Foo ??? Bar !!!", makeReplacements([
           ["Foo", "AliasFoo"],
         ]));
         expect(spy).toHaveBeenCalledOnce();
-        expect(spy.mock.calls[0][0]).toMatch(/Collision rewrite skipped.*Cannot parse type fragment/);
+        const diagnostic = JSON.parse(chunks[0]);
+        expect(diagnostic.code).toBe("COLLISION_REWRITE_SKIP");
+        expect(diagnostic.severity).toBe("warning");
+        expect(diagnostic.message).toMatch(/Collision rewrite skipped.*Cannot parse type fragment/);
+        expect(diagnostic.target).toBe("Foo ??? Bar !!!");
       } finally {
         spy.mockRestore();
       }

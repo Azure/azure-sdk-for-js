@@ -179,6 +179,8 @@ export interface NamespaceInfo {
 
 export interface ApiIndex {
     package: string;
+    /** Import subpath when the dependency was imported from a subpath export (e.g. "./policies") */
+    subpath?: string;
     version?: string;
     modules: ModuleInfo[];
     /** Types from dependency packages that appear in the public API */
@@ -215,6 +217,8 @@ export interface ApiIndex {
 export interface DependencyInfo {
     /** The npm package name */
     package: string;
+    /** Import subpath when the type was imported from a subpath export (e.g. "./policies") */
+    subpath?: string;
     /** The installed package version (e.g. "2.1.0") */
     version?: string;
     /** Whether this dependency is from the Node.js runtime (@types/node) */

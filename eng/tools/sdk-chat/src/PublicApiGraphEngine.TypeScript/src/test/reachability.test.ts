@@ -583,10 +583,10 @@ describe("computeReachableTypes", () => {
       ],
     });
     const reachable = computeReachableTypes(api);
-    expect(reachable).toContain("EntryPoint");
-    expect(reachable).toContain("Dep");
-    expect(reachable).toContain("Leaf");
-    expect(reachable).not.toContain("Unreachable");
+    expect(reachable).toContain("main/EntryPoint");
+    expect(reachable).toContain("main/Dep");
+    expect(reachable).toContain("main/Leaf");
+    expect(reachable).not.toContain("main/Unreachable");
   });
 
   it("seeds namespace members as reachable when namespace has entryPoint", () => {
@@ -604,10 +604,10 @@ describe("computeReachableTypes", () => {
       ],
     });
     const reachable = computeReachableTypes(api);
-    expect(reachable).toContain("MyNs");
-    expect(reachable).toContain("NsMember");
-    expect(reachable).toContain("Deep");
-    expect(reachable).not.toContain("Orphan");
+    expect(reachable).toContain("main/MyNs");
+    expect(reachable).toContain("main/MyNs/NsMember");
+    expect(reachable).toContain("main/Deep");
+    expect(reachable).not.toContain("main/Orphan");
   });
 
   it("handles empty API with no entry points", () => {
@@ -636,11 +636,11 @@ describe("computeReachableTypes", () => {
       ],
     });
     const reachable = computeReachableTypes(api);
-    expect(reachable).toContain("Client");
-    expect(reachable).toContain("ClientOptions");
-    expect(reachable).toContain("createClient");
-    expect(reachable).toContain("Result");
-    expect(reachable).not.toContain("Unused");
+    expect(reachable).toContain("main/Client");
+    expect(reachable).toContain("main/ClientOptions");
+    expect(reachable).toContain("main/createClient");
+    expect(reachable).toContain("main/Result");
+    expect(reachable).not.toContain("main/Unused");
   });
 
   it("seeds nested namespace members recursively when entry point", () => {
@@ -655,9 +655,9 @@ describe("computeReachableTypes", () => {
       }],
     });
     const reachable = computeReachableTypes(api);
-    expect(reachable).toContain("Outer");
-    expect(reachable).toContain("Inner");
-    expect(reachable).toContain("DeepMember");
+    expect(reachable).toContain("main/Outer");
+    expect(reachable).toContain("main/Outer/Inner");
+    expect(reachable).toContain("main/Outer.Inner/DeepMember");
   });
 });
 
@@ -764,9 +764,9 @@ describe("computeReachableTypes — namespace pruning", () => {
     });
     const reachable = computeReachableTypes(api);
     // "Used" should be reachable via Client, "Unused" is seeded because namespace is entry point
-    expect(reachable).toContain("MyNs");
-    expect(reachable).toContain("Used");
-    expect(reachable).toContain("Unused"); // all ns members seeded when ns is entryPoint
+    expect(reachable).toContain("main/MyNs");
+    expect(reachable).toContain("main/MyNs/Used");
+    expect(reachable).toContain("main/MyNs/Unused"); // all ns members seeded when ns is entryPoint
   });
 
   it("namespace-only module is kept when namespace is reachable", () => {
@@ -782,8 +782,8 @@ describe("computeReachableTypes — namespace pruning", () => {
       }],
     };
     const reachable = computeReachableTypes(api);
-    expect(reachable).toContain("OnlyNs");
-    expect(reachable).toContain("NsMember");
+    expect(reachable).toContain("ns-only/OnlyNs");
+    expect(reachable).toContain("ns-only/OnlyNs/NsMember");
   });
 
   it("non-exported namespace is not retained as entry point", () => {
@@ -798,9 +798,9 @@ describe("computeReachableTypes — namespace pruning", () => {
       ],
     });
     const reachable = computeReachableTypes(api);
-    expect(reachable).toContain("Client");
-    expect(reachable).not.toContain("InternalNs");
-    expect(reachable).not.toContain("InternalMember");
+    expect(reachable).toContain("main/Client");
+    expect(reachable).not.toContain("main/InternalNs");
+    expect(reachable).not.toContain("main/InternalNs/InternalMember");
   });
 });
 
@@ -812,7 +812,7 @@ describe("computeReachableTypes — cycle handling", () => {
       ],
     });
     const reachable = computeReachableTypes(api);
-    expect(reachable).toContain("A");
+    expect(reachable).toContain("main/A");
   });
 
   it("cycle A → B → A does not infinite loop", () => {
@@ -823,8 +823,8 @@ describe("computeReachableTypes — cycle handling", () => {
       ],
     });
     const reachable = computeReachableTypes(api);
-    expect(reachable).toContain("A");
-    expect(reachable).toContain("B");
+    expect(reachable).toContain("main/A");
+    expect(reachable).toContain("main/B");
   });
 });
 
@@ -851,11 +851,13 @@ describe("computeReachableTypes — qualified keys", () => {
     };
     const reachable = computeReachableTypes(api);
     // Options from mod-a is entry point, DepA should be reachable
-    expect(reachable).toContain("Options");
-    expect(reachable).toContain("DepA");
+    expect(reachable).toContain("mod-a/Options");
+    expect(reachable).toContain("mod-a/DepA");
+    // mod-b/Options should NOT be reachable — it's not an entry point
+    expect(reachable).not.toContain("mod-b/Options");
     // DepB should NOT be reachable — mod-b/Options is not an entry point and
     // SCC-based traversal uses qualified keys, so same-named entities don't collide
-    expect(reachable).not.toContain("DepB");
+    expect(reachable).not.toContain("mod-b/DepB");
   });
 });
 
@@ -982,9 +984,9 @@ describe("computeReachableTypes — SCC condensation", () => {
       ],
     });
     const reachable = computeReachableTypes(api);
-    expect(reachable).toContain("A");
-    expect(reachable).toContain("B");
-    expect(reachable).not.toContain("Orphan");
+    expect(reachable).toContain("main/A");
+    expect(reachable).toContain("main/B");
+    expect(reachable).not.toContain("main/Orphan");
   });
 
   it("large SCC: A → B → C → A, seeded from A → all three reachable", () => {
@@ -997,10 +999,10 @@ describe("computeReachableTypes — SCC condensation", () => {
       ],
     });
     const reachable = computeReachableTypes(api);
-    expect(reachable).toContain("A");
-    expect(reachable).toContain("B");
-    expect(reachable).toContain("C");
-    expect(reachable).not.toContain("Unrelated");
+    expect(reachable).toContain("main/A");
+    expect(reachable).toContain("main/B");
+    expect(reachable).toContain("main/C");
+    expect(reachable).not.toContain("main/Unrelated");
   });
 
   it("unreachable cycle: D → E → D not connected to entry points → neither reachable", () => {
@@ -1013,10 +1015,10 @@ describe("computeReachableTypes — SCC condensation", () => {
       ],
     });
     const reachable = computeReachableTypes(api);
-    expect(reachable).toContain("Entry");
-    expect(reachable).toContain("Leaf");
-    expect(reachable).not.toContain("D");
-    expect(reachable).not.toContain("E");
+    expect(reachable).toContain("main/Entry");
+    expect(reachable).toContain("main/Leaf");
+    expect(reachable).not.toContain("main/D");
+    expect(reachable).not.toContain("main/E");
   });
 
   it("SCC with outgoing edge: cycle + tail reachable", () => {
@@ -1028,9 +1030,9 @@ describe("computeReachableTypes — SCC condensation", () => {
       ],
     });
     const reachable = computeReachableTypes(api);
-    expect(reachable).toContain("A");
-    expect(reachable).toContain("B");
-    expect(reachable).toContain("C");
+    expect(reachable).toContain("main/A");
+    expect(reachable).toContain("main/B");
+    expect(reachable).toContain("main/C");
   });
 
   it("name collision across modules: only entry-point module's deps are reachable", () => {
@@ -1054,47 +1056,53 @@ describe("computeReachableTypes — SCC condensation", () => {
       ],
     };
     const reachable = computeReachableTypes(api);
-    expect(reachable).toContain("Config");
-    expect(reachable).toContain("AuthToken");
-    expect(reachable).not.toContain("StorageBlob");
+    expect(reachable).toContain("auth/Config");
+    expect(reachable).toContain("auth/AuthToken");
+    expect(reachable).not.toContain("storage/Config");
+    expect(reachable).not.toContain("storage/StorageBlob");
   });
 });
 
 describe("isEntityKeyReachable", () => {
-  let isEntityKeyReachable: (entityKey: string, reachableTypes: Set<string>) => boolean;
+  let isEntityKeyReachable: (entityKey: string, reachableTypes: Set<string>, moduleName?: string) => boolean;
 
   beforeAll(async () => {
     const mod = await import("../main.js");
     isEntityKeyReachable = mod.isEntityKeyReachable;
   });
 
-  it("returns true for a simple name in the reachable set", () => {
-    const reachable = new Set(["Client"]);
-    expect(isEntityKeyReachable("Client", reachable)).toBe(true);
+  it("returns true for a qualified key match with module context", () => {
+    const reachable = new Set(["myMod/Client"]);
+    expect(isEntityKeyReachable("Client", reachable, "myMod")).toBe(true);
   });
 
-  it("returns false for a simple name not in the reachable set", () => {
-    const reachable = new Set(["Client"]);
-    expect(isEntityKeyReachable("Other", reachable)).toBe(false);
+  it("returns false for a qualified key mismatch with module context", () => {
+    const reachable = new Set(["otherMod/Client"]);
+    expect(isEntityKeyReachable("Client", reachable, "myMod")).toBe(false);
   });
 
-  it("returns true when the first segment of a dotted name is reachable", () => {
-    const reachable = new Set(["NS"]);
+  it("returns true for a dotted entity with namespace path and module context", () => {
+    const reachable = new Set(["myMod/NS/Client"]);
+    expect(isEntityKeyReachable("NS.Client", reachable, "myMod")).toBe(true);
+  });
+
+  it("returns false when dotted entity does not match qualified key", () => {
+    const reachable = new Set(["myMod/Other/Client"]);
+    expect(isEntityKeyReachable("NS.Client", reachable, "myMod")).toBe(false);
+  });
+
+  it("returns true when any segment matches without module context (fallback)", () => {
+    const reachable = new Set(["someMod/Client"]);
     expect(isEntityKeyReachable("NS.Client", reachable)).toBe(true);
   });
 
-  it("returns true when a non-first segment of a dotted name is reachable", () => {
-    const reachable = new Set(["Client"]);
-    expect(isEntityKeyReachable("NS.Client", reachable)).toBe(true);
-  });
-
-  it("returns true when any segment in a deeply nested name is reachable", () => {
-    const reachable = new Set(["Inner"]);
-    expect(isEntityKeyReachable("A.B.Inner.C", reachable)).toBe(true);
-  });
-
-  it("returns false when no segment of a dotted name is reachable", () => {
-    const reachable = new Set(["Other"]);
+  it("returns false when no segment matches without module context (fallback)", () => {
+    const reachable = new Set(["someMod/Other"]);
     expect(isEntityKeyReachable("NS.Client", reachable)).toBe(false);
+  });
+
+  it("handles deeply nested dotted names with module context", () => {
+    const reachable = new Set(["myMod/A.B.Inner/C"]);
+    expect(isEntityKeyReachable("A.B.Inner.C", reachable, "myMod")).toBe(true);
   });
 });

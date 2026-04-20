@@ -160,6 +160,8 @@ public static class ApiDiffAnalyzer
                     $"Breaking change: property '{change.TypeName}.{change.MemberName}' changed from {change.OldSignature} to {change.NewSignature}.",
                 "PropertyReadOnlyChanged" =>
                     $"Breaking change: property '{change.TypeName}.{change.MemberName}' changed from {change.OldSignature} to {change.NewSignature}.",
+                "ParameterTypeChanged" =>
+                    $"Breaking: {change.TypeName}.{change.MemberName} parameter type changed from '{change.OldSignature}' to '{change.NewSignature}'",
                 _ =>
                     $"Breaking change: {change.ChangeKind} in '{change.TypeName}'."
             };
@@ -535,6 +537,23 @@ public static class ApiDiffAnalyzer
                 breaking.Add(change);
             else
                 nonBreaking.Add(change);
+        }
+
+        // Parameter type changes
+        int commonCount = Math.Min(baseline.ParameterTypes.Count, current.ParameterTypes.Count);
+        for (int i = 0; i < commonCount; i++)
+        {
+            if (!string.Equals(baseline.ParameterTypes[i], current.ParameterTypes[i], StringComparison.Ordinal))
+            {
+                breaking.Add(new ApiChange
+                {
+                    ChangeKind = "ParameterTypeChanged",
+                    TypeName = typeName,
+                    MemberName = callableName,
+                    OldSignature = $"param[{i}]: {baseline.ParameterTypes[i]}",
+                    NewSignature = $"param[{i}]: {current.ParameterTypes[i]}"
+                });
+            }
         }
 
         // Return type change

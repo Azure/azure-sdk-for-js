@@ -12,10 +12,12 @@ import {
   makeDepKey,
   splitDepKey,
   getPackageRoot,
+  getImportSubpath,
   buildImportResolutionMap,
 } from "../dependencies.js";
 import type { NamespaceInfo } from "../models.js";
 import { createExtractionContext } from "../type-refs.js";
+import { findSubpathExport, hasNonRootSubpaths } from "../exports-resolver.js";
 
 function makeCtx() {
   const project = new Project({
@@ -350,6 +352,59 @@ describe("getPackageRoot", () => {
   });
 });
 
+describe("getImportSubpath", () => {
+  it("returns subpath for scoped package", () => {
+    expect(getImportSubpath("@azure/core-client/types")).toBe("./types");
+  });
+
+  it("returns root for scoped package without subpath", () => {
+    expect(getImportSubpath("@azure/core-client")).toBe(".");
+  });
+
+  it("returns subpath for unscoped package", () => {
+    expect(getImportSubpath("openai/resources")).toBe("./resources");
+  });
+
+  it("returns root for unscoped package without subpath", () => {
+    expect(getImportSubpath("openai")).toBe(".");
+  });
+
+  it("returns deep subpath", () => {
+    expect(getImportSubpath("openai/resources/chat")).toBe("./resources/chat");
+  });
+});
+
+describe("findSubpathExport", () => {
+  it("delegates to findDotExport for root subpath", () => {
+    const exports = { ".": { import: "./index.js" }, "./foo": { import: "./foo.js" } };
+    expect(findSubpathExport(exports, ".")).toEqual({ import: "./index.js" });
+  });
+
+  it("returns the correct subpath export", () => {
+    const exports = { ".": { import: "./index.js" }, "./policies": { import: "./policies.js" } };
+    expect(findSubpathExport(exports, "./policies")).toEqual({ import: "./policies.js" });
+  });
+
+  it("returns undefined for missing subpath", () => {
+    const exports = { ".": { import: "./index.js" } };
+    expect(findSubpathExport(exports, "./missing")).toBeUndefined();
+  });
+});
+
+describe("hasNonRootSubpaths", () => {
+  it("returns true when exports has non-root subpaths", () => {
+    expect(hasNonRootSubpaths({ ".": "./index.js", "./foo": "./foo.js" })).toBe(true);
+  });
+
+  it("returns false when exports has only root", () => {
+    expect(hasNonRootSubpaths({ ".": "./index.js" })).toBe(false);
+  });
+
+  it("returns false for condition-only exports", () => {
+    expect(hasNonRootSubpaths({ import: "./index.js", require: "./index.cjs" })).toBe(false);
+  });
+});
+
 describe("buildImportResolutionMap (qualified keys)", () => {
   it("uses qualified keys that prevent same-name collisions", () => {
     const project = new Project({
@@ -428,6 +483,46 @@ describe("buildImportResolutionMap (qualified keys)", () => {
     const key = makeDepKey("openai", "Chat");
     expect(typeMap.has(key)).toBe(true);
     expect(typeMap.get(key)!.packageName).toBe("openai");
+  });
+
+  it("preserves import subpath in resolution map entries", () => {
+    const project = new Project({
+      useInMemoryFileSystem: true,
+      compilerOptions: {
+        target: ts.ScriptTarget.ES2022,
+        module: ts.ModuleKind.NodeNext,
+        moduleResolution: ts.ModuleResolutionKind.NodeNext,
+        declaration: true,
+        strict: true,
+      },
+    });
+
+    project.createSourceFile(
+      "/node_modules/openai/resources.d.ts",
+      `export interface Chat { model: string; }`
+    );
+    project.createSourceFile(
+      "/node_modules/openai/index.d.ts",
+      `export interface OpenAI { apiKey: string; }`
+    );
+
+    project.createSourceFile(
+      "/src/index.ts",
+      [
+        `import { Chat } from "openai/resources";`,
+        `import { OpenAI } from "openai";`,
+      ].join("\n")
+    );
+
+    const { typeMap } = buildImportResolutionMap(project);
+
+    // Subpath import should track "./resources"
+    const chatKey = makeDepKey("openai", "Chat");
+    expect(typeMap.get(chatKey)!.subpath).toBe("./resources");
+
+    // Root import should track "."
+    const openaiKey = makeDepKey("openai", "OpenAI");
+    expect(typeMap.get(openaiKey)!.subpath).toBe(".");
   });
 });
 

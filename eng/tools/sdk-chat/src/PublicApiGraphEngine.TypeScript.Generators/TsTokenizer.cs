@@ -53,6 +53,9 @@ internal sealed class TsTokenizer
     private int _pos;
     private int _line;
     private int _col;
+    private readonly List<TokenizeDiagnostic> _diagnostics = [];
+
+    internal record TokenizeDiagnostic(string Message, SourcePosition Position);
 
     internal TsTokenizer(string source)
     {
@@ -62,7 +65,7 @@ internal sealed class TsTokenizer
         _col = 1;
     }
 
-    internal List<TsToken> Tokenize()
+    internal (List<TsToken> Tokens, IReadOnlyList<TokenizeDiagnostic> Diagnostics) Tokenize()
     {
         var tokens = new List<TsToken>();
         while (true)
@@ -78,7 +81,7 @@ internal sealed class TsTokenizer
             if (token is not null)
                 tokens.Add(token.Value);
         }
-        return tokens;
+        return (tokens, _diagnostics);
     }
 
     private TsToken? ReadToken()
@@ -136,7 +139,9 @@ internal sealed class TsTokenizer
             return ReadIdentifierOrKeyword(pos);
         }
 
-        // Unknown character — skip and return null (will be caught by parser)
+        // Unknown character — report diagnostic, skip, and return null
+        _diagnostics.Add(new TokenizeDiagnostic(
+            $"Unknown character '{ch}' at position {_pos} — skipped", pos));
         Advance();
         return null;
     }
