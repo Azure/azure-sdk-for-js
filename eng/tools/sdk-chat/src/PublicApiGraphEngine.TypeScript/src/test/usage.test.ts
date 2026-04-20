@@ -254,4 +254,32 @@ describe("buildVarTypeMap", () => {
     const varTypes = buildVarTypeMap(sf);
     expect(varTypes.get("client")).toBe("FooClient");
   });
+
+  it("tracks ambient declarations (declare const)", () => {
+    const project = makeProject();
+    const sf = project.createSourceFile(
+      "test.ts",
+      `
+      class FooClient { doStuff(): void {} }
+      declare const client: FooClient;
+      `,
+    );
+    const varTypes = buildVarTypeMap(sf);
+    expect(varTypes.get("client")).toBe("FooClient");
+  });
+
+  it("tracks generic constraint parameter types via constraint base", () => {
+    const project = makeProject();
+    const sf = project.createSourceFile(
+      "test.ts",
+      `
+      class FooClient { doStuff(): void {} }
+      function process<T extends FooClient>(client: T) {}
+      `,
+    );
+    const varTypes = buildVarTypeMap(sf);
+    // Without apiContext filtering, the type parameter "T" is resolved as the symbol name.
+    // This documents that generic type parameters are not unwrapped to their constraint.
+    expect(varTypes.get("client")).toBe("T");
+  });
 });

@@ -16,6 +16,7 @@ import type {
     InterfaceInfo,
 } from "./models.js";
 import { baseTypeName } from "./formatter.js";
+import { emitDiagnostic } from "./diagnostics.js";
 
 export interface UsageResult {
     file_count: number;
@@ -153,8 +154,13 @@ export function buildVarTypeMap(sourceFile: SourceFile, apiContext?: ApiTypeCont
                         varTypes.set(name, typeName);
                         return;
                     }
-                } catch {
-                    // Type resolution failed — fall through to AST fallback
+                } catch (err: unknown) {
+                    emitDiagnostic({
+                        code: "TYPE_RESOLVE_SKIP",
+                        message: `Type resolution failed for variable "${name}": ${err instanceof Error ? err.message : String(err)}`,
+                        severity: "warning",
+                        target: name,
+                    });
                 }
 
                 // AST fallback: `new X()` pattern
@@ -185,8 +191,13 @@ export function buildVarTypeMap(sourceFile: SourceFile, apiContext?: ApiTypeCont
                     const type = node.getType();
                     const typeName = getCanonicalTypeName(type);
                     if (typeName) varTypes.set(nameNode.getText(), typeName);
-                } catch {
-                    // Skip nodes where type resolution fails
+                } catch (err: unknown) {
+                    emitDiagnostic({
+                        code: "TYPE_RESOLVE_SKIP",
+                        message: `Type resolution failed for property "${nameNode.getText()}": ${err instanceof Error ? err.message : String(err)}`,
+                        severity: "warning",
+                        target: nameNode.getText(),
+                    });
                 }
             }
         }
@@ -465,8 +476,13 @@ export function analyzeUsage(samplesPath: string, api: ApiIndex): UsageResult {
                                     resolvedClient = typeName;
                                 }
                             }
-                        } catch {
-                            // Type resolution failed — skip
+                        } catch (err: unknown) {
+                            emitDiagnostic({
+                                code: "TYPE_RESOLVE_SKIP",
+                                message: `Type resolution failed for receiver of "${methodName}": ${err instanceof Error ? err.message : String(err)}`,
+                                severity: "warning",
+                                target: methodName,
+                            });
                         }
 
                         // Fallback: check varTypes map for identifier receivers
@@ -516,8 +532,14 @@ export function analyzeUsage(samplesPath: string, api: ApiIndex): UsageResult {
             detectPatterns(sourceFile, patterns);
 
             project.removeSourceFile(sourceFile);
-        } catch {
-            // Skip files that can't be parsed
+        } catch (err: unknown) {
+            const relPath = path.relative(samplesPath, filePath);
+            emitDiagnostic({
+                code: "USAGE_ANALYSIS_SKIP",
+                message: `Failed to analyse file: ${err instanceof Error ? err.message : String(err)}`,
+                severity: "warning",
+                target: relPath,
+            });
         }
     }
 

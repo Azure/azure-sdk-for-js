@@ -442,38 +442,50 @@ export function resolvePackageNameFromPath(filePath: string, ctx: ExtractionCont
     const fromPkgJson = ctx.resolvePackageNameFromAncestorPkgJson(filePath);
     if (fromPkgJson) return fromPkgJson;
 
-    // Fallback: extract package name from the node_modules path segment.
-    // This handles rare edge cases where a dependency lacks a package.json
-    // (e.g. malformed packages, synthetic test fixtures). The heuristic reads
-    // the first one or two path segments after the last `node_modules/`:
-    //   - Scoped: `node_modules/@scope/pkg/...` → `@scope/pkg`
-    //   - Unscoped: `node_modules/pkg/...` → `pkg`
-    // It does NOT handle pnpm virtual store paths (`.pnpm/...`) correctly —
-    // those are covered by the primary package.json lookup above.
+    // Fallback: standalone package.json ancestry walk (no caching).
+    // Covers the rare case where the context-based lookup above missed
+    // (e.g. path not in the context's cache). Performs real filesystem
+    // lookups walking up from filePath to find the nearest package.json
+    // with a "name" field. Handles pnpm virtual store, scoped packages,
+    // and symlinked layouts.
     return resolvePackageNameFromNodeModulesPath(filePath);
 }
 
 /**
- * Extracts a package name from the last `node_modules/` segment in a file path.
+ * Resolves a package name by walking up from `filePath` looking for the nearest
+ * `package.json` with a `"name"` field.
  *
- * This is a fallback for the rare case where no ancestor package.json exists.
- * It reads one segment (unscoped) or two segments (scoped `@scope/pkg`) after
- * the last `node_modules/` directory. Returns `undefined` if the path does not
- * contain a `node_modules` segment.
+ * This is a context-free fallback for the rare case where the cached
+ * `ExtractionContext.resolvePackageNameFromAncestorPkgJson` fails (e.g. the
+ * context cache was not primed for this path). It performs real filesystem
+ * lookups without caching and handles:
+ *   - Standard `node_modules/<pkg>` layouts
+ *   - Scoped packages (`node_modules/@scope/pkg`)
+ *   - pnpm virtual store (`.pnpm/<pkg>@<ver>/node_modules/<pkg>`)
+ *   - Symlinked monorepo packages
+ *
+ * The walk stops at the filesystem root.
  */
 function resolvePackageNameFromNodeModulesPath(filePath: string): string | undefined {
-    const marker = "node_modules";
-    const nodeModulesIndex = filePath.lastIndexOf(marker);
-    if (nodeModulesIndex === -1) return undefined;
+    let dir = path.dirname(filePath);
+    const root = path.parse(dir).root;
 
-    const afterNodeModules = filePath.substring(nodeModulesIndex + marker.length + 1);
-    const parts = afterNodeModules.split(/[/\\]/);
-
-    if (parts[0]?.startsWith("@")) {
-        // Scoped package: @scope/pkg
-        return parts.length >= 2 ? `${parts[0]}/${parts[1]}` : undefined;
+    while (dir && dir !== root) {
+        const pkgPath = path.join(dir, "package.json");
+        try {
+            if (fs.existsSync(pkgPath)) {
+                const pkg = JSON.parse(fs.readFileSync(pkgPath, "utf-8"));
+                const name: string | undefined = pkg.name;
+                if (name) return name;
+                // package.json without "name" (e.g. {"type":"commonjs"}) — keep walking
+            }
+        } catch {
+            // Malformed JSON or unreadable file — keep walking
+        }
+        dir = path.dirname(dir);
     }
-    return parts[0] || undefined;
+
+    return undefined;
 }
 
 /**

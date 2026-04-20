@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeAll } from "vitest";
 import {
   computeAmbientTypes,
   validateSelfContainment,
@@ -1057,5 +1057,44 @@ describe("computeReachableTypes — SCC condensation", () => {
     expect(reachable).toContain("Config");
     expect(reachable).toContain("AuthToken");
     expect(reachable).not.toContain("StorageBlob");
+  });
+});
+
+describe("isEntityKeyReachable", () => {
+  let isEntityKeyReachable: (entityKey: string, reachableTypes: Set<string>) => boolean;
+
+  beforeAll(async () => {
+    const mod = await import("../main.js");
+    isEntityKeyReachable = mod.isEntityKeyReachable;
+  });
+
+  it("returns true for a simple name in the reachable set", () => {
+    const reachable = new Set(["Client"]);
+    expect(isEntityKeyReachable("Client", reachable)).toBe(true);
+  });
+
+  it("returns false for a simple name not in the reachable set", () => {
+    const reachable = new Set(["Client"]);
+    expect(isEntityKeyReachable("Other", reachable)).toBe(false);
+  });
+
+  it("returns true when the first segment of a dotted name is reachable", () => {
+    const reachable = new Set(["NS"]);
+    expect(isEntityKeyReachable("NS.Client", reachable)).toBe(true);
+  });
+
+  it("returns true when a non-first segment of a dotted name is reachable", () => {
+    const reachable = new Set(["Client"]);
+    expect(isEntityKeyReachable("NS.Client", reachable)).toBe(true);
+  });
+
+  it("returns true when any segment in a deeply nested name is reachable", () => {
+    const reachable = new Set(["Inner"]);
+    expect(isEntityKeyReachable("A.B.Inner.C", reachable)).toBe(true);
+  });
+
+  it("returns false when no segment of a dotted name is reachable", () => {
+    const reachable = new Set(["Other"]);
+    expect(isEntityKeyReachable("NS.Client", reachable)).toBe(false);
   });
 });

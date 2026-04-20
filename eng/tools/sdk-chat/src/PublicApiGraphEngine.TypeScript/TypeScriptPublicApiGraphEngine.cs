@@ -128,7 +128,7 @@ public class TypeScriptPublicApiGraphEngine : IPublicApiGraphEngine<ApiIndex>
         string? dtsRoot = null;
         if (!string.IsNullOrWhiteSpace(packageJsonPath))
         {
-            dtsRoot = ResolveDtsOutputFromPackageJson(packageJsonPath!);
+            dtsRoot = ResolveDtsOutputFromPackageJson(packageJsonPath!, engineInputDiagnostics);
         }
 
         if (dtsRoot is not null)
@@ -483,6 +483,11 @@ public class TypeScriptPublicApiGraphEngine : IPublicApiGraphEngine<ApiIndex>
                 !root.TryGetProperty("severity", out var severityProp))
                 return null;
 
+            if (codeProp.ValueKind != JsonValueKind.String ||
+                messageProp.ValueKind != JsonValueKind.String ||
+                severityProp.ValueKind != JsonValueKind.String)
+                return null;
+
             var code = codeProp.GetString();
             var message = messageProp.GetString();
             var severity = severityProp.GetString();
@@ -630,7 +635,7 @@ public class TypeScriptPublicApiGraphEngine : IPublicApiGraphEngine<ApiIndex>
     /// their common ancestor directory so the engine can process all conditions.
     /// Returns null if no compiled declarations are found.
     /// </summary>
-    internal static string? ResolveDtsOutputFromPackageJson(string packageJsonPath)
+    internal static string? ResolveDtsOutputFromPackageJson(string packageJsonPath, List<ApiDiagnostic>? diagnostics = null)
     {
         if (!File.Exists(packageJsonPath))
             return null;
@@ -689,8 +694,24 @@ public class TypeScriptPublicApiGraphEngine : IPublicApiGraphEngine<ApiIndex>
             // Find common ancestor of all .d.ts directories
             return FindCommonAncestor(resolvedDirs);
         }
-        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException)
+        catch (JsonException ex)
         {
+            diagnostics?.Add(new ApiDiagnostic
+            {
+                Id = "PACKAGE_JSON_PARSE",
+                Level = DiagnosticLevel.Warning,
+                Text = $"Failed to parse {packageJsonPath}: {ex.Message}",
+            });
+            return null;
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            diagnostics?.Add(new ApiDiagnostic
+            {
+                Id = "PACKAGE_JSON_IO",
+                Level = DiagnosticLevel.Warning,
+                Text = $"Failed to read {packageJsonPath}: {ex.Message}",
+            });
             return null;
         }
     }

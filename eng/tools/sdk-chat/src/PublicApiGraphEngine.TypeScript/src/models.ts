@@ -155,8 +155,6 @@ export interface ModuleInfo {
     /** Full chain of export conditions, e.g. ["import", "types"]. */
     conditionChain?: string[];
     exportPath?: string;
-    /** If this module is from a dependency, the package name */
-    fromPackage?: string;
     classes?: ClassInfo[];
     interfaces?: InterfaceInfo[];
     enums?: EnumInfo[];

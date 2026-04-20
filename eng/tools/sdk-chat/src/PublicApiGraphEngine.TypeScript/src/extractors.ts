@@ -58,8 +58,7 @@ export function getDocString(node: JSDocableNode): string | undefined {
                 .map((c) => (typeof c === "string" ? c : c.getText()))
                 .join("");
 
-    const firstLine = text.split("\n")[0].trim();
-    return firstLine.length > 120 ? firstLine.substring(0, 117) + "..." : firstLine;
+    return text.trim() || undefined;
 }
 
 // ============================================================================

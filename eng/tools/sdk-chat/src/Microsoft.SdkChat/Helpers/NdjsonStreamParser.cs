@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System.Buffers;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
@@ -9,15 +10,15 @@ using System.Text.Json.Serialization.Metadata;
 namespace Microsoft.SdkChat.Helpers;
 
 /// <summary>
-/// NDJSON stream parser with brace-depth tracking.
+/// NDJSON stream parser that uses <see cref="Utf8JsonReader"/> for JSON boundary detection.
 /// </summary>
 public static class NdjsonStreamParser
 {
     /// <summary>
-    /// Maximum size of a single JSON object in characters (1MB).
+    /// Maximum size of a single JSON object in bytes (1MB).
     /// Prevents memory exhaustion from malformed AI responses or attacks.
     /// </summary>
-    private const int MaxObjectSizeChars = 1024 * 1024;
+    private const int MaxObjectSizeBytes = 1024 * 1024;
 
     /// <summary>
     /// Parse NDJSON stream using source-generated JSON type info (AOT-compatible).
@@ -59,126 +60,178 @@ public static class NdjsonStreamParser
         bool ignoreNonJsonLinesBeforeFirstObject,
         [EnumeratorCancellation] CancellationToken cancellationToken)
     {
-        var objectBuilder = new StringBuilder();
+        var buffer = new ArrayBufferWriter<byte>();
         var seenAnyItem = false;
-        var braceDepth = 0;
-        var inString = false;
-        var escapeNext = false;
-        var inCodeFence = false;
 
         await foreach (var chunk in chunks.WithCancellation(cancellationToken))
         {
-            foreach (var ch in chunk)
+            var byteCount = Encoding.UTF8.GetByteCount(chunk);
+            var span = buffer.GetSpan(byteCount);
+            var written = Encoding.UTF8.GetBytes(chunk, span);
+            buffer.Advance(written);
+
+            foreach (var item in ExtractObjects(buffer, deserialize, ref seenAnyItem,
+                ignoreNonJsonLinesBeforeFirstObject, isFinalBlock: false))
             {
-                if (ch == '\r')
-                {
-                    continue; // normalize CRLF to LF
-                }
-
-                if (braceDepth == 0 && objectBuilder.Length is 0)
-                {
-                    // Handle code fence toggling (```json ... ```)
-                    if (ch == '`')
-                    {
-                        inCodeFence = !inCodeFence;
-                        continue;
-                    }
-
-                    // While inside a code fence line or consuming fence chars, skip
-                    if (inCodeFence && ch != '\n')
-                    {
-                        continue;
-                    }
-
-                    // Newline resets code fence state (fences are line-scoped)
-                    if (ch == '\n')
-                    {
-                        inCodeFence = false;
-                        continue;
-                    }
-
-                    if (char.IsWhiteSpace(ch))
-                    {
-                        continue;
-                    }
-
-                    if (ch != '{')
-                    {
-                        if (ignoreNonJsonLinesBeforeFirstObject && !seenAnyItem)
-                        {
-                            continue;
-                        }
-                        // After we've seen objects, non-JSON is an error
-                        // But be lenient - just skip it
-                        continue;
-                    }
-                }
-
-                objectBuilder.Append(ch);
-
-                // Guard against memory exhaustion from malformed responses
-                if (objectBuilder.Length > MaxObjectSizeChars)
-                {
-                    throw new InvalidOperationException(
-                        $"JSON object exceeded maximum size of {MaxObjectSizeChars / 1024}KB. " +
-                        "This may indicate a malformed AI response or malicious input.");
-                }
-
-                // Track brace depth and string state for proper JSON boundary detection
-                if (escapeNext)
-                {
-                    escapeNext = false;
-                    continue;
-                }
-
-                if (ch == '\\' && inString)
-                {
-                    escapeNext = true;
-                    continue;
-                }
-
-                if (ch == '"' && !escapeNext)
-                {
-                    inString = !inString;
-                    continue;
-                }
-
-                if (!inString)
-                {
-                    if (ch == '{')
-                    {
-                        braceDepth++;
-                    }
-                    else if (ch == '}')
-                    {
-                        braceDepth--;
-
-                        if (braceDepth == 0)
-                        {
-                            var jsonText = objectBuilder.ToString().Trim();
-                            objectBuilder.Clear();
-
-                            if (TryDeserialize(jsonText, deserialize, out var item))
-                            {
-                                seenAnyItem = true;
-                                yield return item;
-                            }
-                        }
-                    }
-                }
+                yield return item;
             }
         }
 
-        if (objectBuilder.Length > 0)
+        // Final pass to handle any remaining complete object at end of stream
+        foreach (var item in ExtractObjects(buffer, deserialize, ref seenAnyItem,
+            ignoreNonJsonLinesBeforeFirstObject, isFinalBlock: true))
         {
-            var remaining = objectBuilder.ToString().Trim();
-            if (remaining.Length > 0 && remaining.StartsWith('{'))
+            yield return item;
+        }
+    }
+
+    /// <summary>
+    /// Extracts zero or more complete JSON objects from the buffer, compacting consumed data.
+    /// </summary>
+    private static List<T> ExtractObjects<T>(
+        ArrayBufferWriter<byte> buffer,
+        Func<string, T?> deserialize,
+        ref bool seenAnyItem,
+        bool ignoreNonJsonLinesBeforeFirstObject,
+        bool isFinalBlock)
+    {
+        var results = new List<T>();
+        var data = buffer.WrittenSpan;
+        var totalConsumed = 0;
+
+        while (totalConsumed < data.Length)
+        {
+            var remaining = data[totalConsumed..];
+
+            // Skip non-JSON prefix (whitespace, code fences, preamble text)
+            var objectStart = FindJsonObjectStart(remaining);
+            if (objectStart < 0)
             {
-                if (TryDeserialize(remaining, deserialize, out var item))
-                {
-                    yield return item;
-                }
+                totalConsumed = data.Length;
+                break;
             }
+
+            totalConsumed += objectStart;
+            remaining = data[totalConsumed..];
+
+            if (remaining.Length > MaxObjectSizeBytes)
+            {
+                throw new InvalidOperationException(
+                    $"JSON object exceeded maximum size of {MaxObjectSizeBytes / 1024}KB. " +
+                    "This may indicate a malformed AI response or malicious input.");
+            }
+
+            // Use Utf8JsonReader to find the boundary of a complete JSON object
+            var consumed = TryReadCompleteObject(remaining, isFinalBlock);
+            if (consumed < 0)
+            {
+                break; // need more data
+            }
+
+            var jsonText = Encoding.UTF8.GetString(remaining[..consumed]);
+            totalConsumed += consumed;
+
+            if (TryDeserialize(jsonText, deserialize, out var item))
+            {
+                seenAnyItem = true;
+                results.Add(item);
+            }
+        }
+
+        CompactBuffer(buffer, totalConsumed);
+        return results;
+    }
+
+    /// <summary>
+    /// Finds the byte offset of the first '{' in the data, skipping whitespace,
+    /// code fence lines, and other non-JSON text lines.
+    /// </summary>
+    private static int FindJsonObjectStart(ReadOnlySpan<byte> data)
+    {
+        var i = 0;
+        while (i < data.Length)
+        {
+            var b = data[i];
+
+            if (b == (byte)'{')
+            {
+                return i;
+            }
+
+            // Skip whitespace
+            if (b == (byte)' ' || b == (byte)'\t' || b == (byte)'\r' || b == (byte)'\n')
+            {
+                i++;
+                continue;
+            }
+
+            // Non-JSON character: skip to end of line (handles code fences and preamble text)
+            while (i < data.Length && data[i] != (byte)'\n')
+            {
+                i++;
+            }
+
+            if (i < data.Length)
+            {
+                i++; // skip the newline
+            }
+        }
+
+        return -1;
+    }
+
+    /// <summary>
+    /// Uses <see cref="Utf8JsonReader"/> to determine if <paramref name="data"/> starts
+    /// with a complete JSON object. Returns the number of bytes consumed, or -1 if
+    /// the object is incomplete.
+    /// </summary>
+    private static int TryReadCompleteObject(ReadOnlySpan<byte> data, bool isFinalBlock)
+    {
+        var reader = new Utf8JsonReader(data, isFinalBlock, default);
+        try
+        {
+            if (!reader.Read() || reader.TokenType != JsonTokenType.StartObject)
+            {
+                return -1;
+            }
+
+            if (!reader.TrySkip())
+            {
+                return -1;
+            }
+
+            return (int)reader.BytesConsumed;
+        }
+        catch (JsonException)
+        {
+            return -1;
+        }
+    }
+
+    /// <summary>
+    /// Removes the first <paramref name="consumed"/> bytes from the buffer by
+    /// shifting remaining data to the front.
+    /// </summary>
+    private static void CompactBuffer(ArrayBufferWriter<byte> buffer, int consumed)
+    {
+        if (consumed <= 0)
+        {
+            return;
+        }
+
+        var remaining = buffer.WrittenCount - consumed;
+        if (remaining > 0)
+        {
+            var data = buffer.WrittenSpan;
+            var leftover = data[consumed..].ToArray();
+            buffer.Clear();
+            var span = buffer.GetSpan(leftover.Length);
+            leftover.CopyTo(span);
+            buffer.Advance(leftover.Length);
+        }
+        else
+        {
+            buffer.Clear();
         }
     }
 

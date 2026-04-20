@@ -1257,19 +1257,63 @@ public partial class CSharpPublicApiGraphEngine : IPublicApiGraphEngine<ApiIndex
         if (string.IsNullOrWhiteSpace(xml))
             return null;
 
-        var start = xml.IndexOf("<summary>", StringComparison.OrdinalIgnoreCase);
-        var end = xml.IndexOf("</summary>", StringComparison.OrdinalIgnoreCase);
-        if (start < 0 || end < 0 || end <= start)
-            return null;
+        try
+        {
+            var doc = XDocument.Parse(xml);
+            var summary = doc.Descendants("summary").FirstOrDefault();
+            if (summary == null)
+                return null;
 
-        var content = xml[(start + "<summary>".Length)..end];
-        content = XmlTagPattern().Replace(content, " ").Trim();
-        content = string.Join(" ", content.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries));
-        return string.IsNullOrWhiteSpace(content) ? null : content.Length > 150 ? content[..147] + "..." : content;
+            var content = ExtractTextFromXmlElement(summary).Trim();
+            content = string.Join(" ", content.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries));
+            return string.IsNullOrWhiteSpace(content) ? null : content.Length > 150 ? content[..147] + "..." : content;
+        }
+        catch (XmlException)
+        {
+            // Malformed XML: fall back to raw text extraction
+            var stripped = Regex.Replace(xml, "<.*?>", " ");
+            var content = string.Join(" ", stripped.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)).Trim();
+            return string.IsNullOrWhiteSpace(content) ? null : content.Length > 150 ? content[..147] + "..." : content;
+        }
     }
 
-    [GeneratedRegex("<.*?>", RegexOptions.None)]
-    private static partial Regex XmlTagPattern();
+    private static string ExtractTextFromXmlElement(XElement element)
+    {
+        var parts = new List<string>();
+        foreach (var node in element.Nodes())
+        {
+            switch (node)
+            {
+                case XText text:
+                    parts.Add(text.Value);
+                    break;
+                case XElement child:
+                    // Handle <see cref="..."/>, <see langword="..."/>, <paramref name="..."/>, <typeparamref name="..."/>
+                    var cref = child.Attribute("cref")?.Value;
+                    if (cref != null)
+                    {
+                        // Strip member-kind prefix (e.g. "T:", "M:", "P:")
+                        var display = cref.Contains(':') ? cref[(cref.IndexOf(':') + 1)..] : cref;
+                        parts.Add(display);
+                    }
+                    else if (child.Attribute("name")?.Value is { } name)
+                    {
+                        parts.Add(name);
+                    }
+                    else if (child.Attribute("langword")?.Value is { } langword)
+                    {
+                        parts.Add(langword);
+                    }
+                    else
+                    {
+                        // Recurse for any other nested elements
+                        parts.Add(ExtractTextFromXmlElement(child));
+                    }
+                    break;
+            }
+        }
+        return string.Join("", parts);
+    }
 
     private static void TrackDependencies(
         IMethodSymbol method,

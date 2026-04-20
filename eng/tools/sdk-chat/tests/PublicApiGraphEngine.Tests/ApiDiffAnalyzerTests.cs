@@ -676,6 +676,91 @@ public class ApiDiffAnalyzerTests
     }
 
     // ---------------------------------------------------------------------------
+    // Hungarian algorithm stress tests
+    // ---------------------------------------------------------------------------
+
+    [Fact]
+    public void OverloadMatching_ManyOverloads_MatchesCorrectly()
+    {
+        // 12 overloads on each side with varying parameter types.
+        // Each overload has a unique param type; current reverses order and changes one return type.
+        var baselineCallables = Enumerable.Range(0, 12)
+            .Select(i => MakeCallable("Process", [$"Type{i}"], "void"))
+            .ToArray();
+        var currentCallables = Enumerable.Range(0, 12)
+            .Select(i => MakeCallable("Process", [$"Type{11 - i}"], i == 5 ? "string" : "void"))
+            .ToArray();
+
+        var baseline = new MockDiagnosticsSource([MakeType("Svc", baselineCallables)]);
+        var current = new MockDiagnosticsSource([MakeType("Svc", currentCallables)]);
+
+        var result = ApiDiffAnalyzer.Compare(baseline, current);
+
+        // Only the overload whose return type changed should be breaking.
+        // The reversed overload with Type6 (index 5 reversed → Type6) changed return to "string".
+        var returnChanges = result.Breaking.Where(c => c.ChangeKind == "ReturnTypeChanged").ToList();
+        Assert.Single(returnChanges);
+        Assert.Equal("void", returnChanges[0].OldSignature);
+        Assert.Equal("string", returnChanges[0].NewSignature);
+        // No signature changes — all param types are present in both sides.
+        Assert.DoesNotContain(result.Breaking, c => c.ChangeKind == "SignatureChanged");
+    }
+
+    [Fact]
+    public void OverloadMatching_ZeroBaselineVsNOverloads_AllAdded()
+    {
+        // Baseline has the type with no callables, current has 5 overloads.
+        // The differ reports each unmatched overload, but they may be grouped.
+        var currentCallables = Enumerable.Range(0, 5)
+            .Select(i => MakeCallable("Run", [$"Arg{i}"], "void"))
+            .ToArray();
+
+        var baseline = new MockDiagnosticsSource([MakeType("Svc")]);
+        var current = new MockDiagnosticsSource([MakeType("Svc", currentCallables)]);
+
+        var result = ApiDiffAnalyzer.Compare(baseline, current);
+
+        Assert.Empty(result.Breaking);
+        // All overloads added for "Run" should appear as non-breaking.
+        Assert.Contains(result.NonBreaking, c => c.ChangeKind == "MemberAdded" && c.MemberName == "Run");
+    }
+
+    [Fact]
+    public void OverloadMatching_NOverloadsVsZero_AllRemoved()
+    {
+        // Baseline has 5 overloads, current has the type with no callables.
+        var baselineCallables = Enumerable.Range(0, 5)
+            .Select(i => MakeCallable("Run", [$"Arg{i}"], "void"))
+            .ToArray();
+
+        var baseline = new MockDiagnosticsSource([MakeType("Svc", baselineCallables)]);
+        var current = new MockDiagnosticsSource([MakeType("Svc")]);
+
+        var result = ApiDiffAnalyzer.Compare(baseline, current);
+
+        Assert.Empty(result.NonBreaking);
+        // All overloads removed for "Run" should appear as breaking.
+        Assert.Contains(result.Breaking, c => c.MemberName == "Run");
+    }
+
+    [Fact]
+    public void OverloadMatching_IdenticalOverloadSets_NoChanges()
+    {
+        // Same 8 overloads on both sides — no changes expected.
+        var callables = Enumerable.Range(0, 8)
+            .Select(i => MakeCallable("Query", [$"Param{i}", "string"], $"Result{i}"))
+            .ToArray();
+
+        var baseline = new MockDiagnosticsSource([MakeType("Svc", callables)]);
+        var current = new MockDiagnosticsSource([MakeType("Svc", callables)]);
+
+        var result = ApiDiffAnalyzer.Compare(baseline, current);
+
+        Assert.Empty(result.Breaking);
+        Assert.Empty(result.NonBreaking);
+    }
+
+    // ---------------------------------------------------------------------------
     // Breaking diagnostics mapping for new change kinds
     // ---------------------------------------------------------------------------
 

@@ -1218,9 +1218,20 @@ public class SdkInfo
 
     /// <summary>
     /// Parses build.gradle or build.gradle.kts for explicit source directory configuration.
-    /// Uses line-by-line heuristic parsing (Groovy/Kotlin DSL is not statically parseable
-    /// without evaluation, so this is best-effort for common patterns).
-    /// Looks for: srcDirs = ['path'], srcDirs('path'), srcDir 'path', srcDir("path")
+    /// <para>
+    /// <strong>Supported grammar (best-effort heuristic):</strong>
+    /// Gradle DSL (Groovy and Kotlin) is not statically parseable without evaluation,
+    /// so this parser recognizes only common literal patterns:
+    /// </para>
+    /// <list type="bullet">
+    ///   <item>Groovy: <c>srcDir 'path'</c>, <c>srcDirs 'path'</c>, <c>srcDirs = ['path']</c></item>
+    ///   <item>Kotlin DSL: <c>srcDir("path")</c>, <c>srcDirs("path")</c>, <c>setSrcDirs(listOf("path"))</c></item>
+    ///   <item>Multiline arrays: <c>srcDirs = [\n  'path'\n]</c> (up to closing bracket)</item>
+    /// </list>
+    /// <para>
+    /// <strong>Not supported:</strong> variable references, string interpolation (<c>$var</c>),
+    /// method calls that compute paths, conditional logic, buildSrc plugins.
+    /// </para>
     /// For multi-module projects, also checks */src/main/java pattern.
     /// </summary>
     private static string? TryParseBuildGradle(string filePath, string projectRoot)
@@ -1229,57 +1240,137 @@ public class SdkInfo
         if (!IsFileSafeToRead(filePath))
             return null;
 
-        // Buffer for handling multiline srcDirs declarations
-        // (e.g., srcDirs = [\n  'src/main/java'\n])
-        string? pendingSrcDirLine = null;
+        // State machine for tracking multiline constructs
+        var state = GradleParserState.Default;
+        var inBlockComment = false;
 
-        foreach (var rawLine in File.ReadLines(filePath))
+        try
         {
-            var line = rawLine.Trim();
-
-            // Skip empty lines and comments (// single-line and /* block */)
-            if (line.Length is 0 || line[0] == '/' || line[0] == '*')
-                continue;
-
-            // If we have a pending srcDir line that didn't yield a quoted value,
-            // check the next non-empty line for the quoted path
-            if (pendingSrcDirLine != null)
+            foreach (var rawLine in File.ReadLines(filePath))
             {
-                var continuationPath = ExtractFirstQuotedValue(line);
-                if (continuationPath != null && continuationPath.Length > 0)
+                var line = rawLine.Trim();
+
+                // Track block comments (/* ... */) across lines
+                if (inBlockComment)
                 {
-                    return NormalizeParsedPath(projectRoot, continuationPath);
+                    var endComment = line.IndexOf("*/", StringComparison.Ordinal);
+                    if (endComment < 0)
+                        continue;
+                    line = line[(endComment + 2)..].Trim();
+                    inBlockComment = false;
+                    if (line.Length == 0)
+                        continue;
                 }
-                pendingSrcDirLine = null; // Give up after one continuation line
+
+                // Strip block comments that start and end on the same line, and
+                // detect block comments that continue to subsequent lines
+                line = StripGradleComments(line, ref inBlockComment);
+                if (line.Length == 0)
+                    continue;
+
+                // In AwaitingArrayValue state, we're inside a multiline array literal
+                // like: srcDirs = [\n  'src/main/java'\n]
+                if (state == GradleParserState.AwaitingArrayValue)
+                {
+                    // Check for closing bracket — end of array
+                    if (line.Contains(']'))
+                    {
+                        // Try to extract a value before the bracket
+                        var path = ExtractFirstQuotedValue(line);
+                        if (path is { Length: > 0 } && !ContainsInterpolation(path))
+                            return NormalizeParsedPath(projectRoot, path);
+
+                        state = GradleParserState.Default;
+                        continue;
+                    }
+
+                    var arrayPath = ExtractFirstQuotedValue(line);
+                    if (arrayPath is { Length: > 0 } && !ContainsInterpolation(arrayPath))
+                        return NormalizeParsedPath(projectRoot, arrayPath);
+
+                    continue;
+                }
+
+                // In AwaitingValue state, the srcDir keyword was on the previous line
+                // but no value was found (e.g., srcDirs =\n  'path')
+                if (state == GradleParserState.AwaitingValue)
+                {
+                    // Check if this line starts an array
+                    if (line[0] == '[')
+                    {
+                        var path = ExtractFirstQuotedValue(line);
+                        if (path is { Length: > 0 } && !ContainsInterpolation(path))
+                            return NormalizeParsedPath(projectRoot, path);
+
+                        // If no closing bracket, the array continues on next lines
+                        if (!line.Contains(']'))
+                        {
+                            state = GradleParserState.AwaitingArrayValue;
+                            continue;
+                        }
+
+                        state = GradleParserState.Default;
+                        continue;
+                    }
+
+                    var continuationPath = ExtractFirstQuotedValue(line);
+                    if (continuationPath is { Length: > 0 } && !ContainsInterpolation(continuationPath))
+                        return NormalizeParsedPath(projectRoot, continuationPath);
+
+                    // Not a continuation — reset and fall through to check this line normally
+                    state = GradleParserState.Default;
+                }
+
+                // Look for srcDir or srcDirs keywords
+                // Patterns: srcDirs = ['path'], srcDirs('path'), srcDir 'path', srcDir("path")
+                var srcDirIndex = line.IndexOf("srcDir", StringComparison.OrdinalIgnoreCase);
+                if (srcDirIndex < 0)
+                    continue;
+
+                // Word boundary check: ensure srcDir is not part of a longer identifier
+                // Reject: val srcDirPath = ..., mySrcDir = ...
+                if (srcDirIndex > 0 && char.IsLetterOrDigit(line[srcDirIndex - 1]))
+                    continue;
+
+                var afterKeyword = line[(srcDirIndex + "srcDir".Length)..];
+
+                // Skip the optional 's' in srcDirs
+                if (afterKeyword.Length > 0 && (afterKeyword[0] == 's' || afterKeyword[0] == 'S'))
+                    afterKeyword = afterKeyword[1..];
+
+                // Word boundary check: reject srcDirectory, srcDirsFoo, etc.
+                if (afterKeyword.Length > 0 && char.IsLetterOrDigit(afterKeyword[0]))
+                    continue;
+
+                // Check for array literal opening bracket
+                var bracketIndex = afterKeyword.IndexOf('[');
+                if (bracketIndex >= 0)
+                {
+                    var path = ExtractFirstQuotedValue(afterKeyword[bracketIndex..]);
+                    if (path is { Length: > 0 } && !ContainsInterpolation(path))
+                        return NormalizeParsedPath(projectRoot, path);
+
+                    // Multiline array — opening bracket without closing
+                    if (!afterKeyword[bracketIndex..].Contains(']'))
+                    {
+                        state = GradleParserState.AwaitingArrayValue;
+                        continue;
+                    }
+                    continue;
+                }
+
+                // Find the first quoted string in the remainder
+                var extractedPath = ExtractFirstQuotedValue(afterKeyword);
+                if (extractedPath is { Length: > 0 } && !ContainsInterpolation(extractedPath))
+                    return NormalizeParsedPath(projectRoot, extractedPath);
+
+                // No quoted value on this line — value may follow on the next line
+                state = GradleParserState.AwaitingValue;
             }
-
-            // Look for srcDir or srcDirs assignments
-            // Patterns: srcDirs = ['path'], srcDirs('path'), srcDir 'path', srcDir("path")
-            var srcDirIndex = line.IndexOf("srcDir", StringComparison.OrdinalIgnoreCase);
-            if (srcDirIndex < 0)
-                continue;
-
-            // Guard: ensure srcDir is a keyword, not part of a longer identifier
-            // (e.g., val srcDirPath = ..., or mySrcDir = ...)
-            if (srcDirIndex > 0 && char.IsLetterOrDigit(line[srcDirIndex - 1]))
-                continue;
-
-            // Extract the quoted path after srcDir/srcDirs
-            var afterKeyword = line[(srcDirIndex + "srcDir".Length)..];
-            // Skip the optional 's' in srcDirs
-            if (afterKeyword.Length > 0 && (afterKeyword[0] == 's' || afterKeyword[0] == 'S'))
-                afterKeyword = afterKeyword[1..];
-
-            // Find the first quoted string in the remainder
-            var path = ExtractFirstQuotedValue(afterKeyword);
-            if (path != null && path.Length > 0)
-            {
-                return NormalizeParsedPath(projectRoot, path);
-            }
-
-            // No quoted value on this line — the value may be on the next line
-            // (e.g., srcDirs = [\n  'src/main/java'\n])
-            pendingSrcDirLine = line;
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            // File became inaccessible during reading — fall through to defaults
         }
 
         // Gradle default: src/main/java (per Gradle Java plugin convention)
@@ -1292,6 +1383,64 @@ public class SdkInfo
         // For multi-module projects, check submodule pattern */src/main/java
         return FindBestJavaSubmodule(projectRoot);
     }
+
+    /// <summary>Parser states for the Gradle build file srcDir extraction.</summary>
+    private enum GradleParserState
+    {
+        /// <summary>Scanning for srcDir/srcDirs keywords.</summary>
+        Default,
+
+        /// <summary>Found srcDir keyword but no value yet — expecting value on next line.</summary>
+        AwaitingValue,
+
+        /// <summary>Inside a multiline array literal (<c>[ ... ]</c>), collecting quoted values.</summary>
+        AwaitingArrayValue,
+    }
+
+    /// <summary>
+    /// Strips single-line comments (<c>//</c>) and inline block comments (<c>/* ... */</c>)
+    /// from a Gradle source line. Sets <paramref name="inBlockComment"/> to <c>true</c> if a
+    /// block comment starts but does not end on this line.
+    /// </summary>
+    private static string StripGradleComments(string line, ref bool inBlockComment)
+    {
+        var result = line;
+
+        // Remove inline block comments: /* ... */ on the same line
+        while (true)
+        {
+            var start = result.IndexOf("/*", StringComparison.Ordinal);
+            if (start < 0)
+                break;
+
+            var end = result.IndexOf("*/", start + 2, StringComparison.Ordinal);
+            if (end >= 0)
+            {
+                result = string.Concat(result.AsSpan(0, start), result.AsSpan(end + 2));
+            }
+            else
+            {
+                // Block comment starts but doesn't end on this line
+                result = result[..start];
+                inBlockComment = true;
+                break;
+            }
+        }
+
+        // Remove single-line comment (// to end of line)
+        var lineComment = result.IndexOf("//", StringComparison.Ordinal);
+        if (lineComment >= 0)
+            result = result[..lineComment];
+
+        return result.Trim();
+    }
+
+    /// <summary>
+    /// Returns <c>true</c> if a parsed string contains Groovy/Kotlin string interpolation
+    /// (<c>$var</c> or <c>${expr}</c>), which we cannot evaluate statically.
+    /// </summary>
+    private static bool ContainsInterpolation(string value)
+        => value.Contains('$');
 
     /// <summary>
     /// Graphs the first single or double quoted value from a string.
@@ -1939,7 +2088,14 @@ public class SdkInfo
 
     /// <summary>
     /// Graphs the Java group/package prefix from pom.xml → <c>&lt;groupId&gt;</c>,
-    /// or from build.gradle → <c>group = '...'</c>.
+    /// or from build.gradle → <c>group = '...'</c> / <c>group = "..."</c>.
+    /// <para>
+    /// <strong>Supported Gradle patterns:</strong>
+    /// Groovy: <c>group = 'com.example'</c>, <c>group 'com.example'</c>,
+    ///   <c>group: 'com.example'</c> (in dependency-style notation).
+    /// Kotlin DSL: <c>group = "com.example"</c>.
+    /// String interpolation values (<c>$var</c>, <c>${expr}</c>) are skipped.
+    /// </para>
     /// </summary>
     private static string? ExtractJavaGroupId(string root)
     {
@@ -1971,21 +2127,44 @@ public class SdkInfo
 
             try
             {
+                var inBlockComment = false;
+
                 foreach (var line in File.ReadLines(gradlePath))
                 {
                     var trimmedLine = line.Trim();
+
+                    // Track block comments across lines
+                    if (inBlockComment)
+                    {
+                        var endComment = trimmedLine.IndexOf("*/", StringComparison.Ordinal);
+                        if (endComment < 0)
+                            continue;
+                        trimmedLine = trimmedLine[(endComment + 2)..].Trim();
+                        inBlockComment = false;
+                        if (trimmedLine.Length == 0)
+                            continue;
+                    }
+
+                    trimmedLine = StripGradleComments(trimmedLine, ref inBlockComment);
+                    if (trimmedLine.Length == 0)
+                        continue;
+
                     // Match: group = 'com.example' or group = "com.example"
                     if (!trimmedLine.StartsWith("group", StringComparison.OrdinalIgnoreCase))
                         continue;
 
-                    // Find quoted value after 'group' keyword
-                    var afterGroup = trimmedLine["group".Length..].TrimStart();
-                    // Skip optional '='
-                    if (afterGroup.Length > 0 && afterGroup[0] == '=')
+                    // Word boundary: reject groupId, groupName, etc.
+                    var afterGroup = trimmedLine["group".Length..];
+                    if (afterGroup.Length > 0 && char.IsLetterOrDigit(afterGroup[0]))
+                        continue;
+
+                    afterGroup = afterGroup.TrimStart();
+                    // Skip optional '=' or ':'
+                    if (afterGroup.Length > 0 && (afterGroup[0] == '=' || afterGroup[0] == ':'))
                         afterGroup = afterGroup[1..].TrimStart();
 
                     var groupValue = ExtractQuotedString(afterGroup);
-                    if (groupValue != null)
+                    if (groupValue != null && !ContainsInterpolation(groupValue))
                         return groupValue;
                 }
             }
@@ -2079,9 +2258,11 @@ public class SdkInfo
     }
 
     /// <summary>
-    /// Provides string-based import statement matching without regex overhead.
-    /// Each language has a simple set of import syntax patterns that can be
-    /// matched with deterministic string operations — no backtracking or compilation cost.
+    /// Detects language-specific import statements using structured token
+    /// consumption and a dedicated quoted-string scanner. Each language handler
+    /// first validates the statement keyword (<c>import</c>, <c>from</c>,
+    /// <c>using</c>, <c>require</c>) then extracts the import target through
+    /// principled helpers rather than raw <c>IndexOf</c> scanning.
     /// </summary>
     internal sealed class ImportMatcher
     {
@@ -2104,10 +2285,10 @@ public class SdkInfo
         /// Per-language matching:
         /// <list type="bullet">
         /// <item><b>Python:</b> <c>import name</c> / <c>from name import</c> (hyphens → underscores and dots)</item>
-        /// <item><b>JS/TS:</b> <c>from 'name'</c> / <c>require('name')</c></item>
-        /// <item><b>Java:</b> <c>import groupId.*</c></item>
-        /// <item><b>Go:</b> <c>"module/path"</c> inside import blocks</item>
-        /// <item><b>.NET:</b> <c>using Namespace;</c></item>
+        /// <item><b>JS/TS:</b> <c>from 'name'</c> / <c>require('name')</c> / <c>import 'name'</c></item>
+        /// <item><b>Java:</b> <c>import groupId.*</c> / <c>import static groupId.*</c></item>
+        /// <item><b>Go:</b> <c>"module/path"</c> inside import blocks (with optional alias)</item>
+        /// <item><b>.NET:</b> <c>using Namespace;</c> / <c>using static Namespace.*</c></item>
         /// </list>
         /// </remarks>
         internal static ImportMatcher? Create(string libraryName, SdkLanguage language)
@@ -2150,131 +2331,218 @@ public class SdkInfo
 
         private static bool MatchesPythonImport(ReadOnlySpan<char> line, string name)
         {
-            // "import name" or "import name.sub" or "import name,"
-            if (line.StartsWith("import ", StringComparison.OrdinalIgnoreCase))
-            {
-                var after = line[7..].TrimStart();
-                if (after.Length >= name.Length
-                    && after[..name.Length].Equals(name, StringComparison.OrdinalIgnoreCase)
-                    && (after.Length == name.Length || IsWordBoundary(after[name.Length])))
-                    return true;
-            }
+            // "import <name>[.<sub>|,|<ws>]"
+            if (TryConsumeKeyword(line, "import", out var after)
+                && StartsWithNameAtBoundary(after, name))
+                return true;
 
-            // "from name import ..." or "from name.sub import ..."
-            if (line.StartsWith("from ", StringComparison.OrdinalIgnoreCase))
-            {
-                var after = line[5..].TrimStart();
-                if (after.Length > name.Length
-                    && after[..name.Length].Equals(name, StringComparison.OrdinalIgnoreCase)
-                    && after[name.Length] is '.' or ' ' or '\t')
-                    return true;
-            }
+            // "from <name>[.<sub>|<ws>] import ..."
+            if (TryConsumeKeyword(line, "from", out after)
+                && after.Length > name.Length
+                && after[..name.Length].Equals(name, StringComparison.OrdinalIgnoreCase)
+                && after[name.Length] is '.' or ' ' or '\t')
+                return true;
 
             return false;
         }
-
-        private static bool IsWordBoundary(char ch) =>
-            ch is '.' or ' ' or ',' or ';' or '\t' or '\r' or '\n';
 
         // ── JavaScript / TypeScript ─────────────────────────────────────────
         private bool MatchJsTs(string line)
         {
             var trimmed = line.AsSpan().TrimStart();
 
-            // Must contain a from or require keyword somewhere
-            if (trimmed.IndexOf("from", StringComparison.OrdinalIgnoreCase) < 0
-                && trimmed.IndexOf("require", StringComparison.OrdinalIgnoreCase) < 0)
+            // Require a leading import keyword or a require token
+            bool hasImportKeyword = trimmed.Length > 6
+                && trimmed[..6].Equals("import", StringComparison.Ordinal)
+                && (trimmed.Length == 6 || !char.IsLetterOrDigit(trimmed[6]));
+            bool hasRequireToken = !hasImportKeyword && ContainsToken(trimmed, "require");
+
+            if (!hasImportKeyword && !hasRequireToken)
                 return false;
 
-            // Look for the library name inside quotes (single or double)
-            return ContainsQuotedName(line, _name, '\'')
-                || ContainsQuotedName(line, _name, '"');
+            return AnyQuotedStringMatchesName(line, _name);
         }
 
         // ── Java ────────────────────────────────────────────────────────────
         private bool MatchJava(string line)
         {
             var trimmed = line.AsSpan().TrimStart();
-            if (!trimmed.StartsWith("import ", StringComparison.Ordinal))
+            if (!TryConsumeKeyword(trimmed, "import", out var after))
                 return false;
 
-            var after = trimmed[7..].TrimStart();
-            // Skip optional "static "
-            if (after.StartsWith("static ", StringComparison.Ordinal))
-                after = after[7..].TrimStart();
+            // Skip optional "static" modifier
+            if (TryConsumeKeyword(after, "static", out var afterStatic))
+                after = afterStatic;
 
             return after.Length > _name.Length
-                && after[..(_name.Length)].Equals(_name, StringComparison.Ordinal)
+                && after[.._name.Length].Equals(_name, StringComparison.Ordinal)
                 && after[_name.Length] == '.';
         }
 
         // ── Go ──────────────────────────────────────────────────────────────
         private bool MatchGo(string line)
         {
-            // Go imports: "github.com/org/repo" or alias "github.com/org/repo/sub"
-            return ContainsQuotedName(line, _name, '"');
+            // Go imports: "module/path" — may be aliased (alias "module/path")
+            return AnyQuotedStringMatchesName(line, _name);
         }
 
         // ── .NET ────────────────────────────────────────────────────────────
         private bool MatchDotNet(string line)
         {
             var trimmed = line.AsSpan().TrimStart();
-            if (!trimmed.StartsWith("using ", StringComparison.Ordinal))
+            if (!TryConsumeKeyword(trimmed, "using", out var after))
                 return false;
 
-            var after = trimmed[6..].TrimStart();
-            // Skip optional "static "
-            if (after.StartsWith("static ", StringComparison.Ordinal))
-                after = after[7..].TrimStart();
+            // Skip optional "static" modifier
+            if (TryConsumeKeyword(after, "static", out var afterStatic))
+                after = afterStatic;
 
             return after.Length > _name.Length
-                && after[..(_name.Length)].Equals(_name, StringComparison.OrdinalIgnoreCase)
+                && after[.._name.Length].Equals(_name, StringComparison.OrdinalIgnoreCase)
                 && after[_name.Length] is '.' or ';' or ' ';
         }
 
-        // ── Shared helper ───────────────────────────────────────────────────
+        // ── Token helpers ───────────────────────────────────────────────────
 
         /// <summary>
-        /// Scans <paramref name="line"/> for <paramref name="name"/> inside
-        /// <paramref name="quote"/>-delimited strings. Matches the name as a prefix
-        /// (allowing sub-path imports like "name/sub").
+        /// Tries to consume a keyword at the start of <paramref name="span"/> followed
+        /// by whitespace. On success, <paramref name="rest"/> is the trimmed remainder.
         /// </summary>
-        private static bool ContainsQuotedName(string line, string name, char quote)
+        private static bool TryConsumeKeyword(ReadOnlySpan<char> span, string keyword, out ReadOnlySpan<char> rest)
         {
-            var searchFrom = 0;
-            while (searchFrom < line.Length)
+            if (span.Length > keyword.Length
+                && span[..keyword.Length].Equals(keyword, StringComparison.OrdinalIgnoreCase)
+                && char.IsWhiteSpace(span[keyword.Length]))
             {
-                var quoteStart = line.IndexOf(quote, searchFrom);
-                if (quoteStart < 0) break;
+                rest = span[(keyword.Length + 1)..].TrimStart();
+                return true;
+            }
+            rest = default;
+            return false;
+        }
 
-                var contentStart = quoteStart + 1;
-                if (contentStart + name.Length > line.Length) break;
+        /// <summary>
+        /// Returns true if <paramref name="span"/> starts with <paramref name="name"/>
+        /// followed by end-of-span or a word boundary character.
+        /// </summary>
+        private static bool StartsWithNameAtBoundary(ReadOnlySpan<char> span, string name)
+        {
+            return span.Length >= name.Length
+                && span[..name.Length].Equals(name, StringComparison.OrdinalIgnoreCase)
+                && (span.Length == name.Length || IsWordBoundary(span[name.Length]));
+        }
 
-                // Skip relative path prefixes (../ or ./)
-                var offset = contentStart;
-                while (offset + 1 < line.Length)
-                {
-                    if (line[offset] == '.' && line[offset + 1] == '/')
-                    { offset += 2; continue; }
-                    if (offset + 2 < line.Length && line[offset] == '.' && line[offset + 1] == '.' && line[offset + 2] == '/')
-                    { offset += 3; continue; }
-                    break;
-                }
+        private static bool IsWordBoundary(char ch) =>
+            ch is '.' or ' ' or ',' or ';' or '\t' or '\r' or '\n';
 
-                // Check if content starts with the name
-                if (offset + name.Length <= line.Length
-                    && line.AsSpan(offset, name.Length).Equals(name, StringComparison.OrdinalIgnoreCase))
-                {
-                    var nameEnd = offset + name.Length;
-                    if (nameEnd < line.Length && (line[nameEnd] == quote || line[nameEnd] == '/'))
-                        return true;
-                }
+        /// <summary>
+        /// Returns true if <paramref name="token"/> appears in <paramref name="span"/>
+        /// as a standalone identifier (not embedded in a larger word).
+        /// </summary>
+        private static bool ContainsToken(ReadOnlySpan<char> span, string token)
+        {
+            var remaining = span;
+            while (remaining.Length >= token.Length)
+            {
+                var idx = remaining.IndexOf(token, StringComparison.Ordinal);
+                if (idx < 0) return false;
 
-                // Advance past this quoted string to avoid re-scanning
-                var closeIdx = line.IndexOf(quote, contentStart);
-                searchFrom = closeIdx > 0 ? closeIdx + 1 : line.Length;
+                bool leftBound = idx == 0 || !char.IsLetterOrDigit(remaining[idx - 1]);
+                bool rightBound = idx + token.Length >= remaining.Length
+                    || !char.IsLetterOrDigit(remaining[idx + token.Length]);
+                if (leftBound && rightBound) return true;
+
+                remaining = remaining[(idx + 1)..];
             }
             return false;
+        }
+
+        // ── Quoted-string scanner ───────────────────────────────────────────
+
+        /// <summary>
+        /// Scans <paramref name="line"/> for single- or double-quoted strings and
+        /// checks whether any quoted content, after stripping relative path prefixes,
+        /// matches <paramref name="name"/> as a prefix (allowing sub-paths like "name/sub").
+        /// </summary>
+        private static bool AnyQuotedStringMatchesName(string line, string name)
+        {
+            var scanner = new QuotedStringScanner(line);
+            while (scanner.TryNext(out var content))
+            {
+                var target = StripRelativePrefix(content);
+                if (target.Length >= name.Length
+                    && target[..name.Length].Equals(name, StringComparison.OrdinalIgnoreCase)
+                    && (target.Length == name.Length || target[name.Length] == '/'))
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Strips leading relative path segments (<c>./</c>, <c>../</c>) from a span.
+        /// </summary>
+        private static ReadOnlySpan<char> StripRelativePrefix(ReadOnlySpan<char> span)
+        {
+            while (span.Length >= 2)
+            {
+                if (span[0] == '.' && span[1] == '/')
+                { span = span[2..]; continue; }
+                if (span.Length >= 3 && span[0] == '.' && span[1] == '.' && span[2] == '/')
+                { span = span[3..]; continue; }
+                break;
+            }
+            return span;
+        }
+
+        /// <summary>
+        /// Zero-allocation scanner that yields the contents of single- and
+        /// double-quoted strings in a source line. Handles backslash escapes so
+        /// that <c>\"</c> inside a double-quoted string does not end the string.
+        /// </summary>
+        private ref struct QuotedStringScanner
+        {
+            private ReadOnlySpan<char> _remaining;
+
+            public QuotedStringScanner(ReadOnlySpan<char> line) => _remaining = line;
+
+            /// <summary>
+            /// Advances to the next quoted string. On success, <paramref name="content"/>
+            /// is the text between the opening and closing quote (exclusive).
+            /// </summary>
+            public bool TryNext(out ReadOnlySpan<char> content)
+            {
+                while (_remaining.Length > 0)
+                {
+                    int qi = _remaining.IndexOfAny('\'', '"');
+                    if (qi < 0) break;
+
+                    char quote = _remaining[qi];
+                    var afterOpen = _remaining[(qi + 1)..];
+                    int closeIdx = FindCloseQuote(afterOpen, quote);
+                    if (closeIdx < 0)
+                    {
+                        // Unterminated string — stop scanning
+                        _remaining = ReadOnlySpan<char>.Empty;
+                        break;
+                    }
+
+                    content = afterOpen[..closeIdx];
+                    _remaining = afterOpen[(closeIdx + 1)..];
+                    return true;
+                }
+                content = default;
+                return false;
+            }
+
+            private static int FindCloseQuote(ReadOnlySpan<char> span, char quote)
+            {
+                for (int i = 0; i < span.Length; i++)
+                {
+                    if (span[i] == '\\' && i + 1 < span.Length) { i++; continue; }
+                    if (span[i] == quote) return i;
+                }
+                return -1;
+            }
         }
     }
 

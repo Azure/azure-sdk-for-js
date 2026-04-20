@@ -177,6 +177,79 @@ public class EngineResultWarningTests
     }
 
     [Fact]
+    public void TryParseStructuredDiagnostic_MissingMessage_ReturnsNull()
+    {
+        var line = """{"code":"SDK001","severity":"warning"}""";
+        var diag = PublicApiGraphEngine.TypeScript.TypeScriptPublicApiGraphEngine.TryParseStructuredDiagnostic(line);
+        Assert.Null(diag);
+    }
+
+    [Fact]
+    public void TryParseStructuredDiagnostic_MissingSeverity_ReturnsNull()
+    {
+        var line = """{"code":"SDK001","message":"text"}""";
+        var diag = PublicApiGraphEngine.TypeScript.TypeScriptPublicApiGraphEngine.TryParseStructuredDiagnostic(line);
+        Assert.Null(diag);
+    }
+
+    [Fact]
+    public void TryParseStructuredDiagnostic_NullSeverity_ReturnsNull()
+    {
+        var line = """{"code":"SDK001","message":"text","severity":null}""";
+        var diag = PublicApiGraphEngine.TypeScript.TypeScriptPublicApiGraphEngine.TryParseStructuredDiagnostic(line);
+        Assert.Null(diag);
+    }
+
+    [Fact]
+    public void TryParseStructuredDiagnostic_NullCode_ReturnsNull()
+    {
+        var line = """{"code":null,"message":"text","severity":"warning"}""";
+        var diag = PublicApiGraphEngine.TypeScript.TypeScriptPublicApiGraphEngine.TryParseStructuredDiagnostic(line);
+        Assert.Null(diag);
+    }
+
+    [Fact]
+    public void TryParseStructuredDiagnostic_NumberWhereStringExpected_ReturnsNull()
+    {
+        // "code" is a number instead of a string
+        var line = """{"code":123,"message":"text","severity":"warning"}""";
+        var diag = PublicApiGraphEngine.TypeScript.TypeScriptPublicApiGraphEngine.TryParseStructuredDiagnostic(line);
+        Assert.Null(diag);
+    }
+
+    [Fact]
+    public void TryParseStructuredDiagnostic_SeverityAsNumber_ReturnsNull()
+    {
+        var line = """{"code":"SDK001","message":"text","severity":1}""";
+        var diag = PublicApiGraphEngine.TypeScript.TypeScriptPublicApiGraphEngine.TryParseStructuredDiagnostic(line);
+        Assert.Null(diag);
+    }
+
+    [Fact]
+    public void TryParseStructuredDiagnostic_MessageAsArray_ReturnsNull()
+    {
+        var line = """{"code":"SDK001","message":["a","b"],"severity":"warning"}""";
+        var diag = PublicApiGraphEngine.TypeScript.TypeScriptPublicApiGraphEngine.TryParseStructuredDiagnostic(line);
+        Assert.Null(diag);
+    }
+
+    [Fact]
+    public void TryParseStructuredDiagnostic_NonJsonWithBraces_ReturnsNull()
+    {
+        // Starts with '{' so it enters the JSON parse path, but is not valid JSON
+        var diag = PublicApiGraphEngine.TypeScript.TypeScriptPublicApiGraphEngine.TryParseStructuredDiagnostic("{ some text with {nested} braces }");
+        Assert.Null(diag);
+    }
+
+    [Fact]
+    public void TryParseStructuredDiagnostic_BraceInMiddle_ReturnsNull()
+    {
+        // Does not start with '{', so should be rejected immediately
+        var diag = PublicApiGraphEngine.TypeScript.TypeScriptPublicApiGraphEngine.TryParseStructuredDiagnostic("error: unexpected { in input");
+        Assert.Null(diag);
+    }
+
+    [Fact]
     public void ParseStderrWarnings_TrimsWhitespace()
     {
         var stderr = "  warning: spaces  \n  info: tabs  \n";

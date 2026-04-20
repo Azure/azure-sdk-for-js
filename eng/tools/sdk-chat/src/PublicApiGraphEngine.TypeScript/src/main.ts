@@ -42,6 +42,20 @@ import { resolveCollisions } from "./collision.js";
 import { emitDiagnostic } from "./diagnostics.js";
 
 // ============================================================================
+// Helpers
+// ============================================================================
+
+/**
+ * Checks whether a context entity key (possibly dotted, e.g. "NS.Client")
+ * has any segment present in the reachable set.
+ * This ensures nested qualified names like "NS.Client" are considered
+ * reachable if either "NS" or "Client" is in the reachable set.
+ */
+export function isEntityKeyReachable(entityKey: string, reachableTypes: Set<string>): boolean {
+    return entityKey.split(".").some(seg => reachableTypes.has(seg));
+}
+
+// ============================================================================
 // Package Engine
 // ============================================================================
 
@@ -422,9 +436,9 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
             for (const [contextName, refs] of allContextRefNames) {
                 // contextName may be module-qualified (e.g. "mod:NS.Client"); extract the entity part
                 const entityKey = contextName.includes(":") ? contextName.slice(contextName.indexOf(":") + 1) : contextName;
-                // entityKey is a simple or dotted entity name; check if the simple base name is reachable
-                const baseName = entityKey.includes(".") ? entityKey.split(".")[0] : entityKey;
-                if (reachableTypes.has(baseName)) {
+                // entityKey is a simple or dotted entity name (e.g. "NS.Client");
+                // check if any segment of the qualified name is in the reachable set
+                if (isEntityKeyReachable(entityKey, reachableTypes)) {
                     for (const ref of refs) {
                         if (qualifiedRefs.has(ref)) {
                             reachableQualifiedRefs.add(ref);

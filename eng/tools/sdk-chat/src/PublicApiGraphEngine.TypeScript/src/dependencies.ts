@@ -1094,9 +1094,9 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
     // Add Node.js dependencies as simple type-name references (no extraction).
     // These are emitted as import statements, not declare module blocks.
     // Use the original node:* module paths (e.g., node:buffer, node:stream, node:events)
-    // determined from the declaration file paths in @types/node.
+    // determined from ambient `declare module "..."` blocks in @types/node .d.ts files.
     //
-    // Build a lookup: type name → specific node:* module from declaration paths.
+    // Build a lookup: type name → specific node:* module from module declarations.
     // Also track which types are actual classes/interfaces (importable) vs internal
     // utility type aliases (DefaultEventMap, EventMap, etc.) that shouldn't be imported.
     const nodeTypeToModule = new Map<string, string>();
@@ -1104,17 +1104,13 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
     for (const ref of externalRefs) {
         if (!ref.packageName || !isNodePackage(ref.packageName)) continue;
         if (ref.declarationPath) {
-            // Extract module name from @types/node declaration file path
-            // e.g., ".../node_modules/@types/node/events.d.ts" → "node:events"
-            //        ".../node_modules/@types/node/stream.d.ts" → "node:stream"
-            //        ".../node_modules/@types/node/buffer.buffer.d.ts" → "node:buffer"
-            const match = ref.declarationPath.match(/@types\/node\/([^.]+)/);
-            if (match) {
-                const moduleName = match[1];
-                // globals.d.ts has ambient types without a specific module —
-                // they're available via /// <reference types="node" />, skip them.
-                if (moduleName === "globals") continue;
-                nodeTypeToModule.set(ref.name, `node:${moduleName}`);
+            // Extract module name from ambient module declarations in the .d.ts file.
+            // Instead of inferring from file paths (fragile for dotted filenames or
+            // layout changes), we read `declare module "..."` blocks via ts-morph and
+            // find which one exports the type.
+            const moduleName = getNodeModuleNameFromDeclarations(ref.name, ref.declarationPath, ctx);
+            if (moduleName !== undefined) {
+                nodeTypeToModule.set(ref.name, moduleName);
             }
 
             // Use AST-based declaration kind check to determine if the type is
@@ -1241,6 +1237,48 @@ export function isNodeTypeImportable(typeName: string, declarationPath: string, 
     } catch { /* benign */ }
 
     return false;
+}
+
+/**
+ * Extracts the `node:*` module name for a type declared in a `@types/node` .d.ts file
+ * by inspecting the ambient `declare module "..."` blocks via ts-morph, rather than
+ * inferring the module name from the file path (which is fragile for dotted filenames
+ * or layout changes).
+ *
+ * Returns the canonical `node:*` module name (e.g., `"node:events"`) if the type is
+ * exported from an ambient module declaration, or `undefined` if no matching module
+ * is found (e.g., for globals.d.ts ambient types that lack a module declaration).
+ */
+export function getNodeModuleNameFromDeclarations(
+    typeName: string,
+    declarationPath: string,
+    ctx: ExtractionContext,
+): string | undefined {
+    let sf = ctx.project.getSourceFile(declarationPath);
+    if (!sf) {
+        try { sf = ctx.project.addSourceFileAtPath(declarationPath); }
+        catch { return undefined; }
+    }
+
+    try {
+        for (const mod of sf.getModules()) {
+            // Module name is the string literal from `declare module "fs"` (with quotes).
+            const rawName = mod.getName();
+            // Strip surrounding quotes (single or double).
+            const modName = rawName.replace(/^["']|["']$/g, "");
+            if (!modName) continue;
+
+            // Check if this ambient module exports the type we're looking for.
+            const exported = mod.getExportedDeclarations();
+            if (!exported.has(typeName)) continue;
+
+            // The module name already has the canonical form (e.g., "fs" or "node:fs").
+            // Normalize to always use the `node:` prefix.
+            return modName.startsWith("node:") ? modName : `node:${modName}`;
+        }
+    } catch { /* benign — some files may not parse cleanly */ }
+
+    return undefined;
 }
 
 /**
