@@ -343,15 +343,14 @@ describe("FetchHttpClient", function () {
     const requestText = "testing resettable stream";
     const url = `http://localhost:3000/formdata/stream/uploadfile`;
 
-    let bodySent = false;
     const stream = new ReadableStream({
       start(controller) {
         controller.enqueue(requestText);
         controller.close();
       },
     });
-    vi.mocked(fetch).mockImplementation(
-      async (_url, options: (RequestInit & { duplex?: string }) | undefined) => {
+    const mockFetch = vi.fn(
+      async (_url: any, options: (RequestInit & { duplex?: string }) | undefined) => {
         const body = options?.body;
         assert.isTrue(
           body &&
@@ -363,10 +362,10 @@ describe("FetchHttpClient", function () {
         const reader = (body as ReadableStream).getReader();
         const data = await reader.read();
         assert.equal(data.value, requestText, "unexpected request text");
-        bodySent = true;
         return new Response(undefined, { status: 200 });
       },
     );
+    vi.mocked(fetch).mockImplementation(mockFetch);
     const request = createPipelineRequest({
       url,
       method: "PUT",
@@ -376,7 +375,7 @@ describe("FetchHttpClient", function () {
       streamResponseStatusCodes: new Set([Number.POSITIVE_INFINITY]),
     });
     await client.sendRequest(request);
-    assert.isTrue(bodySent, "body should have been sent to request");
+    expect(mockFetch).toHaveBeenCalled();
   });
 
   it("should handle () => ReadableStream request body type", async () => {
@@ -384,7 +383,6 @@ describe("FetchHttpClient", function () {
     const requestText = "testing resettable stream";
     const url = `http://localhost:3000/formdata/stream/uploadfile`;
 
-    let bodySent = false;
     const factoryMethod = (): ReadableStream => {
       return new ReadableStream({
         start(controller) {
@@ -393,7 +391,7 @@ describe("FetchHttpClient", function () {
         },
       });
     };
-    vi.mocked(fetch).mockImplementation(async (_url, options) => {
+    const mockFetch = vi.fn(async (_url: any, options: any) => {
       const body = options?.body;
       assert.isTrue(
         body &&
@@ -404,9 +402,9 @@ describe("FetchHttpClient", function () {
       const reader = (body as ReadableStream).getReader();
       const data = await reader.read();
       assert.equal(data.value, requestText, "unexpected request text");
-      bodySent = true;
       return new Response(undefined, { status: 200 });
     });
+    vi.mocked(fetch).mockImplementation(mockFetch);
     const request = createPipelineRequest({
       url,
       method: "PUT",
@@ -416,7 +414,7 @@ describe("FetchHttpClient", function () {
       streamResponseStatusCodes: new Set([Number.POSITIVE_INFINITY]),
     });
     await client.sendRequest(request);
-    assert.isTrue(bodySent, "body should have been sent to request");
+    expect(mockFetch).toHaveBeenCalled();
   });
 
   it("should honor timeout", async function () {
