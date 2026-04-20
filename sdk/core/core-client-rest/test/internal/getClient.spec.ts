@@ -11,17 +11,17 @@ import type {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import { createEmptyPipeline, createHttpHeaders, RestError } from "@azure/core-rest-pipeline";
+import { createEmptyPipeline, createHttpHeaders, createPipelineRequest, RestError } from "@azure/core-rest-pipeline";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 
 describe("getClient", () => {
-  const httpClient = {
+  const httpClient: HttpClient = {
     sendRequest: (req: PipelineRequest) => {
       return Promise.resolve({
         headers: createHttpHeaders(),
         status: 200,
         request: req,
-      }) as Promise<PipelineResponse>;
+      });
     },
   };
 
@@ -233,7 +233,11 @@ describe("getClient", () => {
     const fakeHttpClient: HttpClient = {
       sendRequest: async () => {
         throw new RestError("error", {
-          response: { status: 404, headers: createHttpHeaders({}) } as PipelineResponse,
+          response: {
+            status: 404,
+            headers: createHttpHeaders({}),
+            request: createPipelineRequest({ url: "https://example.org/foo" }),
+          },
         });
       },
     };
