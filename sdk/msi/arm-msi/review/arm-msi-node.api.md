@@ -4,9 +4,31 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
+
+// @public
+export interface AssignmentRestrictions {
+    providers?: string[];
+}
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
+export interface ClaimsMatchingExpression {
+    languageVersion: number;
+    value: string;
+}
 
 // @public
 export interface CloudError {
@@ -22,83 +44,72 @@ export interface CloudErrorBody {
 }
 
 // @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
 export type CreatedByType = string;
+
+// @public
+export interface ExtensionResource extends Resource {
+}
 
 // @public
 export interface FederatedIdentityCredential extends ProxyResource {
     audiences?: string[];
+    claimsMatchingExpression?: ClaimsMatchingExpression;
     issuer?: string;
     subject?: string;
 }
 
 // @public
-export interface FederatedIdentityCredentials {
-    createOrUpdate(resourceGroupName: string, resourceName: string, federatedIdentityCredentialResourceName: string, parameters: FederatedIdentityCredential, options?: FederatedIdentityCredentialsCreateOrUpdateOptionalParams): Promise<FederatedIdentityCredentialsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, resourceName: string, federatedIdentityCredentialResourceName: string, options?: FederatedIdentityCredentialsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, resourceName: string, federatedIdentityCredentialResourceName: string, options?: FederatedIdentityCredentialsGetOptionalParams): Promise<FederatedIdentityCredentialsGetResponse>;
-    list(resourceGroupName: string, resourceName: string, options?: FederatedIdentityCredentialsListOptionalParams): PagedAsyncIterableIterator<FederatedIdentityCredential>;
+export interface FederatedIdentityCredentialProperties {
+    audiences: string[];
+    claimsMatchingExpression?: ClaimsMatchingExpression;
+    issuer: string;
+    subject?: string;
 }
 
 // @public
-export interface FederatedIdentityCredentialsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface FederatedIdentityCredentialsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type FederatedIdentityCredentialsCreateOrUpdateResponse = FederatedIdentityCredential;
-
-// @public
-export interface FederatedIdentityCredentialsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface FederatedIdentityCredentialsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface FederatedIdentityCredentialsGetOptionalParams extends coreClient.OperationOptions {
+export interface FederatedIdentityCredentialsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type FederatedIdentityCredentialsGetResponse = FederatedIdentityCredential;
-
-// @public
-export interface FederatedIdentityCredentialsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FederatedIdentityCredentialsListNextResponse = FederatedIdentityCredentialsListResult;
-
-// @public
-export interface FederatedIdentityCredentialsListOptionalParams extends coreClient.OperationOptions {
+export interface FederatedIdentityCredentialsListOptionalParams extends OperationOptions {
     skiptoken?: string;
     top?: number;
 }
 
 // @public
-export type FederatedIdentityCredentialsListResponse = FederatedIdentityCredentialsListResult;
-
-// @public
-export interface FederatedIdentityCredentialsListResult {
-    nextLink?: string;
-    value?: FederatedIdentityCredential[];
+export interface FederatedIdentityCredentialsOperations {
+    createOrUpdate: (resourceGroupName: string, resourceName: string, federatedIdentityCredentialResourceName: string, parameters: FederatedIdentityCredential, options?: FederatedIdentityCredentialsCreateOrUpdateOptionalParams) => Promise<FederatedIdentityCredential>;
+    delete: (resourceGroupName: string, resourceName: string, federatedIdentityCredentialResourceName: string, options?: FederatedIdentityCredentialsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, resourceName: string, federatedIdentityCredentialResourceName: string, options?: FederatedIdentityCredentialsGetOptionalParams) => Promise<FederatedIdentityCredential>;
+    list: (resourceGroupName: string, resourceName: string, options?: FederatedIdentityCredentialsListOptionalParams) => PagedAsyncIterableIterator<FederatedIdentityCredential>;
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
 export interface Identity extends TrackedResource {
-    readonly clientId?: string;
-    isolationScope?: IsolationScope;
-    readonly principalId?: string;
-    readonly tenantId?: string;
+    properties?: UserAssignedIdentityProperties;
 }
 
 // @public
 export interface IdentityUpdate extends Resource {
+    assignmentRestrictions?: AssignmentRestrictions;
     readonly clientId?: string;
     isolationScope?: IsolationScope;
     location?: string;
     readonly principalId?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
     readonly tenantId?: string;
 }
 
@@ -119,31 +130,27 @@ export enum KnownIsolationScope {
     Regional = "Regional"
 }
 
+// @public
+export enum KnownVersions {
+    V20241130 = "2024-11-30",
+    V20250531Preview = "2025-05-31-preview"
+}
+
 // @public (undocumented)
-export class ManagedServiceIdentityClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ManagedServiceIdentityClientOptionalParams);
-    constructor(credentials: coreAuth.TokenCredential, options?: ManagedServiceIdentityClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    federatedIdentityCredentials: FederatedIdentityCredentials;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    subscriptionId?: string;
-    // (undocumented)
-    systemAssignedIdentities: SystemAssignedIdentities;
-    // (undocumented)
-    userAssignedIdentities: UserAssignedIdentities;
+export class ManagedServiceIdentityClient {
+    constructor(credential: TokenCredential, options?: ManagedServiceIdentityClientOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: ManagedServiceIdentityClientOptionalParams);
+    readonly federatedIdentityCredentials: FederatedIdentityCredentialsOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly systemAssignedIdentities: SystemAssignedIdentitiesOperations;
+    readonly userAssignedIdentities: UserAssignedIdentitiesOperations;
 }
 
 // @public
-export interface ManagedServiceIdentityClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface ManagedServiceIdentityClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -161,29 +168,25 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationListResult {
-    nextLink?: string;
-    value?: Operation[];
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
 // @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
 }
 
 // @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+export interface PageSettings {
+    continuationToken?: string;
 }
-
-// @public
-export type OperationsListResponse = OperationListResult;
 
 // @public
 export interface ProxyResource extends Resource {
@@ -198,26 +201,28 @@ export interface Resource {
 }
 
 // @public
-export interface SystemAssignedIdentities {
-    getByScope(scope: string, options?: SystemAssignedIdentitiesGetByScopeOptionalParams): Promise<SystemAssignedIdentitiesGetByScopeResponse>;
+export interface SystemAssignedIdentitiesGetByScopeOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SystemAssignedIdentitiesGetByScopeOptionalParams extends coreClient.OperationOptions {
+export interface SystemAssignedIdentitiesOperations {
+    getByScope: (scope: string, options?: SystemAssignedIdentitiesGetByScopeOptionalParams) => Promise<SystemAssignedIdentity>;
 }
 
 // @public
-export type SystemAssignedIdentitiesGetByScopeResponse = SystemAssignedIdentity;
+export interface SystemAssignedIdentity extends ExtensionResource {
+    // (undocumented)
+    location: string;
+    readonly properties?: SystemAssignedIdentityProperties;
+    // (undocumented)
+    tags?: Record<string, string>;
+}
 
 // @public
-export interface SystemAssignedIdentity extends ProxyResource {
+export interface SystemAssignedIdentityProperties {
     readonly clientId?: string;
     readonly clientSecretUrl?: string;
-    location: string;
     readonly principalId?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
     readonly tenantId?: string;
 }
 
@@ -234,79 +239,51 @@ export interface SystemData {
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
-export interface UserAssignedIdentities {
-    createOrUpdate(resourceGroupName: string, resourceName: string, parameters: Identity, options?: UserAssignedIdentitiesCreateOrUpdateOptionalParams): Promise<UserAssignedIdentitiesCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, resourceName: string, options?: UserAssignedIdentitiesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, resourceName: string, options?: UserAssignedIdentitiesGetOptionalParams): Promise<UserAssignedIdentitiesGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: UserAssignedIdentitiesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Identity>;
-    listBySubscription(options?: UserAssignedIdentitiesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Identity>;
-    update(resourceGroupName: string, resourceName: string, parameters: IdentityUpdate, options?: UserAssignedIdentitiesUpdateOptionalParams): Promise<UserAssignedIdentitiesUpdateResponse>;
+export interface UserAssignedIdentitiesCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface UserAssignedIdentitiesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface UserAssignedIdentitiesDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type UserAssignedIdentitiesCreateOrUpdateResponse = Identity;
-
-// @public
-export interface UserAssignedIdentitiesDeleteOptionalParams extends coreClient.OperationOptions {
+export interface UserAssignedIdentitiesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface UserAssignedIdentitiesGetOptionalParams extends coreClient.OperationOptions {
+export interface UserAssignedIdentitiesListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type UserAssignedIdentitiesGetResponse = Identity;
-
-// @public
-export interface UserAssignedIdentitiesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface UserAssignedIdentitiesListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type UserAssignedIdentitiesListByResourceGroupNextResponse = UserAssignedIdentitiesListResult;
-
-// @public
-export interface UserAssignedIdentitiesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface UserAssignedIdentitiesOperations {
+    createOrUpdate: (resourceGroupName: string, resourceName: string, parameters: Identity, options?: UserAssignedIdentitiesCreateOrUpdateOptionalParams) => Promise<Identity>;
+    delete: (resourceGroupName: string, resourceName: string, options?: UserAssignedIdentitiesDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, resourceName: string, options?: UserAssignedIdentitiesGetOptionalParams) => Promise<Identity>;
+    listByResourceGroup: (resourceGroupName: string, options?: UserAssignedIdentitiesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Identity>;
+    listBySubscription: (options?: UserAssignedIdentitiesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<Identity>;
+    update: (resourceGroupName: string, resourceName: string, parameters: IdentityUpdate, options?: UserAssignedIdentitiesUpdateOptionalParams) => Promise<Identity>;
 }
 
 // @public
-export type UserAssignedIdentitiesListByResourceGroupResponse = UserAssignedIdentitiesListResult;
-
-// @public
-export interface UserAssignedIdentitiesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface UserAssignedIdentitiesUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type UserAssignedIdentitiesListBySubscriptionNextResponse = UserAssignedIdentitiesListResult;
-
-// @public
-export interface UserAssignedIdentitiesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface UserAssignedIdentityProperties {
+    assignmentRestrictions?: AssignmentRestrictions;
+    readonly clientId?: string;
+    isolationScope?: IsolationScope;
+    readonly principalId?: string;
+    readonly tenantId?: string;
 }
-
-// @public
-export type UserAssignedIdentitiesListBySubscriptionResponse = UserAssignedIdentitiesListResult;
-
-// @public
-export interface UserAssignedIdentitiesListResult {
-    nextLink?: string;
-    value?: Identity[];
-}
-
-// @public
-export interface UserAssignedIdentitiesUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type UserAssignedIdentitiesUpdateResponse = Identity;
 
 // (No @packageDocumentation comment for this package)
 
