@@ -444,7 +444,7 @@ describe("build (integration)", () => {
   });
 
   it("CJS source maps preserve subdirectory paths (no basename truncation)", async () => {
-    // Regression test: buildCjsFromSources must preserve directory structure
+    // Regression test: buildTransformedOutput must preserve directory structure
     // in source map paths (previously used path.basename which lost the directory).
     await fs.mkdir(path.join(tmpDir, "src/internal"), { recursive: true });
     await fs.writeFile(
@@ -575,5 +575,187 @@ describe("build (integration)", () => {
 
     const cjsJs = await fs.readFile(path.join(tmpDir, "dist/commonjs/index.js"), "utf-8");
     expect(cjsJs).toContain("//# sourceMappingURL=index.js.map");
+  });
+
+  it("CJS transform preserves ESM format for .mts files", async () => {
+    // .mts files produce .mjs output which must stay ESM even in a CJS target.
+    await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
+    await fs.writeFile(
+      path.join(tmpDir, "src/index.ts"),
+      'import { helper } from "./helper.mjs";\nexport function main(): string { return helper(); }\n',
+    );
+    await fs.writeFile(
+      path.join(tmpDir, "src/helper.mts"),
+      'export function helper(): string { return "ok"; }\n',
+    );
+
+    const tsconfig = {
+      compilerOptions: {
+        outDir: "./dist/esm",
+        rootDir: "./src",
+        module: "NodeNext",
+        moduleResolution: "NodeNext",
+        target: "ES2023",
+        declaration: true,
+        sourceMap: true,
+        strict: true,
+      },
+      include: ["src/**/*.ts", "src/**/*.mts"],
+    };
+    await fs.writeFile(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(tsconfig));
+    await fs.writeFile(
+      path.join(tmpDir, "tsconfig.cjs.json"),
+      JSON.stringify({
+        ...tsconfig,
+        compilerOptions: { ...tsconfig.compilerOptions, outDir: "./dist/commonjs" },
+      }),
+    );
+
+    const warpConfig = {
+      exports: { ".": "./src/index.ts" },
+      targets: [
+        { name: "esm", condition: "import", tsconfig: "./tsconfig.esm.json" },
+        {
+          name: "commonjs",
+          condition: "require",
+          tsconfig: "./tsconfig.cjs.json",
+          moduleType: "commonjs",
+        },
+      ],
+    };
+    await fs.writeFile(path.join(tmpDir, "warp.config.yml"), stringify(warpConfig));
+    await fs.writeFile(
+      path.join(tmpDir, "package.json"),
+      JSON.stringify({ name: "test-mts-format", version: "1.0.0" }),
+    );
+    await fs.writeFile(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
+
+    const result = await build({ cwd: tmpDir });
+    expect(result.success).toBe(true);
+
+    // .mjs output in CJS target must remain ESM (export keyword, not module.exports)
+    const mjsContent = await fs.readFile(path.join(tmpDir, "dist/commonjs/helper.mjs"), "utf-8");
+    expect(mjsContent).toContain("export");
+    expect(mjsContent).not.toContain("module.exports");
+
+    // .js output in CJS target must be CJS (require/module.exports, not import/export)
+    const jsContent = await fs.readFile(path.join(tmpDir, "dist/commonjs/index.js"), "utf-8");
+    expect(jsContent).toContain("require");
+  });
+
+  it("CJS target emits files resolved through #imports subpath imports", async () => {
+    // When a package has #imports with condition-based resolution, the CJS target
+    // must emit ALL files that TypeScript resolves through the import map — even
+    // when the CJS target compiles independently (different resolvedImports from ESM).
+    // This exercises the virtual CJS package.json path-rebasing logic: the virtual
+    // package.json is placed at rootDir (src/) but import paths like "./src/util.ts"
+    // are relative to the real package.json at the package root.
+    await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
+
+    // Main entry imports a helper via #imports
+    await fs.writeFile(
+      path.join(tmpDir, "src/index.ts"),
+      'import { encode } from "#platform/util";\nexport function main(): string { return encode("test"); }\n',
+    );
+
+    // Default (ESM/CJS) implementation
+    await fs.writeFile(
+      path.join(tmpDir, "src/util.ts"),
+      "export function encode(s: string): string { return `node:${s}`; }\n",
+    );
+
+    // Browser implementation
+    await fs.writeFile(
+      path.join(tmpDir, "src/util-browser.mts"),
+      "export function encode(s: string): string { return `browser:${s}`; }\n",
+    );
+
+    const baseTsconfig = {
+      compilerOptions: {
+        rootDir: "./src",
+        module: "NodeNext",
+        moduleResolution: "NodeNext",
+        target: "ES2023",
+        declaration: true,
+        sourceMap: true,
+        strict: true,
+      },
+      include: ["src/**/*.ts", "src/**/*.mts"],
+    };
+
+    await fs.writeFile(
+      path.join(tmpDir, "tsconfig.esm.json"),
+      JSON.stringify({
+        ...baseTsconfig,
+        compilerOptions: { ...baseTsconfig.compilerOptions, outDir: "./dist/esm" },
+      }),
+    );
+    await fs.writeFile(
+      path.join(tmpDir, "tsconfig.cjs.json"),
+      JSON.stringify({
+        ...baseTsconfig,
+        compilerOptions: { ...baseTsconfig.compilerOptions, outDir: "./dist/commonjs" },
+      }),
+    );
+    await fs.writeFile(
+      path.join(tmpDir, "tsconfig.browser.json"),
+      JSON.stringify({
+        ...baseTsconfig,
+        compilerOptions: {
+          ...baseTsconfig.compilerOptions,
+          outDir: "./dist/browser",
+          customConditions: ["browser"],
+        },
+      }),
+    );
+
+    const warpConfig = {
+      exports: { ".": "./src/index.ts" },
+      targets: [
+        { name: "browser", tsconfig: "./tsconfig.browser.json" },
+        { name: "esm", condition: "import", tsconfig: "./tsconfig.esm.json" },
+        {
+          name: "commonjs",
+          condition: "require",
+          tsconfig: "./tsconfig.cjs.json",
+          moduleType: "commonjs",
+        },
+      ],
+    };
+    await fs.writeFile(path.join(tmpDir, "warp.config.yml"), stringify(warpConfig));
+
+    // Package.json with #imports that resolve differently per condition
+    const pkg = {
+      name: "test-imports-cjs",
+      version: "1.0.0",
+      imports: {
+        "#platform/util": {
+          browser: "./src/util-browser.mts",
+          default: "./src/util.ts",
+        },
+      },
+    };
+    await fs.writeFile(path.join(tmpDir, "package.json"), JSON.stringify(pkg, null, 2));
+    await fs.writeFile(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
+
+    const result = await build({ cwd: tmpDir });
+    expect(result.success).toBe(true);
+
+    // ESM target should have util.js (default condition)
+    expect(await exists(path.join(tmpDir, "dist/esm/util.js"))).toBe(true);
+    expect(await exists(path.join(tmpDir, "dist/esm/index.js"))).toBe(true);
+
+    // CJS target must also have util.js — the bug was that the virtual CJS
+    // package.json placed at src/ had import paths relative to the package root
+    // (e.g. "./src/util.ts"), which TypeScript resolved as "src/src/util.ts"
+    expect(await exists(path.join(tmpDir, "dist/commonjs/util.js"))).toBe(true);
+    expect(await exists(path.join(tmpDir, "dist/commonjs/index.js"))).toBe(true);
+
+    // CJS output should use require/module.exports
+    const cjsIndex = await fs.readFile(path.join(tmpDir, "dist/commonjs/index.js"), "utf-8");
+    expect(cjsIndex).toContain("require");
+
+    // Browser target should have util-browser.mjs (browser condition)
+    expect(await exists(path.join(tmpDir, "dist/browser/util-browser.mjs"))).toBe(true);
   });
 });

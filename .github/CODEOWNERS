@@ -274,6 +274,10 @@
 # PRLabel: %Operator Nexus - Network Cloud
 /sdk/networkcloud/    @Azure/azure-sdk-write-networkcloud
 
+# ServiceLabel: %PostgreSQL Auth
+# PRLabel: %Postgresql
+/sdk/postgresql/postgresql-auth/ @alxhghs @carlovi81 @mattboentoro @nasc17 @nehrao1 @rmendiza
+
 # PRLabel: %Purview
 /sdk/purview/    @qiaozha
 
@@ -1662,6 +1666,9 @@ sdk/appnetwork/arm-appnetwork/ @qiaozha @MaryGao @JialinHuang803
 # PRLabel: %Mgmt
 sdk/servicegroups/arm-servicegroups/ @qiaozha @MaryGao @JialinHuang803
 
+# PRLabel: %Mgmt
+sdk/relationships/arm-relationships/ @qiaozha @MaryGao @JialinHuang803
+
 ###########
 # Config
 ###########
@@ -1712,6 +1719,8 @@ sdk/servicegroups/arm-servicegroups/ @qiaozha @MaryGao @JialinHuang803
 # Eng Sys and CODEOWNERS
 #########################
 /eng/                                    @mikeharder @weshaggard @benbp
+/eng/tsconfigs/                          @Azure/azure-sdk-for-js-core
+/eng/vitestconfigs/                      @Azure/azure-sdk-for-js-core
 /eng/common/                             @Azure/azure-sdk-eng
 /eng/ignore-links.txt                    @Azure/azure-sdk-eng @Azure/azure-sdk-js-dev
 /.config/1espt/                          @benbp @weshaggard
@@ -1730,6 +1739,8 @@ sdk/servicegroups/arm-servicegroups/ @qiaozha @MaryGao @JialinHuang803
 /.github/workflows/sentinel.lock.yml     @deyaaeldeen @jeremymeng
 /.github/workflows/tester.md             @deyaaeldeen @jeremymeng
 /.github/workflows/tester.lock.yml       @deyaaeldeen @jeremymeng
+/.github/workflows/issue-triage.md       @deyaaeldeen @jeremymeng
+/.github/workflows/issue-triage.lock.yml @deyaaeldeen @jeremymeng
 /.github/agents/agentic-workflows.agent.md @deyaaeldeen @jeremymeng
 /.github/agents/archie.agent.md          @deyaaeldeen @jeremymeng @maorleger
 /.github/agents/dash.agent.md            @deyaaeldeen @jeremymeng
