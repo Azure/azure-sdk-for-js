@@ -925,7 +925,7 @@ describe("deserializationPolicy", () => {
         },
       },
     );
-    assert.isDefined(result);
+    assert.strictEqual((result as any).id, 1);
   });
 
   it("should handle shouldDeserialize as a function", async () => {
@@ -960,7 +960,7 @@ describe("deserializationPolicy", () => {
         responses: { 200: {} },
       },
     );
-    assert.isDefined(result);
+    assert.deepStrictEqual((result as any).body, { id: 1 });
   });
 
   it("should handle HEAD request with streaming response codes", async () => {
@@ -1371,7 +1371,8 @@ describe("deserializationPolicy - additional branches", () => {
         },
       },
     );
-    assert.isDefined(result);
+    assert.property(result as Record<string, unknown>, "blobBody");
+    assert.property(result as Record<string, unknown>, "readableStreamBody");
   });
 
   it("should deserialize XML body in success response", async () => {
@@ -1420,7 +1421,7 @@ describe("deserializationPolicy - additional branches", () => {
         },
       },
     );
-    assert.isDefined(result);
+    assert.isArray(result);
   });
 
   it("should handle isError response spec", async () => {
@@ -1546,7 +1547,7 @@ describe("deserializationPolicy - shouldReturnResponse path", () => {
         },
       },
     );
-    assert.isDefined(result);
+    assert.property(result as Record<string, unknown>, "body");
   });
 });
 
