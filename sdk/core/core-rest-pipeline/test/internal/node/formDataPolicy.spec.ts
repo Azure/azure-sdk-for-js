@@ -6,7 +6,7 @@ import { createHttpHeaders } from "../../../src/httpHeaders.js";
 import type { MultipartRequestBody } from "../../../src/interfaces.js";
 import { Readable } from "node:stream";
 import { performRequest } from "../formDataPolicy.spec.js";
-import { createFile, createFileFromStream, getRawContent } from "../../../src/util/file.js";
+import { createFile, createFileFromStream, getRawContent, hasRawContent } from "../../../src/util/file.js";
 import { stringToUint8Array } from "@azure/core-util";
 
 function getMultipartParts(result: { request: { multipartBody?: MultipartRequestBody } }) {
@@ -16,6 +16,7 @@ function getMultipartParts(result: { request: { multipartBody?: MultipartRequest
 }
 
 async function readBodyAsArrayBuffer(body: unknown): Promise<ArrayBuffer> {
+  assert.isTrue(body instanceof Blob || hasRawContent(body), "expected Blob or raw content");
   const raw = getRawContent(body as Blob);
   return new Response(raw as BodyInit).arrayBuffer();
 }
@@ -39,7 +40,12 @@ describe("formDataPolicy (node-only)", function () {
     );
 
     const buffers: Buffer[] = [];
+    assert.isTrue(
+      parts[0].body instanceof Blob || hasRawContent(parts[0].body),
+      "expected Blob or raw content",
+    );
     const rawContent = getRawContent(parts[0].body as Blob);
+    assert.isTrue(Symbol.asyncIterator in rawContent, "expected async iterable");
     for await (const part of rawContent as NodeJS.ReadableStream) {
       if (!Buffer.isBuffer(part)) {
         assert.fail("expected Buffer chunk");
