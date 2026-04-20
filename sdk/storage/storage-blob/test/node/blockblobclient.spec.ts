@@ -10,7 +10,6 @@ import {
   base64encode,
   bodyToString,
   configureBlobStorageClient,
-  createAndStartRecorder,
   generateRandomUint8Array,
   getBSU,
   getConnectionStringFromEnvironment,
@@ -50,7 +49,8 @@ describe("BlockBlobClient Node.js only", () => {
 
   let blobServiceClient: BlobServiceClient;
   beforeEach(async (ctx) => {
-    recorder = await createAndStartRecorder(ctx);
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
     blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
@@ -340,10 +340,6 @@ describe("syncUploadFromURL", () => {
       },
       ["playback", "record"],
     );
-    await recorder.setMatcher("CustomDefaultMatcher", {
-      excludedHeaders: ["Accept"],
-      ignoreQueryOrdering: true,
-    });
     const blobServiceClient = getBSU(recorder);
     const containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);

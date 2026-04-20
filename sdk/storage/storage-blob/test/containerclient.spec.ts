@@ -56,10 +56,6 @@ describe("ContainerClient", () => {
       },
       ["playback", "record"],
     );
-    await recorder.setMatcher("CustomDefaultMatcher", {
-      excludedHeaders: ["Accept"],
-      ignoreQueryOrdering: true,
-    });
     blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
@@ -1379,10 +1375,6 @@ describe("Version error test", () => {
       },
       ["playback", "record"],
     );
-    await recorder.setMatcher("CustomDefaultMatcher", {
-      excludedHeaders: ["Accept"],
-      ignoreQueryOrdering: true,
-    });
     blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
@@ -1396,13 +1388,13 @@ describe("Version error test", () => {
   it("Invalid service version", async () => {
     const injector = XMSVersioninjectorPolicy(`3025-01-01`);
 
-    const pipeline: Pipeline = (containerClient as any).storageClientContext.client.pipeline;
+    const pipeline: Pipeline = (containerClient as any).storageClientContext.pipeline;
     pipeline.addPolicy(injector, { afterPhase: "Retry" });
     try {
       await containerClient.create();
     } catch (err) {
       assert.isTrue(
-        (err as any).details.message.startsWith(
+        (err as any).message.startsWith(
           "The provided service version is not enabled on this storage account. Please see",
         ),
       );

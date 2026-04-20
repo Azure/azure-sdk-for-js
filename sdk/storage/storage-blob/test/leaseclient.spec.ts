@@ -1,12 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  createAndStartRecorder,
-  getBSU,
-  getUniqueName,
-  recorderEnvSetup,
-  uriSanitizers,
-} from "./utils/index.js";
+import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils/index.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import type {
   ContainerClient,
@@ -33,10 +27,6 @@ describe("LeaseClient from Container", () => {
       },
       ["record", "playback"],
     );
-    await recorder.setMatcher("CustomDefaultMatcher", {
-      excludedHeaders: ["Accept"],
-      ignoreQueryOrdering: true,
-    });
     blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
@@ -170,7 +160,9 @@ describe("LeaseClient from Blob", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = await createAndStartRecorder(ctx);
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
     const blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
