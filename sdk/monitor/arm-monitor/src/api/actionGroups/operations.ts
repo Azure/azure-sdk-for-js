@@ -3,29 +3,29 @@
 
 import type { MonitorContext as Client } from "../index.js";
 import type {
-  MicrosoftActionGroupsActionGroupResource,
-  MicrosoftActionGroupsActionGroupPatchBody,
-  _MicrosoftActionGroupsActionGroupList,
-  MicrosoftActionGroupsNotificationRequestBody,
-  MicrosoftActionGroupsTestNotificationDetailsResponse,
-  MicrosoftActionGroupsEnableRequest,
+  ActionGroupResource,
+  ActionGroupPatchBody,
+  _ActionGroupList,
+  NotificationRequestBody,
+  TestNotificationDetailsResponse,
+  EnableRequest,
 } from "../../models/microsoft/actionGroups/models.js";
 import {
-  microsoftActionGroupsActionGroupResourceSerializer,
-  microsoftActionGroupsActionGroupResourceDeserializer,
-  microsoftActionGroupsErrorResponseDeserializer,
-  microsoftActionGroupsActionGroupPatchBodySerializer,
-  _microsoftActionGroupsActionGroupListDeserializer,
-  microsoftActionGroupsNotificationRequestBodySerializer,
-  microsoftActionGroupsTestNotificationDetailsResponseDeserializer,
-  microsoftActionGroupsEnableRequestSerializer,
+  actionGroupResourceSerializer,
+  actionGroupResourceDeserializer,
+  actionGroupPatchBodySerializer,
+  _actionGroupListDeserializer,
+  notificationRequestBodySerializer,
+  testNotificationDetailsResponseDeserializer,
+  enableRequestSerializer,
 } from "../../models/microsoft/actionGroups/models.js";
+import { errorResponseDeserializer } from "../../models/microsoft/common/models.js";
 import type {
   NetworkSecurityPerimeterConfiguration,
   _NetworkSecurityPerimeterConfigurationListResult,
 } from "../../models/models.js";
 import {
-  errorResponseDeserializer,
+  armErrorResponseDeserializer,
   networkSecurityPerimeterConfigurationDeserializer,
   _networkSecurityPerimeterConfigurationListResultDeserializer,
 } from "../../models/models.js";
@@ -78,7 +78,7 @@ export async function _reconcileNSPDeserialize(result: PathUncheckedResponse): P
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    error.details = armErrorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -140,7 +140,7 @@ export async function _listNSPDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    error.details = armErrorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -196,7 +196,7 @@ export async function _getNSPDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    error.details = armErrorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -226,7 +226,7 @@ export function _enableReceiverSend(
   context: Client,
   resourceGroupName: string,
   actionGroupName: string,
-  enableRequest: MicrosoftActionGroupsEnableRequest,
+  enableRequest: EnableRequest,
   options: ActionGroupsEnableReceiverOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -244,7 +244,7 @@ export function _enableReceiverSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    body: microsoftActionGroupsEnableRequestSerializer(enableRequest),
+    body: enableRequestSerializer(enableRequest),
   });
 }
 
@@ -252,7 +252,7 @@ export async function _enableReceiverDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = microsoftActionGroupsErrorResponseDeserializer(result.body);
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -265,7 +265,7 @@ export async function enableReceiver(
   context: Client,
   resourceGroupName: string,
   actionGroupName: string,
-  enableRequest: MicrosoftActionGroupsEnableRequest,
+  enableRequest: EnableRequest,
   options: ActionGroupsEnableReceiverOptionalParams = { requestOptions: {} },
 ): Promise<void> {
   const result = await _enableReceiverSend(
@@ -308,16 +308,16 @@ export function _getTestNotificationsAtActionGroupResourceLevelSend(
 
 export async function _getTestNotificationsAtActionGroupResourceLevelDeserialize(
   result: PathUncheckedResponse,
-): Promise<MicrosoftActionGroupsTestNotificationDetailsResponse> {
+): Promise<TestNotificationDetailsResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = microsoftActionGroupsErrorResponseDeserializer(result.body);
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
 
-  return microsoftActionGroupsTestNotificationDetailsResponseDeserializer(result.body);
+  return testNotificationDetailsResponseDeserializer(result.body);
 }
 
 /** Get the test notifications by the notification id */
@@ -329,7 +329,7 @@ export async function getTestNotificationsAtActionGroupResourceLevel(
   options: ActionGroupsGetTestNotificationsAtActionGroupResourceLevelOptionalParams = {
     requestOptions: {},
   },
-): Promise<MicrosoftActionGroupsTestNotificationDetailsResponse> {
+): Promise<TestNotificationDetailsResponse> {
   const result = await _getTestNotificationsAtActionGroupResourceLevelSend(
     context,
     resourceGroupName,
@@ -344,7 +344,7 @@ export function _createNotificationsAtActionGroupResourceLevelSend(
   context: Client,
   resourceGroupName: string,
   actionGroupName: string,
-  notificationRequest: MicrosoftActionGroupsNotificationRequestBody,
+  notificationRequest: NotificationRequestBody,
   options: ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams = {
     requestOptions: {},
   },
@@ -365,22 +365,22 @@ export function _createNotificationsAtActionGroupResourceLevelSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: microsoftActionGroupsNotificationRequestBodySerializer(notificationRequest),
+    body: notificationRequestBodySerializer(notificationRequest),
   });
 }
 
 export async function _createNotificationsAtActionGroupResourceLevelDeserialize(
   result: PathUncheckedResponse,
-): Promise<MicrosoftActionGroupsTestNotificationDetailsResponse> {
+): Promise<TestNotificationDetailsResponse> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = microsoftActionGroupsErrorResponseDeserializer(result.body);
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
 
-  return microsoftActionGroupsTestNotificationDetailsResponseDeserializer(result.body);
+  return testNotificationDetailsResponseDeserializer(result.body);
 }
 
 /** Send test notifications to a set of provided receivers */
@@ -388,14 +388,11 @@ export function createNotificationsAtActionGroupResourceLevel(
   context: Client,
   resourceGroupName: string,
   actionGroupName: string,
-  notificationRequest: MicrosoftActionGroupsNotificationRequestBody,
+  notificationRequest: NotificationRequestBody,
   options: ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<
-  OperationState<MicrosoftActionGroupsTestNotificationDetailsResponse>,
-  MicrosoftActionGroupsTestNotificationDetailsResponse
-> {
+): PollerLike<OperationState<TestNotificationDetailsResponse>, TestNotificationDetailsResponse> {
   return getLongRunningPoller(
     context,
     _createNotificationsAtActionGroupResourceLevelDeserialize,
@@ -414,10 +411,7 @@ export function createNotificationsAtActionGroupResourceLevel(
       resourceLocationConfig: "location",
       apiVersion: "2024-10-01-preview",
     },
-  ) as PollerLike<
-    OperationState<MicrosoftActionGroupsTestNotificationDetailsResponse>,
-    MicrosoftActionGroupsTestNotificationDetailsResponse
-  >;
+  ) as PollerLike<OperationState<TestNotificationDetailsResponse>, TestNotificationDetailsResponse>;
 }
 
 export function _listBySubscriptionIdSend(
@@ -442,23 +436,23 @@ export function _listBySubscriptionIdSend(
 
 export async function _listBySubscriptionIdDeserialize(
   result: PathUncheckedResponse,
-): Promise<_MicrosoftActionGroupsActionGroupList> {
+): Promise<_ActionGroupList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = microsoftActionGroupsErrorResponseDeserializer(result.body);
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
 
-  return _microsoftActionGroupsActionGroupListDeserializer(result.body);
+  return _actionGroupListDeserializer(result.body);
 }
 
 /** Get a list of all action groups in a subscription. */
 export function listBySubscriptionId(
   context: Client,
   options: ActionGroupsListBySubscriptionIdOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<MicrosoftActionGroupsActionGroupResource> {
+): PagedAsyncIterableIterator<ActionGroupResource> {
   return buildPagedAsyncIterator(
     context,
     () => _listBySubscriptionIdSend(context, options),
@@ -492,16 +486,16 @@ export function _listByResourceGroupSend(
 
 export async function _listByResourceGroupDeserialize(
   result: PathUncheckedResponse,
-): Promise<_MicrosoftActionGroupsActionGroupList> {
+): Promise<_ActionGroupList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = microsoftActionGroupsErrorResponseDeserializer(result.body);
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
 
-  return _microsoftActionGroupsActionGroupListDeserializer(result.body);
+  return _actionGroupListDeserializer(result.body);
 }
 
 /** Get a list of all action groups in a resource group. */
@@ -509,7 +503,7 @@ export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
   options: ActionGroupsListByResourceGroupOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<MicrosoftActionGroupsActionGroupResource> {
+): PagedAsyncIterableIterator<ActionGroupResource> {
   return buildPagedAsyncIterator(
     context,
     () => _listByResourceGroupSend(context, resourceGroupName, options),
@@ -544,7 +538,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = microsoftActionGroupsErrorResponseDeserializer(result.body);
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -572,7 +566,7 @@ export function _updateSend(
   context: Client,
   resourceGroupName: string,
   actionGroupName: string,
-  actionGroupPatch: MicrosoftActionGroupsActionGroupPatchBody,
+  actionGroupPatch: ActionGroupPatchBody,
   options: ActionGroupsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -591,22 +585,22 @@ export function _updateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: microsoftActionGroupsActionGroupPatchBodySerializer(actionGroupPatch),
+    body: actionGroupPatchBodySerializer(actionGroupPatch),
   });
 }
 
 export async function _updateDeserialize(
   result: PathUncheckedResponse,
-): Promise<MicrosoftActionGroupsActionGroupResource> {
+): Promise<ActionGroupResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = microsoftActionGroupsErrorResponseDeserializer(result.body);
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
 
-  return microsoftActionGroupsActionGroupResourceDeserializer(result.body);
+  return actionGroupResourceDeserializer(result.body);
 }
 
 /** Updates an existing action group's tags. To update other fields use the CreateOrUpdate method. */
@@ -614,9 +608,9 @@ export async function update(
   context: Client,
   resourceGroupName: string,
   actionGroupName: string,
-  actionGroupPatch: MicrosoftActionGroupsActionGroupPatchBody,
+  actionGroupPatch: ActionGroupPatchBody,
   options: ActionGroupsUpdateOptionalParams = { requestOptions: {} },
-): Promise<MicrosoftActionGroupsActionGroupResource> {
+): Promise<ActionGroupResource> {
   const result = await _updateSend(
     context,
     resourceGroupName,
@@ -631,7 +625,7 @@ export function _createOrUpdateSend(
   context: Client,
   resourceGroupName: string,
   actionGroupName: string,
-  actionGroup: MicrosoftActionGroupsActionGroupResource,
+  actionGroup: ActionGroupResource,
   options: ActionGroupsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -650,22 +644,22 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: microsoftActionGroupsActionGroupResourceSerializer(actionGroup),
+    body: actionGroupResourceSerializer(actionGroup),
   });
 }
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
-): Promise<MicrosoftActionGroupsActionGroupResource> {
+): Promise<ActionGroupResource> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = microsoftActionGroupsErrorResponseDeserializer(result.body);
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
 
-  return microsoftActionGroupsActionGroupResourceDeserializer(result.body);
+  return actionGroupResourceDeserializer(result.body);
 }
 
 /** Create a new action group or update an existing one. */
@@ -673,9 +667,9 @@ export async function createOrUpdate(
   context: Client,
   resourceGroupName: string,
   actionGroupName: string,
-  actionGroup: MicrosoftActionGroupsActionGroupResource,
+  actionGroup: ActionGroupResource,
   options: ActionGroupsCreateOrUpdateOptionalParams = { requestOptions: {} },
-): Promise<MicrosoftActionGroupsActionGroupResource> {
+): Promise<ActionGroupResource> {
   const result = await _createOrUpdateSend(
     context,
     resourceGroupName,
@@ -710,18 +704,16 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<MicrosoftActionGroupsActionGroupResource> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<ActionGroupResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = microsoftActionGroupsErrorResponseDeserializer(result.body);
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
 
-  return microsoftActionGroupsActionGroupResourceDeserializer(result.body);
+  return actionGroupResourceDeserializer(result.body);
 }
 
 /** Get an action group. */
@@ -730,7 +722,7 @@ export async function get(
   resourceGroupName: string,
   actionGroupName: string,
   options: ActionGroupsGetOptionalParams = { requestOptions: {} },
-): Promise<MicrosoftActionGroupsActionGroupResource> {
+): Promise<ActionGroupResource> {
   const result = await _getSend(context, resourceGroupName, actionGroupName, options);
   return _getDeserialize(result);
 }

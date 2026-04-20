@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import type { MonitorContext as Client } from "../index.js";
-import type { MicrosoftDataCollectionDataCollectionEndpointResource } from "../../models/microsoft/dataCollection/models.js";
+import type { DataCollectionEndpointResource } from "../../models/microsoft/dataCollection/models.js";
 import {
-  microsoftDataCollectionDataCollectionEndpointResourceSerializer,
-  microsoftDataCollectionDataCollectionEndpointResourceDeserializer,
-  microsoftDataCollectionErrorResponseCommonV2Deserializer,
-  microsoftDataCollectionResourceForUpdateSerializer,
+  dataCollectionEndpointResourceSerializer,
+  dataCollectionEndpointResourceDeserializer,
+  errorResponseCommonV2Deserializer,
+  resourceForUpdateSerializer,
 } from "../../models/microsoft/dataCollection/models.js";
 import type {
   _DataCollectionEndpointResourceListResult,
@@ -15,7 +15,7 @@ import type {
   _NetworkSecurityPerimeterConfigurationListResult,
 } from "../../models/models.js";
 import {
-  errorResponseDeserializer,
+  armErrorResponseDeserializer,
   _dataCollectionEndpointResourceListResultDeserializer,
   networkSecurityPerimeterConfigurationDeserializer,
   _networkSecurityPerimeterConfigurationListResultDeserializer,
@@ -66,7 +66,7 @@ export async function _reconcileNSPDeserialize(result: PathUncheckedResponse): P
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    error.details = armErrorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -128,7 +128,7 @@ export async function _listNSPDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    error.details = armErrorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -184,7 +184,7 @@ export async function _getNSPDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    error.details = armErrorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -236,7 +236,7 @@ export async function _listBySubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = microsoftDataCollectionErrorResponseCommonV2Deserializer(result.body);
+    error.details = errorResponseCommonV2Deserializer(result.body);
 
     throw error;
   }
@@ -248,7 +248,7 @@ export async function _listBySubscriptionDeserialize(
 export function listBySubscription(
   context: Client,
   options: DataCollectionEndpointsListBySubscriptionOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<MicrosoftDataCollectionDataCollectionEndpointResource> {
+): PagedAsyncIterableIterator<DataCollectionEndpointResource> {
   return buildPagedAsyncIterator(
     context,
     () => _listBySubscriptionSend(context, options),
@@ -286,7 +286,7 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = microsoftDataCollectionErrorResponseCommonV2Deserializer(result.body);
+    error.details = errorResponseCommonV2Deserializer(result.body);
 
     throw error;
   }
@@ -299,7 +299,7 @@ export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
   options: DataCollectionEndpointsListByResourceGroupOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<MicrosoftDataCollectionDataCollectionEndpointResource> {
+): PagedAsyncIterableIterator<DataCollectionEndpointResource> {
   return buildPagedAsyncIterator(
     context,
     () => _listByResourceGroupSend(context, resourceGroupName, options),
@@ -334,7 +334,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = microsoftDataCollectionErrorResponseCommonV2Deserializer(result.body);
+    error.details = errorResponseCommonV2Deserializer(result.body);
 
     throw error;
   }
@@ -385,24 +385,22 @@ export function _updateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: !options["body"]
-      ? options["body"]
-      : microsoftDataCollectionResourceForUpdateSerializer(options["body"]),
+    body: !options["body"] ? options["body"] : resourceForUpdateSerializer(options["body"]),
   });
 }
 
 export async function _updateDeserialize(
   result: PathUncheckedResponse,
-): Promise<MicrosoftDataCollectionDataCollectionEndpointResource> {
+): Promise<DataCollectionEndpointResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = microsoftDataCollectionErrorResponseCommonV2Deserializer(result.body);
+    error.details = errorResponseCommonV2Deserializer(result.body);
 
     throw error;
   }
 
-  return microsoftDataCollectionDataCollectionEndpointResourceDeserializer(result.body);
+  return dataCollectionEndpointResourceDeserializer(result.body);
 }
 
 /** Updates part of a data collection endpoint. */
@@ -411,7 +409,7 @@ export async function update(
   resourceGroupName: string,
   dataCollectionEndpointName: string,
   options: DataCollectionEndpointsUpdateOptionalParams = { requestOptions: {} },
-): Promise<MicrosoftDataCollectionDataCollectionEndpointResource> {
+): Promise<DataCollectionEndpointResource> {
   const result = await _updateSend(context, resourceGroupName, dataCollectionEndpointName, options);
   return _updateDeserialize(result);
 }
@@ -440,22 +438,22 @@ export function _createSend(
     headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: !options["body"]
       ? options["body"]
-      : microsoftDataCollectionDataCollectionEndpointResourceSerializer(options["body"]),
+      : dataCollectionEndpointResourceSerializer(options["body"]),
   });
 }
 
 export async function _createDeserialize(
   result: PathUncheckedResponse,
-): Promise<MicrosoftDataCollectionDataCollectionEndpointResource> {
+): Promise<DataCollectionEndpointResource> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = microsoftDataCollectionErrorResponseCommonV2Deserializer(result.body);
+    error.details = errorResponseCommonV2Deserializer(result.body);
 
     throw error;
   }
 
-  return microsoftDataCollectionDataCollectionEndpointResourceDeserializer(result.body);
+  return dataCollectionEndpointResourceDeserializer(result.body);
 }
 
 /** Creates or updates a data collection endpoint. */
@@ -464,7 +462,7 @@ export async function create(
   resourceGroupName: string,
   dataCollectionEndpointName: string,
   options: DataCollectionEndpointsCreateOptionalParams = { requestOptions: {} },
-): Promise<MicrosoftDataCollectionDataCollectionEndpointResource> {
+): Promise<DataCollectionEndpointResource> {
   const result = await _createSend(context, resourceGroupName, dataCollectionEndpointName, options);
   return _createDeserialize(result);
 }
@@ -495,16 +493,16 @@ export function _getSend(
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<MicrosoftDataCollectionDataCollectionEndpointResource> {
+): Promise<DataCollectionEndpointResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = microsoftDataCollectionErrorResponseCommonV2Deserializer(result.body);
+    error.details = errorResponseCommonV2Deserializer(result.body);
 
     throw error;
   }
 
-  return microsoftDataCollectionDataCollectionEndpointResourceDeserializer(result.body);
+  return dataCollectionEndpointResourceDeserializer(result.body);
 }
 
 /** Returns the specified data collection endpoint. */
@@ -513,7 +511,7 @@ export async function get(
   resourceGroupName: string,
   dataCollectionEndpointName: string,
   options: DataCollectionEndpointsGetOptionalParams = { requestOptions: {} },
-): Promise<MicrosoftDataCollectionDataCollectionEndpointResource> {
+): Promise<DataCollectionEndpointResource> {
   const result = await _getSend(context, resourceGroupName, dataCollectionEndpointName, options);
   return _getDeserialize(result);
 }

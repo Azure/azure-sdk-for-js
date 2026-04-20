@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 import type { MonitorContext as Client } from "../index.js";
-import type { MicrosoftPrivateLinkScopesPrivateLinkResource } from "../../models/microsoft/privateLinkScopes/models.js";
-import { microsoftPrivateLinkScopesPrivateLinkResourceDeserializer } from "../../models/microsoft/privateLinkScopes/models.js";
+import type { PrivateLinkResource } from "../../models/microsoft/privateLinkScopes/models.js";
+import { privateLinkResourceDeserializer } from "../../models/microsoft/privateLinkScopes/models.js";
 import type { PrivateLinkResourceListResult } from "../../models/models.js";
 import {
-  errorResponseDeserializer,
+  armErrorResponseDeserializer,
   privateLinkResourceListResultDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -47,7 +47,7 @@ export async function _listByPrivateLinkScopeDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    error.details = armErrorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -92,18 +92,16 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<MicrosoftPrivateLinkScopesPrivateLinkResource> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<PrivateLinkResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    error.details = armErrorResponseDeserializer(result.body);
 
     throw error;
   }
 
-  return microsoftPrivateLinkScopesPrivateLinkResourceDeserializer(result.body);
+  return privateLinkResourceDeserializer(result.body);
 }
 
 /** Gets the private link resources that need to be created for a Azure Monitor PrivateLinkScope. */
@@ -113,7 +111,7 @@ export async function get(
   scopeName: string,
   groupName: string,
   options: PrivateLinkResourcesGetOptionalParams = { requestOptions: {} },
-): Promise<MicrosoftPrivateLinkScopesPrivateLinkResource> {
+): Promise<PrivateLinkResource> {
   const result = await _getSend(context, resourceGroupName, scopeName, groupName, options);
   return _getDeserialize(result);
 }

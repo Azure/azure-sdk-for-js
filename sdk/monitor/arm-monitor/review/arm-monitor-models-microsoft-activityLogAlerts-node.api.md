@@ -5,21 +5,27 @@
 ```ts
 
 // @public
-export interface MicrosoftActivityLogAlertsActionGroup {
+export interface ActionList {
+    actionGroups?: ActivityLogAlertActionGroup[];
+}
+
+// @public
+export interface ActivityLogAlertActionGroup {
     actionGroupId: string;
     actionProperties?: Record<string, string>;
     webhookProperties?: Record<string, string>;
 }
 
 // @public
-export interface MicrosoftActivityLogAlertsActionList {
-    actionGroups?: MicrosoftActivityLogAlertsActionGroup[];
+export interface ActivityLogAlertErrorResponse {
+    readonly code?: string;
+    readonly message?: string;
 }
 
 // @public
-export interface MicrosoftActivityLogAlertsActivityLogAlertResource extends Resource {
-    actions?: MicrosoftActivityLogAlertsActionList;
-    condition?: MicrosoftActivityLogAlertsAlertRuleAllOfCondition;
+export interface ActivityLogAlertResource extends Resource {
+    actions?: ActionList;
+    condition?: AlertRuleAllOfCondition;
     description?: string;
     enabled?: boolean;
     location?: string;
@@ -29,47 +35,41 @@ export interface MicrosoftActivityLogAlertsActivityLogAlertResource extends Reso
 }
 
 // @public
-export interface MicrosoftActivityLogAlertsAlertRuleAllOfCondition {
-    allOf: MicrosoftActivityLogAlertsAlertRuleAnyOfOrLeafCondition[];
+export interface AlertRuleAllOfCondition {
+    allOf: AlertRuleAnyOfOrLeafCondition[];
 }
 
 // @public
-export interface MicrosoftActivityLogAlertsAlertRuleAnyOfOrLeafCondition extends MicrosoftActivityLogAlertsAlertRuleLeafCondition {
-    anyOf?: MicrosoftActivityLogAlertsAlertRuleLeafCondition[];
+export interface AlertRuleAnyOfOrLeafCondition extends AlertRuleLeafCondition {
+    anyOf?: AlertRuleLeafCondition[];
 }
 
 // @public
-export interface MicrosoftActivityLogAlertsAlertRuleLeafCondition {
+export interface AlertRuleLeafCondition {
     containsAny?: string[];
     equals?: string;
     field?: string;
 }
 
 // @public
-export interface MicrosoftActivityLogAlertsAlertRulePatchObject {
+export interface AlertRulePatchObject {
     enabled?: boolean;
     tags?: Record<string, string>;
 }
 
 // @public
-export interface MicrosoftActivityLogAlertsAlertRulePatchProperties {
+export interface AlertRulePatchProperties {
     enabled?: boolean;
 }
 
 // @public
-export interface MicrosoftActivityLogAlertsAlertRuleProperties {
-    actions: MicrosoftActivityLogAlertsActionList;
-    condition: MicrosoftActivityLogAlertsAlertRuleAllOfCondition;
+export interface AlertRuleProperties {
+    actions: ActionList;
+    condition: AlertRuleAllOfCondition;
     description?: string;
     enabled?: boolean;
     scopes?: string[];
     tenantScope?: string;
-}
-
-// @public
-export interface MicrosoftActivityLogAlertsErrorResponse {
-    readonly code?: string;
-    readonly message?: string;
 }
 
 // (No @packageDocumentation comment for this package)

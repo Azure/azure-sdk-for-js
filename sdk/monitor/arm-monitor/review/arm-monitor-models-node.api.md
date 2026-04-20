@@ -29,26 +29,26 @@ export interface AccessRuleProperties {
 }
 
 // @public
+export interface ArmErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ArmErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ArmErrorResponse {
+    error?: ArmErrorDetail;
+}
+
+// @public
 export type CreatedByType = string;
 
 // @public
 export interface ErrorAdditionalInfo {
     readonly info?: any;
     readonly type?: string;
-}
-
-// @public
-export interface ErrorDetail {
-    readonly additionalInfo?: ErrorAdditionalInfo[];
-    readonly code?: string;
-    readonly details?: ErrorDetail[];
-    readonly message?: string;
-    readonly target?: string;
-}
-
-// @public
-export interface ErrorResponse {
-    error?: ErrorDetail;
 }
 
 // @public
@@ -187,6 +187,11 @@ export interface PrivateEndpointConnection extends Resource {
 }
 
 // @public
+export interface PrivateEndpointConnectionListResult {
+    value?: PrivateEndpointConnection[];
+}
+
+// @public
 export interface PrivateEndpointConnectionProperties {
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
@@ -202,7 +207,7 @@ export type PrivateEndpointServiceConnectionStatus = string;
 // @public
 export interface PrivateLinkResourceListResult {
     nextLink?: string;
-    value: MicrosoftPrivateLinkScopesPrivateLinkResource[];
+    value: PrivateLinkResource[];
 }
 
 // @public

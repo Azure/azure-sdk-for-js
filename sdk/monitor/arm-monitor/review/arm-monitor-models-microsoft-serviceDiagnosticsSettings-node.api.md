@@ -5,47 +5,35 @@
 ```ts
 
 // @public
-export interface MicrosoftServiceDiagnosticsSettingsErrorResponse {
-    code?: string;
-    message?: string;
-}
-
-// @public
-export interface MicrosoftServiceDiagnosticsSettingsLogSettings {
+export interface LogSettings {
     category?: string;
     enabled: boolean;
-    retentionPolicy?: MicrosoftServiceDiagnosticsSettingsRetentionPolicy;
+    retentionPolicy?: RetentionPolicy;
 }
 
 // @public
-export interface MicrosoftServiceDiagnosticsSettingsMetricSettings {
+export interface MetricSettings {
     enabled: boolean;
-    retentionPolicy?: MicrosoftServiceDiagnosticsSettingsRetentionPolicy;
+    retentionPolicy?: RetentionPolicy;
     timeGrain: string;
 }
 
 // @public
-export interface MicrosoftServiceDiagnosticsSettingsRetentionPolicy {
-    days: number;
-    enabled: boolean;
-}
-
-// @public
-export interface MicrosoftServiceDiagnosticsSettingsServiceDiagnosticSettings {
+export interface ServiceDiagnosticSettings {
     eventHubAuthorizationRuleId?: string;
-    logs?: MicrosoftServiceDiagnosticsSettingsLogSettings[];
-    metrics?: MicrosoftServiceDiagnosticsSettingsMetricSettings[];
+    logs?: LogSettings[];
+    metrics?: MetricSettings[];
     serviceBusRuleId?: string;
     storageAccountId?: string;
     workspaceId?: string;
 }
 
 // @public
-export interface MicrosoftServiceDiagnosticsSettingsServiceDiagnosticSettingsResource extends ExtensionResource {
+export interface ServiceDiagnosticSettingsResource extends ExtensionResource {
     eventHubAuthorizationRuleId?: string;
     location: string;
-    logs?: MicrosoftServiceDiagnosticsSettingsLogSettings[];
-    metrics?: MicrosoftServiceDiagnosticsSettingsMetricSettings[];
+    logs?: LogSettings[];
+    metrics?: MetricSettings[];
     serviceBusRuleId?: string;
     storageAccountId?: string;
     tags?: Record<string, string>;
@@ -53,10 +41,10 @@ export interface MicrosoftServiceDiagnosticsSettingsServiceDiagnosticSettingsRes
 }
 
 // @public
-export interface MicrosoftServiceDiagnosticsSettingsServiceDiagnosticSettingsResourcePatch {
+export interface ServiceDiagnosticSettingsResourcePatch {
     eventHubAuthorizationRuleId?: string;
-    logs?: MicrosoftServiceDiagnosticsSettingsLogSettings[];
-    metrics?: MicrosoftServiceDiagnosticsSettingsMetricSettings[];
+    logs?: LogSettings[];
+    metrics?: MetricSettings[];
     serviceBusRuleId?: string;
     storageAccountId?: string;
     tags?: Record<string, string>;

@@ -1,8 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ErrorAdditionalInfo } from "../../models.js";
-import { errorAdditionalInfoArrayDeserializer } from "../../models.js";
+import type { LocalizableString } from "../common/models.js";
+import {
+  localizableStringDeserializer,
+  localizableStringArrayDeserializer,
+} from "../common/models.js";
 
 /**
  * This file contains only generated model types and their (de)serializers.
@@ -11,32 +14,32 @@ import { errorAdditionalInfoArrayDeserializer } from "../../models.js";
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Represents collection of metric definitions. */
-export interface _MicrosoftMetricsSubscriptionScopeMetricDefinitionCollection {
+export interface _SubscriptionScopeMetricDefinitionCollection {
   /** The values for the metric definitions. */
-  value: MicrosoftMetricsSubscriptionScopeMetricDefinition[];
+  value: SubscriptionScopeMetricDefinition[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _microsoftMetricsSubscriptionScopeMetricDefinitionCollectionDeserializer(
+export function _subscriptionScopeMetricDefinitionCollectionDeserializer(
   item: any,
-): _MicrosoftMetricsSubscriptionScopeMetricDefinitionCollection {
+): _SubscriptionScopeMetricDefinitionCollection {
   return {
-    value: microsoftMetricsSubscriptionScopeMetricDefinitionArrayDeserializer(item["value"]),
+    value: subscriptionScopeMetricDefinitionArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function microsoftMetricsSubscriptionScopeMetricDefinitionArrayDeserializer(
-  result: Array<MicrosoftMetricsSubscriptionScopeMetricDefinition>,
+export function subscriptionScopeMetricDefinitionArrayDeserializer(
+  result: Array<SubscriptionScopeMetricDefinition>,
 ): any[] {
   return result.map((item) => {
-    return microsoftMetricsSubscriptionScopeMetricDefinitionDeserializer(item);
+    return subscriptionScopeMetricDefinitionDeserializer(item);
   });
 }
 
 /** Metric definition class specifies the metadata for a metric. */
-export interface MicrosoftMetricsSubscriptionScopeMetricDefinition {
+export interface SubscriptionScopeMetricDefinition {
   /** Flag to indicate whether the dimension is required. */
   isDimensionRequired?: boolean;
   /** The resource identifier of the resource that emitted the metric. */
@@ -44,37 +47,35 @@ export interface MicrosoftMetricsSubscriptionScopeMetricDefinition {
   /** The namespace the metric belongs to. */
   namespace?: string;
   /** The name and the display name of the metric, i.e. it is a localizable string. */
-  name?: MicrosoftMetricsLocalizableString;
+  name?: LocalizableString;
   /** Detailed description of this metric. */
   displayDescription?: string;
   /** Custom category name for this metric. */
   category?: string;
   /** The class of the metric. */
-  metricClass?: MicrosoftMetricsMetricClass;
+  metricClass?: MetricClass;
   /** The unit of the metric. */
-  unit?: MicrosoftMetricsMetricUnit;
+  unit?: MetricUnit;
   /** The primary aggregation type value defining how to use the values for display. */
-  primaryAggregationType?: MicrosoftMetricsMetricAggregationType;
+  primaryAggregationType?: MetricAggregationType;
   /** The collection of what aggregation types are supported. */
-  supportedAggregationTypes?: MicrosoftMetricsMetricAggregationType[];
+  supportedAggregationTypes?: MetricAggregationType[];
   /** The collection of what aggregation intervals are available to be queried. */
-  metricAvailabilities?: MicrosoftMetricsMetricAvailability[];
+  metricAvailabilities?: MetricAvailability[];
   /** The resource identifier of the metric definition. */
   id?: string;
   /** The name and the display name of the dimension, i.e. it is a localizable string. */
-  dimensions?: MicrosoftMetricsLocalizableString[];
+  dimensions?: LocalizableString[];
 }
 
-export function microsoftMetricsSubscriptionScopeMetricDefinitionDeserializer(
+export function subscriptionScopeMetricDefinitionDeserializer(
   item: any,
-): MicrosoftMetricsSubscriptionScopeMetricDefinition {
+): SubscriptionScopeMetricDefinition {
   return {
     isDimensionRequired: item["isDimensionRequired"],
     resourceId: item["resourceId"],
     namespace: item["namespace"],
-    name: !item["name"]
-      ? item["name"]
-      : microsoftMetricsLocalizableStringDeserializer(item["name"]),
+    name: !item["name"] ? item["name"] : localizableStringDeserializer(item["name"]),
     displayDescription: item["displayDescription"],
     category: item["category"],
     metricClass: item["metricClass"],
@@ -87,33 +88,16 @@ export function microsoftMetricsSubscriptionScopeMetricDefinitionDeserializer(
         }),
     metricAvailabilities: !item["metricAvailabilities"]
       ? item["metricAvailabilities"]
-      : microsoftMetricsMetricAvailabilityArrayDeserializer(item["metricAvailabilities"]),
+      : metricAvailabilityArrayDeserializer(item["metricAvailabilities"]),
     id: item["id"],
     dimensions: !item["dimensions"]
       ? item["dimensions"]
-      : microsoftMetricsLocalizableStringArrayDeserializer(item["dimensions"]),
-  };
-}
-
-/** The localizable string class. */
-export interface MicrosoftMetricsLocalizableString {
-  /** The invariant value. */
-  value: string;
-  /** The display name. */
-  localizedValue?: string;
-}
-
-export function microsoftMetricsLocalizableStringDeserializer(
-  item: any,
-): MicrosoftMetricsLocalizableString {
-  return {
-    value: item["value"],
-    localizedValue: item["localizedValue"],
+      : localizableStringArrayDeserializer(item["dimensions"]),
   };
 }
 
 /** The class of the metric. */
-export enum KnownMicrosoftMetricsMetricClass {
+export enum KnownMetricClass {
   /** Availability */
   Availability = "Availability",
   /** Transactions */
@@ -128,7 +112,7 @@ export enum KnownMicrosoftMetricsMetricClass {
 
 /**
  * The class of the metric. \
- * {@link KnownMicrosoftMetricsMetricClass} can be used interchangeably with MicrosoftMetricsMetricClass,
+ * {@link KnownMetricClass} can be used interchangeably with MetricClass,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Availability**: Availability \
@@ -137,10 +121,10 @@ export enum KnownMicrosoftMetricsMetricClass {
  * **Latency**: Latency \
  * **Saturation**: Saturation
  */
-export type MicrosoftMetricsMetricClass = string;
+export type MetricClass = string;
 
 /** The unit of the metric. */
-export enum KnownMicrosoftMetricsMetricUnit {
+export enum KnownMetricUnit {
   /** Unit of raw quantity. */
   Count = "Count",
   /** Unit of memory in bytes. */
@@ -171,7 +155,7 @@ export enum KnownMicrosoftMetricsMetricUnit {
 
 /**
  * The unit of the metric. \
- * {@link KnownMicrosoftMetricsMetricUnit} can be used interchangeably with MicrosoftMetricsMetricUnit,
+ * {@link KnownMetricUnit} can be used interchangeably with MetricUnit,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Count**: Unit of raw quantity. \
@@ -188,10 +172,10 @@ export enum KnownMicrosoftMetricsMetricUnit {
  * **NanoCores**: Unit of processing power in one billionth of a CPU core. \
  * **BitsPerSecond**: Rate unit of binary digits per second.
  */
-export type MicrosoftMetricsMetricUnit = string;
+export type MetricUnit = string;
 
 /** The aggregation type of the metric. */
-export enum KnownMicrosoftMetricsMetricAggregationType {
+export enum KnownMetricAggregationType {
   /** None */
   None = "None",
   /** Average */
@@ -208,7 +192,7 @@ export enum KnownMicrosoftMetricsMetricAggregationType {
 
 /**
  * The aggregation type of the metric. \
- * {@link KnownMicrosoftMetricsMetricAggregationType} can be used interchangeably with MicrosoftMetricsMetricAggregationType,
+ * {@link KnownMetricAggregationType} can be used interchangeably with MetricAggregationType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **None**: None \
@@ -218,122 +202,52 @@ export enum KnownMicrosoftMetricsMetricAggregationType {
  * **Maximum**: Maximum \
  * **Total**: Total
  */
-export type MicrosoftMetricsMetricAggregationType = string;
+export type MetricAggregationType = string;
 
-export function microsoftMetricsMetricAvailabilityArrayDeserializer(
-  result: Array<MicrosoftMetricsMetricAvailability>,
-): any[] {
+export function metricAvailabilityArrayDeserializer(result: Array<MetricAvailability>): any[] {
   return result.map((item) => {
-    return microsoftMetricsMetricAvailabilityDeserializer(item);
+    return metricAvailabilityDeserializer(item);
   });
 }
 
 /** Metric availability specifies the time grain (aggregation interval or frequency) and the retention period for that time grain. */
-export interface MicrosoftMetricsMetricAvailability {
+export interface MetricAvailability {
   /** The time grain specifies a supported aggregation interval for the metric. Expressed as a duration 'PT1M', 'P1D', etc. */
   timeGrain?: string;
   /** The retention period for the metric at the specified timegrain.  Expressed as a duration 'PT1M', 'P1D', etc. */
   retention?: string;
 }
 
-export function microsoftMetricsMetricAvailabilityDeserializer(
-  item: any,
-): MicrosoftMetricsMetricAvailability {
+export function metricAvailabilityDeserializer(item: any): MetricAvailability {
   return {
     timeGrain: item["timeGrain"],
     retention: item["retention"],
   };
 }
 
-export function microsoftMetricsLocalizableStringArrayDeserializer(
-  result: Array<MicrosoftMetricsLocalizableString>,
-): any[] {
-  return result.map((item) => {
-    return microsoftMetricsLocalizableStringDeserializer(item);
-  });
-}
-
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.) */
-export interface MicrosoftMetricsErrorContract {
-  /** The error object. */
-  error?: MicrosoftMetricsMetricsErrorResponse;
-}
-
-export function microsoftMetricsErrorContractDeserializer(
-  item: any,
-): MicrosoftMetricsErrorContract {
-  return {
-    error: !item["error"]
-      ? item["error"]
-      : microsoftMetricsMetricsErrorResponseDeserializer(item["error"]),
-  };
-}
-
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.) */
-export interface MicrosoftMetricsMetricsErrorResponse {
-  /** Error code */
-  readonly code?: string;
-  /** Error message indicating why the operation failed. */
-  readonly message?: string;
-  /** The error target. */
-  readonly target?: string;
-  /** The error details. */
-  readonly details?: MicrosoftMetricsMetricsErrorResponse[];
-  /** The error additional info. */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-export function microsoftMetricsMetricsErrorResponseDeserializer(
-  item: any,
-): MicrosoftMetricsMetricsErrorResponse {
-  return {
-    code: item["code"],
-    message: item["message"],
-    target: item["target"],
-    details: !item["details"]
-      ? item["details"]
-      : microsoftMetricsMetricsErrorResponseArrayDeserializer(item["details"]),
-    additionalInfo: !item["additionalInfo"]
-      ? item["additionalInfo"]
-      : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
-  };
-}
-
-export function microsoftMetricsMetricsErrorResponseArrayDeserializer(
-  result: Array<MicrosoftMetricsMetricsErrorResponse>,
-): any[] {
-  return result.map((item) => {
-    return microsoftMetricsMetricsErrorResponseDeserializer(item);
-  });
-}
-
 /** Represents collection of metric definitions. */
-export interface _MicrosoftMetricsMetricDefinitionCollection {
+export interface _MetricDefinitionCollection {
   /** The values for the metric definitions. */
-  value: MicrosoftMetricsMetricDefinition[];
+  value: MetricDefinition[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _microsoftMetricsMetricDefinitionCollectionDeserializer(
-  item: any,
-): _MicrosoftMetricsMetricDefinitionCollection {
+export function _metricDefinitionCollectionDeserializer(item: any): _MetricDefinitionCollection {
   return {
-    value: microsoftMetricsMetricDefinitionArrayDeserializer(item["value"]),
+    value: metricDefinitionArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function microsoftMetricsMetricDefinitionArrayDeserializer(
-  result: Array<MicrosoftMetricsMetricDefinition>,
-): any[] {
+export function metricDefinitionArrayDeserializer(result: Array<MetricDefinition>): any[] {
   return result.map((item) => {
-    return microsoftMetricsMetricDefinitionDeserializer(item);
+    return metricDefinitionDeserializer(item);
   });
 }
 
 /** Metric definition class specifies the metadata for a metric. */
-export interface MicrosoftMetricsMetricDefinition {
+export interface MetricDefinition {
   /** Flag to indicate whether the dimension is required. */
   isDimensionRequired?: boolean;
   /** The resource identifier of the resource that emitted the metric. */
@@ -341,37 +255,33 @@ export interface MicrosoftMetricsMetricDefinition {
   /** The namespace the metric belongs to. */
   namespace?: string;
   /** The name and the display name of the metric, i.e. it is a localizable string. */
-  name?: MicrosoftMetricsLocalizableString;
+  name?: LocalizableString;
   /** Detailed description of this metric. */
   displayDescription?: string;
   /** Custom category name for this metric. */
   category?: string;
   /** The class of the metric. */
-  metricClass?: MicrosoftMetricsMetricClass;
+  metricClass?: MetricClass;
   /** The unit of the metric. */
-  unit?: MicrosoftMetricsMetricUnit;
+  unit?: MetricUnit;
   /** The primary aggregation type value defining how to use the values for display. */
-  primaryAggregationType?: MicrosoftMetricsAggregationType;
+  primaryAggregationType?: AggregationType;
   /** The collection of what aggregation types are supported. */
-  supportedAggregationTypes?: MicrosoftMetricsAggregationType[];
+  supportedAggregationTypes?: AggregationType[];
   /** The collection of what aggregation intervals are available to be queried. */
-  metricAvailabilities?: MicrosoftMetricsMetricAvailability[];
+  metricAvailabilities?: MetricAvailability[];
   /** The resource identifier of the metric definition. */
   id?: string;
   /** The name and the display name of the dimension, i.e. it is a localizable string. */
-  dimensions?: MicrosoftMetricsLocalizableString[];
+  dimensions?: LocalizableString[];
 }
 
-export function microsoftMetricsMetricDefinitionDeserializer(
-  item: any,
-): MicrosoftMetricsMetricDefinition {
+export function metricDefinitionDeserializer(item: any): MetricDefinition {
   return {
     isDimensionRequired: item["isDimensionRequired"],
     resourceId: item["resourceId"],
     namespace: item["namespace"],
-    name: !item["name"]
-      ? item["name"]
-      : microsoftMetricsLocalizableStringDeserializer(item["name"]),
+    name: !item["name"] ? item["name"] : localizableStringDeserializer(item["name"]),
     displayDescription: item["displayDescription"],
     category: item["category"],
     metricClass: item["metricClass"],
@@ -384,50 +294,40 @@ export function microsoftMetricsMetricDefinitionDeserializer(
         }),
     metricAvailabilities: !item["metricAvailabilities"]
       ? item["metricAvailabilities"]
-      : microsoftMetricsMetricAvailabilityArrayDeserializer(item["metricAvailabilities"]),
+      : metricAvailabilityArrayDeserializer(item["metricAvailabilities"]),
     id: item["id"],
     dimensions: !item["dimensions"]
       ? item["dimensions"]
-      : microsoftMetricsLocalizableStringArrayDeserializer(item["dimensions"]),
+      : localizableStringArrayDeserializer(item["dimensions"]),
   };
 }
 
 /** The aggregation type of the metric. */
-export type MicrosoftMetricsAggregationType =
-  | "None"
-  | "Average"
-  | "Count"
-  | "Minimum"
-  | "Maximum"
-  | "Total";
+export type AggregationType = "None" | "Average" | "Count" | "Minimum" | "Maximum" | "Total";
 
 /** Represents collection of metric namespaces. */
-export interface _MicrosoftMetricsMetricNamespaceCollection {
+export interface _MetricNamespaceCollection {
   /** The values for the metric namespaces. */
-  value: MicrosoftMetricsMetricNamespace[];
+  value: MetricNamespace[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _microsoftMetricsMetricNamespaceCollectionDeserializer(
-  item: any,
-): _MicrosoftMetricsMetricNamespaceCollection {
+export function _metricNamespaceCollectionDeserializer(item: any): _MetricNamespaceCollection {
   return {
-    value: microsoftMetricsMetricNamespaceArrayDeserializer(item["value"]),
+    value: metricNamespaceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function microsoftMetricsMetricNamespaceArrayDeserializer(
-  result: Array<MicrosoftMetricsMetricNamespace>,
-): any[] {
+export function metricNamespaceArrayDeserializer(result: Array<MetricNamespace>): any[] {
   return result.map((item) => {
-    return microsoftMetricsMetricNamespaceDeserializer(item);
+    return metricNamespaceDeserializer(item);
   });
 }
 
 /** Metric namespace class specifies the metadata for a metric namespace. */
-export interface MicrosoftMetricsMetricNamespace {
+export interface MetricNamespace {
   /** The ID of the metric namespace. */
   id?: string;
   /** The type of the namespace. */
@@ -435,14 +335,12 @@ export interface MicrosoftMetricsMetricNamespace {
   /** The escaped name of the namespace. */
   name?: string;
   /** Kind of namespace */
-  classification?: MicrosoftMetricsNamespaceClassification;
+  classification?: NamespaceClassification;
   /** Properties which include the fully qualified namespace name. */
-  properties?: MicrosoftMetricsMetricNamespaceName;
+  properties?: MetricNamespaceName;
 }
 
-export function microsoftMetricsMetricNamespaceDeserializer(
-  item: any,
-): MicrosoftMetricsMetricNamespace {
+export function metricNamespaceDeserializer(item: any): MetricNamespace {
   return {
     id: item["id"],
     type: item["type"],
@@ -450,12 +348,12 @@ export function microsoftMetricsMetricNamespaceDeserializer(
     classification: item["classification"],
     properties: !item["properties"]
       ? item["properties"]
-      : microsoftMetricsMetricNamespaceNameDeserializer(item["properties"]),
+      : metricNamespaceNameDeserializer(item["properties"]),
   };
 }
 
 /** Kind of namespace */
-export enum KnownMicrosoftMetricsNamespaceClassification {
+export enum KnownNamespaceClassification {
   /** Platform */
   Platform = "Platform",
   /** Custom */
@@ -466,48 +364,29 @@ export enum KnownMicrosoftMetricsNamespaceClassification {
 
 /**
  * Kind of namespace \
- * {@link KnownMicrosoftMetricsNamespaceClassification} can be used interchangeably with MicrosoftMetricsNamespaceClassification,
+ * {@link KnownNamespaceClassification} can be used interchangeably with NamespaceClassification,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Platform**: Platform \
  * **Custom**: Custom \
  * **Qos**: Qos
  */
-export type MicrosoftMetricsNamespaceClassification = string;
+export type NamespaceClassification = string;
 
 /** The fully qualified metric namespace name. */
-export interface MicrosoftMetricsMetricNamespaceName {
+export interface MetricNamespaceName {
   /** The metric namespace name. */
   metricNamespaceName?: string;
 }
 
-export function microsoftMetricsMetricNamespaceNameDeserializer(
-  item: any,
-): MicrosoftMetricsMetricNamespaceName {
+export function metricNamespaceNameDeserializer(item: any): MetricNamespaceName {
   return {
     metricNamespaceName: item["metricNamespaceName"],
   };
 }
 
-/** Describes the format of Error response. */
-export interface MicrosoftMetricsErrorResponse {
-  /** Error code */
-  code?: string;
-  /** Error message indicating why the operation failed. */
-  message?: string;
-}
-
-export function microsoftMetricsErrorResponseDeserializer(
-  item: any,
-): MicrosoftMetricsErrorResponse {
-  return {
-    code: item["code"],
-    message: item["message"],
-  };
-}
-
 /** The response to a metrics query. */
-export interface MicrosoftMetricsResponse {
+export interface Response {
   /** The integer value representing the relative cost of the query. */
   cost?: number;
   /** The timespan for which the data was retrieved. Its value consists of two datetimes concatenated, separated by '/'.  This may be adjusted in the future and returned back from what was originally requested. */
@@ -522,36 +401,34 @@ export interface MicrosoftMetricsResponse {
   /** The region of the resource being queried for metrics. */
   resourceregion?: string;
   /** The value of the collection. */
-  value: MicrosoftMetricsMetric[];
+  value: Metric[];
 }
 
-export function microsoftMetricsResponseDeserializer(item: any): MicrosoftMetricsResponse {
+export function responseDeserializer(item: any): Response {
   return {
     cost: item["cost"],
     timespan: item["timespan"],
     interval: item["interval"],
     namespace: item["namespace"],
     resourceregion: item["resourceregion"],
-    value: microsoftMetricsMetricArrayDeserializer(item["value"]),
+    value: metricArrayDeserializer(item["value"]),
   };
 }
 
-export function microsoftMetricsMetricArrayDeserializer(
-  result: Array<MicrosoftMetricsMetric>,
-): any[] {
+export function metricArrayDeserializer(result: Array<Metric>): any[] {
   return result.map((item) => {
-    return microsoftMetricsMetricDeserializer(item);
+    return metricDeserializer(item);
   });
 }
 
 /** The result data of a query. */
-export interface MicrosoftMetricsMetric {
+export interface Metric {
   /** The metric Id. */
   id: string;
   /** The resource type of the metric resource. */
   type: string;
   /** The name and the display name of the metric, i.e. it is localizable string. */
-  name: MicrosoftMetricsLocalizableString;
+  name: LocalizableString;
   /** Detailed description of this metric. */
   displayDescription?: string;
   /** 'Success' or the error details on query failures for this metric. */
@@ -559,88 +436,76 @@ export interface MicrosoftMetricsMetric {
   /** Error message encountered querying this specific metric. */
   errorMessage?: string;
   /** The unit of the metric. */
-  unit: MicrosoftMetricsMetricUnit;
+  unit: MetricUnit;
   /** The time series returned when a data query is performed. */
-  timeseries: MicrosoftMetricsTimeSeriesElement[];
+  timeseries: TimeSeriesElement[];
 }
 
-export function microsoftMetricsMetricDeserializer(item: any): MicrosoftMetricsMetric {
+export function metricDeserializer(item: any): Metric {
   return {
     id: item["id"],
     type: item["type"],
-    name: microsoftMetricsLocalizableStringDeserializer(item["name"]),
+    name: localizableStringDeserializer(item["name"]),
     displayDescription: item["displayDescription"],
     errorCode: item["errorCode"],
     errorMessage: item["errorMessage"],
     unit: item["unit"],
-    timeseries: microsoftMetricsTimeSeriesElementArrayDeserializer(item["timeseries"]),
+    timeseries: timeSeriesElementArrayDeserializer(item["timeseries"]),
   };
 }
 
-export function microsoftMetricsTimeSeriesElementArrayDeserializer(
-  result: Array<MicrosoftMetricsTimeSeriesElement>,
-): any[] {
+export function timeSeriesElementArrayDeserializer(result: Array<TimeSeriesElement>): any[] {
   return result.map((item) => {
-    return microsoftMetricsTimeSeriesElementDeserializer(item);
+    return timeSeriesElementDeserializer(item);
   });
 }
 
 /** A time series result type. The discriminator value is always TimeSeries in this case. */
-export interface MicrosoftMetricsTimeSeriesElement {
+export interface TimeSeriesElement {
   /** The metadata values returned if $filter was specified in the call. */
-  metadatavalues?: MicrosoftMetricsMetadataValue[];
+  metadatavalues?: MetadataValue[];
   /** An array of data points representing the metric values.  This is only returned if a result type of data is specified. */
-  data?: MicrosoftMetricsMetricValue[];
+  data?: MetricValue[];
 }
 
-export function microsoftMetricsTimeSeriesElementDeserializer(
-  item: any,
-): MicrosoftMetricsTimeSeriesElement {
+export function timeSeriesElementDeserializer(item: any): TimeSeriesElement {
   return {
     metadatavalues: !item["metadatavalues"]
       ? item["metadatavalues"]
-      : microsoftMetricsMetadataValueArrayDeserializer(item["metadatavalues"]),
-    data: !item["data"] ? item["data"] : microsoftMetricsMetricValueArrayDeserializer(item["data"]),
+      : metadataValueArrayDeserializer(item["metadatavalues"]),
+    data: !item["data"] ? item["data"] : metricValueArrayDeserializer(item["data"]),
   };
 }
 
-export function microsoftMetricsMetadataValueArrayDeserializer(
-  result: Array<MicrosoftMetricsMetadataValue>,
-): any[] {
+export function metadataValueArrayDeserializer(result: Array<MetadataValue>): any[] {
   return result.map((item) => {
-    return microsoftMetricsMetadataValueDeserializer(item);
+    return metadataValueDeserializer(item);
   });
 }
 
 /** Represents a metric metadata value. */
-export interface MicrosoftMetricsMetadataValue {
+export interface MetadataValue {
   /** The name of the metadata. */
-  name?: MicrosoftMetricsLocalizableString;
+  name?: LocalizableString;
   /** The value of the metadata. */
   value?: string;
 }
 
-export function microsoftMetricsMetadataValueDeserializer(
-  item: any,
-): MicrosoftMetricsMetadataValue {
+export function metadataValueDeserializer(item: any): MetadataValue {
   return {
-    name: !item["name"]
-      ? item["name"]
-      : microsoftMetricsLocalizableStringDeserializer(item["name"]),
+    name: !item["name"] ? item["name"] : localizableStringDeserializer(item["name"]),
     value: item["value"],
   };
 }
 
-export function microsoftMetricsMetricValueArrayDeserializer(
-  result: Array<MicrosoftMetricsMetricValue>,
-): any[] {
+export function metricValueArrayDeserializer(result: Array<MetricValue>): any[] {
   return result.map((item) => {
-    return microsoftMetricsMetricValueDeserializer(item);
+    return metricValueDeserializer(item);
   });
 }
 
 /** Represents a metric value. */
-export interface MicrosoftMetricsMetricValue {
+export interface MetricValue {
   /** The timestamp for the metric value in ISO 8601 format. */
   timeStamp: Date;
   /** The average value in the time range. */
@@ -655,7 +520,7 @@ export interface MicrosoftMetricsMetricValue {
   count?: number;
 }
 
-export function microsoftMetricsMetricValueDeserializer(item: any): MicrosoftMetricsMetricValue {
+export function metricValueDeserializer(item: any): MetricValue {
   return {
     timeStamp: new Date(item["timeStamp"]),
     average: item["average"],
@@ -667,7 +532,7 @@ export function microsoftMetricsMetricValueDeserializer(item: any): MicrosoftMet
 }
 
 /** Query parameters can also be specified in the body, specifying the same parameter in both the body and query parameters will result in an error. */
-export interface MicrosoftMetricsSubscriptionScopeMetricsRequestBodyParameters {
+export interface SubscriptionScopeMetricsRequestBodyParameters {
   /** The timespan of the query. It is a string with the following format 'startDateTime_ISO/endDateTime_ISO'. */
   timespan?: string;
   /**
@@ -696,7 +561,7 @@ export interface MicrosoftMetricsSubscriptionScopeMetricsRequestBodyParameters {
   /** Dimension name(s) to rollup results by. For example if you only want to see metric values with a filter like 'City eq Seattle or City eq Tacoma' but don't want to see separate values for each city, you can specify 'RollUpBy=City' to see the results for Seattle and Tacoma rolled up into one timeseries. */
   rollUpBy?: string;
   /** Reduces the set of data collected. The syntax allowed depends on the operation. See the operation's description for details. */
-  resultType?: MicrosoftMetricsMetricResultType;
+  resultType?: MetricResultType;
   /** Metric namespace where the metrics you want reside. */
   metricNamespace?: string;
   /** When set to true, if the timespan passed in is not supported by this metric, the API will return the result using the closest supported timespan. When set to false, an error is returned for invalid timespan parameters. Defaults to false. */
@@ -705,8 +570,8 @@ export interface MicrosoftMetricsSubscriptionScopeMetricsRequestBodyParameters {
   validateDimensions?: boolean;
 }
 
-export function microsoftMetricsSubscriptionScopeMetricsRequestBodyParametersSerializer(
-  item: MicrosoftMetricsSubscriptionScopeMetricsRequestBodyParameters,
+export function subscriptionScopeMetricsRequestBodyParametersSerializer(
+  item: SubscriptionScopeMetricsRequestBodyParameters,
 ): any {
   return {
     timespan: item["timespan"],
@@ -725,7 +590,7 @@ export function microsoftMetricsSubscriptionScopeMetricsRequestBodyParametersSer
 }
 
 /** Reduces the set of data collected. The syntax allowed depends on the operation. See the operation's description for details. */
-export enum KnownMicrosoftMetricsMetricResultType {
+export enum KnownMetricResultType {
   /** Data */
   Data = "Data",
   /** Metadata */
@@ -734,12 +599,10 @@ export enum KnownMicrosoftMetricsMetricResultType {
 
 /**
  * Reduces the set of data collected. The syntax allowed depends on the operation. See the operation's description for details. \
- * {@link KnownMicrosoftMetricsMetricResultType} can be used interchangeably with MicrosoftMetricsMetricResultType,
+ * {@link KnownMetricResultType} can be used interchangeably with MetricResultType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Data**: Data \
  * **Metadata**: Metadata
  */
-export type MicrosoftMetricsMetricResultType = string;
-/** Type of MicrosoftMetricsResultType */
-export type MicrosoftMetricsResultType = "Data" | "Metadata";
+export type MetricResultType = string;

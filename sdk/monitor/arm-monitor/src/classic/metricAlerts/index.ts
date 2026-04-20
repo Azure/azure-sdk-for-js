@@ -19,8 +19,8 @@ import type {
   MetricAlertsGetOptionalParams,
 } from "../../api/metricAlerts/options.js";
 import type {
-  MicrosoftMetricAlertMetricAlertResource,
-  MicrosoftMetricAlertMetricAlertResourcePatch,
+  MetricAlertResource,
+  MetricAlertResourcePatch,
 } from "../../models/microsoft/metricAlert/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
@@ -29,12 +29,12 @@ export interface MetricAlertsOperations {
   /** Retrieve alert rule definitions in a subscription. */
   listBySubscription: (
     options?: MetricAlertsListBySubscriptionOptionalParams,
-  ) => PagedAsyncIterableIterator<MicrosoftMetricAlertMetricAlertResource>;
+  ) => PagedAsyncIterableIterator<MetricAlertResource>;
   /** Retrieve alert rule definitions in a resource group. */
   listByResourceGroup: (
     resourceGroupName: string,
     options?: MetricAlertsListByResourceGroupOptionalParams,
-  ) => PagedAsyncIterableIterator<MicrosoftMetricAlertMetricAlertResource>;
+  ) => PagedAsyncIterableIterator<MetricAlertResource>;
   /** Delete an alert rule definition. */
   /**
    *  @fixme delete is a reserved word that cannot be used as an operation name.
@@ -50,22 +50,22 @@ export interface MetricAlertsOperations {
   update: (
     resourceGroupName: string,
     ruleName: string,
-    parameters: MicrosoftMetricAlertMetricAlertResourcePatch,
+    parameters: MetricAlertResourcePatch,
     options?: MetricAlertsUpdateOptionalParams,
-  ) => Promise<MicrosoftMetricAlertMetricAlertResource>;
+  ) => Promise<MetricAlertResource>;
   /** Create or update an metric alert definition. */
   createOrUpdate: (
     resourceGroupName: string,
     ruleName: string,
-    parameters: MicrosoftMetricAlertMetricAlertResource,
+    parameters: MetricAlertResource,
     options?: MetricAlertsCreateOrUpdateOptionalParams,
-  ) => Promise<MicrosoftMetricAlertMetricAlertResource>;
+  ) => Promise<MetricAlertResource>;
   /** Retrieve an alert rule definition. */
   get: (
     resourceGroupName: string,
     ruleName: string,
     options?: MetricAlertsGetOptionalParams,
-  ) => Promise<MicrosoftMetricAlertMetricAlertResource>;
+  ) => Promise<MetricAlertResource>;
 }
 
 function _getMetricAlerts(context: MonitorContext) {
@@ -84,13 +84,13 @@ function _getMetricAlerts(context: MonitorContext) {
     update: (
       resourceGroupName: string,
       ruleName: string,
-      parameters: MicrosoftMetricAlertMetricAlertResourcePatch,
+      parameters: MetricAlertResourcePatch,
       options?: MetricAlertsUpdateOptionalParams,
     ) => update(context, resourceGroupName, ruleName, parameters, options),
     createOrUpdate: (
       resourceGroupName: string,
       ruleName: string,
-      parameters: MicrosoftMetricAlertMetricAlertResource,
+      parameters: MetricAlertResource,
       options?: MetricAlertsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, ruleName, parameters, options),
     get: (resourceGroupName: string, ruleName: string, options?: MetricAlertsGetOptionalParams) =>

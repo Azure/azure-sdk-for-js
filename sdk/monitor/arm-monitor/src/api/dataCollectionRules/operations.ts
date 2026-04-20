@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import type { MonitorContext as Client } from "../index.js";
-import type { MicrosoftDataCollectionDataCollectionRuleResource } from "../../models/microsoft/dataCollection/models.js";
+import type { DataCollectionRuleResource } from "../../models/microsoft/dataCollection/models.js";
 import {
-  microsoftDataCollectionErrorResponseCommonV2Deserializer,
-  microsoftDataCollectionResourceForUpdateSerializer,
-  microsoftDataCollectionDataCollectionRuleResourceSerializer,
-  microsoftDataCollectionDataCollectionRuleResourceDeserializer,
+  errorResponseCommonV2Deserializer,
+  resourceForUpdateSerializer,
+  dataCollectionRuleResourceSerializer,
+  dataCollectionRuleResourceDeserializer,
 } from "../../models/microsoft/dataCollection/models.js";
 import type { _DataCollectionRuleResourceListResult } from "../../models/models.js";
 import { _dataCollectionRuleResourceListResultDeserializer } from "../../models/models.js";
@@ -51,7 +51,7 @@ export async function _listBySubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = microsoftDataCollectionErrorResponseCommonV2Deserializer(result.body);
+    error.details = errorResponseCommonV2Deserializer(result.body);
 
     throw error;
   }
@@ -63,7 +63,7 @@ export async function _listBySubscriptionDeserialize(
 export function listBySubscription(
   context: Client,
   options: DataCollectionRulesListBySubscriptionOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<MicrosoftDataCollectionDataCollectionRuleResource> {
+): PagedAsyncIterableIterator<DataCollectionRuleResource> {
   return buildPagedAsyncIterator(
     context,
     () => _listBySubscriptionSend(context, options),
@@ -101,7 +101,7 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = microsoftDataCollectionErrorResponseCommonV2Deserializer(result.body);
+    error.details = errorResponseCommonV2Deserializer(result.body);
 
     throw error;
   }
@@ -114,7 +114,7 @@ export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
   options: DataCollectionRulesListByResourceGroupOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<MicrosoftDataCollectionDataCollectionRuleResource> {
+): PagedAsyncIterableIterator<DataCollectionRuleResource> {
   return buildPagedAsyncIterator(
     context,
     () => _listByResourceGroupSend(context, resourceGroupName, options),
@@ -150,7 +150,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = microsoftDataCollectionErrorResponseCommonV2Deserializer(result.body);
+    error.details = errorResponseCommonV2Deserializer(result.body);
 
     throw error;
   }
@@ -196,24 +196,22 @@ export function _updateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: !options["body"]
-      ? options["body"]
-      : microsoftDataCollectionResourceForUpdateSerializer(options["body"]),
+    body: !options["body"] ? options["body"] : resourceForUpdateSerializer(options["body"]),
   });
 }
 
 export async function _updateDeserialize(
   result: PathUncheckedResponse,
-): Promise<MicrosoftDataCollectionDataCollectionRuleResource> {
+): Promise<DataCollectionRuleResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = microsoftDataCollectionErrorResponseCommonV2Deserializer(result.body);
+    error.details = errorResponseCommonV2Deserializer(result.body);
 
     throw error;
   }
 
-  return microsoftDataCollectionDataCollectionRuleResourceDeserializer(result.body);
+  return dataCollectionRuleResourceDeserializer(result.body);
 }
 
 /** Updates part of a data collection rule. */
@@ -222,7 +220,7 @@ export async function update(
   resourceGroupName: string,
   dataCollectionRuleName: string,
   options: DataCollectionRulesUpdateOptionalParams = { requestOptions: {} },
-): Promise<MicrosoftDataCollectionDataCollectionRuleResource> {
+): Promise<DataCollectionRuleResource> {
   const result = await _updateSend(context, resourceGroupName, dataCollectionRuleName, options);
   return _updateDeserialize(result);
 }
@@ -251,22 +249,22 @@ export function _createSend(
     headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: !options["body"]
       ? options["body"]
-      : microsoftDataCollectionDataCollectionRuleResourceSerializer(options["body"]),
+      : dataCollectionRuleResourceSerializer(options["body"]),
   });
 }
 
 export async function _createDeserialize(
   result: PathUncheckedResponse,
-): Promise<MicrosoftDataCollectionDataCollectionRuleResource> {
+): Promise<DataCollectionRuleResource> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = microsoftDataCollectionErrorResponseCommonV2Deserializer(result.body);
+    error.details = errorResponseCommonV2Deserializer(result.body);
 
     throw error;
   }
 
-  return microsoftDataCollectionDataCollectionRuleResourceDeserializer(result.body);
+  return dataCollectionRuleResourceDeserializer(result.body);
 }
 
 /** Creates or updates a data collection rule. */
@@ -275,7 +273,7 @@ export async function create(
   resourceGroupName: string,
   dataCollectionRuleName: string,
   options: DataCollectionRulesCreateOptionalParams = { requestOptions: {} },
-): Promise<MicrosoftDataCollectionDataCollectionRuleResource> {
+): Promise<DataCollectionRuleResource> {
   const result = await _createSend(context, resourceGroupName, dataCollectionRuleName, options);
   return _createDeserialize(result);
 }
@@ -306,16 +304,16 @@ export function _getSend(
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<MicrosoftDataCollectionDataCollectionRuleResource> {
+): Promise<DataCollectionRuleResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = microsoftDataCollectionErrorResponseCommonV2Deserializer(result.body);
+    error.details = errorResponseCommonV2Deserializer(result.body);
 
     throw error;
   }
 
-  return microsoftDataCollectionDataCollectionRuleResourceDeserializer(result.body);
+  return dataCollectionRuleResourceDeserializer(result.body);
 }
 
 /** Returns the specified data collection rule. */
@@ -324,7 +322,7 @@ export async function get(
   resourceGroupName: string,
   dataCollectionRuleName: string,
   options: DataCollectionRulesGetOptionalParams = { requestOptions: {} },
-): Promise<MicrosoftDataCollectionDataCollectionRuleResource> {
+): Promise<DataCollectionRuleResource> {
   const result = await _getSend(context, resourceGroupName, dataCollectionRuleName, options);
   return _getDeserialize(result);
 }

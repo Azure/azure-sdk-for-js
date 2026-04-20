@@ -5,7 +5,10 @@
 ```ts
 
 // @public
-export enum KnownMicrosoftMetricsMetricAggregationType {
+export type AggregationType = "None" | "Average" | "Count" | "Minimum" | "Maximum" | "Total";
+
+// @public
+export enum KnownMetricAggregationType {
     Average = "Average",
     Count = "Count",
     Maximum = "Maximum",
@@ -15,7 +18,7 @@ export enum KnownMicrosoftMetricsMetricAggregationType {
 }
 
 // @public
-export enum KnownMicrosoftMetricsMetricClass {
+export enum KnownMetricClass {
     Availability = "Availability",
     Errors = "Errors",
     Latency = "Latency",
@@ -24,13 +27,13 @@ export enum KnownMicrosoftMetricsMetricClass {
 }
 
 // @public
-export enum KnownMicrosoftMetricsMetricResultType {
+export enum KnownMetricResultType {
     Data = "Data",
     Metadata = "Metadata"
 }
 
 // @public
-export enum KnownMicrosoftMetricsMetricUnit {
+export enum KnownMetricUnit {
     BitsPerSecond = "BitsPerSecond",
     Bytes = "Bytes",
     ByteSeconds = "ByteSeconds",
@@ -47,110 +50,81 @@ export enum KnownMicrosoftMetricsMetricUnit {
 }
 
 // @public
-export enum KnownMicrosoftMetricsNamespaceClassification {
+export enum KnownNamespaceClassification {
     Custom = "Custom",
     Platform = "Platform",
     Qos = "Qos"
 }
 
 // @public
-export type MicrosoftMetricsAggregationType = "None" | "Average" | "Count" | "Minimum" | "Maximum" | "Total";
-
-// @public
-export interface MicrosoftMetricsErrorContract {
-    error?: MicrosoftMetricsMetricsErrorResponse;
-}
-
-// @public
-export interface MicrosoftMetricsErrorResponse {
-    code?: string;
-    message?: string;
-}
-
-// @public
-export interface MicrosoftMetricsLocalizableString {
-    localizedValue?: string;
-    value: string;
-}
-
-// @public
-export interface MicrosoftMetricsMetadataValue {
-    name?: MicrosoftMetricsLocalizableString;
+export interface MetadataValue {
+    name?: LocalizableString;
     value?: string;
 }
 
 // @public
-export interface MicrosoftMetricsMetric {
+export interface Metric {
     displayDescription?: string;
     errorCode?: string;
     errorMessage?: string;
     id: string;
-    name: MicrosoftMetricsLocalizableString;
-    timeseries: MicrosoftMetricsTimeSeriesElement[];
+    name: LocalizableString;
+    timeseries: TimeSeriesElement[];
     type: string;
-    unit: MicrosoftMetricsMetricUnit;
+    unit: MetricUnit;
 }
 
 // @public
-export type MicrosoftMetricsMetricAggregationType = string;
+export type MetricAggregationType = string;
 
 // @public
-export interface MicrosoftMetricsMetricAvailability {
+export interface MetricAvailability {
     retention?: string;
     timeGrain?: string;
 }
 
 // @public
-export type MicrosoftMetricsMetricClass = string;
+export type MetricClass = string;
 
 // @public
-export interface MicrosoftMetricsMetricDefinition {
+export interface MetricDefinition {
     category?: string;
-    dimensions?: MicrosoftMetricsLocalizableString[];
+    dimensions?: LocalizableString[];
     displayDescription?: string;
     id?: string;
     isDimensionRequired?: boolean;
-    metricAvailabilities?: MicrosoftMetricsMetricAvailability[];
-    metricClass?: MicrosoftMetricsMetricClass;
-    name?: MicrosoftMetricsLocalizableString;
+    metricAvailabilities?: MetricAvailability[];
+    metricClass?: MetricClass;
+    name?: LocalizableString;
     namespace?: string;
-    primaryAggregationType?: MicrosoftMetricsAggregationType;
+    primaryAggregationType?: AggregationType;
     resourceId?: string;
-    supportedAggregationTypes?: MicrosoftMetricsAggregationType[];
-    unit?: MicrosoftMetricsMetricUnit;
+    supportedAggregationTypes?: AggregationType[];
+    unit?: MetricUnit;
 }
 
 // @public
-export interface MicrosoftMetricsMetricNamespace {
-    classification?: MicrosoftMetricsNamespaceClassification;
+export interface MetricNamespace {
+    classification?: NamespaceClassification;
     id?: string;
     name?: string;
-    properties?: MicrosoftMetricsMetricNamespaceName;
+    properties?: MetricNamespaceName;
     type?: string;
 }
 
 // @public
-export interface MicrosoftMetricsMetricNamespaceName {
+export interface MetricNamespaceName {
     metricNamespaceName?: string;
 }
 
 // @public
-export type MicrosoftMetricsMetricResultType = string;
+export type MetricResultType = string;
 
 // @public
-export interface MicrosoftMetricsMetricsErrorResponse {
-    readonly additionalInfo?: ErrorAdditionalInfo[];
-    readonly code?: string;
-    readonly details?: MicrosoftMetricsMetricsErrorResponse[];
-    readonly message?: string;
-    readonly target?: string;
-}
+export type MetricUnit = string;
 
 // @public
-export type MicrosoftMetricsMetricUnit = string;
-
-// @public
-export interface MicrosoftMetricsMetricValue {
+export interface MetricValue {
     average?: number;
     count?: number;
     maximum?: number;
@@ -160,40 +134,38 @@ export interface MicrosoftMetricsMetricValue {
 }
 
 // @public
-export type MicrosoftMetricsNamespaceClassification = string;
+export type NamespaceClassification = string;
 
 // @public
-export interface MicrosoftMetricsResponse {
+interface Response_2 {
     cost?: number;
     interval?: string;
     namespace?: string;
     resourceregion?: string;
     timespan: string;
-    value: MicrosoftMetricsMetric[];
+    value: Metric[];
 }
+export { Response_2 as Response }
 
 // @public
-export type MicrosoftMetricsResultType = "Data" | "Metadata";
-
-// @public
-export interface MicrosoftMetricsSubscriptionScopeMetricDefinition {
+export interface SubscriptionScopeMetricDefinition {
     category?: string;
-    dimensions?: MicrosoftMetricsLocalizableString[];
+    dimensions?: LocalizableString[];
     displayDescription?: string;
     id?: string;
     isDimensionRequired?: boolean;
-    metricAvailabilities?: MicrosoftMetricsMetricAvailability[];
-    metricClass?: MicrosoftMetricsMetricClass;
-    name?: MicrosoftMetricsLocalizableString;
+    metricAvailabilities?: MetricAvailability[];
+    metricClass?: MetricClass;
+    name?: LocalizableString;
     namespace?: string;
-    primaryAggregationType?: MicrosoftMetricsMetricAggregationType;
+    primaryAggregationType?: MetricAggregationType;
     resourceId?: string;
-    supportedAggregationTypes?: MicrosoftMetricsMetricAggregationType[];
-    unit?: MicrosoftMetricsMetricUnit;
+    supportedAggregationTypes?: MetricAggregationType[];
+    unit?: MetricUnit;
 }
 
 // @public
-export interface MicrosoftMetricsSubscriptionScopeMetricsRequestBodyParameters {
+export interface SubscriptionScopeMetricsRequestBodyParameters {
     aggregation?: string;
     autoAdjustTimegrain?: boolean;
     filter?: string;
@@ -201,7 +173,7 @@ export interface MicrosoftMetricsSubscriptionScopeMetricsRequestBodyParameters {
     metricNames?: string;
     metricNamespace?: string;
     orderBy?: string;
-    resultType?: MicrosoftMetricsMetricResultType;
+    resultType?: MetricResultType;
     rollUpBy?: string;
     timespan?: string;
     top?: number;
@@ -209,9 +181,9 @@ export interface MicrosoftMetricsSubscriptionScopeMetricsRequestBodyParameters {
 }
 
 // @public
-export interface MicrosoftMetricsTimeSeriesElement {
-    data?: MicrosoftMetricsMetricValue[];
-    metadatavalues?: MicrosoftMetricsMetadataValue[];
+export interface TimeSeriesElement {
+    data?: MetricValue[];
+    metadatavalues?: MetadataValue[];
 }
 
 // (No @packageDocumentation comment for this package)

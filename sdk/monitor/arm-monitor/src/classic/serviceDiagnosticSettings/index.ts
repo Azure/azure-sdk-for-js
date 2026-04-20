@@ -9,8 +9,8 @@ import type {
   ServiceDiagnosticSettingsGetOptionalParams,
 } from "../../api/serviceDiagnosticSettings/options.js";
 import type {
-  MicrosoftServiceDiagnosticsSettingsServiceDiagnosticSettingsResource,
-  MicrosoftServiceDiagnosticsSettingsServiceDiagnosticSettingsResourcePatch,
+  ServiceDiagnosticSettingsResource,
+  ServiceDiagnosticSettingsResourcePatch,
 } from "../../models/microsoft/serviceDiagnosticsSettings/models.js";
 
 /** Interface representing a ServiceDiagnosticSettings operations. */
@@ -18,32 +18,32 @@ export interface ServiceDiagnosticSettingsOperations {
   /** Updates an existing ServiceDiagnosticSettingsResource. To update other fields use the CreateOrUpdate method. **WARNING**: This method will be deprecated in future releases. */
   update: (
     resourceUri: string,
-    serviceDiagnosticSettingsResource: MicrosoftServiceDiagnosticsSettingsServiceDiagnosticSettingsResourcePatch,
+    serviceDiagnosticSettingsResource: ServiceDiagnosticSettingsResourcePatch,
     options?: ServiceDiagnosticSettingsUpdateOptionalParams,
-  ) => Promise<MicrosoftServiceDiagnosticsSettingsServiceDiagnosticSettingsResource>;
+  ) => Promise<ServiceDiagnosticSettingsResource>;
   /** Create or update new diagnostic settings for the specified resource. **WARNING**: This method will be deprecated in future releases. */
   createOrUpdate: (
     resourceUri: string,
-    parameters: MicrosoftServiceDiagnosticsSettingsServiceDiagnosticSettingsResource,
+    parameters: ServiceDiagnosticSettingsResource,
     options?: ServiceDiagnosticSettingsCreateOrUpdateOptionalParams,
-  ) => Promise<MicrosoftServiceDiagnosticsSettingsServiceDiagnosticSettingsResource>;
+  ) => Promise<ServiceDiagnosticSettingsResource>;
   /** Gets the active diagnostic settings for the specified resource. **WARNING**: This method will be deprecated in future releases. */
   get: (
     resourceUri: string,
     options?: ServiceDiagnosticSettingsGetOptionalParams,
-  ) => Promise<MicrosoftServiceDiagnosticsSettingsServiceDiagnosticSettingsResource>;
+  ) => Promise<ServiceDiagnosticSettingsResource>;
 }
 
 function _getServiceDiagnosticSettings(context: MonitorContext) {
   return {
     update: (
       resourceUri: string,
-      serviceDiagnosticSettingsResource: MicrosoftServiceDiagnosticsSettingsServiceDiagnosticSettingsResourcePatch,
+      serviceDiagnosticSettingsResource: ServiceDiagnosticSettingsResourcePatch,
       options?: ServiceDiagnosticSettingsUpdateOptionalParams,
     ) => update(context, resourceUri, serviceDiagnosticSettingsResource, options),
     createOrUpdate: (
       resourceUri: string,
-      parameters: MicrosoftServiceDiagnosticsSettingsServiceDiagnosticSettingsResource,
+      parameters: ServiceDiagnosticSettingsResource,
       options?: ServiceDiagnosticSettingsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceUri, parameters, options),
     get: (resourceUri: string, options?: ServiceDiagnosticSettingsGetOptionalParams) =>

@@ -18,7 +18,7 @@ import type {
   DataCollectionRulesCreateOptionalParams,
   DataCollectionRulesGetOptionalParams,
 } from "../../api/dataCollectionRules/options.js";
-import type { MicrosoftDataCollectionDataCollectionRuleResource } from "../../models/microsoft/dataCollection/models.js";
+import type { DataCollectionRuleResource } from "../../models/microsoft/dataCollection/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DataCollectionRules operations. */
@@ -26,12 +26,12 @@ export interface DataCollectionRulesOperations {
   /** Lists all data collection rules in the specified subscription. */
   listBySubscription: (
     options?: DataCollectionRulesListBySubscriptionOptionalParams,
-  ) => PagedAsyncIterableIterator<MicrosoftDataCollectionDataCollectionRuleResource>;
+  ) => PagedAsyncIterableIterator<DataCollectionRuleResource>;
   /** Lists all data collection rules in the specified resource group. */
   listByResourceGroup: (
     resourceGroupName: string,
     options?: DataCollectionRulesListByResourceGroupOptionalParams,
-  ) => PagedAsyncIterableIterator<MicrosoftDataCollectionDataCollectionRuleResource>;
+  ) => PagedAsyncIterableIterator<DataCollectionRuleResource>;
   /** Deletes a data collection rule. */
   /**
    *  @fixme delete is a reserved word that cannot be used as an operation name.
@@ -48,19 +48,19 @@ export interface DataCollectionRulesOperations {
     resourceGroupName: string,
     dataCollectionRuleName: string,
     options?: DataCollectionRulesUpdateOptionalParams,
-  ) => Promise<MicrosoftDataCollectionDataCollectionRuleResource>;
+  ) => Promise<DataCollectionRuleResource>;
   /** Creates or updates a data collection rule. */
   create: (
     resourceGroupName: string,
     dataCollectionRuleName: string,
     options?: DataCollectionRulesCreateOptionalParams,
-  ) => Promise<MicrosoftDataCollectionDataCollectionRuleResource>;
+  ) => Promise<DataCollectionRuleResource>;
   /** Returns the specified data collection rule. */
   get: (
     resourceGroupName: string,
     dataCollectionRuleName: string,
     options?: DataCollectionRulesGetOptionalParams,
-  ) => Promise<MicrosoftDataCollectionDataCollectionRuleResource>;
+  ) => Promise<DataCollectionRuleResource>;
 }
 
 function _getDataCollectionRules(context: MonitorContext) {

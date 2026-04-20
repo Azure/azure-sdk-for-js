@@ -5,83 +5,51 @@
 ```ts
 
 // @public
-export enum KnownMicrosoftMetricBaselinesBaselineSensitivity {
+export interface BaselineMetadata {
+    name: string;
+    value: string;
+}
+
+// @public
+export type BaselineSensitivity = string;
+
+// @public
+export enum KnownBaselineSensitivity {
     High = "High",
     Low = "Low",
     Medium = "Medium"
 }
 
 // @public
-export interface MicrosoftMetricBaselinesBaselineMetadata {
-    name: string;
-    value: string;
-}
-
-// @public
-export type MicrosoftMetricBaselinesBaselineSensitivity = string;
-
-// @public
-export interface MicrosoftMetricBaselinesErrorDetail {
-    additionalInfo?: MicrosoftMetricBaselinesErrorDetailAdditionalInfoItem[];
-    code?: string;
-    message?: string;
-    target?: string;
-}
-
-// @public
-export interface MicrosoftMetricBaselinesErrorDetailAdditionalInfoItem {
-    info?: Record<string, any>;
-    type?: string;
-}
-
-// @public
-export interface MicrosoftMetricBaselinesErrorResponse {
+export interface MetricBaselinesErrorResponse {
     // (undocumented)
-    error?: MicrosoftMetricBaselinesErrorResponseError;
+    error?: ErrorResponseError;
 }
 
 // @public
-export interface MicrosoftMetricBaselinesErrorResponseError {
-    additionalInfo?: MicrosoftMetricBaselinesErrorResponseErrorAdditionalInfoItem[];
-    code?: string;
-    details?: MicrosoftMetricBaselinesErrorDetail[];
-    message?: string;
-    target?: string;
-}
-
-// @public
-export interface MicrosoftMetricBaselinesErrorResponseErrorAdditionalInfoItem {
-    info?: Record<string, any>;
-    type?: string;
-}
-
-// @public
-export interface MicrosoftMetricBaselinesMetricBaselinesProperties {
-    baselines: MicrosoftMetricBaselinesTimeSeriesBaseline[];
+export interface MetricBaselinesProperties {
+    baselines: TimeSeriesBaseline[];
     interval: string;
     namespace?: string;
     timespan: string;
 }
 
 // @public
-export interface MicrosoftMetricBaselinesMetricSingleDimension {
+export interface MetricSingleDimension {
     name: string;
     value: string;
 }
 
 // @public
-export type MicrosoftMetricBaselinesResultType = "Data" | "Metadata";
-
-// @public
-export interface MicrosoftMetricBaselinesSingleBaseline {
+export interface SingleBaseline {
     highThresholds: number[];
     lowThresholds: number[];
-    sensitivity: MicrosoftMetricBaselinesBaselineSensitivity;
+    sensitivity: BaselineSensitivity;
 }
 
 // @public
-export interface MicrosoftMetricBaselinesSingleMetricBaseline {
-    baselines: MicrosoftMetricBaselinesTimeSeriesBaseline[];
+export interface SingleMetricBaseline {
+    baselines: TimeSeriesBaseline[];
     id: string;
     interval: string;
     name: string;
@@ -91,11 +59,11 @@ export interface MicrosoftMetricBaselinesSingleMetricBaseline {
 }
 
 // @public
-export interface MicrosoftMetricBaselinesTimeSeriesBaseline {
+export interface TimeSeriesBaseline {
     aggregation: string;
-    data: MicrosoftMetricBaselinesSingleBaseline[];
-    dimensions?: MicrosoftMetricBaselinesMetricSingleDimension[];
-    metadataValues?: MicrosoftMetricBaselinesBaselineMetadata[];
+    data: SingleBaseline[];
+    dimensions?: MetricSingleDimension[];
+    metadataValues?: BaselineMetadata[];
     timestamps: Date[];
 }
 

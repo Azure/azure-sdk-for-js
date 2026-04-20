@@ -11,17 +11,15 @@ import type {
   LogProfilesGetOptionalParams,
 } from "../../api/logProfiles/options.js";
 import type {
-  MicrosoftLogProfilesLogProfileResource,
-  MicrosoftLogProfilesLogProfileResourcePatch,
+  LogProfileResource,
+  LogProfileResourcePatch,
 } from "../../models/microsoft/logProfiles/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a LogProfiles operations. */
 export interface LogProfilesOperations {
   /** List the log profiles. */
-  list: (
-    options?: LogProfilesListOptionalParams,
-  ) => PagedAsyncIterableIterator<MicrosoftLogProfilesLogProfileResource>;
+  list: (options?: LogProfilesListOptionalParams) => PagedAsyncIterableIterator<LogProfileResource>;
   /** Deletes the log profile. */
   /**
    *  @fixme delete is a reserved word that cannot be used as an operation name.
@@ -32,20 +30,20 @@ export interface LogProfilesOperations {
   /** Updates an existing LogProfilesResource. To update other fields use the CreateOrUpdate method. */
   update: (
     logProfileName: string,
-    logProfilesResource: MicrosoftLogProfilesLogProfileResourcePatch,
+    logProfilesResource: LogProfileResourcePatch,
     options?: LogProfilesUpdateOptionalParams,
-  ) => Promise<MicrosoftLogProfilesLogProfileResource>;
+  ) => Promise<LogProfileResource>;
   /** Create or update a log profile in Azure Monitoring REST API. */
   createOrUpdate: (
     logProfileName: string,
-    parameters: MicrosoftLogProfilesLogProfileResource,
+    parameters: LogProfileResource,
     options?: LogProfilesCreateOrUpdateOptionalParams,
-  ) => Promise<MicrosoftLogProfilesLogProfileResource>;
+  ) => Promise<LogProfileResource>;
   /** Gets the log profile. */
   get: (
     logProfileName: string,
     options?: LogProfilesGetOptionalParams,
-  ) => Promise<MicrosoftLogProfilesLogProfileResource>;
+  ) => Promise<LogProfileResource>;
 }
 
 function _getLogProfiles(context: MonitorContext) {
@@ -55,12 +53,12 @@ function _getLogProfiles(context: MonitorContext) {
       $delete(context, logProfileName, options),
     update: (
       logProfileName: string,
-      logProfilesResource: MicrosoftLogProfilesLogProfileResourcePatch,
+      logProfilesResource: LogProfileResourcePatch,
       options?: LogProfilesUpdateOptionalParams,
     ) => update(context, logProfileName, logProfilesResource, options),
     createOrUpdate: (
       logProfileName: string,
-      parameters: MicrosoftLogProfilesLogProfileResource,
+      parameters: LogProfileResource,
       options?: LogProfilesCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, logProfileName, parameters, options),
     get: (logProfileName: string, options?: LogProfilesGetOptionalParams) =>

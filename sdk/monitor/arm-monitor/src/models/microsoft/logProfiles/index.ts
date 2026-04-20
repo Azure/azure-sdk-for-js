@@ -2,9 +2,7 @@
 // Licensed under the MIT License.
 
 export type {
-  MicrosoftLogProfilesLogProfileResource,
-  MicrosoftLogProfilesLogProfileProperties,
-  MicrosoftLogProfilesRetentionPolicy,
-  MicrosoftLogProfilesErrorResponse,
-  MicrosoftLogProfilesLogProfileResourcePatch,
+  LogProfileResource,
+  LogProfileProperties,
+  LogProfileResourcePatch,
 } from "./models.js";

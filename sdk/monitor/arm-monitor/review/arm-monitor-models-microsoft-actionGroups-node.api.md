@@ -5,12 +5,7 @@
 ```ts
 
 // @public
-export enum KnownMicrosoftActionGroupsIncidentManagementService {
-    Icm = "Icm"
-}
-
-// @public
-export interface MicrosoftActionGroupsActionDetail {
+export interface ActionDetail {
     detail?: string;
     mechanismType?: string;
     name?: string;
@@ -20,63 +15,63 @@ export interface MicrosoftActionGroupsActionDetail {
 }
 
 // @public
-export interface MicrosoftActionGroupsActionGroup {
-    armRoleReceivers?: MicrosoftActionGroupsArmRoleReceiver[];
-    automationRunbookReceivers?: MicrosoftActionGroupsAutomationRunbookReceiver[];
-    azureAppPushReceivers?: MicrosoftActionGroupsAzureAppPushReceiver[];
-    azureFunctionReceivers?: MicrosoftActionGroupsAzureFunctionReceiver[];
-    emailReceivers?: MicrosoftActionGroupsEmailReceiver[];
+export interface ActionGroup {
+    armRoleReceivers?: ArmRoleReceiver[];
+    automationRunbookReceivers?: AutomationRunbookReceiver[];
+    azureAppPushReceivers?: AzureAppPushReceiver[];
+    azureFunctionReceivers?: AzureFunctionReceiver[];
+    emailReceivers?: EmailReceiver[];
     enabled: boolean;
-    eventHubReceivers?: MicrosoftActionGroupsEventHubReceiver[];
+    eventHubReceivers?: EventHubReceiver[];
     groupShortName: string;
-    incidentReceivers?: MicrosoftActionGroupsIncidentReceiver[];
-    itsmReceivers?: MicrosoftActionGroupsItsmReceiver[];
-    logicAppReceivers?: MicrosoftActionGroupsLogicAppReceiver[];
-    smsReceivers?: MicrosoftActionGroupsSmsReceiver[];
-    voiceReceivers?: MicrosoftActionGroupsVoiceReceiver[];
-    webhookReceivers?: MicrosoftActionGroupsWebhookReceiver[];
+    incidentReceivers?: IncidentReceiver[];
+    itsmReceivers?: ItsmReceiver[];
+    logicAppReceivers?: LogicAppReceiver[];
+    smsReceivers?: SmsReceiver[];
+    voiceReceivers?: VoiceReceiver[];
+    webhookReceivers?: WebhookReceiver[];
 }
 
 // @public
-export interface MicrosoftActionGroupsActionGroupPatch {
+export interface ActionGroupPatch {
     enabled?: boolean;
 }
 
 // @public
-export interface MicrosoftActionGroupsActionGroupPatchBody {
+export interface ActionGroupPatchBody {
     enabled?: boolean;
     identity?: ManagedServiceIdentity;
     tags?: Record<string, string>;
 }
 
 // @public
-export interface MicrosoftActionGroupsActionGroupResource extends TrackedResource {
-    armRoleReceivers?: MicrosoftActionGroupsArmRoleReceiver[];
-    automationRunbookReceivers?: MicrosoftActionGroupsAutomationRunbookReceiver[];
-    azureAppPushReceivers?: MicrosoftActionGroupsAzureAppPushReceiver[];
-    azureFunctionReceivers?: MicrosoftActionGroupsAzureFunctionReceiver[];
-    emailReceivers?: MicrosoftActionGroupsEmailReceiver[];
+export interface ActionGroupResource extends TrackedResource {
+    armRoleReceivers?: ArmRoleReceiver[];
+    automationRunbookReceivers?: AutomationRunbookReceiver[];
+    azureAppPushReceivers?: AzureAppPushReceiver[];
+    azureFunctionReceivers?: AzureFunctionReceiver[];
+    emailReceivers?: EmailReceiver[];
     enabled?: boolean;
-    eventHubReceivers?: MicrosoftActionGroupsEventHubReceiver[];
+    eventHubReceivers?: EventHubReceiver[];
     groupShortName?: string;
     identity?: ManagedServiceIdentity;
-    incidentReceivers?: MicrosoftActionGroupsIncidentReceiver[];
-    itsmReceivers?: MicrosoftActionGroupsItsmReceiver[];
-    logicAppReceivers?: MicrosoftActionGroupsLogicAppReceiver[];
-    smsReceivers?: MicrosoftActionGroupsSmsReceiver[];
-    voiceReceivers?: MicrosoftActionGroupsVoiceReceiver[];
-    webhookReceivers?: MicrosoftActionGroupsWebhookReceiver[];
+    incidentReceivers?: IncidentReceiver[];
+    itsmReceivers?: ItsmReceiver[];
+    logicAppReceivers?: LogicAppReceiver[];
+    smsReceivers?: SmsReceiver[];
+    voiceReceivers?: VoiceReceiver[];
+    webhookReceivers?: WebhookReceiver[];
 }
 
 // @public
-export interface MicrosoftActionGroupsArmRoleReceiver {
+export interface ArmRoleReceiver {
     name: string;
     roleId: string;
     useCommonAlertSchema?: boolean;
 }
 
 // @public
-export interface MicrosoftActionGroupsAutomationRunbookReceiver {
+export interface AutomationRunbookReceiver {
     automationAccountId: string;
     isGlobalRunbook: boolean;
     managedIdentity?: string;
@@ -88,13 +83,13 @@ export interface MicrosoftActionGroupsAutomationRunbookReceiver {
 }
 
 // @public
-export interface MicrosoftActionGroupsAzureAppPushReceiver {
+export interface AzureAppPushReceiver {
     emailAddress: string;
     name: string;
 }
 
 // @public
-export interface MicrosoftActionGroupsAzureFunctionReceiver {
+export interface AzureFunctionReceiver {
     functionAppResourceId: string;
     functionName: string;
     httpTriggerUrl: string;
@@ -104,32 +99,26 @@ export interface MicrosoftActionGroupsAzureFunctionReceiver {
 }
 
 // @public
-export interface MicrosoftActionGroupsContext {
+export interface Context {
     contextType?: string;
     notificationSource?: string;
 }
 
 // @public
-export interface MicrosoftActionGroupsEmailReceiver {
+export interface EmailReceiver {
     emailAddress: string;
     name: string;
-    readonly status?: MicrosoftActionGroupsReceiverStatus;
+    readonly status?: ReceiverStatus;
     useCommonAlertSchema?: boolean;
 }
 
 // @public
-export interface MicrosoftActionGroupsEnableRequest {
+export interface EnableRequest {
     receiverName: string;
 }
 
 // @public
-export interface MicrosoftActionGroupsErrorResponse {
-    code?: string;
-    message?: string;
-}
-
-// @public
-export interface MicrosoftActionGroupsEventHubReceiver {
+export interface EventHubReceiver {
     eventHubName: string;
     eventHubNameSpace: string;
     managedIdentity?: string;
@@ -140,24 +129,24 @@ export interface MicrosoftActionGroupsEventHubReceiver {
 }
 
 // @public
-export type MicrosoftActionGroupsIncidentManagementService = string;
+export type IncidentManagementService = string;
 
 // @public
-export interface MicrosoftActionGroupsIncidentReceiver {
-    connection: MicrosoftActionGroupsIncidentServiceConnection;
-    incidentManagementService: MicrosoftActionGroupsIncidentManagementService;
+export interface IncidentReceiver {
+    connection: IncidentServiceConnection;
+    incidentManagementService: IncidentManagementService;
     mappings: Record<string, string>;
     name: string;
 }
 
 // @public
-export interface MicrosoftActionGroupsIncidentServiceConnection {
+export interface IncidentServiceConnection {
     id: string;
     name: string;
 }
 
 // @public
-export interface MicrosoftActionGroupsItsmReceiver {
+export interface ItsmReceiver {
     connectionId: string;
     name: string;
     region: string;
@@ -166,7 +155,12 @@ export interface MicrosoftActionGroupsItsmReceiver {
 }
 
 // @public
-export interface MicrosoftActionGroupsLogicAppReceiver {
+export enum KnownIncidentManagementService {
+    Icm = "Icm"
+}
+
+// @public
+export interface LogicAppReceiver {
     callbackUrl: string;
     managedIdentity?: string;
     name: string;
@@ -175,51 +169,51 @@ export interface MicrosoftActionGroupsLogicAppReceiver {
 }
 
 // @public
-export interface MicrosoftActionGroupsNotificationRequestBody {
+export interface NotificationRequestBody {
     alertType: string;
-    armRoleReceivers?: MicrosoftActionGroupsArmRoleReceiver[];
-    automationRunbookReceivers?: MicrosoftActionGroupsAutomationRunbookReceiver[];
-    azureAppPushReceivers?: MicrosoftActionGroupsAzureAppPushReceiver[];
-    azureFunctionReceivers?: MicrosoftActionGroupsAzureFunctionReceiver[];
-    emailReceivers?: MicrosoftActionGroupsEmailReceiver[];
-    eventHubReceivers?: MicrosoftActionGroupsEventHubReceiver[];
-    incidentReceivers?: MicrosoftActionGroupsIncidentReceiver[];
-    itsmReceivers?: MicrosoftActionGroupsItsmReceiver[];
-    logicAppReceivers?: MicrosoftActionGroupsLogicAppReceiver[];
-    smsReceivers?: MicrosoftActionGroupsSmsReceiver[];
-    voiceReceivers?: MicrosoftActionGroupsVoiceReceiver[];
-    webhookReceivers?: MicrosoftActionGroupsWebhookReceiver[];
+    armRoleReceivers?: ArmRoleReceiver[];
+    automationRunbookReceivers?: AutomationRunbookReceiver[];
+    azureAppPushReceivers?: AzureAppPushReceiver[];
+    azureFunctionReceivers?: AzureFunctionReceiver[];
+    emailReceivers?: EmailReceiver[];
+    eventHubReceivers?: EventHubReceiver[];
+    incidentReceivers?: IncidentReceiver[];
+    itsmReceivers?: ItsmReceiver[];
+    logicAppReceivers?: LogicAppReceiver[];
+    smsReceivers?: SmsReceiver[];
+    voiceReceivers?: VoiceReceiver[];
+    webhookReceivers?: WebhookReceiver[];
 }
 
 // @public
-export type MicrosoftActionGroupsReceiverStatus = "NotSpecified" | "Enabled" | "Disabled";
+export type ReceiverStatus = "NotSpecified" | "Enabled" | "Disabled";
 
 // @public
-export interface MicrosoftActionGroupsSmsReceiver {
+export interface SmsReceiver {
     countryCode: string;
     name: string;
     phoneNumber: string;
-    readonly status?: MicrosoftActionGroupsReceiverStatus;
+    readonly status?: ReceiverStatus;
 }
 
 // @public
-export interface MicrosoftActionGroupsTestNotificationDetailsResponse {
-    actionDetails?: MicrosoftActionGroupsActionDetail[];
+export interface TestNotificationDetailsResponse {
+    actionDetails?: ActionDetail[];
     completedTime?: string;
-    context?: MicrosoftActionGroupsContext;
+    context?: Context;
     createdTime?: string;
     state: string;
 }
 
 // @public
-export interface MicrosoftActionGroupsVoiceReceiver {
+export interface VoiceReceiver {
     countryCode: string;
     name: string;
     phoneNumber: string;
 }
 
 // @public
-export interface MicrosoftActionGroupsWebhookReceiver {
+export interface WebhookReceiver {
     identifierUri?: string;
     managedIdentity?: string;
     name: string;

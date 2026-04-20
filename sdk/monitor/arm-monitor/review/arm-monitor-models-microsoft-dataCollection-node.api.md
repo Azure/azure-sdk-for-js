@@ -5,14 +5,413 @@
 ```ts
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownAgentSettingName {
+export interface AdxDestination {
+    databaseName?: string;
+    readonly ingestionUri?: string;
+    name?: string;
+    resourceId?: string;
+}
+
+// @public
+export interface AgentSetting {
+    name?: KnownAgentSettingName;
+    value?: string;
+}
+
+// @public
+export interface AgentSettingsSpec {
+    logs?: AgentSetting[];
+}
+
+// @public
+export interface ApplicationInsights {
+    name: string;
+    resourceId: string;
+}
+
+// @public
+export interface AzureMonitorMetricsDestination {
+    name?: string;
+}
+
+// @public
+export interface ColumnDefinition {
+    name?: string;
+    type?: KnownColumnDefinitionType;
+}
+
+// @public
+export interface ConfigurationAccessEndpointSpec {
+    readonly endpoint?: string;
+}
+
+// @public
+export interface DataCollectionEndpoint {
+    configurationAccess?: DataCollectionEndpointConfigurationAccess;
+    description?: string;
+    readonly failoverConfiguration?: DataCollectionEndpointFailoverConfiguration;
+    immutableId?: string;
+    logsIngestion?: DataCollectionEndpointLogsIngestion;
+    readonly metadata?: DataCollectionEndpointMetadata;
+    metricsIngestion?: DataCollectionEndpointMetricsIngestion;
+    networkAcls?: DataCollectionEndpointNetworkAcls;
+    readonly privateLinkScopedResources?: PrivateLinkScopedResource[];
+    readonly provisioningState?: KnownDataCollectionEndpointProvisioningState;
+}
+
+// @public
+export interface DataCollectionEndpointConfigurationAccess extends ConfigurationAccessEndpointSpec {
+}
+
+// @public
+export interface DataCollectionEndpointFailoverConfiguration extends FailoverConfigurationSpec {
+}
+
+// @public
+export interface DataCollectionEndpointLogsIngestion extends LogsIngestionEndpointSpec {
+}
+
+// @public
+export interface DataCollectionEndpointMetadata extends Metadata {
+}
+
+// @public
+export interface DataCollectionEndpointMetricsIngestion extends MetricsIngestionEndpointSpec {
+}
+
+// @public
+export interface DataCollectionEndpointNetworkAcls extends NetworkRuleSet {
+}
+
+// @public
+export interface DataCollectionEndpointResource extends TrackedResource {
+    configurationAccess?: DataCollectionEndpointConfigurationAccess;
+    description?: string;
+    readonly etag?: string;
+    readonly failoverConfiguration?: DataCollectionEndpointFailoverConfiguration;
+    identity?: DataCollectionEndpointResourceIdentity;
+    immutableId?: string;
+    kind?: KnownDataCollectionEndpointResourceKind;
+    logsIngestion?: DataCollectionEndpointLogsIngestion;
+    readonly metadata?: DataCollectionEndpointMetadata;
+    metricsIngestion?: DataCollectionEndpointMetricsIngestion;
+    networkAcls?: DataCollectionEndpointNetworkAcls;
+    readonly privateLinkScopedResources?: PrivateLinkScopedResource[];
+    readonly provisioningState?: KnownDataCollectionEndpointProvisioningState;
+    sku?: DataCollectionEndpointResourceSku;
+}
+
+// @public
+export interface DataCollectionEndpointResourceIdentity extends ManagedServiceIdentity {
+}
+
+// @public
+export interface DataCollectionEndpointResourceProperties extends DataCollectionEndpoint {
+}
+
+// @public
+export interface DataCollectionEndpointResourceSku extends Sku {
+}
+
+// @public
+export interface DataCollectionRule {
+    agentSettings?: DataCollectionRuleAgentSettings;
+    dataCollectionEndpointId?: string;
+    dataFlows?: DataFlow[];
+    dataSources?: DataCollectionRuleDataSources;
+    description?: string;
+    destinations?: DataCollectionRuleDestinations;
+    directDataSources?: DataCollectionRuleDirectDataSources;
+    readonly endpoints?: DataCollectionRuleEndpoints;
+    readonly immutableId?: string;
+    readonly ingestionQuotas?: DataCollectionRuleIngestionQuotas;
+    readonly metadata?: DataCollectionRuleMetadata;
+    readonly provisioningState?: KnownDataCollectionRuleProvisioningState;
+    references?: DataCollectionRuleReferences;
+    streamDeclarations?: Record<string, StreamDeclaration>;
+}
+
+// @public
+export interface DataCollectionRuleAgentSettings extends AgentSettingsSpec {
+}
+
+// @public
+export interface DataCollectionRuleAssociation {
+    dataCollectionEndpointId?: string;
+    dataCollectionRuleId?: string;
+    description?: string;
+    readonly metadata?: DataCollectionRuleAssociationMetadata;
+    readonly provisioningState?: KnownDataCollectionRuleAssociationProvisioningState;
+}
+
+// @public
+export interface DataCollectionRuleAssociationMetadata extends Metadata {
+}
+
+// @public
+export interface DataCollectionRuleAssociationProxyOnlyResource extends ExtensionResource {
+    dataCollectionEndpointId?: string;
+    dataCollectionRuleId?: string;
+    description?: string;
+    readonly etag?: string;
+    readonly metadata?: DataCollectionRuleAssociationMetadata;
+    readonly provisioningState?: KnownDataCollectionRuleAssociationProvisioningState;
+}
+
+// @public
+export interface DataCollectionRuleAssociationProxyOnlyResourceProperties extends DataCollectionRuleAssociation {
+}
+
+// @public
+export interface DataCollectionRuleDataSources extends DataSourcesSpec {
+}
+
+// @public
+export interface DataCollectionRuleDestinations extends DestinationsSpec {
+}
+
+// @public
+export interface DataCollectionRuleDirectDataSources extends DirectDataSourcesSpec {
+}
+
+// @public
+export interface DataCollectionRuleEndpoints extends EndpointsSpec {
+}
+
+// @public
+export interface DataCollectionRuleIngestionQuotas extends IngestionQuotas {
+}
+
+// @public
+export interface DataCollectionRuleMetadata extends Metadata {
+}
+
+// @public
+export interface DataCollectionRuleReferences extends ReferencesSpec {
+}
+
+// @public
+export interface DataCollectionRuleResource extends TrackedResource {
+    agentSettings?: DataCollectionRuleAgentSettings;
+    dataCollectionEndpointId?: string;
+    dataFlows?: DataFlow[];
+    dataSources?: DataCollectionRuleDataSources;
+    description?: string;
+    destinations?: DataCollectionRuleDestinations;
+    directDataSources?: DataCollectionRuleDirectDataSources;
+    readonly endpoints?: DataCollectionRuleEndpoints;
+    readonly etag?: string;
+    identity?: DataCollectionRuleResourceIdentity;
+    readonly immutableId?: string;
+    readonly ingestionQuotas?: DataCollectionRuleIngestionQuotas;
+    kind?: KnownDataCollectionRuleResourceKind;
+    readonly metadata?: DataCollectionRuleMetadata;
+    readonly provisioningState?: KnownDataCollectionRuleProvisioningState;
+    references?: DataCollectionRuleReferences;
+    sku?: DataCollectionRuleResourceSku;
+    streamDeclarations?: Record<string, StreamDeclaration>;
+}
+
+// @public
+export interface DataCollectionRuleResourceIdentity extends ManagedServiceIdentity {
+}
+
+// @public
+export interface DataCollectionRuleResourceProperties extends DataCollectionRule {
+}
+
+// @public
+export interface DataCollectionRuleResourceSku extends Sku {
+}
+
+// @public
+export interface DataFlow {
+    builtInTransform?: string;
+    captureOverflow?: boolean;
+    destinations?: string[];
+    outputStream?: string;
+    streams?: KnownDataFlowStreams[];
+    transformKql?: string;
+}
+
+// @public
+export interface DataImportSources {
+    eventHub?: DataImportSourcesEventHub;
+}
+
+// @public
+export interface DataImportSourcesEventHub extends EventHubDataSource {
+}
+
+// @public
+export interface DataSourcesSpec {
+    dataImports?: DataSourcesSpecDataImports;
+    etwProviders?: EtwProviderDataSource[];
+    extensions?: ExtensionDataSource[];
+    iisLogs?: IisLogsDataSource[];
+    logFiles?: LogFilesDataSource[];
+    otelLogs?: OtelLogsDataSource[];
+    otelMetrics?: OtelMetricsDataSource[];
+    otelTraces?: OtelTracesDataSource[];
+    performanceCounters?: PerfCounterDataSource[];
+    performanceCountersOTel?: PerformanceCountersOTelDataSource[];
+    platformTelemetry?: PlatformTelemetryDataSource[];
+    prometheusForwarder?: PrometheusForwarderDataSource[];
+    syslog?: SyslogDataSource[];
+    windowsEventLogs?: WindowsEventLogDataSource[];
+    windowsFirewallLogs?: WindowsFirewallLogsDataSource[];
+}
+
+// @public
+export interface DataSourcesSpecDataImports extends DataImportSources {
+}
+
+// @public
+export interface DestinationsSpec {
+    azureDataExplorer?: AdxDestination[];
+    azureMonitorMetrics?: DestinationsSpecAzureMonitorMetrics;
+    eventHubs?: EventHubDestination[];
+    eventHubsDirect?: EventHubDirectDestination[];
+    logAnalytics?: LogAnalyticsDestination[];
+    microsoftFabric?: MicrosoftFabricDestination[];
+    monitoringAccounts?: MonitoringAccountDestination[];
+    storageAccounts?: StorageBlobDestination[];
+    storageBlobsDirect?: StorageBlobDestination[];
+    storageTablesDirect?: StorageTableDestination[];
+}
+
+// @public
+export interface DestinationsSpecAzureMonitorMetrics extends AzureMonitorMetricsDestination {
+}
+
+// @public
+export interface DirectDataSourcesSpec {
+    otelLogs?: OtelLogsDirectDataSource[];
+    otelMetrics?: OtelMetricsDirectDataSource[];
+    otelTraces?: OtelTracesDirectDataSource[];
+}
+
+// @public
+export interface EndpointsSpec {
+    readonly logsIngestion?: string;
+    readonly metricsIngestion?: string;
+}
+
+// @public
+export interface EnrichmentData {
+    storageBlobs?: StorageBlob[];
+}
+
+// @public
+export interface ErrorResponseCommonV2 {
+    error?: ArmErrorDetail;
+}
+
+// @public
+export interface EtwProviderDataSource {
+    eventIds?: string[];
+    keyword?: string;
+    logLevel?: KnownEtwProviderDataSourceLogLevel;
+    name?: string;
+    provider: string;
+    providerType: KnownEtwProviderType;
+    streams: string[];
+}
+
+// @public
+export interface EventHubDataSource {
+    consumerGroup?: string;
+    name?: string;
+    stream?: string;
+}
+
+// @public
+export interface EventHubDestination {
+    eventHubResourceId?: string;
+    name?: string;
+}
+
+// @public
+export interface EventHubDirectDestination {
+    eventHubResourceId?: string;
+    name?: string;
+}
+
+// @public
+export interface ExtensionDataSource {
+    extensionName: string;
+    extensionSettings?: any;
+    inputDataSources?: string[];
+    name?: string;
+    streams?: KnownExtensionDataSourceStreams[];
+}
+
+// @public
+export interface FailoverConfigurationSpec {
+    activeLocation?: string;
+    locations?: LocationSpec[];
+}
+
+// @public
+export interface IisLogsDataSource {
+    logDirectories?: string[];
+    name?: string;
+    streams: string[];
+    transformKql?: string;
+}
+
+// @public
+export interface IngestionQuotas {
+    // (undocumented)
+    logs?: IngestionQuotasLogs;
+}
+
+// @public
+export interface IngestionQuotasLogs extends LogsQuotaSpec {
+}
+
+// @public
+export type KnownAgentSettingName = string;
+
+// @public
+export type KnownColumnDefinitionType = string;
+
+// @public
+export type KnownDataCollectionEndpointProvisioningState = string;
+
+// @public
+export type KnownDataCollectionEndpointResourceKind = string;
+
+// @public
+export type KnownDataCollectionRuleAssociationProvisioningState = string;
+
+// @public
+export type KnownDataCollectionRuleProvisioningState = string;
+
+// @public
+export type KnownDataCollectionRuleResourceKind = string;
+
+// @public
+export type KnownDataFlowStreams = string;
+
+// @public
+export type KnownEtwProviderDataSourceLogLevel = string;
+
+// @public
+export type KnownEtwProviderType = string;
+
+// @public
+export type KnownExtensionDataSourceStreams = string;
+
+// @public
+export enum KnownKnownAgentSettingName {
     MaxDiskQuotaInMB = "MaxDiskQuotaInMB",
     Tags = "Tags",
     UseTimeReceivedForForwardedEvents = "UseTimeReceivedForForwardedEvents"
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownColumnDefinitionType {
+export enum KnownKnownColumnDefinitionType {
     Boolean = "boolean",
     Datetime = "datetime",
     Dynamic = "dynamic",
@@ -23,7 +422,7 @@ export enum KnownMicrosoftDataCollectionKnownColumnDefinitionType {
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownDataCollectionEndpointProvisioningState {
+export enum KnownKnownDataCollectionEndpointProvisioningState {
     Canceled = "Canceled",
     Creating = "Creating",
     Deleting = "Deleting",
@@ -33,13 +432,13 @@ export enum KnownMicrosoftDataCollectionKnownDataCollectionEndpointProvisioningS
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownDataCollectionEndpointResourceKind {
+export enum KnownKnownDataCollectionEndpointResourceKind {
     Linux = "Linux",
     Windows = "Windows"
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownDataCollectionRuleAssociationProvisioningState {
+export enum KnownKnownDataCollectionRuleAssociationProvisioningState {
     Canceled = "Canceled",
     Creating = "Creating",
     Deleting = "Deleting",
@@ -49,7 +448,7 @@ export enum KnownMicrosoftDataCollectionKnownDataCollectionRuleAssociationProvis
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownDataCollectionRuleProvisioningState {
+export enum KnownKnownDataCollectionRuleProvisioningState {
     Canceled = "Canceled",
     Creating = "Creating",
     Deleting = "Deleting",
@@ -59,13 +458,13 @@ export enum KnownMicrosoftDataCollectionKnownDataCollectionRuleProvisioningState
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownDataCollectionRuleResourceKind {
+export enum KnownKnownDataCollectionRuleResourceKind {
     Linux = "Linux",
     Windows = "Windows"
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownDataFlowStreams {
+export enum KnownKnownDataFlowStreams {
     MicrosoftEvent = "Microsoft-Event",
     MicrosoftInsightsMetrics = "Microsoft-InsightsMetrics",
     MicrosoftPerf = "Microsoft-Perf",
@@ -74,7 +473,7 @@ export enum KnownMicrosoftDataCollectionKnownDataFlowStreams {
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownEtwProviderDataSourceLogLevel {
+export enum KnownKnownEtwProviderDataSourceLogLevel {
     Critical = "Critical",
     Error = "Error",
     Informational = "Informational",
@@ -83,13 +482,13 @@ export enum KnownMicrosoftDataCollectionKnownEtwProviderDataSourceLogLevel {
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownEtwProviderType {
+export enum KnownKnownEtwProviderType {
     EventSource = "EventSource",
     Manifest = "Manifest"
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownExtensionDataSourceStreams {
+export enum KnownKnownExtensionDataSourceStreams {
     MicrosoftEvent = "Microsoft-Event",
     MicrosoftInsightsMetrics = "Microsoft-InsightsMetrics",
     MicrosoftPerf = "Microsoft-Perf",
@@ -98,7 +497,7 @@ export enum KnownMicrosoftDataCollectionKnownExtensionDataSourceStreams {
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownLocationSpecProvisioningStatus {
+export enum KnownKnownLocationSpecProvisioningStatus {
     Canceled = "Canceled",
     Creating = "Creating",
     Deleting = "Deleting",
@@ -108,13 +507,13 @@ export enum KnownMicrosoftDataCollectionKnownLocationSpecProvisioningStatus {
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownLogFilesDataSourceFormat {
+export enum KnownKnownLogFilesDataSourceFormat {
     Json = "json",
     Text = "text"
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownLogFileTextSettingsRecordStartTimestampFormat {
+export enum KnownKnownLogFileTextSettingsRecordStartTimestampFormat {
     DdMMMYyyyHHMmSsZzz = "dd/MMM/yyyy:HH:mm:ss zzz",
     DdMMyyHHMmSs = "ddMMyy HH:mm:ss",
     ISO8601 = "ISO 8601",
@@ -127,60 +526,60 @@ export enum KnownMicrosoftDataCollectionKnownLogFileTextSettingsRecordStartTimes
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownOtelLogsDataSourceStreams {
+export enum KnownKnownOtelLogsDataSourceStreams {
     MicrosoftOTelLogs = "Microsoft-OTel-Logs"
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownOtelLogsDirectDataSourceStreams {
+export enum KnownKnownOtelLogsDirectDataSourceStreams {
     MicrosoftOTelLogs = "Microsoft-OTel-Logs"
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownOtelTracesDataSourceStreams {
+export enum KnownKnownOtelTracesDataSourceStreams {
     MicrosoftOTelTracesEvents = "Microsoft-OTel-Traces-Events",
     MicrosoftOTelTracesResources = "Microsoft-OTel-Traces-Resources",
     MicrosoftOTelTracesSpans = "Microsoft-OTel-Traces-Spans"
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownOtelTracesDirectDataSourceStreams {
+export enum KnownKnownOtelTracesDirectDataSourceStreams {
     MicrosoftOTelTracesEvents = "Microsoft-OTel-Traces-Events",
     MicrosoftOTelTracesResources = "Microsoft-OTel-Traces-Resources",
     MicrosoftOTelTracesSpans = "Microsoft-OTel-Traces-Spans"
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownPerfCounterDataSourceStreams {
+export enum KnownKnownPerfCounterDataSourceStreams {
     MicrosoftInsightsMetrics = "Microsoft-InsightsMetrics",
     MicrosoftPerf = "Microsoft-Perf"
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownPerformanceCountersOTelDataSourceStreams {
+export enum KnownKnownPerformanceCountersOTelDataSourceStreams {
     MicrosoftOtelPerfMetrics = "Microsoft-OtelPerfMetrics"
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownPrometheusForwarderDataSourceStreams {
+export enum KnownKnownPrometheusForwarderDataSourceStreams {
     MicrosoftPrometheusMetrics = "Microsoft-PrometheusMetrics"
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownPublicNetworkAccessOptions {
+export enum KnownKnownPublicNetworkAccessOptions {
     Disabled = "Disabled",
     Enabled = "Enabled",
     SecuredByPerimeter = "SecuredByPerimeter"
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownStorageBlobLookupType {
+export enum KnownKnownStorageBlobLookupType {
     Cidr = "Cidr",
     String = "String"
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownSyslogDataSourceFacilityNames {
+export enum KnownKnownSyslogDataSourceFacilityNames {
     Alert = "alert",
     // (undocumented)
     Asterisk = "*",
@@ -212,7 +611,7 @@ export enum KnownMicrosoftDataCollectionKnownSyslogDataSourceFacilityNames {
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownSyslogDataSourceLogLevels {
+export enum KnownKnownSyslogDataSourceLogLevels {
     Alert = "Alert",
     // (undocumented)
     Asterisk = "*",
@@ -226,521 +625,122 @@ export enum KnownMicrosoftDataCollectionKnownSyslogDataSourceLogLevels {
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownSyslogDataSourceStreams {
+export enum KnownKnownSyslogDataSourceStreams {
     MicrosoftSyslog = "Microsoft-Syslog"
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownWindowsEventLogDataSourceStreams {
+export enum KnownKnownWindowsEventLogDataSourceStreams {
     MicrosoftEvent = "Microsoft-Event",
     MicrosoftWindowsEvent = "Microsoft-WindowsEvent"
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownWindowsFirewallLogsDataSourceProfileFilter {
+export enum KnownKnownWindowsFirewallLogsDataSourceProfileFilter {
     Domain = "Domain",
     Private = "Private",
     Public = "Public"
 }
 
 // @public
-export interface MicrosoftDataCollectionAdxDestination {
-    databaseName?: string;
-    readonly ingestionUri?: string;
-    name?: string;
-    resourceId?: string;
-}
+export type KnownLocationSpecProvisioningStatus = string;
 
 // @public
-export interface MicrosoftDataCollectionAgentSetting {
-    name?: MicrosoftDataCollectionKnownAgentSettingName;
-    value?: string;
-}
+export type KnownLogFilesDataSourceFormat = string;
 
 // @public
-export interface MicrosoftDataCollectionAgentSettingsSpec {
-    logs?: MicrosoftDataCollectionAgentSetting[];
-}
+export type KnownLogFileTextSettingsRecordStartTimestampFormat = string;
 
 // @public
-export interface MicrosoftDataCollectionApplicationInsights {
-    name: string;
-    resourceId: string;
-}
+export type KnownOtelLogsDataSourceStreams = string;
 
 // @public
-export interface MicrosoftDataCollectionAzureMonitorMetricsDestination {
-    name?: string;
-}
+export type KnownOtelLogsDirectDataSourceStreams = string;
 
 // @public
-export interface MicrosoftDataCollectionColumnDefinition {
-    name?: string;
-    type?: MicrosoftDataCollectionKnownColumnDefinitionType;
-}
+export type KnownOtelTracesDataSourceStreams = string;
 
 // @public
-export interface MicrosoftDataCollectionConfigurationAccessEndpointSpec {
-    readonly endpoint?: string;
-}
+export type KnownOtelTracesDirectDataSourceStreams = string;
 
 // @public
-export interface MicrosoftDataCollectionDataCollectionEndpoint {
-    configurationAccess?: MicrosoftDataCollectionDataCollectionEndpointConfigurationAccess;
-    description?: string;
-    readonly failoverConfiguration?: MicrosoftDataCollectionDataCollectionEndpointFailoverConfiguration;
-    immutableId?: string;
-    logsIngestion?: MicrosoftDataCollectionDataCollectionEndpointLogsIngestion;
-    readonly metadata?: MicrosoftDataCollectionDataCollectionEndpointMetadata;
-    metricsIngestion?: MicrosoftDataCollectionDataCollectionEndpointMetricsIngestion;
-    networkAcls?: MicrosoftDataCollectionDataCollectionEndpointNetworkAcls;
-    readonly privateLinkScopedResources?: MicrosoftDataCollectionPrivateLinkScopedResource[];
-    readonly provisioningState?: MicrosoftDataCollectionKnownDataCollectionEndpointProvisioningState;
-}
+export type KnownPerfCounterDataSourceStreams = string;
 
 // @public
-export interface MicrosoftDataCollectionDataCollectionEndpointConfigurationAccess extends MicrosoftDataCollectionConfigurationAccessEndpointSpec {
-}
+export type KnownPerformanceCountersOTelDataSourceStreams = string;
 
 // @public
-export interface MicrosoftDataCollectionDataCollectionEndpointFailoverConfiguration extends MicrosoftDataCollectionFailoverConfigurationSpec {
-}
+export type KnownPrometheusForwarderDataSourceStreams = string;
 
 // @public
-export interface MicrosoftDataCollectionDataCollectionEndpointLogsIngestion extends MicrosoftDataCollectionLogsIngestionEndpointSpec {
-}
+export type KnownPublicNetworkAccessOptions = string;
 
 // @public
-export interface MicrosoftDataCollectionDataCollectionEndpointMetadata extends MicrosoftDataCollectionMetadata {
-}
+export type KnownStorageBlobLookupType = string;
 
 // @public
-export interface MicrosoftDataCollectionDataCollectionEndpointMetricsIngestion extends MicrosoftDataCollectionMetricsIngestionEndpointSpec {
-}
+export type KnownSyslogDataSourceFacilityNames = string;
 
 // @public
-export interface MicrosoftDataCollectionDataCollectionEndpointNetworkAcls extends MicrosoftDataCollectionNetworkRuleSet {
-}
+export type KnownSyslogDataSourceLogLevels = string;
 
 // @public
-export interface MicrosoftDataCollectionDataCollectionEndpointResource extends TrackedResource {
-    configurationAccess?: MicrosoftDataCollectionDataCollectionEndpointConfigurationAccess;
-    description?: string;
-    readonly etag?: string;
-    readonly failoverConfiguration?: MicrosoftDataCollectionDataCollectionEndpointFailoverConfiguration;
-    identity?: MicrosoftDataCollectionDataCollectionEndpointResourceIdentity;
-    immutableId?: string;
-    kind?: MicrosoftDataCollectionKnownDataCollectionEndpointResourceKind;
-    logsIngestion?: MicrosoftDataCollectionDataCollectionEndpointLogsIngestion;
-    readonly metadata?: MicrosoftDataCollectionDataCollectionEndpointMetadata;
-    metricsIngestion?: MicrosoftDataCollectionDataCollectionEndpointMetricsIngestion;
-    networkAcls?: MicrosoftDataCollectionDataCollectionEndpointNetworkAcls;
-    readonly privateLinkScopedResources?: MicrosoftDataCollectionPrivateLinkScopedResource[];
-    readonly provisioningState?: MicrosoftDataCollectionKnownDataCollectionEndpointProvisioningState;
-    sku?: MicrosoftDataCollectionDataCollectionEndpointResourceSku;
-}
+export type KnownSyslogDataSourceStreams = string;
 
 // @public
-export interface MicrosoftDataCollectionDataCollectionEndpointResourceIdentity extends ManagedServiceIdentity {
-}
+export type KnownWindowsEventLogDataSourceStreams = string;
 
 // @public
-export interface MicrosoftDataCollectionDataCollectionEndpointResourceProperties extends MicrosoftDataCollectionDataCollectionEndpoint {
-}
+export type KnownWindowsFirewallLogsDataSourceProfileFilter = string;
 
 // @public
-export interface MicrosoftDataCollectionDataCollectionEndpointResourceSku extends Sku {
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionRule {
-    agentSettings?: MicrosoftDataCollectionDataCollectionRuleAgentSettings;
-    dataCollectionEndpointId?: string;
-    dataFlows?: MicrosoftDataCollectionDataFlow[];
-    dataSources?: MicrosoftDataCollectionDataCollectionRuleDataSources;
-    description?: string;
-    destinations?: MicrosoftDataCollectionDataCollectionRuleDestinations;
-    directDataSources?: MicrosoftDataCollectionDataCollectionRuleDirectDataSources;
-    readonly endpoints?: MicrosoftDataCollectionDataCollectionRuleEndpoints;
-    readonly immutableId?: string;
-    readonly ingestionQuotas?: MicrosoftDataCollectionDataCollectionRuleIngestionQuotas;
-    readonly metadata?: MicrosoftDataCollectionDataCollectionRuleMetadata;
-    readonly provisioningState?: MicrosoftDataCollectionKnownDataCollectionRuleProvisioningState;
-    references?: MicrosoftDataCollectionDataCollectionRuleReferences;
-    streamDeclarations?: Record<string, MicrosoftDataCollectionStreamDeclaration>;
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionRuleAgentSettings extends MicrosoftDataCollectionAgentSettingsSpec {
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionRuleAssociation {
-    dataCollectionEndpointId?: string;
-    dataCollectionRuleId?: string;
-    description?: string;
-    readonly metadata?: MicrosoftDataCollectionDataCollectionRuleAssociationMetadata;
-    readonly provisioningState?: MicrosoftDataCollectionKnownDataCollectionRuleAssociationProvisioningState;
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionRuleAssociationMetadata extends MicrosoftDataCollectionMetadata {
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionRuleAssociationProxyOnlyResource extends ExtensionResource {
-    dataCollectionEndpointId?: string;
-    dataCollectionRuleId?: string;
-    description?: string;
-    readonly etag?: string;
-    readonly metadata?: MicrosoftDataCollectionDataCollectionRuleAssociationMetadata;
-    readonly provisioningState?: MicrosoftDataCollectionKnownDataCollectionRuleAssociationProvisioningState;
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionRuleAssociationProxyOnlyResourceProperties extends MicrosoftDataCollectionDataCollectionRuleAssociation {
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionRuleDataSources extends MicrosoftDataCollectionDataSourcesSpec {
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionRuleDestinations extends MicrosoftDataCollectionDestinationsSpec {
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionRuleDirectDataSources extends MicrosoftDataCollectionDirectDataSourcesSpec {
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionRuleEndpoints extends MicrosoftDataCollectionEndpointsSpec {
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionRuleIngestionQuotas extends MicrosoftDataCollectionIngestionQuotas {
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionRuleMetadata extends MicrosoftDataCollectionMetadata {
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionRuleReferences extends MicrosoftDataCollectionReferencesSpec {
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionRuleResource extends TrackedResource {
-    agentSettings?: MicrosoftDataCollectionDataCollectionRuleAgentSettings;
-    dataCollectionEndpointId?: string;
-    dataFlows?: MicrosoftDataCollectionDataFlow[];
-    dataSources?: MicrosoftDataCollectionDataCollectionRuleDataSources;
-    description?: string;
-    destinations?: MicrosoftDataCollectionDataCollectionRuleDestinations;
-    directDataSources?: MicrosoftDataCollectionDataCollectionRuleDirectDataSources;
-    readonly endpoints?: MicrosoftDataCollectionDataCollectionRuleEndpoints;
-    readonly etag?: string;
-    identity?: MicrosoftDataCollectionDataCollectionRuleResourceIdentity;
-    readonly immutableId?: string;
-    readonly ingestionQuotas?: MicrosoftDataCollectionDataCollectionRuleIngestionQuotas;
-    kind?: MicrosoftDataCollectionKnownDataCollectionRuleResourceKind;
-    readonly metadata?: MicrosoftDataCollectionDataCollectionRuleMetadata;
-    readonly provisioningState?: MicrosoftDataCollectionKnownDataCollectionRuleProvisioningState;
-    references?: MicrosoftDataCollectionDataCollectionRuleReferences;
-    sku?: MicrosoftDataCollectionDataCollectionRuleResourceSku;
-    streamDeclarations?: Record<string, MicrosoftDataCollectionStreamDeclaration>;
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionRuleResourceIdentity extends ManagedServiceIdentity {
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionRuleResourceProperties extends MicrosoftDataCollectionDataCollectionRule {
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionRuleResourceSku extends Sku {
-}
-
-// @public
-export interface MicrosoftDataCollectionDataFlow {
-    builtInTransform?: string;
-    captureOverflow?: boolean;
-    destinations?: string[];
-    outputStream?: string;
-    streams?: MicrosoftDataCollectionKnownDataFlowStreams[];
-    transformKql?: string;
-}
-
-// @public
-export interface MicrosoftDataCollectionDataImportSources {
-    eventHub?: MicrosoftDataCollectionDataImportSourcesEventHub;
-}
-
-// @public
-export interface MicrosoftDataCollectionDataImportSourcesEventHub extends MicrosoftDataCollectionEventHubDataSource {
-}
-
-// @public
-export interface MicrosoftDataCollectionDataSourcesSpec {
-    dataImports?: MicrosoftDataCollectionDataSourcesSpecDataImports;
-    etwProviders?: MicrosoftDataCollectionEtwProviderDataSource[];
-    extensions?: MicrosoftDataCollectionExtensionDataSource[];
-    iisLogs?: MicrosoftDataCollectionIisLogsDataSource[];
-    logFiles?: MicrosoftDataCollectionLogFilesDataSource[];
-    otelLogs?: MicrosoftDataCollectionOtelLogsDataSource[];
-    otelMetrics?: MicrosoftDataCollectionOtelMetricsDataSource[];
-    otelTraces?: MicrosoftDataCollectionOtelTracesDataSource[];
-    performanceCounters?: MicrosoftDataCollectionPerfCounterDataSource[];
-    performanceCountersOTel?: MicrosoftDataCollectionPerformanceCountersOTelDataSource[];
-    platformTelemetry?: MicrosoftDataCollectionPlatformTelemetryDataSource[];
-    prometheusForwarder?: MicrosoftDataCollectionPrometheusForwarderDataSource[];
-    syslog?: MicrosoftDataCollectionSyslogDataSource[];
-    windowsEventLogs?: MicrosoftDataCollectionWindowsEventLogDataSource[];
-    windowsFirewallLogs?: MicrosoftDataCollectionWindowsFirewallLogsDataSource[];
-}
-
-// @public
-export interface MicrosoftDataCollectionDataSourcesSpecDataImports extends MicrosoftDataCollectionDataImportSources {
-}
-
-// @public
-export interface MicrosoftDataCollectionDestinationsSpec {
-    azureDataExplorer?: MicrosoftDataCollectionAdxDestination[];
-    azureMonitorMetrics?: MicrosoftDataCollectionDestinationsSpecAzureMonitorMetrics;
-    eventHubs?: MicrosoftDataCollectionEventHubDestination[];
-    eventHubsDirect?: MicrosoftDataCollectionEventHubDirectDestination[];
-    logAnalytics?: MicrosoftDataCollectionLogAnalyticsDestination[];
-    microsoftFabric?: MicrosoftDataCollectionMicrosoftFabricDestination[];
-    monitoringAccounts?: MicrosoftDataCollectionMonitoringAccountDestination[];
-    storageAccounts?: MicrosoftDataCollectionStorageBlobDestination[];
-    storageBlobsDirect?: MicrosoftDataCollectionStorageBlobDestination[];
-    storageTablesDirect?: MicrosoftDataCollectionStorageTableDestination[];
-}
-
-// @public
-export interface MicrosoftDataCollectionDestinationsSpecAzureMonitorMetrics extends MicrosoftDataCollectionAzureMonitorMetricsDestination {
-}
-
-// @public
-export interface MicrosoftDataCollectionDirectDataSourcesSpec {
-    otelLogs?: MicrosoftDataCollectionOtelLogsDirectDataSource[];
-    otelMetrics?: MicrosoftDataCollectionOtelMetricsDirectDataSource[];
-    otelTraces?: MicrosoftDataCollectionOtelTracesDirectDataSource[];
-}
-
-// @public
-export interface MicrosoftDataCollectionEndpointsSpec {
-    readonly logsIngestion?: string;
-    readonly metricsIngestion?: string;
-}
-
-// @public
-export interface MicrosoftDataCollectionEnrichmentData {
-    storageBlobs?: MicrosoftDataCollectionStorageBlob[];
-}
-
-// @public
-export interface MicrosoftDataCollectionErrorResponseCommonV2 {
-    error?: ErrorDetail;
-}
-
-// @public
-export interface MicrosoftDataCollectionEtwProviderDataSource {
-    eventIds?: string[];
-    keyword?: string;
-    logLevel?: MicrosoftDataCollectionKnownEtwProviderDataSourceLogLevel;
-    name?: string;
-    provider: string;
-    providerType: MicrosoftDataCollectionKnownEtwProviderType;
-    streams: string[];
-}
-
-// @public
-export interface MicrosoftDataCollectionEventHubDataSource {
-    consumerGroup?: string;
-    name?: string;
-    stream?: string;
-}
-
-// @public
-export interface MicrosoftDataCollectionEventHubDestination {
-    eventHubResourceId?: string;
-    name?: string;
-}
-
-// @public
-export interface MicrosoftDataCollectionEventHubDirectDestination {
-    eventHubResourceId?: string;
-    name?: string;
-}
-
-// @public
-export interface MicrosoftDataCollectionExtensionDataSource {
-    extensionName: string;
-    extensionSettings?: any;
-    inputDataSources?: string[];
-    name?: string;
-    streams?: MicrosoftDataCollectionKnownExtensionDataSourceStreams[];
-}
-
-// @public
-export interface MicrosoftDataCollectionFailoverConfigurationSpec {
-    activeLocation?: string;
-    locations?: MicrosoftDataCollectionLocationSpec[];
-}
-
-// @public
-export interface MicrosoftDataCollectionIisLogsDataSource {
-    logDirectories?: string[];
-    name?: string;
-    streams: string[];
-    transformKql?: string;
-}
-
-// @public
-export interface MicrosoftDataCollectionIngestionQuotas {
-    // (undocumented)
-    logs?: MicrosoftDataCollectionIngestionQuotasLogs;
-}
-
-// @public
-export interface MicrosoftDataCollectionIngestionQuotasLogs extends MicrosoftDataCollectionLogsQuotaSpec {
-}
-
-// @public
-export type MicrosoftDataCollectionKnownAgentSettingName = string;
-
-// @public
-export type MicrosoftDataCollectionKnownColumnDefinitionType = string;
-
-// @public
-export type MicrosoftDataCollectionKnownDataCollectionEndpointProvisioningState = string;
-
-// @public
-export type MicrosoftDataCollectionKnownDataCollectionEndpointResourceKind = string;
-
-// @public
-export type MicrosoftDataCollectionKnownDataCollectionRuleAssociationProvisioningState = string;
-
-// @public
-export type MicrosoftDataCollectionKnownDataCollectionRuleProvisioningState = string;
-
-// @public
-export type MicrosoftDataCollectionKnownDataCollectionRuleResourceKind = string;
-
-// @public
-export type MicrosoftDataCollectionKnownDataFlowStreams = string;
-
-// @public
-export type MicrosoftDataCollectionKnownEtwProviderDataSourceLogLevel = string;
-
-// @public
-export type MicrosoftDataCollectionKnownEtwProviderType = string;
-
-// @public
-export type MicrosoftDataCollectionKnownExtensionDataSourceStreams = string;
-
-// @public
-export type MicrosoftDataCollectionKnownLocationSpecProvisioningStatus = string;
-
-// @public
-export type MicrosoftDataCollectionKnownLogFilesDataSourceFormat = string;
-
-// @public
-export type MicrosoftDataCollectionKnownLogFileTextSettingsRecordStartTimestampFormat = string;
-
-// @public
-export type MicrosoftDataCollectionKnownOtelLogsDataSourceStreams = string;
-
-// @public
-export type MicrosoftDataCollectionKnownOtelLogsDirectDataSourceStreams = string;
-
-// @public
-export type MicrosoftDataCollectionKnownOtelTracesDataSourceStreams = string;
-
-// @public
-export type MicrosoftDataCollectionKnownOtelTracesDirectDataSourceStreams = string;
-
-// @public
-export type MicrosoftDataCollectionKnownPerfCounterDataSourceStreams = string;
-
-// @public
-export type MicrosoftDataCollectionKnownPerformanceCountersOTelDataSourceStreams = string;
-
-// @public
-export type MicrosoftDataCollectionKnownPrometheusForwarderDataSourceStreams = string;
-
-// @public
-export type MicrosoftDataCollectionKnownPublicNetworkAccessOptions = string;
-
-// @public
-export type MicrosoftDataCollectionKnownStorageBlobLookupType = string;
-
-// @public
-export type MicrosoftDataCollectionKnownSyslogDataSourceFacilityNames = string;
-
-// @public
-export type MicrosoftDataCollectionKnownSyslogDataSourceLogLevels = string;
-
-// @public
-export type MicrosoftDataCollectionKnownSyslogDataSourceStreams = string;
-
-// @public
-export type MicrosoftDataCollectionKnownWindowsEventLogDataSourceStreams = string;
-
-// @public
-export type MicrosoftDataCollectionKnownWindowsFirewallLogsDataSourceProfileFilter = string;
-
-// @public
-export interface MicrosoftDataCollectionLocationSpec {
+export interface LocationSpec {
     location?: string;
-    provisioningStatus?: MicrosoftDataCollectionKnownLocationSpecProvisioningStatus;
+    provisioningStatus?: KnownLocationSpecProvisioningStatus;
 }
 
 // @public
-export interface MicrosoftDataCollectionLogAnalyticsDestination {
+export interface LogAnalyticsDestination {
     name?: string;
     readonly workspaceId?: string;
     workspaceResourceId?: string;
 }
 
 // @public
-export interface MicrosoftDataCollectionLogFilesDataSource {
+export interface LogFilesDataSource {
     filePatterns: string[];
-    format: MicrosoftDataCollectionKnownLogFilesDataSourceFormat;
+    format: KnownLogFilesDataSourceFormat;
     name?: string;
-    settings?: MicrosoftDataCollectionLogFilesDataSourceSettings;
+    settings?: LogFilesDataSourceSettings;
     streams: string[];
     transformKql?: string;
 }
 
 // @public
-export interface MicrosoftDataCollectionLogFilesDataSourceSettings extends MicrosoftDataCollectionLogFileSettings {
+export interface LogFilesDataSourceSettings extends LogFileSettings {
 }
 
 // @public
-export interface MicrosoftDataCollectionLogFileSettings {
-    text?: MicrosoftDataCollectionLogFileSettingsText;
+export interface LogFileSettings {
+    text?: LogFileSettingsText;
 }
 
 // @public
-export interface MicrosoftDataCollectionLogFileSettingsText extends MicrosoftDataCollectionLogFileTextSettings {
+export interface LogFileSettingsText extends LogFileTextSettings {
 }
 
 // @public
-export interface MicrosoftDataCollectionLogFileTextSettings {
-    recordStartTimestampFormat: MicrosoftDataCollectionKnownLogFileTextSettingsRecordStartTimestampFormat;
+export interface LogFileTextSettings {
+    recordStartTimestampFormat: KnownLogFileTextSettingsRecordStartTimestampFormat;
 }
 
 // @public
-export interface MicrosoftDataCollectionLogsIngestionEndpointSpec {
+export interface LogsIngestionEndpointSpec {
     readonly endpoint?: string;
 }
 
 // @public
-export interface MicrosoftDataCollectionLogsQuotaSpec {
+export interface LogsQuotaSpec {
     // (undocumented)
     maxRequestsPerMinute?: string;
     // (undocumented)
@@ -748,19 +748,19 @@ export interface MicrosoftDataCollectionLogsQuotaSpec {
 }
 
 // @public
-export interface MicrosoftDataCollectionMetadata {
+export interface Metadata {
     readonly provisionedBy?: string;
     readonly provisionedByImmutableId?: string;
     readonly provisionedByResourceId?: string;
 }
 
 // @public
-export interface MicrosoftDataCollectionMetricsIngestionEndpointSpec {
+export interface MetricsIngestionEndpointSpec {
     readonly endpoint?: string;
 }
 
 // @public
-export interface MicrosoftDataCollectionMicrosoftFabricDestination {
+export interface MicrosoftFabricDestination {
     artifactId?: string;
     databaseName?: string;
     ingestionUri?: string;
@@ -769,61 +769,61 @@ export interface MicrosoftDataCollectionMicrosoftFabricDestination {
 }
 
 // @public
-export interface MicrosoftDataCollectionMonitoringAccountDestination {
+export interface MonitoringAccountDestination {
     readonly accountId?: string;
     accountResourceId?: string;
     name?: string;
 }
 
 // @public
-export interface MicrosoftDataCollectionNetworkRuleSet {
-    publicNetworkAccess?: MicrosoftDataCollectionKnownPublicNetworkAccessOptions;
+export interface NetworkRuleSet {
+    publicNetworkAccess?: KnownPublicNetworkAccessOptions;
 }
 
 // @public
-export interface MicrosoftDataCollectionOtelDataSourceResourceAttributeRouting {
+export interface OtelDataSourceResourceAttributeRouting {
     attributeName?: string;
     attributeValue?: string;
 }
 
 // @public
-export interface MicrosoftDataCollectionOtelLogsDataSource {
+export interface OtelLogsDataSource {
     enrichWithReference?: string;
     enrichWithResourceAttributes?: string[];
     name?: string;
     replaceResourceIdWithReference?: boolean;
-    resourceAttributeRouting?: MicrosoftDataCollectionOtelLogsDataSourceResourceAttributeRouting;
-    streams: MicrosoftDataCollectionKnownOtelLogsDataSourceStreams[];
+    resourceAttributeRouting?: OtelLogsDataSourceResourceAttributeRouting;
+    streams: KnownOtelLogsDataSourceStreams[];
 }
 
 // @public
-export interface MicrosoftDataCollectionOtelLogsDataSourceResourceAttributeRouting extends MicrosoftDataCollectionOtelDataSourceResourceAttributeRouting {
+export interface OtelLogsDataSourceResourceAttributeRouting extends OtelDataSourceResourceAttributeRouting {
 }
 
 // @public
-export interface MicrosoftDataCollectionOtelLogsDirectDataSource {
+export interface OtelLogsDirectDataSource {
     enrichWithReference?: string;
     enrichWithResourceAttributes?: string[];
     name?: string;
     replaceResourceIdWithReference?: boolean;
-    streams: MicrosoftDataCollectionKnownOtelLogsDirectDataSourceStreams[];
+    streams: KnownOtelLogsDirectDataSourceStreams[];
 }
 
 // @public
-export interface MicrosoftDataCollectionOtelMetricsDataSource {
+export interface OtelMetricsDataSource {
     enrichWithReference?: string;
     enrichWithResourceAttributes?: string[];
     name?: string;
-    resourceAttributeRouting?: MicrosoftDataCollectionOtelMetricsDataSourceResourceAttributeRouting;
+    resourceAttributeRouting?: OtelMetricsDataSourceResourceAttributeRouting;
     streams: string[];
 }
 
 // @public
-export interface MicrosoftDataCollectionOtelMetricsDataSourceResourceAttributeRouting extends MicrosoftDataCollectionOtelDataSourceResourceAttributeRouting {
+export interface OtelMetricsDataSourceResourceAttributeRouting extends OtelDataSourceResourceAttributeRouting {
 }
 
 // @public
-export interface MicrosoftDataCollectionOtelMetricsDirectDataSource {
+export interface OtelMetricsDirectDataSource {
     enrichWithReference?: string;
     enrichWithResourceAttributes?: string[];
     name?: string;
@@ -831,133 +831,133 @@ export interface MicrosoftDataCollectionOtelMetricsDirectDataSource {
 }
 
 // @public
-export interface MicrosoftDataCollectionOtelTracesDataSource {
+export interface OtelTracesDataSource {
     enrichWithReference?: string;
     enrichWithResourceAttributes?: string[];
     name?: string;
     replaceResourceIdWithReference?: boolean;
-    resourceAttributeRouting?: MicrosoftDataCollectionOtelTracesDataSourceResourceAttributeRouting;
-    streams: MicrosoftDataCollectionKnownOtelTracesDataSourceStreams[];
+    resourceAttributeRouting?: OtelTracesDataSourceResourceAttributeRouting;
+    streams: KnownOtelTracesDataSourceStreams[];
 }
 
 // @public
-export interface MicrosoftDataCollectionOtelTracesDataSourceResourceAttributeRouting extends MicrosoftDataCollectionOtelDataSourceResourceAttributeRouting {
+export interface OtelTracesDataSourceResourceAttributeRouting extends OtelDataSourceResourceAttributeRouting {
 }
 
 // @public
-export interface MicrosoftDataCollectionOtelTracesDirectDataSource {
+export interface OtelTracesDirectDataSource {
     enrichWithReference?: string;
     enrichWithResourceAttributes?: string[];
     name?: string;
     replaceResourceIdWithReference?: boolean;
-    streams: MicrosoftDataCollectionKnownOtelTracesDirectDataSourceStreams[];
+    streams: KnownOtelTracesDirectDataSourceStreams[];
 }
 
 // @public
-export interface MicrosoftDataCollectionPerfCounterDataSource {
+export interface PerfCounterDataSource {
     counterSpecifiers?: string[];
     name?: string;
     samplingFrequencyInSeconds?: number;
-    streams?: MicrosoftDataCollectionKnownPerfCounterDataSourceStreams[];
+    streams?: KnownPerfCounterDataSourceStreams[];
     transformKql?: string;
 }
 
 // @public
-export interface MicrosoftDataCollectionPerformanceCountersOTelDataSource {
+export interface PerformanceCountersOTelDataSource {
     counterSpecifiers?: string[];
     name?: string;
     samplingFrequencyInSeconds?: number;
-    streams?: MicrosoftDataCollectionKnownPerformanceCountersOTelDataSourceStreams[];
+    streams?: KnownPerformanceCountersOTelDataSourceStreams[];
 }
 
 // @public
-export interface MicrosoftDataCollectionPlatformTelemetryDataSource {
+export interface PlatformTelemetryDataSource {
     name?: string;
     streams: string[];
 }
 
 // @public
-export interface MicrosoftDataCollectionPrivateLinkScopedResource {
+export interface PrivateLinkScopedResource {
     resourceId?: string;
     scopeId?: string;
 }
 
 // @public
-export interface MicrosoftDataCollectionPrometheusForwarderDataSource {
+export interface PrometheusForwarderDataSource {
     customVMScrapeConfig?: any[];
     labelIncludeFilter?: Record<string, string>;
     name?: string;
-    streams?: MicrosoftDataCollectionKnownPrometheusForwarderDataSourceStreams[];
+    streams?: KnownPrometheusForwarderDataSourceStreams[];
 }
 
 // @public
-export interface MicrosoftDataCollectionReferencesSpec {
-    applicationInsights?: MicrosoftDataCollectionApplicationInsights[];
-    enrichmentData?: MicrosoftDataCollectionReferencesSpecEnrichmentData;
+export interface ReferencesSpec {
+    applicationInsights?: ApplicationInsights[];
+    enrichmentData?: ReferencesSpecEnrichmentData;
 }
 
 // @public
-export interface MicrosoftDataCollectionReferencesSpecEnrichmentData extends MicrosoftDataCollectionEnrichmentData {
+export interface ReferencesSpecEnrichmentData extends EnrichmentData {
 }
 
 // @public
-export interface MicrosoftDataCollectionResourceForUpdate {
-    identity?: MicrosoftDataCollectionResourceForUpdateIdentity;
+export interface ResourceForUpdate {
+    identity?: ResourceForUpdateIdentity;
     tags?: Record<string, string>;
 }
 
 // @public
-export interface MicrosoftDataCollectionResourceForUpdateIdentity extends ManagedServiceIdentity {
+export interface ResourceForUpdateIdentity extends ManagedServiceIdentity {
 }
 
 // @public
-export interface MicrosoftDataCollectionStorageBlob {
+export interface StorageBlob {
     blobUrl?: string;
-    lookupType?: MicrosoftDataCollectionKnownStorageBlobLookupType;
+    lookupType?: KnownStorageBlobLookupType;
     name?: string;
     resourceId?: string;
 }
 
 // @public
-export interface MicrosoftDataCollectionStorageBlobDestination {
+export interface StorageBlobDestination {
     containerName?: string;
     name?: string;
     storageAccountResourceId?: string;
 }
 
 // @public
-export interface MicrosoftDataCollectionStorageTableDestination {
+export interface StorageTableDestination {
     name?: string;
     storageAccountResourceId?: string;
     tableName?: string;
 }
 
 // @public
-export interface MicrosoftDataCollectionStreamDeclaration {
-    columns?: MicrosoftDataCollectionColumnDefinition[];
+export interface StreamDeclaration {
+    columns?: ColumnDefinition[];
 }
 
 // @public
-export interface MicrosoftDataCollectionSyslogDataSource {
-    facilityNames?: MicrosoftDataCollectionKnownSyslogDataSourceFacilityNames[];
-    logLevels?: MicrosoftDataCollectionKnownSyslogDataSourceLogLevels[];
+export interface SyslogDataSource {
+    facilityNames?: KnownSyslogDataSourceFacilityNames[];
+    logLevels?: KnownSyslogDataSourceLogLevels[];
     name?: string;
-    streams?: MicrosoftDataCollectionKnownSyslogDataSourceStreams[];
+    streams?: KnownSyslogDataSourceStreams[];
     transformKql?: string;
 }
 
 // @public
-export interface MicrosoftDataCollectionWindowsEventLogDataSource {
+export interface WindowsEventLogDataSource {
     name?: string;
-    streams?: MicrosoftDataCollectionKnownWindowsEventLogDataSourceStreams[];
+    streams?: KnownWindowsEventLogDataSourceStreams[];
     transformKql?: string;
     xPathQueries?: string[];
 }
 
 // @public
-export interface MicrosoftDataCollectionWindowsFirewallLogsDataSource {
+export interface WindowsFirewallLogsDataSource {
     name?: string;
-    profileFilter?: MicrosoftDataCollectionKnownWindowsFirewallLogsDataSourceProfileFilter[];
+    profileFilter?: KnownWindowsFirewallLogsDataSourceProfileFilter[];
     streams: string[];
 }
 

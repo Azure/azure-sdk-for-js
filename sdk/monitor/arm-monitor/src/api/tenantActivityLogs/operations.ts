@@ -3,13 +3,11 @@
 
 import type { MonitorContext as Client } from "../index.js";
 import type {
-  _MicrosoftActivityLogsEventDataCollection,
-  MicrosoftActivityLogsEventData,
+  _EventDataCollection,
+  EventData,
 } from "../../models/microsoft/activityLogs/models.js";
-import {
-  _microsoftActivityLogsEventDataCollectionDeserializer,
-  microsoftActivityLogsErrorResponseDeserializer,
-} from "../../models/microsoft/activityLogs/models.js";
+import { _eventDataCollectionDeserializer } from "../../models/microsoft/activityLogs/models.js";
+import { errorResponseDeserializer } from "../../models/microsoft/common/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -40,23 +38,23 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_MicrosoftActivityLogsEventDataCollection> {
+): Promise<_EventDataCollection> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = microsoftActivityLogsErrorResponseDeserializer(result.body);
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
 
-  return _microsoftActivityLogsEventDataCollectionDeserializer(result.body);
+  return _eventDataCollectionDeserializer(result.body);
 }
 
 /** Gets the Activity Logs for the Tenant.<br>Everything that is applicable to the API to get the Activity Logs for the subscription is applicable to this API (the parameters, $filter, etc.).<br>One thing to point out here is that this API does *not* retrieve the logs at the individual subscription of the tenant but only surfaces the logs that were generated at the tenant level. */
 export function list(
   context: Client,
   options: TenantActivityLogsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<MicrosoftActivityLogsEventData> {
+): PagedAsyncIterableIterator<EventData> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, options),

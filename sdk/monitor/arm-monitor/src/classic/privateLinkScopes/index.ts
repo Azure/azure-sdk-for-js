@@ -19,8 +19,8 @@ import type {
   PrivateLinkScopesGetOptionalParams,
 } from "../../api/privateLinkScopes/options.js";
 import type {
-  MicrosoftPrivateLinkScopesAzureMonitorPrivateLinkScope,
-  MicrosoftPrivateLinkScopesTagsResource,
+  AzureMonitorPrivateLinkScope,
+  TagsResource,
 } from "../../models/microsoft/privateLinkScopes/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
@@ -32,12 +32,12 @@ export interface PrivateLinkScopesOperations {
   /** Gets a list of all Azure Monitor PrivateLinkScopes within a subscription. */
   list: (
     options?: PrivateLinkScopesListOptionalParams,
-  ) => PagedAsyncIterableIterator<MicrosoftPrivateLinkScopesAzureMonitorPrivateLinkScope>;
+  ) => PagedAsyncIterableIterator<AzureMonitorPrivateLinkScope>;
   /** Gets a list of Azure Monitor PrivateLinkScopes within a resource group. */
   listByResourceGroup: (
     resourceGroupName: string,
     options?: PrivateLinkScopesListByResourceGroupOptionalParams,
-  ) => PagedAsyncIterableIterator<MicrosoftPrivateLinkScopesAzureMonitorPrivateLinkScope>;
+  ) => PagedAsyncIterableIterator<AzureMonitorPrivateLinkScope>;
   /** Deletes a Azure Monitor PrivateLinkScope. */
   /**
    *  @fixme delete is a reserved word that cannot be used as an operation name.
@@ -65,22 +65,22 @@ export interface PrivateLinkScopesOperations {
   updateTags: (
     resourceGroupName: string,
     scopeName: string,
-    privateLinkScopeTags: MicrosoftPrivateLinkScopesTagsResource,
+    privateLinkScopeTags: TagsResource,
     options?: PrivateLinkScopesUpdateTagsOptionalParams,
-  ) => Promise<MicrosoftPrivateLinkScopesAzureMonitorPrivateLinkScope>;
+  ) => Promise<AzureMonitorPrivateLinkScope>;
   /** Creates (or updates) a Azure Monitor PrivateLinkScope. Note: You cannot specify a different value for InstrumentationKey nor AppId in the Put operation. */
   createOrUpdate: (
     resourceGroupName: string,
     scopeName: string,
-    azureMonitorPrivateLinkScopePayload: MicrosoftPrivateLinkScopesAzureMonitorPrivateLinkScope,
+    azureMonitorPrivateLinkScopePayload: AzureMonitorPrivateLinkScope,
     options?: PrivateLinkScopesCreateOrUpdateOptionalParams,
-  ) => Promise<MicrosoftPrivateLinkScopesAzureMonitorPrivateLinkScope>;
+  ) => Promise<AzureMonitorPrivateLinkScope>;
   /** Returns a Azure Monitor PrivateLinkScope. */
   get: (
     resourceGroupName: string,
     scopeName: string,
     options?: PrivateLinkScopesGetOptionalParams,
-  ) => Promise<MicrosoftPrivateLinkScopesAzureMonitorPrivateLinkScope>;
+  ) => Promise<AzureMonitorPrivateLinkScope>;
 }
 
 function _getPrivateLinkScopes(context: MonitorContext) {
@@ -114,13 +114,13 @@ function _getPrivateLinkScopes(context: MonitorContext) {
     updateTags: (
       resourceGroupName: string,
       scopeName: string,
-      privateLinkScopeTags: MicrosoftPrivateLinkScopesTagsResource,
+      privateLinkScopeTags: TagsResource,
       options?: PrivateLinkScopesUpdateTagsOptionalParams,
     ) => updateTags(context, resourceGroupName, scopeName, privateLinkScopeTags, options),
     createOrUpdate: (
       resourceGroupName: string,
       scopeName: string,
-      azureMonitorPrivateLinkScopePayload: MicrosoftPrivateLinkScopesAzureMonitorPrivateLinkScope,
+      azureMonitorPrivateLinkScopePayload: AzureMonitorPrivateLinkScope,
       options?: PrivateLinkScopesCreateOrUpdateOptionalParams,
     ) =>
       createOrUpdate(

@@ -3,16 +3,16 @@
 
 import type { MonitorContext as Client } from "../index.js";
 import type {
-  MicrosoftActivityLogAlertsActivityLogAlertResource,
-  MicrosoftActivityLogAlertsAlertRulePatchObject,
-  _MicrosoftActivityLogAlertsAlertRuleList,
+  ActivityLogAlertResource,
+  AlertRulePatchObject,
+  _AlertRuleList,
 } from "../../models/microsoft/activityLogAlerts/models.js";
 import {
-  microsoftActivityLogAlertsActivityLogAlertResourceSerializer,
-  microsoftActivityLogAlertsActivityLogAlertResourceDeserializer,
-  microsoftActivityLogAlertsErrorResponseDeserializer,
-  microsoftActivityLogAlertsAlertRulePatchObjectSerializer,
-  _microsoftActivityLogAlertsAlertRuleListDeserializer,
+  activityLogAlertResourceSerializer,
+  activityLogAlertResourceDeserializer,
+  activityLogAlertErrorResponseDeserializer,
+  alertRulePatchObjectSerializer,
+  _alertRuleListDeserializer,
 } from "../../models/microsoft/activityLogAlerts/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -50,23 +50,23 @@ export function _listBySubscriptionIdSend(
 
 export async function _listBySubscriptionIdDeserialize(
   result: PathUncheckedResponse,
-): Promise<_MicrosoftActivityLogAlertsAlertRuleList> {
+): Promise<_AlertRuleList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = microsoftActivityLogAlertsErrorResponseDeserializer(result.body);
+    error.details = activityLogAlertErrorResponseDeserializer(result.body);
 
     throw error;
   }
 
-  return _microsoftActivityLogAlertsAlertRuleListDeserializer(result.body);
+  return _alertRuleListDeserializer(result.body);
 }
 
 /** Get a list of all Activity Log Alert rules in a subscription. */
 export function listBySubscriptionId(
   context: Client,
   options: ActivityLogAlertsListBySubscriptionIdOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<MicrosoftActivityLogAlertsActivityLogAlertResource> {
+): PagedAsyncIterableIterator<ActivityLogAlertResource> {
   return buildPagedAsyncIterator(
     context,
     () => _listBySubscriptionIdSend(context, options),
@@ -100,16 +100,16 @@ export function _listByResourceGroupSend(
 
 export async function _listByResourceGroupDeserialize(
   result: PathUncheckedResponse,
-): Promise<_MicrosoftActivityLogAlertsAlertRuleList> {
+): Promise<_AlertRuleList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = microsoftActivityLogAlertsErrorResponseDeserializer(result.body);
+    error.details = activityLogAlertErrorResponseDeserializer(result.body);
 
     throw error;
   }
 
-  return _microsoftActivityLogAlertsAlertRuleListDeserializer(result.body);
+  return _alertRuleListDeserializer(result.body);
 }
 
 /** Get a list of all Activity Log Alert rules in a resource group. */
@@ -117,7 +117,7 @@ export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
   options: ActivityLogAlertsListByResourceGroupOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<MicrosoftActivityLogAlertsActivityLogAlertResource> {
+): PagedAsyncIterableIterator<ActivityLogAlertResource> {
   return buildPagedAsyncIterator(
     context,
     () => _listByResourceGroupSend(context, resourceGroupName, options),
@@ -152,7 +152,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = microsoftActivityLogAlertsErrorResponseDeserializer(result.body);
+    error.details = activityLogAlertErrorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -180,7 +180,7 @@ export function _updateSend(
   context: Client,
   resourceGroupName: string,
   activityLogAlertName: string,
-  activityLogAlertRulePatch: MicrosoftActivityLogAlertsAlertRulePatchObject,
+  activityLogAlertRulePatch: AlertRulePatchObject,
   options: ActivityLogAlertsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -199,22 +199,22 @@ export function _updateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: microsoftActivityLogAlertsAlertRulePatchObjectSerializer(activityLogAlertRulePatch),
+    body: alertRulePatchObjectSerializer(activityLogAlertRulePatch),
   });
 }
 
 export async function _updateDeserialize(
   result: PathUncheckedResponse,
-): Promise<MicrosoftActivityLogAlertsActivityLogAlertResource> {
+): Promise<ActivityLogAlertResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = microsoftActivityLogAlertsErrorResponseDeserializer(result.body);
+    error.details = activityLogAlertErrorResponseDeserializer(result.body);
 
     throw error;
   }
 
-  return microsoftActivityLogAlertsActivityLogAlertResourceDeserializer(result.body);
+  return activityLogAlertResourceDeserializer(result.body);
 }
 
 /** Updates 'tags' and 'enabled' fields in an existing Alert rule. This method is used to update the Alert rule tags, and to enable or disable the Alert rule. To update other fields use CreateOrUpdate operation. */
@@ -222,9 +222,9 @@ export async function update(
   context: Client,
   resourceGroupName: string,
   activityLogAlertName: string,
-  activityLogAlertRulePatch: MicrosoftActivityLogAlertsAlertRulePatchObject,
+  activityLogAlertRulePatch: AlertRulePatchObject,
   options: ActivityLogAlertsUpdateOptionalParams = { requestOptions: {} },
-): Promise<MicrosoftActivityLogAlertsActivityLogAlertResource> {
+): Promise<ActivityLogAlertResource> {
   const result = await _updateSend(
     context,
     resourceGroupName,
@@ -239,7 +239,7 @@ export function _createOrUpdateSend(
   context: Client,
   resourceGroupName: string,
   activityLogAlertName: string,
-  activityLogAlertRule: MicrosoftActivityLogAlertsActivityLogAlertResource,
+  activityLogAlertRule: ActivityLogAlertResource,
   options: ActivityLogAlertsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -258,22 +258,22 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: microsoftActivityLogAlertsActivityLogAlertResourceSerializer(activityLogAlertRule),
+    body: activityLogAlertResourceSerializer(activityLogAlertRule),
   });
 }
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
-): Promise<MicrosoftActivityLogAlertsActivityLogAlertResource> {
+): Promise<ActivityLogAlertResource> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = microsoftActivityLogAlertsErrorResponseDeserializer(result.body);
+    error.details = activityLogAlertErrorResponseDeserializer(result.body);
 
     throw error;
   }
 
-  return microsoftActivityLogAlertsActivityLogAlertResourceDeserializer(result.body);
+  return activityLogAlertResourceDeserializer(result.body);
 }
 
 /** Create a new Activity Log Alert rule or update an existing one. */
@@ -281,9 +281,9 @@ export async function createOrUpdate(
   context: Client,
   resourceGroupName: string,
   activityLogAlertName: string,
-  activityLogAlertRule: MicrosoftActivityLogAlertsActivityLogAlertResource,
+  activityLogAlertRule: ActivityLogAlertResource,
   options: ActivityLogAlertsCreateOrUpdateOptionalParams = { requestOptions: {} },
-): Promise<MicrosoftActivityLogAlertsActivityLogAlertResource> {
+): Promise<ActivityLogAlertResource> {
   const result = await _createOrUpdateSend(
     context,
     resourceGroupName,
@@ -320,16 +320,16 @@ export function _getSend(
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<MicrosoftActivityLogAlertsActivityLogAlertResource> {
+): Promise<ActivityLogAlertResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = microsoftActivityLogAlertsErrorResponseDeserializer(result.body);
+    error.details = activityLogAlertErrorResponseDeserializer(result.body);
 
     throw error;
   }
 
-  return microsoftActivityLogAlertsActivityLogAlertResourceDeserializer(result.body);
+  return activityLogAlertResourceDeserializer(result.body);
 }
 
 /** Get an Activity Log Alert rule. */
@@ -338,7 +338,7 @@ export async function get(
   resourceGroupName: string,
   activityLogAlertName: string,
   options: ActivityLogAlertsGetOptionalParams = { requestOptions: {} },
-): Promise<MicrosoftActivityLogAlertsActivityLogAlertResource> {
+): Promise<ActivityLogAlertResource> {
   const result = await _getSend(context, resourceGroupName, activityLogAlertName, options);
   return _getDeserialize(result);
 }

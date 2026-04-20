@@ -4,6 +4,8 @@
 import { areAllPropsUndefined } from "../../../static-helpers/serialization/check-prop-undefined.js";
 import type { TrackedResource } from "../../models.js";
 import { systemDataDeserializer } from "../../models.js";
+import type { RetentionPolicy } from "../common/models.js";
+import { retentionPolicySerializer, retentionPolicyDeserializer } from "../common/models.js";
 
 /**
  * This file contains only generated model types and their (de)serializers.
@@ -12,7 +14,7 @@ import { systemDataDeserializer } from "../../models.js";
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** The log profile resource. */
-export interface MicrosoftLogProfilesLogProfileResource extends TrackedResource {
+export interface LogProfileResource extends TrackedResource {
   /** the resource id of the storage account to which you would like to send the Activity Log. */
   storageAccountId?: string;
   /** The service bus rule ID of the service bus namespace in which you would like to have Event Hubs created for streaming the Activity Log. The rule ID is of the format: '{service bus resource ID}/authorizationrules/{key name}'. */
@@ -22,12 +24,10 @@ export interface MicrosoftLogProfilesLogProfileResource extends TrackedResource 
   /** the categories of the logs. These categories are created as is convenient to the user. Some values are: 'Write', 'Delete', and/or 'Action.' */
   categories: string[];
   /** the retention policy for the events in the log. */
-  retentionPolicy: MicrosoftLogProfilesRetentionPolicy;
+  retentionPolicy: RetentionPolicy;
 }
 
-export function microsoftLogProfilesLogProfileResourceSerializer(
-  item: MicrosoftLogProfilesLogProfileResource,
-): any {
+export function logProfileResourceSerializer(item: LogProfileResource): any {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -35,9 +35,7 @@ export function microsoftLogProfilesLogProfileResourceSerializer(
   };
 }
 
-export function microsoftLogProfilesLogProfileResourceDeserializer(
-  item: any,
-): MicrosoftLogProfilesLogProfileResource {
+export function logProfileResourceDeserializer(item: any): LogProfileResource {
   return {
     tags: !item["tags"]
       ? item["tags"]
@@ -54,7 +52,7 @@ export function microsoftLogProfilesLogProfileResourceDeserializer(
 }
 
 /** The log profile properties. */
-export interface MicrosoftLogProfilesLogProfileProperties {
+export interface LogProfileProperties {
   /** the resource id of the storage account to which you would like to send the Activity Log. */
   storageAccountId?: string;
   /** The service bus rule ID of the service bus namespace in which you would like to have Event Hubs created for streaming the Activity Log. The rule ID is of the format: '{service bus resource ID}/authorizationrules/{key name}'. */
@@ -64,12 +62,10 @@ export interface MicrosoftLogProfilesLogProfileProperties {
   /** the categories of the logs. These categories are created as is convenient to the user. Some values are: 'Write', 'Delete', and/or 'Action.' */
   categories: string[];
   /** the retention policy for the events in the log. */
-  retentionPolicy: MicrosoftLogProfilesRetentionPolicy;
+  retentionPolicy: RetentionPolicy;
 }
 
-export function microsoftLogProfilesLogProfilePropertiesSerializer(
-  item: MicrosoftLogProfilesLogProfileProperties,
-): any {
+export function logProfilePropertiesSerializer(item: LogProfileProperties): any {
   return {
     storageAccountId: item["storageAccountId"],
     serviceBusRuleId: item["serviceBusRuleId"],
@@ -79,13 +75,11 @@ export function microsoftLogProfilesLogProfilePropertiesSerializer(
     categories: item["categories"].map((p: any) => {
       return p;
     }),
-    retentionPolicy: microsoftLogProfilesRetentionPolicySerializer(item["retentionPolicy"]),
+    retentionPolicy: retentionPolicySerializer(item["retentionPolicy"]),
   };
 }
 
-export function microsoftLogProfilesLogProfilePropertiesDeserializer(
-  item: any,
-): MicrosoftLogProfilesLogProfileProperties {
+export function logProfilePropertiesDeserializer(item: any): LogProfileProperties {
   return {
     storageAccountId: item["storageAccountId"],
     serviceBusRuleId: item["serviceBusRuleId"],
@@ -95,52 +89,12 @@ export function microsoftLogProfilesLogProfilePropertiesDeserializer(
     categories: item["categories"].map((p: any) => {
       return p;
     }),
-    retentionPolicy: microsoftLogProfilesRetentionPolicyDeserializer(item["retentionPolicy"]),
-  };
-}
-
-/** Specifies the retention policy for the log. */
-export interface MicrosoftLogProfilesRetentionPolicy {
-  /** a value indicating whether the retention policy is enabled. */
-  enabled: boolean;
-  /** the number of days for the retention in days. A value of 0 will retain the events indefinitely. */
-  days: number;
-}
-
-export function microsoftLogProfilesRetentionPolicySerializer(
-  item: MicrosoftLogProfilesRetentionPolicy,
-): any {
-  return { enabled: item["enabled"], days: item["days"] };
-}
-
-export function microsoftLogProfilesRetentionPolicyDeserializer(
-  item: any,
-): MicrosoftLogProfilesRetentionPolicy {
-  return {
-    enabled: item["enabled"],
-    days: item["days"],
-  };
-}
-
-/** Describes the format of Error response. */
-export interface MicrosoftLogProfilesErrorResponse {
-  /** Error code */
-  code?: string;
-  /** Error message indicating why the operation failed. */
-  message?: string;
-}
-
-export function microsoftLogProfilesErrorResponseDeserializer(
-  item: any,
-): MicrosoftLogProfilesErrorResponse {
-  return {
-    code: item["code"],
-    message: item["message"],
+    retentionPolicy: retentionPolicyDeserializer(item["retentionPolicy"]),
   };
 }
 
 /** The log profile resource for patch operations. */
-export interface MicrosoftLogProfilesLogProfileResourcePatch {
+export interface LogProfileResourcePatch {
   /** Resource tags */
   tags?: Record<string, string>;
   /** the resource id of the storage account to which you would like to send the Activity Log. */
@@ -152,12 +106,10 @@ export interface MicrosoftLogProfilesLogProfileResourcePatch {
   /** the categories of the logs. These categories are created as is convenient to the user. Some values are: 'Write', 'Delete', and/or 'Action.' */
   categories?: string[];
   /** the retention policy for the events in the log. */
-  retentionPolicy?: MicrosoftLogProfilesRetentionPolicy;
+  retentionPolicy?: RetentionPolicy;
 }
 
-export function microsoftLogProfilesLogProfileResourcePatchSerializer(
-  item: MicrosoftLogProfilesLogProfileResourcePatch,
-): any {
+export function logProfileResourcePatchSerializer(item: LogProfileResourcePatch): any {
   return {
     tags: item["tags"],
     properties: areAllPropsUndefined(item, [
@@ -173,41 +125,33 @@ export function microsoftLogProfilesLogProfileResourcePatchSerializer(
 }
 
 /** Represents a collection of log profiles. */
-export interface _MicrosoftLogProfilesLogProfileCollection {
+export interface _LogProfileCollection {
   /** the values of the log profiles. */
-  value: MicrosoftLogProfilesLogProfileResource[];
+  value: LogProfileResource[];
   /** the URL to get the next set of results. */
   nextLink?: string;
 }
 
-export function _microsoftLogProfilesLogProfileCollectionDeserializer(
-  item: any,
-): _MicrosoftLogProfilesLogProfileCollection {
+export function _logProfileCollectionDeserializer(item: any): _LogProfileCollection {
   return {
-    value: microsoftLogProfilesLogProfileResourceArrayDeserializer(item["value"]),
+    value: logProfileResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function microsoftLogProfilesLogProfileResourceArraySerializer(
-  result: Array<MicrosoftLogProfilesLogProfileResource>,
-): any[] {
+export function logProfileResourceArraySerializer(result: Array<LogProfileResource>): any[] {
   return result.map((item) => {
-    return microsoftLogProfilesLogProfileResourceSerializer(item);
+    return logProfileResourceSerializer(item);
   });
 }
 
-export function microsoftLogProfilesLogProfileResourceArrayDeserializer(
-  result: Array<MicrosoftLogProfilesLogProfileResource>,
-): any[] {
+export function logProfileResourceArrayDeserializer(result: Array<LogProfileResource>): any[] {
   return result.map((item) => {
-    return microsoftLogProfilesLogProfileResourceDeserializer(item);
+    return logProfileResourceDeserializer(item);
   });
 }
 
-export function _logProfileResourcePropertiesSerializer(
-  item: MicrosoftLogProfilesLogProfileResource,
-): any {
+export function _logProfileResourcePropertiesSerializer(item: LogProfileResource): any {
   return {
     storageAccountId: item["storageAccountId"],
     serviceBusRuleId: item["serviceBusRuleId"],
@@ -217,7 +161,7 @@ export function _logProfileResourcePropertiesSerializer(
     categories: item["categories"].map((p: any) => {
       return p;
     }),
-    retentionPolicy: microsoftLogProfilesRetentionPolicySerializer(item["retentionPolicy"]),
+    retentionPolicy: retentionPolicySerializer(item["retentionPolicy"]),
   };
 }
 
@@ -231,13 +175,11 @@ export function _logProfileResourcePropertiesDeserializer(item: any) {
     categories: item["categories"].map((p: any) => {
       return p;
     }),
-    retentionPolicy: microsoftLogProfilesRetentionPolicyDeserializer(item["retentionPolicy"]),
+    retentionPolicy: retentionPolicyDeserializer(item["retentionPolicy"]),
   };
 }
 
-export function _logProfileResourcePatchPropertiesSerializer(
-  item: MicrosoftLogProfilesLogProfileResourcePatch,
-): any {
+export function _logProfileResourcePatchPropertiesSerializer(item: LogProfileResourcePatch): any {
   return {
     storageAccountId: item["storageAccountId"],
     serviceBusRuleId: item["serviceBusRuleId"],
@@ -253,7 +195,7 @@ export function _logProfileResourcePatchPropertiesSerializer(
         }),
     retentionPolicy: !item["retentionPolicy"]
       ? item["retentionPolicy"]
-      : microsoftLogProfilesRetentionPolicySerializer(item["retentionPolicy"]),
+      : retentionPolicySerializer(item["retentionPolicy"]),
   };
 }
 
@@ -273,6 +215,6 @@ export function _logProfileResourcePatchPropertiesDeserializer(item: any) {
         }),
     retentionPolicy: !item["retentionPolicy"]
       ? item["retentionPolicy"]
-      : microsoftLogProfilesRetentionPolicyDeserializer(item["retentionPolicy"]),
+      : retentionPolicyDeserializer(item["retentionPolicy"]),
   };
 }

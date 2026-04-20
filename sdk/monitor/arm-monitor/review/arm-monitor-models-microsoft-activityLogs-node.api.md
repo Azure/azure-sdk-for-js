@@ -5,44 +5,38 @@
 ```ts
 
 // @public
-export interface MicrosoftActivityLogsErrorResponse {
-    code?: string;
-    message?: string;
-}
-
-// @public
-export interface MicrosoftActivityLogsEventData {
-    readonly authorization?: MicrosoftActivityLogsSenderAuthorization;
+export interface EventData {
+    readonly authorization?: SenderAuthorization;
     readonly caller?: string;
-    readonly category?: MicrosoftActivityLogsLocalizableString;
+    readonly category?: LocalizableString;
     readonly claims?: Record<string, string>;
     readonly correlationId?: string;
     readonly description?: string;
     readonly eventDataId?: string;
-    readonly eventName?: MicrosoftActivityLogsLocalizableString;
+    readonly eventName?: LocalizableString;
     readonly eventTimestamp?: Date;
-    readonly httpRequest?: MicrosoftActivityLogsHttpRequestInfo;
+    readonly httpRequest?: HttpRequestInfo;
     readonly id?: string;
-    readonly level?: MicrosoftActivityLogsEventLevel;
+    readonly level?: EventLevel;
     readonly operationId?: string;
-    readonly operationName?: MicrosoftActivityLogsLocalizableString;
+    readonly operationName?: LocalizableString;
     readonly properties?: Record<string, string>;
     readonly resourceGroupName?: string;
     readonly resourceId?: string;
-    readonly resourceProviderName?: MicrosoftActivityLogsLocalizableString;
-    readonly resourceType?: MicrosoftActivityLogsLocalizableString;
-    readonly status?: MicrosoftActivityLogsLocalizableString;
+    readonly resourceProviderName?: LocalizableString;
+    readonly resourceType?: LocalizableString;
+    readonly status?: LocalizableString;
     readonly submissionTimestamp?: Date;
     readonly subscriptionId?: string;
-    readonly subStatus?: MicrosoftActivityLogsLocalizableString;
+    readonly subStatus?: LocalizableString;
     readonly tenantId?: string;
 }
 
 // @public
-export type MicrosoftActivityLogsEventLevel = "Critical" | "Error" | "Warning" | "Informational" | "Verbose";
+export type EventLevel = "Critical" | "Error" | "Warning" | "Informational" | "Verbose";
 
 // @public
-export interface MicrosoftActivityLogsHttpRequestInfo {
+export interface HttpRequestInfo {
     clientIpAddress?: string;
     clientRequestId?: string;
     method?: string;
@@ -50,13 +44,7 @@ export interface MicrosoftActivityLogsHttpRequestInfo {
 }
 
 // @public
-export interface MicrosoftActivityLogsLocalizableString {
-    localizedValue?: string;
-    value: string;
-}
-
-// @public
-export interface MicrosoftActivityLogsSenderAuthorization {
+export interface SenderAuthorization {
     action?: string;
     role?: string;
     scope?: string;

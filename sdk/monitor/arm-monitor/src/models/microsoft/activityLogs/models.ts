@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { LocalizableString } from "../common/models.js";
+import {
+  localizableStringDeserializer,
+  localizableStringArrayDeserializer,
+} from "../common/models.js";
+
 /**
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
@@ -8,34 +14,30 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Represents collection of events. */
-export interface _MicrosoftActivityLogsEventDataCollection {
+export interface _EventDataCollection {
   /** The EventData items on this page */
-  value: MicrosoftActivityLogsEventData[];
+  value: EventData[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _microsoftActivityLogsEventDataCollectionDeserializer(
-  item: any,
-): _MicrosoftActivityLogsEventDataCollection {
+export function _eventDataCollectionDeserializer(item: any): _EventDataCollection {
   return {
-    value: microsoftActivityLogsEventDataArrayDeserializer(item["value"]),
+    value: eventDataArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function microsoftActivityLogsEventDataArrayDeserializer(
-  result: Array<MicrosoftActivityLogsEventData>,
-): any[] {
+export function eventDataArrayDeserializer(result: Array<EventData>): any[] {
   return result.map((item) => {
-    return microsoftActivityLogsEventDataDeserializer(item);
+    return eventDataDeserializer(item);
   });
 }
 
 /** The Azure event log entries are of type EventData */
-export interface MicrosoftActivityLogsEventData {
+export interface EventData {
   /** The sender authorization information. */
-  readonly authorization?: MicrosoftActivityLogsSenderAuthorization;
+  readonly authorization?: SenderAuthorization;
   /** key value pairs to identify ARM permissions. */
   readonly claims?: Record<string, string>;
   /** the email address of the user who has performed the operation, the UPN claim or SPN claim based on availability. */
@@ -49,31 +51,31 @@ export interface MicrosoftActivityLogsEventData {
   /** the correlation Id, usually a GUID in the string format. The correlation Id is shared among the events that belong to the same uber operation. */
   readonly correlationId?: string;
   /** the event name. This value should not be confused with OperationName. For practical purposes, OperationName might be more appealing to end users. */
-  readonly eventName?: MicrosoftActivityLogsLocalizableString;
+  readonly eventName?: LocalizableString;
   /** the event category. */
-  readonly category?: MicrosoftActivityLogsLocalizableString;
+  readonly category?: LocalizableString;
   /** the HTTP request info. Usually includes the 'clientRequestId', 'clientIpAddress' (IP address of the user who initiated the event) and 'method' (HTTP method e.g. PUT). */
-  readonly httpRequest?: MicrosoftActivityLogsHttpRequestInfo;
+  readonly httpRequest?: HttpRequestInfo;
   /** the event level */
-  readonly level?: MicrosoftActivityLogsEventLevel;
+  readonly level?: EventLevel;
   /** the resource group name of the impacted resource. */
   readonly resourceGroupName?: string;
   /** the resource provider name of the impacted resource. */
-  readonly resourceProviderName?: MicrosoftActivityLogsLocalizableString;
+  readonly resourceProviderName?: LocalizableString;
   /** the resource uri that uniquely identifies the resource that caused this event. */
   readonly resourceId?: string;
   /** the resource type */
-  readonly resourceType?: MicrosoftActivityLogsLocalizableString;
+  readonly resourceType?: LocalizableString;
   /** It is usually a GUID shared among the events corresponding to single operation. This value should not be confused with EventName. */
   readonly operationId?: string;
   /** the operation name. */
-  readonly operationName?: MicrosoftActivityLogsLocalizableString;
+  readonly operationName?: LocalizableString;
   /** the set of <Key, Value> pairs (usually a Dictionary<String, String>) that includes details about the event. */
   readonly properties?: Record<string, string>;
   /** a string describing the status of the operation. Some typical values are: Started, In progress, Succeeded, Failed, Resolved. */
-  readonly status?: MicrosoftActivityLogsLocalizableString;
+  readonly status?: LocalizableString;
   /** the event sub status. Most of the time, when included, this captures the HTTP status code of the REST call. Common values are: OK (HTTP Status Code: 200), Created (HTTP Status Code: 201), Accepted (HTTP Status Code: 202), No Content (HTTP Status Code: 204), Bad Request(HTTP Status Code: 400), Not Found (HTTP Status Code: 404), Conflict (HTTP Status Code: 409), Internal Server Error (HTTP Status Code: 500), Service Unavailable (HTTP Status Code:503), Gateway Timeout (HTTP Status Code: 504) */
-  readonly subStatus?: MicrosoftActivityLogsLocalizableString;
+  readonly subStatus?: LocalizableString;
   /** the timestamp of when the event was generated by the Azure service processing the request corresponding the event. It in ISO 8601 format. */
   readonly eventTimestamp?: Date;
   /** the timestamp of when the event became available for querying via this API. It is in ISO 8601 format. This value should not be confused eventTimestamp. As there might be a delay between the occurrence time of the event, and the time that the event is submitted to the Azure logging infrastructure. */
@@ -84,13 +86,11 @@ export interface MicrosoftActivityLogsEventData {
   readonly tenantId?: string;
 }
 
-export function microsoftActivityLogsEventDataDeserializer(
-  item: any,
-): MicrosoftActivityLogsEventData {
+export function eventDataDeserializer(item: any): EventData {
   return {
     authorization: !item["authorization"]
       ? item["authorization"]
-      : microsoftActivityLogsSenderAuthorizationDeserializer(item["authorization"]),
+      : senderAuthorizationDeserializer(item["authorization"]),
     claims: !item["claims"]
       ? item["claims"]
       : Object.fromEntries(Object.entries(item["claims"]).map(([k, p]: [string, any]) => [k, p])),
@@ -101,37 +101,35 @@ export function microsoftActivityLogsEventDataDeserializer(
     correlationId: item["correlationId"],
     eventName: !item["eventName"]
       ? item["eventName"]
-      : microsoftActivityLogsLocalizableStringDeserializer(item["eventName"]),
+      : localizableStringDeserializer(item["eventName"]),
     category: !item["category"]
       ? item["category"]
-      : microsoftActivityLogsLocalizableStringDeserializer(item["category"]),
+      : localizableStringDeserializer(item["category"]),
     httpRequest: !item["httpRequest"]
       ? item["httpRequest"]
-      : microsoftActivityLogsHttpRequestInfoDeserializer(item["httpRequest"]),
+      : httpRequestInfoDeserializer(item["httpRequest"]),
     level: item["level"],
     resourceGroupName: item["resourceGroupName"],
     resourceProviderName: !item["resourceProviderName"]
       ? item["resourceProviderName"]
-      : microsoftActivityLogsLocalizableStringDeserializer(item["resourceProviderName"]),
+      : localizableStringDeserializer(item["resourceProviderName"]),
     resourceId: item["resourceId"],
     resourceType: !item["resourceType"]
       ? item["resourceType"]
-      : microsoftActivityLogsLocalizableStringDeserializer(item["resourceType"]),
+      : localizableStringDeserializer(item["resourceType"]),
     operationId: item["operationId"],
     operationName: !item["operationName"]
       ? item["operationName"]
-      : microsoftActivityLogsLocalizableStringDeserializer(item["operationName"]),
+      : localizableStringDeserializer(item["operationName"]),
     properties: !item["properties"]
       ? item["properties"]
       : Object.fromEntries(
           Object.entries(item["properties"]).map(([k, p]: [string, any]) => [k, p]),
         ),
-    status: !item["status"]
-      ? item["status"]
-      : microsoftActivityLogsLocalizableStringDeserializer(item["status"]),
+    status: !item["status"] ? item["status"] : localizableStringDeserializer(item["status"]),
     subStatus: !item["subStatus"]
       ? item["subStatus"]
-      : microsoftActivityLogsLocalizableStringDeserializer(item["subStatus"]),
+      : localizableStringDeserializer(item["subStatus"]),
     eventTimestamp: !item["eventTimestamp"]
       ? item["eventTimestamp"]
       : new Date(item["eventTimestamp"]),
@@ -144,7 +142,7 @@ export function microsoftActivityLogsEventDataDeserializer(
 }
 
 /** the authorization used by the user who has performed the operation that led to this event. This captures the RBAC properties of the event. These usually include the 'action', 'role' and the 'scope' */
-export interface MicrosoftActivityLogsSenderAuthorization {
+export interface SenderAuthorization {
   /** the permissible actions. For instance: microsoft.support/supporttickets/write */
   action?: string;
   /** the role of the user. For instance: Subscription Admin */
@@ -153,9 +151,7 @@ export interface MicrosoftActivityLogsSenderAuthorization {
   scope?: string;
 }
 
-export function microsoftActivityLogsSenderAuthorizationDeserializer(
-  item: any,
-): MicrosoftActivityLogsSenderAuthorization {
+export function senderAuthorizationDeserializer(item: any): SenderAuthorization {
   return {
     action: item["action"],
     role: item["role"],
@@ -163,25 +159,8 @@ export function microsoftActivityLogsSenderAuthorizationDeserializer(
   };
 }
 
-/** The localizable string class. */
-export interface MicrosoftActivityLogsLocalizableString {
-  /** the invariant value. */
-  value: string;
-  /** the locale specific value. */
-  localizedValue?: string;
-}
-
-export function microsoftActivityLogsLocalizableStringDeserializer(
-  item: any,
-): MicrosoftActivityLogsLocalizableString {
-  return {
-    value: item["value"],
-    localizedValue: item["localizedValue"],
-  };
-}
-
 /** The Http request info. */
-export interface MicrosoftActivityLogsHttpRequestInfo {
+export interface HttpRequestInfo {
   /** the client request id. */
   clientRequestId?: string;
   /** the client Ip Address */
@@ -192,9 +171,7 @@ export interface MicrosoftActivityLogsHttpRequestInfo {
   uri?: string;
 }
 
-export function microsoftActivityLogsHttpRequestInfoDeserializer(
-  item: any,
-): MicrosoftActivityLogsHttpRequestInfo {
+export function httpRequestInfoDeserializer(item: any): HttpRequestInfo {
   return {
     clientRequestId: item["clientRequestId"],
     clientIpAddress: item["clientIpAddress"],
@@ -204,51 +181,19 @@ export function microsoftActivityLogsHttpRequestInfoDeserializer(
 }
 
 /** the event level */
-export type MicrosoftActivityLogsEventLevel =
-  | "Critical"
-  | "Error"
-  | "Warning"
-  | "Informational"
-  | "Verbose";
-
-/** Describes the format of Error response. */
-export interface MicrosoftActivityLogsErrorResponse {
-  /** Error code */
-  code?: string;
-  /** Error message indicating why the operation failed. */
-  message?: string;
-}
-
-export function microsoftActivityLogsErrorResponseDeserializer(
-  item: any,
-): MicrosoftActivityLogsErrorResponse {
-  return {
-    code: item["code"],
-    message: item["message"],
-  };
-}
+export type EventLevel = "Critical" | "Error" | "Warning" | "Informational" | "Verbose";
 
 /** A collection of event categories. Currently possible values are: Administrative, Security, ServiceHealth, Alert, Recommendation, Policy. */
-export interface _MicrosoftActivityLogsEventCategoryCollection {
+export interface _EventCategoryCollection {
   /** the list that includes the Azure event categories. */
-  value: MicrosoftActivityLogsLocalizableString[];
+  value: LocalizableString[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _microsoftActivityLogsEventCategoryCollectionDeserializer(
-  item: any,
-): _MicrosoftActivityLogsEventCategoryCollection {
+export function _eventCategoryCollectionDeserializer(item: any): _EventCategoryCollection {
   return {
-    value: microsoftActivityLogsLocalizableStringArrayDeserializer(item["value"]),
+    value: localizableStringArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
-}
-
-export function microsoftActivityLogsLocalizableStringArrayDeserializer(
-  result: Array<MicrosoftActivityLogsLocalizableString>,
-): any[] {
-  return result.map((item) => {
-    return microsoftActivityLogsLocalizableStringDeserializer(item);
-  });
 }

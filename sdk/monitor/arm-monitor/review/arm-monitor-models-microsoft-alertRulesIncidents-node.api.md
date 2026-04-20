@@ -5,13 +5,7 @@
 ```ts
 
 // @public
-export interface MicrosoftAlertRulesIncidentsErrorResponse {
-    code?: string;
-    message?: string;
-}
-
-// @public
-export interface MicrosoftAlertRulesIncidentsIncident {
+export interface Incident {
     readonly activatedTime?: Date;
     readonly isActive?: boolean;
     readonly name?: string;

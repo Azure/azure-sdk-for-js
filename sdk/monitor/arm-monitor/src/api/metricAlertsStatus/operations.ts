@@ -3,12 +3,12 @@
 
 import type { MonitorContext as Client } from "../index.js";
 import type {
-  _MicrosoftMetricAlertMetricAlertStatusCollection,
-  MicrosoftMetricAlertMetricAlertStatus,
+  _MetricAlertStatusCollection,
+  MetricAlertStatus,
 } from "../../models/microsoft/metricAlert/models.js";
 import {
-  microsoftMetricAlertErrorResponseDeserializer,
-  _microsoftMetricAlertMetricAlertStatusCollectionDeserializer,
+  metricAlertErrorResponseDeserializer,
+  _metricAlertStatusCollectionDeserializer,
 } from "../../models/microsoft/metricAlert/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -48,16 +48,16 @@ export function _listByNameSend(
 
 export async function _listByNameDeserialize(
   result: PathUncheckedResponse,
-): Promise<_MicrosoftMetricAlertMetricAlertStatusCollection> {
+): Promise<_MetricAlertStatusCollection> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = microsoftMetricAlertErrorResponseDeserializer(result.body);
+    error.details = metricAlertErrorResponseDeserializer(result.body);
 
     throw error;
   }
 
-  return _microsoftMetricAlertMetricAlertStatusCollectionDeserializer(result.body);
+  return _metricAlertStatusCollectionDeserializer(result.body);
 }
 
 /** Retrieve an alert rule status. */
@@ -67,7 +67,7 @@ export function listByName(
   ruleName: string,
   statusName: string,
   options: MetricAlertsStatusListByNameOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<MicrosoftMetricAlertMetricAlertStatus> {
+): PagedAsyncIterableIterator<MetricAlertStatus> {
   return buildPagedAsyncIterator(
     context,
     () => _listByNameSend(context, resourceGroupName, ruleName, statusName, options),
@@ -103,16 +103,16 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_MicrosoftMetricAlertMetricAlertStatusCollection> {
+): Promise<_MetricAlertStatusCollection> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = microsoftMetricAlertErrorResponseDeserializer(result.body);
+    error.details = metricAlertErrorResponseDeserializer(result.body);
 
     throw error;
   }
 
-  return _microsoftMetricAlertMetricAlertStatusCollectionDeserializer(result.body);
+  return _metricAlertStatusCollectionDeserializer(result.body);
 }
 
 /** Retrieve an alert rule status. */
@@ -121,7 +121,7 @@ export function list(
   resourceGroupName: string,
   ruleName: string,
   options: MetricAlertsStatusListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<MicrosoftMetricAlertMetricAlertStatus> {
+): PagedAsyncIterableIterator<MetricAlertStatus> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, resourceGroupName, ruleName, options),

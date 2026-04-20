@@ -15,6 +15,23 @@ import type { PollerLike } from '@azure/core-lro';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
+export type AccessMode = string;
+
+// @public
+export interface AccessModeSettings {
+    exclusions?: AccessModeSettingsExclusion[];
+    ingestionAccessMode: AccessMode;
+    queryAccessMode: AccessMode;
+}
+
+// @public
+export interface AccessModeSettingsExclusion {
+    ingestionAccessMode?: AccessMode;
+    privateEndpointConnectionName?: string;
+    queryAccessMode?: AccessMode;
+}
+
+// @public
 export interface AccessRule {
     name?: string;
     // (undocumented)
@@ -36,6 +53,65 @@ export interface AccessRuleProperties {
     subscriptions?: {
         id?: string;
     }[];
+}
+
+// @public
+export interface ActionDetail {
+    detail?: string;
+    mechanismType?: string;
+    name?: string;
+    sendTime?: string;
+    status?: string;
+    subState?: string;
+}
+
+// @public
+export interface ActionGroup {
+    armRoleReceivers?: ArmRoleReceiver[];
+    automationRunbookReceivers?: AutomationRunbookReceiver[];
+    azureAppPushReceivers?: AzureAppPushReceiver[];
+    azureFunctionReceivers?: AzureFunctionReceiver[];
+    emailReceivers?: EmailReceiver[];
+    enabled: boolean;
+    eventHubReceivers?: EventHubReceiver[];
+    groupShortName: string;
+    incidentReceivers?: IncidentReceiver[];
+    itsmReceivers?: ItsmReceiver[];
+    logicAppReceivers?: LogicAppReceiver[];
+    smsReceivers?: SmsReceiver[];
+    voiceReceivers?: VoiceReceiver[];
+    webhookReceivers?: WebhookReceiver[];
+}
+
+// @public
+export interface ActionGroupPatch {
+    enabled?: boolean;
+}
+
+// @public
+export interface ActionGroupPatchBody {
+    enabled?: boolean;
+    identity?: ManagedServiceIdentity;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface ActionGroupResource extends TrackedResource {
+    armRoleReceivers?: ArmRoleReceiver[];
+    automationRunbookReceivers?: AutomationRunbookReceiver[];
+    azureAppPushReceivers?: AzureAppPushReceiver[];
+    azureFunctionReceivers?: AzureFunctionReceiver[];
+    emailReceivers?: EmailReceiver[];
+    enabled?: boolean;
+    eventHubReceivers?: EventHubReceiver[];
+    groupShortName?: string;
+    identity?: ManagedServiceIdentity;
+    incidentReceivers?: IncidentReceiver[];
+    itsmReceivers?: ItsmReceiver[];
+    logicAppReceivers?: LogicAppReceiver[];
+    smsReceivers?: SmsReceiver[];
+    voiceReceivers?: VoiceReceiver[];
+    webhookReceivers?: WebhookReceiver[];
 }
 
 // @public
@@ -82,25 +158,25 @@ export interface ActionGroupsListNSPOptionalParams extends OperationOptions {
 // @public
 export interface ActionGroupsOperations {
     // @deprecated (undocumented)
-    beginCreateNotificationsAtActionGroupResourceLevel: (resourceGroupName: string, actionGroupName: string, notificationRequest: MicrosoftActionGroupsNotificationRequestBody, options?: ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams) => Promise<SimplePollerLike<OperationState<MicrosoftActionGroupsTestNotificationDetailsResponse>, MicrosoftActionGroupsTestNotificationDetailsResponse>>;
+    beginCreateNotificationsAtActionGroupResourceLevel: (resourceGroupName: string, actionGroupName: string, notificationRequest: NotificationRequestBody, options?: ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams) => Promise<SimplePollerLike<OperationState<TestNotificationDetailsResponse>, TestNotificationDetailsResponse>>;
     // @deprecated (undocumented)
-    beginCreateNotificationsAtActionGroupResourceLevelAndWait: (resourceGroupName: string, actionGroupName: string, notificationRequest: MicrosoftActionGroupsNotificationRequestBody, options?: ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams) => Promise<MicrosoftActionGroupsTestNotificationDetailsResponse>;
+    beginCreateNotificationsAtActionGroupResourceLevelAndWait: (resourceGroupName: string, actionGroupName: string, notificationRequest: NotificationRequestBody, options?: ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams) => Promise<TestNotificationDetailsResponse>;
     // @deprecated (undocumented)
     beginReconcileNSP: (resourceGroupName: string, actionGroupName: string, networkSecurityPerimeterConfigurationName: string, options?: ActionGroupsReconcileNSPOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
     beginReconcileNSPAndWait: (resourceGroupName: string, actionGroupName: string, networkSecurityPerimeterConfigurationName: string, options?: ActionGroupsReconcileNSPOptionalParams) => Promise<void>;
-    createNotificationsAtActionGroupResourceLevel: (resourceGroupName: string, actionGroupName: string, notificationRequest: MicrosoftActionGroupsNotificationRequestBody, options?: ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams) => PollerLike<OperationState<MicrosoftActionGroupsTestNotificationDetailsResponse>, MicrosoftActionGroupsTestNotificationDetailsResponse>;
-    createOrUpdate: (resourceGroupName: string, actionGroupName: string, actionGroup: MicrosoftActionGroupsActionGroupResource, options?: ActionGroupsCreateOrUpdateOptionalParams) => Promise<MicrosoftActionGroupsActionGroupResource>;
+    createNotificationsAtActionGroupResourceLevel: (resourceGroupName: string, actionGroupName: string, notificationRequest: NotificationRequestBody, options?: ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams) => PollerLike<OperationState<TestNotificationDetailsResponse>, TestNotificationDetailsResponse>;
+    createOrUpdate: (resourceGroupName: string, actionGroupName: string, actionGroup: ActionGroupResource, options?: ActionGroupsCreateOrUpdateOptionalParams) => Promise<ActionGroupResource>;
     delete: (resourceGroupName: string, actionGroupName: string, options?: ActionGroupsDeleteOptionalParams) => Promise<void>;
-    enableReceiver: (resourceGroupName: string, actionGroupName: string, enableRequest: MicrosoftActionGroupsEnableRequest, options?: ActionGroupsEnableReceiverOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, actionGroupName: string, options?: ActionGroupsGetOptionalParams) => Promise<MicrosoftActionGroupsActionGroupResource>;
+    enableReceiver: (resourceGroupName: string, actionGroupName: string, enableRequest: EnableRequest, options?: ActionGroupsEnableReceiverOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, actionGroupName: string, options?: ActionGroupsGetOptionalParams) => Promise<ActionGroupResource>;
     getNSP: (resourceGroupName: string, actionGroupName: string, networkSecurityPerimeterConfigurationName: string, options?: ActionGroupsGetNSPOptionalParams) => Promise<NetworkSecurityPerimeterConfiguration>;
-    getTestNotificationsAtActionGroupResourceLevel: (resourceGroupName: string, actionGroupName: string, notificationId: string, options?: ActionGroupsGetTestNotificationsAtActionGroupResourceLevelOptionalParams) => Promise<MicrosoftActionGroupsTestNotificationDetailsResponse>;
-    listByResourceGroup: (resourceGroupName: string, options?: ActionGroupsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<MicrosoftActionGroupsActionGroupResource>;
-    listBySubscriptionId: (options?: ActionGroupsListBySubscriptionIdOptionalParams) => PagedAsyncIterableIterator<MicrosoftActionGroupsActionGroupResource>;
+    getTestNotificationsAtActionGroupResourceLevel: (resourceGroupName: string, actionGroupName: string, notificationId: string, options?: ActionGroupsGetTestNotificationsAtActionGroupResourceLevelOptionalParams) => Promise<TestNotificationDetailsResponse>;
+    listByResourceGroup: (resourceGroupName: string, options?: ActionGroupsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ActionGroupResource>;
+    listBySubscriptionId: (options?: ActionGroupsListBySubscriptionIdOptionalParams) => PagedAsyncIterableIterator<ActionGroupResource>;
     listNSP: (resourceGroupName: string, actionGroupName: string, options?: ActionGroupsListNSPOptionalParams) => PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration>;
     reconcileNSP: (resourceGroupName: string, actionGroupName: string, networkSecurityPerimeterConfigurationName: string, options?: ActionGroupsReconcileNSPOptionalParams) => PollerLike<OperationState<void>, void>;
-    update: (resourceGroupName: string, actionGroupName: string, actionGroupPatch: MicrosoftActionGroupsActionGroupPatchBody, options?: ActionGroupsUpdateOptionalParams) => Promise<MicrosoftActionGroupsActionGroupResource>;
+    update: (resourceGroupName: string, actionGroupName: string, actionGroupPatch: ActionGroupPatchBody, options?: ActionGroupsUpdateOptionalParams) => Promise<ActionGroupResource>;
 }
 
 // @public
@@ -110,6 +186,43 @@ export interface ActionGroupsReconcileNSPOptionalParams extends OperationOptions
 
 // @public
 export interface ActionGroupsUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ActionList {
+    actionGroups?: ActivityLogAlertActionGroup[];
+}
+
+// @public
+export interface Actions {
+    actionGroups?: string[];
+    actionProperties?: Record<string, string>;
+    customProperties?: Record<string, string>;
+}
+
+// @public
+export interface ActivityLogAlertActionGroup {
+    actionGroupId: string;
+    actionProperties?: Record<string, string>;
+    webhookProperties?: Record<string, string>;
+}
+
+// @public
+export interface ActivityLogAlertErrorResponse {
+    readonly code?: string;
+    readonly message?: string;
+}
+
+// @public
+export interface ActivityLogAlertResource extends Resource {
+    actions?: ActionList;
+    condition?: AlertRuleAllOfCondition;
+    description?: string;
+    enabled?: boolean;
+    location?: string;
+    scopes?: string[];
+    tags?: Record<string, string>;
+    tenantScope?: string;
 }
 
 // @public
@@ -134,12 +247,12 @@ export interface ActivityLogAlertsListBySubscriptionIdOptionalParams extends Ope
 
 // @public
 export interface ActivityLogAlertsOperations {
-    createOrUpdate: (resourceGroupName: string, activityLogAlertName: string, activityLogAlertRule: MicrosoftActivityLogAlertsActivityLogAlertResource, options?: ActivityLogAlertsCreateOrUpdateOptionalParams) => Promise<MicrosoftActivityLogAlertsActivityLogAlertResource>;
+    createOrUpdate: (resourceGroupName: string, activityLogAlertName: string, activityLogAlertRule: ActivityLogAlertResource, options?: ActivityLogAlertsCreateOrUpdateOptionalParams) => Promise<ActivityLogAlertResource>;
     delete: (resourceGroupName: string, activityLogAlertName: string, options?: ActivityLogAlertsDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, activityLogAlertName: string, options?: ActivityLogAlertsGetOptionalParams) => Promise<MicrosoftActivityLogAlertsActivityLogAlertResource>;
-    listByResourceGroup: (resourceGroupName: string, options?: ActivityLogAlertsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<MicrosoftActivityLogAlertsActivityLogAlertResource>;
-    listBySubscriptionId: (options?: ActivityLogAlertsListBySubscriptionIdOptionalParams) => PagedAsyncIterableIterator<MicrosoftActivityLogAlertsActivityLogAlertResource>;
-    update: (resourceGroupName: string, activityLogAlertName: string, activityLogAlertRulePatch: MicrosoftActivityLogAlertsAlertRulePatchObject, options?: ActivityLogAlertsUpdateOptionalParams) => Promise<MicrosoftActivityLogAlertsActivityLogAlertResource>;
+    get: (resourceGroupName: string, activityLogAlertName: string, options?: ActivityLogAlertsGetOptionalParams) => Promise<ActivityLogAlertResource>;
+    listByResourceGroup: (resourceGroupName: string, options?: ActivityLogAlertsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ActivityLogAlertResource>;
+    listBySubscriptionId: (options?: ActivityLogAlertsListBySubscriptionIdOptionalParams) => PagedAsyncIterableIterator<ActivityLogAlertResource>;
+    update: (resourceGroupName: string, activityLogAlertName: string, activityLogAlertRulePatch: AlertRulePatchObject, options?: ActivityLogAlertsUpdateOptionalParams) => Promise<ActivityLogAlertResource>;
 }
 
 // @public
@@ -153,7 +266,42 @@ export interface ActivityLogsListOptionalParams extends OperationOptions {
 
 // @public
 export interface ActivityLogsOperations {
-    list: (filter: string, options?: ActivityLogsListOptionalParams) => PagedAsyncIterableIterator<MicrosoftActivityLogsEventData>;
+    list: (filter: string, options?: ActivityLogsListOptionalParams) => PagedAsyncIterableIterator<EventData>;
+}
+
+// @public
+export interface AdxDestination {
+    databaseName?: string;
+    readonly ingestionUri?: string;
+    name?: string;
+    resourceId?: string;
+}
+
+// @public
+export interface AgentSetting {
+    name?: KnownAgentSettingName;
+    value?: string;
+}
+
+// @public
+export interface AgentSettingsSpec {
+    logs?: AgentSetting[];
+}
+
+// @public
+export type AggregationType = "None" | "Average" | "Count" | "Minimum" | "Maximum" | "Total";
+
+// @public
+export type AggregationTypeEnum = string;
+
+// @public
+export interface AlertRuleAllOfCondition {
+    allOf: AlertRuleAnyOfOrLeafCondition[];
+}
+
+// @public
+export interface AlertRuleAnyOfOrLeafCondition extends AlertRuleLeafCondition {
+    anyOf?: AlertRuleLeafCondition[];
 }
 
 // @public
@@ -166,8 +314,142 @@ export interface AlertRuleIncidentsListByAlertRuleOptionalParams extends Operati
 
 // @public
 export interface AlertRuleIncidentsOperations {
-    get: (resourceGroupName: string, ruleName: string, incidentName: string, options?: AlertRuleIncidentsGetOptionalParams) => Promise<MicrosoftAlertRulesIncidentsIncident>;
-    listByAlertRule: (resourceGroupName: string, ruleName: string, options?: AlertRuleIncidentsListByAlertRuleOptionalParams) => PagedAsyncIterableIterator<MicrosoftAlertRulesIncidentsIncident>;
+    get: (resourceGroupName: string, ruleName: string, incidentName: string, options?: AlertRuleIncidentsGetOptionalParams) => Promise<Incident>;
+    listByAlertRule: (resourceGroupName: string, ruleName: string, options?: AlertRuleIncidentsListByAlertRuleOptionalParams) => PagedAsyncIterableIterator<Incident>;
+}
+
+// @public
+export interface AlertRuleLeafCondition {
+    containsAny?: string[];
+    equals?: string;
+    field?: string;
+}
+
+// @public
+export interface AlertRulePatchObject {
+    enabled?: boolean;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface AlertRulePatchProperties {
+    enabled?: boolean;
+}
+
+// @public
+export interface AlertRuleProperties {
+    actions: ActionList;
+    condition: AlertRuleAllOfCondition;
+    description?: string;
+    enabled?: boolean;
+    scopes?: string[];
+    tenantScope?: string;
+}
+
+// @public
+export type AlertSeverity = number;
+
+// @public
+export interface ApplicationInsights {
+    name: string;
+    resourceId: string;
+}
+
+// @public
+export interface ArmErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ArmErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ArmErrorResponse {
+    error?: ArmErrorDetail;
+}
+
+// @public
+export interface ArmRoleReceiver {
+    name: string;
+    roleId: string;
+    useCommonAlertSchema?: boolean;
+}
+
+// @public
+export interface AutomationRunbookReceiver {
+    automationAccountId: string;
+    isGlobalRunbook: boolean;
+    managedIdentity?: string;
+    name?: string;
+    runbookName: string;
+    serviceUri?: string;
+    useCommonAlertSchema?: boolean;
+    webhookResourceId: string;
+}
+
+// @public
+export interface AutoscaleErrorResponse {
+    error?: AutoscaleErrorResponseError;
+    readonly systemData?: SystemData;
+}
+
+// @public
+export interface AutoscaleErrorResponseError {
+    code?: string;
+    details?: string;
+    message?: string;
+    target?: string;
+}
+
+// @public
+export interface AutoscaleNotification {
+    email?: EmailNotification;
+    operation: OperationType;
+    webhooks?: WebhookNotification[];
+}
+
+// @public
+export interface AutoscaleProfile {
+    capacity: ScaleCapacity;
+    fixedDate?: TimeWindow;
+    name: string;
+    recurrence?: Recurrence;
+    rules: ScaleRule[];
+}
+
+// @public
+export interface AutoscaleSetting {
+    enabled?: boolean;
+    name?: string;
+    notifications?: AutoscaleNotification[];
+    predictiveAutoscalePolicy?: PredictiveAutoscalePolicy;
+    profiles: AutoscaleProfile[];
+    targetResourceLocation?: string;
+    targetResourceUri?: string;
+}
+
+// @public
+export interface AutoscaleSettingResource extends TrackedResource {
+    enabled?: boolean;
+    namePropertiesName?: string;
+    notifications?: AutoscaleNotification[];
+    predictiveAutoscalePolicy?: PredictiveAutoscalePolicy;
+    profiles: AutoscaleProfile[];
+    targetResourceLocation?: string;
+    targetResourceUri?: string;
+}
+
+// @public
+export interface AutoscaleSettingResourcePatch {
+    enabled?: boolean;
+    name?: string;
+    notifications?: AutoscaleNotification[];
+    predictiveAutoscalePolicy?: PredictiveAutoscalePolicy;
+    profiles?: AutoscaleProfile[];
+    tags?: Record<string, string>;
+    targetResourceLocation?: string;
+    targetResourceUri?: string;
 }
 
 // @public
@@ -192,16 +474,22 @@ export interface AutoscaleSettingsListBySubscriptionOptionalParams extends Opera
 
 // @public
 export interface AutoscaleSettingsOperations {
-    createOrUpdate: (resourceGroupName: string, autoscaleSettingName: string, parameters: MicrosoftAutoScaleAutoscaleSettingResource, options?: AutoscaleSettingsCreateOrUpdateOptionalParams) => Promise<MicrosoftAutoScaleAutoscaleSettingResource>;
+    createOrUpdate: (resourceGroupName: string, autoscaleSettingName: string, parameters: AutoscaleSettingResource, options?: AutoscaleSettingsCreateOrUpdateOptionalParams) => Promise<AutoscaleSettingResource>;
     delete: (resourceGroupName: string, autoscaleSettingName: string, options?: AutoscaleSettingsDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, autoscaleSettingName: string, options?: AutoscaleSettingsGetOptionalParams) => Promise<MicrosoftAutoScaleAutoscaleSettingResource>;
-    listByResourceGroup: (resourceGroupName: string, options?: AutoscaleSettingsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<MicrosoftAutoScaleAutoscaleSettingResource>;
-    listBySubscription: (options?: AutoscaleSettingsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<MicrosoftAutoScaleAutoscaleSettingResource>;
-    update: (resourceGroupName: string, autoscaleSettingName: string, autoscaleSettingResource: MicrosoftAutoScaleAutoscaleSettingResourcePatch, options?: AutoscaleSettingsUpdateOptionalParams) => Promise<MicrosoftAutoScaleAutoscaleSettingResource>;
+    get: (resourceGroupName: string, autoscaleSettingName: string, options?: AutoscaleSettingsGetOptionalParams) => Promise<AutoscaleSettingResource>;
+    listByResourceGroup: (resourceGroupName: string, options?: AutoscaleSettingsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<AutoscaleSettingResource>;
+    listBySubscription: (options?: AutoscaleSettingsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<AutoscaleSettingResource>;
+    update: (resourceGroupName: string, autoscaleSettingName: string, autoscaleSettingResource: AutoscaleSettingResourcePatch, options?: AutoscaleSettingsUpdateOptionalParams) => Promise<AutoscaleSettingResource>;
 }
 
 // @public
 export interface AutoscaleSettingsUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AzureAppPushReceiver {
+    emailAddress: string;
+    name: string;
 }
 
 // @public
@@ -212,7 +500,45 @@ export enum AzureClouds {
 }
 
 // @public
+export interface AzureFunctionReceiver {
+    functionAppResourceId: string;
+    functionName: string;
+    httpTriggerUrl: string;
+    managedIdentity?: string;
+    name: string;
+    useCommonAlertSchema?: boolean;
+}
+
+// @public
+export interface AzureMonitorMetricsDestination {
+    name?: string;
+}
+
+// @public
+export interface AzureMonitorPrivateLinkScope extends TrackedResource {
+    accessModeSettings: AccessModeSettings;
+    readonly privateEndpointConnections?: PrivateEndpointConnectionAutoGenerated[];
+    readonly provisioningState?: PrivateLinkScopeProvisioningState;
+}
+
+// @public
+export interface AzureMonitorPrivateLinkScopeProperties {
+    accessModeSettings: AccessModeSettings;
+    readonly privateEndpointConnections?: PrivateEndpointConnectionAutoGenerated[];
+    readonly provisioningState?: PrivateLinkScopeProvisioningState;
+}
+
+// @public
 export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
+export interface BaselineMetadata {
+    name: string;
+    value: string;
+}
+
+// @public
+export type BaselineSensitivity = string;
 
 // @public
 export interface BaselinesListOptionalParams extends OperationOptions {
@@ -221,14 +547,69 @@ export interface BaselinesListOptionalParams extends OperationOptions {
     interval?: string;
     metricnames?: string;
     metricnamespace?: string;
-    resultType?: MicrosoftMetricBaselinesResultType;
+    resultType?: ResultType;
     sensitivities?: string;
     timespan?: string;
 }
 
 // @public
 export interface BaselinesOperations {
-    list: (resourceUri: string, options?: BaselinesListOptionalParams) => PagedAsyncIterableIterator<MicrosoftMetricBaselinesSingleMetricBaseline>;
+    list: (resourceUri: string, options?: BaselinesListOptionalParams) => PagedAsyncIterableIterator<SingleMetricBaseline>;
+}
+
+// @public
+export interface ColumnDefinition {
+    name?: string;
+    type?: KnownColumnDefinitionType;
+}
+
+// @public
+export interface CommonErrorResponse {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: CommonErrorResponse[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export type ComparisonOperationType = "Equals" | "NotEquals" | "GreaterThan" | "GreaterThanOrEqual" | "LessThan" | "LessThanOrEqual";
+
+// @public
+export interface Condition {
+    alertSensitivity?: string;
+    criterionType?: CriterionType;
+    dimensions?: Dimension[];
+    failingPeriods?: ConditionFailingPeriods;
+    ignoreDataBefore?: Date;
+    metricMeasureColumn?: string;
+    metricName?: string;
+    minRecurrenceCount?: number;
+    operator?: ConditionOperator;
+    query?: string;
+    resourceIdColumn?: string;
+    threshold?: number;
+    timeAggregation?: TimeAggregation;
+}
+
+// @public
+export interface ConditionFailingPeriods {
+    minFailingPeriodsToAlert?: number;
+    numberOfEvaluationPeriods?: number;
+}
+
+// @public
+export type ConditionOperator = string;
+
+// @public
+export interface ConfigurationAccessEndpointSpec {
+    readonly endpoint?: string;
+}
+
+// @public
+export interface Context {
+    contextType?: string;
+    notificationSource?: string;
 }
 
 // @public
@@ -240,8 +621,79 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 export type CreatedByType = string;
 
 // @public
+export type CriterionType = string;
+
+// @public
+export interface DataCollectionEndpoint {
+    configurationAccess?: DataCollectionEndpointConfigurationAccess;
+    description?: string;
+    readonly failoverConfiguration?: DataCollectionEndpointFailoverConfiguration;
+    immutableId?: string;
+    logsIngestion?: DataCollectionEndpointLogsIngestion;
+    readonly metadata?: DataCollectionEndpointMetadata;
+    metricsIngestion?: DataCollectionEndpointMetricsIngestion;
+    networkAcls?: DataCollectionEndpointNetworkAcls;
+    readonly privateLinkScopedResources?: PrivateLinkScopedResource[];
+    readonly provisioningState?: KnownDataCollectionEndpointProvisioningState;
+}
+
+// @public
+export interface DataCollectionEndpointConfigurationAccess extends ConfigurationAccessEndpointSpec {
+}
+
+// @public
+export interface DataCollectionEndpointFailoverConfiguration extends FailoverConfigurationSpec {
+}
+
+// @public
+export interface DataCollectionEndpointLogsIngestion extends LogsIngestionEndpointSpec {
+}
+
+// @public
+export interface DataCollectionEndpointMetadata extends Metadata {
+}
+
+// @public
+export interface DataCollectionEndpointMetricsIngestion extends MetricsIngestionEndpointSpec {
+}
+
+// @public
+export interface DataCollectionEndpointNetworkAcls extends NetworkRuleSet {
+}
+
+// @public
+export interface DataCollectionEndpointResource extends TrackedResource {
+    configurationAccess?: DataCollectionEndpointConfigurationAccess;
+    description?: string;
+    readonly etag?: string;
+    readonly failoverConfiguration?: DataCollectionEndpointFailoverConfiguration;
+    identity?: DataCollectionEndpointResourceIdentity;
+    immutableId?: string;
+    kind?: KnownDataCollectionEndpointResourceKind;
+    logsIngestion?: DataCollectionEndpointLogsIngestion;
+    readonly metadata?: DataCollectionEndpointMetadata;
+    metricsIngestion?: DataCollectionEndpointMetricsIngestion;
+    networkAcls?: DataCollectionEndpointNetworkAcls;
+    readonly privateLinkScopedResources?: PrivateLinkScopedResource[];
+    readonly provisioningState?: KnownDataCollectionEndpointProvisioningState;
+    sku?: DataCollectionEndpointResourceSku;
+}
+
+// @public
+export interface DataCollectionEndpointResourceIdentity extends ManagedServiceIdentity {
+}
+
+// @public
+export interface DataCollectionEndpointResourceProperties extends DataCollectionEndpoint {
+}
+
+// @public
+export interface DataCollectionEndpointResourceSku extends Sku {
+}
+
+// @public
 export interface DataCollectionEndpointsCreateOptionalParams extends OperationOptions {
-    body?: MicrosoftDataCollectionDataCollectionEndpointResource;
+    body?: DataCollectionEndpointResource;
 }
 
 // @public
@@ -274,15 +726,15 @@ export interface DataCollectionEndpointsOperations {
     beginReconcileNSP: (resourceGroupName: string, dataCollectionEndpointName: string, networkSecurityPerimeterConfigurationName: string, options?: DataCollectionEndpointsReconcileNSPOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
     beginReconcileNSPAndWait: (resourceGroupName: string, dataCollectionEndpointName: string, networkSecurityPerimeterConfigurationName: string, options?: DataCollectionEndpointsReconcileNSPOptionalParams) => Promise<void>;
-    create: (resourceGroupName: string, dataCollectionEndpointName: string, options?: DataCollectionEndpointsCreateOptionalParams) => Promise<MicrosoftDataCollectionDataCollectionEndpointResource>;
+    create: (resourceGroupName: string, dataCollectionEndpointName: string, options?: DataCollectionEndpointsCreateOptionalParams) => Promise<DataCollectionEndpointResource>;
     delete: (resourceGroupName: string, dataCollectionEndpointName: string, options?: DataCollectionEndpointsDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, dataCollectionEndpointName: string, options?: DataCollectionEndpointsGetOptionalParams) => Promise<MicrosoftDataCollectionDataCollectionEndpointResource>;
+    get: (resourceGroupName: string, dataCollectionEndpointName: string, options?: DataCollectionEndpointsGetOptionalParams) => Promise<DataCollectionEndpointResource>;
     getNSP: (resourceGroupName: string, dataCollectionEndpointName: string, networkSecurityPerimeterConfigurationName: string, options?: DataCollectionEndpointsGetNSPOptionalParams) => Promise<NetworkSecurityPerimeterConfiguration>;
-    listByResourceGroup: (resourceGroupName: string, options?: DataCollectionEndpointsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<MicrosoftDataCollectionDataCollectionEndpointResource>;
-    listBySubscription: (options?: DataCollectionEndpointsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<MicrosoftDataCollectionDataCollectionEndpointResource>;
+    listByResourceGroup: (resourceGroupName: string, options?: DataCollectionEndpointsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<DataCollectionEndpointResource>;
+    listBySubscription: (options?: DataCollectionEndpointsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<DataCollectionEndpointResource>;
     listNSP: (resourceGroupName: string, dataCollectionEndpointName: string, options?: DataCollectionEndpointsListNSPOptionalParams) => PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration>;
     reconcileNSP: (resourceGroupName: string, dataCollectionEndpointName: string, networkSecurityPerimeterConfigurationName: string, options?: DataCollectionEndpointsReconcileNSPOptionalParams) => PollerLike<OperationState<void>, void>;
-    update: (resourceGroupName: string, dataCollectionEndpointName: string, options?: DataCollectionEndpointsUpdateOptionalParams) => Promise<MicrosoftDataCollectionDataCollectionEndpointResource>;
+    update: (resourceGroupName: string, dataCollectionEndpointName: string, options?: DataCollectionEndpointsUpdateOptionalParams) => Promise<DataCollectionEndpointResource>;
 }
 
 // @public
@@ -292,12 +744,61 @@ export interface DataCollectionEndpointsReconcileNSPOptionalParams extends Opera
 
 // @public
 export interface DataCollectionEndpointsUpdateOptionalParams extends OperationOptions {
-    body?: MicrosoftDataCollectionResourceForUpdate;
+    body?: ResourceForUpdate;
+}
+
+// @public
+export interface DataCollectionRule {
+    agentSettings?: DataCollectionRuleAgentSettings;
+    dataCollectionEndpointId?: string;
+    dataFlows?: DataFlow[];
+    dataSources?: DataCollectionRuleDataSources;
+    description?: string;
+    destinations?: DataCollectionRuleDestinations;
+    directDataSources?: DataCollectionRuleDirectDataSources;
+    readonly endpoints?: DataCollectionRuleEndpoints;
+    readonly immutableId?: string;
+    readonly ingestionQuotas?: DataCollectionRuleIngestionQuotas;
+    readonly metadata?: DataCollectionRuleMetadata;
+    readonly provisioningState?: KnownDataCollectionRuleProvisioningState;
+    references?: DataCollectionRuleReferences;
+    streamDeclarations?: Record<string, StreamDeclaration>;
+}
+
+// @public
+export interface DataCollectionRuleAgentSettings extends AgentSettingsSpec {
+}
+
+// @public
+export interface DataCollectionRuleAssociation {
+    dataCollectionEndpointId?: string;
+    dataCollectionRuleId?: string;
+    description?: string;
+    readonly metadata?: DataCollectionRuleAssociationMetadata;
+    readonly provisioningState?: KnownDataCollectionRuleAssociationProvisioningState;
+}
+
+// @public
+export interface DataCollectionRuleAssociationMetadata extends Metadata {
+}
+
+// @public
+export interface DataCollectionRuleAssociationProxyOnlyResource extends ExtensionResource {
+    dataCollectionEndpointId?: string;
+    dataCollectionRuleId?: string;
+    description?: string;
+    readonly etag?: string;
+    readonly metadata?: DataCollectionRuleAssociationMetadata;
+    readonly provisioningState?: KnownDataCollectionRuleAssociationProvisioningState;
+}
+
+// @public
+export interface DataCollectionRuleAssociationProxyOnlyResourceProperties extends DataCollectionRuleAssociation {
 }
 
 // @public
 export interface DataCollectionRuleAssociationsCreateOptionalParams extends OperationOptions {
-    body?: MicrosoftDataCollectionDataCollectionRuleAssociationProxyOnlyResource;
+    body?: DataCollectionRuleAssociationProxyOnlyResource;
 }
 
 // @public
@@ -324,17 +825,79 @@ export interface DataCollectionRuleAssociationsListByRuleOptionalParams extends 
 
 // @public
 export interface DataCollectionRuleAssociationsOperations {
-    create: (resourceUri: string, associationName: string, options?: DataCollectionRuleAssociationsCreateOptionalParams) => Promise<MicrosoftDataCollectionDataCollectionRuleAssociationProxyOnlyResource>;
+    create: (resourceUri: string, associationName: string, options?: DataCollectionRuleAssociationsCreateOptionalParams) => Promise<DataCollectionRuleAssociationProxyOnlyResource>;
     delete: (resourceUri: string, associationName: string, options?: DataCollectionRuleAssociationsDeleteOptionalParams) => Promise<void>;
-    get: (resourceUri: string, associationName: string, options?: DataCollectionRuleAssociationsGetOptionalParams) => Promise<MicrosoftDataCollectionDataCollectionRuleAssociationProxyOnlyResource>;
-    listByDataCollectionEndpoint: (resourceGroupName: string, dataCollectionEndpointName: string, options?: DataCollectionRuleAssociationsListByDataCollectionEndpointOptionalParams) => PagedAsyncIterableIterator<MicrosoftDataCollectionDataCollectionRuleAssociationProxyOnlyResource>;
-    listByResource: (resourceUri: string, options?: DataCollectionRuleAssociationsListByResourceOptionalParams) => PagedAsyncIterableIterator<MicrosoftDataCollectionDataCollectionRuleAssociationProxyOnlyResource>;
-    listByRule: (resourceGroupName: string, dataCollectionRuleName: string, options?: DataCollectionRuleAssociationsListByRuleOptionalParams) => PagedAsyncIterableIterator<MicrosoftDataCollectionDataCollectionRuleAssociationProxyOnlyResource>;
+    get: (resourceUri: string, associationName: string, options?: DataCollectionRuleAssociationsGetOptionalParams) => Promise<DataCollectionRuleAssociationProxyOnlyResource>;
+    listByDataCollectionEndpoint: (resourceGroupName: string, dataCollectionEndpointName: string, options?: DataCollectionRuleAssociationsListByDataCollectionEndpointOptionalParams) => PagedAsyncIterableIterator<DataCollectionRuleAssociationProxyOnlyResource>;
+    listByResource: (resourceUri: string, options?: DataCollectionRuleAssociationsListByResourceOptionalParams) => PagedAsyncIterableIterator<DataCollectionRuleAssociationProxyOnlyResource>;
+    listByRule: (resourceGroupName: string, dataCollectionRuleName: string, options?: DataCollectionRuleAssociationsListByRuleOptionalParams) => PagedAsyncIterableIterator<DataCollectionRuleAssociationProxyOnlyResource>;
+}
+
+// @public
+export interface DataCollectionRuleDataSources extends DataSourcesSpec {
+}
+
+// @public
+export interface DataCollectionRuleDestinations extends DestinationsSpec {
+}
+
+// @public
+export interface DataCollectionRuleDirectDataSources extends DirectDataSourcesSpec {
+}
+
+// @public
+export interface DataCollectionRuleEndpoints extends EndpointsSpec {
+}
+
+// @public
+export interface DataCollectionRuleIngestionQuotas extends IngestionQuotas {
+}
+
+// @public
+export interface DataCollectionRuleMetadata extends Metadata {
+}
+
+// @public
+export interface DataCollectionRuleReferences extends ReferencesSpec {
+}
+
+// @public
+export interface DataCollectionRuleResource extends TrackedResource {
+    agentSettings?: DataCollectionRuleAgentSettings;
+    dataCollectionEndpointId?: string;
+    dataFlows?: DataFlow[];
+    dataSources?: DataCollectionRuleDataSources;
+    description?: string;
+    destinations?: DataCollectionRuleDestinations;
+    directDataSources?: DataCollectionRuleDirectDataSources;
+    readonly endpoints?: DataCollectionRuleEndpoints;
+    readonly etag?: string;
+    identity?: DataCollectionRuleResourceIdentity;
+    readonly immutableId?: string;
+    readonly ingestionQuotas?: DataCollectionRuleIngestionQuotas;
+    kind?: KnownDataCollectionRuleResourceKind;
+    readonly metadata?: DataCollectionRuleMetadata;
+    readonly provisioningState?: KnownDataCollectionRuleProvisioningState;
+    references?: DataCollectionRuleReferences;
+    sku?: DataCollectionRuleResourceSku;
+    streamDeclarations?: Record<string, StreamDeclaration>;
+}
+
+// @public
+export interface DataCollectionRuleResourceIdentity extends ManagedServiceIdentity {
+}
+
+// @public
+export interface DataCollectionRuleResourceProperties extends DataCollectionRule {
+}
+
+// @public
+export interface DataCollectionRuleResourceSku extends Sku {
 }
 
 // @public
 export interface DataCollectionRulesCreateOptionalParams extends OperationOptions {
-    body?: MicrosoftDataCollectionDataCollectionRuleResource;
+    body?: DataCollectionRuleResource;
 }
 
 // @public
@@ -356,17 +919,154 @@ export interface DataCollectionRulesListBySubscriptionOptionalParams extends Ope
 
 // @public
 export interface DataCollectionRulesOperations {
-    create: (resourceGroupName: string, dataCollectionRuleName: string, options?: DataCollectionRulesCreateOptionalParams) => Promise<MicrosoftDataCollectionDataCollectionRuleResource>;
+    create: (resourceGroupName: string, dataCollectionRuleName: string, options?: DataCollectionRulesCreateOptionalParams) => Promise<DataCollectionRuleResource>;
     delete: (resourceGroupName: string, dataCollectionRuleName: string, options?: DataCollectionRulesDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, dataCollectionRuleName: string, options?: DataCollectionRulesGetOptionalParams) => Promise<MicrosoftDataCollectionDataCollectionRuleResource>;
-    listByResourceGroup: (resourceGroupName: string, options?: DataCollectionRulesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<MicrosoftDataCollectionDataCollectionRuleResource>;
-    listBySubscription: (options?: DataCollectionRulesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<MicrosoftDataCollectionDataCollectionRuleResource>;
-    update: (resourceGroupName: string, dataCollectionRuleName: string, options?: DataCollectionRulesUpdateOptionalParams) => Promise<MicrosoftDataCollectionDataCollectionRuleResource>;
+    get: (resourceGroupName: string, dataCollectionRuleName: string, options?: DataCollectionRulesGetOptionalParams) => Promise<DataCollectionRuleResource>;
+    listByResourceGroup: (resourceGroupName: string, options?: DataCollectionRulesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<DataCollectionRuleResource>;
+    listBySubscription: (options?: DataCollectionRulesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<DataCollectionRuleResource>;
+    update: (resourceGroupName: string, dataCollectionRuleName: string, options?: DataCollectionRulesUpdateOptionalParams) => Promise<DataCollectionRuleResource>;
 }
 
 // @public
 export interface DataCollectionRulesUpdateOptionalParams extends OperationOptions {
-    body?: MicrosoftDataCollectionResourceForUpdate;
+    body?: ResourceForUpdate;
+}
+
+// @public
+export interface DataFlow {
+    builtInTransform?: string;
+    captureOverflow?: boolean;
+    destinations?: string[];
+    outputStream?: string;
+    streams?: KnownDataFlowStreams[];
+    transformKql?: string;
+}
+
+// @public
+export interface DataImportSources {
+    eventHub?: DataImportSourcesEventHub;
+}
+
+// @public
+export interface DataImportSourcesEventHub extends EventHubDataSource {
+}
+
+// @public
+export interface DataSourcesSpec {
+    dataImports?: DataSourcesSpecDataImports;
+    etwProviders?: EtwProviderDataSource[];
+    extensions?: ExtensionDataSource[];
+    iisLogs?: IisLogsDataSource[];
+    logFiles?: LogFilesDataSource[];
+    otelLogs?: OtelLogsDataSource[];
+    otelMetrics?: OtelMetricsDataSource[];
+    otelTraces?: OtelTracesDataSource[];
+    performanceCounters?: PerfCounterDataSource[];
+    performanceCountersOTel?: PerformanceCountersOTelDataSource[];
+    platformTelemetry?: PlatformTelemetryDataSource[];
+    prometheusForwarder?: PrometheusForwarderDataSource[];
+    syslog?: SyslogDataSource[];
+    windowsEventLogs?: WindowsEventLogDataSource[];
+    windowsFirewallLogs?: WindowsFirewallLogsDataSource[];
+}
+
+// @public
+export interface DataSourcesSpecDataImports extends DataImportSources {
+}
+
+// @public
+export interface DestinationsSpec {
+    azureDataExplorer?: AdxDestination[];
+    azureMonitorMetrics?: DestinationsSpecAzureMonitorMetrics;
+    eventHubs?: EventHubDestination[];
+    eventHubsDirect?: EventHubDirectDestination[];
+    logAnalytics?: LogAnalyticsDestination[];
+    microsoftFabric?: MicrosoftFabricDestination[];
+    monitoringAccounts?: MonitoringAccountDestination[];
+    storageAccounts?: StorageBlobDestination[];
+    storageBlobsDirect?: StorageBlobDestination[];
+    storageTablesDirect?: StorageTableDestination[];
+}
+
+// @public
+export interface DestinationsSpecAzureMonitorMetrics extends AzureMonitorMetricsDestination {
+}
+
+// @public
+export interface Dimension {
+    name: string;
+    operator: DimensionOperator;
+    values: string[];
+}
+
+// @public
+export type DimensionOperator = string;
+
+// @public
+export interface DirectDataSourcesSpec {
+    otelLogs?: OtelLogsDirectDataSource[];
+    otelMetrics?: OtelMetricsDirectDataSource[];
+    otelTraces?: OtelTracesDirectDataSource[];
+}
+
+// @public
+export interface DynamicMetricCriteria extends MultiMetricCriteria {
+    alertSensitivity: DynamicThresholdSensitivity;
+    criterionType: "DynamicThresholdCriterion";
+    failingPeriods: DynamicThresholdFailingPeriods;
+    ignoreDataBefore?: Date;
+    operator: DynamicThresholdOperator;
+}
+
+// @public
+export interface DynamicPromQLCriteria extends MultiPromQLCriteria {
+    alertSensitivity: DynamicThresholdSensitivity;
+    criterionType: "DynamicThresholdCriterion";
+    ignoreDataBefore?: Date;
+    operator: DynamicThresholdOperator;
+}
+
+// @public
+export interface DynamicThresholdFailingPeriods {
+    minFailingPeriodsToAlert: number;
+    numberOfEvaluationPeriods: number;
+}
+
+// @public
+export type DynamicThresholdOperator = string;
+
+// @public
+export type DynamicThresholdSensitivity = string;
+
+// @public
+export interface EmailNotification {
+    customEmails?: string[];
+    sendToSubscriptionAdministrator?: boolean;
+    sendToSubscriptionCoAdministrators?: boolean;
+}
+
+// @public
+export interface EmailReceiver {
+    emailAddress: string;
+    name: string;
+    readonly status?: ReceiverStatus;
+    useCommonAlertSchema?: boolean;
+}
+
+// @public
+export interface EnableRequest {
+    receiverName: string;
+}
+
+// @public
+export interface EndpointsSpec {
+    readonly logsIngestion?: string;
+    readonly metricsIngestion?: string;
+}
+
+// @public
+export interface EnrichmentData {
+    storageBlobs?: StorageBlob[];
 }
 
 // @public
@@ -376,17 +1076,59 @@ export interface ErrorAdditionalInfo {
 }
 
 // @public
+export interface ErrorContract {
+    error?: CommonErrorResponse;
+}
+
+// @public
 export interface ErrorDetail {
-    readonly additionalInfo?: ErrorAdditionalInfo[];
-    readonly code?: string;
-    readonly details?: ErrorDetail[];
-    readonly message?: string;
-    readonly target?: string;
+    additionalInfo?: ErrorDetailAdditionalInfoItem[];
+    code?: string;
+    message?: string;
+    target?: string;
+}
+
+// @public
+export interface ErrorDetailAdditionalInfoItem {
+    info?: Record<string, any>;
+    type?: string;
 }
 
 // @public
 export interface ErrorResponse {
-    error?: ErrorDetail;
+    code?: string;
+    message?: string;
+}
+
+// @public
+export interface ErrorResponseCommonV2 {
+    error?: ArmErrorDetail;
+}
+
+// @public
+export interface ErrorResponseError {
+    additionalInfo?: ErrorResponseErrorAdditionalInfoItem[];
+    code?: string;
+    details?: ErrorDetail[];
+    message?: string;
+    target?: string;
+}
+
+// @public
+export interface ErrorResponseErrorAdditionalInfoItem {
+    info?: Record<string, any>;
+    type?: string;
+}
+
+// @public
+export interface EtwProviderDataSource {
+    eventIds?: string[];
+    keyword?: string;
+    logLevel?: KnownEtwProviderDataSourceLogLevel;
+    name?: string;
+    provider: string;
+    providerType: KnownEtwProviderType;
+    streams: string[];
 }
 
 // @public
@@ -395,7 +1137,77 @@ export interface EventCategoriesListOptionalParams extends OperationOptions {
 
 // @public
 export interface EventCategoriesOperations {
-    list: (options?: EventCategoriesListOptionalParams) => PagedAsyncIterableIterator<MicrosoftActivityLogsLocalizableString>;
+    list: (options?: EventCategoriesListOptionalParams) => PagedAsyncIterableIterator<LocalizableString>;
+}
+
+// @public
+export interface EventData {
+    readonly authorization?: SenderAuthorization;
+    readonly caller?: string;
+    readonly category?: LocalizableString;
+    readonly claims?: Record<string, string>;
+    readonly correlationId?: string;
+    readonly description?: string;
+    readonly eventDataId?: string;
+    readonly eventName?: LocalizableString;
+    readonly eventTimestamp?: Date;
+    readonly httpRequest?: HttpRequestInfo;
+    readonly id?: string;
+    readonly level?: EventLevel;
+    readonly operationId?: string;
+    readonly operationName?: LocalizableString;
+    readonly properties?: Record<string, string>;
+    readonly resourceGroupName?: string;
+    readonly resourceId?: string;
+    readonly resourceProviderName?: LocalizableString;
+    readonly resourceType?: LocalizableString;
+    readonly status?: LocalizableString;
+    readonly submissionTimestamp?: Date;
+    readonly subscriptionId?: string;
+    readonly subStatus?: LocalizableString;
+    readonly tenantId?: string;
+}
+
+// @public
+export interface EventHubDataSource {
+    consumerGroup?: string;
+    name?: string;
+    stream?: string;
+}
+
+// @public
+export interface EventHubDestination {
+    eventHubResourceId?: string;
+    name?: string;
+}
+
+// @public
+export interface EventHubDirectDestination {
+    eventHubResourceId?: string;
+    name?: string;
+}
+
+// @public
+export interface EventHubReceiver {
+    eventHubName: string;
+    eventHubNameSpace: string;
+    managedIdentity?: string;
+    name: string;
+    subscriptionId: string;
+    tenantId?: string;
+    useCommonAlertSchema?: boolean;
+}
+
+// @public
+export type EventLevel = "Critical" | "Error" | "Warning" | "Informational" | "Verbose";
+
+// @public
+export interface ExtensionDataSource {
+    extensionName: string;
+    extensionSettings?: any;
+    inputDataSources?: string[];
+    name?: string;
+    streams?: KnownExtensionDataSourceStreams[];
 }
 
 // @public
@@ -403,12 +1215,145 @@ export interface ExtensionResource extends Resource {
 }
 
 // @public
+export interface FailoverConfigurationSpec {
+    activeLocation?: string;
+    locations?: LocationSpec[];
+}
+
+// @public
+export interface HttpRequestInfo {
+    clientIpAddress?: string;
+    clientRequestId?: string;
+    method?: string;
+    uri?: string;
+}
+
+// @public
+export interface Identity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: IdentityType;
+    userAssignedIdentities?: Record<string, UserIdentityProperties>;
+}
+
+// @public
+export type IdentityType = "SystemAssigned" | "UserAssigned" | "None";
+
+// @public
+export interface IisLogsDataSource {
+    logDirectories?: string[];
+    name?: string;
+    streams: string[];
+    transformKql?: string;
+}
+
+// @public
+export interface Incident {
+    readonly activatedTime?: Date;
+    readonly isActive?: boolean;
+    readonly name?: string;
+    readonly resolvedTime?: Date;
+    readonly ruleName?: string;
+}
+
+// @public
+export type IncidentManagementService = string;
+
+// @public
+export interface IncidentReceiver {
+    connection: IncidentServiceConnection;
+    incidentManagementService: IncidentManagementService;
+    mappings: Record<string, string>;
+    name: string;
+}
+
+// @public
+export interface IncidentServiceConnection {
+    id: string;
+    name: string;
+}
+
+// @public
+export interface IngestionQuotas {
+    // (undocumented)
+    logs?: IngestionQuotasLogs;
+}
+
+// @public
+export interface IngestionQuotasLogs extends LogsQuotaSpec {
+}
+
+// @public
 export type IssueType = string;
+
+// @public
+export interface ItsmReceiver {
+    connectionId: string;
+    name: string;
+    region: string;
+    ticketConfiguration: string;
+    workspaceId: string;
+}
+
+// @public
+export type Kind = string;
+
+// @public
+export enum KnownAccessMode {
+    Open = "Open",
+    PrivateOnly = "PrivateOnly"
+}
 
 // @public
 export enum KnownAccessRuleDirection {
     Inbound = "Inbound",
     Outbound = "Outbound"
+}
+
+// @public
+export type KnownAgentSettingName = string;
+
+// @public
+export enum KnownAggregationTypeEnum {
+    Average = "Average",
+    Count = "Count",
+    Maximum = "Maximum",
+    Minimum = "Minimum",
+    Total = "Total"
+}
+
+// @public
+export enum KnownAlertSeverity {
+    // (undocumented)
+    Four = 4,
+    // (undocumented)
+    One = 1,
+    // (undocumented)
+    Three = 3,
+    // (undocumented)
+    Two = 2,
+    // (undocumented)
+    Zero = 0
+}
+
+// @public
+export enum KnownBaselineSensitivity {
+    High = "High",
+    Low = "Low",
+    Medium = "Medium"
+}
+
+// @public
+export type KnownColumnDefinitionType = string;
+
+// @public
+export enum KnownConditionOperator {
+    Equals = "Equals",
+    GreaterOrLessThan = "GreaterOrLessThan",
+    GreaterThan = "GreaterThan",
+    GreaterThanOrEqual = "GreaterThanOrEqual",
+    LessThan = "LessThan",
+    LessThanOrEqual = "LessThanOrEqual"
 }
 
 // @public
@@ -420,6 +1365,64 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownCriterionType {
+    DynamicThresholdCriterion = "DynamicThresholdCriterion",
+    StaticThresholdCriterion = "StaticThresholdCriterion"
+}
+
+// @public
+export type KnownDataCollectionEndpointProvisioningState = string;
+
+// @public
+export type KnownDataCollectionEndpointResourceKind = string;
+
+// @public
+export type KnownDataCollectionRuleAssociationProvisioningState = string;
+
+// @public
+export type KnownDataCollectionRuleProvisioningState = string;
+
+// @public
+export type KnownDataCollectionRuleResourceKind = string;
+
+// @public
+export type KnownDataFlowStreams = string;
+
+// @public
+export enum KnownDimensionOperator {
+    Exclude = "Exclude",
+    Include = "Include"
+}
+
+// @public
+export enum KnownDynamicThresholdOperator {
+    GreaterOrLessThan = "GreaterOrLessThan",
+    GreaterThan = "GreaterThan",
+    LessThan = "LessThan"
+}
+
+// @public
+export enum KnownDynamicThresholdSensitivity {
+    High = "High",
+    Low = "Low",
+    Medium = "Medium"
+}
+
+// @public
+export type KnownEtwProviderDataSourceLogLevel = string;
+
+// @public
+export type KnownEtwProviderType = string;
+
+// @public
+export type KnownExtensionDataSourceStreams = string;
+
+// @public
+export enum KnownIncidentManagementService {
+    Icm = "Icm"
+}
+
+// @public
 export enum KnownIssueType {
     ConfigurationPropagationFailure = "ConfigurationPropagationFailure",
     MissingIdentityConfiguration = "MissingIdentityConfiguration",
@@ -428,33 +1431,21 @@ export enum KnownIssueType {
 }
 
 // @public
-export enum KnownManagedServiceIdentityType {
-    None = "None",
-    SystemAssigned = "SystemAssigned",
-    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
-    UserAssigned = "UserAssigned"
+export enum KnownKind {
+    LogAlert = "LogAlert",
+    LogToMetric = "LogToMetric",
+    SimpleLogAlert = "SimpleLogAlert"
 }
 
 // @public
-export enum KnownMicrosoftActionGroupsIncidentManagementService {
-    Icm = "Icm"
-}
-
-// @public
-export enum KnownMicrosoftAutoScaleScaleRuleMetricDimensionOperationType {
-    Equals = "Equals",
-    NotEquals = "NotEquals"
-}
-
-// @public
-export enum KnownMicrosoftDataCollectionKnownAgentSettingName {
+export enum KnownKnownAgentSettingName {
     MaxDiskQuotaInMB = "MaxDiskQuotaInMB",
     Tags = "Tags",
     UseTimeReceivedForForwardedEvents = "UseTimeReceivedForForwardedEvents"
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownColumnDefinitionType {
+export enum KnownKnownColumnDefinitionType {
     Boolean = "boolean",
     Datetime = "datetime",
     Dynamic = "dynamic",
@@ -465,7 +1456,7 @@ export enum KnownMicrosoftDataCollectionKnownColumnDefinitionType {
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownDataCollectionEndpointProvisioningState {
+export enum KnownKnownDataCollectionEndpointProvisioningState {
     Canceled = "Canceled",
     Creating = "Creating",
     Deleting = "Deleting",
@@ -475,13 +1466,13 @@ export enum KnownMicrosoftDataCollectionKnownDataCollectionEndpointProvisioningS
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownDataCollectionEndpointResourceKind {
+export enum KnownKnownDataCollectionEndpointResourceKind {
     Linux = "Linux",
     Windows = "Windows"
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownDataCollectionRuleAssociationProvisioningState {
+export enum KnownKnownDataCollectionRuleAssociationProvisioningState {
     Canceled = "Canceled",
     Creating = "Creating",
     Deleting = "Deleting",
@@ -491,7 +1482,7 @@ export enum KnownMicrosoftDataCollectionKnownDataCollectionRuleAssociationProvis
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownDataCollectionRuleProvisioningState {
+export enum KnownKnownDataCollectionRuleProvisioningState {
     Canceled = "Canceled",
     Creating = "Creating",
     Deleting = "Deleting",
@@ -501,13 +1492,13 @@ export enum KnownMicrosoftDataCollectionKnownDataCollectionRuleProvisioningState
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownDataCollectionRuleResourceKind {
+export enum KnownKnownDataCollectionRuleResourceKind {
     Linux = "Linux",
     Windows = "Windows"
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownDataFlowStreams {
+export enum KnownKnownDataFlowStreams {
     MicrosoftEvent = "Microsoft-Event",
     MicrosoftInsightsMetrics = "Microsoft-InsightsMetrics",
     MicrosoftPerf = "Microsoft-Perf",
@@ -516,7 +1507,7 @@ export enum KnownMicrosoftDataCollectionKnownDataFlowStreams {
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownEtwProviderDataSourceLogLevel {
+export enum KnownKnownEtwProviderDataSourceLogLevel {
     Critical = "Critical",
     Error = "Error",
     Informational = "Informational",
@@ -525,13 +1516,13 @@ export enum KnownMicrosoftDataCollectionKnownEtwProviderDataSourceLogLevel {
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownEtwProviderType {
+export enum KnownKnownEtwProviderType {
     EventSource = "EventSource",
     Manifest = "Manifest"
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownExtensionDataSourceStreams {
+export enum KnownKnownExtensionDataSourceStreams {
     MicrosoftEvent = "Microsoft-Event",
     MicrosoftInsightsMetrics = "Microsoft-InsightsMetrics",
     MicrosoftPerf = "Microsoft-Perf",
@@ -540,7 +1531,7 @@ export enum KnownMicrosoftDataCollectionKnownExtensionDataSourceStreams {
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownLocationSpecProvisioningStatus {
+export enum KnownKnownLocationSpecProvisioningStatus {
     Canceled = "Canceled",
     Creating = "Creating",
     Deleting = "Deleting",
@@ -550,13 +1541,13 @@ export enum KnownMicrosoftDataCollectionKnownLocationSpecProvisioningStatus {
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownLogFilesDataSourceFormat {
+export enum KnownKnownLogFilesDataSourceFormat {
     Json = "json",
     Text = "text"
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownLogFileTextSettingsRecordStartTimestampFormat {
+export enum KnownKnownLogFileTextSettingsRecordStartTimestampFormat {
     DdMMMYyyyHHMmSsZzz = "dd/MMM/yyyy:HH:mm:ss zzz",
     DdMMyyHHMmSs = "ddMMyy HH:mm:ss",
     ISO8601 = "ISO 8601",
@@ -569,60 +1560,60 @@ export enum KnownMicrosoftDataCollectionKnownLogFileTextSettingsRecordStartTimes
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownOtelLogsDataSourceStreams {
+export enum KnownKnownOtelLogsDataSourceStreams {
     MicrosoftOTelLogs = "Microsoft-OTel-Logs"
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownOtelLogsDirectDataSourceStreams {
+export enum KnownKnownOtelLogsDirectDataSourceStreams {
     MicrosoftOTelLogs = "Microsoft-OTel-Logs"
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownOtelTracesDataSourceStreams {
+export enum KnownKnownOtelTracesDataSourceStreams {
     MicrosoftOTelTracesEvents = "Microsoft-OTel-Traces-Events",
     MicrosoftOTelTracesResources = "Microsoft-OTel-Traces-Resources",
     MicrosoftOTelTracesSpans = "Microsoft-OTel-Traces-Spans"
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownOtelTracesDirectDataSourceStreams {
+export enum KnownKnownOtelTracesDirectDataSourceStreams {
     MicrosoftOTelTracesEvents = "Microsoft-OTel-Traces-Events",
     MicrosoftOTelTracesResources = "Microsoft-OTel-Traces-Resources",
     MicrosoftOTelTracesSpans = "Microsoft-OTel-Traces-Spans"
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownPerfCounterDataSourceStreams {
+export enum KnownKnownPerfCounterDataSourceStreams {
     MicrosoftInsightsMetrics = "Microsoft-InsightsMetrics",
     MicrosoftPerf = "Microsoft-Perf"
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownPerformanceCountersOTelDataSourceStreams {
+export enum KnownKnownPerformanceCountersOTelDataSourceStreams {
     MicrosoftOtelPerfMetrics = "Microsoft-OtelPerfMetrics"
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownPrometheusForwarderDataSourceStreams {
+export enum KnownKnownPrometheusForwarderDataSourceStreams {
     MicrosoftPrometheusMetrics = "Microsoft-PrometheusMetrics"
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownPublicNetworkAccessOptions {
+export enum KnownKnownPublicNetworkAccessOptions {
     Disabled = "Disabled",
     Enabled = "Enabled",
     SecuredByPerimeter = "SecuredByPerimeter"
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownStorageBlobLookupType {
+export enum KnownKnownStorageBlobLookupType {
     Cidr = "Cidr",
     String = "String"
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownSyslogDataSourceFacilityNames {
+export enum KnownKnownSyslogDataSourceFacilityNames {
     Alert = "alert",
     // (undocumented)
     Asterisk = "*",
@@ -654,7 +1645,7 @@ export enum KnownMicrosoftDataCollectionKnownSyslogDataSourceFacilityNames {
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownSyslogDataSourceLogLevels {
+export enum KnownKnownSyslogDataSourceLogLevels {
     Alert = "Alert",
     // (undocumented)
     Asterisk = "*",
@@ -668,78 +1659,42 @@ export enum KnownMicrosoftDataCollectionKnownSyslogDataSourceLogLevels {
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownSyslogDataSourceStreams {
+export enum KnownKnownSyslogDataSourceStreams {
     MicrosoftSyslog = "Microsoft-Syslog"
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownWindowsEventLogDataSourceStreams {
+export enum KnownKnownWindowsEventLogDataSourceStreams {
     MicrosoftEvent = "Microsoft-Event",
     MicrosoftWindowsEvent = "Microsoft-WindowsEvent"
 }
 
 // @public
-export enum KnownMicrosoftDataCollectionKnownWindowsFirewallLogsDataSourceProfileFilter {
+export enum KnownKnownWindowsFirewallLogsDataSourceProfileFilter {
     Domain = "Domain",
     Private = "Private",
     Public = "Public"
 }
 
 // @public
-export enum KnownMicrosoftMetricAlertAggregationTypeEnum {
-    Average = "Average",
-    Count = "Count",
-    Maximum = "Maximum",
-    Minimum = "Minimum",
-    Total = "Total"
+export type KnownLocationSpecProvisioningStatus = string;
+
+// @public
+export type KnownLogFilesDataSourceFormat = string;
+
+// @public
+export type KnownLogFileTextSettingsRecordStartTimestampFormat = string;
+
+// @public
+export enum KnownManagedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    UserAssigned = "UserAssigned"
 }
 
 // @public
-export enum KnownMicrosoftMetricAlertCriterionType {
-    DynamicThresholdCriterion = "DynamicThresholdCriterion",
-    StaticThresholdCriterion = "StaticThresholdCriterion"
-}
-
-// @public
-export enum KnownMicrosoftMetricAlertDynamicThresholdOperator {
-    GreaterOrLessThan = "GreaterOrLessThan",
-    GreaterThan = "GreaterThan",
-    LessThan = "LessThan"
-}
-
-// @public
-export enum KnownMicrosoftMetricAlertDynamicThresholdSensitivity {
-    High = "High",
-    Low = "Low",
-    Medium = "Medium"
-}
-
-// @public
-export enum KnownMicrosoftMetricAlertOdatatype {
-    MicrosoftAzureMonitorMultipleResourceMultipleMetricCriteria = "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria",
-    MicrosoftAzureMonitorPromQLCriteria = "Microsoft.Azure.Monitor.PromQLCriteria",
-    MicrosoftAzureMonitorSingleResourceMultipleMetricCriteria = "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria",
-    MicrosoftAzureMonitorWebtestLocationAvailabilityCriteria = "Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria"
-}
-
-// @public
-export enum KnownMicrosoftMetricAlertOperator {
-    Equals = "Equals",
-    GreaterThan = "GreaterThan",
-    GreaterThanOrEqual = "GreaterThanOrEqual",
-    LessThan = "LessThan",
-    LessThanOrEqual = "LessThanOrEqual"
-}
-
-// @public
-export enum KnownMicrosoftMetricBaselinesBaselineSensitivity {
-    High = "High",
-    Low = "Low",
-    Medium = "Medium"
-}
-
-// @public
-export enum KnownMicrosoftMetricsMetricAggregationType {
+export enum KnownMetricAggregationType {
     Average = "Average",
     Count = "Count",
     Maximum = "Maximum",
@@ -749,7 +1704,7 @@ export enum KnownMicrosoftMetricsMetricAggregationType {
 }
 
 // @public
-export enum KnownMicrosoftMetricsMetricClass {
+export enum KnownMetricClass {
     Availability = "Availability",
     Errors = "Errors",
     Latency = "Latency",
@@ -758,13 +1713,13 @@ export enum KnownMicrosoftMetricsMetricClass {
 }
 
 // @public
-export enum KnownMicrosoftMetricsMetricResultType {
+export enum KnownMetricResultType {
     Data = "Data",
     Metadata = "Metadata"
 }
 
 // @public
-export enum KnownMicrosoftMetricsMetricUnit {
+export enum KnownMetricUnit {
     BitsPerSecond = "BitsPerSecond",
     Bytes = "Bytes",
     ByteSeconds = "ByteSeconds",
@@ -781,90 +1736,10 @@ export enum KnownMicrosoftMetricsMetricUnit {
 }
 
 // @public
-export enum KnownMicrosoftMetricsNamespaceClassification {
+export enum KnownNamespaceClassification {
     Custom = "Custom",
     Platform = "Platform",
     Qos = "Qos"
-}
-
-// @public
-export enum KnownMicrosoftPrivateLinkScopesAccessMode {
-    Open = "Open",
-    PrivateOnly = "PrivateOnly"
-}
-
-// @public
-export enum KnownMicrosoftPrivateLinkScopesPrivateLinkScopeProvisioningState {
-    Canceled = "Canceled",
-    Deleting = "Deleting",
-    Failed = "Failed",
-    Succeeded = "Succeeded"
-}
-
-// @public
-export enum KnownMicrosoftPrivateLinkScopesScopedResourceKind {
-    Metrics = "Metrics",
-    Resource = "Resource"
-}
-
-// @public
-export enum KnownMicrosoftPrivateLinkScopesScopedResourceProvisioningState {
-    Canceled = "Canceled",
-    Failed = "Failed",
-    Provisioning = "Provisioning",
-    Succeeded = "Succeeded"
-}
-
-// @public
-export enum KnownMicrosoftScheduledQueryRuleAlertSeverity {
-    // (undocumented)
-    AlertSeverity0 = 0,
-    // (undocumented)
-    AlertSeverity1 = 1,
-    // (undocumented)
-    AlertSeverity2 = 2,
-    // (undocumented)
-    AlertSeverity3 = 3,
-    // (undocumented)
-    AlertSeverity4 = 4
-}
-
-// @public
-export enum KnownMicrosoftScheduledQueryRuleConditionOperator {
-    Equals = "Equals",
-    GreaterOrLessThan = "GreaterOrLessThan",
-    GreaterThan = "GreaterThan",
-    GreaterThanOrEqual = "GreaterThanOrEqual",
-    LessThan = "LessThan",
-    LessThanOrEqual = "LessThanOrEqual"
-}
-
-// @public
-export enum KnownMicrosoftScheduledQueryRuleCriterionType {
-    DynamicThresholdCriterion = "DynamicThresholdCriterion",
-    StaticThresholdCriterion = "StaticThresholdCriterion"
-}
-
-// @public
-export enum KnownMicrosoftScheduledQueryRuleDimensionOperator {
-    Exclude = "Exclude",
-    Include = "Include"
-}
-
-// @public
-export enum KnownMicrosoftScheduledQueryRuleKind {
-    LogAlert = "LogAlert",
-    LogToMetric = "LogToMetric",
-    SimpleLogAlert = "SimpleLogAlert"
-}
-
-// @public
-export enum KnownMicrosoftScheduledQueryRuleTimeAggregation {
-    Average = "Average",
-    Count = "Count",
-    Maximum = "Maximum",
-    Minimum = "Minimum",
-    Total = "Total"
 }
 
 // @public
@@ -877,6 +1752,41 @@ export enum KnownNetworkSecurityPerimeterConfigurationProvisioningState {
     Succeeded = "Succeeded",
     Updating = "Updating"
 }
+
+// @public
+export enum KnownOdatatype {
+    MicrosoftAzureMonitorMultipleResourceMultipleMetricCriteria = "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria",
+    MicrosoftAzureMonitorPromQLCriteria = "Microsoft.Azure.Monitor.PromQLCriteria",
+    MicrosoftAzureMonitorSingleResourceMultipleMetricCriteria = "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria",
+    MicrosoftAzureMonitorWebtestLocationAvailabilityCriteria = "Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria"
+}
+
+// @public
+export enum KnownOperator {
+    Equals = "Equals",
+    GreaterThan = "GreaterThan",
+    GreaterThanOrEqual = "GreaterThanOrEqual",
+    LessThan = "LessThan",
+    LessThanOrEqual = "LessThanOrEqual"
+}
+
+// @public
+export type KnownOtelLogsDataSourceStreams = string;
+
+// @public
+export type KnownOtelLogsDirectDataSourceStreams = string;
+
+// @public
+export type KnownOtelTracesDataSourceStreams = string;
+
+// @public
+export type KnownOtelTracesDirectDataSourceStreams = string;
+
+// @public
+export type KnownPerfCounterDataSourceStreams = string;
+
+// @public
+export type KnownPerformanceCountersOTelDataSourceStreams = string;
 
 // @public
 export enum KnownPrivateEndpointConnectionProvisioningState {
@@ -894,6 +1804,20 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
 }
 
 // @public
+export enum KnownPrivateLinkScopeProvisioningState {
+    Canceled = "Canceled",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export type KnownPrometheusForwarderDataSourceStreams = string;
+
+// @public
+export type KnownPublicNetworkAccessOptions = string;
+
+// @public
 export enum KnownResourceAssociationAccessMode {
     Audit = "Audit",
     Enforced = "Enforced",
@@ -901,9 +1825,140 @@ export enum KnownResourceAssociationAccessMode {
 }
 
 // @public
+export enum KnownScaleRuleMetricDimensionOperationType {
+    Equals = "Equals",
+    NotEquals = "NotEquals"
+}
+
+// @public
+export enum KnownScopedResourceKind {
+    Metrics = "Metrics",
+    Resource = "Resource"
+}
+
+// @public
+export enum KnownScopedResourceProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Provisioning = "Provisioning",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownSeverity {
     Error = "Error",
     Warning = "Warning"
+}
+
+// @public
+export type KnownStorageBlobLookupType = string;
+
+// @public
+export type KnownSyslogDataSourceFacilityNames = string;
+
+// @public
+export type KnownSyslogDataSourceLogLevels = string;
+
+// @public
+export type KnownSyslogDataSourceStreams = string;
+
+// @public
+export enum KnownTimeAggregation {
+    Average = "Average",
+    Count = "Count",
+    Maximum = "Maximum",
+    Minimum = "Minimum",
+    Total = "Total"
+}
+
+// @public
+export type KnownWindowsEventLogDataSourceStreams = string;
+
+// @public
+export type KnownWindowsFirewallLogsDataSourceProfileFilter = string;
+
+// @public
+export interface LocalizableString {
+    localizedValue?: string;
+    value: string;
+}
+
+// @public
+export interface LocationSpec {
+    location?: string;
+    provisioningStatus?: KnownLocationSpecProvisioningStatus;
+}
+
+// @public
+export interface LogAnalyticsDestination {
+    name?: string;
+    readonly workspaceId?: string;
+    workspaceResourceId?: string;
+}
+
+// @public
+export interface LogFilesDataSource {
+    filePatterns: string[];
+    format: KnownLogFilesDataSourceFormat;
+    name?: string;
+    settings?: LogFilesDataSourceSettings;
+    streams: string[];
+    transformKql?: string;
+}
+
+// @public
+export interface LogFilesDataSourceSettings extends LogFileSettings {
+}
+
+// @public
+export interface LogFileSettings {
+    text?: LogFileSettingsText;
+}
+
+// @public
+export interface LogFileSettingsText extends LogFileTextSettings {
+}
+
+// @public
+export interface LogFileTextSettings {
+    recordStartTimestampFormat: KnownLogFileTextSettingsRecordStartTimestampFormat;
+}
+
+// @public
+export interface LogicAppReceiver {
+    callbackUrl: string;
+    managedIdentity?: string;
+    name: string;
+    resourceId: string;
+    useCommonAlertSchema?: boolean;
+}
+
+// @public
+export interface LogProfileProperties {
+    categories: string[];
+    locations: string[];
+    retentionPolicy: RetentionPolicy;
+    serviceBusRuleId?: string;
+    storageAccountId?: string;
+}
+
+// @public
+export interface LogProfileResource extends TrackedResource {
+    categories: string[];
+    locations: string[];
+    retentionPolicy: RetentionPolicy;
+    serviceBusRuleId?: string;
+    storageAccountId?: string;
+}
+
+// @public
+export interface LogProfileResourcePatch {
+    categories?: string[];
+    locations?: string[];
+    retentionPolicy?: RetentionPolicy;
+    serviceBusRuleId?: string;
+    storageAccountId?: string;
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -924,15 +1979,35 @@ export interface LogProfilesListOptionalParams extends OperationOptions {
 
 // @public
 export interface LogProfilesOperations {
-    createOrUpdate: (logProfileName: string, parameters: MicrosoftLogProfilesLogProfileResource, options?: LogProfilesCreateOrUpdateOptionalParams) => Promise<MicrosoftLogProfilesLogProfileResource>;
+    createOrUpdate: (logProfileName: string, parameters: LogProfileResource, options?: LogProfilesCreateOrUpdateOptionalParams) => Promise<LogProfileResource>;
     delete: (logProfileName: string, options?: LogProfilesDeleteOptionalParams) => Promise<void>;
-    get: (logProfileName: string, options?: LogProfilesGetOptionalParams) => Promise<MicrosoftLogProfilesLogProfileResource>;
-    list: (options?: LogProfilesListOptionalParams) => PagedAsyncIterableIterator<MicrosoftLogProfilesLogProfileResource>;
-    update: (logProfileName: string, logProfilesResource: MicrosoftLogProfilesLogProfileResourcePatch, options?: LogProfilesUpdateOptionalParams) => Promise<MicrosoftLogProfilesLogProfileResource>;
+    get: (logProfileName: string, options?: LogProfilesGetOptionalParams) => Promise<LogProfileResource>;
+    list: (options?: LogProfilesListOptionalParams) => PagedAsyncIterableIterator<LogProfileResource>;
+    update: (logProfileName: string, logProfilesResource: LogProfileResourcePatch, options?: LogProfilesUpdateOptionalParams) => Promise<LogProfileResource>;
 }
 
 // @public
 export interface LogProfilesUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface LogSettings {
+    category?: string;
+    enabled: boolean;
+    retentionPolicy?: RetentionPolicy;
+}
+
+// @public
+export interface LogsIngestionEndpointSpec {
+    readonly endpoint?: string;
+}
+
+// @public
+export interface LogsQuotaSpec {
+    // (undocumented)
+    maxRequestsPerMinute?: string;
+    // (undocumented)
+    maxSizePerMinuteInGB?: string;
 }
 
 // @public
@@ -947,6 +2022,144 @@ export interface ManagedServiceIdentity {
 export type ManagedServiceIdentityType = string;
 
 // @public
+export interface Metadata {
+    readonly provisionedBy?: string;
+    readonly provisionedByImmutableId?: string;
+    readonly provisionedByResourceId?: string;
+}
+
+// @public
+export interface MetadataValue {
+    name?: LocalizableString;
+    value?: string;
+}
+
+// @public
+export interface Metric {
+    displayDescription?: string;
+    errorCode?: string;
+    errorMessage?: string;
+    id: string;
+    name: LocalizableString;
+    timeseries: TimeSeriesElement[];
+    type: string;
+    unit: MetricUnit;
+}
+
+// @public
+export type MetricAggregationType = string;
+
+// @public
+export interface MetricAlertAction {
+    actionGroupId?: string;
+    webHookProperties?: Record<string, string>;
+}
+
+// @public
+export interface MetricAlertCriteria {
+    additionalProperties?: Record<string, any>;
+    odataType: Odatatype;
+}
+
+// @public
+export type MetricAlertCriteriaUnion = MetricAlertSingleResourceMultipleMetricCriteria | WebtestLocationAvailabilityCriteria | MetricAlertMultipleResourceMultipleMetricCriteria | PromQLCriteria | MetricAlertCriteria;
+
+// @public
+export interface MetricAlertErrorResponse {
+    // (undocumented)
+    error?: ErrorResponseError;
+}
+
+// @public
+export interface MetricAlertMultipleResourceMultipleMetricCriteria extends MetricAlertCriteria {
+    allOf?: MultiMetricCriteriaUnion[];
+    odataType: "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria";
+}
+
+// @public
+export interface MetricAlertProperties {
+    actionProperties?: Record<string, string>;
+    actions?: MetricAlertAction[];
+    autoMitigate?: boolean;
+    criteria: MetricAlertCriteriaUnion;
+    customProperties?: Record<string, string>;
+    description?: string;
+    enabled: boolean;
+    evaluationFrequency: string;
+    readonly isMigrated?: boolean;
+    readonly lastUpdatedTime?: Date;
+    resolveConfiguration?: ResolveConfiguration;
+    scopes: string[];
+    severity: number;
+    targetResourceRegion?: string;
+    targetResourceType?: string;
+    windowSize?: string;
+}
+
+// @public
+export interface MetricAlertPropertiesPatch {
+    actionProperties?: Record<string, string>;
+    actions?: MetricAlertAction[];
+    autoMitigate?: boolean;
+    criteria?: MetricAlertCriteriaUnion;
+    customProperties?: Record<string, string>;
+    description?: string;
+    enabled?: boolean;
+    evaluationFrequency?: string;
+    readonly isMigrated?: boolean;
+    readonly lastUpdatedTime?: Date;
+    resolveConfiguration?: ResolveConfiguration;
+    scopes?: string[];
+    severity?: number;
+    targetResourceRegion?: string;
+    targetResourceType?: string;
+    windowSize?: string;
+}
+
+// @public
+export interface MetricAlertResource extends TrackedResource {
+    actionProperties?: Record<string, string>;
+    actions?: MetricAlertAction[];
+    autoMitigate?: boolean;
+    criteria: MetricAlertCriteriaUnion;
+    customProperties?: Record<string, string>;
+    description?: string;
+    enabled: boolean;
+    evaluationFrequency: string;
+    identity?: Identity;
+    readonly isMigrated?: boolean;
+    readonly lastUpdatedTime?: Date;
+    resolveConfiguration?: ResolveConfiguration;
+    scopes: string[];
+    severity: number;
+    targetResourceRegion?: string;
+    targetResourceType?: string;
+    windowSize?: string;
+}
+
+// @public
+export interface MetricAlertResourcePatch {
+    actionProperties?: Record<string, string>;
+    actions?: MetricAlertAction[];
+    autoMitigate?: boolean;
+    criteria?: MetricAlertCriteriaUnion;
+    customProperties?: Record<string, string>;
+    description?: string;
+    enabled?: boolean;
+    evaluationFrequency?: string;
+    identity?: Identity;
+    readonly isMigrated?: boolean;
+    readonly lastUpdatedTime?: Date;
+    resolveConfiguration?: ResolveConfiguration;
+    scopes?: string[];
+    severity?: number;
+    tags?: Record<string, string>;
+    targetResourceRegion?: string;
+    targetResourceType?: string;
+    windowSize?: string;
+}
+
+// @public
 export interface MetricAlertsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
@@ -959,6 +2172,12 @@ export interface MetricAlertsGetOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface MetricAlertSingleResourceMultipleMetricCriteria extends MetricAlertCriteria {
+    allOf?: MetricCriteria[];
+    odataType: "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria";
+}
+
+// @public
 export interface MetricAlertsListByResourceGroupOptionalParams extends OperationOptions {
 }
 
@@ -968,12 +2187,12 @@ export interface MetricAlertsListBySubscriptionOptionalParams extends OperationO
 
 // @public
 export interface MetricAlertsOperations {
-    createOrUpdate: (resourceGroupName: string, ruleName: string, parameters: MicrosoftMetricAlertMetricAlertResource, options?: MetricAlertsCreateOrUpdateOptionalParams) => Promise<MicrosoftMetricAlertMetricAlertResource>;
+    createOrUpdate: (resourceGroupName: string, ruleName: string, parameters: MetricAlertResource, options?: MetricAlertsCreateOrUpdateOptionalParams) => Promise<MetricAlertResource>;
     delete: (resourceGroupName: string, ruleName: string, options?: MetricAlertsDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, ruleName: string, options?: MetricAlertsGetOptionalParams) => Promise<MicrosoftMetricAlertMetricAlertResource>;
-    listByResourceGroup: (resourceGroupName: string, options?: MetricAlertsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<MicrosoftMetricAlertMetricAlertResource>;
-    listBySubscription: (options?: MetricAlertsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<MicrosoftMetricAlertMetricAlertResource>;
-    update: (resourceGroupName: string, ruleName: string, parameters: MicrosoftMetricAlertMetricAlertResourcePatch, options?: MetricAlertsUpdateOptionalParams) => Promise<MicrosoftMetricAlertMetricAlertResource>;
+    get: (resourceGroupName: string, ruleName: string, options?: MetricAlertsGetOptionalParams) => Promise<MetricAlertResource>;
+    listByResourceGroup: (resourceGroupName: string, options?: MetricAlertsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<MetricAlertResource>;
+    listBySubscription: (options?: MetricAlertsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<MetricAlertResource>;
+    update: (resourceGroupName: string, ruleName: string, parameters: MetricAlertResourcePatch, options?: MetricAlertsUpdateOptionalParams) => Promise<MetricAlertResource>;
 }
 
 // @public
@@ -986,12 +2205,74 @@ export interface MetricAlertsStatusListOptionalParams extends OperationOptions {
 
 // @public
 export interface MetricAlertsStatusOperations {
-    list: (resourceGroupName: string, ruleName: string, options?: MetricAlertsStatusListOptionalParams) => PagedAsyncIterableIterator<MicrosoftMetricAlertMetricAlertStatus>;
-    listByName: (resourceGroupName: string, ruleName: string, statusName: string, options?: MetricAlertsStatusListByNameOptionalParams) => PagedAsyncIterableIterator<MicrosoftMetricAlertMetricAlertStatus>;
+    list: (resourceGroupName: string, ruleName: string, options?: MetricAlertsStatusListOptionalParams) => PagedAsyncIterableIterator<MetricAlertStatus>;
+    listByName: (resourceGroupName: string, ruleName: string, statusName: string, options?: MetricAlertsStatusListByNameOptionalParams) => PagedAsyncIterableIterator<MetricAlertStatus>;
+}
+
+// @public
+export interface MetricAlertStatus {
+    id?: string;
+    name?: string;
+    properties?: MetricAlertStatusProperties;
+    type?: string;
+}
+
+// @public
+export interface MetricAlertStatusProperties {
+    dimensions?: Record<string, string>;
+    status?: string;
+    timestamp?: Date;
 }
 
 // @public
 export interface MetricAlertsUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MetricAvailability {
+    retention?: string;
+    timeGrain?: string;
+}
+
+// @public
+export interface MetricBaselinesErrorResponse {
+    // (undocumented)
+    error?: ErrorResponseError;
+}
+
+// @public
+export interface MetricBaselinesProperties {
+    baselines: TimeSeriesBaseline[];
+    interval: string;
+    namespace?: string;
+    timespan: string;
+}
+
+// @public
+export type MetricClass = string;
+
+// @public
+export interface MetricCriteria extends MultiMetricCriteria {
+    criterionType: "StaticThresholdCriterion";
+    operator: Operator;
+    threshold: number;
+}
+
+// @public
+export interface MetricDefinition {
+    category?: string;
+    dimensions?: LocalizableString[];
+    displayDescription?: string;
+    id?: string;
+    isDimensionRequired?: boolean;
+    metricAvailabilities?: MetricAvailability[];
+    metricClass?: MetricClass;
+    name?: LocalizableString;
+    namespace?: string;
+    primaryAggregationType?: AggregationType;
+    resourceId?: string;
+    supportedAggregationTypes?: AggregationType[];
+    unit?: MetricUnit;
 }
 
 // @public
@@ -1006,8 +2287,29 @@ export interface MetricDefinitionsListOptionalParams extends OperationOptions {
 
 // @public
 export interface MetricDefinitionsOperations {
-    list: (resourceUri: string, options?: MetricDefinitionsListOptionalParams) => PagedAsyncIterableIterator<MicrosoftMetricsMetricDefinition>;
-    listAtSubscriptionScope: (region: string, options?: MetricDefinitionsListAtSubscriptionScopeOptionalParams) => PagedAsyncIterableIterator<MicrosoftMetricsSubscriptionScopeMetricDefinition>;
+    list: (resourceUri: string, options?: MetricDefinitionsListOptionalParams) => PagedAsyncIterableIterator<MetricDefinition>;
+    listAtSubscriptionScope: (region: string, options?: MetricDefinitionsListAtSubscriptionScopeOptionalParams) => PagedAsyncIterableIterator<SubscriptionScopeMetricDefinition>;
+}
+
+// @public
+export interface MetricDimension {
+    name: string;
+    operator: string;
+    values: string[];
+}
+
+// @public
+export interface MetricNamespace {
+    classification?: NamespaceClassification;
+    id?: string;
+    name?: string;
+    properties?: MetricNamespaceName;
+    type?: string;
+}
+
+// @public
+export interface MetricNamespaceName {
+    metricNamespaceName?: string;
 }
 
 // @public
@@ -1017,7 +2319,28 @@ export interface MetricNamespacesListOptionalParams extends OperationOptions {
 
 // @public
 export interface MetricNamespacesOperations {
-    list: (resourceUri: string, options?: MetricNamespacesListOptionalParams) => PagedAsyncIterableIterator<MicrosoftMetricsMetricNamespace>;
+    list: (resourceUri: string, options?: MetricNamespacesListOptionalParams) => PagedAsyncIterableIterator<MetricNamespace>;
+}
+
+// @public
+export type MetricResultType = string;
+
+// @public
+export interface MetricSettings {
+    enabled: boolean;
+    retentionPolicy?: RetentionPolicy;
+    timeGrain: string;
+}
+
+// @public
+export interface MetricsIngestionEndpointSpec {
+    readonly endpoint?: string;
+}
+
+// @public
+export interface MetricSingleDimension {
+    name: string;
+    value: string;
 }
 
 // @public
@@ -1029,7 +2352,7 @@ export interface MetricsListAtSubscriptionScopeOptionalParams extends OperationO
     metricnames?: string;
     metricnamespace?: string;
     orderby?: string;
-    resultType?: MicrosoftMetricsMetricResultType;
+    resultType?: MetricResultType;
     rollupby?: string;
     timespan?: string;
     top?: number;
@@ -1040,13 +2363,13 @@ export interface MetricsListAtSubscriptionScopeOptionalParams extends OperationO
 export interface MetricsListAtSubscriptionScopePostOptionalParams extends OperationOptions {
     aggregation?: string;
     autoAdjustTimegrain?: boolean;
-    body?: MicrosoftMetricsSubscriptionScopeMetricsRequestBodyParameters;
+    body?: SubscriptionScopeMetricsRequestBodyParameters;
     filter?: string;
     interval?: string;
     metricnames?: string;
     metricnamespace?: string;
     orderby?: string;
-    resultType?: MicrosoftMetricsMetricResultType;
+    resultType?: MetricResultType;
     rollupby?: string;
     timespan?: string;
     top?: number;
@@ -1062,7 +2385,7 @@ export interface MetricsListOptionalParams extends OperationOptions {
     metricnames?: string;
     metricnamespace?: string;
     orderby?: string;
-    resultType?: MicrosoftMetricsResultType;
+    resultType?: ResultType;
     rollupby?: string;
     timespan?: string;
     top?: number;
@@ -1071,1795 +2394,35 @@ export interface MetricsListOptionalParams extends OperationOptions {
 
 // @public
 export interface MetricsOperations {
-    list: (resourceUri: string, options?: MetricsListOptionalParams) => Promise<MicrosoftMetricsResponse>;
-    listAtSubscriptionScope: (region: string, options?: MetricsListAtSubscriptionScopeOptionalParams) => Promise<MicrosoftMetricsResponse>;
-    listAtSubscriptionScopePost: (region: string, options?: MetricsListAtSubscriptionScopePostOptionalParams) => Promise<MicrosoftMetricsResponse>;
+    list: (resourceUri: string, options?: MetricsListOptionalParams) => Promise<Response_2>;
+    listAtSubscriptionScope: (region: string, options?: MetricsListAtSubscriptionScopeOptionalParams) => Promise<Response_2>;
+    listAtSubscriptionScopePost: (region: string, options?: MetricsListAtSubscriptionScopePostOptionalParams) => Promise<Response_2>;
 }
 
 // @public
-export interface MicrosoftActionGroupsActionDetail {
-    detail?: string;
-    mechanismType?: string;
-    name?: string;
-    sendTime?: string;
-    status?: string;
-    subState?: string;
-}
+export type MetricStatisticType = "Average" | "Min" | "Max" | "Sum" | "Count";
 
 // @public
-export interface MicrosoftActionGroupsActionGroup {
-    armRoleReceivers?: MicrosoftActionGroupsArmRoleReceiver[];
-    automationRunbookReceivers?: MicrosoftActionGroupsAutomationRunbookReceiver[];
-    azureAppPushReceivers?: MicrosoftActionGroupsAzureAppPushReceiver[];
-    azureFunctionReceivers?: MicrosoftActionGroupsAzureFunctionReceiver[];
-    emailReceivers?: MicrosoftActionGroupsEmailReceiver[];
-    enabled: boolean;
-    eventHubReceivers?: MicrosoftActionGroupsEventHubReceiver[];
-    groupShortName: string;
-    incidentReceivers?: MicrosoftActionGroupsIncidentReceiver[];
-    itsmReceivers?: MicrosoftActionGroupsItsmReceiver[];
-    logicAppReceivers?: MicrosoftActionGroupsLogicAppReceiver[];
-    smsReceivers?: MicrosoftActionGroupsSmsReceiver[];
-    voiceReceivers?: MicrosoftActionGroupsVoiceReceiver[];
-    webhookReceivers?: MicrosoftActionGroupsWebhookReceiver[];
-}
-
-// @public
-export interface MicrosoftActionGroupsActionGroupPatch {
-    enabled?: boolean;
-}
-
-// @public
-export interface MicrosoftActionGroupsActionGroupPatchBody {
-    enabled?: boolean;
-    identity?: ManagedServiceIdentity;
-    tags?: Record<string, string>;
-}
-
-// @public
-export interface MicrosoftActionGroupsActionGroupResource extends TrackedResource {
-    armRoleReceivers?: MicrosoftActionGroupsArmRoleReceiver[];
-    automationRunbookReceivers?: MicrosoftActionGroupsAutomationRunbookReceiver[];
-    azureAppPushReceivers?: MicrosoftActionGroupsAzureAppPushReceiver[];
-    azureFunctionReceivers?: MicrosoftActionGroupsAzureFunctionReceiver[];
-    emailReceivers?: MicrosoftActionGroupsEmailReceiver[];
-    enabled?: boolean;
-    eventHubReceivers?: MicrosoftActionGroupsEventHubReceiver[];
-    groupShortName?: string;
-    identity?: ManagedServiceIdentity;
-    incidentReceivers?: MicrosoftActionGroupsIncidentReceiver[];
-    itsmReceivers?: MicrosoftActionGroupsItsmReceiver[];
-    logicAppReceivers?: MicrosoftActionGroupsLogicAppReceiver[];
-    smsReceivers?: MicrosoftActionGroupsSmsReceiver[];
-    voiceReceivers?: MicrosoftActionGroupsVoiceReceiver[];
-    webhookReceivers?: MicrosoftActionGroupsWebhookReceiver[];
-}
-
-// @public
-export interface MicrosoftActionGroupsArmRoleReceiver {
-    name: string;
-    roleId: string;
-    useCommonAlertSchema?: boolean;
-}
-
-// @public
-export interface MicrosoftActionGroupsAutomationRunbookReceiver {
-    automationAccountId: string;
-    isGlobalRunbook: boolean;
-    managedIdentity?: string;
-    name?: string;
-    runbookName: string;
-    serviceUri?: string;
-    useCommonAlertSchema?: boolean;
-    webhookResourceId: string;
-}
-
-// @public
-export interface MicrosoftActionGroupsAzureAppPushReceiver {
-    emailAddress: string;
-    name: string;
-}
-
-// @public
-export interface MicrosoftActionGroupsAzureFunctionReceiver {
-    functionAppResourceId: string;
-    functionName: string;
-    httpTriggerUrl: string;
-    managedIdentity?: string;
-    name: string;
-    useCommonAlertSchema?: boolean;
-}
-
-// @public
-export interface MicrosoftActionGroupsContext {
-    contextType?: string;
-    notificationSource?: string;
-}
-
-// @public
-export interface MicrosoftActionGroupsEmailReceiver {
-    emailAddress: string;
-    name: string;
-    readonly status?: MicrosoftActionGroupsReceiverStatus;
-    useCommonAlertSchema?: boolean;
-}
-
-// @public
-export interface MicrosoftActionGroupsEnableRequest {
-    receiverName: string;
-}
-
-// @public
-export interface MicrosoftActionGroupsErrorResponse {
-    code?: string;
-    message?: string;
-}
-
-// @public
-export interface MicrosoftActionGroupsEventHubReceiver {
-    eventHubName: string;
-    eventHubNameSpace: string;
-    managedIdentity?: string;
-    name: string;
-    subscriptionId: string;
-    tenantId?: string;
-    useCommonAlertSchema?: boolean;
-}
-
-// @public
-export type MicrosoftActionGroupsIncidentManagementService = string;
-
-// @public
-export interface MicrosoftActionGroupsIncidentReceiver {
-    connection: MicrosoftActionGroupsIncidentServiceConnection;
-    incidentManagementService: MicrosoftActionGroupsIncidentManagementService;
-    mappings: Record<string, string>;
-    name: string;
-}
-
-// @public
-export interface MicrosoftActionGroupsIncidentServiceConnection {
-    id: string;
-    name: string;
-}
-
-// @public
-export interface MicrosoftActionGroupsItsmReceiver {
-    connectionId: string;
-    name: string;
-    region: string;
-    ticketConfiguration: string;
-    workspaceId: string;
-}
-
-// @public
-export interface MicrosoftActionGroupsLogicAppReceiver {
-    callbackUrl: string;
-    managedIdentity?: string;
-    name: string;
-    resourceId: string;
-    useCommonAlertSchema?: boolean;
-}
-
-// @public
-export interface MicrosoftActionGroupsNotificationRequestBody {
-    alertType: string;
-    armRoleReceivers?: MicrosoftActionGroupsArmRoleReceiver[];
-    automationRunbookReceivers?: MicrosoftActionGroupsAutomationRunbookReceiver[];
-    azureAppPushReceivers?: MicrosoftActionGroupsAzureAppPushReceiver[];
-    azureFunctionReceivers?: MicrosoftActionGroupsAzureFunctionReceiver[];
-    emailReceivers?: MicrosoftActionGroupsEmailReceiver[];
-    eventHubReceivers?: MicrosoftActionGroupsEventHubReceiver[];
-    incidentReceivers?: MicrosoftActionGroupsIncidentReceiver[];
-    itsmReceivers?: MicrosoftActionGroupsItsmReceiver[];
-    logicAppReceivers?: MicrosoftActionGroupsLogicAppReceiver[];
-    smsReceivers?: MicrosoftActionGroupsSmsReceiver[];
-    voiceReceivers?: MicrosoftActionGroupsVoiceReceiver[];
-    webhookReceivers?: MicrosoftActionGroupsWebhookReceiver[];
-}
-
-// @public
-export type MicrosoftActionGroupsReceiverStatus = "NotSpecified" | "Enabled" | "Disabled";
-
-// @public
-export interface MicrosoftActionGroupsSmsReceiver {
-    countryCode: string;
-    name: string;
-    phoneNumber: string;
-    readonly status?: MicrosoftActionGroupsReceiverStatus;
-}
-
-// @public
-export interface MicrosoftActionGroupsTestNotificationDetailsResponse {
-    actionDetails?: MicrosoftActionGroupsActionDetail[];
-    completedTime?: string;
-    context?: MicrosoftActionGroupsContext;
-    createdTime?: string;
-    state: string;
-}
-
-// @public
-export interface MicrosoftActionGroupsVoiceReceiver {
-    countryCode: string;
-    name: string;
-    phoneNumber: string;
-}
-
-// @public
-export interface MicrosoftActionGroupsWebhookReceiver {
-    identifierUri?: string;
-    managedIdentity?: string;
-    name: string;
-    objectId?: string;
-    serviceUri: string;
-    tenantId?: string;
-    useAadAuth?: boolean;
-    useCommonAlertSchema?: boolean;
-}
-
-// @public
-export interface MicrosoftActivityLogAlertsActionGroup {
-    actionGroupId: string;
-    actionProperties?: Record<string, string>;
-    webhookProperties?: Record<string, string>;
-}
-
-// @public
-export interface MicrosoftActivityLogAlertsActionList {
-    actionGroups?: MicrosoftActivityLogAlertsActionGroup[];
-}
-
-// @public
-export interface MicrosoftActivityLogAlertsActivityLogAlertResource extends Resource {
-    actions?: MicrosoftActivityLogAlertsActionList;
-    condition?: MicrosoftActivityLogAlertsAlertRuleAllOfCondition;
-    description?: string;
-    enabled?: boolean;
-    location?: string;
-    scopes?: string[];
-    tags?: Record<string, string>;
-    tenantScope?: string;
-}
-
-// @public
-export interface MicrosoftActivityLogAlertsAlertRuleAllOfCondition {
-    allOf: MicrosoftActivityLogAlertsAlertRuleAnyOfOrLeafCondition[];
-}
-
-// @public
-export interface MicrosoftActivityLogAlertsAlertRuleAnyOfOrLeafCondition extends MicrosoftActivityLogAlertsAlertRuleLeafCondition {
-    anyOf?: MicrosoftActivityLogAlertsAlertRuleLeafCondition[];
-}
-
-// @public
-export interface MicrosoftActivityLogAlertsAlertRuleLeafCondition {
-    containsAny?: string[];
-    equals?: string;
-    field?: string;
-}
-
-// @public
-export interface MicrosoftActivityLogAlertsAlertRulePatchObject {
-    enabled?: boolean;
-    tags?: Record<string, string>;
-}
-
-// @public
-export interface MicrosoftActivityLogAlertsAlertRulePatchProperties {
-    enabled?: boolean;
-}
-
-// @public
-export interface MicrosoftActivityLogAlertsAlertRuleProperties {
-    actions: MicrosoftActivityLogAlertsActionList;
-    condition: MicrosoftActivityLogAlertsAlertRuleAllOfCondition;
-    description?: string;
-    enabled?: boolean;
-    scopes?: string[];
-    tenantScope?: string;
-}
-
-// @public
-export interface MicrosoftActivityLogAlertsErrorResponse {
-    readonly code?: string;
-    readonly message?: string;
-}
-
-// @public
-export interface MicrosoftActivityLogsErrorResponse {
-    code?: string;
-    message?: string;
-}
-
-// @public
-export interface MicrosoftActivityLogsEventData {
-    readonly authorization?: MicrosoftActivityLogsSenderAuthorization;
-    readonly caller?: string;
-    readonly category?: MicrosoftActivityLogsLocalizableString;
-    readonly claims?: Record<string, string>;
-    readonly correlationId?: string;
-    readonly description?: string;
-    readonly eventDataId?: string;
-    readonly eventName?: MicrosoftActivityLogsLocalizableString;
-    readonly eventTimestamp?: Date;
-    readonly httpRequest?: MicrosoftActivityLogsHttpRequestInfo;
-    readonly id?: string;
-    readonly level?: MicrosoftActivityLogsEventLevel;
-    readonly operationId?: string;
-    readonly operationName?: MicrosoftActivityLogsLocalizableString;
-    readonly properties?: Record<string, string>;
-    readonly resourceGroupName?: string;
-    readonly resourceId?: string;
-    readonly resourceProviderName?: MicrosoftActivityLogsLocalizableString;
-    readonly resourceType?: MicrosoftActivityLogsLocalizableString;
-    readonly status?: MicrosoftActivityLogsLocalizableString;
-    readonly submissionTimestamp?: Date;
-    readonly subscriptionId?: string;
-    readonly subStatus?: MicrosoftActivityLogsLocalizableString;
-    readonly tenantId?: string;
-}
-
-// @public
-export type MicrosoftActivityLogsEventLevel = "Critical" | "Error" | "Warning" | "Informational" | "Verbose";
-
-// @public
-export interface MicrosoftActivityLogsHttpRequestInfo {
-    clientIpAddress?: string;
-    clientRequestId?: string;
-    method?: string;
-    uri?: string;
-}
-
-// @public
-export interface MicrosoftActivityLogsLocalizableString {
-    localizedValue?: string;
-    value: string;
-}
-
-// @public
-export interface MicrosoftActivityLogsSenderAuthorization {
-    action?: string;
-    role?: string;
-    scope?: string;
-}
-
-// @public
-export interface MicrosoftAlertRulesIncidentsErrorResponse {
-    code?: string;
-    message?: string;
-}
-
-// @public
-export interface MicrosoftAlertRulesIncidentsIncident {
-    readonly activatedTime?: Date;
-    readonly isActive?: boolean;
-    readonly name?: string;
-    readonly resolvedTime?: Date;
-    readonly ruleName?: string;
-}
-
-// @public
-export interface MicrosoftAutoScaleAutoscaleErrorResponse {
-    error?: MicrosoftAutoScaleAutoscaleErrorResponseError;
-    readonly systemData?: SystemData;
-}
-
-// @public
-export interface MicrosoftAutoScaleAutoscaleErrorResponseError {
-    code?: string;
-    details?: string;
-    message?: string;
-    target?: string;
-}
-
-// @public
-export interface MicrosoftAutoScaleAutoscaleNotification {
-    email?: MicrosoftAutoScaleEmailNotification;
-    operation: MicrosoftAutoScaleOperationType;
-    webhooks?: MicrosoftAutoScaleWebhookNotification[];
-}
-
-// @public
-export interface MicrosoftAutoScaleAutoscaleProfile {
-    capacity: MicrosoftAutoScaleScaleCapacity;
-    fixedDate?: MicrosoftAutoScaleTimeWindow;
-    name: string;
-    recurrence?: MicrosoftAutoScaleRecurrence;
-    rules: MicrosoftAutoScaleScaleRule[];
-}
-
-// @public
-export interface MicrosoftAutoScaleAutoscaleSetting {
-    enabled?: boolean;
-    name?: string;
-    notifications?: MicrosoftAutoScaleAutoscaleNotification[];
-    predictiveAutoscalePolicy?: MicrosoftAutoScalePredictiveAutoscalePolicy;
-    profiles: MicrosoftAutoScaleAutoscaleProfile[];
-    targetResourceLocation?: string;
-    targetResourceUri?: string;
-}
-
-// @public
-export interface MicrosoftAutoScaleAutoscaleSettingResource extends TrackedResource {
-    enabled?: boolean;
-    namePropertiesName?: string;
-    notifications?: MicrosoftAutoScaleAutoscaleNotification[];
-    predictiveAutoscalePolicy?: MicrosoftAutoScalePredictiveAutoscalePolicy;
-    profiles: MicrosoftAutoScaleAutoscaleProfile[];
-    targetResourceLocation?: string;
-    targetResourceUri?: string;
-}
-
-// @public
-export interface MicrosoftAutoScaleAutoscaleSettingResourcePatch {
-    enabled?: boolean;
-    name?: string;
-    notifications?: MicrosoftAutoScaleAutoscaleNotification[];
-    predictiveAutoscalePolicy?: MicrosoftAutoScalePredictiveAutoscalePolicy;
-    profiles?: MicrosoftAutoScaleAutoscaleProfile[];
-    tags?: Record<string, string>;
-    targetResourceLocation?: string;
-    targetResourceUri?: string;
-}
-
-// @public
-export type MicrosoftAutoScaleComparisonOperationType = "Equals" | "NotEquals" | "GreaterThan" | "GreaterThanOrEqual" | "LessThan" | "LessThanOrEqual";
-
-// @public
-export interface MicrosoftAutoScaleEmailNotification {
-    customEmails?: string[];
-    sendToSubscriptionAdministrator?: boolean;
-    sendToSubscriptionCoAdministrators?: boolean;
-}
-
-// @public
-export type MicrosoftAutoScaleMetricStatisticType = "Average" | "Min" | "Max" | "Sum" | "Count";
-
-// @public
-export interface MicrosoftAutoScaleMetricTrigger {
-    dimensions?: MicrosoftAutoScaleScaleRuleMetricDimension[];
+export interface MetricTrigger {
+    dimensions?: ScaleRuleMetricDimension[];
     dividePerInstance?: boolean;
     metricName: string;
     metricNamespace?: string;
     metricResourceLocation?: string;
     metricResourceUri: string;
-    operator: MicrosoftAutoScaleComparisonOperationType;
-    statistic: MicrosoftAutoScaleMetricStatisticType;
+    operator: ComparisonOperationType;
+    statistic: MetricStatisticType;
     threshold: number;
-    timeAggregation: MicrosoftAutoScaleTimeAggregationType;
+    timeAggregation: TimeAggregationType;
     timeGrain: string;
     timeWindow: string;
 }
 
 // @public
-export type MicrosoftAutoScaleOperationType = "Scale";
+export type MetricUnit = string;
 
 // @public
-export interface MicrosoftAutoScalePredictiveAutoscalePolicy {
-    scaleLookAheadTime?: string;
-    scaleMode: MicrosoftAutoScalePredictiveAutoscalePolicyScaleMode;
-}
-
-// @public
-export type MicrosoftAutoScalePredictiveAutoscalePolicyScaleMode = "Disabled" | "ForecastOnly" | "Enabled";
-
-// @public
-export interface MicrosoftAutoScalePredictiveResponse {
-    data?: MicrosoftAutoScalePredictiveValue[];
-    interval?: string;
-    metricName?: string;
-    targetResourceId?: string;
-    timespan?: string;
-}
-
-// @public
-export interface MicrosoftAutoScalePredictiveValue {
-    timeStamp: Date;
-    value: number;
-}
-
-// @public
-export interface MicrosoftAutoScaleRecurrence {
-    frequency: MicrosoftAutoScaleRecurrenceFrequency;
-    schedule: MicrosoftAutoScaleRecurrentSchedule;
-}
-
-// @public
-export type MicrosoftAutoScaleRecurrenceFrequency = "None" | "Second" | "Minute" | "Hour" | "Day" | "Week" | "Month" | "Year";
-
-// @public
-export interface MicrosoftAutoScaleRecurrentSchedule {
-    days: string[];
-    hours: number[];
-    minutes: number[];
-    timeZone: string;
-}
-
-// @public
-export interface MicrosoftAutoScaleScaleAction {
-    cooldown: string;
-    direction: MicrosoftAutoScaleScaleDirection;
-    type: MicrosoftAutoScaleScaleType;
-    value?: string;
-}
-
-// @public
-export interface MicrosoftAutoScaleScaleCapacity {
-    default: string;
-    maximum: string;
-    minimum: string;
-}
-
-// @public
-export type MicrosoftAutoScaleScaleDirection = "None" | "Increase" | "Decrease";
-
-// @public
-export interface MicrosoftAutoScaleScaleRule {
-    metricTrigger: MicrosoftAutoScaleMetricTrigger;
-    scaleAction: MicrosoftAutoScaleScaleAction;
-}
-
-// @public
-export interface MicrosoftAutoScaleScaleRuleMetricDimension {
-    dimensionName: string;
-    operator: MicrosoftAutoScaleScaleRuleMetricDimensionOperationType;
-    values: string[];
-}
-
-// @public
-export type MicrosoftAutoScaleScaleRuleMetricDimensionOperationType = string;
-
-// @public
-export type MicrosoftAutoScaleScaleType = "ChangeCount" | "PercentChangeCount" | "ExactCount" | "ServiceAllowedNextValue";
-
-// @public
-export type MicrosoftAutoScaleTimeAggregationType = "Average" | "Minimum" | "Maximum" | "Total" | "Count" | "Last";
-
-// @public
-export interface MicrosoftAutoScaleTimeWindow {
-    end: Date;
-    start: Date;
-    timeZone?: string;
-}
-
-// @public
-export interface MicrosoftAutoScaleWebhookNotification {
-    properties?: Record<string, string>;
-    serviceUri?: string;
-}
-
-// @public
-export interface MicrosoftDataCollectionAdxDestination {
-    databaseName?: string;
-    readonly ingestionUri?: string;
-    name?: string;
-    resourceId?: string;
-}
-
-// @public
-export interface MicrosoftDataCollectionAgentSetting {
-    name?: MicrosoftDataCollectionKnownAgentSettingName;
-    value?: string;
-}
-
-// @public
-export interface MicrosoftDataCollectionAgentSettingsSpec {
-    logs?: MicrosoftDataCollectionAgentSetting[];
-}
-
-// @public
-export interface MicrosoftDataCollectionApplicationInsights {
-    name: string;
-    resourceId: string;
-}
-
-// @public
-export interface MicrosoftDataCollectionAzureMonitorMetricsDestination {
-    name?: string;
-}
-
-// @public
-export interface MicrosoftDataCollectionColumnDefinition {
-    name?: string;
-    type?: MicrosoftDataCollectionKnownColumnDefinitionType;
-}
-
-// @public
-export interface MicrosoftDataCollectionConfigurationAccessEndpointSpec {
-    readonly endpoint?: string;
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionEndpoint {
-    configurationAccess?: MicrosoftDataCollectionDataCollectionEndpointConfigurationAccess;
-    description?: string;
-    readonly failoverConfiguration?: MicrosoftDataCollectionDataCollectionEndpointFailoverConfiguration;
-    immutableId?: string;
-    logsIngestion?: MicrosoftDataCollectionDataCollectionEndpointLogsIngestion;
-    readonly metadata?: MicrosoftDataCollectionDataCollectionEndpointMetadata;
-    metricsIngestion?: MicrosoftDataCollectionDataCollectionEndpointMetricsIngestion;
-    networkAcls?: MicrosoftDataCollectionDataCollectionEndpointNetworkAcls;
-    readonly privateLinkScopedResources?: MicrosoftDataCollectionPrivateLinkScopedResource[];
-    readonly provisioningState?: MicrosoftDataCollectionKnownDataCollectionEndpointProvisioningState;
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionEndpointConfigurationAccess extends MicrosoftDataCollectionConfigurationAccessEndpointSpec {
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionEndpointFailoverConfiguration extends MicrosoftDataCollectionFailoverConfigurationSpec {
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionEndpointLogsIngestion extends MicrosoftDataCollectionLogsIngestionEndpointSpec {
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionEndpointMetadata extends MicrosoftDataCollectionMetadata {
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionEndpointMetricsIngestion extends MicrosoftDataCollectionMetricsIngestionEndpointSpec {
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionEndpointNetworkAcls extends MicrosoftDataCollectionNetworkRuleSet {
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionEndpointResource extends TrackedResource {
-    configurationAccess?: MicrosoftDataCollectionDataCollectionEndpointConfigurationAccess;
-    description?: string;
-    readonly etag?: string;
-    readonly failoverConfiguration?: MicrosoftDataCollectionDataCollectionEndpointFailoverConfiguration;
-    identity?: MicrosoftDataCollectionDataCollectionEndpointResourceIdentity;
-    immutableId?: string;
-    kind?: MicrosoftDataCollectionKnownDataCollectionEndpointResourceKind;
-    logsIngestion?: MicrosoftDataCollectionDataCollectionEndpointLogsIngestion;
-    readonly metadata?: MicrosoftDataCollectionDataCollectionEndpointMetadata;
-    metricsIngestion?: MicrosoftDataCollectionDataCollectionEndpointMetricsIngestion;
-    networkAcls?: MicrosoftDataCollectionDataCollectionEndpointNetworkAcls;
-    readonly privateLinkScopedResources?: MicrosoftDataCollectionPrivateLinkScopedResource[];
-    readonly provisioningState?: MicrosoftDataCollectionKnownDataCollectionEndpointProvisioningState;
-    sku?: MicrosoftDataCollectionDataCollectionEndpointResourceSku;
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionEndpointResourceIdentity extends ManagedServiceIdentity {
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionEndpointResourceProperties extends MicrosoftDataCollectionDataCollectionEndpoint {
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionEndpointResourceSku extends Sku {
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionRule {
-    agentSettings?: MicrosoftDataCollectionDataCollectionRuleAgentSettings;
-    dataCollectionEndpointId?: string;
-    dataFlows?: MicrosoftDataCollectionDataFlow[];
-    dataSources?: MicrosoftDataCollectionDataCollectionRuleDataSources;
-    description?: string;
-    destinations?: MicrosoftDataCollectionDataCollectionRuleDestinations;
-    directDataSources?: MicrosoftDataCollectionDataCollectionRuleDirectDataSources;
-    readonly endpoints?: MicrosoftDataCollectionDataCollectionRuleEndpoints;
-    readonly immutableId?: string;
-    readonly ingestionQuotas?: MicrosoftDataCollectionDataCollectionRuleIngestionQuotas;
-    readonly metadata?: MicrosoftDataCollectionDataCollectionRuleMetadata;
-    readonly provisioningState?: MicrosoftDataCollectionKnownDataCollectionRuleProvisioningState;
-    references?: MicrosoftDataCollectionDataCollectionRuleReferences;
-    streamDeclarations?: Record<string, MicrosoftDataCollectionStreamDeclaration>;
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionRuleAgentSettings extends MicrosoftDataCollectionAgentSettingsSpec {
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionRuleAssociation {
-    dataCollectionEndpointId?: string;
-    dataCollectionRuleId?: string;
-    description?: string;
-    readonly metadata?: MicrosoftDataCollectionDataCollectionRuleAssociationMetadata;
-    readonly provisioningState?: MicrosoftDataCollectionKnownDataCollectionRuleAssociationProvisioningState;
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionRuleAssociationMetadata extends MicrosoftDataCollectionMetadata {
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionRuleAssociationProxyOnlyResource extends ExtensionResource {
-    dataCollectionEndpointId?: string;
-    dataCollectionRuleId?: string;
-    description?: string;
-    readonly etag?: string;
-    readonly metadata?: MicrosoftDataCollectionDataCollectionRuleAssociationMetadata;
-    readonly provisioningState?: MicrosoftDataCollectionKnownDataCollectionRuleAssociationProvisioningState;
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionRuleAssociationProxyOnlyResourceProperties extends MicrosoftDataCollectionDataCollectionRuleAssociation {
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionRuleDataSources extends MicrosoftDataCollectionDataSourcesSpec {
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionRuleDestinations extends MicrosoftDataCollectionDestinationsSpec {
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionRuleDirectDataSources extends MicrosoftDataCollectionDirectDataSourcesSpec {
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionRuleEndpoints extends MicrosoftDataCollectionEndpointsSpec {
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionRuleIngestionQuotas extends MicrosoftDataCollectionIngestionQuotas {
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionRuleMetadata extends MicrosoftDataCollectionMetadata {
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionRuleReferences extends MicrosoftDataCollectionReferencesSpec {
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionRuleResource extends TrackedResource {
-    agentSettings?: MicrosoftDataCollectionDataCollectionRuleAgentSettings;
-    dataCollectionEndpointId?: string;
-    dataFlows?: MicrosoftDataCollectionDataFlow[];
-    dataSources?: MicrosoftDataCollectionDataCollectionRuleDataSources;
-    description?: string;
-    destinations?: MicrosoftDataCollectionDataCollectionRuleDestinations;
-    directDataSources?: MicrosoftDataCollectionDataCollectionRuleDirectDataSources;
-    readonly endpoints?: MicrosoftDataCollectionDataCollectionRuleEndpoints;
-    readonly etag?: string;
-    identity?: MicrosoftDataCollectionDataCollectionRuleResourceIdentity;
-    readonly immutableId?: string;
-    readonly ingestionQuotas?: MicrosoftDataCollectionDataCollectionRuleIngestionQuotas;
-    kind?: MicrosoftDataCollectionKnownDataCollectionRuleResourceKind;
-    readonly metadata?: MicrosoftDataCollectionDataCollectionRuleMetadata;
-    readonly provisioningState?: MicrosoftDataCollectionKnownDataCollectionRuleProvisioningState;
-    references?: MicrosoftDataCollectionDataCollectionRuleReferences;
-    sku?: MicrosoftDataCollectionDataCollectionRuleResourceSku;
-    streamDeclarations?: Record<string, MicrosoftDataCollectionStreamDeclaration>;
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionRuleResourceIdentity extends ManagedServiceIdentity {
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionRuleResourceProperties extends MicrosoftDataCollectionDataCollectionRule {
-}
-
-// @public
-export interface MicrosoftDataCollectionDataCollectionRuleResourceSku extends Sku {
-}
-
-// @public
-export interface MicrosoftDataCollectionDataFlow {
-    builtInTransform?: string;
-    captureOverflow?: boolean;
-    destinations?: string[];
-    outputStream?: string;
-    streams?: MicrosoftDataCollectionKnownDataFlowStreams[];
-    transformKql?: string;
-}
-
-// @public
-export interface MicrosoftDataCollectionDataImportSources {
-    eventHub?: MicrosoftDataCollectionDataImportSourcesEventHub;
-}
-
-// @public
-export interface MicrosoftDataCollectionDataImportSourcesEventHub extends MicrosoftDataCollectionEventHubDataSource {
-}
-
-// @public
-export interface MicrosoftDataCollectionDataSourcesSpec {
-    dataImports?: MicrosoftDataCollectionDataSourcesSpecDataImports;
-    etwProviders?: MicrosoftDataCollectionEtwProviderDataSource[];
-    extensions?: MicrosoftDataCollectionExtensionDataSource[];
-    iisLogs?: MicrosoftDataCollectionIisLogsDataSource[];
-    logFiles?: MicrosoftDataCollectionLogFilesDataSource[];
-    otelLogs?: MicrosoftDataCollectionOtelLogsDataSource[];
-    otelMetrics?: MicrosoftDataCollectionOtelMetricsDataSource[];
-    otelTraces?: MicrosoftDataCollectionOtelTracesDataSource[];
-    performanceCounters?: MicrosoftDataCollectionPerfCounterDataSource[];
-    performanceCountersOTel?: MicrosoftDataCollectionPerformanceCountersOTelDataSource[];
-    platformTelemetry?: MicrosoftDataCollectionPlatformTelemetryDataSource[];
-    prometheusForwarder?: MicrosoftDataCollectionPrometheusForwarderDataSource[];
-    syslog?: MicrosoftDataCollectionSyslogDataSource[];
-    windowsEventLogs?: MicrosoftDataCollectionWindowsEventLogDataSource[];
-    windowsFirewallLogs?: MicrosoftDataCollectionWindowsFirewallLogsDataSource[];
-}
-
-// @public
-export interface MicrosoftDataCollectionDataSourcesSpecDataImports extends MicrosoftDataCollectionDataImportSources {
-}
-
-// @public
-export interface MicrosoftDataCollectionDestinationsSpec {
-    azureDataExplorer?: MicrosoftDataCollectionAdxDestination[];
-    azureMonitorMetrics?: MicrosoftDataCollectionDestinationsSpecAzureMonitorMetrics;
-    eventHubs?: MicrosoftDataCollectionEventHubDestination[];
-    eventHubsDirect?: MicrosoftDataCollectionEventHubDirectDestination[];
-    logAnalytics?: MicrosoftDataCollectionLogAnalyticsDestination[];
-    microsoftFabric?: MicrosoftDataCollectionMicrosoftFabricDestination[];
-    monitoringAccounts?: MicrosoftDataCollectionMonitoringAccountDestination[];
-    storageAccounts?: MicrosoftDataCollectionStorageBlobDestination[];
-    storageBlobsDirect?: MicrosoftDataCollectionStorageBlobDestination[];
-    storageTablesDirect?: MicrosoftDataCollectionStorageTableDestination[];
-}
-
-// @public
-export interface MicrosoftDataCollectionDestinationsSpecAzureMonitorMetrics extends MicrosoftDataCollectionAzureMonitorMetricsDestination {
-}
-
-// @public
-export interface MicrosoftDataCollectionDirectDataSourcesSpec {
-    otelLogs?: MicrosoftDataCollectionOtelLogsDirectDataSource[];
-    otelMetrics?: MicrosoftDataCollectionOtelMetricsDirectDataSource[];
-    otelTraces?: MicrosoftDataCollectionOtelTracesDirectDataSource[];
-}
-
-// @public
-export interface MicrosoftDataCollectionEndpointsSpec {
-    readonly logsIngestion?: string;
-    readonly metricsIngestion?: string;
-}
-
-// @public
-export interface MicrosoftDataCollectionEnrichmentData {
-    storageBlobs?: MicrosoftDataCollectionStorageBlob[];
-}
-
-// @public
-export interface MicrosoftDataCollectionErrorResponseCommonV2 {
-    error?: ErrorDetail;
-}
-
-// @public
-export interface MicrosoftDataCollectionEtwProviderDataSource {
-    eventIds?: string[];
-    keyword?: string;
-    logLevel?: MicrosoftDataCollectionKnownEtwProviderDataSourceLogLevel;
-    name?: string;
-    provider: string;
-    providerType: MicrosoftDataCollectionKnownEtwProviderType;
-    streams: string[];
-}
-
-// @public
-export interface MicrosoftDataCollectionEventHubDataSource {
-    consumerGroup?: string;
-    name?: string;
-    stream?: string;
-}
-
-// @public
-export interface MicrosoftDataCollectionEventHubDestination {
-    eventHubResourceId?: string;
-    name?: string;
-}
-
-// @public
-export interface MicrosoftDataCollectionEventHubDirectDestination {
-    eventHubResourceId?: string;
-    name?: string;
-}
-
-// @public
-export interface MicrosoftDataCollectionExtensionDataSource {
-    extensionName: string;
-    extensionSettings?: any;
-    inputDataSources?: string[];
-    name?: string;
-    streams?: MicrosoftDataCollectionKnownExtensionDataSourceStreams[];
-}
-
-// @public
-export interface MicrosoftDataCollectionFailoverConfigurationSpec {
-    activeLocation?: string;
-    locations?: MicrosoftDataCollectionLocationSpec[];
-}
-
-// @public
-export interface MicrosoftDataCollectionIisLogsDataSource {
-    logDirectories?: string[];
-    name?: string;
-    streams: string[];
-    transformKql?: string;
-}
-
-// @public
-export interface MicrosoftDataCollectionIngestionQuotas {
-    // (undocumented)
-    logs?: MicrosoftDataCollectionIngestionQuotasLogs;
-}
-
-// @public
-export interface MicrosoftDataCollectionIngestionQuotasLogs extends MicrosoftDataCollectionLogsQuotaSpec {
-}
-
-// @public
-export type MicrosoftDataCollectionKnownAgentSettingName = string;
-
-// @public
-export type MicrosoftDataCollectionKnownColumnDefinitionType = string;
-
-// @public
-export type MicrosoftDataCollectionKnownDataCollectionEndpointProvisioningState = string;
-
-// @public
-export type MicrosoftDataCollectionKnownDataCollectionEndpointResourceKind = string;
-
-// @public
-export type MicrosoftDataCollectionKnownDataCollectionRuleAssociationProvisioningState = string;
-
-// @public
-export type MicrosoftDataCollectionKnownDataCollectionRuleProvisioningState = string;
-
-// @public
-export type MicrosoftDataCollectionKnownDataCollectionRuleResourceKind = string;
-
-// @public
-export type MicrosoftDataCollectionKnownDataFlowStreams = string;
-
-// @public
-export type MicrosoftDataCollectionKnownEtwProviderDataSourceLogLevel = string;
-
-// @public
-export type MicrosoftDataCollectionKnownEtwProviderType = string;
-
-// @public
-export type MicrosoftDataCollectionKnownExtensionDataSourceStreams = string;
-
-// @public
-export type MicrosoftDataCollectionKnownLocationSpecProvisioningStatus = string;
-
-// @public
-export type MicrosoftDataCollectionKnownLogFilesDataSourceFormat = string;
-
-// @public
-export type MicrosoftDataCollectionKnownLogFileTextSettingsRecordStartTimestampFormat = string;
-
-// @public
-export type MicrosoftDataCollectionKnownOtelLogsDataSourceStreams = string;
-
-// @public
-export type MicrosoftDataCollectionKnownOtelLogsDirectDataSourceStreams = string;
-
-// @public
-export type MicrosoftDataCollectionKnownOtelTracesDataSourceStreams = string;
-
-// @public
-export type MicrosoftDataCollectionKnownOtelTracesDirectDataSourceStreams = string;
-
-// @public
-export type MicrosoftDataCollectionKnownPerfCounterDataSourceStreams = string;
-
-// @public
-export type MicrosoftDataCollectionKnownPerformanceCountersOTelDataSourceStreams = string;
-
-// @public
-export type MicrosoftDataCollectionKnownPrometheusForwarderDataSourceStreams = string;
-
-// @public
-export type MicrosoftDataCollectionKnownPublicNetworkAccessOptions = string;
-
-// @public
-export type MicrosoftDataCollectionKnownStorageBlobLookupType = string;
-
-// @public
-export type MicrosoftDataCollectionKnownSyslogDataSourceFacilityNames = string;
-
-// @public
-export type MicrosoftDataCollectionKnownSyslogDataSourceLogLevels = string;
-
-// @public
-export type MicrosoftDataCollectionKnownSyslogDataSourceStreams = string;
-
-// @public
-export type MicrosoftDataCollectionKnownWindowsEventLogDataSourceStreams = string;
-
-// @public
-export type MicrosoftDataCollectionKnownWindowsFirewallLogsDataSourceProfileFilter = string;
-
-// @public
-export interface MicrosoftDataCollectionLocationSpec {
-    location?: string;
-    provisioningStatus?: MicrosoftDataCollectionKnownLocationSpecProvisioningStatus;
-}
-
-// @public
-export interface MicrosoftDataCollectionLogAnalyticsDestination {
-    name?: string;
-    readonly workspaceId?: string;
-    workspaceResourceId?: string;
-}
-
-// @public
-export interface MicrosoftDataCollectionLogFilesDataSource {
-    filePatterns: string[];
-    format: MicrosoftDataCollectionKnownLogFilesDataSourceFormat;
-    name?: string;
-    settings?: MicrosoftDataCollectionLogFilesDataSourceSettings;
-    streams: string[];
-    transformKql?: string;
-}
-
-// @public
-export interface MicrosoftDataCollectionLogFilesDataSourceSettings extends MicrosoftDataCollectionLogFileSettings {
-}
-
-// @public
-export interface MicrosoftDataCollectionLogFileSettings {
-    text?: MicrosoftDataCollectionLogFileSettingsText;
-}
-
-// @public
-export interface MicrosoftDataCollectionLogFileSettingsText extends MicrosoftDataCollectionLogFileTextSettings {
-}
-
-// @public
-export interface MicrosoftDataCollectionLogFileTextSettings {
-    recordStartTimestampFormat: MicrosoftDataCollectionKnownLogFileTextSettingsRecordStartTimestampFormat;
-}
-
-// @public
-export interface MicrosoftDataCollectionLogsIngestionEndpointSpec {
-    readonly endpoint?: string;
-}
-
-// @public
-export interface MicrosoftDataCollectionLogsQuotaSpec {
-    // (undocumented)
-    maxRequestsPerMinute?: string;
-    // (undocumented)
-    maxSizePerMinuteInGB?: string;
-}
-
-// @public
-export interface MicrosoftDataCollectionMetadata {
-    readonly provisionedBy?: string;
-    readonly provisionedByImmutableId?: string;
-    readonly provisionedByResourceId?: string;
-}
-
-// @public
-export interface MicrosoftDataCollectionMetricsIngestionEndpointSpec {
-    readonly endpoint?: string;
-}
-
-// @public
-export interface MicrosoftDataCollectionMicrosoftFabricDestination {
-    artifactId?: string;
-    databaseName?: string;
-    ingestionUri?: string;
-    name?: string;
-    tenantId?: string;
-}
-
-// @public
-export interface MicrosoftDataCollectionMonitoringAccountDestination {
-    readonly accountId?: string;
-    accountResourceId?: string;
-    name?: string;
-}
-
-// @public
-export interface MicrosoftDataCollectionNetworkRuleSet {
-    publicNetworkAccess?: MicrosoftDataCollectionKnownPublicNetworkAccessOptions;
-}
-
-// @public
-export interface MicrosoftDataCollectionOtelDataSourceResourceAttributeRouting {
-    attributeName?: string;
-    attributeValue?: string;
-}
-
-// @public
-export interface MicrosoftDataCollectionOtelLogsDataSource {
-    enrichWithReference?: string;
-    enrichWithResourceAttributes?: string[];
-    name?: string;
-    replaceResourceIdWithReference?: boolean;
-    resourceAttributeRouting?: MicrosoftDataCollectionOtelLogsDataSourceResourceAttributeRouting;
-    streams: MicrosoftDataCollectionKnownOtelLogsDataSourceStreams[];
-}
-
-// @public
-export interface MicrosoftDataCollectionOtelLogsDataSourceResourceAttributeRouting extends MicrosoftDataCollectionOtelDataSourceResourceAttributeRouting {
-}
-
-// @public
-export interface MicrosoftDataCollectionOtelLogsDirectDataSource {
-    enrichWithReference?: string;
-    enrichWithResourceAttributes?: string[];
-    name?: string;
-    replaceResourceIdWithReference?: boolean;
-    streams: MicrosoftDataCollectionKnownOtelLogsDirectDataSourceStreams[];
-}
-
-// @public
-export interface MicrosoftDataCollectionOtelMetricsDataSource {
-    enrichWithReference?: string;
-    enrichWithResourceAttributes?: string[];
-    name?: string;
-    resourceAttributeRouting?: MicrosoftDataCollectionOtelMetricsDataSourceResourceAttributeRouting;
-    streams: string[];
-}
-
-// @public
-export interface MicrosoftDataCollectionOtelMetricsDataSourceResourceAttributeRouting extends MicrosoftDataCollectionOtelDataSourceResourceAttributeRouting {
-}
-
-// @public
-export interface MicrosoftDataCollectionOtelMetricsDirectDataSource {
-    enrichWithReference?: string;
-    enrichWithResourceAttributes?: string[];
-    name?: string;
-    streams: string[];
-}
-
-// @public
-export interface MicrosoftDataCollectionOtelTracesDataSource {
-    enrichWithReference?: string;
-    enrichWithResourceAttributes?: string[];
-    name?: string;
-    replaceResourceIdWithReference?: boolean;
-    resourceAttributeRouting?: MicrosoftDataCollectionOtelTracesDataSourceResourceAttributeRouting;
-    streams: MicrosoftDataCollectionKnownOtelTracesDataSourceStreams[];
-}
-
-// @public
-export interface MicrosoftDataCollectionOtelTracesDataSourceResourceAttributeRouting extends MicrosoftDataCollectionOtelDataSourceResourceAttributeRouting {
-}
-
-// @public
-export interface MicrosoftDataCollectionOtelTracesDirectDataSource {
-    enrichWithReference?: string;
-    enrichWithResourceAttributes?: string[];
-    name?: string;
-    replaceResourceIdWithReference?: boolean;
-    streams: MicrosoftDataCollectionKnownOtelTracesDirectDataSourceStreams[];
-}
-
-// @public
-export interface MicrosoftDataCollectionPerfCounterDataSource {
-    counterSpecifiers?: string[];
-    name?: string;
-    samplingFrequencyInSeconds?: number;
-    streams?: MicrosoftDataCollectionKnownPerfCounterDataSourceStreams[];
-    transformKql?: string;
-}
-
-// @public
-export interface MicrosoftDataCollectionPerformanceCountersOTelDataSource {
-    counterSpecifiers?: string[];
-    name?: string;
-    samplingFrequencyInSeconds?: number;
-    streams?: MicrosoftDataCollectionKnownPerformanceCountersOTelDataSourceStreams[];
-}
-
-// @public
-export interface MicrosoftDataCollectionPlatformTelemetryDataSource {
-    name?: string;
-    streams: string[];
-}
-
-// @public
-export interface MicrosoftDataCollectionPrivateLinkScopedResource {
-    resourceId?: string;
-    scopeId?: string;
-}
-
-// @public
-export interface MicrosoftDataCollectionPrometheusForwarderDataSource {
-    customVMScrapeConfig?: any[];
-    labelIncludeFilter?: Record<string, string>;
-    name?: string;
-    streams?: MicrosoftDataCollectionKnownPrometheusForwarderDataSourceStreams[];
-}
-
-// @public
-export interface MicrosoftDataCollectionReferencesSpec {
-    applicationInsights?: MicrosoftDataCollectionApplicationInsights[];
-    enrichmentData?: MicrosoftDataCollectionReferencesSpecEnrichmentData;
-}
-
-// @public
-export interface MicrosoftDataCollectionReferencesSpecEnrichmentData extends MicrosoftDataCollectionEnrichmentData {
-}
-
-// @public
-export interface MicrosoftDataCollectionResourceForUpdate {
-    identity?: MicrosoftDataCollectionResourceForUpdateIdentity;
-    tags?: Record<string, string>;
-}
-
-// @public
-export interface MicrosoftDataCollectionResourceForUpdateIdentity extends ManagedServiceIdentity {
-}
-
-// @public
-export interface MicrosoftDataCollectionStorageBlob {
-    blobUrl?: string;
-    lookupType?: MicrosoftDataCollectionKnownStorageBlobLookupType;
-    name?: string;
-    resourceId?: string;
-}
-
-// @public
-export interface MicrosoftDataCollectionStorageBlobDestination {
-    containerName?: string;
-    name?: string;
-    storageAccountResourceId?: string;
-}
-
-// @public
-export interface MicrosoftDataCollectionStorageTableDestination {
-    name?: string;
-    storageAccountResourceId?: string;
-    tableName?: string;
-}
-
-// @public
-export interface MicrosoftDataCollectionStreamDeclaration {
-    columns?: MicrosoftDataCollectionColumnDefinition[];
-}
-
-// @public
-export interface MicrosoftDataCollectionSyslogDataSource {
-    facilityNames?: MicrosoftDataCollectionKnownSyslogDataSourceFacilityNames[];
-    logLevels?: MicrosoftDataCollectionKnownSyslogDataSourceLogLevels[];
-    name?: string;
-    streams?: MicrosoftDataCollectionKnownSyslogDataSourceStreams[];
-    transformKql?: string;
-}
-
-// @public
-export interface MicrosoftDataCollectionWindowsEventLogDataSource {
-    name?: string;
-    streams?: MicrosoftDataCollectionKnownWindowsEventLogDataSourceStreams[];
-    transformKql?: string;
-    xPathQueries?: string[];
-}
-
-// @public
-export interface MicrosoftDataCollectionWindowsFirewallLogsDataSource {
-    name?: string;
-    profileFilter?: MicrosoftDataCollectionKnownWindowsFirewallLogsDataSourceProfileFilter[];
-    streams: string[];
-}
-
-// @public
-export interface MicrosoftLogProfilesErrorResponse {
-    code?: string;
-    message?: string;
-}
-
-// @public
-export interface MicrosoftLogProfilesLogProfileProperties {
-    categories: string[];
-    locations: string[];
-    retentionPolicy: MicrosoftLogProfilesRetentionPolicy;
-    serviceBusRuleId?: string;
-    storageAccountId?: string;
-}
-
-// @public
-export interface MicrosoftLogProfilesLogProfileResource extends TrackedResource {
-    categories: string[];
-    locations: string[];
-    retentionPolicy: MicrosoftLogProfilesRetentionPolicy;
-    serviceBusRuleId?: string;
-    storageAccountId?: string;
-}
-
-// @public
-export interface MicrosoftLogProfilesLogProfileResourcePatch {
-    categories?: string[];
-    locations?: string[];
-    retentionPolicy?: MicrosoftLogProfilesRetentionPolicy;
-    serviceBusRuleId?: string;
-    storageAccountId?: string;
-    tags?: Record<string, string>;
-}
-
-// @public
-export interface MicrosoftLogProfilesRetentionPolicy {
-    days: number;
-    enabled: boolean;
-}
-
-// @public
-export type MicrosoftMetricAlertAggregationTypeEnum = string;
-
-// @public
-export type MicrosoftMetricAlertCriterionType = string;
-
-// @public
-export interface MicrosoftMetricAlertDynamicMetricCriteria extends MicrosoftMetricAlertMultiMetricCriteria {
-    alertSensitivity: MicrosoftMetricAlertDynamicThresholdSensitivity;
-    criterionType: "DynamicThresholdCriterion";
-    failingPeriods: MicrosoftMetricAlertDynamicThresholdFailingPeriods;
-    ignoreDataBefore?: Date;
-    operator: MicrosoftMetricAlertDynamicThresholdOperator;
-}
-
-// @public
-export interface MicrosoftMetricAlertDynamicPromQLCriteria extends MicrosoftMetricAlertMultiPromQLCriteria {
-    alertSensitivity: MicrosoftMetricAlertDynamicThresholdSensitivity;
-    criterionType: "DynamicThresholdCriterion";
-    ignoreDataBefore?: Date;
-    operator: MicrosoftMetricAlertDynamicThresholdOperator;
-}
-
-// @public
-export interface MicrosoftMetricAlertDynamicThresholdFailingPeriods {
-    minFailingPeriodsToAlert: number;
-    numberOfEvaluationPeriods: number;
-}
-
-// @public
-export type MicrosoftMetricAlertDynamicThresholdOperator = string;
-
-// @public
-export type MicrosoftMetricAlertDynamicThresholdSensitivity = string;
-
-// @public
-export interface MicrosoftMetricAlertErrorDetail {
-    additionalInfo?: MicrosoftMetricAlertErrorDetailAdditionalInfoItem[];
-    code?: string;
-    message?: string;
-    target?: string;
-}
-
-// @public
-export interface MicrosoftMetricAlertErrorDetailAdditionalInfoItem {
-    info?: Record<string, any>;
-    type?: string;
-}
-
-// @public
-export interface MicrosoftMetricAlertErrorResponse {
-    // (undocumented)
-    error?: MicrosoftMetricAlertErrorResponseError;
-}
-
-// @public
-export interface MicrosoftMetricAlertErrorResponseError {
-    additionalInfo?: MicrosoftMetricAlertErrorResponseErrorAdditionalInfoItem[];
-    code?: string;
-    details?: MicrosoftMetricAlertErrorDetail[];
-    message?: string;
-    target?: string;
-}
-
-// @public
-export interface MicrosoftMetricAlertErrorResponseErrorAdditionalInfoItem {
-    info?: Record<string, any>;
-    type?: string;
-}
-
-// @public
-export interface MicrosoftMetricAlertIdentity {
-    readonly principalId?: string;
-    readonly tenantId?: string;
-    type: MicrosoftMetricAlertIdentityType;
-    userAssignedIdentities?: Record<string, MicrosoftMetricAlertUserIdentityProperties>;
-}
-
-// @public
-export type MicrosoftMetricAlertIdentityType = "SystemAssigned" | "UserAssigned" | "None";
-
-// @public
-export interface MicrosoftMetricAlertMetricAlertAction {
-    actionGroupId?: string;
-    webHookProperties?: Record<string, string>;
-}
-
-// @public
-export interface MicrosoftMetricAlertMetricAlertCriteria {
-    additionalProperties?: Record<string, any>;
-    odataType: MicrosoftMetricAlertOdatatype;
-}
-
-// @public
-export type MicrosoftMetricAlertMetricAlertCriteriaUnion = MicrosoftMetricAlertMetricAlertSingleResourceMultipleMetricCriteria | MicrosoftMetricAlertWebtestLocationAvailabilityCriteria | MicrosoftMetricAlertMetricAlertMultipleResourceMultipleMetricCriteria | MicrosoftMetricAlertPromQLCriteria | MicrosoftMetricAlertMetricAlertCriteria;
-
-// @public
-export interface MicrosoftMetricAlertMetricAlertMultipleResourceMultipleMetricCriteria extends MicrosoftMetricAlertMetricAlertCriteria {
-    allOf?: MicrosoftMetricAlertMultiMetricCriteriaUnion[];
-    odataType: "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria";
-}
-
-// @public
-export interface MicrosoftMetricAlertMetricAlertProperties {
-    actionProperties?: Record<string, string>;
-    actions?: MicrosoftMetricAlertMetricAlertAction[];
-    autoMitigate?: boolean;
-    criteria: MicrosoftMetricAlertMetricAlertCriteriaUnion;
-    customProperties?: Record<string, string>;
-    description?: string;
-    enabled: boolean;
-    evaluationFrequency: string;
-    readonly isMigrated?: boolean;
-    readonly lastUpdatedTime?: Date;
-    resolveConfiguration?: MicrosoftMetricAlertResolveConfiguration;
-    scopes: string[];
-    severity: number;
-    targetResourceRegion?: string;
-    targetResourceType?: string;
-    windowSize?: string;
-}
-
-// @public
-export interface MicrosoftMetricAlertMetricAlertPropertiesPatch {
-    actionProperties?: Record<string, string>;
-    actions?: MicrosoftMetricAlertMetricAlertAction[];
-    autoMitigate?: boolean;
-    criteria?: MicrosoftMetricAlertMetricAlertCriteriaUnion;
-    customProperties?: Record<string, string>;
-    description?: string;
-    enabled?: boolean;
-    evaluationFrequency?: string;
-    readonly isMigrated?: boolean;
-    readonly lastUpdatedTime?: Date;
-    resolveConfiguration?: MicrosoftMetricAlertResolveConfiguration;
-    scopes?: string[];
-    severity?: number;
-    targetResourceRegion?: string;
-    targetResourceType?: string;
-    windowSize?: string;
-}
-
-// @public
-export interface MicrosoftMetricAlertMetricAlertResource extends TrackedResource {
-    actionProperties?: Record<string, string>;
-    actions?: MicrosoftMetricAlertMetricAlertAction[];
-    autoMitigate?: boolean;
-    criteria: MicrosoftMetricAlertMetricAlertCriteriaUnion;
-    customProperties?: Record<string, string>;
-    description?: string;
-    enabled: boolean;
-    evaluationFrequency: string;
-    identity?: MicrosoftMetricAlertIdentity;
-    readonly isMigrated?: boolean;
-    readonly lastUpdatedTime?: Date;
-    resolveConfiguration?: MicrosoftMetricAlertResolveConfiguration;
-    scopes: string[];
-    severity: number;
-    targetResourceRegion?: string;
-    targetResourceType?: string;
-    windowSize?: string;
-}
-
-// @public
-export interface MicrosoftMetricAlertMetricAlertResourcePatch {
-    actionProperties?: Record<string, string>;
-    actions?: MicrosoftMetricAlertMetricAlertAction[];
-    autoMitigate?: boolean;
-    criteria?: MicrosoftMetricAlertMetricAlertCriteriaUnion;
-    customProperties?: Record<string, string>;
-    description?: string;
-    enabled?: boolean;
-    evaluationFrequency?: string;
-    identity?: MicrosoftMetricAlertIdentity;
-    readonly isMigrated?: boolean;
-    readonly lastUpdatedTime?: Date;
-    resolveConfiguration?: MicrosoftMetricAlertResolveConfiguration;
-    scopes?: string[];
-    severity?: number;
-    tags?: Record<string, string>;
-    targetResourceRegion?: string;
-    targetResourceType?: string;
-    windowSize?: string;
-}
-
-// @public
-export interface MicrosoftMetricAlertMetricAlertSingleResourceMultipleMetricCriteria extends MicrosoftMetricAlertMetricAlertCriteria {
-    allOf?: MicrosoftMetricAlertMetricCriteria[];
-    odataType: "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria";
-}
-
-// @public
-export interface MicrosoftMetricAlertMetricAlertStatus {
-    id?: string;
-    name?: string;
-    properties?: MicrosoftMetricAlertMetricAlertStatusProperties;
-    type?: string;
-}
-
-// @public
-export interface MicrosoftMetricAlertMetricAlertStatusProperties {
-    dimensions?: Record<string, string>;
-    status?: string;
-    timestamp?: Date;
-}
-
-// @public
-export interface MicrosoftMetricAlertMetricCriteria extends MicrosoftMetricAlertMultiMetricCriteria {
-    criterionType: "StaticThresholdCriterion";
-    operator: MicrosoftMetricAlertOperator;
-    threshold: number;
-}
-
-// @public
-export interface MicrosoftMetricAlertMetricDimension {
-    name: string;
-    operator: string;
-    values: string[];
-}
-
-// @public
-export interface MicrosoftMetricAlertMultiMetricCriteria {
-    additionalProperties?: Record<string, any>;
-    criterionType: MicrosoftMetricAlertCriterionType;
-    dimensions?: MicrosoftMetricAlertMetricDimension[];
-    metricName: string;
-    metricNamespace?: string;
-    name: string;
-    skipMetricValidation?: boolean;
-    timeAggregation: MicrosoftMetricAlertAggregationTypeEnum;
-}
-
-// @public
-export type MicrosoftMetricAlertMultiMetricCriteriaUnion = MicrosoftMetricAlertMetricCriteria | MicrosoftMetricAlertDynamicMetricCriteria | MicrosoftMetricAlertMultiMetricCriteria;
-
-// @public
-export interface MicrosoftMetricAlertMultiPromQLCriteria {
-    criterionType: MicrosoftMetricAlertCriterionType;
-    name: string;
-    query: string;
-}
-
-// @public
-export type MicrosoftMetricAlertMultiPromQLCriteriaUnion = MicrosoftMetricAlertStaticPromQLCriteria | MicrosoftMetricAlertDynamicPromQLCriteria | MicrosoftMetricAlertMultiPromQLCriteria;
-
-// @public
-export type MicrosoftMetricAlertOdatatype = string;
-
-// @public
-export type MicrosoftMetricAlertOperator = string;
-
-// @public
-export interface MicrosoftMetricAlertPromQLCriteria extends MicrosoftMetricAlertMetricAlertCriteria {
-    allOf?: MicrosoftMetricAlertMultiPromQLCriteriaUnion[];
-    failingPeriods?: MicrosoftMetricAlertQueryFailingPeriods;
-    odataType: "Microsoft.Azure.Monitor.PromQLCriteria";
-}
-
-// @public
-export interface MicrosoftMetricAlertQueryFailingPeriods {
-    for: string;
-}
-
-// @public
-export interface MicrosoftMetricAlertResolveConfiguration {
-    autoResolved: boolean;
-    timeToResolve?: string;
-}
-
-// @public
-export interface MicrosoftMetricAlertStaticPromQLCriteria extends MicrosoftMetricAlertMultiPromQLCriteria {
-    criterionType: "StaticThresholdCriterion";
-}
-
-// @public
-export interface MicrosoftMetricAlertUserIdentityProperties {
-    readonly clientId?: string;
-    readonly principalId?: string;
-}
-
-// @public
-export interface MicrosoftMetricAlertWebtestLocationAvailabilityCriteria extends MicrosoftMetricAlertMetricAlertCriteria {
-    componentId: string;
-    failedLocationCount: number;
-    odataType: "Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria";
-    webTestId: string;
-}
-
-// @public
-export interface MicrosoftMetricBaselinesBaselineMetadata {
-    name: string;
-    value: string;
-}
-
-// @public
-export type MicrosoftMetricBaselinesBaselineSensitivity = string;
-
-// @public
-export interface MicrosoftMetricBaselinesErrorDetail {
-    additionalInfo?: MicrosoftMetricBaselinesErrorDetailAdditionalInfoItem[];
-    code?: string;
-    message?: string;
-    target?: string;
-}
-
-// @public
-export interface MicrosoftMetricBaselinesErrorDetailAdditionalInfoItem {
-    info?: Record<string, any>;
-    type?: string;
-}
-
-// @public
-export interface MicrosoftMetricBaselinesErrorResponse {
-    // (undocumented)
-    error?: MicrosoftMetricBaselinesErrorResponseError;
-}
-
-// @public
-export interface MicrosoftMetricBaselinesErrorResponseError {
-    additionalInfo?: MicrosoftMetricBaselinesErrorResponseErrorAdditionalInfoItem[];
-    code?: string;
-    details?: MicrosoftMetricBaselinesErrorDetail[];
-    message?: string;
-    target?: string;
-}
-
-// @public
-export interface MicrosoftMetricBaselinesErrorResponseErrorAdditionalInfoItem {
-    info?: Record<string, any>;
-    type?: string;
-}
-
-// @public
-export interface MicrosoftMetricBaselinesMetricBaselinesProperties {
-    baselines: MicrosoftMetricBaselinesTimeSeriesBaseline[];
-    interval: string;
-    namespace?: string;
-    timespan: string;
-}
-
-// @public
-export interface MicrosoftMetricBaselinesMetricSingleDimension {
-    name: string;
-    value: string;
-}
-
-// @public
-export type MicrosoftMetricBaselinesResultType = "Data" | "Metadata";
-
-// @public
-export interface MicrosoftMetricBaselinesSingleBaseline {
-    highThresholds: number[];
-    lowThresholds: number[];
-    sensitivity: MicrosoftMetricBaselinesBaselineSensitivity;
-}
-
-// @public
-export interface MicrosoftMetricBaselinesSingleMetricBaseline {
-    baselines: MicrosoftMetricBaselinesTimeSeriesBaseline[];
-    id: string;
-    interval: string;
-    name: string;
-    namespace?: string;
-    timespan: string;
-    type: string;
-}
-
-// @public
-export interface MicrosoftMetricBaselinesTimeSeriesBaseline {
-    aggregation: string;
-    data: MicrosoftMetricBaselinesSingleBaseline[];
-    dimensions?: MicrosoftMetricBaselinesMetricSingleDimension[];
-    metadataValues?: MicrosoftMetricBaselinesBaselineMetadata[];
-    timestamps: Date[];
-}
-
-// @public
-export type MicrosoftMetricsAggregationType = "None" | "Average" | "Count" | "Minimum" | "Maximum" | "Total";
-
-// @public
-export interface MicrosoftMetricsErrorContract {
-    error?: MicrosoftMetricsMetricsErrorResponse;
-}
-
-// @public
-export interface MicrosoftMetricsErrorResponse {
-    code?: string;
-    message?: string;
-}
-
-// @public
-export interface MicrosoftMetricsLocalizableString {
-    localizedValue?: string;
-    value: string;
-}
-
-// @public
-export interface MicrosoftMetricsMetadataValue {
-    name?: MicrosoftMetricsLocalizableString;
-    value?: string;
-}
-
-// @public
-export interface MicrosoftMetricsMetric {
-    displayDescription?: string;
-    errorCode?: string;
-    errorMessage?: string;
-    id: string;
-    name: MicrosoftMetricsLocalizableString;
-    timeseries: MicrosoftMetricsTimeSeriesElement[];
-    type: string;
-    unit: MicrosoftMetricsMetricUnit;
-}
-
-// @public
-export type MicrosoftMetricsMetricAggregationType = string;
-
-// @public
-export interface MicrosoftMetricsMetricAvailability {
-    retention?: string;
-    timeGrain?: string;
-}
-
-// @public
-export type MicrosoftMetricsMetricClass = string;
-
-// @public
-export interface MicrosoftMetricsMetricDefinition {
-    category?: string;
-    dimensions?: MicrosoftMetricsLocalizableString[];
-    displayDescription?: string;
-    id?: string;
-    isDimensionRequired?: boolean;
-    metricAvailabilities?: MicrosoftMetricsMetricAvailability[];
-    metricClass?: MicrosoftMetricsMetricClass;
-    name?: MicrosoftMetricsLocalizableString;
-    namespace?: string;
-    primaryAggregationType?: MicrosoftMetricsAggregationType;
-    resourceId?: string;
-    supportedAggregationTypes?: MicrosoftMetricsAggregationType[];
-    unit?: MicrosoftMetricsMetricUnit;
-}
-
-// @public
-export interface MicrosoftMetricsMetricNamespace {
-    classification?: MicrosoftMetricsNamespaceClassification;
-    id?: string;
-    name?: string;
-    properties?: MicrosoftMetricsMetricNamespaceName;
-    type?: string;
-}
-
-// @public
-export interface MicrosoftMetricsMetricNamespaceName {
-    metricNamespaceName?: string;
-}
-
-// @public
-export type MicrosoftMetricsMetricResultType = string;
-
-// @public
-export interface MicrosoftMetricsMetricsErrorResponse {
-    readonly additionalInfo?: ErrorAdditionalInfo[];
-    readonly code?: string;
-    readonly details?: MicrosoftMetricsMetricsErrorResponse[];
-    readonly message?: string;
-    readonly target?: string;
-}
-
-// @public
-export type MicrosoftMetricsMetricUnit = string;
-
-// @public
-export interface MicrosoftMetricsMetricValue {
+export interface MetricValue {
     average?: number;
     count?: number;
     maximum?: number;
@@ -2869,364 +2432,12 @@ export interface MicrosoftMetricsMetricValue {
 }
 
 // @public
-export type MicrosoftMetricsNamespaceClassification = string;
-
-// @public
-export interface MicrosoftMetricsResponse {
-    cost?: number;
-    interval?: string;
-    namespace?: string;
-    resourceregion?: string;
-    timespan: string;
-    value: MicrosoftMetricsMetric[];
-}
-
-// @public
-export type MicrosoftMetricsResultType = "Data" | "Metadata";
-
-// @public
-export interface MicrosoftMetricsSubscriptionScopeMetricDefinition {
-    category?: string;
-    dimensions?: MicrosoftMetricsLocalizableString[];
-    displayDescription?: string;
-    id?: string;
-    isDimensionRequired?: boolean;
-    metricAvailabilities?: MicrosoftMetricsMetricAvailability[];
-    metricClass?: MicrosoftMetricsMetricClass;
-    name?: MicrosoftMetricsLocalizableString;
-    namespace?: string;
-    primaryAggregationType?: MicrosoftMetricsMetricAggregationType;
-    resourceId?: string;
-    supportedAggregationTypes?: MicrosoftMetricsMetricAggregationType[];
-    unit?: MicrosoftMetricsMetricUnit;
-}
-
-// @public
-export interface MicrosoftMetricsSubscriptionScopeMetricsRequestBodyParameters {
-    aggregation?: string;
-    autoAdjustTimegrain?: boolean;
-    filter?: string;
-    interval?: string;
-    metricNames?: string;
-    metricNamespace?: string;
-    orderBy?: string;
-    resultType?: MicrosoftMetricsMetricResultType;
-    rollUpBy?: string;
-    timespan?: string;
-    top?: number;
-    validateDimensions?: boolean;
-}
-
-// @public
-export interface MicrosoftMetricsTimeSeriesElement {
-    data?: MicrosoftMetricsMetricValue[];
-    metadatavalues?: MicrosoftMetricsMetadataValue[];
-}
-
-// @public
-export type MicrosoftPrivateLinkScopesAccessMode = string;
-
-// @public
-export interface MicrosoftPrivateLinkScopesAccessModeSettings {
-    exclusions?: MicrosoftPrivateLinkScopesAccessModeSettingsExclusion[];
-    ingestionAccessMode: MicrosoftPrivateLinkScopesAccessMode;
-    queryAccessMode: MicrosoftPrivateLinkScopesAccessMode;
-}
-
-// @public
-export interface MicrosoftPrivateLinkScopesAccessModeSettingsExclusion {
-    ingestionAccessMode?: MicrosoftPrivateLinkScopesAccessMode;
-    privateEndpointConnectionName?: string;
-    queryAccessMode?: MicrosoftPrivateLinkScopesAccessMode;
-}
-
-// @public
-export interface MicrosoftPrivateLinkScopesAzureMonitorPrivateLinkScope extends TrackedResource {
-    accessModeSettings: MicrosoftPrivateLinkScopesAccessModeSettings;
-    readonly privateEndpointConnections?: MicrosoftPrivateLinkScopesPrivateEndpointConnection[];
-    readonly provisioningState?: MicrosoftPrivateLinkScopesPrivateLinkScopeProvisioningState;
-}
-
-// @public
-export interface MicrosoftPrivateLinkScopesAzureMonitorPrivateLinkScopeProperties {
-    accessModeSettings: MicrosoftPrivateLinkScopesAccessModeSettings;
-    readonly privateEndpointConnections?: MicrosoftPrivateLinkScopesPrivateEndpointConnection[];
-    readonly provisioningState?: MicrosoftPrivateLinkScopesPrivateLinkScopeProvisioningState;
-}
-
-// @public
-export interface MicrosoftPrivateLinkScopesOperationStatus {
-    endTime?: Date;
-    error?: ErrorDetail;
-    id?: string;
+export interface MicrosoftFabricDestination {
+    artifactId?: string;
+    databaseName?: string;
+    ingestionUri?: string;
     name?: string;
-    startTime?: Date;
-    status?: string;
-}
-
-// @public
-export interface MicrosoftPrivateLinkScopesPrivateEndpointConnection extends Resource {
-    privateEndpoint?: PrivateEndpoint;
-    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-}
-
-// @public
-export interface MicrosoftPrivateLinkScopesPrivateLinkResource extends Resource {
-    properties?: PrivateLinkResourceProperties;
-}
-
-// @public
-export type MicrosoftPrivateLinkScopesPrivateLinkScopeProvisioningState = string;
-
-// @public
-export interface MicrosoftPrivateLinkScopesScopedResource extends ProxyResource {
-    kind?: MicrosoftPrivateLinkScopesScopedResourceKind;
-    linkedResourceId?: string;
-    readonly provisioningState?: MicrosoftPrivateLinkScopesScopedResourceProvisioningState;
-    subscriptionLocation?: string;
-}
-
-// @public
-export type MicrosoftPrivateLinkScopesScopedResourceKind = string;
-
-// @public
-export interface MicrosoftPrivateLinkScopesScopedResourceProperties {
-    kind?: MicrosoftPrivateLinkScopesScopedResourceKind;
-    linkedResourceId?: string;
-    readonly provisioningState?: MicrosoftPrivateLinkScopesScopedResourceProvisioningState;
-    subscriptionLocation?: string;
-}
-
-// @public
-export type MicrosoftPrivateLinkScopesScopedResourceProvisioningState = string;
-
-// @public
-export interface MicrosoftPrivateLinkScopesTagsResource {
-    tags?: Record<string, string>;
-}
-
-// @public
-export interface MicrosoftScheduledQueryRuleActions {
-    actionGroups?: string[];
-    actionProperties?: Record<string, string>;
-    customProperties?: Record<string, string>;
-}
-
-// @public
-export type MicrosoftScheduledQueryRuleAlertSeverity = number;
-
-// @public
-export interface MicrosoftScheduledQueryRuleCondition {
-    alertSensitivity?: string;
-    criterionType?: MicrosoftScheduledQueryRuleCriterionType;
-    dimensions?: MicrosoftScheduledQueryRuleDimension[];
-    failingPeriods?: MicrosoftScheduledQueryRuleConditionFailingPeriods;
-    ignoreDataBefore?: Date;
-    metricMeasureColumn?: string;
-    metricName?: string;
-    minRecurrenceCount?: number;
-    operator?: MicrosoftScheduledQueryRuleConditionOperator;
-    query?: string;
-    resourceIdColumn?: string;
-    threshold?: number;
-    timeAggregation?: MicrosoftScheduledQueryRuleTimeAggregation;
-}
-
-// @public
-export interface MicrosoftScheduledQueryRuleConditionFailingPeriods {
-    minFailingPeriodsToAlert?: number;
-    numberOfEvaluationPeriods?: number;
-}
-
-// @public
-export type MicrosoftScheduledQueryRuleConditionOperator = string;
-
-// @public
-export type MicrosoftScheduledQueryRuleCriterionType = string;
-
-// @public
-export interface MicrosoftScheduledQueryRuleDimension {
-    name: string;
-    operator: MicrosoftScheduledQueryRuleDimensionOperator;
-    values: string[];
-}
-
-// @public
-export type MicrosoftScheduledQueryRuleDimensionOperator = string;
-
-// @public
-export interface MicrosoftScheduledQueryRuleErrorContract {
-    error?: ErrorResponse;
-}
-
-// @public
-export interface MicrosoftScheduledQueryRuleIdentity {
-    readonly principalId?: string;
-    readonly tenantId?: string;
-    type: MicrosoftScheduledQueryRuleIdentityType;
-    userAssignedIdentities?: Record<string, MicrosoftScheduledQueryRuleUserIdentityProperties>;
-}
-
-// @public
-export type MicrosoftScheduledQueryRuleIdentityType = "SystemAssigned" | "UserAssigned" | "None";
-
-// @public
-export type MicrosoftScheduledQueryRuleKind = string;
-
-// @public
-export interface MicrosoftScheduledQueryRuleRuleResolveConfiguration {
-    autoResolved?: boolean;
-    timeToResolve?: string;
-}
-
-// @public
-export interface MicrosoftScheduledQueryRuleScheduledQueryRuleCriteria {
-    allOf?: MicrosoftScheduledQueryRuleCondition[];
-}
-
-// @public
-export interface MicrosoftScheduledQueryRuleScheduledQueryRuleProperties {
-    actions?: MicrosoftScheduledQueryRuleActions;
-    autoMitigate?: boolean;
-    checkWorkspaceAlertsStorageConfigured?: boolean;
-    readonly createdWithApiVersion?: string;
-    criteria?: MicrosoftScheduledQueryRuleScheduledQueryRuleCriteria;
-    description?: string;
-    displayName?: string;
-    enabled?: boolean;
-    evaluationFrequency?: string;
-    readonly isLegacyLogAnalyticsRule?: boolean;
-    readonly isWorkspaceAlertsStorageConfigured?: boolean;
-    muteActionsDuration?: string;
-    overrideQueryTimeRange?: string;
-    resolveConfiguration?: MicrosoftScheduledQueryRuleRuleResolveConfiguration;
-    scopes?: string[];
-    severity?: MicrosoftScheduledQueryRuleAlertSeverity;
-    skipQueryValidation?: boolean;
-    targetResourceTypes?: string[];
-    windowSize?: string;
-}
-
-// @public
-export interface MicrosoftScheduledQueryRuleScheduledQueryRuleResource extends ProxyResource {
-    actions?: MicrosoftScheduledQueryRuleActions;
-    autoMitigate?: boolean;
-    checkWorkspaceAlertsStorageConfigured?: boolean;
-    readonly createdWithApiVersion?: string;
-    criteria?: MicrosoftScheduledQueryRuleScheduledQueryRuleCriteria;
-    description?: string;
-    displayName?: string;
-    enabled?: boolean;
-    readonly etag?: string;
-    evaluationFrequency?: string;
-    identity?: MicrosoftScheduledQueryRuleIdentity;
-    readonly isLegacyLogAnalyticsRule?: boolean;
-    readonly isWorkspaceAlertsStorageConfigured?: boolean;
-    kind?: MicrosoftScheduledQueryRuleKind;
-    location: string;
-    muteActionsDuration?: string;
-    overrideQueryTimeRange?: string;
-    resolveConfiguration?: MicrosoftScheduledQueryRuleRuleResolveConfiguration;
-    scopes?: string[];
-    severity?: MicrosoftScheduledQueryRuleAlertSeverity;
-    skipQueryValidation?: boolean;
-    tags?: Record<string, string>;
-    targetResourceTypes?: string[];
-    windowSize?: string;
-}
-
-// @public
-export interface MicrosoftScheduledQueryRuleScheduledQueryRuleResourcePatch {
-    actions?: MicrosoftScheduledQueryRuleActions;
-    autoMitigate?: boolean;
-    checkWorkspaceAlertsStorageConfigured?: boolean;
-    readonly createdWithApiVersion?: string;
-    criteria?: MicrosoftScheduledQueryRuleScheduledQueryRuleCriteria;
-    description?: string;
-    displayName?: string;
-    enabled?: boolean;
-    evaluationFrequency?: string;
-    identity?: MicrosoftScheduledQueryRuleIdentity;
-    readonly isLegacyLogAnalyticsRule?: boolean;
-    readonly isWorkspaceAlertsStorageConfigured?: boolean;
-    muteActionsDuration?: string;
-    overrideQueryTimeRange?: string;
-    resolveConfiguration?: MicrosoftScheduledQueryRuleRuleResolveConfiguration;
-    scopes?: string[];
-    severity?: MicrosoftScheduledQueryRuleAlertSeverity;
-    skipQueryValidation?: boolean;
-    tags?: Record<string, string>;
-    targetResourceTypes?: string[];
-    windowSize?: string;
-}
-
-// @public
-export type MicrosoftScheduledQueryRuleTimeAggregation = string;
-
-// @public
-export interface MicrosoftScheduledQueryRuleUserIdentityProperties {
-    readonly clientId?: string;
-    readonly principalId?: string;
-}
-
-// @public
-export interface MicrosoftServiceDiagnosticsSettingsErrorResponse {
-    code?: string;
-    message?: string;
-}
-
-// @public
-export interface MicrosoftServiceDiagnosticsSettingsLogSettings {
-    category?: string;
-    enabled: boolean;
-    retentionPolicy?: MicrosoftServiceDiagnosticsSettingsRetentionPolicy;
-}
-
-// @public
-export interface MicrosoftServiceDiagnosticsSettingsMetricSettings {
-    enabled: boolean;
-    retentionPolicy?: MicrosoftServiceDiagnosticsSettingsRetentionPolicy;
-    timeGrain: string;
-}
-
-// @public
-export interface MicrosoftServiceDiagnosticsSettingsRetentionPolicy {
-    days: number;
-    enabled: boolean;
-}
-
-// @public
-export interface MicrosoftServiceDiagnosticsSettingsServiceDiagnosticSettings {
-    eventHubAuthorizationRuleId?: string;
-    logs?: MicrosoftServiceDiagnosticsSettingsLogSettings[];
-    metrics?: MicrosoftServiceDiagnosticsSettingsMetricSettings[];
-    serviceBusRuleId?: string;
-    storageAccountId?: string;
-    workspaceId?: string;
-}
-
-// @public
-export interface MicrosoftServiceDiagnosticsSettingsServiceDiagnosticSettingsResource extends ExtensionResource {
-    eventHubAuthorizationRuleId?: string;
-    location: string;
-    logs?: MicrosoftServiceDiagnosticsSettingsLogSettings[];
-    metrics?: MicrosoftServiceDiagnosticsSettingsMetricSettings[];
-    serviceBusRuleId?: string;
-    storageAccountId?: string;
-    tags?: Record<string, string>;
-    workspaceId?: string;
-}
-
-// @public
-export interface MicrosoftServiceDiagnosticsSettingsServiceDiagnosticSettingsResourcePatch {
-    eventHubAuthorizationRuleId?: string;
-    logs?: MicrosoftServiceDiagnosticsSettingsLogSettings[];
-    metrics?: MicrosoftServiceDiagnosticsSettingsMetricSettings[];
-    serviceBusRuleId?: string;
-    storageAccountId?: string;
-    tags?: Record<string, string>;
-    workspaceId?: string;
+    tenantId?: string;
 }
 
 // @public (undocumented)
@@ -3268,6 +2479,46 @@ export interface MonitorClientOptionalParams extends ClientOptions {
 }
 
 // @public
+export interface MonitoringAccountDestination {
+    readonly accountId?: string;
+    accountResourceId?: string;
+    name?: string;
+}
+
+// @public
+export interface MultiMetricCriteria {
+    additionalProperties?: Record<string, any>;
+    criterionType: CriterionType;
+    dimensions?: MetricDimension[];
+    metricName: string;
+    metricNamespace?: string;
+    name: string;
+    skipMetricValidation?: boolean;
+    timeAggregation: AggregationTypeEnum;
+}
+
+// @public
+export type MultiMetricCriteriaUnion = MetricCriteria | DynamicMetricCriteria | MultiMetricCriteria;
+
+// @public
+export interface MultiPromQLCriteria {
+    criterionType: CriterionType;
+    name: string;
+    query: string;
+}
+
+// @public
+export type MultiPromQLCriteriaUnion = StaticPromQLCriteria | DynamicPromQLCriteria | MultiPromQLCriteria;
+
+// @public
+export type NamespaceClassification = string;
+
+// @public
+export interface NetworkRuleSet {
+    publicNetworkAccess?: KnownPublicNetworkAccessOptions;
+}
+
+// @public
 export interface NetworkSecurityPerimeter {
     id?: string;
     location?: string;
@@ -3306,6 +2557,115 @@ export interface NetworkSecurityProfile {
 }
 
 // @public
+export interface NotificationRequestBody {
+    alertType: string;
+    armRoleReceivers?: ArmRoleReceiver[];
+    automationRunbookReceivers?: AutomationRunbookReceiver[];
+    azureAppPushReceivers?: AzureAppPushReceiver[];
+    azureFunctionReceivers?: AzureFunctionReceiver[];
+    emailReceivers?: EmailReceiver[];
+    eventHubReceivers?: EventHubReceiver[];
+    incidentReceivers?: IncidentReceiver[];
+    itsmReceivers?: ItsmReceiver[];
+    logicAppReceivers?: LogicAppReceiver[];
+    smsReceivers?: SmsReceiver[];
+    voiceReceivers?: VoiceReceiver[];
+    webhookReceivers?: WebhookReceiver[];
+}
+
+// @public
+export type Odatatype = string;
+
+// @public
+export interface OperationStatus {
+    endTime?: Date;
+    error?: ArmErrorDetail;
+    id?: string;
+    name?: string;
+    startTime?: Date;
+    status?: string;
+}
+
+// @public
+export type OperationType = "Scale";
+
+// @public
+export type Operator = string;
+
+// @public
+export interface OtelDataSourceResourceAttributeRouting {
+    attributeName?: string;
+    attributeValue?: string;
+}
+
+// @public
+export interface OtelLogsDataSource {
+    enrichWithReference?: string;
+    enrichWithResourceAttributes?: string[];
+    name?: string;
+    replaceResourceIdWithReference?: boolean;
+    resourceAttributeRouting?: OtelLogsDataSourceResourceAttributeRouting;
+    streams: KnownOtelLogsDataSourceStreams[];
+}
+
+// @public
+export interface OtelLogsDataSourceResourceAttributeRouting extends OtelDataSourceResourceAttributeRouting {
+}
+
+// @public
+export interface OtelLogsDirectDataSource {
+    enrichWithReference?: string;
+    enrichWithResourceAttributes?: string[];
+    name?: string;
+    replaceResourceIdWithReference?: boolean;
+    streams: KnownOtelLogsDirectDataSourceStreams[];
+}
+
+// @public
+export interface OtelMetricsDataSource {
+    enrichWithReference?: string;
+    enrichWithResourceAttributes?: string[];
+    name?: string;
+    resourceAttributeRouting?: OtelMetricsDataSourceResourceAttributeRouting;
+    streams: string[];
+}
+
+// @public
+export interface OtelMetricsDataSourceResourceAttributeRouting extends OtelDataSourceResourceAttributeRouting {
+}
+
+// @public
+export interface OtelMetricsDirectDataSource {
+    enrichWithReference?: string;
+    enrichWithResourceAttributes?: string[];
+    name?: string;
+    streams: string[];
+}
+
+// @public
+export interface OtelTracesDataSource {
+    enrichWithReference?: string;
+    enrichWithResourceAttributes?: string[];
+    name?: string;
+    replaceResourceIdWithReference?: boolean;
+    resourceAttributeRouting?: OtelTracesDataSourceResourceAttributeRouting;
+    streams: KnownOtelTracesDataSourceStreams[];
+}
+
+// @public
+export interface OtelTracesDataSourceResourceAttributeRouting extends OtelDataSourceResourceAttributeRouting {
+}
+
+// @public
+export interface OtelTracesDirectDataSource {
+    enrichWithReference?: string;
+    enrichWithResourceAttributes?: string[];
+    name?: string;
+    replaceResourceIdWithReference?: boolean;
+    streams: KnownOtelTracesDirectDataSourceStreams[];
+}
+
+// @public
 export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
     [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
     byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
@@ -3318,12 +2678,59 @@ export interface PageSettings {
 }
 
 // @public
+export interface PerfCounterDataSource {
+    counterSpecifiers?: string[];
+    name?: string;
+    samplingFrequencyInSeconds?: number;
+    streams?: KnownPerfCounterDataSourceStreams[];
+    transformKql?: string;
+}
+
+// @public
+export interface PerformanceCountersOTelDataSource {
+    counterSpecifiers?: string[];
+    name?: string;
+    samplingFrequencyInSeconds?: number;
+    streams?: KnownPerformanceCountersOTelDataSourceStreams[];
+}
+
+// @public
+export interface PlatformTelemetryDataSource {
+    name?: string;
+    streams: string[];
+}
+
+// @public
+export interface PredictiveAutoscalePolicy {
+    scaleLookAheadTime?: string;
+    scaleMode: PredictiveAutoscalePolicyScaleMode;
+}
+
+// @public
+export type PredictiveAutoscalePolicyScaleMode = "Disabled" | "ForecastOnly" | "Enabled";
+
+// @public
 export interface PredictiveMetricGetOptionalParams extends OperationOptions {
 }
 
 // @public
 export interface PredictiveMetricOperations {
-    get: (resourceGroupName: string, autoscaleSettingName: string, timespan: string, interval: string, metricNamespace: string, metricName: string, aggregation: string, options?: PredictiveMetricGetOptionalParams) => Promise<MicrosoftAutoScalePredictiveResponse>;
+    get: (resourceGroupName: string, autoscaleSettingName: string, timespan: string, interval: string, metricNamespace: string, metricName: string, aggregation: string, options?: PredictiveMetricGetOptionalParams) => Promise<PredictiveResponse>;
+}
+
+// @public
+export interface PredictiveResponse {
+    data?: PredictiveValue[];
+    interval?: string;
+    metricName?: string;
+    targetResourceId?: string;
+    timespan?: string;
+}
+
+// @public
+export interface PredictiveValue {
+    timeStamp: Date;
+    value: number;
 }
 
 // @public
@@ -3334,6 +2741,18 @@ export interface PrivateEndpoint {
 // @public
 export interface PrivateEndpointConnection extends Resource {
     properties?: PrivateEndpointConnectionProperties;
+}
+
+// @public
+export interface PrivateEndpointConnectionAutoGenerated extends Resource {
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+}
+
+// @public
+export interface PrivateEndpointConnectionListResult {
+    value?: PrivateEndpointConnection[];
 }
 
 // @public
@@ -3367,26 +2786,31 @@ export interface PrivateEndpointConnectionsListByPrivateLinkScopeOptionalParams 
 // @public
 export interface PrivateEndpointConnectionsOperations {
     // @deprecated (undocumented)
-    beginCreateOrUpdate: (resourceGroupName: string, scopeName: string, privateEndpointConnectionName: string, parameters: MicrosoftPrivateLinkScopesPrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<MicrosoftPrivateLinkScopesPrivateEndpointConnection>, MicrosoftPrivateLinkScopesPrivateEndpointConnection>>;
+    beginCreateOrUpdate: (resourceGroupName: string, scopeName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnectionAutoGenerated, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionAutoGenerated>, PrivateEndpointConnectionAutoGenerated>>;
     // @deprecated (undocumented)
-    beginCreateOrUpdateAndWait: (resourceGroupName: string, scopeName: string, privateEndpointConnectionName: string, parameters: MicrosoftPrivateLinkScopesPrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => Promise<MicrosoftPrivateLinkScopesPrivateEndpointConnection>;
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, scopeName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnectionAutoGenerated, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => Promise<PrivateEndpointConnectionAutoGenerated>;
     // @deprecated (undocumented)
     beginDelete: (resourceGroupName: string, scopeName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
     beginDeleteAndWait: (resourceGroupName: string, scopeName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<void>;
-    createOrUpdate: (resourceGroupName: string, scopeName: string, privateEndpointConnectionName: string, parameters: MicrosoftPrivateLinkScopesPrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<MicrosoftPrivateLinkScopesPrivateEndpointConnection>, MicrosoftPrivateLinkScopesPrivateEndpointConnection>;
+    createOrUpdate: (resourceGroupName: string, scopeName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnectionAutoGenerated, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<PrivateEndpointConnectionAutoGenerated>, PrivateEndpointConnectionAutoGenerated>;
     delete: (resourceGroupName: string, scopeName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, scopeName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<MicrosoftPrivateLinkScopesPrivateEndpointConnection>;
-    listByPrivateLinkScope: (resourceGroupName: string, scopeName: string, options?: PrivateEndpointConnectionsListByPrivateLinkScopeOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
+    get: (resourceGroupName: string, scopeName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnectionAutoGenerated>;
+    listByPrivateLinkScope: (resourceGroupName: string, scopeName: string, options?: PrivateEndpointConnectionsListByPrivateLinkScopeOptionalParams) => Promise<PrivateEndpointConnectionListResult>;
 }
 
 // @public
 export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
+export interface PrivateLinkResource extends Resource {
+    properties?: PrivateLinkResourceProperties;
+}
+
+// @public
 export interface PrivateLinkResourceListResult {
     nextLink?: string;
-    value: MicrosoftPrivateLinkScopesPrivateLinkResource[];
+    value: PrivateLinkResource[];
 }
 
 // @public
@@ -3406,8 +2830,14 @@ export interface PrivateLinkResourcesListByPrivateLinkScopeOptionalParams extend
 
 // @public
 export interface PrivateLinkResourcesOperations {
-    get: (resourceGroupName: string, scopeName: string, groupName: string, options?: PrivateLinkResourcesGetOptionalParams) => Promise<MicrosoftPrivateLinkScopesPrivateLinkResource>;
+    get: (resourceGroupName: string, scopeName: string, groupName: string, options?: PrivateLinkResourcesGetOptionalParams) => Promise<PrivateLinkResource>;
     listByPrivateLinkScope: (resourceGroupName: string, scopeName: string, options?: PrivateLinkResourcesListByPrivateLinkScopeOptionalParams) => Promise<PrivateLinkResourceListResult>;
+}
+
+// @public
+export interface PrivateLinkScopedResource {
+    resourceId?: string;
+    scopeId?: string;
 }
 
 // @public
@@ -3432,17 +2862,17 @@ export interface PrivateLinkScopedResourcesListByPrivateLinkScopeOptionalParams 
 // @public
 export interface PrivateLinkScopedResourcesOperations {
     // @deprecated (undocumented)
-    beginCreateOrUpdate: (resourceGroupName: string, scopeName: string, name: string, parameters: MicrosoftPrivateLinkScopesScopedResource, options?: PrivateLinkScopedResourcesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<MicrosoftPrivateLinkScopesScopedResource>, MicrosoftPrivateLinkScopesScopedResource>>;
+    beginCreateOrUpdate: (resourceGroupName: string, scopeName: string, name: string, parameters: ScopedResource, options?: PrivateLinkScopedResourcesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ScopedResource>, ScopedResource>>;
     // @deprecated (undocumented)
-    beginCreateOrUpdateAndWait: (resourceGroupName: string, scopeName: string, name: string, parameters: MicrosoftPrivateLinkScopesScopedResource, options?: PrivateLinkScopedResourcesCreateOrUpdateOptionalParams) => Promise<MicrosoftPrivateLinkScopesScopedResource>;
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, scopeName: string, name: string, parameters: ScopedResource, options?: PrivateLinkScopedResourcesCreateOrUpdateOptionalParams) => Promise<ScopedResource>;
     // @deprecated (undocumented)
     beginDelete: (resourceGroupName: string, scopeName: string, name: string, options?: PrivateLinkScopedResourcesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
     beginDeleteAndWait: (resourceGroupName: string, scopeName: string, name: string, options?: PrivateLinkScopedResourcesDeleteOptionalParams) => Promise<void>;
-    createOrUpdate: (resourceGroupName: string, scopeName: string, name: string, parameters: MicrosoftPrivateLinkScopesScopedResource, options?: PrivateLinkScopedResourcesCreateOrUpdateOptionalParams) => PollerLike<OperationState<MicrosoftPrivateLinkScopesScopedResource>, MicrosoftPrivateLinkScopesScopedResource>;
+    createOrUpdate: (resourceGroupName: string, scopeName: string, name: string, parameters: ScopedResource, options?: PrivateLinkScopedResourcesCreateOrUpdateOptionalParams) => PollerLike<OperationState<ScopedResource>, ScopedResource>;
     delete: (resourceGroupName: string, scopeName: string, name: string, options?: PrivateLinkScopedResourcesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, scopeName: string, name: string, options?: PrivateLinkScopedResourcesGetOptionalParams) => Promise<MicrosoftPrivateLinkScopesScopedResource>;
-    listByPrivateLinkScope: (resourceGroupName: string, scopeName: string, options?: PrivateLinkScopedResourcesListByPrivateLinkScopeOptionalParams) => PagedAsyncIterableIterator<MicrosoftPrivateLinkScopesScopedResource>;
+    get: (resourceGroupName: string, scopeName: string, name: string, options?: PrivateLinkScopedResourcesGetOptionalParams) => Promise<ScopedResource>;
+    listByPrivateLinkScope: (resourceGroupName: string, scopeName: string, options?: PrivateLinkScopedResourcesListByPrivateLinkScopeOptionalParams) => PagedAsyncIterableIterator<ScopedResource>;
 }
 
 // @public
@@ -3451,8 +2881,11 @@ export interface PrivateLinkScopeOperationStatusGetOptionalParams extends Operat
 
 // @public
 export interface PrivateLinkScopeOperationStatusOperations {
-    get: (resourceGroupName: string, asyncOperationId: string, options?: PrivateLinkScopeOperationStatusGetOptionalParams) => Promise<MicrosoftPrivateLinkScopesOperationStatus>;
+    get: (resourceGroupName: string, asyncOperationId: string, options?: PrivateLinkScopeOperationStatusGetOptionalParams) => Promise<OperationStatus>;
 }
+
+// @public
+export type PrivateLinkScopeProvisioningState = string;
 
 // @public
 export interface PrivateLinkScopesCreateOrUpdateOptionalParams extends OperationOptions {
@@ -3481,12 +2914,12 @@ export interface PrivateLinkScopesOperations {
     beginDelete: (resourceGroupName: string, scopeName: string, options?: PrivateLinkScopesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
     beginDeleteAndWait: (resourceGroupName: string, scopeName: string, options?: PrivateLinkScopesDeleteOptionalParams) => Promise<void>;
-    createOrUpdate: (resourceGroupName: string, scopeName: string, azureMonitorPrivateLinkScopePayload: MicrosoftPrivateLinkScopesAzureMonitorPrivateLinkScope, options?: PrivateLinkScopesCreateOrUpdateOptionalParams) => Promise<MicrosoftPrivateLinkScopesAzureMonitorPrivateLinkScope>;
+    createOrUpdate: (resourceGroupName: string, scopeName: string, azureMonitorPrivateLinkScopePayload: AzureMonitorPrivateLinkScope, options?: PrivateLinkScopesCreateOrUpdateOptionalParams) => Promise<AzureMonitorPrivateLinkScope>;
     delete: (resourceGroupName: string, scopeName: string, options?: PrivateLinkScopesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, scopeName: string, options?: PrivateLinkScopesGetOptionalParams) => Promise<MicrosoftPrivateLinkScopesAzureMonitorPrivateLinkScope>;
-    list: (options?: PrivateLinkScopesListOptionalParams) => PagedAsyncIterableIterator<MicrosoftPrivateLinkScopesAzureMonitorPrivateLinkScope>;
-    listByResourceGroup: (resourceGroupName: string, options?: PrivateLinkScopesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<MicrosoftPrivateLinkScopesAzureMonitorPrivateLinkScope>;
-    updateTags: (resourceGroupName: string, scopeName: string, privateLinkScopeTags: MicrosoftPrivateLinkScopesTagsResource, options?: PrivateLinkScopesUpdateTagsOptionalParams) => Promise<MicrosoftPrivateLinkScopesAzureMonitorPrivateLinkScope>;
+    get: (resourceGroupName: string, scopeName: string, options?: PrivateLinkScopesGetOptionalParams) => Promise<AzureMonitorPrivateLinkScope>;
+    list: (options?: PrivateLinkScopesListOptionalParams) => PagedAsyncIterableIterator<AzureMonitorPrivateLinkScope>;
+    listByResourceGroup: (resourceGroupName: string, options?: PrivateLinkScopesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<AzureMonitorPrivateLinkScope>;
+    updateTags: (resourceGroupName: string, scopeName: string, privateLinkScopeTags: TagsResource, options?: PrivateLinkScopesUpdateTagsOptionalParams) => Promise<AzureMonitorPrivateLinkScope>;
 }
 
 // @public
@@ -3498,6 +2931,21 @@ export interface PrivateLinkServiceConnectionState {
     actionsRequired?: string;
     description?: string;
     status?: PrivateEndpointServiceConnectionStatus;
+}
+
+// @public
+export interface PrometheusForwarderDataSource {
+    customVMScrapeConfig?: any[];
+    labelIncludeFilter?: Record<string, string>;
+    name?: string;
+    streams?: KnownPrometheusForwarderDataSourceStreams[];
+}
+
+// @public
+export interface PromQLCriteria extends MetricAlertCriteria {
+    allOf?: MultiPromQLCriteriaUnion[];
+    failingPeriods?: QueryFailingPeriods;
+    odataType: "Microsoft.Azure.Monitor.PromQLCriteria";
 }
 
 // @public
@@ -3521,6 +2969,47 @@ export interface ProxyResource extends Resource {
 }
 
 // @public
+export interface QueryFailingPeriods {
+    for: string;
+}
+
+// @public
+export type ReceiverStatus = "NotSpecified" | "Enabled" | "Disabled";
+
+// @public
+export interface Recurrence {
+    frequency: RecurrenceFrequency;
+    schedule: RecurrentSchedule;
+}
+
+// @public
+export type RecurrenceFrequency = "None" | "Second" | "Minute" | "Hour" | "Day" | "Week" | "Month" | "Year";
+
+// @public
+export interface RecurrentSchedule {
+    days: string[];
+    hours: number[];
+    minutes: number[];
+    timeZone: string;
+}
+
+// @public
+export interface ReferencesSpec {
+    applicationInsights?: ApplicationInsights[];
+    enrichmentData?: ReferencesSpecEnrichmentData;
+}
+
+// @public
+export interface ReferencesSpecEnrichmentData extends EnrichmentData {
+}
+
+// @public
+export interface ResolveConfiguration {
+    autoResolved: boolean;
+    timeToResolve?: string;
+}
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
@@ -3539,6 +3028,27 @@ export interface ResourceAssociation {
 export type ResourceAssociationAccessMode = string;
 
 // @public
+export interface ResourceForUpdate {
+    identity?: ResourceForUpdateIdentity;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface ResourceForUpdateIdentity extends ManagedServiceIdentity {
+}
+
+// @public
+interface Response_2 {
+    cost?: number;
+    interval?: string;
+    namespace?: string;
+    resourceregion?: string;
+    timespan: string;
+    value: Metric[];
+}
+export { Response_2 as Response }
+
+// @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: MonitorClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
 // @public (undocumented)
@@ -3546,6 +3056,63 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
     abortSignal?: AbortSignalLike;
     processResponseBody?: (result: TResponse) => Promise<TResult>;
     updateIntervalInMs?: number;
+}
+
+// @public
+export type ResultType = "Data" | "Metadata";
+
+// @public
+export interface RetentionPolicy {
+    days: number;
+    enabled: boolean;
+}
+
+// @public
+export interface RuleResolveConfiguration {
+    autoResolved?: boolean;
+    timeToResolve?: string;
+}
+
+// @public
+export interface ScaleAction {
+    cooldown: string;
+    direction: ScaleDirection;
+    type: ScaleType;
+    value?: string;
+}
+
+// @public
+export interface ScaleCapacity {
+    default: string;
+    maximum: string;
+    minimum: string;
+}
+
+// @public
+export type ScaleDirection = "None" | "Increase" | "Decrease";
+
+// @public
+export interface ScaleRule {
+    metricTrigger: MetricTrigger;
+    scaleAction: ScaleAction;
+}
+
+// @public
+export interface ScaleRuleMetricDimension {
+    dimensionName: string;
+    operator: ScaleRuleMetricDimensionOperationType;
+    values: string[];
+}
+
+// @public
+export type ScaleRuleMetricDimensionOperationType = string;
+
+// @public
+export type ScaleType = "ChangeCount" | "PercentChangeCount" | "ExactCount" | "ServiceAllowedNextValue";
+
+// @public
+export interface ScheduledQueryRuleCriteria {
+    allOf?: Condition[];
 }
 
 // @public
@@ -3568,8 +3135,84 @@ export interface ScheduledQueryRuleOperations {
 }
 
 // @public
+export interface ScheduledQueryRuleProperties {
+    actions?: Actions;
+    autoMitigate?: boolean;
+    checkWorkspaceAlertsStorageConfigured?: boolean;
+    readonly createdWithApiVersion?: string;
+    criteria?: ScheduledQueryRuleCriteria;
+    description?: string;
+    displayName?: string;
+    enabled?: boolean;
+    evaluationFrequency?: string;
+    readonly isLegacyLogAnalyticsRule?: boolean;
+    readonly isWorkspaceAlertsStorageConfigured?: boolean;
+    muteActionsDuration?: string;
+    overrideQueryTimeRange?: string;
+    resolveConfiguration?: RuleResolveConfiguration;
+    scopes?: string[];
+    severity?: AlertSeverity;
+    skipQueryValidation?: boolean;
+    targetResourceTypes?: string[];
+    windowSize?: string;
+}
+
+// @public
 export interface ScheduledQueryRuleReconcileNSPOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface ScheduledQueryRuleResource extends ProxyResource {
+    actions?: Actions;
+    autoMitigate?: boolean;
+    checkWorkspaceAlertsStorageConfigured?: boolean;
+    readonly createdWithApiVersion?: string;
+    criteria?: ScheduledQueryRuleCriteria;
+    description?: string;
+    displayName?: string;
+    enabled?: boolean;
+    readonly etag?: string;
+    evaluationFrequency?: string;
+    identity?: Identity;
+    readonly isLegacyLogAnalyticsRule?: boolean;
+    readonly isWorkspaceAlertsStorageConfigured?: boolean;
+    kind?: Kind;
+    location: string;
+    muteActionsDuration?: string;
+    overrideQueryTimeRange?: string;
+    resolveConfiguration?: RuleResolveConfiguration;
+    scopes?: string[];
+    severity?: AlertSeverity;
+    skipQueryValidation?: boolean;
+    tags?: Record<string, string>;
+    targetResourceTypes?: string[];
+    windowSize?: string;
+}
+
+// @public
+export interface ScheduledQueryRuleResourcePatch {
+    actions?: Actions;
+    autoMitigate?: boolean;
+    checkWorkspaceAlertsStorageConfigured?: boolean;
+    readonly createdWithApiVersion?: string;
+    criteria?: ScheduledQueryRuleCriteria;
+    description?: string;
+    displayName?: string;
+    enabled?: boolean;
+    evaluationFrequency?: string;
+    identity?: Identity;
+    readonly isLegacyLogAnalyticsRule?: boolean;
+    readonly isWorkspaceAlertsStorageConfigured?: boolean;
+    muteActionsDuration?: string;
+    overrideQueryTimeRange?: string;
+    resolveConfiguration?: RuleResolveConfiguration;
+    scopes?: string[];
+    severity?: AlertSeverity;
+    skipQueryValidation?: boolean;
+    tags?: Record<string, string>;
+    targetResourceTypes?: string[];
+    windowSize?: string;
 }
 
 // @public
@@ -3594,16 +3237,55 @@ export interface ScheduledQueryRulesListBySubscriptionOptionalParams extends Ope
 
 // @public
 export interface ScheduledQueryRulesOperations {
-    createOrUpdate: (resourceGroupName: string, ruleName: string, parameters: MicrosoftScheduledQueryRuleScheduledQueryRuleResource, options?: ScheduledQueryRulesCreateOrUpdateOptionalParams) => Promise<MicrosoftScheduledQueryRuleScheduledQueryRuleResource>;
+    createOrUpdate: (resourceGroupName: string, ruleName: string, parameters: ScheduledQueryRuleResource, options?: ScheduledQueryRulesCreateOrUpdateOptionalParams) => Promise<ScheduledQueryRuleResource>;
     delete: (resourceGroupName: string, ruleName: string, options?: ScheduledQueryRulesDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, ruleName: string, options?: ScheduledQueryRulesGetOptionalParams) => Promise<MicrosoftScheduledQueryRuleScheduledQueryRuleResource>;
-    listByResourceGroup: (resourceGroupName: string, options?: ScheduledQueryRulesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<MicrosoftScheduledQueryRuleScheduledQueryRuleResource>;
-    listBySubscription: (options?: ScheduledQueryRulesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<MicrosoftScheduledQueryRuleScheduledQueryRuleResource>;
-    update: (resourceGroupName: string, ruleName: string, parameters: MicrosoftScheduledQueryRuleScheduledQueryRuleResourcePatch, options?: ScheduledQueryRulesUpdateOptionalParams) => Promise<MicrosoftScheduledQueryRuleScheduledQueryRuleResource>;
+    get: (resourceGroupName: string, ruleName: string, options?: ScheduledQueryRulesGetOptionalParams) => Promise<ScheduledQueryRuleResource>;
+    listByResourceGroup: (resourceGroupName: string, options?: ScheduledQueryRulesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ScheduledQueryRuleResource>;
+    listBySubscription: (options?: ScheduledQueryRulesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<ScheduledQueryRuleResource>;
+    update: (resourceGroupName: string, ruleName: string, parameters: ScheduledQueryRuleResourcePatch, options?: ScheduledQueryRulesUpdateOptionalParams) => Promise<ScheduledQueryRuleResource>;
 }
 
 // @public
 export interface ScheduledQueryRulesUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ScopedResource extends ProxyResource {
+    kind?: ScopedResourceKind;
+    linkedResourceId?: string;
+    readonly provisioningState?: ScopedResourceProvisioningState;
+    subscriptionLocation?: string;
+}
+
+// @public
+export type ScopedResourceKind = string;
+
+// @public
+export interface ScopedResourceProperties {
+    kind?: ScopedResourceKind;
+    linkedResourceId?: string;
+    readonly provisioningState?: ScopedResourceProvisioningState;
+    subscriptionLocation?: string;
+}
+
+// @public
+export type ScopedResourceProvisioningState = string;
+
+// @public
+export interface SenderAuthorization {
+    action?: string;
+    role?: string;
+    scope?: string;
+}
+
+// @public
+export interface ServiceDiagnosticSettings {
+    eventHubAuthorizationRuleId?: string;
+    logs?: LogSettings[];
+    metrics?: MetricSettings[];
+    serviceBusRuleId?: string;
+    storageAccountId?: string;
+    workspaceId?: string;
 }
 
 // @public
@@ -3616,9 +3298,32 @@ export interface ServiceDiagnosticSettingsGetOptionalParams extends OperationOpt
 
 // @public
 export interface ServiceDiagnosticSettingsOperations {
-    createOrUpdate: (resourceUri: string, parameters: MicrosoftServiceDiagnosticsSettingsServiceDiagnosticSettingsResource, options?: ServiceDiagnosticSettingsCreateOrUpdateOptionalParams) => Promise<MicrosoftServiceDiagnosticsSettingsServiceDiagnosticSettingsResource>;
-    get: (resourceUri: string, options?: ServiceDiagnosticSettingsGetOptionalParams) => Promise<MicrosoftServiceDiagnosticsSettingsServiceDiagnosticSettingsResource>;
-    update: (resourceUri: string, serviceDiagnosticSettingsResource: MicrosoftServiceDiagnosticsSettingsServiceDiagnosticSettingsResourcePatch, options?: ServiceDiagnosticSettingsUpdateOptionalParams) => Promise<MicrosoftServiceDiagnosticsSettingsServiceDiagnosticSettingsResource>;
+    createOrUpdate: (resourceUri: string, parameters: ServiceDiagnosticSettingsResource, options?: ServiceDiagnosticSettingsCreateOrUpdateOptionalParams) => Promise<ServiceDiagnosticSettingsResource>;
+    get: (resourceUri: string, options?: ServiceDiagnosticSettingsGetOptionalParams) => Promise<ServiceDiagnosticSettingsResource>;
+    update: (resourceUri: string, serviceDiagnosticSettingsResource: ServiceDiagnosticSettingsResourcePatch, options?: ServiceDiagnosticSettingsUpdateOptionalParams) => Promise<ServiceDiagnosticSettingsResource>;
+}
+
+// @public
+export interface ServiceDiagnosticSettingsResource extends ExtensionResource {
+    eventHubAuthorizationRuleId?: string;
+    location: string;
+    logs?: LogSettings[];
+    metrics?: MetricSettings[];
+    serviceBusRuleId?: string;
+    storageAccountId?: string;
+    tags?: Record<string, string>;
+    workspaceId?: string;
+}
+
+// @public
+export interface ServiceDiagnosticSettingsResourcePatch {
+    eventHubAuthorizationRuleId?: string;
+    logs?: LogSettings[];
+    metrics?: MetricSettings[];
+    serviceBusRuleId?: string;
+    storageAccountId?: string;
+    tags?: Record<string, string>;
+    workspaceId?: string;
 }
 
 // @public
@@ -3651,6 +3356,24 @@ export interface SimplePollerLike<TState extends OperationState<TResult>, TResul
 }
 
 // @public
+export interface SingleBaseline {
+    highThresholds: number[];
+    lowThresholds: number[];
+    sensitivity: BaselineSensitivity;
+}
+
+// @public
+export interface SingleMetricBaseline {
+    baselines: TimeSeriesBaseline[];
+    id: string;
+    interval: string;
+    name: string;
+    namespace?: string;
+    timespan: string;
+    type: string;
+}
+
+// @public
 export interface Sku {
     capacity?: number;
     family?: string;
@@ -3663,6 +3386,88 @@ export interface Sku {
 export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
 
 // @public
+export interface SmsReceiver {
+    countryCode: string;
+    name: string;
+    phoneNumber: string;
+    readonly status?: ReceiverStatus;
+}
+
+// @public
+export interface StaticPromQLCriteria extends MultiPromQLCriteria {
+    criterionType: "StaticThresholdCriterion";
+}
+
+// @public
+export interface StorageBlob {
+    blobUrl?: string;
+    lookupType?: KnownStorageBlobLookupType;
+    name?: string;
+    resourceId?: string;
+}
+
+// @public
+export interface StorageBlobDestination {
+    containerName?: string;
+    name?: string;
+    storageAccountResourceId?: string;
+}
+
+// @public
+export interface StorageTableDestination {
+    name?: string;
+    storageAccountResourceId?: string;
+    tableName?: string;
+}
+
+// @public
+export interface StreamDeclaration {
+    columns?: ColumnDefinition[];
+}
+
+// @public
+export interface SubscriptionScopeMetricDefinition {
+    category?: string;
+    dimensions?: LocalizableString[];
+    displayDescription?: string;
+    id?: string;
+    isDimensionRequired?: boolean;
+    metricAvailabilities?: MetricAvailability[];
+    metricClass?: MetricClass;
+    name?: LocalizableString;
+    namespace?: string;
+    primaryAggregationType?: MetricAggregationType;
+    resourceId?: string;
+    supportedAggregationTypes?: MetricAggregationType[];
+    unit?: MetricUnit;
+}
+
+// @public
+export interface SubscriptionScopeMetricsRequestBodyParameters {
+    aggregation?: string;
+    autoAdjustTimegrain?: boolean;
+    filter?: string;
+    interval?: string;
+    metricNames?: string;
+    metricNamespace?: string;
+    orderBy?: string;
+    resultType?: MetricResultType;
+    rollUpBy?: string;
+    timespan?: string;
+    top?: number;
+    validateDimensions?: boolean;
+}
+
+// @public
+export interface SyslogDataSource {
+    facilityNames?: KnownSyslogDataSourceFacilityNames[];
+    logLevels?: KnownSyslogDataSourceLogLevels[];
+    name?: string;
+    streams?: KnownSyslogDataSourceStreams[];
+    transformKql?: string;
+}
+
+// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -3673,6 +3478,11 @@ export interface SystemData {
 }
 
 // @public
+export interface TagsResource {
+    tags?: Record<string, string>;
+}
+
+// @public
 export interface TenantActivityLogsListOptionalParams extends OperationOptions {
     filter?: string;
     select?: string;
@@ -3680,7 +3490,44 @@ export interface TenantActivityLogsListOptionalParams extends OperationOptions {
 
 // @public
 export interface TenantActivityLogsOperations {
-    list: (options?: TenantActivityLogsListOptionalParams) => PagedAsyncIterableIterator<MicrosoftActivityLogsEventData>;
+    list: (options?: TenantActivityLogsListOptionalParams) => PagedAsyncIterableIterator<EventData>;
+}
+
+// @public
+export interface TestNotificationDetailsResponse {
+    actionDetails?: ActionDetail[];
+    completedTime?: string;
+    context?: Context;
+    createdTime?: string;
+    state: string;
+}
+
+// @public
+export type TimeAggregation = string;
+
+// @public
+export type TimeAggregationType = "Average" | "Minimum" | "Maximum" | "Total" | "Count" | "Last";
+
+// @public
+export interface TimeSeriesBaseline {
+    aggregation: string;
+    data: SingleBaseline[];
+    dimensions?: MetricSingleDimension[];
+    metadataValues?: BaselineMetadata[];
+    timestamps: Date[];
+}
+
+// @public
+export interface TimeSeriesElement {
+    data?: MetricValue[];
+    metadatavalues?: MetadataValue[];
+}
+
+// @public
+export interface TimeWindow {
+    end: Date;
+    start: Date;
+    timeZone?: string;
 }
 
 // @public
@@ -3693,6 +3540,60 @@ export interface TrackedResource extends Resource {
 export interface UserAssignedIdentity {
     readonly clientId?: string;
     readonly principalId?: string;
+}
+
+// @public
+export interface UserIdentityProperties {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
+
+// @public
+export interface VoiceReceiver {
+    countryCode: string;
+    name: string;
+    phoneNumber: string;
+}
+
+// @public
+export interface WebhookNotification {
+    properties?: Record<string, string>;
+    serviceUri?: string;
+}
+
+// @public
+export interface WebhookReceiver {
+    identifierUri?: string;
+    managedIdentity?: string;
+    name: string;
+    objectId?: string;
+    serviceUri: string;
+    tenantId?: string;
+    useAadAuth?: boolean;
+    useCommonAlertSchema?: boolean;
+}
+
+// @public
+export interface WebtestLocationAvailabilityCriteria extends MetricAlertCriteria {
+    componentId: string;
+    failedLocationCount: number;
+    odataType: "Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria";
+    webTestId: string;
+}
+
+// @public
+export interface WindowsEventLogDataSource {
+    name?: string;
+    streams?: KnownWindowsEventLogDataSourceStreams[];
+    transformKql?: string;
+    xPathQueries?: string[];
+}
+
+// @public
+export interface WindowsFirewallLogsDataSource {
+    name?: string;
+    profileFilter?: KnownWindowsFirewallLogsDataSourceProfileFilter[];
+    streams: string[];
 }
 
 // (No @packageDocumentation comment for this package)

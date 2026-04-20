@@ -5,7 +5,39 @@
 ```ts
 
 // @public
-export enum KnownMicrosoftMetricAlertAggregationTypeEnum {
+export type AggregationTypeEnum = string;
+
+// @public
+export interface DynamicMetricCriteria extends MultiMetricCriteria {
+    alertSensitivity: DynamicThresholdSensitivity;
+    criterionType: "DynamicThresholdCriterion";
+    failingPeriods: DynamicThresholdFailingPeriods;
+    ignoreDataBefore?: Date;
+    operator: DynamicThresholdOperator;
+}
+
+// @public
+export interface DynamicPromQLCriteria extends MultiPromQLCriteria {
+    alertSensitivity: DynamicThresholdSensitivity;
+    criterionType: "DynamicThresholdCriterion";
+    ignoreDataBefore?: Date;
+    operator: DynamicThresholdOperator;
+}
+
+// @public
+export interface DynamicThresholdFailingPeriods {
+    minFailingPeriodsToAlert: number;
+    numberOfEvaluationPeriods: number;
+}
+
+// @public
+export type DynamicThresholdOperator = string;
+
+// @public
+export type DynamicThresholdSensitivity = string;
+
+// @public
+export enum KnownAggregationTypeEnum {
     Average = "Average",
     Count = "Count",
     Maximum = "Maximum",
@@ -14,27 +46,21 @@ export enum KnownMicrosoftMetricAlertAggregationTypeEnum {
 }
 
 // @public
-export enum KnownMicrosoftMetricAlertCriterionType {
-    DynamicThresholdCriterion = "DynamicThresholdCriterion",
-    StaticThresholdCriterion = "StaticThresholdCriterion"
-}
-
-// @public
-export enum KnownMicrosoftMetricAlertDynamicThresholdOperator {
+export enum KnownDynamicThresholdOperator {
     GreaterOrLessThan = "GreaterOrLessThan",
     GreaterThan = "GreaterThan",
     LessThan = "LessThan"
 }
 
 // @public
-export enum KnownMicrosoftMetricAlertDynamicThresholdSensitivity {
+export enum KnownDynamicThresholdSensitivity {
     High = "High",
     Low = "Low",
     Medium = "Medium"
 }
 
 // @public
-export enum KnownMicrosoftMetricAlertOdatatype {
+export enum KnownOdatatype {
     MicrosoftAzureMonitorMultipleResourceMultipleMetricCriteria = "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria",
     MicrosoftAzureMonitorPromQLCriteria = "Microsoft.Azure.Monitor.PromQLCriteria",
     MicrosoftAzureMonitorSingleResourceMultipleMetricCriteria = "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria",
@@ -42,7 +68,7 @@ export enum KnownMicrosoftMetricAlertOdatatype {
 }
 
 // @public
-export enum KnownMicrosoftMetricAlertOperator {
+export enum KnownOperator {
     Equals = "Equals",
     GreaterThan = "GreaterThan",
     GreaterThanOrEqual = "GreaterThanOrEqual",
@@ -51,120 +77,45 @@ export enum KnownMicrosoftMetricAlertOperator {
 }
 
 // @public
-export type MicrosoftMetricAlertAggregationTypeEnum = string;
-
-// @public
-export type MicrosoftMetricAlertCriterionType = string;
-
-// @public
-export interface MicrosoftMetricAlertDynamicMetricCriteria extends MicrosoftMetricAlertMultiMetricCriteria {
-    alertSensitivity: MicrosoftMetricAlertDynamicThresholdSensitivity;
-    criterionType: "DynamicThresholdCriterion";
-    failingPeriods: MicrosoftMetricAlertDynamicThresholdFailingPeriods;
-    ignoreDataBefore?: Date;
-    operator: MicrosoftMetricAlertDynamicThresholdOperator;
-}
-
-// @public
-export interface MicrosoftMetricAlertDynamicPromQLCriteria extends MicrosoftMetricAlertMultiPromQLCriteria {
-    alertSensitivity: MicrosoftMetricAlertDynamicThresholdSensitivity;
-    criterionType: "DynamicThresholdCriterion";
-    ignoreDataBefore?: Date;
-    operator: MicrosoftMetricAlertDynamicThresholdOperator;
-}
-
-// @public
-export interface MicrosoftMetricAlertDynamicThresholdFailingPeriods {
-    minFailingPeriodsToAlert: number;
-    numberOfEvaluationPeriods: number;
-}
-
-// @public
-export type MicrosoftMetricAlertDynamicThresholdOperator = string;
-
-// @public
-export type MicrosoftMetricAlertDynamicThresholdSensitivity = string;
-
-// @public
-export interface MicrosoftMetricAlertErrorDetail {
-    additionalInfo?: MicrosoftMetricAlertErrorDetailAdditionalInfoItem[];
-    code?: string;
-    message?: string;
-    target?: string;
-}
-
-// @public
-export interface MicrosoftMetricAlertErrorDetailAdditionalInfoItem {
-    info?: Record<string, any>;
-    type?: string;
-}
-
-// @public
-export interface MicrosoftMetricAlertErrorResponse {
-    // (undocumented)
-    error?: MicrosoftMetricAlertErrorResponseError;
-}
-
-// @public
-export interface MicrosoftMetricAlertErrorResponseError {
-    additionalInfo?: MicrosoftMetricAlertErrorResponseErrorAdditionalInfoItem[];
-    code?: string;
-    details?: MicrosoftMetricAlertErrorDetail[];
-    message?: string;
-    target?: string;
-}
-
-// @public
-export interface MicrosoftMetricAlertErrorResponseErrorAdditionalInfoItem {
-    info?: Record<string, any>;
-    type?: string;
-}
-
-// @public
-export interface MicrosoftMetricAlertIdentity {
-    readonly principalId?: string;
-    readonly tenantId?: string;
-    type: MicrosoftMetricAlertIdentityType;
-    userAssignedIdentities?: Record<string, MicrosoftMetricAlertUserIdentityProperties>;
-}
-
-// @public
-export type MicrosoftMetricAlertIdentityType = "SystemAssigned" | "UserAssigned" | "None";
-
-// @public
-export interface MicrosoftMetricAlertMetricAlertAction {
+export interface MetricAlertAction {
     actionGroupId?: string;
     webHookProperties?: Record<string, string>;
 }
 
 // @public
-export interface MicrosoftMetricAlertMetricAlertCriteria {
+export interface MetricAlertCriteria {
     additionalProperties?: Record<string, any>;
-    odataType: MicrosoftMetricAlertOdatatype;
+    odataType: Odatatype;
 }
 
 // @public
-export type MicrosoftMetricAlertMetricAlertCriteriaUnion = MicrosoftMetricAlertMetricAlertSingleResourceMultipleMetricCriteria | MicrosoftMetricAlertWebtestLocationAvailabilityCriteria | MicrosoftMetricAlertMetricAlertMultipleResourceMultipleMetricCriteria | MicrosoftMetricAlertPromQLCriteria | MicrosoftMetricAlertMetricAlertCriteria;
+export type MetricAlertCriteriaUnion = MetricAlertSingleResourceMultipleMetricCriteria | WebtestLocationAvailabilityCriteria | MetricAlertMultipleResourceMultipleMetricCriteria | PromQLCriteria | MetricAlertCriteria;
 
 // @public
-export interface MicrosoftMetricAlertMetricAlertMultipleResourceMultipleMetricCriteria extends MicrosoftMetricAlertMetricAlertCriteria {
-    allOf?: MicrosoftMetricAlertMultiMetricCriteriaUnion[];
+export interface MetricAlertErrorResponse {
+    // (undocumented)
+    error?: ErrorResponseError;
+}
+
+// @public
+export interface MetricAlertMultipleResourceMultipleMetricCriteria extends MetricAlertCriteria {
+    allOf?: MultiMetricCriteriaUnion[];
     odataType: "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria";
 }
 
 // @public
-export interface MicrosoftMetricAlertMetricAlertProperties {
+export interface MetricAlertProperties {
     actionProperties?: Record<string, string>;
-    actions?: MicrosoftMetricAlertMetricAlertAction[];
+    actions?: MetricAlertAction[];
     autoMitigate?: boolean;
-    criteria: MicrosoftMetricAlertMetricAlertCriteriaUnion;
+    criteria: MetricAlertCriteriaUnion;
     customProperties?: Record<string, string>;
     description?: string;
     enabled: boolean;
     evaluationFrequency: string;
     readonly isMigrated?: boolean;
     readonly lastUpdatedTime?: Date;
-    resolveConfiguration?: MicrosoftMetricAlertResolveConfiguration;
+    resolveConfiguration?: ResolveConfiguration;
     scopes: string[];
     severity: number;
     targetResourceRegion?: string;
@@ -173,18 +124,18 @@ export interface MicrosoftMetricAlertMetricAlertProperties {
 }
 
 // @public
-export interface MicrosoftMetricAlertMetricAlertPropertiesPatch {
+export interface MetricAlertPropertiesPatch {
     actionProperties?: Record<string, string>;
-    actions?: MicrosoftMetricAlertMetricAlertAction[];
+    actions?: MetricAlertAction[];
     autoMitigate?: boolean;
-    criteria?: MicrosoftMetricAlertMetricAlertCriteriaUnion;
+    criteria?: MetricAlertCriteriaUnion;
     customProperties?: Record<string, string>;
     description?: string;
     enabled?: boolean;
     evaluationFrequency?: string;
     readonly isMigrated?: boolean;
     readonly lastUpdatedTime?: Date;
-    resolveConfiguration?: MicrosoftMetricAlertResolveConfiguration;
+    resolveConfiguration?: ResolveConfiguration;
     scopes?: string[];
     severity?: number;
     targetResourceRegion?: string;
@@ -193,19 +144,19 @@ export interface MicrosoftMetricAlertMetricAlertPropertiesPatch {
 }
 
 // @public
-export interface MicrosoftMetricAlertMetricAlertResource extends TrackedResource {
+export interface MetricAlertResource extends TrackedResource {
     actionProperties?: Record<string, string>;
-    actions?: MicrosoftMetricAlertMetricAlertAction[];
+    actions?: MetricAlertAction[];
     autoMitigate?: boolean;
-    criteria: MicrosoftMetricAlertMetricAlertCriteriaUnion;
+    criteria: MetricAlertCriteriaUnion;
     customProperties?: Record<string, string>;
     description?: string;
     enabled: boolean;
     evaluationFrequency: string;
-    identity?: MicrosoftMetricAlertIdentity;
+    identity?: Identity;
     readonly isMigrated?: boolean;
     readonly lastUpdatedTime?: Date;
-    resolveConfiguration?: MicrosoftMetricAlertResolveConfiguration;
+    resolveConfiguration?: ResolveConfiguration;
     scopes: string[];
     severity: number;
     targetResourceRegion?: string;
@@ -214,19 +165,19 @@ export interface MicrosoftMetricAlertMetricAlertResource extends TrackedResource
 }
 
 // @public
-export interface MicrosoftMetricAlertMetricAlertResourcePatch {
+export interface MetricAlertResourcePatch {
     actionProperties?: Record<string, string>;
-    actions?: MicrosoftMetricAlertMetricAlertAction[];
+    actions?: MetricAlertAction[];
     autoMitigate?: boolean;
-    criteria?: MicrosoftMetricAlertMetricAlertCriteriaUnion;
+    criteria?: MetricAlertCriteriaUnion;
     customProperties?: Record<string, string>;
     description?: string;
     enabled?: boolean;
     evaluationFrequency?: string;
-    identity?: MicrosoftMetricAlertIdentity;
+    identity?: Identity;
     readonly isMigrated?: boolean;
     readonly lastUpdatedTime?: Date;
-    resolveConfiguration?: MicrosoftMetricAlertResolveConfiguration;
+    resolveConfiguration?: ResolveConfiguration;
     scopes?: string[];
     severity?: number;
     tags?: Record<string, string>;
@@ -236,102 +187,96 @@ export interface MicrosoftMetricAlertMetricAlertResourcePatch {
 }
 
 // @public
-export interface MicrosoftMetricAlertMetricAlertSingleResourceMultipleMetricCriteria extends MicrosoftMetricAlertMetricAlertCriteria {
-    allOf?: MicrosoftMetricAlertMetricCriteria[];
+export interface MetricAlertSingleResourceMultipleMetricCriteria extends MetricAlertCriteria {
+    allOf?: MetricCriteria[];
     odataType: "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria";
 }
 
 // @public
-export interface MicrosoftMetricAlertMetricAlertStatus {
+export interface MetricAlertStatus {
     id?: string;
     name?: string;
-    properties?: MicrosoftMetricAlertMetricAlertStatusProperties;
+    properties?: MetricAlertStatusProperties;
     type?: string;
 }
 
 // @public
-export interface MicrosoftMetricAlertMetricAlertStatusProperties {
+export interface MetricAlertStatusProperties {
     dimensions?: Record<string, string>;
     status?: string;
     timestamp?: Date;
 }
 
 // @public
-export interface MicrosoftMetricAlertMetricCriteria extends MicrosoftMetricAlertMultiMetricCriteria {
+export interface MetricCriteria extends MultiMetricCriteria {
     criterionType: "StaticThresholdCriterion";
-    operator: MicrosoftMetricAlertOperator;
+    operator: Operator;
     threshold: number;
 }
 
 // @public
-export interface MicrosoftMetricAlertMetricDimension {
+export interface MetricDimension {
     name: string;
     operator: string;
     values: string[];
 }
 
 // @public
-export interface MicrosoftMetricAlertMultiMetricCriteria {
+export interface MultiMetricCriteria {
     additionalProperties?: Record<string, any>;
-    criterionType: MicrosoftMetricAlertCriterionType;
-    dimensions?: MicrosoftMetricAlertMetricDimension[];
+    criterionType: CriterionType;
+    dimensions?: MetricDimension[];
     metricName: string;
     metricNamespace?: string;
     name: string;
     skipMetricValidation?: boolean;
-    timeAggregation: MicrosoftMetricAlertAggregationTypeEnum;
+    timeAggregation: AggregationTypeEnum;
 }
 
 // @public
-export type MicrosoftMetricAlertMultiMetricCriteriaUnion = MicrosoftMetricAlertMetricCriteria | MicrosoftMetricAlertDynamicMetricCriteria | MicrosoftMetricAlertMultiMetricCriteria;
+export type MultiMetricCriteriaUnion = MetricCriteria | DynamicMetricCriteria | MultiMetricCriteria;
 
 // @public
-export interface MicrosoftMetricAlertMultiPromQLCriteria {
-    criterionType: MicrosoftMetricAlertCriterionType;
+export interface MultiPromQLCriteria {
+    criterionType: CriterionType;
     name: string;
     query: string;
 }
 
 // @public
-export type MicrosoftMetricAlertMultiPromQLCriteriaUnion = MicrosoftMetricAlertStaticPromQLCriteria | MicrosoftMetricAlertDynamicPromQLCriteria | MicrosoftMetricAlertMultiPromQLCriteria;
+export type MultiPromQLCriteriaUnion = StaticPromQLCriteria | DynamicPromQLCriteria | MultiPromQLCriteria;
 
 // @public
-export type MicrosoftMetricAlertOdatatype = string;
+export type Odatatype = string;
 
 // @public
-export type MicrosoftMetricAlertOperator = string;
+export type Operator = string;
 
 // @public
-export interface MicrosoftMetricAlertPromQLCriteria extends MicrosoftMetricAlertMetricAlertCriteria {
-    allOf?: MicrosoftMetricAlertMultiPromQLCriteriaUnion[];
-    failingPeriods?: MicrosoftMetricAlertQueryFailingPeriods;
+export interface PromQLCriteria extends MetricAlertCriteria {
+    allOf?: MultiPromQLCriteriaUnion[];
+    failingPeriods?: QueryFailingPeriods;
     odataType: "Microsoft.Azure.Monitor.PromQLCriteria";
 }
 
 // @public
-export interface MicrosoftMetricAlertQueryFailingPeriods {
+export interface QueryFailingPeriods {
     for: string;
 }
 
 // @public
-export interface MicrosoftMetricAlertResolveConfiguration {
+export interface ResolveConfiguration {
     autoResolved: boolean;
     timeToResolve?: string;
 }
 
 // @public
-export interface MicrosoftMetricAlertStaticPromQLCriteria extends MicrosoftMetricAlertMultiPromQLCriteria {
+export interface StaticPromQLCriteria extends MultiPromQLCriteria {
     criterionType: "StaticThresholdCriterion";
 }
 
 // @public
-export interface MicrosoftMetricAlertUserIdentityProperties {
-    readonly clientId?: string;
-    readonly principalId?: string;
-}
-
-// @public
-export interface MicrosoftMetricAlertWebtestLocationAvailabilityCriteria extends MicrosoftMetricAlertMetricAlertCriteria {
+export interface WebtestLocationAvailabilityCriteria extends MetricAlertCriteria {
     componentId: string;
     failedLocationCount: number;
     odataType: "Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria";

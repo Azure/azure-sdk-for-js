@@ -2,11 +2,9 @@
 // Licensed under the MIT License.
 
 export type {
-  MicrosoftServiceDiagnosticsSettingsServiceDiagnosticSettingsResource,
-  MicrosoftServiceDiagnosticsSettingsServiceDiagnosticSettings,
-  MicrosoftServiceDiagnosticsSettingsMetricSettings,
-  MicrosoftServiceDiagnosticsSettingsRetentionPolicy,
-  MicrosoftServiceDiagnosticsSettingsLogSettings,
-  MicrosoftServiceDiagnosticsSettingsErrorResponse,
-  MicrosoftServiceDiagnosticsSettingsServiceDiagnosticSettingsResourcePatch,
+  ServiceDiagnosticSettingsResource,
+  ServiceDiagnosticSettings,
+  MetricSettings,
+  LogSettings,
+  ServiceDiagnosticSettingsResourcePatch,
 } from "./models.js";

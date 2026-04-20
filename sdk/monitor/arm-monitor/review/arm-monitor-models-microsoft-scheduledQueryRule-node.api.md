@@ -5,21 +5,70 @@
 ```ts
 
 // @public
-export enum KnownMicrosoftScheduledQueryRuleAlertSeverity {
-    // (undocumented)
-    AlertSeverity0 = 0,
-    // (undocumented)
-    AlertSeverity1 = 1,
-    // (undocumented)
-    AlertSeverity2 = 2,
-    // (undocumented)
-    AlertSeverity3 = 3,
-    // (undocumented)
-    AlertSeverity4 = 4
+export interface Actions {
+    actionGroups?: string[];
+    actionProperties?: Record<string, string>;
+    customProperties?: Record<string, string>;
 }
 
 // @public
-export enum KnownMicrosoftScheduledQueryRuleConditionOperator {
+export type AlertSeverity = number;
+
+// @public
+export interface Condition {
+    alertSensitivity?: string;
+    criterionType?: CriterionType;
+    dimensions?: Dimension[];
+    failingPeriods?: ConditionFailingPeriods;
+    ignoreDataBefore?: Date;
+    metricMeasureColumn?: string;
+    metricName?: string;
+    minRecurrenceCount?: number;
+    operator?: ConditionOperator;
+    query?: string;
+    resourceIdColumn?: string;
+    threshold?: number;
+    timeAggregation?: TimeAggregation;
+}
+
+// @public
+export interface ConditionFailingPeriods {
+    minFailingPeriodsToAlert?: number;
+    numberOfEvaluationPeriods?: number;
+}
+
+// @public
+export type ConditionOperator = string;
+
+// @public
+export interface Dimension {
+    name: string;
+    operator: DimensionOperator;
+    values: string[];
+}
+
+// @public
+export type DimensionOperator = string;
+
+// @public
+export type Kind = string;
+
+// @public
+export enum KnownAlertSeverity {
+    // (undocumented)
+    Four = 4,
+    // (undocumented)
+    One = 1,
+    // (undocumented)
+    Three = 3,
+    // (undocumented)
+    Two = 2,
+    // (undocumented)
+    Zero = 0
+}
+
+// @public
+export enum KnownConditionOperator {
     Equals = "Equals",
     GreaterOrLessThan = "GreaterOrLessThan",
     GreaterThan = "GreaterThan",
@@ -29,26 +78,20 @@ export enum KnownMicrosoftScheduledQueryRuleConditionOperator {
 }
 
 // @public
-export enum KnownMicrosoftScheduledQueryRuleCriterionType {
-    DynamicThresholdCriterion = "DynamicThresholdCriterion",
-    StaticThresholdCriterion = "StaticThresholdCriterion"
-}
-
-// @public
-export enum KnownMicrosoftScheduledQueryRuleDimensionOperator {
+export enum KnownDimensionOperator {
     Exclude = "Exclude",
     Include = "Include"
 }
 
 // @public
-export enum KnownMicrosoftScheduledQueryRuleKind {
+export enum KnownKind {
     LogAlert = "LogAlert",
     LogToMetric = "LogToMetric",
     SimpleLogAlert = "SimpleLogAlert"
 }
 
 // @public
-export enum KnownMicrosoftScheduledQueryRuleTimeAggregation {
+export enum KnownTimeAggregation {
     Average = "Average",
     Count = "Count",
     Maximum = "Maximum",
@@ -57,91 +100,23 @@ export enum KnownMicrosoftScheduledQueryRuleTimeAggregation {
 }
 
 // @public
-export interface MicrosoftScheduledQueryRuleActions {
-    actionGroups?: string[];
-    actionProperties?: Record<string, string>;
-    customProperties?: Record<string, string>;
-}
-
-// @public
-export type MicrosoftScheduledQueryRuleAlertSeverity = number;
-
-// @public
-export interface MicrosoftScheduledQueryRuleCondition {
-    alertSensitivity?: string;
-    criterionType?: MicrosoftScheduledQueryRuleCriterionType;
-    dimensions?: MicrosoftScheduledQueryRuleDimension[];
-    failingPeriods?: MicrosoftScheduledQueryRuleConditionFailingPeriods;
-    ignoreDataBefore?: Date;
-    metricMeasureColumn?: string;
-    metricName?: string;
-    minRecurrenceCount?: number;
-    operator?: MicrosoftScheduledQueryRuleConditionOperator;
-    query?: string;
-    resourceIdColumn?: string;
-    threshold?: number;
-    timeAggregation?: MicrosoftScheduledQueryRuleTimeAggregation;
-}
-
-// @public
-export interface MicrosoftScheduledQueryRuleConditionFailingPeriods {
-    minFailingPeriodsToAlert?: number;
-    numberOfEvaluationPeriods?: number;
-}
-
-// @public
-export type MicrosoftScheduledQueryRuleConditionOperator = string;
-
-// @public
-export type MicrosoftScheduledQueryRuleCriterionType = string;
-
-// @public
-export interface MicrosoftScheduledQueryRuleDimension {
-    name: string;
-    operator: MicrosoftScheduledQueryRuleDimensionOperator;
-    values: string[];
-}
-
-// @public
-export type MicrosoftScheduledQueryRuleDimensionOperator = string;
-
-// @public
-export interface MicrosoftScheduledQueryRuleErrorContract {
-    error?: ErrorResponse;
-}
-
-// @public
-export interface MicrosoftScheduledQueryRuleIdentity {
-    readonly principalId?: string;
-    readonly tenantId?: string;
-    type: MicrosoftScheduledQueryRuleIdentityType;
-    userAssignedIdentities?: Record<string, MicrosoftScheduledQueryRuleUserIdentityProperties>;
-}
-
-// @public
-export type MicrosoftScheduledQueryRuleIdentityType = "SystemAssigned" | "UserAssigned" | "None";
-
-// @public
-export type MicrosoftScheduledQueryRuleKind = string;
-
-// @public
-export interface MicrosoftScheduledQueryRuleRuleResolveConfiguration {
+export interface RuleResolveConfiguration {
     autoResolved?: boolean;
     timeToResolve?: string;
 }
 
 // @public
-export interface MicrosoftScheduledQueryRuleScheduledQueryRuleCriteria {
-    allOf?: MicrosoftScheduledQueryRuleCondition[];
+export interface ScheduledQueryRuleCriteria {
+    allOf?: Condition[];
 }
 
 // @public
-export interface MicrosoftScheduledQueryRuleScheduledQueryRuleProperties {
-    actions?: MicrosoftScheduledQueryRuleActions;
+export interface ScheduledQueryRuleProperties {
+    actions?: Actions;
     autoMitigate?: boolean;
     checkWorkspaceAlertsStorageConfigured?: boolean;
     readonly createdWithApiVersion?: string;
-    criteria?: MicrosoftScheduledQueryRuleScheduledQueryRuleCriteria;
+    criteria?: ScheduledQueryRuleCriteria;
     description?: string;
     displayName?: string;
     enabled?: boolean;
@@ -150,36 +125,36 @@ export interface MicrosoftScheduledQueryRuleScheduledQueryRuleProperties {
     readonly isWorkspaceAlertsStorageConfigured?: boolean;
     muteActionsDuration?: string;
     overrideQueryTimeRange?: string;
-    resolveConfiguration?: MicrosoftScheduledQueryRuleRuleResolveConfiguration;
+    resolveConfiguration?: RuleResolveConfiguration;
     scopes?: string[];
-    severity?: MicrosoftScheduledQueryRuleAlertSeverity;
+    severity?: AlertSeverity;
     skipQueryValidation?: boolean;
     targetResourceTypes?: string[];
     windowSize?: string;
 }
 
 // @public
-export interface MicrosoftScheduledQueryRuleScheduledQueryRuleResource extends ProxyResource {
-    actions?: MicrosoftScheduledQueryRuleActions;
+export interface ScheduledQueryRuleResource extends ProxyResource {
+    actions?: Actions;
     autoMitigate?: boolean;
     checkWorkspaceAlertsStorageConfigured?: boolean;
     readonly createdWithApiVersion?: string;
-    criteria?: MicrosoftScheduledQueryRuleScheduledQueryRuleCriteria;
+    criteria?: ScheduledQueryRuleCriteria;
     description?: string;
     displayName?: string;
     enabled?: boolean;
     readonly etag?: string;
     evaluationFrequency?: string;
-    identity?: MicrosoftScheduledQueryRuleIdentity;
+    identity?: Identity;
     readonly isLegacyLogAnalyticsRule?: boolean;
     readonly isWorkspaceAlertsStorageConfigured?: boolean;
-    kind?: MicrosoftScheduledQueryRuleKind;
+    kind?: Kind;
     location: string;
     muteActionsDuration?: string;
     overrideQueryTimeRange?: string;
-    resolveConfiguration?: MicrosoftScheduledQueryRuleRuleResolveConfiguration;
+    resolveConfiguration?: RuleResolveConfiguration;
     scopes?: string[];
-    severity?: MicrosoftScheduledQueryRuleAlertSeverity;
+    severity?: AlertSeverity;
     skipQueryValidation?: boolean;
     tags?: Record<string, string>;
     targetResourceTypes?: string[];
@@ -187,24 +162,24 @@ export interface MicrosoftScheduledQueryRuleScheduledQueryRuleResource extends P
 }
 
 // @public
-export interface MicrosoftScheduledQueryRuleScheduledQueryRuleResourcePatch {
-    actions?: MicrosoftScheduledQueryRuleActions;
+export interface ScheduledQueryRuleResourcePatch {
+    actions?: Actions;
     autoMitigate?: boolean;
     checkWorkspaceAlertsStorageConfigured?: boolean;
     readonly createdWithApiVersion?: string;
-    criteria?: MicrosoftScheduledQueryRuleScheduledQueryRuleCriteria;
+    criteria?: ScheduledQueryRuleCriteria;
     description?: string;
     displayName?: string;
     enabled?: boolean;
     evaluationFrequency?: string;
-    identity?: MicrosoftScheduledQueryRuleIdentity;
+    identity?: Identity;
     readonly isLegacyLogAnalyticsRule?: boolean;
     readonly isWorkspaceAlertsStorageConfigured?: boolean;
     muteActionsDuration?: string;
     overrideQueryTimeRange?: string;
-    resolveConfiguration?: MicrosoftScheduledQueryRuleRuleResolveConfiguration;
+    resolveConfiguration?: RuleResolveConfiguration;
     scopes?: string[];
-    severity?: MicrosoftScheduledQueryRuleAlertSeverity;
+    severity?: AlertSeverity;
     skipQueryValidation?: boolean;
     tags?: Record<string, string>;
     targetResourceTypes?: string[];
@@ -212,13 +187,7 @@ export interface MicrosoftScheduledQueryRuleScheduledQueryRuleResourcePatch {
 }
 
 // @public
-export type MicrosoftScheduledQueryRuleTimeAggregation = string;
-
-// @public
-export interface MicrosoftScheduledQueryRuleUserIdentityProperties {
-    readonly clientId?: string;
-    readonly principalId?: string;
-}
+export type TimeAggregation = string;
 
 // (No @packageDocumentation comment for this package)
 

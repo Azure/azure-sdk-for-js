@@ -1,6 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { ErrorResponseError } from "../common/models.js";
+import { errorResponseErrorDeserializer } from "../common/models.js";
+
 /**
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
@@ -8,34 +11,28 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** A list of metric baselines. */
-export interface _MicrosoftMetricBaselinesMetricBaselinesResponse {
+export interface _MetricBaselinesResponse {
   /** The list of metric baselines. */
-  value?: MicrosoftMetricBaselinesSingleMetricBaseline[];
+  value?: SingleMetricBaseline[];
   /** The URL to get the next set of results. */
   nextLink?: string;
 }
 
-export function _microsoftMetricBaselinesMetricBaselinesResponseDeserializer(
-  item: any,
-): _MicrosoftMetricBaselinesMetricBaselinesResponse {
+export function _metricBaselinesResponseDeserializer(item: any): _MetricBaselinesResponse {
   return {
-    value: !item["value"]
-      ? item["value"]
-      : microsoftMetricBaselinesSingleMetricBaselineArrayDeserializer(item["value"]),
+    value: !item["value"] ? item["value"] : singleMetricBaselineArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function microsoftMetricBaselinesSingleMetricBaselineArrayDeserializer(
-  result: Array<MicrosoftMetricBaselinesSingleMetricBaseline>,
-): any[] {
+export function singleMetricBaselineArrayDeserializer(result: Array<SingleMetricBaseline>): any[] {
   return result.map((item) => {
-    return microsoftMetricBaselinesSingleMetricBaselineDeserializer(item);
+    return singleMetricBaselineDeserializer(item);
   });
 }
 
 /** The baseline results of a single metric. */
-export interface MicrosoftMetricBaselinesSingleMetricBaseline {
+export interface SingleMetricBaseline {
   /** The metric baseline Id. */
   id: string;
   /** The resource type of the metric baseline resource. */
@@ -49,12 +46,10 @@ export interface MicrosoftMetricBaselinesSingleMetricBaseline {
   /** The namespace of the metrics been queried. */
   namespace?: string;
   /** The baseline for each time series that was queried. */
-  baselines: MicrosoftMetricBaselinesTimeSeriesBaseline[];
+  baselines: TimeSeriesBaseline[];
 }
 
-export function microsoftMetricBaselinesSingleMetricBaselineDeserializer(
-  item: any,
-): MicrosoftMetricBaselinesSingleMetricBaseline {
+export function singleMetricBaselineDeserializer(item: any): SingleMetricBaseline {
   return {
     id: item["id"],
     type: item["type"],
@@ -64,7 +59,7 @@ export function microsoftMetricBaselinesSingleMetricBaselineDeserializer(
 }
 
 /** The response to a metric baselines query. */
-export interface MicrosoftMetricBaselinesMetricBaselinesProperties {
+export interface MetricBaselinesProperties {
   /** The timespan for which the data was retrieved. Its value consists of two datetimes concatenated, separated by '/'.  This may be adjusted in the future and returned back from what was originally requested. */
   timespan: string;
   /** The interval (window size) for which the metric data was returned in.  This may be adjusted in the future and returned back from what was originally requested.  This is not present if a metadata request was made. */
@@ -72,106 +67,94 @@ export interface MicrosoftMetricBaselinesMetricBaselinesProperties {
   /** The namespace of the metrics been queried. */
   namespace?: string;
   /** The baseline for each time series that was queried. */
-  baselines: MicrosoftMetricBaselinesTimeSeriesBaseline[];
+  baselines: TimeSeriesBaseline[];
 }
 
-export function microsoftMetricBaselinesMetricBaselinesPropertiesDeserializer(
-  item: any,
-): MicrosoftMetricBaselinesMetricBaselinesProperties {
+export function metricBaselinesPropertiesDeserializer(item: any): MetricBaselinesProperties {
   return {
     timespan: item["timespan"],
     interval: item["interval"],
     namespace: item["namespace"],
-    baselines: microsoftMetricBaselinesTimeSeriesBaselineArrayDeserializer(item["baselines"]),
+    baselines: timeSeriesBaselineArrayDeserializer(item["baselines"]),
   };
 }
 
-export function microsoftMetricBaselinesTimeSeriesBaselineArrayDeserializer(
-  result: Array<MicrosoftMetricBaselinesTimeSeriesBaseline>,
-): any[] {
+export function timeSeriesBaselineArrayDeserializer(result: Array<TimeSeriesBaseline>): any[] {
   return result.map((item) => {
-    return microsoftMetricBaselinesTimeSeriesBaselineDeserializer(item);
+    return timeSeriesBaselineDeserializer(item);
   });
 }
 
 /** The baseline values for a single time series. */
-export interface MicrosoftMetricBaselinesTimeSeriesBaseline {
+export interface TimeSeriesBaseline {
   /** The aggregation type of the metric. */
   aggregation: string;
   /** The dimensions of this time series. */
-  dimensions?: MicrosoftMetricBaselinesMetricSingleDimension[];
+  dimensions?: MetricSingleDimension[];
   /** The list of timestamps of the baselines. */
   timestamps: Date[];
   /** The baseline values for each sensitivity. */
-  data: MicrosoftMetricBaselinesSingleBaseline[];
+  data: SingleBaseline[];
   /** The baseline metadata values. */
-  metadataValues?: MicrosoftMetricBaselinesBaselineMetadata[];
+  metadataValues?: BaselineMetadata[];
 }
 
-export function microsoftMetricBaselinesTimeSeriesBaselineDeserializer(
-  item: any,
-): MicrosoftMetricBaselinesTimeSeriesBaseline {
+export function timeSeriesBaselineDeserializer(item: any): TimeSeriesBaseline {
   return {
     aggregation: item["aggregation"],
     dimensions: !item["dimensions"]
       ? item["dimensions"]
-      : microsoftMetricBaselinesMetricSingleDimensionArrayDeserializer(item["dimensions"]),
+      : metricSingleDimensionArrayDeserializer(item["dimensions"]),
     timestamps: item["timestamps"].map((p: any) => {
       return new Date(p);
     }),
-    data: microsoftMetricBaselinesSingleBaselineArrayDeserializer(item["data"]),
+    data: singleBaselineArrayDeserializer(item["data"]),
     metadataValues: !item["metadataValues"]
       ? item["metadataValues"]
-      : microsoftMetricBaselinesBaselineMetadataArrayDeserializer(item["metadataValues"]),
+      : baselineMetadataArrayDeserializer(item["metadataValues"]),
   };
 }
 
-export function microsoftMetricBaselinesMetricSingleDimensionArrayDeserializer(
-  result: Array<MicrosoftMetricBaselinesMetricSingleDimension>,
+export function metricSingleDimensionArrayDeserializer(
+  result: Array<MetricSingleDimension>,
 ): any[] {
   return result.map((item) => {
-    return microsoftMetricBaselinesMetricSingleDimensionDeserializer(item);
+    return metricSingleDimensionDeserializer(item);
   });
 }
 
 /** The metric dimension name and value. */
-export interface MicrosoftMetricBaselinesMetricSingleDimension {
+export interface MetricSingleDimension {
   /** Name of the dimension. */
   name: string;
   /** Value of the dimension. */
   value: string;
 }
 
-export function microsoftMetricBaselinesMetricSingleDimensionDeserializer(
-  item: any,
-): MicrosoftMetricBaselinesMetricSingleDimension {
+export function metricSingleDimensionDeserializer(item: any): MetricSingleDimension {
   return {
     name: item["name"],
     value: item["value"],
   };
 }
 
-export function microsoftMetricBaselinesSingleBaselineArrayDeserializer(
-  result: Array<MicrosoftMetricBaselinesSingleBaseline>,
-): any[] {
+export function singleBaselineArrayDeserializer(result: Array<SingleBaseline>): any[] {
   return result.map((item) => {
-    return microsoftMetricBaselinesSingleBaselineDeserializer(item);
+    return singleBaselineDeserializer(item);
   });
 }
 
 /** The baseline values for a single sensitivity value. */
-export interface MicrosoftMetricBaselinesSingleBaseline {
+export interface SingleBaseline {
   /** the sensitivity of the baseline. */
-  sensitivity: MicrosoftMetricBaselinesBaselineSensitivity;
+  sensitivity: BaselineSensitivity;
   /** The low thresholds of the baseline. */
   lowThresholds: number[];
   /** The high thresholds of the baseline. */
   highThresholds: number[];
 }
 
-export function microsoftMetricBaselinesSingleBaselineDeserializer(
-  item: any,
-): MicrosoftMetricBaselinesSingleBaseline {
+export function singleBaselineDeserializer(item: any): SingleBaseline {
   return {
     sensitivity: item["sensitivity"],
     lowThresholds: item["lowThresholds"].map((p: any) => {
@@ -184,7 +167,7 @@ export function microsoftMetricBaselinesSingleBaselineDeserializer(
 }
 
 /** the sensitivity of the baseline. */
-export enum KnownMicrosoftMetricBaselinesBaselineSensitivity {
+export enum KnownBaselineSensitivity {
   /** Low */
   Low = "Low",
   /** Medium */
@@ -195,34 +178,30 @@ export enum KnownMicrosoftMetricBaselinesBaselineSensitivity {
 
 /**
  * the sensitivity of the baseline. \
- * {@link KnownMicrosoftMetricBaselinesBaselineSensitivity} can be used interchangeably with MicrosoftMetricBaselinesBaselineSensitivity,
+ * {@link KnownBaselineSensitivity} can be used interchangeably with BaselineSensitivity,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Low**: Low \
  * **Medium**: Medium \
  * **High**: High
  */
-export type MicrosoftMetricBaselinesBaselineSensitivity = string;
+export type BaselineSensitivity = string;
 
-export function microsoftMetricBaselinesBaselineMetadataArrayDeserializer(
-  result: Array<MicrosoftMetricBaselinesBaselineMetadata>,
-): any[] {
+export function baselineMetadataArrayDeserializer(result: Array<BaselineMetadata>): any[] {
   return result.map((item) => {
-    return microsoftMetricBaselinesBaselineMetadataDeserializer(item);
+    return baselineMetadataDeserializer(item);
   });
 }
 
 /** Represents a baseline metadata value. */
-export interface MicrosoftMetricBaselinesBaselineMetadata {
+export interface BaselineMetadata {
   /** Name of the baseline metadata. */
   name: string;
   /** Value of the baseline metadata. */
   value: string;
 }
 
-export function microsoftMetricBaselinesBaselineMetadataDeserializer(
-  item: any,
-): MicrosoftMetricBaselinesBaselineMetadata {
+export function baselineMetadataDeserializer(item: any): BaselineMetadata {
   return {
     name: item["name"],
     value: item["value"],
@@ -230,149 +209,21 @@ export function microsoftMetricBaselinesBaselineMetadataDeserializer(
 }
 
 /** Describes the format of Error response. */
-export interface MicrosoftMetricBaselinesErrorResponse {
-  error?: MicrosoftMetricBaselinesErrorResponseError;
+export interface MetricBaselinesErrorResponse {
+  error?: ErrorResponseError;
 }
 
-export function microsoftMetricBaselinesErrorResponseDeserializer(
-  item: any,
-): MicrosoftMetricBaselinesErrorResponse {
+export function metricBaselinesErrorResponseDeserializer(item: any): MetricBaselinesErrorResponse {
   return {
-    error: !item["error"]
-      ? item["error"]
-      : microsoftMetricBaselinesErrorResponseErrorDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : errorResponseErrorDeserializer(item["error"]),
   };
 }
-
-/** model interface MicrosoftMetricBaselinesErrorResponseError */
-export interface MicrosoftMetricBaselinesErrorResponseError {
-  /** Unlocalized string which can be used to programmatically identify the error. */
-  code?: string;
-  /** Describes the error in detail and provides debugging information. If Accept-Language is set in the request, it must be localized to that language. */
-  message?: string;
-  /** The target of the particular error (for example, the name of the property in error). */
-  target?: string;
-  /** An array of additional nested error response info objects, as described by this contract. */
-  details?: MicrosoftMetricBaselinesErrorDetail[];
-  /** An array of objects with 'type' and 'info' properties. The schema of 'info' is service-specific and dependent on the 'type' string. */
-  additionalInfo?: MicrosoftMetricBaselinesErrorResponseErrorAdditionalInfoItem[];
-}
-
-export function microsoftMetricBaselinesErrorResponseErrorDeserializer(
-  item: any,
-): MicrosoftMetricBaselinesErrorResponseError {
-  return {
-    code: item["code"],
-    message: item["message"],
-    target: item["target"],
-    details: !item["details"]
-      ? item["details"]
-      : microsoftMetricBaselinesErrorDetailArrayDeserializer(item["details"]),
-    additionalInfo: !item["additionalInfo"]
-      ? item["additionalInfo"]
-      : microsoftMetricBaselinesErrorResponseErrorAdditionalInfoItemArrayDeserializer(
-          item["additionalInfo"],
-        ),
-  };
-}
-
-export function microsoftMetricBaselinesErrorDetailArrayDeserializer(
-  result: Array<MicrosoftMetricBaselinesErrorDetail>,
-): any[] {
-  return result.map((item) => {
-    return microsoftMetricBaselinesErrorDetailDeserializer(item);
-  });
-}
-
-/** Describes details of an error response. */
-export interface MicrosoftMetricBaselinesErrorDetail {
-  /** Unlocalized string which can be used to programmatically identify the error. */
-  code?: string;
-  /** Describes the error in detail and provides debugging information. */
-  message?: string;
-  /** The target of the particular error (for example, the name of the property in error). */
-  target?: string;
-  /** An array of objects with 'type' and 'info' properties. The schema of 'info' is service-specific and dependent on the 'type' string. */
-  additionalInfo?: MicrosoftMetricBaselinesErrorDetailAdditionalInfoItem[];
-}
-
-export function microsoftMetricBaselinesErrorDetailDeserializer(
-  item: any,
-): MicrosoftMetricBaselinesErrorDetail {
-  return {
-    code: item["code"],
-    message: item["message"],
-    target: item["target"],
-    additionalInfo: !item["additionalInfo"]
-      ? item["additionalInfo"]
-      : microsoftMetricBaselinesErrorDetailAdditionalInfoItemArrayDeserializer(
-          item["additionalInfo"],
-        ),
-  };
-}
-
-export function microsoftMetricBaselinesErrorDetailAdditionalInfoItemArrayDeserializer(
-  result: Array<MicrosoftMetricBaselinesErrorDetailAdditionalInfoItem>,
-): any[] {
-  return result.map((item) => {
-    return microsoftMetricBaselinesErrorDetailAdditionalInfoItemDeserializer(item);
-  });
-}
-
-/** model interface MicrosoftMetricBaselinesErrorDetailAdditionalInfoItem */
-export interface MicrosoftMetricBaselinesErrorDetailAdditionalInfoItem {
-  /** The type of additional information. */
-  type?: string;
-  /** The additional information specific to the type. */
-  info?: Record<string, any>;
-}
-
-export function microsoftMetricBaselinesErrorDetailAdditionalInfoItemDeserializer(
-  item: any,
-): MicrosoftMetricBaselinesErrorDetailAdditionalInfoItem {
-  return {
-    type: item["type"],
-    info: !item["info"]
-      ? item["info"]
-      : Object.fromEntries(Object.entries(item["info"]).map(([k, p]: [string, any]) => [k, p])),
-  };
-}
-
-export function microsoftMetricBaselinesErrorResponseErrorAdditionalInfoItemArrayDeserializer(
-  result: Array<MicrosoftMetricBaselinesErrorResponseErrorAdditionalInfoItem>,
-): any[] {
-  return result.map((item) => {
-    return microsoftMetricBaselinesErrorResponseErrorAdditionalInfoItemDeserializer(item);
-  });
-}
-
-/** model interface MicrosoftMetricBaselinesErrorResponseErrorAdditionalInfoItem */
-export interface MicrosoftMetricBaselinesErrorResponseErrorAdditionalInfoItem {
-  /** The type of additional information. */
-  type?: string;
-  /** The additional information specific to the type. */
-  info?: Record<string, any>;
-}
-
-export function microsoftMetricBaselinesErrorResponseErrorAdditionalInfoItemDeserializer(
-  item: any,
-): MicrosoftMetricBaselinesErrorResponseErrorAdditionalInfoItem {
-  return {
-    type: item["type"],
-    info: !item["info"]
-      ? item["info"]
-      : Object.fromEntries(Object.entries(item["info"]).map(([k, p]: [string, any]) => [k, p])),
-  };
-}
-
-/** Type of MicrosoftMetricBaselinesResultType */
-export type MicrosoftMetricBaselinesResultType = "Data" | "Metadata";
 
 export function _singleMetricBaselinePropertiesDeserializer(item: any) {
   return {
     timespan: item["timespan"],
     interval: item["interval"],
     namespace: item["namespace"],
-    baselines: microsoftMetricBaselinesTimeSeriesBaselineArrayDeserializer(item["baselines"]),
+    baselines: timeSeriesBaselineArrayDeserializer(item["baselines"]),
   };
 }

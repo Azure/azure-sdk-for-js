@@ -14,15 +14,11 @@ async function getsListOfPrivateEndpointConnectionsOnAPrivateLinkScope() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new MonitorClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (const item of client.privateEndpointConnections.listByPrivateLinkScope(
+  const result = await client.privateEndpointConnections.listByPrivateLinkScope(
     "MyResourceGroup",
     "MyPrivateLinkScope",
-  )) {
-    resArray.push(item);
-  }
-
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 async function main() {

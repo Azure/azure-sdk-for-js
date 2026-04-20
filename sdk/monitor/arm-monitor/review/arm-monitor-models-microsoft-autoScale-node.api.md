@@ -5,19 +5,13 @@
 ```ts
 
 // @public
-export enum KnownMicrosoftAutoScaleScaleRuleMetricDimensionOperationType {
-    Equals = "Equals",
-    NotEquals = "NotEquals"
-}
-
-// @public
-export interface MicrosoftAutoScaleAutoscaleErrorResponse {
-    error?: MicrosoftAutoScaleAutoscaleErrorResponseError;
+export interface AutoscaleErrorResponse {
+    error?: AutoscaleErrorResponseError;
     readonly systemData?: SystemData;
 }
 
 // @public
-export interface MicrosoftAutoScaleAutoscaleErrorResponseError {
+export interface AutoscaleErrorResponseError {
     code?: string;
     details?: string;
     message?: string;
@@ -25,99 +19,105 @@ export interface MicrosoftAutoScaleAutoscaleErrorResponseError {
 }
 
 // @public
-export interface MicrosoftAutoScaleAutoscaleNotification {
-    email?: MicrosoftAutoScaleEmailNotification;
-    operation: MicrosoftAutoScaleOperationType;
-    webhooks?: MicrosoftAutoScaleWebhookNotification[];
+export interface AutoscaleNotification {
+    email?: EmailNotification;
+    operation: OperationType;
+    webhooks?: WebhookNotification[];
 }
 
 // @public
-export interface MicrosoftAutoScaleAutoscaleProfile {
-    capacity: MicrosoftAutoScaleScaleCapacity;
-    fixedDate?: MicrosoftAutoScaleTimeWindow;
+export interface AutoscaleProfile {
+    capacity: ScaleCapacity;
+    fixedDate?: TimeWindow;
     name: string;
-    recurrence?: MicrosoftAutoScaleRecurrence;
-    rules: MicrosoftAutoScaleScaleRule[];
+    recurrence?: Recurrence;
+    rules: ScaleRule[];
 }
 
 // @public
-export interface MicrosoftAutoScaleAutoscaleSetting {
+export interface AutoscaleSetting {
     enabled?: boolean;
     name?: string;
-    notifications?: MicrosoftAutoScaleAutoscaleNotification[];
-    predictiveAutoscalePolicy?: MicrosoftAutoScalePredictiveAutoscalePolicy;
-    profiles: MicrosoftAutoScaleAutoscaleProfile[];
+    notifications?: AutoscaleNotification[];
+    predictiveAutoscalePolicy?: PredictiveAutoscalePolicy;
+    profiles: AutoscaleProfile[];
     targetResourceLocation?: string;
     targetResourceUri?: string;
 }
 
 // @public
-export interface MicrosoftAutoScaleAutoscaleSettingResource extends TrackedResource {
+export interface AutoscaleSettingResource extends TrackedResource {
     enabled?: boolean;
     namePropertiesName?: string;
-    notifications?: MicrosoftAutoScaleAutoscaleNotification[];
-    predictiveAutoscalePolicy?: MicrosoftAutoScalePredictiveAutoscalePolicy;
-    profiles: MicrosoftAutoScaleAutoscaleProfile[];
+    notifications?: AutoscaleNotification[];
+    predictiveAutoscalePolicy?: PredictiveAutoscalePolicy;
+    profiles: AutoscaleProfile[];
     targetResourceLocation?: string;
     targetResourceUri?: string;
 }
 
 // @public
-export interface MicrosoftAutoScaleAutoscaleSettingResourcePatch {
+export interface AutoscaleSettingResourcePatch {
     enabled?: boolean;
     name?: string;
-    notifications?: MicrosoftAutoScaleAutoscaleNotification[];
-    predictiveAutoscalePolicy?: MicrosoftAutoScalePredictiveAutoscalePolicy;
-    profiles?: MicrosoftAutoScaleAutoscaleProfile[];
+    notifications?: AutoscaleNotification[];
+    predictiveAutoscalePolicy?: PredictiveAutoscalePolicy;
+    profiles?: AutoscaleProfile[];
     tags?: Record<string, string>;
     targetResourceLocation?: string;
     targetResourceUri?: string;
 }
 
 // @public
-export type MicrosoftAutoScaleComparisonOperationType = "Equals" | "NotEquals" | "GreaterThan" | "GreaterThanOrEqual" | "LessThan" | "LessThanOrEqual";
+export type ComparisonOperationType = "Equals" | "NotEquals" | "GreaterThan" | "GreaterThanOrEqual" | "LessThan" | "LessThanOrEqual";
 
 // @public
-export interface MicrosoftAutoScaleEmailNotification {
+export interface EmailNotification {
     customEmails?: string[];
     sendToSubscriptionAdministrator?: boolean;
     sendToSubscriptionCoAdministrators?: boolean;
 }
 
 // @public
-export type MicrosoftAutoScaleMetricStatisticType = "Average" | "Min" | "Max" | "Sum" | "Count";
+export enum KnownScaleRuleMetricDimensionOperationType {
+    Equals = "Equals",
+    NotEquals = "NotEquals"
+}
 
 // @public
-export interface MicrosoftAutoScaleMetricTrigger {
-    dimensions?: MicrosoftAutoScaleScaleRuleMetricDimension[];
+export type MetricStatisticType = "Average" | "Min" | "Max" | "Sum" | "Count";
+
+// @public
+export interface MetricTrigger {
+    dimensions?: ScaleRuleMetricDimension[];
     dividePerInstance?: boolean;
     metricName: string;
     metricNamespace?: string;
     metricResourceLocation?: string;
     metricResourceUri: string;
-    operator: MicrosoftAutoScaleComparisonOperationType;
-    statistic: MicrosoftAutoScaleMetricStatisticType;
+    operator: ComparisonOperationType;
+    statistic: MetricStatisticType;
     threshold: number;
-    timeAggregation: MicrosoftAutoScaleTimeAggregationType;
+    timeAggregation: TimeAggregationType;
     timeGrain: string;
     timeWindow: string;
 }
 
 // @public
-export type MicrosoftAutoScaleOperationType = "Scale";
+export type OperationType = "Scale";
 
 // @public
-export interface MicrosoftAutoScalePredictiveAutoscalePolicy {
+export interface PredictiveAutoscalePolicy {
     scaleLookAheadTime?: string;
-    scaleMode: MicrosoftAutoScalePredictiveAutoscalePolicyScaleMode;
+    scaleMode: PredictiveAutoscalePolicyScaleMode;
 }
 
 // @public
-export type MicrosoftAutoScalePredictiveAutoscalePolicyScaleMode = "Disabled" | "ForecastOnly" | "Enabled";
+export type PredictiveAutoscalePolicyScaleMode = "Disabled" | "ForecastOnly" | "Enabled";
 
 // @public
-export interface MicrosoftAutoScalePredictiveResponse {
-    data?: MicrosoftAutoScalePredictiveValue[];
+export interface PredictiveResponse {
+    data?: PredictiveValue[];
     interval?: string;
     metricName?: string;
     targetResourceId?: string;
@@ -125,22 +125,22 @@ export interface MicrosoftAutoScalePredictiveResponse {
 }
 
 // @public
-export interface MicrosoftAutoScalePredictiveValue {
+export interface PredictiveValue {
     timeStamp: Date;
     value: number;
 }
 
 // @public
-export interface MicrosoftAutoScaleRecurrence {
-    frequency: MicrosoftAutoScaleRecurrenceFrequency;
-    schedule: MicrosoftAutoScaleRecurrentSchedule;
+export interface Recurrence {
+    frequency: RecurrenceFrequency;
+    schedule: RecurrentSchedule;
 }
 
 // @public
-export type MicrosoftAutoScaleRecurrenceFrequency = "None" | "Second" | "Minute" | "Hour" | "Day" | "Week" | "Month" | "Year";
+export type RecurrenceFrequency = "None" | "Second" | "Minute" | "Hour" | "Day" | "Week" | "Month" | "Year";
 
 // @public
-export interface MicrosoftAutoScaleRecurrentSchedule {
+export interface RecurrentSchedule {
     days: string[];
     hours: number[];
     minutes: number[];
@@ -148,54 +148,54 @@ export interface MicrosoftAutoScaleRecurrentSchedule {
 }
 
 // @public
-export interface MicrosoftAutoScaleScaleAction {
+export interface ScaleAction {
     cooldown: string;
-    direction: MicrosoftAutoScaleScaleDirection;
-    type: MicrosoftAutoScaleScaleType;
+    direction: ScaleDirection;
+    type: ScaleType;
     value?: string;
 }
 
 // @public
-export interface MicrosoftAutoScaleScaleCapacity {
+export interface ScaleCapacity {
     default: string;
     maximum: string;
     minimum: string;
 }
 
 // @public
-export type MicrosoftAutoScaleScaleDirection = "None" | "Increase" | "Decrease";
+export type ScaleDirection = "None" | "Increase" | "Decrease";
 
 // @public
-export interface MicrosoftAutoScaleScaleRule {
-    metricTrigger: MicrosoftAutoScaleMetricTrigger;
-    scaleAction: MicrosoftAutoScaleScaleAction;
+export interface ScaleRule {
+    metricTrigger: MetricTrigger;
+    scaleAction: ScaleAction;
 }
 
 // @public
-export interface MicrosoftAutoScaleScaleRuleMetricDimension {
+export interface ScaleRuleMetricDimension {
     dimensionName: string;
-    operator: MicrosoftAutoScaleScaleRuleMetricDimensionOperationType;
+    operator: ScaleRuleMetricDimensionOperationType;
     values: string[];
 }
 
 // @public
-export type MicrosoftAutoScaleScaleRuleMetricDimensionOperationType = string;
+export type ScaleRuleMetricDimensionOperationType = string;
 
 // @public
-export type MicrosoftAutoScaleScaleType = "ChangeCount" | "PercentChangeCount" | "ExactCount" | "ServiceAllowedNextValue";
+export type ScaleType = "ChangeCount" | "PercentChangeCount" | "ExactCount" | "ServiceAllowedNextValue";
 
 // @public
-export type MicrosoftAutoScaleTimeAggregationType = "Average" | "Minimum" | "Maximum" | "Total" | "Count" | "Last";
+export type TimeAggregationType = "Average" | "Minimum" | "Maximum" | "Total" | "Count" | "Last";
 
 // @public
-export interface MicrosoftAutoScaleTimeWindow {
+export interface TimeWindow {
     end: Date;
     start: Date;
     timeZone?: string;
 }
 
 // @public
-export interface MicrosoftAutoScaleWebhookNotification {
+export interface WebhookNotification {
     properties?: Record<string, string>;
     serviceUri?: string;
 }

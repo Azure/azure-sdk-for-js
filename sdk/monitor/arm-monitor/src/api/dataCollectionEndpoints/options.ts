@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import type {
-  MicrosoftDataCollectionDataCollectionEndpointResource,
-  MicrosoftDataCollectionResourceForUpdate,
+  DataCollectionEndpointResource,
+  ResourceForUpdate,
 } from "../../models/microsoft/dataCollection/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
@@ -31,13 +31,13 @@ export interface DataCollectionEndpointsDeleteOptionalParams extends OperationOp
 /** Optional parameters. */
 export interface DataCollectionEndpointsUpdateOptionalParams extends OperationOptions {
   /** The payload */
-  body?: MicrosoftDataCollectionResourceForUpdate;
+  body?: ResourceForUpdate;
 }
 
 /** Optional parameters. */
 export interface DataCollectionEndpointsCreateOptionalParams extends OperationOptions {
   /** The payload */
-  body?: MicrosoftDataCollectionDataCollectionEndpointResource;
+  body?: DataCollectionEndpointResource;
 }
 
 /** Optional parameters. */

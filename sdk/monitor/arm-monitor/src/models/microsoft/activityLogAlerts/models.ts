@@ -12,7 +12,7 @@ import { systemDataDeserializer } from "../../models.js";
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** An Activity Log Alert rule resource. */
-export interface MicrosoftActivityLogAlertsActivityLogAlertResource extends Resource {
+export interface ActivityLogAlertResource extends Resource {
   /** Resource tags. */
   tags?: Record<string, string>;
   /** The geo-location where the resource lives */
@@ -22,18 +22,16 @@ export interface MicrosoftActivityLogAlertsActivityLogAlertResource extends Reso
   /** A list of resource IDs that will be used as prefixes. The alert will only apply to Activity Log events with resource IDs that fall under one of these prefixes. This list must include at least one item. */
   scopes?: string[];
   /** The condition that will cause this alert to activate. */
-  condition?: MicrosoftActivityLogAlertsAlertRuleAllOfCondition;
+  condition?: AlertRuleAllOfCondition;
   /** The actions that will activate when the condition is met. */
-  actions?: MicrosoftActivityLogAlertsActionList;
+  actions?: ActionList;
   /** Indicates whether this Activity Log Alert rule is enabled. If an Activity Log Alert rule is not enabled, then none of its actions will be activated. */
   enabled?: boolean;
   /** A description of this Activity Log Alert rule. */
   description?: string;
 }
 
-export function microsoftActivityLogAlertsActivityLogAlertResourceSerializer(
-  item: MicrosoftActivityLogAlertsActivityLogAlertResource,
-): any {
+export function activityLogAlertResourceSerializer(item: ActivityLogAlertResource): any {
   return {
     properties: areAllPropsUndefined(item, [
       "tenantScope",
@@ -50,9 +48,7 @@ export function microsoftActivityLogAlertsActivityLogAlertResourceSerializer(
   };
 }
 
-export function microsoftActivityLogAlertsActivityLogAlertResourceDeserializer(
-  item: any,
-): MicrosoftActivityLogAlertsActivityLogAlertResource {
+export function activityLogAlertResourceDeserializer(item: any): ActivityLogAlertResource {
   return {
     id: item["id"],
     name: item["name"],
@@ -71,24 +67,22 @@ export function microsoftActivityLogAlertsActivityLogAlertResourceDeserializer(
 }
 
 /** An Azure Activity Log Alert rule. */
-export interface MicrosoftActivityLogAlertsAlertRuleProperties {
+export interface AlertRuleProperties {
   /** The tenant GUID. Must be provided for tenant-level and management group events rules. */
   tenantScope?: string;
   /** A list of resource IDs that will be used as prefixes. The alert will only apply to Activity Log events with resource IDs that fall under one of these prefixes. This list must include at least one item. */
   scopes?: string[];
   /** The condition that will cause this alert to activate. */
-  condition: MicrosoftActivityLogAlertsAlertRuleAllOfCondition;
+  condition: AlertRuleAllOfCondition;
   /** The actions that will activate when the condition is met. */
-  actions: MicrosoftActivityLogAlertsActionList;
+  actions: ActionList;
   /** Indicates whether this Activity Log Alert rule is enabled. If an Activity Log Alert rule is not enabled, then none of its actions will be activated. */
   enabled?: boolean;
   /** A description of this Activity Log Alert rule. */
   description?: string;
 }
 
-export function microsoftActivityLogAlertsAlertRulePropertiesSerializer(
-  item: MicrosoftActivityLogAlertsAlertRuleProperties,
-): any {
+export function alertRulePropertiesSerializer(item: AlertRuleProperties): any {
   return {
     tenantScope: item["tenantScope"],
     scopes: !item["scopes"]
@@ -96,16 +90,14 @@ export function microsoftActivityLogAlertsAlertRulePropertiesSerializer(
       : item["scopes"].map((p: any) => {
           return p;
         }),
-    condition: microsoftActivityLogAlertsAlertRuleAllOfConditionSerializer(item["condition"]),
-    actions: microsoftActivityLogAlertsActionListSerializer(item["actions"]),
+    condition: alertRuleAllOfConditionSerializer(item["condition"]),
+    actions: actionListSerializer(item["actions"]),
     enabled: item["enabled"],
     description: item["description"],
   };
 }
 
-export function microsoftActivityLogAlertsAlertRulePropertiesDeserializer(
-  item: any,
-): MicrosoftActivityLogAlertsAlertRuleProperties {
+export function alertRulePropertiesDeserializer(item: any): AlertRuleProperties {
   return {
     tenantScope: item["tenantScope"],
     scopes: !item["scopes"]
@@ -113,48 +105,42 @@ export function microsoftActivityLogAlertsAlertRulePropertiesDeserializer(
       : item["scopes"].map((p: any) => {
           return p;
         }),
-    condition: microsoftActivityLogAlertsAlertRuleAllOfConditionDeserializer(item["condition"]),
-    actions: microsoftActivityLogAlertsActionListDeserializer(item["actions"]),
+    condition: alertRuleAllOfConditionDeserializer(item["condition"]),
+    actions: actionListDeserializer(item["actions"]),
     enabled: item["enabled"],
     description: item["description"],
   };
 }
 
 /** An Activity Log Alert rule condition that is met when all its member conditions are met. */
-export interface MicrosoftActivityLogAlertsAlertRuleAllOfCondition {
+export interface AlertRuleAllOfCondition {
   /** The list of Activity Log Alert rule conditions. */
-  allOf: MicrosoftActivityLogAlertsAlertRuleAnyOfOrLeafCondition[];
+  allOf: AlertRuleAnyOfOrLeafCondition[];
 }
 
-export function microsoftActivityLogAlertsAlertRuleAllOfConditionSerializer(
-  item: MicrosoftActivityLogAlertsAlertRuleAllOfCondition,
-): any {
+export function alertRuleAllOfConditionSerializer(item: AlertRuleAllOfCondition): any {
+  return { allOf: alertRuleAnyOfOrLeafConditionArraySerializer(item["allOf"]) };
+}
+
+export function alertRuleAllOfConditionDeserializer(item: any): AlertRuleAllOfCondition {
   return {
-    allOf: microsoftActivityLogAlertsAlertRuleAnyOfOrLeafConditionArraySerializer(item["allOf"]),
+    allOf: alertRuleAnyOfOrLeafConditionArrayDeserializer(item["allOf"]),
   };
 }
 
-export function microsoftActivityLogAlertsAlertRuleAllOfConditionDeserializer(
-  item: any,
-): MicrosoftActivityLogAlertsAlertRuleAllOfCondition {
-  return {
-    allOf: microsoftActivityLogAlertsAlertRuleAnyOfOrLeafConditionArrayDeserializer(item["allOf"]),
-  };
-}
-
-export function microsoftActivityLogAlertsAlertRuleAnyOfOrLeafConditionArraySerializer(
-  result: Array<MicrosoftActivityLogAlertsAlertRuleAnyOfOrLeafCondition>,
+export function alertRuleAnyOfOrLeafConditionArraySerializer(
+  result: Array<AlertRuleAnyOfOrLeafCondition>,
 ): any[] {
   return result.map((item) => {
-    return microsoftActivityLogAlertsAlertRuleAnyOfOrLeafConditionSerializer(item);
+    return alertRuleAnyOfOrLeafConditionSerializer(item);
   });
 }
 
-export function microsoftActivityLogAlertsAlertRuleAnyOfOrLeafConditionArrayDeserializer(
-  result: Array<MicrosoftActivityLogAlertsAlertRuleAnyOfOrLeafCondition>,
+export function alertRuleAnyOfOrLeafConditionArrayDeserializer(
+  result: Array<AlertRuleAnyOfOrLeafCondition>,
 ): any[] {
   return result.map((item) => {
-    return microsoftActivityLogAlertsAlertRuleAnyOfOrLeafConditionDeserializer(item);
+    return alertRuleAnyOfOrLeafConditionDeserializer(item);
   });
 }
 
@@ -167,14 +153,12 @@ export function microsoftActivityLogAlertsAlertRuleAnyOfOrLeafConditionArrayDese
  * * __AnyOf Condition -__ must contain __only__ 'anyOf' (which is an array of Leaf Conditions).
  * _Please note, 'field', 'equals' and 'containsAny' should __not__ be set in an AnyOf Condition._
  */
-export interface MicrosoftActivityLogAlertsAlertRuleAnyOfOrLeafCondition extends MicrosoftActivityLogAlertsAlertRuleLeafCondition {
+export interface AlertRuleAnyOfOrLeafCondition extends AlertRuleLeafCondition {
   /** An Activity Log Alert rule condition that is met when at least one of its member leaf conditions are met. */
-  anyOf?: MicrosoftActivityLogAlertsAlertRuleLeafCondition[];
+  anyOf?: AlertRuleLeafCondition[];
 }
 
-export function microsoftActivityLogAlertsAlertRuleAnyOfOrLeafConditionSerializer(
-  item: MicrosoftActivityLogAlertsAlertRuleAnyOfOrLeafCondition,
-): any {
+export function alertRuleAnyOfOrLeafConditionSerializer(item: AlertRuleAnyOfOrLeafCondition): any {
   return {
     field: item["field"],
     equals: item["equals"],
@@ -183,15 +167,13 @@ export function microsoftActivityLogAlertsAlertRuleAnyOfOrLeafConditionSerialize
       : item["containsAny"].map((p: any) => {
           return p;
         }),
-    anyOf: !item["anyOf"]
-      ? item["anyOf"]
-      : microsoftActivityLogAlertsAlertRuleLeafConditionArraySerializer(item["anyOf"]),
+    anyOf: !item["anyOf"] ? item["anyOf"] : alertRuleLeafConditionArraySerializer(item["anyOf"]),
   };
 }
 
-export function microsoftActivityLogAlertsAlertRuleAnyOfOrLeafConditionDeserializer(
+export function alertRuleAnyOfOrLeafConditionDeserializer(
   item: any,
-): MicrosoftActivityLogAlertsAlertRuleAnyOfOrLeafCondition {
+): AlertRuleAnyOfOrLeafCondition {
   return {
     field: item["field"],
     equals: item["equals"],
@@ -200,25 +182,23 @@ export function microsoftActivityLogAlertsAlertRuleAnyOfOrLeafConditionDeseriali
       : item["containsAny"].map((p: any) => {
           return p;
         }),
-    anyOf: !item["anyOf"]
-      ? item["anyOf"]
-      : microsoftActivityLogAlertsAlertRuleLeafConditionArrayDeserializer(item["anyOf"]),
+    anyOf: !item["anyOf"] ? item["anyOf"] : alertRuleLeafConditionArrayDeserializer(item["anyOf"]),
   };
 }
 
-export function microsoftActivityLogAlertsAlertRuleLeafConditionArraySerializer(
-  result: Array<MicrosoftActivityLogAlertsAlertRuleLeafCondition>,
+export function alertRuleLeafConditionArraySerializer(
+  result: Array<AlertRuleLeafCondition>,
 ): any[] {
   return result.map((item) => {
-    return microsoftActivityLogAlertsAlertRuleLeafConditionSerializer(item);
+    return alertRuleLeafConditionSerializer(item);
   });
 }
 
-export function microsoftActivityLogAlertsAlertRuleLeafConditionArrayDeserializer(
-  result: Array<MicrosoftActivityLogAlertsAlertRuleLeafCondition>,
+export function alertRuleLeafConditionArrayDeserializer(
+  result: Array<AlertRuleLeafCondition>,
 ): any[] {
   return result.map((item) => {
-    return microsoftActivityLogAlertsAlertRuleLeafConditionDeserializer(item);
+    return alertRuleLeafConditionDeserializer(item);
   });
 }
 
@@ -226,7 +206,7 @@ export function microsoftActivityLogAlertsAlertRuleLeafConditionArrayDeserialize
  * An Activity Log Alert rule condition that is met by comparing the field and value of an Activity Log event.
  * This condition must contain 'field' and either 'equals' or 'containsAny'.
  */
-export interface MicrosoftActivityLogAlertsAlertRuleLeafCondition {
+export interface AlertRuleLeafCondition {
   /**
    * The name of the Activity Log event's field that this condition will examine.
    * The possible values for this field are (case-insensitive): 'resourceId', 'category', 'caller', 'level', 'operationName', 'resourceGroup', 'resourceProvider', 'status', 'subStatus', 'resourceType', or anything beginning with 'properties'.
@@ -238,9 +218,7 @@ export interface MicrosoftActivityLogAlertsAlertRuleLeafCondition {
   containsAny?: string[];
 }
 
-export function microsoftActivityLogAlertsAlertRuleLeafConditionSerializer(
-  item: MicrosoftActivityLogAlertsAlertRuleLeafCondition,
-): any {
+export function alertRuleLeafConditionSerializer(item: AlertRuleLeafCondition): any {
   return {
     field: item["field"],
     equals: item["equals"],
@@ -252,9 +230,7 @@ export function microsoftActivityLogAlertsAlertRuleLeafConditionSerializer(
   };
 }
 
-export function microsoftActivityLogAlertsAlertRuleLeafConditionDeserializer(
-  item: any,
-): MicrosoftActivityLogAlertsAlertRuleLeafCondition {
+export function alertRuleLeafConditionDeserializer(item: any): AlertRuleLeafCondition {
   return {
     field: item["field"],
     equals: item["equals"],
@@ -267,49 +243,45 @@ export function microsoftActivityLogAlertsAlertRuleLeafConditionDeserializer(
 }
 
 /** A list of Activity Log Alert rule actions. */
-export interface MicrosoftActivityLogAlertsActionList {
+export interface ActionList {
   /** The list of the Action Groups. */
-  actionGroups?: MicrosoftActivityLogAlertsActionGroup[];
+  actionGroups?: ActivityLogAlertActionGroup[];
 }
 
-export function microsoftActivityLogAlertsActionListSerializer(
-  item: MicrosoftActivityLogAlertsActionList,
-): any {
+export function actionListSerializer(item: ActionList): any {
   return {
     actionGroups: !item["actionGroups"]
       ? item["actionGroups"]
-      : microsoftActivityLogAlertsActionGroupArraySerializer(item["actionGroups"]),
+      : activityLogAlertActionGroupArraySerializer(item["actionGroups"]),
   };
 }
 
-export function microsoftActivityLogAlertsActionListDeserializer(
-  item: any,
-): MicrosoftActivityLogAlertsActionList {
+export function actionListDeserializer(item: any): ActionList {
   return {
     actionGroups: !item["actionGroups"]
       ? item["actionGroups"]
-      : microsoftActivityLogAlertsActionGroupArrayDeserializer(item["actionGroups"]),
+      : activityLogAlertActionGroupArrayDeserializer(item["actionGroups"]),
   };
 }
 
-export function microsoftActivityLogAlertsActionGroupArraySerializer(
-  result: Array<MicrosoftActivityLogAlertsActionGroup>,
+export function activityLogAlertActionGroupArraySerializer(
+  result: Array<ActivityLogAlertActionGroup>,
 ): any[] {
   return result.map((item) => {
-    return microsoftActivityLogAlertsActionGroupSerializer(item);
+    return activityLogAlertActionGroupSerializer(item);
   });
 }
 
-export function microsoftActivityLogAlertsActionGroupArrayDeserializer(
-  result: Array<MicrosoftActivityLogAlertsActionGroup>,
+export function activityLogAlertActionGroupArrayDeserializer(
+  result: Array<ActivityLogAlertActionGroup>,
 ): any[] {
   return result.map((item) => {
-    return microsoftActivityLogAlertsActionGroupDeserializer(item);
+    return activityLogAlertActionGroupDeserializer(item);
   });
 }
 
 /** A pointer to an Azure Action Group. */
-export interface MicrosoftActivityLogAlertsActionGroup {
+export interface ActivityLogAlertActionGroup {
   /** The resource ID of the Action Group. This cannot be null or empty. */
   actionGroupId: string;
   /** the dictionary of custom properties to include with the post operation. These data are appended to the webhook payload. */
@@ -318,9 +290,7 @@ export interface MicrosoftActivityLogAlertsActionGroup {
   actionProperties?: Record<string, string>;
 }
 
-export function microsoftActivityLogAlertsActionGroupSerializer(
-  item: MicrosoftActivityLogAlertsActionGroup,
-): any {
+export function activityLogAlertActionGroupSerializer(item: ActivityLogAlertActionGroup): any {
   return {
     actionGroupId: item["actionGroupId"],
     webhookProperties: item["webhookProperties"],
@@ -328,9 +298,7 @@ export function microsoftActivityLogAlertsActionGroupSerializer(
   };
 }
 
-export function microsoftActivityLogAlertsActionGroupDeserializer(
-  item: any,
-): MicrosoftActivityLogAlertsActionGroup {
+export function activityLogAlertActionGroupDeserializer(item: any): ActivityLogAlertActionGroup {
   return {
     actionGroupId: item["actionGroupId"],
     webhookProperties: !item["webhookProperties"]
@@ -347,16 +315,16 @@ export function microsoftActivityLogAlertsActionGroupDeserializer(
 }
 
 /** The error response. */
-export interface MicrosoftActivityLogAlertsErrorResponse {
+export interface ActivityLogAlertErrorResponse {
   /** The error code. */
   readonly code?: string;
   /** The error message indicating why the operation failed. */
   readonly message?: string;
 }
 
-export function microsoftActivityLogAlertsErrorResponseDeserializer(
+export function activityLogAlertErrorResponseDeserializer(
   item: any,
-): MicrosoftActivityLogAlertsErrorResponse {
+): ActivityLogAlertErrorResponse {
   return {
     code: item["code"],
     message: item["message"],
@@ -364,16 +332,14 @@ export function microsoftActivityLogAlertsErrorResponseDeserializer(
 }
 
 /** An Activity Log Alert rule object for the body of patch operations. */
-export interface MicrosoftActivityLogAlertsAlertRulePatchObject {
+export interface AlertRulePatchObject {
   /** The resource tags */
   tags?: Record<string, string>;
   /** Indicates whether this Activity Log Alert rule is enabled. If an Activity Log Alert rule is not enabled, then none of its actions will be activated. */
   enabled?: boolean;
 }
 
-export function microsoftActivityLogAlertsAlertRulePatchObjectSerializer(
-  item: MicrosoftActivityLogAlertsAlertRulePatchObject,
-): any {
+export function alertRulePatchObjectSerializer(item: AlertRulePatchObject): any {
   return {
     tags: item["tags"],
     properties: areAllPropsUndefined(item, ["enabled"])
@@ -383,53 +349,47 @@ export function microsoftActivityLogAlertsAlertRulePatchObjectSerializer(
 }
 
 /** An Activity Log Alert rule properties for patch operations. */
-export interface MicrosoftActivityLogAlertsAlertRulePatchProperties {
+export interface AlertRulePatchProperties {
   /** Indicates whether this Activity Log Alert rule is enabled. If an Activity Log Alert rule is not enabled, then none of its actions will be activated. */
   enabled?: boolean;
 }
 
-export function microsoftActivityLogAlertsAlertRulePatchPropertiesSerializer(
-  item: MicrosoftActivityLogAlertsAlertRulePatchProperties,
-): any {
+export function alertRulePatchPropertiesSerializer(item: AlertRulePatchProperties): any {
   return { enabled: item["enabled"] };
 }
 
 /** A list of Activity Log Alert rules. */
-export interface _MicrosoftActivityLogAlertsAlertRuleList {
+export interface _AlertRuleList {
   /** The ActivityLogAlertResource items on this page */
-  value: MicrosoftActivityLogAlertsActivityLogAlertResource[];
+  value: ActivityLogAlertResource[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _microsoftActivityLogAlertsAlertRuleListDeserializer(
-  item: any,
-): _MicrosoftActivityLogAlertsAlertRuleList {
+export function _alertRuleListDeserializer(item: any): _AlertRuleList {
   return {
-    value: microsoftActivityLogAlertsActivityLogAlertResourceArrayDeserializer(item["value"]),
+    value: activityLogAlertResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function microsoftActivityLogAlertsActivityLogAlertResourceArraySerializer(
-  result: Array<MicrosoftActivityLogAlertsActivityLogAlertResource>,
+export function activityLogAlertResourceArraySerializer(
+  result: Array<ActivityLogAlertResource>,
 ): any[] {
   return result.map((item) => {
-    return microsoftActivityLogAlertsActivityLogAlertResourceSerializer(item);
+    return activityLogAlertResourceSerializer(item);
   });
 }
 
-export function microsoftActivityLogAlertsActivityLogAlertResourceArrayDeserializer(
-  result: Array<MicrosoftActivityLogAlertsActivityLogAlertResource>,
+export function activityLogAlertResourceArrayDeserializer(
+  result: Array<ActivityLogAlertResource>,
 ): any[] {
   return result.map((item) => {
-    return microsoftActivityLogAlertsActivityLogAlertResourceDeserializer(item);
+    return activityLogAlertResourceDeserializer(item);
   });
 }
 
-export function _activityLogAlertResourcePropertiesSerializer(
-  item: MicrosoftActivityLogAlertsActivityLogAlertResource,
-): any {
+export function _activityLogAlertResourcePropertiesSerializer(item: ActivityLogAlertResource): any {
   return {
     tenantScope: item["tenantScope"],
     scopes: !item["scopes"]
@@ -439,10 +399,8 @@ export function _activityLogAlertResourcePropertiesSerializer(
         }),
     condition: !item["condition"]
       ? item["condition"]
-      : microsoftActivityLogAlertsAlertRuleAllOfConditionSerializer(item["condition"]),
-    actions: !item["actions"]
-      ? item["actions"]
-      : microsoftActivityLogAlertsActionListSerializer(item["actions"]),
+      : alertRuleAllOfConditionSerializer(item["condition"]),
+    actions: !item["actions"] ? item["actions"] : actionListSerializer(item["actions"]),
     enabled: item["enabled"],
     description: item["description"],
   };
@@ -458,17 +416,13 @@ export function _activityLogAlertResourcePropertiesDeserializer(item: any) {
         }),
     condition: !item["condition"]
       ? item["condition"]
-      : microsoftActivityLogAlertsAlertRuleAllOfConditionDeserializer(item["condition"]),
-    actions: !item["actions"]
-      ? item["actions"]
-      : microsoftActivityLogAlertsActionListDeserializer(item["actions"]),
+      : alertRuleAllOfConditionDeserializer(item["condition"]),
+    actions: !item["actions"] ? item["actions"] : actionListDeserializer(item["actions"]),
     enabled: item["enabled"],
     description: item["description"],
   };
 }
 
-export function _alertRulePatchObjectPropertiesSerializer(
-  item: MicrosoftActivityLogAlertsAlertRulePatchObject,
-): any {
+export function _alertRulePatchObjectPropertiesSerializer(item: AlertRulePatchObject): any {
   return { enabled: item["enabled"] };
 }

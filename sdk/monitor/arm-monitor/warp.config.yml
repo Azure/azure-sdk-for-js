@@ -10,6 +10,7 @@ exports:
   "./models/microsoft/activityLogs": "./src/models/microsoft/activityLogs/index.ts"
   "./models/microsoft/alertRulesIncidents": "./src/models/microsoft/alertRulesIncidents/index.ts"
   "./models/microsoft/autoScale": "./src/models/microsoft/autoScale/index.ts"
+  "./models/microsoft/common": "./src/models/microsoft/common/index.ts"
   "./models/microsoft/dataCollection": "./src/models/microsoft/dataCollection/index.ts"
   "./models/microsoft/logProfiles": "./src/models/microsoft/logProfiles/index.ts"
   "./models/microsoft/metricAlert": "./src/models/microsoft/metricAlert/index.ts"

@@ -2,14 +2,10 @@
 // Licensed under the MIT License.
 
 import type { MonitorContext as Client } from "../index.js";
-import type {
-  MicrosoftActivityLogsLocalizableString,
-  _MicrosoftActivityLogsEventCategoryCollection,
-} from "../../models/microsoft/activityLogs/models.js";
-import {
-  microsoftActivityLogsErrorResponseDeserializer,
-  _microsoftActivityLogsEventCategoryCollectionDeserializer,
-} from "../../models/microsoft/activityLogs/models.js";
+import type { _EventCategoryCollection } from "../../models/microsoft/activityLogs/models.js";
+import { _eventCategoryCollectionDeserializer } from "../../models/microsoft/activityLogs/models.js";
+import type { LocalizableString } from "../../models/microsoft/common/models.js";
+import { errorResponseDeserializer } from "../../models/microsoft/common/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -38,23 +34,23 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_MicrosoftActivityLogsEventCategoryCollection> {
+): Promise<_EventCategoryCollection> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = microsoftActivityLogsErrorResponseDeserializer(result.body);
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
 
-  return _microsoftActivityLogsEventCategoryCollectionDeserializer(result.body);
+  return _eventCategoryCollectionDeserializer(result.body);
 }
 
 /** Get the list of available event categories supported in the Activity Logs Service.<br>The current list includes the following: Administrative, Security, ServiceHealth, Alert, Recommendation, Policy. */
 export function list(
   context: Client,
   options: EventCategoriesListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<MicrosoftActivityLogsLocalizableString> {
+): PagedAsyncIterableIterator<LocalizableString> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, options),

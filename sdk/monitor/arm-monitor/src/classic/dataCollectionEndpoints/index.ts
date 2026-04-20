@@ -24,7 +24,7 @@ import type {
   DataCollectionEndpointsCreateOptionalParams,
   DataCollectionEndpointsGetOptionalParams,
 } from "../../api/dataCollectionEndpoints/options.js";
-import type { MicrosoftDataCollectionDataCollectionEndpointResource } from "../../models/microsoft/dataCollection/models.js";
+import type { DataCollectionEndpointResource } from "../../models/microsoft/dataCollection/models.js";
 import type { NetworkSecurityPerimeterConfiguration } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
@@ -70,12 +70,12 @@ export interface DataCollectionEndpointsOperations {
   /** Lists all data collection endpoints in the specified subscription */
   listBySubscription: (
     options?: DataCollectionEndpointsListBySubscriptionOptionalParams,
-  ) => PagedAsyncIterableIterator<MicrosoftDataCollectionDataCollectionEndpointResource>;
+  ) => PagedAsyncIterableIterator<DataCollectionEndpointResource>;
   /** Lists all data collection endpoints in the specified resource group. */
   listByResourceGroup: (
     resourceGroupName: string,
     options?: DataCollectionEndpointsListByResourceGroupOptionalParams,
-  ) => PagedAsyncIterableIterator<MicrosoftDataCollectionDataCollectionEndpointResource>;
+  ) => PagedAsyncIterableIterator<DataCollectionEndpointResource>;
   /** Deletes a data collection endpoint. */
   /**
    *  @fixme delete is a reserved word that cannot be used as an operation name.
@@ -92,19 +92,19 @@ export interface DataCollectionEndpointsOperations {
     resourceGroupName: string,
     dataCollectionEndpointName: string,
     options?: DataCollectionEndpointsUpdateOptionalParams,
-  ) => Promise<MicrosoftDataCollectionDataCollectionEndpointResource>;
+  ) => Promise<DataCollectionEndpointResource>;
   /** Creates or updates a data collection endpoint. */
   create: (
     resourceGroupName: string,
     dataCollectionEndpointName: string,
     options?: DataCollectionEndpointsCreateOptionalParams,
-  ) => Promise<MicrosoftDataCollectionDataCollectionEndpointResource>;
+  ) => Promise<DataCollectionEndpointResource>;
   /** Returns the specified data collection endpoint. */
   get: (
     resourceGroupName: string,
     dataCollectionEndpointName: string,
     options?: DataCollectionEndpointsGetOptionalParams,
-  ) => Promise<MicrosoftDataCollectionDataCollectionEndpointResource>;
+  ) => Promise<DataCollectionEndpointResource>;
 }
 
 function _getDataCollectionEndpoints(context: MonitorContext) {

@@ -3,12 +3,12 @@
 
 import type { MonitorContext as Client } from "../index.js";
 import type {
-  _MicrosoftMetricBaselinesMetricBaselinesResponse,
-  MicrosoftMetricBaselinesSingleMetricBaseline,
+  _MetricBaselinesResponse,
+  SingleMetricBaseline,
 } from "../../models/microsoft/metricBaselines/models.js";
 import {
-  _microsoftMetricBaselinesMetricBaselinesResponseDeserializer,
-  microsoftMetricBaselinesErrorResponseDeserializer,
+  _metricBaselinesResponseDeserializer,
+  metricBaselinesErrorResponseDeserializer,
 } from "../../models/microsoft/metricBaselines/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -48,16 +48,16 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_MicrosoftMetricBaselinesMetricBaselinesResponse> {
+): Promise<_MetricBaselinesResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = microsoftMetricBaselinesErrorResponseDeserializer(result.body);
+    error.details = metricBaselinesErrorResponseDeserializer(result.body);
 
     throw error;
   }
 
-  return _microsoftMetricBaselinesMetricBaselinesResponseDeserializer(result.body);
+  return _metricBaselinesResponseDeserializer(result.body);
 }
 
 /** **Lists the metric baseline values for a resource**. */
@@ -65,7 +65,7 @@ export function list(
   context: Client,
   resourceUri: string,
   options: BaselinesListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<MicrosoftMetricBaselinesSingleMetricBaseline> {
+): PagedAsyncIterableIterator<SingleMetricBaseline> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, resourceUri, options),

@@ -3,7 +3,7 @@
 
 import { areAllPropsUndefined } from "../../../static-helpers/serialization/check-prop-undefined.js";
 import type {
-  ErrorDetail,
+  ArmErrorDetail,
   Sku,
   ManagedServiceIdentity,
   TrackedResource,
@@ -11,7 +11,7 @@ import type {
 } from "../../models.js";
 import {
   systemDataDeserializer,
-  errorDetailDeserializer,
+  armErrorDetailDeserializer,
   userAssignedIdentityDeserializer,
 } from "../../models.js";
 
@@ -22,13 +22,13 @@ import {
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Definition of ARM tracked top level resource. */
-export interface MicrosoftDataCollectionDataCollectionEndpointResource extends TrackedResource {
+export interface DataCollectionEndpointResource extends TrackedResource {
   /** The kind of the resource. */
-  kind?: MicrosoftDataCollectionKnownDataCollectionEndpointResourceKind;
+  kind?: KnownDataCollectionEndpointResourceKind;
   /** The SKU of the resource. */
-  sku?: MicrosoftDataCollectionDataCollectionEndpointResourceSku;
+  sku?: DataCollectionEndpointResourceSku;
   /** Managed service identity of the resource. */
-  identity?: MicrosoftDataCollectionDataCollectionEndpointResourceIdentity;
+  identity?: DataCollectionEndpointResourceIdentity;
   /** Resource entity tag (ETag). */
   readonly etag?: string;
   /** Description of the data collection endpoint. */
@@ -36,25 +36,25 @@ export interface MicrosoftDataCollectionDataCollectionEndpointResource extends T
   /** The immutable ID of this data collection endpoint resource. This property is READ-ONLY. */
   immutableId?: string;
   /** The endpoint used by clients to access their configuration. */
-  configurationAccess?: MicrosoftDataCollectionDataCollectionEndpointConfigurationAccess;
+  configurationAccess?: DataCollectionEndpointConfigurationAccess;
   /** The endpoint used by clients to ingest logs. */
-  logsIngestion?: MicrosoftDataCollectionDataCollectionEndpointLogsIngestion;
+  logsIngestion?: DataCollectionEndpointLogsIngestion;
   /** The endpoint used by clients to ingest metrics. */
-  metricsIngestion?: MicrosoftDataCollectionDataCollectionEndpointMetricsIngestion;
+  metricsIngestion?: DataCollectionEndpointMetricsIngestion;
   /** Network access control rules for the endpoints. */
-  networkAcls?: MicrosoftDataCollectionDataCollectionEndpointNetworkAcls;
+  networkAcls?: DataCollectionEndpointNetworkAcls;
   /** The resource provisioning state. This property is READ-ONLY. */
-  readonly provisioningState?: MicrosoftDataCollectionKnownDataCollectionEndpointProvisioningState;
+  readonly provisioningState?: KnownDataCollectionEndpointProvisioningState;
   /** List of Azure Monitor Private Link Scope Resources to which this data collection endpoint resource is associated. This property is READ-ONLY. */
-  readonly privateLinkScopedResources?: MicrosoftDataCollectionPrivateLinkScopedResource[];
+  readonly privateLinkScopedResources?: PrivateLinkScopedResource[];
   /** Metadata for the resource. This property can only be updated by Log Analytics Control Plane for Data Collection Endpoint with Log Analytics Destination. */
-  readonly failoverConfiguration?: MicrosoftDataCollectionDataCollectionEndpointFailoverConfiguration;
+  readonly failoverConfiguration?: DataCollectionEndpointFailoverConfiguration;
   /** Metadata for the resource. This property can only be updated by Log Analytics Control Plane for Data Collection Endpoint with Log Analytics Destination. */
-  readonly metadata?: MicrosoftDataCollectionDataCollectionEndpointMetadata;
+  readonly metadata?: DataCollectionEndpointMetadata;
 }
 
-export function microsoftDataCollectionDataCollectionEndpointResourceSerializer(
-  item: MicrosoftDataCollectionDataCollectionEndpointResource,
+export function dataCollectionEndpointResourceSerializer(
+  item: DataCollectionEndpointResource,
 ): any {
   return {
     tags: item["tags"],
@@ -70,18 +70,16 @@ export function microsoftDataCollectionDataCollectionEndpointResourceSerializer(
       ? undefined
       : _dataCollectionEndpointResourcePropertiesSerializer(item),
     kind: item["kind"],
-    sku: !item["sku"]
-      ? item["sku"]
-      : microsoftDataCollectionDataCollectionEndpointResourceSkuSerializer(item["sku"]),
+    sku: !item["sku"] ? item["sku"] : dataCollectionEndpointResourceSkuSerializer(item["sku"]),
     identity: !item["identity"]
       ? item["identity"]
-      : microsoftDataCollectionDataCollectionEndpointResourceIdentitySerializer(item["identity"]),
+      : dataCollectionEndpointResourceIdentitySerializer(item["identity"]),
   };
 }
 
-export function microsoftDataCollectionDataCollectionEndpointResourceDeserializer(
+export function dataCollectionEndpointResourceDeserializer(
   item: any,
-): MicrosoftDataCollectionDataCollectionEndpointResource {
+): DataCollectionEndpointResource {
   return {
     tags: !item["tags"]
       ? item["tags"]
@@ -97,87 +95,71 @@ export function microsoftDataCollectionDataCollectionEndpointResourceDeserialize
       ? item["properties"]
       : _dataCollectionEndpointResourcePropertiesDeserializer(item["properties"])),
     kind: item["kind"],
-    sku: !item["sku"]
-      ? item["sku"]
-      : microsoftDataCollectionDataCollectionEndpointResourceSkuDeserializer(item["sku"]),
+    sku: !item["sku"] ? item["sku"] : dataCollectionEndpointResourceSkuDeserializer(item["sku"]),
     identity: !item["identity"]
       ? item["identity"]
-      : microsoftDataCollectionDataCollectionEndpointResourceIdentityDeserializer(item["identity"]),
+      : dataCollectionEndpointResourceIdentityDeserializer(item["identity"]),
     etag: item["etag"],
   };
 }
 
-/** model interface MicrosoftDataCollectionDataCollectionEndpointResourceProperties */
-export interface MicrosoftDataCollectionDataCollectionEndpointResourceProperties extends MicrosoftDataCollectionDataCollectionEndpoint {}
+/** model interface DataCollectionEndpointResourceProperties */
+export interface DataCollectionEndpointResourceProperties extends DataCollectionEndpoint {}
 
-export function microsoftDataCollectionDataCollectionEndpointResourcePropertiesSerializer(
-  item: MicrosoftDataCollectionDataCollectionEndpointResourceProperties,
+export function dataCollectionEndpointResourcePropertiesSerializer(
+  item: DataCollectionEndpointResourceProperties,
 ): any {
   return {
     description: item["description"],
     immutableId: item["immutableId"],
     configurationAccess: !item["configurationAccess"]
       ? item["configurationAccess"]
-      : microsoftDataCollectionDataCollectionEndpointConfigurationAccessSerializer(
-          item["configurationAccess"],
-        ),
+      : dataCollectionEndpointConfigurationAccessSerializer(item["configurationAccess"]),
     logsIngestion: !item["logsIngestion"]
       ? item["logsIngestion"]
-      : microsoftDataCollectionDataCollectionEndpointLogsIngestionSerializer(item["logsIngestion"]),
+      : dataCollectionEndpointLogsIngestionSerializer(item["logsIngestion"]),
     metricsIngestion: !item["metricsIngestion"]
       ? item["metricsIngestion"]
-      : microsoftDataCollectionDataCollectionEndpointMetricsIngestionSerializer(
-          item["metricsIngestion"],
-        ),
+      : dataCollectionEndpointMetricsIngestionSerializer(item["metricsIngestion"]),
     networkAcls: !item["networkAcls"]
       ? item["networkAcls"]
-      : microsoftDataCollectionDataCollectionEndpointNetworkAclsSerializer(item["networkAcls"]),
+      : dataCollectionEndpointNetworkAclsSerializer(item["networkAcls"]),
   };
 }
 
-export function microsoftDataCollectionDataCollectionEndpointResourcePropertiesDeserializer(
+export function dataCollectionEndpointResourcePropertiesDeserializer(
   item: any,
-): MicrosoftDataCollectionDataCollectionEndpointResourceProperties {
+): DataCollectionEndpointResourceProperties {
   return {
     description: item["description"],
     immutableId: item["immutableId"],
     configurationAccess: !item["configurationAccess"]
       ? item["configurationAccess"]
-      : microsoftDataCollectionDataCollectionEndpointConfigurationAccessDeserializer(
-          item["configurationAccess"],
-        ),
+      : dataCollectionEndpointConfigurationAccessDeserializer(item["configurationAccess"]),
     logsIngestion: !item["logsIngestion"]
       ? item["logsIngestion"]
-      : microsoftDataCollectionDataCollectionEndpointLogsIngestionDeserializer(
-          item["logsIngestion"],
-        ),
+      : dataCollectionEndpointLogsIngestionDeserializer(item["logsIngestion"]),
     metricsIngestion: !item["metricsIngestion"]
       ? item["metricsIngestion"]
-      : microsoftDataCollectionDataCollectionEndpointMetricsIngestionDeserializer(
-          item["metricsIngestion"],
-        ),
+      : dataCollectionEndpointMetricsIngestionDeserializer(item["metricsIngestion"]),
     networkAcls: !item["networkAcls"]
       ? item["networkAcls"]
-      : microsoftDataCollectionDataCollectionEndpointNetworkAclsDeserializer(item["networkAcls"]),
+      : dataCollectionEndpointNetworkAclsDeserializer(item["networkAcls"]),
     provisioningState: item["provisioningState"],
     privateLinkScopedResources: !item["privateLinkScopedResources"]
       ? item["privateLinkScopedResources"]
-      : microsoftDataCollectionPrivateLinkScopedResourceArrayDeserializer(
-          item["privateLinkScopedResources"],
-        ),
+      : privateLinkScopedResourceArrayDeserializer(item["privateLinkScopedResources"]),
     failoverConfiguration: !item["failoverConfiguration"]
       ? item["failoverConfiguration"]
-      : microsoftDataCollectionDataCollectionEndpointFailoverConfigurationDeserializer(
-          item["failoverConfiguration"],
-        ),
+      : dataCollectionEndpointFailoverConfigurationDeserializer(item["failoverConfiguration"]),
     metadata: !item["metadata"]
       ? item["metadata"]
-      : microsoftDataCollectionDataCollectionEndpointMetadataDeserializer(item["metadata"]),
+      : dataCollectionEndpointMetadataDeserializer(item["metadata"]),
   };
 }
 
 /** The kind of the resource. */
-export enum KnownMicrosoftDataCollectionKnownDataCollectionEndpointResourceKind {
+export enum KnownKnownDataCollectionEndpointResourceKind {
   /** Linux */
   Linux = "Linux",
   /** Windows */
@@ -186,19 +168,19 @@ export enum KnownMicrosoftDataCollectionKnownDataCollectionEndpointResourceKind 
 
 /**
  * The kind of the resource. \
- * {@link KnownMicrosoftDataCollectionKnownDataCollectionEndpointResourceKind} can be used interchangeably with MicrosoftDataCollectionKnownDataCollectionEndpointResourceKind,
+ * {@link KnownKnownDataCollectionEndpointResourceKind} can be used interchangeably with KnownDataCollectionEndpointResourceKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Linux**: Linux \
  * **Windows**: Windows
  */
-export type MicrosoftDataCollectionKnownDataCollectionEndpointResourceKind = string;
+export type KnownDataCollectionEndpointResourceKind = string;
 
 /** The SKU of the resource. */
-export interface MicrosoftDataCollectionDataCollectionEndpointResourceSku extends Sku {}
+export interface DataCollectionEndpointResourceSku extends Sku {}
 
-export function microsoftDataCollectionDataCollectionEndpointResourceSkuSerializer(
-  item: MicrosoftDataCollectionDataCollectionEndpointResourceSku,
+export function dataCollectionEndpointResourceSkuSerializer(
+  item: DataCollectionEndpointResourceSku,
 ): any {
   return {
     name: item["name"],
@@ -209,9 +191,9 @@ export function microsoftDataCollectionDataCollectionEndpointResourceSkuSerializ
   };
 }
 
-export function microsoftDataCollectionDataCollectionEndpointResourceSkuDeserializer(
+export function dataCollectionEndpointResourceSkuDeserializer(
   item: any,
-): MicrosoftDataCollectionDataCollectionEndpointResourceSku {
+): DataCollectionEndpointResourceSku {
   return {
     name: item["name"],
     tier: item["tier"],
@@ -222,17 +204,17 @@ export function microsoftDataCollectionDataCollectionEndpointResourceSkuDeserial
 }
 
 /** Managed service identity of the resource. */
-export interface MicrosoftDataCollectionDataCollectionEndpointResourceIdentity extends ManagedServiceIdentity {}
+export interface DataCollectionEndpointResourceIdentity extends ManagedServiceIdentity {}
 
-export function microsoftDataCollectionDataCollectionEndpointResourceIdentitySerializer(
-  item: MicrosoftDataCollectionDataCollectionEndpointResourceIdentity,
+export function dataCollectionEndpointResourceIdentitySerializer(
+  item: DataCollectionEndpointResourceIdentity,
 ): any {
   return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
 }
 
-export function microsoftDataCollectionDataCollectionEndpointResourceIdentityDeserializer(
+export function dataCollectionEndpointResourceIdentityDeserializer(
   item: any,
-): MicrosoftDataCollectionDataCollectionEndpointResourceIdentity {
+): DataCollectionEndpointResourceIdentity {
   return {
     principalId: item["principalId"],
     tenantId: item["tenantId"],
@@ -249,165 +231,147 @@ export function microsoftDataCollectionDataCollectionEndpointResourceIdentityDes
 }
 
 /** Definition of data collection endpoint. */
-export interface MicrosoftDataCollectionDataCollectionEndpoint {
+export interface DataCollectionEndpoint {
   /** Description of the data collection endpoint. */
   description?: string;
   /** The immutable ID of this data collection endpoint resource. This property is READ-ONLY. */
   immutableId?: string;
   /** The endpoint used by clients to access their configuration. */
-  configurationAccess?: MicrosoftDataCollectionDataCollectionEndpointConfigurationAccess;
+  configurationAccess?: DataCollectionEndpointConfigurationAccess;
   /** The endpoint used by clients to ingest logs. */
-  logsIngestion?: MicrosoftDataCollectionDataCollectionEndpointLogsIngestion;
+  logsIngestion?: DataCollectionEndpointLogsIngestion;
   /** The endpoint used by clients to ingest metrics. */
-  metricsIngestion?: MicrosoftDataCollectionDataCollectionEndpointMetricsIngestion;
+  metricsIngestion?: DataCollectionEndpointMetricsIngestion;
   /** Network access control rules for the endpoints. */
-  networkAcls?: MicrosoftDataCollectionDataCollectionEndpointNetworkAcls;
+  networkAcls?: DataCollectionEndpointNetworkAcls;
   /** The resource provisioning state. This property is READ-ONLY. */
-  readonly provisioningState?: MicrosoftDataCollectionKnownDataCollectionEndpointProvisioningState;
+  readonly provisioningState?: KnownDataCollectionEndpointProvisioningState;
   /** List of Azure Monitor Private Link Scope Resources to which this data collection endpoint resource is associated. This property is READ-ONLY. */
-  readonly privateLinkScopedResources?: MicrosoftDataCollectionPrivateLinkScopedResource[];
+  readonly privateLinkScopedResources?: PrivateLinkScopedResource[];
   /** Metadata for the resource. This property can only be updated by Log Analytics Control Plane for Data Collection Endpoint with Log Analytics Destination. */
-  readonly failoverConfiguration?: MicrosoftDataCollectionDataCollectionEndpointFailoverConfiguration;
+  readonly failoverConfiguration?: DataCollectionEndpointFailoverConfiguration;
   /** Metadata for the resource. This property can only be updated by Log Analytics Control Plane for Data Collection Endpoint with Log Analytics Destination. */
-  readonly metadata?: MicrosoftDataCollectionDataCollectionEndpointMetadata;
+  readonly metadata?: DataCollectionEndpointMetadata;
 }
 
-export function microsoftDataCollectionDataCollectionEndpointSerializer(
-  item: MicrosoftDataCollectionDataCollectionEndpoint,
-): any {
+export function dataCollectionEndpointSerializer(item: DataCollectionEndpoint): any {
   return {
     description: item["description"],
     immutableId: item["immutableId"],
     configurationAccess: !item["configurationAccess"]
       ? item["configurationAccess"]
-      : microsoftDataCollectionDataCollectionEndpointConfigurationAccessSerializer(
-          item["configurationAccess"],
-        ),
+      : dataCollectionEndpointConfigurationAccessSerializer(item["configurationAccess"]),
     logsIngestion: !item["logsIngestion"]
       ? item["logsIngestion"]
-      : microsoftDataCollectionDataCollectionEndpointLogsIngestionSerializer(item["logsIngestion"]),
+      : dataCollectionEndpointLogsIngestionSerializer(item["logsIngestion"]),
     metricsIngestion: !item["metricsIngestion"]
       ? item["metricsIngestion"]
-      : microsoftDataCollectionDataCollectionEndpointMetricsIngestionSerializer(
-          item["metricsIngestion"],
-        ),
+      : dataCollectionEndpointMetricsIngestionSerializer(item["metricsIngestion"]),
     networkAcls: !item["networkAcls"]
       ? item["networkAcls"]
-      : microsoftDataCollectionDataCollectionEndpointNetworkAclsSerializer(item["networkAcls"]),
+      : dataCollectionEndpointNetworkAclsSerializer(item["networkAcls"]),
   };
 }
 
-export function microsoftDataCollectionDataCollectionEndpointDeserializer(
-  item: any,
-): MicrosoftDataCollectionDataCollectionEndpoint {
+export function dataCollectionEndpointDeserializer(item: any): DataCollectionEndpoint {
   return {
     description: item["description"],
     immutableId: item["immutableId"],
     configurationAccess: !item["configurationAccess"]
       ? item["configurationAccess"]
-      : microsoftDataCollectionDataCollectionEndpointConfigurationAccessDeserializer(
-          item["configurationAccess"],
-        ),
+      : dataCollectionEndpointConfigurationAccessDeserializer(item["configurationAccess"]),
     logsIngestion: !item["logsIngestion"]
       ? item["logsIngestion"]
-      : microsoftDataCollectionDataCollectionEndpointLogsIngestionDeserializer(
-          item["logsIngestion"],
-        ),
+      : dataCollectionEndpointLogsIngestionDeserializer(item["logsIngestion"]),
     metricsIngestion: !item["metricsIngestion"]
       ? item["metricsIngestion"]
-      : microsoftDataCollectionDataCollectionEndpointMetricsIngestionDeserializer(
-          item["metricsIngestion"],
-        ),
+      : dataCollectionEndpointMetricsIngestionDeserializer(item["metricsIngestion"]),
     networkAcls: !item["networkAcls"]
       ? item["networkAcls"]
-      : microsoftDataCollectionDataCollectionEndpointNetworkAclsDeserializer(item["networkAcls"]),
+      : dataCollectionEndpointNetworkAclsDeserializer(item["networkAcls"]),
     provisioningState: item["provisioningState"],
     privateLinkScopedResources: !item["privateLinkScopedResources"]
       ? item["privateLinkScopedResources"]
-      : microsoftDataCollectionPrivateLinkScopedResourceArrayDeserializer(
-          item["privateLinkScopedResources"],
-        ),
+      : privateLinkScopedResourceArrayDeserializer(item["privateLinkScopedResources"]),
     failoverConfiguration: !item["failoverConfiguration"]
       ? item["failoverConfiguration"]
-      : microsoftDataCollectionDataCollectionEndpointFailoverConfigurationDeserializer(
-          item["failoverConfiguration"],
-        ),
+      : dataCollectionEndpointFailoverConfigurationDeserializer(item["failoverConfiguration"]),
     metadata: !item["metadata"]
       ? item["metadata"]
-      : microsoftDataCollectionDataCollectionEndpointMetadataDeserializer(item["metadata"]),
+      : dataCollectionEndpointMetadataDeserializer(item["metadata"]),
   };
 }
 
 /** The endpoint used by clients to access their configuration. */
-export interface MicrosoftDataCollectionDataCollectionEndpointConfigurationAccess extends MicrosoftDataCollectionConfigurationAccessEndpointSpec {}
+export interface DataCollectionEndpointConfigurationAccess extends ConfigurationAccessEndpointSpec {}
 
-export function microsoftDataCollectionDataCollectionEndpointConfigurationAccessSerializer(
-  _item: MicrosoftDataCollectionDataCollectionEndpointConfigurationAccess,
+export function dataCollectionEndpointConfigurationAccessSerializer(
+  _item: DataCollectionEndpointConfigurationAccess,
 ): any {
   return {};
 }
 
-export function microsoftDataCollectionDataCollectionEndpointConfigurationAccessDeserializer(
+export function dataCollectionEndpointConfigurationAccessDeserializer(
   item: any,
-): MicrosoftDataCollectionDataCollectionEndpointConfigurationAccess {
+): DataCollectionEndpointConfigurationAccess {
   return {
     endpoint: item["endpoint"],
   };
 }
 
 /** The endpoint used by clients to ingest logs. */
-export interface MicrosoftDataCollectionDataCollectionEndpointLogsIngestion extends MicrosoftDataCollectionLogsIngestionEndpointSpec {}
+export interface DataCollectionEndpointLogsIngestion extends LogsIngestionEndpointSpec {}
 
-export function microsoftDataCollectionDataCollectionEndpointLogsIngestionSerializer(
-  _item: MicrosoftDataCollectionDataCollectionEndpointLogsIngestion,
+export function dataCollectionEndpointLogsIngestionSerializer(
+  _item: DataCollectionEndpointLogsIngestion,
 ): any {
   return {};
 }
 
-export function microsoftDataCollectionDataCollectionEndpointLogsIngestionDeserializer(
+export function dataCollectionEndpointLogsIngestionDeserializer(
   item: any,
-): MicrosoftDataCollectionDataCollectionEndpointLogsIngestion {
+): DataCollectionEndpointLogsIngestion {
   return {
     endpoint: item["endpoint"],
   };
 }
 
 /** The endpoint used by clients to ingest metrics. */
-export interface MicrosoftDataCollectionDataCollectionEndpointMetricsIngestion extends MicrosoftDataCollectionMetricsIngestionEndpointSpec {}
+export interface DataCollectionEndpointMetricsIngestion extends MetricsIngestionEndpointSpec {}
 
-export function microsoftDataCollectionDataCollectionEndpointMetricsIngestionSerializer(
-  _item: MicrosoftDataCollectionDataCollectionEndpointMetricsIngestion,
+export function dataCollectionEndpointMetricsIngestionSerializer(
+  _item: DataCollectionEndpointMetricsIngestion,
 ): any {
   return {};
 }
 
-export function microsoftDataCollectionDataCollectionEndpointMetricsIngestionDeserializer(
+export function dataCollectionEndpointMetricsIngestionDeserializer(
   item: any,
-): MicrosoftDataCollectionDataCollectionEndpointMetricsIngestion {
+): DataCollectionEndpointMetricsIngestion {
   return {
     endpoint: item["endpoint"],
   };
 }
 
 /** Network access control rules for the endpoints. */
-export interface MicrosoftDataCollectionDataCollectionEndpointNetworkAcls extends MicrosoftDataCollectionNetworkRuleSet {}
+export interface DataCollectionEndpointNetworkAcls extends NetworkRuleSet {}
 
-export function microsoftDataCollectionDataCollectionEndpointNetworkAclsSerializer(
-  item: MicrosoftDataCollectionDataCollectionEndpointNetworkAcls,
+export function dataCollectionEndpointNetworkAclsSerializer(
+  item: DataCollectionEndpointNetworkAcls,
 ): any {
   return { publicNetworkAccess: item["publicNetworkAccess"] };
 }
 
-export function microsoftDataCollectionDataCollectionEndpointNetworkAclsDeserializer(
+export function dataCollectionEndpointNetworkAclsDeserializer(
   item: any,
-): MicrosoftDataCollectionDataCollectionEndpointNetworkAcls {
+): DataCollectionEndpointNetworkAcls {
   return {
     publicNetworkAccess: item["publicNetworkAccess"],
   };
 }
 
 /** The resource provisioning state. This property is READ-ONLY. */
-export enum KnownMicrosoftDataCollectionKnownDataCollectionEndpointProvisioningState {
+export enum KnownKnownDataCollectionEndpointProvisioningState {
   /** Creating */
   Creating = "Creating",
   /** Updating */
@@ -424,7 +388,7 @@ export enum KnownMicrosoftDataCollectionKnownDataCollectionEndpointProvisioningS
 
 /**
  * The resource provisioning state. This property is READ-ONLY. \
- * {@link KnownMicrosoftDataCollectionKnownDataCollectionEndpointProvisioningState} can be used interchangeably with MicrosoftDataCollectionKnownDataCollectionEndpointProvisioningState,
+ * {@link KnownKnownDataCollectionEndpointProvisioningState} can be used interchangeably with KnownDataCollectionEndpointProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Creating**: Creating \
@@ -434,27 +398,25 @@ export enum KnownMicrosoftDataCollectionKnownDataCollectionEndpointProvisioningS
  * **Canceled**: Canceled \
  * **Failed**: Failed
  */
-export type MicrosoftDataCollectionKnownDataCollectionEndpointProvisioningState = string;
+export type KnownDataCollectionEndpointProvisioningState = string;
 
-export function microsoftDataCollectionPrivateLinkScopedResourceArrayDeserializer(
-  result: Array<MicrosoftDataCollectionPrivateLinkScopedResource>,
+export function privateLinkScopedResourceArrayDeserializer(
+  result: Array<PrivateLinkScopedResource>,
 ): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionPrivateLinkScopedResourceDeserializer(item);
+    return privateLinkScopedResourceDeserializer(item);
   });
 }
 
-/** model interface MicrosoftDataCollectionPrivateLinkScopedResource */
-export interface MicrosoftDataCollectionPrivateLinkScopedResource {
+/** model interface PrivateLinkScopedResource */
+export interface PrivateLinkScopedResource {
   /** The resourceId of the Azure Monitor Private Link Scope Scoped Resource through which this DCE is associated with a Azure Monitor Private Link Scope. */
   resourceId?: string;
   /** The immutableId of the Azure Monitor Private Link Scope Resource to which the association is. */
   scopeId?: string;
 }
 
-export function microsoftDataCollectionPrivateLinkScopedResourceDeserializer(
-  item: any,
-): MicrosoftDataCollectionPrivateLinkScopedResource {
+export function privateLinkScopedResourceDeserializer(item: any): PrivateLinkScopedResource {
   return {
     resourceId: item["resourceId"],
     scopeId: item["scopeId"],
@@ -462,25 +424,25 @@ export function microsoftDataCollectionPrivateLinkScopedResourceDeserializer(
 }
 
 /** Metadata for the resource. This property can only be updated by Log Analytics Control Plane for Data Collection Endpoint with Log Analytics Destination. */
-export interface MicrosoftDataCollectionDataCollectionEndpointFailoverConfiguration extends MicrosoftDataCollectionFailoverConfigurationSpec {}
+export interface DataCollectionEndpointFailoverConfiguration extends FailoverConfigurationSpec {}
 
-export function microsoftDataCollectionDataCollectionEndpointFailoverConfigurationDeserializer(
+export function dataCollectionEndpointFailoverConfigurationDeserializer(
   item: any,
-): MicrosoftDataCollectionDataCollectionEndpointFailoverConfiguration {
+): DataCollectionEndpointFailoverConfiguration {
   return {
     activeLocation: item["activeLocation"],
     locations: !item["locations"]
       ? item["locations"]
-      : microsoftDataCollectionLocationSpecArrayDeserializer(item["locations"]),
+      : locationSpecArrayDeserializer(item["locations"]),
   };
 }
 
 /** Metadata for the resource. This property can only be updated by Log Analytics Control Plane for Data Collection Endpoint with Log Analytics Destination. */
-export interface MicrosoftDataCollectionDataCollectionEndpointMetadata extends MicrosoftDataCollectionMetadata {}
+export interface DataCollectionEndpointMetadata extends Metadata {}
 
-export function microsoftDataCollectionDataCollectionEndpointMetadataDeserializer(
+export function dataCollectionEndpointMetadataDeserializer(
   item: any,
-): MicrosoftDataCollectionDataCollectionEndpointMetadata {
+): DataCollectionEndpointMetadata {
   return {
     provisionedBy: item["provisionedBy"],
     provisionedByResourceId: item["provisionedByResourceId"],
@@ -489,87 +451,75 @@ export function microsoftDataCollectionDataCollectionEndpointMetadataDeserialize
 }
 
 /** Definition of the endpoint used for accessing configuration. */
-export interface MicrosoftDataCollectionConfigurationAccessEndpointSpec {
+export interface ConfigurationAccessEndpointSpec {
   /** The endpoint. This property is READ-ONLY. */
   readonly endpoint?: string;
 }
 
-export function microsoftDataCollectionConfigurationAccessEndpointSpecSerializer(
-  _item: MicrosoftDataCollectionConfigurationAccessEndpointSpec,
+export function configurationAccessEndpointSpecSerializer(
+  _item: ConfigurationAccessEndpointSpec,
 ): any {
   return {};
 }
 
-export function microsoftDataCollectionConfigurationAccessEndpointSpecDeserializer(
+export function configurationAccessEndpointSpecDeserializer(
   item: any,
-): MicrosoftDataCollectionConfigurationAccessEndpointSpec {
+): ConfigurationAccessEndpointSpec {
   return {
     endpoint: item["endpoint"],
   };
 }
 
 /** Definition of the endpoint used for ingesting logs. */
-export interface MicrosoftDataCollectionLogsIngestionEndpointSpec {
+export interface LogsIngestionEndpointSpec {
   /** The endpoint. This property is READ-ONLY. */
   readonly endpoint?: string;
 }
 
-export function microsoftDataCollectionLogsIngestionEndpointSpecSerializer(
-  _item: MicrosoftDataCollectionLogsIngestionEndpointSpec,
-): any {
+export function logsIngestionEndpointSpecSerializer(_item: LogsIngestionEndpointSpec): any {
   return {};
 }
 
-export function microsoftDataCollectionLogsIngestionEndpointSpecDeserializer(
-  item: any,
-): MicrosoftDataCollectionLogsIngestionEndpointSpec {
+export function logsIngestionEndpointSpecDeserializer(item: any): LogsIngestionEndpointSpec {
   return {
     endpoint: item["endpoint"],
   };
 }
 
 /** Definition of the endpoint used for ingesting metrics. */
-export interface MicrosoftDataCollectionMetricsIngestionEndpointSpec {
+export interface MetricsIngestionEndpointSpec {
   /** The endpoint. This property is READ-ONLY. */
   readonly endpoint?: string;
 }
 
-export function microsoftDataCollectionMetricsIngestionEndpointSpecSerializer(
-  _item: MicrosoftDataCollectionMetricsIngestionEndpointSpec,
-): any {
+export function metricsIngestionEndpointSpecSerializer(_item: MetricsIngestionEndpointSpec): any {
   return {};
 }
 
-export function microsoftDataCollectionMetricsIngestionEndpointSpecDeserializer(
-  item: any,
-): MicrosoftDataCollectionMetricsIngestionEndpointSpec {
+export function metricsIngestionEndpointSpecDeserializer(item: any): MetricsIngestionEndpointSpec {
   return {
     endpoint: item["endpoint"],
   };
 }
 
 /** Definition of the network rules. */
-export interface MicrosoftDataCollectionNetworkRuleSet {
+export interface NetworkRuleSet {
   /** The configuration to set whether network access from public internet to the endpoints are allowed. */
-  publicNetworkAccess?: MicrosoftDataCollectionKnownPublicNetworkAccessOptions;
+  publicNetworkAccess?: KnownPublicNetworkAccessOptions;
 }
 
-export function microsoftDataCollectionNetworkRuleSetSerializer(
-  item: MicrosoftDataCollectionNetworkRuleSet,
-): any {
+export function networkRuleSetSerializer(item: NetworkRuleSet): any {
   return { publicNetworkAccess: item["publicNetworkAccess"] };
 }
 
-export function microsoftDataCollectionNetworkRuleSetDeserializer(
-  item: any,
-): MicrosoftDataCollectionNetworkRuleSet {
+export function networkRuleSetDeserializer(item: any): NetworkRuleSet {
   return {
     publicNetworkAccess: item["publicNetworkAccess"],
   };
 }
 
 /** The configuration to set whether network access from public internet to the endpoints are allowed. */
-export enum KnownMicrosoftDataCollectionKnownPublicNetworkAccessOptions {
+export enum KnownKnownPublicNetworkAccessOptions {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
@@ -580,53 +530,47 @@ export enum KnownMicrosoftDataCollectionKnownPublicNetworkAccessOptions {
 
 /**
  * The configuration to set whether network access from public internet to the endpoints are allowed. \
- * {@link KnownMicrosoftDataCollectionKnownPublicNetworkAccessOptions} can be used interchangeably with MicrosoftDataCollectionKnownPublicNetworkAccessOptions,
+ * {@link KnownKnownPublicNetworkAccessOptions} can be used interchangeably with KnownPublicNetworkAccessOptions,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Enabled**: Enabled \
  * **Disabled**: Disabled \
  * **SecuredByPerimeter**: SecuredByPerimeter
  */
-export type MicrosoftDataCollectionKnownPublicNetworkAccessOptions = string;
+export type KnownPublicNetworkAccessOptions = string;
 
-/** model interface MicrosoftDataCollectionFailoverConfigurationSpec */
-export interface MicrosoftDataCollectionFailoverConfigurationSpec {
+/** model interface FailoverConfigurationSpec */
+export interface FailoverConfigurationSpec {
   /** Active location where data flow will occur. */
   activeLocation?: string;
   /** Locations that are configured for failover. */
-  locations?: MicrosoftDataCollectionLocationSpec[];
+  locations?: LocationSpec[];
 }
 
-export function microsoftDataCollectionFailoverConfigurationSpecDeserializer(
-  item: any,
-): MicrosoftDataCollectionFailoverConfigurationSpec {
+export function failoverConfigurationSpecDeserializer(item: any): FailoverConfigurationSpec {
   return {
     activeLocation: item["activeLocation"],
     locations: !item["locations"]
       ? item["locations"]
-      : microsoftDataCollectionLocationSpecArrayDeserializer(item["locations"]),
+      : locationSpecArrayDeserializer(item["locations"]),
   };
 }
 
-export function microsoftDataCollectionLocationSpecArrayDeserializer(
-  result: Array<MicrosoftDataCollectionLocationSpec>,
-): any[] {
+export function locationSpecArrayDeserializer(result: Array<LocationSpec>): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionLocationSpecDeserializer(item);
+    return locationSpecDeserializer(item);
   });
 }
 
-/** model interface MicrosoftDataCollectionLocationSpec */
-export interface MicrosoftDataCollectionLocationSpec {
+/** model interface LocationSpec */
+export interface LocationSpec {
   /** Name of location. */
   location?: string;
   /** The resource provisioning state in this location. */
-  provisioningStatus?: MicrosoftDataCollectionKnownLocationSpecProvisioningStatus;
+  provisioningStatus?: KnownLocationSpecProvisioningStatus;
 }
 
-export function microsoftDataCollectionLocationSpecDeserializer(
-  item: any,
-): MicrosoftDataCollectionLocationSpec {
+export function locationSpecDeserializer(item: any): LocationSpec {
   return {
     location: item["location"],
     provisioningStatus: item["provisioningStatus"],
@@ -634,7 +578,7 @@ export function microsoftDataCollectionLocationSpecDeserializer(
 }
 
 /** The resource provisioning state in this location. */
-export enum KnownMicrosoftDataCollectionKnownLocationSpecProvisioningStatus {
+export enum KnownKnownLocationSpecProvisioningStatus {
   /** Creating */
   Creating = "Creating",
   /** Updating */
@@ -651,7 +595,7 @@ export enum KnownMicrosoftDataCollectionKnownLocationSpecProvisioningStatus {
 
 /**
  * The resource provisioning state in this location. \
- * {@link KnownMicrosoftDataCollectionKnownLocationSpecProvisioningStatus} can be used interchangeably with MicrosoftDataCollectionKnownLocationSpecProvisioningStatus,
+ * {@link KnownKnownLocationSpecProvisioningStatus} can be used interchangeably with KnownLocationSpecProvisioningStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Creating**: Creating \
@@ -661,10 +605,10 @@ export enum KnownMicrosoftDataCollectionKnownLocationSpecProvisioningStatus {
  * **Canceled**: Canceled \
  * **Failed**: Failed
  */
-export type MicrosoftDataCollectionKnownLocationSpecProvisioningStatus = string;
+export type KnownLocationSpecProvisioningStatus = string;
 
 /** Metadata about the resource */
-export interface MicrosoftDataCollectionMetadata {
+export interface Metadata {
   /** Azure offering managing this resource on-behalf-of customer. */
   readonly provisionedBy?: string;
   /** Resource Id of azure offering managing this resource on-behalf-of customer. */
@@ -673,9 +617,7 @@ export interface MicrosoftDataCollectionMetadata {
   readonly provisionedByImmutableId?: string;
 }
 
-export function microsoftDataCollectionMetadataDeserializer(
-  item: any,
-): MicrosoftDataCollectionMetadata {
+export function metadataDeserializer(item: any): Metadata {
   return {
     provisionedBy: item["provisionedBy"],
     provisionedByResourceId: item["provisionedByResourceId"],
@@ -684,81 +626,75 @@ export function microsoftDataCollectionMetadataDeserializer(
 }
 
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
-export interface MicrosoftDataCollectionErrorResponseCommonV2 {
+export interface ErrorResponseCommonV2 {
   /** The error object. */
-  error?: ErrorDetail;
+  error?: ArmErrorDetail;
 }
 
-export function microsoftDataCollectionErrorResponseCommonV2Deserializer(
-  item: any,
-): MicrosoftDataCollectionErrorResponseCommonV2 {
+export function errorResponseCommonV2Deserializer(item: any): ErrorResponseCommonV2 {
   return {
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : armErrorDetailDeserializer(item["error"]),
   };
 }
 
 /** Definition of ARM tracked top level resource properties for update operation. */
-export interface MicrosoftDataCollectionResourceForUpdate {
+export interface ResourceForUpdate {
   /** Resource tags. */
   tags?: Record<string, string>;
   /** Managed Service Identity. */
-  identity?: MicrosoftDataCollectionResourceForUpdateIdentity;
+  identity?: ResourceForUpdateIdentity;
 }
 
-export function microsoftDataCollectionResourceForUpdateSerializer(
-  item: MicrosoftDataCollectionResourceForUpdate,
-): any {
+export function resourceForUpdateSerializer(item: ResourceForUpdate): any {
   return {
     tags: item["tags"],
     identity: !item["identity"]
       ? item["identity"]
-      : microsoftDataCollectionResourceForUpdateIdentitySerializer(item["identity"]),
+      : resourceForUpdateIdentitySerializer(item["identity"]),
   };
 }
 
 /** Managed Service Identity. */
-export interface MicrosoftDataCollectionResourceForUpdateIdentity extends ManagedServiceIdentity {}
+export interface ResourceForUpdateIdentity extends ManagedServiceIdentity {}
 
-export function microsoftDataCollectionResourceForUpdateIdentitySerializer(
-  item: MicrosoftDataCollectionResourceForUpdateIdentity,
-): any {
+export function resourceForUpdateIdentitySerializer(item: ResourceForUpdateIdentity): any {
   return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
 }
 
-export function microsoftDataCollectionDataCollectionEndpointResourceArraySerializer(
-  result: Array<MicrosoftDataCollectionDataCollectionEndpointResource>,
+export function dataCollectionEndpointResourceArraySerializer(
+  result: Array<DataCollectionEndpointResource>,
 ): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionDataCollectionEndpointResourceSerializer(item);
+    return dataCollectionEndpointResourceSerializer(item);
   });
 }
 
-export function microsoftDataCollectionDataCollectionEndpointResourceArrayDeserializer(
-  result: Array<MicrosoftDataCollectionDataCollectionEndpointResource>,
+export function dataCollectionEndpointResourceArrayDeserializer(
+  result: Array<DataCollectionEndpointResource>,
 ): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionDataCollectionEndpointResourceDeserializer(item);
+    return dataCollectionEndpointResourceDeserializer(item);
   });
 }
 
-export function microsoftDataCollectionDataCollectionRuleAssociationProxyOnlyResourceArraySerializer(
-  result: Array<MicrosoftDataCollectionDataCollectionRuleAssociationProxyOnlyResource>,
+export function dataCollectionRuleAssociationProxyOnlyResourceArraySerializer(
+  result: Array<DataCollectionRuleAssociationProxyOnlyResource>,
 ): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionDataCollectionRuleAssociationProxyOnlyResourceSerializer(item);
+    return dataCollectionRuleAssociationProxyOnlyResourceSerializer(item);
   });
 }
 
-export function microsoftDataCollectionDataCollectionRuleAssociationProxyOnlyResourceArrayDeserializer(
-  result: Array<MicrosoftDataCollectionDataCollectionRuleAssociationProxyOnlyResource>,
+export function dataCollectionRuleAssociationProxyOnlyResourceArrayDeserializer(
+  result: Array<DataCollectionRuleAssociationProxyOnlyResource>,
 ): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionDataCollectionRuleAssociationProxyOnlyResourceDeserializer(item);
+    return dataCollectionRuleAssociationProxyOnlyResourceDeserializer(item);
   });
 }
 
 /** Definition of generic ARM proxy resource. */
-export interface MicrosoftDataCollectionDataCollectionRuleAssociationProxyOnlyResource extends ExtensionResource {
+export interface DataCollectionRuleAssociationProxyOnlyResource extends ExtensionResource {
   /** Resource entity tag (ETag). */
   readonly etag?: string;
   /** Description of the association. */
@@ -768,13 +704,13 @@ export interface MicrosoftDataCollectionDataCollectionRuleAssociationProxyOnlyRe
   /** The resource ID of the data collection endpoint that is to be associated. */
   dataCollectionEndpointId?: string;
   /** The resource provisioning state. */
-  readonly provisioningState?: MicrosoftDataCollectionKnownDataCollectionRuleAssociationProvisioningState;
+  readonly provisioningState?: KnownDataCollectionRuleAssociationProvisioningState;
   /** Metadata about the resource */
-  readonly metadata?: MicrosoftDataCollectionDataCollectionRuleAssociationMetadata;
+  readonly metadata?: DataCollectionRuleAssociationMetadata;
 }
 
-export function microsoftDataCollectionDataCollectionRuleAssociationProxyOnlyResourceSerializer(
-  item: MicrosoftDataCollectionDataCollectionRuleAssociationProxyOnlyResource,
+export function dataCollectionRuleAssociationProxyOnlyResourceSerializer(
+  item: DataCollectionRuleAssociationProxyOnlyResource,
 ): any {
   return {
     properties: areAllPropsUndefined(item, [
@@ -787,9 +723,9 @@ export function microsoftDataCollectionDataCollectionRuleAssociationProxyOnlyRes
   };
 }
 
-export function microsoftDataCollectionDataCollectionRuleAssociationProxyOnlyResourceDeserializer(
+export function dataCollectionRuleAssociationProxyOnlyResourceDeserializer(
   item: any,
-): MicrosoftDataCollectionDataCollectionRuleAssociationProxyOnlyResource {
+): DataCollectionRuleAssociationProxyOnlyResource {
   return {
     id: item["id"],
     name: item["name"],
@@ -804,11 +740,11 @@ export function microsoftDataCollectionDataCollectionRuleAssociationProxyOnlyRes
   };
 }
 
-/** model interface MicrosoftDataCollectionDataCollectionRuleAssociationProxyOnlyResourceProperties */
-export interface MicrosoftDataCollectionDataCollectionRuleAssociationProxyOnlyResourceProperties extends MicrosoftDataCollectionDataCollectionRuleAssociation {}
+/** model interface DataCollectionRuleAssociationProxyOnlyResourceProperties */
+export interface DataCollectionRuleAssociationProxyOnlyResourceProperties extends DataCollectionRuleAssociation {}
 
-export function microsoftDataCollectionDataCollectionRuleAssociationProxyOnlyResourcePropertiesSerializer(
-  item: MicrosoftDataCollectionDataCollectionRuleAssociationProxyOnlyResourceProperties,
+export function dataCollectionRuleAssociationProxyOnlyResourcePropertiesSerializer(
+  item: DataCollectionRuleAssociationProxyOnlyResourceProperties,
 ): any {
   return {
     description: item["description"],
@@ -817,9 +753,9 @@ export function microsoftDataCollectionDataCollectionRuleAssociationProxyOnlyRes
   };
 }
 
-export function microsoftDataCollectionDataCollectionRuleAssociationProxyOnlyResourcePropertiesDeserializer(
+export function dataCollectionRuleAssociationProxyOnlyResourcePropertiesDeserializer(
   item: any,
-): MicrosoftDataCollectionDataCollectionRuleAssociationProxyOnlyResourceProperties {
+): DataCollectionRuleAssociationProxyOnlyResourceProperties {
   return {
     description: item["description"],
     dataCollectionRuleId: item["dataCollectionRuleId"],
@@ -827,12 +763,12 @@ export function microsoftDataCollectionDataCollectionRuleAssociationProxyOnlyRes
     provisioningState: item["provisioningState"],
     metadata: !item["metadata"]
       ? item["metadata"]
-      : microsoftDataCollectionDataCollectionRuleAssociationMetadataDeserializer(item["metadata"]),
+      : dataCollectionRuleAssociationMetadataDeserializer(item["metadata"]),
   };
 }
 
 /** Definition of association of a data collection rule with a monitored Azure resource. */
-export interface MicrosoftDataCollectionDataCollectionRuleAssociation {
+export interface DataCollectionRuleAssociation {
   /** Description of the association. */
   description?: string;
   /** The resource ID of the data collection rule that is to be associated. */
@@ -840,14 +776,12 @@ export interface MicrosoftDataCollectionDataCollectionRuleAssociation {
   /** The resource ID of the data collection endpoint that is to be associated. */
   dataCollectionEndpointId?: string;
   /** The resource provisioning state. */
-  readonly provisioningState?: MicrosoftDataCollectionKnownDataCollectionRuleAssociationProvisioningState;
+  readonly provisioningState?: KnownDataCollectionRuleAssociationProvisioningState;
   /** Metadata about the resource */
-  readonly metadata?: MicrosoftDataCollectionDataCollectionRuleAssociationMetadata;
+  readonly metadata?: DataCollectionRuleAssociationMetadata;
 }
 
-export function microsoftDataCollectionDataCollectionRuleAssociationSerializer(
-  item: MicrosoftDataCollectionDataCollectionRuleAssociation,
-): any {
+export function dataCollectionRuleAssociationSerializer(item: DataCollectionRuleAssociation): any {
   return {
     description: item["description"],
     dataCollectionRuleId: item["dataCollectionRuleId"],
@@ -855,9 +789,9 @@ export function microsoftDataCollectionDataCollectionRuleAssociationSerializer(
   };
 }
 
-export function microsoftDataCollectionDataCollectionRuleAssociationDeserializer(
+export function dataCollectionRuleAssociationDeserializer(
   item: any,
-): MicrosoftDataCollectionDataCollectionRuleAssociation {
+): DataCollectionRuleAssociation {
   return {
     description: item["description"],
     dataCollectionRuleId: item["dataCollectionRuleId"],
@@ -865,12 +799,12 @@ export function microsoftDataCollectionDataCollectionRuleAssociationDeserializer
     provisioningState: item["provisioningState"],
     metadata: !item["metadata"]
       ? item["metadata"]
-      : microsoftDataCollectionDataCollectionRuleAssociationMetadataDeserializer(item["metadata"]),
+      : dataCollectionRuleAssociationMetadataDeserializer(item["metadata"]),
   };
 }
 
 /** The resource provisioning state. */
-export enum KnownMicrosoftDataCollectionKnownDataCollectionRuleAssociationProvisioningState {
+export enum KnownKnownDataCollectionRuleAssociationProvisioningState {
   /** Creating */
   Creating = "Creating",
   /** Updating */
@@ -887,7 +821,7 @@ export enum KnownMicrosoftDataCollectionKnownDataCollectionRuleAssociationProvis
 
 /**
  * The resource provisioning state. \
- * {@link KnownMicrosoftDataCollectionKnownDataCollectionRuleAssociationProvisioningState} can be used interchangeably with MicrosoftDataCollectionKnownDataCollectionRuleAssociationProvisioningState,
+ * {@link KnownKnownDataCollectionRuleAssociationProvisioningState} can be used interchangeably with KnownDataCollectionRuleAssociationProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Creating**: Creating \
@@ -897,14 +831,14 @@ export enum KnownMicrosoftDataCollectionKnownDataCollectionRuleAssociationProvis
  * **Canceled**: Canceled \
  * **Failed**: Failed
  */
-export type MicrosoftDataCollectionKnownDataCollectionRuleAssociationProvisioningState = string;
+export type KnownDataCollectionRuleAssociationProvisioningState = string;
 
 /** Metadata about the resource */
-export interface MicrosoftDataCollectionDataCollectionRuleAssociationMetadata extends MicrosoftDataCollectionMetadata {}
+export interface DataCollectionRuleAssociationMetadata extends Metadata {}
 
-export function microsoftDataCollectionDataCollectionRuleAssociationMetadataDeserializer(
+export function dataCollectionRuleAssociationMetadataDeserializer(
   item: any,
-): MicrosoftDataCollectionDataCollectionRuleAssociationMetadata {
+): DataCollectionRuleAssociationMetadata {
   return {
     provisionedBy: item["provisionedBy"],
     provisionedByResourceId: item["provisionedByResourceId"],
@@ -913,13 +847,13 @@ export function microsoftDataCollectionDataCollectionRuleAssociationMetadataDese
 }
 
 /** Definition of ARM tracked top level resource. */
-export interface MicrosoftDataCollectionDataCollectionRuleResource extends TrackedResource {
+export interface DataCollectionRuleResource extends TrackedResource {
   /** The kind of the resource. */
-  kind?: MicrosoftDataCollectionKnownDataCollectionRuleResourceKind;
+  kind?: KnownDataCollectionRuleResourceKind;
   /** The SKU of the resource. */
-  sku?: MicrosoftDataCollectionDataCollectionRuleResourceSku;
+  sku?: DataCollectionRuleResourceSku;
   /** Managed service identity of the resource. */
-  identity?: MicrosoftDataCollectionDataCollectionRuleResourceIdentity;
+  identity?: DataCollectionRuleResourceIdentity;
   /** Resource entity tag (ETag). */
   readonly etag?: string;
   /** Description of the data collection rule. */
@@ -929,38 +863,36 @@ export interface MicrosoftDataCollectionDataCollectionRuleResource extends Track
   /** The resource ID of the data collection endpoint that this rule can be used with. */
   dataCollectionEndpointId?: string;
   /** Metadata about the resource */
-  readonly metadata?: MicrosoftDataCollectionDataCollectionRuleMetadata;
+  readonly metadata?: DataCollectionRuleMetadata;
   /** Defines the ingestion endpoints to send data to via this rule. */
-  readonly endpoints?: MicrosoftDataCollectionDataCollectionRuleEndpoints;
+  readonly endpoints?: DataCollectionRuleEndpoints;
   /** Defines all the references that may be used in other sections of the DCR */
-  references?: MicrosoftDataCollectionDataCollectionRuleReferences;
+  references?: DataCollectionRuleReferences;
   /** Agent settings used to modify agent behavior on a given host */
-  agentSettings?: MicrosoftDataCollectionDataCollectionRuleAgentSettings;
+  agentSettings?: DataCollectionRuleAgentSettings;
   /** Declaration of custom streams used in this rule. */
-  streamDeclarations?: Record<string, MicrosoftDataCollectionStreamDeclaration>;
+  streamDeclarations?: Record<string, StreamDeclaration>;
   /**
    * The specification of data sources.
    * This property is optional and can be omitted if the rule is meant to be used via direct calls to the provisioned endpoint.
    */
-  dataSources?: MicrosoftDataCollectionDataCollectionRuleDataSources;
+  dataSources?: DataCollectionRuleDataSources;
   /**
    * The specification of direct data sources.
    * This property is optional and can be omitted.
    */
-  directDataSources?: MicrosoftDataCollectionDataCollectionRuleDirectDataSources;
+  directDataSources?: DataCollectionRuleDirectDataSources;
   /** The specification of destinations. */
-  destinations?: MicrosoftDataCollectionDataCollectionRuleDestinations;
+  destinations?: DataCollectionRuleDestinations;
   /** The specification of data flows. */
-  dataFlows?: MicrosoftDataCollectionDataFlow[];
+  dataFlows?: DataFlow[];
   /** The specification for ingestion limits */
-  readonly ingestionQuotas?: MicrosoftDataCollectionDataCollectionRuleIngestionQuotas;
+  readonly ingestionQuotas?: DataCollectionRuleIngestionQuotas;
   /** The resource provisioning state. */
-  readonly provisioningState?: MicrosoftDataCollectionKnownDataCollectionRuleProvisioningState;
+  readonly provisioningState?: KnownDataCollectionRuleProvisioningState;
 }
 
-export function microsoftDataCollectionDataCollectionRuleResourceSerializer(
-  item: MicrosoftDataCollectionDataCollectionRuleResource,
-): any {
+export function dataCollectionRuleResourceSerializer(item: DataCollectionRuleResource): any {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -978,18 +910,14 @@ export function microsoftDataCollectionDataCollectionRuleResourceSerializer(
       ? undefined
       : _dataCollectionRuleResourcePropertiesSerializer(item),
     kind: item["kind"],
-    sku: !item["sku"]
-      ? item["sku"]
-      : microsoftDataCollectionDataCollectionRuleResourceSkuSerializer(item["sku"]),
+    sku: !item["sku"] ? item["sku"] : dataCollectionRuleResourceSkuSerializer(item["sku"]),
     identity: !item["identity"]
       ? item["identity"]
-      : microsoftDataCollectionDataCollectionRuleResourceIdentitySerializer(item["identity"]),
+      : dataCollectionRuleResourceIdentitySerializer(item["identity"]),
   };
 }
 
-export function microsoftDataCollectionDataCollectionRuleResourceDeserializer(
-  item: any,
-): MicrosoftDataCollectionDataCollectionRuleResource {
+export function dataCollectionRuleResourceDeserializer(item: any): DataCollectionRuleResource {
   return {
     tags: !item["tags"]
       ? item["tags"]
@@ -1005,98 +933,88 @@ export function microsoftDataCollectionDataCollectionRuleResourceDeserializer(
       ? item["properties"]
       : _dataCollectionRuleResourcePropertiesDeserializer(item["properties"])),
     kind: item["kind"],
-    sku: !item["sku"]
-      ? item["sku"]
-      : microsoftDataCollectionDataCollectionRuleResourceSkuDeserializer(item["sku"]),
+    sku: !item["sku"] ? item["sku"] : dataCollectionRuleResourceSkuDeserializer(item["sku"]),
     identity: !item["identity"]
       ? item["identity"]
-      : microsoftDataCollectionDataCollectionRuleResourceIdentityDeserializer(item["identity"]),
+      : dataCollectionRuleResourceIdentityDeserializer(item["identity"]),
     etag: item["etag"],
   };
 }
 
-/** model interface MicrosoftDataCollectionDataCollectionRuleResourceProperties */
-export interface MicrosoftDataCollectionDataCollectionRuleResourceProperties extends MicrosoftDataCollectionDataCollectionRule {}
+/** model interface DataCollectionRuleResourceProperties */
+export interface DataCollectionRuleResourceProperties extends DataCollectionRule {}
 
-export function microsoftDataCollectionDataCollectionRuleResourcePropertiesSerializer(
-  item: MicrosoftDataCollectionDataCollectionRuleResourceProperties,
+export function dataCollectionRuleResourcePropertiesSerializer(
+  item: DataCollectionRuleResourceProperties,
 ): any {
   return {
     description: item["description"],
     dataCollectionEndpointId: item["dataCollectionEndpointId"],
     references: !item["references"]
       ? item["references"]
-      : microsoftDataCollectionDataCollectionRuleReferencesSerializer(item["references"]),
+      : dataCollectionRuleReferencesSerializer(item["references"]),
     agentSettings: !item["agentSettings"]
       ? item["agentSettings"]
-      : microsoftDataCollectionDataCollectionRuleAgentSettingsSerializer(item["agentSettings"]),
+      : dataCollectionRuleAgentSettingsSerializer(item["agentSettings"]),
     streamDeclarations: !item["streamDeclarations"]
       ? item["streamDeclarations"]
-      : microsoftDataCollectionStreamDeclarationRecordSerializer(item["streamDeclarations"]),
+      : streamDeclarationRecordSerializer(item["streamDeclarations"]),
     dataSources: !item["dataSources"]
       ? item["dataSources"]
-      : microsoftDataCollectionDataCollectionRuleDataSourcesSerializer(item["dataSources"]),
+      : dataCollectionRuleDataSourcesSerializer(item["dataSources"]),
     directDataSources: !item["directDataSources"]
       ? item["directDataSources"]
-      : microsoftDataCollectionDataCollectionRuleDirectDataSourcesSerializer(
-          item["directDataSources"],
-        ),
+      : dataCollectionRuleDirectDataSourcesSerializer(item["directDataSources"]),
     destinations: !item["destinations"]
       ? item["destinations"]
-      : microsoftDataCollectionDataCollectionRuleDestinationsSerializer(item["destinations"]),
-    dataFlows: !item["dataFlows"]
-      ? item["dataFlows"]
-      : microsoftDataCollectionDataFlowArraySerializer(item["dataFlows"]),
+      : dataCollectionRuleDestinationsSerializer(item["destinations"]),
+    dataFlows: !item["dataFlows"] ? item["dataFlows"] : dataFlowArraySerializer(item["dataFlows"]),
   };
 }
 
-export function microsoftDataCollectionDataCollectionRuleResourcePropertiesDeserializer(
+export function dataCollectionRuleResourcePropertiesDeserializer(
   item: any,
-): MicrosoftDataCollectionDataCollectionRuleResourceProperties {
+): DataCollectionRuleResourceProperties {
   return {
     description: item["description"],
     immutableId: item["immutableId"],
     dataCollectionEndpointId: item["dataCollectionEndpointId"],
     metadata: !item["metadata"]
       ? item["metadata"]
-      : microsoftDataCollectionDataCollectionRuleMetadataDeserializer(item["metadata"]),
+      : dataCollectionRuleMetadataDeserializer(item["metadata"]),
     endpoints: !item["endpoints"]
       ? item["endpoints"]
-      : microsoftDataCollectionDataCollectionRuleEndpointsDeserializer(item["endpoints"]),
+      : dataCollectionRuleEndpointsDeserializer(item["endpoints"]),
     references: !item["references"]
       ? item["references"]
-      : microsoftDataCollectionDataCollectionRuleReferencesDeserializer(item["references"]),
+      : dataCollectionRuleReferencesDeserializer(item["references"]),
     agentSettings: !item["agentSettings"]
       ? item["agentSettings"]
-      : microsoftDataCollectionDataCollectionRuleAgentSettingsDeserializer(item["agentSettings"]),
+      : dataCollectionRuleAgentSettingsDeserializer(item["agentSettings"]),
     streamDeclarations: !item["streamDeclarations"]
       ? item["streamDeclarations"]
-      : microsoftDataCollectionStreamDeclarationRecordDeserializer(item["streamDeclarations"]),
+      : streamDeclarationRecordDeserializer(item["streamDeclarations"]),
     dataSources: !item["dataSources"]
       ? item["dataSources"]
-      : microsoftDataCollectionDataCollectionRuleDataSourcesDeserializer(item["dataSources"]),
+      : dataCollectionRuleDataSourcesDeserializer(item["dataSources"]),
     directDataSources: !item["directDataSources"]
       ? item["directDataSources"]
-      : microsoftDataCollectionDataCollectionRuleDirectDataSourcesDeserializer(
-          item["directDataSources"],
-        ),
+      : dataCollectionRuleDirectDataSourcesDeserializer(item["directDataSources"]),
     destinations: !item["destinations"]
       ? item["destinations"]
-      : microsoftDataCollectionDataCollectionRuleDestinationsDeserializer(item["destinations"]),
+      : dataCollectionRuleDestinationsDeserializer(item["destinations"]),
     dataFlows: !item["dataFlows"]
       ? item["dataFlows"]
-      : microsoftDataCollectionDataFlowArrayDeserializer(item["dataFlows"]),
+      : dataFlowArrayDeserializer(item["dataFlows"]),
     ingestionQuotas: !item["ingestionQuotas"]
       ? item["ingestionQuotas"]
-      : microsoftDataCollectionDataCollectionRuleIngestionQuotasDeserializer(
-          item["ingestionQuotas"],
-        ),
+      : dataCollectionRuleIngestionQuotasDeserializer(item["ingestionQuotas"]),
     provisioningState: item["provisioningState"],
   };
 }
 
 /** The kind of the resource. */
-export enum KnownMicrosoftDataCollectionKnownDataCollectionRuleResourceKind {
+export enum KnownKnownDataCollectionRuleResourceKind {
   /** Linux */
   Linux = "Linux",
   /** Windows */
@@ -1105,20 +1023,18 @@ export enum KnownMicrosoftDataCollectionKnownDataCollectionRuleResourceKind {
 
 /**
  * The kind of the resource. \
- * {@link KnownMicrosoftDataCollectionKnownDataCollectionRuleResourceKind} can be used interchangeably with MicrosoftDataCollectionKnownDataCollectionRuleResourceKind,
+ * {@link KnownKnownDataCollectionRuleResourceKind} can be used interchangeably with KnownDataCollectionRuleResourceKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Linux**: Linux \
  * **Windows**: Windows
  */
-export type MicrosoftDataCollectionKnownDataCollectionRuleResourceKind = string;
+export type KnownDataCollectionRuleResourceKind = string;
 
 /** The SKU of the resource. */
-export interface MicrosoftDataCollectionDataCollectionRuleResourceSku extends Sku {}
+export interface DataCollectionRuleResourceSku extends Sku {}
 
-export function microsoftDataCollectionDataCollectionRuleResourceSkuSerializer(
-  item: MicrosoftDataCollectionDataCollectionRuleResourceSku,
-): any {
+export function dataCollectionRuleResourceSkuSerializer(item: DataCollectionRuleResourceSku): any {
   return {
     name: item["name"],
     tier: item["tier"],
@@ -1128,9 +1044,9 @@ export function microsoftDataCollectionDataCollectionRuleResourceSkuSerializer(
   };
 }
 
-export function microsoftDataCollectionDataCollectionRuleResourceSkuDeserializer(
+export function dataCollectionRuleResourceSkuDeserializer(
   item: any,
-): MicrosoftDataCollectionDataCollectionRuleResourceSku {
+): DataCollectionRuleResourceSku {
   return {
     name: item["name"],
     tier: item["tier"],
@@ -1141,17 +1057,17 @@ export function microsoftDataCollectionDataCollectionRuleResourceSkuDeserializer
 }
 
 /** Managed service identity of the resource. */
-export interface MicrosoftDataCollectionDataCollectionRuleResourceIdentity extends ManagedServiceIdentity {}
+export interface DataCollectionRuleResourceIdentity extends ManagedServiceIdentity {}
 
-export function microsoftDataCollectionDataCollectionRuleResourceIdentitySerializer(
-  item: MicrosoftDataCollectionDataCollectionRuleResourceIdentity,
+export function dataCollectionRuleResourceIdentitySerializer(
+  item: DataCollectionRuleResourceIdentity,
 ): any {
   return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
 }
 
-export function microsoftDataCollectionDataCollectionRuleResourceIdentityDeserializer(
+export function dataCollectionRuleResourceIdentityDeserializer(
   item: any,
-): MicrosoftDataCollectionDataCollectionRuleResourceIdentity {
+): DataCollectionRuleResourceIdentity {
   return {
     principalId: item["principalId"],
     tenantId: item["tenantId"],
@@ -1168,7 +1084,7 @@ export function microsoftDataCollectionDataCollectionRuleResourceIdentityDeseria
 }
 
 /** Definition of what monitoring data to collect and where that data should be sent. */
-export interface MicrosoftDataCollectionDataCollectionRule {
+export interface DataCollectionRule {
   /** Description of the data collection rule. */
   description?: string;
   /** The immutable ID of this data collection rule. This property is READ-ONLY. */
@@ -1176,118 +1092,104 @@ export interface MicrosoftDataCollectionDataCollectionRule {
   /** The resource ID of the data collection endpoint that this rule can be used with. */
   dataCollectionEndpointId?: string;
   /** Metadata about the resource */
-  readonly metadata?: MicrosoftDataCollectionDataCollectionRuleMetadata;
+  readonly metadata?: DataCollectionRuleMetadata;
   /** Defines the ingestion endpoints to send data to via this rule. */
-  readonly endpoints?: MicrosoftDataCollectionDataCollectionRuleEndpoints;
+  readonly endpoints?: DataCollectionRuleEndpoints;
   /** Defines all the references that may be used in other sections of the DCR */
-  references?: MicrosoftDataCollectionDataCollectionRuleReferences;
+  references?: DataCollectionRuleReferences;
   /** Agent settings used to modify agent behavior on a given host */
-  agentSettings?: MicrosoftDataCollectionDataCollectionRuleAgentSettings;
+  agentSettings?: DataCollectionRuleAgentSettings;
   /** Declaration of custom streams used in this rule. */
-  streamDeclarations?: Record<string, MicrosoftDataCollectionStreamDeclaration>;
+  streamDeclarations?: Record<string, StreamDeclaration>;
   /**
    * The specification of data sources.
    * This property is optional and can be omitted if the rule is meant to be used via direct calls to the provisioned endpoint.
    */
-  dataSources?: MicrosoftDataCollectionDataCollectionRuleDataSources;
+  dataSources?: DataCollectionRuleDataSources;
   /**
    * The specification of direct data sources.
    * This property is optional and can be omitted.
    */
-  directDataSources?: MicrosoftDataCollectionDataCollectionRuleDirectDataSources;
+  directDataSources?: DataCollectionRuleDirectDataSources;
   /** The specification of destinations. */
-  destinations?: MicrosoftDataCollectionDataCollectionRuleDestinations;
+  destinations?: DataCollectionRuleDestinations;
   /** The specification of data flows. */
-  dataFlows?: MicrosoftDataCollectionDataFlow[];
+  dataFlows?: DataFlow[];
   /** The specification for ingestion limits */
-  readonly ingestionQuotas?: MicrosoftDataCollectionDataCollectionRuleIngestionQuotas;
+  readonly ingestionQuotas?: DataCollectionRuleIngestionQuotas;
   /** The resource provisioning state. */
-  readonly provisioningState?: MicrosoftDataCollectionKnownDataCollectionRuleProvisioningState;
+  readonly provisioningState?: KnownDataCollectionRuleProvisioningState;
 }
 
-export function microsoftDataCollectionDataCollectionRuleSerializer(
-  item: MicrosoftDataCollectionDataCollectionRule,
-): any {
+export function dataCollectionRuleSerializer(item: DataCollectionRule): any {
   return {
     description: item["description"],
     dataCollectionEndpointId: item["dataCollectionEndpointId"],
     references: !item["references"]
       ? item["references"]
-      : microsoftDataCollectionDataCollectionRuleReferencesSerializer(item["references"]),
+      : dataCollectionRuleReferencesSerializer(item["references"]),
     agentSettings: !item["agentSettings"]
       ? item["agentSettings"]
-      : microsoftDataCollectionDataCollectionRuleAgentSettingsSerializer(item["agentSettings"]),
+      : dataCollectionRuleAgentSettingsSerializer(item["agentSettings"]),
     streamDeclarations: !item["streamDeclarations"]
       ? item["streamDeclarations"]
-      : microsoftDataCollectionStreamDeclarationRecordSerializer(item["streamDeclarations"]),
+      : streamDeclarationRecordSerializer(item["streamDeclarations"]),
     dataSources: !item["dataSources"]
       ? item["dataSources"]
-      : microsoftDataCollectionDataCollectionRuleDataSourcesSerializer(item["dataSources"]),
+      : dataCollectionRuleDataSourcesSerializer(item["dataSources"]),
     directDataSources: !item["directDataSources"]
       ? item["directDataSources"]
-      : microsoftDataCollectionDataCollectionRuleDirectDataSourcesSerializer(
-          item["directDataSources"],
-        ),
+      : dataCollectionRuleDirectDataSourcesSerializer(item["directDataSources"]),
     destinations: !item["destinations"]
       ? item["destinations"]
-      : microsoftDataCollectionDataCollectionRuleDestinationsSerializer(item["destinations"]),
-    dataFlows: !item["dataFlows"]
-      ? item["dataFlows"]
-      : microsoftDataCollectionDataFlowArraySerializer(item["dataFlows"]),
+      : dataCollectionRuleDestinationsSerializer(item["destinations"]),
+    dataFlows: !item["dataFlows"] ? item["dataFlows"] : dataFlowArraySerializer(item["dataFlows"]),
   };
 }
 
-export function microsoftDataCollectionDataCollectionRuleDeserializer(
-  item: any,
-): MicrosoftDataCollectionDataCollectionRule {
+export function dataCollectionRuleDeserializer(item: any): DataCollectionRule {
   return {
     description: item["description"],
     immutableId: item["immutableId"],
     dataCollectionEndpointId: item["dataCollectionEndpointId"],
     metadata: !item["metadata"]
       ? item["metadata"]
-      : microsoftDataCollectionDataCollectionRuleMetadataDeserializer(item["metadata"]),
+      : dataCollectionRuleMetadataDeserializer(item["metadata"]),
     endpoints: !item["endpoints"]
       ? item["endpoints"]
-      : microsoftDataCollectionDataCollectionRuleEndpointsDeserializer(item["endpoints"]),
+      : dataCollectionRuleEndpointsDeserializer(item["endpoints"]),
     references: !item["references"]
       ? item["references"]
-      : microsoftDataCollectionDataCollectionRuleReferencesDeserializer(item["references"]),
+      : dataCollectionRuleReferencesDeserializer(item["references"]),
     agentSettings: !item["agentSettings"]
       ? item["agentSettings"]
-      : microsoftDataCollectionDataCollectionRuleAgentSettingsDeserializer(item["agentSettings"]),
+      : dataCollectionRuleAgentSettingsDeserializer(item["agentSettings"]),
     streamDeclarations: !item["streamDeclarations"]
       ? item["streamDeclarations"]
-      : microsoftDataCollectionStreamDeclarationRecordDeserializer(item["streamDeclarations"]),
+      : streamDeclarationRecordDeserializer(item["streamDeclarations"]),
     dataSources: !item["dataSources"]
       ? item["dataSources"]
-      : microsoftDataCollectionDataCollectionRuleDataSourcesDeserializer(item["dataSources"]),
+      : dataCollectionRuleDataSourcesDeserializer(item["dataSources"]),
     directDataSources: !item["directDataSources"]
       ? item["directDataSources"]
-      : microsoftDataCollectionDataCollectionRuleDirectDataSourcesDeserializer(
-          item["directDataSources"],
-        ),
+      : dataCollectionRuleDirectDataSourcesDeserializer(item["directDataSources"]),
     destinations: !item["destinations"]
       ? item["destinations"]
-      : microsoftDataCollectionDataCollectionRuleDestinationsDeserializer(item["destinations"]),
+      : dataCollectionRuleDestinationsDeserializer(item["destinations"]),
     dataFlows: !item["dataFlows"]
       ? item["dataFlows"]
-      : microsoftDataCollectionDataFlowArrayDeserializer(item["dataFlows"]),
+      : dataFlowArrayDeserializer(item["dataFlows"]),
     ingestionQuotas: !item["ingestionQuotas"]
       ? item["ingestionQuotas"]
-      : microsoftDataCollectionDataCollectionRuleIngestionQuotasDeserializer(
-          item["ingestionQuotas"],
-        ),
+      : dataCollectionRuleIngestionQuotasDeserializer(item["ingestionQuotas"]),
     provisioningState: item["provisioningState"],
   };
 }
 
 /** Metadata about the resource */
-export interface MicrosoftDataCollectionDataCollectionRuleMetadata extends MicrosoftDataCollectionMetadata {}
+export interface DataCollectionRuleMetadata extends Metadata {}
 
-export function microsoftDataCollectionDataCollectionRuleMetadataDeserializer(
-  item: any,
-): MicrosoftDataCollectionDataCollectionRuleMetadata {
+export function dataCollectionRuleMetadataDeserializer(item: any): DataCollectionRuleMetadata {
   return {
     provisionedBy: item["provisionedBy"],
     provisionedByResourceId: item["provisionedByResourceId"],
@@ -1296,11 +1198,9 @@ export function microsoftDataCollectionDataCollectionRuleMetadataDeserializer(
 }
 
 /** Defines the ingestion endpoints to send data to via this rule. */
-export interface MicrosoftDataCollectionDataCollectionRuleEndpoints extends MicrosoftDataCollectionEndpointsSpec {}
+export interface DataCollectionRuleEndpoints extends EndpointsSpec {}
 
-export function microsoftDataCollectionDataCollectionRuleEndpointsDeserializer(
-  item: any,
-): MicrosoftDataCollectionDataCollectionRuleEndpoints {
+export function dataCollectionRuleEndpointsDeserializer(item: any): DataCollectionRuleEndpoints {
   return {
     logsIngestion: item["logsIngestion"],
     metricsIngestion: item["metricsIngestion"],
@@ -1308,140 +1208,112 @@ export function microsoftDataCollectionDataCollectionRuleEndpointsDeserializer(
 }
 
 /** Defines all the references that may be used in other sections of the DCR */
-export interface MicrosoftDataCollectionDataCollectionRuleReferences extends MicrosoftDataCollectionReferencesSpec {}
+export interface DataCollectionRuleReferences extends ReferencesSpec {}
 
-export function microsoftDataCollectionDataCollectionRuleReferencesSerializer(
-  item: MicrosoftDataCollectionDataCollectionRuleReferences,
-): any {
+export function dataCollectionRuleReferencesSerializer(item: DataCollectionRuleReferences): any {
   return {
     enrichmentData: !item["enrichmentData"]
       ? item["enrichmentData"]
-      : microsoftDataCollectionReferencesSpecEnrichmentDataSerializer(item["enrichmentData"]),
+      : referencesSpecEnrichmentDataSerializer(item["enrichmentData"]),
     applicationInsights: !item["applicationInsights"]
       ? item["applicationInsights"]
-      : microsoftDataCollectionApplicationInsightsArraySerializer(item["applicationInsights"]),
+      : applicationInsightsArraySerializer(item["applicationInsights"]),
   };
 }
 
-export function microsoftDataCollectionDataCollectionRuleReferencesDeserializer(
-  item: any,
-): MicrosoftDataCollectionDataCollectionRuleReferences {
+export function dataCollectionRuleReferencesDeserializer(item: any): DataCollectionRuleReferences {
   return {
     enrichmentData: !item["enrichmentData"]
       ? item["enrichmentData"]
-      : microsoftDataCollectionReferencesSpecEnrichmentDataDeserializer(item["enrichmentData"]),
+      : referencesSpecEnrichmentDataDeserializer(item["enrichmentData"]),
     applicationInsights: !item["applicationInsights"]
       ? item["applicationInsights"]
-      : microsoftDataCollectionApplicationInsightsArrayDeserializer(item["applicationInsights"]),
+      : applicationInsightsArrayDeserializer(item["applicationInsights"]),
   };
 }
 
 /** Agent settings used to modify agent behavior on a given host */
-export interface MicrosoftDataCollectionDataCollectionRuleAgentSettings extends MicrosoftDataCollectionAgentSettingsSpec {}
+export interface DataCollectionRuleAgentSettings extends AgentSettingsSpec {}
 
-export function microsoftDataCollectionDataCollectionRuleAgentSettingsSerializer(
-  item: MicrosoftDataCollectionDataCollectionRuleAgentSettings,
+export function dataCollectionRuleAgentSettingsSerializer(
+  item: DataCollectionRuleAgentSettings,
 ): any {
-  return {
-    logs: !item["logs"]
-      ? item["logs"]
-      : microsoftDataCollectionAgentSettingArraySerializer(item["logs"]),
-  };
+  return { logs: !item["logs"] ? item["logs"] : agentSettingArraySerializer(item["logs"]) };
 }
 
-export function microsoftDataCollectionDataCollectionRuleAgentSettingsDeserializer(
+export function dataCollectionRuleAgentSettingsDeserializer(
   item: any,
-): MicrosoftDataCollectionDataCollectionRuleAgentSettings {
+): DataCollectionRuleAgentSettings {
   return {
-    logs: !item["logs"]
-      ? item["logs"]
-      : microsoftDataCollectionAgentSettingArrayDeserializer(item["logs"]),
+    logs: !item["logs"] ? item["logs"] : agentSettingArrayDeserializer(item["logs"]),
   };
 }
 
-export function microsoftDataCollectionStreamDeclarationRecordSerializer(
-  item: Record<string, MicrosoftDataCollectionStreamDeclaration>,
+export function streamDeclarationRecordSerializer(
+  item: Record<string, StreamDeclaration>,
 ): Record<string, any> {
   const result: Record<string, any> = {};
   Object.keys(item).map((key) => {
-    result[key] = !item[key]
-      ? item[key]
-      : microsoftDataCollectionStreamDeclarationSerializer(item[key]);
+    result[key] = !item[key] ? item[key] : streamDeclarationSerializer(item[key]);
   });
   return result;
 }
 
-export function microsoftDataCollectionStreamDeclarationRecordDeserializer(
+export function streamDeclarationRecordDeserializer(
   item: Record<string, any>,
-): Record<string, MicrosoftDataCollectionStreamDeclaration> {
+): Record<string, StreamDeclaration> {
   const result: Record<string, any> = {};
   Object.keys(item).map((key) => {
-    result[key] = !item[key]
-      ? item[key]
-      : microsoftDataCollectionStreamDeclarationDeserializer(item[key]);
+    result[key] = !item[key] ? item[key] : streamDeclarationDeserializer(item[key]);
   });
   return result;
 }
 
 /** Declaration of a custom stream. */
-export interface MicrosoftDataCollectionStreamDeclaration {
+export interface StreamDeclaration {
   /** List of columns used by data in this stream. */
-  columns?: MicrosoftDataCollectionColumnDefinition[];
+  columns?: ColumnDefinition[];
 }
 
-export function microsoftDataCollectionStreamDeclarationSerializer(
-  item: MicrosoftDataCollectionStreamDeclaration,
-): any {
+export function streamDeclarationSerializer(item: StreamDeclaration): any {
   return {
-    columns: !item["columns"]
-      ? item["columns"]
-      : microsoftDataCollectionColumnDefinitionArraySerializer(item["columns"]),
+    columns: !item["columns"] ? item["columns"] : columnDefinitionArraySerializer(item["columns"]),
   };
 }
 
-export function microsoftDataCollectionStreamDeclarationDeserializer(
-  item: any,
-): MicrosoftDataCollectionStreamDeclaration {
+export function streamDeclarationDeserializer(item: any): StreamDeclaration {
   return {
     columns: !item["columns"]
       ? item["columns"]
-      : microsoftDataCollectionColumnDefinitionArrayDeserializer(item["columns"]),
+      : columnDefinitionArrayDeserializer(item["columns"]),
   };
 }
 
-export function microsoftDataCollectionColumnDefinitionArraySerializer(
-  result: Array<MicrosoftDataCollectionColumnDefinition>,
-): any[] {
+export function columnDefinitionArraySerializer(result: Array<ColumnDefinition>): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionColumnDefinitionSerializer(item);
+    return columnDefinitionSerializer(item);
   });
 }
 
-export function microsoftDataCollectionColumnDefinitionArrayDeserializer(
-  result: Array<MicrosoftDataCollectionColumnDefinition>,
-): any[] {
+export function columnDefinitionArrayDeserializer(result: Array<ColumnDefinition>): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionColumnDefinitionDeserializer(item);
+    return columnDefinitionDeserializer(item);
   });
 }
 
 /** Definition of custom data column. */
-export interface MicrosoftDataCollectionColumnDefinition {
+export interface ColumnDefinition {
   /** The name of the column. */
   name?: string;
   /** The type of the column data. */
-  type?: MicrosoftDataCollectionKnownColumnDefinitionType;
+  type?: KnownColumnDefinitionType;
 }
 
-export function microsoftDataCollectionColumnDefinitionSerializer(
-  item: MicrosoftDataCollectionColumnDefinition,
-): any {
+export function columnDefinitionSerializer(item: ColumnDefinition): any {
   return { name: item["name"], type: item["type"] };
 }
 
-export function microsoftDataCollectionColumnDefinitionDeserializer(
-  item: any,
-): MicrosoftDataCollectionColumnDefinition {
+export function columnDefinitionDeserializer(item: any): ColumnDefinition {
   return {
     name: item["name"],
     type: item["type"],
@@ -1449,7 +1321,7 @@ export function microsoftDataCollectionColumnDefinitionDeserializer(
 }
 
 /** The type of the column data. */
-export enum KnownMicrosoftDataCollectionKnownColumnDefinitionType {
+export enum KnownKnownColumnDefinitionType {
   /** string */
   String = "string",
   /** int */
@@ -1468,7 +1340,7 @@ export enum KnownMicrosoftDataCollectionKnownColumnDefinitionType {
 
 /**
  * The type of the column data. \
- * {@link KnownMicrosoftDataCollectionKnownColumnDefinitionType} can be used interchangeably with MicrosoftDataCollectionKnownColumnDefinitionType,
+ * {@link KnownKnownColumnDefinitionType} can be used interchangeably with KnownColumnDefinitionType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **string**: string \
@@ -1479,131 +1351,107 @@ export enum KnownMicrosoftDataCollectionKnownColumnDefinitionType {
  * **datetime**: datetime \
  * **dynamic**: dynamic
  */
-export type MicrosoftDataCollectionKnownColumnDefinitionType = string;
+export type KnownColumnDefinitionType = string;
 
 /**
  * The specification of data sources.
  * This property is optional and can be omitted if the rule is meant to be used via direct calls to the provisioned endpoint.
  */
-export interface MicrosoftDataCollectionDataCollectionRuleDataSources extends MicrosoftDataCollectionDataSourcesSpec {}
+export interface DataCollectionRuleDataSources extends DataSourcesSpec {}
 
-export function microsoftDataCollectionDataCollectionRuleDataSourcesSerializer(
-  item: MicrosoftDataCollectionDataCollectionRuleDataSources,
-): any {
+export function dataCollectionRuleDataSourcesSerializer(item: DataCollectionRuleDataSources): any {
   return {
     performanceCounters: !item["performanceCounters"]
       ? item["performanceCounters"]
-      : microsoftDataCollectionPerfCounterDataSourceArraySerializer(item["performanceCounters"]),
+      : perfCounterDataSourceArraySerializer(item["performanceCounters"]),
     performanceCountersOTel: !item["performanceCountersOTel"]
       ? item["performanceCountersOTel"]
-      : microsoftDataCollectionPerformanceCountersOTelDataSourceArraySerializer(
-          item["performanceCountersOTel"],
-        ),
+      : performanceCountersOTelDataSourceArraySerializer(item["performanceCountersOTel"]),
     windowsEventLogs: !item["windowsEventLogs"]
       ? item["windowsEventLogs"]
-      : microsoftDataCollectionWindowsEventLogDataSourceArraySerializer(item["windowsEventLogs"]),
-    syslog: !item["syslog"]
-      ? item["syslog"]
-      : microsoftDataCollectionSyslogDataSourceArraySerializer(item["syslog"]),
+      : windowsEventLogDataSourceArraySerializer(item["windowsEventLogs"]),
+    syslog: !item["syslog"] ? item["syslog"] : syslogDataSourceArraySerializer(item["syslog"]),
     extensions: !item["extensions"]
       ? item["extensions"]
-      : microsoftDataCollectionExtensionDataSourceArraySerializer(item["extensions"]),
+      : extensionDataSourceArraySerializer(item["extensions"]),
     logFiles: !item["logFiles"]
       ? item["logFiles"]
-      : microsoftDataCollectionLogFilesDataSourceArraySerializer(item["logFiles"]),
-    iisLogs: !item["iisLogs"]
-      ? item["iisLogs"]
-      : microsoftDataCollectionIisLogsDataSourceArraySerializer(item["iisLogs"]),
+      : logFilesDataSourceArraySerializer(item["logFiles"]),
+    iisLogs: !item["iisLogs"] ? item["iisLogs"] : iisLogsDataSourceArraySerializer(item["iisLogs"]),
     windowsFirewallLogs: !item["windowsFirewallLogs"]
       ? item["windowsFirewallLogs"]
-      : microsoftDataCollectionWindowsFirewallLogsDataSourceArraySerializer(
-          item["windowsFirewallLogs"],
-        ),
+      : windowsFirewallLogsDataSourceArraySerializer(item["windowsFirewallLogs"]),
     prometheusForwarder: !item["prometheusForwarder"]
       ? item["prometheusForwarder"]
-      : microsoftDataCollectionPrometheusForwarderDataSourceArraySerializer(
-          item["prometheusForwarder"],
-        ),
+      : prometheusForwarderDataSourceArraySerializer(item["prometheusForwarder"]),
     platformTelemetry: !item["platformTelemetry"]
       ? item["platformTelemetry"]
-      : microsoftDataCollectionPlatformTelemetryDataSourceArraySerializer(
-          item["platformTelemetry"],
-        ),
+      : platformTelemetryDataSourceArraySerializer(item["platformTelemetry"]),
     dataImports: !item["dataImports"]
       ? item["dataImports"]
-      : microsoftDataCollectionDataSourcesSpecDataImportsSerializer(item["dataImports"]),
+      : dataSourcesSpecDataImportsSerializer(item["dataImports"]),
     otelLogs: !item["otelLogs"]
       ? item["otelLogs"]
-      : microsoftDataCollectionOtelLogsDataSourceArraySerializer(item["otelLogs"]),
+      : otelLogsDataSourceArraySerializer(item["otelLogs"]),
     otelTraces: !item["otelTraces"]
       ? item["otelTraces"]
-      : microsoftDataCollectionOtelTracesDataSourceArraySerializer(item["otelTraces"]),
+      : otelTracesDataSourceArraySerializer(item["otelTraces"]),
     otelMetrics: !item["otelMetrics"]
       ? item["otelMetrics"]
-      : microsoftDataCollectionOtelMetricsDataSourceArraySerializer(item["otelMetrics"]),
+      : otelMetricsDataSourceArraySerializer(item["otelMetrics"]),
     etwProviders: !item["etwProviders"]
       ? item["etwProviders"]
-      : microsoftDataCollectionEtwProviderDataSourceArraySerializer(item["etwProviders"]),
+      : etwProviderDataSourceArraySerializer(item["etwProviders"]),
   };
 }
 
-export function microsoftDataCollectionDataCollectionRuleDataSourcesDeserializer(
+export function dataCollectionRuleDataSourcesDeserializer(
   item: any,
-): MicrosoftDataCollectionDataCollectionRuleDataSources {
+): DataCollectionRuleDataSources {
   return {
     performanceCounters: !item["performanceCounters"]
       ? item["performanceCounters"]
-      : microsoftDataCollectionPerfCounterDataSourceArrayDeserializer(item["performanceCounters"]),
+      : perfCounterDataSourceArrayDeserializer(item["performanceCounters"]),
     performanceCountersOTel: !item["performanceCountersOTel"]
       ? item["performanceCountersOTel"]
-      : microsoftDataCollectionPerformanceCountersOTelDataSourceArrayDeserializer(
-          item["performanceCountersOTel"],
-        ),
+      : performanceCountersOTelDataSourceArrayDeserializer(item["performanceCountersOTel"]),
     windowsEventLogs: !item["windowsEventLogs"]
       ? item["windowsEventLogs"]
-      : microsoftDataCollectionWindowsEventLogDataSourceArrayDeserializer(item["windowsEventLogs"]),
-    syslog: !item["syslog"]
-      ? item["syslog"]
-      : microsoftDataCollectionSyslogDataSourceArrayDeserializer(item["syslog"]),
+      : windowsEventLogDataSourceArrayDeserializer(item["windowsEventLogs"]),
+    syslog: !item["syslog"] ? item["syslog"] : syslogDataSourceArrayDeserializer(item["syslog"]),
     extensions: !item["extensions"]
       ? item["extensions"]
-      : microsoftDataCollectionExtensionDataSourceArrayDeserializer(item["extensions"]),
+      : extensionDataSourceArrayDeserializer(item["extensions"]),
     logFiles: !item["logFiles"]
       ? item["logFiles"]
-      : microsoftDataCollectionLogFilesDataSourceArrayDeserializer(item["logFiles"]),
+      : logFilesDataSourceArrayDeserializer(item["logFiles"]),
     iisLogs: !item["iisLogs"]
       ? item["iisLogs"]
-      : microsoftDataCollectionIisLogsDataSourceArrayDeserializer(item["iisLogs"]),
+      : iisLogsDataSourceArrayDeserializer(item["iisLogs"]),
     windowsFirewallLogs: !item["windowsFirewallLogs"]
       ? item["windowsFirewallLogs"]
-      : microsoftDataCollectionWindowsFirewallLogsDataSourceArrayDeserializer(
-          item["windowsFirewallLogs"],
-        ),
+      : windowsFirewallLogsDataSourceArrayDeserializer(item["windowsFirewallLogs"]),
     prometheusForwarder: !item["prometheusForwarder"]
       ? item["prometheusForwarder"]
-      : microsoftDataCollectionPrometheusForwarderDataSourceArrayDeserializer(
-          item["prometheusForwarder"],
-        ),
+      : prometheusForwarderDataSourceArrayDeserializer(item["prometheusForwarder"]),
     platformTelemetry: !item["platformTelemetry"]
       ? item["platformTelemetry"]
-      : microsoftDataCollectionPlatformTelemetryDataSourceArrayDeserializer(
-          item["platformTelemetry"],
-        ),
+      : platformTelemetryDataSourceArrayDeserializer(item["platformTelemetry"]),
     dataImports: !item["dataImports"]
       ? item["dataImports"]
-      : microsoftDataCollectionDataSourcesSpecDataImportsDeserializer(item["dataImports"]),
+      : dataSourcesSpecDataImportsDeserializer(item["dataImports"]),
     otelLogs: !item["otelLogs"]
       ? item["otelLogs"]
-      : microsoftDataCollectionOtelLogsDataSourceArrayDeserializer(item["otelLogs"]),
+      : otelLogsDataSourceArrayDeserializer(item["otelLogs"]),
     otelTraces: !item["otelTraces"]
       ? item["otelTraces"]
-      : microsoftDataCollectionOtelTracesDataSourceArrayDeserializer(item["otelTraces"]),
+      : otelTracesDataSourceArrayDeserializer(item["otelTraces"]),
     otelMetrics: !item["otelMetrics"]
       ? item["otelMetrics"]
-      : microsoftDataCollectionOtelMetricsDataSourceArrayDeserializer(item["otelMetrics"]),
+      : otelMetricsDataSourceArrayDeserializer(item["otelMetrics"]),
     etwProviders: !item["etwProviders"]
       ? item["etwProviders"]
-      : microsoftDataCollectionEtwProviderDataSourceArrayDeserializer(item["etwProviders"]),
+      : etwProviderDataSourceArrayDeserializer(item["etwProviders"]),
   };
 }
 
@@ -1611,147 +1459,133 @@ export function microsoftDataCollectionDataCollectionRuleDataSourcesDeserializer
  * The specification of direct data sources.
  * This property is optional and can be omitted.
  */
-export interface MicrosoftDataCollectionDataCollectionRuleDirectDataSources extends MicrosoftDataCollectionDirectDataSourcesSpec {}
+export interface DataCollectionRuleDirectDataSources extends DirectDataSourcesSpec {}
 
-export function microsoftDataCollectionDataCollectionRuleDirectDataSourcesSerializer(
-  item: MicrosoftDataCollectionDataCollectionRuleDirectDataSources,
+export function dataCollectionRuleDirectDataSourcesSerializer(
+  item: DataCollectionRuleDirectDataSources,
 ): any {
   return {
     otelMetrics: !item["otelMetrics"]
       ? item["otelMetrics"]
-      : microsoftDataCollectionOtelMetricsDirectDataSourceArraySerializer(item["otelMetrics"]),
+      : otelMetricsDirectDataSourceArraySerializer(item["otelMetrics"]),
     otelLogs: !item["otelLogs"]
       ? item["otelLogs"]
-      : microsoftDataCollectionOtelLogsDirectDataSourceArraySerializer(item["otelLogs"]),
+      : otelLogsDirectDataSourceArraySerializer(item["otelLogs"]),
     otelTraces: !item["otelTraces"]
       ? item["otelTraces"]
-      : microsoftDataCollectionOtelTracesDirectDataSourceArraySerializer(item["otelTraces"]),
+      : otelTracesDirectDataSourceArraySerializer(item["otelTraces"]),
   };
 }
 
-export function microsoftDataCollectionDataCollectionRuleDirectDataSourcesDeserializer(
+export function dataCollectionRuleDirectDataSourcesDeserializer(
   item: any,
-): MicrosoftDataCollectionDataCollectionRuleDirectDataSources {
+): DataCollectionRuleDirectDataSources {
   return {
     otelMetrics: !item["otelMetrics"]
       ? item["otelMetrics"]
-      : microsoftDataCollectionOtelMetricsDirectDataSourceArrayDeserializer(item["otelMetrics"]),
+      : otelMetricsDirectDataSourceArrayDeserializer(item["otelMetrics"]),
     otelLogs: !item["otelLogs"]
       ? item["otelLogs"]
-      : microsoftDataCollectionOtelLogsDirectDataSourceArrayDeserializer(item["otelLogs"]),
+      : otelLogsDirectDataSourceArrayDeserializer(item["otelLogs"]),
     otelTraces: !item["otelTraces"]
       ? item["otelTraces"]
-      : microsoftDataCollectionOtelTracesDirectDataSourceArrayDeserializer(item["otelTraces"]),
+      : otelTracesDirectDataSourceArrayDeserializer(item["otelTraces"]),
   };
 }
 
 /** The specification of destinations. */
-export interface MicrosoftDataCollectionDataCollectionRuleDestinations extends MicrosoftDataCollectionDestinationsSpec {}
+export interface DataCollectionRuleDestinations extends DestinationsSpec {}
 
-export function microsoftDataCollectionDataCollectionRuleDestinationsSerializer(
-  item: MicrosoftDataCollectionDataCollectionRuleDestinations,
+export function dataCollectionRuleDestinationsSerializer(
+  item: DataCollectionRuleDestinations,
 ): any {
   return {
     logAnalytics: !item["logAnalytics"]
       ? item["logAnalytics"]
-      : microsoftDataCollectionLogAnalyticsDestinationArraySerializer(item["logAnalytics"]),
+      : logAnalyticsDestinationArraySerializer(item["logAnalytics"]),
     monitoringAccounts: !item["monitoringAccounts"]
       ? item["monitoringAccounts"]
-      : microsoftDataCollectionMonitoringAccountDestinationArraySerializer(
-          item["monitoringAccounts"],
-        ),
+      : monitoringAccountDestinationArraySerializer(item["monitoringAccounts"]),
     azureMonitorMetrics: !item["azureMonitorMetrics"]
       ? item["azureMonitorMetrics"]
-      : microsoftDataCollectionDestinationsSpecAzureMonitorMetricsSerializer(
-          item["azureMonitorMetrics"],
-        ),
+      : destinationsSpecAzureMonitorMetricsSerializer(item["azureMonitorMetrics"]),
     eventHubs: !item["eventHubs"]
       ? item["eventHubs"]
-      : microsoftDataCollectionEventHubDestinationArraySerializer(item["eventHubs"]),
+      : eventHubDestinationArraySerializer(item["eventHubs"]),
     eventHubsDirect: !item["eventHubsDirect"]
       ? item["eventHubsDirect"]
-      : microsoftDataCollectionEventHubDirectDestinationArraySerializer(item["eventHubsDirect"]),
+      : eventHubDirectDestinationArraySerializer(item["eventHubsDirect"]),
     storageBlobsDirect: !item["storageBlobsDirect"]
       ? item["storageBlobsDirect"]
-      : microsoftDataCollectionStorageBlobDestinationArraySerializer(item["storageBlobsDirect"]),
+      : storageBlobDestinationArraySerializer(item["storageBlobsDirect"]),
     storageTablesDirect: !item["storageTablesDirect"]
       ? item["storageTablesDirect"]
-      : microsoftDataCollectionStorageTableDestinationArraySerializer(item["storageTablesDirect"]),
+      : storageTableDestinationArraySerializer(item["storageTablesDirect"]),
     storageAccounts: !item["storageAccounts"]
       ? item["storageAccounts"]
-      : microsoftDataCollectionStorageBlobDestinationArraySerializer(item["storageAccounts"]),
+      : storageBlobDestinationArraySerializer(item["storageAccounts"]),
     microsoftFabric: !item["microsoftFabric"]
       ? item["microsoftFabric"]
-      : microsoftDataCollectionMicrosoftFabricDestinationArraySerializer(item["microsoftFabric"]),
+      : microsoftFabricDestinationArraySerializer(item["microsoftFabric"]),
     azureDataExplorer: !item["azureDataExplorer"]
       ? item["azureDataExplorer"]
-      : microsoftDataCollectionAdxDestinationArraySerializer(item["azureDataExplorer"]),
+      : adxDestinationArraySerializer(item["azureDataExplorer"]),
   };
 }
 
-export function microsoftDataCollectionDataCollectionRuleDestinationsDeserializer(
+export function dataCollectionRuleDestinationsDeserializer(
   item: any,
-): MicrosoftDataCollectionDataCollectionRuleDestinations {
+): DataCollectionRuleDestinations {
   return {
     logAnalytics: !item["logAnalytics"]
       ? item["logAnalytics"]
-      : microsoftDataCollectionLogAnalyticsDestinationArrayDeserializer(item["logAnalytics"]),
+      : logAnalyticsDestinationArrayDeserializer(item["logAnalytics"]),
     monitoringAccounts: !item["monitoringAccounts"]
       ? item["monitoringAccounts"]
-      : microsoftDataCollectionMonitoringAccountDestinationArrayDeserializer(
-          item["monitoringAccounts"],
-        ),
+      : monitoringAccountDestinationArrayDeserializer(item["monitoringAccounts"]),
     azureMonitorMetrics: !item["azureMonitorMetrics"]
       ? item["azureMonitorMetrics"]
-      : microsoftDataCollectionDestinationsSpecAzureMonitorMetricsDeserializer(
-          item["azureMonitorMetrics"],
-        ),
+      : destinationsSpecAzureMonitorMetricsDeserializer(item["azureMonitorMetrics"]),
     eventHubs: !item["eventHubs"]
       ? item["eventHubs"]
-      : microsoftDataCollectionEventHubDestinationArrayDeserializer(item["eventHubs"]),
+      : eventHubDestinationArrayDeserializer(item["eventHubs"]),
     eventHubsDirect: !item["eventHubsDirect"]
       ? item["eventHubsDirect"]
-      : microsoftDataCollectionEventHubDirectDestinationArrayDeserializer(item["eventHubsDirect"]),
+      : eventHubDirectDestinationArrayDeserializer(item["eventHubsDirect"]),
     storageBlobsDirect: !item["storageBlobsDirect"]
       ? item["storageBlobsDirect"]
-      : microsoftDataCollectionStorageBlobDestinationArrayDeserializer(item["storageBlobsDirect"]),
+      : storageBlobDestinationArrayDeserializer(item["storageBlobsDirect"]),
     storageTablesDirect: !item["storageTablesDirect"]
       ? item["storageTablesDirect"]
-      : microsoftDataCollectionStorageTableDestinationArrayDeserializer(
-          item["storageTablesDirect"],
-        ),
+      : storageTableDestinationArrayDeserializer(item["storageTablesDirect"]),
     storageAccounts: !item["storageAccounts"]
       ? item["storageAccounts"]
-      : microsoftDataCollectionStorageBlobDestinationArrayDeserializer(item["storageAccounts"]),
+      : storageBlobDestinationArrayDeserializer(item["storageAccounts"]),
     microsoftFabric: !item["microsoftFabric"]
       ? item["microsoftFabric"]
-      : microsoftDataCollectionMicrosoftFabricDestinationArrayDeserializer(item["microsoftFabric"]),
+      : microsoftFabricDestinationArrayDeserializer(item["microsoftFabric"]),
     azureDataExplorer: !item["azureDataExplorer"]
       ? item["azureDataExplorer"]
-      : microsoftDataCollectionAdxDestinationArrayDeserializer(item["azureDataExplorer"]),
+      : adxDestinationArrayDeserializer(item["azureDataExplorer"]),
   };
 }
 
-export function microsoftDataCollectionDataFlowArraySerializer(
-  result: Array<MicrosoftDataCollectionDataFlow>,
-): any[] {
+export function dataFlowArraySerializer(result: Array<DataFlow>): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionDataFlowSerializer(item);
+    return dataFlowSerializer(item);
   });
 }
 
-export function microsoftDataCollectionDataFlowArrayDeserializer(
-  result: Array<MicrosoftDataCollectionDataFlow>,
-): any[] {
+export function dataFlowArrayDeserializer(result: Array<DataFlow>): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionDataFlowDeserializer(item);
+    return dataFlowDeserializer(item);
   });
 }
 
 /** Definition of which streams are sent to which destinations. */
-export interface MicrosoftDataCollectionDataFlow {
+export interface DataFlow {
   /** List of streams for this data flow. */
-  streams?: MicrosoftDataCollectionKnownDataFlowStreams[];
+  streams?: KnownDataFlowStreams[];
   /** List of destinations for this data flow. */
   destinations?: string[];
   /** The KQL query to transform stream data. */
@@ -1764,9 +1598,7 @@ export interface MicrosoftDataCollectionDataFlow {
   captureOverflow?: boolean;
 }
 
-export function microsoftDataCollectionDataFlowSerializer(
-  item: MicrosoftDataCollectionDataFlow,
-): any {
+export function dataFlowSerializer(item: DataFlow): any {
   return {
     streams: !item["streams"]
       ? item["streams"]
@@ -1785,9 +1617,7 @@ export function microsoftDataCollectionDataFlowSerializer(
   };
 }
 
-export function microsoftDataCollectionDataFlowDeserializer(
-  item: any,
-): MicrosoftDataCollectionDataFlow {
+export function dataFlowDeserializer(item: any): DataFlow {
   return {
     streams: !item["streams"]
       ? item["streams"]
@@ -1807,7 +1637,7 @@ export function microsoftDataCollectionDataFlowDeserializer(
 }
 
 /** Known values of {@link KnownDataFlowStreams} that the service accepts. */
-export enum KnownMicrosoftDataCollectionKnownDataFlowStreams {
+export enum KnownKnownDataFlowStreams {
   /** Microsoft-Event */
   MicrosoftEvent = "Microsoft-Event",
   /** Microsoft-InsightsMetrics */
@@ -1820,24 +1650,22 @@ export enum KnownMicrosoftDataCollectionKnownDataFlowStreams {
   MicrosoftWindowsEvent = "Microsoft-WindowsEvent",
 }
 
-/** Type of MicrosoftDataCollectionKnownDataFlowStreams */
-export type MicrosoftDataCollectionKnownDataFlowStreams = string;
+/** Type of KnownDataFlowStreams */
+export type KnownDataFlowStreams = string;
 
 /** The specification for ingestion limits */
-export interface MicrosoftDataCollectionDataCollectionRuleIngestionQuotas extends MicrosoftDataCollectionIngestionQuotas {}
+export interface DataCollectionRuleIngestionQuotas extends IngestionQuotas {}
 
-export function microsoftDataCollectionDataCollectionRuleIngestionQuotasDeserializer(
+export function dataCollectionRuleIngestionQuotasDeserializer(
   item: any,
-): MicrosoftDataCollectionDataCollectionRuleIngestionQuotas {
+): DataCollectionRuleIngestionQuotas {
   return {
-    logs: !item["logs"]
-      ? item["logs"]
-      : microsoftDataCollectionIngestionQuotasLogsDeserializer(item["logs"]),
+    logs: !item["logs"] ? item["logs"] : ingestionQuotasLogsDeserializer(item["logs"]),
   };
 }
 
 /** The resource provisioning state. */
-export enum KnownMicrosoftDataCollectionKnownDataCollectionRuleProvisioningState {
+export enum KnownKnownDataCollectionRuleProvisioningState {
   /** Creating */
   Creating = "Creating",
   /** Updating */
@@ -1854,7 +1682,7 @@ export enum KnownMicrosoftDataCollectionKnownDataCollectionRuleProvisioningState
 
 /**
  * The resource provisioning state. \
- * {@link KnownMicrosoftDataCollectionKnownDataCollectionRuleProvisioningState} can be used interchangeably with MicrosoftDataCollectionKnownDataCollectionRuleProvisioningState,
+ * {@link KnownKnownDataCollectionRuleProvisioningState} can be used interchangeably with KnownDataCollectionRuleProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Creating**: Creating \
@@ -1864,19 +1692,17 @@ export enum KnownMicrosoftDataCollectionKnownDataCollectionRuleProvisioningState
  * **Canceled**: Canceled \
  * **Failed**: Failed
  */
-export type MicrosoftDataCollectionKnownDataCollectionRuleProvisioningState = string;
+export type KnownDataCollectionRuleProvisioningState = string;
 
 /** This defines all the ingestion endpoints that can be used by this rule */
-export interface MicrosoftDataCollectionEndpointsSpec {
+export interface EndpointsSpec {
   /** The ingestion endpoint for logs */
   readonly logsIngestion?: string;
   /** The ingestion endpoint for metrics */
   readonly metricsIngestion?: string;
 }
 
-export function microsoftDataCollectionEndpointsSpecDeserializer(
-  item: any,
-): MicrosoftDataCollectionEndpointsSpec {
+export function endpointsSpecDeserializer(item: any): EndpointsSpec {
   return {
     logsIngestion: item["logsIngestion"],
     metricsIngestion: item["metricsIngestion"],
@@ -1884,95 +1710,79 @@ export function microsoftDataCollectionEndpointsSpecDeserializer(
 }
 
 /** This section defines all the references that may be used in other sections of the DCR */
-export interface MicrosoftDataCollectionReferencesSpec {
+export interface ReferencesSpec {
   /** All the enrichment data sources referenced in data flows */
-  enrichmentData?: MicrosoftDataCollectionReferencesSpecEnrichmentData;
+  enrichmentData?: ReferencesSpecEnrichmentData;
   /** Application Insights references to be used on OTel metrics/logs enrichment */
-  applicationInsights?: MicrosoftDataCollectionApplicationInsights[];
+  applicationInsights?: ApplicationInsights[];
 }
 
-export function microsoftDataCollectionReferencesSpecSerializer(
-  item: MicrosoftDataCollectionReferencesSpec,
-): any {
+export function referencesSpecSerializer(item: ReferencesSpec): any {
   return {
     enrichmentData: !item["enrichmentData"]
       ? item["enrichmentData"]
-      : microsoftDataCollectionReferencesSpecEnrichmentDataSerializer(item["enrichmentData"]),
+      : referencesSpecEnrichmentDataSerializer(item["enrichmentData"]),
     applicationInsights: !item["applicationInsights"]
       ? item["applicationInsights"]
-      : microsoftDataCollectionApplicationInsightsArraySerializer(item["applicationInsights"]),
+      : applicationInsightsArraySerializer(item["applicationInsights"]),
   };
 }
 
-export function microsoftDataCollectionReferencesSpecDeserializer(
-  item: any,
-): MicrosoftDataCollectionReferencesSpec {
+export function referencesSpecDeserializer(item: any): ReferencesSpec {
   return {
     enrichmentData: !item["enrichmentData"]
       ? item["enrichmentData"]
-      : microsoftDataCollectionReferencesSpecEnrichmentDataDeserializer(item["enrichmentData"]),
+      : referencesSpecEnrichmentDataDeserializer(item["enrichmentData"]),
     applicationInsights: !item["applicationInsights"]
       ? item["applicationInsights"]
-      : microsoftDataCollectionApplicationInsightsArrayDeserializer(item["applicationInsights"]),
+      : applicationInsightsArrayDeserializer(item["applicationInsights"]),
   };
 }
 
 /** All the enrichment data sources referenced in data flows */
-export interface MicrosoftDataCollectionReferencesSpecEnrichmentData extends MicrosoftDataCollectionEnrichmentData {}
+export interface ReferencesSpecEnrichmentData extends EnrichmentData {}
 
-export function microsoftDataCollectionReferencesSpecEnrichmentDataSerializer(
-  item: MicrosoftDataCollectionReferencesSpecEnrichmentData,
-): any {
+export function referencesSpecEnrichmentDataSerializer(item: ReferencesSpecEnrichmentData): any {
   return {
     storageBlobs: !item["storageBlobs"]
       ? item["storageBlobs"]
-      : microsoftDataCollectionStorageBlobArraySerializer(item["storageBlobs"]),
+      : storageBlobArraySerializer(item["storageBlobs"]),
   };
 }
 
-export function microsoftDataCollectionReferencesSpecEnrichmentDataDeserializer(
-  item: any,
-): MicrosoftDataCollectionReferencesSpecEnrichmentData {
+export function referencesSpecEnrichmentDataDeserializer(item: any): ReferencesSpecEnrichmentData {
   return {
     storageBlobs: !item["storageBlobs"]
       ? item["storageBlobs"]
-      : microsoftDataCollectionStorageBlobArrayDeserializer(item["storageBlobs"]),
+      : storageBlobArrayDeserializer(item["storageBlobs"]),
   };
 }
 
-export function microsoftDataCollectionApplicationInsightsArraySerializer(
-  result: Array<MicrosoftDataCollectionApplicationInsights>,
-): any[] {
+export function applicationInsightsArraySerializer(result: Array<ApplicationInsights>): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionApplicationInsightsSerializer(item);
+    return applicationInsightsSerializer(item);
   });
 }
 
-export function microsoftDataCollectionApplicationInsightsArrayDeserializer(
-  result: Array<MicrosoftDataCollectionApplicationInsights>,
-): any[] {
+export function applicationInsightsArrayDeserializer(result: Array<ApplicationInsights>): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionApplicationInsightsDeserializer(item);
+    return applicationInsightsDeserializer(item);
   });
 }
 
-/** model interface MicrosoftDataCollectionApplicationInsights */
-export interface MicrosoftDataCollectionApplicationInsights {
+/** model interface ApplicationInsights */
+export interface ApplicationInsights {
   /** Id of the application insights resource */
   resourceId: string;
   /** The name of the reference used as an alias when referencing this application insights in Otel data sources */
   name: string;
 }
 
-export function microsoftDataCollectionApplicationInsightsSerializer(
-  item: MicrosoftDataCollectionApplicationInsights,
-): any {
+export function applicationInsightsSerializer(item: ApplicationInsights): any {
   return { resourceId: item["resourceId"], name: item["name"] };
 }
 
-export function microsoftDataCollectionApplicationInsightsDeserializer(
-  item: any,
-): MicrosoftDataCollectionApplicationInsights {
+export function applicationInsightsDeserializer(item: any): ApplicationInsights {
   return {
     resourceId: item["resourceId"],
     name: item["name"],
@@ -1980,62 +1790,52 @@ export function microsoftDataCollectionApplicationInsightsDeserializer(
 }
 
 /** All the enrichment data sources referenced in data flows */
-export interface MicrosoftDataCollectionEnrichmentData {
+export interface EnrichmentData {
   /** All the storage blobs used as enrichment data sources */
-  storageBlobs?: MicrosoftDataCollectionStorageBlob[];
+  storageBlobs?: StorageBlob[];
 }
 
-export function microsoftDataCollectionEnrichmentDataSerializer(
-  item: MicrosoftDataCollectionEnrichmentData,
-): any {
+export function enrichmentDataSerializer(item: EnrichmentData): any {
   return {
     storageBlobs: !item["storageBlobs"]
       ? item["storageBlobs"]
-      : microsoftDataCollectionStorageBlobArraySerializer(item["storageBlobs"]),
+      : storageBlobArraySerializer(item["storageBlobs"]),
   };
 }
 
-export function microsoftDataCollectionEnrichmentDataDeserializer(
-  item: any,
-): MicrosoftDataCollectionEnrichmentData {
+export function enrichmentDataDeserializer(item: any): EnrichmentData {
   return {
     storageBlobs: !item["storageBlobs"]
       ? item["storageBlobs"]
-      : microsoftDataCollectionStorageBlobArrayDeserializer(item["storageBlobs"]),
+      : storageBlobArrayDeserializer(item["storageBlobs"]),
   };
 }
 
-export function microsoftDataCollectionStorageBlobArraySerializer(
-  result: Array<MicrosoftDataCollectionStorageBlob>,
-): any[] {
+export function storageBlobArraySerializer(result: Array<StorageBlob>): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionStorageBlobSerializer(item);
+    return storageBlobSerializer(item);
   });
 }
 
-export function microsoftDataCollectionStorageBlobArrayDeserializer(
-  result: Array<MicrosoftDataCollectionStorageBlob>,
-): any[] {
+export function storageBlobArrayDeserializer(result: Array<StorageBlob>): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionStorageBlobDeserializer(item);
+    return storageBlobDeserializer(item);
   });
 }
 
-/** model interface MicrosoftDataCollectionStorageBlob */
-export interface MicrosoftDataCollectionStorageBlob {
+/** model interface StorageBlob */
+export interface StorageBlob {
   /** Resource Id of the storage account that hosts the blob */
   resourceId?: string;
   /** Url of the storage blob */
   blobUrl?: string;
   /** The type of lookup to perform on the blob */
-  lookupType?: MicrosoftDataCollectionKnownStorageBlobLookupType;
+  lookupType?: KnownStorageBlobLookupType;
   /** The name of the enrichment data source used as an alias when referencing this data source in data flows */
   name?: string;
 }
 
-export function microsoftDataCollectionStorageBlobSerializer(
-  item: MicrosoftDataCollectionStorageBlob,
-): any {
+export function storageBlobSerializer(item: StorageBlob): any {
   return {
     resourceId: item["resourceId"],
     blobUrl: item["blobUrl"],
@@ -2044,9 +1844,7 @@ export function microsoftDataCollectionStorageBlobSerializer(
   };
 }
 
-export function microsoftDataCollectionStorageBlobDeserializer(
-  item: any,
-): MicrosoftDataCollectionStorageBlob {
+export function storageBlobDeserializer(item: any): StorageBlob {
   return {
     resourceId: item["resourceId"],
     blobUrl: item["blobUrl"],
@@ -2056,7 +1854,7 @@ export function microsoftDataCollectionStorageBlobDeserializer(
 }
 
 /** The type of lookup to perform on the blob */
-export enum KnownMicrosoftDataCollectionKnownStorageBlobLookupType {
+export enum KnownKnownStorageBlobLookupType {
   /** String */
   String = "String",
   /** Cidr */
@@ -2065,76 +1863,58 @@ export enum KnownMicrosoftDataCollectionKnownStorageBlobLookupType {
 
 /**
  * The type of lookup to perform on the blob \
- * {@link KnownMicrosoftDataCollectionKnownStorageBlobLookupType} can be used interchangeably with MicrosoftDataCollectionKnownStorageBlobLookupType,
+ * {@link KnownKnownStorageBlobLookupType} can be used interchangeably with KnownStorageBlobLookupType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **String**: String \
  * **Cidr**: Cidr
  */
-export type MicrosoftDataCollectionKnownStorageBlobLookupType = string;
+export type KnownStorageBlobLookupType = string;
 
 /** An agent setting */
-export interface MicrosoftDataCollectionAgentSettingsSpec {
+export interface AgentSettingsSpec {
   /** All the settings that are applicable to the logs agent (AMA) */
-  logs?: MicrosoftDataCollectionAgentSetting[];
+  logs?: AgentSetting[];
 }
 
-export function microsoftDataCollectionAgentSettingsSpecSerializer(
-  item: MicrosoftDataCollectionAgentSettingsSpec,
-): any {
+export function agentSettingsSpecSerializer(item: AgentSettingsSpec): any {
+  return { logs: !item["logs"] ? item["logs"] : agentSettingArraySerializer(item["logs"]) };
+}
+
+export function agentSettingsSpecDeserializer(item: any): AgentSettingsSpec {
   return {
-    logs: !item["logs"]
-      ? item["logs"]
-      : microsoftDataCollectionAgentSettingArraySerializer(item["logs"]),
+    logs: !item["logs"] ? item["logs"] : agentSettingArrayDeserializer(item["logs"]),
   };
 }
 
-export function microsoftDataCollectionAgentSettingsSpecDeserializer(
-  item: any,
-): MicrosoftDataCollectionAgentSettingsSpec {
-  return {
-    logs: !item["logs"]
-      ? item["logs"]
-      : microsoftDataCollectionAgentSettingArrayDeserializer(item["logs"]),
-  };
-}
-
-export function microsoftDataCollectionAgentSettingArraySerializer(
-  result: Array<MicrosoftDataCollectionAgentSetting>,
-): any[] {
+export function agentSettingArraySerializer(result: Array<AgentSetting>): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionAgentSettingSerializer(item);
+    return agentSettingSerializer(item);
   });
 }
 
-export function microsoftDataCollectionAgentSettingArrayDeserializer(
-  result: Array<MicrosoftDataCollectionAgentSetting>,
-): any[] {
+export function agentSettingArrayDeserializer(result: Array<AgentSetting>): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionAgentSettingDeserializer(item);
+    return agentSettingDeserializer(item);
   });
 }
 
 /** A setting used to control an agent behavior on a host machine */
-export interface MicrosoftDataCollectionAgentSetting {
+export interface AgentSetting {
   /**
    * The name of the setting.
    * Must be part of the list of supported settings
    */
-  name?: MicrosoftDataCollectionKnownAgentSettingName;
+  name?: KnownAgentSettingName;
   /** The value of the setting */
   value?: string;
 }
 
-export function microsoftDataCollectionAgentSettingSerializer(
-  item: MicrosoftDataCollectionAgentSetting,
-): any {
+export function agentSettingSerializer(item: AgentSetting): any {
   return { name: item["name"], value: item["value"] };
 }
 
-export function microsoftDataCollectionAgentSettingDeserializer(
-  item: any,
-): MicrosoftDataCollectionAgentSetting {
+export function agentSettingDeserializer(item: any): AgentSetting {
   return {
     name: item["name"],
     value: item["value"],
@@ -2145,7 +1925,7 @@ export function microsoftDataCollectionAgentSettingDeserializer(
  * The name of the setting.
  * Must be part of the list of supported settings
  */
-export enum KnownMicrosoftDataCollectionKnownAgentSettingName {
+export enum KnownKnownAgentSettingName {
   /** MaxDiskQuotaInMB */
   MaxDiskQuotaInMB = "MaxDiskQuotaInMB",
   /** UseTimeReceivedForForwardedEvents */
@@ -2157,182 +1937,154 @@ export enum KnownMicrosoftDataCollectionKnownAgentSettingName {
 /**
  * The name of the setting.
  * Must be part of the list of supported settings \
- * {@link KnownMicrosoftDataCollectionKnownAgentSettingName} can be used interchangeably with MicrosoftDataCollectionKnownAgentSettingName,
+ * {@link KnownKnownAgentSettingName} can be used interchangeably with KnownAgentSettingName,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **MaxDiskQuotaInMB**: MaxDiskQuotaInMB \
  * **UseTimeReceivedForForwardedEvents**: UseTimeReceivedForForwardedEvents \
  * **Tags**: Tags
  */
-export type MicrosoftDataCollectionKnownAgentSettingName = string;
+export type KnownAgentSettingName = string;
 
 /** Specification of data sources that will be collected. */
-export interface MicrosoftDataCollectionDataSourcesSpec {
+export interface DataSourcesSpec {
   /** The list of performance counter data source configurations. */
-  performanceCounters?: MicrosoftDataCollectionPerfCounterDataSource[];
+  performanceCounters?: PerfCounterDataSource[];
   /** The list of Open Telemetry performance counter data source configurations. */
-  performanceCountersOTel?: MicrosoftDataCollectionPerformanceCountersOTelDataSource[];
+  performanceCountersOTel?: PerformanceCountersOTelDataSource[];
   /** The list of Windows Event Log data source configurations. */
-  windowsEventLogs?: MicrosoftDataCollectionWindowsEventLogDataSource[];
+  windowsEventLogs?: WindowsEventLogDataSource[];
   /** The list of Syslog data source configurations. */
-  syslog?: MicrosoftDataCollectionSyslogDataSource[];
+  syslog?: SyslogDataSource[];
   /** The list of Azure VM extension data source configurations. */
-  extensions?: MicrosoftDataCollectionExtensionDataSource[];
+  extensions?: ExtensionDataSource[];
   /** The list of Log files source configurations. */
-  logFiles?: MicrosoftDataCollectionLogFilesDataSource[];
+  logFiles?: LogFilesDataSource[];
   /** The list of IIS logs source configurations. */
-  iisLogs?: MicrosoftDataCollectionIisLogsDataSource[];
+  iisLogs?: IisLogsDataSource[];
   /** The list of Windows Firewall logs source configurations. */
-  windowsFirewallLogs?: MicrosoftDataCollectionWindowsFirewallLogsDataSource[];
+  windowsFirewallLogs?: WindowsFirewallLogsDataSource[];
   /** The list of Prometheus forwarder data source configurations. */
-  prometheusForwarder?: MicrosoftDataCollectionPrometheusForwarderDataSource[];
+  prometheusForwarder?: PrometheusForwarderDataSource[];
   /** The list of platform telemetry configurations */
-  platformTelemetry?: MicrosoftDataCollectionPlatformTelemetryDataSource[];
+  platformTelemetry?: PlatformTelemetryDataSource[];
   /** Specifications of pull based data sources */
-  dataImports?: MicrosoftDataCollectionDataSourcesSpecDataImports;
+  dataImports?: DataSourcesSpecDataImports;
   /** The list of Otel Logs data source configurations. */
-  otelLogs?: MicrosoftDataCollectionOtelLogsDataSource[];
+  otelLogs?: OtelLogsDataSource[];
   /** The list of Otel traces data source configurations. */
-  otelTraces?: MicrosoftDataCollectionOtelTracesDataSource[];
+  otelTraces?: OtelTracesDataSource[];
   /** The list of OTel metrics data source configurations. */
-  otelMetrics?: MicrosoftDataCollectionOtelMetricsDataSource[];
+  otelMetrics?: OtelMetricsDataSource[];
   /** The list of ETW providers data source configurations. */
-  etwProviders?: MicrosoftDataCollectionEtwProviderDataSource[];
+  etwProviders?: EtwProviderDataSource[];
 }
 
-export function microsoftDataCollectionDataSourcesSpecSerializer(
-  item: MicrosoftDataCollectionDataSourcesSpec,
-): any {
+export function dataSourcesSpecSerializer(item: DataSourcesSpec): any {
   return {
     performanceCounters: !item["performanceCounters"]
       ? item["performanceCounters"]
-      : microsoftDataCollectionPerfCounterDataSourceArraySerializer(item["performanceCounters"]),
+      : perfCounterDataSourceArraySerializer(item["performanceCounters"]),
     performanceCountersOTel: !item["performanceCountersOTel"]
       ? item["performanceCountersOTel"]
-      : microsoftDataCollectionPerformanceCountersOTelDataSourceArraySerializer(
-          item["performanceCountersOTel"],
-        ),
+      : performanceCountersOTelDataSourceArraySerializer(item["performanceCountersOTel"]),
     windowsEventLogs: !item["windowsEventLogs"]
       ? item["windowsEventLogs"]
-      : microsoftDataCollectionWindowsEventLogDataSourceArraySerializer(item["windowsEventLogs"]),
-    syslog: !item["syslog"]
-      ? item["syslog"]
-      : microsoftDataCollectionSyslogDataSourceArraySerializer(item["syslog"]),
+      : windowsEventLogDataSourceArraySerializer(item["windowsEventLogs"]),
+    syslog: !item["syslog"] ? item["syslog"] : syslogDataSourceArraySerializer(item["syslog"]),
     extensions: !item["extensions"]
       ? item["extensions"]
-      : microsoftDataCollectionExtensionDataSourceArraySerializer(item["extensions"]),
+      : extensionDataSourceArraySerializer(item["extensions"]),
     logFiles: !item["logFiles"]
       ? item["logFiles"]
-      : microsoftDataCollectionLogFilesDataSourceArraySerializer(item["logFiles"]),
-    iisLogs: !item["iisLogs"]
-      ? item["iisLogs"]
-      : microsoftDataCollectionIisLogsDataSourceArraySerializer(item["iisLogs"]),
+      : logFilesDataSourceArraySerializer(item["logFiles"]),
+    iisLogs: !item["iisLogs"] ? item["iisLogs"] : iisLogsDataSourceArraySerializer(item["iisLogs"]),
     windowsFirewallLogs: !item["windowsFirewallLogs"]
       ? item["windowsFirewallLogs"]
-      : microsoftDataCollectionWindowsFirewallLogsDataSourceArraySerializer(
-          item["windowsFirewallLogs"],
-        ),
+      : windowsFirewallLogsDataSourceArraySerializer(item["windowsFirewallLogs"]),
     prometheusForwarder: !item["prometheusForwarder"]
       ? item["prometheusForwarder"]
-      : microsoftDataCollectionPrometheusForwarderDataSourceArraySerializer(
-          item["prometheusForwarder"],
-        ),
+      : prometheusForwarderDataSourceArraySerializer(item["prometheusForwarder"]),
     platformTelemetry: !item["platformTelemetry"]
       ? item["platformTelemetry"]
-      : microsoftDataCollectionPlatformTelemetryDataSourceArraySerializer(
-          item["platformTelemetry"],
-        ),
+      : platformTelemetryDataSourceArraySerializer(item["platformTelemetry"]),
     dataImports: !item["dataImports"]
       ? item["dataImports"]
-      : microsoftDataCollectionDataSourcesSpecDataImportsSerializer(item["dataImports"]),
+      : dataSourcesSpecDataImportsSerializer(item["dataImports"]),
     otelLogs: !item["otelLogs"]
       ? item["otelLogs"]
-      : microsoftDataCollectionOtelLogsDataSourceArraySerializer(item["otelLogs"]),
+      : otelLogsDataSourceArraySerializer(item["otelLogs"]),
     otelTraces: !item["otelTraces"]
       ? item["otelTraces"]
-      : microsoftDataCollectionOtelTracesDataSourceArraySerializer(item["otelTraces"]),
+      : otelTracesDataSourceArraySerializer(item["otelTraces"]),
     otelMetrics: !item["otelMetrics"]
       ? item["otelMetrics"]
-      : microsoftDataCollectionOtelMetricsDataSourceArraySerializer(item["otelMetrics"]),
+      : otelMetricsDataSourceArraySerializer(item["otelMetrics"]),
     etwProviders: !item["etwProviders"]
       ? item["etwProviders"]
-      : microsoftDataCollectionEtwProviderDataSourceArraySerializer(item["etwProviders"]),
+      : etwProviderDataSourceArraySerializer(item["etwProviders"]),
   };
 }
 
-export function microsoftDataCollectionDataSourcesSpecDeserializer(
-  item: any,
-): MicrosoftDataCollectionDataSourcesSpec {
+export function dataSourcesSpecDeserializer(item: any): DataSourcesSpec {
   return {
     performanceCounters: !item["performanceCounters"]
       ? item["performanceCounters"]
-      : microsoftDataCollectionPerfCounterDataSourceArrayDeserializer(item["performanceCounters"]),
+      : perfCounterDataSourceArrayDeserializer(item["performanceCounters"]),
     performanceCountersOTel: !item["performanceCountersOTel"]
       ? item["performanceCountersOTel"]
-      : microsoftDataCollectionPerformanceCountersOTelDataSourceArrayDeserializer(
-          item["performanceCountersOTel"],
-        ),
+      : performanceCountersOTelDataSourceArrayDeserializer(item["performanceCountersOTel"]),
     windowsEventLogs: !item["windowsEventLogs"]
       ? item["windowsEventLogs"]
-      : microsoftDataCollectionWindowsEventLogDataSourceArrayDeserializer(item["windowsEventLogs"]),
-    syslog: !item["syslog"]
-      ? item["syslog"]
-      : microsoftDataCollectionSyslogDataSourceArrayDeserializer(item["syslog"]),
+      : windowsEventLogDataSourceArrayDeserializer(item["windowsEventLogs"]),
+    syslog: !item["syslog"] ? item["syslog"] : syslogDataSourceArrayDeserializer(item["syslog"]),
     extensions: !item["extensions"]
       ? item["extensions"]
-      : microsoftDataCollectionExtensionDataSourceArrayDeserializer(item["extensions"]),
+      : extensionDataSourceArrayDeserializer(item["extensions"]),
     logFiles: !item["logFiles"]
       ? item["logFiles"]
-      : microsoftDataCollectionLogFilesDataSourceArrayDeserializer(item["logFiles"]),
+      : logFilesDataSourceArrayDeserializer(item["logFiles"]),
     iisLogs: !item["iisLogs"]
       ? item["iisLogs"]
-      : microsoftDataCollectionIisLogsDataSourceArrayDeserializer(item["iisLogs"]),
+      : iisLogsDataSourceArrayDeserializer(item["iisLogs"]),
     windowsFirewallLogs: !item["windowsFirewallLogs"]
       ? item["windowsFirewallLogs"]
-      : microsoftDataCollectionWindowsFirewallLogsDataSourceArrayDeserializer(
-          item["windowsFirewallLogs"],
-        ),
+      : windowsFirewallLogsDataSourceArrayDeserializer(item["windowsFirewallLogs"]),
     prometheusForwarder: !item["prometheusForwarder"]
       ? item["prometheusForwarder"]
-      : microsoftDataCollectionPrometheusForwarderDataSourceArrayDeserializer(
-          item["prometheusForwarder"],
-        ),
+      : prometheusForwarderDataSourceArrayDeserializer(item["prometheusForwarder"]),
     platformTelemetry: !item["platformTelemetry"]
       ? item["platformTelemetry"]
-      : microsoftDataCollectionPlatformTelemetryDataSourceArrayDeserializer(
-          item["platformTelemetry"],
-        ),
+      : platformTelemetryDataSourceArrayDeserializer(item["platformTelemetry"]),
     dataImports: !item["dataImports"]
       ? item["dataImports"]
-      : microsoftDataCollectionDataSourcesSpecDataImportsDeserializer(item["dataImports"]),
+      : dataSourcesSpecDataImportsDeserializer(item["dataImports"]),
     otelLogs: !item["otelLogs"]
       ? item["otelLogs"]
-      : microsoftDataCollectionOtelLogsDataSourceArrayDeserializer(item["otelLogs"]),
+      : otelLogsDataSourceArrayDeserializer(item["otelLogs"]),
     otelTraces: !item["otelTraces"]
       ? item["otelTraces"]
-      : microsoftDataCollectionOtelTracesDataSourceArrayDeserializer(item["otelTraces"]),
+      : otelTracesDataSourceArrayDeserializer(item["otelTraces"]),
     otelMetrics: !item["otelMetrics"]
       ? item["otelMetrics"]
-      : microsoftDataCollectionOtelMetricsDataSourceArrayDeserializer(item["otelMetrics"]),
+      : otelMetricsDataSourceArrayDeserializer(item["otelMetrics"]),
     etwProviders: !item["etwProviders"]
       ? item["etwProviders"]
-      : microsoftDataCollectionEtwProviderDataSourceArrayDeserializer(item["etwProviders"]),
+      : etwProviderDataSourceArrayDeserializer(item["etwProviders"]),
   };
 }
 
-export function microsoftDataCollectionPerfCounterDataSourceArraySerializer(
-  result: Array<MicrosoftDataCollectionPerfCounterDataSource>,
-): any[] {
+export function perfCounterDataSourceArraySerializer(result: Array<PerfCounterDataSource>): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionPerfCounterDataSourceSerializer(item);
+    return perfCounterDataSourceSerializer(item);
   });
 }
 
-export function microsoftDataCollectionPerfCounterDataSourceArrayDeserializer(
-  result: Array<MicrosoftDataCollectionPerfCounterDataSource>,
+export function perfCounterDataSourceArrayDeserializer(
+  result: Array<PerfCounterDataSource>,
 ): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionPerfCounterDataSourceDeserializer(item);
+    return perfCounterDataSourceDeserializer(item);
   });
 }
 
@@ -2340,12 +2092,12 @@ export function microsoftDataCollectionPerfCounterDataSourceArrayDeserializer(
  * Definition of which performance counters will be collected and how they will be collected by this data collection rule.
  * Collected from both Windows and Linux machines where the counter is present.
  */
-export interface MicrosoftDataCollectionPerfCounterDataSource {
+export interface PerfCounterDataSource {
   /**
    * List of streams that this data source will be sent to.
    * A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent to.
    */
-  streams?: MicrosoftDataCollectionKnownPerfCounterDataSourceStreams[];
+  streams?: KnownPerfCounterDataSourceStreams[];
   /** The number of seconds between consecutive counter measurements (samples). */
   samplingFrequencyInSeconds?: number;
   /**
@@ -2363,9 +2115,7 @@ export interface MicrosoftDataCollectionPerfCounterDataSource {
   name?: string;
 }
 
-export function microsoftDataCollectionPerfCounterDataSourceSerializer(
-  item: MicrosoftDataCollectionPerfCounterDataSource,
-): any {
+export function perfCounterDataSourceSerializer(item: PerfCounterDataSource): any {
   return {
     streams: !item["streams"]
       ? item["streams"]
@@ -2383,9 +2133,7 @@ export function microsoftDataCollectionPerfCounterDataSourceSerializer(
   };
 }
 
-export function microsoftDataCollectionPerfCounterDataSourceDeserializer(
-  item: any,
-): MicrosoftDataCollectionPerfCounterDataSource {
+export function perfCounterDataSourceDeserializer(item: any): PerfCounterDataSource {
   return {
     streams: !item["streams"]
       ? item["streams"]
@@ -2404,29 +2152,29 @@ export function microsoftDataCollectionPerfCounterDataSourceDeserializer(
 }
 
 /** Known values of {@link KnownPerfCounterDataSourceStreams} that the service accepts. */
-export enum KnownMicrosoftDataCollectionKnownPerfCounterDataSourceStreams {
+export enum KnownKnownPerfCounterDataSourceStreams {
   /** Microsoft-Perf */
   MicrosoftPerf = "Microsoft-Perf",
   /** Microsoft-InsightsMetrics */
   MicrosoftInsightsMetrics = "Microsoft-InsightsMetrics",
 }
 
-/** Type of MicrosoftDataCollectionKnownPerfCounterDataSourceStreams */
-export type MicrosoftDataCollectionKnownPerfCounterDataSourceStreams = string;
+/** Type of KnownPerfCounterDataSourceStreams */
+export type KnownPerfCounterDataSourceStreams = string;
 
-export function microsoftDataCollectionPerformanceCountersOTelDataSourceArraySerializer(
-  result: Array<MicrosoftDataCollectionPerformanceCountersOTelDataSource>,
+export function performanceCountersOTelDataSourceArraySerializer(
+  result: Array<PerformanceCountersOTelDataSource>,
 ): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionPerformanceCountersOTelDataSourceSerializer(item);
+    return performanceCountersOTelDataSourceSerializer(item);
   });
 }
 
-export function microsoftDataCollectionPerformanceCountersOTelDataSourceArrayDeserializer(
-  result: Array<MicrosoftDataCollectionPerformanceCountersOTelDataSource>,
+export function performanceCountersOTelDataSourceArrayDeserializer(
+  result: Array<PerformanceCountersOTelDataSource>,
 ): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionPerformanceCountersOTelDataSourceDeserializer(item);
+    return performanceCountersOTelDataSourceDeserializer(item);
   });
 }
 
@@ -2434,12 +2182,12 @@ export function microsoftDataCollectionPerformanceCountersOTelDataSourceArrayDes
  * Definition of which Open Telemetry performance counters will be collected and how they will be collected by this data collection rule.
  * Collected from both Windows and Linux machines where the counter is present.
  */
-export interface MicrosoftDataCollectionPerformanceCountersOTelDataSource {
+export interface PerformanceCountersOTelDataSource {
   /**
    * List of streams that this data source will be sent to.
    * A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent to.
    */
-  streams?: MicrosoftDataCollectionKnownPerformanceCountersOTelDataSourceStreams[];
+  streams?: KnownPerformanceCountersOTelDataSourceStreams[];
   /** The number of seconds between consecutive counter measurements (samples). */
   samplingFrequencyInSeconds?: number;
   /** A list of specifier names of the performance counters you want to collect. */
@@ -2451,8 +2199,8 @@ export interface MicrosoftDataCollectionPerformanceCountersOTelDataSource {
   name?: string;
 }
 
-export function microsoftDataCollectionPerformanceCountersOTelDataSourceSerializer(
-  item: MicrosoftDataCollectionPerformanceCountersOTelDataSource,
+export function performanceCountersOTelDataSourceSerializer(
+  item: PerformanceCountersOTelDataSource,
 ): any {
   return {
     streams: !item["streams"]
@@ -2470,9 +2218,9 @@ export function microsoftDataCollectionPerformanceCountersOTelDataSourceSerializ
   };
 }
 
-export function microsoftDataCollectionPerformanceCountersOTelDataSourceDeserializer(
+export function performanceCountersOTelDataSourceDeserializer(
   item: any,
-): MicrosoftDataCollectionPerformanceCountersOTelDataSource {
+): PerformanceCountersOTelDataSource {
   return {
     streams: !item["streams"]
       ? item["streams"]
@@ -2490,27 +2238,27 @@ export function microsoftDataCollectionPerformanceCountersOTelDataSourceDeserial
 }
 
 /** Known values of {@link KnownPerformanceCountersOTelDataSourceStreams} that the service accepts. */
-export enum KnownMicrosoftDataCollectionKnownPerformanceCountersOTelDataSourceStreams {
+export enum KnownKnownPerformanceCountersOTelDataSourceStreams {
   /** Microsoft-OtelPerfMetrics */
   MicrosoftOtelPerfMetrics = "Microsoft-OtelPerfMetrics",
 }
 
-/** Type of MicrosoftDataCollectionKnownPerformanceCountersOTelDataSourceStreams */
-export type MicrosoftDataCollectionKnownPerformanceCountersOTelDataSourceStreams = string;
+/** Type of KnownPerformanceCountersOTelDataSourceStreams */
+export type KnownPerformanceCountersOTelDataSourceStreams = string;
 
-export function microsoftDataCollectionWindowsEventLogDataSourceArraySerializer(
-  result: Array<MicrosoftDataCollectionWindowsEventLogDataSource>,
+export function windowsEventLogDataSourceArraySerializer(
+  result: Array<WindowsEventLogDataSource>,
 ): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionWindowsEventLogDataSourceSerializer(item);
+    return windowsEventLogDataSourceSerializer(item);
   });
 }
 
-export function microsoftDataCollectionWindowsEventLogDataSourceArrayDeserializer(
-  result: Array<MicrosoftDataCollectionWindowsEventLogDataSource>,
+export function windowsEventLogDataSourceArrayDeserializer(
+  result: Array<WindowsEventLogDataSource>,
 ): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionWindowsEventLogDataSourceDeserializer(item);
+    return windowsEventLogDataSourceDeserializer(item);
   });
 }
 
@@ -2518,12 +2266,12 @@ export function microsoftDataCollectionWindowsEventLogDataSourceArrayDeserialize
  * Definition of which Windows Event Log events will be collected and how they will be collected.
  * Only collected from Windows machines.
  */
-export interface MicrosoftDataCollectionWindowsEventLogDataSource {
+export interface WindowsEventLogDataSource {
   /**
    * List of streams that this data source will be sent to.
    * A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent to.
    */
-  streams?: MicrosoftDataCollectionKnownWindowsEventLogDataSourceStreams[];
+  streams?: KnownWindowsEventLogDataSourceStreams[];
   /** A list of Windows Event Log queries in XPATH format. */
   xPathQueries?: string[];
   /** The KQL query to transform the data source. This is a deprecated property and will be removed in future versions. */
@@ -2535,9 +2283,7 @@ export interface MicrosoftDataCollectionWindowsEventLogDataSource {
   name?: string;
 }
 
-export function microsoftDataCollectionWindowsEventLogDataSourceSerializer(
-  item: MicrosoftDataCollectionWindowsEventLogDataSource,
-): any {
+export function windowsEventLogDataSourceSerializer(item: WindowsEventLogDataSource): any {
   return {
     streams: !item["streams"]
       ? item["streams"]
@@ -2554,9 +2300,7 @@ export function microsoftDataCollectionWindowsEventLogDataSourceSerializer(
   };
 }
 
-export function microsoftDataCollectionWindowsEventLogDataSourceDeserializer(
-  item: any,
-): MicrosoftDataCollectionWindowsEventLogDataSource {
+export function windowsEventLogDataSourceDeserializer(item: any): WindowsEventLogDataSource {
   return {
     streams: !item["streams"]
       ? item["streams"]
@@ -2574,29 +2318,25 @@ export function microsoftDataCollectionWindowsEventLogDataSourceDeserializer(
 }
 
 /** Known values of {@link KnownWindowsEventLogDataSourceStreams} that the service accepts. */
-export enum KnownMicrosoftDataCollectionKnownWindowsEventLogDataSourceStreams {
+export enum KnownKnownWindowsEventLogDataSourceStreams {
   /** Microsoft-WindowsEvent */
   MicrosoftWindowsEvent = "Microsoft-WindowsEvent",
   /** Microsoft-Event */
   MicrosoftEvent = "Microsoft-Event",
 }
 
-/** Type of MicrosoftDataCollectionKnownWindowsEventLogDataSourceStreams */
-export type MicrosoftDataCollectionKnownWindowsEventLogDataSourceStreams = string;
+/** Type of KnownWindowsEventLogDataSourceStreams */
+export type KnownWindowsEventLogDataSourceStreams = string;
 
-export function microsoftDataCollectionSyslogDataSourceArraySerializer(
-  result: Array<MicrosoftDataCollectionSyslogDataSource>,
-): any[] {
+export function syslogDataSourceArraySerializer(result: Array<SyslogDataSource>): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionSyslogDataSourceSerializer(item);
+    return syslogDataSourceSerializer(item);
   });
 }
 
-export function microsoftDataCollectionSyslogDataSourceArrayDeserializer(
-  result: Array<MicrosoftDataCollectionSyslogDataSource>,
-): any[] {
+export function syslogDataSourceArrayDeserializer(result: Array<SyslogDataSource>): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionSyslogDataSourceDeserializer(item);
+    return syslogDataSourceDeserializer(item);
   });
 }
 
@@ -2604,16 +2344,16 @@ export function microsoftDataCollectionSyslogDataSourceArrayDeserializer(
  * Definition of which syslog data will be collected and how it will be collected.
  * Only collected from Linux machines.
  */
-export interface MicrosoftDataCollectionSyslogDataSource {
+export interface SyslogDataSource {
   /**
    * List of streams that this data source will be sent to.
    * A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent to.
    */
-  streams?: MicrosoftDataCollectionKnownSyslogDataSourceStreams[];
+  streams?: KnownSyslogDataSourceStreams[];
   /** The list of facility names. */
-  facilityNames?: MicrosoftDataCollectionKnownSyslogDataSourceFacilityNames[];
+  facilityNames?: KnownSyslogDataSourceFacilityNames[];
   /** The log levels to collect. */
-  logLevels?: MicrosoftDataCollectionKnownSyslogDataSourceLogLevels[];
+  logLevels?: KnownSyslogDataSourceLogLevels[];
   /** The KQL query to transform the data source. This is a deprecated property and will be removed in future versions. */
   transformKql?: string;
   /**
@@ -2623,9 +2363,7 @@ export interface MicrosoftDataCollectionSyslogDataSource {
   name?: string;
 }
 
-export function microsoftDataCollectionSyslogDataSourceSerializer(
-  item: MicrosoftDataCollectionSyslogDataSource,
-): any {
+export function syslogDataSourceSerializer(item: SyslogDataSource): any {
   return {
     streams: !item["streams"]
       ? item["streams"]
@@ -2647,9 +2385,7 @@ export function microsoftDataCollectionSyslogDataSourceSerializer(
   };
 }
 
-export function microsoftDataCollectionSyslogDataSourceDeserializer(
-  item: any,
-): MicrosoftDataCollectionSyslogDataSource {
+export function syslogDataSourceDeserializer(item: any): SyslogDataSource {
   return {
     streams: !item["streams"]
       ? item["streams"]
@@ -2672,16 +2408,16 @@ export function microsoftDataCollectionSyslogDataSourceDeserializer(
 }
 
 /** Known values of {@link KnownSyslogDataSourceStreams} that the service accepts. */
-export enum KnownMicrosoftDataCollectionKnownSyslogDataSourceStreams {
+export enum KnownKnownSyslogDataSourceStreams {
   /** Microsoft-Syslog */
   MicrosoftSyslog = "Microsoft-Syslog",
 }
 
-/** Type of MicrosoftDataCollectionKnownSyslogDataSourceStreams */
-export type MicrosoftDataCollectionKnownSyslogDataSourceStreams = string;
+/** Type of KnownSyslogDataSourceStreams */
+export type KnownSyslogDataSourceStreams = string;
 
 /** Known values of {@link KnownSyslogDataSourceFacilityNames} that the service accepts. */
-export enum KnownMicrosoftDataCollectionKnownSyslogDataSourceFacilityNames {
+export enum KnownKnownSyslogDataSourceFacilityNames {
   /** * */
   Asterisk = "*",
   /** alert */
@@ -2738,11 +2474,11 @@ export enum KnownMicrosoftDataCollectionKnownSyslogDataSourceFacilityNames {
   Uucp = "uucp",
 }
 
-/** Type of MicrosoftDataCollectionKnownSyslogDataSourceFacilityNames */
-export type MicrosoftDataCollectionKnownSyslogDataSourceFacilityNames = string;
+/** Type of KnownSyslogDataSourceFacilityNames */
+export type KnownSyslogDataSourceFacilityNames = string;
 
 /** Known values of {@link KnownSyslogDataSourceLogLevels} that the service accepts. */
-export enum KnownMicrosoftDataCollectionKnownSyslogDataSourceLogLevels {
+export enum KnownKnownSyslogDataSourceLogLevels {
   /** Debug */
   Debug = "Debug",
   /** Info */
@@ -2763,22 +2499,18 @@ export enum KnownMicrosoftDataCollectionKnownSyslogDataSourceLogLevels {
   Asterisk = "*",
 }
 
-/** Type of MicrosoftDataCollectionKnownSyslogDataSourceLogLevels */
-export type MicrosoftDataCollectionKnownSyslogDataSourceLogLevels = string;
+/** Type of KnownSyslogDataSourceLogLevels */
+export type KnownSyslogDataSourceLogLevels = string;
 
-export function microsoftDataCollectionExtensionDataSourceArraySerializer(
-  result: Array<MicrosoftDataCollectionExtensionDataSource>,
-): any[] {
+export function extensionDataSourceArraySerializer(result: Array<ExtensionDataSource>): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionExtensionDataSourceSerializer(item);
+    return extensionDataSourceSerializer(item);
   });
 }
 
-export function microsoftDataCollectionExtensionDataSourceArrayDeserializer(
-  result: Array<MicrosoftDataCollectionExtensionDataSource>,
-): any[] {
+export function extensionDataSourceArrayDeserializer(result: Array<ExtensionDataSource>): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionExtensionDataSourceDeserializer(item);
+    return extensionDataSourceDeserializer(item);
   });
 }
 
@@ -2786,12 +2518,12 @@ export function microsoftDataCollectionExtensionDataSourceArrayDeserializer(
  * Definition of which data will be collected from a separate VM extension that integrates with the Azure Monitor Agent.
  * Collected from either Windows and Linux machines, depending on which extension is defined.
  */
-export interface MicrosoftDataCollectionExtensionDataSource {
+export interface ExtensionDataSource {
   /**
    * List of streams that this data source will be sent to.
    * A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent to.
    */
-  streams?: MicrosoftDataCollectionKnownExtensionDataSourceStreams[];
+  streams?: KnownExtensionDataSourceStreams[];
   /** The name of the VM extension. */
   extensionName: string;
   /** The extension settings. The format is specific for particular extension. */
@@ -2805,9 +2537,7 @@ export interface MicrosoftDataCollectionExtensionDataSource {
   name?: string;
 }
 
-export function microsoftDataCollectionExtensionDataSourceSerializer(
-  item: MicrosoftDataCollectionExtensionDataSource,
-): any {
+export function extensionDataSourceSerializer(item: ExtensionDataSource): any {
   return {
     streams: !item["streams"]
       ? item["streams"]
@@ -2825,9 +2555,7 @@ export function microsoftDataCollectionExtensionDataSourceSerializer(
   };
 }
 
-export function microsoftDataCollectionExtensionDataSourceDeserializer(
-  item: any,
-): MicrosoftDataCollectionExtensionDataSource {
+export function extensionDataSourceDeserializer(item: any): ExtensionDataSource {
   return {
     streams: !item["streams"]
       ? item["streams"]
@@ -2846,7 +2574,7 @@ export function microsoftDataCollectionExtensionDataSourceDeserializer(
 }
 
 /** Known values of {@link KnownExtensionDataSourceStreams} that the service accepts. */
-export enum KnownMicrosoftDataCollectionKnownExtensionDataSourceStreams {
+export enum KnownKnownExtensionDataSourceStreams {
   /** Microsoft-Event */
   MicrosoftEvent = "Microsoft-Event",
   /** Microsoft-InsightsMetrics */
@@ -2859,27 +2587,23 @@ export enum KnownMicrosoftDataCollectionKnownExtensionDataSourceStreams {
   MicrosoftWindowsEvent = "Microsoft-WindowsEvent",
 }
 
-/** Type of MicrosoftDataCollectionKnownExtensionDataSourceStreams */
-export type MicrosoftDataCollectionKnownExtensionDataSourceStreams = string;
+/** Type of KnownExtensionDataSourceStreams */
+export type KnownExtensionDataSourceStreams = string;
 
-export function microsoftDataCollectionLogFilesDataSourceArraySerializer(
-  result: Array<MicrosoftDataCollectionLogFilesDataSource>,
-): any[] {
+export function logFilesDataSourceArraySerializer(result: Array<LogFilesDataSource>): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionLogFilesDataSourceSerializer(item);
+    return logFilesDataSourceSerializer(item);
   });
 }
 
-export function microsoftDataCollectionLogFilesDataSourceArrayDeserializer(
-  result: Array<MicrosoftDataCollectionLogFilesDataSource>,
-): any[] {
+export function logFilesDataSourceArrayDeserializer(result: Array<LogFilesDataSource>): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionLogFilesDataSourceDeserializer(item);
+    return logFilesDataSourceDeserializer(item);
   });
 }
 
 /** Definition of which custom log files will be collected by this data collection rule */
-export interface MicrosoftDataCollectionLogFilesDataSource {
+export interface LogFilesDataSource {
   /**
    * List of streams that this data source will be sent to.
    * A stream indicates what schema will be used for this data source
@@ -2888,9 +2612,9 @@ export interface MicrosoftDataCollectionLogFilesDataSource {
   /** File Patterns where the log files are located */
   filePatterns: string[];
   /** The data format of the log files */
-  format: MicrosoftDataCollectionKnownLogFilesDataSourceFormat;
+  format: KnownLogFilesDataSourceFormat;
   /** The log files specific settings. */
-  settings?: MicrosoftDataCollectionLogFilesDataSourceSettings;
+  settings?: LogFilesDataSourceSettings;
   /** The KQL query to transform the data source. This is a deprecated property and will be removed in future versions. */
   transformKql?: string;
   /**
@@ -2900,9 +2624,7 @@ export interface MicrosoftDataCollectionLogFilesDataSource {
   name?: string;
 }
 
-export function microsoftDataCollectionLogFilesDataSourceSerializer(
-  item: MicrosoftDataCollectionLogFilesDataSource,
-): any {
+export function logFilesDataSourceSerializer(item: LogFilesDataSource): any {
   return {
     streams: item["streams"].map((p: any) => {
       return p;
@@ -2913,15 +2635,13 @@ export function microsoftDataCollectionLogFilesDataSourceSerializer(
     format: item["format"],
     settings: !item["settings"]
       ? item["settings"]
-      : microsoftDataCollectionLogFilesDataSourceSettingsSerializer(item["settings"]),
+      : logFilesDataSourceSettingsSerializer(item["settings"]),
     transformKql: item["transformKql"],
     name: item["name"],
   };
 }
 
-export function microsoftDataCollectionLogFilesDataSourceDeserializer(
-  item: any,
-): MicrosoftDataCollectionLogFilesDataSource {
+export function logFilesDataSourceDeserializer(item: any): LogFilesDataSource {
   return {
     streams: item["streams"].map((p: any) => {
       return p;
@@ -2932,14 +2652,14 @@ export function microsoftDataCollectionLogFilesDataSourceDeserializer(
     format: item["format"],
     settings: !item["settings"]
       ? item["settings"]
-      : microsoftDataCollectionLogFilesDataSourceSettingsDeserializer(item["settings"]),
+      : logFilesDataSourceSettingsDeserializer(item["settings"]),
     transformKql: item["transformKql"],
     name: item["name"],
   };
 }
 
 /** The data format of the log files */
-export enum KnownMicrosoftDataCollectionKnownLogFilesDataSourceFormat {
+export enum KnownKnownLogFilesDataSourceFormat {
   /** json */
   Json = "json",
   /** text */
@@ -2948,55 +2668,41 @@ export enum KnownMicrosoftDataCollectionKnownLogFilesDataSourceFormat {
 
 /**
  * The data format of the log files \
- * {@link KnownMicrosoftDataCollectionKnownLogFilesDataSourceFormat} can be used interchangeably with MicrosoftDataCollectionKnownLogFilesDataSourceFormat,
+ * {@link KnownKnownLogFilesDataSourceFormat} can be used interchangeably with KnownLogFilesDataSourceFormat,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **json**: json \
  * **text**: text
  */
-export type MicrosoftDataCollectionKnownLogFilesDataSourceFormat = string;
+export type KnownLogFilesDataSourceFormat = string;
 
 /** The log files specific settings. */
-export interface MicrosoftDataCollectionLogFilesDataSourceSettings extends MicrosoftDataCollectionLogFileSettings {}
+export interface LogFilesDataSourceSettings extends LogFileSettings {}
 
-export function microsoftDataCollectionLogFilesDataSourceSettingsSerializer(
-  item: MicrosoftDataCollectionLogFilesDataSourceSettings,
-): any {
+export function logFilesDataSourceSettingsSerializer(item: LogFilesDataSourceSettings): any {
+  return { text: !item["text"] ? item["text"] : logFileSettingsTextSerializer(item["text"]) };
+}
+
+export function logFilesDataSourceSettingsDeserializer(item: any): LogFilesDataSourceSettings {
   return {
-    text: !item["text"]
-      ? item["text"]
-      : microsoftDataCollectionLogFileSettingsTextSerializer(item["text"]),
+    text: !item["text"] ? item["text"] : logFileSettingsTextDeserializer(item["text"]),
   };
 }
 
-export function microsoftDataCollectionLogFilesDataSourceSettingsDeserializer(
-  item: any,
-): MicrosoftDataCollectionLogFilesDataSourceSettings {
-  return {
-    text: !item["text"]
-      ? item["text"]
-      : microsoftDataCollectionLogFileSettingsTextDeserializer(item["text"]),
-  };
-}
-
-export function microsoftDataCollectionIisLogsDataSourceArraySerializer(
-  result: Array<MicrosoftDataCollectionIisLogsDataSource>,
-): any[] {
+export function iisLogsDataSourceArraySerializer(result: Array<IisLogsDataSource>): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionIisLogsDataSourceSerializer(item);
+    return iisLogsDataSourceSerializer(item);
   });
 }
 
-export function microsoftDataCollectionIisLogsDataSourceArrayDeserializer(
-  result: Array<MicrosoftDataCollectionIisLogsDataSource>,
-): any[] {
+export function iisLogsDataSourceArrayDeserializer(result: Array<IisLogsDataSource>): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionIisLogsDataSourceDeserializer(item);
+    return iisLogsDataSourceDeserializer(item);
   });
 }
 
 /** Enables IIS logs to be collected by this data collection rule. */
-export interface MicrosoftDataCollectionIisLogsDataSource {
+export interface IisLogsDataSource {
   /** IIS streams */
   streams: string[];
   /** Absolute paths file location */
@@ -3010,9 +2716,7 @@ export interface MicrosoftDataCollectionIisLogsDataSource {
   name?: string;
 }
 
-export function microsoftDataCollectionIisLogsDataSourceSerializer(
-  item: MicrosoftDataCollectionIisLogsDataSource,
-): any {
+export function iisLogsDataSourceSerializer(item: IisLogsDataSource): any {
   return {
     streams: item["streams"].map((p: any) => {
       return p;
@@ -3027,9 +2731,7 @@ export function microsoftDataCollectionIisLogsDataSourceSerializer(
   };
 }
 
-export function microsoftDataCollectionIisLogsDataSourceDeserializer(
-  item: any,
-): MicrosoftDataCollectionIisLogsDataSource {
+export function iisLogsDataSourceDeserializer(item: any): IisLogsDataSource {
   return {
     streams: item["streams"].map((p: any) => {
       return p;
@@ -3044,28 +2746,28 @@ export function microsoftDataCollectionIisLogsDataSourceDeserializer(
   };
 }
 
-export function microsoftDataCollectionWindowsFirewallLogsDataSourceArraySerializer(
-  result: Array<MicrosoftDataCollectionWindowsFirewallLogsDataSource>,
+export function windowsFirewallLogsDataSourceArraySerializer(
+  result: Array<WindowsFirewallLogsDataSource>,
 ): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionWindowsFirewallLogsDataSourceSerializer(item);
+    return windowsFirewallLogsDataSourceSerializer(item);
   });
 }
 
-export function microsoftDataCollectionWindowsFirewallLogsDataSourceArrayDeserializer(
-  result: Array<MicrosoftDataCollectionWindowsFirewallLogsDataSource>,
+export function windowsFirewallLogsDataSourceArrayDeserializer(
+  result: Array<WindowsFirewallLogsDataSource>,
 ): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionWindowsFirewallLogsDataSourceDeserializer(item);
+    return windowsFirewallLogsDataSourceDeserializer(item);
   });
 }
 
 /** Enables Firewall logs to be collected by this data collection rule. */
-export interface MicrosoftDataCollectionWindowsFirewallLogsDataSource {
+export interface WindowsFirewallLogsDataSource {
   /** Firewall logs streams */
   streams: string[];
   /** Firewall logs profile filter */
-  profileFilter?: MicrosoftDataCollectionKnownWindowsFirewallLogsDataSourceProfileFilter[];
+  profileFilter?: KnownWindowsFirewallLogsDataSourceProfileFilter[];
   /**
    * A friendly name for the data source.
    * This name should be unique across all data sources (regardless of type) within the data collection rule.
@@ -3073,9 +2775,7 @@ export interface MicrosoftDataCollectionWindowsFirewallLogsDataSource {
   name?: string;
 }
 
-export function microsoftDataCollectionWindowsFirewallLogsDataSourceSerializer(
-  item: MicrosoftDataCollectionWindowsFirewallLogsDataSource,
-): any {
+export function windowsFirewallLogsDataSourceSerializer(item: WindowsFirewallLogsDataSource): any {
   return {
     streams: item["streams"].map((p: any) => {
       return p;
@@ -3089,9 +2789,9 @@ export function microsoftDataCollectionWindowsFirewallLogsDataSourceSerializer(
   };
 }
 
-export function microsoftDataCollectionWindowsFirewallLogsDataSourceDeserializer(
+export function windowsFirewallLogsDataSourceDeserializer(
   item: any,
-): MicrosoftDataCollectionWindowsFirewallLogsDataSource {
+): WindowsFirewallLogsDataSource {
   return {
     streams: item["streams"].map((p: any) => {
       return p;
@@ -3106,7 +2806,7 @@ export function microsoftDataCollectionWindowsFirewallLogsDataSourceDeserializer
 }
 
 /** Known values of {@link KnownWindowsFirewallLogsDataSourceProfileFilter} that the service accepts. */
-export enum KnownMicrosoftDataCollectionKnownWindowsFirewallLogsDataSourceProfileFilter {
+export enum KnownKnownWindowsFirewallLogsDataSourceProfileFilter {
   /** Domain */
   Domain = "Domain",
   /** Private */
@@ -3115,29 +2815,29 @@ export enum KnownMicrosoftDataCollectionKnownWindowsFirewallLogsDataSourceProfil
   Public = "Public",
 }
 
-/** Type of MicrosoftDataCollectionKnownWindowsFirewallLogsDataSourceProfileFilter */
-export type MicrosoftDataCollectionKnownWindowsFirewallLogsDataSourceProfileFilter = string;
+/** Type of KnownWindowsFirewallLogsDataSourceProfileFilter */
+export type KnownWindowsFirewallLogsDataSourceProfileFilter = string;
 
-export function microsoftDataCollectionPrometheusForwarderDataSourceArraySerializer(
-  result: Array<MicrosoftDataCollectionPrometheusForwarderDataSource>,
+export function prometheusForwarderDataSourceArraySerializer(
+  result: Array<PrometheusForwarderDataSource>,
 ): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionPrometheusForwarderDataSourceSerializer(item);
+    return prometheusForwarderDataSourceSerializer(item);
   });
 }
 
-export function microsoftDataCollectionPrometheusForwarderDataSourceArrayDeserializer(
-  result: Array<MicrosoftDataCollectionPrometheusForwarderDataSource>,
+export function prometheusForwarderDataSourceArrayDeserializer(
+  result: Array<PrometheusForwarderDataSource>,
 ): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionPrometheusForwarderDataSourceDeserializer(item);
+    return prometheusForwarderDataSourceDeserializer(item);
   });
 }
 
 /** Definition of Prometheus metrics forwarding configuration. */
-export interface MicrosoftDataCollectionPrometheusForwarderDataSource {
+export interface PrometheusForwarderDataSource {
   /** List of streams that this data source will be sent to. */
-  streams?: MicrosoftDataCollectionKnownPrometheusForwarderDataSourceStreams[];
+  streams?: KnownPrometheusForwarderDataSourceStreams[];
   /**
    * The list of label inclusion filters in the form of label "name-value" pairs.
    * Currently only one label is supported: 'microsoft_metrics_include_label'.
@@ -3153,9 +2853,7 @@ export interface MicrosoftDataCollectionPrometheusForwarderDataSource {
   name?: string;
 }
 
-export function microsoftDataCollectionPrometheusForwarderDataSourceSerializer(
-  item: MicrosoftDataCollectionPrometheusForwarderDataSource,
-): any {
+export function prometheusForwarderDataSourceSerializer(item: PrometheusForwarderDataSource): any {
   return {
     streams: !item["streams"]
       ? item["streams"]
@@ -3172,9 +2870,9 @@ export function microsoftDataCollectionPrometheusForwarderDataSourceSerializer(
   };
 }
 
-export function microsoftDataCollectionPrometheusForwarderDataSourceDeserializer(
+export function prometheusForwarderDataSourceDeserializer(
   item: any,
-): MicrosoftDataCollectionPrometheusForwarderDataSource {
+): PrometheusForwarderDataSource {
   return {
     streams: !item["streams"]
       ? item["streams"]
@@ -3196,32 +2894,32 @@ export function microsoftDataCollectionPrometheusForwarderDataSourceDeserializer
 }
 
 /** Known values of {@link KnownPrometheusForwarderDataSourceStreams} that the service accepts. */
-export enum KnownMicrosoftDataCollectionKnownPrometheusForwarderDataSourceStreams {
+export enum KnownKnownPrometheusForwarderDataSourceStreams {
   /** Microsoft-PrometheusMetrics */
   MicrosoftPrometheusMetrics = "Microsoft-PrometheusMetrics",
 }
 
-/** Type of MicrosoftDataCollectionKnownPrometheusForwarderDataSourceStreams */
-export type MicrosoftDataCollectionKnownPrometheusForwarderDataSourceStreams = string;
+/** Type of KnownPrometheusForwarderDataSourceStreams */
+export type KnownPrometheusForwarderDataSourceStreams = string;
 
-export function microsoftDataCollectionPlatformTelemetryDataSourceArraySerializer(
-  result: Array<MicrosoftDataCollectionPlatformTelemetryDataSource>,
+export function platformTelemetryDataSourceArraySerializer(
+  result: Array<PlatformTelemetryDataSource>,
 ): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionPlatformTelemetryDataSourceSerializer(item);
+    return platformTelemetryDataSourceSerializer(item);
   });
 }
 
-export function microsoftDataCollectionPlatformTelemetryDataSourceArrayDeserializer(
-  result: Array<MicrosoftDataCollectionPlatformTelemetryDataSource>,
+export function platformTelemetryDataSourceArrayDeserializer(
+  result: Array<PlatformTelemetryDataSource>,
 ): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionPlatformTelemetryDataSourceDeserializer(item);
+    return platformTelemetryDataSourceDeserializer(item);
   });
 }
 
 /** Definition of platform telemetry data source configuration */
-export interface MicrosoftDataCollectionPlatformTelemetryDataSource {
+export interface PlatformTelemetryDataSource {
   /** List of platform telemetry streams to collect */
   streams: string[];
   /**
@@ -3231,9 +2929,7 @@ export interface MicrosoftDataCollectionPlatformTelemetryDataSource {
   name?: string;
 }
 
-export function microsoftDataCollectionPlatformTelemetryDataSourceSerializer(
-  item: MicrosoftDataCollectionPlatformTelemetryDataSource,
-): any {
+export function platformTelemetryDataSourceSerializer(item: PlatformTelemetryDataSource): any {
   return {
     streams: item["streams"].map((p: any) => {
       return p;
@@ -3242,9 +2938,7 @@ export function microsoftDataCollectionPlatformTelemetryDataSourceSerializer(
   };
 }
 
-export function microsoftDataCollectionPlatformTelemetryDataSourceDeserializer(
-  item: any,
-): MicrosoftDataCollectionPlatformTelemetryDataSource {
+export function platformTelemetryDataSourceDeserializer(item: any): PlatformTelemetryDataSource {
   return {
     streams: item["streams"].map((p: any) => {
       return p;
@@ -3254,50 +2948,42 @@ export function microsoftDataCollectionPlatformTelemetryDataSourceDeserializer(
 }
 
 /** Specifications of pull based data sources */
-export interface MicrosoftDataCollectionDataSourcesSpecDataImports extends MicrosoftDataCollectionDataImportSources {}
+export interface DataSourcesSpecDataImports extends DataImportSources {}
 
-export function microsoftDataCollectionDataSourcesSpecDataImportsSerializer(
-  item: MicrosoftDataCollectionDataSourcesSpecDataImports,
-): any {
+export function dataSourcesSpecDataImportsSerializer(item: DataSourcesSpecDataImports): any {
   return {
     eventHub: !item["eventHub"]
       ? item["eventHub"]
-      : microsoftDataCollectionDataImportSourcesEventHubSerializer(item["eventHub"]),
+      : dataImportSourcesEventHubSerializer(item["eventHub"]),
   };
 }
 
-export function microsoftDataCollectionDataSourcesSpecDataImportsDeserializer(
-  item: any,
-): MicrosoftDataCollectionDataSourcesSpecDataImports {
+export function dataSourcesSpecDataImportsDeserializer(item: any): DataSourcesSpecDataImports {
   return {
     eventHub: !item["eventHub"]
       ? item["eventHub"]
-      : microsoftDataCollectionDataImportSourcesEventHubDeserializer(item["eventHub"]),
+      : dataImportSourcesEventHubDeserializer(item["eventHub"]),
   };
 }
 
-export function microsoftDataCollectionOtelLogsDataSourceArraySerializer(
-  result: Array<MicrosoftDataCollectionOtelLogsDataSource>,
-): any[] {
+export function otelLogsDataSourceArraySerializer(result: Array<OtelLogsDataSource>): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionOtelLogsDataSourceSerializer(item);
+    return otelLogsDataSourceSerializer(item);
   });
 }
 
-export function microsoftDataCollectionOtelLogsDataSourceArrayDeserializer(
-  result: Array<MicrosoftDataCollectionOtelLogsDataSource>,
-): any[] {
+export function otelLogsDataSourceArrayDeserializer(result: Array<OtelLogsDataSource>): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionOtelLogsDataSourceDeserializer(item);
+    return otelLogsDataSourceDeserializer(item);
   });
 }
 
 /** Enables Otel logs to be collected by this data collection rule. */
-export interface MicrosoftDataCollectionOtelLogsDataSource {
+export interface OtelLogsDataSource {
   /** List of streams that this data source will be sent to. */
-  streams: MicrosoftDataCollectionKnownOtelLogsDataSourceStreams[];
+  streams: KnownOtelLogsDataSourceStreams[];
   /** Specifies the routing policy based on OTLP payload resource attributes to route subset of the payload according to matching resource attribute. */
-  resourceAttributeRouting?: MicrosoftDataCollectionOtelLogsDataSourceResourceAttributeRouting;
+  resourceAttributeRouting?: OtelLogsDataSourceResourceAttributeRouting;
   /** Specifies the list of resource attributes that need to be added as labels/dimensions to the telemetry data for further enrichment. */
   enrichWithResourceAttributes?: string[];
   /** Specifies the reference alias to enrich the telemetry signal with. */
@@ -3311,18 +2997,14 @@ export interface MicrosoftDataCollectionOtelLogsDataSource {
   name?: string;
 }
 
-export function microsoftDataCollectionOtelLogsDataSourceSerializer(
-  item: MicrosoftDataCollectionOtelLogsDataSource,
-): any {
+export function otelLogsDataSourceSerializer(item: OtelLogsDataSource): any {
   return {
     streams: item["streams"].map((p: any) => {
       return p;
     }),
     resourceAttributeRouting: !item["resourceAttributeRouting"]
       ? item["resourceAttributeRouting"]
-      : microsoftDataCollectionOtelLogsDataSourceResourceAttributeRoutingSerializer(
-          item["resourceAttributeRouting"],
-        ),
+      : otelLogsDataSourceResourceAttributeRoutingSerializer(item["resourceAttributeRouting"]),
     enrichWithResourceAttributes: !item["enrichWithResourceAttributes"]
       ? item["enrichWithResourceAttributes"]
       : item["enrichWithResourceAttributes"].map((p: any) => {
@@ -3334,18 +3016,14 @@ export function microsoftDataCollectionOtelLogsDataSourceSerializer(
   };
 }
 
-export function microsoftDataCollectionOtelLogsDataSourceDeserializer(
-  item: any,
-): MicrosoftDataCollectionOtelLogsDataSource {
+export function otelLogsDataSourceDeserializer(item: any): OtelLogsDataSource {
   return {
     streams: item["streams"].map((p: any) => {
       return p;
     }),
     resourceAttributeRouting: !item["resourceAttributeRouting"]
       ? item["resourceAttributeRouting"]
-      : microsoftDataCollectionOtelLogsDataSourceResourceAttributeRoutingDeserializer(
-          item["resourceAttributeRouting"],
-        ),
+      : otelLogsDataSourceResourceAttributeRoutingDeserializer(item["resourceAttributeRouting"]),
     enrichWithResourceAttributes: !item["enrichWithResourceAttributes"]
       ? item["enrichWithResourceAttributes"]
       : item["enrichWithResourceAttributes"].map((p: any) => {
@@ -3358,57 +3036,53 @@ export function microsoftDataCollectionOtelLogsDataSourceDeserializer(
 }
 
 /** Known values of {@link KnownOtelLogsDataSourceStreams} that the service accepts. */
-export enum KnownMicrosoftDataCollectionKnownOtelLogsDataSourceStreams {
+export enum KnownKnownOtelLogsDataSourceStreams {
   /** Microsoft-OTel-Logs */
   MicrosoftOTelLogs = "Microsoft-OTel-Logs",
 }
 
-/** Type of MicrosoftDataCollectionKnownOtelLogsDataSourceStreams */
-export type MicrosoftDataCollectionKnownOtelLogsDataSourceStreams = string;
+/** Type of KnownOtelLogsDataSourceStreams */
+export type KnownOtelLogsDataSourceStreams = string;
 
 /** Specifies the routing policy based on OTLP payload resource attributes to route subset of the payload according to matching resource attribute. */
-export interface MicrosoftDataCollectionOtelLogsDataSourceResourceAttributeRouting extends MicrosoftDataCollectionOtelDataSourceResourceAttributeRouting {}
+export interface OtelLogsDataSourceResourceAttributeRouting extends OtelDataSourceResourceAttributeRouting {}
 
-export function microsoftDataCollectionOtelLogsDataSourceResourceAttributeRoutingSerializer(
-  item: MicrosoftDataCollectionOtelLogsDataSourceResourceAttributeRouting,
+export function otelLogsDataSourceResourceAttributeRoutingSerializer(
+  item: OtelLogsDataSourceResourceAttributeRouting,
 ): any {
   return { attributeName: item["attributeName"], attributeValue: item["attributeValue"] };
 }
 
-export function microsoftDataCollectionOtelLogsDataSourceResourceAttributeRoutingDeserializer(
+export function otelLogsDataSourceResourceAttributeRoutingDeserializer(
   item: any,
-): MicrosoftDataCollectionOtelLogsDataSourceResourceAttributeRouting {
+): OtelLogsDataSourceResourceAttributeRouting {
   return {
     attributeName: item["attributeName"],
     attributeValue: item["attributeValue"],
   };
 }
 
-export function microsoftDataCollectionOtelTracesDataSourceArraySerializer(
-  result: Array<MicrosoftDataCollectionOtelTracesDataSource>,
-): any[] {
+export function otelTracesDataSourceArraySerializer(result: Array<OtelTracesDataSource>): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionOtelTracesDataSourceSerializer(item);
+    return otelTracesDataSourceSerializer(item);
   });
 }
 
-export function microsoftDataCollectionOtelTracesDataSourceArrayDeserializer(
-  result: Array<MicrosoftDataCollectionOtelTracesDataSource>,
-): any[] {
+export function otelTracesDataSourceArrayDeserializer(result: Array<OtelTracesDataSource>): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionOtelTracesDataSourceDeserializer(item);
+    return otelTracesDataSourceDeserializer(item);
   });
 }
 
 /** Enables Otel Traces to be collected by this data collection rule. */
-export interface MicrosoftDataCollectionOtelTracesDataSource {
+export interface OtelTracesDataSource {
   /**
    * List of streams that this data source will be sent to.
    * A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent to.
    */
-  streams: MicrosoftDataCollectionKnownOtelTracesDataSourceStreams[];
+  streams: KnownOtelTracesDataSourceStreams[];
   /** Specifies the routing policy based on OTLP payload resource attributes to route subset of the payload according to matching resource attribute. */
-  resourceAttributeRouting?: MicrosoftDataCollectionOtelTracesDataSourceResourceAttributeRouting;
+  resourceAttributeRouting?: OtelTracesDataSourceResourceAttributeRouting;
   /** Specifies the list of resource attributes that need to be added as labels/dimensions to the telemetry data for further enrichment. */
   enrichWithResourceAttributes?: string[];
   /** Specifies the reference to enrich the telemetry signal with. */
@@ -3422,18 +3096,14 @@ export interface MicrosoftDataCollectionOtelTracesDataSource {
   name?: string;
 }
 
-export function microsoftDataCollectionOtelTracesDataSourceSerializer(
-  item: MicrosoftDataCollectionOtelTracesDataSource,
-): any {
+export function otelTracesDataSourceSerializer(item: OtelTracesDataSource): any {
   return {
     streams: item["streams"].map((p: any) => {
       return p;
     }),
     resourceAttributeRouting: !item["resourceAttributeRouting"]
       ? item["resourceAttributeRouting"]
-      : microsoftDataCollectionOtelTracesDataSourceResourceAttributeRoutingSerializer(
-          item["resourceAttributeRouting"],
-        ),
+      : otelTracesDataSourceResourceAttributeRoutingSerializer(item["resourceAttributeRouting"]),
     enrichWithResourceAttributes: !item["enrichWithResourceAttributes"]
       ? item["enrichWithResourceAttributes"]
       : item["enrichWithResourceAttributes"].map((p: any) => {
@@ -3445,18 +3115,14 @@ export function microsoftDataCollectionOtelTracesDataSourceSerializer(
   };
 }
 
-export function microsoftDataCollectionOtelTracesDataSourceDeserializer(
-  item: any,
-): MicrosoftDataCollectionOtelTracesDataSource {
+export function otelTracesDataSourceDeserializer(item: any): OtelTracesDataSource {
   return {
     streams: item["streams"].map((p: any) => {
       return p;
     }),
     resourceAttributeRouting: !item["resourceAttributeRouting"]
       ? item["resourceAttributeRouting"]
-      : microsoftDataCollectionOtelTracesDataSourceResourceAttributeRoutingDeserializer(
-          item["resourceAttributeRouting"],
-        ),
+      : otelTracesDataSourceResourceAttributeRoutingDeserializer(item["resourceAttributeRouting"]),
     enrichWithResourceAttributes: !item["enrichWithResourceAttributes"]
       ? item["enrichWithResourceAttributes"]
       : item["enrichWithResourceAttributes"].map((p: any) => {
@@ -3469,7 +3135,7 @@ export function microsoftDataCollectionOtelTracesDataSourceDeserializer(
 }
 
 /** Known values of {@link KnownOtelTracesDataSourceStreams} that the service accepts. */
-export enum KnownMicrosoftDataCollectionKnownOtelTracesDataSourceStreams {
+export enum KnownKnownOtelTracesDataSourceStreams {
   /** Microsoft-OTel-Traces-Spans */
   MicrosoftOTelTracesSpans = "Microsoft-OTel-Traces-Spans",
   /** Microsoft-OTel-Traces-Events */
@@ -3478,49 +3144,47 @@ export enum KnownMicrosoftDataCollectionKnownOtelTracesDataSourceStreams {
   MicrosoftOTelTracesResources = "Microsoft-OTel-Traces-Resources",
 }
 
-/** Type of MicrosoftDataCollectionKnownOtelTracesDataSourceStreams */
-export type MicrosoftDataCollectionKnownOtelTracesDataSourceStreams = string;
+/** Type of KnownOtelTracesDataSourceStreams */
+export type KnownOtelTracesDataSourceStreams = string;
 
 /** Specifies the routing policy based on OTLP payload resource attributes to route subset of the payload according to matching resource attribute. */
-export interface MicrosoftDataCollectionOtelTracesDataSourceResourceAttributeRouting extends MicrosoftDataCollectionOtelDataSourceResourceAttributeRouting {}
+export interface OtelTracesDataSourceResourceAttributeRouting extends OtelDataSourceResourceAttributeRouting {}
 
-export function microsoftDataCollectionOtelTracesDataSourceResourceAttributeRoutingSerializer(
-  item: MicrosoftDataCollectionOtelTracesDataSourceResourceAttributeRouting,
+export function otelTracesDataSourceResourceAttributeRoutingSerializer(
+  item: OtelTracesDataSourceResourceAttributeRouting,
 ): any {
   return { attributeName: item["attributeName"], attributeValue: item["attributeValue"] };
 }
 
-export function microsoftDataCollectionOtelTracesDataSourceResourceAttributeRoutingDeserializer(
+export function otelTracesDataSourceResourceAttributeRoutingDeserializer(
   item: any,
-): MicrosoftDataCollectionOtelTracesDataSourceResourceAttributeRouting {
+): OtelTracesDataSourceResourceAttributeRouting {
   return {
     attributeName: item["attributeName"],
     attributeValue: item["attributeValue"],
   };
 }
 
-export function microsoftDataCollectionOtelMetricsDataSourceArraySerializer(
-  result: Array<MicrosoftDataCollectionOtelMetricsDataSource>,
-): any[] {
+export function otelMetricsDataSourceArraySerializer(result: Array<OtelMetricsDataSource>): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionOtelMetricsDataSourceSerializer(item);
+    return otelMetricsDataSourceSerializer(item);
   });
 }
 
-export function microsoftDataCollectionOtelMetricsDataSourceArrayDeserializer(
-  result: Array<MicrosoftDataCollectionOtelMetricsDataSource>,
+export function otelMetricsDataSourceArrayDeserializer(
+  result: Array<OtelMetricsDataSource>,
 ): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionOtelMetricsDataSourceDeserializer(item);
+    return otelMetricsDataSourceDeserializer(item);
   });
 }
 
 /** Definition of OTel metrics configuration. */
-export interface MicrosoftDataCollectionOtelMetricsDataSource {
+export interface OtelMetricsDataSource {
   /** List of streams that this data source will be sent to. */
   streams: string[];
   /** Specifies the routing policy based on OTLP payload resource attributes to route subset of the payload according to matching resource attribute. */
-  resourceAttributeRouting?: MicrosoftDataCollectionOtelMetricsDataSourceResourceAttributeRouting;
+  resourceAttributeRouting?: OtelMetricsDataSourceResourceAttributeRouting;
   /** Specifies the list of resource attributes that need to be added as labels/dimensions to the telemetry data for further enrichment. */
   enrichWithResourceAttributes?: string[];
   /** Specifies the reference to enrich the telemetry signal with. */
@@ -3532,18 +3196,14 @@ export interface MicrosoftDataCollectionOtelMetricsDataSource {
   name?: string;
 }
 
-export function microsoftDataCollectionOtelMetricsDataSourceSerializer(
-  item: MicrosoftDataCollectionOtelMetricsDataSource,
-): any {
+export function otelMetricsDataSourceSerializer(item: OtelMetricsDataSource): any {
   return {
     streams: item["streams"].map((p: any) => {
       return p;
     }),
     resourceAttributeRouting: !item["resourceAttributeRouting"]
       ? item["resourceAttributeRouting"]
-      : microsoftDataCollectionOtelMetricsDataSourceResourceAttributeRoutingSerializer(
-          item["resourceAttributeRouting"],
-        ),
+      : otelMetricsDataSourceResourceAttributeRoutingSerializer(item["resourceAttributeRouting"]),
     enrichWithResourceAttributes: !item["enrichWithResourceAttributes"]
       ? item["enrichWithResourceAttributes"]
       : item["enrichWithResourceAttributes"].map((p: any) => {
@@ -3554,18 +3214,14 @@ export function microsoftDataCollectionOtelMetricsDataSourceSerializer(
   };
 }
 
-export function microsoftDataCollectionOtelMetricsDataSourceDeserializer(
-  item: any,
-): MicrosoftDataCollectionOtelMetricsDataSource {
+export function otelMetricsDataSourceDeserializer(item: any): OtelMetricsDataSource {
   return {
     streams: item["streams"].map((p: any) => {
       return p;
     }),
     resourceAttributeRouting: !item["resourceAttributeRouting"]
       ? item["resourceAttributeRouting"]
-      : microsoftDataCollectionOtelMetricsDataSourceResourceAttributeRoutingDeserializer(
-          item["resourceAttributeRouting"],
-        ),
+      : otelMetricsDataSourceResourceAttributeRoutingDeserializer(item["resourceAttributeRouting"]),
     enrichWithResourceAttributes: !item["enrichWithResourceAttributes"]
       ? item["enrichWithResourceAttributes"]
       : item["enrichWithResourceAttributes"].map((p: any) => {
@@ -3577,49 +3233,47 @@ export function microsoftDataCollectionOtelMetricsDataSourceDeserializer(
 }
 
 /** Specifies the routing policy based on OTLP payload resource attributes to route subset of the payload according to matching resource attribute. */
-export interface MicrosoftDataCollectionOtelMetricsDataSourceResourceAttributeRouting extends MicrosoftDataCollectionOtelDataSourceResourceAttributeRouting {}
+export interface OtelMetricsDataSourceResourceAttributeRouting extends OtelDataSourceResourceAttributeRouting {}
 
-export function microsoftDataCollectionOtelMetricsDataSourceResourceAttributeRoutingSerializer(
-  item: MicrosoftDataCollectionOtelMetricsDataSourceResourceAttributeRouting,
+export function otelMetricsDataSourceResourceAttributeRoutingSerializer(
+  item: OtelMetricsDataSourceResourceAttributeRouting,
 ): any {
   return { attributeName: item["attributeName"], attributeValue: item["attributeValue"] };
 }
 
-export function microsoftDataCollectionOtelMetricsDataSourceResourceAttributeRoutingDeserializer(
+export function otelMetricsDataSourceResourceAttributeRoutingDeserializer(
   item: any,
-): MicrosoftDataCollectionOtelMetricsDataSourceResourceAttributeRouting {
+): OtelMetricsDataSourceResourceAttributeRouting {
   return {
     attributeName: item["attributeName"],
     attributeValue: item["attributeValue"],
   };
 }
 
-export function microsoftDataCollectionEtwProviderDataSourceArraySerializer(
-  result: Array<MicrosoftDataCollectionEtwProviderDataSource>,
-): any[] {
+export function etwProviderDataSourceArraySerializer(result: Array<EtwProviderDataSource>): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionEtwProviderDataSourceSerializer(item);
+    return etwProviderDataSourceSerializer(item);
   });
 }
 
-export function microsoftDataCollectionEtwProviderDataSourceArrayDeserializer(
-  result: Array<MicrosoftDataCollectionEtwProviderDataSource>,
+export function etwProviderDataSourceArrayDeserializer(
+  result: Array<EtwProviderDataSource>,
 ): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionEtwProviderDataSourceDeserializer(item);
+    return etwProviderDataSourceDeserializer(item);
   });
 }
 
 /** Enables an ETW provider logs to be collected by this data collection rule. */
-export interface MicrosoftDataCollectionEtwProviderDataSource {
+export interface EtwProviderDataSource {
   /** List of streams that this data source will be sent to */
   streams: string[];
   /** The provider GUID or class name for event source */
   provider: string;
   /** Provider type specification: By Manifest GUID or by Event Source name */
-  providerType: MicrosoftDataCollectionKnownEtwProviderType;
+  providerType: KnownEtwProviderType;
   /** Minimal level of detail to be logged */
-  logLevel?: MicrosoftDataCollectionKnownEtwProviderDataSourceLogLevel;
+  logLevel?: KnownEtwProviderDataSourceLogLevel;
   /** Events Ids to collect */
   eventIds?: string[];
   /** Event's membership in a set of event categories */
@@ -3631,9 +3285,7 @@ export interface MicrosoftDataCollectionEtwProviderDataSource {
   name?: string;
 }
 
-export function microsoftDataCollectionEtwProviderDataSourceSerializer(
-  item: MicrosoftDataCollectionEtwProviderDataSource,
-): any {
+export function etwProviderDataSourceSerializer(item: EtwProviderDataSource): any {
   return {
     streams: item["streams"].map((p: any) => {
       return p;
@@ -3651,9 +3303,7 @@ export function microsoftDataCollectionEtwProviderDataSourceSerializer(
   };
 }
 
-export function microsoftDataCollectionEtwProviderDataSourceDeserializer(
-  item: any,
-): MicrosoftDataCollectionEtwProviderDataSource {
+export function etwProviderDataSourceDeserializer(item: any): EtwProviderDataSource {
   return {
     streams: item["streams"].map((p: any) => {
       return p;
@@ -3672,7 +3322,7 @@ export function microsoftDataCollectionEtwProviderDataSourceDeserializer(
 }
 
 /** Provider type specification: By Manifest GUID or by Event Source name */
-export enum KnownMicrosoftDataCollectionKnownEtwProviderType {
+export enum KnownKnownEtwProviderType {
   /** EventSource */
   EventSource = "EventSource",
   /** Manifest */
@@ -3681,16 +3331,16 @@ export enum KnownMicrosoftDataCollectionKnownEtwProviderType {
 
 /**
  * Provider type specification: By Manifest GUID or by Event Source name \
- * {@link KnownMicrosoftDataCollectionKnownEtwProviderType} can be used interchangeably with MicrosoftDataCollectionKnownEtwProviderType,
+ * {@link KnownKnownEtwProviderType} can be used interchangeably with KnownEtwProviderType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **EventSource**: EventSource \
  * **Manifest**: Manifest
  */
-export type MicrosoftDataCollectionKnownEtwProviderType = string;
+export type KnownEtwProviderType = string;
 
 /** Minimal level of detail to be logged */
-export enum KnownMicrosoftDataCollectionKnownEtwProviderDataSourceLogLevel {
+export enum KnownKnownEtwProviderDataSourceLogLevel {
   /** Critical */
   Critical = "Critical",
   /** Error */
@@ -3705,7 +3355,7 @@ export enum KnownMicrosoftDataCollectionKnownEtwProviderDataSourceLogLevel {
 
 /**
  * Minimal level of detail to be logged \
- * {@link KnownMicrosoftDataCollectionKnownEtwProviderDataSourceLogLevel} can be used interchangeably with MicrosoftDataCollectionKnownEtwProviderDataSourceLogLevel,
+ * {@link KnownKnownEtwProviderDataSourceLogLevel} can be used interchangeably with KnownEtwProviderDataSourceLogLevel,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Critical**: Critical \
@@ -3714,73 +3364,55 @@ export enum KnownMicrosoftDataCollectionKnownEtwProviderDataSourceLogLevel {
  * **Informational**: Informational \
  * **Verbose**: Verbose
  */
-export type MicrosoftDataCollectionKnownEtwProviderDataSourceLogLevel = string;
+export type KnownEtwProviderDataSourceLogLevel = string;
 
 /** Settings for different log file formats */
-export interface MicrosoftDataCollectionLogFileSettings {
+export interface LogFileSettings {
   /** Text settings */
-  text?: MicrosoftDataCollectionLogFileSettingsText;
+  text?: LogFileSettingsText;
 }
 
-export function microsoftDataCollectionLogFileSettingsSerializer(
-  item: MicrosoftDataCollectionLogFileSettings,
-): any {
-  return {
-    text: !item["text"]
-      ? item["text"]
-      : microsoftDataCollectionLogFileSettingsTextSerializer(item["text"]),
-  };
+export function logFileSettingsSerializer(item: LogFileSettings): any {
+  return { text: !item["text"] ? item["text"] : logFileSettingsTextSerializer(item["text"]) };
 }
 
-export function microsoftDataCollectionLogFileSettingsDeserializer(
-  item: any,
-): MicrosoftDataCollectionLogFileSettings {
+export function logFileSettingsDeserializer(item: any): LogFileSettings {
   return {
-    text: !item["text"]
-      ? item["text"]
-      : microsoftDataCollectionLogFileSettingsTextDeserializer(item["text"]),
+    text: !item["text"] ? item["text"] : logFileSettingsTextDeserializer(item["text"]),
   };
 }
 
 /** Text settings */
-export interface MicrosoftDataCollectionLogFileSettingsText extends MicrosoftDataCollectionLogFileTextSettings {}
+export interface LogFileSettingsText extends LogFileTextSettings {}
 
-export function microsoftDataCollectionLogFileSettingsTextSerializer(
-  item: MicrosoftDataCollectionLogFileSettingsText,
-): any {
+export function logFileSettingsTextSerializer(item: LogFileSettingsText): any {
   return { recordStartTimestampFormat: item["recordStartTimestampFormat"] };
 }
 
-export function microsoftDataCollectionLogFileSettingsTextDeserializer(
-  item: any,
-): MicrosoftDataCollectionLogFileSettingsText {
+export function logFileSettingsTextDeserializer(item: any): LogFileSettingsText {
   return {
     recordStartTimestampFormat: item["recordStartTimestampFormat"],
   };
 }
 
 /** Settings for text log files */
-export interface MicrosoftDataCollectionLogFileTextSettings {
+export interface LogFileTextSettings {
   /** One of the supported timestamp formats */
-  recordStartTimestampFormat: MicrosoftDataCollectionKnownLogFileTextSettingsRecordStartTimestampFormat;
+  recordStartTimestampFormat: KnownLogFileTextSettingsRecordStartTimestampFormat;
 }
 
-export function microsoftDataCollectionLogFileTextSettingsSerializer(
-  item: MicrosoftDataCollectionLogFileTextSettings,
-): any {
+export function logFileTextSettingsSerializer(item: LogFileTextSettings): any {
   return { recordStartTimestampFormat: item["recordStartTimestampFormat"] };
 }
 
-export function microsoftDataCollectionLogFileTextSettingsDeserializer(
-  item: any,
-): MicrosoftDataCollectionLogFileTextSettings {
+export function logFileTextSettingsDeserializer(item: any): LogFileTextSettings {
   return {
     recordStartTimestampFormat: item["recordStartTimestampFormat"],
   };
 }
 
 /** One of the supported timestamp formats */
-export enum KnownMicrosoftDataCollectionKnownLogFileTextSettingsRecordStartTimestampFormat {
+export enum KnownKnownLogFileTextSettingsRecordStartTimestampFormat {
   /** ISO 8601 */
   ISO8601 = "ISO 8601",
   /** YYYY-MM-DD HH:MM:SS */
@@ -3803,7 +3435,7 @@ export enum KnownMicrosoftDataCollectionKnownLogFileTextSettingsRecordStartTimes
 
 /**
  * One of the supported timestamp formats \
- * {@link KnownMicrosoftDataCollectionKnownLogFileTextSettingsRecordStartTimestampFormat} can be used interchangeably with MicrosoftDataCollectionKnownLogFileTextSettingsRecordStartTimestampFormat,
+ * {@link KnownKnownLogFileTextSettingsRecordStartTimestampFormat} can be used interchangeably with KnownLogFileTextSettingsRecordStartTimestampFormat,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **ISO 8601**: ISO 8601 \
@@ -3816,46 +3448,38 @@ export enum KnownMicrosoftDataCollectionKnownLogFileTextSettingsRecordStartTimes
  * **dd\/MMM\/yyyy:HH:mm:ss zzz**: dd\/MMM\/yyyy:HH:mm:ss zzz \
  * **yyyy-MM-ddTHH:mm:ssK**: yyyy-MM-ddTHH:mm:ssK
  */
-export type MicrosoftDataCollectionKnownLogFileTextSettingsRecordStartTimestampFormat = string;
+export type KnownLogFileTextSettingsRecordStartTimestampFormat = string;
 
-/** model interface MicrosoftDataCollectionDataImportSources */
-export interface MicrosoftDataCollectionDataImportSources {
+/** model interface DataImportSources */
+export interface DataImportSources {
   /** Definition of Event Hub configuration. */
-  eventHub?: MicrosoftDataCollectionDataImportSourcesEventHub;
+  eventHub?: DataImportSourcesEventHub;
 }
 
-export function microsoftDataCollectionDataImportSourcesSerializer(
-  item: MicrosoftDataCollectionDataImportSources,
-): any {
+export function dataImportSourcesSerializer(item: DataImportSources): any {
   return {
     eventHub: !item["eventHub"]
       ? item["eventHub"]
-      : microsoftDataCollectionDataImportSourcesEventHubSerializer(item["eventHub"]),
+      : dataImportSourcesEventHubSerializer(item["eventHub"]),
   };
 }
 
-export function microsoftDataCollectionDataImportSourcesDeserializer(
-  item: any,
-): MicrosoftDataCollectionDataImportSources {
+export function dataImportSourcesDeserializer(item: any): DataImportSources {
   return {
     eventHub: !item["eventHub"]
       ? item["eventHub"]
-      : microsoftDataCollectionDataImportSourcesEventHubDeserializer(item["eventHub"]),
+      : dataImportSourcesEventHubDeserializer(item["eventHub"]),
   };
 }
 
 /** Definition of Event Hub configuration. */
-export interface MicrosoftDataCollectionDataImportSourcesEventHub extends MicrosoftDataCollectionEventHubDataSource {}
+export interface DataImportSourcesEventHub extends EventHubDataSource {}
 
-export function microsoftDataCollectionDataImportSourcesEventHubSerializer(
-  item: MicrosoftDataCollectionDataImportSourcesEventHub,
-): any {
+export function dataImportSourcesEventHubSerializer(item: DataImportSourcesEventHub): any {
   return { name: item["name"], consumerGroup: item["consumerGroup"], stream: item["stream"] };
 }
 
-export function microsoftDataCollectionDataImportSourcesEventHubDeserializer(
-  item: any,
-): MicrosoftDataCollectionDataImportSourcesEventHub {
+export function dataImportSourcesEventHubDeserializer(item: any): DataImportSourcesEventHub {
   return {
     name: item["name"],
     consumerGroup: item["consumerGroup"],
@@ -3863,8 +3487,8 @@ export function microsoftDataCollectionDataImportSourcesEventHubDeserializer(
   };
 }
 
-/** model interface MicrosoftDataCollectionEventHubDataSource */
-export interface MicrosoftDataCollectionEventHubDataSource {
+/** model interface EventHubDataSource */
+export interface EventHubDataSource {
   /**
    * A friendly name for the data source.
    * This name should be unique across all data sources (regardless of type) within the data collection rule.
@@ -3876,15 +3500,11 @@ export interface MicrosoftDataCollectionEventHubDataSource {
   stream?: string;
 }
 
-export function microsoftDataCollectionEventHubDataSourceSerializer(
-  item: MicrosoftDataCollectionEventHubDataSource,
-): any {
+export function eventHubDataSourceSerializer(item: EventHubDataSource): any {
   return { name: item["name"], consumerGroup: item["consumerGroup"], stream: item["stream"] };
 }
 
-export function microsoftDataCollectionEventHubDataSourceDeserializer(
-  item: any,
-): MicrosoftDataCollectionEventHubDataSource {
+export function eventHubDataSourceDeserializer(item: any): EventHubDataSource {
   return {
     name: item["name"],
     consumerGroup: item["consumerGroup"],
@@ -3893,22 +3513,22 @@ export function microsoftDataCollectionEventHubDataSourceDeserializer(
 }
 
 /** Enables OTLP (logs, traces, and metrics) payload routing */
-export interface MicrosoftDataCollectionOtelDataSourceResourceAttributeRouting {
+export interface OtelDataSourceResourceAttributeRouting {
   /** The name of the resource attribute to match. */
   attributeName?: string;
   /** The value of the resource attribute to match. */
   attributeValue?: string;
 }
 
-export function microsoftDataCollectionOtelDataSourceResourceAttributeRoutingSerializer(
-  item: MicrosoftDataCollectionOtelDataSourceResourceAttributeRouting,
+export function otelDataSourceResourceAttributeRoutingSerializer(
+  item: OtelDataSourceResourceAttributeRouting,
 ): any {
   return { attributeName: item["attributeName"], attributeValue: item["attributeValue"] };
 }
 
-export function microsoftDataCollectionOtelDataSourceResourceAttributeRoutingDeserializer(
+export function otelDataSourceResourceAttributeRoutingDeserializer(
   item: any,
-): MicrosoftDataCollectionOtelDataSourceResourceAttributeRouting {
+): OtelDataSourceResourceAttributeRouting {
   return {
     attributeName: item["attributeName"],
     attributeValue: item["attributeValue"],
@@ -3916,65 +3536,61 @@ export function microsoftDataCollectionOtelDataSourceResourceAttributeRoutingDes
 }
 
 /** Specification of direct data sources that will be collected. */
-export interface MicrosoftDataCollectionDirectDataSourcesSpec {
+export interface DirectDataSourcesSpec {
   /** The list of OTel metrics data source configurations. */
-  otelMetrics?: MicrosoftDataCollectionOtelMetricsDirectDataSource[];
+  otelMetrics?: OtelMetricsDirectDataSource[];
   /** The list of OTel logs data source configurations. */
-  otelLogs?: MicrosoftDataCollectionOtelLogsDirectDataSource[];
+  otelLogs?: OtelLogsDirectDataSource[];
   /** The list of OTel traces data source configurations. */
-  otelTraces?: MicrosoftDataCollectionOtelTracesDirectDataSource[];
+  otelTraces?: OtelTracesDirectDataSource[];
 }
 
-export function microsoftDataCollectionDirectDataSourcesSpecSerializer(
-  item: MicrosoftDataCollectionDirectDataSourcesSpec,
-): any {
+export function directDataSourcesSpecSerializer(item: DirectDataSourcesSpec): any {
   return {
     otelMetrics: !item["otelMetrics"]
       ? item["otelMetrics"]
-      : microsoftDataCollectionOtelMetricsDirectDataSourceArraySerializer(item["otelMetrics"]),
+      : otelMetricsDirectDataSourceArraySerializer(item["otelMetrics"]),
     otelLogs: !item["otelLogs"]
       ? item["otelLogs"]
-      : microsoftDataCollectionOtelLogsDirectDataSourceArraySerializer(item["otelLogs"]),
+      : otelLogsDirectDataSourceArraySerializer(item["otelLogs"]),
     otelTraces: !item["otelTraces"]
       ? item["otelTraces"]
-      : microsoftDataCollectionOtelTracesDirectDataSourceArraySerializer(item["otelTraces"]),
+      : otelTracesDirectDataSourceArraySerializer(item["otelTraces"]),
   };
 }
 
-export function microsoftDataCollectionDirectDataSourcesSpecDeserializer(
-  item: any,
-): MicrosoftDataCollectionDirectDataSourcesSpec {
+export function directDataSourcesSpecDeserializer(item: any): DirectDataSourcesSpec {
   return {
     otelMetrics: !item["otelMetrics"]
       ? item["otelMetrics"]
-      : microsoftDataCollectionOtelMetricsDirectDataSourceArrayDeserializer(item["otelMetrics"]),
+      : otelMetricsDirectDataSourceArrayDeserializer(item["otelMetrics"]),
     otelLogs: !item["otelLogs"]
       ? item["otelLogs"]
-      : microsoftDataCollectionOtelLogsDirectDataSourceArrayDeserializer(item["otelLogs"]),
+      : otelLogsDirectDataSourceArrayDeserializer(item["otelLogs"]),
     otelTraces: !item["otelTraces"]
       ? item["otelTraces"]
-      : microsoftDataCollectionOtelTracesDirectDataSourceArrayDeserializer(item["otelTraces"]),
+      : otelTracesDirectDataSourceArrayDeserializer(item["otelTraces"]),
   };
 }
 
-export function microsoftDataCollectionOtelMetricsDirectDataSourceArraySerializer(
-  result: Array<MicrosoftDataCollectionOtelMetricsDirectDataSource>,
+export function otelMetricsDirectDataSourceArraySerializer(
+  result: Array<OtelMetricsDirectDataSource>,
 ): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionOtelMetricsDirectDataSourceSerializer(item);
+    return otelMetricsDirectDataSourceSerializer(item);
   });
 }
 
-export function microsoftDataCollectionOtelMetricsDirectDataSourceArrayDeserializer(
-  result: Array<MicrosoftDataCollectionOtelMetricsDirectDataSource>,
+export function otelMetricsDirectDataSourceArrayDeserializer(
+  result: Array<OtelMetricsDirectDataSource>,
 ): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionOtelMetricsDirectDataSourceDeserializer(item);
+    return otelMetricsDirectDataSourceDeserializer(item);
   });
 }
 
 /** Definition of OTel metrics configuration. */
-export interface MicrosoftDataCollectionOtelMetricsDirectDataSource {
+export interface OtelMetricsDirectDataSource {
   /** List of streams that this data source will be sent to. */
   streams: string[];
   /** Specifies the list of resource attributes that need to be added as labels/dimensions to the telemetry data for further enrichment. */
@@ -3988,9 +3604,7 @@ export interface MicrosoftDataCollectionOtelMetricsDirectDataSource {
   name?: string;
 }
 
-export function microsoftDataCollectionOtelMetricsDirectDataSourceSerializer(
-  item: MicrosoftDataCollectionOtelMetricsDirectDataSource,
-): any {
+export function otelMetricsDirectDataSourceSerializer(item: OtelMetricsDirectDataSource): any {
   return {
     streams: item["streams"].map((p: any) => {
       return p;
@@ -4005,9 +3619,7 @@ export function microsoftDataCollectionOtelMetricsDirectDataSourceSerializer(
   };
 }
 
-export function microsoftDataCollectionOtelMetricsDirectDataSourceDeserializer(
-  item: any,
-): MicrosoftDataCollectionOtelMetricsDirectDataSource {
+export function otelMetricsDirectDataSourceDeserializer(item: any): OtelMetricsDirectDataSource {
   return {
     streams: item["streams"].map((p: any) => {
       return p;
@@ -4022,26 +3634,26 @@ export function microsoftDataCollectionOtelMetricsDirectDataSourceDeserializer(
   };
 }
 
-export function microsoftDataCollectionOtelLogsDirectDataSourceArraySerializer(
-  result: Array<MicrosoftDataCollectionOtelLogsDirectDataSource>,
+export function otelLogsDirectDataSourceArraySerializer(
+  result: Array<OtelLogsDirectDataSource>,
 ): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionOtelLogsDirectDataSourceSerializer(item);
+    return otelLogsDirectDataSourceSerializer(item);
   });
 }
 
-export function microsoftDataCollectionOtelLogsDirectDataSourceArrayDeserializer(
-  result: Array<MicrosoftDataCollectionOtelLogsDirectDataSource>,
+export function otelLogsDirectDataSourceArrayDeserializer(
+  result: Array<OtelLogsDirectDataSource>,
 ): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionOtelLogsDirectDataSourceDeserializer(item);
+    return otelLogsDirectDataSourceDeserializer(item);
   });
 }
 
-/** model interface MicrosoftDataCollectionOtelLogsDirectDataSource */
-export interface MicrosoftDataCollectionOtelLogsDirectDataSource {
+/** model interface OtelLogsDirectDataSource */
+export interface OtelLogsDirectDataSource {
   /** List of streams that this data source will be sent to. */
-  streams: MicrosoftDataCollectionKnownOtelLogsDirectDataSourceStreams[];
+  streams: KnownOtelLogsDirectDataSourceStreams[];
   /** Specifies the list of resource attributes that need to be added as labels/dimensions to the telemetry data for further enrichment. */
   enrichWithResourceAttributes?: string[];
   /** Specifies the reference to enrich the telemetry signal with. */
@@ -4055,9 +3667,7 @@ export interface MicrosoftDataCollectionOtelLogsDirectDataSource {
   name?: string;
 }
 
-export function microsoftDataCollectionOtelLogsDirectDataSourceSerializer(
-  item: MicrosoftDataCollectionOtelLogsDirectDataSource,
-): any {
+export function otelLogsDirectDataSourceSerializer(item: OtelLogsDirectDataSource): any {
   return {
     streams: item["streams"].map((p: any) => {
       return p;
@@ -4073,9 +3683,7 @@ export function microsoftDataCollectionOtelLogsDirectDataSourceSerializer(
   };
 }
 
-export function microsoftDataCollectionOtelLogsDirectDataSourceDeserializer(
-  item: any,
-): MicrosoftDataCollectionOtelLogsDirectDataSource {
+export function otelLogsDirectDataSourceDeserializer(item: any): OtelLogsDirectDataSource {
   return {
     streams: item["streams"].map((p: any) => {
       return p;
@@ -4092,37 +3700,37 @@ export function microsoftDataCollectionOtelLogsDirectDataSourceDeserializer(
 }
 
 /** Known values of {@link KnownOtelLogsDirectDataSourceStreams} that the service accepts. */
-export enum KnownMicrosoftDataCollectionKnownOtelLogsDirectDataSourceStreams {
+export enum KnownKnownOtelLogsDirectDataSourceStreams {
   /** Microsoft-OTel-Logs */
   MicrosoftOTelLogs = "Microsoft-OTel-Logs",
 }
 
-/** Type of MicrosoftDataCollectionKnownOtelLogsDirectDataSourceStreams */
-export type MicrosoftDataCollectionKnownOtelLogsDirectDataSourceStreams = string;
+/** Type of KnownOtelLogsDirectDataSourceStreams */
+export type KnownOtelLogsDirectDataSourceStreams = string;
 
-export function microsoftDataCollectionOtelTracesDirectDataSourceArraySerializer(
-  result: Array<MicrosoftDataCollectionOtelTracesDirectDataSource>,
+export function otelTracesDirectDataSourceArraySerializer(
+  result: Array<OtelTracesDirectDataSource>,
 ): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionOtelTracesDirectDataSourceSerializer(item);
+    return otelTracesDirectDataSourceSerializer(item);
   });
 }
 
-export function microsoftDataCollectionOtelTracesDirectDataSourceArrayDeserializer(
-  result: Array<MicrosoftDataCollectionOtelTracesDirectDataSource>,
+export function otelTracesDirectDataSourceArrayDeserializer(
+  result: Array<OtelTracesDirectDataSource>,
 ): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionOtelTracesDirectDataSourceDeserializer(item);
+    return otelTracesDirectDataSourceDeserializer(item);
   });
 }
 
 /** Enables Otel Traces to be collected by this data collection rule. */
-export interface MicrosoftDataCollectionOtelTracesDirectDataSource {
+export interface OtelTracesDirectDataSource {
   /**
    * List of streams that this data source will be sent to.
    * A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent to.
    */
-  streams: MicrosoftDataCollectionKnownOtelTracesDirectDataSourceStreams[];
+  streams: KnownOtelTracesDirectDataSourceStreams[];
   /** Specifies the list of resource attributes that need to be added as labels/dimensions to the telemetry data for further enrichment. */
   enrichWithResourceAttributes?: string[];
   /** Specifies the reference to enrich the telemetry signal with. */
@@ -4136,9 +3744,7 @@ export interface MicrosoftDataCollectionOtelTracesDirectDataSource {
   name?: string;
 }
 
-export function microsoftDataCollectionOtelTracesDirectDataSourceSerializer(
-  item: MicrosoftDataCollectionOtelTracesDirectDataSource,
-): any {
+export function otelTracesDirectDataSourceSerializer(item: OtelTracesDirectDataSource): any {
   return {
     streams: item["streams"].map((p: any) => {
       return p;
@@ -4154,9 +3760,7 @@ export function microsoftDataCollectionOtelTracesDirectDataSourceSerializer(
   };
 }
 
-export function microsoftDataCollectionOtelTracesDirectDataSourceDeserializer(
-  item: any,
-): MicrosoftDataCollectionOtelTracesDirectDataSource {
+export function otelTracesDirectDataSourceDeserializer(item: any): OtelTracesDirectDataSource {
   return {
     streams: item["streams"].map((p: any) => {
       return p;
@@ -4173,7 +3777,7 @@ export function microsoftDataCollectionOtelTracesDirectDataSourceDeserializer(
 }
 
 /** Known values of {@link KnownOtelTracesDirectDataSourceStreams} that the service accepts. */
-export enum KnownMicrosoftDataCollectionKnownOtelTracesDirectDataSourceStreams {
+export enum KnownKnownOtelTracesDirectDataSourceStreams {
   /** Microsoft-OTel-Traces-Spans */
   MicrosoftOTelTracesSpans = "Microsoft-OTel-Traces-Spans",
   /** Microsoft-OTel-Traces-Events */
@@ -4182,135 +3786,121 @@ export enum KnownMicrosoftDataCollectionKnownOtelTracesDirectDataSourceStreams {
   MicrosoftOTelTracesResources = "Microsoft-OTel-Traces-Resources",
 }
 
-/** Type of MicrosoftDataCollectionKnownOtelTracesDirectDataSourceStreams */
-export type MicrosoftDataCollectionKnownOtelTracesDirectDataSourceStreams = string;
+/** Type of KnownOtelTracesDirectDataSourceStreams */
+export type KnownOtelTracesDirectDataSourceStreams = string;
 
 /** Specification of destinations that can be used in data flows. */
-export interface MicrosoftDataCollectionDestinationsSpec {
+export interface DestinationsSpec {
   /** List of Log Analytics destinations. */
-  logAnalytics?: MicrosoftDataCollectionLogAnalyticsDestination[];
+  logAnalytics?: LogAnalyticsDestination[];
   /** List of monitoring account destinations. */
-  monitoringAccounts?: MicrosoftDataCollectionMonitoringAccountDestination[];
+  monitoringAccounts?: MonitoringAccountDestination[];
   /** Azure Monitor Metrics destination. */
-  azureMonitorMetrics?: MicrosoftDataCollectionDestinationsSpecAzureMonitorMetrics;
+  azureMonitorMetrics?: DestinationsSpecAzureMonitorMetrics;
   /** List of Event Hubs destinations. */
-  eventHubs?: MicrosoftDataCollectionEventHubDestination[];
+  eventHubs?: EventHubDestination[];
   /** List of Event Hubs Direct destinations. */
-  eventHubsDirect?: MicrosoftDataCollectionEventHubDirectDestination[];
+  eventHubsDirect?: EventHubDirectDestination[];
   /** List of Storage Blob Direct destinations. To be used only for sending data directly to store from the agent. */
-  storageBlobsDirect?: MicrosoftDataCollectionStorageBlobDestination[];
+  storageBlobsDirect?: StorageBlobDestination[];
   /** List of Storage Table Direct destinations. */
-  storageTablesDirect?: MicrosoftDataCollectionStorageTableDestination[];
+  storageTablesDirect?: StorageTableDestination[];
   /** List of storage accounts destinations. */
-  storageAccounts?: MicrosoftDataCollectionStorageBlobDestination[];
+  storageAccounts?: StorageBlobDestination[];
   /** List of Microsoft Fabric destinations. */
-  microsoftFabric?: MicrosoftDataCollectionMicrosoftFabricDestination[];
+  microsoftFabric?: MicrosoftFabricDestination[];
   /** List of Azure Data Explorer destinations. */
-  azureDataExplorer?: MicrosoftDataCollectionAdxDestination[];
+  azureDataExplorer?: AdxDestination[];
 }
 
-export function microsoftDataCollectionDestinationsSpecSerializer(
-  item: MicrosoftDataCollectionDestinationsSpec,
-): any {
+export function destinationsSpecSerializer(item: DestinationsSpec): any {
   return {
     logAnalytics: !item["logAnalytics"]
       ? item["logAnalytics"]
-      : microsoftDataCollectionLogAnalyticsDestinationArraySerializer(item["logAnalytics"]),
+      : logAnalyticsDestinationArraySerializer(item["logAnalytics"]),
     monitoringAccounts: !item["monitoringAccounts"]
       ? item["monitoringAccounts"]
-      : microsoftDataCollectionMonitoringAccountDestinationArraySerializer(
-          item["monitoringAccounts"],
-        ),
+      : monitoringAccountDestinationArraySerializer(item["monitoringAccounts"]),
     azureMonitorMetrics: !item["azureMonitorMetrics"]
       ? item["azureMonitorMetrics"]
-      : microsoftDataCollectionDestinationsSpecAzureMonitorMetricsSerializer(
-          item["azureMonitorMetrics"],
-        ),
+      : destinationsSpecAzureMonitorMetricsSerializer(item["azureMonitorMetrics"]),
     eventHubs: !item["eventHubs"]
       ? item["eventHubs"]
-      : microsoftDataCollectionEventHubDestinationArraySerializer(item["eventHubs"]),
+      : eventHubDestinationArraySerializer(item["eventHubs"]),
     eventHubsDirect: !item["eventHubsDirect"]
       ? item["eventHubsDirect"]
-      : microsoftDataCollectionEventHubDirectDestinationArraySerializer(item["eventHubsDirect"]),
+      : eventHubDirectDestinationArraySerializer(item["eventHubsDirect"]),
     storageBlobsDirect: !item["storageBlobsDirect"]
       ? item["storageBlobsDirect"]
-      : microsoftDataCollectionStorageBlobDestinationArraySerializer(item["storageBlobsDirect"]),
+      : storageBlobDestinationArraySerializer(item["storageBlobsDirect"]),
     storageTablesDirect: !item["storageTablesDirect"]
       ? item["storageTablesDirect"]
-      : microsoftDataCollectionStorageTableDestinationArraySerializer(item["storageTablesDirect"]),
+      : storageTableDestinationArraySerializer(item["storageTablesDirect"]),
     storageAccounts: !item["storageAccounts"]
       ? item["storageAccounts"]
-      : microsoftDataCollectionStorageBlobDestinationArraySerializer(item["storageAccounts"]),
+      : storageBlobDestinationArraySerializer(item["storageAccounts"]),
     microsoftFabric: !item["microsoftFabric"]
       ? item["microsoftFabric"]
-      : microsoftDataCollectionMicrosoftFabricDestinationArraySerializer(item["microsoftFabric"]),
+      : microsoftFabricDestinationArraySerializer(item["microsoftFabric"]),
     azureDataExplorer: !item["azureDataExplorer"]
       ? item["azureDataExplorer"]
-      : microsoftDataCollectionAdxDestinationArraySerializer(item["azureDataExplorer"]),
+      : adxDestinationArraySerializer(item["azureDataExplorer"]),
   };
 }
 
-export function microsoftDataCollectionDestinationsSpecDeserializer(
-  item: any,
-): MicrosoftDataCollectionDestinationsSpec {
+export function destinationsSpecDeserializer(item: any): DestinationsSpec {
   return {
     logAnalytics: !item["logAnalytics"]
       ? item["logAnalytics"]
-      : microsoftDataCollectionLogAnalyticsDestinationArrayDeserializer(item["logAnalytics"]),
+      : logAnalyticsDestinationArrayDeserializer(item["logAnalytics"]),
     monitoringAccounts: !item["monitoringAccounts"]
       ? item["monitoringAccounts"]
-      : microsoftDataCollectionMonitoringAccountDestinationArrayDeserializer(
-          item["monitoringAccounts"],
-        ),
+      : monitoringAccountDestinationArrayDeserializer(item["monitoringAccounts"]),
     azureMonitorMetrics: !item["azureMonitorMetrics"]
       ? item["azureMonitorMetrics"]
-      : microsoftDataCollectionDestinationsSpecAzureMonitorMetricsDeserializer(
-          item["azureMonitorMetrics"],
-        ),
+      : destinationsSpecAzureMonitorMetricsDeserializer(item["azureMonitorMetrics"]),
     eventHubs: !item["eventHubs"]
       ? item["eventHubs"]
-      : microsoftDataCollectionEventHubDestinationArrayDeserializer(item["eventHubs"]),
+      : eventHubDestinationArrayDeserializer(item["eventHubs"]),
     eventHubsDirect: !item["eventHubsDirect"]
       ? item["eventHubsDirect"]
-      : microsoftDataCollectionEventHubDirectDestinationArrayDeserializer(item["eventHubsDirect"]),
+      : eventHubDirectDestinationArrayDeserializer(item["eventHubsDirect"]),
     storageBlobsDirect: !item["storageBlobsDirect"]
       ? item["storageBlobsDirect"]
-      : microsoftDataCollectionStorageBlobDestinationArrayDeserializer(item["storageBlobsDirect"]),
+      : storageBlobDestinationArrayDeserializer(item["storageBlobsDirect"]),
     storageTablesDirect: !item["storageTablesDirect"]
       ? item["storageTablesDirect"]
-      : microsoftDataCollectionStorageTableDestinationArrayDeserializer(
-          item["storageTablesDirect"],
-        ),
+      : storageTableDestinationArrayDeserializer(item["storageTablesDirect"]),
     storageAccounts: !item["storageAccounts"]
       ? item["storageAccounts"]
-      : microsoftDataCollectionStorageBlobDestinationArrayDeserializer(item["storageAccounts"]),
+      : storageBlobDestinationArrayDeserializer(item["storageAccounts"]),
     microsoftFabric: !item["microsoftFabric"]
       ? item["microsoftFabric"]
-      : microsoftDataCollectionMicrosoftFabricDestinationArrayDeserializer(item["microsoftFabric"]),
+      : microsoftFabricDestinationArrayDeserializer(item["microsoftFabric"]),
     azureDataExplorer: !item["azureDataExplorer"]
       ? item["azureDataExplorer"]
-      : microsoftDataCollectionAdxDestinationArrayDeserializer(item["azureDataExplorer"]),
+      : adxDestinationArrayDeserializer(item["azureDataExplorer"]),
   };
 }
 
-export function microsoftDataCollectionLogAnalyticsDestinationArraySerializer(
-  result: Array<MicrosoftDataCollectionLogAnalyticsDestination>,
+export function logAnalyticsDestinationArraySerializer(
+  result: Array<LogAnalyticsDestination>,
 ): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionLogAnalyticsDestinationSerializer(item);
+    return logAnalyticsDestinationSerializer(item);
   });
 }
 
-export function microsoftDataCollectionLogAnalyticsDestinationArrayDeserializer(
-  result: Array<MicrosoftDataCollectionLogAnalyticsDestination>,
+export function logAnalyticsDestinationArrayDeserializer(
+  result: Array<LogAnalyticsDestination>,
 ): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionLogAnalyticsDestinationDeserializer(item);
+    return logAnalyticsDestinationDeserializer(item);
   });
 }
 
 /** Log Analytics destination. */
-export interface MicrosoftDataCollectionLogAnalyticsDestination {
+export interface LogAnalyticsDestination {
   /** The resource ID of the Log Analytics workspace. */
   workspaceResourceId?: string;
   /** The Customer ID of the Log Analytics workspace. */
@@ -4322,15 +3912,11 @@ export interface MicrosoftDataCollectionLogAnalyticsDestination {
   name?: string;
 }
 
-export function microsoftDataCollectionLogAnalyticsDestinationSerializer(
-  item: MicrosoftDataCollectionLogAnalyticsDestination,
-): any {
+export function logAnalyticsDestinationSerializer(item: LogAnalyticsDestination): any {
   return { workspaceResourceId: item["workspaceResourceId"], name: item["name"] };
 }
 
-export function microsoftDataCollectionLogAnalyticsDestinationDeserializer(
-  item: any,
-): MicrosoftDataCollectionLogAnalyticsDestination {
+export function logAnalyticsDestinationDeserializer(item: any): LogAnalyticsDestination {
   return {
     workspaceResourceId: item["workspaceResourceId"],
     workspaceId: item["workspaceId"],
@@ -4338,24 +3924,24 @@ export function microsoftDataCollectionLogAnalyticsDestinationDeserializer(
   };
 }
 
-export function microsoftDataCollectionMonitoringAccountDestinationArraySerializer(
-  result: Array<MicrosoftDataCollectionMonitoringAccountDestination>,
+export function monitoringAccountDestinationArraySerializer(
+  result: Array<MonitoringAccountDestination>,
 ): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionMonitoringAccountDestinationSerializer(item);
+    return monitoringAccountDestinationSerializer(item);
   });
 }
 
-export function microsoftDataCollectionMonitoringAccountDestinationArrayDeserializer(
-  result: Array<MicrosoftDataCollectionMonitoringAccountDestination>,
+export function monitoringAccountDestinationArrayDeserializer(
+  result: Array<MonitoringAccountDestination>,
 ): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionMonitoringAccountDestinationDeserializer(item);
+    return monitoringAccountDestinationDeserializer(item);
   });
 }
 
 /** Monitoring account destination. */
-export interface MicrosoftDataCollectionMonitoringAccountDestination {
+export interface MonitoringAccountDestination {
   /** The resource ID of the monitoring account. */
   accountResourceId?: string;
   /** The immutable ID of the account. */
@@ -4367,15 +3953,11 @@ export interface MicrosoftDataCollectionMonitoringAccountDestination {
   name?: string;
 }
 
-export function microsoftDataCollectionMonitoringAccountDestinationSerializer(
-  item: MicrosoftDataCollectionMonitoringAccountDestination,
-): any {
+export function monitoringAccountDestinationSerializer(item: MonitoringAccountDestination): any {
   return { accountResourceId: item["accountResourceId"], name: item["name"] };
 }
 
-export function microsoftDataCollectionMonitoringAccountDestinationDeserializer(
-  item: any,
-): MicrosoftDataCollectionMonitoringAccountDestination {
+export function monitoringAccountDestinationDeserializer(item: any): MonitoringAccountDestination {
   return {
     accountResourceId: item["accountResourceId"],
     accountId: item["accountId"],
@@ -4384,40 +3966,36 @@ export function microsoftDataCollectionMonitoringAccountDestinationDeserializer(
 }
 
 /** Azure Monitor Metrics destination. */
-export interface MicrosoftDataCollectionDestinationsSpecAzureMonitorMetrics extends MicrosoftDataCollectionAzureMonitorMetricsDestination {}
+export interface DestinationsSpecAzureMonitorMetrics extends AzureMonitorMetricsDestination {}
 
-export function microsoftDataCollectionDestinationsSpecAzureMonitorMetricsSerializer(
-  item: MicrosoftDataCollectionDestinationsSpecAzureMonitorMetrics,
+export function destinationsSpecAzureMonitorMetricsSerializer(
+  item: DestinationsSpecAzureMonitorMetrics,
 ): any {
   return { name: item["name"] };
 }
 
-export function microsoftDataCollectionDestinationsSpecAzureMonitorMetricsDeserializer(
+export function destinationsSpecAzureMonitorMetricsDeserializer(
   item: any,
-): MicrosoftDataCollectionDestinationsSpecAzureMonitorMetrics {
+): DestinationsSpecAzureMonitorMetrics {
   return {
     name: item["name"],
   };
 }
 
-export function microsoftDataCollectionEventHubDestinationArraySerializer(
-  result: Array<MicrosoftDataCollectionEventHubDestination>,
-): any[] {
+export function eventHubDestinationArraySerializer(result: Array<EventHubDestination>): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionEventHubDestinationSerializer(item);
+    return eventHubDestinationSerializer(item);
   });
 }
 
-export function microsoftDataCollectionEventHubDestinationArrayDeserializer(
-  result: Array<MicrosoftDataCollectionEventHubDestination>,
-): any[] {
+export function eventHubDestinationArrayDeserializer(result: Array<EventHubDestination>): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionEventHubDestinationDeserializer(item);
+    return eventHubDestinationDeserializer(item);
   });
 }
 
-/** model interface MicrosoftDataCollectionEventHubDestination */
-export interface MicrosoftDataCollectionEventHubDestination {
+/** model interface EventHubDestination */
+export interface EventHubDestination {
   /** The resource ID of the event hub. */
   eventHubResourceId?: string;
   /**
@@ -4427,39 +4005,35 @@ export interface MicrosoftDataCollectionEventHubDestination {
   name?: string;
 }
 
-export function microsoftDataCollectionEventHubDestinationSerializer(
-  item: MicrosoftDataCollectionEventHubDestination,
-): any {
+export function eventHubDestinationSerializer(item: EventHubDestination): any {
   return { eventHubResourceId: item["eventHubResourceId"], name: item["name"] };
 }
 
-export function microsoftDataCollectionEventHubDestinationDeserializer(
-  item: any,
-): MicrosoftDataCollectionEventHubDestination {
+export function eventHubDestinationDeserializer(item: any): EventHubDestination {
   return {
     eventHubResourceId: item["eventHubResourceId"],
     name: item["name"],
   };
 }
 
-export function microsoftDataCollectionEventHubDirectDestinationArraySerializer(
-  result: Array<MicrosoftDataCollectionEventHubDirectDestination>,
+export function eventHubDirectDestinationArraySerializer(
+  result: Array<EventHubDirectDestination>,
 ): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionEventHubDirectDestinationSerializer(item);
+    return eventHubDirectDestinationSerializer(item);
   });
 }
 
-export function microsoftDataCollectionEventHubDirectDestinationArrayDeserializer(
-  result: Array<MicrosoftDataCollectionEventHubDirectDestination>,
+export function eventHubDirectDestinationArrayDeserializer(
+  result: Array<EventHubDirectDestination>,
 ): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionEventHubDirectDestinationDeserializer(item);
+    return eventHubDirectDestinationDeserializer(item);
   });
 }
 
-/** model interface MicrosoftDataCollectionEventHubDirectDestination */
-export interface MicrosoftDataCollectionEventHubDirectDestination {
+/** model interface EventHubDirectDestination */
+export interface EventHubDirectDestination {
   /** The resource ID of the event hub. */
   eventHubResourceId?: string;
   /**
@@ -4469,39 +4043,35 @@ export interface MicrosoftDataCollectionEventHubDirectDestination {
   name?: string;
 }
 
-export function microsoftDataCollectionEventHubDirectDestinationSerializer(
-  item: MicrosoftDataCollectionEventHubDirectDestination,
-): any {
+export function eventHubDirectDestinationSerializer(item: EventHubDirectDestination): any {
   return { eventHubResourceId: item["eventHubResourceId"], name: item["name"] };
 }
 
-export function microsoftDataCollectionEventHubDirectDestinationDeserializer(
-  item: any,
-): MicrosoftDataCollectionEventHubDirectDestination {
+export function eventHubDirectDestinationDeserializer(item: any): EventHubDirectDestination {
   return {
     eventHubResourceId: item["eventHubResourceId"],
     name: item["name"],
   };
 }
 
-export function microsoftDataCollectionStorageBlobDestinationArraySerializer(
-  result: Array<MicrosoftDataCollectionStorageBlobDestination>,
+export function storageBlobDestinationArraySerializer(
+  result: Array<StorageBlobDestination>,
 ): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionStorageBlobDestinationSerializer(item);
+    return storageBlobDestinationSerializer(item);
   });
 }
 
-export function microsoftDataCollectionStorageBlobDestinationArrayDeserializer(
-  result: Array<MicrosoftDataCollectionStorageBlobDestination>,
+export function storageBlobDestinationArrayDeserializer(
+  result: Array<StorageBlobDestination>,
 ): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionStorageBlobDestinationDeserializer(item);
+    return storageBlobDestinationDeserializer(item);
   });
 }
 
-/** model interface MicrosoftDataCollectionStorageBlobDestination */
-export interface MicrosoftDataCollectionStorageBlobDestination {
+/** model interface StorageBlobDestination */
+export interface StorageBlobDestination {
   /** The container name of the Storage Blob. */
   containerName?: string;
   /** The resource ID of the storage account. */
@@ -4513,9 +4083,7 @@ export interface MicrosoftDataCollectionStorageBlobDestination {
   name?: string;
 }
 
-export function microsoftDataCollectionStorageBlobDestinationSerializer(
-  item: MicrosoftDataCollectionStorageBlobDestination,
-): any {
+export function storageBlobDestinationSerializer(item: StorageBlobDestination): any {
   return {
     containerName: item["containerName"],
     storageAccountResourceId: item["storageAccountResourceId"],
@@ -4523,9 +4091,7 @@ export function microsoftDataCollectionStorageBlobDestinationSerializer(
   };
 }
 
-export function microsoftDataCollectionStorageBlobDestinationDeserializer(
-  item: any,
-): MicrosoftDataCollectionStorageBlobDestination {
+export function storageBlobDestinationDeserializer(item: any): StorageBlobDestination {
   return {
     containerName: item["containerName"],
     storageAccountResourceId: item["storageAccountResourceId"],
@@ -4533,24 +4099,24 @@ export function microsoftDataCollectionStorageBlobDestinationDeserializer(
   };
 }
 
-export function microsoftDataCollectionStorageTableDestinationArraySerializer(
-  result: Array<MicrosoftDataCollectionStorageTableDestination>,
+export function storageTableDestinationArraySerializer(
+  result: Array<StorageTableDestination>,
 ): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionStorageTableDestinationSerializer(item);
+    return storageTableDestinationSerializer(item);
   });
 }
 
-export function microsoftDataCollectionStorageTableDestinationArrayDeserializer(
-  result: Array<MicrosoftDataCollectionStorageTableDestination>,
+export function storageTableDestinationArrayDeserializer(
+  result: Array<StorageTableDestination>,
 ): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionStorageTableDestinationDeserializer(item);
+    return storageTableDestinationDeserializer(item);
   });
 }
 
-/** model interface MicrosoftDataCollectionStorageTableDestination */
-export interface MicrosoftDataCollectionStorageTableDestination {
+/** model interface StorageTableDestination */
+export interface StorageTableDestination {
   /** The name of the Storage Table. */
   tableName?: string;
   /** The resource ID of the storage account. */
@@ -4562,9 +4128,7 @@ export interface MicrosoftDataCollectionStorageTableDestination {
   name?: string;
 }
 
-export function microsoftDataCollectionStorageTableDestinationSerializer(
-  item: MicrosoftDataCollectionStorageTableDestination,
-): any {
+export function storageTableDestinationSerializer(item: StorageTableDestination): any {
   return {
     tableName: item["tableName"],
     storageAccountResourceId: item["storageAccountResourceId"],
@@ -4572,9 +4136,7 @@ export function microsoftDataCollectionStorageTableDestinationSerializer(
   };
 }
 
-export function microsoftDataCollectionStorageTableDestinationDeserializer(
-  item: any,
-): MicrosoftDataCollectionStorageTableDestination {
+export function storageTableDestinationDeserializer(item: any): StorageTableDestination {
   return {
     tableName: item["tableName"],
     storageAccountResourceId: item["storageAccountResourceId"],
@@ -4582,24 +4144,24 @@ export function microsoftDataCollectionStorageTableDestinationDeserializer(
   };
 }
 
-export function microsoftDataCollectionMicrosoftFabricDestinationArraySerializer(
-  result: Array<MicrosoftDataCollectionMicrosoftFabricDestination>,
+export function microsoftFabricDestinationArraySerializer(
+  result: Array<MicrosoftFabricDestination>,
 ): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionMicrosoftFabricDestinationSerializer(item);
+    return microsoftFabricDestinationSerializer(item);
   });
 }
 
-export function microsoftDataCollectionMicrosoftFabricDestinationArrayDeserializer(
-  result: Array<MicrosoftDataCollectionMicrosoftFabricDestination>,
+export function microsoftFabricDestinationArrayDeserializer(
+  result: Array<MicrosoftFabricDestination>,
 ): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionMicrosoftFabricDestinationDeserializer(item);
+    return microsoftFabricDestinationDeserializer(item);
   });
 }
 
 /** Microsoft Fabric destination (non-Azure). */
-export interface MicrosoftDataCollectionMicrosoftFabricDestination {
+export interface MicrosoftFabricDestination {
   /** The tenant id of the Microsoft Fabric resource. */
   tenantId?: string;
   /** The artifact id of the Microsoft Fabric resource. */
@@ -4615,9 +4177,7 @@ export interface MicrosoftDataCollectionMicrosoftFabricDestination {
   name?: string;
 }
 
-export function microsoftDataCollectionMicrosoftFabricDestinationSerializer(
-  item: MicrosoftDataCollectionMicrosoftFabricDestination,
-): any {
+export function microsoftFabricDestinationSerializer(item: MicrosoftFabricDestination): any {
   return {
     tenantId: item["tenantId"],
     artifactId: item["artifactId"],
@@ -4627,9 +4187,7 @@ export function microsoftDataCollectionMicrosoftFabricDestinationSerializer(
   };
 }
 
-export function microsoftDataCollectionMicrosoftFabricDestinationDeserializer(
-  item: any,
-): MicrosoftDataCollectionMicrosoftFabricDestination {
+export function microsoftFabricDestinationDeserializer(item: any): MicrosoftFabricDestination {
   return {
     tenantId: item["tenantId"],
     artifactId: item["artifactId"],
@@ -4639,24 +4197,20 @@ export function microsoftDataCollectionMicrosoftFabricDestinationDeserializer(
   };
 }
 
-export function microsoftDataCollectionAdxDestinationArraySerializer(
-  result: Array<MicrosoftDataCollectionAdxDestination>,
-): any[] {
+export function adxDestinationArraySerializer(result: Array<AdxDestination>): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionAdxDestinationSerializer(item);
+    return adxDestinationSerializer(item);
   });
 }
 
-export function microsoftDataCollectionAdxDestinationArrayDeserializer(
-  result: Array<MicrosoftDataCollectionAdxDestination>,
-): any[] {
+export function adxDestinationArrayDeserializer(result: Array<AdxDestination>): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionAdxDestinationDeserializer(item);
+    return adxDestinationDeserializer(item);
   });
 }
 
 /** Azure Data Explorer (Adx) destination. */
-export interface MicrosoftDataCollectionAdxDestination {
+export interface AdxDestination {
   /** The ARM resource id of the Adx resource. */
   resourceId?: string;
   /** The name of the database to which data will be ingested. */
@@ -4670,15 +4224,11 @@ export interface MicrosoftDataCollectionAdxDestination {
   name?: string;
 }
 
-export function microsoftDataCollectionAdxDestinationSerializer(
-  item: MicrosoftDataCollectionAdxDestination,
-): any {
+export function adxDestinationSerializer(item: AdxDestination): any {
   return { resourceId: item["resourceId"], databaseName: item["databaseName"], name: item["name"] };
 }
 
-export function microsoftDataCollectionAdxDestinationDeserializer(
-  item: any,
-): MicrosoftDataCollectionAdxDestination {
+export function adxDestinationDeserializer(item: any): AdxDestination {
   return {
     resourceId: item["resourceId"],
     databaseName: item["databaseName"],
@@ -4688,7 +4238,7 @@ export function microsoftDataCollectionAdxDestinationDeserializer(
 }
 
 /** Azure Monitor Metrics destination. */
-export interface MicrosoftDataCollectionAzureMonitorMetricsDestination {
+export interface AzureMonitorMetricsDestination {
   /**
    * A friendly name for the destination.
    * This name should be unique across all destinations (regardless of type) within the data collection rule.
@@ -4696,100 +4246,88 @@ export interface MicrosoftDataCollectionAzureMonitorMetricsDestination {
   name?: string;
 }
 
-export function microsoftDataCollectionAzureMonitorMetricsDestinationSerializer(
-  item: MicrosoftDataCollectionAzureMonitorMetricsDestination,
+export function azureMonitorMetricsDestinationSerializer(
+  item: AzureMonitorMetricsDestination,
 ): any {
   return { name: item["name"] };
 }
 
-export function microsoftDataCollectionAzureMonitorMetricsDestinationDeserializer(
+export function azureMonitorMetricsDestinationDeserializer(
   item: any,
-): MicrosoftDataCollectionAzureMonitorMetricsDestination {
+): AzureMonitorMetricsDestination {
   return {
     name: item["name"],
   };
 }
 
-/** model interface MicrosoftDataCollectionIngestionQuotas */
-export interface MicrosoftDataCollectionIngestionQuotas {
-  logs?: MicrosoftDataCollectionIngestionQuotasLogs;
+/** model interface IngestionQuotas */
+export interface IngestionQuotas {
+  logs?: IngestionQuotasLogs;
 }
 
-export function microsoftDataCollectionIngestionQuotasDeserializer(
-  item: any,
-): MicrosoftDataCollectionIngestionQuotas {
+export function ingestionQuotasDeserializer(item: any): IngestionQuotas {
   return {
-    logs: !item["logs"]
-      ? item["logs"]
-      : microsoftDataCollectionIngestionQuotasLogsDeserializer(item["logs"]),
+    logs: !item["logs"] ? item["logs"] : ingestionQuotasLogsDeserializer(item["logs"]),
   };
 }
 
-/** model interface MicrosoftDataCollectionIngestionQuotasLogs */
-export interface MicrosoftDataCollectionIngestionQuotasLogs extends MicrosoftDataCollectionLogsQuotaSpec {}
+/** model interface IngestionQuotasLogs */
+export interface IngestionQuotasLogs extends LogsQuotaSpec {}
 
-export function microsoftDataCollectionIngestionQuotasLogsDeserializer(
-  item: any,
-): MicrosoftDataCollectionIngestionQuotasLogs {
+export function ingestionQuotasLogsDeserializer(item: any): IngestionQuotasLogs {
   return {
     maxSizePerMinuteInGB: item["maxSizePerMinuteInGB"],
     maxRequestsPerMinute: item["maxRequestsPerMinute"],
   };
 }
 
-/** model interface MicrosoftDataCollectionLogsQuotaSpec */
-export interface MicrosoftDataCollectionLogsQuotaSpec {
+/** model interface LogsQuotaSpec */
+export interface LogsQuotaSpec {
   maxSizePerMinuteInGB?: string;
   maxRequestsPerMinute?: string;
 }
 
-export function microsoftDataCollectionLogsQuotaSpecDeserializer(
-  item: any,
-): MicrosoftDataCollectionLogsQuotaSpec {
+export function logsQuotaSpecDeserializer(item: any): LogsQuotaSpec {
   return {
     maxSizePerMinuteInGB: item["maxSizePerMinuteInGB"],
     maxRequestsPerMinute: item["maxRequestsPerMinute"],
   };
 }
 
-export function microsoftDataCollectionDataCollectionRuleResourceArraySerializer(
-  result: Array<MicrosoftDataCollectionDataCollectionRuleResource>,
+export function dataCollectionRuleResourceArraySerializer(
+  result: Array<DataCollectionRuleResource>,
 ): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionDataCollectionRuleResourceSerializer(item);
+    return dataCollectionRuleResourceSerializer(item);
   });
 }
 
-export function microsoftDataCollectionDataCollectionRuleResourceArrayDeserializer(
-  result: Array<MicrosoftDataCollectionDataCollectionRuleResource>,
+export function dataCollectionRuleResourceArrayDeserializer(
+  result: Array<DataCollectionRuleResource>,
 ): any[] {
   return result.map((item) => {
-    return microsoftDataCollectionDataCollectionRuleResourceDeserializer(item);
+    return dataCollectionRuleResourceDeserializer(item);
   });
 }
 
 export function _dataCollectionEndpointResourcePropertiesSerializer(
-  item: MicrosoftDataCollectionDataCollectionEndpointResource,
+  item: DataCollectionEndpointResource,
 ): any {
   return {
     description: item["description"],
     immutableId: item["immutableId"],
     configurationAccess: !item["configurationAccess"]
       ? item["configurationAccess"]
-      : microsoftDataCollectionDataCollectionEndpointConfigurationAccessSerializer(
-          item["configurationAccess"],
-        ),
+      : dataCollectionEndpointConfigurationAccessSerializer(item["configurationAccess"]),
     logsIngestion: !item["logsIngestion"]
       ? item["logsIngestion"]
-      : microsoftDataCollectionDataCollectionEndpointLogsIngestionSerializer(item["logsIngestion"]),
+      : dataCollectionEndpointLogsIngestionSerializer(item["logsIngestion"]),
     metricsIngestion: !item["metricsIngestion"]
       ? item["metricsIngestion"]
-      : microsoftDataCollectionDataCollectionEndpointMetricsIngestionSerializer(
-          item["metricsIngestion"],
-        ),
+      : dataCollectionEndpointMetricsIngestionSerializer(item["metricsIngestion"]),
     networkAcls: !item["networkAcls"]
       ? item["networkAcls"]
-      : microsoftDataCollectionDataCollectionEndpointNetworkAclsSerializer(item["networkAcls"]),
+      : dataCollectionEndpointNetworkAclsSerializer(item["networkAcls"]),
   };
 }
 
@@ -4799,41 +4337,31 @@ export function _dataCollectionEndpointResourcePropertiesDeserializer(item: any)
     immutableId: item["immutableId"],
     configurationAccess: !item["configurationAccess"]
       ? item["configurationAccess"]
-      : microsoftDataCollectionDataCollectionEndpointConfigurationAccessDeserializer(
-          item["configurationAccess"],
-        ),
+      : dataCollectionEndpointConfigurationAccessDeserializer(item["configurationAccess"]),
     logsIngestion: !item["logsIngestion"]
       ? item["logsIngestion"]
-      : microsoftDataCollectionDataCollectionEndpointLogsIngestionDeserializer(
-          item["logsIngestion"],
-        ),
+      : dataCollectionEndpointLogsIngestionDeserializer(item["logsIngestion"]),
     metricsIngestion: !item["metricsIngestion"]
       ? item["metricsIngestion"]
-      : microsoftDataCollectionDataCollectionEndpointMetricsIngestionDeserializer(
-          item["metricsIngestion"],
-        ),
+      : dataCollectionEndpointMetricsIngestionDeserializer(item["metricsIngestion"]),
     networkAcls: !item["networkAcls"]
       ? item["networkAcls"]
-      : microsoftDataCollectionDataCollectionEndpointNetworkAclsDeserializer(item["networkAcls"]),
+      : dataCollectionEndpointNetworkAclsDeserializer(item["networkAcls"]),
     provisioningState: item["provisioningState"],
     privateLinkScopedResources: !item["privateLinkScopedResources"]
       ? item["privateLinkScopedResources"]
-      : microsoftDataCollectionPrivateLinkScopedResourceArrayDeserializer(
-          item["privateLinkScopedResources"],
-        ),
+      : privateLinkScopedResourceArrayDeserializer(item["privateLinkScopedResources"]),
     failoverConfiguration: !item["failoverConfiguration"]
       ? item["failoverConfiguration"]
-      : microsoftDataCollectionDataCollectionEndpointFailoverConfigurationDeserializer(
-          item["failoverConfiguration"],
-        ),
+      : dataCollectionEndpointFailoverConfigurationDeserializer(item["failoverConfiguration"]),
     metadata: !item["metadata"]
       ? item["metadata"]
-      : microsoftDataCollectionDataCollectionEndpointMetadataDeserializer(item["metadata"]),
+      : dataCollectionEndpointMetadataDeserializer(item["metadata"]),
   };
 }
 
 export function _dataCollectionRuleAssociationProxyOnlyResourcePropertiesSerializer(
-  item: MicrosoftDataCollectionDataCollectionRuleAssociationProxyOnlyResource,
+  item: DataCollectionRuleAssociationProxyOnlyResource,
 ): any {
   return {
     description: item["description"],
@@ -4850,39 +4378,35 @@ export function _dataCollectionRuleAssociationProxyOnlyResourcePropertiesDeseria
     provisioningState: item["provisioningState"],
     metadata: !item["metadata"]
       ? item["metadata"]
-      : microsoftDataCollectionDataCollectionRuleAssociationMetadataDeserializer(item["metadata"]),
+      : dataCollectionRuleAssociationMetadataDeserializer(item["metadata"]),
   };
 }
 
 export function _dataCollectionRuleResourcePropertiesSerializer(
-  item: MicrosoftDataCollectionDataCollectionRuleResource,
+  item: DataCollectionRuleResource,
 ): any {
   return {
     description: item["description"],
     dataCollectionEndpointId: item["dataCollectionEndpointId"],
     references: !item["references"]
       ? item["references"]
-      : microsoftDataCollectionDataCollectionRuleReferencesSerializer(item["references"]),
+      : dataCollectionRuleReferencesSerializer(item["references"]),
     agentSettings: !item["agentSettings"]
       ? item["agentSettings"]
-      : microsoftDataCollectionDataCollectionRuleAgentSettingsSerializer(item["agentSettings"]),
+      : dataCollectionRuleAgentSettingsSerializer(item["agentSettings"]),
     streamDeclarations: !item["streamDeclarations"]
       ? item["streamDeclarations"]
-      : microsoftDataCollectionStreamDeclarationRecordSerializer(item["streamDeclarations"]),
+      : streamDeclarationRecordSerializer(item["streamDeclarations"]),
     dataSources: !item["dataSources"]
       ? item["dataSources"]
-      : microsoftDataCollectionDataCollectionRuleDataSourcesSerializer(item["dataSources"]),
+      : dataCollectionRuleDataSourcesSerializer(item["dataSources"]),
     directDataSources: !item["directDataSources"]
       ? item["directDataSources"]
-      : microsoftDataCollectionDataCollectionRuleDirectDataSourcesSerializer(
-          item["directDataSources"],
-        ),
+      : dataCollectionRuleDirectDataSourcesSerializer(item["directDataSources"]),
     destinations: !item["destinations"]
       ? item["destinations"]
-      : microsoftDataCollectionDataCollectionRuleDestinationsSerializer(item["destinations"]),
-    dataFlows: !item["dataFlows"]
-      ? item["dataFlows"]
-      : microsoftDataCollectionDataFlowArraySerializer(item["dataFlows"]),
+      : dataCollectionRuleDestinationsSerializer(item["destinations"]),
+    dataFlows: !item["dataFlows"] ? item["dataFlows"] : dataFlowArraySerializer(item["dataFlows"]),
   };
 }
 
@@ -4893,38 +4417,34 @@ export function _dataCollectionRuleResourcePropertiesDeserializer(item: any) {
     dataCollectionEndpointId: item["dataCollectionEndpointId"],
     metadata: !item["metadata"]
       ? item["metadata"]
-      : microsoftDataCollectionDataCollectionRuleMetadataDeserializer(item["metadata"]),
+      : dataCollectionRuleMetadataDeserializer(item["metadata"]),
     endpoints: !item["endpoints"]
       ? item["endpoints"]
-      : microsoftDataCollectionDataCollectionRuleEndpointsDeserializer(item["endpoints"]),
+      : dataCollectionRuleEndpointsDeserializer(item["endpoints"]),
     references: !item["references"]
       ? item["references"]
-      : microsoftDataCollectionDataCollectionRuleReferencesDeserializer(item["references"]),
+      : dataCollectionRuleReferencesDeserializer(item["references"]),
     agentSettings: !item["agentSettings"]
       ? item["agentSettings"]
-      : microsoftDataCollectionDataCollectionRuleAgentSettingsDeserializer(item["agentSettings"]),
+      : dataCollectionRuleAgentSettingsDeserializer(item["agentSettings"]),
     streamDeclarations: !item["streamDeclarations"]
       ? item["streamDeclarations"]
-      : microsoftDataCollectionStreamDeclarationRecordDeserializer(item["streamDeclarations"]),
+      : streamDeclarationRecordDeserializer(item["streamDeclarations"]),
     dataSources: !item["dataSources"]
       ? item["dataSources"]
-      : microsoftDataCollectionDataCollectionRuleDataSourcesDeserializer(item["dataSources"]),
+      : dataCollectionRuleDataSourcesDeserializer(item["dataSources"]),
     directDataSources: !item["directDataSources"]
       ? item["directDataSources"]
-      : microsoftDataCollectionDataCollectionRuleDirectDataSourcesDeserializer(
-          item["directDataSources"],
-        ),
+      : dataCollectionRuleDirectDataSourcesDeserializer(item["directDataSources"]),
     destinations: !item["destinations"]
       ? item["destinations"]
-      : microsoftDataCollectionDataCollectionRuleDestinationsDeserializer(item["destinations"]),
+      : dataCollectionRuleDestinationsDeserializer(item["destinations"]),
     dataFlows: !item["dataFlows"]
       ? item["dataFlows"]
-      : microsoftDataCollectionDataFlowArrayDeserializer(item["dataFlows"]),
+      : dataFlowArrayDeserializer(item["dataFlows"]),
     ingestionQuotas: !item["ingestionQuotas"]
       ? item["ingestionQuotas"]
-      : microsoftDataCollectionDataCollectionRuleIngestionQuotasDeserializer(
-          item["ingestionQuotas"],
-        ),
+      : dataCollectionRuleIngestionQuotasDeserializer(item["ingestionQuotas"]),
     provisioningState: item["provisioningState"],
   };
 }

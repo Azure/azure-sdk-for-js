@@ -8,7 +8,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** An alert incident indicates the activation status of an alert rule. */
-export interface MicrosoftAlertRulesIncidentsIncident {
+export interface Incident {
   /** Incident name. */
   readonly name?: string;
   /** Rule name that is associated with the incident. */
@@ -21,9 +21,7 @@ export interface MicrosoftAlertRulesIncidentsIncident {
   readonly resolvedTime?: Date;
 }
 
-export function microsoftAlertRulesIncidentsIncidentDeserializer(
-  item: any,
-): MicrosoftAlertRulesIncidentsIncident {
+export function incidentDeserializer(item: any): Incident {
   return {
     name: item["name"],
     ruleName: item["ruleName"],
@@ -33,46 +31,23 @@ export function microsoftAlertRulesIncidentsIncidentDeserializer(
   };
 }
 
-/** Describes the format of Error response. */
-export interface MicrosoftAlertRulesIncidentsErrorResponse {
-  /** Error code */
-  code?: string;
-  /** Error message indicating why the operation failed. */
-  message?: string;
-}
-
-export function microsoftAlertRulesIncidentsErrorResponseDeserializer(
-  item: any,
-): MicrosoftAlertRulesIncidentsErrorResponse {
-  return {
-    code: item["code"],
-    message: item["message"],
-  };
-}
-
 /** The List incidents operation response. */
-export interface _MicrosoftAlertRulesIncidentsIncidentListResult {
+export interface _IncidentListResult {
   /** the incident collection. */
-  value?: MicrosoftAlertRulesIncidentsIncident[];
+  value?: Incident[];
   /** the URL to get the next set of results. */
   nextLink?: string;
 }
 
-export function _microsoftAlertRulesIncidentsIncidentListResultDeserializer(
-  item: any,
-): _MicrosoftAlertRulesIncidentsIncidentListResult {
+export function _incidentListResultDeserializer(item: any): _IncidentListResult {
   return {
-    value: !item["value"]
-      ? item["value"]
-      : microsoftAlertRulesIncidentsIncidentArrayDeserializer(item["value"]),
+    value: !item["value"] ? item["value"] : incidentArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function microsoftAlertRulesIncidentsIncidentArrayDeserializer(
-  result: Array<MicrosoftAlertRulesIncidentsIncident>,
-): any[] {
+export function incidentArrayDeserializer(result: Array<Incident>): any[] {
   return result.map((item) => {
-    return microsoftAlertRulesIncidentsIncidentDeserializer(item);
+    return incidentDeserializer(item);
   });
 }

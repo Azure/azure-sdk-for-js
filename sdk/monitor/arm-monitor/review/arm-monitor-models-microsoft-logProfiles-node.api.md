@@ -5,43 +5,31 @@
 ```ts
 
 // @public
-export interface MicrosoftLogProfilesErrorResponse {
-    code?: string;
-    message?: string;
-}
-
-// @public
-export interface MicrosoftLogProfilesLogProfileProperties {
+export interface LogProfileProperties {
     categories: string[];
     locations: string[];
-    retentionPolicy: MicrosoftLogProfilesRetentionPolicy;
+    retentionPolicy: RetentionPolicy;
     serviceBusRuleId?: string;
     storageAccountId?: string;
 }
 
 // @public
-export interface MicrosoftLogProfilesLogProfileResource extends TrackedResource {
+export interface LogProfileResource extends TrackedResource {
     categories: string[];
     locations: string[];
-    retentionPolicy: MicrosoftLogProfilesRetentionPolicy;
+    retentionPolicy: RetentionPolicy;
     serviceBusRuleId?: string;
     storageAccountId?: string;
 }
 
 // @public
-export interface MicrosoftLogProfilesLogProfileResourcePatch {
+export interface LogProfileResourcePatch {
     categories?: string[];
     locations?: string[];
-    retentionPolicy?: MicrosoftLogProfilesRetentionPolicy;
+    retentionPolicy?: RetentionPolicy;
     serviceBusRuleId?: string;
     storageAccountId?: string;
     tags?: Record<string, string>;
-}
-
-// @public
-export interface MicrosoftLogProfilesRetentionPolicy {
-    days: number;
-    enabled: boolean;
 }
 
 // (No @packageDocumentation comment for this package)

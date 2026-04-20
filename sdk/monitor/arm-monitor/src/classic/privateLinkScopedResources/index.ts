@@ -14,7 +14,7 @@ import type {
   PrivateLinkScopedResourcesCreateOrUpdateOptionalParams,
   PrivateLinkScopedResourcesGetOptionalParams,
 } from "../../api/privateLinkScopedResources/options.js";
-import type { MicrosoftPrivateLinkScopesScopedResource } from "../../models/microsoft/privateLinkScopes/models.js";
+import type { ScopedResource } from "../../models/microsoft/privateLinkScopes/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
@@ -27,7 +27,7 @@ export interface PrivateLinkScopedResourcesOperations {
     resourceGroupName: string,
     scopeName: string,
     options?: PrivateLinkScopedResourcesListByPrivateLinkScopeOptionalParams,
-  ) => PagedAsyncIterableIterator<MicrosoftPrivateLinkScopesScopedResource>;
+  ) => PagedAsyncIterableIterator<ScopedResource>;
   /** Deletes an Azure monitor scoped resource with a given name. */
   /**
    *  @fixme delete is a reserved word that cannot be used as an operation name.
@@ -59,40 +59,32 @@ export interface PrivateLinkScopedResourcesOperations {
     resourceGroupName: string,
     scopeName: string,
     name: string,
-    parameters: MicrosoftPrivateLinkScopesScopedResource,
+    parameters: ScopedResource,
     options?: PrivateLinkScopedResourcesCreateOrUpdateOptionalParams,
-  ) => PollerLike<
-    OperationState<MicrosoftPrivateLinkScopesScopedResource>,
-    MicrosoftPrivateLinkScopesScopedResource
-  >;
+  ) => PollerLike<OperationState<ScopedResource>, ScopedResource>;
   /** @deprecated use createOrUpdate instead */
   beginCreateOrUpdate: (
     resourceGroupName: string,
     scopeName: string,
     name: string,
-    parameters: MicrosoftPrivateLinkScopesScopedResource,
+    parameters: ScopedResource,
     options?: PrivateLinkScopedResourcesCreateOrUpdateOptionalParams,
-  ) => Promise<
-    SimplePollerLike<
-      OperationState<MicrosoftPrivateLinkScopesScopedResource>,
-      MicrosoftPrivateLinkScopesScopedResource
-    >
-  >;
+  ) => Promise<SimplePollerLike<OperationState<ScopedResource>, ScopedResource>>;
   /** @deprecated use createOrUpdate instead */
   beginCreateOrUpdateAndWait: (
     resourceGroupName: string,
     scopeName: string,
     name: string,
-    parameters: MicrosoftPrivateLinkScopesScopedResource,
+    parameters: ScopedResource,
     options?: PrivateLinkScopedResourcesCreateOrUpdateOptionalParams,
-  ) => Promise<MicrosoftPrivateLinkScopesScopedResource>;
+  ) => Promise<ScopedResource>;
   /** Gets a scoped resource in a private link scope. */
   get: (
     resourceGroupName: string,
     scopeName: string,
     name: string,
     options?: PrivateLinkScopedResourcesGetOptionalParams,
-  ) => Promise<MicrosoftPrivateLinkScopesScopedResource>;
+  ) => Promise<ScopedResource>;
 }
 
 function _getPrivateLinkScopedResources(context: MonitorContext) {
@@ -130,14 +122,14 @@ function _getPrivateLinkScopedResources(context: MonitorContext) {
       resourceGroupName: string,
       scopeName: string,
       name: string,
-      parameters: MicrosoftPrivateLinkScopesScopedResource,
+      parameters: ScopedResource,
       options?: PrivateLinkScopedResourcesCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, scopeName, name, parameters, options),
     beginCreateOrUpdate: async (
       resourceGroupName: string,
       scopeName: string,
       name: string,
-      parameters: MicrosoftPrivateLinkScopesScopedResource,
+      parameters: ScopedResource,
       options?: PrivateLinkScopedResourcesCreateOrUpdateOptionalParams,
     ) => {
       const poller = createOrUpdate(
@@ -155,7 +147,7 @@ function _getPrivateLinkScopedResources(context: MonitorContext) {
       resourceGroupName: string,
       scopeName: string,
       name: string,
-      parameters: MicrosoftPrivateLinkScopesScopedResource,
+      parameters: ScopedResource,
       options?: PrivateLinkScopedResourcesCreateOrUpdateOptionalParams,
     ) => {
       return await createOrUpdate(context, resourceGroupName, scopeName, name, parameters, options);

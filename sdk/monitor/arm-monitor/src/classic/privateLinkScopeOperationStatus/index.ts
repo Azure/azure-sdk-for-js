@@ -4,7 +4,7 @@
 import type { MonitorContext } from "../../api/monitorContext.js";
 import { get } from "../../api/privateLinkScopeOperationStatus/operations.js";
 import type { PrivateLinkScopeOperationStatusGetOptionalParams } from "../../api/privateLinkScopeOperationStatus/options.js";
-import type { MicrosoftPrivateLinkScopesOperationStatus } from "../../models/microsoft/privateLinkScopes/models.js";
+import type { OperationStatus } from "../../models/microsoft/privateLinkScopes/models.js";
 
 /** Interface representing a PrivateLinkScopeOperationStatus operations. */
 export interface PrivateLinkScopeOperationStatusOperations {
@@ -13,7 +13,7 @@ export interface PrivateLinkScopeOperationStatusOperations {
     resourceGroupName: string,
     asyncOperationId: string,
     options?: PrivateLinkScopeOperationStatusGetOptionalParams,
-  ) => Promise<MicrosoftPrivateLinkScopesOperationStatus>;
+  ) => Promise<OperationStatus>;
 }
 
 function _getPrivateLinkScopeOperationStatus(context: MonitorContext) {

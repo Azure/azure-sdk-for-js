@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import type { MonitorContext as Client } from "../index.js";
-import type { MicrosoftPrivateLinkScopesOperationStatus } from "../../models/microsoft/privateLinkScopes/models.js";
-import { microsoftPrivateLinkScopesOperationStatusDeserializer } from "../../models/microsoft/privateLinkScopes/models.js";
-import { errorResponseDeserializer } from "../../models/models.js";
+import type { OperationStatus } from "../../models/microsoft/privateLinkScopes/models.js";
+import { operationStatusDeserializer } from "../../models/microsoft/privateLinkScopes/models.js";
+import { armErrorResponseDeserializer } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type { PrivateLinkScopeOperationStatusGetOptionalParams } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
@@ -34,18 +34,16 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<MicrosoftPrivateLinkScopesOperationStatus> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<OperationStatus> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    error.details = armErrorResponseDeserializer(result.body);
 
     throw error;
   }
 
-  return microsoftPrivateLinkScopesOperationStatusDeserializer(result.body);
+  return operationStatusDeserializer(result.body);
 }
 
 /** Get the status of an azure asynchronous operation associated with a private link scope operation. */
@@ -54,7 +52,7 @@ export async function get(
   resourceGroupName: string,
   asyncOperationId: string,
   options: PrivateLinkScopeOperationStatusGetOptionalParams = { requestOptions: {} },
-): Promise<MicrosoftPrivateLinkScopesOperationStatus> {
+): Promise<OperationStatus> {
   const result = await _getSend(context, resourceGroupName, asyncOperationId, options);
   return _getDeserialize(result);
 }
