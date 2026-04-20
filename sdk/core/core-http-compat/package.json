@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-http-compat",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "description": "Core HTTP Compatibility Library to bridge the gap between Core V1 & V2 packages.",
   "sdk-type": "client",
   "type": "module",
@@ -80,12 +80,14 @@
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@types/node": "catalog:",
+    "@types/react": "catalog:testing",
     "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "cross-env": "catalog:",
     "eslint": "catalog:",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"

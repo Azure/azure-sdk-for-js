@@ -18,12 +18,10 @@ import {
   KnowledgeBase,
   KnowledgeSourceUnion,
   SearchServiceStatistics,
-  IndexStatisticsSummary,
 } from "../models/azure/search/documents/indexes/models.js";
 import { KnowledgeSourceStatus } from "../models/azure/search/documents/knowledgeBases/models.js";
 import { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
 import {
-  listIndexStatsSummary,
   getServiceStatistics,
   getKnowledgeSourceStatus,
   createKnowledgeSource,
@@ -56,7 +54,6 @@ import {
   createOrUpdateSynonymMap,
 } from "./api/operations.js";
 import {
-  ListIndexStatsSummaryOptionalParams,
   GetServiceStatisticsOptionalParams,
   GetKnowledgeSourceStatusOptionalParams,
   CreateKnowledgeSourceOptionalParams,
@@ -112,13 +109,6 @@ export class SearchIndexClient {
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
-  }
-
-  /** Retrieves a summary of statistics for all indexes in the search service. */
-  listIndexStatsSummary(
-    options: ListIndexStatsSummaryOptionalParams = { requestOptions: {} },
-  ): PagedAsyncIterableIterator<IndexStatisticsSummary> {
-    return listIndexStatsSummary(this._client, options);
   }
 
   /** Gets service level statistics for a search service. */

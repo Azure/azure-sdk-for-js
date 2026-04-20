@@ -4,9 +4,13 @@
 
 ```ts
 
+import type { AbortSignalLike } from '@azure/abort-controller';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -25,6 +29,7 @@ export type AzureSupportedClouds = `${AzureClouds}`;
 // @public (undocumented)
 export class ComputeLimitClient {
     constructor(credential: TokenCredential, subscriptionId: string, options?: ComputeLimitClientOptionalParams);
+    readonly features: FeaturesOperations;
     readonly guestSubscriptions: GuestSubscriptionsOperations;
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
@@ -64,6 +69,40 @@ export interface ErrorDetail {
 export interface ErrorResponse {
     error?: ErrorDetail;
 }
+
+// @public
+export interface Feature extends ProxyResource {
+    properties?: FeatureProperties;
+}
+
+// @public
+export interface FeatureProperties {
+    readonly provisioningState?: ResourceProvisioningState;
+    state?: FeatureState;
+}
+
+// @public
+export interface FeaturesEnableOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface FeaturesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface FeaturesListBySubscriptionLocationResourceOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface FeaturesOperations {
+    enable: (location: string, featureName: string, options?: FeaturesEnableOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    get: (location: string, featureName: string, options?: FeaturesGetOptionalParams) => Promise<Feature>;
+    listBySubscriptionLocationResource: (location: string, options?: FeaturesListBySubscriptionLocationResourceOptionalParams) => PagedAsyncIterableIterator<Feature>;
+}
+
+// @public
+export type FeatureState = string;
 
 // @public
 export interface GuestSubscription extends ProxyResource {
@@ -113,6 +152,12 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownFeatureState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownOrigin {
     System = "system",
     User = "user",
@@ -128,7 +173,8 @@ export enum KnownResourceProvisioningState {
 
 // @public
 export enum KnownVersions {
-    V20250815 = "2025-08-15"
+    V20250815 = "2025-08-15",
+    V20260320 = "2026-03-20"
 }
 
 // @public
@@ -164,6 +210,19 @@ export interface OperationsOperations {
 }
 
 // @public
+export interface OperationStatusResult {
+    endTime?: Date;
+    error?: ErrorDetail;
+    id?: string;
+    name?: string;
+    operations?: OperationStatusResult[];
+    percentComplete?: number;
+    readonly resourceId?: string;
+    startTime?: Date;
+    status: string;
+}
+
+// @public
 export type Origin = string;
 
 // @public
@@ -192,6 +251,16 @@ export interface Resource {
 
 // @public
 export type ResourceProvisioningState = string;
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ComputeLimitClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
 
 // @public
 export interface SharedLimit extends ProxyResource {

@@ -65,7 +65,7 @@
         "prefix": "package-version"
       },
       {
-        "path": "src\\generated/api/queuesContext.ts",
+        "path": "src/generated/api/queuesContext.ts",
         "prefix": "userAgentInfo"
       }
     ]

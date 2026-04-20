@@ -12,6 +12,8 @@ import type { AssetsOperations } from "./classic/assets/index.js";
 import { _getAssetsOperations } from "./classic/assets/index.js";
 import type { BillingContainersOperations } from "./classic/billingContainers/index.js";
 import { _getBillingContainersOperations } from "./classic/billingContainers/index.js";
+import type { CredentialsOperations } from "./classic/credentials/index.js";
+import { _getCredentialsOperations } from "./classic/credentials/index.js";
 import type { NamespaceAssetsOperations } from "./classic/namespaceAssets/index.js";
 import { _getNamespaceAssetsOperations } from "./classic/namespaceAssets/index.js";
 import type { NamespaceDevicesOperations } from "./classic/namespaceDevices/index.js";
@@ -26,6 +28,8 @@ import type { OperationStatusOperations } from "./classic/operationStatus/index.
 import { _getOperationStatusOperations } from "./classic/operationStatus/index.js";
 import type { OperationsOperations } from "./classic/operations/index.js";
 import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { PoliciesOperations } from "./classic/policies/index.js";
+import { _getPoliciesOperations } from "./classic/policies/index.js";
 import type { SchemaRegistriesOperations } from "./classic/schemaRegistries/index.js";
 import { _getSchemaRegistriesOperations } from "./classic/schemaRegistries/index.js";
 import type { SchemaVersionsOperations } from "./classic/schemaVersions/index.js";
@@ -35,7 +39,7 @@ import { _getSchemasOperations } from "./classic/schemas/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type DeviceRegistryManagementClientOptionalParams } from "./api/deviceRegistryManagementContext.js";
+export type { DeviceRegistryManagementClientOptionalParams } from "./api/deviceRegistryManagementContext.js";
 
 export class DeviceRegistryManagementClient {
   private _client: DeviceRegistryManagementContext;
@@ -64,6 +68,8 @@ export class DeviceRegistryManagementClient {
     this.namespaceDiscoveredAssets = _getNamespaceDiscoveredAssetsOperations(this._client);
     this.namespaceDevices = _getNamespaceDevicesOperations(this._client);
     this.namespaceAssets = _getNamespaceAssetsOperations(this._client);
+    this.policies = _getPoliciesOperations(this._client);
+    this.credentials = _getCredentialsOperations(this._client);
     this.namespaces = _getNamespacesOperations(this._client);
     this.billingContainers = _getBillingContainersOperations(this._client);
     this.assetEndpointProfiles = _getAssetEndpointProfilesOperations(this._client);
@@ -86,6 +92,10 @@ export class DeviceRegistryManagementClient {
   public readonly namespaceDevices: NamespaceDevicesOperations;
   /** The operation groups for namespaceAssets */
   public readonly namespaceAssets: NamespaceAssetsOperations;
+  /** The operation groups for policies */
+  public readonly policies: PoliciesOperations;
+  /** The operation groups for credentials */
+  public readonly credentials: CredentialsOperations;
   /** The operation groups for namespaces */
   public readonly namespaces: NamespacesOperations;
   /** The operation groups for billingContainers */

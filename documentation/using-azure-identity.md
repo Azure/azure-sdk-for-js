@@ -314,7 +314,13 @@ which tries each of the following credential types in order until one of them
 succeeds:
 
 - `EnvironmentCredential`
+- `WorkloadIdentityCredential`
 - `ManagedIdentityCredential`
+- `VisualStudioCodeCredential`
+- `AzureCliCredential`
+- `AzurePowerShellCredential`
+- `AzureDeveloperCliCredential`
+- `BrokerCredential` (requires `@azure/identity-broker`)
 
 This credential type is ideal when one of the credentials in the chain will work
 in the current environment, whether it's your local development or a production
