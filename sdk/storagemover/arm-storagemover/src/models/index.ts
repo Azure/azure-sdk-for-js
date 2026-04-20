@@ -80,6 +80,7 @@ export type {
   TargetEndpointProperties,
   ScheduleInfo,
   Frequency,
+  SchedulerTime,
   DataIntegrityValidation,
   JobDefinitionUpdateParameters,
   JobDefinitionUpdateProperties,

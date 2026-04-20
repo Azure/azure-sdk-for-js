@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AIProjectContext as Client } from "../../index.js";
+import { AIProjectContext as Client } from "../../index.js";
 import type { _PagedEvaluatorVersion, EvaluatorVersion } from "../../../models/models.js";
 import {
-  _pagedEvaluatorVersionDeserializer,
   evaluatorVersionSerializer,
   evaluatorVersionDeserializer,
+  _pagedEvaluatorVersionDeserializer,
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
@@ -16,7 +16,7 @@ import type {
   BetaEvaluatorsCreateVersionOptionalParams,
   BetaEvaluatorsDeleteVersionOptionalParams,
   BetaEvaluatorsGetVersionOptionalParams,
-  BetaEvaluatorsListLatestVersionsOptionalParams,
+  BetaEvaluatorsListOptionalParams,
   BetaEvaluatorsListVersionsOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
@@ -221,9 +221,9 @@ export async function getVersion(
   return _getVersionDeserialize(result);
 }
 
-export function _listLatestVersionsSend(
+export function _listSend(
   context: Client,
-  options: BetaEvaluatorsListLatestVersionsOptionalParams = { requestOptions: {} },
+  options: BetaEvaluatorsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "Evaluations=V1Preview";
   const path = expandUrlTemplate(
@@ -247,7 +247,7 @@ export function _listLatestVersionsSend(
   });
 }
 
-export async function _listLatestVersionsDeserialize(
+export async function _listDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_PagedEvaluatorVersion> {
   const expectedStatuses = ["200"];
@@ -259,14 +259,14 @@ export async function _listLatestVersionsDeserialize(
 }
 
 /** List the latest version of each evaluator */
-export function listLatestVersions(
+export function list(
   context: Client,
-  options: BetaEvaluatorsListLatestVersionsOptionalParams = { requestOptions: {} },
+  options: BetaEvaluatorsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<EvaluatorVersion> {
   return buildPagedAsyncIterator(
     context,
-    () => _listLatestVersionsSend(context, options),
-    _listLatestVersionsDeserialize,
+    () => _listSend(context, options),
+    _listDeserialize,
     ["200"],
     {
       itemName: "value",
