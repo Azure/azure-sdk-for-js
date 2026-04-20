@@ -228,7 +228,7 @@ describe("FetchHttpClient", function () {
       onDownloadProgress,
     });
     const response = await client.sendRequest(request);
-    assert.isDefined(response.bodyAsText);
+    assert.strictEqual(response.bodyAsText, responseText);
     expect(onDownloadProgress).toHaveBeenCalled();
   });
 
@@ -249,7 +249,7 @@ describe("FetchHttpClient", function () {
     });
     const response = await client.sendRequest(request);
 
-    assert.isDefined(response.bodyAsText);
+    assert.strictEqual(response.bodyAsText, responseText);
     expect(onDownloadProgress).toHaveBeenCalled();
   });
 
@@ -270,7 +270,7 @@ describe("FetchHttpClient", function () {
     assert.isDefined(response.blobBody);
 
     const blob = await response.blobBody;
-    assert.isDefined(blob?.size);
+    assert.strictEqual(blob?.size, responseText.length);
     expect(onDownloadProgress).toHaveBeenCalled();
   });
 
@@ -291,7 +291,7 @@ describe("FetchHttpClient", function () {
     assert.isDefined(response.blobBody);
 
     const blob = await response.blobBody;
-    assert.isDefined(blob?.size);
+    assert.strictEqual(blob?.size, responseText.length);
     expect(onDownloadProgress).toHaveBeenCalled();
   });
 
@@ -310,7 +310,7 @@ describe("FetchHttpClient", function () {
     });
     const response = await client.sendRequest(request);
     assert.isUndefined(response.blobBody);
-    assert.isDefined(response.bodyAsText);
+    assert.strictEqual(response.bodyAsText, responseText);
     expect(onDownloadProgress).toHaveBeenCalled();
   });
 
@@ -334,7 +334,7 @@ describe("FetchHttpClient", function () {
     assert.isDefined(response.blobBody);
 
     const blob = await response.blobBody;
-    assert.isDefined(blob?.size);
+    assert.strictEqual(blob?.size, responseText.length);
     expect(onDownloadProgress).toHaveBeenCalled();
   });
 

@@ -320,7 +320,7 @@ describe("tracingPolicy", function () {
       const { request, next } = createTestRequest();
       const policy = tracingPolicy();
 
-      await expect(policy.sendRequest(request, next)).resolves.toBeDefined();
+      await expect(policy.sendRequest(request, next)).resolves.toMatchObject({ status: 200 });
     });
 
     it("will not fail the request when post-processing success fails", async () => {
@@ -332,7 +332,7 @@ describe("tracingPolicy", function () {
       const { request, next } = createTestRequest();
       const policy = tracingPolicy();
 
-      await expect(policy.sendRequest(request, next)).resolves.toBeDefined();
+      await expect(policy.sendRequest(request, next)).resolves.toMatchObject({ status: 200 });
     });
 
     it("will not fail the request when post-processing error fails", async () => {

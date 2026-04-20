@@ -108,7 +108,7 @@ describe("Policy factory functions", function () {
       const request = defaultRequest();
       const next = createMockNext();
       await policy.sendRequest(request, next);
-      assert.isDefined(request.agent, "proxy policy should set an agent on the request");
+      assert.isObject(request.agent, "proxy policy should set an agent on the request");
     });
 
     it("does not set a proxy agent when the request already has an agent", async function () {

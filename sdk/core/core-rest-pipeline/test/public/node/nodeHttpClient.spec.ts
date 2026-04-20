@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { assert, expect, describe, it, vi, beforeEach, afterEach } from "vitest";
-import { PassThrough, Writable } from "stream";
+import { PassThrough, Readable, Writable } from "stream";
 import type { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
 import type { AbortSignalLike } from "@azure/abort-controller";
 import { delay } from "@azure/core-util";
@@ -229,7 +229,7 @@ describe("NodeHttpClient", function () {
     yieldHttpsResponse(createResponse(200, "body"));
     const response = await promise;
     assert.isUndefined(response.bodyAsText);
-    assert.isDefined(response.readableStreamBody);
+    assert.instanceOf(response.readableStreamBody, Readable);
   });
 
   it("should stream response body on any status code", async function () {
@@ -242,7 +242,7 @@ describe("NodeHttpClient", function () {
     yieldHttpsResponse(createResponse(201, "body"));
     const response = await promise;
     assert.isUndefined(response.bodyAsText);
-    assert.isDefined(response.readableStreamBody);
+    assert.instanceOf(response.readableStreamBody, Readable);
   });
 
   it("should not stream response body on non-matching status code", async function () {
