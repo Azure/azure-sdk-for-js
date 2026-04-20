@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, expect } from "vitest";
-import { resolveCollisions, type CollisionAliasMap } from "../collision.js";
+import { resolveCollisions, replaceTypeIdentifiers, type CollisionAliasMap } from "../collision.js";
 import type { ApiIndex, ClassInfo, InterfaceInfo, TypeAliasInfo, FunctionInfo, CallSignatureInfo, ConstructSignatureInfo } from "../models.js";
 
 /** Helper to build contextRefPackages in the new Map<string, Map<string, Set<string>>> format */
@@ -556,5 +556,161 @@ describe("main function does not trigger collision", () => {
     // Main function "Pollable" should NOT trigger collision with dep interface "Pollable"
     // because functions are not importable types
     expect(Object.keys(result)).toHaveLength(0);
+  });
+});
+
+// --- Direct tests for replaceTypeIdentifiers (AST-based replacement) ---
+
+/** Helper to build a replacements map from entries */
+function makeReplacements(entries: [string, string][]): Map<string, string> {
+  return new Map(entries);
+}
+
+describe("AST-based replaceTypeIdentifiers", () => {
+  describe("template literals", () => {
+    it("replaces identifier inside template literal expression", () => {
+      const result = replaceTypeIdentifiers("`value is ${TypeName}`", makeReplacements([["TypeName", "Alias"]]));
+      expect(result).toBe("`value is ${Alias}`");
+    });
+
+    it("handles template literal types without false matches in backtick content", () => {
+      const result = replaceTypeIdentifiers("`hello ${string}`", makeReplacements([["hello", "replaced"]]));
+      // "hello" inside template literal is literal text, not an identifier
+      expect(result).toBe("`hello ${string}`");
+    });
+  });
+
+  describe("comments in type text", () => {
+    it("skips identifiers inside block comments", () => {
+      const result = replaceTypeIdentifiers("/* MyType */ OtherType", makeReplacements([
+        ["MyType", "AliasA"],
+        ["OtherType", "AliasB"],
+      ]));
+      expect(result).toBe("/* MyType */ AliasB");
+    });
+
+    it("skips identifiers inside line comments", () => {
+      const result = replaceTypeIdentifiers("// MyType\nOtherType", makeReplacements([
+        ["MyType", "AliasA"],
+        ["OtherType", "AliasB"],
+      ]));
+      expect(result).toBe("// MyType\nAliasB");
+    });
+  });
+
+  describe("unicode identifiers", () => {
+    it("replaces unicode identifier if in map", () => {
+      const result = replaceTypeIdentifiers("Ünîcödé", makeReplacements([["Ünîcödé", "Replaced"]]));
+      expect(result).toBe("Replaced");
+    });
+  });
+
+  describe("qualified access", () => {
+    it("does not replace right-hand side of dot access", () => {
+      const result = replaceTypeIdentifiers("Foo.Bar", makeReplacements([["Bar", "AliasBar"]]));
+      expect(result).toBe("Foo.Bar");
+    });
+
+    it("replaces left-hand side of dot access", () => {
+      const result = replaceTypeIdentifiers("Foo.Bar", makeReplacements([["Foo", "AliasFoo"]]));
+      expect(result).toBe("AliasFoo.Bar");
+    });
+
+    it("only replaces leftmost identifier in deeply nested access", () => {
+      const result = replaceTypeIdentifiers("A.B.C", makeReplacements([
+        ["A", "AliasA"],
+        ["B", "AliasB"],
+        ["C", "AliasC"],
+      ]));
+      expect(result).toBe("AliasA.B.C");
+    });
+  });
+
+  describe("string literals in declarations", () => {
+    it("does not replace identifiers inside double-quoted strings", () => {
+      const result = replaceTypeIdentifiers('"MyType"', makeReplacements([["MyType", "Alias"]]));
+      expect(result).toBe('"MyType"');
+    });
+
+    it("does not replace identifiers inside single-quoted strings", () => {
+      const result = replaceTypeIdentifiers("'MyType'", makeReplacements([["MyType", "Alias"]]));
+      expect(result).toBe("'MyType'");
+    });
+  });
+
+  describe("complex type expressions", () => {
+    it("replaces both sides of union types", () => {
+      const result = replaceTypeIdentifiers("Foo | Bar", makeReplacements([
+        ["Foo", "AliasFoo"],
+        ["Bar", "AliasBar"],
+      ]));
+      expect(result).toBe("AliasFoo | AliasBar");
+    });
+
+    it("replaces both sides of intersection types", () => {
+      const result = replaceTypeIdentifiers("Foo & Bar", makeReplacements([
+        ["Foo", "AliasFoo"],
+        ["Bar", "AliasBar"],
+      ]));
+      expect(result).toBe("AliasFoo & AliasBar");
+    });
+
+    it("replaces identifiers in generic types", () => {
+      const result = replaceTypeIdentifiers("Map<Foo, Bar[]>", makeReplacements([
+        ["Foo", "AliasFoo"],
+        ["Bar", "AliasBar"],
+      ]));
+      expect(result).toBe("Map<AliasFoo, AliasBar[]>");
+    });
+
+    it("replaces all identifiers in conditional types", () => {
+      const result = replaceTypeIdentifiers("Foo extends Bar ? Baz : Qux", makeReplacements([
+        ["Foo", "AliasFoo"],
+        ["Bar", "AliasBar"],
+        ["Baz", "AliasBaz"],
+        ["Qux", "AliasQux"],
+      ]));
+      expect(result).toBe("AliasFoo extends AliasBar ? AliasBaz : AliasQux");
+    });
+
+    it("replaces identifiers in mapped types", () => {
+      const result = replaceTypeIdentifiers("{ [K in keyof Foo]: Bar }", makeReplacements([
+        ["Foo", "AliasFoo"],
+        ["Bar", "AliasBar"],
+      ]));
+      expect(result).toBe("{ [K in keyof AliasFoo]: AliasBar }");
+    });
+
+    it("replaces identifiers in indexed access types", () => {
+      const result = replaceTypeIdentifiers('Foo["key"]', makeReplacements([["Foo", "AliasFoo"]]));
+      expect(result).toBe('AliasFoo["key"]');
+    });
+  });
+
+  describe("fallback to legacy", () => {
+    it("handles malformed type text via legacy fallback", () => {
+      // This text can't be parsed as a type — AST will throw, legacy takes over
+      const result = replaceTypeIdentifiers("Foo ??? Bar !!!", makeReplacements([
+        ["Foo", "AliasFoo"],
+        ["Bar", "AliasBar"],
+      ]));
+      // Legacy lexer should still replace standalone identifiers
+      expect(result).toContain("AliasFoo");
+      expect(result).toContain("AliasBar");
+    });
+  });
+
+  describe("no-op cases", () => {
+    it("returns text unchanged when replacements map is empty", () => {
+      const text = "Foo | Bar<Baz>";
+      const result = replaceTypeIdentifiers(text, new Map());
+      expect(result).toBe(text);
+    });
+
+    it("returns text unchanged when no identifiers match", () => {
+      const text = "Foo | Bar<Baz>";
+      const result = replaceTypeIdentifiers(text, makeReplacements([["NotHere", "Alias"]]));
+      expect(result).toBe(text);
+    });
   });
 });

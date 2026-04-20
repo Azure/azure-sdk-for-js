@@ -221,6 +221,414 @@ public class ApiDiffAnalyzerTests
     // SDK004 diagnostics
     // ---------------------------------------------------------------------------
 
+    // ---------------------------------------------------------------------------
+    // Parameter count changes
+    // ---------------------------------------------------------------------------
+
+    [Fact]
+    public void ParameterCountChanged_AddOptional_IsNonBreaking()
+    {
+        // Baseline: Get(string), Current: Get(string, int?) — added optional param
+        var baseline = new MockDiagnosticsSource([MakeType("Svc", [
+            MakeCallable("Get", ["string"], "void")])]);
+        var current = new MockDiagnosticsSource([MakeType("Svc", [
+            new DiagnosticCallableInfo
+            {
+                Name = "Get",
+                ParameterTypes = ["string", "int"],
+                OptionalParameterCount = 1,
+                ReturnType = "void"
+            }])]);
+
+        var result = ApiDiffAnalyzer.Compare(baseline, current);
+
+        Assert.Empty(result.Breaking);
+        Assert.Contains(result.NonBreaking, c => c.ChangeKind == "ParameterCountChanged" && c.MemberName == "Get");
+    }
+
+    [Fact]
+    public void ParameterCountChanged_RemoveParameter_IsBreaking()
+    {
+        // Baseline: Get(string, int?) with 1 optional, Current: Get(string) with 0 optional
+        // Same required prefix "string" so they match, but total param count decreased → breaking.
+        var baseline = new MockDiagnosticsSource([MakeType("Svc", [
+            new DiagnosticCallableInfo
+            {
+                Name = "Get",
+                ParameterTypes = ["string", "int"],
+                OptionalParameterCount = 1,
+                ReturnType = "void"
+            }])]);
+        var current = new MockDiagnosticsSource([MakeType("Svc", [
+            MakeCallable("Get", ["string"], "void")])]);
+
+        var result = ApiDiffAnalyzer.Compare(baseline, current);
+
+        Assert.Contains(result.Breaking, c => c.ChangeKind == "ParameterCountChanged" && c.MemberName == "Get");
+    }
+
+    [Fact]
+    public void ParameterCountChanged_AddRequired_IsBreaking()
+    {
+        // Adding a required param changes the required-param signature so it won't match exactly.
+        // Baseline: Get(string), Current: Get(string, int) with 0 optional → new required param
+        // This results in a SignatureChanged (unmatched overload) which is breaking.
+        var baseline = new MockDiagnosticsSource([MakeType("Svc", [
+            MakeCallable("Get", ["string"], "void")])]);
+        var current = new MockDiagnosticsSource([MakeType("Svc", [
+            MakeCallable("Get", ["string", "int"], "void")])]);
+
+        var result = ApiDiffAnalyzer.Compare(baseline, current);
+
+        Assert.Contains(result.Breaking, c => c.ChangeKind == "SignatureChanged" && c.MemberName == "Get");
+    }
+
+    // ---------------------------------------------------------------------------
+    // Parameter optionality changes
+    // ---------------------------------------------------------------------------
+
+    [Fact]
+    public void ParameterOptionalityChanged_OptionalToRequired_IsBreaking()
+    {
+        // Baseline: Get(string, int?) — 1 optional, Current: Get(string, int) — 0 optional
+        // Same required prefix "string" so they match.
+        var baseline = new MockDiagnosticsSource([MakeType("Svc", [
+            new DiagnosticCallableInfo
+            {
+                Name = "Get",
+                ParameterTypes = ["string", "int"],
+                OptionalParameterCount = 1,
+                ReturnType = "void"
+            }])]);
+        var current = new MockDiagnosticsSource([MakeType("Svc", [
+            MakeCallable("Get", ["string", "int"], "void")])]);
+
+        var result = ApiDiffAnalyzer.Compare(baseline, current);
+
+        Assert.Contains(result.Breaking, c => c.ChangeKind == "ParameterOptionalityChanged" && c.MemberName == "Get");
+    }
+
+    [Fact]
+    public void ParameterOptionalityChanged_RequiredToOptional_IsNonBreaking()
+    {
+        // Baseline: Get(string, int) — 0 optional, Current: Get(string, int?) — 1 optional
+        var baseline = new MockDiagnosticsSource([MakeType("Svc", [
+            MakeCallable("Get", ["string", "int"], "void")])]);
+        var current = new MockDiagnosticsSource([MakeType("Svc", [
+            new DiagnosticCallableInfo
+            {
+                Name = "Get",
+                ParameterTypes = ["string", "int"],
+                OptionalParameterCount = 1,
+                ReturnType = "void"
+            }])]);
+
+        var result = ApiDiffAnalyzer.Compare(baseline, current);
+
+        Assert.Empty(result.Breaking);
+        Assert.Contains(result.NonBreaking, c => c.ChangeKind == "ParameterOptionalityChanged" && c.MemberName == "Get");
+    }
+
+    // ---------------------------------------------------------------------------
+    // Deprecation tracking
+    // ---------------------------------------------------------------------------
+
+    [Fact]
+    public void DeprecationAdded_OnType_IsNonBreaking()
+    {
+        var baseline = new MockDiagnosticsSource([new DiagnosticTypeInfo
+        {
+            Name = "OldApi",
+            IsDeprecated = false,
+            Callables = [],
+            Properties = []
+        }]);
+        var current = new MockDiagnosticsSource([new DiagnosticTypeInfo
+        {
+            Name = "OldApi",
+            IsDeprecated = true,
+            Callables = [],
+            Properties = []
+        }]);
+
+        var result = ApiDiffAnalyzer.Compare(baseline, current);
+
+        Assert.Empty(result.Breaking);
+        Assert.Single(result.NonBreaking, c => c.ChangeKind == "DeprecationAdded" && c.TypeName == "OldApi");
+    }
+
+    [Fact]
+    public void DeprecationRemoved_OnType_IsNonBreaking()
+    {
+        var baseline = new MockDiagnosticsSource([new DiagnosticTypeInfo
+        {
+            Name = "OldApi",
+            IsDeprecated = true,
+            Callables = [],
+            Properties = []
+        }]);
+        var current = new MockDiagnosticsSource([new DiagnosticTypeInfo
+        {
+            Name = "OldApi",
+            IsDeprecated = false,
+            Callables = [],
+            Properties = []
+        }]);
+
+        var result = ApiDiffAnalyzer.Compare(baseline, current);
+
+        Assert.Empty(result.Breaking);
+        Assert.Single(result.NonBreaking, c => c.ChangeKind == "DeprecationRemoved" && c.TypeName == "OldApi");
+    }
+
+    // ---------------------------------------------------------------------------
+    // Type kind changes
+    // ---------------------------------------------------------------------------
+
+    [Fact]
+    public void TypeKindChanged_ClassToInterface_IsBreaking()
+    {
+        var baseline = new MockDiagnosticsSource([new DiagnosticTypeInfo
+        {
+            Name = "MyType",
+            Kind = "class",
+            Callables = [],
+            Properties = []
+        }]);
+        var current = new MockDiagnosticsSource([new DiagnosticTypeInfo
+        {
+            Name = "MyType",
+            Kind = "interface",
+            Callables = [],
+            Properties = []
+        }]);
+
+        var result = ApiDiffAnalyzer.Compare(baseline, current);
+
+        var change = Assert.Single(result.Breaking, c => c.ChangeKind == "TypeKindChanged" && c.TypeName == "MyType");
+        Assert.Equal("class", change.OldSignature);
+        Assert.Equal("interface", change.NewSignature);
+        Assert.Empty(result.NonBreaking);
+    }
+
+    [Fact]
+    public void TypeKindChanged_InterfaceToClass_IsBreaking()
+    {
+        var baseline = new MockDiagnosticsSource([new DiagnosticTypeInfo
+        {
+            Name = "MyType",
+            Kind = "interface",
+            Callables = [],
+            Properties = []
+        }]);
+        var current = new MockDiagnosticsSource([new DiagnosticTypeInfo
+        {
+            Name = "MyType",
+            Kind = "class",
+            Callables = [],
+            Properties = []
+        }]);
+
+        var result = ApiDiffAnalyzer.Compare(baseline, current);
+
+        var change = Assert.Single(result.Breaking, c => c.ChangeKind == "TypeKindChanged");
+        Assert.Equal("interface", change.OldSignature);
+        Assert.Equal("class", change.NewSignature);
+    }
+
+    // ---------------------------------------------------------------------------
+    // Property optionality
+    // ---------------------------------------------------------------------------
+
+    [Fact]
+    public void PropertyOptionalityChanged_OptionalToRequired_IsBreaking()
+    {
+        var baseline = new MockDiagnosticsSource([MakeType("Dto", properties: [
+            new DiagnosticPropertyInfo { Name = "Field", TypeName = "string", IsOptional = true }])]);
+        var current = new MockDiagnosticsSource([MakeType("Dto", properties: [
+            new DiagnosticPropertyInfo { Name = "Field", TypeName = "string", IsOptional = false }])]);
+
+        var result = ApiDiffAnalyzer.Compare(baseline, current);
+
+        var change = Assert.Single(result.Breaking, c => c.ChangeKind == "PropertyOptionalityChanged" && c.MemberName == "Field");
+        Assert.Equal("optional", change.OldSignature);
+        Assert.Equal("required", change.NewSignature);
+    }
+
+    [Fact]
+    public void PropertyOptionalityChanged_RequiredToOptional_IsNonBreaking()
+    {
+        var baseline = new MockDiagnosticsSource([MakeType("Dto", properties: [
+            new DiagnosticPropertyInfo { Name = "Field", TypeName = "string", IsOptional = false }])]);
+        var current = new MockDiagnosticsSource([MakeType("Dto", properties: [
+            new DiagnosticPropertyInfo { Name = "Field", TypeName = "string", IsOptional = true }])]);
+
+        var result = ApiDiffAnalyzer.Compare(baseline, current);
+
+        Assert.Empty(result.Breaking);
+        var change = Assert.Single(result.NonBreaking, c => c.ChangeKind == "PropertyOptionalityChanged" && c.MemberName == "Field");
+        Assert.Equal("required", change.OldSignature);
+        Assert.Equal("optional", change.NewSignature);
+    }
+
+    // ---------------------------------------------------------------------------
+    // Property readonly
+    // ---------------------------------------------------------------------------
+
+    [Fact]
+    public void PropertyReadOnlyChanged_MutableToReadOnly_IsBreaking()
+    {
+        var baseline = new MockDiagnosticsSource([MakeType("Dto", properties: [
+            new DiagnosticPropertyInfo { Name = "Id", TypeName = "string", IsReadOnly = false }])]);
+        var current = new MockDiagnosticsSource([MakeType("Dto", properties: [
+            new DiagnosticPropertyInfo { Name = "Id", TypeName = "string", IsReadOnly = true }])]);
+
+        var result = ApiDiffAnalyzer.Compare(baseline, current);
+
+        var change = Assert.Single(result.Breaking, c => c.ChangeKind == "PropertyReadOnlyChanged" && c.MemberName == "Id");
+        Assert.Equal("mutable", change.OldSignature);
+        Assert.Equal("readonly", change.NewSignature);
+    }
+
+    [Fact]
+    public void PropertyReadOnlyChanged_ReadOnlyToMutable_IsNonBreaking()
+    {
+        var baseline = new MockDiagnosticsSource([MakeType("Dto", properties: [
+            new DiagnosticPropertyInfo { Name = "Id", TypeName = "string", IsReadOnly = true }])]);
+        var current = new MockDiagnosticsSource([MakeType("Dto", properties: [
+            new DiagnosticPropertyInfo { Name = "Id", TypeName = "string", IsReadOnly = false }])]);
+
+        var result = ApiDiffAnalyzer.Compare(baseline, current);
+
+        Assert.Empty(result.Breaking);
+        var change = Assert.Single(result.NonBreaking, c => c.ChangeKind == "PropertyReadOnlyChanged" && c.MemberName == "Id");
+        Assert.Equal("readonly", change.OldSignature);
+        Assert.Equal("mutable", change.NewSignature);
+    }
+
+    // ---------------------------------------------------------------------------
+    // Structured overload matching
+    // ---------------------------------------------------------------------------
+
+    [Fact]
+    public void OverloadMatching_ExactMatch_OnlyReportsChangedOverload()
+    {
+        // Two overloads in baseline: Get(string) and Get(string, int).
+        // Current keeps Get(string) identical but changes Get(string, int) return type.
+        var baseline = new MockDiagnosticsSource([MakeType("Svc", [
+            MakeCallable("Get", ["string"], "void"),
+            MakeCallable("Get", ["string", "int"], "int")])]);
+        var current = new MockDiagnosticsSource([MakeType("Svc", [
+            MakeCallable("Get", ["string"], "void"),
+            MakeCallable("Get", ["string", "int"], "long")])]);
+
+        var result = ApiDiffAnalyzer.Compare(baseline, current);
+
+        // Only the return-type change on the second overload should be reported.
+        var change = Assert.Single(result.Breaking);
+        Assert.Equal("ReturnTypeChanged", change.ChangeKind);
+        Assert.Equal("Get", change.MemberName);
+        Assert.Equal("int", change.OldSignature);
+        Assert.Equal("long", change.NewSignature);
+        Assert.Empty(result.NonBreaking);
+    }
+
+    [Fact]
+    public void OverloadMatching_RequiredParamsPrefix_MatchesCorrectly()
+    {
+        // Baseline: Get(string) with 0 optional
+        // Current: Get(string, int?) with 1 optional — same required prefix "string"
+        // Should match via required-params prefix and report ParameterCountChanged (non-breaking).
+        var baseline = new MockDiagnosticsSource([MakeType("Svc", [
+            MakeCallable("Get", ["string"], "void")])]);
+        var current = new MockDiagnosticsSource([MakeType("Svc", [
+            new DiagnosticCallableInfo
+            {
+                Name = "Get",
+                ParameterTypes = ["string", "int"],
+                OptionalParameterCount = 1,
+                ReturnType = "void"
+            }])]);
+
+        var result = ApiDiffAnalyzer.Compare(baseline, current);
+
+        // Should be matched (not reported as SignatureChanged) and report param count as non-breaking.
+        Assert.Empty(result.Breaking);
+        Assert.Contains(result.NonBreaking, c => c.ChangeKind == "ParameterCountChanged" && c.MemberName == "Get");
+        // No SignatureChanged since they matched.
+        Assert.DoesNotContain(result.Breaking, c => c.ChangeKind == "SignatureChanged");
+    }
+
+    // ---------------------------------------------------------------------------
+    // Breaking diagnostics mapping for new change kinds
+    // ---------------------------------------------------------------------------
+
+    [Fact]
+    public void ToBreakingDiagnostics_EmitsSDK004_ForNewChangeKinds()
+    {
+        var diffResult = new ApiDiffResult
+        {
+            Breaking =
+            [
+                new ApiChange
+                {
+                    ChangeKind = "ParameterCountChanged",
+                    TypeName = "Svc",
+                    MemberName = "Get",
+                    OldSignature = "string, int",
+                    NewSignature = "string"
+                },
+                new ApiChange
+                {
+                    ChangeKind = "ParameterOptionalityChanged",
+                    TypeName = "Svc",
+                    MemberName = "Run",
+                    OldSignature = "string, int?",
+                    NewSignature = "string, int"
+                },
+                new ApiChange
+                {
+                    ChangeKind = "TypeKindChanged",
+                    TypeName = "MyType",
+                    OldSignature = "class",
+                    NewSignature = "interface"
+                },
+                new ApiChange
+                {
+                    ChangeKind = "PropertyOptionalityChanged",
+                    TypeName = "Dto",
+                    MemberName = "Field",
+                    OldSignature = "optional",
+                    NewSignature = "required"
+                },
+                new ApiChange
+                {
+                    ChangeKind = "PropertyReadOnlyChanged",
+                    TypeName = "Dto",
+                    MemberName = "Id",
+                    OldSignature = "mutable",
+                    NewSignature = "readonly"
+                },
+            ],
+            NonBreaking = [],
+        };
+
+        var diagnostics = ApiDiffAnalyzer.ToBreakingDiagnostics(diffResult);
+
+        Assert.Equal(5, diagnostics.Count);
+        Assert.All(diagnostics, d => Assert.Equal("SDK004", d.Id));
+        Assert.All(diagnostics, d => Assert.Equal(DiagnosticLevel.Warning, d.Level));
+        Assert.Contains(diagnostics, d => d.Text.Contains("ParameterCountChanged") || d.Text.Contains("required parameters removed"));
+        Assert.Contains(diagnostics, d => d.Text.Contains("parameter optionality changed"));
+        Assert.Contains(diagnostics, d => d.Text.Contains("kind changed") && d.Text.Contains("MyType"));
+        Assert.Contains(diagnostics, d => d.Text.Contains("Field") && d.Text.Contains("optional"));
+        Assert.Contains(diagnostics, d => d.Text.Contains("Id") && d.Text.Contains("readonly"));
+    }
+
+    // ---------------------------------------------------------------------------
+    // SDK004 diagnostics (original test)
+    // ---------------------------------------------------------------------------
+
     [Fact]
     public void ToBreakingDiagnostics_EmitsSDK004()
     {

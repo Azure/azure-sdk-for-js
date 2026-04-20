@@ -26,6 +26,9 @@ public sealed record DiagnosticTypeInfo
     public bool EntryPoint { get; init; }
     public bool IsDeprecated { get; init; }
 
+    /// <summary>The kind of type declaration (e.g., "class", "interface", "enum", "type").</summary>
+    public string? Kind { get; init; }
+
     /// <summary>Methods, constructors, and other operations on this type.</summary>
     public IReadOnlyList<DiagnosticCallableInfo> Callables { get; init; } = [];
 
@@ -56,4 +59,10 @@ public sealed record DiagnosticPropertyInfo
     public required string Name { get; init; }
     public string? TypeName { get; init; }
     public bool IsDeprecated { get; init; }
+
+    /// <summary>Whether the property is optional (e.g., declared with <c>?</c> in TypeScript).</summary>
+    public bool IsOptional { get; init; }
+
+    /// <summary>Whether the property is read-only.</summary>
+    public bool IsReadOnly { get; init; }
 }

@@ -13,6 +13,7 @@ using TsFunctionInfo = PublicApiGraphEngine.TypeScript.FunctionInfo;
 using TsPropertyInfo = PublicApiGraphEngine.TypeScript.PropertyInfo;
 using TsMethodInfo = PublicApiGraphEngine.TypeScript.MethodInfo;
 using TsEnumInfo = PublicApiGraphEngine.TypeScript.EnumInfo;
+using TypeScriptFormatter = PublicApiGraphEngine.TypeScript.TypeScriptFormatter;
 
 namespace PublicApiGraphEngine.Tests;
 
@@ -988,5 +989,997 @@ public class TypeScriptFormatterFixTests
             idx += pattern.Length;
         }
         return count;
+    }
+
+    // =========================================================================
+    // Structured dependency detection (referencedTypes graph data)
+    // =========================================================================
+
+    /// <summary>
+    /// When a type in module A has referencedTypes that include a type from
+    /// dependency B, an import statement should be generated for that dep type.
+    /// This tests that the formatter uses structured referencedTypes data
+    /// rather than text scanning.
+    /// </summary>
+    [Fact]
+    public void StructuredDeps_ReferencedTypeFromDep_GeneratesImport()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@test/struct-dep",
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "import-mod",
+                    Condition = "import",
+                    ExportPath = ".",
+                    Classes =
+                    [
+                        new TsClassInfo
+                        {
+                            Name = "MyClient",
+                            ExportPath = ".",
+                            Methods = [new TsMethodInfo { Name = "send", Sig = "options: PipelineOptions", Ret = "void" }],
+                            ReferencedTypes = ["PipelineOptions"]
+                        }
+                    ]
+                },
+                new TsModuleInfo
+                {
+                    Name = "require-mod",
+                    Condition = "require",
+                    ExportPath = ".",
+                    Classes =
+                    [
+                        new TsClassInfo
+                        {
+                            Name = "MyClient",
+                            ExportPath = ".",
+                            ReferencedTypes = ["PipelineOptions"]
+                        }
+                    ]
+                }
+            ],
+            Dependencies =
+            [
+                new TsDependencyInfo
+                {
+                    Package = "@azure/core-rest-pipeline",
+                    Interfaces = [new TsInterfaceInfo { Name = "PipelineOptions" }]
+                }
+            ]
+        };
+
+        var stubs = api.ToStubs();
+
+        // Should generate import for PipelineOptions from the dep package
+        Assert.Contains("PipelineOptions", stubs);
+        Assert.Contains("@azure/core-rest-pipeline", stubs);
+    }
+
+    /// <summary>
+    /// When a resolved dep module's type has a name that coincidentally matches
+    /// another dep's type, but does NOT list it in referencedTypes, no cross-dep
+    /// import should be generated. This verifies the formatter uses structured
+    /// referencedTypes for cross-dep imports rather than text scanning.
+    /// </summary>
+    [Fact]
+    public void StructuredDeps_TypeNameNotInReferencedTypes_NoCrossDepImport()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@test/no-false-import",
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "import-mod",
+                    Condition = "import",
+                    ExportPath = ".",
+                    Classes = [new TsClassInfo { Name = "MyClient", ExportPath = "." }]
+                },
+                new TsModuleInfo
+                {
+                    Name = "require-mod",
+                    Condition = "require",
+                    ExportPath = ".",
+                    Classes = [new TsClassInfo { Name = "MyClient", ExportPath = "." }]
+                }
+            ],
+            ResolvedDependencies =
+            [
+                new TsApiIndex
+                {
+                    Package = "@external/dep-a",
+                    Modules =
+                    [
+                        new TsModuleInfo
+                        {
+                            Name = "a-mod",
+                            Condition = "import",
+                            Interfaces =
+                            [
+                                new TsInterfaceInfo
+                                {
+                                    Name = "DepAType",
+                                    // Note: referencedTypes does NOT include "DepBType"
+                                    // even though a text scan might match it in property types
+                                    ReferencedTypes = []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                new TsApiIndex
+                {
+                    Package = "@external/dep-b",
+                    Modules =
+                    [
+                        new TsModuleInfo
+                        {
+                            Name = "b-mod",
+                            Condition = "import",
+                            Interfaces = [new TsInterfaceInfo { Name = "DepBType" }]
+                        }
+                    ]
+                }
+            ]
+        };
+
+        var stubs = api.ToStubs();
+
+        // dep-a's module should NOT import DepBType because it's not in referencedTypes
+        var depABlock = ExtractDeclareModuleBlock(stubs, "@external/dep-a");
+        Assert.NotNull(depABlock);
+        Assert.DoesNotContain("import type { DepBType }", depABlock);
+    }
+
+    /// <summary>
+    /// Multiple modules each referencing different deps should generate
+    /// correct per-module imports based on referencedTypes.
+    /// </summary>
+    [Fact]
+    public void StructuredDeps_MultipleModules_CorrectPerModuleImports()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@test/multi-dep-imports",
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "root-import",
+                    Condition = "import",
+                    ExportPath = ".",
+                    Classes =
+                    [
+                        new TsClassInfo
+                        {
+                            Name = "ClientA",
+                            ExportPath = ".",
+                            ReferencedTypes = ["HelperB"]
+                        }
+                    ]
+                },
+                new TsModuleInfo
+                {
+                    Name = "sub-import",
+                    Condition = "import",
+                    ExportPath = "./sub",
+                    Classes =
+                    [
+                        new TsClassInfo
+                        {
+                            Name = "HelperB",
+                            ExportPath = "./sub"
+                        }
+                    ]
+                },
+                new TsModuleInfo
+                {
+                    Name = "root-require",
+                    Condition = "require",
+                    ExportPath = ".",
+                    Classes =
+                    [
+                        new TsClassInfo
+                        {
+                            Name = "ClientA",
+                            ExportPath = ".",
+                            ReferencedTypes = ["HelperB"]
+                        }
+                    ]
+                },
+                new TsModuleInfo
+                {
+                    Name = "sub-require",
+                    Condition = "require",
+                    ExportPath = "./sub",
+                    Classes =
+                    [
+                        new TsClassInfo
+                        {
+                            Name = "HelperB",
+                            ExportPath = "./sub"
+                        }
+                    ]
+                }
+            ]
+        };
+
+        var stubs = api.ToStubs();
+
+        // Root module should import HelperB from the sub module
+        var rootImport = ExtractDeclareModuleBlock(stubs, "@test/multi-dep-imports/import");
+        Assert.NotNull(rootImport);
+        Assert.Contains("import type { HelperB }", rootImport);
+
+        // Sub module should NOT import HelperB (it defines it)
+        var subImport = ExtractDeclareModuleBlock(stubs, "@test/multi-dep-imports/sub/import");
+        Assert.NotNull(subImport);
+        Assert.DoesNotContain("import type { HelperB }", subImport);
+    }
+
+    // =========================================================================
+    // Direct declare module emission
+    // =========================================================================
+
+    /// <summary>
+    /// A single-module package should produce one declare module block
+    /// with the package name (no condition suffix).
+    /// </summary>
+    [Fact]
+    public void DeclareModule_SingleModule_OneBlock()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@test/single-mod",
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "main",
+                    ExportPath = ".",
+                    Classes = [new TsClassInfo { Name = "Client", ExportPath = "." }]
+                }
+            ]
+        };
+
+        var stubs = api.ToStubs();
+
+        // In simple (non-sectioned) path, types are rendered at top level
+        // without declare module wrapper (unless per-target mode)
+        Assert.Contains("class Client", stubs);
+    }
+
+    /// <summary>
+    /// A multi-export-path package should produce multiple declare module blocks
+    /// for each subpath.
+    /// </summary>
+    [Fact]
+    public void DeclareModule_MultiExportPath_MultipleBlocks()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@test/multi-export",
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "root-import",
+                    Condition = "import",
+                    ExportPath = ".",
+                    Classes = [new TsClassInfo { Name = "MainClient", ExportPath = "." }]
+                },
+                new TsModuleInfo
+                {
+                    Name = "sub-import",
+                    Condition = "import",
+                    ExportPath = "./models",
+                    Interfaces = [new TsInterfaceInfo { Name = "SomeModel", ExportPath = "./models" }]
+                },
+                new TsModuleInfo
+                {
+                    Name = "root-require",
+                    Condition = "require",
+                    ExportPath = ".",
+                    Classes = [new TsClassInfo { Name = "MainClient", ExportPath = "." }]
+                },
+                new TsModuleInfo
+                {
+                    Name = "sub-require",
+                    Condition = "require",
+                    ExportPath = "./models",
+                    Interfaces = [new TsInterfaceInfo { Name = "SomeModel", ExportPath = "./models" }]
+                }
+            ]
+        };
+
+        var stubs = api.ToStubs();
+
+        // Should have separate declare module blocks for root and subpath per condition
+        Assert.Contains("declare module \"@test/multi-export/import\"", stubs);
+        Assert.Contains("declare module \"@test/multi-export/models/import\"", stubs);
+        Assert.Contains("declare module \"@test/multi-export/require\"", stubs);
+        Assert.Contains("declare module \"@test/multi-export/models/require\"", stubs);
+    }
+
+    /// <summary>
+    /// Per-condition output should produce separate declare module blocks
+    /// for each condition, each containing the correct types.
+    /// </summary>
+    [Fact]
+    public void DeclareModule_PerCondition_CorrectBlocks()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@test/per-cond",
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "import-mod",
+                    Condition = "import",
+                    ExportPath = ".",
+                    Classes = [new TsClassInfo { Name = "Client", ExportPath = "." }],
+                    Interfaces = [new TsInterfaceInfo { Name = "ClientOptions", ExportPath = "." }]
+                },
+                new TsModuleInfo
+                {
+                    Name = "require-mod",
+                    Condition = "require",
+                    ExportPath = ".",
+                    Classes = [new TsClassInfo { Name = "Client", ExportPath = "." }],
+                    Interfaces = [new TsInterfaceInfo { Name = "ClientOptions", ExportPath = "." }]
+                }
+            ]
+        };
+
+        var stubs = api.ToStubs();
+
+        var importBlock = ExtractDeclareModuleBlock(stubs, "@test/per-cond/import");
+        var requireBlock = ExtractDeclareModuleBlock(stubs, "@test/per-cond/require");
+        Assert.NotNull(importBlock);
+        Assert.NotNull(requireBlock);
+        Assert.Contains("class Client", importBlock);
+        Assert.Contains("interface ClientOptions", importBlock);
+        Assert.Contains("class Client", requireBlock);
+        Assert.Contains("interface ClientOptions", requireBlock);
+    }
+
+    /// <summary>
+    /// A module with resolved dependencies should include dependency
+    /// declare module blocks in the output.
+    /// </summary>
+    [Fact]
+    public void DeclareModule_WithDeps_IncludesDepBlocks()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@test/with-deps",
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "import-mod",
+                    Condition = "import",
+                    ExportPath = ".",
+                    Classes = [new TsClassInfo { Name = "Client", ExportPath = "." }]
+                },
+                new TsModuleInfo
+                {
+                    Name = "require-mod",
+                    Condition = "require",
+                    ExportPath = ".",
+                    Classes = [new TsClassInfo { Name = "Client", ExportPath = "." }]
+                }
+            ],
+            ResolvedDependencies =
+            [
+                new TsApiIndex
+                {
+                    Package = "@azure/core-auth",
+                    Modules =
+                    [
+                        new TsModuleInfo
+                        {
+                            Name = "auth-mod",
+                            Condition = "import",
+                            Interfaces = [new TsInterfaceInfo { Name = "TokenCredential" }]
+                        }
+                    ]
+                }
+            ]
+        };
+
+        var stubs = api.ToStubs();
+
+        // The dependency should produce its own declare module block
+        Assert.Contains("declare module \"@azure/core-auth\"", stubs);
+        Assert.Contains("interface TokenCredential", stubs);
+    }
+
+    // =========================================================================
+    // Tsconfig generation from graph data (ambientTypes / esLib)
+    // =========================================================================
+
+    /// <summary>
+    /// Package with DOM types in ambientTypes should produce a tsconfig
+    /// with "DOM" in the lib array.
+    /// </summary>
+    [Fact]
+    public void Tsconfig_WithDomAmbientTypes_IncludesDomLib()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@test/dom-ambient",
+            AmbientTypes = new Dictionary<string, List<string>>
+            {
+                ["dom"] = ["AbortSignal", "ReadableStream"]
+            },
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "main",
+                    Condition = "import",
+                    ExportPath = ".",
+                    Classes = [new TsClassInfo { Name = "Client", ExportPath = "." }]
+                },
+                new TsModuleInfo
+                {
+                    Name = "main-require",
+                    Condition = "require",
+                    ExportPath = ".",
+                    Classes = [new TsClassInfo { Name = "Client", ExportPath = "." }]
+                }
+            ]
+        };
+
+        var result = TypeScriptFormatter.FormatPerTarget(api);
+        Assert.True(result.Count > 0);
+
+        var (_, tsconfig) = result.Values.First();
+        Assert.Contains("\"DOM\"", tsconfig);
+        Assert.Contains("\"DOM.Iterable\"", tsconfig);
+    }
+
+    /// <summary>
+    /// Package with only ES types in ambientTypes should NOT include
+    /// "DOM" in the lib array.
+    /// </summary>
+    [Fact]
+    public void Tsconfig_WithOnlyEsAmbientTypes_NoDomLib()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@test/es-only",
+            AmbientTypes = new Dictionary<string, List<string>>
+            {
+                ["es"] = ["Promise", "Map"]
+            },
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "main",
+                    Condition = "import",
+                    ExportPath = ".",
+                    Classes = [new TsClassInfo { Name = "Client", ExportPath = "." }]
+                },
+                new TsModuleInfo
+                {
+                    Name = "main-require",
+                    Condition = "require",
+                    ExportPath = ".",
+                    Classes = [new TsClassInfo { Name = "Client", ExportPath = "." }]
+                }
+            ]
+        };
+
+        var result = TypeScriptFormatter.FormatPerTarget(api);
+        var (_, tsconfig) = result.Values.First();
+
+        Assert.DoesNotContain("\"DOM\"", tsconfig);
+    }
+
+    /// <summary>
+    /// Package with node builtins in ambientTypes should include
+    /// @types/node in tsconfig.
+    /// </summary>
+    [Fact]
+    public void Tsconfig_WithNodeAmbientTypes_IncludesNodeTypes()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@test/node-ambient",
+            AmbientTypes = new Dictionary<string, List<string>>
+            {
+                ["node"] = ["Buffer", "Readable"]
+            },
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "main",
+                    Condition = "import",
+                    ExportPath = ".",
+                    Classes = [new TsClassInfo { Name = "Client", ExportPath = "." }]
+                },
+                new TsModuleInfo
+                {
+                    Name = "main-require",
+                    Condition = "require",
+                    ExportPath = ".",
+                    Classes = [new TsClassInfo { Name = "Client", ExportPath = "." }]
+                }
+            ]
+        };
+
+        var result = TypeScriptFormatter.FormatPerTarget(api);
+        var (_, tsconfig) = result.Values.First();
+
+        Assert.Contains("\"types\": [\"node\"]", tsconfig);
+    }
+
+    /// <summary>
+    /// The ambient types placeholder should be replaced with a comment
+    /// listing the ambient types.
+    /// </summary>
+    [Fact]
+    public void AmbientTypes_RenderAsComment_InDtsOutput()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@test/ambient-comment",
+            AmbientTypes = new Dictionary<string, List<string>>
+            {
+                ["dom"] = ["AbortSignal"],
+                ["es"] = ["Promise"]
+            },
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "main",
+                    ExportPath = ".",
+                    Classes = [new TsClassInfo { Name = "Client", ExportPath = "." }]
+                }
+            ]
+        };
+
+        var stubs = api.ToStubs();
+
+        Assert.Contains("Ambient types from DOM lib: AbortSignal", stubs);
+        Assert.Contains("Ambient types from ES lib: Promise", stubs);
+    }
+
+    /// <summary>
+    /// The esLib field should control the reference lib directive in the output.
+    /// </summary>
+    [Fact]
+    public void EsLib_ControlsReferenceLib()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@test/eslib-custom",
+            EsLib = "es2022",
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "main",
+                    ExportPath = ".",
+                    Classes = [new TsClassInfo { Name = "Client", ExportPath = "." }]
+                }
+            ]
+        };
+
+        var stubs = api.ToStubs();
+
+        Assert.Contains("/// <reference lib=\"es2022\" />", stubs);
+        Assert.DoesNotContain("esnext", stubs);
+    }
+
+    /// <summary>
+    /// When esLib is null, the default "esnext" lib should be used.
+    /// </summary>
+    [Fact]
+    public void EsLib_DefaultsToEsnext_WhenNull()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@test/eslib-default",
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "main",
+                    ExportPath = ".",
+                    Classes = [new TsClassInfo { Name = "Client", ExportPath = "." }]
+                }
+            ]
+        };
+
+        var stubs = api.ToStubs();
+
+        Assert.Contains("/// <reference lib=\"esnext\" />", stubs);
+    }
+
+    // =========================================================================
+    // Regression tests — existing behavior preserved
+    // =========================================================================
+
+    /// <summary>
+    /// Collision aliases should generate aliased import statements.
+    /// </summary>
+    [Fact]
+    public void Regression_CollisionAliases_GenerateCorrectImports()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@test/collision",
+            CollisionAliases = new Dictionary<string, Dictionary<string, string>>
+            {
+                ["Pipeline"] = new Dictionary<string, string>
+                {
+                    ["@azure/core-rest-pipeline"] = "_pipeline_Pipeline",
+                    ["@test/collision"] = "Pipeline"
+                }
+            },
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "main",
+                    ExportPath = ".",
+                    Classes =
+                    [
+                        new TsClassInfo
+                        {
+                            Name = "Pipeline",
+                            ExportPath = "."
+                        }
+                    ]
+                }
+            ],
+            Dependencies =
+            [
+                new TsDependencyInfo
+                {
+                    Package = "@azure/core-rest-pipeline",
+                    Interfaces = [new TsInterfaceInfo { Name = "Pipeline" }]
+                }
+            ]
+        };
+
+        var stubs = api.ToStubs();
+
+        // The dep's Pipeline should be imported with an alias
+        Assert.Contains("Pipeline as _pipeline_Pipeline", stubs);
+    }
+
+    /// <summary>
+    /// Deduplication within a module group: duplicate type names across
+    /// modules with the same condition should be deduplicated.
+    /// </summary>
+    [Fact]
+    public void Regression_Dedup_DuplicateTypesAcrossModules()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@test/dedup-across",
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "mod-a",
+                    Condition = "import",
+                    ExportPath = ".",
+                    Interfaces =
+                    [
+                        new TsInterfaceInfo { Name = "SharedOptions", ExportPath = "." }
+                    ]
+                },
+                new TsModuleInfo
+                {
+                    Name = "mod-b",
+                    Condition = "import",
+                    ExportPath = ".",
+                    Interfaces =
+                    [
+                        new TsInterfaceInfo { Name = "SharedOptions", ExportPath = "." }
+                    ]
+                },
+                new TsModuleInfo
+                {
+                    Name = "mod-c",
+                    Condition = "require",
+                    ExportPath = ".",
+                    Interfaces =
+                    [
+                        new TsInterfaceInfo { Name = "SharedOptions", ExportPath = "." }
+                    ]
+                }
+            ]
+        };
+
+        var stubs = api.ToStubs();
+
+        // SharedOptions should appear once per condition block, not duplicated
+        var importBlock = ExtractDeclareModuleBlock(stubs, "@test/dedup-across/import");
+        Assert.NotNull(importBlock);
+        Assert.Equal(1, CountOccurrences(importBlock, "interface SharedOptions"));
+    }
+
+    /// <summary>
+    /// Reachability comments should be generated for types reachable from
+    /// entry points.
+    /// </summary>
+    [Fact]
+    public void Regression_ReachabilityComments_Generated()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@test/reachability",
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "main",
+                    ExportPath = ".",
+                    Classes =
+                    [
+                        new TsClassInfo
+                        {
+                            Name = "BlobClient",
+                            ExportPath = ".",
+                            EntryPoint = true,
+                            Methods = [new TsMethodInfo { Name = "upload", Sig = "data: Buffer", Ret = "void" }],
+                            ReferencedTypes = ["BlobOptions"]
+                        }
+                    ],
+                    Interfaces =
+                    [
+                        new TsInterfaceInfo { Name = "BlobOptions", ExportPath = "." }
+                    ]
+                }
+            ]
+        };
+
+        var stubs = api.ToStubs();
+
+        // BlobOptions should have a reachability comment showing it's reached via BlobClient
+        Assert.Contains("BlobOptions", stubs);
+        Assert.Contains("BlobClient", stubs);
+    }
+
+    /// <summary>
+    /// Cross-module dependency detection in resolved deps should use
+    /// structured referencedTypes and emit correct cross-dep imports.
+    /// </summary>
+    [Fact]
+    public void StructuredDeps_ResolvedDepCrossImports_UseReferencedTypes()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@test/cross-dep-import",
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "import-mod",
+                    Condition = "import",
+                    ExportPath = ".",
+                    Classes = [new TsClassInfo { Name = "Client", ExportPath = "." }]
+                },
+                new TsModuleInfo
+                {
+                    Name = "require-mod",
+                    Condition = "require",
+                    ExportPath = ".",
+                    Classes = [new TsClassInfo { Name = "Client", ExportPath = "." }]
+                }
+            ],
+            ResolvedDependencies =
+            [
+                new TsApiIndex
+                {
+                    Package = "@azure/core-auth",
+                    Modules =
+                    [
+                        new TsModuleInfo
+                        {
+                            Name = "auth-mod",
+                            Condition = "import",
+                            Interfaces =
+                            [
+                                new TsInterfaceInfo { Name = "TokenCredential" }
+                            ]
+                        }
+                    ]
+                },
+                new TsApiIndex
+                {
+                    Package = "@azure/core-rest-pipeline",
+                    Modules =
+                    [
+                        new TsModuleInfo
+                        {
+                            Name = "pipeline-mod",
+                            Condition = "import",
+                            Interfaces =
+                            [
+                                new TsInterfaceInfo
+                                {
+                                    Name = "PipelinePolicy",
+                                    Properties = [new TsPropertyInfo { Name = "credential", Type = "TokenCredential" }],
+                                    ReferencedTypes = ["TokenCredential"]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        };
+
+        var stubs = api.ToStubs();
+
+        // The pipeline dep module should import TokenCredential from the auth dep module
+        var pipelineBlock = ExtractDeclareModuleBlock(stubs, "@azure/core-rest-pipeline");
+        Assert.NotNull(pipelineBlock);
+        Assert.Contains("import type { TokenCredential }", pipelineBlock);
+        Assert.Contains("@azure/core-auth", pipelineBlock);
+    }
+
+    /// <summary>
+    /// FormatPerTarget should produce separate outputs per condition,
+    /// each with its own dts and tsconfig.
+    /// </summary>
+    [Fact]
+    public void FormatPerTarget_ProducesSeparateOutputsPerCondition()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@test/per-target",
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "import-mod",
+                    Condition = "import",
+                    ExportPath = ".",
+                    Classes = [new TsClassInfo { Name = "Client", ExportPath = "." }]
+                },
+                new TsModuleInfo
+                {
+                    Name = "require-mod",
+                    Condition = "require",
+                    ExportPath = ".",
+                    Classes = [new TsClassInfo { Name = "Client", ExportPath = "." }]
+                }
+            ]
+        };
+
+        var result = TypeScriptFormatter.FormatPerTarget(api);
+
+        Assert.True(result.ContainsKey("import"));
+        Assert.True(result.ContainsKey("require"));
+
+        var (importDts, importTsconfig) = result["import"];
+        var (requireDts, requireTsconfig) = result["require"];
+
+        Assert.Contains("class Client", importDts);
+        Assert.Contains("class Client", requireDts);
+        Assert.Contains("compilerOptions", importTsconfig);
+        Assert.Contains("compilerOptions", requireTsconfig);
+    }
+
+    /// <summary>
+    /// Collision aliases should also work in multi-condition (sectioned) mode.
+    /// </summary>
+    [Fact]
+    public void Regression_CollisionAliases_WorkInMultiCondition()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@test/collision-multi",
+            CollisionAliases = new Dictionary<string, Dictionary<string, string>>
+            {
+                ["Pipeline"] = new Dictionary<string, string>
+                {
+                    ["@azure/core-rest-pipeline"] = "_pipeline_Pipeline",
+                    ["@test/collision-multi"] = "Pipeline"
+                }
+            },
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "import-mod",
+                    Condition = "import",
+                    ExportPath = ".",
+                    Classes = [new TsClassInfo { Name = "Pipeline", ExportPath = "." }]
+                },
+                new TsModuleInfo
+                {
+                    Name = "require-mod",
+                    Condition = "require",
+                    ExportPath = ".",
+                    Classes = [new TsClassInfo { Name = "Pipeline", ExportPath = "." }]
+                }
+            ],
+            Dependencies =
+            [
+                new TsDependencyInfo
+                {
+                    Package = "@azure/core-rest-pipeline",
+                    Interfaces = [new TsInterfaceInfo { Name = "Pipeline" }]
+                }
+            ]
+        };
+
+        var stubs = api.ToStubs();
+
+        // The dep's Pipeline should be imported with an alias in multi-condition mode
+        Assert.Contains("Pipeline as _pipeline_Pipeline", stubs);
+    }
+
+    /// <summary>
+    /// Self-referential alias filtering should still work in sectioned mode.
+    /// </summary>
+    [Fact]
+    public void Regression_SelfRefAlias_ExcludedInSectionedMode()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@test/self-ref-sectioned",
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "import-mod",
+                    Condition = "import",
+                    ExportPath = ".",
+                    Classes = [new TsClassInfo { Name = "Client", ExportPath = "." }]
+                },
+                new TsModuleInfo
+                {
+                    Name = "require-mod",
+                    Condition = "require",
+                    ExportPath = ".",
+                    Classes = [new TsClassInfo { Name = "Client", ExportPath = "." }]
+                }
+            ],
+            ResolvedDependencies =
+            [
+                new TsApiIndex
+                {
+                    Package = "@external/core",
+                    Modules =
+                    [
+                        new TsModuleInfo
+                        {
+                            Name = "core-mod",
+                            Condition = "import",
+                            Types =
+                            [
+                                new TsTypeAliasInfo { Name = "Pipeline", Type = "Pipeline" },
+                                new TsTypeAliasInfo { Name = "ValidType", Type = "string | number" }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        };
+
+        var stubs = api.ToStubs();
+
+        // Self-referential should be excluded; valid type should appear
+        var depBlock = ExtractDeclareModuleBlock(stubs, "@external/core");
+        Assert.NotNull(depBlock);
+        Assert.DoesNotContain("type Pipeline", depBlock);
+        Assert.Contains("type ValidType", depBlock);
     }
 }

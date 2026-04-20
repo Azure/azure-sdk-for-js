@@ -21,7 +21,9 @@ public sealed record ApiChange
 {
     /// <summary>
     /// One of: TypeAdded, TypeRemoved, MemberAdded, MemberRemoved, SignatureChanged,
-    /// ReturnTypeChanged, PropertyAdded, PropertyRemoved, PropertyTypeChanged.
+    /// ReturnTypeChanged, PropertyAdded, PropertyRemoved, PropertyTypeChanged,
+    /// ParameterCountChanged, ParameterOptionalityChanged, DeprecationAdded,
+    /// DeprecationRemoved, TypeKindChanged, PropertyOptionalityChanged, PropertyReadOnlyChanged.
     /// </summary>
     public required string ChangeKind { get; init; }
     public required string TypeName { get; init; }
@@ -80,11 +82,34 @@ public static class ApiDiffAnalyzer
             }
         }
 
-        // Common types — compare members
+        // Common types — compare members and type-level metadata
         foreach (var (name, baselineType) in baselineTypes)
         {
             if (!currentTypes.TryGetValue(name, out var currentType))
                 continue;
+
+            // Type kind change (e.g., class → interface) — breaking
+            if (baselineType.Kind is not null && currentType.Kind is not null
+                && !string.Equals(baselineType.Kind, currentType.Kind, StringComparison.Ordinal))
+            {
+                breaking.Add(new ApiChange
+                {
+                    ChangeKind = "TypeKindChanged",
+                    TypeName = name,
+                    OldSignature = baselineType.Kind,
+                    NewSignature = currentType.Kind
+                });
+            }
+
+            // Type-level deprecation
+            if (!baselineType.IsDeprecated && currentType.IsDeprecated)
+            {
+                nonBreaking.Add(new ApiChange { ChangeKind = "DeprecationAdded", TypeName = name });
+            }
+            else if (baselineType.IsDeprecated && !currentType.IsDeprecated)
+            {
+                nonBreaking.Add(new ApiChange { ChangeKind = "DeprecationRemoved", TypeName = name });
+            }
 
             CompareCallables(name, baselineType.Callables, currentType.Callables, breaking, nonBreaking);
             CompareProperties(name, baselineType.Properties, currentType.Properties, breaking, nonBreaking);
@@ -125,6 +150,16 @@ public static class ApiDiffAnalyzer
                     $"Breaking change: property '{change.TypeName}.{change.MemberName}' was removed.",
                 "PropertyTypeChanged" =>
                     $"Breaking change: property '{change.TypeName}.{change.MemberName}' type changed from '{change.OldSignature}' to '{change.NewSignature}'.",
+                "ParameterOptionalityChanged" =>
+                    $"Breaking change: '{change.TypeName}.{change.MemberName}' parameter optionality changed from ({change.OldSignature}) to ({change.NewSignature}).",
+                "ParameterCountChanged" =>
+                    $"Breaking change: '{change.TypeName}.{change.MemberName}' required parameters removed (was ({change.OldSignature}), now ({change.NewSignature})).",
+                "TypeKindChanged" =>
+                    $"Breaking change: type '{change.TypeName}' kind changed from '{change.OldSignature}' to '{change.NewSignature}'.",
+                "PropertyOptionalityChanged" =>
+                    $"Breaking change: property '{change.TypeName}.{change.MemberName}' changed from {change.OldSignature} to {change.NewSignature}.",
+                "PropertyReadOnlyChanged" =>
+                    $"Breaking change: property '{change.TypeName}.{change.MemberName}' changed from {change.OldSignature} to {change.NewSignature}.",
                 _ =>
                     $"Breaking change: {change.ChangeKind} in '{change.TypeName}'."
             };
@@ -149,13 +184,12 @@ public static class ApiDiffAnalyzer
         List<ApiChange> breaking,
         List<ApiChange> nonBreaking)
     {
-        // Each entry maps callable name → set of parameter-type signatures (one per overload).
-        var baselineMap = BuildCallableMap(baseline);
-        var currentMap = BuildCallableMap(current);
+        var baselineMap = GroupCallablesByName(baseline);
+        var currentMap = GroupCallablesByName(current);
 
-        foreach (var (callableName, baselineSigs) in baselineMap)
+        foreach (var (callableName, baselineOverloads) in baselineMap)
         {
-            if (!currentMap.TryGetValue(callableName, out var currentSigs))
+            if (!currentMap.TryGetValue(callableName, out var currentOverloads))
             {
                 // Entire callable (all overloads) removed — breaking
                 breaking.Add(new ApiChange
@@ -163,40 +197,16 @@ public static class ApiDiffAnalyzer
                     ChangeKind = "MemberRemoved",
                     TypeName = typeName,
                     MemberName = callableName,
-                    OldSignature = string.Join(" | ", baselineSigs)
+                    OldSignature = string.Join(" | ", baselineOverloads.Select(GetFullSignature))
                 });
                 continue;
             }
 
-            // Overloads removed from baseline (breaking) vs. only new ones added (non-breaking)
-            var removedSigs = baselineSigs.Except(currentSigs).ToList();
-            var addedSigs = currentSigs.Except(baselineSigs).ToList();
-
-            if (removedSigs.Count > 0)
-            {
-                breaking.Add(new ApiChange
-                {
-                    ChangeKind = "SignatureChanged",
-                    TypeName = typeName,
-                    MemberName = callableName,
-                    OldSignature = string.Join(" | ", removedSigs),
-                    NewSignature = addedSigs.Count > 0 ? string.Join(" | ", addedSigs) : null
-                });
-            }
-            else if (addedSigs.Count > 0)
-            {
-                nonBreaking.Add(new ApiChange
-                {
-                    ChangeKind = "MemberAdded",
-                    TypeName = typeName,
-                    MemberName = callableName,
-                    NewSignature = string.Join(" | ", addedSigs)
-                });
-            }
+            MatchAndCompareOverloads(typeName, callableName, baselineOverloads, currentOverloads, breaking, nonBreaking);
         }
 
         // Callable names only in current — non-breaking
-        foreach (var (callableName, currentSigs) in currentMap)
+        foreach (var (callableName, currentOverloads) in currentMap)
         {
             if (!baselineMap.ContainsKey(callableName))
             {
@@ -205,50 +215,165 @@ public static class ApiDiffAnalyzer
                     ChangeKind = "MemberAdded",
                     TypeName = typeName,
                     MemberName = callableName,
-                    NewSignature = string.Join(" | ", currentSigs)
+                    NewSignature = string.Join(" | ", currentOverloads.Select(GetFullSignature))
                 });
             }
         }
-
-        // Return type changes — compare callables that exist in both with matching signatures
-        CompareReturnTypes(typeName, baseline, current, breaking);
     }
 
-    private static void CompareReturnTypes(
+    private static void MatchAndCompareOverloads(
         string typeName,
-        IReadOnlyList<DiagnosticCallableInfo> baseline,
-        IReadOnlyList<DiagnosticCallableInfo> current,
-        List<ApiChange> breaking)
+        string callableName,
+        List<DiagnosticCallableInfo> baselineOverloads,
+        List<DiagnosticCallableInfo> currentOverloads,
+        List<ApiChange> breaking,
+        List<ApiChange> nonBreaking)
     {
-        // Build name+signature → return type maps (case-sensitive on name)
-        var baselineReturnTypes = new Dictionary<string, string?>(StringComparer.Ordinal);
-        foreach (var c in baseline)
+        var unmatchedBaseline = new List<DiagnosticCallableInfo>(baselineOverloads);
+        var unmatchedCurrent = new List<DiagnosticCallableInfo>(currentOverloads);
+
+        // Pass 1: Exact full-signature match
+        MatchBySignature(unmatchedBaseline, unmatchedCurrent, GetFullSignature, out var exactMatched);
+
+        // Pass 2: Match remaining by required-parameter prefix
+        MatchBySignature(unmatchedBaseline, unmatchedCurrent, GetRequiredSignature, out var requiredMatched);
+
+        // Compare all matched pairs for semantic changes
+        foreach (var (b, c) in exactMatched.Concat(requiredMatched))
         {
-            var key = $"{c.Name}({string.Join(", ", c.ParameterTypes)})";
-            baselineReturnTypes.TryAdd(key, c.ReturnType);
+            CompareMatchedCallables(typeName, callableName, b, c, breaking, nonBreaking);
         }
 
-        foreach (var c in current)
+        // Unmatched baseline overloads → removed (breaking)
+        var removedSigs = unmatchedBaseline.Select(GetFullSignature).ToList();
+        var addedSigs = unmatchedCurrent.Select(GetFullSignature).ToList();
+
+        if (removedSigs.Count > 0)
         {
-            var key = $"{c.Name}({string.Join(", ", c.ParameterTypes)})";
-            if (!baselineReturnTypes.TryGetValue(key, out var oldRet))
-                continue;
-
-            var newRet = c.ReturnType;
-            if (oldRet is null || newRet is null)
-                continue;
-
-            if (!string.Equals(oldRet, newRet, StringComparison.Ordinal))
+            breaking.Add(new ApiChange
             {
-                breaking.Add(new ApiChange
+                ChangeKind = "SignatureChanged",
+                TypeName = typeName,
+                MemberName = callableName,
+                OldSignature = string.Join(" | ", removedSigs),
+                NewSignature = addedSigs.Count > 0 ? string.Join(" | ", addedSigs) : null
+            });
+        }
+        else if (addedSigs.Count > 0)
+        {
+            nonBreaking.Add(new ApiChange
+            {
+                ChangeKind = "MemberAdded",
+                TypeName = typeName,
+                MemberName = callableName,
+                NewSignature = string.Join(" | ", addedSigs)
+            });
+        }
+    }
+
+    private static void MatchBySignature(
+        List<DiagnosticCallableInfo> baselinePool,
+        List<DiagnosticCallableInfo> currentPool,
+        Func<DiagnosticCallableInfo, string> sigFunc,
+        out List<(DiagnosticCallableInfo Baseline, DiagnosticCallableInfo Current)> matched)
+    {
+        matched = [];
+        for (int i = baselinePool.Count - 1; i >= 0; i--)
+        {
+            var bSig = sigFunc(baselinePool[i]);
+            for (int j = currentPool.Count - 1; j >= 0; j--)
+            {
+                if (string.Equals(bSig, sigFunc(currentPool[j]), StringComparison.Ordinal))
                 {
-                    ChangeKind = "ReturnTypeChanged",
-                    TypeName = typeName,
-                    MemberName = c.Name,
-                    OldSignature = oldRet,
-                    NewSignature = newRet
-                });
+                    matched.Add((baselinePool[i], currentPool[j]));
+                    baselinePool.RemoveAt(i);
+                    currentPool.RemoveAt(j);
+                    break;
+                }
             }
+        }
+    }
+
+    private static void CompareMatchedCallables(
+        string typeName,
+        string callableName,
+        DiagnosticCallableInfo baseline,
+        DiagnosticCallableInfo current,
+        List<ApiChange> breaking,
+        List<ApiChange> nonBreaking)
+    {
+        int bRequired = baseline.ParameterTypes.Count - baseline.OptionalParameterCount;
+        int cRequired = current.ParameterTypes.Count - current.OptionalParameterCount;
+
+        // Optionality transition: optional params became required or vice-versa
+        if (cRequired != bRequired)
+        {
+            var change = new ApiChange
+            {
+                ChangeKind = "ParameterOptionalityChanged",
+                TypeName = typeName,
+                MemberName = callableName,
+                OldSignature = FormatSignatureWithOptionality(baseline),
+                NewSignature = FormatSignatureWithOptionality(current)
+            };
+
+            if (cRequired > bRequired)
+                breaking.Add(change);   // optional → required: breaking
+            else
+                nonBreaking.Add(change); // required → optional: non-breaking
+        }
+
+        // Parameter count change (different total number of params)
+        if (current.ParameterTypes.Count != baseline.ParameterTypes.Count)
+        {
+            bool isBreaking = current.ParameterTypes.Count < baseline.ParameterTypes.Count;
+            var change = new ApiChange
+            {
+                ChangeKind = "ParameterCountChanged",
+                TypeName = typeName,
+                MemberName = callableName,
+                OldSignature = GetFullSignature(baseline),
+                NewSignature = GetFullSignature(current)
+            };
+
+            if (isBreaking)
+                breaking.Add(change);
+            else
+                nonBreaking.Add(change);
+        }
+
+        // Return type change
+        if (baseline.ReturnType is not null && current.ReturnType is not null
+            && !string.Equals(baseline.ReturnType, current.ReturnType, StringComparison.Ordinal))
+        {
+            breaking.Add(new ApiChange
+            {
+                ChangeKind = "ReturnTypeChanged",
+                TypeName = typeName,
+                MemberName = callableName,
+                OldSignature = baseline.ReturnType,
+                NewSignature = current.ReturnType
+            });
+        }
+
+        // Deprecation
+        if (!baseline.IsDeprecated && current.IsDeprecated)
+        {
+            nonBreaking.Add(new ApiChange
+            {
+                ChangeKind = "DeprecationAdded",
+                TypeName = typeName,
+                MemberName = callableName
+            });
+        }
+        else if (baseline.IsDeprecated && !current.IsDeprecated)
+        {
+            nonBreaking.Add(new ApiChange
+            {
+                ChangeKind = "DeprecationRemoved",
+                TypeName = typeName,
+                MemberName = callableName
+            });
         }
     }
 
@@ -289,6 +414,68 @@ public static class ApiDiffAnalyzer
                     NewSignature = currentProp.TypeName
                 });
             }
+
+            // Optionality change
+            if (baselineProp.IsOptional && !currentProp.IsOptional)
+            {
+                breaking.Add(new ApiChange
+                {
+                    ChangeKind = "PropertyOptionalityChanged",
+                    TypeName = typeName,
+                    MemberName = propName,
+                    OldSignature = "optional",
+                    NewSignature = "required"
+                });
+            }
+            else if (!baselineProp.IsOptional && currentProp.IsOptional)
+            {
+                nonBreaking.Add(new ApiChange
+                {
+                    ChangeKind = "PropertyOptionalityChanged",
+                    TypeName = typeName,
+                    MemberName = propName,
+                    OldSignature = "required",
+                    NewSignature = "optional"
+                });
+            }
+
+            // Readonly change
+            if (baselineProp.IsReadOnly != currentProp.IsReadOnly)
+            {
+                var change = new ApiChange
+                {
+                    ChangeKind = "PropertyReadOnlyChanged",
+                    TypeName = typeName,
+                    MemberName = propName,
+                    OldSignature = baselineProp.IsReadOnly ? "readonly" : "mutable",
+                    NewSignature = currentProp.IsReadOnly ? "readonly" : "mutable"
+                };
+
+                if (currentProp.IsReadOnly)
+                    breaking.Add(change);    // writable → readonly: breaking
+                else
+                    nonBreaking.Add(change); // readonly → writable: non-breaking
+            }
+
+            // Deprecation
+            if (!baselineProp.IsDeprecated && currentProp.IsDeprecated)
+            {
+                nonBreaking.Add(new ApiChange
+                {
+                    ChangeKind = "DeprecationAdded",
+                    TypeName = typeName,
+                    MemberName = propName
+                });
+            }
+            else if (baselineProp.IsDeprecated && !currentProp.IsDeprecated)
+            {
+                nonBreaking.Add(new ApiChange
+                {
+                    ChangeKind = "DeprecationRemoved",
+                    TypeName = typeName,
+                    MemberName = propName
+                });
+            }
         }
 
         // Added properties — non-breaking
@@ -306,6 +493,26 @@ public static class ApiDiffAnalyzer
         }
     }
 
+    private static string GetFullSignature(DiagnosticCallableInfo callable) =>
+        string.Join(", ", callable.ParameterTypes);
+
+    private static string GetRequiredSignature(DiagnosticCallableInfo callable)
+    {
+        int requiredCount = callable.ParameterTypes.Count - callable.OptionalParameterCount;
+        return string.Join(", ", callable.ParameterTypes.Take(requiredCount));
+    }
+
+    private static string FormatSignatureWithOptionality(DiagnosticCallableInfo callable)
+    {
+        int requiredCount = callable.ParameterTypes.Count - callable.OptionalParameterCount;
+        var parts = new string[callable.ParameterTypes.Count];
+        for (int i = 0; i < callable.ParameterTypes.Count; i++)
+        {
+            parts[i] = i >= requiredCount ? $"{callable.ParameterTypes[i]}?" : callable.ParameterTypes[i];
+        }
+        return string.Join(", ", parts);
+    }
+
     private static Dictionary<string, DiagnosticPropertyInfo> BuildPropertyMap(
         IReadOnlyList<DiagnosticPropertyInfo> properties)
     {
@@ -315,21 +522,19 @@ public static class ApiDiffAnalyzer
         return map;
     }
 
-    private static Dictionary<string, HashSet<string>> BuildCallableMap(
+    private static Dictionary<string, List<DiagnosticCallableInfo>> GroupCallablesByName(
         IEnumerable<DiagnosticCallableInfo> callables)
     {
-        var map = new Dictionary<string, HashSet<string>>(StringComparer.Ordinal);
+        var map = new Dictionary<string, List<DiagnosticCallableInfo>>(StringComparer.Ordinal);
         foreach (var callable in callables)
         {
-            if (!map.TryGetValue(callable.Name, out var sigs))
+            if (!map.TryGetValue(callable.Name, out var list))
             {
-                sigs = [];
-                map[callable.Name] = sigs;
+                list = [];
+                map[callable.Name] = list;
             }
-
-            sigs.Add(string.Join(", ", callable.ParameterTypes));
+            list.Add(callable);
         }
-
         return map;
     }
 

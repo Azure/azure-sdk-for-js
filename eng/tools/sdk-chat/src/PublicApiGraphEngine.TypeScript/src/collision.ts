@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { ts } from "ts-morph";
 import type {
     ApiIndex,
     ClassInfo,
@@ -245,12 +246,96 @@ function buildReplacementsForEntity(
 }
 
 /**
- * Replace standalone type identifiers in text using a character-by-character lexer.
- * - Skips content inside string literals ("..." and '...')
- * - Skips identifiers preceded by '.' (qualified access like Foo.Bar)
- * - Only replaces standalone identifier tokens that match a key in replacements
+ * Replace standalone type identifiers in text using the TypeScript compiler AST.
+ * - Correctly handles string literals, template literals, comments, and unicode identifiers
+ * - Skips identifiers in qualified access (e.g., Foo.Bar, ns?.Type)
+ * - Falls back to a legacy lexer-lite approach if AST parsing fails
  */
-function replaceTypeIdentifiers(text: string, replacements: Map<string, string>): string {
+/** @internal Exported for testing */
+export function replaceTypeIdentifiers(text: string, replacements: Map<string, string>): string {
+    // Fast path: if no replacements, return as-is
+    if (replacements.size === 0) return text;
+
+    try {
+        return replaceTypeIdentifiersAST(text, replacements);
+    } catch {
+        // Fall back to legacy lexer-lite if AST parsing produces an error
+        return replaceTypeIdentifiersLegacy(text, replacements);
+    }
+}
+
+const WRAPPER_PREFIX = "declare const __x: ";
+const WRAPPER_PREFIX_LENGTH = WRAPPER_PREFIX.length;
+
+/**
+ * Check if an identifier node is the right-hand side of a qualified/property access.
+ * In such cases, the identifier is not a standalone type reference and should not be replaced.
+ */
+function isQualifiedAccess(node: ts.Node): boolean {
+    const parent = node.parent;
+    if (!parent) return false;
+    // ns.Type — property access expression, identifier is the .name
+    if (ts.isPropertyAccessExpression(parent) && parent.name === node) return true;
+    // ns.Type in type position — qualified name, identifier is the .right
+    if (ts.isQualifiedName(parent) && parent.right === node) return true;
+    return false;
+}
+
+function replaceTypeIdentifiersAST(text: string, replacements: Map<string, string>): string {
+    // Wrap in a dummy declaration so the type content is parseable
+    const wrappedSource = `${WRAPPER_PREFIX}${text};`;
+    const sourceFile = ts.createSourceFile(
+        "__collision__.ts",
+        wrappedSource,
+        ts.ScriptTarget.Latest,
+        /* setParentNodes */ true,
+    );
+
+    // Check for parse errors — if the source has diagnostics, the AST may be unreliable
+    // We look for missing/expected tokens which indicate the wrapper strategy didn't work
+    const diags = (sourceFile as unknown as { parseDiagnostics?: readonly ts.DiagnosticWithLocation[] }).parseDiagnostics;
+    if (diags && diags.length > 0) {
+        throw new Error("Parse errors detected, falling back to legacy");
+    }
+
+    // Collect all identifier positions that need replacement
+    const edits: Array<{ start: number; end: number; newText: string }> = [];
+
+    function visit(node: ts.Node): void {
+        if (ts.isIdentifier(node)) {
+            const name = node.text;
+            const replacement = replacements.get(name);
+            if (replacement && !isQualifiedAccess(node)) {
+                // Adjust positions from wrapped source back to original text
+                const start = node.getStart(sourceFile) - WRAPPER_PREFIX_LENGTH;
+                const end = node.getEnd() - WRAPPER_PREFIX_LENGTH;
+                // Only replace if the position maps back into the original text
+                if (start >= 0 && end <= text.length) {
+                    edits.push({ start, end, newText: replacement });
+                }
+            }
+        }
+        ts.forEachChild(node, visit);
+    }
+
+    visit(sourceFile);
+
+    if (edits.length === 0) return text;
+
+    // Apply edits in reverse order to preserve positions
+    edits.sort((a, b) => b.start - a.start);
+    let result = text;
+    for (const edit of edits) {
+        result = result.slice(0, edit.start) + edit.newText + result.slice(edit.end);
+    }
+    return result;
+}
+
+/**
+ * Legacy character-by-character lexer for identifier replacement.
+ * Used as a fallback when AST parsing fails.
+ */
+function replaceTypeIdentifiersLegacy(text: string, replacements: Map<string, string>): string {
     const result: string[] = [];
     let i = 0;
     const len = text.length;
@@ -268,7 +353,6 @@ function replaceTypeIdentifiers(text: string, replacements: Map<string, string>)
                 result.push(sc);
                 i++;
                 if (sc === quote) break;
-                // Skip escaped characters
                 if (sc === '\\' && i < len) {
                     result.push(text[i]);
                     i++;
@@ -288,7 +372,7 @@ function replaceTypeIdentifiers(text: string, replacements: Map<string, string>)
             let precededByDot = false;
             for (let j = start - 1; j >= 0; j--) {
                 const pc = text[j];
-                if (pc === ' ' || pc === '\t') continue; // skip whitespace
+                if (pc === ' ' || pc === '\t') continue;
                 if (pc === '.') precededByDot = true;
                 break;
             }
