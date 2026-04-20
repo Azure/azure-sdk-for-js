@@ -25,7 +25,7 @@ describe("CbsClient", function () {
   const TEST_FAILURE = "Test failure";
 
   describe("init", function () {
-    it("honors already aborted abortSignal", async function () {
+    it("honors already aborted abortSignal during init", async function () {
       const cbsClient = new CbsClient(new Connection(), "lock");
 
       // Create an abort signal that is already aborted.
@@ -74,7 +74,7 @@ describe("CbsClient", function () {
       }
     });
 
-    it("honors abortSignal", async function () {
+    it("honors abortSignal during init", async function () {
       const connectionStub = new Connection();
       // Stub 'open' because creating a real connection will fail.
       vi.spyOn(connectionStub, "open").mockResolvedValue(
@@ -116,7 +116,7 @@ describe("CbsClient", function () {
     });
 
     describe("cancellation", function () {
-      it("honors already aborted abortSignal", async function () {
+      it("honors already aborted abortSignal during negotiateClaim", async function () {
         const connectionStub = createConnectionStub();
         const cbsClient = new CbsClient(connectionStub, "lock");
 
@@ -137,7 +137,7 @@ describe("CbsClient", function () {
         }
       });
 
-      it("honors abortSignal", async function () {
+      it("honors abortSignal during negotiateClaim", async function () {
         const connectionStub = createConnectionStub();
         const cbsClient = new CbsClient(connectionStub, "lock");
 
