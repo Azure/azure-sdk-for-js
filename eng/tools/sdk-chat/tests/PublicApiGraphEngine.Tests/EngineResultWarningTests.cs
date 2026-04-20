@@ -103,6 +103,80 @@ public class EngineResultWarningTests
     }
 
     [Fact]
+    public void TryParseStructuredDiagnostic_ValidJson_ReturnsDiagnostic()
+    {
+        var line = """{"code":"SELF_CONTAINMENT","message":"2 type(s) dangling","severity":"warning"}""";
+        var diag = PublicApiGraphEngine.TypeScript.TypeScriptPublicApiGraphEngine.TryParseStructuredDiagnostic(line);
+
+        Assert.NotNull(diag);
+        Assert.Equal("SELF_CONTAINMENT", diag.Id);
+        Assert.Equal("2 type(s) dangling", diag.Text);
+        Assert.Equal(DiagnosticLevel.Warning, diag.Level);
+        Assert.Null(diag.TargetType);
+    }
+
+    [Fact]
+    public void TryParseStructuredDiagnostic_WithTarget_MapsToTargetType()
+    {
+        var line = """{"code":"UNRESOLVED_DEPENDENCY","target":"@azure/core","message":"not installed","severity":"warning"}""";
+        var diag = PublicApiGraphEngine.TypeScript.TypeScriptPublicApiGraphEngine.TryParseStructuredDiagnostic(line);
+
+        Assert.NotNull(diag);
+        Assert.Equal("UNRESOLVED_DEPENDENCY", diag.Id);
+        Assert.Equal("@azure/core", diag.TargetType);
+        Assert.Equal("not installed", diag.Text);
+    }
+
+    [Fact]
+    public void TryParseStructuredDiagnostic_SeverityInfo_MapsToInfo()
+    {
+        var line = """{"code":"SDK001","message":"note","severity":"info"}""";
+        var diag = PublicApiGraphEngine.TypeScript.TypeScriptPublicApiGraphEngine.TryParseStructuredDiagnostic(line);
+
+        Assert.NotNull(diag);
+        Assert.Equal(DiagnosticLevel.Info, diag.Level);
+    }
+
+    [Fact]
+    public void TryParseStructuredDiagnostic_SeverityError_MapsToError()
+    {
+        var line = """{"code":"SDK002","message":"fatal","severity":"error"}""";
+        var diag = PublicApiGraphEngine.TypeScript.TypeScriptPublicApiGraphEngine.TryParseStructuredDiagnostic(line);
+
+        Assert.NotNull(diag);
+        Assert.Equal(DiagnosticLevel.Error, diag.Level);
+    }
+
+    [Fact]
+    public void TryParseStructuredDiagnostic_PlainText_ReturnsNull()
+    {
+        var diag = PublicApiGraphEngine.TypeScript.TypeScriptPublicApiGraphEngine.TryParseStructuredDiagnostic("Some plain warning text");
+        Assert.Null(diag);
+    }
+
+    [Fact]
+    public void TryParseStructuredDiagnostic_InvalidJson_ReturnsNull()
+    {
+        var diag = PublicApiGraphEngine.TypeScript.TypeScriptPublicApiGraphEngine.TryParseStructuredDiagnostic("{bad json");
+        Assert.Null(diag);
+    }
+
+    [Fact]
+    public void TryParseStructuredDiagnostic_MissingCode_ReturnsNull()
+    {
+        var line = """{"message":"text","severity":"warning"}""";
+        var diag = PublicApiGraphEngine.TypeScript.TypeScriptPublicApiGraphEngine.TryParseStructuredDiagnostic(line);
+        Assert.Null(diag);
+    }
+
+    [Fact]
+    public void TryParseStructuredDiagnostic_EmptyString_ReturnsNull()
+    {
+        var diag = PublicApiGraphEngine.TypeScript.TypeScriptPublicApiGraphEngine.TryParseStructuredDiagnostic("");
+        Assert.Null(diag);
+    }
+
+    [Fact]
     public void ParseStderrWarnings_TrimsWhitespace()
     {
         var stderr = "  warning: spaces  \n  info: tabs  \n";

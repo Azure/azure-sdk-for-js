@@ -39,6 +39,7 @@ import { isNodeBuiltinModule } from "./node-builtins.js";
 import { formatStubs, toJson } from "./formatter.js";
 import { analyzeUsage } from "./usage.js";
 import { resolveCollisions } from "./collision.js";
+import { emitDiagnostic } from "./diagnostics.js";
 
 // ============================================================================
 // Package Engine
@@ -498,7 +499,7 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
     }
 
     // Phase 8: Emit structured diagnostics to stderr for unresolved dependencies.
-    // The C# host parses each stderr line as an ApiDiagnostic with level=Warning.
+    // The C# host parses each stderr JSON line into a typed ApiDiagnostic.
     const reportedPackages = new Set<string>();
     if (dependencies.length > 0) {
         for (const dep of dependencies) {
@@ -506,7 +507,12 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
             const unresolvedTypes = (dep.types ?? []).filter(t => t.type === "unresolved");
             if (unresolvedTypes.length > 0) {
                 const typeNames = unresolvedTypes.map(t => t.name).join(", ");
-                console.error(`Unresolved dependency: package '${dep.package}' has ${unresolvedTypes.length} unresolved type(s): ${typeNames}`);
+                emitDiagnostic({
+                    code: "UNRESOLVED_DEPENDENCY",
+                    target: dep.package,
+                    message: `Unresolved dependency: package '${dep.package}' has ${unresolvedTypes.length} unresolved type(s): ${typeNames}`,
+                    severity: "warning",
+                });
             }
             // Track all resolved dependency packages so the "not installed" check
             // below skips them. The dependency engine already resolved these types
@@ -524,13 +530,17 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
         // Node built-in modules are never in node_modules — skip them
         if (isNodeBuiltinModule(pkgName)) continue;
         if (!findPackageInNodeModules(rootPath, pkgName)) {
-            console.error(`Unresolved dependency: package '${pkgName}' is referenced but not installed`);
+            emitDiagnostic({
+                code: "UNRESOLVED_DEPENDENCY",
+                target: pkgName,
+                message: `Unresolved dependency: package '${pkgName}' is referenced but not installed`,
+                severity: "warning",
+            });
             reportedPackages.add(pkgName);
         }
     }
 
-    // Emit collected extraction diagnostics to stderr.
-    // The C# host parses each stderr line as an ApiDiagnostic.
+    // Emit collected extraction diagnostics to stderr as structured JSON.
     // Deduplicate and summarize to avoid noise from repetitive type traversal warnings.
     if (ctx.diagnostics.length > 0) {
         const byCode = new Map<string, number>();
@@ -538,7 +548,11 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
             byCode.set(d.code, (byCode.get(d.code) ?? 0) + 1);
         }
         for (const [code, count] of byCode) {
-            console.error(`Extraction diagnostic: ${code} occurred ${count} time(s)`);
+            emitDiagnostic({
+                code,
+                message: `Extraction diagnostic: ${code} occurred ${count} time(s)`,
+                severity: "warning",
+            });
         }
     }
 

@@ -9,6 +9,7 @@ import {
   extractInterface,
   extractFunction,
   extractModule,
+  extractNamespace,
   formatParameter,
   extractParameterInfo,
 } from "../extractors.js";

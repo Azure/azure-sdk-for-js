@@ -169,6 +169,8 @@ export interface NamespaceInfo {
     name: string;
     entryPoint?: boolean;
     exportPath?: string;
+    /** True when this namespace is declaration-merged with a class, interface, or type alias. */
+    isCompanion?: boolean;
     classes?: ClassInfo[];
     interfaces?: InterfaceInfo[];
     enums?: EnumInfo[];

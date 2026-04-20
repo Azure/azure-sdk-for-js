@@ -166,7 +166,7 @@ public static class TypeNameParser
     /// Splits a string by the given separator, but only at top-level (depth 0 with respect to
     /// brackets, angle brackets, and parentheses).
     /// </summary>
-    internal static IReadOnlyList<string> SplitAtTopLevel(string text, char separator)
+    public static IReadOnlyList<string> SplitAtTopLevel(string text, char separator)
     {
         var results = new List<string>();
         int depth = 0;

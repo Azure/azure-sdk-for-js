@@ -413,13 +413,16 @@ describe("validateSelfContainment", () => {
       ],
     });
     const ctx = mockCtx();
-    const spy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const spy = vi.spyOn(process.stderr, "write").mockImplementation(() => true);
 
     validateSelfContainment(api, ctx);
 
     expect(spy).toHaveBeenCalledOnce();
-    expect(spy.mock.calls[0][0]).toContain("UnknownOptions");
-    expect(spy.mock.calls[0][0]).toContain("Self-containment");
+    const output = spy.mock.calls[0][0] as string;
+    const diag = JSON.parse(output);
+    expect(diag.code).toBe("SELF_CONTAINMENT");
+    expect(diag.message).toContain("UnknownOptions");
+    expect(diag.message).toContain("Self-containment");
     spy.mockRestore();
   });
 
@@ -895,12 +898,15 @@ describe("validateSelfContainment — Node ambient types", () => {
       ],
     });
     const ctx = mockCtx();
-    const spy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const spy = vi.spyOn(process.stderr, "write").mockImplementation(() => true);
 
     validateSelfContainment(api, ctx);
 
     expect(spy).toHaveBeenCalledOnce();
-    expect(spy.mock.calls[0][0]).toContain("UnknownThing");
+    const output = spy.mock.calls[0][0] as string;
+    const diag = JSON.parse(output);
+    expect(diag.code).toBe("SELF_CONTAINMENT");
+    expect(diag.message).toContain("UnknownThing");
     spy.mockRestore();
   });
 });

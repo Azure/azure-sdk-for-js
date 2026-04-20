@@ -34,16 +34,16 @@ export const PRIMITIVE_TYPES = new Set([
     "undefined", "null", "void", "never", "any", "unknown", "object",
 ]);
 
-/** Well-known DOM type names for heuristic classification. */
-const DOM_TYPE_NAMES = new Set([
-    "AbortSignal", "ReadableStream", "WritableStream",
-    "EventTarget", "EventListener", "Event", "EventInit",
-    "Blob", "File", "FormData", "Headers", "Request", "Response",
-    "URL", "URLSearchParams", "TextEncoder", "TextDecoder",
-    "ReadableStreamDefaultReader", "WritableStreamDefaultWriter",
-    "Audio", "Image", "WebSocket", "Worker", "MessagePort",
-    "ReadableStreamDefaultController", "TransformStream",
-]);
+/**
+ * Classifies a confirmed default-lib source file as "dom" or "es" based on
+ * TypeScript's standard lib file naming convention.
+ * Files named lib.dom*.d.ts or lib.webworker*.d.ts are DOM; everything else is ES.
+ */
+function classifyLibFile(fileName: string): "dom" | "es" {
+    const base = fileName.split("/").pop()?.toLowerCase() ?? "";
+    if (base.startsWith("lib.dom") || base.startsWith("lib.webworker")) return "dom";
+    return "es";
+}
 
 
 
@@ -80,6 +80,8 @@ export class ExtractionContext {
 
     /** Lazily-resolved builtin type names from TypeScript lib files. */
     private _discoveredBuiltins: Set<string> | undefined;
+    /** Lazily-resolved mapping of builtin type names to their lib category ("dom" | "es"). */
+    private _builtinCategories: Map<string, string> | undefined;
 
     constructor(project: Project) {
         this.project = project;
@@ -89,9 +91,20 @@ export class ExtractionContext {
     /** Builtin type names discovered from TypeScript lib files (lazily initialized). */
     get discoveredBuiltins(): Set<string> {
         if (!this._discoveredBuiltins) {
-            this._discoveredBuiltins = discoverBuiltinTypes(this.project);
+            const result = discoverBuiltinTypes(this.project);
+            this._discoveredBuiltins = result.names;
+            this._builtinCategories = result.categories;
         }
         return this._discoveredBuiltins;
+    }
+
+    /** Builtin type name → lib category mapping (lazily initialized). */
+    private get builtinCategories(): Map<string, string> {
+        if (!this._builtinCategories) {
+            // Trigger discovery which populates both caches
+            void this.discoveredBuiltins;
+        }
+        return this._builtinCategories!;
     }
 
     /**
@@ -121,19 +134,27 @@ export class ExtractionContext {
 
     /**
      * Classifies a builtin type by its lib source: "dom", "es", or "node".
+     * Uses the pre-computed category map built during builtin discovery
+     * (which uses the compiler's isSourceFileDefaultLibrary API).
+     * Falls back to symbol declarations if the type isn't in the map,
+     * and defaults to "es" if no source can be determined.
      */
     private classifyBuiltinSource(typeName: string, symbol?: { getDeclarations?(): { getSourceFile(): SourceFile }[] }): string {
+        // Primary: look up the pre-computed category from discovery
+        const category = this.builtinCategories.get(typeName);
+        if (category) return category;
+
+        // Fallback: inspect the symbol's declaration source file via compiler API
         try {
             const decls = symbol?.getDeclarations?.();
             if (decls && decls.length > 0) {
-                const filePath = decls[0].getSourceFile().getFilePath().toLowerCase();
-                const fileName = filePath.split("/").pop() ?? "";
-                if (fileName.includes("lib.dom") || fileName.includes("lib.webworker")) return "dom";
-                if (fileName.includes("lib.es") || fileName.includes("lib.scripthost")) return "es";
+                const sf = decls[0].getSourceFile();
+                if (isDefaultLibFile(this.project, sf)) {
+                    return classifyLibFile(sf.getFilePath());
+                }
             }
-        } catch { /* fall through to heuristic */ }
-        // Heuristic fallback based on well-known DOM type names
-        if (DOM_TYPE_NAMES.has(typeName)) return "dom";
+        } catch { /* fall through to default */ }
+
         return "es";
     }
 
@@ -176,7 +197,12 @@ export class ExtractionContext {
 
 /**
  * Scans all source files from TypeScript lib to collect
- * every declared interface, class, type alias, and enum name.
+ * every declared interface, class, type alias, and enum name,
+ * along with a category map ("dom" or "es") for each type.
+ *
+ * Uses the compiler's `isSourceFileDefaultLibrary` to identify lib files,
+ * then classifies each file as DOM or ES using TypeScript's standard
+ * lib file naming convention.
  *
  * NOTE: Variable declarations (e.g., `declare var Audio`, `declare var Image`)
  * are intentionally excluded. DOM globals like Audio and Image are declared as
@@ -188,8 +214,9 @@ export class ExtractionContext {
  * Legitimate global objects that are also used as types (JSON, Math, Array, etc.)
  * always have matching interface declarations, so they are still captured.
  */
-function discoverBuiltinTypes(project: Project): Set<string> {
-    const builtins = new Set<string>();
+function discoverBuiltinTypes(project: Project): { names: Set<string>; categories: Map<string, string> } {
+    const names = new Set<string>();
+    const categories = new Map<string, string>();
 
     // Collect source files that the TypeScript compiler considers default lib files.
     // When skipAddingFilesFromTsConfig is true, lib files may not be in
@@ -217,25 +244,35 @@ function discoverBuiltinTypes(project: Project): Set<string> {
     }
 
     for (const sourceFile of builtinFiles) {
+        const cat = classifyLibFile(sourceFile.getFilePath());
         try {
             for (const iface of sourceFile.getInterfaces()) {
-                builtins.add(iface.getName());
+                const name = iface.getName();
+                names.add(name);
+                categories.set(name, cat);
             }
             for (const cls of sourceFile.getClasses()) {
                 const name = cls.getName();
-                if (name) builtins.add(name);
+                if (name) {
+                    names.add(name);
+                    categories.set(name, cat);
+                }
             }
             for (const alias of sourceFile.getTypeAliases()) {
-                builtins.add(alias.getName());
+                const name = alias.getName();
+                names.add(name);
+                categories.set(name, cat);
             }
             for (const enumDecl of sourceFile.getEnums()) {
-                builtins.add(enumDecl.getName());
+                const name = enumDecl.getName();
+                names.add(name);
+                categories.set(name, cat);
             }
         } catch {
             // Skip files that fail to parse (non-fatal)
         }
     }
 
-    return builtins;
+    return { names, categories };
 }
 

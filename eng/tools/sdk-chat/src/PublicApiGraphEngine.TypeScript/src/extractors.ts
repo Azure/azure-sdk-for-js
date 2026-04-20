@@ -898,6 +898,22 @@ export function extractNamespace(mod: ModuleDeclaration, ctx: ExtractionContext)
 
     const result: NamespaceInfo = { name };
 
+    // Detect declaration merging via the compiler symbol API: if the
+    // namespace's symbol also has a class, interface, or type-alias
+    // declaration, the namespace is a companion (merged entity).
+    const sym = mod.getSymbol();
+    if (sym) {
+        const decls = sym.getDeclarations();
+        const hasMergedType = decls.some(d =>
+            Node.isClassDeclaration(d) ||
+            Node.isInterfaceDeclaration(d) ||
+            Node.isTypeAliasDeclaration(d),
+        );
+        if (hasMergedType) {
+            result.isCompanion = true;
+        }
+    }
+
     // Push namespace context so type refs are keyed by qualified path (e.g. "NS.Client")
     ctx.typeRefs.pushContext(name);
 

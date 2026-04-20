@@ -443,17 +443,78 @@ public class TypeScriptPublicApiGraphEngine : IPublicApiGraphEngine<ApiIndex>
         => $"{typeId}.{memberName}";
 
     private static IReadOnlyList<ApiDiagnostic> ParseStderrDiagnostics(string? stderr)
-        => string.IsNullOrWhiteSpace(stderr)
-            ? []
-            : stderr
-                .Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-                .Select(text => new ApiDiagnostic
-                {
-                    Id = "SDKWARN",
-                    Text = text,
-                    Level = DiagnosticLevel.Warning,
-                })
-                .ToList();
+    {
+        if (string.IsNullOrWhiteSpace(stderr))
+            return [];
+
+        var lines = stderr.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        var diagnostics = new List<ApiDiagnostic>(lines.Length);
+
+        foreach (var line in lines)
+        {
+            diagnostics.Add(TryParseStructuredDiagnostic(line) ?? new ApiDiagnostic
+            {
+                Id = "SDKWARN",
+                Text = line,
+                Level = DiagnosticLevel.Warning,
+            });
+        }
+
+        return diagnostics;
+    }
+
+    /// <summary>
+    /// Attempts to parse a single stderr line as a structured JSON diagnostic.
+    /// Expected format: {"code":"...","message":"...","severity":"warning|info|error","target":"..."}
+    /// Returns null if the line is not valid structured JSON.
+    /// </summary>
+    internal static ApiDiagnostic? TryParseStructuredDiagnostic(string line)
+    {
+        if (line.Length == 0 || line[0] != '{')
+            return null;
+
+        try
+        {
+            using var doc = JsonDocument.Parse(line);
+            var root = doc.RootElement;
+
+            if (!root.TryGetProperty("code", out var codeProp) ||
+                !root.TryGetProperty("message", out var messageProp) ||
+                !root.TryGetProperty("severity", out var severityProp))
+                return null;
+
+            var code = codeProp.GetString();
+            var message = messageProp.GetString();
+            var severity = severityProp.GetString();
+
+            if (string.IsNullOrEmpty(code) || string.IsNullOrEmpty(message) || string.IsNullOrEmpty(severity))
+                return null;
+
+            var level = severity switch
+            {
+                "info" => DiagnosticLevel.Info,
+                "warning" => DiagnosticLevel.Warning,
+                "error" => DiagnosticLevel.Error,
+                _ => DiagnosticLevel.Warning,
+            };
+
+            string? target = null;
+            if (root.TryGetProperty("target", out var targetProp) && targetProp.ValueKind == JsonValueKind.String)
+                target = targetProp.GetString();
+
+            return new ApiDiagnostic
+            {
+                Id = code,
+                Text = message,
+                Level = level,
+                TargetType = target,
+            };
+        }
+        catch (JsonException)
+        {
+            return null;
+        }
+    }
 
     /// <summary>
     /// Extract and format as TypeScript stub syntax.

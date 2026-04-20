@@ -141,7 +141,7 @@ internal sealed class TsTokenizer
         return null;
     }
 
-    private TsToken ReadCommentOrDoc(SourcePosition pos)
+    private TsToken? ReadCommentOrDoc(SourcePosition pos)
     {
         Advance(); // /
         Advance(); // *
@@ -169,8 +169,8 @@ internal sealed class TsTokenizer
             return new TsToken(TsTokenKind.DocComment, docText, pos);
         }
 
-        // Regular block comment — skip
-        return default; // will be null-checked by caller (but TsToken is struct...)
+        // Regular block comment — skip entirely
+        return null;
     }
 
     private TsToken ReadStringLiteral(SourcePosition pos, char quote)

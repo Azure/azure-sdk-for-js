@@ -369,6 +369,62 @@ public sealed class SqliteGraphFormatterTests : IDisposable
     }
 
     [Fact]
+    public void ExtractTypeReferences_HandlesNestedGenerics()
+    {
+        var refs = SqliteGraphFormatter.ExtractTypeReferences("Map<string, Array<number>>").ToList();
+        Assert.Empty(refs); // Map, Array, string, number are all primitives
+    }
+
+    [Fact]
+    public void ExtractTypeReferences_HandlesArrowFunctionTypes()
+    {
+        var refs = SqliteGraphFormatter.ExtractTypeReferences("(a: string) => void").ToList();
+        Assert.Empty(refs); // all primitives
+
+        var refs2 = SqliteGraphFormatter.ExtractTypeReferences("(a: Foo, b: Bar) => Baz").ToList();
+        Assert.Contains("Foo", refs2);
+        Assert.Contains("Bar", refs2);
+        Assert.Contains("Baz", refs2);
+        Assert.Equal(3, refs2.Count);
+    }
+
+    [Fact]
+    public void ExtractTypeReferences_HandlesUnionWithNestedGenerics()
+    {
+        var refs = SqliteGraphFormatter.ExtractTypeReferences("Promise<Widget> | Map<string, Gadget>").ToList();
+        Assert.Contains("Widget", refs);
+        Assert.Contains("Gadget", refs);
+        Assert.DoesNotContain("Promise", refs);
+        Assert.DoesNotContain("Map", refs);
+        Assert.DoesNotContain("string", refs);
+    }
+
+    [Fact]
+    public void ExtractTypeReferences_HandlesIntersectionTypes()
+    {
+        var refs = SqliteGraphFormatter.ExtractTypeReferences("Foo & Bar").ToList();
+        Assert.Contains("Foo", refs);
+        Assert.Contains("Bar", refs);
+        Assert.Equal(2, refs.Count);
+    }
+
+    [Fact]
+    public void ExtractTypeReferences_HandlesArraySuffix()
+    {
+        var refs = SqliteGraphFormatter.ExtractTypeReferences("Widget[]").ToList();
+        Assert.Single(refs);
+        Assert.Contains("Widget", refs);
+    }
+
+    [Fact]
+    public void ExtractTypeReferences_HandlesNullable()
+    {
+        var refs = SqliteGraphFormatter.ExtractTypeReferences("Widget?").ToList();
+        Assert.Single(refs);
+        Assert.Contains("Widget", refs);
+    }
+
+    [Fact]
     public void OverwritesExistingFile()
     {
         var index = new FakeApiIndex("V1");

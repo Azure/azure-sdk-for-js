@@ -9,6 +9,7 @@ import {
 } from "ts-morph";
 import * as fs from "fs";
 import * as path from "path";
+import { resolveExports } from "./exports-resolver.js";
 
 // ============================================================================
 // Entry Point Detection
@@ -104,66 +105,29 @@ export interface ExportEntry {
 }
 
 /**
- * Graphs path values from package.json exports field.
+ * Extracts path values from package.json exports field using the shared resolver.
  * Prioritizes the "." (root) export over subpath exports.
  * @param exports - The exports field from package.json
  * @param rootOnly - If true, only extract from the "." export
  * @returns Array of {exportPath, filePath} pairs
  */
 export function extractExportPaths(exports: string | Record<string, unknown>, rootOnly: boolean = false): ExportEntry[] {
-    const results: ExportEntry[] = [];
-    const MAX_DEPTH = 10;
-    const visited = new Set<unknown>();
+    const resolved = resolveExports(exports);
 
-    function visit(value: unknown, exportPath: string, conditions: string[], depth: number = 0): void {
-        if (depth > MAX_DEPTH) {
-            return;
-        }
-
-        if (typeof value === "object" && value !== null) {
-            if (visited.has(value)) {
-                return;
-            }
-            visited.add(value);
-        }
-
-        if (typeof value === "string") {
-            const rawCondition = conditions.length > 0 ? conditions.join("|") : "default";
-            const condition = normalizeCondition(rawCondition);
-            const conditionChain = conditions.length > 1 ? [...conditions] : undefined;
-            results.push({ exportPath, condition, conditionChain, filePath: value });
-            return;
-        }
-
-        if (typeof value !== "object" || value === null) {
-            return;
-        }
-
-        const obj = value as Record<string, unknown>;
-        const entries = Object.entries(obj);
-        for (const [key, nested] of entries) {
-            if (key.startsWith(".")) {
-                if (!rootOnly || key === ".") {
-                    visit(nested, key, conditions, depth + 1);
-                }
-                continue;
-            }
-
-            visit(nested, exportPath, [...conditions, key], depth + 1);
-        }
-    }
-
-    if (typeof exports === "string") {
-        // Simple string export is the root export
-        results.push({ exportPath: ".", condition: "default", filePath: exports });
-    } else if (typeof exports === "object" && exports !== null) {
-        visit(exports, ".", [], 0);
-    }
-
-    return results.filter((r) =>
-        r.filePath.endsWith(".ts") || r.filePath.endsWith(".d.ts") ||
-        r.filePath.endsWith(".js") || r.filePath.endsWith(".mjs")
-    );
+    return resolved
+        .filter((r) => !rootOnly || r.exportPath === ".")
+        .filter((r) =>
+            r.filePath.endsWith(".ts") || r.filePath.endsWith(".d.ts") ||
+            r.filePath.endsWith(".js") || r.filePath.endsWith(".mjs")
+        )
+        .map((r) => ({
+            exportPath: r.exportPath,
+            condition: normalizeCondition(
+                r.conditionChain.length > 0 ? r.conditionChain.join("|") : "default",
+            ),
+            conditionChain: r.conditionChain.length > 1 ? [...r.conditionChain] : undefined,
+            filePath: r.filePath,
+        }));
 }
 
 /**

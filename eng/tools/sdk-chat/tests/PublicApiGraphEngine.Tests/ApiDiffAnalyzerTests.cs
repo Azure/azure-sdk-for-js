@@ -560,6 +560,122 @@ public class ApiDiffAnalyzerTests
     }
 
     // ---------------------------------------------------------------------------
+    // Overload matching with duplicate required-parameter prefix
+    // ---------------------------------------------------------------------------
+
+    [Fact]
+    public void OverloadMatching_DuplicateRequiredPrefix_MatchesByOptionalParams()
+    {
+        // Two overloads share the same required prefix "string" but differ in optional params.
+        // Baseline: Get(string, int?) and Get(string, bool?)
+        // Current:  Get(string, bool?) and Get(string, int?)  (reversed order)
+        // The matcher must pair each overload with its closest match (same optional type),
+        // not arbitrarily match by order.
+        var baseline = new MockDiagnosticsSource([MakeType("Svc", [
+            new DiagnosticCallableInfo
+            {
+                Name = "Get",
+                ParameterTypes = ["string", "int"],
+                OptionalParameterCount = 1,
+                ReturnType = "void"
+            },
+            new DiagnosticCallableInfo
+            {
+                Name = "Get",
+                ParameterTypes = ["string", "bool"],
+                OptionalParameterCount = 1,
+                ReturnType = "void"
+            }])]);
+        var current = new MockDiagnosticsSource([MakeType("Svc", [
+            new DiagnosticCallableInfo
+            {
+                Name = "Get",
+                ParameterTypes = ["string", "bool"],
+                OptionalParameterCount = 1,
+                ReturnType = "void"
+            },
+            new DiagnosticCallableInfo
+            {
+                Name = "Get",
+                ParameterTypes = ["string", "int"],
+                OptionalParameterCount = 1,
+                ReturnType = "void"
+            }])]);
+
+        var result = ApiDiffAnalyzer.Compare(baseline, current);
+
+        // Both overloads are identical across versions — no changes should be reported.
+        Assert.Empty(result.Breaking);
+        Assert.Empty(result.NonBreaking);
+    }
+
+    [Fact]
+    public void OverloadMatching_DuplicateRequiredPrefix_ReportsCorrectChanges()
+    {
+        // Two overloads share required prefix "string".
+        // Baseline: Get(string, int?) returning void, Get(string, bool?) returning void
+        // Current:  Get(string, int?) returning long, Get(string, bool?) returning void
+        // Only the (string, int?) overload changed return type.
+        var baseline = new MockDiagnosticsSource([MakeType("Svc", [
+            new DiagnosticCallableInfo
+            {
+                Name = "Get",
+                ParameterTypes = ["string", "int"],
+                OptionalParameterCount = 1,
+                ReturnType = "void"
+            },
+            new DiagnosticCallableInfo
+            {
+                Name = "Get",
+                ParameterTypes = ["string", "bool"],
+                OptionalParameterCount = 1,
+                ReturnType = "void"
+            }])]);
+        var current = new MockDiagnosticsSource([MakeType("Svc", [
+            new DiagnosticCallableInfo
+            {
+                Name = "Get",
+                ParameterTypes = ["string", "bool"],
+                OptionalParameterCount = 1,
+                ReturnType = "void"
+            },
+            new DiagnosticCallableInfo
+            {
+                Name = "Get",
+                ParameterTypes = ["string", "int"],
+                OptionalParameterCount = 1,
+                ReturnType = "long"
+            }])]);
+
+        var result = ApiDiffAnalyzer.Compare(baseline, current);
+
+        // Only one return type change should be reported
+        var change = Assert.Single(result.Breaking);
+        Assert.Equal("ReturnTypeChanged", change.ChangeKind);
+        Assert.Equal("void", change.OldSignature);
+        Assert.Equal("long", change.NewSignature);
+        Assert.Empty(result.NonBreaking);
+    }
+
+    [Fact]
+    public void OverloadMatching_UnmatchedReportedAsRemovedAndAdded()
+    {
+        // Baseline has 2 overloads, current has 1 different one.
+        // One baseline overload matches, the other is removed, and a new one is added.
+        var baseline = new MockDiagnosticsSource([MakeType("Svc", [
+            MakeCallable("Get", ["string"], "void"),
+            MakeCallable("Get", ["int"], "void")])]);
+        var current = new MockDiagnosticsSource([MakeType("Svc", [
+            MakeCallable("Get", ["string"], "void"),
+            MakeCallable("Get", ["bool"], "void")])]);
+
+        var result = ApiDiffAnalyzer.Compare(baseline, current);
+
+        // Get(int) removed → breaking SignatureChanged, Get(bool) added
+        Assert.Contains(result.Breaking, c => c.ChangeKind == "SignatureChanged" && c.MemberName == "Get");
+    }
+
+    // ---------------------------------------------------------------------------
     // Breaking diagnostics mapping for new change kinds
     // ---------------------------------------------------------------------------
 

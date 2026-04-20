@@ -7,6 +7,7 @@ import type {
 } from "./models.js";
 import type { ExtractionContext } from "./context.js";
 import { PRIMITIVE_TYPES } from "./context.js";
+import { emitDiagnostic } from "./diagnostics.js";
 
 // ============================================================================
 // Self-Containment Validation
@@ -35,7 +36,11 @@ export function validateSelfContainment(api: ApiIndex, ctx: ExtractionContext): 
 
     if (dangling.length > 0) {
         const sorted = dangling.sort();
-        console.error(`Self-containment: ${sorted.length} type(s) referenced in signatures but not defined: ${sorted.join(", ")}`);
+        emitDiagnostic({
+            code: "SELF_CONTAINMENT",
+            message: `Self-containment: ${sorted.length} type(s) referenced in signatures but not defined: ${sorted.join(", ")}`,
+            severity: "warning",
+        });
     }
 }
 

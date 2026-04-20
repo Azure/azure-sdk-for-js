@@ -49,6 +49,7 @@ public sealed partial record ApiIndex
                     Name = c.Name,
                     Id = c.Id,
                     Doc = c.Doc,
+                    Kind = "class",
                     EntryPoint = c.EntryPoint == true,
                     IsDeprecated = c.IsDeprecated == true,
                     Callables = (c.Methods ?? []).Select(method => new DiagnosticCallableInfo
@@ -70,6 +71,8 @@ public sealed partial record ApiIndex
                         Name = p.Name,
                         TypeName = p.Type,
                         IsDeprecated = p.IsDeprecated == true,
+                        IsOptional = p.Optional == true,
+                        IsReadOnly = p.Readonly == true,
                     }).ToList(),
                 };
             }
@@ -81,6 +84,7 @@ public sealed partial record ApiIndex
                     Name = i.Name,
                     Id = i.Id,
                     Doc = i.Doc,
+                    Kind = "interface",
                     EntryPoint = i.EntryPoint == true,
                     IsDeprecated = i.IsDeprecated == true,
                     Callables = (i.Methods ?? []).Select(method => new DiagnosticCallableInfo
@@ -96,6 +100,8 @@ public sealed partial record ApiIndex
                         Name = p.Name,
                         TypeName = p.Type,
                         IsDeprecated = p.IsDeprecated == true,
+                        IsOptional = p.Optional == true,
+                        IsReadOnly = p.Readonly == true,
                     }).ToList(),
                 };
             }
@@ -107,6 +113,7 @@ public sealed partial record ApiIndex
                     Name = e.Name,
                     Id = e.Id,
                     Doc = e.Doc,
+                    Kind = "enum",
                     IsDeprecated = e.IsDeprecated == true,
                     EntryPoint = e.EntryPoint == true,
                 };
@@ -119,6 +126,7 @@ public sealed partial record ApiIndex
                     Name = t.Name,
                     Id = t.Id,
                     Doc = t.Doc,
+                    Kind = "type",
                     IsDeprecated = t.IsDeprecated == true,
                     EntryPoint = t.EntryPoint == true,
                 };

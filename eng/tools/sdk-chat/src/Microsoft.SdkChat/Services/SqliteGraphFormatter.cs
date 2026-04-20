@@ -467,45 +467,68 @@ public static class SqliteGraphFormatter
     /// <summary>
     /// Extracts individual type references from a type string.
     /// Handles generics (<c>Promise&lt;Resource&gt;</c>), unions (<c>string | number</c>),
-    /// and intersections. Filters out primitives.
+    /// intersections, nested generics, and arrow-function types.
+    /// Uses bracket-depth-aware splitting via <see cref="TypeNameParser"/>.
+    /// Filters out primitives.
     /// </summary>
     internal static IEnumerable<string> ExtractTypeReferences(string typeString)
     {
         if (string.IsNullOrWhiteSpace(typeString))
             yield break;
 
-        // Split on union/intersection/comma separators
-        var parts = typeString.Split('|', '&', ',');
-
-        foreach (var part in parts)
+        // Split on top-level union '|', then intersection '&'
+        var unionParts = TypeNameParser.SplitAtTopLevel(typeString, '|');
+        foreach (var unionPart in unionParts)
         {
-            // Strip generic brackets, array brackets, nullable markers, parentheses, whitespace
-            var cleaned = part
-                .Replace('<', ' ')
-                .Replace('>', ' ')
-                .Replace('[', ' ')
-                .Replace(']', ' ')
-                .Replace('(', ' ')
-                .Replace(')', ' ')
-                .Replace('?', ' ');
-
-            var tokens = cleaned.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-
-            foreach (var token in tokens)
+            var intersectionParts = TypeNameParser.SplitAtTopLevel(unionPart, '&');
+            foreach (var part in intersectionParts)
             {
-                // Skip primitives, empty tokens, and pure numeric values
-                if (Primitives.Contains(token))
-                    continue;
-
-                // Skip tokens that look like numbers or keywords
-                if (token.Length == 0 || char.IsDigit(token[0]))
-                    continue;
-
-                // Normalize generic suffixes (e.g., `List`1` in .NET)
-                var normalized = IApiIndex.NormalizeTypeName(token);
-                if (normalized.Length > 0 && !Primitives.Contains(normalized))
-                    yield return normalized;
+                foreach (var r in ExtractFromSingleType(part.Trim()))
+                    yield return r;
             }
         }
+    }
+
+    /// <summary>
+    /// Extracts type references from a single (non-union, non-intersection) type expression.
+    /// Handles arrow functions, generics, array suffixes, and nullable markers.
+    /// </summary>
+    private static IEnumerable<string> ExtractFromSingleType(string type)
+    {
+        if (string.IsNullOrWhiteSpace(type))
+            yield break;
+
+        // Strip trailing nullable '?' and array '[]' suffixes
+        var cleaned = type.TrimEnd('?');
+        while (cleaned.EndsWith("[]"))
+            cleaned = cleaned[..^2];
+        cleaned = cleaned.Trim();
+
+        if (cleaned.Length == 0)
+            yield break;
+
+        // Handle arrow-function types: (a: string) => ReturnType
+        var arrow = TypeNameParser.TryParseArrowFunction(cleaned);
+        if (arrow != null)
+        {
+            foreach (var paramType in arrow.Value.ParameterTypes)
+                foreach (var r in ExtractTypeReferences(paramType))
+                    yield return r;
+            foreach (var r in ExtractTypeReferences(arrow.Value.ReturnType))
+                yield return r;
+            yield break;
+        }
+
+        // Parse as a potentially generic type
+        var parsed = TypeNameParser.Parse(cleaned);
+        var baseName = IApiIndex.NormalizeTypeName(parsed.BaseName);
+
+        if (baseName.Length > 0 && !Primitives.Contains(baseName) && !char.IsDigit(baseName[0]))
+            yield return baseName;
+
+        // Recurse into generic type parameters
+        foreach (var param in parsed.GenericParameters)
+            foreach (var r in ExtractTypeReferences(param))
+                yield return r;
     }
 }

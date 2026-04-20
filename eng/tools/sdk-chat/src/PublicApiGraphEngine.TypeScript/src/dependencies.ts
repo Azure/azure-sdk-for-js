@@ -49,6 +49,7 @@ import {
 } from "./type-refs.js";
 import { isNodeBuiltinModule, isNodePackage } from "./node-builtins.js";
 import { stripImportPrefix } from "./formatter.js";
+import { resolveExports, findDotExport } from "./exports-resolver.js";
 
 // ── Package-qualified key helpers ──────────────────────────────────────────
 // Multiple packages can export types with the same name.  All internal maps
@@ -1353,14 +1354,23 @@ export function getPackageExportConditions(startDir: string, packageName: string
         if (fs.existsSync(pkgJsonPath)) {
             try {
                 const pkgJson = JSON.parse(fs.readFileSync(pkgJsonPath, "utf-8"));
-                const exports = pkgJson.exports;
-                if (exports && typeof exports === "object") {
-                    // Find the "." export, which may be nested at any level
-                    const dotExport = findDotExport(exports);
+                const exportsField = pkgJson.exports;
+                if (exportsField && typeof exportsField === "object") {
+                    const dotExport = findDotExport(exportsField);
                     if (dotExport && typeof dotExport === "object") {
-                        // Filter to runtime conditions, excluding metadata keys
+                        // Use the shared resolver to walk the "." export and
+                        // collect unique runtime condition keys.
                         const skipKeys = new Set(["types", "react-native", "default"]);
-                        const conditions = collectConditionKeys(dotExport, skipKeys);
+                        const resolved = resolveExports(dotExport);
+                        const conditionSet = new Set<string>();
+                        for (const entry of resolved) {
+                            for (const c of entry.conditionChain) {
+                                if (!c.startsWith(".") && !skipKeys.has(c)) {
+                                    conditionSet.add(c);
+                                }
+                            }
+                        }
+                        const conditions = [...conditionSet];
                         return conditions.length > 0 ? conditions : undefined;
                     }
                 }
@@ -1378,6 +1388,10 @@ export function getPackageExportConditions(startDir: string, packageName: string
  * Resolves the ".d.ts" type entry point for each export condition in a package.
  * Returns a map of condition name → absolute path to the .d.ts file.
  * Includes a "default" entry from the package's top-level "types" field.
+ *
+ * Uses the shared `resolveExports` resolver to walk the exports object, then
+ * attributes each `.d.ts` path to the appropriate runtime condition from its
+ * condition chain.
  */
 export function getPackageConditionTypePaths(startDir: string, packageName: string): Map<string, string> | undefined {
     let current = path.resolve(startDir);
@@ -1392,14 +1406,26 @@ export function getPackageConditionTypePaths(startDir: string, packageName: stri
                 const exportsObj = pkgJson.exports;
 
                 if (exportsObj && typeof exportsObj === "object") {
-                    // Find the "." export recursively
                     const dotExport = findDotExport(exportsObj);
                     if (dotExport && typeof dotExport === "object") {
-                        // Skip metadata-only conditions
+                        // Walk the "." export with the shared resolver
+                        const resolved = resolveExports(dotExport);
                         const skipKeys = new Set(["types", "react-native"]);
 
-                        // Recursively traverse the condition map to find types paths
-                        collectConditionTypePaths(dotExport, skipKeys, pkgDir, result, []);
+                        for (const entry of resolved) {
+                            // Only interested in .d.ts files
+                            if (!/\.d\.[mc]?ts$/.test(entry.filePath)) continue;
+
+                            // Determine the condition to attribute this types path to:
+                            // use the last runtime (non-skip) condition in the chain, or "default".
+                            const runtimeCondition = findLastRuntimeCondition(entry.conditionChain, skipKeys);
+                            const condition = runtimeCondition ?? "default";
+
+                            const absPath = path.resolve(pkgDir, entry.filePath);
+                            if (fs.existsSync(absPath) && !result.has(condition)) {
+                                result.set(condition, absPath);
+                            }
+                        }
                     }
                 }
 
@@ -1423,93 +1449,16 @@ export function getPackageConditionTypePaths(startDir: string, packageName: stri
 }
 
 /**
- * Finds the "." export from a package.json exports object, handling
- * cases where the "." key is directly at the top level or nested.
+ * Finds the last runtime (non-metadata) condition in a condition chain.
+ * Returns undefined if no runtime condition is found.
  */
-function findDotExport(exports: Record<string, unknown>): unknown {
-    // Direct "." key
-    if ("." in exports) return exports["."];
-    // If no subpath keys (no keys starting with "."), the exports object itself
-    // IS the condition map for the root export (e.g., { "import": "...", "require": "..." })
-    const hasSubpaths = Object.keys(exports).some(k => k.startsWith("."));
-    if (!hasSubpaths) return exports;
+function findLastRuntimeCondition(chain: string[], skipKeys: Set<string>): string | undefined {
+    for (let i = chain.length - 1; i >= 0; i--) {
+        if (!skipKeys.has(chain[i]) && !chain[i].startsWith(".")) {
+            return chain[i];
+        }
+    }
     return undefined;
-}
-
-/**
- * Collects all condition keys from a condition map, recursively
- * traversing nested objects. Skips keys in the skipKeys set.
- */
-function collectConditionKeys(obj: unknown, skipKeys: Set<string>, depth = 0): string[] {
-    if (depth > 10 || typeof obj !== "object" || obj === null) return [];
-    const conditions: string[] = [];
-    for (const [key, value] of Object.entries(obj as Record<string, unknown>)) {
-        if (key.startsWith(".")) continue; // Skip subpath keys
-        if (skipKeys.has(key)) {
-            // Recurse into skipped conditions to find nested runtime conditions
-            conditions.push(...collectConditionKeys(value, skipKeys, depth + 1));
-            continue;
-        }
-        conditions.push(key);
-    }
-    return conditions;
-}
-
-/**
- * Recursively traverses a condition map to collect types paths per condition.
- * Follows the same recursive pattern as entry-points.ts extractExportPaths.
- */
-function collectConditionTypePaths(
-    obj: unknown,
-    skipKeys: Set<string>,
-    pkgDir: string,
-    result: Map<string, string>,
-    conditionChain: string[],
-    depth = 0,
-): void {
-    if (depth > 10) return;
-
-    if (typeof obj === "string") {
-        // Terminal string value — resolve the types path
-        const typesPath = /\.d\.[mc]?ts$/.test(obj) ? obj : undefined;
-        if (typesPath) {
-            const condition = conditionChain.length > 0 ? conditionChain[conditionChain.length - 1] : "default";
-            const absPath = path.resolve(pkgDir, typesPath);
-            if (fs.existsSync(absPath) && !result.has(condition)) {
-                result.set(condition, absPath);
-            }
-        }
-        return;
-    }
-
-    if (typeof obj !== "object" || obj === null) return;
-
-    const entries = obj as Record<string, unknown>;
-    for (const [key, value] of Object.entries(entries)) {
-        if (key.startsWith(".")) continue;
-
-        if (key === "types") {
-            // "types" condition: resolve directly
-            const typesPath = resolveTypesPathFromCondition(value);
-            if (typesPath) {
-                // Assign to the most recent runtime condition in the chain, or "default"
-                const condition = conditionChain.length > 0 ? conditionChain[conditionChain.length - 1] : "default";
-                const absPath = path.resolve(pkgDir, typesPath);
-                if (fs.existsSync(absPath) && !result.has(condition)) {
-                    result.set(condition, absPath);
-                }
-            }
-            continue;
-        }
-
-        if (skipKeys.has(key)) {
-            collectConditionTypePaths(value, skipKeys, pkgDir, result, conditionChain, depth + 1);
-            continue;
-        }
-
-        // Runtime condition — recurse with it added to chain
-        collectConditionTypePaths(value, skipKeys, pkgDir, result, [...conditionChain, key], depth + 1);
-    }
 }
 
 /** Extract the .d.ts types path from a condition value in package.json exports. */
@@ -1853,10 +1802,8 @@ function expandReachableFromNamespaceQualified(
     for (const t of ns.types ?? []) tryExpand(t, t.name, "type");
     for (const f of ns.functions ?? []) { if (f.name) tryExpand(f, f.name, "function"); }
 
-    const siblingTypes = getSiblingTypeNames(ns);
-
     for (const nested of ns.namespaces ?? []) {
-        if (refs.has(nested.name) && !siblingTypes.has(nested.name)) {
+        if (refs.has(nested.name) && !nested.isCompanion) {
             const before = refs.size;
             addAllMemberNamesQualified(nested, refs, qualifiedRefs, packageName);
             if (refs.size > before) added = true;
@@ -1928,31 +1875,18 @@ function filterNamespaceMembersQualified(
     return result;
 }
 
-/**
- * Computes the set of type names that are siblings (classes/interfaces/types)
- * of nested namespaces within a given namespace. Used to determine companion
- * namespaces locally — a nested namespace is a companion if there's a
- * same-named class/interface/type at the same level.
- */
-function getSiblingTypeNames(ns: NamespaceInfo): Set<string> {
-    const names = new Set<string>();
-    for (const c of ns.classes ?? []) names.add(c.name);
-    for (const i of ns.interfaces ?? []) names.add(i.name);
-    for (const t of ns.types ?? []) names.add(t.name);
-    return names;
-}
 
 /**
  * Scans a namespace's members and adds newly-reachable member references
  * to the reference set. Returns true if any new names were added.
  * Uses `expanded` to skip members that have already been scanned.
  *
- * Companion detection is LOCAL: when a nested namespace's name matches
- * a sibling class/interface/type within the SAME parent namespace, it's
- * a companion namespace (from declaration merging). For companions, the
- * name in refs means the CLASS/INTERFACE is referenced, not the namespace
- * members. For pure (non-companion) namespaces, the name in refs means
- * the namespace is used as a type and all members form the type's structure.
+ * Companion namespaces (declaration-merged with a class/interface/type,
+ * detected via `isCompanion` flag set during extraction) are skipped for
+ * bulk member expansion — for companions, the name in refs means the
+ * CLASS/INTERFACE is referenced, not the namespace members. For pure
+ * (non-companion) namespaces, the name in refs means the namespace is
+ * used as a type and all members form the type's structure.
  */
 function expandReachableFromNamespace(ns: NamespaceInfo, refs: Set<string>, expanded: WeakSet<object>): boolean {
     let added = false;
@@ -1972,16 +1906,12 @@ function expandReachableFromNamespace(ns: NamespaceInfo, refs: Set<string>, expa
     for (const t of ns.types ?? []) tryExpand(t, t.name, "type");
     for (const f of ns.functions ?? []) { if (f.name) tryExpand(f, f.name, "function"); }
 
-    // Determine companion status locally: a nested namespace is a companion
-    // if it has a same-named class/interface/type sibling within THIS namespace.
-    const siblingTypes = getSiblingTypeNames(ns);
-
     for (const nested of ns.namespaces ?? []) {
         // When a nested namespace's name is in refs and it's NOT a companion
-        // (no same-named sibling type at this level), the namespace itself is
-        // used as a type (e.g., `delta: Choice.Delta`). Add all its direct
-        // members to refs since they form the type's structure.
-        if (refs.has(nested.name) && !siblingTypes.has(nested.name)) {
+        // (not declaration-merged with a class/interface/type), the namespace
+        // itself is used as a type (e.g., `delta: Choice.Delta`). Add all its
+        // direct members to refs since they form the type's structure.
+        if (refs.has(nested.name) && !nested.isCompanion) {
             const before = refs.size;
             addAllMemberNames(nested, refs);
             if (refs.size > before) added = true;

@@ -3,6 +3,7 @@
 
 using PublicApiGraphEngine.Contracts;
 using PublicApiGraphEngine.Go;
+using TypeScript = PublicApiGraphEngine.TypeScript;
 using Xunit;
 
 namespace PublicApiGraphEngine.Tests;
@@ -767,5 +768,178 @@ public class PythonDiagnosticsSourceTests
 
         var callables = index.GetTopLevelCallables().ToList();
         Assert.Equal(["bool"], callables[0].ParameterTypes);
+    }
+}
+
+public class TypeScriptDiagnosticsSourceTests
+{
+    [Fact]
+    public void GetDiagnosticTypes_MapsKindForClasses()
+    {
+        var index = new TypeScript.ApiIndex
+        {
+            Package = "test",
+            Modules =
+            [
+                new TypeScript.ModuleInfo
+                {
+                    Name = "mod",
+                    Classes = [new TypeScript.ClassInfo { Name = "MyClass" }],
+                },
+            ],
+        };
+
+        var types = index.GetDiagnosticTypes().ToList();
+        Assert.Single(types);
+        Assert.Equal("class", types[0].Kind);
+    }
+
+    [Fact]
+    public void GetDiagnosticTypes_MapsKindForInterfaces()
+    {
+        var index = new TypeScript.ApiIndex
+        {
+            Package = "test",
+            Modules =
+            [
+                new TypeScript.ModuleInfo
+                {
+                    Name = "mod",
+                    Interfaces = [new TypeScript.InterfaceInfo { Name = "MyInterface" }],
+                },
+            ],
+        };
+
+        var types = index.GetDiagnosticTypes().ToList();
+        Assert.Single(types);
+        Assert.Equal("interface", types[0].Kind);
+    }
+
+    [Fact]
+    public void GetDiagnosticTypes_MapsKindForEnums()
+    {
+        var index = new TypeScript.ApiIndex
+        {
+            Package = "test",
+            Modules =
+            [
+                new TypeScript.ModuleInfo
+                {
+                    Name = "mod",
+                    Enums = [new TypeScript.EnumInfo { Name = "MyEnum" }],
+                },
+            ],
+        };
+
+        var types = index.GetDiagnosticTypes().ToList();
+        Assert.Single(types);
+        Assert.Equal("enum", types[0].Kind);
+    }
+
+    [Fact]
+    public void GetDiagnosticTypes_MapsKindForTypeAliases()
+    {
+        var index = new TypeScript.ApiIndex
+        {
+            Package = "test",
+            Modules =
+            [
+                new TypeScript.ModuleInfo
+                {
+                    Name = "mod",
+                    Types = [new TypeScript.TypeAliasInfo { Name = "MyType" }],
+                },
+            ],
+        };
+
+        var types = index.GetDiagnosticTypes().ToList();
+        Assert.Single(types);
+        Assert.Equal("type", types[0].Kind);
+    }
+
+    [Fact]
+    public void GetDiagnosticTypes_MapsPropertyIsOptionalAndIsReadOnly()
+    {
+        var index = new TypeScript.ApiIndex
+        {
+            Package = "test",
+            Modules =
+            [
+                new TypeScript.ModuleInfo
+                {
+                    Name = "mod",
+                    Classes =
+                    [
+                        new TypeScript.ClassInfo
+                        {
+                            Name = "MyClass",
+                            Properties =
+                            [
+                                new TypeScript.PropertyInfo { Name = "required", Type = "string" },
+                                new TypeScript.PropertyInfo { Name = "optional", Type = "string", Optional = true },
+                                new TypeScript.PropertyInfo { Name = "readonlyProp", Type = "string", Readonly = true },
+                                new TypeScript.PropertyInfo { Name = "both", Type = "string", Optional = true, Readonly = true },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        };
+
+        var types = index.GetDiagnosticTypes().ToList();
+        var props = types[0].Properties;
+
+        Assert.Equal(4, props.Count);
+
+        Assert.False(props[0].IsOptional);
+        Assert.False(props[0].IsReadOnly);
+
+        Assert.True(props[1].IsOptional);
+        Assert.False(props[1].IsReadOnly);
+
+        Assert.False(props[2].IsOptional);
+        Assert.True(props[2].IsReadOnly);
+
+        Assert.True(props[3].IsOptional);
+        Assert.True(props[3].IsReadOnly);
+    }
+
+    [Fact]
+    public void GetDiagnosticTypes_MapsInterfacePropertyIsOptionalAndIsReadOnly()
+    {
+        var index = new TypeScript.ApiIndex
+        {
+            Package = "test",
+            Modules =
+            [
+                new TypeScript.ModuleInfo
+                {
+                    Name = "mod",
+                    Interfaces =
+                    [
+                        new TypeScript.InterfaceInfo
+                        {
+                            Name = "MyInterface",
+                            Properties =
+                            [
+                                new TypeScript.PropertyInfo { Name = "mutable", Type = "number" },
+                                new TypeScript.PropertyInfo { Name = "locked", Type = "number", Readonly = true, Optional = true },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        };
+
+        var types = index.GetDiagnosticTypes().ToList();
+        var props = types[0].Properties;
+
+        Assert.Equal(2, props.Count);
+
+        Assert.False(props[0].IsOptional);
+        Assert.False(props[0].IsReadOnly);
+
+        Assert.True(props[1].IsOptional);
+        Assert.True(props[1].IsReadOnly);
     }
 }

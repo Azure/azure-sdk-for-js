@@ -232,14 +232,16 @@ public static class ApiDiffAnalyzer
         var unmatchedBaseline = new List<DiagnosticCallableInfo>(baselineOverloads);
         var unmatchedCurrent = new List<DiagnosticCallableInfo>(currentOverloads);
 
-        // Pass 1: Exact full-signature match
+        // Pass 1: Exact full-signature match (zero-cost pairs, removed first)
         MatchBySignature(unmatchedBaseline, unmatchedCurrent, GetFullSignature, out var exactMatched);
 
-        // Pass 2: Match remaining by required-parameter prefix
-        MatchBySignature(unmatchedBaseline, unmatchedCurrent, GetRequiredSignature, out var requiredMatched);
+        // Pass 2: Minimum-cost bipartite matching on remaining overloads
+        // Uses the Hungarian algorithm to optimally pair overloads by parameter similarity,
+        // avoiding the arbitrary greedy pairing that occurs with duplicate required prefixes.
+        var costMatched = MatchByMinimumCost(unmatchedBaseline, unmatchedCurrent);
 
         // Compare all matched pairs for semantic changes
-        foreach (var (b, c) in exactMatched.Concat(requiredMatched))
+        foreach (var (b, c) in exactMatched.Concat(costMatched))
         {
             CompareMatchedCallables(typeName, callableName, b, c, breaking, nonBreaking);
         }
@@ -292,6 +294,199 @@ public static class ApiDiffAnalyzer
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// Computes the cost of pairing two overloads. Lower cost means more similar signatures.
+    /// Cost components:
+    ///   - Each positional parameter type difference adds 1
+    ///   - Each extra/missing parameter adds 2
+    ///   - Mismatched required-parameter prefix adds 10 (large penalty to prefer prefix matches)
+    /// </summary>
+    internal static int OverloadMatchCost(DiagnosticCallableInfo baseline, DiagnosticCallableInfo current)
+    {
+        int bRequired = baseline.ParameterTypes.Count - baseline.OptionalParameterCount;
+        int cRequired = current.ParameterTypes.Count - current.OptionalParameterCount;
+        var bReqSig = string.Join(", ", baseline.ParameterTypes.Take(bRequired));
+        var cReqSig = string.Join(", ", current.ParameterTypes.Take(cRequired));
+
+        int cost = 0;
+
+        // Large penalty when required-parameter prefixes differ
+        if (!string.Equals(bReqSig, cReqSig, StringComparison.Ordinal))
+        {
+            cost += 10;
+        }
+
+        // Per-position type comparison across all parameters
+        int commonCount = Math.Min(baseline.ParameterTypes.Count, current.ParameterTypes.Count);
+        for (int i = 0; i < commonCount; i++)
+        {
+            if (!string.Equals(baseline.ParameterTypes[i], current.ParameterTypes[i], StringComparison.Ordinal))
+            {
+                cost += 1;
+            }
+        }
+
+        // Extra or missing parameters
+        cost += 2 * Math.Abs(baseline.ParameterTypes.Count - current.ParameterTypes.Count);
+
+        return cost;
+    }
+
+    /// <summary>
+    /// Matches remaining overloads using minimum-cost bipartite matching (Hungarian algorithm).
+    /// Removes matched items from both pools in-place and returns the matched pairs.
+    /// </summary>
+    private static List<(DiagnosticCallableInfo Baseline, DiagnosticCallableInfo Current)> MatchByMinimumCost(
+        List<DiagnosticCallableInfo> baselinePool,
+        List<DiagnosticCallableInfo> currentPool)
+    {
+        var matched = new List<(DiagnosticCallableInfo, DiagnosticCallableInfo)>();
+        if (baselinePool.Count == 0 || currentPool.Count == 0)
+            return matched;
+
+        int n = baselinePool.Count;
+        int m = currentPool.Count;
+
+        // Build cost matrix
+        var cost = new int[n, m];
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < m; j++)
+            {
+                cost[i, j] = OverloadMatchCost(baselinePool[i], currentPool[j]);
+            }
+        }
+
+        // Solve assignment using the Hungarian algorithm
+        int[] assignment = HungarianAssignment(cost, n, m);
+
+        // Collect matched pairs (remove from pools in reverse order to preserve indices)
+        var baselineIndicesToRemove = new List<int>();
+        var currentIndicesToRemove = new List<int>();
+
+        // Only accept matches below a cost threshold — pairs with completely
+        // different signatures should be treated as removed+added, not matched.
+        const int maxAcceptableCost = 10;
+
+        for (int i = 0; i < n; i++)
+        {
+            if (assignment[i] >= 0 && cost[i, assignment[i]] < maxAcceptableCost)
+            {
+                matched.Add((baselinePool[i], currentPool[assignment[i]]));
+                baselineIndicesToRemove.Add(i);
+                currentIndicesToRemove.Add(assignment[i]);
+            }
+        }
+
+        // Remove matched items from pools in reverse order
+        foreach (int i in baselineIndicesToRemove.OrderByDescending(x => x))
+            baselinePool.RemoveAt(i);
+        foreach (int j in currentIndicesToRemove.OrderByDescending(x => x))
+            currentPool.RemoveAt(j);
+
+        return matched;
+    }
+
+    /// <summary>
+    /// Hungarian algorithm for minimum-cost assignment on a (possibly non-square) cost matrix.
+    /// Returns an array where result[i] = j means baseline[i] is matched to current[j],
+    /// or result[i] = -1 if baseline[i] is unmatched.
+    /// </summary>
+    private static int[] HungarianAssignment(int[,] cost, int rows, int cols)
+    {
+        // Pad to square matrix with size = max(rows, cols)
+        int size = Math.Max(rows, cols);
+        var c = new int[size, size];
+        for (int i = 0; i < size; i++)
+        {
+            for (int j = 0; j < size; j++)
+            {
+                c[i, j] = (i < rows && j < cols) ? cost[i, j] : 0;
+            }
+        }
+
+        // u[i] = potential for row i, v[j] = potential for column j
+        var u = new int[size + 1];
+        var v = new int[size + 1];
+        // p[j] = row assigned to column j (1-indexed, 0 = unassigned)
+        var p = new int[size + 1];
+        // way[j] = column that led to column j in the augmenting path
+        var way = new int[size + 1];
+
+        for (int i = 1; i <= size; i++)
+        {
+            p[0] = i;
+            int j0 = 0;
+            var minv = new int[size + 1];
+            var used = new bool[size + 1];
+            Array.Fill(minv, int.MaxValue);
+
+            do
+            {
+                used[j0] = true;
+                int i0 = p[j0];
+                int delta = int.MaxValue;
+                int j1 = -1;
+
+                for (int j = 1; j <= size; j++)
+                {
+                    if (!used[j])
+                    {
+                        int cur = c[i0 - 1, j - 1] - u[i0] - v[j];
+                        if (cur < minv[j])
+                        {
+                            minv[j] = cur;
+                            way[j] = j0;
+                        }
+                        if (minv[j] < delta)
+                        {
+                            delta = minv[j];
+                            j1 = j;
+                        }
+                    }
+                }
+
+                for (int j = 0; j <= size; j++)
+                {
+                    if (used[j])
+                    {
+                        u[p[j]] += delta;
+                        v[j] -= delta;
+                    }
+                    else
+                    {
+                        minv[j] -= delta;
+                    }
+                }
+
+                j0 = j1;
+            }
+            while (p[j0] != 0);
+
+            // Augment along the path
+            do
+            {
+                int j1 = way[j0];
+                p[j0] = p[j1];
+                j0 = j1;
+            }
+            while (j0 != 0);
+        }
+
+        // Extract assignment: result[i] = j for real rows/cols, -1 otherwise
+        var result = new int[rows];
+        Array.Fill(result, -1);
+        for (int j = 1; j <= size; j++)
+        {
+            if (p[j] > 0 && p[j] <= rows && j <= cols)
+            {
+                result[p[j] - 1] = j - 1;
+            }
+        }
+
+        return result;
     }
 
     private static void CompareMatchedCallables(
@@ -495,12 +690,6 @@ public static class ApiDiffAnalyzer
 
     private static string GetFullSignature(DiagnosticCallableInfo callable) =>
         string.Join(", ", callable.ParameterTypes);
-
-    private static string GetRequiredSignature(DiagnosticCallableInfo callable)
-    {
-        int requiredCount = callable.ParameterTypes.Count - callable.OptionalParameterCount;
-        return string.Join(", ", callable.ParameterTypes.Take(requiredCount));
-    }
 
     private static string FormatSignatureWithOptionality(DiagnosticCallableInfo callable)
     {

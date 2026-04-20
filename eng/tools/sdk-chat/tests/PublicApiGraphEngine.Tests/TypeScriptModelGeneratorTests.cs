@@ -88,6 +88,18 @@ public class TypeScriptModelGeneratorTests
     }
 
     [Fact]
+    public void Tokenizer_BlockComment_IsSkipped()
+    {
+        var tokens = new TsTokenizer("name /* block comment */ type").Tokenize();
+        Assert.Equal(TsTokenKind.Identifier, tokens[0].Kind);
+        Assert.Equal("name", tokens[0].Value);
+        Assert.Equal(TsTokenKind.Identifier, tokens[1].Kind);
+        Assert.Equal("type", tokens[1].Value);
+        Assert.Equal(TsTokenKind.EndOfFile, tokens[2].Kind);
+        Assert.Equal(3, tokens.Count);
+    }
+
+    [Fact]
     public void Tokenizer_TracksLineAndColumn()
     {
         var source = "export\ninterface";

@@ -258,7 +258,15 @@ export function replaceTypeIdentifiers(text: string, replacements: Map<string, s
     // Fast path: if no replacements, return as-is
     if (replacements.size === 0) return text;
 
-    return replaceTypeIdentifiersAST(text, replacements);
+    try {
+        return replaceTypeIdentifiersAST(text, replacements);
+    } catch (e) {
+        // Graceful degradation: if the fragment can't be parsed by any wrapper
+        // strategy, emit a diagnostic warning and return the original text unchanged.
+        const message = e instanceof Error ? e.message : String(e);
+        console.error(`Collision rewrite skipped: ${message}`);
+        return text;
+    }
 }
 
 /**

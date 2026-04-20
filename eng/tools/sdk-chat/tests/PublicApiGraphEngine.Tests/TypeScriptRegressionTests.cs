@@ -56,17 +56,20 @@ internal static class TsRegressionHelper
     }
 
     /// <summary>
-    /// Returns all SDKWARN diagnostic text strings from the given ApiIndex.
-    /// These include self-containment warnings emitted to stderr by the JS engine.
+    /// Returns all warning-level diagnostic text strings from the given ApiIndex.
+    /// These include self-containment warnings, unresolved dependency warnings, and
+    /// extraction diagnostics emitted to stderr by the JS engine. Matches both
+    /// structured diagnostics (SELF_CONTAINMENT, UNRESOLVED_DEPENDENCY, etc.) and
+    /// legacy unstructured SDKWARN diagnostics.
     /// </summary>
     internal static IReadOnlyList<string> GetSdkWarnTexts(ApiIndex api) =>
         api.Diagnostics
-            .Where(d => d.Id == "SDKWARN")
+            .Where(d => d.Level == DiagnosticLevel.Warning)
             .Select(d => d.Text)
             .ToList();
 
     /// <summary>
-    /// Returns true if any SDKWARN diagnostic text contains the given token.
+    /// Returns true if any warning-level diagnostic text contains the given token.
     /// </summary>
     internal static bool HasSdkWarnFor(ApiIndex api, string token) =>
         GetSdkWarnTexts(api).Any(t => t.Contains(token));

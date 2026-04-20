@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { resolveCollisions, replaceTypeIdentifiers, type CollisionAliasMap } from "../collision.js";
 import type { ApiIndex, ClassInfo, InterfaceInfo, TypeAliasInfo, FunctionInfo, CallSignatureInfo, ConstructSignatureInfo } from "../models.js";
 
@@ -687,14 +687,27 @@ describe("AST-based replaceTypeIdentifiers", () => {
     });
   });
 
-  describe("throws on unparseable input", () => {
-    it("throws on truly malformed text that no strategy can parse", () => {
-      expect(() =>
+  describe("unparseable input graceful degradation", () => {
+    it("returns original text unchanged for truly malformed input", () => {
+      const text = "Foo ??? Bar !!!";
+      const result = replaceTypeIdentifiers(text, makeReplacements([
+        ["Foo", "AliasFoo"],
+        ["Bar", "AliasBar"],
+      ]));
+      expect(result).toBe(text);
+    });
+
+    it("emits a diagnostic warning to stderr for unparseable fragments", () => {
+      const spy = vi.spyOn(console, "error").mockImplementation(() => {});
+      try {
         replaceTypeIdentifiers("Foo ??? Bar !!!", makeReplacements([
           ["Foo", "AliasFoo"],
-          ["Bar", "AliasBar"],
-        ]))
-      ).toThrow(/Cannot parse type fragment/);
+        ]));
+        expect(spy).toHaveBeenCalledOnce();
+        expect(spy.mock.calls[0][0]).toMatch(/Collision rewrite skipped.*Cannot parse type fragment/);
+      } finally {
+        spy.mockRestore();
+      }
     });
   });
 

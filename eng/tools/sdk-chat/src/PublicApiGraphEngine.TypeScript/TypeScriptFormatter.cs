@@ -6,6 +6,9 @@ using PublicApiGraphEngine.Contracts;
 
 namespace PublicApiGraphEngine.TypeScript;
 
+/// <summary>Structured key for grouping types by (exportPath, condition).</summary>
+internal readonly record struct ModuleKey(string ExportPath, string Condition);
+
 /// <summary>
 /// Formats an ApiIndex as human-readable TypeScript stub syntax.
 /// Supports smart truncation that prioritizes client classes and their dependencies.
@@ -632,10 +635,10 @@ public static class TypeScriptFormatter
         if (needsSections)
         {
             // Group types by (exportPath, condition)
-            var moduleGroups = new Dictionary<string, (List<ClassInfo> Classes, List<InterfaceInfo> Interfaces,
+            var moduleGroups = new Dictionary<ModuleKey, (List<ClassInfo> Classes, List<InterfaceInfo> Interfaces,
                 List<EnumInfo> Enums, List<TypeAliasInfo> Types, List<FunctionInfo> Functions, List<NamespaceInfo> Namespaces)>();
 
-            void AddToGroup(string groupKey, ClassInfo? cls = null, InterfaceInfo? iface = null,
+            void AddToGroup(ModuleKey groupKey, ClassInfo? cls = null, InterfaceInfo? iface = null,
                 EnumInfo? en = null, TypeAliasInfo? ta = null, FunctionInfo? fn = null, NamespaceInfo? ns = null)
             {
                 if (!moduleGroups.TryGetValue(groupKey, out var g))
@@ -665,10 +668,10 @@ public static class TypeScriptFormatter
             {
                 var condition = module.Condition ?? "default";
 
-                string GroupKey(string? typeExportPath)
+                ModuleKey GroupKey(string? typeExportPath)
                 {
                     var ep = typeExportPath ?? module.ExportPath ?? ".";
-                    return $"{ep}||{condition}";
+                    return new ModuleKey(ep, condition);
                 }
 
                 foreach (var c in module.Classes ?? []) AddToGroup(GroupKey(c.ExportPath), cls: c);
@@ -681,12 +684,8 @@ public static class TypeScriptFormatter
 
             // Sort groups: by exportPath first (. before subpaths), then condition alphabetically
             var sortedGroups = moduleGroups
-                .OrderBy(g =>
-                {
-                    var ep = g.Key.Split("||")[0];
-                    return ep == "." ? "" : ep;
-                })
-                .ThenBy(g => g.Key.Split("||")[1])
+                .OrderBy(g => g.Key.ExportPath == "." ? "" : g.Key.ExportPath)
+                .ThenBy(g => g.Key.Condition)
                 .ToList();
 
         // Pre-build dependency groups by condition for nesting inside main modules.
@@ -842,9 +841,8 @@ public static class TypeScriptFormatter
         var mainTypeToModule = new Dictionary<string, string>(StringComparer.Ordinal);
         foreach (var (k, g) in sortedGroups)
         {
-            var kParts = k.Split("||");
-            var ep = kParts[0];
-            var cond = kParts[1];
+            var ep = k.ExportPath;
+            var cond = k.Condition;
             string mName;
             if (ep is "." or "")
                 mName = hasMultipleConditions ? $"{index.Package}/{cond}" : index.Package;
@@ -864,9 +862,8 @@ public static class TypeScriptFormatter
             {
                 if (sb.Length >= maxLength) break;
 
-                var keyParts = key.Split("||");
-                var exportPath = keyParts[0];
-                var condition = keyParts[1];
+                var exportPath = key.ExportPath;
+                var condition = key.Condition;
 
                 // Build module name: "pkg/condition" or "pkg/subpath/condition"
                 string moduleName;

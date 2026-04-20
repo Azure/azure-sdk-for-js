@@ -257,7 +257,8 @@ describe("filterNamespaceMembers", () => {
       ],
       namespaces: [
         {
-          name: "Choice", // companion namespace
+          name: "Choice", // companion namespace (declaration-merged)
+          isCompanion: true,
           types: [
             { name: "ChoiceData", type: "{ text: string }" },
             { name: "Unused", type: "never" },
