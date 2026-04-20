@@ -26568,9 +26568,6 @@ importers:
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0
-      '@azure/openai':
-        specifier: workspace:^
-        version: link:../../openai/openai
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.39
