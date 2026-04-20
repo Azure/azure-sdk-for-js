@@ -895,7 +895,7 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
     });
 
     it("returns if the correlation-id is not a string, map is un-edited", () => {
-      context.message!.correlation_id = Buffer.from("123");
+      context.message!.correlation_id = 123456;
       onMessageReceived(context, defaultConnectionId, responsesMap);
       assertItemsLengthInResponsesMap(responsesMap, 1);
       assert.equal(

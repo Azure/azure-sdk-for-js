@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Deprecated `Resolved<T>` type alias in favor of the built-in TypeScript `Awaited<T>` type.
+
 ## 1.3.1 (2025-09-11)
 
 ### Other Changes

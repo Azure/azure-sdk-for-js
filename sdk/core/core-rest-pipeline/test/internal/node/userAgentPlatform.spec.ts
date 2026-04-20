@@ -2,11 +2,15 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, vi, afterEach, beforeEach } from "vitest";
-import { setPlatformSpecificData } from "../../../src/util/userAgentPlatform.js";
+import { getHeaderName, setPlatformSpecificData } from "../../../src/util/userAgentPlatform.js";
 import process from "process";
 import os from "node:os";
 
 describe("userAgentPlatform", () => {
+  it("should return 'User-Agent' as the header name", () => {
+    assert.equal(getHeaderName(), "User-Agent");
+  });
+
   vi.mock("node:process", async () => {
     const actual = await vi.importActual("node:process");
     return {
