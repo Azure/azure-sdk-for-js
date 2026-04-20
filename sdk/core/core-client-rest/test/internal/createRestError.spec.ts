@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { createRestError } from "../../src/restError.js";
-import type { PipelineRequest } from "@azure/core-rest-pipeline";
+import { createPipelineRequest } from "@azure/core-rest-pipeline";
 import { describe, it, assert } from "vitest";
 
 describe("createRestError", () => {
@@ -10,7 +10,7 @@ describe("createRestError", () => {
     const response = {
       status: "400",
       headers: {},
-      request: {} as PipelineRequest,
+      request: createPipelineRequest({ url: "https://example.com" }),
       body: {
         error: {
           code: "code",
@@ -28,7 +28,7 @@ describe("createRestError", () => {
     const response = {
       status: "400",
       headers: {},
-      request: {} as PipelineRequest,
+      request: createPipelineRequest({ url: "https://example.com" }),
       body: {
         error: {
           code: "code",
@@ -46,7 +46,7 @@ describe("createRestError", () => {
     const response = {
       status: "400",
       headers: {},
-      request: {} as PipelineRequest,
+      request: createPipelineRequest({ url: "https://example.com" }),
       body: {
         code: "code",
         message: "message",
@@ -62,7 +62,7 @@ describe("createRestError", () => {
     const response = {
       status: "400",
       headers: {},
-      request: {} as PipelineRequest,
+      request: createPipelineRequest({ url: "https://example.com" }),
       body: {
         code: "code",
         message: "message",
@@ -78,7 +78,7 @@ describe("createRestError", () => {
     const response = {
       status: "400",
       headers: {},
-      request: {} as PipelineRequest,
+      request: createPipelineRequest({ url: "https://example.com" }),
       body: undefined,
     };
     const error = createRestError("error message", response);
@@ -91,7 +91,7 @@ describe("createRestError", () => {
     const response = {
       status: "400",
       headers: {},
-      request: {} as PipelineRequest,
+      request: createPipelineRequest({ url: "https://example.com" }),
       body: undefined,
     };
     const error = createRestError(response);
