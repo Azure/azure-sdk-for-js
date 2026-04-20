@@ -146,8 +146,7 @@ describe("file utilities", function () {
           },
         });
       const file = createFileFromStream(streamFactory, "stream.txt");
-      const fileMethods = file as unknown as Record<string, () => unknown>;
-      assert.throws(() => fileMethods["arrayBuffer"](), /Not implemented/);
+      assert.throws(() => file.arrayBuffer(), /Not implemented/);
     });
 
     it("throws unimplemented for text", function () {
@@ -158,8 +157,7 @@ describe("file utilities", function () {
           },
         });
       const file = createFileFromStream(streamFactory, "stream.txt");
-      const fileMethods = file as unknown as Record<string, () => unknown>;
-      assert.throws(() => fileMethods["text"](), /Not implemented/);
+      assert.throws(() => file.text(), /Not implemented/);
     });
 
     it("throws unimplemented for slice", function () {
@@ -170,8 +168,7 @@ describe("file utilities", function () {
           },
         });
       const file = createFileFromStream(streamFactory, "stream.txt");
-      const fileMethods = file as unknown as Record<string, () => unknown>;
-      assert.throws(() => fileMethods["slice"](), /Not implemented/);
+      assert.throws(() => file.slice(), /Not implemented/);
     });
 
     it("throws unimplemented for bytes", function () {
@@ -182,8 +179,7 @@ describe("file utilities", function () {
           },
         });
       const file = createFileFromStream(streamFactory, "stream.txt");
-      const fileMethods = file as unknown as Record<string, () => unknown>;
-      assert.throws(() => fileMethods["bytes"](), /Not implemented/);
+      assert.throws(() => file.bytes(), /Not implemented/);
     });
   });
 

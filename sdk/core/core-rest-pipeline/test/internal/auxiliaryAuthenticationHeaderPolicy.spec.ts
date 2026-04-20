@@ -216,16 +216,14 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
 
   it("should not add auxiliary header if all tokens are invalid", async function () {
     const tokenScopes = ["scope1", "scope2"];
-    const fakeGetToken1 = vi.fn().mockResolvedValue({
-      token: null,
+    const fakeGetToken1 = vi.fn<TokenCredential["getToken"]>().mockResolvedValue({
+      token: "",
       expiresOnTimestamp: new Date().getTime(),
-    } as unknown as AccessToken);
-    const fakeGetToken2 = vi.fn().mockResolvedValue(
-      Promise.resolve({
-        token: null,
-        expiresOnTimestamp: new Date().getTime(),
-      } as unknown as AccessToken),
-    );
+    });
+    const fakeGetToken2 = vi.fn<TokenCredential["getToken"]>().mockResolvedValue({
+      token: "",
+      expiresOnTimestamp: new Date().getTime(),
+    });
     const mockCredential1: TokenCredential = {
       getToken: fakeGetToken1,
     };

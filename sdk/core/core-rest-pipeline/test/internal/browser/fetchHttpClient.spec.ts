@@ -352,14 +352,9 @@ describe("FetchHttpClient", function () {
     const mockFetch = vi.fn(
       async (_url: any, options: (RequestInit & { duplex?: string }) | undefined) => {
         const body = options?.body;
-        assert.isTrue(
-          body &&
-            typeof (body as ReadableStream).getReader === "function" &&
-            typeof (body as ReadableStream).tee === "function",
-          "expecting ReadableStream request body",
-        );
+        assert.instanceOf(body, ReadableStream, "expecting ReadableStream request body");
         assert.strictEqual(options?.duplex, "half");
-        const reader = (body as ReadableStream).getReader();
+        const reader = body.getReader();
         const data = await reader.read();
         assert.equal(data.value, requestText, "unexpected request text");
         return new Response(undefined, { status: 200 });
@@ -393,13 +388,8 @@ describe("FetchHttpClient", function () {
     };
     const mockFetch = vi.fn(async (_url: any, options: any) => {
       const body = options?.body;
-      assert.isTrue(
-        body &&
-          typeof (body as ReadableStream).getReader === "function" &&
-          typeof (body as ReadableStream).tee === "function",
-        "expecting ReadableStream request body",
-      );
-      const reader = (body as ReadableStream).getReader();
+      assert.instanceOf(body, ReadableStream, "expecting ReadableStream request body");
+      const reader = body.getReader();
       const data = await reader.read();
       assert.equal(data.value, requestText, "unexpected request text");
       return new Response(undefined, { status: 200 });

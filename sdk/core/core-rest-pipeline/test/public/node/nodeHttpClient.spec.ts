@@ -9,20 +9,20 @@ import { delay } from "@azure/core-util";
 import { createDefaultHttpClient, createPipelineRequest } from "../../../src/index.js";
 
 vi.mock("node:https", async () => {
-  const actual = await vi.importActual("node:https");
+  const actual = await vi.importActual<typeof import("node:https")>("node:https");
   return {
     default: {
-      ...(actual as any).default,
+      ...actual.default,
       request: vi.fn(),
     },
   };
 });
 
 vi.mock("node:http", async () => {
-  const actual = await vi.importActual("node:http");
+  const actual = await vi.importActual<typeof import("node:http")>("node:http");
   return {
     default: {
-      ...(actual as any).default,
+      ...actual.default,
       request: vi.fn(),
     },
   };
@@ -39,24 +39,45 @@ class FakeResponse extends PassThrough {
 class FakeRequest extends PassThrough {}
 
 /**
+ * Treat a FakeResponse as an IncomingMessage for mocking purposes.
+ * The cast is isolated here; callers use typed IncomingMessage.
+ */
+function toIncomingMessage(fake: FakeResponse): IncomingMessage {
+  return fake as unknown as IncomingMessage;
+}
+
+/**
+ * Create a Writable that can be used as a mock ClientRequest for body-piping tests.
+ * The cast is isolated here; callers use typed ClientRequest.
+ */
+function createMockWritableRequest(
+  writeFn: (chunk: Buffer, encoding: string, next: () => void) => void,
+): ClientRequest {
+  return new Writable({ write: writeFn }) as unknown as ClientRequest;
+}
+
+/**
  * Generic NodeJS streams accept typed arrays just fine,
  * but `http.ClientRequest` objects *only* support chunks
  * of `Buffer` and `string`, so we must convert them first.
  *
  * This fake asserts we have only passed the correct types.
  */
-const httpRequestChecker: ClientRequest = {
-  on() {
-    /* no op */
-  },
-  once() {
-    /* no op */
-  },
-  end(chunk: unknown) {
-    const isString = typeof chunk === "string";
-    assert.isTrue(isString || Buffer.isBuffer(chunk), "Expected either string or Buffer");
-  },
-} as unknown as ClientRequest;
+const httpRequestChecker: ClientRequest = (() => {
+  const checker = {
+    on() {
+      /* no op */
+    },
+    once() {
+      /* no op */
+    },
+    end(chunk: unknown) {
+      const isString = typeof chunk === "string";
+      assert.isTrue(isString || Buffer.isBuffer(chunk), "Expected either string or Buffer");
+    },
+  };
+  return checker as unknown as ClientRequest;
+})();
 
 function createResponse(statusCode: number, body = ""): IncomingMessage {
   const response = new FakeResponse();
@@ -64,7 +85,7 @@ function createResponse(statusCode: number, body = ""): IncomingMessage {
   response.statusCode = statusCode;
   response.write(body);
   response.end();
-  return response as unknown as IncomingMessage;
+  return toIncomingMessage(response);
 }
 
 function createRequest(): ClientRequest {
@@ -277,7 +298,7 @@ describe("NodeHttpClient", function () {
     buffer.copy(buffer2, 0, 4);
     streamResponse.write(buffer2);
     streamResponse.end();
-    yieldHttpsResponse(streamResponse as unknown as IncomingMessage);
+    yieldHttpsResponse(toIncomingMessage(streamResponse));
     const response = await promise;
     assert.strictEqual(response.status, 200);
     assert.strictEqual(response.bodyAsText, inputString);
@@ -355,9 +376,9 @@ describe("NodeHttpClient", function () {
       assert.equal(chunk.toString(), requestText, "Unexpected body");
       next();
     });
-    const writable = new Writable({
-      write: writeFn,
-    }) as unknown as ClientRequest;
+    const writable = createMockWritableRequest((chunk, _, next) => {
+      writeFn(chunk, _, next);
+    });
     vi.mocked(https.request).mockReturnValueOnce(writable);
 
     const stream = new PassThrough();
@@ -378,9 +399,9 @@ describe("NodeHttpClient", function () {
       assert.equal(chunk.toString(), requestText, "Unexpected body");
       next();
     });
-    const writable = new Writable({
-      write: writeFn,
-    }) as unknown as ClientRequest;
+    const writable = createMockWritableRequest((chunk, _, next) => {
+      writeFn(chunk, _, next);
+    });
     vi.mocked(https.request).mockReturnValueOnce(writable);
 
     const body = (): PassThrough => {
@@ -421,7 +442,7 @@ describe("NodeHttpClient", function () {
     streamResponse.statusCode = 200;
     const buffer = Buffer.from("The start of an HTTP body");
     streamResponse.write(buffer);
-    yieldHttpsResponse(streamResponse as unknown as IncomingMessage);
+    yieldHttpsResponse(toIncomingMessage(streamResponse));
     controller.abort();
 
     await expect(promise).rejects.toMatchObject({ name: "AbortError" });
@@ -430,11 +451,9 @@ describe("NodeHttpClient", function () {
   it("should release abort listener when stream body ends already", async function () {
     vi.useRealTimers();
     const client = createDefaultHttpClient();
-    const writable = new Writable({
-      write: (_chunk, _, next) => {
-        next();
-      },
-    }) as unknown as ClientRequest;
+    const writable = createMockWritableRequest((_chunk, _, next) => {
+      next();
+    });
     vi.mocked(https.request).mockReturnValueOnce(writable);
 
     const controller = new AbortController();

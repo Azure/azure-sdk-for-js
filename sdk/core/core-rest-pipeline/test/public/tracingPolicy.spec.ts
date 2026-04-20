@@ -206,7 +206,11 @@ describe("tracingPolicy", function () {
       assert.fail("expected span to be created");
     }
 
-    const spanUrlValue = new URL(createdSpan.getAttribute("http.url") as string);
+    const httpUrlAttr = createdSpan.getAttribute("http.url");
+    if (typeof httpUrlAttr !== "string") {
+      assert.fail("expected http.url attribute to be a string");
+    }
+    const spanUrlValue = new URL(httpUrlAttr);
     assert.equal(spanUrlValue.searchParams.get("redactedParam"), "REDACTED");
     assert.equal(spanUrlValue.searchParams.get("allowedQueryParam"), "allowedValue");
   });
@@ -481,7 +485,9 @@ describe("tracingPolicy", function () {
       assert.isDefined(activeInstrumenter.lastSpanCreated, "Expected span to be created");
       const span = activeInstrumenter.lastSpanCreated;
       assert.equal(span?.status?.status, "error");
-      assert.isUndefined((span?.status as { error?: unknown })?.error);
+      if (span?.status?.status === "error") {
+        assert.isUndefined(span.status.error);
+      }
       assert.isTrue(span?.endCalled);
     });
 

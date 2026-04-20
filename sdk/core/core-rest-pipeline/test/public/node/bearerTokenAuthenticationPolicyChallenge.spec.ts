@@ -87,9 +87,10 @@ async function authorizeRequestOnChallenge(
   const accessToken = await options.getAccessToken(
     parsedChallenge.scope ? [parsedChallenge.scope] : scopes,
     {
-      ...options,
+      abortSignal: options.request.abortSignal,
+      tracingOptions: options.request.tracingOptions,
       claims: uint8ArrayToString(Buffer.from(parsedChallenge.claims, "base64")),
-    } as GetTokenOptions,
+    },
   );
 
   if (!accessToken) {

@@ -51,7 +51,13 @@ describe("Policy factory functions", function () {
     });
 
     it("sets agent on the request when provided", async function () {
-      const customAgent = {} as Agent;
+      const customAgent: Agent = {
+        destroy() {},
+        maxFreeSockets: 256,
+        maxSockets: Infinity,
+        requests: {},
+        sockets: {},
+      };
       const policy = agentPolicy(customAgent);
       const request = defaultRequest();
       const next = createMockNext();
@@ -60,8 +66,20 @@ describe("Policy factory functions", function () {
     });
 
     it("does not override an existing agent on the request", async function () {
-      const existingAgent = { existing: true } as unknown as Agent;
-      const policyAgent = { policy: true } as unknown as Agent;
+      const existingAgent: Agent = {
+        destroy() {},
+        maxFreeSockets: 256,
+        maxSockets: Infinity,
+        requests: {},
+        sockets: {},
+      };
+      const policyAgent: Agent = {
+        destroy() {},
+        maxFreeSockets: 256,
+        maxSockets: Infinity,
+        requests: {},
+        sockets: {},
+      };
       const policy = agentPolicy(policyAgent);
       const request = defaultRequest();
       request.agent = existingAgent;
@@ -94,7 +112,13 @@ describe("Policy factory functions", function () {
     });
 
     it("does not set a proxy agent when the request already has an agent", async function () {
-      const existingAgent = { existing: true } as unknown as Agent;
+      const existingAgent: Agent = {
+        destroy() {},
+        maxFreeSockets: 256,
+        maxSockets: Infinity,
+        requests: {},
+        sockets: {},
+      };
       const policy = proxyPolicy({ host: "http://proxy.example.com", port: 8080 });
       const request = defaultRequest();
       request.agent = existingAgent;
@@ -148,7 +172,7 @@ describe("Policy factory functions", function () {
     });
 
     it("sets tlsSettings on the request when provided", async function () {
-      const settings = { ca: "test-ca" } as TlsSettings;
+      const settings: TlsSettings = { ca: "test-ca" };
       const policy = tlsPolicy(settings);
       const request = defaultRequest();
       const next = createMockNext();
@@ -157,8 +181,8 @@ describe("Policy factory functions", function () {
     });
 
     it("does not override existing tlsSettings on the request", async function () {
-      const existingSettings = { ca: "existing-ca" } as TlsSettings;
-      const policySettings = { ca: "policy-ca" } as TlsSettings;
+      const existingSettings: TlsSettings = { ca: "existing-ca" };
+      const policySettings: TlsSettings = { ca: "policy-ca" };
       const policy = tlsPolicy(policySettings);
       const request = defaultRequest();
       request.tlsSettings = existingSettings;

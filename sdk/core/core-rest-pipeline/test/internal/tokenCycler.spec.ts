@@ -37,7 +37,7 @@ describe("tokenCycler", function () {
     // so mustRefresh is true AND Date.now() < refreshTimeout (= token.expiresOnTimestamp)
     const tokenExpiry = Date.now() + 5000; // 5 seconds from now
 
-    const getToken = vi.fn<() => Promise<any>>();
+    const getToken = vi.fn<TokenCredential["getToken"]>();
     getToken.mockResolvedValueOnce({ token: "initial-token", expiresOnTimestamp: tokenExpiry });
     getToken.mockRejectedValueOnce(new Error("transient failure"));
     getToken.mockResolvedValueOnce({
@@ -46,7 +46,7 @@ describe("tokenCycler", function () {
     });
 
     const credential: TokenCredential = {
-      getToken: getToken as any,
+      getToken: getToken,
     };
 
     const getAccessToken = createTokenCycler(credential, {

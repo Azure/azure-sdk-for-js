@@ -5,7 +5,13 @@ import { describe, it, assert } from "vitest";
 import { createPipelineFromOptions } from "../../../src/createPipelineFromOptions.js";
 import type { Agent, TlsSettings } from "../../../src/interfaces.js";
 
-const stubAgent = {} as Agent;
+const stubAgent: Agent = {
+  destroy() {},
+  maxFreeSockets: 256,
+  maxSockets: Infinity,
+  requests: {},
+  sockets: {},
+};
 const stubTlsSettings: TlsSettings = { ca: "test-ca" };
 
 describe("createPipelineFromOptions", function () {

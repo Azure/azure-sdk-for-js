@@ -9,6 +9,17 @@ import { performRequest } from "../formDataPolicy.spec.js";
 import { createFile, createFileFromStream, getRawContent } from "../../../src/util/file.js";
 import { stringToUint8Array } from "@azure/core-util";
 
+function getMultipartParts(result: { request: { multipartBody?: MultipartRequestBody } }) {
+  const multipartBody = result.request.multipartBody;
+  assert.isDefined(multipartBody, "expected multipartBody to be defined");
+  return multipartBody!.parts;
+}
+
+async function readBodyAsArrayBuffer(body: unknown): Promise<ArrayBuffer> {
+  const raw = getRawContent(body as Blob);
+  return new Response(raw as BodyInit).arrayBuffer();
+}
+
 describe("formDataPolicy (node-only)", function () {
   it("can upload a Node ReadableStream", async function () {
     const result = await performRequest({
@@ -17,7 +28,7 @@ describe("formDataPolicy (node-only)", function () {
       }),
     });
 
-    const parts = (result.request.multipartBody as MultipartRequestBody).parts;
+    const parts = getMultipartParts(result);
     assert.equal(parts.length, 1, "expected 1 part");
     assert.deepEqual(
       parts[0].headers,
@@ -28,8 +39,12 @@ describe("formDataPolicy (node-only)", function () {
     );
 
     const buffers: Buffer[] = [];
-    for await (const part of getRawContent(parts[0].body as Blob) as NodeJS.ReadableStream) {
-      buffers.push(part as Buffer);
+    const rawContent = getRawContent(parts[0].body as Blob);
+    for await (const part of rawContent as NodeJS.ReadableStream) {
+      if (!Buffer.isBuffer(part)) {
+        assert.fail("expected Buffer chunk");
+      }
+      buffers.push(part);
     }
 
     const content = Buffer.concat(buffers);
@@ -42,7 +57,7 @@ describe("formDataPolicy (node-only)", function () {
       file: createFileFromStream(() => blob.stream(), "file.bin"),
     });
 
-    const parts = (result.request.multipartBody as MultipartRequestBody).parts;
+    const parts = getMultipartParts(result);
     assert.equal(parts.length, 1);
     assert.deepEqual(
       parts[0].headers,
@@ -52,9 +67,7 @@ describe("formDataPolicy (node-only)", function () {
       }),
     );
 
-    const buf = new Uint8Array(
-      await new Response(getRawContent(parts[0].body as Blob) as ReadableStream).arrayBuffer(),
-    );
+    const buf = new Uint8Array(await readBodyAsArrayBuffer(parts[0].body));
     assert.deepEqual([...buf], [1, 2, 3]);
   });
 
@@ -73,7 +86,7 @@ describe("formDataPolicy (node-only)", function () {
       textField,
     });
 
-    const parts = (result.request.multipartBody as MultipartRequestBody).parts;
+    const parts = getMultipartParts(result);
     assert.equal(parts.length, 4);
 
     assert.deepEqual(
@@ -83,14 +96,7 @@ describe("formDataPolicy (node-only)", function () {
         "Content-Disposition": `form-data; name="files"; filename="file1.bin"`,
       }),
     );
-    assert.deepEqual(
-      [
-        ...new Uint8Array(
-          await new Response(getRawContent(parts[0].body as Blob) as Blob).arrayBuffer(),
-        ),
-      ],
-      [1, 2, 3],
-    );
+    assert.deepEqual([...new Uint8Array(await readBodyAsArrayBuffer(parts[0].body))], [1, 2, 3]);
 
     assert.deepEqual(
       parts[1].headers,
@@ -99,14 +105,7 @@ describe("formDataPolicy (node-only)", function () {
         "Content-Disposition": `form-data; name="files"; filename="file2.bin"`,
       }),
     );
-    assert.deepEqual(
-      [
-        ...new Uint8Array(
-          await new Response(getRawContent(parts[1].body as Blob) as Blob).arrayBuffer(),
-        ),
-      ],
-      [2, 3, 4],
-    );
+    assert.deepEqual([...new Uint8Array(await readBodyAsArrayBuffer(parts[1].body))], [2, 3, 4]);
 
     assert.deepEqual(
       parts[2].headers,
@@ -115,14 +114,7 @@ describe("formDataPolicy (node-only)", function () {
         "Content-Disposition": `form-data; name="files"; filename="file3.json"`,
       }),
     );
-    assert.deepEqual(
-      [
-        ...new Uint8Array(
-          await new Response(getRawContent(parts[2].body as Blob) as Blob).arrayBuffer(),
-        ),
-      ],
-      [4, 5, 6],
-    );
+    assert.deepEqual([...new Uint8Array(await readBodyAsArrayBuffer(parts[2].body))], [4, 5, 6]);
 
     assert.deepEqual(
       parts[3].headers,
@@ -130,9 +122,10 @@ describe("formDataPolicy (node-only)", function () {
         "Content-Disposition": `form-data; name="textField"`,
       }),
     );
-    assert.deepEqual(
-      [...(parts[3].body as Uint8Array)],
-      [...stringToUint8Array(textField, "utf-8")],
-    );
+    const textBody = parts[3].body;
+    if (!(textBody instanceof Uint8Array)) {
+      assert.fail("expected Uint8Array body");
+    }
+    assert.deepEqual([...textBody], [...stringToUint8Array(textField, "utf-8")]);
   });
 });

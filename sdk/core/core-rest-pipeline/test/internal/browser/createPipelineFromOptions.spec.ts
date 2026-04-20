@@ -26,8 +26,14 @@ describe("createPipelineFromOptions (browser)", function () {
 
   it("ignores agent and tlsOptions in browser", function () {
     const pipeline = createPipelineFromOptions({
-      agent: { maxSockets: 10 } as unknown as Agent,
-      tlsOptions: { ca: "test" } as unknown as TlsSettings,
+      agent: {
+        destroy() {},
+        maxFreeSockets: 256,
+        maxSockets: 10,
+        requests: {},
+        sockets: {},
+      } satisfies Agent,
+      tlsOptions: { ca: "test" } satisfies TlsSettings,
     });
     const policies = pipeline.getOrderedPolicies();
     const policyNames = policies.map((p) => p.name);
