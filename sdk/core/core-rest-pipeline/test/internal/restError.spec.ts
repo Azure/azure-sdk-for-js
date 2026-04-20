@@ -8,7 +8,7 @@ import { RestError as TspRestError } from "@typespec/ts-http-runtime";
 
 describe("RestError", () => {
   it("constructor is TypeSpec RestError", () => {
-    assert.strictEqual(RestError as Function, TspRestError as Function);
+    assert.strictEqual(RestError, TspRestError as typeof RestError);
   });
 
   it("any constructed core-rest-pipeline RestError is a TypeSpec RestError", () => {

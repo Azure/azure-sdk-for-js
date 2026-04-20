@@ -6,7 +6,12 @@ import { createHttpHeaders } from "../../../src/httpHeaders.js";
 import type { MultipartRequestBody } from "../../../src/interfaces.js";
 import { Readable } from "node:stream";
 import { performRequest } from "../formDataPolicy.spec.js";
-import { createFile, createFileFromStream, getRawContent, hasRawContent } from "../../../src/util/file.js";
+import {
+  createFile,
+  createFileFromStream,
+  getRawContent,
+  hasRawContent,
+} from "../../../src/util/file.js";
 import { stringToUint8Array } from "@azure/core-util";
 
 function getMultipartParts(result: { request: { multipartBody?: MultipartRequestBody } }) {
