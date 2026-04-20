@@ -248,6 +248,20 @@ public static class ApiDiffAnalyzer
             CompareMatchedCallables(typeName, callableName, b, c, breaking, nonBreaking);
         }
 
+        // For unmatched overloads that were rejected by the cost threshold,
+        // pair them using minimum-cost ordering and emit specific diagnostics
+        // (e.g. ParameterTypeChanged) so callers get granular change info
+        // in addition to the summary SignatureChanged below.
+        int pairCount = Math.Min(unmatchedBaseline.Count, unmatchedCurrent.Count);
+        if (pairCount > 0)
+        {
+            var diffPairs = PairByMinimumCost(unmatchedBaseline, unmatchedCurrent);
+            foreach (var (b, c) in diffPairs)
+            {
+                CompareMatchedCallables(typeName, callableName, b, c, breaking, nonBreaking);
+            }
+        }
+
         // Unmatched baseline overloads → removed (breaking)
         var removedSigs = unmatchedBaseline.Select(GetFullSignature).ToList();
         var addedSigs = unmatchedCurrent.Select(GetFullSignature).ToList();
@@ -389,6 +403,46 @@ public static class ApiDiffAnalyzer
             currentPool.RemoveAt(j);
 
         return matched;
+    }
+
+    /// <summary>
+    /// Pairs unmatched overloads by minimum cost (Hungarian algorithm) for diagnostic diffing.
+    /// Unlike <see cref="MatchByMinimumCost"/>, this does not remove items from pools and
+    /// has no cost threshold — it pairs every overload up to min(baseline, current) count
+    /// so that <see cref="CompareMatchedCallables"/> can emit granular change kinds
+    /// (e.g. ParameterTypeChanged) even for overloads that exceeded the match threshold.
+    /// </summary>
+    private static List<(DiagnosticCallableInfo Baseline, DiagnosticCallableInfo Current)> PairByMinimumCost(
+        List<DiagnosticCallableInfo> baselinePool,
+        List<DiagnosticCallableInfo> currentPool)
+    {
+        var pairs = new List<(DiagnosticCallableInfo, DiagnosticCallableInfo)>();
+        if (baselinePool.Count == 0 || currentPool.Count == 0)
+            return pairs;
+
+        int n = baselinePool.Count;
+        int m = currentPool.Count;
+
+        var cost = new int[n, m];
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < m; j++)
+            {
+                cost[i, j] = OverloadMatchCost(baselinePool[i], currentPool[j]);
+            }
+        }
+
+        int[] assignment = HungarianAssignment(cost, n, m);
+
+        for (int i = 0; i < n; i++)
+        {
+            if (assignment[i] >= 0)
+            {
+                pairs.Add((baselinePool[i], currentPool[assignment[i]]));
+            }
+        }
+
+        return pairs;
     }
 
     /// <summary>
@@ -749,7 +803,7 @@ public static class ApiDiffAnalyzer
     private static Dictionary<string, DiagnosticTypeInfo> IndexByName(
         IEnumerable<DiagnosticTypeInfo> types)
     {
-        var map = new Dictionary<string, DiagnosticTypeInfo>(StringComparer.OrdinalIgnoreCase);
+        var map = new Dictionary<string, DiagnosticTypeInfo>(StringComparer.Ordinal);
         foreach (var t in types)
             map[IApiIndex.NormalizeTypeName(t.Name)] = t;
         return map;

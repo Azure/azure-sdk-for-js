@@ -394,7 +394,7 @@ describe("validateSelfContainment", () => {
       ],
     });
     const ctx = mockCtx();
-    const spy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const spy = vi.spyOn(process.stderr, "write").mockImplementation(() => true);
 
     validateSelfContainment(api, ctx);
 
@@ -440,7 +440,7 @@ describe("validateSelfContainment", () => {
         return builtinNames.has(name);
       },
     } as unknown as ExtractionContext;
-    const spy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const spy = vi.spyOn(process.stderr, "write").mockImplementation(() => true);
 
     validateSelfContainment(api, ctx);
 
@@ -462,7 +462,7 @@ describe("validateSelfContainment", () => {
       ],
     });
     const ctx = mockCtx();
-    const spy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const spy = vi.spyOn(process.stderr, "write").mockImplementation(() => true);
 
     validateSelfContainment(api, ctx);
 
@@ -484,7 +484,7 @@ describe("validateSelfContainment", () => {
       ],
     });
     const ctx = mockCtx();
-    const spy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const spy = vi.spyOn(process.stderr, "write").mockImplementation(() => true);
 
     validateSelfContainment(api, ctx);
 
@@ -500,7 +500,7 @@ describe("validateSelfContainment", () => {
       ],
     });
     const ctx = mockCtx();
-    const spy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const spy = vi.spyOn(process.stderr, "write").mockImplementation(() => true);
 
     validateSelfContainment(api, ctx);
 
@@ -529,7 +529,7 @@ describe("validateSelfContainment", () => {
       ],
     );
     const ctx = mockCtx();
-    const spy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const spy = vi.spyOn(process.stderr, "write").mockImplementation(() => true);
 
     validateSelfContainment(api, ctx);
 
@@ -552,14 +552,15 @@ describe("validateSelfContainment", () => {
       ],
     });
     const ctx = mockCtx();
-    const spy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const spy = vi.spyOn(process.stderr, "write").mockImplementation(() => true);
 
     validateSelfContainment(api, ctx);
 
     // T should NOT be flagged as dangling (it's a declared type param)
     // Record and Foo are unresolved — Foo would be dangling
     if (spy.mock.calls.length > 0) {
-      expect(spy.mock.calls[0][0]).not.toContain("T");
+      const diag = JSON.parse(spy.mock.calls[0][0] as string);
+      expect(diag.message).not.toMatch(/\bT\b/);
     }
     spy.mockRestore();
   });
@@ -869,7 +870,7 @@ describe("validateSelfContainment — Node ambient types", () => {
       ],
     });
     const ctx = mockCtx();
-    const spy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const spy = vi.spyOn(process.stderr, "write").mockImplementation(() => true);
 
     validateSelfContainment(api, ctx);
 
@@ -885,7 +886,7 @@ describe("validateSelfContainment — Node ambient types", () => {
       ],
     });
     const ctx = mockCtx();
-    const spy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const spy = vi.spyOn(process.stderr, "write").mockImplementation(() => true);
 
     validateSelfContainment(api, ctx);
 

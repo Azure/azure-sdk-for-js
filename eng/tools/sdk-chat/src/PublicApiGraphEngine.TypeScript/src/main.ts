@@ -27,8 +27,9 @@ import {
     resolveEntryPointFiles,
     extractExportedSymbols,
     getConditionPriority,
+    makeExportSymbolKey,
 } from "./entry-points.js";
-import type { EngineOptions, ExportEntry } from "./entry-points.js";
+import type { EngineOptions, ExportEntry, ExportedSymbolInfo } from "./entry-points.js";
 import { computeReachableTypes, validateSelfContainment, computeAmbientTypes, makeQualifiedKey } from "./reachability.js";
 import {
     resolveTransitiveDependencies,
@@ -71,6 +72,23 @@ export function isEntityKeyReachable(entityKey: string, reachableTypes: Set<stri
         }
     }
     return false;
+}
+
+// ============================================================================
+// Entry-Point Symbol Lookup
+// ============================================================================
+
+/**
+ * Looks up an exported symbol from the declaration-qualified entry-point map.
+ * Uses the source file path where the entity is declared to build the
+ * qualified key, matching the key format produced by extractExportedSymbols.
+ */
+function lookupEntryPointSymbol(
+    entryPointSymbols: Map<string, ExportedSymbolInfo>,
+    sourceFilePath: string,
+    name: string,
+): ExportedSymbolInfo | undefined {
+    return entryPointSymbols.get(makeExportSymbolKey(sourceFilePath, name));
 }
 
 // ============================================================================
@@ -198,6 +216,17 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
         project.addSourceFilesAtPaths(pattern);
     }
 
+    // Fail fast if no source files were discovered
+    const loadedFiles = project.getSourceFiles();
+    if (loadedFiles.length === 0) {
+        emitDiagnostic({
+            code: "NO_SOURCE_FILES",
+            message: `No source files found in ${sourceDir} (mode: ${options.mode})`,
+            severity: "error",
+        });
+        process.exit(1);
+    }
+
     // Check for critical compilation errors before extraction
     const preDiagnostics = project.getPreEmitDiagnostics();
     const errors = preDiagnostics.filter(d => d.getCategory() === ts.DiagnosticCategory.Error);
@@ -301,7 +330,7 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
 
             if (module.classes) {
                 for (const cls of module.classes) {
-                    const exportInfo = entryPointSymbols.get(cls.name);
+                    const exportInfo = lookupEntryPointSymbol(entryPointSymbols, sourceFile.getFilePath(), cls.name);
                     if (exportInfo !== undefined) {
                         applyEntryPoint(cls, exportInfo);
                     }
@@ -309,7 +338,7 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
             }
             if (module.interfaces) {
                 for (const iface of module.interfaces) {
-                    const exportInfo = entryPointSymbols.get(iface.name);
+                    const exportInfo = lookupEntryPointSymbol(entryPointSymbols, sourceFile.getFilePath(), iface.name);
                     if (exportInfo !== undefined) {
                         applyEntryPoint(iface, exportInfo);
                     }
@@ -317,7 +346,7 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
             }
             if (module.functions) {
                 for (const func of module.functions) {
-                    const exportInfo = entryPointSymbols.get(func.name);
+                    const exportInfo = lookupEntryPointSymbol(entryPointSymbols, sourceFile.getFilePath(), func.name);
                     if (exportInfo !== undefined) {
                         applyEntryPoint(func, exportInfo);
                     }
@@ -326,7 +355,7 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
             // Mark enums and type aliases too
             if (module.enums) {
                 for (const enumInfo of module.enums) {
-                    const exportInfo = entryPointSymbols.get(enumInfo.name);
+                    const exportInfo = lookupEntryPointSymbol(entryPointSymbols, sourceFile.getFilePath(), enumInfo.name);
                     if (exportInfo !== undefined) {
                         applyEntryPoint(enumInfo, exportInfo);
                     }
@@ -334,7 +363,7 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
             }
             if (module.types) {
                 for (const typeInfo of module.types) {
-                    const exportInfo = entryPointSymbols.get(typeInfo.name);
+                    const exportInfo = lookupEntryPointSymbol(entryPointSymbols, sourceFile.getFilePath(), typeInfo.name);
                     if (exportInfo !== undefined) {
                         applyEntryPoint(typeInfo, exportInfo);
                     }
@@ -462,6 +491,14 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
             (m.enums?.length ?? 0) > 0 || (m.types?.length ?? 0) > 0 ||
             (m.functions?.length ?? 0) > 0 || (m.namespaces?.length ?? 0) > 0
         );
+    }
+
+    if (baseResult.modules.length === 0) {
+        emitDiagnostic({
+            code: "NO_MODULES_EXTRACTED",
+            message: "No modules with public API surface were extracted",
+            severity: "warning",
+        });
     }
 
     // Collect qualified (dotted) type references for ambient type display (e.g., NodeJS.ReadableStream).

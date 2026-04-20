@@ -362,6 +362,16 @@ export interface ExportedSymbolInfo {
     reExportedFrom?: string;
 }
 
+/**
+ * Builds a declaration-qualified key for the exported symbols map.
+ * Incorporates the declaration file path so that identically-named symbols
+ * from different files (e.g., `./models::Client` vs `./rest::Client`) are
+ * tracked separately.
+ */
+export function makeExportSymbolKey(declFilePath: string, name: string): string {
+    return `${path.resolve(declFilePath)}::${name}`;
+}
+
 export interface EngineOptions {
     mode: "source" | "compiled";
     dtsRoot?: string;
@@ -416,7 +426,8 @@ export function extractExportedSymbols(project: Project, entryEntries: ExportEnt
 
         // Examine each exported symbol's declaration site
         for (const [name, declarations] of sourceFile.getExportedDeclarations()) {
-            if (exportedSymbols.has(name)) continue;
+            const qualifiedKey = makeExportSymbolKey(entryAbsPath, name);
+            if (exportedSymbols.has(qualifiedKey)) continue;
 
             // Check if any declaration lives in THIS entry file (= locally declared)
             const isDeclaredHere = declarations.some(decl => {
@@ -425,7 +436,7 @@ export function extractExportedSymbols(project: Project, entryEntries: ExportEnt
             });
 
             if (isDeclaredHere) {
-                exportedSymbols.set(name, { exportPath: entry.exportPath, condition: entry.condition });
+                exportedSymbols.set(qualifiedKey, { exportPath: entry.exportPath, condition: entry.condition });
             }
         }
 
@@ -440,8 +451,9 @@ export function extractExportedSymbols(project: Project, entryEntries: ExportEnt
                 if (exportDecl.getNamedExports().length === 0 && !exportDecl.isTypeOnly()) {
                     // Star re-export — record as a marker for dependency resolution
                     const markerName = `*:${moduleSpecifier}`;
-                    if (!exportedSymbols.has(markerName)) {
-                        exportedSymbols.set(markerName, {
+                    const markerKey = makeExportSymbolKey(entryAbsPath, markerName);
+                    if (!exportedSymbols.has(markerKey)) {
+                        exportedSymbols.set(markerKey, {
                             exportPath: entry.exportPath,
                             condition: entry.condition,
                             reExportedFrom: moduleSpecifier,
@@ -451,8 +463,9 @@ export function extractExportedSymbols(project: Project, entryEntries: ExportEnt
 
                 for (const namedExport of exportDecl.getNamedExports()) {
                     const name = namedExport.getAliasNode()?.getText() ?? namedExport.getName();
-                    if (!exportedSymbols.has(name)) {
-                        exportedSymbols.set(name, {
+                    const qualifiedKey = makeExportSymbolKey(entryAbsPath, name);
+                    if (!exportedSymbols.has(qualifiedKey)) {
+                        exportedSymbols.set(qualifiedKey, {
                             exportPath: entry.exportPath,
                             condition: entry.condition,
                             reExportedFrom: moduleSpecifier
@@ -473,16 +486,20 @@ export function extractExportedSymbols(project: Project, entryEntries: ExportEnt
         if (!sourceFile) continue;
 
         for (const [name, declarations] of sourceFile.getExportedDeclarations()) {
-            if (exportedSymbols.has(name)) continue;
+            // Use the actual declaration file for the qualified key so that
+            // lookups from main.ts (keyed by source file path) match correctly.
+            const declFile = path.resolve(declarations[0].getSourceFile().getFilePath());
+            const qualifiedKey = makeExportSymbolKey(declFile, name);
+            if (exportedSymbols.has(qualifiedKey)) continue;
 
             // Symbol is re-exported from a non-entry file — claim it with this entry's condition
             const isDeclaredInAnyEntry = declarations.some(decl => {
-                const declFile = path.resolve(decl.getSourceFile().getFilePath());
-                return entryFilePaths.has(declFile);
+                const df = path.resolve(decl.getSourceFile().getFilePath());
+                return entryFilePaths.has(df);
             });
 
             if (!isDeclaredInAnyEntry) {
-                exportedSymbols.set(name, { exportPath: entry.exportPath, condition: entry.condition });
+                exportedSymbols.set(qualifiedKey, { exportPath: entry.exportPath, condition: entry.condition });
             }
         }
     }

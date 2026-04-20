@@ -209,35 +209,45 @@ export function formatStubs(api: ApiIndex): string {
         "",
     ];
 
-    // Group modules by condition to emit each as a separate declare module block.
-    // This prevents type collisions when multiple conditions declare the same name
-    // (e.g., AzureCliCredential in both default and browser conditions).
-    const conditionGroups = new Map<string, ModuleInfo[]>();
+    // Group modules by (exportPath, condition) pair so each unique combination
+    // gets its own `declare module` block. This correctly handles packages with
+    // multiple subpath exports (e.g., "." and "./models") under various conditions.
+    const groupKey = (m: ModuleInfo): string => {
+        const ep = m.exportPath ?? ".";
+        const cond = m.condition ?? "(unconditioned)";
+        return `${ep}\0${cond}`;
+    };
+
+    const moduleGroups = new Map<string, ModuleInfo[]>();
     for (const module of api.modules) {
-        const cond = module.condition ?? "(unconditioned)";
-        if (!conditionGroups.has(cond)) conditionGroups.set(cond, []);
-        conditionGroups.get(cond)!.push(module);
+        const key = groupKey(module);
+        if (!moduleGroups.has(key)) moduleGroups.set(key, []);
+        moduleGroups.get(key)!.push(module);
     }
 
-    // Sort conditions: "default" first, then alphabetically
-    const sortedConditions = [...conditionGroups.keys()].sort((a, b) => {
-        if (a === "default") return -1;
-        if (b === "default") return 1;
-        return a.localeCompare(b);
+    // Sort groups: by exportPath ("." first), then condition ("default" first, then alphabetically)
+    const sortedKeys = [...moduleGroups.keys()].sort((a, b) => {
+        const [epA, condA] = a.split("\0");
+        const [epB, condB] = b.split("\0");
+        if (epA !== epB) {
+            if (epA === ".") return -1;
+            if (epB === ".") return 1;
+            return epA.localeCompare(epB);
+        }
+        if (condA === "default") return -1;
+        if (condB === "default") return 1;
+        return condA.localeCompare(condB);
     });
 
-    const needsModuleBlocks = sortedConditions.length > 1;
+    const needsModuleBlocks = sortedKeys.length > 1;
 
-    for (const condition of sortedConditions) {
-        const modules = conditionGroups.get(condition)!;
+    for (const key of sortedKeys) {
+        const [exportPath, condition] = key.split("\0");
+        const modules = moduleGroups.get(key)!;
 
         if (needsModuleBlocks) {
-            // Derive the module name from the first module's exportPath (if available),
-            // falling back to just the package name. Conditions (e.g. "browser") are NOT
-            // valid import specifiers — they are emitted as a comment instead.
-            const firstExportPath = modules[0]?.exportPath;
-            const moduleName = firstExportPath && firstExportPath !== "."
-                ? `${api.package}/${firstExportPath.replace(/^\.\//, "")}`
+            const moduleName = exportPath && exportPath !== "."
+                ? `${api.package}/${exportPath.replace(/^\.\//, "")}`
                 : api.package;
             lines.push(`// Condition: ${condition}`);
             lines.push(`declare module "${moduleName}" {`);
@@ -364,8 +374,44 @@ export function formatStubs(api: ApiIndex): string {
         }
     }
 
-    // Add dependency types if present, each wrapped in a declare module block
-    if (api.dependencies && api.dependencies.length > 0) {
+    // Add dependency types if present, each wrapped in a declare module block.
+    // Prefer resolvedDependencies (full ApiIndex with condition-aware modules)
+    // over the flat dependencies array when available.
+    const resolvedDeps = api.resolvedDependencies;
+    if (resolvedDeps && resolvedDeps.length > 0) {
+        lines.push("");
+        lines.push("// ============================================================================");
+        lines.push("// Dependencies");
+        lines.push("// ============================================================================");
+
+        for (const depApi of resolvedDeps) {
+            const depModuleSpecifier = depApi.subpath && depApi.subpath !== "."
+                ? `${depApi.package}/${depApi.subpath.replace(/^\.\//, "")}`
+                : depApi.package;
+
+            // Recursively format the resolved dependency as its own stub block
+            const depStub = formatStubs(depApi);
+            const depLines = depStub.split("\n");
+            // Skip header comment lines and leading blank lines
+            let bodyStart = 0;
+            while (bodyStart < depLines.length && (
+                depLines[bodyStart].startsWith("//") || depLines[bodyStart].trim() === ""
+            )) {
+                bodyStart++;
+            }
+            const body = depLines.slice(bodyStart).join("\n").trimEnd();
+
+            if (body) {
+                lines.push("");
+                lines.push(`declare module "${depModuleSpecifier}" {`);
+                lines.push("");
+                for (const line of body.split("\n")) {
+                    lines.push(line ? `    ${line}` : "");
+                }
+                lines.push("}");
+            }
+        }
+    } else if (api.dependencies && api.dependencies.length > 0) {
         lines.push("");
         lines.push("// ============================================================================");
         lines.push("// Dependencies");
@@ -373,7 +419,6 @@ export function formatStubs(api: ApiIndex): string {
 
         for (const dep of api.dependencies) {
             if (dep.isNode) {
-                // Emit @types/node types as simple import references
                 const typeNames = [
                     ...(dep.classes ?? []).map(c => c.name),
                     ...(dep.interfaces ?? []).map(i => i.name),
@@ -387,8 +432,13 @@ export function formatStubs(api: ApiIndex): string {
                 }
                 continue;
             }
+
+            const depModuleSpecifier = dep.subpath && dep.subpath !== "."
+                ? `${dep.package}/${dep.subpath.replace(/^\.\//, "")}`
+                : dep.package;
+
             lines.push("");
-            lines.push(`declare module "${dep.package}" {`);
+            lines.push(`declare module "${depModuleSpecifier}" {`);
             lines.push("");
 
             const indent = "    ";

@@ -67,7 +67,26 @@ public static class MermaidFormatter
             {
                 foreach (var paramType in callable.ParameterTypes)
                 {
-                    var normalized = IApiIndex.NormalizeTypeName(paramType);
+                    foreach (var normalized in ExtractReferencedTypes(paramType))
+                    {
+                        if (!knownNormalized.Contains(normalized))
+                            continue;
+                        if (StringComparer.OrdinalIgnoreCase.Equals(normalized, fromName))
+                            continue;
+
+                        var safeTo = SanitizeClassName(normalized);
+                        var edge = $"{safeFrom} --> {safeTo}";
+                        if (emitted.Add(edge))
+                            sb.AppendLine($"    {edge} : uses");
+                    }
+                }
+            }
+
+            foreach (var prop in type.Properties)
+            {
+                if (prop.TypeName is null) continue;
+                foreach (var normalized in ExtractReferencedTypes(prop.TypeName))
+                {
                     if (!knownNormalized.Contains(normalized))
                         continue;
                     if (StringComparer.OrdinalIgnoreCase.Equals(normalized, fromName))
@@ -76,28 +95,48 @@ public static class MermaidFormatter
                     var safeTo = SanitizeClassName(normalized);
                     var edge = $"{safeFrom} --> {safeTo}";
                     if (emitted.Add(edge))
-                        sb.AppendLine($"    {edge} : uses");
+                        sb.AppendLine($"    {edge} : has");
                 }
-            }
-
-            foreach (var prop in type.Properties)
-            {
-                if (prop.TypeName is null) continue;
-                var normalized = IApiIndex.NormalizeTypeName(prop.TypeName);
-                if (!knownNormalized.Contains(normalized))
-                    continue;
-                if (StringComparer.OrdinalIgnoreCase.Equals(normalized, fromName))
-                    continue;
-
-                var safeTo = SanitizeClassName(normalized);
-                var edge = $"{safeFrom} --> {safeTo}";
-                if (emitted.Add(edge))
-                    sb.AppendLine($"    {edge} : has");
             }
         }
 
         sb.AppendLine("```");
         return sb.ToString();
+    }
+
+    /// <summary>
+    /// Recursively extracts all referenced type names from a complex type string,
+    /// handling generics, unions, arrays, and arrow-function types.
+    /// Returns normalized base names (generic suffixes and array brackets stripped).
+    /// </summary>
+    private static IEnumerable<string> ExtractReferencedTypes(string typeString)
+    {
+        var unionParts = TypeNameParser.SplitAtTopLevel(typeString, '|');
+        foreach (var part in unionParts)
+        {
+            var trimmed = part.Trim();
+            if (trimmed.Length == 0) continue;
+
+            var arrow = TypeNameParser.TryParseArrowFunction(trimmed);
+            if (arrow is { } af)
+            {
+                foreach (var paramType in af.ParameterTypes)
+                    foreach (var t in ExtractReferencedTypes(paramType))
+                        yield return t;
+                foreach (var t in ExtractReferencedTypes(af.ReturnType))
+                    yield return t;
+                continue;
+            }
+
+            var parsed = TypeNameParser.Parse(trimmed);
+            var normalized = IApiIndex.NormalizeTypeName(parsed.BaseName);
+            if (normalized.Length > 0)
+                yield return normalized;
+
+            foreach (var gp in parsed.GenericParameters)
+                foreach (var t in ExtractReferencedTypes(gp))
+                    yield return t;
+        }
     }
 
     /// <summary>

@@ -57,15 +57,31 @@ import { resolveExports, findDotExport, findSubpathExport, hasNonRootSubpaths } 
 // composite keys  packageName + "\0" + typeName  so that same-named types
 // from different packages never collide.
 
-/** Build a package-qualified key for internal lookup maps. */
-export function makeDepKey(packageName: string, typeName: string): string {
+/** Build a package-qualified key for internal lookup maps.
+ *  When a non-root subpath is provided the key includes it so that
+ *  same-named types from different subpaths of the same package
+ *  (e.g. `pkg` vs `pkg/subpath`) never collide.
+ */
+export function makeDepKey(packageName: string, typeName: string, subpath?: string): string {
+    if (subpath && subpath !== ".") {
+        return `${packageName}\0${subpath}\0${typeName}`;
+    }
     return `${packageName}\0${typeName}`;
 }
 
 /** Split a package-qualified key back into its components. */
-export function splitDepKey(key: string): { packageName: string; typeName: string } {
-    const idx = key.indexOf("\0");
-    return { packageName: key.substring(0, idx), typeName: key.substring(idx + 1) };
+export function splitDepKey(key: string): { packageName: string; typeName: string; subpath?: string } {
+    const first = key.indexOf("\0");
+    const last = key.lastIndexOf("\0");
+    if (first !== last) {
+        // Three-part key: packageName \0 subpath \0 typeName
+        return {
+            packageName: key.substring(0, first),
+            subpath: key.substring(first + 1, last),
+            typeName: key.substring(last + 1),
+        };
+    }
+    return { packageName: key.substring(0, first), typeName: key.substring(first + 1) };
 }
 
 // Re-export from shared utility to avoid circular imports (type-refs ↔ dependencies).
@@ -105,14 +121,25 @@ export function buildImportResolutionMap(project: Project): {
             for (const namedImport of importDecl.getNamedImports()) {
                 const importedName = namedImport.getName();
                 const aliasName = namedImport.getAliasNode()?.getText();
-                const key = makeDepKey(packageName, importedName);
-                if (!typeMap.has(key)) {
-                    typeMap.set(key, { packageName, resolvedFile, subpath });
+                // Subpath-qualified key prevents collision when different
+                // subpaths of the same package export the same name.
+                const fullKey = makeDepKey(packageName, importedName, subpath);
+                if (!typeMap.has(fullKey)) {
+                    typeMap.set(fullKey, { packageName, resolvedFile, subpath });
+                }
+                // Root key (without subpath) for backward-compatible lookups.
+                const rootKey = makeDepKey(packageName, importedName);
+                if (!typeMap.has(rootKey)) {
+                    typeMap.set(rootKey, { packageName, resolvedFile, subpath });
                 }
                 if (aliasName) {
-                    const aliasKey = makeDepKey(packageName, aliasName);
-                    if (!typeMap.has(aliasKey)) {
-                        typeMap.set(aliasKey, { packageName, resolvedFile, subpath });
+                    const aliasFullKey = makeDepKey(packageName, aliasName, subpath);
+                    if (!typeMap.has(aliasFullKey)) {
+                        typeMap.set(aliasFullKey, { packageName, resolvedFile, subpath });
+                    }
+                    const aliasRootKey = makeDepKey(packageName, aliasName);
+                    if (!typeMap.has(aliasRootKey)) {
+                        typeMap.set(aliasRootKey, { packageName, resolvedFile, subpath });
                     }
                 }
             }
@@ -121,9 +148,13 @@ export function buildImportResolutionMap(project: Project): {
             const defaultImport = importDecl.getDefaultImport();
             if (defaultImport) {
                 const typeName = defaultImport.getText();
-                const key = makeDepKey(packageName, typeName);
-                if (!typeMap.has(key)) {
-                    typeMap.set(key, { packageName, resolvedFile, subpath });
+                const fullKey = makeDepKey(packageName, typeName, subpath);
+                if (!typeMap.has(fullKey)) {
+                    typeMap.set(fullKey, { packageName, resolvedFile, subpath });
+                }
+                const rootKey = makeDepKey(packageName, typeName);
+                if (!typeMap.has(rootKey)) {
+                    typeMap.set(rootKey, { packageName, resolvedFile, subpath });
                 }
             }
 
@@ -146,9 +177,13 @@ export function buildImportResolutionMap(project: Project): {
             const subpath = getImportSubpath(moduleSpecifier);
             for (const namedExport of exportDecl.getNamedExports()) {
                 const name = namedExport.getName();
-                const key = makeDepKey(packageName, name);
-                if (!typeMap.has(key)) {
-                    typeMap.set(key, { packageName, resolvedFile, subpath });
+                const fullKey = makeDepKey(packageName, name, subpath);
+                if (!typeMap.has(fullKey)) {
+                    typeMap.set(fullKey, { packageName, resolvedFile, subpath });
+                }
+                const rootKey = makeDepKey(packageName, name);
+                if (!typeMap.has(rootKey)) {
+                    typeMap.set(rootKey, { packageName, resolvedFile, subpath });
                 }
             }
         }

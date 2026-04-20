@@ -184,37 +184,46 @@ function collectMainImportableTypeNames(source: { classes?: { name: string }[]; 
 /**
  * Apply collision aliases to all entities in a module.
  * Uses per-entity package provenance to determine which alias to apply.
+ * The `moduleName` parameter qualifies entity lookup keys as `moduleName/entityKey`
+ * to match the module-qualified keys in `contextRefPackages`.
  */
 function applyAliasesToModule(
-    mod: { classes?: ClassInfo[]; interfaces?: InterfaceInfo[]; types?: TypeAliasInfo[]; functions?: FunctionInfo[]; namespaces?: NamespaceInfo[] },
+    mod: { name?: string; classes?: ClassInfo[]; interfaces?: InterfaceInfo[]; types?: TypeAliasInfo[]; functions?: FunctionInfo[]; namespaces?: NamespaceInfo[] },
     aliases: CollisionAliasMap,
     contextRefPackages: Map<string, Map<string, Set<string>>>,
     prefix: string,
+    moduleName?: string,
 ): void {
+    // Resolve the module name from the module object if not explicitly provided
+    const modName = moduleName ?? mod.name ?? "";
     for (const cls of mod.classes ?? []) {
-        const key = prefix ? `${prefix}.${cls.name}` : cls.name;
+        const entityKey = prefix ? `${prefix}.${cls.name}` : cls.name;
+        const key = modName ? `${modName}/${entityKey}` : entityKey;
         const replacements = buildReplacementsForEntity(key, aliases, contextRefPackages);
         if (replacements.size > 0) applyToClass(cls, replacements);
     }
     for (const iface of mod.interfaces ?? []) {
-        const key = prefix ? `${prefix}.${iface.name}` : iface.name;
+        const entityKey = prefix ? `${prefix}.${iface.name}` : iface.name;
+        const key = modName ? `${modName}/${entityKey}` : entityKey;
         const replacements = buildReplacementsForEntity(key, aliases, contextRefPackages);
         if (replacements.size > 0) applyToInterface(iface, replacements);
     }
     for (const t of mod.types ?? []) {
-        const key = prefix ? `${prefix}.${t.name}` : t.name;
+        const entityKey = prefix ? `${prefix}.${t.name}` : t.name;
+        const key = modName ? `${modName}/${entityKey}` : entityKey;
         const replacements = buildReplacementsForEntity(key, aliases, contextRefPackages);
         if (replacements.size > 0) applyToTypeAlias(t, replacements);
     }
     for (const fn of mod.functions ?? []) {
         if (!fn.name) continue;
-        const key = prefix ? `${prefix}.${fn.name}` : fn.name;
+        const entityKey = prefix ? `${prefix}.${fn.name}` : fn.name;
+        const key = modName ? `${modName}/${entityKey}` : entityKey;
         const replacements = buildReplacementsForEntity(key, aliases, contextRefPackages);
         if (replacements.size > 0) applyToFunction(fn, replacements);
     }
     for (const ns of mod.namespaces ?? []) {
         const nsPrefix = prefix ? `${prefix}.${ns.name}` : ns.name;
-        applyAliasesToModule(ns, aliases, contextRefPackages, nsPrefix);
+        applyAliasesToModule(ns, aliases, contextRefPackages, nsPrefix, modName);
     }
 }
 
@@ -229,7 +238,13 @@ function buildReplacementsForEntity(
     contextRefPackages: Map<string, Map<string, Set<string>>>,
 ): Map<string, string> {
     const replacements = new Map<string, string>();
-    const entityRefs = contextRefPackages.get(entityKey);
+    // Try the full (module-qualified) key first; fall back to the bare entity
+    // portion for backward compatibility with callers that don't qualify keys.
+    let entityRefs = contextRefPackages.get(entityKey);
+    if (!entityRefs && entityKey.includes("/")) {
+        const bareKey = entityKey.slice(entityKey.indexOf("/") + 1);
+        entityRefs = contextRefPackages.get(bareKey);
+    }
     if (!entityRefs) return replacements;
 
     for (const [typeName, packageNames] of entityRefs) {

@@ -951,6 +951,7 @@ export function extractNamespace(mod: ModuleDeclaration, ctx: ExtractionContext)
     if (functions.length) result.functions = functions;
 
     const nested = mod.getModules()
+        .filter(m => isVisible(m) && !hasInternalOrHiddenTag(m))
         .map(m => extractNamespace(m, ctx))
         .filter((ns): ns is NamespaceInfo => ns !== null);
     if (nested.length) result.namespaces = mergeNamespaces(nested);

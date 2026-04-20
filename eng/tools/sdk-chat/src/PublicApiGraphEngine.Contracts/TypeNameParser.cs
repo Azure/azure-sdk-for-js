@@ -135,11 +135,20 @@ public static class TypeNameParser
     /// </summary>
     private static (char open, char close) FindGenericDelimiters(string name)
     {
-        // Scan for the first '<' or '[' that appears after at least one identifier character
+        // Scan for the first '<' or '[' that appears after at least one identifier character.
+        // Skip '[]' array suffixes — they are part of the base type name, not generic syntax.
         for (int i = 0; i < name.Length; i++)
         {
             if (name[i] == '<' && i > 0) return ('<', '>');
-            if (name[i] == '[' && i > 0) return ('[', ']');
+            if (name[i] == '[' && i > 0)
+            {
+                if (i + 1 < name.Length && name[i + 1] == ']')
+                {
+                    i++; // skip past ']', continue scanning
+                    continue;
+                }
+                return ('[', ']');
+            }
         }
         return ('\0', '\0');
     }
