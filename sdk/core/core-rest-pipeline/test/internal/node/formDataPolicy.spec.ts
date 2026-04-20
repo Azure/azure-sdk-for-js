@@ -23,7 +23,7 @@ function getMultipartParts(result: { request: { multipartBody?: MultipartRequest
 async function readBodyAsArrayBuffer(body: unknown): Promise<ArrayBuffer> {
   assert.isTrue(body instanceof Blob || hasRawContent(body), "expected Blob or raw content");
   const raw = getRawContent(body as Blob);
-  return new Response(raw as BodyInit).arrayBuffer();
+  return new Response(raw as ConstructorParameters<typeof Response>[0]).arrayBuffer();
 }
 
 describe("formDataPolicy (node-only)", function () {

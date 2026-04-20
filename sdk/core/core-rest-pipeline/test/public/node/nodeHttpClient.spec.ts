@@ -12,7 +12,7 @@ vi.mock("node:https", async () => {
   const actual = await vi.importActual<typeof import("node:https")>("node:https");
   return {
     default: {
-      ...actual.default,
+      ...actual,
       request: vi.fn(),
     },
   };
@@ -22,7 +22,7 @@ vi.mock("node:http", async () => {
   const actual = await vi.importActual<typeof import("node:http")>("node:http");
   return {
     default: {
-      ...actual.default,
+      ...actual,
       request: vi.fn(),
     },
   };

@@ -24,15 +24,10 @@ describe("wrapAbortSignalLike", () => {
     let registeredHandler: (() => void) | undefined;
     const reason = new Error("Aborted");
 
-    const signalLike: {
-      aborted: boolean;
-      reason: Error | undefined;
-      addEventListener: ReturnType<typeof vi.fn>;
-      removeEventListener: ReturnType<typeof vi.fn>;
-    } = {
+    const signalLike = {
       aborted: false,
-      reason: undefined,
-      addEventListener: vi.fn((_, handler) => {
+      reason: undefined as Error | undefined,
+      addEventListener: vi.fn((_: string, handler: () => void) => {
         registeredHandler = handler;
       }),
       removeEventListener: vi.fn(),
