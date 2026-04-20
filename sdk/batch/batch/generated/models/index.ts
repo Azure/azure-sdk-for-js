@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
+export type {
   BatchApplication,
   BatchError,
   BatchErrorMessage,
@@ -73,7 +73,7 @@ export {
   MountConfiguration,
   AzureBlobFileSystemConfiguration,
   NfsMountConfiguration,
-  CifsMountConfiguration,
+  BatchCifsMountConfiguration,
   AzureFileShareConfiguration,
   UpgradePolicy,
   UpgradeMode,
@@ -207,5 +207,5 @@ export {
   VMExtensionInstanceView,
   InstanceViewStatus,
   StatusLevelTypes,
-  KnownVersions,
 } from "./models.js";
+export { KnownVersions } from "./models.js";

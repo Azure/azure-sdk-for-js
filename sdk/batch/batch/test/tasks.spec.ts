@@ -162,7 +162,7 @@ describe("Task Operations Test", () => {
       id: taskId,
       commandLine: "echo Hello World",
       exitConditions: {
-        default: {
+        defaultOptions: {
           jobAction: "terminate",
           dependencyAction: "satisfy",
         },
@@ -182,8 +182,8 @@ describe("Task Operations Test", () => {
 
     const task = await batchClient.getTask(jobId, taskId);
 
-    assert.equal(task.exitConditions!.default!.jobAction, "terminate");
-    assert.equal(task.exitConditions!.default!.dependencyAction, "satisfy");
+    assert.equal(task.exitConditions!.defaultOptions!.jobAction, "terminate");
+    assert.equal(task.exitConditions!.defaultOptions!.dependencyAction, "satisfy");
     assert.equal(task.exitConditions!.exitCodes![0].code, 1);
     assert.equal(task.exitConditions!.exitCodes![0].exitOptions!.jobAction, "none");
     assert.equal(task.exitConditions!.exitCodes![0].exitOptions!.dependencyAction, "block");
@@ -348,7 +348,7 @@ describe("Task Operations Test", () => {
       id: taskId,
       commandLine: "cmd /c echo Hello World",
       authenticationTokenSettings: {
-        access: ["job"],
+        scopes: ["job"],
       },
     };
 
@@ -357,9 +357,9 @@ describe("Task Operations Test", () => {
     const task = await batchClient.getTask(jobId, taskAddParams.id);
 
     assert.isDefined(task.authenticationTokenSettings);
-    assert.isDefined(task.authenticationTokenSettings!.access);
-    assert.lengthOf(task.authenticationTokenSettings!.access!, 1);
-    assert.equal(task.authenticationTokenSettings!.access![0], "job");
+    assert.isDefined(task.authenticationTokenSettings!.scopes);
+    assert.lengthOf(task.authenticationTokenSettings!.scopes!, 1);
+    assert.equal(task.authenticationTokenSettings!.scopes![0], "job");
   });
 
   it("should create a task with a user identity successfully", async () => {
