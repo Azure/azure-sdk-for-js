@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Migrated to TypeSpec-based code generation
+
 ## 12.30.0-beta.1 (2026-03-05)
 
 ### Features Added
