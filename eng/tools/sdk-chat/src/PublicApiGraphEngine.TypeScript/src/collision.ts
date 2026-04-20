@@ -249,23 +249,57 @@ function buildReplacementsForEntity(
  * Replace standalone type identifiers in text using the TypeScript compiler AST.
  * - Correctly handles string literals, template literals, comments, and unicode identifiers
  * - Skips identifiers in qualified access (e.g., Foo.Bar, ns?.Type)
- * - Falls back to a legacy lexer-lite approach if AST parsing fails
+ * - Tries multiple wrapper strategies to parse any fragment shape (type expressions,
+ *   parameter lists, type parameter lists, heritage clauses)
+ * - Throws if no strategy can parse the input
  */
 /** @internal Exported for testing */
 export function replaceTypeIdentifiers(text: string, replacements: Map<string, string>): string {
     // Fast path: if no replacements, return as-is
     if (replacements.size === 0) return text;
 
-    try {
-        return replaceTypeIdentifiersAST(text, replacements);
-    } catch {
-        // Fall back to legacy lexer-lite if AST parsing produces an error
-        return replaceTypeIdentifiersLegacy(text, replacements);
-    }
+    return replaceTypeIdentifiersAST(text, replacements);
 }
 
-const WRAPPER_PREFIX = "declare const __x: ";
-const WRAPPER_PREFIX_LENGTH = WRAPPER_PREFIX.length;
+/**
+ * Wrapper strategies for parsing TypeScript code fragments.
+ * Each strategy wraps the fragment in a syntactically valid declaration
+ * and records the character offset where the original text begins.
+ */
+const WRAPPER_STRATEGIES: ReadonlyArray<{
+    wrap: (text: string) => string;
+    offset: (text: string) => number;
+}> = [
+    // Strategy 1: Type expression — handles union, intersection, generics, mapped, conditional, etc.
+    { wrap: (t) => `type __T = ${t};`, offset: () => "type __T = ".length },
+    // Strategy 2: Parameter list with parens — signatures like (a: Foo, b: Bar)
+    { wrap: (t) => `declare function __f${t}: void;`, offset: () => "declare function __f".length },
+    // Strategy 3: Bare parameter list — signatures like x: Foo, y: Bar (no parens)
+    { wrap: (t) => `declare function __f(${t}): void;`, offset: () => "declare function __f(".length },
+    // Strategy 4: Type parameter list — like T extends Foo, U
+    { wrap: (t) => `type __T<${t}> = any;`, offset: () => "type __T<".length },
+    // Strategy 5: Type parameter list with angle brackets — like <T extends Foo>
+    { wrap: (t) => `declare function __f${t}(): void;`, offset: () => "declare function __f".length },
+    // Strategy 6: Heritage clause — like Base<T>, Mixin<U>
+    { wrap: (t) => `interface __I extends ${t} {}`, offset: () => "interface __I extends ".length },
+];
+
+/**
+ * Parse a TypeScript fragment by trying each wrapper strategy in order.
+ * Returns the parsed source file and the character offset of the original text.
+ * Throws if no strategy can parse the fragment without errors.
+ */
+function parseFragment(text: string): { sourceFile: ts.SourceFile; offset: number } {
+    for (const strategy of WRAPPER_STRATEGIES) {
+        const wrapped = strategy.wrap(text);
+        const sf = ts.createSourceFile("__collision__.ts", wrapped, ts.ScriptTarget.Latest, true);
+        const diags = (sf as unknown as { parseDiagnostics?: readonly ts.DiagnosticWithLocation[] }).parseDiagnostics;
+        if (!diags || diags.length === 0) {
+            return { sourceFile: sf, offset: strategy.offset(text) };
+        }
+    }
+    throw new Error(`Cannot parse type fragment: ${text.length > 80 ? text.slice(0, 80) + "..." : text}`);
+}
 
 /**
  * Check if an identifier node is the right-hand side of a qualified/property access.
@@ -282,21 +316,7 @@ function isQualifiedAccess(node: ts.Node): boolean {
 }
 
 function replaceTypeIdentifiersAST(text: string, replacements: Map<string, string>): string {
-    // Wrap in a dummy declaration so the type content is parseable
-    const wrappedSource = `${WRAPPER_PREFIX}${text};`;
-    const sourceFile = ts.createSourceFile(
-        "__collision__.ts",
-        wrappedSource,
-        ts.ScriptTarget.Latest,
-        /* setParentNodes */ true,
-    );
-
-    // Check for parse errors — if the source has diagnostics, the AST may be unreliable
-    // We look for missing/expected tokens which indicate the wrapper strategy didn't work
-    const diags = (sourceFile as unknown as { parseDiagnostics?: readonly ts.DiagnosticWithLocation[] }).parseDiagnostics;
-    if (diags && diags.length > 0) {
-        throw new Error("Parse errors detected, falling back to legacy");
-    }
+    const { sourceFile, offset } = parseFragment(text);
 
     // Collect all identifier positions that need replacement
     const edits: Array<{ start: number; end: number; newText: string }> = [];
@@ -307,8 +327,8 @@ function replaceTypeIdentifiersAST(text: string, replacements: Map<string, strin
             const replacement = replacements.get(name);
             if (replacement && !isQualifiedAccess(node)) {
                 // Adjust positions from wrapped source back to original text
-                const start = node.getStart(sourceFile) - WRAPPER_PREFIX_LENGTH;
-                const end = node.getEnd() - WRAPPER_PREFIX_LENGTH;
+                const start = node.getStart(sourceFile) - offset;
+                const end = node.getEnd() - offset;
                 // Only replace if the position maps back into the original text
                 if (start >= 0 && end <= text.length) {
                     edits.push({ start, end, newText: replacement });
@@ -329,83 +349,6 @@ function replaceTypeIdentifiersAST(text: string, replacements: Map<string, strin
         result = result.slice(0, edit.start) + edit.newText + result.slice(edit.end);
     }
     return result;
-}
-
-/**
- * Legacy character-by-character lexer for identifier replacement.
- * Used as a fallback when AST parsing fails.
- */
-function replaceTypeIdentifiersLegacy(text: string, replacements: Map<string, string>): string {
-    const result: string[] = [];
-    let i = 0;
-    const len = text.length;
-
-    while (i < len) {
-        const ch = text[i];
-
-        // String literal: copy verbatim until closing quote
-        if (ch === '"' || ch === "'") {
-            const quote = ch;
-            result.push(quote);
-            i++;
-            while (i < len) {
-                const sc = text[i];
-                result.push(sc);
-                i++;
-                if (sc === quote) break;
-                if (sc === '\\' && i < len) {
-                    result.push(text[i]);
-                    i++;
-                }
-            }
-            continue;
-        }
-
-        // Identifier start character
-        if (isIdentStart(ch)) {
-            const start = i;
-            i++;
-            while (i < len && isIdentPart(text[i])) i++;
-            const ident = text.substring(start, i);
-
-            // Check if preceded by '.' — qualified access, don't replace
-            let precededByDot = false;
-            for (let j = start - 1; j >= 0; j--) {
-                const pc = text[j];
-                if (pc === ' ' || pc === '\t') continue;
-                if (pc === '.') precededByDot = true;
-                break;
-            }
-
-            if (!precededByDot && replacements.has(ident)) {
-                result.push(replacements.get(ident)!);
-            } else {
-                result.push(ident);
-            }
-            continue;
-        }
-
-        // Any other character: copy verbatim
-        result.push(ch);
-        i++;
-    }
-
-    return result.join('');
-}
-
-function isIdentStart(ch: string): boolean {
-    const c = ch.charCodeAt(0);
-    return (c >= 65 && c <= 90) ||  // A-Z
-           (c >= 97 && c <= 122) || // a-z
-           c === 95 || c === 36;    // _ $
-}
-
-function isIdentPart(ch: string): boolean {
-    const c = ch.charCodeAt(0);
-    return (c >= 65 && c <= 90) ||  // A-Z
-           (c >= 97 && c <= 122) || // a-z
-           (c >= 48 && c <= 57) ||  // 0-9
-           c === 95 || c === 36;    // _ $
 }
 
 // --- Apply replacements to each entity type ---

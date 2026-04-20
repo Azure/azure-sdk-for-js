@@ -442,27 +442,38 @@ export function resolvePackageNameFromPath(filePath: string, ctx: ExtractionCont
     const fromPkgJson = ctx.resolvePackageNameFromAncestorPkgJson(filePath);
     if (fromPkgJson) return fromPkgJson;
 
-    // Fallback: split on the last node_modules/ segment (legacy heuristic)
+    // Fallback: extract package name from the node_modules path segment.
+    // This handles rare edge cases where a dependency lacks a package.json
+    // (e.g. malformed packages, synthetic test fixtures). The heuristic reads
+    // the first one or two path segments after the last `node_modules/`:
+    //   - Scoped: `node_modules/@scope/pkg/...` → `@scope/pkg`
+    //   - Unscoped: `node_modules/pkg/...` → `pkg`
+    // It does NOT handle pnpm virtual store paths (`.pnpm/...`) correctly —
+    // those are covered by the primary package.json lookup above.
     return resolvePackageNameFromNodeModulesPath(filePath);
 }
 
 /**
- * Fallback heuristic: extract a package name by splitting on the last
- * `node_modules/` segment in the file path.
+ * Extracts a package name from the last `node_modules/` segment in a file path.
+ *
+ * This is a fallback for the rare case where no ancestor package.json exists.
+ * It reads one segment (unscoped) or two segments (scoped `@scope/pkg`) after
+ * the last `node_modules/` directory. Returns `undefined` if the path does not
+ * contain a `node_modules` segment.
  */
 function resolvePackageNameFromNodeModulesPath(filePath: string): string | undefined {
-    const nodeModulesIndex = filePath.lastIndexOf("node_modules");
+    const marker = "node_modules";
+    const nodeModulesIndex = filePath.lastIndexOf(marker);
     if (nodeModulesIndex === -1) return undefined;
 
-    const afterNodeModules = filePath.substring(nodeModulesIndex + "node_modules".length + 1);
-    if (afterNodeModules.startsWith("@")) {
-        const parts = afterNodeModules.split(/[/\\]/);
-        if (parts.length >= 2) return `${parts[0]}/${parts[1]}`;
-    } else {
-        const parts = afterNodeModules.split(/[/\\]/);
-        if (parts.length >= 1) return parts[0];
+    const afterNodeModules = filePath.substring(nodeModulesIndex + marker.length + 1);
+    const parts = afterNodeModules.split(/[/\\]/);
+
+    if (parts[0]?.startsWith("@")) {
+        // Scoped package: @scope/pkg
+        return parts.length >= 2 ? `${parts[0]}/${parts[1]}` : undefined;
     }
-    return undefined;
+    return parts[0] || undefined;
 }
 
 /**
@@ -1016,54 +1027,32 @@ export class TypeReferenceCollector {
     /**
      * Returns a flat set of all qualified (dotted) reference names across all contexts.
      * E.g., "NodeJS.ReadableStream" from fullName fields that contain dots.
+     *
+     * The TypeScript compiler's `getFullyQualifiedName()` returns strings like:
+     *   - `"@azure/core-client".PipelineOptions` (module-path prefix)
+     *   - `"NodeJS".ReadableStream` (ambient namespace prefix)
+     *   - `NodeJS.ReadableStream` (unquoted namespace)
+     *
+     * This method parses the fullName structurally: if it starts with a quoted
+     * segment, extract the prefix and suffix; otherwise treat it as a plain
+     * dotted name. Module paths (containing `/` or `@`) are discarded — only
+     * namespace-qualified names are returned.
      */
     getAllQualifiedRefNames(): Set<string> {
         const result = new Set<string>();
+        const validIdent = /^[a-zA-Z_$][a-zA-Z0-9_$]*$/;
+
         for (const ref of this.refs.values()) {
             const fn = ref.fullName;
             if (!fn.includes(".")) continue;
 
-            // fullName may contain quoted segments like `"NodeJS".ReadableStream`
-            // or module paths like `"@azure/core-client".PipelineOptions`.
-            // Strip all quoted segments and their trailing dots to get the plain chain.
-            const stripped = fn.replace(/"[^"]*"\./g, "");
-            if (!stripped || !stripped.includes(".")) {
-                // After stripping, nothing useful remains (e.g. pure module path ref)
-                // OR no dots remain — check if the quoted prefix was a namespace
-                if (!fn.startsWith('"')) {
-                    // No quotes at all — plain dotted name, use as-is
-                    result.add(fn);
-                } else {
-                    // Has quoted prefix — parse it
-                    const match = fn.match(/^"([^"]+)"\.(.+)$/);
-                    if (match) {
-                        const prefix = match[1];
-                        const suffix = match[2];
-                        // Skip module paths (contain / or @)
-                        if (!prefix.includes("/") && !prefix.includes("@")) {
-                            result.add(`${prefix}.${suffix}`);
-                        }
-                    }
-                }
-                continue;
-            }
+            const parsed = parseFullyQualifiedName(fn);
+            if (!parsed) continue;
 
-            // Remaining stripped chain — verify all parts are valid identifiers
-            const parts = stripped.split(".");
-            const validIdent = /^[a-zA-Z_$][a-zA-Z0-9_$]*$/;
+            // Validate that all parts of the qualified name are valid JS identifiers
+            const parts = parsed.split(".");
             if (parts.every(p => validIdent.test(p))) {
-                // Reconstruct with any unquoted prefix from the original
-                const prefixMatch = fn.match(/^"([^"]+)"\./);
-                if (prefixMatch) {
-                    const prefix = prefixMatch[1];
-                    if (!prefix.includes("/") && !prefix.includes("@")) {
-                        result.add(`${prefix}.${stripped}`);
-                    } else {
-                        result.add(stripped);
-                    }
-                } else {
-                    result.add(stripped);
-                }
+                result.add(parsed);
             }
         }
         return result;
@@ -1083,6 +1072,81 @@ export class TypeReferenceCollector {
     }
 }
 
+/**
+ * Parses a TypeScript fully-qualified name into a plain dotted identifier chain.
+ *
+ * The TS compiler's `getFullyQualifiedName()` produces strings in these forms:
+ *   - `Foo.Bar` — plain namespace chain (returned as-is)
+ *   - `"NodeJS".ReadableStream` — quoted ambient namespace prefix
+ *   - `"@azure/core-client".PipelineOptions` — quoted module path prefix
+ *   - `"some/path"."nested".Type` — multiple quoted segments
+ *
+ * This function:
+ *   1. If the name has no quotes, returns it as-is (plain dotted name).
+ *   2. Extracts all quoted segments. If any quoted segment looks like a module
+ *      path (contains `/` or `@`), returns only the unquoted suffix — the
+ *      module path is a package reference, not a namespace.
+ *   3. For namespace-like quoted prefixes (e.g. `"NodeJS"`), reconstructs the
+ *      full dotted name: `NodeJS.ReadableStream`.
+ *
+ * Returns `undefined` if the result has no dots (not a qualified name) or
+ * if the name is malformed.
+ */
+function parseFullyQualifiedName(fullName: string): string | undefined {
+    // Fast path: no quotes — plain dotted name
+    if (!fullName.includes('"')) {
+        return fullName.includes(".") ? fullName : undefined;
+    }
+
+    // Parse by walking the string character-by-character.
+    // Collect segments: each is either a quoted string (content between quotes)
+    // or an unquoted identifier part.
+    const segments: Array<{ text: string; quoted: boolean }> = [];
+    let i = 0;
+    while (i < fullName.length) {
+        if (fullName[i] === '"') {
+            // Read until closing quote
+            const closeQuote = fullName.indexOf('"', i + 1);
+            if (closeQuote === -1) return undefined; // malformed
+            segments.push({ text: fullName.substring(i + 1, closeQuote), quoted: true });
+            i = closeQuote + 1;
+            // Skip trailing dot separator after a quoted segment
+            if (i < fullName.length && fullName[i] === ".") i++;
+        } else {
+            // Read until next quote or end
+            let end = fullName.indexOf('"', i);
+            if (end === -1) end = fullName.length;
+            // The unquoted portion may contain dots; take it as-is (will be split later)
+            const text = fullName.substring(i, end);
+            // Remove leading dot if present (from separator between segments)
+            const cleaned = text.startsWith(".") ? text.substring(1) : text;
+            if (cleaned) segments.push({ text: cleaned, quoted: false });
+            i = end;
+        }
+    }
+
+    // Build the qualified name: include namespace-like quoted segments, skip module paths
+    const nameParts: string[] = [];
+    for (const seg of segments) {
+        if (seg.quoted) {
+            if (seg.text.includes("/") || seg.text.includes("@")) {
+                // Module path — skip it
+                continue;
+            }
+            // Namespace — include it
+            nameParts.push(seg.text);
+        } else {
+            nameParts.push(seg.text);
+        }
+    }
+
+    const result = nameParts.join(".");
+    if (!result || !result.includes(".")) {
+        // Not a qualified name — either empty or a single identifier
+        return undefined;
+    }
+    return result;
+}
 
 /**
  * Creates a fully initialized ExtractionContext with its TypeReferenceCollector.

@@ -18,8 +18,6 @@ import type {
     NamespaceInfo,
 } from "./models.js";
 
-const _nsAliasRegexCache = new Map<string, RegExp>();
-
 /**
  * Internal: Strips compiler-generated `import("…")` qualifiers from type text.
  * Used by `displayType()` and `baseTypeName()`.
@@ -29,44 +27,157 @@ const _nsAliasRegexCache = new Map<string, RegExp>();
  *   typeof import("./path")           → typeof path-last-segment
  *
  * When `baseOnly` is true, also strips generic parameters.
+ *
+ * Implementation uses a hand-written scanner rather than regex so the
+ * transformation is provably correct for the `import(…)` grammar emitted
+ * by the TypeScript compiler.
  */
 export function stripImportPrefix(text: string, baseOnly = false, namespaceAliases?: Set<string>): string {
-    let result = text;
-    if (result.includes("import(")) {
-        // Strip import("..."). (with trailing dot) leaving what follows
-        result = result.replace(/import\([^)]+\)\./g, "");
-        // typeof import("path") → typeof <last-segment>
-        result = result.replace(/typeof\s+import\(["']([^"']+)["']\)/g, (_, p: string) => {
-            const seg = p.split("/");
-            return `typeof ${seg[seg.length - 1]}`;
-        });
-        // Bare import("path") → last-segment
-        result = result.replace(/import\(["']([^"']+)["']\)/g, (_, p: string) => {
-            const seg = p.split("/");
-            return seg[seg.length - 1];
-        });
-    }
-    // Strip namespace import qualifiers (e.g., coreClient.OperationOptions → OperationOptions).
-    // These come from `import * as coreClient from "@azure/core-client"` in source files.
-    // The underlying types are already tracked as dependencies; we just need the unqualified name.
+    let result = text.includes("import(") ? stripImportExpressions(text) : text;
     if (namespaceAliases && namespaceAliases.size > 0) {
-        for (const alias of namespaceAliases) {
-            if (result.includes(`${alias}.`)) {
-                let re = _nsAliasRegexCache.get(alias);
-                if (!re) {
-                    re = new RegExp(`\\b${alias}\\.`, "g");
-                    _nsAliasRegexCache.set(alias, re);
-                }
-                re.lastIndex = 0;
-                result = result.replace(re, "");
-            }
-        }
+        result = stripNamespaceAliases(result, namespaceAliases);
     }
     if (baseOnly) {
         const idx = result.indexOf("<");
         return (idx >= 0 ? result.slice(0, idx) : result).trim();
     }
     return result;
+}
+
+// ---------------------------------------------------------------------------
+// Scanner for import("…") expressions
+// ---------------------------------------------------------------------------
+
+interface ImportExpr {
+    /** The module path inside the quotes. */
+    path: string;
+    /** Index in the source string immediately after the closing ')'. */
+    end: number;
+}
+
+/**
+ * Starting at `pos` (which must point at the 'i' of `import(`), attempts to
+ * parse an `import("…")` expression.  Returns `undefined` when the text
+ * doesn't match the expected grammar.
+ */
+function parseImportExpr(text: string, pos: number): ImportExpr | undefined {
+    // "import(" is 7 characters
+    if (text.length < pos + 9) return undefined; // minimum: import("x")
+    const quotePos = pos + 7; // character after '('
+    const quote = text[quotePos];
+    if (quote !== '"' && quote !== "'") return undefined;
+
+    const closeQuote = text.indexOf(quote, quotePos + 1);
+    if (closeQuote < 0) return undefined;
+    if (text[closeQuote + 1] !== ")") return undefined;
+
+    return { path: text.slice(quotePos + 1, closeQuote), end: closeQuote + 2 };
+}
+
+function lastPathSegment(path: string): string {
+    const slash = path.lastIndexOf("/");
+    return slash < 0 ? path : path.slice(slash + 1);
+}
+
+/**
+ * Scans `text` and replaces every `import("…").` prefix and
+ * `typeof import("…")` / bare `import("…")` expression.
+ */
+function stripImportExpressions(text: string): string {
+    const parts: string[] = [];
+    let i = 0;
+
+    while (i < text.length) {
+        // --- typeof import("…") ---
+        if (
+            text[i] === "t" &&
+            text.startsWith("typeof", i)
+        ) {
+            let j = i + 6; // skip past "typeof"
+            while (j < text.length && (text[j] === " " || text[j] === "\t")) j++;
+            if (text.startsWith("import(", j)) {
+                const expr = parseImportExpr(text, j);
+                if (expr) {
+                    parts.push("typeof ", lastPathSegment(expr.path));
+                    i = expr.end;
+                    continue;
+                }
+            }
+        }
+
+        // --- import("…"). or bare import("…") ---
+        if (text[i] === "i" && text.startsWith("import(", i)) {
+            const expr = parseImportExpr(text, i);
+            if (expr) {
+                if (expr.end < text.length && text[expr.end] === ".") {
+                    // import("path").Name → skip prefix and dot
+                    i = expr.end + 1;
+                } else {
+                    // bare import("path") → last path segment
+                    parts.push(lastPathSegment(expr.path));
+                    i = expr.end;
+                }
+                continue;
+            }
+        }
+
+        parts.push(text[i]);
+        i++;
+    }
+
+    return parts.join("");
+}
+
+// ---------------------------------------------------------------------------
+// Namespace-alias stripping (e.g. coreClient.Foo → Foo)
+// ---------------------------------------------------------------------------
+
+function isWordChar(code: number): boolean {
+    return (
+        (code >= 65 && code <= 90) ||  // A-Z
+        (code >= 97 && code <= 122) || // a-z
+        (code >= 48 && code <= 57) ||  // 0-9
+        code === 95 ||                  // _
+        code === 36                     // $
+    );
+}
+
+/**
+ * Strips namespace import qualifiers (e.g., `coreClient.OperationOptions → OperationOptions`).
+ * These come from `import * as coreClient from "@azure/core-client"` in source files.
+ * The underlying types are already tracked as dependencies; we just need the unqualified name.
+ *
+ * Uses a linear scan with word-boundary checks instead of regex.
+ */
+function stripNamespaceAliases(text: string, aliases: Set<string>): string {
+    let result = text;
+    for (const alias of aliases) {
+        const prefix = alias + ".";
+        if (!result.includes(prefix)) continue;
+        result = removeWordPrefixes(result, prefix);
+    }
+    return result;
+}
+
+/**
+ * Removes every occurrence of `prefix` in `text` that sits at a word boundary
+ * (i.e. the character before the occurrence is not a word character).
+ */
+function removeWordPrefixes(text: string, prefix: string): string {
+    const parts: string[] = [];
+    let i = 0;
+    while (i < text.length) {
+        if (
+            text.startsWith(prefix, i) &&
+            (i === 0 || !isWordChar(text.charCodeAt(i - 1)))
+        ) {
+            i += prefix.length;
+        } else {
+            parts.push(text[i]);
+            i++;
+        }
+    }
+    return parts.join("");
 }
 
 /**

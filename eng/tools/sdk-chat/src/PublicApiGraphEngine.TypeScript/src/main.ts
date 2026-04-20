@@ -348,7 +348,7 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
 
     // Populate referencedTypes on all entities from compiler-resolved type refs.
     // This must happen before computeReachableTypes so BFS can use the data.
-    function populateEntityRefs(source: { classes?: { name: string; referencedTypes?: string[] }[]; interfaces?: { name: string; referencedTypes?: string[] }[]; types?: { name: string; referencedTypes?: string[] }[]; functions?: { name?: string; referencedTypes?: string[] }[]; namespaces?: NamespaceInfo[] }, contextRefNames: Map<string, string[]>, prefix = ""): void {
+    function populateEntityRefs(source: { classes?: { name: string; referencedTypes?: string[] }[]; interfaces?: { name: string; referencedTypes?: string[] }[]; enums?: { name: string; referencedTypes?: string[] }[]; types?: { name: string; referencedTypes?: string[] }[]; functions?: { name?: string; referencedTypes?: string[] }[]; namespaces?: NamespaceInfo[] }, contextRefNames: Map<string, string[]>, prefix = ""): void {
         for (const cls of source.classes || []) {
             const key = prefix ? `${prefix}.${cls.name}` : cls.name;
             const refs = contextRefNames.get(key);
@@ -358,6 +358,11 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
             const key = prefix ? `${prefix}.${iface.name}` : iface.name;
             const refs = contextRefNames.get(key);
             if (refs?.length) iface.referencedTypes = refs;
+        }
+        for (const en of source.enums || []) {
+            const key = prefix ? `${prefix}.${en.name}` : en.name;
+            const refs = contextRefNames.get(key);
+            if (refs?.length) en.referencedTypes = refs;
         }
         for (const t of source.types || []) {
             const key = prefix ? `${prefix}.${t.name}` : t.name;

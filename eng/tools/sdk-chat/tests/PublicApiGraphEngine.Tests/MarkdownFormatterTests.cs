@@ -38,12 +38,14 @@ public class MarkdownFormatterTests
     private static DiagnosticTypeInfo MakeType(
         string name,
         string? doc = null,
+        string? kind = null,
         IReadOnlyList<DiagnosticCallableInfo>? callables = null,
         IReadOnlyList<DiagnosticPropertyInfo>? properties = null) =>
         new()
         {
             Name = name,
             Doc = doc,
+            Kind = kind,
             Callables = callables ?? [],
             Properties = properties ?? [],
         };
@@ -289,5 +291,83 @@ public class MarkdownFormatterTests
 
         Assert.Contains("| Returns |", output);
         Assert.Contains("AccessToken", output);
+    }
+
+    [Fact]
+    public void KindClass_GroupedUnderClasses()
+    {
+        // Kind="class" should place the type under Classes even without a constructor callable.
+        var index = new MockApiIndex(types:
+        [
+            MakeType("MyService", kind: "class", callables: [MakeCallable("Execute")]),
+        ]);
+
+        var output = MarkdownFormatter.Format(index);
+
+        Assert.Contains("## Classes", output);
+        Assert.Contains("### MyService", output);
+        Assert.DoesNotContain("## Interfaces", output);
+    }
+
+    [Fact]
+    public void KindInterface_GroupedUnderInterfaces()
+    {
+        // Kind="interface" should place the type under Interfaces even with a constructor-like callable.
+        var index = new MockApiIndex(types:
+        [
+            MakeType("IWidget", kind: "interface", callables: [MakeCallable("IWidget")]),
+        ]);
+
+        var output = MarkdownFormatter.Format(index);
+
+        Assert.Contains("## Interfaces", output);
+        Assert.Contains("### IWidget", output);
+        Assert.DoesNotContain("## Classes", output);
+    }
+
+    [Fact]
+    public void KindEnum_GroupedUnderTypes()
+    {
+        var index = new MockApiIndex(types:
+        [
+            MakeType("Color", kind: "enum"),
+        ]);
+
+        var output = MarkdownFormatter.Format(index);
+
+        Assert.Contains("## Types", output);
+        Assert.Contains("### Color", output);
+    }
+
+    [Fact]
+    public void KindType_GroupedUnderTypes()
+    {
+        var index = new MockApiIndex(types:
+        [
+            MakeType("ResponseFormat", kind: "type"),
+        ]);
+
+        var output = MarkdownFormatter.Format(index);
+
+        Assert.Contains("## Types", output);
+        Assert.Contains("### ResponseFormat", output);
+    }
+
+    [Fact]
+    public void NullKind_FallsBackToHeuristics()
+    {
+        // When Kind is null, the old heuristic should still work.
+        var index = new MockApiIndex(types:
+        [
+            MakeType("Client", callables: [MakeCallable("Client", ["string"])]),
+            MakeType("IService", callables: [MakeCallable("Execute")]),
+            MakeType("StatusCode"),
+        ]);
+
+        var output = MarkdownFormatter.Format(index);
+
+        Assert.Contains("## Classes", output);
+        Assert.Contains("## Interfaces", output);
+        Assert.Contains("## Types", output);
     }
 }

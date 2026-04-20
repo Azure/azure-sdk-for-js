@@ -166,6 +166,42 @@ export function extractExportPaths(exports: string | Record<string, unknown>, ro
     );
 }
 
+/**
+ * Condition classification tiers (from most general to most specific).
+ *
+ * Based on the Node.js ESM resolution spec, conditions are checked in the
+ * order they appear in the exports map. For sdk-chat's purposes (grouping
+ * exports by target environment), we classify conditions into tiers:
+ *
+ *   Tier 0 – Catch-all:     "default"
+ *   Tier 1 – Type metadata:  "types"
+ *   Tier 2 – Module format:  "import", "require"
+ *   Tier 3 – Runtime target: "node", "browser", "react-native", "workerd"
+ *   Tier 4 – Build mode:     "production", "development"
+ *
+ * Lower tier = more general = higher priority when choosing a canonical
+ * condition for a symbol exported under multiple conditions.
+ */
+const CONDITION_TIERS: ReadonlyMap<string, number> = new Map([
+    // Tier 0 – catch-all
+    ["default", 0],
+    // Tier 1 – type metadata
+    ["types", 1],
+    // Tier 2 – module format
+    ["import", 2],
+    ["require", 3],
+    // Tier 3 – runtime target
+    ["node", 4],
+    ["browser", 5],
+    ["react-native", 6],
+    ["workerd", 7],
+    // Tier 4 – build mode
+    ["production", 8],
+    ["development", 9],
+]);
+
+const UNRECOGNIZED_PRIORITY = 100;
+
 export function normalizeCondition(condition: string): string {
     const chain = condition.split("|").map(c => c.trim()).filter(Boolean);
     if (chain.length === 0) {
@@ -176,23 +212,20 @@ export function normalizeCondition(condition: string): string {
         return "default";
     }
 
-    // When "types" co-occurs with an environment condition (node, browser),
-    // prefer the environment condition so platform-specific modules retain
-    // their context instead of collapsing to a generic "types" label.
-    const environmentConditions = new Set(["node", "browser", "import", "require", "workerd", "react-native"]);
+    // When "types" co-occurs with another classified condition, prefer the
+    // non-types condition so platform-specific modules keep their context.
     const hasTypes = chain.includes("types");
     if (hasTypes) {
-        const envCondition = chain.find(c => environmentConditions.has(c));
-        if (envCondition) {
-            return envCondition;
+        const nonTypes = chain.find(c => c !== "types" && CONDITION_TIERS.has(c));
+        if (nonTypes) {
+            return nonTypes;
         }
         return "types";
     }
 
-    // Return the first recognized condition to provide a stable canonical form.
-    const recognized = new Set(["import", "require", "node", "browser", "workerd", "react-native", "development", "production"]);
+    // Return the first condition that appears in our classification table.
     for (const c of chain) {
-        if (recognized.has(c)) {
+        if (CONDITION_TIERS.has(c)) {
             return c;
         }
     }
@@ -202,18 +235,7 @@ export function normalizeCondition(condition: string): string {
 
 export function getConditionPriority(condition: string): number {
     const canonical = normalizeCondition(condition);
-
-    switch (canonical) {
-        case "default": return 0;
-        case "types": return 1;
-        case "import": return 2;
-        case "require": return 3;
-        case "node": return 4;
-        case "browser": return 5;
-        case "production": return 6;
-        case "development": return 7;
-        default: return 100;
-    }
+    return CONDITION_TIERS.get(canonical) ?? UNRECOGNIZED_PRIORITY;
 }
 
 /**
@@ -263,49 +285,63 @@ export function resolveCompiledFile(rootPath: string, filePath: string, options:
  * Source mode: resolve an output path (e.g. ./dist/index.js) to the corresponding
  * source file (e.g. ./src/index.ts).
  *
- * Tries direct lookup first, then TypeScript module resolution.
+ * Resolution strategy (in order):
+ * 1. Direct path with extension conversion (handles paths already pointing at src/)
+ * 2. TypeScript module resolution via ts.resolveModuleName (respects tsconfig paths/rootDirs)
+ * 3. Relative path probe under project root (strip output dirs, look in src/)
+ * 4. Returns null if no source file found
  */
 export function resolveSourceFile(rootPath: string, filePath: string): string | null {
     // 1. Direct path with extension conversion (.js → .ts)
-    const directPath = path.join(rootPath, filePath)
-        .replace(/\.d\.ts$/, ".ts")
-        .replace(/\.js$/, ".ts")
-        .replace(/\.mjs$/, ".mts")
-        .replace(/\.cjs$/, ".cts");
+    const directPath = convertToSourceExtension(path.join(rootPath, filePath));
     if (fs.existsSync(directPath)) {
         return directPath;
     }
 
-    // 2. Heuristic: map dist output paths back to src/ source files.
-    // Package.json exports typically point to dist/{esm,commonjs,browser,...}/index.js
-    // but in source mode we need the original src/index.ts.
-    const distPrefixes = [
-        "dist/esm/", "dist/commonjs/", "dist/browser/",
-        "dist/react-native/", "dist/workerd/", "dist/cjs/", "dist/",
-    ];
-    for (const prefix of distPrefixes) {
-        if (filePath.startsWith(prefix)) {
-            const remainder = filePath.slice(prefix.length)
-                .replace(/\.d\.ts$/, ".ts")
-                .replace(/\.d\.mts$/, ".mts")
-                .replace(/\.d\.cts$/, ".cts")
-                .replace(/\.js$/, ".ts")
-                .replace(/\.mjs$/, ".mts")
-                .replace(/\.cjs$/, ".cts");
-            const srcPath = path.join(rootPath, "src", remainder);
-            if (fs.existsSync(srcPath)) {
-                return srcPath;
-            }
-        }
-    }
-
-    // 3. TypeScript module resolution (respects tsconfig paths, rootDirs, etc.)
-    // Prefer .ts source files over .d.ts declarations.
+    // 2. TypeScript module resolution (respects tsconfig paths, rootDirs, etc.)
     const tsResolved = tryTypeScriptModuleResolution(rootPath, filePath);
-    if (tsResolved && !tsResolved.endsWith(".d.ts") && !tsResolved.endsWith(".d.mts") && !tsResolved.endsWith(".d.cts")) {
+    if (tsResolved && isSourceFile(tsResolved)) {
         return tsResolved;
     }
 
+    // 3. Strip known output directory prefixes and look for source under src/
+    const remainder = stripOutputPrefix(filePath);
+    if (remainder !== null) {
+        const srcPath = path.join(rootPath, "src", convertToSourceExtension(remainder));
+        if (fs.existsSync(srcPath)) {
+            return srcPath;
+        }
+    }
+
+    return null;
+}
+
+/** Convert a file path's extension from output format to TypeScript source format. */
+function convertToSourceExtension(p: string): string {
+    return p
+        .replace(/\.d\.ts$/, ".ts")
+        .replace(/\.d\.mts$/, ".mts")
+        .replace(/\.d\.cts$/, ".cts")
+        .replace(/\.js$/, ".ts")
+        .replace(/\.mjs$/, ".mts")
+        .replace(/\.cjs$/, ".cts");
+}
+
+/** Returns true if the path points to a .ts/.mts/.cts source file (not .d.ts). */
+function isSourceFile(p: string): boolean {
+    return (p.endsWith(".ts") || p.endsWith(".mts") || p.endsWith(".cts"))
+        && !p.endsWith(".d.ts") && !p.endsWith(".d.mts") && !p.endsWith(".d.cts");
+}
+
+/**
+ * If the file path starts with a known output directory prefix (e.g. dist/esm/),
+ * strips it and returns the remainder. Returns null if no prefix matched.
+ */
+function stripOutputPrefix(filePath: string): string | null {
+    const match = /^dist\/(?:esm|commonjs|browser|react-native|workerd|cjs)\/(.+)$/.exec(filePath);
+    if (match) return match[1];
+    const plainDist = /^dist\/(.+)$/.exec(filePath);
+    if (plainDist) return plainDist[1];
     return null;
 }
 

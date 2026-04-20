@@ -47,6 +47,9 @@ public static partial class ApiDiagnosticsPostProcessor
 
         var types = index.GetDiagnosticTypes().ToList();
 
+        // Build a lookup of all known types by name for structural checks (used by SDK006).
+        var typesByName = BuildTypeNameLookup(types);
+
         // SDK001: undocumented public type
         foreach (var type in types)
         {
@@ -83,7 +86,11 @@ public static partial class ApiDiagnosticsPostProcessor
             }
         }
 
-        // SDK005: naming convention enforcement
+        // SDK005: naming convention enforcement.
+        // NOTE: These checks are intentionally name-based — they enforce Azure SDK naming
+        // conventions (PascalCase types, camelCase members) and cannot be replaced with
+        // structural checks. The Kind field is not used here because the convention applies
+        // uniformly regardless of type kind.
         foreach (var type in types)
         {
             var typeName = type.Id ?? type.Name;
@@ -137,7 +144,10 @@ public static partial class ApiDiagnosticsPostProcessor
             }
         }
 
-        // SDK006: options bag pattern validation
+        // SDK006: options bag pattern validation.
+        // Uses structural type lookup to determine if the last parameter is an options bag
+        // (i.e., an interface/type with optional properties). Falls back to suffix-based
+        // naming convention check ("Options" suffix) only when the type is not found in the index.
         foreach (var type in types)
         {
             var typeName = type.Id ?? type.Name;
@@ -151,13 +161,11 @@ public static partial class ApiDiagnosticsPostProcessor
 
                 var paramCount = callable.ParameterTypes.Count;
 
-                // Flag callables with > 2 parameters where the last param type doesn't end with "Options"
+                // Flag callables with > 2 parameters where the last param is not an options bag
                 if (paramCount > 2)
                 {
                     var lastParamType = callable.ParameterTypes[paramCount - 1];
-                    var hasOptionsBag = !string.IsNullOrEmpty(lastParamType) &&
-                        lastParamType.EndsWith("Options", StringComparison.OrdinalIgnoreCase);
-                    if (!hasOptionsBag)
+                    if (!IsOptionsBag(lastParamType, typesByName))
                     {
                         AddDiagnostic(diagnostics, seen, new ApiDiagnostic
                         {
@@ -175,9 +183,7 @@ public static partial class ApiDiagnosticsPostProcessor
                 if (callable.OptionalParameterCount > 1)
                 {
                     var lastParamType = paramCount > 0 ? callable.ParameterTypes[paramCount - 1] : null;
-                    var hasOptionsBag = lastParamType is not null &&
-                        lastParamType.EndsWith("Options", StringComparison.OrdinalIgnoreCase);
-                    if (!hasOptionsBag)
+                    if (!IsOptionsBag(lastParamType, typesByName))
                     {
                         AddDiagnostic(diagnostics, seen, new ApiDiagnostic
                         {
@@ -193,6 +199,68 @@ public static partial class ApiDiagnosticsPostProcessor
         }
 
         return diagnostics;
+    }
+
+    /// <summary>
+    /// Builds a lookup of types by their short name and full Id for structural type resolution.
+    /// When a type name appears more than once (e.g., across packages), the entry is kept
+    /// so that at least one match is found.
+    /// </summary>
+    private static Dictionary<string, DiagnosticTypeInfo> BuildTypeNameLookup(
+        IReadOnlyList<DiagnosticTypeInfo> types)
+    {
+        var lookup = new Dictionary<string, DiagnosticTypeInfo>(StringComparer.OrdinalIgnoreCase);
+        foreach (var type in types)
+        {
+            lookup.TryAdd(type.Name, type);
+            if (type.Id is not null && type.Id != type.Name)
+            {
+                lookup.TryAdd(type.Id, type);
+            }
+        }
+
+        return lookup;
+    }
+
+    /// <summary>
+    /// Determines whether a parameter type represents an options bag using structural checks.
+    /// A type is considered an options bag if it is found in the index and has at least one
+    /// optional property. When the type is not found in the index, falls back to a naming
+    /// convention check ("Options" suffix) since the type may be defined externally
+    /// (e.g., OperationOptions from a core package).
+    /// </summary>
+    private static bool IsOptionsBag(
+        string? paramType,
+        Dictionary<string, DiagnosticTypeInfo> typesByName)
+    {
+        if (string.IsNullOrEmpty(paramType))
+        {
+            return false;
+        }
+
+        // Try structural lookup first: resolve the parameter type from the index.
+        if (typesByName.TryGetValue(paramType, out var resolvedType))
+        {
+            // Structural check: an options bag type has at least one optional property.
+            return resolvedType.Properties.Count > 0 &&
+                resolvedType.Properties.Any(p => p.IsOptional);
+        }
+
+        // Also try the short name (last segment after '.') for qualified type references.
+        var lastDot = paramType.LastIndexOf('.');
+        if (lastDot > 0 && lastDot < paramType.Length - 1)
+        {
+            var shortName = paramType[(lastDot + 1)..];
+            if (typesByName.TryGetValue(shortName, out resolvedType))
+            {
+                return resolvedType.Properties.Count > 0 &&
+                    resolvedType.Properties.Any(p => p.IsOptional);
+            }
+        }
+
+        // Fallback: naming convention check for types not in the index (e.g., external types
+        // like OperationOptions from core packages that aren't part of this API surface).
+        return paramType.EndsWith("Options", StringComparison.OrdinalIgnoreCase);
     }
 
     private static void EmitCallableDiagnostics(

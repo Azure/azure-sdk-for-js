@@ -12,10 +12,9 @@ public static class MarkdownFormatter
 {
     /// <summary>
     /// Produces a Markdown API reference for the given API index.
-    /// Types are grouped by kind (classes, interfaces, simple types) using heuristics:
-    /// a type with a callable whose name matches the type name has a constructor and is treated as a class;
-    /// a type with callables but no constructor is treated as an interface;
-    /// a type with no callables is treated as a simple type (enum or type alias).
+    /// Types are grouped by kind (classes, interfaces, simple types) using the
+    /// <see cref="DiagnosticTypeInfo.Kind"/> field when available, falling back to
+    /// callable-based heuristics for backward compatibility.
     /// </summary>
     public static string Format(IApiIndex index)
     {
@@ -31,20 +30,33 @@ public static class MarkdownFormatter
         sb.AppendLine($"# {index.Package} API Reference");
         sb.AppendLine();
 
-        // Classify types using heuristics based on callable membership.
+        // Classify types using the Kind field when available, falling back to
+        // callable-based heuristics for backward compatibility with older sources.
         var classes = new List<DiagnosticTypeInfo>();
         var interfaces = new List<DiagnosticTypeInfo>();
         var simpleTypes = new List<DiagnosticTypeInfo>();
 
         foreach (var type in types)
         {
-            var hasConstructor = type.Callables.Any(c => c.Name == type.Name);
-            if (hasConstructor)
-                classes.Add(type);
-            else if (type.Callables.Count > 0)
-                interfaces.Add(type);
+            if (type.Kind is not null)
+            {
+                if (type.Kind.Equals("class", StringComparison.OrdinalIgnoreCase))
+                    classes.Add(type);
+                else if (type.Kind.Equals("interface", StringComparison.OrdinalIgnoreCase))
+                    interfaces.Add(type);
+                else
+                    simpleTypes.Add(type);
+            }
             else
-                simpleTypes.Add(type);
+            {
+                var hasConstructor = type.Callables.Any(c => c.Name == type.Name);
+                if (hasConstructor)
+                    classes.Add(type);
+                else if (type.Callables.Count > 0)
+                    interfaces.Add(type);
+                else
+                    simpleTypes.Add(type);
+            }
         }
 
         // --- Table of Contents ---
@@ -223,6 +235,8 @@ public static class MarkdownFormatter
     /// <summary>
     /// Wraps the base type name in a Markdown anchor link if it appears in the known types set.
     /// Preserves generic suffixes (e.g., <c>Array&lt;Foo&gt;</c> links only <c>Foo</c>).
+    /// Only the first occurrence of the base name is replaced to avoid
+    /// corrupting type expressions where the name appears more than once.
     /// </summary>
     private static string LinkType(string typeName, HashSet<string> knownTypes)
     {
@@ -230,7 +244,12 @@ public static class MarkdownFormatter
         if (knownTypes.Contains(baseName))
         {
             var anchor = ToAnchor(baseName);
-            return typeName.Replace(baseName, $"[{baseName}](#{anchor})");
+            var idx = typeName.IndexOf(baseName, StringComparison.Ordinal);
+            if (idx >= 0)
+            {
+                var link = $"[{baseName}](#{anchor})";
+                return string.Concat(typeName.AsSpan(0, idx), link, typeName.AsSpan(idx + baseName.Length));
+            }
         }
         return typeName;
     }

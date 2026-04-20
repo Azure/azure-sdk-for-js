@@ -245,6 +245,65 @@ function collectDefinedAndReferenced(api: ApiIndex, includeDependencyReferences 
 }
 
 // ============================================================================
+// Tarjan's SCC Algorithm
+// ============================================================================
+
+/**
+ * Finds all strongly connected components (SCCs) in a directed graph using
+ * Tarjan's algorithm. Each SCC is a maximal set of vertices where every vertex
+ * is reachable from every other vertex in the set.
+ *
+ * This is used to condense the type reference graph: mutually-recursive types
+ * (A → B → A) form a single SCC node in the condensed DAG. If any member of
+ * an SCC is reachable from an entry point, all members are reachable.
+ *
+ * @param graph - Adjacency list: node → set of successor nodes.
+ * @returns Array of SCCs, each an array of node keys. SCCs are returned in
+ *          reverse topological order (dependencies before dependents).
+ */
+export function tarjanSCC(graph: Map<string, Set<string>>): string[][] {
+    let index = 0;
+    const stack: string[] = [];
+    const onStack = new Set<string>();
+    const indices = new Map<string, number>();
+    const lowlinks = new Map<string, number>();
+    const sccs: string[][] = [];
+
+    function strongConnect(v: string): void {
+        indices.set(v, index);
+        lowlinks.set(v, index);
+        index++;
+        stack.push(v);
+        onStack.add(v);
+
+        for (const w of graph.get(v) ?? []) {
+            if (!indices.has(w)) {
+                strongConnect(w);
+                lowlinks.set(v, Math.min(lowlinks.get(v)!, lowlinks.get(w)!));
+            } else if (onStack.has(w)) {
+                lowlinks.set(v, Math.min(lowlinks.get(v)!, indices.get(w)!));
+            }
+        }
+
+        if (lowlinks.get(v) === indices.get(v)) {
+            const scc: string[] = [];
+            let w: string;
+            do {
+                w = stack.pop()!;
+                onStack.delete(w);
+                scc.push(w);
+            } while (w !== v);
+            sccs.push(scc);
+        }
+    }
+
+    for (const v of graph.keys()) {
+        if (!indices.has(v)) strongConnect(v);
+    }
+    return sccs;
+}
+
+// ============================================================================
 // Transitive Dependency Resolution
 // ============================================================================
 
@@ -274,32 +333,23 @@ export function makeQualifiedKey(moduleName: string, entityName: string, namespa
 
 /**
  * Computes the set of type names reachable from entry points.
- * Walks the type reference graph starting from entry-point types,
- * using pre-computed referencedTypes from compiler type resolution.
  *
- * Uses qualified keys (`<module>/<ns>/<name>`) internally to prevent
- * same-named entities in different modules from colliding.
- * The returned set contains both qualified keys and simple names
- * for backward compatibility with pruning code.
+ * Algorithm:
+ * 1. Build a directed graph where nodes are qualified keys (`module/entity`)
+ *    and edges represent type references (from referencedTypes arrays).
+ * 2. Run Tarjan's SCC algorithm to find strongly connected components —
+ *    mutually-recursive types (e.g., A → B → A) collapse into single nodes.
+ * 3. Build a condensed DAG of SCC nodes and BFS from entry-point SCCs.
+ * 4. If any type in an SCC is reachable, ALL types in that SCC are reachable.
+ *
+ * Uses qualified keys internally to prevent same-named entities in different
+ * modules from colliding. The returned set contains simple names for
+ * backward compatibility with pruning code.
  */
 export function computeReachableTypes(api: ApiIndex): Set<string> {
     const allTypeNames = getDefinedTypes(api);
 
-    // Build reference graph from pre-computed referencedTypes fields.
-    // These were populated from TypeReferenceCollector's compiler-resolved refs.
-    // Keys are qualified; values are simple names filtered against allTypeNames.
-    const references = new Map<string, Set<string>>();
-
-    function addEntityRef(qualifiedKey: string, referencedTypes: string[] | undefined): void {
-        const refs = (referencedTypes ?? []).filter(t => allTypeNames.has(t));
-        if (refs.length) {
-            const existing = references.get(qualifiedKey);
-            if (existing) { for (const r of refs) existing.add(r); }
-            else { references.set(qualifiedKey, new Set(refs)); }
-        }
-    }
-
-    // Map from simple name → list of qualified keys, for BFS edge traversal
+    // Map from simple name → list of qualified keys, for resolving reference edges
     const nameToQualifiedKeys = new Map<string, string[]>();
     function registerName(simpleName: string, qualifiedKey: string): void {
         let list = nameToQualifiedKeys.get(simpleName);
@@ -307,132 +357,179 @@ export function computeReachableTypes(api: ApiIndex): Set<string> {
         list.push(qualifiedKey);
     }
 
-    function buildRefsFromContainer(source: {
+    // Collect raw references (qualified key → simple ref names) in first pass
+    const rawRefs = new Map<string, string[]>();
+
+    function collectRefsFromContainer(source: {
         classes?: { name: string; referencedTypes?: string[] }[];
         interfaces?: { name: string; referencedTypes?: string[] }[];
+        enums?: { name: string; referencedTypes?: string[] }[];
         types?: { name: string; referencedTypes?: string[] }[];
         functions?: { name?: string; referencedTypes?: string[] }[];
         namespaces?: NamespaceInfo[];
     }, moduleName: string, nsPath?: string): void {
         for (const cls of source.classes || []) {
             const qk = makeQualifiedKey(moduleName, cls.name, nsPath);
-            addEntityRef(qk, cls.referencedTypes);
             registerName(cls.name, qk);
+            const refs = (cls.referencedTypes ?? []).filter(t => allTypeNames.has(t));
+            if (refs.length) rawRefs.set(qk, refs);
         }
         for (const iface of source.interfaces || []) {
             const qk = makeQualifiedKey(moduleName, iface.name, nsPath);
-            addEntityRef(qk, iface.referencedTypes);
             registerName(iface.name, qk);
+            const refs = (iface.referencedTypes ?? []).filter(t => allTypeNames.has(t));
+            if (refs.length) rawRefs.set(qk, refs);
+        }
+        for (const en of source.enums || []) {
+            const qk = makeQualifiedKey(moduleName, en.name, nsPath);
+            registerName(en.name, qk);
+            const refs = (en.referencedTypes ?? []).filter(t => allTypeNames.has(t));
+            if (refs.length) rawRefs.set(qk, refs);
         }
         for (const t of source.types || []) {
             const qk = makeQualifiedKey(moduleName, t.name, nsPath);
-            addEntityRef(qk, t.referencedTypes);
             registerName(t.name, qk);
+            const refs = (t.referencedTypes ?? []).filter(t => allTypeNames.has(t));
+            if (refs.length) rawRefs.set(qk, refs);
         }
         for (const fn of source.functions || []) {
             if (fn.name) {
                 const qk = makeQualifiedKey(moduleName, fn.name, nsPath);
-                addEntityRef(qk, fn.referencedTypes);
                 registerName(fn.name, qk);
+                const refs = (fn.referencedTypes ?? []).filter(t => allTypeNames.has(t));
+                if (refs.length) rawRefs.set(qk, refs);
             }
         }
         for (const ns of source.namespaces || []) {
             const childNsPath = nsPath ? `${nsPath}.${ns.name}` : ns.name;
             registerName(ns.name, makeQualifiedKey(moduleName, ns.name, nsPath));
-            buildRefsFromContainer(ns, moduleName, childNsPath);
+            collectRefsFromContainer(ns, moduleName, childNsPath);
         }
     }
 
     for (const mod of api.modules) {
-        buildRefsFromContainer(mod, mod.name);
+        collectRefsFromContainer(mod, mod.name);
     }
 
-    // BFS from entry points — track both qualified keys and simple names
-    const reachableQualified = new Set<string>();
-    const reachable = new Set<string>();
-    const queue: string[] = [];
+    // Build qualified-key graph: resolve simple ref names → qualified keys
+    const graph = new Map<string, Set<string>>();
+    // Ensure every registered node exists in the graph (even with no edges)
+    for (const qkeys of nameToQualifiedKeys.values()) {
+        for (const qk of qkeys) {
+            if (!graph.has(qk)) graph.set(qk, new Set());
+        }
+    }
+    for (const [qk, refs] of rawRefs) {
+        const edges = graph.get(qk) ?? new Set();
+        for (const refName of refs) {
+            const targetQks = nameToQualifiedKeys.get(refName);
+            if (targetQks) {
+                for (const tqk of targetQks) edges.add(tqk);
+            }
+        }
+        graph.set(qk, edges);
+    }
 
-    function seedEntity(name: string, moduleName: string, nsPath?: string): void {
-        const qk = makeQualifiedKey(moduleName, name, nsPath);
-        if (!reachableQualified.has(qk)) {
-            reachableQualified.add(qk);
-            reachable.add(name);
-            queue.push(name);
+    // Run Tarjan's SCC algorithm
+    const sccs = tarjanSCC(graph);
+
+    // Build node → SCC index mapping, and condensed DAG
+    const nodeToSccIndex = new Map<string, number>();
+    for (let i = 0; i < sccs.length; i++) {
+        for (const node of sccs[i]) nodeToSccIndex.set(node, i);
+    }
+
+    // Build condensed DAG: SCC index → set of successor SCC indices
+    const condensed = new Map<number, Set<number>>();
+    for (let i = 0; i < sccs.length; i++) condensed.set(i, new Set());
+    for (const [src, dsts] of graph) {
+        const srcScc = nodeToSccIndex.get(src)!;
+        for (const dst of dsts) {
+            const dstScc = nodeToSccIndex.get(dst)!;
+            if (srcScc !== dstScc) condensed.get(srcScc)!.add(dstScc);
+        }
+    }
+
+    // Seed entry-point SCCs
+    const reachableSccIndices = new Set<number>();
+    const sccQueue: number[] = [];
+
+    function seedScc(qk: string): void {
+        const sccIdx = nodeToSccIndex.get(qk);
+        if (sccIdx !== undefined && !reachableSccIndices.has(sccIdx)) {
+            reachableSccIndices.add(sccIdx);
+            sccQueue.push(sccIdx);
         }
     }
 
     for (const mod of api.modules) {
         for (const cls of mod.classes || []) {
-            if (cls.entryPoint) seedEntity(cls.name, mod.name);
+            if (cls.entryPoint) seedScc(makeQualifiedKey(mod.name, cls.name));
         }
         for (const iface of mod.interfaces || []) {
-            if (iface.entryPoint) seedEntity(iface.name, mod.name);
+            if (iface.entryPoint) seedScc(makeQualifiedKey(mod.name, iface.name));
         }
         for (const en of mod.enums || []) {
-            if (en.entryPoint) seedEntity(en.name, mod.name);
+            if (en.entryPoint) seedScc(makeQualifiedKey(mod.name, en.name));
         }
         for (const t of mod.types || []) {
-            if (t.entryPoint) seedEntity(t.name, mod.name);
+            if (t.entryPoint) seedScc(makeQualifiedKey(mod.name, t.name));
         }
         for (const fn of mod.functions || []) {
-            if (fn.entryPoint && fn.name) seedEntity(fn.name, mod.name);
+            if (fn.entryPoint && fn.name) seedScc(makeQualifiedKey(mod.name, fn.name));
         }
-        // Only seed namespaces that are marked as entry points
-        seedNamespaces(mod.namespaces, reachable, reachableQualified, queue, mod.name);
+        seedNamespaceSccs(mod.namespaces, seedScc, mod.name);
     }
 
+    // BFS on condensed DAG
     let qi = 0;
-    while (qi < queue.length) {
-        const current = queue[qi++];
-        // Look up all qualified keys for this simple name
-        const qkeys = nameToQualifiedKeys.get(current);
-        if (qkeys) {
-            for (const qk of qkeys) {
-                const refs = references.get(qk);
-                if (refs) {
-                    for (const ref of refs) {
-                        if (!reachable.has(ref)) {
-                            reachable.add(ref);
-                            queue.push(ref);
-                            // Mark all qualified instances as reachable
-                            const refQks = nameToQualifiedKeys.get(ref);
-                            if (refQks) { for (const rqk of refQks) reachableQualified.add(rqk); }
-                        }
-                    }
-                }
+    while (qi < sccQueue.length) {
+        const currentScc = sccQueue[qi++];
+        for (const neighborScc of condensed.get(currentScc) ?? []) {
+            if (!reachableSccIndices.has(neighborScc)) {
+                reachableSccIndices.add(neighborScc);
+                sccQueue.push(neighborScc);
             }
+        }
+    }
+
+    // Collect simple names from all reachable SCCs
+    const reachable = new Set<string>();
+    for (const sccIdx of reachableSccIndices) {
+        for (const qk of sccs[sccIdx]) {
+            // Extract simple name from qualified key (last segment after the last '/')
+            const lastSlash = qk.lastIndexOf("/");
+            const simpleName = lastSlash >= 0 ? qk.substring(lastSlash + 1) : qk;
+            reachable.add(simpleName);
         }
     }
 
     return reachable;
 }
 
-function seedNamespaces(
+/**
+ * Seeds SCCs for entry-point namespaces and all their members.
+ * When a namespace is an entry point (or a descendant of one), all its
+ * members are seeded as reachable entry points.
+ */
+function seedNamespaceSccs(
     namespaces: NamespaceInfo[] | undefined,
-    reachable: Set<string>,
-    reachableQualified: Set<string>,
-    queue: string[],
+    seedScc: (qk: string) => void,
     moduleName: string,
     nsPath?: string,
     parentIsEntryPoint?: boolean,
 ): void {
     for (const ns of namespaces || []) {
-        // Only seed namespaces that are entry points or descendants of entry point namespaces
         if (!ns.entryPoint && !parentIsEntryPoint) continue;
         const qk = makeQualifiedKey(moduleName, ns.name, nsPath);
-        if (!reachableQualified.has(qk)) {
-            reachableQualified.add(qk);
-            reachable.add(ns.name);
-            queue.push(ns.name);
-        }
-        for (const c of ns.classes || []) { reachable.add(c.name); queue.push(c.name); }
-        for (const i of ns.interfaces || []) { reachable.add(i.name); queue.push(i.name); }
-        for (const e of ns.enums || []) { reachable.add(e.name); queue.push(e.name); }
-        for (const t of ns.types || []) { reachable.add(t.name); queue.push(t.name); }
-        for (const f of ns.functions || []) { if (f.name) { reachable.add(f.name); queue.push(f.name); } }
+        seedScc(qk);
         const childNsPath = nsPath ? `${nsPath}.${ns.name}` : ns.name;
-        // Children of an entry-point namespace are also entry-point accessible
-        seedNamespaces(ns.namespaces, reachable, reachableQualified, queue, moduleName, childNsPath, true);
+        for (const c of ns.classes || []) seedScc(makeQualifiedKey(moduleName, c.name, childNsPath));
+        for (const i of ns.interfaces || []) seedScc(makeQualifiedKey(moduleName, i.name, childNsPath));
+        for (const e of ns.enums || []) seedScc(makeQualifiedKey(moduleName, e.name, childNsPath));
+        for (const t of ns.types || []) seedScc(makeQualifiedKey(moduleName, t.name, childNsPath));
+        for (const f of ns.functions || []) { if (f.name) seedScc(makeQualifiedKey(moduleName, f.name, childNsPath)); }
+        seedNamespaceSccs(ns.namespaces, seedScc, moduleName, childNsPath, true);
     }
 }
 

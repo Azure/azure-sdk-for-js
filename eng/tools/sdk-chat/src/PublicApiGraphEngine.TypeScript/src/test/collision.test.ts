@@ -687,16 +687,66 @@ describe("AST-based replaceTypeIdentifiers", () => {
     });
   });
 
-  describe("fallback to legacy", () => {
-    it("handles malformed type text via legacy fallback", () => {
-      // This text can't be parsed as a type — AST will throw, legacy takes over
-      const result = replaceTypeIdentifiers("Foo ??? Bar !!!", makeReplacements([
+  describe("throws on unparseable input", () => {
+    it("throws on truly malformed text that no strategy can parse", () => {
+      expect(() =>
+        replaceTypeIdentifiers("Foo ??? Bar !!!", makeReplacements([
+          ["Foo", "AliasFoo"],
+          ["Bar", "AliasBar"],
+        ]))
+      ).toThrow(/Cannot parse type fragment/);
+    });
+  });
+
+  describe("content type strategies", () => {
+    it("handles type expressions (union, intersection, generics)", () => {
+      const result = replaceTypeIdentifiers("Foo | Bar<Baz>", makeReplacements([
+        ["Foo", "AliasFoo"],
+        ["Bar", "AliasBar"],
+        ["Baz", "AliasBaz"],
+      ]));
+      expect(result).toBe("AliasFoo | AliasBar<AliasBaz>");
+    });
+
+    it("handles parameter lists (function signatures)", () => {
+      const result = replaceTypeIdentifiers("(a: Foo, b: Bar)", makeReplacements([
         ["Foo", "AliasFoo"],
         ["Bar", "AliasBar"],
       ]));
-      // Legacy lexer should still replace standalone identifiers
-      expect(result).toContain("AliasFoo");
-      expect(result).toContain("AliasBar");
+      expect(result).toBe("(a: AliasFoo, b: AliasBar)");
+    });
+
+    it("handles type parameter lists", () => {
+      const result = replaceTypeIdentifiers("T extends Foo, U extends Bar", makeReplacements([
+        ["Foo", "AliasFoo"],
+        ["Bar", "AliasBar"],
+      ]));
+      expect(result).toBe("T extends AliasFoo, U extends AliasBar");
+    });
+
+    it("handles heritage clauses (extends/implements)", () => {
+      const result = replaceTypeIdentifiers("Base<Foo>, Mixin<Bar>", makeReplacements([
+        ["Base", "AliasBase"],
+        ["Foo", "AliasFoo"],
+        ["Mixin", "AliasMixin"],
+        ["Bar", "AliasBar"],
+      ]));
+      expect(result).toBe("AliasBase<AliasFoo>, AliasMixin<AliasBar>");
+    });
+
+    it("handles parameter list with default values", () => {
+      const result = replaceTypeIdentifiers("(a: Foo, b?: Bar)", makeReplacements([
+        ["Foo", "AliasFoo"],
+        ["Bar", "AliasBar"],
+      ]));
+      expect(result).toBe("(a: AliasFoo, b?: AliasBar)");
+    });
+
+    it("handles single type parameter with constraint", () => {
+      const result = replaceTypeIdentifiers("T extends Foo", makeReplacements([
+        ["Foo", "AliasFoo"],
+      ]));
+      expect(result).toBe("T extends AliasFoo");
     });
   });
 

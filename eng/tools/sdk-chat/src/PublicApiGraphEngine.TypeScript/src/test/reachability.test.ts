@@ -7,6 +7,7 @@ import {
   validateSelfContainment,
   computeReachableTypes,
   getDefinedTypes,
+  tarjanSCC,
 } from "../reachability.js";
 import { filterNamespaceMembers } from "../dependencies.js";
 import type { ApiIndex, NamespaceInfo } from "../models.js";
@@ -849,9 +850,9 @@ describe("computeReachableTypes — qualified keys", () => {
     // Options from mod-a is entry point, DepA should be reachable
     expect(reachable).toContain("Options");
     expect(reachable).toContain("DepA");
-    // DepB is reachable too because Options (same name) in mod-b also gets its refs followed
-    // This is the current behavior: simple names are used for backward compat
-    expect(reachable).toContain("DepB");
+    // DepB should NOT be reachable — mod-b/Options is not an entry point and
+    // SCC-based traversal uses qualified keys, so same-named entities don't collide
+    expect(reachable).not.toContain("DepB");
   });
 });
 
@@ -901,5 +902,154 @@ describe("validateSelfContainment — Node ambient types", () => {
     expect(spy).toHaveBeenCalledOnce();
     expect(spy.mock.calls[0][0]).toContain("UnknownThing");
     spy.mockRestore();
+  });
+});
+
+// ---------------------------------------------------------------------------
+// tarjanSCC — unit tests
+// ---------------------------------------------------------------------------
+
+describe("tarjanSCC", () => {
+  it("finds trivial single-node SCCs in a DAG", () => {
+    const graph = new Map<string, Set<string>>([
+      ["A", new Set(["B"])],
+      ["B", new Set(["C"])],
+      ["C", new Set()],
+    ]);
+    const sccs = tarjanSCC(graph);
+    expect(sccs).toHaveLength(3);
+    for (const scc of sccs) expect(scc).toHaveLength(1);
+  });
+
+  it("collapses a 2-node cycle into one SCC", () => {
+    const graph = new Map<string, Set<string>>([
+      ["A", new Set(["B"])],
+      ["B", new Set(["A"])],
+    ]);
+    const sccs = tarjanSCC(graph);
+    expect(sccs).toHaveLength(1);
+    expect(sccs[0].sort()).toEqual(["A", "B"]);
+  });
+
+  it("finds a 3-node cycle as one SCC", () => {
+    const graph = new Map<string, Set<string>>([
+      ["A", new Set(["B"])],
+      ["B", new Set(["C"])],
+      ["C", new Set(["A"])],
+    ]);
+    const sccs = tarjanSCC(graph);
+    expect(sccs).toHaveLength(1);
+    expect(sccs[0].sort()).toEqual(["A", "B", "C"]);
+  });
+
+  it("separates disconnected components", () => {
+    const graph = new Map<string, Set<string>>([
+      ["A", new Set(["B"])],
+      ["B", new Set(["A"])],
+      ["X", new Set(["Y"])],
+      ["Y", new Set(["X"])],
+    ]);
+    const sccs = tarjanSCC(graph);
+    expect(sccs).toHaveLength(2);
+    const sorted = sccs.map(s => s.sort()).sort((a, b) => a[0].localeCompare(b[0]));
+    expect(sorted[0]).toEqual(["A", "B"]);
+    expect(sorted[1]).toEqual(["X", "Y"]);
+  });
+
+  it("returns empty array for empty graph", () => {
+    const sccs = tarjanSCC(new Map());
+    expect(sccs).toHaveLength(0);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// computeReachableTypes — SCC condensation tests
+// ---------------------------------------------------------------------------
+
+describe("computeReachableTypes — SCC condensation", () => {
+  it("mutually-recursive types: A → B → A, both reachable if A is entry point", () => {
+    const api = apiWith({
+      interfaces: [
+        { name: "A", entryPoint: true, referencedTypes: ["B"] },
+        { name: "B", referencedTypes: ["A"] },
+        { name: "Orphan" },
+      ],
+    });
+    const reachable = computeReachableTypes(api);
+    expect(reachable).toContain("A");
+    expect(reachable).toContain("B");
+    expect(reachable).not.toContain("Orphan");
+  });
+
+  it("large SCC: A → B → C → A, seeded from A → all three reachable", () => {
+    const api = apiWith({
+      interfaces: [
+        { name: "A", entryPoint: true, referencedTypes: ["B"] },
+        { name: "B", referencedTypes: ["C"] },
+        { name: "C", referencedTypes: ["A"] },
+        { name: "Unrelated" },
+      ],
+    });
+    const reachable = computeReachableTypes(api);
+    expect(reachable).toContain("A");
+    expect(reachable).toContain("B");
+    expect(reachable).toContain("C");
+    expect(reachable).not.toContain("Unrelated");
+  });
+
+  it("unreachable cycle: D → E → D not connected to entry points → neither reachable", () => {
+    const api = apiWith({
+      interfaces: [
+        { name: "Entry", entryPoint: true, referencedTypes: ["Leaf"] },
+        { name: "Leaf" },
+        { name: "D", referencedTypes: ["E"] },
+        { name: "E", referencedTypes: ["D"] },
+      ],
+    });
+    const reachable = computeReachableTypes(api);
+    expect(reachable).toContain("Entry");
+    expect(reachable).toContain("Leaf");
+    expect(reachable).not.toContain("D");
+    expect(reachable).not.toContain("E");
+  });
+
+  it("SCC with outgoing edge: cycle + tail reachable", () => {
+    const api = apiWith({
+      interfaces: [
+        { name: "A", entryPoint: true, referencedTypes: ["B"] },
+        { name: "B", referencedTypes: ["A", "C"] },
+        { name: "C" },
+      ],
+    });
+    const reachable = computeReachableTypes(api);
+    expect(reachable).toContain("A");
+    expect(reachable).toContain("B");
+    expect(reachable).toContain("C");
+  });
+
+  it("name collision across modules: only entry-point module's deps are reachable", () => {
+    const api: ApiIndex = {
+      package: "test-pkg",
+      modules: [
+        {
+          name: "auth",
+          interfaces: [
+            { name: "Config", entryPoint: true, referencedTypes: ["AuthToken"] },
+          ],
+          types: [{ name: "AuthToken", type: "string" }],
+        },
+        {
+          name: "storage",
+          interfaces: [
+            { name: "Config", referencedTypes: ["StorageBlob"] },
+          ],
+          types: [{ name: "StorageBlob", type: "Blob" }],
+        },
+      ],
+    };
+    const reachable = computeReachableTypes(api);
+    expect(reachable).toContain("Config");
+    expect(reachable).toContain("AuthToken");
+    expect(reachable).not.toContain("StorageBlob");
   });
 });

@@ -5,18 +5,17 @@ import {
     Project,
     SourceFile,
     Node,
+    ts,
 } from "ts-morph";
+import type { Type } from "ts-morph";
 import * as fs from "fs";
 import * as path from "path";
 import type {
     ApiIndex,
     ClassInfo,
     InterfaceInfo,
-    MethodInfo,
-    PropertyInfo,
-    FunctionInfo,
 } from "./models.js";
-import { baseTypeName, stripImportPrefix } from "./formatter.js";
+import { baseTypeName } from "./formatter.js";
 
 export interface UsageResult {
     file_count: number;
@@ -39,280 +38,186 @@ export interface UncoveredOp {
 }
 
 /**
- * Build a variable → client type map for a source file.
- *
- * Tracks patterns:
- *   - const client = new BlobClient(...)           → client maps to BlobClient
- *   - const client: BlobClient = ...               → client maps to BlobClient
- *   - let client: BlobClient                       → client maps to BlobClient
- *   - const client = createBlobClient(...)          → client maps to BlobClient (via function return type map)
- *   - const client = service.getBlobClient(...)     → client maps to BlobClient (via method return type map)
- *   - const blob = storage.blobs                   → client maps to BlobClient (via property type map)
- *
- * All type resolution is driven by API index data — no name-based heuristics.
+ * Extract the canonical type name from a ts-morph Type.
+ * Unwraps Promise/async wrappers and returns the symbol name.
  */
-export function buildVarTypeMap(
-    sourceFile: SourceFile,
-    clientNames: Set<string>,
-    propertyTypeMap: Map<string, string>,
-    methodReturnTypeMap: Map<string, string>,
-    functionReturnTypeMap: Map<string, string>
-): Map<string, string> {
+export function getCanonicalTypeName(type: Type): string | undefined {
+    const unwrapped = unwrapPromiseType(type);
+    const symbol = unwrapped.getSymbol() ?? unwrapped.getAliasSymbol();
+    if (symbol) {
+        const name = symbol.getName();
+        // Skip anonymous/internal type names
+        if (name && name !== "__type" && name !== "default") {
+            return name;
+        }
+    }
+    return undefined;
+}
+
+/**
+ * Unwrap async wrapper types (Promise, PromiseLike, etc.) from a ts-morph Type.
+ * E.g., Promise<BlobClient> → BlobClient.
+ */
+export function unwrapPromiseType(type: Type): Type {
+    const symbol = type.getSymbol();
+    const name = symbol?.getName();
+    const asyncWrappers = ["Promise", "PromiseLike", "AsyncIterable", "AsyncIterableIterator"];
+    if (name && asyncWrappers.includes(name)) {
+        const typeArgs = type.getTypeArguments();
+        if (typeArgs.length >= 1) {
+            return typeArgs[0];
+        }
+    }
+    return type;
+}
+
+/**
+ * Extract the class name from a `new X()` expression's AST.
+ * Returns e.g. "DataClient" for `new DataClient()`.
+ */
+function extractNewExprClassName(node: Node): string | undefined {
+    if (!Node.isVariableDeclaration(node)) return undefined;
+    const init = node.getInitializer();
+    if (!init || !Node.isNewExpression(init)) return undefined;
+    const expr = init.getExpression();
+    if (Node.isIdentifier(expr)) return expr.getText();
+    return undefined;
+}
+
+/**
+ * Extract the property access receiver variable and property name from
+ * a variable initializer like `const x = y.prop`.
+ */
+function extractPropertyAccess(node: Node): { receiverName: string; propName: string } | undefined {
+    if (!Node.isVariableDeclaration(node)) return undefined;
+    const init = node.getInitializer();
+    if (!init || !Node.isPropertyAccessExpression(init)) return undefined;
+    const receiver = init.getExpression();
+    if (!Node.isIdentifier(receiver)) return undefined;
+    return { receiverName: receiver.getText(), propName: init.getName() };
+}
+
+/**
+ * Extract the function name from a bare call expression initializer like `const x = foo()`.
+ */
+function extractCallExprFuncName(node: Node): string | undefined {
+    if (!Node.isVariableDeclaration(node)) return undefined;
+    const init = node.getInitializer();
+    // Handle `await foo()` — unwrap the await expression
+    let callExpr = init;
+    if (callExpr && Node.isAwaitExpression(callExpr)) {
+        callExpr = callExpr.getExpression();
+    }
+    if (!callExpr || !Node.isCallExpression(callExpr)) return undefined;
+    const expr = callExpr.getExpression();
+    if (Node.isIdentifier(expr)) return expr.getText();
+    return undefined;
+}
+
+export interface ApiTypeContext {
+    /** Known type names from the API index (class & interface names) */
+    allTypeNames: Set<string>;
+    /** typeName → (propertyName → propertyTypeName) */
+    propertyTypes: Map<string, Map<string, string>>;
+    /** functionName → returnTypeName */
+    functionReturnTypes: Map<string, string>;
+}
+
+/**
+ * Build a variable → type name map for a source file using the TypeScript type checker,
+ * with AST-based fallback for cases where the type checker can't resolve types
+ * (e.g., when sample files reference types not available in node_modules).
+ *
+ * The type checker handles all inference patterns automatically when types are available:
+ *   - new X(), type annotations, factory returns, property chains
+ *   - destructuring, callbacks, closures, generic inference
+ *   - as-assertions, import aliases, optional chaining
+ *
+ * Fallback patterns (AST-based, used when type checker returns undefined):
+ *   - `new X()` → variable type is X (if X is a known API type)
+ *   - `y.prop` → variable type from API property definitions
+ *   - `func()` → variable type from API function return types
+ */
+export function buildVarTypeMap(sourceFile: SourceFile, apiContext?: ApiTypeContext): Map<string, string> {
     const varTypes = new Map<string, string>();
 
     sourceFile.forEachDescendant((node) => {
-        // Variable declarations: const client = new BlobClient() / const client: BlobClient = ...
-        if (Node.isVariableDeclaration(node)) {
-            const nameNode = node.getNameNode();
-            if (!Node.isIdentifier(nameNode)) return;
-            const varName = nameNode.getText();
-
-            // Check type annotation first: const client: BlobClient
-            const typeNode = node.getTypeNode();
-            if (typeNode) {
-                const typeName = baseTypeName(typeNode.getText());
-                if (clientNames.has(typeName)) {
-                    varTypes.set(varName, typeName);
-                    return;
-                }
-            }
-
-            // Check initializer
-            const initializer = node.getInitializer();
-            if (initializer) {
-                // new BlobClient(...)
-                if (Node.isNewExpression(initializer)) {
-                    const exprNode = initializer.getExpression();
-                    if (Node.isIdentifier(exprNode)) {
-                        const name = exprNode.getText();
-                        if (clientNames.has(name)) {
-                            varTypes.set(varName, name);
-                            return;
-                        }
+        if (Node.isVariableDeclaration(node) || Node.isParameterDeclaration(node)) {
+            const name = node.getName();
+            if (name) {
+                // Try the type checker first
+                try {
+                    const type = node.getType();
+                    const typeName = getCanonicalTypeName(type);
+                    if (typeName && (!apiContext || apiContext.allTypeNames.has(typeName))) {
+                        varTypes.set(name, typeName);
+                        return;
                     }
-                    if (Node.isPropertyAccessExpression(exprNode)) {
-                        const name = exprNode.getName();
-                        if (clientNames.has(name)) {
-                            varTypes.set(varName, name);
-                            return;
-                        }
-                    }
+                } catch {
+                    // Type resolution failed — fall through to AST fallback
                 }
 
-                // Call expression: createBlobClient() or service.getBlobClient()
-                if (Node.isCallExpression(initializer)) {
-                    const callExpr = initializer.getExpression();
-
-                    // Standalone function: createBlobClient(...)
-                    if (Node.isIdentifier(callExpr)) {
-                        const retType = functionReturnTypeMap.get(callExpr.getText());
-                        if (retType) {
-                            varTypes.set(varName, retType);
-                            return;
-                        }
+                // AST fallback: `new X()` pattern
+                if (apiContext && Node.isVariableDeclaration(node)) {
+                    const className = extractNewExprClassName(node);
+                    if (className && apiContext.allTypeNames.has(className)) {
+                        varTypes.set(name, className);
+                        return;
                     }
 
-                    // Method call: service.getBlobClient(...) or BlobClient.create(...)
-                    if (Node.isPropertyAccessExpression(callExpr)) {
-                        const objExpr = callExpr.getExpression();
-                        const calledMethodName = callExpr.getName();
-
-                        // Static factory: BlobClient.create(...)
-                        if (Node.isIdentifier(objExpr) && clientNames.has(objExpr.getText())) {
-                            const staticKey = `${objExpr.getText()}.${calledMethodName}`;
-                            const staticRet = methodReturnTypeMap.get(staticKey);
-                            varTypes.set(varName, staticRet ?? objExpr.getText());
+                    // AST fallback: `func()` pattern — check function return types
+                    const funcName = extractCallExprFuncName(node);
+                    if (funcName) {
+                        const retType = apiContext.functionReturnTypes.get(funcName);
+                        if (retType && apiContext.allTypeNames.has(retType)) {
+                            varTypes.set(name, retType);
                             return;
-                        }
-
-                        // Instance method: service.getBlobClient(...)
-                        if (Node.isIdentifier(objExpr)) {
-                            const receiverType = varTypes.get(objExpr.getText());
-                            if (receiverType) {
-                                const methodKey = `${baseTypeName(receiverType)}.${calledMethodName}`;
-                                const retType = methodReturnTypeMap.get(methodKey);
-                                if (retType) {
-                                    varTypes.set(varName, retType);
-                                    return;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                // Type assertion: expr as BlobClient
-                if (Node.isAsExpression(initializer)) {
-                    const asTypeNode = initializer.getTypeNode();
-                    if (asTypeNode) {
-                        const typeName = baseTypeName(asTypeNode.getText());
-                        if (clientNames.has(typeName)) {
-                            varTypes.set(varName, typeName);
-                            return;
-                        }
-                    }
-                }
-
-                // Property access: const blob = storage.blobs → infer from property type map
-                if (Node.isPropertyAccessExpression(initializer)) {
-                    const objExpr = initializer.getExpression();
-                    if (Node.isIdentifier(objExpr)) {
-                        const sourceVar = objExpr.getText();
-                        const sourceType = varTypes.get(sourceVar);
-                        if (sourceType) {
-                            const propName = initializer.getName();
-                            const propKey = `${baseTypeName(sourceType)}.${propName}`;
-                            const propType = propertyTypeMap.get(propKey);
-                            if (propType) {
-                                varTypes.set(varName, propType);
-                                return;
-                            }
                         }
                     }
                 }
             }
         }
 
-        // Property/field assignments: this.client = new BlobClient(...)
         if (Node.isPropertyDeclaration(node)) {
             const nameNode = node.getNameNode();
             if (Node.isIdentifier(nameNode)) {
-                const propName = nameNode.getText();
-                const typeNode = node.getTypeNode();
-                if (typeNode) {
-                    const typeName = baseTypeName(typeNode.getText());
-                    if (clientNames.has(typeName)) {
-                        varTypes.set(propName, typeName);
-                        return;
-                    }
-                }
-                const declInit = node.getInitializer();
-                if (declInit && Node.isNewExpression(declInit)) {
-                    const exprNode = declInit.getExpression();
-                    if (Node.isIdentifier(exprNode)) {
-                        const name = exprNode.getText();
-                        if (clientNames.has(name)) {
-                            varTypes.set(propName, name);
-                        }
-                    }
+                try {
+                    const type = node.getType();
+                    const typeName = getCanonicalTypeName(type);
+                    if (typeName) varTypes.set(nameNode.getText(), typeName);
+                } catch {
+                    // Skip nodes where type resolution fails
                 }
             }
         }
     });
 
-    return varTypes;
-}
-
-/**
- * Unwrap async wrapper types from a TypeScript return type string.
- * E.g., "Promise<BlobClient>" → "BlobClient", "Promise<Map<K, V>>" → "Map<K, V>".
- * Uses bracket-depth matching to correctly handle nested generics.
- */
-export function unwrapAsyncReturnType(returnType: string): string {
-    const wrappers = ["Promise", "PromiseLike", "AsyncIterable", "AsyncIterableIterator"];
-    for (const wrapper of wrappers) {
-        if (returnType.startsWith(wrapper + "<")) {
-            // Find the matching closing bracket using depth tracking
-            let depth = 0;
-            for (let i = wrapper.length; i < returnType.length; i++) {
-                if (returnType[i] === "<") depth++;
-                else if (returnType[i] === ">") {
-                    depth--;
-                    if (depth === 0) {
-                        // Only unwrap if the closing bracket is at the end
-                        if (i === returnType.length - 1) {
-                            return returnType.slice(wrapper.length + 1, i);
+    // Second pass: resolve property access patterns using already-resolved variable types
+    // e.g., `const blob = storage.blobs` where storage → StorageClient and blobs → BlobClient
+    if (apiContext) {
+        sourceFile.forEachDescendant((node) => {
+            if (Node.isVariableDeclaration(node)) {
+                const name = node.getName();
+                if (name && !varTypes.has(name)) {
+                    const propAccess = extractPropertyAccess(node);
+                    if (propAccess) {
+                        const receiverType = varTypes.get(propAccess.receiverName);
+                        if (receiverType) {
+                            const props = apiContext.propertyTypes.get(receiverType);
+                            if (props) {
+                                const propType = props.get(propAccess.propName);
+                                if (propType && apiContext.allTypeNames.has(propType)) {
+                                    varTypes.set(name, propType);
+                                }
+                            }
                         }
-                        break;
                     }
                 }
             }
-        }
+        });
     }
-    return returnType;
-}
 
-/**
- * Build a map of (OwnerType.methodName) → return type from API method data.
- * Uses actual method return types from the API index for precise resolution.
- */
-export function buildMethodReturnTypeMap(
-    usageClasses: ClassInfo[],
-    usageInterfaces: InterfaceInfo[],
-    clientMethods: Map<string, Set<string>>
-): Map<string, string> {
-    const map = new Map<string, string>();
-    for (const cls of usageClasses) {
-        for (const method of cls.methods || []) {
-            if (method.ret) {
-                const returnType = baseTypeName(unwrapAsyncReturnType(method.ret));
-                if (clientMethods.has(returnType)) {
-                    map.set(`${cls.name}.${method.name}`, returnType);
-                }
-            }
-        }
-    }
-    for (const iface of usageInterfaces) {
-        for (const method of iface.methods || []) {
-            if (method.ret) {
-                const returnType = baseTypeName(unwrapAsyncReturnType(method.ret));
-                if (clientMethods.has(returnType)) {
-                    map.set(`${iface.name}.${method.name}`, returnType);
-                }
-            }
-        }
-    }
-    return map;
-}
-
-/**
- * Build a map of functionName → return type from API function data.
- * For module-level functions that return client types.
- */
-export function buildFunctionReturnTypeMap(
-    api: ApiIndex,
-    clientMethods: Map<string, Set<string>>
-): Map<string, string> {
-    const map = new Map<string, string>();
-    for (const mod of api.modules) {
-        for (const func of mod.functions || []) {
-            if (func.ret) {
-                const returnType = baseTypeName(unwrapAsyncReturnType(func.ret));
-                if (clientMethods.has(returnType)) {
-                    map.set(func.name, returnType);
-                }
-            }
-        }
-    }
-    return map;
-}
-
-/**
- * Build a map of (OwnerType.propertyName) → client type name from API property data.
- * Uses actual property return types from the API index for precise resolution.
- */
-export function buildPropertyTypeMap(
-    usageClasses: ClassInfo[],
-    usageInterfaces: InterfaceInfo[],
-    clientMethods: Map<string, Set<string>>
-): Map<string, string> {
-    const map = new Map<string, string>();
-    for (const cls of usageClasses) {
-        for (const prop of cls.properties || []) {
-            const returnType = baseTypeName(prop.type);
-            if (clientMethods.has(returnType)) {
-                map.set(`${cls.name}.${prop.name}`, returnType);
-            }
-        }
-    }
-    for (const iface of usageInterfaces) {
-        for (const prop of iface.properties || []) {
-            const returnType = baseTypeName(prop.type);
-            if (clientMethods.has(returnType)) {
-                map.set(`${iface.name}.${prop.name}`, returnType);
-            }
-        }
-    }
-    return map;
+    return varTypes;
 }
 
 export function analyzeUsage(samplesPath: string, api: ApiIndex): UsageResult {
@@ -468,40 +373,61 @@ export function analyzeUsage(samplesPath: string, api: ApiIndex): UsageResult {
         return { file_count: 0, covered: [], uncovered: [], patterns: [] };
     }
 
+    // Build API type context for AST-based fallback inference
+    const propertyTypes = new Map<string, Map<string, string>>();
+    for (const cls of allClasses) {
+        if (cls.properties && cls.properties.length > 0) {
+            const props = new Map<string, string>();
+            for (const prop of cls.properties) {
+                props.set(prop.name, baseTypeName(prop.type));
+            }
+            propertyTypes.set(cls.name, props);
+        }
+    }
+    for (const iface of allInterfaces) {
+        if (iface.properties && iface.properties.length > 0) {
+            const props = new Map<string, string>();
+            for (const prop of iface.properties) {
+                props.set(prop.name, baseTypeName(prop.type));
+            }
+            if (!propertyTypes.has(iface.name)) {
+                propertyTypes.set(iface.name, props);
+            }
+        }
+    }
+
+    const functionReturnTypes = new Map<string, string>();
+    for (const mod of api.modules) {
+        for (const func of mod.functions || []) {
+            if (func.ret) {
+                functionReturnTypes.set(func.name, baseTypeName(func.ret));
+            }
+        }
+    }
+
+    const apiContext: ApiTypeContext = {
+        allTypeNames,
+        propertyTypes,
+        functionReturnTypes,
+    };
+
     const covered: CoveredOp[] = [];
     const seenOps: Set<string> = new Set();
     const patterns: Set<string> = new Set();
     let fileCount = 0;
 
-    // Build set of known client type names for local type inference
-    const clientNames = new Set(clientMethods.keys());
-
-    // Expand clientNames to include container types — reachable classes that
-    // have properties pointing to client types (e.g., EmptyClient with widgets: WidgetClient)
-    const allReachableClasses = allClasses.filter(cls => reachable.has(cls.name));
-    for (const cls of allReachableClasses) {
-        if (clientNames.has(cls.name)) continue;
-        for (const prop of cls.properties || []) {
-            const propType = baseTypeName(prop.type);
-            if (clientMethods.has(propType)) {
-                clientNames.add(cls.name);
-                break;
-            }
-        }
-    }
-
-    // Build property type map from API data for precise subclient resolution
-    // Use all reachable classes (not just usageClasses) so container types are included
-    const propertyTypeMap = buildPropertyTypeMap(allReachableClasses, usageInterfaces, clientMethods);
-
-    // Build method and function return type maps from API data for precise factory/getter resolution
-    const methodReturnTypeMap = buildMethodReturnTypeMap(usageClasses, usageInterfaces, clientMethods);
-    const functionReturnTypeMap = buildFunctionReturnTypeMap(api, clientMethods);
-
-    // Create a project for parsing samples
+    // Create a project for parsing samples — no skipFileDependencyResolution
+    // so the type checker can resolve imported types via node_modules.
     const project = new Project({
-        compilerOptions: { allowJs: true, noEmit: true },
-        skipFileDependencyResolution: true,
+        compilerOptions: {
+            allowJs: true,
+            noEmit: true,
+            strict: false,
+            skipLibCheck: true,
+            target: ts.ScriptTarget.ES2022,
+            module: ts.ModuleKind.NodeNext,
+            moduleResolution: ts.ModuleResolutionKind.NodeNext,
+        },
     });
 
     // Find all TS/JS files in samples
@@ -515,8 +441,8 @@ export function analyzeUsage(samplesPath: string, api: ApiIndex): UsageResult {
             const sourceFile = project.addSourceFileAtPath(filePath);
             const relPath = path.relative(samplesPath, filePath);
 
-            // Build variable → client type map for this file
-            const varTypes = buildVarTypeMap(sourceFile, clientNames, propertyTypeMap, methodReturnTypeMap, functionReturnTypeMap);
+            // Build variable → type map using the type checker with AST fallback
+            const varTypes = buildVarTypeMap(sourceFile, apiContext);
 
             // Use ts-morph to find all call expressions
             sourceFile.forEachDescendant((node) => {
@@ -526,10 +452,25 @@ export function analyzeUsage(samplesPath: string, api: ApiIndex): UsageResult {
                         const methodName = expr.getName();
                         const line = node.getStartLineNumber();
 
-                        // Strategy 1: Resolve receiver type from local variable tracking
                         let resolvedClient: string | undefined;
+
+                        // Use the type checker to resolve the receiver type
                         const receiver = expr.getExpression();
-                        if (Node.isIdentifier(receiver)) {
+                        try {
+                            const receiverType = receiver.getType();
+                            const typeName = getCanonicalTypeName(receiverType);
+                            if (typeName && clientMethods.has(typeName)) {
+                                const methods = clientMethods.get(typeName)!;
+                                if (methods.has(methodName)) {
+                                    resolvedClient = typeName;
+                                }
+                            }
+                        } catch {
+                            // Type resolution failed — skip
+                        }
+
+                        // Fallback: check varTypes map for identifier receivers
+                        if (!resolvedClient && Node.isIdentifier(receiver)) {
                             const varType = varTypes.get(receiver.getText());
                             if (varType && clientMethods.has(varType)) {
                                 const methods = clientMethods.get(varType)!;
@@ -537,71 +478,22 @@ export function analyzeUsage(samplesPath: string, api: ApiIndex): UsageResult {
                                     resolvedClient = varType;
                                 }
                             }
-                        } else if (Node.isPropertyAccessExpression(receiver)) {
-                            // Strategy 1c: Field access — obj.field.method()
-                            const propName = receiver.getName();
-                            const propExpr = receiver.getExpression();
-                            if (Node.isIdentifier(propExpr)) {
-                                const objType = varTypes.get(propExpr.getText());
-                                if (objType) {
-                                    const propKey = `${baseTypeName(objType)}.${propName}`;
-                                    const fieldType = propertyTypeMap.get(propKey);
-                                    if (fieldType && clientMethods.has(fieldType)) {
-                                        const methods = clientMethods.get(fieldType)!;
-                                        if (methods.has(methodName)) {
-                                            resolvedClient = fieldType;
-                                        }
-                                    }
-                                }
-                            }
-                            // Fallback: check varTypes for the property name directly
-                            if (!resolvedClient) {
-                                const varType = varTypes.get(propName);
-                                if (varType && clientMethods.has(varType)) {
-                                    const methods = clientMethods.get(varType)!;
-                                    if (methods.has(methodName)) {
-                                        resolvedClient = varType;
-                                    }
-                                }
-                            }
-                        } else if (Node.isCallExpression(receiver)) {
-                            // getClient().method() - resolve return type from API data
-                            const innerExpr = receiver.getExpression();
+                        }
 
-                            if (Node.isIdentifier(innerExpr)) {
-                                // Standalone function: createClient().method()
-                                const retType = functionReturnTypeMap.get(innerExpr.getText());
-                                if (retType && clientMethods.has(retType)) {
-                                    const methods = clientMethods.get(retType)!;
-                                    if (methods.has(methodName)) {
-                                        resolvedClient = retType;
-                                    }
-                                }
-                            } else if (Node.isPropertyAccessExpression(innerExpr)) {
-                                // Instance method: service.getClient().method()
-                                const chainedObj = innerExpr.getExpression();
-                                const chainedMethodName = innerExpr.getName();
-
-                                // Static factory: ClientType.create().method()
-                                if (Node.isIdentifier(chainedObj) && clientNames.has(chainedObj.getText())) {
-                                    const staticKey = `${chainedObj.getText()}.${chainedMethodName}`;
-                                    const retType = methodReturnTypeMap.get(staticKey) ?? chainedObj.getText();
-                                    if (clientMethods.has(retType)) {
-                                        const methods = clientMethods.get(retType)!;
-                                        if (methods.has(methodName)) {
-                                            resolvedClient = retType;
-                                        }
-                                    }
-                                } else if (Node.isIdentifier(chainedObj)) {
-                                    // service.getClient().method()
-                                    const receiverType = varTypes.get(chainedObj.getText());
-                                    if (receiverType) {
-                                        const methodKey = `${baseTypeName(receiverType)}.${chainedMethodName}`;
-                                        const retType = methodReturnTypeMap.get(methodKey);
-                                        if (retType && clientMethods.has(retType)) {
-                                            const methods = clientMethods.get(retType)!;
+                        // Fallback: direct property chain like `client.widgets.listWidgets()`
+                        if (!resolvedClient && Node.isPropertyAccessExpression(receiver)) {
+                            const chainPropName = receiver.getName();
+                            const chainReceiver = receiver.getExpression();
+                            if (Node.isIdentifier(chainReceiver)) {
+                                const chainReceiverType = varTypes.get(chainReceiver.getText());
+                                if (chainReceiverType) {
+                                    const props = propertyTypes.get(chainReceiverType);
+                                    if (props) {
+                                        const propType = props.get(chainPropName);
+                                        if (propType && clientMethods.has(propType)) {
+                                            const methods = clientMethods.get(propType)!;
                                             if (methods.has(methodName)) {
-                                                resolvedClient = retType;
+                                                resolvedClient = propType;
                                             }
                                         }
                                     }
