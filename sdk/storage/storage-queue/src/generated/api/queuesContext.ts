@@ -23,7 +23,7 @@ export function createQueues(
 ): QueuesContext {
   const endpointUrl = options.endpoint ?? String(endpointParam);
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-storage-queue/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-storage-queue/12.31.0-beta.1`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;
