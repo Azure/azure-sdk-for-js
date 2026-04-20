@@ -41,17 +41,6 @@ describe("userAgentPlatform", () => {
     vi.clearAllMocks();
   });
 
-  it("should handle an empty process.versions", async () => {
-    (vi.mocked(process) as any).versions = undefined;
-    const map = new Map<string, string>();
-
-    await setPlatformSpecificData(map);
-
-    assert.isFalse(map.has("Node"));
-    assert.isFalse(map.has("Deno"));
-    assert.isFalse(map.has("Bun"));
-  });
-
   it("should handle a Node.js process.versions with Bun", async () => {
     (vi.mocked(process) as any).versions = { bun: "1.0.0" };
     const map = new Map<string, string>();

@@ -78,7 +78,9 @@ describe("formDataPolicy", function () {
         typeof (body as unknown as Record<string, unknown>).arrayBuffer === "function",
         "expected body to have arrayBuffer method",
       );
-      const content = new Uint8Array(await (body as Blob).arrayBuffer());
+      const content = new Uint8Array(
+        await (body as unknown as { arrayBuffer(): Promise<ArrayBuffer> }).arrayBuffer(),
+      );
       assert.deepEqual([...content], [0x01, 0x02, 0x03]);
     });
   });
