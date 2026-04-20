@@ -36,7 +36,7 @@ describe("operationHelpers", () => {
               },
             },
           },
-        } as CompositeMapper,
+        } satisfies CompositeMapper,
       },
     );
     assert.deepStrictEqual(result, { propA: "valueA", propB: "valueB" });
@@ -61,7 +61,7 @@ describe("operationHelpers", () => {
               },
             },
           },
-        } as CompositeMapper,
+        } satisfies CompositeMapper,
       },
     );
     assert.isUndefined(result);
@@ -91,7 +91,7 @@ describe("operationHelpers", () => {
               },
             },
           },
-        } as CompositeMapper,
+        } satisfies CompositeMapper,
       },
     );
     assert.deepStrictEqual(result, { propA: "hello" });

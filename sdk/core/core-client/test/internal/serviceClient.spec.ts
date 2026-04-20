@@ -68,7 +68,7 @@ describe("ServiceClient", function () {
               },
             },
             headerCollectionPrefix: "foo-bar-",
-          } as DictionaryMapper,
+          } satisfies DictionaryMapper,
         },
         {
           parameterPath: "unrelated",
@@ -235,7 +235,7 @@ describe("ServiceClient", function () {
                 },
               },
               headerCollectionPrefix: "foo-bar-",
-            } as DictionaryMapper,
+            } satisfies DictionaryMapper,
           },
           {
             parameterPath: "unrelated",

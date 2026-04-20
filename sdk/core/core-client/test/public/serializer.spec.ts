@@ -2485,7 +2485,7 @@ describe("serializer", () => {
                 element: { type: { name: "String" } },
               },
               serializedName: "test",
-            } as SequenceMapper,
+            } satisfies SequenceMapper,
             "notAnArray",
             "testObj",
           ),
@@ -2520,7 +2520,7 @@ describe("serializer", () => {
                 value: { type: { name: "String" } },
               },
               serializedName: "test",
-            } as DictionaryMapper,
+            } satisfies DictionaryMapper,
             "notAnObject",
             "testObj",
           ),
@@ -2585,7 +2585,7 @@ describe("serializer", () => {
             element: { type: { name: "Number" } },
           },
           serializedName: "test",
-        } as SequenceMapper,
+        } satisfies SequenceMapper,
         42,
         "testObj",
       );
@@ -2600,7 +2600,7 @@ describe("serializer", () => {
             element: { type: { name: "Number" } },
           },
           serializedName: "test",
-        } as SequenceMapper,
+        } satisfies SequenceMapper,
         null,
         "testObj",
       );
@@ -2628,7 +2628,7 @@ describe("serializer", () => {
             },
           },
           serializedName: "test",
-        } as SequenceMapper,
+        } satisfies SequenceMapper,
         [{ id: 1 }, { id: 2 }],
         "testObj",
       );
@@ -2659,7 +2659,7 @@ describe("serializer", () => {
             {
               type: { name: "Composite", className: "NonExistent" },
               serializedName: "test",
-            } as CompositeMapper,
+            } satisfies CompositeMapper,
             { a: 1 },
             "testObj",
           ),
@@ -2678,7 +2678,7 @@ describe("serializer", () => {
             {
               type: { name: "Composite", className: "Broken" },
               serializedName: "test",
-            } as CompositeMapper,
+            } satisfies CompositeMapper,
             { a: 1 },
             "testObj",
           ),
@@ -2745,7 +2745,7 @@ describe("serializer", () => {
                 value: { type: { name: "String" } },
               },
               headerCollectionPrefix: "x-ms-meta-",
-            } as DictionaryMapper,
+            } satisfies DictionaryMapper,
           },
         },
       };
@@ -3155,7 +3155,7 @@ describe("serializer", () => {
             },
             xmlNamespace: "http://example.com",
             xmlNamespacePrefix: "ex",
-          } as CompositeMapper,
+          } satisfies CompositeMapper,
         },
       };
       const result = xmlSerializer.serialize(mapper, [{ id: 1 }], "testObj");
@@ -3515,7 +3515,7 @@ describe("serializer", () => {
             element: { type: { name: "String" } },
           },
           serializedName: "test",
-        } as SequenceMapper,
+        } satisfies SequenceMapper,
         undefined,
         "testObj",
       );
@@ -3532,7 +3532,7 @@ describe("serializer", () => {
           serializedName: "test",
           xmlIsWrapped: true,
           defaultValue: [],
-        } as SequenceMapper,
+        } satisfies SequenceMapper,
         undefined,
         "testObj",
       );
@@ -3843,7 +3843,7 @@ describe("serializer - Dictionary deserialization with falsy body", () => {
           value: { type: { name: "String" } },
         },
         serializedName: "test",
-      } as DictionaryMapper,
+      } satisfies DictionaryMapper,
       0,
       "testObj",
     );
@@ -3858,7 +3858,7 @@ describe("serializer - Dictionary deserialization with falsy body", () => {
           value: { type: { name: "String" } },
         },
         serializedName: "test",
-      } as DictionaryMapper,
+      } satisfies DictionaryMapper,
       "",
       "testObj",
     );
@@ -3876,7 +3876,7 @@ describe("serializer - Sequence deserialization with falsy body", () => {
           element: { type: { name: "String" } },
         },
         serializedName: "test",
-      } as SequenceMapper,
+      } satisfies SequenceMapper,
       0,
       "testObj",
     );
@@ -3891,7 +3891,7 @@ describe("serializer - Sequence deserialization with falsy body", () => {
           element: { type: { name: "String" } },
         },
         serializedName: "test",
-      } as SequenceMapper,
+      } satisfies SequenceMapper,
       false,
       "testObj",
     );
@@ -3947,7 +3947,7 @@ describe("serializer - Sequence element className lookup", () => {
           },
         },
         serializedName: "test",
-      } as SequenceMapper,
+      } satisfies SequenceMapper,
       [{ id: 1, name: "a" }],
       "testObj",
     );
@@ -3989,7 +3989,7 @@ describe("serializer - getXmlObjectValue Composite with existing $ attr", () => 
               name: "Composite",
               className: "ChildModel",
             },
-          } as CompositeMapper,
+          } satisfies CompositeMapper,
         },
       },
     };
@@ -4027,7 +4027,7 @@ describe("serializer - getXmlObjectValue Composite with existing $ attr", () => 
               name: "Composite",
               className: "ChildEmpty",
             },
-          } as CompositeMapper,
+          } satisfies CompositeMapper,
         },
       },
     };

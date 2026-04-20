@@ -57,7 +57,7 @@ describe("authorizeRequestOnClaimChallenge", function () {
         scopes: ["https://endpoint/.default"],
         getTokenOptions: {
           claims: '{"access_token":{"nbf":{"essential":true, "value":"1603742800"}}}',
-        } as GetTokenOptions,
+        } satisfies GetTokenOptions,
       },
     ]);
   });
@@ -99,7 +99,7 @@ describe("authorizeRequestOnClaimChallenge", function () {
         scopes: ["https://parametrized-endpoint/.default"],
         getTokenOptions: {
           claims: '{"access_token":{"nbf":{"essential":true, "value":"1603742800"}}}',
-        } as GetTokenOptions,
+        } satisfies GetTokenOptions,
       },
     ]);
   });
@@ -145,7 +145,7 @@ describe("authorizeRequestOnClaimChallenge", function () {
         scopes: ["https://parametrized-endpoint/.default"],
         getTokenOptions: {
           claims: '{"access_token":{"nbf":{"essential":true, "value":"1603742800"}}}',
-        } as GetTokenOptions,
+        } satisfies GetTokenOptions,
       },
     ]);
   });
@@ -184,7 +184,7 @@ describe("authorizeRequestOnClaimChallenge", function () {
         scopes: ["https://parametrized-endpoint/.default"],
         getTokenOptions: {
           claims: '{"access_token":{"nbf":{"essential":true, "value":"1603742800"}}}',
-        } as GetTokenOptions,
+        } satisfies GetTokenOptions,
       },
     ]);
   });

@@ -35,7 +35,7 @@ describe("flattenResponse", () => {
             },
           },
         },
-      } as CompositeMapper,
+      } satisfies CompositeMapper,
     };
     const result = flattenResponse(fullResponse, responseSpec) as Record<string, unknown>;
     assert.strictEqual(result.nextLink, "https://next");
@@ -60,7 +60,7 @@ describe("flattenResponse", () => {
             },
           },
         },
-      } as CompositeMapper,
+      } satisfies CompositeMapper,
     };
     const result = flattenResponse(fullResponse, responseSpec) as Record<string, unknown>;
     assert.strictEqual(result["x-custom"], "headerVal");
