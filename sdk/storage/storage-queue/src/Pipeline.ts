@@ -271,7 +271,7 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
 
   let corePipeline: CorePipeline = (pipeline as any)._corePipeline;
   if (!corePipeline) {
-    const packageDetails = `azsdk-js-storagequeue/${SDK_VERSION}`;
+    const packageDetails = `azsdk-js-storage-queue/${SDK_VERSION}`;
     const userAgentPrefix =
       restOptions.userAgentOptions && restOptions.userAgentOptions.userAgentPrefix
         ? `${restOptions.userAgentOptions.userAgentPrefix} ${packageDetails}`
