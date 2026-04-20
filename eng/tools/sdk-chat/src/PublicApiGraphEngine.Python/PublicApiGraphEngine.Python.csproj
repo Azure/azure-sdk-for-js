@@ -22,4 +22,9 @@
     <InternalsVisibleTo Include="PublicApiGraphEngine.Tests" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- TOML parsing for pyproject.toml -->
+    <PackageReference Include="Tomlyn" Version="[2.3.0]" />
+  </ItemGroup>
+
 </Project>

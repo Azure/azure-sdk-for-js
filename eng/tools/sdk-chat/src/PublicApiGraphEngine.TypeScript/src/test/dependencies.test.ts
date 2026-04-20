@@ -630,3 +630,240 @@ describe("filterNamespaceByExports", () => {
     expect(result).toBeNull();
   });
 });
+
+describe("extractTypeFromResolvedModule — synthetic alias for renamed imports", () => {
+  it("returns extracted name matching the declaration, not the requested alias", () => {
+    const ctx = makeCtx();
+    // Dependency file exports "ProxySettings" (the real name)
+    const depFile = ctx.project.createSourceFile(
+      "dep-proxy.d.ts",
+      `export interface ProxySettings { host: string; port: number; }`,
+    );
+
+    // Request extraction using the alias name "ProxyOptions"
+    // extractTypeFromResolvedModule looks up exports by name, so requesting
+    // "ProxyOptions" (which doesn't exist) should return null — the caller
+    // (resolveDependencies) handles the alias-split by falling back to the
+    // original name. Verify that requesting the original name succeeds and
+    // returns the declaration with its real name.
+    const aliasResult = extractTypeFromResolvedModule("ProxyOptions", depFile, false, ctx);
+    expect(aliasResult).toBeNull();
+
+    const realResult = extractTypeFromResolvedModule("ProxySettings", depFile, false, ctx);
+    expect(realResult).not.toBeNull();
+    expect(realResult!.kind).toBe("interface");
+    expect(realResult!.graphed.name).toBe("ProxySettings");
+  });
+
+  it("validates the alias-split pattern: real type + synthetic type alias", () => {
+    const ctx = makeCtx();
+    // Simulate the alias-split logic from dependencies.ts ~lines 953-961:
+    // When extractTypeFromResolvedModule returns a declaration whose name
+    // differs from the requested name, the caller creates both entries.
+    const depFile = ctx.project.createSourceFile(
+      "dep-alias.d.ts",
+      `export interface ProxySettings { host: string; port: number; }`,
+    );
+
+    // Extract the real type (simulating fallback to original name)
+    const origResult = extractTypeFromResolvedModule("ProxySettings", depFile, false, ctx);
+    expect(origResult).not.toBeNull();
+
+    // Simulate the alias-split logic that resolveDependencies performs
+    const allResolved = new Map<string, { packageName: string; type: unknown; kind: string }>();
+    const packageName = "dep-pkg";
+    const requestedName = "ProxyOptions";
+    const extractedName = (origResult!.graphed as { name?: string }).name;
+    const needsAlias = extractedName && extractedName !== requestedName;
+
+    expect(needsAlias).toBe(true);
+    expect(extractedName).toBe("ProxySettings");
+
+    if (needsAlias) {
+      // Store the real type under its extracted name
+      const realKey = makeDepKey(packageName, extractedName);
+      allResolved.set(realKey, { packageName, type: origResult!.graphed, kind: origResult!.kind });
+
+      // Create synthetic type alias: type ProxyOptions = ProxySettings
+      const aliasType = { name: requestedName, type: extractedName };
+      const aliasKey = makeDepKey(packageName, requestedName);
+      allResolved.set(aliasKey, { packageName, type: aliasType, kind: "type" });
+    }
+
+    // Verify both entries exist
+    const realKey = makeDepKey(packageName, "ProxySettings");
+    const aliasKey = makeDepKey(packageName, "ProxyOptions");
+
+    expect(allResolved.has(realKey)).toBe(true);
+    expect(allResolved.has(aliasKey)).toBe(true);
+
+    // Real type is the interface
+    const realEntry = allResolved.get(realKey)!;
+    expect(realEntry.kind).toBe("interface");
+    expect((realEntry.type as { name: string }).name).toBe("ProxySettings");
+
+    // Alias is a synthetic type alias pointing to the real name
+    const aliasEntry = allResolved.get(aliasKey)!;
+    expect(aliasEntry.kind).toBe("type");
+    expect((aliasEntry.type as { name: string; type: string }).name).toBe("ProxyOptions");
+    expect((aliasEntry.type as { name: string; type: string }).type).toBe("ProxySettings");
+  });
+
+  it("handles re-export where extracted name differs from requested name", () => {
+    const ctx = makeCtx();
+    // A dependency re-exports a type under a different name via
+    // `export { OriginalName as AliasedName }`.
+    // When we look up "AliasedName", ts-morph may resolve to the original declaration.
+    const depFile = ctx.project.createSourceFile(
+      "dep-reexport.d.ts",
+      [
+        `interface InternalSettings { host: string; }`,
+        `export { InternalSettings as ProxySettings };`,
+      ].join("\n"),
+    );
+
+    const result = extractTypeFromResolvedModule("ProxySettings", depFile, false, ctx);
+    expect(result).not.toBeNull();
+    // The extracted declaration retains its original name
+    const extractedName = (result!.graphed as { name?: string }).name;
+    // Whether ts-morph resolves to "InternalSettings" or "ProxySettings"
+    // depends on the re-export chain; verify it's a valid extraction
+    expect(extractedName).toBeDefined();
+    expect(result!.kind).toBe("interface");
+  });
+});
+
+describe("same-package transitive subpath propagation", () => {
+  it("preserves parent subpath for same-package transitive types in buildImportResolutionMap", () => {
+    const project = new Project({
+      useInMemoryFileSystem: true,
+      compilerOptions: {
+        target: ts.ScriptTarget.ES2022,
+        module: ts.ModuleKind.NodeNext,
+        moduleResolution: ts.ModuleResolutionKind.NodeNext,
+        declaration: true,
+        strict: true,
+      },
+    });
+
+    // Package "pkg" has a subpath export "pkg/sub" that exports Chat,
+    // which references SubConfig from the same package.
+    project.createSourceFile(
+      "/node_modules/pkg/sub.d.ts",
+      [
+        `export interface SubConfig { key: string; }`,
+        `export interface Chat { config: SubConfig; }`,
+      ].join("\n"),
+    );
+
+    project.createSourceFile(
+      "/src/index.ts",
+      `import { Chat } from "pkg/sub";`,
+    );
+
+    const { typeMap } = buildImportResolutionMap(project);
+
+    // Chat should be mapped with subpath "./sub"
+    const chatKey = makeDepKey("pkg", "Chat");
+    expect(typeMap.has(chatKey)).toBe(true);
+    expect(typeMap.get(chatKey)!.subpath).toBe("./sub");
+    expect(typeMap.get(chatKey)!.packageName).toBe("pkg");
+  });
+
+  it("uses root subpath for cross-package transitive types", () => {
+    const project = new Project({
+      useInMemoryFileSystem: true,
+      compilerOptions: {
+        target: ts.ScriptTarget.ES2022,
+        module: ts.ModuleKind.NodeNext,
+        moduleResolution: ts.ModuleResolutionKind.NodeNext,
+        declaration: true,
+        strict: true,
+      },
+    });
+
+    // Two packages: "pkg-a/sub" exports TypeA, "pkg-b" exports TypeB
+    project.createSourceFile(
+      "/node_modules/pkg-a/sub.d.ts",
+      `export interface TypeA { value: string; }`,
+    );
+    project.createSourceFile(
+      "/node_modules/pkg-b/index.d.ts",
+      `export interface TypeB { count: number; }`,
+    );
+
+    project.createSourceFile(
+      "/src/index.ts",
+      [
+        `import { TypeA } from "pkg-a/sub";`,
+        `import { TypeB } from "pkg-b";`,
+      ].join("\n"),
+    );
+
+    const { typeMap } = buildImportResolutionMap(project);
+
+    // TypeA from subpath should have "./sub"
+    const keyA = makeDepKey("pkg-a", "TypeA");
+    expect(typeMap.has(keyA)).toBe(true);
+    expect(typeMap.get(keyA)!.subpath).toBe("./sub");
+
+    // TypeB from root should have "."
+    const keyB = makeDepKey("pkg-b", "TypeB");
+    expect(typeMap.has(keyB)).toBe(true);
+    expect(typeMap.get(keyB)!.subpath).toBe(".");
+  });
+
+  it("propagates subpath through aliased imports from the same package subpath", () => {
+    const project = new Project({
+      useInMemoryFileSystem: true,
+      compilerOptions: {
+        target: ts.ScriptTarget.ES2022,
+        module: ts.ModuleKind.NodeNext,
+        moduleResolution: ts.ModuleResolutionKind.NodeNext,
+        declaration: true,
+        strict: true,
+      },
+    });
+
+    // Package with subpath exports — aliased import should still track subpath
+    project.createSourceFile(
+      "/node_modules/openai/resources.d.ts",
+      `export interface ChatCompletion { id: string; model: string; }`,
+    );
+
+    project.createSourceFile(
+      "/src/index.ts",
+      `import { ChatCompletion as Completion } from "openai/resources";`,
+    );
+
+    const { typeMap } = buildImportResolutionMap(project);
+
+    // Both the original name and alias should be tracked with the subpath
+    const origKey = makeDepKey("openai", "ChatCompletion");
+    const aliasKey = makeDepKey("openai", "Completion");
+
+    expect(typeMap.has(origKey)).toBe(true);
+    expect(typeMap.get(origKey)!.subpath).toBe("./resources");
+
+    expect(typeMap.has(aliasKey)).toBe(true);
+    expect(typeMap.get(aliasKey)!.subpath).toBe("./resources");
+  });
+
+  it("makeDepKey encodes subpath in key and splitDepKey recovers it", () => {
+    const key = makeDepKey("openai", "Chat", "./resources");
+    expect(key).toContain("\0");
+
+    const { packageName, typeName, subpath } = splitDepKey(key);
+    expect(packageName).toBe("openai");
+    expect(typeName).toBe("Chat");
+    expect(subpath).toBe("./resources");
+  });
+
+  it("makeDepKey omits subpath segment for root", () => {
+    const key = makeDepKey("openai", "Chat", ".");
+    const { packageName, typeName, subpath } = splitDepKey(key);
+    expect(packageName).toBe("openai");
+    expect(typeName).toBe("Chat");
+    expect(subpath).toBeUndefined();
+  });
+});

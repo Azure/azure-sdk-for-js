@@ -588,12 +588,43 @@ public static class TypeScriptFormatter
         bool hasSubpaths = sortedExportPaths.Count > 1;
         bool needsSections = hasSubpaths || hasMultipleConditions;
 
+        // Pre-compute the condition-filtered dependency list so that both the
+        // main-module import lines and the dependency rendering section use the
+        // same set.  When ResolvedDependencies are available (per-target mode)
+        // we intersect on (package, subpath) to avoid pulling in deps that
+        // belong to other export conditions.
+        IReadOnlyList<DependencyInfo>? depsToRender = index.Dependencies;
+        if (index.Dependencies is not null && index.ResolvedDependencies is { Count: > 0 })
+        {
+            var resolvedKeys = new HashSet<string>(
+                index.ResolvedDependencies.Select(rd => $"{rd.Package}\0{rd.Subpath ?? ""}"),
+                StringComparer.Ordinal);
+            depsToRender = index.Dependencies
+                .Where(d => d.IsNode || resolvedKeys.Contains($"{d.Package}\0{d.Subpath ?? ""}"))
+                .ToList();
+
+            // Fall back to package-level filtering when subpath matching yields
+            // no non-node results (e.g. flat deps lack subpath but resolved deps have it).
+            if (!depsToRender.Any(d => !d.IsNode))
+            {
+                var resolvedPackages = new HashSet<string>(
+                    index.ResolvedDependencies.Select(rd => rd.Package),
+                    StringComparer.Ordinal);
+                depsToRender = index.Dependencies
+                    .Where(d => d.IsNode || resolvedPackages.Contains(d.Package))
+                    .ToList();
+            }
+
+            if (!depsToRender.Any(d => !d.IsNode))
+                depsToRender = index.Dependencies!;
+        }
+
         // Collect Node.js type imports grouped by their specific node:* module
         // Skip for non-node targets where node types aren't available
         var nodeImports = new Dictionary<string, List<string>>();
-        if (!isNonNode && index.Dependencies is not null)
+        if (!isNonNode && depsToRender is not null)
         {
-            foreach (var dep in index.Dependencies)
+            foreach (var dep in depsToRender)
             {
                 if (!dep.IsNode) continue;
                 // Skip non-importable @types/node augmentation paths (e.g. node:compatibility/iterators)
@@ -1133,14 +1164,14 @@ public static class TypeScriptFormatter
             var versionLookup = new Dictionary<string, string>(StringComparer.Ordinal);
             if (index.Version != null)
                 versionLookup[index.Package] = index.Version;
-            if (index.Dependencies != null)
-                foreach (var dep in index.Dependencies)
+            if (depsToRender != null)
+                foreach (var dep in depsToRender)
                     if (dep.Version != null)
                         versionLookup[dep.Package] = dep.Version;
 
-            if (index.Dependencies is not null)
+            if (depsToRender is not null)
             {
-                foreach (var dep in index.Dependencies)
+                foreach (var dep in depsToRender)
                 {
                     if (dep.IsNode) continue;
                     var importNames = new List<string>();
@@ -1318,35 +1349,9 @@ public static class TypeScriptFormatter
 
         // Fallback for simple (non-sectioned) rendering: emit dependencies as
         // declare module blocks when they weren't already rendered inline above.
-        if (index.Dependencies is not null && index.Dependencies.Count > 0 && !needsSections && sb.Length < maxLength)
+        if (depsToRender is not null && depsToRender.Count > 0 && !needsSections && sb.Length < maxLength)
         {
-            // When condition-filtered ResolvedDependencies are available (per-target mode),
-            // use them to determine which dependencies to render. The flat Dependencies list
-            // is not condition-filtered and would include deps from other targets.
-            var depsToRender = index.Dependencies;
-            if (index.ResolvedDependencies is not null && index.ResolvedDependencies.Count > 0)
-            {
-                // Intersect on (package, subpath) tuple to avoid pulling in deps
-                // for other subpaths when the flat list has been split by subpath.
-                var resolvedKeys = new HashSet<string>(
-                    index.ResolvedDependencies.Select(rd => $"{rd.Package}\0{rd.Subpath ?? ""}"),
-                    StringComparer.Ordinal);
-                depsToRender = index.Dependencies
-                    .Where(d => resolvedKeys.Contains($"{d.Package}\0{d.Subpath ?? ""}"))
-                    .ToList();
-
-                // Fall back to package-level filtering when subpath matching yields
-                // no results (e.g. flat deps lack subpath but resolved deps have it).
-                if (depsToRender.Count == 0)
-                {
-                    var resolvedPackages = new HashSet<string>(
-                        index.ResolvedDependencies.Select(rd => rd.Package),
-                        StringComparer.Ordinal);
-                    depsToRender = index.Dependencies
-                        .Where(d => resolvedPackages.Contains(d.Package))
-                        .ToList();
-                }
-            }
+            // depsToRender was already condition-filtered above (near needsSections).
 
             // Build version lookup for dep module annotations
             var depVersionLookup = new Dictionary<string, string>(StringComparer.Ordinal);

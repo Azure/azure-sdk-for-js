@@ -1556,8 +1556,8 @@ export function getPackageConditionTypePaths(startDir: string, packageName: stri
  * Returns undefined if no runtime condition is found.
  */
 function findBestRuntimeCondition(chain: string[], skipKeys: Set<string>): string | undefined {
+    // Only runtime target conditions — module format (import/require) handled by fallback
     const RUNTIME_TIERS: Record<string, number> = {
-        "import": 2, "require": 3,
         "node": 4, "browser": 5, "react-native": 6, "workerd": 7, "worker": 7,
         "production": 8, "development": 9,
     };

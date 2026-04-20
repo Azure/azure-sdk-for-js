@@ -4,6 +4,8 @@
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using PublicApiGraphEngine.Contracts;
+using Tomlyn;
+using Tomlyn.Model;
 
 namespace PublicApiGraphEngine.Python;
 
@@ -309,55 +311,59 @@ public partial class PythonPublicApiGraphEngine : IPublicApiGraphEngine<ApiIndex
 
     /// <summary>
     /// Best-effort extraction of the Python package import name from pyproject.toml,
-    /// setup.cfg, or setup.py. Uses a lightweight line-by-line parser that handles the
-    /// common single-line <c>name = "value"</c> pattern. Does not support multi-line
-    /// values, inline tables, or comments on the same line as a value assignment.
-    /// This is intentional — full TOML parsing would require an external dependency
-    /// and the simple pattern covers virtually all real-world Python SDK packages.
+    /// setup.cfg, or setup.py. Uses the Tomlyn TOML parser for pyproject.toml and a
+    /// lightweight section-based parser for setup.cfg (INI format).
     /// </summary>
     private static async Task<string?> DeriveImportNameAsync(string rootPath)
     {
         var pyproject = Path.Combine(rootPath, "pyproject.toml");
         if (File.Exists(pyproject))
         {
-            // Track the current TOML table section to only match [project].name per PEP 621.
-            // Also accept [tool.poetry].name for Poetry-style projects.
-            var currentSection = "";
-            foreach (var line in await File.ReadAllLinesAsync(pyproject).ConfigureAwait(false))
+            try
             {
-                var trimmed = line.Trim();
+                var content = await File.ReadAllTextAsync(pyproject).ConfigureAwait(false);
+                var toml = TomlSerializer.Deserialize<TomlTable>(content);
+                if (toml == null) return null;
 
-                // Skip comments
-                if (trimmed.StartsWith('#'))
-                    continue;
-
-                // Track section headers
-                if (trimmed.StartsWith('[') && trimmed.EndsWith(']'))
+                // Check [project].name (PEP 621)
+                if (toml.TryGetValue("project", out var projectObj)
+                    && projectObj is TomlTable projectTable)
                 {
-                    currentSection = trimmed[1..^1].Trim();
-                    continue;
+                    if (projectTable.TryGetValue("name", out var nameObj)
+                        && nameObj is string name
+                        && !string.IsNullOrWhiteSpace(name))
+                    {
+                        return name.Replace('-', '_').ToLowerInvariant();
+                    }
                 }
 
-                // Only extract name from [project] (PEP 621) or [tool.poetry]
-                if (!string.Equals(currentSection, "project", StringComparison.Ordinal)
-                    && !string.Equals(currentSection, "tool.poetry", StringComparison.Ordinal))
-                    continue;
-
-                if (trimmed.StartsWith("name", StringComparison.Ordinal) && trimmed.Length > 4
-                    && (trimmed[4] == ' ' || trimmed[4] == '=' || trimmed[4] == '\t')
-                    && trimmed.Contains('=') && trimmed.Contains('"'))
+                // Check [tool.poetry].name
+                if (toml.TryGetValue("tool", out var toolObj)
+                    && toolObj is TomlTable toolTable)
                 {
-                    var idx = trimmed.IndexOf('=');
-                    var value = trimmed[(idx + 1)..].Trim().Trim('"', '\'');
-                    if (!string.IsNullOrWhiteSpace(value))
-                        return value.Replace('-', '_').ToLowerInvariant();
+                    if (toolTable.TryGetValue("poetry", out var poetryObj)
+                        && poetryObj is TomlTable poetryTable)
+                    {
+                        if (poetryTable.TryGetValue("name", out var poetryNameObj)
+                            && poetryNameObj is string poetryName
+                            && !string.IsNullOrWhiteSpace(poetryName))
+                        {
+                            return poetryName.Replace('-', '_').ToLowerInvariant();
+                        }
+                    }
                 }
+            }
+            catch (Exception ex) when (ex is TomlException or IOException or UnauthorizedAccessException)
+            {
+                // TOML parsing failed - fall through to setup.cfg
             }
         }
 
         var setupCfg = Path.Combine(rootPath, "setup.cfg");
         if (File.Exists(setupCfg))
         {
+            // setup.cfg is INI format — no standard .NET parser in the BCL.
+            // The section/key pattern is simple enough for line-by-line parsing.
             var currentSetupCfgSection = "";
             foreach (var line in await File.ReadAllLinesAsync(setupCfg).ConfigureAwait(false))
             {

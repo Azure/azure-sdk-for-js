@@ -68,12 +68,15 @@ public class TypeScriptPublicApiGraphEngine : IPublicApiGraphEngine<ApiIndex>
                 return EngineResult<ApiIndex>.CreateSuccess(result, diagnostics);
             }
             EngineTelemetry.RecordResult(activity, false, error: "No API surface graphed");
-            return EngineResult<ApiIndex>.CreateFailure("No API surface graphed");
+            return new EngineResult<ApiIndex>.Failure("No API surface graphed") { Diagnostics = diagnostics };
         }
         catch (Exception ex)
         {
             EngineTelemetry.RecordResult(activity, false, error: ex.Message);
-            return EngineResult<ApiIndex>.CreateFailure($"{ex.Message}\n{ex.StackTrace}");
+            var diagnostics = ex.Data.Contains("Diagnostics")
+                ? ex.Data["Diagnostics"] as IReadOnlyList<ApiDiagnostic> ?? []
+                : [];
+            return new EngineResult<ApiIndex>.Failure($"{ex.Message}\n{ex.StackTrace}") { Diagnostics = diagnostics };
         }
     }
 
@@ -165,15 +168,28 @@ public class TypeScriptPublicApiGraphEngine : IPublicApiGraphEngine<ApiIndex>
         }
 
         // Native/Runtime mode: stream stdout directly to JSON deserializer (halves peak memory)
-        await using var streamResult = await RunEngineStreamAsync(rootPath, dtsRoot, packageJsonPath, ct).ConfigureAwait(false);
+        // Issue 1: Create timeout CTS before streaming call so one timeout governs both
+        // process execution and deserialization. The process sandbox also links to this token,
+        // so when it fires the process is killed and the stream breaks.
+        using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(ct);
+        timeoutCts.CancelAfter(EngineTimeout.Value);
+
+        await using var streamResult = await RunEngineStreamAsync(rootPath, dtsRoot, packageJsonPath, timeoutCts.Token).ConfigureAwait(false);
 
         if (streamResult.StandardOutputStream is null)
         {
-            return (null, ApiDiagnosticsPostProcessor.PrependDiagnostics(engineInputDiagnostics, ParseStderrDiagnostics(streamResult.StandardError)));
-        }
+            var startupDiagnostics = ApiDiagnosticsPostProcessor.PrependDiagnostics(engineInputDiagnostics, ParseStderrDiagnostics(streamResult.StandardError));
 
-        using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(ct);
-        timeoutCts.CancelAfter(EngineTimeout.Value);
+            // Issue 2: Surface the actual startup error instead of returning a generic null
+            if (!string.IsNullOrWhiteSpace(streamResult.StartupError))
+            {
+                var startupEx = new InvalidOperationException($"TypeScript engine failed to start: {streamResult.StartupError}");
+                startupEx.Data["Diagnostics"] = startupDiagnostics;
+                throw startupEx;
+            }
+
+            return (null, startupDiagnostics);
+        }
 
         ApiIndex? index = null;
         try
@@ -193,10 +209,14 @@ public class TypeScriptPublicApiGraphEngine : IPublicApiGraphEngine<ApiIndex>
         {
             // Engine timeout or malformed JSON
             await streamResult.CompleteAsync().ConfigureAwait(false);
+            var failDiagnostics = ApiDiagnosticsPostProcessor.PrependDiagnostics(
+                engineInputDiagnostics, ParseStderrDiagnostics(streamResult.StandardError));
             var errorDetail = streamResult.TimedOut
                 ? $"TypeScript engine timed out after {EngineTimeout.Value.TotalSeconds}s"
                 : $"TypeScript engine output could not be deserialized: {ex.Message}. Stderr: {streamResult.StandardError}";
-            throw new InvalidOperationException(errorDetail, ex);
+            var wrappedEx = new InvalidOperationException(errorDetail, ex);
+            wrappedEx.Data["Diagnostics"] = failDiagnostics;
+            throw wrappedEx;
         }
 
         await streamResult.CompleteAsync().ConfigureAwait(false);
@@ -205,10 +225,13 @@ public class TypeScriptPublicApiGraphEngine : IPublicApiGraphEngine<ApiIndex>
 
         if (!streamResult.Success)
         {
+            var allDiagnostics = ApiDiagnosticsPostProcessor.PrependDiagnostics(engineInputDiagnostics, stderrDiagnostics);
             var errorMsg = streamResult.TimedOut
                 ? $"TypeScript engine timed out after {EngineTimeout.Value.TotalSeconds}s"
                 : $"TypeScript engine failed: {streamResult.StandardError}";
-            throw new InvalidOperationException(errorMsg);
+            var failEx = new InvalidOperationException(errorMsg);
+            failEx.Data["Diagnostics"] = allDiagnostics;
+            throw failEx;
         }
 
         if (index is null) return (null, stderrDiagnostics);

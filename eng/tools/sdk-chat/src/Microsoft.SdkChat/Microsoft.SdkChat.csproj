@@ -71,6 +71,9 @@
     <!-- SQLite for graph database output -->
     <PackageReference Include="Microsoft.Data.Sqlite" Version="9.*" />
 
+    <!-- TOML parsing for pyproject.toml -->
+    <PackageReference Include="Tomlyn" Version="[2.3.0]" />
+
     <!-- Threading/async analyzers -->
     <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.12.19" PrivateAssets="all" />
   </ItemGroup>

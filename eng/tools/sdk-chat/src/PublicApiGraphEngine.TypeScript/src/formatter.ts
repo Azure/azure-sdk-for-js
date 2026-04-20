@@ -401,8 +401,10 @@ export function formatStubs(api: ApiIndex): string {
             for (const cls of dep.classes || []) {
                 if (cls.doc) lines.push(`${indent}/** ${cls.doc} */`);
                 const ext = cls.extends ? ` extends ${cls.extends}` : "";
+                const impl = cls.implements?.length ? ` implements ${cls.implements.join(", ")}` : "";
                 const typeParams = cls.typeParams ? `<${cls.typeParams}>` : "";
-                lines.push(`${indent}export class ${cls.name}${typeParams}${ext} {`);
+                const abs = cls.abstract ? "abstract " : "";
+                lines.push(`${indent}export ${abs}class ${cls.name}${typeParams}${ext}${impl} {`);
 
                 for (const prop of cls.properties || []) {
                     const opt = prop.optional ? "?" : "";
@@ -421,9 +423,11 @@ export function formatStubs(api: ApiIndex): string {
                 }
 
                 for (const m of cls.methods || []) {
+                    const abs = m.abstract ? "abstract " : "";
+                    const stat = m.static ? "static " : "";
                     const ret = m.ret ? `: ${m.ret}` : "";
                     const tp = m.typeParams ? `<${m.typeParams}>` : "";
-                    lines.push(`${indent}    ${m.name}${tp}(${m.sig})${ret};`);
+                    lines.push(`${indent}    ${abs}${stat}${m.name}${tp}(${m.sig})${ret};`);
                 }
 
                 if (!cls.properties?.length && !cls.constructors?.length && !cls.methods?.length && !cls.indexSignatures?.length) {
@@ -557,7 +561,8 @@ function formatGroupBody(modules: ModuleInfo[], indent: string): string[] {
             const ext = cls.extends ? ` extends ${cls.extends}` : "";
             const impl = cls.implements?.length ? ` implements ${cls.implements.join(", ")}` : "";
             const typeParams = cls.typeParams ? `<${cls.typeParams}>` : "";
-            lines.push(`${indent}export class ${cls.name}${typeParams}${ext}${impl} {`);
+            const abs = cls.abstract ? "abstract " : "";
+            lines.push(`${indent}export ${abs}class ${cls.name}${typeParams}${ext}${impl} {`);
 
             for (const prop of cls.properties || []) {
                 const opt = prop.optional ? "?" : "";
@@ -576,10 +581,11 @@ function formatGroupBody(modules: ModuleInfo[], indent: string): string[] {
             }
 
             for (const m of cls.methods || []) {
+                const abs = m.abstract ? "abstract " : "";
                 const stat = m.static ? "static " : "";
                 const ret = m.ret ? `: ${m.ret}` : "";
                 const tp = m.typeParams ? `<${m.typeParams}>` : "";
-                lines.push(`${indent}    ${stat}${m.name}${tp}(${m.sig})${ret};`);
+                lines.push(`${indent}    ${abs}${stat}${m.name}${tp}(${m.sig})${ret};`);
             }
 
             if (!cls.properties?.length && !cls.constructors?.length && !cls.methods?.length) {
@@ -606,7 +612,8 @@ function formatNamespaceLines(ns: NamespaceInfo, indent: string): string[] {
         const ext = cls.extends ? ` extends ${cls.extends}` : "";
         const impl = cls.implements?.length ? ` implements ${cls.implements.join(", ")}` : "";
         const tp = cls.typeParams ? `<${cls.typeParams}>` : "";
-        lines.push(`${indent}    export class ${cls.name}${tp}${ext}${impl} {`);
+        const abs = cls.abstract ? "abstract " : "";
+        lines.push(`${indent}    export ${abs}class ${cls.name}${tp}${ext}${impl} {`);
 
         for (const p of cls.properties || []) {
             const opt = p.optional ? "?" : "";
@@ -625,10 +632,11 @@ function formatNamespaceLines(ns: NamespaceInfo, indent: string): string[] {
         }
 
         for (const m of cls.methods || []) {
+            const abs = m.abstract ? "abstract " : "";
             const stat = m.static ? "static " : "";
             const ret = m.ret ? `: ${m.ret}` : "";
             const tp = m.typeParams ? `<${m.typeParams}>` : "";
-            lines.push(`${indent}        ${stat}${m.name}${tp}(${m.sig})${ret};`);
+            lines.push(`${indent}        ${abs}${stat}${m.name}${tp}(${m.sig})${ret};`);
         }
 
         if (!cls.properties?.length && !cls.constructors?.length && !cls.methods?.length) {

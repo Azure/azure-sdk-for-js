@@ -4,6 +4,8 @@
 using System.Collections.Frozen;
 using System.Text.Json;
 using Microsoft.SdkChat.Models;
+using Tomlyn;
+using Tomlyn.Model;
 
 namespace Microsoft.SdkChat.Services;
 
@@ -952,8 +954,7 @@ public class SdkInfo
     }
 
     /// <summary>
-    /// Parses pyproject.toml for explicit source directory configuration.
-    /// Uses a line-by-line state machine instead of regex for robustness.
+    /// Parses pyproject.toml for explicit source directory configuration using the Tomlyn TOML parser.
     /// Looks for:
     /// <list type="bullet">
     /// <item>[tool.setuptools.packages.find] where = "src"</item>
@@ -968,80 +969,68 @@ public class SdkInfo
         if (!IsFileSafeToRead(filePath))
             return null;
 
-        string? currentSection = null;
-
-        foreach (var rawLine in File.ReadLines(filePath))
+        TomlTable? toml;
+        try
         {
-            var line = rawLine.Trim();
+            var content = File.ReadAllText(filePath);
+            toml = TomlSerializer.Deserialize<TomlTable>(content);
+        }
+        catch (TomlException)
+        {
+            return null;
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            return null;
+        }
 
-            // Skip empty lines and comments
-            if (line.Length is 0 || line[0] == '#')
-                continue;
+        if (toml == null)
+            return null;
 
-            // Track section headers: [section.name] or [[array.of.tables]]
-            if (line[0] == '[')
+        // Navigate: [tool.setuptools.packages.find] where = "src"
+        if (TryGetTomlTable(toml, "tool", "setuptools", "packages", "find") is { } findTable
+            && findTable.TryGetValue("where", out var whereObj) && whereObj is string whereStr)
+        {
+            return NormalizeParsedPath(projectRoot, whereStr);
+        }
+
+        // Navigate: [tool.setuptools] package-dir = {"" = "src"}
+        if (TryGetTomlTable(toml, "tool", "setuptools") is { } setuptoolsTable
+            && setuptoolsTable.TryGetValue("package-dir", out var pkgDirObj) && pkgDirObj is TomlTable pkgDirTable)
+        {
+            // Get the first value from the inline table (e.g., "" = "src" → "src")
+            foreach (var kvp in pkgDirTable)
             {
-                // Use IndexOf to find the first ']' — avoids corruption from ']' in trailing comments
-                // e.g., [tool.setuptools]  # see PEP 517 (section 4.3])
-                var isArrayTable = line.Length > 1 && line[1] == '[';
-                var searchStart = isArrayTable ? 2 : 1;
-                var closeBracket = line.IndexOf(']', searchStart);
-                if (closeBracket > searchStart)
-                {
-                    var sectionContent = line[searchStart..closeBracket].Trim();
-                    currentSection = sectionContent.ToLowerInvariant();
-                }
-                continue;
+                if (kvp.Value is string dirValue)
+                    return NormalizeParsedPath(projectRoot, dirValue);
             }
+        }
 
-            if (currentSection == null)
-                continue;
-
-            // [tool.setuptools.packages.find] where = "src"
-            if (currentSection == "tool.setuptools.packages.find")
+        // Navigate: [tool.poetry] packages = [{from = "src", ...}]
+        if (TryGetTomlTable(toml, "tool", "poetry") is { } poetryTable
+            && poetryTable.TryGetValue("packages", out var packagesObj) && packagesObj is TomlArray packagesArray)
+        {
+            foreach (var item in packagesArray)
             {
-                var value = TryParseTomlKeyValue(line, "where");
-                if (value != null)
-                    return NormalizeParsedPath(projectRoot, value);
-            }
-
-            // [tool.setuptools] package-dir = {"" = "src"}
-            if (currentSection == "tool.setuptools")
-            {
-                if (line.StartsWith("package-dir", StringComparison.OrdinalIgnoreCase))
+                if (item is TomlTable pkgTable
+                    && pkgTable.TryGetValue("from", out var fromObj) && fromObj is string fromStr)
                 {
-                    var value = ExtractFirstInlineTableValue(line);
-                    if (value != null)
-                        return NormalizeParsedPath(projectRoot, value);
-                }
-            }
-
-            // [tool.poetry] packages = [{from = "src", ...}]
-            if (currentSection == "tool.poetry")
-            {
-                if (line.StartsWith("packages", StringComparison.OrdinalIgnoreCase))
-                {
-                    var fromValue = ExtractTomlKeyFromInlineArray(line, "from");
-                    if (fromValue != null)
-                        return NormalizeParsedPath(projectRoot, fromValue);
+                    return NormalizeParsedPath(projectRoot, fromStr);
                 }
             }
+        }
 
-            // [tool.hatch.build.targets.wheel] or similar hatch sections
-            if (currentSection.StartsWith("tool.hatch", StringComparison.Ordinal))
+        // Navigate: [tool.hatch.build.targets.wheel] or similar hatch sections
+        if (TryGetTomlTable(toml, "tool", "hatch") is { } hatchTable)
+        {
+            var hatchPackages = FindHatchPackages(hatchTable);
+            if (hatchPackages != null)
             {
-                if (line.StartsWith("packages", StringComparison.OrdinalIgnoreCase))
+                // Extract the root directory (e.g., "src/mypackage" -> "src")
+                var parts = hatchPackages.Split('/', '\\');
+                if (parts.Length > 0 && !string.IsNullOrEmpty(parts[0]))
                 {
-                    var packagePath = ExtractFirstArrayStringValue(line);
-                    if (packagePath != null)
-                    {
-                        // Extract the root directory (e.g., "src/mypackage" -> "src")
-                        var parts = packagePath.Split('/', '\\');
-                        if (parts.Length > 0 && !string.IsNullOrEmpty(parts[0]))
-                        {
-                            return NormalizeParsedPath(projectRoot, parts[0]);
-                        }
-                    }
+                    return NormalizeParsedPath(projectRoot, parts[0]);
                 }
             }
         }
@@ -1050,82 +1039,48 @@ public class SdkInfo
     }
 
     /// <summary>
-    /// Parses a simple TOML key = "value" or key = 'value' line.
-    /// Returns the value if the key matches, null otherwise.
+    /// Navigates a nested TOML table hierarchy by key path.
+    /// Returns null if any segment is missing or not a table.
     /// </summary>
-    private static string? TryParseTomlKeyValue(string line, string key)
+    private static TomlTable? TryGetTomlTable(TomlTable root, params string[] keys)
     {
-        var eqIndex = line.IndexOf('=');
-        if (eqIndex < 0)
-            return null;
-
-        var lineKey = line[..eqIndex].Trim();
-        if (!lineKey.Equals(key, StringComparison.OrdinalIgnoreCase))
-            return null;
-
-        return ExtractQuotedString(line[(eqIndex + 1)..].Trim());
+        TomlTable current = root;
+        foreach (var key in keys)
+        {
+            if (!current.TryGetValue(key, out var next) || next is not TomlTable nextTable)
+                return null;
+            current = nextTable;
+        }
+        return current;
     }
 
     /// <summary>
-    /// Graphs the first value from a TOML inline table on the same line.
-    /// e.g., package-dir = {"" = "src"} → "src"
+    /// Recursively searches hatch configuration tables for a "packages" array
+    /// and returns the first string value found.
     /// </summary>
-    private static string? ExtractFirstInlineTableValue(string line)
+    private static string? FindHatchPackages(TomlTable hatchTable)
     {
-        var braceStart = line.IndexOf('{');
-        if (braceStart < 0)
-            return null;
+        if (hatchTable.TryGetValue("packages", out var pkgObj) && pkgObj is TomlArray pkgArray)
+        {
+            foreach (var item in pkgArray)
+            {
+                if (item is string str)
+                    return str;
+            }
+        }
 
-        var content = line[(braceStart + 1)..];
-        // Find the value after the first =
-        var eqIndex = content.IndexOf('=');
-        if (eqIndex < 0)
-            return null;
+        // Recurse into sub-tables (e.g., build.targets.wheel)
+        foreach (var kvp in hatchTable)
+        {
+            if (kvp.Value is TomlTable subTable)
+            {
+                var result = FindHatchPackages(subTable);
+                if (result != null)
+                    return result;
+            }
+        }
 
-        return ExtractQuotedString(content[(eqIndex + 1)..].Trim());
-    }
-
-    /// <summary>
-    /// Graphs a specific key's value from a TOML inline array of tables.
-    /// e.g., packages = [{include = "pkg", from = "src"}] → "src" (for key "from")
-    /// </summary>
-    private static string? ExtractTomlKeyFromInlineArray(string line, string key)
-    {
-        // Find content after =
-        var eqIndex = line.IndexOf('=');
-        if (eqIndex < 0)
-            return null;
-
-        var content = line[(eqIndex + 1)..];
-
-        // Search for key = "value" pattern within the inline content
-        var searchKey = key + " ";
-        var searchKeyEq = key + "=";
-        var keyIndex = content.IndexOf(searchKey, StringComparison.OrdinalIgnoreCase);
-        if (keyIndex < 0)
-            keyIndex = content.IndexOf(searchKeyEq, StringComparison.OrdinalIgnoreCase);
-        if (keyIndex < 0)
-            return null;
-
-        // Find the = after the key
-        var valEqIndex = content.IndexOf('=', keyIndex + key.Length);
-        if (valEqIndex < 0)
-            return null;
-
-        return ExtractQuotedString(content[(valEqIndex + 1)..].Trim());
-    }
-
-    /// <summary>
-    /// Graphs the first string value from a TOML array.
-    /// e.g., packages = ["src/mypackage"] → "src/mypackage"
-    /// </summary>
-    private static string? ExtractFirstArrayStringValue(string line)
-    {
-        var bracketStart = line.IndexOf('[');
-        if (bracketStart < 0)
-            return null;
-
-        return ExtractQuotedString(line[(bracketStart + 1)..].Trim());
+        return null;
     }
 
     /// <summary>
@@ -2006,9 +1961,8 @@ public class SdkInfo
     }
 
     /// <summary>
-    /// Graphs the Python package name from pyproject.toml.
-    /// Parses <c>[project] name = "my-sdk"</c> and transforms hyphens
-    /// to underscores for the canonical Python import name.
+    /// Graphs the Python package name from pyproject.toml using the Tomlyn TOML parser.
+    /// Parses <c>[project] name = "my-sdk"</c> and returns the raw name value.
     /// </summary>
     private static string? ExtractPythonPackageName(string root)
     {
@@ -2020,39 +1974,31 @@ public class SdkInfo
         if (!IsFileSafeToRead(pyprojectPath))
             return null;
 
-        // Simple TOML parsing: look for name = "..." in [project] section
-        var inProjectSection = false;
-        foreach (var line in File.ReadLines(pyprojectPath))
+        try
         {
-            var trimmed = line.TrimStart();
+            var content = File.ReadAllText(pyprojectPath);
+            var toml = TomlSerializer.Deserialize<TomlTable>(content);
+            if (toml == null) return null;
 
-            // Track section headers
-            if (trimmed.StartsWith('['))
+            // Check [project].name (PEP 621)
+            if (toml.TryGetValue("project", out var projectObj) && projectObj is TomlTable projectTable
+                && projectTable.TryGetValue("name", out var nameObj) && nameObj is string name
+                && !string.IsNullOrWhiteSpace(name))
             {
-                // Extract section name between brackets and compare.
-                // Handles trailing whitespace/comments: "[project]  # metadata" → "project"
-                var closeBracket = trimmed.IndexOf(']', 1);
-                if (closeBracket > 1)
-                {
-                    var sectionName = trimmed[1..closeBracket].Trim();
-                    inProjectSection = sectionName.Equals("project", StringComparison.OrdinalIgnoreCase);
-                }
-                else
-                {
-                    inProjectSection = false;
-                }
-                continue;
+                return name;
             }
 
-            if (!inProjectSection)
-                continue;
-
-            // Match name = "value" or name = 'value'
-            var value = TryParseTomlKeyValue(trimmed, "name");
-            if (value != null)
+            // Check [tool.poetry].name
+            if (TryGetTomlTable(toml, "tool", "poetry") is { } poetryTable
+                && poetryTable.TryGetValue("name", out var poetryNameObj) && poetryNameObj is string poetryName
+                && !string.IsNullOrWhiteSpace(poetryName))
             {
-                return value;
+                return poetryName;
             }
+        }
+        catch (Exception ex) when (ex is TomlException or IOException or UnauthorizedAccessException)
+        {
+            // TOML parsing failed - fall through
         }
 
         return null;

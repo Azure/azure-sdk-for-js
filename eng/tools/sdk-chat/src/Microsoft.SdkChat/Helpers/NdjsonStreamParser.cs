@@ -104,7 +104,9 @@ public static class NdjsonStreamParser
             var remaining = data[totalConsumed..];
 
             // Skip non-JSON prefix (whitespace, code fences, preamble text)
-            var objectStart = FindJsonObjectStart(remaining);
+            // Only allow skipping non-JSON lines before the first object when the flag is set
+            var allowSkipNonJson = !seenAnyItem && ignoreNonJsonLinesBeforeFirstObject;
+            var objectStart = FindJsonObjectStart(remaining, allowSkipNonJson);
             if (objectStart < 0)
             {
                 totalConsumed = data.Length;
@@ -144,10 +146,12 @@ public static class NdjsonStreamParser
     }
 
     /// <summary>
-    /// Finds the byte offset of the first '{' in the data, skipping whitespace,
-    /// code fence lines, and other non-JSON text lines.
+    /// Finds the byte offset of the first '{' in the data, skipping whitespace
+    /// and optionally skipping non-JSON text lines (code fences, preamble text).
+    /// When <paramref name="allowSkipNonJson"/> is false, encountering non-whitespace,
+    /// non-'{' content throws a <see cref="JsonException"/>.
     /// </summary>
-    private static int FindJsonObjectStart(ReadOnlySpan<byte> data)
+    private static int FindJsonObjectStart(ReadOnlySpan<byte> data, bool allowSkipNonJson)
     {
         var i = 0;
         while (i < data.Length)
@@ -166,7 +170,23 @@ public static class NdjsonStreamParser
                 continue;
             }
 
-            // Non-JSON character: skip to end of line (handles code fences and preamble text)
+            // Non-JSON character found
+            if (!allowSkipNonJson)
+            {
+                // Check if there's another JSON object later in the data.
+                // If so, this is corrupted text between objects — throw.
+                // If not, this is trailing noise after the last object — stop scanning.
+                if (data[i..].IndexOf((byte)'{') >= 0)
+                {
+                    throw new JsonException(
+                        $"Unexpected non-JSON content at byte offset {i}: '{(char)b}'. " +
+                        "This may indicate corrupted data between JSON objects.");
+                }
+
+                return -1;
+            }
+
+            // Skip to end of line (handles code fences and preamble text)
             while (i < data.Length && data[i] != (byte)'\n')
             {
                 i++;
