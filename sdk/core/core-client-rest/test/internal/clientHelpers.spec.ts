@@ -33,10 +33,8 @@ describe("clientHelpers", () => {
 
     assert.isDefined(policies, "default pipeline should contain policies");
 
-    const apiVersionPolicy = policies.find((p) => p.name === apiVersionPolicyName);
-    assert.equal(
-      apiVersionPolicy?.name,
-      apiVersionPolicyName,
+    assert.isDefined(
+      policies.find((p) => p.name === apiVersionPolicyName),
       `Pipeline policy not found in the default pipeline: ${apiVersionPolicyName}`,
     );
   });
@@ -65,13 +63,19 @@ describe("clientHelpers", () => {
       "pipeline shouldn't have bearerTokenAuthenticationPolicyName",
     );
 
-    const keyCredPolicy = policies.find(
-      (p) => p.name === keyCredentialAuthenticationPolicyName,
+    assert.isDefined(
+      policies.find((p) => p.name === keyCredentialAuthenticationPolicyName),
+      "pipeline shouldn have keyCredentialAuthenticationPolicyName",
     );
-    assert.equal(
-      keyCredPolicy?.name,
-      keyCredentialAuthenticationPolicyName,
-      "pipeline should have keyCredentialAuthenticationPolicyName",
+  });
+
+  it("should not treat a non-string key property as a KeyCredential", () => {
+    const pipeline = createDefaultPipeline(mockBaseUrl, { key: 123 } as any);
+    const policies = pipeline.getOrderedPolicies();
+
+    assert.isUndefined(
+      policies.find((p) => p.name === keyCredentialAuthenticationPolicyName),
+      "pipeline should not have keyCredentialAuthenticationPolicyName for non-string key",
     );
   });
 
@@ -84,12 +88,8 @@ describe("clientHelpers", () => {
 
     assert.isDefined(policies, "default pipeline should contain policies");
 
-    const bearerPolicy = policies.find(
-      (p) => p.name === bearerTokenAuthenticationPolicyName,
-    );
-    assert.equal(
-      bearerPolicy?.name,
-      bearerTokenAuthenticationPolicyName,
+    assert.isDefined(
+      policies.find((p) => p.name === bearerTokenAuthenticationPolicyName),
       "pipeline should have bearerTokenAuthenticationPolicyName",
     );
 

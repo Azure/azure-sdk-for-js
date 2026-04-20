@@ -4,14 +4,13 @@
 import { describe, it, assert, afterEach, vi } from "vitest";
 import type { ClientRequest, IncomingMessage } from "node:http";
 import { type IncomingHttpHeaders } from "node:http";
-import { EventEmitter } from "node:events";
 import { PassThrough } from "node:stream";
 
 vi.mock("node:https", async () => {
-  const actual = await vi.importActual<typeof import("node:https")>("node:https");
+  const actual = await vi.importActual("node:https");
   return {
     default: {
-      ...actual.default,
+      ...(actual as any).default,
       request: vi.fn(),
     },
   };
@@ -27,9 +26,10 @@ describe("[Node] Streams", () => {
   });
 
   it("should get a JSON body response as a stream", async () => {
-    vi.mocked(https.request).mockImplementation((_url, cb?: (res: IncomingMessage) => void) => {
+    vi.mocked(https.request).mockImplementation((_url, cb) => {
       const response = createResponse(200, JSON.stringify({ foo: "foo" }));
-      cb?.(response);
+      const callback = cb as (res: IncomingMessage) => void;
+      callback(response);
       return createRequest();
     });
 
@@ -43,13 +43,14 @@ describe("[Node] Streams", () => {
     const response = await promise;
     const stringBody = await readStreamToBuffer(response.body!);
 
-    assert.strictEqual(stringBody.toString(), JSON.stringify(expectedBody));
+    assert.deepEqual(stringBody.toString(), JSON.stringify(expectedBody));
   });
 
   it("should get a JSON body response", async () => {
-    vi.mocked(https.request).mockImplementation((_url, cb?: (res: IncomingMessage) => void) => {
+    vi.mocked(https.request).mockImplementation((_url, cb) => {
       const response = createResponse(200, JSON.stringify({ foo: "foo" }));
-      cb?.(response);
+      const callback = cb as (res: IncomingMessage) => void;
+      callback(response);
       return createRequest();
     });
 
@@ -95,9 +96,10 @@ describe("[Node] Streams", () => {
   });
 
   it("should throw when attempting to use browser streams", async () => {
-    vi.mocked(https.request).mockImplementation((_url, cb?: (res: IncomingMessage) => void) => {
+    vi.mocked(https.request).mockImplementation((_url, cb) => {
       const response = createResponse(200, JSON.stringify({ foo: "foo" }));
-      cb?.(response);
+      const callback = cb as (res: IncomingMessage) => void;
+      callback(response);
       return createRequest();
     });
 
@@ -116,9 +118,9 @@ describe("[Node] Streams", () => {
   });
 });
 
-function createRequest(overrides?: Partial<ClientRequest>): ClientRequest {
-  const emitter = new EventEmitter();
-  return Object.assign(emitter, { end: vi.fn(), ...overrides }) as ClientRequest;
+function createRequest(): ClientRequest {
+  const request = new FakeRequest();
+  return request as unknown as ClientRequest;
 }
 
 class FakeResponse extends PassThrough {
@@ -146,3 +148,5 @@ function readStreamToBuffer(stream: NodeJS.ReadableStream): Promise<Buffer> {
     });
   });
 }
+
+class FakeRequest extends PassThrough {}
