@@ -47,5 +47,8 @@ export {
     NODE_BUILTIN_MODULES_STATIC,
 } from "./node-builtins.js";
 
-// CLI entry point — execute when run as script
-main();
+// CLI entry point — execute only when run as the main script
+import { fileURLToPath } from "node:url";
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+    main();
+}

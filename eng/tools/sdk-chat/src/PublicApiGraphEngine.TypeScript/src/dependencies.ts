@@ -950,14 +950,20 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
                     continue;
                 }
 
-                allResolved.set(qKey, { packageName, type: result.graphed, kind: result.kind });
-
                 // If the extracted entity has a different name than requested (aliased re-export),
-                // also register a synthetic type alias so downstream can reference by the alias.
+                // store the real type under the extracted name and a synthetic alias under the requested name.
                 const extractedName = (result.graphed as { name?: string }).name;
-                if (extractedName && extractedName !== typeName && !allResolved.has(makeDepKey(packageName, typeName))) {
+                const needsAlias = extractedName && extractedName !== typeName;
+
+                if (needsAlias) {
+                    const realKey = makeDepKey(packageName, extractedName);
+                    if (!allResolved.has(realKey)) {
+                        allResolved.set(realKey, { packageName, type: result.graphed, kind: result.kind });
+                    }
                     const aliasType: TypeAliasInfo = { name: typeName, type: extractedName };
-                    allResolved.set(makeDepKey(packageName, typeName), { packageName, type: aliasType, kind: "type" });
+                    allResolved.set(qKey, { packageName, type: aliasType, kind: "type" });
+                } else {
+                    allResolved.set(qKey, { packageName, type: result.graphed, kind: result.kind });
                 }
 
                 // For directly-resolved namespaces, populate per-member referencedTypes
@@ -1064,7 +1070,11 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
                             resolvedFile = packageToFile.get(subRef.packageName);
                         }
                         if (resolvedFile) {
-                            importResolutionMap.set(subQKey, { packageName: subRef.packageName, resolvedFile, subpath: "." });
+                            // Propagate parent subpath only for same-package transitive types
+                            const parentSubpath = (subRef.packageName === packageName)
+                                ? (importResolutionMap.get(qKey)?.subpath ?? ".")
+                                : ".";
+                            importResolutionMap.set(subQKey, { packageName: subRef.packageName, resolvedFile, subpath: parentSubpath });
                             if (!packageToFile.has(subRef.packageName)) {
                                 packageToFile.set(subRef.packageName, resolvedFile);
                             }
@@ -1541,24 +1551,32 @@ export function getPackageConditionTypePaths(startDir: string, packageName: stri
 }
 
 /**
- * Finds the highest-tier (most specific) runtime condition in a condition chain.
- * Higher tier = more specific (e.g., react-native > browser > node > import).
+ * Finds the lowest-tier (highest priority) runtime condition in a condition chain.
+ * Lower tier = higher priority (e.g., node < browser < development).
  * Returns undefined if no runtime condition is found.
  */
 function findBestRuntimeCondition(chain: string[], skipKeys: Set<string>): string | undefined {
     const RUNTIME_TIERS: Record<string, number> = {
         "import": 2, "require": 3,
-        "node": 4, "browser": 5, "react-native": 6, "workerd": 7,
+        "node": 4, "browser": 5, "react-native": 6, "workerd": 7, "worker": 7,
         "production": 8, "development": 9,
     };
     let best: string | undefined;
-    let bestTier = -1;
+    let bestTier = Infinity;
     for (const c of chain) {
         if (skipKeys.has(c) || c.startsWith(".")) continue;
-        const tier = RUNTIME_TIERS[c] ?? -1;
-        if (tier > bestTier) {
+        const tier = RUNTIME_TIERS[c];
+        if (tier !== undefined && tier < bestTier) {
             best = c;
             bestTier = tier;
+        }
+    }
+    // If no known condition matched, fall back to the first non-skip condition
+    if (!best) {
+        for (const c of chain) {
+            if (!skipKeys.has(c) && !c.startsWith(".")) {
+                return c;
+            }
         }
     }
     return best;

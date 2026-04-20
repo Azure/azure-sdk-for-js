@@ -1326,24 +1326,37 @@ public static class TypeScriptFormatter
             var depsToRender = index.Dependencies;
             if (index.ResolvedDependencies is not null && index.ResolvedDependencies.Count > 0)
             {
-                var resolvedPackages = new HashSet<string>(
-                    index.ResolvedDependencies.Select(rd => rd.Package),
+                // Intersect on (package, subpath) tuple to avoid pulling in deps
+                // for other subpaths when the flat list has been split by subpath.
+                var resolvedKeys = new HashSet<string>(
+                    index.ResolvedDependencies.Select(rd => $"{rd.Package}\0{rd.Subpath ?? ""}"),
                     StringComparer.Ordinal);
                 depsToRender = index.Dependencies
-                    .Where(d => resolvedPackages.Contains(d.Package))
+                    .Where(d => resolvedKeys.Contains($"{d.Package}\0{d.Subpath ?? ""}"))
                     .ToList();
+
+                // Fall back to package-level filtering when subpath matching yields
+                // no results (e.g. flat deps lack subpath but resolved deps have it).
+                if (depsToRender.Count == 0)
+                {
+                    var resolvedPackages = new HashSet<string>(
+                        index.ResolvedDependencies.Select(rd => rd.Package),
+                        StringComparer.Ordinal);
+                    depsToRender = index.Dependencies
+                        .Where(d => resolvedPackages.Contains(d.Package))
+                        .ToList();
+                }
             }
 
             // Build version lookup for dep module annotations
             var depVersionLookup = new Dictionary<string, string>(StringComparer.Ordinal);
-            if (index.Dependencies != null)
-                foreach (var dep in index.Dependencies)
-                    if (dep.Version != null)
-                        depVersionLookup[dep.Package] = dep.Version;
+            foreach (var dep in depsToRender)
+                if (dep.Version != null)
+                    depVersionLookup[dep.Package] = dep.Version;
 
             // Build type→depPackage map for cross-dep imports using referencedTypes
             var typeToDepPackage = new Dictionary<string, string>(StringComparer.Ordinal);
-            foreach (var dep in index.Dependencies!)
+            foreach (var dep in depsToRender)
             {
                 if (dep.IsNode) continue;
                 foreach (var c in dep.Classes ?? []) typeToDepPackage.TryAdd(c.Name, dep.Package);

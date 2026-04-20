@@ -389,7 +389,8 @@ export function formatStubs(api: ApiIndex): string {
 
                 for (const m of iface.methods || []) {
                     const ret = m.ret ? `: ${m.ret}` : "";
-                    lines.push(`${indent}    ${m.name}(${m.sig})${ret};`);
+                    const tp = m.typeParams ? `<${m.typeParams}>` : "";
+                    lines.push(`${indent}    ${m.name}${tp}(${m.sig})${ret};`);
                 }
 
                 lines.push(`${indent}}`);
@@ -406,7 +407,8 @@ export function formatStubs(api: ApiIndex): string {
                 for (const prop of cls.properties || []) {
                     const opt = prop.optional ? "?" : "";
                     const ro = prop.readonly ? "readonly " : "";
-                    lines.push(`${indent}    ${ro}${prop.name}${opt}: ${prop.type};`);
+                    const stat = prop.static ? "static " : "";
+                    lines.push(`${indent}    ${stat}${ro}${prop.name}${opt}: ${prop.type};`);
                 }
 
                 for (const sig of cls.indexSignatures || []) {
@@ -414,12 +416,17 @@ export function formatStubs(api: ApiIndex): string {
                     lines.push(`${indent}    ${ro}[${sig.keyName}: ${sig.keyType}]: ${sig.valueType};`);
                 }
 
-                for (const m of cls.methods || []) {
-                    const ret = m.ret ? `: ${m.ret}` : "";
-                    lines.push(`${indent}    ${m.name}(${m.sig})${ret};`);
+                for (const ctor of cls.constructors || []) {
+                    lines.push(`${indent}    constructor(${ctor.sig});`);
                 }
 
-                if (!cls.properties?.length && !cls.methods?.length) {
+                for (const m of cls.methods || []) {
+                    const ret = m.ret ? `: ${m.ret}` : "";
+                    const tp = m.typeParams ? `<${m.typeParams}>` : "";
+                    lines.push(`${indent}    ${m.name}${tp}(${m.sig})${ret};`);
+                }
+
+                if (!cls.properties?.length && !cls.constructors?.length && !cls.methods?.length && !cls.indexSignatures?.length) {
                     lines.push(`${indent}    // empty`);
                 }
 
@@ -536,7 +543,8 @@ function formatGroupBody(modules: ModuleInfo[], indent: string): string[] {
 
             for (const m of iface.methods || []) {
                 const ret = m.ret ? `: ${m.ret}` : "";
-                lines.push(`${indent}    ${m.name}(${m.sig})${ret};`);
+                const tp = m.typeParams ? `<${m.typeParams}>` : "";
+                lines.push(`${indent}    ${m.name}${tp}(${m.sig})${ret};`);
             }
 
             lines.push(`${indent}}`);
@@ -554,7 +562,8 @@ function formatGroupBody(modules: ModuleInfo[], indent: string): string[] {
             for (const prop of cls.properties || []) {
                 const opt = prop.optional ? "?" : "";
                 const ro = prop.readonly ? "readonly " : "";
-                lines.push(`${indent}    ${ro}${prop.name}${opt}: ${prop.type};`);
+                const stat = prop.static ? "static " : "";
+                lines.push(`${indent}    ${stat}${ro}${prop.name}${opt}: ${prop.type};`);
             }
 
             for (const sig of cls.indexSignatures || []) {
@@ -569,7 +578,8 @@ function formatGroupBody(modules: ModuleInfo[], indent: string): string[] {
             for (const m of cls.methods || []) {
                 const stat = m.static ? "static " : "";
                 const ret = m.ret ? `: ${m.ret}` : "";
-                lines.push(`${indent}    ${stat}${m.name}(${m.sig})${ret};`);
+                const tp = m.typeParams ? `<${m.typeParams}>` : "";
+                lines.push(`${indent}    ${stat}${m.name}${tp}(${m.sig})${ret};`);
             }
 
             if (!cls.properties?.length && !cls.constructors?.length && !cls.methods?.length) {
@@ -601,7 +611,8 @@ function formatNamespaceLines(ns: NamespaceInfo, indent: string): string[] {
         for (const p of cls.properties || []) {
             const opt = p.optional ? "?" : "";
             const ro = p.readonly ? "readonly " : "";
-            lines.push(`${indent}        ${ro}${p.name}${opt}: ${p.type};`);
+            const stat = p.static ? "static " : "";
+            lines.push(`${indent}        ${stat}${ro}${p.name}${opt}: ${p.type};`);
         }
 
         for (const sig of cls.indexSignatures || []) {
@@ -616,7 +627,8 @@ function formatNamespaceLines(ns: NamespaceInfo, indent: string): string[] {
         for (const m of cls.methods || []) {
             const stat = m.static ? "static " : "";
             const ret = m.ret ? `: ${m.ret}` : "";
-            lines.push(`${indent}        ${stat}${m.name}(${m.sig})${ret};`);
+            const tp = m.typeParams ? `<${m.typeParams}>` : "";
+            lines.push(`${indent}        ${stat}${m.name}${tp}(${m.sig})${ret};`);
         }
 
         if (!cls.properties?.length && !cls.constructors?.length && !cls.methods?.length) {
@@ -650,7 +662,8 @@ function formatNamespaceLines(ns: NamespaceInfo, indent: string): string[] {
         }
         for (const m of iface.methods || []) {
             const ret = m.ret ? `: ${m.ret}` : "";
-            lines.push(`${indent}        ${m.name}(${m.sig})${ret};`);
+            const tp = m.typeParams ? `<${m.typeParams}>` : "";
+            lines.push(`${indent}        ${m.name}${tp}(${m.sig})${ret};`);
         }
         lines.push(`${indent}    }`);
     }
