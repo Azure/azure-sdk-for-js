@@ -4,13 +4,14 @@
 import { describe, it, assert, expect, afterEach, vi } from "vitest";
 import type { ClientRequest, IncomingMessage } from "node:http";
 import { type IncomingHttpHeaders } from "node:http";
+import { EventEmitter } from "node:events";
 import { PassThrough } from "node:stream";
 
 vi.mock("node:https", async () => {
-  const actual = await vi.importActual("node:https");
+  const actual = await vi.importActual<typeof import("node:https")>("node:https");
   return {
     default: {
-      ...(actual as any).default,
+      ...actual.default,
       request: vi.fn(),
     },
   };
@@ -26,10 +27,9 @@ describe("[Node] Streams", () => {
   });
 
   it("should get a JSON body response as a stream", async () => {
-    vi.mocked(https.request).mockImplementation((_url, cb) => {
+    vi.mocked(https.request).mockImplementation((_url, cb?: (res: IncomingMessage) => void) => {
       const response = createResponse(200, JSON.stringify({ foo: "foo" }));
-      const callback = cb as (res: IncomingMessage) => void;
-      callback(response);
+      cb?.(response);
       return createRequest();
     });
 
@@ -47,10 +47,9 @@ describe("[Node] Streams", () => {
   });
 
   it("should get a JSON body response", async () => {
-    vi.mocked(https.request).mockImplementation((_url, cb) => {
+    vi.mocked(https.request).mockImplementation((_url, cb?: (res: IncomingMessage) => void) => {
       const response = createResponse(200, JSON.stringify({ foo: "foo" }));
-      const callback = cb as (res: IncomingMessage) => void;
-      callback(response);
+      cb?.(response);
       return createRequest();
     });
 
@@ -90,10 +89,9 @@ describe("[Node] Streams", () => {
   });
 
   it("should throw when attempting to use browser streams", async () => {
-    vi.mocked(https.request).mockImplementation((_url, cb) => {
+    vi.mocked(https.request).mockImplementation((_url, cb?: (res: IncomingMessage) => void) => {
       const response = createResponse(200, JSON.stringify({ foo: "foo" }));
-      const callback = cb as (res: IncomingMessage) => void;
-      callback(response);
+      cb?.(response);
       return createRequest();
     });
 
@@ -106,9 +104,9 @@ describe("[Node] Streams", () => {
   });
 });
 
-function createRequest(): ClientRequest {
-  const request = new FakeRequest();
-  return request as unknown as ClientRequest;
+function createRequest(overrides?: Partial<ClientRequest>): ClientRequest {
+  const emitter = new EventEmitter();
+  return Object.assign(emitter, { end: vi.fn(), ...overrides }) as ClientRequest;
 }
 
 class FakeResponse extends PassThrough {
@@ -136,5 +134,3 @@ function readStreamToBuffer(stream: NodeJS.ReadableStream): Promise<Buffer> {
     });
   });
 }
-
-class FakeRequest extends PassThrough {}
