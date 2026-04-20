@@ -1717,7 +1717,10 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
       expect(allResults.length).toBe(10);
 
       const ids = allResults.map((r: any) => r.id).sort();
-      const expectedIds = Array.from({ length: 10 }, (_, i) => `esc${String(i + 1).padStart(2, "0")}`);
+      const expectedIds = Array.from(
+        { length: 10 },
+        (_, i) => `esc${String(i + 1).padStart(2, "0")}`,
+      );
       expect(ids).toEqual(expectedIds);
 
       for (let i = 1; i < allResults.length; i++) {
