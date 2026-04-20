@@ -11,7 +11,12 @@ import type {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import { createEmptyPipeline, createHttpHeaders, createPipelineRequest, RestError } from "@azure/core-rest-pipeline";
+import {
+  createEmptyPipeline,
+  createHttpHeaders,
+  createPipelineRequest,
+  RestError,
+} from "@azure/core-rest-pipeline";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 
 describe("getClient", () => {
