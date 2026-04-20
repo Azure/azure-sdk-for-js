@@ -9,7 +9,7 @@ import { ShareOperations, _getShareOperations } from "./classic/share/index.js";
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { FileClientOptionalParams } from "./api/fileContext.js";
+export type { FileClientOptionalParams } from "./api/fileContext.js";
 
 export class FileClient {
   private _client: FileContext;
