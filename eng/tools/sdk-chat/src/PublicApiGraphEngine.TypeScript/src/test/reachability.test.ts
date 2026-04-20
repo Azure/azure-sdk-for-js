@@ -968,6 +968,29 @@ describe("tarjanSCC", () => {
     const sccs = tarjanSCC(new Map());
     expect(sccs).toHaveLength(0);
   });
+
+  it("handles deep chains without stack overflow", () => {
+    const depth = 2000;
+    const graph = new Map<string, Set<string>>();
+    for (let i = 0; i < depth; i++) {
+      graph.set(`N${i}`, i < depth - 1 ? new Set([`N${i + 1}`]) : new Set());
+    }
+    const sccs = tarjanSCC(graph);
+    // A pure chain has no cycles — every node is its own trivial SCC
+    expect(sccs).toHaveLength(depth);
+    for (const scc of sccs) expect(scc).toHaveLength(1);
+  });
+
+  it("handles large SCC (100+ node cycle)", () => {
+    const size = 150;
+    const graph = new Map<string, Set<string>>();
+    for (let i = 0; i < size; i++) {
+      graph.set(`C${i}`, new Set([`C${(i + 1) % size}`]));
+    }
+    const sccs = tarjanSCC(graph);
+    expect(sccs).toHaveLength(1);
+    expect(sccs[0]).toHaveLength(size);
+  });
 });
 
 // ---------------------------------------------------------------------------

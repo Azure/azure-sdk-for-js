@@ -524,7 +524,7 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
         if (resolvedFile) {
             // Override any existing mapping — the compiler resolution
             // is more precise than ts-morph's module specifier resolution.
-            importResolutionMap.set(makeDepKey(ref.packageName, ref.name), { packageName: ref.packageName, resolvedFile });
+            importResolutionMap.set(makeDepKey(ref.packageName, ref.name), { packageName: ref.packageName, resolvedFile, subpath: ref.name });
         }
     }
 
@@ -1020,7 +1020,7 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
                             resolvedFile = packageToFile.get(subRef.packageName);
                         }
                         if (resolvedFile) {
-                            importResolutionMap.set(subQKey, { packageName: subRef.packageName, resolvedFile });
+                            importResolutionMap.set(subQKey, { packageName: subRef.packageName, resolvedFile, subpath: subRef.name });
                             if (!packageToFile.has(subRef.packageName)) {
                                 packageToFile.set(subRef.packageName, resolvedFile);
                             }

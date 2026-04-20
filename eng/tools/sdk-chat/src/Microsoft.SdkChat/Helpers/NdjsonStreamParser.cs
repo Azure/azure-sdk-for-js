@@ -114,17 +114,18 @@ public static class NdjsonStreamParser
             totalConsumed += objectStart;
             remaining = data[totalConsumed..];
 
-            if (remaining.Length > MaxObjectSizeBytes)
-            {
-                throw new InvalidOperationException(
-                    $"JSON object exceeded maximum size of {MaxObjectSizeBytes / 1024}KB. " +
-                    "This may indicate a malformed AI response or malicious input.");
-            }
-
             // Use Utf8JsonReader to find the boundary of a complete JSON object
             var consumed = TryReadCompleteObject(remaining, isFinalBlock);
             if (consumed < 0)
             {
+                // No complete object yet; check if the incomplete object exceeds the size limit
+                if (remaining.Length > MaxObjectSizeBytes)
+                {
+                    throw new InvalidOperationException(
+                        $"JSON object exceeded maximum size of {MaxObjectSizeBytes / 1024}KB. " +
+                        "This may indicate a malformed AI response or malicious input.");
+                }
+
                 break; // need more data
             }
 

@@ -974,6 +974,9 @@ export function extractNamespace(mod: ModuleDeclaration, ctx: ExtractionContext)
                     (result.enums ??= []).push(extractEnum(decl, ctx));
                 } else if (Node.isTypeAliasDeclaration(decl) && !hasInternalOrHiddenTag(decl)) {
                     (result.types ??= []).push(extractTypeAlias(decl, ctx));
+                } else if (Node.isFunctionDeclaration(decl) && decl.getName() && !hasInternalOrHiddenTag(decl)) {
+                    const fnInfo = extractFunction(decl, ctx);
+                    if (fnInfo) (result.functions ??= []).push(fnInfo);
                 } else if (Node.isModuleDeclaration(decl)) {
                     const nsInfo = extractNamespace(decl, ctx);
                     if (nsInfo) (result.namespaces ??= []).push(nsInfo);

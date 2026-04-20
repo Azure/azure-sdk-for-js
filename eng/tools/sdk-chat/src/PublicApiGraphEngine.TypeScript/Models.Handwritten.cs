@@ -241,8 +241,34 @@ public sealed partial record ApiIndex
             Name = f.Name,
             Id = f.Id,
             ParameterTypes = (f.Params ?? []).Select(p => p.Type).ToList(),
+            OptionalParameterCount = (f.Params ?? []).Count(p => p.IsOptional == true || p.Default is not null),
             ReturnType = f.Ret,
-        }));
+            IsDeprecated = f.IsDeprecated == true,
+        }).Concat(GetCallablesFromNamespaces(m.Namespaces)));
+
+    private static IEnumerable<DiagnosticCallableInfo> GetCallablesFromNamespaces(IReadOnlyList<NamespaceInfo>? namespaces)
+    {
+        if (namespaces is null) yield break;
+        foreach (var ns in namespaces)
+        {
+            foreach (var f in ns.Functions ?? [])
+            {
+                yield return new DiagnosticCallableInfo
+                {
+                    Name = $"{ns.Name}.{f.Name}",
+                    Id = f.Id,
+                    ParameterTypes = (f.Params ?? []).Select(p => p.Type).ToList(),
+                    OptionalParameterCount = (f.Params ?? []).Count(p => p.IsOptional == true || p.Default is not null),
+                    ReturnType = f.Ret,
+                    IsDeprecated = f.IsDeprecated == true,
+                };
+            }
+            foreach (var item in GetCallablesFromNamespaces(ns.Namespaces))
+            {
+                yield return item with { Name = $"{ns.Name}.{item.Name}" };
+            }
+        }
+    }
 }
 
 // ---------------------------------------------------------------------------

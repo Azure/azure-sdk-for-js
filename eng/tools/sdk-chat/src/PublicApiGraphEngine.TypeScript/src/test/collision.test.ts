@@ -454,15 +454,10 @@ describe("lexer-based replacement", () => {
 
     resolveCollisions(api, contextRefs);
     const updated = api.modules[0].types![1];
-    // The property key "OperationState" before ":" IS a standalone identifier, so it gets replaced.
-    // But in a real scenario, property keys in `{ key: value }` ARE standalone identifiers.
-    // The lexer replaces all standalone identifiers — this is correct behavior since
-    // the type text `{ OperationState: string }` means `OperationState` is a type ref in value position.
-    // Actually for object type literals like `{ OperationState: string }`, the key IS just a label,
-    // not a type reference. However, our replacement is text-based and intentionally replaces
-    // all standalone identifiers. The correctness depends on contextRefPackages only containing
-    // types that actually need replacement — which is guaranteed by the AST-based type-refs system.
-    expect(updated.type).toBe("{ _corelro_OperationState: string }");
+    // Property keys in object type literals like `{ OperationState: string }` are labels,
+    // not type references. They should NOT be replaced — only identifiers in type positions
+    // (e.g., type annotations, extends clauses) are rewritten.
+    expect(updated.type).toBe("{ OperationState: string }");
   });
 
   it("does not replace inside string literals", () => {
@@ -514,6 +509,35 @@ describe("lexer-based replacement", () => {
     // Foo.OperationState should NOT have OperationState replaced (qualified)
     // But standalone OperationState should be replaced
     expect(updated.type).toBe("Foo.OperationState | _corelro_OperationState");
+  });
+});
+
+describe("ambiguous provenance skips rewrite", () => {
+  it("skips rewrite when type maps to multiple packages (ambiguous)", () => {
+    const api = makeApi({
+      modules: [{
+        name: "main",
+        types: [
+          { name: "Foo", type: "string" } as TypeAliasInfo,
+          { name: "Consumer", type: "Foo | null" } as TypeAliasInfo,
+        ],
+      }],
+      dependencies: [
+        { package: "pkg-a", interfaces: [{ name: "Foo" } as InterfaceInfo] },
+        { package: "pkg-b", types: [{ name: "Foo", type: "any" } as TypeAliasInfo] },
+      ],
+    });
+
+    // Consumer references Foo from BOTH pkg-a and pkg-b — ambiguous provenance
+    const contextRefs = makeContextRefs([
+      ["Consumer", [["Foo", "pkg-a"], ["Foo", "pkg-b"]]],
+    ]);
+
+    resolveCollisions(api, contextRefs);
+
+    // Because packageNames.size !== 1, buildReplacementsForEntity skips Foo
+    const updated = api.modules[0].types![1]; // Consumer
+    expect(updated.type).toBe("Foo | null");
   });
 });
 

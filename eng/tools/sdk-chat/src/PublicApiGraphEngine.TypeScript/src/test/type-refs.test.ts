@@ -184,7 +184,7 @@ describe("TypeReferenceCollector — getAllQualifiedRefNames", () => {
   it("extracts dotted namespace references via collectFromType", () => {
     const ctx = makeCtx();
     // Create a source file that defines a namespace-qualified type
-    // and use collectTypeRefsFromTypeNode to extract refs from the type annotation.
+    // and use the collector to extract refs from the type annotation.
     const sf = ctx.project.createSourceFile(
       "test.ts",
       `
@@ -195,25 +195,21 @@ describe("TypeReferenceCollector — getAllQualifiedRefNames", () => {
       `,
     );
 
-    // Use the lower-level collectTypeRefsFromTypeNode to extract refs from the return type node
+    // Use collectFromTypeNode on the collector so qualified refs are tracked internally
     const fn = sf.getFunctionOrThrow("getStream");
     const returnTypeNode = fn.getReturnTypeNode();
     expect(returnTypeNode).toBeDefined();
 
-    const refs = new Set<ResolvedTypeRef>();
-    collectTypeRefsFromTypeNode(returnTypeNode!, ctx, refs);
+    ctx.typeRefs.pushContext("getStream");
+    ctx.typeRefs.collectFromTypeNode(returnTypeNode!);
+    ctx.typeRefs.popContext();
 
-    // The type reference node for NodeJS.ReadableStream should produce a ref
-    // for "ReadableStream" (the right-hand side of the qualified name reference).
-    // In a real extraction, the fullName would be "NodeJS.ReadableStream".
-    const names = refNames(refs);
-    // Either the qualified name or the right-hand identifier should be captured.
-    // Qualified type references in AST are handled by traversing TypeReference nodes.
-    expect(names.length).toBeGreaterThanOrEqual(0);
-    // The key verification: getAllQualifiedRefNames doesn't crash and returns valid identifiers
+    // NodeJS.ReadableStream is declared locally (not from an external package),
+    // so it is not captured as an external ref. Verify getAllQualifiedRefNames
+    // completes without error and returns no qualified refs for local declarations.
     const qualified = ctx.typeRefs.getAllQualifiedRefNames();
+    expect(qualified.size).toBe(0);
     for (const name of qualified) {
-      // Qualified names should be dotted identifiers, not module paths
       expect(name).not.toContain("/");
       expect(name).not.toContain("@");
       expect(name).toMatch(/^[a-zA-Z_$][a-zA-Z0-9_$.]*$/);

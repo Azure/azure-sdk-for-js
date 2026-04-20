@@ -426,10 +426,16 @@ export function computeReachableTypes(api: ApiIndex): Set<string> {
     }
     for (const [qk, refs] of rawRefs) {
         const edges = graph.get(qk) ?? new Set();
+        // Extract source module from qualified key for same-module disambiguation
+        const sourceModule = qk.substring(0, qk.indexOf("/"));
+
         for (const refName of refs) {
             const targetQks = nameToQualifiedKeys.get(refName);
             if (targetQks) {
-                for (const tqk of targetQks) edges.add(tqk);
+                // Prefer same-module targets to avoid over-retention from name collisions
+                const sameModule = targetQks.filter(tqk => tqk.startsWith(sourceModule + "/"));
+                const targets = sameModule.length > 0 ? sameModule : targetQks;
+                for (const tqk of targets) edges.add(tqk);
             }
         }
         graph.set(qk, edges);

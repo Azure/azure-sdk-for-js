@@ -329,6 +329,42 @@ function isQualifiedAccess(node: ts.Node): boolean {
     return false;
 }
 
+/**
+ * Determines whether an identifier appears in a type-reference position
+ * (as opposed to a property key, parameter name, tuple label, etc.).
+ */
+function isTypePositionIdentifier(node: ts.Identifier, _sourceFile: ts.SourceFile): boolean {
+    const parent = node.parent;
+    if (!parent) return false;
+
+    // Direct type reference: `Foo` in `x: Foo`, `extends Foo`, `implements Foo`
+    if (ts.isTypeReferenceNode(parent) && parent.typeName === node) return true;
+
+    // Qualified name left side: `Foo` in `Foo.Bar` or `Foo.Bar.Baz` when used as type
+    // Walk up the chain of QualifiedNames to reach the TypeReferenceNode root
+    if (ts.isQualifiedName(parent) && parent.left === node) {
+        let current: ts.Node = parent;
+        while (current.parent && ts.isQualifiedName(current.parent)) {
+            current = current.parent;
+        }
+        return current.parent ? ts.isTypeReferenceNode(current.parent) : false;
+    }
+
+    // Expression with type arguments: `Foo<T>` in heritage clauses
+    if (ts.isExpressionWithTypeArguments(parent) && parent.expression === node) return true;
+
+    // Import type: `import("pkg").Foo`
+    if (ts.isImportTypeNode(parent)) return true;
+
+    // Type query: `typeof Foo`
+    if (ts.isTypeQueryNode(parent) && parent.exprName === node) return true;
+
+    // Type parameter declaration: `T` itself is not a type reference
+    if (ts.isTypeParameterDeclaration(parent)) return false;
+
+    return false;
+}
+
 function replaceTypeIdentifiersAST(text: string, replacements: Map<string, string>): string {
     const { sourceFile, offset } = parseFragment(text);
 
@@ -339,7 +375,7 @@ function replaceTypeIdentifiersAST(text: string, replacements: Map<string, strin
         if (ts.isIdentifier(node)) {
             const name = node.text;
             const replacement = replacements.get(name);
-            if (replacement && !isQualifiedAccess(node)) {
+            if (replacement && !isQualifiedAccess(node) && isTypePositionIdentifier(node, sourceFile)) {
                 // Adjust positions from wrapped source back to original text
                 const start = node.getStart(sourceFile) - offset;
                 const end = node.getEnd() - offset;

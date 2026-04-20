@@ -191,6 +191,7 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
             path.join(sourceDir, "**/*.ts"),
             path.join(sourceDir, "**/*.tsx"),
             path.join(sourceDir, "**/*.mts"),
+            path.join(sourceDir, "**/*.cts"),
         ];
 
     for (const pattern of patterns) {
@@ -265,7 +266,7 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
         // Calculate module name
         let moduleName = path.relative(sourceDir, filePath);
         moduleName = moduleName.replace(/\.d\.(ts|mts|cts)$/, "");
-        moduleName = moduleName.replace(/\.(ts|tsx|mts)$/, "");
+        moduleName = moduleName.replace(/\.(ts|tsx|mts|cts)$/, "");
         moduleName = moduleName.replace(/\\/g, "/");
         if (moduleName.endsWith("/index")) {
             moduleName = moduleName.slice(0, -6) || "index";
@@ -597,7 +598,8 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
         const MAX_INDIVIDUAL = 20;
         const emitted = Math.min(ctx.diagnostics.length, MAX_INDIVIDUAL);
         for (let i = 0; i < emitted; i++) {
-            emitDiagnostic(ctx.diagnostics[i]);
+            const d = ctx.diagnostics[i];
+            emitDiagnostic({ code: d.code, message: d.message, severity: d.level, target: d.typeName });
         }
         if (ctx.diagnostics.length > MAX_INDIVIDUAL) {
             emitDiagnostic({

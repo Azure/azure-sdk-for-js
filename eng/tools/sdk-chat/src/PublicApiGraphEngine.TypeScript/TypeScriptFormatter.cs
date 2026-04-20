@@ -84,21 +84,31 @@ public static class TypeScriptFormatter
                 ? index.Dependencies.Where(d => !d.IsNode).ToList()
                 : index.Dependencies;
 
+            // Filter ambient types for non-node targets (browser, react-native)
+            var filteredAmbientTypes = index.AmbientTypes;
+            if (isNonNodeTarget && index.AmbientTypes is not null)
+            {
+                filteredAmbientTypes = index.AmbientTypes
+                    .Where(kvp => !kvp.Key.Equals("node", StringComparison.OrdinalIgnoreCase))
+                    .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+            }
+
             var subIndex = index with
             {
                 Modules = conditionModules,
                 ResolvedDependencies = conditionResolvedDeps is { Count: > 0 } ? conditionResolvedDeps : null,
                 Dependencies = filteredDeps is { Count: > 0 } ? filteredDeps : null,
+                AmbientTypes = filteredAmbientTypes,
             };
 
             var dts = Format(subIndex, condition);
 
             // Replace ambient types placeholder with actual list of builtins
             // found in the rendered content.
-            dts = ReplaceAmbientTypesPlaceholder(dts, index.AmbientTypes);
+            dts = ReplaceAmbientTypesPlaceholder(dts, filteredAmbientTypes);
 
             var hasNodeDependency = filteredDeps?.Any(d => d.IsNode) == true;
-            var tsconfig = GenerateTsconfig(hasNodeDependency, index.AmbientTypes, dts);
+            var tsconfig = GenerateTsconfig(hasNodeDependency, filteredAmbientTypes, dts);
             result[condition] = (dts, tsconfig);
         }
 

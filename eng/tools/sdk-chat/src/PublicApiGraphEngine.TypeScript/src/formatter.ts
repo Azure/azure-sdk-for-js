@@ -232,7 +232,15 @@ export function formatStubs(api: ApiIndex): string {
         const modules = conditionGroups.get(condition)!;
 
         if (needsModuleBlocks) {
-            lines.push(`declare module "${api.package}/${condition}" {`);
+            // Derive the module name from the first module's exportPath (if available),
+            // falling back to just the package name. Conditions (e.g. "browser") are NOT
+            // valid import specifiers — they are emitted as a comment instead.
+            const firstExportPath = modules[0]?.exportPath;
+            const moduleName = firstExportPath && firstExportPath !== "."
+                ? `${api.package}/${firstExportPath.replace(/^\.\//, "")}`
+                : api.package;
+            lines.push(`// Condition: ${condition}`);
+            lines.push(`declare module "${moduleName}" {`);
             lines.push("");
         }
 
@@ -246,14 +254,16 @@ export function formatStubs(api: ApiIndex): string {
             for (const fn of module.functions || []) {
                 if (fn.doc) lines.push(`${indent}/** ${fn.doc} */`);
                 const ret = fn.ret ? `: ${fn.ret}` : "";
-                lines.push(`${indent}export function ${fn.name}(${fn.sig})${ret};`);
+                const typeParams = fn.typeParams ? `<${fn.typeParams}>` : "";
+                lines.push(`${indent}export function ${fn.name}${typeParams}(${fn.sig})${ret};`);
                 lines.push("");
             }
 
             // Type aliases
             for (const t of module.types || []) {
                 if (t.doc) lines.push(`${indent}/** ${t.doc} */`);
-                lines.push(`${indent}export type ${t.name} = ${t.type};`);
+                const typeParams = t.typeParams ? `<${t.typeParams}>` : "";
+                lines.push(`${indent}export type ${t.name}${typeParams} = ${t.type};`);
                 lines.push("");
             }
 
@@ -282,6 +292,18 @@ export function formatStubs(api: ApiIndex): string {
                 for (const sig of iface.indexSignatures || []) {
                     const ro = sig.readonly ? "readonly " : "";
                     lines.push(`${indent}    ${ro}[${sig.keyName}: ${sig.keyType}]: ${sig.valueType};`);
+                }
+
+                for (const cs of iface.callSignatures || []) {
+                    const ret = cs.ret ? `: ${cs.ret}` : "";
+                    const tp = cs.typeParams ? `<${cs.typeParams}>` : "";
+                    lines.push(`${indent}    ${tp}(${cs.sig})${ret};`);
+                }
+
+                for (const cs of iface.constructSignatures || []) {
+                    const ret = cs.ret ? `: ${cs.ret}` : "";
+                    const tp = cs.typeParams ? `<${cs.typeParams}>` : "";
+                    lines.push(`${indent}    new ${tp}(${cs.sig})${ret};`);
                 }
 
                 for (const m of iface.methods || []) {
@@ -389,6 +411,18 @@ export function formatStubs(api: ApiIndex): string {
                     lines.push(`${indent}    ${ro}[${sig.keyName}: ${sig.keyType}]: ${sig.valueType};`);
                 }
 
+                for (const cs of iface.callSignatures || []) {
+                    const ret = cs.ret ? `: ${cs.ret}` : "";
+                    const tp = cs.typeParams ? `<${cs.typeParams}>` : "";
+                    lines.push(`${indent}    ${tp}(${cs.sig})${ret};`);
+                }
+
+                for (const cs of iface.constructSignatures || []) {
+                    const ret = cs.ret ? `: ${cs.ret}` : "";
+                    const tp = cs.typeParams ? `<${cs.typeParams}>` : "";
+                    lines.push(`${indent}    new ${tp}(${cs.sig})${ret};`);
+                }
+
                 for (const m of iface.methods || []) {
                     const ret = m.ret ? `: ${m.ret}` : "";
                     lines.push(`${indent}    ${m.name}(${m.sig})${ret};`);
@@ -441,7 +475,8 @@ export function formatStubs(api: ApiIndex): string {
             // Type aliases
             for (const t of dep.types || []) {
                 if (t.doc) lines.push(`${indent}/** ${t.doc} */`);
-                lines.push(`${indent}export type ${t.name} = ${t.type};`);
+                const typeParams = t.typeParams ? `<${t.typeParams}>` : "";
+                lines.push(`${indent}export type ${t.name}${typeParams} = ${t.type};`);
                 lines.push("");
             }
 
@@ -515,6 +550,16 @@ function formatNamespaceLines(ns: NamespaceInfo, indent: string): string[] {
             const ro = sig.readonly ? "readonly " : "";
             lines.push(`${indent}        ${ro}[${sig.keyName}: ${sig.keyType}]: ${sig.valueType};`);
         }
+        for (const cs of iface.callSignatures || []) {
+            const ret = cs.ret ? `: ${cs.ret}` : "";
+            const tp = cs.typeParams ? `<${cs.typeParams}>` : "";
+            lines.push(`${indent}        ${tp}(${cs.sig})${ret};`);
+        }
+        for (const cs of iface.constructSignatures || []) {
+            const ret = cs.ret ? `: ${cs.ret}` : "";
+            const tp = cs.typeParams ? `<${cs.typeParams}>` : "";
+            lines.push(`${indent}        new ${tp}(${cs.sig})${ret};`);
+        }
         for (const m of iface.methods || []) {
             const ret = m.ret ? `: ${m.ret}` : "";
             lines.push(`${indent}        ${m.name}(${m.sig})${ret};`);
@@ -527,11 +572,13 @@ function formatNamespaceLines(ns: NamespaceInfo, indent: string): string[] {
         lines.push(`${indent}    }`);
     }
     for (const t of ns.types || []) {
-        lines.push(`${indent}    export type ${t.name} = ${t.type};`);
+        const tp = t.typeParams ? `<${t.typeParams}>` : "";
+        lines.push(`${indent}    export type ${t.name}${tp} = ${t.type};`);
     }
     for (const f of ns.functions || []) {
         const ret = f.ret ? `: ${f.ret}` : "";
-        lines.push(`${indent}    export function ${f.name}(${f.sig})${ret};`);
+        const tp = f.typeParams ? `<${f.typeParams}>` : "";
+        lines.push(`${indent}    export function ${f.name}${tp}(${f.sig})${ret};`);
     }
     for (const sub of ns.namespaces || []) {
         lines.push(...formatNamespaceLines(sub, indent + "    "));
