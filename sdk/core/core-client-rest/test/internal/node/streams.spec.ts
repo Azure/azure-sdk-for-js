@@ -8,10 +8,10 @@ import { EventEmitter } from "node:events";
 import { PassThrough } from "node:stream";
 
 vi.mock("node:https", async () => {
-  const actual = await vi.importActual<typeof import("node:https")>("node:https");
+  const actual = await vi.importActual("node:https");
   return {
     default: {
-      ...actual.default,
+      ...((actual as Record<string, unknown>).default as Record<string, unknown>),
       request: vi.fn(),
     },
   };
@@ -27,9 +27,10 @@ describe("[Node] Streams", () => {
   });
 
   it("should get a JSON body response as a stream", async () => {
-    vi.mocked(https.request).mockImplementation((_url, cb?: (res: IncomingMessage) => void) => {
+    vi.mocked(https.request).mockImplementation((_url, cb) => {
       const response = createResponse(200, JSON.stringify({ foo: "foo" }));
-      cb?.(response);
+      const callback = cb as unknown as (res: IncomingMessage) => void;
+      callback(response);
       return createRequest();
     });
 
@@ -47,9 +48,10 @@ describe("[Node] Streams", () => {
   });
 
   it("should get a JSON body response", async () => {
-    vi.mocked(https.request).mockImplementation((_url, cb?: (res: IncomingMessage) => void) => {
+    vi.mocked(https.request).mockImplementation((_url, cb) => {
       const response = createResponse(200, JSON.stringify({ foo: "foo" }));
-      cb?.(response);
+      const callback = cb as unknown as (res: IncomingMessage) => void;
+      callback(response);
       return createRequest();
     });
 
@@ -89,9 +91,10 @@ describe("[Node] Streams", () => {
   });
 
   it("should throw when attempting to use browser streams", async () => {
-    vi.mocked(https.request).mockImplementation((_url, cb?: (res: IncomingMessage) => void) => {
+    vi.mocked(https.request).mockImplementation((_url, cb) => {
       const response = createResponse(200, JSON.stringify({ foo: "foo" }));
-      cb?.(response);
+      const callback = cb as unknown as (res: IncomingMessage) => void;
+      callback(response);
       return createRequest();
     });
 
