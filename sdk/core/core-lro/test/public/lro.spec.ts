@@ -3083,7 +3083,8 @@ matrix(
         it("processResult() could be asynchronized", async () => {
           const processResult = async (res: unknown): Promise<Result> => {
             await delay(1);
-            return { statusCode: (res as Result).statusCode } as Result;
+            const { statusCode } = res as Result;
+            return { statusCode };
           };
           const poller = createTestPoller({
             routes: [
@@ -3102,7 +3103,8 @@ matrix(
         });
         it("processResult() could be synchronized", async () => {
           const processResult = async (res: unknown): Promise<Result> => {
-            return { statusCode: (res as Result).statusCode } as Result;
+            const { statusCode } = res as Result;
+            return { statusCode };
           };
           const poller = createTestPoller({
             routes: [
