@@ -1,0 +1,30 @@
+# NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
+
+trigger:
+  branches:
+    include:
+      - main
+      - release/*
+      - hotfix/*
+  paths:
+    include:
+      - sdk/contosowidgetmanager/contoso-widgetmanager
+      - sdk/contosowidgetmanager/ci.yml
+pr:
+  branches:
+    include:
+      - main
+      - feature/*
+      - release/*
+      - hotfix/*
+  paths:
+    include:
+      - sdk/contosowidgetmanager/contoso-widgetmanager
+      - sdk/contosowidgetmanager/ci.yml
+extends:
+  template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
+  parameters:
+    ServiceDirectory: contosowidgetmanager
+    Artifacts:
+      - name: azure-contoso-widgetmanager
+        safeName: azurecontosowidgetmanager
