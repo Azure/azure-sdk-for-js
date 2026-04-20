@@ -622,7 +622,10 @@ internal static class TypeScriptModelHelpers
                 // Strip " = default" suffix if present
                 int eqIndex = FindTopLevelEquals(typeStr);
                 if (eqIndex >= 0)
+                {
                     typeStr = typeStr[..eqIndex].TrimEnd();
+                    isOptional = true;
+                }
 
                 types.Add(typeStr);
             }

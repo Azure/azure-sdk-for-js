@@ -19,6 +19,7 @@ import type {
     ModuleInfo,
     DependencyInfo,
     NamespaceInfo,
+    TypeAliasInfo,
 } from "./models.js";
 import { ExtractionContext } from "./context.js";
 import { createExtractionContext } from "./type-refs.js";
@@ -374,6 +375,41 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
             if (module.namespaces) {
                 markEntryPointNamespaces(module.namespaces, entryPointSymbols, sourceFile.getFilePath());
             }
+
+            // Create synthetic type aliases for aliased re-exports where the
+            // exported name differs from the declaration name.
+            const sourceExports = sourceFile.getExportedDeclarations();
+            for (const [exportedName, decls] of sourceExports) {
+                if (exportedName === "default") continue;
+                for (const decl of decls) {
+                    const declName = decl.getSymbol()?.getName();
+                    if (!declName || declName === exportedName) continue;
+                    // Check if the declaration name exists as an entity in this module
+                    const hasEntity =
+                        module.classes?.some(c => c.name === declName) ||
+                        module.interfaces?.some(i => i.name === declName) ||
+                        module.functions?.some(f => f.name === declName) ||
+                        module.enums?.some(e => e.name === declName) ||
+                        module.types?.some(t => t.name === declName);
+                    if (hasEntity) {
+                        // Check we don't already have an entity or alias with the exported name
+                        const alreadyExists =
+                            module.classes?.some(c => c.name === exportedName) ||
+                            module.interfaces?.some(i => i.name === exportedName) ||
+                            module.types?.some(t => t.name === exportedName);
+                        if (!alreadyExists) {
+                            const alias: TypeAliasInfo = {
+                                name: exportedName,
+                                type: declName,
+                                entryPoint: true,
+                                exportPath: module.exportPath,
+                            };
+                            (module.types ??= []).push(alias);
+                        }
+                    }
+                }
+            }
+
             modules.push(module);
             moduleSourceFileMap.push([module, sourceFile]);
 
@@ -388,12 +424,17 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
                         condition: extra.condition,
                         conditionChain: extra.conditionChain,
                         exportPath: extra.exportPath,
-                        classes: module.classes?.map(c => ({ ...c })),
-                        interfaces: module.interfaces?.map(ifc => ({ ...ifc })),
-                        functions: module.functions?.map(f => ({ ...f })),
-                        enums: module.enums?.map(e => ({ ...e })),
-                        types: module.types?.map(t => ({ ...t })),
-                        namespaces: module.namespaces ? JSON.parse(JSON.stringify(module.namespaces)) : undefined,
+                        classes: module.classes?.map(c => ({ ...c, exportPath: extra.exportPath })),
+                        interfaces: module.interfaces?.map(ifc => ({ ...ifc, exportPath: extra.exportPath })),
+                        functions: module.functions?.map(f => ({ ...f, exportPath: extra.exportPath })),
+                        enums: module.enums?.map(e => ({ ...e, exportPath: extra.exportPath })),
+                        types: module.types?.map(t => ({ ...t, exportPath: extra.exportPath })),
+                        namespaces: module.namespaces
+                            ? JSON.parse(JSON.stringify(module.namespaces)).map((ns: any) => {
+                                ns.exportPath = extra.exportPath;
+                                return ns;
+                            })
+                            : undefined,
                     };
                     modules.push(clone);
                     moduleSourceFileMap.push([clone, sourceFile]);

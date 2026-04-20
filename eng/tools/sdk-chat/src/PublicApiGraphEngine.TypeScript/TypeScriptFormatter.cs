@@ -1320,6 +1320,20 @@ public static class TypeScriptFormatter
         // declare module blocks when they weren't already rendered inline above.
         if (index.Dependencies is not null && index.Dependencies.Count > 0 && !needsSections && sb.Length < maxLength)
         {
+            // When condition-filtered ResolvedDependencies are available (per-target mode),
+            // use them to determine which dependencies to render. The flat Dependencies list
+            // is not condition-filtered and would include deps from other targets.
+            var depsToRender = index.Dependencies;
+            if (index.ResolvedDependencies is not null && index.ResolvedDependencies.Count > 0)
+            {
+                var resolvedPackages = new HashSet<string>(
+                    index.ResolvedDependencies.Select(rd => rd.Package),
+                    StringComparer.Ordinal);
+                depsToRender = index.Dependencies
+                    .Where(d => resolvedPackages.Contains(d.Package))
+                    .ToList();
+            }
+
             // Build version lookup for dep module annotations
             var depVersionLookup = new Dictionary<string, string>(StringComparer.Ordinal);
             if (index.Dependencies != null)
@@ -1359,15 +1373,16 @@ public static class TypeScriptFormatter
             sb.AppendLine("// Dependencies");
             sb.AppendLine("// ============================================================================");
 
-            // Emit Node.js types as per-module import references
-            if (nodeImports.Count > 0)
+            // Only emit top-level node imports when NOT wrapping in a declare module block.
+            // When wrapping, the imports are emitted inside the module block further below.
+            if (mainSb == sb && nodeImports.Count > 0)
             {
                 sb.AppendLine();
                 foreach (var (nodeModule, nodeTypes) in nodeImports)
                     sb.AppendLine($"import type {{ {string.Join(", ", nodeTypes)} }} from \"{nodeModule}\";");
             }
 
-            foreach (var dep in index.Dependencies)
+            foreach (var dep in depsToRender)
             {
                 if (sb.Length >= maxLength) break;
                 if (dep.IsNode) continue;

@@ -181,9 +181,29 @@ export function normalizeCondition(condition: string): string {
         "node", "browser", "react-native", "workerd", "worker",
         "production", "development",
     ]);
-    const runtimeCondition = chain.find(c => RUNTIME_CONDITIONS.has(c));
-    if (runtimeCondition) {
-        return runtimeCondition;
+    // When multiple runtime conditions appear, pick the most specific one
+    // (highest tier number in CONDITION_TIERS) so that e.g. "development|browser"
+    // normalizes to "browser" (tier 5) rather than "development" (tier 9).
+    // Among environment targets (tier 3), these are more specific than build modes (tier 4).
+    let bestRuntime: string | undefined;
+    let bestTier = -1;
+    for (const c of chain) {
+        if (RUNTIME_CONDITIONS.has(c)) {
+            // Prefer runtime targets (tier 3: node=4, browser=5, react-native=6, workerd=7)
+            // over build modes (tier 4: production=8, development=9).
+            // Use CONDITION_TIERS for ordering — lower tier number is higher priority,
+            // but among runtime conditions we want the ENVIRONMENT target, not build mode.
+            const tier = CONDITION_TIERS.get(c) ?? UNRECOGNIZED_PRIORITY;
+            // Environment targets (tiers 4-7) beat build modes (tiers 8-9).
+            // Among same category, prefer the first one found.
+            if (bestRuntime === undefined || tier < bestTier) {
+                bestRuntime = c;
+                bestTier = tier;
+            }
+        }
+    }
+    if (bestRuntime) {
+        return bestRuntime;
     }
 
     // When "types" co-occurs with another classified condition, prefer the

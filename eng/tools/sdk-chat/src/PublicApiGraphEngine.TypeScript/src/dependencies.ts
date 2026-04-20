@@ -559,7 +559,8 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
         if (resolvedFile) {
             // Override any existing mapping — the compiler resolution
             // is more precise than ts-morph's module specifier resolution.
-            importResolutionMap.set(makeDepKey(ref.packageName, ref.name), { packageName: ref.packageName, resolvedFile, subpath: ref.name });
+            const existingSubpath = importResolutionMap.get(makeDepKey(ref.packageName, ref.name))?.subpath ?? ".";
+            importResolutionMap.set(makeDepKey(ref.packageName, ref.name), { packageName: ref.packageName, resolvedFile, subpath: existingSubpath });
         }
     }
 
@@ -951,6 +952,14 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
 
                 allResolved.set(qKey, { packageName, type: result.graphed, kind: result.kind });
 
+                // If the extracted entity has a different name than requested (aliased re-export),
+                // also register a synthetic type alias so downstream can reference by the alias.
+                const extractedName = (result.graphed as { name?: string }).name;
+                if (extractedName && extractedName !== typeName && !allResolved.has(makeDepKey(packageName, typeName))) {
+                    const aliasType: TypeAliasInfo = { name: typeName, type: extractedName };
+                    allResolved.set(makeDepKey(packageName, typeName), { packageName, type: aliasType, kind: "type" });
+                }
+
                 // For directly-resolved namespaces, populate per-member referencedTypes
                 if (result.kind === "namespace" && Node.isModuleDeclaration(result.declaration)) {
                     populateNamespaceMemberRefs(result.graphed as NamespaceInfo, result.declaration, ctx);
@@ -1055,7 +1064,7 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
                             resolvedFile = packageToFile.get(subRef.packageName);
                         }
                         if (resolvedFile) {
-                            importResolutionMap.set(subQKey, { packageName: subRef.packageName, resolvedFile, subpath: subRef.name });
+                            importResolutionMap.set(subQKey, { packageName: subRef.packageName, resolvedFile, subpath: "." });
                             if (!packageToFile.has(subRef.packageName)) {
                                 packageToFile.set(subRef.packageName, resolvedFile);
                             }
@@ -1443,7 +1452,7 @@ export function getPackageExportConditions(startDir: string, packageName: string
                     if (targetExport && typeof targetExport === "object") {
                         // Use the shared resolver to walk the export and
                         // collect unique runtime condition keys.
-                        const skipKeys = new Set(["types", "react-native", "default"]);
+                        const skipKeys = new Set(["types", "default"]);
                         const resolved = resolveExports(targetExport);
                         const conditionSet = new Set<string>();
                         for (const entry of resolved) {
@@ -1493,7 +1502,7 @@ export function getPackageConditionTypePaths(startDir: string, packageName: stri
                     if (targetExport && typeof targetExport === "object") {
                         // Walk the target export with the shared resolver
                         const resolved = resolveExports(targetExport);
-                        const skipKeys = new Set(["types", "react-native"]);
+                        const skipKeys = new Set(["types"]);
 
                         for (const entry of resolved) {
                             // Only interested in .d.ts files
@@ -1501,7 +1510,7 @@ export function getPackageConditionTypePaths(startDir: string, packageName: stri
 
                             // Determine the condition to attribute this types path to:
                             // use the last runtime (non-skip) condition in the chain, or "default".
-                            const runtimeCondition = findLastRuntimeCondition(entry.conditionChain, skipKeys);
+                            const runtimeCondition = findBestRuntimeCondition(entry.conditionChain, skipKeys);
                             const condition = runtimeCondition ?? "default";
 
                             const absPath = path.resolve(pkgDir, entry.filePath);
@@ -1532,16 +1541,27 @@ export function getPackageConditionTypePaths(startDir: string, packageName: stri
 }
 
 /**
- * Finds the last runtime (non-metadata) condition in a condition chain.
+ * Finds the highest-tier (most specific) runtime condition in a condition chain.
+ * Higher tier = more specific (e.g., react-native > browser > node > import).
  * Returns undefined if no runtime condition is found.
  */
-function findLastRuntimeCondition(chain: string[], skipKeys: Set<string>): string | undefined {
-    for (let i = chain.length - 1; i >= 0; i--) {
-        if (!skipKeys.has(chain[i]) && !chain[i].startsWith(".")) {
-            return chain[i];
+function findBestRuntimeCondition(chain: string[], skipKeys: Set<string>): string | undefined {
+    const RUNTIME_TIERS: Record<string, number> = {
+        "import": 2, "require": 3,
+        "node": 4, "browser": 5, "react-native": 6, "workerd": 7,
+        "production": 8, "development": 9,
+    };
+    let best: string | undefined;
+    let bestTier = -1;
+    for (const c of chain) {
+        if (skipKeys.has(c) || c.startsWith(".")) continue;
+        const tier = RUNTIME_TIERS[c] ?? -1;
+        if (tier > bestTier) {
+            best = c;
+            bestTier = tier;
         }
     }
-    return undefined;
+    return best;
 }
 
 /** Extract the .d.ts types path from a condition value in package.json exports. */
