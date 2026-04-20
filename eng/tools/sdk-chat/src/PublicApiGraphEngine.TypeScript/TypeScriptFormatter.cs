@@ -15,6 +15,15 @@ internal readonly record struct ModuleKey(string ExportPath, string Condition);
 /// </summary>
 public static class TypeScriptFormatter
 {
+    /// <summary>Normalizes a condition string: null, empty, or whitespace becomes "default".</summary>
+    private static string NormalizeCondition(string? condition)
+        => string.IsNullOrWhiteSpace(condition) ? "default" : condition;
+
+    /// <summary>Returns true for targets that lack Node.js builtins (browser, react-native).</summary>
+    private static bool IsNonNodeTarget(string condition)
+        => string.Equals(condition, "browser", StringComparison.OrdinalIgnoreCase)
+        || string.Equals(condition, "react-native", StringComparison.OrdinalIgnoreCase);
+
     /// <summary>
     /// Builds a dictionary from items by key, keeping only the first item for each key
     /// to safely handle duplicate names across modules.
@@ -42,29 +51,17 @@ public static class TypeScriptFormatter
         var result = new Dictionary<string, (string, string)>(StringComparer.Ordinal);
 
         var conditions = index.Modules
-            .Select(m => m.Condition)
-            .Where(c => !string.IsNullOrWhiteSpace(c))
-            .Select(c => c!)
+            .Select(m => NormalizeCondition(m.Condition))
             .Distinct(StringComparer.Ordinal)
             .OrderBy(c => c, StringComparer.Ordinal)
             .ToList();
-
-        // If any module has a null/empty condition, ensure "default" is in the list
-        if (conditions.Count == 0 || index.Modules.Any(m => string.IsNullOrWhiteSpace(m.Condition)))
-        {
-            if (!conditions.Contains("default", StringComparer.Ordinal))
-                conditions.Add("default");
-            conditions.Sort(StringComparer.Ordinal);
-        }
 
 
         foreach (var condition in conditions)
         {
             // Filter modules for this condition
             var conditionModules = index.Modules
-                .Where(m => condition == "default"
-                    ? string.IsNullOrWhiteSpace(m.Condition) || string.Equals(m.Condition, "default", StringComparison.Ordinal)
-                    : m.Condition == condition)
+                .Where(m => NormalizeCondition(m.Condition) == condition)
                 .ToList();
 
             // Filter resolved dependencies to those matching this condition.
@@ -73,10 +70,9 @@ public static class TypeScriptFormatter
             var conditionResolvedDeps = index.ResolvedDependencies?
                 .Select(dep =>
                 {
-                    var exactMatch = dep.Modules.Where(m => m.Condition == condition).ToList();
+                    var exactMatch = dep.Modules.Where(m => NormalizeCondition(m.Condition) == condition).ToList();
                     var defaultFallback = dep.Modules
-                        .Where(m => string.IsNullOrWhiteSpace(m.Condition) ||
-                                    string.Equals(m.Condition, "default", StringComparison.OrdinalIgnoreCase))
+                        .Where(m => NormalizeCondition(m.Condition) == "default")
                         .ToList();
                     return dep with { Modules = exactMatch.Count > 0 ? exactMatch : defaultFallback };
                 })
@@ -84,8 +80,16 @@ public static class TypeScriptFormatter
                 .ToList();
 
             // Filter out node:* dependencies for targets that don't have Node.js builtins
-            bool isNonNodeTarget = string.Equals(condition, "browser", StringComparison.OrdinalIgnoreCase)
-                || string.Equals(condition, "react-native", StringComparison.OrdinalIgnoreCase);
+            bool isNonNodeTarget = IsNonNodeTarget(condition);
+
+            // For non-node targets, also filter resolved dependencies that are node builtins
+            if (isNonNodeTarget && conditionResolvedDeps is not null)
+            {
+                conditionResolvedDeps = conditionResolvedDeps
+                    .Where(dep => !dep.Package.StartsWith("node:", StringComparison.Ordinal)
+                        && !(dep.AmbientTypes?.ContainsKey("node") == true))
+                    .ToList();
+            }
 
             var filteredDeps = isNonNodeTarget && index.Dependencies is not null
                 ? index.Dependencies.Where(d => !d.IsNode).ToList()
@@ -115,7 +119,7 @@ public static class TypeScriptFormatter
             dts = ReplaceAmbientTypesPlaceholder(dts, filteredAmbientTypes);
 
             var hasNodeDependency = filteredDeps?.Any(d => d.IsNode) == true;
-            var tsconfig = GenerateTsconfig(hasNodeDependency, filteredAmbientTypes, dts);
+            var tsconfig = GenerateTsconfig(hasNodeDependency, filteredAmbientTypes, condition, dts);
             result[condition] = (dts, tsconfig);
         }
 
@@ -199,11 +203,16 @@ public static class TypeScriptFormatter
         "Request", "Response", "URL", "URLSearchParams",
     ];
 
-    private static string GenerateTsconfig(bool hasNodeDependency, Dictionary<string, List<string>>? ambientTypes, string? dtsContent = null)
+    private static string GenerateTsconfig(bool hasNodeDependency, Dictionary<string, List<string>>? ambientTypes, string? targetCondition = null, string? dtsContent = null)
     {
         // Use graph-based IsNode flag; also check ambient types for node globals
         var needsNodeTypes = hasNodeDependency
             || (ambientTypes?.TryGetValue("node", out var nodeTypes) == true && nodeTypes.Count > 0);
+
+        // Non-node targets never need node types
+        bool isNonNode = targetCondition is not null && IsNonNodeTarget(targetCondition);
+        if (isNonNode)
+            needsNodeTypes = false;
 
         // Include DOM lib when ambient types include DOM globals.
         // Fallback: scan rendered content for common DOM type names when ambientTypes
@@ -235,6 +244,8 @@ public static class TypeScriptFormatter
 
         if (needsNodeTypes)
             sb.AppendLine("    \"types\": [\"node\"],");
+        else if (string.Equals(targetCondition, "react-native", StringComparison.OrdinalIgnoreCase))
+            sb.AppendLine("    \"types\": [\"react-native\"],");
         else
             sb.AppendLine("    \"types\": [],");
 
@@ -405,9 +416,9 @@ public static class TypeScriptFormatter
     {
         var sb = new StringBuilder();
 
-        // Emit triple-slash references — skip node reference for browser targets
-        bool isBrowserTarget = targetCondition?.Equals("browser", StringComparison.OrdinalIgnoreCase) == true;
-        if (!isBrowserTarget)
+        // Emit triple-slash references — skip node reference for non-node targets
+        bool isNonNode = targetCondition is not null && IsNonNodeTarget(targetCondition);
+        if (!isNonNode)
             sb.AppendLine("/// <reference types=\"node\" />");
         var esLib = index.EsLib ?? "esnext";
         sb.AppendLine($"/// <reference lib=\"{esLib}\" />");
@@ -448,8 +459,7 @@ public static class TypeScriptFormatter
 
         // Detect distinct conditions and build type→conditions mapping
         var distinctConditions = index.Modules
-            .Select(m => m.Condition)
-            .Where(c => !string.IsNullOrWhiteSpace(c))
+            .Select(m => NormalizeCondition(m.Condition))
             .Distinct(StringComparer.Ordinal)
             .OrderBy(c => c, StringComparer.Ordinal)
             .ToList();
@@ -461,7 +471,7 @@ public static class TypeScriptFormatter
         {
             foreach (var module in index.Modules)
             {
-                var cond = module.Condition ?? "default";
+                var cond = NormalizeCondition(module.Condition);
                 void Track(string name)
                 {
                     if (!typeConditions.TryGetValue(name, out var set))
@@ -579,9 +589,9 @@ public static class TypeScriptFormatter
         bool needsSections = hasSubpaths || hasMultipleConditions;
 
         // Collect Node.js type imports grouped by their specific node:* module
-        // Skip for browser targets where node types aren't available
+        // Skip for non-node targets where node types aren't available
         var nodeImports = new Dictionary<string, List<string>>();
-        if (!isBrowserTarget && index.Dependencies is not null)
+        if (!isNonNode && index.Dependencies is not null)
         {
             foreach (var dep in index.Dependencies)
             {
@@ -687,7 +697,7 @@ public static class TypeScriptFormatter
 
             foreach (var module in index.Modules)
             {
-                var condition = module.Condition ?? "default";
+                var condition = NormalizeCondition(module.Condition);
 
                 ModuleKey GroupKey(string? typeExportPath)
                 {
@@ -722,7 +732,7 @@ public static class TypeScriptFormatter
             foreach (var dep in index.ResolvedDependencies)
             {
                 var conds = new HashSet<string>(dep.Modules
-                    .Select(m => m.Condition ?? "default")
+                    .Select(m => NormalizeCondition(m.Condition))
                     .Distinct(StringComparer.Ordinal));
                 depConditionMap[dep.Package] = conds;
             }
@@ -730,7 +740,7 @@ public static class TypeScriptFormatter
             // For each main condition, find the matching (or fallback) dependency condition
             var allMainConditions = new HashSet<string>();
             foreach (var module in index.Modules)
-                allMainConditions.Add(module.Condition ?? "default");
+                allMainConditions.Add(NormalizeCondition(module.Condition));
 
             foreach (var mainCond in allMainConditions)
             {
@@ -755,7 +765,7 @@ public static class TypeScriptFormatter
                     var namespaces = new List<NamespaceInfo>();
                     var seenNames = new HashSet<string>();
 
-                    foreach (var module in dep.Modules.Where(m => (m.Condition ?? "default") == matchedCond))
+                    foreach (var module in dep.Modules.Where(m => NormalizeCondition(m.Condition) == matchedCond))
                     {
                         foreach (var c in module.Classes ?? [])
                             if (seenNames.Add(c.Name)) classes.Add(c);
@@ -795,7 +805,7 @@ public static class TypeScriptFormatter
             // the matched condition suffix when the dep has multiple conditions.
             var allMainConditions = new HashSet<string>();
             foreach (var module in index.Modules)
-                allMainConditions.Add(module.Condition ?? "default");
+                allMainConditions.Add(NormalizeCondition(module.Condition));
 
             // Pre-compute condition sets per dependency
             var depConditionSets = new Dictionary<string, HashSet<string>>();

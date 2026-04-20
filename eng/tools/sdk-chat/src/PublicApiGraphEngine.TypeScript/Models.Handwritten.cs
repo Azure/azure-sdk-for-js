@@ -97,16 +97,28 @@ public sealed partial record ApiIndex
                         ParameterTypes = (method.Params ?? []).Select(p => p.Type).ToList(),
                         OptionalParameterCount = (method.Params ?? []).Count(p => p.IsOptional == true || p.Default is not null),
                         ReturnType = method.Ret,
-                    }).Concat((i.CallSignatures ?? []).Select(cs => new DiagnosticCallableInfo
+                    }).Concat((i.CallSignatures ?? []).Select(cs =>
                     {
-                        Name = "[[call]]",
-                        ReturnType = cs.Ret,
-                        IsDeprecated = false,
-                    })).Concat((i.ConstructSignatures ?? []).Select(cs => new DiagnosticCallableInfo
+                        var (types, optCount) = TypeScriptModelHelpers.ParseSignatureParams(cs.Sig);
+                        return new DiagnosticCallableInfo
+                        {
+                            Name = "[[call]]",
+                            ReturnType = cs.Ret,
+                            IsDeprecated = false,
+                            ParameterTypes = types,
+                            OptionalParameterCount = optCount,
+                        };
+                    })).Concat((i.ConstructSignatures ?? []).Select(cs =>
                     {
-                        Name = "[[new]]",
-                        ReturnType = cs.Ret,
-                        IsDeprecated = false,
+                        var (types, optCount) = TypeScriptModelHelpers.ParseSignatureParams(cs.Sig);
+                        return new DiagnosticCallableInfo
+                        {
+                            Name = "[[new]]",
+                            ReturnType = cs.Ret,
+                            IsDeprecated = false,
+                            ParameterTypes = types,
+                            OptionalParameterCount = optCount,
+                        };
                     })).ToList(),
                     Properties = (i.Properties ?? []).Select(p => new DiagnosticPropertyInfo
                     {
@@ -208,16 +220,28 @@ public sealed partial record ApiIndex
                     ParameterTypes = (method.Params ?? []).Select(p => p.Type).ToList(),
                     OptionalParameterCount = (method.Params ?? []).Count(p => p.IsOptional == true || p.Default is not null),
                     ReturnType = method.Ret,
-                }).Concat((i.CallSignatures ?? []).Select(cs => new DiagnosticCallableInfo
+                }).Concat((i.CallSignatures ?? []).Select(cs =>
                 {
-                    Name = "[[call]]",
-                    ReturnType = cs.Ret,
-                    IsDeprecated = false,
-                })).Concat((i.ConstructSignatures ?? []).Select(cs => new DiagnosticCallableInfo
+                    var (types, optCount) = TypeScriptModelHelpers.ParseSignatureParams(cs.Sig);
+                    return new DiagnosticCallableInfo
+                    {
+                        Name = "[[call]]",
+                        ReturnType = cs.Ret,
+                        IsDeprecated = false,
+                        ParameterTypes = types,
+                        OptionalParameterCount = optCount,
+                    };
+                })).Concat((i.ConstructSignatures ?? []).Select(cs =>
                 {
-                    Name = "[[new]]",
-                    ReturnType = cs.Ret,
-                    IsDeprecated = false,
+                    var (types, optCount) = TypeScriptModelHelpers.ParseSignatureParams(cs.Sig);
+                    return new DiagnosticCallableInfo
+                    {
+                        Name = "[[new]]",
+                        ReturnType = cs.Ret,
+                        IsDeprecated = false,
+                        ParameterTypes = types,
+                        OptionalParameterCount = optCount,
+                    };
                 })).ToList(),
                 Properties = (i.Properties ?? []).Select(p => new DiagnosticPropertyInfo
                 {
@@ -552,6 +576,132 @@ internal static class TypeScriptModelHelpers
                     var def = p.Default is not null ? $" = {p.Default}" : "";
                     return $"{rest}{p.Name}{optional}: {p.Type}{def}";
                 }));
+
+    /// <summary>
+    /// Parses a signature string (e.g. "x: string, y?: number") produced by
+    /// <c>formatParameter</c> in the TypeScript extractor, returning the list
+    /// of parameter type strings and the count of optional parameters.
+    /// Handles nested angle brackets, parentheses, and square brackets so that
+    /// commas inside generic types are not treated as parameter separators.
+    /// </summary>
+    internal static (List<string> Types, int OptionalCount) ParseSignatureParams(string sig)
+    {
+        if (string.IsNullOrWhiteSpace(sig))
+            return ([], 0);
+
+        var types = new List<string>();
+        int optionalCount = 0;
+
+        // Split by top-level commas (respecting <>, (), [], {})
+        var parts = SplitTopLevelParams(sig);
+
+        foreach (var part in parts)
+        {
+            var trimmed = part.Trim();
+            if (trimmed.Length == 0)
+                continue;
+
+            // Strip leading "..." for rest params
+            if (trimmed.StartsWith("..."))
+                trimmed = trimmed[3..];
+
+            // Format: name?: Type  or  name: Type  or  name?: Type = default
+            // Find the first top-level ": " — the colon separating name from type.
+            int colonIndex = FindNameTypeSeparator(trimmed);
+            bool isOptional = false;
+
+            if (colonIndex >= 0)
+            {
+                // Check if the character before ':' is '?' (optional marker)
+                if (colonIndex > 0 && trimmed[colonIndex - 1] == '?')
+                    isOptional = true;
+
+                // Type starts after ": "
+                string typeStr = trimmed[(colonIndex + 1)..].Trim();
+
+                // Strip " = default" suffix if present
+                int eqIndex = FindTopLevelEquals(typeStr);
+                if (eqIndex >= 0)
+                    typeStr = typeStr[..eqIndex].TrimEnd();
+
+                types.Add(typeStr);
+            }
+            else
+            {
+                // No colon found — just use the whole thing as the type
+                types.Add(trimmed);
+            }
+
+            if (isOptional)
+                optionalCount++;
+        }
+
+        return (types, optionalCount);
+    }
+
+    /// <summary>Splits a signature string by top-level commas.</summary>
+    private static List<string> SplitTopLevelParams(string sig)
+    {
+        var parts = new List<string>();
+        int depth = 0;
+        int start = 0;
+
+        for (int i = 0; i < sig.Length; i++)
+        {
+            char c = sig[i];
+            if (c is '<' or '(' or '[' or '{') depth++;
+            else if (c is '>' or ')' or ']' or '}') depth--;
+            else if (c == ',' && depth == 0)
+            {
+                parts.Add(sig[start..i]);
+                start = i + 1;
+            }
+        }
+
+        parts.Add(sig[start..]);
+        return parts;
+    }
+
+    /// <summary>
+    /// Finds the index of the first top-level ':' that separates the parameter
+    /// name from its type annotation. Skips colons inside nested brackets.
+    /// </summary>
+    private static int FindNameTypeSeparator(string param)
+    {
+        int depth = 0;
+        for (int i = 0; i < param.Length; i++)
+        {
+            char c = param[i];
+            if (c is '<' or '(' or '[' or '{') depth++;
+            else if (c is '>' or ')' or ']' or '}') depth--;
+            else if (c == ':' && depth == 0)
+                return i;
+        }
+        return -1;
+    }
+
+    /// <summary>
+    /// Finds the index of a top-level '=' in a type string (for default values).
+    /// Skips '=' inside nested brackets and '=>' arrow tokens.
+    /// </summary>
+    private static int FindTopLevelEquals(string typeStr)
+    {
+        int depth = 0;
+        for (int i = 0; i < typeStr.Length; i++)
+        {
+            char c = typeStr[i];
+            if (c is '<' or '(' or '[' or '{') depth++;
+            else if (c is '>' or ')' or ']' or '}') depth--;
+            else if (c == '=' && depth == 0)
+            {
+                // Skip '=>' (arrow)
+                if (i + 1 < typeStr.Length && typeStr[i + 1] == '>')
+                    continue;
+                return i;
+            }
+        }
+        return -1;
+    }
 }
 
 /// <summary>

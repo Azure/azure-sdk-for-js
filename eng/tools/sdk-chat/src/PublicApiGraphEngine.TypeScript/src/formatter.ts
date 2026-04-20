@@ -256,117 +256,7 @@ export function formatStubs(api: ApiIndex): string {
 
         const indent = needsModuleBlocks ? "    " : "";
 
-        for (const module of modules) {
-            lines.push(`${indent}// Module: ${module.name}`);
-            lines.push("");
-
-            // Functions
-            for (const fn of module.functions || []) {
-                if (fn.doc) lines.push(`${indent}/** ${fn.doc} */`);
-                const ret = fn.ret ? `: ${fn.ret}` : "";
-                const typeParams = fn.typeParams ? `<${fn.typeParams}>` : "";
-                lines.push(`${indent}export function ${fn.name}${typeParams}(${fn.sig})${ret};`);
-                lines.push("");
-            }
-
-            // Type aliases
-            for (const t of module.types || []) {
-                if (t.doc) lines.push(`${indent}/** ${t.doc} */`);
-                const typeParams = t.typeParams ? `<${t.typeParams}>` : "";
-                lines.push(`${indent}export type ${t.name}${typeParams} = ${t.type};`);
-                lines.push("");
-            }
-
-            // Enums
-            for (const e of module.enums || []) {
-                if (e.doc) lines.push(`${indent}/** ${e.doc} */`);
-                lines.push(`${indent}export enum ${e.name} {`);
-                lines.push(`${indent}    ${e.values.join(", ")}`);
-                lines.push(`${indent}}`);
-                lines.push("");
-            }
-
-            // Interfaces
-            for (const iface of module.interfaces || []) {
-                if (iface.doc) lines.push(`${indent}/** ${iface.doc} */`);
-                const ext = iface.extends?.length ? ` extends ${iface.extends.join(", ")}` : "";
-                const typeParams = iface.typeParams ? `<${iface.typeParams}>` : "";
-                lines.push(`${indent}export interface ${iface.name}${typeParams}${ext} {`);
-
-                for (const prop of iface.properties || []) {
-                    const opt = prop.optional ? "?" : "";
-                    const ro = prop.readonly ? "readonly " : "";
-                    lines.push(`${indent}    ${ro}${prop.name}${opt}: ${prop.type};`);
-                }
-
-                for (const sig of iface.indexSignatures || []) {
-                    const ro = sig.readonly ? "readonly " : "";
-                    lines.push(`${indent}    ${ro}[${sig.keyName}: ${sig.keyType}]: ${sig.valueType};`);
-                }
-
-                for (const cs of iface.callSignatures || []) {
-                    const ret = cs.ret ? `: ${cs.ret}` : "";
-                    const tp = cs.typeParams ? `<${cs.typeParams}>` : "";
-                    lines.push(`${indent}    ${tp}(${cs.sig})${ret};`);
-                }
-
-                for (const cs of iface.constructSignatures || []) {
-                    const ret = cs.ret ? `: ${cs.ret}` : "";
-                    const tp = cs.typeParams ? `<${cs.typeParams}>` : "";
-                    lines.push(`${indent}    new ${tp}(${cs.sig})${ret};`);
-                }
-
-                for (const m of iface.methods || []) {
-                    const ret = m.ret ? `: ${m.ret}` : "";
-                    lines.push(`${indent}    ${m.name}(${m.sig})${ret};`);
-                }
-
-                lines.push(`${indent}}`);
-                lines.push("");
-            }
-
-            // Classes
-            for (const cls of module.classes || []) {
-                if (cls.doc) lines.push(`${indent}/** ${cls.doc} */`);
-                const ext = cls.extends ? ` extends ${cls.extends}` : "";
-                const impl = cls.implements?.length ? ` implements ${cls.implements.join(", ")}` : "";
-                const typeParams = cls.typeParams ? `<${cls.typeParams}>` : "";
-                lines.push(`${indent}export class ${cls.name}${typeParams}${ext}${impl} {`);
-
-                for (const prop of cls.properties || []) {
-                    const opt = prop.optional ? "?" : "";
-                    const ro = prop.readonly ? "readonly " : "";
-                    lines.push(`${indent}    ${ro}${prop.name}${opt}: ${prop.type};`);
-                }
-
-                for (const sig of cls.indexSignatures || []) {
-                    const ro = sig.readonly ? "readonly " : "";
-                    lines.push(`${indent}    ${ro}[${sig.keyName}: ${sig.keyType}]: ${sig.valueType};`);
-                }
-
-                for (const ctor of cls.constructors || []) {
-                    lines.push(`${indent}    constructor(${ctor.sig});`);
-                }
-
-                for (const m of cls.methods || []) {
-                    const stat = m.static ? "static " : "";
-                    const ret = m.ret ? `: ${m.ret}` : "";
-                    lines.push(`${indent}    ${stat}${m.name}(${m.sig})${ret};`);
-                }
-
-                if (!cls.properties?.length && !cls.constructors?.length && !cls.methods?.length) {
-                    lines.push(`${indent}    // empty`);
-                }
-
-                lines.push(`${indent}}`);
-                lines.push("");
-            }
-
-            // Namespaces
-            for (const ns of module.namespaces || []) {
-                lines.push(...formatNamespaceLines(ns, indent));
-            }
-        }
+        lines.push(...formatGroupBody(modules, indent));
 
         if (needsModuleBlocks) {
             lines.push("}");
@@ -385,30 +275,54 @@ export function formatStubs(api: ApiIndex): string {
         lines.push("// ============================================================================");
 
         for (const depApi of resolvedDeps) {
-            const depModuleSpecifier = depApi.subpath && depApi.subpath !== "."
-                ? `${depApi.package}/${depApi.subpath.replace(/^\.\//, "")}`
-                : depApi.package;
+            // Group the dependency's modules by (exportPath, condition) —
+            // same logic as the main package — so each group gets exactly
+            // one `declare module` wrapper produced here (never nested).
+            const depGroupKey = (m: ModuleInfo): string => {
+                const ep = m.exportPath ?? ".";
+                const cond = m.condition ?? "(unconditioned)";
+                return `${ep}\0${cond}`;
+            };
 
-            // Recursively format the resolved dependency as its own stub block
-            const depStub = formatStubs(depApi);
-            const depLines = depStub.split("\n");
-            // Skip header comment lines and leading blank lines
-            let bodyStart = 0;
-            while (bodyStart < depLines.length && (
-                depLines[bodyStart].startsWith("//") || depLines[bodyStart].trim() === ""
-            )) {
-                bodyStart++;
+            const depModuleGroups = new Map<string, ModuleInfo[]>();
+            for (const module of depApi.modules) {
+                const key = depGroupKey(module);
+                if (!depModuleGroups.has(key)) depModuleGroups.set(key, []);
+                depModuleGroups.get(key)!.push(module);
             }
-            const body = depLines.slice(bodyStart).join("\n").trimEnd();
 
-            if (body) {
-                lines.push("");
-                lines.push(`declare module "${depModuleSpecifier}" {`);
-                lines.push("");
-                for (const line of body.split("\n")) {
-                    lines.push(line ? `    ${line}` : "");
+            const depSortedKeys = [...depModuleGroups.keys()].sort((a, b) => {
+                const [epA, condA] = a.split("\0");
+                const [epB, condB] = b.split("\0");
+                if (epA !== epB) {
+                    if (epA === ".") return -1;
+                    if (epB === ".") return 1;
+                    return epA.localeCompare(epB);
                 }
-                lines.push("}");
+                if (condA === "default") return -1;
+                if (condB === "default") return 1;
+                return condA.localeCompare(condB);
+            });
+
+            for (const key of depSortedKeys) {
+                const [exportPath, condition] = key.split("\0");
+                const modules = depModuleGroups.get(key)!;
+
+                const depModuleSpecifier = exportPath && exportPath !== "."
+                    ? `${depApi.package}/${exportPath.replace(/^\.\//, "")}`
+                    : depApi.package;
+
+                const bodyLines = formatGroupBody(modules, "    ");
+                if (bodyLines.length > 0) {
+                    lines.push("");
+                    if (depSortedKeys.length > 1) {
+                        lines.push(`// Condition: ${condition}`);
+                    }
+                    lines.push(`declare module "${depModuleSpecifier}" {`);
+                    lines.push("");
+                    lines.push(...bodyLines);
+                    lines.push("}");
+                }
             }
         }
     } else if (api.dependencies && api.dependencies.length > 0) {
@@ -549,6 +463,130 @@ export function formatStubs(api: ApiIndex): string {
     }
 
     return lines.join("\n");
+}
+
+/**
+ * Renders the raw type declarations for a list of modules without any
+ * `declare module` wrapping.  Used by both the main `formatStubs` loop and
+ * the resolved-dependency renderer so that the caller can supply exactly one
+ * ambient-module wrapper.
+ */
+function formatGroupBody(modules: ModuleInfo[], indent: string): string[] {
+    const lines: string[] = [];
+
+    for (const module of modules) {
+        lines.push(`${indent}// Module: ${module.name}`);
+        lines.push("");
+
+        // Functions
+        for (const fn of module.functions || []) {
+            if (fn.doc) lines.push(`${indent}/** ${fn.doc} */`);
+            const ret = fn.ret ? `: ${fn.ret}` : "";
+            const typeParams = fn.typeParams ? `<${fn.typeParams}>` : "";
+            lines.push(`${indent}export function ${fn.name}${typeParams}(${fn.sig})${ret};`);
+            lines.push("");
+        }
+
+        // Type aliases
+        for (const t of module.types || []) {
+            if (t.doc) lines.push(`${indent}/** ${t.doc} */`);
+            const typeParams = t.typeParams ? `<${t.typeParams}>` : "";
+            lines.push(`${indent}export type ${t.name}${typeParams} = ${t.type};`);
+            lines.push("");
+        }
+
+        // Enums
+        for (const e of module.enums || []) {
+            if (e.doc) lines.push(`${indent}/** ${e.doc} */`);
+            lines.push(`${indent}export enum ${e.name} {`);
+            lines.push(`${indent}    ${e.values.join(", ")}`);
+            lines.push(`${indent}}`);
+            lines.push("");
+        }
+
+        // Interfaces
+        for (const iface of module.interfaces || []) {
+            if (iface.doc) lines.push(`${indent}/** ${iface.doc} */`);
+            const ext = iface.extends?.length ? ` extends ${iface.extends.join(", ")}` : "";
+            const typeParams = iface.typeParams ? `<${iface.typeParams}>` : "";
+            lines.push(`${indent}export interface ${iface.name}${typeParams}${ext} {`);
+
+            for (const prop of iface.properties || []) {
+                const opt = prop.optional ? "?" : "";
+                const ro = prop.readonly ? "readonly " : "";
+                lines.push(`${indent}    ${ro}${prop.name}${opt}: ${prop.type};`);
+            }
+
+            for (const sig of iface.indexSignatures || []) {
+                const ro = sig.readonly ? "readonly " : "";
+                lines.push(`${indent}    ${ro}[${sig.keyName}: ${sig.keyType}]: ${sig.valueType};`);
+            }
+
+            for (const cs of iface.callSignatures || []) {
+                const ret = cs.ret ? `: ${cs.ret}` : "";
+                const tp = cs.typeParams ? `<${cs.typeParams}>` : "";
+                lines.push(`${indent}    ${tp}(${cs.sig})${ret};`);
+            }
+
+            for (const cs of iface.constructSignatures || []) {
+                const ret = cs.ret ? `: ${cs.ret}` : "";
+                const tp = cs.typeParams ? `<${cs.typeParams}>` : "";
+                lines.push(`${indent}    new ${tp}(${cs.sig})${ret};`);
+            }
+
+            for (const m of iface.methods || []) {
+                const ret = m.ret ? `: ${m.ret}` : "";
+                lines.push(`${indent}    ${m.name}(${m.sig})${ret};`);
+            }
+
+            lines.push(`${indent}}`);
+            lines.push("");
+        }
+
+        // Classes
+        for (const cls of module.classes || []) {
+            if (cls.doc) lines.push(`${indent}/** ${cls.doc} */`);
+            const ext = cls.extends ? ` extends ${cls.extends}` : "";
+            const impl = cls.implements?.length ? ` implements ${cls.implements.join(", ")}` : "";
+            const typeParams = cls.typeParams ? `<${cls.typeParams}>` : "";
+            lines.push(`${indent}export class ${cls.name}${typeParams}${ext}${impl} {`);
+
+            for (const prop of cls.properties || []) {
+                const opt = prop.optional ? "?" : "";
+                const ro = prop.readonly ? "readonly " : "";
+                lines.push(`${indent}    ${ro}${prop.name}${opt}: ${prop.type};`);
+            }
+
+            for (const sig of cls.indexSignatures || []) {
+                const ro = sig.readonly ? "readonly " : "";
+                lines.push(`${indent}    ${ro}[${sig.keyName}: ${sig.keyType}]: ${sig.valueType};`);
+            }
+
+            for (const ctor of cls.constructors || []) {
+                lines.push(`${indent}    constructor(${ctor.sig});`);
+            }
+
+            for (const m of cls.methods || []) {
+                const stat = m.static ? "static " : "";
+                const ret = m.ret ? `: ${m.ret}` : "";
+                lines.push(`${indent}    ${stat}${m.name}(${m.sig})${ret};`);
+            }
+
+            if (!cls.properties?.length && !cls.constructors?.length && !cls.methods?.length) {
+                lines.push(`${indent}    // empty`);
+            }
+
+            lines.push(`${indent}}`);
+            lines.push("");
+        }
+
+        // Namespaces
+        for (const ns of module.namespaces || []) {
+            lines.push(...formatNamespaceLines(ns, indent));
+        }
+    }
+
+    return lines;
 }
 
 function formatNamespaceLines(ns: NamespaceInfo, indent: string): string[] {

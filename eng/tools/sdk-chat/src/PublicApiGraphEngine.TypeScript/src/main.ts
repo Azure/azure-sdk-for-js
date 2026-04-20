@@ -310,13 +310,14 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
             // Individual symbols within the module get their most specific condition
             // via extractExportedSymbols.
             const resolvedFilePath = path.resolve(sourceFile.getFilePath());
-            const matchingEntry = entryEntries
+            const matchingEntries = entryEntries
                 .filter(e => path.resolve(e.filePath) === resolvedFilePath)
-                .sort((a, b) => getConditionPriority(a.condition) - getConditionPriority(b.condition))[0];
-            if (matchingEntry) {
-                module.condition = matchingEntry.condition;
-                module.conditionChain = matchingEntry.conditionChain;
-                module.exportPath = matchingEntry.exportPath;
+                .sort((a, b) => getConditionPriority(a.condition) - getConditionPriority(b.condition));
+            if (matchingEntries.length > 0) {
+                const primary = matchingEntries[0];
+                module.condition = primary.condition;
+                module.conditionChain = primary.conditionChain;
+                module.exportPath = primary.exportPath;
             }
 
             // Mark entry points based on package.json exports
@@ -371,10 +372,33 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
             }
             // Mark namespaces that are exported from entry points
             if (module.namespaces) {
-                markEntryPointNamespaces(module.namespaces, entryPointSymbols);
+                markEntryPointNamespaces(module.namespaces, entryPointSymbols, sourceFile.getFilePath());
             }
             modules.push(module);
             moduleSourceFileMap.push([module, sourceFile]);
+
+            // Clone module for additional export paths so that the same source
+            // file exported from e.g. "." and "./models" produces separate modules.
+            if (matchingEntries.length > 1) {
+                for (let i = 1; i < matchingEntries.length; i++) {
+                    const extra = matchingEntries[i];
+                    if (extra.exportPath === matchingEntries[0].exportPath && extra.condition === matchingEntries[0].condition) continue;
+                    const clone: ModuleInfo = {
+                        ...module,
+                        condition: extra.condition,
+                        conditionChain: extra.conditionChain,
+                        exportPath: extra.exportPath,
+                        classes: module.classes?.map(c => ({ ...c })),
+                        interfaces: module.interfaces?.map(ifc => ({ ...ifc })),
+                        functions: module.functions?.map(f => ({ ...f })),
+                        enums: module.enums?.map(e => ({ ...e })),
+                        types: module.types?.map(t => ({ ...t })),
+                        namespaces: module.namespaces ? JSON.parse(JSON.stringify(module.namespaces)) : undefined,
+                    };
+                    modules.push(clone);
+                    moduleSourceFileMap.push([clone, sourceFile]);
+                }
+            }
         }
     }
 
@@ -548,22 +572,22 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
                 // Build a set of all names already defined across ALL modules per condition
                 // group, since the formatter combines all modules of the same condition
                 // into one `declare module` block.
-                const conditionExistingNames = new Map<string | undefined, Set<string>>();
+                const compositeExistingNames = new Map<string, Set<string>>();
                 for (const mod of baseResult.modules) {
-                    const key = mod.condition;
-                    if (!conditionExistingNames.has(key)) conditionExistingNames.set(key, new Set());
-                    const names = conditionExistingNames.get(key)!;
+                    const key = `${mod.exportPath ?? "."}|${mod.condition ?? "default"}`;
+                    if (!compositeExistingNames.has(key)) compositeExistingNames.set(key, new Set());
+                    const names = compositeExistingNames.get(key)!;
                     for (const c of mod.classes ?? []) names.add(c.name);
                     for (const i of mod.interfaces ?? []) names.add(i.name);
                     for (const e of mod.enums ?? []) names.add(e.name);
                     for (const t of mod.types ?? []) names.add(t.name);
                 }
-                const conditionsSeen = new Set<string | undefined>();
+                const compositeKeysSeen = new Set<string>();
                 for (const mod of baseResult.modules) {
-                    const key = mod.condition;
-                    if (conditionsSeen.has(key)) continue;
-                    conditionsSeen.add(key);
-                    const existingNames = conditionExistingNames.get(key) ?? new Set();
+                    const key = `${mod.exportPath ?? "."}|${mod.condition ?? "default"}`;
+                    if (compositeKeysSeen.has(key)) continue;
+                    compositeKeysSeen.add(key);
+                    const existingNames = compositeExistingNames.get(key) ?? new Set();
                     const filtered = selfTypes.filter(t => !existingNames.has(t.name));
                     if (filtered.length > 0) {
                         (mod.types ??= []).push(...filtered);
@@ -714,16 +738,17 @@ function filterNamespaces(namespaces: NamespaceInfo[], reachableSet: Set<string>
  */
 function markEntryPointNamespaces(
     namespaces: NamespaceInfo[],
-    entryPointSymbols: Map<string, { exportPath: string; reExportedFrom?: string }>,
+    entryPointSymbols: Map<string, ExportedSymbolInfo>,
+    sourceFilePath: string,
 ): void {
     for (const ns of namespaces) {
-        const exportInfo = entryPointSymbols.get(ns.name);
+        const exportInfo = lookupEntryPointSymbol(entryPointSymbols, sourceFilePath, ns.name);
         if (exportInfo !== undefined) {
             ns.entryPoint = true;
             ns.exportPath = exportInfo.exportPath;
         }
         if (ns.namespaces) {
-            markEntryPointNamespaces(ns.namespaces, entryPointSymbols);
+            markEntryPointNamespaces(ns.namespaces, entryPointSymbols, sourceFilePath);
         }
     }
 }

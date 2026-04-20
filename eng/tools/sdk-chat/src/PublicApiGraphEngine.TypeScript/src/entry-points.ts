@@ -174,8 +174,16 @@ export function normalizeCondition(condition: string): string {
         return "default";
     }
 
-    if (chain.includes("default")) {
-        return "default";
+    // Runtime conditions (tier 3+) represent meaningful target environments
+    // and take priority over "default" so that e.g. "browser|default" keeps
+    // the "browser" qualifier instead of collapsing to "default".
+    const RUNTIME_CONDITIONS = new Set([
+        "node", "browser", "react-native", "workerd", "worker",
+        "production", "development",
+    ]);
+    const runtimeCondition = chain.find(c => RUNTIME_CONDITIONS.has(c));
+    if (runtimeCondition) {
+        return runtimeCondition;
     }
 
     // When "types" co-occurs with another classified condition, prefer the
@@ -187,6 +195,10 @@ export function normalizeCondition(condition: string): string {
             return nonTypes;
         }
         return "types";
+    }
+
+    if (chain.includes("default")) {
+        return "default";
     }
 
     // Return the first condition that appears in our classification table.
@@ -437,6 +449,21 @@ export function extractExportedSymbols(project: Project, entryEntries: ExportEnt
 
             if (isDeclaredHere) {
                 exportedSymbols.set(qualifiedKey, { exportPath: entry.exportPath, condition: entry.condition });
+
+                // For aliased re-exports (e.g. `export { InternalClient as Client }`),
+                // also store under the declared name so that main.ts lookups by
+                // declaration name (from AST walking) find the entry-point info.
+                for (const decl of declarations) {
+                    const declName = 'getName' in decl && typeof (decl as any).getName === 'function'
+                        ? (decl as any).getName() as string
+                        : undefined;
+                    if (declName && declName !== name) {
+                        const declKey = makeExportSymbolKey(entryAbsPath, declName);
+                        if (!exportedSymbols.has(declKey)) {
+                            exportedSymbols.set(declKey, { exportPath: entry.exportPath, condition: entry.condition });
+                        }
+                    }
+                }
             }
         }
 
@@ -500,6 +527,19 @@ export function extractExportedSymbols(project: Project, entryEntries: ExportEnt
 
             if (!isDeclaredInAnyEntry) {
                 exportedSymbols.set(qualifiedKey, { exportPath: entry.exportPath, condition: entry.condition });
+
+                // Also store under declared name(s) for aliased re-exports
+                for (const decl of declarations) {
+                    const declName = 'getName' in decl && typeof (decl as any).getName === 'function'
+                        ? (decl as any).getName() as string
+                        : undefined;
+                    if (declName && declName !== name) {
+                        const declNameKey = makeExportSymbolKey(declFile, declName);
+                        if (!exportedSymbols.has(declNameKey)) {
+                            exportedSymbols.set(declNameKey, { exportPath: entry.exportPath, condition: entry.condition });
+                        }
+                    }
+                }
             }
         }
     }
