@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, expectTypeOf } from "vitest";
-import type { HttpClient, PipelineResponse } from "../../src/index.js";
+import type { HttpClient, HttpHeaders, PipelineResponse } from "../../src/index.js";
 import {
   createDefaultHttpClient,
   createEmptyPipeline,
@@ -18,8 +18,8 @@ describe("HttpsPipeline", function () {
       name: "test",
       sendRequest: async (request) => {
         return {
-          headers: createHttpHeaders(),
-          status: 0,
+          headers: {} as HttpHeaders,
+          status: 0 as number,
           request,
         } satisfies PipelineResponse;
       },
