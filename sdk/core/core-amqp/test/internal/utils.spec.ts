@@ -58,10 +58,8 @@ describe("utils.ts functions", () => {
   });
 });
 
-describe("utils.ts - getGlobalProperty catch branch", () => {
-  it("returns undefined when globalThis access throws", async () => {
-    // The catch branch is hard to trigger because globalThis is always available in Node.
-    // We test it by directly verifying the function handles access gracefully.
+describe("utils.ts - getGlobalProperty missing property behavior", () => {
+  it("returns undefined for an unknown global property name", async () => {
     const result = getGlobalProperty("__nonExistent__");
     assert.isUndefined(result);
   });

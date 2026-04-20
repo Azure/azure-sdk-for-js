@@ -336,28 +336,33 @@ describe("ConnectionContextBase - CoreAmqpConnection", () => {
 
     // Use prototype chain to test
     const rheaPromise = await import("rhea-promise");
-    vi.spyOn(rheaPromise.Connection.prototype, "createSender").mockResolvedValue(
-      mockSender as unknown as Sender,
-    );
-    vi.spyOn(rheaPromise.Connection.prototype, "createAwaitableSender").mockResolvedValue(
-      mockAwaitableSender as unknown as AwaitableSender,
-    );
-    vi.spyOn(rheaPromise.Connection.prototype, "createReceiver").mockResolvedValue(
-      mockReceiver as unknown as Receiver,
-    );
+    const createSenderPrototypeSpy = vi
+      .spyOn(rheaPromise.Connection.prototype, "createSender")
+      .mockResolvedValue(mockSender as unknown as Sender);
+    const createAwaitableSenderPrototypeSpy = vi
+      .spyOn(rheaPromise.Connection.prototype, "createAwaitableSender")
+      .mockResolvedValue(mockAwaitableSender as unknown as AwaitableSender);
+    const createReceiverPrototypeSpy = vi
+      .spyOn(rheaPromise.Connection.prototype, "createReceiver")
+      .mockResolvedValue(mockReceiver as unknown as Receiver);
 
-    await conn.createSender();
-    assert.isAbove(mockSender.setMaxListeners.mock.calls.length, 0);
-    assert.equal(mockSender.setMaxListeners.mock.calls[0][0], 1000);
+    try {
+      await conn.createSender();
+      assert.isAbove(mockSender.setMaxListeners.mock.calls.length, 0);
+      assert.equal(mockSender.setMaxListeners.mock.calls[0][0], 1000);
 
-    await conn.createAwaitableSender();
-    assert.isAbove(mockAwaitableSender.setMaxListeners.mock.calls.length, 0);
-    assert.equal(mockAwaitableSender.setMaxListeners.mock.calls[0][0], 1000);
+      await conn.createAwaitableSender();
+      assert.isAbove(mockAwaitableSender.setMaxListeners.mock.calls.length, 0);
+      assert.equal(mockAwaitableSender.setMaxListeners.mock.calls[0][0], 1000);
 
-    await conn.createReceiver();
-    assert.isAbove(mockReceiver.setMaxListeners.mock.calls.length, 0);
-    assert.equal(mockReceiver.setMaxListeners.mock.calls[0][0], 1000);
-
-    createSessionSpy.mockRestore();
+      await conn.createReceiver();
+      assert.isAbove(mockReceiver.setMaxListeners.mock.calls.length, 0);
+      assert.equal(mockReceiver.setMaxListeners.mock.calls[0][0], 1000);
+    } finally {
+      createReceiverPrototypeSpy.mockRestore();
+      createAwaitableSenderPrototypeSpy.mockRestore();
+      createSenderPrototypeSpy.mockRestore();
+      createSessionSpy.mockRestore();
+    }
   });
 });

@@ -922,7 +922,7 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
   });
 });
 
-describe("RequestResponseLink - remove", () => {
+describe.skipIf(isBrowser)("RequestResponseLink - remove", () => {
   it("remove() calls remove on sender, receiver, and session", async () => {
     const connectionStub = createFullConnectionStub();
     const link = await RequestResponseLink.create(connectionStub, {}, {});
@@ -945,7 +945,7 @@ describe("RequestResponseLink - remove", () => {
   });
 });
 
-describe("RequestResponseLink - onSenderError", () => {
+describe.skipIf(isBrowser)("RequestResponseLink - onSenderError", () => {
   it("rejects all pending responses when sender errors", async () => {
     const connectionStub = createFullConnectionStub();
     const link = await RequestResponseLink.create(connectionStub, {}, {});
@@ -1009,20 +1009,23 @@ describe("RequestResponseLink - onSenderError", () => {
   });
 });
 
-describe("RequestResponseLink - timeout with abortSignal cleans up abort listener", () => {
-  it("removes abort listener when timeout fires", async () => {
-    const connectionStub = createFullConnectionStub();
-    const link = await RequestResponseLink.create(connectionStub, {}, {});
-    const request = { body: "test", message_id: "test-timeout-abort" };
+describe.skipIf(isBrowser)(
+  "RequestResponseLink - timeout with abortSignal cleans up abort listener",
+  () => {
+    it("removes abort listener when timeout fires", async () => {
+      const connectionStub = createFullConnectionStub();
+      const link = await RequestResponseLink.create(connectionStub, {}, {});
+      const request = { body: "test", message_id: "test-timeout-abort" };
 
-    const controller = new AbortController();
-    // Should be OperationTimeoutError
-    await expect(
-      link.sendRequest(request, {
-        timeoutInMs: 10,
-        abortSignal: controller.signal,
-        requestName: "test",
-      }),
-    ).rejects.toThrow(/timed out/);
-  });
-});
+      const controller = new AbortController();
+      // Should be OperationTimeoutError
+      await expect(
+        link.sendRequest(request, {
+          timeoutInMs: 10,
+          abortSignal: controller.signal,
+          requestName: "test",
+        }),
+      ).rejects.toThrow(/timed out/);
+    });
+  },
+);
