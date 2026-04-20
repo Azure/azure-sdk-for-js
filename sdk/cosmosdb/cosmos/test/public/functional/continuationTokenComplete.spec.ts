@@ -1681,4 +1681,53 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
       }
     }
   }
+
+  describe("ORDER BY with backslash-containing values", () => {
+    let escapeContainer: Container;
+
+    beforeAll(async () => {
+      escapeContainer = await getTestContainer("escape-test", client, {
+        partitionKey: { paths: ["/id"] },
+      });
+
+      // Documents with values that previously caused silent row loss during ORDER BY pagination.
+      // The SDK embeds continuation token values in SQL WHERE clauses — unescaped backslash
+      // sequences like \u2013 or \n were interpreted by the SQL parser as unicode escapes
+      // or control characters, causing filter mismatches that skipped rows.
+      const docs = [
+        { id: "esc01", sortField: "normal string" },
+        { id: "esc02", sortField: "Gold\u005cu2013Foran" }, // literal \u2013 (the original bug)
+        { id: "esc03", sortField: "path\u005cto\u005cfile" }, // backslashes in path
+        { id: "esc04", sortField: "it\u005c's tricky" }, // backslash + quote adjacency
+        { id: "esc05", sortField: "line1\u005cnline2" }, // literal \n
+        { id: "esc06", sortField: "tab\u005cthere" }, // literal \t
+        { id: "esc07", sortField: "has\u005cu0027literal" }, // literal \u0027
+        { id: "esc08", sortField: "C:\u005cProgram Files\u005cO'Reilly" }, // realistic path with quote
+        { id: "esc09", sortField: "\u005c\u005c\u005c" }, // triple backslash
+        { id: "esc10", sortField: "end\u005c" }, // trailing backslash
+      ];
+
+      await Promise.all(docs.map((doc) => escapeContainer.items.create(doc)));
+    });
+
+    it("should return all documents when paginating with maxItemCount=1", async () => {
+      const allResults = await executeQueryWithContinuation(
+        "SELECT * FROM c ORDER BY c.sortField ASC",
+        escapeContainer,
+        { maxItemCount: 1, enableQueryControl: true, forceQueryPlan: true },
+        true,
+      );
+
+      expect(allResults.length).toBe(10);
+
+      const ids = allResults.map((r: any) => r.id).sort();
+      const expectedIds = Array.from({ length: 10 }, (_, i) => `esc${String(i + 1).padStart(2, "0")}`);
+      expect(ids).toEqual(expectedIds);
+
+      // Verify sort order is maintained
+      for (let i = 1; i < allResults.length; i++) {
+        expect(allResults[i].sortField >= allResults[i - 1].sortField).toBe(true);
+      }
+    });
+  });
 });
