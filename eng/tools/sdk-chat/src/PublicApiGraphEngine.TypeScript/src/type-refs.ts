@@ -1026,9 +1026,14 @@ export class TypeReferenceCollector {
         const result = new Map<string, Map<string, Set<string>>>();
         for (const [ctx, refs] of this.refsByContext) {
             const { module: mod, entity } = TypeReferenceCollector.parseContextKey(ctx);
-            // Always use entity-local keys; when filtering by module, skip non-matching entries
+            // When filtering by module, skip non-matching entries and use bare entity keys
+            // for backward compatibility. When collecting across all modules, use
+            // module-qualified keys ("mod/entity") so that identically-named entities
+            // from different modules don't merge their ref provenance.
+            // If the module part is empty (no module prefix), fall back to bare entity key.
             if (moduleName !== undefined && mod !== moduleName) continue;
-            const nameToPackages = result.get(entity) ?? new Map<string, Set<string>>();
+            const mapKey = moduleName !== undefined || !mod ? entity : `${mod}/${entity}`;
+            const nameToPackages = result.get(mapKey) ?? new Map<string, Set<string>>();
             for (const ref of refs.values()) {
                 if (ref.packageName) {
                     if (!nameToPackages.has(ref.name)) nameToPackages.set(ref.name, new Set());
@@ -1045,7 +1050,7 @@ export class TypeReferenceCollector {
                 }
             }
             if (nameToPackages.size > 0) {
-                result.set(entity, nameToPackages);
+                result.set(mapKey, nameToPackages);
             }
         }
         return result;

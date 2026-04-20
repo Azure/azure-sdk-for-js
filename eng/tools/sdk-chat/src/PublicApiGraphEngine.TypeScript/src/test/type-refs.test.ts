@@ -543,26 +543,37 @@ describe("getContextRefNamesWithPackages", () => {
   it("same name from multiple packages produces multi-element Set", () => {
     const ctx = makeCtx();
     ctx.project.createSourceFile(
-      "pkgA.ts",
+      "depState.ts",
       `export interface State { a: string }`,
     );
     ctx.project.createSourceFile(
-      "pkgB.ts",
-      `export interface State { b: number }`,
+      "depConfig.ts",
+      `export interface Config { b: number }`,
     );
+
+    // Bridge file with package imports to populate importedTypes
+    const bridge = ctx.project.createSourceFile(
+      "bridge.ts",
+      `
+      import { State } from "@azure/pkgA";
+      import { Config } from "@azure/pkgB";
+      export { State, Config };
+      `,
+    );
+    ctx.typeRefs.collectFromImportDeclarations([bridge]);
+
+    // Main file with resolvable relative imports so the compiler resolves types
     const sf = ctx.project.createSourceFile(
       "test-multi.ts",
       `
-      import { State } from "./pkgA.js";
-      import { State as State2 } from "./pkgB.js";
+      import { State } from "./depState.js";
+      import { Config } from "./depConfig.js";
       export interface MyEntity {
         field1: State;
-        field2: State2;
+        field2: Config;
       }
       `,
     );
-
-    ctx.typeRefs.collectFromImportDeclarations([sf]);
 
     const iface = sf.getInterfaceOrThrow("MyEntity");
     ctx.typeRefs.pushContext("MyEntity");
@@ -572,11 +583,12 @@ describe("getContextRefNamesWithPackages", () => {
     ctx.typeRefs.popContext();
 
     const result = ctx.typeRefs.getContextRefNamesWithPackages();
-    if (result.has("MyEntity")) {
-      const entityRefs = result.get("MyEntity")!;
-      for (const [, pkgs] of entityRefs) {
-        expect(pkgs).toBeInstanceOf(Set);
-      }
+    expect(result.has("MyEntity")).toBe(true);
+    const entityRefs = result.get("MyEntity")!;
+    // State from @azure/pkgA and Config from @azure/pkgB should both appear
+    expect(entityRefs.size).toBeGreaterThanOrEqual(2);
+    for (const [, pkgs] of entityRefs) {
+      expect(pkgs).toBeInstanceOf(Set);
     }
   });
 

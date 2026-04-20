@@ -49,15 +49,22 @@ public static class TypeScriptFormatter
             .OrderBy(c => c, StringComparer.Ordinal)
             .ToList();
 
-        if (conditions.Count == 0)
-            conditions = ["default"];
+        // If any module has a null/empty condition, ensure "default" is in the list
+        if (conditions.Count == 0 || index.Modules.Any(m => string.IsNullOrWhiteSpace(m.Condition)))
+        {
+            if (!conditions.Contains("default", StringComparer.Ordinal))
+                conditions.Add("default");
+            conditions.Sort(StringComparer.Ordinal);
+        }
 
 
         foreach (var condition in conditions)
         {
             // Filter modules for this condition
             var conditionModules = index.Modules
-                .Where(m => (m.Condition ?? "default") == condition)
+                .Where(m => condition == "default"
+                    ? string.IsNullOrWhiteSpace(m.Condition) || string.Equals(m.Condition, "default", StringComparison.Ordinal)
+                    : m.Condition == condition)
                 .ToList();
 
             // Filter resolved dependencies to those matching this condition.
@@ -233,13 +240,8 @@ public static class TypeScriptFormatter
 
         sb.Append("    \"composite\": true");
 
-        if (libs.Count > 1) // more than just ES2023
-        {
-            sb.AppendLine(",");
-            sb.AppendLine($"    \"lib\": [{string.Join(", ", libs.Select(l => $"\"{l}\""))}]");
-        }
-        else
-            sb.AppendLine();
+        sb.AppendLine(",");
+        sb.AppendLine($"    \"lib\": [{string.Join(", ", libs.Select(l => $"\"{l}\""))}]");
 
         sb.AppendLine("  },");
         sb.AppendLine("  \"include\": [\"./*.d.ts\"]");
@@ -1427,6 +1429,12 @@ public static class TypeScriptFormatter
         {
             sb.AppendLine();
             sb.AppendLine(AnnotateModuleLine($"declare module \"{index.Package}\" {{", index.Package, mainVersionLookup));
+
+            // Emit Node.js import references per module (mirrors the sectioned path)
+            foreach (var (nodeModule, nodeTypes) in nodeImports)
+                sb.AppendLine($"    import type {{ {string.Join(", ", nodeTypes)} }} from \"{nodeModule}\";");
+            if (nodeImports.Count > 0)
+                sb.AppendLine();
 
             // Indent each line, stripping redundant 'declare' modifier (TS1038)
             foreach (var line in pendingMainContent.TrimEnd('\r', '\n').Split('\n'))

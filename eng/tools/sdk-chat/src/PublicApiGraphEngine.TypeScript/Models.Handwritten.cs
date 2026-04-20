@@ -56,6 +56,7 @@ public sealed partial record ApiIndex
                     {
                         Name = method.Name,
                         Id = method.Id,
+                        IsDeprecated = method.IsDeprecated == true,
                         ParameterTypes = (method.Params ?? []).Select(p => p.Type).ToList(),
                         OptionalParameterCount = (method.Params ?? []).Count(p => p.IsOptional == true || p.Default is not null),
                         ReturnType = method.Ret,
@@ -63,6 +64,7 @@ public sealed partial record ApiIndex
                     {
                         Name = c.Name,
                         Id = ctor.Id,
+                        IsDeprecated = ctor.IsDeprecated == true,
                         ParameterTypes = (ctor.Params ?? []).Select(p => p.Type).ToList(),
                         OptionalParameterCount = (ctor.Params ?? []).Count(p => p.IsOptional == true || p.Default is not null),
                     })).ToList(),
@@ -91,10 +93,21 @@ public sealed partial record ApiIndex
                     {
                         Name = method.Name,
                         Id = method.Id,
+                        IsDeprecated = method.IsDeprecated == true,
                         ParameterTypes = (method.Params ?? []).Select(p => p.Type).ToList(),
                         OptionalParameterCount = (method.Params ?? []).Count(p => p.IsOptional == true || p.Default is not null),
                         ReturnType = method.Ret,
-                    }).ToList(),
+                    }).Concat((i.CallSignatures ?? []).Select(cs => new DiagnosticCallableInfo
+                    {
+                        Name = "[[call]]",
+                        ReturnType = cs.Ret,
+                        IsDeprecated = false,
+                    })).Concat((i.ConstructSignatures ?? []).Select(cs => new DiagnosticCallableInfo
+                    {
+                        Name = "[[new]]",
+                        ReturnType = cs.Ret,
+                        IsDeprecated = false,
+                    })).ToList(),
                     Properties = (i.Properties ?? []).Select(p => new DiagnosticPropertyInfo
                     {
                         Name = p.Name,
@@ -156,6 +169,7 @@ public sealed partial record ApiIndex
                 {
                     Name = method.Name,
                     Id = method.Id,
+                    IsDeprecated = method.IsDeprecated == true,
                     ParameterTypes = (method.Params ?? []).Select(p => p.Type).ToList(),
                     OptionalParameterCount = (method.Params ?? []).Count(p => p.IsOptional == true || p.Default is not null),
                     ReturnType = method.Ret,
@@ -163,6 +177,7 @@ public sealed partial record ApiIndex
                 {
                     Name = c.Name,
                     Id = ctor.Id,
+                    IsDeprecated = ctor.IsDeprecated == true,
                     ParameterTypes = (ctor.Params ?? []).Select(p => p.Type).ToList(),
                     OptionalParameterCount = (ctor.Params ?? []).Count(p => p.IsOptional == true || p.Default is not null),
                 })).ToList(),
@@ -189,10 +204,21 @@ public sealed partial record ApiIndex
                 {
                     Name = method.Name,
                     Id = method.Id,
+                    IsDeprecated = method.IsDeprecated == true,
                     ParameterTypes = (method.Params ?? []).Select(p => p.Type).ToList(),
                     OptionalParameterCount = (method.Params ?? []).Count(p => p.IsOptional == true || p.Default is not null),
                     ReturnType = method.Ret,
-                }).ToList(),
+                }).Concat((i.CallSignatures ?? []).Select(cs => new DiagnosticCallableInfo
+                {
+                    Name = "[[call]]",
+                    ReturnType = cs.Ret,
+                    IsDeprecated = false,
+                })).Concat((i.ConstructSignatures ?? []).Select(cs => new DiagnosticCallableInfo
+                {
+                    Name = "[[new]]",
+                    ReturnType = cs.Ret,
+                    IsDeprecated = false,
+                })).ToList(),
                 Properties = (i.Properties ?? []).Select(p => new DiagnosticPropertyInfo
                 {
                     Name = p.Name,
