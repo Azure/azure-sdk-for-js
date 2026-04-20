@@ -426,35 +426,43 @@ export function collectTypeRefsFromType(
 
 /**
  * Resolves the package name from a source file path.
- * Handles node_modules paths, and falls back to walking up directories
- * to find the nearest package.json (for monorepo symlink-resolved paths).
+ *
+ * Primary approach: walk ancestor directories to find the nearest package.json
+ * with a "name" field. This is the authoritative source and works correctly
+ * with pnpm virtual store / symlinked paths where string-splitting on
+ * `node_modules` segments produces wrong results (e.g. `.pnpm/pkg@ver/...`).
+ *
+ * Fallback: if no package.json is found (e.g. bare node_modules without a
+ * package.json), extract the package name from the last `node_modules/`
+ * segment in the path.
  */
 export function resolvePackageNameFromPath(filePath: string, ctx: ExtractionContext): string | undefined {
-    // Check if it's in node_modules
+    // Primary: read the "name" field from the nearest ancestor package.json.
+    // This handles monorepo symlinks, pnpm virtual store, and normal layouts.
+    const fromPkgJson = ctx.resolvePackageNameFromAncestorPkgJson(filePath);
+    if (fromPkgJson) return fromPkgJson;
+
+    // Fallback: split on the last node_modules/ segment (legacy heuristic)
+    return resolvePackageNameFromNodeModulesPath(filePath);
+}
+
+/**
+ * Fallback heuristic: extract a package name by splitting on the last
+ * `node_modules/` segment in the file path.
+ */
+function resolvePackageNameFromNodeModulesPath(filePath: string): string | undefined {
     const nodeModulesIndex = filePath.lastIndexOf("node_modules");
-    if (nodeModulesIndex !== -1) {
-        // Extract the package path after node_modules
-        const afterNodeModules = filePath.substring(nodeModulesIndex + "node_modules".length + 1);
+    if (nodeModulesIndex === -1) return undefined;
 
-        // Handle scoped packages (@org/package)
-        if (afterNodeModules.startsWith("@")) {
-            const parts = afterNodeModules.split(/[/\\]/);
-            if (parts.length >= 2) {
-                return `${parts[0]}/${parts[1]}`;
-            }
-        } else {
-            // Regular package
-            const parts = afterNodeModules.split(/[/\\]/);
-            if (parts.length >= 1) {
-                return parts[0];
-            }
-        }
-        return undefined;
+    const afterNodeModules = filePath.substring(nodeModulesIndex + "node_modules".length + 1);
+    if (afterNodeModules.startsWith("@")) {
+        const parts = afterNodeModules.split(/[/\\]/);
+        if (parts.length >= 2) return `${parts[0]}/${parts[1]}`;
+    } else {
+        const parts = afterNodeModules.split(/[/\\]/);
+        if (parts.length >= 1) return parts[0];
     }
-
-    // No node_modules in the path — walk up directories to find package.json
-    // This handles monorepo setups where symlinks resolve to real paths
-    return ctx.resolvePackageNameFromAncestorPkgJson(filePath);
+    return undefined;
 }
 
 /**

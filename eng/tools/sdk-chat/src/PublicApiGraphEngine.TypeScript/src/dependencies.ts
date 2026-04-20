@@ -1284,13 +1284,32 @@ export function isModuleNamespaceSymbol(typeName: string, ctx: ExtractionContext
  * that contains the given package. This mimics Node.js module resolution,
  * which is necessary when rootPath is a subdirectory (e.g. sdk/src) but
  * node_modules lives at the project root (e.g. sdk/node_modules).
+ *
+ * Verifies that the candidate directory's package.json "name" field matches
+ * the requested package name so that pnpm virtual store or aliased packages
+ * do not produce false positives.
  */
 export function findPackageInNodeModules(startDir: string, packageName: string): boolean {
     let current = path.resolve(startDir);
     const root = path.parse(current).root;
     while (true) {
         const candidate = path.join(current, "node_modules", packageName);
-        if (fs.existsSync(candidate)) return true;
+        if (fs.existsSync(candidate)) {
+            // Verify the package.json name matches when one exists
+            const pkgJsonPath = path.join(candidate, "package.json");
+            if (fs.existsSync(pkgJsonPath)) {
+                try {
+                    const pkg = JSON.parse(fs.readFileSync(pkgJsonPath, "utf-8"));
+                    if (pkg.name === packageName) return true;
+                    // name mismatch — keep searching up
+                } catch {
+                    // Malformed JSON — keep searching up
+                }
+            } else {
+                // Directory exists but no package.json (rare) — accept it
+                return true;
+            }
+        }
         const parent = path.dirname(current);
         if (parent === current || current === root) break;
         current = parent;
