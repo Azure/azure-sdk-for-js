@@ -1,6 +1,7 @@
 {
   "extends": "../../../tsconfig.browser.base.json",
   "compilerOptions": {
+    "skipLibCheck": true,
     "paths": {
       "@typespec/ts-http-runtime": ["./dist/browser/index.d.ts"],
       "@typespec/ts-http-runtime/*": ["./dist/browser/*"],

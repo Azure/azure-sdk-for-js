@@ -13,6 +13,7 @@
     "./**/*-browser.mts",
     "./**/*-react-native.mts",
     "./test/snippets.spec.ts",
-    "./test/**/browser"
+    "./test/**/browser",
+    "./test/**/react-native"
   ]
 }
