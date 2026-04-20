@@ -1,5 +1,5 @@
 # Release History
-## 4.9.3 (Unreleased)
+## 4.9.3 (2026-04-20)
 
 ### Bugs Fixed
 
