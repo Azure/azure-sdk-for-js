@@ -41,6 +41,14 @@ development tasks. Read the referenced docs — don't guess at commands.
   from https://learn.microsoft.com/powershell/scripting/install/installing-powershell,
   then run `Install-Module -Name Az -Force -AllowClobber` to install the Az module.
   Always run `pnpm install` before building or running any dev-tool commands.
+- **Azure DevOps npm feed (devfeed priming)**: If `pnpm install` fails due to feed
+  authentication errors, or when adding new packages that are not yet cached for
+  anonymous access, authenticate to the Azure Artifacts feed by running
+  `npx artifacts-npm-credprovider` at the repo root. pnpm is configured to install
+  from the internal Azure Artifacts feed (devfeed); anonymous read access works for
+  packages already in the feed, but authenticated access may be required when
+  installing new or updated packages. See `CONTRIBUTING.md` §
+  "Authenticating to the Azure DevOps npm feed" for details.
 - **Building with turbo**: To build a package _and its dependencies_, use
   `pnpm turbo build --filter=<package-name>... --token 1` (note the trailing `...`).
   Running `npm run build` in a package directory will fail if dependencies aren't built.
