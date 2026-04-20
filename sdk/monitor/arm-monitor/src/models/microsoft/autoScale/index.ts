@@ -1,0 +1,35 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export type {
+  MicrosoftAutoScaleAutoscaleSettingResource,
+  MicrosoftAutoScaleAutoscaleSetting,
+  MicrosoftAutoScaleAutoscaleProfile,
+  MicrosoftAutoScaleScaleCapacity,
+  MicrosoftAutoScaleScaleRule,
+  MicrosoftAutoScaleMetricTrigger,
+  MicrosoftAutoScaleMetricStatisticType,
+  MicrosoftAutoScaleTimeAggregationType,
+  MicrosoftAutoScaleComparisonOperationType,
+  MicrosoftAutoScaleScaleRuleMetricDimension,
+  MicrosoftAutoScaleScaleRuleMetricDimensionOperationType,
+  MicrosoftAutoScaleScaleAction,
+  MicrosoftAutoScaleScaleDirection,
+  MicrosoftAutoScaleScaleType,
+  MicrosoftAutoScaleTimeWindow,
+  MicrosoftAutoScaleRecurrence,
+  MicrosoftAutoScaleRecurrenceFrequency,
+  MicrosoftAutoScaleRecurrentSchedule,
+  MicrosoftAutoScaleAutoscaleNotification,
+  MicrosoftAutoScaleOperationType,
+  MicrosoftAutoScaleEmailNotification,
+  MicrosoftAutoScaleWebhookNotification,
+  MicrosoftAutoScalePredictiveAutoscalePolicy,
+  MicrosoftAutoScalePredictiveAutoscalePolicyScaleMode,
+  MicrosoftAutoScaleAutoscaleErrorResponse,
+  MicrosoftAutoScaleAutoscaleErrorResponseError,
+  MicrosoftAutoScaleAutoscaleSettingResourcePatch,
+  MicrosoftAutoScalePredictiveResponse,
+  MicrosoftAutoScalePredictiveValue,
+} from "./models.js";
+export { KnownMicrosoftAutoScaleScaleRuleMetricDimensionOperationType } from "./models.js";

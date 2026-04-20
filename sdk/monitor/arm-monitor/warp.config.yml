@@ -1,1 +1,37 @@
-extends: ../../../warp.base.config.yml
+# warp.config.yml — build configuration
+
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./models": "./src/models/index.ts"
+  "./models/microsoft/actionGroups": "./src/models/microsoft/actionGroups/index.ts"
+  "./models/microsoft/activityLogAlerts": "./src/models/microsoft/activityLogAlerts/index.ts"
+  "./models/microsoft/activityLogs": "./src/models/microsoft/activityLogs/index.ts"
+  "./models/microsoft/alertRulesIncidents": "./src/models/microsoft/alertRulesIncidents/index.ts"
+  "./models/microsoft/autoScale": "./src/models/microsoft/autoScale/index.ts"
+  "./models/microsoft/dataCollection": "./src/models/microsoft/dataCollection/index.ts"
+  "./models/microsoft/logProfiles": "./src/models/microsoft/logProfiles/index.ts"
+  "./models/microsoft/metricAlert": "./src/models/microsoft/metricAlert/index.ts"
+  "./models/microsoft/metricBaselines": "./src/models/microsoft/metricBaselines/index.ts"
+  "./models/microsoft/metrics": "./src/models/microsoft/metrics/index.ts"
+  "./models/microsoft/privateLinkScopes": "./src/models/microsoft/privateLinkScopes/index.ts"
+  "./models/microsoft/scheduledQueryRule": "./src/models/microsoft/scheduledQueryRule/index.ts"
+  "./models/microsoft/serviceDiagnosticsSettings": "./src/models/microsoft/serviceDiagnosticsSettings/index.ts"
+
+targets:
+  - name: browser
+    tsconfig: "../../../tsconfig.src.browser.json"
+    polyfillSuffix: "-browser"
+
+  - name: react-native
+    tsconfig: "../../../tsconfig.src.react-native.json"
+    polyfillSuffix: "-react-native"
+
+  - name: esm
+    condition: import
+    tsconfig: "../../../tsconfig.src.esm.json"
+
+  - name: commonjs
+    condition: require
+    tsconfig: "../../../tsconfig.src.cjs.json"

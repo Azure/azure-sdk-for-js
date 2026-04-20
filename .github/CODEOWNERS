@@ -769,7 +769,7 @@
 # PRLabel: %Mgmt
 /sdk/migrate/arm-migrationassessment/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/monitor/arm-monitor/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
