@@ -33,7 +33,7 @@ describe("Errors", function () {
       ];
 
       for (let i = 0; i < cases.length; i++) {
-        const translatedError = Errors.translate(cases[i].input as any);
+        const translatedError = Errors.translate(cases[i].input);
 
         assert.equal(translatedError.name, "Error");
         assert.equal(
@@ -206,7 +206,7 @@ describe("Errors", function () {
       it(
         "SystemError from node.js  with code: '" + mapping.code + "' to a MessagingError",
         function () {
-          const translatedError = Errors.translate(mapping as any) as Errors.MessagingError;
+          const translatedError = Errors.translate(mapping) as Errors.MessagingError;
           assert.equal(translatedError.name, "MessagingError");
           assert.equal(translatedError.code, mapping.code);
           if (
