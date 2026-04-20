@@ -2206,7 +2206,7 @@ describe("serializer", () => {
       assert.isUndefined(result);
     });
 
-    it("should return undefined for falsy buffer in bufferToBase64Url path", () => {
+    it("should return null for null buffer in bufferToBase64Url path", () => {
       const result = serializer.serialize(
         { type: { name: "Base64Url" }, serializedName: "test" },
         null,
