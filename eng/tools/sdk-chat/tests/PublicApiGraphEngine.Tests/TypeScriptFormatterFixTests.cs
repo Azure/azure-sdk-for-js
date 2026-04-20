@@ -674,7 +674,8 @@ public class TypeScriptFormatterFixTests
                                 new TsInterfaceInfo
                                 {
                                     Name = "PipelinePolicy",
-                                    Properties = [new TsPropertyInfo { Name = "options", Type = "BlobOptions" }]
+                                    Properties = [new TsPropertyInfo { Name = "options", Type = "BlobOptions" }],
+                                    ReferencedTypes = ["BlobOptions"]
                                 }
                             ]
                         }
