@@ -14,6 +14,8 @@ import type {
   IntegrationRuntimeResource,
   EnableInteractiveQueryRequest,
 } from "../../models/models.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a IntegrationRuntime operations. */
@@ -25,6 +27,22 @@ export interface IntegrationRuntimeOperations {
     integrationRuntimeName: string,
     options?: IntegrationRuntimeDisableInteractiveQueryOptionalParams,
   ) => PollerLike<OperationState<IntegrationRuntimeResource>, IntegrationRuntimeResource>;
+  /** @deprecated use disableInteractiveQuery instead */
+  beginDisableInteractiveQuery: (
+    resourceGroupName: string,
+    factoryName: string,
+    integrationRuntimeName: string,
+    options?: IntegrationRuntimeDisableInteractiveQueryOptionalParams,
+  ) => Promise<
+    SimplePollerLike<OperationState<IntegrationRuntimeResource>, IntegrationRuntimeResource>
+  >;
+  /** @deprecated use disableInteractiveQuery instead */
+  beginDisableInteractiveQueryAndWait: (
+    resourceGroupName: string,
+    factoryName: string,
+    integrationRuntimeName: string,
+    options?: IntegrationRuntimeDisableInteractiveQueryOptionalParams,
+  ) => Promise<IntegrationRuntimeResource>;
   /** Enable interactive authoring of Managed Virtual Network integration runtime. */
   enableInteractiveQuery: (
     resourceGroupName: string,
@@ -33,6 +51,24 @@ export interface IntegrationRuntimeOperations {
     enableInteractiveQueryRequest: EnableInteractiveQueryRequest,
     options?: IntegrationRuntimeEnableInteractiveQueryOptionalParams,
   ) => PollerLike<OperationState<IntegrationRuntimeResource>, IntegrationRuntimeResource>;
+  /** @deprecated use enableInteractiveQuery instead */
+  beginEnableInteractiveQuery: (
+    resourceGroupName: string,
+    factoryName: string,
+    integrationRuntimeName: string,
+    enableInteractiveQueryRequest: EnableInteractiveQueryRequest,
+    options?: IntegrationRuntimeEnableInteractiveQueryOptionalParams,
+  ) => Promise<
+    SimplePollerLike<OperationState<IntegrationRuntimeResource>, IntegrationRuntimeResource>
+  >;
+  /** @deprecated use enableInteractiveQuery instead */
+  beginEnableInteractiveQueryAndWait: (
+    resourceGroupName: string,
+    factoryName: string,
+    integrationRuntimeName: string,
+    enableInteractiveQueryRequest: EnableInteractiveQueryRequest,
+    options?: IntegrationRuntimeEnableInteractiveQueryOptionalParams,
+  ) => Promise<IntegrationRuntimeResource>;
 }
 
 function _getIntegrationRuntime(context: DataFactoryManagementContext) {
@@ -50,6 +86,36 @@ function _getIntegrationRuntime(context: DataFactoryManagementContext) {
         integrationRuntimeName,
         options,
       ),
+    beginDisableInteractiveQuery: async (
+      resourceGroupName: string,
+      factoryName: string,
+      integrationRuntimeName: string,
+      options?: IntegrationRuntimeDisableInteractiveQueryOptionalParams,
+    ) => {
+      const poller = disableInteractiveQuery(
+        context,
+        resourceGroupName,
+        factoryName,
+        integrationRuntimeName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDisableInteractiveQueryAndWait: async (
+      resourceGroupName: string,
+      factoryName: string,
+      integrationRuntimeName: string,
+      options?: IntegrationRuntimeDisableInteractiveQueryOptionalParams,
+    ) => {
+      return await disableInteractiveQuery(
+        context,
+        resourceGroupName,
+        factoryName,
+        integrationRuntimeName,
+        options,
+      );
+    },
     enableInteractiveQuery: (
       resourceGroupName: string,
       factoryName: string,
@@ -65,6 +131,40 @@ function _getIntegrationRuntime(context: DataFactoryManagementContext) {
         enableInteractiveQueryRequest,
         options,
       ),
+    beginEnableInteractiveQuery: async (
+      resourceGroupName: string,
+      factoryName: string,
+      integrationRuntimeName: string,
+      enableInteractiveQueryRequest: EnableInteractiveQueryRequest,
+      options?: IntegrationRuntimeEnableInteractiveQueryOptionalParams,
+    ) => {
+      const poller = enableInteractiveQuery(
+        context,
+        resourceGroupName,
+        factoryName,
+        integrationRuntimeName,
+        enableInteractiveQueryRequest,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginEnableInteractiveQueryAndWait: async (
+      resourceGroupName: string,
+      factoryName: string,
+      integrationRuntimeName: string,
+      enableInteractiveQueryRequest: EnableInteractiveQueryRequest,
+      options?: IntegrationRuntimeEnableInteractiveQueryOptionalParams,
+    ) => {
+      return await enableInteractiveQuery(
+        context,
+        resourceGroupName,
+        factoryName,
+        integrationRuntimeName,
+        enableInteractiveQueryRequest,
+        options,
+      );
+    },
   };
 }
 

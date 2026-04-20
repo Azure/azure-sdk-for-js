@@ -5,6 +5,7 @@
 ```ts
 
 import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
@@ -2751,6 +2752,14 @@ export interface DataFlowDebugSessionInfo {
 // @public
 export interface DataFlowDebugSessionOperations {
     addDataFlow: (resourceGroupName: string, factoryName: string, request: DataFlowDebugPackage, options?: DataFlowDebugSessionAddDataFlowOptionalParams) => Promise<AddDataFlowToDebugSessionResponse>;
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, factoryName: string, request: CreateDataFlowDebugSessionRequest, options?: DataFlowDebugSessionCreateOptionalParams) => Promise<SimplePollerLike<OperationState<CreateDataFlowDebugSessionResponse>, CreateDataFlowDebugSessionResponse>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, factoryName: string, request: CreateDataFlowDebugSessionRequest, options?: DataFlowDebugSessionCreateOptionalParams) => Promise<CreateDataFlowDebugSessionResponse>;
+    // @deprecated (undocumented)
+    beginExecuteCommand: (resourceGroupName: string, factoryName: string, request: DataFlowDebugCommandRequest, options?: DataFlowDebugSessionExecuteCommandOptionalParams) => Promise<SimplePollerLike<OperationState<DataFlowDebugCommandResponse>, DataFlowDebugCommandResponse>>;
+    // @deprecated (undocumented)
+    beginExecuteCommandAndWait: (resourceGroupName: string, factoryName: string, request: DataFlowDebugCommandRequest, options?: DataFlowDebugSessionExecuteCommandOptionalParams) => Promise<DataFlowDebugCommandResponse>;
     create: (resourceGroupName: string, factoryName: string, request: CreateDataFlowDebugSessionRequest, options?: DataFlowDebugSessionCreateOptionalParams) => PollerLike<OperationState<CreateDataFlowDebugSessionResponse>, CreateDataFlowDebugSessionResponse>;
     delete: (resourceGroupName: string, factoryName: string, request: DeleteDataFlowDebugSessionRequest, options?: DataFlowDebugSessionDeleteOptionalParams) => Promise<void>;
     executeCommand: (resourceGroupName: string, factoryName: string, request: DataFlowDebugCommandRequest, options?: DataFlowDebugSessionExecuteCommandOptionalParams) => PollerLike<OperationState<DataFlowDebugCommandResponse>, DataFlowDebugCommandResponse>;
@@ -5230,6 +5239,10 @@ export interface IntegrationRuntimeObjectMetadataGetOptionalParams extends Opera
 
 // @public
 export interface IntegrationRuntimeObjectMetadataOperations {
+    // @deprecated (undocumented)
+    beginRefresh: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimeObjectMetadataRefreshOptionalParams) => Promise<SimplePollerLike<OperationState<SsisObjectMetadataStatusResponse>, SsisObjectMetadataStatusResponse>>;
+    // @deprecated (undocumented)
+    beginRefreshAndWait: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimeObjectMetadataRefreshOptionalParams) => Promise<SsisObjectMetadataStatusResponse>;
     get: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimeObjectMetadataGetOptionalParams) => Promise<SsisObjectMetadataListResponse>;
     refresh: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimeObjectMetadataRefreshOptionalParams) => PollerLike<OperationState<SsisObjectMetadataStatusResponse>, SsisObjectMetadataStatusResponse>;
 }
@@ -5241,6 +5254,14 @@ export interface IntegrationRuntimeObjectMetadataRefreshOptionalParams extends O
 
 // @public
 export interface IntegrationRuntimeOperations {
+    // @deprecated (undocumented)
+    beginDisableInteractiveQuery: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimeDisableInteractiveQueryOptionalParams) => Promise<SimplePollerLike<OperationState<IntegrationRuntimeResource>, IntegrationRuntimeResource>>;
+    // @deprecated (undocumented)
+    beginDisableInteractiveQueryAndWait: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimeDisableInteractiveQueryOptionalParams) => Promise<IntegrationRuntimeResource>;
+    // @deprecated (undocumented)
+    beginEnableInteractiveQuery: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, enableInteractiveQueryRequest: EnableInteractiveQueryRequest, options?: IntegrationRuntimeEnableInteractiveQueryOptionalParams) => Promise<SimplePollerLike<OperationState<IntegrationRuntimeResource>, IntegrationRuntimeResource>>;
+    // @deprecated (undocumented)
+    beginEnableInteractiveQueryAndWait: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, enableInteractiveQueryRequest: EnableInteractiveQueryRequest, options?: IntegrationRuntimeEnableInteractiveQueryOptionalParams) => Promise<IntegrationRuntimeResource>;
     disableInteractiveQuery: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimeDisableInteractiveQueryOptionalParams) => PollerLike<OperationState<IntegrationRuntimeResource>, IntegrationRuntimeResource>;
     enableInteractiveQuery: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, enableInteractiveQueryRequest: EnableInteractiveQueryRequest, options?: IntegrationRuntimeEnableInteractiveQueryOptionalParams) => PollerLike<OperationState<IntegrationRuntimeResource>, IntegrationRuntimeResource>;
 }
@@ -5332,6 +5353,14 @@ export interface IntegrationRuntimesListOutboundNetworkDependenciesEndpointsOpti
 
 // @public
 export interface IntegrationRuntimesOperations {
+    // @deprecated (undocumented)
+    beginStart: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimesStartOptionalParams) => Promise<SimplePollerLike<OperationState<IntegrationRuntimeStatusResponse>, IntegrationRuntimeStatusResponse>>;
+    // @deprecated (undocumented)
+    beginStartAndWait: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimesStartOptionalParams) => Promise<IntegrationRuntimeStatusResponse>;
+    // @deprecated (undocumented)
+    beginStop: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimesStopOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginStopAndWait: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimesStopOptionalParams) => Promise<void>;
     createLinkedIntegrationRuntime: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, createLinkedIntegrationRuntimeRequest: CreateLinkedIntegrationRuntimeRequest, options?: IntegrationRuntimesCreateLinkedIntegrationRuntimeOptionalParams) => Promise<IntegrationRuntimeStatusResponse>;
     createOrUpdate: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, integrationRuntime: IntegrationRuntimeResource, options?: IntegrationRuntimesCreateOrUpdateOptionalParams) => Promise<IntegrationRuntimeResource>;
     delete: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimesDeleteOptionalParams) => Promise<void>;
@@ -9738,6 +9767,28 @@ export interface ShopifySource extends TabularSource {
 }
 
 // @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
+
+// @public
 export interface SkipErrorFile {
     dataInconsistency?: any;
     fileMissing?: any;
@@ -10871,6 +10922,22 @@ export interface TriggersListByFactoryOptionalParams extends OperationOptions {
 
 // @public
 export interface TriggersOperations {
+    // @deprecated (undocumented)
+    beginStart: (resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersStartOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginStartAndWait: (resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersStartOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginStop: (resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersStopOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginStopAndWait: (resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersStopOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginSubscribeToEvents: (resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersSubscribeToEventsOptionalParams) => Promise<SimplePollerLike<OperationState<TriggerSubscriptionOperationStatus>, TriggerSubscriptionOperationStatus>>;
+    // @deprecated (undocumented)
+    beginSubscribeToEventsAndWait: (resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersSubscribeToEventsOptionalParams) => Promise<TriggerSubscriptionOperationStatus>;
+    // @deprecated (undocumented)
+    beginUnsubscribeFromEvents: (resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersUnsubscribeFromEventsOptionalParams) => Promise<SimplePollerLike<OperationState<TriggerSubscriptionOperationStatus>, TriggerSubscriptionOperationStatus>>;
+    // @deprecated (undocumented)
+    beginUnsubscribeFromEventsAndWait: (resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersUnsubscribeFromEventsOptionalParams) => Promise<TriggerSubscriptionOperationStatus>;
     createOrUpdate: (resourceGroupName: string, factoryName: string, triggerName: string, trigger: TriggerResource, options?: TriggersCreateOrUpdateOptionalParams) => Promise<TriggerResource>;
     delete: (resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersDeleteOptionalParams) => Promise<void>;
     get: (resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersGetOptionalParams) => Promise<TriggerResource>;

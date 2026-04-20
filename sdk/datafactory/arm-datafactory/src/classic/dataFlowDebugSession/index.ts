@@ -27,6 +27,8 @@ import type {
   DataFlowDebugCommandResponse,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DataFlowDebugSession operations. */
@@ -38,6 +40,22 @@ export interface DataFlowDebugSessionOperations {
     request: DataFlowDebugCommandRequest,
     options?: DataFlowDebugSessionExecuteCommandOptionalParams,
   ) => PollerLike<OperationState<DataFlowDebugCommandResponse>, DataFlowDebugCommandResponse>;
+  /** @deprecated use executeCommand instead */
+  beginExecuteCommand: (
+    resourceGroupName: string,
+    factoryName: string,
+    request: DataFlowDebugCommandRequest,
+    options?: DataFlowDebugSessionExecuteCommandOptionalParams,
+  ) => Promise<
+    SimplePollerLike<OperationState<DataFlowDebugCommandResponse>, DataFlowDebugCommandResponse>
+  >;
+  /** @deprecated use executeCommand instead */
+  beginExecuteCommandAndWait: (
+    resourceGroupName: string,
+    factoryName: string,
+    request: DataFlowDebugCommandRequest,
+    options?: DataFlowDebugSessionExecuteCommandOptionalParams,
+  ) => Promise<DataFlowDebugCommandResponse>;
   /** Deletes a data flow debug session. */
   /**
    *  @fixme Delete is a reserved word that cannot be used as an operation name.
@@ -73,6 +91,25 @@ export interface DataFlowDebugSessionOperations {
     OperationState<CreateDataFlowDebugSessionResponse>,
     CreateDataFlowDebugSessionResponse
   >;
+  /** @deprecated use create instead */
+  beginCreate: (
+    resourceGroupName: string,
+    factoryName: string,
+    request: CreateDataFlowDebugSessionRequest,
+    options?: DataFlowDebugSessionCreateOptionalParams,
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<CreateDataFlowDebugSessionResponse>,
+      CreateDataFlowDebugSessionResponse
+    >
+  >;
+  /** @deprecated use create instead */
+  beginCreateAndWait: (
+    resourceGroupName: string,
+    factoryName: string,
+    request: CreateDataFlowDebugSessionRequest,
+    options?: DataFlowDebugSessionCreateOptionalParams,
+  ) => Promise<CreateDataFlowDebugSessionResponse>;
 }
 
 function _getDataFlowDebugSession(context: DataFactoryManagementContext) {
@@ -83,6 +120,24 @@ function _getDataFlowDebugSession(context: DataFactoryManagementContext) {
       request: DataFlowDebugCommandRequest,
       options?: DataFlowDebugSessionExecuteCommandOptionalParams,
     ) => executeCommand(context, resourceGroupName, factoryName, request, options),
+    beginExecuteCommand: async (
+      resourceGroupName: string,
+      factoryName: string,
+      request: DataFlowDebugCommandRequest,
+      options?: DataFlowDebugSessionExecuteCommandOptionalParams,
+    ) => {
+      const poller = executeCommand(context, resourceGroupName, factoryName, request, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginExecuteCommandAndWait: async (
+      resourceGroupName: string,
+      factoryName: string,
+      request: DataFlowDebugCommandRequest,
+      options?: DataFlowDebugSessionExecuteCommandOptionalParams,
+    ) => {
+      return await executeCommand(context, resourceGroupName, factoryName, request, options);
+    },
     delete: (
       resourceGroupName: string,
       factoryName: string,
@@ -106,6 +161,24 @@ function _getDataFlowDebugSession(context: DataFactoryManagementContext) {
       request: CreateDataFlowDebugSessionRequest,
       options?: DataFlowDebugSessionCreateOptionalParams,
     ) => create(context, resourceGroupName, factoryName, request, options),
+    beginCreate: async (
+      resourceGroupName: string,
+      factoryName: string,
+      request: CreateDataFlowDebugSessionRequest,
+      options?: DataFlowDebugSessionCreateOptionalParams,
+    ) => {
+      const poller = create(context, resourceGroupName, factoryName, request, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateAndWait: async (
+      resourceGroupName: string,
+      factoryName: string,
+      request: CreateDataFlowDebugSessionRequest,
+      options?: DataFlowDebugSessionCreateOptionalParams,
+    ) => {
+      return await create(context, resourceGroupName, factoryName, request, options);
+    },
   };
 }
 

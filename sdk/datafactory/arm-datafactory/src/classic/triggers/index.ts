@@ -33,6 +33,8 @@ import type {
   TriggerSubscriptionOperationStatus,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Triggers operations. */
@@ -44,6 +46,20 @@ export interface TriggersOperations {
     triggerName: string,
     options?: TriggersStopOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use stop instead */
+  beginStop: (
+    resourceGroupName: string,
+    factoryName: string,
+    triggerName: string,
+    options?: TriggersStopOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use stop instead */
+  beginStopAndWait: (
+    resourceGroupName: string,
+    factoryName: string,
+    triggerName: string,
+    options?: TriggersStopOptionalParams,
+  ) => Promise<void>;
   /** Starts a trigger. */
   start: (
     resourceGroupName: string,
@@ -51,6 +67,20 @@ export interface TriggersOperations {
     triggerName: string,
     options?: TriggersStartOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use start instead */
+  beginStart: (
+    resourceGroupName: string,
+    factoryName: string,
+    triggerName: string,
+    options?: TriggersStartOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use start instead */
+  beginStartAndWait: (
+    resourceGroupName: string,
+    factoryName: string,
+    triggerName: string,
+    options?: TriggersStartOptionalParams,
+  ) => Promise<void>;
   /** Unsubscribe event trigger from events. */
   unsubscribeFromEvents: (
     resourceGroupName: string,
@@ -61,6 +91,25 @@ export interface TriggersOperations {
     OperationState<TriggerSubscriptionOperationStatus>,
     TriggerSubscriptionOperationStatus
   >;
+  /** @deprecated use unsubscribeFromEvents instead */
+  beginUnsubscribeFromEvents: (
+    resourceGroupName: string,
+    factoryName: string,
+    triggerName: string,
+    options?: TriggersUnsubscribeFromEventsOptionalParams,
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<TriggerSubscriptionOperationStatus>,
+      TriggerSubscriptionOperationStatus
+    >
+  >;
+  /** @deprecated use unsubscribeFromEvents instead */
+  beginUnsubscribeFromEventsAndWait: (
+    resourceGroupName: string,
+    factoryName: string,
+    triggerName: string,
+    options?: TriggersUnsubscribeFromEventsOptionalParams,
+  ) => Promise<TriggerSubscriptionOperationStatus>;
   /** Get a trigger's event subscription status. */
   getEventSubscriptionStatus: (
     resourceGroupName: string,
@@ -78,6 +127,25 @@ export interface TriggersOperations {
     OperationState<TriggerSubscriptionOperationStatus>,
     TriggerSubscriptionOperationStatus
   >;
+  /** @deprecated use subscribeToEvents instead */
+  beginSubscribeToEvents: (
+    resourceGroupName: string,
+    factoryName: string,
+    triggerName: string,
+    options?: TriggersSubscribeToEventsOptionalParams,
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<TriggerSubscriptionOperationStatus>,
+      TriggerSubscriptionOperationStatus
+    >
+  >;
+  /** @deprecated use subscribeToEvents instead */
+  beginSubscribeToEventsAndWait: (
+    resourceGroupName: string,
+    factoryName: string,
+    triggerName: string,
+    options?: TriggersSubscribeToEventsOptionalParams,
+  ) => Promise<TriggerSubscriptionOperationStatus>;
   /** Lists triggers. */
   listByFactory: (
     resourceGroupName: string,
@@ -128,18 +196,84 @@ function _getTriggers(context: DataFactoryManagementContext) {
       triggerName: string,
       options?: TriggersStopOptionalParams,
     ) => stop(context, resourceGroupName, factoryName, triggerName, options),
+    beginStop: async (
+      resourceGroupName: string,
+      factoryName: string,
+      triggerName: string,
+      options?: TriggersStopOptionalParams,
+    ) => {
+      const poller = stop(context, resourceGroupName, factoryName, triggerName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginStopAndWait: async (
+      resourceGroupName: string,
+      factoryName: string,
+      triggerName: string,
+      options?: TriggersStopOptionalParams,
+    ) => {
+      return await stop(context, resourceGroupName, factoryName, triggerName, options);
+    },
     start: (
       resourceGroupName: string,
       factoryName: string,
       triggerName: string,
       options?: TriggersStartOptionalParams,
     ) => start(context, resourceGroupName, factoryName, triggerName, options),
+    beginStart: async (
+      resourceGroupName: string,
+      factoryName: string,
+      triggerName: string,
+      options?: TriggersStartOptionalParams,
+    ) => {
+      const poller = start(context, resourceGroupName, factoryName, triggerName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginStartAndWait: async (
+      resourceGroupName: string,
+      factoryName: string,
+      triggerName: string,
+      options?: TriggersStartOptionalParams,
+    ) => {
+      return await start(context, resourceGroupName, factoryName, triggerName, options);
+    },
     unsubscribeFromEvents: (
       resourceGroupName: string,
       factoryName: string,
       triggerName: string,
       options?: TriggersUnsubscribeFromEventsOptionalParams,
     ) => unsubscribeFromEvents(context, resourceGroupName, factoryName, triggerName, options),
+    beginUnsubscribeFromEvents: async (
+      resourceGroupName: string,
+      factoryName: string,
+      triggerName: string,
+      options?: TriggersUnsubscribeFromEventsOptionalParams,
+    ) => {
+      const poller = unsubscribeFromEvents(
+        context,
+        resourceGroupName,
+        factoryName,
+        triggerName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUnsubscribeFromEventsAndWait: async (
+      resourceGroupName: string,
+      factoryName: string,
+      triggerName: string,
+      options?: TriggersUnsubscribeFromEventsOptionalParams,
+    ) => {
+      return await unsubscribeFromEvents(
+        context,
+        resourceGroupName,
+        factoryName,
+        triggerName,
+        options,
+      );
+    },
     getEventSubscriptionStatus: (
       resourceGroupName: string,
       factoryName: string,
@@ -152,6 +286,30 @@ function _getTriggers(context: DataFactoryManagementContext) {
       triggerName: string,
       options?: TriggersSubscribeToEventsOptionalParams,
     ) => subscribeToEvents(context, resourceGroupName, factoryName, triggerName, options),
+    beginSubscribeToEvents: async (
+      resourceGroupName: string,
+      factoryName: string,
+      triggerName: string,
+      options?: TriggersSubscribeToEventsOptionalParams,
+    ) => {
+      const poller = subscribeToEvents(
+        context,
+        resourceGroupName,
+        factoryName,
+        triggerName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginSubscribeToEventsAndWait: async (
+      resourceGroupName: string,
+      factoryName: string,
+      triggerName: string,
+      options?: TriggersSubscribeToEventsOptionalParams,
+    ) => {
+      return await subscribeToEvents(context, resourceGroupName, factoryName, triggerName, options);
+    },
     listByFactory: (
       resourceGroupName: string,
       factoryName: string,

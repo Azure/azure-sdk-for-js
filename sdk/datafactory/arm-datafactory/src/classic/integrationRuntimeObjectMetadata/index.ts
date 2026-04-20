@@ -11,6 +11,8 @@ import type {
   SsisObjectMetadataStatusResponse,
   SsisObjectMetadataListResponse,
 } from "../../models/models.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a IntegrationRuntimeObjectMetadata operations. */
@@ -32,6 +34,25 @@ export interface IntegrationRuntimeObjectMetadataOperations {
     OperationState<SsisObjectMetadataStatusResponse>,
     SsisObjectMetadataStatusResponse
   >;
+  /** @deprecated use refresh instead */
+  beginRefresh: (
+    resourceGroupName: string,
+    factoryName: string,
+    integrationRuntimeName: string,
+    options?: IntegrationRuntimeObjectMetadataRefreshOptionalParams,
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<SsisObjectMetadataStatusResponse>,
+      SsisObjectMetadataStatusResponse
+    >
+  >;
+  /** @deprecated use refresh instead */
+  beginRefreshAndWait: (
+    resourceGroupName: string,
+    factoryName: string,
+    integrationRuntimeName: string,
+    options?: IntegrationRuntimeObjectMetadataRefreshOptionalParams,
+  ) => Promise<SsisObjectMetadataStatusResponse>;
 }
 
 function _getIntegrationRuntimeObjectMetadata(context: DataFactoryManagementContext) {
@@ -48,6 +69,36 @@ function _getIntegrationRuntimeObjectMetadata(context: DataFactoryManagementCont
       integrationRuntimeName: string,
       options?: IntegrationRuntimeObjectMetadataRefreshOptionalParams,
     ) => refresh(context, resourceGroupName, factoryName, integrationRuntimeName, options),
+    beginRefresh: async (
+      resourceGroupName: string,
+      factoryName: string,
+      integrationRuntimeName: string,
+      options?: IntegrationRuntimeObjectMetadataRefreshOptionalParams,
+    ) => {
+      const poller = refresh(
+        context,
+        resourceGroupName,
+        factoryName,
+        integrationRuntimeName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginRefreshAndWait: async (
+      resourceGroupName: string,
+      factoryName: string,
+      integrationRuntimeName: string,
+      options?: IntegrationRuntimeObjectMetadataRefreshOptionalParams,
+    ) => {
+      return await refresh(
+        context,
+        resourceGroupName,
+        factoryName,
+        integrationRuntimeName,
+        options,
+      );
+    },
   };
 }
 

@@ -53,6 +53,8 @@ import type {
   CreateLinkedIntegrationRuntimeRequest,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a IntegrationRuntimes operations. */
@@ -101,6 +103,20 @@ export interface IntegrationRuntimesOperations {
     integrationRuntimeName: string,
     options?: IntegrationRuntimesStopOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use stop instead */
+  beginStop: (
+    resourceGroupName: string,
+    factoryName: string,
+    integrationRuntimeName: string,
+    options?: IntegrationRuntimesStopOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use stop instead */
+  beginStopAndWait: (
+    resourceGroupName: string,
+    factoryName: string,
+    integrationRuntimeName: string,
+    options?: IntegrationRuntimesStopOptionalParams,
+  ) => Promise<void>;
   /** Starts a ManagedReserved type integration runtime. */
   start: (
     resourceGroupName: string,
@@ -111,6 +127,25 @@ export interface IntegrationRuntimesOperations {
     OperationState<IntegrationRuntimeStatusResponse>,
     IntegrationRuntimeStatusResponse
   >;
+  /** @deprecated use start instead */
+  beginStart: (
+    resourceGroupName: string,
+    factoryName: string,
+    integrationRuntimeName: string,
+    options?: IntegrationRuntimesStartOptionalParams,
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<IntegrationRuntimeStatusResponse>,
+      IntegrationRuntimeStatusResponse
+    >
+  >;
+  /** @deprecated use start instead */
+  beginStartAndWait: (
+    resourceGroupName: string,
+    factoryName: string,
+    integrationRuntimeName: string,
+    options?: IntegrationRuntimesStartOptionalParams,
+  ) => Promise<IntegrationRuntimeStatusResponse>;
   /** Retrieves the authentication keys for an integration runtime. */
   listAuthKeys: (
     resourceGroupName: string,
@@ -247,12 +282,54 @@ function _getIntegrationRuntimes(context: DataFactoryManagementContext) {
       integrationRuntimeName: string,
       options?: IntegrationRuntimesStopOptionalParams,
     ) => stop(context, resourceGroupName, factoryName, integrationRuntimeName, options),
+    beginStop: async (
+      resourceGroupName: string,
+      factoryName: string,
+      integrationRuntimeName: string,
+      options?: IntegrationRuntimesStopOptionalParams,
+    ) => {
+      const poller = stop(context, resourceGroupName, factoryName, integrationRuntimeName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginStopAndWait: async (
+      resourceGroupName: string,
+      factoryName: string,
+      integrationRuntimeName: string,
+      options?: IntegrationRuntimesStopOptionalParams,
+    ) => {
+      return await stop(context, resourceGroupName, factoryName, integrationRuntimeName, options);
+    },
     start: (
       resourceGroupName: string,
       factoryName: string,
       integrationRuntimeName: string,
       options?: IntegrationRuntimesStartOptionalParams,
     ) => start(context, resourceGroupName, factoryName, integrationRuntimeName, options),
+    beginStart: async (
+      resourceGroupName: string,
+      factoryName: string,
+      integrationRuntimeName: string,
+      options?: IntegrationRuntimesStartOptionalParams,
+    ) => {
+      const poller = start(
+        context,
+        resourceGroupName,
+        factoryName,
+        integrationRuntimeName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginStartAndWait: async (
+      resourceGroupName: string,
+      factoryName: string,
+      integrationRuntimeName: string,
+      options?: IntegrationRuntimesStartOptionalParams,
+    ) => {
+      return await start(context, resourceGroupName, factoryName, integrationRuntimeName, options);
+    },
     listAuthKeys: (
       resourceGroupName: string,
       factoryName: string,

@@ -1,6 +1,6 @@
 # Release History
 
-## 20.0.0-beta.1 (2026-04-14)
+## 20.0.0-beta.1 (2026-04-20)
 Compared with version 19.0.0
 
 ### Features Added
@@ -254,6 +254,7 @@ Compared with version 19.0.0
   - Added Interface SharePointOnlineListDatasetTypeProperties
   - Added Interface SharePointOnlineListLinkedServiceTypeProperties
   - Added Interface ShopifyLinkedServiceTypeProperties
+  - Added Interface SimplePollerLike
   - Added Interface SmartsheetLinkedServiceTypeProperties
   - Added Interface SnowflakeDatasetTypeProperties
   - Added Interface SnowflakeLinkedServiceTypeProperties
@@ -922,28 +923,12 @@ Compared with version 19.0.0
   - Added Enum KnownWarehouseAuthenticationType
 
 ### Breaking Changes
-  - Removed operation DataFlowDebugSession.beginCreate
-  - Removed operation DataFlowDebugSession.beginCreateAndWait
-  - Removed operation DataFlowDebugSession.beginExecuteCommand
-  - Removed operation DataFlowDebugSession.beginExecuteCommandAndWait
   - Removed operation DataFlowDebugSession.listQueryByFactory
-  - Removed operation IntegrationRuntimeObjectMetadata.beginRefresh
-  - Removed operation IntegrationRuntimeObjectMetadata.beginRefreshAndWait
-  - Removed operation IntegrationRuntimes.beginStart
-  - Removed operation IntegrationRuntimes.beginStartAndWait
-  - Removed operation IntegrationRuntimes.beginStop
-  - Removed operation IntegrationRuntimes.beginStopAndWait
-  - Removed operation Triggers.beginStart
-  - Removed operation Triggers.beginStartAndWait
-  - Removed operation Triggers.beginStop
-  - Removed operation Triggers.beginStopAndWait
-  - Removed operation Triggers.beginSubscribeToEvents
-  - Removed operation Triggers.beginSubscribeToEventsAndWait
-  - Removed operation Triggers.beginUnsubscribeFromEvents
-  - Removed operation Triggers.beginUnsubscribeFromEventsAndWait
   - Operation CredentialOperations.createOrUpdate has a new signature
   - Operation CredentialOperations.get has a new signature
   - Operation DataFlowDebugSession.addDataFlow has a new signature
+  - Operation DataFlowDebugSession.beginCreate has a new signature
+  - Operation DataFlowDebugSession.beginCreateAndWait has a new signature
   - Operation DataFlows.createOrUpdate has a new signature
   - Operation DataFlows.get has a new signature
   - Operation Datasets.createOrUpdate has a new signature
@@ -953,6 +938,7 @@ Compared with version 19.0.0
   - Operation Factories.get has a new signature
   - Operation Factories.update has a new signature
   - Operation IntegrationRuntimeObjectMetadata.get has a new signature
+  - Operation IntegrationRuntimes.beginStartAndWait has a new signature
   - Operation IntegrationRuntimes.createLinkedIntegrationRuntime has a new signature
   - Operation IntegrationRuntimes.createOrUpdate has a new signature
   - Operation IntegrationRuntimes.get has a new signature
