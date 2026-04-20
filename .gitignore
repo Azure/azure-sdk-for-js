@@ -197,3 +197,7 @@ sdk/**/sshKey.pub
 
 # turbo
 .turbo
+
+# vitest browser test artifacts
+.vitest-attachments/
+**/__screenshots__/

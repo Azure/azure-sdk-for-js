@@ -184,7 +184,9 @@ export function getRequestBody(body?: unknown, contentType: string = ""): Reques
   }
 
   if (ArrayBuffer.isView(body)) {
-    return { body: body instanceof Uint8Array ? body : JSON.stringify(body) };
+    return {
+      body: body instanceof Uint8Array ? body : JSON.stringify(body),
+    };
   }
 
   const firstType = contentType.split(";")[0];
@@ -194,7 +196,7 @@ export function getRequestBody(body?: unknown, contentType: string = ""): Reques
       return { body: JSON.stringify(body) };
     case "multipart/form-data":
       if (Array.isArray(body)) {
-        return { multipartBody: buildMultipartBody(body as PartDescriptor[]) };
+        return { multipartBody: buildMultipartBody(body as unknown as PartDescriptor[]) };
       }
       return { body: JSON.stringify(body) };
     case "text/plain":
