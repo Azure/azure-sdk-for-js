@@ -55,7 +55,7 @@ describe("CancellableAsyncLock", function () {
         throw new Error(TEST_FAILURE);
       } catch (err) {
         assert.instanceOf(err, Error);
-        assert.equal((err as Error).message, "I break things!");
+        assert.equal(err.message, "I break things!");
       }
     });
 

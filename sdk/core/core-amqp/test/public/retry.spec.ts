@@ -18,7 +18,7 @@ const debug = debugModule("azure:core-amqp:retry-spec");
 
 function assertAggregateError(err: unknown, check: RegExp): asserts err is AggregateError {
   assert.instanceOf(err, AggregateError);
-  const errors = (err as AggregateError).errors;
+  const errors = err.errors;
   assert.match(errors[errors.length - 1].message, check);
 }
 
@@ -192,10 +192,7 @@ function assertAggregateError(err: unknown, check: RegExp): asserts err is Aggre
         throw new Error("TestFailure: 'retry' took longer than expected to return.");
       } catch (err) {
         assert.instanceOf(err, MessagingError);
-        assert.match(
-          (err as MessagingError).message,
-          /I would always like to fail, keep retrying./,
-        );
+        assert.match(err.message, /I would always like to fail, keep retrying./);
         expect(operation).toHaveBeenCalledTimes(1);
         // Clear delay's setTimeout...we don't need it anymore.
         delayAbortController.abort();

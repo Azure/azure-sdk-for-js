@@ -63,10 +63,10 @@ describe("message", function () {
       const rhMsg = AmqpAnnotatedMessage.toRheaMessage(input);
 
       assert.equal(Constants.maxUint32Value, rhMsg.ttl);
-      assert.isDefined(rhMsg.creation_time);
-      assert.isDefined(rhMsg.absolute_expiry_time);
-      const creationTime = rhMsg.creation_time as Date;
-      const absoluteExpiryTime = rhMsg.absolute_expiry_time as Date;
+      assert.instanceOf(rhMsg.creation_time, Date);
+      assert.instanceOf(rhMsg.absolute_expiry_time, Date);
+      const creationTime = rhMsg.creation_time;
+      const absoluteExpiryTime = rhMsg.absolute_expiry_time;
       assert.equal(creationTime.getTime() + oneHundredDaysInMs, absoluteExpiryTime.getTime());
 
       const output = AmqpAnnotatedMessage.fromRheaMessage(rhMsg);
@@ -124,10 +124,10 @@ describe("message", function () {
       const rhMsg = AmqpAnnotatedMessage.toRheaMessage(input);
 
       assert.equal(rhMsg.ttl, sevenDayInMs);
-      assert.isDefined(rhMsg.creation_time);
-      assert.isDefined(rhMsg.absolute_expiry_time);
-      const creationTime = rhMsg.creation_time as Date;
-      const absoluteExpiryTime = rhMsg.absolute_expiry_time as Date;
+      assert.instanceOf(rhMsg.creation_time, Date);
+      assert.instanceOf(rhMsg.absolute_expiry_time, Date);
+      const creationTime = rhMsg.creation_time;
+      const absoluteExpiryTime = rhMsg.absolute_expiry_time;
       assert.equal(absoluteExpiryTime.getTime(), creationTime.getTime() + sevenDayInMs);
     });
   });

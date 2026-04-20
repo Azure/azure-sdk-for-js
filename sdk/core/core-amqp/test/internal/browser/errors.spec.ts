@@ -13,8 +13,8 @@ describe("translate - isBrowserWebsocketError (browser)", function () {
     const result = translate(errorEvent);
 
     assert.instanceOf(result, MessagingError);
-    assert.equal((result as MessagingError).code, "ServiceCommunicationError");
-    assert.isFalse((result as MessagingError).retryable);
+    assert.equal(result.code, "ServiceCommunicationError");
+    assert.isFalse(result.retryable);
     assert.include(result.message, "Websocket");
   });
 

@@ -17,12 +17,23 @@ import {
 import type { DeferredPromiseWithCallback } from "../../src/requestResponseLink.js";
 import { getCodeDescriptionAndError, onMessageReceived } from "../../src/requestResponseLink.js";
 import EventEmitter from "events";
-import { createConnectionStub, createFullConnectionStub } from "../utils/createConnectionStub.js";
-import { isBrowser, isError } from "@azure/core-util";
+import {
+  createConnectionStub,
+  createFullConnectionStub,
+  createMockSender,
+  createMockReceiver,
+  mockCreateSession,
+} from "../utils/createConnectionStub.js";
+import { isBrowser } from "@azure/core-util";
 
 type RequestResponseLinkPrivate = {
   _responsesMap: Map<string, DeferredPromiseWithCallback>;
 };
+
+/** Accessor to reach the private responses map. */
+function getResponsesMap(link: RequestResponseLink): Map<string, DeferredPromiseWithCallback> {
+  return (link as unknown as RequestResponseLinkPrivate)._responsesMap;
+}
 
 const assertItemsLengthInResponsesMap = (
   _responsesMap: Map<string, DeferredPromiseWithCallback>,
@@ -59,8 +70,8 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
         await RequestResponseLink.create(connection, {}, {}, { abortSignal: signal });
         throw new Error(TEST_FAILURE);
       } catch (err) {
-        assert.isTrue(isError(err));
-        assert.equal((err as Error).name, "AbortError");
+        assert.instanceOf(err, Error);
+        assert.equal(err.name, "AbortError");
       }
     });
 
@@ -77,8 +88,8 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
         await RequestResponseLink.create(connection, {}, {}, { abortSignal: signal });
         throw new Error(TEST_FAILURE);
       } catch (err) {
-        assert.isTrue(isError(err));
-        assert.equal((err as Error).name, "AbortError");
+        assert.instanceOf(err, Error);
+        assert.equal(err.name, "AbortError");
       }
     });
   });
@@ -87,29 +98,25 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
     const { Connection } = await vi.importMock<typeof import("rhea-promise")>("rhea-promise");
     const connectionStub = new Connection();
     const rcvr = new EventEmitter();
-    let req: any = {};
-    vi.mocked(connectionStub.createSession).mockResolvedValue({
-      connection: {
-        id: "connection-1",
-      },
+    let req: RheaMessage = { body: undefined };
+    mockCreateSession(connectionStub, {
       createSender: () => {
-        return Promise.resolve({
-          send: (request: any) => {
-            req = request;
-          },
-          on: () => {
-            /* no_op */
-          },
-        });
+        return Promise.resolve(
+          createMockSender({
+            send: (request: RheaMessage) => {
+              req = request;
+            },
+          }),
+        );
       },
       createReceiver: () => {
         return Promise.resolve(rcvr);
       },
-    } as any);
+    } as Partial<import("rhea-promise").Session>);
     const sessionStub = await connectionStub.createSession();
     const senderStub = await sessionStub.createSender();
     const receiverStub = await sessionStub.createReceiver();
-    const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
+    const link = new RequestResponseLink(sessionStub, senderStub, receiverStub);
     const request: RheaMessage = {
       body: "Hello World!!",
     };
@@ -138,28 +145,24 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
     const connectionStub = new Connection();
     const rcvr = new EventEmitter();
     const reqs: RheaMessage[] = [];
-    vi.mocked(connectionStub.createSession).mockResolvedValue({
-      connection: {
-        id: "connection-1",
-      },
+    mockCreateSession(connectionStub, {
       createSender: () => {
-        return Promise.resolve({
-          send: (request: RheaMessage) => {
-            reqs.push(request);
-          },
-          on: () => {
-            /* no_op */
-          },
-        });
+        return Promise.resolve(
+          createMockSender({
+            send: (request: RheaMessage) => {
+              reqs.push(request);
+            },
+          }),
+        );
       },
       createReceiver: () => {
         return Promise.resolve(rcvr);
       },
-    } as any);
+    } as Partial<import("rhea-promise").Session>);
     const sessionStub = await connectionStub.createSession();
     const senderStub = await sessionStub.createSender();
     const receiverStub = await sessionStub.createReceiver();
-    const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
+    const link = new RequestResponseLink(sessionStub, senderStub, receiverStub);
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
     const request1: RheaMessage = {
       body: "Hello World!!",
@@ -209,28 +212,24 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
     const connectionStub = new Connection();
     const rcvr = new EventEmitter();
     const reqs: RheaMessage[] = [];
-    vi.mocked(connectionStub.createSession).mockResolvedValue({
-      connection: {
-        id: "connection-1",
-      },
+    mockCreateSession(connectionStub, {
       createSender: () => {
-        return Promise.resolve({
-          send: (request: RheaMessage) => {
-            reqs.push(request);
-          },
-          on: () => {
-            /* no_op */
-          },
-        });
+        return Promise.resolve(
+          createMockSender({
+            send: (request: RheaMessage) => {
+              reqs.push(request);
+            },
+          }),
+        );
       },
       createReceiver: () => {
         return Promise.resolve(rcvr);
       },
-    } as any);
+    } as Partial<import("rhea-promise").Session>);
     const sessionStub = await connectionStub.createSession();
     const senderStub = await sessionStub.createSender();
     const receiverStub = await sessionStub.createReceiver();
-    const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
+    const link = new RequestResponseLink(sessionStub, senderStub, receiverStub);
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
     const request1: RheaMessage = {
       body: "Hello World!!",
@@ -257,28 +256,24 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
     const connectionStub = new Connection();
     const rcvr = new EventEmitter();
     const reqs: RheaMessage[] = [];
-    vi.mocked(connectionStub.createSession).mockResolvedValue({
-      connection: {
-        id: "connection-1",
-      },
+    mockCreateSession(connectionStub, {
       createSender: () => {
-        return Promise.resolve({
-          send: (request: RheaMessage) => {
-            reqs.push(request);
-          },
-          on: () => {
-            /* no_op */
-          },
-        });
+        return Promise.resolve(
+          createMockSender({
+            send: (request: RheaMessage) => {
+              reqs.push(request);
+            },
+          }),
+        );
       },
       createReceiver: () => {
         return Promise.resolve(rcvr);
       },
-    } as any);
+    } as Partial<import("rhea-promise").Session>);
     const sessionStub = await connectionStub.createSession();
     const senderStub = await sessionStub.createSender();
     const receiverStub = await sessionStub.createReceiver();
-    const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
+    const link = new RequestResponseLink(sessionStub, senderStub, receiverStub);
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
     const request1: RheaMessage = {
       body: "Hello World!!",
@@ -325,8 +320,8 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
       await failedRequest;
       throw new Error("Test failure");
     } catch (err) {
-      assert.isTrue(isError(err));
-      assert.notEqual((err as Error).message, "Test failure");
+      assert.instanceOf(err, Error);
+      assert.notEqual(err.message, "Test failure");
     }
 
     // ensure the other request succeeds
@@ -339,30 +334,26 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
     const { Connection } = await vi.importMock<typeof import("rhea-promise")>("rhea-promise");
     const connectionStub = new Connection();
     const rcvr = new EventEmitter();
-    let messageId: string = "";
-    const sendSpy = vi.fn((request: any) => {
+    let messageId: string | number | Buffer | undefined = "";
+    const sendSpy = vi.fn((request: RheaMessage) => {
       messageId = request.message_id;
     });
-    vi.mocked(connectionStub.createSession).mockResolvedValue({
-      connection: {
-        id: "connection-1",
-      },
+    mockCreateSession(connectionStub, {
       createSender: () => {
-        return Promise.resolve({
-          send: sendSpy,
-          on: () => {
-            /* no_op */
-          },
-        });
+        return Promise.resolve(
+          createMockSender({
+            send: sendSpy,
+          }),
+        );
       },
       createReceiver: () => {
         return Promise.resolve(rcvr);
       },
-    } as any);
+    } as Partial<import("rhea-promise").Session>);
     const sessionStub = await connectionStub.createSession();
     const senderStub = await sessionStub.createSender();
     const receiverStub = await sessionStub.createReceiver();
-    const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
+    const link = new RequestResponseLink(sessionStub, senderStub, receiverStub);
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
     const request: RheaMessage = {
       body: "Hello World!!",
@@ -422,29 +413,25 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
     const { Connection } = await vi.importMock<typeof import("rhea-promise")>("rhea-promise");
     const connectionStub = new Connection();
     const rcvr = new EventEmitter();
-    let req: any = {};
-    vi.mocked(connectionStub.createSession).mockResolvedValue({
-      connection: {
-        id: "connection-1",
-      },
+    let req: RheaMessage = { body: undefined };
+    mockCreateSession(connectionStub, {
       createSender: () => {
-        return Promise.resolve({
-          send: (request: any) => {
-            req = request;
-          },
-          on: () => {
-            /* no_op */
-          },
-        });
+        return Promise.resolve(
+          createMockSender({
+            send: (request: RheaMessage) => {
+              req = request;
+            },
+          }),
+        );
       },
       createReceiver: () => {
         return Promise.resolve(rcvr);
       },
-    } as any);
+    } as Partial<import("rhea-promise").Session>);
     const sessionStub = await connectionStub.createSession();
     const senderStub = await sessionStub.createSender();
     const receiverStub = await sessionStub.createReceiver();
-    const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
+    const link = new RequestResponseLink(sessionStub, senderStub, receiverStub);
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
     const request: RheaMessage = {
       body: "Hello World!!",
@@ -470,14 +457,9 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
       await link.sendRequest(request, { abortSignal: signal, requestName: "foo" });
       throw new Error(`Test failure`);
     } catch (err) {
-      assert.isTrue(isError(err));
-      const error = err as Error;
-      assert.equal(error.name, "AbortError", `Error name ${error.name} is not as expected`);
-      assert.equal(
-        error.message,
-        StandardAbortMessage,
-        `Incorrect error received "${error.message}"`,
-      );
+      assert.instanceOf(err, Error);
+      assert.equal(err.name, "AbortError", `Error name ${err.name} is not as expected`);
+      assert.equal(err.message, StandardAbortMessage, `Incorrect error received "${err.message}"`);
     }
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
   });
@@ -486,29 +468,25 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
     const { Connection } = await vi.importMock<typeof import("rhea-promise")>("rhea-promise");
     const connectionStub = new Connection();
     const rcvr = new EventEmitter();
-    let req: any = {};
-    vi.mocked(connectionStub.createSession).mockResolvedValue({
-      connection: {
-        id: "connection-1",
-      },
+    let req: RheaMessage = { body: undefined };
+    mockCreateSession(connectionStub, {
       createSender: () => {
-        return Promise.resolve({
-          send: (request: any) => {
-            req = request;
-          },
-          on: () => {
-            /* no_op */
-          },
-        });
+        return Promise.resolve(
+          createMockSender({
+            send: (request: RheaMessage) => {
+              req = request;
+            },
+          }),
+        );
       },
       createReceiver: () => {
         return Promise.resolve(rcvr);
       },
-    } as any);
+    } as Partial<import("rhea-promise").Session>);
     const sessionStub = await connectionStub.createSession();
     const senderStub = await sessionStub.createSender();
     const receiverStub = await sessionStub.createReceiver();
-    const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
+    const link = new RequestResponseLink(sessionStub, senderStub, receiverStub);
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
     const request: RheaMessage = {
       body: "Hello World!!",
@@ -544,14 +522,9 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
       });
       throw new Error(`Test failure`);
     } catch (err) {
-      assert.isTrue(isError(err));
-      const error = err as Error;
-      assert.equal(error.name, "AbortError", `Error name ${error.name} is not as expected`);
-      assert.equal(
-        error.message,
-        StandardAbortMessage,
-        `Incorrect error received "${error.message}"`,
-      );
+      assert.instanceOf(err, Error);
+      assert.equal(err.name, "AbortError", `Error name ${err.name} is not as expected`);
+      assert.equal(err.message, StandardAbortMessage, `Incorrect error received "${err.message}"`);
     }
     // Final state of the map
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
@@ -561,29 +534,25 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
     const { Connection } = await vi.importMock<typeof import("rhea-promise")>("rhea-promise");
     const connectionStub = new Connection();
     const rcvr = new EventEmitter();
-    let req: any = {};
-    vi.mocked(connectionStub.createSession).mockResolvedValue({
-      connection: {
-        id: "connection-1",
-      },
+    let req: RheaMessage = { body: undefined };
+    mockCreateSession(connectionStub, {
       createSender: () => {
-        return Promise.resolve({
-          send: (request: any) => {
-            req = request;
-          },
-          on: () => {
-            /* no_op */
-          },
-        });
+        return Promise.resolve(
+          createMockSender({
+            send: (request: RheaMessage) => {
+              req = request;
+            },
+          }),
+        );
       },
       createReceiver: () => {
         return Promise.resolve(rcvr);
       },
-    } as any);
+    } as Partial<import("rhea-promise").Session>);
     const sessionStub = await connectionStub.createSession();
     const senderStub = await sessionStub.createSender();
     const receiverStub = await sessionStub.createReceiver();
-    const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
+    const link = new RequestResponseLink(sessionStub, senderStub, receiverStub);
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
     const request: RheaMessage = {
       body: "Hello World!!",
@@ -609,14 +578,9 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
       await link.sendRequest(request, { abortSignal: signal, requestName: "foo" });
       throw new Error(`Test failure`);
     } catch (err) {
-      assert.isTrue(isError(err));
-      const error = err as Error;
-      assert.equal(error.name, "AbortError", `Error name ${error.name} is not as expected`);
-      assert.equal(
-        error.message,
-        StandardAbortMessage,
-        `Incorrect error received "${error.message}"`,
-      );
+      assert.instanceOf(err, Error);
+      assert.equal(err.name, "AbortError", `Error name ${err.name} is not as expected`);
+      assert.equal(err.message, StandardAbortMessage, `Incorrect error received "${err.message}"`);
     }
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
   });
@@ -641,29 +605,25 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
       const { Connection } = await vi.importMock<typeof import("rhea-promise")>("rhea-promise");
       const connectionStub = new Connection();
       const rcvr = new EventEmitter();
-      let req: any = {};
-      vi.mocked(connectionStub.createSession).mockResolvedValue({
-        connection: {
-          id: "connection-1",
-        },
+      let req: RheaMessage = { body: undefined };
+      mockCreateSession(connectionStub, {
         createSender: () => {
-          return Promise.resolve({
-            send: (request: any) => {
-              req = request;
-            },
-            on: () => {
-              /* no_op */
-            },
-          });
+          return Promise.resolve(
+            createMockSender({
+              send: (request: RheaMessage) => {
+                req = request;
+              },
+            }),
+          );
         },
         createReceiver: () => {
           return Promise.resolve(rcvr);
         },
-      } as any);
+      } as Partial<import("rhea-promise").Session>);
       const sessionStub = await connectionStub.createSession();
       const senderStub = await sessionStub.createSender();
       const receiverStub = await sessionStub.createReceiver();
-      const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
+      const link = new RequestResponseLink(sessionStub, senderStub, receiverStub);
       assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
       const request: RheaMessage = {
         body: "Hello World!!",
@@ -687,9 +647,8 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
         await link.sendRequest(request, { timeoutInMs: 120000, requestName: "foo" });
         throw new Error(testFailureMessage);
       } catch (err) {
-        assert.isTrue(isError(err));
-        const error = err as Error;
-        assert.notEqual(error.message, testFailureMessage);
+        assert.instanceOf(err, Error);
+        assert.notEqual(err.message, testFailureMessage);
       }
       assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
       assert.equal(clearTimeoutCalledCount, 1, "Expected clearTimeout to be called once.");
@@ -699,29 +658,25 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
       const { Connection } = await vi.importMock<typeof import("rhea-promise")>("rhea-promise");
       const connectionStub = new Connection();
       const rcvr = new EventEmitter();
-      let req: any = {};
-      vi.mocked(connectionStub.createSession).mockResolvedValue({
-        connection: {
-          id: "connection-1",
-        },
+      let req: RheaMessage = { body: undefined };
+      mockCreateSession(connectionStub, {
         createSender: () => {
-          return Promise.resolve({
-            send: (request: any) => {
-              req = request;
-            },
-            on: () => {
-              /* no_op */
-            },
-          });
+          return Promise.resolve(
+            createMockSender({
+              send: (request: RheaMessage) => {
+                req = request;
+              },
+            }),
+          );
         },
         createReceiver: () => {
           return Promise.resolve(rcvr);
         },
-      } as any);
+      } as Partial<import("rhea-promise").Session>);
       const sessionStub = await connectionStub.createSession();
       const senderStub = await sessionStub.createSender();
       const receiverStub = await sessionStub.createReceiver();
-      const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
+      const link = new RequestResponseLink(sessionStub, senderStub, receiverStub);
       assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
       const request: RheaMessage = {
         body: "Hello World!!",
@@ -751,39 +706,30 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
     it("signals receiver and sender to now close the session", async () => {
       const { Connection } = await vi.importMock<typeof import("rhea-promise")>("rhea-promise");
       const connectionStub = new Connection();
-      vi.mocked(connectionStub.createSession).mockResolvedValue({
-        connection: {
-          id: "connection-1",
-        },
+      mockCreateSession(connectionStub, {
         close: vi.fn(),
         createSender: () => {
-          return Promise.resolve({
-            send: () => {
-              /* no op */
-            },
-            close: vi.fn(),
-            on: () => {
-              /* no_op */
-            },
-          });
+          return Promise.resolve(
+            createMockSender({
+              send: () => {
+                /* no op */
+              },
+              close: vi.fn(),
+            }),
+          );
         },
         createReceiver: () => {
-          return Promise.resolve({
-            close: vi.fn(),
-            on: () => {
-              /** Empty function on purpose for the sake of mocking */
-            },
-          });
+          return Promise.resolve(
+            createMockReceiver({
+              close: vi.fn(),
+            }),
+          );
         },
-      } as any);
+      } as Partial<import("rhea-promise").Session>);
       const sessionStub = await connectionStub.createSession();
       const senderStub = await sessionStub.createSender();
       const receiverStub = await sessionStub.createReceiver();
-      const link = new RequestResponseLink(
-        sessionStub as any,
-        senderStub as any,
-        receiverStub as any,
-      );
+      const link = new RequestResponseLink(sessionStub, senderStub, receiverStub);
 
       await link.close();
 
@@ -1003,7 +949,7 @@ describe("RequestResponseLink - onSenderError", () => {
   it("rejects all pending responses when sender errors", async () => {
     const connectionStub = createFullConnectionStub();
     const link = await RequestResponseLink.create(connectionStub, {}, {});
-    const responsesMap = (link as unknown as RequestResponseLinkPrivate)._responsesMap;
+    const responsesMap = getResponsesMap(link);
 
     let rejected1 = false;
     let rejected2 = false;
@@ -1046,7 +992,7 @@ describe("RequestResponseLink - onSenderError", () => {
   it("does nothing when sender is undefined", async () => {
     const connectionStub = createFullConnectionStub();
     const link = await RequestResponseLink.create(connectionStub, {}, {});
-    const responsesMap = (link as unknown as RequestResponseLinkPrivate)._responsesMap;
+    const responsesMap = getResponsesMap(link);
 
     responsesMap.set("id1", {
       resolve: () => {},
