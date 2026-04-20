@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureKeyCredential, OpenAIClient } from "@azure/openai";
+import { AzureOpenAI } from "openai";
 import "dotenv/config";
 import { createWriteStream } from "fs";
 
@@ -26,10 +26,12 @@ const inputs = [
 ];
 
 async function main(): Promise<void> {
-  const client = new OpenAIClient(
-    process.env.AZURE_OPENAI_ENDPOINT!,
-    new AzureKeyCredential(process.env.AZURE_OPENAI_KEY!),
-  );
+  const client = new AzureOpenAI({
+    endpoint: process.env.AZURE_OPENAI_ENDPOINT!,
+    apiKey: process.env.AZURE_OPENAI_KEY!,
+    deployment: process.env.AZURE_OPENAI_DEPLOYMENT_NAME!,
+    apiVersion: "2024-06-01",
+  });
 
   const writeStream = createWriteStream(outputPath, { mode: 0o755 });
 
@@ -41,7 +43,7 @@ async function main(): Promise<void> {
 
   const expressions = await Promise.all(
     inputs.map(async ({ ident, text, comment }) => {
-      const result = await client.getEmbeddings(process.env.AZURE_OPENAI_DEPLOYMENT_NAME!, [text]);
+      const result = await client.embeddings.create({ input: [text], model: "" });
       const embedding = result.data[0].embedding;
       return `// ${comment}\nexport const ${ident} = [${embedding.toString()}];\n\n`;
     }),
