@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/contoso-widgetmanager": ["./src/index.ts"],
+      "@azure/contoso-widgetmanager/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}
