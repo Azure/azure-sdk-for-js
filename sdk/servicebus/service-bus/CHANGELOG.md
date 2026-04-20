@@ -1,5 +1,11 @@
 # Release History
 
+## 7.10.0-beta.5 (Unreleased)
+
+### Bugs Fixed
+
+- Read `com.microsoft:max-message-batch-size` vendor property from the AMQP sender link to correctly limit batch size on Premium large-message entities, where `max-message-size` can be up to 100 MB but the batch limit is 1 MB.
+
 ## 7.10.0-beta.4 (2026-03-10)
 
 ### Bugs Fixed
