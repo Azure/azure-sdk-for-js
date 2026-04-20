@@ -25,7 +25,7 @@ export function createFile(
 ): FileContext {
   const endpointUrl = options.endpoint ?? String(endpointParam);
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-storage-file-share/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-storage-file-share/12.32.0-beta.1`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;
