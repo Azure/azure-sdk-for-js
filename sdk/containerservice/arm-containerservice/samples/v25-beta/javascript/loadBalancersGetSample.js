@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specified load balancer.
  *
  * @summary gets the specified load balancer.
- * x-ms-original-file: 2026-01-02-preview/LoadBalancers_Get.json
+ * x-ms-original-file: 2026-02-02-preview/LoadBalancers_Get.json
  */
 async function getLoadBalancer() {
   const credential = new DefaultAzureCredential();

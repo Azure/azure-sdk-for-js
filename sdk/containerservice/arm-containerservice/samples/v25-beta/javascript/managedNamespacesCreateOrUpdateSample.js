@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a namespace managed by ARM for the specified managed cluster. Users can configure aspects like resource quotas, network ingress/egress policies, and more. See aka.ms/aks/managed-namespaces for more details.
  *
  * @summary creates or updates a namespace managed by ARM for the specified managed cluster. Users can configure aspects like resource quotas, network ingress/egress policies, and more. See aka.ms/aks/managed-namespaces for more details.
- * x-ms-original-file: 2026-01-02-preview/ManagedNamespacesCreate_Update.json
+ * x-ms-original-file: 2026-02-02-preview/ManagedNamespacesCreate_Update.json
  */
 async function createOrUpdateManagedNamespace() {
   const credential = new DefaultAzureCredential();

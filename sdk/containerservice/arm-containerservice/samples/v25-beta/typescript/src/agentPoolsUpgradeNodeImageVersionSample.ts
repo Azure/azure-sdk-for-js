@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to upgrading the node image version of an agent pool applies the newest OS and runtime updates to the nodes. AKS provides one new image per week with the latest updates. For more details on node image versions, see: https://docs.microsoft.com/azure/aks/node-image-upgrade
  *
  * @summary upgrading the node image version of an agent pool applies the newest OS and runtime updates to the nodes. AKS provides one new image per week with the latest updates. For more details on node image versions, see: https://docs.microsoft.com/azure/aks/node-image-upgrade
- * x-ms-original-file: 2026-01-02-preview/AgentPoolsUpgradeNodeImageVersion.json
+ * x-ms-original-file: 2026-02-02-preview/AgentPoolsUpgradeNodeImageVersion.json
  */
 async function upgradeAgentPoolNodeImageVersion(): Promise<void> {
   const credential = new DefaultAzureCredential();

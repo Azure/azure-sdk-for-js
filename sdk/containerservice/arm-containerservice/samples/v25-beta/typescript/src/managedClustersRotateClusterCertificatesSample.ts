@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to see [Certificate rotation](https://docs.microsoft.com/azure/aks/certificate-rotation) for more details about rotating managed cluster certificates.
  *
  * @summary see [Certificate rotation](https://docs.microsoft.com/azure/aks/certificate-rotation) for more details about rotating managed cluster certificates.
- * x-ms-original-file: 2026-01-02-preview/ManagedClustersRotateClusterCertificates.json
+ * x-ms-original-file: 2026-02-02-preview/ManagedClustersRotateClusterCertificates.json
  */
 async function rotateClusterCertificates(): Promise<void> {
   const credential = new DefaultAzureCredential();

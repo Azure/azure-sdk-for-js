@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specified Identity Binding.
  *
  * @summary gets the specified Identity Binding.
- * x-ms-original-file: 2026-01-02-preview/IdentityBindings_Get.json
+ * x-ms-original-file: 2026-02-02-preview/IdentityBindings_Get.json
  */
 async function getIdentityBinding() {
   const credential = new DefaultAzureCredential();

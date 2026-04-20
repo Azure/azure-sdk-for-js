@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specified JWT authenticator of a managed cluster.
  *
  * @summary gets the specified JWT authenticator of a managed cluster.
- * x-ms-original-file: 2026-01-02-preview/JWTAuthenticators_Get.json
+ * x-ms-original-file: 2026-02-02-preview/JWTAuthenticators_Get.json
  */
 async function getJWTAuthenticator() {
   const credential = new DefaultAzureCredential();

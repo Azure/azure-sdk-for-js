@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of egress endpoints (network endpoints of all outbound dependencies) in the specified managed cluster. The operation returns properties of each egress endpoint.
  *
  * @summary gets a list of egress endpoints (network endpoints of all outbound dependencies) in the specified managed cluster. The operation returns properties of each egress endpoint.
- * x-ms-original-file: 2026-01-02-preview/OutboundNetworkDependenciesEndpointsList.json
+ * x-ms-original-file: 2026-02-02-preview/OutboundNetworkDependenciesEndpointsList.json
  */
 async function listOutboundNetworkDependenciesEndpointsByManagedCluster() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a machine in the specified agent pool.
  *
  * @summary creates or updates a machine in the specified agent pool.
- * x-ms-original-file: 2026-01-02-preview/MachineCreate_Update.json
+ * x-ms-original-file: 2026-02-02-preview/MachineCreate_Update.json
  */
 async function createOrUpdateMachine() {
   const credential = new DefaultAzureCredential();

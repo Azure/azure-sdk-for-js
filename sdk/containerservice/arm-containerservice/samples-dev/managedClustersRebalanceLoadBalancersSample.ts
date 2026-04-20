@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to rebalance nodes across specific load balancers.
  *
  * @summary rebalance nodes across specific load balancers.
- * x-ms-original-file: 2026-01-02-preview/LoadBalancers_Rebalance.json
+ * x-ms-original-file: 2026-02-02-preview/LoadBalancers_Rebalance.json
  */
 async function rebalanceLoadBalancersOfAManagedCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();

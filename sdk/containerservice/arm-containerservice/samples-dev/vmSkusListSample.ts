@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the list of VM SKUs accepted by AKS when creating node pools in a specified location. AKS will perform a best effort approach to provision the requested VM SKUs, but availability is not guaranteed.
  *
  * @summary gets the list of VM SKUs accepted by AKS when creating node pools in a specified location. AKS will perform a best effort approach to provision the requested VM SKUs, but availability is not guaranteed.
- * x-ms-original-file: 2026-01-02-preview/ListAvailableContainerServiceVmSkus.json
+ * x-ms-original-file: 2026-02-02-preview/ListAvailableContainerServiceVmSkus.json
  */
 async function listsAllAvailableContainerServiceVMSKUsForALocation(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function listsAllAvailableContainerServiceVMSKUsForALocation(): Promise<vo
  * This sample demonstrates how to gets the list of VM SKUs accepted by AKS when creating node pools in a specified location. AKS will perform a best effort approach to provision the requested VM SKUs, but availability is not guaranteed.
  *
  * @summary gets the list of VM SKUs accepted by AKS when creating node pools in a specified location. AKS will perform a best effort approach to provision the requested VM SKUs, but availability is not guaranteed.
- * x-ms-original-file: 2026-01-02-preview/ListAvailableContainerServiceVmSkusWithExtendedLocations.json
+ * x-ms-original-file: 2026-02-02-preview/ListAvailableContainerServiceVmSkusWithExtendedLocations.json
  */
 async function listsAllAvailableContainerServiceVMSKUsWithExtendedLocationInformation(): Promise<void> {
   const credential = new DefaultAzureCredential();

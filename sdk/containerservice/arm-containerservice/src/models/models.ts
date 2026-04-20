@@ -57,7 +57,7 @@ export interface AgentPool extends ProxyResource {
   /** The version of Kubernetes the Agent Pool is running. If orchestratorVersion is a fully specified version <major.minor.patch>, this field will be exactly equal to it. If orchestratorVersion is <major.minor>, this field will contain the full <major.minor.patch> version being used. */
   readonly currentOrchestratorVersion?: string;
   /** The version of node image */
-  readonly nodeImageVersion?: string;
+  nodeImageVersion?: string;
   /** Defines the upgrade strategy for the agent pool. The default is Rolling. */
   upgradeStrategy?: UpgradeStrategy;
   /** Whether to enable the full-cache ephemeral OS disk feature. When this feature is enabled, the entire operating system will be locally cached on the ephemeral OS disk, preventing E17 events caused by network failures. */
@@ -130,8 +130,8 @@ export interface AgentPool extends ProxyResource {
   status?: AgentPoolStatus;
   /** Configures the per-node local DNS, with VnetDNS and KubeDNS overrides. LocalDNS helps improve performance and reliability of DNS resolution in an AKS cluster. For more details see aka.ms/aks/localdns. */
   localDNSProfile?: LocalDNSProfile;
-  /** Settings to determine the node customization used to provision nodes in a pool. */
-  nodeCustomizationProfile?: NodeCustomizationProfile;
+  /** Settings to determine the prepared image specification used to provision nodes in a pool. */
+  preparedImageSpecificationProfile?: PreparedImageSpecificationProfile;
 }
 
 export function agentPoolSerializer(item: AgentPool): any {
@@ -157,6 +157,7 @@ export function agentPoolSerializer(item: AgentPool): any {
       "type",
       "mode",
       "orchestratorVersion",
+      "nodeImageVersion",
       "upgradeStrategy",
       "enableOSDiskFullCaching",
       "upgradeSettings",
@@ -192,7 +193,7 @@ export function agentPoolSerializer(item: AgentPool): any {
       "virtualMachineNodesStatus",
       "status",
       "localDNSProfile",
-      "nodeCustomizationProfile",
+      "preparedImageSpecificationProfile",
     ])
       ? undefined
       : _agentPoolPropertiesSerializer(item),
@@ -260,7 +261,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
   /** The version of Kubernetes the Agent Pool is running. If orchestratorVersion is a fully specified version <major.minor.patch>, this field will be exactly equal to it. If orchestratorVersion is <major.minor>, this field will contain the full <major.minor.patch> version being used. */
   readonly currentOrchestratorVersion?: string;
   /** The version of node image */
-  readonly nodeImageVersion?: string;
+  nodeImageVersion?: string;
   /** Defines the upgrade strategy for the agent pool. The default is Rolling. */
   upgradeStrategy?: UpgradeStrategy;
   /** Whether to enable the full-cache ephemeral OS disk feature. When this feature is enabled, the entire operating system will be locally cached on the ephemeral OS disk, preventing E17 events caused by network failures. */
@@ -333,8 +334,8 @@ export interface ManagedClusterAgentPoolProfileProperties {
   status?: AgentPoolStatus;
   /** Configures the per-node local DNS, with VnetDNS and KubeDNS overrides. LocalDNS helps improve performance and reliability of DNS resolution in an AKS cluster. For more details see aka.ms/aks/localdns. */
   localDNSProfile?: LocalDNSProfile;
-  /** Settings to determine the node customization used to provision nodes in a pool. */
-  nodeCustomizationProfile?: NodeCustomizationProfile;
+  /** Settings to determine the prepared image specification used to provision nodes in a pool. */
+  preparedImageSpecificationProfile?: PreparedImageSpecificationProfile;
 }
 
 export function managedClusterAgentPoolProfilePropertiesSerializer(
@@ -361,6 +362,7 @@ export function managedClusterAgentPoolProfilePropertiesSerializer(
     type: item["type"],
     mode: item["mode"],
     orchestratorVersion: item["orchestratorVersion"],
+    nodeImageVersion: item["nodeImageVersion"],
     upgradeStrategy: item["upgradeStrategy"],
     enableOSDiskFullCaching: item["enableOSDiskFullCaching"],
     upgradeSettings: !item["upgradeSettings"]
@@ -434,9 +436,9 @@ export function managedClusterAgentPoolProfilePropertiesSerializer(
     localDNSProfile: !item["localDNSProfile"]
       ? item["localDNSProfile"]
       : localDNSProfileSerializer(item["localDNSProfile"]),
-    nodeCustomizationProfile: !item["nodeCustomizationProfile"]
-      ? item["nodeCustomizationProfile"]
-      : nodeCustomizationProfileSerializer(item["nodeCustomizationProfile"]),
+    preparedImageSpecificationProfile: !item["preparedImageSpecificationProfile"]
+      ? item["preparedImageSpecificationProfile"]
+      : preparedImageSpecificationProfileSerializer(item["preparedImageSpecificationProfile"]),
   };
 }
 
@@ -551,9 +553,9 @@ export function managedClusterAgentPoolProfilePropertiesDeserializer(
     localDNSProfile: !item["localDNSProfile"]
       ? item["localDNSProfile"]
       : localDNSProfileDeserializer(item["localDNSProfile"]),
-    nodeCustomizationProfile: !item["nodeCustomizationProfile"]
-      ? item["nodeCustomizationProfile"]
-      : nodeCustomizationProfileDeserializer(item["nodeCustomizationProfile"]),
+    preparedImageSpecificationProfile: !item["preparedImageSpecificationProfile"]
+      ? item["preparedImageSpecificationProfile"]
+      : preparedImageSpecificationProfileDeserializer(item["preparedImageSpecificationProfile"]),
   };
 }
 
@@ -1596,8 +1598,13 @@ export function virtualMachinesProfileDeserializer(item: any): VirtualMachinesPr
 export interface ScaleProfile {
   /** Specifications on how to scale the VirtualMachines agent pool to a fixed size. */
   manual?: ManualScaleProfile[];
-  /** Specifications on how to auto-scale the VirtualMachines agent pool within a predefined size range. */
-  autoscale?: AutoScaleProfile;
+  /**
+   * Specifications on how to auto-scale the VirtualMachines agent pool within a predefined size range.
+   * Each profile targets a specific VM SKU and is evaluated independently.
+   * Scaling decisions across profiles are governed by the cluster autoscaler expander,
+   * configurable via `ManagedCluster.properties.autoScalerProfile.expander`.
+   */
+  autoscale?: AutoScaleProfile[];
 }
 
 export function scaleProfileSerializer(item: ScaleProfile): any {
@@ -1605,7 +1612,7 @@ export function scaleProfileSerializer(item: ScaleProfile): any {
     manual: !item["manual"] ? item["manual"] : manualScaleProfileArraySerializer(item["manual"]),
     autoscale: !item["autoscale"]
       ? item["autoscale"]
-      : autoScaleProfileSerializer(item["autoscale"]),
+      : autoScaleProfileArraySerializer(item["autoscale"]),
   };
 }
 
@@ -1614,7 +1621,7 @@ export function scaleProfileDeserializer(item: any): ScaleProfile {
     manual: !item["manual"] ? item["manual"] : manualScaleProfileArrayDeserializer(item["manual"]),
     autoscale: !item["autoscale"]
       ? item["autoscale"]
-      : autoScaleProfileDeserializer(item["autoscale"]),
+      : autoScaleProfileArrayDeserializer(item["autoscale"]),
   };
 }
 
@@ -1647,6 +1654,18 @@ export function manualScaleProfileDeserializer(item: any): ManualScaleProfile {
     size: item["size"],
     count: item["count"],
   };
+}
+
+export function autoScaleProfileArraySerializer(result: Array<AutoScaleProfile>): any[] {
+  return result.map((item) => {
+    return autoScaleProfileSerializer(item);
+  });
+}
+
+export function autoScaleProfileArrayDeserializer(result: Array<AutoScaleProfile>): any[] {
+  return result.map((item) => {
+    return autoScaleProfileDeserializer(item);
+  });
 }
 
 /** Specifications on auto-scaling. */
@@ -1708,8 +1727,8 @@ export interface AgentPoolStatus {
   readonly provisioningError?: ErrorDetail;
 }
 
-export function agentPoolStatusSerializer(item: AgentPoolStatus): any {
-  return item;
+export function agentPoolStatusSerializer(_item: AgentPoolStatus): any {
+  return {};
 }
 
 export function agentPoolStatusDeserializer(item: any): AgentPoolStatus {
@@ -2011,27 +2030,31 @@ export enum KnownLocalDNSServeStale {
  */
 export type LocalDNSServeStale = string;
 
-/** Settings to determine the node customization used to provision nodes in a pool. */
-export interface NodeCustomizationProfile {
-  /** The resource ID of the node customization resource to use. This can be a version. Omitting the version will use the latest version of the node customization. */
-  nodeCustomizationId?: string;
+/** Settings to determine the prepared image specification used to provision nodes in a pool. */
+export interface PreparedImageSpecificationProfile {
+  /** The resource ID of the prepared image specification resource to use. This can include a version. Omitting the version will use the latest version of the prepared image specification. */
+  preparedImageSpecificationId?: string;
 }
 
-export function nodeCustomizationProfileSerializer(item: NodeCustomizationProfile): any {
-  return { nodeCustomizationId: item["nodeCustomizationId"] };
+export function preparedImageSpecificationProfileSerializer(
+  item: PreparedImageSpecificationProfile,
+): any {
+  return { preparedImageSpecificationId: item["preparedImageSpecificationId"] };
 }
 
-export function nodeCustomizationProfileDeserializer(item: any): NodeCustomizationProfile {
+export function preparedImageSpecificationProfileDeserializer(
+  item: any,
+): PreparedImageSpecificationProfile {
   return {
-    nodeCustomizationId: item["nodeCustomizationId"],
+    preparedImageSpecificationId: item["preparedImageSpecificationId"],
   };
 }
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -2057,8 +2080,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -2521,6 +2544,8 @@ export interface ManagedCluster extends TrackedResource {
   hostedSystemProfile?: ManagedClusterHostedSystemProfile;
   /** Health monitor profile for the managed cluster. */
   healthMonitorProfile?: ManagedClusterHealthMonitorProfile;
+  /** Profile for providing scaled and performance guaranteed control plane capacity to deliver consistent performance under high workload. Requires Kubernetes version 1.33.0 or later. */
+  controlPlaneScalingProfile?: ManagedClusterControlPlaneScalingProfile;
   /** Contains read-only information about the Managed Cluster. */
   status?: ManagedClusterStatus;
 }
@@ -2571,6 +2596,7 @@ export function managedClusterSerializer(item: ManagedCluster): any {
       "schedulerProfile",
       "hostedSystemProfile",
       "healthMonitorProfile",
+      "controlPlaneScalingProfile",
       "status",
     ])
       ? undefined
@@ -2713,6 +2739,8 @@ export interface ManagedClusterProperties {
   hostedSystemProfile?: ManagedClusterHostedSystemProfile;
   /** Health monitor profile for the managed cluster. */
   healthMonitorProfile?: ManagedClusterHealthMonitorProfile;
+  /** Profile for providing scaled and performance guaranteed control plane capacity to deliver consistent performance under high workload. Requires Kubernetes version 1.33.0 or later. */
+  controlPlaneScalingProfile?: ManagedClusterControlPlaneScalingProfile;
   /** Contains read-only information about the Managed Cluster. */
   status?: ManagedClusterStatus;
 }
@@ -2822,6 +2850,9 @@ export function managedClusterPropertiesSerializer(item: ManagedClusterPropertie
     healthMonitorProfile: !item["healthMonitorProfile"]
       ? item["healthMonitorProfile"]
       : managedClusterHealthMonitorProfileSerializer(item["healthMonitorProfile"]),
+    controlPlaneScalingProfile: !item["controlPlaneScalingProfile"]
+      ? item["controlPlaneScalingProfile"]
+      : managedClusterControlPlaneScalingProfileSerializer(item["controlPlaneScalingProfile"]),
     status: !item["status"] ? item["status"] : managedClusterStatusSerializer(item["status"]),
   };
 }
@@ -2941,6 +2972,9 @@ export function managedClusterPropertiesDeserializer(item: any): ManagedClusterP
     healthMonitorProfile: !item["healthMonitorProfile"]
       ? item["healthMonitorProfile"]
       : managedClusterHealthMonitorProfileDeserializer(item["healthMonitorProfile"]),
+    controlPlaneScalingProfile: !item["controlPlaneScalingProfile"]
+      ? item["controlPlaneScalingProfile"]
+      : managedClusterControlPlaneScalingProfileDeserializer(item["controlPlaneScalingProfile"]),
     status: !item["status"] ? item["status"] : managedClusterStatusDeserializer(item["status"]),
   };
 }
@@ -2991,6 +3025,7 @@ export function managedClusterAgentPoolProfileSerializer(
     type: item["type"],
     mode: item["mode"],
     orchestratorVersion: item["orchestratorVersion"],
+    nodeImageVersion: item["nodeImageVersion"],
     upgradeStrategy: item["upgradeStrategy"],
     enableOSDiskFullCaching: item["enableOSDiskFullCaching"],
     upgradeSettings: !item["upgradeSettings"]
@@ -3064,9 +3099,9 @@ export function managedClusterAgentPoolProfileSerializer(
     localDNSProfile: !item["localDNSProfile"]
       ? item["localDNSProfile"]
       : localDNSProfileSerializer(item["localDNSProfile"]),
-    nodeCustomizationProfile: !item["nodeCustomizationProfile"]
-      ? item["nodeCustomizationProfile"]
-      : nodeCustomizationProfileSerializer(item["nodeCustomizationProfile"]),
+    preparedImageSpecificationProfile: !item["preparedImageSpecificationProfile"]
+      ? item["preparedImageSpecificationProfile"]
+      : preparedImageSpecificationProfileSerializer(item["preparedImageSpecificationProfile"]),
     name: item["name"],
   };
 }
@@ -3182,9 +3217,9 @@ export function managedClusterAgentPoolProfileDeserializer(
     localDNSProfile: !item["localDNSProfile"]
       ? item["localDNSProfile"]
       : localDNSProfileDeserializer(item["localDNSProfile"]),
-    nodeCustomizationProfile: !item["nodeCustomizationProfile"]
-      ? item["nodeCustomizationProfile"]
-      : nodeCustomizationProfileDeserializer(item["nodeCustomizationProfile"]),
+    preparedImageSpecificationProfile: !item["preparedImageSpecificationProfile"]
+      ? item["preparedImageSpecificationProfile"]
+      : preparedImageSpecificationProfileDeserializer(item["preparedImageSpecificationProfile"]),
     name: item["name"],
   };
 }
@@ -6018,7 +6053,7 @@ export function managedClusterIngressDefaultDomainProfileDeserializer(
   };
 }
 
-/** Configuration for the ingress managed gateway. See https://aka.ms/k8s-gateway-api for more details. */
+/** Configuration for managed Gateway API CRDs. See https://aka.ms/k8s-gateway-api for more details. */
 export interface ManagedClusterIngressProfileGatewayConfiguration {
   /** Configuration for the managed Gateway API installation. If not specified, the default is 'Disabled'. See https://aka.ms/k8s-gateway-api for more details. */
   installation?: ManagedGatewayType;
@@ -6042,7 +6077,7 @@ export function managedClusterIngressProfileGatewayConfigurationDeserializer(
 export enum KnownManagedGatewayType {
   /** Gateway API CRDs will not be reconciled on your cluster. */
   Disabled = "Disabled",
-  /** The latest Gateway CRD bundle from the standard channel that is compatible with your Kubernetes version will be reconciled onto your cluster. See https://gateway-api.sigs.k8s.io/concepts/versioning/ for more details. */
+  /** Gateway API CRDs from the standard release channel will be reconciled onto your cluster. See https://aka.ms/gateway-api-versions to see which bundle will be installed for your Kubernetes version. */
   Standard = "Standard",
 }
 
@@ -6052,7 +6087,7 @@ export enum KnownManagedGatewayType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Disabled**: Gateway API CRDs will not be reconciled on your cluster. \
- * **Standard**: The latest Gateway CRD bundle from the standard channel that is compatible with your Kubernetes version will be reconciled onto your cluster. See https:\//gateway-api.sigs.k8s.io\/concepts\/versioning\/ for more details.
+ * **Standard**: Gateway API CRDs from the standard release channel will be reconciled onto your cluster. See https:\//aka.ms\/gateway-api-versions to see which bundle will be installed for your Kubernetes version.
  */
 export type ManagedGatewayType = string;
 
@@ -6249,6 +6284,8 @@ export interface ManagedClusterAzureMonitorProfileMetrics {
   enabled: boolean;
   /** Kube State Metrics profile for the Azure Managed Prometheus addon. These optional settings are for the kube-state-metrics pod that is deployed with the addon. See aka.ms/AzureManagedPrometheus-optional-parameters for details. */
   kubeStateMetrics?: ManagedClusterAzureMonitorProfileKubeStateMetrics;
+  /** Control plane metrics collection profile for the Azure Managed Prometheus addon. Configures collection of operational runtime metrics from managed control plane components (kube-apiserver, etcd, etc). See aka.ms/aks/controlplane-metrics for an overview. */
+  controlPlane?: ManagedClusterAzureMonitorProfileMetricsControlPlane;
 }
 
 export function managedClusterAzureMonitorProfileMetricsSerializer(
@@ -6259,6 +6296,9 @@ export function managedClusterAzureMonitorProfileMetricsSerializer(
     kubeStateMetrics: !item["kubeStateMetrics"]
       ? item["kubeStateMetrics"]
       : managedClusterAzureMonitorProfileKubeStateMetricsSerializer(item["kubeStateMetrics"]),
+    controlPlane: !item["controlPlane"]
+      ? item["controlPlane"]
+      : managedClusterAzureMonitorProfileMetricsControlPlaneSerializer(item["controlPlane"]),
   };
 }
 
@@ -6270,6 +6310,9 @@ export function managedClusterAzureMonitorProfileMetricsDeserializer(
     kubeStateMetrics: !item["kubeStateMetrics"]
       ? item["kubeStateMetrics"]
       : managedClusterAzureMonitorProfileKubeStateMetricsDeserializer(item["kubeStateMetrics"]),
+    controlPlane: !item["controlPlane"]
+      ? item["controlPlane"]
+      : managedClusterAzureMonitorProfileMetricsControlPlaneDeserializer(item["controlPlane"]),
   };
 }
 
@@ -6296,6 +6339,26 @@ export function managedClusterAzureMonitorProfileKubeStateMetricsDeserializer(
   return {
     metricLabelsAllowlist: item["metricLabelsAllowlist"],
     metricAnnotationsAllowList: item["metricAnnotationsAllowList"],
+  };
+}
+
+/** Control plane metrics collection profile for the Azure Managed Prometheus addon. Configures collection of operational runtime metrics from managed control plane components (kube-apiserver, etcd, etc). See aka.ms/aks/controlplane-metrics for an overview. */
+export interface ManagedClusterAzureMonitorProfileMetricsControlPlane {
+  /** Whether to enable or disable collection of control plane metrics by the Azure Managed Prometheus addon. Defaults to disabled. See aka.ms/aks/controlplane-metrics for details. */
+  enabled?: boolean;
+}
+
+export function managedClusterAzureMonitorProfileMetricsControlPlaneSerializer(
+  item: ManagedClusterAzureMonitorProfileMetricsControlPlane,
+): any {
+  return { enabled: item["enabled"] };
+}
+
+export function managedClusterAzureMonitorProfileMetricsControlPlaneDeserializer(
+  item: any,
+): ManagedClusterAzureMonitorProfileMetricsControlPlane {
+  return {
+    enabled: item["enabled"],
   };
 }
 
@@ -6359,14 +6422,14 @@ export enum KnownContainerNetworkLogs {
  */
 export type ContainerNetworkLogs = string;
 
-/** Application Monitoring Profile for Kubernetes Application Container. Collects application logs, metrics and traces through auto-instrumentation of the application using Azure Monitor OpenTelemetry based SDKs. See aka.ms/AzureMonitorApplicationMonitoring for an overview. */
+/** Application Monitoring profile for AKS. */
 export interface ManagedClusterAzureMonitorProfileAppMonitoring {
-  /** Application Monitoring Auto Instrumentation for Kubernetes Application Container. Deploys web hook to auto-instrument Azure Monitor OpenTelemetry based SDKs to collect OpenTelemetry metrics, logs and traces of the application. See aka.ms/AzureMonitorApplicationMonitoring for an overview. */
+  /** Application Monitoring auto-instrumentation for AKS. Deploys a webhook that auto-instruments workloads with Microsoft OpenTelemetry Distros to collect OpenTelemetry metrics, logs, and traces. See https://aka.ms/AKSAppMonitoringDocs and https://aka.ms/AzureMonitorApplicationMonitoring for an overview. */
   autoInstrumentation?: ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation;
-  /** Application Monitoring Open Telemetry Metrics Profile for Kubernetes Application Container Metrics. Collects OpenTelemetry metrics of the application using Azure Monitor OpenTelemetry based SDKs. See aka.ms/AzureMonitorApplicationMonitoring for an overview. */
+  /** Application Monitoring Open Telemetry Metrics Profile for AKS. Collects OpenTelemetry metrics of the application using Azure Monitor OpenTelemetry based SDKs. See https://aka.ms/AKSAppMonitoringDocs and https://aka.ms/AzureMonitorApplicationMonitoring for an overview. */
   openTelemetryMetrics?: ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics;
-  /** Application Monitoring Open Telemetry Metrics Profile for Kubernetes Application Container Logs and Traces. Collects OpenTelemetry logs and traces of the application using Azure Monitor OpenTelemetry based SDKs. See aka.ms/AzureMonitorApplicationMonitoring for an overview. */
-  openTelemetryLogs?: ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs;
+  /** Application Monitoring Open Telemetry Logs and Traces Profile for AKS. Collects OpenTelemetry logs and traces of the application using Azure Monitor OpenTelemetry based SDKs. See https://aka.ms/AKSAppMonitoringDocs and https://aka.ms/AzureMonitorApplicationMonitoring for an overview. */
+  openTelemetryLogsAndTraces?: ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsAndTraces;
 }
 
 export function managedClusterAzureMonitorProfileAppMonitoringSerializer(
@@ -6383,10 +6446,10 @@ export function managedClusterAzureMonitorProfileAppMonitoringSerializer(
       : managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetricsSerializer(
           item["openTelemetryMetrics"],
         ),
-    openTelemetryLogs: !item["openTelemetryLogs"]
-      ? item["openTelemetryLogs"]
-      : managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsSerializer(
-          item["openTelemetryLogs"],
+    openTelemetryLogsAndTraces: !item["openTelemetryLogsAndTraces"]
+      ? item["openTelemetryLogsAndTraces"]
+      : managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsAndTracesSerializer(
+          item["openTelemetryLogsAndTraces"],
         ),
   };
 }
@@ -6405,17 +6468,17 @@ export function managedClusterAzureMonitorProfileAppMonitoringDeserializer(
       : managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetricsDeserializer(
           item["openTelemetryMetrics"],
         ),
-    openTelemetryLogs: !item["openTelemetryLogs"]
-      ? item["openTelemetryLogs"]
-      : managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsDeserializer(
-          item["openTelemetryLogs"],
+    openTelemetryLogsAndTraces: !item["openTelemetryLogsAndTraces"]
+      ? item["openTelemetryLogsAndTraces"]
+      : managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsAndTracesDeserializer(
+          item["openTelemetryLogsAndTraces"],
         ),
   };
 }
 
-/** Application Monitoring Auto Instrumentation for Kubernetes Application Container. Deploys web hook to auto-instrument Azure Monitor OpenTelemetry based SDKs to collect OpenTelemetry metrics, logs and traces of the application. See aka.ms/AzureMonitorApplicationMonitoring for an overview. */
+/** Application Monitoring auto-instrumentation for AKS. Deploys a webhook that auto-instruments workloads with Microsoft OpenTelemetry Distros to collect OpenTelemetry metrics, logs, and traces. See https://aka.ms/AKSAppMonitoringDocs and https://aka.ms/AzureMonitorApplicationMonitoring for an overview. */
 export interface ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation {
-  /** Indicates if Application Monitoring Auto Instrumentation is enabled or not. */
+  /** Indicates if Application Monitoring Auto-instrumentation is enabled or not. */
   enabled?: boolean;
 }
 
@@ -6433,18 +6496,20 @@ export function managedClusterAzureMonitorProfileAppMonitoringAutoInstrumentatio
   };
 }
 
-/** Application Monitoring Open Telemetry Metrics Profile for Kubernetes Application Container Metrics. Collects OpenTelemetry metrics of the application using Azure Monitor OpenTelemetry based SDKs. See aka.ms/AzureMonitorApplicationMonitoring for an overview. */
+/** Application Monitoring Open Telemetry Metrics Profile for AKS. Collects OpenTelemetry metrics of the application using Azure Monitor OpenTelemetry based SDKs. See https://aka.ms/AKSAppMonitoringDocs and https://aka.ms/AzureMonitorApplicationMonitoring for an overview. */
 export interface ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics {
   /** Indicates if Application Monitoring Open Telemetry Metrics is enabled or not. */
   enabled?: boolean;
-  /** The Open Telemetry host port for Open Telemetry metrics. If not specified, the default port is 28333. */
-  port?: number;
+  /** The host port for Open Telemetry HTTP/PROTOBUF metrics. If not specified, the default port is 28333. */
+  httpPort?: number;
+  /** The host port for Open Telemetry GRPC metrics. If not specified, the default port is 28334. */
+  grpcPort?: number;
 }
 
 export function managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetricsSerializer(
   item: ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics,
 ): any {
-  return { enabled: item["enabled"], port: item["port"] };
+  return { enabled: item["enabled"], httpPort: item["httpPort"], grpcPort: item["grpcPort"] };
 }
 
 export function managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetricsDeserializer(
@@ -6452,30 +6517,34 @@ export function managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetri
 ): ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics {
   return {
     enabled: item["enabled"],
-    port: item["port"],
+    httpPort: item["httpPort"],
+    grpcPort: item["grpcPort"],
   };
 }
 
-/** Application Monitoring Open Telemetry Metrics Profile for Kubernetes Application Container Logs and Traces. Collects OpenTelemetry logs and traces of the application using Azure Monitor OpenTelemetry based SDKs. See aka.ms/AzureMonitorApplicationMonitoring for an overview. */
-export interface ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs {
+/** Application Monitoring Open Telemetry Logs and Traces Profile for AKS. Collects OpenTelemetry logs and traces of the application using Azure Monitor OpenTelemetry based SDKs. See https://aka.ms/AKSAppMonitoringDocs and https://aka.ms/AzureMonitorApplicationMonitoring for an overview. */
+export interface ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsAndTraces {
   /** Indicates if Application Monitoring Open Telemetry Logs and traces is enabled or not. */
   enabled?: boolean;
-  /** The Open Telemetry host port for Open Telemetry logs and traces. If not specified, the default port is 28331. */
-  port?: number;
+  /** The host port for Open Telemetry HTTP/PROTOBUF logs and traces. If not specified, the default port is 28331. */
+  httpPort?: number;
+  /** The host port for Open Telemetry GRPC logs and traces. If not specified, the default port is 28332. */
+  grpcPort?: number;
 }
 
-export function managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsSerializer(
-  item: ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs,
+export function managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsAndTracesSerializer(
+  item: ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsAndTraces,
 ): any {
-  return { enabled: item["enabled"], port: item["port"] };
+  return { enabled: item["enabled"], httpPort: item["httpPort"], grpcPort: item["grpcPort"] };
 }
 
-export function managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsDeserializer(
+export function managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsAndTracesDeserializer(
   item: any,
-): ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs {
+): ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsAndTraces {
   return {
     enabled: item["enabled"],
-    port: item["port"],
+    httpPort: item["httpPort"],
+    grpcPort: item["grpcPort"],
   };
 }
 
@@ -7011,12 +7080,20 @@ export type SchedulerConfigMode = string;
 export interface ManagedClusterHostedSystemProfile {
   /** Whether to enable hosted system addons for the cluster. */
   enabled?: boolean;
+  /** The ID of the subnet that will be joined by system nodes managed and hosted by AKS for running critical system addons. This ID must be provided together with `nodeSubnetID` and `apiserverAccessProfile.subnetId`, and all three subnet IDs must belong to the same VNet. If you don’t specify it, AKS will create a subnet in the managed resource group using a default /26 CIDR. */
+  systemNodeSubnetID?: string;
+  /** The ID of the subnet that will be joined by worker nodes managed by node auto provisioner for running workload pods in your tenant. This must be provided together with `systemNodeSubnetID` and `apiserverAccessProfile.subnetId`, and all three subnet IDs must be in the same VNet. If you don’t specify it, AKS will create a subnet in the managed resource group using a default /16 CIDR. */
+  nodeSubnetID?: string;
 }
 
 export function managedClusterHostedSystemProfileSerializer(
   item: ManagedClusterHostedSystemProfile,
 ): any {
-  return { enabled: item["enabled"] };
+  return {
+    enabled: item["enabled"],
+    systemNodeSubnetID: item["systemNodeSubnetID"],
+    nodeSubnetID: item["nodeSubnetID"],
+  };
 }
 
 export function managedClusterHostedSystemProfileDeserializer(
@@ -7024,6 +7101,8 @@ export function managedClusterHostedSystemProfileDeserializer(
 ): ManagedClusterHostedSystemProfile {
   return {
     enabled: item["enabled"],
+    systemNodeSubnetID: item["systemNodeSubnetID"],
+    nodeSubnetID: item["nodeSubnetID"],
   };
 }
 
@@ -7055,14 +7134,55 @@ export function managedClusterHealthMonitorProfileDeserializer(
   };
 }
 
+/** Profile for providing scaled and performance guaranteed control plane capacity to deliver consistent performance under high workload. Requires Kubernetes version 1.33.0 or later. */
+export interface ManagedClusterControlPlaneScalingProfile {
+  /** The scaling size of the control plane. Scaling sizes offer guaranteed capacity and predictable Kubernetes performance beyond standard tier defaults. Higher H sizes provide increased performance guarantees. See https://aka.ms/aks/hyperscale for performance metrics details for each size. */
+  scalingSize: ControlPlaneScalingSize;
+}
+
+export function managedClusterControlPlaneScalingProfileSerializer(
+  item: ManagedClusterControlPlaneScalingProfile,
+): any {
+  return { scalingSize: item["scalingSize"] };
+}
+
+export function managedClusterControlPlaneScalingProfileDeserializer(
+  item: any,
+): ManagedClusterControlPlaneScalingProfile {
+  return {
+    scalingSize: item["scalingSize"],
+  };
+}
+
+/** The scaling size of the control plane. Scaling sizes offer guaranteed capacity and predictable Kubernetes performance beyond standard tier defaults. Higher H sizes provide increased performance guarantees. See https://aka.ms/aks/hyperscale for performance metrics details for each size. */
+export enum KnownControlPlaneScalingSize {
+  /** H2 is the smallest scaling size with guaranteed capacity and predictable performance beyond standard tier defaults. */
+  H2 = "H2",
+  /** H4 scaling size provides increased guaranteed performance over H2. */
+  H4 = "H4",
+  /** H8 scaling size provides increased guaranteed performance over H4. */
+  H8 = "H8",
+}
+
+/**
+ * The scaling size of the control plane. Scaling sizes offer guaranteed capacity and predictable Kubernetes performance beyond standard tier defaults. Higher H sizes provide increased performance guarantees. See https://aka.ms/aks/hyperscale for performance metrics details for each size. \
+ * {@link KnownControlPlaneScalingSize} can be used interchangeably with ControlPlaneScalingSize,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **H2**: H2 is the smallest scaling size with guaranteed capacity and predictable performance beyond standard tier defaults. \
+ * **H4**: H4 scaling size provides increased guaranteed performance over H2. \
+ * **H8**: H8 scaling size provides increased guaranteed performance over H4.
+ */
+export type ControlPlaneScalingSize = string;
+
 /** Contains read-only information about the Managed Cluster. */
 export interface ManagedClusterStatus {
   /** The error details information of the managed cluster. Preserves the detailed info of failure. If there was no error, this field is omitted. */
   readonly provisioningError?: ErrorDetail;
 }
 
-export function managedClusterStatusSerializer(item: ManagedClusterStatus): any {
-  return item;
+export function managedClusterStatusSerializer(_item: ManagedClusterStatus): any {
+  return {};
 }
 
 export function managedClusterStatusDeserializer(item: any): ManagedClusterStatus {
@@ -7313,9 +7433,9 @@ export interface ManagedServiceIdentityUserAssignedIdentitiesValue {
 }
 
 export function managedServiceIdentityUserAssignedIdentitiesValueSerializer(
-  item: ManagedServiceIdentityUserAssignedIdentitiesValue,
+  _item: ManagedServiceIdentityUserAssignedIdentitiesValue,
 ): any {
-  return item;
+  return {};
 }
 
 export function managedServiceIdentityUserAssignedIdentitiesValueDeserializer(
@@ -8872,7 +8992,7 @@ export interface Machine extends ProxyResource {
   /** The properties of the machine */
   properties?: MachineProperties;
   /** The Availability zone in which machine is located. */
-  readonly zones?: string[];
+  zones?: string[];
 }
 
 export function machineSerializer(item: Machine): any {
@@ -8880,6 +9000,11 @@ export function machineSerializer(item: Machine): any {
     properties: !item["properties"]
       ? item["properties"]
       : machinePropertiesSerializer(item["properties"]),
+    zones: !item["zones"]
+      ? item["zones"]
+      : item["zones"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -8905,7 +9030,7 @@ export function machineDeserializer(item: any): Machine {
 /** The properties of the machine */
 export interface MachineProperties {
   /** network properties of the machine */
-  readonly network?: MachineNetworkProperties;
+  network?: MachineNetworkProperties;
   /** Azure resource id of the machine. It can be used to GET underlying VM Instance */
   readonly resourceId?: string;
   /** The hardware and GPU settings of the machine. */
@@ -8940,6 +9065,9 @@ export interface MachineProperties {
 
 export function machinePropertiesSerializer(item: MachineProperties): any {
   return {
+    network: !item["network"]
+      ? item["network"]
+      : machineNetworkPropertiesSerializer(item["network"]),
     hardware: !item["hardware"]
       ? item["hardware"]
       : machineHardwareProfileSerializer(item["hardware"]),
@@ -9014,6 +9142,18 @@ export interface MachineNetworkProperties {
   nodePublicIPPrefixID?: string;
   /** IPTags of instance-level public IPs. */
   nodePublicIPTags?: IPTag[];
+}
+
+export function machineNetworkPropertiesSerializer(item: MachineNetworkProperties): any {
+  return {
+    vnetSubnetID: item["vnetSubnetID"],
+    podSubnetID: item["podSubnetID"],
+    enableNodePublicIP: item["enableNodePublicIP"],
+    nodePublicIPPrefixID: item["nodePublicIPPrefixID"],
+    nodePublicIPTags: !item["nodePublicIPTags"]
+      ? item["nodePublicIPTags"]
+      : ipTagArraySerializer(item["nodePublicIPTags"]),
+  };
 }
 
 export function machineNetworkPropertiesDeserializer(item: any): MachineNetworkProperties {
@@ -9785,11 +9925,11 @@ export function managedClusterSnapshotPropertiesDeserializer(
 /** managed cluster properties for snapshot, these properties are read only. */
 export interface ManagedClusterPropertiesForSnapshot {
   /** The current kubernetes version. */
-  kubernetesVersion?: string;
+  readonly kubernetesVersion?: string;
   /** The current managed cluster sku. */
-  sku?: ManagedClusterSKU;
+  readonly sku?: ManagedClusterSKU;
   /** Whether the cluster has enabled Kubernetes Role-Based Access Control or not. */
-  enableRbac?: boolean;
+  readonly enableRbac?: boolean;
   /** The current network profile. */
   readonly networkProfile?: NetworkProfileForSnapshot;
 }
@@ -11435,8 +11575,10 @@ export enum KnownVersions {
   V20251001 = "2025-10-01",
   /** The 2026-01-01 API version. */
   V20260101 = "2026-01-01",
-  /** The 2026-01-02-preview API version. */
-  V20260102Preview = "2026-01-02-preview",
+  /** The 2026-02-01 API version. */
+  V20260201 = "2026-02-01",
+  /** The 2026-02-02-preview API version. */
+  V20260202Preview = "2026-02-02-preview",
 }
 
 export function _agentPoolPropertiesSerializer(item: AgentPool): any {
@@ -11461,6 +11603,7 @@ export function _agentPoolPropertiesSerializer(item: AgentPool): any {
     type: item["typePropertiesType"],
     mode: item["mode"],
     orchestratorVersion: item["orchestratorVersion"],
+    nodeImageVersion: item["nodeImageVersion"],
     upgradeStrategy: item["upgradeStrategy"],
     enableOSDiskFullCaching: item["enableOSDiskFullCaching"],
     upgradeSettings: !item["upgradeSettings"]
@@ -11534,9 +11677,9 @@ export function _agentPoolPropertiesSerializer(item: AgentPool): any {
     localDNSProfile: !item["localDNSProfile"]
       ? item["localDNSProfile"]
       : localDNSProfileSerializer(item["localDNSProfile"]),
-    nodeCustomizationProfile: !item["nodeCustomizationProfile"]
-      ? item["nodeCustomizationProfile"]
-      : nodeCustomizationProfileSerializer(item["nodeCustomizationProfile"]),
+    preparedImageSpecificationProfile: !item["preparedImageSpecificationProfile"]
+      ? item["preparedImageSpecificationProfile"]
+      : preparedImageSpecificationProfileSerializer(item["preparedImageSpecificationProfile"]),
   };
 }
 
@@ -11649,9 +11792,9 @@ export function _agentPoolPropertiesDeserializer(item: any) {
     localDNSProfile: !item["localDNSProfile"]
       ? item["localDNSProfile"]
       : localDNSProfileDeserializer(item["localDNSProfile"]),
-    nodeCustomizationProfile: !item["nodeCustomizationProfile"]
-      ? item["nodeCustomizationProfile"]
-      : nodeCustomizationProfileDeserializer(item["nodeCustomizationProfile"]),
+    preparedImageSpecificationProfile: !item["preparedImageSpecificationProfile"]
+      ? item["preparedImageSpecificationProfile"]
+      : preparedImageSpecificationProfileDeserializer(item["preparedImageSpecificationProfile"]),
   };
 }
 
@@ -11787,6 +11930,9 @@ export function _managedClusterPropertiesSerializer(item: ManagedCluster): any {
     healthMonitorProfile: !item["healthMonitorProfile"]
       ? item["healthMonitorProfile"]
       : managedClusterHealthMonitorProfileSerializer(item["healthMonitorProfile"]),
+    controlPlaneScalingProfile: !item["controlPlaneScalingProfile"]
+      ? item["controlPlaneScalingProfile"]
+      : managedClusterControlPlaneScalingProfileSerializer(item["controlPlaneScalingProfile"]),
     status: !item["status"] ? item["status"] : managedClusterStatusSerializer(item["status"]),
   };
 }
@@ -11906,6 +12052,9 @@ export function _managedClusterPropertiesDeserializer(item: any) {
     healthMonitorProfile: !item["healthMonitorProfile"]
       ? item["healthMonitorProfile"]
       : managedClusterHealthMonitorProfileDeserializer(item["healthMonitorProfile"]),
+    controlPlaneScalingProfile: !item["controlPlaneScalingProfile"]
+      ? item["controlPlaneScalingProfile"]
+      : managedClusterControlPlaneScalingProfileDeserializer(item["controlPlaneScalingProfile"]),
     status: !item["status"] ? item["status"] : managedClusterStatusDeserializer(item["status"]),
   };
 }

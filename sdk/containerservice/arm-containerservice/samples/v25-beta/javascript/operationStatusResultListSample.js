@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of operations in the specified managedCluster
  *
  * @summary gets a list of operations in the specified managedCluster
- * x-ms-original-file: 2026-01-02-preview/OperationStatusResultList.json
+ * x-ms-original-file: 2026-02-02-preview/OperationStatusResultList.json
  */
 async function listOfOperationStatusResult() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to completes the upgrade operation for the specified agent pool.
  *
  * @summary completes the upgrade operation for the specified agent pool.
- * x-ms-original-file: 2026-01-02-preview/AgentPoolsCompleteUpgrade.json
+ * x-ms-original-file: 2026-02-02-preview/AgentPoolsCompleteUpgrade.json
  */
 async function completeAgentPoolUpgrade(): Promise<void> {
   const credential = new DefaultAzureCredential();

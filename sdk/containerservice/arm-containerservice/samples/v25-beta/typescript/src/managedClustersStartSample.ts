@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to see [starting a cluster](https://docs.microsoft.com/azure/aks/start-stop-cluster) for more details about starting a cluster.
  *
  * @summary see [starting a cluster](https://docs.microsoft.com/azure/aks/start-stop-cluster) for more details about starting a cluster.
- * x-ms-original-file: 2026-01-02-preview/ManagedClustersStart.json
+ * x-ms-original-file: 2026-02-02-preview/ManagedClustersStart.json
  */
 async function startManagedCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();

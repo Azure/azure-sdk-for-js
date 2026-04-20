@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates tags on a managed cluster.
  *
  * @summary updates tags on a managed cluster.
- * x-ms-original-file: 2026-01-02-preview/ManagedClustersUpdateTags.json
+ * x-ms-original-file: 2026-02-02-preview/ManagedClustersUpdateTags.json
  */
 async function updateManagedClusterTags() {
   const credential = new DefaultAzureCredential();

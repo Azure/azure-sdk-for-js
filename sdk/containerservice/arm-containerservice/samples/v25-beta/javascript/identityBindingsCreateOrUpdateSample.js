@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates an identity binding in the specified managed cluster.
  *
  * @summary creates or updates an identity binding in the specified managed cluster.
- * x-ms-original-file: 2026-01-02-preview/IdentityBindings_Create_Or_Update.json
+ * x-ms-original-file: 2026-02-02-preview/IdentityBindings_Create_Or_Update.json
  */
 async function createOrUpdateIdentityBinding() {
   const credential = new DefaultAzureCredential();

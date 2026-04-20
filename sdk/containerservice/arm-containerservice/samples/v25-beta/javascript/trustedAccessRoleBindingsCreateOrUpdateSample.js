@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update a trusted access role binding
  *
  * @summary create or update a trusted access role binding
- * x-ms-original-file: 2026-01-02-preview/TrustedAccessRoleBindings_CreateOrUpdate.json
+ * x-ms-original-file: 2026-02-02-preview/TrustedAccessRoleBindings_CreateOrUpdate.json
  */
 async function createOrUpdateATrustedAccessRoleBinding() {
   const credential = new DefaultAzureCredential();

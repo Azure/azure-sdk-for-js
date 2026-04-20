@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list supported trusted access roles.
  *
  * @summary list supported trusted access roles.
- * x-ms-original-file: 2026-01-02-preview/TrustedAccessRoles_List.json
+ * x-ms-original-file: 2026-02-02-preview/TrustedAccessRoles_List.json
  */
 async function listTrustedAccessRoles() {
   const credential = new DefaultAzureCredential();

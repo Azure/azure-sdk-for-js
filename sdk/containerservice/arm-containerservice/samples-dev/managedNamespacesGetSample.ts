@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified namespace of a managed cluster.
  *
  * @summary gets the specified namespace of a managed cluster.
- * x-ms-original-file: 2026-01-02-preview/ManagedNamespacesGet.json
+ * x-ms-original-file: 2026-02-02-preview/ManagedNamespacesGet.json
  */
 async function getManagedNamespace(): Promise<void> {
   const credential = new DefaultAzureCredential();

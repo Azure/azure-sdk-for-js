@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the upgrade profile for an agent pool.
  *
  * @summary gets the upgrade profile for an agent pool.
- * x-ms-original-file: 2026-01-02-preview/AgentPoolsGetUpgradeProfile.json
+ * x-ms-original-file: 2026-02-02-preview/AgentPoolsGetUpgradeProfile.json
  */
 async function getUpgradeProfileForAgentPool(): Promise<void> {
   const credential = new DefaultAzureCredential();

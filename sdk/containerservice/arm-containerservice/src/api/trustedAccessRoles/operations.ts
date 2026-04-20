@@ -24,7 +24,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-01-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-02-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -64,7 +64,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-01-02-preview",
+      apiVersion: context.apiVersion ?? "2026-02-02-preview",
     },
   );
 }

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates tags on a snapshot.
  *
  * @summary updates tags on a snapshot.
- * x-ms-original-file: 2026-01-02-preview/SnapshotsUpdateTags.json
+ * x-ms-original-file: 2026-02-02-preview/SnapshotsUpdateTags.json
  */
 async function updateSnapshotTags(): Promise<void> {
   const credential = new DefaultAzureCredential();

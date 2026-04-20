@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a maintenance configuration.
  *
  * @summary deletes a maintenance configuration.
- * x-ms-original-file: 2026-01-02-preview/MaintenanceConfigurationsDelete_MaintenanceWindow.json
+ * x-ms-original-file: 2026-02-02-preview/MaintenanceConfigurationsDelete_MaintenanceWindow.json
  */
 async function deleteMaintenanceConfigurationForNodeOSUpgrade(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to contains Guardrails version along with its support info and whether it is a default version.
  *
  * @summary contains Guardrails version along with its support info and whether it is a default version.
- * x-ms-original-file: 2026-01-02-preview/GetGuardrailsVersions.json
+ * x-ms-original-file: 2026-02-02-preview/GetGuardrailsVersions.json
  */
 async function getGuardrailsAvailableVersions(): Promise<void> {
   const credential = new DefaultAzureCredential();

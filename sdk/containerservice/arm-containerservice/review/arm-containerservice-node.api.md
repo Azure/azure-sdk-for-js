@@ -96,8 +96,7 @@ export interface AgentPool extends ProxyResource {
     minCount?: number;
     mode?: AgentPoolMode;
     networkProfile?: AgentPoolNetworkProfile;
-    nodeCustomizationProfile?: NodeCustomizationProfile;
-    readonly nodeImageVersion?: string;
+    nodeImageVersion?: string;
     nodeInitializationTaints?: string[];
     nodeLabels?: Record<string, string>;
     nodePublicIPPrefixID?: string;
@@ -110,6 +109,7 @@ export interface AgentPool extends ProxyResource {
     podIPAllocationMode?: PodIPAllocationMode;
     podSubnetID?: string;
     powerState?: PowerState;
+    preparedImageSpecificationProfile?: PreparedImageSpecificationProfile;
     readonly provisioningState?: string;
     proximityPlacementGroupID?: string;
     scaleDownMode?: ScaleDownMode;
@@ -516,6 +516,9 @@ export interface ContainerServiceSshPublicKey {
 export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
     continuationToken?: string;
 };
+
+// @public
+export type ControlPlaneScalingSize = string;
 
 // @public
 export type CreatedByType = string;
@@ -936,6 +939,13 @@ export enum KnownConnectionStatus {
 export enum KnownContainerNetworkLogs {
     Disabled = "Disabled",
     Enabled = "Enabled"
+}
+
+// @public
+export enum KnownControlPlaneScalingSize {
+    H2 = "H2",
+    H4 = "H4",
+    H8 = "H8"
 }
 
 // @public
@@ -1481,7 +1491,8 @@ export enum KnownUpgradeStrategy {
 export enum KnownVersions {
     V20251001 = "2025-10-01",
     V20260101 = "2026-01-01",
-    V20260102Preview = "2026-01-02-preview"
+    V20260201 = "2026-02-01",
+    V20260202Preview = "2026-02-02-preview"
 }
 
 // @public
@@ -1680,7 +1691,7 @@ export type LocalDNSState = string;
 // @public
 export interface Machine extends ProxyResource {
     properties?: MachineProperties;
-    readonly zones?: string[];
+    zones?: string[];
 }
 
 // @public
@@ -1753,7 +1764,7 @@ export interface MachineProperties {
     kubernetes?: MachineKubernetesProfile;
     localDNSProfile?: LocalDNSProfile;
     mode?: AgentPoolMode;
-    readonly network?: MachineNetworkProperties;
+    network?: MachineNetworkProperties;
     readonly nodeImageVersion?: string;
     operatingSystem?: MachineOSProfile;
     priority?: ScaleSetPriority;
@@ -1867,6 +1878,7 @@ export interface ManagedCluster extends TrackedResource {
     azureMonitorProfile?: ManagedClusterAzureMonitorProfile;
     readonly azurePortalFqdn?: string;
     bootstrapProfile?: ManagedClusterBootstrapProfile;
+    controlPlaneScalingProfile?: ManagedClusterControlPlaneScalingProfile;
     creationData?: CreationData;
     readonly currentKubernetesVersion?: string;
     disableLocalAccounts?: boolean;
@@ -1975,8 +1987,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
     minCount?: number;
     mode?: AgentPoolMode;
     networkProfile?: AgentPoolNetworkProfile;
-    nodeCustomizationProfile?: NodeCustomizationProfile;
-    readonly nodeImageVersion?: string;
+    nodeImageVersion?: string;
     nodeInitializationTaints?: string[];
     nodeLabels?: Record<string, string>;
     nodePublicIPPrefixID?: string;
@@ -1989,6 +2000,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
     podIPAllocationMode?: PodIPAllocationMode;
     podSubnetID?: string;
     powerState?: PowerState;
+    preparedImageSpecificationProfile?: PreparedImageSpecificationProfile;
     readonly provisioningState?: string;
     proximityPlacementGroupID?: string;
     scaleDownMode?: ScaleDownMode;
@@ -2047,7 +2059,7 @@ export interface ManagedClusterAzureMonitorProfile {
 // @public
 export interface ManagedClusterAzureMonitorProfileAppMonitoring {
     autoInstrumentation?: ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation;
-    openTelemetryLogs?: ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs;
+    openTelemetryLogsAndTraces?: ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsAndTraces;
     openTelemetryMetrics?: ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics;
 }
 
@@ -2057,15 +2069,17 @@ export interface ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentati
 }
 
 // @public
-export interface ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs {
+export interface ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsAndTraces {
     enabled?: boolean;
-    port?: number;
+    grpcPort?: number;
+    httpPort?: number;
 }
 
 // @public
 export interface ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics {
     enabled?: boolean;
-    port?: number;
+    grpcPort?: number;
+    httpPort?: number;
 }
 
 // @public
@@ -2086,14 +2100,25 @@ export interface ManagedClusterAzureMonitorProfileKubeStateMetrics {
 
 // @public
 export interface ManagedClusterAzureMonitorProfileMetrics {
+    controlPlane?: ManagedClusterAzureMonitorProfileMetricsControlPlane;
     enabled: boolean;
     kubeStateMetrics?: ManagedClusterAzureMonitorProfileKubeStateMetrics;
+}
+
+// @public
+export interface ManagedClusterAzureMonitorProfileMetricsControlPlane {
+    enabled?: boolean;
 }
 
 // @public
 export interface ManagedClusterBootstrapProfile {
     artifactSource?: ArtifactSource;
     containerRegistryId?: string;
+}
+
+// @public
+export interface ManagedClusterControlPlaneScalingProfile {
+    scalingSize: ControlPlaneScalingSize;
 }
 
 // @public
@@ -2110,6 +2135,8 @@ export interface ManagedClusterHealthMonitorProfile {
 // @public
 export interface ManagedClusterHostedSystemProfile {
     enabled?: boolean;
+    nodeSubnetID?: string;
+    systemNodeSubnetID?: string;
 }
 
 // @public
@@ -2314,6 +2341,7 @@ export interface ManagedClusterProperties {
     azureMonitorProfile?: ManagedClusterAzureMonitorProfile;
     readonly azurePortalFqdn?: string;
     bootstrapProfile?: ManagedClusterBootstrapProfile;
+    controlPlaneScalingProfile?: ManagedClusterControlPlaneScalingProfile;
     creationData?: CreationData;
     readonly currentKubernetesVersion?: string;
     disableLocalAccounts?: boolean;
@@ -2382,10 +2410,10 @@ export interface ManagedClusterPropertiesAutoScalerProfile {
 
 // @public
 export interface ManagedClusterPropertiesForSnapshot {
-    enableRbac?: boolean;
-    kubernetesVersion?: string;
+    readonly enableRbac?: boolean;
+    readonly kubernetesVersion?: string;
     readonly networkProfile?: NetworkProfileForSnapshot;
-    sku?: ManagedClusterSKU;
+    readonly sku?: ManagedClusterSKU;
 }
 
 // @public
@@ -3029,11 +3057,6 @@ export interface NetworkProfileForSnapshot {
 export type NginxIngressControllerType = string;
 
 // @public
-export interface NodeCustomizationProfile {
-    nodeCustomizationId?: string;
-}
-
-// @public
 export interface NodeImageVersion {
     fullName?: string;
     os?: string;
@@ -3167,6 +3190,11 @@ export interface PortRange {
 // @public
 export interface PowerState {
     code?: Code;
+}
+
+// @public
+export interface PreparedImageSpecificationProfile {
+    preparedImageSpecificationId?: string;
 }
 
 // @public
@@ -3439,7 +3467,7 @@ export type ScaleDownMode = string;
 
 // @public
 export interface ScaleProfile {
-    autoscale?: AutoScaleProfile;
+    autoscale?: AutoScaleProfile[];
     manual?: ManualScaleProfile[];
 }
 

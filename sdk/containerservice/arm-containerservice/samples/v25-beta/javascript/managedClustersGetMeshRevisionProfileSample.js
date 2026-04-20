@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to contains extra metadata on the revision, including supported revisions, cluster compatibility and available upgrades
  *
  * @summary contains extra metadata on the revision, including supported revisions, cluster compatibility and available upgrades
- * x-ms-original-file: 2026-01-02-preview/ManagedClustersGet_MeshRevisionProfile.json
+ * x-ms-original-file: 2026-02-02-preview/ManagedClustersGet_MeshRevisionProfile.json
  */
 async function getAMeshRevisionProfileForAMeshMode() {
   const credential = new DefaultAzureCredential();

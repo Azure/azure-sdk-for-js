@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates tags on a managed namespace.
  *
  * @summary updates tags on a managed namespace.
- * x-ms-original-file: 2026-01-02-preview/ManagedNamespacesUpdateTags.json
+ * x-ms-original-file: 2026-02-02-preview/ManagedNamespacesUpdateTags.json
  */
 async function updateManagedNamespaceTags(): Promise<void> {
   const credential = new DefaultAzureCredential();

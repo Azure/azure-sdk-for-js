@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the mesh membership of a managed cluster.
  *
  * @summary deletes the mesh membership of a managed cluster.
- * x-ms-original-file: 2026-01-02-preview/MeshMemberships_Delete.json
+ * x-ms-original-file: 2026-02-02-preview/MeshMemberships_Delete.json
  */
 async function deleteMeshMembership(): Promise<void> {
   const credential = new DefaultAzureCredential();
