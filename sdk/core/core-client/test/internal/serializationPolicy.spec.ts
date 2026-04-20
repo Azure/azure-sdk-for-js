@@ -574,7 +574,7 @@ describe("serializationPolicy", function () {
           serializer: createSerializer(),
         },
       );
-      assert.deepEqual(httpRequest.body, JSON.stringify(["Foo", "Bar"]));
+      assert.strictEqual(httpRequest.body, JSON.stringify(["Foo", "Bar"]));
     });
 
     it("should serialize an XML Dictionary request body", () => {
@@ -695,7 +695,7 @@ describe("serializationPolicy", function () {
         },
         stringifyXML,
       );
-      assert.deepEqual(httpRequest.body, `{"alpha":"hello","beta":"world"}`);
+      assert.strictEqual(httpRequest.body, `{"alpha":"hello","beta":"world"}`);
     });
 
     it("should serialize an XML request body with custom xml char key", () => {
