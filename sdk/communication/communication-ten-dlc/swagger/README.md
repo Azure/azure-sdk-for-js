@@ -30,22 +30,3 @@ typescript:
 module-kind: esm
 ```
 
-## Customizations
-
-### Disable extensible enums
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.definitions[*].properties[*]["x-ms-enum"]
-    transform: >
-      if ($.modelAsString) {
-        $.modelAsString = false
-      }
-  - from: swagger-document
-    where: $.definitions[*].properties[*].items["x-ms-enum"]
-    transform: >
-      if ($.modelAsString) {
-        $.modelAsString = false
-      }    
-```

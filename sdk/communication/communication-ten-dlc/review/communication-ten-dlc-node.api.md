@@ -21,13 +21,13 @@ export interface Address {
 }
 
 // @public
-export type AlternateBusinessIdType = "Duns" | "Lei" | "Giin";
+export type AlternateBusinessIdType = string;
 
 // @public
-export type AttachmentType = "callToAction" | "termsOfService" | "privacyPolicy" | "other";
+export type AttachmentType = string;
 
 // @public
-export type BillingFrequency = "Monthly" | "Once";
+export type BillingFrequency = string;
 
 // @public
 export interface BrandDetails {
@@ -48,7 +48,7 @@ export interface BrandDetails {
 }
 
 // @public
-export type BrandStatus = "Draft" | "Submitted" | "Cancelled" | "PendingCancellation" | "Denied" | "Approved" | "MicrosoftSupportEngaged" | "VettingSubmitted" | "PendingCustomerUpdate";
+export type BrandStatus = string;
 
 // @public
 export interface CampaignAttachment {
@@ -82,10 +82,10 @@ export interface CampaignDetails {
 }
 
 // @public
-export type CampaignStatus = "Draft" | "Submitted" | "Cancelled" | "PendingCancellation" | "Denied" | "Approved" | "MicrosoftSupportEngaged" | "PendingCustomerUpdate";
+export type CampaignStatus = string;
 
 // @public
-export type CompanyVertical = "Agriculture" | "Communication" | "Construction" | "Education" | "Energy" | "Entertainment" | "Financial" | "Gambling" | "Government" | "Healthcare" | "Hospitality" | "HumanResources" | "Insurance" | "Legal" | "Manufacturing" | "Ngo" | "Political" | "Postal" | "Professional" | "RealEstate" | "Retail" | "Technology" | "Transportation";
+export type CompanyVertical = string;
 
 // @public
 export interface ContactInformation {
@@ -97,7 +97,7 @@ export interface ContactInformation {
 }
 
 // @public
-export type ContentType = "AccountNotification" | "AgentsFranchises" | "Charity" | "CustomerCare" | "DeliveryNotification" | "Emergency" | "FraudAlert" | "HigherEducation" | "LowVolume" | "MachineToMachine" | "Marketing" | "Mixed" | "PollingVoting" | "PublicServiceAnnouncement" | "SecurityAlert" | "SoleProprietor" | "TwoFactorAuthentication" | "UcaasLow";
+export type ContentType = string;
 
 // @public
 export interface DeleteBrandOptionalParams extends TenDlcDeleteUSBrandOptionalParams {
@@ -108,10 +108,10 @@ export interface DeleteCampaignOptionalParams extends TenDlcDeleteUSCampaignOpti
 }
 
 // @public
-export type EntityType = "PrivateProfit" | "PublicProfit" | "NonProfit" | "Government";
+export type EntityType = string;
 
 // @public
-export type FileType = "png" | "jpg" | "jpeg" | "pdf";
+export type FileType = string;
 
 // @public
 export interface GetBrandOptionalParams extends TenDlcGetUSBrandOptionalParams {
@@ -123,6 +123,181 @@ export interface GetBrandsOptionalParams extends TenDlcGetUSBrandsOptionalParams
 
 // @public
 export interface GetCampaignOptionalParams extends TenDlcGetUSCampaignOptionalParams {
+}
+
+// @public
+export enum KnownAlternateBusinessIdType {
+    Duns = "Duns",
+    Giin = "Giin",
+    Lei = "Lei"
+}
+
+// @public
+export enum KnownAttachmentType {
+    CallToAction = "callToAction",
+    Other = "other",
+    PrivacyPolicy = "privacyPolicy",
+    TermsOfService = "termsOfService"
+}
+
+// @public
+export enum KnownBillingFrequency {
+    Monthly = "Monthly",
+    Once = "Once"
+}
+
+// @public
+export enum KnownBrandStatus {
+    Approved = "Approved",
+    Cancelled = "Cancelled",
+    Denied = "Denied",
+    Draft = "Draft",
+    MicrosoftSupportEngaged = "MicrosoftSupportEngaged",
+    PendingCancellation = "PendingCancellation",
+    PendingCustomerUpdate = "PendingCustomerUpdate",
+    Submitted = "Submitted",
+    VettingSubmitted = "VettingSubmitted"
+}
+
+// @public
+export enum KnownCampaignStatus {
+    Approved = "Approved",
+    Cancelled = "Cancelled",
+    Denied = "Denied",
+    Draft = "Draft",
+    MicrosoftSupportEngaged = "MicrosoftSupportEngaged",
+    PendingCancellation = "PendingCancellation",
+    PendingCustomerUpdate = "PendingCustomerUpdate",
+    Submitted = "Submitted"
+}
+
+// @public
+export enum KnownCompanyVertical {
+    Agriculture = "Agriculture",
+    Communication = "Communication",
+    Construction = "Construction",
+    Education = "Education",
+    Energy = "Energy",
+    Entertainment = "Entertainment",
+    Financial = "Financial",
+    Gambling = "Gambling",
+    Government = "Government",
+    Healthcare = "Healthcare",
+    Hospitality = "Hospitality",
+    HumanResources = "HumanResources",
+    Insurance = "Insurance",
+    Legal = "Legal",
+    Manufacturing = "Manufacturing",
+    Ngo = "Ngo",
+    Political = "Political",
+    Postal = "Postal",
+    Professional = "Professional",
+    RealEstate = "RealEstate",
+    Retail = "Retail",
+    Technology = "Technology",
+    Transportation = "Transportation"
+}
+
+// @public
+export enum KnownContentType {
+    AccountNotification = "AccountNotification",
+    AgentsFranchises = "AgentsFranchises",
+    Charity = "Charity",
+    CustomerCare = "CustomerCare",
+    DeliveryNotification = "DeliveryNotification",
+    Emergency = "Emergency",
+    FraudAlert = "FraudAlert",
+    HigherEducation = "HigherEducation",
+    LowVolume = "LowVolume",
+    MachineToMachine = "MachineToMachine",
+    Marketing = "Marketing",
+    Mixed = "Mixed",
+    PollingVoting = "PollingVoting",
+    PublicServiceAnnouncement = "PublicServiceAnnouncement",
+    SecurityAlert = "SecurityAlert",
+    SoleProprietor = "SoleProprietor",
+    TwoFactorAuthentication = "TwoFactorAuthentication",
+    UcaasLow = "UcaasLow"
+}
+
+// @public
+export enum KnownEntityType {
+    Government = "Government",
+    NonProfit = "NonProfit",
+    PrivateProfit = "PrivateProfit",
+    PublicProfit = "PublicProfit"
+}
+
+// @public
+export enum KnownFileType {
+    Jpeg = "jpeg",
+    Jpg = "jpg",
+    Pdf = "pdf",
+    Png = "png"
+}
+
+// @public
+export enum KnownNumberPoolStatus {
+    Activated = "Activated",
+    ActivationFailed = "ActivationFailed",
+    ActivationPending = "ActivationPending",
+    None = "None",
+    Requested = "Requested"
+}
+
+// @public
+export enum KnownStockExchange {
+    Amex = "Amex",
+    Amx = "Amx",
+    Asx = "Asx",
+    B3 = "B3",
+    Bme = "Bme",
+    Bse = "Bse",
+    Fra = "Fra",
+    Icex = "Icex",
+    Jpx = "Jpx",
+    Jse = "Jse",
+    Krx = "Krx",
+    Lon = "Lon",
+    Nasdaq = "Nasdaq",
+    Nse = "Nse",
+    Nyse = "Nyse",
+    Omx = "Omx",
+    Other = "Other",
+    Sehk = "Sehk",
+    Sgx = "Sgx",
+    Sse = "Sse",
+    Sto = "Sto",
+    Swx = "Swx",
+    Szse = "Szse",
+    Tsx = "Tsx",
+    Twse = "Twse",
+    Vse = "Vse"
+}
+
+// @public
+export enum KnownSubContentType {
+    AccountNotification = "AccountNotification",
+    CustomerCare = "CustomerCare",
+    DeliveryNotification = "DeliveryNotification",
+    FraudAlert = "FraudAlert",
+    HigherEducation = "HigherEducation",
+    Marketing = "Marketing",
+    PollingVoting = "PollingVoting",
+    PublicServiceAnnouncement = "PublicServiceAnnouncement",
+    SecurityAlert = "SecurityAlert",
+    TwoFactorAuthentication = "TwoFactorAuthentication"
+}
+
+// @public
+export enum KnownTenDlcCostType {
+    Brand = "Brand",
+    CampaignCharity = "CampaignCharity",
+    CampaignEmergency = "CampaignEmergency",
+    CampaignFranchises = "CampaignFranchises",
+    CampaignLowVolume = "CampaignLowVolume",
+    CampaignSoleProp = "CampaignSoleProp",
+    StandardCampaign = "StandardCampaign"
 }
 
 // @public
@@ -151,7 +326,7 @@ export interface MessageDetails {
 }
 
 // @public
-export type NumberPoolStatus = "None" | "Requested" | "ActivationPending" | "Activated" | "ActivationFailed";
+export type NumberPoolStatus = string;
 
 // @public
 export interface ReviewNote {
@@ -160,10 +335,10 @@ export interface ReviewNote {
 }
 
 // @public
-export type StockExchange = "Nasdaq" | "Nyse" | "Amex" | "Amx" | "Asx" | "B3" | "Bme" | "Bse" | "Fra" | "Icex" | "Jpx" | "Jse" | "Krx" | "Lon" | "Nse" | "Omx" | "Sehk" | "Sgx" | "Sse" | "Sto" | "Swx" | "Szse" | "Tsx" | "Twse" | "Vse" | "Other";
+export type StockExchange = string;
 
 // @public
-export type SubContentType = "AccountNotification" | "CustomerCare" | "DeliveryNotification" | "FraudAlert" | "HigherEducation" | "Marketing" | "PollingVoting" | "PublicServiceAnnouncement" | "SecurityAlert" | "TwoFactorAuthentication";
+export type SubContentType = string;
 
 // @public
 export interface SubmitBrandForVettingOptionalParams extends TenDlcSubmitUSBrandOptionalParams {
@@ -240,7 +415,7 @@ export interface TenDlcCosts {
 }
 
 // @public
-export type TenDlcCostType = "Brand" | "StandardCampaign" | "CampaignCharity" | "CampaignEmergency" | "CampaignFranchises" | "CampaignLowVolume" | "CampaignSoleProp";
+export type TenDlcCostType = string;
 
 // @public
 export interface TenDlcDeleteUSBrandOptionalParams extends coreClient.OperationOptions {

@@ -331,152 +331,554 @@ export interface PhoneNumbersSetTenDlcConfigurationHeaders {
   tendlcConfigurationId?: string;
 }
 
-/** Defines values for BrandStatus. */
-export type BrandStatus =
-  | "Draft"
-  | "Submitted"
-  | "Cancelled"
-  | "PendingCancellation"
-  | "Denied"
-  | "Approved"
-  | "MicrosoftSupportEngaged"
-  | "VettingSubmitted"
-  | "PendingCustomerUpdate";
-/** Defines values for TenDlcCostType. */
-export type TenDlcCostType =
-  | "Brand"
-  | "StandardCampaign"
-  | "CampaignCharity"
-  | "CampaignEmergency"
-  | "CampaignFranchises"
-  | "CampaignLowVolume"
-  | "CampaignSoleProp";
-/** Defines values for BillingFrequency. */
-export type BillingFrequency = "Monthly" | "Once";
-/** Defines values for CompanyVertical. */
-export type CompanyVertical =
-  | "Agriculture"
-  | "Communication"
-  | "Construction"
-  | "Education"
-  | "Energy"
-  | "Entertainment"
-  | "Financial"
-  | "Gambling"
-  | "Government"
-  | "Healthcare"
-  | "Hospitality"
-  | "HumanResources"
-  | "Insurance"
-  | "Legal"
-  | "Manufacturing"
-  | "Ngo"
-  | "Political"
-  | "Postal"
-  | "Professional"
-  | "RealEstate"
-  | "Retail"
-  | "Technology"
-  | "Transportation";
-/** Defines values for EntityType. */
-export type EntityType =
-  | "PrivateProfit"
-  | "PublicProfit"
-  | "NonProfit"
-  | "Government";
-/** Defines values for StockExchange. */
-export type StockExchange =
-  | "Nasdaq"
-  | "Nyse"
-  | "Amex"
-  | "Amx"
-  | "Asx"
-  | "B3"
-  | "Bme"
-  | "Bse"
-  | "Fra"
-  | "Icex"
-  | "Jpx"
-  | "Jse"
-  | "Krx"
-  | "Lon"
-  | "Nse"
-  | "Omx"
-  | "Sehk"
-  | "Sgx"
-  | "Sse"
-  | "Sto"
-  | "Swx"
-  | "Szse"
-  | "Tsx"
-  | "Twse"
-  | "Vse"
-  | "Other";
-/** Defines values for AlternateBusinessIdType. */
-export type AlternateBusinessIdType = "Duns" | "Lei" | "Giin";
-/** Defines values for CampaignStatus. */
-export type CampaignStatus =
-  | "Draft"
-  | "Submitted"
-  | "Cancelled"
-  | "PendingCancellation"
-  | "Denied"
-  | "Approved"
-  | "MicrosoftSupportEngaged"
-  | "PendingCustomerUpdate";
-/** Defines values for ContentType. */
-export type ContentType =
-  | "AccountNotification"
-  | "AgentsFranchises"
-  | "Charity"
-  | "CustomerCare"
-  | "DeliveryNotification"
-  | "Emergency"
-  | "FraudAlert"
-  | "HigherEducation"
-  | "LowVolume"
-  | "MachineToMachine"
-  | "Marketing"
-  | "Mixed"
-  | "PollingVoting"
-  | "PublicServiceAnnouncement"
-  | "SecurityAlert"
-  | "SoleProprietor"
-  | "TwoFactorAuthentication"
-  | "UcaasLow";
-/** Defines values for SubContentType. */
-export type SubContentType =
-  | "AccountNotification"
-  | "CustomerCare"
-  | "DeliveryNotification"
-  | "FraudAlert"
-  | "HigherEducation"
-  | "Marketing"
-  | "PollingVoting"
-  | "PublicServiceAnnouncement"
-  | "SecurityAlert"
-  | "TwoFactorAuthentication";
-/** Defines values for AttachmentType. */
-export type AttachmentType =
-  | "callToAction"
-  | "termsOfService"
-  | "privacyPolicy"
-  | "other";
-/** Defines values for NumberPoolStatus. */
-export type NumberPoolStatus =
-  | "None"
-  | "Requested"
-  | "ActivationPending"
-  | "Activated"
-  | "ActivationFailed";
-/** Defines values for FileType. */
-export type FileType = "png" | "jpg" | "jpeg" | "pdf";
-/** Defines values for PhoneNumberCapabilityType. */
-export type PhoneNumberCapabilityType =
-  | "none"
-  | "inbound"
-  | "outbound"
-  | "inbound+outbound";
+/** Known values of {@link BrandStatus} that the service accepts. */
+export enum KnownBrandStatus {
+  /** Draft */
+  Draft = "Draft",
+  /** Submitted */
+  Submitted = "Submitted",
+  /** Cancelled */
+  Cancelled = "Cancelled",
+  /** PendingCancellation */
+  PendingCancellation = "PendingCancellation",
+  /** Denied */
+  Denied = "Denied",
+  /** Approved */
+  Approved = "Approved",
+  /** MicrosoftSupportEngaged */
+  MicrosoftSupportEngaged = "MicrosoftSupportEngaged",
+  /** VettingSubmitted */
+  VettingSubmitted = "VettingSubmitted",
+  /** PendingCustomerUpdate */
+  PendingCustomerUpdate = "PendingCustomerUpdate",
+}
+
+/**
+ * Defines values for BrandStatus. \
+ * {@link KnownBrandStatus} can be used interchangeably with BrandStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Draft** \
+ * **Submitted** \
+ * **Cancelled** \
+ * **PendingCancellation** \
+ * **Denied** \
+ * **Approved** \
+ * **MicrosoftSupportEngaged** \
+ * **VettingSubmitted** \
+ * **PendingCustomerUpdate**
+ */
+export type BrandStatus = string;
+
+/** Known values of {@link TenDlcCostType} that the service accepts. */
+export enum KnownTenDlcCostType {
+  /** Brand */
+  Brand = "Brand",
+  /** StandardCampaign */
+  StandardCampaign = "StandardCampaign",
+  /** CampaignCharity */
+  CampaignCharity = "CampaignCharity",
+  /** CampaignEmergency */
+  CampaignEmergency = "CampaignEmergency",
+  /** CampaignFranchises */
+  CampaignFranchises = "CampaignFranchises",
+  /** CampaignLowVolume */
+  CampaignLowVolume = "CampaignLowVolume",
+  /** CampaignSoleProp */
+  CampaignSoleProp = "CampaignSoleProp",
+}
+
+/**
+ * Defines values for TenDlcCostType. \
+ * {@link KnownTenDlcCostType} can be used interchangeably with TenDlcCostType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Brand** \
+ * **StandardCampaign** \
+ * **CampaignCharity** \
+ * **CampaignEmergency** \
+ * **CampaignFranchises** \
+ * **CampaignLowVolume** \
+ * **CampaignSoleProp**
+ */
+export type TenDlcCostType = string;
+
+/** Known values of {@link BillingFrequency} that the service accepts. */
+export enum KnownBillingFrequency {
+  /** Monthly */
+  Monthly = "Monthly",
+  /** Once */
+  Once = "Once",
+}
+
+/**
+ * Defines values for BillingFrequency. \
+ * {@link KnownBillingFrequency} can be used interchangeably with BillingFrequency,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Monthly** \
+ * **Once**
+ */
+export type BillingFrequency = string;
+
+/** Known values of {@link CompanyVertical} that the service accepts. */
+export enum KnownCompanyVertical {
+  /** Agriculture */
+  Agriculture = "Agriculture",
+  /** Communication */
+  Communication = "Communication",
+  /** Construction */
+  Construction = "Construction",
+  /** Education */
+  Education = "Education",
+  /** Energy */
+  Energy = "Energy",
+  /** Entertainment */
+  Entertainment = "Entertainment",
+  /** Financial */
+  Financial = "Financial",
+  /** Gambling */
+  Gambling = "Gambling",
+  /** Government */
+  Government = "Government",
+  /** Healthcare */
+  Healthcare = "Healthcare",
+  /** Hospitality */
+  Hospitality = "Hospitality",
+  /** HumanResources */
+  HumanResources = "HumanResources",
+  /** Insurance */
+  Insurance = "Insurance",
+  /** Legal */
+  Legal = "Legal",
+  /** Manufacturing */
+  Manufacturing = "Manufacturing",
+  /** Ngo */
+  Ngo = "Ngo",
+  /** Political */
+  Political = "Political",
+  /** Postal */
+  Postal = "Postal",
+  /** Professional */
+  Professional = "Professional",
+  /** RealEstate */
+  RealEstate = "RealEstate",
+  /** Retail */
+  Retail = "Retail",
+  /** Technology */
+  Technology = "Technology",
+  /** Transportation */
+  Transportation = "Transportation",
+}
+
+/**
+ * Defines values for CompanyVertical. \
+ * {@link KnownCompanyVertical} can be used interchangeably with CompanyVertical,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Agriculture** \
+ * **Communication** \
+ * **Construction** \
+ * **Education** \
+ * **Energy** \
+ * **Entertainment** \
+ * **Financial** \
+ * **Gambling** \
+ * **Government** \
+ * **Healthcare** \
+ * **Hospitality** \
+ * **HumanResources** \
+ * **Insurance** \
+ * **Legal** \
+ * **Manufacturing** \
+ * **Ngo** \
+ * **Political** \
+ * **Postal** \
+ * **Professional** \
+ * **RealEstate** \
+ * **Retail** \
+ * **Technology** \
+ * **Transportation**
+ */
+export type CompanyVertical = string;
+
+/** Known values of {@link EntityType} that the service accepts. */
+export enum KnownEntityType {
+  /** PrivateProfit */
+  PrivateProfit = "PrivateProfit",
+  /** PublicProfit */
+  PublicProfit = "PublicProfit",
+  /** NonProfit */
+  NonProfit = "NonProfit",
+  /** Government */
+  Government = "Government",
+}
+
+/**
+ * Defines values for EntityType. \
+ * {@link KnownEntityType} can be used interchangeably with EntityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **PrivateProfit** \
+ * **PublicProfit** \
+ * **NonProfit** \
+ * **Government**
+ */
+export type EntityType = string;
+
+/** Known values of {@link StockExchange} that the service accepts. */
+export enum KnownStockExchange {
+  /** Nasdaq */
+  Nasdaq = "Nasdaq",
+  /** Nyse */
+  Nyse = "Nyse",
+  /** Amex */
+  Amex = "Amex",
+  /** Amx */
+  Amx = "Amx",
+  /** Asx */
+  Asx = "Asx",
+  /** B3 */
+  B3 = "B3",
+  /** Bme */
+  Bme = "Bme",
+  /** Bse */
+  Bse = "Bse",
+  /** Fra */
+  Fra = "Fra",
+  /** Icex */
+  Icex = "Icex",
+  /** Jpx */
+  Jpx = "Jpx",
+  /** Jse */
+  Jse = "Jse",
+  /** Krx */
+  Krx = "Krx",
+  /** Lon */
+  Lon = "Lon",
+  /** Nse */
+  Nse = "Nse",
+  /** Omx */
+  Omx = "Omx",
+  /** Sehk */
+  Sehk = "Sehk",
+  /** Sgx */
+  Sgx = "Sgx",
+  /** Sse */
+  Sse = "Sse",
+  /** Sto */
+  Sto = "Sto",
+  /** Swx */
+  Swx = "Swx",
+  /** Szse */
+  Szse = "Szse",
+  /** Tsx */
+  Tsx = "Tsx",
+  /** Twse */
+  Twse = "Twse",
+  /** Vse */
+  Vse = "Vse",
+  /** Other */
+  Other = "Other",
+}
+
+/**
+ * Defines values for StockExchange. \
+ * {@link KnownStockExchange} can be used interchangeably with StockExchange,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Nasdaq** \
+ * **Nyse** \
+ * **Amex** \
+ * **Amx** \
+ * **Asx** \
+ * **B3** \
+ * **Bme** \
+ * **Bse** \
+ * **Fra** \
+ * **Icex** \
+ * **Jpx** \
+ * **Jse** \
+ * **Krx** \
+ * **Lon** \
+ * **Nse** \
+ * **Omx** \
+ * **Sehk** \
+ * **Sgx** \
+ * **Sse** \
+ * **Sto** \
+ * **Swx** \
+ * **Szse** \
+ * **Tsx** \
+ * **Twse** \
+ * **Vse** \
+ * **Other**
+ */
+export type StockExchange = string;
+
+/** Known values of {@link AlternateBusinessIdType} that the service accepts. */
+export enum KnownAlternateBusinessIdType {
+  /** Duns */
+  Duns = "Duns",
+  /** Lei */
+  Lei = "Lei",
+  /** Giin */
+  Giin = "Giin",
+}
+
+/**
+ * Defines values for AlternateBusinessIdType. \
+ * {@link KnownAlternateBusinessIdType} can be used interchangeably with AlternateBusinessIdType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Duns** \
+ * **Lei** \
+ * **Giin**
+ */
+export type AlternateBusinessIdType = string;
+
+/** Known values of {@link CampaignStatus} that the service accepts. */
+export enum KnownCampaignStatus {
+  /** Draft */
+  Draft = "Draft",
+  /** Submitted */
+  Submitted = "Submitted",
+  /** Cancelled */
+  Cancelled = "Cancelled",
+  /** PendingCancellation */
+  PendingCancellation = "PendingCancellation",
+  /** Denied */
+  Denied = "Denied",
+  /** Approved */
+  Approved = "Approved",
+  /** MicrosoftSupportEngaged */
+  MicrosoftSupportEngaged = "MicrosoftSupportEngaged",
+  /** PendingCustomerUpdate */
+  PendingCustomerUpdate = "PendingCustomerUpdate",
+}
+
+/**
+ * Defines values for CampaignStatus. \
+ * {@link KnownCampaignStatus} can be used interchangeably with CampaignStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Draft** \
+ * **Submitted** \
+ * **Cancelled** \
+ * **PendingCancellation** \
+ * **Denied** \
+ * **Approved** \
+ * **MicrosoftSupportEngaged** \
+ * **PendingCustomerUpdate**
+ */
+export type CampaignStatus = string;
+
+/** Known values of {@link ContentType} that the service accepts. */
+export enum KnownContentType {
+  /** AccountNotification */
+  AccountNotification = "AccountNotification",
+  /** AgentsFranchises */
+  AgentsFranchises = "AgentsFranchises",
+  /** Charity */
+  Charity = "Charity",
+  /** CustomerCare */
+  CustomerCare = "CustomerCare",
+  /** DeliveryNotification */
+  DeliveryNotification = "DeliveryNotification",
+  /** Emergency */
+  Emergency = "Emergency",
+  /** FraudAlert */
+  FraudAlert = "FraudAlert",
+  /** HigherEducation */
+  HigherEducation = "HigherEducation",
+  /** LowVolume */
+  LowVolume = "LowVolume",
+  /** MachineToMachine */
+  MachineToMachine = "MachineToMachine",
+  /** Marketing */
+  Marketing = "Marketing",
+  /** Mixed */
+  Mixed = "Mixed",
+  /** PollingVoting */
+  PollingVoting = "PollingVoting",
+  /** PublicServiceAnnouncement */
+  PublicServiceAnnouncement = "PublicServiceAnnouncement",
+  /** SecurityAlert */
+  SecurityAlert = "SecurityAlert",
+  /** SoleProprietor */
+  SoleProprietor = "SoleProprietor",
+  /** TwoFactorAuthentication */
+  TwoFactorAuthentication = "TwoFactorAuthentication",
+  /** UcaasLow */
+  UcaasLow = "UcaasLow",
+}
+
+/**
+ * Defines values for ContentType. \
+ * {@link KnownContentType} can be used interchangeably with ContentType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AccountNotification** \
+ * **AgentsFranchises** \
+ * **Charity** \
+ * **CustomerCare** \
+ * **DeliveryNotification** \
+ * **Emergency** \
+ * **FraudAlert** \
+ * **HigherEducation** \
+ * **LowVolume** \
+ * **MachineToMachine** \
+ * **Marketing** \
+ * **Mixed** \
+ * **PollingVoting** \
+ * **PublicServiceAnnouncement** \
+ * **SecurityAlert** \
+ * **SoleProprietor** \
+ * **TwoFactorAuthentication** \
+ * **UcaasLow**
+ */
+export type ContentType = string;
+
+/** Known values of {@link SubContentType} that the service accepts. */
+export enum KnownSubContentType {
+  /** AccountNotification */
+  AccountNotification = "AccountNotification",
+  /** CustomerCare */
+  CustomerCare = "CustomerCare",
+  /** DeliveryNotification */
+  DeliveryNotification = "DeliveryNotification",
+  /** FraudAlert */
+  FraudAlert = "FraudAlert",
+  /** HigherEducation */
+  HigherEducation = "HigherEducation",
+  /** Marketing */
+  Marketing = "Marketing",
+  /** PollingVoting */
+  PollingVoting = "PollingVoting",
+  /** PublicServiceAnnouncement */
+  PublicServiceAnnouncement = "PublicServiceAnnouncement",
+  /** SecurityAlert */
+  SecurityAlert = "SecurityAlert",
+  /** TwoFactorAuthentication */
+  TwoFactorAuthentication = "TwoFactorAuthentication",
+}
+
+/**
+ * Defines values for SubContentType. \
+ * {@link KnownSubContentType} can be used interchangeably with SubContentType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AccountNotification** \
+ * **CustomerCare** \
+ * **DeliveryNotification** \
+ * **FraudAlert** \
+ * **HigherEducation** \
+ * **Marketing** \
+ * **PollingVoting** \
+ * **PublicServiceAnnouncement** \
+ * **SecurityAlert** \
+ * **TwoFactorAuthentication**
+ */
+export type SubContentType = string;
+
+/** Known values of {@link AttachmentType} that the service accepts. */
+export enum KnownAttachmentType {
+  /** CallToAction */
+  CallToAction = "callToAction",
+  /** TermsOfService */
+  TermsOfService = "termsOfService",
+  /** PrivacyPolicy */
+  PrivacyPolicy = "privacyPolicy",
+  /** Other */
+  Other = "other",
+}
+
+/**
+ * Defines values for AttachmentType. \
+ * {@link KnownAttachmentType} can be used interchangeably with AttachmentType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **callToAction** \
+ * **termsOfService** \
+ * **privacyPolicy** \
+ * **other**
+ */
+export type AttachmentType = string;
+
+/** Known values of {@link NumberPoolStatus} that the service accepts. */
+export enum KnownNumberPoolStatus {
+  /** None */
+  None = "None",
+  /** Requested */
+  Requested = "Requested",
+  /** ActivationPending */
+  ActivationPending = "ActivationPending",
+  /** Activated */
+  Activated = "Activated",
+  /** ActivationFailed */
+  ActivationFailed = "ActivationFailed",
+}
+
+/**
+ * Defines values for NumberPoolStatus. \
+ * {@link KnownNumberPoolStatus} can be used interchangeably with NumberPoolStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Requested** \
+ * **ActivationPending** \
+ * **Activated** \
+ * **ActivationFailed**
+ */
+export type NumberPoolStatus = string;
+
+/** Known values of {@link FileType} that the service accepts. */
+export enum KnownFileType {
+  /** Png */
+  Png = "png",
+  /** Jpg */
+  Jpg = "jpg",
+  /** Jpeg */
+  Jpeg = "jpeg",
+  /** Pdf */
+  Pdf = "pdf",
+}
+
+/**
+ * Defines values for FileType. \
+ * {@link KnownFileType} can be used interchangeably with FileType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **png** \
+ * **jpg** \
+ * **jpeg** \
+ * **pdf**
+ */
+export type FileType = string;
+
+/** Known values of {@link PhoneNumberCapabilityType} that the service accepts. */
+export enum KnownPhoneNumberCapabilityType {
+  /** None */
+  None = "none",
+  /** Inbound */
+  Inbound = "inbound",
+  /** Outbound */
+  Outbound = "outbound",
+  /** InboundOutbound */
+  InboundOutbound = "inbound+outbound",
+}
+
+/**
+ * Defines values for PhoneNumberCapabilityType. \
+ * {@link KnownPhoneNumberCapabilityType} can be used interchangeably with PhoneNumberCapabilityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **none** \
+ * **inbound** \
+ * **outbound** \
+ * **inbound+outbound**
+ */
+export type PhoneNumberCapabilityType = string;
 
 /** Optional parameters. */
 export interface TenDlcUpsertUSBrandOptionalParams

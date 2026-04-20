@@ -130,3 +130,19 @@ export type {
   AttachmentType,
   FileType,
 } from "./generated/src/models/index.js";
+
+export {
+  KnownAlternateBusinessIdType,
+  KnownAttachmentType,
+  KnownBillingFrequency,
+  KnownBrandStatus,
+  KnownCampaignStatus,
+  KnownCompanyVertical,
+  KnownContentType,
+  KnownEntityType,
+  KnownFileType,
+  KnownNumberPoolStatus,
+  KnownStockExchange,
+  KnownSubContentType,
+  KnownTenDlcCostType,
+} from "./generated/src/models/index.js";
