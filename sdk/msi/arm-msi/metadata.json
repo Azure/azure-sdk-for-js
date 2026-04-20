@@ -1,0 +1,47 @@
+{
+  "apiVersions": {
+    "Microsoft.ManagedIdentity": "2025-05-31-preview"
+  },
+  "emitterVersion": "0.52.2",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Microsoft.ManagedIdentity",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-msi!OperationListResult:interface": "Microsoft.ManagedIdentity.OperationListResult",
+      "@azure/arm-msi!Operation:interface": "Microsoft.ManagedIdentity.Operation",
+      "@azure/arm-msi!OperationDisplay:interface": "Microsoft.ManagedIdentity.OperationDisplay",
+      "@azure/arm-msi!CloudError:interface": "Microsoft.ManagedIdentity.CloudError",
+      "@azure/arm-msi!CloudErrorBody:interface": "Microsoft.ManagedIdentity.CloudErrorBody",
+      "@azure/arm-msi!SystemAssignedIdentity:interface": "Microsoft.ManagedIdentity.SystemAssignedIdentity",
+      "@azure/arm-msi!SystemAssignedIdentityProperties:interface": "Microsoft.ManagedIdentity.SystemAssignedIdentityProperties",
+      "@azure/arm-msi!ExtensionResource:interface": "Azure.ResourceManager.CommonTypes.ExtensionResource",
+      "@azure/arm-msi!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
+      "@azure/arm-msi!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
+      "@azure/arm-msi!FederatedIdentityCredential:interface": "Microsoft.ManagedIdentity.FederatedIdentityCredential",
+      "@azure/arm-msi!FederatedIdentityCredentialProperties:interface": "Microsoft.ManagedIdentity.FederatedIdentityCredentialProperties",
+      "@azure/arm-msi!ClaimsMatchingExpression:interface": "Microsoft.ManagedIdentity.ClaimsMatchingExpression",
+      "@azure/arm-msi!ProxyResource:interface": "Azure.ResourceManager.CommonTypes.ProxyResource",
+      "@azure/arm-msi!FederatedIdentityCredentialsListResult:interface": "Microsoft.ManagedIdentity.FederatedIdentityCredentialsListResult",
+      "@azure/arm-msi!Identity:interface": "Microsoft.ManagedIdentity.Identity",
+      "@azure/arm-msi!UserAssignedIdentityProperties:interface": "Microsoft.ManagedIdentity.UserAssignedIdentityProperties",
+      "@azure/arm-msi!AssignmentRestrictions:interface": "Microsoft.ManagedIdentity.AssignmentRestrictions",
+      "@azure/arm-msi!TrackedResource:interface": "Azure.ResourceManager.CommonTypes.TrackedResource",
+      "@azure/arm-msi!IdentityUpdate:interface": "Microsoft.ManagedIdentity.IdentityUpdate",
+      "@azure/arm-msi!UserAssignedIdentitiesListResult:interface": "Microsoft.ManagedIdentity.UserAssignedIdentitiesListResult",
+      "@azure/arm-msi!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
+      "@azure/arm-msi!KnownIsolationScope:enum": "Microsoft.ManagedIdentity.IsolationScope",
+      "@azure/arm-msi!KnownVersions:enum": "Microsoft.ManagedIdentity.Versions",
+      "@azure/arm-msi!UserAssignedIdentitiesOperations#listBySubscription:member": "Microsoft.ManagedIdentity.Identities.listBySubscription",
+      "@azure/arm-msi!UserAssignedIdentitiesOperations#listByResourceGroup:member": "Microsoft.ManagedIdentity.Identities.listByResourceGroup",
+      "@azure/arm-msi!UserAssignedIdentitiesOperations#delete:member": "Microsoft.ManagedIdentity.Identities.delete",
+      "@azure/arm-msi!UserAssignedIdentitiesOperations#update:member": "Microsoft.ManagedIdentity.Identities.update",
+      "@azure/arm-msi!UserAssignedIdentitiesOperations#createOrUpdate:member": "Microsoft.ManagedIdentity.Identities.createOrUpdate",
+      "@azure/arm-msi!UserAssignedIdentitiesOperations#get:member": "Microsoft.ManagedIdentity.Identities.get",
+      "@azure/arm-msi!FederatedIdentityCredentialsOperations#list:member": "Microsoft.ManagedIdentity.FederatedIdentityCredentials.list",
+      "@azure/arm-msi!FederatedIdentityCredentialsOperations#delete:member": "Microsoft.ManagedIdentity.FederatedIdentityCredentials.delete",
+      "@azure/arm-msi!FederatedIdentityCredentialsOperations#createOrUpdate:member": "Microsoft.ManagedIdentity.FederatedIdentityCredentials.createOrUpdate",
+      "@azure/arm-msi!FederatedIdentityCredentialsOperations#get:member": "Microsoft.ManagedIdentity.FederatedIdentityCredentials.get",
+      "@azure/arm-msi!SystemAssignedIdentitiesOperations#getByScope:member": "Microsoft.ManagedIdentity.SystemAssignedIdentities.getByScope",
+      "@azure/arm-msi!OperationsOperations#list:member": "Azure.ResourceManager.Legacy.Operations.list"
+    }
+  }
+}
