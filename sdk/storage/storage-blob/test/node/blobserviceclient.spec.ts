@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 import {
   configureBlobStorageClient,
-  createAndStartRecorder,
   getBSU,
   getConnectionStringFromEnvironment,
   getTokenBSUWithDefaultCredential,
+  recorderEnvSetup,
   SimpleTokenCredential,
 } from "../utils/index.js";
 import type { StorageSharedKeyCredential } from "@azure/storage-common";
 import { BlobServiceClient, getBlobServiceAccountAudience, newPipeline } from "../../src/index.js";
-import type { Recorder } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
@@ -18,7 +18,8 @@ describe("BlobServiceClient Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = await createAndStartRecorder(ctx);
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
   });
 
   afterEach(async () => {

@@ -26,7 +26,7 @@ import { BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES } from "../../src/utils/constants.js";
 import { streamToBuffer, streamToBuffer2 } from "../../src/utils/utils.js";
 import { isNodeLike } from "@azure/core-util";
 import { describe, it, assert, beforeEach, afterEach, beforeAll, afterAll } from "vitest";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 describe("ContentChecksumValidation with client config - CRC64", () => {
   let containerName: string;
@@ -55,10 +55,6 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
       },
       ["playback", "record"],
     );
-    await recorder.setMatcher("CustomDefaultMatcher", {
-      excludedHeaders: ["Accept"],
-      ignoreQueryOrdering: true,
-    });
     blobServiceClient = getBSU(recorder, {
       keepAliveOptions: {
         enable: true,
@@ -131,7 +127,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
       }
     });
 
-    const pipeline: Pipeline = (blockBlobClient as any).storageClientContext.client.pipeline;
+    const pipeline: Pipeline = (blockBlobClient as any).storageClientContext.pipeline;
     pipeline.addPolicy(customizeRequestHeaders, { afterPhase: "Retry" });
     try {
       // Try to get current response body to the buffer

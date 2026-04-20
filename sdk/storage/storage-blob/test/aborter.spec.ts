@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { ContainerClient } from "../src/index.js";
-import { createAndStartRecorder, getBSU, getUniqueName } from "./utils/index.js";
+import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils/index.js";
 import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
@@ -13,7 +13,9 @@ describe("Aborter", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = await createAndStartRecorder(ctx);
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
     const blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
