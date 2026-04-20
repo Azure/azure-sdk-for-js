@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Performance improvements for event reception and transmission: replaced polling-based event detection with event-driven queue signals, simplified message serialization path, and optimized EventData cloning logic. These changes reduce latency for event detection by ~200x and improve overall throughput. [#37882](https://github.com/Azure/azure-sdk-for-js/pull/37882)
+
 ## 6.0.3 (2026-01-20)
 
 ### Bugs Fixed

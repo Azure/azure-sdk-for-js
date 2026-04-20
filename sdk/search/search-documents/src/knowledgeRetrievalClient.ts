@@ -16,7 +16,7 @@ import type {
 } from "./models/azure/search/documents/knowledgeBases/index.js";
 import type { KnowledgeBaseRetrievalClientOptionalParams } from "./knowledgeBaseRetrieval/knowledgeBaseRetrievalClient.js";
 import { KnowledgeBaseRetrievalClient as GeneratedClient } from "./knowledgeBaseRetrieval/knowledgeBaseRetrievalClient.js";
-import type { RetrieveKnowledgeOptions } from "./knowledgeBaseModels.js";
+import type { RetrieveOptions } from "./knowledgeBaseModels.js";
 import { logger } from "./logger.js";
 import { createOdataMetadataPolicy } from "./odataMetadataPolicy.js";
 import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy.js";
@@ -145,12 +145,12 @@ export class KnowledgeRetrievalClient {
     this.client.pipeline.addPolicy(createOdataMetadataPolicy("none"));
   }
 
-  public async retrieveKnowledge(
+  public async retrieve(
     retrievalRequest: KnowledgeBaseRetrievalRequest,
-    options: RetrieveKnowledgeOptions = {},
+    options: RetrieveOptions = {},
   ): Promise<KnowledgeBaseRetrievalResponse> {
     return tracingClient.withSpan(
-      "KnowledgeRetrievalClient-retrieveKnowledge",
+      "KnowledgeRetrievalClient-retrieve",
       options,
       async (updatedOptions) => {
         return this.client.retrieve(this.knowledgeBaseName, retrievalRequest, updatedOptions);

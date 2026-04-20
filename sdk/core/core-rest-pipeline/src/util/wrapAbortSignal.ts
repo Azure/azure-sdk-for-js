@@ -18,7 +18,11 @@ export function wrapAbortSignalLike(abortSignalLike: AbortSignalLike): {
   }
 
   if (abortSignalLike.aborted) {
-    return { abortSignal: AbortSignal.abort((abortSignalLike as any).reason) };
+    return {
+      abortSignal: AbortSignal.abort(
+        "reason" in abortSignalLike ? abortSignalLike.reason : undefined,
+      ),
+    };
   }
 
   const controller = new AbortController();
@@ -30,7 +34,7 @@ export function wrapAbortSignalLike(abortSignalLike: AbortSignalLike): {
     }
   }
   function listener(): void {
-    controller.abort((abortSignalLike as any).reason);
+    controller.abort("reason" in abortSignalLike ? abortSignalLike.reason : undefined);
     cleanup();
   }
 

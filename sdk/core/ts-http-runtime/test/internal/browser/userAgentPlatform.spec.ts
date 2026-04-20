@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { setPlatformSpecificData } from "../../../src/util/userAgentPlatform.js";
+import { setPlatformSpecificData } from "../../../src/util/userAgent.js";
 
 describe("userAgentPlatform", () => {
   it("should set the Browser Type", async () => {

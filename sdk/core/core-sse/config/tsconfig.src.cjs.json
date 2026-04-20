@@ -1,0 +1,7 @@
+{
+  "extends": "../../../../eng/tsconfigs/src.cjs.json",
+  "compilerOptions": {
+    "lib": ["ES2023", "ESNext.Disposable"]
+  },
+  "include": ["../src/index.ts"]
+}
