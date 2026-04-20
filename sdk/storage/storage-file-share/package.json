@@ -61,6 +61,10 @@
         "prefix": "SDK_VERSION"
       },
       {
+        "path": "src/generated/api/fileContext.ts",
+        "prefix": "const userAgentInfo"
+      },
+      {
         "path": "swagger/README.md",
         "prefix": "package-version"
       }
