@@ -55,7 +55,6 @@
       "@azure/arm-monitorslis!KnownMessageSeverity:enum": "Microsoft.Monitor.MessageSeverity",
       "@azure/arm-monitorslis!KnownVersions:enum": "Microsoft.Monitor.Versions",
       "@azure/arm-monitorslis!ManagedServiceIdentityUserAssignedIdentity:type": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentity.userAssignedIdentity.anonymous",
-      "@azure/arm-monitorslis!SloViewOperations#sliSignalPreview:member": "Microsoft.Monitor.SloView.sliSignalPreview",
       "@azure/arm-monitorslis!SlisOperations#listByParent:member": "Microsoft.Monitor.Slis.listByParent",
       "@azure/arm-monitorslis!SlisOperations#delete:member": "Microsoft.Monitor.Slis.delete",
       "@azure/arm-monitorslis!SlisOperations#createOrUpdate:member": "Microsoft.Monitor.Slis.createOrUpdate",

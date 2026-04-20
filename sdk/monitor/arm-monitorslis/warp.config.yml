@@ -4,7 +4,6 @@ exports:
   "./package.json": "./package.json"
   ".": "./src/index.ts"
   "./api": "./src/api/index.ts"
-  "./api/sloView": "src/api/sloView/index.ts"
   "./api/slis": "src/api/slis/index.ts"
   "./models": "./src/models/index.ts"
 

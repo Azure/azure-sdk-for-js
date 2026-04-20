@@ -6,6 +6,7 @@ import { Recorder } from "@azure-tools/test-recorder";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "azure_subscription_id",
+  SERVICE_GROUP_NAME: "testSG",
 };
 
 const recorderEnvSetup: RecorderStartOptions = {

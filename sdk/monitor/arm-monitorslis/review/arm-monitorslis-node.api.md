@@ -272,7 +272,6 @@ export class MonitorClient {
     constructor(credential: TokenCredential, options?: MonitorClientOptionalParams);
     readonly pipeline: Pipeline;
     readonly slis: SlisOperations;
-    readonly sloView: SloViewOperations;
 }
 
 // @public
@@ -424,15 +423,6 @@ export interface SlisOperations {
     delete: (serviceGroupName: string, sliName: string, options?: SlisDeleteOptionalParams) => Promise<void>;
     get: (serviceGroupName: string, sliName: string, options?: SlisGetOptionalParams) => Promise<Sli>;
     listByParent: (serviceGroupName: string, options?: SlisListByParentOptionalParams) => PagedAsyncIterableIterator<Sli>;
-}
-
-// @public
-export interface SloViewOperations {
-    sliSignalPreview: (serviceGroupName: string, body: SignalPreviewSliProperties, options?: SloViewSliSignalPreviewOptionalParams) => Promise<KqlmQueryResult>;
-}
-
-// @public
-export interface SloViewSliSignalPreviewOptionalParams extends OperationOptions {
 }
 
 // @public

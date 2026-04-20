@@ -45,18 +45,6 @@ export type {
   ErrorResponse,
   ErrorDetail,
   ErrorAdditionalInfo,
-  SignalPreviewSliProperties,
-  PreviewType,
-  KqlmQueryResult,
-  QueryState,
-  TimeSeriesSet,
-  ResultsMetadata,
-  SamplingTypeProjection,
-  TimeSeriesData,
-  SamplingTypesDataDictionary,
-  ExecutionMessage,
-  MessageSeverity,
-  StatementContextInformation,
 } from "./models/index.js";
 export {
   KnownProvisioningState,
@@ -71,10 +59,6 @@ export {
   KnownWindowUptimeCriteriaComparator,
   KnownManagedServiceIdentityType,
   KnownCreatedByType,
-  KnownPreviewType,
-  KnownQueryState,
-  KnownSamplingTypeProjection,
-  KnownMessageSeverity,
   KnownVersions,
 } from "./models/index.js";
 export type { MonitorClientOptionalParams } from "./api/index.js";
@@ -84,8 +68,7 @@ export type {
   SlisCreateOrUpdateOptionalParams,
   SlisGetOptionalParams,
 } from "./api/slis/index.js";
-export type { SloViewSliSignalPreviewOptionalParams } from "./api/sloView/index.js";
-export type { SlisOperations, SloViewOperations } from "./classic/index.js";
+export type { SlisOperations } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };
 export type { AzureSupportedClouds };

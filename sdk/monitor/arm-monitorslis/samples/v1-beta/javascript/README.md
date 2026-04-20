@@ -8,7 +8,6 @@ These sample programs show how to use the JavaScript client libraries for @azure
 | [slisDeleteSample.js][slisdeletesample]                           | deletes an SLI resource. x-ms-original-file: 2025-03-01-preview/Slis_Delete.json                               |
 | [slisGetSample.js][slisgetsample]                                 | gets an SLI resource. x-ms-original-file: 2025-03-01-preview/Slis_Get.json                                     |
 | [slisListByParentSample.js][slislistbyparentsample]               | lists all SLI resources under a parent resource. x-ms-original-file: 2025-03-01-preview/Slis_ListByParent.json |
-| [sloViewSliSignalPreviewSample.js][sloviewslisignalpreviewsample] | returns preview data for the signal. x-ms-original-file: 2025-03-01-preview/SloView_SliSignalPreview.json      |
 
 ## Prerequisites
 
@@ -52,7 +51,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [slisdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/arm-monitorslis/samples/v1-beta/javascript/slisDeleteSample.js
 [slisgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/arm-monitorslis/samples/v1-beta/javascript/slisGetSample.js
 [slislistbyparentsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/arm-monitorslis/samples/v1-beta/javascript/slisListByParentSample.js
-[sloviewslisignalpreviewsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/arm-monitorslis/samples/v1-beta/javascript/sloViewSliSignalPreviewSample.js
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-monitorslis?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/arm-monitorslis/README.md
