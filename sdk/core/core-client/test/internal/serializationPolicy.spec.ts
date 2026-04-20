@@ -246,7 +246,7 @@ describe("serializationPolicy", function () {
       assert.strictEqual(httpRequest.body, "body value");
     });
 
-    it("should serialize a JSON Stream request body", () => {
+    it("should serialize a JSON Stream request body with XML namespace", () => {
       const httpRequest = defaultRequest();
       serializeRequestBody(
         httpRequest,
