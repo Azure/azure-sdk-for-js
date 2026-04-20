@@ -19,7 +19,7 @@
     "clean:samples": "rimraf samples/v12/javascript/node_modules samples/v12/typescript/node_modules samples/v12/typescript/dist samples/v12/typescript/package-lock.json samples/v12/javascript/package-lock.json",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,mjs,json}\"",
     "generate:client": "autorest --typescript ./swagger/README.md",
     "regenerate": "tsp-client update && npm run format",
     "lint": "eslint package.json src test",

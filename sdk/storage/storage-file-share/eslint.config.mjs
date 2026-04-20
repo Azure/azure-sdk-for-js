@@ -7,4 +7,10 @@ export default azsdkEslint.config([
       "@typescript-eslint/no-redeclare": "warn",
     },
   },
+  {
+    files: ["src/generated-classic-models.ts"],
+    rules: {
+      "tsdoc/syntax": "off",
+    },
+  },
 ]);
