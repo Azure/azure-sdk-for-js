@@ -4,6 +4,7 @@
 ### Bugs Fixed
 
 - [#38124](https://github.com/Azure/azure-sdk-for-js/pull/38124) Fixed incorrect SQL filter generation in ORDER BY queries with continuation tokens. Backslashes and single quotes in `orderByItem` values are now properly escaped in `formatValueForSQL` before being embedded in WHERE clauses.
+- [#38087](https://github.com/Azure/azure-sdk-for-js/issues/38087) Made `boundingBox` optional on the `SpatialIndex` type. Bounding boxes are only required for geometry spatial indexes, not geography ones.
 
 ## 4.9.2 (2026-03-16)
 
