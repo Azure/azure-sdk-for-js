@@ -1,0 +1,820 @@
+diff --git a/sdk/core/core-client-rest/test/internal/browser/streams.spec.ts b/sdk/core/core-client-rest/test/internal/browser/streams.spec.ts
+index 4d8182fe49..3db150e808 100644
+--- a/sdk/core/core-client-rest/test/internal/browser/streams.spec.ts
++++ b/sdk/core/core-client-rest/test/internal/browser/streams.spec.ts
+@@ -50,7 +50,7 @@ describe("[Browser] Streams", () => {
+     const reader = result.body!.getReader();
+     // Read the first chunk
+     const chunk = await reader.read();
+-    assert.equal(chunk.done, false);
++    assert.isFalse(chunk.done);
+     expect(fetchMock).toHaveBeenCalledOnce();
+   });
+ 
+@@ -63,7 +63,7 @@ describe("[Browser] Streams", () => {
+ 
+     const result = await client.pathUnchecked("/foo").get();
+ 
+-    assert.deepEqual(result.body, responseText);
++    assert.strictEqual(result.body, responseText);
+     expect(fetchMock).toHaveBeenCalledOnce();
+   });
+ 
+@@ -73,11 +73,7 @@ describe("[Browser] Streams", () => {
+     const fetchMock = vi.mocked(fetch);
+     fetchMock.mockRejectedValue(new Error("ExpectedException"));
+ 
+-    try {
+-      await client.pathUnchecked("/foo").get();
+-    } catch (e: any) {
+-      assert.match(e.message, /ExpectedException/);
+-    }
++    await expect(client.pathUnchecked("/foo").get()).rejects.toThrow(/ExpectedException/);
+   });
+ 
+   it("should be able to handle errors on streamed response", async () => {
+@@ -86,11 +82,9 @@ describe("[Browser] Streams", () => {
+     const fetchMock = vi.mocked(fetch);
+     fetchMock.mockRejectedValue(new Error("ExpectedException"));
+ 
+-    try {
+-      await client.pathUnchecked("/foo").get().asBrowserStream();
+-    } catch (e: any) {
+-      assert.match(e.message, /ExpectedException/);
+-    }
++    await expect(client.pathUnchecked("/foo").get().asBrowserStream()).rejects.toThrow(
++      /ExpectedException/,
++    );
+   });
+ 
+   it("should throw when attempting to use node streams", async () => {
+@@ -99,14 +93,8 @@ describe("[Browser] Streams", () => {
+ 
+     const client = getClient(mockBaseUrl);
+ 
+-    try {
+-      await client.pathUnchecked("/foo").get().asNodeStream();
+-      assert.fail("Expected error was not thrown");
+-    } catch (e: any) {
+-      assert.equal(
+-        e.message,
+-        "`isNodeStream` is not supported in the browser environment. Use `asBrowserStream` to obtain the response body stream.",
+-      );
+-    }
++    await expect(client.pathUnchecked("/foo").get().asNodeStream()).rejects.toThrow(
++      "`isNodeStream` is not supported in the browser environment. Use `asBrowserStream` to obtain the response body stream.",
++    );
+   });
+ });
+diff --git a/sdk/core/core-client-rest/test/internal/clientHelpers.spec.ts b/sdk/core/core-client-rest/test/internal/clientHelpers.spec.ts
+index 43efcd8504..1a73d49bbf 100644
+--- a/sdk/core/core-client-rest/test/internal/clientHelpers.spec.ts
++++ b/sdk/core/core-client-rest/test/internal/clientHelpers.spec.ts
+@@ -1,7 +1,7 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
+-import { describe, it, assert } from "vitest";
++import { describe, it, assert, expect } from "vitest";
+ import { createDefaultPipeline } from "../../src/clientHelpers.js";
+ import { bearerTokenAuthenticationPolicyName } from "@azure/core-rest-pipeline";
+ import { keyCredentialAuthenticationPolicyName } from "../../src/keyCredentialAuthenticationPolicy.js";
+@@ -14,7 +14,7 @@ describe("clientHelpers", () => {
+     const pipeline = createDefaultPipeline(mockBaseUrl);
+     const policies = pipeline.getOrderedPolicies();
+ 
+-    assert.isDefined(policies, "default pipeline should contain policies");
++    assert.isAbove(policies.length, 0, "default pipeline should contain policies");
+ 
+     assert.isUndefined(
+       policies.find((p) => p.name === bearerTokenAuthenticationPolicyName),
+@@ -31,21 +31,19 @@ describe("clientHelpers", () => {
+     const pipeline = createDefaultPipeline(mockBaseUrl);
+     const policies = pipeline.getOrderedPolicies();
+ 
+-    assert.isDefined(policies, "default pipeline should contain policies");
++    assert.isNotEmpty(policies, "default pipeline should contain policies");
+ 
++    const apiVersionPolicy = policies.find((p) => p.name === apiVersionPolicyName);
+     assert.isDefined(
+-      policies.find((p) => p.name === apiVersionPolicyName),
++      apiVersionPolicy,
+       `Pipeline policy not found in the default pipeline: ${apiVersionPolicyName}`,
+     );
+   });
+ 
+   it("should throw if key credentials but no Api Header Name", () => {
+-    try {
+-      createDefaultPipeline(mockBaseUrl, { key: "mockKey" });
+-      assert.fail("Expected to throw an error");
+-    } catch (error: any) {
+-      assert.equal((error as Error).message, "Missing API Key Header Name");
+-    }
++    expect(() => createDefaultPipeline(mockBaseUrl, { key: "mockKey" })).toThrow(
++      "Missing API Key Header Name",
++    );
+   });
+ 
+   it("should create a default pipeline with key credentials", () => {
+@@ -56,17 +54,15 @@ describe("clientHelpers", () => {
+     );
+     const policies = pipeline.getOrderedPolicies();
+ 
+-    assert.isDefined(policies, "default pipeline should contain policies");
++    assert.isNotEmpty(policies, "default pipeline should contain policies");
+ 
+     assert.isUndefined(
+       policies.find((p) => p.name === bearerTokenAuthenticationPolicyName),
+       "pipeline shouldn't have bearerTokenAuthenticationPolicyName",
+     );
+ 
+-    assert.isDefined(
+-      policies.find((p) => p.name === keyCredentialAuthenticationPolicyName),
+-      "pipeline shouldn have keyCredentialAuthenticationPolicyName",
+-    );
++    const keyCredPolicy = policies.find((p) => p.name === keyCredentialAuthenticationPolicyName);
++    assert.isDefined(keyCredPolicy, "pipeline should have keyCredentialAuthenticationPolicyName");
+   });
+ 
+   it("should create a default pipeline with TokenCredential", () => {
+@@ -76,12 +72,10 @@ describe("clientHelpers", () => {
+     const pipeline = createDefaultPipeline(mockBaseUrl, mockCredential);
+     const policies = pipeline.getOrderedPolicies();
+ 
+-    assert.isDefined(policies, "default pipeline should contain policies");
++    assert.isNotEmpty(policies, "default pipeline should contain policies");
+ 
+-    assert.isDefined(
+-      policies.find((p) => p.name === bearerTokenAuthenticationPolicyName),
+-      "pipeline should have bearerTokenAuthenticationPolicyName",
+-    );
++    const bearerPolicy = policies.find((p) => p.name === bearerTokenAuthenticationPolicyName);
++    assert.isDefined(bearerPolicy, "pipeline should have bearerTokenAuthenticationPolicyName");
+ 
+     assert.isUndefined(
+       policies.find((p) => p.name === keyCredentialAuthenticationPolicyName),
+diff --git a/sdk/core/core-client-rest/test/internal/createRestError.spec.ts b/sdk/core/core-client-rest/test/internal/createRestError.spec.ts
+index 6e570c873b..3f3cf00175 100644
+--- a/sdk/core/core-client-rest/test/internal/createRestError.spec.ts
++++ b/sdk/core/core-client-rest/test/internal/createRestError.spec.ts
+@@ -2,7 +2,7 @@
+ // Licensed under the MIT License.
+ 
+ import { createRestError } from "../../src/restError.js";
+-import type { PipelineRequest } from "@azure/core-rest-pipeline";
++import { createPipelineRequest } from "@azure/core-rest-pipeline";
+ import { describe, it, assert } from "vitest";
+ 
+ describe("createRestError", () => {
+@@ -10,7 +10,7 @@ describe("createRestError", () => {
+     const response = {
+       status: "400",
+       headers: {},
+-      request: {} as PipelineRequest,
++      request: createPipelineRequest({ url: "https://example.com" }),
+       body: {
+         error: {
+           code: "code",
+@@ -28,7 +28,7 @@ describe("createRestError", () => {
+     const response = {
+       status: "400",
+       headers: {},
+-      request: {} as PipelineRequest,
++      request: createPipelineRequest({ url: "https://example.com" }),
+       body: {
+         error: {
+           code: "code",
+@@ -46,7 +46,7 @@ describe("createRestError", () => {
+     const response = {
+       status: "400",
+       headers: {},
+-      request: {} as PipelineRequest,
++      request: createPipelineRequest({ url: "https://example.com" }),
+       body: {
+         code: "code",
+         message: "message",
+@@ -58,11 +58,11 @@ describe("createRestError", () => {
+     assert.equal(error.message, "message");
+   });
+ 
+-  it("should create a rest error from an error message and a PathUnchecked response with standard error", () => {
++  it("should create a rest error from an error message and a PathUnchecked response with top-level error properties", () => {
+     const response = {
+       status: "400",
+       headers: {},
+-      request: {} as PipelineRequest,
++      request: createPipelineRequest({ url: "https://example.com" }),
+       body: {
+         code: "code",
+         message: "message",
+@@ -78,12 +78,12 @@ describe("createRestError", () => {
+     const response = {
+       status: "400",
+       headers: {},
+-      request: {} as PipelineRequest,
++      request: createPipelineRequest({ url: "https://example.com" }),
+       body: undefined,
+     };
+     const error = createRestError("error message", response);
+     assert.equal(error.statusCode, 400);
+-    assert.equal(error.code, undefined);
++    assert.isUndefined(error.code);
+     assert.equal(error.message, "error message");
+   });
+ 
+@@ -91,12 +91,12 @@ describe("createRestError", () => {
+     const response = {
+       status: "400",
+       headers: {},
+-      request: {} as PipelineRequest,
++      request: createPipelineRequest({ url: "https://example.com" }),
+       body: undefined,
+     };
+     const error = createRestError(response);
+     assert.equal(error.statusCode, 400);
+-    assert.equal(error.code, undefined);
++    assert.isUndefined(error.code);
+     assert.equal(error.message, "Unexpected status code: 400");
+   });
+ });
+diff --git a/sdk/core/core-client-rest/test/internal/getClient.spec.ts b/sdk/core/core-client-rest/test/internal/getClient.spec.ts
+index fe68cc1e47..e88875f6d9 100644
+--- a/sdk/core/core-client-rest/test/internal/getClient.spec.ts
++++ b/sdk/core/core-client-rest/test/internal/getClient.spec.ts
+@@ -1,7 +1,7 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
+-import { describe, it, assert } from "vitest";
++import { describe, it, assert, vi, expect } from "vitest";
+ import { getClient } from "../../src/getClient.js";
+ import { isNodeLike } from "@typespec/ts-http-runtime/internal/util";
+ import type {
+@@ -11,17 +11,22 @@ import type {
+   PipelineResponse,
+   SendRequest,
+ } from "@azure/core-rest-pipeline";
+-import { createEmptyPipeline, createHttpHeaders, RestError } from "@azure/core-rest-pipeline";
++import {
++  createEmptyPipeline,
++  createHttpHeaders,
++  createPipelineRequest,
++  RestError,
++} from "@azure/core-rest-pipeline";
+ import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+ 
+ describe("getClient", () => {
+-  const httpClient = {
++  const httpClient: HttpClient = {
+     sendRequest: (req: PipelineRequest) => {
+       return Promise.resolve({
+         headers: createHttpHeaders(),
+         status: 200,
+         request: req,
+-      }) as Promise<PipelineResponse>;
++      });
+     },
+   };
+ 
+@@ -103,7 +108,7 @@ describe("getClient", () => {
+       });
+     });
+ 
+-    it("should encode url when not skip query parameter encoding and api version parameter exists", async () => {
++    it("should preserve comma in query parameter when encoding is enabled and api version parameter exists", async () => {
+       const apiVersion = "2021-11-18";
+       const client = getClient("https://example.org", { apiVersion, httpClient });
+       const validationPolicy: PipelinePolicy = {
+@@ -161,10 +166,13 @@ describe("getClient", () => {
+       ],
+     });
+     client.pipeline.addPolicy(retryPolicy, { phase: "Retry" });
+-    assert(client);
++    assert.isDefined(client);
+     const policies = client.pipeline.getOrderedPolicies();
+-    assert.isTrue(policies.indexOf(policy2) < policies.indexOf(retryPolicy));
+-    assert.isTrue(policies.indexOf(retryPolicy) < policies.indexOf(policy1));
++    const policy2Index = policies.indexOf(policy2);
++    const retryPolicyIndex = policies.indexOf(retryPolicy);
++    const policy1Index = policies.indexOf(policy1);
++    assert.isBelow(policy2Index, retryPolicyIndex);
++    assert.isBelow(retryPolicyIndex, policy1Index);
+   });
+ 
+   it("should use the client setting for `allowInsecureConnection` when the request setting is undefined", async () => {
+@@ -204,20 +212,18 @@ describe("getClient", () => {
+   });
+ 
+   it("stream methods should call onResponse", async () => {
+-    let called = false;
+     const fakeHttpClient: HttpClient = {
+       sendRequest: async (request) => {
+         return { headers: createHttpHeaders(), status: 200, request };
+       },
+     };
+ 
++    const onResponseFn = vi.fn();
+     const client = getClient("https://example.org", {
+       httpClient: fakeHttpClient,
+     });
+     const res = client.pathUnchecked("/foo").get({
+-      onResponse: () => {
+-        called = true;
+-      },
++      onResponse: onResponseFn,
+     });
+ 
+     if (isNodeLike) {
+@@ -225,35 +231,35 @@ describe("getClient", () => {
+     } else {
+       await res.asBrowserStream();
+     }
+-    assert.isTrue(called);
++    expect(onResponseFn).toHaveBeenCalled();
+   });
+ 
+   it("onResponse legacyError is passed in", async () => {
+-    let called = false;
+     const fakeHttpClient: HttpClient = {
+       sendRequest: async () => {
+         throw new RestError("error", {
+-          response: { status: 404, headers: createHttpHeaders({}) } as PipelineResponse,
++          response: {
++            status: 404,
++            headers: createHttpHeaders({}),
++            request: createPipelineRequest({ url: "https://example.org/foo" }),
++          },
+         });
+       },
+     };
+ 
++    const onResponseFn = vi.fn((_: any, err: any, legacyError: any) => {
++      assert.equal(err, legacyError);
++    });
+     const client = getClient("https://example.org", {
+       httpClient: fakeHttpClient,
+     });
+ 
+-    try {
+-      await client.pathUnchecked("/foo").get({
+-        onResponse: (_, err, legacyError) => {
+-          assert.isDefined(err);
+-          assert.equal(err, legacyError);
+-          called = true;
+-        },
+-      });
+-      assert.fail("Expected error to be thrown");
+-    } catch (e: unknown) {
+-      assert.isTrue(called);
+-    }
++    await expect(
++      client.pathUnchecked("/foo").get({
++        onResponse: onResponseFn,
++      }),
++    ).rejects.toThrow();
++    expect(onResponseFn).toHaveBeenCalled();
+   });
+ 
+   it("should support query parameter with explode set to true", async () => {
+@@ -293,16 +299,134 @@ describe("getClient", () => {
+       .get();
+   });
+ 
++  describe("HTTP methods", () => {
++    it("should support post method", async () => {
++      const sendRequestSpy = vi.fn<
++        (req: PipelineRequest, next: SendRequest) => Promise<PipelineResponse>
++      >((req, next) => {
++        assert.equal(req.method, "POST");
++        return next(req);
++      });
++      const client = getClient("https://example.org", { httpClient });
++      const validationPolicy: PipelinePolicy = {
++        name: "validationPolicy",
++        sendRequest: sendRequestSpy,
++      };
++      client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
++      await client.pathUnchecked("/foo").post();
++      expect(sendRequestSpy).toHaveBeenCalled();
++    });
++
++    it("should support put method", async () => {
++      const sendRequestSpy = vi.fn<
++        (req: PipelineRequest, next: SendRequest) => Promise<PipelineResponse>
++      >((req, next) => {
++        assert.equal(req.method, "PUT");
++        return next(req);
++      });
++      const client = getClient("https://example.org", { httpClient });
++      const validationPolicy: PipelinePolicy = {
++        name: "validationPolicy",
++        sendRequest: sendRequestSpy,
++      };
++      client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
++      await client.pathUnchecked("/foo").put();
++      expect(sendRequestSpy).toHaveBeenCalled();
++    });
++
++    it("should support patch method", async () => {
++      const sendRequestSpy = vi.fn<
++        (req: PipelineRequest, next: SendRequest) => Promise<PipelineResponse>
++      >((req, next) => {
++        assert.equal(req.method, "PATCH");
++        return next(req);
++      });
++      const client = getClient("https://example.org", { httpClient });
++      const validationPolicy: PipelinePolicy = {
++        name: "validationPolicy",
++        sendRequest: sendRequestSpy,
++      };
++      client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
++      await client.pathUnchecked("/foo").patch();
++      expect(sendRequestSpy).toHaveBeenCalled();
++    });
++
++    it("should support delete method", async () => {
++      const sendRequestSpy = vi.fn<
++        (req: PipelineRequest, next: SendRequest) => Promise<PipelineResponse>
++      >((req, next) => {
++        assert.equal(req.method, "DELETE");
++        return next(req);
++      });
++      const client = getClient("https://example.org", { httpClient });
++      const validationPolicy: PipelinePolicy = {
++        name: "validationPolicy",
++        sendRequest: sendRequestSpy,
++      };
++      client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
++      await client.pathUnchecked("/foo").delete();
++      expect(sendRequestSpy).toHaveBeenCalled();
++    });
++
++    it("should support head method", async () => {
++      const sendRequestSpy = vi.fn<
++        (req: PipelineRequest, next: SendRequest) => Promise<PipelineResponse>
++      >((req, next) => {
++        assert.equal(req.method, "HEAD");
++        return next(req);
++      });
++      const client = getClient("https://example.org", { httpClient });
++      const validationPolicy: PipelinePolicy = {
++        name: "validationPolicy",
++        sendRequest: sendRequestSpy,
++      };
++      client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
++      await client.pathUnchecked("/foo").head();
++      expect(sendRequestSpy).toHaveBeenCalled();
++    });
++
++    it("should support options method", async () => {
++      const sendRequestSpy = vi.fn<
++        (req: PipelineRequest, next: SendRequest) => Promise<PipelineResponse>
++      >((req, next) => {
++        assert.equal(req.method, "OPTIONS");
++        return next(req);
++      });
++      const client = getClient("https://example.org", { httpClient });
++      const validationPolicy: PipelinePolicy = {
++        name: "validationPolicy",
++        sendRequest: sendRequestSpy,
++      };
++      client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
++      await client.pathUnchecked("/foo").options();
++      expect(sendRequestSpy).toHaveBeenCalled();
++    });
++
++    it("should support trace method", async () => {
++      const sendRequestSpy = vi.fn<
++        (req: PipelineRequest, next: SendRequest) => Promise<PipelineResponse>
++      >((req, next) => {
++        assert.equal(req.method, "TRACE");
++        return next(req);
++      });
++      const client = getClient("https://example.org", { httpClient });
++      const validationPolicy: PipelinePolicy = {
++        name: "validationPolicy",
++        sendRequest: sendRequestSpy,
++      };
++      client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
++      await client.pathUnchecked("/foo").trace();
++      expect(sendRequestSpy).toHaveBeenCalled();
++    });
++  });
++
+   describe("when pipeline is passed via options", () => {
+     it("should use the provided pipeline when passed via second parameter (options only)", async () => {
+-      let customPolicyInvoked = false;
++      const sendRequestFn = vi.fn((req: PipelineRequest, next: SendRequest) => next(req));
+       const customPipeline = createEmptyPipeline();
+       const customPolicy: PipelinePolicy = {
+         name: "customTrackingPolicy",
+-        sendRequest: (req, next) => {
+-          customPolicyInvoked = true;
+-          return next(req);
+-        },
++        sendRequest: sendRequestFn,
+       };
+       customPipeline.addPolicy(customPolicy);
+ 
+@@ -312,21 +436,15 @@ describe("getClient", () => {
+       });
+ 
+       await client.pathUnchecked("/foo").get();
+-      assert.isTrue(
+-        customPolicyInvoked,
+-        "Custom pipeline policy should have been invoked when pipeline passed via second parameter",
+-      );
++      expect(sendRequestFn).toHaveBeenCalled();
+     });
+ 
+     it("should use the provided pipeline when passed via third parameter (with TokenCredential)", async () => {
+-      let customPolicyInvoked = false;
++      const sendRequestFn = vi.fn((req: PipelineRequest, next: SendRequest) => next(req));
+       const customPipeline = createEmptyPipeline();
+       const customPolicy: PipelinePolicy = {
+         name: "customTrackingPolicy",
+-        sendRequest: (req, next) => {
+-          customPolicyInvoked = true;
+-          return next(req);
+-        },
++        sendRequest: sendRequestFn,
+       };
+       customPipeline.addPolicy(customPolicy);
+ 
+@@ -340,21 +458,15 @@ describe("getClient", () => {
+       });
+ 
+       await client.pathUnchecked("/foo").get();
+-      assert.isTrue(
+-        customPolicyInvoked,
+-        "Custom pipeline policy should have been invoked when pipeline passed via third parameter with TokenCredential",
+-      );
++      expect(sendRequestFn).toHaveBeenCalled();
+     });
+ 
+     it("should use the provided pipeline when passed via third parameter (with KeyCredential)", async () => {
+-      let customPolicyInvoked = false;
++      const sendRequestFn = vi.fn((req: PipelineRequest, next: SendRequest) => next(req));
+       const customPipeline = createEmptyPipeline();
+       const customPolicy: PipelinePolicy = {
+         name: "customTrackingPolicy",
+-        sendRequest: (req, next) => {
+-          customPolicyInvoked = true;
+-          return next(req);
+-        },
++        sendRequest: sendRequestFn,
+       };
+       customPipeline.addPolicy(customPolicy);
+ 
+@@ -368,29 +480,25 @@ describe("getClient", () => {
+       });
+ 
+       await client.pathUnchecked("/foo").get();
+-      assert.isTrue(
+-        customPolicyInvoked,
+-        "Custom pipeline policy should have been invoked when pipeline passed via third parameter with KeyCredential",
+-      );
++      expect(sendRequestFn).toHaveBeenCalled();
+     });
+ 
+     it("should preserve custom pipeline policies order", async () => {
+-      const policiesInvoked: string[] = [];
++      const firstSpy = vi.fn<
++        (req: PipelineRequest, next: SendRequest) => Promise<PipelineResponse>
++      >((req, next) => next(req));
++      const secondSpy = vi.fn<
++        (req: PipelineRequest, next: SendRequest) => Promise<PipelineResponse>
++      >((req, next) => next(req));
+       const customPipeline = createEmptyPipeline();
+ 
+       const firstPolicy: PipelinePolicy = {
+         name: "firstPolicy",
+-        sendRequest: (req, next) => {
+-          policiesInvoked.push("first");
+-          return next(req);
+-        },
++        sendRequest: firstSpy,
+       };
+       const secondPolicy: PipelinePolicy = {
+         name: "secondPolicy",
+-        sendRequest: (req, next) => {
+-          policiesInvoked.push("second");
+-          return next(req);
+-        },
++        sendRequest: secondSpy,
+       };
+ 
+       customPipeline.addPolicy(firstPolicy);
+@@ -402,7 +510,11 @@ describe("getClient", () => {
+       });
+ 
+       await client.pathUnchecked("/foo").get();
+-      assert.deepEqual(policiesInvoked, ["first", "second"], "Policies should be invoked in order");
++      expect(firstSpy).toHaveBeenCalled();
++      expect(secondSpy).toHaveBeenCalled();
++      expect(firstSpy.mock.invocationCallOrder[0]).toBeLessThan(
++        secondSpy.mock.invocationCallOrder[0],
++      );
+     });
+ 
+     it("should not add default policies when custom pipeline is provided", async () => {
+diff --git a/sdk/core/core-client-rest/test/internal/keyCredentialAuthenticationPolicy.spec.ts b/sdk/core/core-client-rest/test/internal/keyCredentialAuthenticationPolicy.spec.ts
+new file mode 100644
+index 0000000000..93ec92a1ba
+--- /dev/null
++++ b/sdk/core/core-client-rest/test/internal/keyCredentialAuthenticationPolicy.spec.ts
+@@ -0,0 +1,31 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++import { describe, it, assert } from "vitest";
++import {
++  keyCredentialAuthenticationPolicy,
++  keyCredentialAuthenticationPolicyName,
++} from "../../src/keyCredentialAuthenticationPolicy.js";
++import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
++
++describe("keyCredentialAuthenticationPolicy", () => {
++  it("should set the api key header on the request", async () => {
++    const credential = { key: "test-api-key" };
++    const headerName = "x-api-key";
++    const policy = keyCredentialAuthenticationPolicy(credential, headerName);
++
++    assert.equal(policy.name, keyCredentialAuthenticationPolicyName);
++
++    const request = createPipelineRequest({
++      url: "https://example.org",
++      headers: createHttpHeaders(),
++    });
++
++    const response = await policy.sendRequest(request, async (req) => {
++      assert.equal(req.headers.get(headerName), "test-api-key");
++      return { headers: createHttpHeaders(), status: 200, request: req };
++    });
++
++    assert.equal(response.status, 200);
++  });
++});
+diff --git a/sdk/core/core-client-rest/test/internal/node/streams.spec.ts b/sdk/core/core-client-rest/test/internal/node/streams.spec.ts
+index 1f4612af9d..2b643e0259 100644
+--- a/sdk/core/core-client-rest/test/internal/node/streams.spec.ts
++++ b/sdk/core/core-client-rest/test/internal/node/streams.spec.ts
+@@ -1,16 +1,17 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
+-import { describe, it, assert, afterEach, vi } from "vitest";
++import { describe, it, assert, expect, afterEach, vi } from "vitest";
+ import type { ClientRequest, IncomingMessage } from "node:http";
+ import { type IncomingHttpHeaders } from "node:http";
++import { EventEmitter } from "node:events";
+ import { PassThrough } from "node:stream";
+ 
+ vi.mock("node:https", async () => {
+   const actual = await vi.importActual("node:https");
+   return {
+     default: {
+-      ...(actual as any).default,
++      ...((actual as Record<string, unknown>).default as Record<string, unknown>),
+       request: vi.fn(),
+     },
+   };
+@@ -28,7 +29,7 @@ describe("[Node] Streams", () => {
+   it("should get a JSON body response as a stream", async () => {
+     vi.mocked(https.request).mockImplementation((_url, cb) => {
+       const response = createResponse(200, JSON.stringify({ foo: "foo" }));
+-      const callback = cb as (res: IncomingMessage) => void;
++      const callback = cb as unknown as (res: IncomingMessage) => void;
+       callback(response);
+       return createRequest();
+     });
+@@ -43,13 +44,13 @@ describe("[Node] Streams", () => {
+     const response = await promise;
+     const stringBody = await readStreamToBuffer(response.body!);
+ 
+-    assert.deepEqual(stringBody.toString(), JSON.stringify(expectedBody));
++    assert.strictEqual(stringBody.toString(), JSON.stringify(expectedBody));
+   });
+ 
+   it("should get a JSON body response", async () => {
+     vi.mocked(https.request).mockImplementation((_url, cb) => {
+       const response = createResponse(200, JSON.stringify({ foo: "foo" }));
+-      const callback = cb as (res: IncomingMessage) => void;
++      const callback = cb as unknown as (res: IncomingMessage) => void;
+       callback(response);
+       return createRequest();
+     });
+@@ -73,11 +74,7 @@ describe("[Node] Streams", () => {
+     const { getClient } = await import("../../../src/getClient.js");
+     const client = getClient(mockBaseUrl);
+ 
+-    try {
+-      await client.pathUnchecked("/foo").get();
+-    } catch (e: any) {
+-      assert.equal(e.message, "ExpectedException");
+-    }
++    await expect(client.pathUnchecked("/foo").get()).rejects.toThrow("ExpectedException");
+   });
+ 
+   it("should be able to handle errors on streamed response", async () => {
+@@ -88,17 +85,15 @@ describe("[Node] Streams", () => {
+     const { getClient } = await import("../../../src/getClient.js");
+     const client = getClient(mockBaseUrl);
+ 
+-    try {
+-      await client.pathUnchecked("/foo").get().asNodeStream();
+-    } catch (e: any) {
+-      assert.equal(e.message, "ExpectedException");
+-    }
++    await expect(client.pathUnchecked("/foo").get().asNodeStream()).rejects.toThrow(
++      "ExpectedException",
++    );
+   });
+ 
+   it("should throw when attempting to use browser streams", async () => {
+     vi.mocked(https.request).mockImplementation((_url, cb) => {
+       const response = createResponse(200, JSON.stringify({ foo: "foo" }));
+-      const callback = cb as (res: IncomingMessage) => void;
++      const callback = cb as unknown as (res: IncomingMessage) => void;
+       callback(response);
+       return createRequest();
+     });
+@@ -106,21 +101,15 @@ describe("[Node] Streams", () => {
+     const { getClient } = await import("../../../src/getClient.js");
+     const client = getClient(mockBaseUrl);
+ 
+-    try {
+-      await client.pathUnchecked("/foo").get().asBrowserStream();
+-      assert.fail("Expected error was not thrown");
+-    } catch (e: any) {
+-      assert.equal(
+-        e.message,
+-        "`asBrowserStream` is supported only in the browser environment. Use `asNodeStream` instead to obtain the response body stream. If you require a Web stream of the response in Node, consider using `Readable.toWeb` on the result of `asNodeStream`.",
+-      );
+-    }
++    await expect(client.pathUnchecked("/foo").get().asBrowserStream()).rejects.toThrow(
++      "`asBrowserStream` is supported only in the browser environment. Use `asNodeStream` instead to obtain the response body stream. If you require a Web stream of the response in Node, consider using `Readable.toWeb` on the result of `asNodeStream`.",
++    );
+   });
+ });
+ 
+-function createRequest(): ClientRequest {
+-  const request = new FakeRequest();
+-  return request as unknown as ClientRequest;
++function createRequest(overrides?: Partial<ClientRequest>): ClientRequest {
++  const emitter = new EventEmitter();
++  return Object.assign(emitter, { end: vi.fn(), ...overrides }) as ClientRequest;
+ }
+ 
+ class FakeResponse extends PassThrough {
+@@ -148,5 +137,3 @@ function readStreamToBuffer(stream: NodeJS.ReadableStream): Promise<Buffer> {
+     });
+   });
+ }
+-
+-class FakeRequest extends PassThrough {}
+diff --git a/sdk/core/core-client-rest/test/internal/operationOptionHelpers.spec.ts b/sdk/core/core-client-rest/test/internal/operationOptionHelpers.spec.ts
+new file mode 100644
+index 0000000000..d22a2edd7a
+--- /dev/null
++++ b/sdk/core/core-client-rest/test/internal/operationOptionHelpers.spec.ts
+@@ -0,0 +1,39 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++import { describe, it, assert } from "vitest";
++import { operationOptionsToRequestParameters } from "../../src/operationOptionHelpers.js";
++
++describe("operationOptionsToRequestParameters", () => {
++  it("promotes requestOptions fields to root-level request parameters", () => {
++    const onUpload = () => {};
++    const onDownload = () => {};
++    const result = operationOptionsToRequestParameters({
++      requestOptions: {
++        allowInsecureConnection: true,
++        timeout: 5000,
++        skipUrlEncoding: true,
++        onUploadProgress: onUpload,
++        onDownloadProgress: onDownload,
++        headers: { "x-custom": "value" },
++      },
++    });
++    assert.isTrue(result.allowInsecureConnection);
++    assert.equal(result.timeout, 5000);
++    assert.isTrue(result.skipUrlEncoding);
++    assert.equal(result.onUploadProgress, onUpload);
++    assert.equal(result.onDownloadProgress, onDownload);
++    assert.deepEqual(result.headers, { "x-custom": "value" });
++  });
++
++  it("passes through abortSignal and onResponse", () => {
++    const abortController = new AbortController();
++    const onResponse = () => {};
++    const result = operationOptionsToRequestParameters({
++      abortSignal: abortController.signal,
++      onResponse,
++    });
++    assert.equal(result.abortSignal, abortController.signal);
++    assert.equal(result.onResponse, onResponse);
++  });
++});

@@ -34,7 +34,7 @@ describe("http/operation.ts", () => {
         flatResponse: {},
       });
       assert.isNumber(result);
-      assert.isAbove(result!, 0);
+      assert.isAbove(result!, 1000, "should be in milliseconds, not seconds");
     });
   });
 
@@ -104,6 +104,15 @@ describe("http/operation.ts", () => {
       const response: OperationResponse = {
         rawResponse: makeRawResponse({ body: { error: { code: "SomeCode" } } }),
         flatResponse: { error: { code: "SomeCode" } },
+      };
+      const result = getErrorFromResponse(response);
+      assert.isUndefined(result);
+    });
+
+    it("returns undefined when error property is missing code", () => {
+      const response: OperationResponse = {
+        rawResponse: makeRawResponse({ body: { error: { message: "Something went wrong" } } }),
+        flatResponse: { error: { message: "Something went wrong" } },
       };
       const result = getErrorFromResponse(response);
       assert.isUndefined(result);

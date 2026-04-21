@@ -76,7 +76,7 @@ describe("buildCreatePoller", () => {
       },
       isOperationError: () => false,
       getResourceLocation: () => undefined,
-      getPollingInterval: getPollingInterval,
+      getPollingInterval,
       resolveOnUnsuccessful: false,
     });
 

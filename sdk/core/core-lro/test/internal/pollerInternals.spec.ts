@@ -99,13 +99,10 @@ describe("initOperation", () => {
 
 describe("buildCreatePoller with custom getStatusFromPollResponse", () => {
   it("keeps status as running when getStatusFromPollResponse returns running", async () => {
-    let pollCount = 0;
+    const getStatusFromPollResponse = vi.fn().mockReturnValue("running");
     const createPoller = buildCreatePoller<any, any, OperationState<any>>({
       getStatusFromInitialResponse: () => "running",
-      getStatusFromPollResponse: () => {
-        pollCount++;
-        return "running";
-      },
+      getStatusFromPollResponse,
       isOperationError: () => false,
       getResourceLocation: () => undefined,
       resolveOnUnsuccessful: false,
@@ -117,7 +114,7 @@ describe("buildCreatePoller with custom getStatusFromPollResponse", () => {
           response: { data: "init" },
           operationLocation: "/poll",
         }),
-        poll: async () => ({ data: "polled", customDone: pollCount >= 1 }),
+        poll: async () => ({ data: "polled" }),
       },
       {
         intervalInMs: 0,
@@ -128,6 +125,6 @@ describe("buildCreatePoller with custom getStatusFromPollResponse", () => {
     await poller.submitted();
     const state = await poller.poll();
     assert.equal(state.status, "running");
-    assert.isAbove(pollCount, 0, "getStatusFromPollResponse should have been called");
+    expect(getStatusFromPollResponse).toHaveBeenCalled();
   });
 });

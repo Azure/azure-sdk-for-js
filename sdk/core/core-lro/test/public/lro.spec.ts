@@ -3701,7 +3701,9 @@ describe("createHttpPoller", () => {
         throwOnNon2xxResponse: true,
       });
 
-      await expect(poller.pollUntilDone()).rejects.toThrow(/DeepCode/);
+      await expect(poller.pollUntilDone()).rejects.toThrow(
+        /Outer message\..*Inner message\..*Deep message/,
+      );
     });
 
     it("appends period to message when missing", async () => {
@@ -3772,7 +3774,7 @@ describe("createHttpPoller", () => {
       await expect(poller.pollUntilDone()).rejects.toThrow(/Something failed\. Inner detail\./);
     });
 
-    it("sets state to failed when poll throws an operation error", async () => {
+    it("throws and sets state to failed when poll encounters a server error", async () => {
       const pollingPath = "path/poll";
       const poller = createTestPoller({
         routes: [
@@ -3794,9 +3796,10 @@ describe("createHttpPoller", () => {
       });
 
       await expect(poller.pollUntilDone()).rejects.toThrow();
+      assert.equal(poller.operationState?.status, "failed");
     });
 
-    it("sets result when status is failed and setErrorAsResult is true", async () => {
+    it("resolves with failed result when resolveOnUnsuccessful is true", async () => {
       const pollingPath = "path/poll-err-result";
       const poller = createTestPoller({
         routes: [
