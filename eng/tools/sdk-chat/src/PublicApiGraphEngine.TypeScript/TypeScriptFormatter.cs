@@ -879,9 +879,21 @@ public static class TypeScriptFormatter
                 {
                     var names = mergedNames[mn];
                     foreach (var c in group.Classes)
-                        if (names.Classes.Add(c.Name)) existing.Classes.Add(c);
+                        if (names.Classes.Add(c.Name))
+                        {
+                            existing.Classes.Add(c);
+                            // Remove conflicting type alias (type aliases don't merge with classes)
+                            if (names.Types.Remove(c.Name))
+                                existing.Types.RemoveAll(t => t.Name == c.Name);
+                        }
                     foreach (var i in group.Interfaces)
-                        if (names.Interfaces.Add(i.Name)) existing.Interfaces.Add(i);
+                        if (names.Interfaces.Add(i.Name))
+                        {
+                            existing.Interfaces.Add(i);
+                            // Remove conflicting type alias (type aliases don't merge with interfaces)
+                            if (names.Types.Remove(i.Name))
+                                existing.Types.RemoveAll(t => t.Name == i.Name);
+                        }
                     foreach (var e in group.Enums)
                         if (names.Enums.Add(e.Name)) existing.Enums.Add(e);
                     foreach (var t in group.Types)
@@ -977,48 +989,129 @@ public static class TypeScriptFormatter
 
                     var depHasMultipleConditions = depConds.Count > 1;
 
-                    // Group modules by their final rendered specifier, then merge
-                    var specifierGroups = new Dictionary<string, (List<ClassInfo> Classes, List<InterfaceInfo> Interfaces,
+                    // Build per-(ExportPath, Condition) groups, mirroring main-module grouping
+                    var depModuleGroups = new Dictionary<ModuleKey, (List<ClassInfo> Classes, List<InterfaceInfo> Interfaces,
                         List<EnumInfo> Enums, List<TypeAliasInfo> Types, List<FunctionInfo> Functions,
-                        List<NamespaceInfo> Namespaces)>(StringComparer.Ordinal);
+                        List<NamespaceInfo> Namespaces)>();
 
                     foreach (var mc in matchingConditions)
                     {
-                        var depModName = depHasMultipleConditions && !IsBareSpecifierCondition(mc)
-                            ? $"{depSpecifier}/{mc}"
-                            : depSpecifier;
-
                         foreach (var module in dep.Modules.Where(m => NormalizeCondition(m.Condition) == mc))
                         {
-                            if (!specifierGroups.TryGetValue(depModName, out var sg))
+                            void AddToDepGroup(ModuleKey gk, ClassInfo? cls = null, InterfaceInfo? iface = null,
+                                EnumInfo? en = null, TypeAliasInfo? ta = null, FunctionInfo? fn = null, NamespaceInfo? ns = null)
                             {
-                                sg = ([], [], [], [], [], []);
-                                specifierGroups[depModName] = sg;
+                                if (!depModuleGroups.TryGetValue(gk, out var sg))
+                                {
+                                    sg = ([], [], [], [], [], []);
+                                    depModuleGroups[gk] = sg;
+                                }
+                                if (cls is not null && !sg.Classes.Any(x => x.Name == cls.Name)) sg.Classes.Add(cls);
+                                if (iface is not null && !sg.Interfaces.Any(x => x.Name == iface.Name)) sg.Interfaces.Add(iface);
+                                if (en is not null && !sg.Enums.Any(x => x.Name == en.Name)) sg.Enums.Add(en);
+                                if (ta is not null && ta.Type != "unresolved" && !IsSelfReferentialAlias(ta) && !sg.Types.Any(x => x.Name == ta.Name))
+                                    sg.Types.Add(ta);
+                                if (fn is not null && fn.Name is not null && !sg.Functions.Any(x => x.Name == fn.Name && x.Sig == fn.Sig))
+                                    sg.Functions.Add(fn);
+                                if (ns is not null)
+                                {
+                                    var existingNsIdx = sg.Namespaces.FindIndex(x => x.Name == ns.Name);
+                                    if (existingNsIdx >= 0)
+                                        sg.Namespaces[existingNsIdx] = MergeNamespace(sg.Namespaces[existingNsIdx], ns);
+                                    else
+                                        sg.Namespaces.Add(ns);
+                                }
                             }
-                            foreach (var c in module.Classes ?? [])
-                                if (!sg.Classes.Any(x => x.Name == c.Name)) sg.Classes.Add(c);
-                            foreach (var i in module.Interfaces ?? [])
-                                if (!sg.Interfaces.Any(x => x.Name == i.Name)) sg.Interfaces.Add(i);
-                            foreach (var e in module.Enums ?? [])
-                                if (!sg.Enums.Any(x => x.Name == e.Name)) sg.Enums.Add(e);
-                            foreach (var t in module.Types ?? [])
-                                if (t.Type != "unresolved" && !IsSelfReferentialAlias(t) && !sg.Types.Any(x => x.Name == t.Name))
-                                    sg.Types.Add(t);
-                            foreach (var f in module.Functions ?? [])
-                                if (f.Name is not null && !sg.Functions.Any(x => x.Name == f.Name && x.Sig == f.Sig))
-                                    sg.Functions.Add(f);
-                            foreach (var n in module.Namespaces ?? [])
+
+                            ModuleKey DepGroupKey(string? typeExportPath)
                             {
-                                var existingNsIdx = sg.Namespaces.FindIndex(x => x.Name == n.Name);
-                                if (existingNsIdx >= 0)
-                                    sg.Namespaces[existingNsIdx] = MergeNamespace(sg.Namespaces[existingNsIdx], n);
-                                else
-                                    sg.Namespaces.Add(n);
+                                var ep = NormalizeExportPath(typeExportPath ?? module.ExportPath);
+                                return new ModuleKey(ep, mc);
                             }
+
+                            foreach (var c in module.Classes ?? []) AddToDepGroup(DepGroupKey(c.ExportPath), cls: c);
+                            foreach (var i in module.Interfaces ?? []) AddToDepGroup(DepGroupKey(i.ExportPath), iface: i);
+                            foreach (var e in module.Enums ?? []) AddToDepGroup(DepGroupKey(e.ExportPath), en: e);
+                            foreach (var t in module.Types ?? []) AddToDepGroup(DepGroupKey(t.ExportPath), ta: t);
+                            foreach (var f in module.Functions ?? []) AddToDepGroup(DepGroupKey(f.ExportPath), fn: f);
+                            foreach (var n in module.Namespaces ?? []) AddToDepGroup(DepGroupKey(n.ExportPath), ns: n);
                         }
                     }
 
-                    foreach (var (depModuleName, sg) in specifierGroups)
+                    // Build per-exportPath condition sets for the dep (mirrors main-module logic)
+                    var conditionsPerDepExportPath = new Dictionary<string, HashSet<string>>(StringComparer.Ordinal);
+                    foreach (var module in dep.Modules)
+                    {
+                        var normalizedEp = NormalizeExportPath(module.ExportPath);
+                        var cond = NormalizeCondition(module.Condition);
+                        if (!conditionsPerDepExportPath.TryGetValue(normalizedEp, out var set))
+                            conditionsPerDepExportPath[normalizedEp] = set = new(StringComparer.Ordinal);
+                        set.Add(cond);
+                    }
+
+                    // Collect all dep export paths for collision detection
+                    var depExportPaths = new HashSet<string>(StringComparer.Ordinal);
+                    foreach (var module in dep.Modules.Where(m => m.ExportPath is not null))
+                        depExportPaths.Add(NormalizeExportPath(module.ExportPath));
+
+                    // Compute dep module name using per-exportPath condition check (mirrors ComputeGroupModuleName)
+                    string ComputeDepModuleName(string exportPath, string condition)
+                    {
+                        var normalizedEp = NormalizeExportPath(exportPath);
+                        var lookupEp = conditionsPerDepExportPath.ContainsKey(normalizedEp) ? normalizedEp : ".";
+                        var multiCond = conditionsPerDepExportPath.TryGetValue(lookupEp, out var conds) && conds.Count > 1;
+                        if (normalizedEp == ".")
+                        {
+                            if (multiCond && !IsBareSpecifierCondition(condition))
+                            {
+                                var potentialSubpath = $"./{condition}";
+                                return depExportPaths.Contains(potentialSubpath)
+                                    ? $"{depSpecifier}/{condition} (condition)"
+                                    : $"{depSpecifier}/{condition}";
+                            }
+                            return depSpecifier;
+                        }
+                        var sp = normalizedEp.StartsWith("./", StringComparison.Ordinal) ? normalizedEp[2..] : normalizedEp;
+                        if (multiCond && !IsBareSpecifierCondition(condition))
+                        {
+                            var potentialSubpath = $"./{sp}/{condition}";
+                            return depExportPaths.Contains(potentialSubpath)
+                                ? $"{depSpecifier}/{sp}/{condition} (condition)"
+                                : $"{depSpecifier}/{sp}/{condition}";
+                        }
+                        return $"{depSpecifier}/{sp}";
+                    }
+
+                    // Merge groups that produce the same specifier, then emit
+                    var depSpecifierMerged = new Dictionary<string, (List<ClassInfo> Classes, List<InterfaceInfo> Interfaces,
+                        List<EnumInfo> Enums, List<TypeAliasInfo> Types, List<FunctionInfo> Functions,
+                        List<NamespaceInfo> Namespaces)>(StringComparer.Ordinal);
+
+                    foreach (var (key, group) in depModuleGroups)
+                    {
+                        var mn = ComputeDepModuleName(key.ExportPath, key.Condition);
+                        if (depSpecifierMerged.TryGetValue(mn, out var existing))
+                        {
+                            foreach (var c in group.Classes)
+                                if (!existing.Classes.Any(x => x.Name == c.Name)) existing.Classes.Add(c);
+                            foreach (var i in group.Interfaces)
+                                if (!existing.Interfaces.Any(x => x.Name == i.Name)) existing.Interfaces.Add(i);
+                            foreach (var e in group.Enums)
+                                if (!existing.Enums.Any(x => x.Name == e.Name)) existing.Enums.Add(e);
+                            foreach (var t in group.Types)
+                                if (!existing.Types.Any(x => x.Name == t.Name)) existing.Types.Add(t);
+                            foreach (var f in group.Functions)
+                                if (!existing.Functions.Any(x => x.Name == f.Name && x.Sig == f.Sig)) existing.Functions.Add(f);
+                            MergeNamespacesInto(existing.Namespaces, group.Namespaces);
+                        }
+                        else
+                        {
+                            depSpecifierMerged[mn] = (new(group.Classes), new(group.Interfaces),
+                                new(group.Enums), new(group.Types), new(group.Functions), new(group.Namespaces));
+                        }
+                    }
+
+                    foreach (var (depModuleName, sg) in depSpecifierMerged)
                     {
                         if (sg.Classes.Count + sg.Interfaces.Count + sg.Enums.Count + sg.Types.Count + sg.Functions.Count + sg.Namespaces.Count == 0)
                             continue;
@@ -1072,25 +1165,98 @@ public static class TypeScriptFormatter
                     if (classes.Count + interfaces.Count + enums.Count + types.Count + functions.Count + namespaces.Count == 0)
                         continue;
 
-                    // Determine module name using condition matching.
-                    // Exact match → dep/condition suffix; no match → bare package
-                    // name (represents the "default" export, matching tsconfig behavior).
                     var depSpecifier = BuildDepSpecifier(dep);
                     var depConds = depConditionSets.GetValueOrDefault(depSpecifier, []);
-                    string depModuleName;
+                    string matchedDepCond;
+                    bool depHasMultipleConditions;
                     if (depConds.Count > 0)
                     {
-                        var matchedDepCond = SelectBestCondition(mainCond, depConds);
-                        depModuleName = depConds.Count > 1 && !IsBareSpecifierCondition(matchedDepCond)
-                            ? $"{depSpecifier}/{matchedDepCond}"
-                            : depSpecifier;
+                        matchedDepCond = SelectBestCondition(mainCond, depConds);
+                        depHasMultipleConditions = depConds.Count > 1;
                     }
                     else
                     {
-                        depModuleName = depSpecifier;
+                        matchedDepCond = "default";
+                        depHasMultipleConditions = false;
                     }
 
-                    depsForCond.Add((depModuleName, classes, interfaces, enums, types, functions, namespaces));
+                    // Group by ExportPath to produce separate declare module blocks per subpath
+                    var epGroups = new Dictionary<string, (List<ClassInfo> Classes, List<InterfaceInfo> Interfaces,
+                        List<EnumInfo> Enums, List<TypeAliasInfo> Types, List<FunctionInfo> Functions,
+                        List<NamespaceInfo> Namespaces)>(StringComparer.Ordinal);
+
+                    void AddToEpGroup(string ep, ClassInfo? cls = null, InterfaceInfo? iface = null,
+                        EnumInfo? en = null, TypeAliasInfo? ta = null, FunctionInfo? fn = null, NamespaceInfo? ns = null)
+                    {
+                        if (!epGroups.TryGetValue(ep, out var sg))
+                        {
+                            sg = ([], [], [], [], [], []);
+                            epGroups[ep] = sg;
+                        }
+                        if (cls is not null && !sg.Classes.Any(x => x.Name == cls.Name)) sg.Classes.Add(cls);
+                        if (iface is not null && !sg.Interfaces.Any(x => x.Name == iface.Name)) sg.Interfaces.Add(iface);
+                        if (en is not null && !sg.Enums.Any(x => x.Name == en.Name)) sg.Enums.Add(en);
+                        if (ta is not null && !sg.Types.Any(x => x.Name == ta.Name)) sg.Types.Add(ta);
+                        if (fn is not null && fn.Name is not null && !sg.Functions.Any(x => x.Name == fn.Name && x.Sig == fn.Sig)) sg.Functions.Add(fn);
+                        if (ns is not null)
+                        {
+                            var existingNsIdx = sg.Namespaces.FindIndex(x => x.Name == ns.Name);
+                            if (existingNsIdx >= 0)
+                                sg.Namespaces[existingNsIdx] = MergeNamespace(sg.Namespaces[existingNsIdx], ns);
+                            else
+                                sg.Namespaces.Add(ns);
+                        }
+                    }
+
+                    foreach (var c in classes) AddToEpGroup(NormalizeExportPath(c.ExportPath), cls: c);
+                    foreach (var i in interfaces) AddToEpGroup(NormalizeExportPath(i.ExportPath), iface: i);
+                    foreach (var e in enums) AddToEpGroup(NormalizeExportPath(e.ExportPath), en: e);
+                    foreach (var t in types) AddToEpGroup(NormalizeExportPath(t.ExportPath), ta: t);
+                    foreach (var f in functions) AddToEpGroup(NormalizeExportPath(f.ExportPath), fn: f);
+                    foreach (var n in namespaces) AddToEpGroup(NormalizeExportPath(n.ExportPath), ns: n);
+
+                    // Collect all dep export paths for collision detection
+                    var allDepEps = new HashSet<string>(epGroups.Keys, StringComparer.Ordinal);
+
+                    foreach (var (ep, sg) in epGroups)
+                    {
+                        if (sg.Classes.Count + sg.Interfaces.Count + sg.Enums.Count + sg.Types.Count + sg.Functions.Count + sg.Namespaces.Count == 0)
+                            continue;
+
+                        // Compute module name with collision avoidance (mirrors ComputeGroupModuleName)
+                        string depModuleName;
+                        if (ep == ".")
+                        {
+                            if (depHasMultipleConditions && !IsBareSpecifierCondition(matchedDepCond))
+                            {
+                                var potentialSubpath = $"./{matchedDepCond}";
+                                depModuleName = allDepEps.Contains(potentialSubpath)
+                                    ? $"{depSpecifier}/{matchedDepCond} (condition)"
+                                    : $"{depSpecifier}/{matchedDepCond}";
+                            }
+                            else
+                            {
+                                depModuleName = depSpecifier;
+                            }
+                        }
+                        else
+                        {
+                            var sp = ep.StartsWith("./", StringComparison.Ordinal) ? ep[2..] : ep;
+                            if (depHasMultipleConditions && !IsBareSpecifierCondition(matchedDepCond))
+                            {
+                                var potentialSubpath = $"./{sp}/{matchedDepCond}";
+                                depModuleName = allDepEps.Contains(potentialSubpath)
+                                    ? $"{depSpecifier}/{sp}/{matchedDepCond} (condition)"
+                                    : $"{depSpecifier}/{sp}/{matchedDepCond}";
+                            }
+                            else
+                            {
+                                depModuleName = $"{depSpecifier}/{sp}";
+                            }
+                        }
+
+                        depsForCond.Add((depModuleName, sg.Classes, sg.Interfaces, sg.Enums, sg.Types, sg.Functions, sg.Namespaces));
+                    }
                 }
 
                 if (depsForCond.Count > 0)
@@ -1314,17 +1480,13 @@ public static class TypeScriptFormatter
                             foreach (var (depModuleName, depClasses, depInterfaces, depEnums, depTypes) in pkgSpecifiers)
                             {
                                 int priority;
-                                // Collision-safe sentinel from TS — always an exact condition match
+                                // Collision-safe sentinel from TS — definitively an exact condition match
                                 if (depModuleName.EndsWith(" (condition)", StringComparison.Ordinal))
                                     priority = 0;
-                                // Exact condition suffix — but only if the suffix portion isn't also a real export subpath
-                                else if (depModuleName.EndsWith($"/{condition}", StringComparison.Ordinal))
-                                {
-                                    var suffixAsSubpath = $"./{condition}";
-                                    priority = exportPaths.Contains(suffixAsSubpath) ? 2 : 0;
-                                }
+                                // Bare specifier (root import)
                                 else if (depModuleName == pkgName)
-                                    priority = 1; // bare specifier
+                                    priority = 1;
+                                // Everything else (subpath or condition-suffixed) — don't assume
                                 else
                                     priority = 2;
 

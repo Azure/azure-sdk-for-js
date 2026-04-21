@@ -560,6 +560,9 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
             if (defImport) {
                 const spec = importDecl.getModuleSpecifierValue();
                 if (spec) {
+                    // Include full specifier so subpath-specific defaults don't collide
+                    defaultImportedTypes.add(makeDepKey(spec, defImport.getText()));
+                    // Also add the root key for backward compat with bare-specifier lookups
                     defaultImportedTypes.add(makeDepKey(getPackageRoot(spec), defImport.getText()));
                 }
             }
@@ -949,7 +952,7 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
                 let result: ExtractResult | null = null;
 
                 if (resolution) {
-                    const isDefault = defaultImportedTypes.has(rootKey);
+                    const isDefault = defaultImportedTypes.has(qKey) || defaultImportedTypes.has(rootKey);
                     result = extractTypeFromResolvedModule(typeName, resolution.resolvedFile, isDefault, ctx);
                 } else {
                     // For namespace-imported types (e.g., extLib.INetworkModule),
@@ -1565,8 +1568,10 @@ export function getPackageConditionTypePaths(startDir: string, packageName: stri
                     hasConditionalTypes = true;
 
                     // Determine the condition to attribute this types path to:
-                    // use the last runtime (non-skip) condition in the chain, or "default".
-                    const runtimeCondition = findBestRuntimeCondition(entry.conditionChain, skipKeys);
+                    // prefer the outer target condition (browser, node, etc.) over
+                    // module-format conditions (import, require) so that
+                    // ["browser","import"] maps to "browser", not "import".
+                    const runtimeCondition = findPreferredCondition(entry.conditionChain, skipKeys);
                     const condition = runtimeCondition ?? "default";
 
                     const absPath = path.resolve(pkgDir, entry.filePath);
@@ -1591,6 +1596,41 @@ export function getPackageConditionTypePaths(startDir: string, packageName: stri
 
         return result.size > 0 ? result : undefined;
     } catch { /* benign */ }
+    return undefined;
+}
+
+/**
+ * Finds the best target-platform condition (node, browser, etc.) from a chain,
+ * falling back to module-format conditions (import, require) only when no
+ * target condition exists. This prevents ["browser","import"] from collapsing
+ * to "import" and overwriting ["node","import"].
+ */
+function findPreferredCondition(chain: string[], skipKeys: Set<string>): string | undefined {
+    const RUNTIME_TIERS: Record<string, number> = {
+        "import": 2, "require": 3,
+        "node": 4, "browser": 5, "react-native": 6, "workerd": 7, "worker": 7,
+        "production": 8, "development": 9,
+    };
+    let bestTarget: string | undefined;
+    let bestTargetTier = Infinity;
+    let bestFormat: string | undefined;
+    let bestFormatTier = Infinity;
+    for (const c of chain) {
+        if (skipKeys.has(c) || c.startsWith(".")) continue;
+        const tier = RUNTIME_TIERS[c];
+        if (tier === undefined) continue;
+        if (tier >= 4) { // target conditions
+            if (tier < bestTargetTier) { bestTarget = c; bestTargetTier = tier; }
+        } else { // module-format conditions (import=2, require=3)
+            if (tier < bestFormatTier) { bestFormat = c; bestFormatTier = tier; }
+        }
+    }
+    // Prefer target over format; if neither, try first non-skip condition
+    if (bestTarget) return bestTarget;
+    if (bestFormat) return bestFormat;
+    for (const c of chain) {
+        if (!skipKeys.has(c) && !c.startsWith(".")) return c;
+    }
     return undefined;
 }
 

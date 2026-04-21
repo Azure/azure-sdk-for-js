@@ -150,6 +150,12 @@ public static class NdjsonStreamParser
                         "This may indicate a malformed AI response or malicious input.");
                 }
 
+                // On the final block, a truncated JSON object starting with '{' is an error
+                if (isFinalBlock && remaining.Length > 0 && remaining[0] == (byte)'{')
+                {
+                    throw new JsonException("Truncated JSON object at end of NDJSON stream");
+                }
+
                 break; // need more data
             }
 

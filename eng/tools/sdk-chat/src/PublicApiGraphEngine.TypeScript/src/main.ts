@@ -570,9 +570,20 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
             if (cond === module.condition) continue;
             // Include exportPath in dedup key so the same source module exposed
             // through two subpaths produces separate clones.
-            const dedupKey = `${module.name}\0${module.exportPath ?? ""}\0${cond}`;
-            const alreadyExists = modules.some(m => `${m.name}\0${m.exportPath ?? ""}\0${m.condition}` === dedupKey)
-                || additionalModules.some(m => `${m.name}\0${m.exportPath ?? ""}\0${m.condition}` === dedupKey);
+            // Include source file path in dedup key so that two different files
+            // normalizing to the same module name produce separate clones.
+            const sfKey = path.resolve(sourceFile.getFilePath());
+            const dedupKey = `${module.name}\0${module.exportPath ?? ""}\0${cond}\0${sfKey}`;
+            const makeDedupKey = (m: ModuleInfo, sf?: SourceFile) => {
+                const fk = sf ? path.resolve(sf.getFilePath()) : "";
+                return `${m.name}\0${m.exportPath ?? ""}\0${m.condition}\0${fk}`;
+            };
+            const alreadyExists = modules.some((m, i) => makeDedupKey(m, moduleSourceFileMap[i]?.[1]) === dedupKey)
+                || additionalModules.some((m, i) => {
+                    // additionalModules are appended to moduleSourceFileMap as they're created
+                    const idx = modules.length + i;
+                    return makeDedupKey(m, moduleSourceFileMap[idx]?.[1]) === dedupKey;
+                });
             if (alreadyExists) continue;
 
             const clone: ModuleInfo = {

@@ -147,6 +147,11 @@ function deepMergeInterface(existing: InterfaceInfo, incoming: InterfaceInfo): v
     existing.constructSignatures = mergeSignaturesBySig(existing.constructSignatures, incoming.constructSignatures);
     existing.callSignatures = mergeSignaturesBySig(existing.callSignatures, incoming.callSignatures);
     existing.indexSignatures = mergeIndexSignatures(existing.indexSignatures, incoming.indexSignatures);
+    // Reconcile structural metadata — prefer richer (non-empty) values
+    if (!existing.extends?.length && incoming.extends?.length) existing.extends = incoming.extends;
+    if (!existing.typeParams?.length && incoming.typeParams?.length) existing.typeParams = incoming.typeParams;
+    if (!existing.doc && incoming.doc) existing.doc = incoming.doc;
+    if (!existing.deprecated && incoming.deprecated) existing.deprecated = incoming.deprecated;
 }
 
 function deepMergeClass(existing: ClassInfo, incoming: ClassInfo): void {
@@ -154,6 +159,13 @@ function deepMergeClass(existing: ClassInfo, incoming: ClassInfo): void {
     existing.methods = mergeMethods(existing.methods, incoming.methods);
     existing.constructors = mergeConstructors(existing.constructors, incoming.constructors);
     existing.indexSignatures = mergeIndexSignatures(existing.indexSignatures, incoming.indexSignatures);
+    // Reconcile structural metadata — prefer richer (non-empty) values
+    if (!existing.extends && incoming.extends) existing.extends = incoming.extends;
+    if (!existing.implements?.length && incoming.implements?.length) existing.implements = incoming.implements;
+    if (!existing.typeParams?.length && incoming.typeParams?.length) existing.typeParams = incoming.typeParams;
+    if (existing.abstract === undefined && incoming.abstract !== undefined) existing.abstract = incoming.abstract;
+    if (!existing.doc && incoming.doc) existing.doc = incoming.doc;
+    if (!existing.deprecated && incoming.deprecated) existing.deprecated = incoming.deprecated;
 }
 
 function mergeInterfacesByName(
