@@ -84,6 +84,7 @@
   },
   "devDependencies": {
     "@azure-tools/test-credential": "workspace:^",
+    "@azure-tools/test-publishing": "workspace:^",
     "@azure-tools/test-recorder": "workspace:^",
     "@azure-tools/test-utils-vitest": "workspace:^",
     "@azure/dev-tool": "workspace:^",
@@ -119,18 +120,5 @@
     "test:node:esm": "dev-tool run test:vitest --esm",
     "test": "npm run test:node && npm run test:browser",
     "update-snippets": "dev-tool run update-snippets"
-  },
-  "//sampleConfiguration": {
-    "productName": "Azure Key Vault Certificates",
-    "productSlugs": [
-      "azure",
-      "azure-key-vault"
-    ],
-    "requiredResources": {
-      "Azure Key Vault": "https://learn.microsoft.com/azure/key-vault/quick-create-portal"
-    },
-    "customSnippets": {
-      "prerequisites": "samples-dev/snippets/_prerequisites.md"
-    }
   }
 }

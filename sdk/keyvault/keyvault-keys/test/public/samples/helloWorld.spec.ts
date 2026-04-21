@@ -6,10 +6,12 @@
  */
 
 import { KeyClient } from "../../../src/index.js";
+import { createDefaultHttpClient, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { DefaultAzureCredential } from "@azure/identity";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import { Recorder, assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
 import { forPublishing } from "@azure-tools/test-publishing";
+import { createRsaKey, stringToUint8Array } from "../utils/crypto.js";
 import { describe, it, beforeEach, afterEach } from "vitest";
 // Load the .env file if it exists
 import "dotenv/config";
@@ -17,30 +19,44 @@ import "dotenv/config";
 describe("helloWorld", () => {
   let recorder: Recorder;
   let client: KeyClient;
+  let hsmClient: KeyClient | undefined;
 
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start({
       envSetupForPlayback: {
         KEYVAULT_URI: "https://keyvault_name.vault.azure.net/",
+        AZURE_MANAGEDHSM_URI: "https://azure_managedhsm.managedhsm.azure.net/",
+        AZURE_KEYVAULT_ATTESTATION_URI: "https://azure_attestation.azurewebsites.net/",
       },
       removeCentralSanitizers: ["AZSDK3430"],
     });
+    await recorder.setMatcher("BodilessMatcher");
     // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
     // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
     // about DefaultAzureCredential and the other credentials that are available for use.
+    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
     client = forPublishing(
       new KeyClient(
         assertEnvironmentVariable("KEYVAULT_URI"),
-        createTestCredential(),
+        credential,
         recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
       ),
-      () =>
-        new KeyClient(
-          process.env["KEYVAULT_URI"] || "<keyvault-url>",
-          new DefaultAzureCredential(),
-        ),
+      () => new KeyClient(process.env["KEYVAULT_URI"] || "<keyvault-url>", credential),
     );
+
+    if (Boolean(process.env["AZURE_MANAGEDHSM_URI"]) || isPlaybackMode()) {
+      hsmClient = forPublishing(
+        new KeyClient(
+          assertEnvironmentVariable("AZURE_MANAGEDHSM_URI"),
+          credential,
+          recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
+        ),
+        () => new KeyClient(process.env["AZURE_MANAGEDHSM_URI"] || "<managedhsm-url>", credential),
+      );
+    } else {
+      hsmClient = undefined;
+    }
   });
 
   afterEach(async () => {
@@ -134,17 +150,29 @@ describe("helloWorld", () => {
     // @snippet-end ReadmeSampleCreateRsaKey
   });
 
-  it("create an OCT key", async () => {
+  it("create an OCT key", async (ctx) => {
+    if (!forPublishing(Boolean(hsmClient), () => true)) {
+      ctx.skip();
+      return;
+    }
+
     // @snippet ReadmeSampleCreateOctKey
-    const keyName = "MyKeyName";
-    const result = await client.createOctKey("MyKey", { hsm: true });
+    const keyName = forPublishing(
+      recorder.variable("octKeyName", `sample-oct-key-${Date.now()}`),
+      () => "MyKeyName",
+    );
+    const result = await hsmClient!.createOctKey(keyName, { hsm: true });
     console.log("result: ", result);
     // @snippet-end ReadmeSampleCreateOctKey
   });
 
   it("import a key", async () => {
     // @snippet ReadmeSampleImportKey
-    const jsonWebKey = {
+    const keyName = forPublishing(
+      recorder.variable("importKeyName", `sample-import-key-${Date.now()}`),
+      () => "MyKey",
+    );
+    const jsonWebKey = forPublishing(createRsaKey(), () => ({
       kty: "RSA",
       kid: "test-key-123",
       use: "sig",
@@ -157,9 +185,9 @@ describe("helloWorld", () => {
       dp: new Uint8Array([23, 45, 78, 56, 200, 144, 32, 67]),
       dq: new Uint8Array([12, 67, 89, 144, 99, 56, 23, 45]),
       qi: new Uint8Array([78, 90, 45, 201, 34, 67, 120, 55]),
-    };
+    }));
     // @ts-preserve-whitespace
-    const result = await client.importKey("MyKey", jsonWebKey);
+    const result = await client.importKey(keyName, jsonWebKey);
     // @snippet-end ReadmeSampleImportKey
   });
 
@@ -189,18 +217,23 @@ describe("helloWorld", () => {
     // @snippet-end ReadmeSampleGetKey
   });
 
-  it("get key attestation", async () => {
+  it("get key attestation", async (ctx) => {
+    if (!forPublishing(Boolean(hsmClient), () => true)) {
+      ctx.skip();
+      return;
+    }
+
     const keyName = forPublishing(
       recorder.variable("attestKeyName", `sample-attest-key-${Date.now()}`),
       () => "MyKeyName",
     );
-    await client.createKey(keyName, "RSA");
+    await hsmClient!.createRsaKey(keyName, { hsm: true });
 
     // @snippet ReadmeSampleGetKeyAttestation
-    const latestKey = await client.getKeyAttestation(keyName);
+    const latestKey = await hsmClient!.getKeyAttestation(keyName);
     console.log(`Latest version of the key ${keyName}: `, latestKey);
     // @ts-preserve-whitespace
-    const specificKey = await client.getKeyAttestation(keyName, {
+    const specificKey = await hsmClient!.getKeyAttestation(keyName, {
       version: latestKey.properties.version!,
     });
     console.log(
@@ -245,11 +278,49 @@ describe("helloWorld", () => {
     // @snippet-end ReadmeSampleDeleteKey
   });
 
-  it("release a key", async () => {
+  it("release a key", async (ctx) => {
+    if (!forPublishing(Boolean(hsmClient), () => true)) {
+      ctx.skip();
+      return;
+    }
+
+    const keyName = forPublishing(
+      recorder.variable("releaseKeyName", `sample-release-key-${Date.now()}`),
+      () => "myKey",
+    );
+    const attestationAuthority = assertEnvironmentVariable("AZURE_KEYVAULT_ATTESTATION_URI");
+    const encodedReleasePolicy = stringToUint8Array(
+      JSON.stringify({
+        anyOf: [
+          { anyOf: [{ claim: "sdk-test", equals: "true" }], authority: attestationAuthority },
+        ],
+        version: "1.0.0",
+      }),
+    );
+    await hsmClient!.createRsaKey(keyName, {
+      exportable: true,
+      hsm: true,
+      keyOps: ["encrypt", "decrypt"],
+      releasePolicy: { encodedPolicy: encodedReleasePolicy },
+    });
+    const attestation = await forPublishing(
+      (async () => {
+        if (!isPlaybackMode()) {
+          const response = await createDefaultHttpClient().sendRequest(
+            createPipelineRequest({ url: `${attestationAuthority}/generate-test-token` }),
+          );
+          const token = JSON.parse(response.bodyAsText!).token as string;
+          recorder.variable("attestation", token);
+          return token;
+        }
+        return recorder.variable("attestation", "");
+      })(),
+      () => Promise.resolve("<attestation-target>"),
+    );
+
     // @snippet ReadmeSampleReleaseKey
-    const keyName = "MyKeyName";
     // @ts-preserve-whitespace
-    const result = await client.releaseKey("myKey", "<attestation-target>");
+    const result = await hsmClient!.releaseKey(keyName, attestation);
     // @snippet-end ReadmeSampleReleaseKey
   });
 
@@ -320,13 +391,33 @@ describe("helloWorld", () => {
     // @snippet ReadmeSampleRestoreKeyBackup
     const backupContents = await client.backupKey(keyName);
     // @ts-preserve-whitespace
-    const key = await client.restoreKeyBackup(backupContents);
+    const deletePoller = await client.beginDeleteKey(keyName);
+    await deletePoller.pollUntilDone();
+    // @ts-preserve-whitespace
+    await client.purgeDeletedKey(keyName);
+    // @ts-preserve-whitespace
+    for (let attempt = 0; attempt < 5; attempt++) {
+      try {
+        await client.restoreKeyBackup(backupContents);
+        break;
+      } catch (error) {
+        if (attempt === 4) {
+          throw error;
+        }
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+      }
+    }
     // @snippet-end ReadmeSampleRestoreKeyBackup
   });
 
-  it("get random bytes", async () => {
+  it("get random bytes", async (ctx) => {
+    if (!forPublishing(Boolean(hsmClient), () => true)) {
+      ctx.skip();
+      return;
+    }
+
     // @snippet ReadmeSampleGetRandomBytes
-    const bytes = await client.getRandomBytes(10);
+    const bytes = await hsmClient!.getRandomBytes(10);
     // @snippet-end ReadmeSampleGetRandomBytes
   });
 
@@ -354,6 +445,10 @@ describe("helloWorld", () => {
     // recoverDeletedKey also returns a poller, just like beginDeleteKey.
     const recoverPoller = await client.beginRecoverDeletedKey(keyName);
     await recoverPoller.pollUntilDone();
+    // @ts-preserve-whitespace
+    // If you recover the key, delete it again before purging it.
+    const purgePoller = await client.beginDeleteKey(keyName);
+    await purgePoller.pollUntilDone();
     // @ts-preserve-whitespace
     // And here is how to purge a deleted key
     await client.purgeDeletedKey(keyName);

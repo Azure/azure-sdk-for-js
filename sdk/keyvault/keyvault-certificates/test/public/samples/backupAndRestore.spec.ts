@@ -48,6 +48,23 @@ describe("backupAndRestore", () => {
     );
   });
 
+  async function restoreCertificateBackupWithRetry(backup: Uint8Array): Promise<unknown> {
+    let lastError: unknown;
+    for (let i = 0; i < 5; i++) {
+      try {
+        return await client.restoreCertificateBackup(backup);
+      } catch (error: any) {
+        lastError = error;
+        if (!/conflict restoring the certificate/i.test(error.message)) {
+          throw error;
+        }
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+      }
+    }
+
+    throw lastError;
+  }
+
   afterEach(async () => {
     await recorder.stop();
   });
@@ -58,6 +75,7 @@ describe("backupAndRestore", () => {
       issuerName: "Self",
       subject: "cn=MyCert",
     });
+    await createPoller.pollUntilDone();
 
     const pendingCertificate = createPoller.getResult();
     console.log("Certificate: ", pendingCertificate);
@@ -69,7 +87,9 @@ describe("backupAndRestore", () => {
 
     await client.purgeDeletedCertificate(certificateName);
 
-    await client.restoreCertificateBackup(backup!);
+    await forPublishing(restoreCertificateBackupWithRetry(backup!), () =>
+      client.restoreCertificateBackup(backup!),
+    );
 
     const restoredCertificate = await client.getCertificate(certificateName);
 
@@ -79,42 +99,59 @@ describe("backupAndRestore", () => {
   // Operation snippets
 
   it("back up a certificate", async () => {
-    const credential = new DefaultAzureCredential();
+    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
     // @ts-preserve-whitespace
-    const vaultName = "<YOUR KEYVAULT NAME>";
-    const url = `https://${vaultName}.vault.azure.net`;
+    const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
     // @ts-preserve-whitespace
-    const client = new CertificateClient(url, credential);
+    const client = forPublishing(
+      new CertificateClient(url, credential, recorder.configureClientOptions({})),
+      () => new CertificateClient(url, credential),
+    );
     // @ts-preserve-whitespace
     // @snippet CertificateClientBackupCertificate
-    await client.beginCreateCertificate("MyCertificate", {
+    const certificateName = forPublishing(
+      recorder.variable("certificateName", `backup-${new Date().getTime()}`),
+      () => "MyCertificate",
+    );
+    const createPoller = await client.beginCreateCertificate(certificateName, {
       issuerName: "Self",
       subject: "cn=MyCert",
     });
-    const backup = await client.backupCertificate("MyCertificate");
+    await createPoller.pollUntilDone();
+    const backup = await client.backupCertificate(certificateName);
     // @snippet-end CertificateClientBackupCertificate
   });
 
   it("restore a certificate from backup", async () => {
-    const credential = new DefaultAzureCredential();
+    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
     // @ts-preserve-whitespace
-    const vaultName = "<YOUR KEYVAULT NAME>";
-    const url = `https://${vaultName}.vault.azure.net`;
+    const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
     // @ts-preserve-whitespace
-    const client = new CertificateClient(url, credential);
+    const client = forPublishing(
+      new CertificateClient(url, credential, recorder.configureClientOptions({})),
+      () => new CertificateClient(url, credential),
+    );
     // @ts-preserve-whitespace
     // @snippet CertificateClientRestoreCertificateBackup
-    await client.beginCreateCertificate("MyCertificate", {
+    const certificateName = forPublishing(
+      recorder.variable("certificateName", `restore-${new Date().getTime()}`),
+      () => "MyCertificate",
+    );
+    const createPoller = await client.beginCreateCertificate(certificateName, {
       issuerName: "Self",
       subject: "cn=MyCert",
     });
-    const backup = await client.backupCertificate("MyCertificate");
+    await createPoller.pollUntilDone();
+    const backup = await client.backupCertificate(certificateName);
     // @ts-preserve-whitespace
-    const poller = await client.beginDeleteCertificate("MyCertificate");
+    const poller = await client.beginDeleteCertificate(certificateName);
     await poller.pollUntilDone();
+    await client.purgeDeletedCertificate(certificateName);
     // @ts-preserve-whitespace
     // Some time is required before we're able to restore the certificate
-    await client.restoreCertificateBackup(backup!);
+    await forPublishing(restoreCertificateBackupWithRetry(backup!), () =>
+      client.restoreCertificateBackup(backup!),
+    );
     // @snippet-end CertificateClientRestoreCertificateBackup
   });
 });

@@ -31,6 +31,7 @@ describe("mergeCertificate", () => {
       },
       removeCentralSanitizers: ["AZSDK3430"],
     });
+    await recorder.setMatcher("CustomDefaultMatcher", { compareBodies: false });
     // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
     // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
     // about DefaultAzureCredential and the other credentials that are available for use.
@@ -96,19 +97,25 @@ ${base64Csr}
   // Operation snippets
 
   it("merge a certificate", async () => {
-    const credential = new DefaultAzureCredential();
+    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
     // @ts-preserve-whitespace
-    const vaultName = "<YOUR KEYVAULT NAME>";
-    const url = `https://${vaultName}.vault.azure.net`;
+    const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
     // @ts-preserve-whitespace
-    const client = new CertificateClient(url, credential);
+    const client = forPublishing(
+      new CertificateClient(url, credential, recorder.configureClientOptions({})),
+      () => new CertificateClient(url, credential),
+    );
     // @ts-preserve-whitespace
     // @snippet CertificateClientMergeCertificate
-    await client.beginCreateCertificate("MyCertificate", {
+    const certificateName = forPublishing(
+      recorder.variable("certificateName", `merge-${new Date().getTime()}`),
+      () => "MyCertificate",
+    );
+    await client.beginCreateCertificate(certificateName, {
       issuerName: "Unknown",
       subject: "cn=MyCert",
     });
-    const poller = await client.getCertificateOperation("MyCertificate");
+    const poller = await client.getCertificateOperation(certificateName);
     const { csr } = poller.getOperationState().certificateOperation!;
     const base64Csr = Buffer.from(csr!).toString("base64");
     const wrappedCsr = [
@@ -129,7 +136,7 @@ ${base64Csr}
     );
     const base64Crt = readFileSync("test.crt").toString().split("\n").slice(1, -1).join("");
     // @ts-preserve-whitespace
-    await client.mergeCertificate("MyCertificate", [Buffer.from(base64Crt)]);
+    await client.mergeCertificate(certificateName, [Buffer.from(base64Crt)]);
     // @snippet-end CertificateClientMergeCertificate
   });
 });

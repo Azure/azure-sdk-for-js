@@ -65,18 +65,35 @@ describe("backupSelectiveKeyRestore", () => {
 
   it("begin selective key restore with SAS", async () => {
     // @snippet ReadmeSampleBeginSelectiveKeyRestore_SAS
-    const blobStorageUri = "<blob-storage-uri>";
-    const sasToken = "<sas-token>";
-    const keyName = "<key-name>";
-    const poller = await client.beginSelectiveKeyRestore(keyName, blobStorageUri, sasToken);
+    const blobStorageUri = `${assertEnvironmentVariable("BLOB_STORAGE_URI").replace(/\/$/, "")}/${assertEnvironmentVariable("BLOB_CONTAINER_NAME")}`;
+    const sasToken = forPublishing(
+      assertEnvironmentVariable("BLOB_STORAGE_SAS_TOKEN"),
+      () => "<sas-token>",
+    );
+    const keyName = forPublishing(
+      recorder.variable("keyName", `key-${Date.now()}`),
+      () => "<key-name>",
+    );
+    await keyClient.createRsaKey(keyName);
+    const backupPoller = await client.beginBackup(blobStorageUri);
+    const backupResult = await backupPoller.pollUntilDone();
+    const backupFolderUri = forPublishing(backupResult.folderUri!, () => "<blob-storage-uri>");
+    const poller = await forPublishing(
+      client.beginSelectiveKeyRestore(keyName, backupFolderUri),
+      () => client.beginSelectiveKeyRestore(keyName, backupFolderUri, sasToken),
+    );
     // @ts-preserve-whitespace
     // Serializing the poller
     const serialized = poller.toString();
     // @ts-preserve-whitespace
     // A new poller can be created with:
-    await client.beginSelectiveKeyRestore(keyName, blobStorageUri, sasToken, {
-      resumeFrom: serialized,
-    });
+    await forPublishing(
+      client.beginSelectiveKeyRestore(keyName, backupFolderUri, { resumeFrom: serialized }),
+      () =>
+        client.beginSelectiveKeyRestore(keyName, backupFolderUri, sasToken, {
+          resumeFrom: serialized,
+        }),
+    );
     // @ts-preserve-whitespace
     // Waiting until it's done
     await poller.pollUntilDone();
@@ -85,15 +102,22 @@ describe("backupSelectiveKeyRestore", () => {
 
   it("begin selective key restore without SAS", async () => {
     // @snippet ReadmeSampleBeginSelectiveKeyRestore_NonSAS
-    const blobStorageUri = "<blob-storage-uri>";
-    const keyName = "<key-name>";
-    const poller = await client.beginSelectiveKeyRestore(keyName, blobStorageUri);
+    const blobStorageUri = `${assertEnvironmentVariable("BLOB_STORAGE_URI").replace(/\/$/, "")}/${assertEnvironmentVariable("BLOB_CONTAINER_NAME")}`;
+    const keyName = forPublishing(
+      recorder.variable("keyName", `key-${Date.now()}`),
+      () => "<key-name>",
+    );
+    await keyClient.createRsaKey(keyName);
+    const backupPoller = await client.beginBackup(blobStorageUri);
+    const backupResult = await backupPoller.pollUntilDone();
+    const backupFolderUri = forPublishing(backupResult.folderUri!, () => "<blob-storage-uri>");
+    const poller = await client.beginSelectiveKeyRestore(keyName, backupFolderUri);
     // @ts-preserve-whitespace
     // Serializing the poller
     const serialized = poller.toString();
     // @ts-preserve-whitespace
     // A new poller can be created with:
-    await client.beginSelectiveKeyRestore(keyName, blobStorageUri, { resumeFrom: serialized });
+    await client.beginSelectiveKeyRestore(keyName, backupFolderUri, { resumeFrom: serialized });
     // @ts-preserve-whitespace
     // Waiting until it's done
     await poller.pollUntilDone();
@@ -101,7 +125,10 @@ describe("backupSelectiveKeyRestore", () => {
   });
 
   it("backup and selective key restore (integration)", async () => {
-    const keyName = "key-name";
+    const keyName = forPublishing(
+      recorder.variable("keyName", `key-${Date.now()}`),
+      () => "key-name",
+    );
     const key = await keyClient.createRsaKey(keyName);
 
     const sasToken = forPublishing(
@@ -131,15 +158,16 @@ describe("backupSelectiveKeyRestore", () => {
     const blobContainerUri = buildBlobContainerUri();
 
     // Start the backup and wait for its completion.
-    const backupPoller = await client.beginBackup(blobContainerUri, sasToken);
+    const backupPoller = await forPublishing(client.beginBackup(blobContainerUri), () =>
+      client.beginBackup(blobContainerUri, sasToken),
+    );
     const backupResult = await backupPoller.pollUntilDone();
     console.log("backupResult", backupResult);
 
     // Finally, start and wait for the restore operation using the folderUri returned from a previous backup operation.
-    const selectiveKeyRestorePoller = await client.beginSelectiveKeyRestore(
-      key.name,
-      backupResult.folderUri!,
-      sasToken,
+    const selectiveKeyRestorePoller = await forPublishing(
+      client.beginSelectiveKeyRestore(key.name, backupResult.folderUri!),
+      () => client.beginSelectiveKeyRestore(key.name, backupResult.folderUri!, sasToken),
     );
     const restoreResult = await selectiveKeyRestorePoller.pollUntilDone();
     console.log("restoreResult", restoreResult);

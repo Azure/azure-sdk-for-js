@@ -49,8 +49,10 @@ describe("backupAndRestore", () => {
   });
 
   it("backup and restore a secret", async () => {
-    const uniqueString = new Date().getTime();
-    const secretName = `secret${uniqueString}`;
+    const secretName = forPublishing(
+      recorder.variable("backupRestoreSecretName", `sample-backup-secret-${Date.now()}`),
+      () => "MySecretName",
+    );
 
     // Create our secret
     await client.setSecret(secretName, "XYZ789");
@@ -78,7 +80,18 @@ describe("backupAndRestore", () => {
     const backupContents = await readFile("secret_backup.dat");
     // @ts-preserve-whitespace
     // Restore the secret
-    const result = await client.restoreSecretBackup(backupContents);
+    let result;
+    for (let attempt = 0; attempt < 5; attempt++) {
+      try {
+        result = await client.restoreSecretBackup(backupContents);
+        break;
+      } catch (error) {
+        if (attempt === 4) {
+          throw error;
+        }
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+      }
+    }
     console.log("Restored secret: ", result);
     // @snippet-end ReadmeSampleRestoreSecret
 

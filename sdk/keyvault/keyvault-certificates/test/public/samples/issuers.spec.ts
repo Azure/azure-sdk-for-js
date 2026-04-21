@@ -96,15 +96,21 @@ describe("issuers", () => {
   // Operation snippets
 
   it("list certificate issuers", async () => {
-    const credential = new DefaultAzureCredential();
+    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
     // @ts-preserve-whitespace
-    const vaultName = "<YOUR KEYVAULT NAME>";
-    const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+    const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
     // @ts-preserve-whitespace
-    const client = new CertificateClient(keyVaultUrl, credential);
+    const client = forPublishing(
+      new CertificateClient(keyVaultUrl, credential, recorder.configureClientOptions({})),
+      () => new CertificateClient(keyVaultUrl, credential),
+    );
     // @ts-preserve-whitespace
     // @snippet CertificateClientListIssuers
-    await client.createIssuer("IssuerName", "Test");
+    const issuerName = forPublishing(
+      recorder.variable("issuerName", `issuer-${new Date().getTime()}`),
+      () => "IssuerName",
+    );
+    await client.createIssuer(issuerName, "Test");
     // @ts-preserve-whitespace
     // All in one call
     for await (const issuerProperties of client.listPropertiesOfIssuers()) {
@@ -121,57 +127,90 @@ describe("issuers", () => {
   });
 
   it("create a certificate issuer", async () => {
-    const credential = new DefaultAzureCredential();
+    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
     // @ts-preserve-whitespace
-    const vaultName = "<YOUR KEYVAULT NAME>";
-    const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+    const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
     // @ts-preserve-whitespace
-    const client = new CertificateClient(keyVaultUrl, credential);
+    const client = forPublishing(
+      new CertificateClient(keyVaultUrl, credential, recorder.configureClientOptions({})),
+      () => new CertificateClient(keyVaultUrl, credential),
+    );
     // @ts-preserve-whitespace
     // @snippet CertificateClientCreateIssuer
-    await client.createIssuer("IssuerName", "Test");
+    const issuerName = forPublishing(
+      recorder.variable("issuerName", `issuer-${new Date().getTime()}`),
+      () => "IssuerName",
+    );
+    await client.createIssuer(issuerName, "Test");
     // @snippet-end CertificateClientCreateIssuer
   });
 
   it("update a certificate issuer", async () => {
-    const credential = new DefaultAzureCredential();
+    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
     // @ts-preserve-whitespace
-    const vaultName = "<YOUR KEYVAULT NAME>";
-    const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+    const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
     // @ts-preserve-whitespace
-    const client = new CertificateClient(keyVaultUrl, credential);
+    const client = forPublishing(
+      new CertificateClient(keyVaultUrl, credential, recorder.configureClientOptions({})),
+      () => new CertificateClient(keyVaultUrl, credential),
+    );
     // @ts-preserve-whitespace
     // @snippet CertificateClientUpdateIssuer
-    await client.updateIssuer("IssuerName", {
-      provider: "Provider2",
+    const issuerName = forPublishing(
+      recorder.variable("issuerName", `issuer-${new Date().getTime()}`),
+      () => "IssuerName",
+    );
+    if (forPublishing(true, () => false)) {
+      await client.createIssuer(issuerName, "Test");
+    }
+    await client.updateIssuer(issuerName, {
+      accountId: "updated-keyvaultuser",
     });
     // @snippet-end CertificateClientUpdateIssuer
   });
 
   it("get a certificate issuer", async () => {
-    const credential = new DefaultAzureCredential();
+    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
     // @ts-preserve-whitespace
-    const vaultName = "<YOUR KEYVAULT NAME>";
-    const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+    const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
     // @ts-preserve-whitespace
-    const client = new CertificateClient(keyVaultUrl, credential);
+    const client = forPublishing(
+      new CertificateClient(keyVaultUrl, credential, recorder.configureClientOptions({})),
+      () => new CertificateClient(keyVaultUrl, credential),
+    );
     // @ts-preserve-whitespace
     // @snippet CertificateClientGetIssuer
-    const certificateIssuer = await client.getIssuer("IssuerName");
+    const issuerName = forPublishing(
+      recorder.variable("issuerName", `issuer-${new Date().getTime()}`),
+      () => "IssuerName",
+    );
+    if (forPublishing(true, () => false)) {
+      await client.createIssuer(issuerName, "Test");
+    }
+    const certificateIssuer = await client.getIssuer(issuerName);
     console.log(certificateIssuer);
     // @snippet-end CertificateClientGetIssuer
   });
 
   it("delete a certificate issuer", async () => {
-    const credential = new DefaultAzureCredential();
+    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
     // @ts-preserve-whitespace
-    const vaultName = "<YOUR KEYVAULT NAME>";
-    const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+    const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
     // @ts-preserve-whitespace
-    const client = new CertificateClient(keyVaultUrl, credential);
+    const client = forPublishing(
+      new CertificateClient(keyVaultUrl, credential, recorder.configureClientOptions({})),
+      () => new CertificateClient(keyVaultUrl, credential),
+    );
     // @ts-preserve-whitespace
     // @snippet CertificateClientDeleteIssuer
-    await client.deleteIssuer("IssuerName");
+    const issuerName = forPublishing(
+      recorder.variable("issuerName", `issuer-${new Date().getTime()}`),
+      () => "IssuerName",
+    );
+    if (forPublishing(true, () => false)) {
+      await client.createIssuer(issuerName, "Test");
+    }
+    await client.deleteIssuer(issuerName);
     // @snippet-end CertificateClientDeleteIssuer
   });
 });

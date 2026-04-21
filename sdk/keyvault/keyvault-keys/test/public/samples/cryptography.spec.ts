@@ -29,6 +29,9 @@ describe("cryptography", () => {
       },
       removeCentralSanitizers: ["AZSDK3430"],
     });
+    // Crypto operations produce non-deterministic request bodies (e.g. RSA padding),
+    // so we disable body matching during playback.
+    await recorder.setMatcher("CustomDefaultMatcher", { compareBodies: false });
     // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
     // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
     // about DefaultAzureCredential and the other credentials that are available for use.
@@ -40,11 +43,7 @@ describe("cryptography", () => {
         credential,
         recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
       ),
-      () =>
-        new KeyClient(
-          process.env["KEYVAULT_URI"] || "<keyvault-url>",
-          credential,
-        ),
+      () => new KeyClient(process.env["KEYVAULT_URI"] || "<keyvault-url>", credential),
     );
   });
 
@@ -64,6 +63,7 @@ describe("cryptography", () => {
     const cryptoClient = new CryptographyClient(
       myWorkKey.id!, // You can use either the key or the key Id i.e. its url to create a CryptographyClient.
       credential,
+      recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
     );
 
     // Encrypt and decrypt
@@ -91,6 +91,7 @@ describe("cryptography", () => {
     const cryptoClient = new CryptographyClient(
       myWorkKey.id!, // You can use either the key or the key Id i.e. its url to create a CryptographyClient.
       credential,
+      recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
     );
 
     // Sign and Verify
@@ -118,6 +119,7 @@ describe("cryptography", () => {
     const cryptoClient = new CryptographyClient(
       myWorkKey.id!, // You can use either the key or the key Id i.e. its url to create a CryptographyClient.
       credential,
+      recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
     );
 
     // Wrap and unwrap
@@ -136,7 +138,11 @@ describe("cryptography", () => {
       ),
       "RSA",
     );
-    const cryptographyClient = new CryptographyClient(myKey.id!, credential);
+    const cryptographyClient = new CryptographyClient(
+      myKey.id!,
+      credential,
+      recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
+    );
 
     // @snippet ReadmeSampleEncrypt
     const encryptResult = await cryptographyClient.encrypt({
@@ -155,7 +161,11 @@ describe("cryptography", () => {
       ),
       "RSA",
     );
-    const cryptographyClient = new CryptographyClient(myKey.id!, credential);
+    const cryptographyClient = new CryptographyClient(
+      myKey.id!,
+      credential,
+      recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
+    );
 
     // @snippet ReadmeSampleDecrypt
     const encryptResult = await cryptographyClient.encrypt({
@@ -180,7 +190,11 @@ describe("cryptography", () => {
       ),
       "RSA",
     );
-    const cryptographyClient = new CryptographyClient(myKey, credential);
+    const cryptographyClient = new CryptographyClient(
+      myKey,
+      credential,
+      recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
+    );
 
     // @snippet ReadmeSampleSign
     const signatureValue = "MySignature";
@@ -202,7 +216,11 @@ describe("cryptography", () => {
       ),
       "RSA",
     );
-    const cryptographyClient = new CryptographyClient(myKey, credential);
+    const cryptographyClient = new CryptographyClient(
+      myKey,
+      credential,
+      recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
+    );
 
     // @snippet ReadmeSampleSignData
     const signResult = await cryptographyClient.signData("RS256", Buffer.from("My Message"));
@@ -218,7 +236,11 @@ describe("cryptography", () => {
       ),
       "RSA",
     );
-    const cryptographyClient = new CryptographyClient(myKey, credential);
+    const cryptographyClient = new CryptographyClient(
+      myKey,
+      credential,
+      recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
+    );
 
     // @snippet ReadmeSampleVerify
     const hash = createHash("sha256");
@@ -241,7 +263,11 @@ describe("cryptography", () => {
       ),
       "RSA",
     );
-    const cryptographyClient = new CryptographyClient(myKey, credential);
+    const cryptographyClient = new CryptographyClient(
+      myKey,
+      credential,
+      recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
+    );
 
     // @snippet ReadmeSampleVerifyData
     const buffer = Buffer.from("My Message");
@@ -262,7 +288,11 @@ describe("cryptography", () => {
       ),
       "RSA",
     );
-    const cryptographyClient = new CryptographyClient(myKey, credential);
+    const cryptographyClient = new CryptographyClient(
+      myKey,
+      credential,
+      recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
+    );
 
     // @snippet ReadmeSampleWrapKey
     const wrapResult = await cryptographyClient.wrapKey("RSA-OAEP", Buffer.from("My Key"));
@@ -278,7 +308,11 @@ describe("cryptography", () => {
       ),
       "RSA",
     );
-    const cryptographyClient = new CryptographyClient(myKey, credential);
+    const cryptographyClient = new CryptographyClient(
+      myKey,
+      credential,
+      recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
+    );
 
     // @snippet ReadmeSampleUnwrapKey
     const wrapResult = await cryptographyClient.wrapKey("RSA-OAEP", Buffer.from("My Key"));

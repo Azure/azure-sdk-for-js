@@ -21,6 +21,7 @@ import "dotenv/config";
 describe("importCertificate", () => {
   let recorder: Recorder;
   let client: CertificateClient;
+  let secretClient: SecretClient;
 
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
@@ -46,7 +47,38 @@ describe("importCertificate", () => {
           new DefaultAzureCredential(),
         ),
     );
+    secretClient = forPublishing(
+      new SecretClient(
+        assertEnvironmentVariable("KEYVAULT_URI"),
+        createTestCredential(),
+        recorder.configureClientOptions({}),
+      ),
+      () =>
+        new SecretClient(
+          process.env["KEYVAULT_URI"] || "<keyvault-url>",
+          new DefaultAzureCredential(),
+        ),
+    );
   });
+
+  async function createSourceCertificateValue(
+    certificateName: string,
+    contentType: "application/x-pkcs12" | "application/x-pem-file",
+  ): Promise<string> {
+    const createPoller = await client.beginCreateCertificate(certificateName, {
+      issuerName: "Self",
+      subject: "CN=contoso.com",
+      contentType,
+    });
+    await createPoller.pollUntilDone();
+
+    const certificateSecret = await secretClient.getSecret(certificateName);
+    if (!certificateSecret.value) {
+      throw new Error(`Expected certificate secret ${certificateName} to contain a value.`);
+    }
+
+    return certificateSecret.value;
+  }
 
   afterEach(async () => {
     await recorder.stop();
@@ -56,9 +88,22 @@ describe("importCertificate", () => {
     // Demonstrates how to import a base64 encoded PFX certificate into Azure Key Vault.
     // When importing a PFX containing your key pair, the policy is needed if you want the
     // private key to be exportable or to configure actions when a certificate is close to expiration.
+    const certificateName = forPublishing(
+      recorder.variable("certificateName", `import-${Date.now()}`),
+      () => `import-${Date.now()}`,
+    );
+    const sourceCertificateName = recorder.variable(
+      "sourceCertificateName",
+      `source-pfx-${Date.now()}`,
+    );
+    const samplePfxBase64 = forPublishing(
+      await createSourceCertificateValue(sourceCertificateName, "application/x-pkcs12"),
+      () => process.env.SAMPLE_PFX_BASE_64 || "",
+    );
+
     const importedCertificate = await client.importCertificate(
-      `import-${Date.now()}`,
-      Buffer.from(process.env.SAMPLE_PFX_BASE_64 || "", "base64"),
+      certificateName,
+      Buffer.from(samplePfxBase64, "base64"),
       {
         policy: {
           contentType: "application/x-pkcs12",
@@ -81,9 +126,22 @@ describe("importCertificate", () => {
     // PEM-formatted certificates are more common when using tools like openssl. To import a
     // PEM-formatted certificate, you must set a CertificatePolicy that sets the ContentType
     // to Pem or the certificate will fail to import
+    const certificateName = forPublishing(
+      recorder.variable("certificateName", `cert${Date.now()}`),
+      () => `cert${Date.now()}`,
+    );
+    const sourceCertificateName = recorder.variable(
+      "sourceCertificateName",
+      `source-pem-${Date.now()}`,
+    );
+    const samplePem = forPublishing(
+      await createSourceCertificateValue(sourceCertificateName, "application/x-pem-file"),
+      () => process.env.SAMPLE_PEM || "",
+    );
+
     const importedCertificate = await client.importCertificate(
-      `cert${Date.now()}`,
-      Buffer.from(process.env.SAMPLE_PEM || ""), // PEM certificates are not base64 encoded, so we don't need to decode them
+      certificateName,
+      Buffer.from(samplePem), // PEM certificates are not base64 encoded, so we don't need to decode them
       {
         policy: {
           contentType: "application/x-pem-file",
@@ -105,22 +163,42 @@ describe("importCertificate", () => {
   // Operation snippets
 
   it("import a certificate", async () => {
-    const credential = new DefaultAzureCredential();
+    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
     // @ts-preserve-whitespace
-    const vaultName = "<YOUR KEYVAULT NAME>";
-    const url = `https://${vaultName}.vault.azure.net`;
+    const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
     // @ts-preserve-whitespace
-    const client = new CertificateClient(url, credential);
-    const secretClient = new SecretClient(url, credential);
+    const client = forPublishing(
+      new CertificateClient(url, credential, recorder.configureClientOptions({})),
+      () => new CertificateClient(url, credential),
+    );
+    const secretClient = forPublishing(
+      new SecretClient(url, credential, recorder.configureClientOptions({})),
+      () => new SecretClient(url, credential),
+    );
     // @ts-preserve-whitespace
     // @snippet CertificateClientImportCertificate
-    const certificateSecret = await secretClient.getSecret("MyCertificate");
+    const sourceCertificateName = forPublishing(
+      recorder.variable("sourceCertificateName", `source-${Date.now()}`),
+      () => "MySourceCertificate",
+    );
+    const importedCertificateName = forPublishing(
+      recorder.variable("importedCertificateName", `imported-${Date.now()}`),
+      () => "MyCertificate",
+    );
+    if (forPublishing(true, () => false)) {
+      const createPoller = await client.beginCreateCertificate(sourceCertificateName, {
+        issuerName: "Self",
+        subject: "cn=MyCert",
+      });
+      await createPoller.pollUntilDone();
+    }
+    const certificateSecret = await secretClient.getSecret(sourceCertificateName);
     const base64EncodedCertificate = certificateSecret.value!;
     // @ts-preserve-whitespace
     const buffer = isNodeLike
       ? Buffer.from(base64EncodedCertificate, "base64")
       : Uint8Array.from(atob(base64EncodedCertificate), (c) => c.charCodeAt(0));
-    await client.importCertificate("MyCertificate", buffer);
+    await client.importCertificate(importedCertificateName, buffer);
     // @snippet-end CertificateClientImportCertificate
   });
 });

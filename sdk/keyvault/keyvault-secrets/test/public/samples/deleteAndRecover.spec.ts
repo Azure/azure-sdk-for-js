@@ -48,9 +48,14 @@ describe("deleteAndRecover", () => {
   });
 
   it("create secrets", async () => {
-    const uniqueString = new Date().getTime();
-    const bankAccountSecretName = `bankSecret${uniqueString}`;
-    const storageAccountSecretName = `storageSecret${uniqueString}`;
+    const bankAccountSecretName = forPublishing(
+      recorder.variable("createSecretsBankName", `sample-bank-secret-${Date.now()}`),
+      () => "bankSecret",
+    );
+    const storageAccountSecretName = forPublishing(
+      recorder.variable("createSecretsStorageName", `sample-storage-secret-${Date.now()}`),
+      () => "storageSecret",
+    );
 
     // Create our secrets
     console.log("Creating our secrets");
@@ -59,8 +64,10 @@ describe("deleteAndRecover", () => {
   });
 
   it("delete and recover a secret", async () => {
-    const uniqueString = new Date().getTime();
-    const bankAccountSecretName = `bankSecret${uniqueString}`;
+    const bankAccountSecretName = forPublishing(
+      recorder.variable("recoverSecretName", `sample-recover-secret-${Date.now()}`),
+      () => "bankSecret",
+    );
     await client.setSecret(bankAccountSecretName, "ABC123");
 
     // @snippet ReadmeSampleRecoverDeletedSecret
@@ -77,8 +84,10 @@ describe("deleteAndRecover", () => {
   });
 
   it("delete and purge a secret", async () => {
-    const uniqueString = new Date().getTime();
-    const bankAccountSecretName = `bankSecret${uniqueString}`;
+    const bankAccountSecretName = forPublishing(
+      recorder.variable("purgeSecretName", `sample-purge-secret-${Date.now()}`),
+      () => "bankSecret",
+    );
     await client.setSecret(bankAccountSecretName, "ABC123");
 
     // @snippet ReadmeSamplePurgeDeletedSecret
@@ -99,8 +108,10 @@ describe("deleteAndRecover", () => {
   });
 
   it("get a deleted secret", async () => {
-    const uniqueString = new Date().getTime();
-    const secretName = `secret${uniqueString}`;
+    const secretName = forPublishing(
+      recorder.variable("getDeletedSecretName", `sample-get-deleted-secret-${Date.now()}`),
+      () => "MySecretName",
+    );
     await client.setSecret(secretName, "MySecretValue");
     const deletePoller = await client.beginDeleteSecret(secretName);
     await deletePoller.pollUntilDone();
@@ -112,8 +123,10 @@ describe("deleteAndRecover", () => {
   });
 
   it("soft delete lifecycle", async () => {
-    const uniqueString = new Date().getTime();
-    const secretName = `secret${uniqueString}`;
+    const secretName = forPublishing(
+      recorder.variable("softDeleteSecretName", `sample-soft-delete-secret-${Date.now()}`),
+      () => "MySecretName",
+    );
     await client.setSecret(secretName, "MySecretValue");
 
     // @snippet ReadmeSampleDeleteSecretSoftDelete
@@ -134,14 +147,19 @@ describe("deleteAndRecover", () => {
     const recoverPoller = await client.beginRecoverDeletedSecret(secretName);
     await recoverPoller.pollUntilDone();
     // @ts-preserve-whitespace
+    const purgePoller = await client.beginDeleteSecret(secretName);
+    await purgePoller.pollUntilDone();
+    // @ts-preserve-whitespace
     // And then, to purge the deleted secret:
     await client.purgeDeletedSecret(secretName);
     // @snippet-end ReadmeSampleDeleteSecretSoftDelete
   });
 
   it("delete and wait", async () => {
-    const uniqueString = new Date().getTime();
-    const secretName = `secret${uniqueString}`;
+    const secretName = forPublishing(
+      recorder.variable("deleteWaitSecretName", `sample-delete-wait-secret-${Date.now()}`),
+      () => "MySecretName",
+    );
     await client.setSecret(secretName, "MySecretValue");
 
     // @snippet ReadmeSampleDeleteSecretWait
@@ -157,8 +175,10 @@ describe("deleteAndRecover", () => {
   });
 
   it("delete and poll individually", async () => {
-    const uniqueString = new Date().getTime();
-    const secretName = `secret${uniqueString}`;
+    const secretName = forPublishing(
+      recorder.variable("deletePollSecretName", `sample-delete-poll-secret-${Date.now()}`),
+      () => "MySecretName",
+    );
     await client.setSecret(secretName, "MySecretValue");
 
     // @snippet ReadmeSampleDeleteSecretWaitIndividually

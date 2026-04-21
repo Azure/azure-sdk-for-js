@@ -70,6 +70,12 @@ describe("helloWorld", () => {
   });
 
   it("get and update certificate", async () => {
+    const createPoller = await client.beginCreateCertificate(
+      certificateName,
+      DefaultCertificatePolicy,
+    );
+    await createPoller.pollUntilDone();
+
     // To read a certificate with their policy
     // Note: It will always read the latest version of the certificate.
     let certificateWithPolicy = await client.getCertificate(certificateName);
@@ -114,6 +120,12 @@ describe("helloWorld", () => {
   });
 
   it("delete the certificate", async () => {
+    const createPoller = await client.beginCreateCertificate(
+      certificateName,
+      DefaultCertificatePolicy,
+    );
+    await createPoller.pollUntilDone();
+
     // Delete certificate, wait until complete
     const deletePoller = await client.beginDeleteCertificate(certificateName);
     const deletedCertificate = await deletePoller.pollUntilDone();
@@ -125,15 +137,20 @@ describe("helloWorld", () => {
   // Operation snippets
 
   it("create a certificate", async () => {
-    const credential = new DefaultAzureCredential();
+    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
     // @ts-preserve-whitespace
-    const vaultName = "<YOUR KEYVAULT NAME>";
-    const url = `https://${vaultName}.vault.azure.net`;
+    const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
     // @ts-preserve-whitespace
-    const client = new CertificateClient(url, credential);
+    const client = forPublishing(
+      new CertificateClient(url, credential, recorder.configureClientOptions({})),
+      () => new CertificateClient(url, credential),
+    );
     // @ts-preserve-whitespace
     // @snippet ReadmeSampleCreateCertificate
-    const certificateName = "MyCertificateName";
+    const certificateName = forPublishing(
+      recorder.variable("certificateName", `certificate-${new Date().getTime()}`),
+      () => "MyCertificateName",
+    );
     // @ts-preserve-whitespace
     // Note: Sending `Self` as the `issuerName` of the certificate's policy will create a self-signed certificate.
     await client.beginCreateCertificate(certificateName, {
@@ -144,15 +161,20 @@ describe("helloWorld", () => {
   });
 
   it("create a certificate with options", async () => {
-    const credential = new DefaultAzureCredential();
+    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
     // @ts-preserve-whitespace
-    const vaultName = "<YOUR KEYVAULT NAME>";
-    const url = `https://${vaultName}.vault.azure.net`;
+    const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
     // @ts-preserve-whitespace
-    const client = new CertificateClient(url, credential);
+    const client = forPublishing(
+      new CertificateClient(url, credential, recorder.configureClientOptions({})),
+      () => new CertificateClient(url, credential),
+    );
     // @ts-preserve-whitespace
     // @snippet ReadmeSampleCreateCertificateWithOptions
-    const certificateName = "MyCertificateName";
+    const certificateName = forPublishing(
+      recorder.variable("certificateName", `certificate-${new Date().getTime()}`),
+      () => "MyCertificateName",
+    );
     // @ts-preserve-whitespace
     // Note: Sending `Self` as the `issuerName` of the certificate's policy will create a self-signed certificate.
     const certificatePolicy = {
@@ -172,15 +194,20 @@ describe("helloWorld", () => {
   });
 
   it("create a certificate with polling", async () => {
-    const credential = new DefaultAzureCredential();
+    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
     // @ts-preserve-whitespace
-    const vaultName = "<YOUR KEYVAULT NAME>";
-    const url = `https://${vaultName}.vault.azure.net`;
+    const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
     // @ts-preserve-whitespace
-    const client = new CertificateClient(url, credential);
+    const client = forPublishing(
+      new CertificateClient(url, credential, recorder.configureClientOptions({})),
+      () => new CertificateClient(url, credential),
+    );
     // @ts-preserve-whitespace
     // @snippet ReadmeSampleCreateCertificatePoller
-    const certificateName = "MyCertificateName";
+    const certificateName = forPublishing(
+      recorder.variable("certificateName", `certificate-${new Date().getTime()}`),
+      () => "MyCertificateName",
+    );
     const certificatePolicy = {
       issuerName: "Self",
       subject: "cn=MyCert",
@@ -198,15 +225,20 @@ describe("helloWorld", () => {
   });
 
   it("create a certificate and poll individually", async () => {
-    const credential = new DefaultAzureCredential();
+    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
     // @ts-preserve-whitespace
-    const vaultName = "<YOUR KEYVAULT NAME>";
-    const url = `https://${vaultName}.vault.azure.net`;
+    const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
     // @ts-preserve-whitespace
-    const client = new CertificateClient(url, credential);
+    const client = forPublishing(
+      new CertificateClient(url, credential, recorder.configureClientOptions({})),
+      () => new CertificateClient(url, credential),
+    );
     // @ts-preserve-whitespace
     // @snippet ReadmeSampleCreateCertificatePollerIndividualCalls
-    const certificateName = "MyCertificateName";
+    const certificateName = forPublishing(
+      recorder.variable("certificateName", `certificate-${new Date().getTime()}`),
+      () => "MyCertificateName",
+    );
     const certificatePolicy = {
       issuerName: "Self",
       subject: "cn=MyCert",
@@ -226,15 +258,27 @@ describe("helloWorld", () => {
   });
 
   it("get a certificate", async () => {
-    const credential = new DefaultAzureCredential();
+    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
     // @ts-preserve-whitespace
-    const vaultName = "<YOUR KEYVAULT NAME>";
-    const url = `https://${vaultName}.vault.azure.net`;
+    const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
     // @ts-preserve-whitespace
-    const client = new CertificateClient(url, credential);
+    const client = forPublishing(
+      new CertificateClient(url, credential, recorder.configureClientOptions({})),
+      () => new CertificateClient(url, credential),
+    );
     // @ts-preserve-whitespace
     // @snippet ReadmeSampleGetCertificate
-    const certificateName = "MyCertificateName";
+    const certificateName = forPublishing(
+      recorder.variable("certificateName", `certificate-${new Date().getTime()}`),
+      () => "MyCertificateName",
+    );
+    if (forPublishing(true, () => false)) {
+      const createPoller = await client.beginCreateCertificate(certificateName, {
+        issuerName: "Self",
+        subject: "cn=MyCert",
+      });
+      await createPoller.pollUntilDone();
+    }
     // @ts-preserve-whitespace
     const latestCertificate = await client.getCertificate(certificateName);
     console.log(`Latest version of the certificate ${certificateName}: `, latestCertificate);
@@ -250,15 +294,27 @@ describe("helloWorld", () => {
   });
 
   it("get certificate with full information", async () => {
-    const credential = new DefaultAzureCredential();
+    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
     // @ts-preserve-whitespace
-    const vaultName = "<YOUR KEYVAULT NAME>";
-    const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+    const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
     // @ts-preserve-whitespace
-    const secretClient = new SecretClient(keyVaultUrl, credential);
+    const secretClient = forPublishing(
+      new SecretClient(keyVaultUrl, credential, recorder.configureClientOptions({})),
+      () => new SecretClient(keyVaultUrl, credential),
+    );
     // @ts-preserve-whitespace
     // @snippet ReadmeSampleGetCertificateFullInfo
-    const certificateName = "MyCertificateName";
+    const certificateName = forPublishing(
+      recorder.variable("certificateName", `certificate-${new Date().getTime()}`),
+      () => "MyCertificateName",
+    );
+    if (forPublishing(true, () => false)) {
+      const createPoller = await client.beginCreateCertificate(certificateName, {
+        issuerName: "Self",
+        subject: "cn=MyCert",
+      });
+      await createPoller.pollUntilDone();
+    }
     // @ts-preserve-whitespace
     // Assuming you've already created a Key Vault certificate,
     // and that certificateName contains the name of your certificate
@@ -273,16 +329,24 @@ describe("helloWorld", () => {
   });
 
   it("create a PEM certificate", async () => {
-    const credential = new DefaultAzureCredential();
+    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
     // @ts-preserve-whitespace
-    const vaultName = "<YOUR KEYVAULT NAME>";
-    const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+    const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
     // @ts-preserve-whitespace
-    const client = new CertificateClient(keyVaultUrl, credential);
-    const secretClient = new SecretClient(keyVaultUrl, credential);
+    const client = forPublishing(
+      new CertificateClient(keyVaultUrl, credential, recorder.configureClientOptions({})),
+      () => new CertificateClient(keyVaultUrl, credential),
+    );
+    const secretClient = forPublishing(
+      new SecretClient(keyVaultUrl, credential, recorder.configureClientOptions({})),
+      () => new SecretClient(keyVaultUrl, credential),
+    );
     // @snippet ReadmeSampleCreateCertificatePEM
     // Creating the certificate
-    const certificateName = "MyCertificate";
+    const certificateName = forPublishing(
+      recorder.variable("certificateName", `certificate-${new Date().getTime()}`),
+      () => "MyCertificate",
+    );
     const createPoller = await client.beginCreateCertificate(certificateName, {
       issuerName: "Self",
       subject: "cn=MyCert",
@@ -299,15 +363,27 @@ describe("helloWorld", () => {
   });
 
   it("update a certificate", async () => {
-    const credential = new DefaultAzureCredential();
+    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
     // @ts-preserve-whitespace
-    const vaultName = "<YOUR KEYVAULT NAME>";
-    const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+    const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
     // @ts-preserve-whitespace
-    const client = new CertificateClient(keyVaultUrl, credential);
+    const client = forPublishing(
+      new CertificateClient(keyVaultUrl, credential, recorder.configureClientOptions({})),
+      () => new CertificateClient(keyVaultUrl, credential),
+    );
     // @ts-preserve-whitespace
     // @snippet ReadmeSampleUpdateCertificate
-    const certificateName = "MyCertificate";
+    const certificateName = forPublishing(
+      recorder.variable("certificateName", `certificate-${new Date().getTime()}`),
+      () => "MyCertificate",
+    );
+    if (forPublishing(true, () => false)) {
+      const createPoller = await client.beginCreateCertificate(certificateName, {
+        issuerName: "Self",
+        subject: "cn=MyCert",
+      });
+      await createPoller.pollUntilDone();
+    }
     // @ts-preserve-whitespace
     const result = await client.getCertificate(certificateName);
     await client.updateCertificateProperties(certificateName, result.properties.version, {
@@ -320,17 +396,28 @@ describe("helloWorld", () => {
   });
 
   it("update a certificate policy", async () => {
-    const credential = new DefaultAzureCredential();
+    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
     // @ts-preserve-whitespace
-    const vaultName = "<YOUR KEYVAULT NAME>";
-    const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+    const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
     // @ts-preserve-whitespace
-    const client = new CertificateClient(keyVaultUrl, credential);
+    const client = forPublishing(
+      new CertificateClient(keyVaultUrl, credential, recorder.configureClientOptions({})),
+      () => new CertificateClient(keyVaultUrl, credential),
+    );
     // @ts-preserve-whitespace
     // @snippet ReadmeSampleUpdateCertificatePolicy
-    const certificateName = "MyCertificate";
+    const certificateName = forPublishing(
+      recorder.variable("certificateName", `certificate-${new Date().getTime()}`),
+      () => "MyCertificate",
+    );
+    if (forPublishing(true, () => false)) {
+      const createPoller = await client.beginCreateCertificate(certificateName, {
+        issuerName: "Self",
+        subject: "cn=MyCert",
+      });
+      await createPoller.pollUntilDone();
+    }
     // @ts-preserve-whitespace
-    const result = client.getCertificate(certificateName);
     // Note: Sending `Self` as the `issuerName` of the certificate's policy will create a self-signed certificate.
     await client.updateCertificatePolicy(certificateName, {
       issuerName: "Self",
@@ -340,15 +427,27 @@ describe("helloWorld", () => {
   });
 
   it("get certificate properties", async () => {
-    const credential = new DefaultAzureCredential();
+    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
     // @ts-preserve-whitespace
-    const vaultName = "<YOUR KEYVAULT NAME>";
-    const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+    const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
     // @ts-preserve-whitespace
-    const client = new CertificateClient(keyVaultUrl, credential);
+    const client = forPublishing(
+      new CertificateClient(keyVaultUrl, credential, recorder.configureClientOptions({})),
+      () => new CertificateClient(keyVaultUrl, credential),
+    );
     // @ts-preserve-whitespace
     // @snippet CertificateClientGetCertificate
-    const certificateName = "MyCertificate";
+    const certificateName = forPublishing(
+      recorder.variable("certificateName", `certificate-${new Date().getTime()}`),
+      () => "MyCertificate",
+    );
+    if (forPublishing(true, () => false)) {
+      const createPoller = await client.beginCreateCertificate(certificateName, {
+        issuerName: "Self",
+        subject: "cn=MyCert",
+      });
+      await createPoller.pollUntilDone();
+    }
     // @ts-preserve-whitespace
     const result = await client.getCertificate(certificateName);
     console.log(result.name);
@@ -356,15 +455,27 @@ describe("helloWorld", () => {
   });
 
   it("get a specific certificate version", async () => {
-    const credential = new DefaultAzureCredential();
+    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
     // @ts-preserve-whitespace
-    const vaultName = "<YOUR KEYVAULT NAME>";
-    const url = `https://${vaultName}.vault.azure.net`;
+    const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
     // @ts-preserve-whitespace
-    const client = new CertificateClient(url, credential);
+    const client = forPublishing(
+      new CertificateClient(url, credential, recorder.configureClientOptions({})),
+      () => new CertificateClient(url, credential),
+    );
     // @ts-preserve-whitespace
     // @snippet CertificateClientGetCertificateVersion
-    const certificateName = "MyCertificateName";
+    const certificateName = forPublishing(
+      recorder.variable("certificateName", `certificate-${new Date().getTime()}`),
+      () => "MyCertificateName",
+    );
+    if (forPublishing(true, () => false)) {
+      const createPoller = await client.beginCreateCertificate(certificateName, {
+        issuerName: "Self",
+        subject: "cn=MyCert",
+      });
+      await createPoller.pollUntilDone();
+    }
     // @ts-preserve-whitespace
     const latestCertificate = await client.getCertificate(certificateName);
     console.log(`Latest version of the certificate ${certificateName}: `, latestCertificate);
@@ -380,17 +491,30 @@ describe("helloWorld", () => {
   });
 
   it("update certificate properties", async () => {
-    const credential = new DefaultAzureCredential();
+    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
     // @ts-preserve-whitespace
-    const vaultName = "<YOUR KEYVAULT NAME>";
-    const url = `https://${vaultName}.vault.azure.net`;
+    const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
     // @ts-preserve-whitespace
-    const client = new CertificateClient(url, credential);
+    const client = forPublishing(
+      new CertificateClient(url, credential, recorder.configureClientOptions({})),
+      () => new CertificateClient(url, credential),
+    );
     // @ts-preserve-whitespace
     // @snippet CertificateClientUpdateCertificate
+    const certificateName = forPublishing(
+      recorder.variable("certificateName", `certificate-${new Date().getTime()}`),
+      () => "MyCertificate",
+    );
+    if (forPublishing(true, () => false)) {
+      const createPoller = await client.beginCreateCertificate(certificateName, {
+        issuerName: "Self",
+        subject: "cn=MyCert",
+      });
+      await createPoller.pollUntilDone();
+    }
     // You may pass an empty string for version which will update
     // the latest version of the certificate
-    await client.updateCertificateProperties("MyCertificate", "", {
+    await client.updateCertificateProperties(certificateName, "", {
       tags: {
         customTag: "value",
       },
@@ -399,15 +523,28 @@ describe("helloWorld", () => {
   });
 
   it("get a certificate policy", async () => {
-    const credential = new DefaultAzureCredential();
+    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
     // @ts-preserve-whitespace
-    const vaultName = "<YOUR KEYVAULT NAME>";
-    const url = `https://${vaultName}.vault.azure.net`;
+    const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
     // @ts-preserve-whitespace
-    const client = new CertificateClient(url, credential);
+    const client = forPublishing(
+      new CertificateClient(url, credential, recorder.configureClientOptions({})),
+      () => new CertificateClient(url, credential),
+    );
     // @ts-preserve-whitespace
     // @snippet CertificateClientGetCertificatePolicy
-    const policy = await client.getCertificatePolicy("MyCertificate");
+    const certificateName = forPublishing(
+      recorder.variable("certificateName", `certificate-${new Date().getTime()}`),
+      () => "MyCertificate",
+    );
+    if (forPublishing(true, () => false)) {
+      const createPoller = await client.beginCreateCertificate(certificateName, {
+        issuerName: "Self",
+        subject: "cn=MyCert",
+      });
+      await createPoller.pollUntilDone();
+    }
+    const policy = await client.getCertificatePolicy(certificateName);
     console.log(policy);
     // @snippet-end CertificateClientGetCertificatePolicy
   });

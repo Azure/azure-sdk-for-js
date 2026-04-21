@@ -85,25 +85,38 @@ describe("contacts", () => {
   // Operation snippets
 
   it("delete certificate contacts", async () => {
-    const credential = new DefaultAzureCredential();
+    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
     // @ts-preserve-whitespace
-    const vaultName = "<YOUR KEYVAULT NAME>";
-    const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+    const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
     // @ts-preserve-whitespace
-    const client = new CertificateClient(keyVaultUrl, credential);
+    const client = forPublishing(
+      new CertificateClient(keyVaultUrl, credential, recorder.configureClientOptions({})),
+      () => new CertificateClient(keyVaultUrl, credential),
+    );
     // @ts-preserve-whitespace
     // @snippet CertificateClientDeleteContacts
+    if (forPublishing(true, () => false)) {
+      await client.setContacts([
+        {
+          email: "b@b.com",
+          name: "b",
+          phone: "222222222222",
+        },
+      ]);
+    }
     await client.deleteContacts();
     // @snippet-end CertificateClientDeleteContacts
   });
 
   it("set certificate contacts", async () => {
-    const credential = new DefaultAzureCredential();
+    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
     // @ts-preserve-whitespace
-    const vaultName = "<YOUR KEYVAULT NAME>";
-    const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+    const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
     // @ts-preserve-whitespace
-    const client = new CertificateClient(keyVaultUrl, credential);
+    const client = forPublishing(
+      new CertificateClient(keyVaultUrl, credential, recorder.configureClientOptions({})),
+      () => new CertificateClient(keyVaultUrl, credential),
+    );
     // @ts-preserve-whitespace
     // @snippet CertificateClientSetContacts
     await client.setContacts([
@@ -117,12 +130,14 @@ describe("contacts", () => {
   });
 
   it("get certificate contacts", async () => {
-    const credential = new DefaultAzureCredential();
+    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
     // @ts-preserve-whitespace
-    const vaultName = "<YOUR KEYVAULT NAME>";
-    const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+    const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
     // @ts-preserve-whitespace
-    const client = new CertificateClient(keyVaultUrl, credential);
+    const client = forPublishing(
+      new CertificateClient(keyVaultUrl, credential, recorder.configureClientOptions({})),
+      () => new CertificateClient(keyVaultUrl, credential),
+    );
     // @ts-preserve-whitespace
     // @snippet CertificateClientGetContacts
     const contacts = await client.getContacts();

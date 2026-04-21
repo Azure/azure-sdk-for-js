@@ -72,10 +72,8 @@ describe("accessControlHelloWorld", () => {
 
   it("get role definition", async () => {
     // @snippet ReadmeSampleGetRoleDefinition
-    const roleDefinition = await client.getRoleDefinition(
-      "/",
-      "b86a8fe4-44ce-4948-aee5-eccb2c155cd7",
-    );
+    const { value: firstRoleDefinition } = await client.listRoleDefinitions("/").next();
+    const roleDefinition = await client.getRoleDefinition("/", firstRoleDefinition.name);
     console.log(roleDefinition);
     // @snippet-end ReadmeSampleGetRoleDefinition
   });
@@ -83,10 +81,14 @@ describe("accessControlHelloWorld", () => {
   it("set role definition", async () => {
     // @snippet ReadmeSampleSetRoleDefinition
     const permissions = [{ dataActions: [KnownKeyVaultDataAction.BackupHsmKeys] }];
-    const roleDefinitionName = "23b8bb1a-39c0-4c89-a85b-dd3c99273a8a";
+    const roleDefinitionName = forPublishing(
+      randomUUID(),
+      () => "23b8bb1a-39c0-4c89-a85b-dd3c99273a8a",
+    );
     const roleDefinition = await client.setRoleDefinition(KnownKeyVaultRoleScope.Global, {
       permissions,
       roleDefinitionName,
+      roleName: "Backup Manager",
     });
     console.log(roleDefinition);
     // @snippet-end ReadmeSampleSetRoleDefinition
@@ -97,10 +99,14 @@ describe("accessControlHelloWorld", () => {
   it("delete role definition", async () => {
     // @snippet ReadmeSampleDeleteRoleDefinition
     const permissions = [{ dataActions: [KnownKeyVaultDataAction.BackupHsmKeys] }];
-    const roleDefinitionName = "23b8bb1a-39c0-4c89-a85b-dd3c99273a8a";
+    const roleDefinitionName = forPublishing(
+      randomUUID(),
+      () => "23b8bb1a-39c0-4c89-a85b-dd3c99273a8a",
+    );
     const roleDefinition = await client.setRoleDefinition(KnownKeyVaultRoleScope.Global, {
       permissions,
       roleDefinitionName,
+      roleName: "Backup Manager",
     });
     // @ts-preserve-whitespace
     await client.deleteRoleDefinition("/", roleDefinition.name);

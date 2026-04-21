@@ -60,40 +60,25 @@ describe("listCertificates", () => {
 
   it("create certificates", async () => {
     // Creating two self-signed certificates. They will appear as pending initially.
-    await client.beginCreateCertificate(certificateName1, {
+    const createPoller1 = await client.beginCreateCertificate(certificateName1, {
       issuerName: "Self",
       subject: "cn=MyCert",
     });
-    await client.beginCreateCertificate(certificateName2, {
+    await createPoller1.pollUntilDone();
+    const createPoller2 = await client.beginCreateCertificate(certificateName2, {
       issuerName: "Self",
       subject: "cn=MyCert",
     });
-  });
-
-  it("list certificates by page", async () => {
-    // Listing all the available certificates by pages.
-    let pageCount = 0;
-    for await (const page of client
-      .listPropertiesOfCertificates({ includePending: true })
-      .byPage()) {
-      for (const certificate of page) {
-        console.log(`Certificate from page ${pageCount}: `, certificate);
-      }
-      pageCount++;
-    }
-  });
-
-  it("list all certificates", async () => {
-    // Listing all the available certificates in a single call.
-    // The certificates we just created are still pending at this point.
-    for await (const certificate of client.listPropertiesOfCertificates({
-      includePending: true,
-    })) {
-      console.log("Certificate from a single call: ", certificate);
-    }
+    await createPoller2.pollUntilDone();
   });
 
   it("update and list certificate versions", async () => {
+    const createPoller = await client.beginCreateCertificate(certificateName1, {
+      issuerName: "Self",
+      subject: "cn=MyCert",
+    });
+    await createPoller.pollUntilDone();
+
     // Updating one of the certificates to retrieve the certificate versions afterwards
     const updatedCertificate = await client.updateCertificateProperties(certificateName1, "", {
       tags: {
@@ -113,15 +98,29 @@ describe("listCertificates", () => {
   // Operation snippets
 
   it("list all certificates", async () => {
-    const credential = new DefaultAzureCredential();
+    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
     // @ts-preserve-whitespace
-    const vaultName = "<YOUR KEYVAULT NAME>";
-    const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+    const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
     // @ts-preserve-whitespace
-    const client = new CertificateClient(keyVaultUrl, credential);
+    const client = forPublishing(
+      new CertificateClient(keyVaultUrl, credential, recorder.configureClientOptions({})),
+      () => new CertificateClient(keyVaultUrl, credential),
+    );
     // @ts-preserve-whitespace
     // @snippet ReadmeSampleListCertificates
-    const certificateName = "MyCertificate";
+    const certificateName = forPublishing(
+      recorder.variable("certificateName", `list-${new Date().getTime()}`),
+      () => "MyCertificate",
+    );
+    if (forPublishing(true, () => false)) {
+      const createPoller = await client.beginCreateCertificate(certificateName, {
+        issuerName: "Self",
+        subject: "cn=MyCert",
+      });
+      await createPoller.pollUntilDone();
+      const deletePoller = await client.beginDeleteCertificate(certificateName);
+      await deletePoller.pollUntilDone();
+    }
     // @ts-preserve-whitespace
     for await (const certificateProperties of client.listPropertiesOfCertificates()) {
       console.log("Certificate properties: ", certificateProperties);
@@ -138,15 +137,29 @@ describe("listCertificates", () => {
   });
 
   it("list certificates by page", async () => {
-    const credential = new DefaultAzureCredential();
+    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
     // @ts-preserve-whitespace
-    const vaultName = "<YOUR KEYVAULT NAME>";
-    const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+    const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
     // @ts-preserve-whitespace
-    const client = new CertificateClient(keyVaultUrl, credential);
+    const client = forPublishing(
+      new CertificateClient(keyVaultUrl, credential, recorder.configureClientOptions({})),
+      () => new CertificateClient(keyVaultUrl, credential),
+    );
     // @ts-preserve-whitespace
     // @snippet ReadmeSampleListCertificatesByPage
-    const certificateName = "MyCertificate";
+    const certificateName = forPublishing(
+      recorder.variable("certificateName", `list-${new Date().getTime()}`),
+      () => "MyCertificate",
+    );
+    if (forPublishing(true, () => false)) {
+      const createPoller = await client.beginCreateCertificate(certificateName, {
+        issuerName: "Self",
+        subject: "cn=MyCert",
+      });
+      await createPoller.pollUntilDone();
+      const deletePoller = await client.beginDeleteCertificate(certificateName);
+      await deletePoller.pollUntilDone();
+    }
     // @ts-preserve-whitespace
     for await (const page of client.listPropertiesOfCertificates().byPage()) {
       for (const certificateProperties of page) {
@@ -167,12 +180,14 @@ describe("listCertificates", () => {
   });
 
   it("list certificate properties", async () => {
-    const credential = new DefaultAzureCredential();
+    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
     // @ts-preserve-whitespace
-    const vaultName = "<YOUR KEYVAULT NAME>";
-    const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+    const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
     // @ts-preserve-whitespace
-    const client = new CertificateClient(keyVaultUrl, credential);
+    const client = forPublishing(
+      new CertificateClient(keyVaultUrl, credential, recorder.configureClientOptions({})),
+      () => new CertificateClient(keyVaultUrl, credential),
+    );
     // @ts-preserve-whitespace
     // @snippet IndexListCertificates
     // All in one call
@@ -190,16 +205,29 @@ describe("listCertificates", () => {
   });
 
   it("list certificate versions", async () => {
-    const credential = new DefaultAzureCredential();
+    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
     // @ts-preserve-whitespace
-    const vaultName = "<YOUR KEYVAULT NAME>";
-    const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+    const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
     // @ts-preserve-whitespace
-    const client = new CertificateClient(keyVaultUrl, credential);
+    const client = forPublishing(
+      new CertificateClient(keyVaultUrl, credential, recorder.configureClientOptions({})),
+      () => new CertificateClient(keyVaultUrl, credential),
+    );
     // @ts-preserve-whitespace
     // @snippet IndexListCertificateVersions
+    const certificateName = forPublishing(
+      recorder.variable("certificateName", `list-${new Date().getTime()}`),
+      () => "MyCertificate",
+    );
+    if (forPublishing(true, () => false)) {
+      const createPoller = await client.beginCreateCertificate(certificateName, {
+        issuerName: "Self",
+        subject: "cn=MyCert",
+      });
+      await createPoller.pollUntilDone();
+    }
     for await (const certificateProperties of client.listPropertiesOfCertificateVersions(
-      "MyCertificate",
+      certificateName,
     )) {
       console.log(certificateProperties.version!);
     }

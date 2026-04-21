@@ -53,6 +53,26 @@ describe("operations", () => {
     await recorder.stop();
   });
 
+  async function deleteCertificateOperationWithRetry(certificateName: string): Promise<void> {
+    let lastError: unknown;
+    for (let i = 0; i < 5; i++) {
+      try {
+        await client.deleteCertificateOperation(certificateName);
+        return;
+      } catch (error: any) {
+        lastError = error;
+        if (
+          !/conflict while deleting the pending certificate/i.test(error.message) &&
+          !/Pending Certificate not found/i.test(error.message)
+        ) {
+          throw error;
+        }
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+      }
+    }
+    throw lastError;
+  }
+
   it("get and cancel pending operations", async () => {
     // Certificates' operations will be pending for some time right after they're created.
     const createPoller = await client.beginCreateCertificate(certificateName, {
@@ -74,7 +94,7 @@ describe("operations", () => {
     console.log("Cancelled certificate operation:", operation);
 
     // Deleting the certificate's operation
-    await client.deleteCertificateOperation(certificateName);
+    await deleteCertificateOperationWithRetry(certificateName);
 
     let error;
     try {
@@ -93,20 +113,26 @@ describe("operations", () => {
   // Operation snippets
 
   it("get a certificate operation", async () => {
-    const credential = new DefaultAzureCredential();
+    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
     // @ts-preserve-whitespace
-    const vaultName = "<YOUR KEYVAULT NAME>";
-    const url = `https://${vaultName}.vault.azure.net`;
+    const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
     // @ts-preserve-whitespace
-    const client = new CertificateClient(url, credential);
+    const client = forPublishing(
+      new CertificateClient(url, credential, recorder.configureClientOptions({})),
+      () => new CertificateClient(url, credential),
+    );
     // @ts-preserve-whitespace
     // @snippet CertificateClientGetCertificateOperation
-    const createPoller = await client.beginCreateCertificate("MyCertificate", {
-      issuerName: "Self",
+    const certificateName = forPublishing(
+      recorder.variable("certificateName", `operation-${new Date().getTime()}`),
+      () => "MyCertificate",
+    );
+    const createPoller = await client.beginCreateCertificate(certificateName, {
+      issuerName: "Unknown",
       subject: "cn=MyCert",
     });
     // @ts-preserve-whitespace
-    const poller = await client.getCertificateOperation("MyCertificate");
+    const poller = await client.getCertificateOperation(certificateName);
     const pendingCertificate = poller.getResult();
     // @ts-preserve-whitespace
     const certificateOperation = poller.getOperationState().certificateOperation;
@@ -115,21 +141,27 @@ describe("operations", () => {
   });
 
   it("delete a certificate operation", async () => {
-    const credential = new DefaultAzureCredential();
+    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
     // @ts-preserve-whitespace
-    const vaultName = "<YOUR KEYVAULT NAME>";
-    const url = `https://${vaultName}.vault.azure.net`;
+    const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
     // @ts-preserve-whitespace
-    const client = new CertificateClient(url, credential);
+    const client = forPublishing(
+      new CertificateClient(url, credential, recorder.configureClientOptions({})),
+      () => new CertificateClient(url, credential),
+    );
     // @ts-preserve-whitespace
     // @snippet CertificateClientDeleteCertificateOperation
-    await client.beginCreateCertificate("MyCertificate", {
-      issuerName: "Self",
+    const certificateName = forPublishing(
+      recorder.variable("certificateName", `operation-${new Date().getTime()}`),
+      () => "MyCertificate",
+    );
+    await client.beginCreateCertificate(certificateName, {
+      issuerName: "Unknown",
       subject: "cn=MyCert",
     });
-    await client.deleteCertificateOperation("MyCertificate");
+    await client.deleteCertificateOperation(certificateName);
     // @ts-preserve-whitespace
-    await client.getCertificateOperation("MyCertificate");
+    await forPublishing(Promise.resolve(), () => client.getCertificateOperation(certificateName));
     // Throws error: Pending certificate not found: "MyCertificate"
     // @snippet-end CertificateClientDeleteCertificateOperation
   });

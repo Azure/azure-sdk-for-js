@@ -52,8 +52,10 @@ describe("helloWorld", () => {
     // The secret can be a string of any kind. For example,
     // a multiline text block such as an RSA private key with newline characters,
     // or a stringified JSON object, like `JSON.stringify({ mySecret: 'MySecretValue'})`.
-    const uniqueString = new Date().getTime();
-    const secretName = `secret${uniqueString}`;
+    const secretName = forPublishing(
+      recorder.variable("createReadSecretName", `sample-create-read-secret-${Date.now()}`),
+      () => "MySecretName",
+    );
     // @snippet ReadmeSampleCreateSecret
     const result = await client.setSecret(secretName, "MySecretValue");
     console.log("result: ", result);
@@ -75,8 +77,10 @@ describe("helloWorld", () => {
   });
 
   it("update secret properties", async () => {
-    const uniqueString = new Date().getTime();
-    const secretName = `secret${uniqueString}`;
+    const secretName = forPublishing(
+      recorder.variable("updateSecretName", `sample-update-secret-${Date.now()}`),
+      () => "MySecretName",
+    );
     await client.setSecret(secretName, "MySecretValue");
 
     // @snippet ReadmeSampleUpdateSecretAttributes
@@ -89,8 +93,10 @@ describe("helloWorld", () => {
   });
 
   it("delete the secret", async () => {
-    const uniqueString = new Date().getTime();
-    const secretName = `secret${uniqueString}`;
+    const secretName = forPublishing(
+      recorder.variable("deleteSecretName", `sample-delete-secret-${Date.now()}`),
+      () => "MySecretName",
+    );
     await client.setSecret(secretName, "MySecretValue");
 
     // @snippet ReadmeSampleDeleteSecret
@@ -101,8 +107,10 @@ describe("helloWorld", () => {
   });
 
   it("create a secret with attributes", async () => {
-    const uniqueString = new Date().getTime();
-    const secretName = `secret${uniqueString}`;
+    const secretName = forPublishing(
+      recorder.variable("createSecretWithAttrsName", `sample-attrs-secret-${Date.now()}`),
+      () => "MySecretName",
+    );
 
     // @snippet ReadmeSampleCreateSecretWithAttributes
     const result = await client.setSecret(secretName, "MySecretValue", {
