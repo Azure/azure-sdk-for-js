@@ -45,6 +45,26 @@ public static class TypeScriptFormatter
         || string.Equals(condition, "workerd", StringComparison.OrdinalIgnoreCase)
         || string.Equals(condition, "worker", StringComparison.OrdinalIgnoreCase);
 
+    /// <summary>Preference order for deterministic condition fallback selection.</summary>
+    private static readonly string[] ConditionPreference = ["default", "types", "import", "require", "node", "browser", "react-native", "workerd", "worker"];
+
+    /// <summary>
+    /// Selects the best matching condition from available conditions.
+    /// Cascade: exact → default/types → import/require (module system) → preference order → deterministic first.
+    /// </summary>
+    private static string SelectBestCondition(string targetCondition, HashSet<string> availableConditions)
+    {
+        if (availableConditions.Count == 0) return "default";
+        if (availableConditions.Contains(targetCondition)) return targetCondition;
+        if (availableConditions.Contains("default")) return "default";
+        if (availableConditions.Contains("types")) return "types";
+        var msFallback = targetCondition == "require" ? "require" : "import";
+        if (availableConditions.Contains(msFallback)) return msFallback;
+        foreach (var c in ConditionPreference)
+            if (availableConditions.Contains(c)) return c;
+        return availableConditions.OrderBy(c => c, StringComparer.Ordinal).First();
+    }
+
     /// <summary>
     /// Builds a dictionary from items by key, keeping only the first item for each key
     /// to safely handle duplicate names across modules.
@@ -92,10 +112,20 @@ public static class TypeScriptFormatter
                 .Select(dep =>
                 {
                     var exactMatch = dep.Modules.Where(m => NormalizeCondition(m.Condition) == condition).ToList();
+                    if (exactMatch.Count > 0) return dep with { Modules = exactMatch };
                     var defaultFallback = dep.Modules
                         .Where(m => IsBareSpecifierCondition(NormalizeCondition(m.Condition)))
                         .ToList();
-                    return dep with { Modules = exactMatch.Count > 0 ? exactMatch : defaultFallback };
+                    if (defaultFallback.Count > 0) return dep with { Modules = defaultFallback };
+                    // ESM/CJS fallback: import for ESM-compatible targets, require for CJS
+                    var msFallback = condition == "require" ? "require" : "import";
+                    var msMatch = dep.Modules.Where(m => NormalizeCondition(m.Condition) == msFallback).ToList();
+                    if (msMatch.Count > 0) return dep with { Modules = msMatch };
+                    // Last resort: deterministic best condition
+                    var depConds = new HashSet<string>(
+                        dep.Modules.Select(m => NormalizeCondition(m.Condition)), StringComparer.Ordinal);
+                    var bestCond = SelectBestCondition(condition, depConds);
+                    return dep with { Modules = dep.Modules.Where(m => NormalizeCondition(m.Condition) == bestCond).ToList() };
                 })
                 .Where(dep => dep.Modules.Count > 0)
                 .ToList();
@@ -620,10 +650,10 @@ public static class TypeScriptFormatter
             if (index.ResolvedDependencies.Count > 0)
             {
                 var resolvedKeys = new HashSet<string>(
-                    index.ResolvedDependencies.Select(rd => $"{rd.Package}\0{rd.Subpath ?? ""}"),
+                    index.ResolvedDependencies.Select(rd => BuildDepSpecifier(rd)),
                     StringComparer.Ordinal);
                 depsToRender = index.Dependencies
-                    .Where(d => d.IsNode || resolvedKeys.Contains($"{d.Package}\0{d.Subpath ?? ""}"))
+                    .Where(d => d.IsNode || resolvedKeys.Contains(BuildDepSpecifier(d)))
                     .ToList();
 
                 // Fall back to package-level filtering when subpath matching yields
@@ -751,7 +781,14 @@ public static class TypeScriptFormatter
                     && !g.Classes.Any(x => x.Name == ta.Name)
                     && !g.Interfaces.Any(x => x.Name == ta.Name)) g.Types.Add(ta);
                 if (fn is not null && !g.Functions.Any(x => x.Name == fn.Name)) g.Functions.Add(fn);
-                if (ns is not null && !g.Namespaces.Any(x => x.Name == ns.Name)) g.Namespaces.Add(ns);
+                if (ns is not null)
+                {
+                    var existingNsIdx = g.Namespaces.FindIndex(x => x.Name == ns.Name);
+                    if (existingNsIdx >= 0)
+                        g.Namespaces[existingNsIdx] = MergeNamespace(g.Namespaces[existingNsIdx], ns);
+                    else
+                        g.Namespaces.Add(ns);
+                }
             }
 
             foreach (var module in index.Modules)
@@ -774,6 +811,61 @@ public static class TypeScriptFormatter
 
             // Sort groups: by exportPath first (. before subpaths), then condition alphabetically
             var sortedGroups = moduleGroups
+                .OrderBy(g => g.Key.ExportPath == "." ? "" : g.Key.ExportPath)
+                .ThenBy(g => g.Key.Condition)
+                .ToList();
+
+            // Per-exportPath condition sets for suffix logic
+            var conditionsPerExportPath = new Dictionary<string, HashSet<string>>(StringComparer.Ordinal);
+            foreach (var key in moduleGroups.Keys)
+            {
+                if (!conditionsPerExportPath.TryGetValue(key.ExportPath, out var set))
+                    conditionsPerExportPath[key.ExportPath] = set = new(StringComparer.Ordinal);
+                set.Add(key.Condition);
+            }
+
+            // Compute module name using per-exportPath condition check
+            string ComputeGroupModuleName(string exportPath, string condition)
+            {
+                var multiCond = conditionsPerExportPath.TryGetValue(exportPath, out var conds) && conds.Count > 1;
+                if (exportPath is "." or "")
+                    return multiCond && !IsBareSpecifierCondition(condition) ? $"{index.Package}/{condition}" : index.Package;
+                var sp = exportPath.StartsWith("./", StringComparison.Ordinal) ? exportPath[2..] : exportPath;
+                return multiCond && !IsBareSpecifierCondition(condition) ? $"{index.Package}/{sp}/{condition}" : $"{index.Package}/{sp}";
+            }
+
+            // Merge groups that produce the same module specifier (dedup default+types)
+            var mergedDict = new Dictionary<string, (ModuleKey Key, List<ClassInfo> Classes, List<InterfaceInfo> Interfaces,
+                List<EnumInfo> Enums, List<TypeAliasInfo> Types, List<FunctionInfo> Functions, List<NamespaceInfo> Namespaces)>(StringComparer.Ordinal);
+            foreach (var (key, group) in sortedGroups)
+            {
+                var mn = ComputeGroupModuleName(key.ExportPath, key.Condition);
+                if (mergedDict.TryGetValue(mn, out var existing))
+                {
+                    foreach (var c in group.Classes)
+                        if (!existing.Classes.Any(x => x.Name == c.Name)) existing.Classes.Add(c);
+                    foreach (var i in group.Interfaces)
+                        if (!existing.Interfaces.Any(x => x.Name == i.Name)) existing.Interfaces.Add(i);
+                    foreach (var e in group.Enums)
+                        if (!existing.Enums.Any(x => x.Name == e.Name)) existing.Enums.Add(e);
+                    foreach (var t in group.Types)
+                        if (!existing.Types.Any(x => x.Name == t.Name)
+                            && !existing.Classes.Any(x => x.Name == t.Name)
+                            && !existing.Interfaces.Any(x => x.Name == t.Name)) existing.Types.Add(t);
+                    foreach (var f in group.Functions)
+                        if (!existing.Functions.Any(x => x.Name == f.Name)) existing.Functions.Add(f);
+                    MergeNamespacesInto(existing.Namespaces, group.Namespaces);
+                }
+                else
+                {
+                    mergedDict[mn] = (key, new(group.Classes), new(group.Interfaces),
+                        new(group.Enums), new(group.Types), new(group.Functions), new(group.Namespaces));
+                }
+            }
+            sortedGroups = mergedDict.Values
+                .Select(v => KeyValuePair.Create(v.Key,
+                    (Classes: v.Classes, Interfaces: v.Interfaces, Enums: v.Enums,
+                     Types: v.Types, Functions: v.Functions, Namespaces: v.Namespaces)))
                 .OrderBy(g => g.Key.ExportPath == "." ? "" : g.Key.ExportPath)
                 .ThenBy(g => g.Key.Condition)
                 .ToList();
@@ -811,10 +903,7 @@ public static class TypeScriptFormatter
                 {
                     var depSpecifier = BuildDepSpecifier(dep);
                     var depConds = depConditionMap.GetValueOrDefault(depSpecifier, []);
-                    // Match condition: exact match first, then fall back to "default"
-                    var matchedCond = depConds.Contains(mainCond) ? mainCond
-                        : depConds.Contains("default") ? "default"
-                        : depConds.FirstOrDefault() ?? "default";
+                    var matchedCond = SelectBestCondition(mainCond, depConds);
 
                     // Collect types from matching condition modules
                     var classes = new List<ClassInfo>();
@@ -903,16 +992,15 @@ public static class TypeScriptFormatter
                     var depSpecifier = BuildDepSpecifier(dep);
                     var depConds = depConditionSets.GetValueOrDefault(depSpecifier, []);
                     string depModuleName;
-                    if (depConds.Count > 0 && depConds.Contains(mainCond))
+                    if (depConds.Count > 0)
                     {
-                        // Exact condition match — use suffix
-                        depModuleName = depConds.Count > 1 && !IsBareSpecifierCondition(mainCond)
-                            ? $"{depSpecifier}/{mainCond}"
+                        var matchedDepCond = SelectBestCondition(mainCond, depConds);
+                        depModuleName = depConds.Count > 1 && !IsBareSpecifierCondition(matchedDepCond)
+                            ? $"{depSpecifier}/{matchedDepCond}"
                             : depSpecifier;
                     }
                     else
                     {
-                        // No match or no conditions — fall back to full dep specifier (default)
                         depModuleName = depSpecifier;
                     }
 
@@ -935,14 +1023,7 @@ public static class TypeScriptFormatter
         {
             var ep = k.ExportPath;
             var cond = k.Condition;
-            string mName;
-            if (ep is "." or "")
-                mName = hasMultipleConditions && !IsBareSpecifierCondition(cond) ? $"{index.Package}/{cond}" : index.Package;
-            else
-            {
-                var sp = ep.StartsWith("./", StringComparison.Ordinal) ? ep[2..] : ep;
-                mName = hasMultipleConditions && !IsBareSpecifierCondition(cond) ? $"{index.Package}/{sp}/{cond}" : $"{index.Package}/{sp}";
-            }
+            string mName = ComputeGroupModuleName(ep, cond);
             foreach (var c in g.Classes) mainTypeToModule.TryAdd(c.Name, mName);
             foreach (var i in g.Interfaces) mainTypeToModule.TryAdd(i.Name, mName);
             foreach (var e in g.Enums) mainTypeToModule.TryAdd(e.Name, mName);
@@ -957,22 +1038,7 @@ public static class TypeScriptFormatter
                 var exportPath = key.ExportPath;
                 var condition = key.Condition;
 
-                // Build module name: "pkg/condition" or "pkg/subpath/condition"
-                // When condition is "default", use the bare specifier (no suffix)
-                string moduleName;
-                if (exportPath is "." or "")
-                {
-                    moduleName = hasMultipleConditions && !IsBareSpecifierCondition(condition)
-                        ? $"{index.Package}/{condition}"
-                        : index.Package;
-                }
-                else
-                {
-                    var subpath = exportPath.StartsWith("./", StringComparison.Ordinal) ? exportPath[2..] : exportPath;
-                    moduleName = hasMultipleConditions && !IsBareSpecifierCondition(condition)
-                        ? $"{index.Package}/{subpath}/{condition}"
-                        : $"{index.Package}/{subpath}";
-                }
+                string moduleName = ComputeGroupModuleName(exportPath, condition);
 
                 // Render dependency modules for this condition first.
                 // Track emitted modules to avoid duplicates when flat deps are shared
@@ -1796,6 +1862,47 @@ public static class TypeScriptFormatter
                 result.Add(item);
         }
         return result;
+    }
+
+    /// <summary>Merges two lists by name, keeping the first occurrence when names collide.</summary>
+    private static List<T> MergeByName<T>(IReadOnlyList<T>? existing, IReadOnlyList<T>? incoming, Func<T, string> getName)
+    {
+        if (incoming is null or { Count: 0 }) return existing?.ToList() ?? [];
+        if (existing is null or { Count: 0 }) return incoming.ToList();
+        var result = new List<T>(existing);
+        var seen = new HashSet<string>(existing.Select(getName), StringComparer.Ordinal);
+        foreach (var item in incoming)
+            if (seen.Add(getName(item))) result.Add(item);
+        return result;
+    }
+
+    /// <summary>Merges two namespace infos, combining their members by name (first wins on collision).</summary>
+    private static NamespaceInfo MergeNamespace(NamespaceInfo existing, NamespaceInfo incoming)
+    {
+        var mergedNs = existing.Namespaces?.ToList() ?? [];
+        MergeNamespacesInto(mergedNs, incoming.Namespaces?.ToList() ?? []);
+        return existing with
+        {
+            Classes = MergeByName(existing.Classes, incoming.Classes, c => c.Name),
+            Interfaces = MergeByName(existing.Interfaces, incoming.Interfaces, i => i.Name),
+            Enums = MergeByName(existing.Enums, incoming.Enums, e => e.Name),
+            Types = MergeByName(existing.Types, incoming.Types, t => t.Name),
+            Functions = MergeByName(existing.Functions, incoming.Functions, f => f.Name),
+            Namespaces = mergedNs,
+        };
+    }
+
+    /// <summary>Merges incoming namespaces into the target list, recursively merging by name.</summary>
+    private static void MergeNamespacesInto(List<NamespaceInfo> target, List<NamespaceInfo> incoming)
+    {
+        foreach (var ns in incoming)
+        {
+            var idx = target.FindIndex(x => x.Name == ns.Name);
+            if (idx >= 0)
+                target[idx] = MergeNamespace(target[idx], ns);
+            else
+                target.Add(ns);
+        }
     }
 
     /// <summary>

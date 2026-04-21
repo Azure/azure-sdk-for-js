@@ -18,6 +18,83 @@ import type {
     NamespaceInfo,
 } from "./models.js";
 
+// ============================================================================
+// Module merge helpers (Issue #3: union contents when deduplicating)
+// ============================================================================
+
+/**
+ * Merges the contents of `incoming` into `existing` module field-by-field.
+ * For each category (types, interfaces, classes, functions, enums, namespaces),
+ * adds items from `incoming` that don't already exist in `existing` (by name).
+ * Namespaces with the same name are merged recursively.
+ */
+function mergeModules(existing: ModuleInfo, incoming: ModuleInfo): void {
+    existing.types = mergeByName(existing.types, incoming.types);
+    existing.interfaces = mergeByName(existing.interfaces, incoming.interfaces);
+    existing.classes = mergeByName(existing.classes, incoming.classes);
+    existing.enums = mergeByName(existing.enums, incoming.enums);
+    existing.functions = mergeFunctions(existing.functions, incoming.functions);
+    existing.namespaces = mergeNamespaces(existing.namespaces, incoming.namespaces);
+}
+
+function mergeByName<T extends { name: string }>(
+    existing: T[] | undefined,
+    incoming: T[] | undefined,
+): T[] | undefined {
+    if (!incoming?.length) return existing;
+    if (!existing?.length) return incoming;
+    const seen = new Set(existing.map(item => item.name));
+    for (const item of incoming) {
+        if (!seen.has(item.name)) {
+            existing.push(item);
+            seen.add(item.name);
+        }
+    }
+    return existing;
+}
+
+function mergeFunctions(
+    existing: FunctionInfo[] | undefined,
+    incoming: FunctionInfo[] | undefined,
+): FunctionInfo[] | undefined {
+    if (!incoming?.length) return existing;
+    if (!existing?.length) return incoming;
+    const seen = new Set(existing.map(f => `${f.name}\0${f.sig}`));
+    for (const f of incoming) {
+        const key = `${f.name}\0${f.sig}`;
+        if (!seen.has(key)) {
+            existing.push(f);
+            seen.add(key);
+        }
+    }
+    return existing;
+}
+
+function mergeNamespaces(
+    existing: NamespaceInfo[] | undefined,
+    incoming: NamespaceInfo[] | undefined,
+): NamespaceInfo[] | undefined {
+    if (!incoming?.length) return existing;
+    if (!existing?.length) return incoming;
+    const map = new Map<string, NamespaceInfo>();
+    for (const ns of existing) map.set(ns.name, ns);
+    for (const ns of incoming) {
+        const target = map.get(ns.name);
+        if (target) {
+            target.types = mergeByName(target.types, ns.types);
+            target.interfaces = mergeByName(target.interfaces, ns.interfaces);
+            target.classes = mergeByName(target.classes, ns.classes);
+            target.enums = mergeByName(target.enums, ns.enums);
+            target.functions = mergeFunctions(target.functions, ns.functions);
+            target.namespaces = mergeNamespaces(target.namespaces, ns.namespaces);
+        } else {
+            existing.push(ns);
+            map.set(ns.name, ns);
+        }
+    }
+    return existing;
+}
+
 /**
  * Internal: Strips compiler-generated `import("…")` qualifiers from type text.
  * Used by `displayType()` and `baseTypeName()`.
@@ -236,21 +313,25 @@ function buildModuleSpecifier(
     exportPath: string,
     conditionSuffix: string | undefined,
 ): string {
+    // Never use "(unconditioned)" as a real suffix
+    const safeSuffix = conditionSuffix && conditionSuffix !== "(unconditioned)"
+        ? conditionSuffix
+        : undefined;
     const subpath = exportPath && exportPath !== "."
         ? exportPath.replace(/^\.\//, "")
         : undefined;
     if (subpath) {
-        return conditionSuffix
-            ? `${packageName}/${subpath}/${conditionSuffix}`
+        return safeSuffix
+            ? `${packageName}/${subpath}/${safeSuffix}`
             : `${packageName}/${subpath}`;
     }
-    return conditionSuffix
-        ? `${packageName}/${conditionSuffix}`
+    return safeSuffix
+        ? `${packageName}/${safeSuffix}`
         : packageName;
 }
 
 function isBareSpecifierCondition(condition: string): boolean {
-    return condition === "default" || condition === "types";
+    return condition === "default" || condition === "types" || condition === "(unconditioned)";
 }
 
 /**
@@ -279,13 +360,17 @@ function deduplicateBySpecifier(
 
         const existing = specifierMap.get(specifier);
         if (existing) {
-            // Merge: append modules, dedup by name within each category
+            // Merge: for modules with the same name, union their contents
+            // field-by-field; for new module names, append them.
             const keyModules = moduleGroups.get(key) ?? [];
-            const seen = new Set(existing.modules.map(m => m.name));
+            const existingByName = new Map(existing.modules.map(m => [m.name, m]));
             for (const m of keyModules) {
-                if (!seen.has(m.name)) {
+                const target = existingByName.get(m.name);
+                if (target) {
+                    mergeModules(target, m);
+                } else {
                     existing.modules.push(m);
-                    seen.add(m.name);
+                    existingByName.set(m.name, m);
                 }
             }
         } else {
@@ -437,6 +522,25 @@ export function formatStubs(api: ApiIndex): string {
                     lines.push("");
                     lines.push(...bodyLines);
                     lines.push("}");
+                }
+            }
+        }
+
+        // When using resolvedDependencies, isNode deps only exist in
+        // api.dependencies — render them as import statements.
+        if (api.dependencies) {
+            for (const dep of api.dependencies) {
+                if (!dep.isNode) continue;
+                const typeNames = [
+                    ...(dep.classes ?? []).map(c => c.name),
+                    ...(dep.interfaces ?? []).map(i => i.name),
+                    ...(dep.enums ?? []).map(e => e.name),
+                    ...(dep.types ?? []).map(t => t.name),
+                    ...(dep.functions ?? []).filter(f => f.name).map(f => f.name),
+                ].filter(Boolean);
+                if (typeNames.length > 0) {
+                    lines.push("");
+                    lines.push(`import { ${typeNames.join(", ")} } from "${dep.package}";`);
                 }
             }
         }
