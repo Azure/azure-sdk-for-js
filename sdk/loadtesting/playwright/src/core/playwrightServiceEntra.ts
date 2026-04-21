@@ -6,6 +6,7 @@ import { coreLogger } from "../common/logger.js";
 import { EntraIdAccessToken } from "../common/entraIdAccessToken.js";
 import { state } from "../common/state.js";
 import type { TokenCredential } from "@azure/identity";
+import { PlaywrightServiceConfig } from "../common/playwrightServiceConfig.js";
 
 class PlaywrightServiceEntra {
   private _entraIdAccessTokenRotationInterval?: NodeJS.Timeout;
@@ -29,6 +30,7 @@ class PlaywrightServiceEntra {
   public globalSetup = async (): Promise<void> => {
     coreLogger.info("Entra id access token setup start");
     await this._entraIdAccessToken.fetchEntraIdAccessToken();
+    await this.prefetchStorageAccessToken();
     this.entraIdGlobalSetupRotationHandler();
   };
 
@@ -56,6 +58,23 @@ class PlaywrightServiceEntra {
       }
     } catch (err) {
       coreLogger.error(err); // log error and continue if it's an intermittent issue (optimistic approach)
+    }
+  };
+
+  private prefetchStorageAccessToken = async (): Promise<void> => {
+    try {
+      const credential = PlaywrightServiceConfig.instance.credential;
+      if (!credential) {
+        return;
+      }
+      coreLogger.info("Pre-fetching storage access token");
+      const token = await credential.getToken(EntraIdAccessTokenConstants.STORAGE_SCOPE);
+      if (token) {
+        PlaywrightServiceConfig.instance.storageAccessToken = token;
+        coreLogger.info("Storage access token pre-fetched successfully");
+      }
+    } catch (err) {
+      coreLogger.info("Failed to pre-fetch storage token (non-fatal):", err);
     }
   };
 }

@@ -16,6 +16,7 @@ import {
   getStorageAccountNameFromUri,
 } from "./utils.js";
 import { PlaywrightServiceConfig } from "../common/playwrightServiceConfig.js";
+import { StaticTokenCredential } from "../common/staticTokenCredential.js";
 import type { WorkspaceMetaData, UploadResult } from "../common/types.js";
 
 export class PlaywrightReporterStorageManager {
@@ -41,8 +42,15 @@ export class PlaywrightReporterStorageManager {
           errorMessage: ServiceErrorMessageConstants.STORAGE_URI_NOT_FOUND.message,
         };
       }
+      const storageToken = PlaywrightServiceConfig.instance.storageAccessToken;
+      const effectiveCredential = storageToken
+        ? new StaticTokenCredential(storageToken)
+        : credential;
 
-      const blobServiceClient = new BlobServiceClient(workspaceDetails?.storageUri, credential);
+      const blobServiceClient = new BlobServiceClient(
+        workspaceDetails?.storageUri,
+        effectiveCredential,
+      );
       coreLogger.info("blobServiceClient created successfully.");
       const serviceUrlInfo = populateValuesFromServiceUrl();
       if (!serviceUrlInfo?.accountId) {

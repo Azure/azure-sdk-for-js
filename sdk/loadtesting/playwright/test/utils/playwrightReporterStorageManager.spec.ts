@@ -380,6 +380,64 @@ describe("PlaywrightReporterStorageManager", () => {
     fs.rmSync(tmpRoot, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
   });
 
+  it("uploadHtmlReportFolder uses StaticTokenCredential when storageAccessToken is set", async () => {
+    const mgr = new PlaywrightReporterStorageManager();
+    const mockToken = { token: "cached-storage-token", expiresOnTimestamp: Date.now() + 3600000 };
+    PlaywrightServiceConfig.instance.storageAccessToken = mockToken;
+
+    const spy = vi.spyOn(mgr as any, "uploadFolderInParallel").mockResolvedValue({
+      uploadedFiles: ["file1"],
+      failedFiles: [],
+      totalFiles: 1,
+      totalSize: 100,
+      uploadTime: 10,
+    });
+    vi.spyOn(mgr as any, "modifyTraceIndexHtml").mockResolvedValue(undefined);
+
+    const result = await mgr.uploadHtmlReportFolder(
+      { getToken: vi.fn() } as any,
+      "run-1",
+      "/some/folder",
+      {
+        storageUri: "https://account.blob.core.windows.net",
+        name: "ws",
+        resourceId:
+          "/subscriptions/sub/resourceGroups/rg/providers/Microsoft.LoadTestService/playwrightWorkspaces/ws",
+        subscriptionId: "sub",
+      } as any,
+    );
+
+    expect(result.success).toBe(true);
+    spy.mockRestore();
+    PlaywrightServiceConfig.instance.storageAccessToken = undefined;
+  });
+
+  it("uploadHtmlReportFolder falls back to passed credential when storageAccessToken is not set", async () => {
+    const mgr = new PlaywrightReporterStorageManager();
+    PlaywrightServiceConfig.instance.storageAccessToken = undefined;
+
+    const spy = vi.spyOn(mgr as any, "uploadFolderInParallel").mockResolvedValue({
+      uploadedFiles: ["file1"],
+      failedFiles: [],
+      totalFiles: 1,
+      totalSize: 100,
+      uploadTime: 10,
+    });
+    vi.spyOn(mgr as any, "modifyTraceIndexHtml").mockResolvedValue(undefined);
+
+    const passedCredential = { getToken: vi.fn() } as any;
+    const result = await mgr.uploadHtmlReportFolder(passedCredential, "run-1", "/some/folder", {
+      storageUri: "https://account.blob.core.windows.net",
+      name: "ws",
+      resourceId:
+        "/subscriptions/sub/resourceGroups/rg/providers/Microsoft.LoadTestService/playwrightWorkspaces/ws",
+      subscriptionId: "sub",
+    } as any);
+
+    expect(result.success).toBe(true);
+    spy.mockRestore();
+  });
+
   it("uploadHtmlReportFolder uses upload strategies for small/medium/large files", async () => {
     const mgr = new PlaywrightReporterStorageManager();
     PlaywrightServiceConfig.instance.credential = { token: "mock" } as any;
