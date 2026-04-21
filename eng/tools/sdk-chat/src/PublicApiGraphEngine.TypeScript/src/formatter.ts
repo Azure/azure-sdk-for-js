@@ -14,6 +14,8 @@ import type {
     PropertyInfo,
     IndexSignatureInfo,
     ConstructorInfo,
+    ConstructSignatureInfo,
+    CallSignatureInfo,
     ModuleInfo,
     NamespaceInfo,
 } from "./models.js";
@@ -30,8 +32,8 @@ import type {
  */
 function mergeModules(existing: ModuleInfo, incoming: ModuleInfo): void {
     existing.types = mergeByName(existing.types, incoming.types);
-    existing.interfaces = mergeByName(existing.interfaces, incoming.interfaces);
-    existing.classes = mergeByName(existing.classes, incoming.classes);
+    existing.interfaces = mergeInterfacesByName(existing.interfaces, incoming.interfaces);
+    existing.classes = mergeClassesByName(existing.classes, incoming.classes);
     existing.enums = mergeByName(existing.enums, incoming.enums);
     existing.functions = mergeFunctions(existing.functions, incoming.functions);
     existing.namespaces = mergeNamespaces(existing.namespaces, incoming.namespaces);
@@ -48,6 +50,147 @@ function mergeByName<T extends { name: string }>(
         if (!seen.has(item.name)) {
             existing.push(item);
             seen.add(item.name);
+        }
+    }
+    return existing;
+}
+
+// ---------------------------------------------------------------------------
+// Deep-merge helpers for interfaces and classes (Issue #8)
+// ---------------------------------------------------------------------------
+
+function mergeProperties(
+    existing: PropertyInfo[] | undefined,
+    incoming: PropertyInfo[] | undefined,
+): PropertyInfo[] | undefined {
+    if (!incoming?.length) return existing;
+    if (!existing?.length) return incoming;
+    const seen = new Set(existing.map(p => p.name));
+    for (const p of incoming) {
+        if (!seen.has(p.name)) {
+            existing.push(p);
+            seen.add(p.name);
+        }
+    }
+    return existing;
+}
+
+function mergeMethods(
+    existing: MethodInfo[] | undefined,
+    incoming: MethodInfo[] | undefined,
+): MethodInfo[] | undefined {
+    if (!incoming?.length) return existing;
+    if (!existing?.length) return incoming;
+    const seen = new Set(existing.map(m => `${m.name}\0${m.sig}`));
+    for (const m of incoming) {
+        const key = `${m.name}\0${m.sig}`;
+        if (!seen.has(key)) {
+            existing.push(m);
+            seen.add(key);
+        }
+    }
+    return existing;
+}
+
+function mergeConstructors(
+    existing: ConstructorInfo[] | undefined,
+    incoming: ConstructorInfo[] | undefined,
+): ConstructorInfo[] | undefined {
+    if (!incoming?.length) return existing;
+    if (!existing?.length) return incoming;
+    const seen = new Set(existing.map(c => c.sig));
+    for (const c of incoming) {
+        if (!seen.has(c.sig)) {
+            existing.push(c);
+            seen.add(c.sig);
+        }
+    }
+    return existing;
+}
+
+function mergeSignaturesBySig<T extends { sig: string }>(
+    existing: T[] | undefined,
+    incoming: T[] | undefined,
+): T[] | undefined {
+    if (!incoming?.length) return existing;
+    if (!existing?.length) return incoming;
+    const seen = new Set(existing.map(s => s.sig));
+    for (const s of incoming) {
+        if (!seen.has(s.sig)) {
+            existing.push(s);
+            seen.add(s.sig);
+        }
+    }
+    return existing;
+}
+
+function mergeIndexSignatures(
+    existing: IndexSignatureInfo[] | undefined,
+    incoming: IndexSignatureInfo[] | undefined,
+): IndexSignatureInfo[] | undefined {
+    if (!incoming?.length) return existing;
+    if (!existing?.length) return incoming;
+    const seen = new Set(existing.map(s => `${s.keyName}\0${s.keyType}\0${s.valueType}`));
+    for (const s of incoming) {
+        const key = `${s.keyName}\0${s.keyType}\0${s.valueType}`;
+        if (!seen.has(key)) {
+            existing.push(s);
+            seen.add(key);
+        }
+    }
+    return existing;
+}
+
+function deepMergeInterface(existing: InterfaceInfo, incoming: InterfaceInfo): void {
+    existing.properties = mergeProperties(existing.properties, incoming.properties);
+    existing.methods = mergeMethods(existing.methods, incoming.methods);
+    existing.constructSignatures = mergeSignaturesBySig(existing.constructSignatures, incoming.constructSignatures);
+    existing.callSignatures = mergeSignaturesBySig(existing.callSignatures, incoming.callSignatures);
+    existing.indexSignatures = mergeIndexSignatures(existing.indexSignatures, incoming.indexSignatures);
+}
+
+function deepMergeClass(existing: ClassInfo, incoming: ClassInfo): void {
+    existing.properties = mergeProperties(existing.properties, incoming.properties);
+    existing.methods = mergeMethods(existing.methods, incoming.methods);
+    existing.constructors = mergeConstructors(existing.constructors, incoming.constructors);
+    existing.indexSignatures = mergeIndexSignatures(existing.indexSignatures, incoming.indexSignatures);
+}
+
+function mergeInterfacesByName(
+    existing: InterfaceInfo[] | undefined,
+    incoming: InterfaceInfo[] | undefined,
+): InterfaceInfo[] | undefined {
+    if (!incoming?.length) return existing;
+    if (!existing?.length) return incoming;
+    const map = new Map<string, InterfaceInfo>();
+    for (const item of existing) map.set(item.name, item);
+    for (const item of incoming) {
+        const target = map.get(item.name);
+        if (target) {
+            deepMergeInterface(target, item);
+        } else {
+            existing.push(item);
+            map.set(item.name, item);
+        }
+    }
+    return existing;
+}
+
+function mergeClassesByName(
+    existing: ClassInfo[] | undefined,
+    incoming: ClassInfo[] | undefined,
+): ClassInfo[] | undefined {
+    if (!incoming?.length) return existing;
+    if (!existing?.length) return incoming;
+    const map = new Map<string, ClassInfo>();
+    for (const item of existing) map.set(item.name, item);
+    for (const item of incoming) {
+        const target = map.get(item.name);
+        if (target) {
+            deepMergeClass(target, item);
+        } else {
+            existing.push(item);
+            map.set(item.name, item);
         }
     }
     return existing;
@@ -82,8 +225,8 @@ function mergeNamespaces(
         const target = map.get(ns.name);
         if (target) {
             target.types = mergeByName(target.types, ns.types);
-            target.interfaces = mergeByName(target.interfaces, ns.interfaces);
-            target.classes = mergeByName(target.classes, ns.classes);
+            target.interfaces = mergeInterfacesByName(target.interfaces, ns.interfaces);
+            target.classes = mergeClassesByName(target.classes, ns.classes);
             target.enums = mergeByName(target.enums, ns.enums);
             target.functions = mergeFunctions(target.functions, ns.functions);
             target.namespaces = mergeNamespaces(target.namespaces, ns.namespaces);
@@ -426,14 +569,6 @@ export function formatStubs(api: ApiIndex): string {
         return condA.localeCompare(condB);
     });
 
-    const needsModuleBlocks = sortedKeys.length > 1 || (() => {
-        if (sortedKeys.length === 0) return false;
-        const [exportPath, condition] = sortedKeys[0].split("\0");
-        const isRoot = !exportPath || exportPath === ".";
-        const isDefaultCondition = !condition || condition === "default" || condition === "types";
-        return !isRoot || !isDefaultCondition;
-    })();
-
     const conditionsPerExportPath = new Map<string, Set<string>>();
     for (const key of sortedKeys) {
         const [ep, cond] = key.split("\0");
@@ -443,9 +578,19 @@ export function formatStubs(api: ApiIndex): string {
 
     const dedupedGroups = deduplicateBySpecifier(sortedKeys, moduleGroups, conditionsPerExportPath, api.package);
 
+    const needsModuleBlocks = dedupedGroups.length > 1 || (() => {
+        if (dedupedGroups.length === 0) return false;
+        const { specifier, condition } = dedupedGroups[0];
+        const isRoot = specifier === api.package;
+        const isDefaultCondition = !condition || condition === "default" || condition === "types" || condition === "(unconditioned)";
+        return !isRoot || !isDefaultCondition;
+    })();
+
     for (const { specifier, modules, condition } of dedupedGroups) {
         if (needsModuleBlocks) {
-            lines.push(`// Condition: ${condition}`);
+            if (condition && condition !== "(unconditioned)") {
+                lines.push(`// Condition: ${condition}`);
+            }
             lines.push(`declare module "${specifier}" {`);
             lines.push("");
         }
@@ -515,7 +660,7 @@ export function formatStubs(api: ApiIndex): string {
                 const bodyLines = formatGroupBody(modules, "    ");
                 if (bodyLines.length > 0) {
                     lines.push("");
-                    if (dedupedDepGroups.length > 1) {
+                    if (dedupedDepGroups.length > 1 && condition && condition !== "(unconditioned)") {
                         lines.push(`// Condition: ${condition}`);
                     }
                     lines.push(`declare module "${specifier}" {`);
