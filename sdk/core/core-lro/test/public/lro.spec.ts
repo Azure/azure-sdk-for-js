@@ -3519,6 +3519,7 @@ describe("createHttpPoller", () => {
       });
 
       await expect(poller.poll()).rejects.toThrow(/failed/i);
+      // re-polling after terminal state should still throw (idempotency)
       await expect(poller.poll()).rejects.toThrow(/failed/i);
     });
   });
