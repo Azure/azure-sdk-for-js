@@ -688,15 +688,14 @@ export function translate(err: unknown): MessagingError | Error {
   // Node.js 20+ enables Happy Eyeballs (autoSelectFamily) by default, which races IPv4 and IPv6
   // connection attempts. When all attempts fail (e.g. DNS lookup for a non-existent host), Node.js
   // throws an AggregateError bundling the individual failures. Translate all inner errors and
-  // return a new AggregateError containing the translated MessagingErrors. The `retryable` property
-  // is set on the AggregateError itself so the retry loop can inspect it directly — it is true if
-  // any inner error is retryable.
+  // return a new AggregateError containing the translated errors. The `retryable` property is set
+  // on the AggregateError itself so the retry loop can inspect it directly — it is true if any
+  // inner translated error is retryable (including nested AggregateErrors).
   if (errObj instanceof AggregateError && errObj.errors.length > 0) {
     const translatedErrors = errObj.errors.map((e) => translate(e));
-    const retryable = translatedErrors.some(
-      (e) => e instanceof MessagingError && e.retryable === true,
-    );
-    const result = new AggregateError(translatedErrors, errObj.message);
+    const retryable = translatedErrors.some((e) => (e as any).retryable === true);
+    const result = new AggregateError(translatedErrors, errObj.message, { cause: errObj });
+    result.stack = errObj.stack;
     (result as AggregateError & { retryable: boolean }).retryable = retryable;
     return result;
   }

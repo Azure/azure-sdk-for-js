@@ -308,22 +308,38 @@ describe("Errors", function () {
         assert.isFalse(aggResult.retryable);
       });
 
-      it("handles nested AggregateError recursively", function () {
+      it("handles nested AggregateError recursively and propagates retryable", function () {
+        const innerError = {
+          code: "EAI_AGAIN",
+          errno: "EAI_AGAIN",
+          syscall: "getaddrinfo",
+          message: "getaddrinfo EAI_AGAIN example.invalid",
+        };
+        const innerAggregate = new AggregateError([innerError]);
+        const outerAggregate = new AggregateError([innerAggregate]);
+        const result = Errors.translate(outerAggregate);
+        assert.instanceOf(result, AggregateError);
+        const aggResult = result as AggregateError & { retryable: boolean };
+        // retryable must propagate through nested AggregateErrors
+        assert.isTrue(aggResult.retryable);
+        // The inner AggregateError was also translated
+        const innerResult = aggResult.errors[0] as AggregateError & { retryable: boolean };
+        assert.instanceOf(innerResult, AggregateError);
+        assert.isTrue(innerResult.retryable);
+      });
+
+      it("preserves the original stack trace", function () {
         const innerError = {
           code: "ENOTFOUND",
           errno: "ENOTFOUND",
           syscall: "getaddrinfo",
           message: "getaddrinfo ENOTFOUND example.invalid",
         };
-        const innerAggregate = new AggregateError([innerError]);
-        const outerAggregate = new AggregateError([innerAggregate]);
-        const result = Errors.translate(outerAggregate);
-        assert.instanceOf(result, AggregateError);
-        // The outer translates its single inner (which is itself an AggregateError)
-        const aggResult = result as AggregateError & { retryable: boolean };
-        assert.isFalse(aggResult.retryable);
-        // The inner AggregateError was also translated
-        assert.instanceOf(aggResult.errors[0], AggregateError);
+        const aggregateError = new AggregateError([innerError], "DNS failure");
+        const originalStack = aggregateError.stack;
+        const result = Errors.translate(aggregateError);
+        assert.equal(result.stack, originalStack);
+        assert.equal(result.cause, aggregateError);
       });
 
       it("returns the original AggregateError for an empty errors array", function () {
