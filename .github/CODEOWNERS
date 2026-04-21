@@ -433,7 +433,7 @@
 # PRLabel: %Mgmt
 /sdk/commerce/arm-commerce-profile-2020-09-01-hybrid/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/communication/arm-communication/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -1665,6 +1665,9 @@ sdk/appnetwork/arm-appnetwork/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 sdk/servicegroups/arm-servicegroups/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt
+sdk/relationships/arm-relationships/ @qiaozha @MaryGao @JialinHuang803
 
 ###########
 # Config

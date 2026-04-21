@@ -69,6 +69,16 @@ describe("clientHelpers", () => {
     );
   });
 
+  it("should not treat a non-string key property as a KeyCredential", () => {
+    const pipeline = createDefaultPipeline(mockBaseUrl, { key: 123 } as any);
+    const policies = pipeline.getOrderedPolicies();
+
+    assert.isUndefined(
+      policies.find((p) => p.name === keyCredentialAuthenticationPolicyName),
+      "pipeline should not have keyCredentialAuthenticationPolicyName for non-string key",
+    );
+  });
+
   it("should create a default pipeline with TokenCredential", () => {
     const mockCredential: TokenCredential = {
       getToken: async () => ({ expiresOnTimestamp: 0, token: "mockToken" }),

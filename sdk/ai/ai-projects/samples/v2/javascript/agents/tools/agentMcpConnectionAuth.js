@@ -56,7 +56,7 @@ async function main() {
       input: "What is my username in Github profile?",
     },
     {
-      body: { agent: { name: agent.name, type: "agent_reference" } },
+      body: { agent_reference: { name: agent.name, type: "agent_reference" } },
     },
   );
 
@@ -93,7 +93,7 @@ async function main() {
       previous_response_id: response.id,
     },
     {
-      body: { agent: { name: agent.name, type: "agent_reference" } },
+      body: { agent_reference: { name: agent.name, type: "agent_reference" } },
     },
   );
 
