@@ -1,0 +1,9 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./browser" },
+    { "path": "./import" },
+    { "path": "./react-native" },
+    { "path": "./require" }
+  ]
+}

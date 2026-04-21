@@ -193,6 +193,7 @@
     "clean": "rimraf --glob dist temp *.tsbuildinfo *.tgz coverage test-results.*",
     "execute:samples": "echo skipped",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
+    "extract-api-v2": "dev-tool run extract-api-v2",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\"  \"*.{js,cjs,mjs,json}\"",
     "lint": "eslint package.json src test",
     "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",

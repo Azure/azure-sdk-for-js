@@ -9,6 +9,7 @@ export default subCommand(commandInfo, {
   "test:vitest": () => import("./testVitest"),
   "check-api": () => import("./check-api"),
   "extract-api": () => import("./extract-api"),
+  "extract-api-v2": () => import("./extract-api-v2"),
   "build-test": () => import("./build-test"),
   "start-browser-relay": () => import("./startBrowserRelay"),
   "update-snippets": () => import("./update-snippets"),
