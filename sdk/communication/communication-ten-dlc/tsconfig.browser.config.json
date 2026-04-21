@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.browser.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure-tools/communication-ten-dlc": ["./dist/browser/index.d.ts"],
+      "@azure-tools/communication-ten-dlc/*": ["./dist/browser/*"],
+      "$internal/*": ["./dist/browser/*"]
+    }
+  }
+}
