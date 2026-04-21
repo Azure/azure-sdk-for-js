@@ -204,6 +204,30 @@ public class ParseSignatureParamsTests
         Assert.Equal(1, optionalCount);
     }
 
+    // ─── Template literal type containing colon ───
+
+    [Fact]
+    public void TemplateLiteralTypeWithColon_DoesNotSplitAtColonInsideBackticks()
+    {
+        var (types, optionalCount) = TypeScriptModelHelpers.ParseSignatureParams(
+            "x: `key:${string}`");
+
+        Assert.Equal(["`key:${string}`"], types);
+        Assert.Equal(0, optionalCount);
+    }
+
+    // ─── String default containing equals ───
+
+    [Fact]
+    public void StringDefaultWithEquals_CorrectlyIdentifiesOptionalParam()
+    {
+        var (types, optionalCount) = TypeScriptModelHelpers.ParseSignatureParams(
+            "x: string = \"a=b\"");
+
+        Assert.Equal(["string"], types);
+        Assert.Equal(1, optionalCount);
+    }
+
     // ─── Backtick with nested expression containing generics ───
 
     [Fact]

@@ -712,45 +712,86 @@ internal static class TypeScriptModelHelpers
     }
 
     /// <summary>
-    /// Finds the index of the first top-level ':' that separates the parameter
-    /// name from its type annotation. Skips colons inside nested brackets.
+    /// Finds the index of the first top-level occurrence of <paramref name="target"/>
+    /// that is not inside nested brackets or string literals (single, double, or backtick).
+    /// When <paramref name="skipArrow"/> is true, '=' followed by '>' is ignored.
     /// </summary>
-    private static int FindNameTypeSeparator(string param)
+    private static int FindTopLevelChar(string text, char target, bool skipArrow = false)
     {
         int depth = 0;
-        for (int i = 0; i < param.Length; i++)
-        {
-            char c = param[i];
-            if (c is '<' or '(' or '[' or '{') depth++;
-            else if (c is '>' or ')' or ']' or '}') depth--;
-            else if (c == ':' && depth == 0)
-                return i;
-        }
-        return -1;
-    }
+        char inString = '\0';
+        int templateBraceDepth = 0;
 
-    /// <summary>
-    /// Finds the index of a top-level '=' in a type string (for default values).
-    /// Skips '=' inside nested brackets and '=>' arrow tokens.
-    /// </summary>
-    private static int FindTopLevelEquals(string typeStr)
-    {
-        int depth = 0;
-        for (int i = 0; i < typeStr.Length; i++)
+        for (int i = 0; i < text.Length; i++)
         {
-            char c = typeStr[i];
-            if (c is '<' or '(' or '[' or '{') depth++;
-            else if (c is '>' or ')' or ']' or '}') depth--;
-            else if (c == '=' && depth == 0)
+            char c = text[i];
+
+            // Handle escape sequences inside strings
+            if (inString != '\0' && c == '\\')
             {
-                // Skip '=>' (arrow)
-                if (i + 1 < typeStr.Length && typeStr[i + 1] == '>')
+                i++; // skip the escaped character
+                continue;
+            }
+
+            if (inString != '\0')
+            {
+                if (inString == '`')
+                {
+                    if (c == '$' && i + 1 < text.Length && text[i + 1] == '{')
+                    {
+                        templateBraceDepth++;
+                        i++;
+                        continue;
+                    }
+
+                    if (templateBraceDepth > 0)
+                    {
+                        if (c == '{') templateBraceDepth++;
+                        else if (c == '}') templateBraceDepth--;
+                        continue;
+                    }
+
+                    if (c == '`')
+                        inString = '\0';
+                }
+                else
+                {
+                    if (c == inString)
+                        inString = '\0';
+                }
+                continue;
+            }
+
+            // Not inside a string
+            if (c is '\'' or '"' or '`')
+            {
+                inString = c;
+            }
+            else if (c is '<' or '(' or '[' or '{') depth++;
+            else if (c is '>' or ')' or ']' or '}') depth--;
+            else if (c == target && depth == 0)
+            {
+                if (skipArrow && i + 1 < text.Length && text[i + 1] == '>')
                     continue;
                 return i;
             }
         }
         return -1;
     }
+
+    /// <summary>
+    /// Finds the index of the first top-level ':' that separates the parameter
+    /// name from its type annotation. Skips colons inside nested brackets and strings.
+    /// </summary>
+    private static int FindNameTypeSeparator(string param) =>
+        FindTopLevelChar(param, ':');
+
+    /// <summary>
+    /// Finds the index of a top-level '=' in a type string (for default values).
+    /// Skips '=' inside nested brackets, strings, and '=>' arrow tokens.
+    /// </summary>
+    private static int FindTopLevelEquals(string typeStr) =>
+        FindTopLevelChar(typeStr, '=', skipArrow: true);
 }
 
 /// <summary>

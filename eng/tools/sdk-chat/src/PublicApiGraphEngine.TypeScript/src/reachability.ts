@@ -364,6 +364,8 @@ export function computeReachableTypes(api: ApiIndex): Set<string> {
 
     // Collect raw references (qualified key → simple ref names) in first pass
     const rawRefs = new Map<string, string[]>();
+    // Map from qualified key → module name (avoids parsing module from key with indexOf)
+    const qkToModule = new Map<string, string>();
 
     function collectRefsFromContainer(source: {
         classes?: { name: string; referencedTypes?: string[] }[];
@@ -376,24 +378,28 @@ export function computeReachableTypes(api: ApiIndex): Set<string> {
         for (const cls of source.classes || []) {
             const qk = makeQualifiedKey(moduleName, cls.name, nsPath);
             registerName(cls.name, qk);
+            qkToModule.set(qk, moduleName);
             const refs = (cls.referencedTypes ?? []).filter(t => allTypeNames.has(t));
             if (refs.length) rawRefs.set(qk, refs);
         }
         for (const iface of source.interfaces || []) {
             const qk = makeQualifiedKey(moduleName, iface.name, nsPath);
             registerName(iface.name, qk);
+            qkToModule.set(qk, moduleName);
             const refs = (iface.referencedTypes ?? []).filter(t => allTypeNames.has(t));
             if (refs.length) rawRefs.set(qk, refs);
         }
         for (const en of source.enums || []) {
             const qk = makeQualifiedKey(moduleName, en.name, nsPath);
             registerName(en.name, qk);
+            qkToModule.set(qk, moduleName);
             const refs = (en.referencedTypes ?? []).filter(t => allTypeNames.has(t));
             if (refs.length) rawRefs.set(qk, refs);
         }
         for (const t of source.types || []) {
             const qk = makeQualifiedKey(moduleName, t.name, nsPath);
             registerName(t.name, qk);
+            qkToModule.set(qk, moduleName);
             const refs = (t.referencedTypes ?? []).filter(t => allTypeNames.has(t));
             if (refs.length) rawRefs.set(qk, refs);
         }
@@ -401,13 +407,16 @@ export function computeReachableTypes(api: ApiIndex): Set<string> {
             if (fn.name) {
                 const qk = makeQualifiedKey(moduleName, fn.name, nsPath);
                 registerName(fn.name, qk);
+                qkToModule.set(qk, moduleName);
                 const refs = (fn.referencedTypes ?? []).filter(t => allTypeNames.has(t));
                 if (refs.length) rawRefs.set(qk, refs);
             }
         }
         for (const ns of source.namespaces || []) {
             const childNsPath = nsPath ? `${nsPath}.${ns.name}` : ns.name;
-            registerName(ns.name, makeQualifiedKey(moduleName, ns.name, nsPath));
+            const nsQk = makeQualifiedKey(moduleName, ns.name, nsPath);
+            registerName(ns.name, nsQk);
+            qkToModule.set(nsQk, moduleName);
             collectRefsFromContainer(ns, moduleName, childNsPath);
         }
     }
@@ -426,8 +435,8 @@ export function computeReachableTypes(api: ApiIndex): Set<string> {
     }
     for (const [qk, refs] of rawRefs) {
         const edges = graph.get(qk) ?? new Set();
-        // Extract source module from qualified key for same-module disambiguation
-        const sourceModule = qk.substring(0, qk.indexOf("/"));
+        // Look up source module from the registration map
+        const sourceModule = qkToModule.get(qk) ?? "";
 
         for (const refName of refs) {
             const targetQks = nameToQualifiedKeys.get(refName);

@@ -617,8 +617,7 @@ public static class TypeScriptFormatter
                         .ToList();
                 }
 
-                if (!depsToRender.Any(d => !d.IsNode))
-                    depsToRender = index.Dependencies!;
+
             }
             else
             {
@@ -824,7 +823,7 @@ public static class TypeScriptFormatter
                         continue;
 
                     var depHasMultipleConditions = depConds.Count > 1;
-                    var depModuleName = depHasMultipleConditions && matchedCond != "default"
+                    var depModuleName = depHasMultipleConditions && matchedCond != "default" && matchedCond != "types"
                         ? $"{dep.Package}/{matchedCond}"
                         : dep.Package;
 
@@ -915,11 +914,11 @@ public static class TypeScriptFormatter
             var cond = k.Condition;
             string mName;
             if (ep is "." or "")
-                mName = hasMultipleConditions && cond != "default" ? $"{index.Package}/{cond}" : index.Package;
+                mName = hasMultipleConditions && cond != "default" && cond != "types" ? $"{index.Package}/{cond}" : index.Package;
             else
             {
                 var sp = ep.StartsWith("./", StringComparison.Ordinal) ? ep[2..] : ep;
-                mName = hasMultipleConditions && cond != "default" ? $"{index.Package}/{sp}/{cond}" : $"{index.Package}/{sp}";
+                mName = hasMultipleConditions && cond != "default" && cond != "types" ? $"{index.Package}/{sp}/{cond}" : $"{index.Package}/{sp}";
             }
             foreach (var c in g.Classes) mainTypeToModule.TryAdd(c.Name, mName);
             foreach (var i in g.Interfaces) mainTypeToModule.TryAdd(i.Name, mName);
@@ -940,14 +939,14 @@ public static class TypeScriptFormatter
                 string moduleName;
                 if (exportPath is "." or "")
                 {
-                    moduleName = hasMultipleConditions && condition != "default"
+                    moduleName = hasMultipleConditions && condition != "default" && condition != "types"
                         ? $"{index.Package}/{condition}"
                         : index.Package;
                 }
                 else
                 {
                     var subpath = exportPath.StartsWith("./", StringComparison.Ordinal) ? exportPath[2..] : exportPath;
-                    moduleName = hasMultipleConditions && condition != "default"
+                    moduleName = hasMultipleConditions && condition != "default" && condition != "types"
                         ? $"{index.Package}/{subpath}/{condition}"
                         : $"{index.Package}/{subpath}";
                 }

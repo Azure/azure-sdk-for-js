@@ -394,6 +394,7 @@ export function formatStubs(api: ApiIndex): string {
                 lines.push(`${indent}export interface ${iface.name}${typeParams}${ext} {`);
 
                 for (const prop of iface.properties || []) {
+                    lines.push(...formatJsDoc(`${indent}    `, prop.doc, prop.deprecated, prop.deprecatedMsg));
                     const opt = prop.optional ? "?" : "";
                     const ro = prop.readonly ? "readonly " : "";
                     lines.push(`${indent}    ${ro}${prop.name}${opt}: ${prop.type};`);
@@ -417,6 +418,7 @@ export function formatStubs(api: ApiIndex): string {
                 }
 
                 for (const m of iface.methods || []) {
+                    lines.push(...formatJsDoc(`${indent}    `, m.doc, m.deprecated, m.deprecatedMsg));
                     const ret = m.ret ? `: ${m.ret}` : "";
                     const tp = m.typeParams ? `<${m.typeParams}>` : "";
                     lines.push(`${indent}    ${m.name}${tp}(${m.sig})${ret};`);
@@ -436,6 +438,7 @@ export function formatStubs(api: ApiIndex): string {
                 lines.push(`${indent}export ${abs}class ${cls.name}${typeParams}${ext}${impl} {`);
 
                 for (const prop of cls.properties || []) {
+                    lines.push(...formatJsDoc(`${indent}    `, prop.doc, prop.deprecated, prop.deprecatedMsg));
                     const opt = prop.optional ? "?" : "";
                     const ro = prop.readonly ? "readonly " : "";
                     const stat = prop.static ? "static " : "";
@@ -448,10 +451,12 @@ export function formatStubs(api: ApiIndex): string {
                 }
 
                 for (const ctor of cls.constructors || []) {
+                    lines.push(...formatJsDoc(`${indent}    `, undefined, ctor.deprecated, ctor.deprecatedMsg));
                     lines.push(`${indent}    constructor(${ctor.sig});`);
                 }
 
                 for (const m of cls.methods || []) {
+                    lines.push(...formatJsDoc(`${indent}    `, m.doc, m.deprecated, m.deprecatedMsg));
                     const abs = m.abstract ? "abstract " : "";
                     const stat = m.static ? "static " : "";
                     const ret = m.ret ? `: ${m.ret}` : "";
@@ -554,6 +559,7 @@ function formatGroupBody(modules: ModuleInfo[], indent: string): string[] {
             lines.push(`${indent}export interface ${iface.name}${typeParams}${ext} {`);
 
             for (const prop of iface.properties || []) {
+                lines.push(...formatJsDoc(`${indent}    `, prop.doc, prop.deprecated, prop.deprecatedMsg));
                 const opt = prop.optional ? "?" : "";
                 const ro = prop.readonly ? "readonly " : "";
                 lines.push(`${indent}    ${ro}${prop.name}${opt}: ${prop.type};`);
@@ -577,6 +583,7 @@ function formatGroupBody(modules: ModuleInfo[], indent: string): string[] {
             }
 
             for (const m of iface.methods || []) {
+                lines.push(...formatJsDoc(`${indent}    `, m.doc, m.deprecated, m.deprecatedMsg));
                 const ret = m.ret ? `: ${m.ret}` : "";
                 const tp = m.typeParams ? `<${m.typeParams}>` : "";
                 lines.push(`${indent}    ${m.name}${tp}(${m.sig})${ret};`);
@@ -596,6 +603,7 @@ function formatGroupBody(modules: ModuleInfo[], indent: string): string[] {
             lines.push(`${indent}export ${abs}class ${cls.name}${typeParams}${ext}${impl} {`);
 
             for (const prop of cls.properties || []) {
+                lines.push(...formatJsDoc(`${indent}    `, prop.doc, prop.deprecated, prop.deprecatedMsg));
                 const opt = prop.optional ? "?" : "";
                 const ro = prop.readonly ? "readonly " : "";
                 const stat = prop.static ? "static " : "";
@@ -608,10 +616,12 @@ function formatGroupBody(modules: ModuleInfo[], indent: string): string[] {
             }
 
             for (const ctor of cls.constructors || []) {
+                lines.push(...formatJsDoc(`${indent}    `, undefined, ctor.deprecated, ctor.deprecatedMsg));
                 lines.push(`${indent}    constructor(${ctor.sig});`);
             }
 
             for (const m of cls.methods || []) {
+                lines.push(...formatJsDoc(`${indent}    `, m.doc, m.deprecated, m.deprecatedMsg));
                 const abs = m.abstract ? "abstract " : "";
                 const stat = m.static ? "static " : "";
                 const ret = m.ret ? `: ${m.ret}` : "";
@@ -648,6 +658,7 @@ function formatNamespaceLines(ns: NamespaceInfo, indent: string): string[] {
         lines.push(`${indent}    export ${abs}class ${cls.name}${tp}${ext}${impl} {`);
 
         for (const p of cls.properties || []) {
+            lines.push(...formatJsDoc(`${indent}        `, p.doc, p.deprecated, p.deprecatedMsg));
             const opt = p.optional ? "?" : "";
             const ro = p.readonly ? "readonly " : "";
             const stat = p.static ? "static " : "";
@@ -660,10 +671,12 @@ function formatNamespaceLines(ns: NamespaceInfo, indent: string): string[] {
         }
 
         for (const ctor of cls.constructors || []) {
+            lines.push(...formatJsDoc(`${indent}        `, undefined, ctor.deprecated, ctor.deprecatedMsg));
             lines.push(`${indent}        constructor(${ctor.sig});`);
         }
 
         for (const m of cls.methods || []) {
+            lines.push(...formatJsDoc(`${indent}        `, m.doc, m.deprecated, m.deprecatedMsg));
             const abs = m.abstract ? "abstract " : "";
             const stat = m.static ? "static " : "";
             const ret = m.ret ? `: ${m.ret}` : "";
@@ -683,6 +696,7 @@ function formatNamespaceLines(ns: NamespaceInfo, indent: string): string[] {
         const tp = iface.typeParams ? `<${iface.typeParams}>` : "";
         lines.push(`${indent}    export interface ${iface.name}${tp}${ext} {`);
         for (const p of iface.properties || []) {
+            lines.push(...formatJsDoc(`${indent}        `, p.doc, p.deprecated, p.deprecatedMsg));
             const opt = p.optional ? "?" : "";
             const ro = p.readonly ? "readonly " : "";
             lines.push(`${indent}        ${ro}${p.name}${opt}: ${p.type};`);
@@ -702,6 +716,7 @@ function formatNamespaceLines(ns: NamespaceInfo, indent: string): string[] {
             lines.push(`${indent}        new ${tp}(${cs.sig})${ret};`);
         }
         for (const m of iface.methods || []) {
+            lines.push(...formatJsDoc(`${indent}        `, m.doc, m.deprecated, m.deprecatedMsg));
             const ret = m.ret ? `: ${m.ret}` : "";
             const tp = m.typeParams ? `<${m.typeParams}>` : "";
             lines.push(`${indent}        ${m.name}${tp}(${m.sig})${ret};`);

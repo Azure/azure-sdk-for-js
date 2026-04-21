@@ -290,6 +290,31 @@ public class NdjsonStreamParserTests
         Assert.Equal([1, 2], items.Select(i => i.Value).ToArray());
     }
 
+    [Fact]
+    public async Task ParseAsync_StrictMode_TrailingJunkAfterLastObject_AtEof_Throws()
+    {
+        // In strict mode, non-whitespace trailing content after the last valid
+        // object is detected as corruption when the final-block pass runs.
+        var ex = await Assert.ThrowsAsync<JsonException>(() =>
+            CollectAsync(NdjsonStreamParser.ParseAsync<TestItem>(
+                Chunks("{\"value\": 1}\ngarbage at eof"),
+                Options, ignoreNonJsonLinesBeforeFirstObject: false)));
+
+        Assert.Contains("Corrupted data", ex.Message);
+    }
+
+    [Fact]
+    public async Task ParseAsync_NonStrictMode_TrailingJunkAfterLastObject_AtEof_DoesNotThrow()
+    {
+        // In non-strict (lenient) mode, trailing junk after the last object is silently ignored.
+        var items = await CollectAsync(NdjsonStreamParser.ParseAsync<TestItem>(
+            Chunks("{\"value\": 1}\ngarbage at eof"),
+            Options, ignoreNonJsonLinesBeforeFirstObject: true));
+
+        Assert.Single(items);
+        Assert.Equal(1, items[0].Value);
+    }
+
     #endregion
 
     private static async Task<List<T>> CollectAsync<T>(IAsyncEnumerable<T> stream)

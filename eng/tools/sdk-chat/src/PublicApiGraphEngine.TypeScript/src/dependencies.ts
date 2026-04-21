@@ -1074,11 +1074,17 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
                             resolvedFile = packageToFile.get(subRef.packageName);
                         }
                         if (resolvedFile) {
-                            // Propagate parent subpath only for same-package transitive types
+                            // Propagate parent subpath only for same-package transitive types.
+                            // Use the already-resolved `subpath` from the outer loop (line 897)
+                            // instead of re-looking up via qKey — the resolution is stored
+                            // under rootKey, not qKey, so a qualified-key lookup would miss.
                             const parentSubpath = (subRef.packageName === packageName)
-                                ? (importResolutionMap.get(qKey)?.subpath ?? ".")
+                                ? (subpath ?? ".")
                                 : ".";
                             importResolutionMap.set(subQKey, { packageName: subRef.packageName, resolvedFile, subpath: parentSubpath });
+                            if (!importResolutionMap.has(subRootKey)) {
+                                importResolutionMap.set(subRootKey, { packageName: subRef.packageName, resolvedFile, subpath: parentSubpath });
+                            }
                             if (!packageToFile.has(subRef.packageName)) {
                                 packageToFile.set(subRef.packageName, resolvedFile);
                             }
@@ -1165,7 +1171,7 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
     // members whose names appear as type references in the non-namespace resolved
     // types should be retained. This prevents unreferenced type aliases (e.g.,
     // Conversations.Items.InputTextContent) from appearing in the output.
-    filterUnreachableNamespaceMembers(allResolved, depByPackage, api, definedTypes);
+    filterUnreachableNamespaceMembers(allResolved, depByPackage, api, definedTypes, entityToSubpath);
 
     // Add Node.js dependencies as simple type-name references (no extraction).
     // These are emitted as import statements, not declare module blocks.
@@ -1956,10 +1962,11 @@ function collectReferencedNamesFromNamespace(ns: NamespaceInfo, refs: Set<string
  * in the output when nothing in the API surface references them.
  */
 function filterUnreachableNamespaceMembers(
-    allResolved: Map<string, { packageName: string; type: ClassInfo | InterfaceInfo | EnumInfo | TypeAliasInfo | FunctionInfo | NamespaceInfo; kind: "class" | "interface" | "enum" | "type" | "function" | "namespace" }>,
+    allResolved: Map<string, { packageName: string; subpath?: string; type: ClassInfo | InterfaceInfo | EnumInfo | TypeAliasInfo | FunctionInfo | NamespaceInfo; kind: "class" | "interface" | "enum" | "type" | "function" | "namespace" }>,
     depByPackage: Map<string, DependencyInfo>,
     api: ApiIndex,
     definedTypes: Set<string>,
+    entityToSubpath: Map<object, string>,
 ): void {
     // Phase 1: Collect all type names referenced by non-namespace root types.
     // These are the "seed" references that determine which namespace members
@@ -1981,13 +1988,14 @@ function filterUnreachableNamespaceMembers(
     }
 
     // Seed from non-namespace resolved dependency types
-    for (const [key, { packageName, type, kind }] of allResolved) {
+    for (const [key, { packageName, subpath: resolvedSubpath, type, kind }] of allResolved) {
         if (kind === "namespace") continue; // Skip namespaces — they contain the members we're filtering
+        const entitySubpath = resolvedSubpath ?? entityToSubpath.get(type) ?? ".";
         const pkgRefs = new Set<string>();
         collectReferencedNamesFromEntity(type as ClassInfo | InterfaceInfo | EnumInfo | TypeAliasInfo | FunctionInfo, kind, pkgRefs);
         for (const name of pkgRefs) {
             referencedNames.add(name);
-            qualifiedReferencedNames.add(makeDepKey(packageName, name));
+            qualifiedReferencedNames.add(makeDepKey(packageName, name, entitySubpath));
         }
     }
 
@@ -1997,10 +2005,10 @@ function filterUnreachableNamespaceMembers(
     // Also add all non-namespace resolved type names — these are directly needed
     for (const [key, { packageName, kind }] of allResolved) {
         if (kind !== "namespace") {
-            const { typeName } = splitDepKey(key);
+            const { typeName, subpath: keySubpath } = splitDepKey(key);
             if (!typeName.startsWith("__ns__")) {
                 referencedNames.add(typeName);
-                qualifiedReferencedNames.add(makeDepKey(packageName, typeName));
+                qualifiedReferencedNames.add(makeDepKey(packageName, typeName, keySubpath));
             }
         }
     }
@@ -2017,7 +2025,7 @@ function filterUnreachableNamespaceMembers(
         changed = false;
         for (const [pkgName, depInfo] of depByPackage) {
             for (const ns of depInfo.namespaces ?? []) {
-                if (expandReachableFromNamespaceQualified(ns, referencedNames, qualifiedReferencedNames, expandedEntities, pkgName)) {
+                if (expandReachableFromNamespaceQualified(ns, referencedNames, qualifiedReferencedNames, expandedEntities, pkgName, entityToSubpath)) {
                     changed = true;
                 }
             }
@@ -2029,7 +2037,7 @@ function filterUnreachableNamespaceMembers(
     for (const [pkgName, depInfo] of depByPackage) {
         if (depInfo.namespaces) {
             depInfo.namespaces = depInfo.namespaces
-                .map(ns => filterNamespaceMembersQualified(ns, referencedNames, qualifiedReferencedNames, pkgName))
+                .map(ns => filterNamespaceMembersQualified(ns, referencedNames, qualifiedReferencedNames, pkgName, entityToSubpath))
                 .filter((ns): ns is NamespaceInfo => ns !== null);
             if (depInfo.namespaces.length === 0) depInfo.namespaces = undefined;
         }
@@ -2046,19 +2054,21 @@ function expandReachableFromNamespaceQualified(
     qualifiedRefs: Set<string>,
     expanded: WeakSet<object>,
     packageName: string,
+    entityToSubpath: Map<object, string>,
 ): boolean {
     let added = false;
 
     const tryExpand = (entity: ClassInfo | InterfaceInfo | EnumInfo | TypeAliasInfo | FunctionInfo, name: string, kind: "class" | "interface" | "enum" | "type" | "function") => {
-        // Check both simple name and package-qualified name
-        if ((refs.has(name) || qualifiedRefs.has(makeDepKey(packageName, name))) && !expanded.has(entity)) {
+        const sp = entityToSubpath.get(entity);
+        // Check both simple name and package-qualified name (with subpath)
+        if ((refs.has(name) || qualifiedRefs.has(makeDepKey(packageName, name, sp))) && !expanded.has(entity)) {
             expanded.add(entity);
             const before = refs.size;
             const newRefs = new Set<string>();
             collectReferencedNamesFromEntity(entity, kind, newRefs);
             for (const r of newRefs) {
                 refs.add(r);
-                qualifiedRefs.add(makeDepKey(packageName, r));
+                qualifiedRefs.add(makeDepKey(packageName, r, sp));
             }
             if (refs.size > before) added = true;
         }
@@ -2073,10 +2083,10 @@ function expandReachableFromNamespaceQualified(
     for (const nested of ns.namespaces ?? []) {
         if (refs.has(nested.name) && !nested.isCompanion) {
             const before = refs.size;
-            addAllMemberNamesQualified(nested, refs, qualifiedRefs, packageName);
+            addAllMemberNamesQualified(nested, refs, qualifiedRefs, packageName, entityToSubpath);
             if (refs.size > before) added = true;
         }
-        if (expandReachableFromNamespaceQualified(nested, refs, qualifiedRefs, expanded, packageName)) added = true;
+        if (expandReachableFromNamespaceQualified(nested, refs, qualifiedRefs, expanded, packageName, entityToSubpath)) added = true;
     }
 
     return added;
@@ -2085,13 +2095,13 @@ function expandReachableFromNamespaceQualified(
 /**
  * Package-qualified version of addAllMemberNames.
  */
-function addAllMemberNamesQualified(ns: NamespaceInfo, refs: Set<string>, qualifiedRefs: Set<string>, packageName: string): void {
-    for (const c of ns.classes ?? []) { refs.add(c.name); qualifiedRefs.add(makeDepKey(packageName, c.name)); }
-    for (const i of ns.interfaces ?? []) { refs.add(i.name); qualifiedRefs.add(makeDepKey(packageName, i.name)); }
-    for (const e of ns.enums ?? []) { refs.add(e.name); qualifiedRefs.add(makeDepKey(packageName, e.name)); }
-    for (const t of ns.types ?? []) { refs.add(t.name); qualifiedRefs.add(makeDepKey(packageName, t.name)); }
-    for (const f of ns.functions ?? []) { if (f.name) { refs.add(f.name); qualifiedRefs.add(makeDepKey(packageName, f.name)); } }
-    for (const nested of ns.namespaces ?? []) { refs.add(nested.name); qualifiedRefs.add(makeDepKey(packageName, nested.name)); }
+function addAllMemberNamesQualified(ns: NamespaceInfo, refs: Set<string>, qualifiedRefs: Set<string>, packageName: string, entityToSubpath: Map<object, string>): void {
+    for (const c of ns.classes ?? []) { refs.add(c.name); qualifiedRefs.add(makeDepKey(packageName, c.name, entityToSubpath.get(c))); }
+    for (const i of ns.interfaces ?? []) { refs.add(i.name); qualifiedRefs.add(makeDepKey(packageName, i.name, entityToSubpath.get(i))); }
+    for (const e of ns.enums ?? []) { refs.add(e.name); qualifiedRefs.add(makeDepKey(packageName, e.name, entityToSubpath.get(e))); }
+    for (const t of ns.types ?? []) { refs.add(t.name); qualifiedRefs.add(makeDepKey(packageName, t.name, entityToSubpath.get(t))); }
+    for (const f of ns.functions ?? []) { if (f.name) { refs.add(f.name); qualifiedRefs.add(makeDepKey(packageName, f.name, entityToSubpath.get(f))); } }
+    for (const nested of ns.namespaces ?? []) { refs.add(nested.name); qualifiedRefs.add(makeDepKey(packageName, nested.name, entityToSubpath.get(nested))); }
 }
 
 /**
@@ -2103,34 +2113,38 @@ function filterNamespaceMembersQualified(
     refs: Set<string>,
     qualifiedRefs: Set<string>,
     packageName: string,
+    entityToSubpath: Map<object, string>,
 ): NamespaceInfo | null {
-    const isReachable = (name: string) => refs.has(name) || qualifiedRefs.has(makeDepKey(packageName, name));
+    const isReachable = (name: string, entity?: object) => {
+        const sp = entity ? entityToSubpath.get(entity) : undefined;
+        return refs.has(name) || qualifiedRefs.has(makeDepKey(packageName, name, sp));
+    };
 
     const result: NamespaceInfo = { name: ns.name };
 
     if (ns.classes) {
-        const filtered = ns.classes.filter(c => isReachable(c.name));
+        const filtered = ns.classes.filter(c => isReachable(c.name, c));
         if (filtered.length) result.classes = filtered;
     }
     if (ns.interfaces) {
-        const filtered = ns.interfaces.filter(i => isReachable(i.name));
+        const filtered = ns.interfaces.filter(i => isReachable(i.name, i));
         if (filtered.length) result.interfaces = filtered;
     }
     if (ns.enums) {
-        const filtered = ns.enums.filter(e => isReachable(e.name));
+        const filtered = ns.enums.filter(e => isReachable(e.name, e));
         if (filtered.length) result.enums = filtered;
     }
     if (ns.types) {
-        const filtered = ns.types.filter(t => isReachable(t.name));
+        const filtered = ns.types.filter(t => isReachable(t.name, t));
         if (filtered.length) result.types = filtered;
     }
     if (ns.functions) {
-        const filtered = ns.functions.filter(f => f.name && isReachable(f.name));
+        const filtered = ns.functions.filter(f => f.name && isReachable(f.name, f));
         if (filtered.length) result.functions = filtered;
     }
     if (ns.namespaces) {
         const filtered = ns.namespaces
-            .map(n => filterNamespaceMembersQualified(n, refs, qualifiedRefs, packageName))
+            .map(n => filterNamespaceMembersQualified(n, refs, qualifiedRefs, packageName, entityToSubpath))
             .filter((n): n is NamespaceInfo => n !== null);
         if (filtered.length) result.namespaces = filtered;
     }
