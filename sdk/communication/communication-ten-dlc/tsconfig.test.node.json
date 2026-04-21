@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure-tools/communication-ten-dlc": ["./src/index.ts"],
+      "@azure-tools/communication-ten-dlc/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}
