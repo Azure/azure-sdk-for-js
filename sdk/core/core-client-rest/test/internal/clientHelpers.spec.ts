@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, expect } from "vitest";
 import { createDefaultPipeline } from "../../src/clientHelpers.js";
 import { bearerTokenAuthenticationPolicyName } from "@azure/core-rest-pipeline";
 import { keyCredentialAuthenticationPolicyName } from "../../src/keyCredentialAuthenticationPolicy.js";
@@ -14,7 +14,7 @@ describe("clientHelpers", () => {
     const pipeline = createDefaultPipeline(mockBaseUrl);
     const policies = pipeline.getOrderedPolicies();
 
-    assert.isDefined(policies, "default pipeline should contain policies");
+    assert.isNotEmpty(policies, "default pipeline should contain policies");
 
     assert.isUndefined(
       policies.find((p) => p.name === bearerTokenAuthenticationPolicyName),
@@ -31,21 +31,19 @@ describe("clientHelpers", () => {
     const pipeline = createDefaultPipeline(mockBaseUrl);
     const policies = pipeline.getOrderedPolicies();
 
-    assert.isDefined(policies, "default pipeline should contain policies");
+    assert.isNotEmpty(policies, "default pipeline should contain policies");
 
+    const apiVersionPolicy = policies.find((p) => p.name === apiVersionPolicyName);
     assert.isDefined(
-      policies.find((p) => p.name === apiVersionPolicyName),
+      apiVersionPolicy,
       `Pipeline policy not found in the default pipeline: ${apiVersionPolicyName}`,
     );
   });
 
   it("should throw if key credentials but no Api Header Name", () => {
-    try {
-      createDefaultPipeline(mockBaseUrl, { key: "mockKey" });
-      assert.fail("Expected to throw an error");
-    } catch (error: any) {
-      assert.equal((error as Error).message, "Missing API Key Header Name");
-    }
+    expect(() => createDefaultPipeline(mockBaseUrl, { key: "mockKey" })).toThrow(
+      "Missing API Key Header Name",
+    );
   });
 
   it("should create a default pipeline with key credentials", () => {
@@ -56,17 +54,15 @@ describe("clientHelpers", () => {
     );
     const policies = pipeline.getOrderedPolicies();
 
-    assert.isDefined(policies, "default pipeline should contain policies");
+    assert.isNotEmpty(policies, "default pipeline should contain policies");
 
     assert.isUndefined(
       policies.find((p) => p.name === bearerTokenAuthenticationPolicyName),
       "pipeline shouldn't have bearerTokenAuthenticationPolicyName",
     );
 
-    assert.isDefined(
-      policies.find((p) => p.name === keyCredentialAuthenticationPolicyName),
-      "pipeline shouldn have keyCredentialAuthenticationPolicyName",
-    );
+    const keyCredPolicy = policies.find((p) => p.name === keyCredentialAuthenticationPolicyName);
+    assert.isDefined(keyCredPolicy, "pipeline should have keyCredentialAuthenticationPolicyName");
   });
 
   it("should not treat a non-string key property as a KeyCredential", () => {
@@ -86,12 +82,10 @@ describe("clientHelpers", () => {
     const pipeline = createDefaultPipeline(mockBaseUrl, mockCredential);
     const policies = pipeline.getOrderedPolicies();
 
-    assert.isDefined(policies, "default pipeline should contain policies");
+    assert.isNotEmpty(policies, "default pipeline should contain policies");
 
-    assert.isDefined(
-      policies.find((p) => p.name === bearerTokenAuthenticationPolicyName),
-      "pipeline should have bearerTokenAuthenticationPolicyName",
-    );
+    const bearerPolicy = policies.find((p) => p.name === bearerTokenAuthenticationPolicyName);
+    assert.isDefined(bearerPolicy, "pipeline should have bearerTokenAuthenticationPolicyName");
 
     assert.isUndefined(
       policies.find((p) => p.name === keyCredentialAuthenticationPolicyName),
