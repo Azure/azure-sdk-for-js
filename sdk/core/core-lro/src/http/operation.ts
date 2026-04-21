@@ -332,7 +332,7 @@ export async function pollHttpOperation<TState extends OperationState<TResult>, 
      * The expansion here is intentional because `lro` could be an object that
      * references an inner this, so we need to preserve a reference to it.
      */
-    poll: async (location: string, inputOptions?: { abortSignal?: AbortSignalLike }) =>
+    poll: (location: string, inputOptions?: { abortSignal?: AbortSignalLike }) =>
       lro.sendPollRequest(location, inputOptions),
     setErrorAsResult,
   });

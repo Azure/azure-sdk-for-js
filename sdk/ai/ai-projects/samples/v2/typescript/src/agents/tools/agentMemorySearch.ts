@@ -11,17 +11,16 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import {
-  AIProjectClient,
+import type {
   MemoryStoreDefaultDefinition,
   MemoryStoreDefaultOptions,
   MemorySearchPreviewTool,
 } from "@azure/ai-projects";
+import { AIProjectClient } from "@azure/ai-projects";
 import "dotenv/config";
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
-const agentModelDeployment =
-  process.env["FOUNDRY_MODEL_NAME"] || "<agent model deployment name>";
+const agentModelDeployment = process.env["FOUNDRY_MODEL_NAME"] || "<agent model deployment name>";
 const chatModelDeployment =
   process.env["MEMORY_STORE_CHAT_MODEL_DEPLOYMENT_NAME"] || "<memory chat model deployment name>";
 const embeddingModelDeployment =
@@ -112,7 +111,7 @@ export async function main(): Promise<void> {
         conversation: conversation.id,
       },
       {
-        body: { agent: { name: agent.name, type: "agent_reference" } },
+        body: { agent_reference: { name: agent.name, type: "agent_reference" } },
       },
     );
     console.log(`Initial response: ${firstResponse.output_text}`);
@@ -132,7 +131,7 @@ export async function main(): Promise<void> {
         conversation: followUpConversation.id,
       },
       {
-        body: { agent: { name: agent.name, type: "agent_reference" } },
+        body: { agent_reference: { name: agent.name, type: "agent_reference" } },
       },
     );
     console.log(`Follow-up response: ${followUpResponse.output_text}`);

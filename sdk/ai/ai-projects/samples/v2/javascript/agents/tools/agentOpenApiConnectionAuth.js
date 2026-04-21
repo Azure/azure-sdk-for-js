@@ -81,7 +81,7 @@ async function main() {
     },
     {
       body: {
-        agent: { name: agent.name, type: "agent_reference" },
+        agent_reference: { name: agent.name, type: "agent_reference" },
         tool_choice: "required",
       },
     },

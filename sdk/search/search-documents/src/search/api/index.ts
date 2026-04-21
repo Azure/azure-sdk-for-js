@@ -23,8 +23,5 @@ export type {
   SearchGetOptionalParams,
   GetDocumentCountOptionalParams,
 } from "./options.js";
-export {
-  createSearch,
-  type SearchContext,
-  type SearchClientOptionalParams,
-} from "./searchContext.js";
+export type { SearchContext, SearchClientOptionalParams } from "./searchContext.js";
+export { createSearch } from "./searchContext.js";
