@@ -223,7 +223,7 @@ describe("Errors", function () {
     });
 
     describe("AggregateError handling (Node.js 20+ Happy Eyeballs)", function () {
-      it("translates AggregateError containing ENOTFOUND system error into a non-retryable MessagingError", function () {
+      it("translates AggregateError containing ENOTFOUND into an AggregateError of MessagingErrors", function () {
         const innerError = {
           code: "ENOTFOUND",
           errno: "ENOTFOUND",
@@ -234,13 +234,18 @@ describe("Errors", function () {
           [innerError],
           "getaddrinfo ENOTFOUND example.invalid",
         );
-        const translatedError = Errors.translate(aggregateError) as Errors.MessagingError;
-        assert.equal(translatedError.name, "MessagingError");
-        assert.equal(translatedError.code, "ENOTFOUND");
-        assert.isFalse(translatedError.retryable);
+        const result = Errors.translate(aggregateError);
+        assert.instanceOf(result, AggregateError);
+        const aggResult = result as AggregateError & { retryable: boolean };
+        assert.isFalse(aggResult.retryable);
+        assert.equal(aggResult.errors.length, 1);
+        const inner = aggResult.errors[0] as Errors.MessagingError;
+        assert.equal(inner.name, "MessagingError");
+        assert.equal(inner.code, "ENOTFOUND");
+        assert.isFalse(inner.retryable);
       });
 
-      it("translates AggregateError containing EAI_AGAIN system error into a retryable MessagingError", function () {
+      it("translates AggregateError containing EAI_AGAIN with retryable=true", function () {
         const innerError = {
           code: "EAI_AGAIN",
           errno: "EAI_AGAIN",
@@ -251,13 +256,17 @@ describe("Errors", function () {
           [innerError],
           "getaddrinfo EAI_AGAIN example.invalid",
         );
-        const translatedError = Errors.translate(aggregateError) as Errors.MessagingError;
-        assert.equal(translatedError.name, "MessagingError");
-        assert.equal(translatedError.code, "EAI_AGAIN");
-        assert.isTrue(translatedError.retryable);
+        const result = Errors.translate(aggregateError);
+        assert.instanceOf(result, AggregateError);
+        const aggResult = result as AggregateError & { retryable: boolean };
+        assert.isTrue(aggResult.retryable);
+        const inner = aggResult.errors[0] as Errors.MessagingError;
+        assert.equal(inner.name, "MessagingError");
+        assert.equal(inner.code, "EAI_AGAIN");
+        assert.isTrue(inner.retryable);
       });
 
-      it("translates all inner errors and attaches them as info.innerErrors", function () {
+      it("translates all inner errors and sets retryable=true if any inner error is retryable", function () {
         const enotfound = {
           code: "ENOTFOUND",
           errno: "ENOTFOUND",
@@ -270,18 +279,19 @@ describe("Errors", function () {
           syscall: "connect",
           message: "connect ECONNREFUSED 127.0.0.1:5671",
         };
-        const aggregateError = new AggregateError([enotfound, econnrefused]);
-        const translatedError = Errors.translate(aggregateError) as Errors.MessagingError;
-        assert.equal(translatedError.name, "MessagingError");
-        // ECONNREFUSED is retryable, so it should be preferred as the representative
-        assert.equal(translatedError.code, "ECONNREFUSED");
-        assert.isTrue(translatedError.retryable);
-        // All translated errors should be attached for diagnostics
-        assert.isArray(translatedError.info?.innerErrors);
-        assert.equal(translatedError.info!.innerErrors.length, 2);
+        const result = Errors.translate(
+          new AggregateError([enotfound, econnrefused]),
+        );
+        assert.instanceOf(result, AggregateError);
+        const aggResult = result as AggregateError & { retryable: boolean };
+        // ECONNREFUSED is retryable, so the aggregate should be retryable
+        assert.isTrue(aggResult.retryable);
+        assert.equal(aggResult.errors.length, 2);
+        assert.equal((aggResult.errors[0] as Errors.MessagingError).code, "ENOTFOUND");
+        assert.equal((aggResult.errors[1] as Errors.MessagingError).code, "ECONNREFUSED");
       });
 
-      it("uses the first translated error when none are retryable", function () {
+      it("sets retryable=false when no inner error is retryable", function () {
         const enotfound1 = {
           code: "ENOTFOUND",
           errno: "ENOTFOUND",
@@ -294,15 +304,13 @@ describe("Errors", function () {
           syscall: "getaddrinfo",
           message: "getaddrinfo ENOTFOUND example.invalid (IPv4)",
         };
-        const aggregateError = new AggregateError([enotfound1, enotfound2]);
-        const translatedError = Errors.translate(aggregateError) as Errors.MessagingError;
-        assert.equal(translatedError.name, "MessagingError");
-        assert.equal(translatedError.code, "ENOTFOUND");
-        assert.isFalse(translatedError.retryable);
-        assert.equal(translatedError.message, enotfound1.message);
+        const result = Errors.translate(new AggregateError([enotfound1, enotfound2]));
+        assert.instanceOf(result, AggregateError);
+        const aggResult = result as AggregateError & { retryable: boolean };
+        assert.isFalse(aggResult.retryable);
       });
 
-      it("translates nested AggregateError recursively", function () {
+      it("handles nested AggregateError recursively", function () {
         const innerError = {
           code: "ENOTFOUND",
           errno: "ENOTFOUND",
@@ -311,16 +319,19 @@ describe("Errors", function () {
         };
         const innerAggregate = new AggregateError([innerError]);
         const outerAggregate = new AggregateError([innerAggregate]);
-        const translatedError = Errors.translate(outerAggregate) as Errors.MessagingError;
-        assert.equal(translatedError.name, "MessagingError");
-        assert.equal(translatedError.code, "ENOTFOUND");
-        assert.isFalse(translatedError.retryable);
+        const result = Errors.translate(outerAggregate);
+        assert.instanceOf(result, AggregateError);
+        // The outer translates its single inner (which is itself an AggregateError)
+        const aggResult = result as AggregateError & { retryable: boolean };
+        assert.isFalse(aggResult.retryable);
+        // The inner AggregateError was also translated
+        assert.instanceOf(aggResult.errors[0], AggregateError);
       });
 
-      it("returns a generic Error for an empty AggregateError", function () {
+      it("returns the original AggregateError for an empty errors array", function () {
         const aggregateError = new AggregateError([]);
-        const translatedError = Errors.translate(aggregateError);
-        assert.equal(translatedError, aggregateError);
+        const result = Errors.translate(aggregateError);
+        assert.equal(result, aggregateError);
       });
     });
   });

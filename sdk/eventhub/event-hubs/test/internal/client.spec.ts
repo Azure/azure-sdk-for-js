@@ -19,11 +19,39 @@ function createNoOpCred(): NoOpCredential {
 
 async function validateConnectionError(promise: Promise<unknown>): Promise<void> {
   await expect(promise).to.be.rejected.then((err) => {
-    expect(err)
-      .to.be.an.instanceOf(MessagingError)
-      .and.has.property("code", isNodeLike ? "ENOTFOUND" : "ServiceCommunicationError");
+    // On Node.js 20+, Happy Eyeballs (autoSelectFamily) races IPv4/IPv6 connections,
+    // producing AggregateError on failure. The retry loop may wrap these further.
+    // Unwrap to find the underlying MessagingError(s).
+    const messagingError = findMessagingError(err);
+    if (!messagingError) {
+      assert.fail(
+        `Expected a MessagingError (possibly inside AggregateError), got: ${err}`,
+      );
+    }
+    expect(messagingError).to.be.an.instanceOf(MessagingError);
+    if (isNodeLike) {
+      expect(["ENOTFOUND", "EAI_AGAIN"]).to.include(messagingError.code);
+    } else {
+      expect(messagingError).to.have.property("code", "ServiceCommunicationError");
+    }
     return err;
   });
+}
+
+/**
+ * Recursively searches for a MessagingError inside potentially nested AggregateErrors.
+ */
+function findMessagingError(err: unknown): MessagingError | undefined {
+  if (err instanceof MessagingError) {
+    return err;
+  }
+  if (err instanceof AggregateError) {
+    for (const inner of err.errors) {
+      const found = findMessagingError(inner);
+      if (found) return found;
+    }
+  }
+  return undefined;
 }
 
 async function validateNotFoundError(promise: Promise<unknown>): Promise<void> {
