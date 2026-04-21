@@ -3,33 +3,22 @@
 
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Deletes an existing Azure Cosmos DB Gremlin graph.
+ * This sample demonstrates how to deletes an existing Azure Cosmos DB Gremlin graph.
  *
- * @summary Deletes an existing Azure Cosmos DB Gremlin graph.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBGremlinGraphDelete.json
+ * @summary deletes an existing Azure Cosmos DB Gremlin graph.
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBGremlinGraphDelete.json
  */
-async function cosmosDbGremlinGraphDelete() {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const accountName = "ddb1";
-  const databaseName = "databaseName";
-  const graphName = "graphName";
+async function cosmosDBGremlinGraphDelete() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.gremlinResources.beginDeleteGremlinGraphAndWait(
-    resourceGroupName,
-    accountName,
-    databaseName,
-    graphName,
-  );
-  console.log(result);
+  await client.gremlinResources.deleteGremlinGraph("rg1", "ddb1", "databaseName", "graphName");
 }
 
 async function main() {
-  await cosmosDbGremlinGraphDelete();
+  await cosmosDBGremlinGraphDelete();
 }
 
 main().catch(console.error);
