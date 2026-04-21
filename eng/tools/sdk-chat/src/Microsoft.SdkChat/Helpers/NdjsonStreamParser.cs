@@ -163,6 +163,11 @@ public static class NdjsonStreamParser
             }
         }
 
+        if (isFinalBlock && sawCorruptionAfterObject && isStrictMode)
+        {
+            throw new JsonException("Corrupt data detected after final JSON object in strict mode.");
+        }
+
         CompactBuffer(buffer, totalConsumed);
         return results;
     }

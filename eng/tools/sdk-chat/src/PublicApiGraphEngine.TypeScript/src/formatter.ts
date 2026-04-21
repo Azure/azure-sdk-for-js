@@ -228,6 +228,79 @@ function formatJsDoc(indent: string, doc?: string, deprecated?: boolean, depreca
 }
 
 // ============================================================================
+// Helpers – module specifier building & deduplication
+// ============================================================================
+
+function buildModuleSpecifier(
+    packageName: string,
+    exportPath: string,
+    conditionSuffix: string | undefined,
+): string {
+    const subpath = exportPath && exportPath !== "."
+        ? exportPath.replace(/^\.\//, "")
+        : undefined;
+    if (subpath) {
+        return conditionSuffix
+            ? `${packageName}/${subpath}/${conditionSuffix}`
+            : `${packageName}/${subpath}`;
+    }
+    return conditionSuffix
+        ? `${packageName}/${conditionSuffix}`
+        : packageName;
+}
+
+function isBareSpecifierCondition(condition: string): boolean {
+    return condition === "default" || condition === "types";
+}
+
+/**
+ * Given sorted keys (exportPath\0condition) and their module groups, merge
+ * groups that would produce the same final module specifier so we emit at
+ * most one `declare module` block per specifier.  Returns an ordered list of
+ * `[specifier, modules[], firstCondition]` tuples.
+ */
+function deduplicateBySpecifier(
+    sortedKeys: string[],
+    moduleGroups: Map<string, ModuleInfo[]>,
+    conditionsPerExportPath: Map<string, Set<string>>,
+    packageName: string,
+): Array<{ specifier: string; modules: ModuleInfo[]; condition: string }> {
+    const specifierOrder: string[] = [];
+    const specifierMap = new Map<string, { modules: ModuleInfo[]; condition: string }>();
+
+    for (const key of sortedKeys) {
+        const [exportPath, condition] = key.split("\0");
+        const epConditions = conditionsPerExportPath.get(exportPath) ?? new Set();
+        const hasMultiple = epConditions.size > 1;
+        const conditionSuffix = hasMultiple && !isBareSpecifierCondition(condition)
+            ? condition
+            : undefined;
+        const specifier = buildModuleSpecifier(packageName, exportPath, conditionSuffix);
+
+        const existing = specifierMap.get(specifier);
+        if (existing) {
+            // Merge: append modules, dedup by name within each category
+            const keyModules = moduleGroups.get(key) ?? [];
+            const seen = new Set(existing.modules.map(m => m.name));
+            for (const m of keyModules) {
+                if (!seen.has(m.name)) {
+                    existing.modules.push(m);
+                    seen.add(m.name);
+                }
+            }
+        } else {
+            specifierOrder.push(specifier);
+            specifierMap.set(specifier, {
+                modules: [...(moduleGroups.get(key) ?? [])],
+                condition,
+            });
+        }
+    }
+
+    return specifierOrder.map(s => ({ specifier: s, ...specifierMap.get(s)! }));
+}
+
+// ============================================================================
 // Formatters
 // ============================================================================
 
@@ -283,24 +356,12 @@ export function formatStubs(api: ApiIndex): string {
         conditionsPerExportPath.get(ep)!.add(cond);
     }
 
-    for (const key of sortedKeys) {
-        const [exportPath, condition] = key.split("\0");
-        const modules = moduleGroups.get(key)!;
+    const dedupedGroups = deduplicateBySpecifier(sortedKeys, moduleGroups, conditionsPerExportPath, api.package);
 
+    for (const { specifier, modules, condition } of dedupedGroups) {
         if (needsModuleBlocks) {
-            const subpath = exportPath && exportPath !== "."
-                ? exportPath.replace(/^\.\//, "")
-                : undefined;
-            const epConditions = conditionsPerExportPath.get(exportPath) ?? new Set();
-            const hasMultipleConditionsForPath = epConditions.size > 1;
-            const conditionSuffix = hasMultipleConditionsForPath && condition !== "default" && condition !== "types"
-                ? condition
-                : undefined;
-            const moduleName = subpath
-                ? (conditionSuffix ? `${api.package}/${subpath}/${conditionSuffix}` : `${api.package}/${subpath}`)
-                : (conditionSuffix ? `${api.package}/${conditionSuffix}` : api.package);
             lines.push(`// Condition: ${condition}`);
-            lines.push(`declare module "${moduleName}" {`);
+            lines.push(`declare module "${specifier}" {`);
             lines.push("");
         }
 
@@ -361,29 +422,18 @@ export function formatStubs(api: ApiIndex): string {
                 conditionsPerDepExportPath.get(ep)!.add(cond);
             }
 
-            for (const key of depSortedKeys) {
-                const [exportPath, condition] = key.split("\0");
-                const modules = depModuleGroups.get(key)!;
+            const dedupedDepGroups = deduplicateBySpecifier(
+                depSortedKeys, depModuleGroups, conditionsPerDepExportPath, depApi.package,
+            );
 
-                const depSubpath = exportPath && exportPath !== "."
-                    ? exportPath.replace(/^\.\//, "")
-                    : undefined;
-                const depEpConditions = conditionsPerDepExportPath.get(exportPath) ?? new Set();
-                const hasMultipleDepConditions = depEpConditions.size > 1;
-                const depConditionSuffix = hasMultipleDepConditions && condition !== "default" && condition !== "types"
-                    ? condition
-                    : undefined;
-                const depModuleSpecifier = depSubpath
-                    ? (depConditionSuffix ? `${depApi.package}/${depSubpath}/${depConditionSuffix}` : `${depApi.package}/${depSubpath}`)
-                    : (depConditionSuffix ? `${depApi.package}/${depConditionSuffix}` : depApi.package);
-
+            for (const { specifier, modules, condition } of dedupedDepGroups) {
                 const bodyLines = formatGroupBody(modules, "    ");
                 if (bodyLines.length > 0) {
                     lines.push("");
-                    if (depSortedKeys.length > 1) {
+                    if (dedupedDepGroups.length > 1) {
                         lines.push(`// Condition: ${condition}`);
                     }
-                    lines.push(`declare module "${depModuleSpecifier}" {`);
+                    lines.push(`declare module "${specifier}" {`);
                     lines.push("");
                     lines.push(...bodyLines);
                     lines.push("}");

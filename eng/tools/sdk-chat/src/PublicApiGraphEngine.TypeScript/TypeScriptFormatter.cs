@@ -38,10 +38,12 @@ public static class TypeScriptFormatter
     /// <summary>Builds the full module specifier for an <see cref="ApiIndex"/> used as a resolved dependency.</summary>
     private static string BuildDepSpecifier(ApiIndex dep) => BuildDepSpecifier(dep.Package, dep.Subpath);
 
-    /// <summary>Returns true for targets that lack Node.js builtins (browser, react-native).</summary>
+    /// <summary>Returns true for targets that lack Node.js builtins (browser, react-native, workerd, worker).</summary>
     private static bool IsNonNodeTarget(string condition)
         => string.Equals(condition, "browser", StringComparison.OrdinalIgnoreCase)
-        || string.Equals(condition, "react-native", StringComparison.OrdinalIgnoreCase);
+        || string.Equals(condition, "react-native", StringComparison.OrdinalIgnoreCase)
+        || string.Equals(condition, "workerd", StringComparison.OrdinalIgnoreCase)
+        || string.Equals(condition, "worker", StringComparison.OrdinalIgnoreCase);
 
     /// <summary>
     /// Builds a dictionary from items by key, keeping only the first item for each key
@@ -114,7 +116,7 @@ public static class TypeScriptFormatter
                 ? index.Dependencies.Where(d => !d.IsNode).ToList()
                 : index.Dependencies;
 
-            // Filter ambient types for non-node targets (browser, react-native)
+            // Filter ambient types for non-node targets (browser, react-native, workerd, worker)
             var filteredAmbientTypes = index.AmbientTypes;
             if (isNonNodeTarget && index.AmbientTypes is not null)
             {

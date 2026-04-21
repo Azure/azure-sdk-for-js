@@ -297,4 +297,27 @@ public class ParseSignatureParamsTests
         Assert.Equal(["Record<string, () => Promise<void>>", "boolean"], types);
         Assert.Equal(1, optionalCount);
     }
+
+    // ─── Default value with comparison operators ───
+
+    [Fact]
+    public void DefaultValueWithComparisonOperator()
+    {
+        // > in default value expression should not affect bracket depth
+        var (types, optionalCount) = TypeScriptModelHelpers.ParseSignatureParams(
+            "x: number = a > 0 ? 1 : 2, y: string");
+
+        Assert.Equal(2, types.Count);
+        Assert.Equal(1, optionalCount); // x has default
+    }
+
+    [Fact]
+    public void DefaultValueWithLessThanOperator()
+    {
+        var (types, optionalCount) = TypeScriptModelHelpers.ParseSignatureParams(
+            "limit: number = x < 100 ? x : 100, name: string");
+
+        Assert.Equal(2, types.Count);
+        Assert.Equal(1, optionalCount);
+    }
 }

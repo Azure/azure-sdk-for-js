@@ -650,6 +650,7 @@ internal static class TypeScriptModelHelpers
         int start = 0;
         char inString = '\0'; // '\0' = not in string; otherwise '\'', '"', or '`'
         int templateBraceDepth = 0; // tracks ${...} nesting inside backtick strings
+        bool inDefaultExpr = false; // inside a default value expression (after top-level '=')
 
         for (int i = 0; i < sig.Length; i++)
         {
@@ -702,12 +703,24 @@ internal static class TypeScriptModelHelpers
             {
                 i++; // skip the '>' of '=>' to avoid depth--
             }
+            else if (c == '=' && depth == 0 && !inDefaultExpr)
+            {
+                // Top-level '=' that is not '=>' — entering a default value expression
+                // where '<' and '>' are comparison operators, not generic brackets.
+                inDefaultExpr = true;
+            }
+            else if (inDefaultExpr && c is '<' or '>')
+            {
+                // Inside a default value expression, skip angle bracket depth tracking
+                // because '<' and '>' are likely comparison operators, not generics.
+            }
             else if (c is '<' or '(' or '[' or '{') depth++;
             else if (c is '>' or ')' or ']' or '}') depth--;
             else if (c == ',' && depth == 0)
             {
                 parts.Add(sig[start..i]);
                 start = i + 1;
+                inDefaultExpr = false;
             }
         }
 
@@ -725,6 +738,10 @@ internal static class TypeScriptModelHelpers
         int depth = 0;
         char inString = '\0';
         int templateBraceDepth = 0;
+        // When searching for ',' (parameter splitting), track default value expressions
+        // where '<' and '>' are comparison operators, not generic brackets.
+        bool inDefaultExpr = false;
+        bool trackDefaults = target == ',';
 
         for (int i = 0; i < text.Length; i++)
         {
@@ -778,10 +795,20 @@ internal static class TypeScriptModelHelpers
                 i++; // skip '>'
                 continue;
             }
+            else if (trackDefaults && c == '=' && depth == 0 && !inDefaultExpr)
+            {
+                inDefaultExpr = true;
+            }
+            else if (inDefaultExpr && c is '<' or '>')
+            {
+                // Inside a default value expression, skip angle bracket depth tracking
+            }
             else if (c is '<' or '(' or '[' or '{') depth++;
             else if (c is '>' or ')' or ']' or '}') depth--;
             else if (c == target && depth == 0)
             {
+                if (trackDefaults)
+                    inDefaultExpr = false;
                 return i;
             }
         }
