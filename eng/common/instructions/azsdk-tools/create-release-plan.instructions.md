@@ -17,8 +17,7 @@ Follow these steps in order to create or manage a release plan for an API specif
 - Ask the user if they already have an existing release plan
 - If they confirm:
     - Query the existing release plan using either:
-        - The release plan ID,
-        - The work item ID, or
+        - The release plan number,
         - The API spec pull request link
     - Display the existing release plan details (Release Plan ID, status, associated languages, SDK PRs).
 - If no existing release plan is found, continue to Step 3 to gather required details for creating a new one. 
