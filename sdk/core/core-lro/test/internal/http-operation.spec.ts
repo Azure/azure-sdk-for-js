@@ -100,7 +100,7 @@ describe("http/operation.ts", () => {
   });
 
   describe("getErrorFromResponse", () => {
-    it("returns undefined when error property has no code or message", () => {
+    it("returns undefined when error property is missing message", () => {
       const response: OperationResponse = {
         rawResponse: makeRawResponse({ body: { error: { code: "SomeCode" } } }),
         flatResponse: { error: { code: "SomeCode" } },
