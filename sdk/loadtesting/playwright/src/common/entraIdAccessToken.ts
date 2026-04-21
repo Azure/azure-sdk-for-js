@@ -27,6 +27,30 @@ export class EntraIdAccessToken {
     this.setEntraIdAccessTokenFromEnvironment();
   }
 
+  public prefetchStorageAccessToken = async (): Promise<void> => {
+    if (this._noOpFlag) {
+      return;
+    }
+    try {
+      coreLogger.info("Pre-fetching storage-scoped entra id access token to warm MSAL cache");
+      const accessToken = await this._credential!.getToken(
+        EntraIdAccessTokenConstants.STORAGE_SCOPE,
+      );
+      if (!accessToken) {
+        coreLogger.info("Storage-scoped entra id access token prefetch returned null");
+        return;
+      }
+      coreLogger.info(
+        "Storage-scoped entra id access token prefetched, expiry:",
+        new Date(accessToken.expiresOnTimestamp).toISOString(),
+      );
+    } catch (err) {
+      // Do not fail global setup on pre-warm errors; the actual storage client call will
+      // surface any real authentication issues with its own error handling.
+      coreLogger.error("Failed to pre-fetch storage-scoped entra id access token:", err);
+    }
+  };
+
   public fetchEntraIdAccessToken = async (): Promise<void> => {
     if (this._noOpFlag) {
       throw new Error(ServiceErrorMessageConstants.NO_CRED_ENTRA_AUTH_ERROR.message);
