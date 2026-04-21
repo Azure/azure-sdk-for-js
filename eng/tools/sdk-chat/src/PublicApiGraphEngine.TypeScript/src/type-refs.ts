@@ -32,6 +32,19 @@ import {
     getReturnTypeFromDeclaration,
 } from "./extractors.js";
 
+// ── Type-ref traversal cache ───────────────────────────────────────────────
+// Caches the set of ResolvedTypeRef items discovered when traversing a given
+// compiler type object.  This avoids re-walking the same type graph when
+// multiple root symbols reference the same dependency types.
+// The cache is keyed by the TS compiler's internal type identity (object ref).
+
+let _typeRefCache = new Map<object, readonly ResolvedTypeRef[]>();
+
+/** Clear the type-ref traversal cache. Call at the start of each extraction run. */
+export function clearTypeRefCache(): void {
+    _typeRefCache = new Map();
+}
+
 /**
  * Collects external type references from a Type object using proper AST traversal.
  * This recursively resolves generic type arguments, union/intersection members, etc.
@@ -103,11 +116,26 @@ export function collectTypeRefsFromType(
             }
         }
 
+        // ── Cache check ────────────────────────────────────────────────────
+        // If we have already fully traversed this compiler type in a previous
+        // top-level call, merge the cached refs and skip re-traversal.
+        const cached = _typeRefCache.get(compilerType);
+        if (cached) {
+            for (const ref of cached) refs.add(ref);
+            visited.add(compilerType);
+            return;
+        }
+
         // Cycle/dedup guard: only recurse into the type graph once per type object.
         // The alias capture above runs unconditionally so every context gets alias refs.
         if (visited.has(compilerType)) return;
         visited.add(compilerType);
 
+        // Snapshot the current ref set so we can compute the delta after traversal
+        // and populate the cache for future calls.
+        const _refsBefore = new Set(refs);
+
+        try {
         // Handle union types
         if (type.isUnion()) {
             for (const unionType of type.getUnionTypes()) {
@@ -421,6 +449,14 @@ export function collectTypeRefsFromType(
                 }
                 collectTypeRefsFromType(sig.getReturnType(), ctx, refs, visited);
             } catch (e) { ctx.warn("TYPE_TRAVERSE", e instanceof Error ? e.message : String(e)); }
+        }
+        } finally {
+            // Populate cache: store the refs this traversal added (delta).
+            const newRefs: ResolvedTypeRef[] = [];
+            for (const ref of refs) {
+                if (!_refsBefore.has(ref)) newRefs.push(ref);
+            }
+            _typeRefCache.set(compilerType, newRefs);
         }
     } catch (e) {
         // Non-fatal — skip types that fail resolution (malformed declarations, circular refs, etc.)

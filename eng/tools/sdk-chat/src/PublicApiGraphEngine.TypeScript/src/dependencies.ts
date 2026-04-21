@@ -51,6 +51,54 @@ import { isNodeBuiltinModule, isNodePackage } from "./node-builtins.js";
 import { stripImportPrefix } from "./formatter.js";
 import { resolveExports, findDotExport, findSubpathExport, hasNonRootSubpaths } from "./exports-resolver.js";
 
+// ── Resolved-package cache ─────────────────────────────────────────────────
+// Caches the result of walking up from a start directory to find a package's
+// installed package.json.  Keyed by the resolved package directory so that
+// different start directories that resolve to the same installation share
+// the cached result.  Avoids redundant fs.existsSync / readFileSync / JSON.parse
+// for the same package across multiple subpaths or call sites.
+
+interface ResolvedPackageInfo {
+    pkgDir: string;
+    pkgJson: Record<string, unknown>;
+}
+
+const _resolvedPackageCache = new Map<string, ResolvedPackageInfo>();
+
+/** Clear the resolved-package cache. Call at the start of each extraction run. */
+export function clearResolvedPackageCache(): void {
+    _resolvedPackageCache.clear();
+}
+
+/**
+ * Resolves a package's installed directory and parsed package.json.
+ * Walks up from `startDir` looking for `node_modules/<packageName>/package.json`.
+ * Results are cached by the resolved package directory.
+ */
+function resolveInstalledPackage(startDir: string, packageName: string): ResolvedPackageInfo | undefined {
+    let current = path.resolve(startDir);
+    const root = path.parse(current).root;
+    while (true) {
+        const pkgJsonPath = path.join(current, "node_modules", packageName, "package.json");
+        if (fs.existsSync(pkgJsonPath)) {
+            const pkgDir = path.dirname(pkgJsonPath);
+            const cached = _resolvedPackageCache.get(pkgDir);
+            if (cached) return cached;
+            try {
+                const pkgJson = JSON.parse(fs.readFileSync(pkgJsonPath, "utf-8"));
+                const result: ResolvedPackageInfo = { pkgDir, pkgJson };
+                _resolvedPackageCache.set(pkgDir, result);
+                return result;
+            } catch { /* benign — malformed JSON */ }
+            return undefined;
+        }
+        const parent = path.dirname(current);
+        if (parent === current || current === root) break;
+        current = parent;
+    }
+    return undefined;
+}
+
 // ── Package-qualified key helpers ──────────────────────────────────────────
 // Multiple packages can export types with the same name.  All internal maps
 // (importResolutionMap, allResolved, processed, entitySubRefNames, …) use
@@ -1443,22 +1491,10 @@ export function findPackageInNodeModules(startDir: string, packageName: string):
  * Reads the installed version of a dependency package.
  */
 export function getPackageVersion(startDir: string, packageName: string): string | undefined {
-    let current = path.resolve(startDir);
-    const root = path.parse(current).root;
-    while (true) {
-        const pkgJsonPath = path.join(current, "node_modules", packageName, "package.json");
-        if (fs.existsSync(pkgJsonPath)) {
-            try {
-                const pkgJson = JSON.parse(fs.readFileSync(pkgJsonPath, "utf-8"));
-                return pkgJson.version || undefined;
-            } catch { /* benign */ }
-            return undefined;
-        }
-        const parent = path.dirname(current);
-        if (parent === current || current === root) break;
-        current = parent;
-    }
-    return undefined;
+    const resolved = resolveInstalledPackage(startDir, packageName);
+    if (!resolved) return undefined;
+    const version = resolved.pkgJson.version;
+    return typeof version === "string" ? version : undefined;
 }
 
 /**
@@ -1468,104 +1504,93 @@ export function getPackageVersion(startDir: string, packageName: string): string
  * "react-native" and "types".
  */
 export function getPackageExportConditions(startDir: string, packageName: string, subpath: string = "."): string[] | undefined {
-    let current = path.resolve(startDir);
-    const root = path.parse(current).root;
-    while (true) {
-        const pkgJsonPath = path.join(current, "node_modules", packageName, "package.json");
-        if (fs.existsSync(pkgJsonPath)) {
-            try {
-                const pkgJson = JSON.parse(fs.readFileSync(pkgJsonPath, "utf-8"));
-                const exportsField = pkgJson.exports;
-                if (exportsField && typeof exportsField === "object") {
-                    const targetExport = findSubpathExport(exportsField, subpath);
-                    if (targetExport && typeof targetExport === "object") {
-                        // Use the shared resolver to walk the export and
-                        // collect unique runtime condition keys.
-                        const skipKeys = new Set(["types", "default"]);
-                        const resolved = resolveExports(targetExport);
-                        const conditionSet = new Set<string>();
-                        for (const entry of resolved) {
-                            for (const c of entry.conditionChain) {
-                                if (!c.startsWith(".") && !skipKeys.has(c)) {
-                                    conditionSet.add(c);
-                                }
-                            }
+    const resolved = resolveInstalledPackage(startDir, packageName);
+    if (!resolved) return undefined;
+    try {
+        const exportsField = resolved.pkgJson.exports;
+        if (exportsField && typeof exportsField === "object") {
+            const targetExport = findSubpathExport(exportsField as Record<string, unknown>, subpath);
+            if (targetExport && typeof targetExport === "object") {
+                // Use the shared resolver to walk the export and
+                // collect unique runtime condition keys.
+                const skipKeys = new Set(["types", "default"]);
+                const resolvedEntries = resolveExports(targetExport);
+                const conditionSet = new Set<string>();
+                for (const entry of resolvedEntries) {
+                    for (const c of entry.conditionChain) {
+                        if (!c.startsWith(".") && !skipKeys.has(c)) {
+                            conditionSet.add(c);
                         }
-                        const conditions = [...conditionSet];
-                        return conditions.length > 0 ? conditions : undefined;
                     }
                 }
-            } catch { /* benign — can't read package.json */ }
-            return undefined;
+                const conditions = [...conditionSet];
+                return conditions.length > 0 ? conditions : undefined;
+            }
         }
-        const parent = path.dirname(current);
-        if (parent === current || current === root) break;
-        current = parent;
-    }
+    } catch { /* benign — can't read package.json */ }
     return undefined;
 }
 
 /**
  * Resolves the ".d.ts" type entry point for each export condition in a package.
  * Returns a map of condition name → absolute path to the .d.ts file.
- * Includes a "default" entry from the package's top-level "types" field.
+ * Falls back to the package's top-level "types" field only when the exports
+ * object has no condition-specific type entries (so that real conditional
+ * entries are always preferred over the synthetic default).
  *
  * Uses the shared `resolveExports` resolver to walk the exports object, then
  * attributes each `.d.ts` path to the appropriate runtime condition from its
  * condition chain.
  */
 export function getPackageConditionTypePaths(startDir: string, packageName: string, subpath: string = "."): Map<string, string> | undefined {
-    let current = path.resolve(startDir);
-    const root = path.parse(current).root;
-    while (true) {
-        const pkgJsonPath = path.join(current, "node_modules", packageName, "package.json");
-        if (fs.existsSync(pkgJsonPath)) {
-            const pkgDir = path.dirname(pkgJsonPath);
-            try {
-                const pkgJson = JSON.parse(fs.readFileSync(pkgJsonPath, "utf-8"));
-                const result = new Map<string, string>();
-                const exportsObj = pkgJson.exports;
+    const resolved = resolveInstalledPackage(startDir, packageName);
+    if (!resolved) return undefined;
+    const { pkgDir, pkgJson } = resolved;
+    try {
+        const result = new Map<string, string>();
+        const exportsObj = pkgJson.exports;
+        let hasConditionalTypes = false;
 
-                if (exportsObj && typeof exportsObj === "object") {
-                    const targetExport = findSubpathExport(exportsObj, subpath);
-                    if (targetExport && typeof targetExport === "object") {
-                        // Walk the target export with the shared resolver
-                        const resolved = resolveExports(targetExport);
-                        const skipKeys = new Set(["types"]);
+        if (exportsObj && typeof exportsObj === "object") {
+            const targetExport = findSubpathExport(exportsObj as Record<string, unknown>, subpath);
+            if (targetExport && typeof targetExport === "object") {
+                // Walk the target export with the shared resolver
+                const resolvedEntries = resolveExports(targetExport);
+                const skipKeys = new Set(["types"]);
 
-                        for (const entry of resolved) {
-                            // Only interested in .d.ts files
-                            if (!/\.d\.[mc]?ts$/.test(entry.filePath)) continue;
+                for (const entry of resolvedEntries) {
+                    // Only interested in .d.ts files
+                    if (!/\.d\.[mc]?ts$/.test(entry.filePath)) continue;
 
-                            // Determine the condition to attribute this types path to:
-                            // use the last runtime (non-skip) condition in the chain, or "default".
-                            const runtimeCondition = findBestRuntimeCondition(entry.conditionChain, skipKeys);
-                            const condition = runtimeCondition ?? "default";
+                    hasConditionalTypes = true;
 
-                            const absPath = path.resolve(pkgDir, entry.filePath);
-                            if (fs.existsSync(absPath) && !result.has(condition)) {
-                                result.set(condition, absPath);
-                            }
-                        }
+                    // Determine the condition to attribute this types path to:
+                    // use the last runtime (non-skip) condition in the chain, or "default".
+                    const runtimeCondition = findBestRuntimeCondition(entry.conditionChain, skipKeys);
+                    const condition = runtimeCondition ?? "default";
+
+                    const absPath = path.resolve(pkgDir, entry.filePath);
+                    if (fs.existsSync(absPath) && !result.has(condition)) {
+                        result.set(condition, absPath);
                     }
                 }
-
-                // If no "default" entry and looking at root, use the top-level "types" field
-                if (!result.has("default") && subpath === "." && pkgJson.types) {
-                    const absPath = path.resolve(pkgDir, pkgJson.types);
-                    if (fs.existsSync(absPath)) {
-                        result.set("default", absPath);
-                    }
-                }
-
-                return result.size > 0 ? result : undefined;
-            } catch { /* benign */ }
-            return undefined;
+            }
         }
-        const parent = path.dirname(current);
-        if (parent === current || current === root) break;
-        current = parent;
-    }
+
+        // Only synthesize a "default" from top-level "types" when the exports
+        // object has no condition-specific type entries.  When conditional types
+        // exist the real entries are preferred — the top-level "types" typically
+        // points at commonjs declarations which are wrong for non-node targets.
+        if (!hasConditionalTypes && !result.has("default") && subpath === "." && pkgJson.types) {
+            const typesField = pkgJson.types as string;
+            const absPath = path.resolve(pkgDir, typesField);
+            if (fs.existsSync(absPath)) {
+                result.set("default", absPath);
+            }
+        }
+
+        return result.size > 0 ? result : undefined;
+    } catch { /* benign */ }
     return undefined;
 }
 

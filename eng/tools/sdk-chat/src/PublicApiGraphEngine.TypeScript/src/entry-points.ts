@@ -390,8 +390,10 @@ export function tryTypeScriptModuleResolution(rootPath: string, filePath: string
 export interface ExportedSymbolInfo {
     /** The export subpath (e.g., "." or "./client") */
     exportPath: string;
-    /** Export condition (e.g., "default", "node", "browser") */
+    /** Export condition (e.g., "default", "node", "browser") — the primary (most general) condition */
     condition: string;
+    /** All conditions this symbol is exported under (includes the primary condition) */
+    conditions: Set<string>;
     /** If re-exported from an external package, the package name */
     reExportedFrom?: string;
 }
@@ -461,7 +463,13 @@ export function extractExportedSymbols(project: Project, entryEntries: ExportEnt
         // Examine each exported symbol's declaration site
         for (const [name, declarations] of sourceFile.getExportedDeclarations()) {
             const qualifiedKey = makeExportSymbolKey(entryAbsPath, name);
-            if (exportedSymbols.has(qualifiedKey)) continue;
+
+            // If already recorded, merge the new condition into the existing entry
+            const existingEntry = exportedSymbols.get(qualifiedKey);
+            if (existingEntry) {
+                existingEntry.conditions.add(entry.condition);
+                continue;
+            }
 
             // Check if any declaration lives in THIS entry file (= locally declared)
             const isDeclaredHere = declarations.some(decl => {
@@ -470,7 +478,7 @@ export function extractExportedSymbols(project: Project, entryEntries: ExportEnt
             });
 
             if (isDeclaredHere) {
-                exportedSymbols.set(qualifiedKey, { exportPath: entry.exportPath, condition: entry.condition });
+                exportedSymbols.set(qualifiedKey, { exportPath: entry.exportPath, condition: entry.condition, conditions: new Set([entry.condition]) });
 
                 // For aliased re-exports (e.g. `export { InternalClient as Client }`),
                 // also store under the declared name so that main.ts lookups by
@@ -481,8 +489,11 @@ export function extractExportedSymbols(project: Project, entryEntries: ExportEnt
                         : undefined;
                     if (declName && declName !== name) {
                         const declKey = makeExportSymbolKey(entryAbsPath, declName);
-                        if (!exportedSymbols.has(declKey)) {
-                            exportedSymbols.set(declKey, { exportPath: entry.exportPath, condition: entry.condition });
+                        const existingDeclEntry = exportedSymbols.get(declKey);
+                        if (existingDeclEntry) {
+                            existingDeclEntry.conditions.add(entry.condition);
+                        } else {
+                            exportedSymbols.set(declKey, { exportPath: entry.exportPath, condition: entry.condition, conditions: new Set([entry.condition]) });
                         }
                     }
                 }
@@ -501,10 +512,14 @@ export function extractExportedSymbols(project: Project, entryEntries: ExportEnt
                     // Star re-export — record as a marker for dependency resolution
                     const markerName = `*:${moduleSpecifier}`;
                     const markerKey = makeExportSymbolKey(entryAbsPath, markerName);
-                    if (!exportedSymbols.has(markerKey)) {
+                    const existingMarker = exportedSymbols.get(markerKey);
+                    if (existingMarker) {
+                        existingMarker.conditions.add(entry.condition);
+                    } else {
                         exportedSymbols.set(markerKey, {
                             exportPath: entry.exportPath,
                             condition: entry.condition,
+                            conditions: new Set([entry.condition]),
                             reExportedFrom: moduleSpecifier,
                         });
                     }
@@ -513,10 +528,14 @@ export function extractExportedSymbols(project: Project, entryEntries: ExportEnt
                 for (const namedExport of exportDecl.getNamedExports()) {
                     const name = namedExport.getAliasNode()?.getText() ?? namedExport.getName();
                     const qualifiedKey = makeExportSymbolKey(entryAbsPath, name);
-                    if (!exportedSymbols.has(qualifiedKey)) {
+                    const existingNamed = exportedSymbols.get(qualifiedKey);
+                    if (existingNamed) {
+                        existingNamed.conditions.add(entry.condition);
+                    } else {
                         exportedSymbols.set(qualifiedKey, {
                             exportPath: entry.exportPath,
                             condition: entry.condition,
+                            conditions: new Set([entry.condition]),
                             reExportedFrom: moduleSpecifier
                         });
                     }
@@ -539,7 +558,13 @@ export function extractExportedSymbols(project: Project, entryEntries: ExportEnt
             // lookups from main.ts (keyed by source file path) match correctly.
             const declFile = path.resolve(declarations[0].getSourceFile().getFilePath());
             const qualifiedKey = makeExportSymbolKey(declFile, name);
-            if (exportedSymbols.has(qualifiedKey)) continue;
+
+            // If already recorded, merge the new condition into the existing entry
+            const existingShared = exportedSymbols.get(qualifiedKey);
+            if (existingShared) {
+                existingShared.conditions.add(entry.condition);
+                continue;
+            }
 
             // Symbol is re-exported from a non-entry file — claim it with this entry's condition
             const isDeclaredInAnyEntry = declarations.some(decl => {
@@ -548,7 +573,7 @@ export function extractExportedSymbols(project: Project, entryEntries: ExportEnt
             });
 
             if (!isDeclaredInAnyEntry) {
-                exportedSymbols.set(qualifiedKey, { exportPath: entry.exportPath, condition: entry.condition });
+                exportedSymbols.set(qualifiedKey, { exportPath: entry.exportPath, condition: entry.condition, conditions: new Set([entry.condition]) });
 
                 // Also store under declared name(s) for aliased re-exports
                 for (const decl of declarations) {
@@ -557,8 +582,11 @@ export function extractExportedSymbols(project: Project, entryEntries: ExportEnt
                         : undefined;
                     if (declName && declName !== name) {
                         const declNameKey = makeExportSymbolKey(declFile, declName);
-                        if (!exportedSymbols.has(declNameKey)) {
-                            exportedSymbols.set(declNameKey, { exportPath: entry.exportPath, condition: entry.condition });
+                        const existingDeclName = exportedSymbols.get(declNameKey);
+                        if (existingDeclName) {
+                            existingDeclName.conditions.add(entry.condition);
+                        } else {
+                            exportedSymbols.set(declNameKey, { exportPath: entry.exportPath, condition: entry.condition, conditions: new Set([entry.condition]) });
                         }
                     }
                 }

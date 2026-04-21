@@ -488,6 +488,63 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
         }
     }
 
+    // Clone modules for shared files whose symbols are exported under multiple conditions.
+    // Entry-file modules already got cloned above (matchingEntries > 1). This pass handles
+    // non-entry shared files whose symbols were claimed by multiple conditions in
+    // extractExportedSymbols.
+    const additionalModules: ModuleInfo[] = [];
+    for (const [module, sourceFile] of moduleSourceFileMap) {
+        // Collect all conditions this module's symbols are exported under
+        const allConditions = new Set<string>();
+        if (module.condition) allConditions.add(module.condition);
+
+        const sfPath = sourceFile.getFilePath();
+        for (const entityList of [module.classes, module.interfaces, module.functions, module.enums, module.types]) {
+            if (!entityList) continue;
+            for (const entity of entityList) {
+                const entityName = (entity as { name?: string }).name;
+                if (!entityName) continue;
+                const info = lookupEntryPointSymbol(entryPointSymbols, sfPath, entityName);
+                if (info?.conditions) {
+                    for (const c of info.conditions) allConditions.add(c);
+                }
+            }
+        }
+        if (module.namespaces) {
+            for (const ns of module.namespaces) {
+                const info = lookupEntryPointSymbol(entryPointSymbols, sfPath, ns.name);
+                if (info?.conditions) {
+                    for (const c of info.conditions) allConditions.add(c);
+                }
+            }
+        }
+
+        // Clone module for any conditions not already covered
+        for (const cond of allConditions) {
+            if (cond === module.condition) continue;
+            // Skip if a module with this name + condition already exists
+            const alreadyExists = modules.some(m => m.name === module.name && m.condition === cond)
+                || additionalModules.some(m => m.name === module.name && m.condition === cond);
+            if (alreadyExists) continue;
+
+            const clone: ModuleInfo = {
+                ...module,
+                condition: cond,
+                classes: module.classes?.map(c => ({ ...c })),
+                interfaces: module.interfaces?.map(ifc => ({ ...ifc })),
+                functions: module.functions?.map(f => ({ ...f })),
+                enums: module.enums?.map(e => ({ ...e })),
+                types: module.types?.map(t => ({ ...t })),
+                namespaces: module.namespaces
+                    ? JSON.parse(JSON.stringify(module.namespaces))
+                    : undefined,
+            };
+            additionalModules.push(clone);
+            moduleSourceFileMap.push([clone, sourceFile]);
+        }
+    }
+    modules.push(...additionalModules);
+
     const baseResult: ApiIndex = {
         package: packageName,
         version: packageVersion,

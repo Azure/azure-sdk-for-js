@@ -19,6 +19,10 @@ public static class TypeScriptFormatter
     private static string NormalizeCondition(string? condition)
         => string.IsNullOrWhiteSpace(condition) ? "default" : condition;
 
+    /// <summary>Normalizes an export path: null, empty, ".", and "./" all become ".".</summary>
+    private static string NormalizeExportPath(string? exportPath) =>
+        exportPath is null or "" or "." or "./" ? "." : exportPath;
+
     /// <summary>Returns true when the condition maps to the bare package specifier (no /condition suffix).</summary>
     private static bool IsBareSpecifierCondition(string condition)
         => condition == "default" || condition == "types";
@@ -608,17 +612,17 @@ public static class TypeScriptFormatter
         // Group entry points by export path
         HashSet<string> exportPaths = [];
         foreach (var cls in allClasses.Where(c => c.ExportPath is not null))
-            exportPaths.Add(cls.ExportPath!);
+            exportPaths.Add(NormalizeExportPath(cls.ExportPath));
         foreach (var iface in allInterfaces.Where(i => i.ExportPath is not null))
-            exportPaths.Add(iface.ExportPath!);
+            exportPaths.Add(NormalizeExportPath(iface.ExportPath));
         foreach (var fn in allFunctions.Where(f => f.ExportPath is not null))
-            exportPaths.Add(fn.ExportPath!);
+            exportPaths.Add(NormalizeExportPath(fn.ExportPath));
         foreach (var en in allEnums.Where(e => e.ExportPath is not null))
-            exportPaths.Add(en.ExportPath!);
+            exportPaths.Add(NormalizeExportPath(en.ExportPath));
         foreach (var ta in allTypes.Where(t => t.ExportPath is not null))
-            exportPaths.Add(ta.ExportPath!);
+            exportPaths.Add(NormalizeExportPath(ta.ExportPath));
         foreach (var ns in index.Modules.SelectMany(m => m.Namespaces ?? []).Where(n => n.ExportPath is not null))
-            exportPaths.Add(ns.ExportPath!);
+            exportPaths.Add(NormalizeExportPath(ns.ExportPath));
 
         // Sort export paths: "." first, then alphabetically
         var sortedExportPaths = exportPaths
@@ -797,7 +801,7 @@ public static class TypeScriptFormatter
 
                 ModuleKey GroupKey(string? typeExportPath)
                 {
-                    var ep = typeExportPath ?? module.ExportPath ?? ".";
+                    var ep = NormalizeExportPath(typeExportPath ?? module.ExportPath);
                     return new ModuleKey(ep, condition);
                 }
 
@@ -822,8 +826,7 @@ public static class TypeScriptFormatter
             var conditionsPerExportPath = new Dictionary<string, HashSet<string>>(StringComparer.Ordinal);
             foreach (var module in index.Modules)
             {
-                var moduleEp = module.ExportPath ?? ".";
-                var normalizedEp = moduleEp == "./" ? "." : moduleEp;
+                var normalizedEp = NormalizeExportPath(module.ExportPath);
                 var cond = NormalizeCondition(module.Condition);
                 if (!conditionsPerExportPath.TryGetValue(normalizedEp, out var set))
                     conditionsPerExportPath[normalizedEp] = set = new(StringComparer.Ordinal);
@@ -833,12 +836,12 @@ public static class TypeScriptFormatter
             // Compute module name using per-exportPath condition check
             string ComputeGroupModuleName(string exportPath, string condition)
             {
-                var normalizedEp = exportPath is "./" ? "." : exportPath;
+                var normalizedEp = NormalizeExportPath(exportPath);
                 // Look up condition multiplicity from the module-level export path.
                 // Per-symbol export paths fall back to root "." for condition decisions.
                 var lookupEp = conditionsPerExportPath.ContainsKey(normalizedEp) ? normalizedEp : ".";
                 var multiCond = conditionsPerExportPath.TryGetValue(lookupEp, out var conds) && conds.Count > 1;
-                if (normalizedEp is "." or "" or "./")
+                if (normalizedEp == ".")
                     return multiCond && !IsBareSpecifierCondition(condition) ? $"{index.Package}/{condition}" : index.Package;
                 var sp = normalizedEp.StartsWith("./", StringComparison.Ordinal) ? normalizedEp[2..] : normalizedEp;
                 return multiCond && !IsBareSpecifierCondition(condition) ? $"{index.Package}/{sp}/{condition}" : $"{index.Package}/{sp}";
@@ -1251,13 +1254,58 @@ public static class TypeScriptFormatter
                             depModuleToPackage.TryAdd(dmn, pkgName);
                         }
 
-                        foreach (var (depModuleName, depClasses, depInterfaces, depEnums, depTypes, depFunctions, _) in depsForThisCondition)
+                        // Deduplicate import symbols across dep specifiers.
+                        // For each symbol, pick ONE specifier with deterministic preference:
+                        // 1. Exact condition match  2. Bare specifier  3. Alphabetically first
+                        var symbolToBest = new Dictionary<string, (string Specifier, int Priority)>(StringComparer.Ordinal);
+                        var specifierPkgMap = new Dictionary<string, string>(StringComparer.Ordinal);
+
+                        foreach (var (depModuleName, depClasses, depInterfaces, depEnums, depTypes, _, _) in depsForThisCondition)
+                        {
+                            var pkgName = depModuleToPackage.GetValueOrDefault(depModuleName, depModuleName);
+                            specifierPkgMap.TryAdd(depModuleName, pkgName);
+
+                            int priority;
+                            if (depModuleName.EndsWith($"/{condition}", StringComparison.Ordinal))
+                                priority = 0; // exact condition match
+                            else if (depModuleName == pkgName)
+                                priority = 1; // bare specifier
+                            else
+                                priority = 2;
+
+                            void RecordSymbol(string name)
+                            {
+                                if (!symbolToBest.TryGetValue(name, out var existing)
+                                    || priority < existing.Priority
+                                    || (priority == existing.Priority
+                                        && string.Compare(depModuleName, existing.Specifier, StringComparison.Ordinal) < 0))
+                                {
+                                    symbolToBest[name] = (depModuleName, priority);
+                                }
+                            }
+
+                            foreach (var c in depClasses) RecordSymbol(c.Name);
+                            foreach (var i in depInterfaces) RecordSymbol(i.Name);
+                            foreach (var e in depEnums) RecordSymbol(e.Name);
+                            foreach (var t in depTypes) RecordSymbol(t.Name);
+                        }
+
+                        // Group deduplicated symbols by their chosen specifier
+                        var dedupedImports = new Dictionary<string, List<string>>(StringComparer.Ordinal);
+                        foreach (var (sym, (spec, _)) in symbolToBest)
+                        {
+                            if (!dedupedImports.TryGetValue(spec, out var list))
+                                dedupedImports[spec] = list = [];
+                            list.Add(sym);
+                        }
+
+                        foreach (var (depModuleName, symbols) in dedupedImports.OrderBy(kv => kv.Key))
                         {
                             var importNames = new List<string>();
                             var aliasedNames = new List<(string Name, string Alias)>();
-                            var pkgName = depModuleToPackage.GetValueOrDefault(depModuleName, depModuleName);
+                            var pkgName = specifierPkgMap.GetValueOrDefault(depModuleName, depModuleName);
 
-                            void EmitImport(string name)
+                            foreach (var name in symbols.OrderBy(n => n, StringComparer.Ordinal))
                             {
                                 if (collisionAliases.TryGetValue(name, out var aliasEntry)
                                     && aliasEntry.TryGetValue(pkgName, out var alias)
@@ -1270,11 +1318,6 @@ public static class TypeScriptFormatter
                                     importNames.Add(name);
                                 }
                             }
-
-                            foreach (var c in depClasses) EmitImport(c.Name);
-                            foreach (var i in depInterfaces) EmitImport(i.Name);
-                            foreach (var e in depEnums) EmitImport(e.Name);
-                            foreach (var t in depTypes) EmitImport(t.Name);
 
                             if (importNames.Count > 0)
                                 sb.AppendLine($"    import type {{ {string.Join(", ", importNames)} }} from \"{depModuleName}\";");
@@ -1316,6 +1359,8 @@ public static class TypeScriptFormatter
 
             if (depsToRender is not null)
             {
+                // Deduplicate symbols across deps (first specifier wins for each symbol name)
+                var simpleSeenSymbols = new HashSet<string>(StringComparer.Ordinal);
                 foreach (var dep in depsToRender)
                 {
                     if (dep.IsNode) continue;
@@ -1324,6 +1369,7 @@ public static class TypeScriptFormatter
 
                     void EmitSimpleImport(string name)
                     {
+                        if (!simpleSeenSymbols.Add(name)) return;
                         if (collisionAliases.TryGetValue(name, out var aliasEntry)
                             && (aliasEntry.TryGetValue(BuildDepSpecifier(dep), out var alias)
                                 || aliasEntry.TryGetValue(dep.Package, out alias))
