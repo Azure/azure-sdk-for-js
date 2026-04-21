@@ -305,7 +305,7 @@ describe("ConnectionContextBase", function () {
 });
 
 describe("ConnectionContextBase - CoreAmqpConnection", () => {
-  it("createSender sets maxListeners to 1000", async () => {
+  it("createSender, createAwaitableSender, and createReceiver set maxListeners to 1000", async () => {
     const config = ConnectionConfig.create(connectionString, "mypath");
     const context = ConnectionContextBase.create({
       config,
