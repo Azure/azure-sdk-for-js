@@ -384,7 +384,7 @@ function assertAggregateError(err: unknown, check: RegExp): asserts err is Aggre
 });
 
 describe("retry", () => {
-  it("uses default retryOptions when none provided", async () => {
+  it("succeeds when no retryOptions are provided", async () => {
     let callCount = 0;
     const result = await (
       await import("../../src/retry.js")
@@ -400,7 +400,7 @@ describe("retry", () => {
     assert.equal(callCount, 1);
   });
 
-  it("uses defaults for negative retryDelayInMs and maxRetryDelayInMs", async () => {
+  it("succeeds when retryDelayInMs and maxRetryDelayInMs are negative", async () => {
     let callCount = 0;
     const result = await retry({
       operation: async () => {
@@ -419,7 +419,7 @@ describe("retry", () => {
     assert.equal(callCount, 1);
   });
 
-  it("checks network when ServiceCommunicationError and connectionHost provided", async () => {
+  it("throws after ServiceCommunicationError when connectionHost is provided", async () => {
     const { ErrorNameConditionMapper } = await import("../../src/errors.js");
 
     let callCount = 0;
@@ -450,7 +450,7 @@ describe("retry", () => {
 });
 
 describe("retry - isDelivery branch", () => {
-  it("succeeds with a delivery-like result object (does not log result)", async () => {
+  it("succeeds with a delivery-like result object", async () => {
     const deliveryResult = {
       id: 1,
       settled: true,

@@ -189,7 +189,7 @@ describe("CbsClient - close, remove, isOpen", () => {
     await expect(cbsClient.close()).rejects.toThrow(/An error occurred while closing the cbs link/);
   });
 
-  it("close() wraps non-Error with stack from link.close()", async () => {
+  it("close() wraps non-Error from link.close()", async () => {
     const connectionStub = createFullConnectionStub();
     const cbsClient = new CbsClient(connectionStub, "lock");
     await cbsClient.init();
