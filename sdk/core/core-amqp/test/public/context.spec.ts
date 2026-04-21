@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert, vi } from "vitest";
+import { describe, it, assert, expect, vi } from "vitest";
 import { CbsClient, ConnectionConfig, ConnectionContextBase, Constants } from "../../src/index.js";
 import { Connection } from "rhea-promise";
 import type { Session, Sender, AwaitableSender, Receiver } from "rhea-promise";
@@ -348,15 +348,15 @@ describe("ConnectionContextBase - CoreAmqpConnection", () => {
 
     try {
       await conn.createSender();
-      assert.isAbove(mockSender.setMaxListeners.mock.calls.length, 0);
+      expect(mockSender.setMaxListeners).toHaveBeenCalled();
       assert.equal(mockSender.setMaxListeners.mock.calls[0][0], 1000);
 
       await conn.createAwaitableSender();
-      assert.isAbove(mockAwaitableSender.setMaxListeners.mock.calls.length, 0);
+      expect(mockAwaitableSender.setMaxListeners).toHaveBeenCalled();
       assert.equal(mockAwaitableSender.setMaxListeners.mock.calls[0][0], 1000);
 
       await conn.createReceiver();
-      assert.isAbove(mockReceiver.setMaxListeners.mock.calls.length, 0);
+      expect(mockReceiver.setMaxListeners).toHaveBeenCalled();
       assert.equal(mockReceiver.setMaxListeners.mock.calls[0][0], 1000);
     } finally {
       createReceiverPrototypeSpy.mockRestore();

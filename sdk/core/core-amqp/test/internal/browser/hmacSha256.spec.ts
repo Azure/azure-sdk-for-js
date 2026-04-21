@@ -31,6 +31,6 @@ describe("hmacSha256.common (Web Crypto API)", () => {
   it("signString produces a valid HMAC-SHA256 signature", async () => {
     const result = await signString("testkey", "testdata");
     assert.isString(result);
-    assert.isAbove(result.length, 0);
+    assert.isNotEmpty(result);
   });
 });
