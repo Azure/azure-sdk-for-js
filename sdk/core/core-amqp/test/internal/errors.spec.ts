@@ -257,7 +257,7 @@ describe("Errors", function () {
         assert.isTrue(translatedError.retryable);
       });
 
-      it("translates AggregateError with multiple inner errors using the first one", function () {
+      it("translates all inner errors and attaches them as info.innerErrors", function () {
         const enotfound = {
           code: "ENOTFOUND",
           errno: "ENOTFOUND",
@@ -273,8 +273,33 @@ describe("Errors", function () {
         const aggregateError = new AggregateError([enotfound, econnrefused]);
         const translatedError = Errors.translate(aggregateError) as Errors.MessagingError;
         assert.equal(translatedError.name, "MessagingError");
+        // ECONNREFUSED is retryable, so it should be preferred as the representative
+        assert.equal(translatedError.code, "ECONNREFUSED");
+        assert.isTrue(translatedError.retryable);
+        // All translated errors should be attached for diagnostics
+        assert.isArray(translatedError.info?.innerErrors);
+        assert.equal(translatedError.info!.innerErrors.length, 2);
+      });
+
+      it("uses the first translated error when none are retryable", function () {
+        const enotfound1 = {
+          code: "ENOTFOUND",
+          errno: "ENOTFOUND",
+          syscall: "getaddrinfo",
+          message: "getaddrinfo ENOTFOUND example.invalid (IPv6)",
+        };
+        const enotfound2 = {
+          code: "ENOTFOUND",
+          errno: "ENOTFOUND",
+          syscall: "getaddrinfo",
+          message: "getaddrinfo ENOTFOUND example.invalid (IPv4)",
+        };
+        const aggregateError = new AggregateError([enotfound1, enotfound2]);
+        const translatedError = Errors.translate(aggregateError) as Errors.MessagingError;
+        assert.equal(translatedError.name, "MessagingError");
         assert.equal(translatedError.code, "ENOTFOUND");
         assert.isFalse(translatedError.retryable);
+        assert.equal(translatedError.message, enotfound1.message);
       });
 
       it("translates nested AggregateError recursively", function () {

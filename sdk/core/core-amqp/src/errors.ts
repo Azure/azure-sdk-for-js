@@ -687,10 +687,20 @@ export function translate(err: unknown): MessagingError | Error {
 
   // Node.js 20+ enables Happy Eyeballs (autoSelectFamily) by default, which races IPv4 and IPv6
   // connection attempts. When all attempts fail (e.g. DNS lookup for a non-existent host), Node.js
-  // throws an AggregateError bundling the individual failures. Translate by recursing on the first
-  // inner error, which carries the original system error details (e.g. ENOTFOUND, EAI_AGAIN).
+  // throws an AggregateError bundling the individual failures. Translate all inner errors and
+  // return a single representative MessagingError so retry logic can inspect `retryable`. Prefer
+  // a retryable MessagingError if any inner error is retryable; otherwise use the first result.
+  // The full set of translated errors is attached as `info.innerErrors` for diagnostics.
   if (errObj instanceof AggregateError && errObj.errors.length > 0) {
-    return translate(errObj.errors[0]);
+    const translatedErrors = errObj.errors.map((e) => translate(e));
+    const representative =
+      translatedErrors.find(
+        (e): e is MessagingError => e instanceof MessagingError && e.retryable === true,
+      ) ?? translatedErrors[0];
+    if (representative instanceof MessagingError) {
+      representative.info = { ...representative.info, innerErrors: translatedErrors };
+    }
+    return representative;
   }
 
   if (isAmqpError(errObj)) {
