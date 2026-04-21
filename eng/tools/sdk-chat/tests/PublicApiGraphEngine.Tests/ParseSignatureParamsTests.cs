@@ -239,4 +239,26 @@ public class ParseSignatureParamsTests
         Assert.Equal(["`${A<B,C>}`", "number"], types);
         Assert.Equal(0, optionalCount);
     }
+
+    // ─── Arrow function parameters with defaults ───
+
+    [Fact]
+    public void ArrowCallbackWithDefault_DetectsOptionalParam()
+    {
+        var (types, optionalCount) = TypeScriptModelHelpers.ParseSignatureParams(
+            "fn: (x: string) => void = undefined, y: number");
+
+        Assert.Equal(["(x: string) => void", "number"], types);
+        Assert.Equal(1, optionalCount);
+    }
+
+    [Fact]
+    public void ArrowCallback_NoDefault_NotOptional()
+    {
+        var (types, optionalCount) = TypeScriptModelHelpers.ParseSignatureParams(
+            "callback: () => boolean, next: string");
+
+        Assert.Equal(["() => boolean", "string"], types);
+        Assert.Equal(0, optionalCount);
+    }
 }

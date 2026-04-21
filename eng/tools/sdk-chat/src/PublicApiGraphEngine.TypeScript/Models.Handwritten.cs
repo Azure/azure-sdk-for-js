@@ -698,6 +698,10 @@ internal static class TypeScriptModelHelpers
             {
                 inString = c;
             }
+            else if (c == '=' && i + 1 < sig.Length && sig[i + 1] == '>')
+            {
+                i++; // skip the '>' of '=>' to avoid depth--
+            }
             else if (c is '<' or '(' or '[' or '{') depth++;
             else if (c is '>' or ')' or ']' or '}') depth--;
             else if (c == ',' && depth == 0)
@@ -772,7 +776,10 @@ internal static class TypeScriptModelHelpers
             else if (c == target && depth == 0)
             {
                 if (skipArrow && i + 1 < text.Length && text[i + 1] == '>')
+                {
+                    i++; // skip the '>' too
                     continue;
+                }
                 return i;
             }
         }

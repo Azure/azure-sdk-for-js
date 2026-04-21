@@ -268,16 +268,30 @@ export function formatStubs(api: ApiIndex): string {
         return condA.localeCompare(condB);
     });
 
-    const needsModuleBlocks = sortedKeys.length > 1;
+    const needsModuleBlocks = sortedKeys.length > 1 || (() => {
+        if (sortedKeys.length === 0) return false;
+        const [exportPath, condition] = sortedKeys[0].split("\0");
+        const isRoot = !exportPath || exportPath === ".";
+        const isDefaultCondition = !condition || condition === "default" || condition === "types";
+        return !isRoot || !isDefaultCondition;
+    })();
+
+    const hasMultipleConditions = new Set(sortedKeys.map(k => k.split("\0")[1])).size > 1;
 
     for (const key of sortedKeys) {
         const [exportPath, condition] = key.split("\0");
         const modules = moduleGroups.get(key)!;
 
         if (needsModuleBlocks) {
-            const moduleName = exportPath && exportPath !== "."
-                ? `${api.package}/${exportPath.replace(/^\.\//, "")}`
-                : api.package;
+            const subpath = exportPath && exportPath !== "."
+                ? exportPath.replace(/^\.\//, "")
+                : undefined;
+            const conditionSuffix = hasMultipleConditions && condition !== "default" && condition !== "types"
+                ? condition
+                : undefined;
+            const moduleName = subpath
+                ? (conditionSuffix ? `${api.package}/${subpath}/${conditionSuffix}` : `${api.package}/${subpath}`)
+                : (conditionSuffix ? `${api.package}/${conditionSuffix}` : api.package);
             lines.push(`// Condition: ${condition}`);
             lines.push(`declare module "${moduleName}" {`);
             lines.push("");

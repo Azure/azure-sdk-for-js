@@ -1601,33 +1601,6 @@ function findBestRuntimeCondition(chain: string[], skipKeys: Set<string>): strin
     return best;
 }
 
-/** Extract the .d.ts types path from a condition value in package.json exports. */
-export function resolveTypesPathFromCondition(value: unknown): string | undefined {
-    if (typeof value === "string") {
-        // Direct string — only if it's a .d.ts
-        return /\.d\.[mc]?ts$/.test(value) ? value : undefined;
-    }
-    if (typeof value === "object" && value !== null) {
-        const obj = value as Record<string, unknown>;
-        if ("types" in obj) {
-            const types = obj.types;
-            if (typeof types === "string") return types;
-            // Nested: { types: { import: "...", require: "..." } }
-            if (typeof types === "object" && types !== null) {
-                const nested = types as Record<string, unknown>;
-                for (const key of ["import", "require", "default"]) {
-                    if (typeof nested[key] === "string") return nested[key] as string;
-                }
-                // Take first string value
-                for (const v of Object.values(nested)) {
-                    if (typeof v === "string") return v as string;
-                }
-            }
-        }
-    }
-    return undefined;
-}
-
 /**
  * Gets the set of exported type/value names from a .d.ts file.
  * Uses ts-morph's getExportedDeclarations() which follows re-exports.
@@ -2081,7 +2054,9 @@ function expandReachableFromNamespaceQualified(
     for (const f of ns.functions ?? []) { if (f.name) tryExpand(f, f.name, "function"); }
 
     for (const nested of ns.namespaces ?? []) {
-        if (refs.has(nested.name) && !nested.isCompanion) {
+        const nestedSubpath = entityToSubpath.get(nested);
+        const nestedQKey = makeDepKey(packageName, nested.name, nestedSubpath);
+        if ((refs.has(nested.name) || qualifiedRefs.has(nestedQKey)) && !nested.isCompanion) {
             const before = refs.size;
             addAllMemberNamesQualified(nested, refs, qualifiedRefs, packageName, entityToSubpath);
             if (refs.size > before) added = true;

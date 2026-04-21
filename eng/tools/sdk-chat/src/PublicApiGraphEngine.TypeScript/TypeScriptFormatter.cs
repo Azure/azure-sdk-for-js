@@ -19,6 +19,10 @@ public static class TypeScriptFormatter
     private static string NormalizeCondition(string? condition)
         => string.IsNullOrWhiteSpace(condition) ? "default" : condition;
 
+    /// <summary>Returns true when the condition maps to the bare package specifier (no /condition suffix).</summary>
+    private static bool IsBareSpecifierCondition(string condition)
+        => condition == "default" || condition == "types";
+
     /// <summary>Returns true for targets that lack Node.js builtins (browser, react-native).</summary>
     private static bool IsNonNodeTarget(string condition)
         => string.Equals(condition, "browser", StringComparison.OrdinalIgnoreCase)
@@ -72,7 +76,7 @@ public static class TypeScriptFormatter
                 {
                     var exactMatch = dep.Modules.Where(m => NormalizeCondition(m.Condition) == condition).ToList();
                     var defaultFallback = dep.Modules
-                        .Where(m => NormalizeCondition(m.Condition) == "default")
+                        .Where(m => IsBareSpecifierCondition(NormalizeCondition(m.Condition)))
                         .ToList();
                     return dep with { Modules = exactMatch.Count > 0 ? exactMatch : defaultFallback };
                 })
@@ -823,7 +827,7 @@ public static class TypeScriptFormatter
                         continue;
 
                     var depHasMultipleConditions = depConds.Count > 1;
-                    var depModuleName = depHasMultipleConditions && matchedCond != "default" && matchedCond != "types"
+                    var depModuleName = depHasMultipleConditions && !IsBareSpecifierCondition(matchedCond)
                         ? $"{dep.Package}/{matchedCond}"
                         : dep.Package;
 
@@ -883,7 +887,7 @@ public static class TypeScriptFormatter
                     if (depConds.Count > 0 && depConds.Contains(mainCond))
                     {
                         // Exact condition match — use suffix
-                        depModuleName = depConds.Count > 1
+                        depModuleName = depConds.Count > 1 && !IsBareSpecifierCondition(mainCond)
                             ? $"{dep.Package}/{mainCond}"
                             : dep.Package;
                     }
@@ -914,11 +918,11 @@ public static class TypeScriptFormatter
             var cond = k.Condition;
             string mName;
             if (ep is "." or "")
-                mName = hasMultipleConditions && cond != "default" && cond != "types" ? $"{index.Package}/{cond}" : index.Package;
+                mName = hasMultipleConditions && !IsBareSpecifierCondition(cond) ? $"{index.Package}/{cond}" : index.Package;
             else
             {
                 var sp = ep.StartsWith("./", StringComparison.Ordinal) ? ep[2..] : ep;
-                mName = hasMultipleConditions && cond != "default" && cond != "types" ? $"{index.Package}/{sp}/{cond}" : $"{index.Package}/{sp}";
+                mName = hasMultipleConditions && !IsBareSpecifierCondition(cond) ? $"{index.Package}/{sp}/{cond}" : $"{index.Package}/{sp}";
             }
             foreach (var c in g.Classes) mainTypeToModule.TryAdd(c.Name, mName);
             foreach (var i in g.Interfaces) mainTypeToModule.TryAdd(i.Name, mName);
@@ -939,14 +943,14 @@ public static class TypeScriptFormatter
                 string moduleName;
                 if (exportPath is "." or "")
                 {
-                    moduleName = hasMultipleConditions && condition != "default" && condition != "types"
+                    moduleName = hasMultipleConditions && !IsBareSpecifierCondition(condition)
                         ? $"{index.Package}/{condition}"
                         : index.Package;
                 }
                 else
                 {
                     var subpath = exportPath.StartsWith("./", StringComparison.Ordinal) ? exportPath[2..] : exportPath;
-                    moduleName = hasMultipleConditions && condition != "default" && condition != "types"
+                    moduleName = hasMultipleConditions && !IsBareSpecifierCondition(condition)
                         ? $"{index.Package}/{subpath}/{condition}"
                         : $"{index.Package}/{subpath}";
                 }
