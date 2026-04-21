@@ -1,27 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  ClientEncryptionKeyCreateUpdateParameters} from "@azure/arm-cosmosdb";
-import {
-  CosmosDBManagementClient,
-} from "@azure/arm-cosmosdb";
+import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Create or update a ClientEncryptionKey. This API is meant to be invoked via tools such as the Azure Powershell (instead of directly).
+ * This sample demonstrates how to create or update a ClientEncryptionKey. This API is meant to be invoked via tools such as the Azure Powershell (instead of directly).
  *
- * @summary Create or update a ClientEncryptionKey. This API is meant to be invoked via tools such as the Azure Powershell (instead of directly).
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBSqlClientEncryptionKeyCreateUpdate.json
+ * @summary create or update a ClientEncryptionKey. This API is meant to be invoked via tools such as the Azure Powershell (instead of directly).
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBSqlClientEncryptionKeyCreateUpdate.json
  */
-async function cosmosDbClientEncryptionKeyCreateUpdate(): Promise<void> {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subId";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rgName";
-  const accountName = "accountName";
-  const databaseName = "databaseName";
-  const clientEncryptionKeyName = "cekName";
-  const createUpdateClientEncryptionKeyParameters: ClientEncryptionKeyCreateUpdateParameters =
+async function cosmosDBClientEncryptionKeyCreateUpdate(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new CosmosDBManagementClient(credential, subscriptionId);
+  const result = await client.sqlResources.createUpdateClientEncryptionKey(
+    "rgName",
+    "accountName",
+    "databaseName",
+    "cekName",
     {
       resource: {
         encryptionAlgorithm: "AEAD_AES_256_CBC_HMAC_SHA256",
@@ -34,24 +31,16 @@ async function cosmosDbClientEncryptionKeyCreateUpdate(): Promise<void> {
         },
         wrappedDataEncryptionKey: Buffer.from(
           "VGhpcyBpcyBhY3R1YWxseSBhbiBhcnJheSBvZiBieXRlcy4gVGhpcyByZXF1ZXN0L3Jlc3BvbnNlIGlzIGJlaW5nIHByZXNlbnRlZCBhcyBhIHN0cmluZyBmb3IgcmVhZGFiaWxpdHkgaW4gdGhlIGV4YW1wbGU=",
+          "base64",
         ),
       },
-    };
-  const credential = new DefaultAzureCredential();
-  const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result =
-    await client.sqlResources.beginCreateUpdateClientEncryptionKeyAndWait(
-      resourceGroupName,
-      accountName,
-      databaseName,
-      clientEncryptionKeyName,
-      createUpdateClientEncryptionKeyParameters,
-    );
+    },
+  );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await cosmosDbClientEncryptionKeyCreateUpdate();
+  await cosmosDBClientEncryptionKeyCreateUpdate();
 }
 
 main().catch(console.error);
