@@ -60,7 +60,7 @@ describe("file utilities", function () {
         chunks.push(result.value);
         result = await reader.read();
       }
-      assert.isAbove(chunks.length, 0);
+      assert.isNotEmpty(chunks);
     });
   });
 
