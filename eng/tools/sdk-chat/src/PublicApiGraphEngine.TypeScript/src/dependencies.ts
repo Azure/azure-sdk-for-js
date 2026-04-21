@@ -560,10 +560,12 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
             if (defImport) {
                 const spec = importDecl.getModuleSpecifierValue();
                 if (spec) {
-                    // Include full specifier so subpath-specific defaults don't collide
-                    defaultImportedTypes.add(makeDepKey(spec, defImport.getText()));
-                    // Also add the root key for backward compat with bare-specifier lookups
-                    defaultImportedTypes.add(makeDepKey(getPackageRoot(spec), defImport.getText()));
+                    const pkgRoot = getPackageRoot(spec);
+                    const subpath = getImportSubpath(spec);
+                    // Include subpath-qualified key so lookups via makeDepKey(pkg, type, subpath) match
+                    defaultImportedTypes.add(makeDepKey(pkgRoot, defImport.getText(), subpath));
+                    // Also add the root key for bare-specifier lookups
+                    defaultImportedTypes.add(makeDepKey(pkgRoot, defImport.getText()));
                 }
             }
         }
@@ -1619,9 +1621,9 @@ function findPreferredCondition(chain: string[], skipKeys: Set<string>): string 
         if (skipKeys.has(c) || c.startsWith(".")) continue;
         const tier = RUNTIME_TIERS[c];
         if (tier === undefined) continue;
-        if (tier >= 4) { // target conditions
+        if (tier >= 4 && tier <= 7) { // true runtime targets only (node, browser, react-native, workerd, worker)
             if (tier < bestTargetTier) { bestTarget = c; bestTargetTier = tier; }
-        } else { // module-format conditions (import=2, require=3)
+        } else { // module-format conditions (import, require) + build-mode conditions (production, development)
             if (tier < bestFormatTier) { bestFormat = c; bestFormatTier = tier; }
         }
     }

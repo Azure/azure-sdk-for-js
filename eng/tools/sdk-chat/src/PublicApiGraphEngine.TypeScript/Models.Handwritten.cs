@@ -677,6 +677,21 @@ internal static class TypeScriptModelHelpers
 
                     if (templateBraceDepth > 0)
                     {
+                        // Skip nested string literals so that '}' inside quotes isn't counted
+                        if (c == '\'' || c == '"')
+                        {
+                            char quoteChar = c;
+                            i++; // skip opening quote
+                            while (i < sig.Length)
+                            {
+                                if (sig[i] == '\\') { i += 2; continue; }
+                                if (sig[i] == quoteChar) break;
+                                i++;
+                            }
+                            // i now points at closing quote, loop will increment past it
+                            continue;
+                        }
+
                         if (c == '{') templateBraceDepth++;
                         else if (c == '}') templateBraceDepth--;
                         continue;
@@ -767,6 +782,21 @@ internal static class TypeScriptModelHelpers
 
                     if (templateBraceDepth > 0)
                     {
+                        // Skip nested string literals so that '}' inside quotes isn't counted
+                        if (c == '\'' || c == '"')
+                        {
+                            char quoteChar = c;
+                            i++; // skip opening quote
+                            while (i < text.Length)
+                            {
+                                if (text[i] == '\\') { i += 2; continue; }
+                                if (text[i] == quoteChar) break;
+                                i++;
+                            }
+                            // i now points at closing quote, loop will increment past it
+                            continue;
+                        }
+
                         if (c == '{') templateBraceDepth++;
                         else if (c == '}') templateBraceDepth--;
                         continue;

@@ -517,6 +517,13 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
     // non-entry shared files whose symbols were claimed by multiple conditions in
     // extractExportedSymbols, plus conditions inherited through the import graph.
     const additionalModules: ModuleInfo[] = [];
+    // Pre-populate a HashSet of existing dedup keys for O(1) lookup during clone pass.
+    const existingDedupKeys = new Set<string>();
+    for (let i = 0; i < moduleSourceFileMap.length; i++) {
+        const [m, sf] = moduleSourceFileMap[i];
+        const fk = path.resolve(sf.getFilePath());
+        existingDedupKeys.add(`${m.name}\0${m.exportPath ?? ""}\0${m.condition}\0${fk}`);
+    }
     for (const [module, sourceFile] of moduleSourceFileMap) {
         // Collect all conditions this module's symbols are exported under
         const allConditions = new Set<string>();
@@ -574,17 +581,7 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
             // normalizing to the same module name produce separate clones.
             const sfKey = path.resolve(sourceFile.getFilePath());
             const dedupKey = `${module.name}\0${module.exportPath ?? ""}\0${cond}\0${sfKey}`;
-            const makeDedupKey = (m: ModuleInfo, sf?: SourceFile) => {
-                const fk = sf ? path.resolve(sf.getFilePath()) : "";
-                return `${m.name}\0${m.exportPath ?? ""}\0${m.condition}\0${fk}`;
-            };
-            const alreadyExists = modules.some((m, i) => makeDedupKey(m, moduleSourceFileMap[i]?.[1]) === dedupKey)
-                || additionalModules.some((m, i) => {
-                    // additionalModules are appended to moduleSourceFileMap as they're created
-                    const idx = modules.length + i;
-                    return makeDedupKey(m, moduleSourceFileMap[idx]?.[1]) === dedupKey;
-                });
-            if (alreadyExists) continue;
+            if (existingDedupKeys.has(dedupKey)) continue;
 
             const clone: ModuleInfo = {
                 ...module,
@@ -600,6 +597,7 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
             };
             additionalModules.push(clone);
             moduleSourceFileMap.push([clone, sourceFile]);
+            existingDedupKeys.add(dedupKey);
         }
     }
     modules.push(...additionalModules);

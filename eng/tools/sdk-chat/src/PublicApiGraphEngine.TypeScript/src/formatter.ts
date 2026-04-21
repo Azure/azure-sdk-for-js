@@ -147,11 +147,26 @@ function deepMergeInterface(existing: InterfaceInfo, incoming: InterfaceInfo): v
     existing.constructSignatures = mergeSignaturesBySig(existing.constructSignatures, incoming.constructSignatures);
     existing.callSignatures = mergeSignaturesBySig(existing.callSignatures, incoming.callSignatures);
     existing.indexSignatures = mergeIndexSignatures(existing.indexSignatures, incoming.indexSignatures);
-    // Reconcile structural metadata — prefer richer (non-empty) values
-    if (!existing.extends?.length && incoming.extends?.length) existing.extends = incoming.extends;
+    // Union extends clauses (deduplicated)
+    if (incoming.extends?.length) {
+        if (!existing.extends?.length) {
+            existing.extends = incoming.extends;
+        } else {
+            const seen = new Set(existing.extends);
+            for (const e of incoming.extends) {
+                if (!seen.has(e)) {
+                    existing.extends.push(e);
+                    seen.add(e);
+                }
+            }
+        }
+    }
     if (!existing.typeParams?.length && incoming.typeParams?.length) existing.typeParams = incoming.typeParams;
     if (!existing.doc && incoming.doc) existing.doc = incoming.doc;
-    if (!existing.deprecated && incoming.deprecated) existing.deprecated = incoming.deprecated;
+    if (!existing.deprecated && incoming.deprecated) {
+        existing.deprecated = incoming.deprecated;
+        if (incoming.deprecatedMsg) existing.deprecatedMsg = incoming.deprecatedMsg;
+    }
 }
 
 function deepMergeClass(existing: ClassInfo, incoming: ClassInfo): void {
@@ -159,13 +174,29 @@ function deepMergeClass(existing: ClassInfo, incoming: ClassInfo): void {
     existing.methods = mergeMethods(existing.methods, incoming.methods);
     existing.constructors = mergeConstructors(existing.constructors, incoming.constructors);
     existing.indexSignatures = mergeIndexSignatures(existing.indexSignatures, incoming.indexSignatures);
-    // Reconcile structural metadata — prefer richer (non-empty) values
+    // Reconcile structural metadata
     if (!existing.extends && incoming.extends) existing.extends = incoming.extends;
-    if (!existing.implements?.length && incoming.implements?.length) existing.implements = incoming.implements;
+    // Union implements clauses (deduplicated)
+    if (incoming.implements?.length) {
+        if (!existing.implements?.length) {
+            existing.implements = incoming.implements;
+        } else {
+            const seen = new Set(existing.implements);
+            for (const impl of incoming.implements) {
+                if (!seen.has(impl)) {
+                    existing.implements.push(impl);
+                    seen.add(impl);
+                }
+            }
+        }
+    }
     if (!existing.typeParams?.length && incoming.typeParams?.length) existing.typeParams = incoming.typeParams;
     if (existing.abstract === undefined && incoming.abstract !== undefined) existing.abstract = incoming.abstract;
     if (!existing.doc && incoming.doc) existing.doc = incoming.doc;
-    if (!existing.deprecated && incoming.deprecated) existing.deprecated = incoming.deprecated;
+    if (!existing.deprecated && incoming.deprecated) {
+        existing.deprecated = incoming.deprecated;
+        if (incoming.deprecatedMsg) existing.deprecatedMsg = incoming.deprecatedMsg;
+    }
 }
 
 function mergeInterfacesByName(
