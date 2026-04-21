@@ -1,10 +1,10 @@
 # Release History
 
-## 1.0.1 (2026-04-17)
+## 1.1.0 (2026-04-24)
 
-### Bugs Fixed
+### Features Added
 
-- Exposed `usage` property on `AnalysisResultPoller` so that billing/metering details (`UsageDetails`) from the analyze operation status envelope are accessible after the operation completes. Previously, the `usage` field from the REST API response was deserialized but not surfaced on the poller.
+- Added `usage` property on `AnalysisResultPoller` to surface billing and token consumption details (`UsageDetails`) returned by the REST API.
 
 ## 1.0.0 (2026-02-28)
 
