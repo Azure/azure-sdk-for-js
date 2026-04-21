@@ -7,18 +7,33 @@
 // @public
 export interface AddToGroupsRequest {
     filter?: string;
-    groups?: string[];
+    groups: string[];
 }
 
 // @public
 export interface ClientTokenResponse {
-    token?: string;
+    token: string;
+}
+
+// @public
+export interface ErrorDetail {
+    code?: string;
+    details?: ErrorDetail[];
+    inner?: InnerError;
+    message?: string;
+    target?: string;
 }
 
 // @public
 export interface GroupMember {
     connectionId: string;
     userId?: string;
+}
+
+// @public
+export interface InnerError {
+    code?: string;
+    inner?: InnerError;
 }
 
 // @public
@@ -32,11 +47,11 @@ export type MessageContentType = "application/json" | "application/octet-stream"
 // @public
 export interface RemoveFromGroupsRequest {
     filter?: string;
-    groups?: string[];
+    groups: string[];
 }
 
 // @public
-export type ResponseContentType = "application/json" | "text/json";
+export type ResponseContentType = "text/plain" | "application/json" | "text/json";
 
 // @public
 export type WebPubSubClientType = "Default" | "MQTT";

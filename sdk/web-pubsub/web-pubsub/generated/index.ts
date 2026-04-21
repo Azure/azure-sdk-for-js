@@ -9,6 +9,8 @@ import {
 
 export { WebPubSubServiceClient } from "./webPubSubServiceClient.js";
 export type {
+  ErrorDetail,
+  InnerError,
   AddToGroupsRequest,
   ClientTokenResponse,
   RemoveFromGroupsRequest,

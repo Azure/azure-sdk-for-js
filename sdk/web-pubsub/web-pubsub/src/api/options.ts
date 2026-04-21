@@ -15,18 +15,9 @@ export interface RemoveUserFromAllGroupsOptionalParams extends OperationOptions 
 
 /** Optional parameters. */
 export interface SendToUserOptionalParams extends OperationOptions {
-  /**
-   * Following OData filter syntax to filter out the subscribers receiving the
-   * messages.
-   */
+  /** Following OData filter syntax to filter out the subscribers receiving the messages. */
   filter?: string;
-  /**
-   * The time-to-live (TTL) value in seconds for messages sent to the service. 0 is
-   * the default value, which means the message never expires. 300 is the maximum
-   * value. If this parameter is non-zero, messages that are not consumed by the
-   * client within the specified TTL will be dropped by the service. This parameter
-   * can help when the client's bandwidth is limited.
-   */
+  /** The time-to-live (TTL) value in seconds for messages sent to the service. 0 is the default value, which means the message never expires. 300 is the maximum value. If this parameter is non-zero, messages that are not consumed by the client within the specified TTL will be dropped by the service. This parameter can help when the client's bandwidth is limited. */
   messageTtlSeconds?: number;
 }
 
@@ -43,31 +34,19 @@ export interface UserExistsOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface GrantPermissionOptionalParams extends OperationOptions {
-  /**
-   * The meaning of the target depends on the specific permission. For
-   * joinLeaveGroup and sendToGroup, targetName is a required parameter standing for
-   * the group name.
-   */
+  /** The meaning of the target depends on the specific permission. For joinLeaveGroup and sendToGroup, targetName is a required parameter standing for the group name. */
   targetName?: string;
 }
 
 /** Optional parameters. */
 export interface CheckPermissionOptionalParams extends OperationOptions {
-  /**
-   * The meaning of the target depends on the specific permission. For
-   * joinLeaveGroup and sendToGroup, targetName is a required parameter standing for
-   * the group name.
-   */
+  /** The meaning of the target depends on the specific permission. For joinLeaveGroup and sendToGroup, targetName is a required parameter standing for the group name. */
   targetName?: string;
 }
 
 /** Optional parameters. */
 export interface RevokePermissionOptionalParams extends OperationOptions {
-  /**
-   * The meaning of the target depends on the specific permission. For
-   * joinLeaveGroup and sendToGroup, targetName is a required parameter standing for
-   * the group name.
-   */
+  /** The meaning of the target depends on the specific permission. For joinLeaveGroup and sendToGroup, targetName is a required parameter standing for the group name. */
   targetName?: string;
 }
 
@@ -79,23 +58,11 @@ export interface RemoveConnectionFromGroupOptionalParams extends OperationOption
 
 /** Optional parameters. */
 export interface ListConnectionsInGroupOptionalParams extends OperationOptions {
-  /**
-   * The maximum number of connections to include in a single response. It should be
-   * between 1 and 200.
-   */
+  /** The maximum number of connections to include in a single response. It should be between 1 and 200. */
   maxpagesize?: number;
-  /**
-   * The maximum number of connections to return. If the value is not set, then all
-   * the connections in a group are returned.
-   */
+  /** The maximum number of connections to return. If the value is not set, then all the connections in a group are returned. */
   top?: number;
-  /**
-   * A token that allows the client to retrieve the next page of results. This
-   * parameter is provided by the service in the response of a previous request when
-   * there are additional results to be fetched. Clients should include the
-   * continuationToken in the next request to receive the subsequent page of data.
-   * If this parameter is omitted, the server will return the first page of results.
-   */
+  /** A token that allows the client to retrieve the next page of results. This parameter is provided by the service in the response of a previous request when there are additional results to be fetched. Clients should include the continuationToken in the next request to receive the subsequent page of data. If this parameter is omitted, the server will return the first page of results. */
   continuationToken?: string;
 }
 
@@ -103,18 +70,9 @@ export interface ListConnectionsInGroupOptionalParams extends OperationOptions {
 export interface SendToGroupOptionalParams extends OperationOptions {
   /** Excluded connection Ids */
   excluded?: string[];
-  /**
-   * Following OData filter syntax to filter out the subscribers receiving the
-   * messages.
-   */
+  /** Following OData filter syntax to filter out the subscribers receiving the messages. */
   filter?: string;
-  /**
-   * The time-to-live (TTL) value in seconds for messages sent to the service. 0 is
-   * the default value, which means the message never expires. 300 is the maximum
-   * value. If this parameter is non-zero, messages that are not consumed by the
-   * client within the specified TTL will be dropped by the service. This parameter
-   * can help when the client's bandwidth is limited.
-   */
+  /** The time-to-live (TTL) value in seconds for messages sent to the service. 0 is the default value, which means the message never expires. 300 is the maximum value. If this parameter is non-zero, messages that are not consumed by the client within the specified TTL will be dropped by the service. This parameter can help when the client's bandwidth is limited. */
   messageTtlSeconds?: number;
 }
 
@@ -134,13 +92,7 @@ export interface RemoveConnectionFromAllGroupsOptionalParams extends OperationOp
 
 /** Optional parameters. */
 export interface SendToConnectionOptionalParams extends OperationOptions {
-  /**
-   * The time-to-live (TTL) value in seconds for messages sent to the service. 0 is
-   * the default value, which means the message never expires. 300 is the maximum
-   * value. If this parameter is non-zero, messages that are not consumed by the
-   * client within the specified TTL will be dropped by the service. This parameter
-   * can help when the client's bandwidth is limited.
-   */
+  /** The time-to-live (TTL) value in seconds for messages sent to the service. 0 is the default value, which means the message never expires. 300 is the maximum value. If this parameter is non-zero, messages that are not consumed by the client within the specified TTL will be dropped by the service. This parameter can help when the client's bandwidth is limited. */
   messageTtlSeconds?: number;
 }
 
@@ -157,18 +109,9 @@ export interface CloseConnectionOptionalParams extends OperationOptions {
 export interface SendToAllOptionalParams extends OperationOptions {
   /** Excluded connection Ids. */
   excluded?: string[];
-  /**
-   * Following OData filter syntax to filter out the subscribers receiving the
-   * messages.
-   */
+  /** Following OData filter syntax to filter out the subscribers receiving the messages. */
   filter?: string;
-  /**
-   * The time-to-live (TTL) value in seconds for messages sent to the service. 0 is
-   * the default value, which means the message never expires. 300 is the maximum
-   * value. If this parameter is non-zero, messages that are not consumed by the
-   * client within the specified TTL will be dropped by the service. This parameter
-   * can help when the client's bandwidth is limited.
-   */
+  /** The time-to-live (TTL) value in seconds for messages sent to the service. 0 is the default value, which means the message never expires. 300 is the maximum value. If this parameter is non-zero, messages that are not consumed by the client within the specified TTL will be dropped by the service. This parameter can help when the client's bandwidth is limited. */
   messageTtlSeconds?: number;
 }
 
@@ -185,11 +128,7 @@ export interface GenerateClientTokenOptionalParams extends OperationOptions {
   minutesToExpire?: number;
   /** Groups that the connection will join when it connects. */
   group?: string[];
-  /**
-   * The type of client. Case-insensitive. If not set, it's "Default". For Web
-   * PubSub for Socket.IO, only the default value is supported. For Web PubSub, the
-   * valid values are 'Default' and 'MQTT'.
-   */
+  /** The type of client. Case-insensitive. If not set, it's "Default". For Web PubSub for Socket.IO, only the default value is supported. For Web PubSub, the valid values are 'Default' and 'MQTT'. */
   clientType?: WebPubSubClientType;
 }
 

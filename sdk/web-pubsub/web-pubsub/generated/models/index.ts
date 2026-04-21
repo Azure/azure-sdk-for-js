@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 export type {
+  ErrorDetail,
+  InnerError,
   AddToGroupsRequest,
   ClientTokenResponse,
   RemoveFromGroupsRequest,

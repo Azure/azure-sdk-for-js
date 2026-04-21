@@ -6,9 +6,8 @@
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "WebPubSubService",
     "CrossLanguageDefinitionId": {
-      "@azure/web-pubsub!ErrorResponse:interface": "Azure.Core.Foundations.ErrorResponse",
-      "@azure/web-pubsub!Error:interface": "Azure.Core.Foundations.Error",
-      "@azure/web-pubsub!InnerError:interface": "Azure.Core.Foundations.InnerError",
+      "@azure/web-pubsub!ErrorDetail:interface": "WebPubSubService.ErrorDetail",
+      "@azure/web-pubsub!InnerError:interface": "WebPubSubService.InnerError",
       "@azure/web-pubsub!AddToGroupsRequest:interface": "WebPubSubService.AddToGroupsRequest",
       "@azure/web-pubsub!ClientTokenResponse:interface": "WebPubSubService.ClientTokenResponse",
       "@azure/web-pubsub!RemoveFromGroupsRequest:interface": "WebPubSubService.RemoveFromGroupsRequest",
