@@ -221,5 +221,82 @@ describe("Errors", function () {
         },
       );
     });
+
+    describe("AggregateError handling (Node.js 20+ Happy Eyeballs)", function () {
+      it("translates AggregateError containing ENOTFOUND system error into a non-retryable MessagingError", function () {
+        const innerError = {
+          code: "ENOTFOUND",
+          errno: "ENOTFOUND",
+          syscall: "getaddrinfo",
+          message: "getaddrinfo ENOTFOUND example.invalid",
+        };
+        const aggregateError = new AggregateError(
+          [innerError],
+          "getaddrinfo ENOTFOUND example.invalid",
+        );
+        const translatedError = Errors.translate(aggregateError) as Errors.MessagingError;
+        assert.equal(translatedError.name, "MessagingError");
+        assert.equal(translatedError.code, "ENOTFOUND");
+        assert.isFalse(translatedError.retryable);
+      });
+
+      it("translates AggregateError containing EAI_AGAIN system error into a retryable MessagingError", function () {
+        const innerError = {
+          code: "EAI_AGAIN",
+          errno: "EAI_AGAIN",
+          syscall: "getaddrinfo",
+          message: "getaddrinfo EAI_AGAIN example.invalid",
+        };
+        const aggregateError = new AggregateError(
+          [innerError],
+          "getaddrinfo EAI_AGAIN example.invalid",
+        );
+        const translatedError = Errors.translate(aggregateError) as Errors.MessagingError;
+        assert.equal(translatedError.name, "MessagingError");
+        assert.equal(translatedError.code, "EAI_AGAIN");
+        assert.isTrue(translatedError.retryable);
+      });
+
+      it("translates AggregateError with multiple inner errors using the first one", function () {
+        const enotfound = {
+          code: "ENOTFOUND",
+          errno: "ENOTFOUND",
+          syscall: "getaddrinfo",
+          message: "getaddrinfo ENOTFOUND example.invalid",
+        };
+        const econnrefused = {
+          code: "ECONNREFUSED",
+          errno: "ECONNREFUSED",
+          syscall: "connect",
+          message: "connect ECONNREFUSED 127.0.0.1:5671",
+        };
+        const aggregateError = new AggregateError([enotfound, econnrefused]);
+        const translatedError = Errors.translate(aggregateError) as Errors.MessagingError;
+        assert.equal(translatedError.name, "MessagingError");
+        assert.equal(translatedError.code, "ENOTFOUND");
+        assert.isFalse(translatedError.retryable);
+      });
+
+      it("translates nested AggregateError recursively", function () {
+        const innerError = {
+          code: "ENOTFOUND",
+          errno: "ENOTFOUND",
+          syscall: "getaddrinfo",
+          message: "getaddrinfo ENOTFOUND example.invalid",
+        };
+        const innerAggregate = new AggregateError([innerError]);
+        const outerAggregate = new AggregateError([innerAggregate]);
+        const translatedError = Errors.translate(outerAggregate) as Errors.MessagingError;
+        assert.equal(translatedError.name, "MessagingError");
+        assert.equal(translatedError.code, "ENOTFOUND");
+        assert.isFalse(translatedError.retryable);
+      });
+
+      it("returns a generic Error for an empty AggregateError", function () {
+        const aggregateError = new AggregateError([]);
+        const translatedError = Errors.translate(aggregateError);
+        assert.equal(translatedError, aggregateError);
+      });
+    });
   });
 });
