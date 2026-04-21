@@ -433,7 +433,7 @@
 # PRLabel: %Mgmt
 /sdk/commerce/arm-commerce-profile-2020-09-01-hybrid/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/communication/arm-communication/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -475,7 +475,7 @@
 # PRLabel: %Mgmt
 /sdk/containerservice/arm-containerservice-rest/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/cosmosdb/arm-cosmosdb/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -1666,6 +1666,9 @@ sdk/appnetwork/arm-appnetwork/ @qiaozha @MaryGao @JialinHuang803
 # PRLabel: %Mgmt
 sdk/servicegroups/arm-servicegroups/ @qiaozha @MaryGao @JialinHuang803
 
+# PRLabel: %Mgmt
+sdk/relationships/arm-relationships/ @qiaozha @MaryGao @JialinHuang803
+
 ###########
 # Config
 ###########
@@ -1736,6 +1739,8 @@ sdk/servicegroups/arm-servicegroups/ @qiaozha @MaryGao @JialinHuang803
 /.github/workflows/sentinel.lock.yml     @deyaaeldeen @jeremymeng
 /.github/workflows/tester.md             @deyaaeldeen @jeremymeng
 /.github/workflows/tester.lock.yml       @deyaaeldeen @jeremymeng
+/.github/workflows/issue-triage.md       @deyaaeldeen @jeremymeng
+/.github/workflows/issue-triage.lock.yml @deyaaeldeen @jeremymeng
 /.github/agents/agentic-workflows.agent.md @deyaaeldeen @jeremymeng
 /.github/agents/archie.agent.md          @deyaaeldeen @jeremymeng @maorleger
 /.github/agents/dash.agent.md            @deyaaeldeen @jeremymeng

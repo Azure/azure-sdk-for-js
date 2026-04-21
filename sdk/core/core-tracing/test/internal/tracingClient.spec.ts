@@ -200,4 +200,29 @@ describe("TracingClient", () => {
       });
     });
   });
+
+  describe("#parseTraceparentHeader", () => {
+    it("delegates to the instrumenter", () => {
+      const expectedContext = createTracingContext();
+      const parseTraceparentHeaderSpy = vi
+        .spyOn(instrumenter, "parseTraceparentHeader")
+        .mockReturnValue(expectedContext);
+      const result = client.parseTraceparentHeader("00-traceid-spanid-01");
+      expect(parseTraceparentHeaderSpy).toHaveBeenCalledWith("00-traceid-spanid-01");
+      assert.strictEqual(result, expectedContext);
+    });
+  });
+
+  describe("#createRequestHeaders", () => {
+    it("delegates to the instrumenter", () => {
+      const expectedHeaders = { traceparent: "00-traceid-spanid-01" };
+      const createRequestHeadersSpy = vi
+        .spyOn(instrumenter, "createRequestHeaders")
+        .mockReturnValue(expectedHeaders);
+      const tracingContext = createTracingContext();
+      const result = client.createRequestHeaders(tracingContext);
+      expect(createRequestHeadersSpy).toHaveBeenCalledWith(tracingContext);
+      assert.deepEqual(result, expectedHeaders);
+    });
+  });
 });

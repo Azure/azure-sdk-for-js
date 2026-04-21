@@ -3,31 +3,27 @@
 
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Gets the RUs per second of the Gremlin database under an existing Azure Cosmos DB database account with the provided name.
+ * This sample demonstrates how to gets the RUs per second of the Gremlin database under an existing Azure Cosmos DB database account with the provided name.
  *
- * @summary Gets the RUs per second of the Gremlin database under an existing Azure Cosmos DB database account with the provided name.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBGremlinDatabaseThroughputGet.json
+ * @summary gets the RUs per second of the Gremlin database under an existing Azure Cosmos DB database account with the provided name.
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBGremlinDatabaseThroughputGet.json
  */
-async function cosmosDbGremlinDatabaseThroughputGet() {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const accountName = "ddb1";
-  const databaseName = "databaseName";
+async function cosmosDBGremlinDatabaseThroughputGet() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const result = await client.gremlinResources.getGremlinDatabaseThroughput(
-    resourceGroupName,
-    accountName,
-    databaseName,
+    "rg1",
+    "ddb1",
+    "databaseName",
   );
   console.log(result);
 }
 
 async function main() {
-  await cosmosDbGremlinDatabaseThroughputGet();
+  await cosmosDBGremlinDatabaseThroughputGet();
 }
 
 main().catch(console.error);
