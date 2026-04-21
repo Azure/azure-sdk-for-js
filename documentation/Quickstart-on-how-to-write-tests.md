@@ -40,7 +40,7 @@ Please note that this quickstart is based on version 4.x of the recorder tool (`
 
 - pnpm
   - Install/update pnpm globally via [pnpm installation instructions](https://pnpm.io/installation)
-- Any of [the LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
+- [Node.js 20 or later](https://nodejs.org/en/download)
 - A C++ compiler toolchain and Python (for compiling machine-code modules)
   - Refer [here](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#prerequisites) for more details
 
@@ -369,10 +369,10 @@ This simple test creates a resource and checks that the service handles it corre
 ### `glossary.spec.ts`
 
 ```typescript
-import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { PurviewDataMapClient } from "../../src";
-import { createClient, createRecorder } from "./utils/recordedClient";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
+import { PurviewDataMapClient } from "../../src/index.js";
 
 describe("My test", () => {
   let recorder: Recorder;
@@ -380,14 +380,14 @@ describe("My test", () => {
   let client: PurviewDataMapClient;
   let glossaryName: string;
 
-  beforeEach(async function () {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
     // Step 3: Create your client
     client = await createClient(recorder);
     glossaryName = "js-testing";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
@@ -415,9 +415,9 @@ describe("My test", () => {
 ### `utils/recordedClient.ts`
 
 ```typescript
-import { Context } from "mocha";
-import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
-import PurviewDataMap, { PurviewDataMapClient } from "../../../src";
+import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
+import PurviewDataMap, { PurviewDataMapClient } from "../../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { ClientOptions } from "@azure-rest/core-client";
 
@@ -439,8 +439,8 @@ const recorderEnvSetup: RecorderStartOptions = {
  * Should be called first in the test suite to make sure environment variables are
  * read before they are being used.
  */
-export async function createRecorder(context: Context): Promise<Recorder> {
-  const recorder = new Recorder(context.currentTest);
+export async function createRecorder(context: TestInfo): Promise<Recorder> {
+  const recorder = new Recorder(context);
   await recorder.start(recorderEnvSetup);
   return recorder;
 }
@@ -482,11 +482,11 @@ Next, we'll take the package `@azure/arm-monitor` as an example to guide you how
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { env, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { MonitorClient } from "../src/monitorClient";
+import { MonitorClient } from "../src/monitorClient.js";
 
 // Step 4: Add environment variables you'd like to mask the values in recordings
 const replaceableVariables: Record<string, string> = {
@@ -508,8 +508,8 @@ describe("Monitor client", () => {
   let client: MonitorClient;
   let diagnosticName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     // Step 3: create clients
     subscriptionId = env.SUBSCRIPTION_ID || "";
@@ -518,7 +518,7 @@ describe("Monitor client", () => {
     diagnosticName = "my-test-diagnostic-name";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 

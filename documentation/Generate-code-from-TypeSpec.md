@@ -8,7 +8,7 @@ Getting Started: Generate JS SDK with TypeSpec
 
 ## Prerequisites
 
-- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
+- [Node.js 20 or later](https://nodejs.org/en/download)
 - [Git](https://git-scm.com/downloads)
 - Local Clone of Rest API Spec Repo Fork
   - If you don't already have a fork, [Fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo#forking-a-repository) the [Rest API Spec Repo](https://github.com/Azure/azure-rest-api-specs).
