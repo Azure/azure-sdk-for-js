@@ -91,8 +91,14 @@ describe("normalizeCondition", () => {
     expect(normalizeCondition("")).toBe("default");
   });
 
-  it("returns 'default' when chain includes 'default'", () => {
-    expect(normalizeCondition("import|default")).toBe("default");
+  it("prefers meaningful condition over 'default' in chain", () => {
+    expect(normalizeCondition("import|default")).toBe("import");
+    expect(normalizeCondition("require|default")).toBe("require");
+    expect(normalizeCondition("browser|default")).toBe("browser");
+  });
+
+  it("returns 'default' when it is the only condition", () => {
+    expect(normalizeCondition("default")).toBe("default");
   });
 
   it("returns non-types condition when 'types' co-occurs with another", () => {

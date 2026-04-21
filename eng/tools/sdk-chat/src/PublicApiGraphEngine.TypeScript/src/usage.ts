@@ -414,6 +414,13 @@ export function analyzeUsage(samplesPath: string, api: ApiIndex): UsageResult {
                 functionReturnTypes.set(func.name, baseTypeName(func.ret));
             }
         }
+        for (const ns of mod.namespaces || []) {
+            for (const func of ns.functions || []) {
+                if (func.ret) {
+                    functionReturnTypes.set(func.name, baseTypeName(func.ret));
+                }
+            }
+        }
     }
 
     const apiContext: ApiTypeContext = {
@@ -448,8 +455,9 @@ export function analyzeUsage(samplesPath: string, api: ApiIndex): UsageResult {
     for (const filePath of files) {
         fileCount++;
 
+        let sourceFile: ReturnType<typeof project.addSourceFileAtPath> | undefined;
         try {
-            const sourceFile = project.addSourceFileAtPath(filePath);
+            sourceFile = project.addSourceFileAtPath(filePath);
             const relPath = path.relative(samplesPath, filePath);
 
             // Build variable → type map using the type checker with AST fallback
@@ -530,8 +538,6 @@ export function analyzeUsage(samplesPath: string, api: ApiIndex): UsageResult {
 
             // Detect patterns
             detectPatterns(sourceFile, patterns);
-
-            project.removeSourceFile(sourceFile);
         } catch (err: unknown) {
             const relPath = path.relative(samplesPath, filePath);
             emitDiagnostic({
@@ -540,6 +546,10 @@ export function analyzeUsage(samplesPath: string, api: ApiIndex): UsageResult {
                 severity: "warning",
                 target: relPath,
             });
+        } finally {
+            if (sourceFile) {
+                project.removeSourceFile(sourceFile);
+            }
         }
     }
 

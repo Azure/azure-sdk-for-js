@@ -598,7 +598,7 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
     // tokenization or heuristics.
     // All maps use package-qualified keys (makeDepKey) to prevent collisions
     // when different packages export the same type name.
-    const allResolved = new Map<string, { packageName: string; type: ClassInfo | InterfaceInfo | EnumInfo | TypeAliasInfo | FunctionInfo | NamespaceInfo; kind: "class" | "interface" | "enum" | "type" | "function" | "namespace" }>();
+    const allResolved = new Map<string, { packageName: string; subpath?: string; type: ClassInfo | InterfaceInfo | EnumInfo | TypeAliasInfo | FunctionInfo | NamespaceInfo; kind: "class" | "interface" | "enum" | "type" | "function" | "namespace" }>();
     const allUnresolved = new Map<string, string>(); // qualified key → packageName
     const processed = new Set<string>(); // qualified keys
 
@@ -892,14 +892,16 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
             // @types/node types are referenced as imports, not extracted.
             if (isNodePackage(packageName)) continue;
             for (const typeName of typeNames) {
-                const qKey = makeDepKey(packageName, typeName);
+                const rootKey = makeDepKey(packageName, typeName);
+                const resolution = importResolutionMap.get(rootKey);
+                const subpath = resolution?.subpath;
+                const qKey = makeDepKey(packageName, typeName, subpath);
                 if (processed.has(qKey)) continue;
                 processed.add(qKey);
-                const resolution = importResolutionMap.get(qKey);
                 let result: ExtractResult | null = null;
 
                 if (resolution) {
-                    const isDefault = defaultImportedTypes.has(qKey);
+                    const isDefault = defaultImportedTypes.has(rootKey);
                     result = extractTypeFromResolvedModule(typeName, resolution.resolvedFile, isDefault, ctx);
                 } else {
                     // For namespace-imported types (e.g., extLib.INetworkModule),
@@ -916,17 +918,17 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
                 // try extracting with the original exported name and emit a type alias.
                 // Example: `import { ProxySettings as ProxyOptions }` — extract
                 // ProxySettings and add `type ProxyOptions = ProxySettings`.
-                if (!result && typeAliasMap.has(qKey)) {
-                    const originalName = typeAliasMap.get(qKey)!;
+                if (!result && typeAliasMap.has(rootKey)) {
+                    const originalName = typeAliasMap.get(rootKey)!;
                     // Try using the existing resolution for the alias name
                     const aliasResolution = resolution ?? importResolutionMap.get(makeDepKey(packageName, originalName));
                     if (aliasResolution) {
                         const origResult = extractTypeFromResolvedModule(originalName, aliasResolution.resolvedFile, false, ctx);
                         if (origResult) {
                             // Ensure the original type is also resolved
-                            const origKey = makeDepKey(packageName, originalName);
+                            const origKey = makeDepKey(packageName, originalName, subpath);
                             if (!allResolved.has(origKey)) {
-                                allResolved.set(origKey, { packageName, type: origResult.graphed, kind: origResult.kind });
+                                allResolved.set(origKey, { packageName, subpath, type: origResult.graphed, kind: origResult.kind });
                             }
                             // Create synthetic type alias.
                             // For self-package aliases (e.g., `import { X as XInternal }
@@ -956,14 +958,14 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
                 const needsAlias = extractedName && extractedName !== typeName;
 
                 if (needsAlias) {
-                    const realKey = makeDepKey(packageName, extractedName);
+                    const realKey = makeDepKey(packageName, extractedName, subpath);
                     if (!allResolved.has(realKey)) {
-                        allResolved.set(realKey, { packageName, type: result.graphed, kind: result.kind });
+                        allResolved.set(realKey, { packageName, subpath, type: result.graphed, kind: result.kind });
                     }
                     const aliasType: TypeAliasInfo = { name: typeName, type: extractedName };
-                    allResolved.set(qKey, { packageName, type: aliasType, kind: "type" });
+                    allResolved.set(qKey, { packageName, subpath, type: aliasType, kind: "type" });
                 } else {
-                    allResolved.set(qKey, { packageName, type: result.graphed, kind: result.kind });
+                    allResolved.set(qKey, { packageName, subpath, type: result.graphed, kind: result.kind });
                 }
 
                 // For directly-resolved namespaces, populate per-member referencedTypes
@@ -1000,7 +1002,7 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
                     if (companionMod) {
                         const nsInfo = extractNamespace(companionMod, ctx);
                         if (nsInfo) {
-                            allResolved.set(makeDepKey(packageName, `__ns__${typeName}`), { packageName, type: nsInfo, kind: "namespace" });
+                            allResolved.set(makeDepKey(packageName, `__ns__${typeName}`, subpath), { packageName, subpath, type: nsInfo, kind: "namespace" });
                             // Populate per-member referencedTypes from AST declarations
                             populateNamespaceMemberRefs(nsInfo, companionMod, ctx);
                         }
@@ -1047,12 +1049,14 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
                     if (!subRef.packageName) continue;
                     if (isNodePackage(subRef.packageName)) continue;
                     if (subRef.packageName === api.package && definedTypes.has(subRef.name)) continue;
-                    const subQKey = makeDepKey(subRef.packageName, subRef.name);
+                    const subRootKey = makeDepKey(subRef.packageName, subRef.name);
+                    const subResolution = importResolutionMap.get(subRootKey);
+                    const subQKey = makeDepKey(subRef.packageName, subRef.name, subResolution?.subpath);
                     if (processed.has(subQKey)) continue;
                     if (allResolved.has(subQKey)) continue;
 
                     // Register in import resolution map for resolution
-                    if (!importResolutionMap.has(subQKey)) {
+                    if (!importResolutionMap.has(subRootKey)) {
                         let resolvedFile: SourceFile | undefined;
                         // Prefer the exact declaration file when available — this handles
                         // multi-module packages where different types live in different files
@@ -1092,9 +1096,13 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
     }
 
 
-    // Build dependency info grouped by package
+    // Build dependency info grouped by package.
+    // Also track entity → subpath so splitDependenciesBySubpath and
+    // entitySubRefNames lookups use identity-based subpath resolution
+    // instead of name-based lookups that collapse same-named types.
     const depByPackage = new Map<string, DependencyInfo>();
-    for (const [typeName, { packageName, type, kind }] of allResolved) {
+    const entityToSubpath = new Map<object, string>();
+    for (const [, { packageName, subpath: resolvedSubpath, type, kind }] of allResolved) {
         if (!depByPackage.has(packageName)) {
             depByPackage.set(packageName, {
                 package: packageName,
@@ -1102,6 +1110,7 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
                 isNode: isNodePackage(packageName) || undefined,
             });
         }
+        entityToSubpath.set(type, resolvedSubpath ?? ".");
         const depInfo = depByPackage.get(packageName)!;
         switch (kind) {
             case "class":
@@ -1126,23 +1135,27 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
     }
 
     // Populate referencedTypes on dependency entities from sub-ref tracking.
-    // entitySubRefNames is keyed by makeDepKey(packageName, typeName).
+    // entitySubRefNames is keyed by makeDepKey(packageName, typeName, subpath).
     for (const [pkgName, dep] of depByPackage) {
         for (const cls of dep.classes || []) {
-            const refs = entitySubRefNames.get(makeDepKey(pkgName, cls.name));
+            const sp = entityToSubpath.get(cls);
+            const refs = entitySubRefNames.get(makeDepKey(pkgName, cls.name, sp));
             if (refs?.size) cls.referencedTypes = Array.from(refs);
         }
         for (const iface of dep.interfaces || []) {
-            const refs = entitySubRefNames.get(makeDepKey(pkgName, iface.name));
+            const sp = entityToSubpath.get(iface);
+            const refs = entitySubRefNames.get(makeDepKey(pkgName, iface.name, sp));
             if (refs?.size) iface.referencedTypes = Array.from(refs);
         }
         for (const t of dep.types || []) {
-            const refs = entitySubRefNames.get(makeDepKey(pkgName, t.name));
+            const sp = entityToSubpath.get(t);
+            const refs = entitySubRefNames.get(makeDepKey(pkgName, t.name, sp));
             if (refs?.size) t.referencedTypes = Array.from(refs);
         }
         for (const fn of dep.functions || []) {
             if (!fn.name) continue;
-            const refs = entitySubRefNames.get(makeDepKey(pkgName, fn.name));
+            const sp = entityToSubpath.get(fn);
+            const refs = entitySubRefNames.get(makeDepKey(pkgName, fn.name, sp));
             if (refs?.size) fn.referencedTypes = Array.from(refs);
         }
     }
@@ -1237,7 +1250,7 @@ export function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionCont
     }
 
     const flatDeps = Array.from(depByPackage.values()).sort((a, b) => a.package.localeCompare(b.package));
-    return splitDependenciesBySubpath(flatDeps, typeSubpathMap, rootPath);
+    return splitDependenciesBySubpath(flatDeps, typeSubpathMap, rootPath, entityToSubpath);
 }
 
 /**
@@ -1659,6 +1672,7 @@ function splitDependenciesBySubpath(
     deps: DependencyInfo[],
     subpathMap: Map<string, string>,
     rootPath: string,
+    entityToSubpath?: Map<object, string>,
 ): DependencyInfo[] {
     const result: DependencyInfo[] = [];
     for (const dep of deps) {
@@ -1674,22 +1688,25 @@ function splitDependenciesBySubpath(
             continue;
         }
 
-        // Collect subpath for each entity
-        const entitySubpaths = new Map<string, string>();
+        // Collect subpath for each entity using identity-based lookup
+        // to avoid cross-subpath collapse when same-named types exist.
+        const entitySubpathById = new Map<object, string>();
         const allSubpaths = new Set<string>();
 
-        function recordEntity(name: string): void {
-            const subpath = subpathMap.get(makeDepKey(dep.package, name)) ?? ".";
-            entitySubpaths.set(name, subpath);
+        function recordEntity(entity: { name: string }): void {
+            const subpath = entityToSubpath?.get(entity)
+                ?? subpathMap.get(makeDepKey(dep.package, entity.name))
+                ?? ".";
+            entitySubpathById.set(entity, subpath);
             allSubpaths.add(subpath);
         }
 
-        for (const c of dep.classes ?? []) recordEntity(c.name);
-        for (const i of dep.interfaces ?? []) recordEntity(i.name);
-        for (const e of dep.enums ?? []) recordEntity(e.name);
-        for (const t of dep.types ?? []) recordEntity(t.name);
-        for (const f of dep.functions ?? []) { if (f.name) recordEntity(f.name); }
-        for (const ns of dep.namespaces ?? []) recordEntity(ns.name);
+        for (const c of dep.classes ?? []) recordEntity(c);
+        for (const i of dep.interfaces ?? []) recordEntity(i);
+        for (const e of dep.enums ?? []) recordEntity(e);
+        for (const t of dep.types ?? []) recordEntity(t);
+        for (const f of dep.functions ?? []) { if (f.name) recordEntity(f); }
+        for (const ns of dep.namespaces ?? []) recordEntity(ns);
 
         // If only root subpath, keep as-is
         if (allSubpaths.size <= 1 && (allSubpaths.has(".") || allSubpaths.size === 0)) {
@@ -1699,7 +1716,7 @@ function splitDependenciesBySubpath(
 
         // Split by subpath
         for (const subpath of [...allSubpaths].sort()) {
-            const isForSubpath = (name: string) => (entitySubpaths.get(name) ?? ".") === subpath;
+            const isForSubpath = (entity: object) => (entitySubpathById.get(entity) ?? ".") === subpath;
             const splitDep: DependencyInfo = {
                 package: dep.package,
                 subpath: subpath !== "." ? subpath : undefined,
@@ -1713,27 +1730,27 @@ function splitDependenciesBySubpath(
             }
 
             if (dep.classes) {
-                const f = dep.classes.filter(c => isForSubpath(c.name));
+                const f = dep.classes.filter(c => isForSubpath(c));
                 if (f.length) splitDep.classes = f;
             }
             if (dep.interfaces) {
-                const f = dep.interfaces.filter(i => isForSubpath(i.name));
+                const f = dep.interfaces.filter(i => isForSubpath(i));
                 if (f.length) splitDep.interfaces = f;
             }
             if (dep.enums) {
-                const f = dep.enums.filter(e => isForSubpath(e.name));
+                const f = dep.enums.filter(e => isForSubpath(e));
                 if (f.length) splitDep.enums = f;
             }
             if (dep.types) {
-                const f = dep.types.filter(t => isForSubpath(t.name));
+                const f = dep.types.filter(t => isForSubpath(t));
                 if (f.length) splitDep.types = f;
             }
             if (dep.functions) {
-                const f = dep.functions.filter(fn => fn.name ? isForSubpath(fn.name) : false);
+                const f = dep.functions.filter(fn => isForSubpath(fn));
                 if (f.length) splitDep.functions = f;
             }
             if (dep.namespaces) {
-                const f = dep.namespaces.filter(ns => isForSubpath(ns.name));
+                const f = dep.namespaces.filter(ns => isForSubpath(ns));
                 if (f.length) splitDep.namespaces = f;
             }
 

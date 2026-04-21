@@ -648,11 +648,57 @@ internal static class TypeScriptModelHelpers
         var parts = new List<string>();
         int depth = 0;
         int start = 0;
+        char inString = '\0'; // '\0' = not in string; otherwise '\'', '"', or '`'
+        int templateBraceDepth = 0; // tracks ${...} nesting inside backtick strings
 
         for (int i = 0; i < sig.Length; i++)
         {
             char c = sig[i];
-            if (c is '<' or '(' or '[' or '{') depth++;
+
+            // Handle escape sequences inside strings
+            if (inString != '\0' && c == '\\')
+            {
+                i++; // skip the escaped character
+                continue;
+            }
+
+            if (inString != '\0')
+            {
+                if (inString == '`')
+                {
+                    // Inside a backtick string: handle ${...} template expressions
+                    if (c == '$' && i + 1 < sig.Length && sig[i + 1] == '{')
+                    {
+                        templateBraceDepth++;
+                        i++; // skip the '{'
+                        continue;
+                    }
+
+                    if (templateBraceDepth > 0)
+                    {
+                        if (c == '{') templateBraceDepth++;
+                        else if (c == '}') templateBraceDepth--;
+                        continue;
+                    }
+
+                    if (c == '`')
+                        inString = '\0';
+                }
+                else
+                {
+                    // Inside single or double quote
+                    if (c == inString)
+                        inString = '\0';
+                }
+                continue;
+            }
+
+            // Not inside a string
+            if (c is '\'' or '"' or '`')
+            {
+                inString = c;
+            }
+            else if (c is '<' or '(' or '[' or '{') depth++;
             else if (c is '>' or ')' or ']' or '}') depth--;
             else if (c == ',' && depth == 0)
             {

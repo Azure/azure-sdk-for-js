@@ -107,7 +107,7 @@ public static class TypeScriptFormatter
             var subIndex = index with
             {
                 Modules = conditionModules,
-                ResolvedDependencies = conditionResolvedDeps is { Count: > 0 } ? conditionResolvedDeps : null,
+                ResolvedDependencies = conditionResolvedDeps,
                 Dependencies = filteredDeps is { Count: > 0 } ? filteredDeps : null,
                 AmbientTypes = filteredAmbientTypes,
             };
@@ -594,29 +594,37 @@ public static class TypeScriptFormatter
         // we intersect on (package, subpath) to avoid pulling in deps that
         // belong to other export conditions.
         IReadOnlyList<DependencyInfo>? depsToRender = index.Dependencies;
-        if (index.Dependencies is not null && index.ResolvedDependencies is { Count: > 0 })
+        if (index.Dependencies is not null && index.ResolvedDependencies is not null)
         {
-            var resolvedKeys = new HashSet<string>(
-                index.ResolvedDependencies.Select(rd => $"{rd.Package}\0{rd.Subpath ?? ""}"),
-                StringComparer.Ordinal);
-            depsToRender = index.Dependencies
-                .Where(d => d.IsNode || resolvedKeys.Contains($"{d.Package}\0{d.Subpath ?? ""}"))
-                .ToList();
-
-            // Fall back to package-level filtering when subpath matching yields
-            // no non-node results (e.g. flat deps lack subpath but resolved deps have it).
-            if (!depsToRender.Any(d => !d.IsNode))
+            if (index.ResolvedDependencies.Count > 0)
             {
-                var resolvedPackages = new HashSet<string>(
-                    index.ResolvedDependencies.Select(rd => rd.Package),
+                var resolvedKeys = new HashSet<string>(
+                    index.ResolvedDependencies.Select(rd => $"{rd.Package}\0{rd.Subpath ?? ""}"),
                     StringComparer.Ordinal);
                 depsToRender = index.Dependencies
-                    .Where(d => d.IsNode || resolvedPackages.Contains(d.Package))
+                    .Where(d => d.IsNode || resolvedKeys.Contains($"{d.Package}\0{d.Subpath ?? ""}"))
                     .ToList();
-            }
 
-            if (!depsToRender.Any(d => !d.IsNode))
-                depsToRender = index.Dependencies!;
+                // Fall back to package-level filtering when subpath matching yields
+                // no non-node results (e.g. flat deps lack subpath but resolved deps have it).
+                if (!depsToRender.Any(d => !d.IsNode))
+                {
+                    var resolvedPackages = new HashSet<string>(
+                        index.ResolvedDependencies.Select(rd => rd.Package),
+                        StringComparer.Ordinal);
+                    depsToRender = index.Dependencies
+                        .Where(d => d.IsNode || resolvedPackages.Contains(d.Package))
+                        .ToList();
+                }
+
+                if (!depsToRender.Any(d => !d.IsNode))
+                    depsToRender = index.Dependencies!;
+            }
+            else
+            {
+                // Empty resolved deps means no deps for this target — only keep IsNode deps
+                depsToRender = index.Dependencies.Where(d => d.IsNode).ToList();
+            }
         }
 
         // Collect Node.js type imports grouped by their specific node:* module
@@ -907,11 +915,11 @@ public static class TypeScriptFormatter
             var cond = k.Condition;
             string mName;
             if (ep is "." or "")
-                mName = hasMultipleConditions ? $"{index.Package}/{cond}" : index.Package;
+                mName = hasMultipleConditions && cond != "default" ? $"{index.Package}/{cond}" : index.Package;
             else
             {
                 var sp = ep.StartsWith("./", StringComparison.Ordinal) ? ep[2..] : ep;
-                mName = hasMultipleConditions ? $"{index.Package}/{sp}/{cond}" : $"{index.Package}/{sp}";
+                mName = hasMultipleConditions && cond != "default" ? $"{index.Package}/{sp}/{cond}" : $"{index.Package}/{sp}";
             }
             foreach (var c in g.Classes) mainTypeToModule.TryAdd(c.Name, mName);
             foreach (var i in g.Interfaces) mainTypeToModule.TryAdd(i.Name, mName);
@@ -928,17 +936,18 @@ public static class TypeScriptFormatter
                 var condition = key.Condition;
 
                 // Build module name: "pkg/condition" or "pkg/subpath/condition"
+                // When condition is "default", use the bare specifier (no suffix)
                 string moduleName;
                 if (exportPath is "." or "")
                 {
-                    moduleName = hasMultipleConditions
+                    moduleName = hasMultipleConditions && condition != "default"
                         ? $"{index.Package}/{condition}"
                         : index.Package;
                 }
                 else
                 {
                     var subpath = exportPath.StartsWith("./", StringComparison.Ordinal) ? exportPath[2..] : exportPath;
-                    moduleName = hasMultipleConditions
+                    moduleName = hasMultipleConditions && condition != "default"
                         ? $"{index.Package}/{subpath}/{condition}"
                         : $"{index.Package}/{subpath}";
                 }

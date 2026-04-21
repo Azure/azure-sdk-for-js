@@ -251,6 +251,47 @@ public class NdjsonStreamParserTests
 
     #endregion
 
+    #region Cross-Chunk Corruption Detection
+
+    [Fact]
+    public async Task ParseAsync_StrictMode_NonWhitespaceJunkBetweenObjectsAcrossChunks_Throws()
+    {
+        // Chunk 1: valid object + junk with no '{' → junk is buffered as corruption
+        // Chunk 2: starts with '{' → should throw because corruption was detected
+        var ex = await Assert.ThrowsAsync<JsonException>(() =>
+            CollectAsync(NdjsonStreamParser.ParseAsync<TestItem>(
+                Chunks("{\"value\": 1}", "GARBAGE", "{\"value\": 2}"),
+                Options, ignoreNonJsonLinesBeforeFirstObject: false)));
+
+        Assert.Contains("Corrupted data", ex.Message);
+    }
+
+    [Fact]
+    public async Task ParseAsync_NonStrictMode_NonWhitespaceJunkBetweenObjectsAcrossChunks_StillWorks()
+    {
+        // In non-strict (lenient) mode, junk between objects across chunks should be tolerated
+        var items = await CollectAsync(NdjsonStreamParser.ParseAsync<TestItem>(
+            Chunks("{\"value\": 1}", "GARBAGE\n", "{\"value\": 2}"),
+            Options, ignoreNonJsonLinesBeforeFirstObject: true));
+
+        Assert.Equal(2, items.Count);
+        Assert.Equal([1, 2], items.Select(i => i.Value).ToArray());
+    }
+
+    [Fact]
+    public async Task ParseAsync_StrictMode_WhitespaceBetweenObjectsAcrossChunks_NoThrow()
+    {
+        // Pure whitespace between objects across chunks should be fine even in strict mode
+        var items = await CollectAsync(NdjsonStreamParser.ParseAsync<TestItem>(
+            Chunks("{\"value\": 1}", "  \n\t\n  ", "{\"value\": 2}"),
+            Options, ignoreNonJsonLinesBeforeFirstObject: false));
+
+        Assert.Equal(2, items.Count);
+        Assert.Equal([1, 2], items.Select(i => i.Value).ToArray());
+    }
+
+    #endregion
+
     private static async Task<List<T>> CollectAsync<T>(IAsyncEnumerable<T> stream)
     {
         var list = new List<T>();

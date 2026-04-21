@@ -167,4 +167,52 @@ public class ParseSignatureParamsTests
         Assert.Equal(["string", "string[]"], types);
         Assert.Equal(1, optionalCount);
     }
+
+    // ─── String literal default containing comma ───
+
+    [Fact]
+    public void StringLiteralDefaultWithComma_DoesNotSplitInsideString()
+    {
+        var (types, optionalCount) = TypeScriptModelHelpers.ParseSignatureParams(
+            "x: string = \"a,b\", y: number");
+
+        Assert.Equal(["string", "number"], types);
+        Assert.Equal(1, optionalCount);
+    }
+
+    // ─── Template literal type containing comma ───
+
+    [Fact]
+    public void TemplateLiteralType_DoesNotSplitInsideBackticks()
+    {
+        var (types, optionalCount) = TypeScriptModelHelpers.ParseSignatureParams(
+            "x: `${string},${string}`, y: number");
+
+        Assert.Equal(["`${string},${string}`", "number"], types);
+        Assert.Equal(0, optionalCount);
+    }
+
+    // ─── Escaped quotes inside string literal ───
+
+    [Fact]
+    public void EscapedQuotesInStringLiteral_DoesNotEndStringEarly()
+    {
+        var (types, optionalCount) = TypeScriptModelHelpers.ParseSignatureParams(
+            "x: string = \"say \\\"hello\\\"\", y: number");
+
+        Assert.Equal(["string", "number"], types);
+        Assert.Equal(1, optionalCount);
+    }
+
+    // ─── Backtick with nested expression containing generics ───
+
+    [Fact]
+    public void BacktickWithNestedGenericExpression_DoesNotSplitInsideTemplate()
+    {
+        var (types, optionalCount) = TypeScriptModelHelpers.ParseSignatureParams(
+            "x: `${A<B,C>}`, y: number");
+
+        Assert.Equal(["`${A<B,C>}`", "number"], types);
+        Assert.Equal(0, optionalCount);
+    }
 }

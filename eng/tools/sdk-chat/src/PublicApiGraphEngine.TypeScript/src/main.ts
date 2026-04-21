@@ -225,7 +225,7 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
             message: `No source files found in ${sourceDir} (mode: ${options.mode})`,
             severity: "error",
         });
-        process.exit(1);
+        throw new Error(`No source files found in ${sourceDir} (mode: ${options.mode}). Check that the package path and tsconfig are correct.`);
     }
 
     // Check for critical compilation errors before extraction

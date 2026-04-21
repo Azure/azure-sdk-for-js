@@ -210,22 +210,24 @@ export function normalizeCondition(condition: string): string {
     // non-types condition so platform-specific modules keep their context.
     const hasTypes = chain.includes("types");
     if (hasTypes) {
-        const nonTypes = chain.find(c => c !== "types" && CONDITION_TIERS.has(c));
+        const nonTypes = chain.find(c => c !== "types" && c !== "default" && CONDITION_TIERS.has(c));
         if (nonTypes) {
             return nonTypes;
         }
         return "types";
     }
 
-    if (chain.includes("default")) {
-        return "default";
-    }
-
-    // Return the first condition that appears in our classification table.
+    // Return the first condition that appears in our classification table,
+    // skipping "default" so that e.g. "import|default" normalizes to "import"
+    // rather than collapsing to "default".
     for (const c of chain) {
-        if (CONDITION_TIERS.has(c)) {
+        if (c !== "default" && CONDITION_TIERS.has(c)) {
             return c;
         }
+    }
+
+    if (chain.includes("default")) {
+        return "default";
     }
 
     return chain[chain.length - 1];

@@ -199,6 +199,35 @@ export function baseTypeName(typeStr: string): string {
 }
 
 // ============================================================================
+// JSDoc helpers
+// ============================================================================
+
+/** Escapes `*​/` inside doc text so it cannot close a JSDoc comment prematurely. */
+function escapeDoc(s: string): string {
+    return s.replace(/\*\//g, "*\u200B/");
+}
+
+/**
+ * Builds JSDoc comment lines combining an optional description and @deprecated tag.
+ * Returns an empty array when neither doc nor deprecation metadata is present.
+ */
+function formatJsDoc(indent: string, doc?: string, deprecated?: boolean, deprecatedMsg?: string): string[] {
+    if (!doc && !deprecated) return [];
+    const lines: string[] = [];
+    if (doc && !deprecated) {
+        lines.push(`${indent}/** ${escapeDoc(doc)} */`);
+    } else if (!doc && deprecated) {
+        const msg = deprecatedMsg ? ` ${escapeDoc(deprecatedMsg)}` : "";
+        lines.push(`${indent}/** @deprecated${msg} */`);
+    } else {
+        lines.push(`${indent}/** ${escapeDoc(doc!)}`);
+        const msg = deprecatedMsg ? ` ${escapeDoc(deprecatedMsg)}` : "";
+        lines.push(`${indent} * @deprecated${msg} */`);
+    }
+    return lines;
+}
+
+// ============================================================================
 // Formatters
 // ============================================================================
 
@@ -359,7 +388,7 @@ export function formatStubs(api: ApiIndex): string {
 
             // Interfaces
             for (const iface of dep.interfaces || []) {
-                if (iface.doc) lines.push(`${indent}/** ${iface.doc} */`);
+                lines.push(...formatJsDoc(indent, iface.doc, iface.deprecated, iface.deprecatedMsg));
                 const ext = iface.extends?.length ? ` extends ${iface.extends.join(", ")}` : "";
                 const typeParams = iface.typeParams ? `<${iface.typeParams}>` : "";
                 lines.push(`${indent}export interface ${iface.name}${typeParams}${ext} {`);
@@ -399,7 +428,7 @@ export function formatStubs(api: ApiIndex): string {
 
             // Classes
             for (const cls of dep.classes || []) {
-                if (cls.doc) lines.push(`${indent}/** ${cls.doc} */`);
+                lines.push(...formatJsDoc(indent, cls.doc, cls.deprecated, cls.deprecatedMsg));
                 const ext = cls.extends ? ` extends ${cls.extends}` : "";
                 const impl = cls.implements?.length ? ` implements ${cls.implements.join(", ")}` : "";
                 const typeParams = cls.typeParams ? `<${cls.typeParams}>` : "";
@@ -440,8 +469,9 @@ export function formatStubs(api: ApiIndex): string {
 
             // Enums
             for (const e of dep.enums || []) {
-                if (e.doc) lines.push(`${indent}/** ${e.doc} */`);
-                lines.push(`${indent}export enum ${e.name} {`);
+                lines.push(...formatJsDoc(indent, e.doc, e.deprecated, e.deprecatedMsg));
+                const constMod = e.isConst ? "const " : "";
+                lines.push(`${indent}export ${constMod}enum ${e.name} {`);
                 lines.push(`${indent}    ${e.values.join(", ")}`);
                 lines.push(`${indent}}`);
                 lines.push("");
@@ -449,7 +479,7 @@ export function formatStubs(api: ApiIndex): string {
 
             // Type aliases
             for (const t of dep.types || []) {
-                if (t.doc) lines.push(`${indent}/** ${t.doc} */`);
+                lines.push(...formatJsDoc(indent, t.doc, t.deprecated, t.deprecatedMsg));
                 const typeParams = t.typeParams ? `<${t.typeParams}>` : "";
                 lines.push(`${indent}export type ${t.name}${typeParams} = ${t.type};`);
                 lines.push("");
@@ -457,7 +487,7 @@ export function formatStubs(api: ApiIndex): string {
 
             // Functions
             for (const fn of dep.functions || []) {
-                if (fn.doc) lines.push(`${indent}/** ${fn.doc} */`);
+                lines.push(...formatJsDoc(indent, fn.doc, fn.deprecated, fn.deprecatedMsg));
                 const ret = fn.ret ? `: ${fn.ret}` : "";
                 const typeParams = fn.typeParams ? `<${fn.typeParams}>` : "";
                 lines.push(`${indent}export function ${fn.name}${typeParams}(${fn.sig})${ret};`);
@@ -491,7 +521,7 @@ function formatGroupBody(modules: ModuleInfo[], indent: string): string[] {
 
         // Functions
         for (const fn of module.functions || []) {
-            if (fn.doc) lines.push(`${indent}/** ${fn.doc} */`);
+            lines.push(...formatJsDoc(indent, fn.doc, fn.deprecated, fn.deprecatedMsg));
             const ret = fn.ret ? `: ${fn.ret}` : "";
             const typeParams = fn.typeParams ? `<${fn.typeParams}>` : "";
             lines.push(`${indent}export function ${fn.name}${typeParams}(${fn.sig})${ret};`);
@@ -500,7 +530,7 @@ function formatGroupBody(modules: ModuleInfo[], indent: string): string[] {
 
         // Type aliases
         for (const t of module.types || []) {
-            if (t.doc) lines.push(`${indent}/** ${t.doc} */`);
+            lines.push(...formatJsDoc(indent, t.doc, t.deprecated, t.deprecatedMsg));
             const typeParams = t.typeParams ? `<${t.typeParams}>` : "";
             lines.push(`${indent}export type ${t.name}${typeParams} = ${t.type};`);
             lines.push("");
@@ -508,8 +538,9 @@ function formatGroupBody(modules: ModuleInfo[], indent: string): string[] {
 
         // Enums
         for (const e of module.enums || []) {
-            if (e.doc) lines.push(`${indent}/** ${e.doc} */`);
-            lines.push(`${indent}export enum ${e.name} {`);
+            lines.push(...formatJsDoc(indent, e.doc, e.deprecated, e.deprecatedMsg));
+            const constMod = e.isConst ? "const " : "";
+            lines.push(`${indent}export ${constMod}enum ${e.name} {`);
             lines.push(`${indent}    ${e.values.join(", ")}`);
             lines.push(`${indent}}`);
             lines.push("");
@@ -517,7 +548,7 @@ function formatGroupBody(modules: ModuleInfo[], indent: string): string[] {
 
         // Interfaces
         for (const iface of module.interfaces || []) {
-            if (iface.doc) lines.push(`${indent}/** ${iface.doc} */`);
+            lines.push(...formatJsDoc(indent, iface.doc, iface.deprecated, iface.deprecatedMsg));
             const ext = iface.extends?.length ? ` extends ${iface.extends.join(", ")}` : "";
             const typeParams = iface.typeParams ? `<${iface.typeParams}>` : "";
             lines.push(`${indent}export interface ${iface.name}${typeParams}${ext} {`);
@@ -557,7 +588,7 @@ function formatGroupBody(modules: ModuleInfo[], indent: string): string[] {
 
         // Classes
         for (const cls of module.classes || []) {
-            if (cls.doc) lines.push(`${indent}/** ${cls.doc} */`);
+            lines.push(...formatJsDoc(indent, cls.doc, cls.deprecated, cls.deprecatedMsg));
             const ext = cls.extends ? ` extends ${cls.extends}` : "";
             const impl = cls.implements?.length ? ` implements ${cls.implements.join(", ")}` : "";
             const typeParams = cls.typeParams ? `<${cls.typeParams}>` : "";
@@ -588,7 +619,7 @@ function formatGroupBody(modules: ModuleInfo[], indent: string): string[] {
                 lines.push(`${indent}    ${abs}${stat}${m.name}${tp}(${m.sig})${ret};`);
             }
 
-            if (!cls.properties?.length && !cls.constructors?.length && !cls.methods?.length) {
+            if (!cls.properties?.length && !cls.constructors?.length && !cls.methods?.length && !cls.indexSignatures?.length) {
                 lines.push(`${indent}    // empty`);
             }
 
@@ -609,6 +640,7 @@ function formatNamespaceLines(ns: NamespaceInfo, indent: string): string[] {
     const lines: string[] = [];
     lines.push(`${indent}export namespace ${ns.name} {`);
     for (const cls of ns.classes || []) {
+        lines.push(...formatJsDoc(indent + "    ", cls.doc, cls.deprecated, cls.deprecatedMsg));
         const ext = cls.extends ? ` extends ${cls.extends}` : "";
         const impl = cls.implements?.length ? ` implements ${cls.implements.join(", ")}` : "";
         const tp = cls.typeParams ? `<${cls.typeParams}>` : "";
@@ -639,13 +671,14 @@ function formatNamespaceLines(ns: NamespaceInfo, indent: string): string[] {
             lines.push(`${indent}        ${abs}${stat}${m.name}${tp}(${m.sig})${ret};`);
         }
 
-        if (!cls.properties?.length && !cls.constructors?.length && !cls.methods?.length) {
+        if (!cls.properties?.length && !cls.constructors?.length && !cls.methods?.length && !cls.indexSignatures?.length) {
             lines.push(`${indent}        // empty`);
         }
 
         lines.push(`${indent}    }`);
     }
     for (const iface of ns.interfaces || []) {
+        lines.push(...formatJsDoc(indent + "    ", iface.doc, iface.deprecated, iface.deprecatedMsg));
         const ext = iface.extends?.length ? ` extends ${iface.extends.join(", ")}` : "";
         const tp = iface.typeParams ? `<${iface.typeParams}>` : "";
         lines.push(`${indent}    export interface ${iface.name}${tp}${ext} {`);
@@ -676,15 +709,19 @@ function formatNamespaceLines(ns: NamespaceInfo, indent: string): string[] {
         lines.push(`${indent}    }`);
     }
     for (const e of ns.enums || []) {
-        lines.push(`${indent}    export enum ${e.name} {`);
+        lines.push(...formatJsDoc(indent + "    ", e.doc, e.deprecated, e.deprecatedMsg));
+        const constMod = e.isConst ? "const " : "";
+        lines.push(`${indent}    export ${constMod}enum ${e.name} {`);
         lines.push(`${indent}        ${e.values.join(", ")}`);
         lines.push(`${indent}    }`);
     }
     for (const t of ns.types || []) {
+        lines.push(...formatJsDoc(indent + "    ", t.doc, t.deprecated, t.deprecatedMsg));
         const tp = t.typeParams ? `<${t.typeParams}>` : "";
         lines.push(`${indent}    export type ${t.name}${tp} = ${t.type};`);
     }
     for (const f of ns.functions || []) {
+        lines.push(...formatJsDoc(indent + "    ", f.doc, f.deprecated, f.deprecatedMsg));
         const ret = f.ret ? `: ${f.ret}` : "";
         const tp = f.typeParams ? `<${f.typeParams}>` : "";
         lines.push(`${indent}    export function ${f.name}${tp}(${f.sig})${ret};`);

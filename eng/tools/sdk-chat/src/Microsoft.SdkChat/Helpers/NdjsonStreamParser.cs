@@ -62,6 +62,7 @@ public static class NdjsonStreamParser
     {
         var buffer = new ArrayBufferWriter<byte>();
         var seenAnyItem = false;
+        var sawCorruptionAfterObject = false;
 
         await foreach (var chunk in chunks.WithCancellation(cancellationToken))
         {
@@ -71,7 +72,7 @@ public static class NdjsonStreamParser
             buffer.Advance(written);
 
             foreach (var item in ExtractObjects(buffer, deserialize, ref seenAnyItem,
-                ignoreNonJsonLinesBeforeFirstObject, isFinalBlock: false))
+                ignoreNonJsonLinesBeforeFirstObject, ref sawCorruptionAfterObject, isFinalBlock: false))
             {
                 yield return item;
             }
@@ -79,7 +80,7 @@ public static class NdjsonStreamParser
 
         // Final pass to handle any remaining complete object at end of stream
         foreach (var item in ExtractObjects(buffer, deserialize, ref seenAnyItem,
-            ignoreNonJsonLinesBeforeFirstObject, isFinalBlock: true))
+            ignoreNonJsonLinesBeforeFirstObject, ref sawCorruptionAfterObject, isFinalBlock: true))
         {
             yield return item;
         }
@@ -93,11 +94,21 @@ public static class NdjsonStreamParser
         Func<string, T?> deserialize,
         ref bool seenAnyItem,
         bool ignoreNonJsonLinesBeforeFirstObject,
+        ref bool sawCorruptionAfterObject,
         bool isFinalBlock)
     {
         var results = new List<T>();
         var data = buffer.WrittenSpan;
         var totalConsumed = 0;
+        var isStrictMode = !ignoreNonJsonLinesBeforeFirstObject;
+
+        // If previous chunk ended with corruption detected, and we're in strict mode, throw now
+        if (sawCorruptionAfterObject && isStrictMode)
+        {
+            throw new JsonException(
+                "Corrupted data detected between JSON objects across chunk boundary. " +
+                "Non-JSON content was found after a valid object in a previous chunk.");
+        }
 
         while (totalConsumed < data.Length)
         {
@@ -109,9 +120,20 @@ public static class NdjsonStreamParser
             var objectStart = FindJsonObjectStart(remaining, allowSkipNonJson);
             if (objectStart < 0)
             {
+                // In strict mode, after seeing at least one object, check if
+                // the remaining buffer contains non-whitespace characters.
+                // If so, this is corruption that may span into the next chunk.
+                if (isStrictMode && seenAnyItem && ContainsNonWhitespace(remaining))
+                {
+                    sawCorruptionAfterObject = true;
+                }
+
                 totalConsumed = data.Length;
                 break;
             }
+
+            // A valid object start was found; reset the corruption flag
+            sawCorruptionAfterObject = false;
 
             totalConsumed += objectStart;
             remaining = data[totalConsumed..];
@@ -143,6 +165,22 @@ public static class NdjsonStreamParser
 
         CompactBuffer(buffer, totalConsumed);
         return results;
+    }
+
+    /// <summary>
+    /// Returns true if the span contains any non-whitespace bytes.
+    /// </summary>
+    private static bool ContainsNonWhitespace(ReadOnlySpan<byte> data)
+    {
+        foreach (var b in data)
+        {
+            if (b != (byte)' ' && b != (byte)'\t' && b != (byte)'\r' && b != (byte)'\n')
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /// <summary>

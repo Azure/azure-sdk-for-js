@@ -112,9 +112,9 @@ public class TypeScriptCompiledPrecisionTests : IClassFixture<TypeScriptCompiled
         Assert.Contains(browserModule.Classes ?? [], c => c.Name == "BrowserClient");
         Assert.Equal("browser", browserModule.Condition);
 
-        // BaseClient is DECLARED in shared.d.ts → inherits "default"
+        // BaseClient is DECLARED in shared.d.ts → inherits "types" from the types entry
         Assert.Contains(sharedModule.Classes ?? [], c => c.Name == "BaseClient");
-        Assert.Equal("default", sharedModule.Condition);
+        Assert.Equal("types", sharedModule.Condition);
 
         // Conditions must be single canonical values (no raw "|" chains)
         Assert.DoesNotContain("|", browserModule.Condition ?? string.Empty, StringComparison.Ordinal);
@@ -156,9 +156,9 @@ public class TypeScriptCompiledPrecisionTests : IClassFixture<TypeScriptCompiled
         Assert.Equal("browser", browserOptsModule.Condition);
 
         // BaseClient, ClientOptions, Resource are DECLARED in shared.d.ts
-        // shared.d.ts is not a direct entry point — it inherits "default"
+        // shared.d.ts is not a direct entry point — it inherits "types" from the types entry
         var sharedModule = api.Modules.First(m => (m.Classes ?? []).Any(c => c.Name == "BaseClient"));
-        Assert.Equal("default", sharedModule.Condition);
+        Assert.Equal("types", sharedModule.Condition);
         Assert.Contains(sharedModule.Interfaces ?? [], i => i.Name == "ClientOptions");
         Assert.Contains(sharedModule.Interfaces ?? [], i => i.Name == "Resource");
     }
