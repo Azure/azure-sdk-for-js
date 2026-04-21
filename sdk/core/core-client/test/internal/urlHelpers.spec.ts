@@ -293,7 +293,7 @@ describe("urlHelpers", () => {
     assert.include(result, "foo");
   });
 
-  it("should handle existing array + new array merge (dedup)", () => {
+  it("should handle existing array + new array merge", () => {
     const result = appendQueryParams(
       "https://example.com?q=1&q=2",
       new Map([["q", ["2", "3"]]]),
@@ -313,7 +313,7 @@ describe("urlHelpers", () => {
     assert.include(result, "q=3");
   });
 
-  it("should handle existing scalar + new array unshift", () => {
+  it("should handle existing scalar + new array overwrite", () => {
     const result = appendQueryParams(
       "https://example.com?q=existing",
       new Map([["q", ["new1", "new2"]]]),
@@ -395,7 +395,7 @@ describe("urlHelpers - remaining uncovered lines", () => {
     assert.strictEqual(url, "https://example.com");
   });
 
-  it("should add trailing slash to path without one", () => {
+  it("should join path when base URL has no trailing slash", () => {
     const serializer = createSerializer({}, false);
     const url = getRequestUrl(
       "https://example.com/api",

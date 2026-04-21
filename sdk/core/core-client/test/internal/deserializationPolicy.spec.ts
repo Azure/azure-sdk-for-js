@@ -880,7 +880,7 @@ async function getDeserializedResponse(
 }
 
 describe("deserializationPolicy", () => {
-  it("should handle operationResponseGetter", async () => {
+  it("should deserialize JSON response body when shouldDeserialize is true", async () => {
     const pipeline = createEmptyPipeline();
     pipeline.addPolicy(deserializationPolicy(), { phase: "Deserialize" });
 
@@ -963,7 +963,7 @@ describe("deserializationPolicy", () => {
     assert.deepStrictEqual((result as any).body, { id: 1 });
   });
 
-  it("should handle HEAD request with streaming response codes", async () => {
+  it("should return boolean body for HEAD request", async () => {
     const pipeline = createEmptyPipeline();
     pipeline.addPolicy(deserializationPolicy(), { phase: "Deserialize" });
 
@@ -1339,7 +1339,7 @@ describe("deserializationPolicy - additional branches", () => {
     assert.strictEqual(result.status, 200);
   });
 
-  it("should handle stream response status codes", async () => {
+  it("should set blobBody and readableStreamBody for Stream-type response", async () => {
     const pipeline = createEmptyPipeline();
     pipeline.addPolicy(deserializationPolicy(), { phase: "Deserialize" });
 
@@ -1515,7 +1515,7 @@ describe("deserializationPolicy - operationResponseGetter", () => {
 });
 
 describe("deserializationPolicy - shouldReturnResponse path", () => {
-  it("should return response without deserialization for empty operationSpec", async () => {
+  it("should fall back to default response when status code is unmatched", async () => {
     const pipeline = createEmptyPipeline();
     pipeline.addPolicy(deserializationPolicy(), { phase: "Deserialize" });
 

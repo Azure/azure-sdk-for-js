@@ -3372,7 +3372,7 @@ describe("serializer", () => {
   });
 
   describe("deserialize - Number", () => {
-    it("should parse NaN number as raw value", () => {
+    it("should return non-numeric string as-is when deserializing Number type", () => {
       const result = serializer.deserialize(
         { type: { name: "Number" }, serializedName: "test" },
         "notANumber",

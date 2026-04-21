@@ -459,7 +459,7 @@ describe("authorizeRequestOnClaimChallenge", () => {
     assert.isFalse(result);
   });
 
-  it("should handle empty WWW-Authenticate header", async () => {
+  it("should handle missing WWW-Authenticate header", async () => {
     const request = defaultRequest();
     const result = await authorizeRequestOnClaimChallenge({
       async getAccessToken() {
