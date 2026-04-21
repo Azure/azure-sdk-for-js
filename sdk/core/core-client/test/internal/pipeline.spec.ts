@@ -32,6 +32,6 @@ describe("pipeline - default options parameter", () => {
     const pipeline = createClientPipeline();
     assert.ok(pipeline);
     const policies = pipeline.getOrderedPolicies();
-    assert.isAbove(policies.length, 0);
+    assert.isNotEmpty(policies);
   });
 });
