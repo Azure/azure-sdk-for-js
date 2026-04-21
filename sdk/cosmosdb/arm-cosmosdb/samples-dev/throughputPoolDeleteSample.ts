@@ -3,31 +3,22 @@
 
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Deletes an existing Azure Cosmos DB Throughput Pool.
+ * This sample demonstrates how to deletes an existing Azure Cosmos DB Throughput Pool.
  *
- * @summary Deletes an existing Azure Cosmos DB Throughput Pool.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/throughputPool/CosmosDBThroughputPoolDelete.json
+ * @summary deletes an existing Azure Cosmos DB Throughput Pool.
+ * x-ms-original-file: 2025-11-01-preview/throughputPool/CosmosDBThroughputPoolDelete.json
  */
-async function cosmosDbThroughputPoolDelete(): Promise<void> {
-  const subscriptionId =
-    process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rgName";
-  const throughputPoolName = "tp1";
+async function cosmosDBThroughputPoolDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.throughputPool.beginDeleteAndWait(
-    resourceGroupName,
-    throughputPoolName,
-  );
-  console.log(result);
+  await client.throughputPool.delete("rgName", "tp1");
 }
 
 async function main(): Promise<void> {
-  await cosmosDbThroughputPoolDelete();
+  await cosmosDBThroughputPoolDelete();
 }
 
 main().catch(console.error);
