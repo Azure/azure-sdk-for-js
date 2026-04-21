@@ -240,6 +240,9 @@ export interface TranslateInputItem {
 export type TranslateParameters = TranslateHeaderParam & TranslateBodyParam & RequestParameters;
 
 // @public
+export type TranslationGender = string;
+
+// @public
 export interface TranslationLanguageOutput {
     dir: LanguageDirectionalityOutput;
     readonly models: string[];
@@ -257,14 +260,13 @@ export interface TranslationTarget {
     adaptiveDatasetId?: string;
     allowFallback?: boolean;
     deploymentName?: string;
-    gender?: string;
-    grade?: string;
+    gender?: TranslationGender;
     language: string;
     profanityAction?: ProfanityAction;
     profanityMarker?: ProfanityMarker;
     referenceTextPairs?: Array<ReferenceTextPair>;
     script?: string;
-    tone?: string;
+    tone?: TranslationTone;
 }
 
 // @public
@@ -277,6 +279,9 @@ export interface TranslationTextOutput {
     targetTokens?: number;
     text: string;
 }
+
+// @public
+export type TranslationTone = string;
 
 // @public (undocumented)
 export interface TranslatorCredential {
