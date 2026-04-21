@@ -276,7 +276,12 @@ export function formatStubs(api: ApiIndex): string {
         return !isRoot || !isDefaultCondition;
     })();
 
-    const hasMultipleConditions = new Set(sortedKeys.map(k => k.split("\0")[1])).size > 1;
+    const conditionsPerExportPath = new Map<string, Set<string>>();
+    for (const key of sortedKeys) {
+        const [ep, cond] = key.split("\0");
+        if (!conditionsPerExportPath.has(ep)) conditionsPerExportPath.set(ep, new Set());
+        conditionsPerExportPath.get(ep)!.add(cond);
+    }
 
     for (const key of sortedKeys) {
         const [exportPath, condition] = key.split("\0");
@@ -286,7 +291,9 @@ export function formatStubs(api: ApiIndex): string {
             const subpath = exportPath && exportPath !== "."
                 ? exportPath.replace(/^\.\//, "")
                 : undefined;
-            const conditionSuffix = hasMultipleConditions && condition !== "default" && condition !== "types"
+            const epConditions = conditionsPerExportPath.get(exportPath) ?? new Set();
+            const hasMultipleConditionsForPath = epConditions.size > 1;
+            const conditionSuffix = hasMultipleConditionsForPath && condition !== "default" && condition !== "types"
                 ? condition
                 : undefined;
             const moduleName = subpath
@@ -347,13 +354,28 @@ export function formatStubs(api: ApiIndex): string {
                 return condA.localeCompare(condB);
             });
 
+            const conditionsPerDepExportPath = new Map<string, Set<string>>();
+            for (const key of depSortedKeys) {
+                const [ep, cond] = key.split("\0");
+                if (!conditionsPerDepExportPath.has(ep)) conditionsPerDepExportPath.set(ep, new Set());
+                conditionsPerDepExportPath.get(ep)!.add(cond);
+            }
+
             for (const key of depSortedKeys) {
                 const [exportPath, condition] = key.split("\0");
                 const modules = depModuleGroups.get(key)!;
 
-                const depModuleSpecifier = exportPath && exportPath !== "."
-                    ? `${depApi.package}/${exportPath.replace(/^\.\//, "")}`
-                    : depApi.package;
+                const depSubpath = exportPath && exportPath !== "."
+                    ? exportPath.replace(/^\.\//, "")
+                    : undefined;
+                const depEpConditions = conditionsPerDepExportPath.get(exportPath) ?? new Set();
+                const hasMultipleDepConditions = depEpConditions.size > 1;
+                const depConditionSuffix = hasMultipleDepConditions && condition !== "default" && condition !== "types"
+                    ? condition
+                    : undefined;
+                const depModuleSpecifier = depSubpath
+                    ? (depConditionSuffix ? `${depApi.package}/${depSubpath}/${depConditionSuffix}` : `${depApi.package}/${depSubpath}`)
+                    : (depConditionSuffix ? `${depApi.package}/${depConditionSuffix}` : depApi.package);
 
                 const bodyLines = formatGroupBody(modules, "    ");
                 if (bodyLines.length > 0) {

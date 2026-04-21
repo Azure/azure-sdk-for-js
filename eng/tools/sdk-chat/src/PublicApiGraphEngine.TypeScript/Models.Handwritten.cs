@@ -771,15 +771,17 @@ internal static class TypeScriptModelHelpers
             {
                 inString = c;
             }
+            // Handle => arrow tokens — skip both characters to prevent
+            // the > from being treated as a bracket close
+            else if (c == '=' && i + 1 < text.Length && text[i + 1] == '>')
+            {
+                i++; // skip '>'
+                continue;
+            }
             else if (c is '<' or '(' or '[' or '{') depth++;
             else if (c is '>' or ')' or ']' or '}') depth--;
             else if (c == target && depth == 0)
             {
-                if (skipArrow && i + 1 < text.Length && text[i + 1] == '>')
-                {
-                    i++; // skip the '>' too
-                    continue;
-                }
                 return i;
             }
         }

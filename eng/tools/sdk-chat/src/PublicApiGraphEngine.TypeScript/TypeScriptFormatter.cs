@@ -23,6 +23,21 @@ public static class TypeScriptFormatter
     private static bool IsBareSpecifierCondition(string condition)
         => condition == "default" || condition == "types";
 
+    /// <summary>Builds the full module specifier from a package name and optional subpath.</summary>
+    private static string BuildDepSpecifier(string package, string? subpath)
+    {
+        if (string.IsNullOrEmpty(subpath) || subpath == "." || subpath == "./")
+            return package;
+        var sub = subpath.StartsWith("./") ? subpath[2..] : subpath;
+        return $"{package}/{sub}";
+    }
+
+    /// <summary>Builds the full module specifier for a <see cref="DependencyInfo"/>.</summary>
+    private static string BuildDepSpecifier(DependencyInfo dep) => BuildDepSpecifier(dep.Package, dep.Subpath);
+
+    /// <summary>Builds the full module specifier for an <see cref="ApiIndex"/> used as a resolved dependency.</summary>
+    private static string BuildDepSpecifier(ApiIndex dep) => BuildDepSpecifier(dep.Package, dep.Subpath);
+
     /// <summary>Returns true for targets that lack Node.js builtins (browser, react-native).</summary>
     private static bool IsNonNodeTarget(string condition)
         => string.Equals(condition, "browser", StringComparison.OrdinalIgnoreCase)
@@ -776,7 +791,7 @@ public static class TypeScriptFormatter
                 var conds = new HashSet<string>(dep.Modules
                     .Select(m => NormalizeCondition(m.Condition))
                     .Distinct(StringComparer.Ordinal));
-                depConditionMap[dep.Package] = conds;
+                depConditionMap[BuildDepSpecifier(dep)] = conds;
             }
 
             // For each main condition, find the matching (or fallback) dependency condition
@@ -792,7 +807,8 @@ public static class TypeScriptFormatter
 
                 foreach (var dep in index.ResolvedDependencies)
                 {
-                    var depConds = depConditionMap.GetValueOrDefault(dep.Package, []);
+                    var depSpecifier = BuildDepSpecifier(dep);
+                    var depConds = depConditionMap.GetValueOrDefault(depSpecifier, []);
                     // Match condition: exact match first, then fall back to "default"
                     var matchedCond = depConds.Contains(mainCond) ? mainCond
                         : depConds.Contains("default") ? "default"
@@ -828,8 +844,8 @@ public static class TypeScriptFormatter
 
                     var depHasMultipleConditions = depConds.Count > 1;
                     var depModuleName = depHasMultipleConditions && !IsBareSpecifierCondition(matchedCond)
-                        ? $"{dep.Package}/{matchedCond}"
-                        : dep.Package;
+                        ? $"{depSpecifier}/{matchedCond}"
+                        : depSpecifier;
 
                     depsForCond.Add((depModuleName, classes, interfaces, enums, types, functions, namespaces));
                 }
@@ -857,7 +873,7 @@ public static class TypeScriptFormatter
                 var conds = dep.Conditions is { Count: > 0 }
                     ? new HashSet<string>(dep.Conditions, StringComparer.Ordinal)
                     : new HashSet<string>(StringComparer.Ordinal);
-                depConditionSets[dep.Package] = conds;
+                depConditionSets[BuildDepSpecifier(dep)] = conds;
             }
 
             foreach (var mainCond in allMainConditions)
@@ -882,19 +898,20 @@ public static class TypeScriptFormatter
                     // Determine module name using condition matching.
                     // Exact match → dep/condition suffix; no match → bare package
                     // name (represents the "default" export, matching tsconfig behavior).
-                    var depConds = depConditionSets.GetValueOrDefault(dep.Package, []);
+                    var depSpecifier = BuildDepSpecifier(dep);
+                    var depConds = depConditionSets.GetValueOrDefault(depSpecifier, []);
                     string depModuleName;
                     if (depConds.Count > 0 && depConds.Contains(mainCond))
                     {
                         // Exact condition match — use suffix
                         depModuleName = depConds.Count > 1 && !IsBareSpecifierCondition(mainCond)
-                            ? $"{dep.Package}/{mainCond}"
-                            : dep.Package;
+                            ? $"{depSpecifier}/{mainCond}"
+                            : depSpecifier;
                     }
                     else
                     {
-                        // No match or no conditions — fall back to bare package name (default)
-                        depModuleName = dep.Package;
+                        // No match or no conditions — fall back to full dep specifier (default)
+                        depModuleName = depSpecifier;
                     }
 
                     depsForCond.Add((depModuleName, classes, interfaces, enums, types, functions, namespaces));
@@ -1192,7 +1209,8 @@ public static class TypeScriptFormatter
                     void EmitSimpleImport(string name)
                     {
                         if (collisionAliases.TryGetValue(name, out var aliasEntry)
-                            && aliasEntry.TryGetValue(dep.Package, out var alias)
+                            && (aliasEntry.TryGetValue(BuildDepSpecifier(dep), out var alias)
+                                || aliasEntry.TryGetValue(dep.Package, out alias))
                             && alias != name)
                         {
                             aliasedNames.Add((name, alias));
@@ -1211,10 +1229,11 @@ public static class TypeScriptFormatter
                         if (!IsSelfReferentialAlias(t))
                             EmitSimpleImport(t.Name);
                     }
+                    var depImportSpecifier = BuildDepSpecifier(dep);
                     if (importNames.Count > 0)
-                        mainSb.AppendLine($"import type {{ {string.Join(", ", importNames)} }} from \"{dep.Package}\";");
+                        mainSb.AppendLine($"import type {{ {string.Join(", ", importNames)} }} from \"{depImportSpecifier}\";");
                     foreach (var (name, alias) in aliasedNames)
-                        mainSb.AppendLine($"import type {{ {name} as {alias} }} from \"{dep.Package}\";");
+                        mainSb.AppendLine($"import type {{ {name} as {alias} }} from \"{depImportSpecifier}\";");
                 }
 
                 mainSb.AppendLine();
@@ -1376,13 +1395,14 @@ public static class TypeScriptFormatter
             foreach (var dep in depsToRender)
             {
                 if (dep.IsNode) continue;
-                foreach (var c in dep.Classes ?? []) typeToDepPackage.TryAdd(c.Name, dep.Package);
-                foreach (var i in dep.Interfaces ?? []) typeToDepPackage.TryAdd(i.Name, dep.Package);
-                foreach (var e in dep.Enums ?? []) typeToDepPackage.TryAdd(e.Name, dep.Package);
+                var depSpec = BuildDepSpecifier(dep);
+                foreach (var c in dep.Classes ?? []) typeToDepPackage.TryAdd(c.Name, depSpec);
+                foreach (var i in dep.Interfaces ?? []) typeToDepPackage.TryAdd(i.Name, depSpec);
+                foreach (var e in dep.Enums ?? []) typeToDepPackage.TryAdd(e.Name, depSpec);
                 foreach (var t in dep.Types ?? [])
-                    if (!IsSelfReferentialAlias(t) && t.Name is not null) typeToDepPackage.TryAdd(t.Name, dep.Package);
+                    if (!IsSelfReferentialAlias(t) && t.Name is not null) typeToDepPackage.TryAdd(t.Name, depSpec);
                 foreach (var f in dep.Functions ?? [])
-                    if (f.Name is not null) typeToDepPackage.TryAdd(f.Name, dep.Package);
+                    if (f.Name is not null) typeToDepPackage.TryAdd(f.Name, depSpec);
             }
 
             // Build node type→module map for cross-dep node imports
@@ -1427,6 +1447,8 @@ public static class TypeScriptFormatter
                 if (classes.Count + interfaces.Count + enums.Count + types.Count + functions.Count + namespaces.Count == 0)
                     continue;
 
+                var depSpec = BuildDepSpecifier(dep);
+
                 // Collect cross-module imports using referencedTypes
                 var moduleRefs = CollectAllReferencedTypes(classes, interfaces, enums, types, functions);
                 var crossImports = new Dictionary<string, List<string>>(StringComparer.Ordinal);
@@ -1445,7 +1467,7 @@ public static class TypeScriptFormatter
                     if (ownTypeNames.Contains(refType)) continue;
                     if (localTypeNames.Contains(refType)) continue;
 
-                    if (typeToDepPackage.TryGetValue(refType, out var sourcePackage) && sourcePackage != dep.Package)
+                    if (typeToDepPackage.TryGetValue(refType, out var sourcePackage) && sourcePackage != depSpec)
                     {
                         if (!crossImports.TryGetValue(sourcePackage, out var list))
                             crossImports[sourcePackage] = list = [];
@@ -1463,7 +1485,7 @@ public static class TypeScriptFormatter
                 }
 
                 sb.AppendLine();
-                sb.AppendLine(AnnotateModuleLine($"declare module \"{dep.Package}\" {{", dep.Package, depVersionLookup));
+                sb.AppendLine(AnnotateModuleLine($"declare module \"{depSpec}\" {{", depSpec, depVersionLookup));
 
                 // Emit cross-module imports
                 foreach (var (importModule, importTypes) in crossImports.OrderBy(kv => kv.Key))

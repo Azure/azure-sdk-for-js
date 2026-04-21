@@ -89,7 +89,7 @@ public class TypeScriptDependencyFilterTests
         var result = TypeScriptFormatter.Format(api);
 
         // The subpath-matched dependency should get a declare module block
-        Assert.Contains("declare module \"dep-models\"", result);
+        Assert.Contains("declare module \"dep-models/models\"", result);
         Assert.Contains("Widget", result);
         // The non-matching dependency should NOT get a declare module block
         Assert.DoesNotContain("declare module \"dep-root\"", result);

@@ -261,4 +261,40 @@ public class ParseSignatureParamsTests
         Assert.Equal(["() => boolean", "string"], types);
         Assert.Equal(0, optionalCount);
     }
+
+    // ─── Arrow inside generic with default ───
+
+    [Fact]
+    public void ArrowInsideGenericWithDefault_DetectsOptionalParam()
+    {
+        var (types, optionalCount) = TypeScriptModelHelpers.ParseSignatureParams(
+            "cb: Map<string, () => void> = defaultMap, y: number");
+
+        Assert.Equal(["Map<string, () => void>", "number"], types);
+        Assert.Equal(1, optionalCount);
+    }
+
+    // ─── Arrow callback without default — not optional ───
+
+    [Fact]
+    public void ArrowCallbackParam_NoDefault_NotOptional()
+    {
+        var (types, optionalCount) = TypeScriptModelHelpers.ParseSignatureParams(
+            "fn: (a: string, b: number) => boolean, next: string");
+
+        Assert.Equal(["(a: string, b: number) => boolean", "string"], types);
+        Assert.Equal(0, optionalCount);
+    }
+
+    // ─── Nested arrow inside generic with default ───
+
+    [Fact]
+    public void NestedArrowInsideGenericWithDefault_DetectsOptionalParam()
+    {
+        var (types, optionalCount) = TypeScriptModelHelpers.ParseSignatureParams(
+            "complex: Record<string, () => Promise<void>> = {}, done: boolean");
+
+        Assert.Equal(["Record<string, () => Promise<void>>", "boolean"], types);
+        Assert.Equal(1, optionalCount);
+    }
 }
