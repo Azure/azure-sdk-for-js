@@ -3,38 +3,29 @@
 
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Update RUs per second of an Azure Cosmos DB Cassandra view
+ * This sample demonstrates how to update RUs per second of an Azure Cosmos DB Cassandra view
  *
- * @summary Update RUs per second of an Azure Cosmos DB Cassandra view
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBCassandraViewThroughputUpdate.json
+ * @summary update RUs per second of an Azure Cosmos DB Cassandra view
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBCassandraViewThroughputUpdate.json
  */
-async function cosmosDbCassandraViewThroughputUpdate() {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const accountName = "ddb1";
-  const keyspaceName = "keyspacename";
-  const viewName = "viewname";
-  const updateThroughputParameters = {
-    resource: { throughput: 400 },
-    tags: {},
-  };
+async function cosmosDBCassandraViewThroughputUpdate() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.cassandraResources.beginUpdateCassandraViewThroughputAndWait(
-    resourceGroupName,
-    accountName,
-    keyspaceName,
-    viewName,
-    updateThroughputParameters,
+  const result = await client.cassandraResources.updateCassandraViewThroughput(
+    "rg1",
+    "ddb1",
+    "keyspacename",
+    "viewname",
+    { resource: { throughput: 400 }, tags: {} },
   );
   console.log(result);
 }
 
 async function main() {
-  await cosmosDbCassandraViewThroughputUpdate();
+  await cosmosDBCassandraViewThroughputUpdate();
 }
 
 main().catch(console.error);

@@ -2,7 +2,7 @@
   "name": "@azure-samples/arm-cosmosdb-js-beta",
   "private": true,
   "version": "1.0.0",
-  "description": " client library samples for JavaScript (Beta)",
+  "description": "@azure/arm-cosmosdb client library samples for JavaScript (Beta)",
   "engines": {
     "node": ">=20.0.0"
   },
@@ -14,10 +14,10 @@
   "keywords": [
     "node",
     "azure",
+    "cloud",
     "typescript",
     "browser",
-    "isomorphic",
-    "cloud"
+    "isomorphic"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -28,7 +28,7 @@
   "dependencies": {
     "@azure/arm-cosmosdb": "next",
     "dotenv": "latest",
-    "@azure/identity": "^4.11.1"
+    "@azure/identity": "^4.13.0"
   },
   "devDependencies": {
     "cross-env": "latest"
