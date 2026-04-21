@@ -294,13 +294,13 @@ export class ContentUnderstandingClient {
     Object.defineProperty(poller, "operationId", {
       get: () => operationId,
       enumerable: true,
-      configurable: true,
+      configurable: false,
     });
 
     Object.defineProperty(poller, "usage", {
       get: () => usage,
       enumerable: true,
-      configurable: true,
+      configurable: false,
     });
 
     return poller;
@@ -357,13 +357,13 @@ export class ContentUnderstandingClient {
     Object.defineProperty(poller, "operationId", {
       get: () => operationId,
       enumerable: true,
-      configurable: true,
+      configurable: false,
     });
 
     Object.defineProperty(poller, "usage", {
       get: () => usage,
       enumerable: true,
-      configurable: true,
+      configurable: false,
     });
 
     return poller;
