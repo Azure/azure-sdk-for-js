@@ -279,9 +279,7 @@ describe("Errors", function () {
           syscall: "connect",
           message: "connect ECONNREFUSED 127.0.0.1:5671",
         };
-        const result = Errors.translate(
-          new AggregateError([enotfound, econnrefused]),
-        );
+        const result = Errors.translate(new AggregateError([enotfound, econnrefused]));
         assert.instanceOf(result, AggregateError);
         const aggResult = result as AggregateError & { retryable: boolean };
         // ECONNREFUSED is retryable, so the aggregate should be retryable

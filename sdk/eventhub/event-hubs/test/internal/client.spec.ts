@@ -24,9 +24,7 @@ async function validateConnectionError(promise: Promise<unknown>): Promise<void>
     // Unwrap to find the underlying MessagingError(s).
     const messagingError = findMessagingError(err);
     if (!messagingError) {
-      assert.fail(
-        `Expected a MessagingError (possibly inside AggregateError), got: ${err}`,
-      );
+      assert.fail(`Expected a MessagingError (possibly inside AggregateError), got: ${err}`);
     }
     expect(messagingError).to.be.an.instanceOf(MessagingError);
     if (isNodeLike) {
