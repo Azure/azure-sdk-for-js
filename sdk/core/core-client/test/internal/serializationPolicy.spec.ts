@@ -1020,6 +1020,9 @@ describe("serializationPolicy - XML serialization", () => {
 
     assert.exists(capturedRequest);
     assert.isString(capturedRequest?.body);
+    const body = capturedRequest!.body as string;
+    assert.include(body, "item1");
+    assert.include(body, "item2");
   });
 
   it("should serialize XML Sequence with xmlNamespace", async () => {
@@ -1065,6 +1068,10 @@ describe("serializationPolicy - XML serialization", () => {
     );
 
     assert.exists(capturedRequest);
+    assert.isString(capturedRequest?.body);
+    const body = capturedRequest!.body as string;
+    assert.include(body, "item1");
+    assert.include(body, "http://example.com");
   });
 
   it("should serialize XML with xmlNamespace on non-Composite/Sequence/Dictionary type", async () => {
@@ -1105,6 +1112,10 @@ describe("serializationPolicy - XML serialization", () => {
     );
 
     assert.exists(capturedRequest);
+    assert.isString(capturedRequest?.body);
+    const body = capturedRequest!.body as string;
+    assert.include(body, "stringValue");
+    assert.include(body, "http://example.com");
   });
 
   it("should handle serialization error in request body", async () => {

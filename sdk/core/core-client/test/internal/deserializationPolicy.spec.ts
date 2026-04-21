@@ -1237,7 +1237,7 @@ describe("deserializationPolicy - additional branches", () => {
           },
         },
       ),
-    ).rejects.toThrow();
+    ).rejects.toThrow(/Err1|msg1/);
   });
 
   it("should handle error in error deserialization", async () => {
@@ -1455,7 +1455,7 @@ describe("deserializationPolicy - additional branches", () => {
           },
         },
       ),
-    ).rejects.toThrow();
+    ).rejects.toThrow(/SoftError|recoverable/);
   });
 });
 
