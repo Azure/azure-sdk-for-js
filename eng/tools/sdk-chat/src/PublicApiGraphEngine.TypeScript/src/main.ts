@@ -550,6 +550,21 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
             }
         }
 
+        // If the original module has no condition but symbols do, promote the
+        // best-priority condition to the original so we don't leak a bogus
+        // unconditioned module alongside condition clones.
+        if (module.condition === undefined && allConditions.size > 0) {
+            let best: string | undefined;
+            for (const c of allConditions) {
+                if (best === undefined || getConditionPriority(c) < getConditionPriority(best)) {
+                    best = c;
+                }
+            }
+            if (best !== undefined) {
+                module.condition = best;
+            }
+        }
+
         // Clone module for any conditions not already covered
         for (const cond of allConditions) {
             if (cond === module.condition) continue;

@@ -623,6 +623,8 @@ public static class TypeScriptFormatter
             exportPaths.Add(NormalizeExportPath(ta.ExportPath));
         foreach (var ns in index.Modules.SelectMany(m => m.Namespaces ?? []).Where(n => n.ExportPath is not null))
             exportPaths.Add(NormalizeExportPath(ns.ExportPath));
+        foreach (var module in index.Modules.Where(m => m.ExportPath is not null))
+            exportPaths.Add(NormalizeExportPath(module.ExportPath));
 
         // Sort export paths: "." first, then alphabetically
         var sortedExportPaths = exportPaths
@@ -842,32 +844,58 @@ public static class TypeScriptFormatter
                 var lookupEp = conditionsPerExportPath.ContainsKey(normalizedEp) ? normalizedEp : ".";
                 var multiCond = conditionsPerExportPath.TryGetValue(lookupEp, out var conds) && conds.Count > 1;
                 if (normalizedEp == ".")
-                    return multiCond && !IsBareSpecifierCondition(condition) ? $"{index.Package}/{condition}" : index.Package;
+                {
+                    if (multiCond && !IsBareSpecifierCondition(condition))
+                    {
+                        // Check collision: if ./condition is a real export path, disambiguate
+                        var potentialSubpath = $"./{condition}";
+                        return exportPaths.Contains(potentialSubpath)
+                            ? $"{index.Package}/{condition} (condition)"
+                            : $"{index.Package}/{condition}";
+                    }
+                    return index.Package;
+                }
                 var sp = normalizedEp.StartsWith("./", StringComparison.Ordinal) ? normalizedEp[2..] : normalizedEp;
-                return multiCond && !IsBareSpecifierCondition(condition) ? $"{index.Package}/{sp}/{condition}" : $"{index.Package}/{sp}";
+                if (multiCond && !IsBareSpecifierCondition(condition))
+                {
+                    // Check collision: if ./sp/condition is a real export path, disambiguate
+                    var potentialSubpath = $"./{sp}/{condition}";
+                    return exportPaths.Contains(potentialSubpath)
+                        ? $"{index.Package}/{sp}/{condition} (condition)"
+                        : $"{index.Package}/{sp}/{condition}";
+                }
+                return $"{index.Package}/{sp}";
             }
 
             // Merge groups that produce the same module specifier (dedup default+types)
             var mergedDict = new Dictionary<string, (ModuleKey Key, List<ClassInfo> Classes, List<InterfaceInfo> Interfaces,
                 List<EnumInfo> Enums, List<TypeAliasInfo> Types, List<FunctionInfo> Functions, List<NamespaceInfo> Namespaces)>(StringComparer.Ordinal);
+            var mergedNames = new Dictionary<string, (HashSet<string> Classes, HashSet<string> Interfaces,
+                HashSet<string> Enums, HashSet<string> Types, HashSet<string> Functions, HashSet<string> FuncSigs)>(StringComparer.Ordinal);
             foreach (var (key, group) in sortedGroups)
             {
                 var mn = ComputeGroupModuleName(key.ExportPath, key.Condition);
                 if (mergedDict.TryGetValue(mn, out var existing))
                 {
+                    var names = mergedNames[mn];
                     foreach (var c in group.Classes)
-                        if (!existing.Classes.Any(x => x.Name == c.Name)) existing.Classes.Add(c);
+                        if (names.Classes.Add(c.Name)) existing.Classes.Add(c);
                     foreach (var i in group.Interfaces)
-                        if (!existing.Interfaces.Any(x => x.Name == i.Name)) existing.Interfaces.Add(i);
+                        if (names.Interfaces.Add(i.Name)) existing.Interfaces.Add(i);
                     foreach (var e in group.Enums)
-                        if (!existing.Enums.Any(x => x.Name == e.Name)) existing.Enums.Add(e);
+                        if (names.Enums.Add(e.Name)) existing.Enums.Add(e);
                     foreach (var t in group.Types)
-                        if (!existing.Types.Any(x => x.Name == t.Name)
-                            && !existing.Classes.Any(x => x.Name == t.Name)
-                            && !existing.Interfaces.Any(x => x.Name == t.Name)) existing.Types.Add(t);
+                        if (!names.Types.Contains(t.Name)
+                            && !names.Classes.Contains(t.Name)
+                            && !names.Interfaces.Contains(t.Name))
+                        {
+                            names.Types.Add(t.Name);
+                            existing.Types.Add(t);
+                        }
                     foreach (var f in group.Functions)
                     {
-                        if (!existing.Functions.Any(x => x.Name == f.Name && x.Sig == f.Sig)) existing.Functions.Add(f);
+                        var funcKey = $"{f.Name}\0{f.Sig}";
+                        if (names.FuncSigs.Add(funcKey)) existing.Functions.Add(f);
                     }
                     MergeNamespacesInto(existing.Namespaces, group.Namespaces);
                 }
@@ -875,6 +903,13 @@ public static class TypeScriptFormatter
                 {
                     mergedDict[mn] = (key, new(group.Classes), new(group.Interfaces),
                         new(group.Enums), new(group.Types), new(group.Functions), new(group.Namespaces));
+                    mergedNames[mn] = (
+                        new HashSet<string>(group.Classes.Select(c => c.Name), StringComparer.Ordinal),
+                        new HashSet<string>(group.Interfaces.Select(i => i.Name), StringComparer.Ordinal),
+                        new HashSet<string>(group.Enums.Select(e => e.Name), StringComparer.Ordinal),
+                        new HashSet<string>(group.Types.Select(t => t.Name), StringComparer.Ordinal),
+                        new HashSet<string>(group.Functions.Select(f => f.Name), StringComparer.Ordinal),
+                        new HashSet<string>(group.Functions.Select(f => $"{f.Name}\0{f.Sig}"), StringComparer.Ordinal));
                 }
             }
             sortedGroups = mergedDict.Values
@@ -1279,8 +1314,15 @@ public static class TypeScriptFormatter
                             foreach (var (depModuleName, depClasses, depInterfaces, depEnums, depTypes) in pkgSpecifiers)
                             {
                                 int priority;
-                                if (depModuleName.EndsWith($"/{condition}", StringComparison.Ordinal))
-                                    priority = 0; // exact condition match
+                                // Collision-safe sentinel from TS — always an exact condition match
+                                if (depModuleName.EndsWith(" (condition)", StringComparison.Ordinal))
+                                    priority = 0;
+                                // Exact condition suffix — but only if the suffix portion isn't also a real export subpath
+                                else if (depModuleName.EndsWith($"/{condition}", StringComparison.Ordinal))
+                                {
+                                    var suffixAsSubpath = $"./{condition}";
+                                    priority = exportPaths.Contains(suffixAsSubpath) ? 2 : 0;
+                                }
                                 else if (depModuleName == pkgName)
                                     priority = 1; // bare specifier
                                 else
@@ -1475,49 +1517,50 @@ public static class TypeScriptFormatter
             }
         }
 
-        // Include remaining interfaces if space permits
-        foreach (var iface in allInterfaces.Where(i => !includedTypeNames.Contains(i.Name)))
-        {
-            if (mainSb.Length >= maxLength) break;
-            var ifaceStr = FormatReachabilityComment(iface.Name, reachabilityChains) + FormatInterface(iface);
-            if (mainSb.Length + ifaceStr.Length <= maxLength)
-            {
-                mainSb.Append(ifaceStr);
-                includedTypeNames.Add(iface.Name);
-                includedItems++;
-            }
-        }
-
-        // Include remaining enums if space permits
-        foreach (var enumDef in allEnums.Where(e => !includedTypeNames.Contains(e.Name)))
-        {
-            if (mainSb.Length >= maxLength) break;
-            var enumStr = FormatReachabilityComment(enumDef.Name, reachabilityChains) + FormatEnum(enumDef);
-            if (mainSb.Length + enumStr.Length <= maxLength)
-            {
-                mainSb.Append(enumStr);
-                includedTypeNames.Add(enumDef.Name);
-                includedItems++;
-            }
-        }
-
-        // Include remaining type aliases if space permits
-        foreach (var typeDef in allTypes.Where(t => !includedTypeNames.Contains(t.Name)))
-        {
-            if (mainSb.Length >= maxLength) break;
-            var typeStr = FormatReachabilityComment(typeDef.Name, reachabilityChains) + FormatTypeAlias(typeDef);
-            if (mainSb.Length + typeStr.Length <= maxLength)
-            {
-                mainSb.Append(typeStr);
-                includedTypeNames.Add(typeDef.Name);
-                includedItems++;
-            }
-        }
-
-        // Include remaining functions and namespaces if space permits.
+        // Include remaining items if space permits.
         // Skip when needsSections is true — they were already rendered inside grouped declare module blocks.
         if (!needsSections)
         {
+            // Include remaining interfaces if space permits
+            foreach (var iface in allInterfaces.Where(i => !includedTypeNames.Contains(i.Name)))
+            {
+                if (mainSb.Length >= maxLength) break;
+                var ifaceStr = FormatReachabilityComment(iface.Name, reachabilityChains) + FormatInterface(iface);
+                if (mainSb.Length + ifaceStr.Length <= maxLength)
+                {
+                    mainSb.Append(ifaceStr);
+                    includedTypeNames.Add(iface.Name);
+                    includedItems++;
+                }
+            }
+
+            // Include remaining enums if space permits
+            foreach (var enumDef in allEnums.Where(e => !includedTypeNames.Contains(e.Name)))
+            {
+                if (mainSb.Length >= maxLength) break;
+                var enumStr = FormatReachabilityComment(enumDef.Name, reachabilityChains) + FormatEnum(enumDef);
+                if (mainSb.Length + enumStr.Length <= maxLength)
+                {
+                    mainSb.Append(enumStr);
+                    includedTypeNames.Add(enumDef.Name);
+                    includedItems++;
+                }
+            }
+
+            // Include remaining type aliases if space permits
+            foreach (var typeDef in allTypes.Where(t => !includedTypeNames.Contains(t.Name)))
+            {
+                if (mainSb.Length >= maxLength) break;
+                var typeStr = FormatReachabilityComment(typeDef.Name, reachabilityChains) + FormatTypeAlias(typeDef);
+                if (mainSb.Length + typeStr.Length <= maxLength)
+                {
+                    mainSb.Append(typeStr);
+                    includedTypeNames.Add(typeDef.Name);
+                    includedItems++;
+                }
+            }
+
+            // Include remaining functions and namespaces if space permits.
             int funcCount = 0;
             foreach (var fn in allFunctions.Where(f => NormalizeExportPath(f.ExportPath) == ".").Take(20))
             {

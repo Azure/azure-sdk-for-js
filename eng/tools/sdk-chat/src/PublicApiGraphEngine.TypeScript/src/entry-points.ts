@@ -554,6 +554,7 @@ export function extractExportedSymbols(project: Project, entryEntries: ExportEnt
         if (!sourceFile) continue;
 
         for (const [name, declarations] of sourceFile.getExportedDeclarations()) {
+            if (declarations.length === 0) continue;
             // Use the actual declaration file for the qualified key so that
             // lookups from main.ts (keyed by source file path) match correctly.
             const declFile = path.resolve(declarations[0].getSourceFile().getFilePath());
