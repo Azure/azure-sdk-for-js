@@ -3,36 +3,32 @@
 
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Retrieves metric definitions for the given collection.
+ * This sample demonstrates how to retrieves metric definitions for the given collection.
  *
- * @summary Retrieves metric definitions for the given collection.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBCollectionGetMetricDefinitions.json
+ * @summary retrieves metric definitions for the given collection.
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBCollectionGetMetricDefinitions.json
  */
-async function cosmosDbCollectionGetMetricDefinitions() {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const accountName = "ddb1";
-  const databaseRid = "databaseRid";
-  const collectionRid = "collectionRid";
+async function cosmosDBCollectionGetMetricDefinitions() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.collection.listMetricDefinitions(
-    resourceGroupName,
-    accountName,
-    databaseRid,
-    collectionRid,
+    "rg1",
+    "ddb1",
+    "databaseRid",
+    "collectionRid",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main() {
-  await cosmosDbCollectionGetMetricDefinitions();
+  await cosmosDBCollectionGetMetricDefinitions();
 }
 
 main().catch(console.error);

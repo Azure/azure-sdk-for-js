@@ -1,41 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  ChaosFaultResource} from "@azure/arm-cosmosdb";
-import {
-  CosmosDBManagementClient,
-} from "@azure/arm-cosmosdb";
+import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Enable, disable Chaos Fault in a CosmosDB account.
+ * This sample demonstrates how to enable, disable Chaos Fault in a CosmosDB account.
  *
- * @summary Enable, disable Chaos Fault in a CosmosDB account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/ChaosFaultEnableDisable.json
+ * @summary enable, disable Chaos Fault in a CosmosDB account.
+ * x-ms-original-file: 2025-11-01-preview/ChaosFaultEnableDisable.json
  */
 async function chaosFaultEnableDisable(): Promise<void> {
-  const subscriptionId =
-    process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["COSMOSDB_RESOURCE_GROUP"] || "myResourceGroupName";
-  const accountName = "myAccountName";
-  const chaosFault = "ServiceUnavailability";
-  const chaosFaultRequest: ChaosFaultResource = {
-    action: "Enable",
-    containerName: "testCollection",
-    databaseName: "testDatabase",
-    region: "EastUS",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.chaosFault.beginEnableDisableAndWait(
-    resourceGroupName,
-    accountName,
-    chaosFault,
-    chaosFaultRequest,
+  const result = await client.chaosFault.enableDisable(
+    "myResourceGroupName",
+    "myAccountName",
+    "ServiceUnavailability",
+    {
+      action: "Enable",
+      containerName: "testCollection",
+      databaseName: "testDatabase",
+      region: "EastUS",
+    },
   );
   console.log(result);
 }

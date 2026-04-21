@@ -384,7 +384,7 @@ describe("CancellableAsyncLock", function () {
       const abortController = new AbortController();
       // Hold the lock so the second acquire must wait and hit the timeout
       let resolve = (): void => {};
-      const held = new Promise<void>((r) => (resolve = r));
+      const held = new Promise<void>((_resolve) => (resolve = _resolve));
       const firstTask = lock.acquire("negative-timeout-key", () => held, {
         timeoutInMs: 5000,
         abortSignal: abortController.signal,

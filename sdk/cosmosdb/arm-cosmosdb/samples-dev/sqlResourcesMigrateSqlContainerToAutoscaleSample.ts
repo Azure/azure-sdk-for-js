@@ -3,34 +3,28 @@
 
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Migrate an Azure Cosmos DB SQL container from manual throughput to autoscale
+ * This sample demonstrates how to migrate an Azure Cosmos DB SQL container from manual throughput to autoscale
  *
- * @summary Migrate an Azure Cosmos DB SQL container from manual throughput to autoscale
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBSqlContainerMigrateToAutoscale.json
+ * @summary migrate an Azure Cosmos DB SQL container from manual throughput to autoscale
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBSqlContainerMigrateToAutoscale.json
  */
-async function cosmosDbSqlContainerMigrateToAutoscale(): Promise<void> {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const accountName = "ddb1";
-  const databaseName = "databaseName";
-  const containerName = "containerName";
+async function cosmosDBSqlContainerMigrateToAutoscale(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result =
-    await client.sqlResources.beginMigrateSqlContainerToAutoscaleAndWait(
-      resourceGroupName,
-      accountName,
-      databaseName,
-      containerName,
-    );
+  const result = await client.sqlResources.migrateSqlContainerToAutoscale(
+    "rg1",
+    "ddb1",
+    "databaseName",
+    "containerName",
+  );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await cosmosDbSqlContainerMigrateToAutoscale();
+  await cosmosDBSqlContainerMigrateToAutoscale();
 }
 
 main().catch(console.error);

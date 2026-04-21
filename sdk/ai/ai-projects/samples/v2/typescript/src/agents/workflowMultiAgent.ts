@@ -144,7 +144,7 @@ trigger:
     },
     {
       body: {
-        agent: { name: workflow.name, type: "agent_reference" },
+        agent_reference: { name: workflow.name, type: "agent_reference" },
         metadata: { "x-ms-debug-mode-enabled": "1" },
       },
     },
