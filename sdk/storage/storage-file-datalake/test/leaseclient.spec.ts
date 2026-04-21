@@ -8,11 +8,7 @@ import type {
   DataLakeDirectoryClient,
   DataLakeFileSystemClient,
 } from "../src/index.js";
-import {
-  createAndStartRecorder,
-  getDataLakeServiceClient,
-  getUniqueName,
-} from "./utils/index.js";
+import { createAndStartRecorder, getDataLakeServiceClient, getUniqueName } from "./utils/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("LeaseClient from FileSystem", () => {

@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import type { DataLakeFileSystemClient } from "../src/index.js";
-import {
-  createAndStartRecorder,
-  getDataLakeServiceClient,
-  getUniqueName,
-} from "./utils/index.js";
+import { createAndStartRecorder, getDataLakeServiceClient, getUniqueName } from "./utils/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

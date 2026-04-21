@@ -5,11 +5,7 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import type { DataLakeFileSystemClient } from "../src/index.js";
 import { DataLakeFileClient } from "../src/index.js";
 import { appendToURLPath } from "../src/utils/utils.common.js";
-import {
-  createAndStartRecorder,
-  getDataLakeServiceClient,
-  getUniqueName,
-} from "./utils/index.js";
+import { createAndStartRecorder, getDataLakeServiceClient, getUniqueName } from "./utils/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Special Naming Tests", () => {
