@@ -1306,7 +1306,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     expect(next).toHaveBeenCalledOnce();
   });
 
-  it("does not retry when authorizeRequestOnCaeChallenge returns false", async function () {
+  it("does not retry when no credential is provided for CAE challenge", async function () {
     // No credential → getAccessToken returns null → authorizeRequestOnCaeChallenge returns false
     const scopes = ["test-scope"];
     const request = defaultRequest();
