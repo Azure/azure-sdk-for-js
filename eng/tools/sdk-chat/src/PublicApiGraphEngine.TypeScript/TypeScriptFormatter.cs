@@ -1254,49 +1254,61 @@ public static class TypeScriptFormatter
                             depModuleToPackage.TryAdd(dmn, pkgName);
                         }
 
-                        // Deduplicate import symbols across dep specifiers.
-                        // For each symbol, pick ONE specifier with deterministic preference:
+                        // Deduplicate import symbols across dep specifiers, scoped per package.
+                        // Within the same package, pick ONE specifier per symbol with preference:
                         // 1. Exact condition match  2. Bare specifier  3. Alphabetically first
-                        var symbolToBest = new Dictionary<string, (string Specifier, int Priority)>(StringComparer.Ordinal);
+                        // Different packages are independent — never dedup across packages.
                         var specifierPkgMap = new Dictionary<string, string>(StringComparer.Ordinal);
+                        var depsByPkg = new Dictionary<string, List<(string DepModuleName, List<ClassInfo> Classes,
+                            List<InterfaceInfo> Interfaces, List<EnumInfo> Enums, List<TypeAliasInfo> Types)>>(StringComparer.Ordinal);
 
                         foreach (var (depModuleName, depClasses, depInterfaces, depEnums, depTypes, _, _) in depsForThisCondition)
                         {
                             var pkgName = depModuleToPackage.GetValueOrDefault(depModuleName, depModuleName);
                             specifierPkgMap.TryAdd(depModuleName, pkgName);
-
-                            int priority;
-                            if (depModuleName.EndsWith($"/{condition}", StringComparison.Ordinal))
-                                priority = 0; // exact condition match
-                            else if (depModuleName == pkgName)
-                                priority = 1; // bare specifier
-                            else
-                                priority = 2;
-
-                            void RecordSymbol(string name)
-                            {
-                                if (!symbolToBest.TryGetValue(name, out var existing)
-                                    || priority < existing.Priority
-                                    || (priority == existing.Priority
-                                        && string.Compare(depModuleName, existing.Specifier, StringComparison.Ordinal) < 0))
-                                {
-                                    symbolToBest[name] = (depModuleName, priority);
-                                }
-                            }
-
-                            foreach (var c in depClasses) RecordSymbol(c.Name);
-                            foreach (var i in depInterfaces) RecordSymbol(i.Name);
-                            foreach (var e in depEnums) RecordSymbol(e.Name);
-                            foreach (var t in depTypes) RecordSymbol(t.Name);
+                            if (!depsByPkg.TryGetValue(pkgName, out var pkgList))
+                                depsByPkg[pkgName] = pkgList = [];
+                            pkgList.Add((depModuleName, depClasses, depInterfaces, depEnums, depTypes));
                         }
 
                         // Group deduplicated symbols by their chosen specifier
                         var dedupedImports = new Dictionary<string, List<string>>(StringComparer.Ordinal);
-                        foreach (var (sym, (spec, _)) in symbolToBest)
+                        foreach (var (pkgName, pkgSpecifiers) in depsByPkg)
                         {
-                            if (!dedupedImports.TryGetValue(spec, out var list))
-                                dedupedImports[spec] = list = [];
-                            list.Add(sym);
+                            var symbolToBest = new Dictionary<string, (string Specifier, int Priority)>(StringComparer.Ordinal);
+                            foreach (var (depModuleName, depClasses, depInterfaces, depEnums, depTypes) in pkgSpecifiers)
+                            {
+                                int priority;
+                                if (depModuleName.EndsWith($"/{condition}", StringComparison.Ordinal))
+                                    priority = 0; // exact condition match
+                                else if (depModuleName == pkgName)
+                                    priority = 1; // bare specifier
+                                else
+                                    priority = 2;
+
+                                void RecordSymbol(string name)
+                                {
+                                    if (!symbolToBest.TryGetValue(name, out var existing)
+                                        || priority < existing.Priority
+                                        || (priority == existing.Priority
+                                            && string.Compare(depModuleName, existing.Specifier, StringComparison.Ordinal) < 0))
+                                    {
+                                        symbolToBest[name] = (depModuleName, priority);
+                                    }
+                                }
+
+                                foreach (var c in depClasses) RecordSymbol(c.Name);
+                                foreach (var i in depInterfaces) RecordSymbol(i.Name);
+                                foreach (var e in depEnums) RecordSymbol(e.Name);
+                                foreach (var t in depTypes) RecordSymbol(t.Name);
+                            }
+
+                            foreach (var (sym, (spec, _)) in symbolToBest)
+                            {
+                                if (!dedupedImports.TryGetValue(spec, out var list))
+                                    dedupedImports[spec] = list = [];
+                                list.Add(sym);
+                            }
                         }
 
                         foreach (var (depModuleName, symbols) in dedupedImports.OrderBy(kv => kv.Key))
@@ -1359,8 +1371,9 @@ public static class TypeScriptFormatter
 
             if (depsToRender is not null)
             {
-                // Deduplicate symbols across deps (first specifier wins for each symbol name)
-                var simpleSeenSymbols = new HashSet<string>(StringComparer.Ordinal);
+                // Deduplicate symbols across specifiers within the same package (first specifier wins).
+                // Different packages are independent — never dedup across packages.
+                var simpleSeenSymbols = new HashSet<(string Package, string Name)>();
                 foreach (var dep in depsToRender)
                 {
                     if (dep.IsNode) continue;
@@ -1369,7 +1382,7 @@ public static class TypeScriptFormatter
 
                     void EmitSimpleImport(string name)
                     {
-                        if (!simpleSeenSymbols.Add(name)) return;
+                        if (!simpleSeenSymbols.Add((dep.Package, name))) return;
                         if (collisionAliases.TryGetValue(name, out var aliasEntry)
                             && (aliasEntry.TryGetValue(BuildDepSpecifier(dep), out var alias)
                                 || aliasEntry.TryGetValue(dep.Package, out alias))
@@ -1501,30 +1514,33 @@ public static class TypeScriptFormatter
             }
         }
 
-        // Include remaining functions if space permits (limit to first 20)
-        int funcCount = 0;
-        foreach (var fn in allFunctions.Where(f => f.ExportPath is null or ".").Take(20))
+        // Include remaining functions and namespaces if space permits.
+        // Skip when needsSections is true — they were already rendered inside grouped declare module blocks.
+        if (!needsSections)
         {
-            if (mainSb.Length >= maxLength) break;
-            var fnStr = FormatReachabilityComment(fn.Name, reachabilityChains) + FormatFunction(fn);
-            if (mainSb.Length + fnStr.Length <= maxLength)
+            int funcCount = 0;
+            foreach (var fn in allFunctions.Where(f => NormalizeExportPath(f.ExportPath) == ".").Take(20))
             {
-                mainSb.Append(fnStr);
-                includedItems++;
-                funcCount++;
+                if (mainSb.Length >= maxLength) break;
+                var fnStr = FormatReachabilityComment(fn.Name, reachabilityChains) + FormatFunction(fn);
+                if (mainSb.Length + fnStr.Length <= maxLength)
+                {
+                    mainSb.Append(fnStr);
+                    includedItems++;
+                    funcCount++;
+                }
             }
-        }
 
-        // Include namespaces from modules if space permits
-        var allNamespaces = index.Modules.SelectMany(m => m.Namespaces ?? []).ToList();
-        foreach (var ns in allNamespaces)
-        {
-            if (mainSb.Length >= maxLength) break;
-            var nsStr = FormatNamespace(ns);
-            if (mainSb.Length + nsStr.Length <= maxLength)
+            var allNamespaces = index.Modules.SelectMany(m => m.Namespaces ?? []).ToList();
+            foreach (var ns in allNamespaces)
             {
-                mainSb.Append(nsStr);
-                includedItems++;
+                if (mainSb.Length >= maxLength) break;
+                var nsStr = FormatNamespace(ns);
+                if (mainSb.Length + nsStr.Length <= maxLength)
+                {
+                    mainSb.Append(nsStr);
+                    includedItems++;
+                }
             }
         }
 

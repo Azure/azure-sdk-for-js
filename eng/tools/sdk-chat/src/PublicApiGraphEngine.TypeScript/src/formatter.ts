@@ -455,6 +455,7 @@ function buildModuleSpecifier(
     packageName: string,
     exportPath: string,
     conditionSuffix: string | undefined,
+    allExportPaths?: Set<string>,
 ): string {
     // Never use "(unconditioned)" as a real suffix
     const safeSuffix = conditionSuffix && conditionSuffix !== "(unconditioned)"
@@ -464,13 +465,25 @@ function buildModuleSpecifier(
         ? exportPath.replace(/^\.\//, "")
         : undefined;
     if (subpath) {
-        return safeSuffix
-            ? `${packageName}/${subpath}/${safeSuffix}`
-            : `${packageName}/${subpath}`;
+        if (safeSuffix) {
+            const candidate = `${packageName}/${subpath}/${safeSuffix}`;
+            const potentialSubpath = `./${subpath}/${safeSuffix}`;
+            if (allExportPaths?.has(potentialSubpath)) {
+                return `${packageName}/${subpath}/${safeSuffix} (condition)`;
+            }
+            return candidate;
+        }
+        return `${packageName}/${subpath}`;
     }
-    return safeSuffix
-        ? `${packageName}/${safeSuffix}`
-        : packageName;
+    if (safeSuffix) {
+        const candidate = `${packageName}/${safeSuffix}`;
+        const potentialSubpath = `./${safeSuffix}`;
+        if (allExportPaths?.has(potentialSubpath)) {
+            return `${packageName}/${safeSuffix} (condition)`;
+        }
+        return candidate;
+    }
+    return packageName;
 }
 
 function isBareSpecifierCondition(condition: string): boolean {
@@ -488,6 +501,7 @@ function deduplicateBySpecifier(
     moduleGroups: Map<string, ModuleInfo[]>,
     conditionsPerExportPath: Map<string, Set<string>>,
     packageName: string,
+    allExportPaths?: Set<string>,
 ): Array<{ specifier: string; modules: ModuleInfo[]; condition: string }> {
     const specifierOrder: string[] = [];
     const specifierMap = new Map<string, { modules: ModuleInfo[]; condition: string }>();
@@ -499,7 +513,7 @@ function deduplicateBySpecifier(
         const conditionSuffix = hasMultiple && !isBareSpecifierCondition(condition)
             ? condition
             : undefined;
-        const specifier = buildModuleSpecifier(packageName, exportPath, conditionSuffix);
+        const specifier = buildModuleSpecifier(packageName, exportPath, conditionSuffix, allExportPaths);
 
         const existing = specifierMap.get(specifier);
         if (existing) {
@@ -576,7 +590,14 @@ export function formatStubs(api: ApiIndex): string {
         conditionsPerExportPath.get(ep)!.add(cond);
     }
 
-    const dedupedGroups = deduplicateBySpecifier(sortedKeys, moduleGroups, conditionsPerExportPath, api.package);
+    // Collect all export paths for collision detection in condition suffixing
+    const allExportPaths = new Set<string>();
+    for (const key of sortedKeys) {
+        const [ep] = key.split("\0");
+        allExportPaths.add(ep);
+    }
+
+    const dedupedGroups = deduplicateBySpecifier(sortedKeys, moduleGroups, conditionsPerExportPath, api.package, allExportPaths);
 
     const needsModuleBlocks = dedupedGroups.length > 1 || (() => {
         if (dedupedGroups.length === 0) return false;
@@ -652,8 +673,14 @@ export function formatStubs(api: ApiIndex): string {
                 conditionsPerDepExportPath.get(ep)!.add(cond);
             }
 
+            const allDepExportPaths = new Set<string>();
+            for (const key of depSortedKeys) {
+                const [ep] = key.split("\0");
+                allDepExportPaths.add(ep);
+            }
+
             const dedupedDepGroups = deduplicateBySpecifier(
-                depSortedKeys, depModuleGroups, conditionsPerDepExportPath, depApi.package,
+                depSortedKeys, depModuleGroups, conditionsPerDepExportPath, depApi.package, allDepExportPaths,
             );
 
             for (const { specifier, modules, condition } of dedupedDepGroups) {

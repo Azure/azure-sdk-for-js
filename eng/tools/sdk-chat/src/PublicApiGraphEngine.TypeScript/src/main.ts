@@ -22,7 +22,7 @@ import type {
     TypeAliasInfo,
 } from "./models.js";
 import { ExtractionContext } from "./context.js";
-import { createExtractionContext } from "./type-refs.js";
+import { createExtractionContext, clearTypeRefCache } from "./type-refs.js";
 import { extractModule } from "./extractors.js";
 import {
     resolveEntryPointFiles,
@@ -36,6 +36,7 @@ import {
     resolveTransitiveDependencies,
     buildResolvedDependencies,
     findPackageInNodeModules,
+    clearResolvedPackageCache,
 } from "./dependencies.js";
 import { isNodeBuiltinModule } from "./node-builtins.js";
 import { formatStubs, toJson } from "./formatter.js";
@@ -160,6 +161,11 @@ function detectEsLib(rootPath: string, packageJsonPath?: string): string | undef
 
 
 export function extractPackage(rootPath: string, options: EngineOptions = { mode: "source" }): ApiIndex {
+    // Clear process-global caches so repeated calls within the same process
+    // don't leak state from a previous extraction run.
+    clearTypeRefCache();
+    clearResolvedPackageCache();
+
     const packageName = detectPackageName(rootPath, options.packageJsonPath);
     const packageVersion = detectPackageVersion(rootPath, options.packageJsonPath);
 
@@ -446,13 +452,11 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
     // Second pass: propagate conditions transitively to non-entry modules.
     // Uses BFS: entry files seed the queue, then any file that gains a condition
     // propagates it to the files it imports, continuing until no more changes.
-    const fileConditions = new Map<string, string>(); // absolute path → condition
+    const fileConditions = new Map<string, Set<string>>(); // absolute path → set of conditions
     for (const entry of entryEntries) {
         const absPath = path.resolve(entry.filePath);
-        const existing = fileConditions.get(absPath);
-        if (!existing || getConditionPriority(entry.condition) < getConditionPriority(existing)) {
-            fileConditions.set(absPath, entry.condition);
-        }
+        if (!fileConditions.has(absPath)) fileConditions.set(absPath, new Set());
+        fileConditions.get(absPath)!.add(entry.condition);
     }
 
     // Build a map from source file path → module for quick lookup
@@ -463,27 +467,47 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
         pathToModuleSource.get(absPath)!.push(pair);
     }
 
-    // BFS: propagate conditions through import edges
+    // BFS: propagate conditions through import edges (union of parent conditions)
     let changed = true;
     while (changed) {
         changed = false;
-        for (const [module, sourceFile] of moduleSourceFileMap) {
-            if (module.condition !== undefined) continue;
-            let inheritedCondition: string | undefined;
+        for (const [, sourceFile] of moduleSourceFileMap) {
+            const thisPath = path.resolve(sourceFile.getFilePath());
+            const currentSet = fileConditions.get(thisPath);
             for (const refSf of sourceFile.getReferencingSourceFiles()) {
                 const refPath = path.resolve(refSf.getFilePath());
-                const cond = fileConditions.get(refPath);
-                if (cond !== undefined) {
-                    if (inheritedCondition === undefined || getConditionPriority(cond) < getConditionPriority(inheritedCondition)) {
-                        inheritedCondition = cond;
+                const parentSet = fileConditions.get(refPath);
+                if (!parentSet || parentSet.size === 0) continue;
+                if (!currentSet) {
+                    fileConditions.set(thisPath, new Set(parentSet));
+                    changed = true;
+                } else {
+                    for (const c of parentSet) {
+                        if (!currentSet.has(c)) {
+                            currentSet.add(c);
+                            changed = true;
+                        }
                     }
                 }
             }
-            if (inheritedCondition !== undefined) {
-                module.condition = inheritedCondition;
-                const thisPath = path.resolve(sourceFile.getFilePath());
-                fileConditions.set(thisPath, inheritedCondition);
-                changed = true;
+        }
+    }
+
+    // Assign the most general (lowest-priority) inherited condition to modules
+    // that don't already have one from a direct entry-point match.
+    for (const [module, sourceFile] of moduleSourceFileMap) {
+        if (module.condition !== undefined) continue;
+        const thisPath = path.resolve(sourceFile.getFilePath());
+        const condSet = fileConditions.get(thisPath);
+        if (condSet && condSet.size > 0) {
+            let best: string | undefined;
+            for (const c of condSet) {
+                if (best === undefined || getConditionPriority(c) < getConditionPriority(best)) {
+                    best = c;
+                }
+            }
+            if (best !== undefined) {
+                module.condition = best;
             }
         }
     }
@@ -491,12 +515,19 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
     // Clone modules for shared files whose symbols are exported under multiple conditions.
     // Entry-file modules already got cloned above (matchingEntries > 1). This pass handles
     // non-entry shared files whose symbols were claimed by multiple conditions in
-    // extractExportedSymbols.
+    // extractExportedSymbols, plus conditions inherited through the import graph.
     const additionalModules: ModuleInfo[] = [];
     for (const [module, sourceFile] of moduleSourceFileMap) {
         // Collect all conditions this module's symbols are exported under
         const allConditions = new Set<string>();
         if (module.condition) allConditions.add(module.condition);
+
+        // Include conditions inherited through the import graph (file-level)
+        const sfAbsPath = path.resolve(sourceFile.getFilePath());
+        const inheritedConditions = fileConditions.get(sfAbsPath);
+        if (inheritedConditions) {
+            for (const c of inheritedConditions) allConditions.add(c);
+        }
 
         const sfPath = sourceFile.getFilePath();
         for (const entityList of [module.classes, module.interfaces, module.functions, module.enums, module.types]) {
@@ -522,9 +553,11 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
         // Clone module for any conditions not already covered
         for (const cond of allConditions) {
             if (cond === module.condition) continue;
-            // Skip if a module with this name + condition already exists
-            const alreadyExists = modules.some(m => m.name === module.name && m.condition === cond)
-                || additionalModules.some(m => m.name === module.name && m.condition === cond);
+            // Include exportPath in dedup key so the same source module exposed
+            // through two subpaths produces separate clones.
+            const dedupKey = `${module.name}\0${module.exportPath ?? ""}\0${cond}`;
+            const alreadyExists = modules.some(m => `${m.name}\0${m.exportPath ?? ""}\0${m.condition}` === dedupKey)
+                || additionalModules.some(m => `${m.name}\0${m.exportPath ?? ""}\0${m.condition}` === dedupKey);
             if (alreadyExists) continue;
 
             const clone: ModuleInfo = {
