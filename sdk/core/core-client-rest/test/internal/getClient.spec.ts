@@ -248,6 +248,7 @@ describe("getClient", () => {
     };
 
     const onResponseFn = vi.fn((_: any, err: any, legacyError: any) => {
+      assert.isDefined(err, "err should be defined");
       assert.equal(err, legacyError);
     });
     const client = getClient("https://example.org", {
@@ -258,7 +259,7 @@ describe("getClient", () => {
       client.pathUnchecked("/foo").get({
         onResponse: onResponseFn,
       }),
-    ).rejects.toThrow();
+    ).rejects.toThrow(/error/);
     expect(onResponseFn).toHaveBeenCalled();
   });
 
