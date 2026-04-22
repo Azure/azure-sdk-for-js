@@ -9,6 +9,7 @@
 import "dotenv/config";
 import { DefaultAzureCredential } from "@azure/identity";
 import { CertificateClient } from "@azure/keyvault-certificates";
+import { retryWithBackoff } from "./utils.js";
 
 let client: CertificateClient;
 let certificateName: string;
@@ -16,8 +17,8 @@ let certificateName: string;
 async function backupAndRestoreACertificate() {
   // Creating a self-signed certificate
   const createPoller = await client.beginCreateCertificate(certificateName, {
-      issuerName: "Self",
-      subject: "cn=MyCert",
+    issuerName: "Self",
+    subject: "cn=MyCert",
   });
   await createPoller.pollUntilDone();
   const pendingCertificate = createPoller.getResult();
@@ -26,7 +27,9 @@ async function backupAndRestoreACertificate() {
   const deletePoller = await client.beginDeleteCertificate(certificateName);
   await deletePoller.pollUntilDone();
   await client.purgeDeletedCertificate(certificateName);
-  await client.restoreCertificateBackup(backup!);
+  await retryWithBackoff(() => client.restoreCertificateBackup(backup!), {
+    shouldRetry: (e) => /conflict restoring the certificate/i.test((e as Error).message),
+  });
   const restoredCertificate = await client.getCertificate(certificateName);
   console.log("Restored certificate: ", restoredCertificate);
 }
@@ -40,12 +43,11 @@ async function backUpACertificate() {
 
   const certificateName = "MyCertificate";
   const createPoller = await client.beginCreateCertificate(certificateName, {
-      issuerName: "Self",
-      subject: "cn=MyCert",
+    issuerName: "Self",
+    subject: "cn=MyCert",
   });
   await createPoller.pollUntilDone();
   const backup = await client.backupCertificate(certificateName);
-
 }
 
 async function restoreACertificateFromBackup() {
@@ -57,8 +59,8 @@ async function restoreACertificateFromBackup() {
 
   const certificateName = "MyCertificate";
   const createPoller = await client.beginCreateCertificate(certificateName, {
-      issuerName: "Self",
-      subject: "cn=MyCert",
+    issuerName: "Self",
+    subject: "cn=MyCert",
   });
   await createPoller.pollUntilDone();
   const backup = await client.backupCertificate(certificateName);
@@ -68,18 +70,20 @@ async function restoreACertificateFromBackup() {
   await client.purgeDeletedCertificate(certificateName);
 
   // Some time is required before we're able to restore the certificate
-  await client.restoreCertificateBackup(backup!);
-
+  await retryWithBackoff(() => client.restoreCertificateBackup(backup!), {
+    shouldRetry: (e) => /conflict restoring the certificate/i.test((e as Error).message),
+  });
 }
 
 export async function main(): Promise<void> {
   // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
   // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
   // about DefaultAzureCredential and the other credentials that are available for use.
-  client =
-      new CertificateClient(process.env["KEYVAULT_URI"] || "<keyvault-url>", new DefaultAzureCredential());
-  certificateName =
-      `backup-restore-${new Date().getTime()}`;
+  client = new CertificateClient(
+    process.env["KEYVAULT_URI"] || "<keyvault-url>",
+    new DefaultAzureCredential(),
+  );
+  certificateName = `backup-restore-${new Date().getTime()}`;
   await backupAndRestoreACertificate();
   await backUpACertificate();
   await restoreACertificateFromBackup();

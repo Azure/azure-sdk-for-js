@@ -25,13 +25,13 @@ async function listSecretsByPage() {
   // List the secrets we have, by page
   console.log("Listing secrets by page");
   for await (const page of client.listPropertiesOfSecrets().byPage({ maxPageSize: 2 })) {
-      for (const secretProperties of page) {
-          if (secretProperties.enabled) {
-              const secret = await client.getSecret(secretProperties.name);
-              console.log("secret: ", secret);
-          }
+    for (const secretProperties of page) {
+      if (secretProperties.enabled) {
+        const secret = await client.getSecret(secretProperties.name);
+        console.log("secret: ", secret);
       }
-      console.log("--page--");
+    }
+    console.log("--page--");
   }
 }
 
@@ -39,10 +39,10 @@ async function listAllSecrets() {
   // List the secrets we have, all at once
   console.log("Listing secrets all at once");
   for await (const secretProperties of client.listPropertiesOfSecrets()) {
-      if (secretProperties.enabled) {
-          const secret = await client.getSecret(secretProperties.name);
-          console.log("secret: ", secret);
-      }
+    if (secretProperties.enabled) {
+      const secret = await client.getSecret(secretProperties.name);
+      console.log("secret: ", secret);
+    }
   }
 }
 
@@ -52,11 +52,13 @@ async function listSecretVersions() {
   await client.setSecret(bankAccountSecretName, "ABC123");
   await client.setSecret(bankAccountSecretName, "ABC567");
   // List the versions of BankAccountPassword
-  for await (const secretProperties of client.listPropertiesOfSecretVersions(bankAccountSecretName)) {
-      if (secretProperties.enabled) {
-          const secret = await client.getSecret(secretProperties.name);
-          console.log("secret version: ", secret);
-      }
+  for await (const secretProperties of client.listPropertiesOfSecretVersions(
+    bankAccountSecretName,
+  )) {
+    if (secretProperties.enabled) {
+      const secret = await client.getSecret(secretProperties.name);
+      console.log("secret version: ", secret);
+    }
   }
   await client.beginDeleteSecret(bankAccountSecretName);
 }
@@ -67,17 +69,16 @@ async function listAllSecretTypes() {
   await client.setSecret(secretName, "MySecretValue");
 
   for await (const secretProperties of client.listPropertiesOfSecrets()) {
-      console.log("Secret properties: ", secretProperties);
+    console.log("Secret properties: ", secretProperties);
   }
 
   for await (const deletedSecret of client.listDeletedSecrets()) {
-      console.log("Deleted secret: ", deletedSecret);
+    console.log("Deleted secret: ", deletedSecret);
   }
 
   for await (const versionProperties of client.listPropertiesOfSecretVersions(secretName)) {
-      console.log("Version properties: ", versionProperties);
+    console.log("Version properties: ", versionProperties);
   }
-
 }
 
 async function listAllSecretTypesByPage() {
@@ -86,29 +87,30 @@ async function listAllSecretTypesByPage() {
   await client.setSecret(secretName, "MySecretValue");
 
   for await (const page of client.listPropertiesOfSecrets().byPage()) {
-      for (const secretProperties of page) {
-          console.log("Secret properties: ", secretProperties);
-      }
+    for (const secretProperties of page) {
+      console.log("Secret properties: ", secretProperties);
+    }
   }
   for await (const page of client.listDeletedSecrets().byPage()) {
-      for (const deletedSecret of page) {
-          console.log("Deleted secret: ", deletedSecret);
-      }
+    for (const deletedSecret of page) {
+      console.log("Deleted secret: ", deletedSecret);
+    }
   }
   for await (const page of client.listPropertiesOfSecretVersions(secretName).byPage()) {
-      for (const versionProperties of page) {
-          console.log("Version properties: ", versionProperties);
-      }
+    for (const versionProperties of page) {
+      console.log("Version properties: ", versionProperties);
+    }
   }
-
 }
 
 export async function main(): Promise<void> {
   // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
   // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
   // about DefaultAzureCredential and the other credentials that are available for use.
-  client =
-      new SecretClient(process.env["KEYVAULT_URI"] || "<keyvault-url>", new DefaultAzureCredential());
+  client = new SecretClient(
+    process.env["KEYVAULT_URI"] || "<keyvault-url>",
+    new DefaultAzureCredential(),
+  );
   await createSecrets();
   await listSecretsByPage();
   await listAllSecrets();

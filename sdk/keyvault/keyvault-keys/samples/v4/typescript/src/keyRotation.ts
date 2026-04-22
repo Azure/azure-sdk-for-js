@@ -18,12 +18,12 @@ async function createRotationPolicyAndRotate() {
   console.log("created key", key);
   // Set the key's automated rotation policy to rotate the key 30 days after the key is created.
   const policy = await client.updateKeyRotationPolicy(key.name, {
-      lifetimeActions: [
-          {
-              action: "Rotate",
-              timeAfterCreate: "P30D",
-          },
-      ],
+    lifetimeActions: [
+      {
+        action: "Rotate",
+        timeAfterCreate: "P30D",
+      },
+    ],
   });
   console.log("created policy", policy);
   // Get the key's current rotation policy
@@ -34,13 +34,13 @@ async function createRotationPolicyAndRotate() {
   // For more information on the ISO 8601 Duration standard, please refer to the Wikipedia page on Durations:
   // https://wikipedia.org/wiki/ISO_8601#Durations
   const updatedPolicy = await client.updateKeyRotationPolicy(key.name, {
-      lifetimeActions: [
-          {
-              action: "Notify",
-              timeBeforeExpiry: "P30D",
-          },
-      ],
-      expiresIn: "P90D",
+    lifetimeActions: [
+      {
+        action: "Notify",
+        timeBeforeExpiry: "P30D",
+      },
+    ],
+    expiresIn: "P90D",
   });
   console.log("updated policy", updatedPolicy);
   // Rotate the key on-demand, generating a new version of the key.
@@ -54,7 +54,6 @@ async function getAKeyRotationPolicy() {
 
   const result = await client.getKeyRotationPolicy(keyName);
   console.log("result: ", result);
-
 }
 
 async function updateAKeyRotationPolicy() {
@@ -65,7 +64,6 @@ async function updateAKeyRotationPolicy() {
 
   const setPolicy = await client.updateKeyRotationPolicy(keyName, myPolicy);
   console.log("setPolicy: ", setPolicy);
-
 }
 
 async function rotateAKey() {
@@ -74,15 +72,15 @@ async function rotateAKey() {
 
   // Set the key's automated rotation policy to rotate the key 30 days before expiry.
   const policy = await client.updateKeyRotationPolicy(keyName, {
-      lifetimeActions: [
-          {
-              action: "Rotate",
-              timeBeforeExpiry: "P30D",
-          },
-      ],
-      // You may also specify the duration after which any newly rotated key will expire.
-      // In this case, any new key versions will expire after 90 days.
-      expiresIn: "P90D",
+    lifetimeActions: [
+      {
+        action: "Rotate",
+        timeBeforeExpiry: "P30D",
+      },
+    ],
+    // You may also specify the duration after which any newly rotated key will expire.
+    // In this case, any new key versions will expire after 90 days.
+    expiresIn: "P90D",
   });
 
   // You can get the current key rotation policy of a given key by calling the getKeyRotationPolicy method.
@@ -92,15 +90,16 @@ async function rotateAKey() {
   // Finally, you can rotate a key on-demand by creating a new version of the given key.
   const rotatedKey = await client.rotateKey(keyName);
   console.log("rotatedKey: ", rotatedKey);
-
 }
 
 export async function main(): Promise<void> {
   // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
   // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
   // about DefaultAzureCredential and the other credentials that are available for use.
-  client =
-      new KeyClient(process.env["KEYVAULT_URI"] || "<keyvault-url>", new DefaultAzureCredential());
+  client = new KeyClient(
+    process.env["KEYVAULT_URI"] || "<keyvault-url>",
+    new DefaultAzureCredential(),
+  );
   await createRotationPolicyAndRotate();
   await getAKeyRotationPolicy();
   await updateAKeyRotationPolicy();

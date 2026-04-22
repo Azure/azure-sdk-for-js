@@ -9,28 +9,10 @@
 require("dotenv/config");
 const { DefaultAzureCredential } = require("@azure/identity");
 const { CertificateClient } = require("@azure/keyvault-certificates");
+const { retryWithBackoff } = require("./utils.js");
 
 let client;
 let certificateName;
-async function deleteCertificateOperationWithRetry(certificateName) {
-  let lastError;
-  for (let i = 0; i < 5; i++) {
-    try {
-      await client.deleteCertificateOperation(certificateName);
-      return;
-    } catch (error) {
-      lastError = error;
-      if (
-        !/conflict while deleting the pending certificate/i.test(error.message) &&
-        !/Pending Certificate not found/i.test(error.message)
-      ) {
-        throw error;
-      }
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-    }
-  }
-  throw lastError;
-}
 
 async function getAndCancelPendingOperations() {
   // Certificates' operations will be pending for some time right after they're created.
@@ -49,7 +31,12 @@ async function getAndCancelPendingOperations() {
   operation = operationPoller.getResult();
   console.log("Cancelled certificate operation:", operation);
   // Deleting the certificate's operation
-  await deleteCertificateOperationWithRetry(certificateName);
+  await retryWithBackoff(() => client.deleteCertificateOperation(certificateName), {
+    delayMs: 1000,
+    shouldRetry: (e) =>
+      /conflict while deleting the pending certificate/i.test(e.message) ||
+      /Pending Certificate not found/i.test(e.message),
+  });
   let error;
   try {
     await client.getCertificateOperation(certificateName);
