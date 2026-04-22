@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fixed `TimeoutNegativeWarning` on Node.js v24+ when timeout budget is exceeded during CBS authentication by clamping `setTimeout` values to a minimum of 0. [#38166](https://github.com/Azure/azure-sdk-for-js/pull/38166)
+
 ### Other Changes
 
 ## 4.4.1 (2025-09-11)
