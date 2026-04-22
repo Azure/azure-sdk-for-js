@@ -23,7 +23,7 @@ export const DEFAULT_TYPESCRIPT_CONFIG = {
     target: "ESNext",
     lib: ["ESNext"],
 
-    moduleResolution: "node10",
+    moduleResolution: "NodeNext",
     resolveJsonModule: true,
 
     esModuleInterop: true,
