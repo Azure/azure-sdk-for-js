@@ -84,20 +84,7 @@ describe("backupAndRestore", () => {
   // Operation snippets
 
   it("back up a certificate", async () => {
-    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
-    // @ts-preserve-whitespace
-    const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-    // @ts-preserve-whitespace
-    const client = forPublishing(
-      new CertificateClient(url, credential, recorder.configureClientOptions({})),
-      () => new CertificateClient(url, credential),
-    );
-    // @ts-preserve-whitespace
     // @snippet CertificateClientBackupCertificate
-    const certificateName = forPublishing(
-      recorder.variable("certificateName", `backup-${new Date().getTime()}`),
-      () => "MyCertificate",
-    );
     const createPoller = await client.beginCreateCertificate(certificateName, {
       issuerName: "Self",
       subject: "cn=MyCert",
@@ -108,20 +95,7 @@ describe("backupAndRestore", () => {
   });
 
   it("restore a certificate from backup", async () => {
-    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
-    // @ts-preserve-whitespace
-    const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-    // @ts-preserve-whitespace
-    const client = forPublishing(
-      new CertificateClient(url, credential, recorder.configureClientOptions({})),
-      () => new CertificateClient(url, credential),
-    );
-    // @ts-preserve-whitespace
     // @snippet CertificateClientRestoreCertificateBackup
-    const certificateName = forPublishing(
-      recorder.variable("certificateName", `restore-${new Date().getTime()}`),
-      () => "MyCertificate",
-    );
     const createPoller = await client.beginCreateCertificate(certificateName, {
       issuerName: "Self",
       subject: "cn=MyCert",

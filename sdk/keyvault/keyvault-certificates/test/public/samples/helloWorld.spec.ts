@@ -137,20 +137,7 @@ describe("helloWorld", () => {
   // Operation snippets
 
   it("create a certificate", async () => {
-    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
-    // @ts-preserve-whitespace
-    const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-    // @ts-preserve-whitespace
-    const client = forPublishing(
-      new CertificateClient(url, credential, recorder.configureClientOptions({})),
-      () => new CertificateClient(url, credential),
-    );
-    // @ts-preserve-whitespace
     // @snippet ReadmeSampleCreateCertificate
-    const certificateName = forPublishing(
-      recorder.variable("certificateName", `certificate-${new Date().getTime()}`),
-      () => "MyCertificateName",
-    );
     // @ts-preserve-whitespace
     // Note: Sending `Self` as the `issuerName` of the certificate's policy will create a self-signed certificate.
     await client.beginCreateCertificate(certificateName, {
@@ -161,20 +148,7 @@ describe("helloWorld", () => {
   });
 
   it("create a certificate with options", async () => {
-    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
-    // @ts-preserve-whitespace
-    const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-    // @ts-preserve-whitespace
-    const client = forPublishing(
-      new CertificateClient(url, credential, recorder.configureClientOptions({})),
-      () => new CertificateClient(url, credential),
-    );
-    // @ts-preserve-whitespace
     // @snippet ReadmeSampleCreateCertificateWithOptions
-    const certificateName = forPublishing(
-      recorder.variable("certificateName", `certificate-${new Date().getTime()}`),
-      () => "MyCertificateName",
-    );
     // @ts-preserve-whitespace
     // Note: Sending `Self` as the `issuerName` of the certificate's policy will create a self-signed certificate.
     const certificatePolicy = {
@@ -194,20 +168,7 @@ describe("helloWorld", () => {
   });
 
   it("create a certificate with polling", async () => {
-    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
-    // @ts-preserve-whitespace
-    const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-    // @ts-preserve-whitespace
-    const client = forPublishing(
-      new CertificateClient(url, credential, recorder.configureClientOptions({})),
-      () => new CertificateClient(url, credential),
-    );
-    // @ts-preserve-whitespace
     // @snippet ReadmeSampleCreateCertificatePoller
-    const certificateName = forPublishing(
-      recorder.variable("certificateName", `certificate-${new Date().getTime()}`),
-      () => "MyCertificateName",
-    );
     const certificatePolicy = {
       issuerName: "Self",
       subject: "cn=MyCert",
@@ -225,20 +186,7 @@ describe("helloWorld", () => {
   });
 
   it("create a certificate and poll individually", async () => {
-    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
-    // @ts-preserve-whitespace
-    const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-    // @ts-preserve-whitespace
-    const client = forPublishing(
-      new CertificateClient(url, credential, recorder.configureClientOptions({})),
-      () => new CertificateClient(url, credential),
-    );
-    // @ts-preserve-whitespace
     // @snippet ReadmeSampleCreateCertificatePollerIndividualCalls
-    const certificateName = forPublishing(
-      recorder.variable("certificateName", `certificate-${new Date().getTime()}`),
-      () => "MyCertificateName",
-    );
     const certificatePolicy = {
       issuerName: "Self",
       subject: "cn=MyCert",
@@ -258,20 +206,7 @@ describe("helloWorld", () => {
   });
 
   it("get a certificate", async () => {
-    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
-    // @ts-preserve-whitespace
-    const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-    // @ts-preserve-whitespace
-    const client = forPublishing(
-      new CertificateClient(url, credential, recorder.configureClientOptions({})),
-      () => new CertificateClient(url, credential),
-    );
-    // @ts-preserve-whitespace
     // @snippet ReadmeSampleGetCertificate
-    const certificateName = forPublishing(
-      recorder.variable("certificateName", `certificate-${new Date().getTime()}`),
-      () => "MyCertificateName",
-    );
     if (forPublishing(true, () => false)) {
       const createPoller = await client.beginCreateCertificate(certificateName, {
         issuerName: "Self",
@@ -304,10 +239,6 @@ describe("helloWorld", () => {
     );
     // @ts-preserve-whitespace
     // @snippet ReadmeSampleGetCertificateFullInfo
-    const certificateName = forPublishing(
-      recorder.variable("certificateName", `certificate-${new Date().getTime()}`),
-      () => "MyCertificateName",
-    );
     if (forPublishing(true, () => false)) {
       const createPoller = await client.beginCreateCertificate(certificateName, {
         issuerName: "Self",
@@ -333,20 +264,12 @@ describe("helloWorld", () => {
     // @ts-preserve-whitespace
     const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
     // @ts-preserve-whitespace
-    const client = forPublishing(
-      new CertificateClient(keyVaultUrl, credential, recorder.configureClientOptions({})),
-      () => new CertificateClient(keyVaultUrl, credential),
-    );
     const secretClient = forPublishing(
       new SecretClient(keyVaultUrl, credential, recorder.configureClientOptions({})),
       () => new SecretClient(keyVaultUrl, credential),
     );
     // @snippet ReadmeSampleCreateCertificatePEM
     // Creating the certificate
-    const certificateName = forPublishing(
-      recorder.variable("certificateName", `certificate-${new Date().getTime()}`),
-      () => "MyCertificate",
-    );
     const createPoller = await client.beginCreateCertificate(certificateName, {
       issuerName: "Self",
       subject: "cn=MyCert",
@@ -363,20 +286,7 @@ describe("helloWorld", () => {
   });
 
   it("update a certificate", async () => {
-    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
-    // @ts-preserve-whitespace
-    const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-    // @ts-preserve-whitespace
-    const client = forPublishing(
-      new CertificateClient(keyVaultUrl, credential, recorder.configureClientOptions({})),
-      () => new CertificateClient(keyVaultUrl, credential),
-    );
-    // @ts-preserve-whitespace
     // @snippet ReadmeSampleUpdateCertificate
-    const certificateName = forPublishing(
-      recorder.variable("certificateName", `certificate-${new Date().getTime()}`),
-      () => "MyCertificate",
-    );
     if (forPublishing(true, () => false)) {
       const createPoller = await client.beginCreateCertificate(certificateName, {
         issuerName: "Self",
@@ -396,20 +306,7 @@ describe("helloWorld", () => {
   });
 
   it("update a certificate policy", async () => {
-    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
-    // @ts-preserve-whitespace
-    const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-    // @ts-preserve-whitespace
-    const client = forPublishing(
-      new CertificateClient(keyVaultUrl, credential, recorder.configureClientOptions({})),
-      () => new CertificateClient(keyVaultUrl, credential),
-    );
-    // @ts-preserve-whitespace
     // @snippet ReadmeSampleUpdateCertificatePolicy
-    const certificateName = forPublishing(
-      recorder.variable("certificateName", `certificate-${new Date().getTime()}`),
-      () => "MyCertificate",
-    );
     if (forPublishing(true, () => false)) {
       const createPoller = await client.beginCreateCertificate(certificateName, {
         issuerName: "Self",
@@ -427,20 +324,7 @@ describe("helloWorld", () => {
   });
 
   it("get certificate properties", async () => {
-    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
-    // @ts-preserve-whitespace
-    const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-    // @ts-preserve-whitespace
-    const client = forPublishing(
-      new CertificateClient(keyVaultUrl, credential, recorder.configureClientOptions({})),
-      () => new CertificateClient(keyVaultUrl, credential),
-    );
-    // @ts-preserve-whitespace
     // @snippet CertificateClientGetCertificate
-    const certificateName = forPublishing(
-      recorder.variable("certificateName", `certificate-${new Date().getTime()}`),
-      () => "MyCertificate",
-    );
     if (forPublishing(true, () => false)) {
       const createPoller = await client.beginCreateCertificate(certificateName, {
         issuerName: "Self",
@@ -455,20 +339,7 @@ describe("helloWorld", () => {
   });
 
   it("get a specific certificate version", async () => {
-    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
-    // @ts-preserve-whitespace
-    const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-    // @ts-preserve-whitespace
-    const client = forPublishing(
-      new CertificateClient(url, credential, recorder.configureClientOptions({})),
-      () => new CertificateClient(url, credential),
-    );
-    // @ts-preserve-whitespace
     // @snippet CertificateClientGetCertificateVersion
-    const certificateName = forPublishing(
-      recorder.variable("certificateName", `certificate-${new Date().getTime()}`),
-      () => "MyCertificateName",
-    );
     if (forPublishing(true, () => false)) {
       const createPoller = await client.beginCreateCertificate(certificateName, {
         issuerName: "Self",
@@ -491,20 +362,7 @@ describe("helloWorld", () => {
   });
 
   it("update certificate properties", async () => {
-    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
-    // @ts-preserve-whitespace
-    const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-    // @ts-preserve-whitespace
-    const client = forPublishing(
-      new CertificateClient(url, credential, recorder.configureClientOptions({})),
-      () => new CertificateClient(url, credential),
-    );
-    // @ts-preserve-whitespace
     // @snippet CertificateClientUpdateCertificate
-    const certificateName = forPublishing(
-      recorder.variable("certificateName", `certificate-${new Date().getTime()}`),
-      () => "MyCertificate",
-    );
     if (forPublishing(true, () => false)) {
       const createPoller = await client.beginCreateCertificate(certificateName, {
         issuerName: "Self",
@@ -523,20 +381,7 @@ describe("helloWorld", () => {
   });
 
   it("get a certificate policy", async () => {
-    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
-    // @ts-preserve-whitespace
-    const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-    // @ts-preserve-whitespace
-    const client = forPublishing(
-      new CertificateClient(url, credential, recorder.configureClientOptions({})),
-      () => new CertificateClient(url, credential),
-    );
-    // @ts-preserve-whitespace
     // @snippet CertificateClientGetCertificatePolicy
-    const certificateName = forPublishing(
-      recorder.variable("certificateName", `certificate-${new Date().getTime()}`),
-      () => "MyCertificate",
-    );
     if (forPublishing(true, () => false)) {
       const createPoller = await client.beginCreateCertificate(certificateName, {
         issuerName: "Self",

@@ -96,20 +96,7 @@ describe("issuers", () => {
   // Operation snippets
 
   it("list certificate issuers", async () => {
-    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
-    // @ts-preserve-whitespace
-    const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-    // @ts-preserve-whitespace
-    const client = forPublishing(
-      new CertificateClient(keyVaultUrl, credential, recorder.configureClientOptions({})),
-      () => new CertificateClient(keyVaultUrl, credential),
-    );
-    // @ts-preserve-whitespace
     // @snippet CertificateClientListIssuers
-    const issuerName = forPublishing(
-      recorder.variable("issuerName", `issuer-${new Date().getTime()}`),
-      () => "IssuerName",
-    );
     await client.createIssuer(issuerName, "Test");
     // @ts-preserve-whitespace
     // All in one call
@@ -127,39 +114,13 @@ describe("issuers", () => {
   });
 
   it("create a certificate issuer", async () => {
-    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
-    // @ts-preserve-whitespace
-    const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-    // @ts-preserve-whitespace
-    const client = forPublishing(
-      new CertificateClient(keyVaultUrl, credential, recorder.configureClientOptions({})),
-      () => new CertificateClient(keyVaultUrl, credential),
-    );
-    // @ts-preserve-whitespace
     // @snippet CertificateClientCreateIssuer
-    const issuerName = forPublishing(
-      recorder.variable("issuerName", `issuer-${new Date().getTime()}`),
-      () => "IssuerName",
-    );
     await client.createIssuer(issuerName, "Test");
     // @snippet-end CertificateClientCreateIssuer
   });
 
   it("update a certificate issuer", async () => {
-    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
-    // @ts-preserve-whitespace
-    const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-    // @ts-preserve-whitespace
-    const client = forPublishing(
-      new CertificateClient(keyVaultUrl, credential, recorder.configureClientOptions({})),
-      () => new CertificateClient(keyVaultUrl, credential),
-    );
-    // @ts-preserve-whitespace
     // @snippet CertificateClientUpdateIssuer
-    const issuerName = forPublishing(
-      recorder.variable("issuerName", `issuer-${new Date().getTime()}`),
-      () => "IssuerName",
-    );
     if (forPublishing(true, () => false)) {
       await client.createIssuer(issuerName, "Test");
     }
@@ -170,20 +131,7 @@ describe("issuers", () => {
   });
 
   it("get a certificate issuer", async () => {
-    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
-    // @ts-preserve-whitespace
-    const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-    // @ts-preserve-whitespace
-    const client = forPublishing(
-      new CertificateClient(keyVaultUrl, credential, recorder.configureClientOptions({})),
-      () => new CertificateClient(keyVaultUrl, credential),
-    );
-    // @ts-preserve-whitespace
     // @snippet CertificateClientGetIssuer
-    const issuerName = forPublishing(
-      recorder.variable("issuerName", `issuer-${new Date().getTime()}`),
-      () => "IssuerName",
-    );
     if (forPublishing(true, () => false)) {
       await client.createIssuer(issuerName, "Test");
     }
@@ -193,20 +141,7 @@ describe("issuers", () => {
   });
 
   it("delete a certificate issuer", async () => {
-    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
-    // @ts-preserve-whitespace
-    const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-    // @ts-preserve-whitespace
-    const client = forPublishing(
-      new CertificateClient(keyVaultUrl, credential, recorder.configureClientOptions({})),
-      () => new CertificateClient(keyVaultUrl, credential),
-    );
-    // @ts-preserve-whitespace
     // @snippet CertificateClientDeleteIssuer
-    const issuerName = forPublishing(
-      recorder.variable("issuerName", `issuer-${new Date().getTime()}`),
-      () => "IssuerName",
-    );
     if (forPublishing(true, () => false)) {
       await client.createIssuer(issuerName, "Test");
     }

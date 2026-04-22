@@ -98,15 +98,6 @@ describe("listCertificates", () => {
   // Operation snippets
 
   it("list all certificates", async () => {
-    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
-    // @ts-preserve-whitespace
-    const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-    // @ts-preserve-whitespace
-    const client = forPublishing(
-      new CertificateClient(keyVaultUrl, credential, recorder.configureClientOptions({})),
-      () => new CertificateClient(keyVaultUrl, credential),
-    );
-    // @ts-preserve-whitespace
     // @snippet ReadmeSampleListCertificates
     const certificateName = forPublishing(
       recorder.variable("certificateName", `list-${new Date().getTime()}`),
@@ -137,15 +128,6 @@ describe("listCertificates", () => {
   });
 
   it("list certificates by page", async () => {
-    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
-    // @ts-preserve-whitespace
-    const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-    // @ts-preserve-whitespace
-    const client = forPublishing(
-      new CertificateClient(keyVaultUrl, credential, recorder.configureClientOptions({})),
-      () => new CertificateClient(keyVaultUrl, credential),
-    );
-    // @ts-preserve-whitespace
     // @snippet ReadmeSampleListCertificatesByPage
     const certificateName = forPublishing(
       recorder.variable("certificateName", `list-${new Date().getTime()}`),
@@ -180,15 +162,6 @@ describe("listCertificates", () => {
   });
 
   it("list certificate properties", async () => {
-    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
-    // @ts-preserve-whitespace
-    const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-    // @ts-preserve-whitespace
-    const client = forPublishing(
-      new CertificateClient(keyVaultUrl, credential, recorder.configureClientOptions({})),
-      () => new CertificateClient(keyVaultUrl, credential),
-    );
-    // @ts-preserve-whitespace
     // @snippet IndexListCertificates
     // All in one call
     for await (const certificateProperties of client.listPropertiesOfCertificates()) {
@@ -205,15 +178,6 @@ describe("listCertificates", () => {
   });
 
   it("list certificate versions", async () => {
-    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
-    // @ts-preserve-whitespace
-    const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-    // @ts-preserve-whitespace
-    const client = forPublishing(
-      new CertificateClient(keyVaultUrl, credential, recorder.configureClientOptions({})),
-      () => new CertificateClient(keyVaultUrl, credential),
-    );
-    // @ts-preserve-whitespace
     // @snippet IndexListCertificateVersions
     const certificateName = forPublishing(
       recorder.variable("certificateName", `list-${new Date().getTime()}`),
