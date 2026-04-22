@@ -30,6 +30,13 @@ Follow the full guidelines in [performance-review-guidelines.md](../prompts/perf
     in-memory caches
 11. **TypeScript** — prefer string unions over `enum`, `import type`
     for type-only imports, no `namespace`
+12. **Micro-benchmark** — when a PR adds or modifies a performance
+    optimization (fast path, cache, heuristic), write and run a quick
+    Node.js benchmark to verify the claim with real numbers before
+    posting findings
+13. **Optimization justification** — before endorsing a new optimization,
+    check for existing alternatives, assess complexity vs measured
+    benefit, and test across multiple representative input classes
 
 ## Scope
 
@@ -41,6 +48,7 @@ Follow the full guidelines in [performance-review-guidelines.md](../prompts/perf
 ## Output Format
 
 For each finding include: **file and line**, **severity** (🔴 Critical /
-🟡 Concern / 🔵 Suggestion), a one-line description, estimated impact
-(latency / memory / bundle / CPU), and a concrete fix. If nothing found,
-say so in one sentence.
+🟡 Concern / 🔵 Suggestion / ✅ Confirmed), a one-line description,
+estimated impact (latency / memory / bundle / CPU), and a concrete fix.
+When a micro-benchmark was run, include the results as a markdown table.
+If nothing found, say so in one sentence.

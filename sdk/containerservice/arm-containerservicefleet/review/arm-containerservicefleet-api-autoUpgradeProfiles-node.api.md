@@ -31,6 +31,8 @@ export interface AutoUpgradeProfilesGetOptionalParams extends OperationOptions {
 
 // @public
 export interface AutoUpgradeProfilesListByFleetOptionalParams extends OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public

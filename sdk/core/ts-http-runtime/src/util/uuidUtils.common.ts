@@ -16,7 +16,7 @@ export function generateUUID(): string {
       uuid += "4";
     } else if (i === 16) {
       // Set the UUID variant to "10" in the 17th position
-      uuid += (randomNumber & 0x3) | 0x8;
+      uuid += ((randomNumber & 0x3) | 0x8).toString(16);
     } else {
       // Add a random hexadecimal digit to the UUID string
       uuid += randomNumber.toString(16);

@@ -32,9 +32,7 @@ import type {
   ListDataSourceConnectionsOptions,
   ListIndexersOptions,
   ListSkillsetsOptions,
-  ResetDocumentsOptions,
   ResetIndexerOptions,
-  ResetSkillsOptions,
   RunIndexerOptions,
   SearchIndexer,
   SearchIndexerDataSourceConnection,
@@ -613,50 +611,6 @@ export class SearchIndexerClient {
       options,
       async (updatedOptions) => {
         await this.client.runIndexer(indexerName, updatedOptions);
-      },
-    );
-  }
-
-  /**
-   * Resets specific documents in the datasource to be selectively re-ingested by the indexer.
-   * @param indexerName - The name of the indexer to reset documents for.
-   * @param options - Additional optional arguments.
-   */
-  public async resetDocuments(
-    indexerName: string,
-    options: ResetDocumentsOptions = {},
-  ): Promise<void> {
-    return tracingClient.withSpan(
-      "SearchIndexerClient-resetDocs",
-      options,
-      async (updatedOptions) => {
-        await this.client.resetDocuments(indexerName, {
-          ...updatedOptions,
-          keysOrIds: {
-            documentKeys: updatedOptions.documentKeys,
-            datasourceDocumentIds: updatedOptions.datasourceDocumentIds,
-          },
-        });
-      },
-    );
-  }
-
-  /**
-   * Reset an existing skillset in a search service.
-   * @param skillsetName - The name of the skillset to reset.
-   * @param skillNames - The names of skills to reset.
-   * @param options - The options parameters.
-   */
-  public async resetSkills(skillsetName: string, options: ResetSkillsOptions = {}): Promise<void> {
-    return tracingClient.withSpan(
-      "SearchIndexerClient-resetSkills",
-      options,
-      async (updatedOptions) => {
-        await this.client.resetSkills(
-          { skillNames: options.skillNames },
-          skillsetName,
-          updatedOptions,
-        );
       },
     );
   }

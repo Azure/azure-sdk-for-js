@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a FleetManagedNamespace
  *
  * @summary delete a FleetManagedNamespace
- * x-ms-original-file: 2025-08-01-preview/FleetManagedNamespaces_Delete.json
+ * x-ms-original-file: 2026-02-01-preview/FleetManagedNamespaces_Delete.json
  */
 async function fleetManagedNamespacesDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

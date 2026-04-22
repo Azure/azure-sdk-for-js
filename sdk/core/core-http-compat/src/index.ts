@@ -12,6 +12,7 @@ export {
   type ExtendedCommonClientOptions,
   type ExtendedClientOptions,
 } from "./extendedClient.js";
+export { toCompatResponse } from "./response.js";
 export type { CompatResponse } from "./response.js";
 export {
   requestPolicyFactoryPolicyName,

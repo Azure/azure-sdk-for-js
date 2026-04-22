@@ -15,7 +15,7 @@ import type {
 } from "./common.js";
 import { sendRequest } from "./sendRequest.js";
 import { buildRequestUrl } from "./urlHelpers.js";
-import { isNodeLike } from "../util/checkEnvironment.js";
+import { isNodeLike } from "#platform/env";
 
 /**
  * Creates a client with a default pipeline

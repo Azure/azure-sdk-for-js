@@ -1,0 +1,496 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { describe, it, assert } from "vitest";
+import {
+  appendQueryParams,
+  buildBaseUrl,
+  buildRequestUrl,
+} from "../../../src/client/urlHelpers.js";
+
+describe("urlHelpers", () => {
+  const mockBaseUrl = "https://example.org";
+
+  it("should remove double leading forward slashes in path", () => {
+    const result = buildRequestUrl(`${mockBaseUrl}/`, "/foo/{id}", ["one"]);
+
+    assert.equal(result, `https://example.org/foo/one`);
+  });
+
+  it("should remove extra consecutive forward slashes between host and path in endpoint", () => {
+    const result = buildRequestUrl(`${mockBaseUrl}//container///blob`, "", []);
+
+    assert.equal(result, `https://example.org/container///blob`);
+  });
+
+  it("should keep non-leading forward slashes in path", () => {
+    const result = buildRequestUrl(`${mockBaseUrl}/`, "/container////blobname", []);
+
+    assert.equal(result, `https://example.org/container////blobname`);
+  });
+
+  it("should handle more than one question marks in path", () => {
+    const result = buildRequestUrl(
+      `${mockBaseUrl}/`,
+      "?restype=container&comp=blobs?where=key177196",
+      [],
+    );
+
+    assert.equal(result, `https://example.org/?restype=container&comp=blobs&where=key177196`);
+  });
+
+  it("should append path with proper forward slash when no forward slash between base and path", () => {
+    const result = buildRequestUrl("https://example.org/base", "path", []);
+
+    assert.equal(result, "https://example.org/base/path");
+  });
+
+  it("should append path with proper forward slash when endpoint has trailing slash", () => {
+    const result = buildRequestUrl("https://example.org/base/", "path", []);
+
+    assert.equal(result, "https://example.org/base/path");
+  });
+
+  it("should append path with proper forward slash when path has leading slash", () => {
+    const result = buildRequestUrl("https://example.org/base", "/path", []);
+
+    assert.equal(result, "https://example.org/base/path");
+  });
+
+  it("should not append path with forward slash when no forward slash between base and search", () => {
+    const result = buildRequestUrl("https://example.org/base", "?search", []);
+
+    assert.equal(result, "https://example.org/base?search");
+  });
+
+  it("should keep forward slash when base has trailing slash", () => {
+    const result = buildRequestUrl("https://example.org/base/", "?search", []);
+
+    assert.equal(result, "https://example.org/base/?search");
+  });
+
+  it("should not append forward slash between host and search when host has trailing slash", () => {
+    const result = buildRequestUrl("https://example.org/", "?search", []);
+
+    assert.equal(result, "https://example.org/?search");
+  });
+
+  it("should append forward slash after host when no slash between host and search", () => {
+    const result = buildRequestUrl("https://example.org", "?search", []);
+
+    assert.equal(result, "https://example.org/?search");
+  });
+
+  it("should append path and fill path parameters", () => {
+    const result = buildRequestUrl(mockBaseUrl, "/foo/{id}", ["one"]);
+
+    assert.equal(result, `https://example.org/foo/one`);
+  });
+
+  it("should append path, fill path parameters and append query parameters", () => {
+    const result = buildRequestUrl(mockBaseUrl, "/foo/{id}", ["one"], {
+      queryParameters: { foo: "1", bar: "two" },
+    });
+
+    assert.equal(result, `https://example.org/foo/one?foo=1&bar=two`);
+  });
+
+  it("should only encode the values, ignore the encoding for keys in query parameter", () => {
+    const result = buildRequestUrl(mockBaseUrl, "/foo/{id}", ["one"], {
+      queryParameters: { foo: "1", bar: "two", $maxpagesize: 1, $skip: 2 },
+    });
+
+    assert.equal(result, `https://example.org/foo/one?foo=1&bar=two&%24maxpagesize=1&%24skip=2`);
+  });
+
+  it("should skip encoding for values in query parameter", () => {
+    const result = buildRequestUrl(mockBaseUrl, "/foo/{id}", ["one"], {
+      queryParameters: { foo: "1", bar: "two", $maxpagesize: 1, $skip: "$_20" },
+      skipUrlEncoding: true,
+    });
+
+    assert.equal(result, `https://example.org/foo/one?foo=1&bar=two&$maxpagesize=1&$skip=$_20`);
+  });
+
+  it("should skip encoding if the client already encoded the parameters", () => {
+    const result = buildRequestUrl(mockBaseUrl, "/foo/{id}", ["one"], {
+      queryParameters: { foo: "%24encoded%20value" }, // the value is already encoded so we could enable the setting skipUrlEncoding
+      skipUrlEncoding: true,
+    });
+
+    assert.equal(result, `https://example.org/foo/one?foo=%24encoded%20value`);
+  });
+
+  it("should enable encoding for values in query parameter", () => {
+    const result = buildRequestUrl(mockBaseUrl, "/foo/{id}", ["one"], {
+      queryParameters: { foo: "1", bar: "two", $maxpagesize: 1, $skip: "$_20" },
+      skipUrlEncoding: false,
+    });
+
+    assert.equal(
+      result,
+      `https://example.org/foo/one?foo=1&bar=two&%24maxpagesize=1&%24skip=%24_20`,
+    );
+  });
+
+  it("should append date query parameter as ISO string", () => {
+    const start = new Date("2021-06-25T07:00:00.000Z");
+    const result = buildRequestUrl(mockBaseUrl, "/foo/{id}", ["one"], {
+      queryParameters: { foo: "1", start },
+    });
+    assert.equal(result, "https://example.org/foo/one?foo=1&start=2021-06-25T07%3A00%3A00.000Z");
+  });
+
+  it("should allow empty query parameter value", () => {
+    const result = buildRequestUrl(mockBaseUrl, "/path", [], {
+      queryParameters: { stringQuery: "" },
+    });
+
+    assert.equal(result, `https://example.org/path?stringQuery=`);
+  });
+
+  it("should append path and append query parameters", () => {
+    const result = buildRequestUrl(mockBaseUrl, "/foo", [], {
+      queryParameters: { foo: "1", bar: "two" },
+    });
+
+    assert.equal(result, `https://example.org/foo?foo=1&bar=two`);
+  });
+
+  it("should append query parameters to an url with existing params", () => {
+    const result = buildRequestUrl(mockBaseUrl, "/foo?existing=hey", [], {
+      queryParameters: { foo: "1", bar: "two" },
+    });
+
+    assert.equal(result, `https://example.org/foo?existing=hey&foo=1&bar=two`);
+  });
+
+  it("should build url with parenthesis", () => {
+    const path = "/certificates(thumbprintAlgorithm={thumbprintAlgorithm},thumbprint={thumbprint})";
+    const parameters = ["foo", "bar"];
+    const result = buildRequestUrl(mockBaseUrl, path, parameters);
+
+    assert.equal(result, `${mockBaseUrl}/certificates(thumbprintAlgorithm=foo,thumbprint=bar)`);
+  });
+
+  it("should build url with array queries", () => {
+    const testArray = ["ArrayQuery1", "begin!*'();:@ &=+$,/?#[]end", null as any, ""] as string[];
+    let result = buildRequestUrl(mockBaseUrl, "/foo?existing=hey", [], {
+      queryParameters: {
+        arrayQuery: testArray,
+      },
+    });
+
+    assert.equal(
+      result,
+      `https://example.org/foo?existing=hey&arrayQuery=ArrayQuery1,begin!*%27()%3B%3A%40%20%26%3D%2B%24%2C%2F%3F%23%5B%5Dend,,`,
+    );
+    result = buildRequestUrl(mockBaseUrl, "/foo?existing=hey", [], {
+      queryParameters: {
+        arrayQuery: [],
+      },
+    });
+    assert.equal(result, `https://example.org/foo?existing=hey&arrayQuery=`);
+  });
+
+  it("should build url with dashes in path parameters", () => {
+    const result = buildRequestUrl(mockBaseUrl, "/foo/{settings-name}", ["example"]);
+
+    assert.equal(result, `https://example.org/foo/example`);
+  });
+
+  it("should handle full urls as path", () => {
+    const result = buildRequestUrl(mockBaseUrl, "https://example2.org", []);
+    assert.equal(result, `https://example2.org`);
+  });
+
+  it("should encode url when enable path parameter encoding", () => {
+    const result = buildRequestUrl(mockBaseUrl, "/foo bar", []);
+    assert.equal(result, `https://example.org/foo%20bar`);
+  });
+
+  it("should encode url when enable query parameter encoding", () => {
+    const result = buildRequestUrl(mockBaseUrl, "/foo", [], {
+      queryParameters: { foo: " aaaa", bar: "b= " },
+    });
+    assert.equal(result, `https://example.org/foo?foo=%20aaaa&bar=b%3D%20`);
+  });
+
+  it("should encode url when skip encoding path parameter", () => {
+    const result = buildRequestUrl(mockBaseUrl, "/foo%bar", [], {
+      skipUrlEncoding: true,
+    });
+    assert.equal(result, `https://example.org/foo%bar`);
+  });
+
+  it("should handle custom base url", () => {
+    const result = buildRequestUrl("https://{accountName}.org", "/foo", [], {
+      pathParameters: {
+        accountName: "example",
+      },
+    });
+    assert.equal(result, `https://example.org/foo`);
+  });
+
+  it("should build base url when enable path parameter encoding", () => {
+    const result = buildBaseUrl("https://{accountName}.org", {
+      pathParameters: {
+        accountName: "foo bar",
+      },
+    });
+    assert.equal(result, "https://foo%20bar.org");
+  });
+
+  it("should build base url when skip path parameter encoding", () => {
+    const result = buildBaseUrl("https://{accountName}.org", {
+      pathParameters: {
+        accountName: "foo%bar",
+      },
+      skipUrlEncoding: true,
+    });
+    assert.equal(result, "https://foo%bar.org");
+  });
+
+  it("allows for path parameters with metadata", () => {
+    const result = buildRequestUrl("https://example.org/", "{foo}/", [
+      {
+        value: "foo",
+      },
+    ]);
+
+    assert.equal(result, "https://example.org/foo/");
+  });
+
+  it("allowReserved in path parameter defaults to false", () => {
+    const result = buildRequestUrl("https://example.org/", "{foo}/", [
+      {
+        value: "foo/bar",
+      },
+    ]);
+
+    assert.equal(result, "https://example.org/foo%2Fbar/");
+  });
+
+  it("allowReserved in path parameter allows special characters in path parameters", () => {
+    const result = buildRequestUrl("https://example.org/", "{foo}/", [
+      {
+        value: "foo/bar",
+        allowReserved: true,
+      },
+    ]);
+
+    assert.equal(result, "https://example.org/foo/bar/");
+  });
+
+  it("should work with replacement having both path and search part", function () {
+    const result = buildRequestUrl("https://test.com", "{nextLink}", [
+      { value: "/path?abc%3Ddef", allowReserved: true },
+    ]);
+    assert.strictEqual(result, "https://test.com/path?abc%3Ddef");
+  });
+
+  it("should handle nested replacements", function () {
+    const result = buildRequestUrl("https://test.com", "/Tables('{table}')", ["TestTable"]);
+    assert.strictEqual(result, "https://test.com/Tables('TestTable')");
+  });
+
+  it("should handle query parameters on the base url", function () {
+    const result = buildRequestUrl(
+      "https://test.com?superSecretKey=awesome",
+      "/Tables('{table}')",
+      ["TestTable"],
+    );
+    assert.strictEqual(result, "https://test.com/Tables('TestTable')?superSecretKey=awesome");
+  });
+
+  it("should merge query parameters on the base url and path", function () {
+    const result = buildRequestUrl("https://test.com?key1=awesome", "/Tables?key2=value", []);
+    assert.strictEqual(result, "https://test.com/Tables?key1=awesome&key2=value");
+  });
+
+  it("allows for query parameters with metadata", () => {
+    const result = buildRequestUrl("https://example.org/", "", [], {
+      queryParameters: {
+        foo: {
+          value: "bar",
+        },
+      },
+    });
+
+    assert.equal(result, "https://example.org/?foo=bar");
+  });
+
+  it("explode defaults to false; style defaults to `form`", () => {
+    const result = buildRequestUrl("https://example.org/", "", [], {
+      queryParameters: {
+        foo: {
+          value: ["bar", "baz"],
+        },
+      },
+    });
+
+    assert.equal(result, "https://example.org/?foo=bar,baz");
+  });
+
+  it("style `pipeDelimited` works", () => {
+    const result = buildRequestUrl("https://example.org/", "", [], {
+      queryParameters: {
+        foo: {
+          value: ["bar", "baz"],
+          style: "pipeDelimited",
+        },
+      },
+    });
+
+    assert.equal(result, "https://example.org/?foo=bar|baz");
+  });
+
+  it("style `spaceDelimited` works", () => {
+    const result = buildRequestUrl("https://example.org/", "", [], {
+      queryParameters: {
+        foo: {
+          value: ["bar", "baz"],
+          style: "spaceDelimited",
+        },
+      },
+    });
+
+    assert.equal(result, "https://example.org/?foo=bar%20baz");
+  });
+
+  it("objects are handled by decomposing into array of key1,value1,key2,value2...", () => {
+    const result = buildRequestUrl("https://example.org/", "", [], {
+      queryParameters: {
+        foo: {
+          value: { bar: "aaa", baz: "bbb" },
+        },
+      },
+    });
+
+    assert.equal(result, "https://example.org/?foo=bar,aaa,baz,bbb");
+  });
+
+  it("explode decomposes query parameter array into multiple query parameters", () => {
+    const result = buildRequestUrl("https://example.org/", "", [], {
+      queryParameters: {
+        foo: {
+          value: ["bar", "baz"],
+          explode: true,
+        },
+      },
+    });
+
+    assert.equal(result, "https://example.org/?foo=bar&foo=baz");
+  });
+
+  it("explode handles an object", () => {
+    const result = buildRequestUrl("https://example.org/", "", [], {
+      queryParameters: {
+        foo: {
+          value: { bar: "aaa", baz: "bbb" },
+          explode: true,
+        },
+      },
+    });
+
+    assert.equal(result, "https://example.org/?bar=aaa&baz=bbb");
+  });
+
+  describe("appendQueryParams", () => {
+    it("should append query params when there are no existing params", () => {
+      const url = "https://example.org/samplename";
+      const result = appendQueryParams(url, {
+        queryParameters: { "api-version": "2020-08-01" },
+      });
+      assert.strictEqual(result, "https://example.org/samplename?api-version=2020-08-01");
+    });
+
+    it("should replace existing query param with the same key when value differs", () => {
+      const url = "https://example.org/samplename?api-version=2020-08-01";
+      const result = appendQueryParams(url, {
+        queryParameters: { "api-version": "2021-08-01" },
+      });
+      assert.strictEqual(
+        result,
+        "https://example.org/samplename?api-version=2020-08-01&api-version=2021-08-01",
+      );
+    });
+
+    it("should keep existing query param when new value is the same", () => {
+      const url = "https://example.org/samplename?api-version=2020-08-01";
+      const result = appendQueryParams(url, {
+        queryParameters: { "api-version": "2020-08-01" },
+      });
+      assert.strictEqual(result, "https://example.org/samplename?api-version=2020-08-01");
+    });
+
+    it("should append array query param values using explode", () => {
+      const url = "https://example.org/samplename";
+      const result = appendQueryParams(url, {
+        queryParameters: {
+          "api-version": { value: ["2020-08-01", "2021-08-01"], explode: true },
+        },
+      });
+      assert.strictEqual(
+        result,
+        "https://example.org/samplename?api-version=2020-08-01&api-version=2021-08-01",
+      );
+    });
+
+    it("should append array query param values to existing params using explode", () => {
+      const url = "https://example.org/samplename?api-version=2020-08-01";
+      const result = appendQueryParams(url, {
+        queryParameters: {
+          "api-version": { value: ["2021-08-01", "2022-08-01"], explode: true },
+        },
+      });
+      assert.strictEqual(
+        result,
+        "https://example.org/samplename?api-version=2020-08-01&api-version=2021-08-01&api-version=2022-08-01",
+      );
+    });
+
+    it("should handle existing array params and new single value", () => {
+      const url = "https://example.org/samplename?api-version=2020-08-01&api-version=2021-08-01";
+      const result = appendQueryParams(url, {
+        queryParameters: { "api-version": "2022-08-01" },
+      });
+      assert.strictEqual(
+        result,
+        "https://example.org/samplename?api-version=2020-08-01&api-version=2021-08-01&api-version=2022-08-01",
+      );
+    });
+
+    it("should handle existing array params and new array value using explode", () => {
+      const url = "https://example.org/samplename?api-version=2020-08-01&api-version=2021-08-01";
+      const result = appendQueryParams(url, {
+        queryParameters: {
+          "api-version": { value: ["2022-08-01", "2023-08-01"], explode: true },
+        },
+      });
+      assert.strictEqual(
+        result,
+        "https://example.org/samplename?api-version=2020-08-01&api-version=2021-08-01&api-version=2022-08-01&api-version=2023-08-01",
+      );
+    });
+
+    it("should handle existing non-array param and new array value using explode", () => {
+      const url = "https://example.org/samplename?api-version=2020-08-01";
+      const result = appendQueryParams(url, {
+        queryParameters: {
+          "api-version": { value: ["2021-08-01", "2022-08-01"], explode: true },
+        },
+      });
+      assert.strictEqual(
+        result,
+        "https://example.org/samplename?api-version=2020-08-01&api-version=2021-08-01&api-version=2022-08-01",
+      );
+    });
+
+    it("should keep encoded search value that is not encoded", () => {
+      const url = "https://example.org/samplename?api-version=a=b=c=d";
+      const result = appendQueryParams(url, { queryParameters: { e: "f" } });
+      assert.strictEqual(result, "https://example.org/samplename?api-version=a=b=c=d&e=f");
+    });
+  });
+});
