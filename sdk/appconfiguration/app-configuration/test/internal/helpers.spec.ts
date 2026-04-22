@@ -252,6 +252,7 @@ describe("helper methods", () => {
       // it should be 'renamed' to readOnly
       isReadOnly: true,
       key: "hello",
+      lastModified: undefined,
       value: undefined,
     } as unknown);
   });
@@ -269,7 +270,7 @@ describe("helper methods", () => {
     const actualKeys = Object.keys(configurationSetting).sort();
 
     // _response is explictly set to not enumerate, even in our copied object.
-    assert.deepEqual(actualKeys, ["isReadOnly", "key", "statusCode", "value"]);
+    assert.deepEqual(actualKeys, ["isReadOnly", "key", "lastModified", "statusCode", "value"]);
 
     // now make it enumerable so we can do our comparison
     Object.defineProperty(configurationSetting, "_response", {
@@ -295,7 +296,7 @@ describe("helper methods", () => {
     const actualKeys = Object.keys(configurationSetting).sort();
 
     // _response is explictly set to not enumerate, even in our copied object.
-    assert.deepEqual(actualKeys, ["isReadOnly", "key", "value"]);
+    assert.deepEqual(actualKeys, ["isReadOnly", "key", "lastModified", "value"]);
 
     // now make it enumerable so we can do our comparison
     Object.defineProperty(configurationSetting, "_response", {

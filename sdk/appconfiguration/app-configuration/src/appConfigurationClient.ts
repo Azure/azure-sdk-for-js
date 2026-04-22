@@ -48,6 +48,7 @@ import { bearerTokenAuthenticationPolicyName } from "@azure/core-rest-pipeline";
 import { audienceErrorHandlingPolicy } from "./internal/audienceErrorHandlingPolicy.js";
 import { SyncTokens, syncTokenPolicy } from "./internal/syncTokenPolicy.js";
 import { queryParamPolicy } from "./internal/queryParamPolicy.js";
+import { emptyBodyPolicy } from "./internal/emptyBodyPolicy.js";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type {
@@ -96,6 +97,8 @@ import {
   _getSnapshotsDeserialize,
   _createSnapshotSend,
   _createSnapshotDeserialize,
+  _deleteKeyValueSend,
+  _deleteKeyValueDeserialize,
 } from "./generated/api/operations.js";
 import { getLongRunningPoller } from "./generated/static-helpers/pollingHelpers.js";
 import type { AzureAppConfigurationContext } from "./generated/api/azureAppConfigurationContext.js";
@@ -105,7 +108,9 @@ import type { SnapshotReferenceValue } from "./snapshotReference.js";
 import { appConfigKeyCredentialPolicy } from "./appConfigCredential.js";
 import { tracingClient } from "./internal/tracing.js";
 import { logger } from "./logger.js";
-import type { OperationState, PollerLike } from "@azure/core-lro";
+import type { OperationState } from "@azure/core-lro";
+import type { SimplePollerLike } from "./internal/lroShim.js";
+import { wrapPoller } from "./internal/lroShim.js";
 import { appConfigurationApiVersion, packageVersion } from "./internal/constants.js";
 
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
@@ -224,6 +229,7 @@ export class AppConfigurationClient {
       this.client.pipeline.addPolicy(appConfigAuthPolicy, { phase: "Sign" });
     }
     this.client.pipeline.addPolicy(queryParamPolicy());
+    this.client.pipeline.addPolicy(emptyBodyPolicy());
     this.client.pipeline.addPolicy(syncTokenPolicy(this._syncTokens), { afterPhase: "Retry" });
   }
 
@@ -365,32 +371,43 @@ export class AppConfigurationClient {
       options,
       async (updatedOptions) => {
         let status;
+        let rawResponse: any;
         logger.info("[getConfigurationSetting] Getting key value pair");
-        const originalResponse = await this.client.getKeyValue(id.key, {
-          ...updatedOptions,
-          label: id.label,
-          select: formatFieldsForSelect(options.fields),
-          ...formatAcceptDateTime(options),
-          ...checkAndFormatIfAndIfNoneMatch(id, options),
-          onResponse: (response) => {
-            status = response.status;
-          },
-        });
+        try {
+          const originalResponse = await this.client.getKeyValue(id.key, {
+            ...updatedOptions,
+            label: id.label,
+            select: formatFieldsForSelect(options.fields),
+            ...formatAcceptDateTime(options),
+            ...checkAndFormatIfAndIfNoneMatch(id, options),
+            onResponse: (response) => {
+              status = response.status;
+              rawResponse = response;
+            },
+          });
 
-        const response = transformKeyValueResponseWithStatusCode(originalResponse, status);
-
-        // 304 only comes back if the user has passed a conditional option in their
-        // request _and_ the remote object has the same etag as what the user passed.
-        if (response.statusCode === 304) {
-          // this is one of our few 'required' fields so we'll make sure it does get initialized
-          // with a value
-          response.key = id.key;
-
-          // and now we'll undefine all the other properties that are not HTTP related
-          makeConfigurationSettingEmpty(response);
+          const response = transformKeyValueResponseWithStatusCode(originalResponse, status);
+          assertResponse(response);
+          return response;
+        } catch (error) {
+          const err = error as RestError;
+          // 304 only comes back if the user has passed a conditional option in their
+          // request _and_ the remote object has the same etag as what the user passed.
+          if (err.statusCode === 304) {
+            const response = transformKeyValueResponseWithStatusCode(
+              { _response: rawResponse } as any,
+              304,
+            );
+            // this is one of our few 'required' fields so we'll make sure it does get initialized
+            // with a value
+            response.key = id.key;
+            // and now we'll undefine all the other properties that are not HTTP related
+            makeConfigurationSettingEmpty(response);
+            assertResponse(response);
+            return response;
+          }
+          throw err;
         }
-        assertResponse(response);
-        return response;
       },
     );
   }
@@ -864,7 +881,7 @@ export class AppConfigurationClient {
     snapshot: SnapshotInfo,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: CreateSnapshotOptions = {},
-  ): Promise<PollerLike<OperationState<CreateSnapshotResponse>, CreateSnapshotResponse>> {
+  ): Promise<SimplePollerLike<OperationState<CreateSnapshotResponse>, CreateSnapshotResponse>> {
     return tracingClient.withSpan(
       `${AppConfigurationClient.name}.beginCreateSnapshot`,
       options,
@@ -891,9 +908,9 @@ export class AppConfigurationClient {
             resourceLocationConfig: "original-uri",
           },
         );
-        return poller;
+        return wrapPoller(poller);
       }
-    ) as unknown as Promise<PollerLike<OperationState<CreateSnapshotResponse>, CreateSnapshotResponse>>;
+    );
   }
 
   /**
