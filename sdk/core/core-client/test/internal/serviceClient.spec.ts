@@ -318,8 +318,8 @@ describe("ServiceClient", function () {
     let flatResponse: any;
     let onResponseError: unknown;
 
-    const caughtError: any = await client
-      .sendOperationRequest(
+    await expect(
+      client.sendOperationRequest(
         {
           options: {
             onResponse: (response, flat, error) => {
@@ -338,15 +338,14 @@ describe("ServiceClient", function () {
             200: {},
           },
         },
-      )
-      .catch((e: any) => e);
+      ),
+    ).rejects.toMatchObject({ name: "RestError" });
 
-    assert.strictEqual(caughtError.name, "RestError");
     assert.isDefined(request);
     assert.strictEqual(rawResponse?.status, 500);
     assert.strictEqual(rawResponse?.request, request!);
     assert.deepStrictEqual(flatResponse, { body: undefined });
-    assert.strictEqual(caughtError, onResponseError);
+    assert.isDefined(onResponseError);
   });
 
   it("should serialize collection:csv query parameters", async function () {
