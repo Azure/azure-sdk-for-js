@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Backs up an Azure Key Vault secret to a local file and restores from it.
+ * Backs up an Azure Key Vault secret to a local file and restores from it.
  */
 
 import { readFile, writeFile } from "node:fs/promises";

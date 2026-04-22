@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Imports a PFX and PEM certificate and then deletes them.
+ * Imports a PFX and PEM certificate and then deletes them.
  */
 
 import { CertificateClient, WellKnownIssuer } from "../../../src/index.js";

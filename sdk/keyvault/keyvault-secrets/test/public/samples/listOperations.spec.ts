@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Uses a SecretClient to iterate over secrets and their versions.
+ * Uses a SecretClient to iterate over secrets and their versions.
  */
 
 import { SecretClient } from "../../../src/index.js";

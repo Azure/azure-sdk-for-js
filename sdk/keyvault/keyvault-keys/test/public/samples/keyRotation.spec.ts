@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Creates and updates a key's automated rotation policy, and rotates a key on-demand.
+ * Creates and updates a key's automated rotation policy, and rotates a key on-demand.
  */
 
 import { KeyClient } from "../../../src/index.js";

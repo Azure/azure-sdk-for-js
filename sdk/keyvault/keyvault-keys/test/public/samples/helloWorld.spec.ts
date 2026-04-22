@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Creates, reads, lists, and deletes keys.
+ * Creates, reads, lists, and deletes keys.
  */
 
 import { KeyClient } from "../../../src/index.js";

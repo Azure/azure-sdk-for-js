@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates how to retrieve and update account settings for Managed HSM.
+ * Demonstrates how to retrieve and update account settings for Managed HSM.
  */
 
 import { KeyVaultSettingsClient } from "../../../src/index.js";

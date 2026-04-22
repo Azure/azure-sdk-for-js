@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Creates, updates and deletes certificate issuers.
+ * Creates, updates and deletes certificate issuers.
  */
 
 import { CertificateClient } from "../../../src/index.js";

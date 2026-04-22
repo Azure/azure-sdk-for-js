@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Uses a SecretClient to create, read, and update a secret in various ways.
+ * Uses a SecretClient to create, read, and update a secret in various ways.
  */
 
 import { SecretClient } from "../../../src/index.js";

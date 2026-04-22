@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Deletes a secret and then recovers a deleted secret (this sample requires soft-delete to run).
+ * Deletes a secret and then recovers a deleted secret (this sample requires soft-delete to run).
  */
 
 import { SecretClient } from "../../../src/index.js";

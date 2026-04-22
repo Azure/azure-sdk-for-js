@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Authenticates with Azure Key Vault and creates a SecretClient.
+ * Authenticates with Azure Key Vault and creates a SecretClient.
  */
 
 import { SecretClient } from "../../../src/index.js";

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Authenticates with Azure Managed HSM and creates access control, backup, and settings clients.
+ * Authenticates with Azure Managed HSM and creates access control, backup, and settings clients.
  */
 
 import {

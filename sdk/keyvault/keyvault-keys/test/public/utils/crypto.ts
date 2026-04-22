@@ -1,10 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * @azsdk-util true
- */
-
 import type { JsonWebKey } from "../../../src/index.js";
 
 export function stringToUint8Array(str: string): Uint8Array {

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Uses a BackupClient to backup and restore a specific key in an Azure Key Vault Managed HSM using Azure Storage Blob.
+ * Uses a BackupClient to backup and restore a specific key in an Azure Key Vault Managed HSM using Azure Storage Blob.
  */
 
 import { KeyVaultBackupClient } from "../../../src/index.js";

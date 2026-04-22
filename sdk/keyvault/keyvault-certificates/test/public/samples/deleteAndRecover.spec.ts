@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Creates a self-signed certificate, deletes it, and then recovers it (soft-delete is required for this sample to run).
+ * Creates a self-signed certificate, deletes it, and then recovers it (soft-delete is required for this sample to run).
  */
 
 import { CertificateClient } from "../../../src/index.js";

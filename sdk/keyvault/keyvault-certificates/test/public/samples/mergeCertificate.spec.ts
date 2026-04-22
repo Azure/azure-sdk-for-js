@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Creates a certificate with an unknown issuer and signs it using a fake certificate authority and the mergeCertificate API.
+ * Creates a certificate with an unknown issuer and signs it using a fake certificate authority and the mergeCertificate API.
  */
 
 import * as childProcess from "child_process";

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary List certificates, lists a certificate's versions, and lists deleted certificates in various ways.
+ * List certificates, lists a certificate's versions, and lists deleted certificates in various ways.
  */
 
 import { CertificateClient } from "../../../src/index.js";

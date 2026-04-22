@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Creates a self-signed certificate, then makes a backup from it, then deletes it and purges it, and finally restores it.
+ * Creates a self-signed certificate, then makes a backup from it, then deletes it and purges it, and finally restores it.
  */
 
 import { CertificateClient } from "../../../src/index.js";

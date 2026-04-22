@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Uses an Azure Key Vault key to sign/verify, encrypt/decrypt, and wrap/unwrap data.
+ * Uses an Azure Key Vault key to sign/verify, encrypt/decrypt, and wrap/unwrap data.
  */
 
 import { createHash } from "node:crypto";
