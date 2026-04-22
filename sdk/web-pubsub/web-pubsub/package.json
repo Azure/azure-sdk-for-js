@@ -14,7 +14,7 @@
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "generate:client": "tsp-client update -d && npm run format && dev-tool customization apply --skip index.ts",
+    "generate:client": "tsp-client update -d && npm run format && dev-tool customization apply --skip index.ts --skip README.md",
     "lint": "eslint package.json src test",
     "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
     "pack": "pnpm pack 2>&1",
@@ -31,8 +31,8 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/api/webPubSubServiceContext.ts",
-        "prefix": "userAgentInfo"
+        "path": "src/constants.ts",
+        "prefix": "SDK_VERSION"
       }
     ]
   },

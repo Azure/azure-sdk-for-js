@@ -46,6 +46,7 @@ import {
   _checkPermissionSend,
 } from "./api/operations.js";
 import { webPubSubReverseProxyPolicy } from "./reverseProxyPolicy.js";
+import { SDK_VERSION } from "./constants.js";
 
 /**
  * Options for closing a connection to a hub.
@@ -424,7 +425,7 @@ export class WebPubSubServiceClient {
       });
     } else {
       const prefixFromOptions = pipelineOptions?.userAgentOptions?.userAgentPrefix;
-      const userAgentInfo = `azsdk-js-web-pubsub/1.2.1`;
+      const userAgentInfo = `azsdk-js-web-pubsub/${SDK_VERSION}`;
       const userAgentPrefix = prefixFromOptions
         ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
         : `azsdk-js-api ${userAgentInfo}`;

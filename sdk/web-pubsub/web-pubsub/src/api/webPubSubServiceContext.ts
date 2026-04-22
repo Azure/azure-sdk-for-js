@@ -5,6 +5,7 @@ import { logger } from "../logger.js";
 import { KnownVersions } from "../models/models.js";
 import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
+import { SDK_VERSION } from "../constants.js";
 
 /** WebPubSubServiceClient */
 export interface WebPubSubServiceContext extends Client {
@@ -34,7 +35,7 @@ export function createWebPubSubService(
 ): WebPubSubServiceContext {
   const endpointUrl = options.endpoint ?? String(endpointParam);
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-web-pubsub/1.2.0`;
+  const userAgentInfo = `azsdk-js-web-pubsub/${SDK_VERSION}`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;
