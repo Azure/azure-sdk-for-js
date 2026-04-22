@@ -1,0 +1,52 @@
+{
+  "apiVersions": {
+    "Microsoft.Monitor": "2025-03-01-preview"
+  },
+  "emitterVersion": "0.52.2",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Microsoft.Monitor",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-monitorslis!Sli:interface": "Microsoft.Monitor.Sli",
+      "@azure/arm-monitorslis!SliResource:interface": "Microsoft.Monitor.SliResource",
+      "@azure/arm-monitorslis!ExecutionState:interface": "Microsoft.Monitor.ExecutionState",
+      "@azure/arm-monitorslis!AmwAccount:interface": "Microsoft.Monitor.AmwAccount",
+      "@azure/arm-monitorslis!Metric:interface": "Microsoft.Monitor.Metric",
+      "@azure/arm-monitorslis!BaselineProperties:interface": "Microsoft.Monitor.BaselineProperties",
+      "@azure/arm-monitorslis!Baseline:interface": "Microsoft.Monitor.Baseline",
+      "@azure/arm-monitorslis!SliProperties:interface": "Microsoft.Monitor.SliProperties",
+      "@azure/arm-monitorslis!Signal:interface": "Microsoft.Monitor.Signal",
+      "@azure/arm-monitorslis!SignalSource:interface": "Microsoft.Monitor.SignalSource",
+      "@azure/arm-monitorslis!Condition:interface": "Microsoft.Monitor.Condition",
+      "@azure/arm-monitorslis!SpatialAggregation:interface": "Microsoft.Monitor.SpatialAggregation",
+      "@azure/arm-monitorslis!TemporalAggregation:interface": "Microsoft.Monitor.TemporalAggregation",
+      "@azure/arm-monitorslis!WindowUptimeCriteria:interface": "Microsoft.Monitor.WindowUptimeCriteria",
+      "@azure/arm-monitorslis!ManagedServiceIdentity:interface": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentity",
+      "@azure/arm-monitorslis!UserAssignedIdentity:interface": "Azure.ResourceManager.CommonTypes.UserAssignedIdentity",
+      "@azure/arm-monitorslis!ProxyResource:interface": "Azure.ResourceManager.CommonTypes.ProxyResource",
+      "@azure/arm-monitorslis!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
+      "@azure/arm-monitorslis!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
+      "@azure/arm-monitorslis!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+      "@azure/arm-monitorslis!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+      "@azure/arm-monitorslis!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-monitorslis!SliListResult:interface": "Azure.ResourceManager.ResourceListResult",
+      "@azure/arm-monitorslis!KnownProvisioningState:enum": "Microsoft.Monitor.ProvisioningState",
+      "@azure/arm-monitorslis!KnownCategory:enum": "Microsoft.Monitor.Category",
+      "@azure/arm-monitorslis!KnownEvaluationType:enum": "Microsoft.Monitor.EvaluationType",
+      "@azure/arm-monitorslis!KnownEvaluationCalculationType:enum": "Microsoft.Monitor.EvaluationCalculationType",
+      "@azure/arm-monitorslis!KnownScalarFunction:enum": "Microsoft.Monitor.ScalarFunction",
+      "@azure/arm-monitorslis!KnownSamplingType:enum": "Microsoft.Monitor.SamplingType",
+      "@azure/arm-monitorslis!KnownConditionOperator:enum": "Microsoft.Monitor.ConditionOperator",
+      "@azure/arm-monitorslis!KnownSpatialAggregationType:enum": "Microsoft.Monitor.SpatialAggregationType",
+      "@azure/arm-monitorslis!KnownTemporalAggregationType:enum": "Microsoft.Monitor.TemporalAggregationType",
+      "@azure/arm-monitorslis!KnownWindowUptimeCriteriaComparator:enum": "Microsoft.Monitor.WindowUptimeCriteriaComparator",
+      "@azure/arm-monitorslis!KnownManagedServiceIdentityType:enum": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentityType",
+      "@azure/arm-monitorslis!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
+      "@azure/arm-monitorslis!KnownVersions:enum": "Microsoft.Monitor.Versions",
+      "@azure/arm-monitorslis!ManagedServiceIdentityUserAssignedIdentity:type": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentity.userAssignedIdentity.anonymous",
+      "@azure/arm-monitorslis!SlisOperations#listByParent:member": "Microsoft.Monitor.Slis.listByParent",
+      "@azure/arm-monitorslis!SlisOperations#delete:member": "Microsoft.Monitor.Slis.delete",
+      "@azure/arm-monitorslis!SlisOperations#createOrUpdate:member": "Microsoft.Monitor.Slis.createOrUpdate",
+      "@azure/arm-monitorslis!SlisOperations#get:member": "Microsoft.Monitor.Slis.get"
+    }
+  }
+}
