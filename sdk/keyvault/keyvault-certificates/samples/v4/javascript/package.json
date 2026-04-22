@@ -3,6 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "description": "Azure Key Vault Certificates client library samples for JavaScript",
+  "type": "commonjs",
   "engines": {
     "node": ">=20.0.0"
   },
