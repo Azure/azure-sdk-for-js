@@ -4,7 +4,7 @@
 **/*.yml
 **/*.yaml
 **/*.d.ts
-**/dist/
-**/dist-test/
+dist/
+dist-test/
 .env
 tsdoc-metadata.json
