@@ -142,13 +142,16 @@ function mergeIndexSignatures(
 }
 
 function deepMergeInterface(existing: InterfaceInfo, incoming: InterfaceInfo): void {
+    // Guard: if type parameters differ, only merge members (not heritage clauses)
+    // to avoid producing `interface Foo<T> extends Base<T>, Base<U>` where U is undefined.
+    const typeParamsMatch = JSON.stringify(existing.typeParams ?? []) === JSON.stringify(incoming.typeParams ?? []);
     existing.properties = mergeProperties(existing.properties, incoming.properties);
     existing.methods = mergeMethods(existing.methods, incoming.methods);
     existing.constructSignatures = mergeSignaturesBySig(existing.constructSignatures, incoming.constructSignatures);
     existing.callSignatures = mergeSignaturesBySig(existing.callSignatures, incoming.callSignatures);
     existing.indexSignatures = mergeIndexSignatures(existing.indexSignatures, incoming.indexSignatures);
-    // Union extends clauses (deduplicated)
-    if (incoming.extends?.length) {
+    // Union extends clauses only when type parameters are compatible
+    if (typeParamsMatch && incoming.extends?.length) {
         if (!existing.extends?.length) {
             existing.extends = incoming.extends;
         } else {
@@ -170,22 +173,26 @@ function deepMergeInterface(existing: InterfaceInfo, incoming: InterfaceInfo): v
 }
 
 function deepMergeClass(existing: ClassInfo, incoming: ClassInfo): void {
+    // Guard: if type parameters differ, only merge members (not heritage clauses)
+    const typeParamsMatch = JSON.stringify(existing.typeParams ?? []) === JSON.stringify(incoming.typeParams ?? []);
     existing.properties = mergeProperties(existing.properties, incoming.properties);
     existing.methods = mergeMethods(existing.methods, incoming.methods);
     existing.constructors = mergeConstructors(existing.constructors, incoming.constructors);
     existing.indexSignatures = mergeIndexSignatures(existing.indexSignatures, incoming.indexSignatures);
     // Reconcile structural metadata
-    if (!existing.extends && incoming.extends) existing.extends = incoming.extends;
-    // Union implements clauses (deduplicated)
-    if (incoming.implements?.length) {
-        if (!existing.implements?.length) {
-            existing.implements = incoming.implements;
-        } else {
-            const seen = new Set(existing.implements);
-            for (const impl of incoming.implements) {
-                if (!seen.has(impl)) {
-                    existing.implements.push(impl);
-                    seen.add(impl);
+    if (typeParamsMatch) {
+        if (!existing.extends && incoming.extends) existing.extends = incoming.extends;
+        // Union implements clauses (deduplicated)
+        if (incoming.implements?.length) {
+            if (!existing.implements?.length) {
+                existing.implements = incoming.implements;
+            } else {
+                const seen = new Set(existing.implements);
+                for (const impl of incoming.implements) {
+                    if (!seen.has(impl)) {
+                        existing.implements.push(impl);
+                        seen.add(impl);
+                    }
                 }
             }
         }

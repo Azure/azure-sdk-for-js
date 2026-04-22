@@ -842,10 +842,9 @@ public static class TypeScriptFormatter
                 .ThenBy(g => g.Key.Condition)
                 .ToList();
 
-            // Per-exportPath condition sets for suffix logic
             // Per-exportPath condition sets for suffix logic.
-            // Use module-level export paths (not per-symbol) so that condition suffix
-            // decisions are consistent with TS's module-level grouping.
+            // Include both module-level and per-symbol export paths so that symbol-only
+            // subpaths get their own condition multiplicity check instead of falling back to root.
             var conditionsPerExportPath = new Dictionary<string, HashSet<string>>(StringComparer.Ordinal);
             foreach (var module in index.Modules)
             {
@@ -854,6 +853,26 @@ public static class TypeScriptFormatter
                 if (!conditionsPerExportPath.TryGetValue(normalizedEp, out var set))
                     conditionsPerExportPath[normalizedEp] = set = new(StringComparer.Ordinal);
                 set.Add(cond);
+            }
+
+            // Also include per-symbol export paths so that symbol-only subpaths
+            // get their own condition multiplicity check instead of falling back to root.
+            foreach (var module in index.Modules)
+            {
+                var condition = NormalizeCondition(module.Condition);
+                void AddSymbolEp(string? ep) {
+                    if (ep == null) return;
+                    var nep = NormalizeExportPath(ep);
+                    if (!conditionsPerExportPath.TryGetValue(nep, out var set))
+                        conditionsPerExportPath[nep] = set = new(StringComparer.Ordinal);
+                    set.Add(condition);
+                }
+                foreach (var c in module.Classes ?? []) AddSymbolEp(c.ExportPath);
+                foreach (var i in module.Interfaces ?? []) AddSymbolEp(i.ExportPath);
+                foreach (var e in module.Enums ?? []) AddSymbolEp(e.ExportPath);
+                foreach (var t in module.Types ?? []) AddSymbolEp(t.ExportPath);
+                foreach (var f in module.Functions ?? []) AddSymbolEp(f.ExportPath);
+                foreach (var n in module.Namespaces ?? []) AddSymbolEp(n.ExportPath);
             }
 
             // Compute module name using per-exportPath condition check
@@ -968,7 +987,8 @@ public static class TypeScriptFormatter
 
             var allResolvedDeps = new List<(string ModuleName, List<ClassInfo> Classes,
                 List<InterfaceInfo> Interfaces, List<EnumInfo> Enums, List<TypeAliasInfo> Types,
-                List<FunctionInfo> Functions, List<NamespaceInfo> Namespaces)>();
+                List<FunctionInfo> Functions, List<NamespaceInfo> Namespaces,
+                HashSet<string> DepConditions)>();
 
             foreach (var dep in index.ResolvedDependencies)
             {
@@ -1094,10 +1114,14 @@ public static class TypeScriptFormatter
                     List<NamespaceInfo> Namespaces)>(StringComparer.Ordinal);
                 var depMergedNames = new Dictionary<string, (HashSet<string> Classes, HashSet<string> Interfaces,
                     HashSet<string> Enums, HashSet<string> Types, HashSet<string> FuncSigs)>(StringComparer.Ordinal);
+                var depMergedConditions = new Dictionary<string, HashSet<string>>(StringComparer.Ordinal);
 
                 foreach (var (key, group) in depModuleGroups)
                 {
                     var mn = ComputeDepModuleName(key.ExportPath, key.Condition);
+                    if (!depMergedConditions.TryGetValue(mn, out var condSet))
+                        depMergedConditions[mn] = condSet = new(StringComparer.Ordinal);
+                    condSet.Add(key.Condition);
                     if (depSpecifierMerged.TryGetValue(mn, out var existing))
                     {
                         var names = depMergedNames[mn];
@@ -1150,15 +1174,38 @@ public static class TypeScriptFormatter
                     if (sg.Classes.Count + sg.Interfaces.Count + sg.Enums.Count + sg.Types.Count + sg.Functions.Count + sg.Namespaces.Count == 0)
                         continue;
 
-                    allResolvedDeps.Add((depModuleName, sg.Classes, sg.Interfaces, sg.Enums, sg.Types, sg.Functions, sg.Namespaces));
+                    var entryConditions = depMergedConditions.TryGetValue(depModuleName, out var cs) ? cs : new(StringComparer.Ordinal);
+                    allResolvedDeps.Add((depModuleName, sg.Classes, sg.Interfaces, sg.Enums, sg.Types, sg.Functions, sg.Namespaces, entryConditions));
                 }
             }
 
-            // Associate with all main conditions (emittedDepModules deduplicates at render time)
+            // Associate deps with main conditions, filtering by condition compatibility.
+            // A dep module with condition "browser" should only be associated with main
+            // modules that also have condition "browser" (or "default"/"types").
+            // A dep module with no condition (or "default") should be associated with all main conditions.
             if (allResolvedDeps.Count > 0)
             {
+                bool DepConditionMatchesMain(string? depCondition, string mainCondition)
+                {
+                    // Unconditioned/default/types deps match everything
+                    if (depCondition == null || IsBareSpecifierCondition(depCondition)) return true;
+                    // Exact match
+                    if (string.Equals(depCondition, mainCondition, StringComparison.Ordinal)) return true;
+                    // If main is unconditioned, accept all deps
+                    if (IsBareSpecifierCondition(mainCondition)) return true;
+                    return false;
+                }
+
                 foreach (var mainCond in allMainConditions)
-                    depsByCondition[mainCond] = allResolvedDeps;
+                {
+                    var filtered = allResolvedDeps
+                        .Where(d => d.DepConditions.Count == 0
+                            || d.DepConditions.Any(dc => DepConditionMatchesMain(dc, mainCond)))
+                        .Select(d => (d.ModuleName, d.Classes, d.Interfaces, d.Enums, d.Types, d.Functions, d.Namespaces))
+                        .ToList();
+                    if (filtered.Count > 0)
+                        depsByCondition[mainCond] = filtered;
+                }
             }
         }
         else if (index.Dependencies is not null && index.Dependencies.Count > 0)

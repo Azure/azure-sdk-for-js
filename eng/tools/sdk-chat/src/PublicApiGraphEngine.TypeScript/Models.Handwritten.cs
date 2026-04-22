@@ -692,6 +692,45 @@ internal static class TypeScriptModelHelpers
                             continue;
                         }
 
+                        // Handle nested template literals inside ${...} expressions
+                        if (c == '`')
+                        {
+                            i++; // skip opening backtick
+                            int nestedDepth = 0;
+                            while (i < sig.Length)
+                            {
+                                if (sig[i] == '\\') { i += 2; continue; }
+                                if (sig[i] == '`' && nestedDepth == 0) break;
+                                if (sig[i] == '$' && i + 1 < sig.Length && sig[i + 1] == '{')
+                                {
+                                    nestedDepth++;
+                                    i += 2;
+                                    continue;
+                                }
+                                if (sig[i] == '}' && nestedDepth > 0)
+                                {
+                                    nestedDepth--;
+                                    i++;
+                                    continue;
+                                }
+                                if (nestedDepth > 0 && (sig[i] == '\'' || sig[i] == '"'))
+                                {
+                                    char q = sig[i];
+                                    i++;
+                                    while (i < sig.Length && sig[i] != q)
+                                    {
+                                        if (sig[i] == '\\') i++;
+                                        i++;
+                                    }
+                                    i++;
+                                    continue;
+                                }
+                                i++;
+                            }
+                            // i now points at closing backtick of nested template
+                            continue;
+                        }
+
                         if (c == '{') templateBraceDepth++;
                         else if (c == '}') templateBraceDepth--;
                         continue;
@@ -794,6 +833,45 @@ internal static class TypeScriptModelHelpers
                                 i++;
                             }
                             // i now points at closing quote, loop will increment past it
+                            continue;
+                        }
+
+                        // Handle nested template literals inside ${...} expressions
+                        if (c == '`')
+                        {
+                            i++; // skip opening backtick
+                            int nestedDepth = 0;
+                            while (i < text.Length)
+                            {
+                                if (text[i] == '\\') { i += 2; continue; }
+                                if (text[i] == '`' && nestedDepth == 0) break;
+                                if (text[i] == '$' && i + 1 < text.Length && text[i + 1] == '{')
+                                {
+                                    nestedDepth++;
+                                    i += 2;
+                                    continue;
+                                }
+                                if (text[i] == '}' && nestedDepth > 0)
+                                {
+                                    nestedDepth--;
+                                    i++;
+                                    continue;
+                                }
+                                if (nestedDepth > 0 && (text[i] == '\'' || text[i] == '"'))
+                                {
+                                    char q = text[i];
+                                    i++;
+                                    while (i < text.Length && text[i] != q)
+                                    {
+                                        if (text[i] == '\\') i++;
+                                        i++;
+                                    }
+                                    i++;
+                                    continue;
+                                }
+                                i++;
+                            }
+                            // i now points at closing backtick of nested template
                             continue;
                         }
 

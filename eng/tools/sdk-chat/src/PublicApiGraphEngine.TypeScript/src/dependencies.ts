@@ -1569,16 +1569,23 @@ export function getPackageConditionTypePaths(startDir: string, packageName: stri
 
                     hasConditionalTypes = true;
 
-                    // Determine the condition to attribute this types path to:
-                    // prefer the outer target condition (browser, node, etc.) over
-                    // module-format conditions (import, require) so that
-                    // ["browser","import"] maps to "browser", not "import".
+                    // Use compound key (target|format) when both exist, so that
+                    // node|import and node|require are preserved as distinct entries.
                     const runtimeCondition = findPreferredCondition(entry.conditionChain, skipKeys);
                     const condition = runtimeCondition ?? "default";
+                    // Check if there's also a module-format condition alongside the target
+                    const FORMAT_CONDITIONS = new Set(["import", "require"]);
+                    let compoundKey = condition;
+                    if (runtimeCondition) {
+                        const formatCond = entry.conditionChain.find(c => !skipKeys.has(c) && FORMAT_CONDITIONS.has(c));
+                        if (formatCond) {
+                            compoundKey = `${runtimeCondition}|${formatCond}`;
+                        }
+                    }
 
                     const absPath = path.resolve(pkgDir, entry.filePath);
-                    if (fs.existsSync(absPath) && !result.has(condition)) {
-                        result.set(condition, absPath);
+                    if (fs.existsSync(absPath) && !result.has(compoundKey)) {
+                        result.set(compoundKey, absPath);
                     }
                 }
             }
