@@ -5,12 +5,12 @@
  * Discovers sample-test files and compiles them into publishable sources.
  *
  * This module bridges the sample-tests compiler with the existing samples
- * publish pipeline. It finds test files with @summary tags under test/public/,
- * compiles each one, and writes the output to a staging directory that the
- * existing pipeline can consume as if it were samples-dev/.
+ * publish pipeline. It finds test files under test/public/samples/, compiles
+ * each one, and writes the output to a staging directory that the existing
+ * pipeline can consume as if it were samples-dev/.
  */
 
-import { readFileSync, mkdirSync, writeFileSync, existsSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync, existsSync } from "node:fs";
 import { mkdtemp, rm } from "node:fs/promises";
 import path from "node:path";
 import { tmpdir } from "node:os";
@@ -22,31 +22,22 @@ import type { HelperResolver, ResolvedHelper } from "./compiler/helperCompiler.j
 const log = createPrinter("sample-tests");
 
 /**
- * Check whether a source file has a @summary tag (quick text check, no parsing).
- */
-function hasSummaryTag(sourceText: string): boolean {
-  return /@summary\s/.test(sourceText);
-}
-
-/**
- * Discover sample-test files under test/public/ that have @summary tags.
+ * Discover sample-test files under test/public/samples/.
+ * All .spec.ts files in this directory are considered sample tests.
  */
 async function discoverSampleTests(projectPath: string): Promise<string[]> {
-  const testPublicPath = path.join(projectPath, "test", "public");
+  const samplesPath = path.join(projectPath, "test", "public", "samples");
   const candidates: string[] = [];
 
   try {
     for await (const filePath of findMatchingFiles(
-      testPublicPath,
+      samplesPath,
       (name) => name.endsWith(".spec.ts") && !name.endsWith(".d.ts"),
     )) {
-      const content = readFileSync(filePath, "utf-8");
-      if (hasSummaryTag(content)) {
-        candidates.push(filePath);
-      }
+      candidates.push(filePath);
     }
   } catch {
-    // test/public/ doesn't exist or is empty, nothing to compile
+    // test/public/samples/ doesn't exist or is empty, nothing to compile
   }
 
   return candidates.sort();

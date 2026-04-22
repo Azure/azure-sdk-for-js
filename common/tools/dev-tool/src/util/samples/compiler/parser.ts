@@ -15,7 +15,7 @@ import {
  *
  * @param sourceFile - The parsed TypeScript source file
  * @param fileName - For error messages
- * @returns The parsed structure, or null if no @summary tag is found
+ * @returns The parsed structure, or null if no description could be found
  * @throws CompilerError for structural issues (nested describe, missing describe/it)
  */
 export function parseSampleTestFile(
@@ -160,7 +160,8 @@ export function parseSampleTestFile(
 }
 
 /**
- * Parse the file-top JSDoc comment for @summary and other azsdk tags.
+ * Parse the file-top JSDoc comment for the description and other azsdk tags.
+ * Supports both `@summary description` and plain first-paragraph descriptions.
  */
 function parseMetadata(sourceFile: ts.SourceFile): SampleMetadata | null {
   const text = sourceFile.getFullText();
@@ -173,17 +174,31 @@ function parseMetadata(sourceFile: ts.SourceFile): SampleMetadata | null {
 
   const jsdocText = jsdocMatch[1];
 
-  // Extract @summary (may span multiple lines until next @tag or end of comment)
+  // Extract @summary if present (backward-compatible)
   const summaryMatch = jsdocText.match(/@summary\s+([\s\S]*?)(?=\s*@\w|$)/);
-  if (!summaryMatch) {
-    return null;
+
+  let summary: string | undefined;
+
+  if (summaryMatch) {
+    summary = summaryMatch[1]
+      .split("\n")
+      .map((line) => line.replace(/^\s*\*?\s*/, "").trim())
+      .filter((line) => line.length > 0)
+      .join(" ");
+  } else {
+    // Fall back to the first non-empty paragraph of the JSDoc comment (TSDoc-standard)
+    const lines = jsdocText
+      .split("\n")
+      .map((line) => line.replace(/^\s*\*\s?/, "").trim())
+      .filter((line) => line.length > 0 && !line.startsWith("@"));
+    if (lines.length > 0) {
+      summary = lines[0];
+    }
   }
 
-  const summary = summaryMatch[1]
-    .split("\n")
-    .map((line) => line.replace(/^\s*\*?\s*/, "").trim())
-    .filter((line) => line.length > 0)
-    .join(" ");
+  if (!summary) {
+    return null;
+  }
 
   const metadata: SampleMetadata = { summary };
 

@@ -570,7 +570,7 @@ describe("env", () => {
   // ── Test 7: Error cases ─────────────────────────────────────────
 
   describe("error cases", () => {
-    it("throws CompilerError when @summary is missing", () => {
+    it("throws CompilerError when description is missing", () => {
       const noSummary = `\
 import { describe, it } from "vitest";
 
@@ -583,6 +583,22 @@ describe("test", () => {
       expect(() => compileSampleTest(noSummary, { packageName: "@azure/client" })).toThrow(
         CompilerError,
       );
+    });
+
+    it("accepts plain JSDoc description without @summary tag", () => {
+      const plainDescription = `\
+/** Demonstrates how to say hello without @summary. */
+import { describe, it } from "vitest";
+
+describe("hello", () => {
+  it("say hello", async () => {
+    console.log("hello");
+  });
+});
+`;
+      const result = compileSampleTest(plainDescription, { packageName: "@azure/client" });
+      expect(result.metadata.summary).toBe("Demonstrates how to say hello without @summary.");
+      expect(result.outputText).toContain("@summary Demonstrates how to say hello without @summary.");
     });
 
     it("throws CompilerError for block-bodied arrow in forPublishing", () => {

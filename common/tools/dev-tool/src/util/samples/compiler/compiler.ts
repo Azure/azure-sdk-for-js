@@ -53,7 +53,7 @@ export function compileSampleTest(
   // Step 2: Parse structure for metadata and describe/it layout
   const parsed = parseSampleTestFile(sourceFile, fileName);
   if (!parsed) {
-    throw new CompilerError("No @summary tag found in file", fileName);
+    throw new CompilerError("No description found in file JSDoc comment", fileName);
   }
 
   // Step 3: Substitute forPublishing calls across the entire source
