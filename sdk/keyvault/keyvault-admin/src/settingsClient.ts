@@ -61,9 +61,9 @@ export class KeyVaultSettingsClient {
    * import { DefaultAzureCredential } from "@azure/identity";
    * import { KeyVaultSettingsClient } from "@azure/keyvault-admin";
    *
-   * const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
+   * const url = process.env["AZURE_MANAGEDHSM_URI"] || "<managedhsm-url>";
    * const credentials = new DefaultAzureCredential();
-   * const client = new KeyVaultSettingsClient(vaultUrl, credentials);
+   * const client = new KeyVaultSettingsClient(url, credentials);
    * ```
    * @param vaultUrl - the URL of the Key Vault. It should have this shape: `https://${your-key-vault-name}.vault.azure.net`. You should validate that this URL references a valid Key Vault or Managed HSM resource. See https://aka.ms/azsdk/blog/vault-uri for details.
    * @param credential - An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the \@azure/identity package to create a credential that suits your needs.

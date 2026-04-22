@@ -95,11 +95,8 @@ import { SecretClient } from "@azure/keyvault-secrets";
 
 const credential = new DefaultAzureCredential();
 
-// Build the URL to reach your key vault
-const vaultName = "<YOUR KEYVAULT NAME>";
-const url = `https://${vaultName}.vault.azure.net`;
+const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
-// Lastly, create our secrets client and connect to the service
 const client = new SecretClient(url, credential);
 ```
 
@@ -113,8 +110,7 @@ const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
   clientId: "<YOUR_CLIENT_ID>",
 });
-const vaultName = "<YOUR KEYVAULT NAME>";
-const url = `https://${vaultName}.vault.azure.net`;
+const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 const client = new SecretClient(url, credential);
 ```
 
@@ -128,9 +124,7 @@ import { SecretClient } from "@azure/keyvault-secrets";
 
 const credential = new DefaultAzureCredential();
 
-// Build the URL to reach your key vault
-const vaultName = "<YOUR KEYVAULT NAME>";
-const url = `https://${vaultName}.vault.azure.net`;
+const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
 // Change the Azure Key Vault service API version being used via the `serviceVersion` option
 const client = new SecretClient(url, credential, {
@@ -155,18 +149,6 @@ tasks using Azure Key Vault Secrets. The scenarios that are covered here consist
 with the same name already exists, then a new version of the secret is created.
 
 ```ts snippet:ReadmeSampleCreateSecret
-import { DefaultAzureCredential } from "@azure/identity";
-import { SecretClient } from "@azure/keyvault-secrets";
-
-const credential = new DefaultAzureCredential();
-
-const vaultName = "<YOUR KEYVAULT NAME>";
-const url = `https://${vaultName}.vault.azure.net`;
-
-const client = new SecretClient(url, credential);
-
-const secretName = "MySecretName";
-
 const result = await client.setSecret(secretName, "MySecretValue");
 console.log("result: ", result);
 ```
@@ -179,18 +161,7 @@ optionally get a different version of the key if you specify it as part of the
 optional parameters.
 
 ```ts snippet:ReadmeSampleGetSecret
-import { DefaultAzureCredential } from "@azure/identity";
-import { SecretClient } from "@azure/keyvault-secrets";
-
-const credential = new DefaultAzureCredential();
-
-const vaultName = "<YOUR KEYVAULT NAME>";
-const url = `https://${vaultName}.vault.azure.net`;
-
-const client = new SecretClient(url, credential);
-
-const secretName = "MySecretName";
-
+// Read the secret we created
 const latestSecret = await client.getSecret(secretName);
 console.log(`Latest version of the secret ${secretName}: `, latestSecret);
 
@@ -218,18 +189,6 @@ An object with these attributes can be sent as the third parameter of
 `setSecret`, right after the secret's name and value, as follows:
 
 ```ts snippet:ReadmeSampleCreateSecretWithAttributes
-import { DefaultAzureCredential } from "@azure/identity";
-import { SecretClient } from "@azure/keyvault-secrets";
-
-const credential = new DefaultAzureCredential();
-
-const vaultName = "<YOUR KEYVAULT NAME>";
-const url = `https://${vaultName}.vault.azure.net`;
-
-const client = new SecretClient(url, credential);
-
-const secretName = "MySecretName";
-
 const result = await client.setSecret(secretName, "MySecretValue", {
   enabled: false,
 });
@@ -242,20 +201,11 @@ Attributes can also be updated to an existing secret version with
 `updateSecretProperties`, as follows:
 
 ```ts snippet:ReadmeSampleUpdateSecretAttributes
-import { DefaultAzureCredential } from "@azure/identity";
-import { SecretClient } from "@azure/keyvault-secrets";
-
-const credential = new DefaultAzureCredential();
-
-const vaultName = "<YOUR KEYVAULT NAME>";
-const url = `https://${vaultName}.vault.azure.net`;
-
-const client = new SecretClient(url, credential);
-
-const secretName = "MySecretName";
-
+// Update the secret with different attributes
 const result = await client.getSecret(secretName);
-await client.updateSecretProperties(secretName, result.properties.version, { enabled: false });
+await client.updateSecretProperties(secretName, result.properties.version!, {
+  enabled: false,
+});
 ```
 
 ### Deleting a secret
@@ -265,18 +215,8 @@ This process will happen in the background as soon as the necessary resources
 are available.
 
 ```ts snippet:ReadmeSampleDeleteSecret
-import { DefaultAzureCredential } from "@azure/identity";
-import { SecretClient } from "@azure/keyvault-secrets";
-
-const credential = new DefaultAzureCredential();
-
-const vaultName = "<YOUR KEYVAULT NAME>";
-const url = `https://${vaultName}.vault.azure.net`;
-
-const client = new SecretClient(url, credential);
-
-const secretName = "MySecretName";
-
+// Delete the secret
+// If we don't want to purge the secret later, we don't need to wait until this finishes
 await client.beginDeleteSecret(secretName);
 ```
 
@@ -286,18 +226,6 @@ _deleted_ secret. A deleted secret can't be updated. They can only be either
 read, recovered or purged.
 
 ```ts snippet:ReadmeSampleDeleteSecretSoftDelete
-import { DefaultAzureCredential } from "@azure/identity";
-import { SecretClient } from "@azure/keyvault-secrets";
-
-const credential = new DefaultAzureCredential();
-
-const vaultName = "<YOUR KEYVAULT NAME>";
-const url = `https://${vaultName}.vault.azure.net`;
-
-const client = new SecretClient(url, credential);
-
-const secretName = "MySecretName";
-
 const poller = await client.beginDeleteSecret(secretName);
 
 // You can use the deleted secret immediately:
@@ -329,18 +257,6 @@ You can also wait until the deletion finishes, either by running individual serv
 calls until the secret is deleted, or by waiting until the process is done:
 
 ```ts snippet:ReadmeSampleDeleteSecretWait
-import { DefaultAzureCredential } from "@azure/identity";
-import { SecretClient } from "@azure/keyvault-secrets";
-
-const credential = new DefaultAzureCredential();
-
-const vaultName = "<YOUR KEYVAULT NAME>";
-const url = `https://${vaultName}.vault.azure.net`;
-
-const client = new SecretClient(url, credential);
-
-const secretName = "MySecretName";
-
 const poller = await client.beginDeleteSecret(secretName);
 
 // You can use the deleted secret immediately:
@@ -354,19 +270,7 @@ console.log(deletedSecret);
 Another way to wait until the secret is fully deleted is to do individual calls, as follows:
 
 ```ts snippet:ReadmeSampleDeleteSecretWaitIndividually
-import { DefaultAzureCredential } from "@azure/identity";
-import { SecretClient } from "@azure/keyvault-secrets";
-
-const credential = new DefaultAzureCredential();
-
-const vaultName = "<YOUR KEYVAULT NAME>";
-const url = `https://${vaultName}.vault.azure.net`;
-
-const client = new SecretClient(url, credential);
-
-const secretName = "MySecretName";
-
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const poller = await client.beginDeleteSecret(secretName);
 while (!poller.isDone()) {
@@ -393,18 +297,6 @@ versions of a specific secret. The following API methods are available:
 Which can be used as follows:
 
 ```ts snippet:ReadmeSampleListSecrets
-import { DefaultAzureCredential } from "@azure/identity";
-import { SecretClient } from "@azure/keyvault-secrets";
-
-const credential = new DefaultAzureCredential();
-
-const vaultName = "<YOUR KEYVAULT NAME>";
-const url = `https://${vaultName}.vault.azure.net`;
-
-const client = new SecretClient(url, credential);
-
-const secretName = "MySecretName";
-
 for await (const secretProperties of client.listPropertiesOfSecrets()) {
   console.log("Secret properties: ", secretProperties);
 }
@@ -423,18 +315,6 @@ retrieve them by pages, add `.byPage()` right after invoking the API method you
 want to use, as follows:
 
 ```ts snippet:ReadmeSampleListSecretsByPage
-import { DefaultAzureCredential } from "@azure/identity";
-import { SecretClient } from "@azure/keyvault-secrets";
-
-const credential = new DefaultAzureCredential();
-
-const vaultName = "<YOUR KEYVAULT NAME>";
-const url = `https://${vaultName}.vault.azure.net`;
-
-const client = new SecretClient(url, credential);
-
-const secretName = "MySecretName";
-
 for await (const page of client.listPropertiesOfSecrets().byPage()) {
   for (const secretProperties of page) {
     console.log("Secret properties: ", secretProperties);

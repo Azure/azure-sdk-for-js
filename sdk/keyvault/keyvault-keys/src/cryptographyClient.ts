@@ -67,8 +67,7 @@ export class CryptographyClient {
    *
    * const credential = new DefaultAzureCredential();
    *
-   * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`;
+   * const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
    *
    * const client = new KeyClient(url, credential);
    *
@@ -173,19 +172,6 @@ export class CryptographyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleEncrypt
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
-   *
-   * const credential = new DefaultAzureCredential();
-   *
-   * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`;
-   *
-   * const client = new KeyClient(url, credential);
-   *
-   * const myKey = await client.createKey("MyKey", "RSA");
-   * const cryptographyClient = new CryptographyClient(myKey.id, credential);
-   *
    * const encryptResult = await cryptographyClient.encrypt({
    *   algorithm: "RSA1_5",
    *   plaintext: Buffer.from("My Message"),
@@ -204,19 +190,6 @@ export class CryptographyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleEncrypt
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
-   *
-   * const credential = new DefaultAzureCredential();
-   *
-   * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`;
-   *
-   * const client = new KeyClient(url, credential);
-   *
-   * const myKey = await client.createKey("MyKey", "RSA");
-   * const cryptographyClient = new CryptographyClient(myKey.id, credential);
-   *
    * const encryptResult = await cryptographyClient.encrypt({
    *   algorithm: "RSA1_5",
    *   plaintext: Buffer.from("My Message"),
@@ -309,19 +282,6 @@ export class CryptographyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleDecrypt
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
-   *
-   * const credential = new DefaultAzureCredential();
-   *
-   * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`;
-   *
-   * const client = new KeyClient(url, credential);
-   *
-   * const myKey = await client.createKey("MyKey", "RSA");
-   * const cryptographyClient = new CryptographyClient(myKey.id, credential);
-   *
    * const encryptResult = await cryptographyClient.encrypt({
    *   algorithm: "RSA1_5",
    *   plaintext: Buffer.from("My Message"),
@@ -346,19 +306,6 @@ export class CryptographyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleDecrypt
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
-   *
-   * const credential = new DefaultAzureCredential();
-   *
-   * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`;
-   *
-   * const client = new KeyClient(url, credential);
-   *
-   * const myKey = await client.createKey("MyKey", "RSA");
-   * const cryptographyClient = new CryptographyClient(myKey.id, credential);
-   *
    * const encryptResult = await cryptographyClient.encrypt({
    *   algorithm: "RSA1_5",
    *   plaintext: Buffer.from("My Message"),
@@ -432,19 +379,6 @@ export class CryptographyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleWrapKey
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
-   *
-   * const credential = new DefaultAzureCredential();
-   *
-   * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`;
-   *
-   * const client = new KeyClient(url, credential);
-   *
-   * const myKey = await client.createKey("MyKey", "RSA");
-   * const cryptographyClient = new CryptographyClient(myKey, credential);
-   *
    * const wrapResult = await cryptographyClient.wrapKey("RSA-OAEP", Buffer.from("My Key"));
    * console.log("wrap result:", wrapResult.result);
    * ```
@@ -476,19 +410,6 @@ export class CryptographyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleUnwrapKey
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
-   *
-   * const credential = new DefaultAzureCredential();
-   *
-   * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`;
-   *
-   * const client = new KeyClient(url, credential);
-   *
-   * const myKey = await client.createKey("MyKey", "RSA");
-   * const cryptographyClient = new CryptographyClient(myKey, credential);
-   *
    * const wrapResult = await cryptographyClient.wrapKey("RSA-OAEP", Buffer.from("My Key"));
    * console.log("wrap result:", wrapResult.result);
    *
@@ -527,19 +448,7 @@ export class CryptographyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleSign
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
    * import { createHash } from "node:crypto";
-   *
-   * const credential = new DefaultAzureCredential();
-   *
-   * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`;
-   *
-   * const client = new KeyClient(url, credential);
-   *
-   * let myKey = await client.createKey("MyKey", "RSA");
-   * const cryptographyClient = new CryptographyClient(myKey, credential);
    *
    * const signatureValue = "MySignature";
    * const hash = createHash("sha256");
@@ -578,19 +487,7 @@ export class CryptographyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleVerify
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
    * import { createHash } from "node:crypto";
-   *
-   * const credential = new DefaultAzureCredential();
-   *
-   * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`;
-   *
-   * const client = new KeyClient(url, credential);
-   *
-   * const myKey = await client.createKey("MyKey", "RSA");
-   * const cryptographyClient = new CryptographyClient(myKey, credential);
    *
    * const hash = createHash("sha256");
    * hash.update("My Message");
@@ -632,19 +529,6 @@ export class CryptographyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleSignData
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
-   *
-   * const credential = new DefaultAzureCredential();
-   *
-   * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`;
-   *
-   * const client = new KeyClient(url, credential);
-   *
-   * const myKey = await client.createKey("MyKey", "RSA");
-   * const cryptographyClient = new CryptographyClient(myKey, credential);
-   *
    * const signResult = await cryptographyClient.signData("RS256", Buffer.from("My Message"));
    * console.log("sign result: ", signResult.result);
    * ```
@@ -681,19 +565,6 @@ export class CryptographyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleVerifyData
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
-   *
-   * const credential = new DefaultAzureCredential();
-   *
-   * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`;
-   *
-   * const client = new KeyClient(url, credential);
-   *
-   * const myKey = await client.createKey("MyKey", "RSA");
-   * const cryptographyClient = new CryptographyClient(myKey, credential);
-   *
    * const buffer = Buffer.from("My Message");
    *
    * const signResult = await cryptographyClient.signData("RS256", buffer);

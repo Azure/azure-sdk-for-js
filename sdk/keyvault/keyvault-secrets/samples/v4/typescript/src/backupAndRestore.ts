@@ -5,49 +5,15 @@
  * @summary Backs up an Azure Key Vault secret to a local file and restores from it.
  */
 
-import * as fs from "fs";
-
-import { SecretClient } from "@azure/keyvault-secrets";
-import { DefaultAzureCredential } from "@azure/identity";
-
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
-function writeFile(filename: string, text: Uint8Array): Promise<void> {
-  return new Promise((resolve, reject) => {
-    fs.writeFile(filename, text, (err) => {
-      if (err) reject(err);
-      else resolve();
-    });
-  });
-}
-
-function readFile(filename: string): Promise<Uint8Array> {
-  return new Promise((resolve, reject) => {
-    fs.readFile(filename, (err, data) => {
-      if (err) reject(err);
-      else resolve(data);
-    });
-  });
-}
-
-function delay<T>(t: number, value?: T): Promise<T | void> {
-  return new Promise((resolve) => setTimeout(() => resolve(value), t));
-}
+import "dotenv/config";
+import { DefaultAzureCredential } from "@azure/identity";
+import { SecretClient } from "@azure/keyvault-secrets";
+import { readFile, writeFile } from "node:fs/promises";
 
 export async function main(): Promise<void> {
-  // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
-  // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
-  // about DefaultAzureCredential and the other credentials that are available for use.
-  const credential = new DefaultAzureCredential();
-
-  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-  const client = new SecretClient(url, credential);
-
-  const uniqueString = new Date().getTime();
-  const secretName = `secret${uniqueString}`;
-
+  const client: SecretClient = new SecretClient(process.env["KEYVAULT_URI"] || "<keyvault-url>", new DefaultAzureCredential());
+  const secretName = "MySecretName";
   // Create our secret
   await client.setSecret(secretName, "XYZ789");
 
@@ -56,23 +22,32 @@ export async function main(): Promise<void> {
 
   // Write the backup to a file
   await writeFile("secret_backup.dat", backupResult!);
-
   // Delete the secret
   console.log("about to delete");
-  let deletePoller = await client.beginDeleteSecret(secretName);
+  const deletePoller = await client.beginDeleteSecret(secretName);
   await deletePoller.pollUntilDone();
-
   // Purge the deleted secret
   console.log("about to purge");
   await client.purgeDeletedSecret(secretName);
-  await delay(30000);
 
   // Read our backup from a file
   console.log("about to restore secret");
   const backupContents = await readFile("secret_backup.dat");
 
   // Restore the secret
-  const result = await client.restoreSecretBackup(backupContents);
+  let result;
+  for (let attempt = 0; attempt < 5; attempt++) {
+      try {
+          result = await client.restoreSecretBackup(backupContents);
+          break;
+      }
+      catch (error) {
+          if (attempt === 4) {
+              throw error;
+          }
+          await new Promise((resolve) => setTimeout(resolve, 2000));
+      }
+  }
   console.log("Restored secret: ", result);
 
   // If we don't want to purge the secret later, we don't need to wait until this finishes
@@ -80,6 +55,6 @@ export async function main(): Promise<void> {
 }
 
 main().catch((error) => {
-  console.error("An error occurred:", error);
+  console.error(error);
   process.exit(1);
 });
