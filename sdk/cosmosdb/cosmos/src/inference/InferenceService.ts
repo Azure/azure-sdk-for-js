@@ -161,7 +161,7 @@ export class InferenceService {
    * This is the actual service response format, not a bug.
    */
   private parseResponse(response: PipelineResponse): SemanticRerankResult {
-    if (response.status < StatusCodes.Ok || response.status >= 300) {
+    if (response.status < StatusCodes.Ok || response.status >= StatusCodes.MultipleChoices) {
       let serviceCode: string | number = response.status;
       let serviceMessage = `Semantic rerank request failed with status ${response.status}`;
 
