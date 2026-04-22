@@ -701,6 +701,11 @@ export const Constants: {
     DefaultEncryptionCacheTimeToLiveInSeconds: number;
     EncryptionCacheRefreshIntervalInMs: number;
     RequestTimeoutForReadsInMs: number;
+    InferenceBasePath: string;
+    InferenceUserAgent: string;
+    InferenceDefaultScope: string;
+    InferenceDefaultTimeoutMs: number;
+    InferenceEndpointEnvVar: string;
 };
 
 // @public
