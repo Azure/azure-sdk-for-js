@@ -38,8 +38,10 @@ export interface ApplicationMetricDescription {
 }
 
 // @public
-export interface ApplicationResource extends ProxyResource {
+export interface ApplicationResource extends ArmProxyResource {
+    readonly etag?: string;
     identity?: ManagedIdentity;
+    location?: string;
     managedIdentities?: ApplicationUserAssignedIdentity[];
     maximumNodes?: number;
     metrics?: ApplicationMetricDescription[];
@@ -47,6 +49,7 @@ export interface ApplicationResource extends ProxyResource {
     parameters?: Record<string, string>;
     readonly provisioningState?: string;
     removeApplicationCapacity?: boolean;
+    tags?: Record<string, string>;
     typeName?: string;
     typeVersion?: string;
     upgradePolicy?: ApplicationUpgradePolicy;
@@ -59,7 +62,7 @@ export interface ApplicationResourceProperties extends ApplicationResourceUpdate
 }
 
 // @public
-export interface ApplicationResourceUpdate extends ProxyResource {
+export interface ApplicationResourceUpdate extends PatchProxyResource {
     managedIdentities?: ApplicationUserAssignedIdentity[];
     maximumNodes?: number;
     metrics?: ApplicationMetricDescription[];
@@ -127,8 +130,11 @@ export interface ApplicationsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ApplicationTypeResource extends ProxyResource {
+export interface ApplicationTypeResource extends ArmProxyResource {
+    readonly etag?: string;
+    location?: string;
     readonly provisioningState?: string;
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -166,10 +172,13 @@ export interface ApplicationTypesOperations {
 }
 
 // @public
-export interface ApplicationTypeVersionResource extends ProxyResource {
+export interface ApplicationTypeVersionResource extends ArmProxyResource {
     appPackageUrl?: string;
     readonly defaultParameterList?: Record<string, string>;
+    readonly etag?: string;
+    location?: string;
     readonly provisioningState?: string;
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -918,10 +927,7 @@ export interface PartitionSchemeDescription {
 export type PartitionSchemeDescriptionUnion = NamedPartitionSchemeDescription | SingletonPartitionSchemeDescription | UniformInt64RangePartitionSchemeDescription | PartitionSchemeDescription;
 
 // @public
-export type ProvisioningState = string;
-
-// @public
-export interface ProxyResource {
+export interface PatchProxyResource {
     readonly etag?: string;
     readonly id?: string;
     location?: string;
@@ -930,6 +936,9 @@ export interface ProxyResource {
     tags?: Record<string, string>;
     readonly type?: string;
 }
+
+// @public
+export type ProvisioningState = string;
 
 // @public
 export type ReliabilityLevel = string;
@@ -1021,8 +1030,11 @@ export interface ServicePlacementPolicyDescription {
 export type ServicePlacementPolicyType = string;
 
 // @public
-export interface ServiceResource extends ProxyResource {
+export interface ServiceResource extends ArmProxyResource {
+    readonly etag?: string;
+    location?: string;
     properties?: ServiceResourcePropertiesUnion;
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -1048,7 +1060,7 @@ export interface ServiceResourcePropertiesBase {
 export type ServiceResourcePropertiesUnion = StatefulServiceProperties | StatelessServiceProperties | ServiceResourceProperties;
 
 // @public
-export interface ServiceResourceUpdate extends ProxyResource {
+export interface ServiceResourceUpdate extends PatchProxyResource {
     properties?: ServiceResourceUpdatePropertiesUnion;
 }
 

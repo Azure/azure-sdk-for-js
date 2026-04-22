@@ -2106,6 +2106,10 @@ export function vmSizeDeserializer(item: any): VMSize {
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ArmProxyResource extends Resource {}
 
+export function armProxyResourceSerializer(item: ArmProxyResource): any {
+  return item;
+}
+
 export function armProxyResourceDeserializer(item: any): ArmProxyResource {
   return {
     id: item["id"],
@@ -2139,19 +2143,24 @@ export function vmSizeResourceArrayDeserializer(result: Array<VMSizeResource>): 
 }
 
 /** The application type name resource */
-export interface ApplicationTypeResource extends ProxyResource {
+export interface ApplicationTypeResource extends ArmProxyResource {
+  /** It will be deprecated in New API, resource location depends on the parent resource. */
+  location?: string;
+  /** Azure resource tags. */
+  tags?: Record<string, string>;
+  /** Azure resource etag. */
+  readonly etag?: string;
   /** The current deployment or provisioning state, which only appears in the response. */
   readonly provisioningState?: string;
 }
 
 export function applicationTypeResourceSerializer(item: ApplicationTypeResource): any {
   return {
-    location: item["location"],
-    tags: item["tags"],
-    systemData: !item["systemData"] ? item["systemData"] : systemDataSerializer(item["systemData"]),
     properties: areAllPropsUndefined(item, [])
       ? undefined
       : _applicationTypeResourcePropertiesSerializer(item),
+    location: item["location"],
+    tags: item["tags"],
   };
 }
 
@@ -2160,17 +2169,17 @@ export function applicationTypeResourceDeserializer(item: any): ApplicationTypeR
     id: item["id"],
     name: item["name"],
     type: item["type"],
-    location: item["location"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    etag: item["etag"],
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _applicationTypeResourcePropertiesDeserializer(item["properties"])),
+    location: item["location"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    etag: item["etag"],
   };
 }
 
@@ -2191,48 +2200,6 @@ export function applicationTypeResourcePropertiesDeserializer(
 ): ApplicationTypeResourceProperties {
   return {
     provisioningState: item["provisioningState"],
-  };
-}
-
-/** The resource model definition for proxy-only resource. */
-export interface ProxyResource {
-  /** Azure resource identifier. */
-  readonly id?: string;
-  /** Azure resource name. */
-  readonly name?: string;
-  /** Azure resource type. */
-  readonly type?: string;
-  /** It will be deprecated in New API, resource location depends on the parent resource. */
-  location?: string;
-  /** Azure resource tags. */
-  tags?: Record<string, string>;
-  /** Azure resource etag. */
-  readonly etag?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
-}
-
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return {
-    location: item["location"],
-    tags: item["tags"],
-    systemData: !item["systemData"] ? item["systemData"] : systemDataSerializer(item["systemData"]),
-  };
-}
-
-export function proxyResourceDeserializer(item: any): ProxyResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    location: item["location"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    etag: item["etag"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
   };
 }
 
@@ -2268,7 +2235,13 @@ export function applicationTypeResourceArrayDeserializer(
 }
 
 /** An application type version resource for the specified application type name resource. */
-export interface ApplicationTypeVersionResource extends ProxyResource {
+export interface ApplicationTypeVersionResource extends ArmProxyResource {
+  /** It will be deprecated in New API, resource location depends on the parent resource. */
+  location?: string;
+  /** Azure resource tags. */
+  tags?: Record<string, string>;
+  /** Azure resource etag. */
+  readonly etag?: string;
   /** The current deployment or provisioning state, which only appears in the response */
   readonly provisioningState?: string;
   /** The URL to the application package */
@@ -2281,12 +2254,11 @@ export function applicationTypeVersionResourceSerializer(
   item: ApplicationTypeVersionResource,
 ): any {
   return {
-    location: item["location"],
-    tags: item["tags"],
-    systemData: !item["systemData"] ? item["systemData"] : systemDataSerializer(item["systemData"]),
     properties: areAllPropsUndefined(item, ["appPackageUrl"])
       ? undefined
       : _applicationTypeVersionResourcePropertiesSerializer(item),
+    location: item["location"],
+    tags: item["tags"],
   };
 }
 
@@ -2297,17 +2269,17 @@ export function applicationTypeVersionResourceDeserializer(
     id: item["id"],
     name: item["name"],
     type: item["type"],
-    location: item["location"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    etag: item["etag"],
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _applicationTypeVersionResourcePropertiesDeserializer(item["properties"])),
+    location: item["location"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    etag: item["etag"],
   };
 }
 
@@ -2375,7 +2347,13 @@ export function applicationTypeVersionResourceArrayDeserializer(
 }
 
 /** The application resource. */
-export interface ApplicationResource extends ProxyResource {
+export interface ApplicationResource extends ArmProxyResource {
+  /** It will be deprecated in New API, resource location depends on the parent resource. */
+  location?: string;
+  /** Azure resource tags. */
+  tags?: Record<string, string>;
+  /** Azure resource etag. */
+  readonly etag?: string;
   /** The managed service identities assigned to this resource. */
   identity?: ManagedIdentity;
   /** The version of the application type as defined in the application manifest. */
@@ -2402,9 +2380,6 @@ export interface ApplicationResource extends ProxyResource {
 
 export function applicationResourceSerializer(item: ApplicationResource): any {
   return {
-    location: item["location"],
-    tags: item["tags"],
-    systemData: !item["systemData"] ? item["systemData"] : systemDataSerializer(item["systemData"]),
     properties: areAllPropsUndefined(item, [
       "typeVersion",
       "parameters",
@@ -2418,6 +2393,8 @@ export function applicationResourceSerializer(item: ApplicationResource): any {
     ])
       ? undefined
       : _applicationResourcePropertiesSerializer(item),
+    location: item["location"],
+    tags: item["tags"],
     identity: !item["identity"] ? item["identity"] : managedIdentitySerializer(item["identity"]),
   };
 }
@@ -2427,17 +2404,17 @@ export function applicationResourceDeserializer(item: any): ApplicationResource 
     id: item["id"],
     name: item["name"],
     type: item["type"],
-    location: item["location"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    etag: item["etag"],
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _applicationResourcePropertiesDeserializer(item["properties"])),
+    location: item["location"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    etag: item["etag"],
     identity: !item["identity"] ? item["identity"] : managedIdentityDeserializer(item["identity"]),
   };
 }
@@ -2965,7 +2942,7 @@ export function applicationUserAssignedIdentityDeserializer(
 }
 
 /** The application resource for patch operations. */
-export interface ApplicationResourceUpdate extends ProxyResource {
+export interface ApplicationResourceUpdate extends PatchProxyResource {
   /** The version of the application type as defined in the application manifest. */
   typeVersion?: string;
   /** List of application parameters with overridden values from their default values specified in the application manifest. */
@@ -3004,6 +2981,32 @@ export function applicationResourceUpdateSerializer(item: ApplicationResourceUpd
   };
 }
 
+/** The resource model definition for proxy-only resource. */
+export interface PatchProxyResource {
+  /** Azure resource identifier. */
+  readonly id?: string;
+  /** Azure resource name. */
+  readonly name?: string;
+  /** Azure resource type. */
+  readonly type?: string;
+  /** It will be deprecated in New API, resource location depends on the parent resource. */
+  location?: string;
+  /** Azure resource tags. */
+  tags?: Record<string, string>;
+  /** Azure resource etag. */
+  readonly etag?: string;
+  /** Metadata pertaining to creation and last modification of the resource. */
+  systemData?: SystemData;
+}
+
+export function patchProxyResourceSerializer(item: PatchProxyResource): any {
+  return {
+    location: item["location"],
+    tags: item["tags"],
+    systemData: !item["systemData"] ? item["systemData"] : systemDataSerializer(item["systemData"]),
+  };
+}
+
 /** The list of application resources. */
 export interface _ApplicationResourceList {
   /** The ApplicationResource items on this page */
@@ -3032,19 +3035,24 @@ export function applicationResourceArrayDeserializer(result: Array<ApplicationRe
 }
 
 /** The service resource. */
-export interface ServiceResource extends ProxyResource {
+export interface ServiceResource extends ArmProxyResource {
   /** The service resource properties. */
   properties?: ServiceResourcePropertiesUnion;
+  /** It will be deprecated in New API, resource location depends on the parent resource. */
+  location?: string;
+  /** Azure resource tags. */
+  tags?: Record<string, string>;
+  /** Azure resource etag. */
+  readonly etag?: string;
 }
 
 export function serviceResourceSerializer(item: ServiceResource): any {
   return {
-    location: item["location"],
-    tags: item["tags"],
-    systemData: !item["systemData"] ? item["systemData"] : systemDataSerializer(item["systemData"]),
     properties: !item["properties"]
       ? item["properties"]
       : serviceResourcePropertiesUnionSerializer(item["properties"]),
+    location: item["location"],
+    tags: item["tags"],
   };
 }
 
@@ -3053,17 +3061,17 @@ export function serviceResourceDeserializer(item: any): ServiceResource {
     id: item["id"],
     name: item["name"],
     type: item["type"],
-    location: item["location"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    etag: item["etag"],
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
     properties: !item["properties"]
       ? item["properties"]
       : serviceResourcePropertiesUnionDeserializer(item["properties"]),
+    location: item["location"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    etag: item["etag"],
   };
 }
 
@@ -3835,7 +3843,7 @@ export enum KnownMoveCost {
 export type MoveCost = string;
 
 /** The service resource for patch operations. */
-export interface ServiceResourceUpdate extends ProxyResource {
+export interface ServiceResourceUpdate extends PatchProxyResource {
   /** The RP-specific properties for this resource. */
   properties?: ServiceResourceUpdatePropertiesUnion;
 }

@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.0-beta.1 (2026-04-02)
+## 4.0.0-beta.1 (2026-04-22)
 Compared with version 3.0.0
 
 ### Features Added
@@ -24,6 +24,7 @@ Compared with version 3.0.0
   - Added Interface Notification
   - Added Interface PagedAsyncIterableIterator
   - Added Interface PageSettings
+  - Added Interface PatchProxyResource
   - Added Interface RestorePollerOptions
   - Added Interface SimplePollerLike
   - Added Interface TrackedResource
@@ -48,6 +49,8 @@ Compared with version 3.0.0
   - Removed Interface ApplicationResourceList
   - Removed Interface ApplicationTypeResourceList
   - Removed Interface ApplicationTypeVersionResourceList
+  - Removed Interface Notification_2
+  - Removed Interface ProxyResource
   - Removed Interface ServiceResourceList
   - Type of parameter partitionScheme of interface PartitionSchemeDescription is changed from "Named" | "Singleton" | "UniformInt64Range" to PartitionScheme
   - Type of parameter type of interface ServicePlacementPolicyDescription is changed from "ServicePlacementPolicyDescription" to ServicePlacementPolicyType

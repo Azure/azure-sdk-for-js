@@ -529,7 +529,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -748,7 +748,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.1.0
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -857,7 +857,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.1.0
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -963,7 +963,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.1.0
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -1614,7 +1614,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -1830,7 +1830,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -2052,7 +2052,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.2
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -2131,7 +2131,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -2691,7 +2691,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.1.0
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -2898,7 +2898,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -2977,7 +2977,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -3126,7 +3126,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -3211,7 +3211,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -3308,7 +3308,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
@@ -3606,7 +3606,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
@@ -3944,7 +3944,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.1.0
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -4026,7 +4026,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.1.0
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -4127,7 +4127,7 @@ importers:
     devDependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.4
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure-tools/test-credential':
         specifier: workspace:^
         version: link:../../test-utils/test-credential
@@ -4215,7 +4215,7 @@ importers:
     devDependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.4
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure-tools/test-credential':
         specifier: workspace:^
         version: link:../../test-utils/test-credential
@@ -4886,7 +4886,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.3
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -5144,7 +5144,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/communication-common':
         specifier: ^2.3.1
         version: link:../communication-common
@@ -5223,7 +5223,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.2
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/communication-common':
         specifier: ^2.3.1
         version: link:../communication-common
@@ -6073,7 +6073,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.2
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -6155,7 +6155,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
@@ -6228,7 +6228,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -6307,7 +6307,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -6386,7 +6386,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
@@ -6459,7 +6459,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -6608,7 +6608,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
@@ -6675,7 +6675,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -6754,7 +6754,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -7037,7 +7037,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -7116,7 +7116,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -7317,7 +7317,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -7475,7 +7475,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -7554,7 +7554,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -7633,7 +7633,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
@@ -7715,7 +7715,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -8375,7 +8375,7 @@ importers:
     devDependencies:
       '@azure-rest/core-client':
         specifier: ^2.2.0
-        version: link:../core-client-rest
+        version: 2.6.0
       '@azure-tools/test-utils-vitest':
         specifier: workspace:^
         version: link:../../test-utils/test-utils-vitest
@@ -9075,7 +9075,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -9154,7 +9154,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -9915,7 +9915,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -10064,7 +10064,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -10143,7 +10143,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -10420,7 +10420,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -10560,7 +10560,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -10639,7 +10639,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -10788,7 +10788,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -10870,7 +10870,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -11238,7 +11238,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -11311,7 +11311,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -11606,7 +11606,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
@@ -11685,7 +11685,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -11904,7 +11904,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -12053,7 +12053,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
@@ -12123,7 +12123,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -12202,7 +12202,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
@@ -12415,7 +12415,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -12564,7 +12564,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -12722,7 +12722,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
@@ -12844,7 +12844,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
@@ -13558,7 +13558,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.1.0
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -13637,7 +13637,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.1.0
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -14249,7 +14249,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.1.0
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -14407,7 +14407,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -14556,7 +14556,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -14635,7 +14635,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -14784,7 +14784,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -15328,7 +15328,7 @@ importers:
         version: 4.13.0
       '@azure/identity-cache-persistence':
         specifier: ^1.2.0
-        version: link:../identity-cache-persistence
+        version: 1.3.0
       dotenv:
         specifier: ^16.0.0
         version: 16.6.1
@@ -15502,7 +15502,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -15858,7 +15858,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -16086,7 +16086,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -16165,7 +16165,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -16314,7 +16314,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.2
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -16405,7 +16405,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -16502,7 +16502,7 @@ importers:
         version: 4.13.0
       '@azure/keyvault-certificates':
         specifier: ^4.9.0
-        version: link:../keyvault-certificates
+        version: 4.10.3
       dotenv:
         specifier: ^16.0.0
         version: 16.6.1
@@ -16539,7 +16539,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.3
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.0.0
         version: link:../../core/abort-controller
@@ -16606,7 +16606,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.3
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -16737,7 +16737,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.3
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -16938,7 +16938,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -17017,7 +17017,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
@@ -17090,7 +17090,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -17169,7 +17169,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -17248,7 +17248,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.1.0
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -17467,7 +17467,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -17616,7 +17616,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -17765,7 +17765,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -18030,7 +18030,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -18965,7 +18965,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -19175,7 +19175,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -19318,7 +19318,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.3
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
@@ -19397,7 +19397,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
@@ -19558,7 +19558,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
@@ -19640,7 +19640,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
@@ -19789,7 +19789,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
@@ -20130,7 +20130,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -20209,7 +20209,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -20434,7 +20434,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.4.0
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -20568,7 +20568,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.5.2
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/core-auth':
         specifier: ^1.10.1
         version: link:../../core/core-auth
@@ -20710,7 +20710,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.5.2
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
@@ -20862,7 +20862,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.5.0
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
@@ -20959,7 +20959,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.5.0
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
@@ -21248,7 +21248,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -21771,7 +21771,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -21929,7 +21929,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.3
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -22075,7 +22075,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.1.0
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -22154,7 +22154,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/core-auth':
         specifier: ^1.6.0
         version: link:../../core/core-auth
@@ -22446,7 +22446,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -22732,7 +22732,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -22811,7 +22811,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -22890,7 +22890,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -22969,7 +22969,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
@@ -23240,7 +23240,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
@@ -23380,7 +23380,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -23596,7 +23596,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
@@ -23739,7 +23739,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -23818,7 +23818,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.1.0
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -23964,7 +23964,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
@@ -24034,7 +24034,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
@@ -24107,7 +24107,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -24183,7 +24183,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -24262,7 +24262,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
@@ -24405,7 +24405,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -24478,7 +24478,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -24551,7 +24551,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -24633,7 +24633,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -25141,7 +25141,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -25619,7 +25619,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.1.0
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
@@ -25762,7 +25762,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -25841,7 +25841,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
@@ -26212,7 +26212,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -26291,7 +26291,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
@@ -27082,7 +27082,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -27243,7 +27243,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -27386,7 +27386,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -27535,7 +27535,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -27684,7 +27684,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -28046,7 +28046,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -29004,7 +29004,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.1.0
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -29162,7 +29162,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -29305,7 +29305,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -30008,7 +30008,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
@@ -30495,7 +30495,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -30574,7 +30574,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
@@ -30748,7 +30748,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
@@ -30821,7 +30821,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -31397,7 +31397,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
@@ -31470,7 +31470,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.0.0
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -31555,7 +31555,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
@@ -31628,7 +31628,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -31707,7 +31707,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
@@ -31914,7 +31914,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.0
         version: link:../../core/abort-controller
@@ -32452,7 +32452,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -32601,7 +32601,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
-        version: link:../../core/core-client-rest
+        version: 2.6.0
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -32694,8 +32694,8 @@ packages:
     resolution: {integrity: sha1-O+KMAsbCDknepzp/AS2u7aTqy44=}
     engines: {node: '>=18.0.0'}
 
-  '@azure-rest/core-client@2.5.1':
-    resolution: {integrity: sha1-TBNG1mmNekAlKGl5mViSismLq+g=}
+  '@azure-rest/core-client@2.6.0':
+    resolution: {integrity: sha1-95cJm3b4+dOss9jaxSeF4uyV40E=}
     engines: {node: '>=20.0.0'}
 
   '@azure/abort-controller@1.1.0':
@@ -32829,13 +32829,25 @@ packages:
     resolution: {integrity: sha1-ZriKPBRV4vcU3zMHlGrIo7Z8Kz0=}
     engines: {node: '>=20.0'}
 
+  '@azure/identity-cache-persistence@1.3.0':
+    resolution: {integrity: sha1-IXocVjdoJuIho4mdUq8vtTCORA4=}
+    engines: {node: '>=20.0.0'}
+
   '@azure/identity@4.13.0':
     resolution: {integrity: sha1-sr5jZGlkq1ng3A6tyo5PVi/DH5Y=}
+    engines: {node: '>=20.0.0'}
+
+  '@azure/keyvault-certificates@4.10.3':
+    resolution: {integrity: sha1-xv78JrnQG9ECOHL6sv0HYRyb6ZQ=}
     engines: {node: '>=20.0.0'}
 
   '@azure/keyvault-common@2.0.0':
     resolution: {integrity: sha1-keUN8B2b+o9V8Qe7nNvFdYaysqQ=}
     engines: {node: '>=18.0.0'}
+
+  '@azure/keyvault-common@2.1.0':
+    resolution: {integrity: sha1-Zw50FKK/aDcbCz0fmByboCeLd90=}
+    engines: {node: '>=20.0.0'}
 
   '@azure/keyvault-keys@4.10.0':
     resolution: {integrity: sha1-dUdujyhYDcI7vJ2sbRZU4THW79U=}
@@ -33258,6 +33270,12 @@ packages:
 
   '@epic-web/invariant@1.0.0':
     resolution: {integrity: sha1-EHPl3ubdVAQQeEmQ63PkrNJcmBM=}
+
+  '@esbuild/darwin-arm64@0.27.4':
+    resolution: {integrity: sha1-bFUO5sAnO8sPrCREeP9yfCZ1XYA=}
+    engines: {node: '>=18'}
+    cpu: [arm64]
+    os: [darwin]
 
   '@esbuild/darwin-x64@0.27.4':
     resolution: {integrity: sha1-7XoSXp8lzgCRua/3g+6UP2umy4Y=}
@@ -34301,6 +34319,11 @@ packages:
       rollup:
         optional: true
 
+  '@rollup/rollup-darwin-arm64@4.60.0':
+    resolution: {integrity: sha1-uyACaQaaz1wcTXmtFCUk936LgjY=}
+    cpu: [arm64]
+    os: [darwin]
+
   '@rollup/rollup-darwin-x64@4.60.0':
     resolution: {integrity: sha1-G/epKyfr3V4NHUhQPHgRFgdzvho=}
     cpu: [x64]
@@ -34380,6 +34403,11 @@ packages:
   '@turbo/darwin-64@2.8.21':
     resolution: {integrity: sha1-uCGkxudHg/TFsWj6rtlnq83r1mI=}
     cpu: [x64]
+    os: [darwin]
+
+  '@turbo/darwin-arm64@2.8.21':
+    resolution: {integrity: sha1-BGvGG/NY9tr//oVjstP0XkM7ZjA=}
+    cpu: [arm64]
     os: [darwin]
 
   '@turbo/linux-64@2.8.21':
@@ -37527,7 +37555,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@azure-rest/core-client@2.5.1':
+  '@azure-rest/core-client@2.6.0':
     dependencies:
       '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.10.1
@@ -37687,7 +37715,7 @@ snapshots:
 
   '@azure/communication-common@2.4.0':
     dependencies:
-      '@azure-rest/core-client': 2.5.1
+      '@azure-rest/core-client': 2.6.0
       '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.10.1
       '@azure/core-rest-pipeline': 1.23.0
@@ -37860,6 +37888,17 @@ snapshots:
       '@azure/functions-extensions-base': 0.2.0
       cookie: 0.7.2
 
+  '@azure/identity-cache-persistence@1.3.0':
+    dependencies:
+      '@azure/core-auth': 1.10.1
+      '@azure/identity': 4.13.0
+      '@azure/msal-node': 5.1.1
+      '@azure/msal-node-extensions': 5.1.1
+      keytar: 7.9.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
   '@azure/identity@4.13.0':
     dependencies:
       '@azure/abort-controller': 2.1.2
@@ -37872,6 +37911,22 @@ snapshots:
       '@azure/msal-browser': 4.30.0
       '@azure/msal-node': 3.8.10
       open: 10.2.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/keyvault-certificates@4.10.3':
+    dependencies:
+      '@azure-rest/core-client': 2.6.0
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-auth': 1.10.1
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.23.0
+      '@azure/core-tracing': 1.3.1
+      '@azure/core-util': 1.13.1
+      '@azure/keyvault-common': 2.1.0
+      '@azure/logger': 1.3.0
       tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
@@ -37889,9 +37944,22 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@azure/keyvault-common@2.1.0':
+    dependencies:
+      '@azure-rest/core-client': 2.6.0
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-auth': 1.10.1
+      '@azure/core-rest-pipeline': 1.23.0
+      '@azure/core-tracing': 1.3.1
+      '@azure/core-util': 1.13.1
+      '@azure/logger': 1.3.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
   '@azure/keyvault-keys@4.10.0(@azure/core-client@sdk+core+core-client)':
     dependencies:
-      '@azure-rest/core-client': 2.5.1
+      '@azure-rest/core-client': 2.6.0
       '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.10.1
       '@azure/core-http-compat': 2.3.2(@azure/core-client@sdk+core+core-client)(@azure/core-rest-pipeline@1.23.0)
@@ -37909,7 +37977,7 @@ snapshots:
 
   '@azure/keyvault-secrets@4.10.0(@azure/core-client@sdk+core+core-client)':
     dependencies:
-      '@azure-rest/core-client': 2.5.1
+      '@azure-rest/core-client': 2.6.0
       '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.10.1
       '@azure/core-http-compat': 2.3.2(@azure/core-client@sdk+core+core-client)(@azure/core-rest-pipeline@1.23.0)
@@ -38024,7 +38092,7 @@ snapshots:
 
   '@azure/schema-registry@1.3.0':
     dependencies:
-      '@azure-rest/core-client': 2.5.1
+      '@azure-rest/core-client': 2.6.0
       '@azure/core-auth': 1.10.1
       '@azure/core-client': 1.10.1
       '@azure/core-rest-pipeline': 1.23.0
@@ -38503,6 +38571,9 @@ snapshots:
   '@cspell/url@9.7.0': {}
 
   '@epic-web/invariant@1.0.0': {}
+
+  '@esbuild/darwin-arm64@0.27.4':
+    optional: true
 
   '@esbuild/darwin-x64@0.27.4':
     optional: true
@@ -39688,6 +39759,9 @@ snapshots:
     optionalDependencies:
       rollup: 4.60.0
 
+  '@rollup/rollup-darwin-arm64@4.60.0':
+    optional: true
+
   '@rollup/rollup-darwin-x64@4.60.0':
     optional: true
 
@@ -39758,6 +39832,9 @@ snapshots:
       tinyglobby: 0.2.15
 
   '@turbo/darwin-64@2.8.21':
+    optional: true
+
+  '@turbo/darwin-arm64@2.8.21':
     optional: true
 
   '@turbo/linux-64@2.8.21':
@@ -40844,6 +40921,7 @@ snapshots:
 
   esbuild@0.27.4:
     optionalDependencies:
+      '@esbuild/darwin-arm64': 0.27.4
       '@esbuild/darwin-x64': 0.27.4
       '@esbuild/linux-x64': 0.27.4
       '@esbuild/win32-arm64': 0.27.4
@@ -42416,6 +42494,7 @@ snapshots:
     dependencies:
       '@types/estree': 1.0.8
     optionalDependencies:
+      '@rollup/rollup-darwin-arm64': 4.60.0
       '@rollup/rollup-darwin-x64': 4.60.0
       '@rollup/rollup-linux-x64-gnu': 4.60.0
       '@rollup/rollup-linux-x64-musl': 4.60.0
@@ -42798,6 +42877,7 @@ snapshots:
   turbo@2.8.21:
     optionalDependencies:
       '@turbo/darwin-64': 2.8.21
+      '@turbo/darwin-arm64': 2.8.21
       '@turbo/linux-64': 2.8.21
       '@turbo/windows-64': 2.8.21
 
