@@ -106,7 +106,7 @@ import { appConfigKeyCredentialPolicy } from "./appConfigCredential.js";
 import { tracingClient } from "./internal/tracing.js";
 import { logger } from "./logger.js";
 import type { OperationState, PollerLike } from "@azure/core-lro";
-import { appConfigurationApiVersion } from "./internal/constants.js";
+import { appConfigurationApiVersion, packageVersion } from "./internal/constants.js";
 
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
 
@@ -184,6 +184,14 @@ export class AppConfigurationClient {
 
     const generatedClientOptions: AzureAppConfigurationClientOptionalParams = {
       ...appConfigOptions,
+      userAgentOptions: {
+        ...appConfigOptions.userAgentOptions,
+        userAgentPrefix: `azsdk-js-app-configuration/${packageVersion}${
+          appConfigOptions.userAgentOptions?.userAgentPrefix
+            ? ` ${appConfigOptions.userAgentOptions.userAgentPrefix}`
+            : ""
+        }`,
+      },
       loggingOptions: {
         logger: logger.info,
       },
