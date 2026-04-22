@@ -77,7 +77,7 @@ const analyzerCompilerOptions: ts.CompilerOptions = {
  * resolve built-in types (string, Promise, etc.) but WILL correctly bind
  * local declarations, import bindings, and lexical scopes.
  */
-export function createAnalyzer(sourceText: string, fileName: string): BindingAnalyzer {
+export function createAnalyzer(sourceText: string, _fileName: string): BindingAnalyzer {
   // Use a safe internal filename for the ts.Program — angle brackets or other
   // special characters in the caller's fileName can break path resolution.
   const internalFileName = "__analyzer__.ts";

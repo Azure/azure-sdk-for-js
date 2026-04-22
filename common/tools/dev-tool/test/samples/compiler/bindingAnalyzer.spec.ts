@@ -34,8 +34,6 @@ describe("bindingAnalyzer", () => {
       const analyzer = createAnalyzer(source, "test.ts");
       // Find the console identifier
       const exprStmt = analyzer.sourceFile.statements[0] as ts.ExpressionStatement;
-      const propAccess = exprStmt.expression as ts.PropertyAccessExpression;
-      const callExpr = propAccess as any;
       // Walk to find 'console'
       let consoleId: ts.Identifier | undefined;
       function walk(n: ts.Node) {
@@ -227,7 +225,6 @@ function setup() {
       const analyzer = createAnalyzer(source, "test.ts");
       // Find the Foo identifier in the type annotation
       let typeRef: ts.Identifier | undefined;
-      let valueRef: ts.Identifier | undefined;
       const varStmt = analyzer.sourceFile.statements[1];
       function walk(n: ts.Node) {
         if (ts.isIdentifier(n) && n.text === "Foo") {
