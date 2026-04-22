@@ -2,7 +2,12 @@
 // Licensed under the MIT License.
 
 import type { TokenCredential } from "@azure/core-auth";
-import type { HttpClient, Pipeline, PipelineResponse } from "@azure/core-rest-pipeline";
+import type {
+  HttpClient,
+  Pipeline,
+  PipelineRequest,
+  PipelineResponse,
+} from "@azure/core-rest-pipeline";
 import {
   bearerTokenAuthenticationPolicy,
   createEmptyPipeline,
@@ -14,21 +19,12 @@ import type { CosmosClientOptions } from "../CosmosClientOptions.js";
 import type { SemanticRerankOptions } from "./SemanticRerankOptions.js";
 import type { RerankScore, SemanticRerankResult } from "./SemanticRerankResult.js";
 import { Constants } from "../common/constants.js";
+import { StatusCodes } from "../common/statusCodes.js";
 import { getCachedDefaultHttpClient } from "../utils/cachedClient.js";
 import { ErrorResponse } from "../request/ErrorResponse.js";
 
 const logger: AzureLogger = createClientLogger("InferenceService");
 
-/** Base path for the inference service endpoint. */
-const INFERENCE_BASE_PATH = "/inference/semanticReranking";
-/** User agent string for inference requests. */
-const INFERENCE_USER_AGENT = "cosmos-inference-js";
-/** Default AAD scope for the Cosmos DB Inference Service. */
-const INFERENCE_DEFAULT_SCOPE = "https://dbinference.azure.com/.default";
-/** Default request timeout in milliseconds (120 seconds). */
-const INFERENCE_DEFAULT_TIMEOUT_MS = 120_000;
-/** Environment variable name for the inference endpoint. */
-const INFERENCE_ENDPOINT_ENV_VAR = "AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT";
 /** Keys that are not part of the inference service payload. */
 const NON_PAYLOAD_KEYS = new Set(["abortSignal"]);
 
@@ -49,7 +45,7 @@ export class InferenceService {
     }
 
     const endpoint = this.resolveInferenceEndpoint();
-    this.inferenceEndpointUrl = `${endpoint}${INFERENCE_BASE_PATH}`;
+    this.inferenceEndpointUrl = `${endpoint}${Constants.InferenceBasePath}`;
 
     this.pipeline = this.createInferencePipeline(cosmosClientOptions.aadCredentials);
     this.httpClient = cosmosClientOptions.httpClient ?? getCachedDefaultHttpClient();
@@ -76,15 +72,10 @@ export class InferenceService {
       method: "POST",
       body: JSON.stringify(payload),
       abortSignal: options?.["abortSignal"] as AbortSignal | undefined,
-      timeout: INFERENCE_DEFAULT_TIMEOUT_MS,
+      timeout: Constants.InferenceDefaultTimeoutMs,
     });
 
-    request.headers.set("Content-Type", "application/json");
-    request.headers.set("Accept", "application/json");
-    request.headers.set("Cache-Control", "no-cache");
-    request.headers.set(Constants.HttpHeaders.Version, Constants.CurrentVersion);
-    request.headers.set(Constants.HttpHeaders.UserAgent, INFERENCE_USER_AGENT);
-    request.headers.set(Constants.HttpHeaders.CustomUserAgent, INFERENCE_USER_AGENT);
+    this.buildHeaders(request);
 
     const response = await this.pipeline.sendRequest(this.httpClient, request);
     return this.parseResponse(response);
@@ -95,12 +86,12 @@ export class InferenceService {
    */
   private resolveInferenceEndpoint(): string {
     const endpoint =
-      typeof process !== "undefined" ? process.env[INFERENCE_ENDPOINT_ENV_VAR] : undefined;
+      typeof process !== "undefined" ? process.env[Constants.InferenceEndpointEnvVar] : undefined;
 
     if (!endpoint) {
       throw new Error(
         `Inference endpoint is required for semantic reranking. ` +
-          `Set the '${INFERENCE_ENDPOINT_ENV_VAR}' environment variable.`,
+          `Set the '${Constants.InferenceEndpointEnvVar}' environment variable.`,
       );
     }
 
@@ -116,10 +107,22 @@ export class InferenceService {
     pipeline.addPolicy(
       bearerTokenAuthenticationPolicy({
         credential,
-        scopes: INFERENCE_DEFAULT_SCOPE,
+        scopes: Constants.InferenceDefaultScope,
       }),
     );
     return pipeline;
+  }
+
+  /**
+   * Sets the required HTTP headers on an inference service request.
+   */
+  private buildHeaders(request: PipelineRequest): void {
+    request.headers.set("Content-Type", "application/json");
+    request.headers.set("Accept", "application/json");
+    request.headers.set("Cache-Control", "no-cache");
+    request.headers.set(Constants.HttpHeaders.Version, Constants.CurrentVersion);
+    request.headers.set(Constants.HttpHeaders.UserAgent, Constants.InferenceUserAgent);
+    request.headers.set(Constants.HttpHeaders.CustomUserAgent, Constants.InferenceUserAgent);
   }
 
   /**
@@ -158,7 +161,7 @@ export class InferenceService {
    * This is the actual service response format, not a bug.
    */
   private parseResponse(response: PipelineResponse): SemanticRerankResult {
-    if (response.status < 200 || response.status >= 300) {
+    if (response.status < StatusCodes.Ok || response.status >= 300) {
       let serviceCode: string | number = response.status;
       let serviceMessage = `Semantic rerank request failed with status ${response.status}`;
 
