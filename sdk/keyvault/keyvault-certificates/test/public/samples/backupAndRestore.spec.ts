@@ -9,7 +9,8 @@ import { CertificateClient } from "../../../src/index.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import { forPublishing, retryWithBackoff } from "@azure-tools/test-publishing";
+import { forPublishing } from "@azure-tools/test-publishing";
+import { retryWithBackoff } from "./utils.js";
 import { describe, it, beforeEach, afterEach } from "vitest";
 // Load the .env file if it exists
 import "dotenv/config";
@@ -70,12 +71,9 @@ describe("backupAndRestore", () => {
 
     await client.purgeDeletedCertificate(certificateName);
 
-    await forPublishing(
-      retryWithBackoff(
-        () => client.restoreCertificateBackup(backup!),
-        { shouldRetry: (e) => /conflict restoring the certificate/i.test((e as Error).message) },
-      ),
+    await retryWithBackoff(
       () => client.restoreCertificateBackup(backup!),
+      { shouldRetry: (e) => /conflict restoring the certificate/i.test((e as Error).message) },
     );
 
     const restoredCertificate = await client.getCertificate(certificateName);
@@ -136,12 +134,9 @@ describe("backupAndRestore", () => {
     await client.purgeDeletedCertificate(certificateName);
     // @ts-preserve-whitespace
     // Some time is required before we're able to restore the certificate
-    await forPublishing(
-      retryWithBackoff(
-        () => client.restoreCertificateBackup(backup!),
-        { shouldRetry: (e) => /conflict restoring the certificate/i.test((e as Error).message) },
-      ),
+    await retryWithBackoff(
       () => client.restoreCertificateBackup(backup!),
+      { shouldRetry: (e) => /conflict restoring the certificate/i.test((e as Error).message) },
     );
     // @snippet-end CertificateClientRestoreCertificateBackup
   });

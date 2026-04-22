@@ -9,7 +9,8 @@ import { CertificateClient } from "../../../src/index.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import { forPublishing, retryWithBackoff } from "@azure-tools/test-publishing";
+import { forPublishing } from "@azure-tools/test-publishing";
+import { retryWithBackoff } from "./utils.js";
 import { describe, it, beforeEach, afterEach } from "vitest";
 // Load the .env file if it exists
 import "dotenv/config";
