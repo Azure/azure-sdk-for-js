@@ -15,3 +15,5 @@
 
 export { forPublishing } from "./forPublishing.js";
 export { sampleOnly } from "./sampleOnly.js";
+export { retryWithBackoff } from "./retryWithBackoff.js";
+export type { RetryWithBackoffOptions } from "./retryWithBackoff.js";

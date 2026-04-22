@@ -10,7 +10,7 @@ import { createDefaultHttpClient, createPipelineRequest } from "@azure/core-rest
 import { DefaultAzureCredential } from "@azure/identity";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { Recorder, assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
-import { forPublishing } from "@azure-tools/test-publishing";
+import { forPublishing, retryWithBackoff } from "@azure-tools/test-publishing";
 import { createRsaKey, stringToUint8Array } from "../utils/crypto.js";
 import { describe, it, beforeEach, afterEach } from "vitest";
 // Load the .env file if it exists
@@ -406,17 +406,10 @@ describe("helloWorld", () => {
     // @ts-preserve-whitespace
     await client.purgeDeletedKey(keyName);
     // @ts-preserve-whitespace
-    for (let attempt = 0; attempt < 5; attempt++) {
-      try {
-        await client.restoreKeyBackup(backupContents);
-        break;
-      } catch (error) {
-        if (attempt === 4) {
-          throw error;
-        }
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-      }
-    }
+    await forPublishing(
+      retryWithBackoff(() => client.restoreKeyBackup(backupContents)),
+      () => client.restoreKeyBackup(backupContents),
+    );
     // @snippet-end ReadmeSampleRestoreKeyBackup
   });
 

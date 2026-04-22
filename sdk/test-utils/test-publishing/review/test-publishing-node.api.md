@@ -11,6 +11,16 @@ export function forPublishing<T>(testValue: T, publishedValue: () => T): T;
 export function forPublishing<T, S extends T>(testValue: T, publishedValue: () => S): T;
 
 // @public
+export function retryWithBackoff<T>(fn: () => Promise<T>, options?: RetryWithBackoffOptions): Promise<T>;
+
+// @public
+export interface RetryWithBackoffOptions {
+    delayMs?: number;
+    maxAttempts?: number;
+    shouldRetry?: (error: unknown) => boolean;
+}
+
+// @public
 export function sampleOnly<T>(publishedValue: () => T): T | undefined;
 
 ```

@@ -10,7 +10,7 @@ import { SecretClient } from "../../../src/index.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import { forPublishing } from "@azure-tools/test-publishing";
+import { forPublishing, retryWithBackoff } from "@azure-tools/test-publishing";
 import { describe, it, beforeEach, afterEach } from "vitest";
 // Load the .env file if it exists
 import "dotenv/config";
@@ -80,18 +80,10 @@ describe("backupAndRestore", () => {
     const backupContents = await readFile("secret_backup.dat");
     // @ts-preserve-whitespace
     // Restore the secret
-    let result;
-    for (let attempt = 0; attempt < 5; attempt++) {
-      try {
-        result = await client.restoreSecretBackup(backupContents);
-        break;
-      } catch (error) {
-        if (attempt === 4) {
-          throw error;
-        }
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-      }
-    }
+    const result = await forPublishing(
+      retryWithBackoff(() => client.restoreSecretBackup(backupContents)),
+      () => client.restoreSecretBackup(backupContents),
+    );
     console.log("Restored secret: ", result);
     // @snippet-end ReadmeSampleRestoreSecret
 
