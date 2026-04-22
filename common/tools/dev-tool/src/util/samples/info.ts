@@ -21,15 +21,11 @@ export const PUBLIC_SAMPLES_BASE = "samples";
 export const DEFAULT_TYPESCRIPT_CONFIG = {
   compilerOptions: {
     target: "ESNext",
-    lib: ["ESNext"],
 
     moduleResolution: "NodeNext",
     resolveJsonModule: true,
-
-    esModuleInterop: true,
     importHelpers: true,
 
-    strict: true,
     noUnusedLocals: true,
     noUnusedParameters: true,
     noImplicitReturns: true,
