@@ -27,6 +27,11 @@ export class EntraIdAccessToken {
     this.setEntraIdAccessTokenFromEnvironment();
   }
 
+  /**
+   * Pre-warms MSAL with a storage-scoped token so long test runs don't hit
+   * AADSTS700024 on report upload after the OIDC assertion expires.
+   * See https://github.com/Azure/azure-cli/issues/28708.
+   */
   public prefetchStorageAccessToken = async (): Promise<void> => {
     if (this._noOpFlag) {
       return;
@@ -47,7 +52,7 @@ export class EntraIdAccessToken {
     } catch (err) {
       // Do not fail global setup on pre-warm errors; the actual storage client call will
       // surface any real authentication issues with its own error handling.
-      coreLogger.error("Failed to pre-fetch storage-scoped entra id access token:", err);
+      coreLogger.info("Failed to pre-fetch storage-scoped entra id access token:", err);
     }
   };
 
