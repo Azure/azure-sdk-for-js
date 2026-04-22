@@ -38,6 +38,7 @@ export function createPackageJson(info: SampleGenerationInfo, outputKind: Output
     description: `${info.productName} client library samples for ${fullOutputKind}${
       info.isBeta ? " (Beta)" : ""
     }`,
+    type: "commonjs",
     engines: {
       node: `>=${MIN_SUPPORTED_NODE_VERSION}`,
     },

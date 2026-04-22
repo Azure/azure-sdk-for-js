@@ -21,7 +21,6 @@ export const PUBLIC_SAMPLES_BASE = "samples";
 export const DEFAULT_TYPESCRIPT_CONFIG = {
   compilerOptions: {
     target: "ESNext",
-    module: "commonjs",
     lib: ["ESNext"],
 
     moduleResolution: "node10",

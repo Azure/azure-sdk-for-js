@@ -3,6 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "description": "CommonJS client library samples for TypeScript",
+  "type": "commonjs",
   "engines": {
     "node": ">=20.0.0"
   },
