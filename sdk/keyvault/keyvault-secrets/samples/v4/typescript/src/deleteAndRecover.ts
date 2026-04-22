@@ -5,17 +5,16 @@
  * @summary Deletes a secret and then recovers a deleted secret (this sample requires soft-delete to run).
  */
 
-import { DefaultAzureCredential } from "@azure/identity";
-import { SecretClient } from "@azure/keyvault-secrets";
 // Load the .env file if it exists
 import "dotenv/config";
+import { DefaultAzureCredential } from "@azure/identity";
+import { SecretClient } from "@azure/keyvault-secrets";
 
 let client: SecretClient;
 
 async function createSecrets() {
-  const uniqueString = new Date().getTime();
-  const bankAccountSecretName = `bankSecret${uniqueString}`;
-  const storageAccountSecretName = `storageSecret${uniqueString}`;
+  const bankAccountSecretName = "bankSecret";
+  const storageAccountSecretName = "storageSecret";
   // Create our secrets
   console.log("Creating our secrets");
   await client.setSecret(bankAccountSecretName, "ABC123");
@@ -23,8 +22,7 @@ async function createSecrets() {
 }
 
 async function deleteAndRecoverASecret() {
-  const uniqueString = new Date().getTime();
-  const bankAccountSecretName = `bankSecret${uniqueString}`;
+  const bankAccountSecretName = "bankSecret";
   await client.setSecret(bankAccountSecretName, "ABC123");
 
   // Oops, what happens if we delete the wrong one?
@@ -36,11 +34,11 @@ async function deleteAndRecoverASecret() {
   const recoverPoller = await client.beginRecoverDeletedSecret(bankAccountSecretName);
   const recoveredSecret = await recoverPoller.pollUntilDone();
   console.log(recoveredSecret);
+
 }
 
 async function deleteAndPurgeASecret() {
-  const uniqueString = new Date().getTime();
-  const bankAccountSecretName = `bankSecret${uniqueString}`;
+  const bankAccountSecretName = "bankSecret";
   await client.setSecret(bankAccountSecretName, "ABC123");
 
   // To actually delete it, we delete and then purge the secret
@@ -59,8 +57,7 @@ async function deleteAndPurgeASecret() {
 }
 
 async function getADeletedSecret() {
-  const uniqueString = new Date().getTime();
-  const secretName = `secret${uniqueString}`;
+  const secretName = "MySecretName";
   await client.setSecret(secretName, "MySecretValue");
   const deletePoller = await client.beginDeleteSecret(secretName);
   await deletePoller.pollUntilDone();
@@ -71,8 +68,7 @@ async function getADeletedSecret() {
 }
 
 async function softDeleteLifecycle() {
-  const uniqueString = new Date().getTime();
-  const secretName = `secret${uniqueString}`;
+  const secretName = "MySecretName";
   await client.setSecret(secretName, "MySecretValue");
 
   const poller = await client.beginDeleteSecret(secretName);
@@ -92,13 +88,16 @@ async function softDeleteLifecycle() {
   const recoverPoller = await client.beginRecoverDeletedSecret(secretName);
   await recoverPoller.pollUntilDone();
 
+  const purgePoller = await client.beginDeleteSecret(secretName);
+  await purgePoller.pollUntilDone();
+
   // And then, to purge the deleted secret:
   await client.purgeDeletedSecret(secretName);
+
 }
 
 async function deleteAndWait() {
-  const uniqueString = new Date().getTime();
-  const secretName = `secret${uniqueString}`;
+  const secretName = "MySecretName";
   await client.setSecret(secretName, "MySecretValue");
 
   const poller = await client.beginDeleteSecret(secretName);
@@ -109,11 +108,11 @@ async function deleteAndWait() {
   // Or you can wait until the secret finishes being deleted:
   deletedSecret = await poller.pollUntilDone();
   console.log(deletedSecret);
+
 }
 
 async function deleteAndPollIndividually() {
-  const uniqueString = new Date().getTime();
-  const secretName = `secret${uniqueString}`;
+  const secretName = "MySecretName";
   await client.setSecret(secretName, "MySecretValue");
 
   const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -125,6 +124,7 @@ async function deleteAndPollIndividually() {
   }
 
   console.log(`The secret ${secretName} is fully deleted`);
+
 }
 
 export async function main(): Promise<void> {

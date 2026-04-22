@@ -1,33 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * @azsdk-util true
- */
-
-import type { JsonWebKey } from "../../../src/index.js";
-
-export function stringToUint8Array(str: string): Uint8Array {
+function stringToUint8Array(str) {
   return new Uint8Array(Buffer.from(str));
 }
-
-export function uint8ArrayToString(ab: Uint8Array): string {
+function uint8ArrayToString(ab) {
   return Buffer.from(ab).toString("utf-8");
 }
-
-export function getKey(size: number): Uint8Array {
+function getKey(size) {
   const result = new Uint8Array(size);
   return result.map((_val, i) => i);
 }
-
-function toBytes(hex: string): Uint8Array {
+function toBytes(hex) {
   if (hex.length % 2) {
     hex = `0${hex}`;
   }
   return Buffer.from(hex, "hex");
 }
-
-export function createRsaKey(): JsonWebKey {
+function createRsaKey() {
   return {
     kty: "RSA",
     keyOps: ["encrypt", "decrypt", "sign", "verify", "wrapKey", "unwrapKey"],
@@ -55,3 +45,5 @@ export function createRsaKey(): JsonWebKey {
     ),
   };
 }
+
+module.exports = { stringToUint8Array, uint8ArrayToString, getKey, createRsaKey };

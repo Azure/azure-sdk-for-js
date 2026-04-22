@@ -5,10 +5,10 @@
  * @summary Uses a BackupClient to backup and fully restore an Azure Key Vault Managed HSM using Azure Storage Blob.
  */
 
-import { DefaultAzureCredential } from "@azure/identity";
-import { KeyVaultBackupClient } from "@azure/keyvault-admin";
 // Load the .env file if it exists
 import "dotenv/config";
+import { DefaultAzureCredential } from "@azure/identity";
+import { KeyVaultBackupClient } from "@azure/keyvault-admin";
 
 let client: KeyVaultBackupClient;
 
@@ -28,6 +28,7 @@ async function beginPreBackupWithSas() {
   // Waiting until it's done
   const result = await poller.pollUntilDone();
   console.log(result);
+
 }
 
 async function beginPreBackupWithoutSas() {
@@ -45,6 +46,7 @@ async function beginPreBackupWithoutSas() {
   // Waiting until it's done
   const result = await poller.pollUntilDone();
   console.log(result);
+
 }
 
 async function beginBackupWithSas() {
@@ -63,6 +65,7 @@ async function beginBackupWithSas() {
   // Waiting until it's done
   const backupUri = await poller.pollUntilDone();
   console.log(backupUri);
+
 }
 
 async function beginBackupWithoutSas() {
@@ -80,73 +83,86 @@ async function beginBackupWithoutSas() {
   // Waiting until it's done
   const backupUri = await poller.pollUntilDone();
   console.log(backupUri);
+
 }
 
 async function beginRestoreWithSas() {
 
-  const blobStorageUri = "<blob-storage-uri>"; // <Blob storage URL>/<folder name>
-  
+  const blobStorageUri = "<blob-storage-uri>";
   const sasToken = "<sas-token>";
-  const poller = await client.beginRestore(blobStorageUri, sasToken);
+  const backupResult = await client.beginBackup(blobStorageUri);
+  const blobStorageFolderUri = "<blob-storage-uri>"; // <Blob storage URL>/<folder name>
+  
+  const poller = await client.beginRestore(blobStorageFolderUri, sasToken);
 
   // The poller can be serialized with:
   const serialized = poller.toString();
 
   // A new poller can be created with:
-  await client.beginRestore(blobStorageUri, sasToken, { resumeFrom: serialized });
+  await client.beginRestore(blobStorageFolderUri, sasToken, { resumeFrom: serialized });
 
   // Waiting until it's done
   const backupUri = await poller.pollUntilDone();
   console.log(backupUri);
+
 }
 
 async function beginRestoreWithoutSas() {
 
-  const blobStorageUri = "<blob-storage-uri>"; // <Blob storage URL>/<folder name>
+  const blobStorageUri = "<blob-storage-uri>";
+  const backupResult = await client.beginBackup(blobStorageUri);
+  const blobStorageFolderUri = "<blob-storage-uri>"; // <Blob storage URL>/<folder name>
   
-  const poller = await client.beginRestore(blobStorageUri);
+  const poller = await client.beginRestore(blobStorageFolderUri);
 
   // The poller can be serialized with:
   const serialized = poller.toString();
 
   // A new poller can be created with:
-  await client.beginRestore(blobStorageUri, { resumeFrom: serialized });
+  await client.beginRestore(blobStorageFolderUri, { resumeFrom: serialized });
 
   // Waiting until it's done
   await poller.pollUntilDone();
+
 }
 
 async function beginPreRestoreWithSas() {
 
-  const blobStorageUri = "<blob-storage-uri>"; // <Blob storage URL>/<folder name>
-  
+  const blobStorageUri = "<blob-storage-uri>";
   const sasToken = "<sas-token>";
-  const poller = await client.beginPreRestore(blobStorageUri, sasToken);
+  const backupResult = await client.beginBackup(blobStorageUri);
+  const blobStorageFolderUri = "<blob-storage-uri>"; // <Blob storage URL>/<folder name>
+  
+  const poller = await client.beginPreRestore(blobStorageFolderUri, sasToken);
 
   // The poller can be serialized with:
   const serialized = poller.toString();
 
   // A new poller can be created with:
-  await client.beginPreRestore(blobStorageUri, sasToken, { resumeFrom: serialized });
+  await client.beginPreRestore(blobStorageFolderUri, sasToken, { resumeFrom: serialized });
 
   // Waiting until it's done
   await poller.pollUntilDone();
+
 }
 
 async function beginPreRestoreWithoutSas() {
 
-  const blobStorageUri = "<blob-storage-uri>"; // <Blob storage URL>/<folder name>
+  const blobStorageUri = "<blob-storage-uri>";
+  const backupResult = await client.beginBackup(blobStorageUri);
+  const blobStorageFolderUri = "<blob-storage-uri>"; // <Blob storage URL>/<folder name>
   
-  const poller = await client.beginPreRestore(blobStorageUri);
+  const poller = await client.beginPreRestore(blobStorageFolderUri);
 
   // The poller can be serialized with:
   const serialized = poller.toString();
 
   // A new poller can be created with:
-  await client.beginPreRestore(blobStorageUri, { resumeFrom: serialized });
+  await client.beginPreRestore(blobStorageFolderUri, { resumeFrom: serialized });
 
   // Waiting until it's done
   await poller.pollUntilDone();
+
 }
 
 async function backupAndRestoreIntegration() {

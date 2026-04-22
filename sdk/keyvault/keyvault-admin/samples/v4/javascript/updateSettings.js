@@ -5,10 +5,10 @@
  * @summary Demonstrates how to retrieve and update account settings for Managed HSM.
  */
 
-const { DefaultAzureCredential } = require("@azure/identity");
-const { KeyVaultSettingsClient } = require("@azure/keyvault-admin");
 // Load the .env file if it exists
 require("dotenv/config");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { KeyVaultSettingsClient } = require("@azure/keyvault-admin");
 
 async function main() {
   const client = new KeyVaultSettingsClient(

@@ -148,7 +148,10 @@ describe("backupRestoreHelloWorld", () => {
 
   it("begin restore with SAS", async () => {
     // @snippet ReadmeSampleBeginRestore_SAS
-    const blobStorageUri = `${assertEnvironmentVariable("BLOB_STORAGE_URI").replace(/\/$/, "")}/${assertEnvironmentVariable("BLOB_CONTAINER_NAME")}`;
+    const blobStorageUri = forPublishing(
+      `${assertEnvironmentVariable("BLOB_STORAGE_URI").replace(/\/$/, "")}/${assertEnvironmentVariable("BLOB_CONTAINER_NAME")}`,
+      () => "<blob-storage-uri>",
+    );
     const sasToken = forPublishing(
       assertEnvironmentVariable("BLOB_STORAGE_SAS_TOKEN"),
       () => "<sas-token>",
@@ -178,7 +181,10 @@ describe("backupRestoreHelloWorld", () => {
 
   it("begin restore without SAS", async () => {
     // @snippet ReadmeSampleBeginRestore_NonSAS
-    const blobStorageUri = `${assertEnvironmentVariable("BLOB_STORAGE_URI").replace(/\/$/, "")}/${assertEnvironmentVariable("BLOB_CONTAINER_NAME")}`;
+    const blobStorageUri = forPublishing(
+      `${assertEnvironmentVariable("BLOB_STORAGE_URI").replace(/\/$/, "")}/${assertEnvironmentVariable("BLOB_CONTAINER_NAME")}`,
+      () => "<blob-storage-uri>",
+    );
     const backupResult = await client.beginBackup(blobStorageUri);
     const blobStorageFolderUri = forPublishing(
       (await backupResult.pollUntilDone()).folderUri!,
@@ -199,7 +205,10 @@ describe("backupRestoreHelloWorld", () => {
 
   it("begin pre-restore with SAS", async () => {
     // @snippet ReadmeSampleBeginPreRestore_SAS
-    const blobStorageUri = `${assertEnvironmentVariable("BLOB_STORAGE_URI").replace(/\/$/, "")}/${assertEnvironmentVariable("BLOB_CONTAINER_NAME")}`;
+    const blobStorageUri = forPublishing(
+      `${assertEnvironmentVariable("BLOB_STORAGE_URI").replace(/\/$/, "")}/${assertEnvironmentVariable("BLOB_CONTAINER_NAME")}`,
+      () => "<blob-storage-uri>",
+    );
     const sasToken = forPublishing(
       assertEnvironmentVariable("BLOB_STORAGE_SAS_TOKEN"),
       () => "<sas-token>",
@@ -229,7 +238,10 @@ describe("backupRestoreHelloWorld", () => {
 
   it("begin pre-restore without SAS", async () => {
     // @snippet ReadmeSampleBeginPreRestore_NonSAS
-    const blobStorageUri = `${assertEnvironmentVariable("BLOB_STORAGE_URI").replace(/\/$/, "")}/${assertEnvironmentVariable("BLOB_CONTAINER_NAME")}`;
+    const blobStorageUri = forPublishing(
+      `${assertEnvironmentVariable("BLOB_STORAGE_URI").replace(/\/$/, "")}/${assertEnvironmentVariable("BLOB_CONTAINER_NAME")}`,
+      () => "<blob-storage-uri>",
+    );
     const backupResult = await client.beginBackup(blobStorageUri);
     const blobStorageFolderUri = forPublishing(
       (await backupResult.pollUntilDone()).folderUri!,

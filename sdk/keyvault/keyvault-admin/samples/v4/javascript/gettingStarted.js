@@ -5,6 +5,8 @@
  * @summary Authenticates with Azure Managed HSM and creates access control, backup, and settings clients.
  */
 
+// Load the .env file if it exists
+require("dotenv/config");
 const { DefaultAzureCredential } = require("@azure/identity");
 const {
   KeyVaultAccessControlClient,
@@ -12,8 +14,6 @@ const {
   KeyVaultSettingsClient,
 } = require("@azure/keyvault-admin");
 const { setLogLevel } = require("@azure/logger");
-// Load the .env file if it exists
-require("dotenv/config");
 
 async function createAnAccessControlClient() {
   const url = process.env["AZURE_MANAGEDHSM_URI"] || "<managedhsm-url>";

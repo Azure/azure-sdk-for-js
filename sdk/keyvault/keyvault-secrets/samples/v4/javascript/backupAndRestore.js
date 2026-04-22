@@ -5,10 +5,10 @@
  * @summary Backs up an Azure Key Vault secret to a local file and restores from it.
  */
 
-const { DefaultAzureCredential } = require("@azure/identity");
-const { SecretClient } = require("@azure/keyvault-secrets");
 // Load the .env file if it exists
 require("dotenv/config");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { SecretClient } = require("@azure/keyvault-secrets");
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 /**
@@ -21,8 +21,7 @@ async function main() {
     process.env["KEYVAULT_URI"] || "<keyvault-url>",
     new DefaultAzureCredential(),
   );
-  const uniqueString = new Date().getTime();
-  const secretName = `secret${uniqueString}`;
+  const secretName = "MySecretName";
   // Create our secret
   await client.setSecret(secretName, "XYZ789");
 
@@ -44,7 +43,18 @@ async function main() {
   const backupContents = await readFile("secret_backup.dat");
 
   // Restore the secret
-  const result = await client.restoreSecretBackup(backupContents);
+  let result;
+  for (let attempt = 0; attempt < 5; attempt++) {
+    try {
+      result = await client.restoreSecretBackup(backupContents);
+      break;
+    } catch (error) {
+      if (attempt === 4) {
+        throw error;
+      }
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+    }
+  }
   console.log("Restored secret: ", result);
 
   // If we don't want to purge the secret later, we don't need to wait until this finishes

@@ -5,10 +5,10 @@
  * @summary Uses an Azure Key Vault key to sign/verify, encrypt/decrypt, and wrap/unwrap data.
  */
 
-const { DefaultAzureCredential } = require("@azure/identity");
-const { CryptographyClient, KeyClient } = require("@azure/keyvault-keys");
 // Load the .env file if it exists
 require("dotenv/config");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { CryptographyClient, KeyClient } = require("@azure/keyvault-keys");
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 /**
@@ -23,11 +23,7 @@ async function encryptAndDecrypt() {
   const keyName = `crypto-sample-key${Date.now()}`;
   // Connection to Azure Key Vault Cryptography functionality
   const myWorkKey = await client.createKey(keyName, "RSA");
-  const cryptoClient = new CryptographyClient(
-    myWorkKey.id, // You can use either the key or the key Id i.e. its url to create a CryptographyClient.
-    credential,
-  );
-  // Encrypt and decrypt
+  const cryptoClient = new CryptographyClient(myWorkKey.id, credential);
   const encrypt = await cryptoClient.encrypt({
     algorithm: "RSA-OAEP-256",
     plaintext: Buffer.from("My Message"),
@@ -44,10 +40,7 @@ async function signAndVerify() {
   const keyName = `crypto-sample-key${Date.now()}`;
   // Connection to Azure Key Vault Cryptography functionality
   const myWorkKey = await client.createKey(keyName, "RSA");
-  const cryptoClient = new CryptographyClient(
-    myWorkKey.id, // You can use either the key or the key Id i.e. its url to create a CryptographyClient.
-    credential,
-  );
+  const cryptoClient = new CryptographyClient(myWorkKey.id, credential);
   // Sign and Verify
   const signatureValue = "MySignature";
   const hash = createHash("sha256");
@@ -63,10 +56,7 @@ async function signAndVerify() {
 async function wrapAndUnwrapKey() {
   const keyName = `crypto-sample-key${Date.now()}`;
   const myWorkKey = await client.createKey(keyName, "RSA");
-  const cryptoClient = new CryptographyClient(
-    myWorkKey.id, // You can use either the key or the key Id i.e. its url to create a CryptographyClient.
-    credential,
-  );
+  const cryptoClient = new CryptographyClient(myWorkKey.id, credential);
   // Wrap and unwrap
   const wrapped = await cryptoClient.wrapKey("RSA-OAEP-256", Buffer.from("My Message"));
   console.log("wrap result: ", wrapped);

@@ -5,10 +5,10 @@
  * @summary Creates, updates, and deletes certificate contacts.
  */
 
-const { DefaultAzureCredential } = require("@azure/identity");
-const { CertificateClient } = require("@azure/keyvault-certificates");
 // Load the .env file if it exists
 require("dotenv/config");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { CertificateClient } = require("@azure/keyvault-certificates");
 
 let client;
 
@@ -43,19 +43,16 @@ async function manageCertificateContacts() {
 async function deleteCertificateContacts() {
   const credential = new DefaultAzureCredential();
 
-  const vaultName = "<YOUR KEYVAULT NAME>";
-  const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+  const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   const client = new CertificateClient(keyVaultUrl, credential);
-
   await client.deleteContacts();
 }
 
 async function setCertificateContacts() {
   const credential = new DefaultAzureCredential();
 
-  const vaultName = "<YOUR KEYVAULT NAME>";
-  const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+  const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   const client = new CertificateClient(keyVaultUrl, credential);
 
@@ -71,8 +68,7 @@ async function setCertificateContacts() {
 async function getCertificateContacts() {
   const credential = new DefaultAzureCredential();
 
-  const vaultName = "<YOUR KEYVAULT NAME>";
-  const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+  const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   const client = new CertificateClient(keyVaultUrl, credential);
 

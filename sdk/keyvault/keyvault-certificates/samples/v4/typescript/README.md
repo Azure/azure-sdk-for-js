@@ -39,12 +39,6 @@ You need [an Azure subscription][freesub] and the following Azure resources to r
 
 - [Azure Key Vault][createinstance_azurekeyvault]
 
-To quickly create the needed Key Vault resources in Azure and to receive a connection string for them, you can deploy our sample template by clicking:
-
-[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Ftest-resources.json)
-
-If creating the Key Vault manually using the Azure Portal, be aware that the samples require that the soft-delete feature be enabled. Our template above will enable this feature automatically, but it is possible to enable it manually using the Azure CLI. See [the documentation for enabling soft-delete in Key Vault](https://learn.microsoft.com/azure/key-vault/key-vault-soft-delete-cli) for more information.
-
 Samples retrieve credentials to access the service endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
 
 Adapting the samples to run in the browser may require some additional consideration. For details, please see the [package README][package].

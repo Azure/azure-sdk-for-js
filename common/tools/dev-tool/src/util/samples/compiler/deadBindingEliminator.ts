@@ -441,6 +441,18 @@ function lowerToUnits(
       continue;
     }
 
+    // Special: if(false) { ... } → always dead (test-setup blocks that used forPublishing(true, () => false))
+    if (ts.isIfStatement(stmt) && stmt.expression.kind === ts.SyntaxKind.FalseKeyword) {
+      units.push({
+        declares: [],
+        runtimeRefs: new Set(),
+        originalIndex: i,
+        salvageableEffects: [],
+        isTypeOnly: true, // marks as always-dead
+      });
+      continue;
+    }
+
     // Unknown statement types → collect all runtime refs for proper analysis
     // This handles if/try/return/for/while/etc. that may appear in hook/it bodies
     units.push({

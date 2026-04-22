@@ -5,12 +5,15 @@
  * @summary Creates, reads, lists, and deletes keys.
  */
 
-import { DefaultAzureCredential } from "@azure/identity";
-import { KeyClient } from "@azure/keyvault-keys";
 // Load the .env file if it exists
 import "dotenv/config";
+import { createDefaultHttpClient, createPipelineRequest } from "@azure/core-rest-pipeline";
+import { DefaultAzureCredential } from "@azure/identity";
+import { KeyClient } from "@azure/keyvault-keys";
+import { createRsaKey, stringToUint8Array } from "../utils/crypto.js";
 
 let client: KeyClient;
+let hsmClient: KeyClient | undefined;
 
 async function createAndGetAKey() {
   // Create unique names for keys we will use in this sample
@@ -66,6 +69,7 @@ async function createAKey() {
   const keyName = "MyKeyName";
   const result = await client.createKey(keyName, "RSA");
   console.log("result: ", result);
+
 }
 
 async function createAnEcKey() {
@@ -73,6 +77,7 @@ async function createAnEcKey() {
   const keyName = "MyKeyName";
   const result = await client.createEcKey(keyName, { curve: "P-256" });
   console.log("result: ", result);
+
 }
 
 async function createAnRsaKey() {
@@ -80,18 +85,25 @@ async function createAnRsaKey() {
   const keyName = "MyKeyName";
   const result = await client.createRsaKey("MyKey", { keySize: 2048 });
   console.log("result: ", result);
+
 }
 
 async function createAnOctKey() {
+  if (!true) {
+      ctx.skip();
+      return;
+  }
 
   const keyName = "MyKeyName";
-  const result = await client.createOctKey("MyKey", { hsm: true });
+  const result = await hsmClient!.createOctKey(keyName, { hsm: true });
   console.log("result: ", result);
+
 }
 
 async function importAKey() {
 
-  const jsonWebKey = {
+  const keyName = "MyKey";
+  const jsonWebKey = ({
       kty: "RSA",
       kid: "test-key-123",
       use: "sig",
@@ -104,15 +116,17 @@ async function importAKey() {
       dp: new Uint8Array([23, 45, 78, 56, 200, 144, 32, 67]),
       dq: new Uint8Array([12, 67, 89, 144, 99, 56, 23, 45]),
       qi: new Uint8Array([78, 90, 45, 201, 34, 67, 120, 55]),
-  };
+  });
 
-  const result = await client.importKey("MyKey", jsonWebKey);
+  const result = await client.importKey(keyName, jsonWebKey);
+
 }
 
 async function getACryptographyClient() {
 
   // Get a cryptography client for a given key
   const cryptographyClient = client.getCryptographyClient("MyKey");
+
 }
 
 async function getAKey() {
@@ -124,19 +138,25 @@ async function getAKey() {
 
   const specificKey = await client.getKey(keyName, { version: latestKey.properties.version! });
   console.log(`The key ${keyName} at the version ${latestKey.properties.version!}: `, specificKey);
+
 }
 
 async function getKeyAttestation() {
+  if (!true) {
+      ctx.skip();
+      return;
+  }
   const keyName = "MyKeyName";
-  await client.createKey(keyName, "RSA");
+  await hsmClient!.createRsaKey(keyName, { hsm: true });
 
-  const latestKey = await client.getKeyAttestation(keyName);
+  const latestKey = await hsmClient!.getKeyAttestation(keyName);
   console.log(`Latest version of the key ${keyName}: `, latestKey);
 
-  const specificKey = await client.getKeyAttestation(keyName, {
+  const specificKey = await hsmClient!.getKeyAttestation(keyName, {
       version: latestKey.properties.version!,
   });
   console.log(`The key ${keyName} at the version ${latestKey.properties.version!}: `, specificKey);
+
 }
 
 async function createAKeyWithAttributes() {
@@ -147,6 +167,7 @@ async function createAKeyWithAttributes() {
       enabled: false,
   });
   console.log("result: ", result);
+
 }
 
 async function updateKeyProperties() {
@@ -157,6 +178,7 @@ async function updateKeyProperties() {
   await client.updateKeyProperties(keyName, result.properties.version, {
       enabled: false,
   });
+
 }
 
 async function deleteAKey() {
@@ -165,13 +187,32 @@ async function deleteAKey() {
 
   const poller = await client.beginDeleteKey(keyName);
   await poller.pollUntilDone();
+
 }
 
 async function releaseAKey() {
+  if (!true) {
+      ctx.skip();
+      return;
+  }
+  const keyName = "myKey";
+  const attestationAuthority = "<attestation-uri>";
+  const encodedReleasePolicy = stringToUint8Array(JSON.stringify({
+      anyOf: [
+          { anyOf: [{ claim: "sdk-test", equals: "true" }], authority: attestationAuthority },
+      ],
+      version: "1.0.0",
+  }));
+  await hsmClient!.createRsaKey(keyName, {
+      exportable: true,
+      hsm: true,
+      keyOps: ["encrypt", "decrypt"],
+      releasePolicy: { encodedPolicy: encodedReleasePolicy },
+  });
+  const attestation = await Promise.resolve("<attestation-target>");
 
-  const keyName = "MyKeyName";
+  const result = await hsmClient!.releaseKey(keyName, attestation);
 
-  const result = await client.releaseKey("myKey", "<attestation-target>");
 }
 
 async function getADeletedKey() {
@@ -181,6 +222,7 @@ async function getADeletedKey() {
   await deletePoller.pollUntilDone();
 
   await client.getDeletedKey(keyName);
+
 }
 
 async function purgeADeletedKey() {
@@ -191,6 +233,7 @@ async function purgeADeletedKey() {
   await deletePoller.pollUntilDone();
 
   await client.purgeDeletedKey(keyName);
+
 }
 
 async function recoverADeletedKey() {
@@ -202,6 +245,7 @@ async function recoverADeletedKey() {
 
   const recoverPoller = await client.beginRecoverDeletedKey(keyName);
   const recoveredKey = await recoverPoller.pollUntilDone();
+
 }
 
 async function backUpAKey() {
@@ -209,6 +253,7 @@ async function backUpAKey() {
   await client.createKey(keyName, "RSA");
 
   const backupContents = await client.backupKey(keyName);
+
 }
 
 async function restoreAKeyFromBackup() {
@@ -217,12 +262,34 @@ async function restoreAKeyFromBackup() {
 
   const backupContents = await client.backupKey(keyName);
 
-  const key = await client.restoreKeyBackup(backupContents);
+  const deletePoller = await client.beginDeleteKey(keyName);
+  await deletePoller.pollUntilDone();
+
+  await client.purgeDeletedKey(keyName);
+
+  for (let attempt = 0; attempt < 5; attempt++) {
+      try {
+          await client.restoreKeyBackup(backupContents);
+          break;
+      }
+      catch (error) {
+          if (attempt === 4) {
+              throw error;
+          }
+          await new Promise((resolve) => setTimeout(resolve, 2000));
+      }
+  }
+
 }
 
 async function getRandomBytes() {
+  if (!true) {
+      ctx.skip();
+      return;
+  }
 
-  const bytes = await client.getRandomBytes(10);
+  const bytes = await hsmClient!.getRandomBytes(10);
+
 }
 
 async function deleteAKeyWithSoftDelete() {
@@ -246,8 +313,13 @@ async function deleteAKeyWithSoftDelete() {
   const recoverPoller = await client.beginRecoverDeletedKey(keyName);
   await recoverPoller.pollUntilDone();
 
+  // If you recover the key, delete it again before purging it.
+  const purgePoller = await client.beginDeleteKey(keyName);
+  await purgePoller.pollUntilDone();
+
   // And here is how to purge a deleted key
   await client.purgeDeletedKey(keyName);
+
 }
 
 async function deleteAKeyAndWaitForCompletion() {
@@ -262,6 +334,7 @@ async function deleteAKeyAndWaitForCompletion() {
   // Or you can wait until the key finishes being deleted:
   deletedKey = await poller.pollUntilDone();
   console.log(deletedKey);
+
 }
 
 async function deleteAKeyAndPollIndividually() {
@@ -278,6 +351,7 @@ async function deleteAKeyAndPollIndividually() {
   }
 
   console.log(`The key ${keyName} is fully deleted`);
+
 }
 
 async function listAllKeys() {
@@ -294,6 +368,7 @@ async function listAllKeys() {
   for await (const versionProperties of client.listPropertiesOfKeyVersions(keyName)) {
       console.log("Version properties: ", versionProperties);
   }
+
 }
 
 async function listKeysByPage() {
@@ -316,14 +391,23 @@ async function listKeysByPage() {
           console.log("Version: ", versionProperties);
       }
   }
+
 }
 
 export async function main(): Promise<void> {
   // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
   // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
   // about DefaultAzureCredential and the other credentials that are available for use.
+  const credential = new DefaultAzureCredential();
   client =
-      new KeyClient(process.env["KEYVAULT_URI"] || "<keyvault-url>", new DefaultAzureCredential());
+      new KeyClient(process.env["KEYVAULT_URI"] || "<keyvault-url>", credential);
+  if (Boolean(process.env["AZURE_MANAGEDHSM_URI"])) {
+      hsmClient =
+          new KeyClient(process.env["AZURE_MANAGEDHSM_URI"] || "<managedhsm-url>", credential);
+  }
+  else {
+      hsmClient = undefined;
+  }
   await createAndGetAKey();
   await listKeys();
   await updateAndDeleteKeys();

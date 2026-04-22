@@ -60,13 +60,14 @@ describe("cryptography", () => {
     // Connection to Azure Key Vault Cryptography functionality
     const myWorkKey = await client.createKey(keyName, "RSA");
 
-    const cryptoClient = new CryptographyClient(
-      myWorkKey.id!, // You can use either the key or the key Id i.e. its url to create a CryptographyClient.
-      credential,
-      recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
+    const cryptoClient = forPublishing(
+      new CryptographyClient(
+        myWorkKey.id!, // You can use either the key or the key Id i.e. its url to create a CryptographyClient.
+        credential,
+        recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
+      ),
+      () => new CryptographyClient(myWorkKey.id!, credential),
     );
-
-    // Encrypt and decrypt
     const encrypt = await cryptoClient.encrypt({
       algorithm: "RSA-OAEP-256",
       plaintext: Buffer.from("My Message"),
@@ -88,10 +89,13 @@ describe("cryptography", () => {
 
     // Connection to Azure Key Vault Cryptography functionality
     const myWorkKey = await client.createKey(keyName, "RSA");
-    const cryptoClient = new CryptographyClient(
-      myWorkKey.id!, // You can use either the key or the key Id i.e. its url to create a CryptographyClient.
-      credential,
-      recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
+    const cryptoClient = forPublishing(
+      new CryptographyClient(
+        myWorkKey.id!, // You can use either the key or the key Id i.e. its url to create a CryptographyClient.
+        credential,
+        recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
+      ),
+      () => new CryptographyClient(myWorkKey.id!, credential),
     );
 
     // Sign and Verify
@@ -116,10 +120,13 @@ describe("cryptography", () => {
     );
 
     const myWorkKey = await client.createKey(keyName, "RSA");
-    const cryptoClient = new CryptographyClient(
-      myWorkKey.id!, // You can use either the key or the key Id i.e. its url to create a CryptographyClient.
-      credential,
-      recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
+    const cryptoClient = forPublishing(
+      new CryptographyClient(
+        myWorkKey.id!, // You can use either the key or the key Id i.e. its url to create a CryptographyClient.
+        credential,
+        recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
+      ),
+      () => new CryptographyClient(myWorkKey.id!, credential),
     );
 
     // Wrap and unwrap
@@ -138,10 +145,13 @@ describe("cryptography", () => {
       ),
       "RSA",
     );
-    const cryptographyClient = new CryptographyClient(
-      myKey.id!,
-      credential,
-      recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
+    const cryptographyClient = forPublishing(
+      new CryptographyClient(
+        myKey.id!,
+        credential,
+        recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
+      ),
+      () => new CryptographyClient(myKey.id!, credential),
     );
 
     // @snippet ReadmeSampleEncrypt
@@ -161,10 +171,13 @@ describe("cryptography", () => {
       ),
       "RSA",
     );
-    const cryptographyClient = new CryptographyClient(
-      myKey.id!,
-      credential,
-      recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
+    const cryptographyClient = forPublishing(
+      new CryptographyClient(
+        myKey.id!,
+        credential,
+        recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
+      ),
+      () => new CryptographyClient(myKey.id!, credential),
     );
 
     // @snippet ReadmeSampleDecrypt
@@ -190,10 +203,13 @@ describe("cryptography", () => {
       ),
       "RSA",
     );
-    const cryptographyClient = new CryptographyClient(
-      myKey,
-      credential,
-      recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
+    const cryptographyClient = forPublishing(
+      new CryptographyClient(
+        myKey,
+        credential,
+        recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
+      ),
+      () => new CryptographyClient(myKey, credential),
     );
 
     // @snippet ReadmeSampleSign
@@ -216,10 +232,13 @@ describe("cryptography", () => {
       ),
       "RSA",
     );
-    const cryptographyClient = new CryptographyClient(
-      myKey,
-      credential,
-      recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
+    const cryptographyClient = forPublishing(
+      new CryptographyClient(
+        myKey,
+        credential,
+        recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
+      ),
+      () => new CryptographyClient(myKey, credential),
     );
 
     // @snippet ReadmeSampleSignData
@@ -236,10 +255,13 @@ describe("cryptography", () => {
       ),
       "RSA",
     );
-    const cryptographyClient = new CryptographyClient(
-      myKey,
-      credential,
-      recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
+    const cryptographyClient = forPublishing(
+      new CryptographyClient(
+        myKey,
+        credential,
+        recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
+      ),
+      () => new CryptographyClient(myKey, credential),
     );
 
     // @snippet ReadmeSampleVerify
@@ -263,10 +285,13 @@ describe("cryptography", () => {
       ),
       "RSA",
     );
-    const cryptographyClient = new CryptographyClient(
-      myKey,
-      credential,
-      recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
+    const cryptographyClient = forPublishing(
+      new CryptographyClient(
+        myKey,
+        credential,
+        recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
+      ),
+      () => new CryptographyClient(myKey, credential),
     );
 
     // @snippet ReadmeSampleVerifyData
@@ -288,10 +313,13 @@ describe("cryptography", () => {
       ),
       "RSA",
     );
-    const cryptographyClient = new CryptographyClient(
-      myKey,
-      credential,
-      recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
+    const cryptographyClient = forPublishing(
+      new CryptographyClient(
+        myKey,
+        credential,
+        recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
+      ),
+      () => new CryptographyClient(myKey, credential),
     );
 
     // @snippet ReadmeSampleWrapKey
@@ -308,10 +336,13 @@ describe("cryptography", () => {
       ),
       "RSA",
     );
-    const cryptographyClient = new CryptographyClient(
-      myKey,
-      credential,
-      recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
+    const cryptographyClient = forPublishing(
+      new CryptographyClient(
+        myKey,
+        credential,
+        recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
+      ),
+      () => new CryptographyClient(myKey, credential),
     );
 
     // @snippet ReadmeSampleUnwrapKey

@@ -5,11 +5,11 @@
  * @summary Uses a BackupClient to backup and restore a specific key in an Azure Key Vault Managed HSM using Azure Storage Blob.
  */
 
+// Load the .env file if it exists
+import "dotenv/config";
 import { DefaultAzureCredential } from "@azure/identity";
 import { KeyVaultBackupClient } from "@azure/keyvault-admin";
 import { KeyClient } from "@azure/keyvault-keys";
-// Load the .env file if it exists
-import "dotenv/config";
 
 let client: KeyVaultBackupClient;
 let keyClient: KeyClient;
@@ -19,34 +19,44 @@ async function beginSelectiveKeyRestoreWithSas() {
   const blobStorageUri = "<blob-storage-uri>";
   const sasToken = "<sas-token>";
   const keyName = "<key-name>";
-  const poller = await client.beginSelectiveKeyRestore(keyName, blobStorageUri, sasToken);
+  await keyClient.createRsaKey(keyName);
+  const backupPoller = await client.beginBackup(blobStorageUri);
+  const backupResult = await backupPoller.pollUntilDone();
+  const backupFolderUri = "<blob-storage-uri>";
+  const poller = await client.beginSelectiveKeyRestore(keyName, backupFolderUri, sasToken);
 
   // Serializing the poller
   const serialized = poller.toString();
 
   // A new poller can be created with:
-  await client.beginSelectiveKeyRestore(keyName, blobStorageUri, sasToken, {
+  await client.beginSelectiveKeyRestore(keyName, backupFolderUri, sasToken, {
       resumeFrom: serialized,
   });
 
   // Waiting until it's done
   await poller.pollUntilDone();
+
 }
 
 async function beginSelectiveKeyRestoreWithoutSas() {
 
   const blobStorageUri = "<blob-storage-uri>";
   const keyName = "<key-name>";
-  const poller = await client.beginSelectiveKeyRestore(keyName, blobStorageUri);
+  await keyClient.createRsaKey(keyName);
+  const backupPoller = await client.beginBackup(blobStorageUri);
+  const backupResult = await backupPoller.pollUntilDone();
+  const backupFolderUri = "<blob-storage-uri>";
+  const poller = await client.beginSelectiveKeyRestore(keyName, backupFolderUri);
 
   // Serializing the poller
   const serialized = poller.toString();
 
   // A new poller can be created with:
-  await client.beginSelectiveKeyRestore(keyName, blobStorageUri, { resumeFrom: serialized });
+  await client.beginSelectiveKeyRestore(keyName, backupFolderUri, { resumeFrom: serialized });
 
   // Waiting until it's done
   await poller.pollUntilDone();
+
 }
 
 async function backupAndSelectiveKeyRestoreIntegration() {

@@ -5,13 +5,32 @@
  * @summary Uses a CertificateClient to create, update, and delete a certificate's operation.
  */
 
-const { DefaultAzureCredential } = require("@azure/identity");
-const { CertificateClient } = require("@azure/keyvault-certificates");
 // Load the .env file if it exists
 require("dotenv/config");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { CertificateClient } = require("@azure/keyvault-certificates");
 
 let client;
 let certificateName;
+async function deleteCertificateOperationWithRetry(certificateName) {
+  let lastError;
+  for (let i = 0; i < 5; i++) {
+    try {
+      await client.deleteCertificateOperation(certificateName);
+      return;
+    } catch (error) {
+      lastError = error;
+      if (
+        !/conflict while deleting the pending certificate/i.test(error.message) &&
+        !/Pending Certificate not found/i.test(error.message)
+      ) {
+        throw error;
+      }
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+    }
+  }
+  throw lastError;
+}
 
 async function getAndCancelPendingOperations() {
   // Certificates' operations will be pending for some time right after they're created.
@@ -30,7 +49,7 @@ async function getAndCancelPendingOperations() {
   operation = operationPoller.getResult();
   console.log("Cancelled certificate operation:", operation);
   // Deleting the certificate's operation
-  await client.deleteCertificateOperation(certificateName);
+  await deleteCertificateOperationWithRetry(certificateName);
   let error;
   try {
     await client.getCertificateOperation(certificateName);
@@ -48,17 +67,17 @@ async function getAndCancelPendingOperations() {
 async function getACertificateOperation() {
   const credential = new DefaultAzureCredential();
 
-  const vaultName = "<YOUR KEYVAULT NAME>";
-  const url = `https://${vaultName}.vault.azure.net`;
+  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   const client = new CertificateClient(url, credential);
 
-  const createPoller = await client.beginCreateCertificate("MyCertificate", {
-    issuerName: "Self",
+  const certificateName = "MyCertificate";
+  const createPoller = await client.beginCreateCertificate(certificateName, {
+    issuerName: "Unknown",
     subject: "cn=MyCert",
   });
 
-  const poller = await client.getCertificateOperation("MyCertificate");
+  const poller = await client.getCertificateOperation(certificateName);
   const pendingCertificate = poller.getResult();
 
   const certificateOperation = poller.getOperationState().certificateOperation;
@@ -68,18 +87,19 @@ async function getACertificateOperation() {
 async function deleteACertificateOperation() {
   const credential = new DefaultAzureCredential();
 
-  const vaultName = "<YOUR KEYVAULT NAME>";
-  const url = `https://${vaultName}.vault.azure.net`;
+  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   const client = new CertificateClient(url, credential);
 
-  await client.beginCreateCertificate("MyCertificate", {
-    issuerName: "Self",
+  const certificateName = "MyCertificate";
+  await client.beginCreateCertificate(certificateName, {
+    issuerName: "Unknown",
     subject: "cn=MyCert",
   });
-  await client.deleteCertificateOperation("MyCertificate");
+  await client.deleteCertificateOperation(certificateName);
 
-  await client.getCertificateOperation("MyCertificate");
+  await client.getCertificateOperation(certificateName);
+  // Throws error: Pending certificate not found: "MyCertificate"
 }
 
 async function main() {

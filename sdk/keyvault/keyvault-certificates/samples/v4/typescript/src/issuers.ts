@@ -5,10 +5,10 @@
  * @summary Creates, updates and deletes certificate issuers.
  */
 
-import { DefaultAzureCredential } from "@azure/identity";
-import { CertificateClient } from "@azure/keyvault-certificates";
 // Load the .env file if it exists
 import "dotenv/config";
+import { DefaultAzureCredential } from "@azure/identity";
+import { CertificateClient } from "@azure/keyvault-certificates";
 
 let client: CertificateClient;
 let certificateName: string;
@@ -48,12 +48,12 @@ async function manageCertificateIssuers() {
 async function listCertificateIssuers() {
   const credential = new DefaultAzureCredential();
 
-  const vaultName = "<YOUR KEYVAULT NAME>";
-  const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+  const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   const client = new CertificateClient(keyVaultUrl, credential);
 
-  await client.createIssuer("IssuerName", "Test");
+  const issuerName = "IssuerName";
+  await client.createIssuer(issuerName, "Test");
 
   // All in one call
   for await (const issuerProperties of client.listPropertiesOfIssuers()) {
@@ -66,53 +66,58 @@ async function listCertificateIssuers() {
           console.log(issuerProperties);
       }
   }
+
 }
 
 async function createACertificateIssuer() {
   const credential = new DefaultAzureCredential();
 
-  const vaultName = "<YOUR KEYVAULT NAME>";
-  const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+  const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   const client = new CertificateClient(keyVaultUrl, credential);
 
-  await client.createIssuer("IssuerName", "Test");
+  const issuerName = "IssuerName";
+  await client.createIssuer(issuerName, "Test");
+
 }
 
 async function updateACertificateIssuer() {
   const credential = new DefaultAzureCredential();
 
-  const vaultName = "<YOUR KEYVAULT NAME>";
-  const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+  const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   const client = new CertificateClient(keyVaultUrl, credential);
 
-  await client.updateIssuer("IssuerName", {
-      provider: "Provider2",
+  const issuerName = "IssuerName";
+  await client.updateIssuer(issuerName, {
+      accountId: "updated-keyvaultuser",
   });
+
 }
 
 async function getACertificateIssuer() {
   const credential = new DefaultAzureCredential();
 
-  const vaultName = "<YOUR KEYVAULT NAME>";
-  const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+  const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   const client = new CertificateClient(keyVaultUrl, credential);
 
-  const certificateIssuer = await client.getIssuer("IssuerName");
+  const issuerName = "IssuerName";
+  const certificateIssuer = await client.getIssuer(issuerName);
   console.log(certificateIssuer);
+
 }
 
 async function deleteACertificateIssuer() {
   const credential = new DefaultAzureCredential();
 
-  const vaultName = "<YOUR KEYVAULT NAME>";
-  const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+  const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   const client = new CertificateClient(keyVaultUrl, credential);
 
-  await client.deleteIssuer("IssuerName");
+  const issuerName = "IssuerName";
+  await client.deleteIssuer(issuerName);
+
 }
 
 export async function main(): Promise<void> {

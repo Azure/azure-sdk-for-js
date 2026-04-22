@@ -65,7 +65,10 @@ describe("backupSelectiveKeyRestore", () => {
 
   it("begin selective key restore with SAS", async () => {
     // @snippet ReadmeSampleBeginSelectiveKeyRestore_SAS
-    const blobStorageUri = `${assertEnvironmentVariable("BLOB_STORAGE_URI").replace(/\/$/, "")}/${assertEnvironmentVariable("BLOB_CONTAINER_NAME")}`;
+    const blobStorageUri = forPublishing(
+      `${assertEnvironmentVariable("BLOB_STORAGE_URI").replace(/\/$/, "")}/${assertEnvironmentVariable("BLOB_CONTAINER_NAME")}`,
+      () => "<blob-storage-uri>",
+    );
     const sasToken = forPublishing(
       assertEnvironmentVariable("BLOB_STORAGE_SAS_TOKEN"),
       () => "<sas-token>",
@@ -102,7 +105,10 @@ describe("backupSelectiveKeyRestore", () => {
 
   it("begin selective key restore without SAS", async () => {
     // @snippet ReadmeSampleBeginSelectiveKeyRestore_NonSAS
-    const blobStorageUri = `${assertEnvironmentVariable("BLOB_STORAGE_URI").replace(/\/$/, "")}/${assertEnvironmentVariable("BLOB_CONTAINER_NAME")}`;
+    const blobStorageUri = forPublishing(
+      `${assertEnvironmentVariable("BLOB_STORAGE_URI").replace(/\/$/, "")}/${assertEnvironmentVariable("BLOB_CONTAINER_NAME")}`,
+      () => "<blob-storage-uri>",
+    );
     const keyName = forPublishing(
       recorder.variable("keyName", `key-${Date.now()}`),
       () => "<key-name>",

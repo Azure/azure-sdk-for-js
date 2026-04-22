@@ -5,10 +5,10 @@
  * @summary Uses a SecretClient to create, read, and update a secret in various ways.
  */
 
-import { DefaultAzureCredential } from "@azure/identity";
-import { SecretClient } from "@azure/keyvault-secrets";
 // Load the .env file if it exists
 import "dotenv/config";
+import { DefaultAzureCredential } from "@azure/identity";
+import { SecretClient } from "@azure/keyvault-secrets";
 
 let client: SecretClient;
 
@@ -17,8 +17,7 @@ async function createAndReadASecret() {
   // The secret can be a string of any kind. For example,
   // a multiline text block such as an RSA private key with newline characters,
   // or a stringified JSON object, like `JSON.stringify({ mySecret: 'MySecretValue'})`.
-  const uniqueString = new Date().getTime();
-  const secretName = `secret${uniqueString}`;
+  const secretName = "MySecretName";
 
   const result = await client.setSecret(secretName, "MySecretValue");
   console.log("result: ", result);
@@ -31,11 +30,11 @@ async function createAndReadASecret() {
       version: latestSecret.properties.version!,
   });
   console.log(`The secret ${secretName} at the version ${latestSecret.properties.version!}: `, specificSecret);
+
 }
 
 async function updateSecretProperties() {
-  const uniqueString = new Date().getTime();
-  const secretName = `secret${uniqueString}`;
+  const secretName = "MySecretName";
   await client.setSecret(secretName, "MySecretValue");
 
   // Update the secret with different attributes
@@ -43,25 +42,26 @@ async function updateSecretProperties() {
   await client.updateSecretProperties(secretName, result.properties.version!, {
       enabled: false,
   });
+
 }
 
 async function deleteTheSecret() {
-  const uniqueString = new Date().getTime();
-  const secretName = `secret${uniqueString}`;
+  const secretName = "MySecretName";
   await client.setSecret(secretName, "MySecretValue");
 
   // Delete the secret
   // If we don't want to purge the secret later, we don't need to wait until this finishes
   await client.beginDeleteSecret(secretName);
+
 }
 
 async function createASecretWithAttributes() {
-  const uniqueString = new Date().getTime();
-  const secretName = `secret${uniqueString}`;
+  const secretName = "MySecretName";
 
   const result = await client.setSecret(secretName, "MySecretValue", {
       enabled: false,
   });
+
 }
 
 export async function main(): Promise<void> {

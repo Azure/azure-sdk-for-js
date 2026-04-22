@@ -5,20 +5,36 @@
  * @summary Imports a PFX and PEM certificate and then deletes them.
  */
 
+// Load the .env file if it exists
+import "dotenv/config";
 import { isNodeLike } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 import { CertificateClient, WellKnownIssuer } from "@azure/keyvault-certificates";
 import { SecretClient } from "@azure/keyvault-secrets";
-// Load the .env file if it exists
-import "dotenv/config";
 
 let client: CertificateClient;
+let secretClient: SecretClient;
+async function createSourceCertificateValue(certificateName: string, contentType: "application/x-pkcs12" | "application/x-pem-file"): Promise<string> {
+    const createPoller = await client.beginCreateCertificate(certificateName, {
+        issuerName: "Self",
+        subject: "CN=contoso.com",
+        contentType,
+    });
+    await createPoller.pollUntilDone();
+    const certificateSecret = await secretClient.getSecret(certificateName);
+    if (!certificateSecret.value) {
+        throw new Error(`Expected certificate secret ${certificateName} to contain a value.`);
+    }
+    return certificateSecret.value;
+}
 
 async function importAPkcs12Certificate() {
   // Demonstrates how to import a base64 encoded PFX certificate into Azure Key Vault.
   // When importing a PFX containing your key pair, the policy is needed if you want the
   // private key to be exportable or to configure actions when a certificate is close to expiration.
-  const importedCertificate = await client.importCertificate(`import-${Date.now()}`, Buffer.from(process.env.SAMPLE_PFX_BASE_64 || "", "base64"), {
+  const certificateName = `import-${Date.now()}`;
+  const samplePfxBase64 = process.env.SAMPLE_PFX_BASE_64 || "";
+  const importedCertificate = await client.importCertificate(certificateName, Buffer.from(samplePfxBase64, "base64"), {
       policy: {
           contentType: "application/x-pkcs12",
           issuerName: WellKnownIssuer.Self,
@@ -37,7 +53,9 @@ async function importAPemCertificate() {
   // PEM-formatted certificates are more common when using tools like openssl. To import a
   // PEM-formatted certificate, you must set a CertificatePolicy that sets the ContentType
   // to Pem or the certificate will fail to import
-  const importedCertificate = await client.importCertificate(`cert${Date.now()}`, Buffer.from(process.env.SAMPLE_PEM || ""), // PEM certificates are not base64 encoded, so we don't need to decode them
+  const certificateName = `cert${Date.now()}`;
+  const samplePem = process.env.SAMPLE_PEM || "";
+  const importedCertificate = await client.importCertificate(certificateName, Buffer.from(samplePem), // PEM certificates are not base64 encoded, so we don't need to decode them
   {
       policy: {
           contentType: "application/x-pem-file",
@@ -56,19 +74,21 @@ async function importAPemCertificate() {
 async function importACertificate() {
   const credential = new DefaultAzureCredential();
 
-  const vaultName = "<YOUR KEYVAULT NAME>";
-  const url = `https://${vaultName}.vault.azure.net`;
+  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   const client = new CertificateClient(url, credential);
   const secretClient = new SecretClient(url, credential);
 
-  const certificateSecret = await secretClient.getSecret("MyCertificate");
+  const sourceCertificateName = "MySourceCertificate";
+  const importedCertificateName = "MyCertificate";
+  const certificateSecret = await secretClient.getSecret(sourceCertificateName);
   const base64EncodedCertificate = certificateSecret.value!;
 
   const buffer = isNodeLike
       ? Buffer.from(base64EncodedCertificate, "base64")
       : Uint8Array.from(atob(base64EncodedCertificate), (c) => c.charCodeAt(0));
-  await client.importCertificate("MyCertificate", buffer);
+  await client.importCertificate(importedCertificateName, buffer);
+
 }
 
 export async function main(): Promise<void> {
@@ -78,6 +98,8 @@ export async function main(): Promise<void> {
   // If you're using MSI, DefaultAzureCredential should "just work".
   client =
       new CertificateClient(process.env["KEYVAULT_URI"] || "<keyvault-url>", new DefaultAzureCredential());
+  secretClient =
+      new SecretClient(process.env["KEYVAULT_URI"] || "<keyvault-url>", new DefaultAzureCredential());
   await importAPkcs12Certificate();
   await importAPemCertificate();
   await importACertificate();

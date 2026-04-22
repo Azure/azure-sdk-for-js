@@ -5,13 +5,28 @@
  * @summary Creates a self-signed certificate, then makes a backup from it, then deletes it and purges it, and finally restores it.
  */
 
-const { DefaultAzureCredential } = require("@azure/identity");
-const { CertificateClient } = require("@azure/keyvault-certificates");
 // Load the .env file if it exists
 require("dotenv/config");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { CertificateClient } = require("@azure/keyvault-certificates");
 
 let client;
 let certificateName;
+async function restoreCertificateBackupWithRetry(backup) {
+  let lastError;
+  for (let i = 0; i < 5; i++) {
+    try {
+      return await client.restoreCertificateBackup(backup);
+    } catch (error) {
+      lastError = error;
+      if (!/conflict restoring the certificate/i.test(error.message)) {
+        throw error;
+      }
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+    }
+  }
+  throw lastError;
+}
 
 async function backupAndRestoreACertificate() {
   // Creating a self-signed certificate
@@ -19,6 +34,7 @@ async function backupAndRestoreACertificate() {
     issuerName: "Self",
     subject: "cn=MyCert",
   });
+  await createPoller.pollUntilDone();
   const pendingCertificate = createPoller.getResult();
   console.log("Certificate: ", pendingCertificate);
   const backup = await client.backupCertificate(certificateName);
@@ -33,34 +49,37 @@ async function backupAndRestoreACertificate() {
 async function backUpACertificate() {
   const credential = new DefaultAzureCredential();
 
-  const vaultName = "<YOUR KEYVAULT NAME>";
-  const url = `https://${vaultName}.vault.azure.net`;
+  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   const client = new CertificateClient(url, credential);
 
-  await client.beginCreateCertificate("MyCertificate", {
+  const certificateName = "MyCertificate";
+  const createPoller = await client.beginCreateCertificate(certificateName, {
     issuerName: "Self",
     subject: "cn=MyCert",
   });
-  const backup = await client.backupCertificate("MyCertificate");
+  await createPoller.pollUntilDone();
+  const backup = await client.backupCertificate(certificateName);
 }
 
 async function restoreACertificateFromBackup() {
   const credential = new DefaultAzureCredential();
 
-  const vaultName = "<YOUR KEYVAULT NAME>";
-  const url = `https://${vaultName}.vault.azure.net`;
+  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   const client = new CertificateClient(url, credential);
 
-  await client.beginCreateCertificate("MyCertificate", {
+  const certificateName = "MyCertificate";
+  const createPoller = await client.beginCreateCertificate(certificateName, {
     issuerName: "Self",
     subject: "cn=MyCert",
   });
-  const backup = await client.backupCertificate("MyCertificate");
+  await createPoller.pollUntilDone();
+  const backup = await client.backupCertificate(certificateName);
 
-  const poller = await client.beginDeleteCertificate("MyCertificate");
+  const poller = await client.beginDeleteCertificate(certificateName);
   await poller.pollUntilDone();
+  await client.purgeDeletedCertificate(certificateName);
 
   // Some time is required before we're able to restore the certificate
   await client.restoreCertificateBackup(backup);

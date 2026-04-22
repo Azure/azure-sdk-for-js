@@ -1,23 +1,17 @@
 {
   "compilerOptions": {
-    "target": "ES2023",
+    "target": "ES2020",
     "module": "commonjs",
-    "lib": [
-      "ESNext"
-    ],
-    "importHelpers": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "types": [
-      "node"
-    ],
-    "outDir": "./dist",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
-    "moduleResolution": "node10"
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "alwaysStrict": true,
+    "outDir": "dist",
+    "rootDir": "src"
   },
   "include": [
-    "./src"
+    "src/**/*.ts"
   ]
 }

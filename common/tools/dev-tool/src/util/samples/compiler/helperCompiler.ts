@@ -402,6 +402,10 @@ export function compileHelper(
   lines.push("// Copyright (c) Microsoft Corporation.");
   lines.push("// Licensed under the MIT License.");
   lines.push("");
+  lines.push("/**");
+  lines.push(" * @azsdk-util true");
+  lines.push(" */");
+  lines.push("");
 
   for (const imp of importTexts) {
     lines.push(imp);

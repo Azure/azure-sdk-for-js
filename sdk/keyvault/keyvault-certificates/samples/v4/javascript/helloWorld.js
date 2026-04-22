@@ -5,11 +5,11 @@
  * @summary Uses a CertificateClient in various ways to read a certificate as well as update a certificate's tags.
  */
 
+// Load the .env file if it exists
+require("dotenv/config");
 const { DefaultAzureCredential } = require("@azure/identity");
 const { CertificateClient, DefaultCertificatePolicy } = require("@azure/keyvault-certificates");
 const { SecretClient } = require("@azure/keyvault-secrets");
-// Load the .env file if it exists
-require("dotenv/config");
 const { writeFileSync } = require("node:fs");
 
 let client;
@@ -27,6 +27,11 @@ async function createACertificate() {
 }
 
 async function getAndUpdateCertificate() {
+  const createPoller = await client.beginCreateCertificate(
+    certificateName,
+    DefaultCertificatePolicy,
+  );
+  await createPoller.pollUntilDone();
   // To read a certificate with their policy
   // Note: It will always read the latest version of the certificate.
   let certificateWithPolicy = await client.getCertificate(certificateName);
@@ -68,6 +73,11 @@ async function getAndUpdateCertificate() {
 }
 
 async function deleteTheCertificate() {
+  const createPoller = await client.beginCreateCertificate(
+    certificateName,
+    DefaultCertificatePolicy,
+  );
+  await createPoller.pollUntilDone();
   // Delete certificate, wait until complete
   const deletePoller = await client.beginDeleteCertificate(certificateName);
   const deletedCertificate = await deletePoller.pollUntilDone();
@@ -79,8 +89,7 @@ async function deleteTheCertificate() {
 async function createACertificate2() {
   const credential = new DefaultAzureCredential();
 
-  const vaultName = "<YOUR KEYVAULT NAME>";
-  const url = `https://${vaultName}.vault.azure.net`;
+  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   const client = new CertificateClient(url, credential);
 
@@ -96,8 +105,7 @@ async function createACertificate2() {
 async function createACertificateWithOptions() {
   const credential = new DefaultAzureCredential();
 
-  const vaultName = "<YOUR KEYVAULT NAME>";
-  const url = `https://${vaultName}.vault.azure.net`;
+  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   const client = new CertificateClient(url, credential);
 
@@ -122,8 +130,7 @@ async function createACertificateWithOptions() {
 async function createACertificateWithPolling() {
   const credential = new DefaultAzureCredential();
 
-  const vaultName = "<YOUR KEYVAULT NAME>";
-  const url = `https://${vaultName}.vault.azure.net`;
+  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   const client = new CertificateClient(url, credential);
 
@@ -146,8 +153,7 @@ async function createACertificateWithPolling() {
 async function createACertificateAndPollIndividually() {
   const credential = new DefaultAzureCredential();
 
-  const vaultName = "<YOUR KEYVAULT NAME>";
-  const url = `https://${vaultName}.vault.azure.net`;
+  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   const client = new CertificateClient(url, credential);
 
@@ -172,8 +178,7 @@ async function createACertificateAndPollIndividually() {
 async function getACertificate() {
   const credential = new DefaultAzureCredential();
 
-  const vaultName = "<YOUR KEYVAULT NAME>";
-  const url = `https://${vaultName}.vault.azure.net`;
+  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   const client = new CertificateClient(url, credential);
 
@@ -194,8 +199,7 @@ async function getACertificate() {
 async function getCertificateWithFullInformation() {
   const credential = new DefaultAzureCredential();
 
-  const vaultName = "<YOUR KEYVAULT NAME>";
-  const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+  const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   const secretClient = new SecretClient(keyVaultUrl, credential);
 
@@ -215,8 +219,7 @@ async function getCertificateWithFullInformation() {
 async function createAPemCertificate() {
   const credential = new DefaultAzureCredential();
 
-  const vaultName = "<YOUR KEYVAULT NAME>";
-  const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+  const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   const client = new CertificateClient(keyVaultUrl, credential);
   const secretClient = new SecretClient(keyVaultUrl, credential);
@@ -240,8 +243,7 @@ async function createAPemCertificate() {
 async function updateACertificate() {
   const credential = new DefaultAzureCredential();
 
-  const vaultName = "<YOUR KEYVAULT NAME>";
-  const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+  const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   const client = new CertificateClient(keyVaultUrl, credential);
 
@@ -259,14 +261,12 @@ async function updateACertificate() {
 async function updateACertificatePolicy() {
   const credential = new DefaultAzureCredential();
 
-  const vaultName = "<YOUR KEYVAULT NAME>";
-  const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+  const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   const client = new CertificateClient(keyVaultUrl, credential);
 
   const certificateName = "MyCertificate";
 
-  const result = client.getCertificate(certificateName);
   // Note: Sending `Self` as the `issuerName` of the certificate's policy will create a self-signed certificate.
   await client.updateCertificatePolicy(certificateName, {
     issuerName: "Self",
@@ -277,8 +277,7 @@ async function updateACertificatePolicy() {
 async function getCertificateProperties() {
   const credential = new DefaultAzureCredential();
 
-  const vaultName = "<YOUR KEYVAULT NAME>";
-  const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+  const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   const client = new CertificateClient(keyVaultUrl, credential);
 
@@ -291,8 +290,7 @@ async function getCertificateProperties() {
 async function getASpecificCertificateVersion() {
   const credential = new DefaultAzureCredential();
 
-  const vaultName = "<YOUR KEYVAULT NAME>";
-  const url = `https://${vaultName}.vault.azure.net`;
+  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   const client = new CertificateClient(url, credential);
 
@@ -313,14 +311,14 @@ async function getASpecificCertificateVersion() {
 async function updateCertificateProperties() {
   const credential = new DefaultAzureCredential();
 
-  const vaultName = "<YOUR KEYVAULT NAME>";
-  const url = `https://${vaultName}.vault.azure.net`;
+  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   const client = new CertificateClient(url, credential);
 
+  const certificateName = "MyCertificate";
   // You may pass an empty string for version which will update
   // the latest version of the certificate
-  await client.updateCertificateProperties("MyCertificate", "", {
+  await client.updateCertificateProperties(certificateName, "", {
     tags: {
       customTag: "value",
     },
@@ -330,12 +328,12 @@ async function updateCertificateProperties() {
 async function getACertificatePolicy() {
   const credential = new DefaultAzureCredential();
 
-  const vaultName = "<YOUR KEYVAULT NAME>";
-  const url = `https://${vaultName}.vault.azure.net`;
+  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   const client = new CertificateClient(url, credential);
 
-  const policy = await client.getCertificatePolicy("MyCertificate");
+  const certificateName = "MyCertificate";
+  const policy = await client.getCertificatePolicy(certificateName);
   console.log(policy);
 }
 

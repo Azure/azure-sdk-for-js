@@ -5,10 +5,10 @@
  * @summary Uses a SecretClient to create, read, and update a secret in various ways.
  */
 
-const { DefaultAzureCredential } = require("@azure/identity");
-const { SecretClient } = require("@azure/keyvault-secrets");
 // Load the .env file if it exists
 require("dotenv/config");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { SecretClient } = require("@azure/keyvault-secrets");
 
 let client;
 
@@ -17,8 +17,7 @@ async function createAndReadASecret() {
   // The secret can be a string of any kind. For example,
   // a multiline text block such as an RSA private key with newline characters,
   // or a stringified JSON object, like `JSON.stringify({ mySecret: 'MySecretValue'})`.
-  const uniqueString = new Date().getTime();
-  const secretName = `secret${uniqueString}`;
+  const secretName = "MySecretName";
 
   const result = await client.setSecret(secretName, "MySecretValue");
   console.log("result: ", result);
@@ -37,8 +36,7 @@ async function createAndReadASecret() {
 }
 
 async function updateSecretProperties() {
-  const uniqueString = new Date().getTime();
-  const secretName = `secret${uniqueString}`;
+  const secretName = "MySecretName";
   await client.setSecret(secretName, "MySecretValue");
 
   // Update the secret with different attributes
@@ -49,8 +47,7 @@ async function updateSecretProperties() {
 }
 
 async function deleteTheSecret() {
-  const uniqueString = new Date().getTime();
-  const secretName = `secret${uniqueString}`;
+  const secretName = "MySecretName";
   await client.setSecret(secretName, "MySecretValue");
 
   // Delete the secret
@@ -59,8 +56,7 @@ async function deleteTheSecret() {
 }
 
 async function createASecretWithAttributes() {
-  const uniqueString = new Date().getTime();
-  const secretName = `secret${uniqueString}`;
+  const secretName = "MySecretName";
 
   const result = await client.setSecret(secretName, "MySecretValue", {
     enabled: false,

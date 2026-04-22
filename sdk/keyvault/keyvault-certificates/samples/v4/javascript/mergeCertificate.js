@@ -5,6 +5,8 @@
  * @summary Creates a certificate with an unknown issuer and signs it using a fake certificate authority and the mergeCertificate API.
  */
 
+// Load the .env file if it exists
+require("dotenv/config");
 const { DefaultAzureCredential } = require("@azure/identity");
 const { CertificateClient } = require("@azure/keyvault-certificates");
 // Copyright (c) Microsoft Corporation.
@@ -13,8 +15,6 @@ const { CertificateClient } = require("@azure/keyvault-certificates");
  * @summary Creates a certificate with an unknown issuer and signs it using a fake certificate authority and the mergeCertificate API.
  */
 const childProcess = require("child_process");
-// Load the .env file if it exists
-require("dotenv/config");
 const { execSync } = require("node:child_process");
 const fs = require("node:fs");
 const { readFileSync, writeFileSync } = require("node:fs");
@@ -58,16 +58,16 @@ async function mergeACertificate() {
 async function mergeACertificate2() {
   const credential = new DefaultAzureCredential();
 
-  const vaultName = "<YOUR KEYVAULT NAME>";
-  const url = `https://${vaultName}.vault.azure.net`;
+  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   const client = new CertificateClient(url, credential);
 
-  await client.beginCreateCertificate("MyCertificate", {
+  const certificateName = "MyCertificate";
+  await client.beginCreateCertificate(certificateName, {
     issuerName: "Unknown",
     subject: "cn=MyCert",
   });
-  const poller = await client.getCertificateOperation("MyCertificate");
+  const poller = await client.getCertificateOperation(certificateName);
   const { csr } = poller.getOperationState().certificateOperation;
   const base64Csr = Buffer.from(csr).toString("base64");
   const wrappedCsr = [
@@ -86,7 +86,7 @@ async function mergeACertificate2() {
   execSync("openssl x509 -req -in test.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out test.crt");
   const base64Crt = readFileSync("test.crt").toString().split("\n").slice(1, -1).join("");
 
-  await client.mergeCertificate("MyCertificate", [Buffer.from(base64Crt)]);
+  await client.mergeCertificate(certificateName, [Buffer.from(base64Crt)]);
 }
 
 async function main() {

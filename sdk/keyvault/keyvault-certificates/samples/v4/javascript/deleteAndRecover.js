@@ -5,10 +5,10 @@
  * @summary Creates a self-signed certificate, deletes it, and then recovers it (soft-delete is required for this sample to run).
  */
 
-const { DefaultAzureCredential } = require("@azure/identity");
-const { CertificateClient } = require("@azure/keyvault-certificates");
 // Load the .env file if it exists
 require("dotenv/config");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { CertificateClient } = require("@azure/keyvault-certificates");
 
 let client;
 let certificateName;
@@ -24,6 +24,11 @@ async function createACertificate() {
 }
 
 async function deleteAndRecoverACertificate() {
+  const createPoller = await client.beginCreateCertificate(certificateName, {
+    issuerName: "Self",
+    subject: "cn=MyCert",
+  });
+  await createPoller.pollUntilDone();
   const deletePoller = await client.beginDeleteCertificate(certificateName);
   const deletedCertificate = await deletePoller.pollUntilDone();
   console.log("Deleted certificate: ", deletedCertificate);
@@ -35,8 +40,7 @@ async function deleteAndRecoverACertificate() {
 async function deleteACertificate() {
   const credential = new DefaultAzureCredential();
 
-  const vaultName = "<YOUR KEYVAULT NAME>";
-  const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+  const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   const client = new CertificateClient(keyVaultUrl, credential);
 
@@ -66,11 +70,9 @@ async function deleteACertificate() {
 async function listDeletedCertificates() {
   const credential = new DefaultAzureCredential();
 
-  const vaultName = "<YOUR KEYVAULT NAME>";
-  const url = `https://${vaultName}.vault.azure.net`;
+  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   const client = new CertificateClient(url, credential);
-
   for await (const deletedCertificate of client.listDeletedCertificates()) {
     console.log(deletedCertificate);
   }
@@ -85,42 +87,42 @@ async function listDeletedCertificates() {
 async function getADeletedCertificate() {
   const credential = new DefaultAzureCredential();
 
-  const vaultName = "<YOUR KEYVAULT NAME>";
-  const url = `https://${vaultName}.vault.azure.net`;
+  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   const client = new CertificateClient(url, credential);
 
-  const deletedCertificate = await client.getDeletedCertificate("MyDeletedCertificate");
+  const certificateName = "MyDeletedCertificate";
+  const deletedCertificate = await client.getDeletedCertificate(certificateName);
   console.log("Deleted certificate:", deletedCertificate);
 }
 
 async function purgeADeletedCertificate() {
   const credential = new DefaultAzureCredential();
 
-  const vaultName = "<YOUR KEYVAULT NAME>";
-  const url = `https://${vaultName}.vault.azure.net`;
+  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   const client = new CertificateClient(url, credential);
 
-  const deletePoller = await client.beginDeleteCertificate("MyCertificate");
+  const certificateName = "MyCertificate";
+  const deletePoller = await client.beginDeleteCertificate(certificateName);
   await deletePoller.pollUntilDone();
 
   // Deleting a certificate takes time, make sure to wait before purging it
-  client.purgeDeletedCertificate("MyCertificate");
+  await client.purgeDeletedCertificate(certificateName);
 }
 
 async function recoverADeletedCertificate() {
   const credential = new DefaultAzureCredential();
 
-  const vaultName = "<YOUR KEYVAULT NAME>";
-  const url = `https://${vaultName}.vault.azure.net`;
+  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   const client = new CertificateClient(url, credential);
 
-  const deletePoller = await client.beginDeleteCertificate("MyCertificate");
+  const certificateName = "MyCertificate";
+  const deletePoller = await client.beginDeleteCertificate(certificateName);
   await deletePoller.pollUntilDone();
 
-  const recoverPoller = await client.beginRecoverDeletedCertificate("MyCertificate");
+  const recoverPoller = await client.beginRecoverDeletedCertificate(certificateName);
 
   // Waiting until it's done
   const certificate = await recoverPoller.pollUntilDone();

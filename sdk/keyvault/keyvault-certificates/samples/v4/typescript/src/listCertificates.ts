@@ -5,10 +5,10 @@
  * @summary List certificates, lists a certificate's versions, and lists deleted certificates in various ways.
  */
 
-import { DefaultAzureCredential } from "@azure/identity";
-import { CertificateClient } from "@azure/keyvault-certificates";
 // Load the .env file if it exists
 import "dotenv/config";
+import { DefaultAzureCredential } from "@azure/identity";
+import { CertificateClient } from "@azure/keyvault-certificates";
 
 let client: CertificateClient;
 let certificateName1: string;
@@ -16,40 +16,24 @@ let certificateName2: string;
 
 async function createCertificates() {
   // Creating two self-signed certificates. They will appear as pending initially.
-  await client.beginCreateCertificate(certificateName1, {
+  const createPoller1 = await client.beginCreateCertificate(certificateName1, {
       issuerName: "Self",
       subject: "cn=MyCert",
   });
-  await client.beginCreateCertificate(certificateName2, {
+  await createPoller1.pollUntilDone();
+  const createPoller2 = await client.beginCreateCertificate(certificateName2, {
       issuerName: "Self",
       subject: "cn=MyCert",
   });
-}
-
-async function listCertificatesByPage() {
-  // Listing all the available certificates by pages.
-  let pageCount = 0;
-  for await (const page of client
-      .listPropertiesOfCertificates({ includePending: true })
-      .byPage()) {
-      for (const certificate of page) {
-          console.log(`Certificate from page ${pageCount}: `, certificate);
-      }
-      pageCount++;
-  }
-}
-
-async function listAllCertificates() {
-  // Listing all the available certificates in a single call.
-  // The certificates we just created are still pending at this point.
-  for await (const certificate of client.listPropertiesOfCertificates({
-      includePending: true,
-  })) {
-      console.log("Certificate from a single call: ", certificate);
-  }
+  await createPoller2.pollUntilDone();
 }
 
 async function updateAndListCertificateVersions() {
+  const createPoller = await client.beginCreateCertificate(certificateName1, {
+      issuerName: "Self",
+      subject: "cn=MyCert",
+  });
+  await createPoller.pollUntilDone();
   // Updating one of the certificates to retrieve the certificate versions afterwards
   const updatedCertificate = await client.updateCertificateProperties(certificateName1, "", {
       tags: {
@@ -65,11 +49,10 @@ async function updateAndListCertificateVersions() {
   }
 }
 
-async function listAllCertificates2() {
+async function listAllCertificates() {
   const credential = new DefaultAzureCredential();
 
-  const vaultName = "<YOUR KEYVAULT NAME>";
-  const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+  const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   const client = new CertificateClient(keyVaultUrl, credential);
 
@@ -84,13 +67,13 @@ async function listAllCertificates2() {
   for await (const certificateProperties of client.listPropertiesOfCertificateVersions(certificateName)) {
       console.log("Certificate properties: ", certificateProperties);
   }
+
 }
 
-async function listCertificatesByPage2() {
+async function listCertificatesByPage() {
   const credential = new DefaultAzureCredential();
 
-  const vaultName = "<YOUR KEYVAULT NAME>";
-  const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+  const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   const client = new CertificateClient(keyVaultUrl, credential);
 
@@ -111,13 +94,13 @@ async function listCertificatesByPage2() {
           console.log("Properties of certificate: ", certificateProperties);
       }
   }
+
 }
 
 async function listCertificateProperties() {
   const credential = new DefaultAzureCredential();
 
-  const vaultName = "<YOUR KEYVAULT NAME>";
-  const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+  const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   const client = new CertificateClient(keyVaultUrl, credential);
 
@@ -132,19 +115,21 @@ async function listCertificateProperties() {
           console.log(certificateProperties);
       }
   }
+
 }
 
 async function listCertificateVersions() {
   const credential = new DefaultAzureCredential();
 
-  const vaultName = "<YOUR KEYVAULT NAME>";
-  const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+  const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   const client = new CertificateClient(keyVaultUrl, credential);
 
-  for await (const certificateProperties of client.listPropertiesOfCertificateVersions("MyCertificate")) {
+  const certificateName = "MyCertificate";
+  for await (const certificateProperties of client.listPropertiesOfCertificateVersions(certificateName)) {
       console.log(certificateProperties.version!);
   }
+
 }
 
 export async function main(): Promise<void> {
@@ -159,11 +144,9 @@ export async function main(): Promise<void> {
   certificateName2 =
       `list-2${new Date().getTime()}`;
   await createCertificates();
-  await listCertificatesByPage();
-  await listAllCertificates();
   await updateAndListCertificateVersions();
-  await listAllCertificates2();
-  await listCertificatesByPage2();
+  await listAllCertificates();
+  await listCertificatesByPage();
   await listCertificateProperties();
   await listCertificateVersions();
 }

@@ -5,6 +5,8 @@
  * @summary Uses an AccessControlClient to list, create, and assign roles to users.
  */
 
+// Load the .env file if it exists
+require("dotenv/config");
 const { randomUUID } = require("@azure/core-util");
 const { DefaultAzureCredential } = require("@azure/identity");
 const {
@@ -12,9 +14,6 @@ const {
   KnownKeyVaultDataAction,
   KnownKeyVaultRoleScope,
 } = require("@azure/keyvault-admin");
-// Load the .env file if it exists
-require("dotenv/config");
-
 let client;
 
 async function listRoleAssignments() {
@@ -30,10 +29,8 @@ async function listRoleDefinitions() {
 }
 
 async function getRoleDefinition() {
-  const roleDefinition = await client.getRoleDefinition(
-    "/",
-    "b86a8fe4-44ce-4948-aee5-eccb2c155cd7",
-  );
+  const { value: firstRoleDefinition } = await client.listRoleDefinitions("/").next();
+  const roleDefinition = await client.getRoleDefinition("/", firstRoleDefinition.name);
   console.log(roleDefinition);
 }
 
@@ -43,6 +40,7 @@ async function setRoleDefinition() {
   const roleDefinition = await client.setRoleDefinition(KnownKeyVaultRoleScope.Global, {
     permissions,
     roleDefinitionName,
+    roleName: "Backup Manager",
   });
   console.log(roleDefinition);
 
@@ -55,6 +53,7 @@ async function deleteRoleDefinition() {
   const roleDefinition = await client.setRoleDefinition(KnownKeyVaultRoleScope.Global, {
     permissions,
     roleDefinitionName,
+    roleName: "Backup Manager",
   });
 
   await client.deleteRoleDefinition("/", roleDefinition.name);

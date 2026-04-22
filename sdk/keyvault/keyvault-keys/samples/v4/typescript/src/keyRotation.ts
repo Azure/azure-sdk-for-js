@@ -5,10 +5,10 @@
  * @summary Creates and updates a key's automated rotation policy, and rotates a key on-demand.
  */
 
-import { DefaultAzureCredential } from "@azure/identity";
-import { KeyClient } from "@azure/keyvault-keys";
 // Load the .env file if it exists
 import "dotenv/config";
+import { DefaultAzureCredential } from "@azure/identity";
+import { KeyClient } from "@azure/keyvault-keys";
 
 let client: KeyClient;
 
@@ -53,6 +53,7 @@ async function getAKeyRotationPolicy() {
   await client.createKey(keyName, "EC");
 
   const result = await client.getKeyRotationPolicy(keyName);
+
 }
 
 async function updateAKeyRotationPolicy() {
@@ -62,6 +63,7 @@ async function updateAKeyRotationPolicy() {
   const myPolicy = await client.getKeyRotationPolicy(keyName);
 
   const setPolicy = await client.updateKeyRotationPolicy(keyName, myPolicy);
+
 }
 
 async function rotateAKey() {
@@ -86,6 +88,7 @@ async function rotateAKey() {
 
   // Finally, you can rotate a key on-demand by creating a new version of the given key.
   const rotatedKey = await client.rotateKey(keyName);
+
 }
 
 export async function main(): Promise<void> {

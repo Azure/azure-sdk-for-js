@@ -45,7 +45,12 @@ describe("helloWorld", () => {
       () => new KeyClient(process.env["KEYVAULT_URI"] || "<keyvault-url>", credential),
     );
 
-    if (Boolean(process.env["AZURE_MANAGEDHSM_URI"]) || isPlaybackMode()) {
+    if (
+      forPublishing(
+        Boolean(process.env["AZURE_MANAGEDHSM_URI"]) || isPlaybackMode(),
+        () => Boolean(process.env["AZURE_MANAGEDHSM_URI"]),
+      )
+    ) {
       hsmClient = forPublishing(
         new KeyClient(
           assertEnvironmentVariable("AZURE_MANAGEDHSM_URI"),
@@ -288,7 +293,10 @@ describe("helloWorld", () => {
       recorder.variable("releaseKeyName", `sample-release-key-${Date.now()}`),
       () => "myKey",
     );
-    const attestationAuthority = assertEnvironmentVariable("AZURE_KEYVAULT_ATTESTATION_URI");
+    const attestationAuthority = forPublishing(
+      assertEnvironmentVariable("AZURE_KEYVAULT_ATTESTATION_URI"),
+      () => "<attestation-uri>",
+    );
     const encodedReleasePolicy = stringToUint8Array(
       JSON.stringify({
         anyOf: [

@@ -5,11 +5,11 @@
  * @summary Uses an Azure Key Vault key to sign/verify, encrypt/decrypt, and wrap/unwrap data.
  */
 
+// Load the .env file if it exists
+import "dotenv/config";
 import type { TokenCredential } from "@azure/core-auth";
 import { DefaultAzureCredential } from "@azure/identity";
 import { CryptographyClient, KeyClient } from "@azure/keyvault-keys";
-// Load the .env file if it exists
-import "dotenv/config";
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 /**
@@ -24,9 +24,7 @@ async function encryptAndDecrypt() {
   const keyName = `crypto-sample-key${Date.now()}`;
   // Connection to Azure Key Vault Cryptography functionality
   const myWorkKey = await client.createKey(keyName, "RSA");
-  const cryptoClient = new CryptographyClient(myWorkKey.id!, // You can use either the key or the key Id i.e. its url to create a CryptographyClient.
-  credential);
-  // Encrypt and decrypt
+  const cryptoClient = new CryptographyClient(myWorkKey.id!, credential);
   const encrypt = await cryptoClient.encrypt({
       algorithm: "RSA-OAEP-256",
       plaintext: Buffer.from("My Message"),
@@ -43,8 +41,7 @@ async function signAndVerify() {
   const keyName = `crypto-sample-key${Date.now()}`;
   // Connection to Azure Key Vault Cryptography functionality
   const myWorkKey = await client.createKey(keyName, "RSA");
-  const cryptoClient = new CryptographyClient(myWorkKey.id!, // You can use either the key or the key Id i.e. its url to create a CryptographyClient.
-  credential);
+  const cryptoClient = new CryptographyClient(myWorkKey.id!, credential);
   // Sign and Verify
   const signatureValue = "MySignature";
   const hash = createHash("sha256");
@@ -60,8 +57,7 @@ async function signAndVerify() {
 async function wrapAndUnwrapKey() {
   const keyName = `crypto-sample-key${Date.now()}`;
   const myWorkKey = await client.createKey(keyName, "RSA");
-  const cryptoClient = new CryptographyClient(myWorkKey.id!, // You can use either the key or the key Id i.e. its url to create a CryptographyClient.
-  credential);
+  const cryptoClient = new CryptographyClient(myWorkKey.id!, credential);
   // Wrap and unwrap
   const wrapped = await cryptoClient.wrapKey("RSA-OAEP-256", Buffer.from("My Message"));
   console.log("wrap result: ", wrapped);
@@ -78,6 +74,7 @@ async function encryptData() {
       plaintext: Buffer.from("My Message"),
   });
   console.log("encrypt result: ", encryptResult.result);
+
 }
 
 async function decryptData() {
@@ -95,6 +92,7 @@ async function decryptData() {
       ciphertext: encryptResult.result,
   });
   console.log("decrypt result: ", decryptResult.result.toString());
+
 }
 
 async function signADigest() {
@@ -109,6 +107,7 @@ async function signADigest() {
 
   const signResult = await cryptographyClient.sign("RS256", digest);
   console.log("sign result: ", signResult.result);
+
 }
 
 async function signData() {
@@ -117,6 +116,7 @@ async function signData() {
 
   const signResult = await cryptographyClient.signData("RS256", Buffer.from("My Message"));
   console.log("sign result: ", signResult.result);
+
 }
 
 async function verifyADigestSignature() {
@@ -132,6 +132,7 @@ async function verifyADigestSignature() {
 
   const verifyResult = await cryptographyClient.verify("RS256", digest, signResult.result);
   console.log("verify result: ", verifyResult.result);
+
 }
 
 async function verifyADataSignature() {
@@ -145,6 +146,7 @@ async function verifyADataSignature() {
 
   const verifyResult = await cryptographyClient.verifyData("RS256", buffer, signResult.result);
   console.log("verify result: ", verifyResult.result);
+
 }
 
 async function wrapAKey() {
@@ -153,6 +155,7 @@ async function wrapAKey() {
 
   const wrapResult = await cryptographyClient.wrapKey("RSA-OAEP", Buffer.from("My Key"));
   console.log("wrap result:", wrapResult.result);
+
 }
 
 async function unwrapAKey() {
@@ -164,6 +167,7 @@ async function unwrapAKey() {
 
   const unwrapResult = await cryptographyClient.unwrapKey("RSA-OAEP", wrapResult.result);
   console.log("unwrap result: ", unwrapResult.result);
+
 }
 
 export async function main(): Promise<void> {
