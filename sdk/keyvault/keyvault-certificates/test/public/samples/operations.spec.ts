@@ -9,7 +9,7 @@ import { CertificateClient } from "../../../src/index.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import { forPublishing } from "@azure-tools/test-publishing";
+import { forPublishing, retryWithBackoff } from "@azure-tools/test-publishing";
 import { describe, it, beforeEach, afterEach } from "vitest";
 // Load the .env file if it exists
 import "dotenv/config";
@@ -53,26 +53,6 @@ describe("operations", () => {
     await recorder.stop();
   });
 
-  async function deleteCertificateOperationWithRetry(certificateName: string): Promise<void> {
-    let lastError: unknown;
-    for (let i = 0; i < 5; i++) {
-      try {
-        await client.deleteCertificateOperation(certificateName);
-        return;
-      } catch (error: any) {
-        lastError = error;
-        if (
-          !/conflict while deleting the pending certificate/i.test(error.message) &&
-          !/Pending Certificate not found/i.test(error.message)
-        ) {
-          throw error;
-        }
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-      }
-    }
-    throw lastError;
-  }
-
   it("get and cancel pending operations", async () => {
     // Certificates' operations will be pending for some time right after they're created.
     const createPoller = await client.beginCreateCertificate(certificateName, {
@@ -94,7 +74,15 @@ describe("operations", () => {
     console.log("Cancelled certificate operation:", operation);
 
     // Deleting the certificate's operation
-    await deleteCertificateOperationWithRetry(certificateName);
+    await retryWithBackoff(
+      () => client.deleteCertificateOperation(certificateName),
+      {
+        delayMs: 1000,
+        shouldRetry: (e) =>
+          /conflict while deleting the pending certificate/i.test((e as Error).message) ||
+          /Pending Certificate not found/i.test((e as Error).message),
+      },
+    );
 
     let error;
     try {
