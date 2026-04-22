@@ -1669,6 +1669,9 @@ sdk/servicegroups/arm-servicegroups/ @qiaozha @MaryGao @JialinHuang803
 # PRLabel: %Mgmt
 sdk/relationships/arm-relationships/ @qiaozha @MaryGao @JialinHuang803
 
+# PRLabel: %Mgmt %mgmt-review-needed
+sdk/monitor/arm-monitorslis/ @qiaozha @MaryGao @JialinHuang803
+
 ###########
 # Config
 ###########
