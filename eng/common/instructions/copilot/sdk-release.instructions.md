@@ -6,7 +6,7 @@ There are two tools to help with SDK releases:
 
 ## Check SDK Release Readiness
 Run `CheckPackageReleaseReadiness` to verify if the package is ready for release. This tool checks:
-- API review status
+- API review status (If pending, display the link or guidance to find the link)
 - Change log status
 - Package name approval(If package is new and releasing a preview version)
 - Release date is set in release tracker
