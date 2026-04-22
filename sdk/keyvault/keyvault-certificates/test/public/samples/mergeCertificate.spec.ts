@@ -97,20 +97,7 @@ ${base64Csr}
   // Operation snippets
 
   it("merge a certificate", async () => {
-    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
-    // @ts-preserve-whitespace
-    const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-    // @ts-preserve-whitespace
-    const client = forPublishing(
-      new CertificateClient(url, credential, recorder.configureClientOptions({})),
-      () => new CertificateClient(url, credential),
-    );
-    // @ts-preserve-whitespace
     // @snippet CertificateClientMergeCertificate
-    const certificateName = forPublishing(
-      recorder.variable("certificateName", `merge-${new Date().getTime()}`),
-      () => "MyCertificate",
-    );
     await client.beginCreateCertificate(certificateName, {
       issuerName: "Unknown",
       subject: "cn=MyCert",

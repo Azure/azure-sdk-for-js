@@ -12,21 +12,6 @@ export default azsdkEslint.config([
     },
   },
   {
-    // Sample spec files intentionally re-declare `client` and `certificateName`
-    // inside self-contained README snippet `it` blocks that shadow the describe-scope
-    // declarations set up in `beforeEach`. This is by design.
-    files: ["test/public/samples/**/*.spec.ts"],
-    rules: {
-      "@typescript-eslint/no-shadow": [
-        "error",
-        {
-          ignoreTypeValueShadow: true,
-          allow: ["client", "certificateName", "secretClient", "issuerName"],
-        },
-      ],
-    },
-  },
-  {
     files: [
       "src/api/**/*.ts",
       "src/classic/**/*.ts",

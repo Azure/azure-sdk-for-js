@@ -83,20 +83,7 @@ describe("deleteAndRecover", () => {
   // Operation snippets
 
   it("delete a certificate", async () => {
-    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
-    // @ts-preserve-whitespace
-    const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-    // @ts-preserve-whitespace
-    const client = forPublishing(
-      new CertificateClient(keyVaultUrl, credential, recorder.configureClientOptions({})),
-      () => new CertificateClient(keyVaultUrl, credential),
-    );
-    // @ts-preserve-whitespace
     // @snippet ReadmeSampleDeleteCertificate
-    const certificateName = forPublishing(
-      recorder.variable("certificateName", `delete-${new Date().getTime()}`),
-      () => "MyCertificate",
-    );
     if (forPublishing(true, () => false)) {
       const createPoller = await client.beginCreateCertificate(certificateName, {
         issuerName: "Self",
@@ -128,27 +115,18 @@ describe("deleteAndRecover", () => {
   });
 
   it("list deleted certificates", async () => {
-    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
-    // @ts-preserve-whitespace
-    const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-    // @ts-preserve-whitespace
-    const client = forPublishing(
-      new CertificateClient(url, credential, recorder.configureClientOptions({})),
-      () => new CertificateClient(url, credential),
-    );
-    // @ts-preserve-whitespace
     // @snippet CertificateClientListDeletedCertificates
     if (forPublishing(true, () => false)) {
-      const certificateName = recorder.variable(
+      const deletedCertificateName = recorder.variable(
         "deletedCertificateName",
         `deleted-${new Date().getTime()}`,
       );
-      const createPoller = await client.beginCreateCertificate(certificateName, {
+      const createPoller = await client.beginCreateCertificate(deletedCertificateName, {
         issuerName: "Self",
         subject: "cn=MyCert",
       });
       await createPoller.pollUntilDone();
-      const deletePoller = await client.beginDeleteCertificate(certificateName);
+      const deletePoller = await client.beginDeleteCertificate(deletedCertificateName);
       await deletePoller.pollUntilDone();
     }
     for await (const deletedCertificate of client.listDeletedCertificates()) {
@@ -164,20 +142,7 @@ describe("deleteAndRecover", () => {
   });
 
   it("get a deleted certificate", async () => {
-    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
-    // @ts-preserve-whitespace
-    const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-    // @ts-preserve-whitespace
-    const client = forPublishing(
-      new CertificateClient(url, credential, recorder.configureClientOptions({})),
-      () => new CertificateClient(url, credential),
-    );
-    // @ts-preserve-whitespace
     // @snippet CertificateClientGetDeletedCertificate
-    const certificateName = forPublishing(
-      recorder.variable("deletedCertificateName", `deleted-${new Date().getTime()}`),
-      () => "MyDeletedCertificate",
-    );
     if (forPublishing(true, () => false)) {
       const createPoller = await client.beginCreateCertificate(certificateName, {
         issuerName: "Self",
@@ -193,20 +158,7 @@ describe("deleteAndRecover", () => {
   });
 
   it("purge a deleted certificate", async () => {
-    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
-    // @ts-preserve-whitespace
-    const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-    // @ts-preserve-whitespace
-    const client = forPublishing(
-      new CertificateClient(url, credential, recorder.configureClientOptions({})),
-      () => new CertificateClient(url, credential),
-    );
-    // @ts-preserve-whitespace
     // @snippet CertificateClientPurgeDeletedCertificate
-    const certificateName = forPublishing(
-      recorder.variable("certificateName", `purge-${new Date().getTime()}`),
-      () => "MyCertificate",
-    );
     if (forPublishing(true, () => false)) {
       const createPoller = await client.beginCreateCertificate(certificateName, {
         issuerName: "Self",
@@ -223,20 +175,7 @@ describe("deleteAndRecover", () => {
   });
 
   it("recover a deleted certificate", async () => {
-    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
-    // @ts-preserve-whitespace
-    const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-    // @ts-preserve-whitespace
-    const client = forPublishing(
-      new CertificateClient(url, credential, recorder.configureClientOptions({})),
-      () => new CertificateClient(url, credential),
-    );
-    // @ts-preserve-whitespace
     // @snippet CertificateClientRecoverDeletedCertificate
-    const certificateName = forPublishing(
-      recorder.variable("certificateName", `recover-${new Date().getTime()}`),
-      () => "MyCertificate",
-    );
     if (forPublishing(true, () => false)) {
       const createPoller = await client.beginCreateCertificate(certificateName, {
         issuerName: "Self",

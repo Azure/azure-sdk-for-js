@@ -172,19 +172,6 @@ describe("importCertificate", () => {
   // Operation snippets
 
   it("import a certificate", async () => {
-    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
-    // @ts-preserve-whitespace
-    const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-    // @ts-preserve-whitespace
-    const client = forPublishing(
-      new CertificateClient(url, credential, recorder.configureClientOptions({})),
-      () => new CertificateClient(url, credential),
-    );
-    const secretClient = forPublishing(
-      new SecretClient(url, credential, recorder.configureClientOptions({})),
-      () => new SecretClient(url, credential),
-    );
-    // @ts-preserve-whitespace
     // @snippet CertificateClientImportCertificate
     const sourceCertificateName = forPublishing(
       recorder.variable("sourceCertificateName", `source-${Date.now()}`),

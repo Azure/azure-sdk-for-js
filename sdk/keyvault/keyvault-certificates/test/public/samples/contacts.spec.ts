@@ -85,15 +85,6 @@ describe("contacts", () => {
   // Operation snippets
 
   it("delete certificate contacts", async () => {
-    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
-    // @ts-preserve-whitespace
-    const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-    // @ts-preserve-whitespace
-    const client = forPublishing(
-      new CertificateClient(keyVaultUrl, credential, recorder.configureClientOptions({})),
-      () => new CertificateClient(keyVaultUrl, credential),
-    );
-    // @ts-preserve-whitespace
     // @snippet CertificateClientDeleteContacts
     if (forPublishing(true, () => false)) {
       await client.setContacts([
@@ -109,15 +100,6 @@ describe("contacts", () => {
   });
 
   it("set certificate contacts", async () => {
-    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
-    // @ts-preserve-whitespace
-    const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-    // @ts-preserve-whitespace
-    const client = forPublishing(
-      new CertificateClient(keyVaultUrl, credential, recorder.configureClientOptions({})),
-      () => new CertificateClient(keyVaultUrl, credential),
-    );
-    // @ts-preserve-whitespace
     // @snippet CertificateClientSetContacts
     await client.setContacts([
       {
@@ -130,15 +112,6 @@ describe("contacts", () => {
   });
 
   it("get certificate contacts", async () => {
-    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
-    // @ts-preserve-whitespace
-    const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-    // @ts-preserve-whitespace
-    const client = forPublishing(
-      new CertificateClient(keyVaultUrl, credential, recorder.configureClientOptions({})),
-      () => new CertificateClient(keyVaultUrl, credential),
-    );
-    // @ts-preserve-whitespace
     // @snippet CertificateClientGetContacts
     const contacts = await client.getContacts();
     for (const contact of contacts) {
