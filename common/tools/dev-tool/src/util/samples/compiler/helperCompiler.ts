@@ -392,10 +392,15 @@ export function compileHelper(
     printer.printNode(ts.EmitHint.Unspecified, imp, dummyFile),
   );
 
-  // Print surviving statements from the analyzer's sourceFile
-  const stmtTexts = elimination.survivingStatements.map((s) =>
-    printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile),
-  );
+  // Print surviving statements from the analyzer's sourceFile.
+  // Strip any leading copyright/license comment lines from the first statement —
+  // the printer emits the node's leading trivia which may contain the original
+  // file-level copyright header, but we prepend our own below.
+  const stmtTexts = elimination.survivingStatements.map((s, index) => {
+    const text = printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile);
+    if (index !== 0) return text;
+    return text.replace(/^(?:\/\/ Copyright[^\n]*\n|\/\/ Licensed[^\n]*\n)*\n?/, "");
+  });
 
   // Assemble output
   const lines: string[] = [];
