@@ -919,6 +919,7 @@ export class AppConfigurationClient {
    */
   beginCreateSnapshotAndWait(
     snapshot: SnapshotInfo,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: CreateSnapshotOptions = {},
   ): Promise<CreateSnapshotResponse> {
     return tracingClient.withSpan(

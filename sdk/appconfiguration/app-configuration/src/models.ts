@@ -73,7 +73,7 @@ export interface ConfigurationSnapshot {
   /** The amount of key-values in the snapshot. */
   readonly itemCount?: number;
   /** The tags of the snapshot. */
-  tags?: Record<string, string>;
+  tags?: { [propertyName: string]: string };
   /** A value representing the current state of the snapshot. */
   readonly etag?: string;
 }
