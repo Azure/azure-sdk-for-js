@@ -28,6 +28,14 @@ const recorderEnvSetup: RecorderStartOptions = {
         value: MOCKS.ENDPOINT,
       },
     ],
+    generalSanitizers: [
+      // Sanitize api-version to match recordings made with 2025-10-01-preview
+      // TODO: Remove this once 2026-06-06 API version is published officially
+      {
+        target: "api-version=2026-06-06",
+        value: "api-version=2025-10-01-preview",
+      },
+    ],
     headerSanitizers: [
       {
         key: "Ocp-Apim-Subscription-Key",

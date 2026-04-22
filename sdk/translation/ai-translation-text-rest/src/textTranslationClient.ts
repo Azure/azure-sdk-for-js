@@ -26,7 +26,7 @@ export default function createClient(
   { apiVersion = "2026-06-06", ...options }: TextTranslationClientOptions = {},
 ): TextTranslationClient {
   const endpointUrl = options.endpoint ?? `${endpointParam}`;
-  const userAgentInfo = `azsdk-js-ai-translation-text-rest/2.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-ai-translation-text-rest/2.0.0`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
