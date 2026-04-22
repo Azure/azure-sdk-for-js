@@ -4,6 +4,7 @@
 import type { HttpClient, PipelineRequest } from "@azure/core-rest-pipeline";
 import { createDefaultHttpClient, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { BaseHttpTest } from "./baseHttpTest.js";
+import { writeStdout } from "./stdio.js";
 
 export class CoreRestPipelineTest extends BaseHttpTest {
   client: HttpClient;
@@ -24,6 +25,6 @@ export class CoreRestPipelineTest extends BaseHttpTest {
   async run(): Promise<void> {
     const response = await this.client.sendRequest(this.request);
 
-    console.log(response.bodyAsText); // Hello World!
+    writeStdout(response.bodyAsText ?? ""); // Hello World!
   }
 }

@@ -5,6 +5,7 @@ import type { ContainerClient, BlockBlobClient } from "@azure/storage-blob";
 import { BlobServiceClient } from "@azure/storage-blob";
 import type { TokenCredential } from "@azure/core-auth";
 import { coreLogger } from "../common/logger.js";
+import { writeStdout } from "../common/stdio.js";
 import { readFileSync, writeFileSync, existsSync, createReadStream } from "fs";
 import { join } from "path";
 import { UploadConstants } from "../common/constants.js";
@@ -65,7 +66,7 @@ export class PlaywrightReporterStorageManager {
       }
 
       const folderName = runId;
-      console.log(
+      writeStdout(
         ServiceErrorMessageConstants.UPLOADING_ARTIFACTS.formatWithDetails(
           storageAccountName,
           containerName,

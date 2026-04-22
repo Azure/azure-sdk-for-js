@@ -8,6 +8,7 @@ import {
   getLanguageAndConfigInfoFromDirectory,
   parseCLIArguments,
 } from "../utils.js";
+import { writeStdout } from "../stdio.js";
 
 export const init = async (): Promise<void> => {
   const options = parseCLIArguments();
@@ -24,7 +25,7 @@ export const init = async (): Promise<void> => {
     };
   }
 
-  console.log("");
+  writeStdout("");
   const playwrightServiceInitialize = new PlaywrightServiceInitialize(playwrightServiceInitConfig);
   await playwrightServiceInitialize.addServiceSupportToTestSuite();
 };

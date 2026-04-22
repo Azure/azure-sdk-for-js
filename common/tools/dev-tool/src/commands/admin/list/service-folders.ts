@@ -5,6 +5,7 @@ import { leafCommand, makeCommandInfo } from "../../../framework/command";
 import path from "node:path";
 import { resolveRoot } from "../../../util/resolveProject";
 import { readdir } from "node:fs/promises";
+import { writeStdout } from "../../../util/stdio.js";
 
 export const commandInfo = makeCommandInfo("packages", "list service folders in the monorepo", {
   relative: {
@@ -38,9 +39,9 @@ export default leafCommand(commandInfo, async ({ relative }) => {
 
   for (const dir of sdkDirs) {
     if (relative) {
-      console.log(path.join(sdkRelativePath, dir) || ".");
+      writeStdout(path.join(sdkRelativePath, dir) || ".");
     } else {
-      console.log(`sdk/${dir}`);
+      writeStdout(`sdk/${dir}`);
     }
   }
 
