@@ -12,6 +12,7 @@ export function listBySubscription(context: SearchManagementContext, location: s
 
 // @public
 export interface UsagesListBySubscriptionOptionalParams extends OperationOptions {
+    // (undocumented)
     searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 

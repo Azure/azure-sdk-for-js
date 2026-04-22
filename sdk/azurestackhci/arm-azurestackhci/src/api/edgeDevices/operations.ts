@@ -43,7 +43,7 @@ export function _validateSend(
     {
       resourceUri: resourceUri,
       edgeDeviceName: edgeDeviceName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -85,7 +85,7 @@ export function validate(
     getInitialResponse: () =>
       _validateSend(context, resourceUri, edgeDeviceName, validateRequest, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-02-01",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<ValidateResponse>, ValidateResponse>;
 }
 
@@ -98,7 +98,7 @@ export function _listSend(
     "/{+resourceUri}/providers/Microsoft.AzureStackHCI/edgeDevices{?api%2Dversion}",
     {
       resourceUri: resourceUri,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -135,7 +135,11 @@ export function list(
     () => _listSend(context, resourceUri, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-02-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    },
   );
 }
 
@@ -150,7 +154,7 @@ export function _$deleteSend(
     {
       resourceUri: resourceUri,
       edgeDeviceName: edgeDeviceName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -188,7 +192,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceUri, edgeDeviceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-02-01",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -204,7 +208,7 @@ export function _createOrUpdateSend(
     {
       resourceUri: resourceUri,
       edgeDeviceName: edgeDeviceName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -246,7 +250,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceUri, edgeDeviceName, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-02-01",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<EdgeDeviceUnion>, EdgeDeviceUnion>;
 }
 
@@ -261,7 +265,7 @@ export function _getSend(
     {
       resourceUri: resourceUri,
       edgeDeviceName: edgeDeviceName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

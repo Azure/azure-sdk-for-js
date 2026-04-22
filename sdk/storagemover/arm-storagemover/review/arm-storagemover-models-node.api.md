@@ -261,6 +261,7 @@ export interface JobDefinitionUpdateProperties {
     copyMode?: CopyMode;
     dataIntegrityValidation?: DataIntegrityValidation;
     description?: string;
+    schedule?: ScheduleInfo;
 }
 
 // @public
@@ -403,6 +404,7 @@ export enum KnownEndpointType {
 export enum KnownFrequency {
     Daily = "Daily",
     Monthly = "Monthly",
+    None = "None",
     Onetime = "Onetime",
     Weekly = "Weekly"
 }
@@ -472,11 +474,12 @@ export enum KnownProvisioningState {
 
 // @public
 export enum KnownS3WithHmacSourceType {
-    Backblaze = "BACKBLAZE",
-    Cloudflare = "CLOUDFLARE",
+    Alibaba = "ALIBABA",
+    DellEMC = "DELL_EMC",
     GCS = "GCS",
     IBM = "IBM",
-    Minio = "MINIO"
+    Minio = "MINIO",
+    Other = "OTHER"
 }
 
 // @public
@@ -609,10 +612,16 @@ export interface ScheduleInfo {
     daysOfMonth?: number[];
     daysOfWeek?: string[];
     endDate?: Date;
-    executionTime?: Time;
-    frequency: Frequency;
-    isActive: boolean;
+    executionTime?: SchedulerTime;
+    frequency?: Frequency;
+    isActive?: boolean;
     startDate?: Date;
+}
+
+// @public
+export interface SchedulerTime {
+    hour?: number;
+    minute?: Minute;
 }
 
 // @public

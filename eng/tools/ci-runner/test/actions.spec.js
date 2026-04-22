@@ -66,6 +66,7 @@ describe("executeActions", () => {
         "@azure/service-bus",
         "-F",
         "@azure/template",
+        "--continue",
       ],
     ]);
   });

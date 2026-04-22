@@ -12,6 +12,7 @@ export function listSupported(context: SearchManagementContext, resourceGroupNam
 
 // @public
 export interface PrivateLinkResourcesListSupportedOptionalParams extends OperationOptions {
+    // (undocumented)
     searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 

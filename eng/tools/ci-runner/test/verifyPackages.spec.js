@@ -21,11 +21,12 @@ vi.mock("../src/spawn.js", async () => {
 });
 
 vi.mock("node:fs", async (importOriginal) => {
+  /** @type (object & { default: object; }) */
   const actual = await importOriginal();
   return {
-    .../** @type {object} */ (actual),
+    ...actual,
     default: {
-      .../** @type {object} */ (actual).default,
+      ...actual.default,
       existsSync: vi.fn(),
       readFileSync: vi.fn(),
     },

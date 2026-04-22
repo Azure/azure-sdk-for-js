@@ -23,7 +23,6 @@ import type {
   ServicesCheckNameAvailabilityOptionalParams,
 } from "../../api/services/options.js";
 import type {
-  CheckNameAvailabilityInput,
   CheckNameAvailabilityOutput,
   SearchService,
   SearchServiceUpdate,
@@ -112,7 +111,7 @@ export interface ServicesOperations {
   ) => Promise<SearchService>;
   /** Checks whether or not the given search service name is available for use. Search service names must be globally unique since they are part of the service URI (https://<name>.search.windows.net). */
   checkNameAvailability: (
-    checkNameAvailabilityInput: CheckNameAvailabilityInput,
+    name: string,
     options?: ServicesCheckNameAvailabilityOptionalParams,
   ) => Promise<CheckNameAvailabilityOutput>;
 }
@@ -192,10 +191,8 @@ function _getServices(context: SearchManagementContext) {
       searchServiceName: string,
       options?: ServicesGetOptionalParams,
     ) => get(context, resourceGroupName, searchServiceName, options),
-    checkNameAvailability: (
-      checkNameAvailabilityInput: CheckNameAvailabilityInput,
-      options?: ServicesCheckNameAvailabilityOptionalParams,
-    ) => checkNameAvailability(context, checkNameAvailabilityInput, options),
+    checkNameAvailability: (name: string, options?: ServicesCheckNameAvailabilityOptionalParams) =>
+      checkNameAvailability(context, name, options),
   };
 }
 

@@ -15,8 +15,7 @@ const { AIProjectClient } = require("@azure/ai-projects");
 require("dotenv/config");
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
-const agentModelDeployment =
-  process.env["FOUNDRY_MODEL_NAME"] || "<agent model deployment name>";
+const agentModelDeployment = process.env["FOUNDRY_MODEL_NAME"] || "<agent model deployment name>";
 const chatModelDeployment =
   process.env["MEMORY_STORE_CHAT_MODEL_DEPLOYMENT_NAME"] || "<memory chat model deployment name>";
 const embeddingModelDeployment =
@@ -102,7 +101,7 @@ async function main() {
         conversation: conversation.id,
       },
       {
-        body: { agent: { name: agent.name, type: "agent_reference" } },
+        body: { agent_reference: { name: agent.name, type: "agent_reference" } },
       },
     );
     console.log(`Initial response: ${firstResponse.output_text}`);
@@ -122,7 +121,7 @@ async function main() {
         conversation: followUpConversation.id,
       },
       {
-        body: { agent: { name: agent.name, type: "agent_reference" } },
+        body: { agent_reference: { name: agent.name, type: "agent_reference" } },
       },
     );
     console.log(`Follow-up response: ${followUpResponse.output_text}`);

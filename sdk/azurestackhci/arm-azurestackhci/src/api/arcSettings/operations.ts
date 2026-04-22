@@ -54,7 +54,7 @@ export function _initializeDisableProcessSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       arcSettingName: arcSettingName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -101,7 +101,7 @@ export function initializeDisableProcess(
           options,
         ),
       resourceLocationConfig: "azure-async-operation",
-      apiVersion: context.apiVersion ?? "2026-02-01",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -120,7 +120,7 @@ export function _consentAndInstallDefaultExtensionsSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       arcSettingName: arcSettingName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -179,7 +179,7 @@ export function _reconcileSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       arcSettingName: arcSettingName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -227,7 +227,7 @@ export function reconcile(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-02-01",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<ArcSetting>, ArcSetting>;
 }
 
@@ -245,7 +245,7 @@ export function _createIdentitySend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       arcSettingName: arcSettingName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -285,7 +285,7 @@ export function createIdentity(
     getInitialResponse: () =>
       _createIdentitySend(context, resourceGroupName, clusterName, arcSettingName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-02-01",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<ArcIdentityResponse>, ArcIdentityResponse>;
 }
 
@@ -303,7 +303,7 @@ export function _generatePasswordSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       arcSettingName: arcSettingName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -359,7 +359,7 @@ export function _listByClusterSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -397,7 +397,11 @@ export function listByCluster(
     () => _listByClusterSend(context, resourceGroupName, clusterName, options),
     _listByClusterDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-02-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    },
   );
 }
 
@@ -415,7 +419,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       arcSettingName: arcSettingName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -455,7 +459,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, clusterName, arcSettingName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-02-01",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -474,7 +478,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       arcSettingName: arcSettingName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -535,7 +539,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       arcSettingName: arcSettingName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -595,7 +599,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       arcSettingName: arcSettingName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

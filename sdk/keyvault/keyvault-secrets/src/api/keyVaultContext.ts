@@ -6,6 +6,7 @@ import { KnownVersions } from "../models/models.js";
 import type { Client, ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
 import type { TokenCredential } from "@azure/core-auth";
+import { SDK_VERSION } from "../constants.js";
 
 /** The Azure Key Vault Secrets client manages secrets in the Key Vault service. */
 export interface KeyVaultContext extends Client {
@@ -29,7 +30,7 @@ export function createKeyVault(
 ): KeyVaultContext {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? String(endpointParam);
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-keyvault-secrets/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-keyvault-secrets/${SDK_VERSION}`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;

@@ -74,11 +74,14 @@ export async function sendRequest(
  * @returns returns the content-type
  */
 function getRequestContentType(options: InternalRequestParameters = {}): string | undefined {
-  return (
-    options.contentType ??
-    (options.headers?.["content-type"] as string) ??
-    getContentType(options.body)
-  );
+  if (options.contentType) {
+    return options.contentType;
+  }
+  const headerContentType = options.headers?.["content-type"];
+  if (typeof headerContentType === "string") {
+    return headerContentType;
+  }
+  return getContentType(options.body);
 }
 
 /**
@@ -172,12 +175,18 @@ export function getRequestBody(body?: unknown, contentType: string = ""): Reques
     return { body };
   }
 
-  if (isReadableStream(body) || typeof body === "function") {
-    return { body } as RequestBody;
+  if (isReadableStream(body)) {
+    return { body };
+  }
+
+  if (typeof body === "function") {
+    return { body: body as RequestBodyType };
   }
 
   if (ArrayBuffer.isView(body)) {
-    return { body: body instanceof Uint8Array ? body : JSON.stringify(body) };
+    return {
+      body: body instanceof Uint8Array ? body : JSON.stringify(body),
+    };
   }
 
   const firstType = contentType.split(";")[0];
@@ -187,7 +196,7 @@ export function getRequestBody(body?: unknown, contentType: string = ""): Reques
       return { body: JSON.stringify(body) };
     case "multipart/form-data":
       if (Array.isArray(body)) {
-        return { multipartBody: buildMultipartBody(body as PartDescriptor[]) };
+        return { multipartBody: buildMultipartBody(body as unknown as PartDescriptor[]) };
       }
       return { body: JSON.stringify(body) };
     case "text/plain":

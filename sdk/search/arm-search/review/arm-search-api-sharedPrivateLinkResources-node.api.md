@@ -23,23 +23,27 @@ export function listByService(context: SearchManagementContext, resourceGroupNam
 
 // @public
 export interface SharedPrivateLinkResourcesCreateOrUpdateOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    // (undocumented)
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
     updateIntervalInMs?: number;
 }
 
 // @public
 export interface SharedPrivateLinkResourcesDeleteOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    // (undocumented)
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
     updateIntervalInMs?: number;
 }
 
 // @public
 export interface SharedPrivateLinkResourcesGetOptionalParams extends OperationOptions {
+    // (undocumented)
     searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
 export interface SharedPrivateLinkResourcesListByServiceOptionalParams extends OperationOptions {
+    // (undocumented)
     searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 

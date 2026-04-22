@@ -1,9 +1,8 @@
-﻿// Copyright (c) Microsoft Corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 import type { SearchManagementContext as Client } from "../index.js";
 import type {
-  CheckNameAvailabilityInput,
   CheckNameAvailabilityOutput,
   SearchService,
   SearchServiceUpdate,
@@ -11,7 +10,6 @@ import type {
 } from "../../models/models.js";
 import {
   cloudErrorDeserializer,
-  checkNameAvailabilityInputSerializer,
   checkNameAvailabilityOutputDeserializer,
   searchServiceSerializer,
   searchServiceDeserializer,
@@ -444,7 +442,7 @@ export async function get(
 
 export function _checkNameAvailabilitySend(
   context: Client,
-  checkNameAvailabilityInput: CheckNameAvailabilityInput,
+  name: string,
   options: ServicesCheckNameAvailabilityOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -467,7 +465,7 @@ export function _checkNameAvailabilitySend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: checkNameAvailabilityInputSerializer(checkNameAvailabilityInput),
+    body: { name: name, type: "searchServices" },
   });
 }
 
@@ -488,9 +486,9 @@ export async function _checkNameAvailabilityDeserialize(
 /** Checks whether or not the given search service name is available for use. Search service names must be globally unique since they are part of the service URI (https://<name>.search.windows.net). */
 export async function checkNameAvailability(
   context: Client,
-  checkNameAvailabilityInput: CheckNameAvailabilityInput,
+  name: string,
   options: ServicesCheckNameAvailabilityOptionalParams = { requestOptions: {} },
 ): Promise<CheckNameAvailabilityOutput> {
-  const result = await _checkNameAvailabilitySend(context, checkNameAvailabilityInput, options);
+  const result = await _checkNameAvailabilitySend(context, name, options);
   return _checkNameAvailabilityDeserialize(result);
 }

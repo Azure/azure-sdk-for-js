@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/core-amqp": ["../src/index.ts"],
+      "@azure/core-amqp/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}
