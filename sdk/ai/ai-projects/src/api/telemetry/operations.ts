@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "@azure-rest/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
 import type { Connection, ApiKeyCredentials } from "../../models/models.js";
 import type { ConnectionsOperations } from "../../classic/index.js";

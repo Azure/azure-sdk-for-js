@@ -1,5 +1,11 @@
 # Release History
 
+## 1.1.0 (2026-04-22)
+
+### Features Added
+
+- Added `usage` property on `AnalysisResultPoller` to surface billing and token consumption details (`UsageDetails`) returned by the REST API.
+
 ## 1.0.0 (2026-02-28)
 
 ### Features Added

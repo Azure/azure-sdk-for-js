@@ -1,20 +1,7 @@
+extends: ../../../warp.base.config.yml
 exports:
-  "./package.json": "./package.json"
-  ".": "./src/index.ts"
   "./api": "./src/api/index.ts"
   "./api/discoverySources": "./src/api/discoverySources/index.ts"
   "./api/maps": "./src/api/maps/index.ts"
   "./api/operations": "./src/api/operations/index.ts"
   "./models": "./src/models/index.ts"
-
-targets:
-  - name: browser
-    tsconfig: "../../../tsconfig.src.browser.json"
-  - name: react-native
-    tsconfig: "../../../tsconfig.src.react-native.json"
-  - name: esm
-    condition: import
-    tsconfig: "../../../tsconfig.src.esm.json"
-  - name: commonjs
-    condition: require
-    tsconfig: "../../../tsconfig.src.cjs.json"

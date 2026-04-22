@@ -3,35 +3,29 @@
 
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Gets the SQL storedProcedure under an existing Azure Cosmos DB database account.
+ * This sample demonstrates how to gets the SQL storedProcedure under an existing Azure Cosmos DB database account.
  *
- * @summary Gets the SQL storedProcedure under an existing Azure Cosmos DB database account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBSqlStoredProcedureGet.json
+ * @summary gets the SQL storedProcedure under an existing Azure Cosmos DB database account.
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBSqlStoredProcedureGet.json
  */
-async function cosmosDbSqlStoredProcedureGet() {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rgName";
-  const accountName = "ddb1";
-  const databaseName = "databaseName";
-  const containerName = "containerName";
-  const storedProcedureName = "storedProcedureName";
+async function cosmosDBSqlStoredProcedureGet() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const result = await client.sqlResources.getSqlStoredProcedure(
-    resourceGroupName,
-    accountName,
-    databaseName,
-    containerName,
-    storedProcedureName,
+    "rgName",
+    "ddb1",
+    "databaseName",
+    "containerName",
+    "storedProcedureName",
   );
   console.log(result);
 }
 
 async function main() {
-  await cosmosDbSqlStoredProcedureGet();
+  await cosmosDBSqlStoredProcedureGet();
 }
 
 main().catch(console.error);

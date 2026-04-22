@@ -12,7 +12,7 @@ describe("Type guards", function () {
     it("should return false when the argument is null", async function () {
       assert.isFalse(isDefined(null));
     });
-    it("should return true for other primitive types", async function () {
+    it("should return true for primitives and objects", async function () {
       assert.isTrue(isDefined(true));
       assert.isTrue(isDefined(1));
       assert.isTrue(isDefined(BigInt(1)));
@@ -29,6 +29,11 @@ describe("Type guards", function () {
         isObjectWithProperties({ a: 1, b: 2, c: 3 }, ["a", "b"]),
         "object contains properties `a` and `b`",
       );
+    });
+    it("should return false when the argument is not an object", async function () {
+      assert.isFalse(isObjectWithProperties(null, ["a"]));
+      assert.isFalse(isObjectWithProperties(undefined, ["a"]));
+      assert.isFalse(isObjectWithProperties("string", ["a"]));
     });
     it("should return false when the object does not contain at least one listed property", async function () {
       assert.isFalse(isObjectWithProperties({ a: 1, b: 2, c: 3 }, ["d"]));

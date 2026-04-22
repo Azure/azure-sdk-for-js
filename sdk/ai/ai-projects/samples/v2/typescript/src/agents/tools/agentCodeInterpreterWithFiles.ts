@@ -25,7 +25,7 @@ export async function main(): Promise<void> {
   const openAIClient = project.getOpenAIClient();
 
   // Upload a CSV file for the code interpreter
-  const assetFilePath = path.join(__dirname, "..", "..", "..", "agents", "assets", "synthetic_500_quarterly_results.csv");
+  const assetFilePath = path.join(__dirname, "..", "assets", "synthetic_500_quarterly_results.csv");
   console.log("Uploading CSV file...");
   const file = await openAIClient.files.create({
     purpose: "assistants",
@@ -70,7 +70,7 @@ export async function main(): Promise<void> {
           "Could you please create bar chart in TRANSPORTATION sector for the operating profit from the uploaded csv file and provide file to me?",
       },
       {
-        body: { agent: { name: agent.name, type: "agent_reference" } },
+        body: { agent_reference: { name: agent.name, type: "agent_reference" } },
       },
     );
     console.log(`Response completed (id: ${response.id})`);
@@ -78,9 +78,19 @@ export async function main(): Promise<void> {
     // Safely extract file information from response annotations, guarding against empty arrays.
     if (Array.isArray(response.output) && response.output.length > 0) {
       const lastMessage = response.output[response.output.length - 1];
-      if (lastMessage && lastMessage.type === "message" && Array.isArray(lastMessage.content) && lastMessage.content.length > 0) {
+      if (
+        lastMessage &&
+        lastMessage.type === "message" &&
+        Array.isArray(lastMessage.content) &&
+        lastMessage.content.length > 0
+      ) {
         const lastContent = lastMessage.content[lastMessage.content.length - 1];
-        if (lastContent && lastContent.type === "output_text" && Array.isArray(lastContent.annotations) && lastContent.annotations.length > 0) {
+        if (
+          lastContent &&
+          lastContent.type === "output_text" &&
+          Array.isArray(lastContent.annotations) &&
+          lastContent.annotations.length > 0
+        ) {
           const fileCitation = lastContent.annotations[lastContent.annotations.length - 1];
           if (fileCitation && fileCitation.type === "container_file_citation") {
             fileId = fileCitation.file_id;
