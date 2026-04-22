@@ -5,53 +5,87 @@
  * @summary Creates a self-signed certificate, then makes a backup from it, then deletes it and purges it, and finally restores it.
  */
 
-const { CertificateClient } = require("@azure/keyvault-certificates");
-const { DefaultAzureCredential } = require("@azure/identity");
 // Load the .env file if it exists
 require("dotenv/config");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { CertificateClient } = require("@azure/keyvault-certificates");
 
-function delay(t, value) {
-  return new Promise((resolve) => setTimeout(() => resolve(value), t));
+let client;
+let certificateName;
+
+async function backupAndRestoreACertificate() {
+  // Creating a self-signed certificate
+  const createPoller = await client.beginCreateCertificate(certificateName, {
+    issuerName: "Self",
+    subject: "cn=MyCert",
+  });
+  await createPoller.pollUntilDone();
+  const pendingCertificate = createPoller.getResult();
+  console.log("Certificate: ", pendingCertificate);
+  const backup = await client.backupCertificate(certificateName);
+  const deletePoller = await client.beginDeleteCertificate(certificateName);
+  await deletePoller.pollUntilDone();
+  await client.purgeDeletedCertificate(certificateName);
+  await client.restoreCertificateBackup(backup);
+  const restoredCertificate = await client.getCertificate(certificateName);
+  console.log("Restored certificate: ", restoredCertificate);
+}
+
+async function backUpACertificate() {
+  const credential = new DefaultAzureCredential();
+
+  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
+
+  const client = new CertificateClient(url, credential);
+
+  const certificateName = "MyCertificate";
+  const createPoller = await client.beginCreateCertificate(certificateName, {
+    issuerName: "Self",
+    subject: "cn=MyCert",
+  });
+  await createPoller.pollUntilDone();
+  const backup = await client.backupCertificate(certificateName);
+}
+
+async function restoreACertificateFromBackup() {
+  const credential = new DefaultAzureCredential();
+
+  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
+
+  const client = new CertificateClient(url, credential);
+
+  const certificateName = "MyCertificate";
+  const createPoller = await client.beginCreateCertificate(certificateName, {
+    issuerName: "Self",
+    subject: "cn=MyCert",
+  });
+  await createPoller.pollUntilDone();
+  const backup = await client.backupCertificate(certificateName);
+
+  const poller = await client.beginDeleteCertificate(certificateName);
+  await poller.pollUntilDone();
+  await client.purgeDeletedCertificate(certificateName);
+
+  // Some time is required before we're able to restore the certificate
+  await client.restoreCertificateBackup(backup);
 }
 
 async function main() {
   // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
   // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
   // about DefaultAzureCredential and the other credentials that are available for use.
-  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-  const credential = new DefaultAzureCredential();
-
-  const client = new CertificateClient(url, credential);
-
-  const uniqueString = new Date().getTime();
-  const certificateName = `backup-restore-${uniqueString}`;
-
-  // Creating a self-signed certificate
-  const createPoller = await client.beginCreateCertificate(certificateName, {
-    issuerName: "Self",
-    subject: "cn=MyCert",
-  });
-
-  const pendingCertificate = createPoller.getResult();
-  console.log("Certificate: ", pendingCertificate);
-
-  const backup = await client.backupCertificate(certificateName);
-
-  const deletePoller = await client.beginDeleteCertificate(certificateName);
-  await deletePoller.pollUntilDone();
-
-  await client.purgeDeletedCertificate(certificateName);
-  await delay(30000);
-
-  await client.restoreCertificateBackup(backup);
-
-  const restoredCertificate = await client.getCertificate(certificateName);
-
-  console.log("Restored certificate: ", restoredCertificate);
+  client = new CertificateClient(
+    process.env["KEYVAULT_URI"] || "<keyvault-url>",
+    new DefaultAzureCredential(),
+  );
+  certificateName = `backup-restore-${new Date().getTime()}`;
+  await backupAndRestoreACertificate();
+  await backUpACertificate();
+  await restoreACertificateFromBackup();
 }
 
 main().catch((error) => {
-  console.error("An error occurred:", error);
+  console.error(error);
   process.exit(1);
 });
 

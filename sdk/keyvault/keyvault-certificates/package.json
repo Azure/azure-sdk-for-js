@@ -84,6 +84,7 @@
   },
   "devDependencies": {
     "@azure-tools/test-credential": "workspace:^",
+    "@azure-tools/test-publishing": "workspace:^",
     "@azure-tools/test-recorder": "workspace:^",
     "@azure-tools/test-utils-vitest": "workspace:^",
     "@azure/dev-tool": "workspace:^",
@@ -101,6 +102,16 @@
     "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
+  },
+  "//sampleConfiguration": {
+    "productName": "Azure Key Vault Certificates",
+    "productSlugs": [
+      "azure",
+      "azure-key-vault"
+    ],
+    "requiredResources": {
+      "Azure Key Vault": "https://learn.microsoft.com/azure/key-vault/quick-create-portal"
+    }
   },
   "scripts": {
     "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
