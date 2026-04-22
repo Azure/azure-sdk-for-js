@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Authenticates with Azure Key Vault and creates a KeyClient and CryptographyClient.
+ * Authenticates with Azure Key Vault and creates a KeyClient and CryptographyClient.
  */
 
 import { CryptographyClient, KeyClient } from "../../../src/index.js";

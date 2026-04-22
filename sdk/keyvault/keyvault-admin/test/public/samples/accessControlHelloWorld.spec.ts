@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Uses an AccessControlClient to list, create, and assign roles to users.
+ * Uses an AccessControlClient to list, create, and assign roles to users.
  */
 
 import type { KeyVaultPermission } from "../../../src/index.js";

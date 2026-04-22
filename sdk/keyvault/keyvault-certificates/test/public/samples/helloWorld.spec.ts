@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Uses a CertificateClient in various ways to read a certificate as well as update a certificate's tags.
+ * Uses a CertificateClient in various ways to read a certificate as well as update a certificate's tags.
  */
 
 import type { CertificatePolicy, UpdateCertificateOptions } from "../../../src/index.js";

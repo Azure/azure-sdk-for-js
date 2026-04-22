@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Creates, updates, and deletes certificate contacts.
+ * Creates, updates, and deletes certificate contacts.
  */
 
 import { CertificateClient } from "../../../src/index.js";

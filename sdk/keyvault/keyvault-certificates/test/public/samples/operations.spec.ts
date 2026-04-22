@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Uses a CertificateClient to create, update, and delete a certificate's operation.
+ * Uses a CertificateClient to create, update, and delete a certificate's operation.
  */
 
 import { CertificateClient } from "../../../src/index.js";
