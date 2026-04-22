@@ -51,5 +51,5 @@ Always read the relevant page (via `fetch_webpage`) before answering if the refe
 
 ## Related Skills
 
-- `cu-sdk-js-setup-env` — Interactive environment setup (install SDK, configure `.env`, run `updateDefaults.js`)
-- `cu-sdk-js-sample-run` — Run JavaScript SDK samples interactively
+- `cu-sdk-setup` — Interactive environment setup (install SDK, configure `.env`, run `updateDefaults.js`)
+- `cu-sdk-sample-run` — Run JavaScript SDK samples interactively

@@ -1,5 +1,5 @@
 ---
-name: cu-sdk-js-sample-run
+name: cu-sdk-sample-run
 description: Run a specific sample for the Azure AI Content Understanding JavaScript SDK. Use when users want to run a particular sample like analyzeUrl.js or analyzeInvoice.js.
 ---
 
@@ -12,13 +12,13 @@ Run a specific sample from the Azure AI Content Understanding JavaScript SDK.
 ## Prerequisites
 
 - Node.js >= 20
-- **Environment already set up** via the `cu-sdk-js-setup-env` skill (SDK tarball installed + `.env` configured)
-- For prebuilt analyzers: model deployments configured (run `updateDefaults.js` first — also covered by `cu-sdk-js-setup-env`)
+- **Environment already set up** via the `cu-sdk-setup` skill (SDK tarball installed + `.env` configured)
+- For prebuilt analyzers: model deployments configured (run `updateDefaults.js` first — also covered by `cu-sdk-setup`)
 
 > **[ASK USER] Prerequisites check:**
 > Before proceeding, verify the user's environment:
 >
-> 1. "Have you already set up your environment using the **`cu-sdk-js-setup-env`** skill (SDK tarball installed + `.env` configured)?" -- If no, hand off to that skill first.
+> 1. "Have you already set up your environment using the **`cu-sdk-setup`** skill (SDK tarball installed + `.env` configured)?" -- If no, hand off to that skill first.
 > 2. "Have you run `updateDefaults.js` to configure model defaults?" -- If no and they want to use prebuilt analyzers, guide them to run it first.
 
 ## Package Directory
@@ -134,16 +134,16 @@ Deletes analysis results for data cleanup.
 > Ask: "Have you already set up your environment (built/installed the SDK tarball and configured `.env` with endpoint and credentials)?"
 >
 > - If **yes**: Proceed to Step 2 to pick a sample.
-> - If **no**: Hand off to the **`cu-sdk-js-setup-env`** skill to walk through installation and `.env` configuration, then come back here.
+> - If **no**: Hand off to the **`cu-sdk-setup`** skill to walk through installation and `.env` configuration, then come back here.
 
-For full environment setup — installing the SDK, creating `.env`, configuring authentication, and running `updateDefaults.js` — see the **`cu-sdk-js-setup-env`** skill.
+For full environment setup — installing the SDK, creating `.env`, configuring authentication, and running `updateDefaults.js` — see the **`cu-sdk-setup`** skill.
 
 Quick check that setup is complete:
 
 ```bash
 cd sdk/contentunderstanding/ai-content-understanding
 # Verify .env is present in the samples directory
-test -f samples/v1/javascript/.env && echo "OK" || echo "Run cu-sdk-js-setup-env first"
+test -f samples/v1/javascript/.env && echo "OK" || echo "Run cu-sdk-setup first"
 ```
 
 #### Settings by sample
@@ -234,11 +234,31 @@ node analyzeInvoice.js
 >
 > Alternatively, use the `run_single_sample.sh` convenience script which sources `.env` automatically.
 
+### After the Sample Runs — Review Results and Explain the Sample
+
+After the sample completes, the skill **must** do the following for the user (do not skip):
+
+1. **Show the terminal command to re-run this sample directly**, so the user can iterate without the skill. For example:
+   ```bash
+   cd samples/v1/javascript && node analyzeUrl.js
+   # or for TypeScript samples:
+   cd samples/v1/typescript && npx tsx src/analyzeUrl.ts
+   ```
+   Substitute `analyzeUrl` with the sample the user just ran.
+
+2. **Briefly explain the key code concepts** demonstrated in the sample. Tailor the explanation to the specific sample; common concepts include:
+   - **Client creation** — how the `ContentUnderstandingClient` is constructed (endpoint + `DefaultAzureCredential` or `AzureKeyCredential`)
+   - **Analyzer selection** — which prebuilt (`prebuilt-documentSearch`, `prebuilt-invoice`, etc.) or custom analyzer is used and why
+   - **Input type** — URL vs. binary stream vs. local file
+   - **Result processing** — how the returned `AnalyzeResult` is traversed (pages, fields, contents)
+   - **Content type casting** — e.g., narrowing `AnalyzedContent` to `AnalyzedDocumentContent` / `AnalyzedImageContent` / `AnalyzedAudioContent` / `AnalyzedVideoContent` when needed
+   - **Long-running operations** — if the sample uses `getLongRunningPoller` / `pollUntilDone`
+
 > **[ASK USER] Sample result:**
-> After running the sample, ask: "Did the sample run successfully?"
+> Ask: "Did the sample run successfully?"
 >
-> - If yes: "Would you like to run another sample, or are you all set?"
-> - If no: Help troubleshoot using the Troubleshooting section below. Common issues include missing `.env` configuration, tarball not installed, or model defaults not configured.
+> - If yes: present the re-run command and the key-code explanation (above), then ask: "Would you like to run another sample, or are you all set?"
+> - If no: help troubleshoot using the Troubleshooting section below. Common issues include missing `.env` configuration, tarball not installed, or model defaults not configured.
 
 > **[ASK USER] Run another?:**
 > If the user wants to run another sample, loop back to the "Which sample?" prompt above.
@@ -320,11 +340,11 @@ A thin wrapper that sources the `.env` file and then runs `node <sample>.js`. Us
 | `Access denied` or authorization errors                           | Ensure **Cognitive Services User** role is assigned; check API key or run `az login`     |
 | `Model deployment not found`                                      | Run `updateDefaults.js` first to configure model mappings                                |
 | `File not found` for binary samples                               | Some samples need a local file path; check the `filePath` variable in the sample         |
-| `Permission denied` when running scripts                          | Make scripts executable: `chmod +x .github/skills/cu-sdk-js-sample-run/scripts/*.sh`        |
+| `Permission denied` when running scripts                          | Make scripts executable: `chmod +x .github/skills/cu-sdk-sample-run/scripts/*.sh`        |
 
 ## Related Skills
 
-- `cu-sdk-js-setup-env` — Interactive environment setup (install SDK, configure `.env`, run `updateDefaults.js`). Run this first if your environment is not yet set up.
+- `cu-sdk-setup` — Interactive environment setup (install SDK, configure `.env`, run `updateDefaults.js`). Run this first if your environment is not yet set up.
 - `cu-sdk-common-knowledge` — Domain knowledge for Content Understanding concepts
 
 ## Additional Resources

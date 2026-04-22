@@ -593,8 +593,8 @@ This package includes [GitHub Copilot][github_copilot] skills under `.github/ski
 
 | Skill | Description | How to Use |
 |-------|-------------|------------|
-| [**cu-sdk-js-setup-env**][cu_sdk_js_setup_env_skill] | Interactive environment setup — installs the SDK, configures `.env` with endpoint and credentials, and runs the one-time `updateDefaults.js` model configuration | In VS Code Copilot Chat, ask: *"Set up my JavaScript environment for Content Understanding"* or reference the skill directly |
-| [**cu-sdk-js-sample-run**][cu_sdk_js_sample_run_skill] | Guided sample runner — helps you choose and run specific JavaScript samples with Node.js | Ask: *"Run analyzeUrl sample"* or *"Run the invoice analysis sample"* |
+| [**cu-sdk-setup**][cu_sdk_setup_skill] | Interactive environment setup — installs the SDK, configures `.env` with endpoint and credentials, and runs the one-time `updateDefaults.js` model configuration | In VS Code Copilot Chat, ask: *"Set up my JavaScript environment for Content Understanding"* or reference the skill directly |
+| [**cu-sdk-sample-run**][cu_sdk_sample_run_skill] | Guided sample runner — helps you choose and run specific JavaScript samples with Node.js | Ask: *"Run analyzeUrl sample"* or *"Run the invoice analysis sample"* |
 | [**cu-sdk-common-knowledge**][cu_sdk_common_knowledge_skill] | Domain knowledge reference — answers questions about Content Understanding concepts, analyzers, field schemas, API operations, and JavaScript SDK usage | Ask: *"What prebuilt analyzers are available?"* or *"How do I create a custom analyzer?"* |
 
 ### Using Skills in VS Code
@@ -605,15 +605,15 @@ This package includes [GitHub Copilot][github_copilot] skills under `.github/ski
 4. Ask a question related to Content Understanding; Copilot can use the relevant skill when appropriate
 
 **Example prompts:**
-- *"Set up my JS environment for Content Understanding"* → likely uses `cu-sdk-js-setup-env`
-- *"Run analyzeInvoice.js"* → likely uses `cu-sdk-js-sample-run`
+- *"Set up my JS environment for Content Understanding"* → likely uses `cu-sdk-setup`
+- *"Run analyzeInvoice.js"* → likely uses `cu-sdk-sample-run`
 - *"Explain how custom analyzers work"* → likely uses `cu-sdk-common-knowledge`
 
 ### Troubleshooting Skill Selection
 
 If Copilot does not use the expected skill, try the following:
 
-1. Be explicit about intent and context in one prompt (for example: *"Use cu-sdk-js-sample-run to run analyzeUrl"*).
+1. Be explicit about intent and context in one prompt (for example: *"Use cu-sdk-sample-run to run analyzeUrl"*).
 2. Include your goal and current state (for example: *"My `.env` is configured; help me run analyzeInvoice.js"*).
 3. Ask for a step-by-step interactive flow when needed (for example: *"Guide me step by step to set up my environment"*).
 4. For build or runtime errors, mention the exact error text so Copilot can apply the right troubleshooting path.
@@ -651,6 +651,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 [diagnostics]: https://learn.microsoft.com/javascript/api/@azure/logger?view=azure-node-latest
 [client_lifetime]: https://learn.microsoft.com/azure/developer/javascript/sdk/use-azure-sdk
 [github_copilot]: https://github.com/features/copilot
-[cu_sdk_js_setup_env_skill]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentunderstanding/ai-content-understanding/.github/skills/cu-sdk-js-setup-env
-[cu_sdk_js_sample_run_skill]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentunderstanding/ai-content-understanding/.github/skills/cu-sdk-js-sample-run
+[cu_sdk_setup_skill]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentunderstanding/ai-content-understanding/.github/skills/cu-sdk-setup
+[cu_sdk_sample_run_skill]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentunderstanding/ai-content-understanding/.github/skills/cu-sdk-sample-run
 [cu_sdk_common_knowledge_skill]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentunderstanding/ai-content-understanding/.github/skills/cu-sdk-common-knowledge

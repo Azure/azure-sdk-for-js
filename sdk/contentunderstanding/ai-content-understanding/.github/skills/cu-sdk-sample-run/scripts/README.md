@@ -87,7 +87,7 @@ Here's the typical workflow for running samples:
 
 ```bash
 # 1. Navigate to the scripts directory
-cd sdk/contentunderstanding/ai-content-understanding/.github/skills/cu-sdk-js-sample-run/scripts
+cd sdk/contentunderstanding/ai-content-understanding/.github/skills/cu-sdk-sample-run/scripts
 
 # 2. Run the setup script (first time only)
 ./setup_samples.sh
@@ -97,7 +97,7 @@ cd ../../../../samples/v1/javascript
 node analyzeUrl.js
 
 # Or use the helper script
-cd ../../../.github/skills/cu-sdk-js-sample-run/scripts
+cd ../../../.github/skills/cu-sdk-sample-run/scripts
 ./run_single_sample.sh analyzeUrl
 ```
 
@@ -173,7 +173,7 @@ When you make changes to the SDK source code:
 sdk/contentunderstanding/ai-content-understanding/
 ├── .github/
 │   └── skills/
-│       └── cu-sdk-js-sample-run/
+│       └── cu-sdk-sample-run/
 │           ├── SKILL.md
 │           └── scripts/
 │               ├── README.md (this file)

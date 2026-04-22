@@ -1,5 +1,5 @@
 ---
-name: cu-sdk-js-setup-env
+name: cu-sdk-setup
 description: Interactive environment setup for the Azure AI Content Understanding JavaScript SDK. Installs the package, configures the `.env` file (endpoint, authentication, model deployments), and optionally runs the one-time `updateDefaults.js` configuration. Use when users need help setting up their JS environment before running samples.
 ---
 
@@ -56,10 +56,10 @@ Use the provided setup script, which handles both paths. It tries `npm install` 
 
 ```bash
 # From the package root (sdk/contentunderstanding/ai-content-understanding)
-.github/skills/cu-sdk-js-sample-run/scripts/setup_samples.sh
+.github/skills/cu-sdk-sample-run/scripts/setup_samples.sh
 
 # Force local build + tarball (e.g., when testing local source changes):
-.github/skills/cu-sdk-js-sample-run/scripts/setup_samples.sh --local
+.github/skills/cu-sdk-sample-run/scripts/setup_samples.sh --local
 ```
 
 > **[ASK USER] Setup check:**
@@ -244,10 +244,10 @@ This is a **one-time setup per Microsoft Foundry resource**.
 
 ### Step 6: Next — Run a Sample
 
-After environment setup is complete, hand off to the `cu-sdk-js-sample-run` skill to pick and run a sample:
+After environment setup is complete, hand off to the `cu-sdk-sample-run` skill to pick and run a sample:
 
 > **[ASK USER] Run a sample?:**
-> Ask: "Environment is ready. Would you like to run a sample now? I can hand off to `cu-sdk-js-sample-run` to help you choose and run one."
+> Ask: "Environment is ready. Would you like to run a sample now? I can hand off to `cu-sdk-sample-run` to help you choose and run one."
 
 ## Troubleshooting
 
@@ -263,7 +263,7 @@ After environment setup is complete, hand off to the `cu-sdk-js-sample-run` skil
 
 ## Related Skills
 
-- `cu-sdk-js-sample-run` — Run JavaScript SDK samples after environment is set up
+- `cu-sdk-sample-run` — Run JavaScript SDK samples after environment is set up
 - `cu-sdk-common-knowledge` — Domain knowledge for Content Understanding concepts
 
 ## Additional Resources
