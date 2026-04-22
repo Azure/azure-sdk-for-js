@@ -34,7 +34,6 @@ async function deleteAndRecoverASecret() {
   const recoverPoller = await client.beginRecoverDeletedSecret(bankAccountSecretName);
   const recoveredSecret = await recoverPoller.pollUntilDone();
   console.log(recoveredSecret);
-
 }
 
 async function deleteAndPurgeASecret() {
@@ -52,7 +51,7 @@ async function deleteAndPurgeASecret() {
   await client.purgeDeletedSecret(bankAccountSecretName);
 
   for await (const deletedSecret of client.listDeletedSecrets()) {
-      console.log(deletedSecret);
+    console.log(deletedSecret);
   }
 }
 
@@ -93,7 +92,6 @@ async function softDeleteLifecycle() {
 
   // And then, to purge the deleted secret:
   await client.purgeDeletedSecret(secretName);
-
 }
 
 async function deleteAndWait() {
@@ -108,7 +106,6 @@ async function deleteAndWait() {
   // Or you can wait until the secret finishes being deleted:
   deletedSecret = await poller.pollUntilDone();
   console.log(deletedSecret);
-
 }
 
 async function deleteAndPollIndividually() {
@@ -119,20 +116,21 @@ async function deleteAndPollIndividually() {
 
   const poller = await client.beginDeleteSecret(secretName);
   while (!poller.isDone()) {
-      await poller.poll();
-      await delay(5000);
+    await poller.poll();
+    await delay(5000);
   }
 
   console.log(`The secret ${secretName} is fully deleted`);
-
 }
 
 export async function main(): Promise<void> {
   // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
   // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
   // about DefaultAzureCredential and the other credentials that are available for use.
-  client =
-      new SecretClient(process.env["KEYVAULT_URI"] || "<keyvault-url>", new DefaultAzureCredential());
+  client = new SecretClient(
+    process.env["KEYVAULT_URI"] || "<keyvault-url>",
+    new DefaultAzureCredential(),
+  );
   await createSecrets();
   await deleteAndRecoverASecret();
   await deleteAndPurgeASecret();

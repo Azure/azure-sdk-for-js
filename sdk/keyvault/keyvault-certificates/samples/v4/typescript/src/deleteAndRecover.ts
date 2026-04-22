@@ -16,8 +16,8 @@ let certificateName: string;
 async function createACertificate() {
   // Creating a self-signed certificate
   const createPoller = await client.beginCreateCertificate(certificateName, {
-      issuerName: "Self",
-      subject: "cn=MyCert",
+    issuerName: "Self",
+    subject: "cn=MyCert",
   });
   const pendingCertificate = createPoller.getResult();
   console.log("Certificate: ", pendingCertificate);
@@ -25,8 +25,8 @@ async function createACertificate() {
 
 async function deleteAndRecoverACertificate() {
   const createPoller = await client.beginCreateCertificate(certificateName, {
-      issuerName: "Self",
-      subject: "cn=MyCert",
+    issuerName: "Self",
+    subject: "cn=MyCert",
   });
   await createPoller.pollUntilDone();
   const deletePoller = await client.beginDeleteCertificate(certificateName);
@@ -65,7 +65,6 @@ async function deleteACertificate() {
 
   // If a certificate is done and the Key Vault has soft-delete enabled, the certificate can be purged with:
   await client.purgeDeletedCertificate(certificateName);
-
 }
 
 async function listDeletedCertificates() {
@@ -75,15 +74,14 @@ async function listDeletedCertificates() {
 
   const client = new CertificateClient(url, credential);
   for await (const deletedCertificate of client.listDeletedCertificates()) {
-      console.log(deletedCertificate);
+    console.log(deletedCertificate);
   }
 
   for await (const page of client.listDeletedCertificates().byPage()) {
-      for (const deletedCertificate of page) {
-          console.log(deletedCertificate);
-      }
+    for (const deletedCertificate of page) {
+      console.log(deletedCertificate);
+    }
   }
-
 }
 
 async function getADeletedCertificate() {
@@ -96,7 +94,6 @@ async function getADeletedCertificate() {
   const certificateName = "MyDeletedCertificate";
   const deletedCertificate = await client.getDeletedCertificate(certificateName);
   console.log("Deleted certificate:", deletedCertificate);
-
 }
 
 async function purgeADeletedCertificate() {
@@ -112,7 +109,6 @@ async function purgeADeletedCertificate() {
 
   // Deleting a certificate takes time, make sure to wait before purging it
   await client.purgeDeletedCertificate(certificateName);
-
 }
 
 async function recoverADeletedCertificate() {
@@ -131,7 +127,6 @@ async function recoverADeletedCertificate() {
   // Waiting until it's done
   const certificate = await recoverPoller.pollUntilDone();
   console.log(certificate);
-
 }
 
 export async function main(): Promise<void> {
@@ -139,10 +134,11 @@ export async function main(): Promise<void> {
   // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
   // about DefaultAzureCredential and the other credentials that are available for use.
   // If you're using MSI, DefaultAzureCredential should "just work".
-  client =
-      new CertificateClient(process.env["KEYVAULT_URI"] || "<keyvault-url>", new DefaultAzureCredential());
-  certificateName =
-      `delete-recover-${new Date().getTime()}`;
+  client = new CertificateClient(
+    process.env["KEYVAULT_URI"] || "<keyvault-url>",
+    new DefaultAzureCredential(),
+  );
+  certificateName = `delete-recover-${new Date().getTime()}`;
   await createACertificate();
   await deleteAndRecoverACertificate();
   await deleteACertificate();

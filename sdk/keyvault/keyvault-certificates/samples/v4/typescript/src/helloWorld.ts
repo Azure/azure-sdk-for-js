@@ -18,14 +18,20 @@ let certificateName: string;
 
 async function createACertificate() {
   // Creating a self-signed certificate
-  const createPoller = await client.beginCreateCertificate(certificateName, DefaultCertificatePolicy);
+  const createPoller = await client.beginCreateCertificate(
+    certificateName,
+    DefaultCertificatePolicy,
+  );
   // Get the pending certificate before the creation operation is complete
   const pendingCertificate = createPoller.getResult();
   console.log("Certificate: ", pendingCertificate);
 }
 
 async function getAndUpdateCertificate() {
-  const createPoller = await client.beginCreateCertificate(certificateName, DefaultCertificatePolicy);
+  const createPoller = await client.beginCreateCertificate(
+    certificateName,
+    DefaultCertificatePolicy,
+  );
   await createPoller.pollUntilDone();
   // To read a certificate with their policy
   // Note: It will always read the latest version of the certificate.
@@ -33,26 +39,33 @@ async function getAndUpdateCertificate() {
   console.log("Certificate with policy:", certificateWithPolicy);
   // To read a certificate from a specific version
   // Note: It will not retrieve the certificate's policy.
-  const certificateFromVersion = await client.getCertificateVersion(certificateName, certificateWithPolicy.properties.version!);
+  const certificateFromVersion = await client.getCertificateVersion(
+    certificateName,
+    certificateWithPolicy.properties.version!,
+  );
   console.log("Certificate from a specific version:", certificateFromVersion);
   // Update certificate properties
   const version = ""; // latest certificate
-  
+
   const properties: UpdateCertificateOptions = {
-      tags: {
-          projectName: "certificate-sample",
-          projectOwner: "REPLACE-WITH-YOUR-NAME",
-      },
-      enabled: true,
+    tags: {
+      projectName: "certificate-sample",
+      projectOwner: "REPLACE-WITH-YOUR-NAME",
+    },
+    enabled: true,
   };
-  const updatedCertificate = await client.updateCertificateProperties(certificateName, version, properties);
+  const updatedCertificate = await client.updateCertificateProperties(
+    certificateName,
+    version,
+    properties,
+  );
   console.log("Updated certificate:", updatedCertificate);
   // Updating the certificate's policy:
   const policy: CertificatePolicy = {
-      issuerName: "Self",
-      subject: "cn=MyOtherCert",
-      exportable: true,
-      enabled: true,
+    issuerName: "Self",
+    subject: "cn=MyOtherCert",
+    exportable: true,
+    enabled: true,
   };
   await client.updateCertificatePolicy(certificateName, policy);
   // Get updated certificate with policy
@@ -61,7 +74,10 @@ async function getAndUpdateCertificate() {
 }
 
 async function deleteTheCertificate() {
-  const createPoller = await client.beginCreateCertificate(certificateName, DefaultCertificatePolicy);
+  const createPoller = await client.beginCreateCertificate(
+    certificateName,
+    DefaultCertificatePolicy,
+  );
   await createPoller.pollUntilDone();
   // Delete certificate, wait until complete
   const deletePoller = await client.beginDeleteCertificate(certificateName);
@@ -82,10 +98,9 @@ async function createACertificate2() {
 
   // Note: Sending `Self` as the `issuerName` of the certificate's policy will create a self-signed certificate.
   await client.beginCreateCertificate(certificateName, {
-      issuerName: "Self",
-      subject: "cn=MyCert",
+    issuerName: "Self",
+    subject: "cn=MyCert",
   });
-
 }
 
 async function createACertificateWithOptions() {
@@ -99,19 +114,18 @@ async function createACertificateWithOptions() {
 
   // Note: Sending `Self` as the `issuerName` of the certificate's policy will create a self-signed certificate.
   const certificatePolicy = {
-      issuerName: "Self",
-      subject: "cn=MyCert",
+    issuerName: "Self",
+    subject: "cn=MyCert",
   };
   const enabled = true;
   const tags = {
-      myCustomTag: "myCustomTagsValue",
+    myCustomTag: "myCustomTagsValue",
   };
 
   await client.beginCreateCertificate(certificateName, certificatePolicy, {
-      enabled,
-      tags,
+    enabled,
+    tags,
   });
-
 }
 
 async function createACertificateWithPolling() {
@@ -123,8 +137,8 @@ async function createACertificateWithPolling() {
 
   const certificateName = "MyCertificateName";
   const certificatePolicy = {
-      issuerName: "Self",
-      subject: "cn=MyCert",
+    issuerName: "Self",
+    subject: "cn=MyCert",
   };
 
   const poller = await client.beginCreateCertificate(certificateName, certificatePolicy);
@@ -135,7 +149,6 @@ async function createACertificateWithPolling() {
   // Or you can wait until the certificate finishes being signed:
   const keyVaultCertificate = await poller.pollUntilDone();
   console.log(keyVaultCertificate);
-
 }
 
 async function createACertificateAndPollIndividually() {
@@ -147,8 +160,8 @@ async function createACertificateAndPollIndividually() {
 
   const certificateName = "MyCertificateName";
   const certificatePolicy = {
-      issuerName: "Self",
-      subject: "cn=MyCert",
+    issuerName: "Self",
+    subject: "cn=MyCert",
   };
 
   const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -156,12 +169,11 @@ async function createACertificateAndPollIndividually() {
   const poller = await client.beginCreateCertificate(certificateName, certificatePolicy);
 
   while (!poller.isDone()) {
-      await poller.poll();
-      await delay(5000);
+    await poller.poll();
+    await delay(5000);
   }
 
   console.log(`The certificate ${certificateName} is fully created`);
-
 }
 
 async function getACertificate() {
@@ -175,9 +187,14 @@ async function getACertificate() {
 
   const latestCertificate = await client.getCertificate(certificateName);
   console.log(`Latest version of the certificate ${certificateName}: `, latestCertificate);
-  const specificCertificate = await client.getCertificateVersion(certificateName, latestCertificate.properties.version);
-  console.log(`The certificate ${certificateName} at the version ${latestCertificate.properties.version}: `, specificCertificate);
-
+  const specificCertificate = await client.getCertificateVersion(
+    certificateName,
+    latestCertificate.properties.version,
+  );
+  console.log(
+    `The certificate ${certificateName} at the version ${latestCertificate.properties.version}: `,
+    specificCertificate,
+  );
 }
 
 async function getCertificateWithFullInformation() {
@@ -198,7 +215,6 @@ async function getCertificateWithFullInformation() {
 
   // You can write this into a file:
   writeFileSync("myCertificate.p12", PKCS12Certificate);
-
 }
 
 async function createAPemCertificate() {
@@ -212,9 +228,9 @@ async function createAPemCertificate() {
   // Creating the certificate
   const certificateName = "MyCertificate";
   const createPoller = await client.beginCreateCertificate(certificateName, {
-      issuerName: "Self",
-      subject: "cn=MyCert",
-      contentType: "application/x-pem-file", // Here you specify you want to work with PEM certificates.
+    issuerName: "Self",
+    subject: "cn=MyCert",
+    contentType: "application/x-pem-file", // Here you specify you want to work with PEM certificates.
   });
   await createPoller.pollUntilDone();
 
@@ -223,7 +239,6 @@ async function createAPemCertificate() {
   const PEMPair = certificateSecret.value!;
 
   console.log(PEMPair);
-
 }
 
 async function updateACertificate() {
@@ -237,12 +252,11 @@ async function updateACertificate() {
 
   const result = await client.getCertificate(certificateName);
   await client.updateCertificateProperties(certificateName, result.properties.version, {
-      enabled: false,
-      tags: {
-          myCustomTag: "myCustomTagsValue",
-      },
+    enabled: false,
+    tags: {
+      myCustomTag: "myCustomTagsValue",
+    },
   });
-
 }
 
 async function updateACertificatePolicy() {
@@ -256,10 +270,9 @@ async function updateACertificatePolicy() {
 
   // Note: Sending `Self` as the `issuerName` of the certificate's policy will create a self-signed certificate.
   await client.updateCertificatePolicy(certificateName, {
-      issuerName: "Self",
-      subject: "cn=MyCert",
+    issuerName: "Self",
+    subject: "cn=MyCert",
   });
-
 }
 
 async function getCertificateProperties() {
@@ -273,7 +286,6 @@ async function getCertificateProperties() {
 
   const result = await client.getCertificate(certificateName);
   console.log(result.name);
-
 }
 
 async function getASpecificCertificateVersion() {
@@ -287,9 +299,14 @@ async function getASpecificCertificateVersion() {
 
   const latestCertificate = await client.getCertificate(certificateName);
   console.log(`Latest version of the certificate ${certificateName}: `, latestCertificate);
-  const specificCertificate = await client.getCertificateVersion(certificateName, latestCertificate.properties.version);
-  console.log(`The certificate ${certificateName} at the version ${latestCertificate.properties.version}: `, specificCertificate);
-
+  const specificCertificate = await client.getCertificateVersion(
+    certificateName,
+    latestCertificate.properties.version,
+  );
+  console.log(
+    `The certificate ${certificateName} at the version ${latestCertificate.properties.version}: `,
+    specificCertificate,
+  );
 }
 
 async function updateCertificateProperties() {
@@ -303,11 +320,10 @@ async function updateCertificateProperties() {
   // You may pass an empty string for version which will update
   // the latest version of the certificate
   await client.updateCertificateProperties(certificateName, "", {
-      tags: {
-          customTag: "value",
-      },
+    tags: {
+      customTag: "value",
+    },
   });
-
 }
 
 async function getACertificatePolicy() {
@@ -320,7 +336,6 @@ async function getACertificatePolicy() {
   const certificateName = "MyCertificate";
   const policy = await client.getCertificatePolicy(certificateName);
   console.log(policy);
-
 }
 
 export async function main(): Promise<void> {
@@ -328,11 +343,12 @@ export async function main(): Promise<void> {
   // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
   // about DefaultAzureCredential and the other credentials that are available for use.
   // If you're using MSI, DefaultAzureCredential should "just work".
-  client =
-      new CertificateClient(process.env["KEYVAULT_URI"] || "<keyvault-url>", new DefaultAzureCredential());
+  client = new CertificateClient(
+    process.env["KEYVAULT_URI"] || "<keyvault-url>",
+    new DefaultAzureCredential(),
+  );
   // Create unique certificate name
-  certificateName =
-      `hello-world-${new Date().getTime()}`;
+  certificateName = `hello-world-${new Date().getTime()}`;
   await createACertificate();
   await getAndUpdateCertificate();
   await deleteTheCertificate();

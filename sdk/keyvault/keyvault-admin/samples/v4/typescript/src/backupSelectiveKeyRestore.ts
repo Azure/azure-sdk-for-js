@@ -15,7 +15,6 @@ let client: KeyVaultBackupClient;
 let keyClient: KeyClient;
 
 async function beginSelectiveKeyRestoreWithSas() {
-
   const blobStorageUri = "<blob-storage-uri>";
   const sasToken = "<sas-token>";
   const keyName = "<key-name>";
@@ -30,16 +29,14 @@ async function beginSelectiveKeyRestoreWithSas() {
 
   // A new poller can be created with:
   await client.beginSelectiveKeyRestore(keyName, backupFolderUri, sasToken, {
-      resumeFrom: serialized,
+    resumeFrom: serialized,
   });
 
   // Waiting until it's done
   await poller.pollUntilDone();
-
 }
 
 async function beginSelectiveKeyRestoreWithoutSas() {
-
   const blobStorageUri = "<blob-storage-uri>";
   const keyName = "<key-name>";
   await keyClient.createRsaKey(keyName);
@@ -56,7 +53,6 @@ async function beginSelectiveKeyRestoreWithoutSas() {
 
   // Waiting until it's done
   await poller.pollUntilDone();
-
 }
 
 async function backupAndSelectiveKeyRestoreIntegration() {
@@ -67,16 +63,16 @@ async function backupAndSelectiveKeyRestoreIntegration() {
    * Helper function to construct a valid blob container URI from its parts.
    */
   function buildBlobContainerUri(): string {
-      const blobStorageUri = process.env["BLOB_STORAGE_URI"];
-      if (!blobStorageUri) {
-          throw new Error("Missing environment variable BLOB_STORAGE_URI.");
-      }
-      const blobContainerName = process.env["BLOB_CONTAINER_NAME"];
-      if (!blobContainerName) {
-          throw new Error("Missing environment variable BLOB_CONTAINER_NAME.");
-      }
-      // If there are trailing slashes, remove them before building the URI.
-      return `${blobStorageUri.replace(/\/$/, "")}/${blobContainerName}`;
+    const blobStorageUri = process.env["BLOB_STORAGE_URI"];
+    if (!blobStorageUri) {
+      throw new Error("Missing environment variable BLOB_STORAGE_URI.");
+    }
+    const blobContainerName = process.env["BLOB_CONTAINER_NAME"];
+    if (!blobContainerName) {
+      throw new Error("Missing environment variable BLOB_CONTAINER_NAME.");
+    }
+    // If there are trailing slashes, remove them before building the URI.
+    return `${blobStorageUri.replace(/\/$/, "")}/${blobContainerName}`;
   }
   // Create a Uri with the storage container path.
   const blobContainerUri = buildBlobContainerUri();
@@ -85,7 +81,11 @@ async function backupAndSelectiveKeyRestoreIntegration() {
   const backupResult = await backupPoller.pollUntilDone();
   console.log("backupResult", backupResult);
   // Finally, start and wait for the restore operation using the folderUri returned from a previous backup operation.
-  const selectiveKeyRestorePoller = await client.beginSelectiveKeyRestore(key.name, backupResult.folderUri!, sasToken);
+  const selectiveKeyRestorePoller = await client.beginSelectiveKeyRestore(
+    key.name,
+    backupResult.folderUri!,
+    sasToken,
+  );
   const restoreResult = await selectiveKeyRestorePoller.pollUntilDone();
   console.log("restoreResult", restoreResult);
 }
@@ -96,10 +96,8 @@ export async function main(): Promise<void> {
   // about DefaultAzureCredential and the other credentials that are available for use.
   const url = process.env["AZURE_MANAGEDHSM_URI"] || "<managedhsm-url>";
   const credential = new DefaultAzureCredential();
-  client =
-      new KeyVaultBackupClient(url, credential);
-  keyClient =
-      new KeyClient(url, credential);
+  client = new KeyVaultBackupClient(url, credential);
+  keyClient = new KeyClient(url, credential);
   await beginSelectiveKeyRestoreWithSas();
   await beginSelectiveKeyRestoreWithoutSas();
   await backupAndSelectiveKeyRestoreIntegration();

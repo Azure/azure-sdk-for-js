@@ -9,33 +9,16 @@
 import "dotenv/config";
 import { DefaultAzureCredential } from "@azure/identity";
 import { CertificateClient } from "@azure/keyvault-certificates";
+import { retryWithBackoff } from "./utils.js";
 
 let client: CertificateClient;
 let certificateName: string;
-async function deleteCertificateOperationWithRetry(certificateName: string): Promise<void> {
-    let lastError: unknown;
-    for (let i = 0; i < 5; i++) {
-        try {
-            await client.deleteCertificateOperation(certificateName);
-            return;
-        }
-        catch (error: any) {
-            lastError = error;
-            if (!/conflict while deleting the pending certificate/i.test(error.message) &&
-                !/Pending Certificate not found/i.test(error.message)) {
-                throw error;
-            }
-            await new Promise((resolve) => setTimeout(resolve, 1000));
-        }
-    }
-    throw lastError;
-}
 
 async function getAndCancelPendingOperations() {
   // Certificates' operations will be pending for some time right after they're created.
   const createPoller = await client.beginCreateCertificate(certificateName, {
-      issuerName: "Self",
-      subject: "cn=MyCert",
+    issuerName: "Self",
+    subject: "cn=MyCert",
   });
   const pendingCertificate = createPoller.getResult();
   console.log({ pendingCertificate });
@@ -48,17 +31,21 @@ async function getAndCancelPendingOperations() {
   operation = operationPoller.getResult();
   console.log("Cancelled certificate operation:", operation);
   // Deleting the certificate's operation
-  await deleteCertificateOperationWithRetry(certificateName);
+  await retryWithBackoff(() => client.deleteCertificateOperation(certificateName), {
+    delayMs: 1000,
+    shouldRetry: (e) =>
+      /conflict while deleting the pending certificate/i.test((e as Error).message) ||
+      /Pending Certificate not found/i.test((e as Error).message),
+  });
   let error;
   try {
-      await client.getCertificateOperation(certificateName);
-      throw Error("Expecting an error but not catching one.");
-  }
-  catch (e: any) {
-      error = e;
+    await client.getCertificateOperation(certificateName);
+    throw Error("Expecting an error but not catching one.");
+  } catch (e: any) {
+    error = e;
   }
   console.log(error.message); // Pending certificate not found
-  
+
   // There will be no signs of a pending operation at this point
   const certificateWithoutOperation = await client.getCertificate(certificateName);
   console.log("Certificate without operation:", certificateWithoutOperation);
@@ -73,8 +60,8 @@ async function getACertificateOperation() {
 
   const certificateName = "MyCertificate";
   await client.beginCreateCertificate(certificateName, {
-      issuerName: "Unknown",
-      subject: "cn=MyCert",
+    issuerName: "Unknown",
+    subject: "cn=MyCert",
   });
 
   const poller = await client.getCertificateOperation(certificateName);
@@ -82,7 +69,6 @@ async function getACertificateOperation() {
 
   const certificateOperation = poller.getOperationState().certificateOperation;
   console.log(certificateOperation);
-
 }
 
 async function deleteACertificateOperation() {
@@ -94,14 +80,13 @@ async function deleteACertificateOperation() {
 
   const certificateName = "MyCertificate";
   await client.beginCreateCertificate(certificateName, {
-      issuerName: "Unknown",
-      subject: "cn=MyCert",
+    issuerName: "Unknown",
+    subject: "cn=MyCert",
   });
   await client.deleteCertificateOperation(certificateName);
 
   await client.getCertificateOperation(certificateName);
   // Throws error: Pending certificate not found: "MyCertificate"
-
 }
 
 export async function main(): Promise<void> {
@@ -109,10 +94,11 @@ export async function main(): Promise<void> {
   // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
   // about DefaultAzureCredential and the other credentials that are available for use.
   // If you're using MSI, DefaultAzureCredential should "just work".
-  client =
-      new CertificateClient(process.env["KEYVAULT_URI"] || "<keyvault-url>", new DefaultAzureCredential());
-  certificateName =
-      `operation-${new Date().getTime()}`;
+  client = new CertificateClient(
+    process.env["KEYVAULT_URI"] || "<keyvault-url>",
+    new DefaultAzureCredential(),
+  );
+  certificateName = `operation-${new Date().getTime()}`;
   await getAndCancelPendingOperations();
   await getACertificateOperation();
   await deleteACertificateOperation();

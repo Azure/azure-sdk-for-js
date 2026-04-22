@@ -15,16 +15,16 @@ let client: CertificateClient;
 async function manageCertificateContacts() {
   // Contacts are created independently of the certificates.
   const contacts = [
-      {
-          email: "a@a.com",
-          name: "a",
-          phone: "111111111111",
-      },
-      {
-          email: "b@b.com",
-          name: "b",
-          phone: "222222222222",
-      },
+    {
+      email: "a@a.com",
+      name: "a",
+      phone: "111111111111",
+    },
+    {
+      email: "b@b.com",
+      name: "b",
+      phone: "222222222222",
+    },
   ];
   await client.setContacts(contacts);
   const getResponse = await client.getContacts();
@@ -32,11 +32,10 @@ async function manageCertificateContacts() {
   await client.deleteContacts();
   let error;
   try {
-      await client.getContacts();
-      throw Error("Expecting an error but not catching one.");
-  }
-  catch (e: any) {
-      error = e;
+    await client.getContacts();
+    throw Error("Expecting an error but not catching one.");
+  } catch (e: any) {
+    error = e;
   }
   console.log("err: ", error);
 }
@@ -48,7 +47,6 @@ async function deleteCertificateContacts() {
 
   const client = new CertificateClient(keyVaultUrl, credential);
   await client.deleteContacts();
-
 }
 
 async function setCertificateContacts() {
@@ -59,13 +57,12 @@ async function setCertificateContacts() {
   const client = new CertificateClient(keyVaultUrl, credential);
 
   await client.setContacts([
-      {
-          email: "b@b.com",
-          name: "b",
-          phone: "222222222222",
-      },
+    {
+      email: "b@b.com",
+      name: "b",
+      phone: "222222222222",
+    },
   ]);
-
 }
 
 async function getCertificateContacts() {
@@ -77,9 +74,8 @@ async function getCertificateContacts() {
 
   const contacts = await client.getContacts();
   for (const contact of contacts) {
-      console.log(contact);
+    console.log(contact);
   }
-
 }
 
 export async function main(): Promise<void> {
@@ -87,8 +83,10 @@ export async function main(): Promise<void> {
   // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
   // about DefaultAzureCredential and the other credentials that are available for use.
   // If you're using MSI, DefaultAzureCredential should "just work".
-  client =
-      new CertificateClient(process.env["KEYVAULT_URI"] || "<keyvault-url>", new DefaultAzureCredential());
+  client = new CertificateClient(
+    process.env["KEYVAULT_URI"] || "<keyvault-url>",
+    new DefaultAzureCredential(),
+  );
   await manageCertificateContacts();
   await deleteCertificateContacts();
   await setCertificateContacts();

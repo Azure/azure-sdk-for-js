@@ -10,6 +10,7 @@ require("dotenv/config");
 const { DefaultAzureCredential } = require("@azure/identity");
 const { KeyClient } = require("@azure/keyvault-keys");
 const { stringToUint8Array } = require("../utils/crypto.js");
+const { retryWithBackoff } = require("./utils.js");
 
 let client;
 let hsmClient;
@@ -232,17 +233,7 @@ async function restoreAKeyFromBackup() {
 
   await client.purgeDeletedKey(keyName);
 
-  for (let attempt = 0; attempt < 5; attempt++) {
-    try {
-      await client.restoreKeyBackup(backupContents);
-      break;
-    } catch (error) {
-      if (attempt === 4) {
-        throw error;
-      }
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-    }
-  }
+  await retryWithBackoff(() => client.restoreKeyBackup(backupContents));
 }
 
 async function getRandomBytes() {

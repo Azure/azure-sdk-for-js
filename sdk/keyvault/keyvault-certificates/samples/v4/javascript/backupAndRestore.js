@@ -9,6 +9,7 @@
 require("dotenv/config");
 const { DefaultAzureCredential } = require("@azure/identity");
 const { CertificateClient } = require("@azure/keyvault-certificates");
+const { retryWithBackoff } = require("./utils.js");
 
 let client;
 let certificateName;
@@ -26,7 +27,9 @@ async function backupAndRestoreACertificate() {
   const deletePoller = await client.beginDeleteCertificate(certificateName);
   await deletePoller.pollUntilDone();
   await client.purgeDeletedCertificate(certificateName);
-  await client.restoreCertificateBackup(backup);
+  await retryWithBackoff(() => client.restoreCertificateBackup(backup), {
+    shouldRetry: (e) => /conflict restoring the certificate/i.test(e.message),
+  });
   const restoredCertificate = await client.getCertificate(certificateName);
   console.log("Restored certificate: ", restoredCertificate);
 }
@@ -67,7 +70,9 @@ async function restoreACertificateFromBackup() {
   await client.purgeDeletedCertificate(certificateName);
 
   // Some time is required before we're able to restore the certificate
-  await client.restoreCertificateBackup(backup);
+  await retryWithBackoff(() => client.restoreCertificateBackup(backup), {
+    shouldRetry: (e) => /conflict restoring the certificate/i.test(e.message),
+  });
 }
 
 async function main() {

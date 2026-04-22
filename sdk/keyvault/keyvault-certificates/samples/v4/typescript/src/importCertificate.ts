@@ -21,13 +21,17 @@ async function importAPkcs12Certificate() {
   // private key to be exportable or to configure actions when a certificate is close to expiration.
   const certificateName = `import-${Date.now()}`;
   const samplePfxBase64 = process.env.SAMPLE_PFX_BASE_64 || "";
-  const importedCertificate = await client.importCertificate(certificateName, Buffer.from(samplePfxBase64, "base64"), {
+  const importedCertificate = await client.importCertificate(
+    certificateName,
+    Buffer.from(samplePfxBase64, "base64"),
+    {
       policy: {
-          contentType: "application/x-pkcs12",
-          issuerName: WellKnownIssuer.Self,
-          subject: "CN=contoso.com",
+        contentType: "application/x-pkcs12",
+        issuerName: WellKnownIssuer.Self,
+        subject: "CN=contoso.com",
       },
-  });
+    },
+  );
   console.log("importedCertificate", importedCertificate);
   const deletePoller = await client.beginDeleteCertificate(importedCertificate.name);
   const deletedCertificate = await deletePoller.pollUntilDone();
@@ -42,14 +46,17 @@ async function importAPemCertificate() {
   // to Pem or the certificate will fail to import
   const certificateName = `cert${Date.now()}`;
   const samplePem = process.env.SAMPLE_PEM || "";
-  const importedCertificate = await client.importCertificate(certificateName, Buffer.from(samplePem), // PEM certificates are not base64 encoded, so we don't need to decode them
-  {
+  const importedCertificate = await client.importCertificate(
+    certificateName,
+    Buffer.from(samplePem), // PEM certificates are not base64 encoded, so we don't need to decode them
+    {
       policy: {
-          contentType: "application/x-pem-file",
-          issuerName: WellKnownIssuer.Self,
-          subject: "CN=contoso.com",
+        contentType: "application/x-pem-file",
+        issuerName: WellKnownIssuer.Self,
+        subject: "CN=contoso.com",
       },
-  });
+    },
+  );
   console.log("importedCertificate", importedCertificate);
   const deletePoller = await client.beginDeleteCertificate(importedCertificate.name);
   const deletedCertificate = await deletePoller.pollUntilDone();
@@ -72,10 +79,9 @@ async function importACertificate() {
   const base64EncodedCertificate = certificateSecret.value!;
 
   const buffer = isNodeLike
-      ? Buffer.from(base64EncodedCertificate, "base64")
-      : Uint8Array.from(atob(base64EncodedCertificate), (c) => c.charCodeAt(0));
+    ? Buffer.from(base64EncodedCertificate, "base64")
+    : Uint8Array.from(atob(base64EncodedCertificate), (c) => c.charCodeAt(0));
   await client.importCertificate(importedCertificateName, buffer);
-
 }
 
 export async function main(): Promise<void> {
@@ -83,10 +89,14 @@ export async function main(): Promise<void> {
   // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
   // about DefaultAzureCredential and the other credentials that are available for use.
   // If you're using MSI, DefaultAzureCredential should "just work".
-  client =
-      new CertificateClient(process.env["KEYVAULT_URI"] || "<keyvault-url>", new DefaultAzureCredential());
-  secretClient =
-      new SecretClient(process.env["KEYVAULT_URI"] || "<keyvault-url>", new DefaultAzureCredential());
+  client = new CertificateClient(
+    process.env["KEYVAULT_URI"] || "<keyvault-url>",
+    new DefaultAzureCredential(),
+  );
+  secretClient = new SecretClient(
+    process.env["KEYVAULT_URI"] || "<keyvault-url>",
+    new DefaultAzureCredential(),
+  );
   await importAPkcs12Certificate();
   await importAPemCertificate();
   await importACertificate();

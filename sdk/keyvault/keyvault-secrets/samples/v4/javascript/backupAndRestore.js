@@ -10,6 +10,7 @@ require("dotenv/config");
 const { DefaultAzureCredential } = require("@azure/identity");
 const { SecretClient } = require("@azure/keyvault-secrets");
 const { readFile, writeFile } = require("node:fs/promises");
+const { retryWithBackoff } = require("./utils.js");
 
 async function main() {
   const client = new SecretClient(
@@ -38,18 +39,7 @@ async function main() {
   const backupContents = await readFile("secret_backup.dat");
 
   // Restore the secret
-  let result;
-  for (let attempt = 0; attempt < 5; attempt++) {
-    try {
-      result = await client.restoreSecretBackup(backupContents);
-      break;
-    } catch (error) {
-      if (attempt === 4) {
-        throw error;
-      }
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-    }
-  }
+  const result = await retryWithBackoff(() => client.restoreSecretBackup(backupContents));
   console.log("Restored secret: ", result);
 
   // If we don't want to purge the secret later, we don't need to wait until this finishes

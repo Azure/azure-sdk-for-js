@@ -21,13 +21,13 @@ async function encryptAndDecrypt() {
   const myWorkKey = await client.createKey(keyName, "RSA");
   const cryptoClient = new CryptographyClient(myWorkKey.id!, credential);
   const encrypt = await cryptoClient.encrypt({
-      algorithm: "RSA-OAEP-256",
-      plaintext: Buffer.from("My Message"),
+    algorithm: "RSA-OAEP-256",
+    plaintext: Buffer.from("My Message"),
   });
   console.log("encrypt result: ", encrypt);
   const decrypt = await cryptoClient.decrypt({
-      algorithm: "RSA-OAEP-256",
-      ciphertext: encrypt.result,
+    algorithm: "RSA-OAEP-256",
+    ciphertext: encrypt.result,
   });
   console.log("decrypt: ", decrypt.result.toString());
 }
@@ -65,11 +65,10 @@ async function encryptData() {
   const cryptographyClient = new CryptographyClient(myKey.id!, credential);
 
   const encryptResult = await cryptographyClient.encrypt({
-      algorithm: "RSA1_5",
-      plaintext: Buffer.from("My Message"),
+    algorithm: "RSA1_5",
+    plaintext: Buffer.from("My Message"),
   });
   console.log("encrypt result: ", encryptResult.result);
-
 }
 
 async function decryptData() {
@@ -77,17 +76,16 @@ async function decryptData() {
   const cryptographyClient = new CryptographyClient(myKey.id!, credential);
 
   const encryptResult = await cryptographyClient.encrypt({
-      algorithm: "RSA1_5",
-      plaintext: Buffer.from("My Message"),
+    algorithm: "RSA1_5",
+    plaintext: Buffer.from("My Message"),
   });
   console.log("encrypt result: ", encryptResult.result);
 
   const decryptResult = await cryptographyClient.decrypt({
-      algorithm: "RSA1_5",
-      ciphertext: encryptResult.result,
+    algorithm: "RSA1_5",
+    ciphertext: encryptResult.result,
   });
   console.log("decrypt result: ", decryptResult.result.toString());
-
 }
 
 async function signADigest() {
@@ -102,7 +100,6 @@ async function signADigest() {
 
   const signResult = await cryptographyClient.sign("RS256", digest);
   console.log("sign result: ", signResult.result);
-
 }
 
 async function signData() {
@@ -111,7 +108,6 @@ async function signData() {
 
   const signResult = await cryptographyClient.signData("RS256", Buffer.from("My Message"));
   console.log("sign result: ", signResult.result);
-
 }
 
 async function verifyADigestSignature() {
@@ -127,7 +123,6 @@ async function verifyADigestSignature() {
 
   const verifyResult = await cryptographyClient.verify("RS256", digest, signResult.result);
   console.log("verify result: ", verifyResult.result);
-
 }
 
 async function verifyADataSignature() {
@@ -141,7 +136,6 @@ async function verifyADataSignature() {
 
   const verifyResult = await cryptographyClient.verifyData("RS256", buffer, signResult.result);
   console.log("verify result: ", verifyResult.result);
-
 }
 
 async function wrapAKey() {
@@ -150,7 +144,6 @@ async function wrapAKey() {
 
   const wrapResult = await cryptographyClient.wrapKey("RSA-OAEP", Buffer.from("My Key"));
   console.log("wrap result:", wrapResult.result);
-
 }
 
 async function unwrapAKey() {
@@ -162,7 +155,6 @@ async function unwrapAKey() {
 
   const unwrapResult = await cryptographyClient.unwrapKey("RSA-OAEP", wrapResult.result);
   console.log("unwrap result: ", unwrapResult.result);
-
 }
 
 export async function main(): Promise<void> {
@@ -171,8 +163,7 @@ export async function main(): Promise<void> {
   // about DefaultAzureCredential and the other credentials that are available for use.
   credential = new DefaultAzureCredential();
   // Connection to Azure Key Vault
-  client =
-      new KeyClient(process.env["KEYVAULT_URI"] || "<keyvault-url>", credential);
+  client = new KeyClient(process.env["KEYVAULT_URI"] || "<keyvault-url>", credential);
   await encryptAndDecrypt();
   await signAndVerify();
   await wrapAndUnwrapKey();

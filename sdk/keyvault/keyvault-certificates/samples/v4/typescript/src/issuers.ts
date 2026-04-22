@@ -17,20 +17,20 @@ let issuerName: string;
 async function manageCertificateIssuers() {
   // Create
   await client.createIssuer(issuerName, "Test", {
-      accountId: "keyvaultuser",
-      administratorContacts: [
-          {
-              firstName: "John",
-              lastName: "Doe",
-              email: "admin@microsoft2.com",
-              phone: "4255555555",
-          },
-      ],
+    accountId: "keyvaultuser",
+    administratorContacts: [
+      {
+        firstName: "John",
+        lastName: "Doe",
+        email: "admin@microsoft2.com",
+        phone: "4255555555",
+      },
+    ],
   });
   // We can create a certificate with that issuer's name.
   const createPoller = await client.beginCreateCertificate(certificateName, {
-      issuerName,
-      subject: "cn=MyCert",
+    issuerName,
+    subject: "cn=MyCert",
   });
   const pendingCertificate = createPoller.getResult();
   console.log("Certificate: ", pendingCertificate);
@@ -39,7 +39,7 @@ async function manageCertificateIssuers() {
   console.log("Certificate issuer: ", getResponse);
   // We can also list properties for all issuers:
   for await (const issuerProperties of client.listPropertiesOfIssuers()) {
-      console.log("Certificate properties: ", issuerProperties);
+    console.log("Certificate properties: ", issuerProperties);
   }
   // We can also delete the issuer.
   await client.deleteIssuer(issuerName);
@@ -57,16 +57,15 @@ async function listCertificateIssuers() {
 
   // All in one call
   for await (const issuerProperties of client.listPropertiesOfIssuers()) {
-      console.log(issuerProperties);
+    console.log(issuerProperties);
   }
 
   // By pages
   for await (const page of client.listPropertiesOfIssuers().byPage()) {
-      for (const issuerProperties of page) {
-          console.log(issuerProperties);
-      }
+    for (const issuerProperties of page) {
+      console.log(issuerProperties);
+    }
   }
-
 }
 
 async function createACertificateIssuer() {
@@ -78,7 +77,6 @@ async function createACertificateIssuer() {
 
   const issuerName = "IssuerName";
   await client.createIssuer(issuerName, "Test");
-
 }
 
 async function updateACertificateIssuer() {
@@ -90,9 +88,8 @@ async function updateACertificateIssuer() {
 
   const issuerName = "IssuerName";
   await client.updateIssuer(issuerName, {
-      accountId: "updated-keyvaultuser",
+    accountId: "updated-keyvaultuser",
   });
-
 }
 
 async function getACertificateIssuer() {
@@ -105,7 +102,6 @@ async function getACertificateIssuer() {
   const issuerName = "IssuerName";
   const certificateIssuer = await client.getIssuer(issuerName);
   console.log(certificateIssuer);
-
 }
 
 async function deleteACertificateIssuer() {
@@ -117,7 +113,6 @@ async function deleteACertificateIssuer() {
 
   const issuerName = "IssuerName";
   await client.deleteIssuer(issuerName);
-
 }
 
 export async function main(): Promise<void> {
@@ -125,12 +120,12 @@ export async function main(): Promise<void> {
   // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
   // about DefaultAzureCredential and the other credentials that are available for use.
   // If you're using MSI, DefaultAzureCredential should "just work".
-  client =
-      new CertificateClient(process.env["KEYVAULT_URI"] || "<keyvault-url>", new DefaultAzureCredential());
-  certificateName =
-      `issuer-${new Date().getTime()}`;
-  issuerName =
-      `issuer${new Date().getTime()}`;
+  client = new CertificateClient(
+    process.env["KEYVAULT_URI"] || "<keyvault-url>",
+    new DefaultAzureCredential(),
+  );
+  certificateName = `issuer-${new Date().getTime()}`;
+  issuerName = `issuer${new Date().getTime()}`;
   await manageCertificateIssuers();
   await listCertificateIssuers();
   await createACertificateIssuer();

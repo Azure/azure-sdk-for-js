@@ -12,32 +12,26 @@ import { CertificateClient } from "@azure/keyvault-certificates";
 import { setLogLevel } from "@azure/logger";
 
 async function createACertificateClient() {
-
   const credential = new DefaultAzureCredential();
 
   const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   const client = new CertificateClient(url, credential);
-
 }
 
 async function createACertificateClientWithASpecificVersion() {
-
   const credential = new DefaultAzureCredential();
 
   const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   // Change the Azure Key Vault service API version being used via the `serviceVersion` option
   const client = new CertificateClient(url, credential, {
-      serviceVersion: "7.5",
+    serviceVersion: "7.5",
   });
-
 }
 
 async function setTheLogLevel() {
-
   setLogLevel("info");
-
 }
 
 export async function main(): Promise<void> {

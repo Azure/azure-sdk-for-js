@@ -11,7 +11,10 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { KeyVaultSettingsClient } from "@azure/keyvault-admin";
 
 export async function main(): Promise<void> {
-  const client: KeyVaultSettingsClient = new KeyVaultSettingsClient(process.env["AZURE_MANAGEDHSM_URI"] || "<managedhsm-url>", new DefaultAzureCredential());
+  const client: KeyVaultSettingsClient = new KeyVaultSettingsClient(
+    process.env["AZURE_MANAGEDHSM_URI"] || "<managedhsm-url>",
+    new DefaultAzureCredential(),
+  );
   const setting = await client.getSetting("AllowKeyManagementOperationsThroughARM");
   // You can update the setting's value and then pass it back to updateSetting:
   setting.value = true;

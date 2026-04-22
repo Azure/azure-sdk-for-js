@@ -20,9 +20,9 @@ let certificateName: string;
 async function mergeACertificate() {
   // Creating a certificate with an Unknown issuer.
   await client.beginCreateCertificate(certificateName, {
-      issuerName: "Unknown",
-      certificateTransparency: false,
-      subject: "cn=MyCert",
+    issuerName: "Unknown",
+    certificateTransparency: false,
+    subject: "cn=MyCert",
   });
   // Retrieving the certificate's signing request
   const operationPoller = await client.getCertificateOperation(certificateName);
@@ -42,7 +42,9 @@ async function mergeACertificate() {
   //
   // For more information on how to set up a local certificate authority
   // go to: https://gist.github.com/Soarez/9688998
-  childProcess.execSync("openssl x509 -req -in test.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out test.crt");
+  childProcess.execSync(
+    "openssl x509 -req -in test.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out test.crt",
+  );
   const base64Crt = fs.readFileSync("test.crt").toString().split("\n").slice(1, -1).join("");
   // Once we have the response in base64 format, we send it to mergeCertificate
   await client.mergeCertificate(certificateName, [Buffer.from(base64Crt)]);
@@ -57,16 +59,16 @@ async function mergeACertificate2() {
 
   const certificateName = "MyCertificate";
   await client.beginCreateCertificate(certificateName, {
-      issuerName: "Unknown",
-      subject: "cn=MyCert",
+    issuerName: "Unknown",
+    subject: "cn=MyCert",
   });
   const poller = await client.getCertificateOperation(certificateName);
   const { csr } = poller.getOperationState().certificateOperation!;
   const base64Csr = Buffer.from(csr!).toString("base64");
   const wrappedCsr = [
-      "-----BEGIN CERTIFICATE REQUEST-----",
-      base64Csr,
-      "-----END CERTIFICATE REQUEST-----",
+    "-----BEGIN CERTIFICATE REQUEST-----",
+    base64Csr,
+    "-----END CERTIFICATE REQUEST-----",
   ].join("\n");
 
   writeFileSync("test.csr", wrappedCsr);
@@ -80,7 +82,6 @@ async function mergeACertificate2() {
   const base64Crt = readFileSync("test.crt").toString().split("\n").slice(1, -1).join("");
 
   await client.mergeCertificate(certificateName, [Buffer.from(base64Crt)]);
-
 }
 
 export async function main(): Promise<void> {
@@ -88,10 +89,11 @@ export async function main(): Promise<void> {
   // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
   // about DefaultAzureCredential and the other credentials that are available for use.
   // If you're using MSI, DefaultAzureCredential should "just work".
-  client =
-      new CertificateClient(process.env["KEYVAULT_URI"] || "<keyvault-url>", new DefaultAzureCredential());
-  certificateName =
-      `merge-${new Date().getTime()}`;
+  client = new CertificateClient(
+    process.env["KEYVAULT_URI"] || "<keyvault-url>",
+    new DefaultAzureCredential(),
+  );
+  certificateName = `merge-${new Date().getTime()}`;
   await mergeACertificate();
   await mergeACertificate2();
 }

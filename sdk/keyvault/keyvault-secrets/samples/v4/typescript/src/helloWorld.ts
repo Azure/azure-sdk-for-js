@@ -27,10 +27,12 @@ async function createAndReadASecret() {
   console.log(`Latest version of the secret ${secretName}: `, latestSecret);
 
   const specificSecret = await client.getSecret(secretName, {
-      version: latestSecret.properties.version!,
+    version: latestSecret.properties.version!,
   });
-  console.log(`The secret ${secretName} at the version ${latestSecret.properties.version!}: `, specificSecret);
-
+  console.log(
+    `The secret ${secretName} at the version ${latestSecret.properties.version!}: `,
+    specificSecret,
+  );
 }
 
 async function updateSecretProperties() {
@@ -40,9 +42,8 @@ async function updateSecretProperties() {
   // Update the secret with different attributes
   const result = await client.getSecret(secretName);
   await client.updateSecretProperties(secretName, result.properties.version!, {
-      enabled: false,
+    enabled: false,
   });
-
 }
 
 async function deleteTheSecret() {
@@ -52,25 +53,25 @@ async function deleteTheSecret() {
   // Delete the secret
   // If we don't want to purge the secret later, we don't need to wait until this finishes
   await client.beginDeleteSecret(secretName);
-
 }
 
 async function createASecretWithAttributes() {
   const secretName = "MySecretName";
 
   const result = await client.setSecret(secretName, "MySecretValue", {
-      enabled: false,
+    enabled: false,
   });
   console.log("result: ", result);
-
 }
 
 export async function main(): Promise<void> {
   // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
   // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
   // about DefaultAzureCredential and the other credentials that are available for use.
-  client =
-      new SecretClient(process.env["KEYVAULT_URI"] || "<keyvault-url>", new DefaultAzureCredential());
+  client = new SecretClient(
+    process.env["KEYVAULT_URI"] || "<keyvault-url>",
+    new DefaultAzureCredential(),
+  );
   await createAndReadASecret();
   await updateSecretProperties();
   await deleteTheSecret();
