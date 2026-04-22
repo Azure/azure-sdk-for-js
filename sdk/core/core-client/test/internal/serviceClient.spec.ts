@@ -296,7 +296,7 @@ describe("ServiceClient", function () {
   });
 
   it("should call onResponse with the full response when encountering an unknown status", async function () {
-    let request: OperationRequest;
+    let request: OperationRequest | undefined;
 
     const pipeline = createEmptyPipeline();
     pipeline.addPolicy(deserializationPolicy());
