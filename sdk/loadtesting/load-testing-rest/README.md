@@ -4,11 +4,10 @@ Azure Load Testing provides client library in JavaScript to the user by which th
 
 **Please rely heavily on our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library**
 
-## Documentation
-
-Various documentation is available to help you get started
+Key links:
 
 - [Source code][source_code]
+- [Package (NPM)][package_npm]
 - [API reference documentation][api_reference_doc]
 - [Product Documentation][product_documentation]
 
@@ -31,7 +30,7 @@ Install the Azure Load Testing client REST client library for JavaScript with `n
 npm install @azure-rest/load-testing
 ```
 
-### Create and authenticate a `AzureLoadTesting` client
+### Create and authenticate a `AzureLoadTestingClient`
 
 To use an [Azure Active Directory (AAD) token credential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token),
 provide an instance of the desired credential type obtained from the
@@ -58,15 +57,15 @@ const client = AzureLoadTesting(endpoint, new DefaultAzureCredential());
 
 The following components make up the Azure Load Testing Service. The Azure Load Test client library for JavaScript allows you to interact with each of these components through the use of a dedicated client object.
 
-#### Test
+### Test
 
 A test specifies the test script, and configuration settings for running a load test. You can create one or more tests in an Azure Load Testing resource.
 
-#### App Component
+### App Component
 
 When you run a load test for an Azure-hosted application, you can monitor resource metrics for the different Azure application components (server-side metrics). While the load test runs, and after completion of the test, you can monitor and analyze the resource metrics in the Azure Load Testing dashboard.
 
-#### Metrics
+### Metrics
 
 During a load test, Azure Load Testing collects metrics about the test execution. There are two types of metrics:
 
@@ -126,7 +125,7 @@ await client.path("/tests/{testId}", TEST_ID).patch({
 });
 ```
 
-### Uploading Test script file to a Test
+### Uploading a test script file to a test
 
 ```ts snippet:ReadmeSampleUploadTestScriptFile
 import AzureLoadTesting, { isUnexpected, getLongRunningPoller } from "@azure-rest/load-testing";
@@ -154,7 +153,7 @@ const fileValidatePoller = await getLongRunningPoller(client, fileUploadResult);
 const fileValidateResult = await fileValidatePoller.pollUntilDone();
 ```
 
-### Running a Test and fetching Metrics
+### Running a test and fetching metrics
 
 ```ts snippet:ReadmeSampleRunTest
 import AzureLoadTesting, { isUnexpected, getLongRunningPoller } from "@azure-rest/load-testing";
@@ -275,8 +274,8 @@ For details on contributing to this repository, see the [contributing guide](htt
 <!-- LINKS -->
 
 [source_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtesting/load-testing-rest/src
-[sample_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtesting/load-testing-rest/samples/v1-beta
-[api_reference_doc]: https://learn.microsoft.com/rest/api/apptesting/loadtest/
+[package_npm]: https://www.npmjs.com/package/@azure-rest/load-testing
+[api_reference_doc]: https://learn.microsoft.com/javascript/api/@azure-rest/load-testing
 [obtaining_data_plane_uri]: https://learn.microsoft.com/rest/api/apptesting/loadtest/data-plane-uri
 [product_documentation]: https://azure.microsoft.com/services/load-testing/
-[azure_subscription]: https://azure.microsoft.com/free/
+[sample_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtesting/load-testing-rest/samples/v1

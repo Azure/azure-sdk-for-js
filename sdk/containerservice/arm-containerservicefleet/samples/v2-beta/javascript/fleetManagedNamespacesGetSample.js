@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a FleetManagedNamespace
  *
  * @summary get a FleetManagedNamespace
- * x-ms-original-file: 2025-08-01-preview/FleetManagedNamespaces_Get.json
+ * x-ms-original-file: 2026-02-01-preview/FleetManagedNamespaces_Get.json
  */
 async function fleetManagedNamespacesGet() {
   const credential = new DefaultAzureCredential();

@@ -14,7 +14,17 @@ describe("snippets", () => {
     const vaultName = "<YOUR KEYVAULT NAME>";
     const url = `https://${vaultName}.vault.azure.net`;
     // @ts-preserve-whitespace
-    // Lastly, create our keys client and connect to the service
+    // Lastly, create our secrets client and connect to the service
+    const client = new SecretClient(url, credential);
+  });
+
+  it("ReadmeSampleCreateClientBrowser", async () => {
+    const credential = new InteractiveBrowserCredential({
+      tenantId: "<YOUR_TENANT_ID>",
+      clientId: "<YOUR_CLIENT_ID>",
+    });
+    const vaultName = "<YOUR KEYVAULT NAME>";
+    const url = `https://${vaultName}.vault.azure.net`;
     const client = new SecretClient(url, credential);
   });
 

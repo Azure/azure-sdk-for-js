@@ -37,10 +37,11 @@ interface QueryParameterWithOptions {
 }
 
 function isQueryParameterWithOptions(x: unknown): x is QueryParameterWithOptions {
-  const value = (x as QueryParameterWithOptions).value as any;
-  return (
-    value !== undefined && value.toString !== undefined && typeof value.toString === "function"
-  );
+  if (typeof x !== "object" || x === null || !Object.hasOwn(x, "value")) {
+    return false;
+  }
+  const value = (x as QueryParameterWithOptions).value;
+  return typeof value?.toString === "function";
 }
 
 /**
@@ -88,9 +89,11 @@ function appendPath(endpoint: string, pathToAppend: string): string {
   const combinedSearch = [endpointParts[1], pathParts[1].replaceAll("?", "&")]
     .filter(Boolean)
     .join("&");
-  const baseEndpoint = endpointParts[0];
+  // Replace consecutive forward slashes with a single forward slash, but only for the part right after the host in the endpoint.
+  // This is to maintain compatibility with old behavior for cases where the endpoint has been provided with extra forward slashes,
+  // while still allowing for intentional consecutive forward slashes in the path to be preserved.
+  const baseEndpoint = endpointParts[0].replace(/(^[^:]+:\/\/[^/]+)\/\/+/, "$1/");
   const basePathToAppend = pathParts[0];
-
   let combinedUrl = baseEndpoint;
   if (!baseEndpoint.endsWith("/") && !basePathToAppend.startsWith("/") && basePathToAppend !== "") {
     combinedUrl += `/${basePathToAppend}`;
@@ -199,7 +202,7 @@ export function appendQueryParams(url: string, options: RequestParameters = {}):
 
   const newParamStrings: string[] = [];
   for (const key of Object.keys(queryParams)) {
-    const param = queryParams[key] as any;
+    const param = queryParams[key];
     if (param === undefined || param === null) {
       continue;
     }
@@ -216,7 +219,7 @@ export function appendQueryParams(url: string, options: RequestParameters = {}):
             getQueryParamValue(key, options.skipUrlEncoding ?? false, style, item),
           );
         }
-      } else if (typeof rawValue === "object") {
+      } else if (rawValue !== null && typeof rawValue === "object") {
         // For object explode, the name of the query parameter is ignored and we use the object key instead
         for (const [actualKey, value] of Object.entries(rawValue)) {
           newParamStrings.push(
@@ -289,6 +292,7 @@ export function buildBaseUrl(endpoint: string, options: RequestParameters): stri
     }
     endpoint = replaceAll(endpoint, `{${key}}`, value) ?? "";
   }
+
   return endpoint;
 }
 

@@ -16,7 +16,6 @@ import {
   createPolyfillHost,
   createCachedHost,
   compileTarget,
-  transpileFiles,
   SharedSourceFileCache,
 } from "./compiler.ts";
 import { formatSingleDiagnostic } from "./diagnostics.ts";
@@ -28,7 +27,9 @@ export interface CompileMessage {
   packageRoot: string;
   target: WarpTarget;
   typeCheck: boolean;
-  skipDeclarations: boolean;
+  skipEmit?: boolean;
+  /** @deprecated Use skipEmit instead. Removed in a later commit. */
+  skipDeclarations?: boolean;
   /**
    * Pre-discovered polyfill map entries (original → polyfill path pairs).
    * When provided, the worker skips filesystem-based polyfill discovery.
@@ -65,8 +66,21 @@ port.postMessage({ type: "ready" } satisfies ReadyMessage);
 port.on("message", (msg: CompileMessage) => {
   if (msg.type === "compile") {
     void (async () => {
-      const result = await runCompilation(msg);
-      port.postMessage(result);
+      try {
+        const result = await runCompilation(msg);
+        port.postMessage(result);
+      } catch (err) {
+        const errorText = err instanceof Error ? (err.stack ?? err.message) : String(err);
+        port.postMessage({
+          type: "result",
+          targetName: msg.target.name,
+          success: false,
+          diagnosticText: `Worker crash: ${errorText}`,
+          errorCount: 1,
+          timeMs: 0,
+          outDir: msg.packageRoot ?? "",
+        } satisfies ResultMessage);
+      }
     })();
   }
 });
@@ -77,7 +91,6 @@ async function runCompilation(msg: CompileMessage): Promise<ResultMessage> {
   const suffix = msg.target.polyfillSuffix;
 
   let host: ts.CompilerHost;
-  let hasPolyfills = false;
   if (suffix) {
     // Use pre-discovered polyfill map from main thread when available,
     // avoiding redundant readdir I/O in each worker.
@@ -92,7 +105,6 @@ async function runCompilation(msg: CompileMessage): Promise<ResultMessage> {
       polyfillMap = await discoverPolyfills(parsed.parsedConfig.fileNames, suffix);
     }
     if (polyfillMap.size > 0) {
-      hasPolyfills = true;
       ({ host } = createPolyfillHost(parsed.parsedConfig.options, polyfillMap, cache));
     } else {
       host = createCachedHost(parsed.parsedConfig.options, cache);
@@ -101,22 +113,11 @@ async function runCompilation(msg: CompileMessage): Promise<ResultMessage> {
     host = createCachedHost(parsed.parsedConfig.options, cache);
   }
 
-  // Fast path: transpileFiles bypasses ts.createProgram entirely for
-  // targets that skip type-checking and declarations (~3-10× faster).
-  let result;
-  if (!msg.typeCheck && msg.skipDeclarations) {
-    const polyfillMapForTranspile = hasPolyfills
-      ? msg.polyfillEntries
-        ? new Map(msg.polyfillEntries)
-        : undefined
-      : undefined;
-    result = await transpileFiles(parsed, polyfillMapForTranspile);
-  } else {
-    result = compileTarget(parsed, host, {
-      typeCheck: msg.typeCheck,
-      skipDeclarations: msg.skipDeclarations,
-    });
-  }
+  const result = await compileTarget(parsed, host, {
+    typeCheck: msg.typeCheck,
+    skipEmit: msg.skipEmit,
+    skipDeclarations: msg.skipDeclarations,
+  });
 
   let diagnosticText = "";
   if (result.diagnostics.length > 0) {

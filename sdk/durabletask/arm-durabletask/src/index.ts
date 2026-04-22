@@ -1,80 +1,106 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { DurableTaskClient } from "./durableTaskClient.js";
-export { restorePoller, type RestorePollerOptions } from "./restorePollerHelpers.js";
+export type { RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller } from "./restorePollerHelpers.js";
+export type {
+  Operation,
+  OperationDisplay,
+  Origin,
+  ActionType,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
+  Scheduler,
+  SchedulerProperties,
+  ProvisioningState,
+  SchedulerSku,
+  SchedulerSkuName,
+  RedundancyState,
+  PublicNetworkAccess,
+  PrivateEndpointConnection,
+  PrivateEndpointConnectionProperties,
+  PrivateEndpoint,
+  PrivateLinkServiceConnectionState,
+  PrivateEndpointServiceConnectionStatus,
+  PrivateEndpointConnectionProvisioningState,
+  Resource,
+  SystemData,
+  CreatedByType,
+  TrackedResource,
+  SchedulerUpdate,
+  SchedulerPropertiesUpdate,
+  SchedulerSkuUpdate,
+  SchedulerPrivateLinkResource,
+  PrivateLinkResourceProperties,
+  PrivateEndpointConnectionUpdate,
+  OptionalPropertiesUpdateableProperties,
+  TaskHub,
+  TaskHubProperties,
+  ProxyResource,
+  RetentionPolicy,
+  RetentionPolicyProperties,
+  RetentionPolicyDetails,
+  PurgeableOrchestrationState,
+} from "./models/index.js";
 export {
-  type Operation,
-  type OperationDisplay,
   KnownOrigin,
-  type Origin,
   KnownActionType,
-  type ActionType,
-  type ErrorResponse,
-  type ErrorDetail,
-  type ErrorAdditionalInfo,
-  type Scheduler,
-  type SchedulerProperties,
   KnownProvisioningState,
-  type ProvisioningState,
-  type SchedulerSku,
   KnownSchedulerSkuName,
-  type SchedulerSkuName,
   KnownRedundancyState,
-  type RedundancyState,
-  type TrackedResource,
-  type Resource,
-  type SystemData,
+  KnownPublicNetworkAccess,
+  KnownPrivateEndpointServiceConnectionStatus,
+  KnownPrivateEndpointConnectionProvisioningState,
   KnownCreatedByType,
-  type CreatedByType,
-  type SchedulerUpdate,
-  type SchedulerPropertiesUpdate,
-  type SchedulerSkuUpdate,
-  type TaskHub,
-  type TaskHubProperties,
-  type ProxyResource,
-  type RetentionPolicy,
-  type RetentionPolicyProperties,
-  type RetentionPolicyDetails,
   KnownPurgeableOrchestrationState,
-  type PurgeableOrchestrationState,
   KnownVersions,
 } from "./models/index.js";
-export { type DurableTaskClientOptionalParams } from "./api/index.js";
-export { type OperationsListOptionalParams } from "./api/operations/index.js";
-export {
-  type RetentionPoliciesListBySchedulerOptionalParams,
-  type RetentionPoliciesDeleteOptionalParams,
-  type RetentionPoliciesUpdateOptionalParams,
-  type RetentionPoliciesCreateOrReplaceOptionalParams,
-  type RetentionPoliciesGetOptionalParams,
+export type { DurableTaskClientOptionalParams } from "./api/index.js";
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type {
+  RetentionPoliciesListBySchedulerOptionalParams,
+  RetentionPoliciesDeleteOptionalParams,
+  RetentionPoliciesUpdateOptionalParams,
+  RetentionPoliciesCreateOrReplaceOptionalParams,
+  RetentionPoliciesGetOptionalParams,
 } from "./api/retentionPolicies/index.js";
-export {
-  type SchedulersListBySubscriptionOptionalParams,
-  type SchedulersListByResourceGroupOptionalParams,
-  type SchedulersDeleteOptionalParams,
-  type SchedulersUpdateOptionalParams,
-  type SchedulersCreateOrUpdateOptionalParams,
-  type SchedulersGetOptionalParams,
+export type {
+  SchedulersListPrivateEndpointConnectionsOptionalParams,
+  SchedulersDeletePrivateEndpointConnectionOptionalParams,
+  SchedulersUpdatePrivateEndpointConnectionOptionalParams,
+  SchedulersCreateOrUpdatePrivateEndpointConnectionOptionalParams,
+  SchedulersGetPrivateEndpointConnectionOptionalParams,
+  SchedulersListPrivateLinksOptionalParams,
+  SchedulersGetPrivateLinkOptionalParams,
+  SchedulersListBySubscriptionOptionalParams,
+  SchedulersListByResourceGroupOptionalParams,
+  SchedulersDeleteOptionalParams,
+  SchedulersUpdateOptionalParams,
+  SchedulersCreateOrUpdateOptionalParams,
+  SchedulersGetOptionalParams,
 } from "./api/schedulers/index.js";
-export {
-  type TaskHubsListBySchedulerOptionalParams,
-  type TaskHubsDeleteOptionalParams,
-  type TaskHubsCreateOrUpdateOptionalParams,
-  type TaskHubsGetOptionalParams,
+export type {
+  TaskHubsListBySchedulerOptionalParams,
+  TaskHubsDeleteOptionalParams,
+  TaskHubsCreateOrUpdateOptionalParams,
+  TaskHubsGetOptionalParams,
 } from "./api/taskHubs/index.js";
-export {
-  type OperationsOperations,
-  type RetentionPoliciesOperations,
-  type SchedulersOperations,
-  type TaskHubsOperations,
+export type {
+  OperationsOperations,
+  RetentionPoliciesOperations,
+  SchedulersOperations,
+  TaskHubsOperations,
 } from "./classic/index.js";
-export { type PageSettings, type ContinuablePage, type PagedAsyncIterableIterator };
-export { AzureClouds, type AzureSupportedClouds };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds };
+export type { AzureSupportedClouds };

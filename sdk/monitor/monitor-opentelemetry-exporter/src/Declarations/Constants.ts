@@ -142,11 +142,11 @@ export const ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL =
 export const ENV_APPLICATIONINSIGHTS_SDK_STATS_LOGGING = "APPLICATIONINSIGHTS_SDK_STATS_LOGGING";
 
 /**
- * Property keys that are exempt from the 64KB custom dimensions size limit.
- * These Gen AI attributes can carry large payloads and should not be truncated.
+ * Gen AI property keys that use a higher 256KB truncation limit for custom dimensions
+ * instead of the standard 64KB limit.
  * @internal
  */
-export const CUSTOM_DIMENSIONS_EXEMPT_KEYS: ReadonlySet<string> = new Set([
+export const CUSTOM_DIMENSIONS_GENAI_KEYS: ReadonlySet<string> = new Set([
   "gen_ai.input.messages",
   "gen_ai.output.messages",
   "gen_ai.system_instructions",

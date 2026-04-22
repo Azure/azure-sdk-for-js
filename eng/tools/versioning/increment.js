@@ -35,7 +35,7 @@ const argv = yargs(hideBin(process.argv))
       default: "patch",
     },
   })
-  .help().argv;
+  .help().parseSync();
 
 /**
  * Increments the given semantic version string according to the specified type.

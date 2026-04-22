@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Check that subnets will be valid for AML file system create calls.
  *
  * @summary Check that subnets will be valid for AML file system create calls.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2025-07-01/examples/checkAmlFSSubnets.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/StorageCache/stable/2026-01-01/examples/checkAmlFSSubnets.json
  */
 async function checkAmlFsSubnets() {
   const subscriptionId =

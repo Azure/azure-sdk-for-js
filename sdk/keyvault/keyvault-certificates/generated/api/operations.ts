@@ -47,6 +47,11 @@ import {
   DeletedCertificateItem,
 } from "../models/models.js";
 import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
+import {
   RecoverDeletedCertificateOptionalParams,
   PurgeDeletedCertificateOptionalParams,
   GetDeletedCertificateOptionalParams,
@@ -76,11 +81,6 @@ import {
   GetCertificatesOptionalParams,
 } from "./options.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../static-helpers/pagingHelpers.js";
-import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
-import {
   StreamableMethod,
   PathUncheckedResponse,
   createRestError,
@@ -96,19 +96,18 @@ export function _recoverDeletedCertificateSend(
     "/deletedcertificates/{certificate-name}/recover{?api%2Dversion}",
     {
       "certificate-name": certificateName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _recoverDeletedCertificateDeserialize(
@@ -118,6 +117,7 @@ export async function _recoverDeletedCertificateDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -143,19 +143,13 @@ export function _purgeDeletedCertificateSend(
     "/deletedcertificates/{certificate-name}{?api%2Dversion}",
     {
       "certificate-name": certificateName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _purgeDeletedCertificateDeserialize(
@@ -165,6 +159,7 @@ export async function _purgeDeletedCertificateDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -190,19 +185,18 @@ export function _getDeletedCertificateSend(
     "/deletedcertificates/{certificate-name}{?api%2Dversion}",
     {
       "certificate-name": certificateName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeletedCertificateDeserialize(
@@ -212,6 +206,7 @@ export async function _getDeletedCertificateDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -235,7 +230,7 @@ export function _getDeletedCertificatesSend(
   const path = expandUrlTemplate(
     "/deletedcertificates{?api%2Dversion,maxresults,includePending}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
       maxresults: options?.maxresults,
       includePending: options?.includePending,
     },
@@ -243,13 +238,12 @@ export function _getDeletedCertificatesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeletedCertificatesDeserialize(
@@ -259,6 +253,7 @@ export async function _getDeletedCertificatesDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -275,7 +270,7 @@ export function getDeletedCertificates(
     () => _getDeletedCertificatesSend(context, options),
     _getDeletedCertificatesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
   );
 }
 
@@ -287,21 +282,20 @@ export function _restoreCertificateSend(
   const path = expandUrlTemplate(
     "/certificates/restore{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: certificateRestoreParametersSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: certificateRestoreParametersSerializer(parameters),
+    });
 }
 
 export async function _restoreCertificateDeserialize(
@@ -311,6 +305,7 @@ export async function _restoreCertificateDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -336,19 +331,18 @@ export function _backupCertificateSend(
     "/certificates/{certificate-name}/backup{?api%2Dversion}",
     {
       "certificate-name": certificateName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _backupCertificateDeserialize(
@@ -358,6 +352,7 @@ export async function _backupCertificateDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -384,21 +379,20 @@ export function _mergeCertificateSend(
     "/certificates/{certificate-name}/pending/merge{?api%2Dversion}",
     {
       "certificate-name": certificateName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: certificateMergeParametersSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: certificateMergeParametersSerializer(parameters),
+    });
 }
 
 export async function _mergeCertificateDeserialize(
@@ -408,6 +402,7 @@ export async function _mergeCertificateDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -434,19 +429,18 @@ export function _deleteCertificateOperationSend(
     "/certificates/{certificate-name}/pending{?api%2Dversion}",
     {
       "certificate-name": certificateName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _deleteCertificateOperationDeserialize(
@@ -456,6 +450,7 @@ export async function _deleteCertificateOperationDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -481,19 +476,18 @@ export function _getCertificateOperationSend(
     "/certificates/{certificate-name}/pending{?api%2Dversion}",
     {
       "certificate-name": certificateName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getCertificateOperationDeserialize(
@@ -503,6 +497,7 @@ export async function _getCertificateOperationDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -529,21 +524,20 @@ export function _updateCertificateOperationSend(
     "/certificates/{certificate-name}/pending{?api%2Dversion}",
     {
       "certificate-name": certificateName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: certificateOperationUpdateParameterSerializer(certificateOperation),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: certificateOperationUpdateParameterSerializer(certificateOperation),
+    });
 }
 
 export async function _updateCertificateOperationDeserialize(
@@ -553,6 +547,7 @@ export async function _updateCertificateOperationDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -586,19 +581,18 @@ export function _getCertificateSend(
     {
       "certificate-name": certificateName,
       "certificate-version": certificateVersion,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getCertificateDeserialize(
@@ -608,6 +602,7 @@ export async function _getCertificateDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -637,21 +632,20 @@ export function _updateCertificateSend(
     {
       "certificate-name": certificateName,
       "certificate-version": certificateVersion,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: certificateUpdateParametersSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: certificateUpdateParametersSerializer(parameters),
+    });
 }
 
 export async function _updateCertificateDeserialize(
@@ -661,6 +655,7 @@ export async function _updateCertificateDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -695,21 +690,20 @@ export function _updateCertificatePolicySend(
     "/certificates/{certificate-name}/policy{?api%2Dversion}",
     {
       "certificate-name": certificateName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: certificatePolicySerializer(certificatePolicy),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: certificatePolicySerializer(certificatePolicy),
+    });
 }
 
 export async function _updateCertificatePolicyDeserialize(
@@ -719,6 +713,7 @@ export async function _updateCertificatePolicyDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -750,19 +745,18 @@ export function _getCertificatePolicySend(
     "/certificates/{certificate-name}/policy{?api%2Dversion}",
     {
       "certificate-name": certificateName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getCertificatePolicyDeserialize(
@@ -772,6 +766,7 @@ export async function _getCertificatePolicyDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -797,20 +792,19 @@ export function _getCertificateVersionsSend(
     "/certificates/{certificate-name}/versions{?api%2Dversion,maxresults}",
     {
       "certificate-name": certificateName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
       maxresults: options?.maxresults,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getCertificateVersionsDeserialize(
@@ -820,6 +814,7 @@ export async function _getCertificateVersionsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -837,7 +832,7 @@ export function getCertificateVersions(
     () => _getCertificateVersionsSend(context, certificateName, options),
     _getCertificateVersionsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
   );
 }
 
@@ -851,21 +846,20 @@ export function _importCertificateSend(
     "/certificates/{certificate-name}/import{?api%2Dversion}",
     {
       "certificate-name": certificateName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: certificateImportParametersSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: certificateImportParametersSerializer(parameters),
+    });
 }
 
 export async function _importCertificateDeserialize(
@@ -875,6 +869,7 @@ export async function _importCertificateDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -902,21 +897,20 @@ export function _createCertificateSend(
     "/certificates/{certificate-name}/create{?api%2Dversion}",
     {
       "certificate-name": certificateName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: certificateCreateParametersSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: certificateCreateParametersSerializer(parameters),
+    });
 }
 
 export async function _createCertificateDeserialize(
@@ -926,6 +920,7 @@ export async function _createCertificateDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -952,19 +947,18 @@ export function _deleteCertificateIssuerSend(
     "/certificates/issuers/{issuer-name}{?api%2Dversion}",
     {
       "issuer-name": issuerName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _deleteCertificateIssuerDeserialize(
@@ -974,6 +968,7 @@ export async function _deleteCertificateIssuerDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -999,19 +994,18 @@ export function _getCertificateIssuerSend(
     "/certificates/issuers/{issuer-name}{?api%2Dversion}",
     {
       "issuer-name": issuerName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getCertificateIssuerDeserialize(
@@ -1021,6 +1015,7 @@ export async function _getCertificateIssuerDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -1047,21 +1042,20 @@ export function _updateCertificateIssuerSend(
     "/certificates/issuers/{issuer-name}{?api%2Dversion}",
     {
       "issuer-name": issuerName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: certificateIssuerUpdateParametersSerializer(parameter),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: certificateIssuerUpdateParametersSerializer(parameter),
+    });
 }
 
 export async function _updateCertificateIssuerDeserialize(
@@ -1071,6 +1065,7 @@ export async function _updateCertificateIssuerDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -1098,21 +1093,20 @@ export function _setCertificateIssuerSend(
     "/certificates/issuers/{issuer-name}{?api%2Dversion}",
     {
       "issuer-name": issuerName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: certificateIssuerSetParametersSerializer(parameter),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: certificateIssuerSetParametersSerializer(parameter),
+    });
 }
 
 export async function _setCertificateIssuerDeserialize(
@@ -1122,6 +1116,7 @@ export async function _setCertificateIssuerDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -1146,20 +1141,19 @@ export function _getCertificateIssuersSend(
   const path = expandUrlTemplate(
     "/certificates/issuers{?api%2Dversion,maxresults}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
       maxresults: options?.maxresults,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getCertificateIssuersDeserialize(
@@ -1169,6 +1163,7 @@ export async function _getCertificateIssuersDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -1185,7 +1180,7 @@ export function getCertificateIssuers(
     () => _getCertificateIssuersSend(context, options),
     _getCertificateIssuersDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
   );
 }
 
@@ -1196,19 +1191,18 @@ export function _deleteCertificateContactsSend(
   const path = expandUrlTemplate(
     "/certificates/contacts{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _deleteCertificateContactsDeserialize(
@@ -1218,6 +1212,7 @@ export async function _deleteCertificateContactsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -1240,19 +1235,18 @@ export function _getCertificateContactsSend(
   const path = expandUrlTemplate(
     "/certificates/contacts{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getCertificateContactsDeserialize(
@@ -1262,6 +1256,7 @@ export async function _getCertificateContactsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -1285,21 +1280,20 @@ export function _setCertificateContactsSend(
   const path = expandUrlTemplate(
     "/certificates/contacts{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: contactsSerializer(contacts),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: contactsSerializer(contacts),
+    });
 }
 
 export async function _setCertificateContactsDeserialize(
@@ -1309,6 +1303,7 @@ export async function _setCertificateContactsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -1334,19 +1329,18 @@ export function _deleteCertificateSend(
     "/certificates/{certificate-name}{?api%2Dversion}",
     {
       "certificate-name": certificateName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _deleteCertificateDeserialize(
@@ -1356,6 +1350,7 @@ export async function _deleteCertificateDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -1379,7 +1374,7 @@ export function _getCertificatesSend(
   const path = expandUrlTemplate(
     "/certificates{?api%2Dversion,maxresults,includePending}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
       maxresults: options?.maxresults,
       includePending: options?.includePending,
     },
@@ -1387,13 +1382,12 @@ export function _getCertificatesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getCertificatesDeserialize(
@@ -1403,6 +1397,7 @@ export async function _getCertificatesDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -1419,6 +1414,6 @@ export function getCertificates(
     () => _getCertificatesSend(context, options),
     _getCertificatesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
   );
 }

@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/standbypool/arm-standbypool)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-standbypool)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-standbypool?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-standbypool)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/standbypool/arm-standbypool/samples)
 
 ## Getting started

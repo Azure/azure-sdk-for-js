@@ -4,9 +4,20 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface ClusterScopeSettings extends ProxyResource {
@@ -15,8 +26,22 @@ export interface ClusterScopeSettings extends ProxyResource {
 }
 
 // @public
+export interface ClusterScopeSettingsProperties {
+    allowMultipleInstances?: boolean;
+    defaultReleaseNamespace?: string;
+}
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
+export type CreatedByType = string;
+
+// @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -40,7 +65,7 @@ export interface ExtensionType extends ProxyResource {
     properties?: ExtensionTypeProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface ExtensionTypeProperties {
     description?: string;
     isManagedIdentityRequired?: boolean;
@@ -64,134 +89,40 @@ export interface ExtensionTypePropertiesSupportedScopes {
     defaultScope?: string;
 }
 
-// @public
-export interface ExtensionTypes {
-    clusterGetVersion(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionTypeName: string, versionNumber: string, options?: ExtensionTypesClusterGetVersionOptionalParams): Promise<ExtensionTypesClusterGetVersionResponse>;
-    get(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionTypeName: string, options?: ExtensionTypesGetOptionalParams): Promise<ExtensionTypesGetResponse>;
-    getVersion(location: string, extensionTypeName: string, versionNumber: string, options?: ExtensionTypesGetVersionOptionalParams): Promise<ExtensionTypesGetVersionResponse>;
-    list(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, options?: ExtensionTypesListOptionalParams): PagedAsyncIterableIterator<ExtensionType>;
-    listClusterListVersions(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionTypeName: string, options?: ExtensionTypesClusterListVersionsOptionalParams): PagedAsyncIterableIterator<ExtensionTypeVersionForReleaseTrain>;
-    listLocationList(location: string, options?: ExtensionTypesLocationListOptionalParams): PagedAsyncIterableIterator<ExtensionType>;
-    listVersions(location: string, extensionTypeName: string, options?: ExtensionTypesListVersionsOptionalParams): PagedAsyncIterableIterator<ExtensionTypeVersionForReleaseTrain>;
-    locationGet(location: string, extensionTypeName: string, options?: ExtensionTypesLocationGetOptionalParams): Promise<ExtensionTypesLocationGetResponse>;
-}
-
 // @public (undocumented)
-export class ExtensionTypesClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ExtensionTypesClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    extensionTypes: ExtensionTypes;
-    // (undocumented)
-    subscriptionId: string;
+export class ExtensionTypesClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: ExtensionTypesClientOptionalParams);
+    readonly extensionTypes: ExtensionTypesOperations;
+    readonly pipeline: Pipeline;
 }
 
 // @public
-export interface ExtensionTypesClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface ExtensionTypesClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
-export interface ExtensionTypesClusterGetVersionOptionalParams extends coreClient.OperationOptions {
+export interface ExtensionTypesClusterGetVersionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ExtensionTypesClusterGetVersionResponse = ExtensionTypeVersionForReleaseTrain;
-
-// @public
-export interface ExtensionTypesClusterListVersionsNextOptionalParams extends coreClient.OperationOptions {
+export interface ExtensionTypesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ExtensionTypesClusterListVersionsNextResponse = ExtensionTypeVersionsList;
+export interface ExtensionTypesGetVersionOptionalParams extends OperationOptions {
+}
 
 // @public
-export interface ExtensionTypesClusterListVersionsOptionalParams extends coreClient.OperationOptions {
+export interface ExtensionTypesListClusterListVersionsOptionalParams extends OperationOptions {
     majorVersion?: string;
     releaseTrain?: string;
     showLatest?: boolean;
 }
 
 // @public
-export type ExtensionTypesClusterListVersionsResponse = ExtensionTypeVersionsList;
-
-// @public
-export interface ExtensionTypesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ExtensionTypesGetResponse = ExtensionType;
-
-// @public
-export interface ExtensionTypesGetVersionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ExtensionTypesGetVersionResponse = ExtensionTypeVersionForReleaseTrain;
-
-// @public
-export interface ExtensionTypesList {
-    readonly nextLink?: string;
-    readonly value?: ExtensionType[];
-}
-
-// @public
-export interface ExtensionTypesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ExtensionTypesListNextResponse = ExtensionTypesList;
-
-// @public
-export interface ExtensionTypesListOptionalParams extends coreClient.OperationOptions {
-    offerId?: string;
-    planId?: string;
-    publisherId?: string;
-    releaseTrain?: string;
-}
-
-// @public
-export type ExtensionTypesListResponse = ExtensionTypesList;
-
-// @public
-export interface ExtensionTypesListVersionsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ExtensionTypesListVersionsNextResponse = ExtensionTypeVersionsList;
-
-// @public
-export interface ExtensionTypesListVersionsOptionalParams extends coreClient.OperationOptions {
-    clusterType?: string;
-    majorVersion?: string;
-    releaseTrain?: string;
-    showLatest?: boolean;
-}
-
-// @public
-export type ExtensionTypesListVersionsResponse = ExtensionTypeVersionsList;
-
-// @public
-export interface ExtensionTypesLocationGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ExtensionTypesLocationGetResponse = ExtensionType;
-
-// @public
-export interface ExtensionTypesLocationListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ExtensionTypesLocationListNextResponse = ExtensionTypesList;
-
-// @public
-export interface ExtensionTypesLocationListOptionalParams extends coreClient.OperationOptions {
+export interface ExtensionTypesListLocationListOptionalParams extends OperationOptions {
     clusterType?: string;
     offerId?: string;
     planId?: string;
@@ -200,7 +131,36 @@ export interface ExtensionTypesLocationListOptionalParams extends coreClient.Ope
 }
 
 // @public
-export type ExtensionTypesLocationListResponse = ExtensionTypesList;
+export interface ExtensionTypesListOptionalParams extends OperationOptions {
+    offerId?: string;
+    planId?: string;
+    publisherId?: string;
+    releaseTrain?: string;
+}
+
+// @public
+export interface ExtensionTypesListVersionsOptionalParams extends OperationOptions {
+    clusterType?: string;
+    majorVersion?: string;
+    releaseTrain?: string;
+    showLatest?: boolean;
+}
+
+// @public
+export interface ExtensionTypesLocationGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ExtensionTypesOperations {
+    clusterGetVersion: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionTypeName: string, versionNumber: string, options?: ExtensionTypesClusterGetVersionOptionalParams) => Promise<ExtensionTypeVersionForReleaseTrain>;
+    get: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionTypeName: string, options?: ExtensionTypesGetOptionalParams) => Promise<ExtensionType>;
+    getVersion: (location: string, extensionTypeName: string, versionNumber: string, options?: ExtensionTypesGetVersionOptionalParams) => Promise<ExtensionTypeVersionForReleaseTrain>;
+    list: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, options?: ExtensionTypesListOptionalParams) => PagedAsyncIterableIterator<ExtensionType>;
+    listClusterListVersions: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionTypeName: string, options?: ExtensionTypesListClusterListVersionsOptionalParams) => PagedAsyncIterableIterator<ExtensionTypeVersionForReleaseTrain>;
+    listLocationList: (location: string, options?: ExtensionTypesListLocationListOptionalParams) => PagedAsyncIterableIterator<ExtensionType>;
+    listVersions: (location: string, extensionTypeName: string, options?: ExtensionTypesListVersionsOptionalParams) => PagedAsyncIterableIterator<ExtensionTypeVersionForReleaseTrain>;
+    locationGet: (location: string, extensionTypeName: string, options?: ExtensionTypesLocationGetOptionalParams) => Promise<ExtensionType>;
+}
 
 // @public
 export interface ExtensionTypeVersionForReleaseTrain extends ProxyResource {
@@ -208,7 +168,7 @@ export interface ExtensionTypeVersionForReleaseTrain extends ProxyResource {
     properties?: ExtensionTypeVersionForReleaseTrainProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface ExtensionTypeVersionForReleaseTrainProperties {
     supportedClusterTypes?: string[];
     unsupportedKubernetesVersions?: ExtensionTypeVersionForReleaseTrainPropertiesUnsupportedKubernetesVersions;
@@ -228,19 +188,35 @@ export interface ExtensionTypeVersionForReleaseTrainPropertiesUnsupportedKuberne
 }
 
 // @public
-export interface ExtensionTypeVersionsList {
-    readonly nextLink?: string;
-    readonly value?: ExtensionTypeVersionForReleaseTrain[];
-}
-
-// @public
 export interface ExtensionTypeVersionUnsupportedKubernetesMatrixItem {
     distributions?: string[];
     unsupportedVersions?: string[];
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
+}
+
+// @public
+export enum KnownVersions {
+    V20241101Preview = "2024-11-01-preview"
+}
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
 
 // @public
 export interface ProxyResource extends Resource {
@@ -250,7 +226,18 @@ export interface ProxyResource extends Resource {
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
+}
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
 }
 
 // (No @packageDocumentation comment for this package)

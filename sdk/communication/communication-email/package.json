@@ -1,6 +1,6 @@
 {
   "name": "@azure/communication-email",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "The is the JS Client SDK for email. This SDK enables users to send emails and get the status of sent email message.",
   "author": "Microsoft Corporation",
   "license": "MIT",

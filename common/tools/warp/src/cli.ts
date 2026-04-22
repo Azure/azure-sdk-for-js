@@ -4,7 +4,7 @@
 
 import { parseArgs } from "node:util";
 import { build } from "./build.ts";
-import { setLogLevel, setJsonMode } from "./logger.ts";
+import { setLogLevel } from "./logger.ts";
 import { WarpError } from "./types.ts";
 
 async function main(): Promise<void> {
@@ -34,10 +34,7 @@ async function main(): Promise<void> {
   }
 
   // Set log level (#7)
-  if (values.json) {
-    setJsonMode(true);
-    setLogLevel("quiet");
-  } else if (values.quiet) {
+  if (values.json || values.quiet) {
     setLogLevel("quiet");
   } else if (values.verbose) {
     setLogLevel("verbose");
@@ -81,7 +78,6 @@ async function main(): Promise<void> {
     parallel: useParallel,
     target: values.target,
     stats: values.stats,
-    json: values.json,
     configPath: values.config,
   });
 

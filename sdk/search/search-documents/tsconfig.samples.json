@@ -2,7 +2,7 @@
   "extends": "../../../tsconfig",
   "compilerOptions": {
     "paths": {
-      "@azure/openai": ["./dist/esm"]
+      "@azure/search-documents": ["./dist/esm"]
     },
     "target": "ES2022",
     "module": "NodeNext",

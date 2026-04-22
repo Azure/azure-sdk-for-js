@@ -37,6 +37,10 @@ export interface ConnectedRegistriesListOptionalParams extends OperationOptions 
 }
 
 // @public
+export interface ConnectedRegistriesResyncOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface ConnectedRegistriesUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -52,6 +56,9 @@ export function get(context: ContainerRegistryManagementContext, resourceGroupNa
 
 // @public
 export function list(context: ContainerRegistryManagementContext, resourceGroupName: string, registryName: string, options?: ConnectedRegistriesListOptionalParams): PagedAsyncIterableIterator<ConnectedRegistry>;
+
+// @public
+export function resync(context: ContainerRegistryManagementContext, resourceGroupName: string, registryName: string, connectedRegistryName: string, options?: ConnectedRegistriesResyncOptionalParams): Promise<ConnectedRegistry>;
 
 // @public
 export function update(context: ContainerRegistryManagementContext, resourceGroupName: string, registryName: string, connectedRegistryName: string, connectedRegistryUpdateParameters: ConnectedRegistryUpdateParameters, options?: ConnectedRegistriesUpdateOptionalParams): PollerLike<OperationState<ConnectedRegistry>, ConnectedRegistry>;
