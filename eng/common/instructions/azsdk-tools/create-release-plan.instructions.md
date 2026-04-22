@@ -6,19 +6,19 @@
 
 # Release Plan Creation Process
 Your goal is to create a valid release plan. You must prompt user to provide all required information and all input must match the format and requirement mentioned in step 3 below.
-Follow these steps in order to create or manage a release plan for an API specification pull request:
+Follow these steps in order to create or manage a release plan:
 
 ## Step 1: Validate Prerequisites
-- Check if an API spec pull request is available in the current context
-- If no pull request is available, prompt the user to provide the API spec pull request link
-- Validate that the provided pull request link is accessible and valid
+- Check if an API spec pull request or a TypeSpec project path is available in the current context
+- If neither is available, prompt the user to provide either the API spec pull request link or the TypeSpec project path — at least one is required
+- If a pull request is provided, validate that the link is accessible and valid
 
 ## Step 2: Check for Existing Release Plan
 - Ask the user if they already have an existing release plan
 - If they confirm:
     - Query the existing release plan using either:
         - The release plan number, or
-        - The API spec pull request link
+        - The API spec pull request link or the TypeSpec project path (at least one is required)
     - Display the existing release plan details (Release Plan ID, status, associated languages, SDK PRs).
 - If no existing release plan is found, continue to Step 3 to gather required details for creating a new one. 
 
