@@ -30,7 +30,7 @@ describe("pipeline", () => {
 describe("pipeline - default options parameter", () => {
   it("should handle being called with no arguments", () => {
     const pipeline = createClientPipeline();
-    assert.ok(pipeline);
+    assert.isDefined(pipeline);
     const policies = pipeline.getOrderedPolicies();
     assert.isNotEmpty(policies);
   });

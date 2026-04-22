@@ -342,7 +342,7 @@ describe("ServiceClient", function () {
       .catch((e: any) => e);
 
     assert.strictEqual(caughtError.name, "RestError");
-    assert(request!);
+    assert.isDefined(request);
     assert.strictEqual(rawResponse?.status, 500);
     assert.strictEqual(rawResponse?.request, request!);
     assert.deepStrictEqual(flatResponse, { body: undefined });

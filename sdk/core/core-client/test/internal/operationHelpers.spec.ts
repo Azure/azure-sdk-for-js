@@ -14,7 +14,7 @@ import {
 describe("operationHelpers", () => {
   it("should handle composite parameterPath (object form)", () => {
     const result = getOperationArgumentValueFromParameter(
-      { propA: "valueA", propB: "valueB" },
+      { propA: "valueA", propB: "valueB", extraProp: "ignored" },
       {
         parameterPath: {
           propA: "propA",
@@ -39,7 +39,9 @@ describe("operationHelpers", () => {
         } satisfies CompositeMapper,
       },
     );
+    // Only the mapped properties are extracted; extraProp is not included
     assert.deepStrictEqual(result, { propA: "valueA", propB: "valueB" });
+    assert.notProperty(result, "extraProp");
   });
 
   it("should handle composite parameterPath with non-required mapper and no matching args", () => {

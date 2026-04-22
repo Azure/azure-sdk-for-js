@@ -2347,7 +2347,7 @@ describe("serializer", () => {
         d,
         "testObj",
       );
-      assert.include(result, "2023-06-15");
+      assert.strictEqual(result, "2023-06-15T10:30:00.000Z");
     });
 
     it("should serialize DateTime type from string", () => {
@@ -2356,7 +2356,7 @@ describe("serializer", () => {
         "2023-06-15T10:30:00Z",
         "testObj",
       );
-      assert.include(result, "2023-06-15");
+      assert.strictEqual(result, "2023-06-15T10:30:00.000Z");
     });
 
     it("should throw for DateTime type with invalid value", () => {
@@ -2378,7 +2378,7 @@ describe("serializer", () => {
         d,
         "testObj",
       );
-      assert.isString(result);
+      assert.strictEqual(result, "Thu, 15 Jun 2023 10:30:00 GMT");
     });
 
     it("should serialize DateTimeRfc1123 type from string", () => {
@@ -2387,7 +2387,7 @@ describe("serializer", () => {
         "Thu, 15 Jun 2023 10:30:00 GMT",
         "testObj",
       );
-      assert.isString(result);
+      assert.strictEqual(result, "Thu, 15 Jun 2023 10:30:00 GMT");
     });
 
     it("should throw for DateTimeRfc1123 type with invalid value", () => {
@@ -2409,7 +2409,7 @@ describe("serializer", () => {
         d,
         "testObj",
       );
-      assert.isNumber(result);
+      assert.strictEqual(result, Math.floor(d.getTime() / 1000));
     });
 
     it("should serialize UnixTime type from date string", () => {
@@ -3101,6 +3101,19 @@ describe("serializer", () => {
           constraints: { InclusiveMaximum: 10 },
         },
         undefined,
+        "testObj",
+      );
+    });
+
+    it("should pass when value satisfies all constraints", () => {
+      // Should not throw
+      serializer.validateConstraints(
+        {
+          type: { name: "Number" },
+          serializedName: "test",
+          constraints: { InclusiveMinimum: 1, InclusiveMaximum: 10, MultipleOf: 3 },
+        },
+        9,
         "testObj",
       );
     });

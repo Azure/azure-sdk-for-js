@@ -41,7 +41,7 @@ describe("flattenResponse", () => {
     assert.strictEqual(result.nextLink, "https://next");
   });
 
-  it("should copy parsedHeaders into pageable array response", () => {
+  it("should copy parsedHeaders into array response", () => {
     const fullResponse: FullOperationResponse = {
       request: defaultRequest(),
       status: 200,

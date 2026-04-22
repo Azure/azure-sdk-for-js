@@ -273,6 +273,7 @@ describe("urlHelpers", () => {
     );
     // sequenceParams path converts to array, then noOverwrite=false overwrites
     assert.include(result, "q=newVal");
+    assert.notInclude(result, "q=existing");
   });
 
   it("should handle noOverwrite=true to prevent overwriting", () => {
@@ -289,7 +290,7 @@ describe("urlHelpers", () => {
 
   it("should handle bare query key (undefined value)", () => {
     const result = appendQueryParams("https://example.com?foo", new Map(), new Set());
-    // bare key "foo" has no =, so value is undefined, which gets stringified
+    // bare key "foo" has no = sign, so value is undefined; key is preserved
     assert.include(result, "foo");
   });
 
@@ -299,7 +300,8 @@ describe("urlHelpers", () => {
       new Map([["q", ["2", "3"]]]),
       new Set(),
     );
-    assert.include(result, "q=");
+    assert.include(result, "q=2");
+    assert.include(result, "q=3");
   });
 
   it("should handle existing array + scalar push", () => {
@@ -320,7 +322,8 @@ describe("urlHelpers", () => {
       new Set(),
       false,
     );
-    assert.include(result, "q=");
+    assert.include(result, "q=new1");
+    assert.include(result, "q=new2");
   });
 });
 
