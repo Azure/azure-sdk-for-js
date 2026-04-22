@@ -713,7 +713,7 @@ function classifyUnit(
 
   // Special: check dead type-only refs for units with no dead runtime refs
   // This handles cases like `let x: DeadType;` or `function f(x: DeadType) {}`
-  if (unit.declares.length > 0 && (unit as any)._hasDeadTypeRef) {
+  if (unit.declares.length > 0 && (unit as { _hasDeadTypeRef?: boolean })._hasDeadTypeRef) {
     const stmt = statements[unit.originalIndex];
     // For per-declarator units, check the specific declarator
     const nodeToCheck = unit.declarator ?? stmt;

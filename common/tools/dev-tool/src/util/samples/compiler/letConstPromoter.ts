@@ -172,7 +172,7 @@ function parseSimpleAssignment(
 
   const name = expr.left.text;
   // Extract value text from the original source, trimming trailing semicolon
-  let valueText = text.slice(expr.right.pos, expr.right.end).trim();
+  const valueText = text.slice(expr.right.pos, expr.right.end).trim();
   // The text may include trailing semicolon from the full statement — strip it
   if (text.trimEnd().endsWith(";")) {
     // valueText is just the right-hand side, no semicolon
