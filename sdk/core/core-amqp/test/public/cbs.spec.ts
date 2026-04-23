@@ -22,8 +22,6 @@ function getCbsLink(cbsClient: CbsClient): RequestResponseLink {
 }
 
 describe("CbsClient", function () {
-  const TEST_FAILURE = "Test failure";
-
   describe("init", function () {
     it("honors already aborted abortSignal during init", async function () {
       const cbsClient = new CbsClient(new Connection(), "lock");
@@ -33,13 +31,9 @@ describe("CbsClient", function () {
       controller.abort();
       const signal = controller.signal;
 
-      try {
-        await cbsClient.init({ abortSignal: signal });
-        throw new Error(TEST_FAILURE);
-      } catch (err) {
-        assert.instanceOf(err, Error);
-        assert.equal(err.name, "AbortError");
-      }
+      await expect(cbsClient.init({ abortSignal: signal })).rejects.toMatchObject({
+        name: "AbortError",
+      });
     });
 
     it("honors abortSignal inside locking code", async function () {
@@ -65,13 +59,9 @@ describe("CbsClient", function () {
         { abortSignal: undefined, timeoutInMs: undefined },
       );
 
-      try {
-        await cbsClient.init({ abortSignal: signal });
-        throw new Error(TEST_FAILURE);
-      } catch (err) {
-        assert.instanceOf(err, Error);
-        assert.equal(err.name, "AbortError");
-      }
+      await expect(cbsClient.init({ abortSignal: signal })).rejects.toMatchObject({
+        name: "AbortError",
+      });
     });
 
     it("honors abortSignal during init", async function () {
@@ -88,13 +78,9 @@ describe("CbsClient", function () {
       const signal = controller.signal;
       setTimeout(() => controller.abort(), 0);
 
-      try {
-        await cbsClient.init({ abortSignal: signal });
-        throw new Error(TEST_FAILURE);
-      } catch (err) {
-        assert.instanceOf(err, Error);
-        assert.equal(err.name, "AbortError");
-      }
+      await expect(cbsClient.init({ abortSignal: signal })).rejects.toMatchObject({
+        name: "AbortError",
+      });
     });
   });
 
@@ -103,16 +89,9 @@ describe("CbsClient", function () {
       const connectionStub = createConnectionStub();
       const cbsClient = new CbsClient(connectionStub, "lock");
 
-      try {
-        await cbsClient.negotiateClaim("audience", "token", TokenType.CbsTokenTypeSas);
-        throw new Error(TEST_FAILURE);
-      } catch (err) {
-        assert.instanceOf(err, Error);
-        assert.equal(
-          err.message,
-          "Attempted to negotiate a claim but the CBS link does not exist.",
-        );
-      }
+      await expect(
+        cbsClient.negotiateClaim("audience", "token", TokenType.CbsTokenTypeSas),
+      ).rejects.toThrow("Attempted to negotiate a claim but the CBS link does not exist.");
     });
 
     describe("cancellation", function () {
@@ -125,16 +104,12 @@ describe("CbsClient", function () {
         controller.abort();
         const signal = controller.signal;
 
-        try {
-          // Pass the already aborted abortSignal to make sure negotiateClaim will exit quickly.
-          await cbsClient.negotiateClaim("audience", "token", TokenType.CbsTokenTypeSas, {
+        // Pass the already aborted abortSignal to make sure negotiateClaim will exit quickly.
+        await expect(
+          cbsClient.negotiateClaim("audience", "token", TokenType.CbsTokenTypeSas, {
             abortSignal: signal,
-          });
-          throw new Error(TEST_FAILURE);
-        } catch (err) {
-          assert.instanceOf(err, Error);
-          assert.equal(err.name, "AbortError");
-        }
+          }),
+        ).rejects.toMatchObject({ name: "AbortError" });
       });
 
       it("honors abortSignal during negotiateClaim", async function () {
@@ -149,15 +124,11 @@ describe("CbsClient", function () {
         const signal = controller.signal;
         setTimeout(() => controller.abort(), 0);
 
-        try {
-          await cbsClient.negotiateClaim("audience", "token", TokenType.CbsTokenTypeSas, {
+        await expect(
+          cbsClient.negotiateClaim("audience", "token", TokenType.CbsTokenTypeSas, {
             abortSignal: signal,
-          });
-          throw new Error(TEST_FAILURE);
-        } catch (err) {
-          assert.instanceOf(err, Error);
-          assert.equal(err.name, "AbortError");
-        }
+          }),
+        ).rejects.toMatchObject({ name: "AbortError" });
       });
     });
   });

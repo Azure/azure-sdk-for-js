@@ -39,8 +39,6 @@ const assertItemsLengthInResponsesMap = (
 // TODO: importMock is not implemented in browser environment yet.
 // https://github.com/vitest-dev/vitest/issues/3046
 describe.skipIf(isBrowser)("RequestResponseLink", function () {
-  const TEST_FAILURE = "Test failure";
-
   describe("#create", function () {
     it("should create a RequestResponseLink", async function () {
       const connectionStub = createConnectionStub();
@@ -56,13 +54,9 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
       const signal = controller.signal;
       setTimeout(() => controller.abort(), 0);
 
-      try {
-        await RequestResponseLink.create(connection, {}, {}, { abortSignal: signal });
-        throw new Error(TEST_FAILURE);
-      } catch (err) {
-        assert.instanceOf(err, Error);
-        assert.equal(err.name, "AbortError");
-      }
+      await expect(
+        RequestResponseLink.create(connection, {}, {}, { abortSignal: signal }),
+      ).rejects.toMatchObject({ name: "AbortError" });
     });
 
     it("honors abortSignal", async function () {
@@ -74,13 +68,9 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
       controller.abort();
       const signal = controller.signal;
 
-      try {
-        await RequestResponseLink.create(connection, {}, {}, { abortSignal: signal });
-        throw new Error(TEST_FAILURE);
-      } catch (err) {
-        assert.instanceOf(err, Error);
-        assert.equal(err.name, "AbortError");
-      }
+      await expect(
+        RequestResponseLink.create(connection, {}, {}, { abortSignal: signal }),
+      ).rejects.toMatchObject({ name: "AbortError" });
     });
   });
 
@@ -426,17 +416,12 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
         },
       });
     }, 2000);
-    try {
-      const controller = new AbortController();
-      const signal = controller.signal;
-      setTimeout(controller.abort.bind(controller), 100);
-      await link.sendRequest(request, { abortSignal: signal, requestName: "foo" });
-      throw new Error(`Test failure`);
-    } catch (err) {
-      assert.instanceOf(err, Error);
-      assert.equal(err.name, "AbortError", `Error name ${err.name} is not as expected`);
-      assert.equal(err.message, StandardAbortMessage, `Incorrect error received "${err.message}"`);
-    }
+    const controller = new AbortController();
+    const signal = controller.signal;
+    setTimeout(controller.abort.bind(controller), 100);
+    await expect(
+      link.sendRequest(request, { abortSignal: signal, requestName: "foo" }),
+    ).rejects.toMatchObject({ name: "AbortError", message: StandardAbortMessage });
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
   });
 
@@ -481,27 +466,22 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
         },
       });
     }, 2000);
-    try {
-      // Order of events
-      // - sendRequest is called
-      // - request id is added to the map with a deferred promise
-      // - abort event is raised
-      // - request id deleted from the map
-      // - promise is rejected with the abort error
-      // Asserting before the abort event is raised
-      setTimeout(() => {
-        assertItemsLengthInResponsesMap(link["_responsesMap"], 1);
-      }, 700);
-      await link.sendRequest(request, {
+    // Order of events
+    // - sendRequest is called
+    // - request id is added to the map with a deferred promise
+    // - abort event is raised
+    // - request id deleted from the map
+    // - promise is rejected with the abort error
+    // Asserting before the abort event is raised
+    setTimeout(() => {
+      assertItemsLengthInResponsesMap(link["_responsesMap"], 1);
+    }, 700);
+    await expect(
+      link.sendRequest(request, {
         abortSignal: AbortSignal.timeout(1000),
         requestName: "foo",
-      });
-      throw new Error(`Test failure`);
-    } catch (err) {
-      assert.instanceOf(err, Error);
-      assert.equal(err.name, "AbortError", `Error name ${err.name} is not as expected`);
-      assert.equal(err.message, StandardAbortMessage, `Incorrect error received "${err.message}"`);
-    }
+      }),
+    ).rejects.toMatchObject({ name: "AbortError", message: StandardAbortMessage });
     // Final state of the map
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
   });
@@ -547,17 +527,12 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
         },
       });
     }, 2000);
-    try {
-      const controller = new AbortController();
-      const signal: AbortSignalLike = controller.signal;
-      controller.abort();
-      await link.sendRequest(request, { abortSignal: signal, requestName: "foo" });
-      throw new Error(`Test failure`);
-    } catch (err) {
-      assert.instanceOf(err, Error);
-      assert.equal(err.name, "AbortError", `Error name ${err.name} is not as expected`);
-      assert.equal(err.message, StandardAbortMessage, `Incorrect error received "${err.message}"`);
-    }
+    const controller = new AbortController();
+    const signal: AbortSignalLike = controller.signal;
+    controller.abort();
+    await expect(
+      link.sendRequest(request, { abortSignal: signal, requestName: "foo" }),
+    ).rejects.toMatchObject({ name: "AbortError", message: StandardAbortMessage });
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
   });
 
@@ -604,7 +579,6 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
       const request: RheaMessage = {
         body: "Hello World!!",
       };
-      const testFailureMessage = "Test failure";
       setTimeout(() => {
         rcvr.emit("message", {
           message: {
@@ -619,13 +593,9 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
           },
         });
       }, 0);
-      try {
-        await link.sendRequest(request, { timeoutInMs: 120000, requestName: "foo" });
-        throw new Error(testFailureMessage);
-      } catch (err) {
-        assert.instanceOf(err, Error);
-        assert.notEqual(err.message, testFailureMessage);
-      }
+      await expect(
+        link.sendRequest(request, { timeoutInMs: 120000, requestName: "foo" }),
+      ).rejects.toThrow();
       assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
       assert.equal(clearTimeoutCalledCount, 1, "Expected clearTimeout to be called once.");
     });

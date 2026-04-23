@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert, beforeEach } from "vitest";
+import { describe, it, assert, expect, beforeEach } from "vitest";
 import { AbortError } from "@azure/abort-controller";
 import type { CancellableAsyncLock } from "../../src/util/lock.js";
 import { CancellableAsyncLockImpl } from "../../src/util/lock.js";
@@ -18,8 +18,6 @@ import { settleAllTasks } from "../utils/utils.js";
 const defaultOptions = { timeoutInMs: undefined, abortSignal: undefined };
 
 describe("CancellableAsyncLock", function () {
-  const TEST_FAILURE = "Test failure";
-
   describe(".acquire", function () {
     let lock: CancellableAsyncLock;
     beforeEach(() => {
@@ -44,19 +42,15 @@ describe("CancellableAsyncLock", function () {
     });
 
     it("forwards error from task", async () => {
-      try {
-        await lock.acquire(
+      await expect(
+        lock.acquire(
           "lock",
           async () => {
             throw new Error("I break things!");
           },
           defaultOptions,
-        );
-        throw new Error(TEST_FAILURE);
-      } catch (err) {
-        assert.instanceOf(err, Error);
-        assert.equal(err.message, "I break things!");
-      }
+        ),
+      ).rejects.toThrow("I break things!");
     });
 
     it("works using single key", async () => {
