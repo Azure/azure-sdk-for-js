@@ -68,6 +68,11 @@ async function importAPemCertificate() {
 async function importACertificate() {
   const sourceCertificateName = "MySourceCertificate";
   const importedCertificateName = "MyCertificate";
+  const createPoller = await client.beginCreateCertificate(sourceCertificateName, {
+    issuerName: "Self",
+    subject: "cn=MyCert",
+  });
+  await createPoller.pollUntilDone();
   const certificateSecret = await secretClient.getSecret(sourceCertificateName);
   const base64EncodedCertificate = certificateSecret.value;
 

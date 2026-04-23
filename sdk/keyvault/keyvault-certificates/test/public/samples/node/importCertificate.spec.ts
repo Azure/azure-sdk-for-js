@@ -181,13 +181,11 @@ describe("importCertificate", () => {
       recorder.variable("importedCertificateName", `imported-${Date.now()}`),
       () => "MyCertificate",
     );
-    if (forPublishing(true, () => false)) {
-      const createPoller = await client.beginCreateCertificate(sourceCertificateName, {
-        issuerName: "Self",
-        subject: "cn=MyCert",
-      });
-      await createPoller.pollUntilDone();
-    }
+    const createPoller = await client.beginCreateCertificate(sourceCertificateName, {
+      issuerName: "Self",
+      subject: "cn=MyCert",
+    });
+    await createPoller.pollUntilDone();
     const certificateSecret = await secretClient.getSecret(sourceCertificateName);
     const base64EncodedCertificate = certificateSecret.value!;
     // @ts-preserve-whitespace
