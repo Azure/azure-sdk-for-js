@@ -79,7 +79,6 @@ async function beginBackupWithoutSas() {
 }
 
 async function beginRestoreWithSas() {
-  const blobStorageUri = "<blob-storage-uri>";
   const sasToken = "<sas-token>";
   // blobStorageFolderUri should be the folderUri returned from a prior beginBackup() call
   const blobStorageFolderUri =
@@ -94,12 +93,11 @@ async function beginRestoreWithSas() {
   await client.beginRestore(blobStorageFolderUri, sasToken, { resumeFrom: serialized });
 
   // Waiting until it's done
-  const backupUri = await poller.pollUntilDone();
-  console.log(backupUri);
+  const restoreResult = await poller.pollUntilDone();
+  console.log(restoreResult);
 }
 
 async function beginRestoreWithoutSas() {
-  const blobStorageUri = "<blob-storage-uri>";
   // blobStorageFolderUri should be the folderUri returned from a prior beginBackup() call
   const blobStorageFolderUri =
     process.env["BLOB_STORAGE_FOLDER_URI"] || "<blob-storage-folder-uri>"; // <Blob storage URL>/<folder name>
@@ -117,7 +115,6 @@ async function beginRestoreWithoutSas() {
 }
 
 async function beginPreRestoreWithSas() {
-  const blobStorageUri = "<blob-storage-uri>";
   const sasToken = "<sas-token>";
   // blobStorageFolderUri should be the folderUri returned from a prior beginBackup() call
   const blobStorageFolderUri =
@@ -136,7 +133,6 @@ async function beginPreRestoreWithSas() {
 }
 
 async function beginPreRestoreWithoutSas() {
-  const blobStorageUri = "<blob-storage-uri>";
   // blobStorageFolderUri should be the folderUri returned from a prior beginBackup() call
   const blobStorageFolderUri =
     process.env["BLOB_STORAGE_FOLDER_URI"] || "<blob-storage-folder-uri>"; // <Blob storage URL>/<folder name>

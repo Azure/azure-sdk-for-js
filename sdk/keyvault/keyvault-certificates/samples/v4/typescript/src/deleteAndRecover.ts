@@ -24,6 +24,7 @@ async function createACertificate() {
 }
 
 async function deleteAndRecoverACertificate() {
+  const certificateName = "MyCertificateDR";
   const createPoller = await client.beginCreateCertificate(certificateName, {
     issuerName: "Self",
     subject: "cn=MyCert",
@@ -38,6 +39,16 @@ async function deleteAndRecoverACertificate() {
 }
 
 async function deleteACertificate() {
+  const certificateName = "MyCertificateDelete";
+
+  if (true) {
+    const createPoller = await client.beginCreateCertificate(certificateName, {
+      issuerName: "Self",
+      subject: "cn=MyCert",
+    });
+    await createPoller.pollUntilDone();
+  }
+
   const poller = await client.beginDeleteCertificate(certificateName);
 
   // You can use the deleted certificate immediately:
@@ -70,11 +81,31 @@ async function listDeletedCertificates() {
 }
 
 async function getADeletedCertificate() {
+  const certificateName = "MyCertificateGetDeleted";
+
+  if (true) {
+    const createPoller = await client.beginCreateCertificate(certificateName, {
+      issuerName: "Self",
+      subject: "cn=MyCert",
+    });
+    await createPoller.pollUntilDone();
+    const deletePoller = await client.beginDeleteCertificate(certificateName);
+    await deletePoller.pollUntilDone();
+  }
   const deletedCertificate = await client.getDeletedCertificate(certificateName);
   console.log("Deleted certificate:", deletedCertificate);
 }
 
 async function purgeADeletedCertificate() {
+  const certificateName = "MyCertificatePurge";
+
+  if (true) {
+    const createPoller = await client.beginCreateCertificate(certificateName, {
+      issuerName: "Self",
+      subject: "cn=MyCert",
+    });
+    await createPoller.pollUntilDone();
+  }
   const deletePoller = await client.beginDeleteCertificate(certificateName);
   await deletePoller.pollUntilDone();
 
@@ -83,6 +114,15 @@ async function purgeADeletedCertificate() {
 }
 
 async function recoverADeletedCertificate() {
+  const certificateName = "MyCertificateRecover";
+
+  if (true) {
+    const createPoller = await client.beginCreateCertificate(certificateName, {
+      issuerName: "Self",
+      subject: "cn=MyCert",
+    });
+    await createPoller.pollUntilDone();
+  }
   const deletePoller = await client.beginDeleteCertificate(certificateName);
   await deletePoller.pollUntilDone();
 

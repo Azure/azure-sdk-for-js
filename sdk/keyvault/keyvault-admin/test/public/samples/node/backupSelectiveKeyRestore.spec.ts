@@ -133,7 +133,7 @@ describe("backupSelectiveKeyRestore", () => {
   it("backup and selective key restore (integration)", async () => {
     const keyName = forPublishing(
       recorder.variable("keyName", `key-${Date.now()}`),
-      () => "key-name",
+      () => "<key-name>",
     );
     const key = await keyClient.createRsaKey(keyName);
 

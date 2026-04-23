@@ -15,6 +15,7 @@ export async function main(): Promise<void> {
     process.env["AZURE_MANAGEDHSM_URI"] || "<managedhsm-url>",
     new DefaultAzureCredential(),
   );
+  // Use client.listSettings() to see all available setting names.
   const setting = await client.getSetting("AllowKeyManagementOperationsThroughARM");
   // You can update the setting's value and then pass it back to updateSetting:
   setting.value = true;

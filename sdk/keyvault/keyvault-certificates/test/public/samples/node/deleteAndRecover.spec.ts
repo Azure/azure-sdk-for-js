@@ -65,6 +65,10 @@ describe("deleteAndRecover", () => {
   });
 
   it("delete and recover a certificate", async () => {
+    const certificateName = forPublishing(
+      recorder.variable("certificateName", `delete-recover-${new Date().getTime()}`),
+      () => "MyCertificateDR",
+    );
     const createPoller = await client.beginCreateCertificate(certificateName, {
       issuerName: "Self",
       subject: "cn=MyCert",
@@ -83,8 +87,12 @@ describe("deleteAndRecover", () => {
   // Operation snippets
 
   it("delete a certificate", async () => {
+    const certificateName = forPublishing(
+      recorder.variable("certificateName", `delete-recover-${new Date().getTime()}`),
+      () => "MyCertificateDelete",
+    );
     // @snippet ReadmeSampleDeleteCertificate
-    if (forPublishing(true, () => false)) {
+    if (forPublishing(true, () => true)) {
       const createPoller = await client.beginCreateCertificate(certificateName, {
         issuerName: "Self",
         subject: "cn=MyCert",
@@ -140,8 +148,12 @@ describe("deleteAndRecover", () => {
   });
 
   it("get a deleted certificate", async () => {
+    const certificateName = forPublishing(
+      recorder.variable("certificateName", `delete-recover-${new Date().getTime()}`),
+      () => "MyCertificateGetDeleted",
+    );
     // @snippet CertificateClientGetDeletedCertificate
-    if (forPublishing(true, () => false)) {
+    if (forPublishing(true, () => true)) {
       const createPoller = await client.beginCreateCertificate(certificateName, {
         issuerName: "Self",
         subject: "cn=MyCert",
@@ -156,8 +168,12 @@ describe("deleteAndRecover", () => {
   });
 
   it("purge a deleted certificate", async () => {
+    const certificateName = forPublishing(
+      recorder.variable("certificateName", `delete-recover-${new Date().getTime()}`),
+      () => "MyCertificatePurge",
+    );
     // @snippet CertificateClientPurgeDeletedCertificate
-    if (forPublishing(true, () => false)) {
+    if (forPublishing(true, () => true)) {
       const createPoller = await client.beginCreateCertificate(certificateName, {
         issuerName: "Self",
         subject: "cn=MyCert",
@@ -173,8 +189,12 @@ describe("deleteAndRecover", () => {
   });
 
   it("recover a deleted certificate", async () => {
+    const certificateName = forPublishing(
+      recorder.variable("certificateName", `delete-recover-${new Date().getTime()}`),
+      () => "MyCertificateRecover",
+    );
     // @snippet CertificateClientRecoverDeletedCertificate
-    if (forPublishing(true, () => false)) {
+    if (forPublishing(true, () => true)) {
       const createPoller = await client.beginCreateCertificate(certificateName, {
         issuerName: "Self",
         subject: "cn=MyCert",

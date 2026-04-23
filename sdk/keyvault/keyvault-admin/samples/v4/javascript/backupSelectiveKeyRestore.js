@@ -56,7 +56,7 @@ async function beginSelectiveKeyRestoreWithoutSas() {
 }
 
 async function backupAndSelectiveKeyRestoreIntegration() {
-  const keyName = "key-name";
+  const keyName = "<key-name>";
   const key = await keyClient.createRsaKey(keyName);
   const sasToken = process.env["BLOB_STORAGE_SAS_TOKEN"] || "<blob-storage-sas-token>";
   /**

@@ -41,6 +41,7 @@ async function backUpACertificate() {
   });
   await createPoller.pollUntilDone();
   const backup = await client.backupCertificate(certificateName);
+  console.log("Certificate backup buffer length:", backup?.length);
 }
 
 async function restoreACertificateFromBackup() {

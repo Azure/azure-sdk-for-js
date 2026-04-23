@@ -23,8 +23,8 @@ async function listRoleAssignments() {
 }
 
 async function listRoleDefinitions() {
-  for await (const roleDefinitions of client.listRoleDefinitions("/")) {
-    console.log("Role definition: ", roleDefinitions);
+  for await (const roleDefinition of client.listRoleDefinitions("/")) {
+    console.log("Role definition: ", roleDefinition);
   }
 }
 

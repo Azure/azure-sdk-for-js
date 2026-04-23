@@ -56,6 +56,7 @@ async function getACertificateOperation() {
 
   const poller = await client.getCertificateOperation(certificateName);
   const pendingCertificate = poller.getResult();
+  console.log("Pending certificate:", pendingCertificate);
 
   const certificateOperation = poller.getOperationState().certificateOperation;
   console.log(certificateOperation);
@@ -68,8 +69,14 @@ async function deleteACertificateOperation() {
   });
   await client.deleteCertificateOperation(certificateName);
 
-  await client.getCertificateOperation(certificateName);
-  // Throws error: Pending certificate not found: "MyCertificate"
+  await (async () => {
+    try {
+      await client.getCertificateOperation(certificateName);
+    } catch (e: any) {
+      // getCertificateOperation throws when the operation has been deleted
+      console.log(`getCertificateOperation throws after deletion: ${e.message}`);
+    }
+  })();
 }
 
 export async function main(): Promise<void> {

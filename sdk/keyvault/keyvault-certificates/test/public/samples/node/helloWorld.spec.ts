@@ -136,7 +136,7 @@ describe("helloWorld", () => {
 
   // Operation snippets
 
-  it("create a certificate", async () => {
+  it("create a self-signed certificate", async () => {
     // @snippet ReadmeSampleCreateCertificate
     // @ts-preserve-whitespace
     // Note: Sending `Self` as the `issuerName` of the certificate's policy will create a self-signed certificate.
