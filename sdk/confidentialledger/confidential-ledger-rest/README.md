@@ -244,8 +244,16 @@ const result = await client.path("/app/transactions").post(ledgerEntry);
 
 ### Get a Ledger Entry By Transaction Id
 
+The service may take some time to make a previously written entry available
+for read. The `getLedgerEntry` helper polls until the entry is in the `Ready`
+state (or returns the last response if the entry is still loading after the
+built-in retry budget). Callers no longer need to write a manual `while` loop.
+
 ```ts snippet:ReadmeSampleGetLedgerEntry
-import ConfidentialLedger, { getLedgerIdentity } from "@azure-rest/confidential-ledger";
+import ConfidentialLedger, {
+  getLedgerIdentity,
+  getLedgerEntry,
+} from "@azure-rest/confidential-ledger";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const { ledgerIdentityCertificate } = await getLedgerIdentity(
@@ -261,13 +269,16 @@ const client = ConfidentialLedger(
 );
 
 const transactionId = "<TRANSACTION_ID>";
-const status = await client.path("/app/transactions/{transactionId}/status", transactionId).get();
+const response = await getLedgerEntry(client, transactionId);
 ```
 
 ### Get a Ledger Entry By Transaction Id With CollectionId
 
 ```ts snippet:ReadmeSampleGetLedgerEntryWithCollectionIdSample
-import ConfidentialLedger, { getLedgerIdentity } from "@azure-rest/confidential-ledger";
+import ConfidentialLedger, {
+  getLedgerIdentity,
+  getLedgerEntry,
+} from "@azure-rest/confidential-ledger";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const { ledgerIdentityCertificate } = await getLedgerIdentity(
@@ -281,15 +292,14 @@ const client = ConfidentialLedger(
   credential,
 );
 const transactionId = "<TRANSACTION_ID>";
-const getLedgerEntryParams = {
-  queryParameters: { collectionId: "my-collection" },
-};
-const result = await client
-  .path("/app/transactions/{transactionId}", transactionId)
-  .get(getLedgerEntryParams);
+const response = await getLedgerEntry(client, transactionId, {
+  collectionId: "my-collection",
+});
 ```
 
 ### Get a Ledger Entry By Transaction Id With CollectionId and Tag
+
+Use the path-based client for advanced query parameters such as `tag`.
 
 ```ts snippet:ReadmeSampleGetLedgerEntryWithCollectionIdAndTagSample
 import ConfidentialLedger, { getLedgerIdentity } from "@azure-rest/confidential-ledger";

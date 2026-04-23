@@ -4,6 +4,7 @@
 import ConfidentialLedger, {
   CreateLedgerEntryParameters,
   LedgerEntry,
+  getLedgerEntry,
   getLedgerIdentity,
   isUnexpected,
 } from "../src/index.js";
@@ -137,9 +138,7 @@ describe("snippets", () => {
     );
     // @ts-preserve-whitespace
     const transactionId = "<TRANSACTION_ID>";
-    const status = await client
-      .path("/app/transactions/{transactionId}/status", transactionId)
-      .get();
+    const response = await getLedgerEntry(client, transactionId);
   });
 
   it("ReadmeSampleGetLedgerEntryWithCollectionIdSample", async () => {
@@ -154,12 +153,9 @@ describe("snippets", () => {
       credential,
     );
     const transactionId = "<TRANSACTION_ID>";
-    const getLedgerEntryParams = {
-      queryParameters: { collectionId: "my-collection" },
-    };
-    const result = await client
-      .path("/app/transactions/{transactionId}", transactionId)
-      .get(getLedgerEntryParams);
+    const response = await getLedgerEntry(client, transactionId, {
+      collectionId: "my-collection",
+    });
   });
 
   it("ReadmeSampleGetLedgerEntryWithCollectionIdAndTagSample", async () => {

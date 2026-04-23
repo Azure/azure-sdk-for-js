@@ -14,6 +14,16 @@ import type { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
+export interface AbortSignalLike {
+    // (undocumented)
+    readonly aborted: boolean;
+    // (undocumented)
+    addEventListener(type: "abort", listener: (this: AbortSignalLike, ev: any) => any): void;
+    // (undocumented)
+    removeEventListener(type: "abort", listener: (this: AbortSignalLike, ev: any) => any): void;
+}
+
+// @public
 export interface ApplicationClaimOutput {
     digest?: ClaimDigestOutput;
     kind: "LedgerEntry" | "ClaimDigest";
@@ -310,6 +320,9 @@ export interface CreateUserDefinedRoleMediaTypesParam {
 // @public (undocumented)
 export type CreateUserDefinedRoleParameters = CreateUserDefinedRoleMediaTypesParam & CreateUserDefinedRoleBodyParam & RequestParameters;
 
+// @public
+export const DEFAULT_POLLING_INTERVAL_IN_MS = 500;
+
 // @public (undocumented)
 export interface DeleteLedgerUser {
     delete(options?: DeleteLedgerUserParameters): StreamableMethod<DeleteLedgerUser204Response | DeleteLedgerUserDefaultResponse>;
@@ -586,6 +599,9 @@ export interface GetLedgerEntry {
 }
 
 // @public
+export function getLedgerEntry(client: ConfidentialLedgerClient, transactionId: string, options?: GetLedgerEntryOptions): Promise<GetLedgerEntryResponse>;
+
+// @public
 export interface GetLedgerEntry200Response extends HttpResponse {
     // (undocumented)
     body: LedgerQueryResultOutput;
@@ -601,6 +617,11 @@ export interface GetLedgerEntryDefaultResponse extends HttpResponse {
     status: string;
 }
 
+// @public
+export interface GetLedgerEntryOptions extends LedgerPollingOptions {
+    collectionId?: string;
+}
+
 // @public (undocumented)
 export type GetLedgerEntryParameters = GetLedgerEntryQueryParam & RequestParameters;
 
@@ -614,6 +635,9 @@ export interface GetLedgerEntryQueryParam {
 export interface GetLedgerEntryQueryParamProperties {
     collectionId?: string;
 }
+
+// @public
+export type GetLedgerEntryResponse = GetLedgerEntry200Response | GetLedgerEntryDefaultResponse;
 
 // @public (undocumented)
 export function getLedgerIdentity(ledgerId: string, identityServiceBaseUrl?: string): Promise<LedgerIdentity>;
@@ -864,6 +888,9 @@ export interface InterpreterReusePolicyOutput {
     key: string;
 }
 
+// @public
+export function isLoadingResponse(response: GetLedgerEntryResponse): boolean;
+
 // @public (undocumented)
 export function isUnexpected(response: GetConstitution200Response | GetConstitutionDefaultResponse): response is GetConstitutionDefaultResponse;
 
@@ -1023,6 +1050,12 @@ export interface LedgerIdentity {
     ledgerId: string;
     // (undocumented)
     ledgerIdentityCertificate: string;
+}
+
+// @public
+export interface LedgerPollingOptions {
+    abortSignal?: AbortSignalLike;
+    pollingIntervalInMs?: number;
 }
 
 // @public
@@ -1223,6 +1256,12 @@ export interface ListUsersDefaultResponse extends HttpResponse {
 
 // @public (undocumented)
 export type ListUsersParameters = RequestParameters;
+
+// @public
+export const MAX_LOADING_RETRIES = 10;
+
+// @public
+export const MAX_NOT_FOUND_RETRIES = 3;
 
 // @public (undocumented)
 export interface Metadata {
@@ -1548,6 +1587,12 @@ export interface UserDefinedFunctionOutput {
     code: string;
     readonly id?: string;
 }
+
+// @public
+export function waitForLedgerEntryCommit(client: ConfidentialLedgerClient, transactionId: string, options?: LedgerPollingOptions): Promise<WaitForLedgerEntryCommitResponse>;
+
+// @public
+export type WaitForLedgerEntryCommitResponse = GetTransactionStatus200Response | GetTransactionStatusDefaultResponse;
 
 // (No @packageDocumentation comment for this package)
 
