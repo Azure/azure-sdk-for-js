@@ -8,10 +8,9 @@
 - Added `AnalysisOperationMetadata` interface with `usage` and `operationId` fields.
 - Added `usage` on `AnalysisOperationState` to surface billing and token consumption details (`UsageDetails`) after the operation completes. Access via `poller.operationState?.usage`.
 
-### Breaking Changes
+### Deprecations
 
-- `operationId` is no longer a direct property on `AnalysisResultPoller`. Use `poller.operationState?.operationId` instead. The deprecated `poller.operationId` getter is retained for backward compatibility.
-- `usage` is now accessed via `poller.operationState?.usage` instead of `poller.usage`.
+- `poller.operationId` is deprecated. Use `poller.operationState?.operationId` instead.
 
 ## 1.0.0 (2026-02-28)
 
