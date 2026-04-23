@@ -12,13 +12,14 @@ urlFragment: keyvault-secrets-typescript
 
 These sample programs show how to use the TypeScript client libraries for Azure Key Vault Secrets in some common scenarios.
 
-| **File Name**                           | **Description**                                                                                |
-| --------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| [backupAndRestore.ts][backupandrestore] | Backs up an Azure Key Vault secret to a local file and restores from it.                       |
-| [deleteAndRecover.ts][deleteandrecover] | Deletes a secret and then recovers a deleted secret (this sample requires soft-delete to run). |
-| [gettingStarted.ts][gettingstarted]     | Authenticates with Azure Key Vault and creates a SecretClient.                                 |
-| [helloWorld.ts][helloworld]             | Uses a SecretClient to create, read, and update a secret in various ways.                      |
-| [listOperations.ts][listoperations]     | Uses a SecretClient to iterate over secrets and their versions.                                |
+| **File Name**                                     | **Description**                                                                                |
+| ------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| [backupAndRestore.ts][backupandrestore]           | Backs up an Azure Key Vault secret to a local file and restores from it.                       |
+| [deleteAndRecover.ts][deleteandrecover]           | Deletes a secret and then recovers a deleted secret (this sample requires soft-delete to run). |
+| [gettingStarted.ts][gettingstarted]               | Authenticates with Azure Key Vault and creates a SecretClient.                                 |
+| [gettingStartedBrowser.ts][gettingstartedbrowser] | Authenticates with Azure Key Vault from a browser using InteractiveBrowserCredential.          |
+| [helloWorld.ts][helloworld]                       | Uses a SecretClient to create, read, and update a secret in various ways.                      |
+| [listOperations.ts][listoperations]               | Uses a SecretClient to iterate over secrets and their versions.                                |
 
 ## Prerequisites
 
@@ -75,6 +76,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [backupandrestore]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-secrets/samples/v4/typescript/src/backupAndRestore.ts
 [deleteandrecover]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-secrets/samples/v4/typescript/src/deleteAndRecover.ts
 [gettingstarted]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-secrets/samples/v4/typescript/src/gettingStarted.ts
+[gettingstartedbrowser]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-secrets/samples/v4/typescript/src/gettingStartedBrowser.ts
 [helloworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-secrets/samples/v4/typescript/src/helloWorld.ts
 [listoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-secrets/samples/v4/typescript/src/listOperations.ts
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/keyvault-secrets

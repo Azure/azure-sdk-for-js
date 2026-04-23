@@ -7,7 +7,7 @@
 
 // Load the .env file if it exists
 require("dotenv/config");
-const { DefaultAzureCredential, InteractiveBrowserCredential } = require("@azure/identity");
+const { DefaultAzureCredential } = require("@azure/identity");
 const { SecretClient } = require("@azure/keyvault-secrets");
 const { setLogLevel } = require("@azure/logger");
 
@@ -16,15 +16,6 @@ async function createASecretClient() {
 
   const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
-  const client = new SecretClient(url, credential);
-}
-
-async function createASecretClientInTheBrowser() {
-  const credential = new InteractiveBrowserCredential({
-    tenantId: "<YOUR_TENANT_ID>",
-    clientId: "<YOUR_CLIENT_ID>",
-  });
-  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
   const client = new SecretClient(url, credential);
 }
 
@@ -45,7 +36,6 @@ async function setTheLogLevel() {
 
 async function main() {
   await createASecretClient();
-  await createASecretClientInTheBrowser();
   await createASecretClientWithASpecificVersion();
   await setTheLogLevel();
 }
