@@ -39,7 +39,7 @@ VS Code to run code-generation, build, and release workflows.
 Start the server (requires [PowerShell](https://learn.microsoft.com/powershell/scripting/install/installing-powershell)):
 
 ```powershell
-eng/common/mcp/azure-sdk-mcp.ps1 -Run
+<path-to-repo>/eng/common/mcp/azure-sdk-mcp.ps1 -Run
 ```
 
 For VS Code, add the following to your MCP configuration:
