@@ -34,10 +34,10 @@
   "dependencies": {
     "@azure/keyvault-keys": "latest",
     "dotenv": "latest",
+    "@azure/attestation": "^1.0.2",
     "@azure/core-auth": "^1.9.0",
     "@azure/identity": "^4.13.0",
-    "@azure/logger": "^1.1.4",
-    "@azure/core-rest-pipeline": "^1.19.0"
+    "@azure/logger": "^1.1.4"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

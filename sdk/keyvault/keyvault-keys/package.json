@@ -96,7 +96,8 @@
     "prettier": "catalog:",
     "rimraf": "catalog:",
     "typescript": "catalog:",
-    "vitest": "catalog:testing"
+    "vitest": "catalog:testing",
+    "@azure/attestation": "^1.0.2"
   },
   "type": "module",
   "exports": {

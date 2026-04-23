@@ -7,9 +7,13 @@
 
 // Load the .env file if it exists
 require("dotenv/config");
-const { createDefaultHttpClient, createPipelineRequest } = require("@azure/core-rest-pipeline");
 const { DefaultAzureCredential } = require("@azure/identity");
 const { KeyClient } = require("@azure/keyvault-keys");
+const {
+  openEnclaveReport,
+  decodeBase64Url,
+  getAttestationToken,
+} = require("./attestationUtils.js");
 const { stringToUint8Array } = require("./crypto.js");
 
 let hsmClient;
@@ -35,10 +39,12 @@ async function getKeyAttestation() {
 
 async function releaseAKey() {
   const keyName = "myKey";
-  const attestationAuthority = process.env["AZURE_KEYVAULT_ATTESTATION_URI"];
+  const attestationProviderUrl = process.env["AZURE_KEYVAULT_ATTESTATION_PROVIDER_URL"];
   const encodedReleasePolicy = stringToUint8Array(
     JSON.stringify({
-      anyOf: [{ anyOf: [{ claim: "sdk-test", equals: "true" }], authority: attestationAuthority }],
+      anyOf: [
+        { anyOf: [{ claim: "sdk-test", equals: "true" }], authority: attestationProviderUrl },
+      ],
       version: "1.0.0",
     }),
   );
@@ -48,10 +54,12 @@ async function releaseAKey() {
     keyOps: ["encrypt", "decrypt"],
     releasePolicy: { encodedPolicy: encodedReleasePolicy },
   });
-  // Fetch the attestation token from your Azure Attestation Service endpoint.
-  const attestation = await createDefaultHttpClient()
-    .sendRequest(createPipelineRequest({ url: `${attestationAuthority}/generate-test-token` }))
-    .then((r) => JSON.parse(r.bodyAsText).token);
+  // Obtain an attestation token from Azure Attestation Service using the OpenEnclave report.
+  const attestation = await getAttestationToken(
+    process.env["AZURE_KEYVAULT_ATTESTATION_PROVIDER_URL"],
+    new DefaultAzureCredential(),
+    decodeBase64Url(openEnclaveReport),
+  );
 
   const result = await hsmClient.releaseKey(keyName, attestation);
   console.log("result: ", result);

@@ -11,16 +11,16 @@
 
 import { KeyClient } from "../../../../src/index.js";
 import {
-  createDefaultHttpClient,
-  createEmptyPipeline,
-  createPipelineRequest,
-  type PipelinePolicy,
-} from "@azure/core-rest-pipeline";
+  AttestationAdministrationClient,
+  AttestationClient,
+  KnownAttestationType,
+} from "@azure/attestation";
 import { DefaultAzureCredential } from "@azure/identity";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { forPublishing } from "@azure-tools/test-publishing";
 import { stringToUint8Array } from "./crypto.js";
+import { openEnclaveReport, decodeBase64Url, getAttestationToken } from "./attestationUtils.js";
 import { describe, it, beforeEach, afterEach } from "vitest";
 // Load the .env file if it exists
 import "dotenv/config";
@@ -34,11 +34,19 @@ describe("hsmOperations", () => {
     await recorder.start({
       envSetupForPlayback: {
         AZURE_MANAGEDHSM_URI: "https://azure_managedhsm.managedhsm.azure.net/",
-        AZURE_KEYVAULT_ATTESTATION_URI: "https://azure_attestation.azurewebsites.net/",
+        AZURE_KEYVAULT_ATTESTATION_PROVIDER_URL: "https://azure_attestation.eus.attest.azure.net/",
       },
       removeCentralSanitizers: ["AZSDK3430"],
     });
     await recorder.setMatcher("BodilessMatcher");
+    await recorder.addSanitizers({
+      bodyKeySanitizers: [
+        {
+          jsonPath: "$.release_policy.data",
+          value: "eyAic2FuaXRpemVkIjogInNhbml0aXplZCIgfQ==",
+        },
+      ],
+    });
     const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
     hsmClient = forPublishing(
       new KeyClient(
@@ -46,8 +54,7 @@ describe("hsmOperations", () => {
         credential,
         recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
       ),
-      () =>
-        new KeyClient(process.env["AZURE_MANAGEDHSM_URI"], credential),
+      () => new KeyClient(process.env["AZURE_MANAGEDHSM_URI"], credential),
     );
   });
 
@@ -92,14 +99,14 @@ describe("hsmOperations", () => {
       recorder.variable("releaseKeyName", `sample-release-key-${Date.now()}`),
       () => "myKey",
     );
-    const attestationAuthority = forPublishing(
-      assertEnvironmentVariable("AZURE_KEYVAULT_ATTESTATION_URI"),
-      () => process.env["AZURE_KEYVAULT_ATTESTATION_URI"]!,
+    const attestationProviderUrl = forPublishing(
+      assertEnvironmentVariable("AZURE_KEYVAULT_ATTESTATION_PROVIDER_URL"),
+      () => process.env["AZURE_KEYVAULT_ATTESTATION_PROVIDER_URL"]!,
     );
     const encodedReleasePolicy = stringToUint8Array(
       JSON.stringify({
         anyOf: [
-          { anyOf: [{ claim: "sdk-test", equals: "true" }], authority: attestationAuthority },
+          { anyOf: [{ claim: "sdk-test", equals: "true" }], authority: attestationProviderUrl },
         ],
         version: "1.0.0",
       }),
@@ -110,28 +117,39 @@ describe("hsmOperations", () => {
       keyOps: ["encrypt", "decrypt"],
       releasePolicy: { encodedPolicy: encodedReleasePolicy },
     });
-    // Fetch the attestation token from your Azure Attestation Service endpoint.
+
+    // Obtain an attestation token from Azure Attestation Service using the OpenEnclave report.
     const attestation = await forPublishing(
       (async () => {
-        const { additionalPolicies } = recorder.configureClientOptions({});
-        const attestationPipeline = createEmptyPipeline();
-        for (const { policy, position } of additionalPolicies ?? []) {
-          attestationPipeline.addPolicy(policy as PipelinePolicy, {
-            afterPhase: position === "perRetry" ? "Sign" : undefined,
-          });
-        }
-        const response = await attestationPipeline.sendRequest(
-          createDefaultHttpClient(),
-          createPipelineRequest({ url: `${attestationAuthority}/generate-test-token` }),
+        const providerUrl = assertEnvironmentVariable("AZURE_KEYVAULT_ATTESTATION_PROVIDER_URL");
+        const credential = createTestCredential();
+        const adminClient = new AttestationAdministrationClient(
+          providerUrl,
+          credential,
+          recorder.configureClientOptions({}),
         );
-        return JSON.parse(response.bodyAsText!).token as string;
+        const attestClient = new AttestationClient(
+          providerUrl,
+          credential,
+          recorder.configureClientOptions({}),
+        );
+        try {
+          await adminClient.setPolicy(
+            KnownAttestationType.OpenEnclave,
+            `version=1.0; authorizationrules{=> permit();}; issuancerules{issue(type="sdk-test", value="true");};`,
+          );
+          const result = await attestClient.attestOpenEnclave(decodeBase64Url(openEnclaveReport));
+          return result.token.serialize();
+        } finally {
+          await adminClient.resetPolicy(KnownAttestationType.OpenEnclave);
+        }
       })(),
-      async () =>
-        createDefaultHttpClient()
-          .sendRequest(
-            createPipelineRequest({ url: `${attestationAuthority}/generate-test-token` }),
-          )
-          .then((r) => JSON.parse(r.bodyAsText!).token as string),
+      () =>
+        getAttestationToken(
+          process.env["AZURE_KEYVAULT_ATTESTATION_PROVIDER_URL"]!,
+          new DefaultAzureCredential(),
+          decodeBase64Url(openEnclaveReport),
+        ),
     );
 
     // @snippet ReadmeSampleReleaseKey

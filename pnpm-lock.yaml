@@ -16764,6 +16764,9 @@ importers:
       '@azure-tools/test-utils-vitest':
         specifier: workspace:^
         version: link:../../test-utils/test-utils-vitest
+      '@azure/attestation':
+        specifier: ^1.0.2
+        version: link:../../attestation/attestation
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
