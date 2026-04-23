@@ -39,7 +39,7 @@ describe("helloWorld", () => {
         credential,
         recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
       ),
-      () => new KeyClient(process.env["KEYVAULT_URI"], credential),
+      () => new KeyClient(process.env["KEYVAULT_URI"]!, credential),
     );
   });
 
@@ -143,6 +143,7 @@ describe("helloWorld", () => {
     const jsonWebKey = createRsaKey();
     // @ts-preserve-whitespace
     const result = await client.importKey(keyName, jsonWebKey);
+    console.log("result: ", result);
     // @snippet-end ReadmeSampleImportKey
   });
 
@@ -150,6 +151,7 @@ describe("helloWorld", () => {
     // @snippet ReadmeSampleGetCryptographyClient
     // Get a cryptography client for a given key
     const cryptographyClient = client.getCryptographyClient("MyKey");
+    console.log("cryptographyClient: ", cryptographyClient.keyID);
     // @snippet-end ReadmeSampleGetCryptographyClient
   });
 
@@ -187,7 +189,7 @@ describe("helloWorld", () => {
     const keyName = "MyUpdateKeyName";
     // @ts-preserve-whitespace
     const result = await client.createKey(keyName, "RSA");
-    await client.updateKeyProperties(keyName, result.properties.version, {
+    await client.updateKeyProperties(keyName, result.properties.version!, {
       enabled: false,
     });
     // @snippet-end ReadmeSampleUpdateKeyProperties
@@ -261,6 +263,7 @@ describe("helloWorld", () => {
 
     // @snippet ReadmeSampleBackupKey
     const backupContents = await client.backupKey(keyName);
+    console.log("backupContents: ", backupContents);
     // @snippet-end ReadmeSampleBackupKey
   });
 
@@ -279,7 +282,7 @@ describe("helloWorld", () => {
     // @ts-preserve-whitespace
     await client.purgeDeletedKey(keyName);
     // @ts-preserve-whitespace
-    await retryWithBackoff(() => client.restoreKeyBackup(backupContents));
+    await retryWithBackoff(() => client.restoreKeyBackup(backupContents!));
     // @snippet-end ReadmeSampleRestoreKeyBackup
   });
 
@@ -295,6 +298,7 @@ describe("helloWorld", () => {
     // @ts-preserve-whitespace
     // You can use the deleted key immediately:
     const deletedKey = poller.getResult();
+    console.log("deletedKey: ", deletedKey);
     // @ts-preserve-whitespace
     // The key is being deleted. Only wait for it if you want to restore it or purge it.
     await poller.pollUntilDone();

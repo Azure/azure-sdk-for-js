@@ -71,7 +71,7 @@ export async function getAttestationToken(
   // Adjust claims to match your key's release policy.
   await adminClient.setPolicy(
     KnownAttestationType.OpenEnclave,
-    `version=1.0; authorizationrules{=> permit();}; issuancerules{issue(type="sdk-test", value="true");};`,
+    `version=1.0; authorizationrules{=> permit();}; issuancerules{=> issue(type="sdk-test", value="true");};`,
   );
   const attestClient = new AttestationClient(attestationProviderUrl, credential);
   const result = await attestClient.attestOpenEnclave(report);

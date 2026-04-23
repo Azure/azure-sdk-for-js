@@ -43,7 +43,7 @@ describe("cryptography", () => {
         credential,
         recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
       ),
-      () => new KeyClient(process.env["KEYVAULT_URI"], credential),
+      () => new KeyClient(process.env["KEYVAULT_URI"]!, credential),
     );
   });
 

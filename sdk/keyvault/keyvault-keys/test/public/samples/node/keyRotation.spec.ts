@@ -37,7 +37,7 @@ describe("keyRotation", () => {
       ),
       () =>
         new KeyClient(
-          process.env["KEYVAULT_URI"],
+          process.env["KEYVAULT_URI"]!,
           new DefaultAzureCredential(),
         ),
     );
@@ -130,6 +130,7 @@ describe("keyRotation", () => {
       // In this case, any new key versions will expire after 90 days.
       expiresIn: "P90D",
     });
+    console.log("policy: ", policy);
     // @ts-preserve-whitespace
     // You can get the current key rotation policy of a given key by calling the getKeyRotationPolicy method.
     const currentPolicy = await client.getKeyRotationPolicy(keyName);

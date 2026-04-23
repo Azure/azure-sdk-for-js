@@ -19,9 +19,10 @@ describe("gettingStarted", () => {
     // @snippet ReadmeSampleCreateClient
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
-    const url = process.env["KEYVAULT_URI"];
+    const url = process.env["KEYVAULT_URI"]!;
     // @ts-preserve-whitespace
     const client = new KeyClient(url, credential);
+    console.log("KeyClient vault URL:", client.vaultUrl);
     // @snippet-end ReadmeSampleCreateClient
   });
 
@@ -29,12 +30,13 @@ describe("gettingStarted", () => {
     // @snippet ReadmeSampleCreateClientWithVersion
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
-    const url = process.env["KEYVAULT_URI"];
+    const url = process.env["KEYVAULT_URI"]!;
     // @ts-preserve-whitespace
     // Change the Azure Key Vault service API version being used via the `serviceVersion` option
     const client = new KeyClient(url, credential, {
       serviceVersion: "7.0", // Supported versions: 7.0 through 7.6
     });
+    console.log("KeyClient vault URL:", client.vaultUrl);
     // @snippet-end ReadmeSampleCreateClientWithVersion
   });
 
@@ -44,7 +46,7 @@ describe("gettingStarted", () => {
     // @snippet ReadmeSampleCreateCryptographyClient
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
-    const url = process.env["KEYVAULT_URI"];
+    const url = process.env["KEYVAULT_URI"]!;
     // @ts-preserve-whitespace
     const client = new KeyClient(url, credential);
     // @ts-preserve-whitespace
@@ -53,6 +55,7 @@ describe("gettingStarted", () => {
     // @ts-preserve-whitespace
     // Lastly, create our cryptography client and connect to the service
     const cryptographyClient = new CryptographyClient(myKey, credential);
+    console.log("CryptographyClient key ID:", cryptographyClient.keyID);
     // @snippet-end ReadmeSampleCreateCryptographyClient
   });
 
@@ -73,6 +76,7 @@ describe("gettingStarted", () => {
       qi: new Uint8Array([78, 90, 45, 201, 34, 67, 120, 55]),
     };
     const client = new CryptographyClient(jsonWebKey);
+    console.log("CryptographyClient key ID:", client.keyID);
     // @snippet-end ReadmeSampleCreateCryptographyClientLocal
   });
 
