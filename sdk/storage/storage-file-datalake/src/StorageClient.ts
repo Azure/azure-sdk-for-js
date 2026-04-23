@@ -95,12 +95,6 @@ function getCoreClientOptions(pipeline: PipelineLike): StorageClientContextOptio
     throw new Error("Pipeline not correctly initialized; missing V2 Pipeline");
   }
 
-  if (
-    !corePipeline.getOrderedPolicies().some((p) => p.name === StorageFlushDataBrowserPolicyName)
-  ) {
-    corePipeline.addPolicy(storageFlushDataBrowserPolicy());
-  }
-
   return {
     ...restOptions,
     allowInsecureConnection: true,
@@ -194,6 +188,12 @@ export abstract class StorageClient {
     if (corePipeline.getOrderedPolicies().some((p) => p.name === "serializationPolicy")) {
       corePipeline.removePolicy({ name: "deserializationPolicy" });
       corePipeline.removePolicy({ name: "serializationPolicy" });
+    }
+
+    if (
+      !corePipeline.getOrderedPolicies().some((p) => p.name === StorageFlushDataBrowserPolicyName)
+    ) {
+      corePipeline.addPolicy(storageFlushDataBrowserPolicy());
     }
 
     // After removing serialization policies, rebuild the v1 pipeline wrapper
