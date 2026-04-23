@@ -9,6 +9,9 @@
 require("dotenv/config");
 const { DefaultAzureCredential } = require("@azure/identity");
 const { CryptographyClient, KeyClient } = require("@azure/keyvault-keys");
+/**
+ * Uses an Azure Key Vault key to sign/verify, encrypt/decrypt, and wrap/unwrap data.
+ */
 const { createHash } = require("node:crypto");
 
 let client;

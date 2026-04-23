@@ -9,6 +9,9 @@
 import "dotenv/config";
 import { DefaultAzureCredential } from "@azure/identity";
 import { CertificateClient } from "@azure/keyvault-certificates";
+/**
+ * Creates a certificate with an unknown issuer and signs it using a fake certificate authority and the mergeCertificate API.
+ */
 import * as childProcess from "child_process";
 import { execSync } from "node:child_process";
 import fs from "node:fs";
@@ -51,13 +54,6 @@ async function mergeACertificate() {
 }
 
 async function mergeACertificate2() {
-  const credential = new DefaultAzureCredential();
-
-  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-
-  const client = new CertificateClient(url, credential);
-
-  const certificateName = "MyCertificate";
   await client.beginCreateCertificate(certificateName, {
     issuerName: "Unknown",
     subject: "cn=MyCert",

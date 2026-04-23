@@ -41,21 +41,10 @@ async function manageCertificateContacts() {
 }
 
 async function deleteCertificateContacts() {
-  const credential = new DefaultAzureCredential();
-
-  const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-
-  const client = new CertificateClient(keyVaultUrl, credential);
   await client.deleteContacts();
 }
 
 async function setCertificateContacts() {
-  const credential = new DefaultAzureCredential();
-
-  const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-
-  const client = new CertificateClient(keyVaultUrl, credential);
-
   await client.setContacts([
     {
       email: "b@b.com",
@@ -66,12 +55,6 @@ async function setCertificateContacts() {
 }
 
 async function getCertificateContacts() {
-  const credential = new DefaultAzureCredential();
-
-  const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-
-  const client = new CertificateClient(keyVaultUrl, credential);
-
   const contacts = await client.getContacts();
   for (const contact of contacts) {
     console.log(contact);

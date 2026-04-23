@@ -35,13 +35,6 @@ async function backupAndRestoreACertificate() {
 }
 
 async function backUpACertificate() {
-  const credential = new DefaultAzureCredential();
-
-  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-
-  const client = new CertificateClient(url, credential);
-
-  const certificateName = "MyCertificate";
   const createPoller = await client.beginCreateCertificate(certificateName, {
     issuerName: "Self",
     subject: "cn=MyCert",
@@ -51,13 +44,6 @@ async function backUpACertificate() {
 }
 
 async function restoreACertificateFromBackup() {
-  const credential = new DefaultAzureCredential();
-
-  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-
-  const client = new CertificateClient(url, credential);
-
-  const certificateName = "MyCertificate";
   const createPoller = await client.beginCreateCertificate(certificateName, {
     issuerName: "Self",
     subject: "cn=MyCert",

@@ -9,6 +9,9 @@
 import "dotenv/config";
 import { DefaultAzureCredential } from "@azure/identity";
 import { SecretClient } from "@azure/keyvault-secrets";
+/**
+ * Backs up an Azure Key Vault secret to a local file and restores from it.
+ */
 import { readFile, writeFile } from "node:fs/promises";
 import { retryWithBackoff } from "./utils.js";
 

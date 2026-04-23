@@ -66,13 +66,6 @@ async function importAPemCertificate() {
 }
 
 async function importACertificate() {
-  const credential = new DefaultAzureCredential();
-
-  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-
-  const client = new CertificateClient(url, credential);
-  const secretClient = new SecretClient(url, credential);
-
   const sourceCertificateName = "MySourceCertificate";
   const importedCertificateName = "MyCertificate";
   const certificateSecret = await secretClient.getSecret(sourceCertificateName);
