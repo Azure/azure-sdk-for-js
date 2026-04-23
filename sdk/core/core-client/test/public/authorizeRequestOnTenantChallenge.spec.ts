@@ -3,7 +3,7 @@
 
 import { describe, it, assert, expect, vi, beforeEach, type Mock } from "vitest";
 import type { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import type { PipelineResponse } from "@azure/core-rest-pipeline";
+import type { PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import {
   bearerTokenAuthenticationPolicy,
   createHttpHeaders,
@@ -102,7 +102,25 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
       },
     });
 
-    const calledOnce = false;
+    const nextFn = vi
+      .fn<(req: PipelineRequest) => Promise<PipelineResponse>>()
+      .mockImplementationOnce(async (req) => {
+        assert.equal(req.headers.get("authorization"), "Bearer originalToken");
+        return {
+          headers: createHttpHeaders({
+            "WWW-Authenticate": `Bearer authorization_uri=https://login.microsoftonline.com/${fakeGuid}/oauth2/authorize resource_id=https://storage.azure.com`,
+          }),
+          request: req,
+          status: 401,
+        };
+      })
+      .mockImplementation(async (req) => {
+        return {
+          headers: createHttpHeaders(),
+          request: req,
+          status: 200,
+        };
+      });
 
     await policy.sendRequest(
       {
@@ -113,24 +131,7 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
         url: "https://example.org",
         withCredentials: true,
       },
-      async (req) => {
-        if (!calledOnce) {
-          assert.equal(req.headers.get("authorization"), "Bearer originalToken");
-          return {
-            headers: createHttpHeaders({
-              "WWW-Authenticate": `Bearer authorization_uri=https://login.microsoftonline.com/${fakeGuid}/oauth2/authorize resource_id=https://storage.azure.com`,
-            }),
-            request: req,
-            status: 401,
-          };
-        }
-
-        return {
-          headers: createHttpHeaders(),
-          request: req,
-          status: 200,
-        };
-      },
+      nextFn,
     );
 
     expect(getTokenStub).toBeCalledTimes(2);
@@ -147,7 +148,25 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
       },
     });
 
-    const calledOnce = false;
+    const nextFn = vi
+      .fn<(req: PipelineRequest) => Promise<PipelineResponse>>()
+      .mockImplementationOnce(async (req) => {
+        assert.equal(req.headers.get("authorization"), "Bearer originalToken");
+        return {
+          headers: createHttpHeaders({
+            "WWW-Authenticate": `Bearer authorization_uri=https://login.microsoftonline.com/${fakeGuid}/oauth2/authorize resource_id=https://storage.azure.com`,
+          }),
+          request: req,
+          status: 401,
+        };
+      })
+      .mockImplementation(async (req) => {
+        return {
+          headers: createHttpHeaders(),
+          request: req,
+          status: 200,
+        };
+      });
 
     await policy.sendRequest(
       {
@@ -158,23 +177,7 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
         url: "https://example.org",
         withCredentials: true,
       },
-      async (req) => {
-        if (!calledOnce) {
-          assert.equal(req.headers.get("authorization"), "Bearer originalToken");
-          return {
-            headers: createHttpHeaders({
-              "WWW-Authenticate": `Bearer authorization_uri=https://login.microsoftonline.com/${fakeGuid}/oauth2/authorize resource_id=https://storage.azure.com`,
-            }),
-            request: req,
-            status: 401,
-          };
-        }
-        return {
-          headers: createHttpHeaders(),
-          request: req,
-          status: 200,
-        };
-      },
+      nextFn,
     );
 
     expect(getTokenStub).toBeCalledTimes(2);
@@ -192,7 +195,25 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
       },
     });
 
-    const calledOnce = false;
+    const nextFn = vi
+      .fn<(req: PipelineRequest) => Promise<PipelineResponse>>()
+      .mockImplementationOnce(async (req) => {
+        assert.equal(req.headers.get("authorization"), "Bearer originalToken");
+        return {
+          headers: createHttpHeaders({
+            "WWW-Authenticate": `Bearer authorization_uri=https://login.microsoftonline.com/${fakeGuid}/oauth2/authorize`,
+          }),
+          request: req,
+          status: 401,
+        };
+      })
+      .mockImplementation(async (req) => {
+        return {
+          headers: createHttpHeaders(),
+          request: req,
+          status: 200,
+        };
+      });
 
     await policy.sendRequest(
       {
@@ -203,23 +224,7 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
         url: "https://example.org",
         withCredentials: true,
       },
-      async (req) => {
-        if (!calledOnce) {
-          assert.equal(req.headers.get("authorization"), "Bearer originalToken");
-          return {
-            headers: createHttpHeaders({
-              "WWW-Authenticate": `Bearer authorization_uri=https://login.microsoftonline.com/${fakeGuid}/oauth2/authorize`,
-            }),
-            request: req,
-            status: 401,
-          };
-        }
-        return {
-          headers: createHttpHeaders(),
-          request: req,
-          status: 200,
-        };
-      },
+      nextFn,
     );
 
     expect(getTokenStub).toBeCalledTimes(2);
