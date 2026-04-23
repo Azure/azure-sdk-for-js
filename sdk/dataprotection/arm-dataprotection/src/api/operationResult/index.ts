@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { get } from "./operations.js";
-export { OperationResultGetOptionalParams } from "./options.js";
+export { type OperationResultGetOptionalParams } from "./options.js";

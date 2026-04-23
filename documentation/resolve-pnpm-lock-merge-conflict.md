@@ -1,3 +1,5 @@
+# Resolve pnpm-lock Merge Conflicts
+
 Here's the recommended process to resolve merge conflicts of `pnpm-lock.yaml` in your pull request (assuming your upstream remote is named "upstream"):
 
 1. Find out your upstream remote name for `Azure/azure-sdk-for-js` repository: `git remote -v`
@@ -13,5 +15,5 @@ Here's the recommended process to resolve merge conflicts of `pnpm-lock.yaml` in
 Step 4) to 6) can be combined and enhanced to run under any directory under the repo if you are using a \*NIX environment:
 
 ```shell
-git checkout upstream/main `git rev-parse --show-toplevel`/pnpm-lock.yaml && pnpm install && git add `git rev-parse --show-toplevel`pnpm-lock.yaml
+git checkout upstream/main `git rev-parse --show-toplevel`/pnpm-lock.yaml && pnpm install && git add `git rev-parse --show-toplevel`/pnpm-lock.yaml
 ```

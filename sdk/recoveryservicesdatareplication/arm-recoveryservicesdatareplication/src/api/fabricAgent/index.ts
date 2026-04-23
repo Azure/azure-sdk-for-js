@@ -3,8 +3,8 @@
 
 export { list, $delete, create, get } from "./operations.js";
 export {
-  FabricAgentListOptionalParams,
-  FabricAgentDeleteOptionalParams,
-  FabricAgentCreateOptionalParams,
-  FabricAgentGetOptionalParams,
+  type FabricAgentListOptionalParams,
+  type FabricAgentDeleteOptionalParams,
+  type FabricAgentCreateOptionalParams,
+  type FabricAgentGetOptionalParams,
 } from "./options.js";

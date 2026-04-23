@@ -23,6 +23,9 @@ export interface Address {
 // @public
 export type AttachmentType = "optInSmsKeyword" | "optInIVR" | "optInPointOfSale" | "optInWebsite" | "optInPaperForm" | "optInOther" | "optInDescription";
 
+// @public
+export type BusinessEntityType = "SOLE_PROPRIETOR" | "PRIVATE_PROFIT" | "PUBLIC_PROFIT" | "NON_PROFIT" | "GOVERNMENT";
+
 // @public (undocumented)
 export interface BusinessInformation {
     // (undocumented)
@@ -47,6 +50,17 @@ export interface BusinessPointOfContact {
 // @public (undocumented)
 export const BusinessPointOfContactMapper: coreClient.CompositeMapper;
 
+// @public
+export interface BusinessRegistrationDetails {
+    businessEntityType?: BusinessEntityType;
+    businessRegistrationCountry?: string;
+    businessRegistrationNumber?: string;
+    businessRegistrationType?: BusinessRegistrationType;
+}
+
+// @public
+export type BusinessRegistrationType = "EIN" | "CBN" | "NEQ" | "PROVINCIAL_NUMBER" | "CRN" | "VAT" | "ACN" | "ABN" | "BRN" | "SIREN" | "SIRET" | "NZBN" | "UST_IDNR" | "CIF" | "NIF" | "CNPJ" | "UID" | "OTHER";
+
 // @public (undocumented)
 export interface CampaignBrief {
     additionalInformation?: string;
@@ -55,6 +69,7 @@ export interface CampaignBrief {
     businessInformation?: BusinessInformation;
     // (undocumented)
     businessPointOfContact?: BusinessPointOfContact;
+    businessRegistrationDetails?: BusinessRegistrationDetails;
     countryCode?: string;
     estimatedMonthlyVolume?: EstimatedMonthlyVolume;
     id: string;
@@ -63,10 +78,12 @@ export interface CampaignBrief {
     // (undocumented)
     optInDetails?: OptInDetails;
     phoneNumbers?: string[];
+    privacyPolicyUrl?: string;
     reviewNotes?: ReviewNote[];
     status?: CampaignBriefStatus;
     statusUpdatedDate?: Date;
     submissionDate?: Date;
+    termsAndConditionsUrl?: string;
     // (undocumented)
     useCaseInfo?: UseCaseInfo;
 }

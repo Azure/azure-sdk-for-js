@@ -66,7 +66,7 @@ import { WorkflowsOperations, _getWorkflowsOperations } from "./classic/workflow
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { WorkloadOrchestrationManagementClientOptionalParams } from "./api/workloadOrchestrationManagementContext.js";
+export { type WorkloadOrchestrationManagementClientOptionalParams } from "./api/workloadOrchestrationManagementContext.js";
 
 export class WorkloadOrchestrationManagementClient {
   private _client: WorkloadOrchestrationManagementContext;

@@ -6,7 +6,7 @@ import { GeoCatalogsOperations, _getGeoCatalogsOperations } from "./classic/geoC
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
-export { SpatioClientOptionalParams } from "./api/spatioContext.js";
+export { type SpatioClientOptionalParams } from "./api/spatioContext.js";
 
 export class SpatioClient {
   private _client: SpatioContext;

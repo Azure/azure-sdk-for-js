@@ -1,43 +1,12 @@
 {
   "name": "@azure/arm-deviceregistry",
-  "version": "1.1.0",
+  "version": "1.2.0-beta.1",
   "description": "A generated SDK for DeviceRegistryManagementClient.",
   "engines": {
     "node": ">=20.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,
-  "tshy": {
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts",
-      "./api": "./src/api/index.ts",
-      "./api/schemaVersions": "./src/api/schemaVersions/index.ts",
-      "./api/schemas": "./src/api/schemas/index.ts",
-      "./api/schemaRegistries": "./src/api/schemaRegistries/index.ts",
-      "./api/namespaceDiscoveredDevices": "./src/api/namespaceDiscoveredDevices/index.ts",
-      "./api/namespaceDiscoveredAssets": "./src/api/namespaceDiscoveredAssets/index.ts",
-      "./api/namespaceDevices": "./src/api/namespaceDevices/index.ts",
-      "./api/namespaceAssets": "./src/api/namespaceAssets/index.ts",
-      "./api/namespaces": "./src/api/namespaces/index.ts",
-      "./api/billingContainers": "./src/api/billingContainers/index.ts",
-      "./api/assetEndpointProfiles": "./src/api/assetEndpointProfiles/index.ts",
-      "./api/assets": "./src/api/assets/index.ts",
-      "./api/operationStatus": "./src/api/operationStatus/index.ts",
-      "./api/operations": "./src/api/operations/index.ts",
-      "./models": "./src/models/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false,
-    "project": "../../../tsconfig.src.build.json"
-  },
   "type": "module",
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
@@ -87,18 +56,17 @@
     "@azure-tools/test-recorder": "workspace:^",
     "@azure-tools/test-utils-vitest": "workspace:^",
     "@azure/dev-tool": "workspace:^",
-    "tshy": "catalog:",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/identity": "catalog:internal",
     "@types/node": "catalog:",
-    "cross-env": "catalog:",
-    "eslint": "catalog:",
-    "prettier": "catalog:",
-    "rimraf": "catalog:",
     "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
+    "cross-env": "catalog:",
     "dotenv": "catalog:testing",
+    "eslint": "catalog:",
     "playwright": "catalog:testing",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
@@ -290,6 +258,42 @@
       "require": {
         "types": "./dist/commonjs/api/namespaceAssets/index.d.ts",
         "default": "./dist/commonjs/api/namespaceAssets/index.js"
+      }
+    },
+    "./api/policies": {
+      "browser": {
+        "types": "./dist/browser/api/policies/index.d.ts",
+        "default": "./dist/browser/api/policies/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/policies/index.d.ts",
+        "default": "./dist/react-native/api/policies/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/policies/index.d.ts",
+        "default": "./dist/esm/api/policies/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/policies/index.d.ts",
+        "default": "./dist/commonjs/api/policies/index.js"
+      }
+    },
+    "./api/credentials": {
+      "browser": {
+        "types": "./dist/browser/api/credentials/index.d.ts",
+        "default": "./dist/browser/api/credentials/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/credentials/index.d.ts",
+        "default": "./dist/react-native/api/credentials/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/credentials/index.d.ts",
+        "default": "./dist/esm/api/credentials/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/credentials/index.d.ts",
+        "default": "./dist/commonjs/api/credentials/index.js"
       }
     },
     "./api/namespaces": {

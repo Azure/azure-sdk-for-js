@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.browser.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-artifactsigning": ["./dist/browser/index.d.ts"],
+      "@azure/arm-artifactsigning/*": ["./dist/browser/*"],
+      "$internal/*": ["./dist/browser/*"]
+    }
+  }
+}

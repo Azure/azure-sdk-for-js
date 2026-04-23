@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageSharedKeyCredential, UserDelegationKey } from "@azure/storage-common";
+import type { UserDelegationKey } from "@azure/storage-common";
+import { StorageSharedKeyCredential } from "@azure/storage-common";
 import { FileSASPermissions } from "./FileSASPermissions.js";
 import type { SasIPRange } from "./SasIPRange.js";
 import { ipRangeToString } from "./SasIPRange.js";
@@ -316,7 +317,7 @@ export function generateFileSASQueryParametersUDK20250705(
       : "",
     userDelegationKeyCredential.userDelegationKey.signedService,
     userDelegationKeyCredential.userDelegationKey.signedVersion,
-    undefined, // shared key delegation signed tenant id.
+    userDelegationKeyCredential.userDelegationKey.signedDelegatedUserTenantId, // shared key delegation signed tenant id.
     fileSASSignatureValues.delegatedUserObjectId,
     fileSASSignatureValues.ipRange ? ipRangeToString(fileSASSignatureValues.ipRange) : "",
     fileSASSignatureValues.protocol,

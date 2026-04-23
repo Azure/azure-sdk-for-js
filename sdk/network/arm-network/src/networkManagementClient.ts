@@ -128,6 +128,7 @@ import {
   BgpServiceCommunitiesImpl,
   ServiceEndpointPoliciesImpl,
   ServiceEndpointPolicyDefinitionsImpl,
+  ServiceGatewaysImpl,
   ServiceTagsImpl,
   ServiceTagInformationOperationsImpl,
   UsagesImpl,
@@ -136,6 +137,7 @@ import {
   ResourceNavigationLinksImpl,
   ServiceAssociationLinksImpl,
   VirtualNetworkPeeringsImpl,
+  VirtualNetworkAppliancesImpl,
   VirtualNetworkGatewaysImpl,
   VirtualNetworkGatewayConnectionsImpl,
   LocalNetworkGatewaysImpl,
@@ -286,6 +288,7 @@ import type {
   BgpServiceCommunities,
   ServiceEndpointPolicies,
   ServiceEndpointPolicyDefinitions,
+  ServiceGateways,
   ServiceTags,
   ServiceTagInformationOperations,
   Usages,
@@ -294,6 +297,7 @@ import type {
   ResourceNavigationLinks,
   ServiceAssociationLinks,
   VirtualNetworkPeerings,
+  VirtualNetworkAppliances,
   VirtualNetworkGateways,
   VirtualNetworkGatewayConnections,
   LocalNetworkGateways,
@@ -425,7 +429,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-network/35.0.0`;
+    const packageDetails = `azsdk-js-arm-network/36.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -610,6 +614,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     this.bgpServiceCommunities = new BgpServiceCommunitiesImpl(this);
     this.serviceEndpointPolicies = new ServiceEndpointPoliciesImpl(this);
     this.serviceEndpointPolicyDefinitions = new ServiceEndpointPolicyDefinitionsImpl(this);
+    this.serviceGateways = new ServiceGatewaysImpl(this);
     this.serviceTags = new ServiceTagsImpl(this);
     this.serviceTagInformationOperations = new ServiceTagInformationOperationsImpl(this);
     this.usages = new UsagesImpl(this);
@@ -618,6 +623,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     this.resourceNavigationLinks = new ResourceNavigationLinksImpl(this);
     this.serviceAssociationLinks = new ServiceAssociationLinksImpl(this);
     this.virtualNetworkPeerings = new VirtualNetworkPeeringsImpl(this);
+    this.virtualNetworkAppliances = new VirtualNetworkAppliancesImpl(this);
     this.virtualNetworkGateways = new VirtualNetworkGatewaysImpl(this);
     this.virtualNetworkGatewayConnections = new VirtualNetworkGatewayConnectionsImpl(this);
     this.localNetworkGateways = new LocalNetworkGatewaysImpl(this);
@@ -1792,6 +1798,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
   bgpServiceCommunities: BgpServiceCommunities;
   serviceEndpointPolicies: ServiceEndpointPolicies;
   serviceEndpointPolicyDefinitions: ServiceEndpointPolicyDefinitions;
+  serviceGateways: ServiceGateways;
   serviceTags: ServiceTags;
   serviceTagInformationOperations: ServiceTagInformationOperations;
   usages: Usages;
@@ -1800,6 +1807,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
   resourceNavigationLinks: ResourceNavigationLinks;
   serviceAssociationLinks: ServiceAssociationLinks;
   virtualNetworkPeerings: VirtualNetworkPeerings;
+  virtualNetworkAppliances: VirtualNetworkAppliances;
   virtualNetworkGateways: VirtualNetworkGateways;
   virtualNetworkGatewayConnections: VirtualNetworkGatewayConnections;
   localNetworkGateways: LocalNetworkGateways;

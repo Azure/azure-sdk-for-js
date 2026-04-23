@@ -3,21 +3,21 @@
 
 export {
   createDevOpsInfrastructure,
-  DevOpsInfrastructureContext,
-  DevOpsInfrastructureClientOptionalParams,
+  type DevOpsInfrastructureContext,
+  type DevOpsInfrastructureClientOptionalParams,
 } from "./devOpsInfrastructureContext.js";
 export {
-  OperationsListOptionalParams,
-  PoolsGetOptionalParams,
-  PoolsCreateOrUpdateOptionalParams,
-  PoolsUpdateOptionalParams,
-  PoolsDeleteOptionalParams,
-  PoolsListByResourceGroupOptionalParams,
-  PoolsListBySubscriptionOptionalParams,
-  ResourceDetailsListByPoolOptionalParams,
-  SkuListByLocationOptionalParams,
-  SubscriptionUsagesUsagesOptionalParams,
-  ImageVersionsListByImageOptionalParams,
+  type OperationsListOptionalParams,
+  type PoolsGetOptionalParams,
+  type PoolsCreateOrUpdateOptionalParams,
+  type PoolsUpdateOptionalParams,
+  type PoolsDeleteOptionalParams,
+  type PoolsListByResourceGroupOptionalParams,
+  type PoolsListBySubscriptionOptionalParams,
+  type ResourceDetailsListByPoolOptionalParams,
+  type SkuListByLocationOptionalParams,
+  type SubscriptionUsagesUsagesOptionalParams,
+  type ImageVersionsListByImageOptionalParams,
 } from "./options.js";
 export { imageVersionsListByImage } from "./imageVersions/index.js";
 export { operationsList } from "./operations/index.js";

@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.browser.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-computebulkactions": ["./dist/browser/index.d.ts"],
+      "@azure/arm-computebulkactions/*": ["./dist/browser/*"],
+      "$internal/*": ["./dist/browser/*"]
+    }
+  }
+}

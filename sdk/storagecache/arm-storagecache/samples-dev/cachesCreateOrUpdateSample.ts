@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Create or update a cache.
  *
  * @summary Create or update a cache.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2025-07-01/examples/Caches_CreateOrUpdate.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/StorageCache/stable/2026-01-01/examples/Caches_CreateOrUpdate.json
  */
 async function cachesCreateOrUpdate(): Promise<void> {
   const subscriptionId =
@@ -95,7 +95,7 @@ async function cachesCreateOrUpdate(): Promise<void> {
  * This sample demonstrates how to Create or update a cache.
  *
  * @summary Create or update a cache.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2025-07-01/examples/Caches_CreateOrUpdate_ldap_only.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/StorageCache/stable/2026-01-01/examples/Caches_CreateOrUpdate_ldap_only.json
  */
 async function cachesCreateOrUpdateLdapOnly(): Promise<void> {
   const subscriptionId =

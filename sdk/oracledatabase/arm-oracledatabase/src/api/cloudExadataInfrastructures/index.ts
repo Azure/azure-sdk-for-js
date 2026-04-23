@@ -12,12 +12,12 @@ export {
   listBySubscription,
 } from "./operations.js";
 export {
-  CloudExadataInfrastructuresConfigureExascaleOptionalParams,
-  CloudExadataInfrastructuresAddStorageCapacityOptionalParams,
-  CloudExadataInfrastructuresListByResourceGroupOptionalParams,
-  CloudExadataInfrastructuresDeleteOptionalParams,
-  CloudExadataInfrastructuresUpdateOptionalParams,
-  CloudExadataInfrastructuresGetOptionalParams,
-  CloudExadataInfrastructuresCreateOrUpdateOptionalParams,
-  CloudExadataInfrastructuresListBySubscriptionOptionalParams,
+  type CloudExadataInfrastructuresConfigureExascaleOptionalParams,
+  type CloudExadataInfrastructuresAddStorageCapacityOptionalParams,
+  type CloudExadataInfrastructuresListByResourceGroupOptionalParams,
+  type CloudExadataInfrastructuresDeleteOptionalParams,
+  type CloudExadataInfrastructuresUpdateOptionalParams,
+  type CloudExadataInfrastructuresGetOptionalParams,
+  type CloudExadataInfrastructuresCreateOrUpdateOptionalParams,
+  type CloudExadataInfrastructuresListBySubscriptionOptionalParams,
 } from "./options.js";

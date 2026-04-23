@@ -32,15 +32,13 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listBySubscriptionSend(
   context: Client,
-  options: SchemaRegistriesListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  options: SchemaRegistriesListBySubscriptionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Microsoft.DeviceRegistry/schemaRegistries{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -48,10 +46,7 @@ export function _listBySubscriptionSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -62,6 +57,7 @@ export async function _listBySubscriptionDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -71,32 +67,32 @@ export async function _listBySubscriptionDeserialize(
 /** List SchemaRegistry resources by subscription ID */
 export function listBySubscription(
   context: Client,
-  options: SchemaRegistriesListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  options: SchemaRegistriesListBySubscriptionOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<SchemaRegistry> {
   return buildPagedAsyncIterator(
     context,
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    },
   );
 }
 
 export function _listByResourceGroupSend(
   context: Client,
   resourceGroupName: string,
-  options: SchemaRegistriesListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: SchemaRegistriesListByResourceGroupOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/schemaRegistries{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -104,10 +100,7 @@ export function _listByResourceGroupSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -118,6 +111,7 @@ export async function _listByResourceGroupDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -128,16 +122,18 @@ export async function _listByResourceGroupDeserialize(
 export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
-  options: SchemaRegistriesListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: SchemaRegistriesListByResourceGroupOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<SchemaRegistry> {
   return buildPagedAsyncIterator(
     context,
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    },
   );
 }
 
@@ -153,7 +149,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       schemaRegistryName: schemaRegistryName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -167,6 +163,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -190,6 +187,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, schemaRegistryName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-03-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -206,7 +204,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       schemaRegistryName: schemaRegistryName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -215,19 +213,17 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: schemaRegistryUpdateSerializer(properties),
   });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<SchemaRegistry> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -242,12 +238,13 @@ export function update(
   properties: SchemaRegistryUpdate,
   options: SchemaRegistriesUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<SchemaRegistry>, SchemaRegistry> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, schemaRegistryName, properties, options),
-    resourceLocationConfig: "original-uri",
+    resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-03-01-preview",
   }) as PollerLike<OperationState<SchemaRegistry>, SchemaRegistry>;
 }
 
@@ -256,9 +253,7 @@ export function _createOrReplaceSend(
   resourceGroupName: string,
   schemaRegistryName: string,
   resource: SchemaRegistry,
-  options: SchemaRegistriesCreateOrReplaceOptionalParams = {
-    requestOptions: {},
-  },
+  options: SchemaRegistriesCreateOrReplaceOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/schemaRegistries/{schemaRegistryName}{?api%2Dversion}",
@@ -266,7 +261,7 @@ export function _createOrReplaceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       schemaRegistryName: schemaRegistryName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -275,10 +270,7 @@ export function _createOrReplaceSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: schemaRegistrySerializer(resource),
   });
 }
@@ -290,6 +282,7 @@ export async function _createOrReplaceDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -302,9 +295,7 @@ export function createOrReplace(
   resourceGroupName: string,
   schemaRegistryName: string,
   resource: SchemaRegistry,
-  options: SchemaRegistriesCreateOrReplaceOptionalParams = {
-    requestOptions: {},
-  },
+  options: SchemaRegistriesCreateOrReplaceOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<SchemaRegistry>, SchemaRegistry> {
   return getLongRunningPoller(context, _createOrReplaceDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -312,6 +303,7 @@ export function createOrReplace(
     getInitialResponse: () =>
       _createOrReplaceSend(context, resourceGroupName, schemaRegistryName, resource, options),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2026-03-01-preview",
   }) as PollerLike<OperationState<SchemaRegistry>, SchemaRegistry>;
 }
 
@@ -327,7 +319,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       schemaRegistryName: schemaRegistryName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -335,10 +327,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -347,6 +336,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Sc
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 

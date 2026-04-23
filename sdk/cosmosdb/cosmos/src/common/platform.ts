@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CosmosClientOptions } from "../index.js";
+import type { CosmosClientOptions } from "../index.js";
 import { Constants, UserAgentFeatureFlags } from "./constants.js";
 
 /**

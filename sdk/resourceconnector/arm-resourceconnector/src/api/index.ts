@@ -3,6 +3,6 @@
 
 export {
   createResourceConnectorManagement,
-  ResourceConnectorManagementContext,
-  ResourceConnectorManagementClientOptionalParams,
+  type ResourceConnectorManagementContext,
+  type ResourceConnectorManagementClientOptionalParams,
 } from "./resourceConnectorManagementContext.js";

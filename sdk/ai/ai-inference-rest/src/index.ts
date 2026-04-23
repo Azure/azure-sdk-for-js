@@ -11,13 +11,13 @@
 
 import ModelClient from "./modelClient.js";
 
-export * from "./clientDefinitions.js";
+export type * from "./clientDefinitions.js";
 export * from "./isUnexpected.js";
 export * from "./modelClient.js";
-export * from "./models.js";
-export * from "./outputModels.js";
-export * from "./parameters.js";
-export * from "./responses.js";
+export type * from "./models.js";
+export type * from "./outputModels.js";
+export type * from "./parameters.js";
+export type * from "./responses.js";
 export type { ErrorModel } from "@azure-rest/core-client";
 
 export default ModelClient;

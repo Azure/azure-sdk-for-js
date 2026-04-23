@@ -3,8 +3,8 @@
 
 export { listByHealthModel, $delete, createOrUpdate, get } from "./operations.js";
 export {
-  RelationshipsListByHealthModelOptionalParams,
-  RelationshipsDeleteOptionalParams,
-  RelationshipsCreateOrUpdateOptionalParams,
-  RelationshipsGetOptionalParams,
+  type RelationshipsListByHealthModelOptionalParams,
+  type RelationshipsDeleteOptionalParams,
+  type RelationshipsCreateOrUpdateOptionalParams,
+  type RelationshipsGetOptionalParams,
 } from "./options.js";

@@ -32,15 +32,13 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listBySubscriptionSend(
   context: Client,
-  options: ActiveDirectoryConfigsListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  options: ActiveDirectoryConfigsListBySubscriptionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/activeDirectoryConfigs{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -48,10 +46,7 @@ export function _listBySubscriptionSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -62,6 +57,7 @@ export async function _listBySubscriptionDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -71,32 +67,32 @@ export async function _listBySubscriptionDeserialize(
 /** List all active directory configurations within the subscription */
 export function listBySubscription(
   context: Client,
-  options: ActiveDirectoryConfigsListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  options: ActiveDirectoryConfigsListBySubscriptionOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ActiveDirectoryConfig> {
   return buildPagedAsyncIterator(
     context,
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-12-15-preview",
+    },
   );
 }
 
 export function _listByResourceGroupSend(
   context: Client,
   resourceGroupName: string,
-  options: ActiveDirectoryConfigsListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: ActiveDirectoryConfigsListByResourceGroupOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/activeDirectoryConfigs{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -104,10 +100,7 @@ export function _listByResourceGroupSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -118,6 +111,7 @@ export async function _listByResourceGroupDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -128,16 +122,18 @@ export async function _listByResourceGroupDeserialize(
 export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
-  options: ActiveDirectoryConfigsListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: ActiveDirectoryConfigsListByResourceGroupOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ActiveDirectoryConfig> {
   return buildPagedAsyncIterator(
     context,
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-12-15-preview",
+    },
   );
 }
 
@@ -153,7 +149,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       activeDirectoryConfigName: activeDirectoryConfigName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -163,10 +159,11 @@ export function _$deleteSend(
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "204", "200", "201"];
+  const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -185,12 +182,13 @@ export function $delete(
   activeDirectoryConfigName: string,
   options: ActiveDirectoryConfigsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200", "201"], {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, activeDirectoryConfigName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-12-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -207,7 +205,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       activeDirectoryConfigName: activeDirectoryConfigName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -216,10 +214,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: activeDirectoryConfigUpdateSerializer(body),
   });
 }
@@ -231,6 +226,7 @@ export async function _updateDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -251,6 +247,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, activeDirectoryConfigName, body, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-12-15-preview",
   }) as PollerLike<OperationState<ActiveDirectoryConfig>, ActiveDirectoryConfig>;
 }
 
@@ -259,9 +256,7 @@ export function _createOrUpdateSend(
   resourceGroupName: string,
   activeDirectoryConfigName: string,
   body: ActiveDirectoryConfig,
-  options: ActiveDirectoryConfigsCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: ActiveDirectoryConfigsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/activeDirectoryConfigs/{activeDirectoryConfigName}{?api%2Dversion}",
@@ -269,7 +264,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       activeDirectoryConfigName: activeDirectoryConfigName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -278,10 +273,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: activeDirectoryConfigSerializer(body),
   });
 }
@@ -293,6 +285,7 @@ export async function _createOrUpdateDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -305,9 +298,7 @@ export function createOrUpdate(
   resourceGroupName: string,
   activeDirectoryConfigName: string,
   body: ActiveDirectoryConfig,
-  options: ActiveDirectoryConfigsCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: ActiveDirectoryConfigsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<ActiveDirectoryConfig>, ActiveDirectoryConfig> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -315,6 +306,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, activeDirectoryConfigName, body, options),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2025-12-15-preview",
   }) as PollerLike<OperationState<ActiveDirectoryConfig>, ActiveDirectoryConfig>;
 }
 
@@ -330,7 +322,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       activeDirectoryConfigName: activeDirectoryConfigName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -338,10 +330,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -352,6 +341,7 @@ export async function _getDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 

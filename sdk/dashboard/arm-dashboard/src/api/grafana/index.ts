@@ -12,12 +12,12 @@ export {
   get,
 } from "./operations.js";
 export {
-  GrafanaFetchAvailablePluginsOptionalParams,
-  GrafanaCheckEnterpriseDetailsOptionalParams,
-  GrafanaListOptionalParams,
-  GrafanaListByResourceGroupOptionalParams,
-  GrafanaDeleteOptionalParams,
-  GrafanaUpdateOptionalParams,
-  GrafanaCreateOptionalParams,
-  GrafanaGetOptionalParams,
+  type GrafanaFetchAvailablePluginsOptionalParams,
+  type GrafanaCheckEnterpriseDetailsOptionalParams,
+  type GrafanaListOptionalParams,
+  type GrafanaListByResourceGroupOptionalParams,
+  type GrafanaDeleteOptionalParams,
+  type GrafanaUpdateOptionalParams,
+  type GrafanaCreateOptionalParams,
+  type GrafanaGetOptionalParams,
 } from "./options.js";

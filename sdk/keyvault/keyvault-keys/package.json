@@ -79,7 +79,7 @@
     "@azure/core-rest-pipeline": "^1.19.0",
     "@azure/core-tracing": "^1.2.0",
     "@azure/core-util": "^1.11.0",
-    "@azure/keyvault-common": "^2.0.0",
+    "@azure/keyvault-common": "^2.1.0",
     "@azure/logger": "^1.1.4",
     "tslib": "^2.8.1"
   },
@@ -99,26 +99,10 @@
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
   "type": "module",
-  "tshy": {
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser"
-    ],
-    "selfLink": false,
-    "project": "../../../tsconfig.src.build.json"
-  },
   "exports": {
     "./package.json": "./package.json",
     ".": {

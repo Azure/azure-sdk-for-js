@@ -5,7 +5,13 @@ import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-
 import type { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 import { isPlaybackMode, delay } from "@azure-tools/test-recorder";
 import type { FindReplaceSanitizer } from "@azure-tools/test-recorder";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import type {
+  Pipeline,
+  PipelinePolicy,
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest,
+} from "@azure/core-rest-pipeline";
 import type { StorageClient } from "../../src/StorageClient.js";
 import { isNodeLike } from "@azure/core-util";
 
@@ -153,4 +159,18 @@ export function isSuperSet(m1?: BlobMetadata, m2?: BlobMetadata): boolean {
  */
 export async function sleep(seconds: number): Promise<void> {
   await delay(seconds * 1000);
+}
+
+export type CustomizeRequest = (request: PipelineRequest) => void;
+
+export const customizeRequestPolicyName = "customizeRequestPolicyame";
+
+export function customizeRequestPolicy(customizeRequest: CustomizeRequest): PipelinePolicy {
+  return {
+    name: customizeRequestPolicyName,
+    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+      customizeRequest(request);
+      return next(request);
+    },
+  };
 }

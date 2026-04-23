@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 
 import { StorageSharedKeyCredential } from "@azure/storage-common";
-import { newPipeline, StoragePipelineOptions } from "../../src/Pipeline.js";
+import type { StoragePipelineOptions } from "../../src/Pipeline.js";
+import { newPipeline } from "../../src/Pipeline.js";
 import { QueueServiceClient } from "../../src/QueueServiceClient.js";
 import {
   generateAccountSASQueryParameters,
@@ -16,7 +17,7 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
 import { configureStorageClient, SimpleTokenCredential } from "./testutils.common.js";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { TokenCredential } from "@azure/identity";
+import type { TokenCredential } from "@azure/identity";
 export * from "./testutils.common.js";
 
 export function getGenericQSU(

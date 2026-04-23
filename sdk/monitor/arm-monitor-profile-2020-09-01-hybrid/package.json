@@ -40,7 +40,6 @@
     "dotenv": "catalog:testing",
     "playwright": "catalog:testing",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
@@ -90,22 +89,6 @@
     "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-monitor-profile-2020-09-01-hybrid?view=azure-node-preview"
   },
   "type": "module",
-  "tshy": {
-    "project": "../../../tsconfig.src.build.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false
-  },
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
   "exports": {

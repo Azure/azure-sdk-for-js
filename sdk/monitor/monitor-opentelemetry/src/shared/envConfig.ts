@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 import type { AzureMonitorOpenTelemetryOptions } from "../types.js";
+import type { Sampler } from "@opentelemetry/sdk-trace-base";
 import {
   AlwaysOffSampler,
   AlwaysOnSampler,
   ParentBasedSampler,
-  Sampler,
   TraceIdRatioBasedSampler,
 } from "@opentelemetry/sdk-trace-base";
 import { Logger } from "./logging/index.js";

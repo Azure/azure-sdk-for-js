@@ -28,9 +28,7 @@ export function _listBySchedulerSend(
   context: Client,
   resourceGroupName: string,
   schedulerName: string,
-  options: RetentionPoliciesListBySchedulerOptionalParams = {
-    requestOptions: {},
-  },
+  options: RetentionPoliciesListBySchedulerOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/retentionPolicies{?api%2Dversion}",
@@ -38,7 +36,7 @@ export function _listBySchedulerSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       schedulerName: schedulerName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -46,10 +44,7 @@ export function _listBySchedulerSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -60,6 +55,7 @@ export async function _listBySchedulerDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -71,16 +67,14 @@ export function listByScheduler(
   context: Client,
   resourceGroupName: string,
   schedulerName: string,
-  options: RetentionPoliciesListBySchedulerOptionalParams = {
-    requestOptions: {},
-  },
+  options: RetentionPoliciesListBySchedulerOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<RetentionPolicy> {
   return buildPagedAsyncIterator(
     context,
     () => _listBySchedulerSend(context, resourceGroupName, schedulerName, options),
     _listBySchedulerDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-02-01" },
   );
 }
 
@@ -96,7 +90,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       schedulerName: schedulerName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -110,6 +104,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -133,6 +128,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, schedulerName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-02-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -149,7 +145,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       schedulerName: schedulerName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -158,19 +154,17 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: retentionPolicySerializer(properties),
   });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<RetentionPolicy> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -185,12 +179,13 @@ export function update(
   properties: RetentionPolicy,
   options: RetentionPoliciesUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<RetentionPolicy>, RetentionPolicy> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, schedulerName, properties, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-02-01",
   }) as PollerLike<OperationState<RetentionPolicy>, RetentionPolicy>;
 }
 
@@ -199,9 +194,7 @@ export function _createOrReplaceSend(
   resourceGroupName: string,
   schedulerName: string,
   resource: RetentionPolicy,
-  options: RetentionPoliciesCreateOrReplaceOptionalParams = {
-    requestOptions: {},
-  },
+  options: RetentionPoliciesCreateOrReplaceOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/retentionPolicies/default{?api%2Dversion}",
@@ -209,7 +202,7 @@ export function _createOrReplaceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       schedulerName: schedulerName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -218,10 +211,7 @@ export function _createOrReplaceSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: retentionPolicySerializer(resource),
   });
 }
@@ -233,6 +223,7 @@ export async function _createOrReplaceDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -245,9 +236,7 @@ export function createOrReplace(
   resourceGroupName: string,
   schedulerName: string,
   resource: RetentionPolicy,
-  options: RetentionPoliciesCreateOrReplaceOptionalParams = {
-    requestOptions: {},
-  },
+  options: RetentionPoliciesCreateOrReplaceOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<RetentionPolicy>, RetentionPolicy> {
   return getLongRunningPoller(context, _createOrReplaceDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -255,6 +244,7 @@ export function createOrReplace(
     getInitialResponse: () =>
       _createOrReplaceSend(context, resourceGroupName, schedulerName, resource, options),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2026-02-01",
   }) as PollerLike<OperationState<RetentionPolicy>, RetentionPolicy>;
 }
 
@@ -270,7 +260,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       schedulerName: schedulerName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -278,10 +268,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -290,6 +277,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Re
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 

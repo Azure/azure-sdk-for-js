@@ -3,27 +3,22 @@
 
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Start the Managed Cassandra Cluster and Associated Data Centers. Start will start the host virtual machine of this cluster with reserved data disk. This won't do anything on an already running cluster. Use Deallocate to deallocate the cluster.
+ * This sample demonstrates how to start the Managed Cassandra Cluster and Associated Data Centers. Start will start the host virtual machine of this cluster with reserved data disk. This won't do anything on an already running cluster. Use Deallocate to deallocate the cluster.
  *
- * @summary Start the Managed Cassandra Cluster and Associated Data Centers. Start will start the host virtual machine of this cluster with reserved data disk. This won't do anything on an already running cluster. Use Deallocate to deallocate the cluster.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBManagedCassandraClusterStart.json
+ * @summary start the Managed Cassandra Cluster and Associated Data Centers. Start will start the host virtual machine of this cluster with reserved data disk. This won't do anything on an already running cluster. Use Deallocate to deallocate the cluster.
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBManagedCassandraClusterStart.json
  */
-async function cosmosDbManagedCassandraClusterStart() {
-  const subscriptionId =
-    process.env["COSMOSDB_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "cassandra-prod-rg";
-  const clusterName = "cassandra-prod";
+async function cosmosDBManagedCassandraClusterStart() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.cassandraClusters.beginStartAndWait(resourceGroupName, clusterName);
-  console.log(result);
+  await client.cassandraClusters.start("cassandra-prod-rg", "cassandra-prod");
 }
 
 async function main() {
-  await cosmosDbManagedCassandraClusterStart();
+  await cosmosDBManagedCassandraClusterStart();
 }
 
 main().catch(console.error);

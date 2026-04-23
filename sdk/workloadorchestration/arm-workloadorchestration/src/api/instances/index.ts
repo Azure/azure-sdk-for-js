@@ -3,9 +3,9 @@
 
 export { listBySolution, $delete, update, createOrUpdate, get } from "./operations.js";
 export {
-  InstancesListBySolutionOptionalParams,
-  InstancesDeleteOptionalParams,
-  InstancesUpdateOptionalParams,
-  InstancesCreateOrUpdateOptionalParams,
-  InstancesGetOptionalParams,
+  type InstancesListBySolutionOptionalParams,
+  type InstancesDeleteOptionalParams,
+  type InstancesUpdateOptionalParams,
+  type InstancesCreateOrUpdateOptionalParams,
+  type InstancesGetOptionalParams,
 } from "./options.js";

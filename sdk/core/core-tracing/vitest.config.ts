@@ -12,7 +12,7 @@ export default mergeConfig(
       alias: [
         {
           find: "../commonjs/state.js",
-          replacement: resolve("./src/state-cjs.cts"),
+          replacement: resolve("./dist/commonjs/state.js"),
         },
       ],
     },

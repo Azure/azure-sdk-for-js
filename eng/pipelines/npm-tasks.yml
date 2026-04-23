@@ -45,7 +45,6 @@ parameters:
     type: string
     default: ''
 
-
 extends:
   template: /eng/pipelines/templates/stages/1es-redirect.yml
   parameters:
@@ -54,6 +53,7 @@ extends:
         displayName: 'NPM Task Execute'
         variables:
           - template: /eng/pipelines/templates/variables/image.yml
+          - template: /eng/pipelines/templates/variables/globals.yml
 
         jobs:
         - job: NPM_Admin
@@ -65,6 +65,7 @@ extends:
 
           steps:
             - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
+
             - task: PowerShell@2
               displayName: 'Run Task'
               inputs:
@@ -78,3 +79,5 @@ extends:
                   -npmToken "$(azure-sdk-npm-token)"
                   -reason "${{parameters.Reason}}"
                 pwsh: true
+              env:
+                NPM_CONFIG_REGISTRY: $(PublicNpmRegistry)

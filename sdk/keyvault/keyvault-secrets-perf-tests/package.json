@@ -56,7 +56,6 @@
     "eslint": "catalog:",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:"
   },
   "private": true,
@@ -74,16 +73,5 @@
     "test:browser": "echo skipped",
     "test:node": "echo skipped",
     "update-snippets": "dev-tool run update-snippets"
-  },
-  "tshy": {
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "selfLink": false
   }
 }

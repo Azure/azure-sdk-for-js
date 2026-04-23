@@ -92,6 +92,6 @@ describe("SessionContainer", () => {
     // Remove tokens and get new token, should be empty
     sc.remove(nameBasedRequest);
     const emptyTokenString = sc.get(nameBasedRequest);
-    assert.equal("", emptyTokenString, "Session token string must be empty after removal");
+    assert.equal(emptyTokenString, "", "Session token string must be empty after removal");
   });
 });

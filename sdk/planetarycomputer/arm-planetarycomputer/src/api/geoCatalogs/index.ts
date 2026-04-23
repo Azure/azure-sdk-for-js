@@ -10,10 +10,10 @@ export {
   get,
 } from "./operations.js";
 export {
-  GeoCatalogsListBySubscriptionOptionalParams,
-  GeoCatalogsListByResourceGroupOptionalParams,
-  GeoCatalogsDeleteOptionalParams,
-  GeoCatalogsUpdateOptionalParams,
-  GeoCatalogsCreateOptionalParams,
-  GeoCatalogsGetOptionalParams,
+  type GeoCatalogsListBySubscriptionOptionalParams,
+  type GeoCatalogsListByResourceGroupOptionalParams,
+  type GeoCatalogsDeleteOptionalParams,
+  type GeoCatalogsUpdateOptionalParams,
+  type GeoCatalogsCreateOptionalParams,
+  type GeoCatalogsGetOptionalParams,
 } from "./options.js";

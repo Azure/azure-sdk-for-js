@@ -1,0 +1,8 @@
+extends: ../../../warp.base.config.yml
+
+exports:
+  "./api": "./src/api/index.ts"
+  "./api/domainRegistrationProvider": "./src/api/domainRegistrationProvider/index.ts"
+  "./api/topLevelDomains": "./src/api/topLevelDomains/index.ts"
+  "./api/domains": "./src/api/domains/index.ts"
+  "./models": "./src/models/index.ts"

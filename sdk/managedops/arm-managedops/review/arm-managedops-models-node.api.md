@@ -15,7 +15,7 @@ export interface AzureMonitorConfiguration {
 // @public
 export interface AzureMonitorInformation {
     dcrId: string;
-    enablementStatus: string;
+    enablementStatus: EnablementState;
 }
 
 // @public
@@ -26,7 +26,7 @@ export interface ChangeTrackingConfiguration {
 // @public
 export interface ChangeTrackingInformation {
     dcrId: string;
-    enablementStatus: string;
+    enablementStatus: EnablementState;
 }
 
 // @public
@@ -34,22 +34,34 @@ export type CreatedByType = string;
 
 // @public
 export interface DefenderCspmInformation {
-    enablementStatus: string;
+    enablementStatus: EnablementState;
 }
 
 // @public
 export interface DefenderForServersInformation {
-    enablementStatus: string;
+    enablementStatus: EnablementState;
 }
 
 // @public
 export interface DesiredConfiguration {
     azureMonitorInsights: AzureMonitorConfiguration;
     changeTrackingAndInventory: ChangeTrackingConfiguration;
-    defenderCspm?: string;
-    defenderForServers?: string;
+    defenderCspm?: DesiredEnablementState;
+    defenderForServers?: DesiredEnablementState;
     userAssignedManagedIdentityId: string;
 }
+
+// @public
+export interface DesiredConfigurationUpdate {
+    defenderCspm?: DesiredEnablementState;
+    defenderForServers?: DesiredEnablementState;
+}
+
+// @public
+export type DesiredEnablementState = string;
+
+// @public
+export type EnablementState = string;
 
 // @public
 export interface ErrorAdditionalInfo {
@@ -73,7 +85,7 @@ export interface ErrorResponse {
 
 // @public
 export interface GuestConfigurationInformation {
-    enablementStatus: string;
+    enablementStatus: EnablementState;
 }
 
 // @public
@@ -87,6 +99,20 @@ export enum KnownCreatedByType {
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
+}
+
+// @public
+export enum KnownDesiredEnablementState {
+    Disable = "Disable",
+    Enable = "Enable"
+}
+
+// @public
+export enum KnownEnablementState {
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    Failed = "Failed",
+    InProgress = "InProgress"
 }
 
 // @public
@@ -131,7 +157,7 @@ export interface ManagedOpUpdate {
 
 // @public
 export interface ManagedOpUpdateProperties {
-    desiredConfiguration?: DesiredConfiguration;
+    desiredConfiguration?: DesiredConfigurationUpdate;
 }
 
 // @public
@@ -202,7 +228,7 @@ export interface SystemData {
 
 // @public
 export interface UpdateManagerInformation {
-    enablementStatus: string;
+    enablementStatus: EnablementState;
 }
 
 // (No @packageDocumentation comment for this package)

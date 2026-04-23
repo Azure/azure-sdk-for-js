@@ -4,7 +4,8 @@
 import type { Container, ContainerDefinition, FeedOptions } from "../../../../src/index.js";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../../common/TestHelpers.js";
 import groupBySnapshot from "./groupBy.snapshot.js";
-import { describe, it, assert, beforeEach, beforeAll, TestContext } from "vitest";
+import type { TestContext } from "vitest";
+import { describe, it, assert, beforeEach, beforeAll } from "vitest";
 
 const items = [
   {

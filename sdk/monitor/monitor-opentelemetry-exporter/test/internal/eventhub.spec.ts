@@ -15,7 +15,11 @@ import {
   MicrosoftEventHub,
 } from "../../src/utils/constants/span/azAttributes.js";
 import { parseEventHubSpan } from "../../src/utils/eventhub.js";
-import type { RemoteDependencyData, TelemetryItem as Envelope } from "../../src/generated/index.js";
+import type {
+  RemoteDependencyData,
+  TelemetryItem as Envelope,
+  RequestData,
+} from "../../src/generated/index.js";
 import { describe, it, assert } from "vitest";
 import { spanToReadableSpan } from "../utils/spanToReadableSpan.js";
 
@@ -93,12 +97,9 @@ describe("#parseEventHubSpan(...)", () => {
     (spanToReadableSpan(span) as { startTime: HrTime }).startTime = timeInputToHrTime(startTime);
     span.setAttributes(attributes);
 
-    const baseData = envelope.data?.baseData as RemoteDependencyData;
+    const baseData = envelope.data?.baseData as RequestData;
     parseEventHubSpan(spanToReadableSpan(span), baseData);
-    assert.strictEqual(baseData.type, `Queue Message | ${attributes[AzNamespace]}`);
     assert.strictEqual((baseData as any).source, `${peerAddress}/${destination}`);
     assert.isAtLeast(baseData.measurements?.[TIME_SINCE_ENQUEUED] as unknown as number, 148);
-
-    assert.strictEqual(baseData.target, undefined);
   });
 });

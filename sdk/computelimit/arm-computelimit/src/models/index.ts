@@ -1,27 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
+export type {
   Operation,
   OperationDisplay,
-  KnownOrigin,
   Origin,
-  KnownActionType,
   ActionType,
   ErrorResponse,
   ErrorDetail,
   ErrorAdditionalInfo,
   GuestSubscription,
   GuestSubscriptionProperties,
-  KnownResourceProvisioningState,
   ResourceProvisioningState,
   ProxyResource,
   Resource,
   SystemData,
-  KnownCreatedByType,
   CreatedByType,
   SharedLimit,
   SharedLimitProperties,
   LimitName,
+  Feature,
+  FeatureProperties,
+  FeatureState,
+  OperationStatusResult,
+} from "./models.js";
+export {
+  KnownOrigin,
+  KnownActionType,
+  KnownResourceProvisioningState,
+  KnownCreatedByType,
+  KnownFeatureState,
   KnownVersions,
 } from "./models.js";

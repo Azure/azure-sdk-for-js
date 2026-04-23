@@ -1,20 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { StandbyPoolManagementClient } from "./standbyPoolManagementClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
-export {
+export type { RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller } from "./restorePollerHelpers.js";
+export type {
   Operation,
   OperationDisplay,
-  KnownOrigin,
   Origin,
-  KnownActionType,
   ActionType,
   ErrorResponse,
   ErrorDetail,
@@ -22,14 +23,12 @@ export {
   StandbyVirtualMachinePoolResource,
   StandbyVirtualMachinePoolResourceProperties,
   StandbyVirtualMachinePoolElasticityProfile,
-  KnownVirtualMachineState,
+  DynamicSizing,
   VirtualMachineState,
-  KnownProvisioningState,
   ProvisioningState,
   TrackedResource,
   Resource,
   SystemData,
-  KnownCreatedByType,
   CreatedByType,
   StandbyVirtualMachinePoolResourceUpdate,
   StandbyVirtualMachinePoolResourceUpdateProperties,
@@ -40,17 +39,14 @@ export {
   StandbyVirtualMachinePoolRuntimeViewResourceProperties,
   VirtualMachineInstanceCountSummary,
   PoolVirtualMachineStateCount,
-  KnownPoolVirtualMachineState,
   PoolVirtualMachineState,
   PoolStatus,
-  KnownHealthStateCode,
   HealthStateCode,
   StandbyVirtualMachinePoolPrediction,
   StandbyVirtualMachinePoolForecastValues,
   StandbyContainerGroupPoolResource,
   StandbyContainerGroupPoolResourceProperties,
   StandbyContainerGroupPoolElasticityProfile,
-  KnownRefillPolicy,
   RefillPolicy,
   ContainerGroupProperties,
   ContainerGroupProfile,
@@ -61,19 +57,29 @@ export {
   StandbyContainerGroupPoolRuntimeViewResourceProperties,
   ContainerGroupInstanceCountSummary,
   PoolContainerGroupStateCount,
-  KnownPoolContainerGroupState,
   PoolContainerGroupState,
   StandbyContainerGroupPoolPrediction,
   StandbyContainerGroupPoolForecastValues,
+} from "./models/index.js";
+export {
+  KnownOrigin,
+  KnownActionType,
+  KnownVirtualMachineState,
+  KnownProvisioningState,
+  KnownCreatedByType,
+  KnownPoolVirtualMachineState,
+  KnownHealthStateCode,
+  KnownRefillPolicy,
+  KnownPoolContainerGroupState,
   KnownVersions,
 } from "./models/index.js";
-export { StandbyPoolManagementClientOptionalParams } from "./api/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
-export {
+export type { StandbyPoolManagementClientOptionalParams } from "./api/index.js";
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type {
   StandbyContainerGroupPoolRuntimeViewsListByStandbyPoolOptionalParams,
   StandbyContainerGroupPoolRuntimeViewsGetOptionalParams,
 } from "./api/standbyContainerGroupPoolRuntimeViews/index.js";
-export {
+export type {
   StandbyContainerGroupPoolsListBySubscriptionOptionalParams,
   StandbyContainerGroupPoolsListByResourceGroupOptionalParams,
   StandbyContainerGroupPoolsUpdateOptionalParams,
@@ -81,11 +87,11 @@ export {
   StandbyContainerGroupPoolsCreateOrUpdateOptionalParams,
   StandbyContainerGroupPoolsGetOptionalParams,
 } from "./api/standbyContainerGroupPools/index.js";
-export {
+export type {
   StandbyVirtualMachinePoolRuntimeViewsListByStandbyPoolOptionalParams,
   StandbyVirtualMachinePoolRuntimeViewsGetOptionalParams,
 } from "./api/standbyVirtualMachinePoolRuntimeViews/index.js";
-export {
+export type {
   StandbyVirtualMachinePoolsListBySubscriptionOptionalParams,
   StandbyVirtualMachinePoolsListByResourceGroupOptionalParams,
   StandbyVirtualMachinePoolsUpdateOptionalParams,
@@ -93,11 +99,11 @@ export {
   StandbyVirtualMachinePoolsCreateOrUpdateOptionalParams,
   StandbyVirtualMachinePoolsGetOptionalParams,
 } from "./api/standbyVirtualMachinePools/index.js";
-export {
+export type {
   StandbyVirtualMachinesListByStandbyVirtualMachinePoolResourceOptionalParams,
   StandbyVirtualMachinesGetOptionalParams,
 } from "./api/standbyVirtualMachines/index.js";
-export {
+export type {
   OperationsOperations,
   StandbyContainerGroupPoolRuntimeViewsOperations,
   StandbyContainerGroupPoolsOperations,
@@ -105,4 +111,6 @@ export {
   StandbyVirtualMachinePoolsOperations,
   StandbyVirtualMachinesOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds };
+export type { AzureSupportedClouds };

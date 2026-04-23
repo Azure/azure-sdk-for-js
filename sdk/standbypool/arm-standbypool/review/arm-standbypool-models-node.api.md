@@ -29,8 +29,13 @@ export interface ContainerGroupProperties {
 export type CreatedByType = string;
 
 // @public
+export interface DynamicSizing {
+    enabled?: boolean;
+}
+
+// @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -112,7 +117,8 @@ export enum KnownRefillPolicy {
 // @public
 export enum KnownVersions {
     _20240301 = "2024-03-01",
-    _20250301 = "2025-03-01"
+    _20250301 = "2025-03-01",
+    _20251001 = "2025-10-01"
 }
 
 // @public
@@ -186,6 +192,7 @@ export interface Resource {
 
 // @public
 export interface StandbyContainerGroupPoolElasticityProfile {
+    dynamicSizing?: DynamicSizing;
     maxReadyCapacity: number;
     refillPolicy?: RefillPolicy;
 }
@@ -243,8 +250,10 @@ export interface StandbyContainerGroupPoolRuntimeViewResourceProperties {
 
 // @public
 export interface StandbyVirtualMachinePoolElasticityProfile {
+    dynamicSizing?: DynamicSizing;
     maxReadyCapacity: number;
     minReadyCapacity?: number;
+    postProvisioningDelay?: string;
 }
 
 // @public

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { listByElasticAccount, $delete, update, createOrUpdate, get } from "./operations.js";
-export {
+export type {
   ElasticBackupPoliciesListByElasticAccountOptionalParams,
   ElasticBackupPoliciesDeleteOptionalParams,
   ElasticBackupPoliciesUpdateOptionalParams,

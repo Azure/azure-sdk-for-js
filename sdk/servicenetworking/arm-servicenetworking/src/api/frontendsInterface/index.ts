@@ -3,9 +3,9 @@
 
 export { listByTrafficController, $delete, update, createOrUpdate, get } from "./operations.js";
 export {
-  FrontendsInterfaceListByTrafficControllerOptionalParams,
-  FrontendsInterfaceDeleteOptionalParams,
-  FrontendsInterfaceUpdateOptionalParams,
-  FrontendsInterfaceCreateOrUpdateOptionalParams,
-  FrontendsInterfaceGetOptionalParams,
+  type FrontendsInterfaceListByTrafficControllerOptionalParams,
+  type FrontendsInterfaceDeleteOptionalParams,
+  type FrontendsInterfaceUpdateOptionalParams,
+  type FrontendsInterfaceCreateOrUpdateOptionalParams,
+  type FrontendsInterfaceGetOptionalParams,
 } from "./options.js";

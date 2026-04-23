@@ -3,9 +3,9 @@
 
 export { $delete, update, list, createOrUpdate, get } from "./operations.js";
 export {
-  ManagedOpsDeleteOptionalParams,
-  ManagedOpsUpdateOptionalParams,
-  ManagedOpsListOptionalParams,
-  ManagedOpsCreateOrUpdateOptionalParams,
-  ManagedOpsGetOptionalParams,
+  type ManagedOpsDeleteOptionalParams,
+  type ManagedOpsUpdateOptionalParams,
+  type ManagedOpsListOptionalParams,
+  type ManagedOpsCreateOrUpdateOptionalParams,
+  type ManagedOpsGetOptionalParams,
 } from "./options.js";

@@ -45,7 +45,7 @@ export function _listByVolumeSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -53,10 +53,7 @@ export function _listByVolumeSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -67,6 +64,7 @@ export async function _listByVolumeDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -87,7 +85,11 @@ export function listByVolume(
     () => _listByVolumeSend(context, resourceGroupName, accountName, poolName, volumeName, options),
     _listByVolumeDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-12-15-preview",
+    },
   );
 }
 
@@ -109,7 +111,7 @@ export function _$deleteSend(
       poolName: poolName,
       volumeName: volumeName,
       volumeQuotaRuleName: volumeQuotaRuleName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -119,10 +121,11 @@ export function _$deleteSend(
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["200", "202", "204", "201"];
+  const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -144,7 +147,7 @@ export function $delete(
   volumeQuotaRuleName: string,
   options: VolumeQuotaRulesDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["200", "202", "204", "201"], {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["200", "202", "204"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -158,6 +161,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-12-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -180,7 +184,7 @@ export function _updateSend(
       poolName: poolName,
       volumeName: volumeName,
       volumeQuotaRuleName: volumeQuotaRuleName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -189,10 +193,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: volumeQuotaRulePatchSerializer(body),
   });
 }
@@ -202,6 +203,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -234,6 +236,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-12-15-preview",
   }) as PollerLike<OperationState<VolumeQuotaRule>, VolumeQuotaRule>;
 }
 
@@ -256,7 +259,7 @@ export function _createSend(
       poolName: poolName,
       volumeName: volumeName,
       volumeQuotaRuleName: volumeQuotaRuleName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -265,10 +268,7 @@ export function _createSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: volumeQuotaRuleSerializer(body),
   });
 }
@@ -278,6 +278,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -310,6 +311,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-12-15-preview",
   }) as PollerLike<OperationState<VolumeQuotaRule>, VolumeQuotaRule>;
 }
 
@@ -331,7 +333,7 @@ export function _getSend(
       poolName: poolName,
       volumeName: volumeName,
       volumeQuotaRuleName: volumeQuotaRuleName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -339,10 +341,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -351,6 +350,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Vo
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 

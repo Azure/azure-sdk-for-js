@@ -3,7 +3,7 @@
 
 export { listByStoragePool, $delete, get } from "./operations.js";
 export {
-  AvsStorageContainersListByStoragePoolOptionalParams,
-  AvsStorageContainersDeleteOptionalParams,
-  AvsStorageContainersGetOptionalParams,
+  type AvsStorageContainersListByStoragePoolOptionalParams,
+  type AvsStorageContainersDeleteOptionalParams,
+  type AvsStorageContainersGetOptionalParams,
 } from "./options.js";

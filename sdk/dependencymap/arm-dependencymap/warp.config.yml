@@ -1,0 +1,7 @@
+extends: ../../../warp.base.config.yml
+exports:
+  "./api": "./src/api/index.ts"
+  "./api/discoverySources": "./src/api/discoverySources/index.ts"
+  "./api/maps": "./src/api/maps/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"

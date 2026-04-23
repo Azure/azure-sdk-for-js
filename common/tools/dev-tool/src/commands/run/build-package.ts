@@ -3,43 +3,47 @@
 
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { createPrinter } from "../../util/printer";
-import path from "node:path";
-import { spawnSync, StdioOptions } from "node:child_process";
-import { isWindows } from "../../util/platform";
-import { existsSync } from "node:fs";
+import { build, setLogLevel } from "@microsoft/warp";
 
 const log = createPrinter("build-package");
 
-export const commandInfo = makeCommandInfo("build-package", "build a package for production");
+export const commandInfo = makeCommandInfo("build-package", "build a package for production", {
+  target: {
+    shortName: "t",
+    kind: "string",
+    allowMultiple: true,
+    description: "only build matching warp target name(s) (repeatable)",
+  },
+});
 
-const TSHY_BIN_PATH = path.resolve(__dirname, "..", "..", "..", "node_modules", ".bin", "tshy");
+export default leafCommand(commandInfo, async (options) => {
+  const cwd = process.cwd();
+  const cliTargets = options["target"];
+  const positionalTargets = options.args;
+  const targets =
+    cliTargets && cliTargets.length > 0
+      ? cliTargets
+      : positionalTargets.length > 0
+        ? positionalTargets
+        : undefined;
 
-export default leafCommand(commandInfo, async () => {
-  const centralCommandPath = isWindows() ? `${TSHY_BIN_PATH}.CMD` : TSHY_BIN_PATH;
-  const localBinPath = path.resolve(process.cwd(), "node_modules", ".bin", "tshy");
-  const localCommandPath = isWindows() ? `${localBinPath}.CMD` : localBinPath;
-  const commandPath = existsSync(localCommandPath) ? localCommandPath : centralCommandPath;
-
-  log.info(`Building package with tshy from ${commandPath}`);
-
-  const proc = spawnSync(commandPath, { stdio: "pipe" as StdioOptions, shell: isWindows() });
-
-  if (proc.error) {
-    log.error(proc.error.message);
-    return false;
+  // Mirror dev-tool's log level into warp
+  if (process.env.DEBUG) {
+    setLogLevel("verbose");
   }
 
-  if (proc.status !== 0) {
-    log.error(`Package failed to build:
+  try {
+    const result = await build({ cwd, target: targets });
 
-stdout: ${proc.stdout.toString()}
+    if (!result.success) {
+      log.error("warp build failed.");
+      return false;
+    }
 
-stderr: ${proc.stderr.toString()}
-`);
+    log.info("Package built successfully.");
+    return true;
+  } catch (err: unknown) {
+    log.error(`warp build threw: ${err instanceof Error ? err.message : String(err)}`);
     return false;
   }
-
-  log.info("Package built successfully.");
-
-  return true;
 });

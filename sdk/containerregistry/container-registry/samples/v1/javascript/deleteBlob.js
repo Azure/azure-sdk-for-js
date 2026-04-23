@@ -10,7 +10,7 @@ const {
   KnownManifestMediaType,
 } = require("@azure/container-registry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 async function main() {
   // Get the service endpoint from the environment

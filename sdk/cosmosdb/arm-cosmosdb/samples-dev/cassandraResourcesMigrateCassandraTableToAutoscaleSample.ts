@@ -3,34 +3,28 @@
 
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Migrate an Azure Cosmos DB Cassandra table from manual throughput to autoscale
+ * This sample demonstrates how to migrate an Azure Cosmos DB Cassandra table from manual throughput to autoscale
  *
- * @summary Migrate an Azure Cosmos DB Cassandra table from manual throughput to autoscale
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBCassandraTableMigrateToAutoscale.json
+ * @summary migrate an Azure Cosmos DB Cassandra table from manual throughput to autoscale
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBCassandraTableMigrateToAutoscale.json
  */
-async function cosmosDbCassandraTableMigrateToAutoscale(): Promise<void> {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const accountName = "ddb1";
-  const keyspaceName = "keyspaceName";
-  const tableName = "tableName";
+async function cosmosDBCassandraTableMigrateToAutoscale(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result =
-    await client.cassandraResources.beginMigrateCassandraTableToAutoscaleAndWait(
-      resourceGroupName,
-      accountName,
-      keyspaceName,
-      tableName,
-    );
+  const result = await client.cassandraResources.migrateCassandraTableToAutoscale(
+    "rg1",
+    "ddb1",
+    "keyspaceName",
+    "tableName",
+  );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await cosmosDbCassandraTableMigrateToAutoscale();
+  await cosmosDBCassandraTableMigrateToAutoscale();
 }
 
 main().catch(console.error);

@@ -1,0 +1,24 @@
+{
+  "apiVersion": "2025-10-15",
+  "emitterVersion": "0.49.0",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Azure.Ai.Speech.Transcription",
+    "CrossLanguageDefinitionId": {
+      "@azure/ai-speech-transcription!TranscriptionContent:interface": "Azure.Ai.Speech.Transcription.TranscriptionContent",
+      "@azure/ai-speech-transcription!TranscriptionOptions:interface": "Azure.Ai.Speech.Transcription.TranscriptionOptions",
+      "@azure/ai-speech-transcription!TranscriptionDiarizationOptions:interface": "Azure.Ai.Speech.Transcription.TranscriptionDiarizationOptions",
+      "@azure/ai-speech-transcription!EnhancedModeOptions:interface": "Azure.Ai.Speech.Transcription.EnhancedModeProperties",
+      "@azure/ai-speech-transcription!PhraseListOptions:interface": "Azure.Ai.Speech.Transcription.PhraseListProperties",
+      "@azure/ai-speech-transcription!TranscriptionResult:interface": "Azure.Ai.Speech.Transcription.TranscriptionResult",
+      "@azure/ai-speech-transcription!ChannelCombinedPhrases:interface": "Azure.Ai.Speech.Transcription.ChannelCombinedPhrases",
+      "@azure/ai-speech-transcription!TranscribedPhrase:interface": "Azure.Ai.Speech.Transcription.TranscribedPhrase",
+      "@azure/ai-speech-transcription!TranscribedWord:interface": "Azure.Ai.Speech.Transcription.TranscribedWord",
+      "@azure/ai-speech-transcription!ErrorResponse:interface": "Azure.Core.Foundations.ErrorResponse",
+      "@azure/ai-speech-transcription!Error:interface": "Azure.Core.Foundations.Error",
+      "@azure/ai-speech-transcription!InnerError:interface": "Azure.Core.Foundations.InnerError",
+      "@azure/ai-speech-transcription!KnownProfanityFilterMode:enum": "Azure.Ai.Speech.Transcription.ProfanityFilterMode",
+      "@azure/ai-speech-transcription!KnownServiceApiVersions:enum": "Azure.Ai.Speech.Transcription.ServiceApiVersions",
+      "@azure/ai-speech-transcription!TranscriptionClient#transcribe:member(1)": "Azure.Ai.Speech.Transcription.transcribe"
+    }
+  }
+}

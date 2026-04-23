@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to this api updates an existing ispCustomer resource
  *
  * @summary this api updates an existing ispCustomer resource
- * x-ms-original-file: 2023-05-01-preview/IspCustomers_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-11-30-preview/IspCustomers_Update_MaximumSet_Gen.json
  */
 async function ispCustomerUpdateDetailsGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function ispCustomerUpdateDetailsGeneratedByMaximumSetRule() {
 }
 
 async function main() {
-  ispCustomerUpdateDetailsGeneratedByMaximumSetRule();
+  await ispCustomerUpdateDetailsGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

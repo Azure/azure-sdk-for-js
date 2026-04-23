@@ -3,6 +3,6 @@
 
 export {
   createWorkloadOrchestrationManagement,
-  WorkloadOrchestrationManagementContext,
-  WorkloadOrchestrationManagementClientOptionalParams,
+  type WorkloadOrchestrationManagementContext,
+  type WorkloadOrchestrationManagementClientOptionalParams,
 } from "./workloadOrchestrationManagementContext.js";

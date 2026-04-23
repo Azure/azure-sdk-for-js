@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a Task Hub
  *
  * @summary delete a Task Hub
- * x-ms-original-file: 2025-11-01/TaskHubs_Delete.json
+ * x-ms-original-file: 2026-02-01/TaskHubs_Delete.json
  */
 async function taskHubsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

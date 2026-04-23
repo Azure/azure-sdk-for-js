@@ -66,6 +66,7 @@ extends:
               MatrixFilters:
                 - TestType=node|browser
                 - DependencyVersion=^$
+                - PublishCodeCoverage=^$
                 - ${{ each filter in parameters.MatrixFilters }}:
                     - ${{ filter}}
               MatrixReplace: ${{ parameters.MatrixReplace }}

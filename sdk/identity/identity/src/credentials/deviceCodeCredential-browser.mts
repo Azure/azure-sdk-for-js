@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AccessToken, TokenCredential } from "@azure/core-auth";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import type { DeviceCodeCredentialOptions } from "./deviceCodeCredentialOptions.js";
 
 import { credentialLogger, formatError } from "../util/logging.js";
 
@@ -16,12 +17,12 @@ export class DeviceCodeCredential implements TokenCredential {
   /**
    * Only available in Node.js
    */
-  constructor() {
+  constructor(_options?: DeviceCodeCredentialOptions) {
     logger.info(formatError("", BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }
 
-  public getToken(): Promise<AccessToken | null> {
+  public getToken(_scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken | null> {
     logger.getToken.info(formatError("", BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }

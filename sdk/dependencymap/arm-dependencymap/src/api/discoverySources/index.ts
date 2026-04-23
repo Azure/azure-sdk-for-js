@@ -3,9 +3,9 @@
 
 export { listByMapsResource, $delete, update, createOrUpdate, get } from "./operations.js";
 export {
-  DiscoverySourcesListByMapsResourceOptionalParams,
-  DiscoverySourcesDeleteOptionalParams,
-  DiscoverySourcesUpdateOptionalParams,
-  DiscoverySourcesCreateOrUpdateOptionalParams,
-  DiscoverySourcesGetOptionalParams,
+  type DiscoverySourcesListByMapsResourceOptionalParams,
+  type DiscoverySourcesDeleteOptionalParams,
+  type DiscoverySourcesUpdateOptionalParams,
+  type DiscoverySourcesCreateOrUpdateOptionalParams,
+  type DiscoverySourcesGetOptionalParams,
 } from "./options.js";

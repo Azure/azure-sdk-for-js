@@ -2402,6 +2402,13 @@ export const PathAppendDataHeaders: coreClient.CompositeMapper = {
           name: "Boolean",
         },
       },
+      structuredBodyType: {
+        serializedName: "x-ms-structured-body",
+        xmlName: "x-ms-structured-body",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };

@@ -3,6 +3,7 @@
 
 import type { NetAppManagementContext } from "../../api/netAppManagementContext.js";
 import {
+  resetSmbPassword,
   poolChange,
   listPeeringPassphrases,
   listByCapacityPools,
@@ -12,6 +13,7 @@ import {
   get,
 } from "../../api/caches/operations.js";
 import type {
+  CachesResetSmbPasswordOptionalParams,
   CachesPoolChangeOptionalParams,
   CachesListPeeringPassphrasesOptionalParams,
   CachesListByCapacityPoolsOptionalParams,
@@ -31,6 +33,14 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Caches operations. */
 export interface CachesOperations {
+  /** Resets the SMB password for the cache */
+  resetSmbPassword: (
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    cacheName: string,
+    options?: CachesResetSmbPasswordOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
   /** Moves Cache  to another Capacity Pool */
   poolChange: (
     resourceGroupName: string,
@@ -98,6 +108,13 @@ export interface CachesOperations {
 
 function _getCaches(context: NetAppManagementContext) {
   return {
+    resetSmbPassword: (
+      resourceGroupName: string,
+      accountName: string,
+      poolName: string,
+      cacheName: string,
+      options?: CachesResetSmbPasswordOptionalParams,
+    ) => resetSmbPassword(context, resourceGroupName, accountName, poolName, cacheName, options),
     poolChange: (
       resourceGroupName: string,
       accountName: string,

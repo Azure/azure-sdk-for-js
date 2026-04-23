@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { list, get } from "./operations.js";
-export { UsagesListOptionalParams, UsagesGetOptionalParams } from "./options.js";
+export { type UsagesListOptionalParams, type UsagesGetOptionalParams } from "./options.js";

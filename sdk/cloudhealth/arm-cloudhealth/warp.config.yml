@@ -1,0 +1,11 @@
+extends: ../../../warp.base.config.yml
+exports:
+  "./api": "./src/api/index.ts"
+  "./api/discoveryRules": "./src/api/discoveryRules/index.ts"
+  "./api/relationships": "./src/api/relationships/index.ts"
+  "./api/entities": "./src/api/entities/index.ts"
+  "./api/authenticationSettings": "./src/api/authenticationSettings/index.ts"
+  "./api/signalDefinitions": "./src/api/signalDefinitions/index.ts"
+  "./api/healthModels": "./src/api/healthModels/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"

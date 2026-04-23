@@ -10,7 +10,7 @@ import { createFabric, FabricContext, FabricClientOptionalParams } from "./api/i
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
-export { FabricClientOptionalParams } from "./api/fabricContext.js";
+export { type FabricClientOptionalParams } from "./api/fabricContext.js";
 
 export class FabricClient {
   private _client: FabricContext;

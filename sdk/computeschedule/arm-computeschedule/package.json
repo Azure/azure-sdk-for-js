@@ -7,29 +7,6 @@
   },
   "sideEffects": false,
   "autoPublish": false,
-  "tshy": {
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts",
-      "./api": "./src/api/index.ts",
-      "./api/occurrenceExtension": "./src/api/occurrenceExtension/index.ts",
-      "./api/occurrences": "./src/api/occurrences/index.ts",
-      "./api/scheduledActionExtension": "./src/api/scheduledActionExtension/index.ts",
-      "./api/scheduledActions": "./src/api/scheduledActions/index.ts",
-      "./api/operations": "./src/api/operations/index.ts",
-      "./models": "./src/models/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false,
-    "project": "./tsconfig.src.json"
-  },
   "type": "module",
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
@@ -90,7 +67,6 @@
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },

@@ -1,0 +1,6 @@
+{
+  "extends": "../../../tsconfig.src.browser.json",
+  "compilerOptions": {
+    "types": ["node", "trusted-types"]
+  }
+}

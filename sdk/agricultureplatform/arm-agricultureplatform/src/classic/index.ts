@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { AgriServiceOperations } from "./agriService/index.js";
-export { OperationsOperations } from "./operations/index.js";
+export { type AgriServiceOperations } from "./agriService/index.js";
+export { type OperationsOperations } from "./operations/index.js";

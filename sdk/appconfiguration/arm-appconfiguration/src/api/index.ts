@@ -3,6 +3,6 @@
 
 export {
   createAppConfigurationManagement,
-  AppConfigurationManagementContext,
-  AppConfigurationManagementClientOptionalParams,
+  type AppConfigurationManagementContext,
+  type AppConfigurationManagementClientOptionalParams,
 } from "./appConfigurationManagementContext.js";

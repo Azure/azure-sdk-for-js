@@ -9,8 +9,8 @@
 export { createRestError } from "./restError.js";
 export {
   addCredentialPipelinePolicy,
-  AddCredentialPipelinePolicyOptions,
+  type AddCredentialPipelinePolicyOptions,
 } from "./clientHelpers.js";
 export { operationOptionsToRequestParameters } from "./operationOptionHelpers.js";
 export * from "./getClient.js";
-export * from "./common.js";
+export type * from "./common.js";

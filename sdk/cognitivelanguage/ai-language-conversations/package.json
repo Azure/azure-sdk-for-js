@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure Conversational Language Understanding service.",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "engines": {
     "node": ">=20.0.0"
   },
@@ -47,7 +47,6 @@
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
@@ -105,22 +104,6 @@
     }
   },
   "type": "module",
-  "tshy": {
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false,
-    "project": "../../../tsconfig.src.build.json"
-  },
   "browser": "./dist/browser/index.js",
   "exports": {
     "./package.json": "./package.json",
