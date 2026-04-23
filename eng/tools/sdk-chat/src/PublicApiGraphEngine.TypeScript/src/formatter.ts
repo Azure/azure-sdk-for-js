@@ -560,8 +560,10 @@ function deduplicateBySpecifier(
         const [exportPath, condition] = key.split("\0");
         const epConditions = conditionsPerExportPath.get(exportPath) ?? new Set();
         const hasMultiple = epConditions.size > 1;
-        const conditionSuffix = hasMultiple && !isBareSpecifierCondition(condition)
-            ? condition
+        // For compound conditions like "node|import", use only the target part as suffix
+        const suffixBase = condition.includes("|") ? condition.split("|")[0] : condition;
+        const conditionSuffix = hasMultiple && !isBareSpecifierCondition(suffixBase)
+            ? suffixBase
             : undefined;
         const specifier = buildModuleSpecifier(packageName, exportPath, conditionSuffix, allExportPaths);
 

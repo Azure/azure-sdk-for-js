@@ -203,6 +203,13 @@ export function normalizeCondition(condition: string): string {
         }
     }
     if (bestRuntime) {
+        // Preserve module-format qualifier (import/require) alongside runtime target
+        // so that node|import and node|require remain distinct through dedup.
+        const FORMAT_CONDITIONS = new Set(["import", "require"]);
+        const formatQualifier = chain.find(c => FORMAT_CONDITIONS.has(c));
+        if (formatQualifier) {
+            return `${bestRuntime}|${formatQualifier}`;
+        }
         return bestRuntime;
     }
 
@@ -234,7 +241,9 @@ export function normalizeCondition(condition: string): string {
 }
 
 export function getConditionPriority(condition: string): number {
-    const canonical = normalizeCondition(condition);
+    // For compound conditions like "node|import", use the target (first) component's priority
+    const parts = condition.split("|");
+    const canonical = parts[0].trim();
     return CONDITION_TIERS.get(canonical) ?? UNRECOGNIZED_PRIORITY;
 }
 

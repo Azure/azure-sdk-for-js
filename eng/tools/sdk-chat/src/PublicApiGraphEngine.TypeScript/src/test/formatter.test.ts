@@ -112,6 +112,37 @@ describe("formatStubs", () => {
     expect(output).toContain("timeout?: number;");
   });
 
+  it("distinguishes ./browser subpath from browser condition suffix", () => {
+    const output = formatStubs(
+      makeApi({
+        modules: [
+          {
+            name: "index",
+            exportPath: ".",
+            condition: "default",
+            classes: [{ name: "MainClient" }],
+          },
+          {
+            name: "index",
+            exportPath: ".",
+            condition: "browser",
+            classes: [{ name: "MainClient" }],
+          },
+          {
+            name: "browser-entry",
+            exportPath: "./browser",
+            condition: "default",
+            classes: [{ name: "BrowserHelper" }],
+          },
+        ],
+      }),
+    );
+    // The ./browser subpath should get the bare specifier
+    expect(output).toContain('declare module "@azure/test-pkg/browser"');
+    // The root browser condition should be disambiguated with (condition)
+    expect(output).toContain('declare module "@azure/test-pkg/browser (condition)"');
+  });
+
   it("emits condition comments for multi-condition modules", () => {
     const output = formatStubs(
       makeApi({

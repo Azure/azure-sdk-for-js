@@ -23,6 +23,10 @@ public static class TypeScriptFormatter
     private static string NormalizeExportPath(string? exportPath) =>
         exportPath is null or "" or "." or "./" ? "." : exportPath;
 
+    /// <summary>Extracts the target (first) component from a possibly compound condition key like "node|import".</summary>
+    private static string GetConditionTarget(string condition)
+        => condition.Contains('|') ? condition.Split('|')[0] : condition;
+
     /// <summary>Returns true when the condition maps to the bare package specifier (no /condition suffix).</summary>
     private static bool IsBareSpecifierCondition(string condition)
         => condition == "default" || condition == "types";
@@ -42,24 +46,33 @@ public static class TypeScriptFormatter
     /// <summary>Builds the full module specifier for an <see cref="ApiIndex"/> used as a resolved dependency.</summary>
     private static string BuildDepSpecifier(ApiIndex dep) => BuildDepSpecifier(dep.Package, dep.Subpath);
 
-    /// <summary>Returns true for targets that lack Node.js builtins (browser, react-native, workerd, worker).</summary>
+    /// <summary>Returns true for targets that lack Node.js builtins (browser, react-native, workerd, worker).
+    /// Handles compound keys like "browser|import" by checking the target component.</summary>
     private static bool IsNonNodeTarget(string condition)
-        => string.Equals(condition, "browser", StringComparison.OrdinalIgnoreCase)
-        || string.Equals(condition, "react-native", StringComparison.OrdinalIgnoreCase)
-        || string.Equals(condition, "workerd", StringComparison.OrdinalIgnoreCase)
-        || string.Equals(condition, "worker", StringComparison.OrdinalIgnoreCase);
+    {
+        var target = GetConditionTarget(condition);
+        return string.Equals(target, "browser", StringComparison.OrdinalIgnoreCase)
+            || string.Equals(target, "react-native", StringComparison.OrdinalIgnoreCase)
+            || string.Equals(target, "workerd", StringComparison.OrdinalIgnoreCase)
+            || string.Equals(target, "worker", StringComparison.OrdinalIgnoreCase);
+    }
 
     /// <summary>Preference order for deterministic condition fallback selection.</summary>
     private static readonly string[] ConditionPreference = ["default", "types", "import", "require", "node", "browser", "react-native", "workerd", "worker"];
 
     /// <summary>
     /// Selects the best matching condition from available conditions.
-    /// Cascade: exact → default/types → import/require (module system) → preference order → deterministic first.
+    /// Cascade: exact → target-component match → default/types → import/require (module system) → preference order → deterministic first.
+    /// Compound keys like "node|import" match when their target components overlap.
     /// </summary>
     private static string SelectBestCondition(string targetCondition, HashSet<string> availableConditions)
     {
         if (availableConditions.Count == 0) return "default";
         if (availableConditions.Contains(targetCondition)) return targetCondition;
+        // Match by target component for compound keys
+        var targetTarget = GetConditionTarget(targetCondition);
+        foreach (var ac in availableConditions)
+            if (GetConditionTarget(ac) == targetTarget) return ac;
         if (availableConditions.Contains("default")) return "default";
         if (availableConditions.Contains("types")) return "types";
         var msFallback = targetCondition == "require" ? "require" : "import";
@@ -883,15 +896,17 @@ public static class TypeScriptFormatter
                 // Per-symbol export paths fall back to root "." for condition decisions.
                 var lookupEp = conditionsPerExportPath.ContainsKey(normalizedEp) ? normalizedEp : ".";
                 var multiCond = conditionsPerExportPath.TryGetValue(lookupEp, out var conds) && conds.Count > 1;
+                // Use only the target component for the suffix (e.g., "node|import" → "node")
+                var condSuffix = GetConditionTarget(condition);
                 if (normalizedEp == ".")
                 {
                     if (multiCond && !IsBareSpecifierCondition(condition))
                     {
                         // Check collision: if ./condition is a real export path, disambiguate
-                        var potentialSubpath = $"./{condition}";
+                        var potentialSubpath = $"./{condSuffix}";
                         return exportPaths.Contains(potentialSubpath)
-                            ? $"{index.Package}/{condition} (condition)"
-                            : $"{index.Package}/{condition}";
+                            ? $"{index.Package}/{condSuffix} (condition)"
+                            : $"{index.Package}/{condSuffix}";
                     }
                     return index.Package;
                 }
@@ -899,10 +914,10 @@ public static class TypeScriptFormatter
                 if (multiCond && !IsBareSpecifierCondition(condition))
                 {
                     // Check collision: if ./sp/condition is a real export path, disambiguate
-                    var potentialSubpath = $"./{sp}/{condition}";
+                    var potentialSubpath = $"./{sp}/{condSuffix}";
                     return exportPaths.Contains(potentialSubpath)
-                        ? $"{index.Package}/{sp}/{condition} (condition)"
-                        : $"{index.Package}/{sp}/{condition}";
+                        ? $"{index.Package}/{sp}/{condSuffix} (condition)"
+                        : $"{index.Package}/{sp}/{condSuffix}";
                 }
                 return $"{index.Package}/{sp}";
             }
@@ -1003,10 +1018,17 @@ public static class TypeScriptFormatter
 
                 foreach (var module in dep.Modules)
                 {
-                    // Use module-level ExportPath for grouping (matches TS behavior)
-                    var gk = new ModuleKey(NormalizeExportPath(module.ExportPath), NormalizeCondition(module.Condition));
+                    var condition = NormalizeCondition(module.Condition);
 
-                    void AddToDepGroup(ClassInfo? cls = null, InterfaceInfo? iface = null,
+                    // Use per-symbol ExportPath when available, falling back to module-level
+                    // (mirrors main-module GroupKey logic).
+                    ModuleKey DepGroupKey(string? typeExportPath = null)
+                    {
+                        var ep = NormalizeExportPath(typeExportPath ?? module.ExportPath);
+                        return new ModuleKey(ep, condition);
+                    }
+
+                    void AddToDepGroup(ModuleKey gk, ClassInfo? cls = null, InterfaceInfo? iface = null,
                         EnumInfo? en = null, TypeAliasInfo? ta = null, FunctionInfo? fn = null, NamespaceInfo? ns = null)
                     {
                         if (!depModuleGroups.TryGetValue(gk, out var sg))
@@ -1056,12 +1078,12 @@ public static class TypeScriptFormatter
                         }
                     }
 
-                    foreach (var c in module.Classes ?? []) AddToDepGroup(cls: c);
-                    foreach (var i in module.Interfaces ?? []) AddToDepGroup(iface: i);
-                    foreach (var e in module.Enums ?? []) AddToDepGroup(en: e);
-                    foreach (var t in module.Types ?? []) AddToDepGroup(ta: t);
-                    foreach (var f in module.Functions ?? []) AddToDepGroup(fn: f);
-                    foreach (var n in module.Namespaces ?? []) AddToDepGroup(ns: n);
+                    foreach (var c in module.Classes ?? []) AddToDepGroup(DepGroupKey(c.ExportPath), cls: c);
+                    foreach (var i in module.Interfaces ?? []) AddToDepGroup(DepGroupKey(i.ExportPath), iface: i);
+                    foreach (var e in module.Enums ?? []) AddToDepGroup(DepGroupKey(e.ExportPath), en: e);
+                    foreach (var t in module.Types ?? []) AddToDepGroup(DepGroupKey(t.ExportPath), ta: t);
+                    foreach (var f in module.Functions ?? []) AddToDepGroup(DepGroupKey(f.ExportPath), fn: f);
+                    foreach (var n in module.Namespaces ?? []) AddToDepGroup(DepGroupKey(n.ExportPath), ns: n);
                 }
 
                 // Build per-exportPath condition sets for the dep (mirrors main-module logic)
@@ -1075,6 +1097,25 @@ public static class TypeScriptFormatter
                     set.Add(cond);
                 }
 
+                // Also include per-symbol export paths (mirrors main-module logic)
+                foreach (var module in dep.Modules)
+                {
+                    var condition = NormalizeCondition(module.Condition);
+                    void AddSymbolEp(string? ep) {
+                        if (ep == null) return;
+                        var nep = NormalizeExportPath(ep);
+                        if (!conditionsPerDepExportPath.TryGetValue(nep, out var set))
+                            conditionsPerDepExportPath[nep] = set = new(StringComparer.Ordinal);
+                        set.Add(condition);
+                    }
+                    foreach (var c in module.Classes ?? []) AddSymbolEp(c.ExportPath);
+                    foreach (var i in module.Interfaces ?? []) AddSymbolEp(i.ExportPath);
+                    foreach (var e in module.Enums ?? []) AddSymbolEp(e.ExportPath);
+                    foreach (var t in module.Types ?? []) AddSymbolEp(t.ExportPath);
+                    foreach (var f in module.Functions ?? []) AddSymbolEp(f.ExportPath);
+                    foreach (var n in module.Namespaces ?? []) AddSymbolEp(n.ExportPath);
+                }
+
                 // Collect all dep export paths for collision detection
                 var depExportPaths = new HashSet<string>(StringComparer.Ordinal);
                 foreach (var module in dep.Modules.Where(m => m.ExportPath is not null))
@@ -1086,24 +1127,26 @@ public static class TypeScriptFormatter
                     var normalizedEp = NormalizeExportPath(exportPath);
                     var lookupEp = conditionsPerDepExportPath.ContainsKey(normalizedEp) ? normalizedEp : ".";
                     var multiCond = conditionsPerDepExportPath.TryGetValue(lookupEp, out var conds) && conds.Count > 1;
+                    // Use only the target component for the suffix (e.g., "node|import" → "node")
+                    var condSuffix = GetConditionTarget(condition);
                     if (normalizedEp == ".")
                     {
                         if (multiCond && !IsBareSpecifierCondition(condition))
                         {
-                            var potentialSubpath = $"./{condition}";
+                            var potentialSubpath = $"./{condSuffix}";
                             return depExportPaths.Contains(potentialSubpath)
-                                ? $"{depSpecifier}/{condition} (condition)"
-                                : $"{depSpecifier}/{condition}";
+                                ? $"{depSpecifier}/{condSuffix} (condition)"
+                                : $"{depSpecifier}/{condSuffix}";
                         }
                         return depSpecifier;
                     }
                     var sp = normalizedEp.StartsWith("./", StringComparison.Ordinal) ? normalizedEp[2..] : normalizedEp;
                     if (multiCond && !IsBareSpecifierCondition(condition))
                     {
-                        var potentialSubpath = $"./{sp}/{condition}";
+                        var potentialSubpath = $"./{sp}/{condSuffix}";
                         return depExportPaths.Contains(potentialSubpath)
-                            ? $"{depSpecifier}/{sp}/{condition} (condition)"
-                            : $"{depSpecifier}/{sp}/{condition}";
+                            ? $"{depSpecifier}/{sp}/{condSuffix} (condition)"
+                            : $"{depSpecifier}/{sp}/{condSuffix}";
                     }
                     return $"{depSpecifier}/{sp}";
                 }
@@ -1193,7 +1236,10 @@ public static class TypeScriptFormatter
                     if (string.Equals(depCondition, mainCondition, StringComparison.Ordinal)) return true;
                     // If main is unconditioned, accept all deps
                     if (IsBareSpecifierCondition(mainCondition)) return true;
-                    return false;
+                    // Parse compound conditions — match if target components overlap
+                    var depTarget = GetConditionTarget(depCondition);
+                    var mainTarget = GetConditionTarget(mainCondition);
+                    return string.Equals(depTarget, mainTarget, StringComparison.Ordinal);
                 }
 
                 foreach (var mainCond in allMainConditions)
@@ -1262,6 +1308,20 @@ public static class TypeScriptFormatter
                     {
                         matchedDepCond = "default";
                         depHasMultipleConditions = false;
+                    }
+
+                    // Fix 4: When a dep has a single non-bare condition (e.g., "browser"),
+                    // only render it for compatible main conditions.
+                    if (!depHasMultipleConditions && depConds.Count == 1)
+                    {
+                        var singleCond = depConds.First();
+                        if (!IsBareSpecifierCondition(singleCond) && !IsBareSpecifierCondition(mainCond))
+                        {
+                            var depTarget = GetConditionTarget(singleCond);
+                            var mainTarget = GetConditionTarget(mainCond);
+                            if (!string.Equals(depTarget, mainTarget, StringComparison.Ordinal))
+                                continue;
+                        }
                     }
 
                     // Group by ExportPath to produce separate declare module blocks per subpath
@@ -1337,14 +1397,15 @@ public static class TypeScriptFormatter
 
                         // Compute module name with collision avoidance (mirrors ComputeGroupModuleName)
                         string depModuleName;
+                        var condSuffix = GetConditionTarget(matchedDepCond);
                         if (ep == ".")
                         {
                             if (depHasMultipleConditions && !IsBareSpecifierCondition(matchedDepCond))
                             {
-                                var potentialSubpath = $"./{matchedDepCond}";
+                                var potentialSubpath = $"./{condSuffix}";
                                 depModuleName = allDepEps.Contains(potentialSubpath)
-                                    ? $"{depSpecifier}/{matchedDepCond} (condition)"
-                                    : $"{depSpecifier}/{matchedDepCond}";
+                                    ? $"{depSpecifier}/{condSuffix} (condition)"
+                                    : $"{depSpecifier}/{condSuffix}";
                             }
                             else
                             {
@@ -1356,10 +1417,10 @@ public static class TypeScriptFormatter
                             var sp = ep.StartsWith("./", StringComparison.Ordinal) ? ep[2..] : ep;
                             if (depHasMultipleConditions && !IsBareSpecifierCondition(matchedDepCond))
                             {
-                                var potentialSubpath = $"./{sp}/{matchedDepCond}";
+                                var potentialSubpath = $"./{sp}/{condSuffix}";
                                 depModuleName = allDepEps.Contains(potentialSubpath)
-                                    ? $"{depSpecifier}/{sp}/{matchedDepCond} (condition)"
-                                    : $"{depSpecifier}/{sp}/{matchedDepCond}";
+                                    ? $"{depSpecifier}/{sp}/{condSuffix} (condition)"
+                                    : $"{depSpecifier}/{sp}/{condSuffix}";
                             }
                             else
                             {

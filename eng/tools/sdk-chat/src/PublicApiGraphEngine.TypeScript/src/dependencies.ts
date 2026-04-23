@@ -1573,10 +1573,12 @@ export function getPackageConditionTypePaths(startDir: string, packageName: stri
                     // node|import and node|require are preserved as distinct entries.
                     const runtimeCondition = findPreferredCondition(entry.conditionChain, skipKeys);
                     const condition = runtimeCondition ?? "default";
-                    // Check if there's also a module-format condition alongside the target
+                    // Build compound key only when there's a distinct target AND format.
+                    // Avoids bogus keys like "import|import" for format-only chains.
                     const FORMAT_CONDITIONS = new Set(["import", "require"]);
+                    const TARGET_CONDITIONS = new Set(["node", "browser", "react-native", "workerd", "worker"]);
                     let compoundKey = condition;
-                    if (runtimeCondition) {
+                    if (runtimeCondition && TARGET_CONDITIONS.has(runtimeCondition)) {
                         const formatCond = entry.conditionChain.find(c => !skipKeys.has(c) && FORMAT_CONDITIONS.has(c));
                         if (formatCond) {
                             compoundKey = `${runtimeCondition}|${formatCond}`;
