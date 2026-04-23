@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { OpenAI } from "openai";
+import { getBearerTokenProvider, DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 import { createWriteStream } from "fs";
 
