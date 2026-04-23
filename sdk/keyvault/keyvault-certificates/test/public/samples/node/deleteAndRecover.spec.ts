@@ -92,13 +92,11 @@ describe("deleteAndRecover", () => {
       () => "MyCertificateDelete",
     );
     // @snippet ReadmeSampleDeleteCertificate
-    if (forPublishing(true, () => true)) {
-      const createPoller = await client.beginCreateCertificate(certificateName, {
-        issuerName: "Self",
-        subject: "cn=MyCert",
-      });
-      await createPoller.pollUntilDone();
-    }
+    const createPoller = await client.beginCreateCertificate(certificateName, {
+      issuerName: "Self",
+      subject: "cn=MyCert",
+    });
+    await createPoller.pollUntilDone();
     // @ts-preserve-whitespace
     const poller = await client.beginDeleteCertificate(certificateName);
     // @ts-preserve-whitespace
@@ -153,15 +151,13 @@ describe("deleteAndRecover", () => {
       () => "MyCertificateGetDeleted",
     );
     // @snippet CertificateClientGetDeletedCertificate
-    if (forPublishing(true, () => true)) {
-      const createPoller = await client.beginCreateCertificate(certificateName, {
-        issuerName: "Self",
-        subject: "cn=MyCert",
-      });
-      await createPoller.pollUntilDone();
-      const deletePoller = await client.beginDeleteCertificate(certificateName);
-      await deletePoller.pollUntilDone();
-    }
+    const createPoller = await client.beginCreateCertificate(certificateName, {
+      issuerName: "Self",
+      subject: "cn=MyCert",
+    });
+    await createPoller.pollUntilDone();
+    const deletePoller = await client.beginDeleteCertificate(certificateName);
+    await deletePoller.pollUntilDone();
     const deletedCertificate = await client.getDeletedCertificate(certificateName);
     console.log("Deleted certificate:", deletedCertificate);
     // @snippet-end CertificateClientGetDeletedCertificate
@@ -173,13 +169,11 @@ describe("deleteAndRecover", () => {
       () => "MyCertificatePurge",
     );
     // @snippet CertificateClientPurgeDeletedCertificate
-    if (forPublishing(true, () => true)) {
-      const createPoller = await client.beginCreateCertificate(certificateName, {
-        issuerName: "Self",
-        subject: "cn=MyCert",
-      });
-      await createPoller.pollUntilDone();
-    }
+    const createPoller = await client.beginCreateCertificate(certificateName, {
+      issuerName: "Self",
+      subject: "cn=MyCert",
+    });
+    await createPoller.pollUntilDone();
     const deletePoller = await client.beginDeleteCertificate(certificateName);
     await deletePoller.pollUntilDone();
     // @ts-preserve-whitespace
@@ -194,13 +188,11 @@ describe("deleteAndRecover", () => {
       () => "MyCertificateRecover",
     );
     // @snippet CertificateClientRecoverDeletedCertificate
-    if (forPublishing(true, () => true)) {
-      const createPoller = await client.beginCreateCertificate(certificateName, {
-        issuerName: "Self",
-        subject: "cn=MyCert",
-      });
-      await createPoller.pollUntilDone();
-    }
+    const createPoller = await client.beginCreateCertificate(certificateName, {
+      issuerName: "Self",
+      subject: "cn=MyCert",
+    });
+    await createPoller.pollUntilDone();
     const deletePoller = await client.beginDeleteCertificate(certificateName);
     await deletePoller.pollUntilDone();
     // @ts-preserve-whitespace

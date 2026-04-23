@@ -83,15 +83,13 @@ describe("contacts", () => {
 
   it("delete certificate contacts", async () => {
     // @snippet CertificateClientDeleteContacts
-    if (forPublishing(true, () => false)) {
-      await client.setContacts([
-        {
-          email: "b@b.com",
-          name: "b",
-          phone: "222222222222",
-        },
-      ]);
-    }
+    await client.setContacts([
+      {
+        email: "b@b.com",
+        name: "b",
+        phone: "222222222222",
+      },
+    ]);
     await client.deleteContacts();
     // @snippet-end CertificateClientDeleteContacts
   });

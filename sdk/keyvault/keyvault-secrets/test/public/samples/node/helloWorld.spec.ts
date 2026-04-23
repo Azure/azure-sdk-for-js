@@ -95,7 +95,7 @@ describe("helloWorld", () => {
   it("delete the secret", async () => {
     const secretName = forPublishing(
       recorder.variable("deleteSecretName", `sample-delete-secret-${Date.now()}`),
-      () => "MySecretName",
+      () => "MyDeleteSecret",
     );
     await client.setSecret(secretName, "MySecretValue");
 
@@ -109,7 +109,7 @@ describe("helloWorld", () => {
   it("create a secret with attributes", async () => {
     const secretName = forPublishing(
       recorder.variable("createSecretWithAttrsName", `sample-attrs-secret-${Date.now()}`),
-      () => "MySecretName",
+      () => "MyAttrsSecret",
     );
 
     // @snippet ReadmeSampleCreateSecretWithAttributes

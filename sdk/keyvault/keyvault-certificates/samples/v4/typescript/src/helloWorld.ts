@@ -14,6 +14,7 @@ import { SecretClient } from "@azure/keyvault-secrets";
 import { writeFileSync } from "node:fs";
 
 let client: CertificateClient;
+let secretClient: SecretClient;
 let certificateName: string;
 
 async function createACertificate() {
@@ -22,6 +23,7 @@ async function createACertificate() {
     certificateName,
     DefaultCertificatePolicy,
   );
+  await createPoller.pollUntilDone();
   // Get the pending certificate before the creation operation is complete
   const pendingCertificate = createPoller.getResult();
   console.log("Certificate: ", pendingCertificate);
@@ -88,6 +90,8 @@ async function deleteTheCertificate() {
 }
 
 async function createASelfSignedCertificate() {
+  const certificateName = "MySelfSignedCert";
+
   // Note: Sending `Self` as the `issuerName` of the certificate's policy will create a self-signed certificate.
   await client.beginCreateCertificate(certificateName, {
     issuerName: "Self",
@@ -96,6 +100,8 @@ async function createASelfSignedCertificate() {
 }
 
 async function createACertificateWithOptions() {
+  const certificateName = "MyCertWithOptions";
+
   // Note: Sending `Self` as the `issuerName` of the certificate's policy will create a self-signed certificate.
   const certificatePolicy = {
     issuerName: "Self",
@@ -113,6 +119,8 @@ async function createACertificateWithOptions() {
 }
 
 async function createACertificateWithPolling() {
+  const certificateName = "MyCertWithPolling";
+
   const certificatePolicy = {
     issuerName: "Self",
     subject: "cn=MyCert",
@@ -129,6 +137,8 @@ async function createACertificateWithPolling() {
 }
 
 async function createACertificateAndPollIndividually() {
+  const certificateName = "MyCertPollIndiv";
+
   const certificatePolicy = {
     issuerName: "Self",
     subject: "cn=MyCert",
@@ -147,6 +157,14 @@ async function createACertificateAndPollIndividually() {
 }
 
 async function getACertificate() {
+  const certificateName = "MyGetCert";
+
+  const createPoller = await client.beginCreateCertificate(certificateName, {
+    issuerName: "Self",
+    subject: "cn=MyCert",
+  });
+  await createPoller.pollUntilDone();
+
   const latestCertificate = await client.getCertificate(certificateName);
   console.log(`Latest version of the certificate ${certificateName}: `, latestCertificate);
   const specificCertificate = await client.getCertificateVersion(
@@ -160,11 +178,13 @@ async function getACertificate() {
 }
 
 async function getCertificateWithFullInformation() {
-  const credential = new DefaultAzureCredential();
+  const certificateName = "MyGetFullCert";
 
-  const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-
-  const secretClient = new SecretClient(keyVaultUrl, credential);
+  const createPoller = await client.beginCreateCertificate(certificateName, {
+    issuerName: "Self",
+    subject: "cn=MyCert",
+  });
+  await createPoller.pollUntilDone();
 
   // Assuming you've already created a Key Vault certificate,
   // and that certificateName contains the name of your certificate
@@ -178,11 +198,7 @@ async function getCertificateWithFullInformation() {
 }
 
 async function createAPemCertificate() {
-  const credential = new DefaultAzureCredential();
-
-  const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-
-  const secretClient = new SecretClient(keyVaultUrl, credential);
+  const certificateName = "MyPemCert";
 
   // Creating the certificate
   const createPoller = await client.beginCreateCertificate(certificateName, {
@@ -200,6 +216,14 @@ async function createAPemCertificate() {
 }
 
 async function updateACertificate() {
+  const certificateName = "MyUpdateCert";
+
+  const createPoller = await client.beginCreateCertificate(certificateName, {
+    issuerName: "Self",
+    subject: "cn=MyCert",
+  });
+  await createPoller.pollUntilDone();
+
   const result = await client.getCertificate(certificateName);
   await client.updateCertificateProperties(certificateName, result.properties.version, {
     enabled: false,
@@ -210,6 +234,14 @@ async function updateACertificate() {
 }
 
 async function updateACertificatePolicy() {
+  const certificateName = "MyUpdatePolicyCert";
+
+  const createPoller = await client.beginCreateCertificate(certificateName, {
+    issuerName: "Self",
+    subject: "cn=MyCert",
+  });
+  await createPoller.pollUntilDone();
+
   // Note: Sending `Self` as the `issuerName` of the certificate's policy will create a self-signed certificate.
   await client.updateCertificatePolicy(certificateName, {
     issuerName: "Self",
@@ -218,11 +250,27 @@ async function updateACertificatePolicy() {
 }
 
 async function getCertificateProperties() {
+  const certificateName = "MyGetPropsCert";
+
+  const createPoller = await client.beginCreateCertificate(certificateName, {
+    issuerName: "Self",
+    subject: "cn=MyCert",
+  });
+  await createPoller.pollUntilDone();
+
   const result = await client.getCertificate(certificateName);
   console.log(result.name);
 }
 
 async function getASpecificCertificateVersion() {
+  const certificateName = "MyGetVersionCert";
+
+  const createPoller = await client.beginCreateCertificate(certificateName, {
+    issuerName: "Self",
+    subject: "cn=MyCert",
+  });
+  await createPoller.pollUntilDone();
+
   const latestCertificate = await client.getCertificate(certificateName);
   console.log(`Latest version of the certificate ${certificateName}: `, latestCertificate);
   const specificCertificate = await client.getCertificateVersion(
@@ -236,6 +284,13 @@ async function getASpecificCertificateVersion() {
 }
 
 async function updateCertificateProperties() {
+  const certificateName = "MyUpdatePropsCert";
+
+  const createPoller = await client.beginCreateCertificate(certificateName, {
+    issuerName: "Self",
+    subject: "cn=MyCert",
+  });
+  await createPoller.pollUntilDone();
   // You may pass an empty string for version which will update
   // the latest version of the certificate
   await client.updateCertificateProperties(certificateName, "", {
@@ -246,6 +301,13 @@ async function updateCertificateProperties() {
 }
 
 async function getACertificatePolicy() {
+  const certificateName = "MyGetPolicyCert";
+
+  const createPoller = await client.beginCreateCertificate(certificateName, {
+    issuerName: "Self",
+    subject: "cn=MyCert",
+  });
+  await createPoller.pollUntilDone();
   const policy = await client.getCertificatePolicy(certificateName);
   console.log(policy);
 }
@@ -256,6 +318,10 @@ export async function main(): Promise<void> {
   // about DefaultAzureCredential and the other credentials that are available for use.
   // If you're using MSI, DefaultAzureCredential should "just work".
   client = new CertificateClient(
+    process.env["KEYVAULT_URI"] || "<keyvault-url>",
+    new DefaultAzureCredential(),
+  );
+  secretClient = new SecretClient(
     process.env["KEYVAULT_URI"] || "<keyvault-url>",
     new DefaultAzureCredential(),
   );

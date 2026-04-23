@@ -49,17 +49,13 @@ async function createRotationPolicyAndRotate() {
 }
 
 async function getAKeyRotationPolicy() {
-  const keyName = "MyKeyName";
-  await client.createKey(keyName, "EC");
-
+  const keyName = "MyKeyNameGetRotPolicy";
   const result = await client.getKeyRotationPolicy(keyName);
   console.log("result: ", result);
 }
 
 async function updateAKeyRotationPolicy() {
-  const keyName = "MyKeyName";
-  await client.createKey(keyName, "EC");
-
+  const keyName = "MyKeyNameUpdateRotPolicy";
   const myPolicy = await client.getKeyRotationPolicy(keyName);
 
   const setPolicy = await client.updateKeyRotationPolicy(keyName, myPolicy);
@@ -67,9 +63,7 @@ async function updateAKeyRotationPolicy() {
 }
 
 async function rotateAKey() {
-  const keyName = "MyKeyName";
-  await client.createKey(keyName, "EC");
-
+  const keyName = "MyKeyNameRotate";
   // Set the key's automated rotation policy to rotate the key 30 days before expiry.
   const policy = await client.updateKeyRotationPolicy(keyName, {
     lifetimeActions: [

@@ -176,20 +176,7 @@ describe("helloWorld", () => {
       recorder.variable("importKeyName", `sample-import-key-${Date.now()}`),
       () => "MyKey",
     );
-    const jsonWebKey = forPublishing(createRsaKey(), () => ({
-      kty: "RSA",
-      kid: "test-key-123",
-      use: "sig",
-      alg: "RS256",
-      n: new Uint8Array([112, 34, 56, 98, 123, 244, 200, 99]),
-      e: new Uint8Array([1, 0, 1]),
-      d: new Uint8Array([45, 67, 89, 23, 144, 200, 76, 233]),
-      p: new Uint8Array([34, 89, 100, 77, 204, 56, 29, 77]),
-      q: new Uint8Array([78, 99, 201, 45, 188, 34, 67, 90]),
-      dp: new Uint8Array([23, 45, 78, 56, 200, 144, 32, 67]),
-      dq: new Uint8Array([12, 67, 89, 144, 99, 56, 23, 45]),
-      qi: new Uint8Array([78, 90, 45, 201, 34, 67, 120, 55]),
-    }));
+    const jsonWebKey = createRsaKey();
     // @ts-preserve-whitespace
     const result = await client.importKey(keyName, jsonWebKey);
     // @snippet-end ReadmeSampleImportKey

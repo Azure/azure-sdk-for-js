@@ -66,6 +66,7 @@ async function createACertificateIssuer() {
 }
 
 async function updateACertificateIssuer() {
+  await client.createIssuer(issuerName, "Test");
   await client.updateIssuer(issuerName, {
     accountId: "updated-keyvaultuser",
   });

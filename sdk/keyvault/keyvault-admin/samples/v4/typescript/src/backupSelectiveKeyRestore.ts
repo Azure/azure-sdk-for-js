@@ -19,7 +19,7 @@ async function beginSelectiveKeyRestoreWithSas() {
   const sasToken = "<sas-token>";
   const keyName = "<key-name>";
   await keyClient.createRsaKey(keyName);
-  const backupPoller = await client.beginBackup(blobStorageUri);
+  const backupPoller = await client.beginBackup(blobStorageUri, sasToken);
   const backupResult = await backupPoller.pollUntilDone();
   const backupFolderUri = backupResult.folderUri!;
   const poller = await client.beginSelectiveKeyRestore(keyName, backupFolderUri, sasToken);

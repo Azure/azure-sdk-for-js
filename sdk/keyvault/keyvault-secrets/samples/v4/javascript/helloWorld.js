@@ -47,7 +47,7 @@ async function updateSecretProperties() {
 }
 
 async function deleteTheSecret() {
-  const secretName = "MySecretName";
+  const secretName = "MyDeleteSecret";
   await client.setSecret(secretName, "MySecretValue");
 
   // Delete the secret
@@ -56,7 +56,7 @@ async function deleteTheSecret() {
 }
 
 async function createASecretWithAttributes() {
-  const secretName = "MySecretName";
+  const secretName = "MyAttrsSecret";
 
   const result = await client.setSecret(secretName, "MySecretValue", {
     enabled: false,

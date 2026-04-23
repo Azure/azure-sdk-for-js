@@ -68,9 +68,11 @@ describe("mergeCertificate", () => {
     const operationPoller = await client.getCertificateOperation(certificateName);
     const { csr } = operationPoller.getOperationState().certificateOperation!;
     const base64Csr = Buffer.from(csr!).toString("base64");
-    const wrappedCsr = `-----BEGIN CERTIFICATE REQUEST-----
-${base64Csr}
------END CERTIFICATE REQUEST-----`;
+    const wrappedCsr = [
+      "-----BEGIN CERTIFICATE REQUEST-----",
+      base64Csr,
+      "-----END CERTIFICATE REQUEST-----",
+    ].join("\n");
     writeFileSync("test.csr", wrappedCsr);
 
     // Now, signing the retrieved certificate request with a fake certificate authority.

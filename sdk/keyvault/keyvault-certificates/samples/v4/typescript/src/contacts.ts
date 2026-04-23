@@ -39,6 +39,13 @@ async function manageCertificateContacts() {
 }
 
 async function deleteCertificateContacts() {
+  await client.setContacts([
+    {
+      email: "b@b.com",
+      name: "b",
+      phone: "222222222222",
+    },
+  ]);
   await client.deleteContacts();
 }
 
