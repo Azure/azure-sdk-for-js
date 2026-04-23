@@ -81,10 +81,7 @@ describe("accessControlHelloWorld", () => {
   it("set role definition", async () => {
     // @snippet ReadmeSampleSetRoleDefinition
     const permissions = [{ dataActions: [KnownKeyVaultDataAction.BackupHsmKeys] }];
-    const roleDefinitionName = forPublishing(
-      randomUUID(),
-      () => "23b8bb1a-39c0-4c89-a85b-dd3c99273a8a",
-    );
+    const roleDefinitionName = forPublishing(randomUUID(), () => randomUUID());
     const roleDefinition = await client.setRoleDefinition(KnownKeyVaultRoleScope.Global, {
       permissions,
       roleDefinitionName,
@@ -99,10 +96,7 @@ describe("accessControlHelloWorld", () => {
   it("delete role definition", async () => {
     // @snippet ReadmeSampleDeleteRoleDefinition
     const permissions = [{ dataActions: [KnownKeyVaultDataAction.BackupHsmKeys] }];
-    const roleDefinitionName = forPublishing(
-      randomUUID(),
-      () => "23b8bb1a-39c0-4c89-a85b-dd3c99273a8a",
-    );
+    const roleDefinitionName = forPublishing(randomUUID(), () => randomUUID());
     const roleDefinition = await client.setRoleDefinition(KnownKeyVaultRoleScope.Global, {
       permissions,
       roleDefinitionName,
@@ -117,10 +111,13 @@ describe("accessControlHelloWorld", () => {
     // @snippet ReadmeSampleCreateRoleAssignment
     const { value: roleDefinition } = await client.listRoleDefinitions("/").next();
     // @ts-preserve-whitespace
-    const principalId = "4871f6a6-374f-4b6b-8b0c-f5d84db823f6";
+    const principalId = forPublishing(
+      assertEnvironmentVariable("CLIENT_OBJECT_ID"),
+      () => process.env["CLIENT_OBJECT_ID"] || "<client-object-id>",
+    );
     const result = await client.createRoleAssignment(
       "/",
-      "295c179b-9ad3-4117-99cd-b1aa66cf4517",
+      forPublishing(randomUUID(), () => randomUUID()),
       roleDefinition.id,
       principalId,
     );
@@ -132,11 +129,14 @@ describe("accessControlHelloWorld", () => {
   it("get role assignment", async () => {
     // @snippet ReadmeSampleGetRoleAssignment
     const { value: roleDefinition } = await client.listRoleDefinitions("/").next();
-    const principalId = "4871f6a6-374f-4b6b-8b0c-f5d84db823f6";
+    const principalId = forPublishing(
+      assertEnvironmentVariable("CLIENT_OBJECT_ID"),
+      () => process.env["CLIENT_OBJECT_ID"] || "<client-object-id>",
+    );
     // @ts-preserve-whitespace
     let roleAssignment = await client.createRoleAssignment(
       "/",
-      "295c179b-9ad3-4117-99cd-b1aa66cf4517",
+      forPublishing(randomUUID(), () => randomUUID()),
       roleDefinition.id,
       principalId,
     );
@@ -154,11 +154,14 @@ describe("accessControlHelloWorld", () => {
   it("delete role assignment", async () => {
     // @snippet ReadmeSampleDeleteRoleAssignment
     const { value: roleDefinition } = await client.listRoleDefinitions("/").next();
-    const principalId = "4871f6a6-374f-4b6b-8b0c-f5d84db823f6";
+    const principalId = forPublishing(
+      assertEnvironmentVariable("CLIENT_OBJECT_ID"),
+      () => process.env["CLIENT_OBJECT_ID"] || "<client-object-id>",
+    );
     // @ts-preserve-whitespace
     const roleAssignment = await client.createRoleAssignment(
       "/",
-      "295c179b-9ad3-4117-99cd-b1aa66cf4517",
+      forPublishing(randomUUID(), () => randomUUID()),
       roleDefinition.id,
       principalId,
     );

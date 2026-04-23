@@ -71,15 +71,12 @@ describe("contacts", () => {
 
     await client.deleteContacts();
 
-    let error;
     try {
       await client.getContacts();
-      throw Error("Expecting an error but not catching one.");
     } catch (e: any) {
-      error = e;
+      // getContacts throws a 404 when no contacts have been set
+      console.log("No contacts found (expected):", e.code);
     }
-
-    console.log("err: ", error);
   });
 
   // Operation snippets

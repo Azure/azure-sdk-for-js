@@ -9,7 +9,7 @@
 require("dotenv/config");
 const { DefaultAzureCredential } = require("@azure/identity");
 const { KeyClient } = require("@azure/keyvault-keys");
-const { stringToUint8Array } = require("../utils/crypto.js");
+const { stringToUint8Array } = require("./crypto.js");
 const { retryWithBackoff } = require("./utils.js");
 
 let client;
@@ -78,11 +78,16 @@ async function createAnEcKey() {
 
 async function createAnRsaKey() {
   const keyName = "MyKeyName";
-  const result = await client.createRsaKey("MyKey", { keySize: 2048 });
+  const result = await client.createRsaKey(keyName, { keySize: 2048 });
   console.log("result: ", result);
 }
 
 async function createAnOctKey() {
+  if (!Boolean(hsmClient)) {
+    ctx.skip();
+    return;
+  }
+
   const keyName = "MyKeyName";
   const result = await hsmClient.createOctKey(keyName, { hsm: true });
   console.log("result: ", result);
@@ -125,6 +130,10 @@ async function getAKey() {
 }
 
 async function getKeyAttestation() {
+  if (!Boolean(hsmClient)) {
+    ctx.skip();
+    return;
+  }
   const keyName = "MyKeyName";
   await hsmClient.createRsaKey(keyName, { hsm: true });
 
@@ -164,6 +173,10 @@ async function deleteAKey() {
 }
 
 async function releaseAKey() {
+  if (!Boolean(hsmClient)) {
+    ctx.skip();
+    return;
+  }
   const keyName = "myKey";
   const attestationAuthority = "<attestation-uri>";
   const encodedReleasePolicy = stringToUint8Array(
@@ -178,7 +191,9 @@ async function releaseAKey() {
     keyOps: ["encrypt", "decrypt"],
     releasePolicy: { encodedPolicy: encodedReleasePolicy },
   });
-  const attestation = await Promise.resolve("<attestation-target>");
+  // Fetch the attestation token from your Azure Attestation Service endpoint.
+  // Example: const attestation = await fetch(attestationUri).then((r) => r.text());
+  const attestation = "<attestation-token>";
 
   const result = await hsmClient.releaseKey(keyName, attestation);
   console.log("result: ", result);
@@ -237,6 +252,11 @@ async function restoreAKeyFromBackup() {
 }
 
 async function getRandomBytes() {
+  if (!Boolean(hsmClient)) {
+    ctx.skip();
+    return;
+  }
+
   const bytes = await hsmClient.getRandomBytes(10);
   console.log("bytes: ", bytes);
 }
@@ -302,6 +322,7 @@ async function deleteAKeyAndPollIndividually() {
 
 async function listAllKeys() {
   const keyName = "MyKeyName";
+  await client.createKey(keyName, "RSA");
 
   for await (const keyProperties of client.listPropertiesOfKeys()) {
     console.log("Key properties: ", keyProperties);
@@ -318,6 +339,7 @@ async function listAllKeys() {
 
 async function listKeysByPage() {
   const keyName = "MyKeyName";
+  await client.createKey(keyName, "RSA");
 
   for await (const page of client.listPropertiesOfKeys().byPage()) {
     for (const keyProperties of page) {

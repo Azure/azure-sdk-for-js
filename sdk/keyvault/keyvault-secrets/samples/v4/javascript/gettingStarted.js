@@ -26,7 +26,7 @@ async function createASecretClientWithASpecificVersion() {
 
   // Change the Azure Key Vault service API version being used via the `serviceVersion` option
   const client = new SecretClient(url, credential, {
-    serviceVersion: "7.0", // Or 7.1
+    serviceVersion: "7.0", // Supported versions: 7.0 through 7.6
   });
 }
 

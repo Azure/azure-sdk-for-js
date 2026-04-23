@@ -12,7 +12,7 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { Recorder, assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
 import { forPublishing } from "@azure-tools/test-publishing";
 import { retryWithBackoff } from "./utils.js";
-import { createRsaKey, stringToUint8Array } from "../utils/crypto.js";
+import { createRsaKey, stringToUint8Array } from "./crypto.js";
 import { describe, it, beforeEach, afterEach } from "vitest";
 // Load the .env file if it exists
 import "dotenv/config";
@@ -151,13 +151,13 @@ describe("helloWorld", () => {
   it("create an RSA key", async () => {
     // @snippet ReadmeSampleCreateRsaKey
     const keyName = "MyKeyName";
-    const result = await client.createRsaKey("MyKey", { keySize: 2048 });
+    const result = await client.createRsaKey(keyName, { keySize: 2048 });
     console.log("result: ", result);
     // @snippet-end ReadmeSampleCreateRsaKey
   });
 
   it("create an OCT key", async (ctx) => {
-    if (!forPublishing(Boolean(hsmClient), () => true)) {
+    if (!forPublishing(Boolean(hsmClient), () => Boolean(hsmClient))) {
       ctx.skip();
       return;
     }
@@ -224,7 +224,7 @@ describe("helloWorld", () => {
   });
 
   it("get key attestation", async (ctx) => {
-    if (!forPublishing(Boolean(hsmClient), () => true)) {
+    if (!forPublishing(Boolean(hsmClient), () => Boolean(hsmClient))) {
       ctx.skip();
       return;
     }
@@ -285,7 +285,7 @@ describe("helloWorld", () => {
   });
 
   it("release a key", async (ctx) => {
-    if (!forPublishing(Boolean(hsmClient), () => true)) {
+    if (!forPublishing(Boolean(hsmClient), () => Boolean(hsmClient))) {
       ctx.skip();
       return;
     }
@@ -312,8 +312,10 @@ describe("helloWorld", () => {
       keyOps: ["encrypt", "decrypt"],
       releasePolicy: { encodedPolicy: encodedReleasePolicy },
     });
-    const attestation = await forPublishing(
-      (async () => {
+    // Fetch the attestation token from your Azure Attestation Service endpoint.
+    // Example: const attestation = await fetch(attestationUri).then((r) => r.text());
+    const attestation = forPublishing(
+      await (async () => {
         if (!isPlaybackMode()) {
           const response = await createDefaultHttpClient().sendRequest(
             createPipelineRequest({ url: `${attestationAuthority}/generate-test-token` }),
@@ -324,7 +326,7 @@ describe("helloWorld", () => {
         }
         return recorder.variable("attestation", "");
       })(),
-      () => Promise.resolve("<attestation-target>"),
+      () => "<attestation-token>",
     );
 
     // @snippet ReadmeSampleReleaseKey
@@ -412,7 +414,7 @@ describe("helloWorld", () => {
   });
 
   it("get random bytes", async (ctx) => {
-    if (!forPublishing(Boolean(hsmClient), () => true)) {
+    if (!forPublishing(Boolean(hsmClient), () => Boolean(hsmClient))) {
       ctx.skip();
       return;
     }
@@ -498,7 +500,11 @@ describe("helloWorld", () => {
   });
 
   it("list all keys", async () => {
-    const keyName = "MyKeyName";
+    const keyName = forPublishing(
+      recorder.variable("listAllKeysName", `sample-listall-key-${Date.now()}`),
+      () => "MyKeyName",
+    );
+    await client.createKey(keyName, "RSA");
 
     // @snippet ReadmeSampleListKeys
     for await (const keyProperties of client.listPropertiesOfKeys()) {
@@ -516,7 +522,11 @@ describe("helloWorld", () => {
   });
 
   it("list keys by page", async () => {
-    const keyName = "MyKeyName";
+    const keyName = forPublishing(
+      recorder.variable("listByPageKeysName", `sample-listpage-key-${Date.now()}`),
+      () => "MyKeyName",
+    );
+    await client.createKey(keyName, "RSA");
 
     // @snippet ReadmeSampleListKeysByPage
     for await (const page of client.listPropertiesOfKeys().byPage()) {

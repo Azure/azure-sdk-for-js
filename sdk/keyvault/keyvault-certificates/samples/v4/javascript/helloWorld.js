@@ -49,7 +49,7 @@ async function getAndUpdateCertificate() {
   const properties = {
     tags: {
       projectName: "certificate-sample",
-      projectOwner: "REPLACE-WITH-YOUR-NAME",
+      projectOwner: process.env["PROJECT_OWNER"] || "<project-owner>",
     },
     enabled: true,
   };

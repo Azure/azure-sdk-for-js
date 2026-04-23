@@ -156,10 +156,10 @@ describe("backupRestoreHelloWorld", () => {
       assertEnvironmentVariable("BLOB_STORAGE_SAS_TOKEN"),
       () => "<sas-token>",
     );
-    const backupResult = await client.beginBackup(blobStorageUri);
+    // blobStorageFolderUri should be the folderUri returned from a prior beginBackup() call
     const blobStorageFolderUri = forPublishing(
-      (await backupResult.pollUntilDone()).folderUri!,
-      () => "<blob-storage-uri>",
+      (await (await client.beginBackup(blobStorageUri)).pollUntilDone()).folderUri!,
+      () => process.env["BLOB_STORAGE_FOLDER_URI"] || "<blob-storage-folder-uri>",
     ); // <Blob storage URL>/<folder name>
     const poller = await forPublishing(client.beginRestore(blobStorageFolderUri), () =>
       client.beginRestore(blobStorageFolderUri, sasToken),
@@ -185,10 +185,10 @@ describe("backupRestoreHelloWorld", () => {
       `${assertEnvironmentVariable("BLOB_STORAGE_URI").replace(/\/$/, "")}/${assertEnvironmentVariable("BLOB_CONTAINER_NAME")}`,
       () => "<blob-storage-uri>",
     );
-    const backupResult = await client.beginBackup(blobStorageUri);
+    // blobStorageFolderUri should be the folderUri returned from a prior beginBackup() call
     const blobStorageFolderUri = forPublishing(
-      (await backupResult.pollUntilDone()).folderUri!,
-      () => "<blob-storage-uri>",
+      (await (await client.beginBackup(blobStorageUri)).pollUntilDone()).folderUri!,
+      () => process.env["BLOB_STORAGE_FOLDER_URI"] || "<blob-storage-folder-uri>",
     ); // <Blob storage URL>/<folder name>
     const poller = await client.beginRestore(blobStorageFolderUri);
     // @ts-preserve-whitespace
@@ -213,10 +213,10 @@ describe("backupRestoreHelloWorld", () => {
       assertEnvironmentVariable("BLOB_STORAGE_SAS_TOKEN"),
       () => "<sas-token>",
     );
-    const backupResult = await client.beginBackup(blobStorageUri);
+    // blobStorageFolderUri should be the folderUri returned from a prior beginBackup() call
     const blobStorageFolderUri = forPublishing(
-      (await backupResult.pollUntilDone()).folderUri!,
-      () => "<blob-storage-uri>",
+      (await (await client.beginBackup(blobStorageUri)).pollUntilDone()).folderUri!,
+      () => process.env["BLOB_STORAGE_FOLDER_URI"] || "<blob-storage-folder-uri>",
     ); // <Blob storage URL>/<folder name>
     const poller = await forPublishing(client.beginPreRestore(blobStorageFolderUri), () =>
       client.beginPreRestore(blobStorageFolderUri, sasToken),
@@ -242,10 +242,10 @@ describe("backupRestoreHelloWorld", () => {
       `${assertEnvironmentVariable("BLOB_STORAGE_URI").replace(/\/$/, "")}/${assertEnvironmentVariable("BLOB_CONTAINER_NAME")}`,
       () => "<blob-storage-uri>",
     );
-    const backupResult = await client.beginBackup(blobStorageUri);
+    // blobStorageFolderUri should be the folderUri returned from a prior beginBackup() call
     const blobStorageFolderUri = forPublishing(
-      (await backupResult.pollUntilDone()).folderUri!,
-      () => "<blob-storage-uri>",
+      (await (await client.beginBackup(blobStorageUri)).pollUntilDone()).folderUri!,
+      () => process.env["BLOB_STORAGE_FOLDER_URI"] || "<blob-storage-folder-uri>",
     ); // <Blob storage URL>/<folder name>
     const poller = await client.beginPreRestore(blobStorageFolderUri);
     // @ts-preserve-whitespace

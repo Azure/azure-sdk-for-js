@@ -99,17 +99,13 @@ describe("listCertificates", () => {
 
   it("list all certificates", async () => {
     // @snippet ReadmeSampleListCertificates
-    const certificateName = forPublishing(
-      recorder.variable("certificateName", `list-${new Date().getTime()}`),
-      () => "MyCertificate",
-    );
     if (forPublishing(true, () => false)) {
-      const createPoller = await client.beginCreateCertificate(certificateName, {
+      const createPoller = await client.beginCreateCertificate(certificateName1, {
         issuerName: "Self",
         subject: "cn=MyCert",
       });
       await createPoller.pollUntilDone();
-      const deletePoller = await client.beginDeleteCertificate(certificateName);
+      const deletePoller = await client.beginDeleteCertificate(certificateName1);
       await deletePoller.pollUntilDone();
     }
     // @ts-preserve-whitespace
@@ -120,7 +116,7 @@ describe("listCertificates", () => {
       console.log("Deleted certificate: ", deletedCertificate);
     }
     for await (const certificateProperties of client.listPropertiesOfCertificateVersions(
-      certificateName,
+      certificateName1,
     )) {
       console.log("Certificate properties: ", certificateProperties);
     }
@@ -129,17 +125,13 @@ describe("listCertificates", () => {
 
   it("list certificates by page", async () => {
     // @snippet ReadmeSampleListCertificatesByPage
-    const certificateName = forPublishing(
-      recorder.variable("certificateName", `list-${new Date().getTime()}`),
-      () => "MyCertificate",
-    );
     if (forPublishing(true, () => false)) {
-      const createPoller = await client.beginCreateCertificate(certificateName, {
+      const createPoller = await client.beginCreateCertificate(certificateName2, {
         issuerName: "Self",
         subject: "cn=MyCert",
       });
       await createPoller.pollUntilDone();
-      const deletePoller = await client.beginDeleteCertificate(certificateName);
+      const deletePoller = await client.beginDeleteCertificate(certificateName2);
       await deletePoller.pollUntilDone();
     }
     // @ts-preserve-whitespace
@@ -153,7 +145,7 @@ describe("listCertificates", () => {
         console.log("Deleted certificate: ", deletedCertificate);
       }
     }
-    for await (const page of client.listPropertiesOfCertificateVersions(certificateName).byPage()) {
+    for await (const page of client.listPropertiesOfCertificateVersions(certificateName2).byPage()) {
       for (const certificateProperties of page) {
         console.log("Properties of certificate: ", certificateProperties);
       }
@@ -179,19 +171,15 @@ describe("listCertificates", () => {
 
   it("list certificate versions", async () => {
     // @snippet IndexListCertificateVersions
-    const certificateName = forPublishing(
-      recorder.variable("certificateName", `list-${new Date().getTime()}`),
-      () => "MyCertificate",
-    );
     if (forPublishing(true, () => false)) {
-      const createPoller = await client.beginCreateCertificate(certificateName, {
+      const createPoller = await client.beginCreateCertificate(certificateName1, {
         issuerName: "Self",
         subject: "cn=MyCert",
       });
       await createPoller.pollUntilDone();
     }
     for await (const certificateProperties of client.listPropertiesOfCertificateVersions(
-      certificateName,
+      certificateName1,
     )) {
       console.log(certificateProperties.version!);
     }

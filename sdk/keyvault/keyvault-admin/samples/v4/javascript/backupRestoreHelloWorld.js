@@ -81,8 +81,9 @@ async function beginBackupWithoutSas() {
 async function beginRestoreWithSas() {
   const blobStorageUri = "<blob-storage-uri>";
   const sasToken = "<sas-token>";
-  const backupResult = await client.beginBackup(blobStorageUri);
-  const blobStorageFolderUri = "<blob-storage-uri>"; // <Blob storage URL>/<folder name>
+  // blobStorageFolderUri should be the folderUri returned from a prior beginBackup() call
+  const blobStorageFolderUri =
+    process.env["BLOB_STORAGE_FOLDER_URI"] || "<blob-storage-folder-uri>"; // <Blob storage URL>/<folder name>
 
   const poller = await client.beginRestore(blobStorageFolderUri, sasToken);
 
@@ -99,8 +100,9 @@ async function beginRestoreWithSas() {
 
 async function beginRestoreWithoutSas() {
   const blobStorageUri = "<blob-storage-uri>";
-  const backupResult = await client.beginBackup(blobStorageUri);
-  const blobStorageFolderUri = "<blob-storage-uri>"; // <Blob storage URL>/<folder name>
+  // blobStorageFolderUri should be the folderUri returned from a prior beginBackup() call
+  const blobStorageFolderUri =
+    process.env["BLOB_STORAGE_FOLDER_URI"] || "<blob-storage-folder-uri>"; // <Blob storage URL>/<folder name>
 
   const poller = await client.beginRestore(blobStorageFolderUri);
 
@@ -117,8 +119,9 @@ async function beginRestoreWithoutSas() {
 async function beginPreRestoreWithSas() {
   const blobStorageUri = "<blob-storage-uri>";
   const sasToken = "<sas-token>";
-  const backupResult = await client.beginBackup(blobStorageUri);
-  const blobStorageFolderUri = "<blob-storage-uri>"; // <Blob storage URL>/<folder name>
+  // blobStorageFolderUri should be the folderUri returned from a prior beginBackup() call
+  const blobStorageFolderUri =
+    process.env["BLOB_STORAGE_FOLDER_URI"] || "<blob-storage-folder-uri>"; // <Blob storage URL>/<folder name>
 
   const poller = await client.beginPreRestore(blobStorageFolderUri, sasToken);
 
@@ -134,8 +137,9 @@ async function beginPreRestoreWithSas() {
 
 async function beginPreRestoreWithoutSas() {
   const blobStorageUri = "<blob-storage-uri>";
-  const backupResult = await client.beginBackup(blobStorageUri);
-  const blobStorageFolderUri = "<blob-storage-uri>"; // <Blob storage URL>/<folder name>
+  // blobStorageFolderUri should be the folderUri returned from a prior beginBackup() call
+  const blobStorageFolderUri =
+    process.env["BLOB_STORAGE_FOLDER_URI"] || "<blob-storage-folder-uri>"; // <Blob storage URL>/<folder name>
 
   const poller = await client.beginPreRestore(blobStorageFolderUri);
 
