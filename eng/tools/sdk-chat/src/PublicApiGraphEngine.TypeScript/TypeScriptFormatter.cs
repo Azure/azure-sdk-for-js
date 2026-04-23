@@ -73,9 +73,16 @@ public static class TypeScriptFormatter
         var targetTarget = GetConditionTarget(targetCondition);
         foreach (var ac in availableConditions)
             if (GetConditionTarget(ac) == targetTarget) return ac;
+        // Format-component match: if target is compound like "node|import", try matching "import"
+        if (targetCondition.Contains('|'))
+        {
+            var targetFormat = targetCondition.Split('|')[1];
+            if (availableConditions.Contains(targetFormat)) return targetFormat;
+        }
         if (availableConditions.Contains("default")) return "default";
         if (availableConditions.Contains("types")) return "types";
-        var msFallback = targetCondition == "require" ? "require" : "import";
+        // Module system fallback: compound "node|require" should fall back to "require", not "import"
+        var msFallback = targetCondition.Contains("require") ? "require" : "import";
         if (availableConditions.Contains(msFallback)) return msFallback;
         foreach (var c in ConditionPreference)
             if (availableConditions.Contains(c)) return c;
@@ -1116,10 +1123,22 @@ public static class TypeScriptFormatter
                     foreach (var n in module.Namespaces ?? []) AddSymbolEp(n.ExportPath);
                 }
 
-                // Collect all dep export paths for collision detection
+                // Collect all dep export paths for collision detection (module + symbol-level)
                 var depExportPaths = new HashSet<string>(StringComparer.Ordinal);
-                foreach (var module in dep.Modules.Where(m => m.ExportPath is not null))
-                    depExportPaths.Add(NormalizeExportPath(module.ExportPath));
+                foreach (var module in dep.Modules)
+                {
+                    if (module.ExportPath is not null)
+                        depExportPaths.Add(NormalizeExportPath(module.ExportPath));
+                    void CollectEp(string? ep) {
+                        if (ep != null) depExportPaths.Add(NormalizeExportPath(ep));
+                    }
+                    foreach (var c in module.Classes ?? []) CollectEp(c.ExportPath);
+                    foreach (var i in module.Interfaces ?? []) CollectEp(i.ExportPath);
+                    foreach (var e in module.Enums ?? []) CollectEp(e.ExportPath);
+                    foreach (var t in module.Types ?? []) CollectEp(t.ExportPath);
+                    foreach (var f in module.Functions ?? []) CollectEp(f.ExportPath);
+                    foreach (var n in module.Namespaces ?? []) CollectEp(n.ExportPath);
+                }
 
                 // Compute dep module name using per-exportPath condition check (mirrors ComputeGroupModuleName)
                 string ComputeDepModuleName(string exportPath, string condition)
@@ -1239,7 +1258,15 @@ public static class TypeScriptFormatter
                     // Parse compound conditions — match if target components overlap
                     var depTarget = GetConditionTarget(depCondition);
                     var mainTarget = GetConditionTarget(mainCondition);
-                    return string.Equals(depTarget, mainTarget, StringComparison.Ordinal);
+                    if (string.Equals(depTarget, mainTarget, StringComparison.Ordinal)) return true;
+                    // Format-only dep (import/require) matches compound main that includes that format
+                    // e.g., dep "import" matches main "node|import"
+                    if (mainCondition.Contains('|'))
+                    {
+                        var mainFormat = mainCondition.Split('|')[1];
+                        if (string.Equals(depCondition, mainFormat, StringComparison.Ordinal)) return true;
+                    }
+                    return false;
                 }
 
                 foreach (var mainCond in allMainConditions)
@@ -1632,6 +1659,7 @@ public static class TypeScriptFormatter
                         // Within the same package, pick ONE specifier per symbol with preference:
                         // 1. Exact condition match  2. Bare specifier  3. Alphabetically first
                         // Different packages are independent — never dedup across packages.
+                        var currentCondTarget = GetConditionTarget(condition);
                         var specifierPkgMap = new Dictionary<string, string>(StringComparer.Ordinal);
                         var depsByPkg = new Dictionary<string, List<(string DepModuleName, List<ClassInfo> Classes,
                             List<InterfaceInfo> Interfaces, List<EnumInfo> Enums, List<TypeAliasInfo> Types)>>(StringComparer.Ordinal);
@@ -1655,6 +1683,10 @@ public static class TypeScriptFormatter
                                 int priority;
                                 // Collision-safe sentinel from TS — definitively an exact condition match
                                 if (depModuleName.EndsWith(" (condition)", StringComparison.Ordinal))
+                                    priority = 0;
+                                // Condition-suffixed specifier that matches current render condition
+                                // e.g., "pkg/browser" when rendering for "browser" or "browser|import"
+                                else if (depModuleName.EndsWith("/" + currentCondTarget, StringComparison.Ordinal))
                                     priority = 0;
                                 // Bare specifier (root import)
                                 else if (depModuleName == pkgName)
