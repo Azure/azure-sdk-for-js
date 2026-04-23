@@ -34,7 +34,7 @@ async function getKeyAttestation() {
 
 async function releaseAKey() {
   const keyName = "myKey";
-  const attestationAuthority = "<attestation-uri>";
+  const attestationAuthority = process.env["AZURE_KEYVAULT_ATTESTATION_URI"];
   const encodedReleasePolicy = stringToUint8Array(
     JSON.stringify({
       anyOf: [{ anyOf: [{ claim: "sdk-test", equals: "true" }], authority: attestationAuthority }],
@@ -48,8 +48,9 @@ async function releaseAKey() {
     releasePolicy: { encodedPolicy: encodedReleasePolicy },
   });
   // Fetch the attestation token from your Azure Attestation Service endpoint.
-  // Example: const attestation = await fetch(attestationUri).then((r) => r.text());
-  const attestation = "<attestation-token>";
+  const attestation = await fetch(`${attestationAuthority}/generate-test-token`)
+    .then((r) => r.json())
+    .then((j) => j.token);
 
   const result = await hsmClient.releaseKey(keyName, attestation);
   console.log("result: ", result);
@@ -62,7 +63,7 @@ async function getRandomBytes() {
 
 async function main() {
   const credential = new DefaultAzureCredential();
-  hsmClient = new KeyClient(process.env["AZURE_MANAGEDHSM_URI"] || "<managedhsm-url>", credential);
+  hsmClient = new KeyClient(process.env["AZURE_MANAGEDHSM_URI"], credential);
   await createAnOctKey();
   await getKeyAttestation();
   await releaseAKey();

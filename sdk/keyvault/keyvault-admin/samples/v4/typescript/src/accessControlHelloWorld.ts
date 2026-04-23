@@ -64,7 +64,7 @@ async function deleteRoleDefinition() {
 async function createRoleAssignment() {
   const { value: roleDefinition } = await client.listRoleDefinitions("/").next();
 
-  const principalId = process.env["CLIENT_OBJECT_ID"] || "<client-object-id>";
+  const principalId = process.env["CLIENT_OBJECT_ID"];
   const result = await client.createRoleAssignment(
     "/",
     randomUUID(),
@@ -77,7 +77,7 @@ async function createRoleAssignment() {
 
 async function getRoleAssignment() {
   const { value: roleDefinition } = await client.listRoleDefinitions("/").next();
-  const principalId = process.env["CLIENT_OBJECT_ID"] || "<client-object-id>";
+  const principalId = process.env["CLIENT_OBJECT_ID"];
 
   let roleAssignment = await client.createRoleAssignment(
     "/",
@@ -97,7 +97,7 @@ async function getRoleAssignment() {
 
 async function deleteRoleAssignment() {
   const { value: roleDefinition } = await client.listRoleDefinitions("/").next();
-  const principalId = process.env["CLIENT_OBJECT_ID"] || "<client-object-id>";
+  const principalId = process.env["CLIENT_OBJECT_ID"];
 
   const roleAssignment = await client.createRoleAssignment(
     "/",
@@ -152,7 +152,7 @@ async function createAndDeleteRoleAssignmentIntegration() {
   // This sample uses a custom role but you may assign one of the many built-in roles.
   // Please refer to https://learn.microsoft.com/azure/key-vault/managed-hsm/built-in-roles for more information.
   const roleAssignmentName = randomUUID();
-  const clientObjectId = process.env["CLIENT_OBJECT_ID"] || "<client-object-id>";
+  const clientObjectId = process.env["CLIENT_OBJECT_ID"];
   let assignment = await client.createRoleAssignment(
     globalScope,
     roleAssignmentName,
@@ -171,7 +171,7 @@ export async function main(): Promise<void> {
   // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
   // about DefaultAzureCredential and the other credentials that are available for use.
   client = new KeyVaultAccessControlClient(
-    process.env["AZURE_MANAGEDHSM_URI"] || "<managedhsm-url>",
+    process.env["AZURE_MANAGEDHSM_URI"],
     new DefaultAzureCredential(),
   );
   await listRoleAssignments();

@@ -12,7 +12,7 @@ const { KeyVaultSettingsClient } = require("@azure/keyvault-admin");
 
 async function main() {
   const client = new KeyVaultSettingsClient(
-    process.env["AZURE_MANAGEDHSM_URI"] || "<managedhsm-url>",
+    process.env["AZURE_MANAGEDHSM_URI"],
     new DefaultAzureCredential(),
   );
   // Use client.listSettings() to see all available setting names.

@@ -37,7 +37,7 @@ describe("backupSelectiveKeyRestore", () => {
     // about DefaultAzureCredential and the other credentials that are available for use.
     const url = forPublishing(
       assertEnvironmentVariable("AZURE_MANAGEDHSM_URI"),
-      () => process.env["AZURE_MANAGEDHSM_URI"] || "<managedhsm-url>",
+      () => process.env["AZURE_MANAGEDHSM_URI"],
     );
     const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
 
@@ -67,15 +67,15 @@ describe("backupSelectiveKeyRestore", () => {
     // @snippet ReadmeSampleBeginSelectiveKeyRestore_SAS
     const blobStorageUri = forPublishing(
       `${assertEnvironmentVariable("BLOB_STORAGE_URI").replace(/\/$/, "")}/${assertEnvironmentVariable("BLOB_CONTAINER_NAME")}`,
-      () => "<blob-storage-uri>",
+      () => `${process.env["BLOB_STORAGE_URI"]!.replace(/\/$/, "")}/${process.env["BLOB_CONTAINER_NAME"]!}`,
     );
     const sasToken = forPublishing(
       assertEnvironmentVariable("BLOB_STORAGE_SAS_TOKEN"),
-      () => "<sas-token>",
+      () => process.env["BLOB_STORAGE_SAS_TOKEN"]!,
     );
     const keyName = forPublishing(
       recorder.variable("keyName", `key-${Date.now()}`),
-      () => "<key-name>",
+      () => "my-key",
     );
     await keyClient.createRsaKey(keyName);
     const backupPoller = await forPublishing(
@@ -110,11 +110,11 @@ describe("backupSelectiveKeyRestore", () => {
     // @snippet ReadmeSampleBeginSelectiveKeyRestore_NonSAS
     const blobStorageUri = forPublishing(
       `${assertEnvironmentVariable("BLOB_STORAGE_URI").replace(/\/$/, "")}/${assertEnvironmentVariable("BLOB_CONTAINER_NAME")}`,
-      () => "<blob-storage-uri>",
+      () => `${process.env["BLOB_STORAGE_URI"]!.replace(/\/$/, "")}/${process.env["BLOB_CONTAINER_NAME"]!}`,
     );
     const keyName = forPublishing(
       recorder.variable("keyName", `key-${Date.now()}`),
-      () => "<key-name>",
+      () => "my-key",
     );
     await keyClient.createRsaKey(keyName);
     const backupPoller = await client.beginBackup(blobStorageUri);
@@ -136,13 +136,13 @@ describe("backupSelectiveKeyRestore", () => {
   it("backup and selective key restore (integration)", async () => {
     const keyName = forPublishing(
       recorder.variable("keyName", `key-${Date.now()}`),
-      () => "<key-name>",
+      () => "my-key",
     );
     const key = await keyClient.createRsaKey(keyName);
 
     const sasToken = forPublishing(
       assertEnvironmentVariable("BLOB_STORAGE_SAS_TOKEN"),
-      () => process.env["BLOB_STORAGE_SAS_TOKEN"] || "<blob-storage-sas-token>",
+      () => process.env["BLOB_STORAGE_SAS_TOKEN"],
     );
 
     /**

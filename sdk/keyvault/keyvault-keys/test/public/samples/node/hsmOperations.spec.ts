@@ -42,7 +42,7 @@ describe("hsmOperations", () => {
         recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
       ),
       () =>
-        new KeyClient(process.env["AZURE_MANAGEDHSM_URI"] || "<managedhsm-url>", credential),
+        new KeyClient(process.env["AZURE_MANAGEDHSM_URI"], credential),
     );
   });
 
@@ -89,7 +89,7 @@ describe("hsmOperations", () => {
     );
     const attestationAuthority = forPublishing(
       assertEnvironmentVariable("AZURE_KEYVAULT_ATTESTATION_URI"),
-      () => "<attestation-uri>",
+      () => process.env["AZURE_KEYVAULT_ATTESTATION_URI"]!,
     );
     const encodedReleasePolicy = stringToUint8Array(
       JSON.stringify({
@@ -106,9 +106,8 @@ describe("hsmOperations", () => {
       releasePolicy: { encodedPolicy: encodedReleasePolicy },
     });
     // Fetch the attestation token from your Azure Attestation Service endpoint.
-    // Example: const attestation = await fetch(attestationUri).then((r) => r.text());
-    const attestation = forPublishing(
-      await (async () => {
+    const attestation = await forPublishing(
+      (async () => {
         if (!isPlaybackMode()) {
           const response = await createDefaultHttpClient().sendRequest(
             createPipelineRequest({ url: `${attestationAuthority}/generate-test-token` }),
@@ -119,7 +118,10 @@ describe("hsmOperations", () => {
         }
         return recorder.variable("attestation", "");
       })(),
-      () => "<attestation-token>",
+      async () =>
+        fetch(`${attestationAuthority}/generate-test-token`)
+          .then((r) => r.json())
+          .then((j) => j.token as string),
     );
 
     // @snippet ReadmeSampleReleaseKey

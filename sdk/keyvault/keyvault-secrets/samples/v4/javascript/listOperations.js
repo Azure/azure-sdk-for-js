@@ -109,10 +109,7 @@ async function main() {
   // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
   // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
   // about DefaultAzureCredential and the other credentials that are available for use.
-  client = new SecretClient(
-    process.env["KEYVAULT_URI"] || "<keyvault-url>",
-    new DefaultAzureCredential(),
-  );
+  client = new SecretClient(process.env["KEYVAULT_URI"], new DefaultAzureCredential());
   await createSecrets();
   await listSecretsByPage();
   await listAllSecrets();

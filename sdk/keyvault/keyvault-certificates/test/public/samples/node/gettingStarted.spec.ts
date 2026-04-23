@@ -19,7 +19,7 @@ describe("gettingStarted", () => {
     // @snippet ReadmeSampleCreateClient
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
-    const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
+    const url = process.env["KEYVAULT_URI"];
     // @ts-preserve-whitespace
     const client = new CertificateClient(url, credential);
     // @snippet-end ReadmeSampleCreateClient
@@ -29,7 +29,7 @@ describe("gettingStarted", () => {
     // @snippet ReadmeSampleCreateClientWithVersion
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
-    const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
+    const url = process.env["KEYVAULT_URI"];
     // @ts-preserve-whitespace
     // Change the Azure Key Vault service API version being used via the `serviceVersion` option
     const client = new CertificateClient(url, credential, {

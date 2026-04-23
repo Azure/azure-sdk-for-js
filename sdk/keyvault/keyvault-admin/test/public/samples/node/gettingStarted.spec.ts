@@ -21,7 +21,7 @@ describe("gettingStarted", () => {
 
   it("create an access control client", async () => {
     // @snippet ReadmeSampleCreateAccessControlClient
-    const url = process.env["AZURE_MANAGEDHSM_URI"] || "<managedhsm-url>";
+    const url = process.env["AZURE_MANAGEDHSM_URI"];
     const credentials = new DefaultAzureCredential();
     const client = new KeyVaultAccessControlClient(url, credentials);
     // @snippet-end ReadmeSampleCreateAccessControlClient
@@ -29,7 +29,7 @@ describe("gettingStarted", () => {
 
   it("create a backup client", async () => {
     // @snippet ReadmeSampleCreateBackupClient
-    const url = process.env["AZURE_MANAGEDHSM_URI"] || "<managedhsm-url>";
+    const url = process.env["AZURE_MANAGEDHSM_URI"];
     const credentials = new DefaultAzureCredential();
     const client = new KeyVaultBackupClient(url, credentials);
     // @snippet-end ReadmeSampleCreateBackupClient
@@ -37,7 +37,7 @@ describe("gettingStarted", () => {
 
   it("create a settings client", async () => {
     // @snippet ReadmeSampleCreateSettingsClient
-    const url = process.env["AZURE_MANAGEDHSM_URI"] || "<managedhsm-url>";
+    const url = process.env["AZURE_MANAGEDHSM_URI"];
     const credentials = new DefaultAzureCredential();
     const client = new KeyVaultSettingsClient(url, credentials);
     // @snippet-end ReadmeSampleCreateSettingsClient

@@ -13,10 +13,7 @@ const { readFile, writeFile } = require("node:fs/promises");
 const { retryWithBackoff } = require("./utils.js");
 
 async function main() {
-  const client = new SecretClient(
-    process.env["KEYVAULT_URI"] || "<keyvault-url>",
-    new DefaultAzureCredential(),
-  );
+  const client = new SecretClient(process.env["KEYVAULT_URI"], new DefaultAzureCredential());
   const secretName = "MySecretName";
   // Create our secret
   await client.setSecret(secretName, "XYZ789");

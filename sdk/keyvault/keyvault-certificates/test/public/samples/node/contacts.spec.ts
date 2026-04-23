@@ -38,7 +38,7 @@ describe("contacts", () => {
       ),
       () =>
         new CertificateClient(
-          process.env["KEYVAULT_URI"] || "<keyvault-url>",
+          process.env["KEYVAULT_URI"],
           new DefaultAzureCredential(),
         ),
     );

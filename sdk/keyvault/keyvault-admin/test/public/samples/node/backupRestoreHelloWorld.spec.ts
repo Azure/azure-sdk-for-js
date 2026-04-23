@@ -40,7 +40,7 @@ describe("backupRestoreHelloWorld", () => {
       ),
       () =>
         new KeyVaultBackupClient(
-          process.env["AZURE_MANAGEDHSM_URI"] || "<managedhsm-url>",
+          process.env["AZURE_MANAGEDHSM_URI"],
           new DefaultAzureCredential(),
         ),
     );
@@ -54,11 +54,11 @@ describe("backupRestoreHelloWorld", () => {
     // @snippet ReadmeSampleBeginPreBackup_SAS
     const blobStorageUri = forPublishing(
       `${assertEnvironmentVariable("BLOB_STORAGE_URI").replace(/\/$/, "")}/${assertEnvironmentVariable("BLOB_CONTAINER_NAME")}`,
-      () => "<blob-storage-uri>",
+      () => `${process.env["BLOB_STORAGE_URI"]!.replace(/\/$/, "")}/${process.env["BLOB_CONTAINER_NAME"]!}`,
     ); // <Blob storage URL>/<folder name>
     const sasToken = forPublishing(
       assertEnvironmentVariable("BLOB_STORAGE_SAS_TOKEN"),
-      () => "<sas-token>",
+      () => process.env["BLOB_STORAGE_SAS_TOKEN"]!,
     );
     const poller = await forPublishing(client.beginPreBackup(blobStorageUri), () =>
       client.beginPreBackup(blobStorageUri, sasToken),
@@ -82,7 +82,7 @@ describe("backupRestoreHelloWorld", () => {
     // @snippet ReadmeSampleBeginPreBackup_NonSAS
     const blobStorageUri = forPublishing(
       `${assertEnvironmentVariable("BLOB_STORAGE_URI").replace(/\/$/, "")}/${assertEnvironmentVariable("BLOB_CONTAINER_NAME")}`,
-      () => "<blob-storage-uri>",
+      () => `${process.env["BLOB_STORAGE_URI"]!.replace(/\/$/, "")}/${process.env["BLOB_CONTAINER_NAME"]!}`,
     ); // <Blob storage URL>/<folder name>
     const poller = await client.beginPreBackup(blobStorageUri);
     // @ts-preserve-whitespace
@@ -102,11 +102,11 @@ describe("backupRestoreHelloWorld", () => {
     // @snippet ReadmeSampleBeginBackup_SAS
     const blobStorageUri = forPublishing(
       `${assertEnvironmentVariable("BLOB_STORAGE_URI").replace(/\/$/, "")}/${assertEnvironmentVariable("BLOB_CONTAINER_NAME")}`,
-      () => "<blob-storage-uri>",
+      () => `${process.env["BLOB_STORAGE_URI"]!.replace(/\/$/, "")}/${process.env["BLOB_CONTAINER_NAME"]!}`,
     ); // <Blob storage URL>/<folder name>
     const sasToken = forPublishing(
       assertEnvironmentVariable("BLOB_STORAGE_SAS_TOKEN"),
-      () => "<sas-token>",
+      () => process.env["BLOB_STORAGE_SAS_TOKEN"]!,
     );
     const poller = await forPublishing(client.beginBackup(blobStorageUri), () =>
       client.beginBackup(blobStorageUri, sasToken),
@@ -130,7 +130,7 @@ describe("backupRestoreHelloWorld", () => {
     // @snippet ReadmeSampleBeginBackup_NonSAS
     const blobStorageUri = forPublishing(
       `${assertEnvironmentVariable("BLOB_STORAGE_URI").replace(/\/$/, "")}/${assertEnvironmentVariable("BLOB_CONTAINER_NAME")}`,
-      () => "<blob-storage-uri>",
+      () => `${process.env["BLOB_STORAGE_URI"]!.replace(/\/$/, "")}/${process.env["BLOB_CONTAINER_NAME"]!}`,
     ); // <Blob storage URL>/<folder name>
     const poller = await client.beginBackup(blobStorageUri);
     // @ts-preserve-whitespace
@@ -150,7 +150,7 @@ describe("backupRestoreHelloWorld", () => {
     // @snippet ReadmeSampleBeginRestore_SAS
     const sasToken = forPublishing(
       assertEnvironmentVariable("BLOB_STORAGE_SAS_TOKEN"),
-      () => "<sas-token>",
+      () => process.env["BLOB_STORAGE_SAS_TOKEN"]!,
     );
     // blobStorageFolderUri should be the folderUri returned from a prior beginBackup() call
     const blobStorageFolderUri = forPublishing(
@@ -161,7 +161,7 @@ describe("backupRestoreHelloWorld", () => {
           )
         ).pollUntilDone()
       ).folderUri!,
-      () => process.env["BLOB_STORAGE_FOLDER_URI"] || "<blob-storage-folder-uri>",
+      () => process.env["BLOB_STORAGE_FOLDER_URI"],
     ); // <Blob storage URL>/<folder name>
     const poller = await forPublishing(client.beginRestore(blobStorageFolderUri), () =>
       client.beginRestore(blobStorageFolderUri, sasToken),
@@ -192,7 +192,7 @@ describe("backupRestoreHelloWorld", () => {
           )
         ).pollUntilDone()
       ).folderUri!,
-      () => process.env["BLOB_STORAGE_FOLDER_URI"] || "<blob-storage-folder-uri>",
+      () => process.env["BLOB_STORAGE_FOLDER_URI"],
     ); // <Blob storage URL>/<folder name>
     const poller = await client.beginRestore(blobStorageFolderUri);
     // @ts-preserve-whitespace
@@ -211,7 +211,7 @@ describe("backupRestoreHelloWorld", () => {
     // @snippet ReadmeSampleBeginPreRestore_SAS
     const sasToken = forPublishing(
       assertEnvironmentVariable("BLOB_STORAGE_SAS_TOKEN"),
-      () => "<sas-token>",
+      () => process.env["BLOB_STORAGE_SAS_TOKEN"]!,
     );
     // blobStorageFolderUri should be the folderUri returned from a prior beginBackup() call
     const blobStorageFolderUri = forPublishing(
@@ -222,7 +222,7 @@ describe("backupRestoreHelloWorld", () => {
           )
         ).pollUntilDone()
       ).folderUri!,
-      () => process.env["BLOB_STORAGE_FOLDER_URI"] || "<blob-storage-folder-uri>",
+      () => process.env["BLOB_STORAGE_FOLDER_URI"],
     ); // <Blob storage URL>/<folder name>
     const poller = await forPublishing(client.beginPreRestore(blobStorageFolderUri), () =>
       client.beginPreRestore(blobStorageFolderUri, sasToken),
@@ -253,7 +253,7 @@ describe("backupRestoreHelloWorld", () => {
           )
         ).pollUntilDone()
       ).folderUri!,
-      () => process.env["BLOB_STORAGE_FOLDER_URI"] || "<blob-storage-folder-uri>",
+      () => process.env["BLOB_STORAGE_FOLDER_URI"],
     ); // <Blob storage URL>/<folder name>
     const poller = await client.beginPreRestore(blobStorageFolderUri);
     // @ts-preserve-whitespace
@@ -271,7 +271,7 @@ describe("backupRestoreHelloWorld", () => {
   it("backup and restore (integration)", async () => {
     const sasToken = forPublishing(
       assertEnvironmentVariable("BLOB_STORAGE_SAS_TOKEN"),
-      () => process.env["BLOB_STORAGE_SAS_TOKEN"] || "<blob-storage-sas-token>",
+      () => process.env["BLOB_STORAGE_SAS_TOKEN"],
     );
 
     /**

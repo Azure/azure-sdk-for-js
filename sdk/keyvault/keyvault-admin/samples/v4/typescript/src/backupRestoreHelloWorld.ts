@@ -13,9 +13,9 @@ import { KeyVaultBackupClient } from "@azure/keyvault-admin";
 let client: KeyVaultBackupClient;
 
 async function beginPreBackupWithSas() {
-  const blobStorageUri = "<blob-storage-uri>"; // <Blob storage URL>/<folder name>
+  const blobStorageUri = `${process.env["BLOB_STORAGE_URI"]!.replace(/\/$/, "")}/${process.env["BLOB_CONTAINER_NAME"]!}`; // <Blob storage URL>/<folder name>
 
-  const sasToken = "<sas-token>";
+  const sasToken = process.env["BLOB_STORAGE_SAS_TOKEN"]!;
   const poller = await client.beginPreBackup(blobStorageUri, sasToken);
 
   // Serializing the poller
@@ -30,7 +30,7 @@ async function beginPreBackupWithSas() {
 }
 
 async function beginPreBackupWithoutSas() {
-  const blobStorageUri = "<blob-storage-uri>"; // <Blob storage URL>/<folder name>
+  const blobStorageUri = `${process.env["BLOB_STORAGE_URI"]!.replace(/\/$/, "")}/${process.env["BLOB_CONTAINER_NAME"]!}`; // <Blob storage URL>/<folder name>
 
   const poller = await client.beginPreBackup(blobStorageUri);
 
@@ -46,9 +46,9 @@ async function beginPreBackupWithoutSas() {
 }
 
 async function beginBackupWithSas() {
-  const blobStorageUri = "<blob-storage-uri>"; // <Blob storage URL>/<folder name>
+  const blobStorageUri = `${process.env["BLOB_STORAGE_URI"]!.replace(/\/$/, "")}/${process.env["BLOB_CONTAINER_NAME"]!}`; // <Blob storage URL>/<folder name>
 
-  const sasToken = "<sas-token>";
+  const sasToken = process.env["BLOB_STORAGE_SAS_TOKEN"]!;
   const poller = await client.beginBackup(blobStorageUri, sasToken);
 
   // Serializing the poller
@@ -63,7 +63,7 @@ async function beginBackupWithSas() {
 }
 
 async function beginBackupWithoutSas() {
-  const blobStorageUri = "<blob-storage-uri>"; // <Blob storage URL>/<folder name>
+  const blobStorageUri = `${process.env["BLOB_STORAGE_URI"]!.replace(/\/$/, "")}/${process.env["BLOB_CONTAINER_NAME"]!}`; // <Blob storage URL>/<folder name>
 
   const poller = await client.beginBackup(blobStorageUri);
 
@@ -79,10 +79,9 @@ async function beginBackupWithoutSas() {
 }
 
 async function beginRestoreWithSas() {
-  const sasToken = "<sas-token>";
+  const sasToken = process.env["BLOB_STORAGE_SAS_TOKEN"]!;
   // blobStorageFolderUri should be the folderUri returned from a prior beginBackup() call
-  const blobStorageFolderUri =
-    process.env["BLOB_STORAGE_FOLDER_URI"] || "<blob-storage-folder-uri>"; // <Blob storage URL>/<folder name>
+  const blobStorageFolderUri = process.env["BLOB_STORAGE_FOLDER_URI"]; // <Blob storage URL>/<folder name>
 
   const poller = await client.beginRestore(blobStorageFolderUri, sasToken);
 
@@ -99,8 +98,7 @@ async function beginRestoreWithSas() {
 
 async function beginRestoreWithoutSas() {
   // blobStorageFolderUri should be the folderUri returned from a prior beginBackup() call
-  const blobStorageFolderUri =
-    process.env["BLOB_STORAGE_FOLDER_URI"] || "<blob-storage-folder-uri>"; // <Blob storage URL>/<folder name>
+  const blobStorageFolderUri = process.env["BLOB_STORAGE_FOLDER_URI"]; // <Blob storage URL>/<folder name>
 
   const poller = await client.beginRestore(blobStorageFolderUri);
 
@@ -115,10 +113,9 @@ async function beginRestoreWithoutSas() {
 }
 
 async function beginPreRestoreWithSas() {
-  const sasToken = "<sas-token>";
+  const sasToken = process.env["BLOB_STORAGE_SAS_TOKEN"]!;
   // blobStorageFolderUri should be the folderUri returned from a prior beginBackup() call
-  const blobStorageFolderUri =
-    process.env["BLOB_STORAGE_FOLDER_URI"] || "<blob-storage-folder-uri>"; // <Blob storage URL>/<folder name>
+  const blobStorageFolderUri = process.env["BLOB_STORAGE_FOLDER_URI"]; // <Blob storage URL>/<folder name>
 
   const poller = await client.beginPreRestore(blobStorageFolderUri, sasToken);
 
@@ -134,8 +131,7 @@ async function beginPreRestoreWithSas() {
 
 async function beginPreRestoreWithoutSas() {
   // blobStorageFolderUri should be the folderUri returned from a prior beginBackup() call
-  const blobStorageFolderUri =
-    process.env["BLOB_STORAGE_FOLDER_URI"] || "<blob-storage-folder-uri>"; // <Blob storage URL>/<folder name>
+  const blobStorageFolderUri = process.env["BLOB_STORAGE_FOLDER_URI"]; // <Blob storage URL>/<folder name>
 
   const poller = await client.beginPreRestore(blobStorageFolderUri);
 
@@ -150,7 +146,7 @@ async function beginPreRestoreWithoutSas() {
 }
 
 async function backupAndRestoreIntegration() {
-  const sasToken = process.env["BLOB_STORAGE_SAS_TOKEN"] || "<blob-storage-sas-token>";
+  const sasToken = process.env["BLOB_STORAGE_SAS_TOKEN"];
   /**
    * Helper function to construct a valid blob container URI from its parts.
    */
@@ -181,7 +177,7 @@ export async function main(): Promise<void> {
   // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
   // about DefaultAzureCredential and the other credentials that are available for use.
   client = new KeyVaultBackupClient(
-    process.env["AZURE_MANAGEDHSM_URI"] || "<managedhsm-url>",
+    process.env["AZURE_MANAGEDHSM_URI"],
     new DefaultAzureCredential(),
   );
   await beginPreBackupWithSas();

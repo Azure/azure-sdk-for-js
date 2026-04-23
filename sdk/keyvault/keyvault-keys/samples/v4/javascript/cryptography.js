@@ -170,7 +170,7 @@ async function main() {
   // about DefaultAzureCredential and the other credentials that are available for use.
   credential = new DefaultAzureCredential();
   // Connection to Azure Key Vault
-  client = new KeyClient(process.env["KEYVAULT_URI"] || "<keyvault-url>", credential);
+  client = new KeyClient(process.env["KEYVAULT_URI"], credential);
   await encryptAndDecrypt();
   await signAndVerify();
   await wrapAndUnwrapKey();

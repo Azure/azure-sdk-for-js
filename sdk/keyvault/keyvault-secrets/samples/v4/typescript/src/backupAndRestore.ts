@@ -14,7 +14,7 @@ import { retryWithBackoff } from "./utils.js";
 
 export async function main(): Promise<void> {
   const client: SecretClient = new SecretClient(
-    process.env["KEYVAULT_URI"] || "<keyvault-url>",
+    process.env["KEYVAULT_URI"],
     new DefaultAzureCredential(),
   );
   const secretName = "MySecretName";

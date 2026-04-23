@@ -37,7 +37,7 @@ describe("updateSettings", () => {
       ),
       () =>
         new KeyVaultSettingsClient(
-          process.env["AZURE_MANAGEDHSM_URI"] || "<managedhsm-url>",
+          process.env["AZURE_MANAGEDHSM_URI"],
           new DefaultAzureCredential(),
         ),
     );

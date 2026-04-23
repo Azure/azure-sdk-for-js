@@ -43,7 +43,7 @@ describe("helloWorld", () => {
       ),
       () =>
         new CertificateClient(
-          process.env["KEYVAULT_URI"] || "<keyvault-url>",
+          process.env["KEYVAULT_URI"],
           new DefaultAzureCredential(),
         ),
     );
@@ -55,7 +55,7 @@ describe("helloWorld", () => {
       ),
       () =>
         new SecretClient(
-          process.env["KEYVAULT_URI"] || "<keyvault-url>",
+          process.env["KEYVAULT_URI"],
           new DefaultAzureCredential(),
         ),
     );
@@ -109,7 +109,7 @@ describe("helloWorld", () => {
     const properties: UpdateCertificateOptions = {
       tags: {
         projectName: "certificate-sample",
-        projectOwner: process.env["PROJECT_OWNER"] || "<project-owner>",
+        projectOwner: process.env["PROJECT_OWNER"],
       },
       enabled: true,
     };

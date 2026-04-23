@@ -87,14 +87,8 @@ async function main() {
   // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
   // about DefaultAzureCredential and the other credentials that are available for use.
   // If you're using MSI, DefaultAzureCredential should "just work".
-  client = new CertificateClient(
-    process.env["KEYVAULT_URI"] || "<keyvault-url>",
-    new DefaultAzureCredential(),
-  );
-  secretClient = new SecretClient(
-    process.env["KEYVAULT_URI"] || "<keyvault-url>",
-    new DefaultAzureCredential(),
-  );
+  client = new CertificateClient(process.env["KEYVAULT_URI"], new DefaultAzureCredential());
+  secretClient = new SecretClient(process.env["KEYVAULT_URI"], new DefaultAzureCredential());
   await importAPkcs12Certificate();
   await importAPemCertificate();
   await importACertificate();

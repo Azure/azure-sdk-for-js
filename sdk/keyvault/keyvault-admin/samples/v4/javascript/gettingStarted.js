@@ -16,19 +16,19 @@ const {
 const { setLogLevel } = require("@azure/logger");
 
 async function createAnAccessControlClient() {
-  const url = process.env["AZURE_MANAGEDHSM_URI"] || "<managedhsm-url>";
+  const url = process.env["AZURE_MANAGEDHSM_URI"];
   const credentials = new DefaultAzureCredential();
   const client = new KeyVaultAccessControlClient(url, credentials);
 }
 
 async function createABackupClient() {
-  const url = process.env["AZURE_MANAGEDHSM_URI"] || "<managedhsm-url>";
+  const url = process.env["AZURE_MANAGEDHSM_URI"];
   const credentials = new DefaultAzureCredential();
   const client = new KeyVaultBackupClient(url, credentials);
 }
 
 async function createASettingsClient() {
-  const url = process.env["AZURE_MANAGEDHSM_URI"] || "<managedhsm-url>";
+  const url = process.env["AZURE_MANAGEDHSM_URI"];
   const credentials = new DefaultAzureCredential();
   const client = new KeyVaultSettingsClient(url, credentials);
 }

@@ -52,7 +52,7 @@ async function getAndUpdateCertificate() {
   const properties: UpdateCertificateOptions = {
     tags: {
       projectName: "certificate-sample",
-      projectOwner: process.env["PROJECT_OWNER"] || "<project-owner>",
+      projectOwner: process.env["PROJECT_OWNER"],
     },
     enabled: true,
   };
@@ -317,14 +317,8 @@ export async function main(): Promise<void> {
   // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
   // about DefaultAzureCredential and the other credentials that are available for use.
   // If you're using MSI, DefaultAzureCredential should "just work".
-  client = new CertificateClient(
-    process.env["KEYVAULT_URI"] || "<keyvault-url>",
-    new DefaultAzureCredential(),
-  );
-  secretClient = new SecretClient(
-    process.env["KEYVAULT_URI"] || "<keyvault-url>",
-    new DefaultAzureCredential(),
-  );
+  client = new CertificateClient(process.env["KEYVAULT_URI"], new DefaultAzureCredential());
+  secretClient = new SecretClient(process.env["KEYVAULT_URI"], new DefaultAzureCredential());
   // Create unique certificate name
   certificateName = `hello-world-${new Date().getTime()}`;
   await createACertificate();

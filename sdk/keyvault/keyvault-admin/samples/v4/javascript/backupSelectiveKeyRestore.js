@@ -15,9 +15,9 @@ let client;
 let keyClient;
 
 async function beginSelectiveKeyRestoreWithSas() {
-  const blobStorageUri = "<blob-storage-uri>";
-  const sasToken = "<sas-token>";
-  const keyName = "<key-name>";
+  const blobStorageUri = `${process.env["BLOB_STORAGE_URI"].replace(/\/$/, "")}/${process.env["BLOB_CONTAINER_NAME"]}`;
+  const sasToken = process.env["BLOB_STORAGE_SAS_TOKEN"];
+  const keyName = "my-key";
   await keyClient.createRsaKey(keyName);
   const backupPoller = await client.beginBackup(blobStorageUri, sasToken);
   const backupResult = await backupPoller.pollUntilDone();
@@ -37,8 +37,8 @@ async function beginSelectiveKeyRestoreWithSas() {
 }
 
 async function beginSelectiveKeyRestoreWithoutSas() {
-  const blobStorageUri = "<blob-storage-uri>";
-  const keyName = "<key-name>";
+  const blobStorageUri = `${process.env["BLOB_STORAGE_URI"].replace(/\/$/, "")}/${process.env["BLOB_CONTAINER_NAME"]}`;
+  const keyName = "my-key";
   await keyClient.createRsaKey(keyName);
   const backupPoller = await client.beginBackup(blobStorageUri);
   const backupResult = await backupPoller.pollUntilDone();
@@ -56,9 +56,9 @@ async function beginSelectiveKeyRestoreWithoutSas() {
 }
 
 async function backupAndSelectiveKeyRestoreIntegration() {
-  const keyName = "<key-name>";
+  const keyName = "my-key";
   const key = await keyClient.createRsaKey(keyName);
-  const sasToken = process.env["BLOB_STORAGE_SAS_TOKEN"] || "<blob-storage-sas-token>";
+  const sasToken = process.env["BLOB_STORAGE_SAS_TOKEN"];
   /**
    * Helper function to construct a valid blob container URI from its parts.
    */
@@ -94,7 +94,7 @@ async function main() {
   // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
   // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
   // about DefaultAzureCredential and the other credentials that are available for use.
-  const url = process.env["AZURE_MANAGEDHSM_URI"] || "<managedhsm-url>";
+  const url = process.env["AZURE_MANAGEDHSM_URI"];
   const credential = new DefaultAzureCredential();
   client = new KeyVaultBackupClient(url, credential);
   keyClient = new KeyClient(url, credential);

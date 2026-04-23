@@ -14,7 +14,7 @@ const { setLogLevel } = require("@azure/logger");
 async function createASecretClient() {
   const credential = new DefaultAzureCredential();
 
-  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
+  const url = process.env["KEYVAULT_URI"];
 
   const client = new SecretClient(url, credential);
 }
@@ -22,7 +22,7 @@ async function createASecretClient() {
 async function createASecretClientWithASpecificVersion() {
   const credential = new DefaultAzureCredential();
 
-  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
+  const url = process.env["KEYVAULT_URI"];
 
   // Change the Azure Key Vault service API version being used via the `serviceVersion` option
   const client = new SecretClient(url, credential, {

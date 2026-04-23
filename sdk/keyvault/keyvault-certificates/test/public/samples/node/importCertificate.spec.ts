@@ -43,7 +43,7 @@ describe("importCertificate", () => {
       ),
       () =>
         new CertificateClient(
-          process.env["KEYVAULT_URI"] || "<keyvault-url>",
+          process.env["KEYVAULT_URI"],
           new DefaultAzureCredential(),
         ),
     );
@@ -55,7 +55,7 @@ describe("importCertificate", () => {
       ),
       () =>
         new SecretClient(
-          process.env["KEYVAULT_URI"] || "<keyvault-url>",
+          process.env["KEYVAULT_URI"],
           new DefaultAzureCredential(),
         ),
     );

@@ -44,7 +44,7 @@ describe("accessControlHelloWorld", () => {
       ),
       () =>
         new KeyVaultAccessControlClient(
-          process.env["AZURE_MANAGEDHSM_URI"] || "<managedhsm-url>",
+          process.env["AZURE_MANAGEDHSM_URI"],
           new DefaultAzureCredential(),
         ),
     );
@@ -113,7 +113,7 @@ describe("accessControlHelloWorld", () => {
     // @ts-preserve-whitespace
     const principalId = forPublishing(
       assertEnvironmentVariable("CLIENT_OBJECT_ID"),
-      () => process.env["CLIENT_OBJECT_ID"] || "<client-object-id>",
+      () => process.env["CLIENT_OBJECT_ID"],
     );
     const result = await client.createRoleAssignment(
       "/",
@@ -131,7 +131,7 @@ describe("accessControlHelloWorld", () => {
     const { value: roleDefinition } = await client.listRoleDefinitions("/").next();
     const principalId = forPublishing(
       assertEnvironmentVariable("CLIENT_OBJECT_ID"),
-      () => process.env["CLIENT_OBJECT_ID"] || "<client-object-id>",
+      () => process.env["CLIENT_OBJECT_ID"],
     );
     // @ts-preserve-whitespace
     let roleAssignment = await client.createRoleAssignment(
@@ -156,7 +156,7 @@ describe("accessControlHelloWorld", () => {
     const { value: roleDefinition } = await client.listRoleDefinitions("/").next();
     const principalId = forPublishing(
       assertEnvironmentVariable("CLIENT_OBJECT_ID"),
-      () => process.env["CLIENT_OBJECT_ID"] || "<client-object-id>",
+      () => process.env["CLIENT_OBJECT_ID"],
     );
     // @ts-preserve-whitespace
     const roleAssignment = await client.createRoleAssignment(
@@ -218,7 +218,7 @@ describe("accessControlHelloWorld", () => {
     const roleAssignmentName = randomUUID();
     const clientObjectId = forPublishing(
       assertEnvironmentVariable("CLIENT_OBJECT_ID"),
-      () => process.env["CLIENT_OBJECT_ID"] || "<client-object-id>",
+      () => process.env["CLIENT_OBJECT_ID"],
     );
     let assignment = await client.createRoleAssignment(
       globalScope,

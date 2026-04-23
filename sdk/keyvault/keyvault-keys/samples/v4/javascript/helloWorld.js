@@ -286,7 +286,7 @@ async function main() {
   // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
   // about DefaultAzureCredential and the other credentials that are available for use.
   const credential = new DefaultAzureCredential();
-  client = new KeyClient(process.env["KEYVAULT_URI"] || "<keyvault-url>", credential);
+  client = new KeyClient(process.env["KEYVAULT_URI"], credential);
   await createAndGetAKey();
   await listKeys();
   await updateAndDeleteKeys();
