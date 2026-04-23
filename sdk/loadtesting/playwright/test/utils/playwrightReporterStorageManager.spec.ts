@@ -85,7 +85,7 @@ describe("PlaywrightReporterStorageManager", () => {
     const outputPath = join(process.cwd(), folderName);
     if (fs.existsSync(outputPath)) {
       try {
-        fs.rmSync(outputPath, { recursive: true, force: true });
+        fs.rmSync(outputPath, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
       } catch {}
     }
     const ok = await mgr.uploadPlaywrightHtmlReportAfterTests(folderName, {
@@ -133,7 +133,7 @@ describe("PlaywrightReporterStorageManager", () => {
 
     // Cleanup
     try {
-      fs.rmSync(outputPath, { recursive: true, force: true });
+      fs.rmSync(outputPath, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
     } catch {}
     spy.mockRestore();
   });
@@ -171,7 +171,7 @@ describe("PlaywrightReporterStorageManager", () => {
     const indexPath = join(tmpRoot, "trace/index.html");
     expect(fs.existsSync(indexPath)).toBe(false);
 
-    fs.rmSync(tmpRoot, { recursive: true, force: true });
+    fs.rmSync(tmpRoot, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
   });
 
   it("modifyTraceIndexHtml rewrites trace/index.html with redirect script", async () => {
@@ -188,7 +188,7 @@ describe("PlaywrightReporterStorageManager", () => {
     expect(content).toContain("Redirecting to Trace Viewer");
     expect(content).toContain("https://trace.playwright.dev/");
 
-    fs.rmSync(tmpRoot, { recursive: true, force: true });
+    fs.rmSync(tmpRoot, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
   });
 
   it("modifyTraceIndexHtml creates backup file index.local.html", async () => {
@@ -215,7 +215,7 @@ describe("PlaywrightReporterStorageManager", () => {
     expect(modifiedContent).not.toBe(originalContent);
     expect(modifiedContent).toContain("Redirecting to Trace Viewer");
 
-    fs.rmSync(tmpRoot, { recursive: true, force: true });
+    fs.rmSync(tmpRoot, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
   });
 
   it("redirect script includes JSDoc documentation", async () => {
@@ -237,7 +237,7 @@ describe("PlaywrightReporterStorageManager", () => {
     expect(content).toContain("Local Development");
     expect(content).toContain("Authentication token preservation:");
 
-    fs.rmSync(tmpRoot, { recursive: true, force: true });
+    fs.rmSync(tmpRoot, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
   });
 
   it("redirect script detects Azure Portal scenario with SAS tokens", async () => {
@@ -261,7 +261,7 @@ describe("PlaywrightReporterStorageManager", () => {
     expect(content).toContain("https://trace.playwright.dev/");
     expect(content).toContain("location.replace(publicTraceViewer.toString())");
 
-    fs.rmSync(tmpRoot, { recursive: true, force: true });
+    fs.rmSync(tmpRoot, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
   });
 
   it("redirect script handles localhost detection comprehensively", async () => {
@@ -295,7 +295,7 @@ describe("PlaywrightReporterStorageManager", () => {
     // Verify file protocol detection
     expect(content).toContain("protocol === 'file:'");
 
-    fs.rmSync(tmpRoot, { recursive: true, force: true });
+    fs.rmSync(tmpRoot, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
   });
 
   it("redirect script redirects to local viewer for localhost", async () => {
@@ -315,7 +315,7 @@ describe("PlaywrightReporterStorageManager", () => {
     expect(content).toContain("localViewerUrl");
     expect(content).toContain("location.replace(localViewerUrl.toString())");
 
-    fs.rmSync(tmpRoot, { recursive: true, force: true });
+    fs.rmSync(tmpRoot, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
   });
 
   it("redirect script preserves query parameters correctly", async () => {
@@ -354,7 +354,7 @@ describe("PlaywrightReporterStorageManager", () => {
       "publicTraceViewer.searchParams.set('trace', trace.toString())",
     );
 
-    fs.rmSync(tmpRoot, { recursive: true, force: true });
+    fs.rmSync(tmpRoot, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
   });
 
   it("redirect script handles missing trace parameter gracefully", async () => {
@@ -377,7 +377,7 @@ describe("PlaywrightReporterStorageManager", () => {
     expect(content).toContain("catch (e)");
     expect(content).toContain("console.error");
 
-    fs.rmSync(tmpRoot, { recursive: true, force: true });
+    fs.rmSync(tmpRoot, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
   });
 
   it("uploadHtmlReportFolder uses upload strategies for small/medium/large files", async () => {
@@ -468,6 +468,6 @@ describe("PlaywrightReporterStorageManager", () => {
 
     // Cleanup
     delete (globalThis as any).__mockBlockBlobClient;
-    fs.rmSync(outputFolder, { recursive: true, force: true });
+    fs.rmSync(outputFolder, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
   });
 });

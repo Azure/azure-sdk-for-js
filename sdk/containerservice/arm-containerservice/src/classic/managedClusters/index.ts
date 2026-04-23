@@ -8,7 +8,12 @@ import {
   getMeshUpgradeProfile,
   listMeshRevisionProfiles,
   getMeshRevisionProfile,
+  listSafeguardsVersions,
+  getSafeguardsVersions,
+  listGuardrailsVersions,
+  getGuardrailsVersions,
   getUpgradeProfile,
+  rebalanceLoadBalancers,
   listOutboundNetworkDependenciesEndpoints,
   getCommandResult,
   runCommand,
@@ -36,7 +41,12 @@ import type {
   ManagedClustersGetMeshUpgradeProfileOptionalParams,
   ManagedClustersListMeshRevisionProfilesOptionalParams,
   ManagedClustersGetMeshRevisionProfileOptionalParams,
+  ManagedClustersListSafeguardsVersionsOptionalParams,
+  ManagedClustersGetSafeguardsVersionsOptionalParams,
+  ManagedClustersListGuardrailsVersionsOptionalParams,
+  ManagedClustersGetGuardrailsVersionsOptionalParams,
   ManagedClustersGetUpgradeProfileOptionalParams,
+  ManagedClustersRebalanceLoadBalancersOptionalParams,
   ManagedClustersListOutboundNetworkDependenciesEndpointsOptionalParams,
   ManagedClustersGetCommandResultOptionalParams,
   ManagedClustersRunCommandOptionalParams,
@@ -68,7 +78,10 @@ import type {
   RunCommandRequest,
   RunCommandResult,
   OutboundEnvironmentEndpoint,
+  RebalanceLoadBalancersRequestBody,
   ManagedClusterUpgradeProfile,
+  GuardrailsAvailableVersion,
+  SafeguardsAvailableVersion,
   MeshRevisionProfile,
   MeshUpgradeProfile,
   KubernetesVersionListResult,
@@ -109,12 +122,55 @@ export interface ManagedClustersOperations {
     mode: string,
     options?: ManagedClustersGetMeshRevisionProfileOptionalParams,
   ) => Promise<MeshRevisionProfile>;
+  /** Contains list of Safeguards version along with its support info and whether it is a default version. */
+  listSafeguardsVersions: (
+    location: string,
+    options?: ManagedClustersListSafeguardsVersionsOptionalParams,
+  ) => PagedAsyncIterableIterator<SafeguardsAvailableVersion>;
+  /** Contains Safeguards version along with its support info and whether it is a default version. */
+  getSafeguardsVersions: (
+    location: string,
+    version: string,
+    options?: ManagedClustersGetSafeguardsVersionsOptionalParams,
+  ) => Promise<SafeguardsAvailableVersion>;
+  /** Contains list of Guardrails version along with its support info and whether it is a default version. */
+  listGuardrailsVersions: (
+    location: string,
+    options?: ManagedClustersListGuardrailsVersionsOptionalParams,
+  ) => PagedAsyncIterableIterator<GuardrailsAvailableVersion>;
+  /** Contains Guardrails version along with its support info and whether it is a default version. */
+  getGuardrailsVersions: (
+    location: string,
+    version: string,
+    options?: ManagedClustersGetGuardrailsVersionsOptionalParams,
+  ) => Promise<GuardrailsAvailableVersion>;
   /** Gets the upgrade profile of a managed cluster. */
   getUpgradeProfile: (
     resourceGroupName: string,
     resourceName: string,
     options?: ManagedClustersGetUpgradeProfileOptionalParams,
   ) => Promise<ManagedClusterUpgradeProfile>;
+  /** Rebalance nodes across specific load balancers. */
+  rebalanceLoadBalancers: (
+    resourceGroupName: string,
+    resourceName: string,
+    parameters: RebalanceLoadBalancersRequestBody,
+    options?: ManagedClustersRebalanceLoadBalancersOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use rebalanceLoadBalancers instead */
+  beginRebalanceLoadBalancers: (
+    resourceGroupName: string,
+    resourceName: string,
+    parameters: RebalanceLoadBalancersRequestBody,
+    options?: ManagedClustersRebalanceLoadBalancersOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use rebalanceLoadBalancers instead */
+  beginRebalanceLoadBalancersAndWait: (
+    resourceGroupName: string,
+    resourceName: string,
+    parameters: RebalanceLoadBalancersRequestBody,
+    options?: ManagedClustersRebalanceLoadBalancersOptionalParams,
+  ) => Promise<void>;
   /** Gets a list of egress endpoints (network endpoints of all outbound dependencies) in the specified managed cluster. The operation returns properties of each egress endpoint. */
   listOutboundNetworkDependenciesEndpoints: (
     resourceGroupName: string,
@@ -412,11 +468,65 @@ function _getManagedClusters(context: ContainerServiceContext) {
       mode: string,
       options?: ManagedClustersGetMeshRevisionProfileOptionalParams,
     ) => getMeshRevisionProfile(context, location, mode, options),
+    listSafeguardsVersions: (
+      location: string,
+      options?: ManagedClustersListSafeguardsVersionsOptionalParams,
+    ) => listSafeguardsVersions(context, location, options),
+    getSafeguardsVersions: (
+      location: string,
+      version: string,
+      options?: ManagedClustersGetSafeguardsVersionsOptionalParams,
+    ) => getSafeguardsVersions(context, location, version, options),
+    listGuardrailsVersions: (
+      location: string,
+      options?: ManagedClustersListGuardrailsVersionsOptionalParams,
+    ) => listGuardrailsVersions(context, location, options),
+    getGuardrailsVersions: (
+      location: string,
+      version: string,
+      options?: ManagedClustersGetGuardrailsVersionsOptionalParams,
+    ) => getGuardrailsVersions(context, location, version, options),
     getUpgradeProfile: (
       resourceGroupName: string,
       resourceName: string,
       options?: ManagedClustersGetUpgradeProfileOptionalParams,
     ) => getUpgradeProfile(context, resourceGroupName, resourceName, options),
+    rebalanceLoadBalancers: (
+      resourceGroupName: string,
+      resourceName: string,
+      parameters: RebalanceLoadBalancersRequestBody,
+      options?: ManagedClustersRebalanceLoadBalancersOptionalParams,
+    ) => rebalanceLoadBalancers(context, resourceGroupName, resourceName, parameters, options),
+    beginRebalanceLoadBalancers: async (
+      resourceGroupName: string,
+      resourceName: string,
+      parameters: RebalanceLoadBalancersRequestBody,
+      options?: ManagedClustersRebalanceLoadBalancersOptionalParams,
+    ) => {
+      const poller = rebalanceLoadBalancers(
+        context,
+        resourceGroupName,
+        resourceName,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginRebalanceLoadBalancersAndWait: async (
+      resourceGroupName: string,
+      resourceName: string,
+      parameters: RebalanceLoadBalancersRequestBody,
+      options?: ManagedClustersRebalanceLoadBalancersOptionalParams,
+    ) => {
+      return await rebalanceLoadBalancers(
+        context,
+        resourceGroupName,
+        resourceName,
+        parameters,
+        options,
+      );
+    },
     listOutboundNetworkDependenciesEndpoints: (
       resourceGroupName: string,
       resourceName: string,

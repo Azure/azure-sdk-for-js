@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-tenantactivitylogalerts": ["./src/index.ts"],
+      "@azure/arm-tenantactivitylogalerts/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

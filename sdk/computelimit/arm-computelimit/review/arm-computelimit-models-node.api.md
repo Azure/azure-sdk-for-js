@@ -31,6 +31,20 @@ export interface ErrorResponse {
 }
 
 // @public
+export interface Feature extends ProxyResource {
+    properties?: FeatureProperties;
+}
+
+// @public
+export interface FeatureProperties {
+    readonly provisioningState?: ResourceProvisioningState;
+    state?: FeatureState;
+}
+
+// @public
+export type FeatureState = string;
+
+// @public
 export interface GuestSubscription extends ProxyResource {
     properties?: GuestSubscriptionProperties;
 }
@@ -54,6 +68,12 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownFeatureState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownOrigin {
     System = "system",
     User = "user",
@@ -69,7 +89,8 @@ export enum KnownResourceProvisioningState {
 
 // @public
 export enum KnownVersions {
-    V20250815 = "2025-08-15"
+    V20250815 = "2025-08-15",
+    V20260320 = "2026-03-20"
 }
 
 // @public
@@ -93,6 +114,19 @@ export interface OperationDisplay {
     readonly operation?: string;
     readonly provider?: string;
     readonly resource?: string;
+}
+
+// @public
+export interface OperationStatusResult {
+    endTime?: Date;
+    error?: ErrorDetail;
+    id?: string;
+    name?: string;
+    operations?: OperationStatusResult[];
+    percentComplete?: number;
+    readonly resourceId?: string;
+    startTime?: Date;
+    status: string;
 }
 
 // @public

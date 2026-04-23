@@ -25,8 +25,10 @@ To regenerate from a new TypeSpec spec commit:
    - `npm run format` — formats generated code
    - `npx dev-tool customization apply --skip index.ts` — 3-way merges into `src/`
 4. Check for merge conflicts: `grep -r "<<<<<<" src/ --include="*.ts"`
+5. **Build the package:** `pnpm turbo build --filter=@azure/search-documents... --token 1` — builds the package and all its dependencies.
+6. **Run tests:** `pnpm run test` — runs the internal tests (no env vars, proxy, or Azure resources needed). All tests should pass before proceeding. To run the tests, copy sample.env to `.env` and fill in the values, then run `pnpm run test:node` for Node.js tests and `pnpm run test:browser` for browser tests. Prompt user for values if env vars are missing.
 
-**Do not run these steps individually** — use `npm run generate:client` which ensures correct ordering and flags.
+**Do not run these steps individually (steps 1-4)** — use `npm run generate:client` which ensures correct ordering and flags. Steps 5-6 must be run after regeneration to verify the output.
 
 For details on the 3-way merge algorithm, conflict resolution, and common post-regeneration scenarios (new operation added, model type changed, new sub-client added), see `references/customization.md`.
 

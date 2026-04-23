@@ -170,7 +170,7 @@ export function createFile(
       webkitRelativePath: options.webkitRelativePath ?? "",
       size: content.byteLength,
       name,
-      arrayBuffer: async () => content.buffer,
+      arrayBuffer: async () => toArrayBuffer(content).buffer,
       stream: () => new Blob([toArrayBuffer(content)]).stream(),
       [rawContent]: () => content,
     } as File & RawContent;
@@ -181,7 +181,10 @@ export function createFile(
 
 function toArrayBuffer(source: Uint8Array): Uint8Array<ArrayBuffer> {
   if ("resize" in source.buffer) {
-    // ArrayBuffer
+    // ArrayBuffer — return a copy if the view is a subarray of a larger buffer
+    if (source.byteOffset !== 0 || source.byteLength !== source.buffer.byteLength) {
+      return new Uint8Array(source) as Uint8Array<ArrayBuffer>;
+    }
     return source as Uint8Array<ArrayBuffer>;
   }
   // SharedArrayBuffer

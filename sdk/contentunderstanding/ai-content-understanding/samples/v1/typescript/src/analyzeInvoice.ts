@@ -170,6 +170,40 @@ export async function main(): Promise<void> {
       }
     }
   }
+
+  // Access usage details from the poller (available after pollUntilDone() completes).
+  // Usage reports resource consumption for billing estimation:
+  //
+  // - documentPagesStandard/Basic/Minimal: Pages processed at each extraction tier.
+  //   Standard = layout + OCR (scanned docs), Basic = OCR only, Minimal = digital formats
+  //   (DOCX, XLSX, HTML, TXT) that need no OCR. Charged per 1,000 pages.
+  //
+  // - contextualizationTokens: Fixed-rate tokens charged by Content Understanding for
+  //   preparing context, generating confidence scores, source grounding, and formatting
+  //   output. Typically 1,000 tokens per page. Charged separately from LLM tokens.
+  //
+  // - tokens: Record of "{model}-input" / "{model}-output" token counts consumed by your
+  //   Foundry model deployment (e.g. "gpt-4.1-input", "gpt-4.1-output"). These are
+  //   billed on your Foundry deployment, not on Content Understanding.
+  //
+  // For full pricing details, see:
+  // https://learn.microsoft.com/azure/ai-services/content-understanding/pricing-explainer
+  const usage = poller.usage;
+  if (usage) {
+    console.log("\nUsage Details:");
+    if (usage.documentPagesStandard !== undefined) {
+      console.log(`  Document pages (standard): ${usage.documentPagesStandard}`);
+    }
+    if (usage.contextualizationTokens !== undefined) {
+      console.log(`  Contextualization tokens: ${usage.contextualizationTokens}`);
+    }
+    if (usage.tokens) {
+      console.log("  Model tokens:");
+      for (const [model, count] of Object.entries(usage.tokens)) {
+        console.log(`    ${model}: ${count}`);
+      }
+    }
+  }
 }
 
 main().catch((err) => {

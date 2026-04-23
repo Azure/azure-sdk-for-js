@@ -154,7 +154,7 @@ describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
         await client.databases.create({ id: "id_ends_with_space " });
         assert.fail("Must throw if id ends with a space");
       } catch (err: any) {
-        assert.equal("Id ends with a space.", err.message);
+        assert.equal(err.message, "Id ends with a space.");
       }
     });
 
@@ -164,7 +164,7 @@ describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
         await client.databases.create({ id: "id_with_illegal/_char" });
         assert.fail("Must throw if id has illegal characters");
       } catch (err: any) {
-        assert.equal("Id contains illegal chars.", err.message);
+        assert.equal(err.message, "Id contains illegal chars.");
       }
     });
 
@@ -174,7 +174,7 @@ describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
         await client.databases.create({ id: "id_with_illegal\\_char" });
         assert.fail("Must throw if id contains illegal characters");
       } catch (err: any) {
-        assert.equal("Id contains illegal chars.", err.message);
+        assert.equal(err.message, "Id contains illegal chars.");
       }
     });
 
@@ -184,7 +184,7 @@ describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
         await client.databases.create({ id: "id_with_illegal?_?char" });
         assert.fail("Must throw if id contains illegal characters");
       } catch (err: any) {
-        assert.equal("Id contains illegal chars.", err.message);
+        assert.equal(err.message, "Id contains illegal chars.");
       }
     });
 
@@ -194,7 +194,7 @@ describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
         await client.databases.create({ id: "id_with_illegal#_char" });
         assert.fail("Must throw if id contains illegal characters");
       } catch (err: any) {
-        assert.equal("Id contains illegal chars.", err.message);
+        assert.equal(err.message, "Id contains illegal chars.");
       }
     });
   });

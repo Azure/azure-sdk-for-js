@@ -78,7 +78,7 @@ async function main() {
       ],
     },
     {
-      body: { agent: { name: agent.name, type: "agent_reference" } },
+      body: { agent_reference: { name: agent.name, type: "agent_reference" } },
     },
   );
 
@@ -115,7 +115,7 @@ async function main() {
       ],
     },
     {
-      body: { agent: { name: agent.name, type: "agent_reference" } },
+      body: { agent_reference: { name: agent.name, type: "agent_reference" } },
     },
   );
 
