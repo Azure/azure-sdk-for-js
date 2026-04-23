@@ -134,9 +134,7 @@ describe("formDataPolicy (node-only)", function () {
       }),
     );
     const textBody = parts[3].body;
-    if (!(textBody instanceof Uint8Array)) {
-      assert.fail("expected Uint8Array body");
-    }
+    assert.instanceOf(textBody, Uint8Array, "expected Uint8Array body");
     assert.deepEqual([...textBody], [...stringToUint8Array(textField, "utf-8")]);
   });
 });

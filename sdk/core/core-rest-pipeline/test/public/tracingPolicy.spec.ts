@@ -207,10 +207,8 @@ describe("tracingPolicy", function () {
     }
 
     const httpUrlAttr = createdSpan.getAttribute("http.url");
-    if (typeof httpUrlAttr !== "string") {
-      assert.fail("expected http.url attribute to be a string");
-    }
-    const spanUrlValue = new URL(httpUrlAttr);
+    assert.isString(httpUrlAttr, "expected http.url attribute to be a string");
+    const spanUrlValue = new URL(httpUrlAttr as string);
     assert.equal(spanUrlValue.searchParams.get("redactedParam"), "REDACTED");
     assert.equal(spanUrlValue.searchParams.get("allowedQueryParam"), "allowedValue");
   });
