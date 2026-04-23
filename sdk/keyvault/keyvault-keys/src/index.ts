@@ -230,9 +230,10 @@ export class KeyClient {
    *
    * const credential = new DefaultAzureCredential();
    *
-   * const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
+   * const url = process.env["KEYVAULT_URI"]!;
    *
    * const client = new KeyClient(url, credential);
+   * console.log("KeyClient vault URL:", client.vaultUrl);
    * ```
    * @param vaultUrl - the URL of the Key Vault. It should have this shape: `https://${your-key-vault-name}.vault.azure.net`. You should validate that this URL references a valid Key Vault or Managed HSM resource. See https://aka.ms/azsdk/blog/vault-uri for details.
    * @param credential - An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the \@azure/identity package to create a credential that suits your needs.
@@ -294,7 +295,6 @@ export class KeyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleCreateKey
-   * const keyName = "MyKeyName";
    * const result = await client.createKey(keyName, "RSA");
    * console.log("result: ", result);
    * ```
@@ -338,7 +338,6 @@ export class KeyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleCreateEcKey
-   * const keyName = "MyKeyName";
    * const result = await client.createEcKey(keyName, { curve: "P-256" });
    * console.log("result: ", result);
    * ```
@@ -358,8 +357,7 @@ export class KeyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleCreateRsaKey
-   * const keyName = "MyKeyName";
-   * const result = await client.createRsaKey("MyKey", { keySize: 2048 });
+   * const result = await client.createRsaKey(keyName, { keySize: 2048 });
    * console.log("result: ", result);
    * ```
    * Creates a new key, stores it, then returns key parameters and properties to the client.
@@ -378,8 +376,7 @@ export class KeyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleCreateOctKey
-   * const keyName = "MyKeyName";
-   * const result = await client.createOctKey("MyKey", { hsm: true });
+   * const result = await hsmClient.createOctKey(keyName, { hsm: true });
    * console.log("result: ", result);
    * ```
    * Creates a new key, stores it, then returns key parameters and properties to the client.
@@ -398,22 +395,12 @@ export class KeyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleImportKey
-   * const jsonWebKey = {
-   *   kty: "RSA",
-   *   kid: "test-key-123",
-   *   use: "sig",
-   *   alg: "RS256",
-   *   n: new Uint8Array([112, 34, 56, 98, 123, 244, 200, 99]),
-   *   e: new Uint8Array([1, 0, 1]),
-   *   d: new Uint8Array([45, 67, 89, 23, 144, 200, 76, 233]),
-   *   p: new Uint8Array([34, 89, 100, 77, 204, 56, 29, 77]),
-   *   q: new Uint8Array([78, 99, 201, 45, 188, 34, 67, 90]),
-   *   dp: new Uint8Array([23, 45, 78, 56, 200, 144, 32, 67]),
-   *   dq: new Uint8Array([12, 67, 89, 144, 99, 56, 23, 45]),
-   *   qi: new Uint8Array([78, 90, 45, 201, 34, 67, 120, 55]),
-   * };
+   * import { createRsaKey } from "./crypto.js";
    *
-   * const result = await client.importKey("MyKey", jsonWebKey);
+   * const jsonWebKey = createRsaKey();
+   *
+   * const result = await client.importKey(keyName, jsonWebKey);
+   * console.log("result: ", result);
    * ```
    * Imports an externally created key, stores it, and returns key parameters and properties
    * to the client.
@@ -453,6 +440,7 @@ export class KeyClient {
    * ```ts snippet:ReadmeSampleGetCryptographyClient
    * // Get a cryptography client for a given key
    * const cryptographyClient = client.getCryptographyClient("MyKey");
+   * console.log("cryptographyClient: ", cryptographyClient.keyID);
    * ```
    * @param name - The name of the key used to perform cryptographic operations.
    * @param version - Optional version of the key used to perform cryptographic operations.
@@ -493,7 +481,8 @@ export class KeyClient {
    * Example usage:
    * ```ts snippet:ReadmeSampleDeleteKey
    * const poller = await client.beginDeleteKey(keyName);
-   * await poller.pollUntilDone();
+   * const deletedKey = await poller.pollUntilDone();
+   * console.log("deletedKey: ", deletedKey);
    * ```
    * Deletes a key from a specified key vault.
    * @param name - The name of the key.
@@ -524,12 +513,11 @@ export class KeyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleUpdateKeyProperties
-   * const keyName = "MyKeyName";
-   *
    * const result = await client.createKey(keyName, "RSA");
-   * await client.updateKeyProperties(keyName, result.properties.version, {
+   * const updatedKey = await client.updateKeyProperties(keyName, result.properties.version!, {
    *   enabled: false,
    * });
+   * console.log("updatedKey: ", updatedKey);
    * ```
    * Updates the properties associated with a specified key in a given key vault.
    * @param name - The name of the key.
@@ -548,12 +536,11 @@ export class KeyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleUpdateKeyProperties
-   * const keyName = "MyKeyName";
-   *
    * const result = await client.createKey(keyName, "RSA");
-   * await client.updateKeyProperties(keyName, result.properties.version, {
+   * const updatedKey = await client.updateKeyProperties(keyName, result.properties.version!, {
    *   enabled: false,
    * });
+   * console.log("updatedKey: ", updatedKey);
    * ```
    * Updates the properties associated with a specified key in a given key vault.
    * @param name - The name of the key.
@@ -639,10 +626,10 @@ export class KeyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleGetKeyAttestation
-   * const latestKey = await client.getKeyAttestation(keyName);
+   * const latestKey = await hsmClient.getKeyAttestation(keyName);
    * console.log(`Latest version of the key ${keyName}: `, latestKey);
    *
-   * const specificKey = await client.getKeyAttestation(keyName, {
+   * const specificKey = await hsmClient.getKeyAttestation(keyName, {
    *   version: latestKey.properties.version!,
    * });
    * console.log(`The key ${keyName} at the version ${latestKey.properties.version!}: `, specificKey);
@@ -675,7 +662,8 @@ export class KeyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleGetDeletedKey
-   * await client.getDeletedKey(keyName);
+   * const deletedKey = await client.getDeletedKey(keyName);
+   * console.log("deletedKey: ", deletedKey);
    * ```
    * Gets the specified deleted key.
    * @param name - The name of the key.
@@ -699,6 +687,7 @@ export class KeyClient {
    * await deletePoller.pollUntilDone();
    *
    * await client.purgeDeletedKey(keyName);
+   * console.log("Key purged.");
    * ```
    * Permanently deletes the specified key.
    * @param name - The name of the key.
@@ -725,6 +714,7 @@ export class KeyClient {
    *
    * const recoverPoller = await client.beginRecoverDeletedKey(keyName);
    * const recoveredKey = await recoverPoller.pollUntilDone();
+   * console.log("recoveredKey: ", recoveredKey);
    * ```
    * Recovers the deleted key to the latest version.
    * @param name - The name of the deleted key.
@@ -753,6 +743,7 @@ export class KeyClient {
    * Example usage:
    * ```ts snippet:ReadmeSampleBackupKey
    * const backupContents = await client.backupKey(keyName);
+   * console.log("backupContents: ", backupContents);
    * ```
    * Backs up the specified key.
    * @param name - The name of the key.
@@ -771,9 +762,16 @@ export class KeyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleRestoreKeyBackup
+   * import { retryWithBackoff } from "./utils.js";
+   *
    * const backupContents = await client.backupKey(keyName);
    *
-   * const key = await client.restoreKeyBackup(backupContents);
+   * const deletePoller = await client.beginDeleteKey(keyName);
+   * await deletePoller.pollUntilDone();
+   *
+   * await client.purgeDeletedKey(keyName);
+   *
+   * await retryWithBackoff(() => client.restoreKeyBackup(backupContents!));
    * ```
    * Restores a backed up key to a vault.
    * @param backup - The backup blob associated with a key bundle.
@@ -795,7 +793,8 @@ export class KeyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleGetRandomBytes
-   * const bytes = await client.getRandomBytes(10);
+   * const bytes = await hsmClient.getRandomBytes(10);
+   * console.log("bytes: ", bytes);
    * ```
    * @param count - The number of bytes to generate between 1 and 128 inclusive.
    * @param options - The optional parameters.
@@ -824,12 +823,15 @@ export class KeyClient {
    *   // In this case, any new key versions will expire after 90 days.
    *   expiresIn: "P90D",
    * });
+   * console.log("policy: ", policy);
    *
    * // You can get the current key rotation policy of a given key by calling the getKeyRotationPolicy method.
    * const currentPolicy = await client.getKeyRotationPolicy(keyName);
+   * console.log("currentPolicy: ", currentPolicy);
    *
    * // Finally, you can rotate a key on-demand by creating a new version of the given key.
    * const rotatedKey = await client.rotateKey(keyName);
+   * console.log("rotatedKey: ", rotatedKey);
    * ```
    *
    * @param name - The name of the key to rotate.
@@ -849,9 +851,8 @@ export class KeyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleReleaseKey
-   * const keyName = "MyKeyName";
-   *
-   * const result = await client.releaseKey("myKey", "<attestation-target>");
+   * const result = await hsmClient.releaseKey(keyName, attestation);
+   * console.log("result: ", result);
    * ```
    *
    * @param name - The name of the key.
@@ -888,6 +889,7 @@ export class KeyClient {
    * Example usage:
    * ```ts snippet:ReadmeSampleGetKeyRotationPolicy
    * const result = await client.getKeyRotationPolicy(keyName);
+   * console.log("result: ", result);
    * ```
    *
    * @param keyName - The name of the key.
@@ -912,6 +914,7 @@ export class KeyClient {
    * const myPolicy = await client.getKeyRotationPolicy(keyName);
    *
    * const setPolicy = await client.updateKeyRotationPolicy(keyName, myPolicy);
+   * console.log("setPolicy: ", setPolicy);
    * ```
    *
    * @param keyName - The name of the key.

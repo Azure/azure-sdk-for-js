@@ -107,9 +107,10 @@ import { KeyClient } from "@azure/keyvault-keys";
 
 const credential = new DefaultAzureCredential();
 
-const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
+const url = process.env["KEYVAULT_URI"]!;
 
 const client = new KeyClient(url, credential);
+console.log("KeyClient vault URL:", client.vaultUrl);
 ```
 
 ## Specifying the Azure Key Vault service API version
@@ -122,12 +123,13 @@ import { KeyClient } from "@azure/keyvault-keys";
 
 const credential = new DefaultAzureCredential();
 
-const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
+const url = process.env["KEYVAULT_URI"]!;
 
 // Change the Azure Key Vault service API version being used via the `serviceVersion` option
 const client = new KeyClient(url, credential, {
-  serviceVersion: "7.0", // Or 7.1
+  serviceVersion: "7.0", // Supported versions: 7.0 through 7.6
 });
+console.log("KeyClient vault URL:", client.vaultUrl);
 ```
 
 ## Examples
@@ -146,7 +148,6 @@ tasks using Azure Key Vault Keys. The scenarios that are covered here consist of
 `createKey` creates a Key to be stored in the Azure Key Vault. If a key with the same name already exists, then a new version of the key is created.
 
 ```ts snippet:ReadmeSampleCreateKey
-const keyName = "MyKeyName";
 const result = await client.createKey(keyName, "RSA");
 console.log("result: ", result);
 ```
@@ -184,8 +185,6 @@ An object with these attributes can be sent as the third parameter of
 `createKey`, right after the key's name and value, as follows:
 
 ```ts snippet:ReadmeSampleCreateKeyWithAttributes
-const keyName = "MyKeyName";
-
 const result = await client.createKey(keyName, "RSA", {
   enabled: false,
 });
@@ -199,12 +198,11 @@ Attributes can also be updated to an existing key version with
 `updateKeyProperties`, as follows:
 
 ```ts snippet:ReadmeSampleUpdateKeyProperties
-const keyName = "MyKeyName";
-
 const result = await client.createKey(keyName, "RSA");
-await client.updateKeyProperties(keyName, result.properties.version, {
+const updatedKey = await client.updateKeyProperties(keyName, result.properties.version!, {
   enabled: false,
 });
+console.log("updatedKey: ", updatedKey);
 ```
 
 ### Deleting a key
@@ -215,7 +213,8 @@ are available.
 
 ```ts snippet:ReadmeSampleDeleteKey
 const poller = await client.beginDeleteKey(keyName);
-await poller.pollUntilDone();
+const deletedKey = await poller.pollUntilDone();
+console.log("deletedKey: ", deletedKey);
 ```
 
 If [soft-delete][softdelete]
@@ -228,6 +227,7 @@ const poller = await client.beginDeleteKey(keyName);
 
 // You can use the deleted key immediately:
 const deletedKey = poller.getResult();
+console.log("deletedKey: ", deletedKey);
 
 // The key is being deleted. Only wait for it if you want to restore it or purge it.
 await poller.pollUntilDone();
@@ -240,6 +240,10 @@ await client.getDeletedKey(keyName);
 // recoverDeletedKey also returns a poller, just like beginDeleteKey.
 const recoverPoller = await client.beginRecoverDeletedKey(keyName);
 await recoverPoller.pollUntilDone();
+
+// If you recover the key, delete it again before purging it.
+const purgePoller = await client.beginDeleteKey(keyName);
+await purgePoller.pollUntilDone();
 
 // And here is how to purge a deleted key
 await client.purgeDeletedKey(keyName);
@@ -298,12 +302,15 @@ const policy = await client.updateKeyRotationPolicy(keyName, {
   // In this case, any new key versions will expire after 90 days.
   expiresIn: "P90D",
 });
+console.log("policy: ", policy);
 
 // You can get the current key rotation policy of a given key by calling the getKeyRotationPolicy method.
 const currentPolicy = await client.getKeyRotationPolicy(keyName);
+console.log("currentPolicy: ", currentPolicy);
 
 // Finally, you can rotate a key on-demand by creating a new version of the given key.
 const rotatedKey = await client.rotateKey(keyName);
+console.log("rotatedKey: ", rotatedKey);
 ```
 
 ### Iterating lists of keys
@@ -378,7 +385,7 @@ import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
 
 const credential = new DefaultAzureCredential();
 
-const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
+const url = process.env["KEYVAULT_URI"]!;
 
 const client = new KeyClient(url, credential);
 
@@ -387,6 +394,7 @@ const myKey = await client.createKey("MyKey", "RSA");
 
 // Lastly, create our cryptography client and connect to the service
 const cryptographyClient = new CryptographyClient(myKey, credential);
+console.log("CryptographyClient key ID:", cryptographyClient.keyID);
 ```
 
 ### Encrypt
@@ -426,10 +434,10 @@ console.log("decrypt result: ", decryptResult.result.toString());
 ```ts snippet:ReadmeSampleSign
 import { createHash } from "node:crypto";
 
-const signatureValue = "MySignature";
+const message = "MyMessage";
 const hash = createHash("sha256");
 
-const digest = hash.update(signatureValue).digest();
+const digest = hash.update(message).digest();
 console.log("digest: ", digest);
 
 const signResult = await cryptographyClient.sign("RS256", digest);

@@ -149,7 +149,7 @@ describe("cryptography", () => {
         credential,
         recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
       ),
-      () => new CryptographyClient(myKey.id!, credential),
+      () => new CryptographyClient(myKey, credential),
     );
 
     // @snippet ReadmeSampleEncrypt
@@ -173,7 +173,7 @@ describe("cryptography", () => {
         credential,
         recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
       ),
-      () => new CryptographyClient(myKey.id!, credential),
+      () => new CryptographyClient(myKey, credential),
     );
 
     // @snippet ReadmeSampleDecrypt

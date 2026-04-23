@@ -111,35 +111,35 @@ describe("helloWorld", () => {
   });
 
   it("create a key", async () => {
+    const keyName = forPublishing("MyKeyName", () => `MyKeyName-${Date.now()}`);
     // @snippet ReadmeSampleCreateKey
-    const keyName = "MyKeyName";
     const result = await client.createKey(keyName, "RSA");
     console.log("result: ", result);
     // @snippet-end ReadmeSampleCreateKey
   });
 
   it("create an EC key", async () => {
+    const keyName = forPublishing("MyEcKeyName", () => `MyEcKeyName-${Date.now()}`);
     // @snippet ReadmeSampleCreateEcKey
-    const keyName = "MyEcKeyName";
     const result = await client.createEcKey(keyName, { curve: "P-256" });
     console.log("result: ", result);
     // @snippet-end ReadmeSampleCreateEcKey
   });
 
   it("create an RSA key", async () => {
+    const keyName = forPublishing("MyRsaKeyName", () => `MyRsaKeyName-${Date.now()}`);
     // @snippet ReadmeSampleCreateRsaKey
-    const keyName = "MyRsaKeyName";
     const result = await client.createRsaKey(keyName, { keySize: 2048 });
     console.log("result: ", result);
     // @snippet-end ReadmeSampleCreateRsaKey
   });
 
   it("import a key", async () => {
-    // @snippet ReadmeSampleImportKey
     const keyName = forPublishing(
       recorder.variable("importKeyName", `sample-import-key-${Date.now()}`),
       () => "MyKey",
     );
+    // @snippet ReadmeSampleImportKey
     const jsonWebKey = createRsaKey();
     // @ts-preserve-whitespace
     const result = await client.importKey(keyName, jsonWebKey);
@@ -175,8 +175,8 @@ describe("helloWorld", () => {
   });
 
   it("create a key with attributes", async () => {
+    const keyName = forPublishing("MyAttrKeyName", () => `MyAttrKeyName-${Date.now()}`);
     // @snippet ReadmeSampleCreateKeyWithAttributes
-    const keyName = "MyAttrKeyName";
     // @ts-preserve-whitespace
     const result = await client.createKey(keyName, "RSA", {
       enabled: false,
@@ -186,47 +186,50 @@ describe("helloWorld", () => {
   });
 
   it("update key properties", async () => {
+    const keyName = forPublishing("MyUpdateKeyName", () => `MyUpdateKeyName-${Date.now()}`);
     // @snippet ReadmeSampleUpdateKeyProperties
-    const keyName = "MyUpdateKeyName";
     // @ts-preserve-whitespace
     const result = await client.createKey(keyName, "RSA");
-    await client.updateKeyProperties(keyName, result.properties.version!, {
+    const updatedKey = await client.updateKeyProperties(keyName, result.properties.version!, {
       enabled: false,
     });
+    console.log("updatedKey: ", updatedKey);
     // @snippet-end ReadmeSampleUpdateKeyProperties
   });
 
   it("delete a key", async () => {
     const keyName = forPublishing(
       recorder.variable("deleteKeyName", `sample-del-key-${Date.now()}`),
-      () => "MyDeleteKeyName",
+      () => `MyDeleteKeyName-${Date.now()}`,
     );
     await client.createKey(keyName, "RSA");
 
     // @snippet ReadmeSampleDeleteKey
     const poller = await client.beginDeleteKey(keyName);
-    await poller.pollUntilDone();
+    const deletedKey = await poller.pollUntilDone();
+    console.log("deletedKey: ", deletedKey);
     // @snippet-end ReadmeSampleDeleteKey
   });
 
   it("get a deleted key", async () => {
     const keyName = forPublishing(
       recorder.variable("getDeletedKeyName", `sample-getdel-key-${Date.now()}`),
-      () => "MyGetDeletedKeyName",
+      () => `MyGetDeletedKeyName-${Date.now()}`,
     );
     await client.createKey(keyName, "RSA");
     const deletePoller = await client.beginDeleteKey(keyName);
     await deletePoller.pollUntilDone();
 
     // @snippet ReadmeSampleGetDeletedKey
-    await client.getDeletedKey(keyName);
+    const deletedKey = await client.getDeletedKey(keyName);
+    console.log("deletedKey: ", deletedKey);
     // @snippet-end ReadmeSampleGetDeletedKey
   });
 
   it("purge a deleted key", async () => {
     const keyName = forPublishing(
       recorder.variable("purgeKeyName", `sample-purge-key-${Date.now()}`),
-      () => "MyPurgeKeyName",
+      () => `MyPurgeKeyName-${Date.now()}`,
     );
     await client.createKey(keyName, "RSA");
 
@@ -235,13 +238,14 @@ describe("helloWorld", () => {
     await deletePoller.pollUntilDone();
     // @ts-preserve-whitespace
     await client.purgeDeletedKey(keyName);
+    console.log("Key purged.");
     // @snippet-end ReadmeSamplePurgeDeletedKey
   });
 
   it("recover a deleted key", async () => {
     const keyName = forPublishing(
       recorder.variable("recoverKeyName", `sample-recover-key-${Date.now()}`),
-      () => "MyRecoverKeyName",
+      () => `MyRecoverKeyName-${Date.now()}`,
     );
     await client.createKey(keyName, "RSA");
 
@@ -258,7 +262,7 @@ describe("helloWorld", () => {
   it("back up a key", async () => {
     const keyName = forPublishing(
       recorder.variable("backupKeyName", `sample-backup-key-${Date.now()}`),
-      () => "MyBackupKeyName",
+      () => `MyBackupKeyName-${Date.now()}`,
     );
     await client.createKey(keyName, "RSA");
 
@@ -271,7 +275,7 @@ describe("helloWorld", () => {
   it("restore a key from backup", async () => {
     const keyName = forPublishing(
       recorder.variable("restoreKeyName", `sample-restore-key-${Date.now()}`),
-      () => "MyRestoreKeyName",
+      () => `MyRestoreKeyName-${Date.now()}`,
     );
     await client.createKey(keyName, "RSA");
 
@@ -290,7 +294,7 @@ describe("helloWorld", () => {
   it("delete a key with soft delete", async () => {
     const keyName = forPublishing(
       recorder.variable("softDeleteKeyName", `sample-softdel-key-${Date.now()}`),
-      () => "MySoftDeleteKeyName",
+      () => `MySoftDeleteKeyName-${Date.now()}`,
     );
     await client.createKey(keyName, "RSA");
 
@@ -325,7 +329,7 @@ describe("helloWorld", () => {
   it("delete a key and wait for completion", async () => {
     const keyName = forPublishing(
       recorder.variable("deleteWaitKeyName", `sample-delwait-key-${Date.now()}`),
-      () => "MyDeleteWaitKeyName",
+      () => `MyDeleteWaitKeyName-${Date.now()}`,
     );
     await client.createKey(keyName, "RSA");
 
@@ -344,7 +348,7 @@ describe("helloWorld", () => {
   it("delete a key and poll individually", async () => {
     const keyName = forPublishing(
       recorder.variable("deleteIndivKeyName", `sample-delindiv-key-${Date.now()}`),
-      () => "MyDeletePollKeyName",
+      () => `MyDeletePollKeyName-${Date.now()}`,
     );
     await client.createKey(keyName, "RSA");
 
@@ -365,7 +369,7 @@ describe("helloWorld", () => {
   it("list all keys", async () => {
     const keyName = forPublishing(
       recorder.variable("listAllKeysName", `sample-listall-key-${Date.now()}`),
-      () => "MyListAllKeyName",
+      () => `MyListAllKeyName-${Date.now()}`,
     );
     await client.createKey(keyName, "RSA");
 
@@ -387,7 +391,7 @@ describe("helloWorld", () => {
   it("list keys by page", async () => {
     const keyName = forPublishing(
       recorder.variable("listByPageKeysName", `sample-listpage-key-${Date.now()}`),
-      () => "MyListPageKeyName",
+      () => `MyListPageKeyName-${Date.now()}`,
     );
     await client.createKey(keyName, "RSA");
 
