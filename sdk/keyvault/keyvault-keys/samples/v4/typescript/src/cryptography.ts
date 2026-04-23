@@ -10,6 +10,9 @@ import "dotenv/config";
 import type { TokenCredential } from "@azure/core-auth";
 import { DefaultAzureCredential } from "@azure/identity";
 import { CryptographyClient, KeyClient } from "@azure/keyvault-keys";
+/**
+ * Uses an Azure Key Vault key to sign/verify, encrypt/decrypt, and wrap/unwrap data.
+ */
 import { createHash } from "node:crypto";
 
 let client: KeyClient;

@@ -38,14 +38,6 @@ async function deleteAndRecoverACertificate() {
 }
 
 async function deleteACertificate() {
-  const credential = new DefaultAzureCredential();
-
-  const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-
-  const client = new CertificateClient(keyVaultUrl, credential);
-
-  const certificateName = "MyCertificate";
-
   const poller = await client.beginDeleteCertificate(certificateName);
 
   // You can use the deleted certificate immediately:
@@ -68,11 +60,6 @@ async function deleteACertificate() {
 }
 
 async function listDeletedCertificates() {
-  const credential = new DefaultAzureCredential();
-
-  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-
-  const client = new CertificateClient(url, credential);
   for await (const deletedCertificate of client.listDeletedCertificates()) {
     console.log(deletedCertificate);
   }
@@ -85,25 +72,11 @@ async function listDeletedCertificates() {
 }
 
 async function getADeletedCertificate() {
-  const credential = new DefaultAzureCredential();
-
-  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-
-  const client = new CertificateClient(url, credential);
-
-  const certificateName = "MyDeletedCertificate";
   const deletedCertificate = await client.getDeletedCertificate(certificateName);
   console.log("Deleted certificate:", deletedCertificate);
 }
 
 async function purgeADeletedCertificate() {
-  const credential = new DefaultAzureCredential();
-
-  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-
-  const client = new CertificateClient(url, credential);
-
-  const certificateName = "MyCertificate";
   const deletePoller = await client.beginDeleteCertificate(certificateName);
   await deletePoller.pollUntilDone();
 
@@ -112,13 +85,6 @@ async function purgeADeletedCertificate() {
 }
 
 async function recoverADeletedCertificate() {
-  const credential = new DefaultAzureCredential();
-
-  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-
-  const client = new CertificateClient(url, credential);
-
-  const certificateName = "MyCertificate";
   const deletePoller = await client.beginDeleteCertificate(certificateName);
   await deletePoller.pollUntilDone();
 

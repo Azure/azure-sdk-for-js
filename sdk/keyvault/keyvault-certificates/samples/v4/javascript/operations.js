@@ -52,13 +52,6 @@ async function getAndCancelPendingOperations() {
 }
 
 async function getACertificateOperation() {
-  const credential = new DefaultAzureCredential();
-
-  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-
-  const client = new CertificateClient(url, credential);
-
-  const certificateName = "MyCertificate";
   await client.beginCreateCertificate(certificateName, {
     issuerName: "Unknown",
     subject: "cn=MyCert",
@@ -72,13 +65,6 @@ async function getACertificateOperation() {
 }
 
 async function deleteACertificateOperation() {
-  const credential = new DefaultAzureCredential();
-
-  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-
-  const client = new CertificateClient(url, credential);
-
-  const certificateName = "MyCertificate";
   await client.beginCreateCertificate(certificateName, {
     issuerName: "Unknown",
     subject: "cn=MyCert",

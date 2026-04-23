@@ -50,12 +50,6 @@ async function updateAndListCertificateVersions() {
 }
 
 async function listAllCertificates() {
-  const credential = new DefaultAzureCredential();
-
-  const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-
-  const client = new CertificateClient(keyVaultUrl, credential);
-
   const certificateName = "MyCertificate";
 
   for await (const certificateProperties of client.listPropertiesOfCertificates()) {
@@ -72,12 +66,6 @@ async function listAllCertificates() {
 }
 
 async function listCertificatesByPage() {
-  const credential = new DefaultAzureCredential();
-
-  const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-
-  const client = new CertificateClient(keyVaultUrl, credential);
-
   const certificateName = "MyCertificate";
 
   for await (const page of client.listPropertiesOfCertificates().byPage()) {
@@ -98,12 +86,6 @@ async function listCertificatesByPage() {
 }
 
 async function listCertificateProperties() {
-  const credential = new DefaultAzureCredential();
-
-  const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-
-  const client = new CertificateClient(keyVaultUrl, credential);
-
   // All in one call
   for await (const certificateProperties of client.listPropertiesOfCertificates()) {
     console.log(certificateProperties);
@@ -118,12 +100,6 @@ async function listCertificateProperties() {
 }
 
 async function listCertificateVersions() {
-  const credential = new DefaultAzureCredential();
-
-  const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-
-  const client = new CertificateClient(keyVaultUrl, credential);
-
   const certificateName = "MyCertificate";
   for await (const certificateProperties of client.listPropertiesOfCertificateVersions(
     certificateName,
