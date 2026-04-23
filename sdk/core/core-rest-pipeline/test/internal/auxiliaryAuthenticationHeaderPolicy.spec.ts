@@ -177,13 +177,7 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
 
     credential.shouldThrow = true;
 
-    let error: Error | undefined;
-    try {
-      await policy.sendRequest(request, next);
-    } catch (e: any) {
-      error = e;
-    }
-    assert.equal(error?.message, "Failed to retrieve the token");
+    await expect(policy.sendRequest(request, next)).rejects.toThrow("Failed to retrieve the token");
 
     assert.strictEqual(
       credential.authCount,
@@ -201,15 +195,7 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
     const policy = createAuxiliaryAuthenticationHeaderPolicy("test-scope", [credential]);
     const next = vi.fn<SendRequest>();
 
-    let error: Error | undefined;
-    try {
-      await policy.sendRequest(request, next);
-    } catch (e: any) {
-      error = e;
-    }
-
-    assert.equal(
-      error?.message,
+    await expect(policy.sendRequest(request, next)).rejects.toThrow(
       "Bearer token authentication for auxiliary header is not permitted for non-TLS protected (non-https) URLs.",
     );
   });
