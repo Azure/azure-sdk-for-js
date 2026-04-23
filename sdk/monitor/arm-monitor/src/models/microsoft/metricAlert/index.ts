@@ -1,0 +1,43 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export type {
+  MetricAlertResource,
+  MetricAlertProperties,
+  MetricAlertCriteria,
+  MetricAlertCriteriaUnion,
+  Odatatype,
+  MetricAlertSingleResourceMultipleMetricCriteria,
+  MetricCriteria,
+  Operator,
+  WebtestLocationAvailabilityCriteria,
+  MetricAlertMultipleResourceMultipleMetricCriteria,
+  MultiMetricCriteria,
+  MultiMetricCriteriaUnion,
+  AggregationTypeEnum,
+  MetricDimension,
+  DynamicMetricCriteria,
+  DynamicThresholdOperator,
+  DynamicThresholdSensitivity,
+  DynamicThresholdFailingPeriods,
+  PromQLCriteria,
+  QueryFailingPeriods,
+  MultiPromQLCriteria,
+  MultiPromQLCriteriaUnion,
+  StaticPromQLCriteria,
+  DynamicPromQLCriteria,
+  ResolveConfiguration,
+  MetricAlertAction,
+  MetricAlertErrorResponse,
+  MetricAlertResourcePatch,
+  MetricAlertPropertiesPatch,
+  MetricAlertStatus,
+  MetricAlertStatusProperties,
+} from "./models.js";
+export {
+  KnownOdatatype,
+  KnownOperator,
+  KnownAggregationTypeEnum,
+  KnownDynamicThresholdOperator,
+  KnownDynamicThresholdSensitivity,
+} from "./models.js";
