@@ -790,7 +790,7 @@
 # PRLabel: %Mgmt
 /sdk/mysql/arm-mysql-flexible/      @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/netapp/arm-netapp/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt

@@ -6,7 +6,7 @@ import {
   resetSmbPassword,
   poolChange,
   listPeeringPassphrases,
-  listByCapacityPools,
+  list,
   $delete,
   update,
   createOrUpdate,
@@ -16,7 +16,7 @@ import type {
   CachesResetSmbPasswordOptionalParams,
   CachesPoolChangeOptionalParams,
   CachesListPeeringPassphrasesOptionalParams,
-  CachesListByCapacityPoolsOptionalParams,
+  CachesListOptionalParams,
   CachesDeleteOptionalParams,
   CachesUpdateOptionalParams,
   CachesCreateOrUpdateOptionalParams,
@@ -59,11 +59,11 @@ export interface CachesOperations {
     options?: CachesListPeeringPassphrasesOptionalParams,
   ) => Promise<PeeringPassphrases>;
   /** List all Caches within the Capacity Pool */
-  listByCapacityPools: (
+  list: (
     resourceGroupName: string,
     accountName: string,
     poolName: string,
-    options?: CachesListByCapacityPoolsOptionalParams,
+    options?: CachesListOptionalParams,
   ) => PagedAsyncIterableIterator<Cache>;
   /** Delete the specified cache */
   /**
@@ -131,12 +131,12 @@ function _getCaches(context: NetAppManagementContext) {
       options?: CachesListPeeringPassphrasesOptionalParams,
     ) =>
       listPeeringPassphrases(context, resourceGroupName, accountName, poolName, cacheName, options),
-    listByCapacityPools: (
+    list: (
       resourceGroupName: string,
       accountName: string,
       poolName: string,
-      options?: CachesListByCapacityPoolsOptionalParams,
-    ) => listByCapacityPools(context, resourceGroupName, accountName, poolName, options),
+      options?: CachesListOptionalParams,
+    ) => list(context, resourceGroupName, accountName, poolName, options),
     delete: (
       resourceGroupName: string,
       accountName: string,
