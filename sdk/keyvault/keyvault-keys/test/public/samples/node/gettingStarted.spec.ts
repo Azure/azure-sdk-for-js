@@ -5,7 +5,7 @@
  * Authenticates with Azure Key Vault and creates a KeyClient and CryptographyClient.
  */
 
-import { CryptographyClient, KeyClient } from "../../../src/index.js";
+import { CryptographyClient, KeyClient } from "../../../../src/index.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

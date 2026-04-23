@@ -5,7 +5,7 @@
  * Creates, reads, lists, and deletes keys.
  */
 
-import { KeyClient } from "../../../src/index.js";
+import { KeyClient } from "../../../../src/index.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";

@@ -5,7 +5,7 @@
  * Uses an Azure Key Vault key to sign/verify, encrypt/decrypt, and wrap/unwrap data.
  */
 
-import { CryptographyClient, KeyClient } from "../../../src/index.js";
+import { CryptographyClient, KeyClient } from "../../../../src/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import { DefaultAzureCredential } from "@azure/identity";
 import { createTestCredential } from "@azure-tools/test-credential";

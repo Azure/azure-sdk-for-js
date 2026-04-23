@@ -9,7 +9,7 @@
  * Set AZURE_MANAGEDHSM_URI to run these samples.
  */
 
-import { KeyClient } from "../../../src/index.js";
+import { KeyClient } from "../../../../src/index.js";
 import { createDefaultHttpClient, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { DefaultAzureCredential } from "@azure/identity";
 import { createTestCredential } from "@azure-tools/test-credential";
