@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of identity bindings in the specified managed cluster.
  *
  * @summary gets a list of identity bindings in the specified managed cluster.
- * x-ms-original-file: 2026-01-02-preview/IdentityBindings_List.json
+ * x-ms-original-file: 2026-02-02-preview/IdentityBindings_List.json
  */
 async function listIdentityBindingsByManagedCluster() {
   const credential = new DefaultAzureCredential();

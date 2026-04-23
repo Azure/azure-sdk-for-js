@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the status of a specific operation in the specified agent pool.
  *
  * @summary get the status of a specific operation in the specified agent pool.
- * x-ms-original-file: 2026-01-02-preview/OperationStatusResultGetByAgentPool.json
+ * x-ms-original-file: 2026-02-02-preview/OperationStatusResultGetByAgentPool.json
  */
 async function getOperationStatusResult(): Promise<void> {
   const credential = new DefaultAzureCredential();

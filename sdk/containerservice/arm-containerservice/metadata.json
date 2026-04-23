@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.ContainerService": "2026-01-02-preview"
+    "Microsoft.ContainerService": "2026-02-02-preview"
   },
-  "emitterVersion": "0.51.0",
+  "emitterVersion": "0.52.2",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.ContainerService",
     "CrossLanguageDefinitionId": {
@@ -34,7 +34,7 @@
       "@azure/arm-containerservice!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
       "@azure/arm-containerservice!LocalDNSProfile:interface": "Microsoft.ContainerService.LocalDNSProfile",
       "@azure/arm-containerservice!LocalDNSOverride:interface": "Microsoft.ContainerService.LocalDNSOverride",
-      "@azure/arm-containerservice!NodeCustomizationProfile:interface": "Microsoft.ContainerService.NodeCustomizationProfile",
+      "@azure/arm-containerservice!PreparedImageSpecificationProfile:interface": "Microsoft.ContainerService.PreparedImageSpecificationProfile",
       "@azure/arm-containerservice!ProxyResource:interface": "Azure.ResourceManager.CommonTypes.ProxyResource",
       "@azure/arm-containerservice!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
       "@azure/arm-containerservice!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
@@ -128,11 +128,12 @@
       "@azure/arm-containerservice!ManagedClusterAzureMonitorProfile:interface": "Microsoft.ContainerService.ManagedClusterAzureMonitorProfile",
       "@azure/arm-containerservice!ManagedClusterAzureMonitorProfileMetrics:interface": "Microsoft.ContainerService.ManagedClusterAzureMonitorProfileMetrics",
       "@azure/arm-containerservice!ManagedClusterAzureMonitorProfileKubeStateMetrics:interface": "Microsoft.ContainerService.ManagedClusterAzureMonitorProfileKubeStateMetrics",
+      "@azure/arm-containerservice!ManagedClusterAzureMonitorProfileMetricsControlPlane:interface": "Microsoft.ContainerService.ManagedClusterAzureMonitorProfileMetricsControlPlane",
       "@azure/arm-containerservice!ManagedClusterAzureMonitorProfileContainerInsights:interface": "Microsoft.ContainerService.ManagedClusterAzureMonitorProfileContainerInsights",
       "@azure/arm-containerservice!ManagedClusterAzureMonitorProfileAppMonitoring:interface": "Microsoft.ContainerService.ManagedClusterAzureMonitorProfileAppMonitoring",
       "@azure/arm-containerservice!ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation:interface": "Microsoft.ContainerService.ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation",
       "@azure/arm-containerservice!ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics:interface": "Microsoft.ContainerService.ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics",
-      "@azure/arm-containerservice!ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs:interface": "Microsoft.ContainerService.ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs",
+      "@azure/arm-containerservice!ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsAndTraces:interface": "Microsoft.ContainerService.ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsAndTraces",
       "@azure/arm-containerservice!ServiceMeshProfile:interface": "Microsoft.ContainerService.ServiceMeshProfile",
       "@azure/arm-containerservice!IstioServiceMesh:interface": "Microsoft.ContainerService.IstioServiceMesh",
       "@azure/arm-containerservice!IstioComponents:interface": "Microsoft.ContainerService.IstioComponents",
@@ -150,6 +151,7 @@
       "@azure/arm-containerservice!SchedulerInstanceProfile:interface": "Microsoft.ContainerService.SchedulerInstanceProfile",
       "@azure/arm-containerservice!ManagedClusterHostedSystemProfile:interface": "Microsoft.ContainerService.ManagedClusterHostedSystemProfile",
       "@azure/arm-containerservice!ManagedClusterHealthMonitorProfile:interface": "Microsoft.ContainerService.ManagedClusterHealthMonitorProfile",
+      "@azure/arm-containerservice!ManagedClusterControlPlaneScalingProfile:interface": "Microsoft.ContainerService.ManagedClusterControlPlaneScalingProfile",
       "@azure/arm-containerservice!ManagedClusterStatus:interface": "Microsoft.ContainerService.ManagedClusterStatus",
       "@azure/arm-containerservice!ManagedClusterSKU:interface": "Microsoft.ContainerService.ManagedClusterSKU",
       "@azure/arm-containerservice!ExtendedLocation:interface": "Microsoft.ContainerService.ExtendedLocation",
@@ -349,6 +351,7 @@
       "@azure/arm-containerservice!KnownNodeProvisioningDefaultNodePools:enum": "Microsoft.ContainerService.NodeProvisioningDefaultNodePools",
       "@azure/arm-containerservice!KnownArtifactSource:enum": "Microsoft.ContainerService.ArtifactSource",
       "@azure/arm-containerservice!KnownSchedulerConfigMode:enum": "Microsoft.ContainerService.SchedulerConfigMode",
+      "@azure/arm-containerservice!KnownControlPlaneScalingSize:enum": "Microsoft.ContainerService.ControlPlaneScalingSize",
       "@azure/arm-containerservice!KnownManagedClusterSKUName:enum": "Microsoft.ContainerService.ManagedClusterSKUName",
       "@azure/arm-containerservice!KnownManagedClusterSKUTier:enum": "Microsoft.ContainerService.ManagedClusterSKUTier",
       "@azure/arm-containerservice!KnownExtendedLocationTypes:enum": "Microsoft.ContainerService.ExtendedLocationTypes",

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to contains list of Safeguards version along with its support info and whether it is a default version.
  *
  * @summary contains list of Safeguards version along with its support info and whether it is a default version.
- * x-ms-original-file: 2026-01-02-preview/ListSafeguardsVersions.json
+ * x-ms-original-file: 2026-02-02-preview/ListSafeguardsVersions.json
  */
 async function listSafeguardsVersions() {
   const credential = new DefaultAzureCredential();

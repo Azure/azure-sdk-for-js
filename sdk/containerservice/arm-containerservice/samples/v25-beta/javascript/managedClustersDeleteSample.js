@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a managed cluster.
  *
  * @summary deletes a managed cluster.
- * x-ms-original-file: 2026-01-02-preview/ManagedClustersDelete.json
+ * x-ms-original-file: 2026-02-02-preview/ManagedClustersDelete.json
  */
 async function deleteManagedCluster() {
   const credential = new DefaultAzureCredential();

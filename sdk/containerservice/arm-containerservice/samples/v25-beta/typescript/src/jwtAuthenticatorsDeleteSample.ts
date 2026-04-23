@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a JWT authenticator and updates the managed cluster to apply the settings.
  *
  * @summary deletes a JWT authenticator and updates the managed cluster to apply the settings.
- * x-ms-original-file: 2026-01-02-preview/JWTAuthenticators_Delete.json
+ * x-ms-original-file: 2026-02-02-preview/JWTAuthenticators_Delete.json
  */
 async function deleteJWTAuthenticator(): Promise<void> {
   const credential = new DefaultAzureCredential();

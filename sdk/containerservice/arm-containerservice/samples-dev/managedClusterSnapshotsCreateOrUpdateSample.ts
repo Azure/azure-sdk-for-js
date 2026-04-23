@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a managed cluster snapshot.
  *
  * @summary creates or updates a managed cluster snapshot.
- * x-ms-original-file: 2026-01-02-preview/ManagedClusterSnapshotsCreate.json
+ * x-ms-original-file: 2026-02-02-preview/ManagedClusterSnapshotsCreate.json
  */
 async function createOrUpdateManagedClusterSnapshot(): Promise<void> {
   const credential = new DefaultAzureCredential();

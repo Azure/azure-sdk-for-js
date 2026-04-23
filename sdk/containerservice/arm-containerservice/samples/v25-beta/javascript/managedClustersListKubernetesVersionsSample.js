@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to contains extra metadata on the version, including supported patch versions, capabilities, available upgrades, and details on preview status of the version
  *
  * @summary contains extra metadata on the version, including supported patch versions, capabilities, available upgrades, and details on preview status of the version
- * x-ms-original-file: 2026-01-02-preview/KubernetesVersions_List.json
+ * x-ms-original-file: 2026-02-02-preview/KubernetesVersions_List.json
  */
 async function listKubernetesVersions() {
   const credential = new DefaultAzureCredential();

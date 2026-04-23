@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this action cannot be performed on a cluster that is not using a service principal
  *
  * @summary this action cannot be performed on a cluster that is not using a service principal
- * x-ms-original-file: 2026-01-02-preview/ManagedClustersResetServicePrincipalProfile.json
+ * x-ms-original-file: 2026-02-02-preview/ManagedClustersResetServicePrincipalProfile.json
  */
 async function resetServicePrincipalProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();

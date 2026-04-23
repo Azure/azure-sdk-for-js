@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists snapshots in the specified subscription and resource group.
  *
  * @summary lists snapshots in the specified subscription and resource group.
- * x-ms-original-file: 2026-01-02-preview/SnapshotsListByResourceGroup.json
+ * x-ms-original-file: 2026-02-02-preview/SnapshotsListByResourceGroup.json
  */
 async function listSnapshotsByResourceGroup() {
   const credential = new DefaultAzureCredential();

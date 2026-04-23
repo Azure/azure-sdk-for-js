@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists mesh memberships in a managed cluster.
  *
  * @summary lists mesh memberships in a managed cluster.
- * x-ms-original-file: 2026-01-02-preview/MeshMemberships_ListByManagedCluster.json
+ * x-ms-original-file: 2026-02-02-preview/MeshMemberships_ListByManagedCluster.json
  */
 async function listMeshMembershipsByManagedCluster() {
   const credential = new DefaultAzureCredential();

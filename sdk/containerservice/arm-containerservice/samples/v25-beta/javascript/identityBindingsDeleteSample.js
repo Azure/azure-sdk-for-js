@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes an identity binding in the specified managed cluster.
  *
  * @summary deletes an identity binding in the specified managed cluster.
- * x-ms-original-file: 2026-01-02-preview/IdentityBindings_Delete.json
+ * x-ms-original-file: 2026-02-02-preview/IdentityBindings_Delete.json
  */
 async function deleteIdentityBinding() {
   const credential = new DefaultAzureCredential();

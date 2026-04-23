@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to contains list of Guardrails version along with its support info and whether it is a default version.
  *
  * @summary contains list of Guardrails version along with its support info and whether it is a default version.
- * x-ms-original-file: 2026-01-02-preview/ListGuardrailsVersions.json
+ * x-ms-original-file: 2026-02-02-preview/ListGuardrailsVersions.json
  */
 async function listGuardrailsVersions() {
   const credential = new DefaultAzureCredential();

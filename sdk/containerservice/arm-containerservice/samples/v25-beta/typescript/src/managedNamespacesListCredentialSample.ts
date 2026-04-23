@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the credentials of a namespace.
  *
  * @summary lists the credentials of a namespace.
- * x-ms-original-file: 2026-01-02-preview/ManagedNamespacesListCredentialResult.json
+ * x-ms-original-file: 2026-02-02-preview/ManagedNamespacesListCredentialResult.json
  */
 async function listManagedNamespaceCredentials(): Promise<void> {
   const credential = new DefaultAzureCredential();

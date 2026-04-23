@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to contains Safeguards version along with its support info and whether it is a default version.
  *
  * @summary contains Safeguards version along with its support info and whether it is a default version.
- * x-ms-original-file: 2026-01-02-preview/GetSafeguardsVersions.json
+ * x-ms-original-file: 2026-02-02-preview/GetSafeguardsVersions.json
  */
 async function getSafeguardsAvailableVersions(): Promise<void> {
   const credential = new DefaultAzureCredential();
