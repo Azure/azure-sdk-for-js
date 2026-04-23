@@ -50,12 +50,14 @@ async function createRotationPolicyAndRotate() {
 
 async function getAKeyRotationPolicy() {
   const keyName = "MyKeyNameGetRotPolicy";
+  await client.createKey(keyName, "EC");
   const result = await client.getKeyRotationPolicy(keyName);
   console.log("result: ", result);
 }
 
 async function updateAKeyRotationPolicy() {
   const keyName = "MyKeyNameUpdateRotPolicy";
+  await client.createKey(keyName, "EC");
   const myPolicy = await client.getKeyRotationPolicy(keyName);
 
   const setPolicy = await client.updateKeyRotationPolicy(keyName, myPolicy);
@@ -64,6 +66,7 @@ async function updateAKeyRotationPolicy() {
 
 async function rotateAKey() {
   const keyName = "MyKeyNameRotate";
+  await client.createKey(keyName, "EC");
   // Set the key's automated rotation policy to rotate the key 30 days before expiry.
   const policy = await client.updateKeyRotationPolicy(keyName, {
     lifetimeActions: [
@@ -76,7 +79,7 @@ async function rotateAKey() {
     // In this case, any new key versions will expire after 90 days.
     expiresIn: "P90D",
   });
-
+  console.log("policy: ", policy);
   // You can get the current key rotation policy of a given key by calling the getKeyRotationPolicy method.
   const currentPolicy = await client.getKeyRotationPolicy(keyName);
   console.log("currentPolicy: ", currentPolicy);
@@ -90,7 +93,8 @@ export async function main(): Promise<void> {
   // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
   // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
   // about DefaultAzureCredential and the other credentials that are available for use.
-  client = new KeyClient(process.env["KEYVAULT_URI"], new DefaultAzureCredential());
+  const credential = new DefaultAzureCredential();
+  client = new KeyClient(process.env["KEYVAULT_URI"]!, credential);
   await createRotationPolicyAndRotate();
   await getAKeyRotationPolicy();
   await updateAKeyRotationPolicy();

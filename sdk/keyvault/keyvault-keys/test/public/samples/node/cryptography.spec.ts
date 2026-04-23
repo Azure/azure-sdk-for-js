@@ -99,10 +99,10 @@ describe("cryptography", () => {
     );
 
     // Sign and Verify
-    const signatureValue = "MySignature";
+    const message = "MyMessage";
     const hash = createHash("sha256");
 
-    hash.update(signatureValue);
+    hash.update(message);
     const digest = hash.digest();
     console.log("digest: ", digest);
 
@@ -207,10 +207,10 @@ describe("cryptography", () => {
     );
 
     // @snippet ReadmeSampleSign
-    const signatureValue = "MySignature";
+    const message = "MyMessage";
     const hash = createHash("sha256");
     // @ts-preserve-whitespace
-    const digest = hash.update(signatureValue).digest();
+    const digest = hash.update(message).digest();
     console.log("digest: ", digest);
     // @ts-preserve-whitespace
     const signResult = await cryptographyClient.sign("RS256", digest);

@@ -175,6 +175,7 @@ describe("helloWorld", () => {
   });
 
   it("create a key with attributes", async () => {
+    // @snippet ReadmeSampleCreateKeyWithAttributes
     const keyName = "MyAttrKeyName";
     // @ts-preserve-whitespace
     const result = await client.createKey(keyName, "RSA", {

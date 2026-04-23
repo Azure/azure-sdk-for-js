@@ -86,11 +86,13 @@ async function importAKey() {
   const jsonWebKey = createRsaKey();
 
   const result = await client.importKey(keyName, jsonWebKey);
+  console.log("result: ", result);
 }
 
 async function getACryptographyClient() {
   // Get a cryptography client for a given key
   const cryptographyClient = client.getCryptographyClient("MyKey");
+  console.log("cryptographyClient: ", cryptographyClient.keyID);
 }
 
 async function getAKey() {
@@ -117,7 +119,7 @@ async function updateKeyProperties() {
   const keyName = "MyUpdateKeyName";
 
   const result = await client.createKey(keyName, "RSA");
-  await client.updateKeyProperties(keyName, result.properties.version, {
+  await client.updateKeyProperties(keyName, result.properties.version!, {
     enabled: false,
   });
 }
@@ -166,6 +168,7 @@ async function backUpAKey() {
   await client.createKey(keyName, "RSA");
 
   const backupContents = await client.backupKey(keyName);
+  console.log("backupContents: ", backupContents);
 }
 
 async function restoreAKeyFromBackup() {
@@ -179,7 +182,7 @@ async function restoreAKeyFromBackup() {
 
   await client.purgeDeletedKey(keyName);
 
-  await retryWithBackoff(() => client.restoreKeyBackup(backupContents));
+  await retryWithBackoff(() => client.restoreKeyBackup(backupContents!));
 }
 
 async function deleteAKeyWithSoftDelete() {
@@ -286,7 +289,7 @@ export async function main(): Promise<void> {
   // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
   // about DefaultAzureCredential and the other credentials that are available for use.
   const credential = new DefaultAzureCredential();
-  client = new KeyClient(process.env["KEYVAULT_URI"], credential);
+  client = new KeyClient(process.env["KEYVAULT_URI"]!, credential);
   await createAndGetAKey();
   await listKeys();
   await updateAndDeleteKeys();

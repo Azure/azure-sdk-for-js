@@ -52,7 +52,7 @@ async function releaseAKey() {
   });
   // Obtain an attestation token from Azure Attestation Service using the OpenEnclave report.
   const attestation = await getAttestationToken(
-    process.env["AZURE_KEYVAULT_ATTESTATION_PROVIDER_URL"]!,
+    attestationProviderUrl,
     new DefaultAzureCredential(),
     decodeBase64Url(openEnclaveReport),
   );
@@ -68,7 +68,7 @@ async function getRandomBytes() {
 
 export async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  hsmClient = new KeyClient(process.env["AZURE_MANAGEDHSM_URI"], credential);
+  hsmClient = new KeyClient(process.env["AZURE_MANAGEDHSM_URI"]!, credential);
   await createAnOctKey();
   await getKeyAttestation();
   await releaseAKey();

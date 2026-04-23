@@ -38,9 +38,9 @@ async function signAndVerify() {
   const myWorkKey = await client.createKey(keyName, "RSA");
   const cryptoClient = new CryptographyClient(myWorkKey.id!, credential);
   // Sign and Verify
-  const signatureValue = "MySignature";
+  const message = "MyMessage";
   const hash = createHash("sha256");
-  hash.update(signatureValue);
+  hash.update(message);
   const digest = hash.digest();
   console.log("digest: ", digest);
   const signature = await cryptoClient.sign("RS256", digest);
@@ -95,10 +95,10 @@ async function signADigest() {
   const myKey = await client.createKey(keyName, "RSA");
   const cryptographyClient = new CryptographyClient(myKey, credential);
 
-  const signatureValue = "MySignature";
+  const message = "MyMessage";
   const hash = createHash("sha256");
 
-  const digest = hash.update(signatureValue).digest();
+  const digest = hash.update(message).digest();
   console.log("digest: ", digest);
 
   const signResult = await cryptographyClient.sign("RS256", digest);
@@ -171,7 +171,7 @@ export async function main(): Promise<void> {
   // about DefaultAzureCredential and the other credentials that are available for use.
   credential = new DefaultAzureCredential();
   // Connection to Azure Key Vault
-  client = new KeyClient(process.env["KEYVAULT_URI"], credential);
+  client = new KeyClient(process.env["KEYVAULT_URI"]!, credential);
   await encryptAndDecrypt();
   await signAndVerify();
   await wrapAndUnwrapKey();
