@@ -3037,8 +3037,6 @@ export interface BatchJobManagerTask {
    * or because download failed, the Task fails.
    */
   applicationPackageReferences?: BatchApplicationPackageReference[];
-  /** The settings for an authentication token that the Task can use to perform Batch service operations. If this property is set, the Batch service provides the Task with an authentication token which can be used to authenticate Batch service operations without requiring an Account access key. The token is provided via the AZ_BATCH_AUTHENTICATION_TOKEN environment variable. The operations that the Task can carry out using the token depend on the settings. For example, a Task can request Job permissions in order to add other Tasks to the Job, or check the status of the Job or of other Tasks under the Job. */
-  authenticationTokenSettings?: AuthenticationTokenSettings;
   /** Whether the Job Manager Task may run on a Spot/Low-priority Compute Node. The default value is true. */
   allowLowPriorityNode?: boolean;
 }
@@ -3072,9 +3070,6 @@ export function batchJobManagerTaskSerializer(item: BatchJobManagerTask): any {
     applicationPackageReferences: !item["applicationPackageReferences"]
       ? item["applicationPackageReferences"]
       : batchApplicationPackageReferenceArraySerializer(item["applicationPackageReferences"]),
-    authenticationTokenSettings: !item["authenticationTokenSettings"]
-      ? item["authenticationTokenSettings"]
-      : authenticationTokenSettingsSerializer(item["authenticationTokenSettings"]),
     allowLowPriorityNode: item["allowLowPriorityNode"],
   };
 }
@@ -3108,9 +3103,6 @@ export function batchJobManagerTaskDeserializer(item: any): BatchJobManagerTask 
     applicationPackageReferences: !item["applicationPackageReferences"]
       ? item["applicationPackageReferences"]
       : batchApplicationPackageReferenceArrayDeserializer(item["applicationPackageReferences"]),
-    authenticationTokenSettings: !item["authenticationTokenSettings"]
-      ? item["authenticationTokenSettings"]
-      : authenticationTokenSettingsDeserializer(item["authenticationTokenSettings"]),
     allowLowPriorityNode: item["allowLowPriorityNode"],
   };
 }
@@ -3299,38 +3291,6 @@ export function batchTaskConstraintsDeserializer(item: any): BatchTaskConstraint
     maxTaskRetryCount: item["maxTaskRetryCount"],
   };
 }
-
-/**
- * The settings for an authentication token that the Task can use to perform Batch
- * service operations.
- */
-export interface AuthenticationTokenSettings {
-  /** The Batch resources to which the token grants access. The authentication token grants access to a limited set of Batch service operations. Currently the only supported value for the access property is 'job', which grants access to all operations related to the Job which contains the Task. */
-  scopes?: BatchAccessScope[];
-}
-
-export function authenticationTokenSettingsSerializer(item: AuthenticationTokenSettings): any {
-  return {
-    access: !item["scopes"]
-      ? item["scopes"]
-      : item["scopes"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function authenticationTokenSettingsDeserializer(item: any): AuthenticationTokenSettings {
-  return {
-    scopes: !item["access"]
-      ? item["access"]
-      : item["access"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-/** BatchAccessScope enums */
-export type BatchAccessScope = "job";
 
 /**
  * A Job Preparation Task to run before any Tasks of the Job on any given Compute Node.
@@ -4674,8 +4634,6 @@ export interface BatchTaskCreateOptions {
   dependsOn?: BatchTaskDependencies;
   /** A list of Packages that the Batch service will deploy to the Compute Node before running the command line. Application packages are downloaded and deployed to a shared directory, not the Task working directory. Therefore, if a referenced package is already on the Node, and is up to date, then it is not re-downloaded; the existing copy on the Compute Node is used. If a referenced Package cannot be installed, for example because the package has been deleted or because download failed, the Task fails. */
   applicationPackageReferences?: BatchApplicationPackageReference[];
-  /** The settings for an authentication token that the Task can use to perform Batch service operations. If this property is set, the Batch service provides the Task with an authentication token which can be used to authenticate Batch service operations without requiring an Account access key. The token is provided via the AZ_BATCH_AUTHENTICATION_TOKEN environment variable. The operations that the Task can carry out using the token depend on the settings. For example, a Task can request Job permissions in order to add other Tasks to the Job, or check the status of the Job or of other Tasks under the Job. */
-  authenticationTokenSettings?: AuthenticationTokenSettings;
 }
 
 export function batchTaskCreateOptionsSerializer(item: BatchTaskCreateOptions): any {
@@ -4717,9 +4675,6 @@ export function batchTaskCreateOptionsSerializer(item: BatchTaskCreateOptions): 
     applicationPackageReferences: !item["applicationPackageReferences"]
       ? item["applicationPackageReferences"]
       : batchApplicationPackageReferenceArraySerializer(item["applicationPackageReferences"]),
-    authenticationTokenSettings: !item["authenticationTokenSettings"]
-      ? item["authenticationTokenSettings"]
-      : authenticationTokenSettingsSerializer(item["authenticationTokenSettings"]),
   };
 }
 
@@ -5091,8 +5046,6 @@ export interface BatchTask {
   readonly dependsOn?: BatchTaskDependencies;
   /** A list of Packages that the Batch service will deploy to the Compute Node before running the command line. Application packages are downloaded and deployed to a shared directory, not the Task working directory. Therefore, if a referenced package is already on the Node, and is up to date, then it is not re-downloaded; the existing copy on the Compute Node is used. If a referenced Package cannot be installed, for example because the package has been deleted or because download failed, the Task fails. */
   readonly applicationPackageReferences?: BatchApplicationPackageReference[];
-  /** The settings for an authentication token that the Task can use to perform Batch service operations. If this property is set, the Batch service provides the Task with an authentication token which can be used to authenticate Batch service operations without requiring an Account access key. The token is provided via the AZ_BATCH_AUTHENTICATION_TOKEN environment variable. The operations that the Task can carry out using the token depend on the settings. For example, a Task can request Job permissions in order to add other Tasks to the Job, or check the status of the Job or of other Tasks under the Job. */
-  readonly authenticationTokenSettings?: AuthenticationTokenSettings;
 }
 
 export function batchTaskSerializer(item: BatchTask): any {
@@ -5157,9 +5110,6 @@ export function batchTaskDeserializer(item: any): BatchTask {
     applicationPackageReferences: !item["applicationPackageReferences"]
       ? item["applicationPackageReferences"]
       : batchApplicationPackageReferenceArrayDeserializer(item["applicationPackageReferences"]),
-    authenticationTokenSettings: !item["authenticationTokenSettings"]
-      ? item["authenticationTokenSettings"]
-      : authenticationTokenSettingsDeserializer(item["authenticationTokenSettings"]),
   };
 }
 

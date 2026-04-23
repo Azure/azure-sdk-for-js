@@ -27,6 +27,8 @@ For a detailed guide on migrating from v12 to v13, see the [Migration Guide](htt
   - `ocpdate` → `ocpDate`
   - `timeOutInSeconds` → `timeoutInSeconds`
   - `maxresults` → `maxResults`
+- Removed `AuthenticationTokenSettings` interface and `BatchAccessScope` type.
+- Removed `authenticationTokenSettings` property from `BatchJobManagerTask`, `BatchTask`, and `BatchTaskCreateOptions`.
 
 ### Bugs Fixed
 

@@ -2,7 +2,7 @@
   "apiVersions": {
     "Azure.Batch": "2025-06-01"
   },
-  "emitterVersion": "0.52.0",
+  "emitterVersion": "0.52.2",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Azure.Batch",
     "CrossLanguageDefinitionId": {
@@ -94,7 +94,6 @@
       "@azure/batch!OutputFileUploadHeader:interface": "Azure.Batch.OutputFileUploadHeader",
       "@azure/batch!OutputFileUploadConfig:interface": "Azure.Batch.OutputFileUploadConfig",
       "@azure/batch!BatchTaskConstraints:interface": "Azure.Batch.BatchTaskConstraints",
-      "@azure/batch!AuthenticationTokenSettings:interface": "Azure.Batch.AuthenticationTokenSettings",
       "@azure/batch!BatchJobPreparationTask:interface": "Azure.Batch.BatchJobPreparationTask",
       "@azure/batch!BatchJobReleaseTask:interface": "Azure.Batch.BatchJobReleaseTask",
       "@azure/batch!BatchPoolInfo:interface": "Azure.Batch.BatchPoolInfo",
@@ -201,7 +200,6 @@
       "@azure/batch!KnownImageVerificationType:enum": "Azure.Batch.ImageVerificationType",
       "@azure/batch!KnownBatchJobState:enum": "Azure.Batch.BatchJobState",
       "@azure/batch!KnownOutputFileUploadCondition:enum": "Azure.Batch.OutputFileUploadCondition",
-      "@azure/batch!KnownBatchAccessScope:enum": "Azure.Batch.BatchAccessScope",
       "@azure/batch!KnownBatchPoolLifetimeOption:enum": "Azure.Batch.BatchPoolLifetimeOption",
       "@azure/batch!KnownBatchAllTasksCompleteMode:enum": "Azure.Batch.BatchAllTasksCompleteMode",
       "@azure/batch!KnownBatchTaskFailureMode:enum": "Azure.Batch.BatchTaskFailureMode",

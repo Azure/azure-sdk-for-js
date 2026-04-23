@@ -115,8 +115,6 @@ export type {
   OutputFileUploadConfig,
   OutputFileUploadCondition,
   BatchTaskConstraints,
-  AuthenticationTokenSettings,
-  BatchAccessScope,
   BatchJobPreparationTask,
   BatchJobReleaseTask,
   BatchPoolInfo,

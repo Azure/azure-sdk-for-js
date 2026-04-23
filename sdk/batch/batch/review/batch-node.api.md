@@ -15,11 +15,6 @@ import type { TokenCredential } from '@azure/core-auth';
 export type AllocationState = "steady" | "resizing" | "stopping";
 
 // @public
-export interface AuthenticationTokenSettings {
-    scopes?: BatchAccessScope[];
-}
-
-// @public
 export interface AutomaticOsUpgradePolicy {
     disableAutomaticRollback?: boolean;
     enableAutomaticOsUpgrade?: boolean;
@@ -69,9 +64,6 @@ export interface AzureFileShareConfiguration {
     mountOptions?: string;
     relativeMountPath: string;
 }
-
-// @public
-export type BatchAccessScope = "job";
 
 // @public
 export interface BatchAffinityInfo {
@@ -322,7 +314,6 @@ export interface BatchJobExecutionInfo {
 export interface BatchJobManagerTask {
     allowLowPriorityNode?: boolean;
     applicationPackageReferences?: BatchApplicationPackageReference[];
-    authenticationTokenSettings?: AuthenticationTokenSettings;
     commandLine: string;
     constraints?: BatchTaskConstraints;
     containerSettings?: BatchTaskContainerSettings;
@@ -1014,7 +1005,6 @@ export interface BatchSupportedImage {
 export interface BatchTask {
     readonly affinityInfo?: BatchAffinityInfo;
     readonly applicationPackageReferences?: BatchApplicationPackageReference[];
-    readonly authenticationTokenSettings?: AuthenticationTokenSettings;
     readonly commandLine: string;
     constraints?: BatchTaskConstraints;
     readonly containerSettings?: BatchTaskContainerSettings;
@@ -1086,7 +1076,6 @@ export interface BatchTaskCountsResult {
 export interface BatchTaskCreateOptions {
     affinityInfo?: BatchAffinityInfo;
     applicationPackageReferences?: BatchApplicationPackageReference[];
-    authenticationTokenSettings?: AuthenticationTokenSettings;
     commandLine: string;
     constraints?: BatchTaskConstraints;
     containerSettings?: BatchTaskContainerSettings;
