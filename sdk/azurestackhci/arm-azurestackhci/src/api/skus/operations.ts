@@ -31,7 +31,7 @@ export function _listByOfferSend(
       clusterName: clusterName,
       publisherName: publisherName,
       offerName: offerName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
       "%24expand": options?.expand,
     },
     {
@@ -71,7 +71,11 @@ export function listByOffer(
       _listByOfferSend(context, resourceGroupName, clusterName, publisherName, offerName, options),
     _listByOfferDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-02-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    },
   );
 }
 
@@ -93,7 +97,7 @@ export function _getSend(
       publisherName: publisherName,
       offerName: offerName,
       skuName: skuName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
       "%24expand": options?.expand,
     },
     {

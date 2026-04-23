@@ -970,5 +970,17 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
       assert.isFalse(isResolved, "Unexpected - promise is resolved");
       assert.isTrue(isRejected, "Unexpected - promise is not rejected");
     });
+    it("clamps negative timeoutInMs to 0 and times out immediately", async function () {
+      const connectionStub = createConnectionStub();
+      const link = await RequestResponseLink.create(connectionStub, {}, {});
+
+      // The OperationTimeoutError is wrapped by translate() into a MessagingError
+      await expect(
+        link.sendRequest(
+          { body: "test" },
+          { timeoutInMs: -500, requestName: "negativeTimeoutTest" },
+        ),
+      ).rejects.toThrow(/timed out/);
+    });
   });
 });

@@ -1,45 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  ThroughputPoolAccountResource} from "@azure/arm-cosmosdb";
-import {
-  CosmosDBManagementClient,
-} from "@azure/arm-cosmosdb";
+import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates or updates an Azure Cosmos DB ThroughputPool account. The "Update" method is preferred when performing updates on an account.
+ * This sample demonstrates how to creates or updates an Azure Cosmos DB ThroughputPool account. The "Update" method is preferred when performing updates on an account.
  *
- * @summary Creates or updates an Azure Cosmos DB ThroughputPool account. The "Update" method is preferred when performing updates on an account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/throughputPool/CosmosDBThroughputPoolAccountCreate.json
+ * @summary creates or updates an Azure Cosmos DB ThroughputPool account. The "Update" method is preferred when performing updates on an account.
+ * x-ms-original-file: 2025-11-01-preview/throughputPool/CosmosDBThroughputPoolAccountCreate.json
  */
-async function cosmosDbThroughputPoolAccountCreate(): Promise<void> {
-  const subscriptionId =
-    process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const throughputPoolName = "tp1";
-  const throughputPoolAccountName = "db1";
-  const body: ThroughputPoolAccountResource = {
+async function cosmosDBThroughputPoolAccountCreate(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new CosmosDBManagementClient(credential, subscriptionId);
+  const result = await client.throughputPoolAccount.create("rg1", "tp1", "db1", {
     accountLocation: "West US",
     accountResourceIdentifier:
       "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/providers/Microsoft.DocumentDB/resourceGroup/rg1/databaseAccounts/db1/",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.throughputPoolAccount.beginCreateAndWait(
-    resourceGroupName,
-    throughputPoolName,
-    throughputPoolAccountName,
-    body,
-  );
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await cosmosDbThroughputPoolAccountCreate();
+  await cosmosDBThroughputPoolAccountCreate();
 }
 
 main().catch(console.error);

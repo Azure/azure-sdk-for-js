@@ -3,35 +3,28 @@
 
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Deletes an existing Azure Cosmos DB SQL trigger.
+ * This sample demonstrates how to deletes an existing Azure Cosmos DB SQL trigger.
  *
- * @summary Deletes an existing Azure Cosmos DB SQL trigger.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBSqlTriggerDelete.json
+ * @summary deletes an existing Azure Cosmos DB SQL trigger.
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBSqlTriggerDelete.json
  */
-async function cosmosDbSqlTriggerDelete() {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const accountName = "ddb1";
-  const databaseName = "databaseName";
-  const containerName = "containerName";
-  const triggerName = "triggerName";
+async function cosmosDBSqlTriggerDelete() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.sqlResources.beginDeleteSqlTriggerAndWait(
-    resourceGroupName,
-    accountName,
-    databaseName,
-    containerName,
-    triggerName,
+  await client.sqlResources.deleteSqlTrigger(
+    "rg1",
+    "ddb1",
+    "databaseName",
+    "containerName",
+    "triggerName",
   );
-  console.log(result);
 }
 
 async function main() {
-  await cosmosDbSqlTriggerDelete();
+  await cosmosDBSqlTriggerDelete();
 }
 
 main().catch(console.error);

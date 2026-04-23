@@ -1,37 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MergeParameters} from "@azure/arm-cosmosdb";
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Merges the partitions of a SQL database
+ * This sample demonstrates how to merges the partitions of a SQL database
  *
- * @summary Merges the partitions of a SQL database
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBSqlDatabasePartitionMerge.json
+ * @summary merges the partitions of a SQL database
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBSqlDatabasePartitionMerge.json
  */
-async function cosmosDbSqlDatabasePartitionMerge(): Promise<void> {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rgName";
-  const accountName = "ddb1";
-  const databaseName = "databaseName";
-  const mergeParameters: MergeParameters = { isDryRun: false };
+async function cosmosDBSqlDatabasePartitionMerge(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result =
-    await client.sqlResources.beginSqlDatabasePartitionMergeAndWait(
-      resourceGroupName,
-      accountName,
-      databaseName,
-      mergeParameters,
-    );
+  const result = await client.sqlResources.sqlDatabasePartitionMerge(
+    "rgName",
+    "ddb1",
+    "databaseName",
+    { isDryRun: false },
+  );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await cosmosDbSqlDatabasePartitionMerge();
+  await cosmosDBSqlDatabasePartitionMerge();
 }
 
 main().catch(console.error);

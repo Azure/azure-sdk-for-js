@@ -397,7 +397,7 @@
 # PRLabel: %Mgmt
 /sdk/azurestack/arm-azurestack/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/azurestackhci/arm-azurestackhci/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -433,7 +433,7 @@
 # PRLabel: %Mgmt
 /sdk/commerce/arm-commerce-profile-2020-09-01-hybrid/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/communication/arm-communication/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -475,7 +475,7 @@
 # PRLabel: %Mgmt
 /sdk/containerservice/arm-containerservice-rest/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/cosmosdb/arm-cosmosdb/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -655,7 +655,7 @@
 # PRLabel: %Mgmt
 /sdk/iotfirmwaredefense/arm-iotfirmwaredefense @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/iotoperations/arm-iotoperations/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
