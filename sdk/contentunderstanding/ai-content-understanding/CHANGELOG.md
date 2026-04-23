@@ -4,9 +4,8 @@
 
 ### Features Added
 
-- Added `AnalysisOperationState` interface that extends `OperationState<AnalysisResult>` with `operationId` and `usage` metadata, following the same pattern used by Form Recognizer (`DocumentAnalysisPollOperationState`) and Storage Blob (`BlobBeginCopyFromUrlPollState`).
-- Added `AnalysisOperationMetadata` interface with `usage` and `operationId` fields.
-- Added `usage` on `AnalysisOperationState` to surface billing and token consumption details (`UsageDetails`) after the operation completes. Access via `poller.operationState?.usage`.
+- Billing and token consumption details are now available after analysis operations complete. Access via `poller.operationState?.usage`.
+- The operation ID is now available on the operation state via `poller.operationState?.operationId`.
 
 ### Deprecations
 
