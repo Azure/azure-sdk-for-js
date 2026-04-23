@@ -369,7 +369,7 @@ describe("NodeHttpClient", function () {
   it("should handle NodeJS.ReadableStream bodies correctly", async function () {
     const requestText = "testing resettable stream";
     const client = createDefaultHttpClient();
-    const writeFn = vi.fn((chunk: Buffer, _: BufferEncoding, next: () => void) => {
+    const writeFn = vi.fn((chunk: Buffer, _: string, next: () => void) => {
       assert.equal(chunk.toString(), requestText, "Unexpected body");
       next();
     });
@@ -392,7 +392,7 @@ describe("NodeHttpClient", function () {
   it("should handle () => NodeJS.ReadableStream bodies correctly", async function () {
     const requestText = "testing resettable stream";
     const client = createDefaultHttpClient();
-    const writeFn = vi.fn((chunk: Buffer, _: BufferEncoding, next: () => void) => {
+    const writeFn = vi.fn((chunk: Buffer, _: string, next: () => void) => {
       assert.equal(chunk.toString(), requestText, "Unexpected body");
       next();
     });
