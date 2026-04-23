@@ -5,7 +5,6 @@
  * Backs up an Azure Key Vault secret to a local file and restores from it.
  */
 
-import { readFile, writeFile } from "node:fs/promises";
 import { SecretClient } from "../../../src/index.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { createTestCredential } from "@azure-tools/test-credential";
@@ -13,6 +12,7 @@ import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder"
 import { forPublishing } from "@azure-tools/test-publishing";
 import { retryWithBackoff } from "./utils.js";
 import { describe, it, beforeEach, afterEach } from "vitest";
+import { readFile, writeFile } from "node:fs/promises";
 // Load the .env file if it exists
 import "dotenv/config";
 
@@ -67,17 +67,14 @@ describe("backupAndRestore", () => {
     await writeFile("secret_backup.dat", backupResult!);
 
     // Delete the secret
-    console.log("about to delete");
     const deletePoller = await client.beginDeleteSecret(secretName);
     await deletePoller.pollUntilDone();
 
     // Purge the deleted secret
-    console.log("about to purge");
     await client.purgeDeletedSecret(secretName);
 
     // @snippet ReadmeSampleRestoreSecret
     // Read our backup from a file
-    console.log("about to restore secret");
     const backupContents = await readFile("secret_backup.dat");
     // @ts-preserve-whitespace
     // Restore the secret

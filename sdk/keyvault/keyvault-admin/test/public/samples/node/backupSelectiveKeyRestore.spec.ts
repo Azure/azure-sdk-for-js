@@ -80,7 +80,7 @@ describe("backupSelectiveKeyRestore", () => {
     await keyClient.createRsaKey(keyName);
     const backupPoller = await client.beginBackup(blobStorageUri);
     const backupResult = await backupPoller.pollUntilDone();
-    const backupFolderUri = forPublishing(backupResult.folderUri!, () => "<blob-storage-uri>");
+    const backupFolderUri = backupResult.folderUri!;
     const poller = await forPublishing(
       client.beginSelectiveKeyRestore(keyName, backupFolderUri),
       () => client.beginSelectiveKeyRestore(keyName, backupFolderUri, sasToken),
@@ -116,7 +116,7 @@ describe("backupSelectiveKeyRestore", () => {
     await keyClient.createRsaKey(keyName);
     const backupPoller = await client.beginBackup(blobStorageUri);
     const backupResult = await backupPoller.pollUntilDone();
-    const backupFolderUri = forPublishing(backupResult.folderUri!, () => "<blob-storage-uri>");
+    const backupFolderUri = backupResult.folderUri!;
     const poller = await client.beginSelectiveKeyRestore(keyName, backupFolderUri);
     // @ts-preserve-whitespace
     // Serializing the poller

@@ -10,9 +10,6 @@ import "dotenv/config";
 import type { TokenCredential } from "@azure/core-auth";
 import { DefaultAzureCredential } from "@azure/identity";
 import { CryptographyClient, KeyClient } from "@azure/keyvault-keys";
-/**
- * Uses an Azure Key Vault key to sign/verify, encrypt/decrypt, and wrap/unwrap data.
- */
 import { createHash } from "node:crypto";
 
 let client: KeyClient;
@@ -64,7 +61,8 @@ async function wrapAndUnwrapKey() {
 }
 
 async function encryptData() {
-  const myKey = await client.createKey(`MyKey`, "RSA");
+  const keyName = `sample-key-${Date.now()}`;
+  const myKey = await client.createKey(keyName, "RSA");
   const cryptographyClient = new CryptographyClient(myKey.id!, credential);
 
   const encryptResult = await cryptographyClient.encrypt({
@@ -75,7 +73,8 @@ async function encryptData() {
 }
 
 async function decryptData() {
-  const myKey = await client.createKey(`MyKey`, "RSA");
+  const keyName = `sample-key-${Date.now()}`;
+  const myKey = await client.createKey(keyName, "RSA");
   const cryptographyClient = new CryptographyClient(myKey.id!, credential);
 
   const encryptResult = await cryptographyClient.encrypt({
@@ -92,7 +91,8 @@ async function decryptData() {
 }
 
 async function signADigest() {
-  const myKey = await client.createKey(`MyKey`, "RSA");
+  const keyName = `sample-key-${Date.now()}`;
+  const myKey = await client.createKey(keyName, "RSA");
   const cryptographyClient = new CryptographyClient(myKey, credential);
 
   const signatureValue = "MySignature";
@@ -106,7 +106,8 @@ async function signADigest() {
 }
 
 async function signData() {
-  const myKey = await client.createKey(`MyKey`, "RSA");
+  const keyName = `sample-key-${Date.now()}`;
+  const myKey = await client.createKey(keyName, "RSA");
   const cryptographyClient = new CryptographyClient(myKey, credential);
 
   const signResult = await cryptographyClient.signData("RS256", Buffer.from("My Message"));
@@ -114,7 +115,8 @@ async function signData() {
 }
 
 async function verifyADigestSignature() {
-  const myKey = await client.createKey(`MyKey`, "RSA");
+  const keyName = `sample-key-${Date.now()}`;
+  const myKey = await client.createKey(keyName, "RSA");
   const cryptographyClient = new CryptographyClient(myKey, credential);
 
   const hash = createHash("sha256");
@@ -129,7 +131,8 @@ async function verifyADigestSignature() {
 }
 
 async function verifyADataSignature() {
-  const myKey = await client.createKey(`MyKey`, "RSA");
+  const keyName = `sample-key-${Date.now()}`;
+  const myKey = await client.createKey(keyName, "RSA");
   const cryptographyClient = new CryptographyClient(myKey, credential);
 
   const buffer = Buffer.from("My Message");
@@ -142,7 +145,8 @@ async function verifyADataSignature() {
 }
 
 async function wrapAKey() {
-  const myKey = await client.createKey(`MyKey`, "RSA");
+  const keyName = `sample-key-${Date.now()}`;
+  const myKey = await client.createKey(keyName, "RSA");
   const cryptographyClient = new CryptographyClient(myKey, credential);
 
   const wrapResult = await cryptographyClient.wrapKey("RSA-OAEP", Buffer.from("My Key"));
@@ -150,7 +154,8 @@ async function wrapAKey() {
 }
 
 async function unwrapAKey() {
-  const myKey = await client.createKey(`MyKey`, "RSA");
+  const keyName = `sample-key-${Date.now()}`;
+  const myKey = await client.createKey(keyName, "RSA");
   const cryptographyClient = new CryptographyClient(myKey, credential);
 
   const wrapResult = await cryptographyClient.wrapKey("RSA-OAEP", Buffer.from("My Key"));

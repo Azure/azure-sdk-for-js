@@ -50,8 +50,6 @@ async function updateAndListCertificateVersions() {
 }
 
 async function listAllCertificates() {
-  const certificateName = "MyCertificate";
-
   for await (const certificateProperties of client.listPropertiesOfCertificates()) {
     console.log("Certificate properties: ", certificateProperties);
   }
@@ -59,15 +57,13 @@ async function listAllCertificates() {
     console.log("Deleted certificate: ", deletedCertificate);
   }
   for await (const certificateProperties of client.listPropertiesOfCertificateVersions(
-    certificateName,
+    certificateName1,
   )) {
     console.log("Certificate properties: ", certificateProperties);
   }
 }
 
 async function listCertificatesByPage() {
-  const certificateName = "MyCertificate";
-
   for await (const page of client.listPropertiesOfCertificates().byPage()) {
     for (const certificateProperties of page) {
       console.log("Certificate properties: ", certificateProperties);
@@ -78,7 +74,7 @@ async function listCertificatesByPage() {
       console.log("Deleted certificate: ", deletedCertificate);
     }
   }
-  for await (const page of client.listPropertiesOfCertificateVersions(certificateName).byPage()) {
+  for await (const page of client.listPropertiesOfCertificateVersions(certificateName2).byPage()) {
     for (const certificateProperties of page) {
       console.log("Properties of certificate: ", certificateProperties);
     }
@@ -100,9 +96,8 @@ async function listCertificateProperties() {
 }
 
 async function listCertificateVersions() {
-  const certificateName = "MyCertificate";
   for await (const certificateProperties of client.listPropertiesOfCertificateVersions(
-    certificateName,
+    certificateName1,
   )) {
     console.log(certificateProperties.version);
   }

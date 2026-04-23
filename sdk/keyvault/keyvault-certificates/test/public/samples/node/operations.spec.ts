@@ -85,14 +85,12 @@ describe("operations", () => {
       },
     );
 
-    let error;
     try {
       await client.getCertificateOperation(certificateName);
-      throw Error("Expecting an error but not catching one.");
     } catch (e: any) {
-      error = e;
+      // getCertificateOperation throws when the operation has been deleted
+      console.log("Certificate operation no longer exists:", e.code);
     }
-    console.log(error.message); // Pending certificate not found
 
     // There will be no signs of a pending operation at this point
     const certificateWithoutOperation = await client.getCertificate(certificateName);

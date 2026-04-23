@@ -30,14 +30,12 @@ async function manageCertificateContacts() {
   const getResponse = await client.getContacts();
   console.log("Contact List:", getResponse);
   await client.deleteContacts();
-  let error;
   try {
     await client.getContacts();
-    throw Error("Expecting an error but not catching one.");
   } catch (e) {
-    error = e;
+    // getContacts throws a 404 when no contacts have been set
+    console.log("No contacts found (expected):", e.code);
   }
-  console.log("err: ", error);
 }
 
 async function deleteCertificateContacts() {

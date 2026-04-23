@@ -9,12 +9,7 @@
 require("dotenv/config");
 const { DefaultAzureCredential } = require("@azure/identity");
 const { CertificateClient } = require("@azure/keyvault-certificates");
-/**
- * Creates a certificate with an unknown issuer and signs it using a fake certificate authority and the mergeCertificate API.
- */
-const childProcess = require("child_process");
 const { execSync } = require("node:child_process");
-const fs = require("node:fs");
 const { readFileSync, writeFileSync } = require("node:fs");
 
 let client;
@@ -34,7 +29,7 @@ async function mergeACertificate() {
   const wrappedCsr = `-----BEGIN CERTIFICATE REQUEST-----
   ${base64Csr}
   -----END CERTIFICATE REQUEST-----`;
-  fs.writeFileSync("test.csr", wrappedCsr);
+  writeFileSync("test.csr", wrappedCsr);
   // Now, signing the retrieved certificate request with a fake certificate authority.
   // A certificate authority is composed of two pieces, a certificate and a private key.
   //
@@ -45,10 +40,8 @@ async function mergeACertificate() {
   //
   // For more information on how to set up a local certificate authority
   // go to: https://gist.github.com/Soarez/9688998
-  childProcess.execSync(
-    "openssl x509 -req -in test.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out test.crt",
-  );
-  const base64Crt = fs.readFileSync("test.crt").toString().split("\n").slice(1, -1).join("");
+  execSync("openssl x509 -req -in test.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out test.crt");
+  const base64Crt = readFileSync("test.crt").toString().split("\n").slice(1, -1).join("");
   // Once we have the response in base64 format, we send it to mergeCertificate
   await client.mergeCertificate(certificateName, [Buffer.from(base64Crt)]);
 }

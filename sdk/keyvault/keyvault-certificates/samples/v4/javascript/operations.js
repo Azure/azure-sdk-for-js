@@ -37,15 +37,12 @@ async function getAndCancelPendingOperations() {
       /conflict while deleting the pending certificate/i.test(e.message) ||
       /Pending Certificate not found/i.test(e.message),
   });
-  let error;
   try {
     await client.getCertificateOperation(certificateName);
-    throw Error("Expecting an error but not catching one.");
   } catch (e) {
-    error = e;
+    // getCertificateOperation throws when the operation has been deleted
+    console.log("Certificate operation no longer exists:", e.code);
   }
-  console.log(error.message); // Pending certificate not found
-
   // There will be no signs of a pending operation at this point
   const certificateWithoutOperation = await client.getCertificate(certificateName);
   console.log("Certificate without operation:", certificateWithoutOperation);

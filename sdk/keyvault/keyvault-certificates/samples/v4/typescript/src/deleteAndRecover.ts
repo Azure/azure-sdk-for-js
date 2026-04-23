@@ -52,8 +52,6 @@ async function deleteACertificate() {
   // Deleted certificates can also be recovered or purged.
 
   // recoverDeletedCertificate returns a poller, just like beginDeleteCertificate.
-  // const recoverPoller = await client.beginRecoverDeletedCertificate(certificateName);
-  // await recoverPoller.pollUntilDone();
 
   // If a certificate is done and the Key Vault has soft-delete enabled, the certificate can be purged with:
   await client.purgeDeletedCertificate(certificateName);

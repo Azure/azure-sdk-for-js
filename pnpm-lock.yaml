@@ -16457,6 +16457,9 @@ importers:
       '@azure-tools/test-credential':
         specifier: workspace:^
         version: link:../../test-utils/test-credential
+      '@azure-tools/test-publishing':
+        specifier: workspace:^
+        version: link:../../test-utils/test-publishing
       '@azure-tools/test-recorder':
         specifier: workspace:^
         version: link:../../test-utils/recorder
@@ -16548,6 +16551,9 @@ importers:
       '@azure-tools/test-credential':
         specifier: workspace:^
         version: link:../../test-utils/test-credential
+      '@azure-tools/test-publishing':
+        specifier: workspace:^
+        version: link:../../test-utils/test-publishing
       '@azure-tools/test-recorder':
         specifier: workspace:^
         version: link:../../test-utils/recorder
@@ -16749,6 +16755,9 @@ importers:
       '@azure-tools/test-credential':
         specifier: workspace:^
         version: link:../../test-utils/test-credential
+      '@azure-tools/test-publishing':
+        specifier: workspace:^
+        version: link:../../test-utils/test-publishing
       '@azure-tools/test-recorder':
         specifier: workspace:^
         version: link:../../test-utils/recorder
@@ -16880,6 +16889,9 @@ importers:
       '@azure-tools/test-credential':
         specifier: workspace:^
         version: link:../../test-utils/test-credential
+      '@azure-tools/test-publishing':
+        specifier: workspace:^
+        version: link:../../test-utils/test-publishing
       '@azure-tools/test-recorder':
         specifier: workspace:^
         version: link:../../test-utils/recorder

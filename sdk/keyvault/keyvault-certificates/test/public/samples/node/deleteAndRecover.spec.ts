@@ -106,8 +106,6 @@ describe("deleteAndRecover", () => {
     // Deleted certificates can also be recovered or purged.
     // @ts-preserve-whitespace
     // recoverDeletedCertificate returns a poller, just like beginDeleteCertificate.
-    // const recoverPoller = await client.beginRecoverDeletedCertificate(certificateName);
-    // await recoverPoller.pollUntilDone();
     // @ts-preserve-whitespace
     // If a certificate is done and the Key Vault has soft-delete enabled, the certificate can be purged with:
     await client.purgeDeletedCertificate(certificateName);

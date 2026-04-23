@@ -38,7 +38,7 @@ async function getRoleDefinition() {
 
 async function setRoleDefinition() {
   const permissions = [{ dataActions: [KnownKeyVaultDataAction.BackupHsmKeys] }];
-  const roleDefinitionName = "23b8bb1a-39c0-4c89-a85b-dd3c99273a8a";
+  const roleDefinitionName = randomUUID();
   const roleDefinition = await client.setRoleDefinition(KnownKeyVaultRoleScope.Global, {
     permissions,
     roleDefinitionName,
@@ -51,7 +51,7 @@ async function setRoleDefinition() {
 
 async function deleteRoleDefinition() {
   const permissions = [{ dataActions: [KnownKeyVaultDataAction.BackupHsmKeys] }];
-  const roleDefinitionName = "23b8bb1a-39c0-4c89-a85b-dd3c99273a8a";
+  const roleDefinitionName = randomUUID();
   const roleDefinition = await client.setRoleDefinition(KnownKeyVaultRoleScope.Global, {
     permissions,
     roleDefinitionName,
@@ -64,10 +64,10 @@ async function deleteRoleDefinition() {
 async function createRoleAssignment() {
   const { value: roleDefinition } = await client.listRoleDefinitions("/").next();
 
-  const principalId = "4871f6a6-374f-4b6b-8b0c-f5d84db823f6";
+  const principalId = process.env["CLIENT_OBJECT_ID"] || "<client-object-id>";
   const result = await client.createRoleAssignment(
     "/",
-    "295c179b-9ad3-4117-99cd-b1aa66cf4517",
+    randomUUID(),
     roleDefinition.id,
     principalId,
   );
@@ -77,11 +77,11 @@ async function createRoleAssignment() {
 
 async function getRoleAssignment() {
   const { value: roleDefinition } = await client.listRoleDefinitions("/").next();
-  const principalId = "4871f6a6-374f-4b6b-8b0c-f5d84db823f6";
+  const principalId = process.env["CLIENT_OBJECT_ID"] || "<client-object-id>";
 
   let roleAssignment = await client.createRoleAssignment(
     "/",
-    "295c179b-9ad3-4117-99cd-b1aa66cf4517",
+    randomUUID(),
     roleDefinition.id,
     principalId,
   );
@@ -97,11 +97,11 @@ async function getRoleAssignment() {
 
 async function deleteRoleAssignment() {
   const { value: roleDefinition } = await client.listRoleDefinitions("/").next();
-  const principalId = "4871f6a6-374f-4b6b-8b0c-f5d84db823f6";
+  const principalId = process.env["CLIENT_OBJECT_ID"] || "<client-object-id>";
 
   const roleAssignment = await client.createRoleAssignment(
     "/",
-    "295c179b-9ad3-4117-99cd-b1aa66cf4517",
+    randomUUID(),
     roleDefinition.id,
     principalId,
   );

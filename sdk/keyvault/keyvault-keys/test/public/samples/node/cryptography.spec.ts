@@ -5,7 +5,6 @@
  * Uses an Azure Key Vault key to sign/verify, encrypt/decrypt, and wrap/unwrap data.
  */
 
-import { createHash } from "node:crypto";
 import { CryptographyClient, KeyClient } from "../../../src/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -13,6 +12,7 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { forPublishing } from "@azure-tools/test-publishing";
 import { describe, it, beforeEach, afterEach } from "vitest";
+import { createHash } from "node:crypto";
 // Load the .env file if it exists
 import "dotenv/config";
 
@@ -138,13 +138,11 @@ describe("cryptography", () => {
   });
 
   it("encrypt data", async () => {
-    const myKey = await client.createKey(
-      forPublishing(
-        recorder.variable("encryptKeyName", `crypto-encrypt-key${Date.now()}`),
-        () => `MyKey`,
-      ),
-      "RSA",
+    const keyName = forPublishing(
+      recorder.variable("encryptKeyName", `crypto-encrypt-key${Date.now()}`),
+      () => `sample-key-${Date.now()}`,
     );
+    const myKey = await client.createKey(keyName, "RSA");
     const cryptographyClient = forPublishing(
       new CryptographyClient(
         myKey.id!,
@@ -164,13 +162,11 @@ describe("cryptography", () => {
   });
 
   it("decrypt data", async () => {
-    const myKey = await client.createKey(
-      forPublishing(
-        recorder.variable("decryptKeyName", `crypto-decrypt-key${Date.now()}`),
-        () => `MyKey`,
-      ),
-      "RSA",
+    const keyName = forPublishing(
+      recorder.variable("decryptKeyName", `crypto-decrypt-key${Date.now()}`),
+      () => `sample-key-${Date.now()}`,
     );
+    const myKey = await client.createKey(keyName, "RSA");
     const cryptographyClient = forPublishing(
       new CryptographyClient(
         myKey.id!,
@@ -196,13 +192,11 @@ describe("cryptography", () => {
   });
 
   it("sign a digest", async () => {
-    const myKey = await client.createKey(
-      forPublishing(
-        recorder.variable("signKeyName2", `crypto-sign-key2${Date.now()}`),
-        () => `MyKey`,
-      ),
-      "RSA",
+    const keyName = forPublishing(
+      recorder.variable("signKeyName2", `crypto-sign-key2${Date.now()}`),
+      () => `sample-key-${Date.now()}`,
     );
+    const myKey = await client.createKey(keyName, "RSA");
     const cryptographyClient = forPublishing(
       new CryptographyClient(
         myKey,
@@ -225,13 +219,11 @@ describe("cryptography", () => {
   });
 
   it("sign data", async () => {
-    const myKey = await client.createKey(
-      forPublishing(
-        recorder.variable("signDataKeyName", `crypto-signdata-key${Date.now()}`),
-        () => `MyKey`,
-      ),
-      "RSA",
+    const keyName = forPublishing(
+      recorder.variable("signDataKeyName", `crypto-signdata-key${Date.now()}`),
+      () => `sample-key-${Date.now()}`,
     );
+    const myKey = await client.createKey(keyName, "RSA");
     const cryptographyClient = forPublishing(
       new CryptographyClient(
         myKey,
@@ -248,13 +240,11 @@ describe("cryptography", () => {
   });
 
   it("verify a digest signature", async () => {
-    const myKey = await client.createKey(
-      forPublishing(
-        recorder.variable("verifyKeyName", `crypto-verify-key${Date.now()}`),
-        () => `MyKey`,
-      ),
-      "RSA",
+    const keyName = forPublishing(
+      recorder.variable("verifyKeyName", `crypto-verify-key${Date.now()}`),
+      () => `sample-key-${Date.now()}`,
     );
+    const myKey = await client.createKey(keyName, "RSA");
     const cryptographyClient = forPublishing(
       new CryptographyClient(
         myKey,
@@ -278,13 +268,11 @@ describe("cryptography", () => {
   });
 
   it("verify a data signature", async () => {
-    const myKey = await client.createKey(
-      forPublishing(
-        recorder.variable("verifyDataKeyName", `crypto-verifydata-key${Date.now()}`),
-        () => `MyKey`,
-      ),
-      "RSA",
+    const keyName = forPublishing(
+      recorder.variable("verifyDataKeyName", `crypto-verifydata-key${Date.now()}`),
+      () => `sample-key-${Date.now()}`,
     );
+    const myKey = await client.createKey(keyName, "RSA");
     const cryptographyClient = forPublishing(
       new CryptographyClient(
         myKey,
@@ -306,13 +294,11 @@ describe("cryptography", () => {
   });
 
   it("wrap a key", async () => {
-    const myKey = await client.createKey(
-      forPublishing(
-        recorder.variable("wrapKeyName2", `crypto-wrap-key2${Date.now()}`),
-        () => `MyKey`,
-      ),
-      "RSA",
+    const keyName = forPublishing(
+      recorder.variable("wrapKeyName2", `crypto-wrap-key2${Date.now()}`),
+      () => `sample-key-${Date.now()}`,
     );
+    const myKey = await client.createKey(keyName, "RSA");
     const cryptographyClient = forPublishing(
       new CryptographyClient(
         myKey,
@@ -329,13 +315,11 @@ describe("cryptography", () => {
   });
 
   it("unwrap a key", async () => {
-    const myKey = await client.createKey(
-      forPublishing(
-        recorder.variable("unwrapKeyName", `crypto-unwrap-key${Date.now()}`),
-        () => `MyKey`,
-      ),
-      "RSA",
+    const keyName = forPublishing(
+      recorder.variable("unwrapKeyName", `crypto-unwrap-key${Date.now()}`),
+      () => `sample-key-${Date.now()}`,
     );
+    const myKey = await client.createKey(keyName, "RSA");
     const cryptographyClient = forPublishing(
       new CryptographyClient(
         myKey,
