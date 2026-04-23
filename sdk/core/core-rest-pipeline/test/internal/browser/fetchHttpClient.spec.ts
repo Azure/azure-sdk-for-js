@@ -212,6 +212,7 @@ describe("FetchHttpClient", function () {
 
     // Verify that only one chunk was loaded
     expect(onDownloadProgress).toHaveBeenCalledOnce();
+    expect(onDownloadProgress).toHaveBeenCalledWith({ loadedBytes: expect.any(Number) });
     assert.isFalse(chunk.done);
   });
 
@@ -229,7 +230,7 @@ describe("FetchHttpClient", function () {
     });
     const response = await client.sendRequest(request);
     assert.strictEqual(response.bodyAsText, responseText);
-    expect(onDownloadProgress).toHaveBeenCalled();
+    expect(onDownloadProgress).toHaveBeenCalledWith({ loadedBytes: expect.any(Number) });
   });
 
   it("should report download progress and decode chunks without TransformStream", async function () {
@@ -250,7 +251,7 @@ describe("FetchHttpClient", function () {
     const response = await client.sendRequest(request);
 
     assert.strictEqual(response.bodyAsText, responseText);
-    expect(onDownloadProgress).toHaveBeenCalled();
+    expect(onDownloadProgress).toHaveBeenCalledWith({ loadedBytes: expect.any(Number) });
   });
 
   it("should report download progress when handling blob", async function () {
@@ -271,7 +272,7 @@ describe("FetchHttpClient", function () {
 
     const blob = await response.blobBody;
     assert.strictEqual(blob?.size, responseText.length);
-    expect(onDownloadProgress).toHaveBeenCalled();
+    expect(onDownloadProgress).toHaveBeenCalledWith({ loadedBytes: expect.any(Number) });
   });
 
   it("should stream response body when status code matches", async function () {
@@ -292,7 +293,7 @@ describe("FetchHttpClient", function () {
 
     const blob = await response.blobBody;
     assert.strictEqual(blob?.size, responseText.length);
-    expect(onDownloadProgress).toHaveBeenCalled();
+    expect(onDownloadProgress).toHaveBeenCalledWith({ loadedBytes: expect.any(Number) });
   });
 
   it("should not stream response body when status code doesn't match", async function () {
@@ -311,7 +312,7 @@ describe("FetchHttpClient", function () {
     const response = await client.sendRequest(request);
     assert.isUndefined(response.blobBody);
     assert.strictEqual(response.bodyAsText, responseText);
-    expect(onDownloadProgress).toHaveBeenCalled();
+    expect(onDownloadProgress).toHaveBeenCalledWith({ loadedBytes: expect.any(Number) });
   });
 
   it("should report upload progress with TransformStream", async () => {
@@ -335,7 +336,7 @@ describe("FetchHttpClient", function () {
 
     const blob = await response.blobBody;
     assert.strictEqual(blob?.size, responseText.length);
-    expect(onDownloadProgress).toHaveBeenCalled();
+    expect(onDownloadProgress).toHaveBeenCalledWith({ loadedBytes: expect.any(Number) });
   });
 
   it("should handle ReadableStream request body type", async () => {

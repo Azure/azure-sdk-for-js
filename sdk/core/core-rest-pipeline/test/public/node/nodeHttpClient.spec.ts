@@ -63,21 +63,18 @@ function createMockWritableRequest(
  *
  * This fake asserts we have only passed the correct types.
  */
-const httpRequestChecker: ClientRequest = (() => {
-  const checker = {
-    on() {
-      /* no op */
-    },
-    once() {
-      /* no op */
-    },
-    end(chunk: unknown) {
-      const isString = typeof chunk === "string";
-      assert.isTrue(isString || Buffer.isBuffer(chunk), "Expected either string or Buffer");
-    },
-  };
-  return checker as unknown as ClientRequest;
-})();
+const httpRequestChecker = {
+  on() {
+    /* no op */
+  },
+  once() {
+    /* no op */
+  },
+  end(chunk: unknown) {
+    const isString = typeof chunk === "string";
+    assert.isTrue(isString || Buffer.isBuffer(chunk), "Expected either string or Buffer");
+  },
+} as unknown as ClientRequest;
 
 function createResponse(statusCode: number, body = ""): IncomingMessage {
   const response = new FakeResponse();
