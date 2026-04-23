@@ -117,6 +117,6 @@ describe("RequestResponseLink - timeout with abortSignal cleans up abort listene
         requestName: "test",
       }),
     ).rejects.toThrow(/timed out/);
-    expect(removeSpy).toHaveBeenCalled();
+    expect(removeSpy).toHaveBeenCalledWith("abort", expect.any(Function));
   });
 });
