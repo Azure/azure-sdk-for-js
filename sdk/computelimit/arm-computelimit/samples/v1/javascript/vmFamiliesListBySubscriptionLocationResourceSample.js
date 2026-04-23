@@ -5,17 +5,17 @@ const { ComputeLimitClient } = require("@azure/arm-computelimit");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to lists all guest subscriptions in a location.
+ * This sample demonstrates how to lists all VM families for the subscription at the specified location.
  *
- * @summary lists all guest subscriptions in a location.
- * x-ms-original-file: 2026-04-30/GuestSubscriptions_List.json
+ * @summary lists all VM families for the subscription at the specified location.
+ * x-ms-original-file: 2026-04-30/VmFamilies_List.json
  */
-async function listGuestSubscriptionsForAScope() {
+async function listVMFamilies() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "12345678-1234-1234-1234-123456789012";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeLimitClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.guestSubscriptions.listBySubscriptionLocationResource("eastus")) {
+  for await (const item of client.vmFamilies.listBySubscriptionLocationResource("eastus")) {
     resArray.push(item);
   }
 
@@ -23,7 +23,7 @@ async function listGuestSubscriptionsForAScope() {
 }
 
 async function main() {
-  await listGuestSubscriptionsForAScope();
+  await listVMFamilies();
 }
 
 main().catch(console.error);

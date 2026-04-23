@@ -5,25 +5,21 @@ import { ComputeLimitClient } from "@azure/arm-computelimit";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to list the operations for the provider
+ * This sample demonstrates how to gets the properties of a VM family.
  *
- * @summary list the operations for the provider
- * x-ms-original-file: 2026-04-30/Operations_List.json
+ * @summary gets the properties of a VM family.
+ * x-ms-original-file: 2026-04-30/VmFamilies_Get.json
  */
-async function listOperations(): Promise<void> {
+async function getAVMFamily(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeLimitClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (const item of client.operations.list()) {
-    resArray.push(item);
-  }
-
-  console.log(resArray);
+  const result = await client.vmFamilies.get("eastus", "standardDSv2Family");
+  console.log(result);
 }
 
 async function main(): Promise<void> {
-  await listOperations();
+  await getAVMFamily();
 }
 
 main().catch(console.error);
