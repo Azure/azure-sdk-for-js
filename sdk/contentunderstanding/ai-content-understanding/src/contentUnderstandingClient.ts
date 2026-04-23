@@ -93,16 +93,31 @@ export interface AnalyzeBinaryOptionalParams extends OperationOptions {
   processingLocation?: ProcessingLocation;
 }
 
-// CUSTOMIZATION: SDK-IMPROVEMENT: Custom poller type that exposes `operationId` for users to call
-// `getResult`, `getResultFile`, and `deleteResult` methods, and `usage` for billing/metering details.
-export interface AnalysisResultPoller extends PollerLike<
-  OperationState<AnalysisResult>,
-  AnalysisResult
-> {
-  /** The operation ID */
-  operationId?: string;
-  /** Usage details of the analyze operation. Available after the operation completes. */
-  usage?: UsageDetails;
+// CUSTOMIZATION: SDK-IMPROVEMENT: Custom operation state and poller types.
+// AnalysisOperationState extends the standard OperationState with operation metadata
+// (operationId for result retrieval, usage for billing/metering details).
+// This follows the same pattern as Form Recognizer's DocumentAnalysisPollOperationState
+// and Storage Blob's BlobBeginCopyFromUrlPollState.
+
+/** Metadata from an analysis operation, available after the operation completes. */
+export interface AnalysisOperationMetadata {
+  /** Usage details of the analyze operation. */
+  readonly usage?: UsageDetails;
+  /** The operation ID, used with `getResultFile` and `deleteResult`. */
+  readonly operationId?: string;
+}
+
+/** The state of an analysis operation, extending the standard OperationState with analysis metadata. */
+export interface AnalysisOperationState
+  extends OperationState<AnalysisResult>, AnalysisOperationMetadata {}
+
+/** A poller for an analysis operation. */
+export interface AnalysisResultPoller extends PollerLike<AnalysisOperationState, AnalysisResult> {
+  /**
+   * The operation ID.
+   * @deprecated Use `operationState?.operationId` instead.
+   */
+  readonly operationId?: string;
 }
 
 export class ContentUnderstandingClient {
@@ -289,16 +304,29 @@ export class ContentUnderstandingClient {
       abortSignal: options?.abortSignal,
       getInitialResponse,
       resourceLocationConfig: "operation-location",
-    }) as AnalysisResultPoller;
+    }) as unknown as AnalysisResultPoller;
 
-    Object.defineProperty(poller, "operationId", {
-      get: () => operationId,
+    // CUSTOMIZATION: SDK-IMPROVEMENT: Override operationState getter to augment the base
+    // OperationState with operationId and usage metadata, following the pattern used by
+    // Form Recognizer (DocumentAnalysisPollOperationState) and Storage Blob (BlobBeginCopyFromUrlPollState).
+    const baseOperationStateDescriptor = Object.getOwnPropertyDescriptor(poller, "operationState");
+    Object.defineProperty(poller, "operationState", {
+      get(): AnalysisOperationState | undefined {
+        const baseState = baseOperationStateDescriptor?.get?.call(poller);
+        if (!baseState) return undefined;
+        return {
+          ...baseState,
+          operationId,
+          usage,
+        };
+      },
       enumerable: true,
-      configurable: false,
+      configurable: true,
     });
 
-    Object.defineProperty(poller, "usage", {
-      get: () => usage,
+    // Backward compatibility: keep operationId directly on the poller (deprecated).
+    Object.defineProperty(poller, "operationId", {
+      get: () => operationId,
       enumerable: true,
       configurable: false,
     });
@@ -352,16 +380,28 @@ export class ContentUnderstandingClient {
       abortSignal: options?.abortSignal,
       getInitialResponse,
       resourceLocationConfig: "operation-location",
-    }) as AnalysisResultPoller;
+    }) as unknown as AnalysisResultPoller;
 
-    Object.defineProperty(poller, "operationId", {
-      get: () => operationId,
+    // CUSTOMIZATION: SDK-IMPROVEMENT: Override operationState getter to augment the base
+    // OperationState with operationId and usage metadata.
+    const baseOperationStateDescriptor = Object.getOwnPropertyDescriptor(poller, "operationState");
+    Object.defineProperty(poller, "operationState", {
+      get(): AnalysisOperationState | undefined {
+        const baseState = baseOperationStateDescriptor?.get?.call(poller);
+        if (!baseState) return undefined;
+        return {
+          ...baseState,
+          operationId,
+          usage,
+        };
+      },
       enumerable: true,
-      configurable: false,
+      configurable: true,
     });
 
-    Object.defineProperty(poller, "usage", {
-      get: () => usage,
+    // Backward compatibility: keep operationId directly on the poller (deprecated).
+    Object.defineProperty(poller, "operationId", {
+      get: () => operationId,
       enumerable: true,
       configurable: false,
     });

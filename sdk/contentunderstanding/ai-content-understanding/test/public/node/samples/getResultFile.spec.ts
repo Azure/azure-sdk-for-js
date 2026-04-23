@@ -50,7 +50,7 @@ describe("Sample: getResultFile", () => {
 
     // Get the operation ID
 
-    const operationId = poller.operationId;
+    const operationId = poller.operationState?.operationId;
 
     console.log(`Operation ID: ${operationId ?? "(unknown)"}`);
     console.log("Analysis completed!");

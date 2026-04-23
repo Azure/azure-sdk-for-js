@@ -79,8 +79,8 @@ describe("AnalysisResultPoller usage", () => {
     const poller = client.analyzeBinary("analyzer1", new Uint8Array([1, 2, 3]));
     await poller.poll();
 
-    const usage: UsageDetails | undefined = poller.usage;
-    assert.ok(usage, "Poller should have usage after poll");
+    const usage: UsageDetails | undefined = poller.operationState?.usage;
+    assert.ok(usage, "operationState should have usage after poll");
     assert.equal(usage!.documentPagesBasic, 1);
     assert.equal(usage!.contextualizationTokens, 1234);
     assert.deepEqual(usage!.tokens, {
@@ -110,8 +110,8 @@ describe("AnalysisResultPoller usage", () => {
     const poller = client.analyze("analyzer1", [{ url: "https://test.com/doc.pdf" }]);
     await poller.poll();
 
-    const usage: UsageDetails | undefined = poller.usage;
-    assert.ok(usage, "Poller should have usage after poll");
+    const usage: UsageDetails | undefined = poller.operationState?.usage;
+    assert.ok(usage, "operationState should have usage after poll");
     assert.equal(usage!.documentPagesBasic, 1);
     assert.equal(usage!.audioHours, 0);
     assert.equal(usage!.videoHours, 0);
@@ -128,7 +128,7 @@ describe("AnalysisResultPoller usage", () => {
     (operationsMock._analyzeBinarySend as any).mockResolvedValue(mockResponse);
 
     const poller = client.analyzeBinary("analyzer1", new Uint8Array([1]));
-    assert.isUndefined(poller.usage, "Usage should be undefined before polling");
+    assert.isUndefined(poller.operationState?.usage, "Usage should be undefined before polling");
   });
 
   it("should handle response with no usage field", async () => {
@@ -151,7 +151,10 @@ describe("AnalysisResultPoller usage", () => {
     const poller = client.analyzeBinary("analyzer1", new Uint8Array([1]));
     await poller.poll();
 
-    assert.isUndefined(poller.usage, "Usage should be undefined when not in response");
+    assert.isUndefined(
+      poller.operationState?.usage,
+      "Usage should be undefined when not in response",
+    );
   });
 
   it("should deserialize all usage fields correctly", async () => {
@@ -184,7 +187,7 @@ describe("AnalysisResultPoller usage", () => {
     const poller = client.analyze("analyzer1", [{ url: "https://test.com/video.mp4" }]);
     await poller.poll();
 
-    const usage = poller.usage!;
+    const usage = poller.operationState?.usage!;
     assert.equal(usage.documentPagesMinimal, 2);
     assert.equal(usage.documentPagesBasic, 3);
     assert.equal(usage.documentPagesStandard, 1);
@@ -216,7 +219,7 @@ describe("AnalysisResultPoller usage", () => {
     await poller.poll();
 
     // Deserializer produces a UsageDetails with empty/undefined fields (JS is lenient)
-    const usage = poller.usage;
+    const usage = poller.operationState?.usage;
     assert.ok(usage, "Usage should be populated even with malformed data");
     assert.deepEqual(usage!.tokens, {}, "Malformed tokens should produce empty object");
     assert.isUndefined(usage!.documentPagesBasic, "Non-existent fields should be undefined");

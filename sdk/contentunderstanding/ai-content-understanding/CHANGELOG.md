@@ -4,7 +4,14 @@
 
 ### Features Added
 
-- Added `usage` property on `AnalysisResultPoller` to surface billing and token consumption details (`UsageDetails`) returned by the REST API.
+- Added `AnalysisOperationState` interface that extends `OperationState<AnalysisResult>` with `operationId` and `usage` metadata, following the same pattern used by Form Recognizer (`DocumentAnalysisPollOperationState`) and Storage Blob (`BlobBeginCopyFromUrlPollState`).
+- Added `AnalysisOperationMetadata` interface with `usage` and `operationId` fields.
+- Added `usage` on `AnalysisOperationState` to surface billing and token consumption details (`UsageDetails`) after the operation completes. Access via `poller.operationState?.usage`.
+
+### Breaking Changes
+
+- `operationId` is no longer a direct property on `AnalysisResultPoller`. Use `poller.operationState?.operationId` instead. The deprecated `poller.operationId` getter is retained for backward compatibility.
+- `usage` is now accessed via `poller.operationState?.usage` instead of `poller.usage`.
 
 ## 1.0.0 (2026-02-28)
 

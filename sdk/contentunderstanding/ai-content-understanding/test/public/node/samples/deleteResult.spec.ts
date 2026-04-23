@@ -41,7 +41,7 @@ describe("Sample: deleteResult", () => {
 
     // Get the operation ID
 
-    const operationId = poller.operationId;
+    const operationId = poller.operationState?.operationId;
 
     assert.ok(operationId, "Should have operation ID");
     console.log(`Operation ID: ${operationId}`);

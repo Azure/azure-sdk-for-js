@@ -84,9 +84,9 @@ describe("Sample: analyzeInvoice", () => {
       console.log(`Pages: ${documentContent.startPageNumber} to ${documentContent.endPageNumber}`);
     }
 
-    // Verify usage details from the poller (available after pollUntilDone completes)
-    const usage = poller.usage;
-    assert.ok(usage, "Poller should have usage after completion");
+    // Verify usage details from operationState (available after pollUntilDone completes)
+    const usage = poller.operationState?.usage;
+    assert.ok(usage, "operationState should have usage after completion");
     assert.isDefined(usage!.contextualizationTokens, "Should have contextualization tokens");
     assert.isDefined(usage!.tokens, "Should have tokens dictionary");
     console.log("\nUsage Details:");
