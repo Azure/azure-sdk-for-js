@@ -127,7 +127,15 @@ export function newPipeline(
   if (!credential) {
     credential = new AnonymousCredential();
   }
-  const pipeline = new Pipeline([], pipelineOptions);
+  const packageDetails = `azsdk-js-storage-datalake/${SDK_VERSION}`;
+  const userAgentPrefix = pipelineOptions?.userAgentOptions?.userAgentPrefix
+    ? `${pipelineOptions.userAgentOptions.userAgentPrefix} ${packageDetails}`
+    : `${packageDetails}`;
+
+  const pipeline = new Pipeline([], {
+    ...pipelineOptions,
+    userAgentOptions: { userAgentPrefix },
+  } as PipelineOptions);
   (pipeline as any)._credential = credential;
   return pipeline;
 }
