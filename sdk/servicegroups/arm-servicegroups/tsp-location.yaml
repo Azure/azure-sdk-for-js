@@ -1,4 +1,4 @@
 directory: specification/management/resource-manager/Microsoft.Management/ServiceGroups
-commit: 2621c3b85b8655f862638608815b152e49f105cf
+commit: f1d9cb1b469584bcf541641381d10d106fbd60de
 repo: Azure/azure-rest-api-specs
 additionalDirectories: 

@@ -1672,6 +1672,9 @@ sdk/relationships/arm-relationships/ @qiaozha @MaryGao @JialinHuang803
 # PRLabel: %Mgmt %mgmt-review-needed
 sdk/alertprocessingrules/arm-alertprocessingrules/ @qiaozha @MaryGao @JialinHuang803
 
+# PRLabel: %Mgmt %mgmt-review-needed
+sdk/servicegroups/arm-servicegroups/ @qiaozha @MaryGao @JialinHuang803
+
 ###########
 # Config
 ###########

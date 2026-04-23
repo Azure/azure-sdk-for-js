@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.Management": "2024-02-01-preview"
   },
-  "emitterVersion": "0.51.0",
+  "emitterVersion": "0.52.2",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Management",
     "CrossLanguageDefinitionId": {
