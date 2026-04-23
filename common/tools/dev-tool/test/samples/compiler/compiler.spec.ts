@@ -601,6 +601,45 @@ describe("hello", () => {
       expect(result.outputText).toContain("@summary Demonstrates how to say hello without @summary.");
     });
 
+    it("browser platform auto-sets skipJavascript", () => {
+      const browserSample = `\
+/** Demonstrates browser-specific usage. */
+import { describe, it } from "vitest";
+
+describe("browser", () => {
+  it("fetch data", async () => {
+    const response = await fetch("https://example.com");
+    console.log(response.status);
+  });
+});
+`;
+      const result = compileSampleTest(browserSample, {
+        packageName: "@azure/client",
+        platform: "browser",
+      });
+      expect(result.metadata.skipJavascript).toBe(true);
+      expect(result.outputText).toContain("@azsdk-skip-javascript");
+    });
+
+    it("node platform does not set skipJavascript", () => {
+      const nodeSample = `\
+/** Demonstrates Node.js-specific usage. */
+import { describe, it } from "vitest";
+
+describe("node", () => {
+  it("read file", async () => {
+    console.log("hello node");
+  });
+});
+`;
+      const result = compileSampleTest(nodeSample, {
+        packageName: "@azure/client",
+        platform: "node",
+      });
+      expect(result.metadata.skipJavascript).toBeUndefined();
+      expect(result.outputText).not.toContain("@azsdk-skip-javascript");
+    });
+
     it("throws CompilerError for block-bodied arrow in forPublishing", () => {
       const blockBody = `\
 /** @summary test */

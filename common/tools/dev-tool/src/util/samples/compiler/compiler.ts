@@ -35,6 +35,13 @@ export interface CompileOptions {
    * Return undefined if the file cannot be resolved (import kept as-is).
    */
   resolveHelper?: HelperResolver;
+  /**
+   * Target platform for this sample. When "browser", the sample is marked
+   * with @azsdk-skip-javascript automatically (browser samples are TypeScript-only
+   * in published output since they require a bundler).
+   * Defaults to "node" (compatible with both Node.js and browser when bundled).
+   */
+  platform?: "node" | "browser";
 }
 
 /**
@@ -44,7 +51,7 @@ export function compileSampleTest(
   sourceText: string,
   options: CompileOptions,
 ): CompiledSample {
-  const { packageName, fileName = "<sample-test>", resolveHelper } = options;
+  const { packageName, fileName = "<sample-test>", resolveHelper, platform } = options;
   const printer = ts.createPrinter({ newLine: ts.NewLineKind.LineFeed });
 
   // Step 1: Parse source text into AST
@@ -54,6 +61,12 @@ export function compileSampleTest(
   const parsed = parseSampleTestFile(sourceFile, fileName);
   if (!parsed) {
     throw new CompilerError("No description found in file JSDoc comment", fileName);
+  }
+
+  // Auto-set skipJavascript for browser-platform samples (they require a bundler,
+  // so CommonJS JS output is not useful for end users)
+  if (platform === "browser") {
+    parsed.metadata.skipJavascript = true;
   }
 
   // Step 3: Substitute forPublishing calls across the entire source

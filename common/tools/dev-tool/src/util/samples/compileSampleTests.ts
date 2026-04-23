@@ -183,13 +183,19 @@ export async function compileSampleTests(
       const baseName = path.basename(relativePath, ".spec.ts") + ".ts";
       const outputPath = path.join(stagingDir, baseName);
 
-      log.info(`  Compiling: ${relativePath}`);
+      // Detect platform from subdirectory: samples/node/ → node, samples/browser/ → browser
+      const segments = relativePath.split(path.sep);
+      const platform =
+        segments.includes("browser") ? "browser" : segments.includes("node") ? "node" : undefined;
+
+      log.info(`  Compiling: ${relativePath}${platform ? ` (${platform})` : ""}`);
 
       const sourceText = readFileSync(filePath, "utf-8");
       const result = compileSampleTest(sourceText, {
         packageName,
         fileName: relativePath,
         resolveHelper,
+        platform,
       });
 
       if (result.warnings.length > 0) {
