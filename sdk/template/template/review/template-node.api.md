@@ -72,6 +72,9 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
     updateIntervalInMs?: number;
 }
 
+// @public
+export type Test = string;
+
 // @public (undocumented)
 export class WidgetAnalyticsClient {
     constructor(endpointParam: string, credential: TokenCredential, options?: WidgetAnalyticsClientOptionalParams);

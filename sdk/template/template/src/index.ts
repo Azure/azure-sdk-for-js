@@ -27,3 +27,6 @@ export type {
 } from "./api/widgets/index.js";
 export type { WidgetsOperations } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+
+/** Test string  */
+export type Test = string;
