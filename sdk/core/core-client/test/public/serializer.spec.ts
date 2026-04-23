@@ -2504,7 +2504,7 @@ describe("serializer", () => {
             [1, 2],
             "testObj",
           ),
-        /element" metadata for an Array must be defined/,
+        /"element" metadata for an Array must be defined/,
       );
     });
   });
@@ -2573,7 +2573,7 @@ describe("serializer", () => {
             [1, 2],
             "testObj",
           ),
-        /element" metadata for an Array must be defined/,
+        /"element" metadata for an Array must be defined/,
       );
     });
 
