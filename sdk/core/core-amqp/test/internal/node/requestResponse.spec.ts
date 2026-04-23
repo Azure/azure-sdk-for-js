@@ -109,7 +109,7 @@ describe("RequestResponseLink - timeout with abortSignal cleans up abort listene
     const request = { body: "test", message_id: "test-timeout-abort" };
 
     const controller = new AbortController();
-    // Should be OperationTimeoutError
+    const removeSpy = vi.spyOn(controller.signal, "removeEventListener");
     await expect(
       link.sendRequest(request, {
         timeoutInMs: 10,
@@ -117,5 +117,6 @@ describe("RequestResponseLink - timeout with abortSignal cleans up abort listene
         requestName: "test",
       }),
     ).rejects.toThrow(/timed out/);
+    expect(removeSpy).toHaveBeenCalled();
   });
 });

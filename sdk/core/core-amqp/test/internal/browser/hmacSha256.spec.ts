@@ -7,11 +7,11 @@ import { signString } from "../../../src/util/hmacSha256.common.js";
 describe("signString (browser - Web Crypto)", function () {
   it("produces a URL-encoded base64 HMAC-SHA256 signature", async function () {
     const signature = await signString("testKey", "testMessage");
-    assert.isOk(signature);
-    assert.isString(signature);
-    // The result should be URL-encoded (no +, /, = unencoded)
-    assert.notMatch(signature, /[+/=]/);
-    assert.isOk(decodeURIComponent(signature));
+    assert.strictEqual(signature, "8N7PlLvnGgnE2gFU7%2BAkSxmAc02cXFkOLlFD5gTuOjo%3D");
+    assert.strictEqual(
+      decodeURIComponent(signature),
+      "8N7PlLvnGgnE2gFU7+AkSxmAc02cXFkOLlFD5gTuOjo=",
+    );
   });
 
   it("returns consistent results for the same inputs", async function () {
@@ -24,13 +24,5 @@ describe("signString (browser - Web Crypto)", function () {
     const sig1 = await signString("key1", "data");
     const sig2 = await signString("key2", "data");
     assert.notEqual(sig1, sig2);
-  });
-});
-
-describe("hmacSha256.common (Web Crypto API)", () => {
-  it("signString produces a valid HMAC-SHA256 signature", async () => {
-    const result = await signString("testkey", "testdata");
-    assert.isString(result);
-    assert.isNotEmpty(result);
   });
 });

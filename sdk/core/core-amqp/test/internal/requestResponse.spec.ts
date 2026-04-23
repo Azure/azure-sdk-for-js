@@ -224,21 +224,13 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
     const request1: RheaMessage = {
       body: "Hello World!!",
     };
-    let errorWasThrown = false;
-    try {
-      await link.sendRequest(request1, {
+    await expect(
+      link.sendRequest(request1, {
         timeoutInMs: 2000,
-      });
-    } catch (error) {
-      assert.equal(
-        request1.message_id === undefined,
-        false,
-        "`message_id` on the request is undefined.",
-      );
-      errorWasThrown = true;
-    }
+      }),
+    ).rejects.toThrow();
+    assert.isDefined(request1.message_id, "`message_id` on the request is undefined.");
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
-    assert.isTrue(errorWasThrown, "Error was not thrown");
   });
 
   it("should send parallel requests and receive responses correctly (one failure)", async function () {
@@ -306,13 +298,7 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
     const failedRequest = link.sendRequest(request2);
 
     // ensure that one request fails
-    try {
-      await failedRequest;
-      throw new Error("Test failure");
-    } catch (err) {
-      assert.instanceOf(err, Error);
-      assert.notEqual(err.message, "Test failure");
-    }
+    await expect(failedRequest).rejects.toThrow();
 
     // ensure the other request succeeds
     const response = await successfulRequest;

@@ -5,7 +5,7 @@
  * This test file uses vi.doMock + dynamic imports to mock checkNetworkConnection before retry.ts imports it.
  * This is necessary because ESM modules don't allow vi.spyOn on module exports.
  */
-import { describe, it, assert, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 
 describe("retry - ConnectionLostError when checkNetworkConnection returns false", () => {
   beforeEach(() => {
@@ -21,16 +21,16 @@ describe("retry - ConnectionLostError when checkNetworkConnection returns false"
     const { retry, RetryOperationType } = await import("../../../src/retry.js");
     const { MessagingError } = await import("../../../src/errors.js");
 
-    let callCount = 0;
-    try {
-      await retry({
-        operation: async () => {
-          callCount++;
-          const err = new MessagingError("Connection lost");
-          err.name = "ServiceCommunicationError";
-          err.retryable = false;
-          throw err;
-        },
+    const operationSpy = vi.fn().mockImplementation(async () => {
+      const err = new MessagingError("Connection lost");
+      err.name = "ServiceCommunicationError";
+      err.retryable = false;
+      throw err;
+    });
+
+    await expect(
+      retry({
+        operation: operationSpy,
         connectionId: "conn-1",
         operationType: RetryOperationType.cbsAuth,
         connectionHost: "nonexistent.host.invalid",
@@ -38,15 +38,10 @@ describe("retry - ConnectionLostError when checkNetworkConnection returns false"
           maxRetries: 1,
           retryDelayInMs: 10,
         },
-      });
-      assert.fail("Should have thrown");
-    } catch (err: any) {
-      assert.isAbove(
-        mockCheckNetwork.mock.calls.length,
-        0,
-        "checkNetworkConnection should have been called",
-      );
-      assert.isAbove(callCount, 1, "Operation should have been retried");
-    }
+      }),
+    ).rejects.toThrow();
+
+    expect(mockCheckNetwork).toHaveBeenCalled();
+    expect(operationSpy.mock.calls.length).toBeGreaterThan(1);
   });
 });
