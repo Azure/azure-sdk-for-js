@@ -1,5 +1,24 @@
 # Release History
 
+## 13.0.0 (2026-03-24)
+
+### Features Added
+
+- Added `KnowledgeRetrievalClient` for agentic retrieval operations on knowledge bases.
+- Added support for knowledge sources with multiple kinds: `searchIndex`, `azureBlob`, `indexedOneLake`, and `web`.
+- Added `ContentUnderstandingSkill` for enhanced content extraction and understanding in indexer pipelines.
+- Added `KnowledgeBase` management APIs to `SearchIndexClient` for creating, updating, and deleting knowledge bases.
+- Added knowledge source status tracking via `getKnowledgeSourceStatus` method.
+
+### Breaking Changes
+
+- Upgraded from beta to stable release with API refinements.
+- Removed preview-only properties from `KnowledgeBase` interface: `retrievalReasoningEffort`, `outputMode`, `retrievalInstructions`, `answerInstructions`.
+
+### Other Changes
+
+- Code is now generated from TypeSpec to align with the latest service definitions and code generation pipeline.
+
 ## 12.3.0-beta.1 (2025-11-17)
 
 ### Features Added

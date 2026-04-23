@@ -1,20 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { createFabric, FabricContext, FabricClientOptionalParams } from "./fabricContext.js";
 export {
-  FabricCapacitiesGetOptionalParams,
-  FabricCapacitiesCreateOrUpdateOptionalParams,
-  FabricCapacitiesUpdateOptionalParams,
-  FabricCapacitiesDeleteOptionalParams,
-  FabricCapacitiesListByResourceGroupOptionalParams,
-  FabricCapacitiesListBySubscriptionOptionalParams,
-  FabricCapacitiesResumeOptionalParams,
-  FabricCapacitiesSuspendOptionalParams,
-  FabricCapacitiesCheckNameAvailabilityOptionalParams,
-  FabricCapacitiesListSkusForCapacityOptionalParams,
-  FabricCapacitiesListSkusOptionalParams,
-  OperationsListOptionalParams,
+  createFabric,
+  type FabricContext,
+  type FabricClientOptionalParams,
+} from "./fabricContext.js";
+export {
+  type FabricCapacitiesGetOptionalParams,
+  type FabricCapacitiesCreateOrUpdateOptionalParams,
+  type FabricCapacitiesUpdateOptionalParams,
+  type FabricCapacitiesDeleteOptionalParams,
+  type FabricCapacitiesListByResourceGroupOptionalParams,
+  type FabricCapacitiesListBySubscriptionOptionalParams,
+  type FabricCapacitiesResumeOptionalParams,
+  type FabricCapacitiesSuspendOptionalParams,
+  type FabricCapacitiesCheckNameAvailabilityOptionalParams,
+  type FabricCapacitiesListSkusForCapacityOptionalParams,
+  type FabricCapacitiesListSkusOptionalParams,
+  type OperationsListOptionalParams,
 } from "./options.js";
 export {
   fabricCapacitiesGet,

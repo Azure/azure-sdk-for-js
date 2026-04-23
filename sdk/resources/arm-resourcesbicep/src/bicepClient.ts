@@ -9,7 +9,7 @@ import {
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
-export { BicepClientOptionalParams } from "./api/bicepContext.js";
+export { type BicepClientOptionalParams } from "./api/bicepContext.js";
 
 export class BicepClient {
   private _client: BicepContext;

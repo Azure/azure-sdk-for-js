@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a Task Hub
  *
  * @summary get a Task Hub
- * x-ms-original-file: 2025-11-01/TaskHubs_Get.json
+ * x-ms-original-file: 2026-02-01/TaskHubs_Get.json
  */
 async function taskHubsGet() {
   const credential = new DefaultAzureCredential();

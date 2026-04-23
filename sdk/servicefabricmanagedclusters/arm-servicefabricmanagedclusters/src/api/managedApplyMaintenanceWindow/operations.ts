@@ -12,9 +12,7 @@ export function _postSend(
   context: Client,
   resourceGroupName: string,
   clusterName: string,
-  options: ManagedApplyMaintenanceWindowPostOptionalParams = {
-    requestOptions: {},
-  },
+  options: ManagedApplyMaintenanceWindowPostOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applyMaintenanceWindow{?api%2Dversion}",
@@ -22,7 +20,7 @@ export function _postSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -47,9 +45,7 @@ export async function post(
   context: Client,
   resourceGroupName: string,
   clusterName: string,
-  options: ManagedApplyMaintenanceWindowPostOptionalParams = {
-    requestOptions: {},
-  },
+  options: ManagedApplyMaintenanceWindowPostOptionalParams = { requestOptions: {} },
 ): Promise<void> {
   const result = await _postSend(context, resourceGroupName, clusterName, options);
   return _postDeserialize(result);

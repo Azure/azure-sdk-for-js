@@ -3,7 +3,7 @@
 
 export { $delete, createOrUpdate, get } from "./operations.js";
 export {
-  KeyValuesDeleteOptionalParams,
-  KeyValuesCreateOrUpdateOptionalParams,
-  KeyValuesGetOptionalParams,
+  type KeyValuesDeleteOptionalParams,
+  type KeyValuesCreateOrUpdateOptionalParams,
+  type KeyValuesGetOptionalParams,
 } from "./options.js";

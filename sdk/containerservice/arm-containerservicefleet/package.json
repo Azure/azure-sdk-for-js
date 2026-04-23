@@ -1,39 +1,12 @@
 {
   "name": "@azure/arm-containerservicefleet",
-  "version": "2.1.0-beta.2",
+  "version": "2.1.0-beta.3",
   "description": "A generated SDK for ContainerServiceFleetClient.",
   "engines": {
     "node": ">=20.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,
-  "tshy": {
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts",
-      "./api": "./src/api/index.ts",
-      "./api/autoUpgradeProfileOperations": "./src/api/autoUpgradeProfileOperations/index.ts",
-      "./api/autoUpgradeProfiles": "./src/api/autoUpgradeProfiles/index.ts",
-      "./api/fleetUpdateStrategies": "./src/api/fleetUpdateStrategies/index.ts",
-      "./api/updateRuns": "./src/api/updateRuns/index.ts",
-      "./api/gates": "./src/api/gates/index.ts",
-      "./api/fleetManagedNamespaces": "./src/api/fleetManagedNamespaces/index.ts",
-      "./api/fleetMembers": "./src/api/fleetMembers/index.ts",
-      "./api/fleets": "./src/api/fleets/index.ts",
-      "./api/operations": "./src/api/operations/index.ts",
-      "./models": "./src/models/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false,
-    "project": "../../../tsconfig.src.build.json"
-  },
   "type": "module",
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
@@ -94,7 +67,6 @@
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },

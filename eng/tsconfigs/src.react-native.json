@@ -1,0 +1,8 @@
+{
+  "extends": "./base.src.json",
+  "compilerOptions": {
+    "types": ["react-native"],
+    "outDir": "${configDir}/../dist/react-native",
+    "customConditions": ["react-native"]
+  }
+}

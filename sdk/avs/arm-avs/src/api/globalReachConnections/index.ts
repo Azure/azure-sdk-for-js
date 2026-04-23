@@ -3,8 +3,8 @@
 
 export { $delete, createOrUpdate, get, list } from "./operations.js";
 export {
-  GlobalReachConnectionsDeleteOptionalParams,
-  GlobalReachConnectionsCreateOrUpdateOptionalParams,
-  GlobalReachConnectionsGetOptionalParams,
-  GlobalReachConnectionsListOptionalParams,
+  type GlobalReachConnectionsDeleteOptionalParams,
+  type GlobalReachConnectionsCreateOrUpdateOptionalParams,
+  type GlobalReachConnectionsGetOptionalParams,
+  type GlobalReachConnectionsListOptionalParams,
 } from "./options.js";

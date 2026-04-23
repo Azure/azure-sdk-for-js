@@ -55,6 +55,7 @@
     "azuresdkdocs",
     "BRCPF",
     "Brcpf",
+    "CNPJ",
     "CONTOSO",
     "docfx",
     "DTDL",
@@ -70,6 +71,7 @@
     "Guids",
     "Hana",
     "IDRG",
+    "IDNR",
     "IMDS",
     "Idrg",
     "Kubernetes",
@@ -79,6 +81,7 @@
     "mgmt",
     "MPNS",
     "MSRC",
+    "NZBN",
     "Mibps",
     "ODATA",
     "OTLP",
@@ -96,10 +99,14 @@
     "Rtsp",
     "Sybase",
     "Teradata",
+    "UPCA",
+    "UPCE",
     "USUK",
     "Uncapitalize",
     "Unencrypted",
     "Unprocessable",
+    "Upca",
+    "Upce",
     "Usuk",
     "Vertica",
     "Xiaomi",
@@ -234,19 +241,6 @@
       "words": [
         "Agentic",
         "xhigh"
-      ]
-    },
-    {
-      "filename": "sdk/ai/ai-voicelive/**/*.md",
-      "words": [
-        "Viseme",
-        "logprobs",
-        "Alaw",
-        "Ulaw",
-        "Webrtc",
-        "webrtc",
-        "xhigh",
-        "Xhigh"
       ]
     },
     {
@@ -453,6 +447,16 @@
       ]
     },
     {
+      "filename": "sdk/keyvault/keyvault-certificates/generated/**/*.ts",
+      "words": [
+        "Dversion",
+        "ECHSM",
+        "RSAHSM",
+        "SECG",
+        "SECP"
+      ]
+    },
+    {
       "filename": "sdk/keyvault/keyvault-keys/review/**/*.md",
       "words": [
         "ECHSM",
@@ -575,7 +579,9 @@
     {
       "filename": "sdk/storage/storage-blob/review/**/*.md",
       "words": [
-        "RAGRS"
+        "RAGRS",
+        "GZRS",
+        "RAGZRS",
       ]
     },
     {
@@ -602,6 +608,19 @@
         "argb",
         "bgra",
         "onvif"
+      ]
+    },
+    {
+      "filename": "sdk/voicelive/ai-voicelive/**/*.md",
+      "words": [
+        "Viseme",
+        "logprobs",
+        "Alaw",
+        "Ulaw",
+        "Webrtc",
+        "webrtc",
+        "xhigh",
+        "Xhigh"
       ]
     },
     {

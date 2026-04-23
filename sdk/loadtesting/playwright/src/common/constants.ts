@@ -4,6 +4,7 @@
 export const EntraIdAccessTokenConstants = {
   LIFETIME_LEFT_THRESHOLD_IN_MINUTES_FOR_ROTATION: 15,
   SCOPE: "https://management.core.windows.net/.default",
+  STORAGE_SCOPE: "https://storage.azure.com/.default",
   ROTATION_INTERVAL_PERIOD_IN_MINUTES: 4,
 };
 
@@ -68,11 +69,6 @@ export const Constants = {
   HTTP_CALL_TIMEOUT: 10000,
 };
 
-export const ArmConstants = {
-  TenantsApiUrl: "https://management.azure.com/tenants",
-  TenantsApiVersion: "2025-04-01",
-};
-
 export const UrlConstants = {
   AzurePortalBaseUrl: "https://ms.portal.azure.com",
   ReportingApiSubdomain: "reporting.api",
@@ -87,6 +83,7 @@ export const UrlConstants = {
   SubscriptionsPath: "/subscriptions",
   ResourceGroupsUrlPath: "/resourceGroups",
   ProvidersPath: "/providers",
+  TestReportViewPath: "#view/Microsoft_Azure_CloudNativeTesting/TestReport.ReactView",
 };
 
 export const InternalEnvironmentVariables = {
@@ -114,4 +111,8 @@ export const UploadConstants = {
   STREAM_BUFFER_SIZE: 4 * 1024 * 1024,
   MAX_RETRY_ATTEMPTS: 3,
   RETRY_BASE_DELAY: 1000,
+};
+
+export const BrowserSessionSourceType = {
+  PLAYWRIGHT_WORKSPACES_TEST_RUN: "PlaywrightWorkspacesTestRun",
 };

@@ -16,14 +16,14 @@ const { AIProjectClient } = require("@azure/ai-projects");
 const readline = require("readline");
 require("dotenv/config");
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
-const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
 const a2aProjectConnectionId =
   process.env["A2A_PROJECT_CONNECTION_ID"] || "<a2a project connection id>";
 
 async function main() {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   console.log("Creating agent with A2A tool...");
 
@@ -48,16 +48,19 @@ async function main() {
   });
 
   const userInput = await new Promise((resolve) => {
-    rl.question("Enter your question (e.g., 'What can the secondary agent do?'): \n", (answer) => {
-      rl.close();
-      resolve(answer);
-    });
+    rl.question(
+      "Enter your question (Default: 'What can the secondary agent do?'): \n",
+      (answer) => {
+        rl.close();
+        resolve(answer);
+      },
+    );
   });
 
   console.log("\nSending request to A2A agent with streaming...");
   const streamResponse = await openAIClient.responses.create(
     {
-      input: userInput,
+      input: userInput || "What can the secondary agent do?",
       stream: true,
     },
     {

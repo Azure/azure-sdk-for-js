@@ -12,12 +12,12 @@ export {
   get,
 } from "./operations.js";
 export {
-  BotsRegenerateApiJwtSecretOptionalParams,
-  BotsListSecretsOptionalParams,
-  BotsListOptionalParams,
-  BotsListByResourceGroupOptionalParams,
-  BotsDeleteOptionalParams,
-  BotsUpdateOptionalParams,
-  BotsCreateOptionalParams,
-  BotsGetOptionalParams,
+  type BotsRegenerateApiJwtSecretOptionalParams,
+  type BotsListSecretsOptionalParams,
+  type BotsListOptionalParams,
+  type BotsListByResourceGroupOptionalParams,
+  type BotsDeleteOptionalParams,
+  type BotsUpdateOptionalParams,
+  type BotsCreateOptionalParams,
+  type BotsGetOptionalParams,
 } from "./options.js";

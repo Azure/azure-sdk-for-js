@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all Job Definitions in a Project.
  *
  * @summary lists all Job Definitions in a Project.
- * x-ms-original-file: 2025-07-01/JobDefinitions_List.json
+ * x-ms-original-file: 2025-12-01/JobDefinitions_List.json
  */
 async function jobDefinitionsList() {
   const credential = new DefaultAzureCredential();

@@ -1,21 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageMoverClient } from "./storageMoverClient.js";
-import { _$deleteDeserialize } from "./api/jobDefinitions/operations.js";
+import type { StorageMoverClient } from "./storageMoverClient.js";
+import { _$deleteDeserialize } from "./api/connections/operations.js";
+import { _$deleteDeserialize as _$deleteDeserializeJobDefinitions } from "./api/jobDefinitions/operations.js";
 import { _$deleteDeserialize as _$deleteDeserializeProjects } from "./api/projects/operations.js";
 import { _$deleteDeserialize as _$deleteDeserializeEndpoints } from "./api/endpoints/operations.js";
 import { _$deleteDeserialize as _$deleteDeserializeAgents } from "./api/agents/operations.js";
 import { _$deleteDeserialize as _$deleteDeserializeStorageMovers } from "./api/storageMovers/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import { AbortSignalLike } from "@azure/abort-controller";
-import {
-  PollerLike,
-  OperationState,
-  deserializeState,
-  ResourceLocationConfig,
-} from "@azure/core-lro";
+import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { PollerLike, OperationState, ResourceLocationConfig } from "@azure/core-lro";
+import { deserializeState } from "@azure/core-lro";
 
 export interface RestorePollerOptions<
   TResult,
@@ -60,6 +57,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
       `Please ensure the operation is in this client! We can't find its deserializeHelper for ${sourceOperation?.name}.`,
     );
   }
+  const apiVersion = getApiVersionFromUrl(initialRequestUrl);
   return getLongRunningPoller(
     (client as any)["_client"] ?? client,
     deserializeHelper as (result: TResponse) => Promise<TResult>,
@@ -70,41 +68,29 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
       resourceLocationConfig,
       restoreFrom: serializedState,
       initialRequestUrl,
+      apiVersion,
     },
   );
 }
 
 interface DeserializationHelper {
-  deserializer: Function;
+  deserializer: (result: PathUncheckedResponse) => Promise<any>;
   expectedStatuses: string[];
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/connections/{connectionName}":
+    { deserializer: _$deleteDeserialize, expectedStatuses: ["202", "204", "200"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}/jobDefinitions/{jobDefinitionName}":
-    {
-      deserializer: _$deleteDeserialize,
-      expectedStatuses: ["200", "202", "204"],
-    },
+    { deserializer: _$deleteDeserializeJobDefinitions, expectedStatuses: ["200", "202", "204"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}":
-    {
-      deserializer: _$deleteDeserializeProjects,
-      expectedStatuses: ["200", "202", "204"],
-    },
+    { deserializer: _$deleteDeserializeProjects, expectedStatuses: ["200", "202", "204"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/endpoints/{endpointName}":
-    {
-      deserializer: _$deleteDeserializeEndpoints,
-      expectedStatuses: ["200", "202", "204"],
-    },
+    { deserializer: _$deleteDeserializeEndpoints, expectedStatuses: ["200", "202", "204"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/agents/{agentName}":
-    {
-      deserializer: _$deleteDeserializeAgents,
-      expectedStatuses: ["200", "202", "204"],
-    },
+    { deserializer: _$deleteDeserializeAgents, expectedStatuses: ["200", "202", "204"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}":
-    {
-      deserializer: _$deleteDeserializeStorageMovers,
-      expectedStatuses: ["200", "202", "204"],
-    },
+    { deserializer: _$deleteDeserializeStorageMovers, expectedStatuses: ["200", "202", "204"] },
 };
 
 function getDeserializationHelper(
@@ -175,4 +161,9 @@ function getDeserializationHelper(
 function getPathFromMapKey(mapKey: string): string {
   const pathStart = mapKey.indexOf("/");
   return mapKey.slice(pathStart);
+}
+
+function getApiVersionFromUrl(urlStr: string): string | undefined {
+  const url = new URL(urlStr);
+  return url.searchParams.get("api-version") ?? undefined;
 }

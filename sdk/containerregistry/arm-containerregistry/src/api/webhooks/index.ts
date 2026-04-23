@@ -11,7 +11,7 @@ export {
   create,
   get,
 } from "./operations.js";
-export {
+export type {
   WebhooksGetCallbackConfigOptionalParams,
   WebhooksListEventsOptionalParams,
   WebhooksPingOptionalParams,

@@ -3,33 +3,28 @@
 
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets the RUs per second of the Cassandra view under an existing Azure Cosmos DB database account with the provided name.
+ * This sample demonstrates how to gets the RUs per second of the Cassandra view under an existing Azure Cosmos DB database account with the provided name.
  *
- * @summary Gets the RUs per second of the Cassandra view under an existing Azure Cosmos DB database account with the provided name.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBCassandraViewThroughputGet.json
+ * @summary gets the RUs per second of the Cassandra view under an existing Azure Cosmos DB database account with the provided name.
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBCassandraViewThroughputGet.json
  */
-async function cosmosDbCassandraViewThroughputGet(): Promise<void> {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const accountName = "ddb1";
-  const keyspaceName = "keyspacename";
-  const viewName = "viewname";
+async function cosmosDBCassandraViewThroughputGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const result = await client.cassandraResources.getCassandraViewThroughput(
-    resourceGroupName,
-    accountName,
-    keyspaceName,
-    viewName,
+    "rg1",
+    "ddb1",
+    "keyspacename",
+    "viewname",
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await cosmosDbCassandraViewThroughputGet();
+  await cosmosDBCassandraViewThroughputGet();
 }
 
 main().catch(console.error);

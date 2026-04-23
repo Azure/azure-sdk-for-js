@@ -3,32 +3,22 @@
 
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Deletes a Garnet cluster.
+ * This sample demonstrates how to deletes a Garnet cluster.
  *
- * @summary Deletes a Garnet cluster.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBGarnetClusterDelete.json
+ * @summary deletes a Garnet cluster.
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBGarnetClusterDelete.json
  */
-async function cosmosDbGarnetClusterDelete(): Promise<void> {
-  const subscriptionId =
-    process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["COSMOSDB_RESOURCE_GROUP"] || "garnet-prod-rg";
-  const clusterName = "garnet-prod";
+async function cosmosDBGarnetClusterDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.garnetClusters.beginDeleteAndWait(
-    resourceGroupName,
-    clusterName,
-  );
-  console.log(result);
+  await client.garnetClusters.delete("garnet-prod-rg", "garnet-prod");
 }
 
 async function main(): Promise<void> {
-  await cosmosDbGarnetClusterDelete();
+  await cosmosDBGarnetClusterDelete();
 }
 
 main().catch(console.error);

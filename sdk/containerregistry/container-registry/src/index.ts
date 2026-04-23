@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 export * from "./containerRegistryClient.js";
-export {
+export type {
   ContainerRepository,
   DeleteRepositoryOptions,
   GetRepositoryPropertiesOptions,
   UpdateRepositoryPropertiesOptions,
   ListManifestPropertiesOptions,
 } from "./containerRepository.js";
-export {
+export type {
   RegistryArtifact,
   DeleteArtifactOptions,
   DeleteTagOptions,

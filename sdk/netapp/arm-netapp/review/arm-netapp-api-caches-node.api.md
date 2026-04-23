@@ -40,6 +40,11 @@ export interface CachesPoolChangeOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface CachesResetSmbPasswordOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface CachesUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -58,6 +63,9 @@ export function listPeeringPassphrases(context: NetAppManagementContext, resourc
 
 // @public
 export function poolChange(context: NetAppManagementContext, resourceGroupName: string, accountName: string, poolName: string, cacheName: string, body: PoolChangeRequest, options?: CachesPoolChangeOptionalParams): PollerLike<OperationState<void>, void>;
+
+// @public
+export function resetSmbPassword(context: NetAppManagementContext, resourceGroupName: string, accountName: string, poolName: string, cacheName: string, options?: CachesResetSmbPasswordOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export function update(context: NetAppManagementContext, resourceGroupName: string, accountName: string, poolName: string, cacheName: string, body: CacheUpdate, options?: CachesUpdateOptionalParams): PollerLike<OperationState<Cache>, Cache>;

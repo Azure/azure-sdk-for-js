@@ -32,7 +32,7 @@ import type { OperationResource, Vault } from "./models/models.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { RecoveryServicesClientOptionalParams } from "./api/recoveryServicesContext.js";
+export { type RecoveryServicesClientOptionalParams } from "./api/recoveryServicesContext.js";
 
 export class RecoveryServicesClient {
   private _client: RecoveryServicesContext;

@@ -9,7 +9,7 @@ export {
   listRuns,
   createRun,
 } from "./operations.js";
-export {
+export type {
   RunsCancelRunOptionalParams,
   RunsSubmitToolOutputsToRunOptionalParams,
   RunsUpdateRunOptionalParams,

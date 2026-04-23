@@ -1,6 +1,8 @@
 {
-  "apiVersion": "2025-03-01-preview",
-  "emitterVersion": "0.49.0",
+  "apiVersions": {
+    "Nginx.NginxPlus": "2025-11-01"
+  },
+  "emitterVersion": "0.50.4",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Nginx.NginxPlus",
     "CrossLanguageDefinitionId": {
@@ -10,6 +12,10 @@
       "@azure/arm-nginx!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
       "@azure/arm-nginx!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
       "@azure/arm-nginx!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-nginx!NginxDeploymentWafPolicyAnalysisCreateRequest:interface": "Nginx.NginxPlus.NginxDeploymentWafPolicyAnalysisCreateRequest",
+      "@azure/arm-nginx!NginxDeploymentWafPolicyAnalysisResponse:interface": "Nginx.NginxPlus.NginxDeploymentWafPolicyAnalysisResponse",
+      "@azure/arm-nginx!NginxDeploymentWafPolicyAnalysisData:interface": "Nginx.NginxPlus.NginxDeploymentWafPolicyAnalysisData",
+      "@azure/arm-nginx!NginxDeploymentWafPolicyError:interface": "Nginx.NginxPlus.NginxDeploymentWafPolicyError",
       "@azure/arm-nginx!NginxDeploymentApiKeyResponse:interface": "Nginx.NginxPlus.NginxDeploymentApiKeyResponse",
       "@azure/arm-nginx!NginxDeploymentApiKeyResponseProperties:interface": "Nginx.NginxPlus.NginxDeploymentApiKeyResponseProperties",
       "@azure/arm-nginx!ProxyResource:interface": "Azure.ResourceManager.CommonTypes.ProxyResource",
@@ -111,6 +117,7 @@
       "@azure/arm-nginx!ApiKeysOperations#delete:member": "Nginx.NginxPlus.NginxDeploymentApiKeyResponses.delete",
       "@azure/arm-nginx!ApiKeysOperations#createOrUpdate:member": "Nginx.NginxPlus.NginxDeploymentApiKeyResponses.createOrUpdate",
       "@azure/arm-nginx!ApiKeysOperations#get:member": "Nginx.NginxPlus.NginxDeploymentApiKeyResponses.get",
+      "@azure/arm-nginx!NginxDeploymentWafPoliciesOperations#analysis:member": "Nginx.NginxPlus.NginxDeploymentWafPolicies.analysis",
       "@azure/arm-nginx!OperationsOperations#list:member": "Azure.ResourceManager.Operations.list"
     }
   }

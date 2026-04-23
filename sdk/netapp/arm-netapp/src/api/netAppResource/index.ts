@@ -9,7 +9,7 @@ export {
   checkFilePathAvailability,
   checkNameAvailability,
 } from "./operations.js";
-export {
+export type {
   NetAppResourceUpdateNetworkSiblingSetOptionalParams,
   NetAppResourceQueryNetworkSiblingSetOptionalParams,
   NetAppResourceQueryRegionInfoOptionalParams,

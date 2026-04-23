@@ -3,26 +3,26 @@
 
 import fs from "node:fs";
 import nodePath from "node:path";
-import { DatasetUploadInternalOptions, AIProjectContext as Client } from "../index.js";
-import {
+import type { DatasetUploadInternalOptions, AIProjectContext as Client } from "../index.js";
+import type {
   _PagedDatasetVersion,
+  DatasetVersionUnion,
+  PendingUploadRequest,
+  PendingUploadResponse,
+  DatasetCredential,
+} from "../../models/models.js";
+import {
   _pagedDatasetVersionDeserializer,
   datasetVersionUnionSerializer,
   datasetVersionUnionDeserializer,
-  DatasetVersionUnion,
-  PendingUploadRequest,
   pendingUploadRequestSerializer,
-  PendingUploadResponse,
   pendingUploadResponseDeserializer,
-  DatasetCredential,
   datasetCredentialDeserializer,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   DatasetsGetCredentialsOptionalParams,
   DatasetsPendingUploadOptionalParams,
   DatasetsCreateOrUpdateOptionalParams,
@@ -31,13 +31,10 @@ import {
   DatasetsListOptionalParams,
   DatasetsListVersionsOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import { ContainerClient } from "@azure/storage-blob";
+import { logger } from "../../logger.js";
 export function _getCredentialsSend(
   context: Client,
   name: string,
@@ -319,7 +316,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion },
   );
 }
 
@@ -369,7 +366,7 @@ export function listVersions(
     () => _listVersionsSend(context, name, options),
     _listVersionsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion },
   );
 }
 
@@ -406,22 +403,22 @@ async function createDatasetAndGetItsContainer(
   }
 
   // Optional debug logging
-  console.debug(
+  logger.verbose(
     `[createDatasetAndGetItsContainer] pendingUploadResponse.pendingUploadId = ${pendingUploadResponse.pendingUploadId}`,
   );
-  console.debug(
+  logger.verbose(
     `[createDatasetAndGetItsContainer] pendingUploadResponse.pendingUploadType = ${pendingUploadResponse.pendingUploadType}`,
   );
-  console.debug(
+  logger.verbose(
     `[createDatasetAndGetItsContainer] blobReference.blobUri = ${blobReference.blobUri}`,
   );
-  console.debug(
+  logger.verbose(
     `[createDatasetAndGetItsContainer] blobReference.storageAccountArmId = ${blobReference.storageAccountArmId}`,
   );
-  console.debug(
+  logger.verbose(
     `[createDatasetAndGetItsContainer] blobReference.credential.sasUri = ${blobReference.credential.sasUri}`,
   );
-  console.debug(
+  logger.verbose(
     `[createDatasetAndGetItsContainer] blobReference.credential.type = ${blobReference.credential.type}`,
   );
 
@@ -525,7 +522,12 @@ export async function uploadFolder(
   const allFiles = await getAllFiles(folderPath);
   let filteredFiles = allFiles;
   if (options?.filePattern) {
-    filteredFiles = allFiles.filter((file) => options.filePattern?.test(file));
+    try {
+      const filePattern = new RegExp(options.filePattern);
+      filteredFiles = allFiles.filter((file) => filePattern.test(file));
+    } catch {
+      // If regex pattern is invalid, ignore the pattern and upload all files
+    }
   }
 
   if (filteredFiles.length === 0) {
@@ -537,7 +539,7 @@ export async function uploadFolder(
     // Create blob name as relative path from the base folder
     const relativePath = nodePath.relative(folderPath, filePath).split(nodePath.sep).join("/");
 
-    console.debug(
+    logger.verbose(
       `[uploadFolderAndCreate] Start uploading file '${filePath}' as blob '${relativePath}'`,
     );
 
@@ -547,7 +549,7 @@ export async function uploadFolder(
     // Upload the file using a readable stream for better performance
     const fileStream = fs.createReadStream(filePath);
     await blobClient.uploadStream(fileStream);
-    console.debug(
+    logger.verbose(
       `[uploadFolderAndCreate] Done uploading file '${filePath}' as blob '${relativePath}'`,
     );
   }

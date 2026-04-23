@@ -1,48 +1,44 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { ContainerServiceFleetClient } from "./containerServiceFleetClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
-export {
+export type { RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller } from "./restorePollerHelpers.js";
+export type {
   Operation,
   OperationDisplay,
-  KnownOrigin,
   Origin,
-  KnownActionType,
   ActionType,
   ErrorResponse,
   ErrorDetail,
   ErrorAdditionalInfo,
   Fleet,
   FleetProperties,
-  KnownFleetProvisioningState,
   FleetProvisioningState,
   FleetHubProfile,
   APIServerAccessProfile,
   AgentProfile,
   FleetStatus,
   ManagedServiceIdentity,
-  KnownManagedServiceIdentityType,
   ManagedServiceIdentityType,
   UserAssignedIdentity,
   TrackedResource,
   Resource,
   SystemData,
-  KnownCreatedByType,
   CreatedByType,
   FleetPatch,
   FleetCredentialResults,
   FleetCredentialResult,
   FleetMember,
   FleetMemberProperties,
-  KnownFleetMemberProvisioningState,
   FleetMemberProvisioningState,
   FleetMemberStatus,
   ProxyResource,
@@ -50,24 +46,18 @@ export {
   FleetMemberUpdateProperties,
   FleetManagedNamespace,
   FleetManagedNamespaceProperties,
-  KnownFleetManagedNamespaceProvisioningState,
   FleetManagedNamespaceProvisioningState,
   ManagedNamespaceProperties,
   ResourceQuota,
   NetworkPolicy,
-  KnownPolicyRule,
   PolicyRule,
-  KnownAdoptionPolicy,
   AdoptionPolicy,
-  KnownDeletePolicy,
   DeletePolicy,
   PropagationPolicy,
-  KnownPropagationType,
   PropagationType,
   PlacementProfile,
   ClusterResourcePlacementSpec,
   PlacementPolicy,
-  KnownPlacementType,
   PlacementType,
   Affinity,
   ClusterAffinity,
@@ -75,36 +65,27 @@ export {
   ClusterSelectorTerm,
   LabelSelector,
   LabelSelectorRequirement,
-  KnownLabelSelectorOperator,
   LabelSelectorOperator,
   PropertySelector,
   PropertySelectorRequirement,
-  KnownPropertySelectorOperator,
   PropertySelectorOperator,
   Toleration,
-  KnownTolerationOperator,
   TolerationOperator,
-  KnownTaintEffect,
   TaintEffect,
   FleetManagedNamespaceStatus,
   FleetManagedNamespacePatch,
   Gate,
   GateProperties,
-  KnownGateProvisioningState,
   GateProvisioningState,
-  KnownGateType,
   GateType,
   GateTarget,
   UpdateRunGateTargetProperties,
-  KnownTiming,
   Timing,
-  KnownGateState,
   GateState,
   GatePatch,
   GatePatchProperties,
   UpdateRun,
   UpdateRunProperties,
-  KnownUpdateRunProvisioningState,
   UpdateRunProvisioningState,
   UpdateRunStrategy,
   UpdateStage,
@@ -112,15 +93,12 @@ export {
   GateConfiguration,
   ManagedClusterUpdate,
   ManagedClusterUpgradeSpec,
-  KnownManagedClusterUpgradeType,
   ManagedClusterUpgradeType,
   NodeImageSelection,
-  KnownNodeImageSelectionType,
   NodeImageSelectionType,
   NodeImageVersion,
   UpdateRunStatus,
   UpdateStatus,
-  KnownUpdateState,
   UpdateState,
   UpdateStageStatus,
   UpdateGroupStatus,
@@ -130,50 +108,76 @@ export {
   NodeImageSelectionStatus,
   SkipProperties,
   SkipTarget,
-  KnownTargetType,
   TargetType,
   FleetUpdateStrategy,
   FleetUpdateStrategyProperties,
-  KnownFleetUpdateStrategyProvisioningState,
   FleetUpdateStrategyProvisioningState,
   AutoUpgradeProfile,
   AutoUpgradeProfileProperties,
-  KnownAutoUpgradeProfileProvisioningState,
   AutoUpgradeProfileProvisioningState,
-  KnownUpgradeChannel,
   UpgradeChannel,
   AutoUpgradeNodeImageSelection,
-  KnownAutoUpgradeNodeImageSelectionType,
   AutoUpgradeNodeImageSelectionType,
   AutoUpgradeProfileStatus,
-  KnownAutoUpgradeLastTriggerStatus,
   AutoUpgradeLastTriggerStatus,
   GenerateResponse,
+} from "./models/index.js";
+export {
+  KnownOrigin,
+  KnownActionType,
+  KnownFleetProvisioningState,
+  KnownManagedServiceIdentityType,
+  KnownCreatedByType,
+  KnownFleetMemberProvisioningState,
+  KnownFleetManagedNamespaceProvisioningState,
+  KnownPolicyRule,
+  KnownAdoptionPolicy,
+  KnownDeletePolicy,
+  KnownPropagationType,
+  KnownPlacementType,
+  KnownLabelSelectorOperator,
+  KnownPropertySelectorOperator,
+  KnownTolerationOperator,
+  KnownTaintEffect,
+  KnownGateProvisioningState,
+  KnownGateType,
+  KnownTiming,
+  KnownGateState,
+  KnownUpdateRunProvisioningState,
+  KnownManagedClusterUpgradeType,
+  KnownNodeImageSelectionType,
+  KnownUpdateState,
+  KnownTargetType,
+  KnownFleetUpdateStrategyProvisioningState,
+  KnownAutoUpgradeProfileProvisioningState,
+  KnownUpgradeChannel,
+  KnownAutoUpgradeNodeImageSelectionType,
+  KnownAutoUpgradeLastTriggerStatus,
   KnownVersions,
 } from "./models/index.js";
-export { ContainerServiceFleetClientOptionalParams } from "./api/index.js";
-export { AutoUpgradeProfileOperationsGenerateUpdateRunOptionalParams } from "./api/autoUpgradeProfileOperations/index.js";
-export {
+export type { ContainerServiceFleetClientOptionalParams } from "./api/index.js";
+export type { AutoUpgradeProfileOperationsGenerateUpdateRunOptionalParams } from "./api/autoUpgradeProfileOperations/index.js";
+export type {
   AutoUpgradeProfilesListByFleetOptionalParams,
   AutoUpgradeProfilesDeleteOptionalParams,
   AutoUpgradeProfilesCreateOrUpdateOptionalParams,
   AutoUpgradeProfilesGetOptionalParams,
 } from "./api/autoUpgradeProfiles/index.js";
-export {
+export type {
   FleetManagedNamespacesUpdateOptionalParams,
   FleetManagedNamespacesListByFleetOptionalParams,
   FleetManagedNamespacesDeleteOptionalParams,
   FleetManagedNamespacesCreateOrUpdateOptionalParams,
   FleetManagedNamespacesGetOptionalParams,
 } from "./api/fleetManagedNamespaces/index.js";
-export {
+export type {
   FleetMembersListByFleetOptionalParams,
   FleetMembersDeleteOptionalParams,
   FleetMembersUpdateAsyncOptionalParams,
   FleetMembersCreateOptionalParams,
   FleetMembersGetOptionalParams,
 } from "./api/fleetMembers/index.js";
-export {
+export type {
   FleetsListCredentialsOptionalParams,
   FleetsListBySubscriptionOptionalParams,
   FleetsListByResourceGroupOptionalParams,
@@ -182,19 +186,19 @@ export {
   FleetsCreateOptionalParams,
   FleetsGetOptionalParams,
 } from "./api/fleets/index.js";
-export {
+export type {
   FleetUpdateStrategiesListByFleetOptionalParams,
   FleetUpdateStrategiesDeleteOptionalParams,
   FleetUpdateStrategiesCreateOrUpdateOptionalParams,
   FleetUpdateStrategiesGetOptionalParams,
 } from "./api/fleetUpdateStrategies/index.js";
-export {
+export type {
   GatesListByFleetOptionalParams,
   GatesUpdateOptionalParams,
   GatesGetOptionalParams,
 } from "./api/gates/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
-export {
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type {
   UpdateRunsSkipOptionalParams,
   UpdateRunsStopOptionalParams,
   UpdateRunsStartOptionalParams,
@@ -203,7 +207,7 @@ export {
   UpdateRunsCreateOrUpdateOptionalParams,
   UpdateRunsGetOptionalParams,
 } from "./api/updateRuns/index.js";
-export {
+export type {
   AutoUpgradeProfileOperationsOperations,
   AutoUpgradeProfilesOperations,
   FleetManagedNamespacesOperations,
@@ -214,5 +218,6 @@ export {
   OperationsOperations,
   UpdateRunsOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export { AzureClouds, AzureSupportedClouds };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds };
+export type { AzureSupportedClouds };

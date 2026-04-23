@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EvaluationRuleActionType } from "../../models/models.js";
-import { OperationOptions } from "@azure-rest/core-client";
+import type { EvaluationRuleActionType } from "../../models/models.js";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface EvaluationRulesListOptionalParams extends OperationOptions {
@@ -12,21 +12,13 @@ export interface EvaluationRulesListOptionalParams extends OperationOptions {
   agentName?: string;
   /** Filter by the enabled status. */
   enabled?: boolean;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface EvaluationRulesCreateOrUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface EvaluationRulesDeleteOptionalParams extends OperationOptions {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
-}
+export interface EvaluationRulesDeleteOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface EvaluationRulesGetOptionalParams extends OperationOptions {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
-}
+export interface EvaluationRulesGetOptionalParams extends OperationOptions {}

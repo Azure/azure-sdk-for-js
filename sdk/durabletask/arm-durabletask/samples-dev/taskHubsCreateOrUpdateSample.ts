@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or Update a Task Hub
  *
  * @summary create or Update a Task Hub
- * x-ms-original-file: 2025-11-01/TaskHubs_CreateOrUpdate.json
+ * x-ms-original-file: 2026-02-01/TaskHubs_CreateOrUpdate.json
  */
 async function taskHubsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -3,7 +3,7 @@
 
 export { undelete, list, get } from "./operations.js";
 export {
-  DeletedBackupInstancesUndeleteOptionalParams,
-  DeletedBackupInstancesListOptionalParams,
-  DeletedBackupInstancesGetOptionalParams,
+  type DeletedBackupInstancesUndeleteOptionalParams,
+  type DeletedBackupInstancesListOptionalParams,
+  type DeletedBackupInstancesGetOptionalParams,
 } from "./options.js";

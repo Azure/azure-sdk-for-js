@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all Endpoints in a Storage Mover.
  *
  * @summary lists all Endpoints in a Storage Mover.
- * x-ms-original-file: 2025-07-01/Endpoints_List.json
+ * x-ms-original-file: 2025-12-01/Endpoints_List.json
  */
 async function endpointsList() {
   const credential = new DefaultAzureCredential();

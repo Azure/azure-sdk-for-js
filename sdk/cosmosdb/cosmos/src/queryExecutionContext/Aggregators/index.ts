@@ -41,4 +41,4 @@ export function createAggregator(
 }
 
 export { AverageAggregator, CountAggregator, MaxAggregator, MinAggregator, SumAggregator };
-export { Aggregator } from "./Aggregator.js";
+export type { Aggregator } from "./Aggregator.js";

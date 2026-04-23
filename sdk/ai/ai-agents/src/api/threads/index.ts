@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { deleteThread, updateThread, getThread, listThreads, createThread } from "./operations.js";
-export {
+export type {
   ThreadsDeleteThreadOptionalParams,
   ThreadsUpdateThreadOptionalParams,
   ThreadsGetThreadOptionalParams,

@@ -1,6 +1,6 @@
 {
   "name": "@azure/web-pubsub",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Azure client library for Azure Web PubSub",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
@@ -84,7 +84,6 @@
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing",
     "ws": "^8.18.0"
@@ -99,18 +98,6 @@
     ]
   },
   "type": "module",
-  "tshy": {
-    "project": "../../../tsconfig.src.build.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "selfLink": false
-  },
   "exports": {
     "./package.json": "./package.json",
     ".": {

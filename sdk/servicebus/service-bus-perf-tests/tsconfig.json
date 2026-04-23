@@ -1,4 +1,5 @@
 {
+  "extends": "../../../tsconfig.lib.json",
   "references": [
     {
       "path": "./tsconfig.src.json"

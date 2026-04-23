@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AgentsContext } from "../../api/agentsContext.js";
-import {
+import type { AgentsContext } from "../../api/agentsContext.js";
+import type {
   MessageRole,
   MessageInputContent,
   ThreadMessage,
   MessageDeletionStatus,
 } from "../../models/models.js";
-import {
+import type {
   MessagesDeleteOptionalParams,
   MessagesUpdateMessageOptionalParams,
   MessagesGetMessageOptionalParams,
@@ -22,7 +22,7 @@ import {
   listMessages,
   createMessage,
 } from "../../api/messages/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Messages operations. */
 export interface MessagesOperations {

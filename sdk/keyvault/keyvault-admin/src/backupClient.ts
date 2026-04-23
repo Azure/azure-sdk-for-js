@@ -18,7 +18,7 @@ import { mappings } from "./mappings.js";
 import { createKeyVaultClient } from "./createKeyVaultClient.js";
 import type { PollerLike } from "./lro/shim.js";
 import { wrapPoller, updateState } from "./lro/shim.js";
-import {
+import type {
   KeyVaultAdminPollOperationState,
   KeyVaultBackupOperationState,
   KeyVaultRestoreOperationState,
@@ -26,7 +26,7 @@ import {
 } from "./lro/models.js";
 import { restorePoller } from "./restorePollerHelpers.js";
 
-export {
+export type {
   KeyVaultBackupOperationState,
   KeyVaultRestoreOperationState,
   KeyVaultSelectiveKeyRestoreOperationState,

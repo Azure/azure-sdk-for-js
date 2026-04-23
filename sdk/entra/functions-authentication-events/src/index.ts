@@ -2,20 +2,20 @@
 // Licensed under the MIT License.
 
 export {
-  FailedRequest,
-  ActionableResponse,
-  AuthenticationEventAction,
-  AuthenticationEventData,
-  AuthenticationEventRequest,
-  AuthenticationEventRequestCommon,
-  AuthenticationEventResponse,
-  RequestStatus,
-  CloudEventRequest,
+  type FailedRequest,
+  type ActionableResponse,
+  type AuthenticationEventAction,
+  type AuthenticationEventData,
+  type AuthenticationEventRequest,
+  type AuthenticationEventRequestCommon,
+  type AuthenticationEventResponse,
+  type RequestStatus,
+  type CloudEventRequest,
   createFailedRequest,
-  ActionableCloudEventResponse,
+  type ActionableCloudEventResponse,
 } from "./events.js";
 
-export {
+export type {
   AuthenticationEventContext,
   AuthenticationEventContextClient,
   AuthenticationEventContextServicePrincipal,
@@ -25,9 +25,9 @@ export {
   TokenIssuanceStartResponse,
 } from "./tokenIssuanceStart/context.js";
 export {
-  ProvideClaimsForToken,
-  TokenClaim,
+  type ProvideClaimsForToken,
+  type TokenClaim,
   createProvideClaimsForToken,
 } from "./tokenIssuanceStart/actions.js";
 
-export { TokenIssuanceStartAction } from "./tokenIssuanceStart/context.js";
+export type { TokenIssuanceStartAction } from "./tokenIssuanceStart/context.js";

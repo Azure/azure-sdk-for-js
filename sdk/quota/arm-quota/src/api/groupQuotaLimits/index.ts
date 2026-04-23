@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { list } from "./operations.js";
-export { GroupQuotaLimitsListOptionalParams } from "./options.js";
+export { type GroupQuotaLimitsListOptionalParams } from "./options.js";

@@ -8,9 +8,7 @@ import type {
   QueryRangeWithContinuationToken,
 } from "../../documents/ContinuationToken/CompositeQueryContinuationToken.js";
 import {
-  createCompositeQueryContinuationToken,
   serializeCompositeToken,
-  parseCompositeQueryContinuationToken,
   convertRangeMappingToQueryRange,
 } from "../../documents/ContinuationToken/CompositeQueryContinuationToken.js";
 import type { QueryRangeMapping } from "../queryRangeMapping.js";
@@ -21,17 +19,6 @@ import type { QueryRangeMapping } from "../queryRangeMapping.js";
  * @internal
  */
 export class ParallelQueryContinuationTokenManager extends BaseContinuationTokenManager {
-  private continuationToken: CompositeQueryContinuationToken | undefined;
-  private readonly collectionLink: string;
-
-  constructor(collectionLink: string, initialContinuationToken?: string) {
-    super(initialContinuationToken);
-    this.collectionLink = collectionLink;
-    if (initialContinuationToken) {
-      this.continuationToken = parseCompositeQueryContinuationToken(initialContinuationToken);
-    }
-  }
-
   protected processRangesForPagination(
     pageSize: number,
     _isResponseEmpty: boolean,
@@ -45,24 +32,25 @@ export class ParallelQueryContinuationTokenManager extends BaseContinuationToken
       (mapping: QueryRangeMapping) => convertRangeMappingToQueryRange(mapping),
     );
 
-    if (!this.continuationToken) {
-      this.continuationToken = createCompositeQueryContinuationToken(
-        this.collectionLink,
-        rangeMappings,
-      );
-    } else {
-      this.updateExistingCompositeContinuationToken(rangeMappings);
-    }
+    this.updateRangeList(rangeMappings);
 
     if (result.lastPartitionBeforeCutoff && result.lastPartitionBeforeCutoff.mapping) {
-      this.continuationToken!.offset = result.lastPartitionBeforeCutoff.mapping.offset;
-      this.continuationToken!.limit = result.lastPartitionBeforeCutoff.mapping.limit;
+      this.offset = result.lastPartitionBeforeCutoff.mapping.offset;
+      this.limit = result.lastPartitionBeforeCutoff.mapping.limit;
     }
     return { endIndex: result.endIndex, processedRanges: result.processedRanges };
   }
 
   protected getCurrentContinuationToken(): CompositeQueryContinuationToken | undefined {
-    return this.continuationToken;
+    if (this.rangeList.length === 0) {
+      return undefined;
+    }
+    return {
+      rid: this.collectionLink,
+      rangeMappings: this.rangeList,
+      offset: this.offset,
+      limit: this.limit,
+    };
   }
 
   protected getSerializationFunction(): (token: CompositeQueryContinuationToken) => string {
@@ -77,23 +65,18 @@ export class ParallelQueryContinuationTokenManager extends BaseContinuationToken
     // Parallel queries don't need additional cleanup
   }
 
-  private updateExistingCompositeContinuationToken(
-    rangeMappings: QueryRangeWithContinuationToken[],
-  ): void {
+  private updateRangeList(rangeMappings: QueryRangeWithContinuationToken[]): void {
     for (const newRange of rangeMappings) {
-      // Check if this range already exists in the token
-      const existingRangeIndex = this.continuationToken!.rangeMappings.findIndex(
+      const existingRangeIndex = this.rangeList.findIndex(
         (existingRange) =>
           existingRange.queryRange.min === newRange.queryRange.min &&
           existingRange.queryRange.max === newRange.queryRange.max,
       );
 
       if (existingRangeIndex >= 0) {
-        // Range exists - update the continuation token
-        this.continuationToken!.rangeMappings[existingRangeIndex] = newRange;
+        this.rangeList[existingRangeIndex] = newRange;
       } else {
-        // New range - add to the rangeMappings array
-        this.continuationToken!.rangeMappings.push(newRange);
+        this.rangeList.push(newRange);
       }
     }
   }

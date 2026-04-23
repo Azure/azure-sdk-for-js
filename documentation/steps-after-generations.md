@@ -67,7 +67,7 @@ See the [Javascript Codegen Quick Start for Test](https://github.com/Azure/azure
     On Windows, you could use `SET`:
 
     ```shell
-    pnpm build --filter=${PACKAGE_NAME}
+    pnpm build --filter=${PACKAGE_NAME}...
     SET TEST_MODE=record&& pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
     ```
 
@@ -76,13 +76,13 @@ See the [Javascript Codegen Quick Start for Test](https://github.com/Azure/azure
     On Linux, you could use below commands:
 
     ```shell
-      pnpm build --filter=${PACKAGE_NAME}
+      pnpm build --filter=${PACKAGE_NAME}...
     export TEST_MODE=playback && pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
     ```
     On Windows, you can use:
 
     ```shell
-    pnpm build --filter=${PACKAGE_NAME}
+    pnpm build --filter=${PACKAGE_NAME}...
     SET TEST_MODE=playback&& pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
     ```
 
@@ -124,7 +124,6 @@ You will need to add a sample configuration section in your `package.json` file 
 Now, you can generate both JavaScript and TypeScript workable samples with the following commands.
 
 ```shell
-npm install -g common/tools/dev-tool # make sure you are in the azure-sdk-for-js repo root directory
 cd ${PROJECT_ROOT}
 npx dev-tool samples publish -f
 ```
@@ -241,6 +240,71 @@ Latest changes to the main branch may introduce merge conflicts of `pnpm-lock.ya
 6. push your changes into your PR
 
 If you meet other files' conflicts, you need to resolve them case by case.
+
+## Steps to check out the `AutoPR` branch locally
+
+AutoPR is created by a bot based on the [`azure-sdk/azure-sdk-for-js` repo](https://github.com/azure-sdk/azure-sdk-for-js/). Since this is a different fork from `Azure/azure-sdk-for-js`, you cannot directly check out the branch or push changes to it via `origin`. Here are three solutions to check out the AutoPR branch locally.
+
+> **Note for Options 2 & 3:** Replace `{REMOTE_NAME}` with any name you prefer (e.g., `azure-sdk`), and `{BRANCH_NAME}` with the branch name shown in the AutoPR (e.g., `sdkauto/@azure-arm-connectedcache-5699155`).
+
+### Option 1: Use VS Code GitHub Pull Requests extension ⭐ (recommended)
+
+This is the easiest way — no git commands needed. The [GitHub Pull Requests](https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-pull-request-github) extension can check out any PR branch directly in VS Code, including PRs from forks.
+
+1. Install the [GitHub Pull Requests](https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-pull-request-github) extension in VS Code if you haven't already.
+2. Open the **GitHub Pull Requests** panel from the Activity Bar (the GitHub icon).
+3. Find the AutoPR by its PR number or search by branch name.
+4. Click the **Checkout** button next to the PR.
+
+VS Code will automatically fetch the branch from the fork and create a local tracking branch for you.
+
+### Option 2: Fetch the branch and create a local tracking branch
+
+This option lets you make local commits and easily push them back to the remote branch.
+
+1. Add the remote (skip if already added):
+   ```bash
+   git remote add {REMOTE_NAME} https://github.com/azure-sdk/azure-sdk-for-js.git
+   ```
+2. Fetch the specific branch:
+   ```bash
+   git fetch {REMOTE_NAME} {BRANCH_NAME}
+   ```
+3. Create a local branch that tracks the remote branch:
+   ```bash
+   git checkout -b {LOCAL_BRANCH_NAME} --track {REMOTE_NAME}/{BRANCH_NAME}
+   ```
+
+Full example:
+```bash
+git remote add azure-sdk https://github.com/azure-sdk/azure-sdk-for-js.git
+git fetch azure-sdk sdkauto/@azure-arm-connectedcache-5699155
+git checkout -b pr/azure-sdk/36933 --track azure-sdk/sdkauto/@azure-arm-connectedcache-5699155
+```
+
+### Option 3: Fetch all branches and checkout
+
+This option fetches all branches from the remote, which takes longer but is useful if you need to access multiple branches.
+
+1. Add the remote (skip if already added):
+   ```bash
+   git remote add {REMOTE_NAME} https://github.com/azure-sdk/azure-sdk-for-js.git
+   ```
+2. Fetch all branches from the remote:
+   ```bash
+   git fetch {REMOTE_NAME}
+   ```
+3. Checkout the branch:
+   ```bash
+   git checkout {BRANCH_NAME}
+   ```
+
+Full example:
+```bash
+git remote add azure-sdk https://github.com/azure-sdk/azure-sdk-for-js.git
+git fetch azure-sdk
+git checkout sdkauto/@azure-arm-connectedcache-5699155
+```
 
 ## CC dpg-devs for review
 

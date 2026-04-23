@@ -3,6 +3,6 @@
 
 export {
   createComputeRecommenderManagement,
-  ComputeRecommenderManagementContext,
-  ComputeRecommenderManagementClientOptionalParams,
+  type ComputeRecommenderManagementContext,
+  type ComputeRecommenderManagementClientOptionalParams,
 } from "./computeRecommenderManagementContext.js";

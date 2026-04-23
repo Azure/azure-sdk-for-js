@@ -15,7 +15,7 @@ import { isTokenCredential } from "@azure/core-auth";
 import type { WidgetServiceContext } from "../rest/index.js";
 import getClient from "../rest/widgetServiceClient.js";
 
-export { WidgetServiceContext } from "../rest/index.js";
+export type { WidgetServiceContext } from "../rest/index.js";
 
 export interface WidgetServiceClientOptions extends ClientOptions {}
 

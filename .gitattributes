@@ -23,3 +23,5 @@ yarn.lock                    merge=binary
 
 # Mark generated code as auto generated
 **/generated/**/*.ts linguist-generated=true
+
+.github/workflows/*.lock.yml linguist-generated=true merge=ours

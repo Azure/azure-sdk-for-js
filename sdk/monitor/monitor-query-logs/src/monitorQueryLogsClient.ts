@@ -15,7 +15,7 @@ import { batch, executeWithResourceId, execute } from "./api/operations.js";
 import type { LogsQueryBatchResult, LogsQueryResult } from "./models/public.js";
 import type { BatchRequest, QueryBody } from "./models/models.js";
 
-export { LogsQueryClientOptions } from "./api/monitorQueryLogsContext.js";
+export type { LogsQueryClientOptions } from "./api/monitorQueryLogsContext.js";
 
 export class LogsQueryClient {
   private _client: MonitorQueryLogsContext;

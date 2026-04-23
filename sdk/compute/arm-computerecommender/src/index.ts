@@ -10,34 +10,34 @@ import {
 
 export { ComputeRecommenderManagementClient } from "./computeRecommenderManagementClient.js";
 export {
-  Operation,
-  OperationDisplay,
+  type Operation,
+  type OperationDisplay,
   KnownOrigin,
-  Origin,
+  type Origin,
   KnownActionType,
-  ActionType,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
-  ComputeDiagnosticBase,
-  DiagnosticProperties,
-  ProxyResource,
-  Resource,
-  SystemData,
+  type ActionType,
+  type ErrorResponse,
+  type ErrorDetail,
+  type ErrorAdditionalInfo,
+  type ComputeDiagnosticBase,
+  type DiagnosticProperties,
+  type ProxyResource,
+  type Resource,
+  type SystemData,
   KnownCreatedByType,
-  CreatedByType,
-  SpotPlacementScoresInput,
-  ResourceSize,
-  SpotPlacementScoresResponse,
-  PlacementScore,
+  type CreatedByType,
+  type SpotPlacementScoresInput,
+  type ResourceSize,
+  type SpotPlacementScoresResponse,
+  type PlacementScore,
   KnownVersions,
 } from "./models/index.js";
-export { ComputeRecommenderManagementClientOptionalParams } from "./api/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
+export { type ComputeRecommenderManagementClientOptionalParams } from "./api/index.js";
+export { type OperationsListOptionalParams } from "./api/operations/index.js";
 export {
-  SpotPlacementScoresPostOptionalParams,
-  SpotPlacementScoresGetOptionalParams,
+  type SpotPlacementScoresPostOptionalParams,
+  type SpotPlacementScoresGetOptionalParams,
 } from "./api/spotPlacementScores/index.js";
-export { OperationsOperations, SpotPlacementScoresOperations } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export { AzureClouds, AzureSupportedClouds };
+export { type OperationsOperations, type SpotPlacementScoresOperations } from "./classic/index.js";
+export { type PageSettings, type ContinuablePage, type PagedAsyncIterableIterator };
+export { AzureClouds, type AzureSupportedClouds };

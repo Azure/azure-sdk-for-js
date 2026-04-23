@@ -23,9 +23,9 @@ import type {
   Pipeline as CorePipeline,
   PipelinePolicy,
   HttpClient,
+  RequestBodyType as HttpRequestBody,
 } from "@azure/core-rest-pipeline";
 import {
-  RequestBodyType as HttpRequestBody,
   bearerTokenAuthenticationPolicy,
   decompressResponsePolicyName,
 } from "@azure/core-rest-pipeline";
@@ -35,10 +35,12 @@ import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 
 import { logger } from "./log.js";
-import type { StorageRetryOptions } from "@azure/storage-blob";
-import { StorageRetryPolicyFactory } from "@azure/storage-blob";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
-import { AnonymousCredential } from "@azure/storage-blob";
+import {
+  AnonymousCredential,
+  StorageRetryOptions,
+  StorageRetryPolicyFactory,
+} from "@azure/storage-common";
 import {
   StorageOAuthScopes,
   StorageDataLakeLoggingAllowedHeaderNames,
@@ -66,17 +68,17 @@ import {
 // own RequestPolicy or HTTPClient
 export {
   StorageOAuthScopes,
-  IHttpClient,
-  HttpHeaders,
-  HttpRequestBody,
-  HttpOperationResponse,
-  WebResource,
-  RequestPolicyFactory,
-  RequestPolicy,
-  RequestPolicyOptions,
-  ServiceClientOptions,
-  PipelineOptions,
-  PipelineLike,
+  type IHttpClient,
+  type HttpHeaders,
+  type HttpRequestBody,
+  type HttpOperationResponse,
+  type WebResource,
+  type RequestPolicyFactory,
+  type RequestPolicy,
+  type RequestPolicyOptions,
+  type ServiceClientOptions,
+  type PipelineOptions,
+  type PipelineLike,
   Pipeline,
   isPipelineLike,
 };

@@ -43,13 +43,21 @@ interface RuntimeApiFiles {
 }
 
 async function getTsconfigFile(projectPath: string, runtime: string): Promise<string> {
-  const tsconfigPath = path.join(projectPath, `tsconfig.src.${runtime}.json`);
+  // For "node" runtime use "esm" (there are no tsconfig.src.node.json files);
+  // for other runtimes use the runtime name directly.
+  const name = runtime === "node" ? "tsconfig.src.esm.json" : `tsconfig.src.${runtime}.json`;
+
+  // 1. Try runtime-specific tsconfig in the config/ subdirectory
+  const candidate = path.join(projectPath, "config", name);
   try {
-    await stat(tsconfigPath);
-    return tsconfigPath;
+    await stat(candidate);
+    return candidate;
   } catch {
-    return path.join(projectPath, `tsconfig.src.json`);
+    // not found, fall back
   }
+
+  // 2. Fall back to generic tsconfig.src.json in the package directory
+  return path.join(projectPath, `tsconfig.src.json`);
 }
 
 interface ApiJson {
@@ -290,6 +298,7 @@ async function buildMergedApiJson(
   reportTempDir: string,
   exports: ExportEntry[],
   dependencies: Record<string, string>,
+  version: string,
   useMerged: boolean = false,
 ): Promise<string | undefined> {
   const mainNodeExport = exports?.find((e) => !e.isSubpath && e.runtime === "node");
@@ -309,7 +318,7 @@ async function buildMergedApiJson(
 
   const apiJson = await loadApiJsonForSubPath(mainApiJsonPath);
   apiJson.metadata.dependencies = dependencies;
-
+  apiJson.metadata.version = version;
   for (const subpath of exports) {
     if (!subpath.isSubpath || subpath.runtime !== mainNodeExport.runtime) continue;
     const nameWithRuntime = createNameWithRuntime(subpath);
@@ -406,6 +415,7 @@ export default leafCommand(commandInfo, async () => {
         reportTempDir,
         nodeExports,
         pkgJson["dependencies"] || {},
+        pkgJson["version"],
         true,
       );
     }

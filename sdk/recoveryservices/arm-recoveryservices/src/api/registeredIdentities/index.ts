@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { $delete } from "./operations.js";
-export { RegisteredIdentitiesDeleteOptionalParams } from "./options.js";
+export { type RegisteredIdentitiesDeleteOptionalParams } from "./options.js";

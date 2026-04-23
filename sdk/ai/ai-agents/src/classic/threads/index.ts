@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AgentsContext } from "../../api/agentsContext.js";
-import { AgentThread, ThreadDeletionStatus } from "../../models/models.js";
-import {
+import type { AgentsContext } from "../../api/agentsContext.js";
+import type { AgentThread, ThreadDeletionStatus } from "../../models/models.js";
+import type {
   ThreadsDeleteThreadOptionalParams,
   ThreadsUpdateThreadOptionalParams,
   ThreadsGetThreadOptionalParams,
@@ -17,7 +17,7 @@ import {
   listThreads,
   createThread,
 } from "../../api/threads/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Threads operations. */
 export interface ThreadsOperations {

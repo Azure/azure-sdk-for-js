@@ -3,4 +3,4 @@
 
 export { AvroSerializer } from "./avroSerializer.js";
 
-export * from "./models.js";
+export type * from "./models.js";

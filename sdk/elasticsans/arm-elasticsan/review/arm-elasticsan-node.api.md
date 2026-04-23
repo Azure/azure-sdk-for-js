@@ -4,11 +4,15 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type Action = string;
@@ -25,17 +29,22 @@ export interface AutoScaleProperties {
 }
 
 // @public
-export type CreatedByType = string;
-
-// @public
-export interface DeleteRetentionPolicy {
-    // (undocumented)
-    policyState?: PolicyState;
-    retentionPeriodDays?: number;
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
 }
 
 // @public
-export type DeleteType = string;
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
+export type CreatedByType = string;
 
 // @public
 export interface DiskSnapshotList {
@@ -47,52 +56,24 @@ export interface ElasticSan extends TrackedResource {
     properties: ElasticSanProperties;
 }
 
-// @public
-export interface ElasticSanList {
-    readonly nextLink?: string;
-    value?: ElasticSan[];
-}
-
 // @public (undocumented)
-export class ElasticSanManagement extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ElasticSanManagementOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    beginRestoreVolume(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, options?: RestoreVolumeOptionalParams): Promise<SimplePollerLike<OperationState<RestoreVolumeResponse>, RestoreVolumeResponse>>;
-    beginRestoreVolumeAndWait(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, options?: RestoreVolumeOptionalParams): Promise<RestoreVolumeResponse>;
-    // (undocumented)
-    elasticSans: ElasticSans;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    privateEndpointConnections: PrivateEndpointConnections;
-    // (undocumented)
-    privateLinkResources: PrivateLinkResources;
-    // (undocumented)
-    skus: Skus;
-    // (undocumented)
-    subscriptionId: string;
-    // (undocumented)
-    volumeGroups: VolumeGroups;
-    // (undocumented)
-    volumes: Volumes;
-    // (undocumented)
-    volumeSnapshots: VolumeSnapshots;
+export class ElasticSanManagement {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: ElasticSanManagementOptionalParams);
+    readonly elasticSans: ElasticSansOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
+    readonly privateLinkResources: PrivateLinkResourcesOperations;
+    readonly skus: SkusOperations;
+    readonly volumeGroups: VolumeGroupsOperations;
+    readonly volumes: VolumesOperations;
+    readonly volumeSnapshots: VolumeSnapshotsOperations;
 }
 
 // @public
-export interface ElasticSanManagementOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface ElasticSanManagementOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
-}
-
-// @public
-export interface ElasticSanManagementRestoreVolumeHeaders {
-    // (undocumented)
-    location?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -113,95 +94,58 @@ export interface ElasticSanProperties {
 }
 
 // @public
-export interface ElasticSans {
-    beginCreate(resourceGroupName: string, elasticSanName: string, parameters: ElasticSan, options?: ElasticSansCreateOptionalParams): Promise<SimplePollerLike<OperationState<ElasticSansCreateResponse>, ElasticSansCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, elasticSanName: string, parameters: ElasticSan, options?: ElasticSansCreateOptionalParams): Promise<ElasticSansCreateResponse>;
-    beginDelete(resourceGroupName: string, elasticSanName: string, options?: ElasticSansDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, elasticSanName: string, options?: ElasticSansDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, elasticSanName: string, parameters: ElasticSanUpdate, options?: ElasticSansUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ElasticSansUpdateResponse>, ElasticSansUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, elasticSanName: string, parameters: ElasticSanUpdate, options?: ElasticSansUpdateOptionalParams): Promise<ElasticSansUpdateResponse>;
-    get(resourceGroupName: string, elasticSanName: string, options?: ElasticSansGetOptionalParams): Promise<ElasticSansGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: ElasticSansListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ElasticSan>;
-    listBySubscription(options?: ElasticSansListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ElasticSan>;
-}
-
-// @public
-export interface ElasticSansCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ElasticSansCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ElasticSansCreateResponse = ElasticSan;
-
-// @public
-export interface ElasticSansDeleteHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface ElasticSansDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ElasticSansDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ElasticSansGetOptionalParams extends coreClient.OperationOptions {
+export interface ElasticSansGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ElasticSansGetResponse = ElasticSan;
-
-// @public
-export interface ElasticSansListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface ElasticSansListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ElasticSansListByResourceGroupNextResponse = ElasticSanList;
-
-// @public
-export interface ElasticSansListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface ElasticSansListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ElasticSansListByResourceGroupResponse = ElasticSanList;
-
-// @public
-export interface ElasticSansListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface ElasticSansOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, elasticSanName: string, parameters: ElasticSan, options?: ElasticSansCreateOptionalParams) => Promise<SimplePollerLike<OperationState<ElasticSan>, ElasticSan>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, elasticSanName: string, parameters: ElasticSan, options?: ElasticSansCreateOptionalParams) => Promise<ElasticSan>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, elasticSanName: string, options?: ElasticSansDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, elasticSanName: string, options?: ElasticSansDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, elasticSanName: string, parameters: ElasticSanUpdate, options?: ElasticSansUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ElasticSan>, ElasticSan>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, elasticSanName: string, parameters: ElasticSanUpdate, options?: ElasticSansUpdateOptionalParams) => Promise<ElasticSan>;
+    create: (resourceGroupName: string, elasticSanName: string, parameters: ElasticSan, options?: ElasticSansCreateOptionalParams) => PollerLike<OperationState<ElasticSan>, ElasticSan>;
+    delete: (resourceGroupName: string, elasticSanName: string, options?: ElasticSansDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, elasticSanName: string, options?: ElasticSansGetOptionalParams) => Promise<ElasticSan>;
+    listByResourceGroup: (resourceGroupName: string, options?: ElasticSansListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ElasticSan>;
+    listBySubscription: (options?: ElasticSansListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<ElasticSan>;
+    update: (resourceGroupName: string, elasticSanName: string, parameters: ElasticSanUpdate, options?: ElasticSansUpdateOptionalParams) => PollerLike<OperationState<ElasticSan>, ElasticSan>;
 }
 
 // @public
-export type ElasticSansListBySubscriptionNextResponse = ElasticSanList;
-
-// @public
-export interface ElasticSansListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ElasticSansListBySubscriptionResponse = ElasticSanList;
-
-// @public
-export interface ElasticSansUpdateHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface ElasticSansUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ElasticSansUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type ElasticSansUpdateResponse = ElasticSan;
 
 // @public
 export interface ElasticSanUpdate {
     properties?: ElasticSanUpdateProperties;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -228,7 +172,7 @@ export type EncryptionType = string;
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -247,16 +191,11 @@ export interface ErrorResponse {
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
 export interface Identity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: IdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentity;
-    };
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 // @public
@@ -307,11 +246,6 @@ export enum KnownCreatedByType {
 }
 
 // @public
-export enum KnownDeleteType {
-    Permanent = "permanent"
-}
-
-// @public
 export enum KnownEncryptionType {
     EncryptionAtRestWithCustomerManagedKey = "EncryptionAtRestWithCustomerManagedKey",
     EncryptionAtRestWithPlatformKey = "EncryptionAtRestWithPlatformKey"
@@ -344,12 +278,6 @@ export enum KnownOrigin {
 }
 
 // @public
-export enum KnownPolicyState {
-    Disabled = "Disabled",
-    Enabled = "Enabled"
-}
-
-// @public
 export enum KnownPrivateEndpointServiceConnectionStatus {
     Approved = "Approved",
     Failed = "Failed",
@@ -367,7 +295,6 @@ export enum KnownProvisioningStates {
     Invalid = "Invalid",
     Pending = "Pending",
     Restoring = "Restoring",
-    SoftDeleting = "SoftDeleting",
     Succeeded = "Succeeded",
     Updating = "Updating"
 }
@@ -396,18 +323,17 @@ export enum KnownStorageTargetType {
 }
 
 // @public
+export enum KnownVersions {
+    V20250901 = "2025-09-01"
+}
+
+// @public
 export enum KnownVolumeCreateOption {
     Disk = "Disk",
     DiskRestorePoint = "DiskRestorePoint",
     DiskSnapshot = "DiskSnapshot",
     None = "None",
     VolumeSnapshot = "VolumeSnapshot"
-}
-
-// @public
-export enum KnownXMsAccessSoftDeletedResources {
-    False = "false",
-    True = "true"
 }
 
 // @public
@@ -453,28 +379,28 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: Operation[];
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationListResult;
 
 // @public
 export type Origin = string;
 
 // @public
-export type PolicyState = string;
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
 
 // @public
 export interface PreValidationResponse {
@@ -487,14 +413,8 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export interface PrivateEndpointConnection extends Resource {
+export interface PrivateEndpointConnection extends ProxyResource {
     properties: PrivateEndpointConnectionProperties;
-}
-
-// @public
-export interface PrivateEndpointConnectionListResult {
-    readonly nextLink?: string;
-    value?: PrivateEndpointConnection[];
 }
 
 // @public
@@ -506,49 +426,38 @@ export interface PrivateEndpointConnectionProperties {
 }
 
 // @public
-export interface PrivateEndpointConnections {
-    beginCreate(resourceGroupName: string, elasticSanName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionsCreateResponse>, PrivateEndpointConnectionsCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, elasticSanName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOptionalParams): Promise<PrivateEndpointConnectionsCreateResponse>;
-    beginDelete(resourceGroupName: string, elasticSanName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, elasticSanName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, elasticSanName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
-    list(resourceGroupName: string, elasticSanName: string, options?: PrivateEndpointConnectionsListOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
-}
-
-// @public
-export interface PrivateEndpointConnectionsCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface PrivateEndpointConnectionsCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type PrivateEndpointConnectionsCreateResponse = PrivateEndpointConnection;
-
-// @public
-export interface PrivateEndpointConnectionsDeleteHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface PrivateEndpointConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface PrivateEndpointConnectionsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
-
-// @public
-export interface PrivateEndpointConnectionsListOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
+export interface PrivateEndpointConnectionsOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, elasticSanName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, elasticSanName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOptionalParams) => Promise<PrivateEndpointConnection>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, elasticSanName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, elasticSanName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<void>;
+    create: (resourceGroupName: string, elasticSanName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOptionalParams) => PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
+    delete: (resourceGroupName: string, elasticSanName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, elasticSanName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnection>;
+    list: (resourceGroupName: string, elasticSanName: string, options?: PrivateEndpointConnectionsListOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
+}
 
 // @public
 export type PrivateEndpointServiceConnectionStatus = string;
@@ -561,7 +470,7 @@ export interface PrivateLinkResource extends Resource {
 // @public
 export interface PrivateLinkResourceListResult {
     readonly nextLink?: string;
-    value?: PrivateLinkResource[];
+    value: PrivateLinkResource[];
 }
 
 // @public
@@ -572,16 +481,13 @@ export interface PrivateLinkResourceProperties {
 }
 
 // @public
-export interface PrivateLinkResources {
-    listByElasticSan(resourceGroupName: string, elasticSanName: string, options?: PrivateLinkResourcesListByElasticSanOptionalParams): Promise<PrivateLinkResourcesListByElasticSanResponse>;
+export interface PrivateLinkResourcesListByElasticSanOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface PrivateLinkResourcesListByElasticSanOptionalParams extends coreClient.OperationOptions {
+export interface PrivateLinkResourcesOperations {
+    listByElasticSan: (resourceGroupName: string, elasticSanName: string, options?: PrivateLinkResourcesListByElasticSanOptionalParams) => Promise<PrivateLinkResourceListResult>;
 }
-
-// @public
-export type PrivateLinkResourcesListByElasticSanResponse = PrivateLinkResourceListResult;
 
 // @public
 export interface PrivateLinkServiceConnectionState {
@@ -609,13 +515,14 @@ export interface Resource {
 }
 
 // @public
-export interface RestoreVolumeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ElasticSanManagement, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
     updateIntervalInMs?: number;
 }
-
-// @public
-export type RestoreVolumeResponse = Volume;
 
 // @public
 export interface ScaleUpProperties {
@@ -623,6 +530,28 @@ export interface ScaleUpProperties {
     capacityUnitScaleUpLimitTiB?: number;
     increaseCapacityUnitByTiB?: number;
     unusedSizeTiB?: number;
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public
@@ -648,12 +577,6 @@ export interface SkuInformation {
 }
 
 // @public
-export interface SkuInformationList {
-    readonly nextLink?: string;
-    readonly value?: SkuInformation[];
-}
-
-// @public
 export interface SkuLocationInfo {
     readonly location?: string;
     readonly zones?: string[];
@@ -663,17 +586,14 @@ export interface SkuLocationInfo {
 export type SkuName = string;
 
 // @public
-export interface Skus {
-    list(options?: SkusListOptionalParams): PagedAsyncIterableIterator<SkuInformation>;
-}
-
-// @public
-export interface SkusListOptionalParams extends coreClient.OperationOptions {
+export interface SkusListOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type SkusListResponse = SkuInformationList;
+export interface SkusOperations {
+    list: (options?: SkusListOptionalParams) => PagedAsyncIterableIterator<SkuInformation>;
+}
 
 // @public
 export type SkuTier = string;
@@ -686,12 +606,6 @@ export interface Snapshot extends ProxyResource {
 // @public
 export interface SnapshotCreationData {
     sourceId: string;
-}
-
-// @public
-export interface SnapshotList {
-    readonly nextLink?: string;
-    value?: Snapshot[];
 }
 
 // @public
@@ -724,9 +638,7 @@ export interface SystemData {
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -756,14 +668,7 @@ export interface VolumeGroup extends ProxyResource {
 }
 
 // @public
-export interface VolumeGroupList {
-    readonly nextLink?: string;
-    value?: VolumeGroup[];
-}
-
-// @public
 export interface VolumeGroupProperties {
-    deleteRetentionPolicy?: DeleteRetentionPolicy;
     encryption?: EncryptionType;
     encryptionProperties?: EncryptionProperties;
     enforceDataIntegrityCheckForIscsi?: boolean;
@@ -774,75 +679,48 @@ export interface VolumeGroupProperties {
 }
 
 // @public
-export interface VolumeGroups {
-    beginCreate(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, parameters: VolumeGroup, options?: VolumeGroupsCreateOptionalParams): Promise<SimplePollerLike<OperationState<VolumeGroupsCreateResponse>, VolumeGroupsCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, parameters: VolumeGroup, options?: VolumeGroupsCreateOptionalParams): Promise<VolumeGroupsCreateResponse>;
-    beginDelete(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, options?: VolumeGroupsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, options?: VolumeGroupsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, parameters: VolumeGroupUpdate, options?: VolumeGroupsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VolumeGroupsUpdateResponse>, VolumeGroupsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, parameters: VolumeGroupUpdate, options?: VolumeGroupsUpdateOptionalParams): Promise<VolumeGroupsUpdateResponse>;
-    get(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, options?: VolumeGroupsGetOptionalParams): Promise<VolumeGroupsGetResponse>;
-    listByElasticSan(resourceGroupName: string, elasticSanName: string, options?: VolumeGroupsListByElasticSanOptionalParams): PagedAsyncIterableIterator<VolumeGroup>;
-}
-
-// @public
-export interface VolumeGroupsCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VolumeGroupsCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type VolumeGroupsCreateResponse = VolumeGroup;
-
-// @public
-export interface VolumeGroupsDeleteHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface VolumeGroupsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VolumeGroupsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface VolumeGroupsGetOptionalParams extends coreClient.OperationOptions {
+export interface VolumeGroupsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type VolumeGroupsGetResponse = VolumeGroup;
-
-// @public
-export interface VolumeGroupsListByElasticSanNextOptionalParams extends coreClient.OperationOptions {
-    xMsAccessSoftDeletedResources?: XMsAccessSoftDeletedResources;
+export interface VolumeGroupsListByElasticSanOptionalParams extends OperationOptions {
 }
 
 // @public
-export type VolumeGroupsListByElasticSanNextResponse = VolumeGroupList;
-
-// @public
-export interface VolumeGroupsListByElasticSanOptionalParams extends coreClient.OperationOptions {
-    xMsAccessSoftDeletedResources?: XMsAccessSoftDeletedResources;
+export interface VolumeGroupsOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, elasticSanName: string, volumeGroupName: string, parameters: VolumeGroup, options?: VolumeGroupsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<VolumeGroup>, VolumeGroup>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, elasticSanName: string, volumeGroupName: string, parameters: VolumeGroup, options?: VolumeGroupsCreateOptionalParams) => Promise<VolumeGroup>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, elasticSanName: string, volumeGroupName: string, options?: VolumeGroupsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, elasticSanName: string, volumeGroupName: string, options?: VolumeGroupsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, elasticSanName: string, volumeGroupName: string, parameters: VolumeGroupUpdate, options?: VolumeGroupsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<VolumeGroup>, VolumeGroup>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, elasticSanName: string, volumeGroupName: string, parameters: VolumeGroupUpdate, options?: VolumeGroupsUpdateOptionalParams) => Promise<VolumeGroup>;
+    create: (resourceGroupName: string, elasticSanName: string, volumeGroupName: string, parameters: VolumeGroup, options?: VolumeGroupsCreateOptionalParams) => PollerLike<OperationState<VolumeGroup>, VolumeGroup>;
+    delete: (resourceGroupName: string, elasticSanName: string, volumeGroupName: string, options?: VolumeGroupsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, elasticSanName: string, volumeGroupName: string, options?: VolumeGroupsGetOptionalParams) => Promise<VolumeGroup>;
+    listByElasticSan: (resourceGroupName: string, elasticSanName: string, options?: VolumeGroupsListByElasticSanOptionalParams) => PagedAsyncIterableIterator<VolumeGroup>;
+    update: (resourceGroupName: string, elasticSanName: string, volumeGroupName: string, parameters: VolumeGroupUpdate, options?: VolumeGroupsUpdateOptionalParams) => PollerLike<OperationState<VolumeGroup>, VolumeGroup>;
 }
 
 // @public
-export type VolumeGroupsListByElasticSanResponse = VolumeGroupList;
-
-// @public
-export interface VolumeGroupsUpdateHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface VolumeGroupsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VolumeGroupsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type VolumeGroupsUpdateResponse = VolumeGroup;
 
 // @public
 export interface VolumeGroupUpdate {
@@ -852,18 +730,11 @@ export interface VolumeGroupUpdate {
 
 // @public
 export interface VolumeGroupUpdateProperties {
-    deleteRetentionPolicy?: DeleteRetentionPolicy;
     encryption?: EncryptionType;
     encryptionProperties?: EncryptionProperties;
     enforceDataIntegrityCheckForIscsi?: boolean;
     networkAcls?: NetworkRuleSet;
     protocolType?: StorageTargetType;
-}
-
-// @public
-export interface VolumeList {
-    readonly nextLink?: string;
-    value?: Volume[];
 }
 
 // @public
@@ -882,165 +753,105 @@ export interface VolumeProperties {
 }
 
 // @public
-export interface Volumes {
-    beginCreate(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, parameters: Volume, options?: VolumesCreateOptionalParams): Promise<SimplePollerLike<OperationState<VolumesCreateResponse>, VolumesCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, parameters: Volume, options?: VolumesCreateOptionalParams): Promise<VolumesCreateResponse>;
-    beginDelete(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, options?: VolumesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, options?: VolumesDeleteOptionalParams): Promise<void>;
-    beginPreBackup(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, parameters: VolumeNameList, options?: VolumesPreBackupOptionalParams): Promise<SimplePollerLike<OperationState<VolumesPreBackupResponse>, VolumesPreBackupResponse>>;
-    beginPreBackupAndWait(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, parameters: VolumeNameList, options?: VolumesPreBackupOptionalParams): Promise<VolumesPreBackupResponse>;
-    beginPreRestore(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, parameters: DiskSnapshotList, options?: VolumesPreRestoreOptionalParams): Promise<SimplePollerLike<OperationState<VolumesPreRestoreResponse>, VolumesPreRestoreResponse>>;
-    beginPreRestoreAndWait(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, parameters: DiskSnapshotList, options?: VolumesPreRestoreOptionalParams): Promise<VolumesPreRestoreResponse>;
-    beginUpdate(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, parameters: VolumeUpdate, options?: VolumesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VolumesUpdateResponse>, VolumesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, parameters: VolumeUpdate, options?: VolumesUpdateOptionalParams): Promise<VolumesUpdateResponse>;
-    get(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, options?: VolumesGetOptionalParams): Promise<VolumesGetResponse>;
-    listByVolumeGroup(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, options?: VolumesListByVolumeGroupOptionalParams): PagedAsyncIterableIterator<Volume>;
-}
-
-// @public
-export interface VolumesCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VolumesCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type VolumesCreateResponse = Volume;
-
-// @public
-export interface VolumesDeleteHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface VolumesDeleteOptionalParams extends coreClient.OperationOptions {
-    deleteType?: DeleteType;
-    resumeFrom?: string;
+export interface VolumesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
     xMsDeleteSnapshots?: XMsDeleteSnapshots;
     xMsForceDelete?: XMsForceDelete;
 }
 
 // @public
-export interface VolumesGetOptionalParams extends coreClient.OperationOptions {
+export interface VolumesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type VolumesGetResponse = Volume;
-
-// @public
-export interface VolumesListByVolumeGroupNextOptionalParams extends coreClient.OperationOptions {
-    xMsAccessSoftDeletedResources?: XMsAccessSoftDeletedResources;
+export interface VolumesListByVolumeGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type VolumesListByVolumeGroupNextResponse = VolumeList;
-
-// @public
-export interface VolumesListByVolumeGroupOptionalParams extends coreClient.OperationOptions {
-    xMsAccessSoftDeletedResources?: XMsAccessSoftDeletedResources;
-}
-
-// @public
-export type VolumesListByVolumeGroupResponse = VolumeList;
-
-// @public
-export interface VolumeSnapshots {
-    beginCreate(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, snapshotName: string, parameters: Snapshot, options?: VolumeSnapshotsCreateOptionalParams): Promise<SimplePollerLike<OperationState<VolumeSnapshotsCreateResponse>, VolumeSnapshotsCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, snapshotName: string, parameters: Snapshot, options?: VolumeSnapshotsCreateOptionalParams): Promise<VolumeSnapshotsCreateResponse>;
-    beginDelete(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, snapshotName: string, options?: VolumeSnapshotsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, snapshotName: string, options?: VolumeSnapshotsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, snapshotName: string, options?: VolumeSnapshotsGetOptionalParams): Promise<VolumeSnapshotsGetResponse>;
-    listByVolumeGroup(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, options?: VolumeSnapshotsListByVolumeGroupOptionalParams): PagedAsyncIterableIterator<Snapshot>;
-}
-
-// @public
-export interface VolumeSnapshotsCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VolumeSnapshotsCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type VolumeSnapshotsCreateResponse = Snapshot;
-
-// @public
-export interface VolumeSnapshotsDeleteHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface VolumeSnapshotsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VolumeSnapshotsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface VolumeSnapshotsGetOptionalParams extends coreClient.OperationOptions {
+export interface VolumeSnapshotsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type VolumeSnapshotsGetResponse = Snapshot;
-
-// @public
-export interface VolumeSnapshotsListByVolumeGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VolumeSnapshotsListByVolumeGroupNextResponse = SnapshotList;
-
-// @public
-export interface VolumeSnapshotsListByVolumeGroupOptionalParams extends coreClient.OperationOptions {
+export interface VolumeSnapshotsListByVolumeGroupOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type VolumeSnapshotsListByVolumeGroupResponse = SnapshotList;
-
-// @public
-export interface VolumesPreBackupHeaders {
-    // (undocumented)
-    location?: string;
+export interface VolumeSnapshotsOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, elasticSanName: string, volumeGroupName: string, snapshotName: string, parameters: Snapshot, options?: VolumeSnapshotsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<Snapshot>, Snapshot>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, elasticSanName: string, volumeGroupName: string, snapshotName: string, parameters: Snapshot, options?: VolumeSnapshotsCreateOptionalParams) => Promise<Snapshot>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, elasticSanName: string, volumeGroupName: string, snapshotName: string, options?: VolumeSnapshotsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, elasticSanName: string, volumeGroupName: string, snapshotName: string, options?: VolumeSnapshotsDeleteOptionalParams) => Promise<void>;
+    create: (resourceGroupName: string, elasticSanName: string, volumeGroupName: string, snapshotName: string, parameters: Snapshot, options?: VolumeSnapshotsCreateOptionalParams) => PollerLike<OperationState<Snapshot>, Snapshot>;
+    delete: (resourceGroupName: string, elasticSanName: string, volumeGroupName: string, snapshotName: string, options?: VolumeSnapshotsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, elasticSanName: string, volumeGroupName: string, snapshotName: string, options?: VolumeSnapshotsGetOptionalParams) => Promise<Snapshot>;
+    listByVolumeGroup: (resourceGroupName: string, elasticSanName: string, volumeGroupName: string, options?: VolumeSnapshotsListByVolumeGroupOptionalParams) => PagedAsyncIterableIterator<Snapshot>;
 }
 
 // @public
-export interface VolumesPreBackupOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VolumesOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, parameters: Volume, options?: VolumesCreateOptionalParams) => Promise<SimplePollerLike<OperationState<Volume>, Volume>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, parameters: Volume, options?: VolumesCreateOptionalParams) => Promise<Volume>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, options?: VolumesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, options?: VolumesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginPreBackup: (resourceGroupName: string, elasticSanName: string, volumeGroupName: string, parameters: VolumeNameList, options?: VolumesPreBackupOptionalParams) => Promise<SimplePollerLike<OperationState<PreValidationResponse>, PreValidationResponse>>;
+    // @deprecated (undocumented)
+    beginPreBackupAndWait: (resourceGroupName: string, elasticSanName: string, volumeGroupName: string, parameters: VolumeNameList, options?: VolumesPreBackupOptionalParams) => Promise<PreValidationResponse>;
+    // @deprecated (undocumented)
+    beginPreRestore: (resourceGroupName: string, elasticSanName: string, volumeGroupName: string, parameters: DiskSnapshotList, options?: VolumesPreRestoreOptionalParams) => Promise<SimplePollerLike<OperationState<PreValidationResponse>, PreValidationResponse>>;
+    // @deprecated (undocumented)
+    beginPreRestoreAndWait: (resourceGroupName: string, elasticSanName: string, volumeGroupName: string, parameters: DiskSnapshotList, options?: VolumesPreRestoreOptionalParams) => Promise<PreValidationResponse>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, parameters: VolumeUpdate, options?: VolumesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Volume>, Volume>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, parameters: VolumeUpdate, options?: VolumesUpdateOptionalParams) => Promise<Volume>;
+    create: (resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, parameters: Volume, options?: VolumesCreateOptionalParams) => PollerLike<OperationState<Volume>, Volume>;
+    delete: (resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, options?: VolumesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, options?: VolumesGetOptionalParams) => Promise<Volume>;
+    listByVolumeGroup: (resourceGroupName: string, elasticSanName: string, volumeGroupName: string, options?: VolumesListByVolumeGroupOptionalParams) => PagedAsyncIterableIterator<Volume>;
+    preBackup: (resourceGroupName: string, elasticSanName: string, volumeGroupName: string, parameters: VolumeNameList, options?: VolumesPreBackupOptionalParams) => PollerLike<OperationState<PreValidationResponse>, PreValidationResponse>;
+    preRestore: (resourceGroupName: string, elasticSanName: string, volumeGroupName: string, parameters: DiskSnapshotList, options?: VolumesPreRestoreOptionalParams) => PollerLike<OperationState<PreValidationResponse>, PreValidationResponse>;
+    update: (resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, parameters: VolumeUpdate, options?: VolumesUpdateOptionalParams) => PollerLike<OperationState<Volume>, Volume>;
+}
+
+// @public
+export interface VolumesPreBackupOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type VolumesPreBackupResponse = PreValidationResponse;
-
-// @public
-export interface VolumesPreRestoreHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface VolumesPreRestoreOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VolumesPreRestoreOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type VolumesPreRestoreResponse = PreValidationResponse;
-
-// @public
-export interface VolumesUpdateHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface VolumesUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VolumesUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type VolumesUpdateResponse = Volume;
 
 // @public
 export interface VolumeUpdate {
@@ -1052,9 +863,6 @@ export interface VolumeUpdateProperties {
     managedBy?: ManagedByInfo;
     sizeGiB?: number;
 }
-
-// @public
-export type XMsAccessSoftDeletedResources = string;
 
 // @public
 export type XMsDeleteSnapshots = string;

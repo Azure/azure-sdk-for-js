@@ -10,6 +10,12 @@ import {
   serviceInstanceIdDetector,
 } from "@opentelemetry/resources";
 import { diag } from "@opentelemetry/api";
+import {
+  azureAksDetector,
+  azureAppServiceDetector,
+  azureFunctionsDetector,
+  azureVmDetector,
+} from "@opentelemetry/resource-detector-azure";
 
 export function ignoreOutgoingRequestHook(request: http.RequestOptions): boolean {
   if (request && request.headers && !Array.isArray(request.headers)) {
@@ -123,6 +129,10 @@ export function parseResourceDetectorsFromEnvVar(): Array<ResourceDetector> {
     ["os", osDetector],
     ["process", processDetector],
     ["serviceinstance", serviceInstanceIdDetector],
+    ["azure_aks", azureAksDetector],
+    ["azure_app_service", azureAppServiceDetector],
+    ["azure_functions", azureFunctionsDetector],
+    ["azure_vm", azureVmDetector],
   ]);
 
   if (process.env.OTEL_NODE_RESOURCE_DETECTORS != null) {

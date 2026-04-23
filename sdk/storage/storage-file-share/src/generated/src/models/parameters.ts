@@ -100,7 +100,7 @@ export const timeoutInSeconds: OperationQueryParameter = {
 export const version: OperationParameter = {
   parameterPath: "version",
   mapper: {
-    defaultValue: "2026-02-06",
+    defaultValue: "2026-04-06",
     isConstant: true,
     serializedName: "x-ms-version",
     type: {
@@ -1201,6 +1201,17 @@ export const rangeGetContentMD5: OperationParameter = {
   },
 };
 
+export const structuredBodyType: OperationParameter = {
+  parameterPath: ["options", "structuredBodyType"],
+  mapper: {
+    serializedName: "x-ms-structured-body",
+    xmlName: "x-ms-structured-body",
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const fileContentLength1: OperationParameter = {
   parameterPath: ["options", "fileContentLength"],
   mapper: {
@@ -1270,6 +1281,17 @@ export const fileLastWrittenMode: OperationParameter = {
     type: {
       name: "Enum",
       allowedValues: ["Now", "Preserve"],
+    },
+  },
+};
+
+export const structuredContentLength: OperationParameter = {
+  parameterPath: ["options", "structuredContentLength"],
+  mapper: {
+    serializedName: "x-ms-structured-content-length",
+    xmlName: "x-ms-structured-content-length",
+    type: {
+      name: "Number",
     },
   },
 };

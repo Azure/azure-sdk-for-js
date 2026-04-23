@@ -3,7 +3,7 @@
 
 export { regionalCheckNameAvailability, checkNameAvailability, list } from "./operations.js";
 export {
-  OperationsRegionalCheckNameAvailabilityOptionalParams,
-  OperationsCheckNameAvailabilityOptionalParams,
-  OperationsListOptionalParams,
+  type OperationsRegionalCheckNameAvailabilityOptionalParams,
+  type OperationsCheckNameAvailabilityOptionalParams,
+  type OperationsListOptionalParams,
 } from "./options.js";

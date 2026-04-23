@@ -11,11 +11,11 @@ export {
   get,
 } from "./operations.js";
 export {
-  StorageTasksPreviewActionsOptionalParams,
-  StorageTasksListBySubscriptionOptionalParams,
-  StorageTasksListByResourceGroupOptionalParams,
-  StorageTasksDeleteOptionalParams,
-  StorageTasksUpdateOptionalParams,
-  StorageTasksCreateOptionalParams,
-  StorageTasksGetOptionalParams,
+  type StorageTasksPreviewActionsOptionalParams,
+  type StorageTasksListBySubscriptionOptionalParams,
+  type StorageTasksListByResourceGroupOptionalParams,
+  type StorageTasksDeleteOptionalParams,
+  type StorageTasksUpdateOptionalParams,
+  type StorageTasksCreateOptionalParams,
+  type StorageTasksGetOptionalParams,
 } from "./options.js";
