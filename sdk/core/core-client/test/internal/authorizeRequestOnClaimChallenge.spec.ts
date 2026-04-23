@@ -16,9 +16,11 @@ import {
 } from "../../src/authorizeRequestOnClaimChallenge.js";
 import { encodeString } from "../../src/base64.js";
 
+const defaultRequest = () => createPipelineRequest({ url: "https://example.com" });
+
 describe("authorizeRequestOnClaimChallenge", function () {
   it(`should try to get the access token if the response has a valid claims parameter on the WWW-Authenticate header`, async function () {
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
     const getAccessTokenParameters: {
       scopes: string | string[];
       getTokenOptions: GetTokenOptions;
@@ -55,13 +57,13 @@ describe("authorizeRequestOnClaimChallenge", function () {
         scopes: ["https://endpoint/.default"],
         getTokenOptions: {
           claims: '{"access_token":{"nbf":{"essential":true, "value":"1603742800"}}}',
-        } as GetTokenOptions,
+        } satisfies GetTokenOptions,
       },
     ]);
   });
 
   it(`should try to get the access token with the parametrized scopes if the response has no scope property on the WWW-authenticate header`, async function () {
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
     const getAccessTokenParameters: {
       scopes: string | string[];
       getTokenOptions: GetTokenOptions;
@@ -97,7 +99,7 @@ describe("authorizeRequestOnClaimChallenge", function () {
         scopes: ["https://parametrized-endpoint/.default"],
         getTokenOptions: {
           claims: '{"access_token":{"nbf":{"essential":true, "value":"1603742800"}}}',
-        } as GetTokenOptions,
+        } satisfies GetTokenOptions,
       },
     ]);
   });
@@ -106,7 +108,7 @@ describe("authorizeRequestOnClaimChallenge", function () {
     // In Python, padding has to be added at the end if the size of the base64 string is not a multiple of 4.
     // In JavaScript, the padding is added automatically.
 
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
     const getAccessTokenParameters: {
       scopes: string | string[];
       getTokenOptions: GetTokenOptions;
@@ -143,13 +145,13 @@ describe("authorizeRequestOnClaimChallenge", function () {
         scopes: ["https://parametrized-endpoint/.default"],
         getTokenOptions: {
           claims: '{"access_token":{"nbf":{"essential":true, "value":"1603742800"}}}',
-        } as GetTokenOptions,
+        } satisfies GetTokenOptions,
       },
     ]);
   });
 
   it(`should return false if getAccessToken is called and if it doesn't return an access token`, async function () {
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
     const getAccessTokenParameters: {
       scopes: string | string[];
       getTokenOptions: GetTokenOptions;
@@ -182,13 +184,13 @@ describe("authorizeRequestOnClaimChallenge", function () {
         scopes: ["https://parametrized-endpoint/.default"],
         getTokenOptions: {
           claims: '{"access_token":{"nbf":{"essential":true, "value":"1603742800"}}}',
-        } as GetTokenOptions,
+        } satisfies GetTokenOptions,
       },
     ]);
   });
 
   it(`should return false if the response has an invalid claims parameter on the WWW-Authenticate header`, async function () {
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
     const getAccessTokenParameters: {
       scopes: string | string[];
       getTokenOptions: GetTokenOptions;
@@ -216,7 +218,7 @@ describe("authorizeRequestOnClaimChallenge", function () {
   });
 
   it(`should return false if the response has no WWW-Authenticate header`, async function () {
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
     const getAccessTokenParameters: {
       scopes: string | string[];
       getTokenOptions: GetTokenOptions;
@@ -283,7 +285,7 @@ describe("authorizeRequestOnClaimChallenge", function () {
         }),
       };
 
-      const pipelineRequest = createPipelineRequest({ url: "https://example.com" });
+      const pipelineRequest = defaultRequest();
       const responses: PipelineResponse[] = [
         {
           headers: createHttpHeaders({
@@ -353,7 +355,7 @@ describe("authorizeRequestOnClaimChallenge", function () {
   });
 
   it(`a custom logger should log a reasonable message if no challenge is received`, async function () {
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
     const getAccessTokenParameters: {
       scopes: string | string[];
       getTokenOptions: GetTokenOptions;
@@ -391,7 +393,7 @@ describe("authorizeRequestOnClaimChallenge", function () {
   });
 
   it(`a custom logger should log a reasonable message if a bad challenge is received`, async function () {
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
     const getAccessTokenParameters: {
       scopes: string | string[];
       getTokenOptions: GetTokenOptions;
@@ -434,5 +436,64 @@ describe("authorizeRequestOnClaimChallenge", function () {
       allParams.map((x) => x.join(" ")).join("\n"),
       `The WWW-Authenticate header was missing the necessary "claims" to perform the Continuous Access Evaluation authentication flow.`,
     );
+  });
+});
+
+describe("authorizeRequestOnClaimChallenge", () => {
+  it("should handle malformed WWW-Authenticate header (no claims)", async () => {
+    const request = defaultRequest();
+    const result = await authorizeRequestOnClaimChallenge({
+      async getAccessToken() {
+        return { token: "token", expiresOnTimestamp: Date.now() + 3600000 };
+      },
+      scopes: [],
+      response: {
+        headers: createHttpHeaders({
+          "WWW-Authenticate": 'Bearer realm="test"',
+        }),
+        request,
+        status: 401,
+      },
+      request,
+    });
+    assert.isFalse(result);
+  });
+
+  it("should handle missing WWW-Authenticate header", async () => {
+    const request = defaultRequest();
+    const result = await authorizeRequestOnClaimChallenge({
+      async getAccessToken() {
+        return { token: "token", expiresOnTimestamp: Date.now() + 3600000 };
+      },
+      scopes: [],
+      response: {
+        headers: createHttpHeaders(),
+        request,
+        status: 401,
+      },
+      request,
+    });
+    assert.isFalse(result);
+  });
+});
+
+describe("authorizeRequestOnClaimChallenge", () => {
+  it("should handle completely unparseable WWW-Authenticate value", async () => {
+    const request = defaultRequest();
+    const result = await authorizeRequestOnClaimChallenge({
+      async getAccessToken() {
+        return { token: "token", expiresOnTimestamp: Date.now() + 3600000 };
+      },
+      scopes: [],
+      response: {
+        headers: createHttpHeaders({
+          "WWW-Authenticate": "NotBearer gibberish",
+        }),
+        request,
+        status: 401,
+      },
+      request,
+    });
+    assert.isFalse(result);
   });
 });
