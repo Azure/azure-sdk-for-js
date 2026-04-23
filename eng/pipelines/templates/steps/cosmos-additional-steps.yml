@@ -8,3 +8,9 @@ steps:
     condition: succeededOrFailed()
     displayName: "Cosmos Integration Tests"
     workingDirectory: "${{parameters.PackagePath}}"
+
+  - script: |
+      npm run test:react-native
+    condition: succeededOrFailed()
+    displayName: "Cosmos React Native Integration Tests"
+    workingDirectory: "${{parameters.PackagePath}}"
