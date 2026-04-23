@@ -20,6 +20,7 @@ import "dotenv/config";
 describe("helloWorld", () => {
   let recorder: Recorder;
   let client: CertificateClient;
+  let secretClient: SecretClient;
   let certificateName: string;
 
   beforeEach(async (ctx) => {
@@ -46,6 +47,18 @@ describe("helloWorld", () => {
           new DefaultAzureCredential(),
         ),
     );
+    secretClient = forPublishing(
+      new SecretClient(
+        assertEnvironmentVariable("KEYVAULT_URI"),
+        createTestCredential(),
+        recorder.configureClientOptions({}),
+      ),
+      () =>
+        new SecretClient(
+          process.env["KEYVAULT_URI"] || "<keyvault-url>",
+          new DefaultAzureCredential(),
+        ),
+    );
     // Create unique certificate name
     certificateName = forPublishing(
       recorder.variable("certificateName", `hello-world-${new Date().getTime()}`),
@@ -63,6 +76,8 @@ describe("helloWorld", () => {
       certificateName,
       DefaultCertificatePolicy,
     );
+
+    await createPoller.pollUntilDone();
 
     // Get the pending certificate before the creation operation is complete
     const pendingCertificate = createPoller.getResult();
@@ -137,6 +152,10 @@ describe("helloWorld", () => {
   // Operation snippets
 
   it("create a self-signed certificate", async () => {
+    const certificateName = forPublishing(
+      recorder.variable("selfSignedCertName", `self-signed-cert-${new Date().getTime()}`),
+      () => "MySelfSignedCert",
+    );
     // @snippet ReadmeSampleCreateCertificate
     // @ts-preserve-whitespace
     // Note: Sending `Self` as the `issuerName` of the certificate's policy will create a self-signed certificate.
@@ -148,6 +167,10 @@ describe("helloWorld", () => {
   });
 
   it("create a certificate with options", async () => {
+    const certificateName = forPublishing(
+      recorder.variable("certWithOptionsName", `cert-options-${new Date().getTime()}`),
+      () => "MyCertWithOptions",
+    );
     // @snippet ReadmeSampleCreateCertificateWithOptions
     // @ts-preserve-whitespace
     // Note: Sending `Self` as the `issuerName` of the certificate's policy will create a self-signed certificate.
@@ -168,6 +191,10 @@ describe("helloWorld", () => {
   });
 
   it("create a certificate with polling", async () => {
+    const certificateName = forPublishing(
+      recorder.variable("certWithPollingName", `cert-polling-${new Date().getTime()}`),
+      () => "MyCertWithPolling",
+    );
     // @snippet ReadmeSampleCreateCertificatePoller
     const certificatePolicy = {
       issuerName: "Self",
@@ -186,6 +213,10 @@ describe("helloWorld", () => {
   });
 
   it("create a certificate and poll individually", async () => {
+    const certificateName = forPublishing(
+      recorder.variable("certPollIndivName", `cert-poll-indiv-${new Date().getTime()}`),
+      () => "MyCertPollIndiv",
+    );
     // @snippet ReadmeSampleCreateCertificatePollerIndividualCalls
     const certificatePolicy = {
       issuerName: "Self",
@@ -206,14 +237,17 @@ describe("helloWorld", () => {
   });
 
   it("get a certificate", async () => {
+    const certificateName = forPublishing(
+      recorder.variable("getCertName", `get-cert-${new Date().getTime()}`),
+      () => "MyGetCert",
+    );
     // @snippet ReadmeSampleGetCertificate
-    if (forPublishing(true, () => false)) {
-      const createPoller = await client.beginCreateCertificate(certificateName, {
-        issuerName: "Self",
-        subject: "cn=MyCert",
-      });
-      await createPoller.pollUntilDone();
-    }
+    // @ts-preserve-whitespace
+    const createPoller = await client.beginCreateCertificate(certificateName, {
+      issuerName: "Self",
+      subject: "cn=MyCert",
+    });
+    await createPoller.pollUntilDone();
     // @ts-preserve-whitespace
     const latestCertificate = await client.getCertificate(certificateName);
     console.log(`Latest version of the certificate ${certificateName}: `, latestCertificate);
@@ -229,23 +263,18 @@ describe("helloWorld", () => {
   });
 
   it("get certificate with full information", async () => {
-    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
-    // @ts-preserve-whitespace
-    const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-    // @ts-preserve-whitespace
-    const secretClient = forPublishing(
-      new SecretClient(keyVaultUrl, credential, recorder.configureClientOptions({})),
-      () => new SecretClient(keyVaultUrl, credential),
+    const certificateName = forPublishing(
+      recorder.variable("getCertFullInfoName", `get-cert-full-info-${new Date().getTime()}`),
+      () => "MyGetFullCert",
     );
     // @ts-preserve-whitespace
     // @snippet ReadmeSampleGetCertificateFullInfo
-    if (forPublishing(true, () => false)) {
-      const createPoller = await client.beginCreateCertificate(certificateName, {
-        issuerName: "Self",
-        subject: "cn=MyCert",
-      });
-      await createPoller.pollUntilDone();
-    }
+    // @ts-preserve-whitespace
+    const createPoller = await client.beginCreateCertificate(certificateName, {
+      issuerName: "Self",
+      subject: "cn=MyCert",
+    });
+    await createPoller.pollUntilDone();
     // @ts-preserve-whitespace
     // Assuming you've already created a Key Vault certificate,
     // and that certificateName contains the name of your certificate
@@ -260,13 +289,9 @@ describe("helloWorld", () => {
   });
 
   it("create a PEM certificate", async () => {
-    const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
-    // @ts-preserve-whitespace
-    const keyVaultUrl = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-    // @ts-preserve-whitespace
-    const secretClient = forPublishing(
-      new SecretClient(keyVaultUrl, credential, recorder.configureClientOptions({})),
-      () => new SecretClient(keyVaultUrl, credential),
+    const certificateName = forPublishing(
+      recorder.variable("pemCertName", `pem-cert-${new Date().getTime()}`),
+      () => "MyPemCert",
     );
     // @snippet ReadmeSampleCreateCertificatePEM
     // Creating the certificate
@@ -286,14 +311,17 @@ describe("helloWorld", () => {
   });
 
   it("update a certificate", async () => {
+    const certificateName = forPublishing(
+      recorder.variable("updateCertName", `update-cert-${new Date().getTime()}`),
+      () => "MyUpdateCert",
+    );
     // @snippet ReadmeSampleUpdateCertificate
-    if (forPublishing(true, () => false)) {
-      const createPoller = await client.beginCreateCertificate(certificateName, {
-        issuerName: "Self",
-        subject: "cn=MyCert",
-      });
-      await createPoller.pollUntilDone();
-    }
+    // @ts-preserve-whitespace
+    const createPoller = await client.beginCreateCertificate(certificateName, {
+      issuerName: "Self",
+      subject: "cn=MyCert",
+    });
+    await createPoller.pollUntilDone();
     // @ts-preserve-whitespace
     const result = await client.getCertificate(certificateName);
     await client.updateCertificateProperties(certificateName, result.properties.version, {
@@ -306,14 +334,17 @@ describe("helloWorld", () => {
   });
 
   it("update a certificate policy", async () => {
+    const certificateName = forPublishing(
+      recorder.variable("updatePolicyCertName", `update-policy-cert-${new Date().getTime()}`),
+      () => "MyUpdatePolicyCert",
+    );
     // @snippet ReadmeSampleUpdateCertificatePolicy
-    if (forPublishing(true, () => false)) {
-      const createPoller = await client.beginCreateCertificate(certificateName, {
-        issuerName: "Self",
-        subject: "cn=MyCert",
-      });
-      await createPoller.pollUntilDone();
-    }
+    // @ts-preserve-whitespace
+    const createPoller = await client.beginCreateCertificate(certificateName, {
+      issuerName: "Self",
+      subject: "cn=MyCert",
+    });
+    await createPoller.pollUntilDone();
     // @ts-preserve-whitespace
     // Note: Sending `Self` as the `issuerName` of the certificate's policy will create a self-signed certificate.
     await client.updateCertificatePolicy(certificateName, {
@@ -324,14 +355,17 @@ describe("helloWorld", () => {
   });
 
   it("get certificate properties", async () => {
+    const certificateName = forPublishing(
+      recorder.variable("getPropsCertName", `get-props-cert-${new Date().getTime()}`),
+      () => "MyGetPropsCert",
+    );
     // @snippet CertificateClientGetCertificate
-    if (forPublishing(true, () => false)) {
-      const createPoller = await client.beginCreateCertificate(certificateName, {
-        issuerName: "Self",
-        subject: "cn=MyCert",
-      });
-      await createPoller.pollUntilDone();
-    }
+    // @ts-preserve-whitespace
+    const createPoller = await client.beginCreateCertificate(certificateName, {
+      issuerName: "Self",
+      subject: "cn=MyCert",
+    });
+    await createPoller.pollUntilDone();
     // @ts-preserve-whitespace
     const result = await client.getCertificate(certificateName);
     console.log(result.name);
@@ -339,14 +373,17 @@ describe("helloWorld", () => {
   });
 
   it("get a specific certificate version", async () => {
+    const certificateName = forPublishing(
+      recorder.variable("getVersionCertName", `get-version-cert-${new Date().getTime()}`),
+      () => "MyGetVersionCert",
+    );
     // @snippet CertificateClientGetCertificateVersion
-    if (forPublishing(true, () => false)) {
-      const createPoller = await client.beginCreateCertificate(certificateName, {
-        issuerName: "Self",
-        subject: "cn=MyCert",
-      });
-      await createPoller.pollUntilDone();
-    }
+    // @ts-preserve-whitespace
+    const createPoller = await client.beginCreateCertificate(certificateName, {
+      issuerName: "Self",
+      subject: "cn=MyCert",
+    });
+    await createPoller.pollUntilDone();
     // @ts-preserve-whitespace
     const latestCertificate = await client.getCertificate(certificateName);
     console.log(`Latest version of the certificate ${certificateName}: `, latestCertificate);
@@ -362,14 +399,17 @@ describe("helloWorld", () => {
   });
 
   it("update certificate properties", async () => {
+    const certificateName = forPublishing(
+      recorder.variable("updatePropsCertName", `update-props-cert-${new Date().getTime()}`),
+      () => "MyUpdatePropsCert",
+    );
     // @snippet CertificateClientUpdateCertificate
-    if (forPublishing(true, () => false)) {
-      const createPoller = await client.beginCreateCertificate(certificateName, {
-        issuerName: "Self",
-        subject: "cn=MyCert",
-      });
-      await createPoller.pollUntilDone();
-    }
+    // @ts-preserve-whitespace
+    const createPoller = await client.beginCreateCertificate(certificateName, {
+      issuerName: "Self",
+      subject: "cn=MyCert",
+    });
+    await createPoller.pollUntilDone();
     // You may pass an empty string for version which will update
     // the latest version of the certificate
     await client.updateCertificateProperties(certificateName, "", {
@@ -381,14 +421,17 @@ describe("helloWorld", () => {
   });
 
   it("get a certificate policy", async () => {
+    const certificateName = forPublishing(
+      recorder.variable("getPolicyCertName", `get-policy-cert-${new Date().getTime()}`),
+      () => "MyGetPolicyCert",
+    );
     // @snippet CertificateClientGetCertificatePolicy
-    if (forPublishing(true, () => false)) {
-      const createPoller = await client.beginCreateCertificate(certificateName, {
-        issuerName: "Self",
-        subject: "cn=MyCert",
-      });
-      await createPoller.pollUntilDone();
-    }
+    // @ts-preserve-whitespace
+    const createPoller = await client.beginCreateCertificate(certificateName, {
+      issuerName: "Self",
+      subject: "cn=MyCert",
+    });
+    await createPoller.pollUntilDone();
     const policy = await client.getCertificatePolicy(certificateName);
     console.log(policy);
     // @snippet-end CertificateClientGetCertificatePolicy

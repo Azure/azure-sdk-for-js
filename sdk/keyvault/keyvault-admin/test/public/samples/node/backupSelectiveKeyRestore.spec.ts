@@ -78,7 +78,10 @@ describe("backupSelectiveKeyRestore", () => {
       () => "<key-name>",
     );
     await keyClient.createRsaKey(keyName);
-    const backupPoller = await client.beginBackup(blobStorageUri);
+    const backupPoller = await forPublishing(
+      client.beginBackup(blobStorageUri),
+      () => client.beginBackup(blobStorageUri, sasToken),
+    );
     const backupResult = await backupPoller.pollUntilDone();
     const backupFolderUri = backupResult.folderUri!;
     const poller = await forPublishing(

@@ -121,9 +121,7 @@ describe("issuers", () => {
 
   it("update a certificate issuer", async () => {
     // @snippet CertificateClientUpdateIssuer
-    if (forPublishing(true, () => false)) {
-      await client.createIssuer(issuerName, "Test");
-    }
+    await client.createIssuer(issuerName, "Test");
     await client.updateIssuer(issuerName, {
       accountId: "updated-keyvaultuser",
     });

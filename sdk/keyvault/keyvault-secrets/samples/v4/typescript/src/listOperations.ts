@@ -56,7 +56,9 @@ async function listSecretVersions() {
     bankAccountSecretName,
   )) {
     if (secretProperties.enabled) {
-      const secret = await client.getSecret(secretProperties.name);
+      const secret = await client.getSecret(secretProperties.name, {
+        version: secretProperties.version!,
+      });
       console.log("secret version: ", secret);
     }
   }

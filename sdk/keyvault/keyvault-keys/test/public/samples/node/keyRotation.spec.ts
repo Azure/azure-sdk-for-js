@@ -94,11 +94,7 @@ describe("keyRotation", () => {
   it("get a key rotation policy", async () => {
     const keyName = forPublishing(
       recorder.variable("getRotPolicyKeyName", `key-getrotpol-${Date.now()}`),
-      () => "MyKeyName",
-    );
-    await client.createKey(keyName, "EC");
-
-    // @snippet ReadmeSampleGetKeyRotationPolicy
+      () => "MyKeyNameGetRotPolicy",
     const result = await client.getKeyRotationPolicy(keyName);
     console.log("result: ", result);
     // @snippet-end ReadmeSampleGetKeyRotationPolicy
@@ -107,11 +103,7 @@ describe("keyRotation", () => {
   it("update a key rotation policy", async () => {
     const keyName = forPublishing(
       recorder.variable("updRotPolicyKeyName", `key-updrotpol-${Date.now()}`),
-      () => "MyKeyName",
-    );
-    await client.createKey(keyName, "EC");
-
-    // @snippet ReadmeSampleUpdateKeyRotationPolicy
+      () => "MyKeyNameUpdateRotPolicy",
     const myPolicy = await client.getKeyRotationPolicy(keyName);
     // @ts-preserve-whitespace
     const setPolicy = await client.updateKeyRotationPolicy(keyName, myPolicy);
@@ -122,11 +114,7 @@ describe("keyRotation", () => {
   it("rotate a key", async () => {
     const keyName = forPublishing(
       recorder.variable("keyRotationKeyName", `key-rotation-${Date.now()}`),
-      () => "MyKeyName",
-    );
-    await client.createKey(keyName, "EC");
-
-    // @snippet ReadmeSampleKeyRotation
+      () => "MyKeyNameRotate",
     // Set the key's automated rotation policy to rotate the key 30 days before expiry.
     const policy = await client.updateKeyRotationPolicy(keyName, {
       lifetimeActions: [
