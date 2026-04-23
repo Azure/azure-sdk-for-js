@@ -71,10 +71,9 @@ describe("backupAndRestore", () => {
 
     await client.purgeDeletedCertificate(certificateName);
 
-    await retryWithBackoff(
-      () => client.restoreCertificateBackup(backup!),
-      { shouldRetry: (e) => /conflict restoring the certificate/i.test((e as Error).message) },
-    );
+    await retryWithBackoff(() => client.restoreCertificateBackup(backup!), {
+      shouldRetry: (e) => /conflict restoring the certificate/i.test((e as Error).message),
+    });
 
     const restoredCertificate = await client.getCertificate(certificateName);
 
@@ -91,6 +90,7 @@ describe("backupAndRestore", () => {
     });
     await createPoller.pollUntilDone();
     const backup = await client.backupCertificate(certificateName);
+    console.log("Certificate backup buffer length:", backup?.length);
     // @snippet-end CertificateClientBackupCertificate
   });
 
@@ -108,10 +108,9 @@ describe("backupAndRestore", () => {
     await client.purgeDeletedCertificate(certificateName);
     // @ts-preserve-whitespace
     // Some time is required before we're able to restore the certificate
-    await retryWithBackoff(
-      () => client.restoreCertificateBackup(backup!),
-      { shouldRetry: (e) => /conflict restoring the certificate/i.test((e as Error).message) },
-    );
+    await retryWithBackoff(() => client.restoreCertificateBackup(backup!), {
+      shouldRetry: (e) => /conflict restoring the certificate/i.test((e as Error).message),
+    });
     // @snippet-end CertificateClientRestoreCertificateBackup
   });
 });

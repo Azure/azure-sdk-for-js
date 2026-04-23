@@ -145,7 +145,9 @@ describe("listCertificates", () => {
         console.log("Deleted certificate: ", deletedCertificate);
       }
     }
-    for await (const page of client.listPropertiesOfCertificateVersions(certificateName2).byPage()) {
+    for await (const page of client
+      .listPropertiesOfCertificateVersions(certificateName2)
+      .byPage()) {
       for (const certificateProperties of page) {
         console.log("Properties of certificate: ", certificateProperties);
       }

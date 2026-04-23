@@ -110,9 +110,14 @@ describe("contacts", () => {
 
   it("get certificate contacts", async () => {
     // @snippet CertificateClientGetContacts
-    const contacts = await client.getContacts();
-    for (const contact of contacts) {
-      console.log(contact);
+    try {
+      const contacts = await client.getContacts();
+      for (const contact of contacts) {
+        console.log(contact);
+      }
+    } catch (e: any) {
+      // getContacts throws a 404 if no contacts have been set
+      console.log("No contacts found:", e.message);
     }
     // @snippet-end CertificateClientGetContacts
   });

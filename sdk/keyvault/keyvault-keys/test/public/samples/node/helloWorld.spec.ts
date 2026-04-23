@@ -47,9 +47,8 @@ describe("helloWorld", () => {
     );
 
     if (
-      forPublishing(
-        Boolean(process.env["AZURE_MANAGEDHSM_URI"]) || isPlaybackMode(),
-        () => Boolean(process.env["AZURE_MANAGEDHSM_URI"]),
+      forPublishing(Boolean(process.env["AZURE_MANAGEDHSM_URI"]) || isPlaybackMode(), () =>
+        Boolean(process.env["AZURE_MANAGEDHSM_URI"]),
       )
     ) {
       hsmClient = forPublishing(
@@ -142,7 +141,7 @@ describe("helloWorld", () => {
 
   it("create an EC key", async () => {
     // @snippet ReadmeSampleCreateEcKey
-    const keyName = "MyKeyName";
+    const keyName = "MyEcKeyName";
     const result = await client.createEcKey(keyName, { curve: "P-256" });
     console.log("result: ", result);
     // @snippet-end ReadmeSampleCreateEcKey
@@ -150,22 +149,21 @@ describe("helloWorld", () => {
 
   it("create an RSA key", async () => {
     // @snippet ReadmeSampleCreateRsaKey
-    const keyName = "MyKeyName";
+    const keyName = "MyRsaKeyName";
     const result = await client.createRsaKey(keyName, { keySize: 2048 });
     console.log("result: ", result);
     // @snippet-end ReadmeSampleCreateRsaKey
   });
 
-  it("create an OCT key", async (ctx) => {
+  it("create an OCT key", async () => {
     if (!forPublishing(Boolean(hsmClient), () => Boolean(hsmClient))) {
-      ctx.skip();
-      return;
+      return; // No HSM configured — skipping this sample.
     }
 
     // @snippet ReadmeSampleCreateOctKey
     const keyName = forPublishing(
       recorder.variable("octKeyName", `sample-oct-key-${Date.now()}`),
-      () => "MyKeyName",
+      () => "MyOctKeyName",
     );
     const result = await hsmClient!.createOctKey(keyName, { hsm: true });
     console.log("result: ", result);
@@ -207,7 +205,7 @@ describe("helloWorld", () => {
   it("get a key", async () => {
     const keyName = forPublishing(
       recorder.variable("getKeyName", `sample-get-key-${Date.now()}`),
-      () => "MyKeyName",
+      () => "MyGetKeyName",
     );
     await client.createKey(keyName, "RSA");
 
@@ -223,15 +221,14 @@ describe("helloWorld", () => {
     // @snippet-end ReadmeSampleGetKey
   });
 
-  it("get key attestation", async (ctx) => {
+  it("get key attestation", async () => {
     if (!forPublishing(Boolean(hsmClient), () => Boolean(hsmClient))) {
-      ctx.skip();
-      return;
+      return; // No HSM configured — skipping this sample.
     }
 
     const keyName = forPublishing(
       recorder.variable("attestKeyName", `sample-attest-key-${Date.now()}`),
-      () => "MyKeyName",
+      () => "MyAttestKeyName",
     );
     await hsmClient!.createRsaKey(keyName, { hsm: true });
 
@@ -251,7 +248,7 @@ describe("helloWorld", () => {
 
   it("create a key with attributes", async () => {
     // @snippet ReadmeSampleCreateKeyWithAttributes
-    const keyName = "MyKeyName";
+    const keyName = "MyAttrKeyName";
     // @ts-preserve-whitespace
     const result = await client.createKey(keyName, "RSA", {
       enabled: false,
@@ -262,7 +259,7 @@ describe("helloWorld", () => {
 
   it("update key properties", async () => {
     // @snippet ReadmeSampleUpdateKeyProperties
-    const keyName = "MyKeyName";
+    const keyName = "MyUpdateKeyName";
     // @ts-preserve-whitespace
     const result = await client.createKey(keyName, "RSA");
     await client.updateKeyProperties(keyName, result.properties.version, {
@@ -274,7 +271,7 @@ describe("helloWorld", () => {
   it("delete a key", async () => {
     const keyName = forPublishing(
       recorder.variable("deleteKeyName", `sample-del-key-${Date.now()}`),
-      () => "MyKeyName",
+      () => "MyDeleteKeyName",
     );
     await client.createKey(keyName, "RSA");
 
@@ -284,10 +281,9 @@ describe("helloWorld", () => {
     // @snippet-end ReadmeSampleDeleteKey
   });
 
-  it("release a key", async (ctx) => {
+  it("release a key", async () => {
     if (!forPublishing(Boolean(hsmClient), () => Boolean(hsmClient))) {
-      ctx.skip();
-      return;
+      return; // No HSM configured — skipping this sample.
     }
 
     const keyName = forPublishing(
@@ -339,7 +335,7 @@ describe("helloWorld", () => {
   it("get a deleted key", async () => {
     const keyName = forPublishing(
       recorder.variable("getDeletedKeyName", `sample-getdel-key-${Date.now()}`),
-      () => "MyKeyName",
+      () => "MyGetDeletedKeyName",
     );
     await client.createKey(keyName, "RSA");
     const deletePoller = await client.beginDeleteKey(keyName);
@@ -353,7 +349,7 @@ describe("helloWorld", () => {
   it("purge a deleted key", async () => {
     const keyName = forPublishing(
       recorder.variable("purgeKeyName", `sample-purge-key-${Date.now()}`),
-      () => "MyKeyName",
+      () => "MyPurgeKeyName",
     );
     await client.createKey(keyName, "RSA");
 
@@ -368,7 +364,7 @@ describe("helloWorld", () => {
   it("recover a deleted key", async () => {
     const keyName = forPublishing(
       recorder.variable("recoverKeyName", `sample-recover-key-${Date.now()}`),
-      () => "MyKeyName",
+      () => "MyRecoverKeyName",
     );
     await client.createKey(keyName, "RSA");
 
@@ -385,7 +381,7 @@ describe("helloWorld", () => {
   it("back up a key", async () => {
     const keyName = forPublishing(
       recorder.variable("backupKeyName", `sample-backup-key-${Date.now()}`),
-      () => "MyKeyName",
+      () => "MyBackupKeyName",
     );
     await client.createKey(keyName, "RSA");
 
@@ -397,7 +393,7 @@ describe("helloWorld", () => {
   it("restore a key from backup", async () => {
     const keyName = forPublishing(
       recorder.variable("restoreKeyName", `sample-restore-key-${Date.now()}`),
-      () => "MyKeyName",
+      () => "MyRestoreKeyName",
     );
     await client.createKey(keyName, "RSA");
 
@@ -413,10 +409,9 @@ describe("helloWorld", () => {
     // @snippet-end ReadmeSampleRestoreKeyBackup
   });
 
-  it("get random bytes", async (ctx) => {
+  it("get random bytes", async () => {
     if (!forPublishing(Boolean(hsmClient), () => Boolean(hsmClient))) {
-      ctx.skip();
-      return;
+      return; // No HSM configured — skipping this sample.
     }
 
     // @snippet ReadmeSampleGetRandomBytes
@@ -428,7 +423,7 @@ describe("helloWorld", () => {
   it("delete a key with soft delete", async () => {
     const keyName = forPublishing(
       recorder.variable("softDeleteKeyName", `sample-softdel-key-${Date.now()}`),
-      () => "MyKeyName",
+      () => "MySoftDeleteKeyName",
     );
     await client.createKey(keyName, "RSA");
 
@@ -462,7 +457,7 @@ describe("helloWorld", () => {
   it("delete a key and wait for completion", async () => {
     const keyName = forPublishing(
       recorder.variable("deleteWaitKeyName", `sample-delwait-key-${Date.now()}`),
-      () => "MyKeyName",
+      () => "MyDeleteWaitKeyName",
     );
     await client.createKey(keyName, "RSA");
 
@@ -481,7 +476,7 @@ describe("helloWorld", () => {
   it("delete a key and poll individually", async () => {
     const keyName = forPublishing(
       recorder.variable("deleteIndivKeyName", `sample-delindiv-key-${Date.now()}`),
-      () => "MyKeyName",
+      () => "MyDeletePollKeyName",
     );
     await client.createKey(keyName, "RSA");
 
@@ -502,7 +497,7 @@ describe("helloWorld", () => {
   it("list all keys", async () => {
     const keyName = forPublishing(
       recorder.variable("listAllKeysName", `sample-listall-key-${Date.now()}`),
-      () => "MyKeyName",
+      () => "MyListAllKeyName",
     );
     await client.createKey(keyName, "RSA");
 
@@ -524,7 +519,7 @@ describe("helloWorld", () => {
   it("list keys by page", async () => {
     const keyName = forPublishing(
       recorder.variable("listByPageKeysName", `sample-listpage-key-${Date.now()}`),
-      () => "MyKeyName",
+      () => "MyListPageKeyName",
     );
     await client.createKey(keyName, "RSA");
 

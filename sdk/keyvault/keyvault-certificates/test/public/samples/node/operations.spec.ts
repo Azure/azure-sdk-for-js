@@ -75,15 +75,12 @@ describe("operations", () => {
     console.log("Cancelled certificate operation:", operation);
 
     // Deleting the certificate's operation
-    await retryWithBackoff(
-      () => client.deleteCertificateOperation(certificateName),
-      {
-        delayMs: 1000,
-        shouldRetry: (e) =>
-          /conflict while deleting the pending certificate/i.test((e as Error).message) ||
-          /Pending Certificate not found/i.test((e as Error).message),
-      },
-    );
+    await retryWithBackoff(() => client.deleteCertificateOperation(certificateName), {
+      delayMs: 1000,
+      shouldRetry: (e) =>
+        /conflict while deleting the pending certificate/i.test((e as Error).message) ||
+        /Pending Certificate not found/i.test((e as Error).message),
+    });
 
     try {
       await client.getCertificateOperation(certificateName);
@@ -108,6 +105,7 @@ describe("operations", () => {
     // @ts-preserve-whitespace
     const poller = await client.getCertificateOperation(certificateName);
     const pendingCertificate = poller.getResult();
+    console.log("Pending certificate:", pendingCertificate);
     // @ts-preserve-whitespace
     const certificateOperation = poller.getOperationState().certificateOperation;
     console.log(certificateOperation);
@@ -122,8 +120,16 @@ describe("operations", () => {
     });
     await client.deleteCertificateOperation(certificateName);
     // @ts-preserve-whitespace
-    await forPublishing(Promise.resolve(), () => client.getCertificateOperation(certificateName));
-    // Throws error: Pending certificate not found: "MyCertificate"
+    await forPublishing(Promise.resolve(), () =>
+      (async () => {
+        try {
+          await client.getCertificateOperation(certificateName);
+        } catch (e: any) {
+          // getCertificateOperation throws when the operation has been deleted
+          console.log(`getCertificateOperation throws after deletion: ${e.message}`);
+        }
+      })(),
+    );
     // @snippet-end CertificateClientDeleteCertificateOperation
   });
 });

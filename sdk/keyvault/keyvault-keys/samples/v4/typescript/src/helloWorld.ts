@@ -71,24 +71,23 @@ async function createAKey() {
 }
 
 async function createAnEcKey() {
-  const keyName = "MyKeyName";
+  const keyName = "MyEcKeyName";
   const result = await client.createEcKey(keyName, { curve: "P-256" });
   console.log("result: ", result);
 }
 
 async function createAnRsaKey() {
-  const keyName = "MyKeyName";
+  const keyName = "MyRsaKeyName";
   const result = await client.createRsaKey(keyName, { keySize: 2048 });
   console.log("result: ", result);
 }
 
 async function createAnOctKey() {
   if (!Boolean(hsmClient)) {
-    ctx.skip();
-    return;
+    return; // No HSM configured — skipping this sample.
   }
 
-  const keyName = "MyKeyName";
+  const keyName = "MyOctKeyName";
   const result = await hsmClient!.createOctKey(keyName, { hsm: true });
   console.log("result: ", result);
 }
@@ -119,7 +118,7 @@ async function getACryptographyClient() {
 }
 
 async function getAKey() {
-  const keyName = "MyKeyName";
+  const keyName = "MyGetKeyName";
   await client.createKey(keyName, "RSA");
 
   const latestKey = await client.getKey(keyName);
@@ -131,10 +130,9 @@ async function getAKey() {
 
 async function getKeyAttestation() {
   if (!Boolean(hsmClient)) {
-    ctx.skip();
-    return;
+    return; // No HSM configured — skipping this sample.
   }
-  const keyName = "MyKeyName";
+  const keyName = "MyAttestKeyName";
   await hsmClient!.createRsaKey(keyName, { hsm: true });
 
   const latestKey = await hsmClient!.getKeyAttestation(keyName);
@@ -147,7 +145,7 @@ async function getKeyAttestation() {
 }
 
 async function createAKeyWithAttributes() {
-  const keyName = "MyKeyName";
+  const keyName = "MyAttrKeyName";
 
   const result = await client.createKey(keyName, "RSA", {
     enabled: false,
@@ -156,7 +154,7 @@ async function createAKeyWithAttributes() {
 }
 
 async function updateKeyProperties() {
-  const keyName = "MyKeyName";
+  const keyName = "MyUpdateKeyName";
 
   const result = await client.createKey(keyName, "RSA");
   await client.updateKeyProperties(keyName, result.properties.version, {
@@ -165,7 +163,7 @@ async function updateKeyProperties() {
 }
 
 async function deleteAKey() {
-  const keyName = "MyKeyName";
+  const keyName = "MyDeleteKeyName";
   await client.createKey(keyName, "RSA");
 
   const poller = await client.beginDeleteKey(keyName);
@@ -174,8 +172,7 @@ async function deleteAKey() {
 
 async function releaseAKey() {
   if (!Boolean(hsmClient)) {
-    ctx.skip();
-    return;
+    return; // No HSM configured — skipping this sample.
   }
   const keyName = "myKey";
   const attestationAuthority = "<attestation-uri>";
@@ -200,7 +197,7 @@ async function releaseAKey() {
 }
 
 async function getADeletedKey() {
-  const keyName = "MyKeyName";
+  const keyName = "MyGetDeletedKeyName";
   await client.createKey(keyName, "RSA");
   const deletePoller = await client.beginDeleteKey(keyName);
   await deletePoller.pollUntilDone();
@@ -209,7 +206,7 @@ async function getADeletedKey() {
 }
 
 async function purgeADeletedKey() {
-  const keyName = "MyKeyName";
+  const keyName = "MyPurgeKeyName";
   await client.createKey(keyName, "RSA");
 
   const deletePoller = await client.beginDeleteKey(keyName);
@@ -219,7 +216,7 @@ async function purgeADeletedKey() {
 }
 
 async function recoverADeletedKey() {
-  const keyName = "MyKeyName";
+  const keyName = "MyRecoverKeyName";
   await client.createKey(keyName, "RSA");
 
   const deletePoller = await client.beginDeleteKey(keyName);
@@ -231,14 +228,14 @@ async function recoverADeletedKey() {
 }
 
 async function backUpAKey() {
-  const keyName = "MyKeyName";
+  const keyName = "MyBackupKeyName";
   await client.createKey(keyName, "RSA");
 
   const backupContents = await client.backupKey(keyName);
 }
 
 async function restoreAKeyFromBackup() {
-  const keyName = "MyKeyName";
+  const keyName = "MyRestoreKeyName";
   await client.createKey(keyName, "RSA");
 
   const backupContents = await client.backupKey(keyName);
@@ -253,8 +250,7 @@ async function restoreAKeyFromBackup() {
 
 async function getRandomBytes() {
   if (!Boolean(hsmClient)) {
-    ctx.skip();
-    return;
+    return; // No HSM configured — skipping this sample.
   }
 
   const bytes = await hsmClient!.getRandomBytes(10);
@@ -262,7 +258,7 @@ async function getRandomBytes() {
 }
 
 async function deleteAKeyWithSoftDelete() {
-  const keyName = "MyKeyName";
+  const keyName = "MySoftDeleteKeyName";
   await client.createKey(keyName, "RSA");
 
   const poller = await client.beginDeleteKey(keyName);
@@ -291,7 +287,7 @@ async function deleteAKeyWithSoftDelete() {
 }
 
 async function deleteAKeyAndWaitForCompletion() {
-  const keyName = "MyKeyName";
+  const keyName = "MyDeleteWaitKeyName";
   await client.createKey(keyName, "RSA");
 
   const poller = await client.beginDeleteKey(keyName);
@@ -305,7 +301,7 @@ async function deleteAKeyAndWaitForCompletion() {
 }
 
 async function deleteAKeyAndPollIndividually() {
-  const keyName = "MyKeyName";
+  const keyName = "MyDeletePollKeyName";
   await client.createKey(keyName, "RSA");
 
   const delay = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
@@ -321,7 +317,7 @@ async function deleteAKeyAndPollIndividually() {
 }
 
 async function listAllKeys() {
-  const keyName = "MyKeyName";
+  const keyName = "MyListAllKeyName";
   await client.createKey(keyName, "RSA");
 
   for await (const keyProperties of client.listPropertiesOfKeys()) {
@@ -338,7 +334,7 @@ async function listAllKeys() {
 }
 
 async function listKeysByPage() {
-  const keyName = "MyKeyName";
+  const keyName = "MyListPageKeyName";
   await client.createKey(keyName, "RSA");
 
   for await (const page of client.listPropertiesOfKeys().byPage()) {

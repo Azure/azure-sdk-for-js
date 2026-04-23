@@ -67,7 +67,7 @@ async function getADeletedSecret() {
 }
 
 async function softDeleteLifecycle() {
-  const secretName = "MySecretName";
+  const secretName = "MySoftDeleteSecret";
   await client.setSecret(secretName, "MySecretValue");
 
   const poller = await client.beginDeleteSecret(secretName);
@@ -95,7 +95,7 @@ async function softDeleteLifecycle() {
 }
 
 async function deleteAndWait() {
-  const secretName = "MySecretName";
+  const secretName = "MyDeleteWaitSecret";
   await client.setSecret(secretName, "MySecretValue");
 
   const poller = await client.beginDeleteSecret(secretName);
@@ -109,7 +109,7 @@ async function deleteAndWait() {
 }
 
 async function deleteAndPollIndividually() {
-  const secretName = "MySecretName";
+  const secretName = "MyDeletePollSecret";
   await client.setSecret(secretName, "MySecretValue");
 
   const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));

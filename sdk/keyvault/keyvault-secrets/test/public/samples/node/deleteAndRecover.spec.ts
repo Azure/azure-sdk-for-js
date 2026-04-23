@@ -125,7 +125,7 @@ describe("deleteAndRecover", () => {
   it("soft delete lifecycle", async () => {
     const secretName = forPublishing(
       recorder.variable("softDeleteSecretName", `sample-soft-delete-secret-${Date.now()}`),
-      () => "MySecretName",
+      () => "MySoftDeleteSecret",
     );
     await client.setSecret(secretName, "MySecretValue");
 
@@ -158,7 +158,7 @@ describe("deleteAndRecover", () => {
   it("delete and wait", async () => {
     const secretName = forPublishing(
       recorder.variable("deleteWaitSecretName", `sample-delete-wait-secret-${Date.now()}`),
-      () => "MySecretName",
+      () => "MyDeleteWaitSecret",
     );
     await client.setSecret(secretName, "MySecretValue");
 
@@ -177,7 +177,7 @@ describe("deleteAndRecover", () => {
   it("delete and poll individually", async () => {
     const secretName = forPublishing(
       recorder.variable("deletePollSecretName", `sample-delete-poll-secret-${Date.now()}`),
-      () => "MySecretName",
+      () => "MyDeletePollSecret",
     );
     await client.setSecret(secretName, "MySecretValue");
 

@@ -87,7 +87,7 @@ async function deleteTheCertificate() {
   console.log("Scheduled Purge Date: ", deletedCertificate.scheduledPurgeDate);
 }
 
-async function createACertificate2() {
+async function createASelfSignedCertificate() {
   // Note: Sending `Self` as the `issuerName` of the certificate's policy will create a self-signed certificate.
   await client.beginCreateCertificate(certificateName, {
     issuerName: "Self",
@@ -264,7 +264,7 @@ export async function main(): Promise<void> {
   await createACertificate();
   await getAndUpdateCertificate();
   await deleteTheCertificate();
-  await createACertificate2();
+  await createASelfSignedCertificate();
   await createACertificateWithOptions();
   await createACertificateWithPolling();
   await createACertificateAndPollIndividually();

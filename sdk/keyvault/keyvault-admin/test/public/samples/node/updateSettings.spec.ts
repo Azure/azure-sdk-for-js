@@ -48,6 +48,7 @@ describe("updateSettings", () => {
   });
 
   it("get and update settings", async () => {
+    // Use client.listSettings() to see all available setting names.
     const setting = await client.getSetting("AllowKeyManagementOperationsThroughARM");
 
     // You can update the setting's value and then pass it back to updateSetting:
