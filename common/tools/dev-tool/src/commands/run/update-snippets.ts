@@ -9,6 +9,7 @@ import { format } from "../../util/prettier";
 import { createPrinter } from "../../util/printer";
 import { ProjectInfo, resolveProject } from "../../util/resolveProject";
 import { convert } from "../../util/samples/convert";
+import { substituteForPublishing } from "../../util/samples/compiler/substitutor.js";
 import { testSyntax } from "../../util/samples/syntax";
 import { createDiagnosticEmitter } from "../../util/typescript/diagnostic";
 
@@ -17,6 +18,9 @@ export const commandInfo = makeCommandInfo(
   "find README and TSDoc snippets throughout the package and update their contents.",
   {},
 );
+
+// Exported for testing
+export { parseSnippetDefinitions };
 
 const log = createPrinter("update-snippets");
 
@@ -214,9 +218,62 @@ async function parseSnippetDefinitions(
     return results;
   }
 
+  // Pre-process spec files: replace forPublishing(testVal, () => sampleVal) calls with the
+  // published expression via text-level substitution. This lets authors place forPublishing()
+  // inside @snippet blocks without test infrastructure leaking into README and TSDoc output.
+  // We apply substitutions in reverse position order so earlier positions remain valid as we
+  // splice the string.
+  const tempPrinter = ts.createPrinter({ newLine: ts.NewLineKind.LineFeed });
+  const substitutedTexts = new Map<string, string>();
+  const defaultHost = ts.createCompilerHost({});
+
+  for (const filePath of snippetFiles) {
+    const canonicalPath = defaultHost.getCanonicalFileName(path.resolve(filePath));
+    const sourceText = await fs.readFile(filePath, "utf-8");
+    const tempFile = ts.createSourceFile(filePath, sourceText, ts.ScriptTarget.Latest, true);
+    const { substitutions } = substituteForPublishing(tempFile, filePath);
+    if (substitutions.length === 0) continue;
+
+    const sortedSubs = [...substitutions].sort(
+      (a, b) => b.originalNode.getStart(tempFile) - a.originalNode.getStart(tempFile),
+    );
+    let result = sourceText;
+    for (const sub of sortedSubs) {
+      const start = sub.originalNode.getStart(tempFile);
+      const end = sub.originalNode.getEnd();
+      const publishedText = tempPrinter.printNode(
+        ts.EmitHint.Expression,
+        sub.publishedExpression,
+        tempFile,
+      );
+      result = result.substring(0, start) + publishedText + result.substring(end);
+    }
+    substitutedTexts.set(canonicalPath, result);
+  }
+
+  // Build a custom compiler host that serves the substituted texts so the type checker
+  // (used for import resolution) sees the already-substituted code.
+  const customHost: ts.CompilerHost = {
+    ...defaultHost,
+    getSourceFile(fileName, languageVersion, onError, shouldCreateNewSourceFile) {
+      const canonical = defaultHost.getCanonicalFileName(path.resolve(fileName));
+      const substituted = substitutedTexts.get(canonical);
+      if (substituted !== undefined) {
+        return ts.createSourceFile(fileName, substituted, languageVersion, true);
+      }
+      return defaultHost.getSourceFile(
+        fileName,
+        languageVersion,
+        onError,
+        shouldCreateNewSourceFile,
+      );
+    },
+  };
+
   const program = ts.createProgram({
     rootNames: snippetFiles,
     options: {},
+    host: customHost,
   });
 
   const checker = program.getTypeChecker();

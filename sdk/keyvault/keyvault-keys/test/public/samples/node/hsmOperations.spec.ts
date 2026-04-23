@@ -60,11 +60,11 @@ describe("hsmOperations", () => {
   });
 
   it("create an OCT key", async () => {
+    // @snippet ReadmeSampleCreateOctKey
     const keyName = forPublishing(
       recorder.variable("octKeyName", `sample-oct-key-${Date.now()}`),
       () => "MyOctKeyName",
     );
-    // @snippet ReadmeSampleCreateOctKey
     const result = await hsmClient.createOctKey(keyName, { hsm: true });
     console.log("result: ", result);
     // @snippet-end ReadmeSampleCreateOctKey

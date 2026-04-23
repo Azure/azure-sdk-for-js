@@ -295,6 +295,7 @@ export class KeyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleCreateKey
+   * const keyName = `MyKeyName-${Date.now()}`;
    * const result = await client.createKey(keyName, "RSA");
    * console.log("result: ", result);
    * ```
@@ -338,6 +339,7 @@ export class KeyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleCreateEcKey
+   * const keyName = `MyEcKeyName-${Date.now()}`;
    * const result = await client.createEcKey(keyName, { curve: "P-256" });
    * console.log("result: ", result);
    * ```
@@ -357,6 +359,7 @@ export class KeyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleCreateRsaKey
+   * const keyName = `MyRsaKeyName-${Date.now()}`;
    * const result = await client.createRsaKey(keyName, { keySize: 2048 });
    * console.log("result: ", result);
    * ```
@@ -376,6 +379,7 @@ export class KeyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleCreateOctKey
+   * const keyName = "MyOctKeyName";
    * const result = await hsmClient.createOctKey(keyName, { hsm: true });
    * console.log("result: ", result);
    * ```
@@ -397,6 +401,7 @@ export class KeyClient {
    * ```ts snippet:ReadmeSampleImportKey
    * import { createRsaKey } from "./crypto.js";
    *
+   * const keyName = "MyKey";
    * const jsonWebKey = createRsaKey();
    *
    * const result = await client.importKey(keyName, jsonWebKey);

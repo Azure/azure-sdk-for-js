@@ -148,6 +148,7 @@ tasks using Azure Key Vault Keys. The scenarios that are covered here consist of
 `createKey` creates a Key to be stored in the Azure Key Vault. If a key with the same name already exists, then a new version of the key is created.
 
 ```ts snippet:ReadmeSampleCreateKey
+const keyName = `MyKeyName-${Date.now()}`;
 const result = await client.createKey(keyName, "RSA");
 console.log("result: ", result);
 ```
@@ -185,6 +186,8 @@ An object with these attributes can be sent as the third parameter of
 `createKey`, right after the key's name and value, as follows:
 
 ```ts snippet:ReadmeSampleCreateKeyWithAttributes
+const keyName = `MyAttrKeyName-${Date.now()}`;
+
 const result = await client.createKey(keyName, "RSA", {
   enabled: false,
 });

@@ -111,35 +111,35 @@ describe("helloWorld", () => {
   });
 
   it("create a key", async () => {
-    const keyName = forPublishing("MyKeyName", () => `MyKeyName-${Date.now()}`);
     // @snippet ReadmeSampleCreateKey
+    const keyName = forPublishing("MyKeyName", () => `MyKeyName-${Date.now()}`);
     const result = await client.createKey(keyName, "RSA");
     console.log("result: ", result);
     // @snippet-end ReadmeSampleCreateKey
   });
 
   it("create an EC key", async () => {
-    const keyName = forPublishing("MyEcKeyName", () => `MyEcKeyName-${Date.now()}`);
     // @snippet ReadmeSampleCreateEcKey
+    const keyName = forPublishing("MyEcKeyName", () => `MyEcKeyName-${Date.now()}`);
     const result = await client.createEcKey(keyName, { curve: "P-256" });
     console.log("result: ", result);
     // @snippet-end ReadmeSampleCreateEcKey
   });
 
   it("create an RSA key", async () => {
-    const keyName = forPublishing("MyRsaKeyName", () => `MyRsaKeyName-${Date.now()}`);
     // @snippet ReadmeSampleCreateRsaKey
+    const keyName = forPublishing("MyRsaKeyName", () => `MyRsaKeyName-${Date.now()}`);
     const result = await client.createRsaKey(keyName, { keySize: 2048 });
     console.log("result: ", result);
     // @snippet-end ReadmeSampleCreateRsaKey
   });
 
   it("import a key", async () => {
+    // @snippet ReadmeSampleImportKey
     const keyName = forPublishing(
       recorder.variable("importKeyName", `sample-import-key-${Date.now()}`),
       () => "MyKey",
     );
-    // @snippet ReadmeSampleImportKey
     const jsonWebKey = createRsaKey();
     // @ts-preserve-whitespace
     const result = await client.importKey(keyName, jsonWebKey);
@@ -175,8 +175,8 @@ describe("helloWorld", () => {
   });
 
   it("create a key with attributes", async () => {
-    const keyName = forPublishing("MyAttrKeyName", () => `MyAttrKeyName-${Date.now()}`);
     // @snippet ReadmeSampleCreateKeyWithAttributes
+    const keyName = forPublishing("MyAttrKeyName", () => `MyAttrKeyName-${Date.now()}`);
     // @ts-preserve-whitespace
     const result = await client.createKey(keyName, "RSA", {
       enabled: false,
