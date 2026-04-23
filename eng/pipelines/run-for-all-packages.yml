@@ -29,11 +29,11 @@ stages:
               ServiceDirectory: core
 
           - script: |
-              npm install -g pnpm
+              npm install -g pnpm --userconfig=$(CommonNpmrcPath)
             displayName: "Install Pnpm"
 
           - script: |
-              pnpm install
+              pnpm install --userconfig=$(CommonNpmrcPath)
             displayName: "Install library dependencies"
 
           - script: |
