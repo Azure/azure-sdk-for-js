@@ -10,10 +10,15 @@
  */
 
 import { KeyClient } from "../../../../src/index.js";
-import { createDefaultHttpClient, createPipelineRequest } from "@azure/core-rest-pipeline";
+import {
+  createDefaultHttpClient,
+  createEmptyPipeline,
+  createPipelineRequest,
+  type PipelinePolicy,
+} from "@azure/core-rest-pipeline";
 import { DefaultAzureCredential } from "@azure/identity";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { Recorder, assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { forPublishing } from "@azure-tools/test-publishing";
 import { stringToUint8Array } from "./crypto.js";
 import { describe, it, beforeEach, afterEach } from "vitest";
@@ -108,20 +113,25 @@ describe("hsmOperations", () => {
     // Fetch the attestation token from your Azure Attestation Service endpoint.
     const attestation = await forPublishing(
       (async () => {
-        if (!isPlaybackMode()) {
-          const response = await createDefaultHttpClient().sendRequest(
-            createPipelineRequest({ url: `${attestationAuthority}/generate-test-token` }),
-          );
-          const token = JSON.parse(response.bodyAsText!).token as string;
-          recorder.variable("attestation", token);
-          return token;
+        const { additionalPolicies } = recorder.configureClientOptions({});
+        const attestationPipeline = createEmptyPipeline();
+        for (const { policy, position } of additionalPolicies ?? []) {
+          attestationPipeline.addPolicy(policy as PipelinePolicy, {
+            afterPhase: position === "perRetry" ? "Sign" : undefined,
+          });
         }
-        return recorder.variable("attestation", "");
+        const response = await attestationPipeline.sendRequest(
+          createDefaultHttpClient(),
+          createPipelineRequest({ url: `${attestationAuthority}/generate-test-token` }),
+        );
+        return JSON.parse(response.bodyAsText!).token as string;
       })(),
       async () =>
-        fetch(`${attestationAuthority}/generate-test-token`)
-          .then((r) => r.json())
-          .then((j) => j.token as string),
+        createDefaultHttpClient()
+          .sendRequest(
+            createPipelineRequest({ url: `${attestationAuthority}/generate-test-token` }),
+          )
+          .then((r) => JSON.parse(r.bodyAsText!).token as string),
     );
 
     // @snippet ReadmeSampleReleaseKey

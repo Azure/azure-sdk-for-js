@@ -7,6 +7,7 @@
 
 // Load the .env file if it exists
 import "dotenv/config";
+import { createDefaultHttpClient, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { DefaultAzureCredential } from "@azure/identity";
 import { KeyClient } from "@azure/keyvault-keys";
 import { stringToUint8Array } from "./crypto.js";
@@ -48,9 +49,9 @@ async function releaseAKey() {
     releasePolicy: { encodedPolicy: encodedReleasePolicy },
   });
   // Fetch the attestation token from your Azure Attestation Service endpoint.
-  const attestation = await fetch(`${attestationAuthority}/generate-test-token`)
-    .then((r) => r.json())
-    .then((j) => j.token as string);
+  const attestation = await createDefaultHttpClient()
+    .sendRequest(createPipelineRequest({ url: `${attestationAuthority}/generate-test-token` }))
+    .then((r) => JSON.parse(r.bodyAsText!).token as string);
 
   const result = await hsmClient.releaseKey(keyName, attestation);
   console.log("result: ", result);
