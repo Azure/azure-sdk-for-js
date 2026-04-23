@@ -61,6 +61,27 @@ describe("InferenceService", { timeout: 10000 }, () => {
       );
     });
 
+    it("should use inferenceEndpoint from client options over environment variable", () => {
+      process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT =
+        "https://env-inference.dbinference.azure.com";
+      const service = new InferenceService(
+        createMockOptions({
+          inferenceEndpoint: "https://options-inference.dbinference.azure.com",
+        }),
+      );
+      const resolvedUrl = (service as any).inferenceEndpointUrl as string;
+      assert.include(resolvedUrl, "options-inference");
+      assert.notInclude(resolvedUrl, "env-inference");
+    });
+
+    it("should fall back to environment variable when inferenceEndpoint is not in client options", () => {
+      process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT =
+        "https://env-inference.dbinference.azure.com";
+      const service = new InferenceService(createMockOptions());
+      const resolvedUrl = (service as any).inferenceEndpointUrl as string;
+      assert.include(resolvedUrl, "env-inference");
+    });
+
     it("should succeed with valid AAD credentials and inference endpoint", () => {
       const service = new InferenceService(createMockOptions());
       assert.isDefined(service);

@@ -44,7 +44,7 @@ export class InferenceService {
       );
     }
 
-    const endpoint = this.resolveInferenceEndpoint();
+    const endpoint = this.resolveInferenceEndpoint(cosmosClientOptions);
     this.inferenceEndpointUrl = `${endpoint}${Constants.InferenceBasePath}`;
 
     this.pipeline = this.createInferencePipeline(cosmosClientOptions.aadCredentials);
@@ -82,16 +82,18 @@ export class InferenceService {
   }
 
   /**
-   * Resolves the inference endpoint from the environment variable.
+   * Resolves the inference endpoint from client options or the environment variable.
+   * Client options take priority over the environment variable.
    */
-  private resolveInferenceEndpoint(): string {
+  private resolveInferenceEndpoint(cosmosClientOptions: CosmosClientOptions): string {
     const endpoint =
-      typeof process !== "undefined" ? process.env[Constants.InferenceEndpointEnvVar] : undefined;
+      cosmosClientOptions.inferenceEndpoint ||
+      (typeof process !== "undefined" ? process.env[Constants.InferenceEndpointEnvVar] : undefined);
 
     if (!endpoint) {
       throw new Error(
         `Inference endpoint is required for semantic reranking. ` +
-          `Set the '${Constants.InferenceEndpointEnvVar}' environment variable.`,
+          `Set 'inferenceEndpoint' in CosmosClientOptions or the '${Constants.InferenceEndpointEnvVar}' environment variable.`,
       );
     }
 

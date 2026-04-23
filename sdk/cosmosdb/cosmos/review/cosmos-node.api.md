@@ -831,6 +831,7 @@ export interface CosmosClientOptions {
     diagnosticLevel?: CosmosDbDiagnosticLevel;
     endpoint?: string;
     httpClient?: HttpClient;
+    inferenceEndpoint?: string;
     key?: string;
     permissionFeed?: PermissionDefinition[];
     resourceTokens?: {
@@ -2486,6 +2487,8 @@ export interface StatusCodesType {
     InternalServerError: 500;
     // (undocumented)
     MethodNotAllowed: 405;
+    // (undocumented)
+    MultipleChoices: 300;
     // (undocumented)
     MultiStatus: 207;
     // (undocumented)

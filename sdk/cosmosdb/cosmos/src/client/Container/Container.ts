@@ -703,7 +703,8 @@ export class Container {
    *
    * To use this feature, you must:
    * 1. Configure AAD authentication via `aadCredentials` in `CosmosClientOptions`
-   * 2. Set the `AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT` environment variable
+   * 2. Provide the inference endpoint via `inferenceEndpoint` in `CosmosClientOptions`,
+   *    or set the `AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT` environment variable
    *
    * @param context - The context (e.g. query string) to use for reranking the documents.
    * @param documents - A list of documents (as JSON strings) to be reranked.
