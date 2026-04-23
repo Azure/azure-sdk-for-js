@@ -13,7 +13,7 @@ import {
   getURLScheme,
   iEqual,
 } from "./utils/utils.common.js";
-import type { HttpClient, Pipeline as CorePipeline } from "@azure/core-rest-pipeline";
+import { type HttpClient, type Pipeline as CorePipeline } from "@azure/core-rest-pipeline";
 import type { OperationTracingOptions } from "@azure/core-tracing";
 import type { DataLakeClientConfig } from "./models.js";
 import {
@@ -23,6 +23,10 @@ import {
   type ServiceOperations,
   type DataLakeClientOptionalParams,
 } from "./generated/index.js";
+import {
+  storageFlushDataBrowserPolicy,
+  StorageFlushDataBrowserPolicyName,
+} from "./policies/StorageFlushDataBrowserPolicy.js";
 
 // Unused credential placeholder – the real auth is provided by the shared corePipeline.
 const unusedCred: TokenCredential = {
@@ -90,6 +94,13 @@ function getCoreClientOptions(pipeline: PipelineLike): StorageClientContextOptio
   if (!corePipeline) {
     throw new Error("Pipeline not correctly initialized; missing V2 Pipeline");
   }
+
+  if (
+    !corePipeline.getOrderedPolicies().some((p) => p.name === StorageFlushDataBrowserPolicyName)
+  ) {
+    corePipeline.addPolicy(storageFlushDataBrowserPolicy());
+  }
+
   return {
     ...restOptions,
     allowInsecureConnection: true,
