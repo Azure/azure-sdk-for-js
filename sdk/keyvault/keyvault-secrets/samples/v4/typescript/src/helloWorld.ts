@@ -5,7 +5,7 @@
  * @summary Uses a SecretClient to create, read, and update a secret in various ways.
  */
 
-import { SecretClient } from "@azure/keyvault-secrets";
+import { SecretClient, KnownContentType } from "@azure/keyvault-secrets";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
@@ -35,6 +35,10 @@ export async function main(): Promise<void> {
   const secret = await client.getSecret(secretName);
   console.log("secret: ", secret);
 
+  // For certificate-backed secrets, you can retrieve the value in a different format using outContentType.
+  // For example, to get a PFX-backed secret as PEM:
+  // const pemSecret = await client.getSecret(secretName, { outContentType: KnownContentType.PEM });
+
   // Update the secret with different attributes
   const updatedSecret = await client.updateSecretProperties(
     secretName,
@@ -44,6 +48,15 @@ export async function main(): Promise<void> {
     },
   );
   console.log("updated secret: ", updatedSecret);
+
+  // Create a new version to demonstrate previousVersion tracking
+  const newResult = await client.setSecret(secretName, "MyUpdatedSecretValue");
+  console.log("new secret version: ", newResult.properties.version);
+
+  // For secrets created after June 1, 2025, previousVersion tracks version history.
+  if (newResult.properties.previousVersion) {
+    console.log("previous version: ", newResult.properties.previousVersion);
+  }
 
   // Delete the secret
   // If we don't want to purge the secret later, we don't need to wait until this finishes
