@@ -90,6 +90,7 @@ export function parseSampleTestFile(
           body: body ? Array.from(body.statements) : [],
           trailingComments: body ? extractTrailingComments(body, sourceFile) : "",
           node: stmt,
+          callbackParam: extractCallbackParam(call),
         });
         continue;
       }
@@ -294,6 +295,27 @@ function extractCallbackBody(call: ts.CallExpression): ts.Block | undefined {
 }
 
 /**
+ * Extract the first parameter identifier from the callback argument of a call expression.
+ * Returns the `ts.Identifier` node so the compiler can resolve its symbol and add it to
+ * `deadSymbols`, eliminating test-framework usages (e.g. `ctx.skip()`) from published output.
+ */
+function extractCallbackParam(call: ts.CallExpression): ts.Identifier | undefined {
+  for (let i = call.arguments.length - 1; i >= 0; i--) {
+    const arg = call.arguments[i];
+    if (ts.isFunctionExpression(arg) || ts.isArrowFunction(arg)) {
+      if (arg.parameters.length > 0) {
+        const param = arg.parameters[0];
+        if (ts.isIdentifier(param.name)) {
+          return param.name;
+        }
+      }
+      break;
+    }
+  }
+  return undefined;
+}
+
+/**
  * Parse a beforeEach/afterEach call into a ParsedHook.
  */
 function parseHook(
@@ -303,26 +325,12 @@ function parseHook(
   sourceFile: ts.SourceFile,
 ): ParsedHook {
   const body = extractCallbackBody(call);
-  let paramName: string | undefined;
-
-  // Find the callback to get parameter name
-  for (const arg of call.arguments) {
-    if (ts.isFunctionExpression(arg) || ts.isArrowFunction(arg)) {
-      if (arg.parameters.length > 0) {
-        const param = arg.parameters[0];
-        if (ts.isIdentifier(param.name)) {
-          paramName = param.name.text;
-        }
-      }
-      break;
-    }
-  }
 
   return {
     kind,
     body: body ? Array.from(body.statements) : [],
     trailingComments: body ? extractTrailingComments(body, sourceFile) : "",
-    paramName,
+    callbackParam: extractCallbackParam(call),
     node,
   };
 }

@@ -640,6 +640,46 @@ describe("node", () => {
       expect(result.outputText).not.toContain("@azsdk-skip-javascript");
     });
 
+    it("eliminates ctx.skip() and other callback-parameter usages from it() blocks", () => {
+      const sample = `\
+/** Demonstrates conditional test logic. */
+import { describe, it } from "vitest";
+
+describe("test", () => {
+  it("runs conditionally", async (ctx) => {
+    ctx.skip();
+    console.log("running");
+  });
+});
+`;
+      const result = compileSampleTest(sample, { packageName: "@azure/client" });
+      expect(result.outputText).not.toContain("ctx");
+      expect(result.outputText).not.toContain("skip");
+      expect(result.outputText).toContain("console.log");
+    });
+
+    it("eliminates ctx usages from beforeEach hooks in published output", () => {
+      const sample = `\
+/** Demonstrates setup logging. */
+import { describe, it, beforeEach } from "vitest";
+
+describe("test", () => {
+  beforeEach(async (ctx) => {
+    ctx.onTestFailed(() => console.error("failed"));
+    console.log("setup");
+  });
+
+  it("runs", async () => {
+    console.log("running");
+  });
+});
+`;
+      const result = compileSampleTest(sample, { packageName: "@azure/client" });
+      expect(result.outputText).not.toContain("ctx");
+      expect(result.outputText).not.toContain("onTestFailed");
+      expect(result.outputText).toContain('console.log("setup")');
+    });
+
     it("throws CompilerError for block-bodied arrow in forPublishing", () => {
       const blockBody = `\
 /** @summary test */

@@ -206,7 +206,7 @@ export function compileSampleTest(
   for (const hook of subParsed.beforeAllHooks) {
     const hookResult = eliminateDeadStatements(
       hook.body,
-      deadSymbols,
+      withCallbackParamDead(deadSymbols, hook.callbackParam, analyzer),
       analyzer,
       fileName,
     );
@@ -223,7 +223,7 @@ export function compileSampleTest(
   for (const hook of subParsed.beforeEachHooks) {
     const hookResult = eliminateDeadStatements(
       hook.body,
-      deadSymbols,
+      withCallbackParamDead(deadSymbols, hook.callbackParam, analyzer),
       analyzer,
       fileName,
     );
@@ -240,7 +240,7 @@ export function compileSampleTest(
   for (const itBlock of subParsed.itBlocks) {
     const itResult = eliminateDeadStatements(
       itBlock.body,
-      deadSymbols,
+      withCallbackParamDead(deadSymbols, itBlock.callbackParam, analyzer),
       analyzer,
       fileName,
     );
@@ -353,6 +353,24 @@ function collectDeadSymbols(
     }
   }
   return dead;
+}
+
+/**
+ * Extend a dead-symbol set with the symbol for a callback parameter identifier (e.g. `ctx`).
+ * Returns the original set unchanged if `callbackParam` is undefined or has no resolvable symbol.
+ * This ensures test-framework parameters like `ctx.skip()` are eliminated from published output.
+ */
+function withCallbackParamDead(
+  dead: Set<ts.Symbol>,
+  callbackParam: ts.Identifier | undefined,
+  analyzer: BindingAnalyzer,
+): Set<ts.Symbol> {
+  if (!callbackParam) return dead;
+  const sym = analyzer.getSymbol(callbackParam);
+  if (!sym) return dead;
+  const extended = new Set(dead);
+  extended.add(sym);
+  return extended;
 }
 
 /**

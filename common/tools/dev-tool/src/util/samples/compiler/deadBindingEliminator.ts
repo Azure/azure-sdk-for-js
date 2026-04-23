@@ -99,6 +99,9 @@ function hasSideEffects(node: ts.Node): boolean {
       node.operator === ts.SyntaxKind.MinusMinusToken)
   )
     return true;
+  // Function/arrow definitions are never side-effectful by themselves —
+  // only calling them causes effects. Don't recurse into their bodies.
+  if (ts.isFunctionExpression(node) || ts.isArrowFunction(node)) return false;
   return ts.forEachChild(node, hasSideEffects) ?? false;
 }
 

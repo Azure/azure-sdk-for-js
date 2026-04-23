@@ -58,6 +58,12 @@ export interface ParsedItBlock {
   trailingComments: string;
   /** The original node */
   node: ts.ExpressionStatement;
+  /**
+   * The identifier node of the callback parameter, if any (e.g. `ctx` in `it("...", async (ctx) => ...)`).
+   * Used by the compiler to add test-framework parameters to `deadSymbols` so that usages like
+   * `ctx.skip()` are eliminated from published output.
+   */
+  callbackParam?: ts.Identifier;
 }
 
 /**
@@ -70,7 +76,7 @@ export interface ParsedHook {
   /** Comments between the last body statement and the closing brace */
   trailingComments: string;
   /** The parameter name if present (e.g., `ctx` in `beforeEach(async (ctx) => ...)`) */
-  paramName?: string;
+  callbackParam?: ts.Identifier;
   /** The original node */
   node: ts.ExpressionStatement;
 }

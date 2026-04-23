@@ -315,7 +315,7 @@ describe("parseSampleTestFile", () => {
     expect(result.beforeEachHooks).toHaveLength(1);
     expect(result.beforeEachHooks[0].kind).toBe("beforeEach");
     expect(result.beforeEachHooks[0].body.length).toBeGreaterThan(0);
-    expect(result.beforeEachHooks[0].paramName).toBe("ctx");
+    expect(result.beforeEachHooks[0].callbackParam?.text).toBe("ctx");
   });
 
   it("extracts afterEach body", () => {
@@ -389,7 +389,7 @@ describe("parseSampleTestFile", () => {
   it("captures beforeEach ctx parameter name", () => {
     const result = parse(beforeEachWithCtx)!;
     expect(result.beforeEachHooks).toHaveLength(1);
-    expect(result.beforeEachHooks[0].paramName).toBe("ctx");
+    expect(result.beforeEachHooks[0].callbackParam?.text).toBe("ctx");
   });
 
   it("captures all import declarations", () => {
