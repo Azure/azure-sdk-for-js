@@ -6,9 +6,7 @@
  */
 
 import { SecretClient } from "../../../src/index.js";
-import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
-import { createTestCredential } from "@azure-tools/test-credential";
-import { forPublishing } from "@azure-tools/test-publishing";
+import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
 // Load the .env file if it exists
@@ -23,21 +21,6 @@ describe("gettingStarted", () => {
     // @ts-preserve-whitespace
     const client = new SecretClient(url, credential);
     // @snippet-end ReadmeSampleCreateClient
-  });
-
-  it("create a secret client in the browser", async () => {
-    // @snippet ReadmeSampleCreateClientBrowser
-    const credential = forPublishing(
-      createTestCredential(),
-      () =>
-        new InteractiveBrowserCredential({
-          tenantId: "<YOUR_TENANT_ID>",
-          clientId: "<YOUR_CLIENT_ID>",
-        }),
-    );
-    const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-    const client = new SecretClient(url, credential);
-    // @snippet-end ReadmeSampleCreateClientBrowser
   });
 
   it("create a secret client with a specific version", async () => {
