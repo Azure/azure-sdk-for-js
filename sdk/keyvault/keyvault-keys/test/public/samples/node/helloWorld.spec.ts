@@ -6,13 +6,12 @@
  */
 
 import { KeyClient } from "../../../src/index.js";
-import { createDefaultHttpClient, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { DefaultAzureCredential } from "@azure/identity";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { Recorder, assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { forPublishing } from "@azure-tools/test-publishing";
 import { retryWithBackoff } from "./utils.js";
-import { createRsaKey, stringToUint8Array } from "./crypto.js";
+import { createRsaKey } from "./crypto.js";
 import { describe, it, beforeEach, afterEach } from "vitest";
 // Load the .env file if it exists
 import "dotenv/config";
@@ -20,15 +19,12 @@ import "dotenv/config";
 describe("helloWorld", () => {
   let recorder: Recorder;
   let client: KeyClient;
-  let hsmClient: KeyClient | undefined;
 
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start({
       envSetupForPlayback: {
         KEYVAULT_URI: "https://keyvault_name.vault.azure.net/",
-        AZURE_MANAGEDHSM_URI: "https://azure_managedhsm.managedhsm.azure.net/",
-        AZURE_KEYVAULT_ATTESTATION_URI: "https://azure_attestation.azurewebsites.net/",
       },
       removeCentralSanitizers: ["AZSDK3430"],
     });
@@ -45,23 +41,6 @@ describe("helloWorld", () => {
       ),
       () => new KeyClient(process.env["KEYVAULT_URI"] || "<keyvault-url>", credential),
     );
-
-    if (
-      forPublishing(Boolean(process.env["AZURE_MANAGEDHSM_URI"]) || isPlaybackMode(), () =>
-        Boolean(process.env["AZURE_MANAGEDHSM_URI"]),
-      )
-    ) {
-      hsmClient = forPublishing(
-        new KeyClient(
-          assertEnvironmentVariable("AZURE_MANAGEDHSM_URI"),
-          credential,
-          recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
-        ),
-        () => new KeyClient(process.env["AZURE_MANAGEDHSM_URI"] || "<managedhsm-url>", credential),
-      );
-    } else {
-      hsmClient = undefined;
-    }
   });
 
   afterEach(async () => {
@@ -155,21 +134,6 @@ describe("helloWorld", () => {
     // @snippet-end ReadmeSampleCreateRsaKey
   });
 
-  it("create an OCT key", async () => {
-    if (!forPublishing(Boolean(hsmClient), () => Boolean(hsmClient))) {
-      return; // No HSM configured — skipping this sample.
-    }
-
-    // @snippet ReadmeSampleCreateOctKey
-    const keyName = forPublishing(
-      recorder.variable("octKeyName", `sample-oct-key-${Date.now()}`),
-      () => "MyOctKeyName",
-    );
-    const result = await hsmClient!.createOctKey(keyName, { hsm: true });
-    console.log("result: ", result);
-    // @snippet-end ReadmeSampleCreateOctKey
-  });
-
   it("import a key", async () => {
     // @snippet ReadmeSampleImportKey
     const keyName = forPublishing(
@@ -208,33 +172,7 @@ describe("helloWorld", () => {
     // @snippet-end ReadmeSampleGetKey
   });
 
-  it("get key attestation", async () => {
-    if (!forPublishing(Boolean(hsmClient), () => Boolean(hsmClient))) {
-      return; // No HSM configured — skipping this sample.
-    }
-
-    const keyName = forPublishing(
-      recorder.variable("attestKeyName", `sample-attest-key-${Date.now()}`),
-      () => "MyAttestKeyName",
-    );
-    await hsmClient!.createRsaKey(keyName, { hsm: true });
-
-    // @snippet ReadmeSampleGetKeyAttestation
-    const latestKey = await hsmClient!.getKeyAttestation(keyName);
-    console.log(`Latest version of the key ${keyName}: `, latestKey);
-    // @ts-preserve-whitespace
-    const specificKey = await hsmClient!.getKeyAttestation(keyName, {
-      version: latestKey.properties.version!,
-    });
-    console.log(
-      `The key ${keyName} at the version ${latestKey.properties.version!}: `,
-      specificKey,
-    );
-    // @snippet-end ReadmeSampleGetKeyAttestation
-  });
-
   it("create a key with attributes", async () => {
-    // @snippet ReadmeSampleCreateKeyWithAttributes
     const keyName = "MyAttrKeyName";
     // @ts-preserve-whitespace
     const result = await client.createKey(keyName, "RSA", {
@@ -266,57 +204,6 @@ describe("helloWorld", () => {
     const poller = await client.beginDeleteKey(keyName);
     await poller.pollUntilDone();
     // @snippet-end ReadmeSampleDeleteKey
-  });
-
-  it("release a key", async () => {
-    if (!forPublishing(Boolean(hsmClient), () => Boolean(hsmClient))) {
-      return; // No HSM configured — skipping this sample.
-    }
-
-    const keyName = forPublishing(
-      recorder.variable("releaseKeyName", `sample-release-key-${Date.now()}`),
-      () => "myKey",
-    );
-    const attestationAuthority = forPublishing(
-      assertEnvironmentVariable("AZURE_KEYVAULT_ATTESTATION_URI"),
-      () => "<attestation-uri>",
-    );
-    const encodedReleasePolicy = stringToUint8Array(
-      JSON.stringify({
-        anyOf: [
-          { anyOf: [{ claim: "sdk-test", equals: "true" }], authority: attestationAuthority },
-        ],
-        version: "1.0.0",
-      }),
-    );
-    await hsmClient!.createRsaKey(keyName, {
-      exportable: true,
-      hsm: true,
-      keyOps: ["encrypt", "decrypt"],
-      releasePolicy: { encodedPolicy: encodedReleasePolicy },
-    });
-    // Fetch the attestation token from your Azure Attestation Service endpoint.
-    // Example: const attestation = await fetch(attestationUri).then((r) => r.text());
-    const attestation = forPublishing(
-      await (async () => {
-        if (!isPlaybackMode()) {
-          const response = await createDefaultHttpClient().sendRequest(
-            createPipelineRequest({ url: `${attestationAuthority}/generate-test-token` }),
-          );
-          const token = JSON.parse(response.bodyAsText!).token as string;
-          recorder.variable("attestation", token);
-          return token;
-        }
-        return recorder.variable("attestation", "");
-      })(),
-      () => "<attestation-token>",
-    );
-
-    // @snippet ReadmeSampleReleaseKey
-    // @ts-preserve-whitespace
-    const result = await hsmClient!.releaseKey(keyName, attestation);
-    console.log("result: ", result);
-    // @snippet-end ReadmeSampleReleaseKey
   });
 
   it("get a deleted key", async () => {
@@ -394,17 +281,6 @@ describe("helloWorld", () => {
     // @ts-preserve-whitespace
     await retryWithBackoff(() => client.restoreKeyBackup(backupContents));
     // @snippet-end ReadmeSampleRestoreKeyBackup
-  });
-
-  it("get random bytes", async () => {
-    if (!forPublishing(Boolean(hsmClient), () => Boolean(hsmClient))) {
-      return; // No HSM configured — skipping this sample.
-    }
-
-    // @snippet ReadmeSampleGetRandomBytes
-    const bytes = await hsmClient!.getRandomBytes(10);
-    console.log("bytes: ", bytes);
-    // @snippet-end ReadmeSampleGetRandomBytes
   });
 
   it("delete a key with soft delete", async () => {

@@ -12,12 +12,13 @@ urlFragment: keyvault-keys-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure Key Vault Keys in some common scenarios.
 
-| **File Name**                       | **Description**                                                                     |
-| ----------------------------------- | ----------------------------------------------------------------------------------- |
-| [cryptography.js][cryptography]     | Uses an Azure Key Vault key to sign/verify, encrypt/decrypt, and wrap/unwrap data.  |
-| [gettingStarted.js][gettingstarted] | Authenticates with Azure Key Vault and creates a KeyClient and CryptographyClient.  |
-| [helloWorld.js][helloworld]         | Creates, reads, lists, and deletes keys.                                            |
-| [keyRotation.js][keyrotation]       | Creates and updates a key's automated rotation policy, and rotates a key on-demand. |
+| **File Name**                       | **Description**                                                                                                                                                                                |
+| ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [cryptography.js][cryptography]     | Uses an Azure Key Vault key to sign/verify, encrypt/decrypt, and wrap/unwrap data.                                                                                                             |
+| [gettingStarted.js][gettingstarted] | Authenticates with Azure Key Vault and creates a KeyClient and CryptographyClient.                                                                                                             |
+| [helloWorld.js][helloworld]         | Creates, reads, lists, and deletes keys.                                                                                                                                                       |
+| [hsmOperations.js][hsmoperations]   | Shows key operations that require a Managed HSM endpoint: creating OCT keys, getting key attestation, releasing keys, and getting random bytes. Set AZURE_MANAGEDHSM_URI to run these samples. |
+| [keyRotation.js][keyrotation]       | Creates and updates a key's automated rotation policy, and rotates a key on-demand.                                                                                                            |
 
 ## Prerequisites
 
@@ -62,6 +63,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [cryptography]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v4/javascript/cryptography.js
 [gettingstarted]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v4/javascript/gettingStarted.js
 [helloworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v4/javascript/helloWorld.js
+[hsmoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v4/javascript/hsmOperations.js
 [keyrotation]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v4/javascript/keyRotation.js
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/keyvault-keys
 [freesub]: https://azure.microsoft.com/free/

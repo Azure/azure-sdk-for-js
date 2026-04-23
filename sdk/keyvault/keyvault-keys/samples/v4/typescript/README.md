@@ -12,12 +12,13 @@ urlFragment: keyvault-keys-typescript
 
 These sample programs show how to use the TypeScript client libraries for Azure Key Vault Keys in some common scenarios.
 
-| **File Name**                       | **Description**                                                                     |
-| ----------------------------------- | ----------------------------------------------------------------------------------- |
-| [cryptography.ts][cryptography]     | Uses an Azure Key Vault key to sign/verify, encrypt/decrypt, and wrap/unwrap data.  |
-| [gettingStarted.ts][gettingstarted] | Authenticates with Azure Key Vault and creates a KeyClient and CryptographyClient.  |
-| [helloWorld.ts][helloworld]         | Creates, reads, lists, and deletes keys.                                            |
-| [keyRotation.ts][keyrotation]       | Creates and updates a key's automated rotation policy, and rotates a key on-demand. |
+| **File Name**                       | **Description**                                                                                                                                                                                |
+| ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [cryptography.ts][cryptography]     | Uses an Azure Key Vault key to sign/verify, encrypt/decrypt, and wrap/unwrap data.                                                                                                             |
+| [gettingStarted.ts][gettingstarted] | Authenticates with Azure Key Vault and creates a KeyClient and CryptographyClient.                                                                                                             |
+| [helloWorld.ts][helloworld]         | Creates, reads, lists, and deletes keys.                                                                                                                                                       |
+| [hsmOperations.ts][hsmoperations]   | Shows key operations that require a Managed HSM endpoint: creating OCT keys, getting key attestation, releasing keys, and getting random bytes. Set AZURE_MANAGEDHSM_URI to run these samples. |
+| [keyRotation.ts][keyrotation]       | Creates and updates a key's automated rotation policy, and rotates a key on-demand.                                                                                                            |
 
 ## Prerequisites
 
@@ -74,6 +75,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [cryptography]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v4/typescript/src/cryptography.ts
 [gettingstarted]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v4/typescript/src/gettingStarted.ts
 [helloworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v4/typescript/src/helloWorld.ts
+[hsmoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v4/typescript/src/hsmOperations.ts
 [keyrotation]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v4/typescript/src/keyRotation.ts
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/keyvault-keys
 [freesub]: https://azure.microsoft.com/free/

@@ -9,11 +9,10 @@
 import "dotenv/config";
 import { DefaultAzureCredential } from "@azure/identity";
 import { KeyClient } from "@azure/keyvault-keys";
-import { createRsaKey, stringToUint8Array } from "./crypto.js";
+import { createRsaKey } from "./crypto.js";
 import { retryWithBackoff } from "./utils.js";
 
 let client: KeyClient;
-let hsmClient: KeyClient | undefined;
 
 async function createAndGetAKey() {
   // Create unique names for keys we will use in this sample
@@ -82,16 +81,6 @@ async function createAnRsaKey() {
   console.log("result: ", result);
 }
 
-async function createAnOctKey() {
-  if (!Boolean(hsmClient)) {
-    return; // No HSM configured — skipping this sample.
-  }
-
-  const keyName = "MyOctKeyName";
-  const result = await hsmClient!.createOctKey(keyName, { hsm: true });
-  console.log("result: ", result);
-}
-
 async function importAKey() {
   const keyName = "MyKey";
   const jsonWebKey = createRsaKey();
@@ -112,22 +101,6 @@ async function getAKey() {
   console.log(`Latest version of the key ${keyName}: `, latestKey);
 
   const specificKey = await client.getKey(keyName, { version: latestKey.properties.version! });
-  console.log(`The key ${keyName} at the version ${latestKey.properties.version!}: `, specificKey);
-}
-
-async function getKeyAttestation() {
-  if (!Boolean(hsmClient)) {
-    return; // No HSM configured — skipping this sample.
-  }
-  const keyName = "MyAttestKeyName";
-  await hsmClient!.createRsaKey(keyName, { hsm: true });
-
-  const latestKey = await hsmClient!.getKeyAttestation(keyName);
-  console.log(`Latest version of the key ${keyName}: `, latestKey);
-
-  const specificKey = await hsmClient!.getKeyAttestation(keyName, {
-    version: latestKey.properties.version!,
-  });
   console.log(`The key ${keyName} at the version ${latestKey.properties.version!}: `, specificKey);
 }
 
@@ -155,32 +128,6 @@ async function deleteAKey() {
 
   const poller = await client.beginDeleteKey(keyName);
   await poller.pollUntilDone();
-}
-
-async function releaseAKey() {
-  if (!Boolean(hsmClient)) {
-    return; // No HSM configured — skipping this sample.
-  }
-  const keyName = "myKey";
-  const attestationAuthority = "<attestation-uri>";
-  const encodedReleasePolicy = stringToUint8Array(
-    JSON.stringify({
-      anyOf: [{ anyOf: [{ claim: "sdk-test", equals: "true" }], authority: attestationAuthority }],
-      version: "1.0.0",
-    }),
-  );
-  await hsmClient!.createRsaKey(keyName, {
-    exportable: true,
-    hsm: true,
-    keyOps: ["encrypt", "decrypt"],
-    releasePolicy: { encodedPolicy: encodedReleasePolicy },
-  });
-  // Fetch the attestation token from your Azure Attestation Service endpoint.
-  // Example: const attestation = await fetch(attestationUri).then((r) => r.text());
-  const attestation = "<attestation-token>";
-
-  const result = await hsmClient!.releaseKey(keyName, attestation);
-  console.log("result: ", result);
 }
 
 async function getADeletedKey() {
@@ -233,15 +180,6 @@ async function restoreAKeyFromBackup() {
   await client.purgeDeletedKey(keyName);
 
   await retryWithBackoff(() => client.restoreKeyBackup(backupContents));
-}
-
-async function getRandomBytes() {
-  if (!Boolean(hsmClient)) {
-    return; // No HSM configured — skipping this sample.
-  }
-
-  const bytes = await hsmClient!.getRandomBytes(10);
-  console.log("bytes: ", bytes);
 }
 
 async function deleteAKeyWithSoftDelete() {
@@ -349,35 +287,23 @@ export async function main(): Promise<void> {
   // about DefaultAzureCredential and the other credentials that are available for use.
   const credential = new DefaultAzureCredential();
   client = new KeyClient(process.env["KEYVAULT_URI"] || "<keyvault-url>", credential);
-  if (Boolean(process.env["AZURE_MANAGEDHSM_URI"])) {
-    hsmClient = new KeyClient(
-      process.env["AZURE_MANAGEDHSM_URI"] || "<managedhsm-url>",
-      credential,
-    );
-  } else {
-    hsmClient = undefined;
-  }
   await createAndGetAKey();
   await listKeys();
   await updateAndDeleteKeys();
   await createAKey();
   await createAnEcKey();
   await createAnRsaKey();
-  await createAnOctKey();
   await importAKey();
   await getACryptographyClient();
   await getAKey();
-  await getKeyAttestation();
   await createAKeyWithAttributes();
   await updateKeyProperties();
   await deleteAKey();
-  await releaseAKey();
   await getADeletedKey();
   await purgeADeletedKey();
   await recoverADeletedKey();
   await backUpAKey();
   await restoreAKeyFromBackup();
-  await getRandomBytes();
   await deleteAKeyWithSoftDelete();
   await deleteAKeyAndWaitForCompletion();
   await deleteAKeyAndPollIndividually();
