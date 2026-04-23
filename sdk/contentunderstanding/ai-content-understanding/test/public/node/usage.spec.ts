@@ -187,7 +187,7 @@ describe("AnalysisResultPoller usage", () => {
     const poller = client.analyze("analyzer1", [{ url: "https://test.com/video.mp4" }]);
     await poller.poll();
 
-    const usage = poller.operationState?.usage!;
+    const usage = poller.operationState!.usage!;
     assert.equal(usage.documentPagesMinimal, 2);
     assert.equal(usage.documentPagesBasic, 3);
     assert.equal(usage.documentPagesStandard, 1);

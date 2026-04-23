@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Sample test for getResultFile.ts - Retrieve result files from video analysis.
+ * Sample test for getResultFile.ts - Retrieve result files from video analysis.
  */
 
 import type { Recorder } from "@azure-tools/test-recorder";

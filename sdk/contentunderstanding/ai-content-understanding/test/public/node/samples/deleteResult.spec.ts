@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Sample test for deleteResult.ts - Delete analysis results.
+ * Sample test for deleteResult.ts - Delete analysis results.
  */
 
 import type { Recorder } from "@azure-tools/test-recorder";

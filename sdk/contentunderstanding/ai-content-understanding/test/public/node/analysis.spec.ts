@@ -55,7 +55,7 @@ describe("ContentUnderstandingClient - Analysis", () => {
     const poller = client.analyzeBinary(testAnalyzerId, pdfBytes);
 
     const analyzeResult = await poller.pollUntilDone();
-    const operationId = poller.operationState?.operationId!;
+    const operationId = poller.operationState!.operationId;
     assert.ok(operationId, "operationState should have operationId");
     assert.ok(analyzeResult, "Expected analyzeResult in response");
 
@@ -71,7 +71,7 @@ describe("ContentUnderstandingClient - Analysis", () => {
     const poller = client.analyze(testAnalyzerId, [{ url: testUrl }]);
 
     const analyzeResult = await poller.pollUntilDone();
-    const operationId = poller.operationState?.operationId!;
+    const operationId = poller.operationState!.operationId;
     assert.ok(operationId, "operationState should have operationId");
     assert.ok(analyzeResult, "Expected analyzeResult in response");
 
@@ -86,7 +86,7 @@ describe("ContentUnderstandingClient - Analysis", () => {
     const poller = client.analyze(testAnalyzerId, [{ url: testUrl }]);
 
     const analyzeResult = await poller.pollUntilDone();
-    const operationId = poller.operationState?.operationId!;
+    const operationId = poller.operationState!.operationId;
     assert.ok(operationId, "operationState should have operationId");
     assert.ok(analyzeResult, "Expected analyzeResult in response");
 

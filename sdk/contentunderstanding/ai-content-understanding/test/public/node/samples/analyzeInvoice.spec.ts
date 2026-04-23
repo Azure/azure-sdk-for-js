@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Sample test for analyzeInvoice.ts - Analyze an invoice and extract structured fields.
+ * Sample test for analyzeInvoice.ts - Analyze an invoice and extract structured fields.
  */
 
 import type { Recorder } from "@azure-tools/test-recorder";

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Sample test for createAnalyzer.ts - Create a custom analyzer with field schema.
+ * Sample test for createAnalyzer.ts - Create a custom analyzer with field schema.
  */
 
 import type { Recorder } from "@azure-tools/test-recorder";
