@@ -25,6 +25,7 @@ import type { SizeReport } from "./sizeReport.ts";
 import type { WarpConfig, ResolvedWarpConfig } from "./types.ts";
 import { WarpError } from "./types.ts";
 import { getLogger } from "./logger.ts";
+import { resolveTsgo, getTsgoVersion } from "./tsgoCompiler.ts";
 
 export interface BuildOptions {
   /** Working directory. Defaults to process.cwd(). */
@@ -43,6 +44,14 @@ export interface BuildOptions {
   stats?: boolean;
   /** Only build targets whose name matches one of the given values. */
   target?: string[];
+  /**
+   * Compiler backend to use for compilation.
+   * - `"tsc"` (default): Uses the TypeScript programmatic API.
+   * - `"tsgo"`: Uses the native TypeScript 7.0+ CLI (`tsgo`) for ~10x faster
+   *   compilation. Requires `@typescript/native-preview` to be installed.
+   *   Falls back to the TS API for targets needing polyfill substitution.
+   */
+  compiler?: "tsc" | "tsgo";
 }
 
 export interface BuildResult {
@@ -165,17 +174,30 @@ async function compileStep(
   const compileStart = performance.now();
 
   let results: CompileResult[];
+  let tsgoPath: string | undefined;
 
-  if (options.parallel) {
+  if (options.compiler === "tsgo") {
+    tsgoPath = resolveTsgo();
+    const version = await getTsgoVersion();
+    log.info(`[warp] Using tsgo compiler${version ? ` (v${version})` : ""}: ${tsgoPath}`);
+  }
+
+  if (options.parallel && !tsgoPath) {
     const { compileAllTargetsParallel } = await import("./parallel.js");
     results = await compileAllTargetsParallel(parsedConfigs, {
       clean: options.clean ?? true,
       packageRoot,
     });
   } else {
+    if (tsgoPath && options.parallel) {
+      log.info(
+        "[warp] Note: --parallel is ignored with --compiler tsgo (tsgo parallelises internally)",
+      );
+    }
     results = await compileAllTargets(parsedConfigs, {
       clean: options.clean ?? true,
       packageRoot,
+      tsgoPath,
     });
   }
 
@@ -187,14 +209,14 @@ async function postCompileStep(
   results: CompileResult[],
   config: WarpConfig,
   packageRoot: string,
-  parallel: boolean,
+  skipDiagnosticFormat: boolean,
   stats: boolean,
   skipPackageJsonUpdate: boolean,
 ): Promise<{ sizeReport: SizeReport | undefined; missingFiles: string[] }> {
   const log = getLogger();
 
-  // Report diagnostics
-  if (!parallel) {
+  // Report diagnostics (skip when already printed inline, e.g. parallel workers)
+  if (!skipDiagnosticFormat) {
     const diagnosticOutput = formatDiagnostics(results);
     if (diagnosticOutput) {
       log.info("");
@@ -315,6 +337,7 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
   // Check for errors
   const hasErrors = results.some((r) => !r.success);
   if (hasErrors) {
+    // Print diagnostics (parallel workers already printed inline)
     if (!options.parallel) {
       const diagnosticOutput = formatDiagnostics(results);
       if (diagnosticOutput) {
@@ -398,11 +421,13 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
   }
 
   // Step 3: Post-compile (exports, size report)
+  // Skip diagnostic formatting when parallel workers already printed them inline
+  const skipDiagnosticFormat = !!options.parallel;
   const { sizeReport, missingFiles } = await postCompileStep(
     results,
     config,
     packageRoot,
-    !!options.parallel,
+    skipDiagnosticFormat,
     !!options.stats,
     !!(options.target && options.target.length > 0),
   );

@@ -10,6 +10,7 @@ import { transform as esbuildTransform } from "esbuild";
 import type { WarpTarget } from "./types.ts";
 import { WarpError } from "./types.ts";
 import { getLogger } from "./logger.ts";
+import { compileTargetWithTsgo } from "./tsgoCompiler.ts";
 
 /**
  * Parsed tsconfig data needed for compilation and exports rewriting.
@@ -1031,9 +1032,10 @@ export async function compileTarget(
  */
 export async function compileAllTargets(
   parsedConfigs: ParsedTargetConfig[],
-  options?: { clean?: boolean; packageRoot?: string },
+  options?: { clean?: boolean; packageRoot?: string; tsgoPath?: string },
 ): Promise<CompileResult[]> {
   const clean = options?.clean ?? true;
+  const tsgoPath = options?.tsgoPath;
   validateOutDirs(parsedConfigs);
   const log = getLogger();
   const cache = new SharedSourceFileCache();
@@ -1226,8 +1228,14 @@ export async function compileAllTargets(
         await copyDir(alreadyEmittedOutDir, parsed.outDir);
       }
     } else {
-      // First time seeing this emit identity — full or typecheck-less compile
-      result = await compileTarget(parsed, host, { typeCheck: needsTypeCheck });
+      // First time seeing this emit identity — full or typecheck-less compile.
+      // Use tsgo when available and the target doesn't need host overrides
+      // (polyfills or CJS moduleType).
+      if (tsgoPath && !hasPolyfills && parsed.target.moduleType !== "commonjs") {
+        result = await compileTargetWithTsgo(tsgoPath, parsed, options?.packageRoot ?? "");
+      } else {
+        result = await compileTarget(parsed, host, { typeCheck: needsTypeCheck });
+      }
     }
 
     const timeLabel =
