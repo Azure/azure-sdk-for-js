@@ -1302,3 +1302,8 @@ export class KeyClient {
     );
   }
 }
+
+/**
+ * A test for package versioning
+ */
+export type Test = string;

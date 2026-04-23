@@ -531,6 +531,9 @@ export interface SignResult {
 }
 
 // @public
+export type Test = string;
+
+// @public
 export interface UnwrapKeyOptions extends CryptographyOptions {
 }
 
