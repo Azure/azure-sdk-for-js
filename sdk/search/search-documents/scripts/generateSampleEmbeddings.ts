@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureOpenAI } from "openai";
+import { OpenAI } from "openai";
 import "dotenv/config";
 import { createWriteStream } from "fs";
 
