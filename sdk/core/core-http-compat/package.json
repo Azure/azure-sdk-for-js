@@ -52,7 +52,7 @@
   "engines": {
     "node": ">=20.0.0"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-http-compat/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-compat/",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "scripts": {
@@ -66,9 +66,9 @@
     "lint": "eslint package.json src test",
     "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
     "pack": "pnpm pack 2>&1",
-    "test": "npm run test:node && npm run test:browser",
-    "test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser",
-    "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest --no-test-proxy",
+    "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
+    "test:browser": "dev-tool run test:vitest --no-test-proxy --browser",
+    "test:node": "dev-tool run test:vitest --no-test-proxy",
     "update-snippets": "dev-tool run update-snippets"
   },
   "dependencies": {
