@@ -35,7 +35,11 @@
     "LICENSE"
   ],
   "sideEffects": false,
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/storage/storage-file-datalake"
+  },
   "keywords": [
     "azure",
     "storage",
@@ -53,7 +57,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-file-datalake/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-datalake/README.md",
   "//metadata": {
     "constantPaths": [
       {

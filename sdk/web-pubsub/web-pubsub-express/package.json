@@ -24,7 +24,11 @@
     "README.md",
     "LICENSE"
   ],
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/web-pubsub/web-pubsub-express"
+  },
   "keywords": [
     "azure",
     "cloud"

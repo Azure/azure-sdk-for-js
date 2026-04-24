@@ -4,8 +4,12 @@
   "description": "A generated SDK for ManagedPrivateEndpointsClient.",
   "sdk-type": "client",
   "version": "1.0.0-beta.6",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/synapse/synapse-managed-private-endpoints/README.md",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/synapse/synapse-managed-private-endpoints/README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/synapse/synapse-managed-private-endpoints"
+  },
   "dependencies": {
     "@azure/core-auth": "^1.9.0",
     "@azure/core-client": "^1.9.2",
