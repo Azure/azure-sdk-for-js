@@ -21,7 +21,6 @@ export interface BackupVaultsCreateOrUpdateOptionalParams extends OperationOptio
     updateIntervalInMs?: number;
     // (undocumented)
     xMsAuthorizationAuxiliary?: string;
-    xMsDeletedVaultId?: string;
 }
 
 // @public

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to fetches list of Cross Region Restore job belonging to the vault
  *
  * @summary fetches list of Cross Region Restore job belonging to the vault
- * x-ms-original-file: 2026-03-01/CrossRegionRestore/FetchCrossRegionRestoreJobs.json
+ * x-ms-original-file: 2025-07-01/CrossRegionRestore/FetchCrossRegionRestoreJobs.json
  */
 async function listCrossRegionRestoreJobs(): Promise<void> {
   const credential = new DefaultAzureCredential();

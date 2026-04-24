@@ -14,7 +14,6 @@ import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
-  FeaturesDisableOptionalParams,
   FeaturesEnableOptionalParams,
   FeaturesListBySubscriptionLocationResourceOptionalParams,
   FeaturesGetOptionalParams,
@@ -22,60 +21,6 @@ import type {
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { PollerLike, OperationState } from "@azure/core-lro";
-
-export function _disableSend(
-  context: Client,
-  location: string,
-  featureName: string,
-  options: FeaturesDisableOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeLimit/locations/{location}/features/{featureName}/disable{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      location: location,
-      featureName: featureName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-30",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
-}
-
-export async function _disableDeserialize(
-  result: PathUncheckedResponse,
-): Promise<OperationStatusResult> {
-  const expectedStatuses = ["202", "200", "201"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
-
-    throw error;
-  }
-
-  return operationStatusResultDeserializer(result.body);
-}
-
-/** Disables a compute limit feature for the subscription at the specified location. */
-export function disable(
-  context: Client,
-  location: string,
-  featureName: string,
-  options: FeaturesDisableOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<OperationStatusResult>, OperationStatusResult> {
-  return getLongRunningPoller(context, _disableDeserialize, ["202", "200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () => _disableSend(context, location, featureName, options),
-    resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-30",
-  }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
-}
 
 export function _enableSend(
   context: Client,
@@ -89,7 +34,7 @@ export function _enableSend(
       subscriptionId: context.subscriptionId,
       location: location,
       featureName: featureName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-30",
+      "api%2Dversion": context.apiVersion ?? "2026-03-20",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -127,7 +72,7 @@ export function enable(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _enableSend(context, location, featureName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-30",
+    apiVersion: context.apiVersion ?? "2026-03-20",
   }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
@@ -141,7 +86,7 @@ export function _listBySubscriptionLocationResourceSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-04-30",
+      "api%2Dversion": context.apiVersion ?? "2026-03-20",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -178,7 +123,7 @@ export function listBySubscriptionLocationResource(
     () => _listBySubscriptionLocationResourceSend(context, location, options),
     _listBySubscriptionLocationResourceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-30" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-20" },
   );
 }
 
@@ -194,7 +139,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       location: location,
       featureName: featureName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-30",
+      "api%2Dversion": context.apiVersion ?? "2026-03-20",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

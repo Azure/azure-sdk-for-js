@@ -10,15 +10,7 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function disable(context: ComputeLimitContext, location: string, featureName: string, options?: FeaturesDisableOptionalParams): PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
-
-// @public
 export function enable(context: ComputeLimitContext, location: string, featureName: string, options?: FeaturesEnableOptionalParams): PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
-
-// @public
-export interface FeaturesDisableOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
 
 // @public
 export interface FeaturesEnableOptionalParams extends OperationOptions {

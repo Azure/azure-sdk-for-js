@@ -34,7 +34,6 @@ export class ComputeLimitClient {
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
     readonly sharedLimits: SharedLimitsOperations;
-    readonly vmFamilies: VmFamiliesOperations;
 }
 
 // @public
@@ -83,11 +82,6 @@ export interface FeatureProperties {
 }
 
 // @public
-export interface FeaturesDisableOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
 export interface FeaturesEnableOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -102,7 +96,6 @@ export interface FeaturesListBySubscriptionLocationResourceOptionalParams extend
 
 // @public
 export interface FeaturesOperations {
-    disable: (location: string, featureName: string, options?: FeaturesDisableOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
     enable: (location: string, featureName: string, options?: FeaturesEnableOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
     get: (location: string, featureName: string, options?: FeaturesGetOptionalParams) => Promise<Feature>;
     listBySubscriptionLocationResource: (location: string, options?: FeaturesListBySubscriptionLocationResourceOptionalParams) => PagedAsyncIterableIterator<Feature>;
@@ -181,8 +174,7 @@ export enum KnownResourceProvisioningState {
 // @public
 export enum KnownVersions {
     V20250815 = "2025-08-15",
-    V20260320 = "2026-03-20",
-    V20260430 = "2026-04-30"
+    V20260320 = "2026-03-20"
 }
 
 // @public
@@ -315,32 +307,6 @@ export interface SystemData {
     lastModifiedAt?: Date;
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
-}
-
-// @public
-export interface VmFamiliesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface VmFamiliesListBySubscriptionLocationResourceOptionalParams extends OperationOptions {
-    filter?: string;
-}
-
-// @public
-export interface VmFamiliesOperations {
-    get: (location: string, vmFamilyName: string, options?: VmFamiliesGetOptionalParams) => Promise<VmFamily>;
-    listBySubscriptionLocationResource: (location: string, options?: VmFamiliesListBySubscriptionLocationResourceOptionalParams) => PagedAsyncIterableIterator<VmFamily>;
-}
-
-// @public
-export interface VmFamily extends ProxyResource {
-    properties?: VmFamilyProperties;
-}
-
-// @public
-export interface VmFamilyProperties {
-    category?: string;
-    readonly provisioningState?: ResourceProvisioningState;
 }
 
 // (No @packageDocumentation comment for this package)

@@ -2,14 +2,8 @@
 // Licensed under the MIT License.
 
 import type { ComputeLimitContext } from "../../api/computeLimitContext.js";
-import {
-  disable,
-  enable,
-  listBySubscriptionLocationResource,
-  get,
-} from "../../api/features/operations.js";
+import { enable, listBySubscriptionLocationResource, get } from "../../api/features/operations.js";
 import type {
-  FeaturesDisableOptionalParams,
   FeaturesEnableOptionalParams,
   FeaturesListBySubscriptionLocationResourceOptionalParams,
   FeaturesGetOptionalParams,
@@ -20,12 +14,6 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Features operations. */
 export interface FeaturesOperations {
-  /** Disables a compute limit feature for the subscription at the specified location. */
-  disable: (
-    location: string,
-    featureName: string,
-    options?: FeaturesDisableOptionalParams,
-  ) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
   /** Enables a compute limit feature for the subscription at the specified location. */
   enable: (
     location: string,
@@ -47,8 +35,6 @@ export interface FeaturesOperations {
 
 function _getFeatures(context: ComputeLimitContext) {
   return {
-    disable: (location: string, featureName: string, options?: FeaturesDisableOptionalParams) =>
-      disable(context, location, featureName, options),
     enable: (location: string, featureName: string, options?: FeaturesEnableOptionalParams) =>
       enable(context, location, featureName, options),
     listBySubscriptionLocationResource: (

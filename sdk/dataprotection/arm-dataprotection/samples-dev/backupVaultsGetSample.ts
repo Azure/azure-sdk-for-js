@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns a resource belonging to a resource group.
  *
  * @summary returns a resource belonging to a resource group.
- * x-ms-original-file: 2026-03-01/VaultCRUD/GetBackupVault.json
+ * x-ms-original-file: 2025-07-01/VaultCRUD/GetBackupVault.json
  */
 async function getBackupVault(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getBackupVault(): Promise<void> {
  * This sample demonstrates how to returns a resource belonging to a resource group.
  *
  * @summary returns a resource belonging to a resource group.
- * x-ms-original-file: 2026-03-01/VaultCRUD/GetBackupVaultWithCMK.json
+ * x-ms-original-file: 2025-07-01/VaultCRUD/GetBackupVaultWithCMK.json
  */
 async function getBackupVaultWithCMK(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function getBackupVaultWithCMK(): Promise<void> {
  * This sample demonstrates how to returns a resource belonging to a resource group.
  *
  * @summary returns a resource belonging to a resource group.
- * x-ms-original-file: 2026-03-01/VaultCRUD/GetBackupVaultWithMSI.json
+ * x-ms-original-file: 2025-07-01/VaultCRUD/GetBackupVaultWithMSI.json
  */
 async function getBackupVaultWithMSI(): Promise<void> {
   const credential = new DefaultAzureCredential();

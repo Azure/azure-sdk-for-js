@@ -27,7 +27,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -35,7 +35,10 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
   });
 }
 
@@ -46,7 +49,6 @@ export async function _listDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
-
     throw error;
   }
 
@@ -65,7 +67,7 @@ export function list(
     () => _listSend(context, resourceGroupName, vaultName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
@@ -83,7 +85,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       jobId: jobId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -91,7 +93,10 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
   });
 }
 
@@ -102,7 +107,6 @@ export async function _getDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
-
     throw error;
   }
 

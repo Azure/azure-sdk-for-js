@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to enables a compute limit feature for the subscription at the specified location.
  *
  * @summary enables a compute limit feature for the subscription at the specified location.
- * x-ms-original-file: 2026-04-30/Features_Enable.json
+ * x-ms-original-file: 2026-03-20/Features_Enable.json
  */
 async function enableFeature(): Promise<void> {
   const credential = new DefaultAzureCredential();

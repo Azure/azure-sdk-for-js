@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the properties of a compute limit feature.
  *
  * @summary gets the properties of a compute limit feature.
- * x-ms-original-file: 2026-04-30/Features_Get.json
+ * x-ms-original-file: 2026-03-20/Features_Get.json
  */
 async function getFeature() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getFeature() {
  * This sample demonstrates how to gets the properties of a compute limit feature.
  *
  * @summary gets the properties of a compute limit feature.
- * x-ms-original-file: 2026-04-30/Features_Get_SharedLimit.json
+ * x-ms-original-file: 2026-03-20/Features_Get_SharedLimit.json
  */
 async function getSharedLimitFeature() {
   const credential = new DefaultAzureCredential();

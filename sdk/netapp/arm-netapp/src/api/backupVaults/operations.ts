@@ -37,7 +37,7 @@ export function _listByNetAppAccountSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -75,7 +75,11 @@ export function listByNetAppAccount(
     () => _listByNetAppAccountSend(context, resourceGroupName, accountName, options),
     _listByNetAppAccountDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-12-15-preview",
+    },
   );
 }
 
@@ -93,7 +97,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       backupVaultName: backupVaultName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -133,7 +137,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, accountName, backupVaultName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2025-12-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -152,7 +156,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       backupVaultName: backupVaultName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -193,7 +197,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, accountName, backupVaultName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2025-12-15-preview",
   }) as PollerLike<OperationState<BackupVault>, BackupVault>;
 }
 
@@ -212,7 +216,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       backupVaultName: backupVaultName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -255,7 +259,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, accountName, backupVaultName, body, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2025-12-15-preview",
   }) as PollerLike<OperationState<BackupVault>, BackupVault>;
 }
 
@@ -273,7 +277,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       backupVaultName: backupVaultName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

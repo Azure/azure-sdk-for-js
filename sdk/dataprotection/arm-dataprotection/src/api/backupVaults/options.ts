@@ -30,8 +30,6 @@ export interface BackupVaultsCreateOrUpdateOptionalParams extends OperationOptio
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   xMsAuthorizationAuxiliary?: string;
-  /** The ID of the deleted backup vault to restore from during undelete flow. */
-  xMsDeletedVaultId?: string;
 }
 
 /** Optional parameters. */

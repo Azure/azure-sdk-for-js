@@ -27,7 +27,7 @@ export interface CachesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface CachesListOptionalParams extends OperationOptions {
+export interface CachesListByCapacityPoolsOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -56,7 +56,7 @@ export function createOrUpdate(context: NetAppManagementContext, resourceGroupNa
 export function get(context: NetAppManagementContext, resourceGroupName: string, accountName: string, poolName: string, cacheName: string, options?: CachesGetOptionalParams): Promise<Cache>;
 
 // @public
-export function list(context: NetAppManagementContext, resourceGroupName: string, accountName: string, poolName: string, options?: CachesListOptionalParams): PagedAsyncIterableIterator<Cache>;
+export function listByCapacityPools(context: NetAppManagementContext, resourceGroupName: string, accountName: string, poolName: string, options?: CachesListByCapacityPoolsOptionalParams): PagedAsyncIterableIterator<Cache>;
 
 // @public
 export function listPeeringPassphrases(context: NetAppManagementContext, resourceGroupName: string, accountName: string, poolName: string, cacheName: string, options?: CachesListPeeringPassphrasesOptionalParams): Promise<PeeringPassphrases>;

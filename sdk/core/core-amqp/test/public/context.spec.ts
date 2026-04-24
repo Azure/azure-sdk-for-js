@@ -1,27 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert, expect, vi } from "vitest";
+import { describe, it, assert } from "vitest";
 import { CbsClient, ConnectionConfig, ConnectionContextBase, Constants } from "../../src/index.js";
 import { Connection } from "rhea-promise";
-import type { Session, Sender, AwaitableSender, Receiver } from "rhea-promise";
 import type { ConnectionOptions as TlsConnectionOptions } from "node:tls";
-
-const connectionString =
-  "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
-const path = "mypath";
-const defaultConnectionProperties = {
-  product: "MSJSClient",
-  userAgent: "/js-amqp-client",
-  version: "1.0.0",
-};
 
 describe("ConnectionContextBase", function () {
   it("should be created with required parameters", function () {
+    const connectionString =
+      "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
+    const path = "mypath";
     const config = ConnectionConfig.create(connectionString, path);
     const context = ConnectionContextBase.create({
       config: config,
-      connectionProperties: defaultConnectionProperties,
+      connectionProperties: {
+        product: "MSJSClient",
+        userAgent: "/js-amqp-client",
+        version: "1.0.0",
+      },
     });
     assert.isDefined(context.config);
     assert.isDefined(context.connection);
@@ -31,19 +28,24 @@ describe("ConnectionContextBase", function () {
     assert.isFalse(context.wasConnectionCloseCalled);
     assert.instanceOf(context.connection, Connection);
     assert.equal(context.connection.options.transport, "tls");
-    const properties = context.connection.options.properties;
-    assert.isDefined(properties);
-    assert.equal(properties.product, "MSJSClient");
-    assert.equal(properties["user-agent"], "/js-amqp-client");
-    assert.equal(properties.version, "1.0.0");
+    assert.equal(context.connection.options.properties!.product, "MSJSClient");
+    assert.equal(context.connection.options.properties!["user-agent"], "/js-amqp-client");
+    assert.equal(context.connection.options.properties!.version, "1.0.0");
     assert.instanceOf(context.cbsSession, CbsClient);
   });
 
   it("should set host and hostname to the same value by default", function () {
+    const connectionString =
+      "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
+    const path = "mypath";
     const config = ConnectionConfig.create(connectionString, path);
     const context = ConnectionContextBase.create({
       config: config,
-      connectionProperties: defaultConnectionProperties,
+      connectionProperties: {
+        product: "MSJSClient",
+        userAgent: "/js-amqp-client",
+        version: "1.0.0",
+      },
     });
     assert.isDefined(context.config);
     assert.isDefined(context.connection);
@@ -56,20 +58,25 @@ describe("ConnectionContextBase", function () {
     assert.equal(tlsConnectionOptions.host, "hostname.servicebus.windows.net");
     assert.isFalse(context.wasConnectionCloseCalled);
     assert.instanceOf(context.connection, Connection);
-    const properties = context.connection.options.properties;
-    assert.isDefined(properties);
-    assert.equal(properties.product, "MSJSClient");
-    assert.equal(properties["user-agent"], "/js-amqp-client");
-    assert.equal(properties.version, "1.0.0");
+    assert.equal(context.connection.options.properties!.product, "MSJSClient");
+    assert.equal(context.connection.options.properties!["user-agent"], "/js-amqp-client");
+    assert.equal(context.connection.options.properties!.version, "1.0.0");
     assert.instanceOf(context.cbsSession, CbsClient);
   });
 
   it("should allow setting host and hostname to different values", function () {
+    const connectionString =
+      "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
+    const path = "mypath";
     const config = ConnectionConfig.create(connectionString, path);
     config.amqpHostname = "127.0.0.1";
     const context = ConnectionContextBase.create({
       config: config,
-      connectionProperties: defaultConnectionProperties,
+      connectionProperties: {
+        product: "MSJSClient",
+        userAgent: "/js-amqp-client",
+        version: "1.0.0",
+      },
     });
     assert.isDefined(context.config);
     assert.isDefined(context.connection);
@@ -82,20 +89,25 @@ describe("ConnectionContextBase", function () {
     assert.equal(tlsConnectionOptions.host, "hostname.servicebus.windows.net");
     assert.isFalse(context.wasConnectionCloseCalled);
     assert.instanceOf(context.connection, Connection);
-    const properties = context.connection.options.properties;
-    assert.isDefined(properties);
-    assert.equal(properties.product, "MSJSClient");
-    assert.equal(properties["user-agent"], "/js-amqp-client");
-    assert.equal(properties.version, "1.0.0");
+    assert.equal(context.connection.options.properties!.product, "MSJSClient");
+    assert.equal(context.connection.options.properties!["user-agent"], "/js-amqp-client");
+    assert.equal(context.connection.options.properties!.version, "1.0.0");
     assert.instanceOf(context.cbsSession, CbsClient);
   });
 
   it("should allow specifying a port", function () {
+    const connectionString =
+      "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
+    const path = "mypath";
     const config = ConnectionConfig.create(connectionString, path);
     config.port = 1111;
     const context = ConnectionContextBase.create({
       config: config,
-      connectionProperties: defaultConnectionProperties,
+      connectionProperties: {
+        product: "MSJSClient",
+        userAgent: "/js-amqp-client",
+        version: "1.0.0",
+      },
     });
     assert.isDefined(context.config);
     assert.isDefined(context.connection);
@@ -107,19 +119,24 @@ describe("ConnectionContextBase", function () {
     assert.equal(tlsConnectionOptions.port, 1111);
     assert.isFalse(context.wasConnectionCloseCalled);
     assert.instanceOf(context.connection, Connection);
-    const properties = context.connection.options.properties;
-    assert.isDefined(properties);
-    assert.equal(properties.product, "MSJSClient");
-    assert.equal(properties["user-agent"], "/js-amqp-client");
-    assert.equal(properties.version, "1.0.0");
+    assert.equal(context.connection.options.properties!.product, "MSJSClient");
+    assert.equal(context.connection.options.properties!["user-agent"], "/js-amqp-client");
+    assert.equal(context.connection.options.properties!.version, "1.0.0");
     assert.instanceOf(context.cbsSession, CbsClient);
   });
 
   it("should have a default port (5671)", function () {
+    const connectionString =
+      "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
+    const path = "mypath";
     const config = ConnectionConfig.create(connectionString, path);
     const context = ConnectionContextBase.create({
       config: config,
-      connectionProperties: defaultConnectionProperties,
+      connectionProperties: {
+        product: "MSJSClient",
+        userAgent: "/js-amqp-client",
+        version: "1.0.0",
+      },
     });
     assert.isDefined(context.config);
     assert.isDefined(context.connection);
@@ -131,11 +148,9 @@ describe("ConnectionContextBase", function () {
     assert.equal(tlsConnectionOptions.port, 5671);
     assert.isFalse(context.wasConnectionCloseCalled);
     assert.instanceOf(context.connection, Connection);
-    const properties = context.connection.options.properties;
-    assert.isDefined(properties);
-    assert.equal(properties.product, "MSJSClient");
-    assert.equal(properties["user-agent"], "/js-amqp-client");
-    assert.equal(properties.version, "1.0.0");
+    assert.equal(context.connection.options.properties!.product, "MSJSClient");
+    assert.equal(context.connection.options.properties!["user-agent"], "/js-amqp-client");
+    assert.equal(context.connection.options.properties!.version, "1.0.0");
     assert.instanceOf(context.cbsSession, CbsClient);
   });
 
@@ -143,13 +158,20 @@ describe("ConnectionContextBase", function () {
     const websockets: any = () => {
       /** Empty function on purpose for the sake of mocking */
     };
+    const connectionString =
+      "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
+    const path = "mypath";
     const config = ConnectionConfig.create(connectionString, path);
     config.webSocket = websockets;
     config.amqpHostname = config.host;
     config.host = "127.0.0.1";
     const context = ConnectionContextBase.create({
       config: config,
-      connectionProperties: defaultConnectionProperties,
+      connectionProperties: {
+        product: "MSJSClient",
+        userAgent: "/js-amqp-client",
+        version: "1.0.0",
+      },
     });
     assert.isDefined(context.config);
     assert.isDefined(context.connection);
@@ -163,14 +185,10 @@ describe("ConnectionContextBase", function () {
     assert.equal(context.connection.options.hostname, "hostname.servicebus.windows.net");
     assert.isFalse(context.wasConnectionCloseCalled);
     assert.instanceOf(context.connection, Connection);
-    const properties = context.connection.options.properties;
-    assert.isDefined(properties);
-    assert.equal(properties.product, "MSJSClient");
-    assert.equal(properties["user-agent"], "/js-amqp-client");
-    assert.equal(properties.version, "1.0.0");
-    const webSocketOptions = context.connection.options.webSocketOptions;
-    assert.isDefined(webSocketOptions);
-    assert.equal(webSocketOptions.url, `wss://127.0.0.1:443/`);
+    assert.equal(context.connection.options.properties!.product, "MSJSClient");
+    assert.equal(context.connection.options.properties!["user-agent"], "/js-amqp-client");
+    assert.equal(context.connection.options.properties!.version, "1.0.0");
+    assert.equal(context.connection.options.webSocketOptions!.url, `wss://127.0.0.1:443/`);
     assert.instanceOf(context.cbsSession, CbsClient);
   });
 
@@ -178,11 +196,18 @@ describe("ConnectionContextBase", function () {
     const websockets: any = () => {
       /** Empty function on purpose for the sake of mocking */
     };
+    const connectionString =
+      "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
+    const path = "mypath";
     const config = ConnectionConfig.create(connectionString, path);
     config.webSocket = websockets;
     const context = ConnectionContextBase.create({
       config: config,
-      connectionProperties: defaultConnectionProperties,
+      connectionProperties: {
+        product: "MSJSClient",
+        userAgent: "/js-amqp-client",
+        version: "1.0.0",
+      },
     });
     assert.isDefined(context.config);
     assert.isDefined(context.connection);
@@ -191,14 +216,13 @@ describe("ConnectionContextBase", function () {
     assert.isDefined(context.negotiateClaimLock);
     assert.isFalse(context.wasConnectionCloseCalled);
     assert.instanceOf(context.connection, Connection);
-    const properties = context.connection.options.properties;
-    assert.isDefined(properties);
-    assert.equal(properties.product, "MSJSClient");
-    assert.equal(properties["user-agent"], "/js-amqp-client");
-    assert.equal(properties.version, "1.0.0");
-    const webSocketOptions = context.connection.options.webSocketOptions;
-    assert.isDefined(webSocketOptions);
-    assert.equal(webSocketOptions.url, `wss://hostname.servicebus.windows.net:443/`);
+    assert.equal(context.connection.options.properties!.product, "MSJSClient");
+    assert.equal(context.connection.options.properties!["user-agent"], "/js-amqp-client");
+    assert.equal(context.connection.options.properties!.version, "1.0.0");
+    assert.equal(
+      context.connection.options.webSocketOptions!.url,
+      `wss://hostname.servicebus.windows.net:443/`,
+    );
     assert.instanceOf(context.cbsSession, CbsClient);
   });
 
@@ -206,12 +230,19 @@ describe("ConnectionContextBase", function () {
     const websockets: any = () => {
       /** Empty function on purpose for the sake of mocking */
     };
+    const connectionString =
+      "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
+    const path = "mypath";
     const config = ConnectionConfig.create(connectionString, path);
     config.webSocket = websockets;
     config.port = 1111;
     const context = ConnectionContextBase.create({
       config: config,
-      connectionProperties: defaultConnectionProperties,
+      connectionProperties: {
+        product: "MSJSClient",
+        userAgent: "/js-amqp-client",
+        version: "1.0.0",
+      },
     });
     assert.isDefined(context.config);
     assert.isDefined(context.connection);
@@ -223,18 +254,20 @@ describe("ConnectionContextBase", function () {
     assert.equal(tlsConnectionOptions.port, 1111);
     assert.isFalse(context.wasConnectionCloseCalled);
     assert.instanceOf(context.connection, Connection);
-    const properties = context.connection.options.properties;
-    assert.isDefined(properties);
-    assert.equal(properties.product, "MSJSClient");
-    assert.equal(properties["user-agent"], "/js-amqp-client");
-    assert.equal(properties.version, "1.0.0");
-    const webSocketOptions = context.connection.options.webSocketOptions;
-    assert.isDefined(webSocketOptions);
-    assert.equal(webSocketOptions.url, `wss://hostname.servicebus.windows.net:1111/`);
+    assert.equal(context.connection.options.properties!.product, "MSJSClient");
+    assert.equal(context.connection.options.properties!["user-agent"], "/js-amqp-client");
+    assert.equal(context.connection.options.properties!.version, "1.0.0");
+    assert.equal(
+      context.connection.options.webSocketOptions!.url,
+      `wss://hostname.servicebus.windows.net:1111/`,
+    );
     assert.instanceOf(context.cbsSession, CbsClient);
   });
 
   it("Throws error if user-agent string length is greater than 512 characters", function () {
+    const connectionString =
+      "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
+    const path = "mypath";
     const config = ConnectionConfig.create(connectionString, path);
 
     const userAgentString = "user-agent-string".repeat(32);
@@ -252,12 +285,17 @@ describe("ConnectionContextBase", function () {
   });
 
   it("disables tls when connecting to the development emulator", async function () {
-    const emulatorConnectionString =
+    const connectionString =
       "Endpoint=sb://localhost;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep;UseDevelopmentEmulator=true";
-    const config = ConnectionConfig.create(emulatorConnectionString, path);
+    const path = "mypath";
+    const config = ConnectionConfig.create(connectionString, path);
     const context = ConnectionContextBase.create({
       config: config,
-      connectionProperties: defaultConnectionProperties,
+      connectionProperties: {
+        product: "MSJSClient",
+        userAgent: "/js-amqp-client",
+        version: "1.0.0",
+      },
     });
     assert.isDefined(context.connection);
     assert.instanceOf(context.connection, Connection);
@@ -267,10 +305,17 @@ describe("ConnectionContextBase", function () {
 
   describe("#refreshConnection", function () {
     it("should update fields on the context", function () {
+      const connectionString =
+        "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
+      const path = "mypath";
       const config = ConnectionConfig.create(connectionString, path);
       const context = ConnectionContextBase.create({
         config: config,
-        connectionProperties: defaultConnectionProperties,
+        connectionProperties: {
+          product: "MSJSClient",
+          userAgent: "/js-amqp-client",
+          version: "1.0.0",
+        },
       });
       // hold onto the refreshable values of the context
       // so we can be sure they change after the refresh call.
@@ -301,68 +346,5 @@ describe("ConnectionContextBase", function () {
         assert.notEqual(context[field], refreshableFields[field]);
       }
     });
-  });
-});
-
-describe("ConnectionContextBase - CoreAmqpConnection", () => {
-  it("createSender, createAwaitableSender, and createReceiver set maxListeners to 1000", async () => {
-    const config = ConnectionConfig.create(connectionString, "mypath");
-    const context = ConnectionContextBase.create({
-      config,
-      connectionProperties: defaultConnectionProperties,
-    });
-    const conn = context.connection;
-
-    // Mock the parent class methods
-    const mockSender = {
-      setMaxListeners: vi.fn(),
-    };
-    const mockAwaitableSender = {
-      setMaxListeners: vi.fn(),
-    };
-    const mockReceiver = {
-      setMaxListeners: vi.fn(),
-    };
-
-    const createSessionSpy = vi.spyOn(conn, "createSession").mockResolvedValue({
-      createSender: () => Promise.resolve(mockSender),
-      createAwaitableSender: () => Promise.resolve(mockAwaitableSender),
-      createReceiver: () => Promise.resolve(mockReceiver),
-    } as unknown as Session);
-
-    // Test createSender by calling the Connection's createSession then the session's createSender
-    // But CoreAmqpConnection overrides createSender directly on Connection
-    // We need to mock super.createSender, super.createAwaitableSender, super.createReceiver
-
-    // Use prototype chain to test
-    const rheaPromise = await import("rhea-promise");
-    const createSenderPrototypeSpy = vi
-      .spyOn(rheaPromise.Connection.prototype, "createSender")
-      .mockResolvedValue(mockSender as unknown as Sender);
-    const createAwaitableSenderPrototypeSpy = vi
-      .spyOn(rheaPromise.Connection.prototype, "createAwaitableSender")
-      .mockResolvedValue(mockAwaitableSender as unknown as AwaitableSender);
-    const createReceiverPrototypeSpy = vi
-      .spyOn(rheaPromise.Connection.prototype, "createReceiver")
-      .mockResolvedValue(mockReceiver as unknown as Receiver);
-
-    try {
-      await conn.createSender();
-      expect(mockSender.setMaxListeners).toHaveBeenCalled();
-      assert.equal(mockSender.setMaxListeners.mock.calls[0][0], 1000);
-
-      await conn.createAwaitableSender();
-      expect(mockAwaitableSender.setMaxListeners).toHaveBeenCalled();
-      assert.equal(mockAwaitableSender.setMaxListeners.mock.calls[0][0], 1000);
-
-      await conn.createReceiver();
-      expect(mockReceiver.setMaxListeners).toHaveBeenCalled();
-      assert.equal(mockReceiver.setMaxListeners.mock.calls[0][0], 1000);
-    } finally {
-      createReceiverPrototypeSpy.mockRestore();
-      createAwaitableSenderPrototypeSpy.mockRestore();
-      createSenderPrototypeSpy.mockRestore();
-      createSessionSpy.mockRestore();
-    }
   });
 });

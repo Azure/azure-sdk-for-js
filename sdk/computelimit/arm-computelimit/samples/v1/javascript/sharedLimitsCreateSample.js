@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to enables sharing of a compute limit by the host subscription with its guest subscriptions.
  *
  * @summary enables sharing of a compute limit by the host subscription with its guest subscriptions.
- * x-ms-original-file: 2026-04-30/SharedLimits_Create.json
+ * x-ms-original-file: 2026-03-20/SharedLimits_Create.json
  */
 async function createASharedLimit() {
   const credential = new DefaultAzureCredential();

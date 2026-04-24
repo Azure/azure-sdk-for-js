@@ -581,68 +581,10 @@ export function operationStatusResultArrayDeserializer(
   });
 }
 
-/** VM family resource representing a virtual machine family and its category. */
-export interface VmFamily extends ProxyResource {
-  /** The resource-specific properties for this resource. */
-  properties?: VmFamilyProperties;
-}
-
-export function vmFamilyDeserializer(item: any): VmFamily {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : vmFamilyPropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** Properties of a VM family resource. */
-export interface VmFamilyProperties {
-  /** The category of the VM family (for example, GeneralPurpose, ComputeOptimized). */
-  category?: string;
-  /** The provisioning state of the resource. */
-  readonly provisioningState?: ResourceProvisioningState;
-}
-
-export function vmFamilyPropertiesDeserializer(item: any): VmFamilyProperties {
-  return {
-    category: item["category"],
-    provisioningState: item["provisioningState"],
-  };
-}
-
-/** The response of a VmFamily list operation. */
-export interface _VmFamilyListResult {
-  /** The VmFamily items on this page */
-  value: VmFamily[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _vmFamilyListResultDeserializer(item: any): _VmFamilyListResult {
-  return {
-    value: vmFamilyArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function vmFamilyArrayDeserializer(result: Array<VmFamily>): any[] {
-  return result.map((item) => {
-    return vmFamilyDeserializer(item);
-  });
-}
-
 /** The available API versions. */
 export enum KnownVersions {
   /** The 2025-08-15 API version. */
   V20250815 = "2025-08-15",
   /** The 2026-03-20 API version. */
   V20260320 = "2026-03-20",
-  /** The 2026-04-30 API version. */
-  V20260430 = "2026-04-30",
 }

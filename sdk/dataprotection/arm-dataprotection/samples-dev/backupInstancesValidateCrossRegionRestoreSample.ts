@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to validates whether Cross Region Restore can be triggered for DataSource.
  *
  * @summary validates whether Cross Region Restore can be triggered for DataSource.
- * x-ms-original-file: 2026-03-01/CrossRegionRestore/ValidateCrossRegionRestore.json
+ * x-ms-original-file: 2025-07-01/CrossRegionRestore/ValidateCrossRegionRestore.json
  */
 async function validateCrossRegionRestore(): Promise<void> {
   const credential = new DefaultAzureCredential();

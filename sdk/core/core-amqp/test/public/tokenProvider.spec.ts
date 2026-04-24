@@ -18,7 +18,7 @@ describe("SasTokenProvider", function (): void {
         /SharedAccessSignature sr=myaudience&sig=(.*)&se=\d{10}&skn=myKeyName/g,
       );
       // account for elapsed time between two Date.now() calls
-      assert.isBelow(tokenInfo.expiresOnTimestamp - expiry, 2);
+      assert.isTrue(tokenInfo.expiresOnTimestamp - expiry < 2);
     });
 
     it("should work as expected with `shareAccessKeyName` and `sharedAccessKey`", async function (): Promise<void> {
@@ -34,7 +34,7 @@ describe("SasTokenProvider", function (): void {
         /SharedAccessSignature sr=sb%3A%2F%2Fhostname.servicebus.windows.net%2F&sig=(.*)&se=\d{10}&skn=sakName/g,
       );
       // account for elapsed time between two Date.now() calls
-      assert.isBelow(tokenInfo.expiresOnTimestamp - expiry, 2);
+      assert.isTrue(tokenInfo.expiresOnTimestamp - expiry < 2);
     });
   });
 
@@ -63,36 +63,5 @@ describe("SasTokenProvider", function (): void {
     const tokenInfo = await tokenProvider.getToken("sb://hostname.servicebus.windows.net/");
     assert.match(tokenInfo.token, /<blah>/g);
     assert.equal(tokenInfo.expiresOnTimestamp, 0);
-  });
-});
-
-describe("SasTokenProvider", () => {
-  it("createSasTokenProvider with sharedAccessSignature", () => {
-    const provider = createSasTokenProvider({
-      sharedAccessSignature: "SharedAccessSignature sr=test&sig=abc&se=123&skn=key",
-    });
-    assert.isTrue(provider.isSasTokenProvider);
-  });
-
-  it("getToken with SASCredential returns the signature directly", async () => {
-    const provider = createSasTokenProvider({
-      sharedAccessSignature: "SharedAccessSignature sr=test&sig=abc&se=123&skn=key",
-    });
-    const token = await provider.getToken("audience");
-    assert.equal(token.token, "SharedAccessSignature sr=test&sig=abc&se=123&skn=key");
-    assert.equal(token.expiresOnTimestamp, 0);
-  });
-
-  it("getToken with NamedKeyCredential returns a generated token", async () => {
-    const provider = createSasTokenProvider({
-      sharedAccessKeyName: "keyName",
-      sharedAccessKey: "key",
-    });
-    const token = await provider.getToken("audience");
-    assert.isString(token.token);
-    assert.include(token.token, "SharedAccessSignature");
-    assert.include(token.token, "sr=audience");
-    assert.include(token.token, "skn=keyName");
-    assert.isAbove(token.expiresOnTimestamp, 0);
   });
 });

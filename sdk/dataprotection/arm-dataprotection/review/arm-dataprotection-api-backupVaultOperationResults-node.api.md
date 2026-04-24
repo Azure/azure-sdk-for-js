@@ -12,7 +12,7 @@ export interface BackupVaultOperationResultsGetOptionalParams extends OperationO
 }
 
 // @public
-export function get(context: DataProtectionContext, resourceGroupName: string, vaultName: string, operationId: string, options?: BackupVaultOperationResultsGetOptionalParams): Promise<BackupVaultResource>;
+export function get(context: DataProtectionContext, resourceGroupName: string, vaultName: string, operationId: string, options?: BackupVaultOperationResultsGetOptionalParams): Promise<BackupVaultResource | null>;
 
 // (No @packageDocumentation comment for this package)
 

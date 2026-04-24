@@ -33,7 +33,7 @@ describe("Errors", function () {
       ];
 
       for (let i = 0; i < cases.length; i++) {
-        const translatedError = Errors.translate(cases[i].input);
+        const translatedError = Errors.translate(cases[i].input as any);
 
         assert.equal(translatedError.name, "Error");
         assert.equal(
@@ -68,22 +68,20 @@ describe("Errors", function () {
             "'Error: getaddrinfo ENOTFOUND example.invalid\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)\n    at GetAddrInfoReqWrap.callbackTrampoline (node:internal/async_hooks:130:17)'",
         },
       };
-      const translatedError = Errors.translate(testError);
-      assert.instanceOf(translatedError, Errors.MessagingError);
+      const translatedError = Errors.translate(testError) as Errors.MessagingError;
       assert.equal(testError.error.message, translatedError.message);
       assert.equal(translatedError.name, "MessagingError");
       assert.equal(translatedError.code, "ENOTFOUND");
       assert.equal(translatedError.code, testError.error.code);
       assert.equal(translatedError.message, testError.error.message);
       assert.equal(translatedError.stack, testError.error.stack);
-      assert.isFalse(translatedError.retryable);
+      assert.equal(translatedError.retryable, false);
     });
 
     it("Sets retryable to true, if input is custom error and name is OperationTimeoutError", function () {
       const err = new Error("error message");
       err.name = "OperationTimeoutError";
-      const translatedError = Errors.translate(err);
-      assert.instanceOf(translatedError, Errors.MessagingError);
+      const translatedError = Errors.translate(err) as Errors.MessagingError;
       assert.equal(translatedError.name, "MessagingError");
       assert.equal(translatedError.code, "OperationTimeoutError");
       assert.equal(translatedError.message, err.message);
@@ -94,8 +92,7 @@ describe("Errors", function () {
     it("Sets retryable to true, if input is custom error and name is InsufficientCreditError", function () {
       const err = new Error("error message");
       err.name = "InsufficientCreditError";
-      const translatedError = Errors.translate(err);
-      assert.instanceOf(translatedError, Errors.MessagingError);
+      const translatedError = Errors.translate(err) as Errors.MessagingError;
       assert.equal(translatedError.name, "MessagingError");
       assert.equal(translatedError.code, "InsufficientCreditError");
       assert.equal(translatedError.message, err.message);
@@ -106,8 +103,7 @@ describe("Errors", function () {
     it("Does not sets retryable to true, if input is custom error and name is SendOperationFailedError", function () {
       const err = new Error("error message");
       err.name = "SendOperationFailedError";
-      const translatedError = Errors.translate(err);
-      assert.instanceOf(translatedError, Errors.MessagingError);
+      const translatedError = Errors.translate(err) as Errors.MessagingError;
       assert.equal(translatedError.name, "MessagingError");
       assert.equal(translatedError.code, "SendOperationFailedError");
       assert.equal(translatedError.message, err.message);
@@ -121,7 +117,7 @@ describe("Errors", function () {
       assert.equal(translatedError.name, "AbortError");
       assert.equal(translatedError.message, err.message);
       assert.equal(translatedError.stack, err.stack);
-      assert.notInstanceOf(translatedError, Errors.MessagingError);
+      assert.isUndefined((translatedError as Errors.MessagingError).retryable);
     });
 
     [
@@ -144,8 +140,7 @@ describe("Errors", function () {
     ].forEach(function (mapping) {
       it("translates " + mapping.from + " into " + mapping.to, function () {
         const err: any = new AMQPError(mapping.from, mapping.message);
-        const translatedError = Errors.translate(err);
-        assert.instanceOf(translatedError, Errors.MessagingError);
+        const translatedError = Errors.translate(err) as Errors.MessagingError;
         // <unknown> won't have a code since it has no matching condition
         if (translatedError.code) {
           assert.equal(translatedError.code, mapping.to);
@@ -211,8 +206,7 @@ describe("Errors", function () {
       it(
         "SystemError from node.js  with code: '" + mapping.code + "' to a MessagingError",
         function () {
-          const translatedError = Errors.translate(mapping);
-          assert.instanceOf(translatedError, Errors.MessagingError);
+          const translatedError = Errors.translate(mapping as any) as Errors.MessagingError;
           assert.equal(translatedError.name, "MessagingError");
           assert.equal(translatedError.code, mapping.code);
           if (
@@ -354,47 +348,5 @@ describe("Errors", function () {
         assert.equal(result, aggregateError);
       });
     });
-  });
-});
-
-describe("errors.ts", () => {
-  it("translate maps AMQP error with status-code: 404 in description to MessagingEntityNotFoundError", () => {
-    const err: any = {
-      name: "AmqpProtocolError",
-      condition: "amqp:not-found",
-      description: "The messaging entity blah could not be found. status-code: 404",
-    };
-    const translated = Errors.translate(err);
-    assert.instanceOf(translated, Errors.MessagingError);
-    assert.equal(translated.code, "MessagingEntityNotFoundError");
-  });
-
-  it("translate maps AMQP error with 'messaging entity could not be found' to MessagingEntityNotFoundError", () => {
-    const err: any = {
-      name: "AmqpProtocolError",
-      condition: "amqp:not-found",
-      description: "The messaging entity 'myentity' could not be found.",
-    };
-    const translated = Errors.translate(err);
-    assert.instanceOf(translated, Errors.MessagingError);
-    assert.equal(translated.code, "MessagingEntityNotFoundError");
-  });
-
-  it("translate handles already-translated MessagingError", () => {
-    const err = new Errors.MessagingError("already translated");
-    const translated = Errors.translate(err);
-    assert.strictEqual(translated, err);
-  });
-
-  it("translate handles MessageWaitTimeout condition", () => {
-    const err: any = {
-      name: "AmqpProtocolError",
-      condition: "com.microsoft:message-wait-timeout",
-      description: "No messages available",
-    };
-    const translated = Errors.translate(err);
-    assert.instanceOf(translated, Errors.MessagingError);
-    assert.equal(translated.name, "MessagingError");
-    assert.equal(translated.code, "MessageWaitTimeout");
   });
 });

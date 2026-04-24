@@ -23,7 +23,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -31,7 +31,10 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
   });
 }
 
@@ -40,7 +43,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ex
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
-
     throw error;
   }
 
@@ -54,7 +56,7 @@ export async function get(
   vaultName: string,
   operationId: string,
   options: ExportJobsOperationResultGetOptionalParams = { requestOptions: {} },
-): Promise<ExportJobsResult> {
+): Promise<ExportJobsResult | null> {
   const result = await _getSend(context, resourceGroupName, vaultName, operationId, options);
   return _getDeserialize(result);
 }

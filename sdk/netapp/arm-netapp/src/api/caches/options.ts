@@ -19,7 +19,7 @@ export interface CachesPoolChangeOptionalParams extends OperationOptions {
 export interface CachesListPeeringPassphrasesOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface CachesListOptionalParams extends OperationOptions {}
+export interface CachesListByCapacityPoolsOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface CachesDeleteOptionalParams extends OperationOptions {

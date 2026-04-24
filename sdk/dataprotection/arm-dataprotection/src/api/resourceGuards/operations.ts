@@ -58,7 +58,7 @@ export function _listBackupSecurityPINRequestsObjectsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceGuardsName: resourceGuardsName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -66,7 +66,10 @@ export function _listBackupSecurityPINRequestsObjectsSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
   });
 }
 
@@ -77,7 +80,6 @@ export async function _listBackupSecurityPINRequestsObjectsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
-
     throw error;
   }
 
@@ -104,7 +106,7 @@ export function listBackupSecurityPINRequestsObjects(
       ),
     _listBackupSecurityPINRequestsObjectsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
@@ -124,7 +126,7 @@ export function _getDefaultBackupSecurityPINRequestsObjectSend(
       resourceGroupName: resourceGroupName,
       resourceGuardsName: resourceGuardsName,
       requestName: requestName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -132,7 +134,10 @@ export function _getDefaultBackupSecurityPINRequestsObjectSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
   });
 }
 
@@ -143,7 +148,6 @@ export async function _getDefaultBackupSecurityPINRequestsObjectDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
-
     throw error;
   }
 
@@ -184,7 +188,7 @@ export function _listDeleteProtectedItemRequestsObjectsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceGuardsName: resourceGuardsName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -192,7 +196,10 @@ export function _listDeleteProtectedItemRequestsObjectsSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
   });
 }
 
@@ -203,7 +210,6 @@ export async function _listDeleteProtectedItemRequestsObjectsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
-
     throw error;
   }
 
@@ -230,7 +236,7 @@ export function listDeleteProtectedItemRequestsObjects(
       ),
     _listDeleteProtectedItemRequestsObjectsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
@@ -250,7 +256,7 @@ export function _getDefaultDeleteProtectedItemRequestsObjectSend(
       resourceGroupName: resourceGroupName,
       resourceGuardsName: resourceGuardsName,
       requestName: requestName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -258,7 +264,10 @@ export function _getDefaultDeleteProtectedItemRequestsObjectSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
   });
 }
 
@@ -269,7 +278,6 @@ export async function _getDefaultDeleteProtectedItemRequestsObjectDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
-
     throw error;
   }
 
@@ -310,7 +318,7 @@ export function _listUpdateProtectionPolicyRequestsObjectsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceGuardsName: resourceGuardsName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -318,7 +326,10 @@ export function _listUpdateProtectionPolicyRequestsObjectsSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
   });
 }
 
@@ -329,7 +340,6 @@ export async function _listUpdateProtectionPolicyRequestsObjectsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
-
     throw error;
   }
 
@@ -356,7 +366,7 @@ export function listUpdateProtectionPolicyRequestsObjects(
       ),
     _listUpdateProtectionPolicyRequestsObjectsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
@@ -376,7 +386,7 @@ export function _getDefaultUpdateProtectionPolicyRequestsObjectSend(
       resourceGroupName: resourceGroupName,
       resourceGuardsName: resourceGuardsName,
       requestName: requestName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -384,7 +394,10 @@ export function _getDefaultUpdateProtectionPolicyRequestsObjectSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
   });
 }
 
@@ -395,7 +408,6 @@ export async function _getDefaultUpdateProtectionPolicyRequestsObjectDeserialize
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
-
     throw error;
   }
 
@@ -436,7 +448,7 @@ export function _listUpdateProtectedItemRequestsObjectsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceGuardsName: resourceGuardsName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -444,7 +456,10 @@ export function _listUpdateProtectedItemRequestsObjectsSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
   });
 }
 
@@ -455,7 +470,6 @@ export async function _listUpdateProtectedItemRequestsObjectsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
-
     throw error;
   }
 
@@ -482,7 +496,7 @@ export function listUpdateProtectedItemRequestsObjects(
       ),
     _listUpdateProtectedItemRequestsObjectsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
@@ -502,7 +516,7 @@ export function _getDefaultUpdateProtectedItemRequestsObjectSend(
       resourceGroupName: resourceGroupName,
       resourceGuardsName: resourceGuardsName,
       requestName: requestName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -510,7 +524,10 @@ export function _getDefaultUpdateProtectedItemRequestsObjectSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
   });
 }
 
@@ -521,7 +538,6 @@ export async function _getDefaultUpdateProtectedItemRequestsObjectDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
-
     throw error;
   }
 
@@ -562,7 +578,7 @@ export function _listDisableSoftDeleteRequestsObjectsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceGuardsName: resourceGuardsName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -570,7 +586,10 @@ export function _listDisableSoftDeleteRequestsObjectsSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
   });
 }
 
@@ -581,7 +600,6 @@ export async function _listDisableSoftDeleteRequestsObjectsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
-
     throw error;
   }
 
@@ -608,7 +626,7 @@ export function listDisableSoftDeleteRequestsObjects(
       ),
     _listDisableSoftDeleteRequestsObjectsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
@@ -628,7 +646,7 @@ export function _getDefaultDisableSoftDeleteRequestsObjectSend(
       resourceGroupName: resourceGroupName,
       resourceGuardsName: resourceGuardsName,
       requestName: requestName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -636,7 +654,10 @@ export function _getDefaultDisableSoftDeleteRequestsObjectSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
   });
 }
 
@@ -647,7 +668,6 @@ export async function _getDefaultDisableSoftDeleteRequestsObjectDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
-
     throw error;
   }
 
@@ -676,13 +696,15 @@ export async function getDefaultDisableSoftDeleteRequestsObject(
 
 export function _listResourcesInSubscriptionSend(
   context: Client,
-  options: ResourceGuardsListResourcesInSubscriptionOptionalParams = { requestOptions: {} },
+  options: ResourceGuardsListResourcesInSubscriptionOptionalParams = {
+    requestOptions: {},
+  },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Microsoft.DataProtection/resourceGuards{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -690,7 +712,10 @@ export function _listResourcesInSubscriptionSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
   });
 }
 
@@ -701,7 +726,6 @@ export async function _listResourcesInSubscriptionDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
-
     throw error;
   }
 
@@ -711,28 +735,32 @@ export async function _listResourcesInSubscriptionDeserialize(
 /** Returns ResourceGuards collection belonging to a subscription. */
 export function listResourcesInSubscription(
   context: Client,
-  options: ResourceGuardsListResourcesInSubscriptionOptionalParams = { requestOptions: {} },
+  options: ResourceGuardsListResourcesInSubscriptionOptionalParams = {
+    requestOptions: {},
+  },
 ): PagedAsyncIterableIterator<ResourceGuardResource> {
   return buildPagedAsyncIterator(
     context,
     () => _listResourcesInSubscriptionSend(context, options),
     _listResourcesInSubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
 export function _listResourcesInResourceGroupSend(
   context: Client,
   resourceGroupName: string,
-  options: ResourceGuardsListResourcesInResourceGroupOptionalParams = { requestOptions: {} },
+  options: ResourceGuardsListResourcesInResourceGroupOptionalParams = {
+    requestOptions: {},
+  },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -740,7 +768,10 @@ export function _listResourcesInResourceGroupSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
   });
 }
 
@@ -751,7 +782,6 @@ export async function _listResourcesInResourceGroupDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
-
     throw error;
   }
 
@@ -762,14 +792,16 @@ export async function _listResourcesInResourceGroupDeserialize(
 export function listResourcesInResourceGroup(
   context: Client,
   resourceGroupName: string,
-  options: ResourceGuardsListResourcesInResourceGroupOptionalParams = { requestOptions: {} },
+  options: ResourceGuardsListResourcesInResourceGroupOptionalParams = {
+    requestOptions: {},
+  },
 ): PagedAsyncIterableIterator<ResourceGuardResource> {
   return buildPagedAsyncIterator(
     context,
     () => _listResourcesInResourceGroupSend(context, resourceGroupName, options),
     _listResourcesInResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
@@ -785,7 +817,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceGuardsName: resourceGuardsName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -799,7 +831,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
-
     throw error;
   }
 
@@ -835,7 +866,7 @@ export function _patchSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceGuardsName: resourceGuardsName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -844,7 +875,10 @@ export function _patchSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
     body: patchResourceGuardInputSerializer(parameters),
   });
 }
@@ -856,7 +890,6 @@ export async function _patchDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
-
     throw error;
   }
 
@@ -894,7 +927,7 @@ export function _putSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceGuardsName: resourceGuardsName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -903,7 +936,10 @@ export function _putSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
     body: resourceGuardResourceSerializer(parameters),
   });
 }
@@ -915,7 +951,6 @@ export async function _putDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
-
     throw error;
   }
 
@@ -952,7 +987,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceGuardsName: resourceGuardsName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -960,7 +995,10 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
   });
 }
 
@@ -971,7 +1009,6 @@ export async function _getDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
-
     throw error;
   }
 
@@ -1003,7 +1040,7 @@ export function _listDeleteResourceGuardProxyRequestsObjectsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceGuardsName: resourceGuardsName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1011,7 +1048,10 @@ export function _listDeleteResourceGuardProxyRequestsObjectsSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
   });
 }
 
@@ -1022,7 +1062,6 @@ export async function _listDeleteResourceGuardProxyRequestsObjectsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
-
     throw error;
   }
 
@@ -1049,7 +1088,7 @@ export function listDeleteResourceGuardProxyRequestsObjects(
       ),
     _listDeleteResourceGuardProxyRequestsObjectsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
@@ -1069,7 +1108,7 @@ export function _getDefaultDeleteResourceGuardProxyRequestsObjectSend(
       resourceGroupName: resourceGroupName,
       resourceGuardsName: resourceGuardsName,
       requestName: requestName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1077,7 +1116,10 @@ export function _getDefaultDeleteResourceGuardProxyRequestsObjectSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
   });
 }
 
@@ -1088,7 +1130,6 @@ export async function _getDefaultDeleteResourceGuardProxyRequestsObjectDeseriali
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
-
     throw error;
   }
 

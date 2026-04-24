@@ -4,7 +4,6 @@ exports:
   "./package.json": "./package.json"
   ".": "./src/index.ts"
   "./api": "./src/api/index.ts"
-  "./api/vmFamilies": "src/api/vmFamilies/index.ts"
   "./api/features": "src/api/features/index.ts"
   "./api/sharedLimits": "src/api/sharedLimits/index.ts"
   "./api/guestSubscriptions": "src/api/guestSubscriptions/index.ts"

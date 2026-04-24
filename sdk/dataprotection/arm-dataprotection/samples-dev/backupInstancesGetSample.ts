@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a backup instance with name in a backup vault
  *
  * @summary gets a backup instance with name in a backup vault
- * x-ms-original-file: 2026-03-01/BackupInstanceOperations/GetBackupInstance.json
+ * x-ms-original-file: 2025-07-01/BackupInstanceOperations/GetBackupInstance.json
  */
 async function getBackupInstance(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,21 +26,7 @@ async function getBackupInstance(): Promise<void> {
  * This sample demonstrates how to gets a backup instance with name in a backup vault
  *
  * @summary gets a backup instance with name in a backup vault
- * x-ms-original-file: 2026-03-01/BackupInstanceOperations/GetBackupInstance_ADLSBlobBackupAutoProtection.json
- */
-async function getBackupInstanceWithAdlsBlobBackupAutoProtection(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const subscriptionId = "54707983-993e-43de-8d94-074451394eda";
-  const client = new DataProtectionClient(credential, subscriptionId);
-  const result = await client.backupInstances.get("adlsrg", "adlsvault", "adlsbackupinstance");
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to gets a backup instance with name in a backup vault
- *
- * @summary gets a backup instance with name in a backup vault
- * x-ms-original-file: 2026-03-01/BackupInstanceOperations/GetBackupInstance_ADLSBlobBackupDatasourceParameters.json
+ * x-ms-original-file: 2025-07-01/BackupInstanceOperations/GetBackupInstance_ADLSBlobBackupDatasourceParameters.json
  */
 async function getBackupInstanceForAdlsBlob(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -50,25 +36,9 @@ async function getBackupInstanceForAdlsBlob(): Promise<void> {
   console.log(result);
 }
 
-/**
- * This sample demonstrates how to gets a backup instance with name in a backup vault
- *
- * @summary gets a backup instance with name in a backup vault
- * x-ms-original-file: 2026-03-01/BackupInstanceOperations/GetBackupInstance_BlobBackupAutoProtection.json
- */
-async function getBackupInstanceWithBlobBackupAutoProtection(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const subscriptionId = "54707983-993e-43de-8d94-074451394eda";
-  const client = new DataProtectionClient(credential, subscriptionId);
-  const result = await client.backupInstances.get("blobrg", "blobvault", "blobbackupinstance");
-  console.log(result);
-}
-
 async function main(): Promise<void> {
   await getBackupInstance();
-  await getBackupInstanceWithAdlsBlobBackupAutoProtection();
   await getBackupInstanceForAdlsBlob();
-  await getBackupInstanceWithBlobBackupAutoProtection();
 }
 
 main().catch(console.error);

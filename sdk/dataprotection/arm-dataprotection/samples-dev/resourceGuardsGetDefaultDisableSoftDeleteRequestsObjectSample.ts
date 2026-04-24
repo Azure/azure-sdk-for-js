@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns collection of operation request objects for a critical operation protected by the given ResourceGuard resource.
  *
  * @summary returns collection of operation request objects for a critical operation protected by the given ResourceGuard resource.
- * x-ms-original-file: 2026-03-01/ResourceGuardCRUD/GetDefaultDisableSoftDeleteRequests.json
+ * x-ms-original-file: 2025-07-01/ResourceGuardCRUD/GetDefaultDisableSoftDeleteRequests.json
  */
 async function getDefaultOperationsRequestObject(): Promise<void> {
   const credential = new DefaultAzureCredential();

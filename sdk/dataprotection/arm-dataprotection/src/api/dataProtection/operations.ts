@@ -20,14 +20,16 @@ export function _checkFeatureSupportSend(
   context: Client,
   location: string,
   parameters: FeatureValidationRequestBaseUnion,
-  options: DataProtectionCheckFeatureSupportOptionalParams = { requestOptions: {} },
+  options: DataProtectionCheckFeatureSupportOptionalParams = {
+    requestOptions: {},
+  },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Microsoft.DataProtection/locations/{location}/checkFeatureSupport{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -36,7 +38,10 @@ export function _checkFeatureSupportSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
     body: featureValidationRequestBaseUnionSerializer(parameters),
   });
 }
@@ -48,7 +53,6 @@ export async function _checkFeatureSupportDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
-
     throw error;
   }
 
@@ -60,7 +64,9 @@ export async function checkFeatureSupport(
   context: Client,
   location: string,
   parameters: FeatureValidationRequestBaseUnion,
-  options: DataProtectionCheckFeatureSupportOptionalParams = { requestOptions: {} },
+  options: DataProtectionCheckFeatureSupportOptionalParams = {
+    requestOptions: {},
+  },
 ): Promise<FeatureValidationResponseBaseUnion> {
   const result = await _checkFeatureSupportSend(context, location, parameters, options);
   return _checkFeatureSupportDeserialize(result);

@@ -28,7 +28,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe.skip("DataProtection test", () => {
+describe("DataProtection test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: DataProtectionClient;
