@@ -118,6 +118,7 @@ function getContentType(body: any): string | undefined {
 
 export interface InternalRequestParameters extends RequestParameters {
   responseAsStream?: boolean;
+  tracingOptions?: unknown;
 }
 
 function buildPipelineRequest(
@@ -136,7 +137,7 @@ function buildPipelineRequest(
     }),
   });
 
-  return createPipelineRequest({
+  const request = createPipelineRequest({
     url,
     method,
     body,
@@ -152,6 +153,10 @@ function buildPipelineRequest(
       ? new Set([Number.POSITIVE_INFINITY])
       : undefined,
   });
+
+  return options.tracingOptions
+    ? { ...request, ...{ tracingOptions: options.tracingOptions } }
+    : request;
 }
 
 interface RequestBody {
