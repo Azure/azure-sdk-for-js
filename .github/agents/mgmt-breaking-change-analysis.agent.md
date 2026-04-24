@@ -68,7 +68,7 @@ Externalize intermediate results as you go -- do not carry implicit assumptions.
 
 ## Cascade Detection Checklist
 
-For **every** "new signature" entry, you MUST perform and explicitly document ALL of these checks:
+For **every** "new signature" or model-level entry, you MUST perform and explicitly document ALL of these checks:
 
 1. Check direct parameter changes (added, removed, type changed, reordered)
 2. Check options property changes (added, removed, type changed, optionality changed)

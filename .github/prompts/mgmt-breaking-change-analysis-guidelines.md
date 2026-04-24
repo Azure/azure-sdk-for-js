@@ -107,9 +107,9 @@ Layer D (SDK api-view)                 -- from review/*.api.md files in old/new 
    - If `"behind"` or `"diverged"` -> the commit is NOT on main (from an unmerged spec PR)
 2. **If merged to main**: The TypeSpec conversion PR is already merged. Find the base commit automatically:
    - Get the TypeSpec project directory from the SDK's `tsp-location.yaml` (`directory` field)
-   - Use git log on the specs repo to find when `.tsp` files first appeared in that directory. Note: GitHub commits API returns newest-first, so paginate to find the **oldest** commit:
+   - Use git log on the specs repo to find when `.tsp` files first appeared in that directory. Note: GitHub commits API returns newest-first, so paginate to find the **oldest** commit. **Important**: `--paginate` with `--jq` applies the jq filter per page, so `.[-1]` gives the last item of each page, not the global last. Instead, collect all SHAs and take the last:
      ```
-     gh api "repos/Azure/azure-rest-api-specs/commits?path=TYPESPEC_DIR/main.tsp&sha=main&per_page=100" --paginate --jq '.[-1].sha'
+     gh api "repos/Azure/azure-rest-api-specs/commits?path=TYPESPEC_DIR/main.tsp&sha=main&per_page=100" --paginate --jq '.[].sha' | Select-Object -Last 1
      ```
    - This returns the first commit that added `.tsp` files. Get its parent as the base commit:
      ```
@@ -171,14 +171,14 @@ Investigate breaking changes in this order -- model-level entries first, signatu
 2. **Model-level changes** -- `Interface X no longer has parameter Y`, `Type of parameter Y is changed`, `Parameter Y is now optional`, `Removed Interface X`, `Removed Type Alias X`, `Type alias X has been changed`
 3. **Operation signature changes** (`Operation X has a new signature`) -- investigate LAST, after all model-level entries are classified
 
-This order ensures that `broken_models` (see Step 1.5) is fully populated before analyzing signature changes, making cascade detection reliable.
+This order ensures that `broken_models` (see Step 2) is fully populated before analyzing signature changes, making cascade detection reliable.
 
 **Sub-ordering within model-level changes**: Cascade detection applies to model-level entries too, not just "new signature" entries. A model-level entry can cascade from another model-level entry (e.g., a union alias change cascading from a discriminator base type change). To handle this:
 - Investigate **leaf types first** -- types whose breaking change does not depend on another broken type (e.g., discriminator base type changes, direct property removals)
 - Then investigate **dependent types** -- types that reference broken types in their definition (e.g., `Type alias "BackupPolicyUnion" has been changed` when `BackupPolicy.type` already has a discriminator change)
 - After classifying each model-level entry, add it to `broken_models` immediately so subsequent entries can detect cascades from it
 
-### Step 1: Understand the Actual SDK Change
+### Step 1: Understand the Actual SDK Change (all entry types)
 
 Compare the **old and new** main `review/arm-xxx-node.api.md` file to see exactly what changed in the public API surface. Ignore the per-operation-group child files (`*-api-*-node.api.md`, `*-models-node.api.md`).
 
@@ -187,10 +187,10 @@ Key principles:
 - **Naming changes alone are NOT breaking causes.** If a type was renamed (e.g., `XxxResponse` -> `XxxModel`) but the structure is identical, that is not what caused "a new signature". Look deeper.
 - **Response wrapper removal is NOT a breaking cause if the inner model is structurally identical.** For example, if `DatabaseAdvisorsGetResponse` is just a type alias for `Advisor` and the `Advisor` model has the same properties in both old and new SDKs, then removing the response wrapper is cosmetic -- not a real structural breaking change. Always compare the actual model structures, not just the type names.
 - **Options interface renaming is NOT a breaking cause for "new signature".** If `XxxOptionalParams` was renamed to `XxxOptions` but the properties are identical, this does not cause a structural signature change. Only report options changes when properties are actually added, removed, or changed (e.g., `resumeFrom` removed from LRO options).
-- **Breaking changes cascade through nested type references.** A model change causes breaking entries for the model itself AND for every operation/model that references it, even indirectly. Every "new signature" entry **MUST** go through the full investigation checklist in Step 1.5 (direct parameter changes, options changes, cascade detection) before being attributed to emitter or cosmetic differences.
+- **Breaking changes cascade through nested type references.** A model change causes breaking entries for the model itself AND for every operation/model that references it, even indirectly. Every "new signature" entry **MUST** go through the full investigation checklist in Step 2 (direct parameter changes, options changes, cascade detection) before being attributed to emitter or cosmetic differences.
 - **Discriminator chains are a known cascade pattern.** A discriminator type change ripples through union aliases to all operations using them.
 
-### Step 1.5: Investigate "New Signature" Entries
+### Step 2: Investigate "New Signature" Entries
 
 "New signature" entries can have multiple independent causes. Investigate them LAST (after all model-level entries are classified) and check the following causes **in order**:
 
@@ -312,7 +312,7 @@ Only after ruling out Causes 1-3, attribute the signature change to emitter diff
 
 These are cosmetic -- note them as such in the report.
 
-### Step 2: Trace Through Swagger/TypeSpec Layers
+### Step 3: Trace Through Swagger/TypeSpec Layers
 
 Once you understand WHAT changed, trace WHY by checking the spec layers to classify each cause:
 
@@ -325,12 +325,12 @@ Things to watch for:
 - Discriminator/union changes may need tracing through `.tsp` files
 - A single "new signature" entry may have causes at different layers -- trace each structural difference independently
 
-### Step 3: Verify
+### Step 4: Verify
 
 Do NOT skip verification. Each root cause must be supported by actual evidence from the layer diffs. Confirm Type 1 claims against swagger diffs, Type 2 claims against TypeSpec/emitter output.
 
 **Cascade verification (mandatory for "new signature" entries):**
-- For every "new signature" entry classified as Type 2, confirm that NO model in its type dependency chain (from Step 1.5) has a Type 1 breaking change. If it does, reclassify the entry as **Type 1 cascading**.
+- For every "new signature" entry classified as Type 2, confirm that NO model in its type dependency chain (from Step 2) has a Type 1 breaking change. If it does, reclassify the entry as **Type 1 cascading**.
 - Do NOT attribute a "new signature" to emitter/cosmetic differences (options rename, response wrapper removal) if the operation's parameter or return types contain a model with a CHANGELOG breaking change. The cascade is the real root cause.
 
 **For "new signature" entries classified as Type 2:** Always verify by comparing the full old and new signatures side by side in the api.md. Check:
@@ -366,8 +366,10 @@ After sub-agents return, review for consistency and link cascading entries.
 After root cause classification is complete, match Type 2 entries against architect-approved patterns. Type 1 entries (API version upgrades) are not covered by the patterns file.
 
 - For each Type 2 root cause, compare against the numbered patterns in [mgmt-breaking-change-patterns.md](mgmt-breaking-change-patterns.md)
-- For each Type 2 entry, record whether it matches a specific pattern or has no match
-- Pre-fill the Accepted column with :white_check_mark: only for exact pattern matches
+- For each Type 2 entry, explicitly state one of:
+  - "Matches pattern N: [pattern name]" (if exact match)
+  - "No match in approved patterns" (if no exact match)
+- For Accepted column rules, see the Type 2 section in the Report Template below
 
 Do NOT consult patterns before completing independent investigation in Phase 3.
 
