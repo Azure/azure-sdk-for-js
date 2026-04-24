@@ -278,16 +278,41 @@ public static class TypeScriptFormatter
         "Request", "Response", "URL", "URLSearchParams",
     ];
 
+    /// <summary>Well-known Node.js global types that require @types/node.</summary>
+    private static readonly string[] NodeGlobalTypes =
+    [
+        "Buffer", "ReadStream", "WriteStream",
+    ];
+
     private static string GenerateTsconfig(bool hasNodeDependency, Dictionary<string, List<string>>? ambientTypes, string? targetCondition = null, string? dtsContent = null)
     {
         // Use graph-based IsNode flag; also check ambient types for node globals
         var needsNodeTypes = hasNodeDependency
             || (ambientTypes?.TryGetValue("node", out var nodeTypes) == true && nodeTypes.Count > 0);
 
-        // Non-node targets never need node types
+        // Non-node targets never need node types — unless the rendered API
+        // actually references Node.js-only globals (e.g. Buffer) in type positions.
+        // In that case the library genuinely exposes Node types across all conditions,
+        // so we still add @types/node to avoid compilation failures.
         bool isNonNode = targetCondition is not null && IsNonNodeTarget(targetCondition);
         if (isNonNode)
+        {
             needsNodeTypes = false;
+            if (dtsContent is not null)
+            {
+                // Strip comments to avoid false positives (e.g. "Buffer is not available")
+                var codeOnly = System.Text.RegularExpressions.Regex.Replace(dtsContent, @"//[^\n]*|/\*[\s\S]*?\*/", " ");
+                foreach (var typeName in NodeGlobalTypes)
+                {
+                    // Match as a whole word in type positions
+                    if (System.Text.RegularExpressions.Regex.IsMatch(codeOnly, @"(?<![a-zA-Z0-9_])" + typeName + @"(?![a-zA-Z0-9_])"))
+                    {
+                        needsNodeTypes = true;
+                        break;
+                    }
+                }
+            }
+        }
 
         // Include DOM lib when ambient types include DOM globals.
         // Fallback: scan rendered content for common DOM type names when ambientTypes
@@ -319,8 +344,14 @@ public static class TypeScriptFormatter
         sb.AppendLine("  \"compilerOptions\": {");
         sb.AppendLine("    \"noEmit\": true,");
 
+        var types = new List<string>();
         if (needsNodeTypes)
-            sb.AppendLine("    \"types\": [\"node\"],");
+            types.Add("node");
+        if (string.Equals(targetCondition, "react-native", StringComparison.OrdinalIgnoreCase))
+            types.Add("react-native");
+
+        if (needsNodeTypes)
+            sb.AppendLine($"    \"types\": [{string.Join(", ", types.Select(t => $"\"{t}\""))}],");
         else if (string.Equals(targetCondition, "react-native", StringComparison.OrdinalIgnoreCase))
             sb.AppendLine("    \"types\": [\"react-native\"],");
         else
