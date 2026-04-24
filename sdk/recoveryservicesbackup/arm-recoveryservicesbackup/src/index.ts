@@ -19,7 +19,6 @@ export type {
   ErrorResponse,
   ArmErrorDetail,
   ErrorAdditionalInfo,
-  OkResponse,
   TriggerDataMoveRequest,
   OperationStatus,
   OperationStatusValues,
@@ -47,6 +46,7 @@ export type {
   StorageTypeState,
   DedupState,
   XcoolState,
+  ProxyResource,
   Resource,
   SystemData,
   CreatedByType,
@@ -592,7 +592,7 @@ export type {
   RecoveryPointsGetOptionalParams,
 } from "./api/recoveryPoints/index.js";
 export type { RecoveryPointsRecommendedForMoveListOptionalParams } from "./api/recoveryPointsRecommendedForMove/index.js";
-export type { ResourceGuardProxiesListOptionalParams } from "./api/resourceGuardProxies/index.js";
+export type { ResourceGuardProxiesGetOptionalParams } from "./api/resourceGuardProxies/index.js";
 export type {
   ResourceGuardProxyUnlockDeleteOptionalParams,
   ResourceGuardProxyDeleteOptionalParams,

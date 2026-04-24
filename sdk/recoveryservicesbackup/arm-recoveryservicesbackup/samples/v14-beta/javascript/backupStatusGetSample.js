@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get the container backup status
  *
  * @summary get the container backup status
- * x-ms-original-file: 2026-01-01-preview/AzureIaasVm/GetBackupStatus.json
+ * x-ms-original-file: 2026-01-31-preview/AzureIaasVm/GetBackupStatus.json
  */
 async function getAzureVirtualMachineBackupStatus() {
   const credential = new DefaultAzureCredential();

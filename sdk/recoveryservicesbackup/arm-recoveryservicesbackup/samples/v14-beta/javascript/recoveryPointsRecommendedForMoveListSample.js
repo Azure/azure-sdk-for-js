@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists the recovery points recommended for move to another tier
  *
  * @summary lists the recovery points recommended for move to another tier
- * x-ms-original-file: 2026-01-01-preview/AzureIaasVm/RecoveryPointsRecommendedForMove_List.json
+ * x-ms-original-file: 2026-01-31-preview/AzureIaasVm/RecoveryPointsRecommendedForMove_List.json
  */
 async function getProtectedAzureVmRecoveryPointsRecommendedForMove() {
   const credential = new DefaultAzureCredential();

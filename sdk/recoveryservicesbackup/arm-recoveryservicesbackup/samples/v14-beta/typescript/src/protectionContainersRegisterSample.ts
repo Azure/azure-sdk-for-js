@@ -12,7 +12,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary registers the container with Recovery Services vault.
  * This is an asynchronous operation. To track the operation status, use location header to call get latest status of
  * the operation.
- * x-ms-original-file: 2026-01-01-preview/AzureStorage/ProtectionContainers_Register.json
+ * x-ms-original-file: 2026-01-31-preview/AzureStorage/ProtectionContainers_Register.json
  */
 async function registerAzureStorageProtectionContainers(): Promise<void> {
   const credential = new DefaultAzureCredential();

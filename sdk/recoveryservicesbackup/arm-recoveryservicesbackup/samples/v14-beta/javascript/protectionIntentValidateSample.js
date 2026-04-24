@@ -14,7 +14,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * 1. Vault capacity
  * 2. VM is already protected
  * 3. Any VM related configuration passed in properties.
- * x-ms-original-file: 2026-01-01-preview/AzureIaasVm/ProtectionIntent_Validate.json
+ * x-ms-original-file: 2026-01-31-preview/AzureIaasVm/ProtectionIntent_Validate.json
  */
 async function validateEnableProtectionOnAzureVm() {
   const credential = new DefaultAzureCredential();

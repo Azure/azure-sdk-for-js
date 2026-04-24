@@ -124,7 +124,6 @@ import type { ValidateOperationStatusesOperations } from "./classic/validateOper
 import { _getValidateOperationStatusesOperations } from "./classic/validateOperationStatuses/index.js";
 import type {
   PrepareDataMoveRequest,
-  OkResponse,
   TriggerDataMoveRequest,
   OperationStatus,
   MoveRPAcrossTiersRequest,
@@ -333,7 +332,7 @@ export class RecoveryServicesBackupClient {
     resourceGroupName: string,
     parameters: TriggerDataMoveRequest,
     options: BMSTriggerDataMoveOptionalParams = { requestOptions: {} },
-  ): PollerLike<OperationState<OkResponse>, OkResponse> {
+  ): PollerLike<OperationState<void>, void> {
     return bmsTriggerDataMove(this._client, vaultName, resourceGroupName, parameters, options);
   }
 
@@ -343,7 +342,7 @@ export class RecoveryServicesBackupClient {
     resourceGroupName: string,
     parameters: TriggerDataMoveRequest,
     options: BMSTriggerDataMoveOptionalParams = { requestOptions: {} },
-  ): Promise<SimplePollerLike<OperationState<OkResponse>, OkResponse>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const poller = bmsTriggerDataMove(
       this._client,
       vaultName,
@@ -361,7 +360,7 @@ export class RecoveryServicesBackupClient {
     resourceGroupName: string,
     parameters: TriggerDataMoveRequest,
     options: BMSTriggerDataMoveOptionalParams = { requestOptions: {} },
-  ): Promise<OkResponse> {
+  ): Promise<void> {
     return await bmsTriggerDataMove(
       this._client,
       vaultName,
@@ -377,7 +376,7 @@ export class RecoveryServicesBackupClient {
     resourceGroupName: string,
     parameters: PrepareDataMoveRequest,
     options: BMSPrepareDataMoveOptionalParams = { requestOptions: {} },
-  ): PollerLike<OperationState<OkResponse>, OkResponse> {
+  ): PollerLike<OperationState<void>, void> {
     return bmsPrepareDataMove(this._client, vaultName, resourceGroupName, parameters, options);
   }
 
@@ -387,7 +386,7 @@ export class RecoveryServicesBackupClient {
     resourceGroupName: string,
     parameters: PrepareDataMoveRequest,
     options: BMSPrepareDataMoveOptionalParams = { requestOptions: {} },
-  ): Promise<SimplePollerLike<OperationState<OkResponse>, OkResponse>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const poller = bmsPrepareDataMove(
       this._client,
       vaultName,
@@ -405,7 +404,7 @@ export class RecoveryServicesBackupClient {
     resourceGroupName: string,
     parameters: PrepareDataMoveRequest,
     options: BMSPrepareDataMoveOptionalParams = { requestOptions: {} },
-  ): Promise<OkResponse> {
+  ): Promise<void> {
     return await bmsPrepareDataMove(
       this._client,
       vaultName,

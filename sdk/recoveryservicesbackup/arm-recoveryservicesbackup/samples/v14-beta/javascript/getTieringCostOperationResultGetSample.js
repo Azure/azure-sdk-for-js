@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the result of async operation for tiering cost
  *
  * @summary gets the result of async operation for tiering cost
- * x-ms-original-file: 2026-01-01-preview/TieringCost/GetTieringCostOperationResult.json
+ * x-ms-original-file: 2026-01-31-preview/TieringCost/GetTieringCostOperationResult.json
  */
 async function fetchTieringCostOperationResult() {
   const credential = new DefaultAzureCredential();

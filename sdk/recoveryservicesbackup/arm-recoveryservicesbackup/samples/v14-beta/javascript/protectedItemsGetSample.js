@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  *
  * @summary provides the details of the backed up item. This is an asynchronous operation. To know the status of the operation,
  * call the GetItemOperationResult API.
- * x-ms-original-file: 2026-01-01-preview/AzureIaasVm/ClassicCompute_ProtectedItem_Get.json
+ * x-ms-original-file: 2026-01-31-preview/AzureIaasVm/ClassicCompute_ProtectedItem_Get.json
  */
 async function getProtectedClassicVirtualMachineDetails() {
   const credential = new DefaultAzureCredential();
@@ -32,7 +32,7 @@ async function getProtectedClassicVirtualMachineDetails() {
  *
  * @summary provides the details of the backed up item. This is an asynchronous operation. To know the status of the operation,
  * call the GetItemOperationResult API.
- * x-ms-original-file: 2026-01-01-preview/AzureIaasVm/Compute_ProtectedItem_Get.json
+ * x-ms-original-file: 2026-01-31-preview/AzureIaasVm/Compute_ProtectedItem_Get.json
  */
 async function getProtectedVirtualMachineDetails() {
   const credential = new DefaultAzureCredential();

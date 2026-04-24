@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  *
  * @summary enables backup of an item or to modifies the backup policy information of an already backed up item. This is an
  * asynchronous operation. To know the status of the operation, call the GetItemOperationResult API.
- * x-ms-original-file: 2026-01-01-preview/AzureIaasVm/ConfigureProtection.json
+ * x-ms-original-file: 2026-01-31-preview/AzureIaasVm/ConfigureProtection.json
  */
 async function enableProtectionOnAzureIaasVm(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -41,7 +41,7 @@ async function enableProtectionOnAzureIaasVm(): Promise<void> {
  *
  * @summary enables backup of an item or to modifies the backup policy information of an already backed up item. This is an
  * asynchronous operation. To know the status of the operation, call the GetItemOperationResult API.
- * x-ms-original-file: 2026-01-01-preview/AzureIaasVm/StopProtection.json
+ * x-ms-original-file: 2026-01-31-preview/AzureIaasVm/StopProtection.json
  */
 async function stopProtectionWithRetainDataOnAzureIaasVm(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -29,11 +29,6 @@ export interface ProtectionIntentOperations {
     options?: ProtectionIntentValidateOptionalParams,
   ) => Promise<PreValidateEnableBackupResponse>;
   /** Used to remove intent from an item */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     vaultName: string,
     resourceGroupName: string,
