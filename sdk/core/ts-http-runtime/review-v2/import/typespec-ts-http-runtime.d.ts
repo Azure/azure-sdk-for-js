@@ -1442,6 +1442,12 @@ declare module "@typespec/ts-http-runtime" { // 0.3.6
     export function createRestError(message: string, response: PathUncheckedResponse): RestError;
 
 
+    // Reachable via: RetryPolicyOptions → TypeSpecRuntimeLogger
+    // Reachable via: RetryStrategy → TypeSpecRuntimeLogger
+    /** Immediately enables logging at the specified log level. If no level is specified, logging is disabled. */
+    export const TypeSpecRuntimeLogger: TypeSpecRuntimeClientLogger;
+
+
 }
 
 declare module "@typespec/ts-http-runtime/internal/logger" { // 0.3.6
@@ -1603,6 +1609,61 @@ declare module "@typespec/ts-http-runtime/internal/policies" { // 0.3.6
     export function userAgentPolicy(options?: UserAgentPolicyOptions): PipelinePolicy;
 
 
+    /** Name of the Agent Policy */
+    export const agentPolicyName: "agentPolicy";
+
+
+    /** The programmatic identifier of the decompressResponsePolicy. */
+    export const decompressResponsePolicyName: "decompressResponsePolicy";
+
+
+    /** /**
+     * Name of the {@link defaultRetryPolicy} */
+    export const defaultRetryPolicyName: "defaultRetryPolicy";
+
+
+    /** The programmatic identifier of the exponentialRetryPolicy. */
+    export const exponentialRetryPolicyName: "exponentialRetryPolicy";
+
+
+    /** The programmatic identifier of the formDataPolicy. */
+    export const formDataPolicyName: "formDataPolicy";
+
+
+    /** /**
+     * Name of the {@link systemErrorRetryPolicy} */
+    export const systemErrorRetryPolicyName: "systemErrorRetryPolicy";
+
+
+    /** /**
+     * Name of the {@link throttlingRetryPolicy} */
+    export const throttlingRetryPolicyName: "throttlingRetryPolicy";
+
+
+    /** The programmatic identifier of the logPolicy. */
+    export const logPolicyName: "logPolicy";
+
+
+    /** Name of multipart policy */
+    export const multipartPolicyName: "multipartPolicy";
+
+
+    /** The programmatic identifier of the proxyPolicy. */
+    export const proxyPolicyName: "proxyPolicy";
+
+
+    /** The programmatic identifier of the redirectPolicy. */
+    export const redirectPolicyName: "redirectPolicy";
+
+
+    /** Name of the TLS Policy */
+    export const tlsPolicyName: "tlsPolicy";
+
+
+    /** The programmatic identifier of the userAgentPolicy. */
+    export const userAgentPolicyName: "userAgentPolicy";
+
+
 }
 
 declare module "@typespec/ts-http-runtime/internal/util" { // 0.3.6
@@ -1665,6 +1726,34 @@ declare module "@typespec/ts-http-runtime/internal/util" { // 0.3.6
     export function randomUUID(): string;
 
 
+    /** A constant that indicates whether the environment the code is running is a Web Browser. */
+    export const isBrowser: boolean;
+
+
+    /** A constant that indicates whether the environment the code is running is a Web Worker. */
+    export const isWebWorker: boolean;
+
+
+    /** A constant that indicates whether the environment the code is running is Deno. */
+    export const isDeno: boolean;
+
+
+    /** A constant that indicates whether the environment the code is running is Bun.sh. */
+    export const isBun: boolean;
+
+
+    /** A constant that indicates whether the environment the code is running is a Node.js compatible environment. */
+    export const isNodeLike: boolean;
+
+
+    /** A constant that indicates whether the environment the code is running is Node.JS. */
+    export const isNodeRuntime: boolean;
+
+
+    /** A constant that indicates whether the environment the code is running is in React-Native. */
+    export const isReactNative: boolean;
+
+
 }
 
-// ... truncated (127 items omitted)
+// ... truncated (106 items omitted)
