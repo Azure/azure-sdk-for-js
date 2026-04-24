@@ -22,6 +22,9 @@ export function list(context: AzureStackHCIContext, resourceGroupName: string, c
 export function post(context: AzureStackHCIContext, resourceGroupName: string, clusterName: string, updateName: string, options?: UpdatesPostOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
+export function prepare(context: AzureStackHCIContext, resourceGroupName: string, clusterName: string, updateName: string, options?: UpdatesPrepareOptionalParams): PollerLike<OperationState<void>, void>;
+
+// @public
 export function put(context: AzureStackHCIContext, resourceGroupName: string, clusterName: string, updateName: string, updateProperties: Update, options?: UpdatesPutOptionalParams): Promise<Update>;
 
 // @public
@@ -39,6 +42,11 @@ export interface UpdatesListOptionalParams extends OperationOptions {
 
 // @public
 export interface UpdatesPostOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface UpdatesPrepareOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 

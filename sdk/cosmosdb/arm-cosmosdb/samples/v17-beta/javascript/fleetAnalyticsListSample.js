@@ -3,30 +3,27 @@
 
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Lists all the FleetAnalytics under a fleet.
+ * This sample demonstrates how to lists all the FleetAnalytics under a fleet.
  *
- * @summary Lists all the FleetAnalytics under a fleet.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/fleet/CosmosDBFleetAnalyticsList.json
+ * @summary lists all the FleetAnalytics under a fleet.
+ * x-ms-original-file: 2025-11-01-preview/fleet/CosmosDBFleetAnalyticsList.json
  */
-async function cosmosDbFleetAnalyticsList() {
-  const subscriptionId =
-    process.env["COSMOSDB_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const fleetName = "fleet1";
+async function cosmosDBFleetAnalyticsList() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.fleetAnalytics.list(resourceGroupName, fleetName)) {
+  for await (const item of client.fleetAnalytics.list("rg1", "fleet1")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main() {
-  await cosmosDbFleetAnalyticsList();
+  await cosmosDBFleetAnalyticsList();
 }
 
 main().catch(console.error);

@@ -1,41 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  ThroughputPoolUpdate,
-  ThroughputPoolUpdateOptionalParams} from "@azure/arm-cosmosdb";
-import {
-  CosmosDBManagementClient,
-} from "@azure/arm-cosmosdb";
+import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Updates the properties of an existing Azure Cosmos DB Throughput Pool.
+ * This sample demonstrates how to updates the properties of an existing Azure Cosmos DB Throughput Pool.
  *
- * @summary Updates the properties of an existing Azure Cosmos DB Throughput Pool.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/throughputPool/CosmosDBThroughputPoolUpdate.json
+ * @summary updates the properties of an existing Azure Cosmos DB Throughput Pool.
+ * x-ms-original-file: 2025-11-01-preview/throughputPool/CosmosDBThroughputPoolUpdate.json
  */
-async function cosmosDbThroughputPoolUpdate(): Promise<void> {
-  const subscriptionId =
-    process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const throughputPoolName = "tp1";
-  const body: ThroughputPoolUpdate = { maxThroughput: 10000 };
-  const options: ThroughputPoolUpdateOptionalParams = { body };
+async function cosmosDBThroughputPoolUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.throughputPool.beginUpdateAndWait(
-    resourceGroupName,
-    throughputPoolName,
-    options,
-  );
+  const result = await client.throughputPool.update("rg1", "tp1", {
+    body: { maxThroughput: 10000 },
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await cosmosDbThroughputPoolUpdate();
+  await cosmosDBThroughputPoolUpdate();
 }
 
 main().catch(console.error);

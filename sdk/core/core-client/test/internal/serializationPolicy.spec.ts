@@ -1,11 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert } from "vitest";
-import { MapperTypeNames, createSerializer } from "../../src/index.js";
+import { describe, it, assert, expect, vi } from "vitest";
+import type { CompositeMapper, OperationRequest, SequenceMapper } from "../../src/index.js";
+import {
+  MapperTypeNames,
+  ServiceClient,
+  createSerializer,
+  serializationPolicy,
+} from "../../src/index.js";
 import { serializeHeaders, serializeRequestBody } from "../../src/serializationPolicy.js";
 import { Mappers } from "../testMappers1.js";
-import { createPipelineRequest } from "@azure/core-rest-pipeline";
+import {
+  createEmptyPipeline,
+  createHttpHeaders,
+  createPipelineRequest,
+} from "@azure/core-rest-pipeline";
 import { stringifyXML } from "@azure/core-xml";
 
 describe("serializationPolicy", function () {
@@ -234,7 +244,7 @@ describe("serializationPolicy", function () {
       assert.strictEqual(httpRequest.body, "body value");
     });
 
-    it("should serialize a JSON Stream request body", () => {
+    it("should serialize a JSON Stream request body with XML namespace", () => {
       const httpRequest = createPipelineRequest({ url: "https://example.com" });
       serializeRequestBody(
         httpRequest,
@@ -562,7 +572,7 @@ describe("serializationPolicy", function () {
           serializer: createSerializer(),
         },
       );
-      assert.deepEqual(httpRequest.body, JSON.stringify(["Foo", "Bar"]));
+      assert.strictEqual(httpRequest.body, JSON.stringify(["Foo", "Bar"]));
     });
 
     it("should serialize an XML Dictionary request body", () => {
@@ -683,7 +693,7 @@ describe("serializationPolicy", function () {
         },
         stringifyXML,
       );
-      assert.deepEqual(httpRequest.body, `{"alpha":"hello","beta":"world"}`);
+      assert.strictEqual(httpRequest.body, `{"alpha":"hello","beta":"world"}`);
     });
 
     it("should serialize an XML request body with custom xml char key", () => {
@@ -841,3 +851,560 @@ describe("serializationPolicy", function () {
 function stringToByteArray(str: string): Uint8Array {
   return new TextEncoder().encode(str);
 }
+
+describe("serializationPolicy", () => {
+  it("should serialize formData parameters", async () => {
+    let capturedRequest: OperationRequest | undefined;
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(serializationPolicy(), { phase: "Serialize" });
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) => {
+          capturedRequest = req;
+          return Promise.resolve({
+            request: req,
+            status: 200,
+            headers: createHttpHeaders(),
+          });
+        },
+      },
+      pipeline,
+    });
+
+    await client.sendOperationRequest(
+      { file: "fileContent" },
+      {
+        httpMethod: "POST",
+        baseUrl: "https://example.com",
+        serializer: createSerializer(),
+        formDataParameters: [
+          {
+            parameterPath: "file",
+            mapper: {
+              serializedName: "file",
+              type: { name: "String" },
+            },
+          },
+        ],
+        responses: { 200: {} },
+      },
+    );
+
+    assert.exists(capturedRequest);
+    assert.deepStrictEqual(capturedRequest?.formData, { file: "fileContent" });
+  });
+
+  it("should handle text/plain content type without JSON stringifying", async () => {
+    let capturedRequest: OperationRequest | undefined;
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(serializationPolicy(), { phase: "Serialize" });
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) => {
+          capturedRequest = req;
+          return Promise.resolve({
+            request: req,
+            status: 200,
+            headers: createHttpHeaders(),
+          });
+        },
+      },
+      pipeline,
+    });
+
+    await client.sendOperationRequest(
+      { body: "plain text content" },
+      {
+        httpMethod: "POST",
+        baseUrl: "https://example.com",
+        contentType: "text/plain",
+        mediaType: "text",
+        serializer: createSerializer(),
+        requestBody: {
+          parameterPath: "body",
+          mapper: {
+            serializedName: "body",
+            type: { name: "String" },
+          },
+        },
+        responses: { 200: {} },
+      },
+    );
+
+    assert.exists(capturedRequest);
+    assert.strictEqual(capturedRequest?.body, "plain text content");
+  });
+});
+
+describe("serializationPolicy - XML serialization", () => {
+  it("should throw XML serialization unsupported when no stringifyXML provided", async () => {
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(serializationPolicy(), { phase: "Serialize" });
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) =>
+          Promise.resolve({ request: req, status: 200, headers: createHttpHeaders() }),
+      },
+      pipeline,
+    });
+
+    await expect(
+      client.sendOperationRequest(
+        { body: { name: "test" } },
+        {
+          httpMethod: "POST",
+          baseUrl: "https://example.com",
+          isXML: true,
+          contentType: "application/xml",
+          serializer: createSerializer({}, true),
+          requestBody: {
+            parameterPath: "body",
+            mapper: {
+              serializedName: "body",
+              xmlName: "TestBody",
+              type: {
+                name: "Composite",
+                modelProperties: {
+                  name: { serializedName: "name", xmlName: "name", type: { name: "String" } },
+                },
+              },
+            } satisfies CompositeMapper,
+          },
+          responses: { 200: {} },
+        },
+      ),
+    ).rejects.toThrow(/XML serialization unsupported/);
+  });
+
+  it("should serialize XML Sequence with stringifyXML", async () => {
+    let capturedRequest: OperationRequest | undefined;
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(serializationPolicy({ stringifyXML: (obj) => JSON.stringify(obj) }), {
+      phase: "Serialize",
+    });
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) => {
+          capturedRequest = req;
+          return Promise.resolve({ request: req, status: 200, headers: createHttpHeaders() });
+        },
+      },
+      pipeline,
+    });
+
+    await client.sendOperationRequest(
+      { body: ["item1", "item2"] },
+      {
+        httpMethod: "POST",
+        baseUrl: "https://example.com",
+        isXML: true,
+        contentType: "application/xml",
+        serializer: createSerializer({}, true),
+        requestBody: {
+          parameterPath: "body",
+          mapper: {
+            serializedName: "Items",
+            xmlName: "Items",
+            xmlElementName: "Item",
+            type: {
+              name: "Sequence",
+              element: { type: { name: "String" } },
+            },
+          } satisfies SequenceMapper,
+        },
+        responses: { 200: {} },
+      },
+    );
+
+    assert.exists(capturedRequest);
+    const body = capturedRequest!.body as string;
+    assert.strictEqual(body, JSON.stringify({ Item: ["item1", "item2"] }));
+  });
+
+  it("should serialize XML Sequence with xmlNamespace", async () => {
+    let capturedRequest: OperationRequest | undefined;
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(serializationPolicy({ stringifyXML: (obj) => JSON.stringify(obj) }), {
+      phase: "Serialize",
+    });
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) => {
+          capturedRequest = req;
+          return Promise.resolve({ request: req, status: 200, headers: createHttpHeaders() });
+        },
+      },
+      pipeline,
+    });
+
+    await client.sendOperationRequest(
+      { body: ["item1"] },
+      {
+        httpMethod: "POST",
+        baseUrl: "https://example.com",
+        isXML: true,
+        contentType: "application/xml",
+        serializer: createSerializer({}, true),
+        requestBody: {
+          parameterPath: "body",
+          mapper: {
+            serializedName: "Items",
+            xmlName: "Items",
+            xmlElementName: "Item",
+            xmlNamespace: "http://example.com",
+            xmlNamespacePrefix: "ex",
+            type: {
+              name: "Sequence",
+              element: { type: { name: "String" } },
+            },
+          } satisfies SequenceMapper,
+        },
+        responses: { 200: {} },
+      },
+    );
+
+    assert.exists(capturedRequest);
+    const body = capturedRequest!.body as string;
+    assert.strictEqual(
+      body,
+      JSON.stringify({ Item: ["item1"], $: { "xmlns:ex": "http://example.com" } }),
+    );
+  });
+
+  it("should serialize XML with xmlNamespace on non-Composite/Sequence/Dictionary type", async () => {
+    let capturedRequest: OperationRequest | undefined;
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(serializationPolicy({ stringifyXML: (obj) => JSON.stringify(obj) }), {
+      phase: "Serialize",
+    });
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) => {
+          capturedRequest = req;
+          return Promise.resolve({ request: req, status: 200, headers: createHttpHeaders() });
+        },
+      },
+      pipeline,
+    });
+
+    await client.sendOperationRequest(
+      { body: "stringValue" },
+      {
+        httpMethod: "POST",
+        baseUrl: "https://example.com",
+        isXML: true,
+        contentType: "application/xml",
+        serializer: createSerializer({}, true),
+        requestBody: {
+          parameterPath: "body",
+          mapper: {
+            serializedName: "Value",
+            xmlName: "Value",
+            xmlNamespace: "http://example.com",
+            type: { name: "String" },
+          },
+        },
+        responses: { 200: {} },
+      },
+    );
+
+    assert.exists(capturedRequest);
+    const body = capturedRequest!.body as string;
+    assert.strictEqual(
+      body,
+      JSON.stringify({ _: "stringValue", $: { xmlns: "http://example.com" } }),
+    );
+  });
+
+  it("should handle serialization error in request body", async () => {
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(serializationPolicy(), { phase: "Serialize" });
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) =>
+          Promise.resolve({ request: req, status: 200, headers: createHttpHeaders() }),
+      },
+      pipeline,
+    });
+
+    await expect(
+      client.sendOperationRequest(
+        { body: "not a number" },
+        {
+          httpMethod: "POST",
+          baseUrl: "https://example.com",
+          serializer: createSerializer(),
+          requestBody: {
+            parameterPath: "body",
+            mapper: {
+              serializedName: "body",
+              required: true,
+              type: { name: "Number" },
+            },
+          },
+          responses: { 200: {} },
+        },
+      ),
+    ).rejects.toThrow(/occurred in serializing the payload/);
+  });
+
+  it("should handle nullable body being null", async () => {
+    let capturedRequest: OperationRequest | undefined;
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(serializationPolicy(), { phase: "Serialize" });
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) => {
+          capturedRequest = req;
+          return Promise.resolve({ request: req, status: 200, headers: createHttpHeaders() });
+        },
+      },
+      pipeline,
+    });
+
+    await client.sendOperationRequest(
+      { body: null },
+      {
+        httpMethod: "POST",
+        baseUrl: "https://example.com",
+        serializer: createSerializer(),
+        requestBody: {
+          parameterPath: "body",
+          mapper: {
+            serializedName: "body",
+            nullable: true,
+            type: { name: "String" },
+          },
+        },
+        responses: { 200: {} },
+      },
+    );
+
+    assert.exists(capturedRequest);
+    assert.strictEqual(capturedRequest?.body, "null");
+  });
+
+  it("should serialize Stream body without JSON.stringify in non-XML", async () => {
+    const streamBody = { pipe: vi.fn(), on: vi.fn() } as unknown as NodeJS.ReadableStream;
+    let capturedRequest: OperationRequest | undefined;
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(serializationPolicy(), { phase: "Serialize" });
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) => {
+          capturedRequest = req;
+          return Promise.resolve({ request: req, status: 200, headers: createHttpHeaders() });
+        },
+      },
+      pipeline,
+    });
+
+    await client.sendOperationRequest(
+      { body: streamBody },
+      {
+        httpMethod: "POST",
+        baseUrl: "https://example.com",
+        serializer: createSerializer(),
+        requestBody: {
+          parameterPath: "body",
+          mapper: {
+            serializedName: "body",
+            type: { name: "Stream" },
+          },
+        },
+        responses: { 200: {} },
+      },
+    );
+
+    assert.exists(capturedRequest);
+    assert.strictEqual(capturedRequest?.body, streamBody);
+  });
+});
+
+describe("serializationPolicy - prepareXMLRootList non-array", () => {
+  it("should serialize XML Sequence without namespace (prepareXMLRootList no-namespace path)", async () => {
+    let capturedRequest: OperationRequest | undefined;
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(
+      serializationPolicy({
+        stringifyXML: (obj) => JSON.stringify(obj),
+      }),
+      { phase: "Serialize" },
+    );
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) => {
+          capturedRequest = req;
+          return Promise.resolve({ request: req, status: 200, headers: createHttpHeaders() });
+        },
+      },
+      pipeline,
+    });
+
+    // Sequence without xmlNamespace to hit the !xmlNamespaceKey || !xmlNamespace path in prepareXMLRootList
+    await client.sendOperationRequest(
+      { body: ["item1", "item2"] },
+      {
+        httpMethod: "POST",
+        baseUrl: "https://example.com",
+        isXML: true,
+        contentType: "application/xml",
+        serializer: createSerializer({}, true),
+        requestBody: {
+          parameterPath: "body",
+          mapper: {
+            serializedName: "Items",
+            xmlName: "Items",
+            xmlElementName: "Item",
+            // No xmlNamespace
+            type: {
+              name: "Sequence",
+              element: { type: { name: "String" } },
+            },
+          } satisfies SequenceMapper,
+        },
+        responses: { 200: {} },
+      },
+    );
+
+    assert.isDefined(capturedRequest, "Expected request to be captured");
+    const parsed = JSON.parse(capturedRequest.body as string);
+    assert.isArray(parsed.Item);
+  });
+
+  it("should wrap non-array value in prepareXMLRootList when body is null", async () => {
+    let capturedRequest: OperationRequest | undefined;
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(
+      serializationPolicy({
+        stringifyXML: (obj) => JSON.stringify(obj),
+      }),
+      { phase: "Serialize" },
+    );
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) => {
+          capturedRequest = req;
+          return Promise.resolve({ request: req, status: 200, headers: createHttpHeaders() });
+        },
+      },
+      pipeline,
+    });
+
+    // nullable Sequence with null body: serializer returns null (not an array),
+    // which reaches prepareXMLRootList and triggers the !Array.isArray(obj) branch
+    await client.sendOperationRequest(
+      { body: null },
+      {
+        httpMethod: "POST",
+        baseUrl: "https://example.com",
+        isXML: true,
+        contentType: "application/xml",
+        serializer: createSerializer({}, true),
+        requestBody: {
+          parameterPath: "body",
+          mapper: {
+            serializedName: "Items",
+            xmlName: "Items",
+            xmlElementName: "Item",
+            nullable: true,
+            type: {
+              name: "Sequence",
+              element: { type: { name: "String" } },
+            },
+          } satisfies SequenceMapper,
+        },
+        responses: { 200: {} },
+      },
+    );
+
+    assert.isDefined(capturedRequest, "Expected request to be captured");
+    const parsed = JSON.parse(capturedRequest.body as string);
+    // null was wrapped into [null] by prepareXMLRootList
+    assert.isArray(parsed.Item);
+    assert.strictEqual(parsed.Item.length, 1);
+    assert.isNull(parsed.Item[0]);
+  });
+});
+
+describe("serializationPolicy - XML Stream body should not be stringified", () => {
+  it("should pass stream through in XML mode", async () => {
+    const streamBody = { pipe: vi.fn(), on: vi.fn() } as unknown as NodeJS.ReadableStream;
+    let capturedRequest: OperationRequest | undefined;
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(
+      serializationPolicy({
+        stringifyXML: (obj) => JSON.stringify(obj),
+      }),
+      { phase: "Serialize" },
+    );
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) => {
+          capturedRequest = req;
+          return Promise.resolve({ request: req, status: 200, headers: createHttpHeaders() });
+        },
+      },
+      pipeline,
+    });
+
+    await client.sendOperationRequest(
+      { body: streamBody },
+      {
+        httpMethod: "POST",
+        baseUrl: "https://example.com",
+        isXML: true,
+        contentType: "application/xml",
+        serializer: createSerializer({}, true),
+        requestBody: {
+          parameterPath: "body",
+          mapper: {
+            serializedName: "body",
+            type: { name: "Stream" },
+          },
+        },
+        responses: { 200: {} },
+      },
+    );
+
+    assert.exists(capturedRequest);
+    // Stream should not be stringified
+    assert.strictEqual(capturedRequest?.body, streamBody);
+  });
+});
+
+describe("serializationPolicy - custom headers via requestOptions", () => {
+  it("should apply custom headers from requestOptions", async () => {
+    let capturedRequest: OperationRequest | undefined;
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(serializationPolicy(), { phase: "Serialize" });
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) => {
+          capturedRequest = req;
+          return Promise.resolve({ request: req, status: 200, headers: createHttpHeaders() });
+        },
+      },
+      pipeline,
+    });
+
+    await client.sendOperationRequest(
+      {
+        options: {
+          requestOptions: {
+            customHeaders: { "X-Custom": "myValue" },
+          },
+        },
+      },
+      {
+        httpMethod: "GET",
+        baseUrl: "https://example.com",
+        serializer: createSerializer(),
+        responses: { 200: {} },
+      },
+    );
+
+    assert.exists(capturedRequest);
+    assert.strictEqual(capturedRequest?.headers.get("X-Custom"), "myValue");
+  });
+});
