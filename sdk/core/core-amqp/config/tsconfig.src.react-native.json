@@ -1,0 +1,9 @@
+{
+  "extends": "../../../../eng/tsconfigs/src.react-native.json",
+  "compilerOptions": {
+    // rhea's .d.ts files contain `/// <reference types="node" />` directives,
+    // which pull in @types/node globals that conflict with react-native globals.
+    "skipLibCheck": true
+  },
+  "include": ["../src/index.ts"]
+}

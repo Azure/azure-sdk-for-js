@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { checkNetworkConnection } from "../../../src/util/checkNetworkConnection.common.js";
+import { checkNetworkConnection } from "../../../src/util/checkNetworkConnection-web.mjs";
 
 describe("checkNetworkConnection (browser)", function () {
   it("returns a boolean reflecting navigator.onLine", async function () {

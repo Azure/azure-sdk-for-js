@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.react-native.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/core-amqp": ["../src/index.ts"],
+      "@azure/core-amqp/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

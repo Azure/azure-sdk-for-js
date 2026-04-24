@@ -6,5 +6,7 @@
  * @internal
  */
 export function checkNetworkConnection(_host: string): Promise<boolean> {
-  return Promise.resolve(self.navigator.onLine);
+  return Promise.resolve(
+    (globalThis as typeof globalThis & { navigator: { onLine: boolean } }).navigator.onLine,
+  );
 }

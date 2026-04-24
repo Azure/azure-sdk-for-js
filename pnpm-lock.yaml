@@ -8039,9 +8039,6 @@ importers:
         specifier: ^0.12.5
         version: 0.12.5
     devDependencies:
-      '@azure-tools/vite-plugin-browser-test-map':
-        specifier: workspace:^
-        version: link:../../../common/tools/vite-plugin-browser-test-map
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
