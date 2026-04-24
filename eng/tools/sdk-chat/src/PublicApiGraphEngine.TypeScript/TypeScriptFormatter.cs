@@ -2015,8 +2015,8 @@ public static class TypeScriptFormatter
             }
         }
 
-        // For per-target simple path: save main content and emit deps first, then main module.
-        // This matches the old WrapInDeclareModules ordering: dep modules precede the main module.
+        // For per-target simple path: emit main module first, then dependencies.
+        // The main library is the primary focus — dependencies follow as supporting context.
         string? pendingMainContent = null;
         Dictionary<string, string>? mainVersionLookup = null;
         if (mainSb != sb)
@@ -2025,6 +2025,35 @@ public static class TypeScriptFormatter
             mainVersionLookup = new Dictionary<string, string>(StringComparer.Ordinal);
             if (index.Version != null)
                 mainVersionLookup[index.Package] = index.Version;
+        }
+
+        // Flush the main module content (per-target simple path) before deps
+        if (pendingMainContent is not null && pendingMainContent.Length > 0 && mainVersionLookup is not null)
+        {
+            sb.AppendLine();
+            sb.AppendLine(AnnotateModuleLine($"declare module \"{index.Package}\" {{", index.Package, mainVersionLookup));
+
+            // Emit Node.js import references per module (mirrors the sectioned path)
+            foreach (var (nodeModule, nodeTypes) in nodeImports)
+                sb.AppendLine($"    import type {{ {string.Join(", ", nodeTypes)} }} from \"{nodeModule}\";");
+            if (nodeImports.Count > 0)
+                sb.AppendLine();
+
+            // Indent each line, stripping redundant 'declare' modifier (TS1038)
+            foreach (var line in pendingMainContent.TrimEnd('\r', '\n').Split('\n'))
+            {
+                var trimmed = line.TrimEnd('\r');
+                if (string.IsNullOrWhiteSpace(trimmed))
+                    sb.AppendLine();
+                else
+                {
+                    if (trimmed.StartsWith("export declare ", StringComparison.Ordinal))
+                        trimmed = string.Concat("export ", trimmed.AsSpan("export declare ".Length));
+                    sb.AppendLine("    " + trimmed);
+                }
+            }
+
+            sb.AppendLine("}");
         }
 
         // Fallback for simple (non-sectioned) rendering: emit dependencies as
@@ -2148,35 +2177,6 @@ public static class TypeScriptFormatter
                 RenderModuleTypes(sb, classes, interfaces, enums, types, functions, namespaces);
                 sb.AppendLine("}");
             }
-        }
-
-        // Flush the main module content (per-target simple path) after deps
-        if (pendingMainContent is not null && pendingMainContent.Length > 0 && mainVersionLookup is not null)
-        {
-            sb.AppendLine();
-            sb.AppendLine(AnnotateModuleLine($"declare module \"{index.Package}\" {{", index.Package, mainVersionLookup));
-
-            // Emit Node.js import references per module (mirrors the sectioned path)
-            foreach (var (nodeModule, nodeTypes) in nodeImports)
-                sb.AppendLine($"    import type {{ {string.Join(", ", nodeTypes)} }} from \"{nodeModule}\";");
-            if (nodeImports.Count > 0)
-                sb.AppendLine();
-
-            // Indent each line, stripping redundant 'declare' modifier (TS1038)
-            foreach (var line in pendingMainContent.TrimEnd('\r', '\n').Split('\n'))
-            {
-                var trimmed = line.TrimEnd('\r');
-                if (string.IsNullOrWhiteSpace(trimmed))
-                    sb.AppendLine();
-                else
-                {
-                    if (trimmed.StartsWith("export declare ", StringComparison.Ordinal))
-                        trimmed = string.Concat("export ", trimmed.AsSpan("export declare ".Length));
-                    sb.AppendLine("    " + trimmed);
-                }
-            }
-
-            sb.AppendLine("}");
         }
 
         // Add truncation notice if needed
