@@ -14,6 +14,14 @@ function toBytes(hex: string): Uint8Array {
   return Buffer.from(hex, "hex");
 }
 
+/**
+ * Returns a pre-generated RSA key for import demonstrations.
+ *
+ * NOTE: This is a 1024-bit RSA key for illustrative purposes ONLY.
+ * 1024-bit RSA is deprecated (NIST SP 800-131A). For production use,
+ * generate fresh keys of at least 2048 bits using your own key management system
+ * or let Azure Key Vault generate keys on your behalf.
+ */
 export function createRsaKey(): JsonWebKey {
   return {
     kty: "RSA",

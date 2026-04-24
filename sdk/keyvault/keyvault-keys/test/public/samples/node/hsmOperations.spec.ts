@@ -51,7 +51,15 @@ describe("hsmOperations", () => {
         credential,
         recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
       ),
-      () => new KeyClient(process.env["AZURE_MANAGEDHSM_URI"]!, credential),
+      () =>
+        new KeyClient(
+          (() => {
+            const uri = process.env["AZURE_MANAGEDHSM_URI"];
+            if (!uri) throw new Error("AZURE_MANAGEDHSM_URI environment variable is required.");
+            return uri;
+          })(),
+          credential,
+        ),
     );
   });
 
@@ -80,6 +88,9 @@ describe("hsmOperations", () => {
     // @snippet ReadmeSampleGetKeyAttestation
     const latestKey = await hsmClient.getKeyAttestation(keyName);
     console.log(`Latest version of the key ${keyName}: `, latestKey);
+    // The attestation property contains the attestation certificate and blobs that
+    // prove the key material was generated inside the HSM.
+    console.log(`Attestation for ${keyName}: `, latestKey.properties.attestation);
     // @ts-preserve-whitespace
     const specificKey = await hsmClient.getKeyAttestation(keyName, {
       version: latestKey.properties.version!,
@@ -98,7 +109,15 @@ describe("hsmOperations", () => {
     );
     const attestationProviderUrl = forPublishing(
       assertEnvironmentVariable("AZURE_KEYVAULT_ATTESTATION_URI"),
-      () => process.env["AZURE_KEYVAULT_ATTESTATION_PROVIDER_URL"]!,
+      () =>
+        (() => {
+          const url = process.env["AZURE_KEYVAULT_ATTESTATION_PROVIDER_URL"];
+          if (!url)
+            throw new Error(
+              "AZURE_KEYVAULT_ATTESTATION_PROVIDER_URL environment variable is required.",
+            );
+          return url;
+        })(),
     );
     const encodedReleasePolicy = stringToUint8Array(
       JSON.stringify({

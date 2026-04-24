@@ -20,6 +20,14 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [hsmOperations.ts][hsmoperations]   | Shows key operations that require a Managed HSM endpoint: creating OCT keys, getting key attestation, releasing keys, and getting random bytes. Set AZURE_MANAGEDHSM_URI to run these samples. |
 | [keyRotation.ts][keyrotation]       | Creates and updates a key's automated rotation policy, and rotates a key on-demand.                                                                                                            |
 
+The following utility modules are shared across samples:
+
+| **File Name**                   | **Description**                                                          |
+| ------------------------------- | ------------------------------------------------------------------------ |
+| `attestationUtils.ts`           | Attestation token helper used by `hsmOperations.ts` for key release.     |
+| `crypto.ts`                     | Pre-generated RSA JWK used by `helloWorld.ts` to demonstrate `importKey`. |
+| `utils.ts`                      | `retryWithBackoff` helper for eventually-consistent vault operations.     |
+
 ## Prerequisites
 
 The sample programs are compatible with [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule).
