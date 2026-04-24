@@ -292,7 +292,7 @@ ruleTester.run("ts-package-json-repo", rule, {
       errors: [
         {
           message:
-            "repository is set to type 'git' and url 'git+https://github.com/Azure/azure-sdk-for-java' when it should be set to type 'git' and url 'git+https://github.com/Azure/azure-sdk-for-js'",
+            "repository.url is set to git+https://github.com/Azure/azure-sdk-for-java when it should be set to git+https://github.com/Azure/azure-sdk-for-js",
         },
       ],
       output: '{"repository": { "type": "git", "url": "git+https://github.com/Azure/azure-sdk-for-js", "directory": "sdk/servicebus/service-bus" }}',
@@ -304,7 +304,7 @@ ruleTester.run("ts-package-json-repo", rule, {
       errors: [
         {
           message:
-            "repository is set to type 'git' and url 'git+https://github.com/Azure/azure-sdk-for-java' when it should be set to type 'git' and url 'git+https://github.com/Azure/azure-sdk-for-js'",
+            "repository.url is set to git+https://github.com/Azure/azure-sdk-for-java when it should be set to git+https://github.com/Azure/azure-sdk-for-js",
         },
       ],
       output: examplePackageGood,
