@@ -485,6 +485,10 @@ export class KeyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleDeleteKey
+   * const keyName = `MyDeleteKeyName-${Date.now()}`;
+   *
+   * await client.createKey(keyName, "RSA");
+   *
    * const poller = await client.beginDeleteKey(keyName);
    * const deletedKey = await poller.pollUntilDone();
    * console.log("deletedKey: ", deletedKey);
@@ -518,6 +522,8 @@ export class KeyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleUpdateKeyProperties
+   * const keyName = `MyUpdateKeyName-${Date.now()}`;
+   *
    * const result = await client.createKey(keyName, "RSA");
    * const updatedKey = await client.updateKeyProperties(keyName, result.properties.version!, {
    *   enabled: false,
@@ -541,6 +547,8 @@ export class KeyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleUpdateKeyProperties
+   * const keyName = `MyUpdateKeyName-${Date.now()}`;
+   *
    * const result = await client.createKey(keyName, "RSA");
    * const updatedKey = await client.updateKeyProperties(keyName, result.properties.version!, {
    *   enabled: false,
@@ -608,6 +616,10 @@ export class KeyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleGetKey
+   * const keyName = "MyGetKeyName";
+   *
+   * await client.createKey(keyName, "RSA");
+   *
    * const latestKey = await client.getKey(keyName);
    * console.log(`Latest version of the key ${keyName}: `, latestKey);
    *
@@ -667,6 +679,13 @@ export class KeyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleGetDeletedKey
+   * const keyName = `MyGetDeletedKeyName-${Date.now()}`;
+   *
+   * await client.createKey(keyName, "RSA");
+   *
+   * const deletePoller = await client.beginDeleteKey(keyName);
+   * await deletePoller.pollUntilDone();
+   *
    * const deletedKey = await client.getDeletedKey(keyName);
    * console.log("deletedKey: ", deletedKey);
    * ```
@@ -688,6 +707,10 @@ export class KeyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSamplePurgeDeletedKey
+   * const keyName = `MyPurgeKeyName-${Date.now()}`;
+   *
+   * await client.createKey(keyName, "RSA");
+   *
    * const deletePoller = await client.beginDeleteKey(keyName);
    * await deletePoller.pollUntilDone();
    *
@@ -714,6 +737,10 @@ export class KeyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleRecoverDeletedKey
+   * const keyName = `MyRecoverKeyName-${Date.now()}`;
+   *
+   * await client.createKey(keyName, "RSA");
+   *
    * const deletePoller = await client.beginDeleteKey(keyName);
    * await deletePoller.pollUntilDone();
    *
@@ -747,6 +774,10 @@ export class KeyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleBackupKey
+   * const keyName = `MyBackupKeyName-${Date.now()}`;
+   *
+   * await client.createKey(keyName, "RSA");
+   *
    * const backupContents = await client.backupKey(keyName);
    * console.log("backupContents: ", backupContents);
    * ```
@@ -768,6 +799,10 @@ export class KeyClient {
    * Example usage:
    * ```ts snippet:ReadmeSampleRestoreKeyBackup
    * import { retryWithBackoff } from "./utils.js";
+   *
+   * const keyName = `MyRestoreKeyName-${Date.now()}`;
+   *
+   * await client.createKey(keyName, "RSA");
    *
    * const backupContents = await client.backupKey(keyName);
    *
@@ -816,6 +851,10 @@ export class KeyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleKeyRotation
+   * const keyName = "MyKeyNameRotate";
+   *
+   * await client.createKey(keyName, "EC");
+   *
    * // Set the key's automated rotation policy to rotate the key 30 days before expiry.
    * const policy = await client.updateKeyRotationPolicy(keyName, {
    *   lifetimeActions: [
@@ -893,6 +932,10 @@ export class KeyClient {
    * This operation requires the keys/get permission.
    * Example usage:
    * ```ts snippet:ReadmeSampleGetKeyRotationPolicy
+   * const keyName = "MyKeyNameGetRotPolicy";
+   *
+   * await client.createKey(keyName, "EC");
+   *
    * const result = await client.getKeyRotationPolicy(keyName);
    * console.log("result: ", result);
    * ```
@@ -916,6 +959,10 @@ export class KeyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleUpdateKeyRotationPolicy
+   * const keyName = "MyKeyNameUpdateRotPolicy";
+   *
+   * await client.createKey(keyName, "EC");
+   *
    * const myPolicy = await client.getKeyRotationPolicy(keyName);
    *
    * const setPolicy = await client.updateKeyRotationPolicy(keyName, myPolicy);
@@ -951,6 +998,10 @@ export class KeyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleListKeys
+   * const keyName = `MyListAllKeyName-${Date.now()}`;
+   *
+   * await client.createKey(keyName, "RSA");
+   *
    * for await (const keyProperties of client.listPropertiesOfKeys()) {
    *   console.log("Key properties: ", keyProperties);
    * }
@@ -983,6 +1034,10 @@ export class KeyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleListKeys
+   * const keyName = `MyListAllKeyName-${Date.now()}`;
+   *
+   * await client.createKey(keyName, "RSA");
+   *
    * for await (const keyProperties of client.listPropertiesOfKeys()) {
    *   console.log("Key properties: ", keyProperties);
    * }
@@ -1014,6 +1069,10 @@ export class KeyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleListKeys
+   * const keyName = `MyListAllKeyName-${Date.now()}`;
+   *
+   * await client.createKey(keyName, "RSA");
+   *
    * for await (const keyProperties of client.listPropertiesOfKeys()) {
    *   console.log("Key properties: ", keyProperties);
    * }

@@ -156,13 +156,14 @@ describe("helloWorld", () => {
   });
 
   it("get a key", async () => {
+    // @snippet ReadmeSampleGetKey
     const keyName = forPublishing(
       recorder.variable("getKeyName", `sample-get-key-${Date.now()}`),
       () => "MyGetKeyName",
     );
+    // @ts-preserve-whitespace
     await client.createKey(keyName, "RSA");
-
-    // @snippet ReadmeSampleGetKey
+    // @ts-preserve-whitespace
     const latestKey = await client.getKey(keyName);
     console.log(`Latest version of the key ${keyName}: `, latestKey);
     // @ts-preserve-whitespace
@@ -186,8 +187,8 @@ describe("helloWorld", () => {
   });
 
   it("update key properties", async () => {
-    const keyName = forPublishing("MyUpdateKeyName", () => `MyUpdateKeyName-${Date.now()}`);
     // @snippet ReadmeSampleUpdateKeyProperties
+    const keyName = forPublishing("MyUpdateKeyName", () => `MyUpdateKeyName-${Date.now()}`);
     // @ts-preserve-whitespace
     const result = await client.createKey(keyName, "RSA");
     const updatedKey = await client.updateKeyProperties(keyName, result.properties.version!, {
@@ -198,13 +199,14 @@ describe("helloWorld", () => {
   });
 
   it("delete a key", async () => {
+    // @snippet ReadmeSampleDeleteKey
     const keyName = forPublishing(
       recorder.variable("deleteKeyName", `sample-del-key-${Date.now()}`),
       () => `MyDeleteKeyName-${Date.now()}`,
     );
+    // @ts-preserve-whitespace
     await client.createKey(keyName, "RSA");
-
-    // @snippet ReadmeSampleDeleteKey
+    // @ts-preserve-whitespace
     const poller = await client.beginDeleteKey(keyName);
     const deletedKey = await poller.pollUntilDone();
     console.log("deletedKey: ", deletedKey);
@@ -212,28 +214,31 @@ describe("helloWorld", () => {
   });
 
   it("get a deleted key", async () => {
+    // @snippet ReadmeSampleGetDeletedKey
     const keyName = forPublishing(
       recorder.variable("getDeletedKeyName", `sample-getdel-key-${Date.now()}`),
       () => `MyGetDeletedKeyName-${Date.now()}`,
     );
+    // @ts-preserve-whitespace
     await client.createKey(keyName, "RSA");
+    // @ts-preserve-whitespace
     const deletePoller = await client.beginDeleteKey(keyName);
     await deletePoller.pollUntilDone();
-
-    // @snippet ReadmeSampleGetDeletedKey
+    // @ts-preserve-whitespace
     const deletedKey = await client.getDeletedKey(keyName);
     console.log("deletedKey: ", deletedKey);
     // @snippet-end ReadmeSampleGetDeletedKey
   });
 
   it("purge a deleted key", async () => {
+    // @snippet ReadmeSamplePurgeDeletedKey
     const keyName = forPublishing(
       recorder.variable("purgeKeyName", `sample-purge-key-${Date.now()}`),
       () => `MyPurgeKeyName-${Date.now()}`,
     );
+    // @ts-preserve-whitespace
     await client.createKey(keyName, "RSA");
-
-    // @snippet ReadmeSamplePurgeDeletedKey
+    // @ts-preserve-whitespace
     const deletePoller = await client.beginDeleteKey(keyName);
     await deletePoller.pollUntilDone();
     // @ts-preserve-whitespace
@@ -243,13 +248,14 @@ describe("helloWorld", () => {
   });
 
   it("recover a deleted key", async () => {
+    // @snippet ReadmeSampleRecoverDeletedKey
     const keyName = forPublishing(
       recorder.variable("recoverKeyName", `sample-recover-key-${Date.now()}`),
       () => `MyRecoverKeyName-${Date.now()}`,
     );
+    // @ts-preserve-whitespace
     await client.createKey(keyName, "RSA");
-
-    // @snippet ReadmeSampleRecoverDeletedKey
+    // @ts-preserve-whitespace
     const deletePoller = await client.beginDeleteKey(keyName);
     await deletePoller.pollUntilDone();
     // @ts-preserve-whitespace
@@ -260,26 +266,28 @@ describe("helloWorld", () => {
   });
 
   it("back up a key", async () => {
+    // @snippet ReadmeSampleBackupKey
     const keyName = forPublishing(
       recorder.variable("backupKeyName", `sample-backup-key-${Date.now()}`),
       () => `MyBackupKeyName-${Date.now()}`,
     );
+    // @ts-preserve-whitespace
     await client.createKey(keyName, "RSA");
-
-    // @snippet ReadmeSampleBackupKey
+    // @ts-preserve-whitespace
     const backupContents = await client.backupKey(keyName);
     console.log("backupContents: ", backupContents);
     // @snippet-end ReadmeSampleBackupKey
   });
 
   it("restore a key from backup", async () => {
+    // @snippet ReadmeSampleRestoreKeyBackup
     const keyName = forPublishing(
       recorder.variable("restoreKeyName", `sample-restore-key-${Date.now()}`),
       () => `MyRestoreKeyName-${Date.now()}`,
     );
+    // @ts-preserve-whitespace
     await client.createKey(keyName, "RSA");
-
-    // @snippet ReadmeSampleRestoreKeyBackup
+    // @ts-preserve-whitespace
     const backupContents = await client.backupKey(keyName);
     // @ts-preserve-whitespace
     const deletePoller = await client.beginDeleteKey(keyName);
@@ -292,13 +300,14 @@ describe("helloWorld", () => {
   });
 
   it("delete a key with soft delete", async () => {
+    // @snippet ReadmeSampleDeleteKeySoftDelete
     const keyName = forPublishing(
       recorder.variable("softDeleteKeyName", `sample-softdel-key-${Date.now()}`),
       () => `MySoftDeleteKeyName-${Date.now()}`,
     );
+    // @ts-preserve-whitespace
     await client.createKey(keyName, "RSA");
-
-    // @snippet ReadmeSampleDeleteKeySoftDelete
+    // @ts-preserve-whitespace
     const poller = await client.beginDeleteKey(keyName);
     // @ts-preserve-whitespace
     // You can use the deleted key immediately:
@@ -327,13 +336,14 @@ describe("helloWorld", () => {
   });
 
   it("delete a key and wait for completion", async () => {
+    // @snippet ReadmeSampleDeleteKeyWait
     const keyName = forPublishing(
       recorder.variable("deleteWaitKeyName", `sample-delwait-key-${Date.now()}`),
       () => `MyDeleteWaitKeyName-${Date.now()}`,
     );
+    // @ts-preserve-whitespace
     await client.createKey(keyName, "RSA");
-
-    // @snippet ReadmeSampleDeleteKeyWait
+    // @ts-preserve-whitespace
     const poller = await client.beginDeleteKey(keyName);
     // @ts-preserve-whitespace
     // You can use the deleted key immediately:
@@ -346,13 +356,14 @@ describe("helloWorld", () => {
   });
 
   it("delete a key and poll individually", async () => {
+    // @snippet ReadmeSampleDeleteKeyWaitIndividually
     const keyName = forPublishing(
       recorder.variable("deleteIndivKeyName", `sample-delindiv-key-${Date.now()}`),
       () => `MyDeletePollKeyName-${Date.now()}`,
     );
+    // @ts-preserve-whitespace
     await client.createKey(keyName, "RSA");
-
-    // @snippet ReadmeSampleDeleteKeyWaitIndividually
+    // @ts-preserve-whitespace
     const delay = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
     // @ts-preserve-whitespace
     const poller = await client.beginDeleteKey(keyName);
@@ -367,13 +378,14 @@ describe("helloWorld", () => {
   });
 
   it("list all keys", async () => {
+    // @snippet ReadmeSampleListKeys
     const keyName = forPublishing(
       recorder.variable("listAllKeysName", `sample-listall-key-${Date.now()}`),
       () => `MyListAllKeyName-${Date.now()}`,
     );
+    // @ts-preserve-whitespace
     await client.createKey(keyName, "RSA");
-
-    // @snippet ReadmeSampleListKeys
+    // @ts-preserve-whitespace
     for await (const keyProperties of client.listPropertiesOfKeys()) {
       console.log("Key properties: ", keyProperties);
     }
@@ -389,13 +401,14 @@ describe("helloWorld", () => {
   });
 
   it("list keys by page", async () => {
+    // @snippet ReadmeSampleListKeysByPage
     const keyName = forPublishing(
       recorder.variable("listByPageKeysName", `sample-listpage-key-${Date.now()}`),
       () => `MyListPageKeyName-${Date.now()}`,
     );
+    // @ts-preserve-whitespace
     await client.createKey(keyName, "RSA");
-
-    // @snippet ReadmeSampleListKeysByPage
+    // @ts-preserve-whitespace
     for await (const page of client.listPropertiesOfKeys().byPage()) {
       for (const keyProperties of page) {
         console.log("Key properties: ", keyProperties);

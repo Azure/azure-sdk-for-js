@@ -165,6 +165,10 @@ parameters.
 `getKey` retrieves a key previous stores in the Key Vault.
 
 ```ts snippet:ReadmeSampleGetKey
+const keyName = "MyGetKeyName";
+
+await client.createKey(keyName, "RSA");
+
 const latestKey = await client.getKey(keyName);
 console.log(`Latest version of the key ${keyName}: `, latestKey);
 
@@ -201,6 +205,8 @@ Attributes can also be updated to an existing key version with
 `updateKeyProperties`, as follows:
 
 ```ts snippet:ReadmeSampleUpdateKeyProperties
+const keyName = `MyUpdateKeyName-${Date.now()}`;
+
 const result = await client.createKey(keyName, "RSA");
 const updatedKey = await client.updateKeyProperties(keyName, result.properties.version!, {
   enabled: false,
@@ -215,6 +221,10 @@ This process will happen in the background as soon as the necessary resources
 are available.
 
 ```ts snippet:ReadmeSampleDeleteKey
+const keyName = `MyDeleteKeyName-${Date.now()}`;
+
+await client.createKey(keyName, "RSA");
+
 const poller = await client.beginDeleteKey(keyName);
 const deletedKey = await poller.pollUntilDone();
 console.log("deletedKey: ", deletedKey);
@@ -226,6 +236,10 @@ _deleted_ key. A deleted key can't be updated. They can only be
 read, recovered or purged.
 
 ```ts snippet:ReadmeSampleDeleteKeySoftDelete
+const keyName = `MySoftDeleteKeyName-${Date.now()}`;
+
+await client.createKey(keyName, "RSA");
+
 const poller = await client.beginDeleteKey(keyName);
 
 // You can use the deleted key immediately:
@@ -262,6 +276,10 @@ You can also wait until the deletion finishes either by running individual servi
 calls until the key is deleted, or by waiting until the process is done:
 
 ```ts snippet:ReadmeSampleDeleteKeyWait
+const keyName = `MyDeleteWaitKeyName-${Date.now()}`;
+
+await client.createKey(keyName, "RSA");
+
 const poller = await client.beginDeleteKey(keyName);
 
 // You can use the deleted key immediately:
@@ -275,6 +293,10 @@ console.log(deletedKey);
 Another way to wait until the key is fully deleted is to do individual calls, as follows:
 
 ```ts snippet:ReadmeSampleDeleteKeyWaitIndividually
+const keyName = `MyDeletePollKeyName-${Date.now()}`;
+
+await client.createKey(keyName, "RSA");
+
 const delay = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
 
 const poller = await client.beginDeleteKey(keyName);
@@ -293,6 +315,10 @@ Using the KeyClient, you can configure automatic key rotation for a key by speci
 In addition, KeyClient provides a method to rotate a key on-demand by creating a new version of the given key.
 
 ```ts snippet:ReadmeSampleKeyRotation
+const keyName = "MyKeyNameRotate";
+
+await client.createKey(keyName, "EC");
+
 // Set the key's automated rotation policy to rotate the key 30 days before expiry.
 const policy = await client.updateKeyRotationPolicy(keyName, {
   lifetimeActions: [
@@ -332,6 +358,10 @@ versions of a specific key. The following API methods are available:
 Which can be used as follows:
 
 ```ts snippet:ReadmeSampleListKeys
+const keyName = `MyListAllKeyName-${Date.now()}`;
+
+await client.createKey(keyName, "RSA");
+
 for await (const keyProperties of client.listPropertiesOfKeys()) {
   console.log("Key properties: ", keyProperties);
 }
@@ -350,6 +380,10 @@ retrieve them by pages, add `.byPage()` right after invoking the API method you
 want to use, as follows:
 
 ```ts snippet:ReadmeSampleListKeysByPage
+const keyName = `MyListPageKeyName-${Date.now()}`;
+
+await client.createKey(keyName, "RSA");
+
 for await (const page of client.listPropertiesOfKeys().byPage()) {
   for (const keyProperties of page) {
     console.log("Key properties: ", keyProperties);

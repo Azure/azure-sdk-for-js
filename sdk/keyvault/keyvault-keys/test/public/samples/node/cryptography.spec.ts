@@ -66,7 +66,7 @@ describe("cryptography", () => {
         credential,
         recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
       ),
-      () => new CryptographyClient(myWorkKey.id!, credential),
+      () => new CryptographyClient(myWorkKey, credential),
     );
     const encrypt = await cryptoClient.encrypt({
       algorithm: "RSA-OAEP-256",
@@ -95,15 +95,13 @@ describe("cryptography", () => {
         credential,
         recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
       ),
-      () => new CryptographyClient(myWorkKey.id!, credential),
+      () => new CryptographyClient(myWorkKey, credential),
     );
 
     // Sign and Verify
     const message = "MyMessage";
     const hash = createHash("sha256");
-
-    hash.update(message);
-    const digest = hash.digest();
+    const digest = hash.update(message).digest();
     console.log("digest: ", digest);
 
     const signature = await cryptoClient.sign("RS256", digest);
@@ -126,7 +124,7 @@ describe("cryptography", () => {
         credential,
         recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
       ),
-      () => new CryptographyClient(myWorkKey.id!, credential),
+      () => new CryptographyClient(myWorkKey, credential),
     );
 
     // Wrap and unwrap

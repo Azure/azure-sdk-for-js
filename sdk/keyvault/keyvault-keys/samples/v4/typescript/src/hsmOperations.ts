@@ -52,7 +52,7 @@ async function releaseAKey() {
   });
   // Obtain an attestation token from Azure Attestation Service using the OpenEnclave report.
   const attestation = await getAttestationToken(
-    attestationProviderUrl,
+    process.env["AZURE_KEYVAULT_ATTESTATION_PROVIDER_URL"]!,
     new DefaultAzureCredential(),
     decodeBase64Url(openEnclaveReport),
   );

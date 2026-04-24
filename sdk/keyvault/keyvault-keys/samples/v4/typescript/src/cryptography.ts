@@ -19,7 +19,7 @@ async function encryptAndDecrypt() {
   const keyName = `crypto-sample-key${Date.now()}`;
   // Connection to Azure Key Vault Cryptography functionality
   const myWorkKey = await client.createKey(keyName, "RSA");
-  const cryptoClient = new CryptographyClient(myWorkKey.id!, credential);
+  const cryptoClient = new CryptographyClient(myWorkKey, credential);
   const encrypt = await cryptoClient.encrypt({
     algorithm: "RSA-OAEP-256",
     plaintext: Buffer.from("My Message"),
@@ -36,12 +36,11 @@ async function signAndVerify() {
   const keyName = `crypto-sample-key${Date.now()}`;
   // Connection to Azure Key Vault Cryptography functionality
   const myWorkKey = await client.createKey(keyName, "RSA");
-  const cryptoClient = new CryptographyClient(myWorkKey.id!, credential);
+  const cryptoClient = new CryptographyClient(myWorkKey, credential);
   // Sign and Verify
   const message = "MyMessage";
   const hash = createHash("sha256");
-  hash.update(message);
-  const digest = hash.digest();
+  const digest = hash.update(message).digest();
   console.log("digest: ", digest);
   const signature = await cryptoClient.sign("RS256", digest);
   console.log("sign result: ", signature);
@@ -52,7 +51,7 @@ async function signAndVerify() {
 async function wrapAndUnwrapKey() {
   const keyName = `crypto-sample-key${Date.now()}`;
   const myWorkKey = await client.createKey(keyName, "RSA");
-  const cryptoClient = new CryptographyClient(myWorkKey.id!, credential);
+  const cryptoClient = new CryptographyClient(myWorkKey, credential);
   // Wrap and unwrap
   const wrapped = await cryptoClient.wrapKey("RSA-OAEP-256", Buffer.from("My Message"));
   console.log("wrap result: ", wrapped);
@@ -63,7 +62,7 @@ async function wrapAndUnwrapKey() {
 async function encryptData() {
   const keyName = `sample-key-${Date.now()}`;
   const myKey = await client.createKey(keyName, "RSA");
-  const cryptographyClient = new CryptographyClient(myKey.id!, credential);
+  const cryptographyClient = new CryptographyClient(myKey, credential);
 
   const encryptResult = await cryptographyClient.encrypt({
     algorithm: "RSA1_5",
@@ -75,7 +74,7 @@ async function encryptData() {
 async function decryptData() {
   const keyName = `sample-key-${Date.now()}`;
   const myKey = await client.createKey(keyName, "RSA");
-  const cryptographyClient = new CryptographyClient(myKey.id!, credential);
+  const cryptographyClient = new CryptographyClient(myKey, credential);
 
   const encryptResult = await cryptographyClient.encrypt({
     algorithm: "RSA1_5",

@@ -17,6 +17,7 @@ async function createAKeyClient() {
   const url = process.env["KEYVAULT_URI"];
 
   const client = new KeyClient(url, credential);
+  console.log("KeyClient vault URL:", client.vaultUrl);
 }
 
 async function createAKeyClientWithASpecificVersion() {
@@ -28,6 +29,7 @@ async function createAKeyClientWithASpecificVersion() {
   const client = new KeyClient(url, credential, {
     serviceVersion: "7.0", // Supported versions: 7.0 through 7.6
   });
+  console.log("KeyClient vault URL:", client.vaultUrl);
 }
 
 async function createACryptographyClient() {
@@ -42,9 +44,12 @@ async function createACryptographyClient() {
 
   // Lastly, create our cryptography client and connect to the service
   const cryptographyClient = new CryptographyClient(myKey, credential);
+  console.log("CryptographyClient key ID:", cryptographyClient.keyID);
 }
 
 async function createALocalCryptographyClient() {
+  // NOTE: The key material below is illustrative only. Replace with a real JWK from your
+  // key management system. Using these placeholder values for actual cryptographic operations will fail.
   const jsonWebKey = {
     kty: "RSA",
     kid: "test-key-123",
@@ -60,6 +65,7 @@ async function createALocalCryptographyClient() {
     qi: new Uint8Array([78, 90, 45, 201, 34, 67, 120, 55]),
   };
   const client = new CryptographyClient(jsonWebKey);
+  console.log("CryptographyClient key ID:", client.keyID);
 }
 
 async function setTheLogLevel() {

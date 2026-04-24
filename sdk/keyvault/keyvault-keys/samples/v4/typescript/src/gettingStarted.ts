@@ -48,6 +48,8 @@ async function createACryptographyClient() {
 }
 
 async function createALocalCryptographyClient() {
+  // NOTE: The key material below is illustrative only. Replace with a real JWK from your
+  // key management system. Using these placeholder values for actual cryptographic operations will fail.
   const jsonWebKey = {
     kty: "RSA",
     kid: "test-key-123",

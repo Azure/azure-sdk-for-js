@@ -64,19 +64,19 @@ async function updateAndDeleteKeys() {
 }
 
 async function createAKey() {
-  const keyName = "MyKeyName";
+  const keyName = `MyKeyName-${Date.now()}`;
   const result = await client.createKey(keyName, "RSA");
   console.log("result: ", result);
 }
 
 async function createAnEcKey() {
-  const keyName = "MyEcKeyName";
+  const keyName = `MyEcKeyName-${Date.now()}`;
   const result = await client.createEcKey(keyName, { curve: "P-256" });
   console.log("result: ", result);
 }
 
 async function createAnRsaKey() {
-  const keyName = "MyRsaKeyName";
+  const keyName = `MyRsaKeyName-${Date.now()}`;
   const result = await client.createRsaKey(keyName, { keySize: 2048 });
   console.log("result: ", result);
 }
@@ -97,6 +97,7 @@ async function getACryptographyClient() {
 
 async function getAKey() {
   const keyName = "MyGetKeyName";
+
   await client.createKey(keyName, "RSA");
 
   const latestKey = await client.getKey(keyName);
@@ -107,7 +108,7 @@ async function getAKey() {
 }
 
 async function createAKeyWithAttributes() {
-  const keyName = "MyAttrKeyName";
+  const keyName = `MyAttrKeyName-${Date.now()}`;
 
   const result = await client.createKey(keyName, "RSA", {
     enabled: false,
@@ -116,43 +117,52 @@ async function createAKeyWithAttributes() {
 }
 
 async function updateKeyProperties() {
-  const keyName = "MyUpdateKeyName";
+  const keyName = `MyUpdateKeyName-${Date.now()}`;
 
   const result = await client.createKey(keyName, "RSA");
-  await client.updateKeyProperties(keyName, result.properties.version!, {
+  const updatedKey = await client.updateKeyProperties(keyName, result.properties.version!, {
     enabled: false,
   });
+  console.log("updatedKey: ", updatedKey);
 }
 
 async function deleteAKey() {
-  const keyName = "MyDeleteKeyName";
+  const keyName = `MyDeleteKeyName-${Date.now()}`;
+
   await client.createKey(keyName, "RSA");
 
   const poller = await client.beginDeleteKey(keyName);
-  await poller.pollUntilDone();
+  const deletedKey = await poller.pollUntilDone();
+  console.log("deletedKey: ", deletedKey);
 }
 
 async function getADeletedKey() {
-  const keyName = "MyGetDeletedKeyName";
+  const keyName = `MyGetDeletedKeyName-${Date.now()}`;
+
   await client.createKey(keyName, "RSA");
+
   const deletePoller = await client.beginDeleteKey(keyName);
   await deletePoller.pollUntilDone();
 
-  await client.getDeletedKey(keyName);
+  const deletedKey = await client.getDeletedKey(keyName);
+  console.log("deletedKey: ", deletedKey);
 }
 
 async function purgeADeletedKey() {
-  const keyName = "MyPurgeKeyName";
+  const keyName = `MyPurgeKeyName-${Date.now()}`;
+
   await client.createKey(keyName, "RSA");
 
   const deletePoller = await client.beginDeleteKey(keyName);
   await deletePoller.pollUntilDone();
 
   await client.purgeDeletedKey(keyName);
+  console.log("Key purged.");
 }
 
 async function recoverADeletedKey() {
-  const keyName = "MyRecoverKeyName";
+  const keyName = `MyRecoverKeyName-${Date.now()}`;
+
   await client.createKey(keyName, "RSA");
 
   const deletePoller = await client.beginDeleteKey(keyName);
@@ -164,7 +174,8 @@ async function recoverADeletedKey() {
 }
 
 async function backUpAKey() {
-  const keyName = "MyBackupKeyName";
+  const keyName = `MyBackupKeyName-${Date.now()}`;
+
   await client.createKey(keyName, "RSA");
 
   const backupContents = await client.backupKey(keyName);
@@ -172,7 +183,8 @@ async function backUpAKey() {
 }
 
 async function restoreAKeyFromBackup() {
-  const keyName = "MyRestoreKeyName";
+  const keyName = `MyRestoreKeyName-${Date.now()}`;
+
   await client.createKey(keyName, "RSA");
 
   const backupContents = await client.backupKey(keyName);
@@ -186,13 +198,15 @@ async function restoreAKeyFromBackup() {
 }
 
 async function deleteAKeyWithSoftDelete() {
-  const keyName = "MySoftDeleteKeyName";
+  const keyName = `MySoftDeleteKeyName-${Date.now()}`;
+
   await client.createKey(keyName, "RSA");
 
   const poller = await client.beginDeleteKey(keyName);
 
   // You can use the deleted key immediately:
   const deletedKey = poller.getResult();
+  console.log("deletedKey: ", deletedKey);
 
   // The key is being deleted. Only wait for it if you want to restore it or purge it.
   await poller.pollUntilDone();
@@ -215,7 +229,8 @@ async function deleteAKeyWithSoftDelete() {
 }
 
 async function deleteAKeyAndWaitForCompletion() {
-  const keyName = "MyDeleteWaitKeyName";
+  const keyName = `MyDeleteWaitKeyName-${Date.now()}`;
+
   await client.createKey(keyName, "RSA");
 
   const poller = await client.beginDeleteKey(keyName);
@@ -229,7 +244,8 @@ async function deleteAKeyAndWaitForCompletion() {
 }
 
 async function deleteAKeyAndPollIndividually() {
-  const keyName = "MyDeletePollKeyName";
+  const keyName = `MyDeletePollKeyName-${Date.now()}`;
+
   await client.createKey(keyName, "RSA");
 
   const delay = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
@@ -245,7 +261,8 @@ async function deleteAKeyAndPollIndividually() {
 }
 
 async function listAllKeys() {
-  const keyName = "MyListAllKeyName";
+  const keyName = `MyListAllKeyName-${Date.now()}`;
+
   await client.createKey(keyName, "RSA");
 
   for await (const keyProperties of client.listPropertiesOfKeys()) {
@@ -262,7 +279,8 @@ async function listAllKeys() {
 }
 
 async function listKeysByPage() {
-  const keyName = "MyListPageKeyName";
+  const keyName = `MyListPageKeyName-${Date.now()}`;
+
   await client.createKey(keyName, "RSA");
 
   for await (const page of client.listPropertiesOfKeys().byPage()) {
