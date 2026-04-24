@@ -5,25 +5,16 @@
  * @summary Creates, updates and deletes certificate issuers.
  */
 
-import { CertificateClient } from "@azure/keyvault-certificates";
-import { DefaultAzureCredential } from "@azure/identity";
 // Load the .env file if it exists
 import "dotenv/config";
+import { DefaultAzureCredential } from "@azure/identity";
+import { CertificateClient } from "@azure/keyvault-certificates";
 
-export async function main(): Promise<void> {
-  // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
-  // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
-  // about DefaultAzureCredential and the other credentials that are available for use.
-  // If you're using MSI, DefaultAzureCredential should "just work".
-  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-  const credential = new DefaultAzureCredential();
+let client: CertificateClient;
+let certificateName: string;
+let issuerName: string;
 
-  const client = new CertificateClient(url, credential);
-
-  const uniqueString = new Date().getTime();
-  const certificateName = `issuer-${uniqueString}`;
-  const issuerName = `issuer${uniqueString}`;
-
+async function manageCertificateIssuers() {
   // Create
   await client.createIssuer(issuerName, "Test", {
     accountId: "keyvaultuser",
@@ -36,7 +27,6 @@ export async function main(): Promise<void> {
       },
     ],
   });
-
   // We can create a certificate with that issuer's name.
   const createPoller = await client.beginCreateCertificate(certificateName, {
     issuerName,
@@ -44,21 +34,70 @@ export async function main(): Promise<void> {
   });
   const pendingCertificate = createPoller.getResult();
   console.log("Certificate: ", pendingCertificate);
-
   // We can retrieve the issuer this way:
   const getResponse = await client.getIssuer(issuerName);
   console.log("Certificate issuer: ", getResponse);
-
   // We can also list properties for all issuers:
   for await (const issuerProperties of client.listPropertiesOfIssuers()) {
     console.log("Certificate properties: ", issuerProperties);
   }
-
   // We can also delete the issuer.
   await client.deleteIssuer(issuerName);
 }
 
+async function listCertificateIssuers() {
+  await client.createIssuer(issuerName, "Test");
+
+  // All in one call
+  for await (const issuerProperties of client.listPropertiesOfIssuers()) {
+    console.log(issuerProperties);
+  }
+
+  // By pages
+  for await (const page of client.listPropertiesOfIssuers().byPage()) {
+    for (const issuerProperties of page) {
+      console.log(issuerProperties);
+    }
+  }
+}
+
+async function createACertificateIssuer() {
+  await client.createIssuer(issuerName, "Test");
+}
+
+async function updateACertificateIssuer() {
+  await client.createIssuer(issuerName, "Test");
+  await client.updateIssuer(issuerName, {
+    accountId: "updated-keyvaultuser",
+  });
+}
+
+async function getACertificateIssuer() {
+  const certificateIssuer = await client.getIssuer(issuerName);
+  console.log(certificateIssuer);
+}
+
+async function deleteACertificateIssuer() {
+  await client.deleteIssuer(issuerName);
+}
+
+export async function main(): Promise<void> {
+  // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
+  // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
+  // about DefaultAzureCredential and the other credentials that are available for use.
+  // If you're using MSI, DefaultAzureCredential should "just work".
+  client = new CertificateClient(process.env["KEYVAULT_URI"], new DefaultAzureCredential());
+  certificateName = `issuer-${new Date().getTime()}`;
+  issuerName = `issuer${new Date().getTime()}`;
+  await manageCertificateIssuers();
+  await listCertificateIssuers();
+  await createACertificateIssuer();
+  await updateACertificateIssuer();
+  await getACertificateIssuer();
+  await deleteACertificateIssuer();
+}
+
 main().catch((error) => {
-  console.error("An error occurred:", error);
+  console.error(error);
   process.exit(1);
 });

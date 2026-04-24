@@ -17,6 +17,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [backupAndRestore.ts][backupandrestore]   | Creates a self-signed certificate, then makes a backup from it, then deletes it and purges it, and finally restores it.    |
 | [contacts.ts][contacts]                   | Creates, updates, and deletes certificate contacts.                                                                        |
 | [deleteAndRecover.ts][deleteandrecover]   | Creates a self-signed certificate, deletes it, and then recovers it (soft-delete is required for this sample to run).      |
+| [gettingStarted.ts][gettingstarted]       | Authenticates with Azure Key Vault and creates a CertificateClient.                                                        |
 | [helloWorld.ts][helloworld]               | Uses a CertificateClient in various ways to read a certificate as well as update a certificate's tags.                     |
 | [importCertificate.ts][importcertificate] | Imports a PFX and PEM certificate and then deletes them.                                                                   |
 | [issuers.ts][issuers]                     | Creates, updates and deletes certificate issuers.                                                                          |
@@ -37,12 +38,6 @@ npm install -g typescript
 You need [an Azure subscription][freesub] and the following Azure resources to run these sample programs:
 
 - [Azure Key Vault][createinstance_azurekeyvault]
-
-To quickly create the needed Key Vault resources in Azure and to receive a connection string for them, you can deploy our sample template by clicking:
-
-[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Ftest-resources.json)
-
-If creating the Key Vault manually using the Azure Portal, be aware that the samples require that the soft-delete feature be enabled. Our template above will enable this feature automatically, but it is possible to enable it manually using the Azure CLI. See [the documentation for enabling soft-delete in Key Vault](https://learn.microsoft.com/azure/key-vault/key-vault-soft-delete-cli) for more information.
 
 Samples retrieve credentials to access the service endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
 
@@ -72,10 +67,10 @@ npm run build
 node dist/backupAndRestore.js
 ```
 
-Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env KEYVAULT_URI="<keyvault uri>" node dist/backupAndRestore.js
+npx cross-env KEYVAULT_URI="<keyvault uri>" node dist/backupAndRestore.js
 ```
 
 ## Next Steps
@@ -85,6 +80,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [backupandrestore]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/typescript/src/backupAndRestore.ts
 [contacts]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/typescript/src/contacts.ts
 [deleteandrecover]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/typescript/src/deleteAndRecover.ts
+[gettingstarted]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/typescript/src/gettingStarted.ts
 [helloworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/typescript/src/helloWorld.ts
 [importcertificate]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/typescript/src/importCertificate.ts
 [issuers]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/typescript/src/issuers.ts
