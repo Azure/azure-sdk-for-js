@@ -14,6 +14,7 @@ function toBytes(hex: string): Uint8Array {
 }
 /**
  * Returns a pre-generated 2048-bit RSA key for import demonstrations.
+ * @warning This key is publicly known — never use it to protect real data.
  */
 export function createRsaKey(): JsonWebKey {
   return {

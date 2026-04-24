@@ -74,12 +74,10 @@ describe("helloWorld", () => {
 
   it("list keys", async () => {
     // List all non-deleted keys in the vault.
-    // listPropertiesOfKeys() returns metadata only (no key material).
-    // Call getKey() only if you need the full JsonWebKey for cryptographic use —
-    // it makes one additional HTTP request per key.
+    // listPropertiesOfKeys() returns key metadata (name, version, attributes) without key material.
+    // Call getKey(name) only when you need the full JsonWebKey for cryptographic use.
     for await (const keyProperties of client.listPropertiesOfKeys()) {
-      const innerKey = await client.getKey(keyProperties.name);
-      console.log("key: ", innerKey);
+      console.log("key: ", keyProperties.name);
     }
   });
 
@@ -305,12 +303,11 @@ describe("helloWorld", () => {
     // @ts-preserve-whitespace
     await client.purgeDeletedKey(keyName);
     // @ts-preserve-whitespace
-    const restoredKey = await retryWithBackoff(() => {
-      if (!backupContents) {
-        throw new Error("backupKey returned undefined — cannot restore key.");
-      }
-      return client.restoreKeyBackup(backupContents);
-    });
+    if (!backupContents) {
+      throw new Error("backupKey returned undefined — cannot restore key.");
+    }
+    // @ts-preserve-whitespace
+    const restoredKey = await retryWithBackoff(() => client.restoreKeyBackup(backupContents));
     console.log("restoredKey: ", restoredKey);
     // @snippet-end ReadmeSampleRestoreKeyBackup
   });

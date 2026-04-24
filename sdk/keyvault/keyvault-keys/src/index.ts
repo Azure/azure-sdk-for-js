@@ -649,6 +649,9 @@ export class KeyClient {
    * ```ts snippet:ReadmeSampleGetKeyAttestation
    * const latestKey = await hsmClient.getKeyAttestation(keyName);
    * console.log(`Latest version of the key ${keyName}: `, latestKey);
+   * // The attestation property contains the attestation certificate and blobs that
+   * // prove the key material was generated inside the HSM.
+   * console.log(`Attestation for ${keyName}: `, latestKey.properties.attestation);
    *
    * const specificKey = await hsmClient.getKeyAttestation(keyName, {
    *   version: latestKey.properties.version!,
@@ -815,7 +818,11 @@ export class KeyClient {
    *
    * await client.purgeDeletedKey(keyName);
    *
-   * const restoredKey = await retryWithBackoff(() => client.restoreKeyBackup(backupContents!));
+   * if (!backupContents) {
+   *   throw new Error("backupKey returned undefined — cannot restore key.");
+   * }
+   *
+   * const restoredKey = await retryWithBackoff(() => client.restoreKeyBackup(backupContents));
    * console.log("restoredKey: ", restoredKey);
    * ```
    * Restores a backed up key to a vault.

@@ -45,21 +45,21 @@ describe("hsmOperations", () => {
       ],
     });
     const credential = forPublishing(createTestCredential(), () => new DefaultAzureCredential());
+    const hsmUri = forPublishing(
+      assertEnvironmentVariable("AZURE_MANAGEDHSM_URI"),
+      () =>
+        process.env["AZURE_MANAGEDHSM_URI"] ??
+        (() => {
+          throw new Error("AZURE_MANAGEDHSM_URI environment variable is required.");
+        })(),
+    );
     hsmClient = forPublishing(
       new KeyClient(
-        assertEnvironmentVariable("AZURE_MANAGEDHSM_URI"),
+        hsmUri,
         credential,
         recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
       ),
-      () =>
-        new KeyClient(
-          (() => {
-            const uri = process.env["AZURE_MANAGEDHSM_URI"];
-            if (!uri) throw new Error("AZURE_MANAGEDHSM_URI environment variable is required.");
-            return uri;
-          })(),
-          credential,
-        ),
+      () => new KeyClient(hsmUri, credential),
     );
   });
 
@@ -110,13 +110,11 @@ describe("hsmOperations", () => {
     const attestationProviderUrl = forPublishing(
       assertEnvironmentVariable("AZURE_KEYVAULT_ATTESTATION_URI"),
       () =>
+        process.env["AZURE_KEYVAULT_ATTESTATION_PROVIDER_URL"] ??
         (() => {
-          const url = process.env["AZURE_KEYVAULT_ATTESTATION_PROVIDER_URL"];
-          if (!url)
-            throw new Error(
-              "AZURE_KEYVAULT_ATTESTATION_PROVIDER_URL environment variable is required.",
-            );
-          return url;
+          throw new Error(
+            "AZURE_KEYVAULT_ATTESTATION_PROVIDER_URL environment variable is required.",
+          );
         })(),
     );
     const encodedReleasePolicy = stringToUint8Array(

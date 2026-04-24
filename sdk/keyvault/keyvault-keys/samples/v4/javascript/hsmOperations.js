@@ -42,12 +42,11 @@ async function getKeyAttestation() {
 
 async function releaseAKey() {
   const keyName = `MyReleaseKey-${Date.now()}`;
-  const attestationProviderUrl = (() => {
-    const url = process.env["AZURE_KEYVAULT_ATTESTATION_PROVIDER_URL"];
-    if (!url)
+  const attestationProviderUrl =
+    process.env["AZURE_KEYVAULT_ATTESTATION_PROVIDER_URL"] ??
+    (() => {
       throw new Error("AZURE_KEYVAULT_ATTESTATION_PROVIDER_URL environment variable is required.");
-    return url;
-  })();
+    })();
   const encodedReleasePolicy = stringToUint8Array(
     JSON.stringify({
       anyOf: [
@@ -80,14 +79,12 @@ async function getRandomBytes() {
 
 async function main() {
   const credential = new DefaultAzureCredential();
-  hsmClient = new KeyClient(
+  const hsmUri =
+    process.env["AZURE_MANAGEDHSM_URI"] ??
     (() => {
-      const uri = process.env["AZURE_MANAGEDHSM_URI"];
-      if (!uri) throw new Error("AZURE_MANAGEDHSM_URI environment variable is required.");
-      return uri;
-    })(),
-    credential,
-  );
+      throw new Error("AZURE_MANAGEDHSM_URI environment variable is required.");
+    })();
+  hsmClient = new KeyClient(hsmUri, credential);
   await createAnOctKey();
   await getKeyAttestation();
   await releaseAKey();

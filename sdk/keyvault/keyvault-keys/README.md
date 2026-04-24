@@ -91,9 +91,9 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
   already created in the Key Vault. More about this client in the
   [Cryptography](#cryptography) section.
 
-## Authenticating with Azure Active Directory
+## Authenticating with Microsoft Entra ID
 
-The Key Vault service relies on Azure Active Directory to authenticate requests to its APIs. The [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) package provides a variety of credential types that your application can use to do this. The [README for `@azure/identity`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity/README.md) provides more details and samples to get you started.
+The Key Vault service relies on Microsoft Entra ID to authenticate requests to its APIs. The [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) package provides a variety of credential types that your application can use to do this. The [README for `@azure/identity`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity/README.md) provides more details and samples to get you started.
 
 In order to interact with the Azure Key Vault service, you will need to create an instance of the `KeyClient` class, a **vault url** and a credential object. The examples shown in this document use a credential object named [`DefaultAzureCredential`][default_azure_credential], which is appropriate for most scenarios, including local development and production environments. Additionally, we recommend using a [managed identity][managed_identity] for authentication in production environments.
 
@@ -127,7 +127,7 @@ const url = process.env["KEYVAULT_URI"]!;
 
 // Change the Azure Key Vault service API version being used via the `serviceVersion` option
 const client = new KeyClient(url, credential, {
-  serviceVersion: "7.0", // Supported versions: 7.0 through 7.6 (default: 7.6)
+  serviceVersion: "7.5", // Supported versions: 7.0 through 7.6 (default: 7.6). Pin only for backward compat.
 });
 console.log("KeyClient vault URL:", client.vaultUrl);
 ```
