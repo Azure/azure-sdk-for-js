@@ -23,8 +23,6 @@ export type {
   FeatureProperties,
   FeatureState,
   OperationStatusResult,
-  VmFamily,
-  VmFamilyProperties,
 } from "./models.js";
 export {
   KnownOrigin,

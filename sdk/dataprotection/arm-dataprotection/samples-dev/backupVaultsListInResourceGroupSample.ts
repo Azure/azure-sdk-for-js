@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns resource collection belonging to a resource group.
  *
  * @summary returns resource collection belonging to a resource group.
- * x-ms-original-file: 2026-03-01/VaultCRUD/GetBackupVaultsInResourceGroup.json
+ * x-ms-original-file: 2025-07-01/VaultCRUD/GetBackupVaultsInResourceGroup.json
  */
 async function getBackupVaultsInResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

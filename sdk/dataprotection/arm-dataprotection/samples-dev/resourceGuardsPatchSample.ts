@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates a ResourceGuard resource belonging to a resource group. For example, updating tags for a resource.
  *
  * @summary updates a ResourceGuard resource belonging to a resource group. For example, updating tags for a resource.
- * x-ms-original-file: 2026-03-01/ResourceGuardCRUD/PatchResourceGuard.json
+ * x-ms-original-file: 2025-07-01/ResourceGuardCRUD/PatchResourceGuard.json
  */
 async function patchResourceGuard(): Promise<void> {
   const credential = new DefaultAzureCredential();

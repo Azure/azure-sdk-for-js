@@ -4,21 +4,18 @@ These sample programs show how to use the JavaScript client libraries for @azure
 
 | **File Name**                                                                                                               | **Description**                                                                                                                                                       |
 | --------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [featuresDisableSample.js][featuresdisablesample]                                                                           | disables a compute limit feature for the subscription at the specified location. x-ms-original-file: 2026-04-30/Features_Disable.json                                 |
-| [featuresEnableSample.js][featuresenablesample]                                                                             | enables a compute limit feature for the subscription at the specified location. x-ms-original-file: 2026-04-30/Features_Enable.json                                   |
-| [featuresGetSample.js][featuresgetsample]                                                                                   | gets the properties of a compute limit feature. x-ms-original-file: 2026-04-30/Features_Get.json                                                                      |
-| [featuresListBySubscriptionLocationResourceSample.js][featureslistbysubscriptionlocationresourcesample]                     | lists all compute limit features for the subscription at the specified location. x-ms-original-file: 2026-04-30/Features_List.json                                    |
-| [guestSubscriptionsCreateSample.js][guestsubscriptionscreatesample]                                                         | adds a subscription as a guest to consume the compute limits shared by the host subscription. x-ms-original-file: 2026-04-30/GuestSubscriptions_Create.json           |
-| [guestSubscriptionsDeleteSample.js][guestsubscriptionsdeletesample]                                                         | deletes a subscription as a guest to stop consuming the compute limits shared by the host subscription. x-ms-original-file: 2026-04-30/GuestSubscriptions_Delete.json |
-| [guestSubscriptionsGetSample.js][guestsubscriptionsgetsample]                                                               | gets the properties of a guest subscription. x-ms-original-file: 2026-04-30/GuestSubscriptions_Get.json                                                               |
-| [guestSubscriptionsListBySubscriptionLocationResourceSample.js][guestsubscriptionslistbysubscriptionlocationresourcesample] | lists all guest subscriptions in a location. x-ms-original-file: 2026-04-30/GuestSubscriptions_List.json                                                              |
-| [operationsListSample.js][operationslistsample]                                                                             | list the operations for the provider x-ms-original-file: 2026-04-30/Operations_List.json                                                                              |
-| [sharedLimitsCreateSample.js][sharedlimitscreatesample]                                                                     | enables sharing of a compute limit by the host subscription with its guest subscriptions. x-ms-original-file: 2026-04-30/SharedLimits_Create.json                     |
-| [sharedLimitsDeleteSample.js][sharedlimitsdeletesample]                                                                     | disables sharing of a compute limit by the host subscription with its guest subscriptions. x-ms-original-file: 2026-04-30/SharedLimits_Delete.json                    |
-| [sharedLimitsGetSample.js][sharedlimitsgetsample]                                                                           | gets the properties of a compute limit shared by the host subscription with its guest subscriptions. x-ms-original-file: 2026-04-30/SharedLimits_Get.json             |
-| [sharedLimitsListBySubscriptionLocationResourceSample.js][sharedlimitslistbysubscriptionlocationresourcesample]             | lists all compute limits shared by the host subscription with its guest subscriptions. x-ms-original-file: 2026-04-30/SharedLimits_List.json                          |
-| [vmFamiliesGetSample.js][vmfamiliesgetsample]                                                                               | gets the properties of a VM family. x-ms-original-file: 2026-04-30/VmFamilies_Get.json                                                                                |
-| [vmFamiliesListBySubscriptionLocationResourceSample.js][vmfamilieslistbysubscriptionlocationresourcesample]                 | lists all VM families for the subscription at the specified location. x-ms-original-file: 2026-04-30/VmFamilies_List.json                                             |
+| [featuresEnableSample.js][featuresenablesample]                                                                             | enables a compute limit feature for the subscription at the specified location. x-ms-original-file: 2026-03-20/Features_Enable.json                                   |
+| [featuresGetSample.js][featuresgetsample]                                                                                   | gets the properties of a compute limit feature. x-ms-original-file: 2026-03-20/Features_Get.json                                                                      |
+| [featuresListBySubscriptionLocationResourceSample.js][featureslistbysubscriptionlocationresourcesample]                     | lists all compute limit features for the subscription at the specified location. x-ms-original-file: 2026-03-20/Features_List.json                                    |
+| [guestSubscriptionsCreateSample.js][guestsubscriptionscreatesample]                                                         | adds a subscription as a guest to consume the compute limits shared by the host subscription. x-ms-original-file: 2026-03-20/GuestSubscriptions_Create.json           |
+| [guestSubscriptionsDeleteSample.js][guestsubscriptionsdeletesample]                                                         | deletes a subscription as a guest to stop consuming the compute limits shared by the host subscription. x-ms-original-file: 2026-03-20/GuestSubscriptions_Delete.json |
+| [guestSubscriptionsGetSample.js][guestsubscriptionsgetsample]                                                               | gets the properties of a guest subscription. x-ms-original-file: 2026-03-20/GuestSubscriptions_Get.json                                                               |
+| [guestSubscriptionsListBySubscriptionLocationResourceSample.js][guestsubscriptionslistbysubscriptionlocationresourcesample] | lists all guest subscriptions in a location. x-ms-original-file: 2026-03-20/GuestSubscriptions_List.json                                                              |
+| [operationsListSample.js][operationslistsample]                                                                             | list the operations for the provider x-ms-original-file: 2026-03-20/Operations_List.json                                                                              |
+| [sharedLimitsCreateSample.js][sharedlimitscreatesample]                                                                     | enables sharing of a compute limit by the host subscription with its guest subscriptions. x-ms-original-file: 2026-03-20/SharedLimits_Create.json                     |
+| [sharedLimitsDeleteSample.js][sharedlimitsdeletesample]                                                                     | disables sharing of a compute limit by the host subscription with its guest subscriptions. x-ms-original-file: 2026-03-20/SharedLimits_Delete.json                    |
+| [sharedLimitsGetSample.js][sharedlimitsgetsample]                                                                           | gets the properties of a compute limit shared by the host subscription with its guest subscriptions. x-ms-original-file: 2026-03-20/SharedLimits_Get.json             |
+| [sharedLimitsListBySubscriptionLocationResourceSample.js][sharedlimitslistbysubscriptionlocationresourcesample]             | lists all compute limits shared by the host subscription with its guest subscriptions. x-ms-original-file: 2026-03-20/SharedLimits_List.json                          |
 
 ## Prerequisites
 
@@ -45,20 +42,19 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node featuresDisableSample.js
+node featuresEnableSample.js
 ```
 
 Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-node featuresDisableSample.js
+node featuresEnableSample.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[featuresdisablesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1/javascript/featuresDisableSample.js
 [featuresenablesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1/javascript/featuresEnableSample.js
 [featuresgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1/javascript/featuresGetSample.js
 [featureslistbysubscriptionlocationresourcesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1/javascript/featuresListBySubscriptionLocationResourceSample.js
@@ -71,8 +67,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [sharedlimitsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1/javascript/sharedLimitsDeleteSample.js
 [sharedlimitsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1/javascript/sharedLimitsGetSample.js
 [sharedlimitslistbysubscriptionlocationresourcesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1/javascript/sharedLimitsListBySubscriptionLocationResourceSample.js
-[vmfamiliesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1/javascript/vmFamiliesGetSample.js
-[vmfamilieslistbysubscriptionlocationresourcesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1/javascript/vmFamiliesListBySubscriptionLocationResourceSample.js
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-computelimit
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/computelimit/arm-computelimit/README.md

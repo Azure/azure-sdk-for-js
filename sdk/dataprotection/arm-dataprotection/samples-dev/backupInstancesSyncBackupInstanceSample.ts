@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  *
  * @summary sync backup instance again in case of failure
  * This action will retry last failed operation and will bring backup instance to valid state
- * x-ms-original-file: 2026-03-01/BackupInstanceOperations/SyncBackupInstance.json
+ * x-ms-original-file: 2025-07-01/BackupInstanceOperations/SyncBackupInstance.json
  */
 async function syncBackupInstance(): Promise<void> {
   const credential = new DefaultAzureCredential();

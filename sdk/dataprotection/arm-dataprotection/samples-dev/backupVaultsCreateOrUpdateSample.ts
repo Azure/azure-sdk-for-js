@@ -8,44 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a BackupVault resource belonging to a resource group.
  *
  * @summary creates or updates a BackupVault resource belonging to a resource group.
- * x-ms-original-file: 2026-03-01/PutBackupVaultWithUndelete.json
- */
-async function restoreASoftDeletedBackupVault(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new DataProtectionClient(credential, subscriptionId);
-  const result = await client.backupVaults.createOrUpdate(
-    "SampleResourceGroup",
-    "swaggerExample",
-    {
-      location: "WestUS",
-      properties: {
-        monitoringSettings: { azureMonitorAlertSettings: { alertsForAllJobFailures: "Enabled" } },
-        securitySettings: {
-          softDeleteSettings: { retentionDurationInDays: 14, state: "Enabled" },
-          immutabilitySettings: { state: "Disabled" },
-        },
-        storageSettings: [{ datastoreType: "VaultStore", type: "LocallyRedundant" }],
-        featureSettings: {
-          crossSubscriptionRestoreSettings: { state: "Disabled" },
-          crossRegionRestoreSettings: { state: "Enabled" },
-        },
-      },
-      tags: { key1: "val1" },
-    },
-    {
-      xMsDeletedVaultId:
-        "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DataProtection/locations/WestUS/deletedVaults/swaggerExample",
-    },
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to creates or updates a BackupVault resource belonging to a resource group.
- *
- * @summary creates or updates a BackupVault resource belonging to a resource group.
- * x-ms-original-file: 2026-03-01/VaultCRUD/PutBackupVault.json
+ * x-ms-original-file: 2025-07-01/VaultCRUD/PutBackupVault.json
  */
 async function createBackupVault(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -55,8 +18,12 @@ async function createBackupVault(): Promise<void> {
     location: "WestUS",
     properties: {
       featureSettings: { crossRegionRestoreSettings: { state: "Enabled" } },
-      monitoringSettings: { azureMonitorAlertSettings: { alertsForAllJobFailures: "Enabled" } },
-      securitySettings: { softDeleteSettings: { retentionDurationInDays: 14, state: "Enabled" } },
+      monitoringSettings: {
+        azureMonitorAlertSettings: { alertsForAllJobFailures: "Enabled" },
+      },
+      securitySettings: {
+        softDeleteSettings: { retentionDurationInDays: 14, state: "Enabled" },
+      },
       storageSettings: [{ type: "LocallyRedundant", datastoreType: "VaultStore" }],
     },
     tags: { key1: "val1" },
@@ -68,7 +35,7 @@ async function createBackupVault(): Promise<void> {
  * This sample demonstrates how to creates or updates a BackupVault resource belonging to a resource group.
  *
  * @summary creates or updates a BackupVault resource belonging to a resource group.
- * x-ms-original-file: 2026-03-01/VaultCRUD/PutBackupVaultWithCMK.json
+ * x-ms-original-file: 2025-07-01/VaultCRUD/PutBackupVaultWithCMK.json
  */
 async function createBackupVaultWithCMK(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -77,7 +44,9 @@ async function createBackupVaultWithCMK(): Promise<void> {
   const result = await client.backupVaults.createOrUpdate("SampleResourceGroup", "swaggerExample", {
     location: "WestUS",
     properties: {
-      monitoringSettings: { azureMonitorAlertSettings: { alertsForAllJobFailures: "Enabled" } },
+      monitoringSettings: {
+        azureMonitorAlertSettings: { alertsForAllJobFailures: "Enabled" },
+      },
       securitySettings: {
         encryptionSettings: {
           infrastructureEncryption: "Enabled",
@@ -105,7 +74,7 @@ async function createBackupVaultWithCMK(): Promise<void> {
  * This sample demonstrates how to creates or updates a BackupVault resource belonging to a resource group.
  *
  * @summary creates or updates a BackupVault resource belonging to a resource group.
- * x-ms-original-file: 2026-03-01/VaultCRUD/PutBackupVaultWithMSI.json
+ * x-ms-original-file: 2025-07-01/VaultCRUD/PutBackupVaultWithMSI.json
  */
 async function createBackupVaultWithMSI(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -115,8 +84,12 @@ async function createBackupVaultWithMSI(): Promise<void> {
     location: "WestUS",
     properties: {
       featureSettings: { crossRegionRestoreSettings: { state: "Enabled" } },
-      monitoringSettings: { azureMonitorAlertSettings: { alertsForAllJobFailures: "Enabled" } },
-      securitySettings: { softDeleteSettings: { retentionDurationInDays: 14, state: "Enabled" } },
+      monitoringSettings: {
+        azureMonitorAlertSettings: { alertsForAllJobFailures: "Enabled" },
+      },
+      securitySettings: {
+        softDeleteSettings: { retentionDurationInDays: 14, state: "Enabled" },
+      },
       storageSettings: [{ type: "LocallyRedundant", datastoreType: "VaultStore" }],
     },
     tags: { key1: "val1" },
@@ -125,7 +98,6 @@ async function createBackupVaultWithMSI(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await restoreASoftDeletedBackupVault();
   await createBackupVault();
   await createBackupVaultWithCMK();
   await createBackupVaultWithMSI();

@@ -11,8 +11,6 @@ import type { OperationsOperations } from "./classic/operations/index.js";
 import { _getOperationsOperations } from "./classic/operations/index.js";
 import type { SharedLimitsOperations } from "./classic/sharedLimits/index.js";
 import { _getSharedLimitsOperations } from "./classic/sharedLimits/index.js";
-import type { VmFamiliesOperations } from "./classic/vmFamilies/index.js";
-import { _getVmFamiliesOperations } from "./classic/vmFamilies/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
@@ -38,15 +36,12 @@ export class ComputeLimitClient {
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
-    this.vmFamilies = _getVmFamiliesOperations(this._client);
     this.features = _getFeaturesOperations(this._client);
     this.sharedLimits = _getSharedLimitsOperations(this._client);
     this.guestSubscriptions = _getGuestSubscriptionsOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
   }
 
-  /** The operation groups for vmFamilies */
-  public readonly vmFamilies: VmFamiliesOperations;
   /** The operation groups for features */
   public readonly features: FeaturesOperations;
   /** The operation groups for sharedLimits */

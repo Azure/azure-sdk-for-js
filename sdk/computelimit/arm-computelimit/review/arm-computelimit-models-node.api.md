@@ -90,8 +90,7 @@ export enum KnownResourceProvisioningState {
 // @public
 export enum KnownVersions {
     V20250815 = "2025-08-15",
-    V20260320 = "2026-03-20",
-    V20260430 = "2026-04-30"
+    V20260320 = "2026-03-20"
 }
 
 // @public
@@ -169,17 +168,6 @@ export interface SystemData {
     lastModifiedAt?: Date;
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
-}
-
-// @public
-export interface VmFamily extends ProxyResource {
-    properties?: VmFamilyProperties;
-}
-
-// @public
-export interface VmFamilyProperties {
-    category?: string;
-    readonly provisioningState?: ResourceProvisioningState;
 }
 
 // (No @packageDocumentation comment for this package)

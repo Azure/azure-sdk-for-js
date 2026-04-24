@@ -17,23 +17,21 @@ import type {
 describe("message", function () {
   describe("time to live", function () {
     it("should be overridden by absolute expiry time on received message", function () {
-      const creationTime = new Date();
-      const absoluteExpiryTime = new Date(Constants.maxAbsoluteExpiryTime);
       const rhMsg: RheaMessage = {
-        creation_time: creationTime,
-        absolute_expiry_time: absoluteExpiryTime,
+        creation_time: new Date(),
+        absolute_expiry_time: new Date(Constants.maxAbsoluteExpiryTime),
         ttl: 49 * 24 * 60 * 60 * 1000, // 49 days in milliseconds
         body: {},
       };
 
       const annotatedMessage = AmqpAnnotatedMessage.fromRheaMessage(rhMsg);
 
-      const expectedTtl = absoluteExpiryTime.getTime() - creationTime.getTime();
+      const expectedTtl = rhMsg.absolute_expiry_time!.getTime() - rhMsg.creation_time!.getTime();
       assert.isDefined(
         annotatedMessage.header?.timeToLive,
         "Expecting valid annotatedMsg.header.timeToLive",
       );
-      assert.equal(annotatedMessage.header?.timeToLive, expectedTtl);
+      assert.equal(annotatedMessage.header!.timeToLive, expectedTtl);
     });
 
     it("should be NOT overridden when no absolute expiry time", function () {
@@ -49,7 +47,7 @@ describe("message", function () {
         annotatedMessage.header?.timeToLive,
         "Expecting valid annotatedMsg.header.timeToLive",
       );
-      assert.equal(annotatedMessage.header?.timeToLive, expectedTtl);
+      assert.equal(annotatedMessage.header!.timeToLive, expectedTtl);
     });
 
     it("should round-trip correctly with value greater than max uint32", function () {
@@ -63,17 +61,18 @@ describe("message", function () {
       const rhMsg = AmqpAnnotatedMessage.toRheaMessage(input);
 
       assert.equal(Constants.maxUint32Value, rhMsg.ttl);
-      assert.instanceOf(rhMsg.creation_time, Date);
-      assert.instanceOf(rhMsg.absolute_expiry_time, Date);
-      const creationTime = rhMsg.creation_time;
-      const absoluteExpiryTime = rhMsg.absolute_expiry_time;
-      assert.equal(creationTime.getTime() + oneHundredDaysInMs, absoluteExpiryTime.getTime());
+      assert.isDefined(rhMsg.creation_time);
+      assert.isDefined(rhMsg.absolute_expiry_time);
+      assert.equal(
+        rhMsg.creation_time!.getTime() + oneHundredDaysInMs,
+        rhMsg.absolute_expiry_time!.getTime(),
+      );
 
       const output = AmqpAnnotatedMessage.fromRheaMessage(rhMsg);
 
       assert.equal(output.header?.timeToLive, oneHundredDaysInMs);
-      assert.equal(output.properties?.creationTime, creationTime.getTime());
-      assert.equal(output.properties?.absoluteExpiryTime, absoluteExpiryTime.getTime());
+      assert.equal(output.properties?.creationTime, rhMsg.creation_time!.getTime());
+      assert.equal(output.properties?.absoluteExpiryTime, rhMsg.absolute_expiry_time!.getTime());
     });
 
     it("absolute expiry time and creation time should not be set when no TTL", function () {
@@ -90,20 +89,18 @@ describe("message", function () {
     it("absolute expiry time and creation time should be on message when set explicitly", function () {
       const now = new Date();
       const oneDayInMs = 24 * 60 * 60 * 1000;
-      const creationTime = now.getTime();
-      const absoluteExpiryTime = now.getTime() + oneDayInMs;
       const input: AmqpAnnotatedMessage = {
         properties: {
-          creationTime,
-          absoluteExpiryTime,
+          creationTime: now.getTime(),
+          absoluteExpiryTime: now.getTime() + oneDayInMs,
         },
         body: {},
       };
       const rhMsg = AmqpAnnotatedMessage.toRheaMessage(input);
 
       assert.isUndefined(rhMsg.ttl);
-      assert.deepEqual(rhMsg.creation_time, new Date(creationTime));
-      assert.deepEqual(rhMsg.absolute_expiry_time, new Date(absoluteExpiryTime));
+      assert.deepEqual(rhMsg.creation_time, new Date(input.properties!.creationTime!));
+      assert.deepEqual(rhMsg.absolute_expiry_time, new Date(input.properties!.absoluteExpiryTime!));
     });
 
     it("absolute expiry time and creation time should be overridden based on TTL when sending ", function () {
@@ -124,11 +121,12 @@ describe("message", function () {
       const rhMsg = AmqpAnnotatedMessage.toRheaMessage(input);
 
       assert.equal(rhMsg.ttl, sevenDayInMs);
-      assert.instanceOf(rhMsg.creation_time, Date);
-      assert.instanceOf(rhMsg.absolute_expiry_time, Date);
-      const creationTime = rhMsg.creation_time;
-      const absoluteExpiryTime = rhMsg.absolute_expiry_time;
-      assert.equal(absoluteExpiryTime.getTime(), creationTime.getTime() + sevenDayInMs);
+      assert.isDefined(rhMsg.creation_time);
+      assert.isDefined(rhMsg.absolute_expiry_time);
+      assert.equal(
+        rhMsg.absolute_expiry_time!.getTime(),
+        rhMsg.creation_time!.getTime() + sevenDayInMs,
+      );
     });
   });
 

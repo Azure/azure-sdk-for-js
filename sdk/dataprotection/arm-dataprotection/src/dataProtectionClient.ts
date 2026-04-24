@@ -19,8 +19,6 @@ import type { DataProtectionOperationsOperations } from "./classic/dataProtectio
 import { _getDataProtectionOperationsOperations } from "./classic/dataProtectionOperations/index.js";
 import type { DeletedBackupInstancesOperations } from "./classic/deletedBackupInstances/index.js";
 import { _getDeletedBackupInstancesOperations } from "./classic/deletedBackupInstances/index.js";
-import type { DeletedBackupVaultsOperations } from "./classic/deletedBackupVaults/index.js";
-import { _getDeletedBackupVaultsOperations } from "./classic/deletedBackupVaults/index.js";
 import type { DppResourceGuardProxyOperations } from "./classic/dppResourceGuardProxy/index.js";
 import { _getDppResourceGuardProxyOperations } from "./classic/dppResourceGuardProxy/index.js";
 import type { ExportJobsOperations } from "./classic/exportJobs/index.js";
@@ -52,39 +50,24 @@ import { _getRestorableTimeRangesOperations } from "./classic/restorableTimeRang
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export type { DataProtectionClientOptionalParams } from "./api/dataProtectionContext.js";
+export { type DataProtectionClientOptionalParams } from "./api/dataProtectionContext.js";
 
 export class DataProtectionClient {
   private _client: DataProtectionContext;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
-  constructor(credential: TokenCredential, options?: DataProtectionClientOptionalParams);
-  constructor(
-    credential: TokenCredential,
-    subscriptionId: string,
-    options?: DataProtectionClientOptionalParams,
-  );
   /** Open API 2.0 Specs for Azure Data Protection service */
   constructor(
     credential: TokenCredential,
-    subscriptionIdOrOptions?: string | DataProtectionClientOptionalParams,
-    options?: DataProtectionClientOptionalParams,
+    subscriptionId: string,
+    options: DataProtectionClientOptionalParams = {},
   ) {
-    let subscriptionId: string | undefined;
-
-    if (typeof subscriptionIdOrOptions === "string") {
-      subscriptionId = subscriptionIdOrOptions;
-    } else if (typeof subscriptionIdOrOptions === "object") {
-      options = subscriptionIdOrOptions;
-    }
-
-    options = options ?? {};
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createDataProtection(credential, subscriptionId ?? "", {
+    this._client = createDataProtection(credential, subscriptionId, {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });
@@ -114,7 +97,6 @@ export class DataProtectionClient {
     );
     this.backupVaults = _getBackupVaultsOperations(this._client);
     this.resourceGuards = _getResourceGuardsOperations(this._client);
-    this.deletedBackupVaults = _getDeletedBackupVaultsOperations(this._client);
     this.backupVaultOperationResults = _getBackupVaultOperationResultsOperations(this._client);
     this.backupInstances = _getBackupInstancesOperations(this._client);
     this.dataProtectionOperations = _getDataProtectionOperationsOperations(this._client);
@@ -158,8 +140,6 @@ export class DataProtectionClient {
   public readonly backupVaults: BackupVaultsOperations;
   /** The operation groups for resourceGuards */
   public readonly resourceGuards: ResourceGuardsOperations;
-  /** The operation groups for deletedBackupVaults */
-  public readonly deletedBackupVaults: DeletedBackupVaultsOperations;
   /** The operation groups for backupVaultOperationResults */
   public readonly backupVaultOperationResults: BackupVaultOperationResultsOperations;
   /** The operation groups for backupInstances */

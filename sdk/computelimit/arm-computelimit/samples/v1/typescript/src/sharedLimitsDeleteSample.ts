@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to disables sharing of a compute limit by the host subscription with its guest subscriptions.
  *
  * @summary disables sharing of a compute limit by the host subscription with its guest subscriptions.
- * x-ms-original-file: 2026-04-30/SharedLimits_Delete.json
+ * x-ms-original-file: 2026-03-20/SharedLimits_Delete.json
  */
 async function deleteASharedLimit(): Promise<void> {
   const credential = new DefaultAzureCredential();

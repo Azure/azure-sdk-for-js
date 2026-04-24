@@ -5,19 +5,13 @@ import { describe, it, assert, expect, beforeEach } from "vitest";
 import { AbortError } from "@azure/abort-controller";
 import type { CancellableAsyncLock } from "../../src/util/lock.js";
 import { CancellableAsyncLockImpl } from "../../src/util/lock.js";
-
-type CancellableAsyncLockPrivate = {
-  _keyMap: Map<string, unknown[]>;
-  _removeTaskDetails: (key: string, taskDetails: unknown) => void;
-  _execute: (key: string) => Promise<void>;
-};
 import { OperationTimeoutError } from "rhea-promise";
 import { delay } from "../../src/index.js";
 import { settleAllTasks } from "../utils/utils.js";
 
-const defaultOptions = { timeoutInMs: undefined, abortSignal: undefined };
-
 describe("CancellableAsyncLock", function () {
+  const TEST_FAILURE = "Test failure";
+
   describe(".acquire", function () {
     let lock: CancellableAsyncLock;
     beforeEach(() => {
@@ -42,15 +36,19 @@ describe("CancellableAsyncLock", function () {
     });
 
     it("forwards error from task", async () => {
-      await expect(
-        lock.acquire(
+      try {
+        await lock.acquire(
           "lock",
           async () => {
             throw new Error("I break things!");
           },
-          defaultOptions,
-        ),
-      ).rejects.toThrow("I break things!");
+          { timeoutInMs: undefined, abortSignal: undefined },
+        );
+        throw new Error(TEST_FAILURE);
+      } catch (err) {
+        assert.instanceOf(err, Error);
+        assert.equal((err as Error).message, "I break things!");
+      }
     });
 
     it("works using single key", async () => {
@@ -67,7 +65,7 @@ describe("CancellableAsyncLock", function () {
               await delay(taskCount - i);
               return i;
             },
-            defaultOptions,
+            { timeoutInMs: undefined, abortSignal: undefined },
           ),
         );
       }
@@ -103,7 +101,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 0;
           },
-          defaultOptions,
+          { timeoutInMs: undefined, abortSignal: undefined },
         ),
         lock.acquire(
           "1",
@@ -111,7 +109,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 2;
           },
-          defaultOptions,
+          { timeoutInMs: undefined, abortSignal: undefined },
         ),
         lock.acquire(
           "2",
@@ -119,7 +117,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 1;
           },
-          defaultOptions,
+          { timeoutInMs: undefined, abortSignal: undefined },
         ),
         lock.acquire(
           "1",
@@ -127,7 +125,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 3;
           },
-          defaultOptions,
+          { timeoutInMs: undefined, abortSignal: undefined },
         ),
       ];
 
@@ -161,7 +159,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 0;
           },
-          defaultOptions,
+          { timeoutInMs: undefined, abortSignal: undefined },
         ),
         lock.acquire(
           "lock",
@@ -169,7 +167,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 1;
           },
-          defaultOptions,
+          { timeoutInMs: undefined, abortSignal: undefined },
         ),
         lock.acquire(
           "lock",
@@ -185,7 +183,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 3;
           },
-          defaultOptions,
+          { timeoutInMs: undefined, abortSignal: undefined },
         ),
         lock.acquire(
           "lock",
@@ -223,7 +221,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 0;
           },
-          defaultOptions,
+          { timeoutInMs: undefined, abortSignal: undefined },
         ),
         lock.acquire(
           "lock",
@@ -231,7 +229,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 1;
           },
-          defaultOptions,
+          { timeoutInMs: undefined, abortSignal: undefined },
         ),
         lock.acquire(
           "lock",
@@ -247,7 +245,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 3;
           },
-          defaultOptions,
+          { timeoutInMs: undefined, abortSignal: undefined },
         ),
         lock.acquire(
           "lock",
@@ -308,7 +306,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 0;
           },
-          defaultOptions,
+          { timeoutInMs: undefined, abortSignal: undefined },
         ),
         lock.acquire(
           "lock",
@@ -316,7 +314,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 1;
           },
-          defaultOptions,
+          { timeoutInMs: undefined, abortSignal: undefined },
         ),
         lock.acquire(
           "lock",
@@ -332,7 +330,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 3;
           },
-          defaultOptions,
+          { timeoutInMs: undefined, abortSignal: undefined },
         ),
         lock.acquire(
           "lock",
@@ -403,85 +401,5 @@ describe("CancellableAsyncLock", function () {
       resolve();
       await firstTask;
     });
-  });
-});
-
-describe("lock.ts", () => {
-  it("handles empty queue during processing", async () => {
-    const lock = new CancellableAsyncLockImpl();
-
-    // Simple task to verify the lock works
-    const result = await lock.acquire("test-key", async () => "done", defaultOptions);
-    assert.equal(result, "done");
-  });
-
-  it("handles timeout removing a task from the queue", async () => {
-    const { delay: coreDelay } = await import("@azure/core-util");
-    const lock = new CancellableAsyncLockImpl();
-
-    // Task 1: Hold the lock for a bit
-    const task1 = lock.acquire(
-      "key",
-      async () => {
-        await coreDelay(50);
-        return 1;
-      },
-      defaultOptions,
-    );
-
-    // Task 2: Times out immediately
-    const task2 = lock
-      .acquire(
-        "key",
-        async () => {
-          return 2;
-        },
-        { abortSignal: undefined, timeoutInMs: 0 },
-      )
-      .catch((err) => {
-        // Catch the timeout error to prevent unhandled rejection
-        assert.equal(err.name, "OperationTimeoutError");
-        return "timed-out";
-      });
-
-    const result1 = await task1;
-    assert.equal(result1, 1);
-
-    const result2 = await task2;
-    assert.equal(result2, "timed-out");
-  });
-});
-
-describe("lock.ts - _removeTaskDetails with empty queue", () => {
-  it("_removeTaskDetails returns early when taskQueue is empty", async () => {
-    const lock = new CancellableAsyncLockImpl();
-
-    // Access private method via type assertion
-    const lockPrivate = lock as unknown as CancellableAsyncLockPrivate;
-
-    // Call _removeTaskDetails with a key that doesn't exist in the map
-    lockPrivate._removeTaskDetails("nonexistent-key", {});
-    // Should not throw - just returns early
-  });
-
-  it("_removeTaskDetails returns early when taskQueue is empty array", async () => {
-    const lock = new CancellableAsyncLockImpl();
-
-    const lockPrivate = lock as unknown as CancellableAsyncLockPrivate;
-    // Set an empty array in the key map
-    lockPrivate._keyMap.set("empty-key", []);
-
-    // Call _removeTaskDetails - should hit the !taskQueue.length branch
-    lockPrivate._removeTaskDetails("empty-key", {});
-  });
-
-  it("_execute returns early when taskQueue is empty", async () => {
-    const lock = new CancellableAsyncLockImpl();
-
-    const lockPrivate = lock as unknown as CancellableAsyncLockPrivate;
-    // Ensure no task queue exists for the key
-    // Call _execute directly
-    await lockPrivate._execute("no-tasks-key");
-    // Should return immediately without error
   });
 });
