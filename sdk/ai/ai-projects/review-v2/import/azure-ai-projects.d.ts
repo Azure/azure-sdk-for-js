@@ -51994,16 +51994,24 @@ declare module "@azure/ai-projects" { // 2.0.2
         getApplicationInsightsConnectionString(options?: OperationOptions): Promise<string>;
     }
 
+    /** The main client for the AIProjectClient service. It provides access to the various operations available in the service. */
+    export class AIProjectClient {
+        readonly indexes: IndexesOperations;
+        readonly deployments: DeploymentsOperations;
+        readonly datasets: DatasetsOperations;
+        readonly connections: ConnectionsOperations;
+        readonly evaluationRules: EvaluationRulesOperations;
+        readonly agents: AgentsOperations;
+        readonly beta: BetaOperations;
+        readonly telemetry: TelemetryOperations;
+        readonly endpoint: string;
+        constructor(endpoint: string, credential: TokenCredential, options?: AIProjectClientOptionalParams);
+        getOpenAIClient(opts?: OpenAIClientOptions): OpenAI;
+    }
+
     // Reachable via: AgentsOperations → AgentsCreateAgentVersionFromManifestOptionalParams
     /** Optional parameters. */
     export interface AgentsCreateAgentVersionFromManifestOptionalParams extends OperationOptions {
-        metadata?: Record<string, string>;
-        description?: string;
-    }
-
-    /** Optional parameters. */
-    export interface AgentsCreateVersionOptionalParams extends OperationOptions {
-        foundryFeatures?: AgentDefinitionOptInKeys;
         metadata?: Record<string, string>;
         description?: string;
     }
@@ -52038,6 +52046,13 @@ declare module "@azure/ai-projects" { // 2.0.2
         description?: string;
     }
 
+    /** Optional parameters. */
+    export interface AgentsCreateVersionOptionalParams extends OperationOptions {
+        foundryFeatures?: AgentDefinitionOptInKeys;
+        metadata?: Record<string, string>;
+        description?: string;
+    }
+
     /** Error response for API failures. */
     export interface ApiErrorResponse {
         error: ErrorModel;
@@ -52066,15 +52081,15 @@ declare module "@azure/ai-projects" { // 2.0.2
     /** The type of memory store implementation to use. */
     export type MemoryStoreKind = "default";
 
-    /** Type of AgentType */
-    export type AgentType = "agent" | "agent.version" | "agent.deleted" | "agent.version.deleted" | "agent.container";
-
     // Reachable via: AgentsCreateOptionalParams → AgentDefinitionOptInKeys
     // Reachable via: AgentsCreateVersionOptionalParams → AgentDefinitionOptInKeys
     // Reachable via: AgentsOperations → AgentDefinitionOptInKeys
     // Reachable via: AgentsUpdateOptionalParams → AgentDefinitionOptInKeys
     /** Feature opt-in keys for agent definition operations supporting hosted or workflow agents. */
     export type AgentDefinitionOptInKeys = "HostedAgents=V1Preview" | "WorkflowAgents=V1Preview";
+
+    /** Type of AgentType */
+    export type AgentType = "agent" | "agent.version" | "agent.deleted" | "agent.version.deleted" | "agent.container";
 
     /** Type of FoundryFeaturesOptInKeys */
     export type FoundryFeaturesOptInKeys = "Evaluations=V1Preview" | "Schedules=V1Preview" | "RedTeams=V1Preview" | "Insights=V1Preview" | "MemoryStores=V1Preview";

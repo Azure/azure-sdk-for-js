@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "noEmit": true,
+    "types": ["node"],
+    "composite": true,
+    "lib": ["ES2023"]
+  },
+  "include": ["./*.d.ts"]
+}
