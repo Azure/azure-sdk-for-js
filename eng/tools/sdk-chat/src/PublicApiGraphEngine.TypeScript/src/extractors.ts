@@ -1104,6 +1104,84 @@ export function extractModule(sourceFile: SourceFile, moduleName: string, ctx: E
         .filter((ns): ns is NamespaceInfo => ns !== null);
     if (namespaces.length) result.namespaces = mergeNamespaces(namespaces);
 
+    // Follow re-exports (export { X } from "./foo") to collect symbols from
+    // target modules. This is critical for subpath entry points that only
+    // re-export and have no local declarations.
+    const seenReExportFiles = new Set<string>();
+    for (const exportDecl of sourceFile.getExportDeclarations()) {
+        const targetFile = exportDecl.getModuleSpecifierSourceFile();
+        if (!targetFile) continue;
+        const targetPath = targetFile.getFilePath();
+
+        // For "export * from" or namespace re-exports — extract all from target
+        if (exportDecl.isNamespaceExport() || !exportDecl.getNamedExports().length) {
+            if (seenReExportFiles.has(targetPath)) continue;
+            seenReExportFiles.add(targetPath);
+            const targetModule = extractModule(targetFile, moduleName, ctx);
+            if (targetModule) {
+                if (targetModule.classes) (result.classes ??= []).push(...targetModule.classes);
+                if (targetModule.interfaces) (result.interfaces ??= []).push(...mergeInterfaces(targetModule.interfaces));
+                if (targetModule.enums) (result.enums ??= []).push(...targetModule.enums);
+                if (targetModule.types) (result.types ??= []).push(...targetModule.types);
+                if (targetModule.functions) (result.functions ??= []).push(...targetModule.functions);
+                if (targetModule.namespaces) (result.namespaces ??= []).push(...targetModule.namespaces);
+            }
+            continue;
+        }
+
+        // For named re-exports, look up each symbol in the target file by name
+        for (const namedExport of exportDecl.getNamedExports()) {
+            const origName = namedExport.getName();
+            const exportedName = namedExport.getAliasNode()?.getText() ?? origName;
+            // Skip if we already have this symbol
+            if (result.classes?.some(c => c.name === exportedName) ||
+                result.interfaces?.some(i => i.name === exportedName) ||
+                result.enums?.some(e => e.name === exportedName) ||
+                result.types?.some(t => t.name === exportedName) ||
+                result.functions?.some(f => f.name === exportedName)) {
+                continue;
+            }
+
+            const cls = targetFile.getClass(origName);
+            if (cls && cls.isExported() && !hasInternalOrHiddenTag(cls)) {
+                const extracted = extractClass(cls, ctx);
+                if (exportedName !== origName) extracted.name = exportedName;
+                (result.classes ??= []).push(extracted);
+                continue;
+            }
+            const iface = targetFile.getInterface(origName);
+            if (iface && iface.isExported() && !hasInternalOrHiddenTag(iface)) {
+                const extracted = extractInterface(iface, ctx);
+                if (exportedName !== origName) extracted.name = exportedName;
+                (result.interfaces ??= []).push(extracted);
+                continue;
+            }
+            const enumDecl = targetFile.getEnum(origName);
+            if (enumDecl && enumDecl.isExported() && !hasInternalOrHiddenTag(enumDecl)) {
+                const extracted = extractEnum(enumDecl, ctx);
+                if (exportedName !== origName) extracted.name = exportedName;
+                (result.enums ??= []).push(extracted);
+                continue;
+            }
+            const typeAlias = targetFile.getTypeAlias(origName);
+            if (typeAlias && typeAlias.isExported() && !hasInternalOrHiddenTag(typeAlias)) {
+                const extracted = extractTypeAlias(typeAlias, ctx);
+                if (exportedName !== origName) extracted.name = exportedName;
+                (result.types ??= []).push(extracted);
+                continue;
+            }
+            const fn = targetFile.getFunction(origName);
+            if (fn && fn.isExported() && !hasInternalOrHiddenTag(fn)) {
+                const extracted = extractFunction(fn, ctx);
+                if (extracted) {
+                    if (exportedName !== origName) extracted.name = exportedName;
+                    (result.functions ??= []).push(extracted);
+                }
+                continue;
+            }
+        }
+    }
+
     // Check if anything was graphed
     if (
         !result.classes &&

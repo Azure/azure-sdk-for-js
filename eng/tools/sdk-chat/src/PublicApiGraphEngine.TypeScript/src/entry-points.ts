@@ -562,6 +562,8 @@ export function extractExportedSymbols(project: Project, entryEntries: ExportEnt
         const sourceFile = project.getSourceFile(entry.filePath);
         if (!sourceFile) continue;
 
+        const entryAbsPath = path.resolve(entry.filePath);
+
         for (const [name, declarations] of sourceFile.getExportedDeclarations()) {
             if (declarations.length === 0) continue;
             // Use the actual declaration file for the qualified key so that
@@ -573,6 +575,20 @@ export function extractExportedSymbols(project: Project, entryEntries: ExportEnt
             const existingShared = exportedSymbols.get(qualifiedKey);
             if (existingShared) {
                 existingShared.conditions.add(entry.condition);
+
+                // Also store under the ENTRY file path so that modules built from
+                // re-export-only files (subpath entry points) can look up their
+                // symbols via their own source file path.
+                if (declFile !== entryAbsPath) {
+                    const entryKey = makeExportSymbolKey(entryAbsPath, name);
+                    const existingEntryKey = exportedSymbols.get(entryKey);
+                    if (existingEntryKey) {
+                        existingEntryKey.conditions.add(entry.condition);
+                    } else {
+                        exportedSymbols.set(entryKey, { ...existingShared, conditions: new Set(existingShared.conditions) });
+                    }
+                }
+
                 continue;
             }
 
@@ -583,7 +599,16 @@ export function extractExportedSymbols(project: Project, entryEntries: ExportEnt
             });
 
             if (!isDeclaredInAnyEntry) {
-                exportedSymbols.set(qualifiedKey, { exportPath: entry.exportPath, condition: entry.condition, conditions: new Set([entry.condition]) });
+                const info: ExportedSymbolInfo = { exportPath: entry.exportPath, condition: entry.condition, conditions: new Set([entry.condition]) };
+                exportedSymbols.set(qualifiedKey, info);
+
+                // Also store under the entry file path for re-export module lookups
+                if (declFile !== entryAbsPath) {
+                    const entryKey = makeExportSymbolKey(entryAbsPath, name);
+                    if (!exportedSymbols.has(entryKey)) {
+                        exportedSymbols.set(entryKey, { ...info, conditions: new Set(info.conditions) });
+                    }
+                }
 
                 // Also store under declared name(s) for aliased re-exports
                 for (const decl of declarations) {
