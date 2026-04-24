@@ -15,13 +15,13 @@ import { stringToUint8Array } from "./crypto.js";
 let hsmClient: KeyClient;
 
 async function createAnOctKey() {
-  const keyName = "MyOctKeyName";
+  const keyName = `MyOctKeyName-${Date.now()}`;
   const result = await hsmClient.createOctKey(keyName, { hsm: true });
   console.log("result: ", result);
 }
 
 async function getKeyAttestation() {
-  const keyName = "MyAttestKeyName";
+  const keyName = `MyAttestKeyName-${Date.now()}`;
   await hsmClient.createRsaKey(keyName, { hsm: true });
 
   const latestKey = await hsmClient.getKeyAttestation(keyName);
@@ -34,7 +34,7 @@ async function getKeyAttestation() {
 }
 
 async function releaseAKey() {
-  const keyName = "myKey";
+  const keyName = `MyReleaseKey-${Date.now()}`;
   const attestationProviderUrl = process.env["AZURE_KEYVAULT_ATTESTATION_PROVIDER_URL"]!;
   const encodedReleasePolicy = stringToUint8Array(
     JSON.stringify({
@@ -52,7 +52,7 @@ async function releaseAKey() {
   });
   // Obtain an attestation token from Azure Attestation Service using the OpenEnclave report.
   const attestation = await getAttestationToken(
-    process.env["AZURE_KEYVAULT_ATTESTATION_PROVIDER_URL"]!,
+    attestationProviderUrl,
     new DefaultAzureCredential(),
     decodeBase64Url(openEnclaveReport),
   );

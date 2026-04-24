@@ -27,7 +27,7 @@ async function createAKeyClientWithASpecificVersion() {
 
   // Change the Azure Key Vault service API version being used via the `serviceVersion` option
   const client = new KeyClient(url, credential, {
-    serviceVersion: "7.0", // Supported versions: 7.0 through 7.6
+    serviceVersion: "7.0", // Supported versions: 7.0 through 7.6 (default: 7.6)
   });
   console.log("KeyClient vault URL:", client.vaultUrl);
 }
@@ -40,7 +40,7 @@ async function createACryptographyClient() {
   const client = new KeyClient(url, credential);
 
   // Create or retrieve a key from the keyvault
-  const myKey = await client.createKey("MyKey", "RSA");
+  const myKey = await client.createKey(`MyCryptoKey-${Date.now()}`, "RSA");
 
   // Lastly, create our cryptography client and connect to the service
   const cryptographyClient = new CryptographyClient(myKey, credential);
@@ -66,10 +66,16 @@ async function createALocalCryptographyClient() {
   };
   const client = new CryptographyClient(jsonWebKey);
   console.log("CryptographyClient key ID:", client.keyID);
+  console.log(
+    "NOTE: Crypto operations on this illustrative key will fail. Replace with a real JWK.",
+  );
 }
 
 async function setTheLogLevel() {
   setLogLevel("info");
+  console.log(
+    "Log level set to 'info'. SDK HTTP request/response details will appear in the console.",
+  );
 }
 
 export async function main(): Promise<void> {

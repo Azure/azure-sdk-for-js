@@ -34,7 +34,7 @@ async function createAndGetAKey() {
 }
 
 async function listKeys() {
-  // Or list the keys we have
+  // List all non-deleted keys in the vault
   for await (const keyProperties of client.listPropertiesOfKeys()) {
     const innerKey = await client.getKey(keyProperties.name);
     console.log("key: ", innerKey);
@@ -82,7 +82,7 @@ async function createAnRsaKey() {
 }
 
 async function importAKey() {
-  const keyName = "MyKey";
+  const keyName = `MyImportedKey-${Date.now()}`;
   const jsonWebKey = createRsaKey();
 
   const result = await client.importKey(keyName, jsonWebKey);
@@ -90,13 +90,17 @@ async function importAKey() {
 }
 
 async function getACryptographyClient() {
+  const keyName = `MyCryptoClientKey-${Date.now()}`;
+
+  await client.createKey(keyName, "RSA");
+
   // Get a cryptography client for a given key
-  const cryptographyClient = client.getCryptographyClient("MyKey");
-  console.log("cryptographyClient: ", cryptographyClient.keyID);
+  const cryptographyClient = client.getCryptographyClient(keyName);
+  console.log("CryptographyClient key ID:", cryptographyClient.keyID);
 }
 
 async function getAKey() {
-  const keyName = "MyGetKeyName";
+  const keyName = `MyGetKeyName-${Date.now()}`;
 
   await client.createKey(keyName, "RSA");
 
@@ -194,7 +198,8 @@ async function restoreAKeyFromBackup() {
 
   await client.purgeDeletedKey(keyName);
 
-  await retryWithBackoff(() => client.restoreKeyBackup(backupContents!));
+  const restoredKey = await retryWithBackoff(() => client.restoreKeyBackup(backupContents!));
+  console.log("restoredKey: ", restoredKey);
 }
 
 async function deleteAKeyWithSoftDelete() {
@@ -212,7 +217,8 @@ async function deleteAKeyWithSoftDelete() {
   await poller.pollUntilDone();
 
   // You can also get the deleted key this way:
-  await client.getDeletedKey(keyName);
+  const fetchedDeleted = await client.getDeletedKey(keyName);
+  console.log("fetchedDeleted: ", fetchedDeleted);
 
   // Deleted keys can also be recovered or purged:
 

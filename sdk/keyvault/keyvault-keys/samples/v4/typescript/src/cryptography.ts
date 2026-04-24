@@ -10,13 +10,13 @@ import "dotenv/config";
 import type { TokenCredential } from "@azure/core-auth";
 import { DefaultAzureCredential } from "@azure/identity";
 import { CryptographyClient, KeyClient } from "@azure/keyvault-keys";
-import { createHash } from "node:crypto";
+import { createHash, randomBytes } from "node:crypto";
 
 let client: KeyClient;
 let credential: TokenCredential;
 
 async function encryptAndDecrypt() {
-  const keyName = `crypto-sample-key${Date.now()}`;
+  const keyName = `crypto-sample-key-${Date.now()}`;
   // Connection to Azure Key Vault Cryptography functionality
   const myWorkKey = await client.createKey(keyName, "RSA");
   const cryptoClient = new CryptographyClient(myWorkKey, credential);
@@ -33,7 +33,7 @@ async function encryptAndDecrypt() {
 }
 
 async function signAndVerify() {
-  const keyName = `crypto-sample-key${Date.now()}`;
+  const keyName = `crypto-sample-key-${Date.now()}`;
   // Connection to Azure Key Vault Cryptography functionality
   const myWorkKey = await client.createKey(keyName, "RSA");
   const cryptoClient = new CryptographyClient(myWorkKey, credential);
@@ -49,7 +49,7 @@ async function signAndVerify() {
 }
 
 async function wrapAndUnwrapKey() {
-  const keyName = `crypto-sample-key${Date.now()}`;
+  const keyName = `crypto-sample-key-${Date.now()}`;
   const myWorkKey = await client.createKey(keyName, "RSA");
   const cryptoClient = new CryptographyClient(myWorkKey, credential);
   // Wrap and unwrap
@@ -65,7 +65,7 @@ async function encryptData() {
   const cryptographyClient = new CryptographyClient(myKey, credential);
 
   const encryptResult = await cryptographyClient.encrypt({
-    algorithm: "RSA1_5",
+    algorithm: "RSA-OAEP",
     plaintext: Buffer.from("My Message"),
   });
   console.log("encrypt result: ", encryptResult.result);
@@ -77,13 +77,13 @@ async function decryptData() {
   const cryptographyClient = new CryptographyClient(myKey, credential);
 
   const encryptResult = await cryptographyClient.encrypt({
-    algorithm: "RSA1_5",
+    algorithm: "RSA-OAEP",
     plaintext: Buffer.from("My Message"),
   });
   console.log("encrypt result: ", encryptResult.result);
 
   const decryptResult = await cryptographyClient.decrypt({
-    algorithm: "RSA1_5",
+    algorithm: "RSA-OAEP",
     ciphertext: encryptResult.result,
   });
   console.log("decrypt result: ", decryptResult.result.toString());
@@ -148,7 +148,9 @@ async function wrapAKey() {
   const myKey = await client.createKey(keyName, "RSA");
   const cryptographyClient = new CryptographyClient(myKey, credential);
 
-  const wrapResult = await cryptographyClient.wrapKey("RSA-OAEP", Buffer.from("My Key"));
+  const keyMaterial = randomBytes(32); // 256-bit symmetric key material
+
+  const wrapResult = await cryptographyClient.wrapKey("RSA-OAEP", keyMaterial);
   console.log("wrap result:", wrapResult.result);
 }
 
@@ -157,7 +159,9 @@ async function unwrapAKey() {
   const myKey = await client.createKey(keyName, "RSA");
   const cryptographyClient = new CryptographyClient(myKey, credential);
 
-  const wrapResult = await cryptographyClient.wrapKey("RSA-OAEP", Buffer.from("My Key"));
+  const keyMaterial = randomBytes(32); // 256-bit symmetric key material
+
+  const wrapResult = await cryptographyClient.wrapKey("RSA-OAEP", keyMaterial);
   console.log("wrap result:", wrapResult.result);
 
   const unwrapResult = await cryptographyClient.unwrapKey("RSA-OAEP", wrapResult.result);

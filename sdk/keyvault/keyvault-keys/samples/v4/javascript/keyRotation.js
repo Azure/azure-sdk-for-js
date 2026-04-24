@@ -49,27 +49,35 @@ async function createRotationPolicyAndRotate() {
 }
 
 async function getAKeyRotationPolicy() {
-  const keyName = "MyKeyNameGetRotPolicy";
+  const keyName = `MyKeyNameGetRotPolicy-${Date.now()}`;
 
   await client.createKey(keyName, "EC");
+
+  // Set a rotation policy first so the result is meaningful
+  await client.updateKeyRotationPolicy(keyName, {
+    lifetimeActions: [{ action: "Notify", timeBeforeExpiry: "P30D" }],
+    expiresIn: "P90D",
+  });
 
   const result = await client.getKeyRotationPolicy(keyName);
   console.log("result: ", result);
 }
 
 async function updateAKeyRotationPolicy() {
-  const keyName = "MyKeyNameUpdateRotPolicy";
+  const keyName = `MyKeyNameUpdateRotPolicy-${Date.now()}`;
 
   await client.createKey(keyName, "EC");
 
-  const myPolicy = await client.getKeyRotationPolicy(keyName);
-
-  const setPolicy = await client.updateKeyRotationPolicy(keyName, myPolicy);
+  // Update the rotation policy with meaningful lifetime actions
+  const setPolicy = await client.updateKeyRotationPolicy(keyName, {
+    lifetimeActions: [{ action: "Notify", timeBeforeExpiry: "P10D" }],
+    expiresIn: "P60D",
+  });
   console.log("setPolicy: ", setPolicy);
 }
 
 async function rotateAKey() {
-  const keyName = "MyKeyNameRotate";
+  const keyName = `MyKeyNameRotate-${Date.now()}`;
 
   await client.createKey(keyName, "EC");
 
