@@ -3,6 +3,2687 @@
 // Graphed by PublicApiGraphEngine.TypeScript
 
 
+declare module "@azure/ai-projects" { // 2.0.2
+    import type { AdditionalPolicyConfig, OperationOptions, OperationRequestOptions, FullOperationResponse, ClientOptions, RawResponseCallback } from "@azure-rest/core-client";
+    import type { AbortSignalLike } from "@azure/abort-controller";
+    import type { TokenCredential, AccessToken, GetTokenOptions, TracingContext } from "@azure/core-auth";
+    import type { PollerLike, OperationStatus, CancelOnProgress } from "@azure/core-lro";
+    import type { OperationState as _corelro_OperationState } from "@azure/core-lro";
+    import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+    import type { PipelineOptions, PipelineRetryOptions, ProxySettings, TlsSettings, KeyObject, PxfObject, RedirectPolicyOptions, UserAgentPolicyOptions, TelemetryOptions, PipelinePolicy, PipelineResponse, PipelineRequest, HttpHeaders, MultipartRequestBody, BodyPart, HttpClient, LogPolicyOptions, Pipeline, AddPolicyOptions, RawHttpHeaders, RequestBodyType, FormDataMap, FormDataValue, TransferProgressEvent, SendRequest, RawHttpHeadersInput, PipelinePhase } from "@azure/core-rest-pipeline";
+    import type { Agent as _corerestpipeline_Agent } from "@azure/core-rest-pipeline";
+    import type { OperationTracingOptions } from "@azure/core-tracing";
+    import type { TracingContext as _coretracing_TracingContext } from "@azure/core-tracing";
+    import type { HttpMethods } from "@azure/core-util";
+    import type { Debugger } from "@azure/logger";
+    import type { OpenAI, APIPromise, PagePromise, Completions, APIResource, Chat, Messages, CursorPage, AbstractPage, ChatCompletionRunner, EventStream, ChatCompletionStream, Embeddings, Files, Images, Transcriptions, Translations, Speech, Moderations, Models, Page, FineTuning, Methods, Jobs, Checkpoints, Permissions, Alpha, Graders, GraderModels, VectorStores, FileBatches, Content, Webhooks, Beta, Realtime, Sessions, TranscriptionSessions, ChatKit, Threads, ConversationCursorPage, Assistants, Runs, Steps, AssistantStream, OpenAIError, APIUserAbortError, APIError, Batches, Uploads, Parts, InputItems, InputTokens, ResponseStream, ClientSecrets, Calls, Conversations, Items, Evals, OutputItems, Containers, Skills, Versions, Videos, Stream, APIConnectionError, APIConnectionTimeoutError, NotFoundError, ConflictError, RateLimitError, BadRequestError, AuthenticationError, InternalServerError, PermissionDeniedError, UnprocessableEntityError, InvalidWebhookSignatureError, ChatCompletionStreamingRunner, AbstractChatCompletionRunner, WorkloadIdentity, SubjectTokenProvider, Completion, CompletionChoice, CompletionUsage, CompletionTokensDetails, PromptTokensDetails, ChatCompletionStoreMessage, ChatCompletionMessage, Annotation, URLCitation, ChatCompletionAudio, FunctionCall, ChatCompletionMessageFunctionToolCall, Function, ChatCompletionMessageCustomToolCall, Custom, ChatCompletionContentPartText, ChatCompletionContentPartImage, ImageURL, ChatCompletion, Choice, ChatCompletionTokenLogprob, ChatCompletionDeleted, ParsedChatCompletion, ParsedChoice, ParsedChatCompletionMessage, ParsedFunctionToolCall, ParsedFunction, ChatCompletionDeveloperMessageParam, ChatCompletionSystemMessageParam, ChatCompletionUserMessageParam, ChatCompletionContentPartInputAudio, InputAudio, File, ChatCompletionAssistantMessageParam, Audio, ChatCompletionContentPartRefusal, ChatCompletionToolMessageParam, ChatCompletionFunctionMessageParam, ChatCompletionSnapshot, Message, ChatCompletionChunk, CreateEmbeddingResponse, Embedding, FileObject, FileDeleted, ImagesResponse, Image, InputTokensDetails, OutputTokensDetails, Transcription, Logprob, Tokens, Duration, Translation, ModerationCreateResponse, Moderation, Categories, CategoryAppliedInputTypes, CategoryScores, Model, ModelDeleted, FineTuningJobCheckpoint, Metrics, FineTuningJob, Error, Hyperparameters, FineTuningJobWandbIntegrationObject, FineTuningJobWandbIntegration, Method, DpoMethod, DpoHyperparameters, ReinforcementMethod, StringCheckGrader, TextSimilarityGrader, PythonGrader, ScoreModelGrader, ResponseInputText, ResponseInputAudio, SamplingParams, MultiGrader, LabelModelGrader, ReinforcementHyperparameters, SupervisedMethod, SupervisedHyperparameters, FineTuningJobEvent, GraderRunResponse, Errors, GraderValidateResponse, VectorStoreFile, LastError, StaticFileChunkingStrategyObject, StaticFileChunkingStrategy, OtherFileChunkingStrategyObject, VectorStoreFileDeleted, FileContentResponse, VectorStoreFileBatch, FileCounts, VectorStore, ExpiresAfter, VectorStoreDeleted, VectorStoreSearchResponse, BatchCancelledWebhookEvent, Data, BatchCompletedWebhookEvent, BatchExpiredWebhookEvent, BatchFailedWebhookEvent, EvalRunCanceledWebhookEvent, EvalRunFailedWebhookEvent, EvalRunSucceededWebhookEvent, FineTuningJobCancelledWebhookEvent, FineTuningJobFailedWebhookEvent, FineTuningJobSucceededWebhookEvent, RealtimeCallIncomingWebhookEvent, ResponseCancelledWebhookEvent, ResponseCompletedWebhookEvent, ResponseFailedWebhookEvent, ResponseIncompleteWebhookEvent, SessionCreateResponse, ClientSecret, InputAudioTranscription, TracingConfiguration, TurnDetection, TranscriptionSession, ChatSession, ChatSessionChatKitConfiguration, ChatSessionAutomaticThreadTitling, ChatSessionFileUpload, ChatSessionHistory, ChatSessionRateLimits, ChatKitWorkflow, Tracing, ChatKitThread, Active, Locked, Closed, ThreadDeleteResponse, ChatKitThreadUserMessageItem, ChatKitAttachment, InputText, QuotedText, InferenceOptions, ChatKitThreadAssistantMessageItem, ChatKitResponseOutputText, URL, ChatKitWidgetItem, ChatKitClientToolCall, ChatKitTask, ChatKitTaskGroup, Assistant, FunctionDefinition, ResponseFormatText, ResponseFormatJSONObject, ResponseFormatJSONSchema, JSONSchema, ToolResources, CodeInterpreter, AssistantDeleted, RunStep, MessageCreationStepDetails, MessageCreation, ToolCallsStepDetails, CodeInterpreterToolCall, Logs, FileSearchToolCall, Result, FunctionToolCall, Run, IncompleteDetails, RequiredAction, RequiredActionFunctionToolCall, AssistantToolChoice, AssistantToolChoiceFunction, TruncationStrategy, AssistantStreamEvents, BaseEvents, Attachment, ImageFileContentBlock, ImageFile, ImageURLContentBlock, TextContentBlock, RefusalContentBlock, MessageDelta, ImageFileDeltaBlock, ImageFileDelta, TextDeltaBlock, TextDelta, FileCitationDeltaAnnotation, FileCitation, FilePathDeltaAnnotation, FilePath, RefusalDeltaBlock, ImageURLDeltaBlock, ImageURLDelta, RunStepDelta, RunStepDeltaMessageDelta, ToolCallDeltaObject, CodeInterpreterToolCallDelta, CodeInterpreterLogs, CodeInterpreterOutputImage, FileSearchToolCallDelta, FunctionToolCallDelta, ThreadCreated, Thread, ThreadRunCreated, ThreadRunQueued, ThreadRunInProgress, ThreadRunRequiresAction, ThreadRunCompleted, ThreadRunIncomplete, ThreadRunFailed, ThreadRunCancelling, ThreadRunCancelled, ThreadRunExpired, ThreadRunStepCreated, ThreadRunStepInProgress, ThreadRunStepDelta, RunStepDeltaEvent, ThreadRunStepCompleted, ThreadRunStepFailed, ThreadRunStepCancelled, ThreadRunStepExpired, ThreadMessageCreated, ThreadMessageInProgress, ThreadMessageDelta, MessageDeltaEvent, ThreadMessageCompleted, ThreadMessageIncomplete, ErrorEvent, MessageDeleted, ThreadDeleted, Batch, BatchError, BatchRequestCounts, BatchUsage, UploadPart, Upload, Responses, ResponseInputMessageItem, ResponseInputImage, ResponseInputFile, ResponseOutputMessage, ResponseOutputText, ContainerFileCitation, ResponseOutputRefusal, ResponseFileSearchToolCall, ResponseComputerToolCall, PendingSafetyCheck, Click, DoubleClick, Drag, Keypress, Move, Screenshot, Scroll, Type, Wait, ResponseComputerToolCallOutputItem, ResponseComputerToolCallOutputScreenshot, AcknowledgedSafetyCheck, ResponseFunctionWebSearch, Search, OpenPage, Find, ResponseFunctionToolCallItem, ResponseFunctionToolCall, ResponseFunctionToolCallOutputItem, ResponseToolSearchCall, ResponseToolSearchOutputItem, ComputerTool, UserLocation, Mcp, ContainerNetworkPolicyDisabled, ContainerNetworkPolicyAllowlist, ContainerNetworkPolicyDomainSecret, ImageGeneration, LocalShell, FunctionShellTool, ContainerAuto, SkillReference, InlineSkill, InlineSkillSource, LocalEnvironment, LocalSkill, ContainerReference, CustomTool, Grammar, NamespaceTool, ToolSearchTool, ApplyPatchTool, ResponseReasoningItem, Summary, ResponseCompactionItem, ImageGenerationCall, ResponseCodeInterpreterToolCall, LocalShellCall, LocalShellCallOutput, ResponseFunctionShellToolCall, ResponseLocalEnvironment, ResponseContainerReference, ResponseFunctionShellToolCallOutput, Timeout, Exit, ResponseApplyPatchToolCall, CreateFile, DeleteFile, UpdateFile, ResponseApplyPatchToolCallOutput, McpListTools, McpApprovalRequest, McpApprovalResponse, McpCall, ResponseCustomToolCallItem, ResponseCustomToolCall, ResponseCustomToolCallOutputItem, ResponseCustomToolCallOutput, InputTokenCountResponse, Response, ParsedResponse, ParsedResponseFunctionToolCall, ParsedResponseOutputMessage, ParsedResponseOutputText, ResponseError, EasyInputMessage, ComputerCallOutput, FunctionCallOutput, ResponseInputTextContent, ResponseInputImageContent, ResponseInputFileContent, ToolSearchCall, ResponseToolSearchOutputItemParam, ResponseCompactionItemParam, ShellCall, ShellCallOutput, ResponseFunctionShellCallOutputContent, ApplyPatchCall, ApplyPatchCallOutput, ItemReference, ToolChoiceTypes, ToolChoiceMcp, ToolChoiceApplyPatch, ToolChoiceShell, Conversation, ResponsePrompt, ResponseTextConfig, ResponseFormatTextJSONSchemaConfig, ResponseUsage, ResponseAudioDeltaEvent, ResponseAudioDoneEvent, ResponseAudioTranscriptDeltaEvent, ResponseAudioTranscriptDoneEvent, ResponseCodeInterpreterCallCodeDeltaEvent, ResponseCodeInterpreterCallCodeDoneEvent, ResponseCodeInterpreterCallCompletedEvent, ResponseCodeInterpreterCallInProgressEvent, ResponseCodeInterpreterCallInterpretingEvent, ResponseCompletedEvent, ResponseContentPartAddedEvent, ReasoningText, ResponseContentPartDoneEvent, ResponseCreatedEvent, ResponseErrorEvent, ResponseFileSearchCallCompletedEvent, ResponseFileSearchCallInProgressEvent, ResponseFileSearchCallSearchingEvent, ResponseFunctionCallArgumentsDeltaEvent, ResponseFunctionCallArgumentsDoneEvent, ResponseInProgressEvent, ResponseFailedEvent, ResponseIncompleteEvent, ResponseOutputItemAddedEvent, ResponseOutputItemDoneEvent, ResponseReasoningSummaryPartAddedEvent, Part, ResponseReasoningSummaryPartDoneEvent, ResponseReasoningSummaryTextDeltaEvent, ResponseReasoningSummaryTextDoneEvent, ResponseReasoningTextDeltaEvent, ResponseReasoningTextDoneEvent, ResponseRefusalDeltaEvent, ResponseRefusalDoneEvent, ResponseTextDeltaEvent, ResponseTextDoneEvent, ResponseWebSearchCallCompletedEvent, ResponseWebSearchCallInProgressEvent, ResponseWebSearchCallSearchingEvent, ResponseImageGenCallCompletedEvent, ResponseImageGenCallGeneratingEvent, ResponseImageGenCallInProgressEvent, ResponseImageGenCallPartialImageEvent, ResponseMcpCallArgumentsDeltaEvent, ResponseMcpCallArgumentsDoneEvent, ResponseMcpCallCompletedEvent, ResponseMcpCallFailedEvent, ResponseMcpCallInProgressEvent, ResponseMcpListToolsCompletedEvent, ResponseMcpListToolsFailedEvent, ResponseMcpListToolsInProgressEvent, ResponseOutputTextAnnotationAddedEvent, ResponseQueuedEvent, ResponseCustomToolCallInputDeltaEvent, ResponseCustomToolCallInputDoneEvent, CompactedResponse, ClientSecretCreateResponse, RealtimeSessionCreateResponse, RealtimeSessionClientSecret, AudioPCM, AudioPCMU, AudioPCMA, AudioTranscription, RealtimeFunctionTool, McpTool, RealtimeTruncationRetentionRatio, TokenLimits, RealtimeTranscriptionSessionCreateResponse, RealtimeTranscriptionSessionTurnDetection, ConversationItemList, TextContent, SummaryTextContent, ComputerScreenshotContent, ConversationDeletedResource, OutputItemRetrieveResponse, Sample, EvalAPIError, OutputItemListResponse, RunCreateResponse, CreateEvalJSONLRunDataSource, FileContent, FileID, CreateEvalCompletionsRunDataSource, StoredCompletions, Template, ChatCompletionFunctionTool, PerModelUsage, PerTestingCriteriaResult, ResultCounts, RunRetrieveResponse, RunListResponse, RunDeleteResponse, RunCancelResponse, EvalCreateResponse, EvalCustomDataSourceConfig, EvalStoredCompletionsDataSourceConfig, EvalGraderTextSimilarity, EvalGraderPython, EvalGraderScoreModel, EvalRetrieveResponse, EvalUpdateResponse, EvalListResponse, EvalDeleteResponse, FileCreateResponse, FileRetrieveResponse, FileListResponse, ContainerCreateResponse, NetworkPolicy, ContainerRetrieveResponse, ContainerListResponse, SkillVersion, DeletedSkillVersion, Skill, DeletedSkill, Video, VideoCreateError, VideoDeleteResponse, VideoCreateCharacterResponse, VideoGetCharacterResponse, FileLike, BlobLike, ResponseLike, FilePropertyBag, PageResponse, CursorPageParams, CursorPageResponse, ConversationCursorPageParams, ConversationCursorPageResponse, CompletionCreateParamsNonStreaming, CompletionCreateParamsBase, ChatCompletionStreamOptions, CompletionCreateParamsStreaming, ChatCompletionCreateParamsNonStreaming, ChatCompletionCreateParamsBase, ChatCompletionAudioParam, ID, ChatCompletionFunctionCallOption, ChatCompletionPredictionContent, ChatCompletionAllowedToolChoice, ChatCompletionAllowedTools, ChatCompletionNamedToolChoice, ChatCompletionNamedToolChoiceCustom, ChatCompletionCustomTool, WebSearchOptions, ChatCompletionCreateParamsStreaming, ChatCompletionUpdateParams, ChatCompletionListParams, RunnerOptions, MessageListParams, EmbeddingCreateParams, FileCreateParams, BunFile, FileListParams, ImageCreateVariationParams, ImageEditParamsNonStreaming, ImageEditParamsBase, ImageEditPartialImageEvent, ImageEditCompletedEvent, ImageEditParamsStreaming, ImageGenerateParamsNonStreaming, ImageGenerateParamsBase, ImageGenPartialImageEvent, ImageGenCompletedEvent, ImageGenerateParamsStreaming, TranscriptionCreateParamsNonStreaming, VadConfig, TranscriptionVerbose, TranscriptionSegment, TranscriptionWord, TranscriptionTextSegmentEvent, TranscriptionTextDeltaEvent, TranscriptionTextDoneEvent, TranscriptionCreateParamsStreaming, TranscriptionCreateParamsBase, TranscriptionDiarized, TranscriptionDiarizedSegment, TranslationCreateParams, TranslationVerbose, SpeechCreateParams, ModerationCreateParams, ModerationImageURLInput, ModerationTextInput, JobCreateParams, Integration, JobListParams, JobListEventsParams, CheckpointListParams, PermissionCreateResponse, PermissionCreateParams, PermissionRetrieveResponse, PermissionRetrieveParams, PermissionListResponse, PermissionListParams, PermissionDeleteResponse, PermissionDeleteParams, GraderRunParams, GraderValidateParams, VectorStoreCreateParams, AutoFileChunkingStrategyParam, StaticFileChunkingStrategyObjectParam, VectorStoreUpdateParams, VectorStoreListParams, VectorStoreSearchParams, FileRetrieveParams, FileUpdateParams, FileDeleteParams, FileContentParams, FileBatchCreateParams, FileBatchRetrieveParams, FileBatchCancelParams, FileBatchListFilesParams, ConversationCreatedEvent, ConversationItemContent, ConversationItemCreateEvent, ConversationItemCreatedEvent, ConversationItemDeleteEvent, ConversationItemDeletedEvent, ConversationItemInputAudioTranscriptionCompletedEvent, TranscriptTextUsageTokens, TranscriptTextUsageDuration, ConversationItemInputAudioTranscriptionDeltaEvent, ConversationItemInputAudioTranscriptionFailedEvent, ConversationItemRetrieveEvent, ConversationItemTruncateEvent, ConversationItemTruncatedEvent, ConversationItemWithReference, InputAudioBufferAppendEvent, InputAudioBufferClearEvent, InputAudioBufferClearedEvent, InputAudioBufferCommitEvent, InputAudioBufferCommittedEvent, InputAudioBufferSpeechStartedEvent, InputAudioBufferSpeechStoppedEvent, RateLimitsUpdatedEvent, RateLimit, OutputAudioBufferClear, ResponseCancelEvent, ResponseCreateEvent, SessionUpdateEvent, Session, TranscriptionSessionUpdate, RealtimeResponse, RealtimeResponseStatus, RealtimeResponseUsage, OutputTokenDetails, ConversationItemRetrieved, ResponseDoneEvent, SessionCreatedEvent, SessionUpdatedEvent, TranscriptionSessionUpdatedEvent, OutputAudioBufferStarted, OutputAudioBufferStopped, OutputAudioBufferCleared, SessionCreateParams, TranscriptionSessionCreateParams, ChatSessionWorkflowParam, ChatSessionChatKitConfigurationParam, AutomaticThreadTitling, FileUpload, History, ChatSessionExpiresAfterParam, ChatSessionRateLimitsParam, ThreadListParams, ThreadListItemsParams, ChatKitThreadItemList, AssistantCreateParams, AssistantUpdateParams, AssistantListParams, ErrorObject, ThreadStreamEvent, ToolOutput, TextContentBlockParam, AdditionalMessage, ThreadCreateAndRunParamsBase, RunCreateParamsBase, ThreadCreateParams, ThreadUpdateParams, ThreadCreateAndRunParamsNonStreaming, ThreadCreateAndRunParamsStreaming, ThreadCreateAndRunPollParams, RunCreateParamsNonStreaming, RunCreateParamsStreaming, RunRetrieveParams, RunUpdateParams, RunListParams, RunCancelParams, RunSubmitToolOutputsParamsNonStreaming, RunSubmitToolOutputsParamsBase, RunSubmitToolOutputsParamsStreaming, StepRetrieveParams, StepListParams, MessageCreateParams, MessageRetrieveParams, MessageUpdateParams, MessageDeleteParams, FileCitationAnnotation, FilePathAnnotation, BatchCreateParams, OutputExpiresAfter, BatchListParams, UploadCreateParams, UploadCompleteParams, PartCreateParams, ResponseCreateParamsNonStreaming, ResponseCreateParamsBase, ContextManagement, ResponseConversationParam, StreamOptions, ResponseCreateParamsStreaming, ResponseRetrieveParamsNonStreaming, ResponseRetrieveParamsBase, ResponseRetrieveParamsStreaming, ResponseCompactParams, ReasoningTextContent, ResponseOutputAudio, ResponsesClientEvent, InputItemListParams, ResponseItemList, InputTokenCountParams, RealtimeConversationItemSystemMessage, RealtimeConversationItemUserMessage, RealtimeConversationItemAssistantMessage, RealtimeConversationItemFunctionCall, RealtimeConversationItemFunctionCallOutput, RealtimeMcpApprovalResponse, RealtimeMcpListTools, RealtimeMcpToolCall, RealtimeMcpProtocolError, RealtimeMcpToolExecutionError, RealtimeMcphttpError, RealtimeMcpApprovalRequest, ConversationItemAdded, ConversationItemDone, LogProbProperties, ConversationItemInputAudioTranscriptionSegment, InputAudioBufferDtmfEventReceivedEvent, InputAudioBufferTimeoutTriggered, McpListToolsCompleted, McpListToolsFailed, McpListToolsInProgress, OutputAudioBufferClearEvent, RealtimeAudioConfig, RealtimeAudioConfigInput, RealtimeAudioConfigOutput, RealtimeResponseCreateParams, RealtimeResponseCreateAudioOutput, RealtimeResponseCreateMcpTool, RealtimeSessionCreateRequest, RealtimeTranscriptionSessionCreateRequest, RealtimeTranscriptionSessionAudio, RealtimeTranscriptionSessionAudioInput, RealtimeError, RealtimeErrorEvent, RealtimeResponseUsageInputTokenDetails, CachedTokensDetails, RealtimeResponseUsageOutputTokenDetails, ResponseMcpCallArgumentsDelta, ResponseMcpCallArgumentsDone, ResponseMcpCallInProgress, ResponseMcpCallCompleted, ResponseMcpCallFailed, RealtimeSession, ClientSecretCreateParams, CallAcceptParams, CallReferParams, CallRejectParams, ConversationCreateParams, ConversationUpdateParams, ConversationDeleted, ItemCreateParams, ItemRetrieveParams, ItemListParams, ItemDeleteParams, EvalCreateParams, LabelModel, TextSimilarity, Python, ScoreModel, EvalUpdateParams, EvalListParams, CreateEvalResponsesRunDataSource, RunDeleteParams, OutputItemRetrieveParams, OutputItemListParams, ContainerCreateParams, ContainerListParams, ContentRetrieveParams, SkillCreateParams, SkillUpdateParams, SkillListParams, SkillList, VersionCreateParams, VersionRetrieveParams, VersionListParams, VersionDeleteParams, SkillVersionList, VideoCreateParams, ImageInputReferenceParam, VideoListParams, VideoCreateCharacterParams, VideoDownloadContentParams, VideoEditParams, VideoReferenceInputParam, VideoExtendParams, VideoRemixParams, ResponseFormatTextGrammar, ResponseFormatTextPython, ChatCompletionRunnerEvents, AbstractChatCompletionRunnerEvents, ChatCompletionStreamEvents, ContentDeltaEvent, ContentDoneEvent, RefusalDeltaEvent, RefusalDoneEvent, FunctionToolCallArgumentsDeltaEvent, FunctionToolCallArgumentsDoneEvent, LogProbsContentDeltaEvent, LogProbsContentDoneEvent, LogProbsRefusalDeltaEvent, LogProbsRefusalDoneEvent, BlobPropertyBag, JSONSchemaObject, JSONSchemaArray, ApiKeySetter, MergedRequestInit, Fetch, HeadersLike, NullableHeaders, LogLevel, Logger, LogFn, OpenAIClientOptions, WithRequestID, FinalizedRequestInit, ChatCompletionStoreMessagesPage, ChatCompletionMessageToolCall, PageRequestOptions, HTTPMethod, ChatCompletionsPage, ChatCompletionMessageParam, ChatCompletionContentPart, ToolCall, ChatCompletionRole, _ReadableStream, FileObjectsPage, ModelsPage, FineTuningJobCheckpointsPage, Metadata, GraderInputs, FineTuningJobsPage, FineTuningJobEventsPage, FileChunkingStrategy, VectorStoreFilesPage, FileContentResponsesPage, VectorStoresPage, VectorStoreSearchResponsesPage, UnwrapWebhookEvent, ChatSessionStatus, ChatKitThreadsPage, ChatKitThreadItemListDataPage, AssistantTool, FunctionParameters, AssistantResponseFormatOption, AssistantsPage, RunStepsPage, RunStatus, AssistantToolChoiceOption, RunsPage, MessageContent, MessageContentDelta, AnnotationDelta, ToolCallDelta, AssistantStreamEvent, MessagesPage, BatchesPage, ResponseItemsPage, ResponseItem, ResponseInputMessageContentList, ResponseInputContent, ComputerActionList, ComputerAction, CustomToolInputFormat, ParsedResponseOutputItem, ParsedContent, ResponseInputItem, ResponseFunctionCallOutputItemList, ResponseFunctionCallOutputItem, ResponsesModel, ResponseStatus, ResponseFormatTextConfig, ResponseStreamEvent, ResponseOutputItem, RealtimeAudioFormats, NoiseReductionType, RealtimeTruncation, ConversationItem, ConversationItemsPage, OutputItemListResponsesPage, RunListResponsesPage, EvalListResponsesPage, FileListResponsesPage, ContainerListResponsesPage, SkillVersionsPage, SkillsPage, VideoModel, VideoSize, VideosPage, RequestInits, HeaderValue, brand_privateNullableHeaders, FinalRequestOptions, RequestOptions, PromiseOrValue, _RequestInfo, BlobLikePart, ToFileInput, CompletionCreateParams, ChatModel, ChatCompletionToolChoiceOption, ChatCompletionTool, ChatCompletionParseParams, ExtractParsedContentFromParams, ChatCompletionToolRunnerParams, ChatCompletionStreamingToolRunnerParams, ChatCompletionStreamParams, ChatCompletionModality, ChatCompletionReasoningEffort, ChatCompletionCreateParams, EmbeddingModel, Uploadable, FsReadStream, FilePurpose, ImageEditStreamEvent, ImageGenStreamEvent, ImageModel, ImageEditParams, ImageGenerateParams, AudioModel, AudioResponseFormat, TranscriptionStreamEvent, TranscriptionCreateResponse, TranscriptionCreateParams, TranslationCreateResponse, SpeechModel, ModerationMultiModalInput, ModerationModel, PermissionCreateResponsesPage, PermissionListResponsesPage, FileChunkingStrategyParam, RealtimeClientEvent, RealtimeServerEvent, MessageStreamEvent, RunStepStreamEvent, RunStreamEvent, RunSubmitToolOutputsParamsStream, ThreadCreateAndRunParamsBaseStream, MessageContentPartParam, RunCreateParamsBaseStream, ThreadCreateAndRunParams, RunCreateParams, RunSubmitToolOutputsParams, RunStepInclude, ResponseIncludable, ResponseInput, ResponseCreateParamsWithTools, ResponseStreamParams, ToolChoiceOptions, ResponseContent, ResponsesServerEvent, ResponseCreateParams, ResponseRetrieveParams, RealtimeAudioInputTurnDetection, RealtimeToolChoiceConfig, RealtimeToolsConfig, RealtimeToolsConfigUnion, RealtimeTracingConfig, RealtimeTranscriptionSessionAudioInputTurnDetection, VideoSeconds, AllModels, OAuthErrorCode, APIResponseProps, RunnableTools, AutoParseableTool, EventListener, EventParameters, ResponseEvents, ResponseStreamingParams, ResponseCreateAndStreamParams, ResponseStreamByIdParams, ParseableToolsParams, AnyChatCompletionCreateParams, AutoParseableResponseFormat, BaseFunctionsArgs, TranscriptionInclude, RunnableToolFunction, ToolOptions, RunnableFunctionWithoutParse, JSONSchemaTypeName, JSONSchemaType, JSONSchemaDefinition, RunnableToolFunctionWithoutParse, RunnableToolFunctionWithParse, RunnableFunctionWithParse, Logprobs, TopLogprob, Delta, Usage, InputTokenDetails, Input, OutputText, InputImage, SipHeader, ToolChoice, Task, FileSearch, SubmitToolOutputs, AssistantToolsFileSearchTypeOnly, Text, Path, Source, HybridSearch, McpToolFilter, McpToolApprovalFilter, Always, Never, CodeInterpreterToolAuto, InputImageMask, Action, Output, NoiseReduction, ServerVad, SemanticVad, EvalItem, ChatMessage, Approximate, Wandb, InputAudioNoiseReduction, ExpiresAt, Auto, Static, SimpleInputMessage, Event } from "openai";
+    import type { ClientOptions as _openai_ClientOptions } from "openai";
+    import type { Tool as _openai_Tool } from "openai";
+    import type { CodeInterpreterTool as _openai_CodeInterpreterTool } from "openai";
+    import type { FileSearchTool as _openai_FileSearchTool } from "openai";
+    import type { FunctionTool as _openai_FunctionTool } from "openai";
+    import type { ComparisonFilter as _openai_ComparisonFilter } from "openai";
+    import type { CompoundFilter as _openai_CompoundFilter } from "openai";
+    import type { ComputerUsePreviewTool as _openai_ComputerUsePreviewTool } from "openai";
+    import type { WebSearchTool as _openai_WebSearchTool } from "openai";
+    import type { Filters as _openai_Filters } from "openai";
+    import type { WebSearchPreviewTool as _openai_WebSearchPreviewTool } from "openai";
+    import type { ToolChoiceAllowed as _openai_ToolChoiceAllowed } from "openai";
+    import type { ToolChoiceFunction as _openai_ToolChoiceFunction } from "openai";
+    import type { ToolChoiceCustom as _openai_ToolChoiceCustom } from "openai";
+    import type { Reasoning as _openai_Reasoning } from "openai";
+    import type { ReasoningEffort as _openai_ReasoningEffort } from "openai";
+    import type { RankingOptions as _openai_RankingOptions } from "openai";
+
+    /** The main client for the AIProjectClient service. It provides access to the various operations available in the service. */
+    export class AIProjectClient {
+        readonly indexes: IndexesOperations;
+        readonly deployments: DeploymentsOperations;
+        readonly datasets: DatasetsOperations;
+        readonly connections: ConnectionsOperations;
+        readonly evaluationRules: EvaluationRulesOperations;
+        readonly agents: AgentsOperations;
+        readonly beta: BetaOperations;
+        readonly telemetry: TelemetryOperations;
+        readonly endpoint: string;
+        constructor(endpoint: string, credential: TokenCredential, options?: AIProjectClientOptionalParams);
+        getOpenAIClient(opts?: OpenAIClientOptions): OpenAI;
+    }
+
+    // Reachable via: AIProjectClient → AIProjectClientOptionalParams
+    /** Optional parameters for the client. */
+    export interface AIProjectClientOptionalParams extends ClientOptions {
+        apiVersion?: KnownApiVersions;
+    }
+
+    // Reachable via: AIProjectClient → Agent
+    /** This file contains only generated model types and their (de)serializers.
+    Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input. */
+    export interface Agent {
+        object: "agent";
+        id: string;
+        name: string;
+        versions: {
+            latest: AgentVersion;
+        };
+    }
+
+    // Reachable via: AIProjectClient → ReasoningEffort
+    /** Constrains effort on reasoning for
+    [reasoning models](https://platform.openai.com/docs/guides/reasoning).
+    Currently supported values are `none`, `minimal`, `low`, `medium`, `high`, and `xhigh`. Reducing
+    reasoning effort can result in faster responses and fewer tokens used
+    on reasoning in a response.
+    - `gpt-5.1` defaults to `none`, which does not perform reasoning. The supported reasoning values for `gpt-5.1` are `none`, `low`, `medium`, and `high`. Tool calls are supported for all reasoning values in gpt-5.1.
+    - All models before `gpt-5.1` default to `medium` reasoning effort, and do not support `none`.
+    - The `gpt-5-pro` model defaults to (and only supports) `high` reasoning effort.
+    - `xhigh` is supported for all models after `gpt-5.1-codex-max`. */
+    export type ReasoningEffort = "none" | "minimal" | "low" | "medium" | "high" | "xhigh";
+
+    // Reachable via: AIProjectClient → Tool
+    /** A tool that can be used to generate a response. */
+    export interface Tool {
+        type: ToolType;
+    }
+
+    // Reachable via: AIProjectClient → CodeInterpreterTool
+    /** A tool that runs Python code to help generate a response to a prompt. */
+    export interface CodeInterpreterTool extends Tool {
+        type: "code_interpreter";
+        container?: string | AutoCodeInterpreterToolParam;
+    }
+
+    // Reachable via: AIProjectClient → FileSearchTool
+    /** A tool that searches for relevant content from uploaded files. Learn more about the [file search tool](https://platform.openai.com/docs/guides/tools-file-search). */
+    export interface FileSearchTool extends Tool {
+        type: "file_search";
+        vector_store_ids: string[];
+        max_num_results?: number;
+        ranking_options?: RankingOptions;
+        filters?: Filters;
+    }
+
+    // Reachable via: AIProjectClient → RankingOptions
+    /** model interface RankingOptions */
+    export interface RankingOptions {
+        ranker?: RankerVersionType;
+        score_threshold?: number;
+        hybrid_search?: HybridSearchOptions;
+    }
+
+    // Reachable via: AIProjectClient → FunctionTool
+    /** Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling). */
+    export interface FunctionTool extends Tool {
+        type: "function";
+        name: string;
+        description?: string;
+        parameters: Record<string, unknown>;
+        strict: boolean;
+    }
+
+    // Reachable via: AIProjectClient → ComparisonFilter
+    /** A filter used to compare a specified attribute key to a given value using a defined comparison operation. */
+    export interface ComparisonFilter {
+        type: "eq" | "ne" | "gt" | "gte" | "lt" | "lte";
+        key: string;
+        value: string | number | boolean | ComparisonFilterValueItems[];
+    }
+
+    // Reachable via: AIProjectClient → CompoundFilter
+    /** Combine multiple filters using `and` or `or`. */
+    export interface CompoundFilter {
+        type: "and" | "or";
+        filters: (ComparisonFilter | CompoundFilter)[];
+    }
+
+    // Reachable via: AIProjectClient → ComputerUsePreviewTool
+    /** A tool that controls a virtual computer. Learn more about the [computer tool](https://platform.openai.com/docs/guides/tools-computer-use). */
+    export interface ComputerUsePreviewTool extends Tool {
+        type: "computer_use_preview";
+        environment: ComputerEnvironment;
+        display_width: number;
+        display_height: number;
+    }
+
+    // Reachable via: AIProjectClient → WebSearchTool
+    /** Search the Internet for sources related to the prompt. Learn more about the
+    [web search tool](https://platform.openai.com/docs/guides/tools-web-search). */
+    export interface WebSearchTool extends Tool {
+        type: "web_search";
+        filters?: WebSearchToolFilters;
+        user_location?: WebSearchApproximateLocation;
+        search_context_size?: "low" | "medium" | "high";
+        custom_search_configuration?: WebSearchConfiguration;
+    }
+
+    // Reachable via: AIProjectClient → Filters
+    /** Alias for Filters */
+    export type Filters = ComparisonFilter | CompoundFilter;
+
+    // Reachable via: AIProjectClient → WebSearchPreviewTool
+    /** This tool searches the web for relevant results to use in a response. Learn more about the [web search tool](https://platform.openai.com/docs/guides/tools-web-search). */
+    export interface WebSearchPreviewTool extends Tool {
+        type: "web_search_preview";
+        user_location?: ApproximateLocation;
+        search_context_size?: SearchContextSize;
+    }
+
+    // Reachable via: AIProjectClient → ToolChoiceAllowed
+    /** Constrains the tools available to the model to a pre-defined set. */
+    export interface ToolChoiceAllowed extends ToolChoiceParam {
+        type: "allowed_tools";
+        mode: "auto" | "required";
+        tools: Record<string, unknown>[];
+    }
+
+    // Reachable via: AIProjectClient → ToolChoiceFunction
+    /** Use this option to force the model to call a specific function. */
+    export interface ToolChoiceFunction extends ToolChoiceParam {
+        type: "function";
+        name: string;
+    }
+
+    // Reachable via: AIProjectClient → ToolChoiceCustom
+    /** Use this option to force the model to call a specific custom tool. */
+    export interface ToolChoiceCustom extends ToolChoiceParam {
+        type: "custom";
+        name: string;
+    }
+
+    // Reachable via: AIProjectClient → Reasoning
+    /** **gpt-5 and o-series models only**
+    Configuration options for
+    [reasoning models](https://platform.openai.com/docs/guides/reasoning). */
+    export interface Reasoning {
+        effort?: ReasoningEffort;
+        summary?: "auto" | "concise" | "detailed";
+        generate_summary?: "auto" | "concise" | "detailed";
+    }
+
+    // Reachable via: AIProjectClient → IndexesOperations
+    /** Interface representing a Indexes operations. */
+    export interface IndexesOperations {
+        createOrUpdate(name: string, version: string, index: IndexUnion, options?: IndexesCreateOrUpdateOptionalParams): Promise<IndexUnion>;
+        delete(name: string, version: string, options?: IndexesDeleteOptionalParams): Promise<void>;
+        get(name: string, version: string, options?: IndexesGetOptionalParams): Promise<IndexUnion>;
+        list(options?: IndexesListOptionalParams): PagedAsyncIterableIterator<IndexUnion>;
+        listVersions(name: string, options?: IndexesListVersionsOptionalParams): PagedAsyncIterableIterator<IndexUnion>;
+    }
+
+    // Reachable via: AIProjectClient → IndexUnion
+    /** Alias for IndexUnion */
+    export type IndexUnion = AzureAISearchIndex | ManagedAzureAISearchIndex | CosmosDBIndex | Index;
+
+    // Reachable via: AIProjectClient → AzureAISearchIndex
+    /** Azure AI Search Index Definition */
+    export interface AzureAISearchIndex extends Index {
+        type: "AzureSearch";
+        connectionName: string;
+        indexName: string;
+        fieldMapping?: FieldMapping;
+    }
+
+    // Reachable via: AIProjectClient → Index
+    /** Index resource Definition */
+    export interface Index {
+        type: IndexType;
+        readonly id?: string;
+        readonly name: string;
+        readonly version: string;
+        description?: string;
+        tags?: Record<string, string>;
+    }
+
+    // Reachable via: AIProjectClient → IndexType
+    /** Type of IndexType */
+    export type IndexType = "AzureSearch" | "CosmosDBNoSqlVectorStore" | "ManagedAzureSearch";
+
+    // Reachable via: AIProjectClient → FieldMapping
+    /** Field mapping configuration class */
+    export interface FieldMapping {
+        contentFields: string[];
+        filepathField?: string;
+        titleField?: string;
+        urlField?: string;
+        vectorFields?: string[];
+        metadataFields?: string[];
+    }
+
+    // Reachable via: AIProjectClient → ManagedAzureAISearchIndex
+    /** Managed Azure AI Search Index Definition */
+    export interface ManagedAzureAISearchIndex extends Index {
+        type: "ManagedAzureSearch";
+        vectorStoreId: string;
+    }
+
+    // Reachable via: AIProjectClient → CosmosDBIndex
+    /** CosmosDB Vector Store Index Definition */
+    export interface CosmosDBIndex extends Index {
+        type: "CosmosDBNoSqlVectorStore";
+        connectionName: string;
+        databaseName: string;
+        containerName: string;
+        embeddingConfiguration: EmbeddingConfiguration;
+        fieldMapping: FieldMapping;
+    }
+
+    // Reachable via: AIProjectClient → EmbeddingConfiguration
+    /** Embedding configuration class */
+    export interface EmbeddingConfiguration {
+        modelDeploymentName: string;
+        embeddingField: string;
+    }
+
+    // Reachable via: AIProjectClient → IndexesCreateOrUpdateOptionalParams
+    /** Optional parameters. */
+    export interface IndexesCreateOrUpdateOptionalParams extends OperationOptions {
+    }
+
+    // Reachable via: AIProjectClient → IndexesDeleteOptionalParams
+    /** Optional parameters. */
+    export interface IndexesDeleteOptionalParams extends OperationOptions {
+    }
+
+    // Reachable via: AIProjectClient → IndexesGetOptionalParams
+    /** Optional parameters. */
+    export interface IndexesGetOptionalParams extends OperationOptions {
+    }
+
+    // Reachable via: AIProjectClient → IndexesListOptionalParams
+    /** Optional parameters. */
+    export interface IndexesListOptionalParams extends OperationOptions {
+    }
+
+    // Reachable via: AIProjectClient → IndexesListVersionsOptionalParams
+    /** Optional parameters. */
+    export interface IndexesListVersionsOptionalParams extends OperationOptions {
+    }
+
+    // Reachable via: AIProjectClient → DeploymentsOperations
+    /** Interface representing a Deployments operations. */
+    export interface DeploymentsOperations {
+        list(options?: DeploymentsListOptionalParams): PagedAsyncIterableIterator<DeploymentUnion>;
+        get(name: string, options?: DeploymentsGetOptionalParams): Promise<DeploymentUnion>;
+    }
+
+    // Reachable via: AIProjectClient → DeploymentsListOptionalParams
+    /** Optional parameters. */
+    export interface DeploymentsListOptionalParams extends OperationOptions {
+        modelPublisher?: string;
+        modelName?: string;
+        deploymentType?: DeploymentType;
+        clientRequestId?: string;
+    }
+
+    // Reachable via: AIProjectClient → DeploymentUnion
+    /** Alias for DeploymentUnion */
+    export type DeploymentUnion = ModelDeployment | Deployment;
+
+    // Reachable via: AIProjectClient → ModelDeployment
+    /** Model Deployment Definition */
+    export interface ModelDeployment extends Deployment {
+        type: "ModelDeployment";
+        readonly modelName: string;
+        readonly modelVersion: string;
+        readonly modelPublisher: string;
+        readonly capabilities: Record<string, string>;
+        readonly sku: ModelDeploymentSku;
+        readonly connectionName?: string;
+    }
+
+    // Reachable via: AIProjectClient → Deployment
+    /** Model Deployment Definition */
+    export interface Deployment {
+        type: DeploymentType;
+        readonly name: string;
+    }
+
+    // Reachable via: AIProjectClient → ModelDeploymentSku
+    /** Sku information */
+    export interface ModelDeploymentSku {
+        capacity: number;
+        family: string;
+        name: string;
+        size: string;
+        tier: string;
+    }
+
+    // Reachable via: AIProjectClient → DeploymentsGetOptionalParams
+    /** Optional parameters. */
+    export interface DeploymentsGetOptionalParams extends OperationOptions {
+        clientRequestId?: string;
+    }
+
+    // Reachable via: AIProjectClient → DatasetsOperations
+    /** Interface representing a Datasets operations. */
+    export interface DatasetsOperations {
+        getCredentials(name: string, version: string, options?: DatasetsGetCredentialsOptionalParams): Promise<DatasetCredential>;
+        pendingUpload(name: string, version: string, pendingUploadRequest: PendingUploadRequest, options?: DatasetsPendingUploadOptionalParams): Promise<PendingUploadResponse>;
+        createOrUpdate(name: string, version: string, datasetVersion: DatasetVersionUnion, options?: DatasetsCreateOrUpdateOptionalParams): Promise<DatasetVersionUnion>;
+        delete(name: string, version: string, options?: DatasetsDeleteOptionalParams): Promise<void>;
+        get(name: string, version: string, options?: DatasetsGetOptionalParams): Promise<DatasetVersionUnion>;
+        list(options?: DatasetsListOptionalParams): PagedAsyncIterableIterator<DatasetVersionUnion>;
+        listVersions(name: string, options?: DatasetsListVersionsOptionalParams): PagedAsyncIterableIterator<DatasetVersionUnion>;
+        uploadFile(name: string, version: string, filePath: string, options?: DatasetUploadOptions): Promise<DatasetVersionUnion>;
+        uploadFolder(name: string, version: string, folderPath: string, options?: DatasetUploadOptions): Promise<DatasetVersionUnion>;
+    }
+
+    // Reachable via: AIProjectClient → DatasetsGetCredentialsOptionalParams
+    /** Optional parameters. */
+    export interface DatasetsGetCredentialsOptionalParams extends OperationOptions {
+    }
+
+    // Reachable via: AIProjectClient → DatasetCredential
+    /** Represents a reference to a blob for consumption */
+    export interface DatasetCredential {
+        blobReference: BlobReference;
+    }
+
+    // Reachable via: AIProjectClient → BlobReference
+    /** Blob reference details. */
+    export interface BlobReference {
+        blobUri: string;
+        storageAccountArmId: string;
+        credential: SasCredential;
+    }
+
+    // Reachable via: AIProjectClient → SasCredential
+    /** SAS Credential definition */
+    export interface SasCredential {
+        readonly sasUri: string;
+        readonly type: "SAS";
+    }
+
+    // Reachable via: AIProjectClient → PendingUploadRequest
+    /** Represents a request for a pending upload. */
+    export interface PendingUploadRequest {
+        pendingUploadId?: string;
+        connectionName?: string;
+        pendingUploadType: "BlobReference";
+    }
+
+    // Reachable via: AIProjectClient → DatasetsPendingUploadOptionalParams
+    /** Optional parameters. */
+    export interface DatasetsPendingUploadOptionalParams extends OperationOptions {
+    }
+
+    // Reachable via: AIProjectClient → PendingUploadResponse
+    /** Represents the response for a pending upload request */
+    export interface PendingUploadResponse {
+        blobReference: BlobReference;
+        pendingUploadId: string;
+        version?: string;
+        pendingUploadType: "BlobReference";
+    }
+
+    // Reachable via: AIProjectClient → DatasetVersionUnion
+    /** Alias for DatasetVersionUnion */
+    export type DatasetVersionUnion = FileDatasetVersion | FolderDatasetVersion | DatasetVersion;
+
+    // Reachable via: AIProjectClient → FileDatasetVersion
+    /** FileDatasetVersion Definition */
+    export interface FileDatasetVersion extends DatasetVersion {
+        type: "uri_file";
+    }
+
+    // Reachable via: AIProjectClient → DatasetVersion
+    /** DatasetVersion Definition */
+    export interface DatasetVersion {
+        dataUri: string;
+        type: DatasetType;
+        readonly isReference?: boolean;
+        connectionName?: string;
+        readonly id?: string;
+        readonly name: string;
+        readonly version: string;
+        description?: string;
+        tags?: Record<string, string>;
+    }
+
+    // Reachable via: AIProjectClient → DatasetType
+    /** Enum to determine the type of data. */
+    export type DatasetType = "uri_file" | "uri_folder";
+
+    // Reachable via: AIProjectClient → FolderDatasetVersion
+    /** FileDatasetVersion Definition */
+    export interface FolderDatasetVersion extends DatasetVersion {
+        type: "uri_folder";
+    }
+
+    // Reachable via: AIProjectClient → DatasetsCreateOrUpdateOptionalParams
+    /** Optional parameters. */
+    export interface DatasetsCreateOrUpdateOptionalParams extends OperationOptions {
+    }
+
+    // Reachable via: AIProjectClient → DatasetsDeleteOptionalParams
+    /** Optional parameters. */
+    export interface DatasetsDeleteOptionalParams extends OperationOptions {
+    }
+
+    // Reachable via: AIProjectClient → DatasetsGetOptionalParams
+    /** Optional parameters. */
+    export interface DatasetsGetOptionalParams extends OperationOptions {
+    }
+
+    // Reachable via: AIProjectClient → DatasetsListOptionalParams
+    /** Optional parameters. */
+    export interface DatasetsListOptionalParams extends OperationOptions {
+    }
+
+    // Reachable via: AIProjectClient → DatasetsListVersionsOptionalParams
+    /** Optional parameters. */
+    export interface DatasetsListVersionsOptionalParams extends OperationOptions {
+    }
+
+    // Reachable via: AIProjectClient → DatasetUploadOptions
+    /** Options for uploading datasets */
+    export interface DatasetUploadOptions extends OperationOptions {
+        connectionName?: string;
+        filePattern?: string;
+    }
+
+    // Reachable via: AIProjectClient → ConnectionsOperations
+    /** Interface representing a Connections operations. */
+    export interface ConnectionsOperations {
+        list(options?: ConnectionsListOptionalParams): PagedAsyncIterableIterator<Connection>;
+        getWithCredentials(name: string, options?: ConnectionsGetWithCredentialsOptionalParams): Promise<Connection>;
+        get(name: string, options?: ConnectionsGetOptionalParams): Promise<Connection>;
+        getDefault(connectionType: ConnectionType, options?: ConnectionsGetDefaultOptionalParams): Promise<Connection>;
+    }
+
+    // Reachable via: AIProjectClient → ConnectionsListOptionalParams
+    /** Optional parameters. */
+    export interface ConnectionsListOptionalParams extends OperationOptions {
+        connectionType?: ConnectionType;
+        defaultConnection?: boolean;
+        clientRequestId?: string;
+    }
+
+    // Reachable via: AIProjectClient → ConnectionType
+    /** The Type (or category) of the connection */
+    export type ConnectionType = "AzureOpenAI" | "AzureBlob" | "AzureStorageAccount" | "CognitiveSearch" | "CosmosDB" | "ApiKey" | "AppConfig" | "AppInsights" | "CustomKeys" | "RemoteTool_Preview";
+
+    // Reachable via: AIProjectClient → Connection
+    /** Response from the list and get connections operations */
+    export interface Connection {
+        readonly name: string;
+        readonly id: string;
+        readonly type: ConnectionType;
+        readonly target: string;
+        readonly isDefault: boolean;
+        readonly credentials: BaseCredentialsUnion;
+        readonly metadata: Record<string, string>;
+    }
+
+    // Reachable via: AIProjectClient → BaseCredentialsUnion
+    /** Alias for BaseCredentialsUnion */
+    export type BaseCredentialsUnion = ApiKeyCredentials | EntraIDCredentials | CustomCredential | SASTokenCredentials | NoAuthenticationCredentials | AgenticIdentityPreviewCredentials | BaseCredentials;
+
+    // Reachable via: AIProjectClient → ApiKeyCredentials
+    /** API Key Credential definition */
+    export interface ApiKeyCredentials extends BaseCredentials {
+        readonly type: "ApiKey";
+        readonly apiKey?: string;
+    }
+
+    // Reachable via: AIProjectClient → BaseCredentials
+    /** A base class for connection credentials */
+    export interface BaseCredentials {
+        readonly type: CredentialType;
+    }
+
+    // Reachable via: AIProjectClient → CredentialType
+    /** The credential type used by the connection */
+    export type CredentialType = "ApiKey" | "AAD" | "SAS" | "CustomKeys" | "None" | "AgenticIdentityToken_Preview";
+
+    // Reachable via: AIProjectClient → EntraIDCredentials
+    /** Entra ID credential definition */
+    export interface EntraIDCredentials extends BaseCredentials {
+        readonly type: "AAD";
+    }
+
+    // Reachable via: AIProjectClient → CustomCredential
+    /** Custom credential definition */
+    export interface CustomCredential extends BaseCredentials {
+        readonly type: "CustomKeys";
+        additionalProperties?: Record<string, string>;
+    }
+
+    // Reachable via: AIProjectClient → SASTokenCredentials
+    /** Shared Access Signature (SAS) credential definition */
+    export interface SASTokenCredentials extends BaseCredentials {
+        readonly type: "SAS";
+        readonly sasToken?: string;
+    }
+
+    // Reachable via: AIProjectClient → NoAuthenticationCredentials
+    /** Credentials that do not require authentication */
+    export interface NoAuthenticationCredentials extends BaseCredentials {
+        readonly type: "None";
+    }
+
+    // Reachable via: AIProjectClient → AgenticIdentityPreviewCredentials
+    /** Agentic identity credential definition */
+    export interface AgenticIdentityPreviewCredentials extends BaseCredentials {
+        readonly type: "AgenticIdentityToken_Preview";
+    }
+
+    // Reachable via: AIProjectClient → ConnectionsGetWithCredentialsOptionalParams
+    /** Optional parameters. */
+    export interface ConnectionsGetWithCredentialsOptionalParams extends OperationOptions {
+        clientRequestId?: string;
+    }
+
+    // Reachable via: AIProjectClient → ConnectionsGetOptionalParams
+    /** Optional parameters. */
+    export interface ConnectionsGetOptionalParams extends OperationOptions {
+        includeCredentials?: boolean;
+        clientRequestId?: string;
+    }
+
+    // Reachable via: AIProjectClient → ConnectionsGetDefaultOptionalParams
+    /** Optional parameters for getDefault. */
+    export interface ConnectionsGetDefaultOptionalParams extends OperationOptions {
+        includeCredentials?: boolean;
+    }
+
+    // Reachable via: AIProjectClient → EvaluationRulesOperations
+    /** Interface representing a EvaluationRules operations. */
+    export interface EvaluationRulesOperations {
+        list(options?: EvaluationRulesListOptionalParams): PagedAsyncIterableIterator<EvaluationRule>;
+        createOrUpdate(id: string, evaluationRule: EvaluationRule, options?: EvaluationRulesCreateOrUpdateOptionalParams): Promise<EvaluationRule>;
+        delete(id: string, options?: EvaluationRulesDeleteOptionalParams): Promise<void>;
+        get(id: string, options?: EvaluationRulesGetOptionalParams): Promise<EvaluationRule>;
+    }
+
+    // Reachable via: AIProjectClient → EvaluationRulesListOptionalParams
+    /** Optional parameters. */
+    export interface EvaluationRulesListOptionalParams extends OperationOptions {
+        actionType?: EvaluationRuleActionType;
+        agentName?: string;
+        enabled?: boolean;
+        foundryFeatures?: "Evaluations=V1Preview";
+    }
+
+    // Reachable via: AIProjectClient → EvaluationRuleActionType
+    /** Type of the evaluation action. */
+    export type EvaluationRuleActionType = "continuousEvaluation" | "humanEvaluationPreview";
+
+    // Reachable via: AIProjectClient → EvaluationRule
+    /** Evaluation rule model. */
+    export interface EvaluationRule {
+        readonly id: string;
+        displayName?: string;
+        description?: string;
+        action: EvaluationRuleActionUnion;
+        filter?: EvaluationRuleFilter;
+        eventType: EvaluationRuleEventType;
+        enabled: boolean;
+        readonly systemData: Record<string, string>;
+    }
+
+    // Reachable via: AIProjectClient → EvaluationRuleActionUnion
+    /** Alias for EvaluationRuleActionUnion */
+    export type EvaluationRuleActionUnion = ContinuousEvaluationRuleAction | HumanEvaluationPreviewRuleAction | EvaluationRuleAction;
+
+    // Reachable via: AIProjectClient → ContinuousEvaluationRuleAction
+    /** Evaluation rule action for continuous evaluation. */
+    export interface ContinuousEvaluationRuleAction extends EvaluationRuleAction {
+        type: "continuousEvaluation";
+        evalId: string;
+        maxHourlyRuns?: number;
+    }
+
+    // Reachable via: AIProjectClient → EvaluationRuleAction
+    /** Evaluation action model. */
+    export interface EvaluationRuleAction {
+        type: EvaluationRuleActionType;
+    }
+
+    // Reachable via: AIProjectClient → HumanEvaluationPreviewRuleAction
+    /** Evaluation rule action for human evaluation. */
+    export interface HumanEvaluationPreviewRuleAction extends EvaluationRuleAction {
+        type: "humanEvaluationPreview";
+        templateId: string;
+    }
+
+    // Reachable via: AIProjectClient → EvaluationRuleFilter
+    /** Evaluation filter model. */
+    export interface EvaluationRuleFilter {
+        agentName: string;
+    }
+
+    // Reachable via: AIProjectClient → EvaluationRuleEventType
+    /** Type of the evaluation rule event. */
+    export type EvaluationRuleEventType = "responseCompleted" | "manual";
+
+    // Reachable via: AIProjectClient → EvaluationRulesCreateOrUpdateOptionalParams
+    /** Optional parameters. */
+    export interface EvaluationRulesCreateOrUpdateOptionalParams extends OperationOptions {
+        foundryFeatures?: "Evaluations=V1Preview";
+    }
+
+    // Reachable via: AIProjectClient → EvaluationRulesDeleteOptionalParams
+    /** Optional parameters. */
+    export interface EvaluationRulesDeleteOptionalParams extends OperationOptions {
+        foundryFeatures?: "Evaluations=V1Preview";
+    }
+
+    // Reachable via: AIProjectClient → EvaluationRulesGetOptionalParams
+    /** Optional parameters. */
+    export interface EvaluationRulesGetOptionalParams extends OperationOptions {
+        foundryFeatures?: "Evaluations=V1Preview";
+    }
+
+    // Reachable via: AIProjectClient → AgentsOperations
+    /** Interface representing a Agents operations. */
+    export interface AgentsOperations {
+        createVersion(agentName: string, definition: AgentDefinitionUnion, options?: AgentsCreateOptionalParams): Promise<AgentVersion>;
+        createVersion(agentName: string, manifestId: string, parameterValues: Record<string, unknown>, options?: AgentsCreateAgentVersionFromManifestOptionalParams): Promise<AgentVersion>;
+        update(agentName: string, manifestId: string, parameterValues: Record<string, unknown>, options?: AgentsUpdateAgentFromManifestOptionalParams): Promise<Agent>;
+        update(agentName: string, definition: AgentDefinitionUnion, options?: AgentsUpdateOptionalParams): Promise<Agent>;
+        create(name: string, definition: AgentDefinitionUnion, options?: AgentsCreateOptionalParams): Promise<Agent>;
+        create(name: string, manifestId: string, parameterValues: Record<string, unknown>, options?: AgentsCreateAgentFromManifestOptionalParams): Promise<Agent>;
+        listVersions(agentName: string, options?: AgentsListVersionsOptionalParams): PagedAsyncIterableIterator<AgentVersion>;
+        deleteVersion(agentName: string, agentVersion: string, options?: AgentsDeleteVersionOptionalParams): Promise<DeleteAgentVersionResponse>;
+        getVersion(agentName: string, agentVersion: string, options?: AgentsGetVersionOptionalParams): Promise<AgentVersion>;
+        list(options?: AgentsListOptionalParams): PagedAsyncIterableIterator<Agent>;
+        delete(agentName: string, options?: AgentsDeleteOptionalParams): Promise<DeleteAgentResponse>;
+        get(agentName: string, options?: AgentsGetOptionalParams): Promise<Agent>;
+    }
+
+    // Reachable via: AIProjectClient → AgentsListVersionsOptionalParams
+    /** Optional parameters. */
+    export interface AgentsListVersionsOptionalParams extends OperationOptions {
+        limit?: number;
+        order?: PageOrder;
+        after?: string;
+        before?: string;
+    }
+
+    // Reachable via: AIProjectClient → PageOrder
+    /** Type of PageOrder */
+    export type PageOrder = "asc" | "desc";
+
+    // Reachable via: AIProjectClient → AgentVersion
+    /** Represents a specific version of an agent.
+    Includes metadata, versioning, creation time, and agent definition. */
+    export interface AgentVersion {
+        metadata: Record<string, string>;
+        object: "agent.version";
+        id: string;
+        name: string;
+        version: string;
+        description?: string;
+        created_at: Date;
+        definition: AgentDefinitionUnion;
+    }
+
+    // Reachable via: AIProjectClient → AgentDefinitionUnion
+    /** Union type for all agent definition types.
+    Supports workflow, hosted, container app, and prompt agents. */
+    export type AgentDefinitionUnion = PromptAgentDefinition | WorkflowAgentDefinition | HostedAgentDefinition | AgentDefinition;
+
+    // Reachable via: AIProjectClient → PromptAgentDefinition
+    /** The prompt agent definition */
+    export interface PromptAgentDefinition extends AgentDefinition {
+        kind: "prompt";
+        model: string;
+        instructions?: string;
+        temperature?: number;
+        top_p?: number;
+        reasoning?: Reasoning;
+        tools?: ToolUnion[];
+        tool_choice?: string | ToolChoiceParamUnion;
+        text?: PromptAgentDefinitionTextOptions;
+        structured_inputs?: Record<string, StructuredInputDefinition>;
+    }
+
+    // Reachable via: AIProjectClient → AgentDefinition
+    /** Base definition interface for agents.
+    Contains the agent kind and optional RAI configuration. */
+    export interface AgentDefinition {
+        kind: AgentKind;
+        rai_config?: RaiConfig;
+    }
+
+    // Reachable via: AIProjectClient → AgentKind
+    /** Defines the type/kind of agent.
+    Determines which agent definition structure is used. */
+    export type AgentKind = "prompt" | "hosted" | "workflow";
+
+    // Reachable via: AIProjectClient → RaiConfig
+    /** Configuration for Responsible AI (RAI) content filtering and safety features. */
+    export interface RaiConfig {
+        rai_policy_name: string;
+    }
+
+    // Reachable via: AIProjectClient → ToolUnion
+    /** Alias for ToolUnion */
+    export type ToolUnion = BingGroundingTool | MicrosoftFabricPreviewTool | SharepointPreviewTool | AzureAISearchTool | OpenApiTool | BingCustomSearchPreviewTool | BrowserAutomationPreviewTool | AzureFunctionTool | CaptureStructuredOutputsTool | A2APreviewTool | MemorySearchPreviewTool | CodeInterpreterTool | FunctionTool | FileSearchTool | ComputerUsePreviewTool | WebSearchTool | MCPTool | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | Tool;
+
+    // Reachable via: AIProjectClient → BingGroundingTool
+    /** The input definition information for a bing grounding search tool as used to configure an agent. */
+    export interface BingGroundingTool extends Tool {
+        type: "bing_grounding";
+        bing_grounding: BingGroundingSearchToolParameters;
+    }
+
+    // Reachable via: AIProjectClient → ToolType
+    /** Type of ToolType */
+    export type ToolType = "function" | "file_search" | "computer_use_preview" | "web_search" | "mcp" | "code_interpreter" | "image_generation" | "local_shell" | "shell" | "custom" | "web_search_preview" | "apply_patch" | "a2a_preview" | "bing_custom_search_preview" | "browser_automation_preview" | "fabric_dataagent_preview" | "sharepoint_grounding_preview" | "memory_search_preview" | "azure_ai_search" | "azure_function" | "bing_grounding" | "capture_structured_outputs" | "openapi";
+
+    // Reachable via: AIProjectClient → BingGroundingSearchToolParameters
+    /** The bing grounding search tool parameters. */
+    export interface BingGroundingSearchToolParameters {
+        search_configurations: BingGroundingSearchConfiguration[];
+    }
+
+    // Reachable via: AIProjectClient → BingGroundingSearchConfiguration
+    /** Search configuration for Bing Grounding */
+    export interface BingGroundingSearchConfiguration {
+        project_connection_id: string;
+        market?: string;
+        set_lang?: string;
+        count?: number;
+        freshness?: string;
+    }
+
+    // Reachable via: AIProjectClient → MicrosoftFabricPreviewTool
+    /** The input definition information for a Microsoft Fabric tool as used to configure an agent. */
+    export interface MicrosoftFabricPreviewTool extends Tool {
+        type: "fabric_dataagent_preview";
+        fabric_dataagent_preview: FabricDataAgentToolParameters;
+    }
+
+    // Reachable via: AIProjectClient → FabricDataAgentToolParameters
+    /** The fabric data agent tool parameters. */
+    export interface FabricDataAgentToolParameters {
+        project_connections?: ToolProjectConnection[];
+    }
+
+    // Reachable via: AIProjectClient → ToolProjectConnection
+    /** A project connection resource. */
+    export interface ToolProjectConnection {
+        project_connection_id: string;
+    }
+
+    // Reachable via: AIProjectClient → SharepointPreviewTool
+    /** The input definition information for a sharepoint tool as used to configure an agent. */
+    export interface SharepointPreviewTool extends Tool {
+        type: "sharepoint_grounding_preview";
+        sharepoint_grounding_preview: SharepointGroundingToolParameters;
+    }
+
+    // Reachable via: AIProjectClient → SharepointGroundingToolParameters
+    /** The sharepoint grounding tool parameters. */
+    export interface SharepointGroundingToolParameters {
+        project_connections?: ToolProjectConnection[];
+    }
+
+    // Reachable via: AIProjectClient → AzureAISearchTool
+    /** The input definition information for an Azure AI search tool as used to configure an agent. */
+    export interface AzureAISearchTool extends Tool {
+        type: "azure_ai_search";
+        azure_ai_search: AzureAISearchToolResource;
+    }
+
+    // Reachable via: AIProjectClient → AzureAISearchToolResource
+    /** A set of index resources used by the `azure_ai_search` tool. */
+    export interface AzureAISearchToolResource {
+        indexes: AISearchIndexResource[];
+    }
+
+    // Reachable via: AIProjectClient → AISearchIndexResource
+    /** A AI Search Index resource. */
+    export interface AISearchIndexResource {
+        project_connection_id?: string;
+        index_name?: string;
+        query_type?: AzureAISearchQueryType;
+        top_k?: number;
+        filter?: string;
+        index_asset_id?: string;
+    }
+
+    // Reachable via: AIProjectClient → AzureAISearchQueryType
+    /** Available query types for Azure AI Search tool. */
+    export type AzureAISearchQueryType = "simple" | "semantic" | "vector" | "vector_simple_hybrid" | "vector_semantic_hybrid";
+
+    // Reachable via: AIProjectClient → OpenApiTool
+    /** The input definition information for an OpenAPI tool as used to configure an agent. */
+    export interface OpenApiTool extends Tool {
+        type: "openapi";
+        openapi: OpenApiFunctionDefinition;
+    }
+
+    // Reachable via: AIProjectClient → OpenApiFunctionDefinition
+    /** The input definition information for an openapi function. */
+    export interface OpenApiFunctionDefinition {
+        name: string;
+        description?: string;
+        spec: unknown;
+        auth: OpenApiAuthDetailsUnion;
+        default_params?: string[];
+        readonly functions?: {
+            name: string;
+            description?: string;
+            parameters: Record<string, unknown>;
+        }[];
+    }
+
+    // Reachable via: AIProjectClient → OpenApiAuthDetailsUnion
+    /** Alias for OpenApiAuthDetailsUnion */
+    export type OpenApiAuthDetailsUnion = OpenApiAnonymousAuthDetails | OpenApiProjectConnectionAuthDetails | OpenApiManagedAuthDetails | OpenApiAuthDetails;
+
+    // Reachable via: AIProjectClient → OpenApiAnonymousAuthDetails
+    /** Security details for OpenApi anonymous authentication */
+    export interface OpenApiAnonymousAuthDetails extends OpenApiAuthDetails {
+        type: "anonymous";
+    }
+
+    // Reachable via: AIProjectClient → OpenApiAuthDetails
+    /** authentication details for OpenApiFunctionDefinition */
+    export interface OpenApiAuthDetails {
+        type: OpenApiAuthType;
+    }
+
+    // Reachable via: AIProjectClient → OpenApiAuthType
+    /** Authentication type for OpenApi endpoint. Allowed types are:
+    - Anonymous (no authentication required)
+    - Project Connection (requires project_connection_id to endpoint, as setup in AI Foundry)
+    - Managed_Identity (requires audience for identity based auth) */
+    export type OpenApiAuthType = "anonymous" | "project_connection" | "managed_identity";
+
+    // Reachable via: AIProjectClient → OpenApiProjectConnectionAuthDetails
+    /** Security details for OpenApi project connection authentication */
+    export interface OpenApiProjectConnectionAuthDetails extends OpenApiAuthDetails {
+        type: "project_connection";
+        security_scheme: OpenApiProjectConnectionSecurityScheme;
+    }
+
+    // Reachable via: AIProjectClient → OpenApiProjectConnectionSecurityScheme
+    /** Security scheme for OpenApi managed_identity authentication */
+    export interface OpenApiProjectConnectionSecurityScheme {
+        project_connection_id: string;
+    }
+
+    // Reachable via: AIProjectClient → OpenApiManagedAuthDetails
+    /** Security details for OpenApi managed_identity authentication */
+    export interface OpenApiManagedAuthDetails extends OpenApiAuthDetails {
+        type: "managed_identity";
+        security_scheme: OpenApiManagedSecurityScheme;
+    }
+
+    // Reachable via: AIProjectClient → OpenApiManagedSecurityScheme
+    /** Security scheme for OpenApi managed_identity authentication */
+    export interface OpenApiManagedSecurityScheme {
+        audience: string;
+    }
+
+    // Reachable via: AIProjectClient → BingCustomSearchPreviewTool
+    /** The input definition information for a Bing custom search tool as used to configure an agent. */
+    export interface BingCustomSearchPreviewTool extends Tool {
+        type: "bing_custom_search_preview";
+        bing_custom_search_preview: BingCustomSearchToolParameters;
+    }
+
+    // Reachable via: AIProjectClient → BingCustomSearchToolParameters
+    /** The bing custom search tool parameters. */
+    export interface BingCustomSearchToolParameters {
+        search_configurations: BingCustomSearchConfiguration[];
+    }
+
+    // Reachable via: AIProjectClient → BingCustomSearchConfiguration
+    /** A bing custom search configuration. */
+    export interface BingCustomSearchConfiguration {
+        project_connection_id: string;
+        instance_name: string;
+        market?: string;
+        set_lang?: string;
+        count?: number;
+        freshness?: string;
+    }
+
+    // Reachable via: AIProjectClient → BrowserAutomationPreviewTool
+    /** The input definition information for a Browser Automation Tool, as used to configure an Agent. */
+    export interface BrowserAutomationPreviewTool extends Tool {
+        type: "browser_automation_preview";
+        browser_automation_preview: BrowserAutomationToolParameters;
+    }
+
+    // Reachable via: AIProjectClient → BrowserAutomationToolParameters
+    /** Definition of input parameters for the Browser Automation Tool. */
+    export interface BrowserAutomationToolParameters {
+        connection: BrowserAutomationToolConnectionParameters;
+    }
+
+    // Reachable via: AIProjectClient → BrowserAutomationToolConnectionParameters
+    /** Definition of input parameters for the connection used by the Browser Automation Tool. */
+    export interface BrowserAutomationToolConnectionParameters {
+        project_connection_id: string;
+    }
+
+    // Reachable via: AIProjectClient → AzureFunctionTool
+    /** The input definition information for an Azure Function Tool, as used to configure an Agent. */
+    export interface AzureFunctionTool extends Tool {
+        type: "azure_function";
+        azure_function: AzureFunctionDefinition;
+    }
+
+    // Reachable via: AIProjectClient → AzureFunctionDefinition
+    /** The definition of Azure function. */
+    export interface AzureFunctionDefinition {
+        function: {
+            name: string;
+            description?: string;
+            parameters: Record<string, unknown>;
+        };
+        input_binding: AzureFunctionBinding;
+        output_binding: AzureFunctionBinding;
+    }
+
+    // Reachable via: AIProjectClient → AzureFunctionBinding
+    /** The structure for keeping storage queue name and URI. */
+    export interface AzureFunctionBinding {
+        type: "storage_queue";
+        storage_queue: AzureFunctionStorageQueue;
+    }
+
+    // Reachable via: AIProjectClient → AzureFunctionStorageQueue
+    /** The structure for keeping storage queue name and URI. */
+    export interface AzureFunctionStorageQueue {
+        queue_service_endpoint: string;
+        queue_name: string;
+    }
+
+    // Reachable via: AIProjectClient → CaptureStructuredOutputsTool
+    /** A tool for capturing structured outputs */
+    export interface CaptureStructuredOutputsTool extends Tool {
+        type: "capture_structured_outputs";
+        outputs: StructuredOutputDefinition;
+    }
+
+    // Reachable via: AIProjectClient → StructuredOutputDefinition
+    /** A structured output that can be produced by the agent. */
+    export interface StructuredOutputDefinition {
+        name: string;
+        description: string;
+        schema: Record<string, unknown>;
+        strict: boolean;
+    }
+
+    // Reachable via: AIProjectClient → A2APreviewTool
+    /** An agent implementing the A2A protocol. */
+    export interface A2APreviewTool extends Tool {
+        type: "a2a_preview";
+        base_url?: string;
+        agent_card_path?: string;
+        project_connection_id?: string;
+    }
+
+    // Reachable via: AIProjectClient → MemorySearchPreviewTool
+    /** A tool for integrating memories into the agent. */
+    export interface MemorySearchPreviewTool extends Tool {
+        type: "memory_search_preview";
+        memory_store_name: string;
+        scope: string;
+        search_options?: MemorySearchOptions;
+        update_delay?: number;
+    }
+
+    // Reachable via: AIProjectClient → MemorySearchOptions
+    /** Memory search options. */
+    export interface MemorySearchOptions {
+        max_memories?: number;
+    }
+
+    // Reachable via: AIProjectClient → AutoCodeInterpreterToolParam
+    /** Configuration for a code interpreter container. Optionally specify the IDs of the files to run the code on. */
+    export interface AutoCodeInterpreterToolParam {
+        type: "auto";
+        file_ids?: string[];
+        memory_limit?: ContainerMemoryLimit;
+        network_policy?: ContainerNetworkPolicyParamUnion;
+    }
+
+    // Reachable via: AIProjectClient → ContainerMemoryLimit
+    /** Type of ContainerMemoryLimit */
+    export type ContainerMemoryLimit = "1g" | "4g" | "16g" | "64g";
+
+    // Reachable via: AIProjectClient → ContainerNetworkPolicyParamUnion
+    /** Alias for ContainerNetworkPolicyParamUnion */
+    export type ContainerNetworkPolicyParamUnion = ContainerNetworkPolicyDisabledParam | ContainerNetworkPolicyAllowlistParam | ContainerNetworkPolicyParam;
+
+    // Reachable via: AIProjectClient → ContainerNetworkPolicyDisabledParam
+    /** model interface ContainerNetworkPolicyDisabledParam */
+    export interface ContainerNetworkPolicyDisabledParam extends ContainerNetworkPolicyParam {
+        type: "disabled";
+    }
+
+    // Reachable via: AIProjectClient → ContainerNetworkPolicyParam
+    /** Network access policy for the container. */
+    export interface ContainerNetworkPolicyParam {
+        type: ContainerNetworkPolicyParamType;
+    }
+
+    // Reachable via: AIProjectClient → ContainerNetworkPolicyParamType
+    /** Type of ContainerNetworkPolicyParamType */
+    export type ContainerNetworkPolicyParamType = "disabled" | "allowlist";
+
+    // Reachable via: AIProjectClient → ContainerNetworkPolicyAllowlistParam
+    /** model interface ContainerNetworkPolicyAllowlistParam */
+    export interface ContainerNetworkPolicyAllowlistParam extends ContainerNetworkPolicyParam {
+        type: "allowlist";
+        allowed_domains: string[];
+        domain_secrets?: ContainerNetworkPolicyDomainSecretParam[];
+    }
+
+    // Reachable via: AIProjectClient → ContainerNetworkPolicyDomainSecretParam
+    /** model interface ContainerNetworkPolicyDomainSecretParam */
+    export interface ContainerNetworkPolicyDomainSecretParam {
+        domain: string;
+        name: string;
+        value: string;
+    }
+
+    // Reachable via: AIProjectClient → RankerVersionType
+    /** Type of RankerVersionType */
+    export type RankerVersionType = "auto" | "default-2024-11-15";
+
+    // Reachable via: AIProjectClient → HybridSearchOptions
+    /** model interface HybridSearchOptions */
+    export interface HybridSearchOptions {
+        embedding_weight: number;
+        text_weight: number;
+    }
+
+    // Reachable via: AIProjectClient → ComparisonFilterValueItems
+    /** Alias for ComparisonFilterValueItems */
+    export type ComparisonFilterValueItems = string | number;
+
+    // Reachable via: AIProjectClient → ComputerEnvironment
+    /** Type of ComputerEnvironment */
+    export type ComputerEnvironment = "windows" | "mac" | "linux" | "ubuntu" | "browser";
+
+    // Reachable via: AIProjectClient → WebSearchToolFilters
+    /** model interface WebSearchToolFilters */
+    export interface WebSearchToolFilters {
+        allowed_domains?: string[];
+    }
+
+    // Reachable via: AIProjectClient → WebSearchApproximateLocation
+    /** The approximate location of the user. */
+    export interface WebSearchApproximateLocation {
+        type?: "approximate";
+        country?: string;
+        region?: string;
+        city?: string;
+        timezone?: string;
+    }
+
+    // Reachable via: AIProjectClient → WebSearchConfiguration
+    /** A web search configuration for bing custom search */
+    export interface WebSearchConfiguration {
+        project_connection_id: string;
+        instance_name: string;
+    }
+
+    // Reachable via: AIProjectClient → MCPTool
+    /** Give the model access to additional tools via remote Model Context Protocol
+    (MCP) servers. [Learn more about MCP](https://platform.openai.com/docs/guides/tools-remote-mcp). */
+    export interface MCPTool extends Tool {
+        type: "mcp";
+        server_label: string;
+        server_url?: string;
+        connector_id?: "connector_dropbox" | "connector_gmail" | "connector_googlecalendar" | "connector_googledrive" | "connector_microsoftteams" | "connector_outlookcalendar" | "connector_outlookemail" | "connector_sharepoint";
+        authorization?: string;
+        server_description?: string;
+        headers?: Record<string, string>;
+        allowed_tools?: string[] | MCPToolFilter;
+        require_approval?: MCPToolRequireApproval | "always" | "never";
+        project_connection_id?: string;
+    }
+
+    // Reachable via: AIProjectClient → MCPToolFilter
+    /** A filter object to specify which tools are allowed. */
+    export interface MCPToolFilter {
+        tool_names?: string[];
+        read_only?: boolean;
+    }
+
+    // Reachable via: AIProjectClient → MCPToolRequireApproval
+    /** model interface MCPToolRequireApproval */
+    export interface MCPToolRequireApproval {
+        always?: MCPToolFilter;
+        never?: MCPToolFilter;
+    }
+
+    // Reachable via: AIProjectClient → ImageGenTool
+    /** A tool that generates images using the GPT image models. */
+    export interface ImageGenTool extends Tool {
+        type: "image_generation";
+        model?: "gpt-image-1" | "gpt-image-1-mini";
+        quality?: "low" | "medium" | "high" | "auto";
+        size?: "1024x1024" | "1024x1536" | "1536x1024" | "auto";
+        output_format?: "png" | "webp" | "jpeg";
+        output_compression?: number;
+        moderation?: "auto" | "low";
+        background?: "transparent" | "opaque" | "auto";
+        input_fidelity?: InputFidelity;
+        input_image_mask?: ImageGenToolInputImageMask;
+        partial_images?: number;
+        action?: ImageGenAction;
+    }
+
+    // Reachable via: AIProjectClient → InputFidelity
+    /** Control how much effort the model will exert to match the style and features, especially facial features, of input images. This parameter is only supported for `gpt-image-1`. Unsupported for `gpt-image-1-mini`. Supports `high` and `low`. Defaults to `low`. */
+    export type InputFidelity = "high" | "low";
+
+    // Reachable via: AIProjectClient → ImageGenToolInputImageMask
+    /** model interface ImageGenToolInputImageMask */
+    export interface ImageGenToolInputImageMask {
+        image_url?: string;
+        file_id?: string;
+    }
+
+    // Reachable via: AIProjectClient → ImageGenAction
+    /** Type of ImageGenAction */
+    export type ImageGenAction = "generate" | "edit" | "auto";
+
+    // Reachable via: AIProjectClient → LocalShellToolParam
+    /** A tool that allows the model to execute shell commands in a local environment. */
+    export interface LocalShellToolParam extends Tool {
+        type: "local_shell";
+    }
+
+    // Reachable via: AIProjectClient → FunctionShellToolParam
+    /** A tool that allows the model to execute shell commands. */
+    export interface FunctionShellToolParam extends Tool {
+        type: "shell";
+        environment?: FunctionShellToolParamEnvironmentUnion;
+    }
+
+    // Reachable via: AIProjectClient → FunctionShellToolParamEnvironmentUnion
+    /** Alias for FunctionShellToolParamEnvironmentUnion */
+    export type FunctionShellToolParamEnvironmentUnion = FunctionShellToolParamEnvironmentLocalEnvironmentParam | FunctionShellToolParamEnvironmentContainerReferenceParam | ContainerAutoParam | FunctionShellToolParamEnvironment;
+
+    // Reachable via: AIProjectClient → FunctionShellToolParamEnvironmentLocalEnvironmentParam
+    /** model interface FunctionShellToolParamEnvironmentLocalEnvironmentParam */
+    export interface FunctionShellToolParamEnvironmentLocalEnvironmentParam extends FunctionShellToolParamEnvironment {
+        type: "local";
+        skills?: LocalSkillParam[];
+    }
+
+    // Reachable via: AIProjectClient → FunctionShellToolParamEnvironment
+    /** model interface FunctionShellToolParamEnvironment */
+    export interface FunctionShellToolParamEnvironment {
+        type: FunctionShellToolParamEnvironmentType;
+    }
+
+    // Reachable via: AIProjectClient → FunctionShellToolParamEnvironmentType
+    /** Type of FunctionShellToolParamEnvironmentType */
+    export type FunctionShellToolParamEnvironmentType = "container_auto" | "local" | "container_reference";
+
+    // Reachable via: AIProjectClient → LocalSkillParam
+    /** model interface LocalSkillParam */
+    export interface LocalSkillParam {
+        name: string;
+        description: string;
+        path: string;
+    }
+
+    // Reachable via: AIProjectClient → FunctionShellToolParamEnvironmentContainerReferenceParam
+    /** model interface FunctionShellToolParamEnvironmentContainerReferenceParam */
+    export interface FunctionShellToolParamEnvironmentContainerReferenceParam extends FunctionShellToolParamEnvironment {
+        type: "container_reference";
+        container_id: string;
+    }
+
+    // Reachable via: AIProjectClient → ContainerAutoParam
+    /** model interface ContainerAutoParam */
+    export interface ContainerAutoParam extends FunctionShellToolParamEnvironment {
+        type: "container_auto";
+        file_ids?: string[];
+        memory_limit?: ContainerMemoryLimit;
+        skills?: ContainerSkillUnion[];
+        network_policy?: ContainerNetworkPolicyParamUnion;
+    }
+
+    // Reachable via: AIProjectClient → ContainerSkillUnion
+    /** Alias for ContainerSkillUnion */
+    export type ContainerSkillUnion = SkillReferenceParam | InlineSkillParam | ContainerSkill;
+
+    // Reachable via: AIProjectClient → SkillReferenceParam
+    /** model interface SkillReferenceParam */
+    export interface SkillReferenceParam extends ContainerSkill {
+        type: "skill_reference";
+        skill_id: string;
+        version?: string;
+    }
+
+    // Reachable via: AIProjectClient → ContainerSkill
+    /** model interface ContainerSkill */
+    export interface ContainerSkill {
+        type: ContainerSkillType;
+    }
+
+    // Reachable via: AIProjectClient → ContainerSkillType
+    /** Type of ContainerSkillType */
+    export type ContainerSkillType = "skill_reference" | "inline";
+
+    // Reachable via: AIProjectClient → InlineSkillParam
+    /** model interface InlineSkillParam */
+    export interface InlineSkillParam extends ContainerSkill {
+        type: "inline";
+        name: string;
+        description: string;
+        source: InlineSkillSourceParam;
+    }
+
+    // Reachable via: AIProjectClient → InlineSkillSourceParam
+    /** Inline skill payload */
+    export interface InlineSkillSourceParam {
+        type: "base64";
+        media_type: "application/zip";
+        data: string;
+    }
+
+    // Reachable via: AIProjectClient → CustomToolParam
+    /** A custom tool that processes input using a specified format. Learn more about   [custom tools](https://platform.openai.com/docs/guides/function-calling#custom-tools) */
+    export interface CustomToolParam extends Tool {
+        type: "custom";
+        name: string;
+        description?: string;
+        format?: CustomToolParamFormatUnion;
+    }
+
+    // Reachable via: AIProjectClient → CustomToolParamFormatUnion
+    /** Alias for CustomToolParamFormatUnion */
+    export type CustomToolParamFormatUnion = CustomTextFormatParam | CustomGrammarFormatParam | CustomToolParamFormat;
+
+    // Reachable via: AIProjectClient → CustomTextFormatParam
+    /** Unconstrained free-form text. */
+    export interface CustomTextFormatParam extends CustomToolParamFormat {
+        type: "text";
+    }
+
+    // Reachable via: AIProjectClient → CustomToolParamFormat
+    /** The input format for the custom tool. Default is unconstrained text. */
+    export interface CustomToolParamFormat {
+        type: CustomToolParamFormatType;
+    }
+
+    // Reachable via: AIProjectClient → CustomToolParamFormatType
+    /** Type of CustomToolParamFormatType */
+    export type CustomToolParamFormatType = "text" | "grammar";
+
+    // Reachable via: AIProjectClient → CustomGrammarFormatParam
+    /** A grammar defined by the user. */
+    export interface CustomGrammarFormatParam extends CustomToolParamFormat {
+        type: "grammar";
+        syntax: GrammarSyntax;
+        definition: string;
+    }
+
+    // Reachable via: AIProjectClient → GrammarSyntax
+    /** Type of GrammarSyntax */
+    export type GrammarSyntax = "lark" | "regex";
+
+    // Reachable via: AIProjectClient → ApproximateLocation
+    /** model interface ApproximateLocation */
+    export interface ApproximateLocation {
+        type: "approximate";
+        country?: string;
+        region?: string;
+        city?: string;
+        timezone?: string;
+    }
+
+    // Reachable via: AIProjectClient → SearchContextSize
+    /** Type of SearchContextSize */
+    export type SearchContextSize = "low" | "medium" | "high";
+
+    // Reachable via: AIProjectClient → ApplyPatchToolParam
+    /** Allows the assistant to create, delete, or update files using unified diffs. */
+    export interface ApplyPatchToolParam extends Tool {
+        type: "apply_patch";
+    }
+
+    // Reachable via: AIProjectClient → ToolChoiceParam
+    /** How the model should select which tool (or tools) to use when generating
+    a response. See the `tools` parameter to see how to specify which tools
+    the model can call. */
+    export interface ToolChoiceParam {
+        type: ToolChoiceParamType;
+    }
+
+    // Reachable via: AIProjectClient → ToolChoiceParamType
+    /** Type of ToolChoiceParamType */
+    export type ToolChoiceParamType = "allowed_tools" | "function" | "mcp" | "custom" | "apply_patch" | "shell" | "file_search" | "web_search_preview" | "computer_use_preview" | "web_search_preview_2025_03_11" | "image_generation" | "code_interpreter";
+
+    // Reachable via: AIProjectClient → ToolChoiceMCP
+    /** Use this option to force the model to call a specific tool on a remote MCP server. */
+    export interface ToolChoiceMCP extends ToolChoiceParam {
+        type: "mcp";
+        server_label: string;
+        name?: string;
+    }
+
+    // Reachable via: AIProjectClient → SpecificApplyPatchParam
+    /** Forces the model to call the apply_patch tool when executing a tool call. */
+    export interface SpecificApplyPatchParam extends ToolChoiceParam {
+        type: "apply_patch";
+    }
+
+    // Reachable via: AIProjectClient → SpecificFunctionShellParam
+    /** Forces the model to call the shell tool when a tool call is required. */
+    export interface SpecificFunctionShellParam extends ToolChoiceParam {
+        type: "shell";
+    }
+
+    // Reachable via: AIProjectClient → ToolChoiceFileSearch
+    /** Indicates that the model should use a built-in tool to generate a response.
+    [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools). */
+    export interface ToolChoiceFileSearch extends ToolChoiceParam {
+        type: "file_search";
+    }
+
+    // Reachable via: AIProjectClient → ToolChoiceWebSearchPreview
+    /** Indicates that the model should use a built-in tool to generate a response.
+    [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools). */
+    export interface ToolChoiceWebSearchPreview extends ToolChoiceParam {
+        type: "web_search_preview";
+    }
+
+    // Reachable via: AIProjectClient → ToolChoiceComputerUsePreview
+    /** Indicates that the model should use a built-in tool to generate a response.
+    [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools). */
+    export interface ToolChoiceComputerUsePreview extends ToolChoiceParam {
+        type: "computer_use_preview";
+    }
+
+    // Reachable via: AIProjectClient → ToolChoiceWebSearchPreview20250311
+    /** Indicates that the model should use a built-in tool to generate a response.
+    [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools). */
+    export interface ToolChoiceWebSearchPreview20250311 extends ToolChoiceParam {
+        type: "web_search_preview_2025_03_11";
+    }
+
+    // Reachable via: AIProjectClient → ToolChoiceImageGeneration
+    /** Indicates that the model should use a built-in tool to generate a response.
+    [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools). */
+    export interface ToolChoiceImageGeneration extends ToolChoiceParam {
+        type: "image_generation";
+    }
+
+    // Reachable via: AIProjectClient → ToolChoiceCodeInterpreter
+    /** Indicates that the model should use a built-in tool to generate a response.
+    [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools). */
+    export interface ToolChoiceCodeInterpreter extends ToolChoiceParam {
+        type: "code_interpreter";
+    }
+
+    // Reachable via: AIProjectClient → PromptAgentDefinitionTextOptions
+    /** Configuration options for a text response from the model. Can be plain text or structured JSON data. */
+    export interface PromptAgentDefinitionTextOptions {
+        format?: TextResponseFormatConfigurationUnion;
+    }
+
+    // Reachable via: AIProjectClient → TextResponseFormatConfigurationUnion
+    /** Alias for TextResponseFormatConfigurationUnion */
+    export type TextResponseFormatConfigurationUnion = TextResponseFormatJsonSchema | TextResponseFormatConfigurationResponseFormatText | TextResponseFormatConfigurationResponseFormatJsonObject | TextResponseFormatConfiguration;
+
+    // Reachable via: AIProjectClient → TextResponseFormatJsonSchema
+    /** JSON Schema response format. Used to generate structured JSON responses.
+    Learn more about [Structured Outputs](https://platform.openai.com/docs/guides/structured-outputs). */
+    export interface TextResponseFormatJsonSchema extends TextResponseFormatConfiguration {
+        type: "json_schema";
+        description?: string;
+        name: string;
+        schema: Record<string, unknown>;
+        strict?: boolean;
+    }
+
+    // Reachable via: AIProjectClient → TextResponseFormatConfiguration
+    /** An object specifying the format that the model must output.
+    Configuring `{ "type": "json_schema" }` enables Structured Outputs,
+    which ensures the model will match your supplied JSON schema. Learn more in the
+    [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
+    The default format is `{ "type": "text" }` with no additional options.
+    *Not recommended for gpt-4o and newer models:**
+    Setting to `{ "type": "json_object" }` enables the older JSON mode, which
+    ensures the message the model generates is valid JSON. Using `json_schema`
+    is preferred for models that support it. */
+    export interface TextResponseFormatConfiguration {
+        type: TextResponseFormatConfigurationType;
+    }
+
+    // Reachable via: AIProjectClient → TextResponseFormatConfigurationType
+    /** Type of TextResponseFormatConfigurationType */
+    export type TextResponseFormatConfigurationType = "text" | "json_schema" | "json_object";
+
+    // Reachable via: AIProjectClient → TextResponseFormatConfigurationResponseFormatText
+    /** Default response format. Used to generate text responses. */
+    export interface TextResponseFormatConfigurationResponseFormatText extends TextResponseFormatConfiguration {
+        type: "text";
+    }
+
+    // Reachable via: AIProjectClient → TextResponseFormatConfigurationResponseFormatJsonObject
+    /** JSON object response format. An older method of generating JSON responses.
+    Using `json_schema` is recommended for models that support it. Note that the
+    model will not generate JSON without a system or user message instructing it
+    to do so. */
+    export interface TextResponseFormatConfigurationResponseFormatJsonObject extends TextResponseFormatConfiguration {
+        type: "json_object";
+    }
+
+    // Reachable via: AIProjectClient → StructuredInputDefinition
+    /** An structured input that can participate in prompt template substitutions and tool argument binding. */
+    export interface StructuredInputDefinition {
+        description?: string;
+        default_value?: unknown;
+        schema?: Record<string, unknown>;
+        required?: boolean;
+    }
+
+    // Reachable via: AIProjectClient → WorkflowAgentDefinition
+    /** The workflow agent definition. */
+    export interface WorkflowAgentDefinition extends AgentDefinition {
+        kind: "workflow";
+        workflow?: string;
+    }
+
+    // Reachable via: AIProjectClient → HostedAgentDefinition
+    /** The hosted agent definition. */
+    export interface HostedAgentDefinition extends AgentDefinition {
+        kind: "hosted";
+        tools?: ToolUnion[];
+        container_protocol_versions: ProtocolVersionRecord[];
+        cpu: string;
+        memory: string;
+        environment_variables?: Record<string, string>;
+        image?: string;
+    }
+
+    // Reachable via: AIProjectClient → ProtocolVersionRecord
+    /** A record mapping for a single protocol and its version. */
+    export interface ProtocolVersionRecord {
+        protocol: AgentProtocol;
+        version: string;
+    }
+
+    // Reachable via: AIProjectClient → AgentProtocol
+    /** Type of AgentProtocol */
+    export type AgentProtocol = "activity_protocol" | "responses";
+
+    // Reachable via: AIProjectClient → AgentsDeleteVersionOptionalParams
+    /** Optional parameters. */
+    export interface AgentsDeleteVersionOptionalParams extends OperationOptions {
+    }
+
+    // Reachable via: AIProjectClient → DeleteAgentVersionResponse
+    /** A deleted agent version Object */
+    export interface DeleteAgentVersionResponse {
+        object: "agent.version.deleted";
+        name: string;
+        version: string;
+        deleted: boolean;
+    }
+
+    // Reachable via: AIProjectClient → AgentsGetVersionOptionalParams
+    /** Optional parameters. */
+    export interface AgentsGetVersionOptionalParams extends OperationOptions {
+    }
+
+    // Reachable via: AIProjectClient → AgentsListOptionalParams
+    /** Optional parameters. */
+    export interface AgentsListOptionalParams extends OperationOptions {
+        kind?: AgentKind;
+        limit?: number;
+        order?: PageOrder;
+        after?: string;
+        before?: string;
+    }
+
+    // Reachable via: AIProjectClient → AgentsDeleteOptionalParams
+    /** Optional parameters. */
+    export interface AgentsDeleteOptionalParams extends OperationOptions {
+    }
+
+    // Reachable via: AIProjectClient → DeleteAgentResponse
+    /** A deleted agent Object */
+    export interface DeleteAgentResponse {
+        object: "agent.deleted";
+        name: string;
+        deleted: boolean;
+    }
+
+    // Reachable via: AIProjectClient → AgentsGetOptionalParams
+    /** Optional parameters. */
+    export interface AgentsGetOptionalParams extends OperationOptions {
+    }
+
+    // Reachable via: AIProjectClient → BetaOperations
+    /** Interface representing a Beta operations. */
+    export interface BetaOperations {
+        schedules: BetaSchedulesOperations;
+        redTeams: BetaRedTeamsOperations;
+        memoryStores: BetaMemoryStoresOperations;
+        insights: BetaInsightsOperations;
+        evaluators: BetaEvaluatorsOperations;
+        evaluationTaxonomies: BetaEvaluationTaxonomiesOperations;
+    }
+
+    // Reachable via: AIProjectClient → BetaSchedulesOperations
+    /** Interface representing a BetaSchedules operations. */
+    export interface BetaSchedulesOperations {
+        listRuns(id: string, options?: BetaSchedulesListRunsOptionalParams): PagedAsyncIterableIterator<ScheduleRun>;
+        getRun(scheduleId: string, runId: string, options?: BetaSchedulesGetRunOptionalParams): Promise<ScheduleRun>;
+        createOrUpdate(id: string, schedule: Schedule, options?: BetaSchedulesCreateOrUpdateOptionalParams): Promise<Schedule>;
+        list(options?: BetaSchedulesListOptionalParams): PagedAsyncIterableIterator<Schedule>;
+        get(id: string, options?: BetaSchedulesGetOptionalParams): Promise<Schedule>;
+        delete(id: string, options?: BetaSchedulesDeleteOptionalParams): Promise<void>;
+    }
+
+    // Reachable via: AIProjectClient → BetaSchedulesListRunsOptionalParams
+    /** Optional parameters. */
+    export interface BetaSchedulesListRunsOptionalParams extends OperationOptions {
+        clientRequestId?: string;
+        scheduleType?: ScheduleTaskType;
+        enabled?: boolean;
+    }
+
+    // Reachable via: AIProjectClient → ScheduleTaskType
+    /** Type of the task. */
+    export type ScheduleTaskType = "Evaluation" | "Insight";
+
+    // Reachable via: AIProjectClient → ScheduleRun
+    /** Schedule run model. */
+    export interface ScheduleRun {
+        readonly runId: string;
+        scheduleId: string;
+        readonly success: boolean;
+        triggerTime?: string;
+        readonly error?: string;
+        readonly properties: Record<string, string>;
+    }
+
+    // Reachable via: AIProjectClient → BetaSchedulesGetRunOptionalParams
+    /** Optional parameters. */
+    export interface BetaSchedulesGetRunOptionalParams extends OperationOptions {
+    }
+
+    // Reachable via: AIProjectClient → Schedule
+    /** Schedule model. */
+    export interface Schedule {
+        readonly id?: string;
+        displayName?: string;
+        description?: string;
+        enabled: boolean;
+        readonly provisioningStatus?: ScheduleProvisioningStatus;
+        trigger: TriggerUnion;
+        task: ScheduleTaskUnion;
+        tags?: Record<string, string>;
+        properties?: Record<string, string>;
+        readonly systemData?: Record<string, string>;
+    }
+
+    // Reachable via: AIProjectClient → ScheduleProvisioningStatus
+    /** Schedule provisioning status. */
+    export type ScheduleProvisioningStatus = "Creating" | "Updating" | "Deleting" | "Succeeded" | "Failed";
+
+    // Reachable via: AIProjectClient → TriggerUnion
+    /** Alias for TriggerUnion */
+    export type TriggerUnion = CronTrigger | RecurrenceTrigger | OneTimeTrigger | Trigger;
+
+    // Reachable via: AIProjectClient → CronTrigger
+    /** Cron based trigger. */
+    export interface CronTrigger extends Trigger {
+        type: "Cron";
+        expression: string;
+        timeZone?: string;
+        startTime?: string;
+        endTime?: string;
+    }
+
+    // Reachable via: AIProjectClient → Trigger
+    /** Base model for Trigger of the schedule. */
+    export interface Trigger {
+        type: TriggerType;
+    }
+
+    // Reachable via: AIProjectClient → TriggerType
+    /** Type of the trigger. */
+    export type TriggerType = "Cron" | "Recurrence" | "OneTime";
+
+    // Reachable via: AIProjectClient → RecurrenceTrigger
+    /** Recurrence based trigger. */
+    export interface RecurrenceTrigger extends Trigger {
+        type: "Recurrence";
+        startTime?: string;
+        endTime?: string;
+        timeZone?: string;
+        interval: number;
+        schedule: RecurrenceScheduleUnion;
+    }
+
+    // Reachable via: AIProjectClient → RecurrenceScheduleUnion
+    /** Alias for RecurrenceScheduleUnion */
+    export type RecurrenceScheduleUnion = HourlyRecurrenceSchedule | DailyRecurrenceSchedule | WeeklyRecurrenceSchedule | MonthlyRecurrenceSchedule | RecurrenceSchedule;
+
+    // Reachable via: AIProjectClient → HourlyRecurrenceSchedule
+    /** Hourly recurrence schedule. */
+    export interface HourlyRecurrenceSchedule extends RecurrenceSchedule {
+        type: "Hourly";
+    }
+
+    // Reachable via: AIProjectClient → RecurrenceSchedule
+    /** Recurrence schedule model. */
+    export interface RecurrenceSchedule {
+        type: RecurrenceType;
+    }
+
+    // Reachable via: AIProjectClient → RecurrenceType
+    /** Recurrence type. */
+    export type RecurrenceType = "Hourly" | "Daily" | "Weekly" | "Monthly";
+
+    // Reachable via: AIProjectClient → DailyRecurrenceSchedule
+    /** Daily recurrence schedule. */
+    export interface DailyRecurrenceSchedule extends RecurrenceSchedule {
+        type: "Daily";
+        hours: number[];
+    }
+
+    // Reachable via: AIProjectClient → WeeklyRecurrenceSchedule
+    /** Weekly recurrence schedule. */
+    export interface WeeklyRecurrenceSchedule extends RecurrenceSchedule {
+        type: "Weekly";
+        daysOfWeek: DayOfWeek[];
+    }
+
+    // Reachable via: AIProjectClient → DayOfWeek
+    /** Days of the week for recurrence schedule. */
+    export type DayOfWeek = "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday";
+
+    // Reachable via: AIProjectClient → MonthlyRecurrenceSchedule
+    /** Monthly recurrence schedule. */
+    export interface MonthlyRecurrenceSchedule extends RecurrenceSchedule {
+        type: "Monthly";
+        daysOfMonth: number[];
+    }
+
+    // Reachable via: AIProjectClient → OneTimeTrigger
+    /** One-time trigger. */
+    export interface OneTimeTrigger extends Trigger {
+        type: "OneTime";
+        triggerAt: string;
+        timeZone?: string;
+    }
+
+    // Reachable via: AIProjectClient → ScheduleTaskUnion
+    /** Alias for ScheduleTaskUnion */
+    export type ScheduleTaskUnion = EvaluationScheduleTask | InsightScheduleTask | ScheduleTask;
+
+    // Reachable via: AIProjectClient → EvaluationScheduleTask
+    /** Evaluation task for the schedule. */
+    export interface EvaluationScheduleTask extends ScheduleTask {
+        type: "Evaluation";
+        evalId: string;
+        evalRun: Record<string, unknown>;
+    }
+
+    // Reachable via: AIProjectClient → ScheduleTask
+    /** Schedule task model. */
+    export interface ScheduleTask {
+        type: ScheduleTaskType;
+        configuration?: Record<string, string>;
+    }
+
+    // Reachable via: AIProjectClient → InsightScheduleTask
+    /** Insight task for the schedule. */
+    export interface InsightScheduleTask extends ScheduleTask {
+        type: "Insight";
+        insight: Insight;
+    }
+
+    // Reachable via: AIProjectClient → Insight
+    /** The response body for cluster insights. */
+    export interface Insight {
+        readonly id?: string;
+        readonly metadata?: InsightsMetadata;
+        readonly state?: OperationState;
+        displayName: string;
+        request: InsightRequestUnion;
+        readonly result?: InsightResultUnion;
+    }
+
+    // Reachable via: AIProjectClient → InsightsMetadata
+    /** Metadata about the insights. */
+    export interface InsightsMetadata {
+        createdAt: Date;
+        completedAt?: Date;
+    }
+
+    // Reachable via: AIProjectClient → OperationState
+    /** Enum describing allowed operation states. */
+    export type OperationState = "NotStarted" | "Running" | "Succeeded" | "Failed" | "Canceled";
+
+    // Reachable via: AIProjectClient → InsightRequestUnion
+    /** Alias for InsightRequestUnion */
+    export type InsightRequestUnion = EvaluationRunClusterInsightRequest | AgentClusterInsightRequest | EvaluationComparisonInsightRequest | InsightRequest;
+
+    // Reachable via: AIProjectClient → EvaluationRunClusterInsightRequest
+    /** Insights on set of Evaluation Results */
+    export interface EvaluationRunClusterInsightRequest extends InsightRequest {
+        type: "EvaluationRunClusterInsight";
+        evalId: string;
+        runIds: string[];
+        modelConfiguration?: InsightModelConfiguration;
+    }
+
+    // Reachable via: AIProjectClient → InsightRequest
+    /** The request of the insights report. */
+    export interface InsightRequest {
+        type: InsightType;
+    }
+
+    // Reachable via: AIProjectClient → InsightType
+    /** The request of the insights. */
+    export type InsightType = "EvaluationRunClusterInsight" | "AgentClusterInsight" | "EvaluationComparison";
+
+    // Reachable via: AIProjectClient → InsightModelConfiguration
+    /** Configuration of the model used in the insight generation. */
+    export interface InsightModelConfiguration {
+        modelDeploymentName: string;
+    }
+
+    // Reachable via: AIProjectClient → AgentClusterInsightRequest
+    /** Insights on set of Agent Evaluation Results */
+    export interface AgentClusterInsightRequest extends InsightRequest {
+        type: "AgentClusterInsight";
+        agentName: string;
+        modelConfiguration?: InsightModelConfiguration;
+    }
+
+    // Reachable via: AIProjectClient → EvaluationComparisonInsightRequest
+    /** Evaluation Comparison Request */
+    export interface EvaluationComparisonInsightRequest extends InsightRequest {
+        type: "EvaluationComparison";
+        evalId: string;
+        baselineRunId: string;
+        treatmentRunIds: string[];
+    }
+
+    // Reachable via: AIProjectClient → InsightResultUnion
+    /** Alias for InsightResultUnion */
+    export type InsightResultUnion = EvaluationComparisonInsightResult | EvaluationRunClusterInsightResult | AgentClusterInsightResult | InsightResult;
+
+    // Reachable via: AIProjectClient → EvaluationComparisonInsightResult
+    /** Insights from the evaluation comparison. */
+    export interface EvaluationComparisonInsightResult extends InsightResult {
+        type: "EvaluationComparison";
+        comparisons: EvalRunResultComparison[];
+        method: string;
+    }
+
+    // Reachable via: AIProjectClient → InsightResult
+    /** The result of the insights. */
+    export interface InsightResult {
+        type: InsightType;
+    }
+
+    // Reachable via: AIProjectClient → EvalRunResultComparison
+    /** Comparison results for treatment runs against the baseline. */
+    export interface EvalRunResultComparison {
+        testingCriteria: string;
+        metric: string;
+        evaluator: string;
+        baselineRunSummary: EvalRunResultSummary;
+        compareItems: EvalRunResultCompareItem[];
+    }
+
+    // Reachable via: AIProjectClient → EvalRunResultSummary
+    /** Summary statistics of a metric in an evaluation run. */
+    export interface EvalRunResultSummary {
+        runId: string;
+        sampleCount: number;
+        average: number;
+        standardDeviation: number;
+    }
+
+    // Reachable via: AIProjectClient → EvalRunResultCompareItem
+    /** Metric comparison for a treatment against the baseline. */
+    export interface EvalRunResultCompareItem {
+        treatmentRunId: string;
+        treatmentRunSummary: EvalRunResultSummary;
+        deltaEstimate: number;
+        pValue: number;
+        treatmentEffect: TreatmentEffectType;
+    }
+
+    // Reachable via: AIProjectClient → TreatmentEffectType
+    /** Treatment Effect Type. */
+    export type TreatmentEffectType = "TooFewSamples" | "Inconclusive" | "Changed" | "Improved" | "Degraded";
+
+    // Reachable via: AIProjectClient → EvaluationRunClusterInsightResult
+    /** Insights from the evaluation run cluster analysis. */
+    export interface EvaluationRunClusterInsightResult extends InsightResult {
+        type: "EvaluationRunClusterInsight";
+        clusterInsight: ClusterInsightResult;
+    }
+
+    // Reachable via: AIProjectClient → ClusterInsightResult
+    /** Insights from the cluster analysis. */
+    export interface ClusterInsightResult {
+        summary: InsightSummary;
+        clusters: InsightCluster[];
+        coordinates?: Record<string, ChartCoordinate>;
+    }
+
+    // Reachable via: AIProjectClient → InsightSummary
+    /** Summary of the error cluster analysis. */
+    export interface InsightSummary {
+        sampleCount: number;
+        uniqueSubclusterCount: number;
+        uniqueClusterCount: number;
+        method: string;
+        usage: ClusterTokenUsage;
+    }
+
+    // Reachable via: AIProjectClient → ClusterTokenUsage
+    /** Token usage for cluster analysis */
+    export interface ClusterTokenUsage {
+        inputTokenUsage: number;
+        outputTokenUsage: number;
+        totalTokenUsage: number;
+    }
+
+    // Reachable via: AIProjectClient → InsightCluster
+    /** A cluster of analysis samples. */
+    export interface InsightCluster {
+        id: string;
+        label: string;
+        suggestion: string;
+        suggestionTitle: string;
+        description: string;
+        weight: number;
+        subClusters?: InsightCluster[];
+        samples?: InsightSampleUnion[];
+    }
+
+    // Reachable via: AIProjectClient → InsightSampleUnion
+    /** Alias for InsightSampleUnion */
+    export type InsightSampleUnion = EvaluationResultSample | InsightSample;
+
+    // Reachable via: AIProjectClient → EvaluationResultSample
+    /** A sample from the evaluation result. */
+    export interface EvaluationResultSample extends InsightSample {
+        type: "EvaluationResultSample";
+        evaluationResult: EvalResult;
+    }
+
+    // Reachable via: AIProjectClient → InsightSample
+    /** A sample from the analysis. */
+    export interface InsightSample {
+        id: string;
+        type: SampleType;
+        features: Record<string, unknown>;
+        correlationInfo: Record<string, unknown>;
+    }
+
+    // Reachable via: AIProjectClient → EvalResult
+    /** Result of the evaluation. */
+    export interface EvalResult {
+        name: string;
+        type: string;
+        score: number;
+        passed: boolean;
+    }
+
+    // Reachable via: AIProjectClient → ChartCoordinate
+    /** Coordinates for the analysis chart. */
+    export interface ChartCoordinate {
+        x: number;
+        y: number;
+        size: number;
+    }
+
+    // Reachable via: AIProjectClient → AgentClusterInsightResult
+    /** Insights from the agent cluster analysis. */
+    export interface AgentClusterInsightResult extends InsightResult {
+        type: "AgentClusterInsight";
+        clusterInsight: ClusterInsightResult;
+    }
+
+    // Reachable via: AIProjectClient → BetaSchedulesCreateOrUpdateOptionalParams
+    /** Optional parameters. */
+    export interface BetaSchedulesCreateOrUpdateOptionalParams extends OperationOptions {
+        clientRequestId?: string;
+    }
+
+    // Reachable via: AIProjectClient → BetaSchedulesListOptionalParams
+    /** Optional parameters. */
+    export interface BetaSchedulesListOptionalParams extends OperationOptions {
+        clientRequestId?: string;
+        scheduleType?: ScheduleTaskType;
+        enabled?: boolean;
+    }
+
+    // Reachable via: AIProjectClient → BetaSchedulesGetOptionalParams
+    /** Optional parameters. */
+    export interface BetaSchedulesGetOptionalParams extends OperationOptions {
+        clientRequestId?: string;
+    }
+
+    // Reachable via: AIProjectClient → BetaSchedulesDeleteOptionalParams
+    /** Optional parameters. */
+    export interface BetaSchedulesDeleteOptionalParams extends OperationOptions {
+        clientRequestId?: string;
+    }
+
+    // Reachable via: AIProjectClient → BetaRedTeamsOperations
+    /** Interface representing a BetaRedTeams operations. */
+    export interface BetaRedTeamsOperations {
+        create(redTeam: RedTeam, options?: BetaRedTeamsCreateOptionalParams): Promise<RedTeam>;
+        list(options?: BetaRedTeamsListOptionalParams): PagedAsyncIterableIterator<RedTeam>;
+        get(name: string, options?: BetaRedTeamsGetOptionalParams): Promise<RedTeam>;
+    }
+
+    // Reachable via: AIProjectClient → RedTeam
+    /** Red team details. */
+    export interface RedTeam {
+        readonly name: string;
+        displayName?: string;
+        numTurns?: number;
+        attackStrategies?: AttackStrategy[];
+        simulationOnly?: boolean;
+        riskCategories?: RiskCategory[];
+        applicationScenario?: string;
+        tags?: Record<string, string>;
+        properties?: Record<string, string>;
+        readonly status?: string;
+        target?: TargetConfigUnion;
+    }
+
+    // Reachable via: AIProjectClient → AttackStrategy
+    /** Strategies for attacks. */
+    export type AttackStrategy = "easy" | "moderate" | "difficult" | "ascii_art" | "ascii_smuggler" | "atbash" | "base64" | "binary" | "caesar" | "character_space" | "jailbreak" | "ansi_attack" | "character_swap" | "suffix_append" | "string_join" | "unicode_confusable" | "unicode_substitution" | "diacritic" | "flip" | "leetspeak" | "rot13" | "morse" | "url" | "baseline" | "indirect_jailbreak" | "tense" | "multi_turn" | "crescendo";
+
+    // Reachable via: AIProjectClient → RiskCategory
+    /** Risk category for the attack objective. */
+    export type RiskCategory = "HateUnfairness" | "Violence" | "Sexual" | "SelfHarm" | "ProtectedMaterial" | "CodeVulnerability" | "UngroundedAttributes" | "ProhibitedActions" | "SensitiveDataLeakage" | "TaskAdherence";
+
+    // Reachable via: AIProjectClient → TargetConfigUnion
+    /** Alias for TargetConfigUnion */
+    export type TargetConfigUnion = AzureOpenAIModelConfiguration | TargetConfig;
+
+    // Reachable via: AIProjectClient → AzureOpenAIModelConfiguration
+    /** Azure OpenAI model configuration. The API version would be selected by the service for querying the model. */
+    export interface AzureOpenAIModelConfiguration extends TargetConfig {
+        type: "AzureOpenAIModel";
+        modelDeploymentName: string;
+    }
+
+    // Reachable via: AIProjectClient → TargetConfig
+    /** Abstract class for target configuration. */
+    export interface TargetConfig {
+        type: string;
+    }
+
+    // Reachable via: AIProjectClient → BetaRedTeamsCreateOptionalParams
+    /** Optional parameters. */
+    export interface BetaRedTeamsCreateOptionalParams extends OperationOptions {
+    }
+
+    // Reachable via: AIProjectClient → BetaRedTeamsListOptionalParams
+    /** Optional parameters. */
+    export interface BetaRedTeamsListOptionalParams extends OperationOptions {
+        clientRequestId?: string;
+    }
+
+    // Reachable via: AIProjectClient → BetaRedTeamsGetOptionalParams
+    /** Optional parameters. */
+    export interface BetaRedTeamsGetOptionalParams extends OperationOptions {
+        clientRequestId?: string;
+    }
+
+    // Reachable via: AIProjectClient → BetaMemoryStoresOperations
+    /** Interface representing a BetaMemoryStores operations. */
+    export interface BetaMemoryStoresOperations {
+        deleteScope(name: string, scope: string, options?: BetaMemoryStoresDeleteScopeOptionalParams): Promise<MemoryStoreDeleteScopeResponse>;
+        getUpdateResult(name: string, updateId: string, options?: BetaMemoryStoresGetUpdateResultOptionalParams): Promise<MemoryStoreUpdateResponse>;
+        updateMemories(name: string, scope: string, options?: BetaMemoryStoresUpdateMemoriesOptionalParams): PollerLike<_corelro_OperationState<MemoryStoreUpdateCompletedResult>, MemoryStoreUpdateCompletedResult>;
+        searchMemories(name: string, scope: string, options?: BetaMemoryStoresSearchMemoriesOptionalParams): Promise<MemoryStoreSearchResponse>;
+        delete(name: string, options?: BetaMemoryStoresDeleteOptionalParams): Promise<DeleteMemoryStoreResponse>;
+        list(options?: BetaMemoryStoresListOptionalParams): PagedAsyncIterableIterator<MemoryStore>;
+        get(name: string, options?: BetaMemoryStoresGetOptionalParams): Promise<MemoryStore>;
+        update(name: string, options?: BetaMemoryStoresUpdateOptionalParams): Promise<MemoryStore>;
+        create(name: string, definition: MemoryStoreDefinitionUnion, options?: BetaMemoryStoresCreateOptionalParams): Promise<MemoryStore>;
+    }
+
+    // Reachable via: AIProjectClient → BetaMemoryStoresDeleteScopeOptionalParams
+    /** Optional parameters. */
+    export interface BetaMemoryStoresDeleteScopeOptionalParams extends OperationOptions {
+    }
+
+    // Reachable via: AIProjectClient → MemoryStoreDeleteScopeResponse
+    /** Response for deleting memories from a scope. */
+    export interface MemoryStoreDeleteScopeResponse {
+        object: "memory_store.scope.deleted";
+        name: string;
+        scope: string;
+        deleted: boolean;
+    }
+
+    // Reachable via: AIProjectClient → BetaMemoryStoresGetUpdateResultOptionalParams
+    /** Optional parameters. */
+    export interface BetaMemoryStoresGetUpdateResultOptionalParams extends OperationOptions {
+    }
+
+    // Reachable via: AIProjectClient → MemoryStoreUpdateResponse
+    /** Provides the status of a memory store update operation. */
+    export interface MemoryStoreUpdateResponse {
+        update_id: string;
+        status: MemoryStoreUpdateStatus;
+        superseded_by?: string;
+        result?: MemoryStoreUpdateCompletedResult;
+        error?: ErrorModel;
+    }
+
+    // Reachable via: AIProjectClient → MemoryStoreUpdateStatus
+    /** Status of a memory store update operation. */
+    export type MemoryStoreUpdateStatus = "queued" | "in_progress" | "completed" | "failed" | "superseded";
+
+    // Reachable via: AIProjectClient → MemoryStoreUpdateCompletedResult
+    /** Memory update result. */
+    export interface MemoryStoreUpdateCompletedResult {
+        memory_operations: MemoryOperation[];
+        usage: MemoryStoreOperationUsage;
+    }
+
+    // Reachable via: AIProjectClient → MemoryOperation
+    /** Represents a single memory operation (create, update, or delete) performed on a memory item. */
+    export interface MemoryOperation {
+        kind: MemoryOperationKind;
+        memory_item: MemoryItemUnion;
+    }
+
+    // Reachable via: AIProjectClient → MemoryOperationKind
+    /** Memory operation kind. */
+    export type MemoryOperationKind = "create" | "update" | "delete";
+
+    // Reachable via: AIProjectClient → MemoryItemUnion
+    /** Alias for MemoryItemUnion */
+    export type MemoryItemUnion = UserProfileMemoryItem | ChatSummaryMemoryItem | MemoryItem;
+
+    // Reachable via: AIProjectClient → UserProfileMemoryItem
+    /** A memory item specifically containing user profile information extracted from conversations, such as preferences, interests, and personal details. */
+    export interface UserProfileMemoryItem extends MemoryItem {
+        kind: "user_profile";
+    }
+
+    // Reachable via: AIProjectClient → MemoryItem
+    /** A single memory item stored in the memory store, containing content and metadata. */
+    export interface MemoryItem {
+        memory_id: string;
+        updated_at: Date;
+        scope: string;
+        content: string;
+        kind: MemoryItemKind;
+    }
+
+    // Reachable via: AIProjectClient → MemoryItemKind
+    /** Memory item kind. */
+    export type MemoryItemKind = "user_profile" | "chat_summary";
+
+    // Reachable via: AIProjectClient → ChatSummaryMemoryItem
+    /** A memory item containing a summary extracted from conversations. */
+    export interface ChatSummaryMemoryItem extends MemoryItem {
+        kind: "chat_summary";
+    }
+
+    // Reachable via: AIProjectClient → MemoryStoreOperationUsage
+    /** Usage statistics of a memory store operation. */
+    export interface MemoryStoreOperationUsage {
+        embedding_tokens: number;
+        input_tokens: number;
+        input_tokens_details: ResponseUsageInputTokensDetails;
+        output_tokens: number;
+        output_tokens_details: ResponseUsageOutputTokensDetails;
+        total_tokens: number;
+    }
+
+    // Reachable via: AIProjectClient → ResponseUsageInputTokensDetails
+    /** model interface ResponseUsageInputTokensDetails */
+    export interface ResponseUsageInputTokensDetails {
+        cached_tokens: number;
+    }
+
+    // Reachable via: AIProjectClient → ResponseUsageOutputTokensDetails
+    /** model interface ResponseUsageOutputTokensDetails */
+    export interface ResponseUsageOutputTokensDetails {
+        reasoning_tokens: number;
+    }
+
+    // Reachable via: AIProjectClient → ErrorModel
+    // Reachable via: ApiErrorResponse → ErrorModel
+    /** model interface ErrorModel */
+    export interface ErrorModel {
+        code: string;
+        message: string;
+        param?: string;
+        type?: string;
+        details?: ErrorModel[];
+        additionalInfo?: Record<string, unknown>;
+        debugInfo?: Record<string, unknown>;
+    }
+
+    // Reachable via: AIProjectClient → BetaMemoryStoresUpdateMemoriesOptionalParams
+    /** Optional parameters. */
+    export interface BetaMemoryStoresUpdateMemoriesOptionalParams extends OperationOptions {
+        updateIntervalInMs?: number;
+        items?: Record<string, unknown>[];
+        previousUpdateId?: string;
+        updateDelayInSecs?: number;
+    }
+
+    // Reachable via: AIProjectClient → BetaMemoryStoresSearchMemoriesOptionalParams
+    /** Optional parameters. */
+    export interface BetaMemoryStoresSearchMemoriesOptionalParams extends OperationOptions {
+        items?: Record<string, unknown>[];
+        previousSearchId?: string;
+        options?: MemorySearchOptions;
+    }
+
+    // Reachable via: AIProjectClient → MemoryStoreSearchResponse
+    /** Memory search response. */
+    export interface MemoryStoreSearchResponse {
+        search_id: string;
+        memories: MemorySearchItem[];
+        usage: MemoryStoreOperationUsage;
+    }
+
+    // Reachable via: AIProjectClient → MemorySearchItem
+    /** A retrieved memory item from memory search. */
+    export interface MemorySearchItem {
+        memory_item: MemoryItemUnion;
+    }
+
+    // Reachable via: AIProjectClient → BetaMemoryStoresDeleteOptionalParams
+    /** Optional parameters. */
+    export interface BetaMemoryStoresDeleteOptionalParams extends OperationOptions {
+    }
+
+    // Reachable via: AIProjectClient → DeleteMemoryStoreResponse
+    /** model interface DeleteMemoryStoreResponse */
+    export interface DeleteMemoryStoreResponse {
+        object: "memory_store.deleted";
+        name: string;
+        deleted: boolean;
+    }
+
+    // Reachable via: AIProjectClient → BetaMemoryStoresListOptionalParams
+    /** Optional parameters. */
+    export interface BetaMemoryStoresListOptionalParams extends OperationOptions {
+        limit?: number;
+        order?: PageOrder;
+        after?: string;
+        before?: string;
+    }
+
+    // Reachable via: AIProjectClient → MemoryStore
+    /** A memory store that can store and retrieve user memories. */
+    export interface MemoryStore {
+        object: "memory_store";
+        id: string;
+        created_at: Date;
+        updated_at: Date;
+        name: string;
+        description?: string;
+        metadata?: Record<string, string>;
+        definition: MemoryStoreDefinitionUnion;
+    }
+
+    // Reachable via: AIProjectClient → MemoryStoreDefinitionUnion
+    /** Alias for MemoryStoreDefinitionUnion */
+    export type MemoryStoreDefinitionUnion = MemoryStoreDefaultDefinition | MemoryStoreDefinition;
+
+    // Reachable via: AIProjectClient → MemoryStoreDefaultDefinition
+    /** Default memory store implementation. */
+    export interface MemoryStoreDefaultDefinition extends MemoryStoreDefinition {
+        kind: "default";
+        chat_model: string;
+        embedding_model: string;
+        options?: MemoryStoreDefaultOptions;
+    }
+
+    // Reachable via: AIProjectClient → MemoryStoreDefinition
+    /** Base definition for memory store configurations. */
+    export interface MemoryStoreDefinition {
+        kind: MemoryStoreKind;
+    }
+
+    // Reachable via: AIProjectClient → MemoryStoreDefaultOptions
+    /** Default memory store configurations. */
+    export interface MemoryStoreDefaultOptions {
+        user_profile_enabled: boolean;
+        user_profile_details?: string;
+        chat_summary_enabled: boolean;
+    }
+
+    // Reachable via: AIProjectClient → BetaMemoryStoresGetOptionalParams
+    /** Optional parameters. */
+    export interface BetaMemoryStoresGetOptionalParams extends OperationOptions {
+    }
+
+    // Reachable via: AIProjectClient → BetaMemoryStoresUpdateOptionalParams
+    /** Optional parameters. */
+    export interface BetaMemoryStoresUpdateOptionalParams extends OperationOptions {
+        description?: string;
+        metadata?: Record<string, string>;
+    }
+
+    // Reachable via: AIProjectClient → BetaMemoryStoresCreateOptionalParams
+    /** Optional parameters. */
+    export interface BetaMemoryStoresCreateOptionalParams extends OperationOptions {
+        description?: string;
+        metadata?: Record<string, string>;
+    }
+
+    // Reachable via: AIProjectClient → BetaInsightsOperations
+    /** Interface representing a BetaInsights operations. */
+    export interface BetaInsightsOperations {
+        list(options?: BetaInsightsListOptionalParams): PagedAsyncIterableIterator<Insight>;
+        get(id: string, options?: BetaInsightsGetOptionalParams): Promise<Insight>;
+        generate(insight: Insight, options?: BetaInsightsGenerateOptionalParams): Promise<Insight>;
+    }
+
+    // Reachable via: AIProjectClient → BetaInsightsListOptionalParams
+    /** Optional parameters. */
+    export interface BetaInsightsListOptionalParams extends OperationOptions {
+        insightType?: InsightType;
+        evalId?: string;
+        runId?: string;
+        agentName?: string;
+        includeCoordinates?: boolean;
+        clientRequestId?: string;
+    }
+
+    // Reachable via: AIProjectClient → BetaInsightsGetOptionalParams
+    /** Optional parameters. */
+    export interface BetaInsightsGetOptionalParams extends OperationOptions {
+        includeCoordinates?: boolean;
+        clientRequestId?: string;
+    }
+
+    // Reachable via: AIProjectClient → BetaInsightsGenerateOptionalParams
+    /** Optional parameters. */
+    export interface BetaInsightsGenerateOptionalParams extends OperationOptions {
+        repeatabilityRequestId?: string;
+        repeatabilityFirstSent?: Date;
+    }
+
+    // Reachable via: AIProjectClient → BetaEvaluatorsOperations
+    /** Interface representing a BetaEvaluators operations. */
+    export interface BetaEvaluatorsOperations {
+        updateVersion(name: string, version: string, evaluatorVersion: EvaluatorVersion, options?: BetaEvaluatorsUpdateVersionOptionalParams): Promise<EvaluatorVersion>;
+        createVersion(name: string, evaluatorVersion: EvaluatorVersion, options?: BetaEvaluatorsCreateVersionOptionalParams): Promise<EvaluatorVersion>;
+        deleteVersion(name: string, version: string, options?: BetaEvaluatorsDeleteVersionOptionalParams): Promise<void>;
+        getVersion(name: string, version: string, options?: BetaEvaluatorsGetVersionOptionalParams): Promise<EvaluatorVersion>;
+        list(options?: BetaEvaluatorsListLatestVersionsOptionalParams): PagedAsyncIterableIterator<EvaluatorVersion>;
+        listVersions(name: string, options?: BetaEvaluatorsListVersionsOptionalParams): PagedAsyncIterableIterator<EvaluatorVersion>;
+    }
+
+    // Reachable via: AIProjectClient → EvaluatorVersion
+    /** Evaluator Definition */
+    export interface EvaluatorVersion {
+        display_name?: string;
+        metadata?: Record<string, string>;
+        evaluator_type: EvaluatorType;
+        categories: EvaluatorCategory[];
+        definition: EvaluatorDefinitionUnion;
+        readonly created_by?: string;
+        readonly created_at?: string;
+        readonly modified_at?: string;
+        readonly id?: string;
+        readonly name: string;
+        readonly version?: string;
+        description?: string;
+        tags?: Record<string, string>;
+    }
+
+    // Reachable via: AIProjectClient → EvaluatorType
+    /** The type of the evaluator */
+    export type EvaluatorType = "builtin" | "custom";
+
+    // Reachable via: AIProjectClient → EvaluatorCategory
+    /** The category of the evaluator */
+    export type EvaluatorCategory = "quality" | "safety" | "agents";
+
+    // Reachable via: AIProjectClient → EvaluatorDefinitionUnion
+    /** Alias for EvaluatorDefinitionUnion */
+    export type EvaluatorDefinitionUnion = CodeBasedEvaluatorDefinition | PromptBasedEvaluatorDefinition | EvaluatorDefinition;
+
+    // Reachable via: AIProjectClient → CodeBasedEvaluatorDefinition
+    /** Code-based evaluator definition using python code */
+    export interface CodeBasedEvaluatorDefinition extends EvaluatorDefinition {
+        type: "code";
+        code_text: string;
+    }
+
+    // Reachable via: AIProjectClient → EvaluatorDefinition
+    /** Base evaluator configuration with discriminator */
+    export interface EvaluatorDefinition {
+        type: EvaluatorDefinitionType;
+        init_parameters?: Record<string, unknown>;
+        data_schema?: Record<string, unknown>;
+        metrics?: Record<string, EvaluatorMetric>;
+    }
+
+    // Reachable via: AIProjectClient → EvaluatorDefinitionType
+    /** The type of evaluator definition */
+    export type EvaluatorDefinitionType = "prompt" | "code" | "prompt_and_code" | "service" | "openai_graders";
+
+    // Reachable via: AIProjectClient → EvaluatorMetric
+    /** Evaluator Metric */
+    export interface EvaluatorMetric {
+        type?: EvaluatorMetricType;
+        desirable_direction?: EvaluatorMetricDirection;
+        min_value?: number;
+        max_value?: number;
+        is_primary?: boolean;
+    }
+
+    // Reachable via: AIProjectClient → EvaluatorMetricType
+    /** The type of the evaluator */
+    export type EvaluatorMetricType = "ordinal" | "continuous" | "boolean";
+
+    // Reachable via: AIProjectClient → EvaluatorMetricDirection
+    /** The direction of the metric indicating whether a higher value is better, a lower value is better, or neutral */
+    export type EvaluatorMetricDirection = "increase" | "decrease" | "neutral";
+
+    // Reachable via: AIProjectClient → PromptBasedEvaluatorDefinition
+    /** Prompt-based evaluator */
+    export interface PromptBasedEvaluatorDefinition extends EvaluatorDefinition {
+        type: "prompt";
+        prompt_text: string;
+    }
+
+    // Reachable via: AIProjectClient → BetaEvaluatorsUpdateVersionOptionalParams
+    /** Optional parameters. */
+    export interface BetaEvaluatorsUpdateVersionOptionalParams extends OperationOptions {
+    }
+
+    // Reachable via: AIProjectClient → BetaEvaluatorsCreateVersionOptionalParams
+    /** Optional parameters. */
+    export interface BetaEvaluatorsCreateVersionOptionalParams extends OperationOptions {
+    }
+
+    // Reachable via: AIProjectClient → BetaEvaluatorsDeleteVersionOptionalParams
+    /** Optional parameters. */
+    export interface BetaEvaluatorsDeleteVersionOptionalParams extends OperationOptions {
+    }
+
+    // Reachable via: AIProjectClient → BetaEvaluatorsGetVersionOptionalParams
+    /** Optional parameters. */
+    export interface BetaEvaluatorsGetVersionOptionalParams extends OperationOptions {
+    }
+
+    // Reachable via: AIProjectClient → BetaEvaluatorsListLatestVersionsOptionalParams
+    /** Optional parameters. */
+    export interface BetaEvaluatorsListLatestVersionsOptionalParams extends OperationOptions {
+        evaluatorType?: EvaluatorType | "all";
+        limit?: number;
+    }
+
+    // Reachable via: AIProjectClient → BetaEvaluatorsListVersionsOptionalParams
+    /** Optional parameters. */
+    export interface BetaEvaluatorsListVersionsOptionalParams extends OperationOptions {
+        evaluatorType?: EvaluatorType | "all";
+        limit?: number;
+    }
+
+    // Reachable via: AIProjectClient → BetaEvaluationTaxonomiesOperations
+    /** Interface representing a BetaEvaluationTaxonomies operations. */
+    export interface BetaEvaluationTaxonomiesOperations {
+        update(name: string, body: EvaluationTaxonomy, options?: BetaEvaluationTaxonomiesUpdateOptionalParams): Promise<EvaluationTaxonomy>;
+        create(name: string, body: EvaluationTaxonomy, options?: BetaEvaluationTaxonomiesCreateOptionalParams): Promise<EvaluationTaxonomy>;
+        delete(name: string, options?: BetaEvaluationTaxonomiesDeleteOptionalParams): Promise<void>;
+        list(options?: BetaEvaluationTaxonomiesListOptionalParams): PagedAsyncIterableIterator<EvaluationTaxonomy>;
+        get(name: string, options?: BetaEvaluationTaxonomiesGetOptionalParams): Promise<EvaluationTaxonomy>;
+    }
+
+    // Reachable via: AIProjectClient → EvaluationTaxonomy
+    /** Evaluation Taxonomy Definition */
+    export interface EvaluationTaxonomy {
+        readonly id?: string;
+        readonly name: string;
+        readonly version: string;
+        description?: string;
+        tags?: Record<string, string>;
+        taxonomyInput: EvaluationTaxonomyInputUnion;
+        taxonomyCategories?: TaxonomyCategory[];
+        properties?: Record<string, string>;
+    }
+
+    // Reachable via: AIProjectClient → EvaluationTaxonomyInputUnion
+    /** Alias for EvaluationTaxonomyInputUnion */
+    export type EvaluationTaxonomyInputUnion = AgentTaxonomyInput | EvaluationTaxonomyInput;
+
+    // Reachable via: AIProjectClient → AgentTaxonomyInput
+    /** Input configuration for the evaluation taxonomy when the input type is agent. */
+    export interface AgentTaxonomyInput extends EvaluationTaxonomyInput {
+        type: "agent";
+        target: TargetUnion;
+        riskCategories: RiskCategory[];
+    }
+
+    // Reachable via: AIProjectClient → EvaluationTaxonomyInput
+    /** Input configuration for the evaluation taxonomy. */
+    export interface EvaluationTaxonomyInput {
+        type: EvaluationTaxonomyInputType;
+    }
+
+    // Reachable via: AIProjectClient → EvaluationTaxonomyInputType
+    /** Type of the evaluation taxonomy input. */
+    export type EvaluationTaxonomyInputType = "agent" | "policy";
+
+    // Reachable via: AIProjectClient → TargetUnion
+    /** Alias for TargetUnion */
+    export type TargetUnion = AzureAIModelTarget | AzureAIAgentTarget | Target;
+
+    // Reachable via: AIProjectClient → AzureAIModelTarget
+    /** Represents a target specifying an Azure AI model for operations requiring model selection. */
+    export interface AzureAIModelTarget extends Target {
+        type: "azure_ai_model";
+        model?: string;
+        sampling_params?: ModelSamplingParams;
+    }
+
+    // Reachable via: AIProjectClient → Target
+    /** Base class for targets with discriminator support. */
+    export interface Target {
+        type: string;
+    }
+
+    // Reachable via: AIProjectClient → ModelSamplingParams
+    /** Represents a set of parameters used to control the sampling behavior of a language model during text generation. */
+    export interface ModelSamplingParams {
+        temperature: number;
+        top_p: number;
+        seed: number;
+        max_completion_tokens: number;
+    }
+
+    // Reachable via: AIProjectClient → AzureAIAgentTarget
+    /** Represents a target specifying an Azure AI agent. */
+    export interface AzureAIAgentTarget extends Target {
+        type: "azure_ai_agent";
+        name: string;
+        version?: string;
+        tool_descriptions?: ToolDescription[];
+    }
+
+    // Reachable via: AIProjectClient → ToolDescription
+    /** Description of a tool that can be used by an agent. */
+    export interface ToolDescription {
+        name?: string;
+        description?: string;
+    }
+
+    // Reachable via: AIProjectClient → TaxonomyCategory
+    /** Taxonomy category definition. */
+    export interface TaxonomyCategory {
+        id: string;
+        name: string;
+        description?: string;
+        riskCategory: RiskCategory;
+        subCategories: TaxonomySubCategory[];
+        properties?: Record<string, string>;
+    }
+
+    // Reachable via: AIProjectClient → TaxonomySubCategory
+    /** Taxonomy sub-category definition. */
+    export interface TaxonomySubCategory {
+        id: string;
+        name: string;
+        description?: string;
+        enabled: boolean;
+        properties?: Record<string, string>;
+    }
+
+    // Reachable via: AIProjectClient → BetaEvaluationTaxonomiesUpdateOptionalParams
+    /** Optional parameters. */
+    export interface BetaEvaluationTaxonomiesUpdateOptionalParams extends OperationOptions {
+    }
+
+    // Reachable via: AIProjectClient → BetaEvaluationTaxonomiesCreateOptionalParams
+    /** Optional parameters. */
+    export interface BetaEvaluationTaxonomiesCreateOptionalParams extends OperationOptions {
+    }
+
+    // Reachable via: AIProjectClient → BetaEvaluationTaxonomiesDeleteOptionalParams
+    /** Optional parameters. */
+    export interface BetaEvaluationTaxonomiesDeleteOptionalParams extends OperationOptions {
+        clientRequestId?: string;
+    }
+
+    // Reachable via: AIProjectClient → BetaEvaluationTaxonomiesListOptionalParams
+    /** Optional parameters. */
+    export interface BetaEvaluationTaxonomiesListOptionalParams extends OperationOptions {
+        inputName?: string;
+        inputType?: string;
+        clientRequestId?: string;
+    }
+
+    // Reachable via: AIProjectClient → BetaEvaluationTaxonomiesGetOptionalParams
+    /** Optional parameters. */
+    export interface BetaEvaluationTaxonomiesGetOptionalParams extends OperationOptions {
+        clientRequestId?: string;
+    }
+
+    // Reachable via: AIProjectClient → TelemetryOperations
+    /** Interface representing telemetry operations */
+    export interface TelemetryOperations {
+        getApplicationInsightsConnectionString(options?: OperationOptions): Promise<string>;
+    }
+
+    // Reachable via: AIProjectClient → AgentsOperations → AgentsCreateAgentVersionFromManifestOptionalParams
+    /** Optional parameters. */
+    export interface AgentsCreateAgentVersionFromManifestOptionalParams extends OperationOptions {
+        metadata?: Record<string, string>;
+        description?: string;
+    }
+
+    // Reachable via: AIProjectClient → AgentsOperations → AgentsUpdateAgentFromManifestOptionalParams
+    /** Optional parameters. */
+    export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOptions {
+        metadata?: Record<string, string>;
+        description?: string;
+    }
+
+    // Reachable via: AIProjectClient → AgentsOperations → AgentsCreateAgentFromManifestOptionalParams
+    /** Optional parameters. */
+    export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOptions {
+        metadata?: Record<string, string>;
+        description?: string;
+    }
+
+    // Reachable via: AIProjectClient → AgentsOperations → AgentsUpdateOptionalParams
+    /** Optional parameters. */
+    export interface AgentsUpdateOptionalParams extends OperationOptions {
+        foundryFeatures?: AgentDefinitionOptInKeys;
+        metadata?: Record<string, string>;
+        description?: string;
+    }
+
+    // Reachable via: AIProjectClient → AgentsOperations → AgentsCreateOptionalParams
+    /** Optional parameters. */
+    export interface AgentsCreateOptionalParams extends OperationOptions {
+        foundryFeatures?: AgentDefinitionOptInKeys;
+        metadata?: Record<string, string>;
+        description?: string;
+    }
+
+    /** Optional parameters. */
+    export interface AgentsCreateVersionOptionalParams extends OperationOptions {
+        foundryFeatures?: AgentDefinitionOptInKeys;
+        metadata?: Record<string, string>;
+        description?: string;
+    }
+
+    /** Error response for API failures. */
+    export interface ApiErrorResponse {
+        error: ErrorModel;
+    }
+
+    // Reachable via: AIProjectClient → AIProjectClientOptionalParams → KnownApiVersions
+    /** Microsoft Foundry API versions */
+    export enum KnownApiVersions {
+        v1 = "v1"
+    }
+
+    // Reachable via: AIProjectClient → PromptAgentDefinition → ToolChoiceParamUnion
+    /** Alias for ToolChoiceParamUnion */
+    export type ToolChoiceParamUnion = ToolChoiceAllowed | ToolChoiceFunction | ToolChoiceMCP | ToolChoiceCustom | SpecificApplyPatchParam | SpecificFunctionShellParam | ToolChoiceFileSearch | ToolChoiceWebSearchPreview | ToolChoiceComputerUsePreview | ToolChoiceWebSearchPreview20250311 | ToolChoiceImageGeneration | ToolChoiceCodeInterpreter | ToolChoiceParam;
+
+    // Reachable via: AIProjectClient → DeploymentsListOptionalParams → DeploymentType
+    /** Type of DeploymentType */
+    export type DeploymentType = "ModelDeployment";
+
+    // Reachable via: AIProjectClient → InsightSample → SampleType
+    /** The type of sample used in the analysis. */
+    export type SampleType = "EvaluationResultSample";
+
+    // Reachable via: AIProjectClient → MemoryStoreDefinition → MemoryStoreKind
+    /** The type of memory store implementation to use. */
+    export type MemoryStoreKind = "default";
+
+    // Reachable via: AgentsCreateVersionOptionalParams → AgentDefinitionOptInKeys
+    /** Feature opt-in keys for agent definition operations supporting hosted or workflow agents. */
+    export type AgentDefinitionOptInKeys = "HostedAgents=V1Preview" | "WorkflowAgents=V1Preview";
+
+    /** Type of AgentType */
+    export type AgentType = "agent" | "agent.version" | "agent.deleted" | "agent.version.deleted" | "agent.container";
+
+    /** Type of FoundryFeaturesOptInKeys */
+    export type FoundryFeaturesOptInKeys = "Evaluations=V1Preview" | "Schedules=V1Preview" | "RedTeams=V1Preview" | "Insights=V1Preview" | "MemoryStores=V1Preview";
+
+    /** The type of pending upload. */
+    export type PendingUploadType = "None" | "BlobReference";
+
+    /** Type of MemoryStoreType */
+    export type MemoryStoreType = "memory_store" | "memory_store.deleted" | "memory_store.scope.deleted";
+
+    /** An interface that describes a page of results. */
+    export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+        /**
+         * The token that keeps track of where to continue the iterator
+         */
+        continuationToken?: string;
+    };
+}
+
 // ============================================================================
 // Dependencies
 // ============================================================================
@@ -17,7 +2698,6 @@ declare module "@azure-rest/core-client" { // 2.6.0
 
 
     // Reachable via: AIProjectClient → AdditionalPolicyConfig
-    // Reachable via: AIProjectClientOptionalParams → AdditionalPolicyConfig
     /** Used to configure additional policies added to the pipeline at construction. */
     export interface AdditionalPolicyConfig {
         policy: PipelinePolicy;
@@ -26,82 +2706,8 @@ declare module "@azure-rest/core-client" { // 2.6.0
 
 
     // Reachable via: AIProjectClient → OperationOptions
-    // Reachable via: AgentsCreateAgentFromManifestOptionalParams → OperationOptions
-    // Reachable via: AgentsCreateAgentVersionFromManifestOptionalParams → OperationOptions
-    // Reachable via: AgentsCreateOptionalParams → OperationOptions
     // Reachable via: AgentsCreateVersionOptionalParams → OperationOptions
-    // Reachable via: AgentsDeleteOptionalParams → OperationOptions
-    // Reachable via: AgentsDeleteVersionOptionalParams → OperationOptions
-    // Reachable via: AgentsGetOptionalParams → OperationOptions
-    // Reachable via: AgentsGetVersionOptionalParams → OperationOptions
-    // Reachable via: AgentsListOptionalParams → OperationOptions
-    // Reachable via: AgentsListVersionsOptionalParams → OperationOptions
-    // Reachable via: AgentsOperations → OperationOptions
-    // Reachable via: AgentsUpdateAgentFromManifestOptionalParams → OperationOptions
-    // Reachable via: AgentsUpdateOptionalParams → OperationOptions
-    // Reachable via: BetaEvaluationTaxonomiesCreateOptionalParams → OperationOptions
-    // Reachable via: BetaEvaluationTaxonomiesDeleteOptionalParams → OperationOptions
-    // Reachable via: BetaEvaluationTaxonomiesGetOptionalParams → OperationOptions
-    // Reachable via: BetaEvaluationTaxonomiesListOptionalParams → OperationOptions
-    // Reachable via: BetaEvaluationTaxonomiesUpdateOptionalParams → OperationOptions
-    // Reachable via: BetaEvaluatorsCreateVersionOptionalParams → OperationOptions
-    // Reachable via: BetaEvaluatorsDeleteVersionOptionalParams → OperationOptions
-    // Reachable via: BetaEvaluatorsGetVersionOptionalParams → OperationOptions
-    // Reachable via: BetaEvaluatorsListLatestVersionsOptionalParams → OperationOptions
-    // Reachable via: BetaEvaluatorsListVersionsOptionalParams → OperationOptions
-    // Reachable via: BetaEvaluatorsUpdateVersionOptionalParams → OperationOptions
-    // Reachable via: BetaInsightsGenerateOptionalParams → OperationOptions
-    // Reachable via: BetaInsightsGetOptionalParams → OperationOptions
-    // Reachable via: BetaInsightsListOptionalParams → OperationOptions
-    // Reachable via: BetaMemoryStoresCreateOptionalParams → OperationOptions
-    // Reachable via: BetaMemoryStoresDeleteOptionalParams → OperationOptions
-    // Reachable via: BetaMemoryStoresDeleteScopeOptionalParams → OperationOptions
-    // Reachable via: BetaMemoryStoresGetOptionalParams → OperationOptions
-    // Reachable via: BetaMemoryStoresGetUpdateResultOptionalParams → OperationOptions
-    // Reachable via: BetaMemoryStoresListOptionalParams → OperationOptions
-    // Reachable via: BetaMemoryStoresSearchMemoriesOptionalParams → OperationOptions
-    // Reachable via: BetaMemoryStoresUpdateMemoriesOptionalParams → OperationOptions
-    // Reachable via: BetaMemoryStoresUpdateOptionalParams → OperationOptions
-    // Reachable via: BetaOperations → OperationOptions
-    // Reachable via: BetaRedTeamsCreateOptionalParams → OperationOptions
-    // Reachable via: BetaRedTeamsGetOptionalParams → OperationOptions
-    // Reachable via: BetaRedTeamsListOptionalParams → OperationOptions
-    // Reachable via: BetaSchedulesCreateOrUpdateOptionalParams → OperationOptions
-    // Reachable via: BetaSchedulesDeleteOptionalParams → OperationOptions
-    // Reachable via: BetaSchedulesGetOptionalParams → OperationOptions
-    // Reachable via: BetaSchedulesGetRunOptionalParams → OperationOptions
-    // Reachable via: BetaSchedulesListOptionalParams → OperationOptions
-    // Reachable via: BetaSchedulesListRunsOptionalParams → OperationOptions
-    // Reachable via: BetaSchedulesOperations → OperationOptions
-    // Reachable via: ConnectionsGetDefaultOptionalParams → OperationOptions
-    // Reachable via: ConnectionsGetOptionalParams → OperationOptions
-    // Reachable via: ConnectionsGetWithCredentialsOptionalParams → OperationOptions
-    // Reachable via: ConnectionsListOptionalParams → OperationOptions
-    // Reachable via: ConnectionsOperations → OperationOptions
     // Reachable via: DatasetUploadOptions → OperationOptions
-    // Reachable via: DatasetsCreateOrUpdateOptionalParams → OperationOptions
-    // Reachable via: DatasetsDeleteOptionalParams → OperationOptions
-    // Reachable via: DatasetsGetCredentialsOptionalParams → OperationOptions
-    // Reachable via: DatasetsGetOptionalParams → OperationOptions
-    // Reachable via: DatasetsListOptionalParams → OperationOptions
-    // Reachable via: DatasetsListVersionsOptionalParams → OperationOptions
-    // Reachable via: DatasetsOperations → OperationOptions
-    // Reachable via: DatasetsPendingUploadOptionalParams → OperationOptions
-    // Reachable via: DeploymentsGetOptionalParams → OperationOptions
-    // Reachable via: DeploymentsListOptionalParams → OperationOptions
-    // Reachable via: DeploymentsOperations → OperationOptions
-    // Reachable via: EvaluationRulesCreateOrUpdateOptionalParams → OperationOptions
-    // Reachable via: EvaluationRulesDeleteOptionalParams → OperationOptions
-    // Reachable via: EvaluationRulesGetOptionalParams → OperationOptions
-    // Reachable via: EvaluationRulesListOptionalParams → OperationOptions
-    // Reachable via: EvaluationRulesOperations → OperationOptions
-    // Reachable via: IndexesCreateOrUpdateOptionalParams → OperationOptions
-    // Reachable via: IndexesDeleteOptionalParams → OperationOptions
-    // Reachable via: IndexesGetOptionalParams → OperationOptions
-    // Reachable via: IndexesListOptionalParams → OperationOptions
-    // Reachable via: IndexesListVersionsOptionalParams → OperationOptions
-    // Reachable via: IndexesOperations → OperationOptions
-    // Reachable via: TelemetryOperations → OperationOptions
     /** The base options type for all operations. */
     export interface OperationOptions {
         abortSignal?: AbortSignalLike;
@@ -112,82 +2718,8 @@ declare module "@azure-rest/core-client" { // 2.6.0
 
 
     // Reachable via: AIProjectClient → OperationRequestOptions
-    // Reachable via: AgentsCreateAgentFromManifestOptionalParams → OperationRequestOptions
-    // Reachable via: AgentsCreateAgentVersionFromManifestOptionalParams → OperationRequestOptions
-    // Reachable via: AgentsCreateOptionalParams → OperationRequestOptions
     // Reachable via: AgentsCreateVersionOptionalParams → OperationRequestOptions
-    // Reachable via: AgentsDeleteOptionalParams → OperationRequestOptions
-    // Reachable via: AgentsDeleteVersionOptionalParams → OperationRequestOptions
-    // Reachable via: AgentsGetOptionalParams → OperationRequestOptions
-    // Reachable via: AgentsGetVersionOptionalParams → OperationRequestOptions
-    // Reachable via: AgentsListOptionalParams → OperationRequestOptions
-    // Reachable via: AgentsListVersionsOptionalParams → OperationRequestOptions
-    // Reachable via: AgentsOperations → OperationRequestOptions
-    // Reachable via: AgentsUpdateAgentFromManifestOptionalParams → OperationRequestOptions
-    // Reachable via: AgentsUpdateOptionalParams → OperationRequestOptions
-    // Reachable via: BetaEvaluationTaxonomiesCreateOptionalParams → OperationRequestOptions
-    // Reachable via: BetaEvaluationTaxonomiesDeleteOptionalParams → OperationRequestOptions
-    // Reachable via: BetaEvaluationTaxonomiesGetOptionalParams → OperationRequestOptions
-    // Reachable via: BetaEvaluationTaxonomiesListOptionalParams → OperationRequestOptions
-    // Reachable via: BetaEvaluationTaxonomiesUpdateOptionalParams → OperationRequestOptions
-    // Reachable via: BetaEvaluatorsCreateVersionOptionalParams → OperationRequestOptions
-    // Reachable via: BetaEvaluatorsDeleteVersionOptionalParams → OperationRequestOptions
-    // Reachable via: BetaEvaluatorsGetVersionOptionalParams → OperationRequestOptions
-    // Reachable via: BetaEvaluatorsListLatestVersionsOptionalParams → OperationRequestOptions
-    // Reachable via: BetaEvaluatorsListVersionsOptionalParams → OperationRequestOptions
-    // Reachable via: BetaEvaluatorsUpdateVersionOptionalParams → OperationRequestOptions
-    // Reachable via: BetaInsightsGenerateOptionalParams → OperationRequestOptions
-    // Reachable via: BetaInsightsGetOptionalParams → OperationRequestOptions
-    // Reachable via: BetaInsightsListOptionalParams → OperationRequestOptions
-    // Reachable via: BetaMemoryStoresCreateOptionalParams → OperationRequestOptions
-    // Reachable via: BetaMemoryStoresDeleteOptionalParams → OperationRequestOptions
-    // Reachable via: BetaMemoryStoresDeleteScopeOptionalParams → OperationRequestOptions
-    // Reachable via: BetaMemoryStoresGetOptionalParams → OperationRequestOptions
-    // Reachable via: BetaMemoryStoresGetUpdateResultOptionalParams → OperationRequestOptions
-    // Reachable via: BetaMemoryStoresListOptionalParams → OperationRequestOptions
-    // Reachable via: BetaMemoryStoresSearchMemoriesOptionalParams → OperationRequestOptions
-    // Reachable via: BetaMemoryStoresUpdateMemoriesOptionalParams → OperationRequestOptions
-    // Reachable via: BetaMemoryStoresUpdateOptionalParams → OperationRequestOptions
-    // Reachable via: BetaOperations → OperationRequestOptions
-    // Reachable via: BetaRedTeamsCreateOptionalParams → OperationRequestOptions
-    // Reachable via: BetaRedTeamsGetOptionalParams → OperationRequestOptions
-    // Reachable via: BetaRedTeamsListOptionalParams → OperationRequestOptions
-    // Reachable via: BetaSchedulesCreateOrUpdateOptionalParams → OperationRequestOptions
-    // Reachable via: BetaSchedulesDeleteOptionalParams → OperationRequestOptions
-    // Reachable via: BetaSchedulesGetOptionalParams → OperationRequestOptions
-    // Reachable via: BetaSchedulesGetRunOptionalParams → OperationRequestOptions
-    // Reachable via: BetaSchedulesListOptionalParams → OperationRequestOptions
-    // Reachable via: BetaSchedulesListRunsOptionalParams → OperationRequestOptions
-    // Reachable via: BetaSchedulesOperations → OperationRequestOptions
-    // Reachable via: ConnectionsGetDefaultOptionalParams → OperationRequestOptions
-    // Reachable via: ConnectionsGetOptionalParams → OperationRequestOptions
-    // Reachable via: ConnectionsGetWithCredentialsOptionalParams → OperationRequestOptions
-    // Reachable via: ConnectionsListOptionalParams → OperationRequestOptions
-    // Reachable via: ConnectionsOperations → OperationRequestOptions
     // Reachable via: DatasetUploadOptions → OperationRequestOptions
-    // Reachable via: DatasetsCreateOrUpdateOptionalParams → OperationRequestOptions
-    // Reachable via: DatasetsDeleteOptionalParams → OperationRequestOptions
-    // Reachable via: DatasetsGetCredentialsOptionalParams → OperationRequestOptions
-    // Reachable via: DatasetsGetOptionalParams → OperationRequestOptions
-    // Reachable via: DatasetsListOptionalParams → OperationRequestOptions
-    // Reachable via: DatasetsListVersionsOptionalParams → OperationRequestOptions
-    // Reachable via: DatasetsOperations → OperationRequestOptions
-    // Reachable via: DatasetsPendingUploadOptionalParams → OperationRequestOptions
-    // Reachable via: DeploymentsGetOptionalParams → OperationRequestOptions
-    // Reachable via: DeploymentsListOptionalParams → OperationRequestOptions
-    // Reachable via: DeploymentsOperations → OperationRequestOptions
-    // Reachable via: EvaluationRulesCreateOrUpdateOptionalParams → OperationRequestOptions
-    // Reachable via: EvaluationRulesDeleteOptionalParams → OperationRequestOptions
-    // Reachable via: EvaluationRulesGetOptionalParams → OperationRequestOptions
-    // Reachable via: EvaluationRulesListOptionalParams → OperationRequestOptions
-    // Reachable via: EvaluationRulesOperations → OperationRequestOptions
-    // Reachable via: IndexesCreateOrUpdateOptionalParams → OperationRequestOptions
-    // Reachable via: IndexesDeleteOptionalParams → OperationRequestOptions
-    // Reachable via: IndexesGetOptionalParams → OperationRequestOptions
-    // Reachable via: IndexesListOptionalParams → OperationRequestOptions
-    // Reachable via: IndexesListVersionsOptionalParams → OperationRequestOptions
-    // Reachable via: IndexesOperations → OperationRequestOptions
-    // Reachable via: TelemetryOperations → OperationRequestOptions
     /** Options used when creating and sending HTTP requests for this operation. */
     export interface OperationRequestOptions {
         headers?: RawHttpHeadersInput;
@@ -200,82 +2732,8 @@ declare module "@azure-rest/core-client" { // 2.6.0
 
 
     // Reachable via: AIProjectClient → FullOperationResponse
-    // Reachable via: AgentsCreateAgentFromManifestOptionalParams → FullOperationResponse
-    // Reachable via: AgentsCreateAgentVersionFromManifestOptionalParams → FullOperationResponse
-    // Reachable via: AgentsCreateOptionalParams → FullOperationResponse
     // Reachable via: AgentsCreateVersionOptionalParams → FullOperationResponse
-    // Reachable via: AgentsDeleteOptionalParams → FullOperationResponse
-    // Reachable via: AgentsDeleteVersionOptionalParams → FullOperationResponse
-    // Reachable via: AgentsGetOptionalParams → FullOperationResponse
-    // Reachable via: AgentsGetVersionOptionalParams → FullOperationResponse
-    // Reachable via: AgentsListOptionalParams → FullOperationResponse
-    // Reachable via: AgentsListVersionsOptionalParams → FullOperationResponse
-    // Reachable via: AgentsOperations → FullOperationResponse
-    // Reachable via: AgentsUpdateAgentFromManifestOptionalParams → FullOperationResponse
-    // Reachable via: AgentsUpdateOptionalParams → FullOperationResponse
-    // Reachable via: BetaEvaluationTaxonomiesCreateOptionalParams → FullOperationResponse
-    // Reachable via: BetaEvaluationTaxonomiesDeleteOptionalParams → FullOperationResponse
-    // Reachable via: BetaEvaluationTaxonomiesGetOptionalParams → FullOperationResponse
-    // Reachable via: BetaEvaluationTaxonomiesListOptionalParams → FullOperationResponse
-    // Reachable via: BetaEvaluationTaxonomiesUpdateOptionalParams → FullOperationResponse
-    // Reachable via: BetaEvaluatorsCreateVersionOptionalParams → FullOperationResponse
-    // Reachable via: BetaEvaluatorsDeleteVersionOptionalParams → FullOperationResponse
-    // Reachable via: BetaEvaluatorsGetVersionOptionalParams → FullOperationResponse
-    // Reachable via: BetaEvaluatorsListLatestVersionsOptionalParams → FullOperationResponse
-    // Reachable via: BetaEvaluatorsListVersionsOptionalParams → FullOperationResponse
-    // Reachable via: BetaEvaluatorsUpdateVersionOptionalParams → FullOperationResponse
-    // Reachable via: BetaInsightsGenerateOptionalParams → FullOperationResponse
-    // Reachable via: BetaInsightsGetOptionalParams → FullOperationResponse
-    // Reachable via: BetaInsightsListOptionalParams → FullOperationResponse
-    // Reachable via: BetaMemoryStoresCreateOptionalParams → FullOperationResponse
-    // Reachable via: BetaMemoryStoresDeleteOptionalParams → FullOperationResponse
-    // Reachable via: BetaMemoryStoresDeleteScopeOptionalParams → FullOperationResponse
-    // Reachable via: BetaMemoryStoresGetOptionalParams → FullOperationResponse
-    // Reachable via: BetaMemoryStoresGetUpdateResultOptionalParams → FullOperationResponse
-    // Reachable via: BetaMemoryStoresListOptionalParams → FullOperationResponse
-    // Reachable via: BetaMemoryStoresSearchMemoriesOptionalParams → FullOperationResponse
-    // Reachable via: BetaMemoryStoresUpdateMemoriesOptionalParams → FullOperationResponse
-    // Reachable via: BetaMemoryStoresUpdateOptionalParams → FullOperationResponse
-    // Reachable via: BetaOperations → FullOperationResponse
-    // Reachable via: BetaRedTeamsCreateOptionalParams → FullOperationResponse
-    // Reachable via: BetaRedTeamsGetOptionalParams → FullOperationResponse
-    // Reachable via: BetaRedTeamsListOptionalParams → FullOperationResponse
-    // Reachable via: BetaSchedulesCreateOrUpdateOptionalParams → FullOperationResponse
-    // Reachable via: BetaSchedulesDeleteOptionalParams → FullOperationResponse
-    // Reachable via: BetaSchedulesGetOptionalParams → FullOperationResponse
-    // Reachable via: BetaSchedulesGetRunOptionalParams → FullOperationResponse
-    // Reachable via: BetaSchedulesListOptionalParams → FullOperationResponse
-    // Reachable via: BetaSchedulesListRunsOptionalParams → FullOperationResponse
-    // Reachable via: BetaSchedulesOperations → FullOperationResponse
-    // Reachable via: ConnectionsGetDefaultOptionalParams → FullOperationResponse
-    // Reachable via: ConnectionsGetOptionalParams → FullOperationResponse
-    // Reachable via: ConnectionsGetWithCredentialsOptionalParams → FullOperationResponse
-    // Reachable via: ConnectionsListOptionalParams → FullOperationResponse
-    // Reachable via: ConnectionsOperations → FullOperationResponse
     // Reachable via: DatasetUploadOptions → FullOperationResponse
-    // Reachable via: DatasetsCreateOrUpdateOptionalParams → FullOperationResponse
-    // Reachable via: DatasetsDeleteOptionalParams → FullOperationResponse
-    // Reachable via: DatasetsGetCredentialsOptionalParams → FullOperationResponse
-    // Reachable via: DatasetsGetOptionalParams → FullOperationResponse
-    // Reachable via: DatasetsListOptionalParams → FullOperationResponse
-    // Reachable via: DatasetsListVersionsOptionalParams → FullOperationResponse
-    // Reachable via: DatasetsOperations → FullOperationResponse
-    // Reachable via: DatasetsPendingUploadOptionalParams → FullOperationResponse
-    // Reachable via: DeploymentsGetOptionalParams → FullOperationResponse
-    // Reachable via: DeploymentsListOptionalParams → FullOperationResponse
-    // Reachable via: DeploymentsOperations → FullOperationResponse
-    // Reachable via: EvaluationRulesCreateOrUpdateOptionalParams → FullOperationResponse
-    // Reachable via: EvaluationRulesDeleteOptionalParams → FullOperationResponse
-    // Reachable via: EvaluationRulesGetOptionalParams → FullOperationResponse
-    // Reachable via: EvaluationRulesListOptionalParams → FullOperationResponse
-    // Reachable via: EvaluationRulesOperations → FullOperationResponse
-    // Reachable via: IndexesCreateOrUpdateOptionalParams → FullOperationResponse
-    // Reachable via: IndexesDeleteOptionalParams → FullOperationResponse
-    // Reachable via: IndexesGetOptionalParams → FullOperationResponse
-    // Reachable via: IndexesListOptionalParams → FullOperationResponse
-    // Reachable via: IndexesListVersionsOptionalParams → FullOperationResponse
-    // Reachable via: IndexesOperations → FullOperationResponse
-    // Reachable via: TelemetryOperations → FullOperationResponse
     /** Wrapper object for http request and response. Deserialized object is stored in
     the `parsedBody` property when the response body is received in JSON. */
     export interface FullOperationResponse extends PipelineResponse {
@@ -286,7 +2744,6 @@ declare module "@azure-rest/core-client" { // 2.6.0
 
 
     // Reachable via: AIProjectClient → ClientOptions
-    // Reachable via: AIProjectClientOptionalParams → ClientOptions
     /** General options that a Rest Level Client can take */
     export type ClientOptions = PipelineOptions & {
         /**
@@ -341,87 +2798,8 @@ declare module "@azure-rest/core-client" { // 2.6.0
 
 
     // Reachable via: AIProjectClient → RawResponseCallback
-    // Reachable via: AgentsCreateAgentFromManifestOptionalParams → RawResponseCallback
-    // Reachable via: AgentsCreateAgentVersionFromManifestOptionalParams → RawResponseCallback
-    // Reachable via: AgentsCreateOptionalParams → RawResponseCallback
     // Reachable via: AgentsCreateVersionOptionalParams → RawResponseCallback
-    // Reachable via: AgentsDeleteOptionalParams → RawResponseCallback
-    // Reachable via: AgentsDeleteVersionOptionalParams → RawResponseCallback
-    // Reachable via: AgentsGetOptionalParams → RawResponseCallback
-    // Reachable via: AgentsGetVersionOptionalParams → RawResponseCallback
-    // Reachable via: AgentsListOptionalParams → RawResponseCallback
-    // Reachable via: AgentsListVersionsOptionalParams → RawResponseCallback
-    // Reachable via: AgentsOperations → RawResponseCallback
-    // Reachable via: AgentsUpdateAgentFromManifestOptionalParams → RawResponseCallback
-    // Reachable via: AgentsUpdateOptionalParams → RawResponseCallback
-    // Reachable via: BetaEvaluationTaxonomiesCreateOptionalParams → RawResponseCallback
-    // Reachable via: BetaEvaluationTaxonomiesDeleteOptionalParams → RawResponseCallback
-    // Reachable via: BetaEvaluationTaxonomiesGetOptionalParams → RawResponseCallback
-    // Reachable via: BetaEvaluationTaxonomiesListOptionalParams → RawResponseCallback
-    // Reachable via: BetaEvaluationTaxonomiesOperations → RawResponseCallback
-    // Reachable via: BetaEvaluationTaxonomiesUpdateOptionalParams → RawResponseCallback
-    // Reachable via: BetaEvaluatorsCreateVersionOptionalParams → RawResponseCallback
-    // Reachable via: BetaEvaluatorsDeleteVersionOptionalParams → RawResponseCallback
-    // Reachable via: BetaEvaluatorsGetVersionOptionalParams → RawResponseCallback
-    // Reachable via: BetaEvaluatorsListLatestVersionsOptionalParams → RawResponseCallback
-    // Reachable via: BetaEvaluatorsListVersionsOptionalParams → RawResponseCallback
-    // Reachable via: BetaEvaluatorsOperations → RawResponseCallback
-    // Reachable via: BetaEvaluatorsUpdateVersionOptionalParams → RawResponseCallback
-    // Reachable via: BetaInsightsGenerateOptionalParams → RawResponseCallback
-    // Reachable via: BetaInsightsGetOptionalParams → RawResponseCallback
-    // Reachable via: BetaInsightsListOptionalParams → RawResponseCallback
-    // Reachable via: BetaInsightsOperations → RawResponseCallback
-    // Reachable via: BetaMemoryStoresCreateOptionalParams → RawResponseCallback
-    // Reachable via: BetaMemoryStoresDeleteOptionalParams → RawResponseCallback
-    // Reachable via: BetaMemoryStoresDeleteScopeOptionalParams → RawResponseCallback
-    // Reachable via: BetaMemoryStoresGetOptionalParams → RawResponseCallback
-    // Reachable via: BetaMemoryStoresGetUpdateResultOptionalParams → RawResponseCallback
-    // Reachable via: BetaMemoryStoresListOptionalParams → RawResponseCallback
-    // Reachable via: BetaMemoryStoresOperations → RawResponseCallback
-    // Reachable via: BetaMemoryStoresSearchMemoriesOptionalParams → RawResponseCallback
-    // Reachable via: BetaMemoryStoresUpdateMemoriesOptionalParams → RawResponseCallback
-    // Reachable via: BetaMemoryStoresUpdateOptionalParams → RawResponseCallback
-    // Reachable via: BetaOperations → RawResponseCallback
-    // Reachable via: BetaRedTeamsCreateOptionalParams → RawResponseCallback
-    // Reachable via: BetaRedTeamsGetOptionalParams → RawResponseCallback
-    // Reachable via: BetaRedTeamsListOptionalParams → RawResponseCallback
-    // Reachable via: BetaRedTeamsOperations → RawResponseCallback
-    // Reachable via: BetaSchedulesCreateOrUpdateOptionalParams → RawResponseCallback
-    // Reachable via: BetaSchedulesDeleteOptionalParams → RawResponseCallback
-    // Reachable via: BetaSchedulesGetOptionalParams → RawResponseCallback
-    // Reachable via: BetaSchedulesGetRunOptionalParams → RawResponseCallback
-    // Reachable via: BetaSchedulesListOptionalParams → RawResponseCallback
-    // Reachable via: BetaSchedulesListRunsOptionalParams → RawResponseCallback
-    // Reachable via: BetaSchedulesOperations → RawResponseCallback
-    // Reachable via: ConnectionsGetDefaultOptionalParams → RawResponseCallback
-    // Reachable via: ConnectionsGetOptionalParams → RawResponseCallback
-    // Reachable via: ConnectionsGetWithCredentialsOptionalParams → RawResponseCallback
-    // Reachable via: ConnectionsListOptionalParams → RawResponseCallback
-    // Reachable via: ConnectionsOperations → RawResponseCallback
     // Reachable via: DatasetUploadOptions → RawResponseCallback
-    // Reachable via: DatasetsCreateOrUpdateOptionalParams → RawResponseCallback
-    // Reachable via: DatasetsDeleteOptionalParams → RawResponseCallback
-    // Reachable via: DatasetsGetCredentialsOptionalParams → RawResponseCallback
-    // Reachable via: DatasetsGetOptionalParams → RawResponseCallback
-    // Reachable via: DatasetsListOptionalParams → RawResponseCallback
-    // Reachable via: DatasetsListVersionsOptionalParams → RawResponseCallback
-    // Reachable via: DatasetsOperations → RawResponseCallback
-    // Reachable via: DatasetsPendingUploadOptionalParams → RawResponseCallback
-    // Reachable via: DeploymentsGetOptionalParams → RawResponseCallback
-    // Reachable via: DeploymentsListOptionalParams → RawResponseCallback
-    // Reachable via: DeploymentsOperations → RawResponseCallback
-    // Reachable via: EvaluationRulesCreateOrUpdateOptionalParams → RawResponseCallback
-    // Reachable via: EvaluationRulesDeleteOptionalParams → RawResponseCallback
-    // Reachable via: EvaluationRulesGetOptionalParams → RawResponseCallback
-    // Reachable via: EvaluationRulesListOptionalParams → RawResponseCallback
-    // Reachable via: EvaluationRulesOperations → RawResponseCallback
-    // Reachable via: IndexesCreateOrUpdateOptionalParams → RawResponseCallback
-    // Reachable via: IndexesDeleteOptionalParams → RawResponseCallback
-    // Reachable via: IndexesGetOptionalParams → RawResponseCallback
-    // Reachable via: IndexesListOptionalParams → RawResponseCallback
-    // Reachable via: IndexesListVersionsOptionalParams → RawResponseCallback
-    // Reachable via: IndexesOperations → RawResponseCallback
-    // Reachable via: TelemetryOperations → RawResponseCallback
     /** A function to be called each time a response is received from the server
     while performing the requested operation.
     May be called multiple times.
@@ -437,83 +2815,8 @@ declare module "@azure-rest/core-client" { // 2.6.0
 declare module "@azure/abort-controller" { // 2.1.3
 
     // Reachable via: AIProjectClient → AbortSignalLike
-    // Reachable via: AIProjectClientOptionalParams → AbortSignalLike
-    // Reachable via: AgentsCreateAgentFromManifestOptionalParams → AbortSignalLike
-    // Reachable via: AgentsCreateAgentVersionFromManifestOptionalParams → AbortSignalLike
-    // Reachable via: AgentsCreateOptionalParams → AbortSignalLike
     // Reachable via: AgentsCreateVersionOptionalParams → AbortSignalLike
-    // Reachable via: AgentsDeleteOptionalParams → AbortSignalLike
-    // Reachable via: AgentsDeleteVersionOptionalParams → AbortSignalLike
-    // Reachable via: AgentsGetOptionalParams → AbortSignalLike
-    // Reachable via: AgentsGetVersionOptionalParams → AbortSignalLike
-    // Reachable via: AgentsListOptionalParams → AbortSignalLike
-    // Reachable via: AgentsListVersionsOptionalParams → AbortSignalLike
-    // Reachable via: AgentsOperations → AbortSignalLike
-    // Reachable via: AgentsUpdateAgentFromManifestOptionalParams → AbortSignalLike
-    // Reachable via: AgentsUpdateOptionalParams → AbortSignalLike
-    // Reachable via: BetaEvaluationTaxonomiesCreateOptionalParams → AbortSignalLike
-    // Reachable via: BetaEvaluationTaxonomiesDeleteOptionalParams → AbortSignalLike
-    // Reachable via: BetaEvaluationTaxonomiesGetOptionalParams → AbortSignalLike
-    // Reachable via: BetaEvaluationTaxonomiesListOptionalParams → AbortSignalLike
-    // Reachable via: BetaEvaluationTaxonomiesUpdateOptionalParams → AbortSignalLike
-    // Reachable via: BetaEvaluatorsCreateVersionOptionalParams → AbortSignalLike
-    // Reachable via: BetaEvaluatorsDeleteVersionOptionalParams → AbortSignalLike
-    // Reachable via: BetaEvaluatorsGetVersionOptionalParams → AbortSignalLike
-    // Reachable via: BetaEvaluatorsListLatestVersionsOptionalParams → AbortSignalLike
-    // Reachable via: BetaEvaluatorsListVersionsOptionalParams → AbortSignalLike
-    // Reachable via: BetaEvaluatorsUpdateVersionOptionalParams → AbortSignalLike
-    // Reachable via: BetaInsightsGenerateOptionalParams → AbortSignalLike
-    // Reachable via: BetaInsightsGetOptionalParams → AbortSignalLike
-    // Reachable via: BetaInsightsListOptionalParams → AbortSignalLike
-    // Reachable via: BetaMemoryStoresCreateOptionalParams → AbortSignalLike
-    // Reachable via: BetaMemoryStoresDeleteOptionalParams → AbortSignalLike
-    // Reachable via: BetaMemoryStoresDeleteScopeOptionalParams → AbortSignalLike
-    // Reachable via: BetaMemoryStoresGetOptionalParams → AbortSignalLike
-    // Reachable via: BetaMemoryStoresGetUpdateResultOptionalParams → AbortSignalLike
-    // Reachable via: BetaMemoryStoresListOptionalParams → AbortSignalLike
-    // Reachable via: BetaMemoryStoresSearchMemoriesOptionalParams → AbortSignalLike
-    // Reachable via: BetaMemoryStoresUpdateMemoriesOptionalParams → AbortSignalLike
-    // Reachable via: BetaMemoryStoresUpdateOptionalParams → AbortSignalLike
-    // Reachable via: BetaOperations → AbortSignalLike
-    // Reachable via: BetaRedTeamsCreateOptionalParams → AbortSignalLike
-    // Reachable via: BetaRedTeamsGetOptionalParams → AbortSignalLike
-    // Reachable via: BetaRedTeamsListOptionalParams → AbortSignalLike
-    // Reachable via: BetaSchedulesCreateOrUpdateOptionalParams → AbortSignalLike
-    // Reachable via: BetaSchedulesDeleteOptionalParams → AbortSignalLike
-    // Reachable via: BetaSchedulesGetOptionalParams → AbortSignalLike
-    // Reachable via: BetaSchedulesGetRunOptionalParams → AbortSignalLike
-    // Reachable via: BetaSchedulesListOptionalParams → AbortSignalLike
-    // Reachable via: BetaSchedulesListRunsOptionalParams → AbortSignalLike
-    // Reachable via: BetaSchedulesOperations → AbortSignalLike
-    // Reachable via: ConnectionsGetDefaultOptionalParams → AbortSignalLike
-    // Reachable via: ConnectionsGetOptionalParams → AbortSignalLike
-    // Reachable via: ConnectionsGetWithCredentialsOptionalParams → AbortSignalLike
-    // Reachable via: ConnectionsListOptionalParams → AbortSignalLike
-    // Reachable via: ConnectionsOperations → AbortSignalLike
     // Reachable via: DatasetUploadOptions → AbortSignalLike
-    // Reachable via: DatasetsCreateOrUpdateOptionalParams → AbortSignalLike
-    // Reachable via: DatasetsDeleteOptionalParams → AbortSignalLike
-    // Reachable via: DatasetsGetCredentialsOptionalParams → AbortSignalLike
-    // Reachable via: DatasetsGetOptionalParams → AbortSignalLike
-    // Reachable via: DatasetsListOptionalParams → AbortSignalLike
-    // Reachable via: DatasetsListVersionsOptionalParams → AbortSignalLike
-    // Reachable via: DatasetsOperations → AbortSignalLike
-    // Reachable via: DatasetsPendingUploadOptionalParams → AbortSignalLike
-    // Reachable via: DeploymentsGetOptionalParams → AbortSignalLike
-    // Reachable via: DeploymentsListOptionalParams → AbortSignalLike
-    // Reachable via: DeploymentsOperations → AbortSignalLike
-    // Reachable via: EvaluationRulesCreateOrUpdateOptionalParams → AbortSignalLike
-    // Reachable via: EvaluationRulesDeleteOptionalParams → AbortSignalLike
-    // Reachable via: EvaluationRulesGetOptionalParams → AbortSignalLike
-    // Reachable via: EvaluationRulesListOptionalParams → AbortSignalLike
-    // Reachable via: EvaluationRulesOperations → AbortSignalLike
-    // Reachable via: IndexesCreateOrUpdateOptionalParams → AbortSignalLike
-    // Reachable via: IndexesDeleteOptionalParams → AbortSignalLike
-    // Reachable via: IndexesGetOptionalParams → AbortSignalLike
-    // Reachable via: IndexesListOptionalParams → AbortSignalLike
-    // Reachable via: IndexesListVersionsOptionalParams → AbortSignalLike
-    // Reachable via: IndexesOperations → AbortSignalLike
-    // Reachable via: TelemetryOperations → AbortSignalLike
     /** Allows the request to be aborted upon firing of the "abort" event.
     Compatible with the browser built-in AbortSignal and common polyfills. */
     export interface AbortSignalLike {
@@ -588,83 +2891,8 @@ declare module "@azure/core-auth" { // 1.10.2
 
 
     // Reachable via: AIProjectClient → TracingContext
-    // Reachable via: AIProjectClientOptionalParams → TracingContext
-    // Reachable via: AgentsCreateAgentFromManifestOptionalParams → TracingContext
-    // Reachable via: AgentsCreateAgentVersionFromManifestOptionalParams → TracingContext
-    // Reachable via: AgentsCreateOptionalParams → TracingContext
     // Reachable via: AgentsCreateVersionOptionalParams → TracingContext
-    // Reachable via: AgentsDeleteOptionalParams → TracingContext
-    // Reachable via: AgentsDeleteVersionOptionalParams → TracingContext
-    // Reachable via: AgentsGetOptionalParams → TracingContext
-    // Reachable via: AgentsGetVersionOptionalParams → TracingContext
-    // Reachable via: AgentsListOptionalParams → TracingContext
-    // Reachable via: AgentsListVersionsOptionalParams → TracingContext
-    // Reachable via: AgentsOperations → TracingContext
-    // Reachable via: AgentsUpdateAgentFromManifestOptionalParams → TracingContext
-    // Reachable via: AgentsUpdateOptionalParams → TracingContext
-    // Reachable via: BetaEvaluationTaxonomiesCreateOptionalParams → TracingContext
-    // Reachable via: BetaEvaluationTaxonomiesDeleteOptionalParams → TracingContext
-    // Reachable via: BetaEvaluationTaxonomiesGetOptionalParams → TracingContext
-    // Reachable via: BetaEvaluationTaxonomiesListOptionalParams → TracingContext
-    // Reachable via: BetaEvaluationTaxonomiesUpdateOptionalParams → TracingContext
-    // Reachable via: BetaEvaluatorsCreateVersionOptionalParams → TracingContext
-    // Reachable via: BetaEvaluatorsDeleteVersionOptionalParams → TracingContext
-    // Reachable via: BetaEvaluatorsGetVersionOptionalParams → TracingContext
-    // Reachable via: BetaEvaluatorsListLatestVersionsOptionalParams → TracingContext
-    // Reachable via: BetaEvaluatorsListVersionsOptionalParams → TracingContext
-    // Reachable via: BetaEvaluatorsUpdateVersionOptionalParams → TracingContext
-    // Reachable via: BetaInsightsGenerateOptionalParams → TracingContext
-    // Reachable via: BetaInsightsGetOptionalParams → TracingContext
-    // Reachable via: BetaInsightsListOptionalParams → TracingContext
-    // Reachable via: BetaMemoryStoresCreateOptionalParams → TracingContext
-    // Reachable via: BetaMemoryStoresDeleteOptionalParams → TracingContext
-    // Reachable via: BetaMemoryStoresDeleteScopeOptionalParams → TracingContext
-    // Reachable via: BetaMemoryStoresGetOptionalParams → TracingContext
-    // Reachable via: BetaMemoryStoresGetUpdateResultOptionalParams → TracingContext
-    // Reachable via: BetaMemoryStoresListOptionalParams → TracingContext
-    // Reachable via: BetaMemoryStoresSearchMemoriesOptionalParams → TracingContext
-    // Reachable via: BetaMemoryStoresUpdateMemoriesOptionalParams → TracingContext
-    // Reachable via: BetaMemoryStoresUpdateOptionalParams → TracingContext
-    // Reachable via: BetaOperations → TracingContext
-    // Reachable via: BetaRedTeamsCreateOptionalParams → TracingContext
-    // Reachable via: BetaRedTeamsGetOptionalParams → TracingContext
-    // Reachable via: BetaRedTeamsListOptionalParams → TracingContext
-    // Reachable via: BetaSchedulesCreateOrUpdateOptionalParams → TracingContext
-    // Reachable via: BetaSchedulesDeleteOptionalParams → TracingContext
-    // Reachable via: BetaSchedulesGetOptionalParams → TracingContext
-    // Reachable via: BetaSchedulesGetRunOptionalParams → TracingContext
-    // Reachable via: BetaSchedulesListOptionalParams → TracingContext
-    // Reachable via: BetaSchedulesListRunsOptionalParams → TracingContext
-    // Reachable via: BetaSchedulesOperations → TracingContext
-    // Reachable via: ConnectionsGetDefaultOptionalParams → TracingContext
-    // Reachable via: ConnectionsGetOptionalParams → TracingContext
-    // Reachable via: ConnectionsGetWithCredentialsOptionalParams → TracingContext
-    // Reachable via: ConnectionsListOptionalParams → TracingContext
-    // Reachable via: ConnectionsOperations → TracingContext
     // Reachable via: DatasetUploadOptions → TracingContext
-    // Reachable via: DatasetsCreateOrUpdateOptionalParams → TracingContext
-    // Reachable via: DatasetsDeleteOptionalParams → TracingContext
-    // Reachable via: DatasetsGetCredentialsOptionalParams → TracingContext
-    // Reachable via: DatasetsGetOptionalParams → TracingContext
-    // Reachable via: DatasetsListOptionalParams → TracingContext
-    // Reachable via: DatasetsListVersionsOptionalParams → TracingContext
-    // Reachable via: DatasetsOperations → TracingContext
-    // Reachable via: DatasetsPendingUploadOptionalParams → TracingContext
-    // Reachable via: DeploymentsGetOptionalParams → TracingContext
-    // Reachable via: DeploymentsListOptionalParams → TracingContext
-    // Reachable via: DeploymentsOperations → TracingContext
-    // Reachable via: EvaluationRulesCreateOrUpdateOptionalParams → TracingContext
-    // Reachable via: EvaluationRulesDeleteOptionalParams → TracingContext
-    // Reachable via: EvaluationRulesGetOptionalParams → TracingContext
-    // Reachable via: EvaluationRulesListOptionalParams → TracingContext
-    // Reachable via: EvaluationRulesOperations → TracingContext
-    // Reachable via: IndexesCreateOrUpdateOptionalParams → TracingContext
-    // Reachable via: IndexesDeleteOptionalParams → TracingContext
-    // Reachable via: IndexesGetOptionalParams → TracingContext
-    // Reachable via: IndexesListOptionalParams → TracingContext
-    // Reachable via: IndexesListVersionsOptionalParams → TracingContext
-    // Reachable via: IndexesOperations → TracingContext
-    // Reachable via: TelemetryOperations → TracingContext
     /** An interface structurally compatible with OpenTelemetry. */
     export interface TracingContext {
         getValue(key: symbol): unknown;
@@ -680,8 +2908,6 @@ declare module "@azure/core-lro" { // 3.3.2
 
 
     // Reachable via: AIProjectClient → PollerLike
-    // Reachable via: BetaMemoryStoresOperations → PollerLike
-    // Reachable via: BetaOperations → PollerLike
     /** A poller for an operation. */
     export interface PollerLike<TState extends OperationState<TResult>, TResult> extends Promise<TResult> {
         readonly isDone: boolean;
@@ -700,14 +2926,6 @@ declare module "@azure/core-lro" { // 3.3.2
 
 
     // Reachable via: AIProjectClient → OperationState
-    // Reachable via: BetaInsightsOperations → OperationState
-    // Reachable via: BetaMemoryStoresOperations → OperationState
-    // Reachable via: BetaOperations → OperationState
-    // Reachable via: BetaSchedulesOperations → OperationState
-    // Reachable via: Insight → OperationState
-    // Reachable via: InsightScheduleTask → OperationState
-    // Reachable via: Schedule → OperationState
-    // Reachable via: ScheduleTaskUnion → OperationState
     /** While the poller works as the local control mechanism to start triggering and
     wait for a long-running operation, OperationState documents the status of
     the remote long-running operation. It gets updated after each poll. */
@@ -719,15 +2937,11 @@ declare module "@azure/core-lro" { // 3.3.2
 
 
     // Reachable via: AIProjectClient → OperationStatus
-    // Reachable via: BetaMemoryStoresOperations → OperationStatus
-    // Reachable via: BetaOperations → OperationStatus
     /** The set of possible states an operation can be in at any given time. */
     export type OperationStatus = "notStarted" | "running" | "succeeded" | "canceled" | "failed";
 
 
     // Reachable via: AIProjectClient → CancelOnProgress
-    // Reachable via: BetaMemoryStoresOperations → CancelOnProgress
-    // Reachable via: BetaOperations → CancelOnProgress
     /** CancelOnProgress is used as the return value of a Poller's onProgress method.
     When a user invokes onProgress, they're required to pass in a function that will be
     called as a callback with the new data received each time the poll operation is updated.
@@ -740,19 +2954,6 @@ declare module "@azure/core-lro" { // 3.3.2
 declare module "@azure/core-paging" { // 1.6.3
 
     // Reachable via: AIProjectClient → PagedAsyncIterableIterator
-    // Reachable via: AgentsOperations → PagedAsyncIterableIterator
-    // Reachable via: BetaEvaluationTaxonomiesOperations → PagedAsyncIterableIterator
-    // Reachable via: BetaEvaluatorsOperations → PagedAsyncIterableIterator
-    // Reachable via: BetaInsightsOperations → PagedAsyncIterableIterator
-    // Reachable via: BetaMemoryStoresOperations → PagedAsyncIterableIterator
-    // Reachable via: BetaOperations → PagedAsyncIterableIterator
-    // Reachable via: BetaRedTeamsOperations → PagedAsyncIterableIterator
-    // Reachable via: BetaSchedulesOperations → PagedAsyncIterableIterator
-    // Reachable via: ConnectionsOperations → PagedAsyncIterableIterator
-    // Reachable via: DatasetsOperations → PagedAsyncIterableIterator
-    // Reachable via: DeploymentsOperations → PagedAsyncIterableIterator
-    // Reachable via: EvaluationRulesOperations → PagedAsyncIterableIterator
-    // Reachable via: IndexesOperations → PagedAsyncIterableIterator
     /** An interface that allows async iterable iteration both to completion and by page. */
     export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings = PageSettings> {
         next(): Promise<IteratorResult<TElement>>;
@@ -762,14 +2963,6 @@ declare module "@azure/core-paging" { // 1.6.3
 
 
     // Reachable via: AIProjectClient → PageSettings
-    // Reachable via: AgentsOperations → PageSettings
-    // Reachable via: BetaOperations → PageSettings
-    // Reachable via: BetaSchedulesOperations → PageSettings
-    // Reachable via: ConnectionsOperations → PageSettings
-    // Reachable via: DatasetsOperations → PageSettings
-    // Reachable via: DeploymentsOperations → PageSettings
-    // Reachable via: EvaluationRulesOperations → PageSettings
-    // Reachable via: IndexesOperations → PageSettings
     /** An interface that tracks the settings for paged iteration */
     export interface PageSettings {
         continuationToken?: string;
@@ -788,7 +2981,6 @@ declare module "@azure/core-rest-pipeline" { // 1.23.1
 
 
     // Reachable via: AIProjectClient → PipelineOptions
-    // Reachable via: AIProjectClientOptionalParams → PipelineOptions
     /** Defines options that are used to configure the HTTP pipeline for
     an SDK client. */
     export interface PipelineOptions {
@@ -803,7 +2995,6 @@ declare module "@azure/core-rest-pipeline" { // 1.23.1
 
 
     // Reachable via: AIProjectClient → PipelineRetryOptions
-    // Reachable via: AIProjectClientOptionalParams → PipelineRetryOptions
     /** Options that control how to retry failed requests. */
     export interface PipelineRetryOptions {
         maxRetries?: number;
@@ -813,7 +3004,6 @@ declare module "@azure/core-rest-pipeline" { // 1.23.1
 
 
     // Reachable via: AIProjectClient → ProxySettings
-    // Reachable via: AIProjectClientOptionalParams → ProxySettings
     /** Options to configure a proxy for outgoing requests (Node.js only). */
     export interface ProxySettings {
         host: string;
@@ -824,7 +3014,6 @@ declare module "@azure/core-rest-pipeline" { // 1.23.1
 
 
     // Reachable via: AIProjectClient → TlsSettings
-    // Reachable via: AIProjectClientOptionalParams → TlsSettings
     /** Represents a certificate for TLS authentication. */
     export interface TlsSettings {
         ca?: string | Buffer | Array<string | Buffer> | undefined;
@@ -836,7 +3025,6 @@ declare module "@azure/core-rest-pipeline" { // 1.23.1
 
 
     // Reachable via: AIProjectClient → KeyObject
-    // Reachable via: AIProjectClientOptionalParams → KeyObject
     /** An interface compatible with NodeJS's `tls.KeyObject`.
     We want to avoid publicly re-exporting the actual interface,
     since it might vary across runtime versions. */
@@ -847,7 +3035,6 @@ declare module "@azure/core-rest-pipeline" { // 1.23.1
 
 
     // Reachable via: AIProjectClient → PxfObject
-    // Reachable via: AIProjectClientOptionalParams → PxfObject
     /** An interface compatible with NodeJS's `tls.PxfObject`.
     We want to avoid publicly re-exporting the actual interface,
     since it might vary across runtime versions. */
@@ -858,7 +3045,6 @@ declare module "@azure/core-rest-pipeline" { // 1.23.1
 
 
     // Reachable via: AIProjectClient → RedirectPolicyOptions
-    // Reachable via: AIProjectClientOptionalParams → RedirectPolicyOptions
     /** Options for how redirect responses are handled. */
     export interface RedirectPolicyOptions {
         maxRetries?: number;
@@ -867,7 +3053,6 @@ declare module "@azure/core-rest-pipeline" { // 1.23.1
 
 
     // Reachable via: AIProjectClient → UserAgentPolicyOptions
-    // Reachable via: AIProjectClientOptionalParams → UserAgentPolicyOptions
     /** Options for adding user agent details to outgoing requests. */
     export interface UserAgentPolicyOptions {
         userAgentPrefix?: string;
@@ -875,7 +3060,6 @@ declare module "@azure/core-rest-pipeline" { // 1.23.1
 
 
     // Reachable via: AIProjectClient → TelemetryOptions
-    // Reachable via: AIProjectClientOptionalParams → TelemetryOptions
     /** Defines options that are used to configure common telemetry and tracing info */
     export interface TelemetryOptions {
         clientRequestIdHeaderName?: string;
@@ -883,7 +3067,6 @@ declare module "@azure/core-rest-pipeline" { // 1.23.1
 
 
     // Reachable via: AIProjectClient → PipelinePolicy
-    // Reachable via: AIProjectClientOptionalParams → PipelinePolicy
     /** A pipeline policy manipulates a request as it travels through the pipeline.
     It is conceptually a middleware that is allowed to modify the request before
     it is made as well as the response when it is received. */
@@ -894,83 +3077,8 @@ declare module "@azure/core-rest-pipeline" { // 1.23.1
 
 
     // Reachable via: AIProjectClient → PipelineResponse
-    // Reachable via: AIProjectClientOptionalParams → PipelineResponse
-    // Reachable via: AgentsCreateAgentFromManifestOptionalParams → PipelineResponse
-    // Reachable via: AgentsCreateAgentVersionFromManifestOptionalParams → PipelineResponse
-    // Reachable via: AgentsCreateOptionalParams → PipelineResponse
     // Reachable via: AgentsCreateVersionOptionalParams → PipelineResponse
-    // Reachable via: AgentsDeleteOptionalParams → PipelineResponse
-    // Reachable via: AgentsDeleteVersionOptionalParams → PipelineResponse
-    // Reachable via: AgentsGetOptionalParams → PipelineResponse
-    // Reachable via: AgentsGetVersionOptionalParams → PipelineResponse
-    // Reachable via: AgentsListOptionalParams → PipelineResponse
-    // Reachable via: AgentsListVersionsOptionalParams → PipelineResponse
-    // Reachable via: AgentsOperations → PipelineResponse
-    // Reachable via: AgentsUpdateAgentFromManifestOptionalParams → PipelineResponse
-    // Reachable via: AgentsUpdateOptionalParams → PipelineResponse
-    // Reachable via: BetaEvaluationTaxonomiesCreateOptionalParams → PipelineResponse
-    // Reachable via: BetaEvaluationTaxonomiesDeleteOptionalParams → PipelineResponse
-    // Reachable via: BetaEvaluationTaxonomiesGetOptionalParams → PipelineResponse
-    // Reachable via: BetaEvaluationTaxonomiesListOptionalParams → PipelineResponse
-    // Reachable via: BetaEvaluationTaxonomiesUpdateOptionalParams → PipelineResponse
-    // Reachable via: BetaEvaluatorsCreateVersionOptionalParams → PipelineResponse
-    // Reachable via: BetaEvaluatorsDeleteVersionOptionalParams → PipelineResponse
-    // Reachable via: BetaEvaluatorsGetVersionOptionalParams → PipelineResponse
-    // Reachable via: BetaEvaluatorsListLatestVersionsOptionalParams → PipelineResponse
-    // Reachable via: BetaEvaluatorsListVersionsOptionalParams → PipelineResponse
-    // Reachable via: BetaEvaluatorsUpdateVersionOptionalParams → PipelineResponse
-    // Reachable via: BetaInsightsGenerateOptionalParams → PipelineResponse
-    // Reachable via: BetaInsightsGetOptionalParams → PipelineResponse
-    // Reachable via: BetaInsightsListOptionalParams → PipelineResponse
-    // Reachable via: BetaMemoryStoresCreateOptionalParams → PipelineResponse
-    // Reachable via: BetaMemoryStoresDeleteOptionalParams → PipelineResponse
-    // Reachable via: BetaMemoryStoresDeleteScopeOptionalParams → PipelineResponse
-    // Reachable via: BetaMemoryStoresGetOptionalParams → PipelineResponse
-    // Reachable via: BetaMemoryStoresGetUpdateResultOptionalParams → PipelineResponse
-    // Reachable via: BetaMemoryStoresListOptionalParams → PipelineResponse
-    // Reachable via: BetaMemoryStoresSearchMemoriesOptionalParams → PipelineResponse
-    // Reachable via: BetaMemoryStoresUpdateMemoriesOptionalParams → PipelineResponse
-    // Reachable via: BetaMemoryStoresUpdateOptionalParams → PipelineResponse
-    // Reachable via: BetaOperations → PipelineResponse
-    // Reachable via: BetaRedTeamsCreateOptionalParams → PipelineResponse
-    // Reachable via: BetaRedTeamsGetOptionalParams → PipelineResponse
-    // Reachable via: BetaRedTeamsListOptionalParams → PipelineResponse
-    // Reachable via: BetaSchedulesCreateOrUpdateOptionalParams → PipelineResponse
-    // Reachable via: BetaSchedulesDeleteOptionalParams → PipelineResponse
-    // Reachable via: BetaSchedulesGetOptionalParams → PipelineResponse
-    // Reachable via: BetaSchedulesGetRunOptionalParams → PipelineResponse
-    // Reachable via: BetaSchedulesListOptionalParams → PipelineResponse
-    // Reachable via: BetaSchedulesListRunsOptionalParams → PipelineResponse
-    // Reachable via: BetaSchedulesOperations → PipelineResponse
-    // Reachable via: ConnectionsGetDefaultOptionalParams → PipelineResponse
-    // Reachable via: ConnectionsGetOptionalParams → PipelineResponse
-    // Reachable via: ConnectionsGetWithCredentialsOptionalParams → PipelineResponse
-    // Reachable via: ConnectionsListOptionalParams → PipelineResponse
-    // Reachable via: ConnectionsOperations → PipelineResponse
     // Reachable via: DatasetUploadOptions → PipelineResponse
-    // Reachable via: DatasetsCreateOrUpdateOptionalParams → PipelineResponse
-    // Reachable via: DatasetsDeleteOptionalParams → PipelineResponse
-    // Reachable via: DatasetsGetCredentialsOptionalParams → PipelineResponse
-    // Reachable via: DatasetsGetOptionalParams → PipelineResponse
-    // Reachable via: DatasetsListOptionalParams → PipelineResponse
-    // Reachable via: DatasetsListVersionsOptionalParams → PipelineResponse
-    // Reachable via: DatasetsOperations → PipelineResponse
-    // Reachable via: DatasetsPendingUploadOptionalParams → PipelineResponse
-    // Reachable via: DeploymentsGetOptionalParams → PipelineResponse
-    // Reachable via: DeploymentsListOptionalParams → PipelineResponse
-    // Reachable via: DeploymentsOperations → PipelineResponse
-    // Reachable via: EvaluationRulesCreateOrUpdateOptionalParams → PipelineResponse
-    // Reachable via: EvaluationRulesDeleteOptionalParams → PipelineResponse
-    // Reachable via: EvaluationRulesGetOptionalParams → PipelineResponse
-    // Reachable via: EvaluationRulesListOptionalParams → PipelineResponse
-    // Reachable via: EvaluationRulesOperations → PipelineResponse
-    // Reachable via: IndexesCreateOrUpdateOptionalParams → PipelineResponse
-    // Reachable via: IndexesDeleteOptionalParams → PipelineResponse
-    // Reachable via: IndexesGetOptionalParams → PipelineResponse
-    // Reachable via: IndexesListOptionalParams → PipelineResponse
-    // Reachable via: IndexesListVersionsOptionalParams → PipelineResponse
-    // Reachable via: IndexesOperations → PipelineResponse
-    // Reachable via: TelemetryOperations → PipelineResponse
     /** Metadata about a response received by the pipeline. */
     export interface PipelineResponse {
         request: PipelineRequest;
@@ -984,83 +3092,8 @@ declare module "@azure/core-rest-pipeline" { // 1.23.1
 
 
     // Reachable via: AIProjectClient → PipelineRequest
-    // Reachable via: AIProjectClientOptionalParams → PipelineRequest
-    // Reachable via: AgentsCreateAgentFromManifestOptionalParams → PipelineRequest
-    // Reachable via: AgentsCreateAgentVersionFromManifestOptionalParams → PipelineRequest
-    // Reachable via: AgentsCreateOptionalParams → PipelineRequest
     // Reachable via: AgentsCreateVersionOptionalParams → PipelineRequest
-    // Reachable via: AgentsDeleteOptionalParams → PipelineRequest
-    // Reachable via: AgentsDeleteVersionOptionalParams → PipelineRequest
-    // Reachable via: AgentsGetOptionalParams → PipelineRequest
-    // Reachable via: AgentsGetVersionOptionalParams → PipelineRequest
-    // Reachable via: AgentsListOptionalParams → PipelineRequest
-    // Reachable via: AgentsListVersionsOptionalParams → PipelineRequest
-    // Reachable via: AgentsOperations → PipelineRequest
-    // Reachable via: AgentsUpdateAgentFromManifestOptionalParams → PipelineRequest
-    // Reachable via: AgentsUpdateOptionalParams → PipelineRequest
-    // Reachable via: BetaEvaluationTaxonomiesCreateOptionalParams → PipelineRequest
-    // Reachable via: BetaEvaluationTaxonomiesDeleteOptionalParams → PipelineRequest
-    // Reachable via: BetaEvaluationTaxonomiesGetOptionalParams → PipelineRequest
-    // Reachable via: BetaEvaluationTaxonomiesListOptionalParams → PipelineRequest
-    // Reachable via: BetaEvaluationTaxonomiesUpdateOptionalParams → PipelineRequest
-    // Reachable via: BetaEvaluatorsCreateVersionOptionalParams → PipelineRequest
-    // Reachable via: BetaEvaluatorsDeleteVersionOptionalParams → PipelineRequest
-    // Reachable via: BetaEvaluatorsGetVersionOptionalParams → PipelineRequest
-    // Reachable via: BetaEvaluatorsListLatestVersionsOptionalParams → PipelineRequest
-    // Reachable via: BetaEvaluatorsListVersionsOptionalParams → PipelineRequest
-    // Reachable via: BetaEvaluatorsUpdateVersionOptionalParams → PipelineRequest
-    // Reachable via: BetaInsightsGenerateOptionalParams → PipelineRequest
-    // Reachable via: BetaInsightsGetOptionalParams → PipelineRequest
-    // Reachable via: BetaInsightsListOptionalParams → PipelineRequest
-    // Reachable via: BetaMemoryStoresCreateOptionalParams → PipelineRequest
-    // Reachable via: BetaMemoryStoresDeleteOptionalParams → PipelineRequest
-    // Reachable via: BetaMemoryStoresDeleteScopeOptionalParams → PipelineRequest
-    // Reachable via: BetaMemoryStoresGetOptionalParams → PipelineRequest
-    // Reachable via: BetaMemoryStoresGetUpdateResultOptionalParams → PipelineRequest
-    // Reachable via: BetaMemoryStoresListOptionalParams → PipelineRequest
-    // Reachable via: BetaMemoryStoresSearchMemoriesOptionalParams → PipelineRequest
-    // Reachable via: BetaMemoryStoresUpdateMemoriesOptionalParams → PipelineRequest
-    // Reachable via: BetaMemoryStoresUpdateOptionalParams → PipelineRequest
-    // Reachable via: BetaOperations → PipelineRequest
-    // Reachable via: BetaRedTeamsCreateOptionalParams → PipelineRequest
-    // Reachable via: BetaRedTeamsGetOptionalParams → PipelineRequest
-    // Reachable via: BetaRedTeamsListOptionalParams → PipelineRequest
-    // Reachable via: BetaSchedulesCreateOrUpdateOptionalParams → PipelineRequest
-    // Reachable via: BetaSchedulesDeleteOptionalParams → PipelineRequest
-    // Reachable via: BetaSchedulesGetOptionalParams → PipelineRequest
-    // Reachable via: BetaSchedulesGetRunOptionalParams → PipelineRequest
-    // Reachable via: BetaSchedulesListOptionalParams → PipelineRequest
-    // Reachable via: BetaSchedulesListRunsOptionalParams → PipelineRequest
-    // Reachable via: BetaSchedulesOperations → PipelineRequest
-    // Reachable via: ConnectionsGetDefaultOptionalParams → PipelineRequest
-    // Reachable via: ConnectionsGetOptionalParams → PipelineRequest
-    // Reachable via: ConnectionsGetWithCredentialsOptionalParams → PipelineRequest
-    // Reachable via: ConnectionsListOptionalParams → PipelineRequest
-    // Reachable via: ConnectionsOperations → PipelineRequest
     // Reachable via: DatasetUploadOptions → PipelineRequest
-    // Reachable via: DatasetsCreateOrUpdateOptionalParams → PipelineRequest
-    // Reachable via: DatasetsDeleteOptionalParams → PipelineRequest
-    // Reachable via: DatasetsGetCredentialsOptionalParams → PipelineRequest
-    // Reachable via: DatasetsGetOptionalParams → PipelineRequest
-    // Reachable via: DatasetsListOptionalParams → PipelineRequest
-    // Reachable via: DatasetsListVersionsOptionalParams → PipelineRequest
-    // Reachable via: DatasetsOperations → PipelineRequest
-    // Reachable via: DatasetsPendingUploadOptionalParams → PipelineRequest
-    // Reachable via: DeploymentsGetOptionalParams → PipelineRequest
-    // Reachable via: DeploymentsListOptionalParams → PipelineRequest
-    // Reachable via: DeploymentsOperations → PipelineRequest
-    // Reachable via: EvaluationRulesCreateOrUpdateOptionalParams → PipelineRequest
-    // Reachable via: EvaluationRulesDeleteOptionalParams → PipelineRequest
-    // Reachable via: EvaluationRulesGetOptionalParams → PipelineRequest
-    // Reachable via: EvaluationRulesListOptionalParams → PipelineRequest
-    // Reachable via: EvaluationRulesOperations → PipelineRequest
-    // Reachable via: IndexesCreateOrUpdateOptionalParams → PipelineRequest
-    // Reachable via: IndexesDeleteOptionalParams → PipelineRequest
-    // Reachable via: IndexesGetOptionalParams → PipelineRequest
-    // Reachable via: IndexesListOptionalParams → PipelineRequest
-    // Reachable via: IndexesListVersionsOptionalParams → PipelineRequest
-    // Reachable via: IndexesOperations → PipelineRequest
-    // Reachable via: TelemetryOperations → PipelineRequest
     /** Metadata about a request being made by the pipeline. */
     export interface PipelineRequest {
         url: string;
@@ -1088,83 +3121,8 @@ declare module "@azure/core-rest-pipeline" { // 1.23.1
 
 
     // Reachable via: AIProjectClient → HttpHeaders
-    // Reachable via: AIProjectClientOptionalParams → HttpHeaders
-    // Reachable via: AgentsCreateAgentFromManifestOptionalParams → HttpHeaders
-    // Reachable via: AgentsCreateAgentVersionFromManifestOptionalParams → HttpHeaders
-    // Reachable via: AgentsCreateOptionalParams → HttpHeaders
     // Reachable via: AgentsCreateVersionOptionalParams → HttpHeaders
-    // Reachable via: AgentsDeleteOptionalParams → HttpHeaders
-    // Reachable via: AgentsDeleteVersionOptionalParams → HttpHeaders
-    // Reachable via: AgentsGetOptionalParams → HttpHeaders
-    // Reachable via: AgentsGetVersionOptionalParams → HttpHeaders
-    // Reachable via: AgentsListOptionalParams → HttpHeaders
-    // Reachable via: AgentsListVersionsOptionalParams → HttpHeaders
-    // Reachable via: AgentsOperations → HttpHeaders
-    // Reachable via: AgentsUpdateAgentFromManifestOptionalParams → HttpHeaders
-    // Reachable via: AgentsUpdateOptionalParams → HttpHeaders
-    // Reachable via: BetaEvaluationTaxonomiesCreateOptionalParams → HttpHeaders
-    // Reachable via: BetaEvaluationTaxonomiesDeleteOptionalParams → HttpHeaders
-    // Reachable via: BetaEvaluationTaxonomiesGetOptionalParams → HttpHeaders
-    // Reachable via: BetaEvaluationTaxonomiesListOptionalParams → HttpHeaders
-    // Reachable via: BetaEvaluationTaxonomiesUpdateOptionalParams → HttpHeaders
-    // Reachable via: BetaEvaluatorsCreateVersionOptionalParams → HttpHeaders
-    // Reachable via: BetaEvaluatorsDeleteVersionOptionalParams → HttpHeaders
-    // Reachable via: BetaEvaluatorsGetVersionOptionalParams → HttpHeaders
-    // Reachable via: BetaEvaluatorsListLatestVersionsOptionalParams → HttpHeaders
-    // Reachable via: BetaEvaluatorsListVersionsOptionalParams → HttpHeaders
-    // Reachable via: BetaEvaluatorsUpdateVersionOptionalParams → HttpHeaders
-    // Reachable via: BetaInsightsGenerateOptionalParams → HttpHeaders
-    // Reachable via: BetaInsightsGetOptionalParams → HttpHeaders
-    // Reachable via: BetaInsightsListOptionalParams → HttpHeaders
-    // Reachable via: BetaMemoryStoresCreateOptionalParams → HttpHeaders
-    // Reachable via: BetaMemoryStoresDeleteOptionalParams → HttpHeaders
-    // Reachable via: BetaMemoryStoresDeleteScopeOptionalParams → HttpHeaders
-    // Reachable via: BetaMemoryStoresGetOptionalParams → HttpHeaders
-    // Reachable via: BetaMemoryStoresGetUpdateResultOptionalParams → HttpHeaders
-    // Reachable via: BetaMemoryStoresListOptionalParams → HttpHeaders
-    // Reachable via: BetaMemoryStoresSearchMemoriesOptionalParams → HttpHeaders
-    // Reachable via: BetaMemoryStoresUpdateMemoriesOptionalParams → HttpHeaders
-    // Reachable via: BetaMemoryStoresUpdateOptionalParams → HttpHeaders
-    // Reachable via: BetaOperations → HttpHeaders
-    // Reachable via: BetaRedTeamsCreateOptionalParams → HttpHeaders
-    // Reachable via: BetaRedTeamsGetOptionalParams → HttpHeaders
-    // Reachable via: BetaRedTeamsListOptionalParams → HttpHeaders
-    // Reachable via: BetaSchedulesCreateOrUpdateOptionalParams → HttpHeaders
-    // Reachable via: BetaSchedulesDeleteOptionalParams → HttpHeaders
-    // Reachable via: BetaSchedulesGetOptionalParams → HttpHeaders
-    // Reachable via: BetaSchedulesGetRunOptionalParams → HttpHeaders
-    // Reachable via: BetaSchedulesListOptionalParams → HttpHeaders
-    // Reachable via: BetaSchedulesListRunsOptionalParams → HttpHeaders
-    // Reachable via: BetaSchedulesOperations → HttpHeaders
-    // Reachable via: ConnectionsGetDefaultOptionalParams → HttpHeaders
-    // Reachable via: ConnectionsGetOptionalParams → HttpHeaders
-    // Reachable via: ConnectionsGetWithCredentialsOptionalParams → HttpHeaders
-    // Reachable via: ConnectionsListOptionalParams → HttpHeaders
-    // Reachable via: ConnectionsOperations → HttpHeaders
     // Reachable via: DatasetUploadOptions → HttpHeaders
-    // Reachable via: DatasetsCreateOrUpdateOptionalParams → HttpHeaders
-    // Reachable via: DatasetsDeleteOptionalParams → HttpHeaders
-    // Reachable via: DatasetsGetCredentialsOptionalParams → HttpHeaders
-    // Reachable via: DatasetsGetOptionalParams → HttpHeaders
-    // Reachable via: DatasetsListOptionalParams → HttpHeaders
-    // Reachable via: DatasetsListVersionsOptionalParams → HttpHeaders
-    // Reachable via: DatasetsOperations → HttpHeaders
-    // Reachable via: DatasetsPendingUploadOptionalParams → HttpHeaders
-    // Reachable via: DeploymentsGetOptionalParams → HttpHeaders
-    // Reachable via: DeploymentsListOptionalParams → HttpHeaders
-    // Reachable via: DeploymentsOperations → HttpHeaders
-    // Reachable via: EvaluationRulesCreateOrUpdateOptionalParams → HttpHeaders
-    // Reachable via: EvaluationRulesDeleteOptionalParams → HttpHeaders
-    // Reachable via: EvaluationRulesGetOptionalParams → HttpHeaders
-    // Reachable via: EvaluationRulesListOptionalParams → HttpHeaders
-    // Reachable via: EvaluationRulesOperations → HttpHeaders
-    // Reachable via: IndexesCreateOrUpdateOptionalParams → HttpHeaders
-    // Reachable via: IndexesDeleteOptionalParams → HttpHeaders
-    // Reachable via: IndexesGetOptionalParams → HttpHeaders
-    // Reachable via: IndexesListOptionalParams → HttpHeaders
-    // Reachable via: IndexesListVersionsOptionalParams → HttpHeaders
-    // Reachable via: IndexesOperations → HttpHeaders
-    // Reachable via: TelemetryOperations → HttpHeaders
     /** Represents a set of HTTP headers on a request/response.
     Header names are treated as case insensitive. */
     export interface HttpHeaders extends Iterable<[string, string]> {
@@ -1179,83 +3137,8 @@ declare module "@azure/core-rest-pipeline" { // 1.23.1
 
 
     // Reachable via: AIProjectClient → MultipartRequestBody
-    // Reachable via: AIProjectClientOptionalParams → MultipartRequestBody
-    // Reachable via: AgentsCreateAgentFromManifestOptionalParams → MultipartRequestBody
-    // Reachable via: AgentsCreateAgentVersionFromManifestOptionalParams → MultipartRequestBody
-    // Reachable via: AgentsCreateOptionalParams → MultipartRequestBody
     // Reachable via: AgentsCreateVersionOptionalParams → MultipartRequestBody
-    // Reachable via: AgentsDeleteOptionalParams → MultipartRequestBody
-    // Reachable via: AgentsDeleteVersionOptionalParams → MultipartRequestBody
-    // Reachable via: AgentsGetOptionalParams → MultipartRequestBody
-    // Reachable via: AgentsGetVersionOptionalParams → MultipartRequestBody
-    // Reachable via: AgentsListOptionalParams → MultipartRequestBody
-    // Reachable via: AgentsListVersionsOptionalParams → MultipartRequestBody
-    // Reachable via: AgentsOperations → MultipartRequestBody
-    // Reachable via: AgentsUpdateAgentFromManifestOptionalParams → MultipartRequestBody
-    // Reachable via: AgentsUpdateOptionalParams → MultipartRequestBody
-    // Reachable via: BetaEvaluationTaxonomiesCreateOptionalParams → MultipartRequestBody
-    // Reachable via: BetaEvaluationTaxonomiesDeleteOptionalParams → MultipartRequestBody
-    // Reachable via: BetaEvaluationTaxonomiesGetOptionalParams → MultipartRequestBody
-    // Reachable via: BetaEvaluationTaxonomiesListOptionalParams → MultipartRequestBody
-    // Reachable via: BetaEvaluationTaxonomiesUpdateOptionalParams → MultipartRequestBody
-    // Reachable via: BetaEvaluatorsCreateVersionOptionalParams → MultipartRequestBody
-    // Reachable via: BetaEvaluatorsDeleteVersionOptionalParams → MultipartRequestBody
-    // Reachable via: BetaEvaluatorsGetVersionOptionalParams → MultipartRequestBody
-    // Reachable via: BetaEvaluatorsListLatestVersionsOptionalParams → MultipartRequestBody
-    // Reachable via: BetaEvaluatorsListVersionsOptionalParams → MultipartRequestBody
-    // Reachable via: BetaEvaluatorsUpdateVersionOptionalParams → MultipartRequestBody
-    // Reachable via: BetaInsightsGenerateOptionalParams → MultipartRequestBody
-    // Reachable via: BetaInsightsGetOptionalParams → MultipartRequestBody
-    // Reachable via: BetaInsightsListOptionalParams → MultipartRequestBody
-    // Reachable via: BetaMemoryStoresCreateOptionalParams → MultipartRequestBody
-    // Reachable via: BetaMemoryStoresDeleteOptionalParams → MultipartRequestBody
-    // Reachable via: BetaMemoryStoresDeleteScopeOptionalParams → MultipartRequestBody
-    // Reachable via: BetaMemoryStoresGetOptionalParams → MultipartRequestBody
-    // Reachable via: BetaMemoryStoresGetUpdateResultOptionalParams → MultipartRequestBody
-    // Reachable via: BetaMemoryStoresListOptionalParams → MultipartRequestBody
-    // Reachable via: BetaMemoryStoresSearchMemoriesOptionalParams → MultipartRequestBody
-    // Reachable via: BetaMemoryStoresUpdateMemoriesOptionalParams → MultipartRequestBody
-    // Reachable via: BetaMemoryStoresUpdateOptionalParams → MultipartRequestBody
-    // Reachable via: BetaOperations → MultipartRequestBody
-    // Reachable via: BetaRedTeamsCreateOptionalParams → MultipartRequestBody
-    // Reachable via: BetaRedTeamsGetOptionalParams → MultipartRequestBody
-    // Reachable via: BetaRedTeamsListOptionalParams → MultipartRequestBody
-    // Reachable via: BetaSchedulesCreateOrUpdateOptionalParams → MultipartRequestBody
-    // Reachable via: BetaSchedulesDeleteOptionalParams → MultipartRequestBody
-    // Reachable via: BetaSchedulesGetOptionalParams → MultipartRequestBody
-    // Reachable via: BetaSchedulesGetRunOptionalParams → MultipartRequestBody
-    // Reachable via: BetaSchedulesListOptionalParams → MultipartRequestBody
-    // Reachable via: BetaSchedulesListRunsOptionalParams → MultipartRequestBody
-    // Reachable via: BetaSchedulesOperations → MultipartRequestBody
-    // Reachable via: ConnectionsGetDefaultOptionalParams → MultipartRequestBody
-    // Reachable via: ConnectionsGetOptionalParams → MultipartRequestBody
-    // Reachable via: ConnectionsGetWithCredentialsOptionalParams → MultipartRequestBody
-    // Reachable via: ConnectionsListOptionalParams → MultipartRequestBody
-    // Reachable via: ConnectionsOperations → MultipartRequestBody
     // Reachable via: DatasetUploadOptions → MultipartRequestBody
-    // Reachable via: DatasetsCreateOrUpdateOptionalParams → MultipartRequestBody
-    // Reachable via: DatasetsDeleteOptionalParams → MultipartRequestBody
-    // Reachable via: DatasetsGetCredentialsOptionalParams → MultipartRequestBody
-    // Reachable via: DatasetsGetOptionalParams → MultipartRequestBody
-    // Reachable via: DatasetsListOptionalParams → MultipartRequestBody
-    // Reachable via: DatasetsListVersionsOptionalParams → MultipartRequestBody
-    // Reachable via: DatasetsOperations → MultipartRequestBody
-    // Reachable via: DatasetsPendingUploadOptionalParams → MultipartRequestBody
-    // Reachable via: DeploymentsGetOptionalParams → MultipartRequestBody
-    // Reachable via: DeploymentsListOptionalParams → MultipartRequestBody
-    // Reachable via: DeploymentsOperations → MultipartRequestBody
-    // Reachable via: EvaluationRulesCreateOrUpdateOptionalParams → MultipartRequestBody
-    // Reachable via: EvaluationRulesDeleteOptionalParams → MultipartRequestBody
-    // Reachable via: EvaluationRulesGetOptionalParams → MultipartRequestBody
-    // Reachable via: EvaluationRulesListOptionalParams → MultipartRequestBody
-    // Reachable via: EvaluationRulesOperations → MultipartRequestBody
-    // Reachable via: IndexesCreateOrUpdateOptionalParams → MultipartRequestBody
-    // Reachable via: IndexesDeleteOptionalParams → MultipartRequestBody
-    // Reachable via: IndexesGetOptionalParams → MultipartRequestBody
-    // Reachable via: IndexesListOptionalParams → MultipartRequestBody
-    // Reachable via: IndexesListVersionsOptionalParams → MultipartRequestBody
-    // Reachable via: IndexesOperations → MultipartRequestBody
-    // Reachable via: TelemetryOperations → MultipartRequestBody
     /** A request body consisting of multiple parts. */
     export interface MultipartRequestBody {
         parts: BodyPart[];
@@ -1264,83 +3147,8 @@ declare module "@azure/core-rest-pipeline" { // 1.23.1
 
 
     // Reachable via: AIProjectClient → BodyPart
-    // Reachable via: AIProjectClientOptionalParams → BodyPart
-    // Reachable via: AgentsCreateAgentFromManifestOptionalParams → BodyPart
-    // Reachable via: AgentsCreateAgentVersionFromManifestOptionalParams → BodyPart
-    // Reachable via: AgentsCreateOptionalParams → BodyPart
     // Reachable via: AgentsCreateVersionOptionalParams → BodyPart
-    // Reachable via: AgentsDeleteOptionalParams → BodyPart
-    // Reachable via: AgentsDeleteVersionOptionalParams → BodyPart
-    // Reachable via: AgentsGetOptionalParams → BodyPart
-    // Reachable via: AgentsGetVersionOptionalParams → BodyPart
-    // Reachable via: AgentsListOptionalParams → BodyPart
-    // Reachable via: AgentsListVersionsOptionalParams → BodyPart
-    // Reachable via: AgentsOperations → BodyPart
-    // Reachable via: AgentsUpdateAgentFromManifestOptionalParams → BodyPart
-    // Reachable via: AgentsUpdateOptionalParams → BodyPart
-    // Reachable via: BetaEvaluationTaxonomiesCreateOptionalParams → BodyPart
-    // Reachable via: BetaEvaluationTaxonomiesDeleteOptionalParams → BodyPart
-    // Reachable via: BetaEvaluationTaxonomiesGetOptionalParams → BodyPart
-    // Reachable via: BetaEvaluationTaxonomiesListOptionalParams → BodyPart
-    // Reachable via: BetaEvaluationTaxonomiesUpdateOptionalParams → BodyPart
-    // Reachable via: BetaEvaluatorsCreateVersionOptionalParams → BodyPart
-    // Reachable via: BetaEvaluatorsDeleteVersionOptionalParams → BodyPart
-    // Reachable via: BetaEvaluatorsGetVersionOptionalParams → BodyPart
-    // Reachable via: BetaEvaluatorsListLatestVersionsOptionalParams → BodyPart
-    // Reachable via: BetaEvaluatorsListVersionsOptionalParams → BodyPart
-    // Reachable via: BetaEvaluatorsUpdateVersionOptionalParams → BodyPart
-    // Reachable via: BetaInsightsGenerateOptionalParams → BodyPart
-    // Reachable via: BetaInsightsGetOptionalParams → BodyPart
-    // Reachable via: BetaInsightsListOptionalParams → BodyPart
-    // Reachable via: BetaMemoryStoresCreateOptionalParams → BodyPart
-    // Reachable via: BetaMemoryStoresDeleteOptionalParams → BodyPart
-    // Reachable via: BetaMemoryStoresDeleteScopeOptionalParams → BodyPart
-    // Reachable via: BetaMemoryStoresGetOptionalParams → BodyPart
-    // Reachable via: BetaMemoryStoresGetUpdateResultOptionalParams → BodyPart
-    // Reachable via: BetaMemoryStoresListOptionalParams → BodyPart
-    // Reachable via: BetaMemoryStoresSearchMemoriesOptionalParams → BodyPart
-    // Reachable via: BetaMemoryStoresUpdateMemoriesOptionalParams → BodyPart
-    // Reachable via: BetaMemoryStoresUpdateOptionalParams → BodyPart
-    // Reachable via: BetaOperations → BodyPart
-    // Reachable via: BetaRedTeamsCreateOptionalParams → BodyPart
-    // Reachable via: BetaRedTeamsGetOptionalParams → BodyPart
-    // Reachable via: BetaRedTeamsListOptionalParams → BodyPart
-    // Reachable via: BetaSchedulesCreateOrUpdateOptionalParams → BodyPart
-    // Reachable via: BetaSchedulesDeleteOptionalParams → BodyPart
-    // Reachable via: BetaSchedulesGetOptionalParams → BodyPart
-    // Reachable via: BetaSchedulesGetRunOptionalParams → BodyPart
-    // Reachable via: BetaSchedulesListOptionalParams → BodyPart
-    // Reachable via: BetaSchedulesListRunsOptionalParams → BodyPart
-    // Reachable via: BetaSchedulesOperations → BodyPart
-    // Reachable via: ConnectionsGetDefaultOptionalParams → BodyPart
-    // Reachable via: ConnectionsGetOptionalParams → BodyPart
-    // Reachable via: ConnectionsGetWithCredentialsOptionalParams → BodyPart
-    // Reachable via: ConnectionsListOptionalParams → BodyPart
-    // Reachable via: ConnectionsOperations → BodyPart
     // Reachable via: DatasetUploadOptions → BodyPart
-    // Reachable via: DatasetsCreateOrUpdateOptionalParams → BodyPart
-    // Reachable via: DatasetsDeleteOptionalParams → BodyPart
-    // Reachable via: DatasetsGetCredentialsOptionalParams → BodyPart
-    // Reachable via: DatasetsGetOptionalParams → BodyPart
-    // Reachable via: DatasetsListOptionalParams → BodyPart
-    // Reachable via: DatasetsListVersionsOptionalParams → BodyPart
-    // Reachable via: DatasetsOperations → BodyPart
-    // Reachable via: DatasetsPendingUploadOptionalParams → BodyPart
-    // Reachable via: DeploymentsGetOptionalParams → BodyPart
-    // Reachable via: DeploymentsListOptionalParams → BodyPart
-    // Reachable via: DeploymentsOperations → BodyPart
-    // Reachable via: EvaluationRulesCreateOrUpdateOptionalParams → BodyPart
-    // Reachable via: EvaluationRulesDeleteOptionalParams → BodyPart
-    // Reachable via: EvaluationRulesGetOptionalParams → BodyPart
-    // Reachable via: EvaluationRulesListOptionalParams → BodyPart
-    // Reachable via: EvaluationRulesOperations → BodyPart
-    // Reachable via: IndexesCreateOrUpdateOptionalParams → BodyPart
-    // Reachable via: IndexesDeleteOptionalParams → BodyPart
-    // Reachable via: IndexesGetOptionalParams → BodyPart
-    // Reachable via: IndexesListOptionalParams → BodyPart
-    // Reachable via: IndexesListVersionsOptionalParams → BodyPart
-    // Reachable via: IndexesOperations → BodyPart
-    // Reachable via: TelemetryOperations → BodyPart
     /** A part of the request body in a multipart request. */
     export interface BodyPart {
         headers: HttpHeaders;
@@ -1349,7 +3157,6 @@ declare module "@azure/core-rest-pipeline" { // 1.23.1
 
 
     // Reachable via: AIProjectClient → HttpClient
-    // Reachable via: AIProjectClientOptionalParams → HttpClient
     /** The required interface for a client that makes HTTP requests
     on behalf of a pipeline. */
     export interface HttpClient {
@@ -1358,7 +3165,6 @@ declare module "@azure/core-rest-pipeline" { // 1.23.1
 
 
     // Reachable via: AIProjectClient → LogPolicyOptions
-    // Reachable via: AIProjectClientOptionalParams → LogPolicyOptions
     /** Options to configure the logPolicy. */
     export interface LogPolicyOptions {
         additionalAllowedHeaderNames?: string[];
@@ -1368,7 +3174,6 @@ declare module "@azure/core-rest-pipeline" { // 1.23.1
 
 
     // Reachable via: AIProjectClient → Pipeline
-    // Reachable via: AIProjectClientOptionalParams → Pipeline
     /** Represents a pipeline for making a HTTP request to a URL.
     Pipelines can have multiple policies to manage manipulating each request
     before and after it is made to the server. */
@@ -1385,8 +3190,6 @@ declare module "@azure/core-rest-pipeline" { // 1.23.1
 
 
     // Reachable via: AIProjectClient → Agent
-    // Reachable via: AIProjectClientOptionalParams → Agent
-    // Reachable via: AgentsOperations → Agent
     /** An interface compatible with NodeJS's `http.Agent`.
     We want to avoid publicly re-exporting the actual interface,
     since it might vary across runtime versions. */
@@ -1400,7 +3203,6 @@ declare module "@azure/core-rest-pipeline" { // 1.23.1
 
 
     // Reachable via: AIProjectClient → Pipeline → AddPolicyOptions
-    // Reachable via: AIProjectClientOptionalParams → Pipeline → AddPolicyOptions
     /** Options when adding a policy to the pipeline.
     Used to express dependencies on other policies. */
     export interface AddPolicyOptions {
@@ -1412,83 +3214,8 @@ declare module "@azure/core-rest-pipeline" { // 1.23.1
 
 
     // Reachable via: AIProjectClient → RawHttpHeaders
-    // Reachable via: AIProjectClientOptionalParams → RawHttpHeaders
-    // Reachable via: AgentsCreateAgentFromManifestOptionalParams → RawHttpHeaders
-    // Reachable via: AgentsCreateAgentVersionFromManifestOptionalParams → RawHttpHeaders
-    // Reachable via: AgentsCreateOptionalParams → RawHttpHeaders
     // Reachable via: AgentsCreateVersionOptionalParams → RawHttpHeaders
-    // Reachable via: AgentsDeleteOptionalParams → RawHttpHeaders
-    // Reachable via: AgentsDeleteVersionOptionalParams → RawHttpHeaders
-    // Reachable via: AgentsGetOptionalParams → RawHttpHeaders
-    // Reachable via: AgentsGetVersionOptionalParams → RawHttpHeaders
-    // Reachable via: AgentsListOptionalParams → RawHttpHeaders
-    // Reachable via: AgentsListVersionsOptionalParams → RawHttpHeaders
-    // Reachable via: AgentsOperations → RawHttpHeaders
-    // Reachable via: AgentsUpdateAgentFromManifestOptionalParams → RawHttpHeaders
-    // Reachable via: AgentsUpdateOptionalParams → RawHttpHeaders
-    // Reachable via: BetaEvaluationTaxonomiesCreateOptionalParams → RawHttpHeaders
-    // Reachable via: BetaEvaluationTaxonomiesDeleteOptionalParams → RawHttpHeaders
-    // Reachable via: BetaEvaluationTaxonomiesGetOptionalParams → RawHttpHeaders
-    // Reachable via: BetaEvaluationTaxonomiesListOptionalParams → RawHttpHeaders
-    // Reachable via: BetaEvaluationTaxonomiesUpdateOptionalParams → RawHttpHeaders
-    // Reachable via: BetaEvaluatorsCreateVersionOptionalParams → RawHttpHeaders
-    // Reachable via: BetaEvaluatorsDeleteVersionOptionalParams → RawHttpHeaders
-    // Reachable via: BetaEvaluatorsGetVersionOptionalParams → RawHttpHeaders
-    // Reachable via: BetaEvaluatorsListLatestVersionsOptionalParams → RawHttpHeaders
-    // Reachable via: BetaEvaluatorsListVersionsOptionalParams → RawHttpHeaders
-    // Reachable via: BetaEvaluatorsUpdateVersionOptionalParams → RawHttpHeaders
-    // Reachable via: BetaInsightsGenerateOptionalParams → RawHttpHeaders
-    // Reachable via: BetaInsightsGetOptionalParams → RawHttpHeaders
-    // Reachable via: BetaInsightsListOptionalParams → RawHttpHeaders
-    // Reachable via: BetaMemoryStoresCreateOptionalParams → RawHttpHeaders
-    // Reachable via: BetaMemoryStoresDeleteOptionalParams → RawHttpHeaders
-    // Reachable via: BetaMemoryStoresDeleteScopeOptionalParams → RawHttpHeaders
-    // Reachable via: BetaMemoryStoresGetOptionalParams → RawHttpHeaders
-    // Reachable via: BetaMemoryStoresGetUpdateResultOptionalParams → RawHttpHeaders
-    // Reachable via: BetaMemoryStoresListOptionalParams → RawHttpHeaders
-    // Reachable via: BetaMemoryStoresSearchMemoriesOptionalParams → RawHttpHeaders
-    // Reachable via: BetaMemoryStoresUpdateMemoriesOptionalParams → RawHttpHeaders
-    // Reachable via: BetaMemoryStoresUpdateOptionalParams → RawHttpHeaders
-    // Reachable via: BetaOperations → RawHttpHeaders
-    // Reachable via: BetaRedTeamsCreateOptionalParams → RawHttpHeaders
-    // Reachable via: BetaRedTeamsGetOptionalParams → RawHttpHeaders
-    // Reachable via: BetaRedTeamsListOptionalParams → RawHttpHeaders
-    // Reachable via: BetaSchedulesCreateOrUpdateOptionalParams → RawHttpHeaders
-    // Reachable via: BetaSchedulesDeleteOptionalParams → RawHttpHeaders
-    // Reachable via: BetaSchedulesGetOptionalParams → RawHttpHeaders
-    // Reachable via: BetaSchedulesGetRunOptionalParams → RawHttpHeaders
-    // Reachable via: BetaSchedulesListOptionalParams → RawHttpHeaders
-    // Reachable via: BetaSchedulesListRunsOptionalParams → RawHttpHeaders
-    // Reachable via: BetaSchedulesOperations → RawHttpHeaders
-    // Reachable via: ConnectionsGetDefaultOptionalParams → RawHttpHeaders
-    // Reachable via: ConnectionsGetOptionalParams → RawHttpHeaders
-    // Reachable via: ConnectionsGetWithCredentialsOptionalParams → RawHttpHeaders
-    // Reachable via: ConnectionsListOptionalParams → RawHttpHeaders
-    // Reachable via: ConnectionsOperations → RawHttpHeaders
     // Reachable via: DatasetUploadOptions → RawHttpHeaders
-    // Reachable via: DatasetsCreateOrUpdateOptionalParams → RawHttpHeaders
-    // Reachable via: DatasetsDeleteOptionalParams → RawHttpHeaders
-    // Reachable via: DatasetsGetCredentialsOptionalParams → RawHttpHeaders
-    // Reachable via: DatasetsGetOptionalParams → RawHttpHeaders
-    // Reachable via: DatasetsListOptionalParams → RawHttpHeaders
-    // Reachable via: DatasetsListVersionsOptionalParams → RawHttpHeaders
-    // Reachable via: DatasetsOperations → RawHttpHeaders
-    // Reachable via: DatasetsPendingUploadOptionalParams → RawHttpHeaders
-    // Reachable via: DeploymentsGetOptionalParams → RawHttpHeaders
-    // Reachable via: DeploymentsListOptionalParams → RawHttpHeaders
-    // Reachable via: DeploymentsOperations → RawHttpHeaders
-    // Reachable via: EvaluationRulesCreateOrUpdateOptionalParams → RawHttpHeaders
-    // Reachable via: EvaluationRulesDeleteOptionalParams → RawHttpHeaders
-    // Reachable via: EvaluationRulesGetOptionalParams → RawHttpHeaders
-    // Reachable via: EvaluationRulesListOptionalParams → RawHttpHeaders
-    // Reachable via: EvaluationRulesOperations → RawHttpHeaders
-    // Reachable via: IndexesCreateOrUpdateOptionalParams → RawHttpHeaders
-    // Reachable via: IndexesDeleteOptionalParams → RawHttpHeaders
-    // Reachable via: IndexesGetOptionalParams → RawHttpHeaders
-    // Reachable via: IndexesListOptionalParams → RawHttpHeaders
-    // Reachable via: IndexesListVersionsOptionalParams → RawHttpHeaders
-    // Reachable via: IndexesOperations → RawHttpHeaders
-    // Reachable via: TelemetryOperations → RawHttpHeaders
     /** A HttpHeaders collection represented as a simple JSON object. */
     export type RawHttpHeaders = {
         [headerName: string]: string;
@@ -1496,83 +3223,8 @@ declare module "@azure/core-rest-pipeline" { // 1.23.1
 
 
     // Reachable via: AIProjectClient → RequestBodyType
-    // Reachable via: AIProjectClientOptionalParams → RequestBodyType
-    // Reachable via: AgentsCreateAgentFromManifestOptionalParams → RequestBodyType
-    // Reachable via: AgentsCreateAgentVersionFromManifestOptionalParams → RequestBodyType
-    // Reachable via: AgentsCreateOptionalParams → RequestBodyType
     // Reachable via: AgentsCreateVersionOptionalParams → RequestBodyType
-    // Reachable via: AgentsDeleteOptionalParams → RequestBodyType
-    // Reachable via: AgentsDeleteVersionOptionalParams → RequestBodyType
-    // Reachable via: AgentsGetOptionalParams → RequestBodyType
-    // Reachable via: AgentsGetVersionOptionalParams → RequestBodyType
-    // Reachable via: AgentsListOptionalParams → RequestBodyType
-    // Reachable via: AgentsListVersionsOptionalParams → RequestBodyType
-    // Reachable via: AgentsOperations → RequestBodyType
-    // Reachable via: AgentsUpdateAgentFromManifestOptionalParams → RequestBodyType
-    // Reachable via: AgentsUpdateOptionalParams → RequestBodyType
-    // Reachable via: BetaEvaluationTaxonomiesCreateOptionalParams → RequestBodyType
-    // Reachable via: BetaEvaluationTaxonomiesDeleteOptionalParams → RequestBodyType
-    // Reachable via: BetaEvaluationTaxonomiesGetOptionalParams → RequestBodyType
-    // Reachable via: BetaEvaluationTaxonomiesListOptionalParams → RequestBodyType
-    // Reachable via: BetaEvaluationTaxonomiesUpdateOptionalParams → RequestBodyType
-    // Reachable via: BetaEvaluatorsCreateVersionOptionalParams → RequestBodyType
-    // Reachable via: BetaEvaluatorsDeleteVersionOptionalParams → RequestBodyType
-    // Reachable via: BetaEvaluatorsGetVersionOptionalParams → RequestBodyType
-    // Reachable via: BetaEvaluatorsListLatestVersionsOptionalParams → RequestBodyType
-    // Reachable via: BetaEvaluatorsListVersionsOptionalParams → RequestBodyType
-    // Reachable via: BetaEvaluatorsUpdateVersionOptionalParams → RequestBodyType
-    // Reachable via: BetaInsightsGenerateOptionalParams → RequestBodyType
-    // Reachable via: BetaInsightsGetOptionalParams → RequestBodyType
-    // Reachable via: BetaInsightsListOptionalParams → RequestBodyType
-    // Reachable via: BetaMemoryStoresCreateOptionalParams → RequestBodyType
-    // Reachable via: BetaMemoryStoresDeleteOptionalParams → RequestBodyType
-    // Reachable via: BetaMemoryStoresDeleteScopeOptionalParams → RequestBodyType
-    // Reachable via: BetaMemoryStoresGetOptionalParams → RequestBodyType
-    // Reachable via: BetaMemoryStoresGetUpdateResultOptionalParams → RequestBodyType
-    // Reachable via: BetaMemoryStoresListOptionalParams → RequestBodyType
-    // Reachable via: BetaMemoryStoresSearchMemoriesOptionalParams → RequestBodyType
-    // Reachable via: BetaMemoryStoresUpdateMemoriesOptionalParams → RequestBodyType
-    // Reachable via: BetaMemoryStoresUpdateOptionalParams → RequestBodyType
-    // Reachable via: BetaOperations → RequestBodyType
-    // Reachable via: BetaRedTeamsCreateOptionalParams → RequestBodyType
-    // Reachable via: BetaRedTeamsGetOptionalParams → RequestBodyType
-    // Reachable via: BetaRedTeamsListOptionalParams → RequestBodyType
-    // Reachable via: BetaSchedulesCreateOrUpdateOptionalParams → RequestBodyType
-    // Reachable via: BetaSchedulesDeleteOptionalParams → RequestBodyType
-    // Reachable via: BetaSchedulesGetOptionalParams → RequestBodyType
-    // Reachable via: BetaSchedulesGetRunOptionalParams → RequestBodyType
-    // Reachable via: BetaSchedulesListOptionalParams → RequestBodyType
-    // Reachable via: BetaSchedulesListRunsOptionalParams → RequestBodyType
-    // Reachable via: BetaSchedulesOperations → RequestBodyType
-    // Reachable via: ConnectionsGetDefaultOptionalParams → RequestBodyType
-    // Reachable via: ConnectionsGetOptionalParams → RequestBodyType
-    // Reachable via: ConnectionsGetWithCredentialsOptionalParams → RequestBodyType
-    // Reachable via: ConnectionsListOptionalParams → RequestBodyType
-    // Reachable via: ConnectionsOperations → RequestBodyType
     // Reachable via: DatasetUploadOptions → RequestBodyType
-    // Reachable via: DatasetsCreateOrUpdateOptionalParams → RequestBodyType
-    // Reachable via: DatasetsDeleteOptionalParams → RequestBodyType
-    // Reachable via: DatasetsGetCredentialsOptionalParams → RequestBodyType
-    // Reachable via: DatasetsGetOptionalParams → RequestBodyType
-    // Reachable via: DatasetsListOptionalParams → RequestBodyType
-    // Reachable via: DatasetsListVersionsOptionalParams → RequestBodyType
-    // Reachable via: DatasetsOperations → RequestBodyType
-    // Reachable via: DatasetsPendingUploadOptionalParams → RequestBodyType
-    // Reachable via: DeploymentsGetOptionalParams → RequestBodyType
-    // Reachable via: DeploymentsListOptionalParams → RequestBodyType
-    // Reachable via: DeploymentsOperations → RequestBodyType
-    // Reachable via: EvaluationRulesCreateOrUpdateOptionalParams → RequestBodyType
-    // Reachable via: EvaluationRulesDeleteOptionalParams → RequestBodyType
-    // Reachable via: EvaluationRulesGetOptionalParams → RequestBodyType
-    // Reachable via: EvaluationRulesListOptionalParams → RequestBodyType
-    // Reachable via: EvaluationRulesOperations → RequestBodyType
-    // Reachable via: IndexesCreateOrUpdateOptionalParams → RequestBodyType
-    // Reachable via: IndexesDeleteOptionalParams → RequestBodyType
-    // Reachable via: IndexesGetOptionalParams → RequestBodyType
-    // Reachable via: IndexesListOptionalParams → RequestBodyType
-    // Reachable via: IndexesListVersionsOptionalParams → RequestBodyType
-    // Reachable via: IndexesOperations → RequestBodyType
-    // Reachable via: TelemetryOperations → RequestBodyType
     /** Types of bodies supported on the request.
     NodeJS.ReadableStream and () =\> NodeJS.ReadableStream is Node only.
     Blob, ReadableStream<Uint8Array>, and () =\> ReadableStream<Uint8Array> are browser only. */
@@ -1580,83 +3232,8 @@ declare module "@azure/core-rest-pipeline" { // 1.23.1
 
 
     // Reachable via: AIProjectClient → FormDataMap
-    // Reachable via: AIProjectClientOptionalParams → FormDataMap
-    // Reachable via: AgentsCreateAgentFromManifestOptionalParams → FormDataMap
-    // Reachable via: AgentsCreateAgentVersionFromManifestOptionalParams → FormDataMap
-    // Reachable via: AgentsCreateOptionalParams → FormDataMap
     // Reachable via: AgentsCreateVersionOptionalParams → FormDataMap
-    // Reachable via: AgentsDeleteOptionalParams → FormDataMap
-    // Reachable via: AgentsDeleteVersionOptionalParams → FormDataMap
-    // Reachable via: AgentsGetOptionalParams → FormDataMap
-    // Reachable via: AgentsGetVersionOptionalParams → FormDataMap
-    // Reachable via: AgentsListOptionalParams → FormDataMap
-    // Reachable via: AgentsListVersionsOptionalParams → FormDataMap
-    // Reachable via: AgentsOperations → FormDataMap
-    // Reachable via: AgentsUpdateAgentFromManifestOptionalParams → FormDataMap
-    // Reachable via: AgentsUpdateOptionalParams → FormDataMap
-    // Reachable via: BetaEvaluationTaxonomiesCreateOptionalParams → FormDataMap
-    // Reachable via: BetaEvaluationTaxonomiesDeleteOptionalParams → FormDataMap
-    // Reachable via: BetaEvaluationTaxonomiesGetOptionalParams → FormDataMap
-    // Reachable via: BetaEvaluationTaxonomiesListOptionalParams → FormDataMap
-    // Reachable via: BetaEvaluationTaxonomiesUpdateOptionalParams → FormDataMap
-    // Reachable via: BetaEvaluatorsCreateVersionOptionalParams → FormDataMap
-    // Reachable via: BetaEvaluatorsDeleteVersionOptionalParams → FormDataMap
-    // Reachable via: BetaEvaluatorsGetVersionOptionalParams → FormDataMap
-    // Reachable via: BetaEvaluatorsListLatestVersionsOptionalParams → FormDataMap
-    // Reachable via: BetaEvaluatorsListVersionsOptionalParams → FormDataMap
-    // Reachable via: BetaEvaluatorsUpdateVersionOptionalParams → FormDataMap
-    // Reachable via: BetaInsightsGenerateOptionalParams → FormDataMap
-    // Reachable via: BetaInsightsGetOptionalParams → FormDataMap
-    // Reachable via: BetaInsightsListOptionalParams → FormDataMap
-    // Reachable via: BetaMemoryStoresCreateOptionalParams → FormDataMap
-    // Reachable via: BetaMemoryStoresDeleteOptionalParams → FormDataMap
-    // Reachable via: BetaMemoryStoresDeleteScopeOptionalParams → FormDataMap
-    // Reachable via: BetaMemoryStoresGetOptionalParams → FormDataMap
-    // Reachable via: BetaMemoryStoresGetUpdateResultOptionalParams → FormDataMap
-    // Reachable via: BetaMemoryStoresListOptionalParams → FormDataMap
-    // Reachable via: BetaMemoryStoresSearchMemoriesOptionalParams → FormDataMap
-    // Reachable via: BetaMemoryStoresUpdateMemoriesOptionalParams → FormDataMap
-    // Reachable via: BetaMemoryStoresUpdateOptionalParams → FormDataMap
-    // Reachable via: BetaOperations → FormDataMap
-    // Reachable via: BetaRedTeamsCreateOptionalParams → FormDataMap
-    // Reachable via: BetaRedTeamsGetOptionalParams → FormDataMap
-    // Reachable via: BetaRedTeamsListOptionalParams → FormDataMap
-    // Reachable via: BetaSchedulesCreateOrUpdateOptionalParams → FormDataMap
-    // Reachable via: BetaSchedulesDeleteOptionalParams → FormDataMap
-    // Reachable via: BetaSchedulesGetOptionalParams → FormDataMap
-    // Reachable via: BetaSchedulesGetRunOptionalParams → FormDataMap
-    // Reachable via: BetaSchedulesListOptionalParams → FormDataMap
-    // Reachable via: BetaSchedulesListRunsOptionalParams → FormDataMap
-    // Reachable via: BetaSchedulesOperations → FormDataMap
-    // Reachable via: ConnectionsGetDefaultOptionalParams → FormDataMap
-    // Reachable via: ConnectionsGetOptionalParams → FormDataMap
-    // Reachable via: ConnectionsGetWithCredentialsOptionalParams → FormDataMap
-    // Reachable via: ConnectionsListOptionalParams → FormDataMap
-    // Reachable via: ConnectionsOperations → FormDataMap
     // Reachable via: DatasetUploadOptions → FormDataMap
-    // Reachable via: DatasetsCreateOrUpdateOptionalParams → FormDataMap
-    // Reachable via: DatasetsDeleteOptionalParams → FormDataMap
-    // Reachable via: DatasetsGetCredentialsOptionalParams → FormDataMap
-    // Reachable via: DatasetsGetOptionalParams → FormDataMap
-    // Reachable via: DatasetsListOptionalParams → FormDataMap
-    // Reachable via: DatasetsListVersionsOptionalParams → FormDataMap
-    // Reachable via: DatasetsOperations → FormDataMap
-    // Reachable via: DatasetsPendingUploadOptionalParams → FormDataMap
-    // Reachable via: DeploymentsGetOptionalParams → FormDataMap
-    // Reachable via: DeploymentsListOptionalParams → FormDataMap
-    // Reachable via: DeploymentsOperations → FormDataMap
-    // Reachable via: EvaluationRulesCreateOrUpdateOptionalParams → FormDataMap
-    // Reachable via: EvaluationRulesDeleteOptionalParams → FormDataMap
-    // Reachable via: EvaluationRulesGetOptionalParams → FormDataMap
-    // Reachable via: EvaluationRulesListOptionalParams → FormDataMap
-    // Reachable via: EvaluationRulesOperations → FormDataMap
-    // Reachable via: IndexesCreateOrUpdateOptionalParams → FormDataMap
-    // Reachable via: IndexesDeleteOptionalParams → FormDataMap
-    // Reachable via: IndexesGetOptionalParams → FormDataMap
-    // Reachable via: IndexesListOptionalParams → FormDataMap
-    // Reachable via: IndexesListVersionsOptionalParams → FormDataMap
-    // Reachable via: IndexesOperations → FormDataMap
-    // Reachable via: TelemetryOperations → FormDataMap
     /** A simple object that provides form data, as if from a browser form. */
     export type FormDataMap = {
         [key: string]: FormDataValue | FormDataValue[];
@@ -1664,166 +3241,16 @@ declare module "@azure/core-rest-pipeline" { // 1.23.1
 
 
     // Reachable via: AIProjectClient → FormDataValue
-    // Reachable via: AIProjectClientOptionalParams → FormDataValue
-    // Reachable via: AgentsCreateAgentFromManifestOptionalParams → FormDataValue
-    // Reachable via: AgentsCreateAgentVersionFromManifestOptionalParams → FormDataValue
-    // Reachable via: AgentsCreateOptionalParams → FormDataValue
     // Reachable via: AgentsCreateVersionOptionalParams → FormDataValue
-    // Reachable via: AgentsDeleteOptionalParams → FormDataValue
-    // Reachable via: AgentsDeleteVersionOptionalParams → FormDataValue
-    // Reachable via: AgentsGetOptionalParams → FormDataValue
-    // Reachable via: AgentsGetVersionOptionalParams → FormDataValue
-    // Reachable via: AgentsListOptionalParams → FormDataValue
-    // Reachable via: AgentsListVersionsOptionalParams → FormDataValue
-    // Reachable via: AgentsOperations → FormDataValue
-    // Reachable via: AgentsUpdateAgentFromManifestOptionalParams → FormDataValue
-    // Reachable via: AgentsUpdateOptionalParams → FormDataValue
-    // Reachable via: BetaEvaluationTaxonomiesCreateOptionalParams → FormDataValue
-    // Reachable via: BetaEvaluationTaxonomiesDeleteOptionalParams → FormDataValue
-    // Reachable via: BetaEvaluationTaxonomiesGetOptionalParams → FormDataValue
-    // Reachable via: BetaEvaluationTaxonomiesListOptionalParams → FormDataValue
-    // Reachable via: BetaEvaluationTaxonomiesUpdateOptionalParams → FormDataValue
-    // Reachable via: BetaEvaluatorsCreateVersionOptionalParams → FormDataValue
-    // Reachable via: BetaEvaluatorsDeleteVersionOptionalParams → FormDataValue
-    // Reachable via: BetaEvaluatorsGetVersionOptionalParams → FormDataValue
-    // Reachable via: BetaEvaluatorsListLatestVersionsOptionalParams → FormDataValue
-    // Reachable via: BetaEvaluatorsListVersionsOptionalParams → FormDataValue
-    // Reachable via: BetaEvaluatorsUpdateVersionOptionalParams → FormDataValue
-    // Reachable via: BetaInsightsGenerateOptionalParams → FormDataValue
-    // Reachable via: BetaInsightsGetOptionalParams → FormDataValue
-    // Reachable via: BetaInsightsListOptionalParams → FormDataValue
-    // Reachable via: BetaMemoryStoresCreateOptionalParams → FormDataValue
-    // Reachable via: BetaMemoryStoresDeleteOptionalParams → FormDataValue
-    // Reachable via: BetaMemoryStoresDeleteScopeOptionalParams → FormDataValue
-    // Reachable via: BetaMemoryStoresGetOptionalParams → FormDataValue
-    // Reachable via: BetaMemoryStoresGetUpdateResultOptionalParams → FormDataValue
-    // Reachable via: BetaMemoryStoresListOptionalParams → FormDataValue
-    // Reachable via: BetaMemoryStoresSearchMemoriesOptionalParams → FormDataValue
-    // Reachable via: BetaMemoryStoresUpdateMemoriesOptionalParams → FormDataValue
-    // Reachable via: BetaMemoryStoresUpdateOptionalParams → FormDataValue
-    // Reachable via: BetaOperations → FormDataValue
-    // Reachable via: BetaRedTeamsCreateOptionalParams → FormDataValue
-    // Reachable via: BetaRedTeamsGetOptionalParams → FormDataValue
-    // Reachable via: BetaRedTeamsListOptionalParams → FormDataValue
-    // Reachable via: BetaSchedulesCreateOrUpdateOptionalParams → FormDataValue
-    // Reachable via: BetaSchedulesDeleteOptionalParams → FormDataValue
-    // Reachable via: BetaSchedulesGetOptionalParams → FormDataValue
-    // Reachable via: BetaSchedulesGetRunOptionalParams → FormDataValue
-    // Reachable via: BetaSchedulesListOptionalParams → FormDataValue
-    // Reachable via: BetaSchedulesListRunsOptionalParams → FormDataValue
-    // Reachable via: BetaSchedulesOperations → FormDataValue
-    // Reachable via: ConnectionsGetDefaultOptionalParams → FormDataValue
-    // Reachable via: ConnectionsGetOptionalParams → FormDataValue
-    // Reachable via: ConnectionsGetWithCredentialsOptionalParams → FormDataValue
-    // Reachable via: ConnectionsListOptionalParams → FormDataValue
-    // Reachable via: ConnectionsOperations → FormDataValue
     // Reachable via: DatasetUploadOptions → FormDataValue
-    // Reachable via: DatasetsCreateOrUpdateOptionalParams → FormDataValue
-    // Reachable via: DatasetsDeleteOptionalParams → FormDataValue
-    // Reachable via: DatasetsGetCredentialsOptionalParams → FormDataValue
-    // Reachable via: DatasetsGetOptionalParams → FormDataValue
-    // Reachable via: DatasetsListOptionalParams → FormDataValue
-    // Reachable via: DatasetsListVersionsOptionalParams → FormDataValue
-    // Reachable via: DatasetsOperations → FormDataValue
-    // Reachable via: DatasetsPendingUploadOptionalParams → FormDataValue
-    // Reachable via: DeploymentsGetOptionalParams → FormDataValue
-    // Reachable via: DeploymentsListOptionalParams → FormDataValue
-    // Reachable via: DeploymentsOperations → FormDataValue
-    // Reachable via: EvaluationRulesCreateOrUpdateOptionalParams → FormDataValue
-    // Reachable via: EvaluationRulesDeleteOptionalParams → FormDataValue
-    // Reachable via: EvaluationRulesGetOptionalParams → FormDataValue
-    // Reachable via: EvaluationRulesListOptionalParams → FormDataValue
-    // Reachable via: EvaluationRulesOperations → FormDataValue
-    // Reachable via: IndexesCreateOrUpdateOptionalParams → FormDataValue
-    // Reachable via: IndexesDeleteOptionalParams → FormDataValue
-    // Reachable via: IndexesGetOptionalParams → FormDataValue
-    // Reachable via: IndexesListOptionalParams → FormDataValue
-    // Reachable via: IndexesListVersionsOptionalParams → FormDataValue
-    // Reachable via: IndexesOperations → FormDataValue
-    // Reachable via: TelemetryOperations → FormDataValue
     /** Each form data entry can be a string, Blob, or a File. If you wish to pass a file with a name but do not have
     access to the File class, you can use the createFile helper to create one. */
     export type FormDataValue = string | Blob | File;
 
 
     // Reachable via: AIProjectClient → TransferProgressEvent
-    // Reachable via: AIProjectClientOptionalParams → TransferProgressEvent
-    // Reachable via: AgentsCreateAgentFromManifestOptionalParams → TransferProgressEvent
-    // Reachable via: AgentsCreateAgentVersionFromManifestOptionalParams → TransferProgressEvent
-    // Reachable via: AgentsCreateOptionalParams → TransferProgressEvent
     // Reachable via: AgentsCreateVersionOptionalParams → TransferProgressEvent
-    // Reachable via: AgentsDeleteOptionalParams → TransferProgressEvent
-    // Reachable via: AgentsDeleteVersionOptionalParams → TransferProgressEvent
-    // Reachable via: AgentsGetOptionalParams → TransferProgressEvent
-    // Reachable via: AgentsGetVersionOptionalParams → TransferProgressEvent
-    // Reachable via: AgentsListOptionalParams → TransferProgressEvent
-    // Reachable via: AgentsListVersionsOptionalParams → TransferProgressEvent
-    // Reachable via: AgentsOperations → TransferProgressEvent
-    // Reachable via: AgentsUpdateAgentFromManifestOptionalParams → TransferProgressEvent
-    // Reachable via: AgentsUpdateOptionalParams → TransferProgressEvent
-    // Reachable via: BetaEvaluationTaxonomiesCreateOptionalParams → TransferProgressEvent
-    // Reachable via: BetaEvaluationTaxonomiesDeleteOptionalParams → TransferProgressEvent
-    // Reachable via: BetaEvaluationTaxonomiesGetOptionalParams → TransferProgressEvent
-    // Reachable via: BetaEvaluationTaxonomiesListOptionalParams → TransferProgressEvent
-    // Reachable via: BetaEvaluationTaxonomiesUpdateOptionalParams → TransferProgressEvent
-    // Reachable via: BetaEvaluatorsCreateVersionOptionalParams → TransferProgressEvent
-    // Reachable via: BetaEvaluatorsDeleteVersionOptionalParams → TransferProgressEvent
-    // Reachable via: BetaEvaluatorsGetVersionOptionalParams → TransferProgressEvent
-    // Reachable via: BetaEvaluatorsListLatestVersionsOptionalParams → TransferProgressEvent
-    // Reachable via: BetaEvaluatorsListVersionsOptionalParams → TransferProgressEvent
-    // Reachable via: BetaEvaluatorsUpdateVersionOptionalParams → TransferProgressEvent
-    // Reachable via: BetaInsightsGenerateOptionalParams → TransferProgressEvent
-    // Reachable via: BetaInsightsGetOptionalParams → TransferProgressEvent
-    // Reachable via: BetaInsightsListOptionalParams → TransferProgressEvent
-    // Reachable via: BetaMemoryStoresCreateOptionalParams → TransferProgressEvent
-    // Reachable via: BetaMemoryStoresDeleteOptionalParams → TransferProgressEvent
-    // Reachable via: BetaMemoryStoresDeleteScopeOptionalParams → TransferProgressEvent
-    // Reachable via: BetaMemoryStoresGetOptionalParams → TransferProgressEvent
-    // Reachable via: BetaMemoryStoresGetUpdateResultOptionalParams → TransferProgressEvent
-    // Reachable via: BetaMemoryStoresListOptionalParams → TransferProgressEvent
-    // Reachable via: BetaMemoryStoresSearchMemoriesOptionalParams → TransferProgressEvent
-    // Reachable via: BetaMemoryStoresUpdateMemoriesOptionalParams → TransferProgressEvent
-    // Reachable via: BetaMemoryStoresUpdateOptionalParams → TransferProgressEvent
-    // Reachable via: BetaOperations → TransferProgressEvent
-    // Reachable via: BetaRedTeamsCreateOptionalParams → TransferProgressEvent
-    // Reachable via: BetaRedTeamsGetOptionalParams → TransferProgressEvent
-    // Reachable via: BetaRedTeamsListOptionalParams → TransferProgressEvent
-    // Reachable via: BetaSchedulesCreateOrUpdateOptionalParams → TransferProgressEvent
-    // Reachable via: BetaSchedulesDeleteOptionalParams → TransferProgressEvent
-    // Reachable via: BetaSchedulesGetOptionalParams → TransferProgressEvent
-    // Reachable via: BetaSchedulesGetRunOptionalParams → TransferProgressEvent
-    // Reachable via: BetaSchedulesListOptionalParams → TransferProgressEvent
-    // Reachable via: BetaSchedulesListRunsOptionalParams → TransferProgressEvent
-    // Reachable via: BetaSchedulesOperations → TransferProgressEvent
-    // Reachable via: ConnectionsGetDefaultOptionalParams → TransferProgressEvent
-    // Reachable via: ConnectionsGetOptionalParams → TransferProgressEvent
-    // Reachable via: ConnectionsGetWithCredentialsOptionalParams → TransferProgressEvent
-    // Reachable via: ConnectionsListOptionalParams → TransferProgressEvent
-    // Reachable via: ConnectionsOperations → TransferProgressEvent
     // Reachable via: DatasetUploadOptions → TransferProgressEvent
-    // Reachable via: DatasetsCreateOrUpdateOptionalParams → TransferProgressEvent
-    // Reachable via: DatasetsDeleteOptionalParams → TransferProgressEvent
-    // Reachable via: DatasetsGetCredentialsOptionalParams → TransferProgressEvent
-    // Reachable via: DatasetsGetOptionalParams → TransferProgressEvent
-    // Reachable via: DatasetsListOptionalParams → TransferProgressEvent
-    // Reachable via: DatasetsListVersionsOptionalParams → TransferProgressEvent
-    // Reachable via: DatasetsOperations → TransferProgressEvent
-    // Reachable via: DatasetsPendingUploadOptionalParams → TransferProgressEvent
-    // Reachable via: DeploymentsGetOptionalParams → TransferProgressEvent
-    // Reachable via: DeploymentsListOptionalParams → TransferProgressEvent
-    // Reachable via: DeploymentsOperations → TransferProgressEvent
-    // Reachable via: EvaluationRulesCreateOrUpdateOptionalParams → TransferProgressEvent
-    // Reachable via: EvaluationRulesDeleteOptionalParams → TransferProgressEvent
-    // Reachable via: EvaluationRulesGetOptionalParams → TransferProgressEvent
-    // Reachable via: EvaluationRulesListOptionalParams → TransferProgressEvent
-    // Reachable via: EvaluationRulesOperations → TransferProgressEvent
-    // Reachable via: IndexesCreateOrUpdateOptionalParams → TransferProgressEvent
-    // Reachable via: IndexesDeleteOptionalParams → TransferProgressEvent
-    // Reachable via: IndexesGetOptionalParams → TransferProgressEvent
-    // Reachable via: IndexesListOptionalParams → TransferProgressEvent
-    // Reachable via: IndexesListVersionsOptionalParams → TransferProgressEvent
-    // Reachable via: IndexesOperations → TransferProgressEvent
-    // Reachable via: TelemetryOperations → TransferProgressEvent
     /** Fired in response to upload or download progress. */
     export type TransferProgressEvent = {
         /**
@@ -1834,94 +3261,18 @@ declare module "@azure/core-rest-pipeline" { // 1.23.1
 
 
     // Reachable via: AIProjectClient → SendRequest
-    // Reachable via: AIProjectClientOptionalParams → SendRequest
     /** A simple interface for making a pipeline request and receiving a response. */
     export type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;
 
 
     // Reachable via: AIProjectClient → RawHttpHeadersInput
-    // Reachable via: AgentsCreateAgentFromManifestOptionalParams → RawHttpHeadersInput
-    // Reachable via: AgentsCreateAgentVersionFromManifestOptionalParams → RawHttpHeadersInput
-    // Reachable via: AgentsCreateOptionalParams → RawHttpHeadersInput
     // Reachable via: AgentsCreateVersionOptionalParams → RawHttpHeadersInput
-    // Reachable via: AgentsDeleteOptionalParams → RawHttpHeadersInput
-    // Reachable via: AgentsDeleteVersionOptionalParams → RawHttpHeadersInput
-    // Reachable via: AgentsGetOptionalParams → RawHttpHeadersInput
-    // Reachable via: AgentsGetVersionOptionalParams → RawHttpHeadersInput
-    // Reachable via: AgentsListOptionalParams → RawHttpHeadersInput
-    // Reachable via: AgentsListVersionsOptionalParams → RawHttpHeadersInput
-    // Reachable via: AgentsOperations → RawHttpHeadersInput
-    // Reachable via: AgentsUpdateAgentFromManifestOptionalParams → RawHttpHeadersInput
-    // Reachable via: AgentsUpdateOptionalParams → RawHttpHeadersInput
-    // Reachable via: BetaEvaluationTaxonomiesCreateOptionalParams → RawHttpHeadersInput
-    // Reachable via: BetaEvaluationTaxonomiesDeleteOptionalParams → RawHttpHeadersInput
-    // Reachable via: BetaEvaluationTaxonomiesGetOptionalParams → RawHttpHeadersInput
-    // Reachable via: BetaEvaluationTaxonomiesListOptionalParams → RawHttpHeadersInput
-    // Reachable via: BetaEvaluationTaxonomiesUpdateOptionalParams → RawHttpHeadersInput
-    // Reachable via: BetaEvaluatorsCreateVersionOptionalParams → RawHttpHeadersInput
-    // Reachable via: BetaEvaluatorsDeleteVersionOptionalParams → RawHttpHeadersInput
-    // Reachable via: BetaEvaluatorsGetVersionOptionalParams → RawHttpHeadersInput
-    // Reachable via: BetaEvaluatorsListLatestVersionsOptionalParams → RawHttpHeadersInput
-    // Reachable via: BetaEvaluatorsListVersionsOptionalParams → RawHttpHeadersInput
-    // Reachable via: BetaEvaluatorsUpdateVersionOptionalParams → RawHttpHeadersInput
-    // Reachable via: BetaInsightsGenerateOptionalParams → RawHttpHeadersInput
-    // Reachable via: BetaInsightsGetOptionalParams → RawHttpHeadersInput
-    // Reachable via: BetaInsightsListOptionalParams → RawHttpHeadersInput
-    // Reachable via: BetaMemoryStoresCreateOptionalParams → RawHttpHeadersInput
-    // Reachable via: BetaMemoryStoresDeleteOptionalParams → RawHttpHeadersInput
-    // Reachable via: BetaMemoryStoresDeleteScopeOptionalParams → RawHttpHeadersInput
-    // Reachable via: BetaMemoryStoresGetOptionalParams → RawHttpHeadersInput
-    // Reachable via: BetaMemoryStoresGetUpdateResultOptionalParams → RawHttpHeadersInput
-    // Reachable via: BetaMemoryStoresListOptionalParams → RawHttpHeadersInput
-    // Reachable via: BetaMemoryStoresSearchMemoriesOptionalParams → RawHttpHeadersInput
-    // Reachable via: BetaMemoryStoresUpdateMemoriesOptionalParams → RawHttpHeadersInput
-    // Reachable via: BetaMemoryStoresUpdateOptionalParams → RawHttpHeadersInput
-    // Reachable via: BetaOperations → RawHttpHeadersInput
-    // Reachable via: BetaRedTeamsCreateOptionalParams → RawHttpHeadersInput
-    // Reachable via: BetaRedTeamsGetOptionalParams → RawHttpHeadersInput
-    // Reachable via: BetaRedTeamsListOptionalParams → RawHttpHeadersInput
-    // Reachable via: BetaSchedulesCreateOrUpdateOptionalParams → RawHttpHeadersInput
-    // Reachable via: BetaSchedulesDeleteOptionalParams → RawHttpHeadersInput
-    // Reachable via: BetaSchedulesGetOptionalParams → RawHttpHeadersInput
-    // Reachable via: BetaSchedulesGetRunOptionalParams → RawHttpHeadersInput
-    // Reachable via: BetaSchedulesListOptionalParams → RawHttpHeadersInput
-    // Reachable via: BetaSchedulesListRunsOptionalParams → RawHttpHeadersInput
-    // Reachable via: BetaSchedulesOperations → RawHttpHeadersInput
-    // Reachable via: ConnectionsGetDefaultOptionalParams → RawHttpHeadersInput
-    // Reachable via: ConnectionsGetOptionalParams → RawHttpHeadersInput
-    // Reachable via: ConnectionsGetWithCredentialsOptionalParams → RawHttpHeadersInput
-    // Reachable via: ConnectionsListOptionalParams → RawHttpHeadersInput
-    // Reachable via: ConnectionsOperations → RawHttpHeadersInput
     // Reachable via: DatasetUploadOptions → RawHttpHeadersInput
-    // Reachable via: DatasetsCreateOrUpdateOptionalParams → RawHttpHeadersInput
-    // Reachable via: DatasetsDeleteOptionalParams → RawHttpHeadersInput
-    // Reachable via: DatasetsGetCredentialsOptionalParams → RawHttpHeadersInput
-    // Reachable via: DatasetsGetOptionalParams → RawHttpHeadersInput
-    // Reachable via: DatasetsListOptionalParams → RawHttpHeadersInput
-    // Reachable via: DatasetsListVersionsOptionalParams → RawHttpHeadersInput
-    // Reachable via: DatasetsOperations → RawHttpHeadersInput
-    // Reachable via: DatasetsPendingUploadOptionalParams → RawHttpHeadersInput
-    // Reachable via: DeploymentsGetOptionalParams → RawHttpHeadersInput
-    // Reachable via: DeploymentsListOptionalParams → RawHttpHeadersInput
-    // Reachable via: DeploymentsOperations → RawHttpHeadersInput
-    // Reachable via: EvaluationRulesCreateOrUpdateOptionalParams → RawHttpHeadersInput
-    // Reachable via: EvaluationRulesDeleteOptionalParams → RawHttpHeadersInput
-    // Reachable via: EvaluationRulesGetOptionalParams → RawHttpHeadersInput
-    // Reachable via: EvaluationRulesListOptionalParams → RawHttpHeadersInput
-    // Reachable via: EvaluationRulesOperations → RawHttpHeadersInput
-    // Reachable via: IndexesCreateOrUpdateOptionalParams → RawHttpHeadersInput
-    // Reachable via: IndexesDeleteOptionalParams → RawHttpHeadersInput
-    // Reachable via: IndexesGetOptionalParams → RawHttpHeadersInput
-    // Reachable via: IndexesListOptionalParams → RawHttpHeadersInput
-    // Reachable via: IndexesListVersionsOptionalParams → RawHttpHeadersInput
-    // Reachable via: IndexesOperations → RawHttpHeadersInput
-    // Reachable via: TelemetryOperations → RawHttpHeadersInput
     /** A HttpHeaders collection for input, represented as a simple JSON object. */
     export type RawHttpHeadersInput = Record<string, string | number | boolean>;
 
 
     // Reachable via: AIProjectClient → Pipeline → PipelinePhase
-    // Reachable via: AIProjectClientOptionalParams → Pipeline → PipelinePhase
     /** Policies are executed in phases.
     The execution order is:
     1. Serialize Phase
@@ -1937,83 +3288,8 @@ declare module "@azure/core-rest-pipeline" { // 1.23.1
 declare module "@azure/core-tracing" { // 1.3.2
 
     // Reachable via: AIProjectClient → OperationTracingOptions
-    // Reachable via: AIProjectClientOptionalParams → OperationTracingOptions
-    // Reachable via: AgentsCreateAgentFromManifestOptionalParams → OperationTracingOptions
-    // Reachable via: AgentsCreateAgentVersionFromManifestOptionalParams → OperationTracingOptions
-    // Reachable via: AgentsCreateOptionalParams → OperationTracingOptions
     // Reachable via: AgentsCreateVersionOptionalParams → OperationTracingOptions
-    // Reachable via: AgentsDeleteOptionalParams → OperationTracingOptions
-    // Reachable via: AgentsDeleteVersionOptionalParams → OperationTracingOptions
-    // Reachable via: AgentsGetOptionalParams → OperationTracingOptions
-    // Reachable via: AgentsGetVersionOptionalParams → OperationTracingOptions
-    // Reachable via: AgentsListOptionalParams → OperationTracingOptions
-    // Reachable via: AgentsListVersionsOptionalParams → OperationTracingOptions
-    // Reachable via: AgentsOperations → OperationTracingOptions
-    // Reachable via: AgentsUpdateAgentFromManifestOptionalParams → OperationTracingOptions
-    // Reachable via: AgentsUpdateOptionalParams → OperationTracingOptions
-    // Reachable via: BetaEvaluationTaxonomiesCreateOptionalParams → OperationTracingOptions
-    // Reachable via: BetaEvaluationTaxonomiesDeleteOptionalParams → OperationTracingOptions
-    // Reachable via: BetaEvaluationTaxonomiesGetOptionalParams → OperationTracingOptions
-    // Reachable via: BetaEvaluationTaxonomiesListOptionalParams → OperationTracingOptions
-    // Reachable via: BetaEvaluationTaxonomiesUpdateOptionalParams → OperationTracingOptions
-    // Reachable via: BetaEvaluatorsCreateVersionOptionalParams → OperationTracingOptions
-    // Reachable via: BetaEvaluatorsDeleteVersionOptionalParams → OperationTracingOptions
-    // Reachable via: BetaEvaluatorsGetVersionOptionalParams → OperationTracingOptions
-    // Reachable via: BetaEvaluatorsListLatestVersionsOptionalParams → OperationTracingOptions
-    // Reachable via: BetaEvaluatorsListVersionsOptionalParams → OperationTracingOptions
-    // Reachable via: BetaEvaluatorsUpdateVersionOptionalParams → OperationTracingOptions
-    // Reachable via: BetaInsightsGenerateOptionalParams → OperationTracingOptions
-    // Reachable via: BetaInsightsGetOptionalParams → OperationTracingOptions
-    // Reachable via: BetaInsightsListOptionalParams → OperationTracingOptions
-    // Reachable via: BetaMemoryStoresCreateOptionalParams → OperationTracingOptions
-    // Reachable via: BetaMemoryStoresDeleteOptionalParams → OperationTracingOptions
-    // Reachable via: BetaMemoryStoresDeleteScopeOptionalParams → OperationTracingOptions
-    // Reachable via: BetaMemoryStoresGetOptionalParams → OperationTracingOptions
-    // Reachable via: BetaMemoryStoresGetUpdateResultOptionalParams → OperationTracingOptions
-    // Reachable via: BetaMemoryStoresListOptionalParams → OperationTracingOptions
-    // Reachable via: BetaMemoryStoresSearchMemoriesOptionalParams → OperationTracingOptions
-    // Reachable via: BetaMemoryStoresUpdateMemoriesOptionalParams → OperationTracingOptions
-    // Reachable via: BetaMemoryStoresUpdateOptionalParams → OperationTracingOptions
-    // Reachable via: BetaOperations → OperationTracingOptions
-    // Reachable via: BetaRedTeamsCreateOptionalParams → OperationTracingOptions
-    // Reachable via: BetaRedTeamsGetOptionalParams → OperationTracingOptions
-    // Reachable via: BetaRedTeamsListOptionalParams → OperationTracingOptions
-    // Reachable via: BetaSchedulesCreateOrUpdateOptionalParams → OperationTracingOptions
-    // Reachable via: BetaSchedulesDeleteOptionalParams → OperationTracingOptions
-    // Reachable via: BetaSchedulesGetOptionalParams → OperationTracingOptions
-    // Reachable via: BetaSchedulesGetRunOptionalParams → OperationTracingOptions
-    // Reachable via: BetaSchedulesListOptionalParams → OperationTracingOptions
-    // Reachable via: BetaSchedulesListRunsOptionalParams → OperationTracingOptions
-    // Reachable via: BetaSchedulesOperations → OperationTracingOptions
-    // Reachable via: ConnectionsGetDefaultOptionalParams → OperationTracingOptions
-    // Reachable via: ConnectionsGetOptionalParams → OperationTracingOptions
-    // Reachable via: ConnectionsGetWithCredentialsOptionalParams → OperationTracingOptions
-    // Reachable via: ConnectionsListOptionalParams → OperationTracingOptions
-    // Reachable via: ConnectionsOperations → OperationTracingOptions
     // Reachable via: DatasetUploadOptions → OperationTracingOptions
-    // Reachable via: DatasetsCreateOrUpdateOptionalParams → OperationTracingOptions
-    // Reachable via: DatasetsDeleteOptionalParams → OperationTracingOptions
-    // Reachable via: DatasetsGetCredentialsOptionalParams → OperationTracingOptions
-    // Reachable via: DatasetsGetOptionalParams → OperationTracingOptions
-    // Reachable via: DatasetsListOptionalParams → OperationTracingOptions
-    // Reachable via: DatasetsListVersionsOptionalParams → OperationTracingOptions
-    // Reachable via: DatasetsOperations → OperationTracingOptions
-    // Reachable via: DatasetsPendingUploadOptionalParams → OperationTracingOptions
-    // Reachable via: DeploymentsGetOptionalParams → OperationTracingOptions
-    // Reachable via: DeploymentsListOptionalParams → OperationTracingOptions
-    // Reachable via: DeploymentsOperations → OperationTracingOptions
-    // Reachable via: EvaluationRulesCreateOrUpdateOptionalParams → OperationTracingOptions
-    // Reachable via: EvaluationRulesDeleteOptionalParams → OperationTracingOptions
-    // Reachable via: EvaluationRulesGetOptionalParams → OperationTracingOptions
-    // Reachable via: EvaluationRulesListOptionalParams → OperationTracingOptions
-    // Reachable via: EvaluationRulesOperations → OperationTracingOptions
-    // Reachable via: IndexesCreateOrUpdateOptionalParams → OperationTracingOptions
-    // Reachable via: IndexesDeleteOptionalParams → OperationTracingOptions
-    // Reachable via: IndexesGetOptionalParams → OperationTracingOptions
-    // Reachable via: IndexesListOptionalParams → OperationTracingOptions
-    // Reachable via: IndexesListVersionsOptionalParams → OperationTracingOptions
-    // Reachable via: IndexesOperations → OperationTracingOptions
-    // Reachable via: TelemetryOperations → OperationTracingOptions
     /** Tracing options to set on an operation. */
     export interface OperationTracingOptions {
         tracingContext?: TracingContext;
@@ -2021,83 +3297,8 @@ declare module "@azure/core-tracing" { // 1.3.2
 
 
     // Reachable via: AIProjectClient → TracingContext
-    // Reachable via: AIProjectClientOptionalParams → TracingContext
-    // Reachable via: AgentsCreateAgentFromManifestOptionalParams → TracingContext
-    // Reachable via: AgentsCreateAgentVersionFromManifestOptionalParams → TracingContext
-    // Reachable via: AgentsCreateOptionalParams → TracingContext
     // Reachable via: AgentsCreateVersionOptionalParams → TracingContext
-    // Reachable via: AgentsDeleteOptionalParams → TracingContext
-    // Reachable via: AgentsDeleteVersionOptionalParams → TracingContext
-    // Reachable via: AgentsGetOptionalParams → TracingContext
-    // Reachable via: AgentsGetVersionOptionalParams → TracingContext
-    // Reachable via: AgentsListOptionalParams → TracingContext
-    // Reachable via: AgentsListVersionsOptionalParams → TracingContext
-    // Reachable via: AgentsOperations → TracingContext
-    // Reachable via: AgentsUpdateAgentFromManifestOptionalParams → TracingContext
-    // Reachable via: AgentsUpdateOptionalParams → TracingContext
-    // Reachable via: BetaEvaluationTaxonomiesCreateOptionalParams → TracingContext
-    // Reachable via: BetaEvaluationTaxonomiesDeleteOptionalParams → TracingContext
-    // Reachable via: BetaEvaluationTaxonomiesGetOptionalParams → TracingContext
-    // Reachable via: BetaEvaluationTaxonomiesListOptionalParams → TracingContext
-    // Reachable via: BetaEvaluationTaxonomiesUpdateOptionalParams → TracingContext
-    // Reachable via: BetaEvaluatorsCreateVersionOptionalParams → TracingContext
-    // Reachable via: BetaEvaluatorsDeleteVersionOptionalParams → TracingContext
-    // Reachable via: BetaEvaluatorsGetVersionOptionalParams → TracingContext
-    // Reachable via: BetaEvaluatorsListLatestVersionsOptionalParams → TracingContext
-    // Reachable via: BetaEvaluatorsListVersionsOptionalParams → TracingContext
-    // Reachable via: BetaEvaluatorsUpdateVersionOptionalParams → TracingContext
-    // Reachable via: BetaInsightsGenerateOptionalParams → TracingContext
-    // Reachable via: BetaInsightsGetOptionalParams → TracingContext
-    // Reachable via: BetaInsightsListOptionalParams → TracingContext
-    // Reachable via: BetaMemoryStoresCreateOptionalParams → TracingContext
-    // Reachable via: BetaMemoryStoresDeleteOptionalParams → TracingContext
-    // Reachable via: BetaMemoryStoresDeleteScopeOptionalParams → TracingContext
-    // Reachable via: BetaMemoryStoresGetOptionalParams → TracingContext
-    // Reachable via: BetaMemoryStoresGetUpdateResultOptionalParams → TracingContext
-    // Reachable via: BetaMemoryStoresListOptionalParams → TracingContext
-    // Reachable via: BetaMemoryStoresSearchMemoriesOptionalParams → TracingContext
-    // Reachable via: BetaMemoryStoresUpdateMemoriesOptionalParams → TracingContext
-    // Reachable via: BetaMemoryStoresUpdateOptionalParams → TracingContext
-    // Reachable via: BetaOperations → TracingContext
-    // Reachable via: BetaRedTeamsCreateOptionalParams → TracingContext
-    // Reachable via: BetaRedTeamsGetOptionalParams → TracingContext
-    // Reachable via: BetaRedTeamsListOptionalParams → TracingContext
-    // Reachable via: BetaSchedulesCreateOrUpdateOptionalParams → TracingContext
-    // Reachable via: BetaSchedulesDeleteOptionalParams → TracingContext
-    // Reachable via: BetaSchedulesGetOptionalParams → TracingContext
-    // Reachable via: BetaSchedulesGetRunOptionalParams → TracingContext
-    // Reachable via: BetaSchedulesListOptionalParams → TracingContext
-    // Reachable via: BetaSchedulesListRunsOptionalParams → TracingContext
-    // Reachable via: BetaSchedulesOperations → TracingContext
-    // Reachable via: ConnectionsGetDefaultOptionalParams → TracingContext
-    // Reachable via: ConnectionsGetOptionalParams → TracingContext
-    // Reachable via: ConnectionsGetWithCredentialsOptionalParams → TracingContext
-    // Reachable via: ConnectionsListOptionalParams → TracingContext
-    // Reachable via: ConnectionsOperations → TracingContext
     // Reachable via: DatasetUploadOptions → TracingContext
-    // Reachable via: DatasetsCreateOrUpdateOptionalParams → TracingContext
-    // Reachable via: DatasetsDeleteOptionalParams → TracingContext
-    // Reachable via: DatasetsGetCredentialsOptionalParams → TracingContext
-    // Reachable via: DatasetsGetOptionalParams → TracingContext
-    // Reachable via: DatasetsListOptionalParams → TracingContext
-    // Reachable via: DatasetsListVersionsOptionalParams → TracingContext
-    // Reachable via: DatasetsOperations → TracingContext
-    // Reachable via: DatasetsPendingUploadOptionalParams → TracingContext
-    // Reachable via: DeploymentsGetOptionalParams → TracingContext
-    // Reachable via: DeploymentsListOptionalParams → TracingContext
-    // Reachable via: DeploymentsOperations → TracingContext
-    // Reachable via: EvaluationRulesCreateOrUpdateOptionalParams → TracingContext
-    // Reachable via: EvaluationRulesDeleteOptionalParams → TracingContext
-    // Reachable via: EvaluationRulesGetOptionalParams → TracingContext
-    // Reachable via: EvaluationRulesListOptionalParams → TracingContext
-    // Reachable via: EvaluationRulesOperations → TracingContext
-    // Reachable via: IndexesCreateOrUpdateOptionalParams → TracingContext
-    // Reachable via: IndexesDeleteOptionalParams → TracingContext
-    // Reachable via: IndexesGetOptionalParams → TracingContext
-    // Reachable via: IndexesListOptionalParams → TracingContext
-    // Reachable via: IndexesListVersionsOptionalParams → TracingContext
-    // Reachable via: IndexesOperations → TracingContext
-    // Reachable via: TelemetryOperations → TracingContext
     /** An immutable context bag of tracing values for the current operation. */
     export interface TracingContext {
         setValue(key: symbol, value: unknown): TracingContext;
@@ -2111,83 +3312,8 @@ declare module "@azure/core-tracing" { // 1.3.2
 declare module "@azure/core-util" { // 1.13.2
 
     // Reachable via: AIProjectClient → HttpMethods
-    // Reachable via: AIProjectClientOptionalParams → HttpMethods
-    // Reachable via: AgentsCreateAgentFromManifestOptionalParams → HttpMethods
-    // Reachable via: AgentsCreateAgentVersionFromManifestOptionalParams → HttpMethods
-    // Reachable via: AgentsCreateOptionalParams → HttpMethods
     // Reachable via: AgentsCreateVersionOptionalParams → HttpMethods
-    // Reachable via: AgentsDeleteOptionalParams → HttpMethods
-    // Reachable via: AgentsDeleteVersionOptionalParams → HttpMethods
-    // Reachable via: AgentsGetOptionalParams → HttpMethods
-    // Reachable via: AgentsGetVersionOptionalParams → HttpMethods
-    // Reachable via: AgentsListOptionalParams → HttpMethods
-    // Reachable via: AgentsListVersionsOptionalParams → HttpMethods
-    // Reachable via: AgentsOperations → HttpMethods
-    // Reachable via: AgentsUpdateAgentFromManifestOptionalParams → HttpMethods
-    // Reachable via: AgentsUpdateOptionalParams → HttpMethods
-    // Reachable via: BetaEvaluationTaxonomiesCreateOptionalParams → HttpMethods
-    // Reachable via: BetaEvaluationTaxonomiesDeleteOptionalParams → HttpMethods
-    // Reachable via: BetaEvaluationTaxonomiesGetOptionalParams → HttpMethods
-    // Reachable via: BetaEvaluationTaxonomiesListOptionalParams → HttpMethods
-    // Reachable via: BetaEvaluationTaxonomiesUpdateOptionalParams → HttpMethods
-    // Reachable via: BetaEvaluatorsCreateVersionOptionalParams → HttpMethods
-    // Reachable via: BetaEvaluatorsDeleteVersionOptionalParams → HttpMethods
-    // Reachable via: BetaEvaluatorsGetVersionOptionalParams → HttpMethods
-    // Reachable via: BetaEvaluatorsListLatestVersionsOptionalParams → HttpMethods
-    // Reachable via: BetaEvaluatorsListVersionsOptionalParams → HttpMethods
-    // Reachable via: BetaEvaluatorsUpdateVersionOptionalParams → HttpMethods
-    // Reachable via: BetaInsightsGenerateOptionalParams → HttpMethods
-    // Reachable via: BetaInsightsGetOptionalParams → HttpMethods
-    // Reachable via: BetaInsightsListOptionalParams → HttpMethods
-    // Reachable via: BetaMemoryStoresCreateOptionalParams → HttpMethods
-    // Reachable via: BetaMemoryStoresDeleteOptionalParams → HttpMethods
-    // Reachable via: BetaMemoryStoresDeleteScopeOptionalParams → HttpMethods
-    // Reachable via: BetaMemoryStoresGetOptionalParams → HttpMethods
-    // Reachable via: BetaMemoryStoresGetUpdateResultOptionalParams → HttpMethods
-    // Reachable via: BetaMemoryStoresListOptionalParams → HttpMethods
-    // Reachable via: BetaMemoryStoresSearchMemoriesOptionalParams → HttpMethods
-    // Reachable via: BetaMemoryStoresUpdateMemoriesOptionalParams → HttpMethods
-    // Reachable via: BetaMemoryStoresUpdateOptionalParams → HttpMethods
-    // Reachable via: BetaOperations → HttpMethods
-    // Reachable via: BetaRedTeamsCreateOptionalParams → HttpMethods
-    // Reachable via: BetaRedTeamsGetOptionalParams → HttpMethods
-    // Reachable via: BetaRedTeamsListOptionalParams → HttpMethods
-    // Reachable via: BetaSchedulesCreateOrUpdateOptionalParams → HttpMethods
-    // Reachable via: BetaSchedulesDeleteOptionalParams → HttpMethods
-    // Reachable via: BetaSchedulesGetOptionalParams → HttpMethods
-    // Reachable via: BetaSchedulesGetRunOptionalParams → HttpMethods
-    // Reachable via: BetaSchedulesListOptionalParams → HttpMethods
-    // Reachable via: BetaSchedulesListRunsOptionalParams → HttpMethods
-    // Reachable via: BetaSchedulesOperations → HttpMethods
-    // Reachable via: ConnectionsGetDefaultOptionalParams → HttpMethods
-    // Reachable via: ConnectionsGetOptionalParams → HttpMethods
-    // Reachable via: ConnectionsGetWithCredentialsOptionalParams → HttpMethods
-    // Reachable via: ConnectionsListOptionalParams → HttpMethods
-    // Reachable via: ConnectionsOperations → HttpMethods
     // Reachable via: DatasetUploadOptions → HttpMethods
-    // Reachable via: DatasetsCreateOrUpdateOptionalParams → HttpMethods
-    // Reachable via: DatasetsDeleteOptionalParams → HttpMethods
-    // Reachable via: DatasetsGetCredentialsOptionalParams → HttpMethods
-    // Reachable via: DatasetsGetOptionalParams → HttpMethods
-    // Reachable via: DatasetsListOptionalParams → HttpMethods
-    // Reachable via: DatasetsListVersionsOptionalParams → HttpMethods
-    // Reachable via: DatasetsOperations → HttpMethods
-    // Reachable via: DatasetsPendingUploadOptionalParams → HttpMethods
-    // Reachable via: DeploymentsGetOptionalParams → HttpMethods
-    // Reachable via: DeploymentsListOptionalParams → HttpMethods
-    // Reachable via: DeploymentsOperations → HttpMethods
-    // Reachable via: EvaluationRulesCreateOrUpdateOptionalParams → HttpMethods
-    // Reachable via: EvaluationRulesDeleteOptionalParams → HttpMethods
-    // Reachable via: EvaluationRulesGetOptionalParams → HttpMethods
-    // Reachable via: EvaluationRulesListOptionalParams → HttpMethods
-    // Reachable via: EvaluationRulesOperations → HttpMethods
-    // Reachable via: IndexesCreateOrUpdateOptionalParams → HttpMethods
-    // Reachable via: IndexesDeleteOptionalParams → HttpMethods
-    // Reachable via: IndexesGetOptionalParams → HttpMethods
-    // Reachable via: IndexesListOptionalParams → HttpMethods
-    // Reachable via: IndexesListVersionsOptionalParams → HttpMethods
-    // Reachable via: IndexesOperations → HttpMethods
-    // Reachable via: TelemetryOperations → HttpMethods
     /** Supported HTTP methods to use when making requests. */
     export type HttpMethods = "GET" | "PUT" | "POST" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS" | "TRACE";
 
@@ -2197,7 +3323,6 @@ declare module "@azure/core-util" { // 1.13.2
 declare module "@azure/logger" { // 1.3.1
 
     // Reachable via: AIProjectClient → Debugger
-    // Reachable via: AIProjectClientOptionalParams → Debugger
     /** A log function that can be dynamically enabled and redirected. */
     export interface Debugger {
         enabled: boolean;
@@ -3040,7 +4165,6 @@ declare module "openai" { // 6.34.0
 
 
     // Reachable via: AIProjectClient → ClientOptions
-    // Reachable via: AIProjectClientOptionalParams → ClientOptions
     export interface ClientOptions {
         apiKey?: string | ApiKeySetter | undefined;
         organization?: string | null | undefined;
@@ -7968,36 +9092,7 @@ declare module "openai" { // 6.34.0
     }
 
 
-    // Reachable via: A2APreviewTool → Tool
     // Reachable via: AIProjectClient → Tool
-    // Reachable via: AgentDefinitionUnion → Tool
-    // Reachable via: AgentVersion → Tool
-    // Reachable via: AgentsOperations → Tool
-    // Reachable via: ApplyPatchToolParam → Tool
-    // Reachable via: AzureAISearchTool → Tool
-    // Reachable via: AzureFunctionTool → Tool
-    // Reachable via: BingCustomSearchPreviewTool → Tool
-    // Reachable via: BingGroundingTool → Tool
-    // Reachable via: BrowserAutomationPreviewTool → Tool
-    // Reachable via: CaptureStructuredOutputsTool → Tool
-    // Reachable via: CodeInterpreterTool → Tool
-    // Reachable via: ComputerUsePreviewTool → Tool
-    // Reachable via: CustomToolParam → Tool
-    // Reachable via: FileSearchTool → Tool
-    // Reachable via: FunctionShellToolParam → Tool
-    // Reachable via: FunctionTool → Tool
-    // Reachable via: HostedAgentDefinition → Tool
-    // Reachable via: ImageGenTool → Tool
-    // Reachable via: LocalShellToolParam → Tool
-    // Reachable via: MCPTool → Tool
-    // Reachable via: MemorySearchPreviewTool → Tool
-    // Reachable via: MicrosoftFabricPreviewTool → Tool
-    // Reachable via: OpenApiTool → Tool
-    // Reachable via: PromptAgentDefinition → Tool
-    // Reachable via: SharepointPreviewTool → Tool
-    // Reachable via: ToolUnion → Tool
-    // Reachable via: WebSearchPreviewTool → Tool
-    // Reachable via: WebSearchTool → Tool
     export interface Tool {
         description?: string;
         name?: string;
@@ -8007,24 +9102,12 @@ declare module "openai" { // 6.34.0
 
 
     // Reachable via: AIProjectClient → CodeInterpreterTool
-    // Reachable via: AgentDefinitionUnion → CodeInterpreterTool
-    // Reachable via: AgentVersion → CodeInterpreterTool
-    // Reachable via: AgentsOperations → CodeInterpreterTool
-    // Reachable via: HostedAgentDefinition → CodeInterpreterTool
-    // Reachable via: PromptAgentDefinition → CodeInterpreterTool
-    // Reachable via: ToolUnion → CodeInterpreterTool
     export interface CodeInterpreterTool {
         type: 'code_interpreter';
     }
 
 
     // Reachable via: AIProjectClient → FileSearchTool
-    // Reachable via: AgentDefinitionUnion → FileSearchTool
-    // Reachable via: AgentVersion → FileSearchTool
-    // Reachable via: AgentsOperations → FileSearchTool
-    // Reachable via: HostedAgentDefinition → FileSearchTool
-    // Reachable via: PromptAgentDefinition → FileSearchTool
-    // Reachable via: ToolUnion → FileSearchTool
     export interface FileSearchTool {
         type: 'file_search';
         file_search?: FileSearchTool.FileSearch;
@@ -8032,12 +9115,6 @@ declare module "openai" { // 6.34.0
 
 
     // Reachable via: AIProjectClient → FunctionTool
-    // Reachable via: AgentDefinitionUnion → FunctionTool
-    // Reachable via: AgentVersion → FunctionTool
-    // Reachable via: AgentsOperations → FunctionTool
-    // Reachable via: HostedAgentDefinition → FunctionTool
-    // Reachable via: PromptAgentDefinition → FunctionTool
-    // Reachable via: ToolUnion → FunctionTool
     export interface FunctionTool {
         function: FunctionDefinition;
         type: 'function';
@@ -8045,15 +9122,6 @@ declare module "openai" { // 6.34.0
 
 
     // Reachable via: AIProjectClient → ComparisonFilter
-    // Reachable via: AgentDefinitionUnion → ComparisonFilter
-    // Reachable via: AgentVersion → ComparisonFilter
-    // Reachable via: AgentsOperations → ComparisonFilter
-    // Reachable via: CompoundFilter → ComparisonFilter
-    // Reachable via: FileSearchTool → ComparisonFilter
-    // Reachable via: Filters → ComparisonFilter
-    // Reachable via: HostedAgentDefinition → ComparisonFilter
-    // Reachable via: PromptAgentDefinition → ComparisonFilter
-    // Reachable via: ToolUnion → ComparisonFilter
     /** A filter used to compare a specified attribute key to a given value using a
     defined comparison operation. */
     export interface ComparisonFilter {
@@ -8064,14 +9132,6 @@ declare module "openai" { // 6.34.0
 
 
     // Reachable via: AIProjectClient → CompoundFilter
-    // Reachable via: AgentDefinitionUnion → CompoundFilter
-    // Reachable via: AgentVersion → CompoundFilter
-    // Reachable via: AgentsOperations → CompoundFilter
-    // Reachable via: FileSearchTool → CompoundFilter
-    // Reachable via: Filters → CompoundFilter
-    // Reachable via: HostedAgentDefinition → CompoundFilter
-    // Reachable via: PromptAgentDefinition → CompoundFilter
-    // Reachable via: ToolUnion → CompoundFilter
     /** Combine multiple filters using `and` or `or`. */
     export interface CompoundFilter {
         filters: Array<ComparisonFilter | unknown>;
@@ -8080,12 +9140,6 @@ declare module "openai" { // 6.34.0
 
 
     // Reachable via: AIProjectClient → ComputerUsePreviewTool
-    // Reachable via: AgentDefinitionUnion → ComputerUsePreviewTool
-    // Reachable via: AgentVersion → ComputerUsePreviewTool
-    // Reachable via: AgentsOperations → ComputerUsePreviewTool
-    // Reachable via: HostedAgentDefinition → ComputerUsePreviewTool
-    // Reachable via: PromptAgentDefinition → ComputerUsePreviewTool
-    // Reachable via: ToolUnion → ComputerUsePreviewTool
     /** A tool that controls a virtual computer. Learn more about the
     [computer tool](https://platform.openai.com/docs/guides/tools-computer-use). */
     export interface ComputerUsePreviewTool {
@@ -8097,12 +9151,6 @@ declare module "openai" { // 6.34.0
 
 
     // Reachable via: AIProjectClient → WebSearchTool
-    // Reachable via: AgentDefinitionUnion → WebSearchTool
-    // Reachable via: AgentVersion → WebSearchTool
-    // Reachable via: AgentsOperations → WebSearchTool
-    // Reachable via: HostedAgentDefinition → WebSearchTool
-    // Reachable via: PromptAgentDefinition → WebSearchTool
-    // Reachable via: ToolUnion → WebSearchTool
     /** Search the Internet for sources related to the prompt. Learn more about the
     [web search tool](https://platform.openai.com/docs/guides/tools-web-search). */
     export interface WebSearchTool {
@@ -8114,13 +9162,6 @@ declare module "openai" { // 6.34.0
 
 
     // Reachable via: AIProjectClient → Filters
-    // Reachable via: AgentDefinitionUnion → Filters
-    // Reachable via: AgentVersion → Filters
-    // Reachable via: AgentsOperations → Filters
-    // Reachable via: FileSearchTool → Filters
-    // Reachable via: HostedAgentDefinition → Filters
-    // Reachable via: PromptAgentDefinition → Filters
-    // Reachable via: ToolUnion → Filters
     /** Filters for the search. */
     export interface Filters {
         allowed_domains?: Array<string> | null;
@@ -8128,12 +9169,6 @@ declare module "openai" { // 6.34.0
 
 
     // Reachable via: AIProjectClient → WebSearchPreviewTool
-    // Reachable via: AgentDefinitionUnion → WebSearchPreviewTool
-    // Reachable via: AgentVersion → WebSearchPreviewTool
-    // Reachable via: AgentsOperations → WebSearchPreviewTool
-    // Reachable via: HostedAgentDefinition → WebSearchPreviewTool
-    // Reachable via: PromptAgentDefinition → WebSearchPreviewTool
-    // Reachable via: ToolUnion → WebSearchPreviewTool
     /** This tool searches the web for relevant results to use in a response. Learn more
     about the
     [web search tool](https://platform.openai.com/docs/guides/tools-web-search). */
@@ -8146,11 +9181,6 @@ declare module "openai" { // 6.34.0
 
 
     // Reachable via: AIProjectClient → ToolChoiceAllowed
-    // Reachable via: AgentDefinitionUnion → ToolChoiceAllowed
-    // Reachable via: AgentVersion → ToolChoiceAllowed
-    // Reachable via: AgentsOperations → ToolChoiceAllowed
-    // Reachable via: PromptAgentDefinition → ToolChoiceAllowed
-    // Reachable via: ToolChoiceParamUnion → ToolChoiceAllowed
     /** Constrains the tools available to the model to a pre-defined set. */
     export interface ToolChoiceAllowed {
         mode: 'auto' | 'required';
@@ -8162,11 +9192,6 @@ declare module "openai" { // 6.34.0
 
 
     // Reachable via: AIProjectClient → ToolChoiceFunction
-    // Reachable via: AgentDefinitionUnion → ToolChoiceFunction
-    // Reachable via: AgentVersion → ToolChoiceFunction
-    // Reachable via: AgentsOperations → ToolChoiceFunction
-    // Reachable via: PromptAgentDefinition → ToolChoiceFunction
-    // Reachable via: ToolChoiceParamUnion → ToolChoiceFunction
     /** Use this option to force the model to call a specific function. */
     export interface ToolChoiceFunction {
         name: string;
@@ -8175,11 +9200,6 @@ declare module "openai" { // 6.34.0
 
 
     // Reachable via: AIProjectClient → ToolChoiceCustom
-    // Reachable via: AgentDefinitionUnion → ToolChoiceCustom
-    // Reachable via: AgentVersion → ToolChoiceCustom
-    // Reachable via: AgentsOperations → ToolChoiceCustom
-    // Reachable via: PromptAgentDefinition → ToolChoiceCustom
-    // Reachable via: ToolChoiceParamUnion → ToolChoiceCustom
     /** Use this option to force the model to call a specific custom tool. */
     export interface ToolChoiceCustom {
         name: string;
@@ -8188,10 +9208,6 @@ declare module "openai" { // 6.34.0
 
 
     // Reachable via: AIProjectClient → Reasoning
-    // Reachable via: AgentDefinitionUnion → Reasoning
-    // Reachable via: AgentVersion → Reasoning
-    // Reachable via: AgentsOperations → Reasoning
-    // Reachable via: PromptAgentDefinition → Reasoning
     /** **gpt-5 and o-series models only**
 
     Configuration options for
@@ -11850,11 +12866,6 @@ declare module "openai" { // 6.34.0
 
 
     // Reachable via: AIProjectClient → ReasoningEffort
-    // Reachable via: AgentDefinitionUnion → ReasoningEffort
-    // Reachable via: AgentVersion → ReasoningEffort
-    // Reachable via: AgentsOperations → ReasoningEffort
-    // Reachable via: PromptAgentDefinition → ReasoningEffort
-    // Reachable via: Reasoning → ReasoningEffort
     /** Constrains effort on reasoning for
     [reasoning models](https://platform.openai.com/docs/guides/reasoning). Currently
     supported values are `none`, `minimal`, `low`, `medium`, `high`, and `xhigh`.
@@ -12671,13 +13682,6 @@ declare module "openai" { // 6.34.0
 
 
     // Reachable via: AIProjectClient → RankingOptions
-    // Reachable via: AgentDefinitionUnion → RankingOptions
-    // Reachable via: AgentVersion → RankingOptions
-    // Reachable via: AgentsOperations → RankingOptions
-    // Reachable via: FileSearchTool → RankingOptions
-    // Reachable via: HostedAgentDefinition → RankingOptions
-    // Reachable via: PromptAgentDefinition → RankingOptions
-    // Reachable via: ToolUnion → RankingOptions
     export type RankingOptions = unknown;
 
 
@@ -47496,4612 +48500,4 @@ declare module "openai" { // 6.34.0
     }
 
 
-}
-
-declare module "@azure/ai-projects" { // 2.0.2
-    import type { AdditionalPolicyConfig, OperationOptions, OperationRequestOptions, FullOperationResponse, ClientOptions, RawResponseCallback } from "@azure-rest/core-client";
-    import type { AbortSignalLike } from "@azure/abort-controller";
-    import type { TokenCredential, AccessToken, GetTokenOptions, TracingContext } from "@azure/core-auth";
-    import type { PollerLike, OperationStatus, CancelOnProgress } from "@azure/core-lro";
-    import type { OperationState as _corelro_OperationState } from "@azure/core-lro";
-    import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-    import type { PipelineOptions, PipelineRetryOptions, ProxySettings, TlsSettings, KeyObject, PxfObject, RedirectPolicyOptions, UserAgentPolicyOptions, TelemetryOptions, PipelinePolicy, PipelineResponse, PipelineRequest, HttpHeaders, MultipartRequestBody, BodyPart, HttpClient, LogPolicyOptions, Pipeline, AddPolicyOptions, RawHttpHeaders, RequestBodyType, FormDataMap, FormDataValue, TransferProgressEvent, SendRequest, RawHttpHeadersInput, PipelinePhase } from "@azure/core-rest-pipeline";
-    import type { Agent as _corerestpipeline_Agent } from "@azure/core-rest-pipeline";
-    import type { OperationTracingOptions } from "@azure/core-tracing";
-    import type { TracingContext as _coretracing_TracingContext } from "@azure/core-tracing";
-    import type { HttpMethods } from "@azure/core-util";
-    import type { Debugger } from "@azure/logger";
-    import type { OpenAI, APIPromise, PagePromise, Completions, APIResource, Chat, Messages, CursorPage, AbstractPage, ChatCompletionRunner, EventStream, ChatCompletionStream, Embeddings, Files, Images, Transcriptions, Translations, Speech, Moderations, Models, Page, FineTuning, Methods, Jobs, Checkpoints, Permissions, Alpha, Graders, GraderModels, VectorStores, FileBatches, Content, Webhooks, Beta, Realtime, Sessions, TranscriptionSessions, ChatKit, Threads, ConversationCursorPage, Assistants, Runs, Steps, AssistantStream, OpenAIError, APIUserAbortError, APIError, Batches, Uploads, Parts, InputItems, InputTokens, ResponseStream, ClientSecrets, Calls, Conversations, Items, Evals, OutputItems, Containers, Skills, Versions, Videos, Stream, APIConnectionError, APIConnectionTimeoutError, NotFoundError, ConflictError, RateLimitError, BadRequestError, AuthenticationError, InternalServerError, PermissionDeniedError, UnprocessableEntityError, InvalidWebhookSignatureError, ChatCompletionStreamingRunner, AbstractChatCompletionRunner, WorkloadIdentity, SubjectTokenProvider, Completion, CompletionChoice, CompletionUsage, CompletionTokensDetails, PromptTokensDetails, ChatCompletionStoreMessage, ChatCompletionMessage, Annotation, URLCitation, ChatCompletionAudio, FunctionCall, ChatCompletionMessageFunctionToolCall, Function, ChatCompletionMessageCustomToolCall, Custom, ChatCompletionContentPartText, ChatCompletionContentPartImage, ImageURL, ChatCompletion, Choice, ChatCompletionTokenLogprob, ChatCompletionDeleted, ParsedChatCompletion, ParsedChoice, ParsedChatCompletionMessage, ParsedFunctionToolCall, ParsedFunction, ChatCompletionDeveloperMessageParam, ChatCompletionSystemMessageParam, ChatCompletionUserMessageParam, ChatCompletionContentPartInputAudio, InputAudio, File, ChatCompletionAssistantMessageParam, Audio, ChatCompletionContentPartRefusal, ChatCompletionToolMessageParam, ChatCompletionFunctionMessageParam, ChatCompletionSnapshot, Message, ChatCompletionChunk, CreateEmbeddingResponse, Embedding, FileObject, FileDeleted, ImagesResponse, Image, InputTokensDetails, OutputTokensDetails, Transcription, Logprob, Tokens, Duration, Translation, ModerationCreateResponse, Moderation, Categories, CategoryAppliedInputTypes, CategoryScores, Model, ModelDeleted, FineTuningJobCheckpoint, Metrics, FineTuningJob, Error, Hyperparameters, FineTuningJobWandbIntegrationObject, FineTuningJobWandbIntegration, Method, DpoMethod, DpoHyperparameters, ReinforcementMethod, StringCheckGrader, TextSimilarityGrader, PythonGrader, ScoreModelGrader, ResponseInputText, ResponseInputAudio, SamplingParams, MultiGrader, LabelModelGrader, ReinforcementHyperparameters, SupervisedMethod, SupervisedHyperparameters, FineTuningJobEvent, GraderRunResponse, Errors, GraderValidateResponse, VectorStoreFile, LastError, StaticFileChunkingStrategyObject, StaticFileChunkingStrategy, OtherFileChunkingStrategyObject, VectorStoreFileDeleted, FileContentResponse, VectorStoreFileBatch, FileCounts, VectorStore, ExpiresAfter, VectorStoreDeleted, VectorStoreSearchResponse, BatchCancelledWebhookEvent, Data, BatchCompletedWebhookEvent, BatchExpiredWebhookEvent, BatchFailedWebhookEvent, EvalRunCanceledWebhookEvent, EvalRunFailedWebhookEvent, EvalRunSucceededWebhookEvent, FineTuningJobCancelledWebhookEvent, FineTuningJobFailedWebhookEvent, FineTuningJobSucceededWebhookEvent, RealtimeCallIncomingWebhookEvent, ResponseCancelledWebhookEvent, ResponseCompletedWebhookEvent, ResponseFailedWebhookEvent, ResponseIncompleteWebhookEvent, SessionCreateResponse, ClientSecret, InputAudioTranscription, TracingConfiguration, TurnDetection, TranscriptionSession, ChatSession, ChatSessionChatKitConfiguration, ChatSessionAutomaticThreadTitling, ChatSessionFileUpload, ChatSessionHistory, ChatSessionRateLimits, ChatKitWorkflow, Tracing, ChatKitThread, Active, Locked, Closed, ThreadDeleteResponse, ChatKitThreadUserMessageItem, ChatKitAttachment, InputText, QuotedText, InferenceOptions, ChatKitThreadAssistantMessageItem, ChatKitResponseOutputText, URL, ChatKitWidgetItem, ChatKitClientToolCall, ChatKitTask, ChatKitTaskGroup, Assistant, FunctionDefinition, ResponseFormatText, ResponseFormatJSONObject, ResponseFormatJSONSchema, JSONSchema, ToolResources, CodeInterpreter, AssistantDeleted, RunStep, MessageCreationStepDetails, MessageCreation, ToolCallsStepDetails, CodeInterpreterToolCall, Logs, FileSearchToolCall, Result, FunctionToolCall, Run, IncompleteDetails, RequiredAction, RequiredActionFunctionToolCall, AssistantToolChoice, AssistantToolChoiceFunction, TruncationStrategy, AssistantStreamEvents, BaseEvents, Attachment, ImageFileContentBlock, ImageFile, ImageURLContentBlock, TextContentBlock, RefusalContentBlock, MessageDelta, ImageFileDeltaBlock, ImageFileDelta, TextDeltaBlock, TextDelta, FileCitationDeltaAnnotation, FileCitation, FilePathDeltaAnnotation, FilePath, RefusalDeltaBlock, ImageURLDeltaBlock, ImageURLDelta, RunStepDelta, RunStepDeltaMessageDelta, ToolCallDeltaObject, CodeInterpreterToolCallDelta, CodeInterpreterLogs, CodeInterpreterOutputImage, FileSearchToolCallDelta, FunctionToolCallDelta, ThreadCreated, Thread, ThreadRunCreated, ThreadRunQueued, ThreadRunInProgress, ThreadRunRequiresAction, ThreadRunCompleted, ThreadRunIncomplete, ThreadRunFailed, ThreadRunCancelling, ThreadRunCancelled, ThreadRunExpired, ThreadRunStepCreated, ThreadRunStepInProgress, ThreadRunStepDelta, RunStepDeltaEvent, ThreadRunStepCompleted, ThreadRunStepFailed, ThreadRunStepCancelled, ThreadRunStepExpired, ThreadMessageCreated, ThreadMessageInProgress, ThreadMessageDelta, MessageDeltaEvent, ThreadMessageCompleted, ThreadMessageIncomplete, ErrorEvent, MessageDeleted, ThreadDeleted, Batch, BatchError, BatchRequestCounts, BatchUsage, UploadPart, Upload, Responses, ResponseInputMessageItem, ResponseInputImage, ResponseInputFile, ResponseOutputMessage, ResponseOutputText, ContainerFileCitation, ResponseOutputRefusal, ResponseFileSearchToolCall, ResponseComputerToolCall, PendingSafetyCheck, Click, DoubleClick, Drag, Keypress, Move, Screenshot, Scroll, Type, Wait, ResponseComputerToolCallOutputItem, ResponseComputerToolCallOutputScreenshot, AcknowledgedSafetyCheck, ResponseFunctionWebSearch, Search, OpenPage, Find, ResponseFunctionToolCallItem, ResponseFunctionToolCall, ResponseFunctionToolCallOutputItem, ResponseToolSearchCall, ResponseToolSearchOutputItem, ComputerTool, UserLocation, Mcp, ContainerNetworkPolicyDisabled, ContainerNetworkPolicyAllowlist, ContainerNetworkPolicyDomainSecret, ImageGeneration, LocalShell, FunctionShellTool, ContainerAuto, SkillReference, InlineSkill, InlineSkillSource, LocalEnvironment, LocalSkill, ContainerReference, CustomTool, Grammar, NamespaceTool, ToolSearchTool, ApplyPatchTool, ResponseReasoningItem, Summary, ResponseCompactionItem, ImageGenerationCall, ResponseCodeInterpreterToolCall, LocalShellCall, LocalShellCallOutput, ResponseFunctionShellToolCall, ResponseLocalEnvironment, ResponseContainerReference, ResponseFunctionShellToolCallOutput, Timeout, Exit, ResponseApplyPatchToolCall, CreateFile, DeleteFile, UpdateFile, ResponseApplyPatchToolCallOutput, McpListTools, McpApprovalRequest, McpApprovalResponse, McpCall, ResponseCustomToolCallItem, ResponseCustomToolCall, ResponseCustomToolCallOutputItem, ResponseCustomToolCallOutput, InputTokenCountResponse, Response, ParsedResponse, ParsedResponseFunctionToolCall, ParsedResponseOutputMessage, ParsedResponseOutputText, ResponseError, EasyInputMessage, ComputerCallOutput, FunctionCallOutput, ResponseInputTextContent, ResponseInputImageContent, ResponseInputFileContent, ToolSearchCall, ResponseToolSearchOutputItemParam, ResponseCompactionItemParam, ShellCall, ShellCallOutput, ResponseFunctionShellCallOutputContent, ApplyPatchCall, ApplyPatchCallOutput, ItemReference, ToolChoiceTypes, ToolChoiceMcp, ToolChoiceApplyPatch, ToolChoiceShell, Conversation, ResponsePrompt, ResponseTextConfig, ResponseFormatTextJSONSchemaConfig, ResponseUsage, ResponseAudioDeltaEvent, ResponseAudioDoneEvent, ResponseAudioTranscriptDeltaEvent, ResponseAudioTranscriptDoneEvent, ResponseCodeInterpreterCallCodeDeltaEvent, ResponseCodeInterpreterCallCodeDoneEvent, ResponseCodeInterpreterCallCompletedEvent, ResponseCodeInterpreterCallInProgressEvent, ResponseCodeInterpreterCallInterpretingEvent, ResponseCompletedEvent, ResponseContentPartAddedEvent, ReasoningText, ResponseContentPartDoneEvent, ResponseCreatedEvent, ResponseErrorEvent, ResponseFileSearchCallCompletedEvent, ResponseFileSearchCallInProgressEvent, ResponseFileSearchCallSearchingEvent, ResponseFunctionCallArgumentsDeltaEvent, ResponseFunctionCallArgumentsDoneEvent, ResponseInProgressEvent, ResponseFailedEvent, ResponseIncompleteEvent, ResponseOutputItemAddedEvent, ResponseOutputItemDoneEvent, ResponseReasoningSummaryPartAddedEvent, Part, ResponseReasoningSummaryPartDoneEvent, ResponseReasoningSummaryTextDeltaEvent, ResponseReasoningSummaryTextDoneEvent, ResponseReasoningTextDeltaEvent, ResponseReasoningTextDoneEvent, ResponseRefusalDeltaEvent, ResponseRefusalDoneEvent, ResponseTextDeltaEvent, ResponseTextDoneEvent, ResponseWebSearchCallCompletedEvent, ResponseWebSearchCallInProgressEvent, ResponseWebSearchCallSearchingEvent, ResponseImageGenCallCompletedEvent, ResponseImageGenCallGeneratingEvent, ResponseImageGenCallInProgressEvent, ResponseImageGenCallPartialImageEvent, ResponseMcpCallArgumentsDeltaEvent, ResponseMcpCallArgumentsDoneEvent, ResponseMcpCallCompletedEvent, ResponseMcpCallFailedEvent, ResponseMcpCallInProgressEvent, ResponseMcpListToolsCompletedEvent, ResponseMcpListToolsFailedEvent, ResponseMcpListToolsInProgressEvent, ResponseOutputTextAnnotationAddedEvent, ResponseQueuedEvent, ResponseCustomToolCallInputDeltaEvent, ResponseCustomToolCallInputDoneEvent, CompactedResponse, ClientSecretCreateResponse, RealtimeSessionCreateResponse, RealtimeSessionClientSecret, AudioPCM, AudioPCMU, AudioPCMA, AudioTranscription, RealtimeFunctionTool, McpTool, RealtimeTruncationRetentionRatio, TokenLimits, RealtimeTranscriptionSessionCreateResponse, RealtimeTranscriptionSessionTurnDetection, ConversationItemList, TextContent, SummaryTextContent, ComputerScreenshotContent, ConversationDeletedResource, OutputItemRetrieveResponse, Sample, EvalAPIError, OutputItemListResponse, RunCreateResponse, CreateEvalJSONLRunDataSource, FileContent, FileID, CreateEvalCompletionsRunDataSource, StoredCompletions, Template, ChatCompletionFunctionTool, PerModelUsage, PerTestingCriteriaResult, ResultCounts, RunRetrieveResponse, RunListResponse, RunDeleteResponse, RunCancelResponse, EvalCreateResponse, EvalCustomDataSourceConfig, EvalStoredCompletionsDataSourceConfig, EvalGraderTextSimilarity, EvalGraderPython, EvalGraderScoreModel, EvalRetrieveResponse, EvalUpdateResponse, EvalListResponse, EvalDeleteResponse, FileCreateResponse, FileRetrieveResponse, FileListResponse, ContainerCreateResponse, NetworkPolicy, ContainerRetrieveResponse, ContainerListResponse, SkillVersion, DeletedSkillVersion, Skill, DeletedSkill, Video, VideoCreateError, VideoDeleteResponse, VideoCreateCharacterResponse, VideoGetCharacterResponse, FileLike, BlobLike, ResponseLike, FilePropertyBag, PageResponse, CursorPageParams, CursorPageResponse, ConversationCursorPageParams, ConversationCursorPageResponse, CompletionCreateParamsNonStreaming, CompletionCreateParamsBase, ChatCompletionStreamOptions, CompletionCreateParamsStreaming, ChatCompletionCreateParamsNonStreaming, ChatCompletionCreateParamsBase, ChatCompletionAudioParam, ID, ChatCompletionFunctionCallOption, ChatCompletionPredictionContent, ChatCompletionAllowedToolChoice, ChatCompletionAllowedTools, ChatCompletionNamedToolChoice, ChatCompletionNamedToolChoiceCustom, ChatCompletionCustomTool, WebSearchOptions, ChatCompletionCreateParamsStreaming, ChatCompletionUpdateParams, ChatCompletionListParams, RunnerOptions, MessageListParams, EmbeddingCreateParams, FileCreateParams, BunFile, FileListParams, ImageCreateVariationParams, ImageEditParamsNonStreaming, ImageEditParamsBase, ImageEditPartialImageEvent, ImageEditCompletedEvent, ImageEditParamsStreaming, ImageGenerateParamsNonStreaming, ImageGenerateParamsBase, ImageGenPartialImageEvent, ImageGenCompletedEvent, ImageGenerateParamsStreaming, TranscriptionCreateParamsNonStreaming, VadConfig, TranscriptionVerbose, TranscriptionSegment, TranscriptionWord, TranscriptionTextSegmentEvent, TranscriptionTextDeltaEvent, TranscriptionTextDoneEvent, TranscriptionCreateParamsStreaming, TranscriptionCreateParamsBase, TranscriptionDiarized, TranscriptionDiarizedSegment, TranslationCreateParams, TranslationVerbose, SpeechCreateParams, ModerationCreateParams, ModerationImageURLInput, ModerationTextInput, JobCreateParams, Integration, JobListParams, JobListEventsParams, CheckpointListParams, PermissionCreateResponse, PermissionCreateParams, PermissionRetrieveResponse, PermissionRetrieveParams, PermissionListResponse, PermissionListParams, PermissionDeleteResponse, PermissionDeleteParams, GraderRunParams, GraderValidateParams, VectorStoreCreateParams, AutoFileChunkingStrategyParam, StaticFileChunkingStrategyObjectParam, VectorStoreUpdateParams, VectorStoreListParams, VectorStoreSearchParams, FileRetrieveParams, FileUpdateParams, FileDeleteParams, FileContentParams, FileBatchCreateParams, FileBatchRetrieveParams, FileBatchCancelParams, FileBatchListFilesParams, ConversationCreatedEvent, ConversationItemContent, ConversationItemCreateEvent, ConversationItemCreatedEvent, ConversationItemDeleteEvent, ConversationItemDeletedEvent, ConversationItemInputAudioTranscriptionCompletedEvent, TranscriptTextUsageTokens, TranscriptTextUsageDuration, ConversationItemInputAudioTranscriptionDeltaEvent, ConversationItemInputAudioTranscriptionFailedEvent, ConversationItemRetrieveEvent, ConversationItemTruncateEvent, ConversationItemTruncatedEvent, ConversationItemWithReference, InputAudioBufferAppendEvent, InputAudioBufferClearEvent, InputAudioBufferClearedEvent, InputAudioBufferCommitEvent, InputAudioBufferCommittedEvent, InputAudioBufferSpeechStartedEvent, InputAudioBufferSpeechStoppedEvent, RateLimitsUpdatedEvent, RateLimit, OutputAudioBufferClear, ResponseCancelEvent, ResponseCreateEvent, SessionUpdateEvent, Session, TranscriptionSessionUpdate, RealtimeResponse, RealtimeResponseStatus, RealtimeResponseUsage, OutputTokenDetails, ConversationItemRetrieved, ResponseDoneEvent, SessionCreatedEvent, SessionUpdatedEvent, TranscriptionSessionUpdatedEvent, OutputAudioBufferStarted, OutputAudioBufferStopped, OutputAudioBufferCleared, SessionCreateParams, TranscriptionSessionCreateParams, ChatSessionWorkflowParam, ChatSessionChatKitConfigurationParam, AutomaticThreadTitling, FileUpload, History, ChatSessionExpiresAfterParam, ChatSessionRateLimitsParam, ThreadListParams, ThreadListItemsParams, ChatKitThreadItemList, AssistantCreateParams, AssistantUpdateParams, AssistantListParams, ErrorObject, ThreadStreamEvent, ToolOutput, TextContentBlockParam, AdditionalMessage, ThreadCreateAndRunParamsBase, RunCreateParamsBase, ThreadCreateParams, ThreadUpdateParams, ThreadCreateAndRunParamsNonStreaming, ThreadCreateAndRunParamsStreaming, ThreadCreateAndRunPollParams, RunCreateParamsNonStreaming, RunCreateParamsStreaming, RunRetrieveParams, RunUpdateParams, RunListParams, RunCancelParams, RunSubmitToolOutputsParamsNonStreaming, RunSubmitToolOutputsParamsBase, RunSubmitToolOutputsParamsStreaming, StepRetrieveParams, StepListParams, MessageCreateParams, MessageRetrieveParams, MessageUpdateParams, MessageDeleteParams, FileCitationAnnotation, FilePathAnnotation, BatchCreateParams, OutputExpiresAfter, BatchListParams, UploadCreateParams, UploadCompleteParams, PartCreateParams, ResponseCreateParamsNonStreaming, ResponseCreateParamsBase, ContextManagement, ResponseConversationParam, StreamOptions, ResponseCreateParamsStreaming, ResponseRetrieveParamsNonStreaming, ResponseRetrieveParamsBase, ResponseRetrieveParamsStreaming, ResponseCompactParams, ReasoningTextContent, ResponseOutputAudio, ResponsesClientEvent, InputItemListParams, ResponseItemList, InputTokenCountParams, RealtimeConversationItemSystemMessage, RealtimeConversationItemUserMessage, RealtimeConversationItemAssistantMessage, RealtimeConversationItemFunctionCall, RealtimeConversationItemFunctionCallOutput, RealtimeMcpApprovalResponse, RealtimeMcpListTools, RealtimeMcpToolCall, RealtimeMcpProtocolError, RealtimeMcpToolExecutionError, RealtimeMcphttpError, RealtimeMcpApprovalRequest, ConversationItemAdded, ConversationItemDone, LogProbProperties, ConversationItemInputAudioTranscriptionSegment, InputAudioBufferDtmfEventReceivedEvent, InputAudioBufferTimeoutTriggered, McpListToolsCompleted, McpListToolsFailed, McpListToolsInProgress, OutputAudioBufferClearEvent, RealtimeAudioConfig, RealtimeAudioConfigInput, RealtimeAudioConfigOutput, RealtimeResponseCreateParams, RealtimeResponseCreateAudioOutput, RealtimeResponseCreateMcpTool, RealtimeSessionCreateRequest, RealtimeTranscriptionSessionCreateRequest, RealtimeTranscriptionSessionAudio, RealtimeTranscriptionSessionAudioInput, RealtimeError, RealtimeErrorEvent, RealtimeResponseUsageInputTokenDetails, CachedTokensDetails, RealtimeResponseUsageOutputTokenDetails, ResponseMcpCallArgumentsDelta, ResponseMcpCallArgumentsDone, ResponseMcpCallInProgress, ResponseMcpCallCompleted, ResponseMcpCallFailed, RealtimeSession, ClientSecretCreateParams, CallAcceptParams, CallReferParams, CallRejectParams, ConversationCreateParams, ConversationUpdateParams, ConversationDeleted, ItemCreateParams, ItemRetrieveParams, ItemListParams, ItemDeleteParams, EvalCreateParams, LabelModel, TextSimilarity, Python, ScoreModel, EvalUpdateParams, EvalListParams, CreateEvalResponsesRunDataSource, RunDeleteParams, OutputItemRetrieveParams, OutputItemListParams, ContainerCreateParams, ContainerListParams, ContentRetrieveParams, SkillCreateParams, SkillUpdateParams, SkillListParams, SkillList, VersionCreateParams, VersionRetrieveParams, VersionListParams, VersionDeleteParams, SkillVersionList, VideoCreateParams, ImageInputReferenceParam, VideoListParams, VideoCreateCharacterParams, VideoDownloadContentParams, VideoEditParams, VideoReferenceInputParam, VideoExtendParams, VideoRemixParams, ResponseFormatTextGrammar, ResponseFormatTextPython, ChatCompletionRunnerEvents, AbstractChatCompletionRunnerEvents, ChatCompletionStreamEvents, ContentDeltaEvent, ContentDoneEvent, RefusalDeltaEvent, RefusalDoneEvent, FunctionToolCallArgumentsDeltaEvent, FunctionToolCallArgumentsDoneEvent, LogProbsContentDeltaEvent, LogProbsContentDoneEvent, LogProbsRefusalDeltaEvent, LogProbsRefusalDoneEvent, BlobPropertyBag, JSONSchemaObject, JSONSchemaArray, ApiKeySetter, MergedRequestInit, Fetch, HeadersLike, NullableHeaders, LogLevel, Logger, LogFn, OpenAIClientOptions, WithRequestID, FinalizedRequestInit, ChatCompletionStoreMessagesPage, ChatCompletionMessageToolCall, PageRequestOptions, HTTPMethod, ChatCompletionsPage, ChatCompletionMessageParam, ChatCompletionContentPart, ToolCall, ChatCompletionRole, _ReadableStream, FileObjectsPage, ModelsPage, FineTuningJobCheckpointsPage, Metadata, GraderInputs, FineTuningJobsPage, FineTuningJobEventsPage, FileChunkingStrategy, VectorStoreFilesPage, FileContentResponsesPage, VectorStoresPage, VectorStoreSearchResponsesPage, UnwrapWebhookEvent, ChatSessionStatus, ChatKitThreadsPage, ChatKitThreadItemListDataPage, AssistantTool, FunctionParameters, AssistantResponseFormatOption, AssistantsPage, RunStepsPage, RunStatus, AssistantToolChoiceOption, RunsPage, MessageContent, MessageContentDelta, AnnotationDelta, ToolCallDelta, AssistantStreamEvent, MessagesPage, BatchesPage, ResponseItemsPage, ResponseItem, ResponseInputMessageContentList, ResponseInputContent, ComputerActionList, ComputerAction, CustomToolInputFormat, ParsedResponseOutputItem, ParsedContent, ResponseInputItem, ResponseFunctionCallOutputItemList, ResponseFunctionCallOutputItem, ResponsesModel, ResponseStatus, ResponseFormatTextConfig, ResponseStreamEvent, ResponseOutputItem, RealtimeAudioFormats, NoiseReductionType, RealtimeTruncation, ConversationItem, ConversationItemsPage, OutputItemListResponsesPage, RunListResponsesPage, EvalListResponsesPage, FileListResponsesPage, ContainerListResponsesPage, SkillVersionsPage, SkillsPage, VideoModel, VideoSize, VideosPage, RequestInits, HeaderValue, brand_privateNullableHeaders, FinalRequestOptions, RequestOptions, PromiseOrValue, _RequestInfo, BlobLikePart, ToFileInput, CompletionCreateParams, ChatModel, ChatCompletionToolChoiceOption, ChatCompletionTool, ChatCompletionParseParams, ExtractParsedContentFromParams, ChatCompletionToolRunnerParams, ChatCompletionStreamingToolRunnerParams, ChatCompletionStreamParams, ChatCompletionModality, ChatCompletionReasoningEffort, ChatCompletionCreateParams, EmbeddingModel, Uploadable, FsReadStream, FilePurpose, ImageEditStreamEvent, ImageGenStreamEvent, ImageModel, ImageEditParams, ImageGenerateParams, AudioModel, AudioResponseFormat, TranscriptionStreamEvent, TranscriptionCreateResponse, TranscriptionCreateParams, TranslationCreateResponse, SpeechModel, ModerationMultiModalInput, ModerationModel, PermissionCreateResponsesPage, PermissionListResponsesPage, FileChunkingStrategyParam, RealtimeClientEvent, RealtimeServerEvent, MessageStreamEvent, RunStepStreamEvent, RunStreamEvent, RunSubmitToolOutputsParamsStream, ThreadCreateAndRunParamsBaseStream, MessageContentPartParam, RunCreateParamsBaseStream, ThreadCreateAndRunParams, RunCreateParams, RunSubmitToolOutputsParams, RunStepInclude, ResponseIncludable, ResponseInput, ResponseCreateParamsWithTools, ResponseStreamParams, ToolChoiceOptions, ResponseContent, ResponsesServerEvent, ResponseCreateParams, ResponseRetrieveParams, RealtimeAudioInputTurnDetection, RealtimeToolChoiceConfig, RealtimeToolsConfig, RealtimeToolsConfigUnion, RealtimeTracingConfig, RealtimeTranscriptionSessionAudioInputTurnDetection, VideoSeconds, AllModels, OAuthErrorCode, APIResponseProps, RunnableTools, AutoParseableTool, EventListener, EventParameters, ResponseEvents, ResponseStreamingParams, ResponseCreateAndStreamParams, ResponseStreamByIdParams, ParseableToolsParams, AnyChatCompletionCreateParams, AutoParseableResponseFormat, BaseFunctionsArgs, TranscriptionInclude, RunnableToolFunction, ToolOptions, RunnableFunctionWithoutParse, JSONSchemaTypeName, JSONSchemaType, JSONSchemaDefinition, RunnableToolFunctionWithoutParse, RunnableToolFunctionWithParse, RunnableFunctionWithParse, Logprobs, TopLogprob, Delta, Usage, InputTokenDetails, Input, OutputText, InputImage, SipHeader, ToolChoice, Task, FileSearch, SubmitToolOutputs, AssistantToolsFileSearchTypeOnly, Text, Path, Source, HybridSearch, McpToolFilter, McpToolApprovalFilter, Always, Never, CodeInterpreterToolAuto, InputImageMask, Action, Output, NoiseReduction, ServerVad, SemanticVad, EvalItem, ChatMessage, Approximate, Wandb, InputAudioNoiseReduction, ExpiresAt, Auto, Static, SimpleInputMessage, Event } from "openai";
-    import type { ClientOptions as _openai_ClientOptions } from "openai";
-    import type { Tool as _openai_Tool } from "openai";
-    import type { CodeInterpreterTool as _openai_CodeInterpreterTool } from "openai";
-    import type { FileSearchTool as _openai_FileSearchTool } from "openai";
-    import type { FunctionTool as _openai_FunctionTool } from "openai";
-    import type { ComparisonFilter as _openai_ComparisonFilter } from "openai";
-    import type { CompoundFilter as _openai_CompoundFilter } from "openai";
-    import type { ComputerUsePreviewTool as _openai_ComputerUsePreviewTool } from "openai";
-    import type { WebSearchTool as _openai_WebSearchTool } from "openai";
-    import type { Filters as _openai_Filters } from "openai";
-    import type { WebSearchPreviewTool as _openai_WebSearchPreviewTool } from "openai";
-    import type { ToolChoiceAllowed as _openai_ToolChoiceAllowed } from "openai";
-    import type { ToolChoiceFunction as _openai_ToolChoiceFunction } from "openai";
-    import type { ToolChoiceCustom as _openai_ToolChoiceCustom } from "openai";
-    import type { Reasoning as _openai_Reasoning } from "openai";
-    import type { ReasoningEffort as _openai_ReasoningEffort } from "openai";
-    import type { RankingOptions as _openai_RankingOptions } from "openai";
-
-    /** The main client for the AIProjectClient service. It provides access to the various operations available in the service. */
-    export class AIProjectClient {
-        readonly indexes: IndexesOperations;
-        readonly deployments: DeploymentsOperations;
-        readonly datasets: DatasetsOperations;
-        readonly connections: ConnectionsOperations;
-        readonly evaluationRules: EvaluationRulesOperations;
-        readonly agents: AgentsOperations;
-        readonly beta: BetaOperations;
-        readonly telemetry: TelemetryOperations;
-        readonly endpoint: string;
-        constructor(endpoint: string, credential: TokenCredential, options?: AIProjectClientOptionalParams);
-        getOpenAIClient(opts?: OpenAIClientOptions): OpenAI;
-    }
-
-    // Reachable via: AIProjectClient → AIProjectClientOptionalParams
-    /** Optional parameters for the client. */
-    export interface AIProjectClientOptionalParams extends ClientOptions {
-        apiVersion?: KnownApiVersions;
-    }
-
-    // Reachable via: AIProjectClient → Agent
-    // Reachable via: AIProjectClientOptionalParams → Agent
-    // Reachable via: AgentsOperations → Agent
-    /** This file contains only generated model types and their (de)serializers.
-    Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input. */
-    export interface Agent {
-        object: "agent";
-        id: string;
-        name: string;
-        versions: {
-            latest: AgentVersion;
-        };
-    }
-
-    // Reachable via: AIProjectClient → ReasoningEffort
-    // Reachable via: AgentDefinitionUnion → ReasoningEffort
-    // Reachable via: AgentVersion → ReasoningEffort
-    // Reachable via: AgentsOperations → ReasoningEffort
-    // Reachable via: PromptAgentDefinition → ReasoningEffort
-    // Reachable via: Reasoning → ReasoningEffort
-    /** Constrains effort on reasoning for
-    [reasoning models](https://platform.openai.com/docs/guides/reasoning).
-    Currently supported values are `none`, `minimal`, `low`, `medium`, `high`, and `xhigh`. Reducing
-    reasoning effort can result in faster responses and fewer tokens used
-    on reasoning in a response.
-    - `gpt-5.1` defaults to `none`, which does not perform reasoning. The supported reasoning values for `gpt-5.1` are `none`, `low`, `medium`, and `high`. Tool calls are supported for all reasoning values in gpt-5.1.
-    - All models before `gpt-5.1` default to `medium` reasoning effort, and do not support `none`.
-    - The `gpt-5-pro` model defaults to (and only supports) `high` reasoning effort.
-    - `xhigh` is supported for all models after `gpt-5.1-codex-max`. */
-    export type ReasoningEffort = "none" | "minimal" | "low" | "medium" | "high" | "xhigh";
-
-    // Reachable via: A2APreviewTool → Tool
-    // Reachable via: AIProjectClient → Tool
-    // Reachable via: AgentDefinitionUnion → Tool
-    // Reachable via: AgentVersion → Tool
-    // Reachable via: AgentsOperations → Tool
-    // Reachable via: ApplyPatchToolParam → Tool
-    // Reachable via: AzureAISearchTool → Tool
-    // Reachable via: AzureFunctionTool → Tool
-    // Reachable via: BingCustomSearchPreviewTool → Tool
-    // Reachable via: BingGroundingTool → Tool
-    // Reachable via: BrowserAutomationPreviewTool → Tool
-    // Reachable via: CaptureStructuredOutputsTool → Tool
-    // Reachable via: CodeInterpreterTool → Tool
-    // Reachable via: ComputerUsePreviewTool → Tool
-    // Reachable via: CustomToolParam → Tool
-    // Reachable via: FileSearchTool → Tool
-    // Reachable via: FunctionShellToolParam → Tool
-    // Reachable via: FunctionTool → Tool
-    // Reachable via: HostedAgentDefinition → Tool
-    // Reachable via: ImageGenTool → Tool
-    // Reachable via: LocalShellToolParam → Tool
-    // Reachable via: MCPTool → Tool
-    // Reachable via: MemorySearchPreviewTool → Tool
-    // Reachable via: MicrosoftFabricPreviewTool → Tool
-    // Reachable via: OpenApiTool → Tool
-    // Reachable via: PromptAgentDefinition → Tool
-    // Reachable via: SharepointPreviewTool → Tool
-    // Reachable via: ToolUnion → Tool
-    // Reachable via: WebSearchPreviewTool → Tool
-    // Reachable via: WebSearchTool → Tool
-    /** A tool that can be used to generate a response. */
-    export interface Tool {
-        type: ToolType;
-    }
-
-    // Reachable via: AIProjectClient → CodeInterpreterTool
-    // Reachable via: AgentDefinitionUnion → CodeInterpreterTool
-    // Reachable via: AgentVersion → CodeInterpreterTool
-    // Reachable via: AgentsOperations → CodeInterpreterTool
-    // Reachable via: HostedAgentDefinition → CodeInterpreterTool
-    // Reachable via: PromptAgentDefinition → CodeInterpreterTool
-    // Reachable via: ToolUnion → CodeInterpreterTool
-    /** A tool that runs Python code to help generate a response to a prompt. */
-    export interface CodeInterpreterTool extends Tool {
-        type: "code_interpreter";
-        container?: string | AutoCodeInterpreterToolParam;
-    }
-
-    // Reachable via: AIProjectClient → FileSearchTool
-    // Reachable via: AgentDefinitionUnion → FileSearchTool
-    // Reachable via: AgentVersion → FileSearchTool
-    // Reachable via: AgentsOperations → FileSearchTool
-    // Reachable via: HostedAgentDefinition → FileSearchTool
-    // Reachable via: PromptAgentDefinition → FileSearchTool
-    // Reachable via: ToolUnion → FileSearchTool
-    /** A tool that searches for relevant content from uploaded files. Learn more about the [file search tool](https://platform.openai.com/docs/guides/tools-file-search). */
-    export interface FileSearchTool extends Tool {
-        type: "file_search";
-        vector_store_ids: string[];
-        max_num_results?: number;
-        ranking_options?: RankingOptions;
-        filters?: Filters;
-    }
-
-    // Reachable via: AIProjectClient → RankingOptions
-    // Reachable via: AgentDefinitionUnion → RankingOptions
-    // Reachable via: AgentVersion → RankingOptions
-    // Reachable via: AgentsOperations → RankingOptions
-    // Reachable via: FileSearchTool → RankingOptions
-    // Reachable via: HostedAgentDefinition → RankingOptions
-    // Reachable via: PromptAgentDefinition → RankingOptions
-    // Reachable via: ToolUnion → RankingOptions
-    /** model interface RankingOptions */
-    export interface RankingOptions {
-        ranker?: RankerVersionType;
-        score_threshold?: number;
-        hybrid_search?: HybridSearchOptions;
-    }
-
-    // Reachable via: AIProjectClient → FunctionTool
-    // Reachable via: AgentDefinitionUnion → FunctionTool
-    // Reachable via: AgentVersion → FunctionTool
-    // Reachable via: AgentsOperations → FunctionTool
-    // Reachable via: HostedAgentDefinition → FunctionTool
-    // Reachable via: PromptAgentDefinition → FunctionTool
-    // Reachable via: ToolUnion → FunctionTool
-    /** Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling). */
-    export interface FunctionTool extends Tool {
-        type: "function";
-        name: string;
-        description?: string;
-        parameters: Record<string, unknown>;
-        strict: boolean;
-    }
-
-    // Reachable via: AIProjectClient → ComparisonFilter
-    // Reachable via: AgentDefinitionUnion → ComparisonFilter
-    // Reachable via: AgentVersion → ComparisonFilter
-    // Reachable via: AgentsOperations → ComparisonFilter
-    // Reachable via: CompoundFilter → ComparisonFilter
-    // Reachable via: FileSearchTool → ComparisonFilter
-    // Reachable via: Filters → ComparisonFilter
-    // Reachable via: HostedAgentDefinition → ComparisonFilter
-    // Reachable via: PromptAgentDefinition → ComparisonFilter
-    // Reachable via: ToolUnion → ComparisonFilter
-    /** A filter used to compare a specified attribute key to a given value using a defined comparison operation. */
-    export interface ComparisonFilter {
-        type: "eq" | "ne" | "gt" | "gte" | "lt" | "lte";
-        key: string;
-        value: string | number | boolean | ComparisonFilterValueItems[];
-    }
-
-    // Reachable via: AIProjectClient → CompoundFilter
-    // Reachable via: AgentDefinitionUnion → CompoundFilter
-    // Reachable via: AgentVersion → CompoundFilter
-    // Reachable via: AgentsOperations → CompoundFilter
-    // Reachable via: FileSearchTool → CompoundFilter
-    // Reachable via: Filters → CompoundFilter
-    // Reachable via: HostedAgentDefinition → CompoundFilter
-    // Reachable via: PromptAgentDefinition → CompoundFilter
-    // Reachable via: ToolUnion → CompoundFilter
-    /** Combine multiple filters using `and` or `or`. */
-    export interface CompoundFilter {
-        type: "and" | "or";
-        filters: (ComparisonFilter | CompoundFilter)[];
-    }
-
-    // Reachable via: AIProjectClient → ComputerUsePreviewTool
-    // Reachable via: AgentDefinitionUnion → ComputerUsePreviewTool
-    // Reachable via: AgentVersion → ComputerUsePreviewTool
-    // Reachable via: AgentsOperations → ComputerUsePreviewTool
-    // Reachable via: HostedAgentDefinition → ComputerUsePreviewTool
-    // Reachable via: PromptAgentDefinition → ComputerUsePreviewTool
-    // Reachable via: ToolUnion → ComputerUsePreviewTool
-    /** A tool that controls a virtual computer. Learn more about the [computer tool](https://platform.openai.com/docs/guides/tools-computer-use). */
-    export interface ComputerUsePreviewTool extends Tool {
-        type: "computer_use_preview";
-        environment: ComputerEnvironment;
-        display_width: number;
-        display_height: number;
-    }
-
-    // Reachable via: AIProjectClient → WebSearchTool
-    // Reachable via: AgentDefinitionUnion → WebSearchTool
-    // Reachable via: AgentVersion → WebSearchTool
-    // Reachable via: AgentsOperations → WebSearchTool
-    // Reachable via: HostedAgentDefinition → WebSearchTool
-    // Reachable via: PromptAgentDefinition → WebSearchTool
-    // Reachable via: ToolUnion → WebSearchTool
-    /** Search the Internet for sources related to the prompt. Learn more about the
-    [web search tool](https://platform.openai.com/docs/guides/tools-web-search). */
-    export interface WebSearchTool extends Tool {
-        type: "web_search";
-        filters?: WebSearchToolFilters;
-        user_location?: WebSearchApproximateLocation;
-        search_context_size?: "low" | "medium" | "high";
-        custom_search_configuration?: WebSearchConfiguration;
-    }
-
-    // Reachable via: AIProjectClient → Filters
-    // Reachable via: AgentDefinitionUnion → Filters
-    // Reachable via: AgentVersion → Filters
-    // Reachable via: AgentsOperations → Filters
-    // Reachable via: FileSearchTool → Filters
-    // Reachable via: HostedAgentDefinition → Filters
-    // Reachable via: PromptAgentDefinition → Filters
-    // Reachable via: ToolUnion → Filters
-    /** Alias for Filters */
-    export type Filters = ComparisonFilter | CompoundFilter;
-
-    // Reachable via: AIProjectClient → WebSearchPreviewTool
-    // Reachable via: AgentDefinitionUnion → WebSearchPreviewTool
-    // Reachable via: AgentVersion → WebSearchPreviewTool
-    // Reachable via: AgentsOperations → WebSearchPreviewTool
-    // Reachable via: HostedAgentDefinition → WebSearchPreviewTool
-    // Reachable via: PromptAgentDefinition → WebSearchPreviewTool
-    // Reachable via: ToolUnion → WebSearchPreviewTool
-    /** This tool searches the web for relevant results to use in a response. Learn more about the [web search tool](https://platform.openai.com/docs/guides/tools-web-search). */
-    export interface WebSearchPreviewTool extends Tool {
-        type: "web_search_preview";
-        user_location?: ApproximateLocation;
-        search_context_size?: SearchContextSize;
-    }
-
-    // Reachable via: AIProjectClient → ToolChoiceAllowed
-    // Reachable via: AgentDefinitionUnion → ToolChoiceAllowed
-    // Reachable via: AgentVersion → ToolChoiceAllowed
-    // Reachable via: AgentsOperations → ToolChoiceAllowed
-    // Reachable via: PromptAgentDefinition → ToolChoiceAllowed
-    // Reachable via: ToolChoiceParamUnion → ToolChoiceAllowed
-    /** Constrains the tools available to the model to a pre-defined set. */
-    export interface ToolChoiceAllowed extends ToolChoiceParam {
-        type: "allowed_tools";
-        mode: "auto" | "required";
-        tools: Record<string, unknown>[];
-    }
-
-    // Reachable via: AIProjectClient → ToolChoiceFunction
-    // Reachable via: AgentDefinitionUnion → ToolChoiceFunction
-    // Reachable via: AgentVersion → ToolChoiceFunction
-    // Reachable via: AgentsOperations → ToolChoiceFunction
-    // Reachable via: PromptAgentDefinition → ToolChoiceFunction
-    // Reachable via: ToolChoiceParamUnion → ToolChoiceFunction
-    /** Use this option to force the model to call a specific function. */
-    export interface ToolChoiceFunction extends ToolChoiceParam {
-        type: "function";
-        name: string;
-    }
-
-    // Reachable via: AIProjectClient → ToolChoiceCustom
-    // Reachable via: AgentDefinitionUnion → ToolChoiceCustom
-    // Reachable via: AgentVersion → ToolChoiceCustom
-    // Reachable via: AgentsOperations → ToolChoiceCustom
-    // Reachable via: PromptAgentDefinition → ToolChoiceCustom
-    // Reachable via: ToolChoiceParamUnion → ToolChoiceCustom
-    /** Use this option to force the model to call a specific custom tool. */
-    export interface ToolChoiceCustom extends ToolChoiceParam {
-        type: "custom";
-        name: string;
-    }
-
-    // Reachable via: AIProjectClient → Reasoning
-    // Reachable via: AgentDefinitionUnion → Reasoning
-    // Reachable via: AgentVersion → Reasoning
-    // Reachable via: AgentsOperations → Reasoning
-    // Reachable via: PromptAgentDefinition → Reasoning
-    /** **gpt-5 and o-series models only**
-    Configuration options for
-    [reasoning models](https://platform.openai.com/docs/guides/reasoning). */
-    export interface Reasoning {
-        effort?: ReasoningEffort;
-        summary?: "auto" | "concise" | "detailed";
-        generate_summary?: "auto" | "concise" | "detailed";
-    }
-
-    // Reachable via: AIProjectClient → IndexesOperations
-    /** Interface representing a Indexes operations. */
-    export interface IndexesOperations {
-        createOrUpdate(name: string, version: string, index: IndexUnion, options?: IndexesCreateOrUpdateOptionalParams): Promise<IndexUnion>;
-        delete(name: string, version: string, options?: IndexesDeleteOptionalParams): Promise<void>;
-        get(name: string, version: string, options?: IndexesGetOptionalParams): Promise<IndexUnion>;
-        list(options?: IndexesListOptionalParams): PagedAsyncIterableIterator<IndexUnion>;
-        listVersions(name: string, options?: IndexesListVersionsOptionalParams): PagedAsyncIterableIterator<IndexUnion>;
-    }
-
-    // Reachable via: AIProjectClient → IndexUnion
-    // Reachable via: IndexesOperations → IndexUnion
-    /** Alias for IndexUnion */
-    export type IndexUnion = AzureAISearchIndex | ManagedAzureAISearchIndex | CosmosDBIndex | Index;
-
-    // Reachable via: AIProjectClient → AzureAISearchIndex
-    // Reachable via: IndexUnion → AzureAISearchIndex
-    // Reachable via: IndexesOperations → AzureAISearchIndex
-    /** Azure AI Search Index Definition */
-    export interface AzureAISearchIndex extends Index {
-        type: "AzureSearch";
-        connectionName: string;
-        indexName: string;
-        fieldMapping?: FieldMapping;
-    }
-
-    // Reachable via: AIProjectClient → Index
-    // Reachable via: AzureAISearchIndex → Index
-    // Reachable via: CosmosDBIndex → Index
-    // Reachable via: IndexUnion → Index
-    // Reachable via: IndexesOperations → Index
-    // Reachable via: ManagedAzureAISearchIndex → Index
-    /** Index resource Definition */
-    export interface Index {
-        type: IndexType;
-        readonly id?: string;
-        readonly name: string;
-        readonly version: string;
-        description?: string;
-        tags?: Record<string, string>;
-    }
-
-    // Reachable via: AIProjectClient → IndexType
-    // Reachable via: AzureAISearchIndex → IndexType
-    // Reachable via: CosmosDBIndex → IndexType
-    // Reachable via: Index → IndexType
-    // Reachable via: IndexUnion → IndexType
-    // Reachable via: IndexesOperations → IndexType
-    // Reachable via: ManagedAzureAISearchIndex → IndexType
-    /** Type of IndexType */
-    export type IndexType = "AzureSearch" | "CosmosDBNoSqlVectorStore" | "ManagedAzureSearch";
-
-    // Reachable via: AIProjectClient → FieldMapping
-    // Reachable via: AzureAISearchIndex → FieldMapping
-    // Reachable via: CosmosDBIndex → FieldMapping
-    // Reachable via: IndexUnion → FieldMapping
-    // Reachable via: IndexesOperations → FieldMapping
-    /** Field mapping configuration class */
-    export interface FieldMapping {
-        contentFields: string[];
-        filepathField?: string;
-        titleField?: string;
-        urlField?: string;
-        vectorFields?: string[];
-        metadataFields?: string[];
-    }
-
-    // Reachable via: AIProjectClient → ManagedAzureAISearchIndex
-    // Reachable via: IndexUnion → ManagedAzureAISearchIndex
-    // Reachable via: IndexesOperations → ManagedAzureAISearchIndex
-    /** Managed Azure AI Search Index Definition */
-    export interface ManagedAzureAISearchIndex extends Index {
-        type: "ManagedAzureSearch";
-        vectorStoreId: string;
-    }
-
-    // Reachable via: AIProjectClient → CosmosDBIndex
-    // Reachable via: IndexUnion → CosmosDBIndex
-    // Reachable via: IndexesOperations → CosmosDBIndex
-    /** CosmosDB Vector Store Index Definition */
-    export interface CosmosDBIndex extends Index {
-        type: "CosmosDBNoSqlVectorStore";
-        connectionName: string;
-        databaseName: string;
-        containerName: string;
-        embeddingConfiguration: EmbeddingConfiguration;
-        fieldMapping: FieldMapping;
-    }
-
-    // Reachable via: AIProjectClient → EmbeddingConfiguration
-    // Reachable via: CosmosDBIndex → EmbeddingConfiguration
-    // Reachable via: IndexUnion → EmbeddingConfiguration
-    // Reachable via: IndexesOperations → EmbeddingConfiguration
-    /** Embedding configuration class */
-    export interface EmbeddingConfiguration {
-        modelDeploymentName: string;
-        embeddingField: string;
-    }
-
-    // Reachable via: AIProjectClient → IndexesCreateOrUpdateOptionalParams
-    // Reachable via: IndexesOperations → IndexesCreateOrUpdateOptionalParams
-    /** Optional parameters. */
-    export interface IndexesCreateOrUpdateOptionalParams extends OperationOptions {
-    }
-
-    // Reachable via: AIProjectClient → IndexesDeleteOptionalParams
-    // Reachable via: IndexesOperations → IndexesDeleteOptionalParams
-    /** Optional parameters. */
-    export interface IndexesDeleteOptionalParams extends OperationOptions {
-    }
-
-    // Reachable via: AIProjectClient → IndexesGetOptionalParams
-    // Reachable via: IndexesOperations → IndexesGetOptionalParams
-    /** Optional parameters. */
-    export interface IndexesGetOptionalParams extends OperationOptions {
-    }
-
-    // Reachable via: AIProjectClient → IndexesListOptionalParams
-    // Reachable via: IndexesOperations → IndexesListOptionalParams
-    /** Optional parameters. */
-    export interface IndexesListOptionalParams extends OperationOptions {
-    }
-
-    // Reachable via: AIProjectClient → IndexesListVersionsOptionalParams
-    // Reachable via: IndexesOperations → IndexesListVersionsOptionalParams
-    /** Optional parameters. */
-    export interface IndexesListVersionsOptionalParams extends OperationOptions {
-    }
-
-    // Reachable via: AIProjectClient → DeploymentsOperations
-    /** Interface representing a Deployments operations. */
-    export interface DeploymentsOperations {
-        list(options?: DeploymentsListOptionalParams): PagedAsyncIterableIterator<DeploymentUnion>;
-        get(name: string, options?: DeploymentsGetOptionalParams): Promise<DeploymentUnion>;
-    }
-
-    // Reachable via: AIProjectClient → DeploymentsListOptionalParams
-    // Reachable via: DeploymentsOperations → DeploymentsListOptionalParams
-    /** Optional parameters. */
-    export interface DeploymentsListOptionalParams extends OperationOptions {
-        modelPublisher?: string;
-        modelName?: string;
-        deploymentType?: DeploymentType;
-        clientRequestId?: string;
-    }
-
-    // Reachable via: AIProjectClient → DeploymentUnion
-    // Reachable via: DeploymentsOperations → DeploymentUnion
-    /** Alias for DeploymentUnion */
-    export type DeploymentUnion = ModelDeployment | Deployment;
-
-    // Reachable via: AIProjectClient → ModelDeployment
-    // Reachable via: DeploymentUnion → ModelDeployment
-    // Reachable via: DeploymentsOperations → ModelDeployment
-    /** Model Deployment Definition */
-    export interface ModelDeployment extends Deployment {
-        type: "ModelDeployment";
-        readonly modelName: string;
-        readonly modelVersion: string;
-        readonly modelPublisher: string;
-        readonly capabilities: Record<string, string>;
-        readonly sku: ModelDeploymentSku;
-        readonly connectionName?: string;
-    }
-
-    // Reachable via: AIProjectClient → Deployment
-    // Reachable via: DeploymentUnion → Deployment
-    // Reachable via: DeploymentsOperations → Deployment
-    // Reachable via: ModelDeployment → Deployment
-    /** Model Deployment Definition */
-    export interface Deployment {
-        type: DeploymentType;
-        readonly name: string;
-    }
-
-    // Reachable via: AIProjectClient → ModelDeploymentSku
-    // Reachable via: DeploymentUnion → ModelDeploymentSku
-    // Reachable via: DeploymentsOperations → ModelDeploymentSku
-    // Reachable via: ModelDeployment → ModelDeploymentSku
-    /** Sku information */
-    export interface ModelDeploymentSku {
-        capacity: number;
-        family: string;
-        name: string;
-        size: string;
-        tier: string;
-    }
-
-    // Reachable via: AIProjectClient → DeploymentsGetOptionalParams
-    // Reachable via: DeploymentsOperations → DeploymentsGetOptionalParams
-    /** Optional parameters. */
-    export interface DeploymentsGetOptionalParams extends OperationOptions {
-        clientRequestId?: string;
-    }
-
-    // Reachable via: AIProjectClient → DatasetsOperations
-    /** Interface representing a Datasets operations. */
-    export interface DatasetsOperations {
-        getCredentials(name: string, version: string, options?: DatasetsGetCredentialsOptionalParams): Promise<DatasetCredential>;
-        pendingUpload(name: string, version: string, pendingUploadRequest: PendingUploadRequest, options?: DatasetsPendingUploadOptionalParams): Promise<PendingUploadResponse>;
-        createOrUpdate(name: string, version: string, datasetVersion: DatasetVersionUnion, options?: DatasetsCreateOrUpdateOptionalParams): Promise<DatasetVersionUnion>;
-        delete(name: string, version: string, options?: DatasetsDeleteOptionalParams): Promise<void>;
-        get(name: string, version: string, options?: DatasetsGetOptionalParams): Promise<DatasetVersionUnion>;
-        list(options?: DatasetsListOptionalParams): PagedAsyncIterableIterator<DatasetVersionUnion>;
-        listVersions(name: string, options?: DatasetsListVersionsOptionalParams): PagedAsyncIterableIterator<DatasetVersionUnion>;
-        uploadFile(name: string, version: string, filePath: string, options?: DatasetUploadOptions): Promise<DatasetVersionUnion>;
-        uploadFolder(name: string, version: string, folderPath: string, options?: DatasetUploadOptions): Promise<DatasetVersionUnion>;
-    }
-
-    // Reachable via: AIProjectClient → DatasetsGetCredentialsOptionalParams
-    // Reachable via: DatasetsOperations → DatasetsGetCredentialsOptionalParams
-    /** Optional parameters. */
-    export interface DatasetsGetCredentialsOptionalParams extends OperationOptions {
-    }
-
-    // Reachable via: AIProjectClient → DatasetCredential
-    // Reachable via: DatasetsOperations → DatasetCredential
-    /** Represents a reference to a blob for consumption */
-    export interface DatasetCredential {
-        blobReference: BlobReference;
-    }
-
-    // Reachable via: AIProjectClient → BlobReference
-    // Reachable via: DatasetCredential → BlobReference
-    // Reachable via: DatasetsOperations → BlobReference
-    // Reachable via: PendingUploadResponse → BlobReference
-    /** Blob reference details. */
-    export interface BlobReference {
-        blobUri: string;
-        storageAccountArmId: string;
-        credential: SasCredential;
-    }
-
-    // Reachable via: AIProjectClient → SasCredential
-    // Reachable via: BlobReference → SasCredential
-    // Reachable via: DatasetCredential → SasCredential
-    // Reachable via: DatasetsOperations → SasCredential
-    // Reachable via: PendingUploadResponse → SasCredential
-    /** SAS Credential definition */
-    export interface SasCredential {
-        readonly sasUri: string;
-        readonly type: "SAS";
-    }
-
-    // Reachable via: AIProjectClient → PendingUploadRequest
-    // Reachable via: DatasetsOperations → PendingUploadRequest
-    /** Represents a request for a pending upload. */
-    export interface PendingUploadRequest {
-        pendingUploadId?: string;
-        connectionName?: string;
-        pendingUploadType: "BlobReference";
-    }
-
-    // Reachable via: AIProjectClient → DatasetsPendingUploadOptionalParams
-    // Reachable via: DatasetsOperations → DatasetsPendingUploadOptionalParams
-    /** Optional parameters. */
-    export interface DatasetsPendingUploadOptionalParams extends OperationOptions {
-    }
-
-    // Reachable via: AIProjectClient → PendingUploadResponse
-    // Reachable via: DatasetsOperations → PendingUploadResponse
-    /** Represents the response for a pending upload request */
-    export interface PendingUploadResponse {
-        blobReference: BlobReference;
-        pendingUploadId: string;
-        version?: string;
-        pendingUploadType: "BlobReference";
-    }
-
-    // Reachable via: AIProjectClient → DatasetVersionUnion
-    // Reachable via: DatasetsOperations → DatasetVersionUnion
-    /** Alias for DatasetVersionUnion */
-    export type DatasetVersionUnion = FileDatasetVersion | FolderDatasetVersion | DatasetVersion;
-
-    // Reachable via: AIProjectClient → FileDatasetVersion
-    // Reachable via: DatasetVersionUnion → FileDatasetVersion
-    // Reachable via: DatasetsOperations → FileDatasetVersion
-    /** FileDatasetVersion Definition */
-    export interface FileDatasetVersion extends DatasetVersion {
-        type: "uri_file";
-    }
-
-    // Reachable via: AIProjectClient → DatasetVersion
-    // Reachable via: DatasetVersionUnion → DatasetVersion
-    // Reachable via: DatasetsOperations → DatasetVersion
-    // Reachable via: FileDatasetVersion → DatasetVersion
-    // Reachable via: FolderDatasetVersion → DatasetVersion
-    /** DatasetVersion Definition */
-    export interface DatasetVersion {
-        dataUri: string;
-        type: DatasetType;
-        readonly isReference?: boolean;
-        connectionName?: string;
-        readonly id?: string;
-        readonly name: string;
-        readonly version: string;
-        description?: string;
-        tags?: Record<string, string>;
-    }
-
-    // Reachable via: AIProjectClient → DatasetType
-    // Reachable via: DatasetVersion → DatasetType
-    // Reachable via: DatasetVersionUnion → DatasetType
-    // Reachable via: DatasetsOperations → DatasetType
-    // Reachable via: FileDatasetVersion → DatasetType
-    // Reachable via: FolderDatasetVersion → DatasetType
-    /** Enum to determine the type of data. */
-    export type DatasetType = "uri_file" | "uri_folder";
-
-    // Reachable via: AIProjectClient → FolderDatasetVersion
-    // Reachable via: DatasetVersionUnion → FolderDatasetVersion
-    // Reachable via: DatasetsOperations → FolderDatasetVersion
-    /** FileDatasetVersion Definition */
-    export interface FolderDatasetVersion extends DatasetVersion {
-        type: "uri_folder";
-    }
-
-    // Reachable via: AIProjectClient → DatasetsCreateOrUpdateOptionalParams
-    // Reachable via: DatasetsOperations → DatasetsCreateOrUpdateOptionalParams
-    /** Optional parameters. */
-    export interface DatasetsCreateOrUpdateOptionalParams extends OperationOptions {
-    }
-
-    // Reachable via: AIProjectClient → DatasetsDeleteOptionalParams
-    // Reachable via: DatasetsOperations → DatasetsDeleteOptionalParams
-    /** Optional parameters. */
-    export interface DatasetsDeleteOptionalParams extends OperationOptions {
-    }
-
-    // Reachable via: AIProjectClient → DatasetsGetOptionalParams
-    // Reachable via: DatasetsOperations → DatasetsGetOptionalParams
-    /** Optional parameters. */
-    export interface DatasetsGetOptionalParams extends OperationOptions {
-    }
-
-    // Reachable via: AIProjectClient → DatasetsListOptionalParams
-    // Reachable via: DatasetsOperations → DatasetsListOptionalParams
-    /** Optional parameters. */
-    export interface DatasetsListOptionalParams extends OperationOptions {
-    }
-
-    // Reachable via: AIProjectClient → DatasetsListVersionsOptionalParams
-    // Reachable via: DatasetsOperations → DatasetsListVersionsOptionalParams
-    /** Optional parameters. */
-    export interface DatasetsListVersionsOptionalParams extends OperationOptions {
-    }
-
-    // Reachable via: AIProjectClient → DatasetUploadOptions
-    // Reachable via: DatasetsOperations → DatasetUploadOptions
-    /** Options for uploading datasets */
-    export interface DatasetUploadOptions extends OperationOptions {
-        connectionName?: string;
-        filePattern?: string;
-    }
-
-    // Reachable via: AIProjectClient → ConnectionsOperations
-    /** Interface representing a Connections operations. */
-    export interface ConnectionsOperations {
-        list(options?: ConnectionsListOptionalParams): PagedAsyncIterableIterator<Connection>;
-        getWithCredentials(name: string, options?: ConnectionsGetWithCredentialsOptionalParams): Promise<Connection>;
-        get(name: string, options?: ConnectionsGetOptionalParams): Promise<Connection>;
-        getDefault(connectionType: ConnectionType, options?: ConnectionsGetDefaultOptionalParams): Promise<Connection>;
-    }
-
-    // Reachable via: AIProjectClient → ConnectionsListOptionalParams
-    // Reachable via: ConnectionsOperations → ConnectionsListOptionalParams
-    /** Optional parameters. */
-    export interface ConnectionsListOptionalParams extends OperationOptions {
-        connectionType?: ConnectionType;
-        defaultConnection?: boolean;
-        clientRequestId?: string;
-    }
-
-    // Reachable via: AIProjectClient → ConnectionType
-    // Reachable via: Connection → ConnectionType
-    // Reachable via: ConnectionsListOptionalParams → ConnectionType
-    // Reachable via: ConnectionsOperations → ConnectionType
-    /** The Type (or category) of the connection */
-    export type ConnectionType = "AzureOpenAI" | "AzureBlob" | "AzureStorageAccount" | "CognitiveSearch" | "CosmosDB" | "ApiKey" | "AppConfig" | "AppInsights" | "CustomKeys" | "RemoteTool_Preview";
-
-    // Reachable via: AIProjectClient → Connection
-    // Reachable via: ConnectionsOperations → Connection
-    /** Response from the list and get connections operations */
-    export interface Connection {
-        readonly name: string;
-        readonly id: string;
-        readonly type: ConnectionType;
-        readonly target: string;
-        readonly isDefault: boolean;
-        readonly credentials: BaseCredentialsUnion;
-        readonly metadata: Record<string, string>;
-    }
-
-    // Reachable via: AIProjectClient → BaseCredentialsUnion
-    // Reachable via: Connection → BaseCredentialsUnion
-    // Reachable via: ConnectionsOperations → BaseCredentialsUnion
-    /** Alias for BaseCredentialsUnion */
-    export type BaseCredentialsUnion = ApiKeyCredentials | EntraIDCredentials | CustomCredential | SASTokenCredentials | NoAuthenticationCredentials | AgenticIdentityPreviewCredentials | BaseCredentials;
-
-    // Reachable via: AIProjectClient → ApiKeyCredentials
-    // Reachable via: BaseCredentialsUnion → ApiKeyCredentials
-    // Reachable via: Connection → ApiKeyCredentials
-    // Reachable via: ConnectionsOperations → ApiKeyCredentials
-    /** API Key Credential definition */
-    export interface ApiKeyCredentials extends BaseCredentials {
-        readonly type: "ApiKey";
-        readonly apiKey?: string;
-    }
-
-    // Reachable via: AIProjectClient → BaseCredentials
-    // Reachable via: AgenticIdentityPreviewCredentials → BaseCredentials
-    // Reachable via: ApiKeyCredentials → BaseCredentials
-    // Reachable via: BaseCredentialsUnion → BaseCredentials
-    // Reachable via: Connection → BaseCredentials
-    // Reachable via: ConnectionsOperations → BaseCredentials
-    // Reachable via: CustomCredential → BaseCredentials
-    // Reachable via: EntraIDCredentials → BaseCredentials
-    // Reachable via: NoAuthenticationCredentials → BaseCredentials
-    // Reachable via: SASTokenCredentials → BaseCredentials
-    /** A base class for connection credentials */
-    export interface BaseCredentials {
-        readonly type: CredentialType;
-    }
-
-    // Reachable via: AIProjectClient → CredentialType
-    // Reachable via: AgenticIdentityPreviewCredentials → CredentialType
-    // Reachable via: ApiKeyCredentials → CredentialType
-    // Reachable via: BaseCredentials → CredentialType
-    // Reachable via: BaseCredentialsUnion → CredentialType
-    // Reachable via: Connection → CredentialType
-    // Reachable via: ConnectionsOperations → CredentialType
-    // Reachable via: CustomCredential → CredentialType
-    // Reachable via: EntraIDCredentials → CredentialType
-    // Reachable via: NoAuthenticationCredentials → CredentialType
-    // Reachable via: SASTokenCredentials → CredentialType
-    /** The credential type used by the connection */
-    export type CredentialType = "ApiKey" | "AAD" | "SAS" | "CustomKeys" | "None" | "AgenticIdentityToken_Preview";
-
-    // Reachable via: AIProjectClient → EntraIDCredentials
-    // Reachable via: BaseCredentialsUnion → EntraIDCredentials
-    // Reachable via: Connection → EntraIDCredentials
-    // Reachable via: ConnectionsOperations → EntraIDCredentials
-    /** Entra ID credential definition */
-    export interface EntraIDCredentials extends BaseCredentials {
-        readonly type: "AAD";
-    }
-
-    // Reachable via: AIProjectClient → CustomCredential
-    // Reachable via: BaseCredentialsUnion → CustomCredential
-    // Reachable via: Connection → CustomCredential
-    // Reachable via: ConnectionsOperations → CustomCredential
-    /** Custom credential definition */
-    export interface CustomCredential extends BaseCredentials {
-        readonly type: "CustomKeys";
-        additionalProperties?: Record<string, string>;
-    }
-
-    // Reachable via: AIProjectClient → SASTokenCredentials
-    // Reachable via: BaseCredentialsUnion → SASTokenCredentials
-    // Reachable via: Connection → SASTokenCredentials
-    // Reachable via: ConnectionsOperations → SASTokenCredentials
-    /** Shared Access Signature (SAS) credential definition */
-    export interface SASTokenCredentials extends BaseCredentials {
-        readonly type: "SAS";
-        readonly sasToken?: string;
-    }
-
-    // Reachable via: AIProjectClient → NoAuthenticationCredentials
-    // Reachable via: BaseCredentialsUnion → NoAuthenticationCredentials
-    // Reachable via: Connection → NoAuthenticationCredentials
-    // Reachable via: ConnectionsOperations → NoAuthenticationCredentials
-    /** Credentials that do not require authentication */
-    export interface NoAuthenticationCredentials extends BaseCredentials {
-        readonly type: "None";
-    }
-
-    // Reachable via: AIProjectClient → AgenticIdentityPreviewCredentials
-    // Reachable via: BaseCredentialsUnion → AgenticIdentityPreviewCredentials
-    // Reachable via: Connection → AgenticIdentityPreviewCredentials
-    // Reachable via: ConnectionsOperations → AgenticIdentityPreviewCredentials
-    /** Agentic identity credential definition */
-    export interface AgenticIdentityPreviewCredentials extends BaseCredentials {
-        readonly type: "AgenticIdentityToken_Preview";
-    }
-
-    // Reachable via: AIProjectClient → ConnectionsGetWithCredentialsOptionalParams
-    // Reachable via: ConnectionsOperations → ConnectionsGetWithCredentialsOptionalParams
-    /** Optional parameters. */
-    export interface ConnectionsGetWithCredentialsOptionalParams extends OperationOptions {
-        clientRequestId?: string;
-    }
-
-    // Reachable via: AIProjectClient → ConnectionsGetOptionalParams
-    // Reachable via: ConnectionsOperations → ConnectionsGetOptionalParams
-    /** Optional parameters. */
-    export interface ConnectionsGetOptionalParams extends OperationOptions {
-        includeCredentials?: boolean;
-        clientRequestId?: string;
-    }
-
-    // Reachable via: AIProjectClient → ConnectionsGetDefaultOptionalParams
-    // Reachable via: ConnectionsOperations → ConnectionsGetDefaultOptionalParams
-    /** Optional parameters for getDefault. */
-    export interface ConnectionsGetDefaultOptionalParams extends OperationOptions {
-        includeCredentials?: boolean;
-    }
-
-    // Reachable via: AIProjectClient → EvaluationRulesOperations
-    /** Interface representing a EvaluationRules operations. */
-    export interface EvaluationRulesOperations {
-        list(options?: EvaluationRulesListOptionalParams): PagedAsyncIterableIterator<EvaluationRule>;
-        createOrUpdate(id: string, evaluationRule: EvaluationRule, options?: EvaluationRulesCreateOrUpdateOptionalParams): Promise<EvaluationRule>;
-        delete(id: string, options?: EvaluationRulesDeleteOptionalParams): Promise<void>;
-        get(id: string, options?: EvaluationRulesGetOptionalParams): Promise<EvaluationRule>;
-    }
-
-    // Reachable via: AIProjectClient → EvaluationRulesListOptionalParams
-    // Reachable via: EvaluationRulesOperations → EvaluationRulesListOptionalParams
-    /** Optional parameters. */
-    export interface EvaluationRulesListOptionalParams extends OperationOptions {
-        actionType?: EvaluationRuleActionType;
-        agentName?: string;
-        enabled?: boolean;
-        foundryFeatures?: "Evaluations=V1Preview";
-    }
-
-    // Reachable via: AIProjectClient → EvaluationRuleActionType
-    // Reachable via: ContinuousEvaluationRuleAction → EvaluationRuleActionType
-    // Reachable via: EvaluationRule → EvaluationRuleActionType
-    // Reachable via: EvaluationRuleAction → EvaluationRuleActionType
-    // Reachable via: EvaluationRuleActionUnion → EvaluationRuleActionType
-    // Reachable via: EvaluationRulesListOptionalParams → EvaluationRuleActionType
-    // Reachable via: EvaluationRulesOperations → EvaluationRuleActionType
-    // Reachable via: HumanEvaluationPreviewRuleAction → EvaluationRuleActionType
-    /** Type of the evaluation action. */
-    export type EvaluationRuleActionType = "continuousEvaluation" | "humanEvaluationPreview";
-
-    // Reachable via: AIProjectClient → EvaluationRule
-    // Reachable via: EvaluationRulesOperations → EvaluationRule
-    /** Evaluation rule model. */
-    export interface EvaluationRule {
-        readonly id: string;
-        displayName?: string;
-        description?: string;
-        action: EvaluationRuleActionUnion;
-        filter?: EvaluationRuleFilter;
-        eventType: EvaluationRuleEventType;
-        enabled: boolean;
-        readonly systemData: Record<string, string>;
-    }
-
-    // Reachable via: AIProjectClient → EvaluationRuleActionUnion
-    // Reachable via: EvaluationRule → EvaluationRuleActionUnion
-    // Reachable via: EvaluationRulesOperations → EvaluationRuleActionUnion
-    /** Alias for EvaluationRuleActionUnion */
-    export type EvaluationRuleActionUnion = ContinuousEvaluationRuleAction | HumanEvaluationPreviewRuleAction | EvaluationRuleAction;
-
-    // Reachable via: AIProjectClient → ContinuousEvaluationRuleAction
-    // Reachable via: EvaluationRule → ContinuousEvaluationRuleAction
-    // Reachable via: EvaluationRuleActionUnion → ContinuousEvaluationRuleAction
-    // Reachable via: EvaluationRulesOperations → ContinuousEvaluationRuleAction
-    /** Evaluation rule action for continuous evaluation. */
-    export interface ContinuousEvaluationRuleAction extends EvaluationRuleAction {
-        type: "continuousEvaluation";
-        evalId: string;
-        maxHourlyRuns?: number;
-    }
-
-    // Reachable via: AIProjectClient → EvaluationRuleAction
-    // Reachable via: ContinuousEvaluationRuleAction → EvaluationRuleAction
-    // Reachable via: EvaluationRule → EvaluationRuleAction
-    // Reachable via: EvaluationRuleActionUnion → EvaluationRuleAction
-    // Reachable via: EvaluationRulesOperations → EvaluationRuleAction
-    // Reachable via: HumanEvaluationPreviewRuleAction → EvaluationRuleAction
-    /** Evaluation action model. */
-    export interface EvaluationRuleAction {
-        type: EvaluationRuleActionType;
-    }
-
-    // Reachable via: AIProjectClient → HumanEvaluationPreviewRuleAction
-    // Reachable via: EvaluationRule → HumanEvaluationPreviewRuleAction
-    // Reachable via: EvaluationRuleActionUnion → HumanEvaluationPreviewRuleAction
-    // Reachable via: EvaluationRulesOperations → HumanEvaluationPreviewRuleAction
-    /** Evaluation rule action for human evaluation. */
-    export interface HumanEvaluationPreviewRuleAction extends EvaluationRuleAction {
-        type: "humanEvaluationPreview";
-        templateId: string;
-    }
-
-    // Reachable via: AIProjectClient → EvaluationRuleFilter
-    // Reachable via: EvaluationRule → EvaluationRuleFilter
-    // Reachable via: EvaluationRulesOperations → EvaluationRuleFilter
-    /** Evaluation filter model. */
-    export interface EvaluationRuleFilter {
-        agentName: string;
-    }
-
-    // Reachable via: AIProjectClient → EvaluationRuleEventType
-    // Reachable via: EvaluationRule → EvaluationRuleEventType
-    // Reachable via: EvaluationRulesOperations → EvaluationRuleEventType
-    /** Type of the evaluation rule event. */
-    export type EvaluationRuleEventType = "responseCompleted" | "manual";
-
-    // Reachable via: AIProjectClient → EvaluationRulesCreateOrUpdateOptionalParams
-    // Reachable via: EvaluationRulesOperations → EvaluationRulesCreateOrUpdateOptionalParams
-    /** Optional parameters. */
-    export interface EvaluationRulesCreateOrUpdateOptionalParams extends OperationOptions {
-        foundryFeatures?: "Evaluations=V1Preview";
-    }
-
-    // Reachable via: AIProjectClient → EvaluationRulesDeleteOptionalParams
-    // Reachable via: EvaluationRulesOperations → EvaluationRulesDeleteOptionalParams
-    /** Optional parameters. */
-    export interface EvaluationRulesDeleteOptionalParams extends OperationOptions {
-        foundryFeatures?: "Evaluations=V1Preview";
-    }
-
-    // Reachable via: AIProjectClient → EvaluationRulesGetOptionalParams
-    // Reachable via: EvaluationRulesOperations → EvaluationRulesGetOptionalParams
-    /** Optional parameters. */
-    export interface EvaluationRulesGetOptionalParams extends OperationOptions {
-        foundryFeatures?: "Evaluations=V1Preview";
-    }
-
-    // Reachable via: AIProjectClient → AgentsOperations
-    /** Interface representing a Agents operations. */
-    export interface AgentsOperations {
-        createVersion(agentName: string, definition: AgentDefinitionUnion, options?: AgentsCreateOptionalParams): Promise<AgentVersion>;
-        createVersion(agentName: string, manifestId: string, parameterValues: Record<string, unknown>, options?: AgentsCreateAgentVersionFromManifestOptionalParams): Promise<AgentVersion>;
-        update(agentName: string, manifestId: string, parameterValues: Record<string, unknown>, options?: AgentsUpdateAgentFromManifestOptionalParams): Promise<Agent>;
-        update(agentName: string, definition: AgentDefinitionUnion, options?: AgentsUpdateOptionalParams): Promise<Agent>;
-        create(name: string, definition: AgentDefinitionUnion, options?: AgentsCreateOptionalParams): Promise<Agent>;
-        create(name: string, manifestId: string, parameterValues: Record<string, unknown>, options?: AgentsCreateAgentFromManifestOptionalParams): Promise<Agent>;
-        listVersions(agentName: string, options?: AgentsListVersionsOptionalParams): PagedAsyncIterableIterator<AgentVersion>;
-        deleteVersion(agentName: string, agentVersion: string, options?: AgentsDeleteVersionOptionalParams): Promise<DeleteAgentVersionResponse>;
-        getVersion(agentName: string, agentVersion: string, options?: AgentsGetVersionOptionalParams): Promise<AgentVersion>;
-        list(options?: AgentsListOptionalParams): PagedAsyncIterableIterator<Agent>;
-        delete(agentName: string, options?: AgentsDeleteOptionalParams): Promise<DeleteAgentResponse>;
-        get(agentName: string, options?: AgentsGetOptionalParams): Promise<Agent>;
-    }
-
-    // Reachable via: AIProjectClient → AgentsListVersionsOptionalParams
-    // Reachable via: AgentsOperations → AgentsListVersionsOptionalParams
-    /** Optional parameters. */
-    export interface AgentsListVersionsOptionalParams extends OperationOptions {
-        limit?: number;
-        order?: PageOrder;
-        after?: string;
-        before?: string;
-    }
-
-    // Reachable via: AIProjectClient → PageOrder
-    // Reachable via: AgentsListOptionalParams → PageOrder
-    // Reachable via: AgentsListVersionsOptionalParams → PageOrder
-    // Reachable via: AgentsOperations → PageOrder
-    // Reachable via: BetaMemoryStoresListOptionalParams → PageOrder
-    // Reachable via: BetaMemoryStoresOperations → PageOrder
-    // Reachable via: BetaOperations → PageOrder
-    /** Type of PageOrder */
-    export type PageOrder = "asc" | "desc";
-
-    // Reachable via: AIProjectClient → AgentVersion
-    // Reachable via: Agent → AgentVersion
-    // Reachable via: AgentsOperations → AgentVersion
-    /** Represents a specific version of an agent.
-    Includes metadata, versioning, creation time, and agent definition. */
-    export interface AgentVersion {
-        metadata: Record<string, string>;
-        object: "agent.version";
-        id: string;
-        name: string;
-        version: string;
-        description?: string;
-        created_at: Date;
-        definition: AgentDefinitionUnion;
-    }
-
-    // Reachable via: AIProjectClient → AgentDefinitionUnion
-    // Reachable via: AgentVersion → AgentDefinitionUnion
-    // Reachable via: AgentsOperations → AgentDefinitionUnion
-    /** Union type for all agent definition types.
-    Supports workflow, hosted, container app, and prompt agents. */
-    export type AgentDefinitionUnion = PromptAgentDefinition | WorkflowAgentDefinition | HostedAgentDefinition | AgentDefinition;
-
-    // Reachable via: AIProjectClient → PromptAgentDefinition
-    // Reachable via: AgentDefinitionUnion → PromptAgentDefinition
-    // Reachable via: AgentVersion → PromptAgentDefinition
-    // Reachable via: AgentsOperations → PromptAgentDefinition
-    /** The prompt agent definition */
-    export interface PromptAgentDefinition extends AgentDefinition {
-        kind: "prompt";
-        model: string;
-        instructions?: string;
-        temperature?: number;
-        top_p?: number;
-        reasoning?: Reasoning;
-        tools?: ToolUnion[];
-        tool_choice?: string | ToolChoiceParamUnion;
-        text?: PromptAgentDefinitionTextOptions;
-        structured_inputs?: Record<string, StructuredInputDefinition>;
-    }
-
-    // Reachable via: AIProjectClient → AgentDefinition
-    // Reachable via: AgentDefinitionUnion → AgentDefinition
-    // Reachable via: AgentVersion → AgentDefinition
-    // Reachable via: AgentsOperations → AgentDefinition
-    // Reachable via: HostedAgentDefinition → AgentDefinition
-    // Reachable via: PromptAgentDefinition → AgentDefinition
-    // Reachable via: WorkflowAgentDefinition → AgentDefinition
-    /** Base definition interface for agents.
-    Contains the agent kind and optional RAI configuration. */
-    export interface AgentDefinition {
-        kind: AgentKind;
-        rai_config?: RaiConfig;
-    }
-
-    // Reachable via: AIProjectClient → AgentKind
-    // Reachable via: AgentDefinition → AgentKind
-    // Reachable via: AgentDefinitionUnion → AgentKind
-    // Reachable via: AgentVersion → AgentKind
-    // Reachable via: AgentsListOptionalParams → AgentKind
-    // Reachable via: AgentsOperations → AgentKind
-    // Reachable via: HostedAgentDefinition → AgentKind
-    // Reachable via: PromptAgentDefinition → AgentKind
-    // Reachable via: WorkflowAgentDefinition → AgentKind
-    /** Defines the type/kind of agent.
-    Determines which agent definition structure is used. */
-    export type AgentKind = "prompt" | "hosted" | "workflow";
-
-    // Reachable via: AIProjectClient → RaiConfig
-    // Reachable via: AgentDefinition → RaiConfig
-    // Reachable via: AgentDefinitionUnion → RaiConfig
-    // Reachable via: AgentVersion → RaiConfig
-    // Reachable via: AgentsOperations → RaiConfig
-    // Reachable via: HostedAgentDefinition → RaiConfig
-    // Reachable via: PromptAgentDefinition → RaiConfig
-    // Reachable via: WorkflowAgentDefinition → RaiConfig
-    /** Configuration for Responsible AI (RAI) content filtering and safety features. */
-    export interface RaiConfig {
-        rai_policy_name: string;
-    }
-
-    // Reachable via: AIProjectClient → ToolUnion
-    // Reachable via: AgentDefinitionUnion → ToolUnion
-    // Reachable via: AgentVersion → ToolUnion
-    // Reachable via: AgentsOperations → ToolUnion
-    // Reachable via: HostedAgentDefinition → ToolUnion
-    // Reachable via: PromptAgentDefinition → ToolUnion
-    /** Alias for ToolUnion */
-    export type ToolUnion = BingGroundingTool | MicrosoftFabricPreviewTool | SharepointPreviewTool | AzureAISearchTool | OpenApiTool | BingCustomSearchPreviewTool | BrowserAutomationPreviewTool | AzureFunctionTool | CaptureStructuredOutputsTool | A2APreviewTool | MemorySearchPreviewTool | CodeInterpreterTool | FunctionTool | FileSearchTool | ComputerUsePreviewTool | WebSearchTool | MCPTool | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | Tool;
-
-    // Reachable via: AIProjectClient → BingGroundingTool
-    // Reachable via: AgentDefinitionUnion → BingGroundingTool
-    // Reachable via: AgentVersion → BingGroundingTool
-    // Reachable via: AgentsOperations → BingGroundingTool
-    // Reachable via: HostedAgentDefinition → BingGroundingTool
-    // Reachable via: PromptAgentDefinition → BingGroundingTool
-    // Reachable via: ToolUnion → BingGroundingTool
-    /** The input definition information for a bing grounding search tool as used to configure an agent. */
-    export interface BingGroundingTool extends Tool {
-        type: "bing_grounding";
-        bing_grounding: BingGroundingSearchToolParameters;
-    }
-
-    // Reachable via: A2APreviewTool → ToolType
-    // Reachable via: AIProjectClient → ToolType
-    // Reachable via: AgentDefinitionUnion → ToolType
-    // Reachable via: AgentVersion → ToolType
-    // Reachable via: AgentsOperations → ToolType
-    // Reachable via: ApplyPatchToolParam → ToolType
-    // Reachable via: AzureAISearchTool → ToolType
-    // Reachable via: AzureFunctionTool → ToolType
-    // Reachable via: BingCustomSearchPreviewTool → ToolType
-    // Reachable via: BingGroundingTool → ToolType
-    // Reachable via: BrowserAutomationPreviewTool → ToolType
-    // Reachable via: CaptureStructuredOutputsTool → ToolType
-    // Reachable via: CodeInterpreterTool → ToolType
-    // Reachable via: ComputerUsePreviewTool → ToolType
-    // Reachable via: CustomToolParam → ToolType
-    // Reachable via: FileSearchTool → ToolType
-    // Reachable via: FunctionShellToolParam → ToolType
-    // Reachable via: FunctionTool → ToolType
-    // Reachable via: HostedAgentDefinition → ToolType
-    // Reachable via: ImageGenTool → ToolType
-    // Reachable via: LocalShellToolParam → ToolType
-    // Reachable via: MCPTool → ToolType
-    // Reachable via: MemorySearchPreviewTool → ToolType
-    // Reachable via: MicrosoftFabricPreviewTool → ToolType
-    // Reachable via: OpenApiTool → ToolType
-    // Reachable via: PromptAgentDefinition → ToolType
-    // Reachable via: SharepointPreviewTool → ToolType
-    // Reachable via: Tool → ToolType
-    // Reachable via: ToolUnion → ToolType
-    // Reachable via: WebSearchPreviewTool → ToolType
-    // Reachable via: WebSearchTool → ToolType
-    /** Type of ToolType */
-    export type ToolType = "function" | "file_search" | "computer_use_preview" | "web_search" | "mcp" | "code_interpreter" | "image_generation" | "local_shell" | "shell" | "custom" | "web_search_preview" | "apply_patch" | "a2a_preview" | "bing_custom_search_preview" | "browser_automation_preview" | "fabric_dataagent_preview" | "sharepoint_grounding_preview" | "memory_search_preview" | "azure_ai_search" | "azure_function" | "bing_grounding" | "capture_structured_outputs" | "openapi";
-
-    // Reachable via: AIProjectClient → BingGroundingSearchToolParameters
-    // Reachable via: AgentDefinitionUnion → BingGroundingSearchToolParameters
-    // Reachable via: AgentVersion → BingGroundingSearchToolParameters
-    // Reachable via: AgentsOperations → BingGroundingSearchToolParameters
-    // Reachable via: BingGroundingTool → BingGroundingSearchToolParameters
-    // Reachable via: HostedAgentDefinition → BingGroundingSearchToolParameters
-    // Reachable via: PromptAgentDefinition → BingGroundingSearchToolParameters
-    // Reachable via: ToolUnion → BingGroundingSearchToolParameters
-    /** The bing grounding search tool parameters. */
-    export interface BingGroundingSearchToolParameters {
-        search_configurations: BingGroundingSearchConfiguration[];
-    }
-
-    // Reachable via: AIProjectClient → BingGroundingSearchConfiguration
-    // Reachable via: AgentDefinitionUnion → BingGroundingSearchConfiguration
-    // Reachable via: AgentVersion → BingGroundingSearchConfiguration
-    // Reachable via: AgentsOperations → BingGroundingSearchConfiguration
-    // Reachable via: BingGroundingSearchToolParameters → BingGroundingSearchConfiguration
-    // Reachable via: BingGroundingTool → BingGroundingSearchConfiguration
-    // Reachable via: HostedAgentDefinition → BingGroundingSearchConfiguration
-    // Reachable via: PromptAgentDefinition → BingGroundingSearchConfiguration
-    // Reachable via: ToolUnion → BingGroundingSearchConfiguration
-    /** Search configuration for Bing Grounding */
-    export interface BingGroundingSearchConfiguration {
-        project_connection_id: string;
-        market?: string;
-        set_lang?: string;
-        count?: number;
-        freshness?: string;
-    }
-
-    // Reachable via: AIProjectClient → MicrosoftFabricPreviewTool
-    // Reachable via: AgentDefinitionUnion → MicrosoftFabricPreviewTool
-    // Reachable via: AgentVersion → MicrosoftFabricPreviewTool
-    // Reachable via: AgentsOperations → MicrosoftFabricPreviewTool
-    // Reachable via: HostedAgentDefinition → MicrosoftFabricPreviewTool
-    // Reachable via: PromptAgentDefinition → MicrosoftFabricPreviewTool
-    // Reachable via: ToolUnion → MicrosoftFabricPreviewTool
-    /** The input definition information for a Microsoft Fabric tool as used to configure an agent. */
-    export interface MicrosoftFabricPreviewTool extends Tool {
-        type: "fabric_dataagent_preview";
-        fabric_dataagent_preview: FabricDataAgentToolParameters;
-    }
-
-    // Reachable via: AIProjectClient → FabricDataAgentToolParameters
-    // Reachable via: AgentDefinitionUnion → FabricDataAgentToolParameters
-    // Reachable via: AgentVersion → FabricDataAgentToolParameters
-    // Reachable via: AgentsOperations → FabricDataAgentToolParameters
-    // Reachable via: HostedAgentDefinition → FabricDataAgentToolParameters
-    // Reachable via: MicrosoftFabricPreviewTool → FabricDataAgentToolParameters
-    // Reachable via: PromptAgentDefinition → FabricDataAgentToolParameters
-    // Reachable via: ToolUnion → FabricDataAgentToolParameters
-    /** The fabric data agent tool parameters. */
-    export interface FabricDataAgentToolParameters {
-        project_connections?: ToolProjectConnection[];
-    }
-
-    // Reachable via: AIProjectClient → ToolProjectConnection
-    // Reachable via: AgentDefinitionUnion → ToolProjectConnection
-    // Reachable via: AgentVersion → ToolProjectConnection
-    // Reachable via: AgentsOperations → ToolProjectConnection
-    // Reachable via: FabricDataAgentToolParameters → ToolProjectConnection
-    // Reachable via: HostedAgentDefinition → ToolProjectConnection
-    // Reachable via: MicrosoftFabricPreviewTool → ToolProjectConnection
-    // Reachable via: PromptAgentDefinition → ToolProjectConnection
-    // Reachable via: SharepointGroundingToolParameters → ToolProjectConnection
-    // Reachable via: ToolUnion → ToolProjectConnection
-    /** A project connection resource. */
-    export interface ToolProjectConnection {
-        project_connection_id: string;
-    }
-
-    // Reachable via: AIProjectClient → SharepointPreviewTool
-    // Reachable via: AgentDefinitionUnion → SharepointPreviewTool
-    // Reachable via: AgentVersion → SharepointPreviewTool
-    // Reachable via: AgentsOperations → SharepointPreviewTool
-    // Reachable via: HostedAgentDefinition → SharepointPreviewTool
-    // Reachable via: PromptAgentDefinition → SharepointPreviewTool
-    // Reachable via: ToolUnion → SharepointPreviewTool
-    /** The input definition information for a sharepoint tool as used to configure an agent. */
-    export interface SharepointPreviewTool extends Tool {
-        type: "sharepoint_grounding_preview";
-        sharepoint_grounding_preview: SharepointGroundingToolParameters;
-    }
-
-    // Reachable via: AIProjectClient → SharepointGroundingToolParameters
-    // Reachable via: AgentDefinitionUnion → SharepointGroundingToolParameters
-    // Reachable via: AgentVersion → SharepointGroundingToolParameters
-    // Reachable via: AgentsOperations → SharepointGroundingToolParameters
-    // Reachable via: HostedAgentDefinition → SharepointGroundingToolParameters
-    // Reachable via: PromptAgentDefinition → SharepointGroundingToolParameters
-    // Reachable via: SharepointPreviewTool → SharepointGroundingToolParameters
-    // Reachable via: ToolUnion → SharepointGroundingToolParameters
-    /** The sharepoint grounding tool parameters. */
-    export interface SharepointGroundingToolParameters {
-        project_connections?: ToolProjectConnection[];
-    }
-
-    // Reachable via: AIProjectClient → AzureAISearchTool
-    // Reachable via: AgentDefinitionUnion → AzureAISearchTool
-    // Reachable via: AgentVersion → AzureAISearchTool
-    // Reachable via: AgentsOperations → AzureAISearchTool
-    // Reachable via: HostedAgentDefinition → AzureAISearchTool
-    // Reachable via: PromptAgentDefinition → AzureAISearchTool
-    // Reachable via: ToolUnion → AzureAISearchTool
-    /** The input definition information for an Azure AI search tool as used to configure an agent. */
-    export interface AzureAISearchTool extends Tool {
-        type: "azure_ai_search";
-        azure_ai_search: AzureAISearchToolResource;
-    }
-
-    // Reachable via: AIProjectClient → AzureAISearchToolResource
-    // Reachable via: AgentDefinitionUnion → AzureAISearchToolResource
-    // Reachable via: AgentVersion → AzureAISearchToolResource
-    // Reachable via: AgentsOperations → AzureAISearchToolResource
-    // Reachable via: AzureAISearchTool → AzureAISearchToolResource
-    // Reachable via: HostedAgentDefinition → AzureAISearchToolResource
-    // Reachable via: PromptAgentDefinition → AzureAISearchToolResource
-    // Reachable via: ToolUnion → AzureAISearchToolResource
-    /** A set of index resources used by the `azure_ai_search` tool. */
-    export interface AzureAISearchToolResource {
-        indexes: AISearchIndexResource[];
-    }
-
-    // Reachable via: AIProjectClient → AISearchIndexResource
-    // Reachable via: AgentDefinitionUnion → AISearchIndexResource
-    // Reachable via: AgentVersion → AISearchIndexResource
-    // Reachable via: AgentsOperations → AISearchIndexResource
-    // Reachable via: AzureAISearchTool → AISearchIndexResource
-    // Reachable via: AzureAISearchToolResource → AISearchIndexResource
-    // Reachable via: HostedAgentDefinition → AISearchIndexResource
-    // Reachable via: PromptAgentDefinition → AISearchIndexResource
-    // Reachable via: ToolUnion → AISearchIndexResource
-    /** A AI Search Index resource. */
-    export interface AISearchIndexResource {
-        project_connection_id?: string;
-        index_name?: string;
-        query_type?: AzureAISearchQueryType;
-        top_k?: number;
-        filter?: string;
-        index_asset_id?: string;
-    }
-
-    // Reachable via: AIProjectClient → AzureAISearchQueryType
-    // Reachable via: AISearchIndexResource → AzureAISearchQueryType
-    // Reachable via: AgentDefinitionUnion → AzureAISearchQueryType
-    // Reachable via: AgentVersion → AzureAISearchQueryType
-    // Reachable via: AgentsOperations → AzureAISearchQueryType
-    // Reachable via: AzureAISearchTool → AzureAISearchQueryType
-    // Reachable via: AzureAISearchToolResource → AzureAISearchQueryType
-    // Reachable via: HostedAgentDefinition → AzureAISearchQueryType
-    // Reachable via: PromptAgentDefinition → AzureAISearchQueryType
-    // Reachable via: ToolUnion → AzureAISearchQueryType
-    /** Available query types for Azure AI Search tool. */
-    export type AzureAISearchQueryType = "simple" | "semantic" | "vector" | "vector_simple_hybrid" | "vector_semantic_hybrid";
-
-    // Reachable via: AIProjectClient → OpenApiTool
-    // Reachable via: AgentDefinitionUnion → OpenApiTool
-    // Reachable via: AgentVersion → OpenApiTool
-    // Reachable via: AgentsOperations → OpenApiTool
-    // Reachable via: HostedAgentDefinition → OpenApiTool
-    // Reachable via: PromptAgentDefinition → OpenApiTool
-    // Reachable via: ToolUnion → OpenApiTool
-    /** The input definition information for an OpenAPI tool as used to configure an agent. */
-    export interface OpenApiTool extends Tool {
-        type: "openapi";
-        openapi: OpenApiFunctionDefinition;
-    }
-
-    // Reachable via: AIProjectClient → OpenApiFunctionDefinition
-    // Reachable via: AgentDefinitionUnion → OpenApiFunctionDefinition
-    // Reachable via: AgentVersion → OpenApiFunctionDefinition
-    // Reachable via: AgentsOperations → OpenApiFunctionDefinition
-    // Reachable via: HostedAgentDefinition → OpenApiFunctionDefinition
-    // Reachable via: OpenApiTool → OpenApiFunctionDefinition
-    // Reachable via: PromptAgentDefinition → OpenApiFunctionDefinition
-    // Reachable via: ToolUnion → OpenApiFunctionDefinition
-    /** The input definition information for an openapi function. */
-    export interface OpenApiFunctionDefinition {
-        name: string;
-        description?: string;
-        spec: unknown;
-        auth: OpenApiAuthDetailsUnion;
-        default_params?: string[];
-        readonly functions?: {
-            name: string;
-            description?: string;
-            parameters: Record<string, unknown>;
-        }[];
-    }
-
-    // Reachable via: AIProjectClient → OpenApiAuthDetailsUnion
-    // Reachable via: AgentDefinitionUnion → OpenApiAuthDetailsUnion
-    // Reachable via: AgentVersion → OpenApiAuthDetailsUnion
-    // Reachable via: AgentsOperations → OpenApiAuthDetailsUnion
-    // Reachable via: HostedAgentDefinition → OpenApiAuthDetailsUnion
-    // Reachable via: OpenApiFunctionDefinition → OpenApiAuthDetailsUnion
-    // Reachable via: OpenApiTool → OpenApiAuthDetailsUnion
-    // Reachable via: PromptAgentDefinition → OpenApiAuthDetailsUnion
-    // Reachable via: ToolUnion → OpenApiAuthDetailsUnion
-    /** Alias for OpenApiAuthDetailsUnion */
-    export type OpenApiAuthDetailsUnion = OpenApiAnonymousAuthDetails | OpenApiProjectConnectionAuthDetails | OpenApiManagedAuthDetails | OpenApiAuthDetails;
-
-    // Reachable via: AIProjectClient → OpenApiAnonymousAuthDetails
-    // Reachable via: AgentDefinitionUnion → OpenApiAnonymousAuthDetails
-    // Reachable via: AgentVersion → OpenApiAnonymousAuthDetails
-    // Reachable via: AgentsOperations → OpenApiAnonymousAuthDetails
-    // Reachable via: HostedAgentDefinition → OpenApiAnonymousAuthDetails
-    // Reachable via: OpenApiAuthDetailsUnion → OpenApiAnonymousAuthDetails
-    // Reachable via: OpenApiFunctionDefinition → OpenApiAnonymousAuthDetails
-    // Reachable via: OpenApiTool → OpenApiAnonymousAuthDetails
-    // Reachable via: PromptAgentDefinition → OpenApiAnonymousAuthDetails
-    // Reachable via: ToolUnion → OpenApiAnonymousAuthDetails
-    /** Security details for OpenApi anonymous authentication */
-    export interface OpenApiAnonymousAuthDetails extends OpenApiAuthDetails {
-        type: "anonymous";
-    }
-
-    // Reachable via: AIProjectClient → OpenApiAuthDetails
-    // Reachable via: AgentDefinitionUnion → OpenApiAuthDetails
-    // Reachable via: AgentVersion → OpenApiAuthDetails
-    // Reachable via: AgentsOperations → OpenApiAuthDetails
-    // Reachable via: HostedAgentDefinition → OpenApiAuthDetails
-    // Reachable via: OpenApiAnonymousAuthDetails → OpenApiAuthDetails
-    // Reachable via: OpenApiAuthDetailsUnion → OpenApiAuthDetails
-    // Reachable via: OpenApiFunctionDefinition → OpenApiAuthDetails
-    // Reachable via: OpenApiManagedAuthDetails → OpenApiAuthDetails
-    // Reachable via: OpenApiProjectConnectionAuthDetails → OpenApiAuthDetails
-    // Reachable via: OpenApiTool → OpenApiAuthDetails
-    // Reachable via: PromptAgentDefinition → OpenApiAuthDetails
-    // Reachable via: ToolUnion → OpenApiAuthDetails
-    /** authentication details for OpenApiFunctionDefinition */
-    export interface OpenApiAuthDetails {
-        type: OpenApiAuthType;
-    }
-
-    // Reachable via: AIProjectClient → OpenApiAuthType
-    // Reachable via: AgentDefinitionUnion → OpenApiAuthType
-    // Reachable via: AgentVersion → OpenApiAuthType
-    // Reachable via: AgentsOperations → OpenApiAuthType
-    // Reachable via: HostedAgentDefinition → OpenApiAuthType
-    // Reachable via: OpenApiAnonymousAuthDetails → OpenApiAuthType
-    // Reachable via: OpenApiAuthDetails → OpenApiAuthType
-    // Reachable via: OpenApiAuthDetailsUnion → OpenApiAuthType
-    // Reachable via: OpenApiFunctionDefinition → OpenApiAuthType
-    // Reachable via: OpenApiManagedAuthDetails → OpenApiAuthType
-    // Reachable via: OpenApiProjectConnectionAuthDetails → OpenApiAuthType
-    // Reachable via: OpenApiTool → OpenApiAuthType
-    // Reachable via: PromptAgentDefinition → OpenApiAuthType
-    // Reachable via: ToolUnion → OpenApiAuthType
-    /** Authentication type for OpenApi endpoint. Allowed types are:
-    - Anonymous (no authentication required)
-    - Project Connection (requires project_connection_id to endpoint, as setup in AI Foundry)
-    - Managed_Identity (requires audience for identity based auth) */
-    export type OpenApiAuthType = "anonymous" | "project_connection" | "managed_identity";
-
-    // Reachable via: AIProjectClient → OpenApiProjectConnectionAuthDetails
-    // Reachable via: AgentDefinitionUnion → OpenApiProjectConnectionAuthDetails
-    // Reachable via: AgentVersion → OpenApiProjectConnectionAuthDetails
-    // Reachable via: AgentsOperations → OpenApiProjectConnectionAuthDetails
-    // Reachable via: HostedAgentDefinition → OpenApiProjectConnectionAuthDetails
-    // Reachable via: OpenApiAuthDetailsUnion → OpenApiProjectConnectionAuthDetails
-    // Reachable via: OpenApiFunctionDefinition → OpenApiProjectConnectionAuthDetails
-    // Reachable via: OpenApiTool → OpenApiProjectConnectionAuthDetails
-    // Reachable via: PromptAgentDefinition → OpenApiProjectConnectionAuthDetails
-    // Reachable via: ToolUnion → OpenApiProjectConnectionAuthDetails
-    /** Security details for OpenApi project connection authentication */
-    export interface OpenApiProjectConnectionAuthDetails extends OpenApiAuthDetails {
-        type: "project_connection";
-        security_scheme: OpenApiProjectConnectionSecurityScheme;
-    }
-
-    // Reachable via: AIProjectClient → OpenApiProjectConnectionSecurityScheme
-    // Reachable via: AgentDefinitionUnion → OpenApiProjectConnectionSecurityScheme
-    // Reachable via: AgentVersion → OpenApiProjectConnectionSecurityScheme
-    // Reachable via: AgentsOperations → OpenApiProjectConnectionSecurityScheme
-    // Reachable via: HostedAgentDefinition → OpenApiProjectConnectionSecurityScheme
-    // Reachable via: OpenApiAuthDetailsUnion → OpenApiProjectConnectionSecurityScheme
-    // Reachable via: OpenApiFunctionDefinition → OpenApiProjectConnectionSecurityScheme
-    // Reachable via: OpenApiProjectConnectionAuthDetails → OpenApiProjectConnectionSecurityScheme
-    // Reachable via: OpenApiTool → OpenApiProjectConnectionSecurityScheme
-    // Reachable via: PromptAgentDefinition → OpenApiProjectConnectionSecurityScheme
-    // Reachable via: ToolUnion → OpenApiProjectConnectionSecurityScheme
-    /** Security scheme for OpenApi managed_identity authentication */
-    export interface OpenApiProjectConnectionSecurityScheme {
-        project_connection_id: string;
-    }
-
-    // Reachable via: AIProjectClient → OpenApiManagedAuthDetails
-    // Reachable via: AgentDefinitionUnion → OpenApiManagedAuthDetails
-    // Reachable via: AgentVersion → OpenApiManagedAuthDetails
-    // Reachable via: AgentsOperations → OpenApiManagedAuthDetails
-    // Reachable via: HostedAgentDefinition → OpenApiManagedAuthDetails
-    // Reachable via: OpenApiAuthDetailsUnion → OpenApiManagedAuthDetails
-    // Reachable via: OpenApiFunctionDefinition → OpenApiManagedAuthDetails
-    // Reachable via: OpenApiTool → OpenApiManagedAuthDetails
-    // Reachable via: PromptAgentDefinition → OpenApiManagedAuthDetails
-    // Reachable via: ToolUnion → OpenApiManagedAuthDetails
-    /** Security details for OpenApi managed_identity authentication */
-    export interface OpenApiManagedAuthDetails extends OpenApiAuthDetails {
-        type: "managed_identity";
-        security_scheme: OpenApiManagedSecurityScheme;
-    }
-
-    // Reachable via: AIProjectClient → OpenApiManagedSecurityScheme
-    // Reachable via: AgentDefinitionUnion → OpenApiManagedSecurityScheme
-    // Reachable via: AgentVersion → OpenApiManagedSecurityScheme
-    // Reachable via: AgentsOperations → OpenApiManagedSecurityScheme
-    // Reachable via: HostedAgentDefinition → OpenApiManagedSecurityScheme
-    // Reachable via: OpenApiAuthDetailsUnion → OpenApiManagedSecurityScheme
-    // Reachable via: OpenApiFunctionDefinition → OpenApiManagedSecurityScheme
-    // Reachable via: OpenApiManagedAuthDetails → OpenApiManagedSecurityScheme
-    // Reachable via: OpenApiTool → OpenApiManagedSecurityScheme
-    // Reachable via: PromptAgentDefinition → OpenApiManagedSecurityScheme
-    // Reachable via: ToolUnion → OpenApiManagedSecurityScheme
-    /** Security scheme for OpenApi managed_identity authentication */
-    export interface OpenApiManagedSecurityScheme {
-        audience: string;
-    }
-
-    // Reachable via: AIProjectClient → BingCustomSearchPreviewTool
-    // Reachable via: AgentDefinitionUnion → BingCustomSearchPreviewTool
-    // Reachable via: AgentVersion → BingCustomSearchPreviewTool
-    // Reachable via: AgentsOperations → BingCustomSearchPreviewTool
-    // Reachable via: HostedAgentDefinition → BingCustomSearchPreviewTool
-    // Reachable via: PromptAgentDefinition → BingCustomSearchPreviewTool
-    // Reachable via: ToolUnion → BingCustomSearchPreviewTool
-    /** The input definition information for a Bing custom search tool as used to configure an agent. */
-    export interface BingCustomSearchPreviewTool extends Tool {
-        type: "bing_custom_search_preview";
-        bing_custom_search_preview: BingCustomSearchToolParameters;
-    }
-
-    // Reachable via: AIProjectClient → BingCustomSearchToolParameters
-    // Reachable via: AgentDefinitionUnion → BingCustomSearchToolParameters
-    // Reachable via: AgentVersion → BingCustomSearchToolParameters
-    // Reachable via: AgentsOperations → BingCustomSearchToolParameters
-    // Reachable via: BingCustomSearchPreviewTool → BingCustomSearchToolParameters
-    // Reachable via: HostedAgentDefinition → BingCustomSearchToolParameters
-    // Reachable via: PromptAgentDefinition → BingCustomSearchToolParameters
-    // Reachable via: ToolUnion → BingCustomSearchToolParameters
-    /** The bing custom search tool parameters. */
-    export interface BingCustomSearchToolParameters {
-        search_configurations: BingCustomSearchConfiguration[];
-    }
-
-    // Reachable via: AIProjectClient → BingCustomSearchConfiguration
-    // Reachable via: AgentDefinitionUnion → BingCustomSearchConfiguration
-    // Reachable via: AgentVersion → BingCustomSearchConfiguration
-    // Reachable via: AgentsOperations → BingCustomSearchConfiguration
-    // Reachable via: BingCustomSearchPreviewTool → BingCustomSearchConfiguration
-    // Reachable via: BingCustomSearchToolParameters → BingCustomSearchConfiguration
-    // Reachable via: HostedAgentDefinition → BingCustomSearchConfiguration
-    // Reachable via: PromptAgentDefinition → BingCustomSearchConfiguration
-    // Reachable via: ToolUnion → BingCustomSearchConfiguration
-    /** A bing custom search configuration. */
-    export interface BingCustomSearchConfiguration {
-        project_connection_id: string;
-        instance_name: string;
-        market?: string;
-        set_lang?: string;
-        count?: number;
-        freshness?: string;
-    }
-
-    // Reachable via: AIProjectClient → BrowserAutomationPreviewTool
-    // Reachable via: AgentDefinitionUnion → BrowserAutomationPreviewTool
-    // Reachable via: AgentVersion → BrowserAutomationPreviewTool
-    // Reachable via: AgentsOperations → BrowserAutomationPreviewTool
-    // Reachable via: HostedAgentDefinition → BrowserAutomationPreviewTool
-    // Reachable via: PromptAgentDefinition → BrowserAutomationPreviewTool
-    // Reachable via: ToolUnion → BrowserAutomationPreviewTool
-    /** The input definition information for a Browser Automation Tool, as used to configure an Agent. */
-    export interface BrowserAutomationPreviewTool extends Tool {
-        type: "browser_automation_preview";
-        browser_automation_preview: BrowserAutomationToolParameters;
-    }
-
-    // Reachable via: AIProjectClient → BrowserAutomationToolParameters
-    // Reachable via: AgentDefinitionUnion → BrowserAutomationToolParameters
-    // Reachable via: AgentVersion → BrowserAutomationToolParameters
-    // Reachable via: AgentsOperations → BrowserAutomationToolParameters
-    // Reachable via: BrowserAutomationPreviewTool → BrowserAutomationToolParameters
-    // Reachable via: HostedAgentDefinition → BrowserAutomationToolParameters
-    // Reachable via: PromptAgentDefinition → BrowserAutomationToolParameters
-    // Reachable via: ToolUnion → BrowserAutomationToolParameters
-    /** Definition of input parameters for the Browser Automation Tool. */
-    export interface BrowserAutomationToolParameters {
-        connection: BrowserAutomationToolConnectionParameters;
-    }
-
-    // Reachable via: AIProjectClient → BrowserAutomationToolConnectionParameters
-    // Reachable via: AgentDefinitionUnion → BrowserAutomationToolConnectionParameters
-    // Reachable via: AgentVersion → BrowserAutomationToolConnectionParameters
-    // Reachable via: AgentsOperations → BrowserAutomationToolConnectionParameters
-    // Reachable via: BrowserAutomationPreviewTool → BrowserAutomationToolConnectionParameters
-    // Reachable via: BrowserAutomationToolParameters → BrowserAutomationToolConnectionParameters
-    // Reachable via: HostedAgentDefinition → BrowserAutomationToolConnectionParameters
-    // Reachable via: PromptAgentDefinition → BrowserAutomationToolConnectionParameters
-    // Reachable via: ToolUnion → BrowserAutomationToolConnectionParameters
-    /** Definition of input parameters for the connection used by the Browser Automation Tool. */
-    export interface BrowserAutomationToolConnectionParameters {
-        project_connection_id: string;
-    }
-
-    // Reachable via: AIProjectClient → AzureFunctionTool
-    // Reachable via: AgentDefinitionUnion → AzureFunctionTool
-    // Reachable via: AgentVersion → AzureFunctionTool
-    // Reachable via: AgentsOperations → AzureFunctionTool
-    // Reachable via: HostedAgentDefinition → AzureFunctionTool
-    // Reachable via: PromptAgentDefinition → AzureFunctionTool
-    // Reachable via: ToolUnion → AzureFunctionTool
-    /** The input definition information for an Azure Function Tool, as used to configure an Agent. */
-    export interface AzureFunctionTool extends Tool {
-        type: "azure_function";
-        azure_function: AzureFunctionDefinition;
-    }
-
-    // Reachable via: AIProjectClient → AzureFunctionDefinition
-    // Reachable via: AgentDefinitionUnion → AzureFunctionDefinition
-    // Reachable via: AgentVersion → AzureFunctionDefinition
-    // Reachable via: AgentsOperations → AzureFunctionDefinition
-    // Reachable via: AzureFunctionTool → AzureFunctionDefinition
-    // Reachable via: HostedAgentDefinition → AzureFunctionDefinition
-    // Reachable via: PromptAgentDefinition → AzureFunctionDefinition
-    // Reachable via: ToolUnion → AzureFunctionDefinition
-    /** The definition of Azure function. */
-    export interface AzureFunctionDefinition {
-        function: {
-            name: string;
-            description?: string;
-            parameters: Record<string, unknown>;
-        };
-        input_binding: AzureFunctionBinding;
-        output_binding: AzureFunctionBinding;
-    }
-
-    // Reachable via: AIProjectClient → AzureFunctionBinding
-    // Reachable via: AgentDefinitionUnion → AzureFunctionBinding
-    // Reachable via: AgentVersion → AzureFunctionBinding
-    // Reachable via: AgentsOperations → AzureFunctionBinding
-    // Reachable via: AzureFunctionDefinition → AzureFunctionBinding
-    // Reachable via: AzureFunctionTool → AzureFunctionBinding
-    // Reachable via: HostedAgentDefinition → AzureFunctionBinding
-    // Reachable via: PromptAgentDefinition → AzureFunctionBinding
-    // Reachable via: ToolUnion → AzureFunctionBinding
-    /** The structure for keeping storage queue name and URI. */
-    export interface AzureFunctionBinding {
-        type: "storage_queue";
-        storage_queue: AzureFunctionStorageQueue;
-    }
-
-    // Reachable via: AIProjectClient → AzureFunctionStorageQueue
-    // Reachable via: AgentDefinitionUnion → AzureFunctionStorageQueue
-    // Reachable via: AgentVersion → AzureFunctionStorageQueue
-    // Reachable via: AgentsOperations → AzureFunctionStorageQueue
-    // Reachable via: AzureFunctionBinding → AzureFunctionStorageQueue
-    // Reachable via: AzureFunctionDefinition → AzureFunctionStorageQueue
-    // Reachable via: AzureFunctionTool → AzureFunctionStorageQueue
-    // Reachable via: HostedAgentDefinition → AzureFunctionStorageQueue
-    // Reachable via: PromptAgentDefinition → AzureFunctionStorageQueue
-    // Reachable via: ToolUnion → AzureFunctionStorageQueue
-    /** The structure for keeping storage queue name and URI. */
-    export interface AzureFunctionStorageQueue {
-        queue_service_endpoint: string;
-        queue_name: string;
-    }
-
-    // Reachable via: AIProjectClient → CaptureStructuredOutputsTool
-    // Reachable via: AgentDefinitionUnion → CaptureStructuredOutputsTool
-    // Reachable via: AgentVersion → CaptureStructuredOutputsTool
-    // Reachable via: AgentsOperations → CaptureStructuredOutputsTool
-    // Reachable via: HostedAgentDefinition → CaptureStructuredOutputsTool
-    // Reachable via: PromptAgentDefinition → CaptureStructuredOutputsTool
-    // Reachable via: ToolUnion → CaptureStructuredOutputsTool
-    /** A tool for capturing structured outputs */
-    export interface CaptureStructuredOutputsTool extends Tool {
-        type: "capture_structured_outputs";
-        outputs: StructuredOutputDefinition;
-    }
-
-    // Reachable via: AIProjectClient → StructuredOutputDefinition
-    // Reachable via: AgentDefinitionUnion → StructuredOutputDefinition
-    // Reachable via: AgentVersion → StructuredOutputDefinition
-    // Reachable via: AgentsOperations → StructuredOutputDefinition
-    // Reachable via: CaptureStructuredOutputsTool → StructuredOutputDefinition
-    // Reachable via: HostedAgentDefinition → StructuredOutputDefinition
-    // Reachable via: PromptAgentDefinition → StructuredOutputDefinition
-    // Reachable via: ToolUnion → StructuredOutputDefinition
-    /** A structured output that can be produced by the agent. */
-    export interface StructuredOutputDefinition {
-        name: string;
-        description: string;
-        schema: Record<string, unknown>;
-        strict: boolean;
-    }
-
-    // Reachable via: AIProjectClient → A2APreviewTool
-    // Reachable via: AgentDefinitionUnion → A2APreviewTool
-    // Reachable via: AgentVersion → A2APreviewTool
-    // Reachable via: AgentsOperations → A2APreviewTool
-    // Reachable via: HostedAgentDefinition → A2APreviewTool
-    // Reachable via: PromptAgentDefinition → A2APreviewTool
-    // Reachable via: ToolUnion → A2APreviewTool
-    /** An agent implementing the A2A protocol. */
-    export interface A2APreviewTool extends Tool {
-        type: "a2a_preview";
-        base_url?: string;
-        agent_card_path?: string;
-        project_connection_id?: string;
-    }
-
-    // Reachable via: AIProjectClient → MemorySearchPreviewTool
-    // Reachable via: AgentDefinitionUnion → MemorySearchPreviewTool
-    // Reachable via: AgentVersion → MemorySearchPreviewTool
-    // Reachable via: AgentsOperations → MemorySearchPreviewTool
-    // Reachable via: HostedAgentDefinition → MemorySearchPreviewTool
-    // Reachable via: PromptAgentDefinition → MemorySearchPreviewTool
-    // Reachable via: ToolUnion → MemorySearchPreviewTool
-    /** A tool for integrating memories into the agent. */
-    export interface MemorySearchPreviewTool extends Tool {
-        type: "memory_search_preview";
-        memory_store_name: string;
-        scope: string;
-        search_options?: MemorySearchOptions;
-        update_delay?: number;
-    }
-
-    // Reachable via: AIProjectClient → MemorySearchOptions
-    // Reachable via: AgentDefinitionUnion → MemorySearchOptions
-    // Reachable via: AgentVersion → MemorySearchOptions
-    // Reachable via: AgentsOperations → MemorySearchOptions
-    // Reachable via: BetaMemoryStoresOperations → MemorySearchOptions
-    // Reachable via: BetaMemoryStoresSearchMemoriesOptionalParams → MemorySearchOptions
-    // Reachable via: BetaOperations → MemorySearchOptions
-    // Reachable via: HostedAgentDefinition → MemorySearchOptions
-    // Reachable via: MemorySearchPreviewTool → MemorySearchOptions
-    // Reachable via: PromptAgentDefinition → MemorySearchOptions
-    // Reachable via: ToolUnion → MemorySearchOptions
-    /** Memory search options. */
-    export interface MemorySearchOptions {
-        max_memories?: number;
-    }
-
-    // Reachable via: AIProjectClient → AutoCodeInterpreterToolParam
-    // Reachable via: AgentDefinitionUnion → AutoCodeInterpreterToolParam
-    // Reachable via: AgentVersion → AutoCodeInterpreterToolParam
-    // Reachable via: AgentsOperations → AutoCodeInterpreterToolParam
-    // Reachable via: CodeInterpreterTool → AutoCodeInterpreterToolParam
-    // Reachable via: HostedAgentDefinition → AutoCodeInterpreterToolParam
-    // Reachable via: PromptAgentDefinition → AutoCodeInterpreterToolParam
-    // Reachable via: ToolUnion → AutoCodeInterpreterToolParam
-    /** Configuration for a code interpreter container. Optionally specify the IDs of the files to run the code on. */
-    export interface AutoCodeInterpreterToolParam {
-        type: "auto";
-        file_ids?: string[];
-        memory_limit?: ContainerMemoryLimit;
-        network_policy?: ContainerNetworkPolicyParamUnion;
-    }
-
-    // Reachable via: AIProjectClient → ContainerMemoryLimit
-    // Reachable via: AgentDefinitionUnion → ContainerMemoryLimit
-    // Reachable via: AgentVersion → ContainerMemoryLimit
-    // Reachable via: AgentsOperations → ContainerMemoryLimit
-    // Reachable via: AutoCodeInterpreterToolParam → ContainerMemoryLimit
-    // Reachable via: CodeInterpreterTool → ContainerMemoryLimit
-    // Reachable via: ContainerAutoParam → ContainerMemoryLimit
-    // Reachable via: FunctionShellToolParam → ContainerMemoryLimit
-    // Reachable via: FunctionShellToolParamEnvironmentUnion → ContainerMemoryLimit
-    // Reachable via: HostedAgentDefinition → ContainerMemoryLimit
-    // Reachable via: PromptAgentDefinition → ContainerMemoryLimit
-    // Reachable via: ToolUnion → ContainerMemoryLimit
-    /** Type of ContainerMemoryLimit */
-    export type ContainerMemoryLimit = "1g" | "4g" | "16g" | "64g";
-
-    // Reachable via: AIProjectClient → ContainerNetworkPolicyParamUnion
-    // Reachable via: AgentDefinitionUnion → ContainerNetworkPolicyParamUnion
-    // Reachable via: AgentVersion → ContainerNetworkPolicyParamUnion
-    // Reachable via: AgentsOperations → ContainerNetworkPolicyParamUnion
-    // Reachable via: AutoCodeInterpreterToolParam → ContainerNetworkPolicyParamUnion
-    // Reachable via: CodeInterpreterTool → ContainerNetworkPolicyParamUnion
-    // Reachable via: ContainerAutoParam → ContainerNetworkPolicyParamUnion
-    // Reachable via: FunctionShellToolParam → ContainerNetworkPolicyParamUnion
-    // Reachable via: FunctionShellToolParamEnvironmentUnion → ContainerNetworkPolicyParamUnion
-    // Reachable via: HostedAgentDefinition → ContainerNetworkPolicyParamUnion
-    // Reachable via: PromptAgentDefinition → ContainerNetworkPolicyParamUnion
-    // Reachable via: ToolUnion → ContainerNetworkPolicyParamUnion
-    /** Alias for ContainerNetworkPolicyParamUnion */
-    export type ContainerNetworkPolicyParamUnion = ContainerNetworkPolicyDisabledParam | ContainerNetworkPolicyAllowlistParam | ContainerNetworkPolicyParam;
-
-    // Reachable via: AIProjectClient → ContainerNetworkPolicyDisabledParam
-    // Reachable via: AgentDefinitionUnion → ContainerNetworkPolicyDisabledParam
-    // Reachable via: AgentVersion → ContainerNetworkPolicyDisabledParam
-    // Reachable via: AgentsOperations → ContainerNetworkPolicyDisabledParam
-    // Reachable via: AutoCodeInterpreterToolParam → ContainerNetworkPolicyDisabledParam
-    // Reachable via: CodeInterpreterTool → ContainerNetworkPolicyDisabledParam
-    // Reachable via: ContainerAutoParam → ContainerNetworkPolicyDisabledParam
-    // Reachable via: ContainerNetworkPolicyParamUnion → ContainerNetworkPolicyDisabledParam
-    // Reachable via: HostedAgentDefinition → ContainerNetworkPolicyDisabledParam
-    // Reachable via: PromptAgentDefinition → ContainerNetworkPolicyDisabledParam
-    // Reachable via: ToolUnion → ContainerNetworkPolicyDisabledParam
-    /** model interface ContainerNetworkPolicyDisabledParam */
-    export interface ContainerNetworkPolicyDisabledParam extends ContainerNetworkPolicyParam {
-        type: "disabled";
-    }
-
-    // Reachable via: AIProjectClient → ContainerNetworkPolicyParam
-    // Reachable via: AgentDefinitionUnion → ContainerNetworkPolicyParam
-    // Reachable via: AgentVersion → ContainerNetworkPolicyParam
-    // Reachable via: AgentsOperations → ContainerNetworkPolicyParam
-    // Reachable via: AutoCodeInterpreterToolParam → ContainerNetworkPolicyParam
-    // Reachable via: CodeInterpreterTool → ContainerNetworkPolicyParam
-    // Reachable via: ContainerAutoParam → ContainerNetworkPolicyParam
-    // Reachable via: ContainerNetworkPolicyAllowlistParam → ContainerNetworkPolicyParam
-    // Reachable via: ContainerNetworkPolicyDisabledParam → ContainerNetworkPolicyParam
-    // Reachable via: ContainerNetworkPolicyParamUnion → ContainerNetworkPolicyParam
-    // Reachable via: HostedAgentDefinition → ContainerNetworkPolicyParam
-    // Reachable via: PromptAgentDefinition → ContainerNetworkPolicyParam
-    // Reachable via: ToolUnion → ContainerNetworkPolicyParam
-    /** Network access policy for the container. */
-    export interface ContainerNetworkPolicyParam {
-        type: ContainerNetworkPolicyParamType;
-    }
-
-    // Reachable via: AIProjectClient → ContainerNetworkPolicyParamType
-    // Reachable via: AgentDefinitionUnion → ContainerNetworkPolicyParamType
-    // Reachable via: AgentVersion → ContainerNetworkPolicyParamType
-    // Reachable via: AgentsOperations → ContainerNetworkPolicyParamType
-    // Reachable via: AutoCodeInterpreterToolParam → ContainerNetworkPolicyParamType
-    // Reachable via: CodeInterpreterTool → ContainerNetworkPolicyParamType
-    // Reachable via: ContainerAutoParam → ContainerNetworkPolicyParamType
-    // Reachable via: ContainerNetworkPolicyAllowlistParam → ContainerNetworkPolicyParamType
-    // Reachable via: ContainerNetworkPolicyDisabledParam → ContainerNetworkPolicyParamType
-    // Reachable via: ContainerNetworkPolicyParam → ContainerNetworkPolicyParamType
-    // Reachable via: ContainerNetworkPolicyParamUnion → ContainerNetworkPolicyParamType
-    // Reachable via: HostedAgentDefinition → ContainerNetworkPolicyParamType
-    // Reachable via: PromptAgentDefinition → ContainerNetworkPolicyParamType
-    // Reachable via: ToolUnion → ContainerNetworkPolicyParamType
-    /** Type of ContainerNetworkPolicyParamType */
-    export type ContainerNetworkPolicyParamType = "disabled" | "allowlist";
-
-    // Reachable via: AIProjectClient → ContainerNetworkPolicyAllowlistParam
-    // Reachable via: AgentDefinitionUnion → ContainerNetworkPolicyAllowlistParam
-    // Reachable via: AgentVersion → ContainerNetworkPolicyAllowlistParam
-    // Reachable via: AgentsOperations → ContainerNetworkPolicyAllowlistParam
-    // Reachable via: AutoCodeInterpreterToolParam → ContainerNetworkPolicyAllowlistParam
-    // Reachable via: CodeInterpreterTool → ContainerNetworkPolicyAllowlistParam
-    // Reachable via: ContainerAutoParam → ContainerNetworkPolicyAllowlistParam
-    // Reachable via: ContainerNetworkPolicyParamUnion → ContainerNetworkPolicyAllowlistParam
-    // Reachable via: HostedAgentDefinition → ContainerNetworkPolicyAllowlistParam
-    // Reachable via: PromptAgentDefinition → ContainerNetworkPolicyAllowlistParam
-    // Reachable via: ToolUnion → ContainerNetworkPolicyAllowlistParam
-    /** model interface ContainerNetworkPolicyAllowlistParam */
-    export interface ContainerNetworkPolicyAllowlistParam extends ContainerNetworkPolicyParam {
-        type: "allowlist";
-        allowed_domains: string[];
-        domain_secrets?: ContainerNetworkPolicyDomainSecretParam[];
-    }
-
-    // Reachable via: AIProjectClient → ContainerNetworkPolicyDomainSecretParam
-    // Reachable via: AgentDefinitionUnion → ContainerNetworkPolicyDomainSecretParam
-    // Reachable via: AgentVersion → ContainerNetworkPolicyDomainSecretParam
-    // Reachable via: AgentsOperations → ContainerNetworkPolicyDomainSecretParam
-    // Reachable via: AutoCodeInterpreterToolParam → ContainerNetworkPolicyDomainSecretParam
-    // Reachable via: CodeInterpreterTool → ContainerNetworkPolicyDomainSecretParam
-    // Reachable via: ContainerAutoParam → ContainerNetworkPolicyDomainSecretParam
-    // Reachable via: ContainerNetworkPolicyAllowlistParam → ContainerNetworkPolicyDomainSecretParam
-    // Reachable via: ContainerNetworkPolicyParamUnion → ContainerNetworkPolicyDomainSecretParam
-    // Reachable via: HostedAgentDefinition → ContainerNetworkPolicyDomainSecretParam
-    // Reachable via: PromptAgentDefinition → ContainerNetworkPolicyDomainSecretParam
-    // Reachable via: ToolUnion → ContainerNetworkPolicyDomainSecretParam
-    /** model interface ContainerNetworkPolicyDomainSecretParam */
-    export interface ContainerNetworkPolicyDomainSecretParam {
-        domain: string;
-        name: string;
-        value: string;
-    }
-
-    // Reachable via: AIProjectClient → RankerVersionType
-    // Reachable via: AgentDefinitionUnion → RankerVersionType
-    // Reachable via: AgentVersion → RankerVersionType
-    // Reachable via: AgentsOperations → RankerVersionType
-    // Reachable via: FileSearchTool → RankerVersionType
-    // Reachable via: HostedAgentDefinition → RankerVersionType
-    // Reachable via: PromptAgentDefinition → RankerVersionType
-    // Reachable via: RankingOptions → RankerVersionType
-    // Reachable via: ToolUnion → RankerVersionType
-    /** Type of RankerVersionType */
-    export type RankerVersionType = "auto" | "default-2024-11-15";
-
-    // Reachable via: AIProjectClient → HybridSearchOptions
-    // Reachable via: AgentDefinitionUnion → HybridSearchOptions
-    // Reachable via: AgentVersion → HybridSearchOptions
-    // Reachable via: AgentsOperations → HybridSearchOptions
-    // Reachable via: FileSearchTool → HybridSearchOptions
-    // Reachable via: HostedAgentDefinition → HybridSearchOptions
-    // Reachable via: PromptAgentDefinition → HybridSearchOptions
-    // Reachable via: RankingOptions → HybridSearchOptions
-    // Reachable via: ToolUnion → HybridSearchOptions
-    /** model interface HybridSearchOptions */
-    export interface HybridSearchOptions {
-        embedding_weight: number;
-        text_weight: number;
-    }
-
-    // Reachable via: AIProjectClient → ComparisonFilterValueItems
-    // Reachable via: AgentDefinitionUnion → ComparisonFilterValueItems
-    // Reachable via: AgentVersion → ComparisonFilterValueItems
-    // Reachable via: AgentsOperations → ComparisonFilterValueItems
-    // Reachable via: ComparisonFilter → ComparisonFilterValueItems
-    // Reachable via: FileSearchTool → ComparisonFilterValueItems
-    // Reachable via: Filters → ComparisonFilterValueItems
-    // Reachable via: HostedAgentDefinition → ComparisonFilterValueItems
-    // Reachable via: PromptAgentDefinition → ComparisonFilterValueItems
-    // Reachable via: ToolUnion → ComparisonFilterValueItems
-    /** Alias for ComparisonFilterValueItems */
-    export type ComparisonFilterValueItems = string | number;
-
-    // Reachable via: AIProjectClient → ComputerEnvironment
-    // Reachable via: AgentDefinitionUnion → ComputerEnvironment
-    // Reachable via: AgentVersion → ComputerEnvironment
-    // Reachable via: AgentsOperations → ComputerEnvironment
-    // Reachable via: ComputerUsePreviewTool → ComputerEnvironment
-    // Reachable via: HostedAgentDefinition → ComputerEnvironment
-    // Reachable via: PromptAgentDefinition → ComputerEnvironment
-    // Reachable via: ToolUnion → ComputerEnvironment
-    /** Type of ComputerEnvironment */
-    export type ComputerEnvironment = "windows" | "mac" | "linux" | "ubuntu" | "browser";
-
-    // Reachable via: AIProjectClient → WebSearchToolFilters
-    // Reachable via: AgentDefinitionUnion → WebSearchToolFilters
-    // Reachable via: AgentVersion → WebSearchToolFilters
-    // Reachable via: AgentsOperations → WebSearchToolFilters
-    // Reachable via: HostedAgentDefinition → WebSearchToolFilters
-    // Reachable via: PromptAgentDefinition → WebSearchToolFilters
-    // Reachable via: ToolUnion → WebSearchToolFilters
-    // Reachable via: WebSearchTool → WebSearchToolFilters
-    /** model interface WebSearchToolFilters */
-    export interface WebSearchToolFilters {
-        allowed_domains?: string[];
-    }
-
-    // Reachable via: AIProjectClient → WebSearchApproximateLocation
-    // Reachable via: AgentDefinitionUnion → WebSearchApproximateLocation
-    // Reachable via: AgentVersion → WebSearchApproximateLocation
-    // Reachable via: AgentsOperations → WebSearchApproximateLocation
-    // Reachable via: HostedAgentDefinition → WebSearchApproximateLocation
-    // Reachable via: PromptAgentDefinition → WebSearchApproximateLocation
-    // Reachable via: ToolUnion → WebSearchApproximateLocation
-    // Reachable via: WebSearchTool → WebSearchApproximateLocation
-    /** The approximate location of the user. */
-    export interface WebSearchApproximateLocation {
-        type?: "approximate";
-        country?: string;
-        region?: string;
-        city?: string;
-        timezone?: string;
-    }
-
-    // Reachable via: AIProjectClient → WebSearchConfiguration
-    // Reachable via: AgentDefinitionUnion → WebSearchConfiguration
-    // Reachable via: AgentVersion → WebSearchConfiguration
-    // Reachable via: AgentsOperations → WebSearchConfiguration
-    // Reachable via: HostedAgentDefinition → WebSearchConfiguration
-    // Reachable via: PromptAgentDefinition → WebSearchConfiguration
-    // Reachable via: ToolUnion → WebSearchConfiguration
-    // Reachable via: WebSearchTool → WebSearchConfiguration
-    /** A web search configuration for bing custom search */
-    export interface WebSearchConfiguration {
-        project_connection_id: string;
-        instance_name: string;
-    }
-
-    // Reachable via: AIProjectClient → MCPTool
-    // Reachable via: AgentDefinitionUnion → MCPTool
-    // Reachable via: AgentVersion → MCPTool
-    // Reachable via: AgentsOperations → MCPTool
-    // Reachable via: HostedAgentDefinition → MCPTool
-    // Reachable via: PromptAgentDefinition → MCPTool
-    // Reachable via: ToolUnion → MCPTool
-    /** Give the model access to additional tools via remote Model Context Protocol
-    (MCP) servers. [Learn more about MCP](https://platform.openai.com/docs/guides/tools-remote-mcp). */
-    export interface MCPTool extends Tool {
-        type: "mcp";
-        server_label: string;
-        server_url?: string;
-        connector_id?: "connector_dropbox" | "connector_gmail" | "connector_googlecalendar" | "connector_googledrive" | "connector_microsoftteams" | "connector_outlookcalendar" | "connector_outlookemail" | "connector_sharepoint";
-        authorization?: string;
-        server_description?: string;
-        headers?: Record<string, string>;
-        allowed_tools?: string[] | MCPToolFilter;
-        require_approval?: MCPToolRequireApproval | "always" | "never";
-        project_connection_id?: string;
-    }
-
-    // Reachable via: AIProjectClient → MCPToolFilter
-    // Reachable via: AgentDefinitionUnion → MCPToolFilter
-    // Reachable via: AgentVersion → MCPToolFilter
-    // Reachable via: AgentsOperations → MCPToolFilter
-    // Reachable via: HostedAgentDefinition → MCPToolFilter
-    // Reachable via: MCPTool → MCPToolFilter
-    // Reachable via: MCPToolRequireApproval → MCPToolFilter
-    // Reachable via: PromptAgentDefinition → MCPToolFilter
-    // Reachable via: ToolUnion → MCPToolFilter
-    /** A filter object to specify which tools are allowed. */
-    export interface MCPToolFilter {
-        tool_names?: string[];
-        read_only?: boolean;
-    }
-
-    // Reachable via: AIProjectClient → MCPToolRequireApproval
-    // Reachable via: AgentDefinitionUnion → MCPToolRequireApproval
-    // Reachable via: AgentVersion → MCPToolRequireApproval
-    // Reachable via: AgentsOperations → MCPToolRequireApproval
-    // Reachable via: HostedAgentDefinition → MCPToolRequireApproval
-    // Reachable via: MCPTool → MCPToolRequireApproval
-    // Reachable via: PromptAgentDefinition → MCPToolRequireApproval
-    // Reachable via: ToolUnion → MCPToolRequireApproval
-    /** model interface MCPToolRequireApproval */
-    export interface MCPToolRequireApproval {
-        always?: MCPToolFilter;
-        never?: MCPToolFilter;
-    }
-
-    // Reachable via: AIProjectClient → ImageGenTool
-    // Reachable via: AgentDefinitionUnion → ImageGenTool
-    // Reachable via: AgentVersion → ImageGenTool
-    // Reachable via: AgentsOperations → ImageGenTool
-    // Reachable via: HostedAgentDefinition → ImageGenTool
-    // Reachable via: PromptAgentDefinition → ImageGenTool
-    // Reachable via: ToolUnion → ImageGenTool
-    /** A tool that generates images using the GPT image models. */
-    export interface ImageGenTool extends Tool {
-        type: "image_generation";
-        model?: "gpt-image-1" | "gpt-image-1-mini";
-        quality?: "low" | "medium" | "high" | "auto";
-        size?: "1024x1024" | "1024x1536" | "1536x1024" | "auto";
-        output_format?: "png" | "webp" | "jpeg";
-        output_compression?: number;
-        moderation?: "auto" | "low";
-        background?: "transparent" | "opaque" | "auto";
-        input_fidelity?: InputFidelity;
-        input_image_mask?: ImageGenToolInputImageMask;
-        partial_images?: number;
-        action?: ImageGenAction;
-    }
-
-    // Reachable via: AIProjectClient → InputFidelity
-    // Reachable via: AgentDefinitionUnion → InputFidelity
-    // Reachable via: AgentVersion → InputFidelity
-    // Reachable via: AgentsOperations → InputFidelity
-    // Reachable via: HostedAgentDefinition → InputFidelity
-    // Reachable via: ImageGenTool → InputFidelity
-    // Reachable via: PromptAgentDefinition → InputFidelity
-    // Reachable via: ToolUnion → InputFidelity
-    /** Control how much effort the model will exert to match the style and features, especially facial features, of input images. This parameter is only supported for `gpt-image-1`. Unsupported for `gpt-image-1-mini`. Supports `high` and `low`. Defaults to `low`. */
-    export type InputFidelity = "high" | "low";
-
-    // Reachable via: AIProjectClient → ImageGenToolInputImageMask
-    // Reachable via: AgentDefinitionUnion → ImageGenToolInputImageMask
-    // Reachable via: AgentVersion → ImageGenToolInputImageMask
-    // Reachable via: AgentsOperations → ImageGenToolInputImageMask
-    // Reachable via: HostedAgentDefinition → ImageGenToolInputImageMask
-    // Reachable via: ImageGenTool → ImageGenToolInputImageMask
-    // Reachable via: PromptAgentDefinition → ImageGenToolInputImageMask
-    // Reachable via: ToolUnion → ImageGenToolInputImageMask
-    /** model interface ImageGenToolInputImageMask */
-    export interface ImageGenToolInputImageMask {
-        image_url?: string;
-        file_id?: string;
-    }
-
-    // Reachable via: AIProjectClient → ImageGenAction
-    // Reachable via: AgentDefinitionUnion → ImageGenAction
-    // Reachable via: AgentVersion → ImageGenAction
-    // Reachable via: AgentsOperations → ImageGenAction
-    // Reachable via: HostedAgentDefinition → ImageGenAction
-    // Reachable via: ImageGenTool → ImageGenAction
-    // Reachable via: PromptAgentDefinition → ImageGenAction
-    // Reachable via: ToolUnion → ImageGenAction
-    /** Type of ImageGenAction */
-    export type ImageGenAction = "generate" | "edit" | "auto";
-
-    // Reachable via: AIProjectClient → LocalShellToolParam
-    // Reachable via: AgentDefinitionUnion → LocalShellToolParam
-    // Reachable via: AgentVersion → LocalShellToolParam
-    // Reachable via: AgentsOperations → LocalShellToolParam
-    // Reachable via: HostedAgentDefinition → LocalShellToolParam
-    // Reachable via: PromptAgentDefinition → LocalShellToolParam
-    // Reachable via: ToolUnion → LocalShellToolParam
-    /** A tool that allows the model to execute shell commands in a local environment. */
-    export interface LocalShellToolParam extends Tool {
-        type: "local_shell";
-    }
-
-    // Reachable via: AIProjectClient → FunctionShellToolParam
-    // Reachable via: AgentDefinitionUnion → FunctionShellToolParam
-    // Reachable via: AgentVersion → FunctionShellToolParam
-    // Reachable via: AgentsOperations → FunctionShellToolParam
-    // Reachable via: HostedAgentDefinition → FunctionShellToolParam
-    // Reachable via: PromptAgentDefinition → FunctionShellToolParam
-    // Reachable via: ToolUnion → FunctionShellToolParam
-    /** A tool that allows the model to execute shell commands. */
-    export interface FunctionShellToolParam extends Tool {
-        type: "shell";
-        environment?: FunctionShellToolParamEnvironmentUnion;
-    }
-
-    // Reachable via: AIProjectClient → FunctionShellToolParamEnvironmentUnion
-    // Reachable via: AgentDefinitionUnion → FunctionShellToolParamEnvironmentUnion
-    // Reachable via: AgentVersion → FunctionShellToolParamEnvironmentUnion
-    // Reachable via: AgentsOperations → FunctionShellToolParamEnvironmentUnion
-    // Reachable via: FunctionShellToolParam → FunctionShellToolParamEnvironmentUnion
-    // Reachable via: HostedAgentDefinition → FunctionShellToolParamEnvironmentUnion
-    // Reachable via: PromptAgentDefinition → FunctionShellToolParamEnvironmentUnion
-    // Reachable via: ToolUnion → FunctionShellToolParamEnvironmentUnion
-    /** Alias for FunctionShellToolParamEnvironmentUnion */
-    export type FunctionShellToolParamEnvironmentUnion = FunctionShellToolParamEnvironmentLocalEnvironmentParam | FunctionShellToolParamEnvironmentContainerReferenceParam | ContainerAutoParam | FunctionShellToolParamEnvironment;
-
-    // Reachable via: AIProjectClient → FunctionShellToolParamEnvironmentLocalEnvironmentParam
-    // Reachable via: AgentDefinitionUnion → FunctionShellToolParamEnvironmentLocalEnvironmentParam
-    // Reachable via: AgentVersion → FunctionShellToolParamEnvironmentLocalEnvironmentParam
-    // Reachable via: AgentsOperations → FunctionShellToolParamEnvironmentLocalEnvironmentParam
-    // Reachable via: FunctionShellToolParam → FunctionShellToolParamEnvironmentLocalEnvironmentParam
-    // Reachable via: FunctionShellToolParamEnvironmentUnion → FunctionShellToolParamEnvironmentLocalEnvironmentParam
-    // Reachable via: HostedAgentDefinition → FunctionShellToolParamEnvironmentLocalEnvironmentParam
-    // Reachable via: PromptAgentDefinition → FunctionShellToolParamEnvironmentLocalEnvironmentParam
-    // Reachable via: ToolUnion → FunctionShellToolParamEnvironmentLocalEnvironmentParam
-    /** model interface FunctionShellToolParamEnvironmentLocalEnvironmentParam */
-    export interface FunctionShellToolParamEnvironmentLocalEnvironmentParam extends FunctionShellToolParamEnvironment {
-        type: "local";
-        skills?: LocalSkillParam[];
-    }
-
-    // Reachable via: AIProjectClient → FunctionShellToolParamEnvironment
-    // Reachable via: AgentDefinitionUnion → FunctionShellToolParamEnvironment
-    // Reachable via: AgentVersion → FunctionShellToolParamEnvironment
-    // Reachable via: AgentsOperations → FunctionShellToolParamEnvironment
-    // Reachable via: ContainerAutoParam → FunctionShellToolParamEnvironment
-    // Reachable via: FunctionShellToolParam → FunctionShellToolParamEnvironment
-    // Reachable via: FunctionShellToolParamEnvironmentContainerReferenceParam → FunctionShellToolParamEnvironment
-    // Reachable via: FunctionShellToolParamEnvironmentLocalEnvironmentParam → FunctionShellToolParamEnvironment
-    // Reachable via: FunctionShellToolParamEnvironmentUnion → FunctionShellToolParamEnvironment
-    // Reachable via: HostedAgentDefinition → FunctionShellToolParamEnvironment
-    // Reachable via: PromptAgentDefinition → FunctionShellToolParamEnvironment
-    // Reachable via: ToolUnion → FunctionShellToolParamEnvironment
-    /** model interface FunctionShellToolParamEnvironment */
-    export interface FunctionShellToolParamEnvironment {
-        type: FunctionShellToolParamEnvironmentType;
-    }
-
-    // Reachable via: AIProjectClient → FunctionShellToolParamEnvironmentType
-    // Reachable via: AgentDefinitionUnion → FunctionShellToolParamEnvironmentType
-    // Reachable via: AgentVersion → FunctionShellToolParamEnvironmentType
-    // Reachable via: AgentsOperations → FunctionShellToolParamEnvironmentType
-    // Reachable via: ContainerAutoParam → FunctionShellToolParamEnvironmentType
-    // Reachable via: FunctionShellToolParam → FunctionShellToolParamEnvironmentType
-    // Reachable via: FunctionShellToolParamEnvironment → FunctionShellToolParamEnvironmentType
-    // Reachable via: FunctionShellToolParamEnvironmentContainerReferenceParam → FunctionShellToolParamEnvironmentType
-    // Reachable via: FunctionShellToolParamEnvironmentLocalEnvironmentParam → FunctionShellToolParamEnvironmentType
-    // Reachable via: FunctionShellToolParamEnvironmentUnion → FunctionShellToolParamEnvironmentType
-    // Reachable via: HostedAgentDefinition → FunctionShellToolParamEnvironmentType
-    // Reachable via: PromptAgentDefinition → FunctionShellToolParamEnvironmentType
-    // Reachable via: ToolUnion → FunctionShellToolParamEnvironmentType
-    /** Type of FunctionShellToolParamEnvironmentType */
-    export type FunctionShellToolParamEnvironmentType = "container_auto" | "local" | "container_reference";
-
-    // Reachable via: AIProjectClient → LocalSkillParam
-    // Reachable via: AgentDefinitionUnion → LocalSkillParam
-    // Reachable via: AgentVersion → LocalSkillParam
-    // Reachable via: AgentsOperations → LocalSkillParam
-    // Reachable via: FunctionShellToolParam → LocalSkillParam
-    // Reachable via: FunctionShellToolParamEnvironmentLocalEnvironmentParam → LocalSkillParam
-    // Reachable via: FunctionShellToolParamEnvironmentUnion → LocalSkillParam
-    // Reachable via: HostedAgentDefinition → LocalSkillParam
-    // Reachable via: PromptAgentDefinition → LocalSkillParam
-    // Reachable via: ToolUnion → LocalSkillParam
-    /** model interface LocalSkillParam */
-    export interface LocalSkillParam {
-        name: string;
-        description: string;
-        path: string;
-    }
-
-    // Reachable via: AIProjectClient → FunctionShellToolParamEnvironmentContainerReferenceParam
-    // Reachable via: AgentDefinitionUnion → FunctionShellToolParamEnvironmentContainerReferenceParam
-    // Reachable via: AgentVersion → FunctionShellToolParamEnvironmentContainerReferenceParam
-    // Reachable via: AgentsOperations → FunctionShellToolParamEnvironmentContainerReferenceParam
-    // Reachable via: FunctionShellToolParam → FunctionShellToolParamEnvironmentContainerReferenceParam
-    // Reachable via: FunctionShellToolParamEnvironmentUnion → FunctionShellToolParamEnvironmentContainerReferenceParam
-    // Reachable via: HostedAgentDefinition → FunctionShellToolParamEnvironmentContainerReferenceParam
-    // Reachable via: PromptAgentDefinition → FunctionShellToolParamEnvironmentContainerReferenceParam
-    // Reachable via: ToolUnion → FunctionShellToolParamEnvironmentContainerReferenceParam
-    /** model interface FunctionShellToolParamEnvironmentContainerReferenceParam */
-    export interface FunctionShellToolParamEnvironmentContainerReferenceParam extends FunctionShellToolParamEnvironment {
-        type: "container_reference";
-        container_id: string;
-    }
-
-    // Reachable via: AIProjectClient → ContainerAutoParam
-    // Reachable via: AgentDefinitionUnion → ContainerAutoParam
-    // Reachable via: AgentVersion → ContainerAutoParam
-    // Reachable via: AgentsOperations → ContainerAutoParam
-    // Reachable via: FunctionShellToolParam → ContainerAutoParam
-    // Reachable via: FunctionShellToolParamEnvironmentUnion → ContainerAutoParam
-    // Reachable via: HostedAgentDefinition → ContainerAutoParam
-    // Reachable via: PromptAgentDefinition → ContainerAutoParam
-    // Reachable via: ToolUnion → ContainerAutoParam
-    /** model interface ContainerAutoParam */
-    export interface ContainerAutoParam extends FunctionShellToolParamEnvironment {
-        type: "container_auto";
-        file_ids?: string[];
-        memory_limit?: ContainerMemoryLimit;
-        skills?: ContainerSkillUnion[];
-        network_policy?: ContainerNetworkPolicyParamUnion;
-    }
-
-    // Reachable via: AIProjectClient → ContainerSkillUnion
-    // Reachable via: AgentDefinitionUnion → ContainerSkillUnion
-    // Reachable via: AgentVersion → ContainerSkillUnion
-    // Reachable via: AgentsOperations → ContainerSkillUnion
-    // Reachable via: ContainerAutoParam → ContainerSkillUnion
-    // Reachable via: FunctionShellToolParam → ContainerSkillUnion
-    // Reachable via: FunctionShellToolParamEnvironmentUnion → ContainerSkillUnion
-    // Reachable via: HostedAgentDefinition → ContainerSkillUnion
-    // Reachable via: PromptAgentDefinition → ContainerSkillUnion
-    // Reachable via: ToolUnion → ContainerSkillUnion
-    /** Alias for ContainerSkillUnion */
-    export type ContainerSkillUnion = SkillReferenceParam | InlineSkillParam | ContainerSkill;
-
-    // Reachable via: AIProjectClient → SkillReferenceParam
-    // Reachable via: AgentDefinitionUnion → SkillReferenceParam
-    // Reachable via: AgentVersion → SkillReferenceParam
-    // Reachable via: AgentsOperations → SkillReferenceParam
-    // Reachable via: ContainerAutoParam → SkillReferenceParam
-    // Reachable via: ContainerSkillUnion → SkillReferenceParam
-    // Reachable via: FunctionShellToolParam → SkillReferenceParam
-    // Reachable via: FunctionShellToolParamEnvironmentUnion → SkillReferenceParam
-    // Reachable via: HostedAgentDefinition → SkillReferenceParam
-    // Reachable via: PromptAgentDefinition → SkillReferenceParam
-    // Reachable via: ToolUnion → SkillReferenceParam
-    /** model interface SkillReferenceParam */
-    export interface SkillReferenceParam extends ContainerSkill {
-        type: "skill_reference";
-        skill_id: string;
-        version?: string;
-    }
-
-    // Reachable via: AIProjectClient → ContainerSkill
-    // Reachable via: AgentDefinitionUnion → ContainerSkill
-    // Reachable via: AgentVersion → ContainerSkill
-    // Reachable via: AgentsOperations → ContainerSkill
-    // Reachable via: ContainerAutoParam → ContainerSkill
-    // Reachable via: ContainerSkillUnion → ContainerSkill
-    // Reachable via: FunctionShellToolParam → ContainerSkill
-    // Reachable via: FunctionShellToolParamEnvironmentUnion → ContainerSkill
-    // Reachable via: HostedAgentDefinition → ContainerSkill
-    // Reachable via: InlineSkillParam → ContainerSkill
-    // Reachable via: PromptAgentDefinition → ContainerSkill
-    // Reachable via: SkillReferenceParam → ContainerSkill
-    // Reachable via: ToolUnion → ContainerSkill
-    /** model interface ContainerSkill */
-    export interface ContainerSkill {
-        type: ContainerSkillType;
-    }
-
-    // Reachable via: AIProjectClient → ContainerSkillType
-    // Reachable via: AgentDefinitionUnion → ContainerSkillType
-    // Reachable via: AgentVersion → ContainerSkillType
-    // Reachable via: AgentsOperations → ContainerSkillType
-    // Reachable via: ContainerAutoParam → ContainerSkillType
-    // Reachable via: ContainerSkill → ContainerSkillType
-    // Reachable via: ContainerSkillUnion → ContainerSkillType
-    // Reachable via: FunctionShellToolParam → ContainerSkillType
-    // Reachable via: FunctionShellToolParamEnvironmentUnion → ContainerSkillType
-    // Reachable via: HostedAgentDefinition → ContainerSkillType
-    // Reachable via: InlineSkillParam → ContainerSkillType
-    // Reachable via: PromptAgentDefinition → ContainerSkillType
-    // Reachable via: SkillReferenceParam → ContainerSkillType
-    // Reachable via: ToolUnion → ContainerSkillType
-    /** Type of ContainerSkillType */
-    export type ContainerSkillType = "skill_reference" | "inline";
-
-    // Reachable via: AIProjectClient → InlineSkillParam
-    // Reachable via: AgentDefinitionUnion → InlineSkillParam
-    // Reachable via: AgentVersion → InlineSkillParam
-    // Reachable via: AgentsOperations → InlineSkillParam
-    // Reachable via: ContainerAutoParam → InlineSkillParam
-    // Reachable via: ContainerSkillUnion → InlineSkillParam
-    // Reachable via: FunctionShellToolParam → InlineSkillParam
-    // Reachable via: FunctionShellToolParamEnvironmentUnion → InlineSkillParam
-    // Reachable via: HostedAgentDefinition → InlineSkillParam
-    // Reachable via: PromptAgentDefinition → InlineSkillParam
-    // Reachable via: ToolUnion → InlineSkillParam
-    /** model interface InlineSkillParam */
-    export interface InlineSkillParam extends ContainerSkill {
-        type: "inline";
-        name: string;
-        description: string;
-        source: InlineSkillSourceParam;
-    }
-
-    // Reachable via: AIProjectClient → InlineSkillSourceParam
-    // Reachable via: AgentDefinitionUnion → InlineSkillSourceParam
-    // Reachable via: AgentVersion → InlineSkillSourceParam
-    // Reachable via: AgentsOperations → InlineSkillSourceParam
-    // Reachable via: ContainerAutoParam → InlineSkillSourceParam
-    // Reachable via: ContainerSkillUnion → InlineSkillSourceParam
-    // Reachable via: FunctionShellToolParam → InlineSkillSourceParam
-    // Reachable via: FunctionShellToolParamEnvironmentUnion → InlineSkillSourceParam
-    // Reachable via: HostedAgentDefinition → InlineSkillSourceParam
-    // Reachable via: InlineSkillParam → InlineSkillSourceParam
-    // Reachable via: PromptAgentDefinition → InlineSkillSourceParam
-    // Reachable via: ToolUnion → InlineSkillSourceParam
-    /** Inline skill payload */
-    export interface InlineSkillSourceParam {
-        type: "base64";
-        media_type: "application/zip";
-        data: string;
-    }
-
-    // Reachable via: AIProjectClient → CustomToolParam
-    // Reachable via: AgentDefinitionUnion → CustomToolParam
-    // Reachable via: AgentVersion → CustomToolParam
-    // Reachable via: AgentsOperations → CustomToolParam
-    // Reachable via: HostedAgentDefinition → CustomToolParam
-    // Reachable via: PromptAgentDefinition → CustomToolParam
-    // Reachable via: ToolUnion → CustomToolParam
-    /** A custom tool that processes input using a specified format. Learn more about   [custom tools](https://platform.openai.com/docs/guides/function-calling#custom-tools) */
-    export interface CustomToolParam extends Tool {
-        type: "custom";
-        name: string;
-        description?: string;
-        format?: CustomToolParamFormatUnion;
-    }
-
-    // Reachable via: AIProjectClient → CustomToolParamFormatUnion
-    // Reachable via: AgentDefinitionUnion → CustomToolParamFormatUnion
-    // Reachable via: AgentVersion → CustomToolParamFormatUnion
-    // Reachable via: AgentsOperations → CustomToolParamFormatUnion
-    // Reachable via: CustomToolParam → CustomToolParamFormatUnion
-    // Reachable via: HostedAgentDefinition → CustomToolParamFormatUnion
-    // Reachable via: PromptAgentDefinition → CustomToolParamFormatUnion
-    // Reachable via: ToolUnion → CustomToolParamFormatUnion
-    /** Alias for CustomToolParamFormatUnion */
-    export type CustomToolParamFormatUnion = CustomTextFormatParam | CustomGrammarFormatParam | CustomToolParamFormat;
-
-    // Reachable via: AIProjectClient → CustomTextFormatParam
-    // Reachable via: AgentDefinitionUnion → CustomTextFormatParam
-    // Reachable via: AgentVersion → CustomTextFormatParam
-    // Reachable via: AgentsOperations → CustomTextFormatParam
-    // Reachable via: CustomToolParam → CustomTextFormatParam
-    // Reachable via: CustomToolParamFormatUnion → CustomTextFormatParam
-    // Reachable via: HostedAgentDefinition → CustomTextFormatParam
-    // Reachable via: PromptAgentDefinition → CustomTextFormatParam
-    // Reachable via: ToolUnion → CustomTextFormatParam
-    /** Unconstrained free-form text. */
-    export interface CustomTextFormatParam extends CustomToolParamFormat {
-        type: "text";
-    }
-
-    // Reachable via: AIProjectClient → CustomToolParamFormat
-    // Reachable via: AgentDefinitionUnion → CustomToolParamFormat
-    // Reachable via: AgentVersion → CustomToolParamFormat
-    // Reachable via: AgentsOperations → CustomToolParamFormat
-    // Reachable via: CustomGrammarFormatParam → CustomToolParamFormat
-    // Reachable via: CustomTextFormatParam → CustomToolParamFormat
-    // Reachable via: CustomToolParam → CustomToolParamFormat
-    // Reachable via: CustomToolParamFormatUnion → CustomToolParamFormat
-    // Reachable via: HostedAgentDefinition → CustomToolParamFormat
-    // Reachable via: PromptAgentDefinition → CustomToolParamFormat
-    // Reachable via: ToolUnion → CustomToolParamFormat
-    /** The input format for the custom tool. Default is unconstrained text. */
-    export interface CustomToolParamFormat {
-        type: CustomToolParamFormatType;
-    }
-
-    // Reachable via: AIProjectClient → CustomToolParamFormatType
-    // Reachable via: AgentDefinitionUnion → CustomToolParamFormatType
-    // Reachable via: AgentVersion → CustomToolParamFormatType
-    // Reachable via: AgentsOperations → CustomToolParamFormatType
-    // Reachable via: CustomGrammarFormatParam → CustomToolParamFormatType
-    // Reachable via: CustomTextFormatParam → CustomToolParamFormatType
-    // Reachable via: CustomToolParam → CustomToolParamFormatType
-    // Reachable via: CustomToolParamFormat → CustomToolParamFormatType
-    // Reachable via: CustomToolParamFormatUnion → CustomToolParamFormatType
-    // Reachable via: HostedAgentDefinition → CustomToolParamFormatType
-    // Reachable via: PromptAgentDefinition → CustomToolParamFormatType
-    // Reachable via: ToolUnion → CustomToolParamFormatType
-    /** Type of CustomToolParamFormatType */
-    export type CustomToolParamFormatType = "text" | "grammar";
-
-    // Reachable via: AIProjectClient → CustomGrammarFormatParam
-    // Reachable via: AgentDefinitionUnion → CustomGrammarFormatParam
-    // Reachable via: AgentVersion → CustomGrammarFormatParam
-    // Reachable via: AgentsOperations → CustomGrammarFormatParam
-    // Reachable via: CustomToolParam → CustomGrammarFormatParam
-    // Reachable via: CustomToolParamFormatUnion → CustomGrammarFormatParam
-    // Reachable via: HostedAgentDefinition → CustomGrammarFormatParam
-    // Reachable via: PromptAgentDefinition → CustomGrammarFormatParam
-    // Reachable via: ToolUnion → CustomGrammarFormatParam
-    /** A grammar defined by the user. */
-    export interface CustomGrammarFormatParam extends CustomToolParamFormat {
-        type: "grammar";
-        syntax: GrammarSyntax;
-        definition: string;
-    }
-
-    // Reachable via: AIProjectClient → GrammarSyntax
-    // Reachable via: AgentDefinitionUnion → GrammarSyntax
-    // Reachable via: AgentVersion → GrammarSyntax
-    // Reachable via: AgentsOperations → GrammarSyntax
-    // Reachable via: CustomGrammarFormatParam → GrammarSyntax
-    // Reachable via: CustomToolParam → GrammarSyntax
-    // Reachable via: CustomToolParamFormatUnion → GrammarSyntax
-    // Reachable via: HostedAgentDefinition → GrammarSyntax
-    // Reachable via: PromptAgentDefinition → GrammarSyntax
-    // Reachable via: ToolUnion → GrammarSyntax
-    /** Type of GrammarSyntax */
-    export type GrammarSyntax = "lark" | "regex";
-
-    // Reachable via: AIProjectClient → ApproximateLocation
-    // Reachable via: AgentDefinitionUnion → ApproximateLocation
-    // Reachable via: AgentVersion → ApproximateLocation
-    // Reachable via: AgentsOperations → ApproximateLocation
-    // Reachable via: HostedAgentDefinition → ApproximateLocation
-    // Reachable via: PromptAgentDefinition → ApproximateLocation
-    // Reachable via: ToolUnion → ApproximateLocation
-    // Reachable via: WebSearchPreviewTool → ApproximateLocation
-    /** model interface ApproximateLocation */
-    export interface ApproximateLocation {
-        type: "approximate";
-        country?: string;
-        region?: string;
-        city?: string;
-        timezone?: string;
-    }
-
-    // Reachable via: AIProjectClient → SearchContextSize
-    // Reachable via: AgentDefinitionUnion → SearchContextSize
-    // Reachable via: AgentVersion → SearchContextSize
-    // Reachable via: AgentsOperations → SearchContextSize
-    // Reachable via: HostedAgentDefinition → SearchContextSize
-    // Reachable via: PromptAgentDefinition → SearchContextSize
-    // Reachable via: ToolUnion → SearchContextSize
-    // Reachable via: WebSearchPreviewTool → SearchContextSize
-    /** Type of SearchContextSize */
-    export type SearchContextSize = "low" | "medium" | "high";
-
-    // Reachable via: AIProjectClient → ApplyPatchToolParam
-    // Reachable via: AgentDefinitionUnion → ApplyPatchToolParam
-    // Reachable via: AgentVersion → ApplyPatchToolParam
-    // Reachable via: AgentsOperations → ApplyPatchToolParam
-    // Reachable via: HostedAgentDefinition → ApplyPatchToolParam
-    // Reachable via: PromptAgentDefinition → ApplyPatchToolParam
-    // Reachable via: ToolUnion → ApplyPatchToolParam
-    /** Allows the assistant to create, delete, or update files using unified diffs. */
-    export interface ApplyPatchToolParam extends Tool {
-        type: "apply_patch";
-    }
-
-    // Reachable via: AIProjectClient → ToolChoiceParam
-    // Reachable via: AgentDefinitionUnion → ToolChoiceParam
-    // Reachable via: AgentVersion → ToolChoiceParam
-    // Reachable via: AgentsOperations → ToolChoiceParam
-    // Reachable via: PromptAgentDefinition → ToolChoiceParam
-    // Reachable via: SpecificApplyPatchParam → ToolChoiceParam
-    // Reachable via: SpecificFunctionShellParam → ToolChoiceParam
-    // Reachable via: ToolChoiceAllowed → ToolChoiceParam
-    // Reachable via: ToolChoiceCodeInterpreter → ToolChoiceParam
-    // Reachable via: ToolChoiceComputerUsePreview → ToolChoiceParam
-    // Reachable via: ToolChoiceCustom → ToolChoiceParam
-    // Reachable via: ToolChoiceFileSearch → ToolChoiceParam
-    // Reachable via: ToolChoiceFunction → ToolChoiceParam
-    // Reachable via: ToolChoiceImageGeneration → ToolChoiceParam
-    // Reachable via: ToolChoiceMCP → ToolChoiceParam
-    // Reachable via: ToolChoiceParamUnion → ToolChoiceParam
-    // Reachable via: ToolChoiceWebSearchPreview → ToolChoiceParam
-    // Reachable via: ToolChoiceWebSearchPreview20250311 → ToolChoiceParam
-    /** How the model should select which tool (or tools) to use when generating
-    a response. See the `tools` parameter to see how to specify which tools
-    the model can call. */
-    export interface ToolChoiceParam {
-        type: ToolChoiceParamType;
-    }
-
-    // Reachable via: AIProjectClient → ToolChoiceParamType
-    // Reachable via: AgentDefinitionUnion → ToolChoiceParamType
-    // Reachable via: AgentVersion → ToolChoiceParamType
-    // Reachable via: AgentsOperations → ToolChoiceParamType
-    // Reachable via: PromptAgentDefinition → ToolChoiceParamType
-    // Reachable via: SpecificApplyPatchParam → ToolChoiceParamType
-    // Reachable via: SpecificFunctionShellParam → ToolChoiceParamType
-    // Reachable via: ToolChoiceAllowed → ToolChoiceParamType
-    // Reachable via: ToolChoiceCodeInterpreter → ToolChoiceParamType
-    // Reachable via: ToolChoiceComputerUsePreview → ToolChoiceParamType
-    // Reachable via: ToolChoiceCustom → ToolChoiceParamType
-    // Reachable via: ToolChoiceFileSearch → ToolChoiceParamType
-    // Reachable via: ToolChoiceFunction → ToolChoiceParamType
-    // Reachable via: ToolChoiceImageGeneration → ToolChoiceParamType
-    // Reachable via: ToolChoiceMCP → ToolChoiceParamType
-    // Reachable via: ToolChoiceParam → ToolChoiceParamType
-    // Reachable via: ToolChoiceParamUnion → ToolChoiceParamType
-    // Reachable via: ToolChoiceWebSearchPreview → ToolChoiceParamType
-    // Reachable via: ToolChoiceWebSearchPreview20250311 → ToolChoiceParamType
-    /** Type of ToolChoiceParamType */
-    export type ToolChoiceParamType = "allowed_tools" | "function" | "mcp" | "custom" | "apply_patch" | "shell" | "file_search" | "web_search_preview" | "computer_use_preview" | "web_search_preview_2025_03_11" | "image_generation" | "code_interpreter";
-
-    // Reachable via: AIProjectClient → ToolChoiceMCP
-    // Reachable via: AgentDefinitionUnion → ToolChoiceMCP
-    // Reachable via: AgentVersion → ToolChoiceMCP
-    // Reachable via: AgentsOperations → ToolChoiceMCP
-    // Reachable via: PromptAgentDefinition → ToolChoiceMCP
-    // Reachable via: ToolChoiceParamUnion → ToolChoiceMCP
-    /** Use this option to force the model to call a specific tool on a remote MCP server. */
-    export interface ToolChoiceMCP extends ToolChoiceParam {
-        type: "mcp";
-        server_label: string;
-        name?: string;
-    }
-
-    // Reachable via: AIProjectClient → SpecificApplyPatchParam
-    // Reachable via: AgentDefinitionUnion → SpecificApplyPatchParam
-    // Reachable via: AgentVersion → SpecificApplyPatchParam
-    // Reachable via: AgentsOperations → SpecificApplyPatchParam
-    // Reachable via: PromptAgentDefinition → SpecificApplyPatchParam
-    // Reachable via: ToolChoiceParamUnion → SpecificApplyPatchParam
-    /** Forces the model to call the apply_patch tool when executing a tool call. */
-    export interface SpecificApplyPatchParam extends ToolChoiceParam {
-        type: "apply_patch";
-    }
-
-    // Reachable via: AIProjectClient → SpecificFunctionShellParam
-    // Reachable via: AgentDefinitionUnion → SpecificFunctionShellParam
-    // Reachable via: AgentVersion → SpecificFunctionShellParam
-    // Reachable via: AgentsOperations → SpecificFunctionShellParam
-    // Reachable via: PromptAgentDefinition → SpecificFunctionShellParam
-    // Reachable via: ToolChoiceParamUnion → SpecificFunctionShellParam
-    /** Forces the model to call the shell tool when a tool call is required. */
-    export interface SpecificFunctionShellParam extends ToolChoiceParam {
-        type: "shell";
-    }
-
-    // Reachable via: AIProjectClient → ToolChoiceFileSearch
-    // Reachable via: AgentDefinitionUnion → ToolChoiceFileSearch
-    // Reachable via: AgentVersion → ToolChoiceFileSearch
-    // Reachable via: AgentsOperations → ToolChoiceFileSearch
-    // Reachable via: PromptAgentDefinition → ToolChoiceFileSearch
-    // Reachable via: ToolChoiceParamUnion → ToolChoiceFileSearch
-    /** Indicates that the model should use a built-in tool to generate a response.
-    [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools). */
-    export interface ToolChoiceFileSearch extends ToolChoiceParam {
-        type: "file_search";
-    }
-
-    // Reachable via: AIProjectClient → ToolChoiceWebSearchPreview
-    // Reachable via: AgentDefinitionUnion → ToolChoiceWebSearchPreview
-    // Reachable via: AgentVersion → ToolChoiceWebSearchPreview
-    // Reachable via: AgentsOperations → ToolChoiceWebSearchPreview
-    // Reachable via: PromptAgentDefinition → ToolChoiceWebSearchPreview
-    // Reachable via: ToolChoiceParamUnion → ToolChoiceWebSearchPreview
-    /** Indicates that the model should use a built-in tool to generate a response.
-    [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools). */
-    export interface ToolChoiceWebSearchPreview extends ToolChoiceParam {
-        type: "web_search_preview";
-    }
-
-    // Reachable via: AIProjectClient → ToolChoiceComputerUsePreview
-    // Reachable via: AgentDefinitionUnion → ToolChoiceComputerUsePreview
-    // Reachable via: AgentVersion → ToolChoiceComputerUsePreview
-    // Reachable via: AgentsOperations → ToolChoiceComputerUsePreview
-    // Reachable via: PromptAgentDefinition → ToolChoiceComputerUsePreview
-    // Reachable via: ToolChoiceParamUnion → ToolChoiceComputerUsePreview
-    /** Indicates that the model should use a built-in tool to generate a response.
-    [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools). */
-    export interface ToolChoiceComputerUsePreview extends ToolChoiceParam {
-        type: "computer_use_preview";
-    }
-
-    // Reachable via: AIProjectClient → ToolChoiceWebSearchPreview20250311
-    // Reachable via: AgentDefinitionUnion → ToolChoiceWebSearchPreview20250311
-    // Reachable via: AgentVersion → ToolChoiceWebSearchPreview20250311
-    // Reachable via: AgentsOperations → ToolChoiceWebSearchPreview20250311
-    // Reachable via: PromptAgentDefinition → ToolChoiceWebSearchPreview20250311
-    // Reachable via: ToolChoiceParamUnion → ToolChoiceWebSearchPreview20250311
-    /** Indicates that the model should use a built-in tool to generate a response.
-    [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools). */
-    export interface ToolChoiceWebSearchPreview20250311 extends ToolChoiceParam {
-        type: "web_search_preview_2025_03_11";
-    }
-
-    // Reachable via: AIProjectClient → ToolChoiceImageGeneration
-    // Reachable via: AgentDefinitionUnion → ToolChoiceImageGeneration
-    // Reachable via: AgentVersion → ToolChoiceImageGeneration
-    // Reachable via: AgentsOperations → ToolChoiceImageGeneration
-    // Reachable via: PromptAgentDefinition → ToolChoiceImageGeneration
-    // Reachable via: ToolChoiceParamUnion → ToolChoiceImageGeneration
-    /** Indicates that the model should use a built-in tool to generate a response.
-    [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools). */
-    export interface ToolChoiceImageGeneration extends ToolChoiceParam {
-        type: "image_generation";
-    }
-
-    // Reachable via: AIProjectClient → ToolChoiceCodeInterpreter
-    // Reachable via: AgentDefinitionUnion → ToolChoiceCodeInterpreter
-    // Reachable via: AgentVersion → ToolChoiceCodeInterpreter
-    // Reachable via: AgentsOperations → ToolChoiceCodeInterpreter
-    // Reachable via: PromptAgentDefinition → ToolChoiceCodeInterpreter
-    // Reachable via: ToolChoiceParamUnion → ToolChoiceCodeInterpreter
-    /** Indicates that the model should use a built-in tool to generate a response.
-    [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools). */
-    export interface ToolChoiceCodeInterpreter extends ToolChoiceParam {
-        type: "code_interpreter";
-    }
-
-    // Reachable via: AIProjectClient → PromptAgentDefinitionTextOptions
-    // Reachable via: AgentDefinitionUnion → PromptAgentDefinitionTextOptions
-    // Reachable via: AgentVersion → PromptAgentDefinitionTextOptions
-    // Reachable via: AgentsOperations → PromptAgentDefinitionTextOptions
-    // Reachable via: PromptAgentDefinition → PromptAgentDefinitionTextOptions
-    /** Configuration options for a text response from the model. Can be plain text or structured JSON data. */
-    export interface PromptAgentDefinitionTextOptions {
-        format?: TextResponseFormatConfigurationUnion;
-    }
-
-    // Reachable via: AIProjectClient → TextResponseFormatConfigurationUnion
-    // Reachable via: AgentDefinitionUnion → TextResponseFormatConfigurationUnion
-    // Reachable via: AgentVersion → TextResponseFormatConfigurationUnion
-    // Reachable via: AgentsOperations → TextResponseFormatConfigurationUnion
-    // Reachable via: PromptAgentDefinition → TextResponseFormatConfigurationUnion
-    // Reachable via: PromptAgentDefinitionTextOptions → TextResponseFormatConfigurationUnion
-    /** Alias for TextResponseFormatConfigurationUnion */
-    export type TextResponseFormatConfigurationUnion = TextResponseFormatJsonSchema | TextResponseFormatConfigurationResponseFormatText | TextResponseFormatConfigurationResponseFormatJsonObject | TextResponseFormatConfiguration;
-
-    // Reachable via: AIProjectClient → TextResponseFormatJsonSchema
-    // Reachable via: AgentDefinitionUnion → TextResponseFormatJsonSchema
-    // Reachable via: AgentVersion → TextResponseFormatJsonSchema
-    // Reachable via: AgentsOperations → TextResponseFormatJsonSchema
-    // Reachable via: PromptAgentDefinition → TextResponseFormatJsonSchema
-    // Reachable via: PromptAgentDefinitionTextOptions → TextResponseFormatJsonSchema
-    // Reachable via: TextResponseFormatConfigurationUnion → TextResponseFormatJsonSchema
-    /** JSON Schema response format. Used to generate structured JSON responses.
-    Learn more about [Structured Outputs](https://platform.openai.com/docs/guides/structured-outputs). */
-    export interface TextResponseFormatJsonSchema extends TextResponseFormatConfiguration {
-        type: "json_schema";
-        description?: string;
-        name: string;
-        schema: Record<string, unknown>;
-        strict?: boolean;
-    }
-
-    // Reachable via: AIProjectClient → TextResponseFormatConfiguration
-    // Reachable via: AgentDefinitionUnion → TextResponseFormatConfiguration
-    // Reachable via: AgentVersion → TextResponseFormatConfiguration
-    // Reachable via: AgentsOperations → TextResponseFormatConfiguration
-    // Reachable via: PromptAgentDefinition → TextResponseFormatConfiguration
-    // Reachable via: PromptAgentDefinitionTextOptions → TextResponseFormatConfiguration
-    // Reachable via: TextResponseFormatConfigurationResponseFormatJsonObject → TextResponseFormatConfiguration
-    // Reachable via: TextResponseFormatConfigurationResponseFormatText → TextResponseFormatConfiguration
-    // Reachable via: TextResponseFormatConfigurationUnion → TextResponseFormatConfiguration
-    // Reachable via: TextResponseFormatJsonSchema → TextResponseFormatConfiguration
-    /** An object specifying the format that the model must output.
-    Configuring `{ "type": "json_schema" }` enables Structured Outputs,
-    which ensures the model will match your supplied JSON schema. Learn more in the
-    [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
-    The default format is `{ "type": "text" }` with no additional options.
-    *Not recommended for gpt-4o and newer models:**
-    Setting to `{ "type": "json_object" }` enables the older JSON mode, which
-    ensures the message the model generates is valid JSON. Using `json_schema`
-    is preferred for models that support it. */
-    export interface TextResponseFormatConfiguration {
-        type: TextResponseFormatConfigurationType;
-    }
-
-    // Reachable via: AIProjectClient → TextResponseFormatConfigurationType
-    // Reachable via: AgentDefinitionUnion → TextResponseFormatConfigurationType
-    // Reachable via: AgentVersion → TextResponseFormatConfigurationType
-    // Reachable via: AgentsOperations → TextResponseFormatConfigurationType
-    // Reachable via: PromptAgentDefinition → TextResponseFormatConfigurationType
-    // Reachable via: PromptAgentDefinitionTextOptions → TextResponseFormatConfigurationType
-    // Reachable via: TextResponseFormatConfiguration → TextResponseFormatConfigurationType
-    // Reachable via: TextResponseFormatConfigurationResponseFormatJsonObject → TextResponseFormatConfigurationType
-    // Reachable via: TextResponseFormatConfigurationResponseFormatText → TextResponseFormatConfigurationType
-    // Reachable via: TextResponseFormatConfigurationUnion → TextResponseFormatConfigurationType
-    // Reachable via: TextResponseFormatJsonSchema → TextResponseFormatConfigurationType
-    /** Type of TextResponseFormatConfigurationType */
-    export type TextResponseFormatConfigurationType = "text" | "json_schema" | "json_object";
-
-    // Reachable via: AIProjectClient → TextResponseFormatConfigurationResponseFormatText
-    // Reachable via: AgentDefinitionUnion → TextResponseFormatConfigurationResponseFormatText
-    // Reachable via: AgentVersion → TextResponseFormatConfigurationResponseFormatText
-    // Reachable via: AgentsOperations → TextResponseFormatConfigurationResponseFormatText
-    // Reachable via: PromptAgentDefinition → TextResponseFormatConfigurationResponseFormatText
-    // Reachable via: PromptAgentDefinitionTextOptions → TextResponseFormatConfigurationResponseFormatText
-    // Reachable via: TextResponseFormatConfigurationUnion → TextResponseFormatConfigurationResponseFormatText
-    /** Default response format. Used to generate text responses. */
-    export interface TextResponseFormatConfigurationResponseFormatText extends TextResponseFormatConfiguration {
-        type: "text";
-    }
-
-    // Reachable via: AIProjectClient → TextResponseFormatConfigurationResponseFormatJsonObject
-    // Reachable via: AgentDefinitionUnion → TextResponseFormatConfigurationResponseFormatJsonObject
-    // Reachable via: AgentVersion → TextResponseFormatConfigurationResponseFormatJsonObject
-    // Reachable via: AgentsOperations → TextResponseFormatConfigurationResponseFormatJsonObject
-    // Reachable via: PromptAgentDefinition → TextResponseFormatConfigurationResponseFormatJsonObject
-    // Reachable via: PromptAgentDefinitionTextOptions → TextResponseFormatConfigurationResponseFormatJsonObject
-    // Reachable via: TextResponseFormatConfigurationUnion → TextResponseFormatConfigurationResponseFormatJsonObject
-    /** JSON object response format. An older method of generating JSON responses.
-    Using `json_schema` is recommended for models that support it. Note that the
-    model will not generate JSON without a system or user message instructing it
-    to do so. */
-    export interface TextResponseFormatConfigurationResponseFormatJsonObject extends TextResponseFormatConfiguration {
-        type: "json_object";
-    }
-
-    // Reachable via: AIProjectClient → StructuredInputDefinition
-    // Reachable via: AgentDefinitionUnion → StructuredInputDefinition
-    // Reachable via: AgentVersion → StructuredInputDefinition
-    // Reachable via: AgentsOperations → StructuredInputDefinition
-    // Reachable via: PromptAgentDefinition → StructuredInputDefinition
-    /** An structured input that can participate in prompt template substitutions and tool argument binding. */
-    export interface StructuredInputDefinition {
-        description?: string;
-        default_value?: unknown;
-        schema?: Record<string, unknown>;
-        required?: boolean;
-    }
-
-    // Reachable via: AIProjectClient → WorkflowAgentDefinition
-    // Reachable via: AgentDefinitionUnion → WorkflowAgentDefinition
-    // Reachable via: AgentVersion → WorkflowAgentDefinition
-    // Reachable via: AgentsOperations → WorkflowAgentDefinition
-    /** The workflow agent definition. */
-    export interface WorkflowAgentDefinition extends AgentDefinition {
-        kind: "workflow";
-        workflow?: string;
-    }
-
-    // Reachable via: AIProjectClient → HostedAgentDefinition
-    // Reachable via: AgentDefinitionUnion → HostedAgentDefinition
-    // Reachable via: AgentVersion → HostedAgentDefinition
-    // Reachable via: AgentsOperations → HostedAgentDefinition
-    /** The hosted agent definition. */
-    export interface HostedAgentDefinition extends AgentDefinition {
-        kind: "hosted";
-        tools?: ToolUnion[];
-        container_protocol_versions: ProtocolVersionRecord[];
-        cpu: string;
-        memory: string;
-        environment_variables?: Record<string, string>;
-        image?: string;
-    }
-
-    // Reachable via: AIProjectClient → ProtocolVersionRecord
-    // Reachable via: AgentDefinitionUnion → ProtocolVersionRecord
-    // Reachable via: AgentVersion → ProtocolVersionRecord
-    // Reachable via: AgentsOperations → ProtocolVersionRecord
-    // Reachable via: HostedAgentDefinition → ProtocolVersionRecord
-    /** A record mapping for a single protocol and its version. */
-    export interface ProtocolVersionRecord {
-        protocol: AgentProtocol;
-        version: string;
-    }
-
-    // Reachable via: AIProjectClient → AgentProtocol
-    // Reachable via: AgentDefinitionUnion → AgentProtocol
-    // Reachable via: AgentVersion → AgentProtocol
-    // Reachable via: AgentsOperations → AgentProtocol
-    // Reachable via: HostedAgentDefinition → AgentProtocol
-    // Reachable via: ProtocolVersionRecord → AgentProtocol
-    /** Type of AgentProtocol */
-    export type AgentProtocol = "activity_protocol" | "responses";
-
-    // Reachable via: AIProjectClient → AgentsDeleteVersionOptionalParams
-    // Reachable via: AgentsOperations → AgentsDeleteVersionOptionalParams
-    /** Optional parameters. */
-    export interface AgentsDeleteVersionOptionalParams extends OperationOptions {
-    }
-
-    // Reachable via: AIProjectClient → DeleteAgentVersionResponse
-    // Reachable via: AgentsOperations → DeleteAgentVersionResponse
-    /** A deleted agent version Object */
-    export interface DeleteAgentVersionResponse {
-        object: "agent.version.deleted";
-        name: string;
-        version: string;
-        deleted: boolean;
-    }
-
-    // Reachable via: AIProjectClient → AgentsGetVersionOptionalParams
-    // Reachable via: AgentsOperations → AgentsGetVersionOptionalParams
-    /** Optional parameters. */
-    export interface AgentsGetVersionOptionalParams extends OperationOptions {
-    }
-
-    // Reachable via: AIProjectClient → AgentsListOptionalParams
-    // Reachable via: AgentsOperations → AgentsListOptionalParams
-    /** Optional parameters. */
-    export interface AgentsListOptionalParams extends OperationOptions {
-        kind?: AgentKind;
-        limit?: number;
-        order?: PageOrder;
-        after?: string;
-        before?: string;
-    }
-
-    // Reachable via: AIProjectClient → AgentsDeleteOptionalParams
-    // Reachable via: AgentsOperations → AgentsDeleteOptionalParams
-    /** Optional parameters. */
-    export interface AgentsDeleteOptionalParams extends OperationOptions {
-    }
-
-    // Reachable via: AIProjectClient → DeleteAgentResponse
-    // Reachable via: AgentsOperations → DeleteAgentResponse
-    /** A deleted agent Object */
-    export interface DeleteAgentResponse {
-        object: "agent.deleted";
-        name: string;
-        deleted: boolean;
-    }
-
-    // Reachable via: AIProjectClient → AgentsGetOptionalParams
-    // Reachable via: AgentsOperations → AgentsGetOptionalParams
-    /** Optional parameters. */
-    export interface AgentsGetOptionalParams extends OperationOptions {
-    }
-
-    // Reachable via: AIProjectClient → BetaOperations
-    /** Interface representing a Beta operations. */
-    export interface BetaOperations {
-        schedules: BetaSchedulesOperations;
-        redTeams: BetaRedTeamsOperations;
-        memoryStores: BetaMemoryStoresOperations;
-        insights: BetaInsightsOperations;
-        evaluators: BetaEvaluatorsOperations;
-        evaluationTaxonomies: BetaEvaluationTaxonomiesOperations;
-    }
-
-    // Reachable via: AIProjectClient → BetaSchedulesOperations
-    // Reachable via: BetaOperations → BetaSchedulesOperations
-    /** Interface representing a BetaSchedules operations. */
-    export interface BetaSchedulesOperations {
-        listRuns(id: string, options?: BetaSchedulesListRunsOptionalParams): PagedAsyncIterableIterator<ScheduleRun>;
-        getRun(scheduleId: string, runId: string, options?: BetaSchedulesGetRunOptionalParams): Promise<ScheduleRun>;
-        createOrUpdate(id: string, schedule: Schedule, options?: BetaSchedulesCreateOrUpdateOptionalParams): Promise<Schedule>;
-        list(options?: BetaSchedulesListOptionalParams): PagedAsyncIterableIterator<Schedule>;
-        get(id: string, options?: BetaSchedulesGetOptionalParams): Promise<Schedule>;
-        delete(id: string, options?: BetaSchedulesDeleteOptionalParams): Promise<void>;
-    }
-
-    // Reachable via: AIProjectClient → BetaSchedulesListRunsOptionalParams
-    // Reachable via: BetaOperations → BetaSchedulesListRunsOptionalParams
-    // Reachable via: BetaSchedulesOperations → BetaSchedulesListRunsOptionalParams
-    /** Optional parameters. */
-    export interface BetaSchedulesListRunsOptionalParams extends OperationOptions {
-        clientRequestId?: string;
-        scheduleType?: ScheduleTaskType;
-        enabled?: boolean;
-    }
-
-    // Reachable via: AIProjectClient → ScheduleTaskType
-    // Reachable via: BetaOperations → ScheduleTaskType
-    // Reachable via: BetaSchedulesListOptionalParams → ScheduleTaskType
-    // Reachable via: BetaSchedulesListRunsOptionalParams → ScheduleTaskType
-    // Reachable via: BetaSchedulesOperations → ScheduleTaskType
-    // Reachable via: EvaluationScheduleTask → ScheduleTaskType
-    // Reachable via: InsightScheduleTask → ScheduleTaskType
-    // Reachable via: Schedule → ScheduleTaskType
-    // Reachable via: ScheduleTask → ScheduleTaskType
-    // Reachable via: ScheduleTaskUnion → ScheduleTaskType
-    /** Type of the task. */
-    export type ScheduleTaskType = "Evaluation" | "Insight";
-
-    // Reachable via: AIProjectClient → ScheduleRun
-    // Reachable via: BetaOperations → ScheduleRun
-    // Reachable via: BetaSchedulesOperations → ScheduleRun
-    /** Schedule run model. */
-    export interface ScheduleRun {
-        readonly runId: string;
-        scheduleId: string;
-        readonly success: boolean;
-        triggerTime?: string;
-        readonly error?: string;
-        readonly properties: Record<string, string>;
-    }
-
-    // Reachable via: AIProjectClient → BetaSchedulesGetRunOptionalParams
-    // Reachable via: BetaOperations → BetaSchedulesGetRunOptionalParams
-    // Reachable via: BetaSchedulesOperations → BetaSchedulesGetRunOptionalParams
-    /** Optional parameters. */
-    export interface BetaSchedulesGetRunOptionalParams extends OperationOptions {
-    }
-
-    // Reachable via: AIProjectClient → Schedule
-    // Reachable via: BetaOperations → Schedule
-    // Reachable via: BetaSchedulesOperations → Schedule
-    /** Schedule model. */
-    export interface Schedule {
-        readonly id?: string;
-        displayName?: string;
-        description?: string;
-        enabled: boolean;
-        readonly provisioningStatus?: ScheduleProvisioningStatus;
-        trigger: TriggerUnion;
-        task: ScheduleTaskUnion;
-        tags?: Record<string, string>;
-        properties?: Record<string, string>;
-        readonly systemData?: Record<string, string>;
-    }
-
-    // Reachable via: AIProjectClient → ScheduleProvisioningStatus
-    // Reachable via: BetaOperations → ScheduleProvisioningStatus
-    // Reachable via: BetaSchedulesOperations → ScheduleProvisioningStatus
-    // Reachable via: Schedule → ScheduleProvisioningStatus
-    /** Schedule provisioning status. */
-    export type ScheduleProvisioningStatus = "Creating" | "Updating" | "Deleting" | "Succeeded" | "Failed";
-
-    // Reachable via: AIProjectClient → TriggerUnion
-    // Reachable via: BetaOperations → TriggerUnion
-    // Reachable via: BetaSchedulesOperations → TriggerUnion
-    // Reachable via: Schedule → TriggerUnion
-    /** Alias for TriggerUnion */
-    export type TriggerUnion = CronTrigger | RecurrenceTrigger | OneTimeTrigger | Trigger;
-
-    // Reachable via: AIProjectClient → CronTrigger
-    // Reachable via: BetaOperations → CronTrigger
-    // Reachable via: BetaSchedulesOperations → CronTrigger
-    // Reachable via: Schedule → CronTrigger
-    // Reachable via: TriggerUnion → CronTrigger
-    /** Cron based trigger. */
-    export interface CronTrigger extends Trigger {
-        type: "Cron";
-        expression: string;
-        timeZone?: string;
-        startTime?: string;
-        endTime?: string;
-    }
-
-    // Reachable via: AIProjectClient → Trigger
-    // Reachable via: BetaOperations → Trigger
-    // Reachable via: BetaSchedulesOperations → Trigger
-    // Reachable via: CronTrigger → Trigger
-    // Reachable via: OneTimeTrigger → Trigger
-    // Reachable via: RecurrenceTrigger → Trigger
-    // Reachable via: Schedule → Trigger
-    // Reachable via: TriggerUnion → Trigger
-    /** Base model for Trigger of the schedule. */
-    export interface Trigger {
-        type: TriggerType;
-    }
-
-    // Reachable via: AIProjectClient → TriggerType
-    // Reachable via: BetaOperations → TriggerType
-    // Reachable via: BetaSchedulesOperations → TriggerType
-    // Reachable via: CronTrigger → TriggerType
-    // Reachable via: OneTimeTrigger → TriggerType
-    // Reachable via: RecurrenceTrigger → TriggerType
-    // Reachable via: Schedule → TriggerType
-    // Reachable via: Trigger → TriggerType
-    // Reachable via: TriggerUnion → TriggerType
-    /** Type of the trigger. */
-    export type TriggerType = "Cron" | "Recurrence" | "OneTime";
-
-    // Reachable via: AIProjectClient → RecurrenceTrigger
-    // Reachable via: BetaOperations → RecurrenceTrigger
-    // Reachable via: BetaSchedulesOperations → RecurrenceTrigger
-    // Reachable via: Schedule → RecurrenceTrigger
-    // Reachable via: TriggerUnion → RecurrenceTrigger
-    /** Recurrence based trigger. */
-    export interface RecurrenceTrigger extends Trigger {
-        type: "Recurrence";
-        startTime?: string;
-        endTime?: string;
-        timeZone?: string;
-        interval: number;
-        schedule: RecurrenceScheduleUnion;
-    }
-
-    // Reachable via: AIProjectClient → RecurrenceScheduleUnion
-    // Reachable via: BetaOperations → RecurrenceScheduleUnion
-    // Reachable via: BetaSchedulesOperations → RecurrenceScheduleUnion
-    // Reachable via: RecurrenceTrigger → RecurrenceScheduleUnion
-    // Reachable via: Schedule → RecurrenceScheduleUnion
-    // Reachable via: TriggerUnion → RecurrenceScheduleUnion
-    /** Alias for RecurrenceScheduleUnion */
-    export type RecurrenceScheduleUnion = HourlyRecurrenceSchedule | DailyRecurrenceSchedule | WeeklyRecurrenceSchedule | MonthlyRecurrenceSchedule | RecurrenceSchedule;
-
-    // Reachable via: AIProjectClient → HourlyRecurrenceSchedule
-    // Reachable via: BetaOperations → HourlyRecurrenceSchedule
-    // Reachable via: BetaSchedulesOperations → HourlyRecurrenceSchedule
-    // Reachable via: RecurrenceScheduleUnion → HourlyRecurrenceSchedule
-    // Reachable via: RecurrenceTrigger → HourlyRecurrenceSchedule
-    // Reachable via: Schedule → HourlyRecurrenceSchedule
-    // Reachable via: TriggerUnion → HourlyRecurrenceSchedule
-    /** Hourly recurrence schedule. */
-    export interface HourlyRecurrenceSchedule extends RecurrenceSchedule {
-        type: "Hourly";
-    }
-
-    // Reachable via: AIProjectClient → RecurrenceSchedule
-    // Reachable via: BetaOperations → RecurrenceSchedule
-    // Reachable via: BetaSchedulesOperations → RecurrenceSchedule
-    // Reachable via: DailyRecurrenceSchedule → RecurrenceSchedule
-    // Reachable via: HourlyRecurrenceSchedule → RecurrenceSchedule
-    // Reachable via: MonthlyRecurrenceSchedule → RecurrenceSchedule
-    // Reachable via: RecurrenceScheduleUnion → RecurrenceSchedule
-    // Reachable via: RecurrenceTrigger → RecurrenceSchedule
-    // Reachable via: Schedule → RecurrenceSchedule
-    // Reachable via: TriggerUnion → RecurrenceSchedule
-    // Reachable via: WeeklyRecurrenceSchedule → RecurrenceSchedule
-    /** Recurrence schedule model. */
-    export interface RecurrenceSchedule {
-        type: RecurrenceType;
-    }
-
-    // Reachable via: AIProjectClient → RecurrenceType
-    // Reachable via: BetaOperations → RecurrenceType
-    // Reachable via: BetaSchedulesOperations → RecurrenceType
-    // Reachable via: DailyRecurrenceSchedule → RecurrenceType
-    // Reachable via: HourlyRecurrenceSchedule → RecurrenceType
-    // Reachable via: MonthlyRecurrenceSchedule → RecurrenceType
-    // Reachable via: RecurrenceSchedule → RecurrenceType
-    // Reachable via: RecurrenceScheduleUnion → RecurrenceType
-    // Reachable via: RecurrenceTrigger → RecurrenceType
-    // Reachable via: Schedule → RecurrenceType
-    // Reachable via: TriggerUnion → RecurrenceType
-    // Reachable via: WeeklyRecurrenceSchedule → RecurrenceType
-    /** Recurrence type. */
-    export type RecurrenceType = "Hourly" | "Daily" | "Weekly" | "Monthly";
-
-    // Reachable via: AIProjectClient → DailyRecurrenceSchedule
-    // Reachable via: BetaOperations → DailyRecurrenceSchedule
-    // Reachable via: BetaSchedulesOperations → DailyRecurrenceSchedule
-    // Reachable via: RecurrenceScheduleUnion → DailyRecurrenceSchedule
-    // Reachable via: RecurrenceTrigger → DailyRecurrenceSchedule
-    // Reachable via: Schedule → DailyRecurrenceSchedule
-    // Reachable via: TriggerUnion → DailyRecurrenceSchedule
-    /** Daily recurrence schedule. */
-    export interface DailyRecurrenceSchedule extends RecurrenceSchedule {
-        type: "Daily";
-        hours: number[];
-    }
-
-    // Reachable via: AIProjectClient → WeeklyRecurrenceSchedule
-    // Reachable via: BetaOperations → WeeklyRecurrenceSchedule
-    // Reachable via: BetaSchedulesOperations → WeeklyRecurrenceSchedule
-    // Reachable via: RecurrenceScheduleUnion → WeeklyRecurrenceSchedule
-    // Reachable via: RecurrenceTrigger → WeeklyRecurrenceSchedule
-    // Reachable via: Schedule → WeeklyRecurrenceSchedule
-    // Reachable via: TriggerUnion → WeeklyRecurrenceSchedule
-    /** Weekly recurrence schedule. */
-    export interface WeeklyRecurrenceSchedule extends RecurrenceSchedule {
-        type: "Weekly";
-        daysOfWeek: DayOfWeek[];
-    }
-
-    // Reachable via: AIProjectClient → DayOfWeek
-    // Reachable via: BetaOperations → DayOfWeek
-    // Reachable via: BetaSchedulesOperations → DayOfWeek
-    // Reachable via: RecurrenceScheduleUnion → DayOfWeek
-    // Reachable via: RecurrenceTrigger → DayOfWeek
-    // Reachable via: Schedule → DayOfWeek
-    // Reachable via: TriggerUnion → DayOfWeek
-    // Reachable via: WeeklyRecurrenceSchedule → DayOfWeek
-    /** Days of the week for recurrence schedule. */
-    export type DayOfWeek = "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday";
-
-    // Reachable via: AIProjectClient → MonthlyRecurrenceSchedule
-    // Reachable via: BetaOperations → MonthlyRecurrenceSchedule
-    // Reachable via: BetaSchedulesOperations → MonthlyRecurrenceSchedule
-    // Reachable via: RecurrenceScheduleUnion → MonthlyRecurrenceSchedule
-    // Reachable via: RecurrenceTrigger → MonthlyRecurrenceSchedule
-    // Reachable via: Schedule → MonthlyRecurrenceSchedule
-    // Reachable via: TriggerUnion → MonthlyRecurrenceSchedule
-    /** Monthly recurrence schedule. */
-    export interface MonthlyRecurrenceSchedule extends RecurrenceSchedule {
-        type: "Monthly";
-        daysOfMonth: number[];
-    }
-
-    // Reachable via: AIProjectClient → OneTimeTrigger
-    // Reachable via: BetaOperations → OneTimeTrigger
-    // Reachable via: BetaSchedulesOperations → OneTimeTrigger
-    // Reachable via: Schedule → OneTimeTrigger
-    // Reachable via: TriggerUnion → OneTimeTrigger
-    /** One-time trigger. */
-    export interface OneTimeTrigger extends Trigger {
-        type: "OneTime";
-        triggerAt: string;
-        timeZone?: string;
-    }
-
-    // Reachable via: AIProjectClient → ScheduleTaskUnion
-    // Reachable via: BetaOperations → ScheduleTaskUnion
-    // Reachable via: BetaSchedulesOperations → ScheduleTaskUnion
-    // Reachable via: Schedule → ScheduleTaskUnion
-    /** Alias for ScheduleTaskUnion */
-    export type ScheduleTaskUnion = EvaluationScheduleTask | InsightScheduleTask | ScheduleTask;
-
-    // Reachable via: AIProjectClient → EvaluationScheduleTask
-    // Reachable via: BetaOperations → EvaluationScheduleTask
-    // Reachable via: BetaSchedulesOperations → EvaluationScheduleTask
-    // Reachable via: Schedule → EvaluationScheduleTask
-    // Reachable via: ScheduleTaskUnion → EvaluationScheduleTask
-    /** Evaluation task for the schedule. */
-    export interface EvaluationScheduleTask extends ScheduleTask {
-        type: "Evaluation";
-        evalId: string;
-        evalRun: Record<string, unknown>;
-    }
-
-    // Reachable via: AIProjectClient → ScheduleTask
-    // Reachable via: BetaOperations → ScheduleTask
-    // Reachable via: BetaSchedulesOperations → ScheduleTask
-    // Reachable via: EvaluationScheduleTask → ScheduleTask
-    // Reachable via: InsightScheduleTask → ScheduleTask
-    // Reachable via: Schedule → ScheduleTask
-    // Reachable via: ScheduleTaskUnion → ScheduleTask
-    /** Schedule task model. */
-    export interface ScheduleTask {
-        type: ScheduleTaskType;
-        configuration?: Record<string, string>;
-    }
-
-    // Reachable via: AIProjectClient → InsightScheduleTask
-    // Reachable via: BetaOperations → InsightScheduleTask
-    // Reachable via: BetaSchedulesOperations → InsightScheduleTask
-    // Reachable via: Schedule → InsightScheduleTask
-    // Reachable via: ScheduleTaskUnion → InsightScheduleTask
-    /** Insight task for the schedule. */
-    export interface InsightScheduleTask extends ScheduleTask {
-        type: "Insight";
-        insight: Insight;
-    }
-
-    // Reachable via: AIProjectClient → Insight
-    // Reachable via: BetaInsightsOperations → Insight
-    // Reachable via: BetaOperations → Insight
-    // Reachable via: BetaSchedulesOperations → Insight
-    // Reachable via: InsightScheduleTask → Insight
-    // Reachable via: Schedule → Insight
-    // Reachable via: ScheduleTaskUnion → Insight
-    /** The response body for cluster insights. */
-    export interface Insight {
-        readonly id?: string;
-        readonly metadata?: InsightsMetadata;
-        readonly state?: OperationState;
-        displayName: string;
-        request: InsightRequestUnion;
-        readonly result?: InsightResultUnion;
-    }
-
-    // Reachable via: AIProjectClient → InsightsMetadata
-    // Reachable via: BetaInsightsOperations → InsightsMetadata
-    // Reachable via: BetaOperations → InsightsMetadata
-    // Reachable via: BetaSchedulesOperations → InsightsMetadata
-    // Reachable via: Insight → InsightsMetadata
-    // Reachable via: InsightScheduleTask → InsightsMetadata
-    // Reachable via: Schedule → InsightsMetadata
-    // Reachable via: ScheduleTaskUnion → InsightsMetadata
-    /** Metadata about the insights. */
-    export interface InsightsMetadata {
-        createdAt: Date;
-        completedAt?: Date;
-    }
-
-    // Reachable via: AIProjectClient → OperationState
-    // Reachable via: BetaInsightsOperations → OperationState
-    // Reachable via: BetaMemoryStoresOperations → OperationState
-    // Reachable via: BetaOperations → OperationState
-    // Reachable via: BetaSchedulesOperations → OperationState
-    // Reachable via: Insight → OperationState
-    // Reachable via: InsightScheduleTask → OperationState
-    // Reachable via: Schedule → OperationState
-    // Reachable via: ScheduleTaskUnion → OperationState
-    /** Enum describing allowed operation states. */
-    export type OperationState = "NotStarted" | "Running" | "Succeeded" | "Failed" | "Canceled";
-
-    // Reachable via: AIProjectClient → InsightRequestUnion
-    // Reachable via: BetaInsightsOperations → InsightRequestUnion
-    // Reachable via: BetaOperations → InsightRequestUnion
-    // Reachable via: BetaSchedulesOperations → InsightRequestUnion
-    // Reachable via: Insight → InsightRequestUnion
-    // Reachable via: InsightScheduleTask → InsightRequestUnion
-    // Reachable via: Schedule → InsightRequestUnion
-    // Reachable via: ScheduleTaskUnion → InsightRequestUnion
-    /** Alias for InsightRequestUnion */
-    export type InsightRequestUnion = EvaluationRunClusterInsightRequest | AgentClusterInsightRequest | EvaluationComparisonInsightRequest | InsightRequest;
-
-    // Reachable via: AIProjectClient → EvaluationRunClusterInsightRequest
-    // Reachable via: BetaInsightsOperations → EvaluationRunClusterInsightRequest
-    // Reachable via: BetaOperations → EvaluationRunClusterInsightRequest
-    // Reachable via: BetaSchedulesOperations → EvaluationRunClusterInsightRequest
-    // Reachable via: Insight → EvaluationRunClusterInsightRequest
-    // Reachable via: InsightRequestUnion → EvaluationRunClusterInsightRequest
-    // Reachable via: InsightScheduleTask → EvaluationRunClusterInsightRequest
-    // Reachable via: Schedule → EvaluationRunClusterInsightRequest
-    // Reachable via: ScheduleTaskUnion → EvaluationRunClusterInsightRequest
-    /** Insights on set of Evaluation Results */
-    export interface EvaluationRunClusterInsightRequest extends InsightRequest {
-        type: "EvaluationRunClusterInsight";
-        evalId: string;
-        runIds: string[];
-        modelConfiguration?: InsightModelConfiguration;
-    }
-
-    // Reachable via: AIProjectClient → InsightRequest
-    // Reachable via: AgentClusterInsightRequest → InsightRequest
-    // Reachable via: BetaInsightsOperations → InsightRequest
-    // Reachable via: BetaOperations → InsightRequest
-    // Reachable via: BetaSchedulesOperations → InsightRequest
-    // Reachable via: EvaluationComparisonInsightRequest → InsightRequest
-    // Reachable via: EvaluationRunClusterInsightRequest → InsightRequest
-    // Reachable via: Insight → InsightRequest
-    // Reachable via: InsightRequestUnion → InsightRequest
-    // Reachable via: InsightScheduleTask → InsightRequest
-    // Reachable via: Schedule → InsightRequest
-    // Reachable via: ScheduleTaskUnion → InsightRequest
-    /** The request of the insights report. */
-    export interface InsightRequest {
-        type: InsightType;
-    }
-
-    // Reachable via: AIProjectClient → InsightType
-    // Reachable via: AgentClusterInsightRequest → InsightType
-    // Reachable via: AgentClusterInsightResult → InsightType
-    // Reachable via: BetaInsightsListOptionalParams → InsightType
-    // Reachable via: BetaInsightsOperations → InsightType
-    // Reachable via: BetaOperations → InsightType
-    // Reachable via: BetaSchedulesOperations → InsightType
-    // Reachable via: EvaluationComparisonInsightRequest → InsightType
-    // Reachable via: EvaluationComparisonInsightResult → InsightType
-    // Reachable via: EvaluationRunClusterInsightRequest → InsightType
-    // Reachable via: EvaluationRunClusterInsightResult → InsightType
-    // Reachable via: Insight → InsightType
-    // Reachable via: InsightRequest → InsightType
-    // Reachable via: InsightRequestUnion → InsightType
-    // Reachable via: InsightResult → InsightType
-    // Reachable via: InsightResultUnion → InsightType
-    // Reachable via: InsightScheduleTask → InsightType
-    // Reachable via: Schedule → InsightType
-    // Reachable via: ScheduleTaskUnion → InsightType
-    /** The request of the insights. */
-    export type InsightType = "EvaluationRunClusterInsight" | "AgentClusterInsight" | "EvaluationComparison";
-
-    // Reachable via: AIProjectClient → InsightModelConfiguration
-    // Reachable via: AgentClusterInsightRequest → InsightModelConfiguration
-    // Reachable via: BetaInsightsOperations → InsightModelConfiguration
-    // Reachable via: BetaOperations → InsightModelConfiguration
-    // Reachable via: BetaSchedulesOperations → InsightModelConfiguration
-    // Reachable via: EvaluationRunClusterInsightRequest → InsightModelConfiguration
-    // Reachable via: Insight → InsightModelConfiguration
-    // Reachable via: InsightRequestUnion → InsightModelConfiguration
-    // Reachable via: InsightScheduleTask → InsightModelConfiguration
-    // Reachable via: Schedule → InsightModelConfiguration
-    // Reachable via: ScheduleTaskUnion → InsightModelConfiguration
-    /** Configuration of the model used in the insight generation. */
-    export interface InsightModelConfiguration {
-        modelDeploymentName: string;
-    }
-
-    // Reachable via: AIProjectClient → AgentClusterInsightRequest
-    // Reachable via: BetaInsightsOperations → AgentClusterInsightRequest
-    // Reachable via: BetaOperations → AgentClusterInsightRequest
-    // Reachable via: BetaSchedulesOperations → AgentClusterInsightRequest
-    // Reachable via: Insight → AgentClusterInsightRequest
-    // Reachable via: InsightRequestUnion → AgentClusterInsightRequest
-    // Reachable via: InsightScheduleTask → AgentClusterInsightRequest
-    // Reachable via: Schedule → AgentClusterInsightRequest
-    // Reachable via: ScheduleTaskUnion → AgentClusterInsightRequest
-    /** Insights on set of Agent Evaluation Results */
-    export interface AgentClusterInsightRequest extends InsightRequest {
-        type: "AgentClusterInsight";
-        agentName: string;
-        modelConfiguration?: InsightModelConfiguration;
-    }
-
-    // Reachable via: AIProjectClient → EvaluationComparisonInsightRequest
-    // Reachable via: BetaInsightsOperations → EvaluationComparisonInsightRequest
-    // Reachable via: BetaOperations → EvaluationComparisonInsightRequest
-    // Reachable via: BetaSchedulesOperations → EvaluationComparisonInsightRequest
-    // Reachable via: Insight → EvaluationComparisonInsightRequest
-    // Reachable via: InsightRequestUnion → EvaluationComparisonInsightRequest
-    // Reachable via: InsightScheduleTask → EvaluationComparisonInsightRequest
-    // Reachable via: Schedule → EvaluationComparisonInsightRequest
-    // Reachable via: ScheduleTaskUnion → EvaluationComparisonInsightRequest
-    /** Evaluation Comparison Request */
-    export interface EvaluationComparisonInsightRequest extends InsightRequest {
-        type: "EvaluationComparison";
-        evalId: string;
-        baselineRunId: string;
-        treatmentRunIds: string[];
-    }
-
-    // Reachable via: AIProjectClient → InsightResultUnion
-    // Reachable via: BetaInsightsOperations → InsightResultUnion
-    // Reachable via: BetaOperations → InsightResultUnion
-    // Reachable via: BetaSchedulesOperations → InsightResultUnion
-    // Reachable via: Insight → InsightResultUnion
-    // Reachable via: InsightScheduleTask → InsightResultUnion
-    // Reachable via: Schedule → InsightResultUnion
-    // Reachable via: ScheduleTaskUnion → InsightResultUnion
-    /** Alias for InsightResultUnion */
-    export type InsightResultUnion = EvaluationComparisonInsightResult | EvaluationRunClusterInsightResult | AgentClusterInsightResult | InsightResult;
-
-    // Reachable via: AIProjectClient → EvaluationComparisonInsightResult
-    // Reachable via: BetaInsightsOperations → EvaluationComparisonInsightResult
-    // Reachable via: BetaOperations → EvaluationComparisonInsightResult
-    // Reachable via: BetaSchedulesOperations → EvaluationComparisonInsightResult
-    // Reachable via: Insight → EvaluationComparisonInsightResult
-    // Reachable via: InsightResultUnion → EvaluationComparisonInsightResult
-    // Reachable via: InsightScheduleTask → EvaluationComparisonInsightResult
-    // Reachable via: Schedule → EvaluationComparisonInsightResult
-    // Reachable via: ScheduleTaskUnion → EvaluationComparisonInsightResult
-    /** Insights from the evaluation comparison. */
-    export interface EvaluationComparisonInsightResult extends InsightResult {
-        type: "EvaluationComparison";
-        comparisons: EvalRunResultComparison[];
-        method: string;
-    }
-
-    // Reachable via: AIProjectClient → InsightResult
-    // Reachable via: AgentClusterInsightResult → InsightResult
-    // Reachable via: BetaInsightsOperations → InsightResult
-    // Reachable via: BetaOperations → InsightResult
-    // Reachable via: BetaSchedulesOperations → InsightResult
-    // Reachable via: EvaluationComparisonInsightResult → InsightResult
-    // Reachable via: EvaluationRunClusterInsightResult → InsightResult
-    // Reachable via: Insight → InsightResult
-    // Reachable via: InsightResultUnion → InsightResult
-    // Reachable via: InsightScheduleTask → InsightResult
-    // Reachable via: Schedule → InsightResult
-    // Reachable via: ScheduleTaskUnion → InsightResult
-    /** The result of the insights. */
-    export interface InsightResult {
-        type: InsightType;
-    }
-
-    // Reachable via: AIProjectClient → EvalRunResultComparison
-    // Reachable via: BetaInsightsOperations → EvalRunResultComparison
-    // Reachable via: BetaOperations → EvalRunResultComparison
-    // Reachable via: BetaSchedulesOperations → EvalRunResultComparison
-    // Reachable via: EvaluationComparisonInsightResult → EvalRunResultComparison
-    // Reachable via: Insight → EvalRunResultComparison
-    // Reachable via: InsightResultUnion → EvalRunResultComparison
-    // Reachable via: InsightScheduleTask → EvalRunResultComparison
-    // Reachable via: Schedule → EvalRunResultComparison
-    // Reachable via: ScheduleTaskUnion → EvalRunResultComparison
-    /** Comparison results for treatment runs against the baseline. */
-    export interface EvalRunResultComparison {
-        testingCriteria: string;
-        metric: string;
-        evaluator: string;
-        baselineRunSummary: EvalRunResultSummary;
-        compareItems: EvalRunResultCompareItem[];
-    }
-
-    // Reachable via: AIProjectClient → EvalRunResultSummary
-    // Reachable via: BetaInsightsOperations → EvalRunResultSummary
-    // Reachable via: BetaOperations → EvalRunResultSummary
-    // Reachable via: BetaSchedulesOperations → EvalRunResultSummary
-    // Reachable via: EvalRunResultCompareItem → EvalRunResultSummary
-    // Reachable via: EvalRunResultComparison → EvalRunResultSummary
-    // Reachable via: EvaluationComparisonInsightResult → EvalRunResultSummary
-    // Reachable via: Insight → EvalRunResultSummary
-    // Reachable via: InsightResultUnion → EvalRunResultSummary
-    // Reachable via: InsightScheduleTask → EvalRunResultSummary
-    // Reachable via: Schedule → EvalRunResultSummary
-    // Reachable via: ScheduleTaskUnion → EvalRunResultSummary
-    /** Summary statistics of a metric in an evaluation run. */
-    export interface EvalRunResultSummary {
-        runId: string;
-        sampleCount: number;
-        average: number;
-        standardDeviation: number;
-    }
-
-    // Reachable via: AIProjectClient → EvalRunResultCompareItem
-    // Reachable via: BetaInsightsOperations → EvalRunResultCompareItem
-    // Reachable via: BetaOperations → EvalRunResultCompareItem
-    // Reachable via: BetaSchedulesOperations → EvalRunResultCompareItem
-    // Reachable via: EvalRunResultComparison → EvalRunResultCompareItem
-    // Reachable via: EvaluationComparisonInsightResult → EvalRunResultCompareItem
-    // Reachable via: Insight → EvalRunResultCompareItem
-    // Reachable via: InsightResultUnion → EvalRunResultCompareItem
-    // Reachable via: InsightScheduleTask → EvalRunResultCompareItem
-    // Reachable via: Schedule → EvalRunResultCompareItem
-    // Reachable via: ScheduleTaskUnion → EvalRunResultCompareItem
-    /** Metric comparison for a treatment against the baseline. */
-    export interface EvalRunResultCompareItem {
-        treatmentRunId: string;
-        treatmentRunSummary: EvalRunResultSummary;
-        deltaEstimate: number;
-        pValue: number;
-        treatmentEffect: TreatmentEffectType;
-    }
-
-    // Reachable via: AIProjectClient → TreatmentEffectType
-    // Reachable via: BetaInsightsOperations → TreatmentEffectType
-    // Reachable via: BetaOperations → TreatmentEffectType
-    // Reachable via: BetaSchedulesOperations → TreatmentEffectType
-    // Reachable via: EvalRunResultCompareItem → TreatmentEffectType
-    // Reachable via: EvalRunResultComparison → TreatmentEffectType
-    // Reachable via: EvaluationComparisonInsightResult → TreatmentEffectType
-    // Reachable via: Insight → TreatmentEffectType
-    // Reachable via: InsightResultUnion → TreatmentEffectType
-    // Reachable via: InsightScheduleTask → TreatmentEffectType
-    // Reachable via: Schedule → TreatmentEffectType
-    // Reachable via: ScheduleTaskUnion → TreatmentEffectType
-    /** Treatment Effect Type. */
-    export type TreatmentEffectType = "TooFewSamples" | "Inconclusive" | "Changed" | "Improved" | "Degraded";
-
-    // Reachable via: AIProjectClient → EvaluationRunClusterInsightResult
-    // Reachable via: BetaInsightsOperations → EvaluationRunClusterInsightResult
-    // Reachable via: BetaOperations → EvaluationRunClusterInsightResult
-    // Reachable via: BetaSchedulesOperations → EvaluationRunClusterInsightResult
-    // Reachable via: Insight → EvaluationRunClusterInsightResult
-    // Reachable via: InsightResultUnion → EvaluationRunClusterInsightResult
-    // Reachable via: InsightScheduleTask → EvaluationRunClusterInsightResult
-    // Reachable via: Schedule → EvaluationRunClusterInsightResult
-    // Reachable via: ScheduleTaskUnion → EvaluationRunClusterInsightResult
-    /** Insights from the evaluation run cluster analysis. */
-    export interface EvaluationRunClusterInsightResult extends InsightResult {
-        type: "EvaluationRunClusterInsight";
-        clusterInsight: ClusterInsightResult;
-    }
-
-    // Reachable via: AIProjectClient → ClusterInsightResult
-    // Reachable via: AgentClusterInsightResult → ClusterInsightResult
-    // Reachable via: BetaInsightsOperations → ClusterInsightResult
-    // Reachable via: BetaOperations → ClusterInsightResult
-    // Reachable via: BetaSchedulesOperations → ClusterInsightResult
-    // Reachable via: EvaluationRunClusterInsightResult → ClusterInsightResult
-    // Reachable via: Insight → ClusterInsightResult
-    // Reachable via: InsightResultUnion → ClusterInsightResult
-    // Reachable via: InsightScheduleTask → ClusterInsightResult
-    // Reachable via: Schedule → ClusterInsightResult
-    // Reachable via: ScheduleTaskUnion → ClusterInsightResult
-    /** Insights from the cluster analysis. */
-    export interface ClusterInsightResult {
-        summary: InsightSummary;
-        clusters: InsightCluster[];
-        coordinates?: Record<string, ChartCoordinate>;
-    }
-
-    // Reachable via: AIProjectClient → InsightSummary
-    // Reachable via: AgentClusterInsightResult → InsightSummary
-    // Reachable via: BetaInsightsOperations → InsightSummary
-    // Reachable via: BetaOperations → InsightSummary
-    // Reachable via: BetaSchedulesOperations → InsightSummary
-    // Reachable via: ClusterInsightResult → InsightSummary
-    // Reachable via: EvaluationRunClusterInsightResult → InsightSummary
-    // Reachable via: Insight → InsightSummary
-    // Reachable via: InsightResultUnion → InsightSummary
-    // Reachable via: InsightScheduleTask → InsightSummary
-    // Reachable via: Schedule → InsightSummary
-    // Reachable via: ScheduleTaskUnion → InsightSummary
-    /** Summary of the error cluster analysis. */
-    export interface InsightSummary {
-        sampleCount: number;
-        uniqueSubclusterCount: number;
-        uniqueClusterCount: number;
-        method: string;
-        usage: ClusterTokenUsage;
-    }
-
-    // Reachable via: AIProjectClient → ClusterTokenUsage
-    // Reachable via: AgentClusterInsightResult → ClusterTokenUsage
-    // Reachable via: BetaInsightsOperations → ClusterTokenUsage
-    // Reachable via: BetaOperations → ClusterTokenUsage
-    // Reachable via: BetaSchedulesOperations → ClusterTokenUsage
-    // Reachable via: ClusterInsightResult → ClusterTokenUsage
-    // Reachable via: EvaluationRunClusterInsightResult → ClusterTokenUsage
-    // Reachable via: Insight → ClusterTokenUsage
-    // Reachable via: InsightResultUnion → ClusterTokenUsage
-    // Reachable via: InsightScheduleTask → ClusterTokenUsage
-    // Reachable via: InsightSummary → ClusterTokenUsage
-    // Reachable via: Schedule → ClusterTokenUsage
-    // Reachable via: ScheduleTaskUnion → ClusterTokenUsage
-    /** Token usage for cluster analysis */
-    export interface ClusterTokenUsage {
-        inputTokenUsage: number;
-        outputTokenUsage: number;
-        totalTokenUsage: number;
-    }
-
-    // Reachable via: AIProjectClient → InsightCluster
-    // Reachable via: AgentClusterInsightResult → InsightCluster
-    // Reachable via: BetaInsightsOperations → InsightCluster
-    // Reachable via: BetaOperations → InsightCluster
-    // Reachable via: BetaSchedulesOperations → InsightCluster
-    // Reachable via: ClusterInsightResult → InsightCluster
-    // Reachable via: EvaluationRunClusterInsightResult → InsightCluster
-    // Reachable via: Insight → InsightCluster
-    // Reachable via: InsightResultUnion → InsightCluster
-    // Reachable via: InsightScheduleTask → InsightCluster
-    // Reachable via: Schedule → InsightCluster
-    // Reachable via: ScheduleTaskUnion → InsightCluster
-    /** A cluster of analysis samples. */
-    export interface InsightCluster {
-        id: string;
-        label: string;
-        suggestion: string;
-        suggestionTitle: string;
-        description: string;
-        weight: number;
-        subClusters?: InsightCluster[];
-        samples?: InsightSampleUnion[];
-    }
-
-    // Reachable via: AIProjectClient → InsightSampleUnion
-    // Reachable via: AgentClusterInsightResult → InsightSampleUnion
-    // Reachable via: BetaInsightsOperations → InsightSampleUnion
-    // Reachable via: BetaOperations → InsightSampleUnion
-    // Reachable via: BetaSchedulesOperations → InsightSampleUnion
-    // Reachable via: ClusterInsightResult → InsightSampleUnion
-    // Reachable via: EvaluationRunClusterInsightResult → InsightSampleUnion
-    // Reachable via: Insight → InsightSampleUnion
-    // Reachable via: InsightCluster → InsightSampleUnion
-    // Reachable via: InsightResultUnion → InsightSampleUnion
-    // Reachable via: InsightScheduleTask → InsightSampleUnion
-    // Reachable via: Schedule → InsightSampleUnion
-    // Reachable via: ScheduleTaskUnion → InsightSampleUnion
-    /** Alias for InsightSampleUnion */
-    export type InsightSampleUnion = EvaluationResultSample | InsightSample;
-
-    // Reachable via: AIProjectClient → EvaluationResultSample
-    // Reachable via: AgentClusterInsightResult → EvaluationResultSample
-    // Reachable via: BetaInsightsOperations → EvaluationResultSample
-    // Reachable via: BetaOperations → EvaluationResultSample
-    // Reachable via: BetaSchedulesOperations → EvaluationResultSample
-    // Reachable via: ClusterInsightResult → EvaluationResultSample
-    // Reachable via: EvaluationRunClusterInsightResult → EvaluationResultSample
-    // Reachable via: Insight → EvaluationResultSample
-    // Reachable via: InsightCluster → EvaluationResultSample
-    // Reachable via: InsightResultUnion → EvaluationResultSample
-    // Reachable via: InsightSampleUnion → EvaluationResultSample
-    // Reachable via: InsightScheduleTask → EvaluationResultSample
-    // Reachable via: Schedule → EvaluationResultSample
-    // Reachable via: ScheduleTaskUnion → EvaluationResultSample
-    /** A sample from the evaluation result. */
-    export interface EvaluationResultSample extends InsightSample {
-        type: "EvaluationResultSample";
-        evaluationResult: EvalResult;
-    }
-
-    // Reachable via: AIProjectClient → InsightSample
-    // Reachable via: AgentClusterInsightResult → InsightSample
-    // Reachable via: BetaInsightsOperations → InsightSample
-    // Reachable via: BetaOperations → InsightSample
-    // Reachable via: BetaSchedulesOperations → InsightSample
-    // Reachable via: ClusterInsightResult → InsightSample
-    // Reachable via: EvaluationResultSample → InsightSample
-    // Reachable via: EvaluationRunClusterInsightResult → InsightSample
-    // Reachable via: Insight → InsightSample
-    // Reachable via: InsightCluster → InsightSample
-    // Reachable via: InsightResultUnion → InsightSample
-    // Reachable via: InsightSampleUnion → InsightSample
-    // Reachable via: InsightScheduleTask → InsightSample
-    // Reachable via: Schedule → InsightSample
-    // Reachable via: ScheduleTaskUnion → InsightSample
-    /** A sample from the analysis. */
-    export interface InsightSample {
-        id: string;
-        type: SampleType;
-        features: Record<string, unknown>;
-        correlationInfo: Record<string, unknown>;
-    }
-
-    // Reachable via: AIProjectClient → EvalResult
-    // Reachable via: AgentClusterInsightResult → EvalResult
-    // Reachable via: BetaInsightsOperations → EvalResult
-    // Reachable via: BetaOperations → EvalResult
-    // Reachable via: BetaSchedulesOperations → EvalResult
-    // Reachable via: ClusterInsightResult → EvalResult
-    // Reachable via: EvaluationResultSample → EvalResult
-    // Reachable via: EvaluationRunClusterInsightResult → EvalResult
-    // Reachable via: Insight → EvalResult
-    // Reachable via: InsightCluster → EvalResult
-    // Reachable via: InsightResultUnion → EvalResult
-    // Reachable via: InsightSampleUnion → EvalResult
-    // Reachable via: InsightScheduleTask → EvalResult
-    // Reachable via: Schedule → EvalResult
-    // Reachable via: ScheduleTaskUnion → EvalResult
-    /** Result of the evaluation. */
-    export interface EvalResult {
-        name: string;
-        type: string;
-        score: number;
-        passed: boolean;
-    }
-
-    // Reachable via: AIProjectClient → ChartCoordinate
-    // Reachable via: AgentClusterInsightResult → ChartCoordinate
-    // Reachable via: BetaInsightsOperations → ChartCoordinate
-    // Reachable via: BetaOperations → ChartCoordinate
-    // Reachable via: BetaSchedulesOperations → ChartCoordinate
-    // Reachable via: ClusterInsightResult → ChartCoordinate
-    // Reachable via: EvaluationRunClusterInsightResult → ChartCoordinate
-    // Reachable via: Insight → ChartCoordinate
-    // Reachable via: InsightResultUnion → ChartCoordinate
-    // Reachable via: InsightScheduleTask → ChartCoordinate
-    // Reachable via: Schedule → ChartCoordinate
-    // Reachable via: ScheduleTaskUnion → ChartCoordinate
-    /** Coordinates for the analysis chart. */
-    export interface ChartCoordinate {
-        x: number;
-        y: number;
-        size: number;
-    }
-
-    // Reachable via: AIProjectClient → AgentClusterInsightResult
-    // Reachable via: BetaInsightsOperations → AgentClusterInsightResult
-    // Reachable via: BetaOperations → AgentClusterInsightResult
-    // Reachable via: BetaSchedulesOperations → AgentClusterInsightResult
-    // Reachable via: Insight → AgentClusterInsightResult
-    // Reachable via: InsightResultUnion → AgentClusterInsightResult
-    // Reachable via: InsightScheduleTask → AgentClusterInsightResult
-    // Reachable via: Schedule → AgentClusterInsightResult
-    // Reachable via: ScheduleTaskUnion → AgentClusterInsightResult
-    /** Insights from the agent cluster analysis. */
-    export interface AgentClusterInsightResult extends InsightResult {
-        type: "AgentClusterInsight";
-        clusterInsight: ClusterInsightResult;
-    }
-
-    // Reachable via: AIProjectClient → BetaSchedulesCreateOrUpdateOptionalParams
-    // Reachable via: BetaOperations → BetaSchedulesCreateOrUpdateOptionalParams
-    // Reachable via: BetaSchedulesOperations → BetaSchedulesCreateOrUpdateOptionalParams
-    /** Optional parameters. */
-    export interface BetaSchedulesCreateOrUpdateOptionalParams extends OperationOptions {
-        clientRequestId?: string;
-    }
-
-    // Reachable via: AIProjectClient → BetaSchedulesListOptionalParams
-    // Reachable via: BetaOperations → BetaSchedulesListOptionalParams
-    // Reachable via: BetaSchedulesOperations → BetaSchedulesListOptionalParams
-    /** Optional parameters. */
-    export interface BetaSchedulesListOptionalParams extends OperationOptions {
-        clientRequestId?: string;
-        scheduleType?: ScheduleTaskType;
-        enabled?: boolean;
-    }
-
-    // Reachable via: AIProjectClient → BetaSchedulesGetOptionalParams
-    // Reachable via: BetaOperations → BetaSchedulesGetOptionalParams
-    // Reachable via: BetaSchedulesOperations → BetaSchedulesGetOptionalParams
-    /** Optional parameters. */
-    export interface BetaSchedulesGetOptionalParams extends OperationOptions {
-        clientRequestId?: string;
-    }
-
-    // Reachable via: AIProjectClient → BetaSchedulesDeleteOptionalParams
-    // Reachable via: BetaOperations → BetaSchedulesDeleteOptionalParams
-    // Reachable via: BetaSchedulesOperations → BetaSchedulesDeleteOptionalParams
-    /** Optional parameters. */
-    export interface BetaSchedulesDeleteOptionalParams extends OperationOptions {
-        clientRequestId?: string;
-    }
-
-    // Reachable via: AIProjectClient → BetaRedTeamsOperations
-    // Reachable via: BetaOperations → BetaRedTeamsOperations
-    /** Interface representing a BetaRedTeams operations. */
-    export interface BetaRedTeamsOperations {
-        create(redTeam: RedTeam, options?: BetaRedTeamsCreateOptionalParams): Promise<RedTeam>;
-        list(options?: BetaRedTeamsListOptionalParams): PagedAsyncIterableIterator<RedTeam>;
-        get(name: string, options?: BetaRedTeamsGetOptionalParams): Promise<RedTeam>;
-    }
-
-    // Reachable via: AIProjectClient → RedTeam
-    // Reachable via: BetaOperations → RedTeam
-    // Reachable via: BetaRedTeamsOperations → RedTeam
-    /** Red team details. */
-    export interface RedTeam {
-        readonly name: string;
-        displayName?: string;
-        numTurns?: number;
-        attackStrategies?: AttackStrategy[];
-        simulationOnly?: boolean;
-        riskCategories?: RiskCategory[];
-        applicationScenario?: string;
-        tags?: Record<string, string>;
-        properties?: Record<string, string>;
-        readonly status?: string;
-        target?: TargetConfigUnion;
-    }
-
-    // Reachable via: AIProjectClient → AttackStrategy
-    // Reachable via: BetaOperations → AttackStrategy
-    // Reachable via: BetaRedTeamsOperations → AttackStrategy
-    // Reachable via: RedTeam → AttackStrategy
-    /** Strategies for attacks. */
-    export type AttackStrategy = "easy" | "moderate" | "difficult" | "ascii_art" | "ascii_smuggler" | "atbash" | "base64" | "binary" | "caesar" | "character_space" | "jailbreak" | "ansi_attack" | "character_swap" | "suffix_append" | "string_join" | "unicode_confusable" | "unicode_substitution" | "diacritic" | "flip" | "leetspeak" | "rot13" | "morse" | "url" | "baseline" | "indirect_jailbreak" | "tense" | "multi_turn" | "crescendo";
-
-    // Reachable via: AIProjectClient → RiskCategory
-    // Reachable via: AgentTaxonomyInput → RiskCategory
-    // Reachable via: BetaEvaluationTaxonomiesOperations → RiskCategory
-    // Reachable via: BetaOperations → RiskCategory
-    // Reachable via: BetaRedTeamsOperations → RiskCategory
-    // Reachable via: EvaluationTaxonomy → RiskCategory
-    // Reachable via: RedTeam → RiskCategory
-    // Reachable via: TaxonomyCategory → RiskCategory
-    /** Risk category for the attack objective. */
-    export type RiskCategory = "HateUnfairness" | "Violence" | "Sexual" | "SelfHarm" | "ProtectedMaterial" | "CodeVulnerability" | "UngroundedAttributes" | "ProhibitedActions" | "SensitiveDataLeakage" | "TaskAdherence";
-
-    // Reachable via: AIProjectClient → TargetConfigUnion
-    // Reachable via: BetaOperations → TargetConfigUnion
-    // Reachable via: BetaRedTeamsOperations → TargetConfigUnion
-    // Reachable via: RedTeam → TargetConfigUnion
-    /** Alias for TargetConfigUnion */
-    export type TargetConfigUnion = AzureOpenAIModelConfiguration | TargetConfig;
-
-    // Reachable via: AIProjectClient → AzureOpenAIModelConfiguration
-    // Reachable via: BetaOperations → AzureOpenAIModelConfiguration
-    // Reachable via: BetaRedTeamsOperations → AzureOpenAIModelConfiguration
-    // Reachable via: RedTeam → AzureOpenAIModelConfiguration
-    // Reachable via: TargetConfigUnion → AzureOpenAIModelConfiguration
-    /** Azure OpenAI model configuration. The API version would be selected by the service for querying the model. */
-    export interface AzureOpenAIModelConfiguration extends TargetConfig {
-        type: "AzureOpenAIModel";
-        modelDeploymentName: string;
-    }
-
-    // Reachable via: AIProjectClient → TargetConfig
-    // Reachable via: AzureOpenAIModelConfiguration → TargetConfig
-    // Reachable via: BetaOperations → TargetConfig
-    // Reachable via: BetaRedTeamsOperations → TargetConfig
-    // Reachable via: RedTeam → TargetConfig
-    // Reachable via: TargetConfigUnion → TargetConfig
-    /** Abstract class for target configuration. */
-    export interface TargetConfig {
-        type: string;
-    }
-
-    // Reachable via: AIProjectClient → BetaRedTeamsCreateOptionalParams
-    // Reachable via: BetaOperations → BetaRedTeamsCreateOptionalParams
-    // Reachable via: BetaRedTeamsOperations → BetaRedTeamsCreateOptionalParams
-    /** Optional parameters. */
-    export interface BetaRedTeamsCreateOptionalParams extends OperationOptions {
-    }
-
-    // Reachable via: AIProjectClient → BetaRedTeamsListOptionalParams
-    // Reachable via: BetaOperations → BetaRedTeamsListOptionalParams
-    // Reachable via: BetaRedTeamsOperations → BetaRedTeamsListOptionalParams
-    /** Optional parameters. */
-    export interface BetaRedTeamsListOptionalParams extends OperationOptions {
-        clientRequestId?: string;
-    }
-
-    // Reachable via: AIProjectClient → BetaRedTeamsGetOptionalParams
-    // Reachable via: BetaOperations → BetaRedTeamsGetOptionalParams
-    // Reachable via: BetaRedTeamsOperations → BetaRedTeamsGetOptionalParams
-    /** Optional parameters. */
-    export interface BetaRedTeamsGetOptionalParams extends OperationOptions {
-        clientRequestId?: string;
-    }
-
-    // Reachable via: AIProjectClient → BetaMemoryStoresOperations
-    // Reachable via: BetaOperations → BetaMemoryStoresOperations
-    /** Interface representing a BetaMemoryStores operations. */
-    export interface BetaMemoryStoresOperations {
-        deleteScope(name: string, scope: string, options?: BetaMemoryStoresDeleteScopeOptionalParams): Promise<MemoryStoreDeleteScopeResponse>;
-        getUpdateResult(name: string, updateId: string, options?: BetaMemoryStoresGetUpdateResultOptionalParams): Promise<MemoryStoreUpdateResponse>;
-        updateMemories(name: string, scope: string, options?: BetaMemoryStoresUpdateMemoriesOptionalParams): PollerLike<_corelro_OperationState<MemoryStoreUpdateCompletedResult>, MemoryStoreUpdateCompletedResult>;
-        searchMemories(name: string, scope: string, options?: BetaMemoryStoresSearchMemoriesOptionalParams): Promise<MemoryStoreSearchResponse>;
-        delete(name: string, options?: BetaMemoryStoresDeleteOptionalParams): Promise<DeleteMemoryStoreResponse>;
-        list(options?: BetaMemoryStoresListOptionalParams): PagedAsyncIterableIterator<MemoryStore>;
-        get(name: string, options?: BetaMemoryStoresGetOptionalParams): Promise<MemoryStore>;
-        update(name: string, options?: BetaMemoryStoresUpdateOptionalParams): Promise<MemoryStore>;
-        create(name: string, definition: MemoryStoreDefinitionUnion, options?: BetaMemoryStoresCreateOptionalParams): Promise<MemoryStore>;
-    }
-
-    // Reachable via: AIProjectClient → BetaMemoryStoresDeleteScopeOptionalParams
-    // Reachable via: BetaMemoryStoresOperations → BetaMemoryStoresDeleteScopeOptionalParams
-    // Reachable via: BetaOperations → BetaMemoryStoresDeleteScopeOptionalParams
-    /** Optional parameters. */
-    export interface BetaMemoryStoresDeleteScopeOptionalParams extends OperationOptions {
-    }
-
-    // Reachable via: AIProjectClient → MemoryStoreDeleteScopeResponse
-    // Reachable via: BetaMemoryStoresOperations → MemoryStoreDeleteScopeResponse
-    // Reachable via: BetaOperations → MemoryStoreDeleteScopeResponse
-    /** Response for deleting memories from a scope. */
-    export interface MemoryStoreDeleteScopeResponse {
-        object: "memory_store.scope.deleted";
-        name: string;
-        scope: string;
-        deleted: boolean;
-    }
-
-    // Reachable via: AIProjectClient → BetaMemoryStoresGetUpdateResultOptionalParams
-    // Reachable via: BetaMemoryStoresOperations → BetaMemoryStoresGetUpdateResultOptionalParams
-    // Reachable via: BetaOperations → BetaMemoryStoresGetUpdateResultOptionalParams
-    /** Optional parameters. */
-    export interface BetaMemoryStoresGetUpdateResultOptionalParams extends OperationOptions {
-    }
-
-    // Reachable via: AIProjectClient → MemoryStoreUpdateResponse
-    // Reachable via: BetaMemoryStoresOperations → MemoryStoreUpdateResponse
-    // Reachable via: BetaOperations → MemoryStoreUpdateResponse
-    /** Provides the status of a memory store update operation. */
-    export interface MemoryStoreUpdateResponse {
-        update_id: string;
-        status: MemoryStoreUpdateStatus;
-        superseded_by?: string;
-        result?: MemoryStoreUpdateCompletedResult;
-        error?: ErrorModel;
-    }
-
-    // Reachable via: AIProjectClient → MemoryStoreUpdateStatus
-    // Reachable via: BetaMemoryStoresOperations → MemoryStoreUpdateStatus
-    // Reachable via: BetaOperations → MemoryStoreUpdateStatus
-    // Reachable via: MemoryStoreUpdateResponse → MemoryStoreUpdateStatus
-    /** Status of a memory store update operation. */
-    export type MemoryStoreUpdateStatus = "queued" | "in_progress" | "completed" | "failed" | "superseded";
-
-    // Reachable via: AIProjectClient → MemoryStoreUpdateCompletedResult
-    // Reachable via: BetaMemoryStoresOperations → MemoryStoreUpdateCompletedResult
-    // Reachable via: BetaOperations → MemoryStoreUpdateCompletedResult
-    // Reachable via: MemoryStoreUpdateResponse → MemoryStoreUpdateCompletedResult
-    /** Memory update result. */
-    export interface MemoryStoreUpdateCompletedResult {
-        memory_operations: MemoryOperation[];
-        usage: MemoryStoreOperationUsage;
-    }
-
-    // Reachable via: AIProjectClient → MemoryOperation
-    // Reachable via: BetaMemoryStoresOperations → MemoryOperation
-    // Reachable via: BetaOperations → MemoryOperation
-    // Reachable via: MemoryStoreUpdateCompletedResult → MemoryOperation
-    // Reachable via: MemoryStoreUpdateResponse → MemoryOperation
-    /** Represents a single memory operation (create, update, or delete) performed on a memory item. */
-    export interface MemoryOperation {
-        kind: MemoryOperationKind;
-        memory_item: MemoryItemUnion;
-    }
-
-    // Reachable via: AIProjectClient → MemoryOperationKind
-    // Reachable via: BetaMemoryStoresOperations → MemoryOperationKind
-    // Reachable via: BetaOperations → MemoryOperationKind
-    // Reachable via: MemoryOperation → MemoryOperationKind
-    // Reachable via: MemoryStoreUpdateCompletedResult → MemoryOperationKind
-    // Reachable via: MemoryStoreUpdateResponse → MemoryOperationKind
-    /** Memory operation kind. */
-    export type MemoryOperationKind = "create" | "update" | "delete";
-
-    // Reachable via: AIProjectClient → MemoryItemUnion
-    // Reachable via: BetaMemoryStoresOperations → MemoryItemUnion
-    // Reachable via: BetaOperations → MemoryItemUnion
-    // Reachable via: MemoryOperation → MemoryItemUnion
-    // Reachable via: MemorySearchItem → MemoryItemUnion
-    // Reachable via: MemoryStoreSearchResponse → MemoryItemUnion
-    // Reachable via: MemoryStoreUpdateCompletedResult → MemoryItemUnion
-    // Reachable via: MemoryStoreUpdateResponse → MemoryItemUnion
-    /** Alias for MemoryItemUnion */
-    export type MemoryItemUnion = UserProfileMemoryItem | ChatSummaryMemoryItem | MemoryItem;
-
-    // Reachable via: AIProjectClient → UserProfileMemoryItem
-    // Reachable via: BetaMemoryStoresOperations → UserProfileMemoryItem
-    // Reachable via: BetaOperations → UserProfileMemoryItem
-    // Reachable via: MemoryItemUnion → UserProfileMemoryItem
-    // Reachable via: MemoryOperation → UserProfileMemoryItem
-    // Reachable via: MemorySearchItem → UserProfileMemoryItem
-    // Reachable via: MemoryStoreUpdateCompletedResult → UserProfileMemoryItem
-    // Reachable via: MemoryStoreUpdateResponse → UserProfileMemoryItem
-    /** A memory item specifically containing user profile information extracted from conversations, such as preferences, interests, and personal details. */
-    export interface UserProfileMemoryItem extends MemoryItem {
-        kind: "user_profile";
-    }
-
-    // Reachable via: AIProjectClient → MemoryItem
-    // Reachable via: BetaMemoryStoresOperations → MemoryItem
-    // Reachable via: BetaOperations → MemoryItem
-    // Reachable via: ChatSummaryMemoryItem → MemoryItem
-    // Reachable via: MemoryItemUnion → MemoryItem
-    // Reachable via: MemoryOperation → MemoryItem
-    // Reachable via: MemorySearchItem → MemoryItem
-    // Reachable via: MemoryStoreUpdateCompletedResult → MemoryItem
-    // Reachable via: MemoryStoreUpdateResponse → MemoryItem
-    // Reachable via: UserProfileMemoryItem → MemoryItem
-    /** A single memory item stored in the memory store, containing content and metadata. */
-    export interface MemoryItem {
-        memory_id: string;
-        updated_at: Date;
-        scope: string;
-        content: string;
-        kind: MemoryItemKind;
-    }
-
-    // Reachable via: AIProjectClient → MemoryItemKind
-    // Reachable via: BetaMemoryStoresOperations → MemoryItemKind
-    // Reachable via: BetaOperations → MemoryItemKind
-    // Reachable via: ChatSummaryMemoryItem → MemoryItemKind
-    // Reachable via: MemoryItem → MemoryItemKind
-    // Reachable via: MemoryItemUnion → MemoryItemKind
-    // Reachable via: MemoryOperation → MemoryItemKind
-    // Reachable via: MemorySearchItem → MemoryItemKind
-    // Reachable via: MemoryStoreUpdateCompletedResult → MemoryItemKind
-    // Reachable via: MemoryStoreUpdateResponse → MemoryItemKind
-    // Reachable via: UserProfileMemoryItem → MemoryItemKind
-    /** Memory item kind. */
-    export type MemoryItemKind = "user_profile" | "chat_summary";
-
-    // Reachable via: AIProjectClient → ChatSummaryMemoryItem
-    // Reachable via: BetaMemoryStoresOperations → ChatSummaryMemoryItem
-    // Reachable via: BetaOperations → ChatSummaryMemoryItem
-    // Reachable via: MemoryItemUnion → ChatSummaryMemoryItem
-    // Reachable via: MemoryOperation → ChatSummaryMemoryItem
-    // Reachable via: MemorySearchItem → ChatSummaryMemoryItem
-    // Reachable via: MemoryStoreUpdateCompletedResult → ChatSummaryMemoryItem
-    // Reachable via: MemoryStoreUpdateResponse → ChatSummaryMemoryItem
-    /** A memory item containing a summary extracted from conversations. */
-    export interface ChatSummaryMemoryItem extends MemoryItem {
-        kind: "chat_summary";
-    }
-
-    // Reachable via: AIProjectClient → MemoryStoreOperationUsage
-    // Reachable via: BetaMemoryStoresOperations → MemoryStoreOperationUsage
-    // Reachable via: BetaOperations → MemoryStoreOperationUsage
-    // Reachable via: MemoryStoreSearchResponse → MemoryStoreOperationUsage
-    // Reachable via: MemoryStoreUpdateCompletedResult → MemoryStoreOperationUsage
-    // Reachable via: MemoryStoreUpdateResponse → MemoryStoreOperationUsage
-    /** Usage statistics of a memory store operation. */
-    export interface MemoryStoreOperationUsage {
-        embedding_tokens: number;
-        input_tokens: number;
-        input_tokens_details: ResponseUsageInputTokensDetails;
-        output_tokens: number;
-        output_tokens_details: ResponseUsageOutputTokensDetails;
-        total_tokens: number;
-    }
-
-    // Reachable via: AIProjectClient → ResponseUsageInputTokensDetails
-    // Reachable via: BetaMemoryStoresOperations → ResponseUsageInputTokensDetails
-    // Reachable via: BetaOperations → ResponseUsageInputTokensDetails
-    // Reachable via: MemoryStoreOperationUsage → ResponseUsageInputTokensDetails
-    // Reachable via: MemoryStoreSearchResponse → ResponseUsageInputTokensDetails
-    // Reachable via: MemoryStoreUpdateCompletedResult → ResponseUsageInputTokensDetails
-    // Reachable via: MemoryStoreUpdateResponse → ResponseUsageInputTokensDetails
-    /** model interface ResponseUsageInputTokensDetails */
-    export interface ResponseUsageInputTokensDetails {
-        cached_tokens: number;
-    }
-
-    // Reachable via: AIProjectClient → ResponseUsageOutputTokensDetails
-    // Reachable via: BetaMemoryStoresOperations → ResponseUsageOutputTokensDetails
-    // Reachable via: BetaOperations → ResponseUsageOutputTokensDetails
-    // Reachable via: MemoryStoreOperationUsage → ResponseUsageOutputTokensDetails
-    // Reachable via: MemoryStoreSearchResponse → ResponseUsageOutputTokensDetails
-    // Reachable via: MemoryStoreUpdateCompletedResult → ResponseUsageOutputTokensDetails
-    // Reachable via: MemoryStoreUpdateResponse → ResponseUsageOutputTokensDetails
-    /** model interface ResponseUsageOutputTokensDetails */
-    export interface ResponseUsageOutputTokensDetails {
-        reasoning_tokens: number;
-    }
-
-    // Reachable via: AIProjectClient → ErrorModel
-    // Reachable via: ApiErrorResponse → ErrorModel
-    // Reachable via: BetaMemoryStoresOperations → ErrorModel
-    // Reachable via: BetaOperations → ErrorModel
-    // Reachable via: MemoryStoreUpdateResponse → ErrorModel
-    /** model interface ErrorModel */
-    export interface ErrorModel {
-        code: string;
-        message: string;
-        param?: string;
-        type?: string;
-        details?: ErrorModel[];
-        additionalInfo?: Record<string, unknown>;
-        debugInfo?: Record<string, unknown>;
-    }
-
-    // Reachable via: AIProjectClient → BetaMemoryStoresUpdateMemoriesOptionalParams
-    // Reachable via: BetaMemoryStoresOperations → BetaMemoryStoresUpdateMemoriesOptionalParams
-    // Reachable via: BetaOperations → BetaMemoryStoresUpdateMemoriesOptionalParams
-    /** Optional parameters. */
-    export interface BetaMemoryStoresUpdateMemoriesOptionalParams extends OperationOptions {
-        updateIntervalInMs?: number;
-        items?: Record<string, unknown>[];
-        previousUpdateId?: string;
-        updateDelayInSecs?: number;
-    }
-
-    // Reachable via: AIProjectClient → BetaMemoryStoresSearchMemoriesOptionalParams
-    // Reachable via: BetaMemoryStoresOperations → BetaMemoryStoresSearchMemoriesOptionalParams
-    // Reachable via: BetaOperations → BetaMemoryStoresSearchMemoriesOptionalParams
-    /** Optional parameters. */
-    export interface BetaMemoryStoresSearchMemoriesOptionalParams extends OperationOptions {
-        items?: Record<string, unknown>[];
-        previousSearchId?: string;
-        options?: MemorySearchOptions;
-    }
-
-    // Reachable via: AIProjectClient → MemoryStoreSearchResponse
-    // Reachable via: BetaMemoryStoresOperations → MemoryStoreSearchResponse
-    // Reachable via: BetaOperations → MemoryStoreSearchResponse
-    /** Memory search response. */
-    export interface MemoryStoreSearchResponse {
-        search_id: string;
-        memories: MemorySearchItem[];
-        usage: MemoryStoreOperationUsage;
-    }
-
-    // Reachable via: AIProjectClient → MemorySearchItem
-    // Reachable via: BetaMemoryStoresOperations → MemorySearchItem
-    // Reachable via: BetaOperations → MemorySearchItem
-    // Reachable via: MemoryStoreSearchResponse → MemorySearchItem
-    /** A retrieved memory item from memory search. */
-    export interface MemorySearchItem {
-        memory_item: MemoryItemUnion;
-    }
-
-    // Reachable via: AIProjectClient → BetaMemoryStoresDeleteOptionalParams
-    // Reachable via: BetaMemoryStoresOperations → BetaMemoryStoresDeleteOptionalParams
-    // Reachable via: BetaOperations → BetaMemoryStoresDeleteOptionalParams
-    /** Optional parameters. */
-    export interface BetaMemoryStoresDeleteOptionalParams extends OperationOptions {
-    }
-
-    // Reachable via: AIProjectClient → DeleteMemoryStoreResponse
-    // Reachable via: BetaMemoryStoresOperations → DeleteMemoryStoreResponse
-    // Reachable via: BetaOperations → DeleteMemoryStoreResponse
-    /** model interface DeleteMemoryStoreResponse */
-    export interface DeleteMemoryStoreResponse {
-        object: "memory_store.deleted";
-        name: string;
-        deleted: boolean;
-    }
-
-    // Reachable via: AIProjectClient → BetaMemoryStoresListOptionalParams
-    // Reachable via: BetaMemoryStoresOperations → BetaMemoryStoresListOptionalParams
-    // Reachable via: BetaOperations → BetaMemoryStoresListOptionalParams
-    /** Optional parameters. */
-    export interface BetaMemoryStoresListOptionalParams extends OperationOptions {
-        limit?: number;
-        order?: PageOrder;
-        after?: string;
-        before?: string;
-    }
-
-    // Reachable via: AIProjectClient → MemoryStore
-    // Reachable via: BetaMemoryStoresOperations → MemoryStore
-    // Reachable via: BetaOperations → MemoryStore
-    /** A memory store that can store and retrieve user memories. */
-    export interface MemoryStore {
-        object: "memory_store";
-        id: string;
-        created_at: Date;
-        updated_at: Date;
-        name: string;
-        description?: string;
-        metadata?: Record<string, string>;
-        definition: MemoryStoreDefinitionUnion;
-    }
-
-    // Reachable via: AIProjectClient → MemoryStoreDefinitionUnion
-    // Reachable via: BetaMemoryStoresOperations → MemoryStoreDefinitionUnion
-    // Reachable via: BetaOperations → MemoryStoreDefinitionUnion
-    // Reachable via: MemoryStore → MemoryStoreDefinitionUnion
-    /** Alias for MemoryStoreDefinitionUnion */
-    export type MemoryStoreDefinitionUnion = MemoryStoreDefaultDefinition | MemoryStoreDefinition;
-
-    // Reachable via: AIProjectClient → MemoryStoreDefaultDefinition
-    // Reachable via: BetaMemoryStoresOperations → MemoryStoreDefaultDefinition
-    // Reachable via: BetaOperations → MemoryStoreDefaultDefinition
-    // Reachable via: MemoryStore → MemoryStoreDefaultDefinition
-    // Reachable via: MemoryStoreDefinitionUnion → MemoryStoreDefaultDefinition
-    /** Default memory store implementation. */
-    export interface MemoryStoreDefaultDefinition extends MemoryStoreDefinition {
-        kind: "default";
-        chat_model: string;
-        embedding_model: string;
-        options?: MemoryStoreDefaultOptions;
-    }
-
-    // Reachable via: AIProjectClient → MemoryStoreDefinition
-    // Reachable via: BetaMemoryStoresOperations → MemoryStoreDefinition
-    // Reachable via: BetaOperations → MemoryStoreDefinition
-    // Reachable via: MemoryStore → MemoryStoreDefinition
-    // Reachable via: MemoryStoreDefaultDefinition → MemoryStoreDefinition
-    // Reachable via: MemoryStoreDefinitionUnion → MemoryStoreDefinition
-    /** Base definition for memory store configurations. */
-    export interface MemoryStoreDefinition {
-        kind: MemoryStoreKind;
-    }
-
-    // Reachable via: AIProjectClient → MemoryStoreDefaultOptions
-    // Reachable via: BetaMemoryStoresOperations → MemoryStoreDefaultOptions
-    // Reachable via: BetaOperations → MemoryStoreDefaultOptions
-    // Reachable via: MemoryStore → MemoryStoreDefaultOptions
-    // Reachable via: MemoryStoreDefaultDefinition → MemoryStoreDefaultOptions
-    // Reachable via: MemoryStoreDefinitionUnion → MemoryStoreDefaultOptions
-    /** Default memory store configurations. */
-    export interface MemoryStoreDefaultOptions {
-        user_profile_enabled: boolean;
-        user_profile_details?: string;
-        chat_summary_enabled: boolean;
-    }
-
-    // Reachable via: AIProjectClient → BetaMemoryStoresGetOptionalParams
-    // Reachable via: BetaMemoryStoresOperations → BetaMemoryStoresGetOptionalParams
-    // Reachable via: BetaOperations → BetaMemoryStoresGetOptionalParams
-    /** Optional parameters. */
-    export interface BetaMemoryStoresGetOptionalParams extends OperationOptions {
-    }
-
-    // Reachable via: AIProjectClient → BetaMemoryStoresUpdateOptionalParams
-    // Reachable via: BetaMemoryStoresOperations → BetaMemoryStoresUpdateOptionalParams
-    // Reachable via: BetaOperations → BetaMemoryStoresUpdateOptionalParams
-    /** Optional parameters. */
-    export interface BetaMemoryStoresUpdateOptionalParams extends OperationOptions {
-        description?: string;
-        metadata?: Record<string, string>;
-    }
-
-    // Reachable via: AIProjectClient → BetaMemoryStoresCreateOptionalParams
-    // Reachable via: BetaMemoryStoresOperations → BetaMemoryStoresCreateOptionalParams
-    // Reachable via: BetaOperations → BetaMemoryStoresCreateOptionalParams
-    /** Optional parameters. */
-    export interface BetaMemoryStoresCreateOptionalParams extends OperationOptions {
-        description?: string;
-        metadata?: Record<string, string>;
-    }
-
-    // Reachable via: AIProjectClient → BetaInsightsOperations
-    // Reachable via: BetaOperations → BetaInsightsOperations
-    /** Interface representing a BetaInsights operations. */
-    export interface BetaInsightsOperations {
-        list(options?: BetaInsightsListOptionalParams): PagedAsyncIterableIterator<Insight>;
-        get(id: string, options?: BetaInsightsGetOptionalParams): Promise<Insight>;
-        generate(insight: Insight, options?: BetaInsightsGenerateOptionalParams): Promise<Insight>;
-    }
-
-    // Reachable via: AIProjectClient → BetaInsightsListOptionalParams
-    // Reachable via: BetaInsightsOperations → BetaInsightsListOptionalParams
-    // Reachable via: BetaOperations → BetaInsightsListOptionalParams
-    /** Optional parameters. */
-    export interface BetaInsightsListOptionalParams extends OperationOptions {
-        insightType?: InsightType;
-        evalId?: string;
-        runId?: string;
-        agentName?: string;
-        includeCoordinates?: boolean;
-        clientRequestId?: string;
-    }
-
-    // Reachable via: AIProjectClient → BetaInsightsGetOptionalParams
-    // Reachable via: BetaInsightsOperations → BetaInsightsGetOptionalParams
-    // Reachable via: BetaOperations → BetaInsightsGetOptionalParams
-    /** Optional parameters. */
-    export interface BetaInsightsGetOptionalParams extends OperationOptions {
-        includeCoordinates?: boolean;
-        clientRequestId?: string;
-    }
-
-    // Reachable via: AIProjectClient → BetaInsightsGenerateOptionalParams
-    // Reachable via: BetaInsightsOperations → BetaInsightsGenerateOptionalParams
-    // Reachable via: BetaOperations → BetaInsightsGenerateOptionalParams
-    /** Optional parameters. */
-    export interface BetaInsightsGenerateOptionalParams extends OperationOptions {
-        repeatabilityRequestId?: string;
-        repeatabilityFirstSent?: Date;
-    }
-
-    // Reachable via: AIProjectClient → BetaEvaluatorsOperations
-    // Reachable via: BetaOperations → BetaEvaluatorsOperations
-    /** Interface representing a BetaEvaluators operations. */
-    export interface BetaEvaluatorsOperations {
-        updateVersion(name: string, version: string, evaluatorVersion: EvaluatorVersion, options?: BetaEvaluatorsUpdateVersionOptionalParams): Promise<EvaluatorVersion>;
-        createVersion(name: string, evaluatorVersion: EvaluatorVersion, options?: BetaEvaluatorsCreateVersionOptionalParams): Promise<EvaluatorVersion>;
-        deleteVersion(name: string, version: string, options?: BetaEvaluatorsDeleteVersionOptionalParams): Promise<void>;
-        getVersion(name: string, version: string, options?: BetaEvaluatorsGetVersionOptionalParams): Promise<EvaluatorVersion>;
-        list(options?: BetaEvaluatorsListLatestVersionsOptionalParams): PagedAsyncIterableIterator<EvaluatorVersion>;
-        listVersions(name: string, options?: BetaEvaluatorsListVersionsOptionalParams): PagedAsyncIterableIterator<EvaluatorVersion>;
-    }
-
-    // Reachable via: AIProjectClient → EvaluatorVersion
-    // Reachable via: BetaEvaluatorsOperations → EvaluatorVersion
-    // Reachable via: BetaOperations → EvaluatorVersion
-    /** Evaluator Definition */
-    export interface EvaluatorVersion {
-        display_name?: string;
-        metadata?: Record<string, string>;
-        evaluator_type: EvaluatorType;
-        categories: EvaluatorCategory[];
-        definition: EvaluatorDefinitionUnion;
-        readonly created_by?: string;
-        readonly created_at?: string;
-        readonly modified_at?: string;
-        readonly id?: string;
-        readonly name: string;
-        readonly version?: string;
-        description?: string;
-        tags?: Record<string, string>;
-    }
-
-    // Reachable via: AIProjectClient → EvaluatorType
-    // Reachable via: BetaEvaluatorsListLatestVersionsOptionalParams → EvaluatorType
-    // Reachable via: BetaEvaluatorsListVersionsOptionalParams → EvaluatorType
-    // Reachable via: BetaEvaluatorsOperations → EvaluatorType
-    // Reachable via: BetaOperations → EvaluatorType
-    // Reachable via: EvaluatorVersion → EvaluatorType
-    /** The type of the evaluator */
-    export type EvaluatorType = "builtin" | "custom";
-
-    // Reachable via: AIProjectClient → EvaluatorCategory
-    // Reachable via: BetaEvaluatorsOperations → EvaluatorCategory
-    // Reachable via: BetaOperations → EvaluatorCategory
-    // Reachable via: EvaluatorVersion → EvaluatorCategory
-    /** The category of the evaluator */
-    export type EvaluatorCategory = "quality" | "safety" | "agents";
-
-    // Reachable via: AIProjectClient → EvaluatorDefinitionUnion
-    // Reachable via: BetaEvaluatorsOperations → EvaluatorDefinitionUnion
-    // Reachable via: BetaOperations → EvaluatorDefinitionUnion
-    // Reachable via: EvaluatorVersion → EvaluatorDefinitionUnion
-    /** Alias for EvaluatorDefinitionUnion */
-    export type EvaluatorDefinitionUnion = CodeBasedEvaluatorDefinition | PromptBasedEvaluatorDefinition | EvaluatorDefinition;
-
-    // Reachable via: AIProjectClient → CodeBasedEvaluatorDefinition
-    // Reachable via: BetaEvaluatorsOperations → CodeBasedEvaluatorDefinition
-    // Reachable via: BetaOperations → CodeBasedEvaluatorDefinition
-    // Reachable via: EvaluatorDefinitionUnion → CodeBasedEvaluatorDefinition
-    // Reachable via: EvaluatorVersion → CodeBasedEvaluatorDefinition
-    /** Code-based evaluator definition using python code */
-    export interface CodeBasedEvaluatorDefinition extends EvaluatorDefinition {
-        type: "code";
-        code_text: string;
-    }
-
-    // Reachable via: AIProjectClient → EvaluatorDefinition
-    // Reachable via: BetaEvaluatorsOperations → EvaluatorDefinition
-    // Reachable via: BetaOperations → EvaluatorDefinition
-    // Reachable via: CodeBasedEvaluatorDefinition → EvaluatorDefinition
-    // Reachable via: EvaluatorDefinitionUnion → EvaluatorDefinition
-    // Reachable via: EvaluatorVersion → EvaluatorDefinition
-    // Reachable via: PromptBasedEvaluatorDefinition → EvaluatorDefinition
-    /** Base evaluator configuration with discriminator */
-    export interface EvaluatorDefinition {
-        type: EvaluatorDefinitionType;
-        init_parameters?: Record<string, unknown>;
-        data_schema?: Record<string, unknown>;
-        metrics?: Record<string, EvaluatorMetric>;
-    }
-
-    // Reachable via: AIProjectClient → EvaluatorDefinitionType
-    // Reachable via: BetaEvaluatorsOperations → EvaluatorDefinitionType
-    // Reachable via: BetaOperations → EvaluatorDefinitionType
-    // Reachable via: CodeBasedEvaluatorDefinition → EvaluatorDefinitionType
-    // Reachable via: EvaluatorDefinition → EvaluatorDefinitionType
-    // Reachable via: EvaluatorDefinitionUnion → EvaluatorDefinitionType
-    // Reachable via: EvaluatorVersion → EvaluatorDefinitionType
-    // Reachable via: PromptBasedEvaluatorDefinition → EvaluatorDefinitionType
-    /** The type of evaluator definition */
-    export type EvaluatorDefinitionType = "prompt" | "code" | "prompt_and_code" | "service" | "openai_graders";
-
-    // Reachable via: AIProjectClient → EvaluatorMetric
-    // Reachable via: BetaEvaluatorsOperations → EvaluatorMetric
-    // Reachable via: BetaOperations → EvaluatorMetric
-    // Reachable via: CodeBasedEvaluatorDefinition → EvaluatorMetric
-    // Reachable via: EvaluatorDefinition → EvaluatorMetric
-    // Reachable via: EvaluatorDefinitionUnion → EvaluatorMetric
-    // Reachable via: EvaluatorVersion → EvaluatorMetric
-    // Reachable via: PromptBasedEvaluatorDefinition → EvaluatorMetric
-    /** Evaluator Metric */
-    export interface EvaluatorMetric {
-        type?: EvaluatorMetricType;
-        desirable_direction?: EvaluatorMetricDirection;
-        min_value?: number;
-        max_value?: number;
-        is_primary?: boolean;
-    }
-
-    // Reachable via: AIProjectClient → EvaluatorMetricType
-    // Reachable via: BetaEvaluatorsOperations → EvaluatorMetricType
-    // Reachable via: BetaOperations → EvaluatorMetricType
-    // Reachable via: CodeBasedEvaluatorDefinition → EvaluatorMetricType
-    // Reachable via: EvaluatorDefinition → EvaluatorMetricType
-    // Reachable via: EvaluatorDefinitionUnion → EvaluatorMetricType
-    // Reachable via: EvaluatorMetric → EvaluatorMetricType
-    // Reachable via: EvaluatorVersion → EvaluatorMetricType
-    // Reachable via: PromptBasedEvaluatorDefinition → EvaluatorMetricType
-    /** The type of the evaluator */
-    export type EvaluatorMetricType = "ordinal" | "continuous" | "boolean";
-
-    // Reachable via: AIProjectClient → EvaluatorMetricDirection
-    // Reachable via: BetaEvaluatorsOperations → EvaluatorMetricDirection
-    // Reachable via: BetaOperations → EvaluatorMetricDirection
-    // Reachable via: CodeBasedEvaluatorDefinition → EvaluatorMetricDirection
-    // Reachable via: EvaluatorDefinition → EvaluatorMetricDirection
-    // Reachable via: EvaluatorDefinitionUnion → EvaluatorMetricDirection
-    // Reachable via: EvaluatorMetric → EvaluatorMetricDirection
-    // Reachable via: EvaluatorVersion → EvaluatorMetricDirection
-    // Reachable via: PromptBasedEvaluatorDefinition → EvaluatorMetricDirection
-    /** The direction of the metric indicating whether a higher value is better, a lower value is better, or neutral */
-    export type EvaluatorMetricDirection = "increase" | "decrease" | "neutral";
-
-    // Reachable via: AIProjectClient → PromptBasedEvaluatorDefinition
-    // Reachable via: BetaEvaluatorsOperations → PromptBasedEvaluatorDefinition
-    // Reachable via: BetaOperations → PromptBasedEvaluatorDefinition
-    // Reachable via: EvaluatorDefinitionUnion → PromptBasedEvaluatorDefinition
-    // Reachable via: EvaluatorVersion → PromptBasedEvaluatorDefinition
-    /** Prompt-based evaluator */
-    export interface PromptBasedEvaluatorDefinition extends EvaluatorDefinition {
-        type: "prompt";
-        prompt_text: string;
-    }
-
-    // Reachable via: AIProjectClient → BetaEvaluatorsUpdateVersionOptionalParams
-    // Reachable via: BetaEvaluatorsOperations → BetaEvaluatorsUpdateVersionOptionalParams
-    // Reachable via: BetaOperations → BetaEvaluatorsUpdateVersionOptionalParams
-    /** Optional parameters. */
-    export interface BetaEvaluatorsUpdateVersionOptionalParams extends OperationOptions {
-    }
-
-    // Reachable via: AIProjectClient → BetaEvaluatorsCreateVersionOptionalParams
-    // Reachable via: BetaEvaluatorsOperations → BetaEvaluatorsCreateVersionOptionalParams
-    // Reachable via: BetaOperations → BetaEvaluatorsCreateVersionOptionalParams
-    /** Optional parameters. */
-    export interface BetaEvaluatorsCreateVersionOptionalParams extends OperationOptions {
-    }
-
-    // Reachable via: AIProjectClient → BetaEvaluatorsDeleteVersionOptionalParams
-    // Reachable via: BetaEvaluatorsOperations → BetaEvaluatorsDeleteVersionOptionalParams
-    // Reachable via: BetaOperations → BetaEvaluatorsDeleteVersionOptionalParams
-    /** Optional parameters. */
-    export interface BetaEvaluatorsDeleteVersionOptionalParams extends OperationOptions {
-    }
-
-    // Reachable via: AIProjectClient → BetaEvaluatorsGetVersionOptionalParams
-    // Reachable via: BetaEvaluatorsOperations → BetaEvaluatorsGetVersionOptionalParams
-    // Reachable via: BetaOperations → BetaEvaluatorsGetVersionOptionalParams
-    /** Optional parameters. */
-    export interface BetaEvaluatorsGetVersionOptionalParams extends OperationOptions {
-    }
-
-    // Reachable via: AIProjectClient → BetaEvaluatorsListLatestVersionsOptionalParams
-    // Reachable via: BetaEvaluatorsOperations → BetaEvaluatorsListLatestVersionsOptionalParams
-    // Reachable via: BetaOperations → BetaEvaluatorsListLatestVersionsOptionalParams
-    /** Optional parameters. */
-    export interface BetaEvaluatorsListLatestVersionsOptionalParams extends OperationOptions {
-        evaluatorType?: EvaluatorType | "all";
-        limit?: number;
-    }
-
-    // Reachable via: AIProjectClient → BetaEvaluatorsListVersionsOptionalParams
-    // Reachable via: BetaEvaluatorsOperations → BetaEvaluatorsListVersionsOptionalParams
-    // Reachable via: BetaOperations → BetaEvaluatorsListVersionsOptionalParams
-    /** Optional parameters. */
-    export interface BetaEvaluatorsListVersionsOptionalParams extends OperationOptions {
-        evaluatorType?: EvaluatorType | "all";
-        limit?: number;
-    }
-
-    // Reachable via: AIProjectClient → BetaEvaluationTaxonomiesOperations
-    // Reachable via: BetaOperations → BetaEvaluationTaxonomiesOperations
-    /** Interface representing a BetaEvaluationTaxonomies operations. */
-    export interface BetaEvaluationTaxonomiesOperations {
-        update(name: string, body: EvaluationTaxonomy, options?: BetaEvaluationTaxonomiesUpdateOptionalParams): Promise<EvaluationTaxonomy>;
-        create(name: string, body: EvaluationTaxonomy, options?: BetaEvaluationTaxonomiesCreateOptionalParams): Promise<EvaluationTaxonomy>;
-        delete(name: string, options?: BetaEvaluationTaxonomiesDeleteOptionalParams): Promise<void>;
-        list(options?: BetaEvaluationTaxonomiesListOptionalParams): PagedAsyncIterableIterator<EvaluationTaxonomy>;
-        get(name: string, options?: BetaEvaluationTaxonomiesGetOptionalParams): Promise<EvaluationTaxonomy>;
-    }
-
-    // Reachable via: AIProjectClient → EvaluationTaxonomy
-    // Reachable via: BetaEvaluationTaxonomiesOperations → EvaluationTaxonomy
-    // Reachable via: BetaOperations → EvaluationTaxonomy
-    /** Evaluation Taxonomy Definition */
-    export interface EvaluationTaxonomy {
-        readonly id?: string;
-        readonly name: string;
-        readonly version: string;
-        description?: string;
-        tags?: Record<string, string>;
-        taxonomyInput: EvaluationTaxonomyInputUnion;
-        taxonomyCategories?: TaxonomyCategory[];
-        properties?: Record<string, string>;
-    }
-
-    // Reachable via: AIProjectClient → EvaluationTaxonomyInputUnion
-    // Reachable via: BetaEvaluationTaxonomiesOperations → EvaluationTaxonomyInputUnion
-    // Reachable via: BetaOperations → EvaluationTaxonomyInputUnion
-    // Reachable via: EvaluationTaxonomy → EvaluationTaxonomyInputUnion
-    /** Alias for EvaluationTaxonomyInputUnion */
-    export type EvaluationTaxonomyInputUnion = AgentTaxonomyInput | EvaluationTaxonomyInput;
-
-    // Reachable via: AIProjectClient → AgentTaxonomyInput
-    // Reachable via: BetaEvaluationTaxonomiesOperations → AgentTaxonomyInput
-    // Reachable via: BetaOperations → AgentTaxonomyInput
-    // Reachable via: EvaluationTaxonomy → AgentTaxonomyInput
-    // Reachable via: EvaluationTaxonomyInputUnion → AgentTaxonomyInput
-    /** Input configuration for the evaluation taxonomy when the input type is agent. */
-    export interface AgentTaxonomyInput extends EvaluationTaxonomyInput {
-        type: "agent";
-        target: TargetUnion;
-        riskCategories: RiskCategory[];
-    }
-
-    // Reachable via: AIProjectClient → EvaluationTaxonomyInput
-    // Reachable via: AgentTaxonomyInput → EvaluationTaxonomyInput
-    // Reachable via: BetaEvaluationTaxonomiesOperations → EvaluationTaxonomyInput
-    // Reachable via: BetaOperations → EvaluationTaxonomyInput
-    // Reachable via: EvaluationTaxonomy → EvaluationTaxonomyInput
-    // Reachable via: EvaluationTaxonomyInputUnion → EvaluationTaxonomyInput
-    /** Input configuration for the evaluation taxonomy. */
-    export interface EvaluationTaxonomyInput {
-        type: EvaluationTaxonomyInputType;
-    }
-
-    // Reachable via: AIProjectClient → EvaluationTaxonomyInputType
-    // Reachable via: AgentTaxonomyInput → EvaluationTaxonomyInputType
-    // Reachable via: BetaEvaluationTaxonomiesOperations → EvaluationTaxonomyInputType
-    // Reachable via: BetaOperations → EvaluationTaxonomyInputType
-    // Reachable via: EvaluationTaxonomy → EvaluationTaxonomyInputType
-    // Reachable via: EvaluationTaxonomyInput → EvaluationTaxonomyInputType
-    // Reachable via: EvaluationTaxonomyInputUnion → EvaluationTaxonomyInputType
-    /** Type of the evaluation taxonomy input. */
-    export type EvaluationTaxonomyInputType = "agent" | "policy";
-
-    // Reachable via: AIProjectClient → TargetUnion
-    // Reachable via: AgentTaxonomyInput → TargetUnion
-    // Reachable via: BetaEvaluationTaxonomiesOperations → TargetUnion
-    // Reachable via: BetaOperations → TargetUnion
-    // Reachable via: EvaluationTaxonomy → TargetUnion
-    // Reachable via: EvaluationTaxonomyInputUnion → TargetUnion
-    /** Alias for TargetUnion */
-    export type TargetUnion = AzureAIModelTarget | AzureAIAgentTarget | Target;
-
-    // Reachable via: AIProjectClient → AzureAIModelTarget
-    // Reachable via: AgentTaxonomyInput → AzureAIModelTarget
-    // Reachable via: BetaEvaluationTaxonomiesOperations → AzureAIModelTarget
-    // Reachable via: BetaOperations → AzureAIModelTarget
-    // Reachable via: EvaluationTaxonomy → AzureAIModelTarget
-    // Reachable via: EvaluationTaxonomyInputUnion → AzureAIModelTarget
-    // Reachable via: TargetUnion → AzureAIModelTarget
-    /** Represents a target specifying an Azure AI model for operations requiring model selection. */
-    export interface AzureAIModelTarget extends Target {
-        type: "azure_ai_model";
-        model?: string;
-        sampling_params?: ModelSamplingParams;
-    }
-
-    // Reachable via: AIProjectClient → Target
-    // Reachable via: AgentTaxonomyInput → Target
-    // Reachable via: AzureAIAgentTarget → Target
-    // Reachable via: AzureAIModelTarget → Target
-    // Reachable via: BetaEvaluationTaxonomiesOperations → Target
-    // Reachable via: BetaOperations → Target
-    // Reachable via: EvaluationTaxonomy → Target
-    // Reachable via: EvaluationTaxonomyInputUnion → Target
-    // Reachable via: TargetUnion → Target
-    /** Base class for targets with discriminator support. */
-    export interface Target {
-        type: string;
-    }
-
-    // Reachable via: AIProjectClient → ModelSamplingParams
-    // Reachable via: AgentTaxonomyInput → ModelSamplingParams
-    // Reachable via: AzureAIModelTarget → ModelSamplingParams
-    // Reachable via: BetaEvaluationTaxonomiesOperations → ModelSamplingParams
-    // Reachable via: BetaOperations → ModelSamplingParams
-    // Reachable via: EvaluationTaxonomy → ModelSamplingParams
-    // Reachable via: EvaluationTaxonomyInputUnion → ModelSamplingParams
-    // Reachable via: TargetUnion → ModelSamplingParams
-    /** Represents a set of parameters used to control the sampling behavior of a language model during text generation. */
-    export interface ModelSamplingParams {
-        temperature: number;
-        top_p: number;
-        seed: number;
-        max_completion_tokens: number;
-    }
-
-    // Reachable via: AIProjectClient → AzureAIAgentTarget
-    // Reachable via: AgentTaxonomyInput → AzureAIAgentTarget
-    // Reachable via: BetaEvaluationTaxonomiesOperations → AzureAIAgentTarget
-    // Reachable via: BetaOperations → AzureAIAgentTarget
-    // Reachable via: EvaluationTaxonomy → AzureAIAgentTarget
-    // Reachable via: EvaluationTaxonomyInputUnion → AzureAIAgentTarget
-    // Reachable via: TargetUnion → AzureAIAgentTarget
-    /** Represents a target specifying an Azure AI agent. */
-    export interface AzureAIAgentTarget extends Target {
-        type: "azure_ai_agent";
-        name: string;
-        version?: string;
-        tool_descriptions?: ToolDescription[];
-    }
-
-    // Reachable via: AIProjectClient → ToolDescription
-    // Reachable via: AgentTaxonomyInput → ToolDescription
-    // Reachable via: AzureAIAgentTarget → ToolDescription
-    // Reachable via: BetaEvaluationTaxonomiesOperations → ToolDescription
-    // Reachable via: BetaOperations → ToolDescription
-    // Reachable via: EvaluationTaxonomy → ToolDescription
-    // Reachable via: EvaluationTaxonomyInputUnion → ToolDescription
-    // Reachable via: TargetUnion → ToolDescription
-    /** Description of a tool that can be used by an agent. */
-    export interface ToolDescription {
-        name?: string;
-        description?: string;
-    }
-
-    // Reachable via: AIProjectClient → TaxonomyCategory
-    // Reachable via: BetaEvaluationTaxonomiesOperations → TaxonomyCategory
-    // Reachable via: BetaOperations → TaxonomyCategory
-    // Reachable via: EvaluationTaxonomy → TaxonomyCategory
-    /** Taxonomy category definition. */
-    export interface TaxonomyCategory {
-        id: string;
-        name: string;
-        description?: string;
-        riskCategory: RiskCategory;
-        subCategories: TaxonomySubCategory[];
-        properties?: Record<string, string>;
-    }
-
-    // Reachable via: AIProjectClient → TaxonomySubCategory
-    // Reachable via: BetaEvaluationTaxonomiesOperations → TaxonomySubCategory
-    // Reachable via: BetaOperations → TaxonomySubCategory
-    // Reachable via: EvaluationTaxonomy → TaxonomySubCategory
-    // Reachable via: TaxonomyCategory → TaxonomySubCategory
-    /** Taxonomy sub-category definition. */
-    export interface TaxonomySubCategory {
-        id: string;
-        name: string;
-        description?: string;
-        enabled: boolean;
-        properties?: Record<string, string>;
-    }
-
-    // Reachable via: AIProjectClient → BetaEvaluationTaxonomiesUpdateOptionalParams
-    // Reachable via: BetaEvaluationTaxonomiesOperations → BetaEvaluationTaxonomiesUpdateOptionalParams
-    // Reachable via: BetaOperations → BetaEvaluationTaxonomiesUpdateOptionalParams
-    /** Optional parameters. */
-    export interface BetaEvaluationTaxonomiesUpdateOptionalParams extends OperationOptions {
-    }
-
-    // Reachable via: AIProjectClient → BetaEvaluationTaxonomiesCreateOptionalParams
-    // Reachable via: BetaEvaluationTaxonomiesOperations → BetaEvaluationTaxonomiesCreateOptionalParams
-    // Reachable via: BetaOperations → BetaEvaluationTaxonomiesCreateOptionalParams
-    /** Optional parameters. */
-    export interface BetaEvaluationTaxonomiesCreateOptionalParams extends OperationOptions {
-    }
-
-    // Reachable via: AIProjectClient → BetaEvaluationTaxonomiesDeleteOptionalParams
-    // Reachable via: BetaEvaluationTaxonomiesOperations → BetaEvaluationTaxonomiesDeleteOptionalParams
-    // Reachable via: BetaOperations → BetaEvaluationTaxonomiesDeleteOptionalParams
-    /** Optional parameters. */
-    export interface BetaEvaluationTaxonomiesDeleteOptionalParams extends OperationOptions {
-        clientRequestId?: string;
-    }
-
-    // Reachable via: AIProjectClient → BetaEvaluationTaxonomiesListOptionalParams
-    // Reachable via: BetaEvaluationTaxonomiesOperations → BetaEvaluationTaxonomiesListOptionalParams
-    // Reachable via: BetaOperations → BetaEvaluationTaxonomiesListOptionalParams
-    /** Optional parameters. */
-    export interface BetaEvaluationTaxonomiesListOptionalParams extends OperationOptions {
-        inputName?: string;
-        inputType?: string;
-        clientRequestId?: string;
-    }
-
-    // Reachable via: AIProjectClient → BetaEvaluationTaxonomiesGetOptionalParams
-    // Reachable via: BetaEvaluationTaxonomiesOperations → BetaEvaluationTaxonomiesGetOptionalParams
-    // Reachable via: BetaOperations → BetaEvaluationTaxonomiesGetOptionalParams
-    /** Optional parameters. */
-    export interface BetaEvaluationTaxonomiesGetOptionalParams extends OperationOptions {
-        clientRequestId?: string;
-    }
-
-    // Reachable via: AIProjectClient → TelemetryOperations
-    /** Interface representing telemetry operations */
-    export interface TelemetryOperations {
-        getApplicationInsightsConnectionString(options?: OperationOptions): Promise<string>;
-    }
-
-    /** The main client for the AIProjectClient service. It provides access to the various operations available in the service. */
-    export class AIProjectClient {
-        readonly indexes: IndexesOperations;
-        readonly deployments: DeploymentsOperations;
-        readonly datasets: DatasetsOperations;
-        readonly connections: ConnectionsOperations;
-        readonly evaluationRules: EvaluationRulesOperations;
-        readonly agents: AgentsOperations;
-        readonly beta: BetaOperations;
-        readonly telemetry: TelemetryOperations;
-        readonly endpoint: string;
-        constructor(endpoint: string, credential: TokenCredential, options?: AIProjectClientOptionalParams);
-        getOpenAIClient(opts?: OpenAIClientOptions): OpenAI;
-    }
-
-    // Reachable via: AgentsOperations → AgentsCreateAgentVersionFromManifestOptionalParams
-    /** Optional parameters. */
-    export interface AgentsCreateAgentVersionFromManifestOptionalParams extends OperationOptions {
-        metadata?: Record<string, string>;
-        description?: string;
-    }
-
-    // Reachable via: AgentsOperations → AgentsUpdateAgentFromManifestOptionalParams
-    /** Optional parameters. */
-    export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOptions {
-        metadata?: Record<string, string>;
-        description?: string;
-    }
-
-    // Reachable via: AgentsOperations → AgentsCreateAgentFromManifestOptionalParams
-    /** Optional parameters. */
-    export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOptions {
-        metadata?: Record<string, string>;
-        description?: string;
-    }
-
-    // Reachable via: AgentsOperations → AgentsUpdateOptionalParams
-    /** Optional parameters. */
-    export interface AgentsUpdateOptionalParams extends OperationOptions {
-        foundryFeatures?: AgentDefinitionOptInKeys;
-        metadata?: Record<string, string>;
-        description?: string;
-    }
-
-    // Reachable via: AgentsOperations → AgentsCreateOptionalParams
-    /** Optional parameters. */
-    export interface AgentsCreateOptionalParams extends OperationOptions {
-        foundryFeatures?: AgentDefinitionOptInKeys;
-        metadata?: Record<string, string>;
-        description?: string;
-    }
-
-    /** Optional parameters. */
-    export interface AgentsCreateVersionOptionalParams extends OperationOptions {
-        foundryFeatures?: AgentDefinitionOptInKeys;
-        metadata?: Record<string, string>;
-        description?: string;
-    }
-
-    /** Error response for API failures. */
-    export interface ApiErrorResponse {
-        error: ErrorModel;
-    }
-
-    // Reachable via: AIProjectClientOptionalParams → KnownApiVersions
-    /** Microsoft Foundry API versions */
-    export enum KnownApiVersions {
-        v1 = "v1"
-    }
-
-    // Reachable via: PromptAgentDefinition → ToolChoiceParamUnion
-    /** Alias for ToolChoiceParamUnion */
-    export type ToolChoiceParamUnion = ToolChoiceAllowed | ToolChoiceFunction | ToolChoiceMCP | ToolChoiceCustom | SpecificApplyPatchParam | SpecificFunctionShellParam | ToolChoiceFileSearch | ToolChoiceWebSearchPreview | ToolChoiceComputerUsePreview | ToolChoiceWebSearchPreview20250311 | ToolChoiceImageGeneration | ToolChoiceCodeInterpreter | ToolChoiceParam;
-
-    // Reachable via: Deployment → DeploymentType
-    // Reachable via: DeploymentsListOptionalParams → DeploymentType
-    /** Type of DeploymentType */
-    export type DeploymentType = "ModelDeployment";
-
-    // Reachable via: InsightSample → SampleType
-    /** The type of sample used in the analysis. */
-    export type SampleType = "EvaluationResultSample";
-
-    // Reachable via: MemoryStoreDefinition → MemoryStoreKind
-    /** The type of memory store implementation to use. */
-    export type MemoryStoreKind = "default";
-
-    // Reachable via: AgentsCreateOptionalParams → AgentDefinitionOptInKeys
-    // Reachable via: AgentsCreateVersionOptionalParams → AgentDefinitionOptInKeys
-    // Reachable via: AgentsOperations → AgentDefinitionOptInKeys
-    // Reachable via: AgentsUpdateOptionalParams → AgentDefinitionOptInKeys
-    /** Feature opt-in keys for agent definition operations supporting hosted or workflow agents. */
-    export type AgentDefinitionOptInKeys = "HostedAgents=V1Preview" | "WorkflowAgents=V1Preview";
-
-    /** Type of AgentType */
-    export type AgentType = "agent" | "agent.version" | "agent.deleted" | "agent.version.deleted" | "agent.container";
-
-    /** Type of FoundryFeaturesOptInKeys */
-    export type FoundryFeaturesOptInKeys = "Evaluations=V1Preview" | "Schedules=V1Preview" | "RedTeams=V1Preview" | "Insights=V1Preview" | "MemoryStores=V1Preview";
-
-    /** The type of pending upload. */
-    export type PendingUploadType = "None" | "BlobReference";
-
-    /** Type of MemoryStoreType */
-    export type MemoryStoreType = "memory_store" | "memory_store.deleted" | "memory_store.scope.deleted";
-
-    /** An interface that describes a page of results. */
-    export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-        /**
-         * The token that keeps track of where to continue the iterator
-         */
-        continuationToken?: string;
-    };
 }
