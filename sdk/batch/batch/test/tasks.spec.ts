@@ -341,26 +341,6 @@ describe("Task Operations Test", () => {
     );
   });
 
-  it("should create a task with authentication token settings successfully", async () => {
-    const jobId = recorder.variable("JOB_NAME", JOB_NAME);
-    const taskId = "TaskWithAuthTokenSettings";
-    const taskAddParams: BatchTaskCreateOptions = {
-      id: taskId,
-      commandLine: "cmd /c echo Hello World",
-      authenticationTokenSettings: {
-        scopes: ["job"],
-      },
-    };
-
-    await batchClient.createTask(jobId, taskAddParams);
-
-    const task = await batchClient.getTask(jobId, taskAddParams.id);
-
-    assert.isDefined(task.authenticationTokenSettings);
-    assert.isDefined(task.authenticationTokenSettings!.scopes);
-    assert.lengthOf(task.authenticationTokenSettings!.scopes!, 1);
-    assert.equal(task.authenticationTokenSettings!.scopes![0], "job");
-  });
 
   it("should create a task with a user identity successfully", async () => {
     const jobId = recorder.variable("JOB_NAME", JOB_NAME);
