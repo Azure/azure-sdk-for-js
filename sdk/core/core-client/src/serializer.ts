@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as base64 from "./base64.js";
+import * as base64 from "#platform/base64";
 import type {
   BaseMapper,
   CompositeMapper,
@@ -561,8 +561,8 @@ function serializeSequenceType(
   let elementType = mapper.type.element;
   if (!elementType || typeof elementType !== "object") {
     throw new Error(
-      `"element" metadata for an Array must be defined in the ` +
-        `mapper and it must be of type "object" in ${objectName}.`,
+      `element" metadata for an Array must be defined in the ` +
+        `mapper and it must of type "object" in ${objectName}.`,
     );
   }
   // Quirk: Composite mappers referenced by `element` might
@@ -1101,8 +1101,8 @@ function deserializeSequenceType(
   let element = mapper.type.element;
   if (!element || typeof element !== "object") {
     throw new Error(
-      `"element" metadata for an Array must be defined in the ` +
-        `mapper and it must be of type "object" in ${objectName}`,
+      `element" metadata for an Array must be defined in the ` +
+        `mapper and it must of type "object" in ${objectName}`,
     );
   }
   if (responseBody) {
