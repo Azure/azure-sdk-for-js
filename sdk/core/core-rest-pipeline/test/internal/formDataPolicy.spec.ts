@@ -3,7 +3,7 @@
 
 import { describe, it, assert, vi } from "vitest";
 import type { PipelineResponse, SendRequest } from "../../src/index.js";
-import type { FormDataMap, MultipartRequestBody } from "../../src/interfaces.js";
+import type { FormDataMap } from "../../src/interfaces.js";
 import { createPipelineRequest } from "../../src/pipelineRequest.js";
 import { createHttpHeaders } from "../../src/httpHeaders.js";
 import { formDataPolicy } from "../../src/policies/formDataPolicy.js";
@@ -43,7 +43,9 @@ describe("formDataPolicy", function () {
         }),
       });
 
-      const parts = (result.request.multipartBody as MultipartRequestBody).parts;
+      const multipartBody = result.request.multipartBody;
+      assert.isDefined(multipartBody, "expected multipartBody to be defined");
+      const parts = multipartBody!.parts;
       assert.equal(parts.length, 1, "expected 1 part");
       assert.deepEqual(
         parts[0].headers,
@@ -70,17 +72,16 @@ describe("formDataPolicy", function () {
         file: createFile(subarray, "sub.bin"),
       });
 
-      const parts = (result.request.multipartBody as MultipartRequestBody).parts;
+      const multipartBody = result.request.multipartBody;
+      assert.isDefined(multipartBody, "expected multipartBody to be defined");
+      const parts = multipartBody!.parts;
       assert.equal(parts.length, 1, "expected 1 part");
 
       const body = parts[0].body;
-      assert.isTrue(
-        typeof (body as unknown as Record<string, unknown>).arrayBuffer === "function",
-        "expected body to have arrayBuffer method",
-      );
-      const content = new Uint8Array(
-        await (body as unknown as { arrayBuffer(): Promise<ArrayBuffer> }).arrayBuffer(),
-      );
+      if (!hasBlobBody(body)) {
+        assert.fail("expected body to have arrayBuffer method");
+      }
+      const content = new Uint8Array(await body.arrayBuffer());
       assert.deepEqual([...content], [0x01, 0x02, 0x03]);
     });
   });

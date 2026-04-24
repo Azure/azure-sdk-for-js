@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  createDataProtection,
-  type DataProtectionContext,
-  type DataProtectionClientOptionalParams,
+export type {
+  DataProtectionContext,
+  DataProtectionClientOptionalParams,
 } from "./dataProtectionContext.js";
+export { createDataProtection } from "./dataProtectionContext.js";

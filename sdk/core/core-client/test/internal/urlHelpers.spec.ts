@@ -254,3 +254,189 @@ describe("getRequestUrl", function () {
     );
   });
 });
+
+describe("urlHelpers", () => {
+  it("should handle triple duplicate query params (array push path)", () => {
+    const result = appendQueryParams("https://example.com?a=1&a=2&a=3", new Map(), new Set());
+    // After parsing, a=1&a=2 becomes array, then a=3 is pushed
+    assert.include(result, "a=1");
+    assert.include(result, "a=2");
+    assert.include(result, "a=3");
+  });
+
+  it("should handle sequenceParams with existing scalar value", () => {
+    const result = appendQueryParams(
+      "https://example.com?q=existing",
+      new Map([["q", "newVal"]]),
+      new Set(["q"]),
+      false,
+    );
+    // sequenceParams path converts to array, then noOverwrite=false overwrites
+    assert.include(result, "q=newVal");
+    assert.notInclude(result, "q=existing");
+  });
+
+  it("should handle noOverwrite=true to prevent overwriting", () => {
+    const result = appendQueryParams(
+      "https://example.com?q=existing",
+      new Map([["q", "newVal"]]),
+      new Set(["q"]),
+      true,
+    );
+    // noOverwrite prevents overwriting; the sequenceParams path creates array but noOverwrite keeps it
+    assert.include(result, "q=existing");
+    assert.include(result, "q=newVal");
+  });
+
+  it("should handle bare query key (undefined value)", () => {
+    const result = appendQueryParams("https://example.com?foo", new Map(), new Set());
+    // bare key "foo" has no = sign, so value is undefined; key is preserved
+    assert.include(result, "foo");
+  });
+
+  it("should handle existing array + new array merge", () => {
+    const result = appendQueryParams(
+      "https://example.com?q=1&q=2",
+      new Map([["q", ["2", "3"]]]),
+      new Set(),
+    );
+    assert.include(result, "q=2");
+    assert.include(result, "q=3");
+  });
+
+  it("should handle existing array + scalar push", () => {
+    const result = appendQueryParams(
+      "https://example.com?q=1&q=2",
+      new Map([["q", "3"]]),
+      new Set(),
+    );
+    assert.include(result, "q=1");
+    assert.include(result, "q=2");
+    assert.include(result, "q=3");
+  });
+
+  it("should handle existing scalar + new array overwrite", () => {
+    const result = appendQueryParams(
+      "https://example.com?q=existing",
+      new Map([["q", ["new1", "new2"]]]),
+      new Set(),
+      false,
+    );
+    assert.include(result, "q=new1");
+    assert.include(result, "q=new2");
+  });
+});
+
+describe("urlHelpers - appendPath branches", () => {
+  it("should handle path with query string attached to path component", () => {
+    const serializer = createSerializer({}, false);
+    const url = getRequestUrl(
+      "https://example.com",
+      {
+        path: "/items?extra=1",
+        httpMethod: "GET",
+        responses: {},
+        serializer,
+      },
+      {},
+      {},
+    );
+    assert.include(url, "extra=1");
+  });
+
+  it("should handle path component that is an absolute URL", () => {
+    const serializer = createSerializer({}, false);
+    const url = getRequestUrl(
+      "https://example.com",
+      {
+        path: "/{nextLink}",
+        httpMethod: "GET",
+        responses: {},
+        urlParameters: [
+          {
+            parameterPath: "nextLink",
+            mapper: {
+              serializedName: "nextLink",
+              required: true,
+              type: { name: "String" },
+            },
+            skipEncoding: true,
+          },
+        ],
+        serializer,
+      },
+      { nextLink: "https://other.com/page2?token=abc" },
+      {},
+    );
+    assert.strictEqual(url, "https://other.com/page2?token=abc");
+  });
+});
+
+describe("urlHelpers - remaining uncovered lines", () => {
+  it("should handle empty path in appendPath", () => {
+    const serializer = createSerializer({}, false);
+    // operationSpec.path is "{param}" which resolves to "" after replacement
+    // This causes appendPath to be called with empty pathToAppend
+    const url = getRequestUrl(
+      "https://example.com",
+      {
+        httpMethod: "GET",
+        responses: {},
+        serializer,
+        path: "{param}",
+        urlParameters: [
+          {
+            parameterPath: "param",
+            mapper: { serializedName: "param", type: { name: "String" } },
+            skipEncoding: true,
+          },
+        ],
+      },
+      { param: "" },
+      {},
+    );
+    assert.strictEqual(url, "https://example.com");
+  });
+
+  it("should join path when base URL has no trailing slash", () => {
+    const serializer = createSerializer({}, false);
+    const url = getRequestUrl(
+      "https://example.com/api",
+      {
+        path: "items",
+        httpMethod: "GET",
+        responses: {},
+        serializer,
+      },
+      {},
+      {},
+    );
+    assert.include(url, "api/items");
+  });
+
+  it("should handle undefined value in combinedParams", () => {
+    // This covers the case where a param has no = sign (bare key)
+    // simpleParseQueryParams gives value as undefined
+    // When we later iterate, it hits the else branch at line 307
+    const result = appendQueryParams(
+      "https://example.com?bare",
+      new Map([["other", "val"]]),
+      new Set(),
+    );
+    assert.include(result, "bare");
+    assert.include(result, "other=val");
+  });
+
+  it("should handle array push in simpleParseQueryParams for 3+ duplicate keys", () => {
+    // First two dups create an array, third dup pushes to the array
+    const result = appendQueryParams(
+      "https://example.com?x=1&x=2&x=3",
+      new Map([["y", "4"]]),
+      new Set(),
+    );
+    assert.include(result, "x=1");
+    assert.include(result, "x=2");
+    assert.include(result, "x=3");
+    assert.include(result, "y=4");
+  });
+});

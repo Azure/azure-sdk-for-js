@@ -1,49 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  FleetspaceAccountResource} from "@azure/arm-cosmosdb";
-import {
-  CosmosDBManagementClient,
-} from "@azure/arm-cosmosdb";
+import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates an Azure Cosmos DB fleetspace account under a fleetspace.
+ * This sample demonstrates how to creates an Azure Cosmos DB fleetspace account under a fleetspace.
  *
- * @summary Creates an Azure Cosmos DB fleetspace account under a fleetspace.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/fleet/CosmosDBFleetspaceAccountCreate.json
+ * @summary creates an Azure Cosmos DB fleetspace account under a fleetspace.
+ * x-ms-original-file: 2025-11-01-preview/fleet/CosmosDBFleetspaceAccountCreate.json
  */
-async function cosmosDbFleetspaceAccountCreate(): Promise<void> {
-  const subscriptionId =
-    process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const fleetName = "fleet1";
-  const fleetspaceName = "fleetspace1";
-  const fleetspaceAccountName = "db1";
-  const body: FleetspaceAccountResource = {
+async function cosmosDBFleetspaceAccountCreate(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new CosmosDBManagementClient(credential, subscriptionId);
+  const result = await client.fleetspaceAccount.create("rg1", "fleet1", "fleetspace1", "db1", {
     globalDatabaseAccountProperties: {
       armLocation: "West US",
       resourceId:
         "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/providers/Microsoft.DocumentDB/resourceGroup/rg1/databaseAccounts/db1",
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.fleetspaceAccount.beginCreateAndWait(
-    resourceGroupName,
-    fleetName,
-    fleetspaceName,
-    fleetspaceAccountName,
-    body,
-  );
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await cosmosDbFleetspaceAccountCreate();
+  await cosmosDBFleetspaceAccountCreate();
 }
 
 main().catch(console.error);

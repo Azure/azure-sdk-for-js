@@ -1,44 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  ContinuousBackupRestoreLocation} from "@azure/arm-cosmosdb";
-import {
-  CosmosDBManagementClient,
-} from "@azure/arm-cosmosdb";
+import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Retrieves continuous backup information for a container resource.
+ * This sample demonstrates how to retrieves continuous backup information for a container resource.
  *
- * @summary Retrieves continuous backup information for a container resource.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBSqlContainerBackupInformation.json
+ * @summary retrieves continuous backup information for a container resource.
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBSqlContainerBackupInformation.json
  */
-async function cosmosDbSqlContainerBackupInformation(): Promise<void> {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rgName";
-  const accountName = "ddb1";
-  const databaseName = "databaseName";
-  const containerName = "containerName";
-  const location: ContinuousBackupRestoreLocation = {
-    location: "North Europe",
-  };
+async function cosmosDBSqlContainerBackupInformation(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result =
-    await client.sqlResources.beginRetrieveContinuousBackupInformationAndWait(
-      resourceGroupName,
-      accountName,
-      databaseName,
-      containerName,
-      location,
-    );
+  const result = await client.sqlResources.retrieveContinuousBackupInformation(
+    "rgName",
+    "ddb1",
+    "databaseName",
+    "containerName",
+    { location: "North Europe" },
+  );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await cosmosDbSqlContainerBackupInformation();
+  await cosmosDBSqlContainerBackupInformation();
 }
 
 main().catch(console.error);
