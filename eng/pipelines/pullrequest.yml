@@ -10,9 +10,6 @@ pr:
     include:
     - "*"
 
-    exclude:
-    - sdk/cosmosdb/cosmos/
-
 parameters:
   - name: Service
     type: string

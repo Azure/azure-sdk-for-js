@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all compute limits shared by the host subscription with its guest subscriptions.
  *
  * @summary lists all compute limits shared by the host subscription with its guest subscriptions.
- * x-ms-original-file: 2026-03-20/SharedLimits_List.json
+ * x-ms-original-file: 2026-04-30/SharedLimits_List.json
  */
 async function listAllSharedLimitsForAScope(): Promise<void> {
   const credential = new DefaultAzureCredential();

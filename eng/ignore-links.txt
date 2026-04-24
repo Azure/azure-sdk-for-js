@@ -88,3 +88,7 @@ https://learn.microsoft.com/javascript/api/@azure/arm-servicegroups?view=azure-n
 https://www.npmjs.com/package/@azure/arm-servicegroups
 https://learn.microsoft.com/javascript/api/@azure/arm-relationships?view=azure-node-preview
 https://www.npmjs.com/package/@azure/arm-relationships
+https://learn.microsoft.com/javascript/api/@azure/arm-alertprocessingrules?view=azure-node-preview
+https://www.npmjs.com/package/@azure/arm-alertprocessingrules
+https://learn.microsoft.com/javascript/api/@azure/arm-alertrulerecommendations?view=azure-node-preview
+https://www.npmjs.com/package/@azure/arm-alertrulerecommendations

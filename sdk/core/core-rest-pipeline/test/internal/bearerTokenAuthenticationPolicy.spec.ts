@@ -18,6 +18,8 @@ import {
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 import { DEFAULT_CYCLER_OPTIONS } from "../../src/util/tokenCycler.js";
 
+const defaultRequest = () => createPipelineRequest({ url: "https://example.com" });
+
 const { refreshWindowInMs: defaultRefreshWindow } = DEFAULT_CYCLER_OPTIONS;
 
 interface Challenge {
@@ -147,7 +149,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
       getToken: fakeGetToken,
     };
 
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,
@@ -170,7 +172,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
   it("refreshes the token on initial request", async () => {
     const expiresOn = Date.now() + 1000 * 60; // One minute later.
     const credential = new MockRefreshAzureCredential(expiresOn);
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
 
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
@@ -191,7 +193,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     let tokenExpiration = Date.now() + expireDelayMs;
     const credential = new MockRefreshAzureCredential(tokenExpiration);
 
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,
@@ -231,7 +233,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     const getTokenDelay = 100;
     const credential = new MockRefreshAzureCredential(tokenExpiration, { getTokenDelay });
 
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,
@@ -262,7 +264,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     const getTokenDelay = 100;
     const credential = new MockRefreshAzureCredential(tokenExpiration, { getTokenDelay });
 
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,
@@ -275,13 +277,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
 
     credential.shouldThrow = true;
 
-    let error: Error | undefined;
-    try {
-      await policy.sendRequest(request, next);
-    } catch (e: any) {
-      error = e;
-    }
-    assert.equal(error?.message, "Failed to retrieve the token");
+    await expect(policy.sendRequest(request, next)).rejects.toThrow("Failed to retrieve the token");
 
     assert.strictEqual(
       credential.authCount,
@@ -297,7 +293,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     const getTokenDelay = 100;
     const credential = new MockRefreshAzureCredential(tokenExpiration, { getTokenDelay });
 
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,
@@ -329,7 +325,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
 
     const exceptionMessage =
       "the total time passed should be in the refresh room, plus the many getTokens that have happened so far";
-    assert.equal(expireDelayMs + 2 * getTokenDelay, Date.now() - startTime, exceptionMessage);
+    assert.equal(Date.now() - startTime, expireDelayMs + 2 * getTokenDelay, exceptionMessage);
   });
 
   it("throws if the target URI doesn't start with 'https'", async () => {
@@ -341,15 +337,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     const policy = createBearerTokenPolicy("test-scope", credential);
     const next = vi.fn<SendRequest>();
 
-    let error: Error | undefined;
-    try {
-      await policy.sendRequest(request, next);
-    } catch (e: any) {
-      error = e;
-    }
-
-    assert.equal(
-      error?.message,
+    await expect(policy.sendRequest(request, next)).rejects.toThrow(
       "Bearer token authentication is not permitted for non-TLS protected (non-https) URLs.",
     );
   });
@@ -365,14 +353,14 @@ describe("BearerTokenAuthenticationPolicy", function () {
       token: "mock-token",
       expiresOnTimestamp: tokenExpiration,
     });
-    // simulate failure of retriving the token, rejecting with an error would also work
-    // but returning null exercises a slightly different code path for better coverage
+    // simulate failure of retrieving the token, rejecting with an error would also work
+    // but returning null exercises a slightly different code path
     getToken.mockResolvedValueOnce(null);
     const credential: TokenCredential = {
       getToken,
     };
     const scopes = ["test-scope"];
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
 
     async function authorizeRequestOnChallenge(
       options: AuthorizeRequestOnChallengeOptions,
@@ -413,14 +401,9 @@ describe("BearerTokenAuthenticationPolicy", function () {
 
     next.mockResolvedValueOnce(challengeResponse);
 
-    let error: Error | undefined;
-    try {
-      await policy.sendRequest(request, next);
-    } catch (e: any) {
-      error = e;
-    }
-    assert.isDefined(error);
-    assert.equal(error?.message, "Failed to refresh access token.");
+    await expect(policy.sendRequest(request, next)).rejects.toThrow(
+      "Failed to refresh access token.",
+    );
   });
 
   it("correctly refreshes the accessToken when refreshAfterTimestamp", async () => {
@@ -434,7 +417,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
       refreshAfterTimestamp: tokenRefreshAfter,
     });
 
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,
@@ -479,7 +462,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
       getToken,
     };
     const tokenScopes = ["test-scope"];
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
 
     const next = vi.fn<SendRequest>();
 
@@ -520,7 +503,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
       getToken,
     };
     const tokenScopes = ["test-scope"];
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
 
     const next = vi.fn<SendRequest>();
     const requestError = new Error("Arbitray error");
@@ -563,7 +546,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
         })(),
       });
 
-      const request = createPipelineRequest({ url: "https://example.com" });
+      const request = defaultRequest();
 
       const challengeResponse: PipelineResponse = {
         headers: createHttpHeaders({
@@ -608,7 +591,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
           getToken,
         };
         const tokenScopes = ["test-scope"];
-        const request = createPipelineRequest({ url: "https://example.com" });
+        const request = defaultRequest();
 
         const challengeResponse: PipelineResponse = {
           headers: createHttpHeaders({
@@ -630,13 +613,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
 
         const policy = createBearerTokenPolicy(tokenScopes, credential);
 
-        let response: PipelineResponse;
-        try {
-          response = await policy.sendRequest(request, next);
-        } catch (e) {
-          // Should not encounter an error. A request with failed status code should be returned
-          assert.fail();
-        }
+        const response = await policy.sendRequest(request, next);
         // First getToken request will return a bad token
         expect(getToken).toHaveBeenCalledWith(tokenScopes, {
           abortSignal: undefined,
@@ -681,7 +658,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
           getToken,
         };
         const scopes = ["test-scope"];
-        const request = createPipelineRequest({ url: "https://example.com" });
+        const request = defaultRequest();
 
         const challengeResponse: PipelineResponse = {
           headers: createHttpHeaders({
@@ -696,21 +673,18 @@ describe("BearerTokenAuthenticationPolicy", function () {
           status: 200,
         };
 
-        let isCallbackCalled = false;
-        async function authorizeRequestOnChallenge(
-          options: AuthorizeRequestOnChallengeOptions,
-        ): Promise<boolean> {
-          isCallbackCalled = true; // Enable CAE true by default
-
-          assert.equal(testCase.challenge, options.response.headers.get("WWW-Authenticate"));
-          // Should set the good token here in the second get access token
-          const token = await options.getAccessToken(scopes, {});
-          if (token) {
-            options.request.headers.set("Authorization", `Bearer ${token.token}`);
-            return true;
-          }
-          return false;
-        }
+        const authorizeRequestOnChallenge = vi.fn(
+          async (options: AuthorizeRequestOnChallengeOptions): Promise<boolean> => {
+            assert.equal(testCase.challenge, options.response.headers.get("WWW-Authenticate"));
+            // Should set the good token here in the second get access token
+            const token = await options.getAccessToken(scopes, {});
+            if (token) {
+              options.request.headers.set("Authorization", `Bearer ${token.token}`);
+              return true;
+            }
+            return false;
+          },
+        );
 
         const next = vi.fn<SendRequest>();
         // Mocked a challenge response and a successful response
@@ -724,20 +698,14 @@ describe("BearerTokenAuthenticationPolicy", function () {
           },
         });
 
-        let response: PipelineResponse;
-        try {
-          response = await policy.sendRequest(request, next);
-        } catch (e) {
-          // Should not encounter an error. A request with failed status code should be returned
-          assert.fail();
-        }
+        const response = await policy.sendRequest(request, next);
         // First getToken request will return a bad token
         expect(getToken).toHaveBeenCalledWith(scopes, {
           enableCae: true,
           abortSignal: undefined,
           tracingOptions: undefined,
         });
-        assert.isTrue(isCallbackCalled);
+        expect(authorizeRequestOnChallenge).toHaveBeenCalled();
         assert.strictEqual(response.request.headers.get("Authorization"), `Bearer good-token`);
       });
     });
@@ -746,10 +714,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
       // Test different scenarios with challenges in different order
       it(`Multiple challenges returned: ${testCase.testName}`, async function () {
         const tokenExpiration = Date.now() + 1000 * 60;
-        // Account for the 1st getToken requests called in the intial request
-        let getTokenRequests = 0;
         const getToken = vi.fn<() => Promise<AccessToken | null>>(async () => {
-          getTokenRequests++;
           return {
             token: "token",
             expiresOnTimestamp: tokenExpiration,
@@ -761,21 +726,19 @@ describe("BearerTokenAuthenticationPolicy", function () {
         };
         const scopes = ["test-scope"];
 
-        let isCallbackCalled = false;
-        async function authorizeRequestOnChallenge(
-          options: AuthorizeRequestOnChallengeOptions,
-        ): Promise<boolean> {
-          isCallbackCalled = true;
-          // Should set the good token here in the second get access token
-          const token = await options.getAccessToken(scopes, {
-            claims: standardNonCAEChallenge.expectedClaims,
-          });
-          if (token) {
-            options.request.headers.set("Authorization", `Bearer ${token.token}`);
-            return true;
-          }
-          return false;
-        }
+        const authorizeRequestOnChallenge = vi.fn(
+          async (options: AuthorizeRequestOnChallengeOptions): Promise<boolean> => {
+            // Should set the good token here in the second get access token
+            const token = await options.getAccessToken(scopes, {
+              claims: standardNonCAEChallenge.expectedClaims,
+            });
+            if (token) {
+              options.request.headers.set("Authorization", `Bearer ${token.token}`);
+              return true;
+            }
+            return false;
+          },
+        );
 
         const policy = bearerTokenAuthenticationPolicy({
           scopes,
@@ -788,7 +751,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
         let lastChallenge: string = "";
         let containNonCAEChallenge = false;
 
-        const request = createPipelineRequest({ url: "https://example.com" });
+        const request = defaultRequest();
         const next = vi.fn<SendRequest>();
         // Mock response based on the order provided
         for (const challengeType of testCase.challengeOrder) {
@@ -821,14 +784,8 @@ describe("BearerTokenAuthenticationPolicy", function () {
             }
           }
         }
-        let response: PipelineResponse;
-        try {
-          response = await policy.sendRequest(request, next);
-        } catch (e) {
-          // Should not encounter an error. A request with failed status code should be returned
-          assert.fail();
-        }
-        assert.strictEqual(testCase.numberOfGetTokenCalls, getTokenRequests);
+        const response = await policy.sendRequest(request, next);
+        expect(getToken).toHaveBeenCalledTimes(testCase.numberOfGetTokenCalls);
         // Check value of getTokenRequests called based on the order of challenges
         for (let i = 0; i < testCase.numberOfGetTokenCalls; i++) {
           const challengeType = testCase.challengeOrder[i];
@@ -858,7 +815,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
           }
         }
         if (containNonCAEChallenge) {
-          assert.isTrue(isCallbackCalled);
+          expect(authorizeRequestOnChallenge).toHaveBeenCalled();
         }
         if (testCase.shouldResolved) {
           assert.strictEqual(response.status, 200);
@@ -888,7 +845,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
         getToken,
       };
       const tokenScopes = ["test-scope"];
-      const request = createPipelineRequest({ url: "https://example.com" });
+      const request = defaultRequest();
 
       const challengeResponse: PipelineResponse = {
         headers: createHttpHeaders({
@@ -912,12 +869,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
       next.mockRejectedValueOnce(requestError).mockResolvedValueOnce(successResponse);
 
       const policy = createBearerTokenPolicy(tokenScopes, credential);
-      let response: PipelineResponse;
-      try {
-        response = await policy.sendRequest(request, next);
-      } catch (e) {
-        assert.fail();
-      }
+      const response = await policy.sendRequest(request, next);
       // First getToken request will return a bad token
       expect(getToken).toHaveBeenCalledWith(tokenScopes, {
         abortSignal: undefined,
@@ -953,7 +905,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
         getToken,
       };
       const scopes = ["test-scope"];
-      const request = createPipelineRequest({ url: "https://example.com" });
+      const request = defaultRequest();
 
       const challengeResponse: PipelineResponse = {
         headers: createHttpHeaders({
@@ -969,25 +921,23 @@ describe("BearerTokenAuthenticationPolicy", function () {
         status: 200,
       };
 
-      let isCallbackCalled = false;
-      async function authorizeRequestOnChallenge(
-        options: AuthorizeRequestOnChallengeOptions,
-      ): Promise<boolean> {
-        isCallbackCalled = true;
-        assert.equal(
-          standardNonCAEChallenge.challenge,
-          options.response.headers.get("WWW-Authenticate"),
-        );
-        // Should set the good token here in the second get access token
-        const token = await options.getAccessToken(scopes, {
-          claims: "a claim",
-        });
-        if (token) {
-          options.request.headers.set("Authorization", `Bearer ${token.token}`);
-          return true;
-        }
-        return false;
-      }
+      const authorizeRequestOnChallenge = vi.fn(
+        async (options: AuthorizeRequestOnChallengeOptions): Promise<boolean> => {
+          assert.equal(
+            standardNonCAEChallenge.challenge,
+            options.response.headers.get("WWW-Authenticate"),
+          );
+          // Should set the good token here in the second get access token
+          const token = await options.getAccessToken(scopes, {
+            claims: "a claim",
+          });
+          if (token) {
+            options.request.headers.set("Authorization", `Bearer ${token.token}`);
+            return true;
+          }
+          return false;
+        },
+      );
 
       const next = vi.fn<SendRequest>();
       const requestError = new RestError("Bad Request.", {
@@ -1005,13 +955,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
         },
       });
 
-      let response: PipelineResponse;
-      try {
-        response = await policy.sendRequest(request, next);
-      } catch (e) {
-        // Should not encounter an error
-        assert.fail();
-      }
+      const response = await policy.sendRequest(request, next);
       expect(getToken).toHaveBeenCalledWith(scopes, {
         abortSignal: undefined,
         tracingOptions: undefined,
@@ -1022,7 +966,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
         tracingOptions: undefined,
         claims: "a claim",
       });
-      assert.isTrue(isCallbackCalled);
+      expect(authorizeRequestOnChallenge).toHaveBeenCalled();
       assert.strictEqual(response.request.headers.get("Authorization"), `Bearer good-token`);
     });
   });
@@ -1038,7 +982,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
       getToken,
     };
     const tokenScopes = ["test-scope"];
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
 
     const next = vi.fn<SendRequest>();
     const responseWithoutChallenge: PipelineResponse = {
@@ -1140,3 +1084,389 @@ function matrix<T extends ReadonlyArray<readonly unknown[]>>(
     }
   }
 }
+
+describe("BearerTokenAuthenticationPolicy", function () {
+  beforeEach(() => {
+    vi.useFakeTimers({ now: Date.now() });
+  });
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it("returns response when second CAE challenge after custom handler has unparsable claims", async function () {
+    const tokenExpiration = Date.now() + 1000 * 60;
+    const getToken = vi.fn<() => Promise<AccessToken | null>>();
+    getToken.mockResolvedValue({
+      token: "token",
+      expiresOnTimestamp: tokenExpiration,
+    });
+    const credential: TokenCredential = { getToken };
+    const scopes = ["test-scope"];
+    const request = defaultRequest();
+
+    // First response: non-CAE challenge (handled by custom callback)
+    const nonCaeChallengeResponse: PipelineResponse = {
+      headers: createHttpHeaders({
+        "WWW-Authenticate": `Bearer authorization_uri="https://login.windows.net/", error="invalid_token"`,
+      }),
+      request,
+      status: 401,
+    };
+
+    // Second response after custom handler: CAE challenge with unparsable base64 claims
+    const caeChallengeWithBadClaims: PipelineResponse = {
+      headers: createHttpHeaders({
+        "WWW-Authenticate": `Bearer error="insufficient_claims", claims="not valid base64!!!"`,
+      }),
+      request,
+      status: 401,
+    };
+
+    const next = vi.fn<SendRequest>();
+    next
+      .mockResolvedValueOnce(nonCaeChallengeResponse) // initial request -> non-CAE challenge
+      .mockResolvedValueOnce(caeChallengeWithBadClaims); // after custom handler -> CAE with bad claims
+
+    async function authorizeRequestOnChallenge(
+      options: AuthorizeRequestOnChallengeOptions,
+    ): Promise<boolean> {
+      const token = await options.getAccessToken(scopes, {});
+      if (token) {
+        options.request.headers.set("Authorization", `Bearer ${token.token}`);
+        return true;
+      }
+      return false;
+    }
+
+    const policy = bearerTokenAuthenticationPolicy({
+      scopes,
+      credential,
+      challengeCallbacks: { authorizeRequestOnChallenge },
+    });
+
+    // Should return the CAE challenge response since claims are unparsable
+    const response = await policy.sendRequest(request, next);
+    assert.strictEqual(response, caeChallengeWithBadClaims);
+    assert.equal(response.status, 401);
+    expect(next).toHaveBeenCalledTimes(2);
+  });
+
+  it("handles second CAE challenge after custom handler with valid claims", async function () {
+    const tokenExpiration = Date.now() + 1000 * 60;
+    const getToken = vi.fn<() => Promise<AccessToken | null>>();
+    // Initial token
+    getToken.mockResolvedValueOnce({
+      token: "initial-token",
+      expiresOnTimestamp: tokenExpiration,
+    });
+    // Token for custom handler
+    getToken.mockResolvedValueOnce({
+      token: "custom-handler-token",
+      expiresOnTimestamp: tokenExpiration,
+    });
+    // Token for CAE challenge
+    getToken.mockResolvedValueOnce({
+      token: "cae-token",
+      expiresOnTimestamp: tokenExpiration,
+    });
+
+    const credential: TokenCredential = { getToken };
+    const scopes = ["test-scope"];
+    const request = defaultRequest();
+
+    // First: non-CAE challenge
+    const nonCaeChallengeResponse: PipelineResponse = {
+      headers: createHttpHeaders({
+        "WWW-Authenticate": `Bearer authorization_uri="https://login.windows.net/", error="invalid_token"`,
+      }),
+      request,
+      status: 401,
+    };
+
+    // After custom handler: valid CAE challenge (base64 of '{"test":"value"}' = eyJ0ZXN0IjoidmFsdWUifQ==)
+    const validCaeChallengeResponse: PipelineResponse = {
+      headers: createHttpHeaders({
+        "WWW-Authenticate": `Bearer error="insufficient_claims", claims="eyJ0ZXN0IjoidmFsdWUifQ=="`,
+      }),
+      request,
+      status: 401,
+    };
+
+    const successResponse: PipelineResponse = {
+      headers: createHttpHeaders(),
+      request,
+      status: 200,
+    };
+
+    const next = vi.fn<SendRequest>();
+    next
+      .mockResolvedValueOnce(nonCaeChallengeResponse)
+      .mockResolvedValueOnce(validCaeChallengeResponse)
+      .mockResolvedValueOnce(successResponse);
+
+    async function authorizeRequestOnChallenge(
+      options: AuthorizeRequestOnChallengeOptions,
+    ): Promise<boolean> {
+      const token = await options.getAccessToken(scopes, {});
+      if (token) {
+        options.request.headers.set("Authorization", `Bearer ${token.token}`);
+        return true;
+      }
+      return false;
+    }
+
+    const policy = bearerTokenAuthenticationPolicy({
+      scopes,
+      credential,
+      challengeCallbacks: { authorizeRequestOnChallenge },
+    });
+
+    const response = await policy.sendRequest(request, next);
+    assert.equal(response.status, 200);
+    // 3 calls: initial + custom handler + CAE handler
+    expect(next).toHaveBeenCalledTimes(3);
+  });
+
+  it("handles second CAE challenge after custom handler when no credential provided", async function () {
+    const scopes = ["test-scope"];
+    const request = defaultRequest();
+
+    const nonCaeChallengeResponse: PipelineResponse = {
+      headers: createHttpHeaders({
+        "WWW-Authenticate": `Bearer authorization_uri="https://login.windows.net/", error="invalid_token"`,
+      }),
+      request,
+      status: 401,
+    };
+
+    // Valid CAE challenge
+    const validCaeChallengeResponse: PipelineResponse = {
+      headers: createHttpHeaders({
+        "WWW-Authenticate": `Bearer error="insufficient_claims", claims="eyJ0ZXN0IjoidmFsdWUifQ=="`,
+      }),
+      request,
+      status: 401,
+    };
+
+    const next = vi.fn<SendRequest>();
+    next
+      .mockResolvedValueOnce(nonCaeChallengeResponse)
+      .mockResolvedValueOnce(validCaeChallengeResponse);
+
+    async function authorizeRequestOnChallenge(
+      _options: AuthorizeRequestOnChallengeOptions,
+    ): Promise<boolean> {
+      // Just return true to re-send the request
+      return true;
+    }
+
+    // No credential → getAccessToken returns null → authorizeRequestOnCaeChallenge returns false
+    const policy = bearerTokenAuthenticationPolicy({
+      scopes,
+      credential: undefined,
+      challengeCallbacks: { authorizeRequestOnChallenge },
+    });
+
+    const response = await policy.sendRequest(request, next);
+    // Should return the CAE challenge response without retrying
+    assert.strictEqual(response, validCaeChallengeResponse);
+    assert.equal(response.status, 401);
+    expect(next).toHaveBeenCalledTimes(2);
+  });
+
+  it("skips CAE handling when WWW-Authenticate header value is empty", async function () {
+    // An empty header value passes isChallengeResponse (has() returns true) but
+    // getCaeChallengeClaims("") returns undefined since "" is falsy.
+    const tokenExpiration = Date.now() + 1000 * 60;
+    const credential: TokenCredential = {
+      getToken: async () => ({
+        token: "token",
+        expiresOnTimestamp: tokenExpiration,
+      }),
+    };
+    const scopes = ["test-scope"];
+    const request = defaultRequest();
+
+    // 401 with empty WWW-Authenticate
+    const challengeResponse: PipelineResponse = {
+      headers: createHttpHeaders({ "WWW-Authenticate": "" }),
+      request,
+      status: 401,
+    };
+
+    const next = vi.fn<SendRequest>();
+    next.mockResolvedValue(challengeResponse);
+
+    const policy = bearerTokenAuthenticationPolicy({ scopes, credential });
+
+    const response = await policy.sendRequest(request, next);
+    assert.strictEqual(response, challengeResponse);
+    assert.equal(response.status, 401);
+    // Only 1 call — no retry since claims is undefined
+    expect(next).toHaveBeenCalledOnce();
+  });
+
+  it("does not retry when no credential is provided for CAE challenge", async function () {
+    // No credential → getAccessToken returns null → authorizeRequestOnCaeChallenge returns false
+    const scopes = ["test-scope"];
+    const request = defaultRequest();
+
+    // CAE challenge response with valid base64 claims
+    const caeResponse: PipelineResponse = {
+      headers: createHttpHeaders({
+        "WWW-Authenticate": `Bearer error="insufficient_claims", claims="eyJ0ZXN0IjoidmFsdWUifQ=="`,
+      }),
+      request,
+      status: 401,
+    };
+
+    const next = vi.fn<SendRequest>();
+    next.mockResolvedValue(caeResponse);
+
+    // No credential for CAE → authorizeRequestOnCaeChallenge returns false
+    const policy = bearerTokenAuthenticationPolicy({
+      scopes,
+      credential: undefined,
+    });
+
+    const response = await policy.sendRequest(request, next);
+    assert.strictEqual(response, caeResponse);
+    assert.equal(response.status, 401);
+    expect(next).toHaveBeenCalledOnce();
+  });
+
+  it("does not retry when custom authorizeRequestOnChallenge returns false", async function () {
+    const tokenExpiration = Date.now() + 1000 * 60;
+    const credential: TokenCredential = {
+      getToken: async () => ({
+        token: "token",
+        expiresOnTimestamp: tokenExpiration,
+      }),
+    };
+    const scopes = ["test-scope"];
+    const request = defaultRequest();
+
+    // Non-CAE 401 challenge
+    const challengeResponse: PipelineResponse = {
+      headers: createHttpHeaders({
+        "WWW-Authenticate": `Bearer authorization_uri="https://login.windows.net/", error="invalid_token"`,
+      }),
+      request,
+      status: 401,
+    };
+
+    const next = vi.fn<SendRequest>();
+    next.mockResolvedValue(challengeResponse);
+
+    const policy = bearerTokenAuthenticationPolicy({
+      scopes,
+      credential,
+      challengeCallbacks: {
+        authorizeRequestOnChallenge: async () => false,
+      },
+    });
+
+    const response = await policy.sendRequest(request, next);
+    assert.strictEqual(response, challengeResponse);
+    assert.equal(response.status, 401);
+    expect(next).toHaveBeenCalledOnce();
+  });
+
+  it("handles CAE challenge when scopes is a single string (not array)", async function () {
+    const tokenExpiration = Date.now() + 1000 * 60;
+    const credential: TokenCredential = {
+      getToken: async () => ({
+        token: "token",
+        expiresOnTimestamp: tokenExpiration,
+      }),
+    };
+    const request = defaultRequest();
+
+    // CAE challenge with valid claims
+    const caeResponse: PipelineResponse = {
+      headers: createHttpHeaders({
+        "WWW-Authenticate": `Bearer error="insufficient_claims", claims="eyJ0ZXN0IjoidmFsdWUifQ=="`,
+      }),
+      request,
+      status: 401,
+    };
+
+    const successResponse: PipelineResponse = {
+      headers: createHttpHeaders(),
+      request,
+      status: 200,
+    };
+
+    const next = vi.fn<SendRequest>();
+    next.mockResolvedValueOnce(caeResponse).mockResolvedValueOnce(successResponse);
+
+    const policy = bearerTokenAuthenticationPolicy({
+      scopes: "single-scope-string",
+      credential,
+    });
+
+    const response = await policy.sendRequest(request, next);
+    assert.equal(response.status, 200);
+    expect(next).toHaveBeenCalledTimes(2);
+  });
+
+  it("handles custom challenge then CAE challenge when scopes is a string", async function () {
+    const tokenExpiration = Date.now() + 1000 * 60;
+    const credential: TokenCredential = {
+      getToken: async () => ({
+        token: "token",
+        expiresOnTimestamp: tokenExpiration,
+      }),
+    };
+    const request = defaultRequest();
+
+    // Non-CAE challenge
+    const nonCaeChallengeResponse: PipelineResponse = {
+      headers: createHttpHeaders({
+        "WWW-Authenticate": `Bearer authorization_uri="https://login.windows.net/", error="invalid_token"`,
+      }),
+      request,
+      status: 401,
+    };
+
+    // After custom handler: valid CAE challenge
+    const caeChallengeResponse: PipelineResponse = {
+      headers: createHttpHeaders({
+        "WWW-Authenticate": `Bearer error="insufficient_claims", claims="eyJ0ZXN0IjoidmFsdWUifQ=="`,
+      }),
+      request,
+      status: 401,
+    };
+
+    const successResponse: PipelineResponse = {
+      headers: createHttpHeaders(),
+      request,
+      status: 200,
+    };
+
+    const next = vi.fn<SendRequest>();
+    next
+      .mockResolvedValueOnce(nonCaeChallengeResponse)
+      .mockResolvedValueOnce(caeChallengeResponse)
+      .mockResolvedValueOnce(successResponse);
+
+    const policy = bearerTokenAuthenticationPolicy({
+      scopes: "single-scope-string",
+      credential,
+      challengeCallbacks: {
+        authorizeRequestOnChallenge: async (options) => {
+          const token = await options.getAccessToken(["single-scope-string"], {});
+          if (token) {
+            options.request.headers.set("Authorization", `Bearer ${token.token}`);
+            return true;
+          }
+          return false;
+        },
+      },
+    });
+
+    const response = await policy.sendRequest(request, next);
+    assert.equal(response.status, 200);
+    expect(next).toHaveBeenCalledTimes(3);
+  });
+});

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all guest subscriptions in a location.
  *
  * @summary lists all guest subscriptions in a location.
- * x-ms-original-file: 2026-03-20/GuestSubscriptions_List.json
+ * x-ms-original-file: 2026-04-30/GuestSubscriptions_List.json
  */
 async function listGuestSubscriptionsForAScope(): Promise<void> {
   const credential = new DefaultAzureCredential();

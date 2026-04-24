@@ -22,12 +22,6 @@ export interface AgentPoolsDeleteMachinesOptionalParams extends OperationOptions
 }
 
 /** Optional parameters. */
-export interface AgentPoolsCompleteUpgradeOptionalParams extends OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-}
-
-/** Optional parameters. */
 export interface AgentPoolsAbortLatestOperationOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
