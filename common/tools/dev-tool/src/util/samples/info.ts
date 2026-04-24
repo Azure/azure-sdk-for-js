@@ -14,27 +14,17 @@ export const PUBLIC_SAMPLES_BASE = "samples";
 /**
  * Default TypeScript compiler configuration for sample projects.
  *
- * The default configuration targets ES2018 to support async iteration
- * by default with no `lib` entry.
+ * Mirrors the conventions in eng/tsconfigs: ESNext target and lib for full
+ * modern language support, strict checks, and CommonJS output for Node.js
+ * standalone compatibility.
  */
 export const DEFAULT_TYPESCRIPT_CONFIG = {
   compilerOptions: {
-    target: "ES2020",
-    module: "commonjs",
-
-    moduleResolution: "node",
-    resolveJsonModule: true,
-
-    esModuleInterop: true,
-    allowSyntheticDefaultImports: true,
-
-    strict: true,
-    alwaysStrict: true,
-
-    outDir: "dist",
-    rootDir: "src",
+    target: "ESNext",
+    moduleResolution: "NodeNext",
+    outDir: "./dist",
   },
-  include: ["src/**/*.ts"],
+  include: ["./src"],
 };
 
 /**

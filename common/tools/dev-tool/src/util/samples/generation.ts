@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { readFileSync } from "node:fs";
-import { stat as statFile } from "node:fs/promises";
+import { readFileSync, existsSync } from "node:fs";
 import path from "node:path";
 import semver from "semver";
 import { copy, dir, file, FileTreeFactory, lazy, safeClean, temp } from "../fileTree";
 import { findMatchingFiles } from "../findMatchingFiles";
 import { createPrinter } from "../printer";
+import { format } from "../prettier";
 import { ProjectInfo, bindRequireFunction, resolveRoot } from "../resolveProject";
 import {
   getSampleConfiguration,
@@ -25,8 +25,6 @@ import { processSources } from "./processor";
 import devToolPackageJson from "../../../package.json";
 import instantiateSampleReadme from "../../templates/sampleReadme.md";
 import { resolveModule } from "./transforms";
-import { Config, resolveConfig } from "../resolveTsConfig";
-import { CompilerOptions } from "typescript";
 import { loadPnpmWorkspaceCatalogs, resolveCatalogVersion } from "../pnpm";
 
 const log = createPrinter("generator");
@@ -40,6 +38,7 @@ export function createPackageJson(info: SampleGenerationInfo, outputKind: Output
     description: `${info.productName} client library samples for ${fullOutputKind}${
       info.isBeta ? " (Beta)" : ""
     }`,
+    type: "commonjs",
     engines: {
       node: `>=${MIN_SUPPORTED_NODE_VERSION}`,
     },
@@ -327,53 +326,14 @@ function jsonify(value: unknown) {
 }
 
 /**
- * Checks if a file exists.
- * @param filePath - The path to the file
- * @returns Whether the file exists
- */
-async function fileExists(filePath: string) {
-  try {
-    await statFile(filePath);
-    return true;
-  } catch (err) {
-    return false;
-  }
-}
-
-/**
  * Creates a tsconfig file for the samples.
- * @param projectInfo - The project information
+ * Always produces a clean, modern config derived from DEFAULT_TYPESCRIPT_CONFIG
+ * rather than trying to adapt the package's monorepo tsconfig.samples.json.
+ *
  * @returns The contents of a tsconfig file for the samples
  */
-export async function createTsconfig(projectInfo: ProjectInfo): Promise<string> {
-  const tsconfigFilePath = path.join(projectInfo.path, "tsconfig.samples.json");
-  if (!(await fileExists(tsconfigFilePath))) {
-    return jsonify(DEFAULT_TYPESCRIPT_CONFIG);
-  }
-  type SerializableConfig = Omit<Config, "compilerOptions"> & {
-    compilerOptions: Omit<CompilerOptions, "moduleResolution" | "module"> & {
-      moduleResolution?: string;
-      module?: string;
-    };
-  };
-  const { config: tsconfig } = (await resolveConfig(tsconfigFilePath)) as {
-    config: SerializableConfig;
-  };
-  delete tsconfig.compilerOptions.paths;
-  delete tsconfig.exclude;
-  delete tsconfig.compilerOptions.composite;
-  delete tsconfig.compilerOptions.noEmit;
-  delete tsconfig.compilerOptions.declaration;
-  delete tsconfig.compilerOptions.declarationMap;
-  delete tsconfig.compilerOptions.inlineSources;
-  delete tsconfig.compilerOptions.sourceMap;
-  tsconfig.include = ["./src"];
-  tsconfig.compilerOptions.outDir = "./dist";
-  tsconfig.compilerOptions.resolveJsonModule = true;
-
-  tsconfig.compilerOptions.moduleResolution = "node10"; // ts.ModuleResolutionKind.Node10
-  tsconfig.compilerOptions.module = "commonjs"; // ts.ModuleKind.CommonJS
-  return jsonify(tsconfig);
+export async function createTsconfig(_projectInfo: ProjectInfo): Promise<string> {
+  return jsonify(DEFAULT_TYPESCRIPT_CONFIG);
 }
 
 /**
@@ -407,6 +367,11 @@ export async function makeSamplesFactory(
 
   const finalSourcePath = sourcePath ?? path.join(projectInfo.path, DEV_SAMPLES_BASE);
 
+  // Prefer sample.env from the staging/source directory (auto-generated), fall back to package root
+  const sampleEnvPath = existsSync(path.join(finalSourcePath, "sample.env"))
+    ? path.join(finalSourcePath, "sample.env")
+    : path.join(projectInfo.path, "sample.env");
+
   const info = await makeSampleGenerationInfo(projectInfo, finalSourcePath, versionFolder, onError);
   info.isBeta = isBeta;
 
@@ -422,22 +387,22 @@ export async function makeSamplesFactory(
   }
 
   /**
-   * Helper to remove azsdk- directives from the resulting module code.
+   * Helper to remove azsdk- directives from the resulting module code and
+   * format it with prettier.
    */
-  function postProcess(moduleText: string | Buffer): string {
+  async function postProcess(moduleText: string | Buffer): Promise<string> {
     const content = Buffer.isBuffer(moduleText) ? moduleText.toString("utf8") : moduleText;
-    return (
-      content
-        .replace(new RegExp(`^\\s*\\*\\s*@${AZSDK_META_TAG_PREFIX}.*\n`, "gm"), "")
-        // We also need to clean up extra blank lines that might be left behind by
-        // removing azsdk tags. These regular expressions are extremely frustrating
-        // because they deal almost exclusively in the literal "/" and "*" characters.
-        .replace(/(\s+\*)+\//s, "\n */")
-        // Clean up blank lines at the beginning
-        .replace(/\/\*\*(\s+\*)*/s, `/**\n *`)
-        // Finally remove empty doc comments.
-        .replace(/\s*\/\*\*(\s+\*)*\/\s*/s, "\n\n")
-    );
+    const cleaned = content
+      .replace(new RegExp(`^\\s*\\*\\s*@${AZSDK_META_TAG_PREFIX}.*\n`, "gm"), "")
+      // We also need to clean up extra blank lines that might be left behind by
+      // removing azsdk tags. These regular expressions are extremely frustrating
+      // because they deal almost exclusively in the literal "/" and "*" characters.
+      .replace(/(\s+\*)+\//s, "\n */")
+      // Clean up blank lines at the beginning
+      .replace(/\/\*\*(\s+\*)*/s, `/**\n *`)
+      // Finally remove empty doc comments.
+      .replace(/\s*\/\*\*(\s+\*)*\/\s*/s, "\n\n");
+    return format(cleaned, "typescript");
   }
 
   // We use a tempdir at the outer layer to avoid creating dirty trees
@@ -455,7 +420,7 @@ export async function makeSamplesFactory(
               file("package.json", () => jsonify(createPackageJson(info, OutputKind.TypeScript))),
               // All of the tsconfigs we use for samples should be the same.
               file("tsconfig.json", () => createTsconfig(projectInfo)),
-              copy("sample.env", path.join(projectInfo.path, "sample.env")),
+              copy("sample.env", sampleEnvPath),
               // We copy the samples sources in to the `src` folder on the typescript side
               dir("src", [
                 ...info.moduleInfos.map(({ relativeSourcePath, filePath }) =>
@@ -469,7 +434,7 @@ export async function makeSamplesFactory(
                 createReadme(OutputKind.JavaScript, info, path.relative(repoRoot, outputDirectory)),
               ),
               file("package.json", () => jsonify(createPackageJson(info, OutputKind.JavaScript))),
-              copy("sample.env", path.join(projectInfo.path, "sample.env")),
+              copy("sample.env", sampleEnvPath),
               // Extract the JS Module Text from the module info structures
               ...info.moduleInfos
                 // Only include the modules if they were not skipped
