@@ -1,21 +1,39 @@
 # Release History
 
-## 6.1.2 (Unreleased)
+## 7.0.0-beta.1 (2026-04-14)
+Compared with version 6.1.0
 
 ### Features Added
+  - Added operation EndpointsOperations.updateV2
+  - Added operation ProfilesOperations.updateV2
+  - Added Interface EndpointProperties
+  - Added Interface EndpointsUpdateV2OptionalParams
+  - Added Interface EndpointUpdate
+  - Added Interface GeographicHierarchyProperties
+  - Added Interface HeatMapProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface ProfileProperties
+  - Added Interface ProfilePropertiesUpdate
+  - Added Interface ProfilesUpdateV2OptionalParams
+  - Added Interface ProfileUpdate
+  - Added Interface UserMetricsProperties
+  - Interface Profile has a new optional parameter recordType
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias HeatMapType
+  - Added Type Alias RecordType
+  - Added Enum AzureClouds
+  - Added Enum KnownRecordType
+  - Added Enum KnownVersions
 
 ### Breaking Changes
+  - Removed operation Endpoints.update
+  - Removed operation Profiles.update
+  - Operation HeatMap.get has a new signature
+  - Removed Interface EndpointsUpdateOptionalParams
+  - Removed Interface ProfilesUpdateOptionalParams
 
-### Bugs Fixed
-
-### Other Changes
-
-## 6.1.1 (2025-08-21)
-
-### Other Changes
-
-  - Other fixes
-
+    
 ## 6.1.0 (2023-06-02)
     
 ### Features Added
@@ -49,4 +67,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
