@@ -44,6 +44,8 @@ import { MetadataLookUpType } from "../../CosmosDiagnostics.js";
 import type { EncryptionSettingForProperty } from "../../encryption/index.js";
 import { EncryptionProcessor } from "../../encryption/index.js";
 import type { EncryptionManager } from "../../encryption/EncryptionManager.js";
+import type { SemanticRerankOptions } from "../../inference/SemanticRerankOptions.js";
+import type { SemanticRerankResult } from "../../inference/SemanticRerankResult.js";
 
 /**
  * Operations for reading, replacing, or deleting a specific, existing container by id.
@@ -689,6 +691,74 @@ export class Container {
         this.isEncryptionInitialized = true;
       }, this.clientContext);
     }
+  }
+
+  /**
+   * Rerank a list of documents using semantic reranking via the Cosmos DB Inference Service.
+   * This method uses a semantic reranker to score and reorder the provided documents
+   * based on their relevance to the given context.
+   *
+   * The semantic reranking requests use a separate HTTP pipeline from the main Cosmos DB client
+   * and do not use the default SDK retry policies.
+   *
+   * To use this feature, you must:
+   * 1. Configure AAD authentication via `aadCredentials` in `CosmosClientOptions`
+   * 2. Provide the inference endpoint via `inferenceEndpoint` in `CosmosClientOptions`,
+   *    or set the `AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT` environment variable
+   *
+   * @param context - The context (e.g. query string) to use for reranking the documents.
+   * @param documents - A list of documents (as JSON strings) to be reranked.
+   * @param options - Optional dictionary of settings for the reranking request.
+   *   Known service options:
+   *   - `return_documents` (boolean) — include reranked documents in the response.
+   *   - `top_k` (number) — max number of top-ranked documents to return.
+   *   - `batch_size` (number) — batch size for processing documents.
+   *   - `sort` (boolean) — sort results by relevance score in descending order.
+   *   - `document_type` (`"string"` | `"json"`) — type of documents being reranked.
+   *   - `target_paths` (string) — comma-separated JSON paths (when document_type is `"json"`).
+   *   - `abortSignal` (AbortSignal) — signal to cancel the request.
+   *   Any additional keys are forwarded as-is to the inference service.
+   * @returns The reranking results including scored documents, latency, and token usage.
+   *
+   * @example Semantic reranking of query results
+   * ```ts snippet:ContainerSemanticRerank
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const aadCredentials = new DefaultAzureCredential();
+   * const client = new CosmosClient({
+   *   endpoint,
+   *   aadCredentials,
+   * });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * const queryResults = ["doc1 JSON", "doc2 JSON", "doc3 JSON"];
+   * const result = await container.semanticRerank(
+   *   "most economical with multiple adjustments",
+   *   queryResults,
+   *   { return_documents: true, top_k: 10, sort: true },
+   * );
+   * // Access the top-ranked document
+   * if (result.rerankScores.length > 0) {
+   *   const topResult = result.rerankScores[0];
+   *   const topScore = topResult.score;
+   *   const topDocument = topResult.document;
+   *   if (topDocument !== null) {
+   *     console.log("Top-ranked document:", topDocument);
+   *   }
+   *   console.log("Top score:", topScore);
+   * }
+   * ```
+   */
+  public async semanticRerank(
+    context: string,
+    documents: string[],
+    options?: SemanticRerankOptions,
+  ): Promise<SemanticRerankResult> {
+    return this.clientContext.semanticRerank(context, documents, options);
   }
 
   /**

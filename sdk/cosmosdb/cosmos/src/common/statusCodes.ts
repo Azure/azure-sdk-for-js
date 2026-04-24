@@ -11,6 +11,9 @@ export interface StatusCodesType {
   Accepted: 202;
   NoContent: 204;
   MultiStatus: 207;
+
+  // Redirection
+  MultipleChoices: 300;
   NotModified: 304;
 
   // Client error
@@ -50,6 +53,9 @@ export const StatusCodes: StatusCodesType = {
   Accepted: 202,
   NoContent: 204,
   MultiStatus: 207,
+
+  // Redirection
+  MultipleChoices: 300,
   NotModified: 304,
 
   // Client error
