@@ -154,9 +154,15 @@ function buildPipelineRequest(
       : undefined,
   });
 
-  return options.tracingOptions
-    ? { ...request, tracingOptions: options.tracingOptions }
-    : request;
+  if (options.tracingOptions) {
+    Object.defineProperty(request, "tracingOptions", {
+      value: options.tracingOptions,
+      writable: true,
+      enumerable: true,
+      configurable: true,
+    });
+  }
+  return request;
 }
 
 interface RequestBody {
