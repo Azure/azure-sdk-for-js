@@ -58,7 +58,6 @@ describe("userAgentPlatform", () => {
     assert.isFalse(map.has("Bun"));
   });
 
-
   it("should handle a Node.js process.versions with Bun", async () => {
     Object.defineProperty(process, "versions", { value: { bun: "1.0.0" }, configurable: true });
     const map = new Map<string, string>();
