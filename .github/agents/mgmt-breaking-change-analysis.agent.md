@@ -121,9 +121,11 @@ See the Open Questions section in the guidelines Report Template for how to form
 
 ## Output Format
 
-**Default behavior**: Show a **brief summary** only (total counts by Type 1/Type 2, key root cause groups, items needing review). Do **NOT** create a markdown file or post a PR comment unless the user explicitly asks.
+If the user explicitly requests an output action upfront (e.g., "post as PR comment", "save as markdown"), do that directly without showing a summary first.
 
-- User says "save as markdown", "create a report" -> save as a local markdown file
-- User says "post as PR comment", "comment on the PR" -> post as a PR comment
+Otherwise, show a **brief summary** first (total counts by Type 1/Type 2, key root cause groups, items needing review), then ask the user how they want the full report:
+- Save as a local markdown file
+- Post as a PR comment
+- No full report needed
 
 See the Report Template section in the guidelines for the full report structure.

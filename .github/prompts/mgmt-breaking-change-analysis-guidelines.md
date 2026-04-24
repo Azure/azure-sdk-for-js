@@ -381,9 +381,7 @@ Before building the report, verify:
 - All CHANGELOG entries are accounted for (Type 1 count + Type 2 count = total)
 - One root cause can explain multiple entries -- use `Same as row N` references for repeated causes
 
-The analysis report should be shown as a **brief summary** by default (totals, key root cause groups, items needing review). Only produce a full report when the user explicitly requests it:
-- "save as markdown", "create a report" -> save as a local markdown file
-- "post as PR comment", "comment on the PR" -> post as a PR comment
+The analysis report should be shown as a **brief summary** by default (totals, key root cause groups, items needing review), then ask the user how they want the full report (save as markdown, post as PR comment, or skip). If the user already specified an output action upfront, do that directly without showing a summary first.
 
 ### Posting PR Comments
 
