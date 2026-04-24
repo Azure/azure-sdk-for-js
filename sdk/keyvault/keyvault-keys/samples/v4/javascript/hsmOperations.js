@@ -30,6 +30,9 @@ async function getKeyAttestation() {
 
   const latestKey = await hsmClient.getKeyAttestation(keyName);
   console.log(`Latest version of the key ${keyName}: `, latestKey);
+  // The attestation property contains the attestation certificate and blobs that
+  // prove the key material was generated inside the HSM.
+  console.log(`Attestation for ${keyName}: `, latestKey.properties.attestation);
 
   const specificKey = await hsmClient.getKeyAttestation(keyName, {
     version: latestKey.properties.version,
@@ -39,7 +42,12 @@ async function getKeyAttestation() {
 
 async function releaseAKey() {
   const keyName = `MyReleaseKey-${Date.now()}`;
-  const attestationProviderUrl = process.env["AZURE_KEYVAULT_ATTESTATION_PROVIDER_URL"];
+  const attestationProviderUrl = (() => {
+    const url = process.env["AZURE_KEYVAULT_ATTESTATION_PROVIDER_URL"];
+    if (!url)
+      throw new Error("AZURE_KEYVAULT_ATTESTATION_PROVIDER_URL environment variable is required.");
+    return url;
+  })();
   const encodedReleasePolicy = stringToUint8Array(
     JSON.stringify({
       anyOf: [
@@ -72,7 +80,14 @@ async function getRandomBytes() {
 
 async function main() {
   const credential = new DefaultAzureCredential();
-  hsmClient = new KeyClient(process.env["AZURE_MANAGEDHSM_URI"], credential);
+  hsmClient = new KeyClient(
+    (() => {
+      const uri = process.env["AZURE_MANAGEDHSM_URI"];
+      if (!uri) throw new Error("AZURE_MANAGEDHSM_URI environment variable is required.");
+      return uri;
+    })(),
+    credential,
+  );
   await createAnOctKey();
   await getKeyAttestation();
   await releaseAKey();

@@ -51,8 +51,8 @@ async function wrapAndUnwrapKey() {
   const keyName = `crypto-sample-key-${Date.now()}`;
   const myWorkKey = await client.createKey(keyName, "RSA");
   const cryptoClient = new CryptographyClient(myWorkKey, credential);
-  // Wrap and unwrap
-  const wrapped = await cryptoClient.wrapKey("RSA-OAEP-256", Buffer.from("My Message"));
+  // Wrap and unwrap — the wrapped value must be real key material (e.g. a 256-bit AES key)
+  const wrapped = await cryptoClient.wrapKey("RSA-OAEP-256", randomBytes(32));
   console.log("wrap result: ", wrapped);
   const unwrapped = await cryptoClient.unwrapKey("RSA-OAEP-256", wrapped.result);
   console.log("unwrap result: ", unwrapped);

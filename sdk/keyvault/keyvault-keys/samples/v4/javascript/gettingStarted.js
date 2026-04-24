@@ -27,7 +27,7 @@ async function createAKeyClientWithASpecificVersion() {
 
   // Change the Azure Key Vault service API version being used via the `serviceVersion` option
   const client = new KeyClient(url, credential, {
-    serviceVersion: "7.0", // Supported versions: 7.0 through 7.6 (default: 7.6)
+    serviceVersion: "7.5", // Supported versions: 7.0 through 7.6 (default: 7.6). Pin only for backward compat.
   });
   console.log("KeyClient vault URL:", client.vaultUrl);
 }
