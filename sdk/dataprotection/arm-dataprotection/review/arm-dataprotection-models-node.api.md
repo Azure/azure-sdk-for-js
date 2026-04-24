@@ -45,6 +45,12 @@ export interface AdlsBlobBackupDatasourceParameters extends BlobBackupDatasource
 }
 
 // @public
+export interface AdlsBlobBackupDatasourceParametersForAutoProtection extends BackupDatasourceParameters {
+    autoProtectionSettings: BlobBackupRuleBasedAutoProtectionSettings;
+    objectType: "AdlsBlobBackupDatasourceParametersForAutoProtection";
+}
+
+// @public
 export type AKSVolumeTypes = string;
 
 // @public
@@ -259,7 +265,7 @@ export interface BackupDatasourceParameters {
 }
 
 // @public
-export type BackupDatasourceParametersUnion = KubernetesClusterBackupDatasourceParameters | BlobBackupDatasourceParametersUnion | BackupDatasourceParameters;
+export type BackupDatasourceParametersUnion = KubernetesClusterBackupDatasourceParameters | BlobBackupDatasourceParametersUnion | BlobBackupDatasourceParametersForAutoProtection | AdlsBlobBackupDatasourceParametersForAutoProtection | BackupDatasourceParameters;
 
 // @public
 export interface BackupInstance {
@@ -319,7 +325,7 @@ export interface BackupVault {
     readonly resourceMoveState?: ResourceMoveState;
     readonly secureScore?: SecureScoreLevel;
     securitySettings?: SecuritySettings;
-    storageSettings: StorageSetting[];
+    storageSettings?: StorageSetting[];
 }
 
 // @public
@@ -367,13 +373,49 @@ export type BaseResourcePropertiesUnion = DefaultResourceProperties | BaseResour
 export type BcdrSecurityLevel = string;
 
 // @public
+export interface BlobBackupAutoProtectionRule {
+    mode: BlobBackupRuleMode;
+    objectType: string;
+    pattern: string;
+    type: BlobBackupPatternType;
+}
+
+// @public
+export interface BlobBackupAutoProtectionSettings {
+    enabled: boolean;
+    objectType: string;
+}
+
+// @public
+export type BlobBackupAutoProtectionSettingsUnion = BlobBackupRuleBasedAutoProtectionSettings | BlobBackupAutoProtectionSettings;
+
+// @public
 export interface BlobBackupDatasourceParameters extends BackupDatasourceParameters {
     containersList: string[];
     objectType: "BlobBackupDatasourceParameters" | "AdlsBlobBackupDatasourceParameters";
 }
 
 // @public
+export interface BlobBackupDatasourceParametersForAutoProtection extends BackupDatasourceParameters {
+    autoProtectionSettings: BlobBackupRuleBasedAutoProtectionSettings;
+    objectType: "BlobBackupDatasourceParametersForAutoProtection";
+}
+
+// @public
 export type BlobBackupDatasourceParametersUnion = AdlsBlobBackupDatasourceParameters | BlobBackupDatasourceParameters;
+
+// @public
+export type BlobBackupPatternType = string;
+
+// @public
+export interface BlobBackupRuleBasedAutoProtectionSettings extends BlobBackupAutoProtectionSettings {
+    // (undocumented)
+    objectType: "BlobBackupRuleBasedAutoProtectionSettings";
+    rules?: BlobBackupAutoProtectionRule[];
+}
+
+// @public
+export type BlobBackupRuleMode = string;
 
 // @public
 export interface CheckNameAvailabilityRequest {
@@ -541,6 +583,31 @@ export interface DeletedBackupInstance extends BackupInstance {
 // @public
 export interface DeletedBackupInstanceResource extends ProxyResource {
     properties?: DeletedBackupInstance;
+}
+
+// @public
+export interface DeletedBackupVault {
+    readonly bcdrSecurityLevel?: BcdrSecurityLevel;
+    featureSettings?: FeatureSettings;
+    readonly isVaultProtectedByResourceGuard?: boolean;
+    monitoringSettings?: MonitoringSettings;
+    readonly originalBackupVaultId: string;
+    readonly originalBackupVaultName: string;
+    readonly originalBackupVaultResourcePath: string;
+    readonly provisioningState?: ProvisioningState;
+    replicatedRegions?: string[];
+    readonly resourceDeletionInfo: ResourceDeletionInfo;
+    resourceGuardOperationRequests?: string[];
+    readonly resourceMoveDetails?: ResourceMoveDetails;
+    readonly resourceMoveState?: ResourceMoveState;
+    readonly secureScore?: SecureScoreLevel;
+    securitySettings?: SecuritySettings;
+    storageSettings?: StorageSetting[];
+}
+
+// @public
+export interface DeletedBackupVaultResource extends ProxyResource {
+    properties?: DeletedBackupVault;
 }
 
 // @public
@@ -802,6 +869,16 @@ export enum KnownBcdrSecurityLevel {
     Good = "Good",
     NotSupported = "NotSupported",
     Poor = "Poor"
+}
+
+// @public
+export enum KnownBlobBackupPatternType {
+    Prefix = "Prefix"
+}
+
+// @public
+export enum KnownBlobBackupRuleMode {
+    Exclude = "Exclude"
 }
 
 // @public
@@ -1073,7 +1150,9 @@ export enum KnownValidationType {
 
 // @public
 export enum KnownVersions {
-    V20250701 = "2025-07-01"
+    V20250701 = "2025-07-01",
+    V20250901 = "2025-09-01",
+    V20260301 = "2026-03-01"
 }
 
 // @public
@@ -1305,6 +1384,13 @@ export interface Resource {
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
+}
+
+// @public
+export interface ResourceDeletionInfo {
+    readonly deleteActivityId?: string;
+    readonly deletionTime?: Date;
+    readonly scheduledPurgeTime?: Date;
 }
 
 // @public

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to adds a subscription as a guest to consume the compute limits shared by the host subscription.
  *
  * @summary adds a subscription as a guest to consume the compute limits shared by the host subscription.
- * x-ms-original-file: 2026-03-20/GuestSubscriptions_Create.json
+ * x-ms-original-file: 2026-04-30/GuestSubscriptions_Create.json
  */
 async function createAGuestSubscription() {
   const credential = new DefaultAzureCredential();

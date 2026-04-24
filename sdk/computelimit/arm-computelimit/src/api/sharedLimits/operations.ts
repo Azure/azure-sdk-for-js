@@ -31,7 +31,7 @@ export function _listBySubscriptionLocationResourceSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-03-20",
+      "api%2Dversion": context.apiVersion ?? "2026-04-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -68,7 +68,7 @@ export function listBySubscriptionLocationResource(
     () => _listBySubscriptionLocationResourceSend(context, location, options),
     _listBySubscriptionLocationResourceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-20" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-30" },
   );
 }
 
@@ -84,7 +84,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       location: location,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-03-20",
+      "api%2Dversion": context.apiVersion ?? "2026-04-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -134,7 +134,7 @@ export function _createSend(
       subscriptionId: context.subscriptionId,
       location: location,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-03-20",
+      "api%2Dversion": context.apiVersion ?? "2026-04-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -184,7 +184,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       location: location,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-03-20",
+      "api%2Dversion": context.apiVersion ?? "2026-04-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
