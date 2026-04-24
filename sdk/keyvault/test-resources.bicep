@@ -171,6 +171,23 @@ resource webApp 'Microsoft.Web/sites@2023-12-01' = {
   }
 }
 
+// Real Azure Attestation Provider for HSM sample tests
+resource attestationProvider 'Microsoft.Attestation/attestationProviders@2021-06-01' = if (enableHsm) {
+  name: '${replace(baseName, '-', '')}attest'
+  location: location
+  properties: {}
+}
+
+resource attestationContributorRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = if (enableHsm) {
+  name: guid(resourceGroup().id, 'attestation-contributor', testApplicationOid)
+  scope: attestationProvider
+  properties: {
+    roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', 'b24988ac-6180-42a0-ab88-20f7382dd24c')
+    principalId: testApplicationOid
+    principalType: 'ServicePrincipal'
+  }
+}
+
 output KEYVAULT_URI string = keyVault.properties.vaultUri
 output AZURE_MANAGEDHSM_URI string = (enableHsm) ? managedHsm.properties.hsmUri : ''
 output KEYVAULT_SKU string = keyVault.properties.sku.name
@@ -178,4 +195,5 @@ output CLIENT_OBJECT_ID string = testApplicationOid
 output BLOB_STORAGE_URI string = storageAccount.properties.primaryEndpoints.blob
 output BLOB_CONTAINER_NAME string = blobContainerName
 output AZURE_KEYVAULT_ATTESTATION_URI string = 'https://${webApp.properties.defaultHostName}/'
+output AZURE_KEYVAULT_ATTESTATION_PROVIDER_URL string = (enableHsm) ? attestationProvider.properties.attestUri : ''
 output MANAGED_IDENTITY_ID string = managedIdentityId

@@ -104,11 +104,8 @@ export class SecretClient {
    *
    * const credential = new DefaultAzureCredential();
    *
-   * // Build the URL to reach your key vault
-   * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`;
+   * const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
    *
-   * // Lastly, create our secrets client and connect to the service
    * const client = new SecretClient(url, credential);
    * ```
    * @param vaultUrl - The base URL to the vault. You should validate that this URL references a valid Key Vault resource. See https://aka.ms/azsdk/blog/vault-uri for details.
@@ -164,18 +161,6 @@ export class SecretClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleCreateSecret
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { SecretClient } from "@azure/keyvault-secrets";
-   *
-   * const credential = new DefaultAzureCredential();
-   *
-   * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`;
-   *
-   * const client = new SecretClient(url, credential);
-   *
-   * const secretName = "MySecretName";
-   *
    * const result = await client.setSecret(secretName, "MySecretValue");
    * console.log("result: ", result);
    * ```
@@ -213,18 +198,8 @@ export class SecretClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleDeleteSecret
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { SecretClient } from "@azure/keyvault-secrets";
-   *
-   * const credential = new DefaultAzureCredential();
-   *
-   * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`;
-   *
-   * const client = new SecretClient(url, credential);
-   *
-   * const secretName = "MySecretName";
-   *
+   * // Delete the secret
+   * // If we don't want to purge the secret later, we don't need to wait until this finishes
    * await client.beginDeleteSecret(secretName);
    * ```
    * Deletes a secret from a specified key vault.
@@ -253,20 +228,11 @@ export class SecretClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleUpdateSecretAttributes
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { SecretClient } from "@azure/keyvault-secrets";
-   *
-   * const credential = new DefaultAzureCredential();
-   *
-   * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`;
-   *
-   * const client = new SecretClient(url, credential);
-   *
-   * const secretName = "MySecretName";
-   *
+   * // Update the secret with different attributes
    * const result = await client.getSecret(secretName);
-   * await client.updateSecretProperties(secretName, result.properties.version, { enabled: false });
+   * await client.updateSecretProperties(secretName, result.properties.version!, {
+   *   enabled: false,
+   * });
    * ```
    * Updates the attributes associated with a specified secret in a given key vault.
    * @param secretName - The name of the secret.
@@ -301,18 +267,7 @@ export class SecretClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleGetSecret
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { SecretClient } from "@azure/keyvault-secrets";
-   *
-   * const credential = new DefaultAzureCredential();
-   *
-   * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`;
-   *
-   * const client = new SecretClient(url, credential);
-   *
-   * const secretName = "MySecretName";
-   *
+   * // Read the secret we created
    * const latestSecret = await client.getSecret(secretName);
    * console.log(`Latest version of the secret ${secretName}: `, latestSecret);
    *
@@ -345,19 +300,7 @@ export class SecretClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleGetDeletedSecret
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { SecretClient } from "@azure/keyvault-secrets";
-   *
-   * const credential = new DefaultAzureCredential();
-   *
-   * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`;
-   *
-   * const client = new SecretClient(url, credential);
-   *
-   * const secretName = "MySecretName";
-   *
-   * const result = await client.getDeletedSecret("MyDeletedSecret");
+   * const result = await client.getDeletedSecret(secretName);
    * ```
    * Gets the specified deleted secret.
    * @param secretName - The name of the secret.
@@ -384,22 +327,15 @@ export class SecretClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSamplePurgeDeletedSecret
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { SecretClient } from "@azure/keyvault-secrets";
-   *
-   * const credential = new DefaultAzureCredential();
-   *
-   * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`;
-   *
-   * const client = new SecretClient(url, credential);
-   *
-   * const secretName = "MySecretName";
-   *
-   * const deletePoller = await client.beginDeleteSecret(secretName);
+   * // To actually delete it, we delete and then purge the secret
+   * // Delete the secret
+   * console.log("about to delete");
+   * const deletePoller = await client.beginDeleteSecret(bankAccountSecretName);
    * await deletePoller.pollUntilDone();
    *
-   * await client.purgeDeletedSecret(secretName);
+   * // Purge the deleted secret
+   * console.log("about to purge");
+   * await client.purgeDeletedSecret(bankAccountSecretName);
    * ```
    * Permanently deletes the specified secret.
    * @param secretName - The name of the secret.
@@ -426,24 +362,15 @@ export class SecretClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleRecoverDeletedSecret
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { SecretClient } from "@azure/keyvault-secrets";
-   *
-   * const credential = new DefaultAzureCredential();
-   *
-   * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`;
-   *
-   * const client = new SecretClient(url, credential);
-   *
-   * const secretName = "MySecretName";
-   *
-   * const deletePoller = await client.beginDeleteSecret(secretName);
+   * // Oops, what happens if we delete the wrong one?
+   * console.log("Deleting secret: ", bankAccountSecretName);
+   * const deletePoller = await client.beginDeleteSecret(bankAccountSecretName);
    * await deletePoller.pollUntilDone();
    *
-   * const recoverPoller = await client.beginRecoverDeletedSecret(secretName);
-   * const deletedSecret = await recoverPoller.pollUntilDone();
-   * console.log(deletedSecret);
+   * console.log("Recovering secret");
+   * const recoverPoller = await client.beginRecoverDeletedSecret(bankAccountSecretName);
+   * const recoveredSecret = await recoverPoller.pollUntilDone();
+   * console.log(recoveredSecret);
    * ```
    * Recovers the deleted secret to the latest version.
    * @param secretName - The name of the deleted secret.
@@ -471,18 +398,7 @@ export class SecretClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleBackupSecret
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { SecretClient } from "@azure/keyvault-secrets";
-   *
-   * const credential = new DefaultAzureCredential();
-   *
-   * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`;
-   *
-   * const client = new SecretClient(url, credential);
-   *
-   * const secretName = "MySecretName";
-   *
+   * // Backup secret
    * const backupResult = await client.backupSecret(secretName);
    * ```
    * Backs up the specified secret.
@@ -506,21 +422,15 @@ export class SecretClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleRestoreSecret
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { SecretClient } from "@azure/keyvault-secrets";
+   * import { readFile } from "node:fs/promises";
    *
-   * const credential = new DefaultAzureCredential();
+   * // Read our backup from a file
+   * console.log("about to restore secret");
+   * const backupContents = await readFile("secret_backup.dat");
    *
-   * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`;
-   *
-   * const client = new SecretClient(url, credential);
-   *
-   * const secretName = "MySecretName";
-   *
-   * const backupResult = await client.backupSecret(secretName);
-   *
-   * await client.restoreSecretBackup(backupResult);
+   * // Restore the secret
+   * const result = await client.restoreSecretBackup(backupContents);
+   * console.log("Restored secret: ", result);
    * ```
    * Restores a backed up secret to a vault.
    * @param secretBundleBackup - The backup blob associated with a secret bundle.
@@ -546,18 +456,6 @@ export class SecretClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleListSecrets
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { SecretClient } from "@azure/keyvault-secrets";
-   *
-   * const credential = new DefaultAzureCredential();
-   *
-   * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`;
-   *
-   * const client = new SecretClient(url, credential);
-   *
-   * const secretName = "MySecretName";
-   *
    * for await (const secretProperties of client.listPropertiesOfSecrets()) {
    *   console.log("Secret properties: ", secretProperties);
    * }
@@ -590,18 +488,6 @@ export class SecretClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleListSecrets
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { SecretClient } from "@azure/keyvault-secrets";
-   *
-   * const credential = new DefaultAzureCredential();
-   *
-   * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`;
-   *
-   * const client = new SecretClient(url, credential);
-   *
-   * const secretName = "MySecretName";
-   *
    * for await (const secretProperties of client.listPropertiesOfSecrets()) {
    *   console.log("Secret properties: ", secretProperties);
    * }
@@ -633,18 +519,6 @@ export class SecretClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleListSecrets
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { SecretClient } from "@azure/keyvault-secrets";
-   *
-   * const credential = new DefaultAzureCredential();
-   *
-   * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`;
-   *
-   * const client = new SecretClient(url, credential);
-   *
-   * const secretName = "MySecretName";
-   *
    * for await (const secretProperties of client.listPropertiesOfSecrets()) {
    *   console.log("Secret properties: ", secretProperties);
    * }

@@ -5,23 +5,15 @@
  * @summary Creates, updates, and deletes certificate contacts.
  */
 
-import { CertificateClient } from "@azure/keyvault-certificates";
-import { DefaultAzureCredential } from "@azure/identity";
 // Load the .env file if it exists
 import "dotenv/config";
+import { DefaultAzureCredential } from "@azure/identity";
+import { CertificateClient } from "@azure/keyvault-certificates";
 
-export async function main(): Promise<void> {
-  // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
-  // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
-  // about DefaultAzureCredential and the other credentials that are available for use.
-  // If you're using MSI, DefaultAzureCredential should "just work".
-  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-  const credential = new DefaultAzureCredential();
+let client: CertificateClient;
 
-  const client = new CertificateClient(url, credential);
-
+async function manageCertificateContacts() {
   // Contacts are created independently of the certificates.
-
   const contacts = [
     {
       email: "a@a.com",
@@ -34,26 +26,64 @@ export async function main(): Promise<void> {
       phone: "222222222222",
     },
   ];
-
   await client.setContacts(contacts);
-
   const getResponse = await client.getContacts();
   console.log("Contact List:", getResponse);
-
   await client.deleteContacts();
-
-  let error;
   try {
     await client.getContacts();
-    throw Error("Expecting an error but not catching one.");
   } catch (e: any) {
-    error = e;
+    // getContacts throws a 404 when no contacts have been set
+    console.log("No contacts found (expected):", e.code);
   }
+}
 
-  console.log("err: ", error);
+async function deleteCertificateContacts() {
+  await client.setContacts([
+    {
+      email: "b@b.com",
+      name: "b",
+      phone: "222222222222",
+    },
+  ]);
+  await client.deleteContacts();
+}
+
+async function setCertificateContacts() {
+  await client.setContacts([
+    {
+      email: "b@b.com",
+      name: "b",
+      phone: "222222222222",
+    },
+  ]);
+}
+
+async function getCertificateContacts() {
+  try {
+    const contacts = await client.getContacts();
+    for (const contact of contacts) {
+      console.log(contact);
+    }
+  } catch (e: any) {
+    // getContacts throws a 404 if no contacts have been set
+    console.log("No contacts found:", e.message);
+  }
+}
+
+export async function main(): Promise<void> {
+  // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
+  // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
+  // about DefaultAzureCredential and the other credentials that are available for use.
+  // If you're using MSI, DefaultAzureCredential should "just work".
+  client = new CertificateClient(process.env["KEYVAULT_URI"], new DefaultAzureCredential());
+  await manageCertificateContacts();
+  await deleteCertificateContacts();
+  await setCertificateContacts();
+  await getCertificateContacts();
 }
 
 main().catch((error) => {
-  console.error("An error occurred:", error);
+  console.error(error);
   process.exit(1);
 });

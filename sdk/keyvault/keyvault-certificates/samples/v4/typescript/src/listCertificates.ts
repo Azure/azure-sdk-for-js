@@ -5,50 +5,35 @@
  * @summary List certificates, lists a certificate's versions, and lists deleted certificates in various ways.
  */
 
-import { CertificateClient } from "@azure/keyvault-certificates";
-import { DefaultAzureCredential } from "@azure/identity";
 // Load the .env file if it exists
 import "dotenv/config";
+import { DefaultAzureCredential } from "@azure/identity";
+import { CertificateClient } from "@azure/keyvault-certificates";
 
-export async function main(): Promise<void> {
-  // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
-  // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
-  // about DefaultAzureCredential and the other credentials that are available for use.
-  // If you're using MSI, DefaultAzureCredential should "just work".
-  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-  const credential = new DefaultAzureCredential();
+let client: CertificateClient;
+let certificateName1: string;
+let certificateName2: string;
 
-  const client = new CertificateClient(url, credential);
-
-  const uniqueString = new Date().getTime();
-  const certificateName1 = `list-1${uniqueString}`;
-  const certificateName2 = `list-2${uniqueString}`;
-
+async function createCertificates() {
   // Creating two self-signed certificates. They will appear as pending initially.
-  await client.beginCreateCertificate(certificateName1, {
+  const createPoller1 = await client.beginCreateCertificate(certificateName1, {
     issuerName: "Self",
     subject: "cn=MyCert",
   });
-  await client.beginCreateCertificate(certificateName2, {
+  await createPoller1.pollUntilDone();
+  const createPoller2 = await client.beginCreateCertificate(certificateName2, {
     issuerName: "Self",
     subject: "cn=MyCert",
   });
+  await createPoller2.pollUntilDone();
+}
 
-  // Listing all the available certificates in a single call.
-  // The certificates we just created are still pending at this point.
-  for await (const certificate of client.listPropertiesOfCertificates({ includePending: true })) {
-    console.log("Certificate from a single call: ", certificate);
-  }
-
-  // Listing all the available certificates by pages.
-  let pageCount = 0;
-  for await (const page of client.listPropertiesOfCertificates({ includePending: true }).byPage()) {
-    for (const certificate of page) {
-      console.log(`Certificate from page ${pageCount}: `, certificate);
-    }
-    pageCount++;
-  }
-
+async function updateAndListCertificateVersions() {
+  const createPoller = await client.beginCreateCertificate(certificateName1, {
+    issuerName: "Self",
+    subject: "cn=MyCert",
+  });
+  await createPoller.pollUntilDone();
   // Updating one of the certificates to retrieve the certificate versions afterwards
   const updatedCertificate = await client.updateCertificateProperties(certificateName1, "", {
     tags: {
@@ -56,26 +41,85 @@ export async function main(): Promise<void> {
     },
   });
   console.log("Updated certificate:", updatedCertificate);
-
   // Listing a certificate's versions
   for await (const item of client.listPropertiesOfCertificateVersions(certificateName1, {})) {
     const version = item.version!;
     const certificate = await client.getCertificateVersion(certificateName1, version);
     console.log(`Certificate from version ${version}: `, certificate);
   }
+}
 
-  // Deleting both certificates
-  let deletePoller = await client.beginDeleteCertificate(certificateName1);
-  await deletePoller.pollUntilDone();
-  deletePoller = await client.beginDeleteCertificate(certificateName2);
-  await deletePoller.pollUntilDone();
-
-  for await (const certificate of client.listDeletedCertificates({ includePending: true })) {
-    console.log("Deleted certificate: ", certificate);
+async function listAllCertificates() {
+  for await (const certificateProperties of client.listPropertiesOfCertificates()) {
+    console.log("Certificate properties: ", certificateProperties);
+  }
+  for await (const deletedCertificate of client.listDeletedCertificates()) {
+    console.log("Deleted certificate: ", deletedCertificate);
+  }
+  for await (const certificateProperties of client.listPropertiesOfCertificateVersions(
+    certificateName1,
+  )) {
+    console.log("Certificate properties: ", certificateProperties);
   }
 }
 
+async function listCertificatesByPage() {
+  for await (const page of client.listPropertiesOfCertificates().byPage()) {
+    for (const certificateProperties of page) {
+      console.log("Certificate properties: ", certificateProperties);
+    }
+  }
+  for await (const page of client.listDeletedCertificates().byPage()) {
+    for (const deletedCertificate of page) {
+      console.log("Deleted certificate: ", deletedCertificate);
+    }
+  }
+  for await (const page of client.listPropertiesOfCertificateVersions(certificateName2).byPage()) {
+    for (const certificateProperties of page) {
+      console.log("Properties of certificate: ", certificateProperties);
+    }
+  }
+}
+
+async function listCertificateProperties() {
+  // All in one call
+  for await (const certificateProperties of client.listPropertiesOfCertificates()) {
+    console.log(certificateProperties);
+  }
+
+  // By pages
+  for await (const page of client.listPropertiesOfCertificates().byPage()) {
+    for (const certificateProperties of page) {
+      console.log(certificateProperties);
+    }
+  }
+}
+
+async function listCertificateVersions() {
+  for await (const certificateProperties of client.listPropertiesOfCertificateVersions(
+    certificateName1,
+  )) {
+    console.log(certificateProperties.version!);
+  }
+}
+
+export async function main(): Promise<void> {
+  // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
+  // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
+  // about DefaultAzureCredential and the other credentials that are available for use.
+  // If you're using MSI, DefaultAzureCredential should "just work".
+  client = new CertificateClient(process.env["KEYVAULT_URI"], new DefaultAzureCredential());
+  certificateName1 = `list-1${new Date().getTime()}`;
+  certificateName2 = `list-2${new Date().getTime()}`;
+  await createCertificates();
+  await updateAndListCertificateVersions();
+  await listAllCertificates();
+  await listCertificatesByPage();
+  await listCertificateProperties();
+  await listCertificateVersions();
+}
+
 main().catch((error) => {
-  console.error("An error occurred:", error);
+  console.error(error);
   process.exit(1);
 });

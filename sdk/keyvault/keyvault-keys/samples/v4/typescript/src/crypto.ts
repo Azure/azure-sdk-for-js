@@ -1,0 +1,46 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import type { JsonWebKey } from "@azure/keyvault-keys";
+
+export function stringToUint8Array(str: string): Uint8Array {
+  return new Uint8Array(Buffer.from(str));
+}
+function toBytes(hex: string): Uint8Array {
+  if (hex.length % 2) {
+    hex = `0${hex}`;
+  }
+  return Buffer.from(hex, "hex");
+}
+/**
+ * Returns a pre-generated 2048-bit RSA key for import demonstrations.
+ * @warning This key is publicly known — never use it to protect real data.
+ */
+export function createRsaKey(): JsonWebKey {
+  return {
+    kty: "RSA",
+    keyOps: ["encrypt", "decrypt", "sign", "verify", "wrapKey", "unwrapKey"],
+    n: toBytes(
+      "b9f5840a7ec859ffe89a0162dfc017ef1f958e9f29d2e0effb89c1665fa8a5ad167fe822f857de2ab03d301f5100ce9e886f891d922ba9b02711beea620bac4b9fcc3248cafa6c0afef8da4e0a9933540de12539f2f6827ef78b1ccf28304334710e40d26e2a46c883920a14ffddf375b904a9ab0c361977727e4ddb5f8fc7c7e9003394edd881ef24a97f7e0979f343e48d8fab3ad75dcdefef8486b1ada4f9806c0e809a292e96763d28776ad456257f2f9298cc16664163f1a86e996c2bb4cf97dfd663294dcdeb50c9076470d825e2d4456b3e1d5410cb57f78c1c8ca2ecd1d3fbf917f85cc8e2d5bf2c21ae03c808b3db893c339b3876cadcd74ce22021",
+    ),
+    e: toBytes("010001"),
+    d: toBytes(
+      "1c7b27718a107a8450e6417f18c0ed8980bf61bc2be631f05f88ae37d53fd9bc245d8bbacb697dcbf0f936251dbd6f67e5829bb00d42a5b7268cb7be632ce18325a2db32bdefd3db6d48c4fabdf1cfe43849faef20b0b3b4e98a036c10fe2f54d959f300a7c1cedc8816367817e631131f36c11bc2ff882ffcb7ae8a025d5d9e144da89200be7df4242b5188b91be156034a921d6d554617caded26bacab3ad779685383c799619a16ed8935372b3d7669f7fbac3f7f84652a0785f2cd843bdecd50a2be824188ced10680d91066447654fdc1048596fb839382714e5e71518ac9cce9b0277bac9b87ffb0cc8cfc20fea772feed6c0fa1fa322ffb6a0fe81449",
+    ),
+    p: toBytes(
+      "df5e85faa77f3d72d95d3f0a2210242b4cc3f48e02a5329cb267a1a76f4211d9a7c161ec09087a8b704aa62c361aa90771e6c6d5b1addc50ee047fb06b946ca60a194f2fdcc485c235263ffa6b9e08810bba24aaf387a7f16e994c9764011e8183848c048f9a255d495318cdfcefa725e9c3991068aef486b73e6532950c6085",
+    ),
+    q: toBytes(
+      "d51ff0d0b4b185330e23b1d4d11eaff1f9e00a156aa02f042cd2917cdfc5944e1e1ec25bbd83941cc2c0bbd6838f769288348ab8594513e687540e9af8a081bb473951b6fcefd45e3f7934ef8214591c2014a1ab2bc678e883ba4c6a84e81935785fe693032d076db9ff4b7a104592dfb3dac9c30e95b9afcafee097bdaf41ed",
+    ),
+    dp: toBytes(
+      "2741b78e4bedc2e0f26ebeeb8afd073e4ce98b8b81cf82cba3572f43fbfbc2a35c26528d67310448895db542c3e77f997d5d2fc8d2c75997279dc6cb3cbd033353470b71bffd11fd05d6491c3bd9b468e9a4b7590c1fe5563b37da0c295941014619ff79b5bb43a1d787312ed2ab53d707f4866c29d9c5c3ff6489e88fe572f9",
+    ),
+    dq: toBytes(
+      "0bf0f6353b6a96e3fd6ed28ff2079e2418b40cdc9654d34d90955bc17b683e9f01e10752cc938ac0f1c88abdc2314f9b76363b6f88d0ee0484a09910e5cd58777dce205df85e17b0102e6260e910eacd409ee75007ebdeea6837100107e159483dae61e4ead0a311ead1fb10a3c8c229f691d3ac322d0172701547d038b89121",
+    ),
+    qi: toBytes(
+      "27bff99b22a2e466ec9dfea45189d367a5cb14c9682064e457bfd661e149cc22365c3c1bcd7bdb0e27c72e8505bdd8b273a683a33531441ff8762f361bef7cd58e75085e51825742f76bf7ae9e20e5b94d56bd557a8cf9b84ed7aa6571c39a68ec4ba1c3d0a7e78fa1923c9b4bf93e5125fe4326241025db372bffad204aff44",
+    ),
+  };
+}

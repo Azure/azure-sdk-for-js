@@ -76,9 +76,6 @@
     ],
     "requiredResources": {
       "Azure Key Vault": "https://learn.microsoft.com/azure/key-vault/quick-create-portal"
-    },
-    "customSnippets": {
-      "prerequisites": "samples-dev/snippets/_prerequisites.md"
     }
   },
   "dependencies": {
@@ -96,6 +93,7 @@
   },
   "devDependencies": {
     "@azure-tools/test-credential": "workspace:^",
+    "@azure-tools/test-publishing": "workspace:^",
     "@azure-tools/test-recorder": "workspace:^",
     "@azure-tools/test-utils-vitest": "workspace:^",
     "@azure/dev-tool": "workspace:^",

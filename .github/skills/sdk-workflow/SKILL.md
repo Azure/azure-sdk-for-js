@@ -69,6 +69,18 @@ development tasks. Read the referenced docs — don't guess at commands.
   recording, or provisioning test resources. Always authenticate using the interactive
   browser-based login flow (e.g. `Connect-AzAccount` or `az login`). Never use device
   code authentication.
+- **WSL browser login fix**: In WSL environments, `az login` may fail with
+  `AADSTS900144: The request body must contain the following parameter: 'scope'`
+  if the default browser opener (`~/.local/bin/xdg-open`) uses `cmd.exe /c start`
+  which mangles OAuth URL parameters. Fix by replacing the script with:
+  ```bash
+  cat > ~/.local/bin/xdg-open << 'EOF'
+  #!/bin/bash
+  powershell.exe -Command "Start-Process '$1'"
+  EOF
+  chmod +x ~/.local/bin/xdg-open
+  ```
+  Then run `az login` again — it will open the browser correctly.
 - **Test resources**: When provisioning test resources with `New-TestResources.ps1`,
   use the TME tenant and its subscription `Azure SDK Test Resources - TME`
   (`4d042dc6-fe17-4698-a23f-ec6a8d1e98f4`). The script auto-selects this subscription
