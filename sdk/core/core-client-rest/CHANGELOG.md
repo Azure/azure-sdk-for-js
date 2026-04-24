@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fix `operationOptionsToRequestParameters` to correctly preserve `tracingOptions` in the returned `RequestParameters`.
+
 ### Other Changes
 
 ## 2.6.0 (2026-04-07)
