@@ -97,6 +97,24 @@ function lookupEntryPointSymbol(
 // Package Engine
 // ============================================================================
 
+/**
+ * Resolves a package.json "imports" field condition map to a file path string.
+ * Walks the condition tree preferring "default", falling back to first string value.
+ */
+function resolveImportCondition(mapping: unknown): string | undefined {
+    if (typeof mapping === "string") return mapping;
+    if (mapping && typeof mapping === "object" && !Array.isArray(mapping)) {
+        const obj = mapping as Record<string, unknown>;
+        // Prefer "default" condition, then fall back to first available
+        if (obj["default"] !== undefined) return resolveImportCondition(obj["default"]);
+        for (const value of Object.values(obj)) {
+            const result = resolveImportCondition(value);
+            if (result) return result;
+        }
+    }
+    return undefined;
+}
+
 function detectPackageName(rootPath: string, packageJsonPath?: string): string {
     const pkgPath = packageJsonPath ?? path.join(rootPath, "package.json");
     if (fs.existsSync(pkgPath)) {
@@ -172,6 +190,25 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
     // Find tsconfig or create minimal config
     const tsConfigPath = path.join(rootPath, "tsconfig.json");
 
+    // Resolve package.json "imports" field (e.g. #platform/*) into TypeScript
+    // path mappings so that ts-morph can follow re-exports through subpath imports.
+    const pkgJsonPathForImports = options.packageJsonPath ?? path.join(rootPath, "package.json");
+    const tsPaths: Record<string, string[]> = {};
+    if (fs.existsSync(pkgJsonPathForImports)) {
+        try {
+            const pkg = JSON.parse(fs.readFileSync(pkgJsonPathForImports, "utf-8"));
+            if (pkg.imports && typeof pkg.imports === "object") {
+                for (const [specifier, mapping] of Object.entries(pkg.imports)) {
+                    // Resolve the "default" condition to a source file path
+                    const resolved = resolveImportCondition(mapping);
+                    if (resolved) {
+                        tsPaths[specifier] = [path.join(rootPath, resolved)];
+                    }
+                }
+            }
+        } catch { /* non-fatal */ }
+    }
+
     const project = new Project({
         tsConfigFilePath: fs.existsSync(tsConfigPath) ? tsConfigPath : undefined,
         skipAddingFilesFromTsConfig: true,
@@ -180,6 +217,7 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
             declaration: true,
             emitDeclarationOnly: true,
             skipLibCheck: true,
+            ...(Object.keys(tsPaths).length > 0 ? { paths: tsPaths, baseUrl: rootPath } : {}),
         },
     });
 
@@ -377,6 +415,14 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
                     }
                 }
             }
+            if (module.variables) {
+                for (const varInfo of module.variables) {
+                    const exportInfo = lookupEntryPointSymbol(entryPointSymbols, sourceFile.getFilePath(), varInfo.name);
+                    if (exportInfo !== undefined) {
+                        applyEntryPoint(varInfo, exportInfo);
+                    }
+                }
+            }
             // Mark namespaces that are exported from entry points
             if (module.namespaces) {
                 markEntryPointNamespaces(module.namespaces, entryPointSymbols, sourceFile.getFilePath());
@@ -396,7 +442,8 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
                         module.interfaces?.some(i => i.name === declName) ||
                         module.functions?.some(f => f.name === declName) ||
                         module.enums?.some(e => e.name === declName) ||
-                        module.types?.some(t => t.name === declName);
+                        module.types?.some(t => t.name === declName) ||
+                        module.variables?.some(v => v.name === declName);
                     if (hasEntity) {
                         // Check we don't already have an entity or alias with the exported name
                         const alreadyExists =
@@ -435,6 +482,7 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
                         functions: module.functions?.map(f => ({ ...f, exportPath: extra.exportPath })),
                         enums: module.enums?.map(e => ({ ...e, exportPath: extra.exportPath })),
                         types: module.types?.map(t => ({ ...t, exportPath: extra.exportPath })),
+                        variables: module.variables?.map(v => ({ ...v, exportPath: extra.exportPath })),
                         namespaces: module.namespaces
                             ? JSON.parse(JSON.stringify(module.namespaces)).map((ns: any) => {
                                 ns.exportPath = extra.exportPath;
@@ -537,7 +585,7 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
         }
 
         const sfPath = sourceFile.getFilePath();
-        for (const entityList of [module.classes, module.interfaces, module.functions, module.enums, module.types]) {
+        for (const entityList of [module.classes, module.interfaces, module.functions, module.enums, module.types, module.variables]) {
             if (!entityList) continue;
             for (const entity of entityList) {
                 const entityName = (entity as { name?: string }).name;
@@ -591,6 +639,7 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
                 functions: module.functions?.map(f => ({ ...f })),
                 enums: module.enums?.map(e => ({ ...e })),
                 types: module.types?.map(t => ({ ...t })),
+                variables: module.variables?.map(v => ({ ...v })),
                 namespaces: module.namespaces
                     ? JSON.parse(JSON.stringify(module.namespaces))
                     : undefined,
@@ -611,7 +660,7 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
 
     // Populate referencedTypes on all entities from compiler-resolved type refs.
     // This must happen before computeReachableTypes so BFS can use the data.
-    function populateEntityRefs(source: { classes?: { name: string; referencedTypes?: string[] }[]; interfaces?: { name: string; referencedTypes?: string[] }[]; enums?: { name: string; referencedTypes?: string[] }[]; types?: { name: string; referencedTypes?: string[] }[]; functions?: { name?: string; referencedTypes?: string[] }[]; namespaces?: NamespaceInfo[] }, contextRefNames: Map<string, string[]>, prefix = ""): void {
+    function populateEntityRefs(source: { classes?: { name: string; referencedTypes?: string[] }[]; interfaces?: { name: string; referencedTypes?: string[] }[]; enums?: { name: string; referencedTypes?: string[] }[]; types?: { name: string; referencedTypes?: string[] }[]; functions?: { name?: string; referencedTypes?: string[] }[]; variables?: { name: string; referencedTypes?: string[] }[]; namespaces?: NamespaceInfo[] }, contextRefNames: Map<string, string[]>, prefix = ""): void {
         for (const cls of source.classes || []) {
             const key = prefix ? `${prefix}.${cls.name}` : cls.name;
             const refs = contextRefNames.get(key);
@@ -638,6 +687,11 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
             const refs = contextRefNames.get(key);
             if (refs?.length) fn.referencedTypes = refs;
         }
+        for (const v of source.variables || []) {
+            const key = prefix ? `${prefix}.${v.name}` : v.name;
+            const refs = contextRefNames.get(key);
+            if (refs?.length) v.referencedTypes = refs;
+        }
         for (const ns of source.namespaces || []) {
             const nsPrefix = prefix ? `${prefix}.${ns.name}` : ns.name;
             populateEntityRefs(ns, contextRefNames, nsPrefix);
@@ -659,6 +713,7 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
             if (mod.enums) mod.enums = mod.enums.filter(e => reachableTypes.has(makeQualifiedKey(mod.name, e.name)));
             if (mod.types) mod.types = mod.types.filter(t => reachableTypes.has(makeQualifiedKey(mod.name, t.name)));
             if (mod.functions) mod.functions = mod.functions.filter(f => f.name && reachableTypes.has(makeQualifiedKey(mod.name, f.name)));
+            if (mod.variables) mod.variables = mod.variables.filter(v => reachableTypes.has(makeQualifiedKey(mod.name, v.name)));
             // Filter namespace members against the reachable set
             if (mod.namespaces) {
                 mod.namespaces = filterNamespaces(mod.namespaces, reachableTypes, mod.name);
@@ -668,7 +723,7 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
         baseResult.modules = baseResult.modules.filter(m =>
             (m.classes?.length ?? 0) > 0 || (m.interfaces?.length ?? 0) > 0 ||
             (m.enums?.length ?? 0) > 0 || (m.types?.length ?? 0) > 0 ||
-            (m.functions?.length ?? 0) > 0 || (m.namespaces?.length ?? 0) > 0
+            (m.functions?.length ?? 0) > 0 || (m.variables?.length ?? 0) > 0 || (m.namespaces?.length ?? 0) > 0
         );
     }
 

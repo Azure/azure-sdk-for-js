@@ -149,6 +149,19 @@ export interface FunctionInfo {
     referencedTypes?: string[];
 }
 
+export interface VariableInfo {
+    name: string;
+    type: string;
+    isConst?: boolean;
+    entryPoint?: boolean;
+    exportPath?: string;
+    reExportedFrom?: string;
+    doc?: string;
+    deprecated?: boolean;
+    deprecatedMsg?: string;
+    referencedTypes?: string[];
+}
+
 export interface ModuleInfo {
     name: string;
     condition?: string;
@@ -160,6 +173,7 @@ export interface ModuleInfo {
     enums?: EnumInfo[];
     types?: TypeAliasInfo[];
     functions?: FunctionInfo[];
+    variables?: VariableInfo[];
     namespaces?: NamespaceInfo[];
 }
 
@@ -174,6 +188,7 @@ export interface NamespaceInfo {
     enums?: EnumInfo[];
     types?: TypeAliasInfo[];
     functions?: FunctionInfo[];
+    variables?: VariableInfo[];
     namespaces?: NamespaceInfo[];
 }
 

@@ -728,7 +728,7 @@ public static class TypeScriptFormatter
         // and simple rendering paths can use it.
         void RenderModuleTypes(StringBuilder target, List<ClassInfo> classes, List<InterfaceInfo> interfaces,
             List<EnumInfo> enums, List<TypeAliasInfo> typeAliases, List<FunctionInfo> functions,
-            List<NamespaceInfo>? namespaces = null, bool prioritize = false)
+            List<NamespaceInfo>? namespaces = null, List<VariableInfo>? variables = null, bool prioritize = false)
         {
             var renderClasses = prioritize ? GetPrioritizedClasses(classes, typeDeps) : classes;
             foreach (var cls in renderClasses)
@@ -764,6 +764,12 @@ public static class TypeScriptFormatter
                 var fnStr = IndentBlock(FormatReachabilityComment(fn.Name, reachabilityChains) + FormatFunction(fn, insideDeclareModule: true));
                 if (target.Length + fnStr.Length <= maxLength) { target.Append(fnStr); includedItems++; }
             }
+            foreach (var v in variables ?? [])
+            {
+                if (target.Length >= maxLength) break;
+                var varStr = IndentBlock(FormatReachabilityComment(v.Name, reachabilityChains) + FormatVariable(v, insideDeclareModule: true));
+                if (target.Length + varStr.Length <= maxLength) { target.Append(varStr); includedItems++; }
+            }
             foreach (var ns in namespaces ?? [])
             {
                 if (target.Length >= maxLength) break;
@@ -782,22 +788,22 @@ public static class TypeScriptFormatter
         {
             // Group types by (exportPath, condition)
             var moduleGroups = new Dictionary<ModuleKey, (List<ClassInfo> Classes, List<InterfaceInfo> Interfaces,
-                List<EnumInfo> Enums, List<TypeAliasInfo> Types, List<FunctionInfo> Functions, List<NamespaceInfo> Namespaces)>();
+                List<EnumInfo> Enums, List<TypeAliasInfo> Types, List<FunctionInfo> Functions, List<NamespaceInfo> Namespaces, List<VariableInfo> Variables)>();
             var moduleGroupNames = new Dictionary<ModuleKey, (HashSet<string> Classes, HashSet<string> Interfaces,
-                HashSet<string> Enums, HashSet<string> Types, HashSet<string> FuncSigs)>();
+                HashSet<string> Enums, HashSet<string> Types, HashSet<string> FuncSigs, HashSet<string> VarNames)>();
 
             void AddToGroup(ModuleKey groupKey, ClassInfo? cls = null, InterfaceInfo? iface = null,
-                EnumInfo? en = null, TypeAliasInfo? ta = null, FunctionInfo? fn = null, NamespaceInfo? ns = null)
+                EnumInfo? en = null, TypeAliasInfo? ta = null, FunctionInfo? fn = null, NamespaceInfo? ns = null, VariableInfo? v = null)
             {
                 if (!moduleGroups.TryGetValue(groupKey, out var g))
                 {
-                    g = ([], [], [], [], [], []);
+                    g = ([], [], [], [], [], [], []);
                     moduleGroups[groupKey] = g;
                 }
                 if (!moduleGroupNames.TryGetValue(groupKey, out var names))
                 {
                     names = (new(StringComparer.Ordinal), new(StringComparer.Ordinal), new(StringComparer.Ordinal),
-                             new(StringComparer.Ordinal), new(StringComparer.Ordinal));
+                             new(StringComparer.Ordinal), new(StringComparer.Ordinal), new(StringComparer.Ordinal));
                     moduleGroupNames[groupKey] = names;
                 }
                 if (cls is not null && names.Classes.Add(cls.Name))
@@ -832,6 +838,7 @@ public static class TypeScriptFormatter
                     else
                         g.Namespaces.Add(ns);
                 }
+                if (v is not null && names.VarNames.Add(v.Name)) g.Variables.Add(v);
             }
 
             foreach (var module in index.Modules)
@@ -854,6 +861,7 @@ public static class TypeScriptFormatter
                 foreach (var t in module.Types ?? []) AddToGroup(GroupKey(t.ExportPath), ta: t);
                 foreach (var f in module.Functions ?? []) AddToGroup(GroupKey(f.ExportPath), fn: f);
                 foreach (var n in module.Namespaces ?? []) AddToGroup(GroupKey(n.ExportPath), ns: n);
+                foreach (var vr in module.Variables ?? []) AddToGroup(GroupKey(vr.ExportPath), v: vr);
             }
 
             // Sort groups: by exportPath first (. before subpaths), then condition alphabetically
@@ -931,9 +939,9 @@ public static class TypeScriptFormatter
 
             // Merge groups that produce the same module specifier (dedup default+types)
             var mergedDict = new Dictionary<string, (ModuleKey Key, List<ClassInfo> Classes, List<InterfaceInfo> Interfaces,
-                List<EnumInfo> Enums, List<TypeAliasInfo> Types, List<FunctionInfo> Functions, List<NamespaceInfo> Namespaces)>(StringComparer.Ordinal);
+                List<EnumInfo> Enums, List<TypeAliasInfo> Types, List<FunctionInfo> Functions, List<NamespaceInfo> Namespaces, List<VariableInfo> Variables)>(StringComparer.Ordinal);
             var mergedNames = new Dictionary<string, (HashSet<string> Classes, HashSet<string> Interfaces,
-                HashSet<string> Enums, HashSet<string> Types, HashSet<string> Functions, HashSet<string> FuncSigs)>(StringComparer.Ordinal);
+                HashSet<string> Enums, HashSet<string> Types, HashSet<string> Functions, HashSet<string> FuncSigs, HashSet<string> VarNames)>(StringComparer.Ordinal);
             foreach (var (key, group) in sortedGroups)
             {
                 var mn = ComputeGroupModuleName(key.ExportPath, key.Condition);
@@ -972,24 +980,27 @@ public static class TypeScriptFormatter
                         if (names.FuncSigs.Add(funcKey)) existing.Functions.Add(f);
                     }
                     MergeNamespacesInto(existing.Namespaces, group.Namespaces);
+                    foreach (var vr in group.Variables)
+                        if (names.VarNames.Add(vr.Name)) existing.Variables.Add(vr);
                 }
                 else
                 {
                     mergedDict[mn] = (key, new(group.Classes), new(group.Interfaces),
-                        new(group.Enums), new(group.Types), new(group.Functions), new(group.Namespaces));
+                        new(group.Enums), new(group.Types), new(group.Functions), new(group.Namespaces), new(group.Variables));
                     mergedNames[mn] = (
                         new HashSet<string>(group.Classes.Select(c => c.Name), StringComparer.Ordinal),
                         new HashSet<string>(group.Interfaces.Select(i => i.Name), StringComparer.Ordinal),
                         new HashSet<string>(group.Enums.Select(e => e.Name), StringComparer.Ordinal),
                         new HashSet<string>(group.Types.Select(t => t.Name), StringComparer.Ordinal),
                         new HashSet<string>(group.Functions.Select(f => f.Name), StringComparer.Ordinal),
-                        new HashSet<string>(group.Functions.Select(f => $"{f.Name}\0{f.Sig}"), StringComparer.Ordinal));
+                        new HashSet<string>(group.Functions.Select(f => $"{f.Name}\0{f.Sig}"), StringComparer.Ordinal),
+                        new HashSet<string>(group.Variables.Select(vr => vr.Name), StringComparer.Ordinal));
                 }
             }
             sortedGroups = mergedDict.Values
                 .Select(v => KeyValuePair.Create(v.Key,
                     (Classes: v.Classes, Interfaces: v.Interfaces, Enums: v.Enums,
-                     Types: v.Types, Functions: v.Functions, Namespaces: v.Namespaces)))
+                     Types: v.Types, Functions: v.Functions, Namespaces: v.Namespaces, Variables: v.Variables)))
                 .OrderBy(g => g.Key.ExportPath == "." ? "" : g.Key.ExportPath)
                 .ThenBy(g => g.Key.Condition)
                 .ToList();
@@ -1754,7 +1765,7 @@ public static class TypeScriptFormatter
                     if (depsForThisCondition is not null || mainCrossImports.Count > 0 || nodeImports.Count > 0)
                         sb.AppendLine();
 
-                    RenderModuleTypes(sb, group.Classes, group.Interfaces, group.Enums, group.Types, group.Functions, group.Namespaces, prioritize: true);
+                    RenderModuleTypes(sb, group.Classes, group.Interfaces, group.Enums, group.Types, group.Functions, group.Namespaces, group.Variables, prioritize: true);
 
                     sb.AppendLine("}");
                     sb.AppendLine();
@@ -1949,6 +1960,19 @@ public static class TypeScriptFormatter
                 if (mainSb.Length + nsStr.Length <= maxLength)
                 {
                     mainSb.Append(nsStr);
+                    includedItems++;
+                }
+            }
+
+            // Include remaining variables if space permits
+            var allVariables = index.Modules.SelectMany(m => m.Variables ?? []).ToList();
+            foreach (var v in allVariables.Where(v => NormalizeExportPath(v.ExportPath) == "."))
+            {
+                if (mainSb.Length >= maxLength) break;
+                var varStr = FormatReachabilityComment(v.Name, reachabilityChains) + FormatVariable(v);
+                if (mainSb.Length + varStr.Length <= maxLength)
+                {
+                    mainSb.Append(varStr);
                     includedItems++;
                 }
             }
@@ -2349,6 +2373,20 @@ public static class TypeScriptFormatter
         return sb.ToString();
     }
 
+    private static string FormatVariable(VariableInfo v, bool insideDeclareModule = false)
+    {
+        var sb = new StringBuilder();
+        if (v.IsDeprecated == true)
+            sb.AppendLine($"/** @deprecated{(string.IsNullOrWhiteSpace(v.DeprecatedMessage) ? "" : $" {v.DeprecatedMessage}")} */");
+        if (!string.IsNullOrEmpty(v.Doc))
+            sb.AppendLine($"/** {v.Doc} */");
+        var prefix = insideDeclareModule ? "export " : "export declare ";
+        var keyword = v.IsConst == true ? "const" : "let";
+        sb.AppendLine($"{prefix}{keyword} {v.Name}: {v.Type};");
+        sb.AppendLine();
+        return sb.ToString();
+    }
+
     /// <summary>Formats a NamespaceInfo as a TypeScript namespace block.</summary>
     private static string FormatNamespace(NamespaceInfo ns, bool insideDeclareModule = false)
     {
@@ -2365,6 +2403,8 @@ public static class TypeScriptFormatter
             sb.Append(IndentBlock(FormatTypeAlias(t, insideDeclareModule: true)));
         foreach (var f in ns.Functions ?? [])
             sb.Append(IndentBlock(FormatFunction(f, insideDeclareModule: true)));
+        foreach (var v in ns.Variables ?? [])
+            sb.Append(IndentBlock(FormatVariable(v, insideDeclareModule: true)));
         foreach (var sub in ns.Namespaces ?? [])
             sb.Append(IndentBlock(FormatNamespace(sub, insideDeclareModule: true)));
         sb.AppendLine("}");

@@ -25,7 +25,7 @@ public class TypeScriptModelsGenerator : IIncrementalGenerator
     [
         "MethodInfo", "PropertyInfo", "IndexSignatureInfo", "ConstructorInfo",
         "ParameterInfo", "ClassInfo", "CallSignatureInfo", "ConstructSignatureInfo",
-        "InterfaceInfo", "EnumInfo", "TypeAliasInfo", "FunctionInfo",
+        "InterfaceInfo", "EnumInfo", "TypeAliasInfo", "FunctionInfo", "VariableInfo",
         "ModuleInfo", "NamespaceInfo", "ApiIndex", "DependencyInfo",
     ];
 

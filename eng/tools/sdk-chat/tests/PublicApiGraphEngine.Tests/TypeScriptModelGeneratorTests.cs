@@ -460,7 +460,7 @@ public class TypeScriptModelGeneratorTests
         Assert.Empty(diags);
 
         // Should find all 18 interfaces
-        Assert.Equal(18, file.Interfaces.Count);
+        Assert.Equal(19, file.Interfaces.Count);
 
         // All 16 allowlisted + 2 ignored
         var names = file.Interfaces.Select(i => i.Name).ToHashSet();

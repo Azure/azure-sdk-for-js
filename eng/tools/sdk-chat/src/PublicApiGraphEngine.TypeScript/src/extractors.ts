@@ -14,6 +14,8 @@ import {
     ParameterDeclaration,
     IndexSignatureDeclaration,
     ModuleDeclaration,
+    VariableStatement,
+    VariableDeclarationKind,
     JSDocableNode,
     Node,
     Type,
@@ -31,6 +33,7 @@ import type {
     EnumInfo,
     TypeAliasInfo,
     FunctionInfo,
+    VariableInfo,
     ModuleInfo,
     NamespaceInfo,
     CallSignatureInfo,
@@ -877,6 +880,39 @@ export function extractFunction(fn: FunctionDeclaration, ctx: ExtractionContext)
     return result;
 }
 
+export function extractVariable(varStmt: VariableStatement, ctx: ExtractionContext): VariableInfo[] {
+    const results: VariableInfo[] = [];
+    const isConst = varStmt.getDeclarationKind() === VariableDeclarationKind.Const;
+    const doc = getDocString(varStmt);
+    const deprecated = getDeprecatedInfo(varStmt);
+
+    for (const decl of varStmt.getDeclarations()) {
+        const name = decl.getName();
+        if (!name) continue;
+
+        ctx.typeRefs.pushContext(name);
+
+        let typeText: string;
+        const typeNode = decl.getTypeNode();
+        const inferredType = decl.getType();
+        if (typeNode) {
+            typeText = stripImportPrefix(typeNode.getText());
+        } else {
+            typeText = stripImportPrefix(displayType(undefined, inferredType, decl, ctx.namespaceAliases));
+        }
+
+        const info: VariableInfo = { name, type: typeText };
+        if (isConst) info.isConst = true;
+        if (doc) info.doc = doc;
+        if (deprecated.deprecated) info.deprecated = true;
+        if (deprecated.deprecatedMsg) info.deprecatedMsg = deprecated.deprecatedMsg;
+
+        ctx.typeRefs.popContext();
+        results.push(info);
+    }
+    return results;
+}
+
 export function extractNamespace(mod: ModuleDeclaration, ctx: ExtractionContext): NamespaceInfo | null {
     const name = mod.getName();
     if (!name) return null;
@@ -1098,6 +1134,13 @@ export function extractModule(sourceFile: SourceFile, moduleName: string, ctx: E
         .filter((f): f is FunctionInfo => f !== undefined);
     if (functions.length) result.functions = functions;
 
+    const variables: VariableInfo[] = [];
+    for (const varStmt of sourceFile.getVariableStatements()) {
+        if (!varStmt.isExported() || hasInternalOrHiddenTag(varStmt)) continue;
+        variables.push(...extractVariable(varStmt, ctx));
+    }
+    if (variables.length) result.variables = variables;
+
     const namespaces = sourceFile.getModules()
         .filter(m => m.isExported() && !hasInternalOrHiddenTag(m))
         .map(m => extractNamespace(m, ctx))
@@ -1124,6 +1167,7 @@ export function extractModule(sourceFile: SourceFile, moduleName: string, ctx: E
                 if (targetModule.enums) (result.enums ??= []).push(...targetModule.enums);
                 if (targetModule.types) (result.types ??= []).push(...targetModule.types);
                 if (targetModule.functions) (result.functions ??= []).push(...targetModule.functions);
+                if (targetModule.variables) (result.variables ??= []).push(...targetModule.variables);
                 if (targetModule.namespaces) (result.namespaces ??= []).push(...targetModule.namespaces);
             }
             continue;
@@ -1138,7 +1182,8 @@ export function extractModule(sourceFile: SourceFile, moduleName: string, ctx: E
                 result.interfaces?.some(i => i.name === exportedName) ||
                 result.enums?.some(e => e.name === exportedName) ||
                 result.types?.some(t => t.name === exportedName) ||
-                result.functions?.some(f => f.name === exportedName)) {
+                result.functions?.some(f => f.name === exportedName) ||
+                result.variables?.some(v => v.name === exportedName)) {
                 continue;
             }
 
@@ -1179,6 +1224,20 @@ export function extractModule(sourceFile: SourceFile, moduleName: string, ctx: E
                 }
                 continue;
             }
+            // Look for variable/const declarations
+            for (const varStmt of targetFile.getVariableStatements()) {
+                if (!varStmt.isExported() || hasInternalOrHiddenTag(varStmt)) continue;
+                for (const decl of varStmt.getDeclarations()) {
+                    if (decl.getName() === origName) {
+                        const extracted = extractVariable(varStmt, ctx);
+                        const match = extracted.find(v => v.name === origName);
+                        if (match) {
+                            if (exportedName !== origName) match.name = exportedName;
+                            (result.variables ??= []).push(match);
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -1189,6 +1248,7 @@ export function extractModule(sourceFile: SourceFile, moduleName: string, ctx: E
         !result.enums &&
         !result.types &&
         !result.functions &&
+        !result.variables &&
         !result.namespaces
     ) {
         return null;

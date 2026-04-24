@@ -323,6 +323,7 @@ export function getDefinedTypes(api: ApiIndex): Set<string> {
         for (const en of mod.enums || []) defined.add(en.name);
         for (const t of mod.types || []) defined.add(t.name);
         for (const fn of mod.functions || []) { if (fn.name) defined.add(fn.name); }
+        for (const v of mod.variables || []) defined.add(v.name);
         addNamespaceDefinedTypes(mod.namespaces, defined);
     }
     return defined;
@@ -373,6 +374,7 @@ export function computeReachableTypes(api: ApiIndex): Set<string> {
         enums?: { name: string; referencedTypes?: string[] }[];
         types?: { name: string; referencedTypes?: string[] }[];
         functions?: { name?: string; referencedTypes?: string[] }[];
+        variables?: { name: string; referencedTypes?: string[] }[];
         namespaces?: NamespaceInfo[];
     }, moduleName: string, nsPath?: string): void {
         for (const cls of source.classes || []) {
@@ -411,6 +413,13 @@ export function computeReachableTypes(api: ApiIndex): Set<string> {
                 const refs = (fn.referencedTypes ?? []).filter(t => allTypeNames.has(t));
                 if (refs.length) rawRefs.set(qk, refs);
             }
+        }
+        for (const v of source.variables || []) {
+            const qk = makeQualifiedKey(moduleName, v.name, nsPath);
+            registerName(v.name, qk);
+            qkToModule.set(qk, moduleName);
+            const refs = (v.referencedTypes ?? []).filter(t => allTypeNames.has(t));
+            if (refs.length) rawRefs.set(qk, refs);
         }
         for (const ns of source.namespaces || []) {
             const childNsPath = nsPath ? `${nsPath}.${ns.name}` : ns.name;
@@ -497,6 +506,9 @@ export function computeReachableTypes(api: ApiIndex): Set<string> {
         }
         for (const fn of mod.functions || []) {
             if (fn.entryPoint && fn.name) seedScc(makeQualifiedKey(mod.name, fn.name));
+        }
+        for (const v of mod.variables || []) {
+            if (v.entryPoint) seedScc(makeQualifiedKey(mod.name, v.name));
         }
         seedNamespaceSccs(mod.namespaces, seedScc, mod.name);
     }
