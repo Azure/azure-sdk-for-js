@@ -124,7 +124,6 @@ You will need to add a sample configuration section in your `package.json` file 
 Now, you can generate both JavaScript and TypeScript workable samples with the following commands.
 
 ```shell
-npm install -g common/tools/dev-tool # make sure you are in the azure-sdk-for-js repo root directory
 cd ${PROJECT_ROOT}
 npx dev-tool samples publish -f
 ```

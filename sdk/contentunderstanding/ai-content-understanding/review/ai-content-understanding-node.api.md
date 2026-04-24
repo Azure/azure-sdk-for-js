@@ -52,6 +52,7 @@ export interface AnalysisResult {
 // @public (undocumented)
 export interface AnalysisResultPoller extends PollerLike<OperationState_2<AnalysisResult>, AnalysisResult> {
     operationId?: string;
+    usage?: UsageDetails;
 }
 
 // @public

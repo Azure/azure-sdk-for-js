@@ -13,6 +13,8 @@ import {
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 import { DEFAULT_CYCLER_OPTIONS } from "../../src/util/tokenCycler.js";
 
+const defaultRequest = () => createPipelineRequest({ url: "https://example.com" });
+
 const { refreshWindowInMs: defaultRefreshWindow } = DEFAULT_CYCLER_OPTIONS;
 
 describe("AuxiliaryAuthenticationHeaderPolicy", function () {
@@ -33,7 +35,7 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
       getToken: fakeGetToken,
     };
 
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,
@@ -81,7 +83,7 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
       getToken: fakeGetToken2,
     };
 
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,
@@ -112,7 +114,7 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
     const shortCredential = new MockRefreshAzureCredential(tokenExpiration);
     const longCredential = new MockRefreshAzureCredential(Date.now() + expireDelayMs * 3);
 
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,
@@ -162,7 +164,7 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
     const getTokenDelay = 100;
     const credential = new MockRefreshAzureCredential(tokenExpiration, getTokenDelay);
 
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,
@@ -175,13 +177,7 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
 
     credential.shouldThrow = true;
 
-    let error: Error | undefined;
-    try {
-      await policy.sendRequest(request, next);
-    } catch (e: any) {
-      error = e;
-    }
-    assert.equal(error?.message, "Failed to retrieve the token");
+    await expect(policy.sendRequest(request, next)).rejects.toThrow("Failed to retrieve the token");
 
     assert.strictEqual(
       credential.authCount,
@@ -199,31 +195,21 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
     const policy = createAuxiliaryAuthenticationHeaderPolicy("test-scope", [credential]);
     const next = vi.fn<SendRequest>();
 
-    let error: Error | undefined;
-    try {
-      await policy.sendRequest(request, next);
-    } catch (e: any) {
-      error = e;
-    }
-
-    assert.equal(
-      error?.message,
+    await expect(policy.sendRequest(request, next)).rejects.toThrow(
       "Bearer token authentication for auxiliary header is not permitted for non-TLS protected (non-https) URLs.",
     );
   });
 
   it("should not add auxiliary header if all tokens are invalid", async function () {
     const tokenScopes = ["scope1", "scope2"];
-    const fakeGetToken1 = vi.fn().mockResolvedValue({
-      token: null,
+    const fakeGetToken1 = vi.fn<TokenCredential["getToken"]>().mockResolvedValue({
+      token: "",
       expiresOnTimestamp: new Date().getTime(),
-    } as unknown as AccessToken);
-    const fakeGetToken2 = vi.fn().mockResolvedValue(
-      Promise.resolve({
-        token: null,
-        expiresOnTimestamp: new Date().getTime(),
-      } as unknown as AccessToken),
-    );
+    });
+    const fakeGetToken2 = vi.fn<TokenCredential["getToken"]>().mockResolvedValue({
+      token: "",
+      expiresOnTimestamp: new Date().getTime(),
+    });
     const mockCredential1: TokenCredential = {
       getToken: fakeGetToken1,
     };
@@ -231,7 +217,7 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
       getToken: fakeGetToken2,
     };
 
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = defaultRequest();
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,
@@ -288,3 +274,50 @@ class MockRefreshAzureCredential implements TokenCredential {
     return { token: "mock-token", expiresOnTimestamp: this.expiresOnTimestamp };
   }
 }
+
+describe("AuxiliaryAuthenticationHeaderPolicy - with fake timers", function () {
+  beforeEach(() => {
+    vi.useFakeTimers({ now: Date.now() });
+  });
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it("skips setting header when credentials is an empty array", async function () {
+    const request = defaultRequest();
+    const successResponse: PipelineResponse = {
+      headers: createHttpHeaders(),
+      request,
+      status: 200,
+    };
+    const next = vi.fn<SendRequest>();
+    next.mockResolvedValue(successResponse);
+
+    const policy = auxiliaryAuthenticationHeaderPolicy({
+      scopes: ["scope1"],
+      credentials: [],
+    });
+
+    await policy.sendRequest(request, next);
+    assert.isUndefined(request.headers.get("x-ms-authorization-auxiliary"));
+  });
+
+  it("skips setting header when credentials is undefined", async function () {
+    const request = defaultRequest();
+    const successResponse: PipelineResponse = {
+      headers: createHttpHeaders(),
+      request,
+      status: 200,
+    };
+    const next = vi.fn<SendRequest>();
+    next.mockResolvedValue(successResponse);
+
+    const policy = auxiliaryAuthenticationHeaderPolicy({
+      scopes: ["scope1"],
+      credentials: undefined,
+    });
+
+    await policy.sendRequest(request, next);
+    assert.isUndefined(request.headers.get("x-ms-authorization-auxiliary"));
+  });
+});
