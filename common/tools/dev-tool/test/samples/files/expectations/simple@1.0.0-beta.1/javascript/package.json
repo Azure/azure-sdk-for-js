@@ -3,6 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "description": "Azure Template client library samples for JavaScript (Beta)",
+  "type": "commonjs",
   "engines": {
     "node": ">=20.0.0"
   },

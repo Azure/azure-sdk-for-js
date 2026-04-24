@@ -6,6 +6,10 @@
  *
  * It handles collecting, checking, and processing all of the package's data
  * that are eventually used to generate a coherent set of sample programs.
+ *
+ * When a package has sample-test files (test/public/ files with @summary),
+ * those are compiled first and the output is used as the sample source.
+ * Otherwise, it falls back to the traditional samples-dev/ directory.
  */
 
 import path from "node:path";
@@ -14,6 +18,7 @@ import { createPrinter } from "../../util/printer";
 import { resolveProject } from "../../util/resolveProject";
 import { PUBLIC_SAMPLES_BASE } from "../../util/samples/info";
 import { makeSamplesFactory } from "../../util/samples/generation";
+import { compileSampleTests } from "../../util/samples/compileSampleTests";
 
 export const log = createPrinter("publish");
 
@@ -39,6 +44,10 @@ export const commandInfo = makeCommandInfo(
 /**
  * "Publishes" samples by creating copies of the existing samples sources that
  * have the associated metadata used to publish samples.
+ *
+ * If the package contains sample-test files (test files with @summary under
+ * test/public/), those are compiled into publishable samples first, and the
+ * compiled output is used as the source. Otherwise, samples-dev/ is used.
  */
 export default leafCommand(commandInfo, async (options) => {
   const projectInfo = await resolveProject(process.cwd());
@@ -49,16 +58,28 @@ export default leafCommand(commandInfo, async (options) => {
 
   log.debug("Using output path:", basePath);
 
-  // This creates the samples output
+  // Check for sample-test files and compile them if present
+  let compileResult: Awaited<ReturnType<typeof compileSampleTests>> = null;
+
   try {
+    compileResult = await compileSampleTests(projectInfo.path, projectInfo.name);
+
+    // Use compiled output as source path, or fall back to samples-dev/
+    const sourcePath = compileResult?.stagingDir ?? undefined;
+
     // Gather sample meta-information and use it to assemble a template
-    const factory = await makeSamplesFactory(projectInfo, undefined, { force: options?.force });
+    const factory = await makeSamplesFactory(projectInfo, sourcePath, {
+      force: options?.force,
+    });
 
     // This is where the actual magic of creating the output from the template happens
     await factory(basePath);
   } catch (ex: unknown) {
     log.error((ex as Error).message);
     return false;
+  } finally {
+    // Clean up the staging directory
+    await compileResult?.cleanup();
   }
 
   log.success("Created camera-ready samples.");
