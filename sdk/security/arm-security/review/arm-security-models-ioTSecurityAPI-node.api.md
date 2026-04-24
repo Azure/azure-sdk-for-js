@@ -5,27 +5,27 @@
 ```ts
 
 // @public
-export type IoTSecurityAPIAdditionalWorkspaceDataType = string;
+export type AdditionalWorkspaceDataType = string;
 
 // @public
-export interface IoTSecurityAPIAdditionalWorkspacesProperties {
-    dataTypes?: IoTSecurityAPIAdditionalWorkspaceDataType[];
-    type?: IoTSecurityAPIAdditionalWorkspaceType;
+export interface AdditionalWorkspacesProperties {
+    dataTypes?: AdditionalWorkspaceDataType[];
+    type?: AdditionalWorkspaceType;
     workspace?: string;
 }
 
 // @public
-export type IoTSecurityAPIAdditionalWorkspaceType = string;
+export type AdditionalWorkspaceType = string;
 
 // @public
-export interface IoTSecurityAPIAllowlistCustomAlertRule extends IoTSecurityAPIListCustomAlertRule {
+export interface AllowlistCustomAlertRule extends ListCustomAlertRule {
     allowlistValues: string[];
     // (undocumented)
     ruleType: "AllowlistCustomAlertRule";
 }
 
 // @public
-export interface IoTSecurityAPICustomAlertRule {
+export interface CustomAlertRule {
     readonly description?: string;
     readonly displayName?: string;
     isEnabled: boolean;
@@ -33,39 +33,39 @@ export interface IoTSecurityAPICustomAlertRule {
 }
 
 // @public
-export type IoTSecurityAPICustomAlertRuleUnion = IoTSecurityAPIThresholdCustomAlertRule | IoTSecurityAPITimeWindowCustomAlertRule | IoTSecurityAPIListCustomAlertRuleUnion | IoTSecurityAPICustomAlertRule;
+export type CustomAlertRuleUnion = ThresholdCustomAlertRuleUnion | ListCustomAlertRuleUnion | CustomAlertRule;
 
 // @public
-export type IoTSecurityAPIDataSource = string;
+export type DataSource = string;
 
 // @public
-export interface IoTSecurityAPIDenylistCustomAlertRule extends IoTSecurityAPIListCustomAlertRule {
+export interface DenylistCustomAlertRule extends ListCustomAlertRule {
     denylistValues: string[];
     // (undocumented)
     ruleType: "DenylistCustomAlertRule";
 }
 
 // @public
-export interface IoTSecurityAPIDeviceSecurityGroup extends ExtensionResource {
-    allowlistRules?: IoTSecurityAPIAllowlistCustomAlertRule[];
-    denylistRules?: IoTSecurityAPIDenylistCustomAlertRule[];
-    thresholdRules?: IoTSecurityAPIThresholdCustomAlertRule[];
-    timeWindowRules?: IoTSecurityAPITimeWindowCustomAlertRule[];
+export interface DeviceSecurityGroup extends ExtensionResource {
+    allowlistRules?: AllowlistCustomAlertRule[];
+    denylistRules?: DenylistCustomAlertRule[];
+    thresholdRules?: ThresholdCustomAlertRuleUnion[];
+    timeWindowRules?: TimeWindowCustomAlertRule[];
 }
 
 // @public
-export interface IoTSecurityAPIDeviceSecurityGroupProperties {
-    allowlistRules?: IoTSecurityAPIAllowlistCustomAlertRule[];
-    denylistRules?: IoTSecurityAPIDenylistCustomAlertRule[];
-    thresholdRules?: IoTSecurityAPIThresholdCustomAlertRule[];
-    timeWindowRules?: IoTSecurityAPITimeWindowCustomAlertRule[];
+export interface DeviceSecurityGroupProperties {
+    allowlistRules?: AllowlistCustomAlertRule[];
+    denylistRules?: DenylistCustomAlertRule[];
+    thresholdRules?: ThresholdCustomAlertRuleUnion[];
+    timeWindowRules?: TimeWindowCustomAlertRule[];
 }
 
 // @public
-export type IoTSecurityAPIExportData = string;
+export type ExportData = string;
 
 // @public
-export interface IoTSecurityAPIIoTSecurityAggregatedAlert extends ProxyResource {
+export interface IoTSecurityAggregatedAlert extends ProxyResource {
     readonly actionTaken?: string;
     readonly aggregatedDateUtc?: Date;
     readonly alertDisplayName?: string;
@@ -75,15 +75,15 @@ export interface IoTSecurityAPIIoTSecurityAggregatedAlert extends ProxyResource 
     readonly effectedResourceType?: string;
     readonly logAnalyticsQuery?: string;
     readonly remediationSteps?: string;
-    readonly reportedSeverity?: IoTSecurityAPIReportedSeverity;
+    readonly reportedSeverity?: ReportedSeverity;
     readonly systemSource?: string;
     tags?: Record<string, string>;
-    readonly topDevicesList?: IoTSecurityAPIIoTSecurityAggregatedAlertPropertiesTopDevicesListItem[];
+    readonly topDevicesList?: IoTSecurityAggregatedAlertPropertiesTopDevicesListItem[];
     readonly vendorName?: string;
 }
 
 // @public
-export interface IoTSecurityAPIIoTSecurityAggregatedAlertProperties {
+export interface IoTSecurityAggregatedAlertProperties {
     readonly actionTaken?: string;
     readonly aggregatedDateUtc?: Date;
     readonly alertDisplayName?: string;
@@ -93,21 +93,21 @@ export interface IoTSecurityAPIIoTSecurityAggregatedAlertProperties {
     readonly effectedResourceType?: string;
     readonly logAnalyticsQuery?: string;
     readonly remediationSteps?: string;
-    readonly reportedSeverity?: IoTSecurityAPIReportedSeverity;
+    readonly reportedSeverity?: ReportedSeverity;
     readonly systemSource?: string;
-    readonly topDevicesList?: IoTSecurityAPIIoTSecurityAggregatedAlertPropertiesTopDevicesListItem[];
+    readonly topDevicesList?: IoTSecurityAggregatedAlertPropertiesTopDevicesListItem[];
     readonly vendorName?: string;
 }
 
 // @public
-export interface IoTSecurityAPIIoTSecurityAggregatedAlertPropertiesTopDevicesListItem {
+export interface IoTSecurityAggregatedAlertPropertiesTopDevicesListItem {
     readonly alertsCount?: number;
     readonly deviceId?: string;
     readonly lastOccurrence?: string;
 }
 
 // @public
-export interface IoTSecurityAPIIoTSecurityAggregatedRecommendation extends ProxyResource {
+export interface IoTSecurityAggregatedRecommendation extends ProxyResource {
     readonly description?: string;
     readonly detectedBy?: string;
     readonly healthyDevices?: number;
@@ -116,13 +116,13 @@ export interface IoTSecurityAPIIoTSecurityAggregatedRecommendation extends Proxy
     recommendationName?: string;
     readonly recommendationTypeId?: string;
     readonly remediationSteps?: string;
-    readonly reportedSeverity?: IoTSecurityAPIReportedSeverity;
+    readonly reportedSeverity?: ReportedSeverity;
     tags?: Record<string, string>;
     readonly unhealthyDeviceCount?: number;
 }
 
 // @public
-export interface IoTSecurityAPIIoTSecurityAggregatedRecommendationProperties {
+export interface IoTSecurityAggregatedRecommendationProperties {
     readonly description?: string;
     readonly detectedBy?: string;
     readonly healthyDevices?: number;
@@ -131,206 +131,130 @@ export interface IoTSecurityAPIIoTSecurityAggregatedRecommendationProperties {
     recommendationName?: string;
     readonly recommendationTypeId?: string;
     readonly remediationSteps?: string;
-    readonly reportedSeverity?: IoTSecurityAPIReportedSeverity;
+    readonly reportedSeverity?: ReportedSeverity;
     readonly unhealthyDeviceCount?: number;
 }
 
 // @public
-export interface IoTSecurityAPIIoTSecurityAlertedDevice {
+export interface IoTSecurityAlertedDevice {
     readonly alertsCount?: number;
     readonly deviceId?: string;
 }
 
 // @public
-export interface IoTSecurityAPIIoTSecurityDeviceAlert {
+export interface IoTSecurityDeviceAlert {
     readonly alertDisplayName?: string;
     readonly alertsCount?: number;
-    readonly reportedSeverity?: IoTSecurityAPIReportedSeverity;
+    readonly reportedSeverity?: ReportedSeverity;
 }
 
 // @public
-export interface IoTSecurityAPIIoTSecurityDeviceRecommendation {
+export interface IoTSecurityDeviceRecommendation {
     readonly devicesCount?: number;
     readonly recommendationDisplayName?: string;
-    readonly reportedSeverity?: IoTSecurityAPIReportedSeverity;
+    readonly reportedSeverity?: ReportedSeverity;
 }
 
 // @public
-export interface IoTSecurityAPIIoTSecuritySolutionAnalyticsModel extends ProxyResource {
-    readonly devicesMetrics?: IoTSecurityAPIIoTSecuritySolutionAnalyticsModelPropertiesDevicesMetricsItem[];
-    readonly metrics?: IoTSecurityAPIIoTSeverityMetrics;
-    mostPrevalentDeviceAlerts?: IoTSecurityAPIIoTSecurityDeviceAlert[];
-    mostPrevalentDeviceRecommendations?: IoTSecurityAPIIoTSecurityDeviceRecommendation[];
-    topAlertedDevices?: IoTSecurityAPIIoTSecurityAlertedDevice[];
+export interface IoTSecuritySolutionAnalyticsModel extends ProxyResource {
+    readonly devicesMetrics?: IoTSecuritySolutionAnalyticsModelPropertiesDevicesMetricsItem[];
+    readonly metrics?: IoTSeverityMetrics;
+    mostPrevalentDeviceAlerts?: IoTSecurityDeviceAlert[];
+    mostPrevalentDeviceRecommendations?: IoTSecurityDeviceRecommendation[];
+    topAlertedDevices?: IoTSecurityAlertedDevice[];
     readonly unhealthyDeviceCount?: number;
 }
 
 // @public
-export interface IoTSecurityAPIIoTSecuritySolutionAnalyticsModelList {
+export interface IoTSecuritySolutionAnalyticsModelList {
     nextLink?: string;
-    value: IoTSecurityAPIIoTSecuritySolutionAnalyticsModel[];
+    value: IoTSecuritySolutionAnalyticsModel[];
 }
 
 // @public
-export interface IoTSecurityAPIIoTSecuritySolutionAnalyticsModelProperties {
-    readonly devicesMetrics?: IoTSecurityAPIIoTSecuritySolutionAnalyticsModelPropertiesDevicesMetricsItem[];
-    readonly metrics?: IoTSecurityAPIIoTSeverityMetrics;
-    mostPrevalentDeviceAlerts?: IoTSecurityAPIIoTSecurityDeviceAlert[];
-    mostPrevalentDeviceRecommendations?: IoTSecurityAPIIoTSecurityDeviceRecommendation[];
-    topAlertedDevices?: IoTSecurityAPIIoTSecurityAlertedDevice[];
+export interface IoTSecuritySolutionAnalyticsModelProperties {
+    readonly devicesMetrics?: IoTSecuritySolutionAnalyticsModelPropertiesDevicesMetricsItem[];
+    readonly metrics?: IoTSeverityMetrics;
+    mostPrevalentDeviceAlerts?: IoTSecurityDeviceAlert[];
+    mostPrevalentDeviceRecommendations?: IoTSecurityDeviceRecommendation[];
+    topAlertedDevices?: IoTSecurityAlertedDevice[];
     readonly unhealthyDeviceCount?: number;
 }
 
 // @public
-export interface IoTSecurityAPIIoTSecuritySolutionAnalyticsModelPropertiesDevicesMetricsItem {
+export interface IoTSecuritySolutionAnalyticsModelPropertiesDevicesMetricsItem {
     date?: Date;
-    devicesMetrics?: IoTSecurityAPIIoTSeverityMetrics;
+    devicesMetrics?: IoTSeverityMetrics;
 }
 
 // @public
-export interface IoTSecurityAPIIoTSecuritySolutionModel extends ProxyResource {
-    additionalWorkspaces?: IoTSecurityAPIAdditionalWorkspacesProperties[];
+export interface IoTSecuritySolutionModel extends ProxyResource {
+    additionalWorkspaces?: AdditionalWorkspacesProperties[];
     readonly autoDiscoveredResources?: string[];
-    disabledDataSources?: IoTSecurityAPIDataSource[];
+    disabledDataSources?: DataSource[];
     displayName?: string;
-    export?: IoTSecurityAPIExportData[];
+    export?: ExportData[];
     iotHubs?: string[];
     location?: string;
-    recommendationsConfiguration?: IoTSecurityAPIRecommendationConfigurationProperties[];
-    status?: IoTSecurityAPISecuritySolutionStatus;
+    recommendationsConfiguration?: RecommendationConfigurationProperties[];
+    status?: SecuritySolutionStatus;
     tags?: Record<string, string>;
-    unmaskedIpLoggingStatus?: IoTSecurityAPIUnmaskedIpLoggingStatus;
-    userDefinedResources?: IoTSecurityAPIUserDefinedResourcesProperties;
+    unmaskedIpLoggingStatus?: UnmaskedIpLoggingStatus;
+    userDefinedResources?: UserDefinedResourcesProperties;
     workspace?: string;
 }
 
 // @public
-export interface IoTSecurityAPIIoTSecuritySolutionProperties {
-    additionalWorkspaces?: IoTSecurityAPIAdditionalWorkspacesProperties[];
+export interface IoTSecuritySolutionProperties {
+    additionalWorkspaces?: AdditionalWorkspacesProperties[];
     readonly autoDiscoveredResources?: string[];
-    disabledDataSources?: IoTSecurityAPIDataSource[];
+    disabledDataSources?: DataSource[];
     displayName: string;
-    export?: IoTSecurityAPIExportData[];
+    export?: ExportData[];
     iotHubs: string[];
-    recommendationsConfiguration?: IoTSecurityAPIRecommendationConfigurationProperties[];
-    status?: IoTSecurityAPISecuritySolutionStatus;
-    unmaskedIpLoggingStatus?: IoTSecurityAPIUnmaskedIpLoggingStatus;
-    userDefinedResources?: IoTSecurityAPIUserDefinedResourcesProperties;
+    recommendationsConfiguration?: RecommendationConfigurationProperties[];
+    status?: SecuritySolutionStatus;
+    unmaskedIpLoggingStatus?: UnmaskedIpLoggingStatus;
+    userDefinedResources?: UserDefinedResourcesProperties;
     workspace?: string;
 }
 
 // @public
-export interface IoTSecurityAPIIoTSeverityMetrics {
+export interface IoTSeverityMetrics {
     high?: number;
     low?: number;
     medium?: number;
 }
 
 // @public
-export interface IoTSecurityAPIListCustomAlertRule extends IoTSecurityAPICustomAlertRule {
-    // (undocumented)
-    ruleType: "ListCustomAlertRule" | "AllowlistCustomAlertRule" | "DenylistCustomAlertRule";
-    readonly valueType?: IoTSecurityAPIValueType;
-}
-
-// @public
-export type IoTSecurityAPIListCustomAlertRuleUnion = IoTSecurityAPIAllowlistCustomAlertRule | IoTSecurityAPIDenylistCustomAlertRule | IoTSecurityAPIListCustomAlertRule;
-
-// @public
-export type IoTSecurityAPIRecommendationConfigStatus = string;
-
-// @public
-export interface IoTSecurityAPIRecommendationConfigurationProperties {
-    // (undocumented)
-    readonly name?: string;
-    recommendationType: IoTSecurityAPIRecommendationType;
-    status: IoTSecurityAPIRecommendationConfigStatus;
-}
-
-// @public
-export type IoTSecurityAPIRecommendationType = string;
-
-// @public
-export type IoTSecurityAPIReportedSeverity = string;
-
-// @public
-export type IoTSecurityAPISecuritySolutionStatus = string;
-
-// @public
-export interface IoTSecurityAPITagsResource {
-    tags?: Record<string, string>;
-}
-
-// @public
-export interface IoTSecurityAPIThresholdCustomAlertRule extends IoTSecurityAPICustomAlertRule {
-    maxThreshold: number;
-    minThreshold: number;
-    // (undocumented)
-    ruleType: "ThresholdCustomAlertRule";
-}
-
-// @public
-export interface IoTSecurityAPITimeWindowCustomAlertRule extends IoTSecurityAPICustomAlertRule {
-    maxThreshold: number;
-    minThreshold: number;
-    // (undocumented)
-    ruleType: "TimeWindowCustomAlertRule";
-    timeWindowSize: string;
-}
-
-// @public
-export type IoTSecurityAPIUnmaskedIpLoggingStatus = string;
-
-// @public
-export interface IoTSecurityAPIUpdateIotSecuritySolutionData extends IoTSecurityAPITagsResource {
-    recommendationsConfiguration?: IoTSecurityAPIRecommendationConfigurationProperties[];
-    userDefinedResources?: IoTSecurityAPIUserDefinedResourcesProperties;
-}
-
-// @public
-export interface IoTSecurityAPIUpdateIoTSecuritySolutionProperties {
-    recommendationsConfiguration?: IoTSecurityAPIRecommendationConfigurationProperties[];
-    userDefinedResources?: IoTSecurityAPIUserDefinedResourcesProperties;
-}
-
-// @public
-export interface IoTSecurityAPIUserDefinedResourcesProperties {
-    query: string | null;
-    querySubscriptions: string[] | null;
-}
-
-// @public
-export type IoTSecurityAPIValueType = string;
-
-// @public
-export enum KnownIoTSecurityAPIAdditionalWorkspaceDataType {
+export enum KnownAdditionalWorkspaceDataType {
     Alerts = "Alerts",
     RawEvents = "RawEvents"
 }
 
 // @public
-export enum KnownIoTSecurityAPIAdditionalWorkspaceType {
+export enum KnownAdditionalWorkspaceType {
     Sentinel = "Sentinel"
 }
 
 // @public
-export enum KnownIoTSecurityAPIDataSource {
+export enum KnownDataSource {
     TwinData = "TwinData"
 }
 
 // @public
-export enum KnownIoTSecurityAPIExportData {
+export enum KnownExportData {
     RawEvents = "RawEvents"
 }
 
 // @public
-export enum KnownIoTSecurityAPIRecommendationConfigStatus {
+export enum KnownRecommendationConfigStatus {
     Disabled = "Disabled",
     Enabled = "Enabled"
 }
 
 // @public
-export enum KnownIoTSecurityAPIRecommendationType {
+export enum KnownRecommendationType {
     IoTAcrauthentication = "IoT_ACRAuthentication",
     IoTAgentSendsUnutilizedMessages = "IoT_AgentSendsUnutilizedMessages",
     IoTBaseline = "IoT_Baseline",
@@ -350,7 +274,7 @@ export enum KnownIoTSecurityAPIRecommendationType {
 }
 
 // @public
-export enum KnownIoTSecurityAPIReportedSeverity {
+export enum KnownReportedSeverity {
     High = "High",
     Informational = "Informational",
     Low = "Low",
@@ -358,22 +282,99 @@ export enum KnownIoTSecurityAPIReportedSeverity {
 }
 
 // @public
-export enum KnownIoTSecurityAPISecuritySolutionStatus {
+export enum KnownSecuritySolutionStatus {
     Disabled = "Disabled",
     Enabled = "Enabled"
 }
 
 // @public
-export enum KnownIoTSecurityAPIUnmaskedIpLoggingStatus {
+export enum KnownUnmaskedIpLoggingStatus {
     Disabled = "Disabled",
     Enabled = "Enabled"
 }
 
 // @public
-export enum KnownIoTSecurityAPIValueType {
+export enum KnownValueType {
     IpCidr = "IpCidr",
     String = "String"
 }
+
+// @public
+export interface ListCustomAlertRule extends CustomAlertRule {
+    // (undocumented)
+    ruleType: "ListCustomAlertRule" | "AllowlistCustomAlertRule" | "DenylistCustomAlertRule";
+    readonly valueType?: ValueType;
+}
+
+// @public
+export type ListCustomAlertRuleUnion = AllowlistCustomAlertRule | DenylistCustomAlertRule | ListCustomAlertRule;
+
+// @public
+export type RecommendationConfigStatus = string;
+
+// @public
+export interface RecommendationConfigurationProperties {
+    // (undocumented)
+    readonly name?: string;
+    recommendationType: RecommendationType;
+    status: RecommendationConfigStatus;
+}
+
+// @public
+export type RecommendationType = string;
+
+// @public
+export type ReportedSeverity = string;
+
+// @public
+export type SecuritySolutionStatus = string;
+
+// @public
+export interface TagsResource {
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface ThresholdCustomAlertRule extends CustomAlertRule {
+    maxThreshold: number;
+    minThreshold: number;
+    // (undocumented)
+    ruleType: "ThresholdCustomAlertRule" | "TimeWindowCustomAlertRule";
+}
+
+// @public
+export type ThresholdCustomAlertRuleUnion = TimeWindowCustomAlertRule | ThresholdCustomAlertRule;
+
+// @public
+export interface TimeWindowCustomAlertRule extends ThresholdCustomAlertRule {
+    // (undocumented)
+    ruleType: "TimeWindowCustomAlertRule";
+    timeWindowSize: string;
+}
+
+// @public
+export type UnmaskedIpLoggingStatus = string;
+
+// @public
+export interface UpdateIotSecuritySolutionData extends TagsResource {
+    recommendationsConfiguration?: RecommendationConfigurationProperties[];
+    userDefinedResources?: UserDefinedResourcesProperties;
+}
+
+// @public
+export interface UpdateIoTSecuritySolutionProperties {
+    recommendationsConfiguration?: RecommendationConfigurationProperties[];
+    userDefinedResources?: UserDefinedResourcesProperties;
+}
+
+// @public
+export interface UserDefinedResourcesProperties {
+    query: string | null;
+    querySubscriptions: string[] | null;
+}
+
+// @public
+export type ValueType = string;
 
 // (No @packageDocumentation comment for this package)
 

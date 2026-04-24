@@ -9,8 +9,8 @@ import type {
   InformationProtectionPoliciesGetOptionalParams,
 } from "../../api/informationProtectionPolicies/options.js";
 import type {
-  LegacySettingsAPIInformationProtectionPolicy,
-  LegacySettingsAPIInformationProtectionPolicyName,
+  InformationProtectionPolicy,
+  InformationProtectionPolicyName,
 } from "../../models/legacySettingsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
@@ -20,20 +20,20 @@ export interface InformationProtectionPoliciesOperations {
   list: (
     scope: string,
     options?: InformationProtectionPoliciesListOptionalParams,
-  ) => PagedAsyncIterableIterator<LegacySettingsAPIInformationProtectionPolicy>;
+  ) => PagedAsyncIterableIterator<InformationProtectionPolicy>;
   /** Details of the information protection policy. */
   createOrUpdate: (
     scope: string,
-    informationProtectionPolicyName: LegacySettingsAPIInformationProtectionPolicyName,
-    informationProtectionPolicy: LegacySettingsAPIInformationProtectionPolicy,
+    informationProtectionPolicyName: InformationProtectionPolicyName,
+    informationProtectionPolicy: InformationProtectionPolicy,
     options?: InformationProtectionPoliciesCreateOrUpdateOptionalParams,
-  ) => Promise<LegacySettingsAPIInformationProtectionPolicy>;
+  ) => Promise<InformationProtectionPolicy>;
   /** Details of the information protection policy. */
   get: (
     scope: string,
-    informationProtectionPolicyName: LegacySettingsAPIInformationProtectionPolicyName,
+    informationProtectionPolicyName: InformationProtectionPolicyName,
     options?: InformationProtectionPoliciesGetOptionalParams,
-  ) => Promise<LegacySettingsAPIInformationProtectionPolicy>;
+  ) => Promise<InformationProtectionPolicy>;
 }
 
 function _getInformationProtectionPolicies(context: SecurityCenterContext) {
@@ -42,8 +42,8 @@ function _getInformationProtectionPolicies(context: SecurityCenterContext) {
       list(context, scope, options),
     createOrUpdate: (
       scope: string,
-      informationProtectionPolicyName: LegacySettingsAPIInformationProtectionPolicyName,
-      informationProtectionPolicy: LegacySettingsAPIInformationProtectionPolicy,
+      informationProtectionPolicyName: InformationProtectionPolicyName,
+      informationProtectionPolicy: InformationProtectionPolicy,
       options?: InformationProtectionPoliciesCreateOrUpdateOptionalParams,
     ) =>
       createOrUpdate(
@@ -55,7 +55,7 @@ function _getInformationProtectionPolicies(context: SecurityCenterContext) {
       ),
     get: (
       scope: string,
-      informationProtectionPolicyName: LegacySettingsAPIInformationProtectionPolicyName,
+      informationProtectionPolicyName: InformationProtectionPolicyName,
       options?: InformationProtectionPoliciesGetOptionalParams,
     ) => get(context, scope, informationProtectionPolicyName, options),
   };

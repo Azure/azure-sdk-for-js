@@ -8,27 +8,25 @@ import type {
   TopologyListByHomeRegionOptionalParams,
   TopologyGetOptionalParams,
 } from "../../api/topology/options.js";
-import type { SecuritySolutionsAPITopologyResource } from "../../models/securitySolutionsAPI/models.js";
+import type { TopologyResource } from "../../models/securitySolutionsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Topology operations. */
 export interface TopologyOperations {
   /** Gets a list that allows to build a topology view of a subscription. */
-  list: (
-    options?: TopologyListOptionalParams,
-  ) => PagedAsyncIterableIterator<SecuritySolutionsAPITopologyResource>;
+  list: (options?: TopologyListOptionalParams) => PagedAsyncIterableIterator<TopologyResource>;
   /** Gets a list that allows to build a topology view of a subscription and location. */
   listByHomeRegion: (
     ascLocation: string,
     options?: TopologyListByHomeRegionOptionalParams,
-  ) => PagedAsyncIterableIterator<SecuritySolutionsAPITopologyResource>;
+  ) => PagedAsyncIterableIterator<TopologyResource>;
   /** Gets a specific topology component. */
   get: (
     resourceGroupName: string,
     ascLocation: string,
     topologyResourceName: string,
     options?: TopologyGetOptionalParams,
-  ) => Promise<SecuritySolutionsAPITopologyResource>;
+  ) => Promise<TopologyResource>;
 }
 
 function _getTopology(context: SecurityCenterContext) {

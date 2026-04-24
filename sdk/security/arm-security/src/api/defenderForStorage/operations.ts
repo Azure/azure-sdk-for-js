@@ -2,18 +2,18 @@
 // Licensed under the MIT License.
 
 import type { SecurityCenterContext as Client } from "../index.js";
-import type { CommonSettingName } from "../../models/common/models.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
+import type { SettingName } from "../../models/common/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
 import type {
-  DefenderForStorageAPIDefenderForStorageSetting,
-  _DefenderForStorageAPIDefenderForStorageSettingList,
-  DefenderForStorageAPIMalwareScan,
+  DefenderForStorageSetting,
+  _DefenderForStorageSettingList,
+  MalwareScan,
 } from "../../models/defenderForStorageAPI/models.js";
 import {
-  defenderForStorageAPIDefenderForStorageSettingSerializer,
-  defenderForStorageAPIDefenderForStorageSettingDeserializer,
-  _defenderForStorageAPIDefenderForStorageSettingListDeserializer,
-  defenderForStorageAPIMalwareScanDeserializer,
+  defenderForStorageSettingSerializer,
+  defenderForStorageSettingDeserializer,
+  _defenderForStorageSettingListDeserializer,
+  malwareScanDeserializer,
 } from "../../models/defenderForStorageAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -32,7 +32,7 @@ import { createRestError, operationOptionsToRequestParameters } from "@azure-res
 export function _getMalwareScanSend(
   context: Client,
   resourceId: string,
-  settingName: CommonSettingName,
+  settingName: SettingName,
   scanId: string,
   options: DefenderForStorageGetMalwareScanOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -56,26 +56,26 @@ export function _getMalwareScanSend(
 
 export async function _getMalwareScanDeserialize(
   result: PathUncheckedResponse,
-): Promise<DefenderForStorageAPIMalwareScan> {
+): Promise<MalwareScan> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return defenderForStorageAPIMalwareScanDeserializer(result.body);
+  return malwareScanDeserializer(result.body);
 }
 
 /** Gets the Defender for Storage malware scan for the specified storage resource. */
 export async function getMalwareScan(
   context: Client,
   resourceId: string,
-  settingName: CommonSettingName,
+  settingName: SettingName,
   scanId: string,
   options: DefenderForStorageGetMalwareScanOptionalParams = { requestOptions: {} },
-): Promise<DefenderForStorageAPIMalwareScan> {
+): Promise<MalwareScan> {
   const result = await _getMalwareScanSend(context, resourceId, settingName, scanId, options);
   return _getMalwareScanDeserialize(result);
 }
@@ -83,7 +83,7 @@ export async function getMalwareScan(
 export function _cancelMalwareScanSend(
   context: Client,
   resourceId: string,
-  settingName: CommonSettingName,
+  settingName: SettingName,
   scanId: string,
   options: DefenderForStorageCancelMalwareScanOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -107,26 +107,26 @@ export function _cancelMalwareScanSend(
 
 export async function _cancelMalwareScanDeserialize(
   result: PathUncheckedResponse,
-): Promise<DefenderForStorageAPIMalwareScan> {
+): Promise<MalwareScan> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return defenderForStorageAPIMalwareScanDeserializer(result.body);
+  return malwareScanDeserializer(result.body);
 }
 
 /** Cancels a Defender for Storage malware scan for the specified storage account. */
 export async function cancelMalwareScan(
   context: Client,
   resourceId: string,
-  settingName: CommonSettingName,
+  settingName: SettingName,
   scanId: string,
   options: DefenderForStorageCancelMalwareScanOptionalParams = { requestOptions: {} },
-): Promise<DefenderForStorageAPIMalwareScan> {
+): Promise<MalwareScan> {
   const result = await _cancelMalwareScanSend(context, resourceId, settingName, scanId, options);
   return _cancelMalwareScanDeserialize(result);
 }
@@ -134,7 +134,7 @@ export async function cancelMalwareScan(
 export function _startMalwareScanSend(
   context: Client,
   resourceId: string,
-  settingName: CommonSettingName,
+  settingName: SettingName,
   options: DefenderForStorageStartMalwareScanOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -156,25 +156,25 @@ export function _startMalwareScanSend(
 
 export async function _startMalwareScanDeserialize(
   result: PathUncheckedResponse,
-): Promise<DefenderForStorageAPIMalwareScan> {
+): Promise<MalwareScan> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return defenderForStorageAPIMalwareScanDeserializer(result.body);
+  return malwareScanDeserializer(result.body);
 }
 
 /** Initiate a Defender for Storage malware scan for the specified storage account. Blobs and Files will be scanned for malware. */
 export async function startMalwareScan(
   context: Client,
   resourceId: string,
-  settingName: CommonSettingName,
+  settingName: SettingName,
   options: DefenderForStorageStartMalwareScanOptionalParams = { requestOptions: {} },
-): Promise<DefenderForStorageAPIMalwareScan> {
+): Promise<MalwareScan> {
   const result = await _startMalwareScanSend(context, resourceId, settingName, options);
   return _startMalwareScanDeserialize(result);
 }
@@ -202,16 +202,16 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_DefenderForStorageAPIDefenderForStorageSettingList> {
+): Promise<_DefenderForStorageSettingList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _defenderForStorageAPIDefenderForStorageSettingListDeserializer(result.body);
+  return _defenderForStorageSettingListDeserializer(result.body);
 }
 
 /** Lists the Defender for Storage settings for the specified storage account. */
@@ -219,7 +219,7 @@ export function list(
   context: Client,
   resourceId: string,
   options: DefenderForStorageListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<DefenderForStorageAPIDefenderForStorageSetting> {
+): PagedAsyncIterableIterator<DefenderForStorageSetting> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, resourceId, options),
@@ -232,8 +232,8 @@ export function list(
 export function _createSend(
   context: Client,
   resourceId: string,
-  settingName: CommonSettingName,
-  defenderForStorageSetting: DefenderForStorageAPIDefenderForStorageSetting,
+  settingName: SettingName,
+  defenderForStorageSetting: DefenderForStorageSetting,
   options: DefenderForStorageCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -251,32 +251,32 @@ export function _createSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: defenderForStorageAPIDefenderForStorageSettingSerializer(defenderForStorageSetting),
+    body: defenderForStorageSettingSerializer(defenderForStorageSetting),
   });
 }
 
 export async function _createDeserialize(
   result: PathUncheckedResponse,
-): Promise<DefenderForStorageAPIDefenderForStorageSetting> {
+): Promise<DefenderForStorageSetting> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return defenderForStorageAPIDefenderForStorageSettingDeserializer(result.body);
+  return defenderForStorageSettingDeserializer(result.body);
 }
 
 /** Creates or updates the Defender for Storage settings on a specified storage account. */
 export async function create(
   context: Client,
   resourceId: string,
-  settingName: CommonSettingName,
-  defenderForStorageSetting: DefenderForStorageAPIDefenderForStorageSetting,
+  settingName: SettingName,
+  defenderForStorageSetting: DefenderForStorageSetting,
   options: DefenderForStorageCreateOptionalParams = { requestOptions: {} },
-): Promise<DefenderForStorageAPIDefenderForStorageSetting> {
+): Promise<DefenderForStorageSetting> {
   const result = await _createSend(
     context,
     resourceId,
@@ -290,7 +290,7 @@ export async function create(
 export function _getSend(
   context: Client,
   resourceId: string,
-  settingName: CommonSettingName,
+  settingName: SettingName,
   options: DefenderForStorageGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -312,25 +312,25 @@ export function _getSend(
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<DefenderForStorageAPIDefenderForStorageSetting> {
+): Promise<DefenderForStorageSetting> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return defenderForStorageAPIDefenderForStorageSettingDeserializer(result.body);
+  return defenderForStorageSettingDeserializer(result.body);
 }
 
 /** Gets the Defender for Storage settings for the specified storage account. */
 export async function get(
   context: Client,
   resourceId: string,
-  settingName: CommonSettingName,
+  settingName: SettingName,
   options: DefenderForStorageGetOptionalParams = { requestOptions: {} },
-): Promise<DefenderForStorageAPIDefenderForStorageSetting> {
+): Promise<DefenderForStorageSetting> {
   const result = await _getSend(context, resourceId, settingName, options);
   return _getDeserialize(result);
 }

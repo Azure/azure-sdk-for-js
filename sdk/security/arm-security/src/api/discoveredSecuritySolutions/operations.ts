@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 import type { SecurityCenterContext as Client } from "../index.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
 import type {
-  SecuritySolutionsAPIDiscoveredSecuritySolution,
-  _SecuritySolutionsAPIDiscoveredSecuritySolutionList,
+  DiscoveredSecuritySolution,
+  _DiscoveredSecuritySolutionList,
 } from "../../models/securitySolutionsAPI/models.js";
 import {
-  securitySolutionsAPIDiscoveredSecuritySolutionDeserializer,
-  _securitySolutionsAPIDiscoveredSecuritySolutionListDeserializer,
+  discoveredSecuritySolutionDeserializer,
+  _discoveredSecuritySolutionListDeserializer,
 } from "../../models/securitySolutionsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -44,23 +44,23 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_SecuritySolutionsAPIDiscoveredSecuritySolutionList> {
+): Promise<_DiscoveredSecuritySolutionList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _securitySolutionsAPIDiscoveredSecuritySolutionListDeserializer(result.body);
+  return _discoveredSecuritySolutionListDeserializer(result.body);
 }
 
 /** Gets a list of discovered Security Solutions for the subscription. */
 export function list(
   context: Client,
   options: DiscoveredSecuritySolutionsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<SecuritySolutionsAPIDiscoveredSecuritySolution> {
+): PagedAsyncIterableIterator<DiscoveredSecuritySolution> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, options),
@@ -94,16 +94,16 @@ export function _listByHomeRegionSend(
 
 export async function _listByHomeRegionDeserialize(
   result: PathUncheckedResponse,
-): Promise<_SecuritySolutionsAPIDiscoveredSecuritySolutionList> {
+): Promise<_DiscoveredSecuritySolutionList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _securitySolutionsAPIDiscoveredSecuritySolutionListDeserializer(result.body);
+  return _discoveredSecuritySolutionListDeserializer(result.body);
 }
 
 /** Gets a list of discovered Security Solutions for the subscription and location. */
@@ -111,7 +111,7 @@ export function listByHomeRegion(
   context: Client,
   ascLocation: string,
   options: DiscoveredSecuritySolutionsListByHomeRegionOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<SecuritySolutionsAPIDiscoveredSecuritySolution> {
+): PagedAsyncIterableIterator<DiscoveredSecuritySolution> {
   return buildPagedAsyncIterator(
     context,
     () => _listByHomeRegionSend(context, ascLocation, options),
@@ -149,16 +149,16 @@ export function _getSend(
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<SecuritySolutionsAPIDiscoveredSecuritySolution> {
+): Promise<DiscoveredSecuritySolution> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return securitySolutionsAPIDiscoveredSecuritySolutionDeserializer(result.body);
+  return discoveredSecuritySolutionDeserializer(result.body);
 }
 
 /** Gets a specific discovered Security Solution. */
@@ -168,7 +168,7 @@ export async function get(
   ascLocation: string,
   discoveredSecuritySolutionName: string,
   options: DiscoveredSecuritySolutionsGetOptionalParams = { requestOptions: {} },
-): Promise<SecuritySolutionsAPIDiscoveredSecuritySolution> {
+): Promise<DiscoveredSecuritySolution> {
   const result = await _getSend(
     context,
     resourceGroupName,

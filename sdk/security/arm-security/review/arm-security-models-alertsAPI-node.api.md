@@ -5,7 +5,7 @@
 ```ts
 
 // @public
-export interface AlertsAPIAlert extends ProxyResource {
+export interface Alert extends ProxyResource {
     readonly alertDisplayName?: string;
     readonly alertType?: string;
     readonly alertUri?: string;
@@ -13,21 +13,21 @@ export interface AlertsAPIAlert extends ProxyResource {
     readonly correlationKey?: string;
     readonly description?: string;
     readonly endTimeUtc?: Date;
-    readonly entities?: AlertsAPIAlertEntity[];
+    readonly entities?: AlertEntity[];
     readonly extendedLinks?: Record<string, string>[];
     extendedProperties?: Record<string, string>;
-    readonly intent?: AlertsAPIIntent;
+    readonly intent?: Intent;
     readonly isIncident?: boolean;
     readonly processingEndTimeUtc?: Date;
     readonly productComponentName?: string;
     readonly productName?: string;
     readonly remediationSteps?: string[];
-    readonly resourceIdentifiers?: AlertsAPIResourceIdentifierUnion[];
-    readonly severity?: AlertsAPIAlertSeverity;
+    readonly resourceIdentifiers?: ResourceIdentifierUnion[];
+    readonly severity?: AlertSeverity;
     readonly startTimeUtc?: Date;
-    readonly status?: AlertsAPIAlertStatus;
+    readonly status?: AlertStatus;
     readonly subTechniques?: string[];
-    supportingEvidence?: AlertsAPIAlertPropertiesSupportingEvidence;
+    supportingEvidence?: AlertPropertiesSupportingEvidence;
     readonly systemAlertId?: string;
     readonly techniques?: string[];
     readonly timeGeneratedUtc?: Date;
@@ -36,13 +36,13 @@ export interface AlertsAPIAlert extends ProxyResource {
 }
 
 // @public
-export interface AlertsAPIAlertEntity {
+export interface AlertEntity {
     additionalProperties?: Record<string, any>;
     readonly type?: string;
 }
 
 // @public
-export interface AlertsAPIAlertProperties {
+export interface AlertProperties {
     readonly alertDisplayName?: string;
     readonly alertType?: string;
     readonly alertUri?: string;
@@ -50,21 +50,21 @@ export interface AlertsAPIAlertProperties {
     readonly correlationKey?: string;
     readonly description?: string;
     readonly endTimeUtc?: Date;
-    readonly entities?: AlertsAPIAlertEntity[];
+    readonly entities?: AlertEntity[];
     readonly extendedLinks?: Record<string, string>[];
     extendedProperties?: Record<string, string>;
-    readonly intent?: AlertsAPIIntent;
+    readonly intent?: Intent;
     readonly isIncident?: boolean;
     readonly processingEndTimeUtc?: Date;
     readonly productComponentName?: string;
     readonly productName?: string;
     readonly remediationSteps?: string[];
-    readonly resourceIdentifiers?: AlertsAPIResourceIdentifierUnion[];
-    readonly severity?: AlertsAPIAlertSeverity;
+    readonly resourceIdentifiers?: ResourceIdentifierUnion[];
+    readonly severity?: AlertSeverity;
     readonly startTimeUtc?: Date;
-    readonly status?: AlertsAPIAlertStatus;
+    readonly status?: AlertStatus;
     readonly subTechniques?: string[];
-    supportingEvidence?: AlertsAPIAlertPropertiesSupportingEvidence;
+    supportingEvidence?: AlertPropertiesSupportingEvidence;
     readonly systemAlertId?: string;
     readonly techniques?: string[];
     readonly timeGeneratedUtc?: Date;
@@ -73,74 +73,54 @@ export interface AlertsAPIAlertProperties {
 }
 
 // @public
-export interface AlertsAPIAlertPropertiesSupportingEvidence {
+export interface AlertPropertiesSupportingEvidence {
     additionalProperties?: Record<string, any>;
     readonly type?: string;
 }
 
 // @public
-export type AlertsAPIAlertSeverity = string;
+export type AlertSeverity = string;
 
 // @public
-export interface AlertsAPIAlertSimulatorBundlesRequestProperties extends AlertsAPIAlertSimulatorRequestProperties {
-    bundles?: AlertsAPIBundleType[];
+export interface AlertSimulatorBundlesRequestProperties extends AlertSimulatorRequestProperties {
+    bundles?: BundleType[];
     kind: "Bundles";
 }
 
 // @public
-export interface AlertsAPIAlertSimulatorRequestBody {
-    properties?: AlertsAPIAlertSimulatorRequestPropertiesUnion;
+export interface AlertSimulatorRequestBody {
+    properties?: AlertSimulatorRequestPropertiesUnion;
 }
 
 // @public
-export interface AlertsAPIAlertSimulatorRequestProperties {
+export interface AlertSimulatorRequestProperties {
     additionalProperties?: Record<string, any>;
-    kind: AlertsAPIKind;
+    kind: Kind;
 }
 
 // @public
-export type AlertsAPIAlertSimulatorRequestPropertiesUnion = AlertsAPIAlertSimulatorBundlesRequestProperties | AlertsAPIAlertSimulatorRequestProperties;
+export type AlertSimulatorRequestPropertiesUnion = AlertSimulatorBundlesRequestProperties | AlertSimulatorRequestProperties;
 
 // @public
-export type AlertsAPIAlertStatus = string;
+export type AlertStatus = string;
 
 // @public
-export interface AlertsAPIAzureResourceIdentifier extends AlertsAPIResourceIdentifier {
+export interface AzureResourceIdentifier extends ResourceIdentifier {
     readonly azureResourceId?: string;
     type: "AzureResource";
 }
 
 // @public
-export type AlertsAPIBundleType = string;
+export type BundleType = string;
 
 // @public
-export type AlertsAPIIntent = string;
+export type Intent = string;
 
 // @public
-export type AlertsAPIKind = string;
+export type Kind = string;
 
 // @public
-export interface AlertsAPILogAnalyticsIdentifier extends AlertsAPIResourceIdentifier {
-    readonly agentId?: string;
-    type: "LogAnalytics";
-    readonly workspaceId?: string;
-    readonly workspaceResourceGroup?: string;
-    readonly workspaceSubscriptionId?: string;
-}
-
-// @public
-export interface AlertsAPIResourceIdentifier {
-    type: AlertsAPIResourceIdentifierType;
-}
-
-// @public
-export type AlertsAPIResourceIdentifierType = string;
-
-// @public
-export type AlertsAPIResourceIdentifierUnion = AlertsAPIAzureResourceIdentifier | AlertsAPILogAnalyticsIdentifier | AlertsAPIResourceIdentifier;
-
-// @public
-export enum KnownAlertsAPIAlertSeverity {
+export enum KnownAlertSeverity {
     High = "High",
     Informational = "Informational",
     Low = "Low",
@@ -148,7 +128,7 @@ export enum KnownAlertsAPIAlertSeverity {
 }
 
 // @public
-export enum KnownAlertsAPIAlertStatus {
+export enum KnownAlertStatus {
     Active = "Active",
     Dismissed = "Dismissed",
     InProgress = "InProgress",
@@ -156,7 +136,7 @@ export enum KnownAlertsAPIAlertStatus {
 }
 
 // @public
-export enum KnownAlertsAPIBundleType {
+export enum KnownBundleType {
     AppServices = "AppServices",
     CosmosDbs = "CosmosDbs",
     DNS = "DNS",
@@ -169,7 +149,7 @@ export enum KnownAlertsAPIBundleType {
 }
 
 // @public
-export enum KnownAlertsAPIIntent {
+export enum KnownIntent {
     Collection = "Collection",
     CommandAndControl = "CommandAndControl",
     CredentialAccess = "CredentialAccess",
@@ -189,15 +169,35 @@ export enum KnownAlertsAPIIntent {
 }
 
 // @public
-export enum KnownAlertsAPIKind {
+export enum KnownKind {
     Bundles = "Bundles"
 }
 
 // @public
-export enum KnownAlertsAPIResourceIdentifierType {
+export enum KnownResourceIdentifierType {
     AzureResource = "AzureResource",
     LogAnalytics = "LogAnalytics"
 }
+
+// @public
+export interface LogAnalyticsIdentifier extends ResourceIdentifier {
+    readonly agentId?: string;
+    type: "LogAnalytics";
+    readonly workspaceId?: string;
+    readonly workspaceResourceGroup?: string;
+    readonly workspaceSubscriptionId?: string;
+}
+
+// @public
+export interface ResourceIdentifier {
+    type: ResourceIdentifierType;
+}
+
+// @public
+export type ResourceIdentifierType = string;
+
+// @public
+export type ResourceIdentifierUnion = AzureResourceIdentifier | LogAnalyticsIdentifier | ResourceIdentifier;
 
 // (No @packageDocumentation comment for this package)
 

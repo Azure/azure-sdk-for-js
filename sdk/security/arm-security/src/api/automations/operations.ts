@@ -3,19 +3,19 @@
 
 import type { SecurityCenterContext as Client } from "../index.js";
 import type {
-  AutomationsAPIAutomation,
-  AutomationsAPIAutomationUpdateModel,
-  _AutomationsAPIAutomationList,
-  AutomationsAPIAutomationValidationStatus,
+  Automation,
+  AutomationUpdateModel,
+  _AutomationList,
+  AutomationValidationStatus,
 } from "../../models/automationsAPI/models.js";
 import {
-  automationsAPIAutomationSerializer,
-  automationsAPIAutomationDeserializer,
-  automationsAPIAutomationUpdateModelSerializer,
-  _automationsAPIAutomationListDeserializer,
-  automationsAPIAutomationValidationStatusDeserializer,
+  automationSerializer,
+  automationDeserializer,
+  automationUpdateModelSerializer,
+  _automationListDeserializer,
+  automationValidationStatusDeserializer,
 } from "../../models/automationsAPI/models.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -35,7 +35,7 @@ export function _validateSend(
   context: Client,
   resourceGroupName: string,
   automationName: string,
-  automation: AutomationsAPIAutomation,
+  automation: Automation,
   options: AutomationsValidateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -54,22 +54,22 @@ export function _validateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: automationsAPIAutomationSerializer(automation),
+    body: automationSerializer(automation),
   });
 }
 
 export async function _validateDeserialize(
   result: PathUncheckedResponse,
-): Promise<AutomationsAPIAutomationValidationStatus> {
+): Promise<AutomationValidationStatus> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return automationsAPIAutomationValidationStatusDeserializer(result.body);
+  return automationValidationStatusDeserializer(result.body);
 }
 
 /** Validates the security automation model before create or update. Any validation errors are returned to the client. */
@@ -77,9 +77,9 @@ export async function validate(
   context: Client,
   resourceGroupName: string,
   automationName: string,
-  automation: AutomationsAPIAutomation,
+  automation: Automation,
   options: AutomationsValidateOptionalParams = { requestOptions: {} },
-): Promise<AutomationsAPIAutomationValidationStatus> {
+): Promise<AutomationValidationStatus> {
   const result = await _validateSend(
     context,
     resourceGroupName,
@@ -110,25 +110,23 @@ export function _listSend(
   });
 }
 
-export async function _listDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_AutomationsAPIAutomationList> {
+export async function _listDeserialize(result: PathUncheckedResponse): Promise<_AutomationList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _automationsAPIAutomationListDeserializer(result.body);
+  return _automationListDeserializer(result.body);
 }
 
 /** Lists all the security automations in the specified subscription. Use the 'nextLink' property in the response to get the next page of security automations for the specified subscription. */
 export function list(
   context: Client,
   options: AutomationsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<AutomationsAPIAutomation> {
+): PagedAsyncIterableIterator<Automation> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, options),
@@ -162,16 +160,16 @@ export function _listByResourceGroupSend(
 
 export async function _listByResourceGroupDeserialize(
   result: PathUncheckedResponse,
-): Promise<_AutomationsAPIAutomationList> {
+): Promise<_AutomationList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _automationsAPIAutomationListDeserializer(result.body);
+  return _automationListDeserializer(result.body);
 }
 
 /** Lists all the security automations in the specified resource group. Use the 'nextLink' property in the response to get the next page of security automations for the specified resource group. */
@@ -179,7 +177,7 @@ export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
   options: AutomationsListByResourceGroupOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<AutomationsAPIAutomation> {
+): PagedAsyncIterableIterator<Automation> {
   return buildPagedAsyncIterator(
     context,
     () => _listByResourceGroupSend(context, resourceGroupName, options),
@@ -214,7 +212,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
@@ -237,7 +235,7 @@ export function _updateSend(
   context: Client,
   resourceGroupName: string,
   automationName: string,
-  automation: AutomationsAPIAutomationUpdateModel,
+  automation: AutomationUpdateModel,
   options: AutomationsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -256,22 +254,20 @@ export function _updateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: automationsAPIAutomationUpdateModelSerializer(automation),
+    body: automationUpdateModelSerializer(automation),
   });
 }
 
-export async function _updateDeserialize(
-  result: PathUncheckedResponse,
-): Promise<AutomationsAPIAutomation> {
+export async function _updateDeserialize(result: PathUncheckedResponse): Promise<Automation> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return automationsAPIAutomationDeserializer(result.body);
+  return automationDeserializer(result.body);
 }
 
 /** Updates a security automation */
@@ -279,9 +275,9 @@ export async function update(
   context: Client,
   resourceGroupName: string,
   automationName: string,
-  automation: AutomationsAPIAutomationUpdateModel,
+  automation: AutomationUpdateModel,
   options: AutomationsUpdateOptionalParams = { requestOptions: {} },
-): Promise<AutomationsAPIAutomation> {
+): Promise<Automation> {
   const result = await _updateSend(context, resourceGroupName, automationName, automation, options);
   return _updateDeserialize(result);
 }
@@ -290,7 +286,7 @@ export function _createOrUpdateSend(
   context: Client,
   resourceGroupName: string,
   automationName: string,
-  automation: AutomationsAPIAutomation,
+  automation: Automation,
   options: AutomationsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -309,22 +305,22 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: automationsAPIAutomationSerializer(automation),
+    body: automationSerializer(automation),
   });
 }
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
-): Promise<AutomationsAPIAutomation> {
+): Promise<Automation> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return automationsAPIAutomationDeserializer(result.body);
+  return automationDeserializer(result.body);
 }
 
 /** Creates or updates a security automation. If a security automation is already created and a subsequent request is issued for the same automation id, then it will be updated. */
@@ -332,9 +328,9 @@ export async function createOrUpdate(
   context: Client,
   resourceGroupName: string,
   automationName: string,
-  automation: AutomationsAPIAutomation,
+  automation: Automation,
   options: AutomationsCreateOrUpdateOptionalParams = { requestOptions: {} },
-): Promise<AutomationsAPIAutomation> {
+): Promise<Automation> {
   const result = await _createOrUpdateSend(
     context,
     resourceGroupName,
@@ -369,18 +365,16 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<AutomationsAPIAutomation> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<Automation> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return automationsAPIAutomationDeserializer(result.body);
+  return automationDeserializer(result.body);
 }
 
 /** Retrieves information about the model of a security automation. */
@@ -389,7 +383,7 @@ export async function get(
   resourceGroupName: string,
   automationName: string,
   options: AutomationsGetOptionalParams = { requestOptions: {} },
-): Promise<AutomationsAPIAutomation> {
+): Promise<Automation> {
   const result = await _getSend(context, resourceGroupName, automationName, options);
   return _getDeserialize(result);
 }

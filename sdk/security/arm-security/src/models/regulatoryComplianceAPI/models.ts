@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CommonState } from "../common/models.js";
+import type { State } from "../common/models.js";
 import type { ProxyResource } from "../models.js";
 import { systemDataDeserializer } from "../models.js";
 
@@ -12,9 +12,9 @@ import { systemDataDeserializer } from "../models.js";
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Regulatory compliance standard details and state */
-export interface RegulatoryComplianceAPIRegulatoryComplianceStandard extends ProxyResource {
+export interface RegulatoryComplianceStandard extends ProxyResource {
   /** Aggregative state based on the standard's supported controls states */
-  state?: CommonState;
+  state?: State;
   /** The number of supported regulatory compliance controls of the given standard with a passed state */
   readonly passedControls?: number;
   /** The number of supported regulatory compliance controls of the given standard with a failed state */
@@ -25,9 +25,7 @@ export interface RegulatoryComplianceAPIRegulatoryComplianceStandard extends Pro
   readonly unsupportedControls?: number;
 }
 
-export function regulatoryComplianceAPIRegulatoryComplianceStandardDeserializer(
-  item: any,
-): RegulatoryComplianceAPIRegulatoryComplianceStandard {
+export function regulatoryComplianceStandardDeserializer(item: any): RegulatoryComplianceStandard {
   return {
     id: item["id"],
     name: item["name"],
@@ -42,9 +40,9 @@ export function regulatoryComplianceAPIRegulatoryComplianceStandardDeserializer(
 }
 
 /** Regulatory compliance standard data */
-export interface RegulatoryComplianceAPIRegulatoryComplianceStandardProperties {
+export interface RegulatoryComplianceStandardProperties {
   /** Aggregative state based on the standard's supported controls states */
-  state?: CommonState;
+  state?: State;
   /** The number of supported regulatory compliance controls of the given standard with a passed state */
   readonly passedControls?: number;
   /** The number of supported regulatory compliance controls of the given standard with a failed state */
@@ -55,9 +53,9 @@ export interface RegulatoryComplianceAPIRegulatoryComplianceStandardProperties {
   readonly unsupportedControls?: number;
 }
 
-export function regulatoryComplianceAPIRegulatoryComplianceStandardPropertiesDeserializer(
+export function regulatoryComplianceStandardPropertiesDeserializer(
   item: any,
-): RegulatoryComplianceAPIRegulatoryComplianceStandardProperties {
+): RegulatoryComplianceStandardProperties {
   return {
     state: item["state"],
     passedControls: item["passedControls"],
@@ -68,36 +66,36 @@ export function regulatoryComplianceAPIRegulatoryComplianceStandardPropertiesDes
 }
 
 /** List of regulatory compliance standards response */
-export interface _RegulatoryComplianceAPIRegulatoryComplianceStandardList {
+export interface _RegulatoryComplianceStandardList {
   /** The RegulatoryComplianceStandard items on this page */
-  value: RegulatoryComplianceAPIRegulatoryComplianceStandard[];
+  value: RegulatoryComplianceStandard[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _regulatoryComplianceAPIRegulatoryComplianceStandardListDeserializer(
+export function _regulatoryComplianceStandardListDeserializer(
   item: any,
-): _RegulatoryComplianceAPIRegulatoryComplianceStandardList {
+): _RegulatoryComplianceStandardList {
   return {
-    value: regulatoryComplianceAPIRegulatoryComplianceStandardArrayDeserializer(item["value"]),
+    value: regulatoryComplianceStandardArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function regulatoryComplianceAPIRegulatoryComplianceStandardArrayDeserializer(
-  result: Array<RegulatoryComplianceAPIRegulatoryComplianceStandard>,
+export function regulatoryComplianceStandardArrayDeserializer(
+  result: Array<RegulatoryComplianceStandard>,
 ): any[] {
   return result.map((item) => {
-    return regulatoryComplianceAPIRegulatoryComplianceStandardDeserializer(item);
+    return regulatoryComplianceStandardDeserializer(item);
   });
 }
 
 /** Regulatory compliance control details and state */
-export interface RegulatoryComplianceAPIRegulatoryComplianceControl extends ProxyResource {
+export interface RegulatoryComplianceControl extends ProxyResource {
   /** The description of the regulatory compliance control */
   readonly description?: string;
   /** Aggregative state based on the control's supported assessments states */
-  state?: CommonState;
+  state?: State;
   /** The number of supported regulatory compliance assessments of the given control with a passed state */
   readonly passedAssessments?: number;
   /** The number of supported regulatory compliance assessments of the given control with a failed state */
@@ -106,9 +104,7 @@ export interface RegulatoryComplianceAPIRegulatoryComplianceControl extends Prox
   readonly skippedAssessments?: number;
 }
 
-export function regulatoryComplianceAPIRegulatoryComplianceControlDeserializer(
-  item: any,
-): RegulatoryComplianceAPIRegulatoryComplianceControl {
+export function regulatoryComplianceControlDeserializer(item: any): RegulatoryComplianceControl {
   return {
     id: item["id"],
     name: item["name"],
@@ -123,11 +119,11 @@ export function regulatoryComplianceAPIRegulatoryComplianceControlDeserializer(
 }
 
 /** Regulatory compliance control data */
-export interface RegulatoryComplianceAPIRegulatoryComplianceControlProperties {
+export interface RegulatoryComplianceControlProperties {
   /** The description of the regulatory compliance control */
   readonly description?: string;
   /** Aggregative state based on the control's supported assessments states */
-  state?: CommonState;
+  state?: State;
   /** The number of supported regulatory compliance assessments of the given control with a passed state */
   readonly passedAssessments?: number;
   /** The number of supported regulatory compliance assessments of the given control with a failed state */
@@ -136,9 +132,9 @@ export interface RegulatoryComplianceAPIRegulatoryComplianceControlProperties {
   readonly skippedAssessments?: number;
 }
 
-export function regulatoryComplianceAPIRegulatoryComplianceControlPropertiesDeserializer(
+export function regulatoryComplianceControlPropertiesDeserializer(
   item: any,
-): RegulatoryComplianceAPIRegulatoryComplianceControlProperties {
+): RegulatoryComplianceControlProperties {
   return {
     description: item["description"],
     state: item["state"],
@@ -149,32 +145,32 @@ export function regulatoryComplianceAPIRegulatoryComplianceControlPropertiesDese
 }
 
 /** List of regulatory compliance controls response */
-export interface _RegulatoryComplianceAPIRegulatoryComplianceControlList {
+export interface _RegulatoryComplianceControlList {
   /** The RegulatoryComplianceControl items on this page */
-  value: RegulatoryComplianceAPIRegulatoryComplianceControl[];
+  value: RegulatoryComplianceControl[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _regulatoryComplianceAPIRegulatoryComplianceControlListDeserializer(
+export function _regulatoryComplianceControlListDeserializer(
   item: any,
-): _RegulatoryComplianceAPIRegulatoryComplianceControlList {
+): _RegulatoryComplianceControlList {
   return {
-    value: regulatoryComplianceAPIRegulatoryComplianceControlArrayDeserializer(item["value"]),
+    value: regulatoryComplianceControlArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function regulatoryComplianceAPIRegulatoryComplianceControlArrayDeserializer(
-  result: Array<RegulatoryComplianceAPIRegulatoryComplianceControl>,
+export function regulatoryComplianceControlArrayDeserializer(
+  result: Array<RegulatoryComplianceControl>,
 ): any[] {
   return result.map((item) => {
-    return regulatoryComplianceAPIRegulatoryComplianceControlDeserializer(item);
+    return regulatoryComplianceControlDeserializer(item);
   });
 }
 
 /** Regulatory compliance assessment details and state */
-export interface RegulatoryComplianceAPIRegulatoryComplianceAssessment extends ProxyResource {
+export interface RegulatoryComplianceAssessment extends ProxyResource {
   /** The description of the regulatory compliance assessment */
   readonly description?: string;
   /** The expected type of assessment contained in the AssessmentDetailsLink */
@@ -182,7 +178,7 @@ export interface RegulatoryComplianceAPIRegulatoryComplianceAssessment extends P
   /** Link to more detailed assessment results data. The response type will be according to the assessmentType field */
   readonly assessmentDetailsLink?: string;
   /** Aggregative state based on the assessment's scanned resources states */
-  state?: CommonState;
+  state?: State;
   /** The given assessment's related resources count with passed state. */
   readonly passedResources?: number;
   /** The given assessment's related resources count with failed state. */
@@ -193,9 +189,9 @@ export interface RegulatoryComplianceAPIRegulatoryComplianceAssessment extends P
   readonly unsupportedResources?: number;
 }
 
-export function regulatoryComplianceAPIRegulatoryComplianceAssessmentDeserializer(
+export function regulatoryComplianceAssessmentDeserializer(
   item: any,
-): RegulatoryComplianceAPIRegulatoryComplianceAssessment {
+): RegulatoryComplianceAssessment {
   return {
     id: item["id"],
     name: item["name"],
@@ -210,7 +206,7 @@ export function regulatoryComplianceAPIRegulatoryComplianceAssessmentDeserialize
 }
 
 /** Regulatory compliance assessment data */
-export interface RegulatoryComplianceAPIRegulatoryComplianceAssessmentProperties {
+export interface RegulatoryComplianceAssessmentProperties {
   /** The description of the regulatory compliance assessment */
   readonly description?: string;
   /** The expected type of assessment contained in the AssessmentDetailsLink */
@@ -218,7 +214,7 @@ export interface RegulatoryComplianceAPIRegulatoryComplianceAssessmentProperties
   /** Link to more detailed assessment results data. The response type will be according to the assessmentType field */
   readonly assessmentDetailsLink?: string;
   /** Aggregative state based on the assessment's scanned resources states */
-  state?: CommonState;
+  state?: State;
   /** The given assessment's related resources count with passed state. */
   readonly passedResources?: number;
   /** The given assessment's related resources count with failed state. */
@@ -229,9 +225,9 @@ export interface RegulatoryComplianceAPIRegulatoryComplianceAssessmentProperties
   readonly unsupportedResources?: number;
 }
 
-export function regulatoryComplianceAPIRegulatoryComplianceAssessmentPropertiesDeserializer(
+export function regulatoryComplianceAssessmentPropertiesDeserializer(
   item: any,
-): RegulatoryComplianceAPIRegulatoryComplianceAssessmentProperties {
+): RegulatoryComplianceAssessmentProperties {
   return {
     description: item["description"],
     assessmentType: item["assessmentType"],
@@ -245,27 +241,27 @@ export function regulatoryComplianceAPIRegulatoryComplianceAssessmentPropertiesD
 }
 
 /** List of regulatory compliance assessment response */
-export interface _RegulatoryComplianceAPIRegulatoryComplianceAssessmentList {
+export interface _RegulatoryComplianceAssessmentList {
   /** The RegulatoryComplianceAssessment items on this page */
-  value: RegulatoryComplianceAPIRegulatoryComplianceAssessment[];
+  value: RegulatoryComplianceAssessment[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _regulatoryComplianceAPIRegulatoryComplianceAssessmentListDeserializer(
+export function _regulatoryComplianceAssessmentListDeserializer(
   item: any,
-): _RegulatoryComplianceAPIRegulatoryComplianceAssessmentList {
+): _RegulatoryComplianceAssessmentList {
   return {
-    value: regulatoryComplianceAPIRegulatoryComplianceAssessmentArrayDeserializer(item["value"]),
+    value: regulatoryComplianceAssessmentArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function regulatoryComplianceAPIRegulatoryComplianceAssessmentArrayDeserializer(
-  result: Array<RegulatoryComplianceAPIRegulatoryComplianceAssessment>,
+export function regulatoryComplianceAssessmentArrayDeserializer(
+  result: Array<RegulatoryComplianceAssessment>,
 ): any[] {
   return result.map((item) => {
-    return regulatoryComplianceAPIRegulatoryComplianceAssessmentDeserializer(item);
+    return regulatoryComplianceAssessmentDeserializer(item);
   });
 }
 

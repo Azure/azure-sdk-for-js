@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import type { SecurityCenterContext as Client } from "../index.js";
-import type { ATPSettingsAPIAdvancedThreatProtectionSetting } from "../../models/atpSettingsAPI/models.js";
+import type { AdvancedThreatProtectionSetting } from "../../models/atpSettingsAPI/models.js";
 import {
-  atpSettingsAPIAdvancedThreatProtectionSettingSerializer,
-  atpSettingsAPIAdvancedThreatProtectionSettingDeserializer,
+  advancedThreatProtectionSettingSerializer,
+  advancedThreatProtectionSettingDeserializer,
 } from "../../models/atpSettingsAPI/models.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
   AdvancedThreatProtectionCreateOptionalParams,
@@ -19,7 +19,7 @@ import { createRestError, operationOptionsToRequestParameters } from "@azure-res
 export function _createSend(
   context: Client,
   resourceId: string,
-  advancedThreatProtectionSetting: ATPSettingsAPIAdvancedThreatProtectionSetting,
+  advancedThreatProtectionSetting: AdvancedThreatProtectionSetting,
   options: AdvancedThreatProtectionCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -37,31 +37,31 @@ export function _createSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: atpSettingsAPIAdvancedThreatProtectionSettingSerializer(advancedThreatProtectionSetting),
+    body: advancedThreatProtectionSettingSerializer(advancedThreatProtectionSetting),
   });
 }
 
 export async function _createDeserialize(
   result: PathUncheckedResponse,
-): Promise<ATPSettingsAPIAdvancedThreatProtectionSetting> {
+): Promise<AdvancedThreatProtectionSetting> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return atpSettingsAPIAdvancedThreatProtectionSettingDeserializer(result.body);
+  return advancedThreatProtectionSettingDeserializer(result.body);
 }
 
 /** Creates or updates the Advanced Threat Protection settings on a specified resource. */
 export async function create(
   context: Client,
   resourceId: string,
-  advancedThreatProtectionSetting: ATPSettingsAPIAdvancedThreatProtectionSetting,
+  advancedThreatProtectionSetting: AdvancedThreatProtectionSetting,
   options: AdvancedThreatProtectionCreateOptionalParams = { requestOptions: {} },
-): Promise<ATPSettingsAPIAdvancedThreatProtectionSetting> {
+): Promise<AdvancedThreatProtectionSetting> {
   const result = await _createSend(context, resourceId, advancedThreatProtectionSetting, options);
   return _createDeserialize(result);
 }
@@ -90,16 +90,16 @@ export function _getSend(
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<ATPSettingsAPIAdvancedThreatProtectionSetting> {
+): Promise<AdvancedThreatProtectionSetting> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return atpSettingsAPIAdvancedThreatProtectionSettingDeserializer(result.body);
+  return advancedThreatProtectionSettingDeserializer(result.body);
 }
 
 /** Gets the Advanced Threat Protection settings for the specified resource. */
@@ -107,7 +107,7 @@ export async function get(
   context: Client,
   resourceId: string,
   options: AdvancedThreatProtectionGetOptionalParams = { requestOptions: {} },
-): Promise<ATPSettingsAPIAdvancedThreatProtectionSetting> {
+): Promise<AdvancedThreatProtectionSetting> {
   const result = await _getSend(context, resourceId, options);
   return _getDeserialize(result);
 }

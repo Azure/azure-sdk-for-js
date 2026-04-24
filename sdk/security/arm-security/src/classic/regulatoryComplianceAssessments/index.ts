@@ -7,7 +7,7 @@ import type {
   RegulatoryComplianceAssessmentsListOptionalParams,
   RegulatoryComplianceAssessmentsGetOptionalParams,
 } from "../../api/regulatoryComplianceAssessments/options.js";
-import type { RegulatoryComplianceAPIRegulatoryComplianceAssessment } from "../../models/regulatoryComplianceAPI/models.js";
+import type { RegulatoryComplianceAssessment } from "../../models/regulatoryComplianceAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a RegulatoryComplianceAssessments operations. */
@@ -17,14 +17,14 @@ export interface RegulatoryComplianceAssessmentsOperations {
     regulatoryComplianceStandardName: string,
     regulatoryComplianceControlName: string,
     options?: RegulatoryComplianceAssessmentsListOptionalParams,
-  ) => PagedAsyncIterableIterator<RegulatoryComplianceAPIRegulatoryComplianceAssessment>;
+  ) => PagedAsyncIterableIterator<RegulatoryComplianceAssessment>;
   /** Supported regulatory compliance details and state for selected assessment */
   get: (
     regulatoryComplianceStandardName: string,
     regulatoryComplianceControlName: string,
     regulatoryComplianceAssessmentName: string,
     options?: RegulatoryComplianceAssessmentsGetOptionalParams,
-  ) => Promise<RegulatoryComplianceAPIRegulatoryComplianceAssessment>;
+  ) => Promise<RegulatoryComplianceAssessment>;
 }
 
 function _getRegulatoryComplianceAssessments(context: SecurityCenterContext) {

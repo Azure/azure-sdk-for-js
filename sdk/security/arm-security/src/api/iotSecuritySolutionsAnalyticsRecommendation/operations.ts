@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 import type { SecurityCenterContext as Client } from "../index.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
 import type {
-  IoTSecurityAPIIoTSecurityAggregatedRecommendation,
-  _IoTSecurityAPIIoTSecurityAggregatedRecommendationList,
+  IoTSecurityAggregatedRecommendation,
+  _IoTSecurityAggregatedRecommendationList,
 } from "../../models/ioTSecurityAPI/models.js";
 import {
-  ioTSecurityAPIIoTSecurityAggregatedRecommendationDeserializer,
-  _ioTSecurityAPIIoTSecurityAggregatedRecommendationListDeserializer,
+  ioTSecurityAggregatedRecommendationDeserializer,
+  _ioTSecurityAggregatedRecommendationListDeserializer,
 } from "../../models/ioTSecurityAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -48,16 +48,16 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_IoTSecurityAPIIoTSecurityAggregatedRecommendationList> {
+): Promise<_IoTSecurityAggregatedRecommendationList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _ioTSecurityAPIIoTSecurityAggregatedRecommendationListDeserializer(result.body);
+  return _ioTSecurityAggregatedRecommendationListDeserializer(result.body);
 }
 
 /** Use this method to get the list of aggregated security analytics recommendations of yours IoT Security solution. */
@@ -66,7 +66,7 @@ export function list(
   resourceGroupName: string,
   solutionName: string,
   options: IotSecuritySolutionsAnalyticsRecommendationListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<IoTSecurityAPIIoTSecurityAggregatedRecommendation> {
+): PagedAsyncIterableIterator<IoTSecurityAggregatedRecommendation> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, resourceGroupName, solutionName, options),
@@ -104,16 +104,16 @@ export function _getSend(
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<IoTSecurityAPIIoTSecurityAggregatedRecommendation> {
+): Promise<IoTSecurityAggregatedRecommendation> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return ioTSecurityAPIIoTSecurityAggregatedRecommendationDeserializer(result.body);
+  return ioTSecurityAggregatedRecommendationDeserializer(result.body);
 }
 
 /** Use this method to get the aggregated security analytics recommendation of yours IoT Security solution. This aggregation is performed by recommendation name. */
@@ -123,7 +123,7 @@ export async function get(
   solutionName: string,
   aggregatedRecommendationName: string,
   options: IotSecuritySolutionsAnalyticsRecommendationGetOptionalParams = { requestOptions: {} },
-): Promise<IoTSecurityAPIIoTSecurityAggregatedRecommendation> {
+): Promise<IoTSecurityAggregatedRecommendation> {
   const result = await _getSend(
     context,
     resourceGroupName,

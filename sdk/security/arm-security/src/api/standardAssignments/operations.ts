@@ -4,13 +4,13 @@
 import type { SecurityCenterContext as Client } from "../index.js";
 import { errorResponseDeserializer } from "../../models/models.js";
 import type {
-  SecurityStandardsAPIStandardAssignment,
-  _SecurityStandardsAPIStandardAssignmentsList,
+  StandardAssignment,
+  _StandardAssignmentsList,
 } from "../../models/securityStandardsAPI/models.js";
 import {
-  securityStandardsAPIStandardAssignmentSerializer,
-  securityStandardsAPIStandardAssignmentDeserializer,
-  _securityStandardsAPIStandardAssignmentsListDeserializer,
+  standardAssignmentSerializer,
+  standardAssignmentDeserializer,
+  _standardAssignmentsListDeserializer,
 } from "../../models/securityStandardsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -47,7 +47,7 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_SecurityStandardsAPIStandardAssignmentsList> {
+): Promise<_StandardAssignmentsList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -56,7 +56,7 @@ export async function _listDeserialize(
     throw error;
   }
 
-  return _securityStandardsAPIStandardAssignmentsListDeserializer(result.body);
+  return _standardAssignmentsListDeserializer(result.body);
 }
 
 /** Get a list of all relevant standard assignments over a scope */
@@ -64,7 +64,7 @@ export function list(
   context: Client,
   scope: string,
   options: StandardAssignmentsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<SecurityStandardsAPIStandardAssignment> {
+): PagedAsyncIterableIterator<StandardAssignment> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, scope, options),
@@ -121,7 +121,7 @@ export function _createSend(
   context: Client,
   resourceId: string,
   standardAssignmentName: string,
-  standardAssignment: SecurityStandardsAPIStandardAssignment,
+  standardAssignment: StandardAssignment,
   options: StandardAssignmentsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -139,13 +139,13 @@ export function _createSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: securityStandardsAPIStandardAssignmentSerializer(standardAssignment),
+    body: standardAssignmentSerializer(standardAssignment),
   });
 }
 
 export async function _createDeserialize(
   result: PathUncheckedResponse,
-): Promise<SecurityStandardsAPIStandardAssignment> {
+): Promise<StandardAssignment> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -154,7 +154,7 @@ export async function _createDeserialize(
     throw error;
   }
 
-  return securityStandardsAPIStandardAssignmentDeserializer(result.body);
+  return standardAssignmentDeserializer(result.body);
 }
 
 /** This operation creates or updates a standard assignment with the given scope and name. standard assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group. */
@@ -162,9 +162,9 @@ export async function create(
   context: Client,
   resourceId: string,
   standardAssignmentName: string,
-  standardAssignment: SecurityStandardsAPIStandardAssignment,
+  standardAssignment: StandardAssignment,
   options: StandardAssignmentsCreateOptionalParams = { requestOptions: {} },
-): Promise<SecurityStandardsAPIStandardAssignment> {
+): Promise<StandardAssignment> {
   const result = await _createSend(
     context,
     resourceId,
@@ -198,9 +198,7 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<SecurityStandardsAPIStandardAssignment> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<StandardAssignment> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -209,7 +207,7 @@ export async function _getDeserialize(
     throw error;
   }
 
-  return securityStandardsAPIStandardAssignmentDeserializer(result.body);
+  return standardAssignmentDeserializer(result.body);
 }
 
 /** This operation retrieves a single standard assignment, given its name and the scope it was created at. */
@@ -218,7 +216,7 @@ export async function get(
   resourceId: string,
   standardAssignmentName: string,
   options: StandardAssignmentsGetOptionalParams = { requestOptions: {} },
-): Promise<SecurityStandardsAPIStandardAssignment> {
+): Promise<StandardAssignment> {
   const result = await _getSend(context, resourceId, standardAssignmentName, options);
   return _getDeserialize(result);
 }

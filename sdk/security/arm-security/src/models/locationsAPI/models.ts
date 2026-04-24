@@ -11,12 +11,12 @@ import { systemDataDeserializer } from "../models.js";
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** The ASC location of the subscription is in the "name" field */
-export interface LocationsAPIAscLocation extends ProxyResource {
+export interface AscLocation extends ProxyResource {
   /** An empty set of properties */
   properties?: any;
 }
 
-export function locationsAPIAscLocationDeserializer(item: any): LocationsAPIAscLocation {
+export function ascLocationDeserializer(item: any): AscLocation {
   return {
     id: item["id"],
     name: item["name"],
@@ -29,24 +29,22 @@ export function locationsAPIAscLocationDeserializer(item: any): LocationsAPIAscL
 }
 
 /** List of locations where ASC saves your data */
-export interface _LocationsAPIAscLocationList {
+export interface _AscLocationList {
   /** List of locations */
-  readonly value?: LocationsAPIAscLocation[];
+  readonly value?: AscLocation[];
   /** The URI to fetch the next page. */
   readonly nextLink?: string;
 }
 
-export function _locationsAPIAscLocationListDeserializer(item: any): _LocationsAPIAscLocationList {
+export function _ascLocationListDeserializer(item: any): _AscLocationList {
   return {
-    value: !item["value"] ? item["value"] : locationsAPIAscLocationArrayDeserializer(item["value"]),
+    value: !item["value"] ? item["value"] : ascLocationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function locationsAPIAscLocationArrayDeserializer(
-  result: Array<LocationsAPIAscLocation>,
-): any[] {
+export function ascLocationArrayDeserializer(result: Array<AscLocation>): any[] {
   return result.map((item) => {
-    return locationsAPIAscLocationDeserializer(item);
+    return ascLocationDeserializer(item);
   });
 }

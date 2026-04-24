@@ -3,16 +3,16 @@
 
 import type { SecurityCenterContext as Client } from "../index.js";
 import type {
-  AlertsAPIAlert,
-  _AlertsAPIAlertList,
-  AlertsAPIAlertSimulatorRequestBody,
+  Alert,
+  _AlertList,
+  AlertSimulatorRequestBody,
 } from "../../models/alertsAPI/models.js";
 import {
-  alertsAPIAlertDeserializer,
-  _alertsAPIAlertListDeserializer,
-  alertsAPIAlertSimulatorRequestBodySerializer,
+  alertDeserializer,
+  _alertListDeserializer,
+  alertSimulatorRequestBodySerializer,
 } from "../../models/alertsAPI/models.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
 import { errorResponseDeserializer } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -42,7 +42,7 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 export function _simulateSend(
   context: Client,
   ascLocation: string,
-  alertSimulatorRequestBody: AlertsAPIAlertSimulatorRequestBody,
+  alertSimulatorRequestBody: AlertSimulatorRequestBody,
   options: AlertsSimulateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -59,7 +59,7 @@ export function _simulateSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    body: alertsAPIAlertSimulatorRequestBodySerializer(alertSimulatorRequestBody),
+    body: alertSimulatorRequestBodySerializer(alertSimulatorRequestBody),
   });
 }
 
@@ -67,7 +67,7 @@ export async function _simulateDeserialize(result: PathUncheckedResponse): Promi
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
@@ -79,7 +79,7 @@ export async function _simulateDeserialize(result: PathUncheckedResponse): Promi
 export function simulate(
   context: Client,
   ascLocation: string,
-  alertSimulatorRequestBody: AlertsAPIAlertSimulatorRequestBody,
+  alertSimulatorRequestBody: AlertSimulatorRequestBody,
   options: AlertsSimulateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(context, _simulateDeserialize, ["202", "200", "201"], {
@@ -116,16 +116,16 @@ export function _listByResourceGroupSend(
 
 export async function _listByResourceGroupDeserialize(
   result: PathUncheckedResponse,
-): Promise<_AlertsAPIAlertList> {
+): Promise<_AlertList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _alertsAPIAlertListDeserializer(result.body);
+  return _alertListDeserializer(result.body);
 }
 
 /** List all the alerts that are associated with the resource group */
@@ -133,7 +133,7 @@ export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
   options: AlertsListByResourceGroupOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<AlertsAPIAlert> {
+): PagedAsyncIterableIterator<Alert> {
   return buildPagedAsyncIterator(
     context,
     () => _listByResourceGroupSend(context, resourceGroupName, options),
@@ -163,25 +163,23 @@ export function _listSend(
   });
 }
 
-export async function _listDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_AlertsAPIAlertList> {
+export async function _listDeserialize(result: PathUncheckedResponse): Promise<_AlertList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _alertsAPIAlertListDeserializer(result.body);
+  return _alertListDeserializer(result.body);
 }
 
 /** List all the alerts that are associated with the subscription */
 export function list(
   context: Client,
   options: AlertsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<AlertsAPIAlert> {
+): PagedAsyncIterableIterator<Alert> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, options),
@@ -220,7 +218,7 @@ export async function _updateResourceGroupLevelStateToInProgressDeserialize(
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
@@ -275,7 +273,7 @@ export async function _updateResourceGroupLevelStateToActivateDeserialize(
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
@@ -330,7 +328,7 @@ export async function _updateResourceGroupLevelStateToDismissDeserialize(
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
@@ -385,7 +383,7 @@ export async function _updateResourceGroupLevelStateToResolveDeserialize(
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
@@ -437,7 +435,7 @@ export function _listResourceGroupLevelByRegionSend(
 
 export async function _listResourceGroupLevelByRegionDeserialize(
   result: PathUncheckedResponse,
-): Promise<_AlertsAPIAlertList> {
+): Promise<_AlertList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -446,7 +444,7 @@ export async function _listResourceGroupLevelByRegionDeserialize(
     throw error;
   }
 
-  return _alertsAPIAlertListDeserializer(result.body);
+  return _alertListDeserializer(result.body);
 }
 
 /** List all the alerts that are associated with the resource group that are stored in a specific location */
@@ -455,7 +453,7 @@ export function listResourceGroupLevelByRegion(
   resourceGroupName: string,
   ascLocation: string,
   options: AlertsListResourceGroupLevelByRegionOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<AlertsAPIAlert> {
+): PagedAsyncIterableIterator<Alert> {
   return buildPagedAsyncIterator(
     context,
     () => _listResourceGroupLevelByRegionSend(context, resourceGroupName, ascLocation, options),
@@ -493,16 +491,16 @@ export function _getResourceGroupLevelSend(
 
 export async function _getResourceGroupLevelDeserialize(
   result: PathUncheckedResponse,
-): Promise<AlertsAPIAlert> {
+): Promise<Alert> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return alertsAPIAlertDeserializer(result.body);
+  return alertDeserializer(result.body);
 }
 
 /** Get an alert that is associated a resource group or a resource in a resource group */
@@ -512,7 +510,7 @@ export async function getResourceGroupLevel(
   ascLocation: string,
   alertName: string,
   options: AlertsGetResourceGroupLevelOptionalParams = { requestOptions: {} },
-): Promise<AlertsAPIAlert> {
+): Promise<Alert> {
   const result = await _getResourceGroupLevelSend(
     context,
     resourceGroupName,
@@ -550,7 +548,7 @@ export async function _updateSubscriptionLevelStateToInProgressDeserialize(
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
@@ -601,7 +599,7 @@ export async function _updateSubscriptionLevelStateToActivateDeserialize(
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
@@ -652,7 +650,7 @@ export async function _updateSubscriptionLevelStateToResolveDeserialize(
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
@@ -703,7 +701,7 @@ export async function _updateSubscriptionLevelStateToDismissDeserialize(
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
@@ -751,16 +749,16 @@ export function _listSubscriptionLevelByRegionSend(
 
 export async function _listSubscriptionLevelByRegionDeserialize(
   result: PathUncheckedResponse,
-): Promise<_AlertsAPIAlertList> {
+): Promise<_AlertList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _alertsAPIAlertListDeserializer(result.body);
+  return _alertListDeserializer(result.body);
 }
 
 /** List all the alerts that are associated with the subscription that are stored in a specific location */
@@ -768,7 +766,7 @@ export function listSubscriptionLevelByRegion(
   context: Client,
   ascLocation: string,
   options: AlertsListSubscriptionLevelByRegionOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<AlertsAPIAlert> {
+): PagedAsyncIterableIterator<Alert> {
   return buildPagedAsyncIterator(
     context,
     () => _listSubscriptionLevelByRegionSend(context, ascLocation, options),
@@ -804,16 +802,16 @@ export function _getSubscriptionLevelSend(
 
 export async function _getSubscriptionLevelDeserialize(
   result: PathUncheckedResponse,
-): Promise<AlertsAPIAlert> {
+): Promise<Alert> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return alertsAPIAlertDeserializer(result.body);
+  return alertDeserializer(result.body);
 }
 
 /** Get an alert that is associated with a subscription */
@@ -822,7 +820,7 @@ export async function getSubscriptionLevel(
   ascLocation: string,
   alertName: string,
   options: AlertsGetSubscriptionLevelOptionalParams = { requestOptions: {} },
-): Promise<AlertsAPIAlert> {
+): Promise<Alert> {
   const result = await _getSubscriptionLevelSend(context, ascLocation, alertName, options);
   return _getSubscriptionLevelDeserialize(result);
 }

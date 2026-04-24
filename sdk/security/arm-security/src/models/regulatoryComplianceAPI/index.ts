@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 export type {
-  RegulatoryComplianceAPIRegulatoryComplianceStandard,
-  RegulatoryComplianceAPIRegulatoryComplianceStandardProperties,
-  RegulatoryComplianceAPIRegulatoryComplianceControl,
-  RegulatoryComplianceAPIRegulatoryComplianceControlProperties,
-  RegulatoryComplianceAPIRegulatoryComplianceAssessment,
-  RegulatoryComplianceAPIRegulatoryComplianceAssessmentProperties,
+  RegulatoryComplianceStandard,
+  RegulatoryComplianceStandardProperties,
+  RegulatoryComplianceControl,
+  RegulatoryComplianceControlProperties,
+  RegulatoryComplianceAssessment,
+  RegulatoryComplianceAssessmentProperties,
 } from "./models.js";

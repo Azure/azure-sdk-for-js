@@ -12,14 +12,12 @@ import { systemDataDeserializer } from "../models.js";
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Auto provisioning setting */
-export interface LegacySettingsAPIAutoProvisioningSetting extends ProxyResource {
+export interface AutoProvisioningSetting extends ProxyResource {
   /** Describes what kind of security agent provisioning action to take */
-  autoProvision?: LegacySettingsAPIAutoProvision;
+  autoProvision?: AutoProvision;
 }
 
-export function legacySettingsAPIAutoProvisioningSettingSerializer(
-  item: LegacySettingsAPIAutoProvisioningSetting,
-): any {
+export function autoProvisioningSettingSerializer(item: AutoProvisioningSetting): any {
   return {
     properties: areAllPropsUndefined(item, ["autoProvision"])
       ? undefined
@@ -27,9 +25,7 @@ export function legacySettingsAPIAutoProvisioningSettingSerializer(
   };
 }
 
-export function legacySettingsAPIAutoProvisioningSettingDeserializer(
-  item: any,
-): LegacySettingsAPIAutoProvisioningSetting {
+export function autoProvisioningSettingDeserializer(item: any): AutoProvisioningSetting {
   return {
     id: item["id"],
     name: item["name"],
@@ -44,27 +40,27 @@ export function legacySettingsAPIAutoProvisioningSettingDeserializer(
 }
 
 /** describes properties of an auto provisioning setting */
-export interface LegacySettingsAPIAutoProvisioningSettingProperties {
+export interface AutoProvisioningSettingProperties {
   /** Describes what kind of security agent provisioning action to take */
-  autoProvision: LegacySettingsAPIAutoProvision;
+  autoProvision: AutoProvision;
 }
 
-export function legacySettingsAPIAutoProvisioningSettingPropertiesSerializer(
-  item: LegacySettingsAPIAutoProvisioningSettingProperties,
+export function autoProvisioningSettingPropertiesSerializer(
+  item: AutoProvisioningSettingProperties,
 ): any {
   return { autoProvision: item["autoProvision"] };
 }
 
-export function legacySettingsAPIAutoProvisioningSettingPropertiesDeserializer(
+export function autoProvisioningSettingPropertiesDeserializer(
   item: any,
-): LegacySettingsAPIAutoProvisioningSettingProperties {
+): AutoProvisioningSettingProperties {
   return {
     autoProvision: item["autoProvision"],
   };
 }
 
 /** Describes what kind of security agent provisioning action to take */
-export enum KnownLegacySettingsAPIAutoProvision {
+export enum KnownAutoProvision {
   /** Install missing security agent on VMs automatically */
   On = "On",
   /** Do not install security agent on the VMs automatically */
@@ -73,60 +69,56 @@ export enum KnownLegacySettingsAPIAutoProvision {
 
 /**
  * Describes what kind of security agent provisioning action to take \
- * {@link KnownLegacySettingsAPIAutoProvision} can be used interchangeably with LegacySettingsAPIAutoProvision,
+ * {@link KnownAutoProvision} can be used interchangeably with AutoProvision,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **On**: Install missing security agent on VMs automatically \
  * **Off**: Do not install security agent on the VMs automatically
  */
-export type LegacySettingsAPIAutoProvision = string;
+export type AutoProvision = string;
 
 /** List of all the auto provisioning settings response */
-export interface _LegacySettingsAPIAutoProvisioningSettingList {
+export interface _AutoProvisioningSettingList {
   /** List of all the auto provisioning settings */
-  value?: LegacySettingsAPIAutoProvisioningSetting[];
+  value?: AutoProvisioningSetting[];
   /** The URI to fetch the next page. */
   readonly nextLink?: string;
 }
 
-export function _legacySettingsAPIAutoProvisioningSettingListDeserializer(
-  item: any,
-): _LegacySettingsAPIAutoProvisioningSettingList {
+export function _autoProvisioningSettingListDeserializer(item: any): _AutoProvisioningSettingList {
   return {
-    value: !item["value"]
-      ? item["value"]
-      : legacySettingsAPIAutoProvisioningSettingArrayDeserializer(item["value"]),
+    value: !item["value"] ? item["value"] : autoProvisioningSettingArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function legacySettingsAPIAutoProvisioningSettingArraySerializer(
-  result: Array<LegacySettingsAPIAutoProvisioningSetting>,
+export function autoProvisioningSettingArraySerializer(
+  result: Array<AutoProvisioningSetting>,
 ): any[] {
   return result.map((item) => {
-    return legacySettingsAPIAutoProvisioningSettingSerializer(item);
+    return autoProvisioningSettingSerializer(item);
   });
 }
 
-export function legacySettingsAPIAutoProvisioningSettingArrayDeserializer(
-  result: Array<LegacySettingsAPIAutoProvisioningSetting>,
+export function autoProvisioningSettingArrayDeserializer(
+  result: Array<AutoProvisioningSetting>,
 ): any[] {
   return result.map((item) => {
-    return legacySettingsAPIAutoProvisioningSettingDeserializer(item);
+    return autoProvisioningSettingDeserializer(item);
   });
 }
 
 /** Compliance of a scope */
-export interface LegacySettingsAPICompliance extends ExtensionResource {
+export interface Compliance extends ExtensionResource {
   /** The timestamp when the Compliance calculation was conducted. */
   readonly assessmentTimestampUtcDate?: Date;
   /** The resource count of the given subscription for which the Compliance calculation was conducted (needed for Management Group Compliance calculation). */
   readonly resourceCount?: number;
   /** An array of segment, which is the actually the compliance assessment. */
-  readonly assessmentResult?: LegacySettingsAPIComplianceSegment[];
+  readonly assessmentResult?: ComplianceSegment[];
 }
 
-export function legacySettingsAPIComplianceDeserializer(item: any): LegacySettingsAPICompliance {
+export function complianceDeserializer(item: any): Compliance {
   return {
     id: item["id"],
     name: item["name"],
@@ -141,18 +133,16 @@ export function legacySettingsAPIComplianceDeserializer(item: any): LegacySettin
 }
 
 /** The Compliance score (percentage) of a Subscription is a sum of all Resources' Compliances under the given Subscription. A Resource Compliance is defined as the compliant ('healthy') Policy Definitions out of all Policy Definitions applicable to a given resource. */
-export interface LegacySettingsAPIComplianceProperties {
+export interface ComplianceProperties {
   /** The timestamp when the Compliance calculation was conducted. */
   readonly assessmentTimestampUtcDate?: Date;
   /** The resource count of the given subscription for which the Compliance calculation was conducted (needed for Management Group Compliance calculation). */
   readonly resourceCount?: number;
   /** An array of segment, which is the actually the compliance assessment. */
-  readonly assessmentResult?: LegacySettingsAPIComplianceSegment[];
+  readonly assessmentResult?: ComplianceSegment[];
 }
 
-export function legacySettingsAPICompliancePropertiesDeserializer(
-  item: any,
-): LegacySettingsAPIComplianceProperties {
+export function compliancePropertiesDeserializer(item: any): ComplianceProperties {
   return {
     assessmentTimestampUtcDate: !item["assessmentTimestampUtcDate"]
       ? item["assessmentTimestampUtcDate"]
@@ -160,29 +150,25 @@ export function legacySettingsAPICompliancePropertiesDeserializer(
     resourceCount: item["resourceCount"],
     assessmentResult: !item["assessmentResult"]
       ? item["assessmentResult"]
-      : legacySettingsAPIComplianceSegmentArrayDeserializer(item["assessmentResult"]),
+      : complianceSegmentArrayDeserializer(item["assessmentResult"]),
   };
 }
 
-export function legacySettingsAPIComplianceSegmentArrayDeserializer(
-  result: Array<LegacySettingsAPIComplianceSegment>,
-): any[] {
+export function complianceSegmentArrayDeserializer(result: Array<ComplianceSegment>): any[] {
   return result.map((item) => {
-    return legacySettingsAPIComplianceSegmentDeserializer(item);
+    return complianceSegmentDeserializer(item);
   });
 }
 
 /** A segment of a compliance assessment. */
-export interface LegacySettingsAPIComplianceSegment {
+export interface ComplianceSegment {
   /** The segment type, e.g. compliant, non-compliance, insufficient coverage, N/A, etc. */
   readonly segmentType?: string;
   /** The size (%) of the segment. */
   readonly percentage?: number;
 }
 
-export function legacySettingsAPIComplianceSegmentDeserializer(
-  item: any,
-): LegacySettingsAPIComplianceSegment {
+export function complianceSegmentDeserializer(item: any): ComplianceSegment {
   return {
     segmentType: item["segmentType"],
     percentage: item["percentage"],
@@ -190,47 +176,39 @@ export function legacySettingsAPIComplianceSegmentDeserializer(
 }
 
 /** List of Compliance objects response */
-export interface _LegacySettingsAPIComplianceList {
+export interface _ComplianceList {
   /** List of Compliance objects */
-  readonly value?: LegacySettingsAPICompliance[];
+  readonly value?: Compliance[];
   /** The URI to fetch the next page. */
   readonly nextLink?: string;
 }
 
-export function _legacySettingsAPIComplianceListDeserializer(
-  item: any,
-): _LegacySettingsAPIComplianceList {
+export function _complianceListDeserializer(item: any): _ComplianceList {
   return {
-    value: !item["value"]
-      ? item["value"]
-      : legacySettingsAPIComplianceArrayDeserializer(item["value"]),
+    value: !item["value"] ? item["value"] : complianceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function legacySettingsAPIComplianceArrayDeserializer(
-  result: Array<LegacySettingsAPICompliance>,
-): any[] {
+export function complianceArrayDeserializer(result: Array<Compliance>): any[] {
   return result.map((item) => {
-    return legacySettingsAPIComplianceDeserializer(item);
+    return complianceDeserializer(item);
   });
 }
 
 /** Information protection policy. */
-export interface LegacySettingsAPIInformationProtectionPolicy extends ExtensionResource {
+export interface InformationProtectionPolicy extends ExtensionResource {
   /** Describes the last UTC time the policy was modified. */
   readonly lastModifiedUtc?: Date;
   /** Describes the version of the policy. */
   readonly version?: string;
   /** Dictionary of sensitivity labels. */
-  labels?: Record<string, LegacySettingsAPISensitivityLabel>;
+  labels?: Record<string, SensitivityLabel>;
   /** The sensitivity information types. */
-  informationTypes?: Record<string, LegacySettingsAPIInformationType>;
+  informationTypes?: Record<string, InformationType>;
 }
 
-export function legacySettingsAPIInformationProtectionPolicySerializer(
-  item: LegacySettingsAPIInformationProtectionPolicy,
-): any {
+export function informationProtectionPolicySerializer(item: InformationProtectionPolicy): any {
   return {
     properties: areAllPropsUndefined(item, ["labels", "informationTypes"])
       ? undefined
@@ -238,9 +216,7 @@ export function legacySettingsAPIInformationProtectionPolicySerializer(
   };
 }
 
-export function legacySettingsAPIInformationProtectionPolicyDeserializer(
-  item: any,
-): LegacySettingsAPIInformationProtectionPolicy {
+export function informationProtectionPolicyDeserializer(item: any): InformationProtectionPolicy {
   return {
     id: item["id"],
     name: item["name"],
@@ -255,84 +231,78 @@ export function legacySettingsAPIInformationProtectionPolicyDeserializer(
 }
 
 /** describes properties of an information protection policy. */
-export interface LegacySettingsAPIInformationProtectionPolicyProperties {
+export interface InformationProtectionPolicyProperties {
   /** Describes the last UTC time the policy was modified. */
   readonly lastModifiedUtc?: Date;
   /** Describes the version of the policy. */
   readonly version?: string;
   /** Dictionary of sensitivity labels. */
-  labels?: Record<string, LegacySettingsAPISensitivityLabel>;
+  labels?: Record<string, SensitivityLabel>;
   /** The sensitivity information types. */
-  informationTypes?: Record<string, LegacySettingsAPIInformationType>;
+  informationTypes?: Record<string, InformationType>;
 }
 
-export function legacySettingsAPIInformationProtectionPolicyPropertiesSerializer(
-  item: LegacySettingsAPIInformationProtectionPolicyProperties,
+export function informationProtectionPolicyPropertiesSerializer(
+  item: InformationProtectionPolicyProperties,
 ): any {
   return {
-    labels: !item["labels"]
-      ? item["labels"]
-      : legacySettingsAPISensitivityLabelRecordSerializer(item["labels"]),
+    labels: !item["labels"] ? item["labels"] : sensitivityLabelRecordSerializer(item["labels"]),
     informationTypes: !item["informationTypes"]
       ? item["informationTypes"]
-      : legacySettingsAPIInformationTypeRecordSerializer(item["informationTypes"]),
+      : informationTypeRecordSerializer(item["informationTypes"]),
   };
 }
 
-export function legacySettingsAPIInformationProtectionPolicyPropertiesDeserializer(
+export function informationProtectionPolicyPropertiesDeserializer(
   item: any,
-): LegacySettingsAPIInformationProtectionPolicyProperties {
+): InformationProtectionPolicyProperties {
   return {
     lastModifiedUtc: !item["lastModifiedUtc"]
       ? item["lastModifiedUtc"]
       : new Date(item["lastModifiedUtc"]),
     version: item["version"],
-    labels: !item["labels"]
-      ? item["labels"]
-      : legacySettingsAPISensitivityLabelRecordDeserializer(item["labels"]),
+    labels: !item["labels"] ? item["labels"] : sensitivityLabelRecordDeserializer(item["labels"]),
     informationTypes: !item["informationTypes"]
       ? item["informationTypes"]
-      : legacySettingsAPIInformationTypeRecordDeserializer(item["informationTypes"]),
+      : informationTypeRecordDeserializer(item["informationTypes"]),
   };
 }
 
-export function legacySettingsAPISensitivityLabelRecordSerializer(
-  item: Record<string, LegacySettingsAPISensitivityLabel>,
+export function sensitivityLabelRecordSerializer(
+  item: Record<string, SensitivityLabel>,
 ): Record<string, any> {
   const result: Record<string, any> = {};
   Object.keys(item).map((key) => {
-    result[key] = !item[key] ? item[key] : legacySettingsAPISensitivityLabelSerializer(item[key]);
+    result[key] = !item[key] ? item[key] : sensitivityLabelSerializer(item[key]);
   });
   return result;
 }
 
-export function legacySettingsAPISensitivityLabelRecordDeserializer(
+export function sensitivityLabelRecordDeserializer(
   item: Record<string, any>,
-): Record<string, LegacySettingsAPISensitivityLabel> {
+): Record<string, SensitivityLabel> {
   const result: Record<string, any> = {};
   Object.keys(item).map((key) => {
-    result[key] = !item[key] ? item[key] : legacySettingsAPISensitivityLabelDeserializer(item[key]);
+    result[key] = !item[key] ? item[key] : sensitivityLabelDeserializer(item[key]);
   });
   return result;
 }
 
 /** The sensitivity label. */
-export interface LegacySettingsAPISensitivityLabel {
+export interface SensitivityLabel {
   /** The name of the sensitivity label. */
   displayName?: string;
   /** The description of the sensitivity label. */
   description?: string;
   /** The rank of the sensitivity label. */
-  rank?: LegacySettingsAPIRank;
+  rank?: Rank;
   /** The order of the sensitivity label. */
   order?: number;
   /** Indicates whether the label is enabled or not. */
   enabled?: boolean;
 }
 
-export function legacySettingsAPISensitivityLabelSerializer(
-  item: LegacySettingsAPISensitivityLabel,
-): any {
+export function sensitivityLabelSerializer(item: SensitivityLabel): any {
   return {
     displayName: item["displayName"],
     description: item["description"],
@@ -342,9 +312,7 @@ export function legacySettingsAPISensitivityLabelSerializer(
   };
 }
 
-export function legacySettingsAPISensitivityLabelDeserializer(
-  item: any,
-): LegacySettingsAPISensitivityLabel {
+export function sensitivityLabelDeserializer(item: any): SensitivityLabel {
   return {
     displayName: item["displayName"],
     description: item["description"],
@@ -355,30 +323,30 @@ export function legacySettingsAPISensitivityLabelDeserializer(
 }
 
 /** The rank of the sensitivity label. */
-export type LegacySettingsAPIRank = "None" | "Low" | "Medium" | "High" | "Critical";
+export type Rank = "None" | "Low" | "Medium" | "High" | "Critical";
 
-export function legacySettingsAPIInformationTypeRecordSerializer(
-  item: Record<string, LegacySettingsAPIInformationType>,
+export function informationTypeRecordSerializer(
+  item: Record<string, InformationType>,
 ): Record<string, any> {
   const result: Record<string, any> = {};
   Object.keys(item).map((key) => {
-    result[key] = !item[key] ? item[key] : legacySettingsAPIInformationTypeSerializer(item[key]);
+    result[key] = !item[key] ? item[key] : informationTypeSerializer(item[key]);
   });
   return result;
 }
 
-export function legacySettingsAPIInformationTypeRecordDeserializer(
+export function informationTypeRecordDeserializer(
   item: Record<string, any>,
-): Record<string, LegacySettingsAPIInformationType> {
+): Record<string, InformationType> {
   const result: Record<string, any> = {};
   Object.keys(item).map((key) => {
-    result[key] = !item[key] ? item[key] : legacySettingsAPIInformationTypeDeserializer(item[key]);
+    result[key] = !item[key] ? item[key] : informationTypeDeserializer(item[key]);
   });
   return result;
 }
 
 /** The information type. */
-export interface LegacySettingsAPIInformationType {
+export interface InformationType {
   /** The name of the information type. */
   displayName?: string;
   /** The description of the information type. */
@@ -392,12 +360,10 @@ export interface LegacySettingsAPIInformationType {
   /** Indicates whether the information type is custom or not. */
   custom?: boolean;
   /** The information type keywords. */
-  keywords?: LegacySettingsAPIInformationProtectionKeyword[];
+  keywords?: InformationProtectionKeyword[];
 }
 
-export function legacySettingsAPIInformationTypeSerializer(
-  item: LegacySettingsAPIInformationType,
-): any {
+export function informationTypeSerializer(item: InformationType): any {
   return {
     displayName: item["displayName"],
     description: item["description"],
@@ -407,13 +373,11 @@ export function legacySettingsAPIInformationTypeSerializer(
     custom: item["custom"],
     keywords: !item["keywords"]
       ? item["keywords"]
-      : legacySettingsAPIInformationProtectionKeywordArraySerializer(item["keywords"]),
+      : informationProtectionKeywordArraySerializer(item["keywords"]),
   };
 }
 
-export function legacySettingsAPIInformationTypeDeserializer(
-  item: any,
-): LegacySettingsAPIInformationType {
+export function informationTypeDeserializer(item: any): InformationType {
   return {
     displayName: item["displayName"],
     description: item["description"],
@@ -423,28 +387,28 @@ export function legacySettingsAPIInformationTypeDeserializer(
     custom: item["custom"],
     keywords: !item["keywords"]
       ? item["keywords"]
-      : legacySettingsAPIInformationProtectionKeywordArrayDeserializer(item["keywords"]),
+      : informationProtectionKeywordArrayDeserializer(item["keywords"]),
   };
 }
 
-export function legacySettingsAPIInformationProtectionKeywordArraySerializer(
-  result: Array<LegacySettingsAPIInformationProtectionKeyword>,
+export function informationProtectionKeywordArraySerializer(
+  result: Array<InformationProtectionKeyword>,
 ): any[] {
   return result.map((item) => {
-    return legacySettingsAPIInformationProtectionKeywordSerializer(item);
+    return informationProtectionKeywordSerializer(item);
   });
 }
 
-export function legacySettingsAPIInformationProtectionKeywordArrayDeserializer(
-  result: Array<LegacySettingsAPIInformationProtectionKeyword>,
+export function informationProtectionKeywordArrayDeserializer(
+  result: Array<InformationProtectionKeyword>,
 ): any[] {
   return result.map((item) => {
-    return legacySettingsAPIInformationProtectionKeywordDeserializer(item);
+    return informationProtectionKeywordDeserializer(item);
   });
 }
 
 /** The information type keyword. */
-export interface LegacySettingsAPIInformationProtectionKeyword {
+export interface InformationProtectionKeyword {
   /** The keyword pattern. */
   pattern?: string;
   /** Indicates whether the keyword is custom or not. */
@@ -455,9 +419,7 @@ export interface LegacySettingsAPIInformationProtectionKeyword {
   excluded?: boolean;
 }
 
-export function legacySettingsAPIInformationProtectionKeywordSerializer(
-  item: LegacySettingsAPIInformationProtectionKeyword,
-): any {
+export function informationProtectionKeywordSerializer(item: InformationProtectionKeyword): any {
   return {
     pattern: item["pattern"],
     custom: item["custom"],
@@ -466,9 +428,7 @@ export function legacySettingsAPIInformationProtectionKeywordSerializer(
   };
 }
 
-export function legacySettingsAPIInformationProtectionKeywordDeserializer(
-  item: any,
-): LegacySettingsAPIInformationProtectionKeyword {
+export function informationProtectionKeywordDeserializer(item: any): InformationProtectionKeyword {
   return {
     pattern: item["pattern"],
     custom: item["custom"],
@@ -478,62 +438,60 @@ export function legacySettingsAPIInformationProtectionKeywordDeserializer(
 }
 
 /** Known values of {@link InformationProtectionPolicyName} that the service accepts. */
-export enum KnownLegacySettingsAPIInformationProtectionPolicyName {
+export enum KnownInformationProtectionPolicyName {
   /** effective */
   Effective = "effective",
   /** custom */
   Custom = "custom",
 }
 
-/** Type of LegacySettingsAPIInformationProtectionPolicyName */
-export type LegacySettingsAPIInformationProtectionPolicyName = string;
+/** Type of InformationProtectionPolicyName */
+export type InformationProtectionPolicyName = string;
 
 /** Information protection policies response. */
-export interface _LegacySettingsAPIInformationProtectionPolicyList {
+export interface _InformationProtectionPolicyList {
   /** List of information protection policies */
-  value?: LegacySettingsAPIInformationProtectionPolicy[];
+  value?: InformationProtectionPolicy[];
   /** The URI to fetch the next page. */
   readonly nextLink?: string;
 }
 
-export function _legacySettingsAPIInformationProtectionPolicyListDeserializer(
+export function _informationProtectionPolicyListDeserializer(
   item: any,
-): _LegacySettingsAPIInformationProtectionPolicyList {
+): _InformationProtectionPolicyList {
   return {
     value: !item["value"]
       ? item["value"]
-      : legacySettingsAPIInformationProtectionPolicyArrayDeserializer(item["value"]),
+      : informationProtectionPolicyArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function legacySettingsAPIInformationProtectionPolicyArraySerializer(
-  result: Array<LegacySettingsAPIInformationProtectionPolicy>,
+export function informationProtectionPolicyArraySerializer(
+  result: Array<InformationProtectionPolicy>,
 ): any[] {
   return result.map((item) => {
-    return legacySettingsAPIInformationProtectionPolicySerializer(item);
+    return informationProtectionPolicySerializer(item);
   });
 }
 
-export function legacySettingsAPIInformationProtectionPolicyArrayDeserializer(
-  result: Array<LegacySettingsAPIInformationProtectionPolicy>,
+export function informationProtectionPolicyArrayDeserializer(
+  result: Array<InformationProtectionPolicy>,
 ): any[] {
   return result.map((item) => {
-    return legacySettingsAPIInformationProtectionPolicyDeserializer(item);
+    return informationProtectionPolicyDeserializer(item);
   });
 }
 
 /** Configures where to store the OMS agent data for workspaces under a scope */
-export interface LegacySettingsAPIWorkspaceSetting extends ProxyResource {
+export interface WorkspaceSetting extends ProxyResource {
   /** The full Azure ID of the workspace to save the data in */
   workspaceId?: string;
   /** All the VMs in this scope will send their security data to the mentioned workspace unless overridden by a setting with more specific scope */
   scope?: string;
 }
 
-export function legacySettingsAPIWorkspaceSettingSerializer(
-  item: LegacySettingsAPIWorkspaceSetting,
-): any {
+export function workspaceSettingSerializer(item: WorkspaceSetting): any {
   return {
     properties: areAllPropsUndefined(item, ["workspaceId", "scope"])
       ? undefined
@@ -541,9 +499,7 @@ export function legacySettingsAPIWorkspaceSettingSerializer(
   };
 }
 
-export function legacySettingsAPIWorkspaceSettingDeserializer(
-  item: any,
-): LegacySettingsAPIWorkspaceSetting {
+export function workspaceSettingDeserializer(item: any): WorkspaceSetting {
   return {
     id: item["id"],
     name: item["name"],
@@ -558,22 +514,18 @@ export function legacySettingsAPIWorkspaceSettingDeserializer(
 }
 
 /** Workspace setting data */
-export interface LegacySettingsAPIWorkspaceSettingProperties {
+export interface WorkspaceSettingProperties {
   /** The full Azure ID of the workspace to save the data in */
   workspaceId: string;
   /** All the VMs in this scope will send their security data to the mentioned workspace unless overridden by a setting with more specific scope */
   scope: string;
 }
 
-export function legacySettingsAPIWorkspaceSettingPropertiesSerializer(
-  item: LegacySettingsAPIWorkspaceSettingProperties,
-): any {
+export function workspaceSettingPropertiesSerializer(item: WorkspaceSettingProperties): any {
   return { workspaceId: item["workspaceId"], scope: item["scope"] };
 }
 
-export function legacySettingsAPIWorkspaceSettingPropertiesDeserializer(
-  item: any,
-): LegacySettingsAPIWorkspaceSettingProperties {
+export function workspaceSettingPropertiesDeserializer(item: any): WorkspaceSettingProperties {
   return {
     workspaceId: item["workspaceId"],
     scope: item["scope"],
@@ -581,41 +533,33 @@ export function legacySettingsAPIWorkspaceSettingPropertiesDeserializer(
 }
 
 /** List of workspace settings response */
-export interface _LegacySettingsAPIWorkspaceSettingList {
+export interface _WorkspaceSettingList {
   /** The WorkspaceSetting items on this page */
-  value: LegacySettingsAPIWorkspaceSetting[];
+  value: WorkspaceSetting[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _legacySettingsAPIWorkspaceSettingListDeserializer(
-  item: any,
-): _LegacySettingsAPIWorkspaceSettingList {
+export function _workspaceSettingListDeserializer(item: any): _WorkspaceSettingList {
   return {
-    value: legacySettingsAPIWorkspaceSettingArrayDeserializer(item["value"]),
+    value: workspaceSettingArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function legacySettingsAPIWorkspaceSettingArraySerializer(
-  result: Array<LegacySettingsAPIWorkspaceSetting>,
-): any[] {
+export function workspaceSettingArraySerializer(result: Array<WorkspaceSetting>): any[] {
   return result.map((item) => {
-    return legacySettingsAPIWorkspaceSettingSerializer(item);
+    return workspaceSettingSerializer(item);
   });
 }
 
-export function legacySettingsAPIWorkspaceSettingArrayDeserializer(
-  result: Array<LegacySettingsAPIWorkspaceSetting>,
-): any[] {
+export function workspaceSettingArrayDeserializer(result: Array<WorkspaceSetting>): any[] {
   return result.map((item) => {
-    return legacySettingsAPIWorkspaceSettingDeserializer(item);
+    return workspaceSettingDeserializer(item);
   });
 }
 
-export function _autoProvisioningSettingPropertiesSerializer(
-  item: LegacySettingsAPIAutoProvisioningSetting,
-): any {
+export function _autoProvisioningSettingPropertiesSerializer(item: AutoProvisioningSetting): any {
   return { autoProvision: item["autoProvision"] };
 }
 
@@ -633,20 +577,18 @@ export function _compliancePropertiesDeserializer(item: any) {
     resourceCount: item["resourceCount"],
     assessmentResult: !item["assessmentResult"]
       ? item["assessmentResult"]
-      : legacySettingsAPIComplianceSegmentArrayDeserializer(item["assessmentResult"]),
+      : complianceSegmentArrayDeserializer(item["assessmentResult"]),
   };
 }
 
 export function _informationProtectionPolicyPropertiesSerializer(
-  item: LegacySettingsAPIInformationProtectionPolicy,
+  item: InformationProtectionPolicy,
 ): any {
   return {
-    labels: !item["labels"]
-      ? item["labels"]
-      : legacySettingsAPISensitivityLabelRecordSerializer(item["labels"]),
+    labels: !item["labels"] ? item["labels"] : sensitivityLabelRecordSerializer(item["labels"]),
     informationTypes: !item["informationTypes"]
       ? item["informationTypes"]
-      : legacySettingsAPIInformationTypeRecordSerializer(item["informationTypes"]),
+      : informationTypeRecordSerializer(item["informationTypes"]),
   };
 }
 
@@ -656,18 +598,14 @@ export function _informationProtectionPolicyPropertiesDeserializer(item: any) {
       ? item["lastModifiedUtc"]
       : new Date(item["lastModifiedUtc"]),
     version: item["version"],
-    labels: !item["labels"]
-      ? item["labels"]
-      : legacySettingsAPISensitivityLabelRecordDeserializer(item["labels"]),
+    labels: !item["labels"] ? item["labels"] : sensitivityLabelRecordDeserializer(item["labels"]),
     informationTypes: !item["informationTypes"]
       ? item["informationTypes"]
-      : legacySettingsAPIInformationTypeRecordDeserializer(item["informationTypes"]),
+      : informationTypeRecordDeserializer(item["informationTypes"]),
   };
 }
 
-export function _workspaceSettingPropertiesSerializer(
-  item: LegacySettingsAPIWorkspaceSetting,
-): any {
+export function _workspaceSettingPropertiesSerializer(item: WorkspaceSetting): any {
   return { workspaceId: item["workspaceId"], scope: item["scope"] };
 }
 

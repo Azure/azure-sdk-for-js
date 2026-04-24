@@ -4,13 +4,13 @@
 import type { SecurityCenterContext as Client } from "../index.js";
 import { errorResponseDeserializer } from "../../models/models.js";
 import type {
-  SecurityConnectorsDevOpsAPIDevOpsConfiguration,
-  _SecurityConnectorsDevOpsAPIDevOpsConfigurationListResponse,
+  DevOpsConfiguration,
+  _DevOpsConfigurationListResponse,
 } from "../../models/securityConnectorsDevOpsAPI/models.js";
 import {
-  securityConnectorsDevOpsAPIDevOpsConfigurationSerializer,
-  securityConnectorsDevOpsAPIDevOpsConfigurationDeserializer,
-  _securityConnectorsDevOpsAPIDevOpsConfigurationListResponseDeserializer,
+  devOpsConfigurationSerializer,
+  devOpsConfigurationDeserializer,
+  _devOpsConfigurationListResponseDeserializer,
 } from "../../models/securityConnectorsDevOpsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -53,7 +53,7 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_SecurityConnectorsDevOpsAPIDevOpsConfigurationListResponse> {
+): Promise<_DevOpsConfigurationListResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -62,7 +62,7 @@ export async function _listDeserialize(
     throw error;
   }
 
-  return _securityConnectorsDevOpsAPIDevOpsConfigurationListResponseDeserializer(result.body);
+  return _devOpsConfigurationListResponseDeserializer(result.body);
 }
 
 /** List DevOps Configurations. */
@@ -71,7 +71,7 @@ export function list(
   resourceGroupName: string,
   securityConnectorName: string,
   options: DevOpsConfigurationsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<SecurityConnectorsDevOpsAPIDevOpsConfiguration> {
+): PagedAsyncIterableIterator<DevOpsConfiguration> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, resourceGroupName, securityConnectorName, options),
@@ -135,7 +135,7 @@ export function _updateSend(
   context: Client,
   resourceGroupName: string,
   securityConnectorName: string,
-  devOpsConfiguration: SecurityConnectorsDevOpsAPIDevOpsConfiguration,
+  devOpsConfiguration: DevOpsConfiguration,
   options: DevOpsConfigurationsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -154,13 +154,13 @@ export function _updateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: securityConnectorsDevOpsAPIDevOpsConfigurationSerializer(devOpsConfiguration),
+    body: devOpsConfigurationSerializer(devOpsConfiguration),
   });
 }
 
 export async function _updateDeserialize(
   result: PathUncheckedResponse,
-): Promise<SecurityConnectorsDevOpsAPIDevOpsConfiguration> {
+): Promise<DevOpsConfiguration> {
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -169,7 +169,7 @@ export async function _updateDeserialize(
     throw error;
   }
 
-  return securityConnectorsDevOpsAPIDevOpsConfigurationDeserializer(result.body);
+  return devOpsConfigurationDeserializer(result.body);
 }
 
 /** Updates a DevOps Configuration. */
@@ -177,12 +177,9 @@ export function update(
   context: Client,
   resourceGroupName: string,
   securityConnectorName: string,
-  devOpsConfiguration: SecurityConnectorsDevOpsAPIDevOpsConfiguration,
+  devOpsConfiguration: DevOpsConfiguration,
   options: DevOpsConfigurationsUpdateOptionalParams = { requestOptions: {} },
-): PollerLike<
-  OperationState<SecurityConnectorsDevOpsAPIDevOpsConfiguration>,
-  SecurityConnectorsDevOpsAPIDevOpsConfiguration
-> {
+): PollerLike<OperationState<DevOpsConfiguration>, DevOpsConfiguration> {
   return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
@@ -190,17 +187,14 @@ export function update(
       _updateSend(context, resourceGroupName, securityConnectorName, devOpsConfiguration, options),
     resourceLocationConfig: "azure-async-operation",
     apiVersion: "2025-11-01-preview",
-  }) as PollerLike<
-    OperationState<SecurityConnectorsDevOpsAPIDevOpsConfiguration>,
-    SecurityConnectorsDevOpsAPIDevOpsConfiguration
-  >;
+  }) as PollerLike<OperationState<DevOpsConfiguration>, DevOpsConfiguration>;
 }
 
 export function _createOrUpdateSend(
   context: Client,
   resourceGroupName: string,
   securityConnectorName: string,
-  devOpsConfiguration: SecurityConnectorsDevOpsAPIDevOpsConfiguration,
+  devOpsConfiguration: DevOpsConfiguration,
   options: DevOpsConfigurationsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -219,13 +213,13 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: securityConnectorsDevOpsAPIDevOpsConfigurationSerializer(devOpsConfiguration),
+    body: devOpsConfigurationSerializer(devOpsConfiguration),
   });
 }
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
-): Promise<SecurityConnectorsDevOpsAPIDevOpsConfiguration> {
+): Promise<DevOpsConfiguration> {
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -234,7 +228,7 @@ export async function _createOrUpdateDeserialize(
     throw error;
   }
 
-  return securityConnectorsDevOpsAPIDevOpsConfigurationDeserializer(result.body);
+  return devOpsConfigurationDeserializer(result.body);
 }
 
 /** Creates or updates a DevOps Configuration. */
@@ -242,12 +236,9 @@ export function createOrUpdate(
   context: Client,
   resourceGroupName: string,
   securityConnectorName: string,
-  devOpsConfiguration: SecurityConnectorsDevOpsAPIDevOpsConfiguration,
+  devOpsConfiguration: DevOpsConfiguration,
   options: DevOpsConfigurationsCreateOrUpdateOptionalParams = { requestOptions: {} },
-): PollerLike<
-  OperationState<SecurityConnectorsDevOpsAPIDevOpsConfiguration>,
-  SecurityConnectorsDevOpsAPIDevOpsConfiguration
-> {
+): PollerLike<OperationState<DevOpsConfiguration>, DevOpsConfiguration> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
@@ -261,10 +252,7 @@ export function createOrUpdate(
       ),
     resourceLocationConfig: "azure-async-operation",
     apiVersion: "2025-11-01-preview",
-  }) as PollerLike<
-    OperationState<SecurityConnectorsDevOpsAPIDevOpsConfiguration>,
-    SecurityConnectorsDevOpsAPIDevOpsConfiguration
-  >;
+  }) as PollerLike<OperationState<DevOpsConfiguration>, DevOpsConfiguration>;
 }
 
 export function _getSend(
@@ -291,9 +279,7 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<SecurityConnectorsDevOpsAPIDevOpsConfiguration> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<DevOpsConfiguration> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -302,7 +288,7 @@ export async function _getDeserialize(
     throw error;
   }
 
-  return securityConnectorsDevOpsAPIDevOpsConfigurationDeserializer(result.body);
+  return devOpsConfigurationDeserializer(result.body);
 }
 
 /** Gets a DevOps Configuration. */
@@ -311,7 +297,7 @@ export async function get(
   resourceGroupName: string,
   securityConnectorName: string,
   options: DevOpsConfigurationsGetOptionalParams = { requestOptions: {} },
-): Promise<SecurityConnectorsDevOpsAPIDevOpsConfiguration> {
+): Promise<DevOpsConfiguration> {
   const result = await _getSend(context, resourceGroupName, securityConnectorName, options);
   return _getDeserialize(result);
 }

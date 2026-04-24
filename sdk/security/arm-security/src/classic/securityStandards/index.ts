@@ -9,7 +9,7 @@ import type {
   SecurityStandardsCreateOrUpdateOptionalParams,
   SecurityStandardsGetOptionalParams,
 } from "../../api/securityStandards/options.js";
-import type { SecurityStandardsAPISecurityStandard } from "../../models/securityStandardsAPI/models.js";
+import type { SecurityStandard } from "../../models/securityStandardsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a SecurityStandards operations. */
@@ -18,7 +18,7 @@ export interface SecurityStandardsOperations {
   list: (
     scope: string,
     options?: SecurityStandardsListOptionalParams,
-  ) => PagedAsyncIterableIterator<SecurityStandardsAPISecurityStandard>;
+  ) => PagedAsyncIterableIterator<SecurityStandard>;
   /** Delete a security standard over a given scope */
   delete: (
     scope: string,
@@ -29,15 +29,15 @@ export interface SecurityStandardsOperations {
   createOrUpdate: (
     scope: string,
     standardId: string,
-    standard: SecurityStandardsAPISecurityStandard,
+    standard: SecurityStandard,
     options?: SecurityStandardsCreateOrUpdateOptionalParams,
-  ) => Promise<SecurityStandardsAPISecurityStandard>;
+  ) => Promise<SecurityStandard>;
   /** Get a specific security standard for the requested scope by standardId */
   get: (
     scope: string,
     standardId: string,
     options?: SecurityStandardsGetOptionalParams,
-  ) => Promise<SecurityStandardsAPISecurityStandard>;
+  ) => Promise<SecurityStandard>;
 }
 
 function _getSecurityStandards(context: SecurityCenterContext) {
@@ -49,7 +49,7 @@ function _getSecurityStandards(context: SecurityCenterContext) {
     createOrUpdate: (
       scope: string,
       standardId: string,
-      standard: SecurityStandardsAPISecurityStandard,
+      standard: SecurityStandard,
       options?: SecurityStandardsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, scope, standardId, standard, options),
     get: (scope: string, standardId: string, options?: SecurityStandardsGetOptionalParams) =>

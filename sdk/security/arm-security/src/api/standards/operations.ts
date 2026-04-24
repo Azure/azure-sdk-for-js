@@ -2,15 +2,12 @@
 // Licensed under the MIT License.
 
 import type { SecurityCenterContext as Client } from "../index.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
-import type {
-  StandardsAPIStandard,
-  _StandardsAPIStandardList,
-} from "../../models/standardsAPI/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
+import type { Standard, _StandardList } from "../../models/standardsAPI/models.js";
 import {
-  standardsAPIStandardSerializer,
-  standardsAPIStandardDeserializer,
-  _standardsAPIStandardListDeserializer,
+  standardSerializer,
+  standardDeserializer,
+  _standardListDeserializer,
 } from "../../models/standardsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -47,23 +44,23 @@ export function _listBySubscriptionSend(
 
 export async function _listBySubscriptionDeserialize(
   result: PathUncheckedResponse,
-): Promise<_StandardsAPIStandardList> {
+): Promise<_StandardList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _standardsAPIStandardListDeserializer(result.body);
+  return _standardListDeserializer(result.body);
 }
 
 /** Get a list of all relevant security standards over a subscription level scope. */
 export function listBySubscription(
   context: Client,
   options: StandardsListBySubscriptionOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<StandardsAPIStandard> {
+): PagedAsyncIterableIterator<Standard> {
   return buildPagedAsyncIterator(
     context,
     () => _listBySubscriptionSend(context, options),
@@ -95,18 +92,16 @@ export function _listSend(
   });
 }
 
-export async function _listDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_StandardsAPIStandardList> {
+export async function _listDeserialize(result: PathUncheckedResponse): Promise<_StandardList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _standardsAPIStandardListDeserializer(result.body);
+  return _standardListDeserializer(result.body);
 }
 
 /** Get security standards on all your resources inside a scope */
@@ -114,7 +109,7 @@ export function list(
   context: Client,
   resourceGroupName: string,
   options: StandardsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<StandardsAPIStandard> {
+): PagedAsyncIterableIterator<Standard> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, resourceGroupName, options),
@@ -149,7 +144,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
@@ -172,7 +167,7 @@ export function _createOrUpdateSend(
   context: Client,
   resourceGroupName: string,
   standardId: string,
-  standard: StandardsAPIStandard,
+  standard: Standard,
   options: StandardsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -191,22 +186,20 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: standardsAPIStandardSerializer(standard),
+    body: standardSerializer(standard),
   });
 }
 
-export async function _createOrUpdateDeserialize(
-  result: PathUncheckedResponse,
-): Promise<StandardsAPIStandard> {
+export async function _createOrUpdateDeserialize(result: PathUncheckedResponse): Promise<Standard> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return standardsAPIStandardDeserializer(result.body);
+  return standardDeserializer(result.body);
 }
 
 /** Create a security standard on the given scope.  Available only for custom standards.  Will create/update the required standard definitions. */
@@ -214,9 +207,9 @@ export async function createOrUpdate(
   context: Client,
   resourceGroupName: string,
   standardId: string,
-  standard: StandardsAPIStandard,
+  standard: Standard,
   options: StandardsCreateOrUpdateOptionalParams = { requestOptions: {} },
-): Promise<StandardsAPIStandard> {
+): Promise<Standard> {
   const result = await _createOrUpdateSend(
     context,
     resourceGroupName,
@@ -251,18 +244,16 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<StandardsAPIStandard> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<Standard> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return standardsAPIStandardDeserializer(result.body);
+  return standardDeserializer(result.body);
 }
 
 /** Get a specific security standard for the requested scope */
@@ -271,7 +262,7 @@ export async function get(
   resourceGroupName: string,
   standardId: string,
   options: StandardsGetOptionalParams = { requestOptions: {} },
-): Promise<StandardsAPIStandard> {
+): Promise<Standard> {
   const result = await _getSend(context, resourceGroupName, standardId, options);
   return _getDeserialize(result);
 }

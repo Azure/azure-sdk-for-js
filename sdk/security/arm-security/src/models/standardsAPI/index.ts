@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 export type {
-  StandardsAPIStandard,
-  StandardsAPIStandardProperties,
-  StandardsAPIStandardComponentProperties,
-  StandardsAPIStandardSupportedClouds,
-  StandardsAPIAssignment,
-  StandardsAPIAssignmentProperties,
-  StandardsAPIAssignedComponentItem,
-  StandardsAPIAssignmentPropertiesAdditionalData,
+  Standard,
+  StandardProperties,
+  StandardComponentProperties,
+  StandardSupportedClouds,
+  Assignment,
+  AssignmentProperties,
+  AssignedComponentItem,
+  AssignmentPropertiesAdditionalData,
 } from "./models.js";

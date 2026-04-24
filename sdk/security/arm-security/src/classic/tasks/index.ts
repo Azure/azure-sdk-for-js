@@ -20,40 +20,37 @@ import type {
   TasksListByResourceGroupOptionalParams,
   TasksGetResourceGroupLevelTaskOptionalParams,
 } from "../../api/tasks/options.js";
-import type {
-  TasksAPISecurityTask,
-  TasksAPITaskUpdateActionType,
-} from "../../models/tasksAPI/models.js";
+import type { SecurityTask, TaskUpdateActionType } from "../../models/tasksAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Tasks operations. */
 export interface TasksOperations {
   /** Recommended tasks that will help improve the security of the subscription proactively */
-  list: (options?: TasksListOptionalParams) => PagedAsyncIterableIterator<TasksAPISecurityTask>;
+  list: (options?: TasksListOptionalParams) => PagedAsyncIterableIterator<SecurityTask>;
   /** Recommended tasks that will help improve the security of the subscription proactively */
   updateSubscriptionLevelTaskState: (
     ascLocation: string,
     taskName: string,
-    taskUpdateActionType: TasksAPITaskUpdateActionType,
+    taskUpdateActionType: TaskUpdateActionType,
     options?: TasksUpdateSubscriptionLevelTaskStateOptionalParams,
   ) => Promise<void>;
   /** Recommended tasks that will help improve the security of the subscription proactively */
   listByHomeRegion: (
     ascLocation: string,
     options?: TasksListByHomeRegionOptionalParams,
-  ) => PagedAsyncIterableIterator<TasksAPISecurityTask>;
+  ) => PagedAsyncIterableIterator<SecurityTask>;
   /** Recommended tasks that will help improve the security of the subscription proactively */
   getSubscriptionLevelTask: (
     ascLocation: string,
     taskName: string,
     options?: TasksGetSubscriptionLevelTaskOptionalParams,
-  ) => Promise<TasksAPISecurityTask>;
+  ) => Promise<SecurityTask>;
   /** Recommended tasks that will help improve the security of the subscription proactively */
   updateResourceGroupLevelTaskState: (
     resourceGroupName: string,
     ascLocation: string,
     taskName: string,
-    taskUpdateActionType: TasksAPITaskUpdateActionType,
+    taskUpdateActionType: TaskUpdateActionType,
     options?: TasksUpdateResourceGroupLevelTaskStateOptionalParams,
   ) => Promise<void>;
   /** Recommended tasks that will help improve the security of the subscription proactively */
@@ -61,14 +58,14 @@ export interface TasksOperations {
     resourceGroupName: string,
     ascLocation: string,
     options?: TasksListByResourceGroupOptionalParams,
-  ) => PagedAsyncIterableIterator<TasksAPISecurityTask>;
+  ) => PagedAsyncIterableIterator<SecurityTask>;
   /** Recommended tasks that will help improve the security of the subscription proactively */
   getResourceGroupLevelTask: (
     resourceGroupName: string,
     ascLocation: string,
     taskName: string,
     options?: TasksGetResourceGroupLevelTaskOptionalParams,
-  ) => Promise<TasksAPISecurityTask>;
+  ) => Promise<SecurityTask>;
 }
 
 function _getTasks(context: SecurityCenterContext) {
@@ -77,7 +74,7 @@ function _getTasks(context: SecurityCenterContext) {
     updateSubscriptionLevelTaskState: (
       ascLocation: string,
       taskName: string,
-      taskUpdateActionType: TasksAPITaskUpdateActionType,
+      taskUpdateActionType: TaskUpdateActionType,
       options?: TasksUpdateSubscriptionLevelTaskStateOptionalParams,
     ) =>
       updateSubscriptionLevelTaskState(
@@ -98,7 +95,7 @@ function _getTasks(context: SecurityCenterContext) {
       resourceGroupName: string,
       ascLocation: string,
       taskName: string,
-      taskUpdateActionType: TasksAPITaskUpdateActionType,
+      taskUpdateActionType: TaskUpdateActionType,
       options?: TasksUpdateResourceGroupLevelTaskStateOptionalParams,
     ) =>
       updateResourceGroupLevelTaskState(

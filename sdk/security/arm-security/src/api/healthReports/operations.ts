@@ -2,13 +2,10 @@
 // Licensed under the MIT License.
 
 import type { SecurityCenterContext as Client } from "../index.js";
-import type {
-  HealthReportsAPIHealthReport,
-  _HealthReportsAPIHealthReportsList,
-} from "../../models/healthReportsAPI/models.js";
+import type { HealthReport, _HealthReportsList } from "../../models/healthReportsAPI/models.js";
 import {
-  healthReportsAPIHealthReportDeserializer,
-  _healthReportsAPIHealthReportsListDeserializer,
+  healthReportDeserializer,
+  _healthReportsListDeserializer,
 } from "../../models/healthReportsAPI/models.js";
 import { errorResponseDeserializer } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
@@ -39,9 +36,7 @@ export function _listSend(
   });
 }
 
-export async function _listDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_HealthReportsAPIHealthReportsList> {
+export async function _listDeserialize(result: PathUncheckedResponse): Promise<_HealthReportsList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -50,7 +45,7 @@ export async function _listDeserialize(
     throw error;
   }
 
-  return _healthReportsAPIHealthReportsListDeserializer(result.body);
+  return _healthReportsListDeserializer(result.body);
 }
 
 /** Get a list of all health reports inside a scope. Valid scopes are: subscription (format: 'subscriptions/{subscriptionId}'), or security connector (format: 'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})' */
@@ -58,7 +53,7 @@ export function list(
   context: Client,
   scope: string,
   options: HealthReportsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<HealthReportsAPIHealthReport> {
+): PagedAsyncIterableIterator<HealthReport> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, scope, options),
@@ -91,9 +86,7 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<HealthReportsAPIHealthReport> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<HealthReport> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -102,7 +95,7 @@ export async function _getDeserialize(
     throw error;
   }
 
-  return healthReportsAPIHealthReportDeserializer(result.body);
+  return healthReportDeserializer(result.body);
 }
 
 /** Get health report of resource */
@@ -111,7 +104,7 @@ export async function get(
   resourceId: string,
   healthReportName: string,
   options: HealthReportsGetOptionalParams = { requestOptions: {} },
-): Promise<HealthReportsAPIHealthReport> {
+): Promise<HealthReport> {
   const result = await _getSend(context, resourceId, healthReportName, options);
   return _getDeserialize(result);
 }

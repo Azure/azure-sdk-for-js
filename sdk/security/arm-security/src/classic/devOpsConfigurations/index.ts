@@ -16,7 +16,7 @@ import type {
   DevOpsConfigurationsCreateOrUpdateOptionalParams,
   DevOpsConfigurationsGetOptionalParams,
 } from "../../api/devOpsConfigurations/options.js";
-import type { SecurityConnectorsDevOpsAPIDevOpsConfiguration } from "../../models/securityConnectorsDevOpsAPI/models.js";
+import type { DevOpsConfiguration } from "../../models/securityConnectorsDevOpsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
@@ -29,7 +29,7 @@ export interface DevOpsConfigurationsOperations {
     resourceGroupName: string,
     securityConnectorName: string,
     options?: DevOpsConfigurationsListOptionalParams,
-  ) => PagedAsyncIterableIterator<SecurityConnectorsDevOpsAPIDevOpsConfiguration>;
+  ) => PagedAsyncIterableIterator<DevOpsConfiguration>;
   /** Deletes a DevOps Connector. */
   delete: (
     resourceGroupName: string,
@@ -52,66 +52,50 @@ export interface DevOpsConfigurationsOperations {
   update: (
     resourceGroupName: string,
     securityConnectorName: string,
-    devOpsConfiguration: SecurityConnectorsDevOpsAPIDevOpsConfiguration,
+    devOpsConfiguration: DevOpsConfiguration,
     options?: DevOpsConfigurationsUpdateOptionalParams,
-  ) => PollerLike<
-    OperationState<SecurityConnectorsDevOpsAPIDevOpsConfiguration>,
-    SecurityConnectorsDevOpsAPIDevOpsConfiguration
-  >;
+  ) => PollerLike<OperationState<DevOpsConfiguration>, DevOpsConfiguration>;
   /** @deprecated use update instead */
   beginUpdate: (
     resourceGroupName: string,
     securityConnectorName: string,
-    devOpsConfiguration: SecurityConnectorsDevOpsAPIDevOpsConfiguration,
+    devOpsConfiguration: DevOpsConfiguration,
     options?: DevOpsConfigurationsUpdateOptionalParams,
-  ) => Promise<
-    SimplePollerLike<
-      OperationState<SecurityConnectorsDevOpsAPIDevOpsConfiguration>,
-      SecurityConnectorsDevOpsAPIDevOpsConfiguration
-    >
-  >;
+  ) => Promise<SimplePollerLike<OperationState<DevOpsConfiguration>, DevOpsConfiguration>>;
   /** @deprecated use update instead */
   beginUpdateAndWait: (
     resourceGroupName: string,
     securityConnectorName: string,
-    devOpsConfiguration: SecurityConnectorsDevOpsAPIDevOpsConfiguration,
+    devOpsConfiguration: DevOpsConfiguration,
     options?: DevOpsConfigurationsUpdateOptionalParams,
-  ) => Promise<SecurityConnectorsDevOpsAPIDevOpsConfiguration>;
+  ) => Promise<DevOpsConfiguration>;
   /** Creates or updates a DevOps Configuration. */
   createOrUpdate: (
     resourceGroupName: string,
     securityConnectorName: string,
-    devOpsConfiguration: SecurityConnectorsDevOpsAPIDevOpsConfiguration,
+    devOpsConfiguration: DevOpsConfiguration,
     options?: DevOpsConfigurationsCreateOrUpdateOptionalParams,
-  ) => PollerLike<
-    OperationState<SecurityConnectorsDevOpsAPIDevOpsConfiguration>,
-    SecurityConnectorsDevOpsAPIDevOpsConfiguration
-  >;
+  ) => PollerLike<OperationState<DevOpsConfiguration>, DevOpsConfiguration>;
   /** @deprecated use createOrUpdate instead */
   beginCreateOrUpdate: (
     resourceGroupName: string,
     securityConnectorName: string,
-    devOpsConfiguration: SecurityConnectorsDevOpsAPIDevOpsConfiguration,
+    devOpsConfiguration: DevOpsConfiguration,
     options?: DevOpsConfigurationsCreateOrUpdateOptionalParams,
-  ) => Promise<
-    SimplePollerLike<
-      OperationState<SecurityConnectorsDevOpsAPIDevOpsConfiguration>,
-      SecurityConnectorsDevOpsAPIDevOpsConfiguration
-    >
-  >;
+  ) => Promise<SimplePollerLike<OperationState<DevOpsConfiguration>, DevOpsConfiguration>>;
   /** @deprecated use createOrUpdate instead */
   beginCreateOrUpdateAndWait: (
     resourceGroupName: string,
     securityConnectorName: string,
-    devOpsConfiguration: SecurityConnectorsDevOpsAPIDevOpsConfiguration,
+    devOpsConfiguration: DevOpsConfiguration,
     options?: DevOpsConfigurationsCreateOrUpdateOptionalParams,
-  ) => Promise<SecurityConnectorsDevOpsAPIDevOpsConfiguration>;
+  ) => Promise<DevOpsConfiguration>;
   /** Gets a DevOps Configuration. */
   get: (
     resourceGroupName: string,
     securityConnectorName: string,
     options?: DevOpsConfigurationsGetOptionalParams,
-  ) => Promise<SecurityConnectorsDevOpsAPIDevOpsConfiguration>;
+  ) => Promise<DevOpsConfiguration>;
 }
 
 function _getDevOpsConfigurations(context: SecurityCenterContext) {
@@ -145,13 +129,13 @@ function _getDevOpsConfigurations(context: SecurityCenterContext) {
     update: (
       resourceGroupName: string,
       securityConnectorName: string,
-      devOpsConfiguration: SecurityConnectorsDevOpsAPIDevOpsConfiguration,
+      devOpsConfiguration: DevOpsConfiguration,
       options?: DevOpsConfigurationsUpdateOptionalParams,
     ) => update(context, resourceGroupName, securityConnectorName, devOpsConfiguration, options),
     beginUpdate: async (
       resourceGroupName: string,
       securityConnectorName: string,
-      devOpsConfiguration: SecurityConnectorsDevOpsAPIDevOpsConfiguration,
+      devOpsConfiguration: DevOpsConfiguration,
       options?: DevOpsConfigurationsUpdateOptionalParams,
     ) => {
       const poller = update(
@@ -167,7 +151,7 @@ function _getDevOpsConfigurations(context: SecurityCenterContext) {
     beginUpdateAndWait: async (
       resourceGroupName: string,
       securityConnectorName: string,
-      devOpsConfiguration: SecurityConnectorsDevOpsAPIDevOpsConfiguration,
+      devOpsConfiguration: DevOpsConfiguration,
       options?: DevOpsConfigurationsUpdateOptionalParams,
     ) => {
       return await update(
@@ -181,7 +165,7 @@ function _getDevOpsConfigurations(context: SecurityCenterContext) {
     createOrUpdate: (
       resourceGroupName: string,
       securityConnectorName: string,
-      devOpsConfiguration: SecurityConnectorsDevOpsAPIDevOpsConfiguration,
+      devOpsConfiguration: DevOpsConfiguration,
       options?: DevOpsConfigurationsCreateOrUpdateOptionalParams,
     ) =>
       createOrUpdate(
@@ -194,7 +178,7 @@ function _getDevOpsConfigurations(context: SecurityCenterContext) {
     beginCreateOrUpdate: async (
       resourceGroupName: string,
       securityConnectorName: string,
-      devOpsConfiguration: SecurityConnectorsDevOpsAPIDevOpsConfiguration,
+      devOpsConfiguration: DevOpsConfiguration,
       options?: DevOpsConfigurationsCreateOrUpdateOptionalParams,
     ) => {
       const poller = createOrUpdate(
@@ -210,7 +194,7 @@ function _getDevOpsConfigurations(context: SecurityCenterContext) {
     beginCreateOrUpdateAndWait: async (
       resourceGroupName: string,
       securityConnectorName: string,
-      devOpsConfiguration: SecurityConnectorsDevOpsAPIDevOpsConfiguration,
+      devOpsConfiguration: DevOpsConfiguration,
       options?: DevOpsConfigurationsCreateOrUpdateOptionalParams,
     ) => {
       return await createOrUpdate(

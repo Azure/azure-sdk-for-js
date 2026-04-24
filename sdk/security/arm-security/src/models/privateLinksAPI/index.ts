@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 export type {
-  PrivateLinksAPIPrivateLinkGroupResource,
-  PrivateLinksAPIPrivateEndpointConnection,
-  PrivateLinksAPIPrivateLinkResource,
-  PrivateLinksAPIPrivateLinkProperties,
-  PrivateLinksAPIPublicNetworkAccess,
-  PrivateLinksAPIPrivateLinkUpdate,
+  PrivateLinkGroupResource,
+  PrivateEndpointConnection,
+  PrivateLinkResource,
+  PrivateLinkProperties,
+  PublicNetworkAccess,
+  PrivateLinkUpdate,
 } from "./models.js";
-export { KnownPrivateLinksAPIPublicNetworkAccess } from "./models.js";
+export { KnownPublicNetworkAccess } from "./models.js";

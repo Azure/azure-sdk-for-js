@@ -4,12 +4,12 @@
 import type { SecurityCenterContext as Client } from "../index.js";
 import { errorResponseDeserializer } from "../../models/models.js";
 import type {
-  SecurityConnectorsDevOpsAPIGitLabGroup,
-  SecurityConnectorsDevOpsAPIGitLabGroupListResponse,
+  GitLabGroup,
+  GitLabGroupListResponse,
 } from "../../models/securityConnectorsDevOpsAPI/models.js";
 import {
-  securityConnectorsDevOpsAPIGitLabGroupDeserializer,
-  securityConnectorsDevOpsAPIGitLabGroupListResponseDeserializer,
+  gitLabGroupDeserializer,
+  gitLabGroupListResponseDeserializer,
 } from "../../models/securityConnectorsDevOpsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -48,7 +48,7 @@ export function _listAvailableSend(
 
 export async function _listAvailableDeserialize(
   result: PathUncheckedResponse,
-): Promise<SecurityConnectorsDevOpsAPIGitLabGroupListResponse> {
+): Promise<GitLabGroupListResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -57,7 +57,7 @@ export async function _listAvailableDeserialize(
     throw error;
   }
 
-  return securityConnectorsDevOpsAPIGitLabGroupListResponseDeserializer(result.body);
+  return gitLabGroupListResponseDeserializer(result.body);
 }
 
 /** Returns a list of all GitLab groups accessible by the user token consumed by the connector. */
@@ -66,7 +66,7 @@ export async function listAvailable(
   resourceGroupName: string,
   securityConnectorName: string,
   options: GitLabGroupsListAvailableOptionalParams = { requestOptions: {} },
-): Promise<SecurityConnectorsDevOpsAPIGitLabGroupListResponse> {
+): Promise<GitLabGroupListResponse> {
   const result = await _listAvailableSend(
     context,
     resourceGroupName,
@@ -102,7 +102,7 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<SecurityConnectorsDevOpsAPIGitLabGroupListResponse> {
+): Promise<GitLabGroupListResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -111,7 +111,7 @@ export async function _listDeserialize(
     throw error;
   }
 
-  return securityConnectorsDevOpsAPIGitLabGroupListResponseDeserializer(result.body);
+  return gitLabGroupListResponseDeserializer(result.body);
 }
 
 /** Returns a list of GitLab groups onboarded to the connector. */
@@ -120,7 +120,7 @@ export function list(
   resourceGroupName: string,
   securityConnectorName: string,
   options: GitLabGroupsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<SecurityConnectorsDevOpsAPIGitLabGroup> {
+): PagedAsyncIterableIterator<GitLabGroup> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, resourceGroupName, securityConnectorName, options),
@@ -156,9 +156,7 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<SecurityConnectorsDevOpsAPIGitLabGroup> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<GitLabGroup> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -167,7 +165,7 @@ export async function _getDeserialize(
     throw error;
   }
 
-  return securityConnectorsDevOpsAPIGitLabGroupDeserializer(result.body);
+  return gitLabGroupDeserializer(result.body);
 }
 
 /** Returns a monitored GitLab Group resource for a given fully-qualified name. */
@@ -177,7 +175,7 @@ export async function get(
   securityConnectorName: string,
   groupFQName: string,
   options: GitLabGroupsGetOptionalParams = { requestOptions: {} },
-): Promise<SecurityConnectorsDevOpsAPIGitLabGroup> {
+): Promise<GitLabGroup> {
   const result = await _getSend(
     context,
     resourceGroupName,

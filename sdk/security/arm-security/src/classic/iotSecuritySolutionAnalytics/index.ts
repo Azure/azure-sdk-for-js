@@ -8,8 +8,8 @@ import type {
   IotSecuritySolutionAnalyticsGetOptionalParams,
 } from "../../api/iotSecuritySolutionAnalytics/options.js";
 import type {
-  IoTSecurityAPIIoTSecuritySolutionAnalyticsModel,
-  IoTSecurityAPIIoTSecuritySolutionAnalyticsModelList,
+  IoTSecuritySolutionAnalyticsModel,
+  IoTSecuritySolutionAnalyticsModelList,
 } from "../../models/ioTSecurityAPI/models.js";
 
 /** Interface representing a IotSecuritySolutionAnalytics operations. */
@@ -19,13 +19,13 @@ export interface IotSecuritySolutionAnalyticsOperations {
     resourceGroupName: string,
     solutionName: string,
     options?: IotSecuritySolutionAnalyticsListOptionalParams,
-  ) => Promise<IoTSecurityAPIIoTSecuritySolutionAnalyticsModelList>;
+  ) => Promise<IoTSecuritySolutionAnalyticsModelList>;
   /** Use this method to get IoT Security Analytics metrics. */
   get: (
     resourceGroupName: string,
     solutionName: string,
     options?: IotSecuritySolutionAnalyticsGetOptionalParams,
-  ) => Promise<IoTSecurityAPIIoTSecuritySolutionAnalyticsModel>;
+  ) => Promise<IoTSecuritySolutionAnalyticsModel>;
 }
 
 function _getIotSecuritySolutionAnalytics(context: SecurityCenterContext) {

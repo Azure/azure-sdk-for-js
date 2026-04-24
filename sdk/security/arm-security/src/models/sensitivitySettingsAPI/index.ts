@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 export type {
-  SensitivitySettingsAPIGetSensitivitySettingsResponse,
-  SensitivitySettingsAPIGetSensitivitySettingsResponseProperties,
-  SensitivitySettingsAPIGetSensitivitySettingsResponsePropertiesMipInformation,
-  SensitivitySettingsAPIMipIntegrationStatus,
-  SensitivitySettingsAPILabel,
-  SensitivitySettingsAPIInfoType,
-  SensitivitySettingsAPIBuiltInInfoType,
-  SensitivitySettingsAPIUpdateSensitivitySettingsRequest,
+  GetSensitivitySettingsResponse,
+  GetSensitivitySettingsResponseProperties,
+  GetSensitivitySettingsResponsePropertiesMipInformation,
+  MipIntegrationStatus,
+  Label,
+  InfoType,
+  BuiltInInfoType,
+  UpdateSensitivitySettingsRequest,
 } from "./models.js";
-export { KnownSensitivitySettingsAPIMipIntegrationStatus } from "./models.js";
+export { KnownMipIntegrationStatus } from "./models.js";

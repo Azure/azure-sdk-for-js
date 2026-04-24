@@ -7,20 +7,15 @@ import type {
   LocationsListOptionalParams,
   LocationsGetOptionalParams,
 } from "../../api/locations/options.js";
-import type { LocationsAPIAscLocation } from "../../models/locationsAPI/models.js";
+import type { AscLocation } from "../../models/locationsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Locations operations. */
 export interface LocationsOperations {
   /** The location of the responsible ASC of the specific subscription (home region). For each subscription there is only one responsible location. The location in the response should be used to read or write other resources in ASC according to their ID. */
-  list: (
-    options?: LocationsListOptionalParams,
-  ) => PagedAsyncIterableIterator<LocationsAPIAscLocation>;
+  list: (options?: LocationsListOptionalParams) => PagedAsyncIterableIterator<AscLocation>;
   /** Details of a specific location */
-  get: (
-    ascLocation: string,
-    options?: LocationsGetOptionalParams,
-  ) => Promise<LocationsAPIAscLocation>;
+  get: (ascLocation: string, options?: LocationsGetOptionalParams) => Promise<AscLocation>;
 }
 
 function _getLocations(context: SecurityCenterContext) {

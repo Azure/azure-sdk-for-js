@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 export type {
-  AlertsSuppressionRulesAPIAlertsSuppressionRule,
-  AlertsSuppressionRulesAPIAlertsSuppressionRuleProperties,
-  AlertsSuppressionRulesAPIRuleState,
-  AlertsSuppressionRulesAPISuppressionAlertsScope,
-  AlertsSuppressionRulesAPIScopeElement,
+  AlertsSuppressionRule,
+  AlertsSuppressionRuleProperties,
+  RuleState,
+  SuppressionAlertsScope,
+  ScopeElement,
 } from "./models.js";

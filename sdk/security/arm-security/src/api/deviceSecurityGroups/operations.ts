@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 import type { SecurityCenterContext as Client } from "../index.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
 import type {
-  IoTSecurityAPIDeviceSecurityGroup,
-  _IoTSecurityAPIDeviceSecurityGroupList,
+  DeviceSecurityGroup,
+  _DeviceSecurityGroupList,
 } from "../../models/ioTSecurityAPI/models.js";
 import {
-  ioTSecurityAPIDeviceSecurityGroupSerializer,
-  ioTSecurityAPIDeviceSecurityGroupDeserializer,
-  _ioTSecurityAPIDeviceSecurityGroupListDeserializer,
+  deviceSecurityGroupSerializer,
+  deviceSecurityGroupDeserializer,
+  _deviceSecurityGroupListDeserializer,
 } from "../../models/ioTSecurityAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -47,16 +47,16 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_IoTSecurityAPIDeviceSecurityGroupList> {
+): Promise<_DeviceSecurityGroupList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _ioTSecurityAPIDeviceSecurityGroupListDeserializer(result.body);
+  return _deviceSecurityGroupListDeserializer(result.body);
 }
 
 /** Use this method get the list of device security groups for the specified IoT Hub resource. */
@@ -64,7 +64,7 @@ export function list(
   context: Client,
   resourceId: string,
   options: DeviceSecurityGroupsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<IoTSecurityAPIDeviceSecurityGroup> {
+): PagedAsyncIterableIterator<DeviceSecurityGroup> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, resourceId, options),
@@ -98,7 +98,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
@@ -121,7 +121,7 @@ export function _createOrUpdateSend(
   context: Client,
   resourceId: string,
   deviceSecurityGroupName: string,
-  deviceSecurityGroup: IoTSecurityAPIDeviceSecurityGroup,
+  deviceSecurityGroup: DeviceSecurityGroup,
   options: DeviceSecurityGroupsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -139,22 +139,22 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: ioTSecurityAPIDeviceSecurityGroupSerializer(deviceSecurityGroup),
+    body: deviceSecurityGroupSerializer(deviceSecurityGroup),
   });
 }
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
-): Promise<IoTSecurityAPIDeviceSecurityGroup> {
+): Promise<DeviceSecurityGroup> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return ioTSecurityAPIDeviceSecurityGroupDeserializer(result.body);
+  return deviceSecurityGroupDeserializer(result.body);
 }
 
 /** Use this method to creates or updates the device security group on a specified IoT Hub resource. */
@@ -162,9 +162,9 @@ export async function createOrUpdate(
   context: Client,
   resourceId: string,
   deviceSecurityGroupName: string,
-  deviceSecurityGroup: IoTSecurityAPIDeviceSecurityGroup,
+  deviceSecurityGroup: DeviceSecurityGroup,
   options: DeviceSecurityGroupsCreateOrUpdateOptionalParams = { requestOptions: {} },
-): Promise<IoTSecurityAPIDeviceSecurityGroup> {
+): Promise<DeviceSecurityGroup> {
   const result = await _createOrUpdateSend(
     context,
     resourceId,
@@ -198,18 +198,16 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<IoTSecurityAPIDeviceSecurityGroup> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<DeviceSecurityGroup> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return ioTSecurityAPIDeviceSecurityGroupDeserializer(result.body);
+  return deviceSecurityGroupDeserializer(result.body);
 }
 
 /** Use this method to get the device security group for the specified IoT Hub resource. */
@@ -218,7 +216,7 @@ export async function get(
   resourceId: string,
   deviceSecurityGroupName: string,
   options: DeviceSecurityGroupsGetOptionalParams = { requestOptions: {} },
-): Promise<IoTSecurityAPIDeviceSecurityGroup> {
+): Promise<DeviceSecurityGroup> {
   const result = await _getSend(context, resourceId, deviceSecurityGroupName, options);
   return _getDeserialize(result);
 }

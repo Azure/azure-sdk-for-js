@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 import type { SecurityCenterContext as Client } from "../index.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
 import type {
-  IoTSecurityAPIIoTSecuritySolutionAnalyticsModel,
-  IoTSecurityAPIIoTSecuritySolutionAnalyticsModelList,
+  IoTSecuritySolutionAnalyticsModel,
+  IoTSecuritySolutionAnalyticsModelList,
 } from "../../models/ioTSecurityAPI/models.js";
 import {
-  ioTSecurityAPIIoTSecuritySolutionAnalyticsModelDeserializer,
-  ioTSecurityAPIIoTSecuritySolutionAnalyticsModelListDeserializer,
+  ioTSecuritySolutionAnalyticsModelDeserializer,
+  ioTSecuritySolutionAnalyticsModelListDeserializer,
 } from "../../models/ioTSecurityAPI/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
@@ -45,16 +45,16 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<IoTSecurityAPIIoTSecuritySolutionAnalyticsModelList> {
+): Promise<IoTSecuritySolutionAnalyticsModelList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return ioTSecurityAPIIoTSecuritySolutionAnalyticsModelListDeserializer(result.body);
+  return ioTSecuritySolutionAnalyticsModelListDeserializer(result.body);
 }
 
 /** Use this method to get IoT security Analytics metrics in an array. */
@@ -63,7 +63,7 @@ export async function list(
   resourceGroupName: string,
   solutionName: string,
   options: IotSecuritySolutionAnalyticsListOptionalParams = { requestOptions: {} },
-): Promise<IoTSecurityAPIIoTSecuritySolutionAnalyticsModelList> {
+): Promise<IoTSecuritySolutionAnalyticsModelList> {
   const result = await _listSend(context, resourceGroupName, solutionName, options);
   return _listDeserialize(result);
 }
@@ -94,16 +94,16 @@ export function _getSend(
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<IoTSecurityAPIIoTSecuritySolutionAnalyticsModel> {
+): Promise<IoTSecuritySolutionAnalyticsModel> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return ioTSecurityAPIIoTSecuritySolutionAnalyticsModelDeserializer(result.body);
+  return ioTSecuritySolutionAnalyticsModelDeserializer(result.body);
 }
 
 /** Use this method to get IoT Security Analytics metrics. */
@@ -112,7 +112,7 @@ export async function get(
   resourceGroupName: string,
   solutionName: string,
   options: IotSecuritySolutionAnalyticsGetOptionalParams = { requestOptions: {} },
-): Promise<IoTSecurityAPIIoTSecuritySolutionAnalyticsModel> {
+): Promise<IoTSecuritySolutionAnalyticsModel> {
   const result = await _getSend(context, resourceGroupName, solutionName, options);
   return _getDeserialize(result);
 }

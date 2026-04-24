@@ -3,16 +3,16 @@
 
 import type { SecurityCenterContext as Client } from "../index.js";
 import type {
-  AutomationsAPISecurityContact,
-  AutomationsAPISecurityContactName,
-  _AutomationsAPISecurityContactList,
+  SecurityContact,
+  SecurityContactName,
+  _SecurityContactList,
 } from "../../models/automationsAPI/models.js";
 import {
-  automationsAPISecurityContactSerializer,
-  automationsAPISecurityContactDeserializer,
-  _automationsAPISecurityContactListDeserializer,
+  securityContactSerializer,
+  securityContactDeserializer,
+  _securityContactListDeserializer,
 } from "../../models/automationsAPI/models.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -47,23 +47,23 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_AutomationsAPISecurityContactList> {
+): Promise<_SecurityContactList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _automationsAPISecurityContactListDeserializer(result.body);
+  return _securityContactListDeserializer(result.body);
 }
 
 /** List all security contact configurations for the subscription */
 export function list(
   context: Client,
   options: SecurityContactsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<AutomationsAPISecurityContact> {
+): PagedAsyncIterableIterator<SecurityContact> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, options),
@@ -75,7 +75,7 @@ export function list(
 
 export function _$deleteSend(
   context: Client,
-  securityContactName: AutomationsAPISecurityContactName,
+  securityContactName: SecurityContactName,
   options: SecurityContactsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -96,7 +96,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
@@ -107,7 +107,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 /** Delete security contact configurations for the subscription */
 export async function $delete(
   context: Client,
-  securityContactName: AutomationsAPISecurityContactName,
+  securityContactName: SecurityContactName,
   options: SecurityContactsDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
   const result = await _$deleteSend(context, securityContactName, options);
@@ -116,8 +116,8 @@ export async function $delete(
 
 export function _createSend(
   context: Client,
-  securityContactName: AutomationsAPISecurityContactName,
-  securityContact: AutomationsAPISecurityContact,
+  securityContactName: SecurityContactName,
+  securityContact: SecurityContact,
   options: SecurityContactsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -135,38 +135,36 @@ export function _createSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: automationsAPISecurityContactSerializer(securityContact),
+    body: securityContactSerializer(securityContact),
   });
 }
 
-export async function _createDeserialize(
-  result: PathUncheckedResponse,
-): Promise<AutomationsAPISecurityContact> {
+export async function _createDeserialize(result: PathUncheckedResponse): Promise<SecurityContact> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return automationsAPISecurityContactDeserializer(result.body);
+  return securityContactDeserializer(result.body);
 }
 
 /** Create security contact configurations for the subscription */
 export async function create(
   context: Client,
-  securityContactName: AutomationsAPISecurityContactName,
-  securityContact: AutomationsAPISecurityContact,
+  securityContactName: SecurityContactName,
+  securityContact: SecurityContact,
   options: SecurityContactsCreateOptionalParams = { requestOptions: {} },
-): Promise<AutomationsAPISecurityContact> {
+): Promise<SecurityContact> {
   const result = await _createSend(context, securityContactName, securityContact, options);
   return _createDeserialize(result);
 }
 
 export function _getSend(
   context: Client,
-  securityContactName: AutomationsAPISecurityContactName,
+  securityContactName: SecurityContactName,
   options: SecurityContactsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -186,26 +184,24 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<AutomationsAPISecurityContact> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<SecurityContact> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return automationsAPISecurityContactDeserializer(result.body);
+  return securityContactDeserializer(result.body);
 }
 
 /** Get Default Security contact configurations for the subscription */
 export async function get(
   context: Client,
-  securityContactName: AutomationsAPISecurityContactName,
+  securityContactName: SecurityContactName,
   options: SecurityContactsGetOptionalParams = { requestOptions: {} },
-): Promise<AutomationsAPISecurityContact> {
+): Promise<SecurityContact> {
   const result = await _getSend(context, securityContactName, options);
   return _getDeserialize(result);
 }

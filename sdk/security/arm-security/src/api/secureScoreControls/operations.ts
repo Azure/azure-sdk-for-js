@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import type { SecurityCenterContext as Client } from "../index.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
 import type {
-  _SecureScoreAPISecureScoreControlList,
-  SecureScoreAPISecureScoreControlDetails,
+  _SecureScoreControlList,
+  SecureScoreControlDetails,
 } from "../../models/secureScoreAPI/models.js";
-import { _secureScoreAPISecureScoreControlListDeserializer } from "../../models/secureScoreAPI/models.js";
+import { _secureScoreControlListDeserializer } from "../../models/secureScoreAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -41,23 +41,23 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_SecureScoreAPISecureScoreControlList> {
+): Promise<_SecureScoreControlList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _secureScoreAPISecureScoreControlListDeserializer(result.body);
+  return _secureScoreControlListDeserializer(result.body);
 }
 
 /** Get all security controls within a scope */
 export function list(
   context: Client,
   options: SecureScoreControlsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<SecureScoreAPISecureScoreControlDetails> {
+): PagedAsyncIterableIterator<SecureScoreControlDetails> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, options),
@@ -92,16 +92,16 @@ export function _listBySecureScoreSend(
 
 export async function _listBySecureScoreDeserialize(
   result: PathUncheckedResponse,
-): Promise<_SecureScoreAPISecureScoreControlList> {
+): Promise<_SecureScoreControlList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _secureScoreAPISecureScoreControlListDeserializer(result.body);
+  return _secureScoreControlListDeserializer(result.body);
 }
 
 /** Get all security controls for a specific initiative within a scope */
@@ -109,7 +109,7 @@ export function listBySecureScore(
   context: Client,
   secureScoreName: string,
   options: SecureScoreControlsListBySecureScoreOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<SecureScoreAPISecureScoreControlDetails> {
+): PagedAsyncIterableIterator<SecureScoreControlDetails> {
   return buildPagedAsyncIterator(
     context,
     () => _listBySecureScoreSend(context, secureScoreName, options),

@@ -9,8 +9,8 @@ import type {
   GitLabGroupsGetOptionalParams,
 } from "../../api/gitLabGroups/options.js";
 import type {
-  SecurityConnectorsDevOpsAPIGitLabGroup,
-  SecurityConnectorsDevOpsAPIGitLabGroupListResponse,
+  GitLabGroup,
+  GitLabGroupListResponse,
 } from "../../models/securityConnectorsDevOpsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
@@ -21,20 +21,20 @@ export interface GitLabGroupsOperations {
     resourceGroupName: string,
     securityConnectorName: string,
     options?: GitLabGroupsListAvailableOptionalParams,
-  ) => Promise<SecurityConnectorsDevOpsAPIGitLabGroupListResponse>;
+  ) => Promise<GitLabGroupListResponse>;
   /** Returns a list of GitLab groups onboarded to the connector. */
   list: (
     resourceGroupName: string,
     securityConnectorName: string,
     options?: GitLabGroupsListOptionalParams,
-  ) => PagedAsyncIterableIterator<SecurityConnectorsDevOpsAPIGitLabGroup>;
+  ) => PagedAsyncIterableIterator<GitLabGroup>;
   /** Returns a monitored GitLab Group resource for a given fully-qualified name. */
   get: (
     resourceGroupName: string,
     securityConnectorName: string,
     groupFQName: string,
     options?: GitLabGroupsGetOptionalParams,
-  ) => Promise<SecurityConnectorsDevOpsAPIGitLabGroup>;
+  ) => Promise<GitLabGroup>;
 }
 
 function _getGitLabGroups(context: SecurityCenterContext) {

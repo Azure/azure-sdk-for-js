@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CommonProvisioningState } from "../common/models.js";
+import type { ProvisioningState } from "../common/models.js";
 import type { ExtensionResource } from "../models.js";
 import { systemDataDeserializer } from "../models.js";
 
@@ -12,9 +12,9 @@ import { systemDataDeserializer } from "../models.js";
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** An API collection as represented by Microsoft Defender for APIs. */
-export interface ApiCollectionsAPIApiCollection extends ExtensionResource {
+export interface ApiCollection extends ExtensionResource {
   /** Gets the provisioning state of the API collection. */
-  readonly provisioningState?: CommonProvisioningState;
+  readonly provisioningState?: ProvisioningState;
   /** The display name of the API collection. */
   readonly displayName?: string;
   /** The resource Id of the resource from where this API collection was discovered. */
@@ -35,9 +35,7 @@ export interface ApiCollectionsAPIApiCollection extends ExtensionResource {
   readonly sensitivityLabel?: string;
 }
 
-export function apiCollectionsAPIApiCollectionDeserializer(
-  item: any,
-): ApiCollectionsAPIApiCollection {
+export function apiCollectionDeserializer(item: any): ApiCollection {
   return {
     id: item["id"],
     name: item["name"],
@@ -52,9 +50,9 @@ export function apiCollectionsAPIApiCollectionDeserializer(
 }
 
 /** Describes the properties of an API collection. */
-export interface ApiCollectionsAPIApiCollectionProperties {
+export interface ApiCollectionProperties {
   /** Gets the provisioning state of the API collection. */
-  readonly provisioningState?: CommonProvisioningState;
+  readonly provisioningState?: ProvisioningState;
   /** The display name of the API collection. */
   readonly displayName?: string;
   /** The resource Id of the resource from where this API collection was discovered. */
@@ -75,9 +73,7 @@ export interface ApiCollectionsAPIApiCollectionProperties {
   readonly sensitivityLabel?: string;
 }
 
-export function apiCollectionsAPIApiCollectionPropertiesDeserializer(
-  item: any,
-): ApiCollectionsAPIApiCollectionProperties {
+export function apiCollectionPropertiesDeserializer(item: any): ApiCollectionProperties {
   return {
     provisioningState: item["provisioningState"],
     displayName: item["displayName"],
@@ -94,29 +90,23 @@ export function apiCollectionsAPIApiCollectionPropertiesDeserializer(
 }
 
 /** Page of a list of API collections as represented by Microsoft Defender for APIs. */
-export interface _ApiCollectionsAPIApiCollectionList {
+export interface _ApiCollectionList {
   /** API collections in this page. */
-  readonly value?: ApiCollectionsAPIApiCollection[];
+  readonly value?: ApiCollection[];
   /** The URI to fetch the next page. */
   readonly nextLink?: string;
 }
 
-export function _apiCollectionsAPIApiCollectionListDeserializer(
-  item: any,
-): _ApiCollectionsAPIApiCollectionList {
+export function _apiCollectionListDeserializer(item: any): _ApiCollectionList {
   return {
-    value: !item["value"]
-      ? item["value"]
-      : apiCollectionsAPIApiCollectionArrayDeserializer(item["value"]),
+    value: !item["value"] ? item["value"] : apiCollectionArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function apiCollectionsAPIApiCollectionArrayDeserializer(
-  result: Array<ApiCollectionsAPIApiCollection>,
-): any[] {
+export function apiCollectionArrayDeserializer(result: Array<ApiCollection>): any[] {
   return result.map((item) => {
-    return apiCollectionsAPIApiCollectionDeserializer(item);
+    return apiCollectionDeserializer(item);
   });
 }
 

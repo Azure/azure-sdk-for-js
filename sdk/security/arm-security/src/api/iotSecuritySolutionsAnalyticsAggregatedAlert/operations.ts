@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 import type { SecurityCenterContext as Client } from "../index.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
 import type {
-  IoTSecurityAPIIoTSecurityAggregatedAlert,
-  _IoTSecurityAPIIoTSecurityAggregatedAlertList,
+  IoTSecurityAggregatedAlert,
+  _IoTSecurityAggregatedAlertList,
 } from "../../models/ioTSecurityAPI/models.js";
 import {
-  ioTSecurityAPIIoTSecurityAggregatedAlertDeserializer,
-  _ioTSecurityAPIIoTSecurityAggregatedAlertListDeserializer,
+  ioTSecurityAggregatedAlertDeserializer,
+  _ioTSecurityAggregatedAlertListDeserializer,
 } from "../../models/ioTSecurityAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -51,7 +51,7 @@ export async function _dismissDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
@@ -106,16 +106,16 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_IoTSecurityAPIIoTSecurityAggregatedAlertList> {
+): Promise<_IoTSecurityAggregatedAlertList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _ioTSecurityAPIIoTSecurityAggregatedAlertListDeserializer(result.body);
+  return _ioTSecurityAggregatedAlertListDeserializer(result.body);
 }
 
 /** Use this method to get the aggregated alert list of yours IoT Security solution. */
@@ -124,7 +124,7 @@ export function list(
   resourceGroupName: string,
   solutionName: string,
   options: IotSecuritySolutionsAnalyticsAggregatedAlertListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<IoTSecurityAPIIoTSecurityAggregatedAlert> {
+): PagedAsyncIterableIterator<IoTSecurityAggregatedAlert> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, resourceGroupName, solutionName, options),
@@ -162,16 +162,16 @@ export function _getSend(
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<IoTSecurityAPIIoTSecurityAggregatedAlert> {
+): Promise<IoTSecurityAggregatedAlert> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return ioTSecurityAPIIoTSecurityAggregatedAlertDeserializer(result.body);
+  return ioTSecurityAggregatedAlertDeserializer(result.body);
 }
 
 /** Use this method to get a single the aggregated alert of yours IoT Security solution. This aggregation is performed by alert name. */
@@ -181,7 +181,7 @@ export async function get(
   solutionName: string,
   aggregatedAlertName: string,
   options: IotSecuritySolutionsAnalyticsAggregatedAlertGetOptionalParams = { requestOptions: {} },
-): Promise<IoTSecurityAPIIoTSecurityAggregatedAlert> {
+): Promise<IoTSecurityAggregatedAlert> {
   const result = await _getSend(
     context,
     resourceGroupName,

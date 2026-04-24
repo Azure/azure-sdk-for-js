@@ -7,7 +7,7 @@ import type {
   SecuritySolutionsListOptionalParams,
   SecuritySolutionsGetOptionalParams,
 } from "../../api/securitySolutions/options.js";
-import type { SecuritySolutionsAPISecuritySolution } from "../../models/securitySolutionsAPI/models.js";
+import type { SecuritySolution } from "../../models/securitySolutionsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a SecuritySolutions operations. */
@@ -15,14 +15,14 @@ export interface SecuritySolutionsOperations {
   /** Gets a list of Security Solutions for the subscription. */
   list: (
     options?: SecuritySolutionsListOptionalParams,
-  ) => PagedAsyncIterableIterator<SecuritySolutionsAPISecuritySolution>;
+  ) => PagedAsyncIterableIterator<SecuritySolution>;
   /** Gets a specific Security Solution. */
   get: (
     resourceGroupName: string,
     ascLocation: string,
     securitySolutionName: string,
     options?: SecuritySolutionsGetOptionalParams,
-  ) => Promise<SecuritySolutionsAPISecuritySolution>;
+  ) => Promise<SecuritySolution>;
 }
 
 function _getSecuritySolutions(context: SecurityCenterContext) {

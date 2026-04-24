@@ -7,7 +7,7 @@ import type {
   MdeOnboardingsListOptionalParams,
   MdeOnboardingsGetOptionalParams,
 } from "../../api/mdeOnboardings/options.js";
-import type { MdeOnboardingAPIMdeOnboardingData } from "../../models/mdeOnboardingAPI/models.js";
+import type { MdeOnboardingData } from "../../models/mdeOnboardingAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a MdeOnboardings operations. */
@@ -15,9 +15,9 @@ export interface MdeOnboardingsOperations {
   /** The configuration or data needed to onboard the machine to MDE */
   list: (
     options?: MdeOnboardingsListOptionalParams,
-  ) => PagedAsyncIterableIterator<MdeOnboardingAPIMdeOnboardingData>;
+  ) => PagedAsyncIterableIterator<MdeOnboardingData>;
   /** The default configuration or data needed to onboard the machine to MDE */
-  get: (options?: MdeOnboardingsGetOptionalParams) => Promise<MdeOnboardingAPIMdeOnboardingData>;
+  get: (options?: MdeOnboardingsGetOptionalParams) => Promise<MdeOnboardingData>;
 }
 
 function _getMdeOnboardings(context: SecurityCenterContext) {

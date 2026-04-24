@@ -12,53 +12,45 @@ import { systemDataDeserializer } from "../models.js";
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Page of a security applications list */
-export interface _ApplicationsAPIApplicationsList {
+export interface _ApplicationsList {
   /** Collection of applications in this page */
-  readonly value?: ApplicationsAPIApplication[];
+  readonly value?: Application[];
   /** The URI to fetch the next page */
   readonly nextLink?: string;
 }
 
-export function _applicationsAPIApplicationsListDeserializer(
-  item: any,
-): _ApplicationsAPIApplicationsList {
+export function _applicationsListDeserializer(item: any): _ApplicationsList {
   return {
-    value: !item["value"]
-      ? item["value"]
-      : applicationsAPIApplicationArrayDeserializer(item["value"]),
+    value: !item["value"] ? item["value"] : applicationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function applicationsAPIApplicationArraySerializer(
-  result: Array<ApplicationsAPIApplication>,
-): any[] {
+export function applicationArraySerializer(result: Array<Application>): any[] {
   return result.map((item) => {
-    return applicationsAPIApplicationSerializer(item);
+    return applicationSerializer(item);
   });
 }
 
-export function applicationsAPIApplicationArrayDeserializer(
-  result: Array<ApplicationsAPIApplication>,
-): any[] {
+export function applicationArrayDeserializer(result: Array<Application>): any[] {
   return result.map((item) => {
-    return applicationsAPIApplicationDeserializer(item);
+    return applicationDeserializer(item);
   });
 }
 
 /** Security Application over a given scope */
-export interface ApplicationsAPIApplication extends ProxyResource {
+export interface Application extends ProxyResource {
   /** display name of the application */
   displayName?: string;
   /** description of the application */
   description?: string;
   /** The application source, what it affects, e.g. Assessments */
-  sourceResourceType?: ApplicationsAPIApplicationSourceResourceType;
+  sourceResourceType?: ApplicationSourceResourceType;
   /** The application conditionSets - see examples */
   conditionSets?: any[];
 }
 
-export function applicationsAPIApplicationSerializer(item: ApplicationsAPIApplication): any {
+export function applicationSerializer(item: Application): any {
   return {
     properties: areAllPropsUndefined(item, [
       "displayName",
@@ -71,7 +63,7 @@ export function applicationsAPIApplicationSerializer(item: ApplicationsAPIApplic
   };
 }
 
-export function applicationsAPIApplicationDeserializer(item: any): ApplicationsAPIApplication {
+export function applicationDeserializer(item: any): Application {
   return {
     id: item["id"],
     name: item["name"],
@@ -86,20 +78,18 @@ export function applicationsAPIApplicationDeserializer(item: any): ApplicationsA
 }
 
 /** Describes properties of an application */
-export interface ApplicationsAPIApplicationProperties {
+export interface ApplicationProperties {
   /** display name of the application */
   displayName?: string;
   /** description of the application */
   description?: string;
   /** The application source, what it affects, e.g. Assessments */
-  sourceResourceType: ApplicationsAPIApplicationSourceResourceType;
+  sourceResourceType: ApplicationSourceResourceType;
   /** The application conditionSets - see examples */
   conditionSets: any[];
 }
 
-export function applicationsAPIApplicationPropertiesSerializer(
-  item: ApplicationsAPIApplicationProperties,
-): any {
+export function applicationPropertiesSerializer(item: ApplicationProperties): any {
   return {
     displayName: item["displayName"],
     description: item["description"],
@@ -110,9 +100,7 @@ export function applicationsAPIApplicationPropertiesSerializer(
   };
 }
 
-export function applicationsAPIApplicationPropertiesDeserializer(
-  item: any,
-): ApplicationsAPIApplicationProperties {
+export function applicationPropertiesDeserializer(item: any): ApplicationProperties {
   return {
     displayName: item["displayName"],
     description: item["description"],
@@ -124,21 +112,21 @@ export function applicationsAPIApplicationPropertiesDeserializer(
 }
 
 /** The application source, what it affects, e.g. Assessments */
-export enum KnownApplicationsAPIApplicationSourceResourceType {
+export enum KnownApplicationSourceResourceType {
   /** The source of the application is assessments */
   Assessments = "Assessments",
 }
 
 /**
  * The application source, what it affects, e.g. Assessments \
- * {@link KnownApplicationsAPIApplicationSourceResourceType} can be used interchangeably with ApplicationsAPIApplicationSourceResourceType,
+ * {@link KnownApplicationSourceResourceType} can be used interchangeably with ApplicationSourceResourceType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Assessments**: The source of the application is assessments
  */
-export type ApplicationsAPIApplicationSourceResourceType = string;
+export type ApplicationSourceResourceType = string;
 
-export function _applicationPropertiesSerializer(item: ApplicationsAPIApplication): any {
+export function _applicationPropertiesSerializer(item: Application): any {
   return {
     displayName: item["displayName"],
     description: item["description"],

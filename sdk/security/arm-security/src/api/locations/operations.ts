@@ -2,14 +2,11 @@
 // Licensed under the MIT License.
 
 import type { SecurityCenterContext as Client } from "../index.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
-import type {
-  LocationsAPIAscLocation,
-  _LocationsAPIAscLocationList,
-} from "../../models/locationsAPI/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
+import type { AscLocation, _AscLocationList } from "../../models/locationsAPI/models.js";
 import {
-  locationsAPIAscLocationDeserializer,
-  _locationsAPIAscLocationListDeserializer,
+  ascLocationDeserializer,
+  _ascLocationListDeserializer,
 } from "../../models/locationsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -38,25 +35,23 @@ export function _listSend(
   });
 }
 
-export async function _listDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_LocationsAPIAscLocationList> {
+export async function _listDeserialize(result: PathUncheckedResponse): Promise<_AscLocationList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _locationsAPIAscLocationListDeserializer(result.body);
+  return _ascLocationListDeserializer(result.body);
 }
 
 /** The location of the responsible ASC of the specific subscription (home region). For each subscription there is only one responsible location. The location in the response should be used to read or write other resources in ASC according to their ID. */
 export function list(
   context: Client,
   options: LocationsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<LocationsAPIAscLocation> {
+): PagedAsyncIterableIterator<AscLocation> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, options),
@@ -88,18 +83,16 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<LocationsAPIAscLocation> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<AscLocation> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return locationsAPIAscLocationDeserializer(result.body);
+  return ascLocationDeserializer(result.body);
 }
 
 /** Details of a specific location */
@@ -107,7 +100,7 @@ export async function get(
   context: Client,
   ascLocation: string,
   options: LocationsGetOptionalParams = { requestOptions: {} },
-): Promise<LocationsAPIAscLocation> {
+): Promise<AscLocation> {
   const result = await _getSend(context, ascLocation, options);
   return _getDeserialize(result);
 }

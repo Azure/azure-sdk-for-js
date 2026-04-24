@@ -12,16 +12,14 @@ import { stringToUint8Array } from "@azure/core-util";
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** The resource of the configuration or data needed to onboard the machine to MDE */
-export interface MdeOnboardingAPIMdeOnboardingData extends ProxyResource {
+export interface MdeOnboardingData extends ProxyResource {
   /** The onboarding package used to onboard Windows machines to MDE, coded in base64. This can also be used for onboarding using the dedicated VM Extension */
   onboardingPackageWindows?: Uint8Array;
   /** The onboarding package used to onboard Linux machines to MDE, coded in base64. This can also be used for onboarding using the dedicated VM Extension */
   onboardingPackageLinux?: Uint8Array;
 }
 
-export function mdeOnboardingAPIMdeOnboardingDataDeserializer(
-  item: any,
-): MdeOnboardingAPIMdeOnboardingData {
+export function mdeOnboardingDataDeserializer(item: any): MdeOnboardingData {
   return {
     id: item["id"],
     name: item["name"],
@@ -36,16 +34,14 @@ export function mdeOnboardingAPIMdeOnboardingDataDeserializer(
 }
 
 /** Properties of the MDE configuration or data parameter needed to onboard the machine to MDE */
-export interface MdeOnboardingAPIMdeOnboardingDataProperties {
+export interface MdeOnboardingDataProperties {
   /** The onboarding package used to onboard Windows machines to MDE, coded in base64. This can also be used for onboarding using the dedicated VM Extension */
   onboardingPackageWindows?: Uint8Array;
   /** The onboarding package used to onboard Linux machines to MDE, coded in base64. This can also be used for onboarding using the dedicated VM Extension */
   onboardingPackageLinux?: Uint8Array;
 }
 
-export function mdeOnboardingAPIMdeOnboardingDataPropertiesDeserializer(
-  item: any,
-): MdeOnboardingAPIMdeOnboardingDataProperties {
+export function mdeOnboardingDataPropertiesDeserializer(item: any): MdeOnboardingDataProperties {
   return {
     onboardingPackageWindows: !item["onboardingPackageWindows"]
       ? item["onboardingPackageWindows"]
@@ -61,26 +57,20 @@ export function mdeOnboardingAPIMdeOnboardingDataPropertiesDeserializer(
 }
 
 /** List of all MDE onboarding data resources */
-export interface _MdeOnboardingAPIMdeOnboardingDataList {
+export interface _MdeOnboardingDataList {
   /** List of the resources of the configuration or data needed to onboard the machine to MDE */
-  value?: MdeOnboardingAPIMdeOnboardingData[];
+  value?: MdeOnboardingData[];
 }
 
-export function _mdeOnboardingAPIMdeOnboardingDataListDeserializer(
-  item: any,
-): _MdeOnboardingAPIMdeOnboardingDataList {
+export function _mdeOnboardingDataListDeserializer(item: any): _MdeOnboardingDataList {
   return {
-    value: !item["value"]
-      ? item["value"]
-      : mdeOnboardingAPIMdeOnboardingDataArrayDeserializer(item["value"]),
+    value: !item["value"] ? item["value"] : mdeOnboardingDataArrayDeserializer(item["value"]),
   };
 }
 
-export function mdeOnboardingAPIMdeOnboardingDataArrayDeserializer(
-  result: Array<MdeOnboardingAPIMdeOnboardingData>,
-): any[] {
+export function mdeOnboardingDataArrayDeserializer(result: Array<MdeOnboardingData>): any[] {
   return result.map((item) => {
-    return mdeOnboardingAPIMdeOnboardingDataDeserializer(item);
+    return mdeOnboardingDataDeserializer(item);
   });
 }
 

@@ -5,48 +5,48 @@
 ```ts
 
 // @public
-export enum KnownPrivateLinksAPIPublicNetworkAccess {
+export enum KnownPublicNetworkAccess {
     Disabled = "Disabled",
     Enabled = "Enabled"
 }
 
 // @public
-export interface PrivateLinksAPIPrivateEndpointConnection extends Resource {
+export interface PrivateEndpointConnection extends Resource {
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
     readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
 }
 
 // @public
-export interface PrivateLinksAPIPrivateLinkGroupResource extends ProxyResource {
+export interface PrivateLinkGroupResource extends ProxyResource {
     readonly groupId?: string;
     readonly requiredMembers?: string[];
     requiredZoneNames?: string[];
 }
 
 // @public
-export interface PrivateLinksAPIPrivateLinkProperties {
-    readonly privateEndpointConnections?: PrivateLinksAPIPrivateEndpointConnection[];
-    readonly privateLinkResources?: PrivateLinksAPIPrivateLinkGroupResource[];
-    readonly provisioningState?: CommonProvisioningState;
-    publicNetworkAccess?: PrivateLinksAPIPublicNetworkAccess;
+export interface PrivateLinkProperties {
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly privateLinkResources?: PrivateLinkGroupResource[];
+    readonly provisioningState?: ProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccess;
 }
 
 // @public
-export interface PrivateLinksAPIPrivateLinkResource extends TrackedResource {
-    readonly privateEndpointConnections?: PrivateLinksAPIPrivateEndpointConnection[];
-    readonly privateLinkResources?: PrivateLinksAPIPrivateLinkGroupResource[];
-    readonly provisioningState?: CommonProvisioningState;
-    publicNetworkAccess?: PrivateLinksAPIPublicNetworkAccess;
+export interface PrivateLinkResource extends TrackedResource {
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly privateLinkResources?: PrivateLinkGroupResource[];
+    readonly provisioningState?: ProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccess;
 }
 
 // @public
-export interface PrivateLinksAPIPrivateLinkUpdate {
+export interface PrivateLinkUpdate {
     tags?: Record<string, string>;
 }
 
 // @public
-export type PrivateLinksAPIPublicNetworkAccess = string;
+export type PublicNetworkAccess = string;
 
 // (No @packageDocumentation comment for this package)
 

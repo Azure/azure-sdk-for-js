@@ -9,7 +9,7 @@ import type {
   CustomRecommendationsCreateOrUpdateOptionalParams,
   CustomRecommendationsGetOptionalParams,
 } from "../../api/customRecommendations/options.js";
-import type { SecurityStandardsAPICustomRecommendation } from "../../models/securityStandardsAPI/models.js";
+import type { CustomRecommendation } from "../../models/securityStandardsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a CustomRecommendations operations. */
@@ -18,7 +18,7 @@ export interface CustomRecommendationsOperations {
   list: (
     scope: string,
     options?: CustomRecommendationsListOptionalParams,
-  ) => PagedAsyncIterableIterator<SecurityStandardsAPICustomRecommendation>;
+  ) => PagedAsyncIterableIterator<CustomRecommendation>;
   /** Delete a custom recommendation over a given scope */
   delete: (
     scope: string,
@@ -29,15 +29,15 @@ export interface CustomRecommendationsOperations {
   createOrUpdate: (
     scope: string,
     customRecommendationName: string,
-    customRecommendationBody: SecurityStandardsAPICustomRecommendation,
+    customRecommendationBody: CustomRecommendation,
     options?: CustomRecommendationsCreateOrUpdateOptionalParams,
-  ) => Promise<SecurityStandardsAPICustomRecommendation>;
+  ) => Promise<CustomRecommendation>;
   /** Get a specific custom recommendation for the requested scope by customRecommendationName */
   get: (
     scope: string,
     customRecommendationName: string,
     options?: CustomRecommendationsGetOptionalParams,
-  ) => Promise<SecurityStandardsAPICustomRecommendation>;
+  ) => Promise<CustomRecommendation>;
 }
 
 function _getCustomRecommendations(context: SecurityCenterContext) {
@@ -52,7 +52,7 @@ function _getCustomRecommendations(context: SecurityCenterContext) {
     createOrUpdate: (
       scope: string,
       customRecommendationName: string,
-      customRecommendationBody: SecurityStandardsAPICustomRecommendation,
+      customRecommendationBody: CustomRecommendation,
       options?: CustomRecommendationsCreateOrUpdateOptionalParams,
     ) =>
       createOrUpdate(context, scope, customRecommendationName, customRecommendationBody, options),

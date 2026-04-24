@@ -2,6 +2,6 @@
 // Licensed under the MIT License.
 
 export type {
-  ATPSettingsAPIAdvancedThreatProtectionSetting,
-  ATPSettingsAPIAdvancedThreatProtectionProperties,
+  AdvancedThreatProtectionSetting,
+  AdvancedThreatProtectionProperties,
 } from "./models.js";

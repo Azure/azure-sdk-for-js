@@ -9,8 +9,8 @@ import type {
   GitHubOwnersGetOptionalParams,
 } from "../../api/gitHubOwners/options.js";
 import type {
-  SecurityConnectorsDevOpsAPIGitHubOwner,
-  SecurityConnectorsDevOpsAPIGitHubOwnerListResponse,
+  GitHubOwner,
+  GitHubOwnerListResponse,
 } from "../../models/securityConnectorsDevOpsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
@@ -21,20 +21,20 @@ export interface GitHubOwnersOperations {
     resourceGroupName: string,
     securityConnectorName: string,
     options?: GitHubOwnersListAvailableOptionalParams,
-  ) => Promise<SecurityConnectorsDevOpsAPIGitHubOwnerListResponse>;
+  ) => Promise<GitHubOwnerListResponse>;
   /** Returns a list of GitHub owners onboarded to the connector. */
   list: (
     resourceGroupName: string,
     securityConnectorName: string,
     options?: GitHubOwnersListOptionalParams,
-  ) => PagedAsyncIterableIterator<SecurityConnectorsDevOpsAPIGitHubOwner>;
+  ) => PagedAsyncIterableIterator<GitHubOwner>;
   /** Returns a monitored GitHub owner. */
   get: (
     resourceGroupName: string,
     securityConnectorName: string,
     ownerName: string,
     options?: GitHubOwnersGetOptionalParams,
-  ) => Promise<SecurityConnectorsDevOpsAPIGitHubOwner>;
+  ) => Promise<GitHubOwner>;
 }
 
 function _getGitHubOwners(context: SecurityCenterContext) {

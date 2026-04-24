@@ -5,72 +5,72 @@
 ```ts
 
 // @public
-export enum KnownSecureScoreAPIControlType {
+export interface AzureResourceLink {
+    readonly id?: string;
+}
+
+// @public
+export type ControlType = string;
+
+// @public
+export type ExpandControlsEnum = string;
+
+// @public
+export enum KnownControlType {
     BuiltIn = "BuiltIn",
     Custom = "Custom"
 }
 
 // @public
-export enum KnownSecureScoreAPIExpandControlsEnum {
+export enum KnownExpandControlsEnum {
     Definition = "definition"
 }
 
 // @public
-export interface SecureScoreAPIAzureResourceLink {
-    readonly id?: string;
-}
-
-// @public
-export type SecureScoreAPIControlType = string;
-
-// @public
-export type SecureScoreAPIExpandControlsEnum = string;
-
-// @public
-export interface SecureScoreAPIScoreDetails {
+export interface ScoreDetails {
     readonly current?: number;
     readonly max?: number;
     readonly percentage?: number;
 }
 
 // @public
-export interface SecureScoreAPISecureScoreControlDefinitionItem extends Resource {
-    readonly assessmentDefinitions?: SecureScoreAPIAzureResourceLink[];
+export interface SecureScoreControlDefinitionItem extends Resource {
+    readonly assessmentDefinitions?: AzureResourceLink[];
     readonly description?: string;
     readonly displayName?: string;
     readonly maxScore?: number;
-    readonly source?: SecureScoreAPISecureScoreControlDefinitionSource;
+    readonly source?: SecureScoreControlDefinitionSource;
 }
 
 // @public
-export interface SecureScoreAPISecureScoreControlDefinitionItemProperties {
-    readonly assessmentDefinitions?: SecureScoreAPIAzureResourceLink[];
+export interface SecureScoreControlDefinitionItemProperties {
+    readonly assessmentDefinitions?: AzureResourceLink[];
     readonly description?: string;
     readonly displayName?: string;
     readonly maxScore?: number;
-    readonly source?: SecureScoreAPISecureScoreControlDefinitionSource;
+    readonly source?: SecureScoreControlDefinitionSource;
 }
 
 // @public
-export interface SecureScoreAPISecureScoreControlDefinitionSource {
-    sourceType?: SecureScoreAPIControlType;
+export interface SecureScoreControlDefinitionSource {
+    sourceType?: ControlType;
 }
 
 // @public
-export interface SecureScoreAPISecureScoreControlDetails extends Resource {
-    definition?: SecureScoreAPISecureScoreControlDefinitionItem;
+export interface SecureScoreControlDetails extends Resource {
+    definition?: SecureScoreControlDefinitionItem;
     readonly displayName?: string;
     readonly healthyResourceCount?: number;
     readonly notApplicableResourceCount?: number;
-    score?: SecureScoreAPIScoreDetails;
+    score?: ScoreDetails;
     readonly unhealthyResourceCount?: number;
     readonly weight?: number;
 }
 
 // @public
-export interface SecureScoreAPISecureScoreControlScoreDetails {
+export interface SecureScoreControlScoreDetails {
     readonly current?: number;
-    definition?: SecureScoreAPISecureScoreControlDefinitionItem;
+    definition?: SecureScoreControlDefinitionItem;
     readonly displayName?: string;
     readonly healthyResourceCount?: number;
     readonly max?: number;
@@ -81,14 +81,14 @@ export interface SecureScoreAPISecureScoreControlScoreDetails {
 }
 
 // @public
-export interface SecureScoreAPISecureScoreItem extends ProxyResource {
+export interface SecureScoreItem extends ProxyResource {
     readonly displayName?: string;
-    readonly score?: SecureScoreAPIScoreDetails;
+    readonly score?: ScoreDetails;
     readonly weight?: number;
 }
 
 // @public
-export interface SecureScoreAPISecureScoreItemProperties {
+export interface SecureScoreItemProperties {
     readonly current?: number;
     readonly displayName?: string;
     readonly max?: number;

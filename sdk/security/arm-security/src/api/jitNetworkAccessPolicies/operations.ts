@@ -2,19 +2,19 @@
 // Licensed under the MIT License.
 
 import type { SecurityCenterContext as Client } from "../index.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
 import type {
-  SecuritySolutionsAPIJitNetworkAccessPolicy,
-  SecuritySolutionsAPIJitNetworkAccessRequest,
-  _SecuritySolutionsAPIJitNetworkAccessPoliciesList,
-  SecuritySolutionsAPIJitNetworkAccessPolicyInitiateRequest,
+  JitNetworkAccessPolicy,
+  JitNetworkAccessRequest,
+  _JitNetworkAccessPoliciesList,
+  JitNetworkAccessPolicyInitiateRequest,
 } from "../../models/securitySolutionsAPI/models.js";
 import {
-  securitySolutionsAPIJitNetworkAccessPolicySerializer,
-  securitySolutionsAPIJitNetworkAccessPolicyDeserializer,
-  securitySolutionsAPIJitNetworkAccessRequestDeserializer,
-  _securitySolutionsAPIJitNetworkAccessPoliciesListDeserializer,
-  securitySolutionsAPIJitNetworkAccessPolicyInitiateRequestSerializer,
+  jitNetworkAccessPolicySerializer,
+  jitNetworkAccessPolicyDeserializer,
+  jitNetworkAccessRequestDeserializer,
+  _jitNetworkAccessPoliciesListDeserializer,
+  jitNetworkAccessPolicyInitiateRequestSerializer,
 } from "../../models/securitySolutionsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -56,16 +56,16 @@ export function _listByResourceGroupSend(
 
 export async function _listByResourceGroupDeserialize(
   result: PathUncheckedResponse,
-): Promise<_SecuritySolutionsAPIJitNetworkAccessPoliciesList> {
+): Promise<_JitNetworkAccessPoliciesList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _securitySolutionsAPIJitNetworkAccessPoliciesListDeserializer(result.body);
+  return _jitNetworkAccessPoliciesListDeserializer(result.body);
 }
 
 /** Policies for protecting resources using Just-in-Time access control for the subscription, location */
@@ -73,7 +73,7 @@ export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
   options: JitNetworkAccessPoliciesListByResourceGroupOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<SecuritySolutionsAPIJitNetworkAccessPolicy> {
+): PagedAsyncIterableIterator<JitNetworkAccessPolicy> {
   return buildPagedAsyncIterator(
     context,
     () => _listByResourceGroupSend(context, resourceGroupName, options),
@@ -105,23 +105,23 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_SecuritySolutionsAPIJitNetworkAccessPoliciesList> {
+): Promise<_JitNetworkAccessPoliciesList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _securitySolutionsAPIJitNetworkAccessPoliciesListDeserializer(result.body);
+  return _jitNetworkAccessPoliciesListDeserializer(result.body);
 }
 
 /** Policies for protecting resources using Just-in-Time access control. */
 export function list(
   context: Client,
   options: JitNetworkAccessPoliciesListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<SecuritySolutionsAPIJitNetworkAccessPolicy> {
+): PagedAsyncIterableIterator<JitNetworkAccessPolicy> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, options),
@@ -136,7 +136,7 @@ export function _initiateSend(
   resourceGroupName: string,
   ascLocation: string,
   jitNetworkAccessPolicyName: string,
-  body: SecuritySolutionsAPIJitNetworkAccessPolicyInitiateRequest,
+  body: JitNetworkAccessPolicyInitiateRequest,
   options: JitNetworkAccessPoliciesInitiateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -157,22 +157,22 @@ export function _initiateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: securitySolutionsAPIJitNetworkAccessPolicyInitiateRequestSerializer(body),
+    body: jitNetworkAccessPolicyInitiateRequestSerializer(body),
   });
 }
 
 export async function _initiateDeserialize(
   result: PathUncheckedResponse,
-): Promise<SecuritySolutionsAPIJitNetworkAccessRequest> {
+): Promise<JitNetworkAccessRequest> {
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return securitySolutionsAPIJitNetworkAccessRequestDeserializer(result.body);
+  return jitNetworkAccessRequestDeserializer(result.body);
 }
 
 /** Initiate a JIT access from a specific Just-in-Time policy configuration. */
@@ -181,9 +181,9 @@ export async function initiate(
   resourceGroupName: string,
   ascLocation: string,
   jitNetworkAccessPolicyName: string,
-  body: SecuritySolutionsAPIJitNetworkAccessPolicyInitiateRequest,
+  body: JitNetworkAccessPolicyInitiateRequest,
   options: JitNetworkAccessPoliciesInitiateOptionalParams = { requestOptions: {} },
-): Promise<SecuritySolutionsAPIJitNetworkAccessRequest> {
+): Promise<JitNetworkAccessRequest> {
   const result = await _initiateSend(
     context,
     resourceGroupName,
@@ -219,16 +219,16 @@ export function _listByRegionSend(
 
 export async function _listByRegionDeserialize(
   result: PathUncheckedResponse,
-): Promise<_SecuritySolutionsAPIJitNetworkAccessPoliciesList> {
+): Promise<_JitNetworkAccessPoliciesList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _securitySolutionsAPIJitNetworkAccessPoliciesListDeserializer(result.body);
+  return _jitNetworkAccessPoliciesListDeserializer(result.body);
 }
 
 /** Policies for protecting resources using Just-in-Time access control for the subscription, location */
@@ -236,7 +236,7 @@ export function listByRegion(
   context: Client,
   ascLocation: string,
   options: JitNetworkAccessPoliciesListByRegionOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<SecuritySolutionsAPIJitNetworkAccessPolicy> {
+): PagedAsyncIterableIterator<JitNetworkAccessPolicy> {
   return buildPagedAsyncIterator(
     context,
     () => _listByRegionSend(context, ascLocation, options),
@@ -274,16 +274,16 @@ export function _listByResourceGroupAndRegionSend(
 
 export async function _listByResourceGroupAndRegionDeserialize(
   result: PathUncheckedResponse,
-): Promise<_SecuritySolutionsAPIJitNetworkAccessPoliciesList> {
+): Promise<_JitNetworkAccessPoliciesList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _securitySolutionsAPIJitNetworkAccessPoliciesListDeserializer(result.body);
+  return _jitNetworkAccessPoliciesListDeserializer(result.body);
 }
 
 /** Policies for protecting resources using Just-in-Time access control for the subscription, location */
@@ -294,7 +294,7 @@ export function listByResourceGroupAndRegion(
   options: JitNetworkAccessPoliciesListByResourceGroupAndRegionOptionalParams = {
     requestOptions: {},
   },
-): PagedAsyncIterableIterator<SecuritySolutionsAPIJitNetworkAccessPolicy> {
+): PagedAsyncIterableIterator<JitNetworkAccessPolicy> {
   return buildPagedAsyncIterator(
     context,
     () => _listByResourceGroupAndRegionSend(context, resourceGroupName, ascLocation, options),
@@ -331,7 +331,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
@@ -362,7 +362,7 @@ export function _createOrUpdateSend(
   resourceGroupName: string,
   ascLocation: string,
   jitNetworkAccessPolicyName: string,
-  body: SecuritySolutionsAPIJitNetworkAccessPolicy,
+  body: JitNetworkAccessPolicy,
   options: JitNetworkAccessPoliciesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -382,22 +382,22 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: securitySolutionsAPIJitNetworkAccessPolicySerializer(body),
+    body: jitNetworkAccessPolicySerializer(body),
   });
 }
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
-): Promise<SecuritySolutionsAPIJitNetworkAccessPolicy> {
+): Promise<JitNetworkAccessPolicy> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return securitySolutionsAPIJitNetworkAccessPolicyDeserializer(result.body);
+  return jitNetworkAccessPolicyDeserializer(result.body);
 }
 
 /** Create a policy for protecting resources using Just-in-Time access control */
@@ -406,9 +406,9 @@ export async function createOrUpdate(
   resourceGroupName: string,
   ascLocation: string,
   jitNetworkAccessPolicyName: string,
-  body: SecuritySolutionsAPIJitNetworkAccessPolicy,
+  body: JitNetworkAccessPolicy,
   options: JitNetworkAccessPoliciesCreateOrUpdateOptionalParams = { requestOptions: {} },
-): Promise<SecuritySolutionsAPIJitNetworkAccessPolicy> {
+): Promise<JitNetworkAccessPolicy> {
   const result = await _createOrUpdateSend(
     context,
     resourceGroupName,
@@ -448,16 +448,16 @@ export function _getSend(
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<SecuritySolutionsAPIJitNetworkAccessPolicy> {
+): Promise<JitNetworkAccessPolicy> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return securitySolutionsAPIJitNetworkAccessPolicyDeserializer(result.body);
+  return jitNetworkAccessPolicyDeserializer(result.body);
 }
 
 /** Policies for protecting resources using Just-in-Time access control for the subscription, location */
@@ -467,7 +467,7 @@ export async function get(
   ascLocation: string,
   jitNetworkAccessPolicyName: string,
   options: JitNetworkAccessPoliciesGetOptionalParams = { requestOptions: {} },
-): Promise<SecuritySolutionsAPIJitNetworkAccessPolicy> {
+): Promise<JitNetworkAccessPolicy> {
   const result = await _getSend(
     context,
     resourceGroupName,

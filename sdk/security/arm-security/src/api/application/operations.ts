@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import type { SecurityCenterContext as Client } from "../index.js";
-import type { ApplicationsAPIApplication } from "../../models/applicationsAPI/models.js";
+import type { Application } from "../../models/applicationsAPI/models.js";
 import {
-  applicationsAPIApplicationSerializer,
-  applicationsAPIApplicationDeserializer,
+  applicationSerializer,
+  applicationDeserializer,
 } from "../../models/applicationsAPI/models.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
   ApplicationDeleteOptionalParams,
@@ -40,7 +40,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
@@ -61,7 +61,7 @@ export async function $delete(
 export function _createOrUpdateSend(
   context: Client,
   applicationId: string,
-  application: ApplicationsAPIApplication,
+  application: Application,
   options: ApplicationCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -79,31 +79,31 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: applicationsAPIApplicationSerializer(application),
+    body: applicationSerializer(application),
   });
 }
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
-): Promise<ApplicationsAPIApplication> {
+): Promise<Application> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return applicationsAPIApplicationDeserializer(result.body);
+  return applicationDeserializer(result.body);
 }
 
 /** Creates or update a security application on the given subscription. */
 export async function createOrUpdate(
   context: Client,
   applicationId: string,
-  application: ApplicationsAPIApplication,
+  application: Application,
   options: ApplicationCreateOrUpdateOptionalParams = { requestOptions: {} },
-): Promise<ApplicationsAPIApplication> {
+): Promise<Application> {
   const result = await _createOrUpdateSend(context, applicationId, application, options);
   return _createOrUpdateDeserialize(result);
 }
@@ -130,18 +130,16 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<ApplicationsAPIApplication> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<Application> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return applicationsAPIApplicationDeserializer(result.body);
+  return applicationDeserializer(result.body);
 }
 
 /** Get a specific application for the requested scope by applicationId */
@@ -149,7 +147,7 @@ export async function get(
   context: Client,
   applicationId: string,
   options: ApplicationGetOptionalParams = { requestOptions: {} },
-): Promise<ApplicationsAPIApplication> {
+): Promise<Application> {
   const result = await _getSend(context, applicationId, options);
   return _getDeserialize(result);
 }

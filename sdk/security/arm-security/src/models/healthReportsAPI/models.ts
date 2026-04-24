@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CommonSource } from "../common/models.js";
+import type { Source } from "../common/models.js";
 import type { ExtensionResource } from "../models.js";
 import { systemDataDeserializer } from "../models.js";
 
@@ -12,15 +12,15 @@ import { systemDataDeserializer } from "../models.js";
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** The health report resource */
-export interface HealthReportsAPIHealthReport extends ExtensionResource {
+export interface HealthReport extends ExtensionResource {
   /** The resource details of the health report */
-  resourceDetails?: HealthReportsAPIresourceDetails;
+  resourceDetails?: ResourceDetails;
   /** The environment details of the resource */
-  environmentDetails?: HealthReportsAPIenvironmentDetails;
+  environmentDetails?: EnvironmentDetails;
   /** The classification of the health report */
-  healthDataClassification?: HealthReportsAPIhealthDataClassification;
+  healthDataClassification?: HealthDataClassification;
   /** The status of the health report */
-  status?: HealthReportsAPIstatus;
+  status?: Status;
   /** The affected defenders plans by unhealthy report */
   affectedDefendersPlans?: string[];
   /** The affected defenders sub plans by unhealthy report */
@@ -28,10 +28,10 @@ export interface HealthReportsAPIHealthReport extends ExtensionResource {
   /** Additional data for the given health report, this field can include more details on the resource and the health scenario. */
   readonly reportAdditionalData?: Record<string, string>;
   /** A collection of the issues in the report */
-  issues?: HealthReportsAPIissue[];
+  issues?: Issue[];
 }
 
-export function healthReportsAPIHealthReportDeserializer(item: any): HealthReportsAPIHealthReport {
+export function healthReportDeserializer(item: any): HealthReport {
   return {
     id: item["id"],
     name: item["name"],
@@ -46,15 +46,15 @@ export function healthReportsAPIHealthReportDeserializer(item: any): HealthRepor
 }
 
 /** Describes properties of the health report */
-export interface HealthReportsAPIHealthReportProperties {
+export interface HealthReportProperties {
   /** The resource details of the health report */
-  resourceDetails?: HealthReportsAPIresourceDetails;
+  resourceDetails?: ResourceDetails;
   /** The environment details of the resource */
-  environmentDetails?: HealthReportsAPIenvironmentDetails;
+  environmentDetails?: EnvironmentDetails;
   /** The classification of the health report */
-  healthDataClassification?: HealthReportsAPIhealthDataClassification;
+  healthDataClassification?: HealthDataClassification;
   /** The status of the health report */
-  status?: HealthReportsAPIstatus;
+  status?: Status;
   /** The affected defenders plans by unhealthy report */
   affectedDefendersPlans?: string[];
   /** The affected defenders sub plans by unhealthy report */
@@ -62,23 +62,21 @@ export interface HealthReportsAPIHealthReportProperties {
   /** Additional data for the given health report, this field can include more details on the resource and the health scenario. */
   readonly reportAdditionalData?: Record<string, string>;
   /** A collection of the issues in the report */
-  issues?: HealthReportsAPIissue[];
+  issues?: Issue[];
 }
 
-export function healthReportsAPIHealthReportPropertiesDeserializer(
-  item: any,
-): HealthReportsAPIHealthReportProperties {
+export function healthReportPropertiesDeserializer(item: any): HealthReportProperties {
   return {
     resourceDetails: !item["resourceDetails"]
       ? item["resourceDetails"]
-      : healthReportsAPIresourceDetailsDeserializer(item["resourceDetails"]),
+      : resourceDetailsDeserializer(item["resourceDetails"]),
     environmentDetails: !item["environmentDetails"]
       ? item["environmentDetails"]
-      : healthReportsAPIenvironmentDetailsDeserializer(item["environmentDetails"]),
+      : environmentDetailsDeserializer(item["environmentDetails"]),
     healthDataClassification: !item["healthDataClassification"]
       ? item["healthDataClassification"]
-      : healthReportsAPIhealthDataClassificationDeserializer(item["healthDataClassification"]),
-    status: !item["status"] ? item["status"] : healthReportsAPIstatusDeserializer(item["status"]),
+      : healthDataClassificationDeserializer(item["healthDataClassification"]),
+    status: !item["status"] ? item["status"] : statusDeserializer(item["status"]),
     affectedDefendersPlans: !item["affectedDefendersPlans"]
       ? item["affectedDefendersPlans"]
       : item["affectedDefendersPlans"].map((p: any) => {
@@ -94,25 +92,21 @@ export function healthReportsAPIHealthReportPropertiesDeserializer(
       : Object.fromEntries(
           Object.entries(item["reportAdditionalData"]).map(([k, p]: [string, any]) => [k, p]),
         ),
-    issues: !item["issues"]
-      ? item["issues"]
-      : healthReportsAPIissueArrayDeserializer(item["issues"]),
+    issues: !item["issues"] ? item["issues"] : issueArrayDeserializer(item["issues"]),
   };
 }
 
 /** The resource details of the health report */
-export interface HealthReportsAPIresourceDetails {
+export interface ResourceDetails {
   /** The status of the health report */
-  source?: CommonSource;
+  source?: Source;
   /** The azure id of the resource */
   readonly id?: string;
   /** The id of the connector */
   readonly connectorId?: string;
 }
 
-export function healthReportsAPIresourceDetailsDeserializer(
-  item: any,
-): HealthReportsAPIresourceDetails {
+export function resourceDetailsDeserializer(item: any): ResourceDetails {
   return {
     source: item["source"],
     id: item["id"],
@@ -121,7 +115,7 @@ export function healthReportsAPIresourceDetailsDeserializer(
 }
 
 /** The environment details of the resource */
-export interface HealthReportsAPIenvironmentDetails {
+export interface EnvironmentDetails {
   /** The native resource id of the resource (in case of Azure - the resource Id, in case of MC - the native resource id) */
   nativeResourceId?: string;
   /** The hierarchy id of the connector (in case of Azure - the subscription Id, in case of MC - the hierarchyId id) */
@@ -134,9 +128,7 @@ export interface HealthReportsAPIenvironmentDetails {
   tenantId?: string;
 }
 
-export function healthReportsAPIenvironmentDetailsDeserializer(
-  item: any,
-): HealthReportsAPIenvironmentDetails {
+export function environmentDetailsDeserializer(item: any): EnvironmentDetails {
   return {
     nativeResourceId: item["nativeResourceId"],
     environmentHierarchyId: item["environmentHierarchyId"],
@@ -147,7 +139,7 @@ export function healthReportsAPIenvironmentDetailsDeserializer(
 }
 
 /** The classification of the health report */
-export interface HealthReportsAPIhealthDataClassification {
+export interface HealthDataClassification {
   /** The component describes the name of the agent/service that scans the issue */
   component?: string;
   /** The scenario describes the health scenario issue of the component */
@@ -156,9 +148,7 @@ export interface HealthReportsAPIhealthDataClassification {
   scope?: string;
 }
 
-export function healthReportsAPIhealthDataClassificationDeserializer(
-  item: any,
-): HealthReportsAPIhealthDataClassification {
+export function healthDataClassificationDeserializer(item: any): HealthDataClassification {
   return {
     component: item["component"],
     scenario: item["scenario"],
@@ -167,9 +157,9 @@ export function healthReportsAPIhealthDataClassificationDeserializer(
 }
 
 /** The status of the health report */
-export interface HealthReportsAPIstatus {
+export interface Status {
   /** The status of the health report */
-  code?: HealthReportsAPIStatusName;
+  code?: StatusName;
   /** The reason of the given status */
   readonly reason?: string;
   /** The date of when the resource was scanned in the last time */
@@ -180,7 +170,7 @@ export interface HealthReportsAPIstatus {
   readonly firstEvaluationDate?: Date;
 }
 
-export function healthReportsAPIstatusDeserializer(item: any): HealthReportsAPIstatus {
+export function statusDeserializer(item: any): Status {
   return {
     code: item["code"],
     reason: item["reason"],
@@ -197,7 +187,7 @@ export function healthReportsAPIstatusDeserializer(item: any): HealthReportsAPIs
 }
 
 /** The status of the health report */
-export enum KnownHealthReportsAPIStatusName {
+export enum KnownStatusName {
   /** Healthy */
   Healthy = "Healthy",
   /** NotHealthy */
@@ -208,25 +198,23 @@ export enum KnownHealthReportsAPIStatusName {
 
 /**
  * The status of the health report \
- * {@link KnownHealthReportsAPIStatusName} can be used interchangeably with HealthReportsAPIStatusName,
+ * {@link KnownStatusName} can be used interchangeably with StatusName,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Healthy**: Healthy \
  * **NotHealthy**: NotHealthy \
  * **NotApplicable**: NotApplicable
  */
-export type HealthReportsAPIStatusName = string;
+export type StatusName = string;
 
-export function healthReportsAPIissueArrayDeserializer(
-  result: Array<HealthReportsAPIissue>,
-): any[] {
+export function issueArrayDeserializer(result: Array<Issue>): any[] {
   return result.map((item) => {
-    return healthReportsAPIissueDeserializer(item);
+    return issueDeserializer(item);
   });
 }
 
 /** The issue that caused the resource to by unhealthy */
-export interface HealthReportsAPIissue {
+export interface Issue {
   /** The unique issue key */
   issueKey: string;
   /** The issue name */
@@ -243,7 +231,7 @@ export interface HealthReportsAPIissue {
   issueAdditionalData?: Record<string, string>;
 }
 
-export function healthReportsAPIissueDeserializer(item: any): HealthReportsAPIissue {
+export function issueDeserializer(item: any): Issue {
   return {
     issueKey: item["issueKey"],
     issueName: item["issueName"],
@@ -264,29 +252,23 @@ export function healthReportsAPIissueDeserializer(item: any): HealthReportsAPIis
 }
 
 /** Page of health reports list */
-export interface _HealthReportsAPIHealthReportsList {
+export interface _HealthReportsList {
   /** The HealthReport items on this page. */
-  readonly value?: HealthReportsAPIHealthReport[];
+  readonly value?: HealthReport[];
   /** The link to the next page of items. */
   nextLink?: string;
 }
 
-export function _healthReportsAPIHealthReportsListDeserializer(
-  item: any,
-): _HealthReportsAPIHealthReportsList {
+export function _healthReportsListDeserializer(item: any): _HealthReportsList {
   return {
-    value: !item["value"]
-      ? item["value"]
-      : healthReportsAPIHealthReportArrayDeserializer(item["value"]),
+    value: !item["value"] ? item["value"] : healthReportArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function healthReportsAPIHealthReportArrayDeserializer(
-  result: Array<HealthReportsAPIHealthReport>,
-): any[] {
+export function healthReportArrayDeserializer(result: Array<HealthReport>): any[] {
   return result.map((item) => {
-    return healthReportsAPIHealthReportDeserializer(item);
+    return healthReportDeserializer(item);
   });
 }
 
@@ -294,14 +276,14 @@ export function _healthReportPropertiesDeserializer(item: any) {
   return {
     resourceDetails: !item["resourceDetails"]
       ? item["resourceDetails"]
-      : healthReportsAPIresourceDetailsDeserializer(item["resourceDetails"]),
+      : resourceDetailsDeserializer(item["resourceDetails"]),
     environmentDetails: !item["environmentDetails"]
       ? item["environmentDetails"]
-      : healthReportsAPIenvironmentDetailsDeserializer(item["environmentDetails"]),
+      : environmentDetailsDeserializer(item["environmentDetails"]),
     healthDataClassification: !item["healthDataClassification"]
       ? item["healthDataClassification"]
-      : healthReportsAPIhealthDataClassificationDeserializer(item["healthDataClassification"]),
-    status: !item["status"] ? item["status"] : healthReportsAPIstatusDeserializer(item["status"]),
+      : healthDataClassificationDeserializer(item["healthDataClassification"]),
+    status: !item["status"] ? item["status"] : statusDeserializer(item["status"]),
     affectedDefendersPlans: !item["affectedDefendersPlans"]
       ? item["affectedDefendersPlans"]
       : item["affectedDefendersPlans"].map((p: any) => {
@@ -317,8 +299,6 @@ export function _healthReportPropertiesDeserializer(item: any) {
       : Object.fromEntries(
           Object.entries(item["reportAdditionalData"]).map(([k, p]: [string, any]) => [k, p]),
         ),
-    issues: !item["issues"]
-      ? item["issues"]
-      : healthReportsAPIissueArrayDeserializer(item["issues"]),
+    issues: !item["issues"] ? item["issues"] : issueArrayDeserializer(item["issues"]),
   };
 }

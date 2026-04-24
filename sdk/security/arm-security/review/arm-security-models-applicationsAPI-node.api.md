@@ -5,26 +5,26 @@
 ```ts
 
 // @public
-export interface ApplicationsAPIApplication extends ProxyResource {
+export interface Application extends ProxyResource {
     conditionSets?: any[];
     description?: string;
     displayName?: string;
-    sourceResourceType?: ApplicationsAPIApplicationSourceResourceType;
+    sourceResourceType?: ApplicationSourceResourceType;
 }
 
 // @public
-export interface ApplicationsAPIApplicationProperties {
+export interface ApplicationProperties {
     conditionSets: any[];
     description?: string;
     displayName?: string;
-    sourceResourceType: ApplicationsAPIApplicationSourceResourceType;
+    sourceResourceType: ApplicationSourceResourceType;
 }
 
 // @public
-export type ApplicationsAPIApplicationSourceResourceType = string;
+export type ApplicationSourceResourceType = string;
 
 // @public
-export enum KnownApplicationsAPIApplicationSourceResourceType {
+export enum KnownApplicationSourceResourceType {
     Assessments = "Assessments"
 }
 

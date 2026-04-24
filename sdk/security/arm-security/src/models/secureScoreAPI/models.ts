@@ -11,18 +11,16 @@ import { systemDataDeserializer } from "../models.js";
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Secure score item data model */
-export interface SecureScoreAPISecureScoreItem extends ProxyResource {
+export interface SecureScoreItem extends ProxyResource {
   /** The initiative's name */
   readonly displayName?: string;
   /** score object */
-  readonly score?: SecureScoreAPIScoreDetails;
+  readonly score?: ScoreDetails;
   /** The relative weight for each subscription. Used when calculating an aggregated secure score for multiple subscriptions. */
   readonly weight?: number;
 }
 
-export function secureScoreAPISecureScoreItemDeserializer(
-  item: any,
-): SecureScoreAPISecureScoreItem {
+export function secureScoreItemDeserializer(item: any): SecureScoreItem {
   return {
     id: item["id"],
     name: item["name"],
@@ -37,7 +35,7 @@ export function secureScoreAPISecureScoreItemDeserializer(
 }
 
 /** Describes properties of a calculated secure score. */
-export interface SecureScoreAPISecureScoreItemProperties {
+export interface SecureScoreItemProperties {
   /** The initiative's name */
   readonly displayName?: string;
   /** The relative weight for each subscription. Used when calculating an aggregated secure score for multiple subscriptions. */
@@ -50,9 +48,7 @@ export interface SecureScoreAPISecureScoreItemProperties {
   readonly percentage?: number;
 }
 
-export function secureScoreAPISecureScoreItemPropertiesDeserializer(
-  item: any,
-): SecureScoreAPISecureScoreItemProperties {
+export function secureScoreItemPropertiesDeserializer(item: any): SecureScoreItemProperties {
   return {
     displayName: item["displayName"],
     ...(!item["score"]
@@ -63,7 +59,7 @@ export function secureScoreAPISecureScoreItemPropertiesDeserializer(
 }
 
 /** Calculation result data */
-export interface SecureScoreAPIScoreDetails {
+export interface ScoreDetails {
   /** Maximum score available */
   readonly max?: number;
   /** Current score */
@@ -72,7 +68,7 @@ export interface SecureScoreAPIScoreDetails {
   readonly percentage?: number;
 }
 
-export function secureScoreAPIScoreDetailsDeserializer(item: any): SecureScoreAPIScoreDetails {
+export function scoreDetailsDeserializer(item: any): ScoreDetails {
   return {
     max: item["max"],
     current: item["current"],
@@ -81,65 +77,57 @@ export function secureScoreAPIScoreDetailsDeserializer(item: any): SecureScoreAP
 }
 
 /** List of secure scores */
-export interface _SecureScoreAPISecureScoresList {
+export interface _SecureScoresList {
   /** Collection of secure scores in this page */
-  readonly value?: SecureScoreAPISecureScoreItem[];
+  readonly value?: SecureScoreItem[];
   /** The URI to fetch the next page. */
   nextLink?: string;
 }
 
-export function _secureScoreAPISecureScoresListDeserializer(
-  item: any,
-): _SecureScoreAPISecureScoresList {
+export function _secureScoresListDeserializer(item: any): _SecureScoresList {
   return {
-    value: !item["value"]
-      ? item["value"]
-      : secureScoreAPISecureScoreItemArrayDeserializer(item["value"]),
+    value: !item["value"] ? item["value"] : secureScoreItemArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function secureScoreAPISecureScoreItemArrayDeserializer(
-  result: Array<SecureScoreAPISecureScoreItem>,
-): any[] {
+export function secureScoreItemArrayDeserializer(result: Array<SecureScoreItem>): any[] {
   return result.map((item) => {
-    return secureScoreAPISecureScoreItemDeserializer(item);
+    return secureScoreItemDeserializer(item);
   });
 }
 
 /** List of security controls */
-export interface _SecureScoreAPISecureScoreControlList {
+export interface _SecureScoreControlList {
   /** Collection of security controls in this page */
-  readonly value?: SecureScoreAPISecureScoreControlDetails[];
+  readonly value?: SecureScoreControlDetails[];
   /** The URI to fetch the next page. */
   nextLink?: string;
 }
 
-export function _secureScoreAPISecureScoreControlListDeserializer(
-  item: any,
-): _SecureScoreAPISecureScoreControlList {
+export function _secureScoreControlListDeserializer(item: any): _SecureScoreControlList {
   return {
     value: !item["value"]
       ? item["value"]
-      : secureScoreAPISecureScoreControlDetailsArrayDeserializer(item["value"]),
+      : secureScoreControlDetailsArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function secureScoreAPISecureScoreControlDetailsArrayDeserializer(
-  result: Array<SecureScoreAPISecureScoreControlDetails>,
+export function secureScoreControlDetailsArrayDeserializer(
+  result: Array<SecureScoreControlDetails>,
 ): any[] {
   return result.map((item) => {
-    return secureScoreAPISecureScoreControlDetailsDeserializer(item);
+    return secureScoreControlDetailsDeserializer(item);
   });
 }
 
 /** Details of the security control, its score, and the health status of the relevant resources. */
-export interface SecureScoreAPISecureScoreControlDetails extends Resource {
+export interface SecureScoreControlDetails extends Resource {
   /** User friendly display name of the control */
   readonly displayName?: string;
   /** Actual score object for the control */
-  score?: SecureScoreAPIScoreDetails;
+  score?: ScoreDetails;
   /** Number of healthy resources in the control */
   readonly healthyResourceCount?: number;
   /** Number of unhealthy resources in the control */
@@ -149,12 +137,10 @@ export interface SecureScoreAPISecureScoreControlDetails extends Resource {
   /** The relative weight for this specific control in each of your subscriptions. Used when calculating an aggregated score for this control across all of your subscriptions. */
   readonly weight?: number;
   /** Information about the security control. */
-  definition?: SecureScoreAPISecureScoreControlDefinitionItem;
+  definition?: SecureScoreControlDefinitionItem;
 }
 
-export function secureScoreAPISecureScoreControlDetailsDeserializer(
-  item: any,
-): SecureScoreAPISecureScoreControlDetails {
+export function secureScoreControlDetailsDeserializer(item: any): SecureScoreControlDetails {
   return {
     id: item["id"],
     name: item["name"],
@@ -169,7 +155,7 @@ export function secureScoreAPISecureScoreControlDetailsDeserializer(
 }
 
 /** Calculation result data in control level */
-export interface SecureScoreAPISecureScoreControlScoreDetails {
+export interface SecureScoreControlScoreDetails {
   /** User friendly display name of the control */
   readonly displayName?: string;
   /** Number of healthy resources in the control */
@@ -181,7 +167,7 @@ export interface SecureScoreAPISecureScoreControlScoreDetails {
   /** The relative weight for this specific control in each of your subscriptions. Used when calculating an aggregated score for this control across all of your subscriptions. */
   readonly weight?: number;
   /** Information about the security control. */
-  definition?: SecureScoreAPISecureScoreControlDefinitionItem;
+  definition?: SecureScoreControlDefinitionItem;
   /** Maximum score available */
   readonly max?: number;
   /** Current score */
@@ -190,9 +176,9 @@ export interface SecureScoreAPISecureScoreControlScoreDetails {
   readonly percentage?: number;
 }
 
-export function secureScoreAPISecureScoreControlScoreDetailsDeserializer(
+export function secureScoreControlScoreDetailsDeserializer(
   item: any,
-): SecureScoreAPISecureScoreControlScoreDetails {
+): SecureScoreControlScoreDetails {
   return {
     displayName: item["displayName"],
     ...(!item["score"]
@@ -204,12 +190,12 @@ export function secureScoreAPISecureScoreControlScoreDetailsDeserializer(
     weight: item["weight"],
     definition: !item["definition"]
       ? item["definition"]
-      : secureScoreAPISecureScoreControlDefinitionItemDeserializer(item["definition"]),
+      : secureScoreControlDefinitionItemDeserializer(item["definition"]),
   };
 }
 
 /** Information about the security control. */
-export interface SecureScoreAPISecureScoreControlDefinitionItem extends Resource {
+export interface SecureScoreControlDefinitionItem extends Resource {
   /** User friendly display name of the control */
   readonly displayName?: string;
   /** User friendly description of the control */
@@ -217,14 +203,14 @@ export interface SecureScoreAPISecureScoreControlDefinitionItem extends Resource
   /** Maximum control score (0..10) */
   readonly maxScore?: number;
   /** Source object from which the control was created */
-  readonly source?: SecureScoreAPISecureScoreControlDefinitionSource;
+  readonly source?: SecureScoreControlDefinitionSource;
   /** Array of assessments metadata IDs that are included in this security control */
-  readonly assessmentDefinitions?: SecureScoreAPIAzureResourceLink[];
+  readonly assessmentDefinitions?: AzureResourceLink[];
 }
 
-export function secureScoreAPISecureScoreControlDefinitionItemDeserializer(
+export function secureScoreControlDefinitionItemDeserializer(
   item: any,
-): SecureScoreAPISecureScoreControlDefinitionItem {
+): SecureScoreControlDefinitionItem {
   return {
     id: item["id"],
     name: item["name"],
@@ -239,7 +225,7 @@ export function secureScoreAPISecureScoreControlDefinitionItemDeserializer(
 }
 
 /** Security Control Definition Properties. */
-export interface SecureScoreAPISecureScoreControlDefinitionItemProperties {
+export interface SecureScoreControlDefinitionItemProperties {
   /** User friendly display name of the control */
   readonly displayName?: string;
   /** User friendly description of the control */
@@ -247,43 +233,43 @@ export interface SecureScoreAPISecureScoreControlDefinitionItemProperties {
   /** Maximum control score (0..10) */
   readonly maxScore?: number;
   /** Source object from which the control was created */
-  readonly source?: SecureScoreAPISecureScoreControlDefinitionSource;
+  readonly source?: SecureScoreControlDefinitionSource;
   /** Array of assessments metadata IDs that are included in this security control */
-  readonly assessmentDefinitions?: SecureScoreAPIAzureResourceLink[];
+  readonly assessmentDefinitions?: AzureResourceLink[];
 }
 
-export function secureScoreAPISecureScoreControlDefinitionItemPropertiesDeserializer(
+export function secureScoreControlDefinitionItemPropertiesDeserializer(
   item: any,
-): SecureScoreAPISecureScoreControlDefinitionItemProperties {
+): SecureScoreControlDefinitionItemProperties {
   return {
     displayName: item["displayName"],
     description: item["description"],
     maxScore: item["maxScore"],
     source: !item["source"]
       ? item["source"]
-      : secureScoreAPISecureScoreControlDefinitionSourceDeserializer(item["source"]),
+      : secureScoreControlDefinitionSourceDeserializer(item["source"]),
     assessmentDefinitions: !item["assessmentDefinitions"]
       ? item["assessmentDefinitions"]
-      : secureScoreAPIAzureResourceLinkArrayDeserializer(item["assessmentDefinitions"]),
+      : azureResourceLinkArrayDeserializer(item["assessmentDefinitions"]),
   };
 }
 
 /** The type of the security control (For example, BuiltIn) */
-export interface SecureScoreAPISecureScoreControlDefinitionSource {
+export interface SecureScoreControlDefinitionSource {
   /** The type of security control (for example, BuiltIn) */
-  sourceType?: SecureScoreAPIControlType;
+  sourceType?: ControlType;
 }
 
-export function secureScoreAPISecureScoreControlDefinitionSourceDeserializer(
+export function secureScoreControlDefinitionSourceDeserializer(
   item: any,
-): SecureScoreAPISecureScoreControlDefinitionSource {
+): SecureScoreControlDefinitionSource {
   return {
     sourceType: item["sourceType"],
   };
 }
 
 /** The type of security control (for example, BuiltIn) */
-export enum KnownSecureScoreAPIControlType {
+export enum KnownControlType {
   /** Microsoft Defender for Cloud managed assessments */
   BuiltIn = "BuiltIn",
   /** Non Microsoft Defender for Cloud managed assessments */
@@ -292,71 +278,67 @@ export enum KnownSecureScoreAPIControlType {
 
 /**
  * The type of security control (for example, BuiltIn) \
- * {@link KnownSecureScoreAPIControlType} can be used interchangeably with SecureScoreAPIControlType,
+ * {@link KnownControlType} can be used interchangeably with ControlType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **BuiltIn**: Microsoft Defender for Cloud managed assessments \
  * **Custom**: Non Microsoft Defender for Cloud managed assessments
  */
-export type SecureScoreAPIControlType = string;
+export type ControlType = string;
 
-export function secureScoreAPIAzureResourceLinkArrayDeserializer(
-  result: Array<SecureScoreAPIAzureResourceLink>,
-): any[] {
+export function azureResourceLinkArrayDeserializer(result: Array<AzureResourceLink>): any[] {
   return result.map((item) => {
-    return secureScoreAPIAzureResourceLinkDeserializer(item);
+    return azureResourceLinkDeserializer(item);
   });
 }
 
 /** Describes an Azure resource with kind */
-export interface SecureScoreAPIAzureResourceLink {
+export interface AzureResourceLink {
   /** Azure resource Id */
   readonly id?: string;
 }
 
-export function secureScoreAPIAzureResourceLinkDeserializer(
-  item: any,
-): SecureScoreAPIAzureResourceLink {
+export function azureResourceLinkDeserializer(item: any): AzureResourceLink {
   return {
     id: item["id"],
   };
 }
 
 /** List of security controls definition */
-export interface _SecureScoreAPIsecureScoreControlDefinitionList {
+export interface _SecureScoreControlDefinitionList {
   /** Collection of security control definitions. */
-  readonly value?: SecureScoreAPISecureScoreControlDefinitionItem[];
+  readonly value?: SecureScoreControlDefinitionItem[];
   /** The URL to get the next page of results. */
   nextLink?: string;
 }
 
-export function _secureScoreAPIsecureScoreControlDefinitionListDeserializer(
+export function _secureScoreControlDefinitionListDeserializer(
   item: any,
-): _SecureScoreAPIsecureScoreControlDefinitionList {
+): _SecureScoreControlDefinitionList {
   return {
     value: !item["value"]
       ? item["value"]
-      : secureScoreAPISecureScoreControlDefinitionItemArrayDeserializer(item["value"]),
+      : secureScoreControlDefinitionItemArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function secureScoreAPISecureScoreControlDefinitionItemArrayDeserializer(
-  result: Array<SecureScoreAPISecureScoreControlDefinitionItem>,
+export function secureScoreControlDefinitionItemArrayDeserializer(
+  result: Array<SecureScoreControlDefinitionItem>,
 ): any[] {
   return result.map((item) => {
-    return secureScoreAPISecureScoreControlDefinitionItemDeserializer(item);
+    return secureScoreControlDefinitionItemDeserializer(item);
   });
 }
 
 /** Known values of {@link ExpandControlsEnum} that the service accepts. */
-export enum KnownSecureScoreAPIExpandControlsEnum {
+export enum KnownExpandControlsEnum {
   /** Add definition object for each control */
   Definition = "definition",
 }
 
-/** Type of SecureScoreAPIExpandControlsEnum */
-export type SecureScoreAPIExpandControlsEnum = string;
+/** Type of ExpandControlsEnum */
+export type ExpandControlsEnum = string;
 
 export function _secureScoreItemPropertiesScoreDeserializer(item: any) {
   return {
@@ -369,7 +351,7 @@ export function _secureScoreItemPropertiesScoreDeserializer(item: any) {
 export function _secureScoreItemPropertiesDeserializer(item: any) {
   return {
     displayName: item["displayName"],
-    score: !item["score"] ? item["score"] : secureScoreAPIScoreDetailsDeserializer(item["score"]),
+    score: !item["score"] ? item["score"] : scoreDetailsDeserializer(item["score"]),
     weight: item["weight"],
   };
 }
@@ -389,23 +371,23 @@ export function _secureScoreControlDefinitionItemPropertiesDeserializer(item: an
     maxScore: item["maxScore"],
     source: !item["source"]
       ? item["source"]
-      : secureScoreAPISecureScoreControlDefinitionSourceDeserializer(item["source"]),
+      : secureScoreControlDefinitionSourceDeserializer(item["source"]),
     assessmentDefinitions: !item["assessmentDefinitions"]
       ? item["assessmentDefinitions"]
-      : secureScoreAPIAzureResourceLinkArrayDeserializer(item["assessmentDefinitions"]),
+      : azureResourceLinkArrayDeserializer(item["assessmentDefinitions"]),
   };
 }
 
 export function _secureScoreControlDetailsPropertiesDeserializer(item: any) {
   return {
     displayName: item["displayName"],
-    score: !item["score"] ? item["score"] : secureScoreAPIScoreDetailsDeserializer(item["score"]),
+    score: !item["score"] ? item["score"] : scoreDetailsDeserializer(item["score"]),
     healthyResourceCount: item["healthyResourceCount"],
     unhealthyResourceCount: item["unhealthyResourceCount"],
     notApplicableResourceCount: item["notApplicableResourceCount"],
     weight: item["weight"],
     definition: !item["definition"]
       ? item["definition"]
-      : secureScoreAPISecureScoreControlDefinitionItemDeserializer(item["definition"]),
+      : secureScoreControlDefinitionItemDeserializer(item["definition"]),
   };
 }

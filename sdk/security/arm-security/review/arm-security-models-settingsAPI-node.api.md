@@ -5,45 +5,45 @@
 ```ts
 
 // @public
-export enum KnownSettingsAPISettingKind {
+export interface AlertSyncSettingProperties {
+    enabled: boolean;
+}
+
+// @public
+export interface AlertSyncSettings extends Setting {
+    enabled?: boolean;
+    kind: "AlertSyncSettings";
+}
+
+// @public
+export interface DataExportSettingProperties {
+    enabled: boolean;
+}
+
+// @public
+export interface DataExportSettings extends Setting {
+    enabled?: boolean;
+    kind: "DataExportSettings";
+}
+
+// @public
+export enum KnownSettingKind {
     AlertSuppressionSetting = "AlertSuppressionSetting",
     AlertSyncSettings = "AlertSyncSettings",
     DataExportSettings = "DataExportSettings"
 }
 
 // @public
-export interface SettingsAPIAlertSyncSettingProperties {
-    enabled: boolean;
-}
-
-// @public
-export interface SettingsAPIAlertSyncSettings extends SettingsAPISetting {
-    enabled?: boolean;
-    kind: "AlertSyncSettings";
-}
-
-// @public
-export interface SettingsAPIDataExportSettingProperties {
-    enabled: boolean;
-}
-
-// @public
-export interface SettingsAPIDataExportSettings extends SettingsAPISetting {
-    enabled?: boolean;
-    kind: "DataExportSettings";
-}
-
-// @public
-export interface SettingsAPISetting extends ProxyResource {
-    kind: SettingsAPISettingKind;
+export interface Setting extends ProxyResource {
+    kind: SettingKind;
     properties?: Record<string, any>;
 }
 
 // @public
-export type SettingsAPISettingKind = string;
+export type SettingKind = string;
 
 // @public
-export type SettingsAPISettingUnion = SettingsAPIDataExportSettings | SettingsAPIAlertSyncSettings | SettingsAPISetting;
+export type SettingUnion = DataExportSettings | AlertSyncSettings | Setting;
 
 // (No @packageDocumentation comment for this package)
 

@@ -11,24 +11,20 @@ import { systemDataDeserializer } from "../models.js";
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Azure DevOps Organization resource. */
-export interface SecurityConnectorsDevOpsAPIAzureDevOpsOrg extends ProxyResource {
+export interface AzureDevOpsOrg extends ProxyResource {
   /** Azure DevOps Organization properties. */
-  properties?: SecurityConnectorsDevOpsAPIAzureDevOpsOrgProperties;
+  properties?: AzureDevOpsOrgProperties;
 }
 
-export function securityConnectorsDevOpsAPIAzureDevOpsOrgSerializer(
-  item: SecurityConnectorsDevOpsAPIAzureDevOpsOrg,
-): any {
+export function azureDevOpsOrgSerializer(item: AzureDevOpsOrg): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
-      : securityConnectorsDevOpsAPIAzureDevOpsOrgPropertiesSerializer(item["properties"]),
+      : azureDevOpsOrgPropertiesSerializer(item["properties"]),
   };
 }
 
-export function securityConnectorsDevOpsAPIAzureDevOpsOrgDeserializer(
-  item: any,
-): SecurityConnectorsDevOpsAPIAzureDevOpsOrg {
+export function azureDevOpsOrgDeserializer(item: any): AzureDevOpsOrg {
   return {
     id: item["id"],
     name: item["name"],
@@ -38,12 +34,12 @@ export function securityConnectorsDevOpsAPIAzureDevOpsOrgDeserializer(
       : systemDataDeserializer(item["systemData"]),
     properties: !item["properties"]
       ? item["properties"]
-      : securityConnectorsDevOpsAPIAzureDevOpsOrgPropertiesDeserializer(item["properties"]),
+      : azureDevOpsOrgPropertiesDeserializer(item["properties"]),
   };
 }
 
 /** Azure DevOps Organization properties. */
-export interface SecurityConnectorsDevOpsAPIAzureDevOpsOrgProperties {
+export interface AzureDevOpsOrgProperties {
   /** Gets the resource status message. */
   readonly provisioningStatusMessage?: string;
   /** Gets the time when resource was last checked. */
@@ -59,7 +55,7 @@ export interface SecurityConnectorsDevOpsAPIAzureDevOpsOrgProperties {
    * DeletionSuccess - Deletion successful.
    * DeletionFailure - Deletion failure.
    */
-  readonly provisioningState?: SecurityConnectorsDevOpsAPIDevOpsProvisioningState;
+  readonly provisioningState?: DevOpsProvisioningState;
   /**
    * Details about resource onboarding status across all connectors.
    *
@@ -68,25 +64,21 @@ export interface SecurityConnectorsDevOpsAPIAzureDevOpsOrgProperties {
    * NotOnboarded - this resource has not been onboarded to any connector.
    * NotApplicable - the onboarding state is not applicable to the current endpoint.
    */
-  onboardingState?: SecurityConnectorsDevOpsAPIOnboardingState;
+  onboardingState?: OnboardingState;
   /** Configuration payload for PR Annotations. */
-  actionableRemediation?: SecurityConnectorsDevOpsAPIActionableRemediation;
+  actionableRemediation?: ActionableRemediation;
 }
 
-export function securityConnectorsDevOpsAPIAzureDevOpsOrgPropertiesSerializer(
-  item: SecurityConnectorsDevOpsAPIAzureDevOpsOrgProperties,
-): any {
+export function azureDevOpsOrgPropertiesSerializer(item: AzureDevOpsOrgProperties): any {
   return {
     onboardingState: item["onboardingState"],
     actionableRemediation: !item["actionableRemediation"]
       ? item["actionableRemediation"]
-      : securityConnectorsDevOpsAPIActionableRemediationSerializer(item["actionableRemediation"]),
+      : actionableRemediationSerializer(item["actionableRemediation"]),
   };
 }
 
-export function securityConnectorsDevOpsAPIAzureDevOpsOrgPropertiesDeserializer(
-  item: any,
-): SecurityConnectorsDevOpsAPIAzureDevOpsOrgProperties {
+export function azureDevOpsOrgPropertiesDeserializer(item: any): AzureDevOpsOrgProperties {
   return {
     provisioningStatusMessage: item["provisioningStatusMessage"],
     provisioningStatusUpdateTimeUtc: !item["provisioningStatusUpdateTimeUtc"]
@@ -96,7 +88,7 @@ export function securityConnectorsDevOpsAPIAzureDevOpsOrgPropertiesDeserializer(
     onboardingState: item["onboardingState"],
     actionableRemediation: !item["actionableRemediation"]
       ? item["actionableRemediation"]
-      : securityConnectorsDevOpsAPIActionableRemediationDeserializer(item["actionableRemediation"]),
+      : actionableRemediationDeserializer(item["actionableRemediation"]),
   };
 }
 
@@ -111,7 +103,7 @@ export function securityConnectorsDevOpsAPIAzureDevOpsOrgPropertiesDeserializer(
  * DeletionSuccess - Deletion successful.
  * DeletionFailure - Deletion failure.
  */
-export enum KnownSecurityConnectorsDevOpsAPIDevOpsProvisioningState {
+export enum KnownDevOpsProvisioningState {
   /** Succeeded */
   Succeeded = "Succeeded",
   /** Failed */
@@ -138,7 +130,7 @@ export enum KnownSecurityConnectorsDevOpsAPIDevOpsProvisioningState {
  * PendingDeletion - Deletion pending.
  * DeletionSuccess - Deletion successful.
  * DeletionFailure - Deletion failure. \
- * {@link KnownSecurityConnectorsDevOpsAPIDevOpsProvisioningState} can be used interchangeably with SecurityConnectorsDevOpsAPIDevOpsProvisioningState,
+ * {@link KnownDevOpsProvisioningState} can be used interchangeably with DevOpsProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Succeeded**: Succeeded \
@@ -149,7 +141,7 @@ export enum KnownSecurityConnectorsDevOpsAPIDevOpsProvisioningState {
  * **DeletionSuccess**: DeletionSuccess \
  * **DeletionFailure**: DeletionFailure
  */
-export type SecurityConnectorsDevOpsAPIDevOpsProvisioningState = string;
+export type DevOpsProvisioningState = string;
 
 /**
  * Details about resource onboarding status across all connectors.
@@ -159,7 +151,7 @@ export type SecurityConnectorsDevOpsAPIDevOpsProvisioningState = string;
  * NotOnboarded - this resource has not been onboarded to any connector.
  * NotApplicable - the onboarding state is not applicable to the current endpoint.
  */
-export enum KnownSecurityConnectorsDevOpsAPIOnboardingState {
+export enum KnownOnboardingState {
   /** NotApplicable */
   NotApplicable = "NotApplicable",
   /** OnboardedByOtherConnector */
@@ -177,7 +169,7 @@ export enum KnownSecurityConnectorsDevOpsAPIOnboardingState {
  * Onboarded - this resource has already been onboarded by the specified connector.
  * NotOnboarded - this resource has not been onboarded to any connector.
  * NotApplicable - the onboarding state is not applicable to the current endpoint. \
- * {@link KnownSecurityConnectorsDevOpsAPIOnboardingState} can be used interchangeably with SecurityConnectorsDevOpsAPIOnboardingState,
+ * {@link KnownOnboardingState} can be used interchangeably with OnboardingState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **NotApplicable**: NotApplicable \
@@ -185,62 +177,52 @@ export enum KnownSecurityConnectorsDevOpsAPIOnboardingState {
  * **Onboarded**: Onboarded \
  * **NotOnboarded**: NotOnboarded
  */
-export type SecurityConnectorsDevOpsAPIOnboardingState = string;
+export type OnboardingState = string;
 
 /** Configuration payload for PR Annotations. */
-export interface SecurityConnectorsDevOpsAPIActionableRemediation {
+export interface ActionableRemediation {
   /**
    * ActionableRemediation Setting.
    * None - the setting was never set.
    * Enabled - ActionableRemediation is enabled.
    * Disabled - ActionableRemediation is disabled.
    */
-  state?: SecurityConnectorsDevOpsAPIActionableRemediationState;
+  state?: ActionableRemediationState;
   /** Gets or sets list of categories and severity levels. */
-  categoryConfigurations?: SecurityConnectorsDevOpsAPICategoryConfiguration[];
+  categoryConfigurations?: CategoryConfiguration[];
   /** Repository branch configuration for PR Annotations. */
-  branchConfiguration?: SecurityConnectorsDevOpsAPITargetBranchConfiguration;
+  branchConfiguration?: TargetBranchConfiguration;
   /**
    * Update Settings.
    *
    * Enabled - Resource should inherit configurations from parent.
    * Disabled - Resource should not inherit configurations from parent.
    */
-  inheritFromParentState?: SecurityConnectorsDevOpsAPIInheritFromParentState;
+  inheritFromParentState?: InheritFromParentState;
 }
 
-export function securityConnectorsDevOpsAPIActionableRemediationSerializer(
-  item: SecurityConnectorsDevOpsAPIActionableRemediation,
-): any {
+export function actionableRemediationSerializer(item: ActionableRemediation): any {
   return {
     state: item["state"],
     categoryConfigurations: !item["categoryConfigurations"]
       ? item["categoryConfigurations"]
-      : securityConnectorsDevOpsAPICategoryConfigurationArraySerializer(
-          item["categoryConfigurations"],
-        ),
+      : categoryConfigurationArraySerializer(item["categoryConfigurations"]),
     branchConfiguration: !item["branchConfiguration"]
       ? item["branchConfiguration"]
-      : securityConnectorsDevOpsAPITargetBranchConfigurationSerializer(item["branchConfiguration"]),
+      : targetBranchConfigurationSerializer(item["branchConfiguration"]),
     inheritFromParentState: item["inheritFromParentState"],
   };
 }
 
-export function securityConnectorsDevOpsAPIActionableRemediationDeserializer(
-  item: any,
-): SecurityConnectorsDevOpsAPIActionableRemediation {
+export function actionableRemediationDeserializer(item: any): ActionableRemediation {
   return {
     state: item["state"],
     categoryConfigurations: !item["categoryConfigurations"]
       ? item["categoryConfigurations"]
-      : securityConnectorsDevOpsAPICategoryConfigurationArrayDeserializer(
-          item["categoryConfigurations"],
-        ),
+      : categoryConfigurationArrayDeserializer(item["categoryConfigurations"]),
     branchConfiguration: !item["branchConfiguration"]
       ? item["branchConfiguration"]
-      : securityConnectorsDevOpsAPITargetBranchConfigurationDeserializer(
-          item["branchConfiguration"],
-        ),
+      : targetBranchConfigurationDeserializer(item["branchConfiguration"]),
     inheritFromParentState: item["inheritFromParentState"],
   };
 }
@@ -251,7 +233,7 @@ export function securityConnectorsDevOpsAPIActionableRemediationDeserializer(
  * Enabled - ActionableRemediation is enabled.
  * Disabled - ActionableRemediation is disabled.
  */
-export enum KnownSecurityConnectorsDevOpsAPIActionableRemediationState {
+export enum KnownActionableRemediationState {
   /** None */
   None = "None",
   /** Disabled */
@@ -265,33 +247,31 @@ export enum KnownSecurityConnectorsDevOpsAPIActionableRemediationState {
  * None - the setting was never set.
  * Enabled - ActionableRemediation is enabled.
  * Disabled - ActionableRemediation is disabled. \
- * {@link KnownSecurityConnectorsDevOpsAPIActionableRemediationState} can be used interchangeably with SecurityConnectorsDevOpsAPIActionableRemediationState,
+ * {@link KnownActionableRemediationState} can be used interchangeably with ActionableRemediationState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **None**: None \
  * **Disabled**: Disabled \
  * **Enabled**: Enabled
  */
-export type SecurityConnectorsDevOpsAPIActionableRemediationState = string;
+export type ActionableRemediationState = string;
 
-export function securityConnectorsDevOpsAPICategoryConfigurationArraySerializer(
-  result: Array<SecurityConnectorsDevOpsAPICategoryConfiguration>,
-): any[] {
+export function categoryConfigurationArraySerializer(result: Array<CategoryConfiguration>): any[] {
   return result.map((item) => {
-    return securityConnectorsDevOpsAPICategoryConfigurationSerializer(item);
+    return categoryConfigurationSerializer(item);
   });
 }
 
-export function securityConnectorsDevOpsAPICategoryConfigurationArrayDeserializer(
-  result: Array<SecurityConnectorsDevOpsAPICategoryConfiguration>,
+export function categoryConfigurationArrayDeserializer(
+  result: Array<CategoryConfiguration>,
 ): any[] {
   return result.map((item) => {
-    return securityConnectorsDevOpsAPICategoryConfigurationDeserializer(item);
+    return categoryConfigurationDeserializer(item);
   });
 }
 
 /** Severity level per category configuration for PR Annotations. */
-export interface SecurityConnectorsDevOpsAPICategoryConfiguration {
+export interface CategoryConfiguration {
   /** Gets or sets minimum severity level for a given category. */
   minimumSeverityLevel?: string;
   /**
@@ -303,18 +283,14 @@ export interface SecurityConnectorsDevOpsAPICategoryConfiguration {
    * Secrets scanning results.
    * Container scanning results.
    */
-  category?: SecurityConnectorsDevOpsAPIRuleCategory;
+  category?: RuleCategory;
 }
 
-export function securityConnectorsDevOpsAPICategoryConfigurationSerializer(
-  item: SecurityConnectorsDevOpsAPICategoryConfiguration,
-): any {
+export function categoryConfigurationSerializer(item: CategoryConfiguration): any {
   return { minimumSeverityLevel: item["minimumSeverityLevel"], category: item["category"] };
 }
 
-export function securityConnectorsDevOpsAPICategoryConfigurationDeserializer(
-  item: any,
-): SecurityConnectorsDevOpsAPICategoryConfiguration {
+export function categoryConfigurationDeserializer(item: any): CategoryConfiguration {
   return {
     minimumSeverityLevel: item["minimumSeverityLevel"],
     category: item["category"],
@@ -330,7 +306,7 @@ export function securityConnectorsDevOpsAPICategoryConfigurationDeserializer(
  * Secrets scanning results.
  * Container scanning results.
  */
-export enum KnownSecurityConnectorsDevOpsAPIRuleCategory {
+export enum KnownRuleCategory {
   /** Code */
   Code = "Code",
   /** Artifacts */
@@ -353,7 +329,7 @@ export enum KnownSecurityConnectorsDevOpsAPIRuleCategory {
  * IaC results.
  * Secrets scanning results.
  * Container scanning results. \
- * {@link KnownSecurityConnectorsDevOpsAPIRuleCategory} can be used interchangeably with SecurityConnectorsDevOpsAPIRuleCategory,
+ * {@link KnownRuleCategory} can be used interchangeably with RuleCategory,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Code**: Code \
@@ -363,10 +339,10 @@ export enum KnownSecurityConnectorsDevOpsAPIRuleCategory {
  * **IaC**: IaC \
  * **Containers**: Containers
  */
-export type SecurityConnectorsDevOpsAPIRuleCategory = string;
+export type RuleCategory = string;
 
 /** Repository branch configuration for PR Annotations. */
-export interface SecurityConnectorsDevOpsAPITargetBranchConfiguration {
+export interface TargetBranchConfiguration {
   /** Gets or sets branches that should have annotations. */
   branchNames?: string[];
   /**
@@ -375,12 +351,10 @@ export interface SecurityConnectorsDevOpsAPITargetBranchConfiguration {
    * Enabled - PR Annotations are enabled on the resource's default branch.
    * Disabled - PR Annotations are disabled on the resource's default branch.
    */
-  annotateDefaultBranch?: SecurityConnectorsDevOpsAPIAnnotateDefaultBranchState;
+  annotateDefaultBranch?: AnnotateDefaultBranchState;
 }
 
-export function securityConnectorsDevOpsAPITargetBranchConfigurationSerializer(
-  item: SecurityConnectorsDevOpsAPITargetBranchConfiguration,
-): any {
+export function targetBranchConfigurationSerializer(item: TargetBranchConfiguration): any {
   return {
     branchNames: !item["branchNames"]
       ? item["branchNames"]
@@ -391,9 +365,7 @@ export function securityConnectorsDevOpsAPITargetBranchConfigurationSerializer(
   };
 }
 
-export function securityConnectorsDevOpsAPITargetBranchConfigurationDeserializer(
-  item: any,
-): SecurityConnectorsDevOpsAPITargetBranchConfiguration {
+export function targetBranchConfigurationDeserializer(item: any): TargetBranchConfiguration {
   return {
     branchNames: !item["branchNames"]
       ? item["branchNames"]
@@ -410,7 +382,7 @@ export function securityConnectorsDevOpsAPITargetBranchConfigurationDeserializer
  * Enabled - PR Annotations are enabled on the resource's default branch.
  * Disabled - PR Annotations are disabled on the resource's default branch.
  */
-export enum KnownSecurityConnectorsDevOpsAPIAnnotateDefaultBranchState {
+export enum KnownAnnotateDefaultBranchState {
   /** Disabled */
   Disabled = "Disabled",
   /** Enabled */
@@ -422,13 +394,13 @@ export enum KnownSecurityConnectorsDevOpsAPIAnnotateDefaultBranchState {
  *
  * Enabled - PR Annotations are enabled on the resource's default branch.
  * Disabled - PR Annotations are disabled on the resource's default branch. \
- * {@link KnownSecurityConnectorsDevOpsAPIAnnotateDefaultBranchState} can be used interchangeably with SecurityConnectorsDevOpsAPIAnnotateDefaultBranchState,
+ * {@link KnownAnnotateDefaultBranchState} can be used interchangeably with AnnotateDefaultBranchState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Disabled**: Disabled \
  * **Enabled**: Enabled
  */
-export type SecurityConnectorsDevOpsAPIAnnotateDefaultBranchState = string;
+export type AnnotateDefaultBranchState = string;
 
 /**
  * Update Settings.
@@ -436,7 +408,7 @@ export type SecurityConnectorsDevOpsAPIAnnotateDefaultBranchState = string;
  * Enabled - Resource should inherit configurations from parent.
  * Disabled - Resource should not inherit configurations from parent.
  */
-export enum KnownSecurityConnectorsDevOpsAPIInheritFromParentState {
+export enum KnownInheritFromParentState {
   /** Disabled */
   Disabled = "Disabled",
   /** Enabled */
@@ -448,58 +420,48 @@ export enum KnownSecurityConnectorsDevOpsAPIInheritFromParentState {
  *
  * Enabled - Resource should inherit configurations from parent.
  * Disabled - Resource should not inherit configurations from parent. \
- * {@link KnownSecurityConnectorsDevOpsAPIInheritFromParentState} can be used interchangeably with SecurityConnectorsDevOpsAPIInheritFromParentState,
+ * {@link KnownInheritFromParentState} can be used interchangeably with InheritFromParentState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Disabled**: Disabled \
  * **Enabled**: Enabled
  */
-export type SecurityConnectorsDevOpsAPIInheritFromParentState = string;
+export type InheritFromParentState = string;
 
 /** List of RP resources which supports pagination. */
-export interface SecurityConnectorsDevOpsAPIAzureDevOpsOrgListResponse {
+export interface AzureDevOpsOrgListResponse {
   /** The AzureDevOpsOrg items on this page. */
-  value?: SecurityConnectorsDevOpsAPIAzureDevOpsOrg[];
+  value?: AzureDevOpsOrg[];
   /** The link to the next page of items. */
   nextLink?: string;
 }
 
-export function securityConnectorsDevOpsAPIAzureDevOpsOrgListResponseDeserializer(
-  item: any,
-): SecurityConnectorsDevOpsAPIAzureDevOpsOrgListResponse {
+export function azureDevOpsOrgListResponseDeserializer(item: any): AzureDevOpsOrgListResponse {
   return {
-    value: !item["value"]
-      ? item["value"]
-      : securityConnectorsDevOpsAPIAzureDevOpsOrgArrayDeserializer(item["value"]),
+    value: !item["value"] ? item["value"] : azureDevOpsOrgArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function securityConnectorsDevOpsAPIAzureDevOpsOrgArraySerializer(
-  result: Array<SecurityConnectorsDevOpsAPIAzureDevOpsOrg>,
-): any[] {
+export function azureDevOpsOrgArraySerializer(result: Array<AzureDevOpsOrg>): any[] {
   return result.map((item) => {
-    return securityConnectorsDevOpsAPIAzureDevOpsOrgSerializer(item);
+    return azureDevOpsOrgSerializer(item);
   });
 }
 
-export function securityConnectorsDevOpsAPIAzureDevOpsOrgArrayDeserializer(
-  result: Array<SecurityConnectorsDevOpsAPIAzureDevOpsOrg>,
-): any[] {
+export function azureDevOpsOrgArrayDeserializer(result: Array<AzureDevOpsOrg>): any[] {
   return result.map((item) => {
-    return securityConnectorsDevOpsAPIAzureDevOpsOrgDeserializer(item);
+    return azureDevOpsOrgDeserializer(item);
   });
 }
 
 /** GitHub Owner resource. */
-export interface SecurityConnectorsDevOpsAPIGitHubOwner extends ProxyResource {
+export interface GitHubOwner extends ProxyResource {
   /** GitHub Owner properties. */
-  properties?: SecurityConnectorsDevOpsAPIGitHubOwnerProperties;
+  properties?: GitHubOwnerProperties;
 }
 
-export function securityConnectorsDevOpsAPIGitHubOwnerDeserializer(
-  item: any,
-): SecurityConnectorsDevOpsAPIGitHubOwner {
+export function gitHubOwnerDeserializer(item: any): GitHubOwner {
   return {
     id: item["id"],
     name: item["name"],
@@ -509,12 +471,12 @@ export function securityConnectorsDevOpsAPIGitHubOwnerDeserializer(
       : systemDataDeserializer(item["systemData"]),
     properties: !item["properties"]
       ? item["properties"]
-      : securityConnectorsDevOpsAPIGitHubOwnerPropertiesDeserializer(item["properties"]),
+      : gitHubOwnerPropertiesDeserializer(item["properties"]),
   };
 }
 
 /** GitHub Owner properties. */
-export interface SecurityConnectorsDevOpsAPIGitHubOwnerProperties {
+export interface GitHubOwnerProperties {
   /** Gets the resource status message. */
   readonly provisioningStatusMessage?: string;
   /** Gets the time when resource was last checked. */
@@ -530,7 +492,7 @@ export interface SecurityConnectorsDevOpsAPIGitHubOwnerProperties {
    * DeletionSuccess - Deletion successful.
    * DeletionFailure - Deletion failure.
    */
-  readonly provisioningState?: SecurityConnectorsDevOpsAPIDevOpsProvisioningState;
+  readonly provisioningState?: DevOpsProvisioningState;
   /** Gets or sets GitHub Owner url. */
   readonly ownerUrl?: string;
   /** Gets or sets internal GitHub id. */
@@ -543,12 +505,10 @@ export interface SecurityConnectorsDevOpsAPIGitHubOwnerProperties {
    * NotOnboarded - this resource has not been onboarded to any connector.
    * NotApplicable - the onboarding state is not applicable to the current endpoint.
    */
-  onboardingState?: SecurityConnectorsDevOpsAPIOnboardingState;
+  onboardingState?: OnboardingState;
 }
 
-export function securityConnectorsDevOpsAPIGitHubOwnerPropertiesDeserializer(
-  item: any,
-): SecurityConnectorsDevOpsAPIGitHubOwnerProperties {
+export function gitHubOwnerPropertiesDeserializer(item: any): GitHubOwnerProperties {
   return {
     provisioningStatusMessage: item["provisioningStatusMessage"],
     provisioningStatusUpdateTimeUtc: !item["provisioningStatusUpdateTimeUtc"]
@@ -562,41 +522,33 @@ export function securityConnectorsDevOpsAPIGitHubOwnerPropertiesDeserializer(
 }
 
 /** List of RP resources which supports pagination. */
-export interface SecurityConnectorsDevOpsAPIGitHubOwnerListResponse {
+export interface GitHubOwnerListResponse {
   /** The GitHubOwner items on this page. */
-  value?: SecurityConnectorsDevOpsAPIGitHubOwner[];
+  value?: GitHubOwner[];
   /** The link to the next page of items. */
   nextLink?: string;
 }
 
-export function securityConnectorsDevOpsAPIGitHubOwnerListResponseDeserializer(
-  item: any,
-): SecurityConnectorsDevOpsAPIGitHubOwnerListResponse {
+export function gitHubOwnerListResponseDeserializer(item: any): GitHubOwnerListResponse {
   return {
-    value: !item["value"]
-      ? item["value"]
-      : securityConnectorsDevOpsAPIGitHubOwnerArrayDeserializer(item["value"]),
+    value: !item["value"] ? item["value"] : gitHubOwnerArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function securityConnectorsDevOpsAPIGitHubOwnerArrayDeserializer(
-  result: Array<SecurityConnectorsDevOpsAPIGitHubOwner>,
-): any[] {
+export function gitHubOwnerArrayDeserializer(result: Array<GitHubOwner>): any[] {
   return result.map((item) => {
-    return securityConnectorsDevOpsAPIGitHubOwnerDeserializer(item);
+    return gitHubOwnerDeserializer(item);
   });
 }
 
 /** GitLab Group resource. */
-export interface SecurityConnectorsDevOpsAPIGitLabGroup extends ProxyResource {
+export interface GitLabGroup extends ProxyResource {
   /** GitLab Group properties. */
-  properties?: SecurityConnectorsDevOpsAPIGitLabGroupProperties;
+  properties?: GitLabGroupProperties;
 }
 
-export function securityConnectorsDevOpsAPIGitLabGroupDeserializer(
-  item: any,
-): SecurityConnectorsDevOpsAPIGitLabGroup {
+export function gitLabGroupDeserializer(item: any): GitLabGroup {
   return {
     id: item["id"],
     name: item["name"],
@@ -606,12 +558,12 @@ export function securityConnectorsDevOpsAPIGitLabGroupDeserializer(
       : systemDataDeserializer(item["systemData"]),
     properties: !item["properties"]
       ? item["properties"]
-      : securityConnectorsDevOpsAPIGitLabGroupPropertiesDeserializer(item["properties"]),
+      : gitLabGroupPropertiesDeserializer(item["properties"]),
   };
 }
 
 /** GitLab Group properties. */
-export interface SecurityConnectorsDevOpsAPIGitLabGroupProperties {
+export interface GitLabGroupProperties {
   /** Gets the resource status message. */
   readonly provisioningStatusMessage?: string;
   /** Gets the time when resource was last checked. */
@@ -627,7 +579,7 @@ export interface SecurityConnectorsDevOpsAPIGitLabGroupProperties {
    * DeletionSuccess - Deletion successful.
    * DeletionFailure - Deletion failure.
    */
-  readonly provisioningState?: SecurityConnectorsDevOpsAPIDevOpsProvisioningState;
+  readonly provisioningState?: DevOpsProvisioningState;
   /**
    * Gets or sets the fully-qualified name of the Group object.
    *
@@ -650,12 +602,10 @@ export interface SecurityConnectorsDevOpsAPIGitLabGroupProperties {
    * NotOnboarded - this resource has not been onboarded to any connector.
    * NotApplicable - the onboarding state is not applicable to the current endpoint.
    */
-  onboardingState?: SecurityConnectorsDevOpsAPIOnboardingState;
+  onboardingState?: OnboardingState;
 }
 
-export function securityConnectorsDevOpsAPIGitLabGroupPropertiesDeserializer(
-  item: any,
-): SecurityConnectorsDevOpsAPIGitLabGroupProperties {
+export function gitLabGroupPropertiesDeserializer(item: any): GitLabGroupProperties {
   return {
     provisioningStatusMessage: item["provisioningStatusMessage"],
     provisioningStatusUpdateTimeUtc: !item["provisioningStatusUpdateTimeUtc"]
@@ -670,51 +620,41 @@ export function securityConnectorsDevOpsAPIGitLabGroupPropertiesDeserializer(
 }
 
 /** List of RP resources which supports pagination. */
-export interface SecurityConnectorsDevOpsAPIGitLabGroupListResponse {
+export interface GitLabGroupListResponse {
   /** The GitLabGroup items on this page. */
-  value?: SecurityConnectorsDevOpsAPIGitLabGroup[];
+  value?: GitLabGroup[];
   /** The link to the next page of items. */
   nextLink?: string;
 }
 
-export function securityConnectorsDevOpsAPIGitLabGroupListResponseDeserializer(
-  item: any,
-): SecurityConnectorsDevOpsAPIGitLabGroupListResponse {
+export function gitLabGroupListResponseDeserializer(item: any): GitLabGroupListResponse {
   return {
-    value: !item["value"]
-      ? item["value"]
-      : securityConnectorsDevOpsAPIGitLabGroupArrayDeserializer(item["value"]),
+    value: !item["value"] ? item["value"] : gitLabGroupArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function securityConnectorsDevOpsAPIGitLabGroupArrayDeserializer(
-  result: Array<SecurityConnectorsDevOpsAPIGitLabGroup>,
-): any[] {
+export function gitLabGroupArrayDeserializer(result: Array<GitLabGroup>): any[] {
   return result.map((item) => {
-    return securityConnectorsDevOpsAPIGitLabGroupDeserializer(item);
+    return gitLabGroupDeserializer(item);
   });
 }
 
 /** DevOps Configuration resource. */
-export interface SecurityConnectorsDevOpsAPIDevOpsConfiguration extends ProxyResource {
+export interface DevOpsConfiguration extends ProxyResource {
   /** DevOps Configuration properties. */
-  properties?: SecurityConnectorsDevOpsAPIDevOpsConfigurationProperties;
+  properties?: DevOpsConfigurationProperties;
 }
 
-export function securityConnectorsDevOpsAPIDevOpsConfigurationSerializer(
-  item: SecurityConnectorsDevOpsAPIDevOpsConfiguration,
-): any {
+export function devOpsConfigurationSerializer(item: DevOpsConfiguration): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
-      : securityConnectorsDevOpsAPIDevOpsConfigurationPropertiesSerializer(item["properties"]),
+      : devOpsConfigurationPropertiesSerializer(item["properties"]),
   };
 }
 
-export function securityConnectorsDevOpsAPIDevOpsConfigurationDeserializer(
-  item: any,
-): SecurityConnectorsDevOpsAPIDevOpsConfiguration {
+export function devOpsConfigurationDeserializer(item: any): DevOpsConfiguration {
   return {
     id: item["id"],
     name: item["name"],
@@ -724,12 +664,12 @@ export function securityConnectorsDevOpsAPIDevOpsConfigurationDeserializer(
       : systemDataDeserializer(item["systemData"]),
     properties: !item["properties"]
       ? item["properties"]
-      : securityConnectorsDevOpsAPIDevOpsConfigurationPropertiesDeserializer(item["properties"]),
+      : devOpsConfigurationPropertiesDeserializer(item["properties"]),
   };
 }
 
 /** DevOps Configuration properties. */
-export interface SecurityConnectorsDevOpsAPIDevOpsConfigurationProperties {
+export interface DevOpsConfigurationProperties {
   /** Gets the resource status message. */
   readonly provisioningStatusMessage?: string;
   /** Gets the time when resource was last checked. */
@@ -745,29 +685,27 @@ export interface SecurityConnectorsDevOpsAPIDevOpsConfigurationProperties {
    * DeletionSuccess - Deletion successful.
    * DeletionFailure - Deletion failure.
    */
-  readonly provisioningState?: SecurityConnectorsDevOpsAPIDevOpsProvisioningState;
+  readonly provisioningState?: DevOpsProvisioningState;
   /** Authorization payload. */
-  authorization?: SecurityConnectorsDevOpsAPIAuthorization;
+  authorization?: Authorization;
   /** AutoDiscovery states. */
-  autoDiscovery?: SecurityConnectorsDevOpsAPIAutoDiscovery;
+  autoDiscovery?: AutoDiscovery;
   /**
    * List of top-level inventory to select when AutoDiscovery is disabled.
    * This field is ignored when AutoDiscovery is enabled.
    */
   topLevelInventoryList?: string[];
   /** List of capabilities assigned to the DevOps configuration during the discovery process. */
-  readonly capabilities?: SecurityConnectorsDevOpsAPIDevOpsCapability[];
+  readonly capabilities?: DevOpsCapability[];
   /** Details about Agentless configuration. */
-  agentlessConfiguration?: SecurityConnectorsDevOpsAPIAgentlessConfiguration;
+  agentlessConfiguration?: AgentlessConfiguration;
 }
 
-export function securityConnectorsDevOpsAPIDevOpsConfigurationPropertiesSerializer(
-  item: SecurityConnectorsDevOpsAPIDevOpsConfigurationProperties,
-): any {
+export function devOpsConfigurationPropertiesSerializer(item: DevOpsConfigurationProperties): any {
   return {
     authorization: !item["authorization"]
       ? item["authorization"]
-      : securityConnectorsDevOpsAPIAuthorizationSerializer(item["authorization"]),
+      : authorizationSerializer(item["authorization"]),
     autoDiscovery: item["autoDiscovery"],
     topLevelInventoryList: !item["topLevelInventoryList"]
       ? item["topLevelInventoryList"]
@@ -776,13 +714,13 @@ export function securityConnectorsDevOpsAPIDevOpsConfigurationPropertiesSerializ
         }),
     agentlessConfiguration: !item["agentlessConfiguration"]
       ? item["agentlessConfiguration"]
-      : securityConnectorsDevOpsAPIAgentlessConfigurationSerializer(item["agentlessConfiguration"]),
+      : agentlessConfigurationSerializer(item["agentlessConfiguration"]),
   };
 }
 
-export function securityConnectorsDevOpsAPIDevOpsConfigurationPropertiesDeserializer(
+export function devOpsConfigurationPropertiesDeserializer(
   item: any,
-): SecurityConnectorsDevOpsAPIDevOpsConfigurationProperties {
+): DevOpsConfigurationProperties {
   return {
     provisioningStatusMessage: item["provisioningStatusMessage"],
     provisioningStatusUpdateTimeUtc: !item["provisioningStatusUpdateTimeUtc"]
@@ -791,7 +729,7 @@ export function securityConnectorsDevOpsAPIDevOpsConfigurationPropertiesDeserial
     provisioningState: item["provisioningState"],
     authorization: !item["authorization"]
       ? item["authorization"]
-      : securityConnectorsDevOpsAPIAuthorizationDeserializer(item["authorization"]),
+      : authorizationDeserializer(item["authorization"]),
     autoDiscovery: item["autoDiscovery"],
     topLevelInventoryList: !item["topLevelInventoryList"]
       ? item["topLevelInventoryList"]
@@ -800,17 +738,15 @@ export function securityConnectorsDevOpsAPIDevOpsConfigurationPropertiesDeserial
         }),
     capabilities: !item["capabilities"]
       ? item["capabilities"]
-      : securityConnectorsDevOpsAPIDevOpsCapabilityArrayDeserializer(item["capabilities"]),
+      : devOpsCapabilityArrayDeserializer(item["capabilities"]),
     agentlessConfiguration: !item["agentlessConfiguration"]
       ? item["agentlessConfiguration"]
-      : securityConnectorsDevOpsAPIAgentlessConfigurationDeserializer(
-          item["agentlessConfiguration"],
-        ),
+      : agentlessConfigurationDeserializer(item["agentlessConfiguration"]),
   };
 }
 
 /** Authorization payload. */
-export interface SecurityConnectorsDevOpsAPIAuthorization {
+export interface Authorization {
   /**
    * Gets or sets one-time OAuth code to exchange for refresh and access tokens.
    *
@@ -819,22 +755,18 @@ export interface SecurityConnectorsDevOpsAPIAuthorization {
   code?: string;
 }
 
-export function securityConnectorsDevOpsAPIAuthorizationSerializer(
-  item: SecurityConnectorsDevOpsAPIAuthorization,
-): any {
+export function authorizationSerializer(item: Authorization): any {
   return { code: item["code"] };
 }
 
-export function securityConnectorsDevOpsAPIAuthorizationDeserializer(
-  item: any,
-): SecurityConnectorsDevOpsAPIAuthorization {
+export function authorizationDeserializer(item: any): Authorization {
   return {
     code: item["code"],
   };
 }
 
 /** AutoDiscovery states. */
-export enum KnownSecurityConnectorsDevOpsAPIAutoDiscovery {
+export enum KnownAutoDiscovery {
   /** Disabled */
   Disabled = "Disabled",
   /** Enabled */
@@ -845,34 +777,30 @@ export enum KnownSecurityConnectorsDevOpsAPIAutoDiscovery {
 
 /**
  * AutoDiscovery states. \
- * {@link KnownSecurityConnectorsDevOpsAPIAutoDiscovery} can be used interchangeably with SecurityConnectorsDevOpsAPIAutoDiscovery,
+ * {@link KnownAutoDiscovery} can be used interchangeably with AutoDiscovery,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Disabled**: Disabled \
  * **Enabled**: Enabled \
  * **NotApplicable**: NotApplicable
  */
-export type SecurityConnectorsDevOpsAPIAutoDiscovery = string;
+export type AutoDiscovery = string;
 
-export function securityConnectorsDevOpsAPIDevOpsCapabilityArrayDeserializer(
-  result: Array<SecurityConnectorsDevOpsAPIDevOpsCapability>,
-): any[] {
+export function devOpsCapabilityArrayDeserializer(result: Array<DevOpsCapability>): any[] {
   return result.map((item) => {
-    return securityConnectorsDevOpsAPIDevOpsCapabilityDeserializer(item);
+    return devOpsCapabilityDeserializer(item);
   });
 }
 
 /** Details about DevOps capability. */
-export interface SecurityConnectorsDevOpsAPIDevOpsCapability {
+export interface DevOpsCapability {
   /** Gets the name of the DevOps capability. */
   readonly name?: string;
   /** Gets the value of the DevOps capability. */
   readonly value?: string;
 }
 
-export function securityConnectorsDevOpsAPIDevOpsCapabilityDeserializer(
-  item: any,
-): SecurityConnectorsDevOpsAPIDevOpsCapability {
+export function devOpsCapabilityDeserializer(item: any): DevOpsCapability {
   return {
     name: item["name"],
     value: item["value"],
@@ -880,25 +808,23 @@ export function securityConnectorsDevOpsAPIDevOpsCapabilityDeserializer(
 }
 
 /** Details about Agentless configuration. */
-export interface SecurityConnectorsDevOpsAPIAgentlessConfiguration {
+export interface AgentlessConfiguration {
   /** Agentless Enablement states. */
-  agentlessEnabled?: SecurityConnectorsDevOpsAPIAgentlessEnablement;
+  agentlessEnabled?: AgentlessEnablement;
   /** AutoDiscovery states. */
-  agentlessAutoDiscovery?: SecurityConnectorsDevOpsAPIAutoDiscovery;
+  agentlessAutoDiscovery?: AutoDiscovery;
   /** Gets or sets the scanners for the connector. */
   scanners?: string[];
   /** Types for inventory list. */
-  inventoryListType?: SecurityConnectorsDevOpsAPIInventoryListKind;
+  inventoryListType?: InventoryListKind;
   /**
    * Gets or sets the inventory list for inclusion or exclusion from Agentless.
    * Will be ignored if agentless auto-discovery is enabled.
    */
-  inventoryList?: SecurityConnectorsDevOpsAPIInventoryList[];
+  inventoryList?: InventoryList[];
 }
 
-export function securityConnectorsDevOpsAPIAgentlessConfigurationSerializer(
-  item: SecurityConnectorsDevOpsAPIAgentlessConfiguration,
-): any {
+export function agentlessConfigurationSerializer(item: AgentlessConfiguration): any {
   return {
     agentlessEnabled: item["agentlessEnabled"],
     agentlessAutoDiscovery: item["agentlessAutoDiscovery"],
@@ -910,13 +836,11 @@ export function securityConnectorsDevOpsAPIAgentlessConfigurationSerializer(
     inventoryListType: item["inventoryListType"],
     inventoryList: !item["inventoryList"]
       ? item["inventoryList"]
-      : securityConnectorsDevOpsAPIInventoryListArraySerializer(item["inventoryList"]),
+      : inventoryListArraySerializer(item["inventoryList"]),
   };
 }
 
-export function securityConnectorsDevOpsAPIAgentlessConfigurationDeserializer(
-  item: any,
-): SecurityConnectorsDevOpsAPIAgentlessConfiguration {
+export function agentlessConfigurationDeserializer(item: any): AgentlessConfiguration {
   return {
     agentlessEnabled: item["agentlessEnabled"],
     agentlessAutoDiscovery: item["agentlessAutoDiscovery"],
@@ -928,12 +852,12 @@ export function securityConnectorsDevOpsAPIAgentlessConfigurationDeserializer(
     inventoryListType: item["inventoryListType"],
     inventoryList: !item["inventoryList"]
       ? item["inventoryList"]
-      : securityConnectorsDevOpsAPIInventoryListArrayDeserializer(item["inventoryList"]),
+      : inventoryListArrayDeserializer(item["inventoryList"]),
   };
 }
 
 /** Agentless Enablement states. */
-export enum KnownSecurityConnectorsDevOpsAPIAgentlessEnablement {
+export enum KnownAgentlessEnablement {
   /** Disabled */
   Disabled = "Disabled",
   /** Enabled */
@@ -944,17 +868,17 @@ export enum KnownSecurityConnectorsDevOpsAPIAgentlessEnablement {
 
 /**
  * Agentless Enablement states. \
- * {@link KnownSecurityConnectorsDevOpsAPIAgentlessEnablement} can be used interchangeably with SecurityConnectorsDevOpsAPIAgentlessEnablement,
+ * {@link KnownAgentlessEnablement} can be used interchangeably with AgentlessEnablement,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Disabled**: Disabled \
  * **Enabled**: Enabled \
  * **NotApplicable**: NotApplicable
  */
-export type SecurityConnectorsDevOpsAPIAgentlessEnablement = string;
+export type AgentlessEnablement = string;
 
 /** Types for inventory list. */
-export enum KnownSecurityConnectorsDevOpsAPIInventoryListKind {
+export enum KnownInventoryListKind {
   /** Inclusion */
   Inclusion = "Inclusion",
   /** Exclusion */
@@ -963,47 +887,39 @@ export enum KnownSecurityConnectorsDevOpsAPIInventoryListKind {
 
 /**
  * Types for inventory list. \
- * {@link KnownSecurityConnectorsDevOpsAPIInventoryListKind} can be used interchangeably with SecurityConnectorsDevOpsAPIInventoryListKind,
+ * {@link KnownInventoryListKind} can be used interchangeably with InventoryListKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Inclusion**: Inclusion \
  * **Exclusion**: Exclusion
  */
-export type SecurityConnectorsDevOpsAPIInventoryListKind = string;
+export type InventoryListKind = string;
 
-export function securityConnectorsDevOpsAPIInventoryListArraySerializer(
-  result: Array<SecurityConnectorsDevOpsAPIInventoryList>,
-): any[] {
+export function inventoryListArraySerializer(result: Array<InventoryList>): any[] {
   return result.map((item) => {
-    return securityConnectorsDevOpsAPIInventoryListSerializer(item);
+    return inventoryListSerializer(item);
   });
 }
 
-export function securityConnectorsDevOpsAPIInventoryListArrayDeserializer(
-  result: Array<SecurityConnectorsDevOpsAPIInventoryList>,
-): any[] {
+export function inventoryListArrayDeserializer(result: Array<InventoryList>): any[] {
   return result.map((item) => {
-    return securityConnectorsDevOpsAPIInventoryListDeserializer(item);
+    return inventoryListDeserializer(item);
   });
 }
 
 /** Model for inventory to be included or excluded from Agentless. */
-export interface SecurityConnectorsDevOpsAPIInventoryList {
+export interface InventoryList {
   /** Types for inventory kind. */
-  inventoryKind?: SecurityConnectorsDevOpsAPIInventoryKind;
+  inventoryKind?: InventoryKind;
   /** Gets or sets the value for inventory type. */
   value?: string;
 }
 
-export function securityConnectorsDevOpsAPIInventoryListSerializer(
-  item: SecurityConnectorsDevOpsAPIInventoryList,
-): any {
+export function inventoryListSerializer(item: InventoryList): any {
   return { inventoryKind: item["inventoryKind"], value: item["value"] };
 }
 
-export function securityConnectorsDevOpsAPIInventoryListDeserializer(
-  item: any,
-): SecurityConnectorsDevOpsAPIInventoryList {
+export function inventoryListDeserializer(item: any): InventoryList {
   return {
     inventoryKind: item["inventoryKind"],
     value: item["value"],
@@ -1011,7 +927,7 @@ export function securityConnectorsDevOpsAPIInventoryListDeserializer(
 }
 
 /** Types for inventory kind. */
-export enum KnownSecurityConnectorsDevOpsAPIInventoryKind {
+export enum KnownInventoryKind {
   /** AzureDevOpsOrganization */
   AzureDevOpsOrganization = "AzureDevOpsOrganization",
   /** AzureDevOpsProject */
@@ -1026,7 +942,7 @@ export enum KnownSecurityConnectorsDevOpsAPIInventoryKind {
 
 /**
  * Types for inventory kind. \
- * {@link KnownSecurityConnectorsDevOpsAPIInventoryKind} can be used interchangeably with SecurityConnectorsDevOpsAPIInventoryKind,
+ * {@link KnownInventoryKind} can be used interchangeably with InventoryKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **AzureDevOpsOrganization**: AzureDevOpsOrganization \
@@ -1035,62 +951,52 @@ export enum KnownSecurityConnectorsDevOpsAPIInventoryKind {
  * **GitHubOwner**: GitHubOwner \
  * **GitHubRepository**: GitHubRepository
  */
-export type SecurityConnectorsDevOpsAPIInventoryKind = string;
+export type InventoryKind = string;
 
 /** List of RP resources which supports pagination. */
-export interface _SecurityConnectorsDevOpsAPIDevOpsConfigurationListResponse {
+export interface _DevOpsConfigurationListResponse {
   /** The DevOpsConfiguration items on this page. */
-  value?: SecurityConnectorsDevOpsAPIDevOpsConfiguration[];
+  value?: DevOpsConfiguration[];
   /** The link to the next page of items. */
   nextLink?: string;
 }
 
-export function _securityConnectorsDevOpsAPIDevOpsConfigurationListResponseDeserializer(
+export function _devOpsConfigurationListResponseDeserializer(
   item: any,
-): _SecurityConnectorsDevOpsAPIDevOpsConfigurationListResponse {
+): _DevOpsConfigurationListResponse {
   return {
-    value: !item["value"]
-      ? item["value"]
-      : securityConnectorsDevOpsAPIDevOpsConfigurationArrayDeserializer(item["value"]),
+    value: !item["value"] ? item["value"] : devOpsConfigurationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function securityConnectorsDevOpsAPIDevOpsConfigurationArraySerializer(
-  result: Array<SecurityConnectorsDevOpsAPIDevOpsConfiguration>,
-): any[] {
+export function devOpsConfigurationArraySerializer(result: Array<DevOpsConfiguration>): any[] {
   return result.map((item) => {
-    return securityConnectorsDevOpsAPIDevOpsConfigurationSerializer(item);
+    return devOpsConfigurationSerializer(item);
   });
 }
 
-export function securityConnectorsDevOpsAPIDevOpsConfigurationArrayDeserializer(
-  result: Array<SecurityConnectorsDevOpsAPIDevOpsConfiguration>,
-): any[] {
+export function devOpsConfigurationArrayDeserializer(result: Array<DevOpsConfiguration>): any[] {
   return result.map((item) => {
-    return securityConnectorsDevOpsAPIDevOpsConfigurationDeserializer(item);
+    return devOpsConfigurationDeserializer(item);
   });
 }
 
 /** Azure DevOps Project resource. */
-export interface SecurityConnectorsDevOpsAPIAzureDevOpsProject extends ProxyResource {
+export interface AzureDevOpsProject extends ProxyResource {
   /** Azure DevOps Project properties. */
-  properties?: SecurityConnectorsDevOpsAPIAzureDevOpsProjectProperties;
+  properties?: AzureDevOpsProjectProperties;
 }
 
-export function securityConnectorsDevOpsAPIAzureDevOpsProjectSerializer(
-  item: SecurityConnectorsDevOpsAPIAzureDevOpsProject,
-): any {
+export function azureDevOpsProjectSerializer(item: AzureDevOpsProject): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
-      : securityConnectorsDevOpsAPIAzureDevOpsProjectPropertiesSerializer(item["properties"]),
+      : azureDevOpsProjectPropertiesSerializer(item["properties"]),
   };
 }
 
-export function securityConnectorsDevOpsAPIAzureDevOpsProjectDeserializer(
-  item: any,
-): SecurityConnectorsDevOpsAPIAzureDevOpsProject {
+export function azureDevOpsProjectDeserializer(item: any): AzureDevOpsProject {
   return {
     id: item["id"],
     name: item["name"],
@@ -1100,12 +1006,12 @@ export function securityConnectorsDevOpsAPIAzureDevOpsProjectDeserializer(
       : systemDataDeserializer(item["systemData"]),
     properties: !item["properties"]
       ? item["properties"]
-      : securityConnectorsDevOpsAPIAzureDevOpsProjectPropertiesDeserializer(item["properties"]),
+      : azureDevOpsProjectPropertiesDeserializer(item["properties"]),
   };
 }
 
 /** Azure DevOps Project properties. */
-export interface SecurityConnectorsDevOpsAPIAzureDevOpsProjectProperties {
+export interface AzureDevOpsProjectProperties {
   /** Gets the resource status message. */
   readonly provisioningStatusMessage?: string;
   /** Gets the time when resource was last checked. */
@@ -1121,7 +1027,7 @@ export interface SecurityConnectorsDevOpsAPIAzureDevOpsProjectProperties {
    * DeletionSuccess - Deletion successful.
    * DeletionFailure - Deletion failure.
    */
-  readonly provisioningState?: SecurityConnectorsDevOpsAPIDevOpsProvisioningState;
+  readonly provisioningState?: DevOpsProvisioningState;
   /** Gets or sets parent Azure DevOps Organization name. */
   parentOrgName?: string;
   /** Gets or sets Azure DevOps Project id. */
@@ -1134,26 +1040,22 @@ export interface SecurityConnectorsDevOpsAPIAzureDevOpsProjectProperties {
    * NotOnboarded - this resource has not been onboarded to any connector.
    * NotApplicable - the onboarding state is not applicable to the current endpoint.
    */
-  onboardingState?: SecurityConnectorsDevOpsAPIOnboardingState;
+  onboardingState?: OnboardingState;
   /** Configuration payload for PR Annotations. */
-  actionableRemediation?: SecurityConnectorsDevOpsAPIActionableRemediation;
+  actionableRemediation?: ActionableRemediation;
 }
 
-export function securityConnectorsDevOpsAPIAzureDevOpsProjectPropertiesSerializer(
-  item: SecurityConnectorsDevOpsAPIAzureDevOpsProjectProperties,
-): any {
+export function azureDevOpsProjectPropertiesSerializer(item: AzureDevOpsProjectProperties): any {
   return {
     parentOrgName: item["parentOrgName"],
     onboardingState: item["onboardingState"],
     actionableRemediation: !item["actionableRemediation"]
       ? item["actionableRemediation"]
-      : securityConnectorsDevOpsAPIActionableRemediationSerializer(item["actionableRemediation"]),
+      : actionableRemediationSerializer(item["actionableRemediation"]),
   };
 }
 
-export function securityConnectorsDevOpsAPIAzureDevOpsProjectPropertiesDeserializer(
-  item: any,
-): SecurityConnectorsDevOpsAPIAzureDevOpsProjectProperties {
+export function azureDevOpsProjectPropertiesDeserializer(item: any): AzureDevOpsProjectProperties {
   return {
     provisioningStatusMessage: item["provisioningStatusMessage"],
     provisioningStatusUpdateTimeUtc: !item["provisioningStatusUpdateTimeUtc"]
@@ -1165,54 +1067,46 @@ export function securityConnectorsDevOpsAPIAzureDevOpsProjectPropertiesDeseriali
     onboardingState: item["onboardingState"],
     actionableRemediation: !item["actionableRemediation"]
       ? item["actionableRemediation"]
-      : securityConnectorsDevOpsAPIActionableRemediationDeserializer(item["actionableRemediation"]),
+      : actionableRemediationDeserializer(item["actionableRemediation"]),
   };
 }
 
 /** List of RP resources which supports pagination. */
-export interface _SecurityConnectorsDevOpsAPIAzureDevOpsProjectListResponse {
+export interface _AzureDevOpsProjectListResponse {
   /** The AzureDevOpsProject items on this page. */
-  value?: SecurityConnectorsDevOpsAPIAzureDevOpsProject[];
+  value?: AzureDevOpsProject[];
   /** The link to the next page of items. */
   nextLink?: string;
 }
 
-export function _securityConnectorsDevOpsAPIAzureDevOpsProjectListResponseDeserializer(
+export function _azureDevOpsProjectListResponseDeserializer(
   item: any,
-): _SecurityConnectorsDevOpsAPIAzureDevOpsProjectListResponse {
+): _AzureDevOpsProjectListResponse {
   return {
-    value: !item["value"]
-      ? item["value"]
-      : securityConnectorsDevOpsAPIAzureDevOpsProjectArrayDeserializer(item["value"]),
+    value: !item["value"] ? item["value"] : azureDevOpsProjectArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function securityConnectorsDevOpsAPIAzureDevOpsProjectArraySerializer(
-  result: Array<SecurityConnectorsDevOpsAPIAzureDevOpsProject>,
-): any[] {
+export function azureDevOpsProjectArraySerializer(result: Array<AzureDevOpsProject>): any[] {
   return result.map((item) => {
-    return securityConnectorsDevOpsAPIAzureDevOpsProjectSerializer(item);
+    return azureDevOpsProjectSerializer(item);
   });
 }
 
-export function securityConnectorsDevOpsAPIAzureDevOpsProjectArrayDeserializer(
-  result: Array<SecurityConnectorsDevOpsAPIAzureDevOpsProject>,
-): any[] {
+export function azureDevOpsProjectArrayDeserializer(result: Array<AzureDevOpsProject>): any[] {
   return result.map((item) => {
-    return securityConnectorsDevOpsAPIAzureDevOpsProjectDeserializer(item);
+    return azureDevOpsProjectDeserializer(item);
   });
 }
 
 /** GitLab Project resource. */
-export interface SecurityConnectorsDevOpsAPIGitLabProject extends ProxyResource {
+export interface GitLabProject extends ProxyResource {
   /** GitLab Project properties. */
-  properties?: SecurityConnectorsDevOpsAPIGitLabProjectProperties;
+  properties?: GitLabProjectProperties;
 }
 
-export function securityConnectorsDevOpsAPIGitLabProjectDeserializer(
-  item: any,
-): SecurityConnectorsDevOpsAPIGitLabProject {
+export function gitLabProjectDeserializer(item: any): GitLabProject {
   return {
     id: item["id"],
     name: item["name"],
@@ -1222,12 +1116,12 @@ export function securityConnectorsDevOpsAPIGitLabProjectDeserializer(
       : systemDataDeserializer(item["systemData"]),
     properties: !item["properties"]
       ? item["properties"]
-      : securityConnectorsDevOpsAPIGitLabProjectPropertiesDeserializer(item["properties"]),
+      : gitLabProjectPropertiesDeserializer(item["properties"]),
   };
 }
 
 /** GitLab Project properties. */
-export interface SecurityConnectorsDevOpsAPIGitLabProjectProperties {
+export interface GitLabProjectProperties {
   /** Gets the resource status message. */
   readonly provisioningStatusMessage?: string;
   /** Gets the time when resource was last checked. */
@@ -1243,7 +1137,7 @@ export interface SecurityConnectorsDevOpsAPIGitLabProjectProperties {
    * DeletionSuccess - Deletion successful.
    * DeletionFailure - Deletion failure.
    */
-  readonly provisioningState?: SecurityConnectorsDevOpsAPIDevOpsProvisioningState;
+  readonly provisioningState?: DevOpsProvisioningState;
   /**
    * Gets or sets the fully-qualified name of the project object.
    *
@@ -1272,12 +1166,10 @@ export interface SecurityConnectorsDevOpsAPIGitLabProjectProperties {
    * NotOnboarded - this resource has not been onboarded to any connector.
    * NotApplicable - the onboarding state is not applicable to the current endpoint.
    */
-  onboardingState?: SecurityConnectorsDevOpsAPIOnboardingState;
+  onboardingState?: OnboardingState;
 }
 
-export function securityConnectorsDevOpsAPIGitLabProjectPropertiesDeserializer(
-  item: any,
-): SecurityConnectorsDevOpsAPIGitLabProjectProperties {
+export function gitLabProjectPropertiesDeserializer(item: any): GitLabProjectProperties {
   return {
     provisioningStatusMessage: item["provisioningStatusMessage"],
     provisioningStatusUpdateTimeUtc: !item["provisioningStatusUpdateTimeUtc"]
@@ -1293,51 +1185,41 @@ export function securityConnectorsDevOpsAPIGitLabProjectPropertiesDeserializer(
 }
 
 /** List of RP resources which supports pagination. */
-export interface _SecurityConnectorsDevOpsAPIGitLabProjectListResponse {
+export interface _GitLabProjectListResponse {
   /** The GitLabProject items on this page. */
-  value?: SecurityConnectorsDevOpsAPIGitLabProject[];
+  value?: GitLabProject[];
   /** The link to the next page of items. */
   nextLink?: string;
 }
 
-export function _securityConnectorsDevOpsAPIGitLabProjectListResponseDeserializer(
-  item: any,
-): _SecurityConnectorsDevOpsAPIGitLabProjectListResponse {
+export function _gitLabProjectListResponseDeserializer(item: any): _GitLabProjectListResponse {
   return {
-    value: !item["value"]
-      ? item["value"]
-      : securityConnectorsDevOpsAPIGitLabProjectArrayDeserializer(item["value"]),
+    value: !item["value"] ? item["value"] : gitLabProjectArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function securityConnectorsDevOpsAPIGitLabProjectArrayDeserializer(
-  result: Array<SecurityConnectorsDevOpsAPIGitLabProject>,
-): any[] {
+export function gitLabProjectArrayDeserializer(result: Array<GitLabProject>): any[] {
   return result.map((item) => {
-    return securityConnectorsDevOpsAPIGitLabProjectDeserializer(item);
+    return gitLabProjectDeserializer(item);
   });
 }
 
 /** Azure DevOps Repository resource. */
-export interface SecurityConnectorsDevOpsAPIAzureDevOpsRepository extends ProxyResource {
+export interface AzureDevOpsRepository extends ProxyResource {
   /** Azure DevOps Repository properties. */
-  properties?: SecurityConnectorsDevOpsAPIAzureDevOpsRepositoryProperties;
+  properties?: AzureDevOpsRepositoryProperties;
 }
 
-export function securityConnectorsDevOpsAPIAzureDevOpsRepositorySerializer(
-  item: SecurityConnectorsDevOpsAPIAzureDevOpsRepository,
-): any {
+export function azureDevOpsRepositorySerializer(item: AzureDevOpsRepository): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
-      : securityConnectorsDevOpsAPIAzureDevOpsRepositoryPropertiesSerializer(item["properties"]),
+      : azureDevOpsRepositoryPropertiesSerializer(item["properties"]),
   };
 }
 
-export function securityConnectorsDevOpsAPIAzureDevOpsRepositoryDeserializer(
-  item: any,
-): SecurityConnectorsDevOpsAPIAzureDevOpsRepository {
+export function azureDevOpsRepositoryDeserializer(item: any): AzureDevOpsRepository {
   return {
     id: item["id"],
     name: item["name"],
@@ -1347,12 +1229,12 @@ export function securityConnectorsDevOpsAPIAzureDevOpsRepositoryDeserializer(
       : systemDataDeserializer(item["systemData"]),
     properties: !item["properties"]
       ? item["properties"]
-      : securityConnectorsDevOpsAPIAzureDevOpsRepositoryPropertiesDeserializer(item["properties"]),
+      : azureDevOpsRepositoryPropertiesDeserializer(item["properties"]),
   };
 }
 
 /** Azure DevOps Repository properties. */
-export interface SecurityConnectorsDevOpsAPIAzureDevOpsRepositoryProperties {
+export interface AzureDevOpsRepositoryProperties {
   /** Gets the resource status message. */
   readonly provisioningStatusMessage?: string;
   /** Gets the time when resource was last checked. */
@@ -1368,7 +1250,7 @@ export interface SecurityConnectorsDevOpsAPIAzureDevOpsRepositoryProperties {
    * DeletionSuccess - Deletion successful.
    * DeletionFailure - Deletion failure.
    */
-  readonly provisioningState?: SecurityConnectorsDevOpsAPIDevOpsProvisioningState;
+  readonly provisioningState?: DevOpsProvisioningState;
   /** Gets or sets parent Azure DevOps Organization name. */
   parentOrgName?: string;
   /** Gets or sets parent Azure DevOps Project name. */
@@ -1387,13 +1269,13 @@ export interface SecurityConnectorsDevOpsAPIAzureDevOpsRepositoryProperties {
    * NotOnboarded - this resource has not been onboarded to any connector.
    * NotApplicable - the onboarding state is not applicable to the current endpoint.
    */
-  onboardingState?: SecurityConnectorsDevOpsAPIOnboardingState;
+  onboardingState?: OnboardingState;
   /** Configuration payload for PR Annotations. */
-  actionableRemediation?: SecurityConnectorsDevOpsAPIActionableRemediation;
+  actionableRemediation?: ActionableRemediation;
 }
 
-export function securityConnectorsDevOpsAPIAzureDevOpsRepositoryPropertiesSerializer(
-  item: SecurityConnectorsDevOpsAPIAzureDevOpsRepositoryProperties,
+export function azureDevOpsRepositoryPropertiesSerializer(
+  item: AzureDevOpsRepositoryProperties,
 ): any {
   return {
     parentOrgName: item["parentOrgName"],
@@ -1401,13 +1283,13 @@ export function securityConnectorsDevOpsAPIAzureDevOpsRepositoryPropertiesSerial
     onboardingState: item["onboardingState"],
     actionableRemediation: !item["actionableRemediation"]
       ? item["actionableRemediation"]
-      : securityConnectorsDevOpsAPIActionableRemediationSerializer(item["actionableRemediation"]),
+      : actionableRemediationSerializer(item["actionableRemediation"]),
   };
 }
 
-export function securityConnectorsDevOpsAPIAzureDevOpsRepositoryPropertiesDeserializer(
+export function azureDevOpsRepositoryPropertiesDeserializer(
   item: any,
-): SecurityConnectorsDevOpsAPIAzureDevOpsRepositoryProperties {
+): AzureDevOpsRepositoryProperties {
   return {
     provisioningStatusMessage: item["provisioningStatusMessage"],
     provisioningStatusUpdateTimeUtc: !item["provisioningStatusUpdateTimeUtc"]
@@ -1422,54 +1304,48 @@ export function securityConnectorsDevOpsAPIAzureDevOpsRepositoryPropertiesDeseri
     onboardingState: item["onboardingState"],
     actionableRemediation: !item["actionableRemediation"]
       ? item["actionableRemediation"]
-      : securityConnectorsDevOpsAPIActionableRemediationDeserializer(item["actionableRemediation"]),
+      : actionableRemediationDeserializer(item["actionableRemediation"]),
   };
 }
 
 /** List of RP resources which supports pagination. */
-export interface _SecurityConnectorsDevOpsAPIAzureDevOpsRepositoryListResponse {
+export interface _AzureDevOpsRepositoryListResponse {
   /** The AzureDevOpsRepository items on this page. */
-  value?: SecurityConnectorsDevOpsAPIAzureDevOpsRepository[];
+  value?: AzureDevOpsRepository[];
   /** The link to the next page of items. */
   nextLink?: string;
 }
 
-export function _securityConnectorsDevOpsAPIAzureDevOpsRepositoryListResponseDeserializer(
+export function _azureDevOpsRepositoryListResponseDeserializer(
   item: any,
-): _SecurityConnectorsDevOpsAPIAzureDevOpsRepositoryListResponse {
+): _AzureDevOpsRepositoryListResponse {
   return {
-    value: !item["value"]
-      ? item["value"]
-      : securityConnectorsDevOpsAPIAzureDevOpsRepositoryArrayDeserializer(item["value"]),
+    value: !item["value"] ? item["value"] : azureDevOpsRepositoryArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function securityConnectorsDevOpsAPIAzureDevOpsRepositoryArraySerializer(
-  result: Array<SecurityConnectorsDevOpsAPIAzureDevOpsRepository>,
-): any[] {
+export function azureDevOpsRepositoryArraySerializer(result: Array<AzureDevOpsRepository>): any[] {
   return result.map((item) => {
-    return securityConnectorsDevOpsAPIAzureDevOpsRepositorySerializer(item);
+    return azureDevOpsRepositorySerializer(item);
   });
 }
 
-export function securityConnectorsDevOpsAPIAzureDevOpsRepositoryArrayDeserializer(
-  result: Array<SecurityConnectorsDevOpsAPIAzureDevOpsRepository>,
+export function azureDevOpsRepositoryArrayDeserializer(
+  result: Array<AzureDevOpsRepository>,
 ): any[] {
   return result.map((item) => {
-    return securityConnectorsDevOpsAPIAzureDevOpsRepositoryDeserializer(item);
+    return azureDevOpsRepositoryDeserializer(item);
   });
 }
 
 /** GitHub Repository resource. */
-export interface SecurityConnectorsDevOpsAPIGitHubRepository extends ProxyResource {
+export interface GitHubRepository extends ProxyResource {
   /** GitHub Repository properties. */
-  properties?: SecurityConnectorsDevOpsAPIGitHubRepositoryProperties;
+  properties?: GitHubRepositoryProperties;
 }
 
-export function securityConnectorsDevOpsAPIGitHubRepositoryDeserializer(
-  item: any,
-): SecurityConnectorsDevOpsAPIGitHubRepository {
+export function gitHubRepositoryDeserializer(item: any): GitHubRepository {
   return {
     id: item["id"],
     name: item["name"],
@@ -1479,12 +1355,12 @@ export function securityConnectorsDevOpsAPIGitHubRepositoryDeserializer(
       : systemDataDeserializer(item["systemData"]),
     properties: !item["properties"]
       ? item["properties"]
-      : securityConnectorsDevOpsAPIGitHubRepositoryPropertiesDeserializer(item["properties"]),
+      : gitHubRepositoryPropertiesDeserializer(item["properties"]),
   };
 }
 
 /** GitHub Repository properties. */
-export interface SecurityConnectorsDevOpsAPIGitHubRepositoryProperties {
+export interface GitHubRepositoryProperties {
   /** Gets the resource status message. */
   readonly provisioningStatusMessage?: string;
   /** Gets the time when resource was last checked. */
@@ -1500,7 +1376,7 @@ export interface SecurityConnectorsDevOpsAPIGitHubRepositoryProperties {
    * DeletionSuccess - Deletion successful.
    * DeletionFailure - Deletion failure.
    */
-  readonly provisioningState?: SecurityConnectorsDevOpsAPIDevOpsProvisioningState;
+  readonly provisioningState?: DevOpsProvisioningState;
   /**
    * Gets or sets GitHub Repository id.
    *
@@ -1527,16 +1403,14 @@ export interface SecurityConnectorsDevOpsAPIGitHubRepositoryProperties {
    * NotOnboarded - this resource has not been onboarded to any connector.
    * NotApplicable - the onboarding state is not applicable to the current endpoint.
    */
-  onboardingState?: SecurityConnectorsDevOpsAPIOnboardingState;
+  onboardingState?: OnboardingState;
   /** Gets or sets GitHub Repository url. */
   readonly repoUrl?: string;
   /** Gets or sets parent GitHub Owner name. */
   parentOwnerName?: string;
 }
 
-export function securityConnectorsDevOpsAPIGitHubRepositoryPropertiesDeserializer(
-  item: any,
-): SecurityConnectorsDevOpsAPIGitHubRepositoryProperties {
+export function gitHubRepositoryPropertiesDeserializer(item: any): GitHubRepositoryProperties {
   return {
     provisioningStatusMessage: item["provisioningStatusMessage"],
     provisioningStatusUpdateTimeUtc: !item["provisioningStatusUpdateTimeUtc"]
@@ -1553,40 +1427,34 @@ export function securityConnectorsDevOpsAPIGitHubRepositoryPropertiesDeserialize
 }
 
 /** List of RP resources which supports pagination. */
-export interface _SecurityConnectorsDevOpsAPIGitHubRepositoryListResponse {
+export interface _GitHubRepositoryListResponse {
   /** The GitHubRepository items on this page. */
-  value?: SecurityConnectorsDevOpsAPIGitHubRepository[];
+  value?: GitHubRepository[];
   /** The link to the next page of items. */
   nextLink?: string;
 }
 
-export function _securityConnectorsDevOpsAPIGitHubRepositoryListResponseDeserializer(
+export function _gitHubRepositoryListResponseDeserializer(
   item: any,
-): _SecurityConnectorsDevOpsAPIGitHubRepositoryListResponse {
+): _GitHubRepositoryListResponse {
   return {
-    value: !item["value"]
-      ? item["value"]
-      : securityConnectorsDevOpsAPIGitHubRepositoryArrayDeserializer(item["value"]),
+    value: !item["value"] ? item["value"] : gitHubRepositoryArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function securityConnectorsDevOpsAPIGitHubRepositoryArrayDeserializer(
-  result: Array<SecurityConnectorsDevOpsAPIGitHubRepository>,
-): any[] {
+export function gitHubRepositoryArrayDeserializer(result: Array<GitHubRepository>): any[] {
   return result.map((item) => {
-    return securityConnectorsDevOpsAPIGitHubRepositoryDeserializer(item);
+    return gitHubRepositoryDeserializer(item);
   });
 }
 
 /** The issue creation request model */
-export interface SecurityConnectorsDevOpsAPIIssueCreationRequest {
+export interface IssueCreationRequest {
   /** The security assessment resource id that the issue will be opened based on. */
   securityAssessmentResourceId?: string;
 }
 
-export function securityConnectorsDevOpsAPIIssueCreationRequestSerializer(
-  item: SecurityConnectorsDevOpsAPIIssueCreationRequest,
-): any {
+export function issueCreationRequestSerializer(item: IssueCreationRequest): any {
   return { securityAssessmentResourceId: item["securityAssessmentResourceId"] };
 }

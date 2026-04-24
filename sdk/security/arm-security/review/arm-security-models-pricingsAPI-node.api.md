@@ -5,88 +5,88 @@
 ```ts
 
 // @public
-export enum KnownPricingsAPIEnforce {
+export type Enforce = string;
+
+// @public
+export interface Extension {
+    additionalExtensionProperties?: Record<string, any>;
+    isEnabled: IsEnabled;
+    name: string;
+    readonly operationStatus?: OperationStatus;
+}
+
+// @public
+export type Inherited = string;
+
+// @public
+export type IsEnabled = string;
+
+// @public
+export enum KnownEnforce {
     False = "False",
     True = "True"
 }
 
 // @public
-export enum KnownPricingsAPIInherited {
+export enum KnownInherited {
     False = "False",
     True = "True"
 }
 
 // @public
-export enum KnownPricingsApiisEnabled {
+export enum KnownIsEnabled {
     False = "False",
     True = "True"
 }
 
 // @public
-export enum KnownPricingsAPIPricingTier {
+export enum KnownPricingTier {
     Free = "Free",
     Standard = "Standard"
 }
 
 // @public
-export enum KnownPricingsAPIResourcesCoverageStatus {
+export enum KnownResourcesCoverageStatus {
     FullyCovered = "FullyCovered",
     NotCovered = "NotCovered",
     PartiallyCovered = "PartiallyCovered"
 }
 
 // @public
-export type PricingsAPIEnforce = string;
-
-// @public
-export interface PricingsAPIExtension {
-    additionalExtensionProperties?: Record<string, any>;
-    isEnabled: PricingsApiisEnabled;
-    name: string;
-    readonly operationStatus?: CommonOperationStatus;
-}
-
-// @public
-export type PricingsAPIInherited = string;
-
-// @public
-export type PricingsApiisEnabled = string;
-
-// @public
-export interface PricingsAPIPricing extends ExtensionResource {
+export interface Pricing extends ExtensionResource {
     readonly deprecated?: boolean;
     readonly enablementTime?: Date;
-    enforce?: PricingsAPIEnforce;
-    extensions?: PricingsAPIExtension[];
+    enforce?: Enforce;
+    extensions?: Extension[];
     readonly freeTrialRemainingTime?: string;
-    readonly inherited?: PricingsAPIInherited;
+    readonly inherited?: Inherited;
     readonly inheritedFrom?: string;
-    pricingTier?: PricingsAPIPricingTier;
+    pricingTier?: PricingTier;
     readonly replacedBy?: string[];
-    readonly resourcesCoverageStatus?: PricingsAPIResourcesCoverageStatus;
+    readonly resourcesCoverageStatus?: ResourcesCoverageStatus;
     subPlan?: string;
 }
 
 // @public
-export interface PricingsAPIPricingProperties {
+export interface PricingProperties {
     readonly deprecated?: boolean;
     readonly enablementTime?: Date;
-    enforce?: PricingsAPIEnforce;
-    extensions?: PricingsAPIExtension[];
+    enforce?: Enforce;
+    extensions?: Extension[];
     readonly freeTrialRemainingTime?: string;
-    readonly inherited?: PricingsAPIInherited;
+    readonly inherited?: Inherited;
     readonly inheritedFrom?: string;
-    pricingTier: PricingsAPIPricingTier;
+    pricingTier: PricingTier;
     readonly replacedBy?: string[];
-    readonly resourcesCoverageStatus?: PricingsAPIResourcesCoverageStatus;
+    readonly resourcesCoverageStatus?: ResourcesCoverageStatus;
     subPlan?: string;
 }
 
 // @public
-export type PricingsAPIPricingTier = string;
+export type PricingTier = string;
 
 // @public
-export type PricingsAPIResourcesCoverageStatus = string;
+export type ResourcesCoverageStatus = string;
 
 // (No @packageDocumentation comment for this package)
 

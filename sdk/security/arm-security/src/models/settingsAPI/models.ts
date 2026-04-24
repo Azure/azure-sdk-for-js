@@ -12,24 +12,24 @@ import { systemDataDeserializer } from "../models.js";
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** The kind of the security setting */
-export interface SettingsAPISetting extends ProxyResource {
+export interface Setting extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: Record<string, any>;
   /** the kind of the settings string */
   /** The discriminator possible values: DataExportSettings, AlertSyncSettings */
-  kind: SettingsAPISettingKind;
+  kind: SettingKind;
 }
 
-export function settingsAPISettingSerializer(item: SettingsAPISetting): any {
+export function settingSerializer(item: Setting): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
-      : _settingsAPISettingPropertiesSerializer(item["properties"]),
+      : _settingPropertiesSerializer(item["properties"]),
     kind: item["kind"],
   };
 }
 
-export function settingsAPISettingDeserializer(item: any): SettingsAPISetting {
+export function settingDeserializer(item: any): Setting {
   return {
     id: item["id"],
     name: item["name"],
@@ -39,58 +39,53 @@ export function settingsAPISettingDeserializer(item: any): SettingsAPISetting {
       : systemDataDeserializer(item["systemData"]),
     properties: !item["properties"]
       ? item["properties"]
-      : _settingsAPISettingPropertiesDeserializer(item["properties"]),
+      : _settingPropertiesDeserializer(item["properties"]),
     kind: item["kind"],
   };
 }
 
-/** Alias for SettingsAPISettingUnion */
-export type SettingsAPISettingUnion =
-  | SettingsAPIDataExportSettings
-  | SettingsAPIAlertSyncSettings
-  | SettingsAPISetting;
+/** Alias for SettingUnion */
+export type SettingUnion = DataExportSettings | AlertSyncSettings | Setting;
 
-export function settingsAPISettingUnionSerializer(item: SettingsAPISettingUnion): any {
+export function settingUnionSerializer(item: SettingUnion): any {
   switch (item.kind) {
     case "DataExportSettings":
-      return settingsAPIDataExportSettingsSerializer(item as SettingsAPIDataExportSettings);
+      return dataExportSettingsSerializer(item as DataExportSettings);
 
     case "AlertSyncSettings":
-      return settingsAPIAlertSyncSettingsSerializer(item as SettingsAPIAlertSyncSettings);
+      return alertSyncSettingsSerializer(item as AlertSyncSettings);
 
     default:
-      return settingsAPISettingSerializer(item);
+      return settingSerializer(item);
   }
 }
 
-export function settingsAPISettingUnionDeserializer(item: any): SettingsAPISettingUnion {
+export function settingUnionDeserializer(item: any): SettingUnion {
   switch (item["kind"]) {
     case "DataExportSettings":
-      return settingsAPIDataExportSettingsDeserializer(item as SettingsAPIDataExportSettings);
+      return dataExportSettingsDeserializer(item as DataExportSettings);
 
     case "AlertSyncSettings":
-      return settingsAPIAlertSyncSettingsDeserializer(item as SettingsAPIAlertSyncSettings);
+      return alertSyncSettingsDeserializer(item as AlertSyncSettings);
 
     default:
-      return settingsAPISettingDeserializer(item);
+      return settingDeserializer(item);
   }
 }
 
-/** model interface _SettingsAPISettingProperties */
-export interface _SettingsAPISettingProperties {}
+/** model interface _SettingProperties */
+export interface _SettingProperties {}
 
-export function _settingsAPISettingPropertiesSerializer(_item: _SettingsAPISettingProperties): any {
+export function _settingPropertiesSerializer(_item: _SettingProperties): any {
   return {};
 }
 
-export function _settingsAPISettingPropertiesDeserializer(
-  item: any,
-): _SettingsAPISettingProperties {
+export function _settingPropertiesDeserializer(item: any): _SettingProperties {
   return item;
 }
 
 /** the kind of the settings string */
-export enum KnownSettingsAPISettingKind {
+export enum KnownSettingKind {
   /** DataExportSettings */
   DataExportSettings = "DataExportSettings",
   /** AlertSuppressionSetting */
@@ -101,24 +96,24 @@ export enum KnownSettingsAPISettingKind {
 
 /**
  * the kind of the settings string \
- * {@link KnownSettingsAPISettingKind} can be used interchangeably with SettingsAPISettingKind,
+ * {@link KnownSettingKind} can be used interchangeably with SettingKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **DataExportSettings**: DataExportSettings \
  * **AlertSuppressionSetting**: AlertSuppressionSetting \
  * **AlertSyncSettings**: AlertSyncSettings
  */
-export type SettingsAPISettingKind = string;
+export type SettingKind = string;
 
 /** Represents a data export setting */
-export interface SettingsAPIDataExportSettings extends SettingsAPISetting {
+export interface DataExportSettings extends Setting {
   /** the kind of the settings string */
   kind: "DataExportSettings";
   /** Is the data export setting enabled */
   enabled?: boolean;
 }
 
-export function settingsAPIDataExportSettingsSerializer(item: SettingsAPIDataExportSettings): any {
+export function dataExportSettingsSerializer(item: DataExportSettings): any {
   return {
     properties: areAllPropsUndefined(item, ["enabled"])
       ? undefined
@@ -127,9 +122,7 @@ export function settingsAPIDataExportSettingsSerializer(item: SettingsAPIDataExp
   };
 }
 
-export function settingsAPIDataExportSettingsDeserializer(
-  item: any,
-): SettingsAPIDataExportSettings {
+export function dataExportSettingsDeserializer(item: any): DataExportSettings {
   return {
     ...(!item["properties"]
       ? item["properties"]
@@ -145,34 +138,30 @@ export function settingsAPIDataExportSettingsDeserializer(
 }
 
 /** The data export setting properties */
-export interface SettingsAPIDataExportSettingProperties {
+export interface DataExportSettingProperties {
   /** Is the data export setting enabled */
   enabled: boolean;
 }
 
-export function settingsAPIDataExportSettingPropertiesSerializer(
-  item: SettingsAPIDataExportSettingProperties,
-): any {
+export function dataExportSettingPropertiesSerializer(item: DataExportSettingProperties): any {
   return { enabled: item["enabled"] };
 }
 
-export function settingsAPIDataExportSettingPropertiesDeserializer(
-  item: any,
-): SettingsAPIDataExportSettingProperties {
+export function dataExportSettingPropertiesDeserializer(item: any): DataExportSettingProperties {
   return {
     enabled: item["enabled"],
   };
 }
 
 /** Represents an alert sync setting */
-export interface SettingsAPIAlertSyncSettings extends SettingsAPISetting {
+export interface AlertSyncSettings extends Setting {
   /** the kind of the settings string */
   kind: "AlertSyncSettings";
   /** Is the alert sync setting enabled */
   enabled?: boolean;
 }
 
-export function settingsAPIAlertSyncSettingsSerializer(item: SettingsAPIAlertSyncSettings): any {
+export function alertSyncSettingsSerializer(item: AlertSyncSettings): any {
   return {
     properties: areAllPropsUndefined(item, ["enabled"])
       ? undefined
@@ -181,7 +170,7 @@ export function settingsAPIAlertSyncSettingsSerializer(item: SettingsAPIAlertSyn
   };
 }
 
-export function settingsAPIAlertSyncSettingsDeserializer(item: any): SettingsAPIAlertSyncSettings {
+export function alertSyncSettingsDeserializer(item: any): AlertSyncSettings {
   return {
     ...(!item["properties"]
       ? item["properties"]
@@ -197,57 +186,49 @@ export function settingsAPIAlertSyncSettingsDeserializer(item: any): SettingsAPI
 }
 
 /** The alert sync setting properties */
-export interface SettingsAPIAlertSyncSettingProperties {
+export interface AlertSyncSettingProperties {
   /** Is the alert sync setting enabled */
   enabled: boolean;
 }
 
-export function settingsAPIAlertSyncSettingPropertiesSerializer(
-  item: SettingsAPIAlertSyncSettingProperties,
-): any {
+export function alertSyncSettingPropertiesSerializer(item: AlertSyncSettingProperties): any {
   return { enabled: item["enabled"] };
 }
 
-export function settingsAPIAlertSyncSettingPropertiesDeserializer(
-  item: any,
-): SettingsAPIAlertSyncSettingProperties {
+export function alertSyncSettingPropertiesDeserializer(item: any): AlertSyncSettingProperties {
   return {
     enabled: item["enabled"],
   };
 }
 
 /** Subscription settings list. */
-export interface _SettingsAPISettingsList {
+export interface _SettingsList {
   /** The settings list. */
-  value?: SettingsAPISettingUnion[];
+  value?: SettingUnion[];
   /** The URI to fetch the next page. */
   nextLink?: string;
 }
 
-export function _settingsAPISettingsListDeserializer(item: any): _SettingsAPISettingsList {
+export function _settingsListDeserializer(item: any): _SettingsList {
   return {
-    value: !item["value"] ? item["value"] : settingsAPISettingUnionArrayDeserializer(item["value"]),
+    value: !item["value"] ? item["value"] : settingUnionArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function settingsAPISettingUnionArraySerializer(
-  result: Array<SettingsAPISettingUnion>,
-): any[] {
+export function settingUnionArraySerializer(result: Array<SettingUnion>): any[] {
   return result.map((item) => {
-    return settingsAPISettingUnionSerializer(item);
+    return settingUnionSerializer(item);
   });
 }
 
-export function settingsAPISettingUnionArrayDeserializer(
-  result: Array<SettingsAPISettingUnion>,
-): any[] {
+export function settingUnionArrayDeserializer(result: Array<SettingUnion>): any[] {
   return result.map((item) => {
-    return settingsAPISettingUnionDeserializer(item);
+    return settingUnionDeserializer(item);
   });
 }
 
-export function _dataExportSettingsPropertiesSerializer(item: SettingsAPIDataExportSettings): any {
+export function _dataExportSettingsPropertiesSerializer(item: DataExportSettings): any {
   return { enabled: item["enabled"] };
 }
 
@@ -257,7 +238,7 @@ export function _dataExportSettingsPropertiesDeserializer(item: any) {
   };
 }
 
-export function _alertSyncSettingsPropertiesSerializer(item: SettingsAPIAlertSyncSettings): any {
+export function _alertSyncSettingsPropertiesSerializer(item: AlertSyncSettings): any {
   return { enabled: item["enabled"] };
 }
 

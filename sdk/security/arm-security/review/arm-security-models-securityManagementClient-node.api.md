@@ -5,7 +5,7 @@
 ```ts
 
 // @public
-export interface SecurityManagementClientprivateLinkParameters {
+export interface PrivateLinkParameters {
     privateLinkName: string;
 }
 

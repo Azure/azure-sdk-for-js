@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import type {
-  PrivateLinksAPIPrivateLinkGroupResource,
-  PrivateLinksAPIPrivateEndpointConnection,
+  PrivateLinkGroupResource,
+  PrivateEndpointConnection,
 } from "./privateLinksAPI/models.js";
 import {
-  privateLinksAPIPrivateLinkGroupResourceArrayDeserializer,
-  privateLinksAPIPrivateEndpointConnectionArrayDeserializer,
+  privateLinkGroupResourceArrayDeserializer,
+  privateEndpointConnectionArrayDeserializer,
 } from "./privateLinksAPI/models.js";
 
 /**
@@ -330,7 +330,7 @@ export function privateLinkResourcePropertiesDeserializer(
 /** The response of a PrivateLinkGroupResource list operation. */
 export interface _PrivateLinkGroupResourceListResult {
   /** The PrivateLinkGroupResource items on this page */
-  value: PrivateLinksAPIPrivateLinkGroupResource[];
+  value: PrivateLinkGroupResource[];
   /** The link to the next page of items */
   nextLink?: string;
 }
@@ -339,7 +339,7 @@ export function _privateLinkGroupResourceListResultDeserializer(
   item: any,
 ): _PrivateLinkGroupResourceListResult {
   return {
-    value: privateLinksAPIPrivateLinkGroupResourceArrayDeserializer(item["value"]),
+    value: privateLinkGroupResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
@@ -473,12 +473,12 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
 export type PrivateEndpointConnectionProvisioningState = string;
 
 /** The private endpoint connection resource */
-export interface PrivateEndpointConnection extends Resource {
+export interface ArmPrivateEndpointConnection extends Resource {
   /** The private endpoint connection properties */
   properties?: PrivateEndpointConnectionProperties;
 }
 
-export function privateEndpointConnectionSerializer(item: PrivateEndpointConnection): any {
+export function armPrivateEndpointConnectionSerializer(item: ArmPrivateEndpointConnection): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
@@ -489,7 +489,7 @@ export function privateEndpointConnectionSerializer(item: PrivateEndpointConnect
 /** The response of a PrivateEndpointConnection list operation. */
 export interface _PrivateEndpointConnectionListResult {
   /** The PrivateEndpointConnection items on this page */
-  value: PrivateLinksAPIPrivateEndpointConnection[];
+  value: PrivateEndpointConnection[];
   /** The link to the next page of items */
   nextLink?: string;
 }
@@ -498,7 +498,7 @@ export function _privateEndpointConnectionListResultDeserializer(
   item: any,
 ): _PrivateEndpointConnectionListResult {
   return {
-    value: privateLinksAPIPrivateEndpointConnectionArrayDeserializer(item["value"]),
+    value: privateEndpointConnectionArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
@@ -605,7 +605,7 @@ export function _privateLinkGroupResourcePropertiesDeserializer(item: any) {
 }
 
 export function _privateEndpointConnectionPropertiesSerializer(
-  item: PrivateLinksAPIPrivateEndpointConnection,
+  item: PrivateEndpointConnection,
 ): any {
   return {
     privateEndpoint: !item["privateEndpoint"]

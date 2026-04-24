@@ -5,25 +5,25 @@
 ```ts
 
 // @public
-export interface AutomationsAPIAutomation extends ProxyResource {
-    actions?: AutomationsAPIAutomationActionUnion[];
+export interface Automation extends ProxyResource {
+    actions?: AutomationActionUnion[];
     description?: string;
     etag?: string;
     isEnabled?: boolean;
     kind?: string;
     location?: string;
-    scopes?: AutomationsAPIAutomationScope[];
-    sources?: AutomationsAPIAutomationSource[];
+    scopes?: AutomationScope[];
+    sources?: AutomationSource[];
     tags?: Record<string, string>;
 }
 
 // @public
-export interface AutomationsAPIAutomationAction {
-    actionType: CommonActionType;
+export interface AutomationAction {
+    actionType: ActionType;
 }
 
 // @public
-export interface AutomationsAPIAutomationActionEventHub extends AutomationsAPIAutomationAction {
+export interface AutomationActionEventHub extends AutomationAction {
     actionType: "EventHub";
     connectionString?: string;
     eventHubResourceId?: string;
@@ -32,141 +32,77 @@ export interface AutomationsAPIAutomationActionEventHub extends AutomationsAPIAu
 }
 
 // @public
-export interface AutomationsAPIAutomationActionLogicApp extends AutomationsAPIAutomationAction {
+export interface AutomationActionLogicApp extends AutomationAction {
     actionType: "LogicApp";
     logicAppResourceId?: string;
     uri?: string;
 }
 
 // @public
-export type AutomationsAPIAutomationActionUnion = AutomationsAPIAutomationActionLogicApp | AutomationsAPIAutomationActionEventHub | AutomationsAPIAutomationActionWorkspace | AutomationsAPIAutomationAction;
+export type AutomationActionUnion = AutomationActionLogicApp | AutomationActionEventHub | AutomationActionWorkspace | AutomationAction;
 
 // @public
-export interface AutomationsAPIAutomationActionWorkspace extends AutomationsAPIAutomationAction {
+export interface AutomationActionWorkspace extends AutomationAction {
     actionType: "Workspace";
     workspaceResourceId?: string;
 }
 
 // @public
-export interface AutomationsAPIAutomationProperties {
-    actions?: AutomationsAPIAutomationActionUnion[];
+export interface AutomationProperties {
+    actions?: AutomationActionUnion[];
     description?: string;
     isEnabled?: boolean;
-    scopes?: AutomationsAPIAutomationScope[];
-    sources?: AutomationsAPIAutomationSource[];
+    scopes?: AutomationScope[];
+    sources?: AutomationSource[];
 }
 
 // @public
-export interface AutomationsAPIAutomationRuleSet {
+export interface AutomationRuleSet {
     // (undocumented)
-    rules?: AutomationsAPIAutomationTriggeringRule[];
+    rules?: AutomationTriggeringRule[];
 }
 
 // @public
-export interface AutomationsAPIAutomationScope {
+export interface AutomationScope {
     description?: string;
     scopePath?: string;
 }
 
 // @public
-export interface AutomationsAPIAutomationSource {
-    eventSource?: AutomationsAPIEventSource;
-    ruleSets?: AutomationsAPIAutomationRuleSet[];
+export interface AutomationSource {
+    eventSource?: EventSource_2;
+    ruleSets?: AutomationRuleSet[];
 }
 
 // @public
-export interface AutomationsAPIAutomationTriggeringRule {
+export interface AutomationTriggeringRule {
     expectedValue?: string;
-    operator?: AutomationsAPIOperator;
+    operator?: Operator;
     propertyJPath?: string;
-    propertyType?: AutomationsAPIPropertyType;
+    propertyType?: PropertyType;
 }
 
 // @public
-export interface AutomationsAPIAutomationUpdateModel extends CommonTags {
-    actions?: AutomationsAPIAutomationActionUnion[];
+export interface AutomationUpdateModel extends Tags {
+    actions?: AutomationActionUnion[];
     description?: string;
     isEnabled?: boolean;
-    scopes?: AutomationsAPIAutomationScope[];
-    sources?: AutomationsAPIAutomationSource[];
+    scopes?: AutomationScope[];
+    sources?: AutomationSource[];
 }
 
 // @public
-export interface AutomationsAPIAutomationValidationStatus {
+export interface AutomationValidationStatus {
     isValid?: boolean;
     message?: string;
 }
 
 // @public
-export type AutomationsAPIEventSource = string;
+type EventSource_2 = string;
+export { EventSource_2 as EventSource }
 
 // @public
-export type AutomationsAPIMinimalRiskLevel = string;
-
-// @public
-export type AutomationsAPIMinimalSeverity = string;
-
-// @public
-export interface AutomationsAPINotificationsSource {
-    sourceType: AutomationsAPISourceType;
-}
-
-// @public
-export interface AutomationsAPINotificationsSourceAlert extends AutomationsAPINotificationsSource {
-    minimalSeverity?: AutomationsAPIMinimalSeverity;
-    sourceType: "Alert";
-}
-
-// @public
-export interface AutomationsAPINotificationsSourceAttackPath extends AutomationsAPINotificationsSource {
-    minimalRiskLevel?: AutomationsAPIMinimalRiskLevel;
-    sourceType: "AttackPath";
-}
-
-// @public
-export type AutomationsAPINotificationsSourceUnion = AutomationsAPINotificationsSourceAlert | AutomationsAPINotificationsSourceAttackPath | AutomationsAPINotificationsSource;
-
-// @public
-export type AutomationsAPIOperator = string;
-
-// @public
-export type AutomationsAPIPropertyType = string;
-
-// @public
-export interface AutomationsAPISecurityContact extends ProxyResource {
-    emails?: string;
-    isEnabled?: boolean;
-    notificationsByRole?: AutomationsAPISecurityContactPropertiesNotificationsByRole;
-    notificationsSources?: AutomationsAPINotificationsSourceUnion[];
-    phone?: string;
-}
-
-// @public
-export type AutomationsAPISecurityContactName = string;
-
-// @public
-export interface AutomationsAPISecurityContactProperties {
-    emails?: string;
-    isEnabled?: boolean;
-    notificationsByRole?: AutomationsAPISecurityContactPropertiesNotificationsByRole;
-    notificationsSources?: AutomationsAPINotificationsSourceUnion[];
-    phone?: string;
-}
-
-// @public
-export interface AutomationsAPISecurityContactPropertiesNotificationsByRole {
-    roles?: AutomationsAPISecurityContactRole[];
-    state?: CommonState;
-}
-
-// @public
-export type AutomationsAPISecurityContactRole = string;
-
-// @public
-export type AutomationsAPISourceType = string;
-
-// @public
-export enum KnownAutomationsAPIEventSource {
+export enum KnownEventSource {
     Alerts = "Alerts",
     Assessments = "Assessments",
     AssessmentsSnapshot = "AssessmentsSnapshot",
@@ -183,7 +119,7 @@ export enum KnownAutomationsAPIEventSource {
 }
 
 // @public
-export enum KnownAutomationsAPIMinimalRiskLevel {
+export enum KnownMinimalRiskLevel {
     Critical = "Critical",
     High = "High",
     Low = "Low",
@@ -191,14 +127,14 @@ export enum KnownAutomationsAPIMinimalRiskLevel {
 }
 
 // @public
-export enum KnownAutomationsAPIMinimalSeverity {
+export enum KnownMinimalSeverity {
     High = "High",
     Low = "Low",
     Medium = "Medium"
 }
 
 // @public
-export enum KnownAutomationsAPIOperator {
+export enum KnownOperator {
     Contains = "Contains",
     EndsWith = "EndsWith",
     Equals = "Equals",
@@ -211,7 +147,7 @@ export enum KnownAutomationsAPIOperator {
 }
 
 // @public
-export enum KnownAutomationsAPIPropertyType {
+export enum KnownPropertyType {
     Boolean = "Boolean",
     Integer = "Integer",
     Number = "Number",
@@ -219,12 +155,12 @@ export enum KnownAutomationsAPIPropertyType {
 }
 
 // @public
-export enum KnownAutomationsAPISecurityContactName {
+export enum KnownSecurityContactName {
     Default = "default"
 }
 
 // @public
-export enum KnownAutomationsAPISecurityContactRole {
+export enum KnownSecurityContactRole {
     AccountAdmin = "AccountAdmin",
     Contributor = "Contributor",
     Owner = "Owner",
@@ -232,10 +168,75 @@ export enum KnownAutomationsAPISecurityContactRole {
 }
 
 // @public
-export enum KnownAutomationsAPISourceType {
+export enum KnownSourceType {
     Alert = "Alert",
     AttackPath = "AttackPath"
 }
+
+// @public
+export type MinimalRiskLevel = string;
+
+// @public
+export type MinimalSeverity = string;
+
+// @public
+export interface NotificationsSource {
+    sourceType: SourceType;
+}
+
+// @public
+export interface NotificationsSourceAlert extends NotificationsSource {
+    minimalSeverity?: MinimalSeverity;
+    sourceType: "Alert";
+}
+
+// @public
+export interface NotificationsSourceAttackPath extends NotificationsSource {
+    minimalRiskLevel?: MinimalRiskLevel;
+    sourceType: "AttackPath";
+}
+
+// @public
+export type NotificationsSourceUnion = NotificationsSourceAlert | NotificationsSourceAttackPath | NotificationsSource;
+
+// @public
+export type Operator = string;
+
+// @public
+export type PropertyType = string;
+
+// @public
+export interface SecurityContact extends ProxyResource {
+    emails?: string;
+    isEnabled?: boolean;
+    notificationsByRole?: SecurityContactPropertiesNotificationsByRole;
+    notificationsSources?: NotificationsSourceUnion[];
+    phone?: string;
+}
+
+// @public
+export type SecurityContactName = string;
+
+// @public
+export interface SecurityContactProperties {
+    emails?: string;
+    isEnabled?: boolean;
+    notificationsByRole?: SecurityContactPropertiesNotificationsByRole;
+    notificationsSources?: NotificationsSourceUnion[];
+    phone?: string;
+}
+
+// @public
+export interface SecurityContactPropertiesNotificationsByRole {
+    roles?: SecurityContactRole[];
+    state?: State;
+}
+
+// @public
+export type SecurityContactRole = string;
+
+// @public
+export type SourceType = string;
 
 // (No @packageDocumentation comment for this package)
 

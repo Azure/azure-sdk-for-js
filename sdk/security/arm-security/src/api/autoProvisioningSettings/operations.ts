@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 import type { SecurityCenterContext as Client } from "../index.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
 import type {
-  LegacySettingsAPIAutoProvisioningSetting,
-  _LegacySettingsAPIAutoProvisioningSettingList,
+  AutoProvisioningSetting,
+  _AutoProvisioningSettingList,
 } from "../../models/legacySettingsAPI/models.js";
 import {
-  legacySettingsAPIAutoProvisioningSettingSerializer,
-  legacySettingsAPIAutoProvisioningSettingDeserializer,
-  _legacySettingsAPIAutoProvisioningSettingListDeserializer,
+  autoProvisioningSettingSerializer,
+  autoProvisioningSettingDeserializer,
+  _autoProvisioningSettingListDeserializer,
 } from "../../models/legacySettingsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -45,23 +45,23 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_LegacySettingsAPIAutoProvisioningSettingList> {
+): Promise<_AutoProvisioningSettingList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _legacySettingsAPIAutoProvisioningSettingListDeserializer(result.body);
+  return _autoProvisioningSettingListDeserializer(result.body);
 }
 
 /** Exposes the auto provisioning settings of the subscriptions */
 export function list(
   context: Client,
   options: AutoProvisioningSettingsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<LegacySettingsAPIAutoProvisioningSetting> {
+): PagedAsyncIterableIterator<AutoProvisioningSetting> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, options),
@@ -74,7 +74,7 @@ export function list(
 export function _createSend(
   context: Client,
   settingName: string,
-  setting: LegacySettingsAPIAutoProvisioningSetting,
+  setting: AutoProvisioningSetting,
   options: AutoProvisioningSettingsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -92,31 +92,31 @@ export function _createSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: legacySettingsAPIAutoProvisioningSettingSerializer(setting),
+    body: autoProvisioningSettingSerializer(setting),
   });
 }
 
 export async function _createDeserialize(
   result: PathUncheckedResponse,
-): Promise<LegacySettingsAPIAutoProvisioningSetting> {
+): Promise<AutoProvisioningSetting> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return legacySettingsAPIAutoProvisioningSettingDeserializer(result.body);
+  return autoProvisioningSettingDeserializer(result.body);
 }
 
 /** Details of a specific setting */
 export async function create(
   context: Client,
   settingName: string,
-  setting: LegacySettingsAPIAutoProvisioningSetting,
+  setting: AutoProvisioningSetting,
   options: AutoProvisioningSettingsCreateOptionalParams = { requestOptions: {} },
-): Promise<LegacySettingsAPIAutoProvisioningSetting> {
+): Promise<AutoProvisioningSetting> {
   const result = await _createSend(context, settingName, setting, options);
   return _createDeserialize(result);
 }
@@ -145,16 +145,16 @@ export function _getSend(
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<LegacySettingsAPIAutoProvisioningSetting> {
+): Promise<AutoProvisioningSetting> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return legacySettingsAPIAutoProvisioningSettingDeserializer(result.body);
+  return autoProvisioningSettingDeserializer(result.body);
 }
 
 /** Details of a specific setting */
@@ -162,7 +162,7 @@ export async function get(
   context: Client,
   settingName: string,
   options: AutoProvisioningSettingsGetOptionalParams = { requestOptions: {} },
-): Promise<LegacySettingsAPIAutoProvisioningSetting> {
+): Promise<AutoProvisioningSetting> {
   const result = await _getSend(context, settingName, options);
   return _getDeserialize(result);
 }

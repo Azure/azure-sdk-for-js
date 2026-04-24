@@ -8,7 +8,7 @@ import type {
   AutoProvisioningSettingsCreateOptionalParams,
   AutoProvisioningSettingsGetOptionalParams,
 } from "../../api/autoProvisioningSettings/options.js";
-import type { LegacySettingsAPIAutoProvisioningSetting } from "../../models/legacySettingsAPI/models.js";
+import type { AutoProvisioningSetting } from "../../models/legacySettingsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AutoProvisioningSettings operations. */
@@ -16,18 +16,18 @@ export interface AutoProvisioningSettingsOperations {
   /** Exposes the auto provisioning settings of the subscriptions */
   list: (
     options?: AutoProvisioningSettingsListOptionalParams,
-  ) => PagedAsyncIterableIterator<LegacySettingsAPIAutoProvisioningSetting>;
+  ) => PagedAsyncIterableIterator<AutoProvisioningSetting>;
   /** Details of a specific setting */
   create: (
     settingName: string,
-    setting: LegacySettingsAPIAutoProvisioningSetting,
+    setting: AutoProvisioningSetting,
     options?: AutoProvisioningSettingsCreateOptionalParams,
-  ) => Promise<LegacySettingsAPIAutoProvisioningSetting>;
+  ) => Promise<AutoProvisioningSetting>;
   /** Details of a specific setting */
   get: (
     settingName: string,
     options?: AutoProvisioningSettingsGetOptionalParams,
-  ) => Promise<LegacySettingsAPIAutoProvisioningSetting>;
+  ) => Promise<AutoProvisioningSetting>;
 }
 
 function _getAutoProvisioningSettings(context: SecurityCenterContext) {
@@ -35,7 +35,7 @@ function _getAutoProvisioningSettings(context: SecurityCenterContext) {
     list: (options?: AutoProvisioningSettingsListOptionalParams) => list(context, options),
     create: (
       settingName: string,
-      setting: LegacySettingsAPIAutoProvisioningSetting,
+      setting: AutoProvisioningSetting,
       options?: AutoProvisioningSettingsCreateOptionalParams,
     ) => create(context, settingName, setting, options),
     get: (settingName: string, options?: AutoProvisioningSettingsGetOptionalParams) =>

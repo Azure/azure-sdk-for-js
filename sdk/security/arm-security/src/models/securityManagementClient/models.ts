@@ -7,14 +7,12 @@
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-/** model interface SecurityManagementClientprivateLinkParameters */
-export interface SecurityManagementClientprivateLinkParameters {
+/** model interface PrivateLinkParameters */
+export interface PrivateLinkParameters {
   /** The name of the private link resource. */
   privateLinkName: string;
 }
 
-export function securityManagementClientprivateLinkParametersSerializer(
-  _item: SecurityManagementClientprivateLinkParameters,
-): any {
+export function privateLinkParametersSerializer(_item: PrivateLinkParameters): any {
   return {};
 }

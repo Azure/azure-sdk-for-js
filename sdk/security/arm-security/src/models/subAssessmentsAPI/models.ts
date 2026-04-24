@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CommonSeverity, CommonResourceDetailsUnion } from "../common/models.js";
-import { commonResourceDetailsUnionDeserializer } from "../common/models.js";
+import type { Severity, ResourceDetailsUnion } from "../common/models.js";
+import { resourceDetailsUnionDeserializer } from "../common/models.js";
 import type { ExtensionResource } from "../models.js";
 import { systemDataDeserializer } from "../models.js";
 
@@ -13,13 +13,13 @@ import { systemDataDeserializer } from "../models.js";
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Security sub-assessment on a resource */
-export interface SubAssessmentsAPISecuritySubAssessment extends ExtensionResource {
+export interface SecuritySubAssessment extends ExtensionResource {
   /** Vulnerability ID */
   readonly idPropertiesId?: string;
   /** User friendly display name of the sub-assessment */
   readonly displayName?: string;
   /** Status of the sub-assessment */
-  status?: SubAssessmentsAPISubAssessmentStatus;
+  status?: SubAssessmentStatus;
   /** Information on how to remediate this sub-assessment */
   readonly remediation?: string;
   /** Description of the impact of this sub-assessment */
@@ -31,14 +31,12 @@ export interface SubAssessmentsAPISecuritySubAssessment extends ExtensionResourc
   /** The date and time the sub-assessment was generated */
   readonly timeGenerated?: Date;
   /** Details of the resource that was assessed */
-  resourceDetails?: CommonResourceDetailsUnion;
+  resourceDetails?: ResourceDetailsUnion;
   /** Details of the sub-assessment */
-  additionalData?: SubAssessmentsAPIAdditionalDataUnion;
+  additionalData?: AdditionalDataUnion;
 }
 
-export function subAssessmentsAPISecuritySubAssessmentDeserializer(
-  item: any,
-): SubAssessmentsAPISecuritySubAssessment {
+export function securitySubAssessmentDeserializer(item: any): SecuritySubAssessment {
   return {
     id: item["id"],
     name: item["name"],
@@ -53,13 +51,13 @@ export function subAssessmentsAPISecuritySubAssessmentDeserializer(
 }
 
 /** Describes properties of an sub-assessment. */
-export interface SubAssessmentsAPISecuritySubAssessmentProperties {
+export interface SecuritySubAssessmentProperties {
   /** Vulnerability ID */
   readonly id?: string;
   /** User friendly display name of the sub-assessment */
   readonly displayName?: string;
   /** Status of the sub-assessment */
-  status?: SubAssessmentsAPISubAssessmentStatus;
+  status?: SubAssessmentStatus;
   /** Information on how to remediate this sub-assessment */
   readonly remediation?: string;
   /** Description of the impact of this sub-assessment */
@@ -71,20 +69,18 @@ export interface SubAssessmentsAPISecuritySubAssessmentProperties {
   /** The date and time the sub-assessment was generated */
   readonly timeGenerated?: Date;
   /** Details of the resource that was assessed */
-  resourceDetails?: CommonResourceDetailsUnion;
+  resourceDetails?: ResourceDetailsUnion;
   /** Details of the sub-assessment */
-  additionalData?: SubAssessmentsAPIAdditionalDataUnion;
+  additionalData?: AdditionalDataUnion;
 }
 
-export function subAssessmentsAPISecuritySubAssessmentPropertiesDeserializer(
+export function securitySubAssessmentPropertiesDeserializer(
   item: any,
-): SubAssessmentsAPISecuritySubAssessmentProperties {
+): SecuritySubAssessmentProperties {
   return {
     id: item["id"],
     displayName: item["displayName"],
-    status: !item["status"]
-      ? item["status"]
-      : subAssessmentsAPISubAssessmentStatusDeserializer(item["status"]),
+    status: !item["status"] ? item["status"] : subAssessmentStatusDeserializer(item["status"]),
     remediation: item["remediation"],
     impact: item["impact"],
     category: item["category"],
@@ -92,28 +88,26 @@ export function subAssessmentsAPISecuritySubAssessmentPropertiesDeserializer(
     timeGenerated: !item["timeGenerated"] ? item["timeGenerated"] : new Date(item["timeGenerated"]),
     resourceDetails: !item["resourceDetails"]
       ? item["resourceDetails"]
-      : commonResourceDetailsUnionDeserializer(item["resourceDetails"]),
+      : resourceDetailsUnionDeserializer(item["resourceDetails"]),
     additionalData: !item["additionalData"]
       ? item["additionalData"]
-      : subAssessmentsAPIAdditionalDataUnionDeserializer(item["additionalData"]),
+      : additionalDataUnionDeserializer(item["additionalData"]),
   };
 }
 
 /** Status of the sub-assessment */
-export interface SubAssessmentsAPISubAssessmentStatus {
+export interface SubAssessmentStatus {
   /** Programmatic code for the status of the assessment */
-  readonly code?: SubAssessmentsAPISubAssessmentStatusCode;
+  readonly code?: SubAssessmentStatusCode;
   /** Programmatic code for the cause of the assessment status */
   readonly cause?: string;
   /** Human readable description of the assessment status */
   readonly description?: string;
   /** The sub-assessment severity level */
-  readonly severity?: CommonSeverity;
+  readonly severity?: Severity;
 }
 
-export function subAssessmentsAPISubAssessmentStatusDeserializer(
-  item: any,
-): SubAssessmentsAPISubAssessmentStatus {
+export function subAssessmentStatusDeserializer(item: any): SubAssessmentStatus {
   return {
     code: item["code"],
     cause: item["cause"],
@@ -123,7 +117,7 @@ export function subAssessmentsAPISubAssessmentStatusDeserializer(
 }
 
 /** Programmatic code for the status of the assessment */
-export enum KnownSubAssessmentsAPISubAssessmentStatusCode {
+export enum KnownSubAssessmentStatusCode {
   /** The resource is healthy */
   Healthy = "Healthy",
   /** The resource has a security issue that needs to be addressed */
@@ -134,63 +128,55 @@ export enum KnownSubAssessmentsAPISubAssessmentStatusCode {
 
 /**
  * Programmatic code for the status of the assessment \
- * {@link KnownSubAssessmentsAPISubAssessmentStatusCode} can be used interchangeably with SubAssessmentsAPISubAssessmentStatusCode,
+ * {@link KnownSubAssessmentStatusCode} can be used interchangeably with SubAssessmentStatusCode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Healthy**: The resource is healthy \
  * **Unhealthy**: The resource has a security issue that needs to be addressed \
  * **NotApplicable**: Assessment for this resource did not happen
  */
-export type SubAssessmentsAPISubAssessmentStatusCode = string;
+export type SubAssessmentStatusCode = string;
 
 /** Details of the sub-assessment */
-export interface SubAssessmentsAPIAdditionalData {
+export interface AdditionalData {
   /** Sub-assessment resource type */
   /** The discriminator possible values: SqlServerVulnerability, ContainerRegistryVulnerability, ServerVulnerabilityAssessment */
-  assessedResourceType: SubAssessmentsAPIAssessedResourceType;
+  assessedResourceType: AssessedResourceType;
 }
 
-export function subAssessmentsAPIAdditionalDataDeserializer(
-  item: any,
-): SubAssessmentsAPIAdditionalData {
+export function additionalDataDeserializer(item: any): AdditionalData {
   return {
     assessedResourceType: item["assessedResourceType"],
   };
 }
 
-/** Alias for SubAssessmentsAPIAdditionalDataUnion */
-export type SubAssessmentsAPIAdditionalDataUnion =
-  | SubAssessmentsAPISqlServerVulnerabilityProperties
-  | SubAssessmentsAPIContainerRegistryVulnerabilityProperties
-  | SubAssessmentsAPIServerVulnerabilityProperties
-  | SubAssessmentsAPIAdditionalData;
+/** Alias for AdditionalDataUnion */
+export type AdditionalDataUnion =
+  | SqlServerVulnerabilityProperties
+  | ContainerRegistryVulnerabilityProperties
+  | ServerVulnerabilityProperties
+  | AdditionalData;
 
-export function subAssessmentsAPIAdditionalDataUnionDeserializer(
-  item: any,
-): SubAssessmentsAPIAdditionalDataUnion {
+export function additionalDataUnionDeserializer(item: any): AdditionalDataUnion {
   switch (item["assessedResourceType"]) {
     case "SqlServerVulnerability":
-      return subAssessmentsAPISqlServerVulnerabilityPropertiesDeserializer(
-        item as SubAssessmentsAPISqlServerVulnerabilityProperties,
-      );
+      return sqlServerVulnerabilityPropertiesDeserializer(item as SqlServerVulnerabilityProperties);
 
     case "ContainerRegistryVulnerability":
-      return subAssessmentsAPIContainerRegistryVulnerabilityPropertiesDeserializer(
-        item as SubAssessmentsAPIContainerRegistryVulnerabilityProperties,
+      return containerRegistryVulnerabilityPropertiesDeserializer(
+        item as ContainerRegistryVulnerabilityProperties,
       );
 
     case "ServerVulnerabilityAssessment":
-      return subAssessmentsAPIServerVulnerabilityPropertiesDeserializer(
-        item as SubAssessmentsAPIServerVulnerabilityProperties,
-      );
+      return serverVulnerabilityPropertiesDeserializer(item as ServerVulnerabilityProperties);
 
     default:
-      return subAssessmentsAPIAdditionalDataDeserializer(item);
+      return additionalDataDeserializer(item);
   }
 }
 
 /** Sub-assessment resource type */
-export enum KnownSubAssessmentsAPIAssessedResourceType {
+export enum KnownAssessedResourceType {
   /** SqlServerVulnerability */
   SqlServerVulnerability = "SqlServerVulnerability",
   /** ContainerRegistryVulnerability */
@@ -201,17 +187,17 @@ export enum KnownSubAssessmentsAPIAssessedResourceType {
 
 /**
  * Sub-assessment resource type \
- * {@link KnownSubAssessmentsAPIAssessedResourceType} can be used interchangeably with SubAssessmentsAPIAssessedResourceType,
+ * {@link KnownAssessedResourceType} can be used interchangeably with AssessedResourceType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **SqlServerVulnerability**: SqlServerVulnerability \
  * **ContainerRegistryVulnerability**: ContainerRegistryVulnerability \
  * **ServerVulnerability**: ServerVulnerability
  */
-export type SubAssessmentsAPIAssessedResourceType = string;
+export type AssessedResourceType = string;
 
 /** Details of the resource that was assessed */
-export interface SubAssessmentsAPISqlServerVulnerabilityProperties extends SubAssessmentsAPIAdditionalData {
+export interface SqlServerVulnerabilityProperties extends AdditionalData {
   /** The resource type the sub assessment refers to in its resource details */
   readonly type?: string;
   /** The T-SQL query that runs on your SQL database to perform the particular check */
@@ -220,9 +206,9 @@ export interface SubAssessmentsAPISqlServerVulnerabilityProperties extends SubAs
   assessedResourceType: "SqlServerVulnerability";
 }
 
-export function subAssessmentsAPISqlServerVulnerabilityPropertiesDeserializer(
+export function sqlServerVulnerabilityPropertiesDeserializer(
   item: any,
-): SubAssessmentsAPISqlServerVulnerabilityProperties {
+): SqlServerVulnerabilityProperties {
   return {
     assessedResourceType: item["assessedResourceType"],
     type: item["type"],
@@ -231,18 +217,18 @@ export function subAssessmentsAPISqlServerVulnerabilityPropertiesDeserializer(
 }
 
 /** Additional context fields for container registry Vulnerability assessment */
-export interface SubAssessmentsAPIContainerRegistryVulnerabilityProperties extends SubAssessmentsAPIAdditionalData {
+export interface ContainerRegistryVulnerabilityProperties extends AdditionalData {
   /** Vulnerability Type. e.g: Vulnerability, Potential Vulnerability, Information Gathered, Vulnerability */
   readonly type?: string;
   /** Dictionary from cvss version to cvss details object */
-  readonly cvss?: Record<string, SubAssessmentsApicvss>;
+  readonly cvss?: Record<string, Cvss>;
   /** Indicates whether a patch is available or not */
   readonly patchable?: boolean;
   /** List of CVEs */
-  readonly cve?: SubAssessmentsAPICve[];
+  readonly cve?: Cve[];
   /** Published time */
   readonly publishedTime?: Date;
-  readonly vendorReferences?: SubAssessmentsAPIVendorReference[];
+  readonly vendorReferences?: VendorReference[];
   /** Name of the repository which the vulnerable image belongs to */
   readonly repositoryName?: string;
   /** Digest of the vulnerable image */
@@ -251,86 +237,80 @@ export interface SubAssessmentsAPIContainerRegistryVulnerabilityProperties exten
   assessedResourceType: "ContainerRegistryVulnerability";
 }
 
-export function subAssessmentsAPIContainerRegistryVulnerabilityPropertiesDeserializer(
+export function containerRegistryVulnerabilityPropertiesDeserializer(
   item: any,
-): SubAssessmentsAPIContainerRegistryVulnerabilityProperties {
+): ContainerRegistryVulnerabilityProperties {
   return {
     assessedResourceType: item["assessedResourceType"],
     type: item["type"],
-    cvss: !item["cvss"] ? item["cvss"] : subAssessmentsApicvssRecordDeserializer(item["cvss"]),
+    cvss: !item["cvss"] ? item["cvss"] : cvssRecordDeserializer(item["cvss"]),
     patchable: item["patchable"],
-    cve: !item["cve"] ? item["cve"] : subAssessmentsAPICveArrayDeserializer(item["cve"]),
+    cve: !item["cve"] ? item["cve"] : cveArrayDeserializer(item["cve"]),
     publishedTime: !item["publishedTime"] ? item["publishedTime"] : new Date(item["publishedTime"]),
     vendorReferences: !item["vendorReferences"]
       ? item["vendorReferences"]
-      : subAssessmentsAPIVendorReferenceArrayDeserializer(item["vendorReferences"]),
+      : vendorReferenceArrayDeserializer(item["vendorReferences"]),
     repositoryName: item["repositoryName"],
     imageDigest: item["imageDigest"],
   };
 }
 
-export function subAssessmentsApicvssRecordDeserializer(
-  item: Record<string, any>,
-): Record<string, SubAssessmentsApicvss> {
+export function cvssRecordDeserializer(item: Record<string, any>): Record<string, Cvss> {
   const result: Record<string, any> = {};
   Object.keys(item).map((key) => {
-    result[key] = !item[key] ? item[key] : subAssessmentsApicvssDeserializer(item[key]);
+    result[key] = !item[key] ? item[key] : cvssDeserializer(item[key]);
   });
   return result;
 }
 
 /** CVSS details */
-export interface SubAssessmentsApicvss {
+export interface Cvss {
   /** CVSS base */
   readonly base?: number;
 }
 
-export function subAssessmentsApicvssDeserializer(item: any): SubAssessmentsApicvss {
+export function cvssDeserializer(item: any): Cvss {
   return {
     base: item["base"],
   };
 }
 
-export function subAssessmentsAPICveArrayDeserializer(result: Array<SubAssessmentsAPICve>): any[] {
+export function cveArrayDeserializer(result: Array<Cve>): any[] {
   return result.map((item) => {
-    return subAssessmentsAPICveDeserializer(item);
+    return cveDeserializer(item);
   });
 }
 
 /** CVE details */
-export interface SubAssessmentsAPICve {
+export interface Cve {
   /** CVE title */
   readonly title?: string;
   /** Link url */
   readonly link?: string;
 }
 
-export function subAssessmentsAPICveDeserializer(item: any): SubAssessmentsAPICve {
+export function cveDeserializer(item: any): Cve {
   return {
     title: item["title"],
     link: item["link"],
   };
 }
 
-export function subAssessmentsAPIVendorReferenceArrayDeserializer(
-  result: Array<SubAssessmentsAPIVendorReference>,
-): any[] {
+export function vendorReferenceArrayDeserializer(result: Array<VendorReference>): any[] {
   return result.map((item) => {
-    return subAssessmentsAPIVendorReferenceDeserializer(item);
+    return vendorReferenceDeserializer(item);
   });
 }
 
 /** Vendor reference */
-export interface SubAssessmentsAPIVendorReference {
+export interface VendorReference {
   /** Link title */
   readonly title?: string;
   /** Link url */
   readonly link?: string;
 }
 
-export function subAssessmentsAPIVendorReferenceDeserializer(
-  item: any,
-): SubAssessmentsAPIVendorReference {
+export function vendorReferenceDeserializer(item: any): VendorReference {
   return {
     title: item["title"],
     link: item["link"],
@@ -338,65 +318,61 @@ export function subAssessmentsAPIVendorReferenceDeserializer(
 }
 
 /** Additional context fields for server vulnerability assessment */
-export interface SubAssessmentsAPIServerVulnerabilityProperties extends SubAssessmentsAPIAdditionalData {
+export interface ServerVulnerabilityProperties extends AdditionalData {
   /** Vulnerability Type. e.g: Vulnerability, Potential Vulnerability, Information Gathered */
   readonly type?: string;
   /** Dictionary from cvss version to cvss details object */
-  readonly cvss?: Record<string, SubAssessmentsApicvss>;
+  readonly cvss?: Record<string, Cvss>;
   /** Indicates whether a patch is available or not */
   readonly patchable?: boolean;
   /** List of CVEs */
-  readonly cve?: SubAssessmentsAPICve[];
+  readonly cve?: Cve[];
   /** Threat name */
   readonly threat?: string;
   /** Published time */
   readonly publishedTime?: Date;
-  readonly vendorReferences?: SubAssessmentsAPIVendorReference[];
+  readonly vendorReferences?: VendorReference[];
   /** Sub-assessment resource type */
   assessedResourceType: "ServerVulnerabilityAssessment";
 }
 
-export function subAssessmentsAPIServerVulnerabilityPropertiesDeserializer(
+export function serverVulnerabilityPropertiesDeserializer(
   item: any,
-): SubAssessmentsAPIServerVulnerabilityProperties {
+): ServerVulnerabilityProperties {
   return {
     assessedResourceType: item["assessedResourceType"],
     type: item["type"],
-    cvss: !item["cvss"] ? item["cvss"] : subAssessmentsApicvssRecordDeserializer(item["cvss"]),
+    cvss: !item["cvss"] ? item["cvss"] : cvssRecordDeserializer(item["cvss"]),
     patchable: item["patchable"],
-    cve: !item["cve"] ? item["cve"] : subAssessmentsAPICveArrayDeserializer(item["cve"]),
+    cve: !item["cve"] ? item["cve"] : cveArrayDeserializer(item["cve"]),
     threat: item["threat"],
     publishedTime: !item["publishedTime"] ? item["publishedTime"] : new Date(item["publishedTime"]),
     vendorReferences: !item["vendorReferences"]
       ? item["vendorReferences"]
-      : subAssessmentsAPIVendorReferenceArrayDeserializer(item["vendorReferences"]),
+      : vendorReferenceArrayDeserializer(item["vendorReferences"]),
   };
 }
 
 /** List of security sub-assessments */
-export interface _SubAssessmentsAPISecuritySubAssessmentList {
+export interface _SecuritySubAssessmentList {
   /** List of security sub-assessments */
-  readonly value?: SubAssessmentsAPISecuritySubAssessment[];
+  readonly value?: SecuritySubAssessment[];
   /** The URI to fetch the next page. */
   readonly nextLink?: string;
 }
 
-export function _subAssessmentsAPISecuritySubAssessmentListDeserializer(
-  item: any,
-): _SubAssessmentsAPISecuritySubAssessmentList {
+export function _securitySubAssessmentListDeserializer(item: any): _SecuritySubAssessmentList {
   return {
-    value: !item["value"]
-      ? item["value"]
-      : subAssessmentsAPISecuritySubAssessmentArrayDeserializer(item["value"]),
+    value: !item["value"] ? item["value"] : securitySubAssessmentArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function subAssessmentsAPISecuritySubAssessmentArrayDeserializer(
-  result: Array<SubAssessmentsAPISecuritySubAssessment>,
+export function securitySubAssessmentArrayDeserializer(
+  result: Array<SecuritySubAssessment>,
 ): any[] {
   return result.map((item) => {
-    return subAssessmentsAPISecuritySubAssessmentDeserializer(item);
+    return securitySubAssessmentDeserializer(item);
   });
 }
 
@@ -404,9 +380,7 @@ export function _securitySubAssessmentPropertiesDeserializer(item: any) {
   return {
     idPropertiesId: item["id"],
     displayName: item["displayName"],
-    status: !item["status"]
-      ? item["status"]
-      : subAssessmentsAPISubAssessmentStatusDeserializer(item["status"]),
+    status: !item["status"] ? item["status"] : subAssessmentStatusDeserializer(item["status"]),
     remediation: item["remediation"],
     impact: item["impact"],
     category: item["category"],
@@ -414,9 +388,9 @@ export function _securitySubAssessmentPropertiesDeserializer(item: any) {
     timeGenerated: !item["timeGenerated"] ? item["timeGenerated"] : new Date(item["timeGenerated"]),
     resourceDetails: !item["resourceDetails"]
       ? item["resourceDetails"]
-      : commonResourceDetailsUnionDeserializer(item["resourceDetails"]),
+      : resourceDetailsUnionDeserializer(item["resourceDetails"]),
     additionalData: !item["additionalData"]
       ? item["additionalData"]
-      : subAssessmentsAPIAdditionalDataUnionDeserializer(item["additionalData"]),
+      : additionalDataUnionDeserializer(item["additionalData"]),
   };
 }

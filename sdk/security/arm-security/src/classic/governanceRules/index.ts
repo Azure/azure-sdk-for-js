@@ -18,10 +18,7 @@ import type {
   GovernanceRulesCreateOrUpdateOptionalParams,
   GovernanceRulesGetOptionalParams,
 } from "../../api/governanceRules/options.js";
-import type {
-  GovernanceAPIGovernanceRule,
-  GovernanceAPIOperationResult,
-} from "../../models/governanceAPI/models.js";
+import type { GovernanceRule, OperationResult } from "../../models/governanceAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
@@ -35,7 +32,7 @@ export interface GovernanceRulesOperations {
     ruleId: string,
     operationId: string,
     options?: GovernanceRulesOperationResultsOptionalParams,
-  ) => Promise<GovernanceAPIOperationResult>;
+  ) => Promise<OperationResult>;
   /** Execute a governance rule */
   execute: (
     scope: string,
@@ -58,7 +55,7 @@ export interface GovernanceRulesOperations {
   list: (
     scope: string,
     options?: GovernanceRulesListOptionalParams,
-  ) => PagedAsyncIterableIterator<GovernanceAPIGovernanceRule>;
+  ) => PagedAsyncIterableIterator<GovernanceRule>;
   /** Delete a Governance rule over a given scope */
   delete: (
     scope: string,
@@ -81,15 +78,15 @@ export interface GovernanceRulesOperations {
   createOrUpdate: (
     scope: string,
     ruleId: string,
-    governanceRule: GovernanceAPIGovernanceRule,
+    governanceRule: GovernanceRule,
     options?: GovernanceRulesCreateOrUpdateOptionalParams,
-  ) => Promise<GovernanceAPIGovernanceRule>;
+  ) => Promise<GovernanceRule>;
   /** Get a specific governance rule for the requested scope by ruleId */
   get: (
     scope: string,
     ruleId: string,
     options?: GovernanceRulesGetOptionalParams,
-  ) => Promise<GovernanceAPIGovernanceRule>;
+  ) => Promise<GovernanceRule>;
 }
 
 function _getGovernanceRules(context: SecurityCenterContext) {
@@ -141,7 +138,7 @@ function _getGovernanceRules(context: SecurityCenterContext) {
     createOrUpdate: (
       scope: string,
       ruleId: string,
-      governanceRule: GovernanceAPIGovernanceRule,
+      governanceRule: GovernanceRule,
       options?: GovernanceRulesCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, scope, ruleId, governanceRule, options),
     get: (scope: string, ruleId: string, options?: GovernanceRulesGetOptionalParams) =>

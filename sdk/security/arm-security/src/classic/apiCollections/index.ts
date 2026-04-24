@@ -18,7 +18,7 @@ import type {
   APICollectionsOnboardAzureApiManagementApiOptionalParams,
   APICollectionsGetByAzureApiManagementServiceOptionalParams,
 } from "../../api/apiCollections/options.js";
-import type { ApiCollectionsAPIApiCollection } from "../../models/apiCollectionsAPI/models.js";
+import type { ApiCollection } from "../../models/apiCollectionsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
@@ -30,17 +30,17 @@ export interface APICollectionsOperations {
   listByResourceGroup: (
     resourceGroupName: string,
     options?: APICollectionsListByResourceGroupOptionalParams,
-  ) => PagedAsyncIterableIterator<ApiCollectionsAPIApiCollection>;
+  ) => PagedAsyncIterableIterator<ApiCollection>;
   /** Gets a list of API collections within a subscription that have been onboarded to Microsoft Defender for APIs. */
   listBySubscription: (
     options?: APICollectionsListBySubscriptionOptionalParams,
-  ) => PagedAsyncIterableIterator<ApiCollectionsAPIApiCollection>;
+  ) => PagedAsyncIterableIterator<ApiCollection>;
   /** Gets a list of Azure API Management APIs that have been onboarded to Microsoft Defender for APIs. If an Azure API Management API is onboarded to Microsoft Defender for APIs, the system will monitor the operations within the Azure API Management API for intrusive behaviors and provide alerts for attacks that have been detected. */
   listByAzureApiManagementService: (
     resourceGroupName: string,
     serviceName: string,
     options?: APICollectionsListByAzureApiManagementServiceOptionalParams,
-  ) => PagedAsyncIterableIterator<ApiCollectionsAPIApiCollection>;
+  ) => PagedAsyncIterableIterator<ApiCollection>;
   /** Offboard an Azure API Management API from Microsoft Defender for APIs. The system will stop monitoring the operations within the Azure API Management API for intrusive behaviors. */
   offboardAzureApiManagementApi: (
     resourceGroupName: string,
@@ -54,30 +54,28 @@ export interface APICollectionsOperations {
     serviceName: string,
     apiId: string,
     options?: APICollectionsOnboardAzureApiManagementApiOptionalParams,
-  ) => PollerLike<OperationState<ApiCollectionsAPIApiCollection>, ApiCollectionsAPIApiCollection>;
+  ) => PollerLike<OperationState<ApiCollection>, ApiCollection>;
   /** @deprecated use onboardAzureApiManagementApi instead */
   beginOnboardAzureApiManagementApi: (
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
     options?: APICollectionsOnboardAzureApiManagementApiOptionalParams,
-  ) => Promise<
-    SimplePollerLike<OperationState<ApiCollectionsAPIApiCollection>, ApiCollectionsAPIApiCollection>
-  >;
+  ) => Promise<SimplePollerLike<OperationState<ApiCollection>, ApiCollection>>;
   /** @deprecated use onboardAzureApiManagementApi instead */
   beginOnboardAzureApiManagementApiAndWait: (
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
     options?: APICollectionsOnboardAzureApiManagementApiOptionalParams,
-  ) => Promise<ApiCollectionsAPIApiCollection>;
+  ) => Promise<ApiCollection>;
   /** Gets an Azure API Management API if it has been onboarded to Microsoft Defender for APIs. If an Azure API Management API is onboarded to Microsoft Defender for APIs, the system will monitor the operations within the Azure API Management API for intrusive behaviors and provide alerts for attacks that have been detected. */
   getByAzureApiManagementService: (
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
     options?: APICollectionsGetByAzureApiManagementServiceOptionalParams,
-  ) => Promise<ApiCollectionsAPIApiCollection>;
+  ) => Promise<ApiCollection>;
 }
 
 function _getAPICollections(context: SecurityCenterContext) {

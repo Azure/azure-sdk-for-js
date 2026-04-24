@@ -5,25 +5,25 @@
 ```ts
 
 // @public
-export interface ComplianceResultsAPIComplianceResult extends ExtensionResource {
-    readonly resourceStatus?: ComplianceResultsAPIResourceStatus;
+export interface ComplianceResult extends ExtensionResource {
+    readonly resourceStatus?: ResourceStatus;
 }
 
 // @public
-export interface ComplianceResultsAPIComplianceResultProperties {
-    readonly resourceStatus?: ComplianceResultsAPIResourceStatus;
+export interface ComplianceResultProperties {
+    readonly resourceStatus?: ResourceStatus;
 }
 
 // @public
-export type ComplianceResultsAPIResourceStatus = string;
-
-// @public
-export enum KnownComplianceResultsAPIResourceStatus {
+export enum KnownResourceStatus {
     Healthy = "Healthy",
     NotApplicable = "NotApplicable",
     NotHealthy = "NotHealthy",
     OffByPolicy = "OffByPolicy"
 }
+
+// @public
+export type ResourceStatus = string;
 
 // (No @packageDocumentation comment for this package)
 

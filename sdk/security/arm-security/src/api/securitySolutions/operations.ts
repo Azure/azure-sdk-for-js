@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 import type { SecurityCenterContext as Client } from "../index.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
 import type {
-  SecuritySolutionsAPISecuritySolution,
-  _SecuritySolutionsAPISecuritySolutionList,
+  SecuritySolution,
+  _SecuritySolutionList,
 } from "../../models/securitySolutionsAPI/models.js";
 import {
-  securitySolutionsAPISecuritySolutionDeserializer,
-  _securitySolutionsAPISecuritySolutionListDeserializer,
+  securitySolutionDeserializer,
+  _securitySolutionListDeserializer,
 } from "../../models/securitySolutionsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -43,23 +43,23 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_SecuritySolutionsAPISecuritySolutionList> {
+): Promise<_SecuritySolutionList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _securitySolutionsAPISecuritySolutionListDeserializer(result.body);
+  return _securitySolutionListDeserializer(result.body);
 }
 
 /** Gets a list of Security Solutions for the subscription. */
 export function list(
   context: Client,
   options: SecuritySolutionsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<SecuritySolutionsAPISecuritySolution> {
+): PagedAsyncIterableIterator<SecuritySolution> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, options),
@@ -95,18 +95,16 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<SecuritySolutionsAPISecuritySolution> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<SecuritySolution> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return securitySolutionsAPISecuritySolutionDeserializer(result.body);
+  return securitySolutionDeserializer(result.body);
 }
 
 /** Gets a specific Security Solution. */
@@ -116,7 +114,7 @@ export async function get(
   ascLocation: string,
   securitySolutionName: string,
   options: SecuritySolutionsGetOptionalParams = { requestOptions: {} },
-): Promise<SecuritySolutionsAPISecuritySolution> {
+): Promise<SecuritySolution> {
   const result = await _getSend(
     context,
     resourceGroupName,

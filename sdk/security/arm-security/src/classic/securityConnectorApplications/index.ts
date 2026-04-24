@@ -4,7 +4,7 @@
 import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import { list } from "../../api/securityConnectorApplications/operations.js";
 import type { SecurityConnectorApplicationsListOptionalParams } from "../../api/securityConnectorApplications/options.js";
-import type { ApplicationsAPIApplication } from "../../models/applicationsAPI/models.js";
+import type { Application } from "../../models/applicationsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a SecurityConnectorApplications operations. */
@@ -14,7 +14,7 @@ export interface SecurityConnectorApplicationsOperations {
     resourceGroupName: string,
     securityConnectorName: string,
     options?: SecurityConnectorApplicationsListOptionalParams,
-  ) => PagedAsyncIterableIterator<ApplicationsAPIApplication>;
+  ) => PagedAsyncIterableIterator<Application>;
 }
 
 function _getSecurityConnectorApplications(context: SecurityCenterContext) {

@@ -3,8 +3,8 @@
 
 import type { SecurityCenterContext as Client } from "../index.js";
 import { errorResponseDeserializer } from "../../models/models.js";
-import type { SecurityConnectorsDevOpsAPIGitLabGroupListResponse } from "../../models/securityConnectorsDevOpsAPI/models.js";
-import { securityConnectorsDevOpsAPIGitLabGroupListResponseDeserializer } from "../../models/securityConnectorsDevOpsAPI/models.js";
+import type { GitLabGroupListResponse } from "../../models/securityConnectorsDevOpsAPI/models.js";
+import { gitLabGroupListResponseDeserializer } from "../../models/securityConnectorsDevOpsAPI/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type { GitLabSubgroupsListOptionalParams } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
@@ -38,7 +38,7 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<SecurityConnectorsDevOpsAPIGitLabGroupListResponse> {
+): Promise<GitLabGroupListResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -47,7 +47,7 @@ export async function _listDeserialize(
     throw error;
   }
 
-  return securityConnectorsDevOpsAPIGitLabGroupListResponseDeserializer(result.body);
+  return gitLabGroupListResponseDeserializer(result.body);
 }
 
 /** Gets nested subgroups of given GitLab Group which are onboarded to the connector. */
@@ -57,7 +57,7 @@ export async function list(
   securityConnectorName: string,
   groupFQName: string,
   options: GitLabSubgroupsListOptionalParams = { requestOptions: {} },
-): Promise<SecurityConnectorsDevOpsAPIGitLabGroupListResponse> {
+): Promise<GitLabGroupListResponse> {
   const result = await _listSend(
     context,
     resourceGroupName,

@@ -16,7 +16,7 @@ import type {
   AssignmentsCreateOrUpdateOptionalParams,
   AssignmentsGetOptionalParams,
 } from "../../api/assignments/options.js";
-import type { StandardsAPIAssignment } from "../../models/standardsAPI/models.js";
+import type { Assignment } from "../../models/standardsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Assignments operations. */
@@ -24,12 +24,12 @@ export interface AssignmentsOperations {
   /** Get a list of all relevant standardAssignments over a subscription level scope */
   listBySubscription: (
     options?: AssignmentsListBySubscriptionOptionalParams,
-  ) => PagedAsyncIterableIterator<StandardsAPIAssignment>;
+  ) => PagedAsyncIterableIterator<Assignment>;
   /** Get a list of all relevant standardAssignments available for scope */
   list: (
     resourceGroupName: string,
     options?: AssignmentsListOptionalParams,
-  ) => PagedAsyncIterableIterator<StandardsAPIAssignment>;
+  ) => PagedAsyncIterableIterator<Assignment>;
   /** Delete a standard assignment over a given scope */
   delete: (
     resourceGroupName: string,
@@ -40,15 +40,15 @@ export interface AssignmentsOperations {
   createOrUpdate: (
     resourceGroupName: string,
     assignmentId: string,
-    assignment: StandardsAPIAssignment,
+    assignment: Assignment,
     options?: AssignmentsCreateOrUpdateOptionalParams,
-  ) => Promise<StandardsAPIAssignment>;
+  ) => Promise<Assignment>;
   /** Get a specific standard assignment for the requested scope by resourceId */
   get: (
     resourceGroupName: string,
     assignmentId: string,
     options?: AssignmentsGetOptionalParams,
-  ) => Promise<StandardsAPIAssignment>;
+  ) => Promise<Assignment>;
 }
 
 function _getAssignments(context: SecurityCenterContext) {
@@ -65,7 +65,7 @@ function _getAssignments(context: SecurityCenterContext) {
     createOrUpdate: (
       resourceGroupName: string,
       assignmentId: string,
-      assignment: StandardsAPIAssignment,
+      assignment: Assignment,
       options?: AssignmentsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, assignmentId, assignment, options),
     get: (

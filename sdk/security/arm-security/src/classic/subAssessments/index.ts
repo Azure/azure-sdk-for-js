@@ -8,7 +8,7 @@ import type {
   SubAssessmentsListOptionalParams,
   SubAssessmentsGetOptionalParams,
 } from "../../api/subAssessments/options.js";
-import type { SubAssessmentsAPISecuritySubAssessment } from "../../models/subAssessmentsAPI/models.js";
+import type { SecuritySubAssessment } from "../../models/subAssessmentsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a SubAssessments operations. */
@@ -17,20 +17,20 @@ export interface SubAssessmentsOperations {
   listAll: (
     scope: string,
     options?: SubAssessmentsListAllOptionalParams,
-  ) => PagedAsyncIterableIterator<SubAssessmentsAPISecuritySubAssessment>;
+  ) => PagedAsyncIterableIterator<SecuritySubAssessment>;
   /** Get security sub-assessments on all your scanned resources inside a scope */
   list: (
     scope: string,
     assessmentName: string,
     options?: SubAssessmentsListOptionalParams,
-  ) => PagedAsyncIterableIterator<SubAssessmentsAPISecuritySubAssessment>;
+  ) => PagedAsyncIterableIterator<SecuritySubAssessment>;
   /** Get a security sub-assessment on your scanned resource */
   get: (
     scope: string,
     assessmentName: string,
     subAssessmentName: string,
     options?: SubAssessmentsGetOptionalParams,
-  ) => Promise<SubAssessmentsAPISecuritySubAssessment>;
+  ) => Promise<SecuritySubAssessment>;
 }
 
 function _getSubAssessments(context: SecurityCenterContext) {

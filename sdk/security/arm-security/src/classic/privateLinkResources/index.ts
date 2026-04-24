@@ -7,7 +7,7 @@ import type {
   PrivateLinkResourcesListOptionalParams,
   PrivateLinkResourcesGetOptionalParams,
 } from "../../api/privateLinkResources/options.js";
-import type { PrivateLinksAPIPrivateLinkGroupResource } from "../../models/privateLinksAPI/models.js";
+import type { PrivateLinkGroupResource } from "../../models/privateLinksAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a PrivateLinkResources operations. */
@@ -16,13 +16,13 @@ export interface PrivateLinkResourcesOperations {
   list: (
     resourceGroupName: string,
     options?: PrivateLinkResourcesListOptionalParams,
-  ) => PagedAsyncIterableIterator<PrivateLinksAPIPrivateLinkGroupResource>;
+  ) => PagedAsyncIterableIterator<PrivateLinkGroupResource>;
   /** Get the specified private link resource associated with the private link. */
   get: (
     resourceGroupName: string,
     groupId: string,
     options?: PrivateLinkResourcesGetOptionalParams,
-  ) => Promise<PrivateLinksAPIPrivateLinkGroupResource>;
+  ) => Promise<PrivateLinkGroupResource>;
 }
 
 function _getPrivateLinkResources(context: SecurityCenterContext) {

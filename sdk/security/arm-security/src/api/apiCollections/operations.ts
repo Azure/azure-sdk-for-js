@@ -2,13 +2,10 @@
 // Licensed under the MIT License.
 
 import type { SecurityCenterContext as Client } from "../index.js";
-import type {
-  ApiCollectionsAPIApiCollection,
-  _ApiCollectionsAPIApiCollectionList,
-} from "../../models/apiCollectionsAPI/models.js";
+import type { ApiCollection, _ApiCollectionList } from "../../models/apiCollectionsAPI/models.js";
 import {
-  apiCollectionsAPIApiCollectionDeserializer,
-  _apiCollectionsAPIApiCollectionListDeserializer,
+  apiCollectionDeserializer,
+  _apiCollectionListDeserializer,
 } from "../../models/apiCollectionsAPI/models.js";
 import { errorResponseDeserializer } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
@@ -51,7 +48,7 @@ export function _listByResourceGroupSend(
 
 export async function _listByResourceGroupDeserialize(
   result: PathUncheckedResponse,
-): Promise<_ApiCollectionsAPIApiCollectionList> {
+): Promise<_ApiCollectionList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -60,7 +57,7 @@ export async function _listByResourceGroupDeserialize(
     throw error;
   }
 
-  return _apiCollectionsAPIApiCollectionListDeserializer(result.body);
+  return _apiCollectionListDeserializer(result.body);
 }
 
 /** Gets a list of API collections within a resource group that have been onboarded to Microsoft Defender for APIs. */
@@ -68,7 +65,7 @@ export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
   options: APICollectionsListByResourceGroupOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<ApiCollectionsAPIApiCollection> {
+): PagedAsyncIterableIterator<ApiCollection> {
   return buildPagedAsyncIterator(
     context,
     () => _listByResourceGroupSend(context, resourceGroupName, options),
@@ -100,7 +97,7 @@ export function _listBySubscriptionSend(
 
 export async function _listBySubscriptionDeserialize(
   result: PathUncheckedResponse,
-): Promise<_ApiCollectionsAPIApiCollectionList> {
+): Promise<_ApiCollectionList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -109,14 +106,14 @@ export async function _listBySubscriptionDeserialize(
     throw error;
   }
 
-  return _apiCollectionsAPIApiCollectionListDeserializer(result.body);
+  return _apiCollectionListDeserializer(result.body);
 }
 
 /** Gets a list of API collections within a subscription that have been onboarded to Microsoft Defender for APIs. */
 export function listBySubscription(
   context: Client,
   options: APICollectionsListBySubscriptionOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<ApiCollectionsAPIApiCollection> {
+): PagedAsyncIterableIterator<ApiCollection> {
   return buildPagedAsyncIterator(
     context,
     () => _listBySubscriptionSend(context, options),
@@ -152,7 +149,7 @@ export function _listByAzureApiManagementServiceSend(
 
 export async function _listByAzureApiManagementServiceDeserialize(
   result: PathUncheckedResponse,
-): Promise<_ApiCollectionsAPIApiCollectionList> {
+): Promise<_ApiCollectionList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -161,7 +158,7 @@ export async function _listByAzureApiManagementServiceDeserialize(
     throw error;
   }
 
-  return _apiCollectionsAPIApiCollectionListDeserializer(result.body);
+  return _apiCollectionListDeserializer(result.body);
 }
 
 /** Gets a list of Azure API Management APIs that have been onboarded to Microsoft Defender for APIs. If an Azure API Management API is onboarded to Microsoft Defender for APIs, the system will monitor the operations within the Azure API Management API for intrusive behaviors and provide alerts for attacks that have been detected. */
@@ -170,7 +167,7 @@ export function listByAzureApiManagementService(
   resourceGroupName: string,
   serviceName: string,
   options: APICollectionsListByAzureApiManagementServiceOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<ApiCollectionsAPIApiCollection> {
+): PagedAsyncIterableIterator<ApiCollection> {
   return buildPagedAsyncIterator(
     context,
     () => _listByAzureApiManagementServiceSend(context, resourceGroupName, serviceName, options),
@@ -263,7 +260,7 @@ export function _onboardAzureApiManagementApiSend(
 
 export async function _onboardAzureApiManagementApiDeserialize(
   result: PathUncheckedResponse,
-): Promise<ApiCollectionsAPIApiCollection> {
+): Promise<ApiCollection> {
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -272,7 +269,7 @@ export async function _onboardAzureApiManagementApiDeserialize(
     throw error;
   }
 
-  return apiCollectionsAPIApiCollectionDeserializer(result.body);
+  return apiCollectionDeserializer(result.body);
 }
 
 /** Onboard an Azure API Management API to Microsoft Defender for APIs. The system will start monitoring the operations within the Azure Management API for intrusive behaviors and provide alerts for attacks that have been detected. */
@@ -282,7 +279,7 @@ export function onboardAzureApiManagementApi(
   serviceName: string,
   apiId: string,
   options: APICollectionsOnboardAzureApiManagementApiOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<ApiCollectionsAPIApiCollection>, ApiCollectionsAPIApiCollection> {
+): PollerLike<OperationState<ApiCollection>, ApiCollection> {
   return getLongRunningPoller(
     context,
     _onboardAzureApiManagementApiDeserialize,
@@ -295,7 +292,7 @@ export function onboardAzureApiManagementApi(
       resourceLocationConfig: "location",
       apiVersion: "2023-11-15",
     },
-  ) as PollerLike<OperationState<ApiCollectionsAPIApiCollection>, ApiCollectionsAPIApiCollection>;
+  ) as PollerLike<OperationState<ApiCollection>, ApiCollection>;
 }
 
 export function _getByAzureApiManagementServiceSend(
@@ -326,7 +323,7 @@ export function _getByAzureApiManagementServiceSend(
 
 export async function _getByAzureApiManagementServiceDeserialize(
   result: PathUncheckedResponse,
-): Promise<ApiCollectionsAPIApiCollection> {
+): Promise<ApiCollection> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -335,7 +332,7 @@ export async function _getByAzureApiManagementServiceDeserialize(
     throw error;
   }
 
-  return apiCollectionsAPIApiCollectionDeserializer(result.body);
+  return apiCollectionDeserializer(result.body);
 }
 
 /** Gets an Azure API Management API if it has been onboarded to Microsoft Defender for APIs. If an Azure API Management API is onboarded to Microsoft Defender for APIs, the system will monitor the operations within the Azure API Management API for intrusive behaviors and provide alerts for attacks that have been detected. */
@@ -345,7 +342,7 @@ export async function getByAzureApiManagementService(
   serviceName: string,
   apiId: string,
   options: APICollectionsGetByAzureApiManagementServiceOptionalParams = { requestOptions: {} },
-): Promise<ApiCollectionsAPIApiCollection> {
+): Promise<ApiCollection> {
   const result = await _getByAzureApiManagementServiceSend(
     context,
     resourceGroupName,

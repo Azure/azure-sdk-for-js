@@ -12,7 +12,7 @@ import type {
   IotSecuritySolutionsAnalyticsAggregatedAlertListOptionalParams,
   IotSecuritySolutionsAnalyticsAggregatedAlertGetOptionalParams,
 } from "../../api/iotSecuritySolutionsAnalyticsAggregatedAlert/options.js";
-import type { IoTSecurityAPIIoTSecurityAggregatedAlert } from "../../models/ioTSecurityAPI/models.js";
+import type { IoTSecurityAggregatedAlert } from "../../models/ioTSecurityAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a IotSecuritySolutionsAnalyticsAggregatedAlert operations. */
@@ -29,14 +29,14 @@ export interface IotSecuritySolutionsAnalyticsAggregatedAlertOperations {
     resourceGroupName: string,
     solutionName: string,
     options?: IotSecuritySolutionsAnalyticsAggregatedAlertListOptionalParams,
-  ) => PagedAsyncIterableIterator<IoTSecurityAPIIoTSecurityAggregatedAlert>;
+  ) => PagedAsyncIterableIterator<IoTSecurityAggregatedAlert>;
   /** Use this method to get a single the aggregated alert of yours IoT Security solution. This aggregation is performed by alert name. */
   get: (
     resourceGroupName: string,
     solutionName: string,
     aggregatedAlertName: string,
     options?: IotSecuritySolutionsAnalyticsAggregatedAlertGetOptionalParams,
-  ) => Promise<IoTSecurityAPIIoTSecurityAggregatedAlert>;
+  ) => Promise<IoTSecurityAggregatedAlert>;
 }
 
 function _getIotSecuritySolutionsAnalyticsAggregatedAlert(context: SecurityCenterContext) {

@@ -12,24 +12,22 @@ import { systemDataDeserializer } from "../models.js";
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Governance assignment over a given scope */
-export interface GovernanceAPIGovernanceAssignment extends ExtensionResource {
+export interface GovernanceAssignment extends ExtensionResource {
   /** The Owner for the governance assignment - e.g. user@contoso.com - see example */
   owner?: string;
   /** The remediation due-date - after this date Secure Score will be affected (in case of  active grace-period) */
   remediationDueDate?: Date;
   /** The ETA (estimated time of arrival) for remediation (optional), see example */
-  remediationEta?: GovernanceAPIRemediationEta;
+  remediationEta?: RemediationEta;
   /** Defines whether there is a grace period on the governance assignment */
   isGracePeriod?: boolean;
   /** The email notifications settings for the governance rule, states whether to disable notifications for mangers and owners */
-  governanceEmailNotification?: GovernanceAPIGovernanceEmailNotification;
+  governanceEmailNotification?: GovernanceEmailNotification;
   /** The additional data for the governance assignment - e.g. links to ticket (optional), see example */
-  additionalData?: GovernanceAPIGovernanceAssignmentAdditionalData;
+  additionalData?: GovernanceAssignmentAdditionalData;
 }
 
-export function governanceAPIGovernanceAssignmentSerializer(
-  item: GovernanceAPIGovernanceAssignment,
-): any {
+export function governanceAssignmentSerializer(item: GovernanceAssignment): any {
   return {
     properties: areAllPropsUndefined(item, [
       "owner",
@@ -44,9 +42,7 @@ export function governanceAPIGovernanceAssignmentSerializer(
   };
 }
 
-export function governanceAPIGovernanceAssignmentDeserializer(
-  item: any,
-): GovernanceAPIGovernanceAssignment {
+export function governanceAssignmentDeserializer(item: any): GovernanceAssignment {
   return {
     id: item["id"],
     name: item["name"],
@@ -61,72 +57,72 @@ export function governanceAPIGovernanceAssignmentDeserializer(
 }
 
 /** Describes properties of an governance assignment */
-export interface GovernanceAPIGovernanceAssignmentProperties {
+export interface GovernanceAssignmentProperties {
   /** The Owner for the governance assignment - e.g. user@contoso.com - see example */
   owner?: string;
   /** The remediation due-date - after this date Secure Score will be affected (in case of  active grace-period) */
   remediationDueDate: Date;
   /** The ETA (estimated time of arrival) for remediation (optional), see example */
-  remediationEta?: GovernanceAPIRemediationEta;
+  remediationEta?: RemediationEta;
   /** Defines whether there is a grace period on the governance assignment */
   isGracePeriod?: boolean;
   /** The email notifications settings for the governance rule, states whether to disable notifications for mangers and owners */
-  governanceEmailNotification?: GovernanceAPIGovernanceEmailNotification;
+  governanceEmailNotification?: GovernanceEmailNotification;
   /** The additional data for the governance assignment - e.g. links to ticket (optional), see example */
-  additionalData?: GovernanceAPIGovernanceAssignmentAdditionalData;
+  additionalData?: GovernanceAssignmentAdditionalData;
 }
 
-export function governanceAPIGovernanceAssignmentPropertiesSerializer(
-  item: GovernanceAPIGovernanceAssignmentProperties,
+export function governanceAssignmentPropertiesSerializer(
+  item: GovernanceAssignmentProperties,
 ): any {
   return {
     owner: item["owner"],
     remediationDueDate: item["remediationDueDate"].toISOString(),
     remediationEta: !item["remediationEta"]
       ? item["remediationEta"]
-      : governanceAPIRemediationEtaSerializer(item["remediationEta"]),
+      : remediationEtaSerializer(item["remediationEta"]),
     isGracePeriod: item["isGracePeriod"],
     governanceEmailNotification: !item["governanceEmailNotification"]
       ? item["governanceEmailNotification"]
-      : governanceAPIGovernanceEmailNotificationSerializer(item["governanceEmailNotification"]),
+      : governanceEmailNotificationSerializer(item["governanceEmailNotification"]),
     additionalData: !item["additionalData"]
       ? item["additionalData"]
-      : governanceAPIGovernanceAssignmentAdditionalDataSerializer(item["additionalData"]),
+      : governanceAssignmentAdditionalDataSerializer(item["additionalData"]),
   };
 }
 
-export function governanceAPIGovernanceAssignmentPropertiesDeserializer(
+export function governanceAssignmentPropertiesDeserializer(
   item: any,
-): GovernanceAPIGovernanceAssignmentProperties {
+): GovernanceAssignmentProperties {
   return {
     owner: item["owner"],
     remediationDueDate: new Date(item["remediationDueDate"]),
     remediationEta: !item["remediationEta"]
       ? item["remediationEta"]
-      : governanceAPIRemediationEtaDeserializer(item["remediationEta"]),
+      : remediationEtaDeserializer(item["remediationEta"]),
     isGracePeriod: item["isGracePeriod"],
     governanceEmailNotification: !item["governanceEmailNotification"]
       ? item["governanceEmailNotification"]
-      : governanceAPIGovernanceEmailNotificationDeserializer(item["governanceEmailNotification"]),
+      : governanceEmailNotificationDeserializer(item["governanceEmailNotification"]),
     additionalData: !item["additionalData"]
       ? item["additionalData"]
-      : governanceAPIGovernanceAssignmentAdditionalDataDeserializer(item["additionalData"]),
+      : governanceAssignmentAdditionalDataDeserializer(item["additionalData"]),
   };
 }
 
 /** The ETA (estimated time of arrival) for remediation */
-export interface GovernanceAPIRemediationEta {
+export interface RemediationEta {
   /** ETA for remediation. */
   eta: Date;
   /** Justification for change of Eta. */
   justification: string;
 }
 
-export function governanceAPIRemediationEtaSerializer(item: GovernanceAPIRemediationEta): any {
+export function remediationEtaSerializer(item: RemediationEta): any {
   return { eta: item["eta"].toISOString(), justification: item["justification"] };
 }
 
-export function governanceAPIRemediationEtaDeserializer(item: any): GovernanceAPIRemediationEta {
+export function remediationEtaDeserializer(item: any): RemediationEta {
   return {
     eta: new Date(item["eta"]),
     justification: item["justification"],
@@ -134,25 +130,21 @@ export function governanceAPIRemediationEtaDeserializer(item: any): GovernanceAP
 }
 
 /** The governance email weekly notification configuration. */
-export interface GovernanceAPIGovernanceEmailNotification {
+export interface GovernanceEmailNotification {
   /** Exclude manager from weekly email notification. */
   disableManagerEmailNotification?: boolean;
   /** Exclude  owner from weekly email notification. */
   disableOwnerEmailNotification?: boolean;
 }
 
-export function governanceAPIGovernanceEmailNotificationSerializer(
-  item: GovernanceAPIGovernanceEmailNotification,
-): any {
+export function governanceEmailNotificationSerializer(item: GovernanceEmailNotification): any {
   return {
     disableManagerEmailNotification: item["disableManagerEmailNotification"],
     disableOwnerEmailNotification: item["disableOwnerEmailNotification"],
   };
 }
 
-export function governanceAPIGovernanceEmailNotificationDeserializer(
-  item: any,
-): GovernanceAPIGovernanceEmailNotification {
+export function governanceEmailNotificationDeserializer(item: any): GovernanceEmailNotification {
   return {
     disableManagerEmailNotification: item["disableManagerEmailNotification"],
     disableOwnerEmailNotification: item["disableOwnerEmailNotification"],
@@ -160,7 +152,7 @@ export function governanceAPIGovernanceEmailNotificationDeserializer(
 }
 
 /** Describe the additional data of governance assignment - optional */
-export interface GovernanceAPIGovernanceAssignmentAdditionalData {
+export interface GovernanceAssignmentAdditionalData {
   /** Ticket number associated with this governance assignment */
   ticketNumber?: number;
   /** Ticket link associated with this governance assignment - for example: https://snow.com */
@@ -169,8 +161,8 @@ export interface GovernanceAPIGovernanceAssignmentAdditionalData {
   ticketStatus?: string;
 }
 
-export function governanceAPIGovernanceAssignmentAdditionalDataSerializer(
-  item: GovernanceAPIGovernanceAssignmentAdditionalData,
+export function governanceAssignmentAdditionalDataSerializer(
+  item: GovernanceAssignmentAdditionalData,
 ): any {
   return {
     ticketNumber: item["ticketNumber"],
@@ -179,9 +171,9 @@ export function governanceAPIGovernanceAssignmentAdditionalDataSerializer(
   };
 }
 
-export function governanceAPIGovernanceAssignmentAdditionalDataDeserializer(
+export function governanceAssignmentAdditionalDataDeserializer(
   item: any,
-): GovernanceAPIGovernanceAssignmentAdditionalData {
+): GovernanceAssignmentAdditionalData {
   return {
     ticketNumber: item["ticketNumber"],
     ticketLink: item["ticketLink"],
@@ -190,42 +182,34 @@ export function governanceAPIGovernanceAssignmentAdditionalDataDeserializer(
 }
 
 /** Page of a governance assignments list */
-export interface _GovernanceAPIGovernanceAssignmentsList {
+export interface _GovernanceAssignmentsList {
   /** Collection of governance assignments in this page */
-  readonly value?: GovernanceAPIGovernanceAssignment[];
+  readonly value?: GovernanceAssignment[];
   /** The URI to fetch the next page */
   nextLink?: string;
 }
 
-export function _governanceAPIGovernanceAssignmentsListDeserializer(
-  item: any,
-): _GovernanceAPIGovernanceAssignmentsList {
+export function _governanceAssignmentsListDeserializer(item: any): _GovernanceAssignmentsList {
   return {
-    value: !item["value"]
-      ? item["value"]
-      : governanceAPIGovernanceAssignmentArrayDeserializer(item["value"]),
+    value: !item["value"] ? item["value"] : governanceAssignmentArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function governanceAPIGovernanceAssignmentArraySerializer(
-  result: Array<GovernanceAPIGovernanceAssignment>,
-): any[] {
+export function governanceAssignmentArraySerializer(result: Array<GovernanceAssignment>): any[] {
   return result.map((item) => {
-    return governanceAPIGovernanceAssignmentSerializer(item);
+    return governanceAssignmentSerializer(item);
   });
 }
 
-export function governanceAPIGovernanceAssignmentArrayDeserializer(
-  result: Array<GovernanceAPIGovernanceAssignment>,
-): any[] {
+export function governanceAssignmentArrayDeserializer(result: Array<GovernanceAssignment>): any[] {
   return result.map((item) => {
-    return governanceAPIGovernanceAssignmentDeserializer(item);
+    return governanceAssignmentDeserializer(item);
   });
 }
 
 /** Governance rule over a given scope */
-export interface GovernanceAPIGovernanceRule extends ExtensionResource {
+export interface GovernanceRule extends ExtensionResource {
   /** The tenantId (GUID) */
   readonly tenantId?: string;
   /** Display name of the governance rule */
@@ -241,9 +225,9 @@ export interface GovernanceAPIGovernanceRule extends ExtensionResource {
   /** Defines whether the rule is active/inactive */
   isDisabled?: boolean;
   /** The rule type of the governance rule, defines the source of the rule e.g. Integrated */
-  ruleType?: GovernanceAPIGovernanceRuleType;
+  ruleType?: GovernanceRuleType;
   /** The governance rule source, what the rule affects, e.g. Assessments */
-  sourceResourceType?: GovernanceAPIGovernanceRuleSourceResourceType;
+  sourceResourceType?: GovernanceRuleSourceResourceType;
   /** Excluded scopes, filter out the descendants of the scope (on management scopes) */
   excludedScopes?: string[];
   /** The governance rule conditionSets - see examples */
@@ -251,14 +235,14 @@ export interface GovernanceAPIGovernanceRule extends ExtensionResource {
   /** Defines whether the rule is management scope rule (master connector as a single scope or management scope) */
   includeMemberScopes?: boolean;
   /** The owner source for the governance rule - e.g. Manually by user@contoso.com - see example */
-  ownerSource?: GovernanceAPIGovernanceRuleOwnerSource;
+  ownerSource?: GovernanceRuleOwnerSource;
   /** The email notifications settings for the governance rule, states whether to disable notifications for mangers and owners */
-  governanceEmailNotification?: GovernanceAPIGovernanceRuleEmailNotification;
+  governanceEmailNotification?: GovernanceRuleEmailNotification;
   /** The governance rule metadata */
-  metadata?: GovernanceAPIGovernanceRuleMetadata;
+  metadata?: GovernanceRuleMetadata;
 }
 
-export function governanceAPIGovernanceRuleSerializer(item: GovernanceAPIGovernanceRule): any {
+export function governanceRuleSerializer(item: GovernanceRule): any {
   return {
     properties: areAllPropsUndefined(item, [
       "displayName",
@@ -281,7 +265,7 @@ export function governanceAPIGovernanceRuleSerializer(item: GovernanceAPIGoverna
   };
 }
 
-export function governanceAPIGovernanceRuleDeserializer(item: any): GovernanceAPIGovernanceRule {
+export function governanceRuleDeserializer(item: any): GovernanceRule {
   return {
     id: item["id"],
     name: item["name"],
@@ -296,7 +280,7 @@ export function governanceAPIGovernanceRuleDeserializer(item: any): GovernanceAP
 }
 
 /** Describes properties of an governance rule */
-export interface GovernanceAPIGovernanceRuleProperties {
+export interface GovernanceRuleProperties {
   /** The tenantId (GUID) */
   readonly tenantId?: string;
   /** Display name of the governance rule */
@@ -312,9 +296,9 @@ export interface GovernanceAPIGovernanceRuleProperties {
   /** Defines whether the rule is active/inactive */
   isDisabled?: boolean;
   /** The rule type of the governance rule, defines the source of the rule e.g. Integrated */
-  ruleType: GovernanceAPIGovernanceRuleType;
+  ruleType: GovernanceRuleType;
   /** The governance rule source, what the rule affects, e.g. Assessments */
-  sourceResourceType: GovernanceAPIGovernanceRuleSourceResourceType;
+  sourceResourceType: GovernanceRuleSourceResourceType;
   /** Excluded scopes, filter out the descendants of the scope (on management scopes) */
   excludedScopes?: string[];
   /** The governance rule conditionSets - see examples */
@@ -322,16 +306,14 @@ export interface GovernanceAPIGovernanceRuleProperties {
   /** Defines whether the rule is management scope rule (master connector as a single scope or management scope) */
   includeMemberScopes?: boolean;
   /** The owner source for the governance rule - e.g. Manually by user@contoso.com - see example */
-  ownerSource: GovernanceAPIGovernanceRuleOwnerSource;
+  ownerSource: GovernanceRuleOwnerSource;
   /** The email notifications settings for the governance rule, states whether to disable notifications for mangers and owners */
-  governanceEmailNotification?: GovernanceAPIGovernanceRuleEmailNotification;
+  governanceEmailNotification?: GovernanceRuleEmailNotification;
   /** The governance rule metadata */
-  metadata?: GovernanceAPIGovernanceRuleMetadata;
+  metadata?: GovernanceRuleMetadata;
 }
 
-export function governanceAPIGovernanceRulePropertiesSerializer(
-  item: GovernanceAPIGovernanceRuleProperties,
-): any {
+export function governanceRulePropertiesSerializer(item: GovernanceRuleProperties): any {
   return {
     displayName: item["displayName"],
     description: item["description"],
@@ -350,19 +332,17 @@ export function governanceAPIGovernanceRulePropertiesSerializer(
       return p;
     }),
     includeMemberScopes: item["includeMemberScopes"],
-    ownerSource: governanceAPIGovernanceRuleOwnerSourceSerializer(item["ownerSource"]),
+    ownerSource: governanceRuleOwnerSourceSerializer(item["ownerSource"]),
     governanceEmailNotification: !item["governanceEmailNotification"]
       ? item["governanceEmailNotification"]
-      : governanceAPIGovernanceRuleEmailNotificationSerializer(item["governanceEmailNotification"]),
+      : governanceRuleEmailNotificationSerializer(item["governanceEmailNotification"]),
     metadata: !item["metadata"]
       ? item["metadata"]
-      : governanceAPIGovernanceRuleMetadataSerializer(item["metadata"]),
+      : governanceRuleMetadataSerializer(item["metadata"]),
   };
 }
 
-export function governanceAPIGovernanceRulePropertiesDeserializer(
-  item: any,
-): GovernanceAPIGovernanceRuleProperties {
+export function governanceRulePropertiesDeserializer(item: any): GovernanceRuleProperties {
   return {
     tenantId: item["tenantId"],
     displayName: item["displayName"],
@@ -382,20 +362,18 @@ export function governanceAPIGovernanceRulePropertiesDeserializer(
       return p;
     }),
     includeMemberScopes: item["includeMemberScopes"],
-    ownerSource: governanceAPIGovernanceRuleOwnerSourceDeserializer(item["ownerSource"]),
+    ownerSource: governanceRuleOwnerSourceDeserializer(item["ownerSource"]),
     governanceEmailNotification: !item["governanceEmailNotification"]
       ? item["governanceEmailNotification"]
-      : governanceAPIGovernanceRuleEmailNotificationDeserializer(
-          item["governanceEmailNotification"],
-        ),
+      : governanceRuleEmailNotificationDeserializer(item["governanceEmailNotification"]),
     metadata: !item["metadata"]
       ? item["metadata"]
-      : governanceAPIGovernanceRuleMetadataDeserializer(item["metadata"]),
+      : governanceRuleMetadataDeserializer(item["metadata"]),
   };
 }
 
 /** The rule type of the governance rule, defines the source of the rule e.g. Integrated */
-export enum KnownGovernanceAPIGovernanceRuleType {
+export enum KnownGovernanceRuleType {
   /** The source of the rule type definition is integrated */
   Integrated = "Integrated",
   /** The source of the rule type definition is ServiceNow */
@@ -404,46 +382,42 @@ export enum KnownGovernanceAPIGovernanceRuleType {
 
 /**
  * The rule type of the governance rule, defines the source of the rule e.g. Integrated \
- * {@link KnownGovernanceAPIGovernanceRuleType} can be used interchangeably with GovernanceAPIGovernanceRuleType,
+ * {@link KnownGovernanceRuleType} can be used interchangeably with GovernanceRuleType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Integrated**: The source of the rule type definition is integrated \
  * **ServiceNow**: The source of the rule type definition is ServiceNow
  */
-export type GovernanceAPIGovernanceRuleType = string;
+export type GovernanceRuleType = string;
 
 /** The governance rule source, what the rule affects, e.g. Assessments */
-export enum KnownGovernanceAPIGovernanceRuleSourceResourceType {
+export enum KnownGovernanceRuleSourceResourceType {
   /** The source of the governance rule is assessments */
   Assessments = "Assessments",
 }
 
 /**
  * The governance rule source, what the rule affects, e.g. Assessments \
- * {@link KnownGovernanceAPIGovernanceRuleSourceResourceType} can be used interchangeably with GovernanceAPIGovernanceRuleSourceResourceType,
+ * {@link KnownGovernanceRuleSourceResourceType} can be used interchangeably with GovernanceRuleSourceResourceType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Assessments**: The source of the governance rule is assessments
  */
-export type GovernanceAPIGovernanceRuleSourceResourceType = string;
+export type GovernanceRuleSourceResourceType = string;
 
 /** Describe the owner source of governance rule */
-export interface GovernanceAPIGovernanceRuleOwnerSource {
+export interface GovernanceRuleOwnerSource {
   /** The owner type for the governance rule owner source */
-  type?: GovernanceAPIGovernanceRuleOwnerSourceType;
+  type?: GovernanceRuleOwnerSourceType;
   /** The source value e.g. tag key like owner name or email address */
   value?: string;
 }
 
-export function governanceAPIGovernanceRuleOwnerSourceSerializer(
-  item: GovernanceAPIGovernanceRuleOwnerSource,
-): any {
+export function governanceRuleOwnerSourceSerializer(item: GovernanceRuleOwnerSource): any {
   return { type: item["type"], value: item["value"] };
 }
 
-export function governanceAPIGovernanceRuleOwnerSourceDeserializer(
-  item: any,
-): GovernanceAPIGovernanceRuleOwnerSource {
+export function governanceRuleOwnerSourceDeserializer(item: any): GovernanceRuleOwnerSource {
   return {
     type: item["type"],
     value: item["value"],
@@ -451,7 +425,7 @@ export function governanceAPIGovernanceRuleOwnerSourceDeserializer(
 }
 
 /** The owner type for the governance rule owner source */
-export enum KnownGovernanceAPIGovernanceRuleOwnerSourceType {
+export enum KnownGovernanceRuleOwnerSourceType {
   /** The rule source type defined using resource tag */
   ByTag = "ByTag",
   /** The rule source type defined manually */
@@ -460,24 +434,24 @@ export enum KnownGovernanceAPIGovernanceRuleOwnerSourceType {
 
 /**
  * The owner type for the governance rule owner source \
- * {@link KnownGovernanceAPIGovernanceRuleOwnerSourceType} can be used interchangeably with GovernanceAPIGovernanceRuleOwnerSourceType,
+ * {@link KnownGovernanceRuleOwnerSourceType} can be used interchangeably with GovernanceRuleOwnerSourceType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **ByTag**: The rule source type defined using resource tag \
  * **Manually**: The rule source type defined manually
  */
-export type GovernanceAPIGovernanceRuleOwnerSourceType = string;
+export type GovernanceRuleOwnerSourceType = string;
 
 /** The governance email weekly notification configuration */
-export interface GovernanceAPIGovernanceRuleEmailNotification {
+export interface GovernanceRuleEmailNotification {
   /** Defines whether manager email notifications are disabled */
   disableManagerEmailNotification?: boolean;
   /** Defines whether owner email notifications are disabled */
   disableOwnerEmailNotification?: boolean;
 }
 
-export function governanceAPIGovernanceRuleEmailNotificationSerializer(
-  item: GovernanceAPIGovernanceRuleEmailNotification,
+export function governanceRuleEmailNotificationSerializer(
+  item: GovernanceRuleEmailNotification,
 ): any {
   return {
     disableManagerEmailNotification: item["disableManagerEmailNotification"],
@@ -485,9 +459,9 @@ export function governanceAPIGovernanceRuleEmailNotificationSerializer(
   };
 }
 
-export function governanceAPIGovernanceRuleEmailNotificationDeserializer(
+export function governanceRuleEmailNotificationDeserializer(
   item: any,
-): GovernanceAPIGovernanceRuleEmailNotification {
+): GovernanceRuleEmailNotification {
   return {
     disableManagerEmailNotification: item["disableManagerEmailNotification"],
     disableOwnerEmailNotification: item["disableOwnerEmailNotification"],
@@ -495,7 +469,7 @@ export function governanceAPIGovernanceRuleEmailNotificationDeserializer(
 }
 
 /** The governance rule metadata */
-export interface GovernanceAPIGovernanceRuleMetadata {
+export interface GovernanceRuleMetadata {
   /** Governance rule Created by object id (GUID) */
   readonly createdBy?: string;
   /** Governance rule creation date */
@@ -506,15 +480,11 @@ export interface GovernanceAPIGovernanceRuleMetadata {
   readonly updatedOn?: Date;
 }
 
-export function governanceAPIGovernanceRuleMetadataSerializer(
-  _item: GovernanceAPIGovernanceRuleMetadata,
-): any {
+export function governanceRuleMetadataSerializer(_item: GovernanceRuleMetadata): any {
   return {};
 }
 
-export function governanceAPIGovernanceRuleMetadataDeserializer(
-  item: any,
-): GovernanceAPIGovernanceRuleMetadata {
+export function governanceRuleMetadataDeserializer(item: any): GovernanceRuleMetadata {
   return {
     createdBy: item["createdBy"],
     createdOn: !item["createdOn"] ? item["createdOn"] : new Date(item["createdOn"]),
@@ -524,66 +494,56 @@ export function governanceAPIGovernanceRuleMetadataDeserializer(
 }
 
 /** Page of a governance rules list */
-export interface _GovernanceAPIGovernanceRuleList {
+export interface _GovernanceRuleList {
   /** Collection of governance rules in this page */
-  readonly value?: GovernanceAPIGovernanceRule[];
+  readonly value?: GovernanceRule[];
   /** The URI to fetch the next page */
   nextLink?: string;
 }
 
-export function _governanceAPIGovernanceRuleListDeserializer(
-  item: any,
-): _GovernanceAPIGovernanceRuleList {
+export function _governanceRuleListDeserializer(item: any): _GovernanceRuleList {
   return {
-    value: !item["value"]
-      ? item["value"]
-      : governanceAPIGovernanceRuleArrayDeserializer(item["value"]),
+    value: !item["value"] ? item["value"] : governanceRuleArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function governanceAPIGovernanceRuleArraySerializer(
-  result: Array<GovernanceAPIGovernanceRule>,
-): any[] {
+export function governanceRuleArraySerializer(result: Array<GovernanceRule>): any[] {
   return result.map((item) => {
-    return governanceAPIGovernanceRuleSerializer(item);
+    return governanceRuleSerializer(item);
   });
 }
 
-export function governanceAPIGovernanceRuleArrayDeserializer(
-  result: Array<GovernanceAPIGovernanceRule>,
-): any[] {
+export function governanceRuleArrayDeserializer(result: Array<GovernanceRule>): any[] {
   return result.map((item) => {
-    return governanceAPIGovernanceRuleDeserializer(item);
+    return governanceRuleDeserializer(item);
   });
 }
 
 /** Governance rule execution parameters */
-export interface GovernanceAPIExecuteGovernanceRuleParams {
+export interface ExecuteGovernanceRuleParams {
   /** Describe if governance rule should be override */
   override?: boolean;
 }
 
-export function governanceAPIExecuteGovernanceRuleParamsSerializer(
-  item: GovernanceAPIExecuteGovernanceRuleParams,
-): any {
+export function executeGovernanceRuleParamsSerializer(item: ExecuteGovernanceRuleParams): any {
   return { override: item["override"] };
 }
 
 /** Long run operation status of governance rule over a given scope */
-export interface GovernanceAPIOperationResult {
+export interface OperationResult {
   /** The status of the long run operation result of governance rule */
-  readonly status?: GovernanceAPIOperationResultStatus;
+  readonly status?: OperationResultStatus;
 }
 
-export function governanceAPIOperationResultDeserializer(item: any): GovernanceAPIOperationResult {
+export function operationResultDeserializer(item: any): OperationResult {
   return {
     status: item["status"],
   };
 }
 
 /** The status of the long run operation result of governance rule */
-export enum KnownGovernanceAPIOperationResultStatus {
+export enum KnownOperationResultStatus {
   /** The operation succeeded */
   Succeeded = "Succeeded",
   /** The operation failed */
@@ -594,18 +554,16 @@ export enum KnownGovernanceAPIOperationResultStatus {
 
 /**
  * The status of the long run operation result of governance rule \
- * {@link KnownGovernanceAPIOperationResultStatus} can be used interchangeably with GovernanceAPIOperationResultStatus,
+ * {@link KnownOperationResultStatus} can be used interchangeably with OperationResultStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Succeeded**: The operation succeeded \
  * **Failed**: The operation failed \
  * **Canceled**: The operation canceled
  */
-export type GovernanceAPIOperationResultStatus = string;
+export type OperationResultStatus = string;
 
-export function _governanceAssignmentPropertiesSerializer(
-  item: GovernanceAPIGovernanceAssignment,
-): any {
+export function _governanceAssignmentPropertiesSerializer(item: GovernanceAssignment): any {
   return {
     owner: item["owner"],
     remediationDueDate: !item["remediationDueDate"]
@@ -613,14 +571,14 @@ export function _governanceAssignmentPropertiesSerializer(
       : item["remediationDueDate"].toISOString(),
     remediationEta: !item["remediationEta"]
       ? item["remediationEta"]
-      : governanceAPIRemediationEtaSerializer(item["remediationEta"]),
+      : remediationEtaSerializer(item["remediationEta"]),
     isGracePeriod: item["isGracePeriod"],
     governanceEmailNotification: !item["governanceEmailNotification"]
       ? item["governanceEmailNotification"]
-      : governanceAPIGovernanceEmailNotificationSerializer(item["governanceEmailNotification"]),
+      : governanceEmailNotificationSerializer(item["governanceEmailNotification"]),
     additionalData: !item["additionalData"]
       ? item["additionalData"]
-      : governanceAPIGovernanceAssignmentAdditionalDataSerializer(item["additionalData"]),
+      : governanceAssignmentAdditionalDataSerializer(item["additionalData"]),
   };
 }
 
@@ -632,18 +590,18 @@ export function _governanceAssignmentPropertiesDeserializer(item: any) {
       : new Date(item["remediationDueDate"]),
     remediationEta: !item["remediationEta"]
       ? item["remediationEta"]
-      : governanceAPIRemediationEtaDeserializer(item["remediationEta"]),
+      : remediationEtaDeserializer(item["remediationEta"]),
     isGracePeriod: item["isGracePeriod"],
     governanceEmailNotification: !item["governanceEmailNotification"]
       ? item["governanceEmailNotification"]
-      : governanceAPIGovernanceEmailNotificationDeserializer(item["governanceEmailNotification"]),
+      : governanceEmailNotificationDeserializer(item["governanceEmailNotification"]),
     additionalData: !item["additionalData"]
       ? item["additionalData"]
-      : governanceAPIGovernanceAssignmentAdditionalDataDeserializer(item["additionalData"]),
+      : governanceAssignmentAdditionalDataDeserializer(item["additionalData"]),
   };
 }
 
-export function _governanceRulePropertiesSerializer(item: GovernanceAPIGovernanceRule): any {
+export function _governanceRulePropertiesSerializer(item: GovernanceRule): any {
   return {
     displayName: item["displayName"],
     description: item["description"],
@@ -666,13 +624,13 @@ export function _governanceRulePropertiesSerializer(item: GovernanceAPIGovernanc
     includeMemberScopes: item["includeMemberScopes"],
     ownerSource: !item["ownerSource"]
       ? item["ownerSource"]
-      : governanceAPIGovernanceRuleOwnerSourceSerializer(item["ownerSource"]),
+      : governanceRuleOwnerSourceSerializer(item["ownerSource"]),
     governanceEmailNotification: !item["governanceEmailNotification"]
       ? item["governanceEmailNotification"]
-      : governanceAPIGovernanceRuleEmailNotificationSerializer(item["governanceEmailNotification"]),
+      : governanceRuleEmailNotificationSerializer(item["governanceEmailNotification"]),
     metadata: !item["metadata"]
       ? item["metadata"]
-      : governanceAPIGovernanceRuleMetadataSerializer(item["metadata"]),
+      : governanceRuleMetadataSerializer(item["metadata"]),
   };
 }
 
@@ -700,14 +658,12 @@ export function _governanceRulePropertiesDeserializer(item: any) {
     includeMemberScopes: item["includeMemberScopes"],
     ownerSource: !item["ownerSource"]
       ? item["ownerSource"]
-      : governanceAPIGovernanceRuleOwnerSourceDeserializer(item["ownerSource"]),
+      : governanceRuleOwnerSourceDeserializer(item["ownerSource"]),
     governanceEmailNotification: !item["governanceEmailNotification"]
       ? item["governanceEmailNotification"]
-      : governanceAPIGovernanceRuleEmailNotificationDeserializer(
-          item["governanceEmailNotification"],
-        ),
+      : governanceRuleEmailNotificationDeserializer(item["governanceEmailNotification"]),
     metadata: !item["metadata"]
       ? item["metadata"]
-      : governanceAPIGovernanceRuleMetadataDeserializer(item["metadata"]),
+      : governanceRuleMetadataDeserializer(item["metadata"]),
   };
 }

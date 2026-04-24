@@ -8,7 +8,7 @@ import type {
   ExternalSecuritySolutionsListByHomeRegionOptionalParams,
   ExternalSecuritySolutionsGetOptionalParams,
 } from "../../api/externalSecuritySolutions/options.js";
-import type { SecuritySolutionsAPIExternalSecuritySolutionUnion } from "../../models/securitySolutionsAPI/models.js";
+import type { ExternalSecuritySolutionUnion } from "../../models/securitySolutionsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ExternalSecuritySolutions operations. */
@@ -16,19 +16,19 @@ export interface ExternalSecuritySolutionsOperations {
   /** Gets a list of external security solutions for the subscription. */
   list: (
     options?: ExternalSecuritySolutionsListOptionalParams,
-  ) => PagedAsyncIterableIterator<SecuritySolutionsAPIExternalSecuritySolutionUnion>;
+  ) => PagedAsyncIterableIterator<ExternalSecuritySolutionUnion>;
   /** Gets a list of external Security Solutions for the subscription and location. */
   listByHomeRegion: (
     ascLocation: string,
     options?: ExternalSecuritySolutionsListByHomeRegionOptionalParams,
-  ) => PagedAsyncIterableIterator<SecuritySolutionsAPIExternalSecuritySolutionUnion>;
+  ) => PagedAsyncIterableIterator<ExternalSecuritySolutionUnion>;
   /** Gets a specific external Security Solution. */
   get: (
     resourceGroupName: string,
     ascLocation: string,
     externalSecuritySolutionsName: string,
     options?: ExternalSecuritySolutionsGetOptionalParams,
-  ) => Promise<SecuritySolutionsAPIExternalSecuritySolutionUnion>;
+  ) => Promise<ExternalSecuritySolutionUnion>;
 }
 
 function _getExternalSecuritySolutions(context: SecurityCenterContext) {

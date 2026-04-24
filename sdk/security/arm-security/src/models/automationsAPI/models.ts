@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
-import type { CommonActionType, CommonTags, CommonState } from "../common/models.js";
+import type { ActionType, Tags, State } from "../common/models.js";
 import type { ProxyResource } from "../models.js";
 import { systemDataDeserializer } from "../models.js";
 
@@ -13,7 +13,7 @@ import { systemDataDeserializer } from "../models.js";
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** The security automation resource. */
-export interface AutomationsAPIAutomation extends ProxyResource {
+export interface Automation extends ProxyResource {
   /** Resource tags. */
   tags?: Record<string, string>;
   /** The geo-location where the resource lives */
@@ -27,14 +27,14 @@ export interface AutomationsAPIAutomation extends ProxyResource {
   /** Indicates whether the security automation is enabled. */
   isEnabled?: boolean;
   /** A collection of scopes on which the security automations logic is applied. Supported scopes are the subscription itself or a resource group under that subscription. The automation will only apply on defined scopes. */
-  scopes?: AutomationsAPIAutomationScope[];
+  scopes?: AutomationScope[];
   /** A collection of the source event types which evaluate the security automation set of rules. */
-  sources?: AutomationsAPIAutomationSource[];
+  sources?: AutomationSource[];
   /** A collection of the actions which are triggered if all the configured rules evaluations, within at least one rule set, are true. */
-  actions?: AutomationsAPIAutomationActionUnion[];
+  actions?: AutomationActionUnion[];
 }
 
-export function automationsAPIAutomationSerializer(item: AutomationsAPIAutomation): any {
+export function automationSerializer(item: Automation): any {
   return {
     properties: areAllPropsUndefined(item, [
       "description",
@@ -52,7 +52,7 @@ export function automationsAPIAutomationSerializer(item: AutomationsAPIAutomatio
   };
 }
 
-export function automationsAPIAutomationDeserializer(item: any): AutomationsAPIAutomation {
+export function automationDeserializer(item: any): Automation {
   return {
     id: item["id"],
     name: item["name"],
@@ -73,140 +73,116 @@ export function automationsAPIAutomationDeserializer(item: any): AutomationsAPIA
 }
 
 /** A set of properties that defines the behavior of the automation configuration. To learn more about the supported security events data models schemas - please visit https://aka.ms/ASCAutomationSchemas. */
-export interface AutomationsAPIAutomationProperties {
+export interface AutomationProperties {
   /** The security automation description. */
   description?: string;
   /** Indicates whether the security automation is enabled. */
   isEnabled?: boolean;
   /** A collection of scopes on which the security automations logic is applied. Supported scopes are the subscription itself or a resource group under that subscription. The automation will only apply on defined scopes. */
-  scopes?: AutomationsAPIAutomationScope[];
+  scopes?: AutomationScope[];
   /** A collection of the source event types which evaluate the security automation set of rules. */
-  sources?: AutomationsAPIAutomationSource[];
+  sources?: AutomationSource[];
   /** A collection of the actions which are triggered if all the configured rules evaluations, within at least one rule set, are true. */
-  actions?: AutomationsAPIAutomationActionUnion[];
+  actions?: AutomationActionUnion[];
 }
 
-export function automationsAPIAutomationPropertiesSerializer(
-  item: AutomationsAPIAutomationProperties,
-): any {
+export function automationPropertiesSerializer(item: AutomationProperties): any {
   return {
     description: item["description"],
     isEnabled: item["isEnabled"],
-    scopes: !item["scopes"]
-      ? item["scopes"]
-      : automationsAPIAutomationScopeArraySerializer(item["scopes"]),
-    sources: !item["sources"]
-      ? item["sources"]
-      : automationsAPIAutomationSourceArraySerializer(item["sources"]),
+    scopes: !item["scopes"] ? item["scopes"] : automationScopeArraySerializer(item["scopes"]),
+    sources: !item["sources"] ? item["sources"] : automationSourceArraySerializer(item["sources"]),
     actions: !item["actions"]
       ? item["actions"]
-      : automationsAPIAutomationActionUnionArraySerializer(item["actions"]),
+      : automationActionUnionArraySerializer(item["actions"]),
   };
 }
 
-export function automationsAPIAutomationPropertiesDeserializer(
-  item: any,
-): AutomationsAPIAutomationProperties {
+export function automationPropertiesDeserializer(item: any): AutomationProperties {
   return {
     description: item["description"],
     isEnabled: item["isEnabled"],
-    scopes: !item["scopes"]
-      ? item["scopes"]
-      : automationsAPIAutomationScopeArrayDeserializer(item["scopes"]),
+    scopes: !item["scopes"] ? item["scopes"] : automationScopeArrayDeserializer(item["scopes"]),
     sources: !item["sources"]
       ? item["sources"]
-      : automationsAPIAutomationSourceArrayDeserializer(item["sources"]),
+      : automationSourceArrayDeserializer(item["sources"]),
     actions: !item["actions"]
       ? item["actions"]
-      : automationsAPIAutomationActionUnionArrayDeserializer(item["actions"]),
+      : automationActionUnionArrayDeserializer(item["actions"]),
   };
 }
 
-export function automationsAPIAutomationScopeArraySerializer(
-  result: Array<AutomationsAPIAutomationScope>,
-): any[] {
+export function automationScopeArraySerializer(result: Array<AutomationScope>): any[] {
   return result.map((item) => {
-    return automationsAPIAutomationScopeSerializer(item);
+    return automationScopeSerializer(item);
   });
 }
 
-export function automationsAPIAutomationScopeArrayDeserializer(
-  result: Array<AutomationsAPIAutomationScope>,
-): any[] {
+export function automationScopeArrayDeserializer(result: Array<AutomationScope>): any[] {
   return result.map((item) => {
-    return automationsAPIAutomationScopeDeserializer(item);
+    return automationScopeDeserializer(item);
   });
 }
 
 /** A single automation scope. */
-export interface AutomationsAPIAutomationScope {
+export interface AutomationScope {
   /** The resources scope description. */
   description?: string;
   /** The resources scope path. Can be the subscription on which the automation is defined on or a resource group under that subscription (fully qualified Azure resource IDs). */
   scopePath?: string;
 }
 
-export function automationsAPIAutomationScopeSerializer(item: AutomationsAPIAutomationScope): any {
+export function automationScopeSerializer(item: AutomationScope): any {
   return { description: item["description"], scopePath: item["scopePath"] };
 }
 
-export function automationsAPIAutomationScopeDeserializer(
-  item: any,
-): AutomationsAPIAutomationScope {
+export function automationScopeDeserializer(item: any): AutomationScope {
   return {
     description: item["description"],
     scopePath: item["scopePath"],
   };
 }
 
-export function automationsAPIAutomationSourceArraySerializer(
-  result: Array<AutomationsAPIAutomationSource>,
-): any[] {
+export function automationSourceArraySerializer(result: Array<AutomationSource>): any[] {
   return result.map((item) => {
-    return automationsAPIAutomationSourceSerializer(item);
+    return automationSourceSerializer(item);
   });
 }
 
-export function automationsAPIAutomationSourceArrayDeserializer(
-  result: Array<AutomationsAPIAutomationSource>,
-): any[] {
+export function automationSourceArrayDeserializer(result: Array<AutomationSource>): any[] {
   return result.map((item) => {
-    return automationsAPIAutomationSourceDeserializer(item);
+    return automationSourceDeserializer(item);
   });
 }
 
 /** The source event types which evaluate the security automation set of rules. For example - security alerts and security assessments. To learn more about the supported security events data models schemas - please visit https://aka.ms/ASCAutomationSchemas. */
-export interface AutomationsAPIAutomationSource {
+export interface AutomationSource {
   /** A valid event source type. */
-  eventSource?: AutomationsAPIEventSource;
+  eventSource?: EventSource;
   /** A set of rules which evaluate upon event interception. A logical disjunction is applied between defined rule sets (logical 'or'). */
-  ruleSets?: AutomationsAPIAutomationRuleSet[];
+  ruleSets?: AutomationRuleSet[];
 }
 
-export function automationsAPIAutomationSourceSerializer(
-  item: AutomationsAPIAutomationSource,
-): any {
+export function automationSourceSerializer(item: AutomationSource): any {
   return {
     eventSource: item["eventSource"],
     ruleSets: !item["ruleSets"]
       ? item["ruleSets"]
-      : automationsAPIAutomationRuleSetArraySerializer(item["ruleSets"]),
+      : automationRuleSetArraySerializer(item["ruleSets"]),
   };
 }
 
-export function automationsAPIAutomationSourceDeserializer(
-  item: any,
-): AutomationsAPIAutomationSource {
+export function automationSourceDeserializer(item: any): AutomationSource {
   return {
     eventSource: item["eventSource"],
     ruleSets: !item["ruleSets"]
       ? item["ruleSets"]
-      : automationsAPIAutomationRuleSetArrayDeserializer(item["ruleSets"]),
+      : automationRuleSetArrayDeserializer(item["ruleSets"]),
   };
 }
 
 /** A valid event source type. */
-export enum KnownAutomationsAPIEventSource {
+export enum KnownEventSource {
   /** Assessments */
   Assessments = "Assessments",
   /** AssessmentsSnapshot */
@@ -237,7 +213,7 @@ export enum KnownAutomationsAPIEventSource {
 
 /**
  * A valid event source type. \
- * {@link KnownAutomationsAPIEventSource} can be used interchangeably with AutomationsAPIEventSource,
+ * {@link KnownEventSource} can be used interchangeably with EventSource,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Assessments**: Assessments \
@@ -254,80 +230,68 @@ export enum KnownAutomationsAPIEventSource {
  * **AttackPaths**: AttackPaths \
  * **AttackPathsSnapshot**: AttackPathsSnapshot
  */
-export type AutomationsAPIEventSource = string;
+export type EventSource = string;
 
-export function automationsAPIAutomationRuleSetArraySerializer(
-  result: Array<AutomationsAPIAutomationRuleSet>,
-): any[] {
+export function automationRuleSetArraySerializer(result: Array<AutomationRuleSet>): any[] {
   return result.map((item) => {
-    return automationsAPIAutomationRuleSetSerializer(item);
+    return automationRuleSetSerializer(item);
   });
 }
 
-export function automationsAPIAutomationRuleSetArrayDeserializer(
-  result: Array<AutomationsAPIAutomationRuleSet>,
-): any[] {
+export function automationRuleSetArrayDeserializer(result: Array<AutomationRuleSet>): any[] {
   return result.map((item) => {
-    return automationsAPIAutomationRuleSetDeserializer(item);
+    return automationRuleSetDeserializer(item);
   });
 }
 
 /** A rule set which evaluates all its rules upon an event interception. Only when all the included rules in the rule set will be evaluated as 'true', will the event trigger the defined actions. */
-export interface AutomationsAPIAutomationRuleSet {
-  rules?: AutomationsAPIAutomationTriggeringRule[];
+export interface AutomationRuleSet {
+  rules?: AutomationTriggeringRule[];
 }
 
-export function automationsAPIAutomationRuleSetSerializer(
-  item: AutomationsAPIAutomationRuleSet,
-): any {
+export function automationRuleSetSerializer(item: AutomationRuleSet): any {
   return {
-    rules: !item["rules"]
-      ? item["rules"]
-      : automationsAPIAutomationTriggeringRuleArraySerializer(item["rules"]),
+    rules: !item["rules"] ? item["rules"] : automationTriggeringRuleArraySerializer(item["rules"]),
   };
 }
 
-export function automationsAPIAutomationRuleSetDeserializer(
-  item: any,
-): AutomationsAPIAutomationRuleSet {
+export function automationRuleSetDeserializer(item: any): AutomationRuleSet {
   return {
     rules: !item["rules"]
       ? item["rules"]
-      : automationsAPIAutomationTriggeringRuleArrayDeserializer(item["rules"]),
+      : automationTriggeringRuleArrayDeserializer(item["rules"]),
   };
 }
 
-export function automationsAPIAutomationTriggeringRuleArraySerializer(
-  result: Array<AutomationsAPIAutomationTriggeringRule>,
+export function automationTriggeringRuleArraySerializer(
+  result: Array<AutomationTriggeringRule>,
 ): any[] {
   return result.map((item) => {
-    return automationsAPIAutomationTriggeringRuleSerializer(item);
+    return automationTriggeringRuleSerializer(item);
   });
 }
 
-export function automationsAPIAutomationTriggeringRuleArrayDeserializer(
-  result: Array<AutomationsAPIAutomationTriggeringRule>,
+export function automationTriggeringRuleArrayDeserializer(
+  result: Array<AutomationTriggeringRule>,
 ): any[] {
   return result.map((item) => {
-    return automationsAPIAutomationTriggeringRuleDeserializer(item);
+    return automationTriggeringRuleDeserializer(item);
   });
 }
 
 /** A rule which is evaluated upon event interception. The rule is configured by comparing a specific value from the event model to an expected value. This comparison is done by using one of the supported operators set. */
-export interface AutomationsAPIAutomationTriggeringRule {
+export interface AutomationTriggeringRule {
   /** The JPath of the entity model property that should be checked. */
   propertyJPath?: string;
   /** The data type of the compared operands (string, integer, floating point number or a boolean [true/false]] */
-  propertyType?: AutomationsAPIPropertyType;
+  propertyType?: PropertyType;
   /** The expected value. */
   expectedValue?: string;
   /** A valid comparer operator to use. A case-insensitive comparison will be applied for String PropertyType. */
-  operator?: AutomationsAPIOperator;
+  operator?: Operator;
 }
 
-export function automationsAPIAutomationTriggeringRuleSerializer(
-  item: AutomationsAPIAutomationTriggeringRule,
-): any {
+export function automationTriggeringRuleSerializer(item: AutomationTriggeringRule): any {
   return {
     propertyJPath: item["propertyJPath"],
     propertyType: item["propertyType"],
@@ -336,9 +300,7 @@ export function automationsAPIAutomationTriggeringRuleSerializer(
   };
 }
 
-export function automationsAPIAutomationTriggeringRuleDeserializer(
-  item: any,
-): AutomationsAPIAutomationTriggeringRule {
+export function automationTriggeringRuleDeserializer(item: any): AutomationTriggeringRule {
   return {
     propertyJPath: item["propertyJPath"],
     propertyType: item["propertyType"],
@@ -348,7 +310,7 @@ export function automationsAPIAutomationTriggeringRuleDeserializer(
 }
 
 /** The data type of the compared operands (string, integer, floating point number or a boolean [true/false]] */
-export enum KnownAutomationsAPIPropertyType {
+export enum KnownPropertyType {
   /** String */
   String = "String",
   /** Integer */
@@ -361,7 +323,7 @@ export enum KnownAutomationsAPIPropertyType {
 
 /**
  * The data type of the compared operands (string, integer, floating point number or a boolean [true/false]] \
- * {@link KnownAutomationsAPIPropertyType} can be used interchangeably with AutomationsAPIPropertyType,
+ * {@link KnownPropertyType} can be used interchangeably with PropertyType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **String**: String \
@@ -369,10 +331,10 @@ export enum KnownAutomationsAPIPropertyType {
  * **Number**: Number \
  * **Boolean**: Boolean
  */
-export type AutomationsAPIPropertyType = string;
+export type PropertyType = string;
 
 /** A valid comparer operator to use. A case-insensitive comparison will be applied for String PropertyType. */
-export enum KnownAutomationsAPIOperator {
+export enum KnownOperator {
   /** Applies for decimal and non-decimal operands */
   Equals = "Equals",
   /** Applies only for decimal operands */
@@ -395,7 +357,7 @@ export enum KnownAutomationsAPIOperator {
 
 /**
  * A valid comparer operator to use. A case-insensitive comparison will be applied for String PropertyType. \
- * {@link KnownAutomationsAPIOperator} can be used interchangeably with AutomationsAPIOperator,
+ * {@link KnownOperator} can be used interchangeably with Operator,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Equals**: Applies for decimal and non-decimal operands \
@@ -408,102 +370,80 @@ export enum KnownAutomationsAPIOperator {
  * **StartsWith**: Applies only for non-decimal operands \
  * **EndsWith**: Applies only for non-decimal operands
  */
-export type AutomationsAPIOperator = string;
+export type Operator = string;
 
-export function automationsAPIAutomationActionUnionArraySerializer(
-  result: Array<AutomationsAPIAutomationActionUnion>,
-): any[] {
+export function automationActionUnionArraySerializer(result: Array<AutomationActionUnion>): any[] {
   return result.map((item) => {
-    return automationsAPIAutomationActionUnionSerializer(item);
+    return automationActionUnionSerializer(item);
   });
 }
 
-export function automationsAPIAutomationActionUnionArrayDeserializer(
-  result: Array<AutomationsAPIAutomationActionUnion>,
+export function automationActionUnionArrayDeserializer(
+  result: Array<AutomationActionUnion>,
 ): any[] {
   return result.map((item) => {
-    return automationsAPIAutomationActionUnionDeserializer(item);
+    return automationActionUnionDeserializer(item);
   });
 }
 
 /** The action that should be triggered. */
-export interface AutomationsAPIAutomationAction {
+export interface AutomationAction {
   /** The type of the action that will be triggered by the Automation */
   /** The discriminator possible values: LogicApp, EventHub, Workspace */
-  actionType: CommonActionType;
+  actionType: ActionType;
 }
 
-export function automationsAPIAutomationActionSerializer(
-  item: AutomationsAPIAutomationAction,
-): any {
+export function automationActionSerializer(item: AutomationAction): any {
   return { actionType: item["actionType"] };
 }
 
-export function automationsAPIAutomationActionDeserializer(
-  item: any,
-): AutomationsAPIAutomationAction {
+export function automationActionDeserializer(item: any): AutomationAction {
   return {
     actionType: item["actionType"],
   };
 }
 
-/** Alias for AutomationsAPIAutomationActionUnion */
-export type AutomationsAPIAutomationActionUnion =
-  | AutomationsAPIAutomationActionLogicApp
-  | AutomationsAPIAutomationActionEventHub
-  | AutomationsAPIAutomationActionWorkspace
-  | AutomationsAPIAutomationAction;
+/** Alias for AutomationActionUnion */
+export type AutomationActionUnion =
+  | AutomationActionLogicApp
+  | AutomationActionEventHub
+  | AutomationActionWorkspace
+  | AutomationAction;
 
-export function automationsAPIAutomationActionUnionSerializer(
-  item: AutomationsAPIAutomationActionUnion,
-): any {
+export function automationActionUnionSerializer(item: AutomationActionUnion): any {
   switch (item.actionType) {
     case "LogicApp":
-      return automationsAPIAutomationActionLogicAppSerializer(
-        item as AutomationsAPIAutomationActionLogicApp,
-      );
+      return automationActionLogicAppSerializer(item as AutomationActionLogicApp);
 
     case "EventHub":
-      return automationsAPIAutomationActionEventHubSerializer(
-        item as AutomationsAPIAutomationActionEventHub,
-      );
+      return automationActionEventHubSerializer(item as AutomationActionEventHub);
 
     case "Workspace":
-      return automationsAPIAutomationActionWorkspaceSerializer(
-        item as AutomationsAPIAutomationActionWorkspace,
-      );
+      return automationActionWorkspaceSerializer(item as AutomationActionWorkspace);
 
     default:
-      return automationsAPIAutomationActionSerializer(item);
+      return automationActionSerializer(item);
   }
 }
 
-export function automationsAPIAutomationActionUnionDeserializer(
-  item: any,
-): AutomationsAPIAutomationActionUnion {
+export function automationActionUnionDeserializer(item: any): AutomationActionUnion {
   switch (item["actionType"]) {
     case "LogicApp":
-      return automationsAPIAutomationActionLogicAppDeserializer(
-        item as AutomationsAPIAutomationActionLogicApp,
-      );
+      return automationActionLogicAppDeserializer(item as AutomationActionLogicApp);
 
     case "EventHub":
-      return automationsAPIAutomationActionEventHubDeserializer(
-        item as AutomationsAPIAutomationActionEventHub,
-      );
+      return automationActionEventHubDeserializer(item as AutomationActionEventHub);
 
     case "Workspace":
-      return automationsAPIAutomationActionWorkspaceDeserializer(
-        item as AutomationsAPIAutomationActionWorkspace,
-      );
+      return automationActionWorkspaceDeserializer(item as AutomationActionWorkspace);
 
     default:
-      return automationsAPIAutomationActionDeserializer(item);
+      return automationActionDeserializer(item);
   }
 }
 
 /** The logic app action that should be triggered. To learn more about Microsoft Defender for Cloud's Workflow Automation capabilities, visit https://aka.ms/ASCWorkflowAutomationLearnMore */
-export interface AutomationsAPIAutomationActionLogicApp extends AutomationsAPIAutomationAction {
+export interface AutomationActionLogicApp extends AutomationAction {
   /** The triggered Logic App Azure Resource ID. This can also reside on other subscriptions, given that you have permissions to trigger the Logic App */
   logicAppResourceId?: string;
   /** The Logic App trigger URI endpoint (it will not be included in any response). */
@@ -512,9 +452,7 @@ export interface AutomationsAPIAutomationActionLogicApp extends AutomationsAPIAu
   actionType: "LogicApp";
 }
 
-export function automationsAPIAutomationActionLogicAppSerializer(
-  item: AutomationsAPIAutomationActionLogicApp,
-): any {
+export function automationActionLogicAppSerializer(item: AutomationActionLogicApp): any {
   return {
     actionType: item["actionType"],
     logicAppResourceId: item["logicAppResourceId"],
@@ -522,9 +460,7 @@ export function automationsAPIAutomationActionLogicAppSerializer(
   };
 }
 
-export function automationsAPIAutomationActionLogicAppDeserializer(
-  item: any,
-): AutomationsAPIAutomationActionLogicApp {
+export function automationActionLogicAppDeserializer(item: any): AutomationActionLogicApp {
   return {
     actionType: item["actionType"],
     logicAppResourceId: item["logicAppResourceId"],
@@ -533,7 +469,7 @@ export function automationsAPIAutomationActionLogicAppDeserializer(
 }
 
 /** The target Event Hub to which event data will be exported. To learn more about Microsoft Defender for Cloud continuous export capabilities, visit https://aka.ms/ASCExportLearnMore */
-export interface AutomationsAPIAutomationActionEventHub extends AutomationsAPIAutomationAction {
+export interface AutomationActionEventHub extends AutomationAction {
   /** The target Event Hub Azure Resource ID. */
   eventHubResourceId?: string;
   /** The target Event Hub SAS policy name. */
@@ -546,9 +482,7 @@ export interface AutomationsAPIAutomationActionEventHub extends AutomationsAPIAu
   actionType: "EventHub";
 }
 
-export function automationsAPIAutomationActionEventHubSerializer(
-  item: AutomationsAPIAutomationActionEventHub,
-): any {
+export function automationActionEventHubSerializer(item: AutomationActionEventHub): any {
   return {
     actionType: item["actionType"],
     eventHubResourceId: item["eventHubResourceId"],
@@ -557,9 +491,7 @@ export function automationsAPIAutomationActionEventHubSerializer(
   };
 }
 
-export function automationsAPIAutomationActionEventHubDeserializer(
-  item: any,
-): AutomationsAPIAutomationActionEventHub {
+export function automationActionEventHubDeserializer(item: any): AutomationActionEventHub {
   return {
     actionType: item["actionType"],
     eventHubResourceId: item["eventHubResourceId"],
@@ -570,22 +502,18 @@ export function automationsAPIAutomationActionEventHubDeserializer(
 }
 
 /** The Log Analytics Workspace to which event data will be exported. Security alerts data will reside in the 'SecurityAlert' table and the assessments data will reside in the 'SecurityRecommendation' table (under the 'Security'/'SecurityCenterFree' solutions). Note that in order to view the data in the workspace, the Security Center Log Analytics free/standard solution needs to be enabled on that workspace. To learn more about Microsoft Defender for Cloud continuous export capabilities, visit https://aka.ms/ASCExportLearnMore */
-export interface AutomationsAPIAutomationActionWorkspace extends AutomationsAPIAutomationAction {
+export interface AutomationActionWorkspace extends AutomationAction {
   /** The fully qualified Log Analytics Workspace Azure Resource ID. */
   workspaceResourceId?: string;
   /** The type of the action that will be triggered by the Automation */
   actionType: "Workspace";
 }
 
-export function automationsAPIAutomationActionWorkspaceSerializer(
-  item: AutomationsAPIAutomationActionWorkspace,
-): any {
+export function automationActionWorkspaceSerializer(item: AutomationActionWorkspace): any {
   return { actionType: item["actionType"], workspaceResourceId: item["workspaceResourceId"] };
 }
 
-export function automationsAPIAutomationActionWorkspaceDeserializer(
-  item: any,
-): AutomationsAPIAutomationActionWorkspace {
+export function automationActionWorkspaceDeserializer(item: any): AutomationActionWorkspace {
   return {
     actionType: item["actionType"],
     workspaceResourceId: item["workspaceResourceId"],
@@ -593,22 +521,20 @@ export function automationsAPIAutomationActionWorkspaceDeserializer(
 }
 
 /** The update model of security automation resource. */
-export interface AutomationsAPIAutomationUpdateModel extends CommonTags {
+export interface AutomationUpdateModel extends Tags {
   /** The security automation description. */
   description?: string;
   /** Indicates whether the security automation is enabled. */
   isEnabled?: boolean;
   /** A collection of scopes on which the security automations logic is applied. Supported scopes are the subscription itself or a resource group under that subscription. The automation will only apply on defined scopes. */
-  scopes?: AutomationsAPIAutomationScope[];
+  scopes?: AutomationScope[];
   /** A collection of the source event types which evaluate the security automation set of rules. */
-  sources?: AutomationsAPIAutomationSource[];
+  sources?: AutomationSource[];
   /** A collection of the actions which are triggered if all the configured rules evaluations, within at least one rule set, are true. */
-  actions?: AutomationsAPIAutomationActionUnion[];
+  actions?: AutomationActionUnion[];
 }
 
-export function automationsAPIAutomationUpdateModelSerializer(
-  item: AutomationsAPIAutomationUpdateModel,
-): any {
+export function automationUpdateModelSerializer(item: AutomationUpdateModel): any {
   return {
     tags: item["tags"],
     properties: areAllPropsUndefined(item, [
@@ -624,49 +550,41 @@ export function automationsAPIAutomationUpdateModelSerializer(
 }
 
 /** List of security automations response. */
-export interface _AutomationsAPIAutomationList {
+export interface _AutomationList {
   /** The Automation items on this page */
-  value: AutomationsAPIAutomation[];
+  value: Automation[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _automationsAPIAutomationListDeserializer(
-  item: any,
-): _AutomationsAPIAutomationList {
+export function _automationListDeserializer(item: any): _AutomationList {
   return {
-    value: automationsAPIAutomationArrayDeserializer(item["value"]),
+    value: automationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function automationsAPIAutomationArraySerializer(
-  result: Array<AutomationsAPIAutomation>,
-): any[] {
+export function automationArraySerializer(result: Array<Automation>): any[] {
   return result.map((item) => {
-    return automationsAPIAutomationSerializer(item);
+    return automationSerializer(item);
   });
 }
 
-export function automationsAPIAutomationArrayDeserializer(
-  result: Array<AutomationsAPIAutomation>,
-): any[] {
+export function automationArrayDeserializer(result: Array<Automation>): any[] {
   return result.map((item) => {
-    return automationsAPIAutomationDeserializer(item);
+    return automationDeserializer(item);
   });
 }
 
 /** The security automation model state property bag. */
-export interface AutomationsAPIAutomationValidationStatus {
+export interface AutomationValidationStatus {
   /** Indicates whether the model is valid or not. */
   isValid?: boolean;
   /** The validation message. */
   message?: string;
 }
 
-export function automationsAPIAutomationValidationStatusDeserializer(
-  item: any,
-): AutomationsAPIAutomationValidationStatus {
+export function automationValidationStatusDeserializer(item: any): AutomationValidationStatus {
   return {
     isValid: item["isValid"],
     message: item["message"],
@@ -674,7 +592,7 @@ export function automationsAPIAutomationValidationStatusDeserializer(
 }
 
 /** Contact details and configurations for notifications coming from Microsoft Defender for Cloud. */
-export interface AutomationsAPISecurityContact extends ProxyResource {
+export interface SecurityContact extends ProxyResource {
   /** List of email addresses which will get notifications from Microsoft Defender for Cloud by the configurations defined in this security contact. */
   emails?: string;
   /** The security contact's phone number */
@@ -682,12 +600,12 @@ export interface AutomationsAPISecurityContact extends ProxyResource {
   /** Indicates whether the security contact is enabled. */
   isEnabled?: boolean;
   /** A collection of sources types which evaluate the email notification. */
-  notificationsSources?: AutomationsAPINotificationsSourceUnion[];
+  notificationsSources?: NotificationsSourceUnion[];
   /** Defines whether to send email notifications from Microsoft Defender for Cloud to persons with specific RBAC roles on the subscription. */
-  notificationsByRole?: AutomationsAPISecurityContactPropertiesNotificationsByRole;
+  notificationsByRole?: SecurityContactPropertiesNotificationsByRole;
 }
 
-export function automationsAPISecurityContactSerializer(item: AutomationsAPISecurityContact): any {
+export function securityContactSerializer(item: SecurityContact): any {
   return {
     properties: areAllPropsUndefined(item, [
       "emails",
@@ -701,9 +619,7 @@ export function automationsAPISecurityContactSerializer(item: AutomationsAPISecu
   };
 }
 
-export function automationsAPISecurityContactDeserializer(
-  item: any,
-): AutomationsAPISecurityContact {
+export function securityContactDeserializer(item: any): SecurityContact {
   return {
     id: item["id"],
     name: item["name"],
@@ -718,7 +634,7 @@ export function automationsAPISecurityContactDeserializer(
 }
 
 /** Describes security contact properties */
-export interface AutomationsAPISecurityContactProperties {
+export interface SecurityContactProperties {
   /** List of email addresses which will get notifications from Microsoft Defender for Cloud by the configurations defined in this security contact. */
   emails?: string;
   /** The security contact's phone number */
@@ -726,130 +642,106 @@ export interface AutomationsAPISecurityContactProperties {
   /** Indicates whether the security contact is enabled. */
   isEnabled?: boolean;
   /** A collection of sources types which evaluate the email notification. */
-  notificationsSources?: AutomationsAPINotificationsSourceUnion[];
+  notificationsSources?: NotificationsSourceUnion[];
   /** Defines whether to send email notifications from Microsoft Defender for Cloud to persons with specific RBAC roles on the subscription. */
-  notificationsByRole?: AutomationsAPISecurityContactPropertiesNotificationsByRole;
+  notificationsByRole?: SecurityContactPropertiesNotificationsByRole;
 }
 
-export function automationsAPISecurityContactPropertiesSerializer(
-  item: AutomationsAPISecurityContactProperties,
-): any {
+export function securityContactPropertiesSerializer(item: SecurityContactProperties): any {
   return {
     emails: item["emails"],
     phone: item["phone"],
     isEnabled: item["isEnabled"],
     notificationsSources: !item["notificationsSources"]
       ? item["notificationsSources"]
-      : automationsAPINotificationsSourceUnionArraySerializer(item["notificationsSources"]),
+      : notificationsSourceUnionArraySerializer(item["notificationsSources"]),
     notificationsByRole: !item["notificationsByRole"]
       ? item["notificationsByRole"]
-      : automationsAPISecurityContactPropertiesNotificationsByRoleSerializer(
-          item["notificationsByRole"],
-        ),
+      : securityContactPropertiesNotificationsByRoleSerializer(item["notificationsByRole"]),
   };
 }
 
-export function automationsAPISecurityContactPropertiesDeserializer(
-  item: any,
-): AutomationsAPISecurityContactProperties {
+export function securityContactPropertiesDeserializer(item: any): SecurityContactProperties {
   return {
     emails: item["emails"],
     phone: item["phone"],
     isEnabled: item["isEnabled"],
     notificationsSources: !item["notificationsSources"]
       ? item["notificationsSources"]
-      : automationsAPINotificationsSourceUnionArrayDeserializer(item["notificationsSources"]),
+      : notificationsSourceUnionArrayDeserializer(item["notificationsSources"]),
     notificationsByRole: !item["notificationsByRole"]
       ? item["notificationsByRole"]
-      : automationsAPISecurityContactPropertiesNotificationsByRoleDeserializer(
-          item["notificationsByRole"],
-        ),
+      : securityContactPropertiesNotificationsByRoleDeserializer(item["notificationsByRole"]),
   };
 }
 
-export function automationsAPINotificationsSourceUnionArraySerializer(
-  result: Array<AutomationsAPINotificationsSourceUnion>,
+export function notificationsSourceUnionArraySerializer(
+  result: Array<NotificationsSourceUnion>,
 ): any[] {
   return result.map((item) => {
-    return automationsAPINotificationsSourceUnionSerializer(item);
+    return notificationsSourceUnionSerializer(item);
   });
 }
 
-export function automationsAPINotificationsSourceUnionArrayDeserializer(
-  result: Array<AutomationsAPINotificationsSourceUnion>,
+export function notificationsSourceUnionArrayDeserializer(
+  result: Array<NotificationsSourceUnion>,
 ): any[] {
   return result.map((item) => {
-    return automationsAPINotificationsSourceUnionDeserializer(item);
+    return notificationsSourceUnionDeserializer(item);
   });
 }
 
 /** A valid notification source type */
-export interface AutomationsAPINotificationsSource {
+export interface NotificationsSource {
   /** The source type that will trigger the notification */
   /** The discriminator possible values: Alert, AttackPath */
-  sourceType: AutomationsAPISourceType;
+  sourceType: SourceType;
 }
 
-export function automationsAPINotificationsSourceSerializer(
-  item: AutomationsAPINotificationsSource,
-): any {
+export function notificationsSourceSerializer(item: NotificationsSource): any {
   return { sourceType: item["sourceType"] };
 }
 
-export function automationsAPINotificationsSourceDeserializer(
-  item: any,
-): AutomationsAPINotificationsSource {
+export function notificationsSourceDeserializer(item: any): NotificationsSource {
   return {
     sourceType: item["sourceType"],
   };
 }
 
-/** Alias for AutomationsAPINotificationsSourceUnion */
-export type AutomationsAPINotificationsSourceUnion =
-  | AutomationsAPINotificationsSourceAlert
-  | AutomationsAPINotificationsSourceAttackPath
-  | AutomationsAPINotificationsSource;
+/** Alias for NotificationsSourceUnion */
+export type NotificationsSourceUnion =
+  | NotificationsSourceAlert
+  | NotificationsSourceAttackPath
+  | NotificationsSource;
 
-export function automationsAPINotificationsSourceUnionSerializer(
-  item: AutomationsAPINotificationsSourceUnion,
-): any {
+export function notificationsSourceUnionSerializer(item: NotificationsSourceUnion): any {
   switch (item.sourceType) {
     case "Alert":
-      return automationsAPINotificationsSourceAlertSerializer(
-        item as AutomationsAPINotificationsSourceAlert,
-      );
+      return notificationsSourceAlertSerializer(item as NotificationsSourceAlert);
 
     case "AttackPath":
-      return automationsAPINotificationsSourceAttackPathSerializer(
-        item as AutomationsAPINotificationsSourceAttackPath,
-      );
+      return notificationsSourceAttackPathSerializer(item as NotificationsSourceAttackPath);
 
     default:
-      return automationsAPINotificationsSourceSerializer(item);
+      return notificationsSourceSerializer(item);
   }
 }
 
-export function automationsAPINotificationsSourceUnionDeserializer(
-  item: any,
-): AutomationsAPINotificationsSourceUnion {
+export function notificationsSourceUnionDeserializer(item: any): NotificationsSourceUnion {
   switch (item["sourceType"]) {
     case "Alert":
-      return automationsAPINotificationsSourceAlertDeserializer(
-        item as AutomationsAPINotificationsSourceAlert,
-      );
+      return notificationsSourceAlertDeserializer(item as NotificationsSourceAlert);
 
     case "AttackPath":
-      return automationsAPINotificationsSourceAttackPathDeserializer(
-        item as AutomationsAPINotificationsSourceAttackPath,
-      );
+      return notificationsSourceAttackPathDeserializer(item as NotificationsSourceAttackPath);
 
     default:
-      return automationsAPINotificationsSourceDeserializer(item);
+      return notificationsSourceDeserializer(item);
   }
 }
 
 /** The source type that will trigger the notification */
-export enum KnownAutomationsAPISourceType {
+export enum KnownSourceType {
   /** Alert */
   Alert = "Alert",
   /** AttackPath */
@@ -858,31 +750,27 @@ export enum KnownAutomationsAPISourceType {
 
 /**
  * The source type that will trigger the notification \
- * {@link KnownAutomationsAPISourceType} can be used interchangeably with AutomationsAPISourceType,
+ * {@link KnownSourceType} can be used interchangeably with SourceType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Alert**: Alert \
  * **AttackPath**: AttackPath
  */
-export type AutomationsAPISourceType = string;
+export type SourceType = string;
 
 /** Alert notification source */
-export interface AutomationsAPINotificationsSourceAlert extends AutomationsAPINotificationsSource {
+export interface NotificationsSourceAlert extends NotificationsSource {
   /** Defines the minimal alert severity which will be sent as email notifications */
-  minimalSeverity?: AutomationsAPIMinimalSeverity;
+  minimalSeverity?: MinimalSeverity;
   /** The source type that will trigger the notification */
   sourceType: "Alert";
 }
 
-export function automationsAPINotificationsSourceAlertSerializer(
-  item: AutomationsAPINotificationsSourceAlert,
-): any {
+export function notificationsSourceAlertSerializer(item: NotificationsSourceAlert): any {
   return { sourceType: item["sourceType"], minimalSeverity: item["minimalSeverity"] };
 }
 
-export function automationsAPINotificationsSourceAlertDeserializer(
-  item: any,
-): AutomationsAPINotificationsSourceAlert {
+export function notificationsSourceAlertDeserializer(item: any): NotificationsSourceAlert {
   return {
     sourceType: item["sourceType"],
     minimalSeverity: item["minimalSeverity"],
@@ -890,7 +778,7 @@ export function automationsAPINotificationsSourceAlertDeserializer(
 }
 
 /** Defines the minimal alert severity which will be sent as email notifications */
-export enum KnownAutomationsAPIMinimalSeverity {
+export enum KnownMinimalSeverity {
   /** Get notifications on new alerts with High severity */
   High = "High",
   /** Get notifications on new alerts with Medium or High severity */
@@ -901,32 +789,30 @@ export enum KnownAutomationsAPIMinimalSeverity {
 
 /**
  * Defines the minimal alert severity which will be sent as email notifications \
- * {@link KnownAutomationsAPIMinimalSeverity} can be used interchangeably with AutomationsAPIMinimalSeverity,
+ * {@link KnownMinimalSeverity} can be used interchangeably with MinimalSeverity,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **High**: Get notifications on new alerts with High severity \
  * **Medium**: Get notifications on new alerts with Medium or High severity \
  * **Low**: Get notifications on new alerts with Low, Medium or High severity
  */
-export type AutomationsAPIMinimalSeverity = string;
+export type MinimalSeverity = string;
 
 /** Attack path notification source */
-export interface AutomationsAPINotificationsSourceAttackPath extends AutomationsAPINotificationsSource {
+export interface NotificationsSourceAttackPath extends NotificationsSource {
   /** Defines the minimal attach path risk level which will be sent as email notifications */
-  minimalRiskLevel?: AutomationsAPIMinimalRiskLevel;
+  minimalRiskLevel?: MinimalRiskLevel;
   /** The source type that will trigger the notification */
   sourceType: "AttackPath";
 }
 
-export function automationsAPINotificationsSourceAttackPathSerializer(
-  item: AutomationsAPINotificationsSourceAttackPath,
-): any {
+export function notificationsSourceAttackPathSerializer(item: NotificationsSourceAttackPath): any {
   return { sourceType: item["sourceType"], minimalRiskLevel: item["minimalRiskLevel"] };
 }
 
-export function automationsAPINotificationsSourceAttackPathDeserializer(
+export function notificationsSourceAttackPathDeserializer(
   item: any,
-): AutomationsAPINotificationsSourceAttackPath {
+): NotificationsSourceAttackPath {
   return {
     sourceType: item["sourceType"],
     minimalRiskLevel: item["minimalRiskLevel"],
@@ -934,7 +820,7 @@ export function automationsAPINotificationsSourceAttackPathDeserializer(
 }
 
 /** Defines the minimal attack path risk level which will be sent as email notifications */
-export enum KnownAutomationsAPIMinimalRiskLevel {
+export enum KnownMinimalRiskLevel {
   /** Get notifications on new attack paths with Critical risk level */
   Critical = "Critical",
   /** Get notifications on new attack paths with High or Critical risk level */
@@ -947,7 +833,7 @@ export enum KnownAutomationsAPIMinimalRiskLevel {
 
 /**
  * Defines the minimal attack path risk level which will be sent as email notifications \
- * {@link KnownAutomationsAPIMinimalRiskLevel} can be used interchangeably with AutomationsAPIMinimalRiskLevel,
+ * {@link KnownMinimalRiskLevel} can be used interchangeably with MinimalRiskLevel,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Critical**: Get notifications on new attack paths with Critical risk level \
@@ -955,18 +841,18 @@ export enum KnownAutomationsAPIMinimalRiskLevel {
  * **Medium**: Get notifications on new attach paths with Medium, High or Critical risk level \
  * **Low**: Get notifications on new attach paths with Low, Medium, High or Critical risk level
  */
-export type AutomationsAPIMinimalRiskLevel = string;
+export type MinimalRiskLevel = string;
 
 /** Defines whether to send email notifications from Microsoft Defender for Cloud to persons with specific RBAC roles on the subscription. */
-export interface AutomationsAPISecurityContactPropertiesNotificationsByRole {
+export interface SecurityContactPropertiesNotificationsByRole {
   /** Defines whether to send email notifications from AMicrosoft Defender for Cloud to persons with specific RBAC roles on the subscription. */
-  state?: CommonState;
+  state?: State;
   /** Defines which RBAC roles will get email notifications from Microsoft Defender for Cloud. List of allowed RBAC roles: */
-  roles?: AutomationsAPISecurityContactRole[];
+  roles?: SecurityContactRole[];
 }
 
-export function automationsAPISecurityContactPropertiesNotificationsByRoleSerializer(
-  item: AutomationsAPISecurityContactPropertiesNotificationsByRole,
+export function securityContactPropertiesNotificationsByRoleSerializer(
+  item: SecurityContactPropertiesNotificationsByRole,
 ): any {
   return {
     state: item["state"],
@@ -978,9 +864,9 @@ export function automationsAPISecurityContactPropertiesNotificationsByRoleSerial
   };
 }
 
-export function automationsAPISecurityContactPropertiesNotificationsByRoleDeserializer(
+export function securityContactPropertiesNotificationsByRoleDeserializer(
   item: any,
-): AutomationsAPISecurityContactPropertiesNotificationsByRole {
+): SecurityContactPropertiesNotificationsByRole {
   return {
     state: item["state"],
     roles: !item["roles"]
@@ -992,7 +878,7 @@ export function automationsAPISecurityContactPropertiesNotificationsByRoleDeseri
 }
 
 /** A possible role to configure sending security notification alerts to */
-export enum KnownAutomationsAPISecurityContactRole {
+export enum KnownSecurityContactRole {
   /** If enabled, send notification on new alerts to the account admins */
   AccountAdmin = "AccountAdmin",
   /** If enabled, send notification on new alerts to the service admins */
@@ -1005,7 +891,7 @@ export enum KnownAutomationsAPISecurityContactRole {
 
 /**
  * A possible role to configure sending security notification alerts to \
- * {@link KnownAutomationsAPISecurityContactRole} can be used interchangeably with AutomationsAPISecurityContactRole,
+ * {@link KnownSecurityContactRole} can be used interchangeably with SecurityContactRole,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **AccountAdmin**: If enabled, send notification on new alerts to the account admins \
@@ -1013,63 +899,53 @@ export enum KnownAutomationsAPISecurityContactRole {
  * **Owner**: If enabled, send notification on new alerts to the subscription owners \
  * **Contributor**: If enabled, send notification on new alerts to the subscription contributors
  */
-export type AutomationsAPISecurityContactRole = string;
+export type SecurityContactRole = string;
 
 /** Known values of {@link SecurityContactName} that the service accepts. */
-export enum KnownAutomationsAPISecurityContactName {
+export enum KnownSecurityContactName {
   /** The single applicable name of the security contact object */
   Default = "default",
 }
 
-/** Type of AutomationsAPISecurityContactName */
-export type AutomationsAPISecurityContactName = string;
+/** Type of SecurityContactName */
+export type SecurityContactName = string;
 
 /** List of security contacts response */
-export interface _AutomationsAPISecurityContactList {
+export interface _SecurityContactList {
   /** The SecurityContact items on this page */
-  value: AutomationsAPISecurityContact[];
+  value: SecurityContact[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _automationsAPISecurityContactListDeserializer(
-  item: any,
-): _AutomationsAPISecurityContactList {
+export function _securityContactListDeserializer(item: any): _SecurityContactList {
   return {
-    value: automationsAPISecurityContactArrayDeserializer(item["value"]),
+    value: securityContactArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function automationsAPISecurityContactArraySerializer(
-  result: Array<AutomationsAPISecurityContact>,
-): any[] {
+export function securityContactArraySerializer(result: Array<SecurityContact>): any[] {
   return result.map((item) => {
-    return automationsAPISecurityContactSerializer(item);
+    return securityContactSerializer(item);
   });
 }
 
-export function automationsAPISecurityContactArrayDeserializer(
-  result: Array<AutomationsAPISecurityContact>,
-): any[] {
+export function securityContactArrayDeserializer(result: Array<SecurityContact>): any[] {
   return result.map((item) => {
-    return automationsAPISecurityContactDeserializer(item);
+    return securityContactDeserializer(item);
   });
 }
 
-export function _automationPropertiesSerializer(item: AutomationsAPIAutomation): any {
+export function _automationPropertiesSerializer(item: Automation): any {
   return {
     description: item["description"],
     isEnabled: item["isEnabled"],
-    scopes: !item["scopes"]
-      ? item["scopes"]
-      : automationsAPIAutomationScopeArraySerializer(item["scopes"]),
-    sources: !item["sources"]
-      ? item["sources"]
-      : automationsAPIAutomationSourceArraySerializer(item["sources"]),
+    scopes: !item["scopes"] ? item["scopes"] : automationScopeArraySerializer(item["scopes"]),
+    sources: !item["sources"] ? item["sources"] : automationSourceArraySerializer(item["sources"]),
     actions: !item["actions"]
       ? item["actions"]
-      : automationsAPIAutomationActionUnionArraySerializer(item["actions"]),
+      : automationActionUnionArraySerializer(item["actions"]),
   };
 }
 
@@ -1077,33 +953,25 @@ export function _automationPropertiesDeserializer(item: any) {
   return {
     description: item["description"],
     isEnabled: item["isEnabled"],
-    scopes: !item["scopes"]
-      ? item["scopes"]
-      : automationsAPIAutomationScopeArrayDeserializer(item["scopes"]),
+    scopes: !item["scopes"] ? item["scopes"] : automationScopeArrayDeserializer(item["scopes"]),
     sources: !item["sources"]
       ? item["sources"]
-      : automationsAPIAutomationSourceArrayDeserializer(item["sources"]),
+      : automationSourceArrayDeserializer(item["sources"]),
     actions: !item["actions"]
       ? item["actions"]
-      : automationsAPIAutomationActionUnionArrayDeserializer(item["actions"]),
+      : automationActionUnionArrayDeserializer(item["actions"]),
   };
 }
 
-export function _automationUpdateModelPropertiesSerializer(
-  item: AutomationsAPIAutomationUpdateModel,
-): any {
+export function _automationUpdateModelPropertiesSerializer(item: AutomationUpdateModel): any {
   return {
     description: item["description"],
     isEnabled: item["isEnabled"],
-    scopes: !item["scopes"]
-      ? item["scopes"]
-      : automationsAPIAutomationScopeArraySerializer(item["scopes"]),
-    sources: !item["sources"]
-      ? item["sources"]
-      : automationsAPIAutomationSourceArraySerializer(item["sources"]),
+    scopes: !item["scopes"] ? item["scopes"] : automationScopeArraySerializer(item["scopes"]),
+    sources: !item["sources"] ? item["sources"] : automationSourceArraySerializer(item["sources"]),
     actions: !item["actions"]
       ? item["actions"]
-      : automationsAPIAutomationActionUnionArraySerializer(item["actions"]),
+      : automationActionUnionArraySerializer(item["actions"]),
   };
 }
 
@@ -1111,31 +979,27 @@ export function _automationUpdateModelPropertiesDeserializer(item: any) {
   return {
     description: item["description"],
     isEnabled: item["isEnabled"],
-    scopes: !item["scopes"]
-      ? item["scopes"]
-      : automationsAPIAutomationScopeArrayDeserializer(item["scopes"]),
+    scopes: !item["scopes"] ? item["scopes"] : automationScopeArrayDeserializer(item["scopes"]),
     sources: !item["sources"]
       ? item["sources"]
-      : automationsAPIAutomationSourceArrayDeserializer(item["sources"]),
+      : automationSourceArrayDeserializer(item["sources"]),
     actions: !item["actions"]
       ? item["actions"]
-      : automationsAPIAutomationActionUnionArrayDeserializer(item["actions"]),
+      : automationActionUnionArrayDeserializer(item["actions"]),
   };
 }
 
-export function _securityContactPropertiesSerializer(item: AutomationsAPISecurityContact): any {
+export function _securityContactPropertiesSerializer(item: SecurityContact): any {
   return {
     emails: item["emails"],
     phone: item["phone"],
     isEnabled: item["isEnabled"],
     notificationsSources: !item["notificationsSources"]
       ? item["notificationsSources"]
-      : automationsAPINotificationsSourceUnionArraySerializer(item["notificationsSources"]),
+      : notificationsSourceUnionArraySerializer(item["notificationsSources"]),
     notificationsByRole: !item["notificationsByRole"]
       ? item["notificationsByRole"]
-      : automationsAPISecurityContactPropertiesNotificationsByRoleSerializer(
-          item["notificationsByRole"],
-        ),
+      : securityContactPropertiesNotificationsByRoleSerializer(item["notificationsByRole"]),
   };
 }
 
@@ -1146,11 +1010,9 @@ export function _securityContactPropertiesDeserializer(item: any) {
     isEnabled: item["isEnabled"],
     notificationsSources: !item["notificationsSources"]
       ? item["notificationsSources"]
-      : automationsAPINotificationsSourceUnionArrayDeserializer(item["notificationsSources"]),
+      : notificationsSourceUnionArrayDeserializer(item["notificationsSources"]),
     notificationsByRole: !item["notificationsByRole"]
       ? item["notificationsByRole"]
-      : automationsAPISecurityContactPropertiesNotificationsByRoleDeserializer(
-          item["notificationsByRole"],
-        ),
+      : securityContactPropertiesNotificationsByRoleDeserializer(item["notificationsByRole"]),
   };
 }

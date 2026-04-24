@@ -8,7 +8,7 @@ import type {
   DiscoveredSecuritySolutionsListByHomeRegionOptionalParams,
   DiscoveredSecuritySolutionsGetOptionalParams,
 } from "../../api/discoveredSecuritySolutions/options.js";
-import type { SecuritySolutionsAPIDiscoveredSecuritySolution } from "../../models/securitySolutionsAPI/models.js";
+import type { DiscoveredSecuritySolution } from "../../models/securitySolutionsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DiscoveredSecuritySolutions operations. */
@@ -16,19 +16,19 @@ export interface DiscoveredSecuritySolutionsOperations {
   /** Gets a list of discovered Security Solutions for the subscription. */
   list: (
     options?: DiscoveredSecuritySolutionsListOptionalParams,
-  ) => PagedAsyncIterableIterator<SecuritySolutionsAPIDiscoveredSecuritySolution>;
+  ) => PagedAsyncIterableIterator<DiscoveredSecuritySolution>;
   /** Gets a list of discovered Security Solutions for the subscription and location. */
   listByHomeRegion: (
     ascLocation: string,
     options?: DiscoveredSecuritySolutionsListByHomeRegionOptionalParams,
-  ) => PagedAsyncIterableIterator<SecuritySolutionsAPIDiscoveredSecuritySolution>;
+  ) => PagedAsyncIterableIterator<DiscoveredSecuritySolution>;
   /** Gets a specific discovered Security Solution. */
   get: (
     resourceGroupName: string,
     ascLocation: string,
     discoveredSecuritySolutionName: string,
     options?: DiscoveredSecuritySolutionsGetOptionalParams,
-  ) => Promise<SecuritySolutionsAPIDiscoveredSecuritySolution>;
+  ) => Promise<DiscoveredSecuritySolution>;
 }
 
 function _getDiscoveredSecuritySolutions(context: SecurityCenterContext) {

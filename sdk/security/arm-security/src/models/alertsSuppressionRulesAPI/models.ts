@@ -13,7 +13,7 @@ import { systemDataDeserializer } from "../models.js";
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Describes the suppression rule */
-export interface AlertsSuppressionRulesAPIAlertsSuppressionRule extends ProxyResource {
+export interface AlertsSuppressionRule extends ProxyResource {
   /** Type of the alert to automatically suppress. For all alert types, use '*' */
   alertType?: string;
   /** The last time this rule was modified */
@@ -23,16 +23,14 @@ export interface AlertsSuppressionRulesAPIAlertsSuppressionRule extends ProxyRes
   /** The reason for dismissing the alert */
   reason?: string;
   /** Possible states of the rule */
-  state?: AlertsSuppressionRulesAPIRuleState;
+  state?: RuleState;
   /** Any comment regarding the rule */
   comment?: string;
   /** The suppression conditions */
-  suppressionAlertsScope?: AlertsSuppressionRulesAPISuppressionAlertsScope;
+  suppressionAlertsScope?: SuppressionAlertsScope;
 }
 
-export function alertsSuppressionRulesAPIAlertsSuppressionRuleSerializer(
-  item: AlertsSuppressionRulesAPIAlertsSuppressionRule,
-): any {
+export function alertsSuppressionRuleSerializer(item: AlertsSuppressionRule): any {
   return {
     properties: areAllPropsUndefined(item, [
       "alertType",
@@ -47,9 +45,7 @@ export function alertsSuppressionRulesAPIAlertsSuppressionRuleSerializer(
   };
 }
 
-export function alertsSuppressionRulesAPIAlertsSuppressionRuleDeserializer(
-  item: any,
-): AlertsSuppressionRulesAPIAlertsSuppressionRule {
+export function alertsSuppressionRuleDeserializer(item: any): AlertsSuppressionRule {
   return {
     id: item["id"],
     name: item["name"],
@@ -64,7 +60,7 @@ export function alertsSuppressionRulesAPIAlertsSuppressionRuleDeserializer(
 }
 
 /** describes AlertsSuppressionRule properties */
-export interface AlertsSuppressionRulesAPIAlertsSuppressionRuleProperties {
+export interface AlertsSuppressionRuleProperties {
   /** Type of the alert to automatically suppress. For all alert types, use '*' */
   alertType: string;
   /** The last time this rule was modified */
@@ -74,15 +70,15 @@ export interface AlertsSuppressionRulesAPIAlertsSuppressionRuleProperties {
   /** The reason for dismissing the alert */
   reason: string;
   /** Possible states of the rule */
-  state: AlertsSuppressionRulesAPIRuleState;
+  state: RuleState;
   /** Any comment regarding the rule */
   comment?: string;
   /** The suppression conditions */
-  suppressionAlertsScope?: AlertsSuppressionRulesAPISuppressionAlertsScope;
+  suppressionAlertsScope?: SuppressionAlertsScope;
 }
 
-export function alertsSuppressionRulesAPIAlertsSuppressionRulePropertiesSerializer(
-  item: AlertsSuppressionRulesAPIAlertsSuppressionRuleProperties,
+export function alertsSuppressionRulePropertiesSerializer(
+  item: AlertsSuppressionRuleProperties,
 ): any {
   return {
     alertType: item["alertType"],
@@ -94,13 +90,13 @@ export function alertsSuppressionRulesAPIAlertsSuppressionRulePropertiesSerializ
     comment: item["comment"],
     suppressionAlertsScope: !item["suppressionAlertsScope"]
       ? item["suppressionAlertsScope"]
-      : alertsSuppressionRulesAPISuppressionAlertsScopeSerializer(item["suppressionAlertsScope"]),
+      : suppressionAlertsScopeSerializer(item["suppressionAlertsScope"]),
   };
 }
 
-export function alertsSuppressionRulesAPIAlertsSuppressionRulePropertiesDeserializer(
+export function alertsSuppressionRulePropertiesDeserializer(
   item: any,
-): AlertsSuppressionRulesAPIAlertsSuppressionRuleProperties {
+): AlertsSuppressionRuleProperties {
   return {
     alertType: item["alertType"],
     lastModifiedUtc: !item["lastModifiedUtc"]
@@ -114,66 +110,54 @@ export function alertsSuppressionRulesAPIAlertsSuppressionRulePropertiesDeserial
     comment: item["comment"],
     suppressionAlertsScope: !item["suppressionAlertsScope"]
       ? item["suppressionAlertsScope"]
-      : alertsSuppressionRulesAPISuppressionAlertsScopeDeserializer(item["suppressionAlertsScope"]),
+      : suppressionAlertsScopeDeserializer(item["suppressionAlertsScope"]),
   };
 }
 
 /** Possible states of the rule */
-export type AlertsSuppressionRulesAPIRuleState = "Enabled" | "Disabled" | "Expired";
+export type RuleState = "Enabled" | "Disabled" | "Expired";
 
-/** model interface AlertsSuppressionRulesAPISuppressionAlertsScope */
-export interface AlertsSuppressionRulesAPISuppressionAlertsScope {
+/** model interface SuppressionAlertsScope */
+export interface SuppressionAlertsScope {
   /** All the conditions inside need to be true in order to suppress the alert */
-  allOf: AlertsSuppressionRulesAPIScopeElement[];
+  allOf: ScopeElement[];
 }
 
-export function alertsSuppressionRulesAPISuppressionAlertsScopeSerializer(
-  item: AlertsSuppressionRulesAPISuppressionAlertsScope,
-): any {
-  return { allOf: alertsSuppressionRulesAPIScopeElementArraySerializer(item["allOf"]) };
+export function suppressionAlertsScopeSerializer(item: SuppressionAlertsScope): any {
+  return { allOf: scopeElementArraySerializer(item["allOf"]) };
 }
 
-export function alertsSuppressionRulesAPISuppressionAlertsScopeDeserializer(
-  item: any,
-): AlertsSuppressionRulesAPISuppressionAlertsScope {
+export function suppressionAlertsScopeDeserializer(item: any): SuppressionAlertsScope {
   return {
-    allOf: alertsSuppressionRulesAPIScopeElementArrayDeserializer(item["allOf"]),
+    allOf: scopeElementArrayDeserializer(item["allOf"]),
   };
 }
 
-export function alertsSuppressionRulesAPIScopeElementArraySerializer(
-  result: Array<AlertsSuppressionRulesAPIScopeElement>,
-): any[] {
+export function scopeElementArraySerializer(result: Array<ScopeElement>): any[] {
   return result.map((item) => {
-    return alertsSuppressionRulesAPIScopeElementSerializer(item);
+    return scopeElementSerializer(item);
   });
 }
 
-export function alertsSuppressionRulesAPIScopeElementArrayDeserializer(
-  result: Array<AlertsSuppressionRulesAPIScopeElement>,
-): any[] {
+export function scopeElementArrayDeserializer(result: Array<ScopeElement>): any[] {
   return result.map((item) => {
-    return alertsSuppressionRulesAPIScopeElementDeserializer(item);
+    return scopeElementDeserializer(item);
   });
 }
 
 /** A more specific scope used to identify the alerts to suppress. */
-export interface AlertsSuppressionRulesAPIScopeElement {
+export interface ScopeElement {
   /** The alert entity type to suppress by. */
   field?: string;
   /** Additional properties */
   additionalProperties?: Record<string, any>;
 }
 
-export function alertsSuppressionRulesAPIScopeElementSerializer(
-  item: AlertsSuppressionRulesAPIScopeElement,
-): any {
+export function scopeElementSerializer(item: ScopeElement): any {
   return { ...serializeRecord(item.additionalProperties ?? {}), field: item["field"] };
 }
 
-export function alertsSuppressionRulesAPIScopeElementDeserializer(
-  item: any,
-): AlertsSuppressionRulesAPIScopeElement {
+export function scopeElementDeserializer(item: any): ScopeElement {
   return {
     additionalProperties: serializeRecord(item, ["field"]),
     field: item["field"],
@@ -181,41 +165,35 @@ export function alertsSuppressionRulesAPIScopeElementDeserializer(
 }
 
 /** Suppression rules list for subscription. */
-export interface _AlertsSuppressionRulesAPIAlertsSuppressionRulesList {
+export interface _AlertsSuppressionRulesList {
   /** The AlertsSuppressionRule items on this page */
-  value: AlertsSuppressionRulesAPIAlertsSuppressionRule[];
+  value: AlertsSuppressionRule[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _alertsSuppressionRulesAPIAlertsSuppressionRulesListDeserializer(
-  item: any,
-): _AlertsSuppressionRulesAPIAlertsSuppressionRulesList {
+export function _alertsSuppressionRulesListDeserializer(item: any): _AlertsSuppressionRulesList {
   return {
-    value: alertsSuppressionRulesAPIAlertsSuppressionRuleArrayDeserializer(item["value"]),
+    value: alertsSuppressionRuleArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function alertsSuppressionRulesAPIAlertsSuppressionRuleArraySerializer(
-  result: Array<AlertsSuppressionRulesAPIAlertsSuppressionRule>,
-): any[] {
+export function alertsSuppressionRuleArraySerializer(result: Array<AlertsSuppressionRule>): any[] {
   return result.map((item) => {
-    return alertsSuppressionRulesAPIAlertsSuppressionRuleSerializer(item);
+    return alertsSuppressionRuleSerializer(item);
   });
 }
 
-export function alertsSuppressionRulesAPIAlertsSuppressionRuleArrayDeserializer(
-  result: Array<AlertsSuppressionRulesAPIAlertsSuppressionRule>,
+export function alertsSuppressionRuleArrayDeserializer(
+  result: Array<AlertsSuppressionRule>,
 ): any[] {
   return result.map((item) => {
-    return alertsSuppressionRulesAPIAlertsSuppressionRuleDeserializer(item);
+    return alertsSuppressionRuleDeserializer(item);
   });
 }
 
-export function _alertsSuppressionRulePropertiesSerializer(
-  item: AlertsSuppressionRulesAPIAlertsSuppressionRule,
-): any {
+export function _alertsSuppressionRulePropertiesSerializer(item: AlertsSuppressionRule): any {
   return {
     alertType: item["alertType"],
     expirationDateUtc: !item["expirationDateUtc"]
@@ -226,7 +204,7 @@ export function _alertsSuppressionRulePropertiesSerializer(
     comment: item["comment"],
     suppressionAlertsScope: !item["suppressionAlertsScope"]
       ? item["suppressionAlertsScope"]
-      : alertsSuppressionRulesAPISuppressionAlertsScopeSerializer(item["suppressionAlertsScope"]),
+      : suppressionAlertsScopeSerializer(item["suppressionAlertsScope"]),
   };
 }
 
@@ -244,6 +222,6 @@ export function _alertsSuppressionRulePropertiesDeserializer(item: any) {
     comment: item["comment"],
     suppressionAlertsScope: !item["suppressionAlertsScope"]
       ? item["suppressionAlertsScope"]
-      : alertsSuppressionRulesAPISuppressionAlertsScopeDeserializer(item["suppressionAlertsScope"]),
+      : suppressionAlertsScopeDeserializer(item["suppressionAlertsScope"]),
   };
 }

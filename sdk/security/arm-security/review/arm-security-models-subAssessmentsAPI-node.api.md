@@ -5,116 +5,116 @@
 ```ts
 
 // @public
-export enum KnownSubAssessmentsAPIAssessedResourceType {
-    ContainerRegistryVulnerability = "ContainerRegistryVulnerability",
-    ServerVulnerability = "ServerVulnerability",
-    SqlServerVulnerability = "SqlServerVulnerability"
+export interface AdditionalData {
+    assessedResourceType: AssessedResourceType;
 }
 
 // @public
-export enum KnownSubAssessmentsAPISubAssessmentStatusCode {
-    Healthy = "Healthy",
-    NotApplicable = "NotApplicable",
-    Unhealthy = "Unhealthy"
-}
+export type AdditionalDataUnion = SqlServerVulnerabilityProperties | ContainerRegistryVulnerabilityProperties | ServerVulnerabilityProperties | AdditionalData;
 
 // @public
-export interface SubAssessmentsAPIAdditionalData {
-    assessedResourceType: SubAssessmentsAPIAssessedResourceType;
-}
+export type AssessedResourceType = string;
 
 // @public
-export type SubAssessmentsAPIAdditionalDataUnion = SubAssessmentsAPISqlServerVulnerabilityProperties | SubAssessmentsAPIContainerRegistryVulnerabilityProperties | SubAssessmentsAPIServerVulnerabilityProperties | SubAssessmentsAPIAdditionalData;
-
-// @public
-export type SubAssessmentsAPIAssessedResourceType = string;
-
-// @public
-export interface SubAssessmentsAPIContainerRegistryVulnerabilityProperties extends SubAssessmentsAPIAdditionalData {
+export interface ContainerRegistryVulnerabilityProperties extends AdditionalData {
     assessedResourceType: "ContainerRegistryVulnerability";
-    readonly cve?: SubAssessmentsAPICve[];
-    readonly cvss?: Record<string, SubAssessmentsApicvss>;
+    readonly cve?: Cve[];
+    readonly cvss?: Record<string, Cvss>;
     readonly imageDigest?: string;
     readonly patchable?: boolean;
     readonly publishedTime?: Date;
     readonly repositoryName?: string;
     readonly type?: string;
     // (undocumented)
-    readonly vendorReferences?: SubAssessmentsAPIVendorReference[];
+    readonly vendorReferences?: VendorReference[];
 }
 
 // @public
-export interface SubAssessmentsAPICve {
+export interface Cve {
     readonly link?: string;
     readonly title?: string;
 }
 
 // @public
-export interface SubAssessmentsApicvss {
+export interface Cvss {
     readonly base?: number;
 }
 
 // @public
-export interface SubAssessmentsAPISecuritySubAssessment extends ExtensionResource {
-    additionalData?: SubAssessmentsAPIAdditionalDataUnion;
+export enum KnownAssessedResourceType {
+    ContainerRegistryVulnerability = "ContainerRegistryVulnerability",
+    ServerVulnerability = "ServerVulnerability",
+    SqlServerVulnerability = "SqlServerVulnerability"
+}
+
+// @public
+export enum KnownSubAssessmentStatusCode {
+    Healthy = "Healthy",
+    NotApplicable = "NotApplicable",
+    Unhealthy = "Unhealthy"
+}
+
+// @public
+export interface SecuritySubAssessment extends ExtensionResource {
+    additionalData?: AdditionalDataUnion;
     readonly category?: string;
     readonly description?: string;
     readonly displayName?: string;
     readonly idPropertiesId?: string;
     readonly impact?: string;
     readonly remediation?: string;
-    resourceDetails?: CommonResourceDetailsUnion;
-    status?: SubAssessmentsAPISubAssessmentStatus;
+    resourceDetails?: ResourceDetailsUnion;
+    status?: SubAssessmentStatus;
     readonly timeGenerated?: Date;
 }
 
 // @public
-export interface SubAssessmentsAPISecuritySubAssessmentProperties {
-    additionalData?: SubAssessmentsAPIAdditionalDataUnion;
+export interface SecuritySubAssessmentProperties {
+    additionalData?: AdditionalDataUnion;
     readonly category?: string;
     readonly description?: string;
     readonly displayName?: string;
     readonly id?: string;
     readonly impact?: string;
     readonly remediation?: string;
-    resourceDetails?: CommonResourceDetailsUnion;
-    status?: SubAssessmentsAPISubAssessmentStatus;
+    resourceDetails?: ResourceDetailsUnion;
+    status?: SubAssessmentStatus;
     readonly timeGenerated?: Date;
 }
 
 // @public
-export interface SubAssessmentsAPIServerVulnerabilityProperties extends SubAssessmentsAPIAdditionalData {
+export interface ServerVulnerabilityProperties extends AdditionalData {
     assessedResourceType: "ServerVulnerabilityAssessment";
-    readonly cve?: SubAssessmentsAPICve[];
-    readonly cvss?: Record<string, SubAssessmentsApicvss>;
+    readonly cve?: Cve[];
+    readonly cvss?: Record<string, Cvss>;
     readonly patchable?: boolean;
     readonly publishedTime?: Date;
     readonly threat?: string;
     readonly type?: string;
     // (undocumented)
-    readonly vendorReferences?: SubAssessmentsAPIVendorReference[];
+    readonly vendorReferences?: VendorReference[];
 }
 
 // @public
-export interface SubAssessmentsAPISqlServerVulnerabilityProperties extends SubAssessmentsAPIAdditionalData {
+export interface SqlServerVulnerabilityProperties extends AdditionalData {
     assessedResourceType: "SqlServerVulnerability";
     readonly query?: string;
     readonly type?: string;
 }
 
 // @public
-export interface SubAssessmentsAPISubAssessmentStatus {
+export interface SubAssessmentStatus {
     readonly cause?: string;
-    readonly code?: SubAssessmentsAPISubAssessmentStatusCode;
+    readonly code?: SubAssessmentStatusCode;
     readonly description?: string;
-    readonly severity?: CommonSeverity;
+    readonly severity?: Severity;
 }
 
 // @public
-export type SubAssessmentsAPISubAssessmentStatusCode = string;
+export type SubAssessmentStatusCode = string;
 
 // @public
-export interface SubAssessmentsAPIVendorReference {
+export interface VendorReference {
     readonly link?: string;
     readonly title?: string;
 }

@@ -2,15 +2,12 @@
 // Licensed under the MIT License.
 
 import type { SecurityCenterContext as Client } from "../index.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
-import type {
-  StandardsAPIAssignment,
-  _StandardsAPIAssignmentList,
-} from "../../models/standardsAPI/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
+import type { Assignment, _AssignmentList } from "../../models/standardsAPI/models.js";
 import {
-  standardsAPIAssignmentSerializer,
-  standardsAPIAssignmentDeserializer,
-  _standardsAPIAssignmentListDeserializer,
+  assignmentSerializer,
+  assignmentDeserializer,
+  _assignmentListDeserializer,
 } from "../../models/standardsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -47,23 +44,23 @@ export function _listBySubscriptionSend(
 
 export async function _listBySubscriptionDeserialize(
   result: PathUncheckedResponse,
-): Promise<_StandardsAPIAssignmentList> {
+): Promise<_AssignmentList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _standardsAPIAssignmentListDeserializer(result.body);
+  return _assignmentListDeserializer(result.body);
 }
 
 /** Get a list of all relevant standardAssignments over a subscription level scope */
 export function listBySubscription(
   context: Client,
   options: AssignmentsListBySubscriptionOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<StandardsAPIAssignment> {
+): PagedAsyncIterableIterator<Assignment> {
   return buildPagedAsyncIterator(
     context,
     () => _listBySubscriptionSend(context, options),
@@ -95,18 +92,16 @@ export function _listSend(
   });
 }
 
-export async function _listDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_StandardsAPIAssignmentList> {
+export async function _listDeserialize(result: PathUncheckedResponse): Promise<_AssignmentList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _standardsAPIAssignmentListDeserializer(result.body);
+  return _assignmentListDeserializer(result.body);
 }
 
 /** Get a list of all relevant standardAssignments available for scope */
@@ -114,7 +109,7 @@ export function list(
   context: Client,
   resourceGroupName: string,
   options: AssignmentsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<StandardsAPIAssignment> {
+): PagedAsyncIterableIterator<Assignment> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, resourceGroupName, options),
@@ -149,7 +144,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
@@ -172,7 +167,7 @@ export function _createOrUpdateSend(
   context: Client,
   resourceGroupName: string,
   assignmentId: string,
-  assignment: StandardsAPIAssignment,
+  assignment: Assignment,
   options: AssignmentsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -191,22 +186,22 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: standardsAPIAssignmentSerializer(assignment),
+    body: assignmentSerializer(assignment),
   });
 }
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
-): Promise<StandardsAPIAssignment> {
+): Promise<Assignment> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return standardsAPIAssignmentDeserializer(result.body);
+  return assignmentDeserializer(result.body);
 }
 
 /** Create a security assignment on the given scope. Will create/update the required standard assignment. */
@@ -214,9 +209,9 @@ export async function createOrUpdate(
   context: Client,
   resourceGroupName: string,
   assignmentId: string,
-  assignment: StandardsAPIAssignment,
+  assignment: Assignment,
   options: AssignmentsCreateOrUpdateOptionalParams = { requestOptions: {} },
-): Promise<StandardsAPIAssignment> {
+): Promise<Assignment> {
   const result = await _createOrUpdateSend(
     context,
     resourceGroupName,
@@ -251,18 +246,16 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<StandardsAPIAssignment> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<Assignment> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return standardsAPIAssignmentDeserializer(result.body);
+  return assignmentDeserializer(result.body);
 }
 
 /** Get a specific standard assignment for the requested scope by resourceId */
@@ -271,7 +264,7 @@ export async function get(
   resourceGroupName: string,
   assignmentId: string,
   options: AssignmentsGetOptionalParams = { requestOptions: {} },
-): Promise<StandardsAPIAssignment> {
+): Promise<Assignment> {
   const result = await _getSend(context, resourceGroupName, assignmentId, options);
   return _getDeserialize(result);
 }

@@ -5,39 +5,39 @@
 ```ts
 
 // @public
-export interface AlertsSuppressionRulesAPIAlertsSuppressionRule extends ProxyResource {
+export interface AlertsSuppressionRule extends ProxyResource {
     alertType?: string;
     comment?: string;
     expirationDateUtc?: Date;
     readonly lastModifiedUtc?: Date;
     reason?: string;
-    state?: AlertsSuppressionRulesAPIRuleState;
-    suppressionAlertsScope?: AlertsSuppressionRulesAPISuppressionAlertsScope;
+    state?: RuleState;
+    suppressionAlertsScope?: SuppressionAlertsScope;
 }
 
 // @public
-export interface AlertsSuppressionRulesAPIAlertsSuppressionRuleProperties {
+export interface AlertsSuppressionRuleProperties {
     alertType: string;
     comment?: string;
     expirationDateUtc?: Date;
     readonly lastModifiedUtc?: Date;
     reason: string;
-    state: AlertsSuppressionRulesAPIRuleState;
-    suppressionAlertsScope?: AlertsSuppressionRulesAPISuppressionAlertsScope;
+    state: RuleState;
+    suppressionAlertsScope?: SuppressionAlertsScope;
 }
 
 // @public
-export type AlertsSuppressionRulesAPIRuleState = "Enabled" | "Disabled" | "Expired";
+export type RuleState = "Enabled" | "Disabled" | "Expired";
 
 // @public
-export interface AlertsSuppressionRulesAPIScopeElement {
+export interface ScopeElement {
     additionalProperties?: Record<string, any>;
     field?: string;
 }
 
 // @public
-export interface AlertsSuppressionRulesAPISuppressionAlertsScope {
-    allOf: AlertsSuppressionRulesAPIScopeElement[];
+export interface SuppressionAlertsScope {
+    allOf: ScopeElement[];
 }
 
 // (No @packageDocumentation comment for this package)

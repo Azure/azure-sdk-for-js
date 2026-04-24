@@ -2,23 +2,20 @@
 // Licensed under the MIT License.
 
 export type {
-  LegacySettingsAPIAutoProvisioningSetting,
-  LegacySettingsAPIAutoProvisioningSettingProperties,
-  LegacySettingsAPIAutoProvision,
-  LegacySettingsAPICompliance,
-  LegacySettingsAPIComplianceProperties,
-  LegacySettingsAPIComplianceSegment,
-  LegacySettingsAPIInformationProtectionPolicy,
-  LegacySettingsAPIInformationProtectionPolicyProperties,
-  LegacySettingsAPISensitivityLabel,
-  LegacySettingsAPIRank,
-  LegacySettingsAPIInformationType,
-  LegacySettingsAPIInformationProtectionKeyword,
-  LegacySettingsAPIInformationProtectionPolicyName,
-  LegacySettingsAPIWorkspaceSetting,
-  LegacySettingsAPIWorkspaceSettingProperties,
+  AutoProvisioningSetting,
+  AutoProvisioningSettingProperties,
+  AutoProvision,
+  Compliance,
+  ComplianceProperties,
+  ComplianceSegment,
+  InformationProtectionPolicy,
+  InformationProtectionPolicyProperties,
+  SensitivityLabel,
+  Rank,
+  InformationType,
+  InformationProtectionKeyword,
+  InformationProtectionPolicyName,
+  WorkspaceSetting,
+  WorkspaceSettingProperties,
 } from "./models.js";
-export {
-  KnownLegacySettingsAPIAutoProvision,
-  KnownLegacySettingsAPIInformationProtectionPolicyName,
-} from "./models.js";
+export { KnownAutoProvision, KnownInformationProtectionPolicyName } from "./models.js";

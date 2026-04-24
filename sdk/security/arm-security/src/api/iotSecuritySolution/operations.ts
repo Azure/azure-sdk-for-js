@@ -2,17 +2,17 @@
 // Licensed under the MIT License.
 
 import type { SecurityCenterContext as Client } from "../index.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
 import type {
-  IoTSecurityAPIIoTSecuritySolutionModel,
-  IoTSecurityAPIUpdateIotSecuritySolutionData,
-  _IoTSecurityAPIIoTSecuritySolutionsList,
+  IoTSecuritySolutionModel,
+  UpdateIotSecuritySolutionData,
+  _IoTSecuritySolutionsList,
 } from "../../models/ioTSecurityAPI/models.js";
 import {
-  ioTSecurityAPIIoTSecuritySolutionModelSerializer,
-  ioTSecurityAPIIoTSecuritySolutionModelDeserializer,
-  ioTSecurityAPIUpdateIotSecuritySolutionDataSerializer,
-  _ioTSecurityAPIIoTSecuritySolutionsListDeserializer,
+  ioTSecuritySolutionModelSerializer,
+  ioTSecuritySolutionModelDeserializer,
+  updateIotSecuritySolutionDataSerializer,
+  _ioTSecuritySolutionsListDeserializer,
 } from "../../models/ioTSecurityAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -51,23 +51,23 @@ export function _listBySubscriptionSend(
 
 export async function _listBySubscriptionDeserialize(
   result: PathUncheckedResponse,
-): Promise<_IoTSecurityAPIIoTSecuritySolutionsList> {
+): Promise<_IoTSecuritySolutionsList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _ioTSecurityAPIIoTSecuritySolutionsListDeserializer(result.body);
+  return _ioTSecuritySolutionsListDeserializer(result.body);
 }
 
 /** Use this method to get the list of IoT Security solutions by subscription. */
 export function listBySubscription(
   context: Client,
   options: IotSecuritySolutionListBySubscriptionOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<IoTSecurityAPIIoTSecuritySolutionModel> {
+): PagedAsyncIterableIterator<IoTSecuritySolutionModel> {
   return buildPagedAsyncIterator(
     context,
     () => _listBySubscriptionSend(context, options),
@@ -102,16 +102,16 @@ export function _listByResourceGroupSend(
 
 export async function _listByResourceGroupDeserialize(
   result: PathUncheckedResponse,
-): Promise<_IoTSecurityAPIIoTSecuritySolutionsList> {
+): Promise<_IoTSecuritySolutionsList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _ioTSecurityAPIIoTSecuritySolutionsListDeserializer(result.body);
+  return _ioTSecuritySolutionsListDeserializer(result.body);
 }
 
 /** Use this method to get the list IoT Security solutions organized by resource group. */
@@ -119,7 +119,7 @@ export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
   options: IotSecuritySolutionListByResourceGroupOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<IoTSecurityAPIIoTSecuritySolutionModel> {
+): PagedAsyncIterableIterator<IoTSecuritySolutionModel> {
   return buildPagedAsyncIterator(
     context,
     () => _listByResourceGroupSend(context, resourceGroupName, options),
@@ -154,7 +154,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
@@ -177,7 +177,7 @@ export function _updateSend(
   context: Client,
   resourceGroupName: string,
   solutionName: string,
-  updateIotSecuritySolutionData: IoTSecurityAPIUpdateIotSecuritySolutionData,
+  updateIotSecuritySolutionData: UpdateIotSecuritySolutionData,
   options: IotSecuritySolutionUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -196,22 +196,22 @@ export function _updateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: ioTSecurityAPIUpdateIotSecuritySolutionDataSerializer(updateIotSecuritySolutionData),
+    body: updateIotSecuritySolutionDataSerializer(updateIotSecuritySolutionData),
   });
 }
 
 export async function _updateDeserialize(
   result: PathUncheckedResponse,
-): Promise<IoTSecurityAPIIoTSecuritySolutionModel> {
+): Promise<IoTSecuritySolutionModel> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return ioTSecurityAPIIoTSecuritySolutionModelDeserializer(result.body);
+  return ioTSecuritySolutionModelDeserializer(result.body);
 }
 
 /** Use this method to update existing IoT Security solution tags or user defined resources. To update other fields use the CreateOrUpdate method. */
@@ -219,9 +219,9 @@ export async function update(
   context: Client,
   resourceGroupName: string,
   solutionName: string,
-  updateIotSecuritySolutionData: IoTSecurityAPIUpdateIotSecuritySolutionData,
+  updateIotSecuritySolutionData: UpdateIotSecuritySolutionData,
   options: IotSecuritySolutionUpdateOptionalParams = { requestOptions: {} },
-): Promise<IoTSecurityAPIIoTSecuritySolutionModel> {
+): Promise<IoTSecuritySolutionModel> {
   const result = await _updateSend(
     context,
     resourceGroupName,
@@ -236,7 +236,7 @@ export function _createOrUpdateSend(
   context: Client,
   resourceGroupName: string,
   solutionName: string,
-  iotSecuritySolutionData: IoTSecurityAPIIoTSecuritySolutionModel,
+  iotSecuritySolutionData: IoTSecuritySolutionModel,
   options: IotSecuritySolutionCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -255,22 +255,22 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: ioTSecurityAPIIoTSecuritySolutionModelSerializer(iotSecuritySolutionData),
+    body: ioTSecuritySolutionModelSerializer(iotSecuritySolutionData),
   });
 }
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
-): Promise<IoTSecurityAPIIoTSecuritySolutionModel> {
+): Promise<IoTSecuritySolutionModel> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return ioTSecurityAPIIoTSecuritySolutionModelDeserializer(result.body);
+  return ioTSecuritySolutionModelDeserializer(result.body);
 }
 
 /** Use this method to create or update yours IoT Security solution */
@@ -278,9 +278,9 @@ export async function createOrUpdate(
   context: Client,
   resourceGroupName: string,
   solutionName: string,
-  iotSecuritySolutionData: IoTSecurityAPIIoTSecuritySolutionModel,
+  iotSecuritySolutionData: IoTSecuritySolutionModel,
   options: IotSecuritySolutionCreateOrUpdateOptionalParams = { requestOptions: {} },
-): Promise<IoTSecurityAPIIoTSecuritySolutionModel> {
+): Promise<IoTSecuritySolutionModel> {
   const result = await _createOrUpdateSend(
     context,
     resourceGroupName,
@@ -317,16 +317,16 @@ export function _getSend(
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<IoTSecurityAPIIoTSecuritySolutionModel> {
+): Promise<IoTSecuritySolutionModel> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return ioTSecurityAPIIoTSecuritySolutionModelDeserializer(result.body);
+  return ioTSecuritySolutionModelDeserializer(result.body);
 }
 
 /** User this method to get details of a specific IoT Security solution based on solution name */
@@ -335,7 +335,7 @@ export async function get(
   resourceGroupName: string,
   solutionName: string,
   options: IotSecuritySolutionGetOptionalParams = { requestOptions: {} },
-): Promise<IoTSecurityAPIIoTSecuritySolutionModel> {
+): Promise<IoTSecuritySolutionModel> {
   const result = await _getSend(context, resourceGroupName, solutionName, options);
   return _getDeserialize(result);
 }

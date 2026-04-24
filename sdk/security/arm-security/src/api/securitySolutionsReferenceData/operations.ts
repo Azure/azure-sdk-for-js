@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import type { SecurityCenterContext as Client } from "../index.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
-import type { SecuritySolutionsAPIsecuritySolutionsReferenceDataList } from "../../models/securitySolutionsAPI/models.js";
-import { securitySolutionsAPIsecuritySolutionsReferenceDataListDeserializer } from "../../models/securitySolutionsAPI/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
+import type { SecuritySolutionsReferenceDataList } from "../../models/securitySolutionsAPI/models.js";
+import { securitySolutionsReferenceDataListDeserializer } from "../../models/securitySolutionsAPI/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
   SecuritySolutionsReferenceDataListByHomeRegionOptionalParams,
@@ -37,16 +37,16 @@ export function _listByHomeRegionSend(
 
 export async function _listByHomeRegionDeserialize(
   result: PathUncheckedResponse,
-): Promise<SecuritySolutionsAPIsecuritySolutionsReferenceDataList> {
+): Promise<SecuritySolutionsReferenceDataList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return securitySolutionsAPIsecuritySolutionsReferenceDataListDeserializer(result.body);
+  return securitySolutionsReferenceDataListDeserializer(result.body);
 }
 
 /** Gets list of all supported Security Solutions for subscription and location. */
@@ -54,7 +54,7 @@ export async function listByHomeRegion(
   context: Client,
   ascLocation: string,
   options: SecuritySolutionsReferenceDataListByHomeRegionOptionalParams = { requestOptions: {} },
-): Promise<SecuritySolutionsAPIsecuritySolutionsReferenceDataList> {
+): Promise<SecuritySolutionsReferenceDataList> {
   const result = await _listByHomeRegionSend(context, ascLocation, options);
   return _listByHomeRegionDeserialize(result);
 }
@@ -81,23 +81,23 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<SecuritySolutionsAPIsecuritySolutionsReferenceDataList> {
+): Promise<SecuritySolutionsReferenceDataList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return securitySolutionsAPIsecuritySolutionsReferenceDataListDeserializer(result.body);
+  return securitySolutionsReferenceDataListDeserializer(result.body);
 }
 
 /** Gets a list of all supported Security Solutions for the subscription. */
 export async function list(
   context: Client,
   options: SecuritySolutionsReferenceDataListOptionalParams = { requestOptions: {} },
-): Promise<SecuritySolutionsAPIsecuritySolutionsReferenceDataList> {
+): Promise<SecuritySolutionsReferenceDataList> {
   const result = await _listSend(context, options);
   return _listDeserialize(result);
 }

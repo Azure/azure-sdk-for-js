@@ -18,7 +18,7 @@ import type {
   AssessmentsMetadataCreateInSubscriptionOptionalParams,
   AssessmentsMetadataGetInSubscriptionOptionalParams,
 } from "../../api/assessmentsMetadata/options.js";
-import type { AssessmentAPISecurityAssessmentMetadataResponse } from "../../models/assessmentAPI/models.js";
+import type { SecurityAssessmentMetadataResponse } from "../../models/assessmentAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AssessmentsMetadata operations. */
@@ -26,16 +26,16 @@ export interface AssessmentsMetadataOperations {
   /** Get metadata information on all assessment types */
   list: (
     options?: AssessmentsMetadataListOptionalParams,
-  ) => PagedAsyncIterableIterator<AssessmentAPISecurityAssessmentMetadataResponse>;
+  ) => PagedAsyncIterableIterator<SecurityAssessmentMetadataResponse>;
   /** Get metadata information on an assessment type */
   get: (
     assessmentMetadataName: string,
     options?: AssessmentsMetadataGetOptionalParams,
-  ) => Promise<AssessmentAPISecurityAssessmentMetadataResponse>;
+  ) => Promise<SecurityAssessmentMetadataResponse>;
   /** Get metadata information on all assessment types in a specific subscription */
   listBySubscription: (
     options?: AssessmentsMetadataListBySubscriptionOptionalParams,
-  ) => PagedAsyncIterableIterator<AssessmentAPISecurityAssessmentMetadataResponse>;
+  ) => PagedAsyncIterableIterator<SecurityAssessmentMetadataResponse>;
   /** Delete metadata information on an assessment type in a specific subscription, will cause the deletion of all the assessments of that type in that subscription */
   deleteInSubscription: (
     assessmentMetadataName: string,
@@ -44,14 +44,14 @@ export interface AssessmentsMetadataOperations {
   /** Create metadata information on an assessment type in a specific subscription */
   createInSubscription: (
     assessmentMetadataName: string,
-    assessmentMetadata: AssessmentAPISecurityAssessmentMetadataResponse,
+    assessmentMetadata: SecurityAssessmentMetadataResponse,
     options?: AssessmentsMetadataCreateInSubscriptionOptionalParams,
-  ) => Promise<AssessmentAPISecurityAssessmentMetadataResponse>;
+  ) => Promise<SecurityAssessmentMetadataResponse>;
   /** Get metadata information on an assessment type in a specific subscription */
   getInSubscription: (
     assessmentMetadataName: string,
     options?: AssessmentsMetadataGetInSubscriptionOptionalParams,
-  ) => Promise<AssessmentAPISecurityAssessmentMetadataResponse>;
+  ) => Promise<SecurityAssessmentMetadataResponse>;
 }
 
 function _getAssessmentsMetadata(context: SecurityCenterContext) {
@@ -67,7 +67,7 @@ function _getAssessmentsMetadata(context: SecurityCenterContext) {
     ) => deleteInSubscription(context, assessmentMetadataName, options),
     createInSubscription: (
       assessmentMetadataName: string,
-      assessmentMetadata: AssessmentAPISecurityAssessmentMetadataResponse,
+      assessmentMetadata: SecurityAssessmentMetadataResponse,
       options?: AssessmentsMetadataCreateInSubscriptionOptionalParams,
     ) => createInSubscription(context, assessmentMetadataName, assessmentMetadata, options),
     getInSubscription: (

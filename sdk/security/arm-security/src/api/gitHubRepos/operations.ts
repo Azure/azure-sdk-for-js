@@ -4,12 +4,12 @@
 import type { SecurityCenterContext as Client } from "../index.js";
 import { errorResponseDeserializer } from "../../models/models.js";
 import type {
-  SecurityConnectorsDevOpsAPIGitHubRepository,
-  _SecurityConnectorsDevOpsAPIGitHubRepositoryListResponse,
+  GitHubRepository,
+  _GitHubRepositoryListResponse,
 } from "../../models/securityConnectorsDevOpsAPI/models.js";
 import {
-  securityConnectorsDevOpsAPIGitHubRepositoryDeserializer,
-  _securityConnectorsDevOpsAPIGitHubRepositoryListResponseDeserializer,
+  gitHubRepositoryDeserializer,
+  _gitHubRepositoryListResponseDeserializer,
 } from "../../models/securityConnectorsDevOpsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -46,7 +46,7 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_SecurityConnectorsDevOpsAPIGitHubRepositoryListResponse> {
+): Promise<_GitHubRepositoryListResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -55,7 +55,7 @@ export async function _listDeserialize(
     throw error;
   }
 
-  return _securityConnectorsDevOpsAPIGitHubRepositoryListResponseDeserializer(result.body);
+  return _gitHubRepositoryListResponseDeserializer(result.body);
 }
 
 /** Returns a list of GitHub repositories onboarded to the connector. */
@@ -65,7 +65,7 @@ export function list(
   securityConnectorName: string,
   ownerName: string,
   options: GitHubReposListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<SecurityConnectorsDevOpsAPIGitHubRepository> {
+): PagedAsyncIterableIterator<GitHubRepository> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, resourceGroupName, securityConnectorName, ownerName, options),
@@ -103,9 +103,7 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<SecurityConnectorsDevOpsAPIGitHubRepository> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<GitHubRepository> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -114,7 +112,7 @@ export async function _getDeserialize(
     throw error;
   }
 
-  return securityConnectorsDevOpsAPIGitHubRepositoryDeserializer(result.body);
+  return gitHubRepositoryDeserializer(result.body);
 }
 
 /** Returns a monitored GitHub repository. */
@@ -125,7 +123,7 @@ export async function get(
   ownerName: string,
   repoName: string,
   options: GitHubReposGetOptionalParams = { requestOptions: {} },
-): Promise<SecurityConnectorsDevOpsAPIGitHubRepository> {
+): Promise<GitHubRepository> {
   const result = await _getSend(
     context,
     resourceGroupName,

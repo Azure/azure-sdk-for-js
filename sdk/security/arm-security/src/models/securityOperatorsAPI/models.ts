@@ -11,14 +11,12 @@ import { systemDataDeserializer, identityDeserializer } from "../models.js";
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Security operator under a given subscription and pricing */
-export interface SecurityOperatorsAPISecurityOperator extends ProxyResource {
+export interface SecurityOperator extends ProxyResource {
   /** Identity for the resource. */
   identity?: Identity;
 }
 
-export function securityOperatorsAPISecurityOperatorDeserializer(
-  item: any,
-): SecurityOperatorsAPISecurityOperator {
+export function securityOperatorDeserializer(item: any): SecurityOperator {
   return {
     id: item["id"],
     name: item["name"],
@@ -31,23 +29,19 @@ export function securityOperatorsAPISecurityOperatorDeserializer(
 }
 
 /** List of SecurityOperator response. */
-export interface _SecurityOperatorsAPISecurityOperatorList {
+export interface _SecurityOperatorList {
   /** List of SecurityOperator configurations */
-  value: SecurityOperatorsAPISecurityOperator[];
+  value: SecurityOperator[];
 }
 
-export function _securityOperatorsAPISecurityOperatorListDeserializer(
-  item: any,
-): _SecurityOperatorsAPISecurityOperatorList {
+export function _securityOperatorListDeserializer(item: any): _SecurityOperatorList {
   return {
-    value: securityOperatorsAPISecurityOperatorArrayDeserializer(item["value"]),
+    value: securityOperatorArrayDeserializer(item["value"]),
   };
 }
 
-export function securityOperatorsAPISecurityOperatorArrayDeserializer(
-  result: Array<SecurityOperatorsAPISecurityOperator>,
-): any[] {
+export function securityOperatorArrayDeserializer(result: Array<SecurityOperator>): any[] {
   return result.map((item) => {
-    return securityOperatorsAPISecurityOperatorDeserializer(item);
+    return securityOperatorDeserializer(item);
   });
 }

@@ -8,6 +8,11 @@
 export type ArmActionType = string;
 
 // @public
+export interface ArmPrivateEndpointConnection extends Resource {
+    properties?: PrivateEndpointConnectionProperties;
+}
+
+// @public
 export type CreatedByType = string;
 
 // @public
@@ -109,11 +114,6 @@ export type Origin = string;
 // @public
 export interface PrivateEndpoint {
     readonly id?: string;
-}
-
-// @public
-export interface PrivateEndpointConnection extends Resource {
-    properties?: PrivateEndpointConnectionProperties;
 }
 
 // @public

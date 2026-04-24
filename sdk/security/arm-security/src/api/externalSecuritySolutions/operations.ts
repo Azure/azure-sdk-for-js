@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 import type { SecurityCenterContext as Client } from "../index.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
 import type {
-  SecuritySolutionsAPIExternalSecuritySolutionUnion,
-  _SecuritySolutionsAPIExternalSecuritySolutionList,
+  ExternalSecuritySolutionUnion,
+  _ExternalSecuritySolutionList,
 } from "../../models/securitySolutionsAPI/models.js";
 import {
-  securitySolutionsAPIExternalSecuritySolutionUnionDeserializer,
-  _securitySolutionsAPIExternalSecuritySolutionListDeserializer,
+  externalSecuritySolutionUnionDeserializer,
+  _externalSecuritySolutionListDeserializer,
 } from "../../models/securitySolutionsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -44,23 +44,23 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_SecuritySolutionsAPIExternalSecuritySolutionList> {
+): Promise<_ExternalSecuritySolutionList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _securitySolutionsAPIExternalSecuritySolutionListDeserializer(result.body);
+  return _externalSecuritySolutionListDeserializer(result.body);
 }
 
 /** Gets a list of external security solutions for the subscription. */
 export function list(
   context: Client,
   options: ExternalSecuritySolutionsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<SecuritySolutionsAPIExternalSecuritySolutionUnion> {
+): PagedAsyncIterableIterator<ExternalSecuritySolutionUnion> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, options),
@@ -94,16 +94,16 @@ export function _listByHomeRegionSend(
 
 export async function _listByHomeRegionDeserialize(
   result: PathUncheckedResponse,
-): Promise<_SecuritySolutionsAPIExternalSecuritySolutionList> {
+): Promise<_ExternalSecuritySolutionList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _securitySolutionsAPIExternalSecuritySolutionListDeserializer(result.body);
+  return _externalSecuritySolutionListDeserializer(result.body);
 }
 
 /** Gets a list of external Security Solutions for the subscription and location. */
@@ -111,7 +111,7 @@ export function listByHomeRegion(
   context: Client,
   ascLocation: string,
   options: ExternalSecuritySolutionsListByHomeRegionOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<SecuritySolutionsAPIExternalSecuritySolutionUnion> {
+): PagedAsyncIterableIterator<ExternalSecuritySolutionUnion> {
   return buildPagedAsyncIterator(
     context,
     () => _listByHomeRegionSend(context, ascLocation, options),
@@ -149,16 +149,16 @@ export function _getSend(
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<SecuritySolutionsAPIExternalSecuritySolutionUnion> {
+): Promise<ExternalSecuritySolutionUnion> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return securitySolutionsAPIExternalSecuritySolutionUnionDeserializer(result.body);
+  return externalSecuritySolutionUnionDeserializer(result.body);
 }
 
 /** Gets a specific external Security Solution. */
@@ -168,7 +168,7 @@ export async function get(
   ascLocation: string,
   externalSecuritySolutionsName: string,
   options: ExternalSecuritySolutionsGetOptionalParams = { requestOptions: {} },
-): Promise<SecuritySolutionsAPIExternalSecuritySolutionUnion> {
+): Promise<ExternalSecuritySolutionUnion> {
   const result = await _getSend(
     context,
     resourceGroupName,

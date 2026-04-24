@@ -12,7 +12,7 @@ import { systemDataDeserializer } from "../models.js";
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** The security connector resource. */
-export interface SecurityConnectorsAPISecurityConnector extends ProxyResource {
+export interface SecurityConnector extends ProxyResource {
   /** Resource tags. */
   tags?: Record<string, string>;
   /** The geo-location where the resource lives */
@@ -26,16 +26,14 @@ export interface SecurityConnectorsAPISecurityConnector extends ProxyResource {
   /** The date on which the trial period will end, if applicable. Trial period exists for 30 days after upgrading to payed offerings. */
   readonly hierarchyIdentifierTrialEndDate?: Date;
   /** The multi cloud resource's cloud name. */
-  environmentName?: SecurityConnectorsAPICloudName;
+  environmentName?: CloudName;
   /** A collection of offerings for the security connector. */
-  offerings?: SecurityConnectorsAPIcloudOfferingUnion[];
+  offerings?: CloudOfferingUnion[];
   /** The security connector environment data. */
-  environmentData?: SecurityConnectorsAPIEnvironmentDataUnion;
+  environmentData?: EnvironmentDataUnion;
 }
 
-export function securityConnectorsAPISecurityConnectorSerializer(
-  item: SecurityConnectorsAPISecurityConnector,
-): any {
+export function securityConnectorSerializer(item: SecurityConnector): any {
   return {
     properties: areAllPropsUndefined(item, [
       "hierarchyIdentifier",
@@ -52,9 +50,7 @@ export function securityConnectorsAPISecurityConnectorSerializer(
   };
 }
 
-export function securityConnectorsAPISecurityConnectorDeserializer(
-  item: any,
-): SecurityConnectorsAPISecurityConnector {
+export function securityConnectorDeserializer(item: any): SecurityConnector {
   return {
     id: item["id"],
     name: item["name"],
@@ -75,37 +71,33 @@ export function securityConnectorsAPISecurityConnectorDeserializer(
 }
 
 /** A set of properties that defines the security connector configuration. */
-export interface SecurityConnectorsAPISecurityConnectorProperties {
+export interface SecurityConnectorProperties {
   /** The multi cloud resource identifier (account id in case of AWS connector, project number in case of GCP connector). */
   hierarchyIdentifier?: string;
   /** The date on which the trial period will end, if applicable. Trial period exists for 30 days after upgrading to payed offerings. */
   readonly hierarchyIdentifierTrialEndDate?: Date;
   /** The multi cloud resource's cloud name. */
-  environmentName?: SecurityConnectorsAPICloudName;
+  environmentName?: CloudName;
   /** A collection of offerings for the security connector. */
-  offerings?: SecurityConnectorsAPIcloudOfferingUnion[];
+  offerings?: CloudOfferingUnion[];
   /** The security connector environment data. */
-  environmentData?: SecurityConnectorsAPIEnvironmentDataUnion;
+  environmentData?: EnvironmentDataUnion;
 }
 
-export function securityConnectorsAPISecurityConnectorPropertiesSerializer(
-  item: SecurityConnectorsAPISecurityConnectorProperties,
-): any {
+export function securityConnectorPropertiesSerializer(item: SecurityConnectorProperties): any {
   return {
     hierarchyIdentifier: item["hierarchyIdentifier"],
     environmentName: item["environmentName"],
     offerings: !item["offerings"]
       ? item["offerings"]
-      : securityConnectorsAPIcloudOfferingUnionArraySerializer(item["offerings"]),
+      : cloudOfferingUnionArraySerializer(item["offerings"]),
     environmentData: !item["environmentData"]
       ? item["environmentData"]
-      : securityConnectorsAPIEnvironmentDataUnionSerializer(item["environmentData"]),
+      : environmentDataUnionSerializer(item["environmentData"]),
   };
 }
 
-export function securityConnectorsAPISecurityConnectorPropertiesDeserializer(
-  item: any,
-): SecurityConnectorsAPISecurityConnectorProperties {
+export function securityConnectorPropertiesDeserializer(item: any): SecurityConnectorProperties {
   return {
     hierarchyIdentifier: item["hierarchyIdentifier"],
     hierarchyIdentifierTrialEndDate: !item["hierarchyIdentifierTrialEndDate"]
@@ -114,15 +106,15 @@ export function securityConnectorsAPISecurityConnectorPropertiesDeserializer(
     environmentName: item["environmentName"],
     offerings: !item["offerings"]
       ? item["offerings"]
-      : securityConnectorsAPIcloudOfferingUnionArrayDeserializer(item["offerings"]),
+      : cloudOfferingUnionArrayDeserializer(item["offerings"]),
     environmentData: !item["environmentData"]
       ? item["environmentData"]
-      : securityConnectorsAPIEnvironmentDataUnionDeserializer(item["environmentData"]),
+      : environmentDataUnionDeserializer(item["environmentData"]),
   };
 }
 
 /** The multi cloud resource's cloud name. */
-export enum KnownSecurityConnectorsAPICloudName {
+export enum KnownCloudName {
   /** Azure */
   Azure = "Azure",
   /** AWS */
@@ -143,7 +135,7 @@ export enum KnownSecurityConnectorsAPICloudName {
 
 /**
  * The multi cloud resource's cloud name. \
- * {@link KnownSecurityConnectorsAPICloudName} can be used interchangeably with SecurityConnectorsAPICloudName,
+ * {@link KnownCloudName} can be used interchangeably with CloudName,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Azure**: Azure \
@@ -155,281 +147,201 @@ export enum KnownSecurityConnectorsAPICloudName {
  * **DockerHub**: DockerHub \
  * **JFrog**: JFrog
  */
-export type SecurityConnectorsAPICloudName = string;
+export type CloudName = string;
 
-export function securityConnectorsAPIcloudOfferingUnionArraySerializer(
-  result: Array<SecurityConnectorsAPIcloudOfferingUnion>,
-): any[] {
+export function cloudOfferingUnionArraySerializer(result: Array<CloudOfferingUnion>): any[] {
   return result.map((item) => {
-    return securityConnectorsAPIcloudOfferingUnionSerializer(item);
+    return cloudOfferingUnionSerializer(item);
   });
 }
 
-export function securityConnectorsAPIcloudOfferingUnionArrayDeserializer(
-  result: Array<SecurityConnectorsAPIcloudOfferingUnion>,
-): any[] {
+export function cloudOfferingUnionArrayDeserializer(result: Array<CloudOfferingUnion>): any[] {
   return result.map((item) => {
-    return securityConnectorsAPIcloudOfferingUnionDeserializer(item);
+    return cloudOfferingUnionDeserializer(item);
   });
 }
 
 /** The security offering details */
-export interface SecurityConnectorsAPIcloudOffering {
+export interface CloudOffering {
   /** The type of the security offering. */
   /** The discriminator possible values: CspmMonitorAws, DefenderForContainersAws, DefenderForServersAws, DefenderForDatabasesAws, CspmMonitorGcp, DefenderForServersGcp, DefenderForDatabasesGcp, DefenderForContainersGcp, CspmMonitorGithub, CspmMonitorAzureDevOps, DefenderCspmAws, DefenderCspmGcp, CspmMonitorGitLab, CspmMonitorDockerHub, DefenderForContainersDockerHub, DefenderCspmDockerHub, CspmMonitorJFrog, DefenderForContainersJFrog, DefenderCspmJFrog */
-  offeringType: SecurityConnectorsAPIOfferingType;
+  offeringType: OfferingType;
   /** The offering description. */
   readonly description?: string;
 }
 
-export function securityConnectorsAPIcloudOfferingSerializer(
-  item: SecurityConnectorsAPIcloudOffering,
-): any {
+export function cloudOfferingSerializer(item: CloudOffering): any {
   return { offeringType: item["offeringType"] };
 }
 
-export function securityConnectorsAPIcloudOfferingDeserializer(
-  item: any,
-): SecurityConnectorsAPIcloudOffering {
+export function cloudOfferingDeserializer(item: any): CloudOffering {
   return {
     offeringType: item["offeringType"],
     description: item["description"],
   };
 }
 
-/** Alias for SecurityConnectorsAPIcloudOfferingUnion */
-export type SecurityConnectorsAPIcloudOfferingUnion =
-  | SecurityConnectorsAPIcspmMonitorAwsOffering
-  | SecurityConnectorsAPIdefenderForContainersAwsOffering
-  | SecurityConnectorsAPIdefenderForServersAwsOffering
-  | SecurityConnectorsAPIdefenderFoDatabasesAwsOffering
-  | SecurityConnectorsAPIcspmMonitorGcpOffering
-  | SecurityConnectorsAPIdefenderForServersGcpOffering
-  | SecurityConnectorsAPIdefenderForDatabasesGcpOffering
-  | SecurityConnectorsAPIdefenderForContainersGcpOffering
-  | SecurityConnectorsAPIcspmMonitorGithubOffering
-  | SecurityConnectorsAPIcspmMonitorAzureDevOpsOffering
-  | SecurityConnectorsAPIdefenderCspmAwsOffering
-  | SecurityConnectorsAPIdefenderCspmGcpOffering
-  | SecurityConnectorsAPIcspmMonitorGitLabOffering
-  | SecurityConnectorsAPIcspmMonitorDockerHubOffering
-  | SecurityConnectorsAPIdefenderForContainersDockerHubOffering
-  | SecurityConnectorsAPIdefenderCspmDockerHubOffering
-  | SecurityConnectorsAPIcspmMonitorJFrogOffering
-  | SecurityConnectorsAPIdefenderForContainersJFrogOffering
-  | SecurityConnectorsAPIdefenderCspmJFrogOffering
-  | SecurityConnectorsAPIcloudOffering;
+/** Alias for CloudOfferingUnion */
+export type CloudOfferingUnion =
+  | CspmMonitorAwsOffering
+  | DefenderForContainersAwsOffering
+  | DefenderForServersAwsOffering
+  | DefenderFoDatabasesAwsOffering
+  | CspmMonitorGcpOffering
+  | DefenderForServersGcpOffering
+  | DefenderForDatabasesGcpOffering
+  | DefenderForContainersGcpOffering
+  | CspmMonitorGithubOffering
+  | CspmMonitorAzureDevOpsOffering
+  | DefenderCspmAwsOffering
+  | DefenderCspmGcpOffering
+  | CspmMonitorGitLabOffering
+  | CspmMonitorDockerHubOffering
+  | DefenderForContainersDockerHubOffering
+  | DefenderCspmDockerHubOffering
+  | CspmMonitorJFrogOffering
+  | DefenderForContainersJFrogOffering
+  | DefenderCspmJFrogOffering
+  | CloudOffering;
 
-export function securityConnectorsAPIcloudOfferingUnionSerializer(
-  item: SecurityConnectorsAPIcloudOfferingUnion,
-): any {
+export function cloudOfferingUnionSerializer(item: CloudOfferingUnion): any {
   switch (item.offeringType) {
     case "CspmMonitorAws":
-      return securityConnectorsAPIcspmMonitorAwsOfferingSerializer(
-        item as SecurityConnectorsAPIcspmMonitorAwsOffering,
-      );
+      return cspmMonitorAwsOfferingSerializer(item as CspmMonitorAwsOffering);
 
     case "DefenderForContainersAws":
-      return securityConnectorsAPIdefenderForContainersAwsOfferingSerializer(
-        item as SecurityConnectorsAPIdefenderForContainersAwsOffering,
-      );
+      return defenderForContainersAwsOfferingSerializer(item as DefenderForContainersAwsOffering);
 
     case "DefenderForServersAws":
-      return securityConnectorsAPIdefenderForServersAwsOfferingSerializer(
-        item as SecurityConnectorsAPIdefenderForServersAwsOffering,
-      );
+      return defenderForServersAwsOfferingSerializer(item as DefenderForServersAwsOffering);
 
     case "DefenderForDatabasesAws":
-      return securityConnectorsAPIdefenderFoDatabasesAwsOfferingSerializer(
-        item as SecurityConnectorsAPIdefenderFoDatabasesAwsOffering,
-      );
+      return defenderFoDatabasesAwsOfferingSerializer(item as DefenderFoDatabasesAwsOffering);
 
     case "CspmMonitorGcp":
-      return securityConnectorsAPIcspmMonitorGcpOfferingSerializer(
-        item as SecurityConnectorsAPIcspmMonitorGcpOffering,
-      );
+      return cspmMonitorGcpOfferingSerializer(item as CspmMonitorGcpOffering);
 
     case "DefenderForServersGcp":
-      return securityConnectorsAPIdefenderForServersGcpOfferingSerializer(
-        item as SecurityConnectorsAPIdefenderForServersGcpOffering,
-      );
+      return defenderForServersGcpOfferingSerializer(item as DefenderForServersGcpOffering);
 
     case "DefenderForDatabasesGcp":
-      return securityConnectorsAPIdefenderForDatabasesGcpOfferingSerializer(
-        item as SecurityConnectorsAPIdefenderForDatabasesGcpOffering,
-      );
+      return defenderForDatabasesGcpOfferingSerializer(item as DefenderForDatabasesGcpOffering);
 
     case "DefenderForContainersGcp":
-      return securityConnectorsAPIdefenderForContainersGcpOfferingSerializer(
-        item as SecurityConnectorsAPIdefenderForContainersGcpOffering,
-      );
+      return defenderForContainersGcpOfferingSerializer(item as DefenderForContainersGcpOffering);
 
     case "CspmMonitorGithub":
-      return securityConnectorsAPIcspmMonitorGithubOfferingSerializer(
-        item as SecurityConnectorsAPIcspmMonitorGithubOffering,
-      );
+      return cspmMonitorGithubOfferingSerializer(item as CspmMonitorGithubOffering);
 
     case "CspmMonitorAzureDevOps":
-      return securityConnectorsAPIcspmMonitorAzureDevOpsOfferingSerializer(
-        item as SecurityConnectorsAPIcspmMonitorAzureDevOpsOffering,
-      );
+      return cspmMonitorAzureDevOpsOfferingSerializer(item as CspmMonitorAzureDevOpsOffering);
 
     case "DefenderCspmAws":
-      return securityConnectorsAPIdefenderCspmAwsOfferingSerializer(
-        item as SecurityConnectorsAPIdefenderCspmAwsOffering,
-      );
+      return defenderCspmAwsOfferingSerializer(item as DefenderCspmAwsOffering);
 
     case "DefenderCspmGcp":
-      return securityConnectorsAPIdefenderCspmGcpOfferingSerializer(
-        item as SecurityConnectorsAPIdefenderCspmGcpOffering,
-      );
+      return defenderCspmGcpOfferingSerializer(item as DefenderCspmGcpOffering);
 
     case "CspmMonitorGitLab":
-      return securityConnectorsAPIcspmMonitorGitLabOfferingSerializer(
-        item as SecurityConnectorsAPIcspmMonitorGitLabOffering,
-      );
+      return cspmMonitorGitLabOfferingSerializer(item as CspmMonitorGitLabOffering);
 
     case "CspmMonitorDockerHub":
-      return securityConnectorsAPIcspmMonitorDockerHubOfferingSerializer(
-        item as SecurityConnectorsAPIcspmMonitorDockerHubOffering,
-      );
+      return cspmMonitorDockerHubOfferingSerializer(item as CspmMonitorDockerHubOffering);
 
     case "DefenderForContainersDockerHub":
-      return securityConnectorsAPIdefenderForContainersDockerHubOfferingSerializer(
-        item as SecurityConnectorsAPIdefenderForContainersDockerHubOffering,
+      return defenderForContainersDockerHubOfferingSerializer(
+        item as DefenderForContainersDockerHubOffering,
       );
 
     case "DefenderCspmDockerHub":
-      return securityConnectorsAPIdefenderCspmDockerHubOfferingSerializer(
-        item as SecurityConnectorsAPIdefenderCspmDockerHubOffering,
-      );
+      return defenderCspmDockerHubOfferingSerializer(item as DefenderCspmDockerHubOffering);
 
     case "CspmMonitorJFrog":
-      return securityConnectorsAPIcspmMonitorJFrogOfferingSerializer(
-        item as SecurityConnectorsAPIcspmMonitorJFrogOffering,
-      );
+      return cspmMonitorJFrogOfferingSerializer(item as CspmMonitorJFrogOffering);
 
     case "DefenderForContainersJFrog":
-      return securityConnectorsAPIdefenderForContainersJFrogOfferingSerializer(
-        item as SecurityConnectorsAPIdefenderForContainersJFrogOffering,
+      return defenderForContainersJFrogOfferingSerializer(
+        item as DefenderForContainersJFrogOffering,
       );
 
     case "DefenderCspmJFrog":
-      return securityConnectorsAPIdefenderCspmJFrogOfferingSerializer(
-        item as SecurityConnectorsAPIdefenderCspmJFrogOffering,
-      );
+      return defenderCspmJFrogOfferingSerializer(item as DefenderCspmJFrogOffering);
 
     default:
-      return securityConnectorsAPIcloudOfferingSerializer(item);
+      return cloudOfferingSerializer(item);
   }
 }
 
-export function securityConnectorsAPIcloudOfferingUnionDeserializer(
-  item: any,
-): SecurityConnectorsAPIcloudOfferingUnion {
+export function cloudOfferingUnionDeserializer(item: any): CloudOfferingUnion {
   switch (item["offeringType"]) {
     case "CspmMonitorAws":
-      return securityConnectorsAPIcspmMonitorAwsOfferingDeserializer(
-        item as SecurityConnectorsAPIcspmMonitorAwsOffering,
-      );
+      return cspmMonitorAwsOfferingDeserializer(item as CspmMonitorAwsOffering);
 
     case "DefenderForContainersAws":
-      return securityConnectorsAPIdefenderForContainersAwsOfferingDeserializer(
-        item as SecurityConnectorsAPIdefenderForContainersAwsOffering,
-      );
+      return defenderForContainersAwsOfferingDeserializer(item as DefenderForContainersAwsOffering);
 
     case "DefenderForServersAws":
-      return securityConnectorsAPIdefenderForServersAwsOfferingDeserializer(
-        item as SecurityConnectorsAPIdefenderForServersAwsOffering,
-      );
+      return defenderForServersAwsOfferingDeserializer(item as DefenderForServersAwsOffering);
 
     case "DefenderForDatabasesAws":
-      return securityConnectorsAPIdefenderFoDatabasesAwsOfferingDeserializer(
-        item as SecurityConnectorsAPIdefenderFoDatabasesAwsOffering,
-      );
+      return defenderFoDatabasesAwsOfferingDeserializer(item as DefenderFoDatabasesAwsOffering);
 
     case "CspmMonitorGcp":
-      return securityConnectorsAPIcspmMonitorGcpOfferingDeserializer(
-        item as SecurityConnectorsAPIcspmMonitorGcpOffering,
-      );
+      return cspmMonitorGcpOfferingDeserializer(item as CspmMonitorGcpOffering);
 
     case "DefenderForServersGcp":
-      return securityConnectorsAPIdefenderForServersGcpOfferingDeserializer(
-        item as SecurityConnectorsAPIdefenderForServersGcpOffering,
-      );
+      return defenderForServersGcpOfferingDeserializer(item as DefenderForServersGcpOffering);
 
     case "DefenderForDatabasesGcp":
-      return securityConnectorsAPIdefenderForDatabasesGcpOfferingDeserializer(
-        item as SecurityConnectorsAPIdefenderForDatabasesGcpOffering,
-      );
+      return defenderForDatabasesGcpOfferingDeserializer(item as DefenderForDatabasesGcpOffering);
 
     case "DefenderForContainersGcp":
-      return securityConnectorsAPIdefenderForContainersGcpOfferingDeserializer(
-        item as SecurityConnectorsAPIdefenderForContainersGcpOffering,
-      );
+      return defenderForContainersGcpOfferingDeserializer(item as DefenderForContainersGcpOffering);
 
     case "CspmMonitorGithub":
-      return securityConnectorsAPIcspmMonitorGithubOfferingDeserializer(
-        item as SecurityConnectorsAPIcspmMonitorGithubOffering,
-      );
+      return cspmMonitorGithubOfferingDeserializer(item as CspmMonitorGithubOffering);
 
     case "CspmMonitorAzureDevOps":
-      return securityConnectorsAPIcspmMonitorAzureDevOpsOfferingDeserializer(
-        item as SecurityConnectorsAPIcspmMonitorAzureDevOpsOffering,
-      );
+      return cspmMonitorAzureDevOpsOfferingDeserializer(item as CspmMonitorAzureDevOpsOffering);
 
     case "DefenderCspmAws":
-      return securityConnectorsAPIdefenderCspmAwsOfferingDeserializer(
-        item as SecurityConnectorsAPIdefenderCspmAwsOffering,
-      );
+      return defenderCspmAwsOfferingDeserializer(item as DefenderCspmAwsOffering);
 
     case "DefenderCspmGcp":
-      return securityConnectorsAPIdefenderCspmGcpOfferingDeserializer(
-        item as SecurityConnectorsAPIdefenderCspmGcpOffering,
-      );
+      return defenderCspmGcpOfferingDeserializer(item as DefenderCspmGcpOffering);
 
     case "CspmMonitorGitLab":
-      return securityConnectorsAPIcspmMonitorGitLabOfferingDeserializer(
-        item as SecurityConnectorsAPIcspmMonitorGitLabOffering,
-      );
+      return cspmMonitorGitLabOfferingDeserializer(item as CspmMonitorGitLabOffering);
 
     case "CspmMonitorDockerHub":
-      return securityConnectorsAPIcspmMonitorDockerHubOfferingDeserializer(
-        item as SecurityConnectorsAPIcspmMonitorDockerHubOffering,
-      );
+      return cspmMonitorDockerHubOfferingDeserializer(item as CspmMonitorDockerHubOffering);
 
     case "DefenderForContainersDockerHub":
-      return securityConnectorsAPIdefenderForContainersDockerHubOfferingDeserializer(
-        item as SecurityConnectorsAPIdefenderForContainersDockerHubOffering,
+      return defenderForContainersDockerHubOfferingDeserializer(
+        item as DefenderForContainersDockerHubOffering,
       );
 
     case "DefenderCspmDockerHub":
-      return securityConnectorsAPIdefenderCspmDockerHubOfferingDeserializer(
-        item as SecurityConnectorsAPIdefenderCspmDockerHubOffering,
-      );
+      return defenderCspmDockerHubOfferingDeserializer(item as DefenderCspmDockerHubOffering);
 
     case "CspmMonitorJFrog":
-      return securityConnectorsAPIcspmMonitorJFrogOfferingDeserializer(
-        item as SecurityConnectorsAPIcspmMonitorJFrogOffering,
-      );
+      return cspmMonitorJFrogOfferingDeserializer(item as CspmMonitorJFrogOffering);
 
     case "DefenderForContainersJFrog":
-      return securityConnectorsAPIdefenderForContainersJFrogOfferingDeserializer(
-        item as SecurityConnectorsAPIdefenderForContainersJFrogOffering,
+      return defenderForContainersJFrogOfferingDeserializer(
+        item as DefenderForContainersJFrogOffering,
       );
 
     case "DefenderCspmJFrog":
-      return securityConnectorsAPIdefenderCspmJFrogOfferingDeserializer(
-        item as SecurityConnectorsAPIdefenderCspmJFrogOffering,
-      );
+      return defenderCspmJFrogOfferingDeserializer(item as DefenderCspmJFrogOffering);
 
     default:
-      return securityConnectorsAPIcloudOfferingDeserializer(item);
+      return cloudOfferingDeserializer(item);
   }
 }
 
 /** The type of the security offering. */
-export enum KnownSecurityConnectorsAPIOfferingType {
+export enum KnownOfferingType {
   /** CspmMonitorAws */
   CspmMonitorAws = "CspmMonitorAws",
   /** DefenderForContainersAws */
@@ -472,7 +384,7 @@ export enum KnownSecurityConnectorsAPIOfferingType {
 
 /**
  * The type of the security offering. \
- * {@link KnownSecurityConnectorsAPIOfferingType} can be used interchangeably with SecurityConnectorsAPIOfferingType,
+ * {@link KnownOfferingType} can be used interchangeably with OfferingType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **CspmMonitorAws**: CspmMonitorAws \
@@ -495,73 +407,65 @@ export enum KnownSecurityConnectorsAPIOfferingType {
  * **DefenderForContainersJFrog**: DefenderForContainersJFrog \
  * **DefenderCspmJFrog**: DefenderCspmJFrog
  */
-export type SecurityConnectorsAPIOfferingType = string;
+export type OfferingType = string;
 
 /** The CSPM monitoring for AWS offering */
-export interface SecurityConnectorsAPIcspmMonitorAwsOffering extends SecurityConnectorsAPIcloudOffering {
+export interface CspmMonitorAwsOffering extends CloudOffering {
   /** The native cloud connection configuration */
-  nativeCloudConnection?: SecurityConnectorsAPICspmMonitorAwsOfferingNativeCloudConnection;
+  nativeCloudConnection?: CspmMonitorAwsOfferingNativeCloudConnection;
   /** The type of the security offering. */
   offeringType: "CspmMonitorAws";
 }
 
-export function securityConnectorsAPIcspmMonitorAwsOfferingSerializer(
-  item: SecurityConnectorsAPIcspmMonitorAwsOffering,
-): any {
+export function cspmMonitorAwsOfferingSerializer(item: CspmMonitorAwsOffering): any {
   return {
     offeringType: item["offeringType"],
     nativeCloudConnection: !item["nativeCloudConnection"]
       ? item["nativeCloudConnection"]
-      : securityConnectorsAPICspmMonitorAwsOfferingNativeCloudConnectionSerializer(
-          item["nativeCloudConnection"],
-        ),
+      : cspmMonitorAwsOfferingNativeCloudConnectionSerializer(item["nativeCloudConnection"]),
   };
 }
 
-export function securityConnectorsAPIcspmMonitorAwsOfferingDeserializer(
-  item: any,
-): SecurityConnectorsAPIcspmMonitorAwsOffering {
+export function cspmMonitorAwsOfferingDeserializer(item: any): CspmMonitorAwsOffering {
   return {
     offeringType: item["offeringType"],
     description: item["description"],
     nativeCloudConnection: !item["nativeCloudConnection"]
       ? item["nativeCloudConnection"]
-      : securityConnectorsAPICspmMonitorAwsOfferingNativeCloudConnectionDeserializer(
-          item["nativeCloudConnection"],
-        ),
+      : cspmMonitorAwsOfferingNativeCloudConnectionDeserializer(item["nativeCloudConnection"]),
   };
 }
 
 /** The native cloud connection configuration */
-export interface SecurityConnectorsAPICspmMonitorAwsOfferingNativeCloudConnection {
+export interface CspmMonitorAwsOfferingNativeCloudConnection {
   /** The cloud role ARN in AWS for this feature */
   cloudRoleArn?: string;
 }
 
-export function securityConnectorsAPICspmMonitorAwsOfferingNativeCloudConnectionSerializer(
-  item: SecurityConnectorsAPICspmMonitorAwsOfferingNativeCloudConnection,
+export function cspmMonitorAwsOfferingNativeCloudConnectionSerializer(
+  item: CspmMonitorAwsOfferingNativeCloudConnection,
 ): any {
   return { cloudRoleArn: item["cloudRoleArn"] };
 }
 
-export function securityConnectorsAPICspmMonitorAwsOfferingNativeCloudConnectionDeserializer(
+export function cspmMonitorAwsOfferingNativeCloudConnectionDeserializer(
   item: any,
-): SecurityConnectorsAPICspmMonitorAwsOfferingNativeCloudConnection {
+): CspmMonitorAwsOfferingNativeCloudConnection {
   return {
     cloudRoleArn: item["cloudRoleArn"],
   };
 }
 
 /** The Defender for Containers AWS offering */
-export interface SecurityConnectorsAPIdefenderForContainersAwsOffering extends SecurityConnectorsAPIcloudOffering {
+export interface DefenderForContainersAwsOffering extends CloudOffering {
   /** The kubernetes service connection configuration */
-  kubernetesService?: SecurityConnectorsAPIDefenderForContainersAwsOfferingKubernetesService;
+  kubernetesService?: DefenderForContainersAwsOfferingKubernetesService;
   /** The kubernetes data collection connection configuration */
-  kubernetesDataCollection?: SecurityConnectorsAPIDefenderForContainersAwsOfferingKubernetesDataCollection;
+  kubernetesDataCollection?: DefenderForContainersAwsOfferingKubernetesDataCollection;
   /** The cloudwatch to kinesis connection configuration */
-  cloudWatchToKinesis?: SecurityConnectorsAPIDefenderForContainersAwsOfferingCloudWatchToKinesis;
+  cloudWatchToKinesis?: DefenderForContainersAwsOfferingCloudWatchToKinesis;
   /** The kinesis to s3 connection configuration */
-  kinesisToS3?: SecurityConnectorsAPIDefenderForContainersAwsOfferingKinesisToS3;
+  kinesisToS3?: DefenderForContainersAwsOfferingKinesisToS3;
   /** Is audit logs data collection enabled */
   enableAuditLogsAutoProvisioning?: boolean;
   /** Is Microsoft Defender for Cloud Kubernetes agent auto provisioning enabled */
@@ -573,40 +477,34 @@ export interface SecurityConnectorsAPIdefenderForContainersAwsOffering extends S
   /** The externalId used by the data reader to prevent the confused deputy attack */
   dataCollectionExternalId?: string;
   /** The Microsoft Defender container image assessment configuration */
-  mdcContainersImageAssessment?: SecurityConnectorsAPIDefenderForContainersAwsOfferingMdcContainersImageAssessment;
+  mdcContainersImageAssessment?: DefenderForContainersAwsOfferingMdcContainersImageAssessment;
   /** The Microsoft Defender container agentless discovery K8s configuration */
-  mdcContainersAgentlessDiscoveryK8S?: SecurityConnectorsAPIDefenderForContainersAwsOfferingMdcContainersAgentlessDiscoveryK8S;
+  mdcContainersAgentlessDiscoveryK8S?: DefenderForContainersAwsOfferingMdcContainersAgentlessDiscoveryK8S;
   /** The Microsoft Defender for Container K8s VM host scanning configuration */
-  vmScanners?: SecurityConnectorsAPIdefenderForContainersAwsOfferingVmScanners;
+  vmScanners?: DefenderForContainersAwsOfferingVmScanners;
   /** The type of the security offering. */
   offeringType: "DefenderForContainersAws";
 }
 
-export function securityConnectorsAPIdefenderForContainersAwsOfferingSerializer(
-  item: SecurityConnectorsAPIdefenderForContainersAwsOffering,
+export function defenderForContainersAwsOfferingSerializer(
+  item: DefenderForContainersAwsOffering,
 ): any {
   return {
     offeringType: item["offeringType"],
     kubernetesService: !item["kubernetesService"]
       ? item["kubernetesService"]
-      : securityConnectorsAPIDefenderForContainersAwsOfferingKubernetesServiceSerializer(
-          item["kubernetesService"],
-        ),
+      : defenderForContainersAwsOfferingKubernetesServiceSerializer(item["kubernetesService"]),
     kubernetesDataCollection: !item["kubernetesDataCollection"]
       ? item["kubernetesDataCollection"]
-      : securityConnectorsAPIDefenderForContainersAwsOfferingKubernetesDataCollectionSerializer(
+      : defenderForContainersAwsOfferingKubernetesDataCollectionSerializer(
           item["kubernetesDataCollection"],
         ),
     cloudWatchToKinesis: !item["cloudWatchToKinesis"]
       ? item["cloudWatchToKinesis"]
-      : securityConnectorsAPIDefenderForContainersAwsOfferingCloudWatchToKinesisSerializer(
-          item["cloudWatchToKinesis"],
-        ),
+      : defenderForContainersAwsOfferingCloudWatchToKinesisSerializer(item["cloudWatchToKinesis"]),
     kinesisToS3: !item["kinesisToS3"]
       ? item["kinesisToS3"]
-      : securityConnectorsAPIDefenderForContainersAwsOfferingKinesisToS3Serializer(
-          item["kinesisToS3"],
-        ),
+      : defenderForContainersAwsOfferingKinesisToS3Serializer(item["kinesisToS3"]),
     enableAuditLogsAutoProvisioning: item["enableAuditLogsAutoProvisioning"],
     enableDefenderAgentAutoProvisioning: item["enableDefenderAgentAutoProvisioning"],
     enablePolicyAgentAutoProvisioning: item["enablePolicyAgentAutoProvisioning"],
@@ -614,48 +512,42 @@ export function securityConnectorsAPIdefenderForContainersAwsOfferingSerializer(
     dataCollectionExternalId: item["dataCollectionExternalId"],
     mdcContainersImageAssessment: !item["mdcContainersImageAssessment"]
       ? item["mdcContainersImageAssessment"]
-      : securityConnectorsAPIDefenderForContainersAwsOfferingMdcContainersImageAssessmentSerializer(
+      : defenderForContainersAwsOfferingMdcContainersImageAssessmentSerializer(
           item["mdcContainersImageAssessment"],
         ),
     mdcContainersAgentlessDiscoveryK8s: !item["mdcContainersAgentlessDiscoveryK8S"]
       ? item["mdcContainersAgentlessDiscoveryK8S"]
-      : securityConnectorsAPIDefenderForContainersAwsOfferingMdcContainersAgentlessDiscoveryK8SSerializer(
+      : defenderForContainersAwsOfferingMdcContainersAgentlessDiscoveryK8SSerializer(
           item["mdcContainersAgentlessDiscoveryK8S"],
         ),
     vmScanners: !item["vmScanners"]
       ? item["vmScanners"]
-      : securityConnectorsAPIdefenderForContainersAwsOfferingVmScannersSerializer(
-          item["vmScanners"],
-        ),
+      : defenderForContainersAwsOfferingVmScannersSerializer(item["vmScanners"]),
   };
 }
 
-export function securityConnectorsAPIdefenderForContainersAwsOfferingDeserializer(
+export function defenderForContainersAwsOfferingDeserializer(
   item: any,
-): SecurityConnectorsAPIdefenderForContainersAwsOffering {
+): DefenderForContainersAwsOffering {
   return {
     offeringType: item["offeringType"],
     description: item["description"],
     kubernetesService: !item["kubernetesService"]
       ? item["kubernetesService"]
-      : securityConnectorsAPIDefenderForContainersAwsOfferingKubernetesServiceDeserializer(
-          item["kubernetesService"],
-        ),
+      : defenderForContainersAwsOfferingKubernetesServiceDeserializer(item["kubernetesService"]),
     kubernetesDataCollection: !item["kubernetesDataCollection"]
       ? item["kubernetesDataCollection"]
-      : securityConnectorsAPIDefenderForContainersAwsOfferingKubernetesDataCollectionDeserializer(
+      : defenderForContainersAwsOfferingKubernetesDataCollectionDeserializer(
           item["kubernetesDataCollection"],
         ),
     cloudWatchToKinesis: !item["cloudWatchToKinesis"]
       ? item["cloudWatchToKinesis"]
-      : securityConnectorsAPIDefenderForContainersAwsOfferingCloudWatchToKinesisDeserializer(
+      : defenderForContainersAwsOfferingCloudWatchToKinesisDeserializer(
           item["cloudWatchToKinesis"],
         ),
     kinesisToS3: !item["kinesisToS3"]
       ? item["kinesisToS3"]
-      : securityConnectorsAPIDefenderForContainersAwsOfferingKinesisToS3Deserializer(
-          item["kinesisToS3"],
-        ),
+      : defenderForContainersAwsOfferingKinesisToS3Deserializer(item["kinesisToS3"]),
     enableAuditLogsAutoProvisioning: item["enableAuditLogsAutoProvisioning"],
     enableDefenderAgentAutoProvisioning: item["enableDefenderAgentAutoProvisioning"],
     enablePolicyAgentAutoProvisioning: item["enablePolicyAgentAutoProvisioning"],
@@ -663,119 +555,117 @@ export function securityConnectorsAPIdefenderForContainersAwsOfferingDeserialize
     dataCollectionExternalId: item["dataCollectionExternalId"],
     mdcContainersImageAssessment: !item["mdcContainersImageAssessment"]
       ? item["mdcContainersImageAssessment"]
-      : securityConnectorsAPIDefenderForContainersAwsOfferingMdcContainersImageAssessmentDeserializer(
+      : defenderForContainersAwsOfferingMdcContainersImageAssessmentDeserializer(
           item["mdcContainersImageAssessment"],
         ),
     mdcContainersAgentlessDiscoveryK8S: !item["mdcContainersAgentlessDiscoveryK8s"]
       ? item["mdcContainersAgentlessDiscoveryK8s"]
-      : securityConnectorsAPIDefenderForContainersAwsOfferingMdcContainersAgentlessDiscoveryK8SDeserializer(
+      : defenderForContainersAwsOfferingMdcContainersAgentlessDiscoveryK8SDeserializer(
           item["mdcContainersAgentlessDiscoveryK8s"],
         ),
     vmScanners: !item["vmScanners"]
       ? item["vmScanners"]
-      : securityConnectorsAPIdefenderForContainersAwsOfferingVmScannersDeserializer(
-          item["vmScanners"],
-        ),
+      : defenderForContainersAwsOfferingVmScannersDeserializer(item["vmScanners"]),
   };
 }
 
 /** The kubernetes service connection configuration */
-export interface SecurityConnectorsAPIDefenderForContainersAwsOfferingKubernetesService {
+export interface DefenderForContainersAwsOfferingKubernetesService {
   /** The cloud role ARN in AWS for this feature used for provisioning resources */
   cloudRoleArn?: string;
 }
 
-export function securityConnectorsAPIDefenderForContainersAwsOfferingKubernetesServiceSerializer(
-  item: SecurityConnectorsAPIDefenderForContainersAwsOfferingKubernetesService,
+export function defenderForContainersAwsOfferingKubernetesServiceSerializer(
+  item: DefenderForContainersAwsOfferingKubernetesService,
 ): any {
   return { cloudRoleArn: item["cloudRoleArn"] };
 }
 
-export function securityConnectorsAPIDefenderForContainersAwsOfferingKubernetesServiceDeserializer(
+export function defenderForContainersAwsOfferingKubernetesServiceDeserializer(
   item: any,
-): SecurityConnectorsAPIDefenderForContainersAwsOfferingKubernetesService {
+): DefenderForContainersAwsOfferingKubernetesService {
   return {
     cloudRoleArn: item["cloudRoleArn"],
   };
 }
 
 /** The kubernetes data collection connection configuration */
-export interface SecurityConnectorsAPIDefenderForContainersAwsOfferingKubernetesDataCollection {
+export interface DefenderForContainersAwsOfferingKubernetesDataCollection {
   /** The cloud role ARN in AWS for this feature used for reading data */
   cloudRoleArn?: string;
 }
 
-export function securityConnectorsAPIDefenderForContainersAwsOfferingKubernetesDataCollectionSerializer(
-  item: SecurityConnectorsAPIDefenderForContainersAwsOfferingKubernetesDataCollection,
+export function defenderForContainersAwsOfferingKubernetesDataCollectionSerializer(
+  item: DefenderForContainersAwsOfferingKubernetesDataCollection,
 ): any {
   return { cloudRoleArn: item["cloudRoleArn"] };
 }
 
-export function securityConnectorsAPIDefenderForContainersAwsOfferingKubernetesDataCollectionDeserializer(
+export function defenderForContainersAwsOfferingKubernetesDataCollectionDeserializer(
   item: any,
-): SecurityConnectorsAPIDefenderForContainersAwsOfferingKubernetesDataCollection {
+): DefenderForContainersAwsOfferingKubernetesDataCollection {
   return {
     cloudRoleArn: item["cloudRoleArn"],
   };
 }
 
 /** The cloudwatch to kinesis connection configuration */
-export interface SecurityConnectorsAPIDefenderForContainersAwsOfferingCloudWatchToKinesis {
+export interface DefenderForContainersAwsOfferingCloudWatchToKinesis {
   /** The cloud role ARN in AWS used by CloudWatch to transfer data into Kinesis */
   cloudRoleArn?: string;
 }
 
-export function securityConnectorsAPIDefenderForContainersAwsOfferingCloudWatchToKinesisSerializer(
-  item: SecurityConnectorsAPIDefenderForContainersAwsOfferingCloudWatchToKinesis,
+export function defenderForContainersAwsOfferingCloudWatchToKinesisSerializer(
+  item: DefenderForContainersAwsOfferingCloudWatchToKinesis,
 ): any {
   return { cloudRoleArn: item["cloudRoleArn"] };
 }
 
-export function securityConnectorsAPIDefenderForContainersAwsOfferingCloudWatchToKinesisDeserializer(
+export function defenderForContainersAwsOfferingCloudWatchToKinesisDeserializer(
   item: any,
-): SecurityConnectorsAPIDefenderForContainersAwsOfferingCloudWatchToKinesis {
+): DefenderForContainersAwsOfferingCloudWatchToKinesis {
   return {
     cloudRoleArn: item["cloudRoleArn"],
   };
 }
 
 /** The kinesis to s3 connection configuration */
-export interface SecurityConnectorsAPIDefenderForContainersAwsOfferingKinesisToS3 {
+export interface DefenderForContainersAwsOfferingKinesisToS3 {
   /** The cloud role ARN in AWS used by Kinesis to transfer data into S3 */
   cloudRoleArn?: string;
 }
 
-export function securityConnectorsAPIDefenderForContainersAwsOfferingKinesisToS3Serializer(
-  item: SecurityConnectorsAPIDefenderForContainersAwsOfferingKinesisToS3,
+export function defenderForContainersAwsOfferingKinesisToS3Serializer(
+  item: DefenderForContainersAwsOfferingKinesisToS3,
 ): any {
   return { cloudRoleArn: item["cloudRoleArn"] };
 }
 
-export function securityConnectorsAPIDefenderForContainersAwsOfferingKinesisToS3Deserializer(
+export function defenderForContainersAwsOfferingKinesisToS3Deserializer(
   item: any,
-): SecurityConnectorsAPIDefenderForContainersAwsOfferingKinesisToS3 {
+): DefenderForContainersAwsOfferingKinesisToS3 {
   return {
     cloudRoleArn: item["cloudRoleArn"],
   };
 }
 
 /** The Microsoft Defender container image assessment configuration */
-export interface SecurityConnectorsAPIDefenderForContainersAwsOfferingMdcContainersImageAssessment {
+export interface DefenderForContainersAwsOfferingMdcContainersImageAssessment {
   /** Is Microsoft Defender container image assessment enabled */
   enabled?: boolean;
   /** The cloud role ARN in AWS for this feature */
   cloudRoleArn?: string;
 }
 
-export function securityConnectorsAPIDefenderForContainersAwsOfferingMdcContainersImageAssessmentSerializer(
-  item: SecurityConnectorsAPIDefenderForContainersAwsOfferingMdcContainersImageAssessment,
+export function defenderForContainersAwsOfferingMdcContainersImageAssessmentSerializer(
+  item: DefenderForContainersAwsOfferingMdcContainersImageAssessment,
 ): any {
   return { enabled: item["enabled"], cloudRoleArn: item["cloudRoleArn"] };
 }
 
-export function securityConnectorsAPIDefenderForContainersAwsOfferingMdcContainersImageAssessmentDeserializer(
+export function defenderForContainersAwsOfferingMdcContainersImageAssessmentDeserializer(
   item: any,
-): SecurityConnectorsAPIDefenderForContainersAwsOfferingMdcContainersImageAssessment {
+): DefenderForContainersAwsOfferingMdcContainersImageAssessment {
   return {
     enabled: item["enabled"],
     cloudRoleArn: item["cloudRoleArn"],
@@ -783,22 +673,22 @@ export function securityConnectorsAPIDefenderForContainersAwsOfferingMdcContaine
 }
 
 /** The Microsoft Defender container agentless discovery K8s configuration */
-export interface SecurityConnectorsAPIDefenderForContainersAwsOfferingMdcContainersAgentlessDiscoveryK8S {
+export interface DefenderForContainersAwsOfferingMdcContainersAgentlessDiscoveryK8S {
   /** Is Microsoft Defender container agentless discovery K8s enabled */
   enabled?: boolean;
   /** The cloud role ARN in AWS for this feature */
   cloudRoleArn?: string;
 }
 
-export function securityConnectorsAPIDefenderForContainersAwsOfferingMdcContainersAgentlessDiscoveryK8SSerializer(
-  item: SecurityConnectorsAPIDefenderForContainersAwsOfferingMdcContainersAgentlessDiscoveryK8S,
+export function defenderForContainersAwsOfferingMdcContainersAgentlessDiscoveryK8SSerializer(
+  item: DefenderForContainersAwsOfferingMdcContainersAgentlessDiscoveryK8S,
 ): any {
   return { enabled: item["enabled"], cloudRoleArn: item["cloudRoleArn"] };
 }
 
-export function securityConnectorsAPIDefenderForContainersAwsOfferingMdcContainersAgentlessDiscoveryK8SDeserializer(
+export function defenderForContainersAwsOfferingMdcContainersAgentlessDiscoveryK8SDeserializer(
   item: any,
-): SecurityConnectorsAPIDefenderForContainersAwsOfferingMdcContainersAgentlessDiscoveryK8S {
+): DefenderForContainersAwsOfferingMdcContainersAgentlessDiscoveryK8S {
   return {
     enabled: item["enabled"],
     cloudRoleArn: item["cloudRoleArn"],
@@ -806,224 +696,204 @@ export function securityConnectorsAPIDefenderForContainersAwsOfferingMdcContaine
 }
 
 /** The Microsoft Defender for Container K8s VM host scanning configuration */
-export interface SecurityConnectorsAPIdefenderForContainersAwsOfferingVmScanners extends SecurityConnectorsAPIvmScannersAws {}
+export interface DefenderForContainersAwsOfferingVmScanners extends VmScannersAws {}
 
-export function securityConnectorsAPIdefenderForContainersAwsOfferingVmScannersSerializer(
-  item: SecurityConnectorsAPIdefenderForContainersAwsOfferingVmScanners,
+export function defenderForContainersAwsOfferingVmScannersSerializer(
+  item: DefenderForContainersAwsOfferingVmScanners,
 ): any {
   return {
     cloudRoleArn: item["cloudRoleArn"],
     enabled: item["enabled"],
     configuration: !item["configuration"]
       ? item["configuration"]
-      : securityConnectorsAPIVmScannersBaseConfigurationSerializer(item["configuration"]),
+      : vmScannersBaseConfigurationSerializer(item["configuration"]),
   };
 }
 
-export function securityConnectorsAPIdefenderForContainersAwsOfferingVmScannersDeserializer(
+export function defenderForContainersAwsOfferingVmScannersDeserializer(
   item: any,
-): SecurityConnectorsAPIdefenderForContainersAwsOfferingVmScanners {
+): DefenderForContainersAwsOfferingVmScanners {
   return {
     cloudRoleArn: item["cloudRoleArn"],
     enabled: item["enabled"],
     configuration: !item["configuration"]
       ? item["configuration"]
-      : securityConnectorsAPIVmScannersBaseConfigurationDeserializer(item["configuration"]),
+      : vmScannersBaseConfigurationDeserializer(item["configuration"]),
   };
 }
 
 /** The Defender for Servers AWS offering */
-export interface SecurityConnectorsAPIdefenderForServersAwsOffering extends SecurityConnectorsAPIcloudOffering {
+export interface DefenderForServersAwsOffering extends CloudOffering {
   /** The Defender for servers connection configuration */
-  defenderForServers?: SecurityConnectorsAPIDefenderForServersAwsOfferingDefenderForServers;
+  defenderForServers?: DefenderForServersAwsOfferingDefenderForServers;
   /** The ARC autoprovisioning configuration */
-  arcAutoProvisioning?: SecurityConnectorsAPIDefenderForServersAwsOfferingArcAutoProvisioning;
+  arcAutoProvisioning?: DefenderForServersAwsOfferingArcAutoProvisioning;
   /** The Vulnerability Assessment autoprovisioning configuration */
-  vaAutoProvisioning?: SecurityConnectorsAPIDefenderForServersAwsOfferingVaAutoProvisioning;
+  vaAutoProvisioning?: DefenderForServersAwsOfferingVaAutoProvisioning;
   /** The Microsoft Defender for Endpoint autoprovisioning configuration */
-  mdeAutoProvisioning?: SecurityConnectorsAPIDefenderForServersAwsOfferingMdeAutoProvisioning;
+  mdeAutoProvisioning?: DefenderForServersAwsOfferingMdeAutoProvisioning;
   /** configuration for the servers offering subPlan */
-  subPlan?: SecurityConnectorsAPIDefenderForServersAwsOfferingSubPlan;
+  subPlan?: DefenderForServersAwsOfferingSubPlan;
   /** The Microsoft Defender for Server VM scanning configuration */
-  vmScanners?: SecurityConnectorsAPIdefenderForServersAwsOfferingVmScanners;
+  vmScanners?: DefenderForServersAwsOfferingVmScanners;
   /** The type of the security offering. */
   offeringType: "DefenderForServersAws";
 }
 
-export function securityConnectorsAPIdefenderForServersAwsOfferingSerializer(
-  item: SecurityConnectorsAPIdefenderForServersAwsOffering,
-): any {
+export function defenderForServersAwsOfferingSerializer(item: DefenderForServersAwsOffering): any {
   return {
     offeringType: item["offeringType"],
     defenderForServers: !item["defenderForServers"]
       ? item["defenderForServers"]
-      : securityConnectorsAPIDefenderForServersAwsOfferingDefenderForServersSerializer(
-          item["defenderForServers"],
-        ),
+      : defenderForServersAwsOfferingDefenderForServersSerializer(item["defenderForServers"]),
     arcAutoProvisioning: !item["arcAutoProvisioning"]
       ? item["arcAutoProvisioning"]
-      : securityConnectorsAPIDefenderForServersAwsOfferingArcAutoProvisioningSerializer(
-          item["arcAutoProvisioning"],
-        ),
+      : defenderForServersAwsOfferingArcAutoProvisioningSerializer(item["arcAutoProvisioning"]),
     vaAutoProvisioning: !item["vaAutoProvisioning"]
       ? item["vaAutoProvisioning"]
-      : securityConnectorsAPIDefenderForServersAwsOfferingVaAutoProvisioningSerializer(
-          item["vaAutoProvisioning"],
-        ),
+      : defenderForServersAwsOfferingVaAutoProvisioningSerializer(item["vaAutoProvisioning"]),
     mdeAutoProvisioning: !item["mdeAutoProvisioning"]
       ? item["mdeAutoProvisioning"]
-      : securityConnectorsAPIDefenderForServersAwsOfferingMdeAutoProvisioningSerializer(
-          item["mdeAutoProvisioning"],
-        ),
+      : defenderForServersAwsOfferingMdeAutoProvisioningSerializer(item["mdeAutoProvisioning"]),
     subPlan: !item["subPlan"]
       ? item["subPlan"]
-      : securityConnectorsAPIDefenderForServersAwsOfferingSubPlanSerializer(item["subPlan"]),
+      : defenderForServersAwsOfferingSubPlanSerializer(item["subPlan"]),
     vmScanners: !item["vmScanners"]
       ? item["vmScanners"]
-      : securityConnectorsAPIdefenderForServersAwsOfferingVmScannersSerializer(item["vmScanners"]),
+      : defenderForServersAwsOfferingVmScannersSerializer(item["vmScanners"]),
   };
 }
 
-export function securityConnectorsAPIdefenderForServersAwsOfferingDeserializer(
+export function defenderForServersAwsOfferingDeserializer(
   item: any,
-): SecurityConnectorsAPIdefenderForServersAwsOffering {
+): DefenderForServersAwsOffering {
   return {
     offeringType: item["offeringType"],
     description: item["description"],
     defenderForServers: !item["defenderForServers"]
       ? item["defenderForServers"]
-      : securityConnectorsAPIDefenderForServersAwsOfferingDefenderForServersDeserializer(
-          item["defenderForServers"],
-        ),
+      : defenderForServersAwsOfferingDefenderForServersDeserializer(item["defenderForServers"]),
     arcAutoProvisioning: !item["arcAutoProvisioning"]
       ? item["arcAutoProvisioning"]
-      : securityConnectorsAPIDefenderForServersAwsOfferingArcAutoProvisioningDeserializer(
-          item["arcAutoProvisioning"],
-        ),
+      : defenderForServersAwsOfferingArcAutoProvisioningDeserializer(item["arcAutoProvisioning"]),
     vaAutoProvisioning: !item["vaAutoProvisioning"]
       ? item["vaAutoProvisioning"]
-      : securityConnectorsAPIDefenderForServersAwsOfferingVaAutoProvisioningDeserializer(
-          item["vaAutoProvisioning"],
-        ),
+      : defenderForServersAwsOfferingVaAutoProvisioningDeserializer(item["vaAutoProvisioning"]),
     mdeAutoProvisioning: !item["mdeAutoProvisioning"]
       ? item["mdeAutoProvisioning"]
-      : securityConnectorsAPIDefenderForServersAwsOfferingMdeAutoProvisioningDeserializer(
-          item["mdeAutoProvisioning"],
-        ),
+      : defenderForServersAwsOfferingMdeAutoProvisioningDeserializer(item["mdeAutoProvisioning"]),
     subPlan: !item["subPlan"]
       ? item["subPlan"]
-      : securityConnectorsAPIDefenderForServersAwsOfferingSubPlanDeserializer(item["subPlan"]),
+      : defenderForServersAwsOfferingSubPlanDeserializer(item["subPlan"]),
     vmScanners: !item["vmScanners"]
       ? item["vmScanners"]
-      : securityConnectorsAPIdefenderForServersAwsOfferingVmScannersDeserializer(
-          item["vmScanners"],
-        ),
+      : defenderForServersAwsOfferingVmScannersDeserializer(item["vmScanners"]),
   };
 }
 
 /** The Defender for servers connection configuration */
-export interface SecurityConnectorsAPIDefenderForServersAwsOfferingDefenderForServers {
+export interface DefenderForServersAwsOfferingDefenderForServers {
   /** The cloud role ARN in AWS for this feature */
   cloudRoleArn?: string;
 }
 
-export function securityConnectorsAPIDefenderForServersAwsOfferingDefenderForServersSerializer(
-  item: SecurityConnectorsAPIDefenderForServersAwsOfferingDefenderForServers,
+export function defenderForServersAwsOfferingDefenderForServersSerializer(
+  item: DefenderForServersAwsOfferingDefenderForServers,
 ): any {
   return { cloudRoleArn: item["cloudRoleArn"] };
 }
 
-export function securityConnectorsAPIDefenderForServersAwsOfferingDefenderForServersDeserializer(
+export function defenderForServersAwsOfferingDefenderForServersDeserializer(
   item: any,
-): SecurityConnectorsAPIDefenderForServersAwsOfferingDefenderForServers {
+): DefenderForServersAwsOfferingDefenderForServers {
   return {
     cloudRoleArn: item["cloudRoleArn"],
   };
 }
 
 /** The ARC autoprovisioning configuration */
-export interface SecurityConnectorsAPIDefenderForServersAwsOfferingArcAutoProvisioning extends SecurityConnectorsAPIarcAutoProvisioningAws {}
+export interface DefenderForServersAwsOfferingArcAutoProvisioning extends ArcAutoProvisioningAws {}
 
-export function securityConnectorsAPIDefenderForServersAwsOfferingArcAutoProvisioningSerializer(
-  item: SecurityConnectorsAPIDefenderForServersAwsOfferingArcAutoProvisioning,
+export function defenderForServersAwsOfferingArcAutoProvisioningSerializer(
+  item: DefenderForServersAwsOfferingArcAutoProvisioning,
 ): any {
   return {
     cloudRoleArn: item["cloudRoleArn"],
     enabled: item["enabled"],
     configuration: !item["configuration"]
       ? item["configuration"]
-      : securityConnectorsAPIArcAutoProvisioningConfigurationSerializer(item["configuration"]),
+      : arcAutoProvisioningConfigurationSerializer(item["configuration"]),
   };
 }
 
-export function securityConnectorsAPIDefenderForServersAwsOfferingArcAutoProvisioningDeserializer(
+export function defenderForServersAwsOfferingArcAutoProvisioningDeserializer(
   item: any,
-): SecurityConnectorsAPIDefenderForServersAwsOfferingArcAutoProvisioning {
+): DefenderForServersAwsOfferingArcAutoProvisioning {
   return {
     cloudRoleArn: item["cloudRoleArn"],
     enabled: item["enabled"],
     configuration: !item["configuration"]
       ? item["configuration"]
-      : securityConnectorsAPIArcAutoProvisioningConfigurationDeserializer(item["configuration"]),
+      : arcAutoProvisioningConfigurationDeserializer(item["configuration"]),
   };
 }
 
 /** The Vulnerability Assessment autoprovisioning configuration */
-export interface SecurityConnectorsAPIDefenderForServersAwsOfferingVaAutoProvisioning {
+export interface DefenderForServersAwsOfferingVaAutoProvisioning {
   /** Is Vulnerability Assessment auto provisioning enabled */
   enabled?: boolean;
   /** configuration for Vulnerability Assessment autoprovisioning */
-  configuration?: SecurityConnectorsAPIDefenderForServersAwsOfferingVaAutoProvisioningConfiguration;
+  configuration?: DefenderForServersAwsOfferingVaAutoProvisioningConfiguration;
 }
 
-export function securityConnectorsAPIDefenderForServersAwsOfferingVaAutoProvisioningSerializer(
-  item: SecurityConnectorsAPIDefenderForServersAwsOfferingVaAutoProvisioning,
+export function defenderForServersAwsOfferingVaAutoProvisioningSerializer(
+  item: DefenderForServersAwsOfferingVaAutoProvisioning,
 ): any {
   return {
     enabled: item["enabled"],
     configuration: !item["configuration"]
       ? item["configuration"]
-      : securityConnectorsAPIDefenderForServersAwsOfferingVaAutoProvisioningConfigurationSerializer(
+      : defenderForServersAwsOfferingVaAutoProvisioningConfigurationSerializer(
           item["configuration"],
         ),
   };
 }
 
-export function securityConnectorsAPIDefenderForServersAwsOfferingVaAutoProvisioningDeserializer(
+export function defenderForServersAwsOfferingVaAutoProvisioningDeserializer(
   item: any,
-): SecurityConnectorsAPIDefenderForServersAwsOfferingVaAutoProvisioning {
+): DefenderForServersAwsOfferingVaAutoProvisioning {
   return {
     enabled: item["enabled"],
     configuration: !item["configuration"]
       ? item["configuration"]
-      : securityConnectorsAPIDefenderForServersAwsOfferingVaAutoProvisioningConfigurationDeserializer(
+      : defenderForServersAwsOfferingVaAutoProvisioningConfigurationDeserializer(
           item["configuration"],
         ),
   };
 }
 
 /** configuration for Vulnerability Assessment autoprovisioning */
-export interface SecurityConnectorsAPIDefenderForServersAwsOfferingVaAutoProvisioningConfiguration {
+export interface DefenderForServersAwsOfferingVaAutoProvisioningConfiguration {
   /** The Vulnerability Assessment solution to be provisioned. Can be either 'TVM' or 'Qualys' */
-  type?: SecurityConnectorsAPIType;
+  type?: Type;
 }
 
-export function securityConnectorsAPIDefenderForServersAwsOfferingVaAutoProvisioningConfigurationSerializer(
-  item: SecurityConnectorsAPIDefenderForServersAwsOfferingVaAutoProvisioningConfiguration,
+export function defenderForServersAwsOfferingVaAutoProvisioningConfigurationSerializer(
+  item: DefenderForServersAwsOfferingVaAutoProvisioningConfiguration,
 ): any {
   return { type: item["type"] };
 }
 
-export function securityConnectorsAPIDefenderForServersAwsOfferingVaAutoProvisioningConfigurationDeserializer(
+export function defenderForServersAwsOfferingVaAutoProvisioningConfigurationDeserializer(
   item: any,
-): SecurityConnectorsAPIDefenderForServersAwsOfferingVaAutoProvisioningConfiguration {
+): DefenderForServersAwsOfferingVaAutoProvisioningConfiguration {
   return {
     type: item["type"],
   };
 }
 
 /** The Vulnerability Assessment solution to be provisioned. Can be either 'TVM' or 'Qualys' */
-export enum KnownSecurityConnectorsAPIType {
+export enum KnownType {
   /** Qualys */
   Qualys = "Qualys",
   /** TVM */
@@ -1032,31 +902,31 @@ export enum KnownSecurityConnectorsAPIType {
 
 /**
  * The Vulnerability Assessment solution to be provisioned. Can be either 'TVM' or 'Qualys' \
- * {@link KnownSecurityConnectorsAPIType} can be used interchangeably with SecurityConnectorsAPIType,
+ * {@link KnownType} can be used interchangeably with Type,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Qualys**: Qualys \
  * **TVM**: TVM
  */
-export type SecurityConnectorsAPIType = string;
+export type Type = string;
 
 /** The Microsoft Defender for Endpoint autoprovisioning configuration */
-export interface SecurityConnectorsAPIDefenderForServersAwsOfferingMdeAutoProvisioning {
+export interface DefenderForServersAwsOfferingMdeAutoProvisioning {
   /** Is Microsoft Defender for Endpoint auto provisioning enabled */
   enabled?: boolean;
   /** configuration for Microsoft Defender for Endpoint autoprovisioning */
   configuration?: any;
 }
 
-export function securityConnectorsAPIDefenderForServersAwsOfferingMdeAutoProvisioningSerializer(
-  item: SecurityConnectorsAPIDefenderForServersAwsOfferingMdeAutoProvisioning,
+export function defenderForServersAwsOfferingMdeAutoProvisioningSerializer(
+  item: DefenderForServersAwsOfferingMdeAutoProvisioning,
 ): any {
   return { enabled: item["enabled"], configuration: item["configuration"] };
 }
 
-export function securityConnectorsAPIDefenderForServersAwsOfferingMdeAutoProvisioningDeserializer(
+export function defenderForServersAwsOfferingMdeAutoProvisioningDeserializer(
   item: any,
-): SecurityConnectorsAPIDefenderForServersAwsOfferingMdeAutoProvisioning {
+): DefenderForServersAwsOfferingMdeAutoProvisioning {
   return {
     enabled: item["enabled"],
     configuration: item["configuration"],
@@ -1064,27 +934,27 @@ export function securityConnectorsAPIDefenderForServersAwsOfferingMdeAutoProvisi
 }
 
 /** configuration for the servers offering subPlan */
-export interface SecurityConnectorsAPIDefenderForServersAwsOfferingSubPlan {
+export interface DefenderForServersAwsOfferingSubPlan {
   /** The available sub plans */
-  type?: SecurityConnectorsAPISubPlan;
+  type?: SubPlan;
 }
 
-export function securityConnectorsAPIDefenderForServersAwsOfferingSubPlanSerializer(
-  item: SecurityConnectorsAPIDefenderForServersAwsOfferingSubPlan,
+export function defenderForServersAwsOfferingSubPlanSerializer(
+  item: DefenderForServersAwsOfferingSubPlan,
 ): any {
   return { type: item["type"] };
 }
 
-export function securityConnectorsAPIDefenderForServersAwsOfferingSubPlanDeserializer(
+export function defenderForServersAwsOfferingSubPlanDeserializer(
   item: any,
-): SecurityConnectorsAPIDefenderForServersAwsOfferingSubPlan {
+): DefenderForServersAwsOfferingSubPlan {
   return {
     type: item["type"],
   };
 }
 
 /** The available sub plans */
-export enum KnownSecurityConnectorsAPISubPlan {
+export enum KnownSubPlan {
   /** P1 */
   P1 = "P1",
   /** P2 */
@@ -1093,140 +963,128 @@ export enum KnownSecurityConnectorsAPISubPlan {
 
 /**
  * The available sub plans \
- * {@link KnownSecurityConnectorsAPISubPlan} can be used interchangeably with SecurityConnectorsAPISubPlan,
+ * {@link KnownSubPlan} can be used interchangeably with SubPlan,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **P1**: P1 \
  * **P2**: P2
  */
-export type SecurityConnectorsAPISubPlan = string;
+export type SubPlan = string;
 
 /** The Microsoft Defender for Server VM scanning configuration */
-export interface SecurityConnectorsAPIdefenderForServersAwsOfferingVmScanners extends SecurityConnectorsAPIvmScannersAws {}
+export interface DefenderForServersAwsOfferingVmScanners extends VmScannersAws {}
 
-export function securityConnectorsAPIdefenderForServersAwsOfferingVmScannersSerializer(
-  item: SecurityConnectorsAPIdefenderForServersAwsOfferingVmScanners,
+export function defenderForServersAwsOfferingVmScannersSerializer(
+  item: DefenderForServersAwsOfferingVmScanners,
 ): any {
   return {
     cloudRoleArn: item["cloudRoleArn"],
     enabled: item["enabled"],
     configuration: !item["configuration"]
       ? item["configuration"]
-      : securityConnectorsAPIVmScannersBaseConfigurationSerializer(item["configuration"]),
+      : vmScannersBaseConfigurationSerializer(item["configuration"]),
   };
 }
 
-export function securityConnectorsAPIdefenderForServersAwsOfferingVmScannersDeserializer(
+export function defenderForServersAwsOfferingVmScannersDeserializer(
   item: any,
-): SecurityConnectorsAPIdefenderForServersAwsOfferingVmScanners {
+): DefenderForServersAwsOfferingVmScanners {
   return {
     cloudRoleArn: item["cloudRoleArn"],
     enabled: item["enabled"],
     configuration: !item["configuration"]
       ? item["configuration"]
-      : securityConnectorsAPIVmScannersBaseConfigurationDeserializer(item["configuration"]),
+      : vmScannersBaseConfigurationDeserializer(item["configuration"]),
   };
 }
 
 /** The Defender for Databases AWS offering */
-export interface SecurityConnectorsAPIdefenderFoDatabasesAwsOffering extends SecurityConnectorsAPIcloudOffering {
+export interface DefenderFoDatabasesAwsOffering extends CloudOffering {
   /** The ARC autoprovisioning configuration */
-  arcAutoProvisioning?: SecurityConnectorsAPIDefenderFoDatabasesAwsOfferingArcAutoProvisioning;
+  arcAutoProvisioning?: DefenderFoDatabasesAwsOfferingArcAutoProvisioning;
   /** The RDS configuration */
-  rds?: SecurityConnectorsAPIDefenderFoDatabasesAwsOfferingRds;
+  rds?: DefenderFoDatabasesAwsOfferingRds;
   /** The databases data security posture management (DSPM) configuration */
-  databasesDspm?: SecurityConnectorsAPIDefenderFoDatabasesAwsOfferingDatabasesDspm;
+  databasesDspm?: DefenderFoDatabasesAwsOfferingDatabasesDspm;
   /** The type of the security offering. */
   offeringType: "DefenderForDatabasesAws";
 }
 
-export function securityConnectorsAPIdefenderFoDatabasesAwsOfferingSerializer(
-  item: SecurityConnectorsAPIdefenderFoDatabasesAwsOffering,
+export function defenderFoDatabasesAwsOfferingSerializer(
+  item: DefenderFoDatabasesAwsOffering,
 ): any {
   return {
     offeringType: item["offeringType"],
     arcAutoProvisioning: !item["arcAutoProvisioning"]
       ? item["arcAutoProvisioning"]
-      : securityConnectorsAPIDefenderFoDatabasesAwsOfferingArcAutoProvisioningSerializer(
-          item["arcAutoProvisioning"],
-        ),
-    rds: !item["rds"]
-      ? item["rds"]
-      : securityConnectorsAPIDefenderFoDatabasesAwsOfferingRdsSerializer(item["rds"]),
+      : defenderFoDatabasesAwsOfferingArcAutoProvisioningSerializer(item["arcAutoProvisioning"]),
+    rds: !item["rds"] ? item["rds"] : defenderFoDatabasesAwsOfferingRdsSerializer(item["rds"]),
     databasesDspm: !item["databasesDspm"]
       ? item["databasesDspm"]
-      : securityConnectorsAPIDefenderFoDatabasesAwsOfferingDatabasesDspmSerializer(
-          item["databasesDspm"],
-        ),
+      : defenderFoDatabasesAwsOfferingDatabasesDspmSerializer(item["databasesDspm"]),
   };
 }
 
-export function securityConnectorsAPIdefenderFoDatabasesAwsOfferingDeserializer(
+export function defenderFoDatabasesAwsOfferingDeserializer(
   item: any,
-): SecurityConnectorsAPIdefenderFoDatabasesAwsOffering {
+): DefenderFoDatabasesAwsOffering {
   return {
     offeringType: item["offeringType"],
     description: item["description"],
     arcAutoProvisioning: !item["arcAutoProvisioning"]
       ? item["arcAutoProvisioning"]
-      : securityConnectorsAPIDefenderFoDatabasesAwsOfferingArcAutoProvisioningDeserializer(
-          item["arcAutoProvisioning"],
-        ),
-    rds: !item["rds"]
-      ? item["rds"]
-      : securityConnectorsAPIDefenderFoDatabasesAwsOfferingRdsDeserializer(item["rds"]),
+      : defenderFoDatabasesAwsOfferingArcAutoProvisioningDeserializer(item["arcAutoProvisioning"]),
+    rds: !item["rds"] ? item["rds"] : defenderFoDatabasesAwsOfferingRdsDeserializer(item["rds"]),
     databasesDspm: !item["databasesDspm"]
       ? item["databasesDspm"]
-      : securityConnectorsAPIDefenderFoDatabasesAwsOfferingDatabasesDspmDeserializer(
-          item["databasesDspm"],
-        ),
+      : defenderFoDatabasesAwsOfferingDatabasesDspmDeserializer(item["databasesDspm"]),
   };
 }
 
 /** The ARC autoprovisioning configuration */
-export interface SecurityConnectorsAPIDefenderFoDatabasesAwsOfferingArcAutoProvisioning extends SecurityConnectorsAPIarcAutoProvisioningAws {}
+export interface DefenderFoDatabasesAwsOfferingArcAutoProvisioning extends ArcAutoProvisioningAws {}
 
-export function securityConnectorsAPIDefenderFoDatabasesAwsOfferingArcAutoProvisioningSerializer(
-  item: SecurityConnectorsAPIDefenderFoDatabasesAwsOfferingArcAutoProvisioning,
+export function defenderFoDatabasesAwsOfferingArcAutoProvisioningSerializer(
+  item: DefenderFoDatabasesAwsOfferingArcAutoProvisioning,
 ): any {
   return {
     cloudRoleArn: item["cloudRoleArn"],
     enabled: item["enabled"],
     configuration: !item["configuration"]
       ? item["configuration"]
-      : securityConnectorsAPIArcAutoProvisioningConfigurationSerializer(item["configuration"]),
+      : arcAutoProvisioningConfigurationSerializer(item["configuration"]),
   };
 }
 
-export function securityConnectorsAPIDefenderFoDatabasesAwsOfferingArcAutoProvisioningDeserializer(
+export function defenderFoDatabasesAwsOfferingArcAutoProvisioningDeserializer(
   item: any,
-): SecurityConnectorsAPIDefenderFoDatabasesAwsOfferingArcAutoProvisioning {
+): DefenderFoDatabasesAwsOfferingArcAutoProvisioning {
   return {
     cloudRoleArn: item["cloudRoleArn"],
     enabled: item["enabled"],
     configuration: !item["configuration"]
       ? item["configuration"]
-      : securityConnectorsAPIArcAutoProvisioningConfigurationDeserializer(item["configuration"]),
+      : arcAutoProvisioningConfigurationDeserializer(item["configuration"]),
   };
 }
 
 /** The RDS configuration */
-export interface SecurityConnectorsAPIDefenderFoDatabasesAwsOfferingRds {
+export interface DefenderFoDatabasesAwsOfferingRds {
   /** Is RDS protection enabled */
   enabled?: boolean;
   /** The cloud role ARN in AWS for this feature */
   cloudRoleArn?: string;
 }
 
-export function securityConnectorsAPIDefenderFoDatabasesAwsOfferingRdsSerializer(
-  item: SecurityConnectorsAPIDefenderFoDatabasesAwsOfferingRds,
+export function defenderFoDatabasesAwsOfferingRdsSerializer(
+  item: DefenderFoDatabasesAwsOfferingRds,
 ): any {
   return { enabled: item["enabled"], cloudRoleArn: item["cloudRoleArn"] };
 }
 
-export function securityConnectorsAPIDefenderFoDatabasesAwsOfferingRdsDeserializer(
+export function defenderFoDatabasesAwsOfferingRdsDeserializer(
   item: any,
-): SecurityConnectorsAPIDefenderFoDatabasesAwsOfferingRds {
+): DefenderFoDatabasesAwsOfferingRds {
   return {
     enabled: item["enabled"],
     cloudRoleArn: item["cloudRoleArn"],
@@ -1234,22 +1092,22 @@ export function securityConnectorsAPIDefenderFoDatabasesAwsOfferingRdsDeserializ
 }
 
 /** The databases data security posture management (DSPM) configuration */
-export interface SecurityConnectorsAPIDefenderFoDatabasesAwsOfferingDatabasesDspm {
+export interface DefenderFoDatabasesAwsOfferingDatabasesDspm {
   /** Is databases data security posture management (DSPM) protection enabled */
   enabled?: boolean;
   /** The cloud role ARN in AWS for this feature */
   cloudRoleArn?: string;
 }
 
-export function securityConnectorsAPIDefenderFoDatabasesAwsOfferingDatabasesDspmSerializer(
-  item: SecurityConnectorsAPIDefenderFoDatabasesAwsOfferingDatabasesDspm,
+export function defenderFoDatabasesAwsOfferingDatabasesDspmSerializer(
+  item: DefenderFoDatabasesAwsOfferingDatabasesDspm,
 ): any {
   return { enabled: item["enabled"], cloudRoleArn: item["cloudRoleArn"] };
 }
 
-export function securityConnectorsAPIDefenderFoDatabasesAwsOfferingDatabasesDspmDeserializer(
+export function defenderFoDatabasesAwsOfferingDatabasesDspmDeserializer(
   item: any,
-): SecurityConnectorsAPIDefenderFoDatabasesAwsOfferingDatabasesDspm {
+): DefenderFoDatabasesAwsOfferingDatabasesDspm {
   return {
     enabled: item["enabled"],
     cloudRoleArn: item["cloudRoleArn"],
@@ -1257,50 +1115,42 @@ export function securityConnectorsAPIDefenderFoDatabasesAwsOfferingDatabasesDspm
 }
 
 /** The CSPM monitoring for GCP offering */
-export interface SecurityConnectorsAPIcspmMonitorGcpOffering extends SecurityConnectorsAPIcloudOffering {
+export interface CspmMonitorGcpOffering extends CloudOffering {
   /** The native cloud connection configuration */
-  nativeCloudConnection?: SecurityConnectorsAPICspmMonitorGcpOfferingNativeCloudConnection;
+  nativeCloudConnection?: CspmMonitorGcpOfferingNativeCloudConnection;
   /** The type of the security offering. */
   offeringType: "CspmMonitorGcp";
 }
 
-export function securityConnectorsAPIcspmMonitorGcpOfferingSerializer(
-  item: SecurityConnectorsAPIcspmMonitorGcpOffering,
-): any {
+export function cspmMonitorGcpOfferingSerializer(item: CspmMonitorGcpOffering): any {
   return {
     offeringType: item["offeringType"],
     nativeCloudConnection: !item["nativeCloudConnection"]
       ? item["nativeCloudConnection"]
-      : securityConnectorsAPICspmMonitorGcpOfferingNativeCloudConnectionSerializer(
-          item["nativeCloudConnection"],
-        ),
+      : cspmMonitorGcpOfferingNativeCloudConnectionSerializer(item["nativeCloudConnection"]),
   };
 }
 
-export function securityConnectorsAPIcspmMonitorGcpOfferingDeserializer(
-  item: any,
-): SecurityConnectorsAPIcspmMonitorGcpOffering {
+export function cspmMonitorGcpOfferingDeserializer(item: any): CspmMonitorGcpOffering {
   return {
     offeringType: item["offeringType"],
     description: item["description"],
     nativeCloudConnection: !item["nativeCloudConnection"]
       ? item["nativeCloudConnection"]
-      : securityConnectorsAPICspmMonitorGcpOfferingNativeCloudConnectionDeserializer(
-          item["nativeCloudConnection"],
-        ),
+      : cspmMonitorGcpOfferingNativeCloudConnectionDeserializer(item["nativeCloudConnection"]),
   };
 }
 
 /** The native cloud connection configuration */
-export interface SecurityConnectorsAPICspmMonitorGcpOfferingNativeCloudConnection {
+export interface CspmMonitorGcpOfferingNativeCloudConnection {
   /** The GCP workload identity provider id for the offering */
   workloadIdentityProviderId?: string;
   /** The service account email address in GCP for this offering */
   serviceAccountEmailAddress?: string;
 }
 
-export function securityConnectorsAPICspmMonitorGcpOfferingNativeCloudConnectionSerializer(
-  item: SecurityConnectorsAPICspmMonitorGcpOfferingNativeCloudConnection,
+export function cspmMonitorGcpOfferingNativeCloudConnectionSerializer(
+  item: CspmMonitorGcpOfferingNativeCloudConnection,
 ): any {
   return {
     workloadIdentityProviderId: item["workloadIdentityProviderId"],
@@ -1308,9 +1158,9 @@ export function securityConnectorsAPICspmMonitorGcpOfferingNativeCloudConnection
   };
 }
 
-export function securityConnectorsAPICspmMonitorGcpOfferingNativeCloudConnectionDeserializer(
+export function cspmMonitorGcpOfferingNativeCloudConnectionDeserializer(
   item: any,
-): SecurityConnectorsAPICspmMonitorGcpOfferingNativeCloudConnection {
+): CspmMonitorGcpOfferingNativeCloudConnection {
   return {
     workloadIdentityProviderId: item["workloadIdentityProviderId"],
     serviceAccountEmailAddress: item["serviceAccountEmailAddress"],
@@ -1318,104 +1168,84 @@ export function securityConnectorsAPICspmMonitorGcpOfferingNativeCloudConnection
 }
 
 /** The Defender for Servers GCP offering configurations */
-export interface SecurityConnectorsAPIdefenderForServersGcpOffering extends SecurityConnectorsAPIcloudOffering {
+export interface DefenderForServersGcpOffering extends CloudOffering {
   /** The Defender for servers connection configuration */
-  defenderForServers?: SecurityConnectorsAPIDefenderForServersGcpOfferingDefenderForServers;
+  defenderForServers?: DefenderForServersGcpOfferingDefenderForServers;
   /** The ARC autoprovisioning configuration */
-  arcAutoProvisioning?: SecurityConnectorsAPIDefenderForServersGcpOfferingArcAutoProvisioning;
+  arcAutoProvisioning?: DefenderForServersGcpOfferingArcAutoProvisioning;
   /** The Vulnerability Assessment autoprovisioning configuration */
-  vaAutoProvisioning?: SecurityConnectorsAPIDefenderForServersGcpOfferingVaAutoProvisioning;
+  vaAutoProvisioning?: DefenderForServersGcpOfferingVaAutoProvisioning;
   /** The Microsoft Defender for Endpoint autoprovisioning configuration */
-  mdeAutoProvisioning?: SecurityConnectorsAPIDefenderForServersGcpOfferingMdeAutoProvisioning;
+  mdeAutoProvisioning?: DefenderForServersGcpOfferingMdeAutoProvisioning;
   /** configuration for the servers offering subPlan */
-  subPlan?: SecurityConnectorsAPIDefenderForServersGcpOfferingSubPlan;
+  subPlan?: DefenderForServersGcpOfferingSubPlan;
   /** The Microsoft Defender for Server VM scanning configuration */
-  vmScanners?: SecurityConnectorsAPIdefenderForServersGcpOfferingVmScanners;
+  vmScanners?: DefenderForServersGcpOfferingVmScanners;
   /** The type of the security offering. */
   offeringType: "DefenderForServersGcp";
 }
 
-export function securityConnectorsAPIdefenderForServersGcpOfferingSerializer(
-  item: SecurityConnectorsAPIdefenderForServersGcpOffering,
-): any {
+export function defenderForServersGcpOfferingSerializer(item: DefenderForServersGcpOffering): any {
   return {
     offeringType: item["offeringType"],
     defenderForServers: !item["defenderForServers"]
       ? item["defenderForServers"]
-      : securityConnectorsAPIDefenderForServersGcpOfferingDefenderForServersSerializer(
-          item["defenderForServers"],
-        ),
+      : defenderForServersGcpOfferingDefenderForServersSerializer(item["defenderForServers"]),
     arcAutoProvisioning: !item["arcAutoProvisioning"]
       ? item["arcAutoProvisioning"]
-      : securityConnectorsAPIDefenderForServersGcpOfferingArcAutoProvisioningSerializer(
-          item["arcAutoProvisioning"],
-        ),
+      : defenderForServersGcpOfferingArcAutoProvisioningSerializer(item["arcAutoProvisioning"]),
     vaAutoProvisioning: !item["vaAutoProvisioning"]
       ? item["vaAutoProvisioning"]
-      : securityConnectorsAPIDefenderForServersGcpOfferingVaAutoProvisioningSerializer(
-          item["vaAutoProvisioning"],
-        ),
+      : defenderForServersGcpOfferingVaAutoProvisioningSerializer(item["vaAutoProvisioning"]),
     mdeAutoProvisioning: !item["mdeAutoProvisioning"]
       ? item["mdeAutoProvisioning"]
-      : securityConnectorsAPIDefenderForServersGcpOfferingMdeAutoProvisioningSerializer(
-          item["mdeAutoProvisioning"],
-        ),
+      : defenderForServersGcpOfferingMdeAutoProvisioningSerializer(item["mdeAutoProvisioning"]),
     subPlan: !item["subPlan"]
       ? item["subPlan"]
-      : securityConnectorsAPIDefenderForServersGcpOfferingSubPlanSerializer(item["subPlan"]),
+      : defenderForServersGcpOfferingSubPlanSerializer(item["subPlan"]),
     vmScanners: !item["vmScanners"]
       ? item["vmScanners"]
-      : securityConnectorsAPIdefenderForServersGcpOfferingVmScannersSerializer(item["vmScanners"]),
+      : defenderForServersGcpOfferingVmScannersSerializer(item["vmScanners"]),
   };
 }
 
-export function securityConnectorsAPIdefenderForServersGcpOfferingDeserializer(
+export function defenderForServersGcpOfferingDeserializer(
   item: any,
-): SecurityConnectorsAPIdefenderForServersGcpOffering {
+): DefenderForServersGcpOffering {
   return {
     offeringType: item["offeringType"],
     description: item["description"],
     defenderForServers: !item["defenderForServers"]
       ? item["defenderForServers"]
-      : securityConnectorsAPIDefenderForServersGcpOfferingDefenderForServersDeserializer(
-          item["defenderForServers"],
-        ),
+      : defenderForServersGcpOfferingDefenderForServersDeserializer(item["defenderForServers"]),
     arcAutoProvisioning: !item["arcAutoProvisioning"]
       ? item["arcAutoProvisioning"]
-      : securityConnectorsAPIDefenderForServersGcpOfferingArcAutoProvisioningDeserializer(
-          item["arcAutoProvisioning"],
-        ),
+      : defenderForServersGcpOfferingArcAutoProvisioningDeserializer(item["arcAutoProvisioning"]),
     vaAutoProvisioning: !item["vaAutoProvisioning"]
       ? item["vaAutoProvisioning"]
-      : securityConnectorsAPIDefenderForServersGcpOfferingVaAutoProvisioningDeserializer(
-          item["vaAutoProvisioning"],
-        ),
+      : defenderForServersGcpOfferingVaAutoProvisioningDeserializer(item["vaAutoProvisioning"]),
     mdeAutoProvisioning: !item["mdeAutoProvisioning"]
       ? item["mdeAutoProvisioning"]
-      : securityConnectorsAPIDefenderForServersGcpOfferingMdeAutoProvisioningDeserializer(
-          item["mdeAutoProvisioning"],
-        ),
+      : defenderForServersGcpOfferingMdeAutoProvisioningDeserializer(item["mdeAutoProvisioning"]),
     subPlan: !item["subPlan"]
       ? item["subPlan"]
-      : securityConnectorsAPIDefenderForServersGcpOfferingSubPlanDeserializer(item["subPlan"]),
+      : defenderForServersGcpOfferingSubPlanDeserializer(item["subPlan"]),
     vmScanners: !item["vmScanners"]
       ? item["vmScanners"]
-      : securityConnectorsAPIdefenderForServersGcpOfferingVmScannersDeserializer(
-          item["vmScanners"],
-        ),
+      : defenderForServersGcpOfferingVmScannersDeserializer(item["vmScanners"]),
   };
 }
 
 /** The Defender for servers connection configuration */
-export interface SecurityConnectorsAPIDefenderForServersGcpOfferingDefenderForServers {
+export interface DefenderForServersGcpOfferingDefenderForServers {
   /** The workload identity provider id in GCP for this feature */
   workloadIdentityProviderId?: string;
   /** The service account email address in GCP for this feature */
   serviceAccountEmailAddress?: string;
 }
 
-export function securityConnectorsAPIDefenderForServersGcpOfferingDefenderForServersSerializer(
-  item: SecurityConnectorsAPIDefenderForServersGcpOfferingDefenderForServers,
+export function defenderForServersGcpOfferingDefenderForServersSerializer(
+  item: DefenderForServersGcpOfferingDefenderForServers,
 ): any {
   return {
     workloadIdentityProviderId: item["workloadIdentityProviderId"],
@@ -1423,9 +1253,9 @@ export function securityConnectorsAPIDefenderForServersGcpOfferingDefenderForSer
   };
 }
 
-export function securityConnectorsAPIDefenderForServersGcpOfferingDefenderForServersDeserializer(
+export function defenderForServersGcpOfferingDefenderForServersDeserializer(
   item: any,
-): SecurityConnectorsAPIDefenderForServersGcpOfferingDefenderForServers {
+): DefenderForServersGcpOfferingDefenderForServers {
   return {
     workloadIdentityProviderId: item["workloadIdentityProviderId"],
     serviceAccountEmailAddress: item["serviceAccountEmailAddress"],
@@ -1433,101 +1263,101 @@ export function securityConnectorsAPIDefenderForServersGcpOfferingDefenderForSer
 }
 
 /** The ARC autoprovisioning configuration */
-export interface SecurityConnectorsAPIDefenderForServersGcpOfferingArcAutoProvisioning extends SecurityConnectorsAPIarcAutoProvisioningGcp {}
+export interface DefenderForServersGcpOfferingArcAutoProvisioning extends ArcAutoProvisioningGcp {}
 
-export function securityConnectorsAPIDefenderForServersGcpOfferingArcAutoProvisioningSerializer(
-  item: SecurityConnectorsAPIDefenderForServersGcpOfferingArcAutoProvisioning,
+export function defenderForServersGcpOfferingArcAutoProvisioningSerializer(
+  item: DefenderForServersGcpOfferingArcAutoProvisioning,
 ): any {
   return {
     enabled: item["enabled"],
     configuration: !item["configuration"]
       ? item["configuration"]
-      : securityConnectorsAPIArcAutoProvisioningConfigurationSerializer(item["configuration"]),
+      : arcAutoProvisioningConfigurationSerializer(item["configuration"]),
   };
 }
 
-export function securityConnectorsAPIDefenderForServersGcpOfferingArcAutoProvisioningDeserializer(
+export function defenderForServersGcpOfferingArcAutoProvisioningDeserializer(
   item: any,
-): SecurityConnectorsAPIDefenderForServersGcpOfferingArcAutoProvisioning {
+): DefenderForServersGcpOfferingArcAutoProvisioning {
   return {
     enabled: item["enabled"],
     configuration: !item["configuration"]
       ? item["configuration"]
-      : securityConnectorsAPIArcAutoProvisioningConfigurationDeserializer(item["configuration"]),
+      : arcAutoProvisioningConfigurationDeserializer(item["configuration"]),
   };
 }
 
 /** The Vulnerability Assessment autoprovisioning configuration */
-export interface SecurityConnectorsAPIDefenderForServersGcpOfferingVaAutoProvisioning {
+export interface DefenderForServersGcpOfferingVaAutoProvisioning {
   /** Is Vulnerability Assessment auto provisioning enabled */
   enabled?: boolean;
   /** configuration for Vulnerability Assessment autoprovisioning */
-  configuration?: SecurityConnectorsAPIDefenderForServersGcpOfferingVaAutoProvisioningConfiguration;
+  configuration?: DefenderForServersGcpOfferingVaAutoProvisioningConfiguration;
 }
 
-export function securityConnectorsAPIDefenderForServersGcpOfferingVaAutoProvisioningSerializer(
-  item: SecurityConnectorsAPIDefenderForServersGcpOfferingVaAutoProvisioning,
+export function defenderForServersGcpOfferingVaAutoProvisioningSerializer(
+  item: DefenderForServersGcpOfferingVaAutoProvisioning,
 ): any {
   return {
     enabled: item["enabled"],
     configuration: !item["configuration"]
       ? item["configuration"]
-      : securityConnectorsAPIDefenderForServersGcpOfferingVaAutoProvisioningConfigurationSerializer(
+      : defenderForServersGcpOfferingVaAutoProvisioningConfigurationSerializer(
           item["configuration"],
         ),
   };
 }
 
-export function securityConnectorsAPIDefenderForServersGcpOfferingVaAutoProvisioningDeserializer(
+export function defenderForServersGcpOfferingVaAutoProvisioningDeserializer(
   item: any,
-): SecurityConnectorsAPIDefenderForServersGcpOfferingVaAutoProvisioning {
+): DefenderForServersGcpOfferingVaAutoProvisioning {
   return {
     enabled: item["enabled"],
     configuration: !item["configuration"]
       ? item["configuration"]
-      : securityConnectorsAPIDefenderForServersGcpOfferingVaAutoProvisioningConfigurationDeserializer(
+      : defenderForServersGcpOfferingVaAutoProvisioningConfigurationDeserializer(
           item["configuration"],
         ),
   };
 }
 
 /** configuration for Vulnerability Assessment autoprovisioning */
-export interface SecurityConnectorsAPIDefenderForServersGcpOfferingVaAutoProvisioningConfiguration {
+export interface DefenderForServersGcpOfferingVaAutoProvisioningConfiguration {
   /** The Vulnerability Assessment solution to be provisioned. Can be either 'TVM' or 'Qualys' */
-  type?: SecurityConnectorsAPIType;
+  type?: Type;
 }
 
-export function securityConnectorsAPIDefenderForServersGcpOfferingVaAutoProvisioningConfigurationSerializer(
-  item: SecurityConnectorsAPIDefenderForServersGcpOfferingVaAutoProvisioningConfiguration,
+export function defenderForServersGcpOfferingVaAutoProvisioningConfigurationSerializer(
+  item: DefenderForServersGcpOfferingVaAutoProvisioningConfiguration,
 ): any {
   return { type: item["type"] };
 }
 
-export function securityConnectorsAPIDefenderForServersGcpOfferingVaAutoProvisioningConfigurationDeserializer(
+export function defenderForServersGcpOfferingVaAutoProvisioningConfigurationDeserializer(
   item: any,
-): SecurityConnectorsAPIDefenderForServersGcpOfferingVaAutoProvisioningConfiguration {
+): DefenderForServersGcpOfferingVaAutoProvisioningConfiguration {
   return {
     type: item["type"],
   };
 }
 
 /** The Microsoft Defender for Endpoint autoprovisioning configuration */
-export interface SecurityConnectorsAPIDefenderForServersGcpOfferingMdeAutoProvisioning {
+export interface DefenderForServersGcpOfferingMdeAutoProvisioning {
   /** Is Microsoft Defender for Endpoint auto provisioning enabled */
   enabled?: boolean;
   /** configuration for Microsoft Defender for Endpoint autoprovisioning */
   configuration?: any;
 }
 
-export function securityConnectorsAPIDefenderForServersGcpOfferingMdeAutoProvisioningSerializer(
-  item: SecurityConnectorsAPIDefenderForServersGcpOfferingMdeAutoProvisioning,
+export function defenderForServersGcpOfferingMdeAutoProvisioningSerializer(
+  item: DefenderForServersGcpOfferingMdeAutoProvisioning,
 ): any {
   return { enabled: item["enabled"], configuration: item["configuration"] };
 }
 
-export function securityConnectorsAPIDefenderForServersGcpOfferingMdeAutoProvisioningDeserializer(
+export function defenderForServersGcpOfferingMdeAutoProvisioningDeserializer(
   item: any,
-): SecurityConnectorsAPIDefenderForServersGcpOfferingMdeAutoProvisioning {
+): DefenderForServersGcpOfferingMdeAutoProvisioning {
   return {
     enabled: item["enabled"],
     configuration: item["configuration"],
@@ -1535,132 +1365,128 @@ export function securityConnectorsAPIDefenderForServersGcpOfferingMdeAutoProvisi
 }
 
 /** configuration for the servers offering subPlan */
-export interface SecurityConnectorsAPIDefenderForServersGcpOfferingSubPlan {
+export interface DefenderForServersGcpOfferingSubPlan {
   /** The available sub plans */
-  type?: SecurityConnectorsAPISubPlan;
+  type?: SubPlan;
 }
 
-export function securityConnectorsAPIDefenderForServersGcpOfferingSubPlanSerializer(
-  item: SecurityConnectorsAPIDefenderForServersGcpOfferingSubPlan,
+export function defenderForServersGcpOfferingSubPlanSerializer(
+  item: DefenderForServersGcpOfferingSubPlan,
 ): any {
   return { type: item["type"] };
 }
 
-export function securityConnectorsAPIDefenderForServersGcpOfferingSubPlanDeserializer(
+export function defenderForServersGcpOfferingSubPlanDeserializer(
   item: any,
-): SecurityConnectorsAPIDefenderForServersGcpOfferingSubPlan {
+): DefenderForServersGcpOfferingSubPlan {
   return {
     type: item["type"],
   };
 }
 
 /** The Microsoft Defender for Server VM scanning configuration */
-export interface SecurityConnectorsAPIdefenderForServersGcpOfferingVmScanners extends SecurityConnectorsAPIvmScannersGcp {}
+export interface DefenderForServersGcpOfferingVmScanners extends VmScannersGcp {}
 
-export function securityConnectorsAPIdefenderForServersGcpOfferingVmScannersSerializer(
-  item: SecurityConnectorsAPIdefenderForServersGcpOfferingVmScanners,
+export function defenderForServersGcpOfferingVmScannersSerializer(
+  item: DefenderForServersGcpOfferingVmScanners,
 ): any {
   return {
     enabled: item["enabled"],
     configuration: !item["configuration"]
       ? item["configuration"]
-      : securityConnectorsAPIVmScannersBaseConfigurationSerializer(item["configuration"]),
+      : vmScannersBaseConfigurationSerializer(item["configuration"]),
   };
 }
 
-export function securityConnectorsAPIdefenderForServersGcpOfferingVmScannersDeserializer(
+export function defenderForServersGcpOfferingVmScannersDeserializer(
   item: any,
-): SecurityConnectorsAPIdefenderForServersGcpOfferingVmScanners {
+): DefenderForServersGcpOfferingVmScanners {
   return {
     enabled: item["enabled"],
     configuration: !item["configuration"]
       ? item["configuration"]
-      : securityConnectorsAPIVmScannersBaseConfigurationDeserializer(item["configuration"]),
+      : vmScannersBaseConfigurationDeserializer(item["configuration"]),
   };
 }
 
 /** The Defender for Databases GCP offering configurations */
-export interface SecurityConnectorsAPIdefenderForDatabasesGcpOffering extends SecurityConnectorsAPIcloudOffering {
+export interface DefenderForDatabasesGcpOffering extends CloudOffering {
   /** The ARC autoprovisioning configuration */
-  arcAutoProvisioning?: SecurityConnectorsAPIDefenderForDatabasesGcpOfferingArcAutoProvisioning;
+  arcAutoProvisioning?: DefenderForDatabasesGcpOfferingArcAutoProvisioning;
   /** The native cloud connection configuration */
-  defenderForDatabasesArcAutoProvisioning?: SecurityConnectorsAPIDefenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioning;
+  defenderForDatabasesArcAutoProvisioning?: DefenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioning;
   /** The type of the security offering. */
   offeringType: "DefenderForDatabasesGcp";
 }
 
-export function securityConnectorsAPIdefenderForDatabasesGcpOfferingSerializer(
-  item: SecurityConnectorsAPIdefenderForDatabasesGcpOffering,
+export function defenderForDatabasesGcpOfferingSerializer(
+  item: DefenderForDatabasesGcpOffering,
 ): any {
   return {
     offeringType: item["offeringType"],
     arcAutoProvisioning: !item["arcAutoProvisioning"]
       ? item["arcAutoProvisioning"]
-      : securityConnectorsAPIDefenderForDatabasesGcpOfferingArcAutoProvisioningSerializer(
-          item["arcAutoProvisioning"],
-        ),
+      : defenderForDatabasesGcpOfferingArcAutoProvisioningSerializer(item["arcAutoProvisioning"]),
     defenderForDatabasesArcAutoProvisioning: !item["defenderForDatabasesArcAutoProvisioning"]
       ? item["defenderForDatabasesArcAutoProvisioning"]
-      : securityConnectorsAPIDefenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioningSerializer(
+      : defenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioningSerializer(
           item["defenderForDatabasesArcAutoProvisioning"],
         ),
   };
 }
 
-export function securityConnectorsAPIdefenderForDatabasesGcpOfferingDeserializer(
+export function defenderForDatabasesGcpOfferingDeserializer(
   item: any,
-): SecurityConnectorsAPIdefenderForDatabasesGcpOffering {
+): DefenderForDatabasesGcpOffering {
   return {
     offeringType: item["offeringType"],
     description: item["description"],
     arcAutoProvisioning: !item["arcAutoProvisioning"]
       ? item["arcAutoProvisioning"]
-      : securityConnectorsAPIDefenderForDatabasesGcpOfferingArcAutoProvisioningDeserializer(
-          item["arcAutoProvisioning"],
-        ),
+      : defenderForDatabasesGcpOfferingArcAutoProvisioningDeserializer(item["arcAutoProvisioning"]),
     defenderForDatabasesArcAutoProvisioning: !item["defenderForDatabasesArcAutoProvisioning"]
       ? item["defenderForDatabasesArcAutoProvisioning"]
-      : securityConnectorsAPIDefenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioningDeserializer(
+      : defenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioningDeserializer(
           item["defenderForDatabasesArcAutoProvisioning"],
         ),
   };
 }
 
 /** The ARC autoprovisioning configuration */
-export interface SecurityConnectorsAPIDefenderForDatabasesGcpOfferingArcAutoProvisioning extends SecurityConnectorsAPIarcAutoProvisioningGcp {}
+export interface DefenderForDatabasesGcpOfferingArcAutoProvisioning extends ArcAutoProvisioningGcp {}
 
-export function securityConnectorsAPIDefenderForDatabasesGcpOfferingArcAutoProvisioningSerializer(
-  item: SecurityConnectorsAPIDefenderForDatabasesGcpOfferingArcAutoProvisioning,
+export function defenderForDatabasesGcpOfferingArcAutoProvisioningSerializer(
+  item: DefenderForDatabasesGcpOfferingArcAutoProvisioning,
 ): any {
   return {
     enabled: item["enabled"],
     configuration: !item["configuration"]
       ? item["configuration"]
-      : securityConnectorsAPIArcAutoProvisioningConfigurationSerializer(item["configuration"]),
+      : arcAutoProvisioningConfigurationSerializer(item["configuration"]),
   };
 }
 
-export function securityConnectorsAPIDefenderForDatabasesGcpOfferingArcAutoProvisioningDeserializer(
+export function defenderForDatabasesGcpOfferingArcAutoProvisioningDeserializer(
   item: any,
-): SecurityConnectorsAPIDefenderForDatabasesGcpOfferingArcAutoProvisioning {
+): DefenderForDatabasesGcpOfferingArcAutoProvisioning {
   return {
     enabled: item["enabled"],
     configuration: !item["configuration"]
       ? item["configuration"]
-      : securityConnectorsAPIArcAutoProvisioningConfigurationDeserializer(item["configuration"]),
+      : arcAutoProvisioningConfigurationDeserializer(item["configuration"]),
   };
 }
 
 /** The native cloud connection configuration */
-export interface SecurityConnectorsAPIDefenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioning {
+export interface DefenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioning {
   /** The service account email address in GCP for this offering */
   serviceAccountEmailAddress?: string;
   /** The GCP workload identity provider id for this offering */
   workloadIdentityProviderId?: string;
 }
 
-export function securityConnectorsAPIDefenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioningSerializer(
-  item: SecurityConnectorsAPIDefenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioning,
+export function defenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioningSerializer(
+  item: DefenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioning,
 ): any {
   return {
     serviceAccountEmailAddress: item["serviceAccountEmailAddress"],
@@ -1668,9 +1494,9 @@ export function securityConnectorsAPIDefenderForDatabasesGcpOfferingDefenderForD
   };
 }
 
-export function securityConnectorsAPIDefenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioningDeserializer(
+export function defenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioningDeserializer(
   item: any,
-): SecurityConnectorsAPIDefenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioning {
+): DefenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioning {
   return {
     serviceAccountEmailAddress: item["serviceAccountEmailAddress"],
     workloadIdentityProviderId: item["workloadIdentityProviderId"],
@@ -1678,11 +1504,11 @@ export function securityConnectorsAPIDefenderForDatabasesGcpOfferingDefenderForD
 }
 
 /** The containers GCP offering */
-export interface SecurityConnectorsAPIdefenderForContainersGcpOffering extends SecurityConnectorsAPIcloudOffering {
+export interface DefenderForContainersGcpOffering extends CloudOffering {
   /** The native cloud connection configuration */
-  nativeCloudConnection?: SecurityConnectorsAPIDefenderForContainersGcpOfferingNativeCloudConnection;
+  nativeCloudConnection?: DefenderForContainersGcpOfferingNativeCloudConnection;
   /** The native cloud connection configuration */
-  dataPipelineNativeCloudConnection?: SecurityConnectorsAPIDefenderForContainersGcpOfferingDataPipelineNativeCloudConnection;
+  dataPipelineNativeCloudConnection?: DefenderForContainersGcpOfferingDataPipelineNativeCloudConnection;
   /** Is audit logs data collection enabled */
   enableAuditLogsAutoProvisioning?: boolean;
   /** Is Microsoft Defender for Cloud Kubernetes agent auto provisioning enabled */
@@ -1690,28 +1516,28 @@ export interface SecurityConnectorsAPIdefenderForContainersGcpOffering extends S
   /** Is Policy Kubernetes agent auto provisioning enabled */
   enablePolicyAgentAutoProvisioning?: boolean;
   /** The Microsoft Defender Container image assessment configuration */
-  mdcContainersImageAssessment?: SecurityConnectorsAPIDefenderForContainersGcpOfferingMdcContainersImageAssessment;
+  mdcContainersImageAssessment?: DefenderForContainersGcpOfferingMdcContainersImageAssessment;
   /** The Microsoft Defender Container agentless discovery configuration */
-  mdcContainersAgentlessDiscoveryK8S?: SecurityConnectorsAPIDefenderForContainersGcpOfferingMdcContainersAgentlessDiscoveryK8S;
+  mdcContainersAgentlessDiscoveryK8S?: DefenderForContainersGcpOfferingMdcContainersAgentlessDiscoveryK8S;
   /** The Microsoft Defender for Container K8s VM host scanning configuration */
-  vmScanners?: SecurityConnectorsAPIdefenderForContainersGcpOfferingVmScanners;
+  vmScanners?: DefenderForContainersGcpOfferingVmScanners;
   /** The type of the security offering. */
   offeringType: "DefenderForContainersGcp";
 }
 
-export function securityConnectorsAPIdefenderForContainersGcpOfferingSerializer(
-  item: SecurityConnectorsAPIdefenderForContainersGcpOffering,
+export function defenderForContainersGcpOfferingSerializer(
+  item: DefenderForContainersGcpOffering,
 ): any {
   return {
     offeringType: item["offeringType"],
     nativeCloudConnection: !item["nativeCloudConnection"]
       ? item["nativeCloudConnection"]
-      : securityConnectorsAPIDefenderForContainersGcpOfferingNativeCloudConnectionSerializer(
+      : defenderForContainersGcpOfferingNativeCloudConnectionSerializer(
           item["nativeCloudConnection"],
         ),
     dataPipelineNativeCloudConnection: !item["dataPipelineNativeCloudConnection"]
       ? item["dataPipelineNativeCloudConnection"]
-      : securityConnectorsAPIDefenderForContainersGcpOfferingDataPipelineNativeCloudConnectionSerializer(
+      : defenderForContainersGcpOfferingDataPipelineNativeCloudConnectionSerializer(
           item["dataPipelineNativeCloudConnection"],
         ),
     enableAuditLogsAutoProvisioning: item["enableAuditLogsAutoProvisioning"],
@@ -1719,36 +1545,34 @@ export function securityConnectorsAPIdefenderForContainersGcpOfferingSerializer(
     enablePolicyAgentAutoProvisioning: item["enablePolicyAgentAutoProvisioning"],
     mdcContainersImageAssessment: !item["mdcContainersImageAssessment"]
       ? item["mdcContainersImageAssessment"]
-      : securityConnectorsAPIDefenderForContainersGcpOfferingMdcContainersImageAssessmentSerializer(
+      : defenderForContainersGcpOfferingMdcContainersImageAssessmentSerializer(
           item["mdcContainersImageAssessment"],
         ),
     mdcContainersAgentlessDiscoveryK8s: !item["mdcContainersAgentlessDiscoveryK8S"]
       ? item["mdcContainersAgentlessDiscoveryK8S"]
-      : securityConnectorsAPIDefenderForContainersGcpOfferingMdcContainersAgentlessDiscoveryK8SSerializer(
+      : defenderForContainersGcpOfferingMdcContainersAgentlessDiscoveryK8SSerializer(
           item["mdcContainersAgentlessDiscoveryK8S"],
         ),
     vmScanners: !item["vmScanners"]
       ? item["vmScanners"]
-      : securityConnectorsAPIdefenderForContainersGcpOfferingVmScannersSerializer(
-          item["vmScanners"],
-        ),
+      : defenderForContainersGcpOfferingVmScannersSerializer(item["vmScanners"]),
   };
 }
 
-export function securityConnectorsAPIdefenderForContainersGcpOfferingDeserializer(
+export function defenderForContainersGcpOfferingDeserializer(
   item: any,
-): SecurityConnectorsAPIdefenderForContainersGcpOffering {
+): DefenderForContainersGcpOffering {
   return {
     offeringType: item["offeringType"],
     description: item["description"],
     nativeCloudConnection: !item["nativeCloudConnection"]
       ? item["nativeCloudConnection"]
-      : securityConnectorsAPIDefenderForContainersGcpOfferingNativeCloudConnectionDeserializer(
+      : defenderForContainersGcpOfferingNativeCloudConnectionDeserializer(
           item["nativeCloudConnection"],
         ),
     dataPipelineNativeCloudConnection: !item["dataPipelineNativeCloudConnection"]
       ? item["dataPipelineNativeCloudConnection"]
-      : securityConnectorsAPIDefenderForContainersGcpOfferingDataPipelineNativeCloudConnectionDeserializer(
+      : defenderForContainersGcpOfferingDataPipelineNativeCloudConnectionDeserializer(
           item["dataPipelineNativeCloudConnection"],
         ),
     enableAuditLogsAutoProvisioning: item["enableAuditLogsAutoProvisioning"],
@@ -1756,32 +1580,30 @@ export function securityConnectorsAPIdefenderForContainersGcpOfferingDeserialize
     enablePolicyAgentAutoProvisioning: item["enablePolicyAgentAutoProvisioning"],
     mdcContainersImageAssessment: !item["mdcContainersImageAssessment"]
       ? item["mdcContainersImageAssessment"]
-      : securityConnectorsAPIDefenderForContainersGcpOfferingMdcContainersImageAssessmentDeserializer(
+      : defenderForContainersGcpOfferingMdcContainersImageAssessmentDeserializer(
           item["mdcContainersImageAssessment"],
         ),
     mdcContainersAgentlessDiscoveryK8S: !item["mdcContainersAgentlessDiscoveryK8s"]
       ? item["mdcContainersAgentlessDiscoveryK8s"]
-      : securityConnectorsAPIDefenderForContainersGcpOfferingMdcContainersAgentlessDiscoveryK8SDeserializer(
+      : defenderForContainersGcpOfferingMdcContainersAgentlessDiscoveryK8SDeserializer(
           item["mdcContainersAgentlessDiscoveryK8s"],
         ),
     vmScanners: !item["vmScanners"]
       ? item["vmScanners"]
-      : securityConnectorsAPIdefenderForContainersGcpOfferingVmScannersDeserializer(
-          item["vmScanners"],
-        ),
+      : defenderForContainersGcpOfferingVmScannersDeserializer(item["vmScanners"]),
   };
 }
 
 /** The native cloud connection configuration */
-export interface SecurityConnectorsAPIDefenderForContainersGcpOfferingNativeCloudConnection {
+export interface DefenderForContainersGcpOfferingNativeCloudConnection {
   /** The service account email address in GCP for this offering */
   serviceAccountEmailAddress?: string;
   /** The GCP workload identity provider id for this offering */
   workloadIdentityProviderId?: string;
 }
 
-export function securityConnectorsAPIDefenderForContainersGcpOfferingNativeCloudConnectionSerializer(
-  item: SecurityConnectorsAPIDefenderForContainersGcpOfferingNativeCloudConnection,
+export function defenderForContainersGcpOfferingNativeCloudConnectionSerializer(
+  item: DefenderForContainersGcpOfferingNativeCloudConnection,
 ): any {
   return {
     serviceAccountEmailAddress: item["serviceAccountEmailAddress"],
@@ -1789,9 +1611,9 @@ export function securityConnectorsAPIDefenderForContainersGcpOfferingNativeCloud
   };
 }
 
-export function securityConnectorsAPIDefenderForContainersGcpOfferingNativeCloudConnectionDeserializer(
+export function defenderForContainersGcpOfferingNativeCloudConnectionDeserializer(
   item: any,
-): SecurityConnectorsAPIDefenderForContainersGcpOfferingNativeCloudConnection {
+): DefenderForContainersGcpOfferingNativeCloudConnection {
   return {
     serviceAccountEmailAddress: item["serviceAccountEmailAddress"],
     workloadIdentityProviderId: item["workloadIdentityProviderId"],
@@ -1799,15 +1621,15 @@ export function securityConnectorsAPIDefenderForContainersGcpOfferingNativeCloud
 }
 
 /** The native cloud connection configuration */
-export interface SecurityConnectorsAPIDefenderForContainersGcpOfferingDataPipelineNativeCloudConnection {
+export interface DefenderForContainersGcpOfferingDataPipelineNativeCloudConnection {
   /** The data collection service account email address in GCP for this offering */
   serviceAccountEmailAddress?: string;
   /** The data collection GCP workload identity provider id for this offering */
   workloadIdentityProviderId?: string;
 }
 
-export function securityConnectorsAPIDefenderForContainersGcpOfferingDataPipelineNativeCloudConnectionSerializer(
-  item: SecurityConnectorsAPIDefenderForContainersGcpOfferingDataPipelineNativeCloudConnection,
+export function defenderForContainersGcpOfferingDataPipelineNativeCloudConnectionSerializer(
+  item: DefenderForContainersGcpOfferingDataPipelineNativeCloudConnection,
 ): any {
   return {
     serviceAccountEmailAddress: item["serviceAccountEmailAddress"],
@@ -1815,9 +1637,9 @@ export function securityConnectorsAPIDefenderForContainersGcpOfferingDataPipelin
   };
 }
 
-export function securityConnectorsAPIDefenderForContainersGcpOfferingDataPipelineNativeCloudConnectionDeserializer(
+export function defenderForContainersGcpOfferingDataPipelineNativeCloudConnectionDeserializer(
   item: any,
-): SecurityConnectorsAPIDefenderForContainersGcpOfferingDataPipelineNativeCloudConnection {
+): DefenderForContainersGcpOfferingDataPipelineNativeCloudConnection {
   return {
     serviceAccountEmailAddress: item["serviceAccountEmailAddress"],
     workloadIdentityProviderId: item["workloadIdentityProviderId"],
@@ -1825,7 +1647,7 @@ export function securityConnectorsAPIDefenderForContainersGcpOfferingDataPipelin
 }
 
 /** The Microsoft Defender Container image assessment configuration */
-export interface SecurityConnectorsAPIDefenderForContainersGcpOfferingMdcContainersImageAssessment {
+export interface DefenderForContainersGcpOfferingMdcContainersImageAssessment {
   /** Is Microsoft Defender container image assessment enabled */
   enabled?: boolean;
   /** The workload identity provider id in GCP for this feature */
@@ -1834,8 +1656,8 @@ export interface SecurityConnectorsAPIDefenderForContainersGcpOfferingMdcContain
   serviceAccountEmailAddress?: string;
 }
 
-export function securityConnectorsAPIDefenderForContainersGcpOfferingMdcContainersImageAssessmentSerializer(
-  item: SecurityConnectorsAPIDefenderForContainersGcpOfferingMdcContainersImageAssessment,
+export function defenderForContainersGcpOfferingMdcContainersImageAssessmentSerializer(
+  item: DefenderForContainersGcpOfferingMdcContainersImageAssessment,
 ): any {
   return {
     enabled: item["enabled"],
@@ -1844,9 +1666,9 @@ export function securityConnectorsAPIDefenderForContainersGcpOfferingMdcContaine
   };
 }
 
-export function securityConnectorsAPIDefenderForContainersGcpOfferingMdcContainersImageAssessmentDeserializer(
+export function defenderForContainersGcpOfferingMdcContainersImageAssessmentDeserializer(
   item: any,
-): SecurityConnectorsAPIDefenderForContainersGcpOfferingMdcContainersImageAssessment {
+): DefenderForContainersGcpOfferingMdcContainersImageAssessment {
   return {
     enabled: item["enabled"],
     workloadIdentityProviderId: item["workloadIdentityProviderId"],
@@ -1855,7 +1677,7 @@ export function securityConnectorsAPIDefenderForContainersGcpOfferingMdcContaine
 }
 
 /** The Microsoft Defender Container agentless discovery configuration */
-export interface SecurityConnectorsAPIDefenderForContainersGcpOfferingMdcContainersAgentlessDiscoveryK8S {
+export interface DefenderForContainersGcpOfferingMdcContainersAgentlessDiscoveryK8S {
   /** Is Microsoft Defender container agentless discovery enabled */
   enabled?: boolean;
   /** The workload identity provider id in GCP for this feature */
@@ -1864,8 +1686,8 @@ export interface SecurityConnectorsAPIDefenderForContainersGcpOfferingMdcContain
   serviceAccountEmailAddress?: string;
 }
 
-export function securityConnectorsAPIDefenderForContainersGcpOfferingMdcContainersAgentlessDiscoveryK8SSerializer(
-  item: SecurityConnectorsAPIDefenderForContainersGcpOfferingMdcContainersAgentlessDiscoveryK8S,
+export function defenderForContainersGcpOfferingMdcContainersAgentlessDiscoveryK8SSerializer(
+  item: DefenderForContainersGcpOfferingMdcContainersAgentlessDiscoveryK8S,
 ): any {
   return {
     enabled: item["enabled"],
@@ -1874,9 +1696,9 @@ export function securityConnectorsAPIDefenderForContainersGcpOfferingMdcContaine
   };
 }
 
-export function securityConnectorsAPIDefenderForContainersGcpOfferingMdcContainersAgentlessDiscoveryK8SDeserializer(
+export function defenderForContainersGcpOfferingMdcContainersAgentlessDiscoveryK8SDeserializer(
   item: any,
-): SecurityConnectorsAPIDefenderForContainersGcpOfferingMdcContainersAgentlessDiscoveryK8S {
+): DefenderForContainersGcpOfferingMdcContainersAgentlessDiscoveryK8S {
   return {
     enabled: item["enabled"],
     workloadIdentityProviderId: item["workloadIdentityProviderId"],
@@ -1885,45 +1707,41 @@ export function securityConnectorsAPIDefenderForContainersGcpOfferingMdcContaine
 }
 
 /** The Microsoft Defender for Container K8s VM host scanning configuration */
-export interface SecurityConnectorsAPIdefenderForContainersGcpOfferingVmScanners extends SecurityConnectorsAPIvmScannersGcp {}
+export interface DefenderForContainersGcpOfferingVmScanners extends VmScannersGcp {}
 
-export function securityConnectorsAPIdefenderForContainersGcpOfferingVmScannersSerializer(
-  item: SecurityConnectorsAPIdefenderForContainersGcpOfferingVmScanners,
+export function defenderForContainersGcpOfferingVmScannersSerializer(
+  item: DefenderForContainersGcpOfferingVmScanners,
 ): any {
   return {
     enabled: item["enabled"],
     configuration: !item["configuration"]
       ? item["configuration"]
-      : securityConnectorsAPIVmScannersBaseConfigurationSerializer(item["configuration"]),
+      : vmScannersBaseConfigurationSerializer(item["configuration"]),
   };
 }
 
-export function securityConnectorsAPIdefenderForContainersGcpOfferingVmScannersDeserializer(
+export function defenderForContainersGcpOfferingVmScannersDeserializer(
   item: any,
-): SecurityConnectorsAPIdefenderForContainersGcpOfferingVmScanners {
+): DefenderForContainersGcpOfferingVmScanners {
   return {
     enabled: item["enabled"],
     configuration: !item["configuration"]
       ? item["configuration"]
-      : securityConnectorsAPIVmScannersBaseConfigurationDeserializer(item["configuration"]),
+      : vmScannersBaseConfigurationDeserializer(item["configuration"]),
   };
 }
 
 /** The CSPM monitoring for github offering */
-export interface SecurityConnectorsAPIcspmMonitorGithubOffering extends SecurityConnectorsAPIcloudOffering {
+export interface CspmMonitorGithubOffering extends CloudOffering {
   /** The type of the security offering. */
   offeringType: "CspmMonitorGithub";
 }
 
-export function securityConnectorsAPIcspmMonitorGithubOfferingSerializer(
-  item: SecurityConnectorsAPIcspmMonitorGithubOffering,
-): any {
+export function cspmMonitorGithubOfferingSerializer(item: CspmMonitorGithubOffering): any {
   return { offeringType: item["offeringType"] };
 }
 
-export function securityConnectorsAPIcspmMonitorGithubOfferingDeserializer(
-  item: any,
-): SecurityConnectorsAPIcspmMonitorGithubOffering {
+export function cspmMonitorGithubOfferingDeserializer(item: any): CspmMonitorGithubOffering {
   return {
     offeringType: item["offeringType"],
     description: item["description"],
@@ -1931,20 +1749,20 @@ export function securityConnectorsAPIcspmMonitorGithubOfferingDeserializer(
 }
 
 /** The CSPM monitoring for AzureDevOps offering */
-export interface SecurityConnectorsAPIcspmMonitorAzureDevOpsOffering extends SecurityConnectorsAPIcloudOffering {
+export interface CspmMonitorAzureDevOpsOffering extends CloudOffering {
   /** The type of the security offering. */
   offeringType: "CspmMonitorAzureDevOps";
 }
 
-export function securityConnectorsAPIcspmMonitorAzureDevOpsOfferingSerializer(
-  item: SecurityConnectorsAPIcspmMonitorAzureDevOpsOffering,
+export function cspmMonitorAzureDevOpsOfferingSerializer(
+  item: CspmMonitorAzureDevOpsOffering,
 ): any {
   return { offeringType: item["offeringType"] };
 }
 
-export function securityConnectorsAPIcspmMonitorAzureDevOpsOfferingDeserializer(
+export function cspmMonitorAzureDevOpsOfferingDeserializer(
   item: any,
-): SecurityConnectorsAPIcspmMonitorAzureDevOpsOffering {
+): CspmMonitorAzureDevOpsOffering {
   return {
     offeringType: item["offeringType"],
     description: item["description"],
@@ -1952,134 +1770,122 @@ export function securityConnectorsAPIcspmMonitorAzureDevOpsOfferingDeserializer(
 }
 
 /** The CSPM P1 for AWS offering */
-export interface SecurityConnectorsAPIdefenderCspmAwsOffering extends SecurityConnectorsAPIcloudOffering {
+export interface DefenderCspmAwsOffering extends CloudOffering {
   /** The Microsoft Defender for CSPM offering VM scanning configuration */
-  vmScanners?: SecurityConnectorsAPIdefenderCspmAwsOfferingVmScanners;
+  vmScanners?: DefenderCspmAwsOfferingVmScanners;
   /** The Microsoft Defender Data Sensitivity discovery configuration */
-  dataSensitivityDiscovery?: SecurityConnectorsAPIDefenderCspmAwsOfferingDataSensitivityDiscovery;
+  dataSensitivityDiscovery?: DefenderCspmAwsOfferingDataSensitivityDiscovery;
   /** The databases DSPM configuration */
-  databasesDspm?: SecurityConnectorsAPIDefenderCspmAwsOfferingDatabasesDspm;
+  databasesDspm?: DefenderCspmAwsOfferingDatabasesDspm;
   /** Defenders CSPM Permissions Management offering configurations */
-  ciem?: SecurityConnectorsAPIDefenderCspmAwsOfferingCiem;
+  ciem?: DefenderCspmAwsOfferingCiem;
   /** The Microsoft Defender container image assessment configuration */
-  mdcContainersImageAssessment?: SecurityConnectorsAPIDefenderCspmAwsOfferingMdcContainersImageAssessment;
+  mdcContainersImageAssessment?: DefenderCspmAwsOfferingMdcContainersImageAssessment;
   /** The Microsoft Defender container agentless discovery K8s configuration */
-  mdcContainersAgentlessDiscoveryK8S?: SecurityConnectorsAPIDefenderCspmAwsOfferingMdcContainersAgentlessDiscoveryK8S;
+  mdcContainersAgentlessDiscoveryK8S?: DefenderCspmAwsOfferingMdcContainersAgentlessDiscoveryK8S;
   /** The type of the security offering. */
   offeringType: "DefenderCspmAws";
 }
 
-export function securityConnectorsAPIdefenderCspmAwsOfferingSerializer(
-  item: SecurityConnectorsAPIdefenderCspmAwsOffering,
-): any {
+export function defenderCspmAwsOfferingSerializer(item: DefenderCspmAwsOffering): any {
   return {
     offeringType: item["offeringType"],
     vmScanners: !item["vmScanners"]
       ? item["vmScanners"]
-      : securityConnectorsAPIdefenderCspmAwsOfferingVmScannersSerializer(item["vmScanners"]),
+      : defenderCspmAwsOfferingVmScannersSerializer(item["vmScanners"]),
     dataSensitivityDiscovery: !item["dataSensitivityDiscovery"]
       ? item["dataSensitivityDiscovery"]
-      : securityConnectorsAPIDefenderCspmAwsOfferingDataSensitivityDiscoverySerializer(
-          item["dataSensitivityDiscovery"],
-        ),
+      : defenderCspmAwsOfferingDataSensitivityDiscoverySerializer(item["dataSensitivityDiscovery"]),
     databasesDspm: !item["databasesDspm"]
       ? item["databasesDspm"]
-      : securityConnectorsAPIDefenderCspmAwsOfferingDatabasesDspmSerializer(item["databasesDspm"]),
-    ciem: !item["ciem"]
-      ? item["ciem"]
-      : securityConnectorsAPIDefenderCspmAwsOfferingCiemSerializer(item["ciem"]),
+      : defenderCspmAwsOfferingDatabasesDspmSerializer(item["databasesDspm"]),
+    ciem: !item["ciem"] ? item["ciem"] : defenderCspmAwsOfferingCiemSerializer(item["ciem"]),
     mdcContainersImageAssessment: !item["mdcContainersImageAssessment"]
       ? item["mdcContainersImageAssessment"]
-      : securityConnectorsAPIDefenderCspmAwsOfferingMdcContainersImageAssessmentSerializer(
+      : defenderCspmAwsOfferingMdcContainersImageAssessmentSerializer(
           item["mdcContainersImageAssessment"],
         ),
     mdcContainersAgentlessDiscoveryK8s: !item["mdcContainersAgentlessDiscoveryK8S"]
       ? item["mdcContainersAgentlessDiscoveryK8S"]
-      : securityConnectorsAPIDefenderCspmAwsOfferingMdcContainersAgentlessDiscoveryK8SSerializer(
+      : defenderCspmAwsOfferingMdcContainersAgentlessDiscoveryK8SSerializer(
           item["mdcContainersAgentlessDiscoveryK8S"],
         ),
   };
 }
 
-export function securityConnectorsAPIdefenderCspmAwsOfferingDeserializer(
-  item: any,
-): SecurityConnectorsAPIdefenderCspmAwsOffering {
+export function defenderCspmAwsOfferingDeserializer(item: any): DefenderCspmAwsOffering {
   return {
     offeringType: item["offeringType"],
     description: item["description"],
     vmScanners: !item["vmScanners"]
       ? item["vmScanners"]
-      : securityConnectorsAPIdefenderCspmAwsOfferingVmScannersDeserializer(item["vmScanners"]),
+      : defenderCspmAwsOfferingVmScannersDeserializer(item["vmScanners"]),
     dataSensitivityDiscovery: !item["dataSensitivityDiscovery"]
       ? item["dataSensitivityDiscovery"]
-      : securityConnectorsAPIDefenderCspmAwsOfferingDataSensitivityDiscoveryDeserializer(
+      : defenderCspmAwsOfferingDataSensitivityDiscoveryDeserializer(
           item["dataSensitivityDiscovery"],
         ),
     databasesDspm: !item["databasesDspm"]
       ? item["databasesDspm"]
-      : securityConnectorsAPIDefenderCspmAwsOfferingDatabasesDspmDeserializer(
-          item["databasesDspm"],
-        ),
-    ciem: !item["ciem"]
-      ? item["ciem"]
-      : securityConnectorsAPIDefenderCspmAwsOfferingCiemDeserializer(item["ciem"]),
+      : defenderCspmAwsOfferingDatabasesDspmDeserializer(item["databasesDspm"]),
+    ciem: !item["ciem"] ? item["ciem"] : defenderCspmAwsOfferingCiemDeserializer(item["ciem"]),
     mdcContainersImageAssessment: !item["mdcContainersImageAssessment"]
       ? item["mdcContainersImageAssessment"]
-      : securityConnectorsAPIDefenderCspmAwsOfferingMdcContainersImageAssessmentDeserializer(
+      : defenderCspmAwsOfferingMdcContainersImageAssessmentDeserializer(
           item["mdcContainersImageAssessment"],
         ),
     mdcContainersAgentlessDiscoveryK8S: !item["mdcContainersAgentlessDiscoveryK8s"]
       ? item["mdcContainersAgentlessDiscoveryK8s"]
-      : securityConnectorsAPIDefenderCspmAwsOfferingMdcContainersAgentlessDiscoveryK8SDeserializer(
+      : defenderCspmAwsOfferingMdcContainersAgentlessDiscoveryK8SDeserializer(
           item["mdcContainersAgentlessDiscoveryK8s"],
         ),
   };
 }
 
 /** The Microsoft Defender for CSPM offering VM scanning configuration */
-export interface SecurityConnectorsAPIdefenderCspmAwsOfferingVmScanners extends SecurityConnectorsAPIvmScannersAws {}
+export interface DefenderCspmAwsOfferingVmScanners extends VmScannersAws {}
 
-export function securityConnectorsAPIdefenderCspmAwsOfferingVmScannersSerializer(
-  item: SecurityConnectorsAPIdefenderCspmAwsOfferingVmScanners,
+export function defenderCspmAwsOfferingVmScannersSerializer(
+  item: DefenderCspmAwsOfferingVmScanners,
 ): any {
   return {
     cloudRoleArn: item["cloudRoleArn"],
     enabled: item["enabled"],
     configuration: !item["configuration"]
       ? item["configuration"]
-      : securityConnectorsAPIVmScannersBaseConfigurationSerializer(item["configuration"]),
+      : vmScannersBaseConfigurationSerializer(item["configuration"]),
   };
 }
 
-export function securityConnectorsAPIdefenderCspmAwsOfferingVmScannersDeserializer(
+export function defenderCspmAwsOfferingVmScannersDeserializer(
   item: any,
-): SecurityConnectorsAPIdefenderCspmAwsOfferingVmScanners {
+): DefenderCspmAwsOfferingVmScanners {
   return {
     cloudRoleArn: item["cloudRoleArn"],
     enabled: item["enabled"],
     configuration: !item["configuration"]
       ? item["configuration"]
-      : securityConnectorsAPIVmScannersBaseConfigurationDeserializer(item["configuration"]),
+      : vmScannersBaseConfigurationDeserializer(item["configuration"]),
   };
 }
 
 /** The Microsoft Defender Data Sensitivity discovery configuration */
-export interface SecurityConnectorsAPIDefenderCspmAwsOfferingDataSensitivityDiscovery {
+export interface DefenderCspmAwsOfferingDataSensitivityDiscovery {
   /** Is Microsoft Defender Data Sensitivity discovery enabled */
   enabled?: boolean;
   /** The cloud role ARN in AWS for this feature */
   cloudRoleArn?: string;
 }
 
-export function securityConnectorsAPIDefenderCspmAwsOfferingDataSensitivityDiscoverySerializer(
-  item: SecurityConnectorsAPIDefenderCspmAwsOfferingDataSensitivityDiscovery,
+export function defenderCspmAwsOfferingDataSensitivityDiscoverySerializer(
+  item: DefenderCspmAwsOfferingDataSensitivityDiscovery,
 ): any {
   return { enabled: item["enabled"], cloudRoleArn: item["cloudRoleArn"] };
 }
 
-export function securityConnectorsAPIDefenderCspmAwsOfferingDataSensitivityDiscoveryDeserializer(
+export function defenderCspmAwsOfferingDataSensitivityDiscoveryDeserializer(
   item: any,
-): SecurityConnectorsAPIDefenderCspmAwsOfferingDataSensitivityDiscovery {
+): DefenderCspmAwsOfferingDataSensitivityDiscovery {
   return {
     enabled: item["enabled"],
     cloudRoleArn: item["cloudRoleArn"],
@@ -2087,22 +1893,22 @@ export function securityConnectorsAPIDefenderCspmAwsOfferingDataSensitivityDisco
 }
 
 /** The databases DSPM configuration */
-export interface SecurityConnectorsAPIDefenderCspmAwsOfferingDatabasesDspm {
+export interface DefenderCspmAwsOfferingDatabasesDspm {
   /** Is databases DSPM protection enabled */
   enabled?: boolean;
   /** The cloud role ARN in AWS for this feature */
   cloudRoleArn?: string;
 }
 
-export function securityConnectorsAPIDefenderCspmAwsOfferingDatabasesDspmSerializer(
-  item: SecurityConnectorsAPIDefenderCspmAwsOfferingDatabasesDspm,
+export function defenderCspmAwsOfferingDatabasesDspmSerializer(
+  item: DefenderCspmAwsOfferingDatabasesDspm,
 ): any {
   return { enabled: item["enabled"], cloudRoleArn: item["cloudRoleArn"] };
 }
 
-export function securityConnectorsAPIDefenderCspmAwsOfferingDatabasesDspmDeserializer(
+export function defenderCspmAwsOfferingDatabasesDspmDeserializer(
   item: any,
-): SecurityConnectorsAPIDefenderCspmAwsOfferingDatabasesDspm {
+): DefenderCspmAwsOfferingDatabasesDspm {
   return {
     enabled: item["enabled"],
     cloudRoleArn: item["cloudRoleArn"],
@@ -2110,73 +1916,65 @@ export function securityConnectorsAPIDefenderCspmAwsOfferingDatabasesDspmDeseria
 }
 
 /** Defenders CSPM Permissions Management offering configurations */
-export interface SecurityConnectorsAPIDefenderCspmAwsOfferingCiem {
+export interface DefenderCspmAwsOfferingCiem {
   /** Defender CSPM Permissions Management discovery configuration */
-  ciemDiscovery?: SecurityConnectorsAPIDefenderCspmAwsOfferingCiemCiemDiscovery;
+  ciemDiscovery?: DefenderCspmAwsOfferingCiemCiemDiscovery;
   /** AWS Defender CSPM Permissions Management OIDC (open id connect) connection configurations */
-  ciemOidc?: SecurityConnectorsAPIDefenderCspmAwsOfferingCiemCiemOidc;
+  ciemOidc?: DefenderCspmAwsOfferingCiemCiemOidc;
 }
 
-export function securityConnectorsAPIDefenderCspmAwsOfferingCiemSerializer(
-  item: SecurityConnectorsAPIDefenderCspmAwsOfferingCiem,
-): any {
+export function defenderCspmAwsOfferingCiemSerializer(item: DefenderCspmAwsOfferingCiem): any {
   return {
     ciemDiscovery: !item["ciemDiscovery"]
       ? item["ciemDiscovery"]
-      : securityConnectorsAPIDefenderCspmAwsOfferingCiemCiemDiscoverySerializer(
-          item["ciemDiscovery"],
-        ),
+      : defenderCspmAwsOfferingCiemCiemDiscoverySerializer(item["ciemDiscovery"]),
     ciemOidc: !item["ciemOidc"]
       ? item["ciemOidc"]
-      : securityConnectorsAPIDefenderCspmAwsOfferingCiemCiemOidcSerializer(item["ciemOidc"]),
+      : defenderCspmAwsOfferingCiemCiemOidcSerializer(item["ciemOidc"]),
   };
 }
 
-export function securityConnectorsAPIDefenderCspmAwsOfferingCiemDeserializer(
-  item: any,
-): SecurityConnectorsAPIDefenderCspmAwsOfferingCiem {
+export function defenderCspmAwsOfferingCiemDeserializer(item: any): DefenderCspmAwsOfferingCiem {
   return {
     ciemDiscovery: !item["ciemDiscovery"]
       ? item["ciemDiscovery"]
-      : securityConnectorsAPIDefenderCspmAwsOfferingCiemCiemDiscoveryDeserializer(
-          item["ciemDiscovery"],
-        ),
+      : defenderCspmAwsOfferingCiemCiemDiscoveryDeserializer(item["ciemDiscovery"]),
     ciemOidc: !item["ciemOidc"]
       ? item["ciemOidc"]
-      : securityConnectorsAPIDefenderCspmAwsOfferingCiemCiemOidcDeserializer(item["ciemOidc"]),
+      : defenderCspmAwsOfferingCiemCiemOidcDeserializer(item["ciemOidc"]),
   };
 }
 
 /** Defender CSPM Permissions Management discovery configuration */
-export interface SecurityConnectorsAPIDefenderCspmAwsOfferingCiemCiemDiscovery {
+export interface DefenderCspmAwsOfferingCiemCiemDiscovery {
   /** The cloud role ARN in AWS for Permissions Management discovery */
   cloudRoleArn?: string;
 }
 
-export function securityConnectorsAPIDefenderCspmAwsOfferingCiemCiemDiscoverySerializer(
-  item: SecurityConnectorsAPIDefenderCspmAwsOfferingCiemCiemDiscovery,
+export function defenderCspmAwsOfferingCiemCiemDiscoverySerializer(
+  item: DefenderCspmAwsOfferingCiemCiemDiscovery,
 ): any {
   return { cloudRoleArn: item["cloudRoleArn"] };
 }
 
-export function securityConnectorsAPIDefenderCspmAwsOfferingCiemCiemDiscoveryDeserializer(
+export function defenderCspmAwsOfferingCiemCiemDiscoveryDeserializer(
   item: any,
-): SecurityConnectorsAPIDefenderCspmAwsOfferingCiemCiemDiscovery {
+): DefenderCspmAwsOfferingCiemCiemDiscovery {
   return {
     cloudRoleArn: item["cloudRoleArn"],
   };
 }
 
 /** AWS Defender CSPM Permissions Management OIDC (open id connect) connection configurations */
-export interface SecurityConnectorsAPIDefenderCspmAwsOfferingCiemCiemOidc {
+export interface DefenderCspmAwsOfferingCiemCiemOidc {
   /** The cloud role ARN in AWS for Permissions Management used for oidc connection */
   cloudRoleArn?: string;
   /** the azure active directory app name used of authenticating against AWS */
   azureActiveDirectoryAppName?: string;
 }
 
-export function securityConnectorsAPIDefenderCspmAwsOfferingCiemCiemOidcSerializer(
-  item: SecurityConnectorsAPIDefenderCspmAwsOfferingCiemCiemOidc,
+export function defenderCspmAwsOfferingCiemCiemOidcSerializer(
+  item: DefenderCspmAwsOfferingCiemCiemOidc,
 ): any {
   return {
     cloudRoleArn: item["cloudRoleArn"],
@@ -2184,9 +1982,9 @@ export function securityConnectorsAPIDefenderCspmAwsOfferingCiemCiemOidcSerializ
   };
 }
 
-export function securityConnectorsAPIDefenderCspmAwsOfferingCiemCiemOidcDeserializer(
+export function defenderCspmAwsOfferingCiemCiemOidcDeserializer(
   item: any,
-): SecurityConnectorsAPIDefenderCspmAwsOfferingCiemCiemOidc {
+): DefenderCspmAwsOfferingCiemCiemOidc {
   return {
     cloudRoleArn: item["cloudRoleArn"],
     azureActiveDirectoryAppName: item["azureActiveDirectoryAppName"],
@@ -2194,22 +1992,22 @@ export function securityConnectorsAPIDefenderCspmAwsOfferingCiemCiemOidcDeserial
 }
 
 /** The Microsoft Defender container image assessment configuration */
-export interface SecurityConnectorsAPIDefenderCspmAwsOfferingMdcContainersImageAssessment {
+export interface DefenderCspmAwsOfferingMdcContainersImageAssessment {
   /** Is Microsoft Defender container image assessment enabled */
   enabled?: boolean;
   /** The cloud role ARN in AWS for this feature */
   cloudRoleArn?: string;
 }
 
-export function securityConnectorsAPIDefenderCspmAwsOfferingMdcContainersImageAssessmentSerializer(
-  item: SecurityConnectorsAPIDefenderCspmAwsOfferingMdcContainersImageAssessment,
+export function defenderCspmAwsOfferingMdcContainersImageAssessmentSerializer(
+  item: DefenderCspmAwsOfferingMdcContainersImageAssessment,
 ): any {
   return { enabled: item["enabled"], cloudRoleArn: item["cloudRoleArn"] };
 }
 
-export function securityConnectorsAPIDefenderCspmAwsOfferingMdcContainersImageAssessmentDeserializer(
+export function defenderCspmAwsOfferingMdcContainersImageAssessmentDeserializer(
   item: any,
-): SecurityConnectorsAPIDefenderCspmAwsOfferingMdcContainersImageAssessment {
+): DefenderCspmAwsOfferingMdcContainersImageAssessment {
   return {
     enabled: item["enabled"],
     cloudRoleArn: item["cloudRoleArn"],
@@ -2217,22 +2015,22 @@ export function securityConnectorsAPIDefenderCspmAwsOfferingMdcContainersImageAs
 }
 
 /** The Microsoft Defender container agentless discovery K8s configuration */
-export interface SecurityConnectorsAPIDefenderCspmAwsOfferingMdcContainersAgentlessDiscoveryK8S {
+export interface DefenderCspmAwsOfferingMdcContainersAgentlessDiscoveryK8S {
   /** Is Microsoft Defender container agentless discovery K8s enabled */
   enabled?: boolean;
   /** The cloud role ARN in AWS for this feature */
   cloudRoleArn?: string;
 }
 
-export function securityConnectorsAPIDefenderCspmAwsOfferingMdcContainersAgentlessDiscoveryK8SSerializer(
-  item: SecurityConnectorsAPIDefenderCspmAwsOfferingMdcContainersAgentlessDiscoveryK8S,
+export function defenderCspmAwsOfferingMdcContainersAgentlessDiscoveryK8SSerializer(
+  item: DefenderCspmAwsOfferingMdcContainersAgentlessDiscoveryK8S,
 ): any {
   return { enabled: item["enabled"], cloudRoleArn: item["cloudRoleArn"] };
 }
 
-export function securityConnectorsAPIDefenderCspmAwsOfferingMdcContainersAgentlessDiscoveryK8SDeserializer(
+export function defenderCspmAwsOfferingMdcContainersAgentlessDiscoveryK8SDeserializer(
   item: any,
-): SecurityConnectorsAPIDefenderCspmAwsOfferingMdcContainersAgentlessDiscoveryK8S {
+): DefenderCspmAwsOfferingMdcContainersAgentlessDiscoveryK8S {
   return {
     enabled: item["enabled"],
     cloudRoleArn: item["cloudRoleArn"],
@@ -2240,84 +2038,76 @@ export function securityConnectorsAPIDefenderCspmAwsOfferingMdcContainersAgentle
 }
 
 /** The CSPM P1 for GCP offering */
-export interface SecurityConnectorsAPIdefenderCspmGcpOffering extends SecurityConnectorsAPIcloudOffering {
+export interface DefenderCspmGcpOffering extends CloudOffering {
   /** GCP Defenders CSPM Permissions Management OIDC (Open ID connect) connection configurations */
-  ciemDiscovery?: SecurityConnectorsAPIDefenderCspmGcpOfferingCiemDiscovery;
+  ciemDiscovery?: DefenderCspmGcpOfferingCiemDiscovery;
   /** The Microsoft Defender for CSPM VM scanning configuration */
-  vmScanners?: SecurityConnectorsAPIdefenderCspmGcpOfferingVmScanners;
+  vmScanners?: DefenderCspmGcpOfferingVmScanners;
   /** The Microsoft Defender Data Sensitivity discovery configuration */
-  dataSensitivityDiscovery?: SecurityConnectorsAPIDefenderCspmGcpOfferingDataSensitivityDiscovery;
+  dataSensitivityDiscovery?: DefenderCspmGcpOfferingDataSensitivityDiscovery;
   /** The Microsoft Defender Container image assessment configuration */
-  mdcContainersImageAssessment?: SecurityConnectorsAPIDefenderCspmGcpOfferingMdcContainersImageAssessment;
+  mdcContainersImageAssessment?: DefenderCspmGcpOfferingMdcContainersImageAssessment;
   /** The Microsoft Defender Container agentless discovery configuration */
-  mdcContainersAgentlessDiscoveryK8S?: SecurityConnectorsAPIDefenderCspmGcpOfferingMdcContainersAgentlessDiscoveryK8S;
+  mdcContainersAgentlessDiscoveryK8S?: DefenderCspmGcpOfferingMdcContainersAgentlessDiscoveryK8S;
   /** The type of the security offering. */
   offeringType: "DefenderCspmGcp";
 }
 
-export function securityConnectorsAPIdefenderCspmGcpOfferingSerializer(
-  item: SecurityConnectorsAPIdefenderCspmGcpOffering,
-): any {
+export function defenderCspmGcpOfferingSerializer(item: DefenderCspmGcpOffering): any {
   return {
     offeringType: item["offeringType"],
     ciemDiscovery: !item["ciemDiscovery"]
       ? item["ciemDiscovery"]
-      : securityConnectorsAPIDefenderCspmGcpOfferingCiemDiscoverySerializer(item["ciemDiscovery"]),
+      : defenderCspmGcpOfferingCiemDiscoverySerializer(item["ciemDiscovery"]),
     vmScanners: !item["vmScanners"]
       ? item["vmScanners"]
-      : securityConnectorsAPIdefenderCspmGcpOfferingVmScannersSerializer(item["vmScanners"]),
+      : defenderCspmGcpOfferingVmScannersSerializer(item["vmScanners"]),
     dataSensitivityDiscovery: !item["dataSensitivityDiscovery"]
       ? item["dataSensitivityDiscovery"]
-      : securityConnectorsAPIDefenderCspmGcpOfferingDataSensitivityDiscoverySerializer(
-          item["dataSensitivityDiscovery"],
-        ),
+      : defenderCspmGcpOfferingDataSensitivityDiscoverySerializer(item["dataSensitivityDiscovery"]),
     mdcContainersImageAssessment: !item["mdcContainersImageAssessment"]
       ? item["mdcContainersImageAssessment"]
-      : securityConnectorsAPIDefenderCspmGcpOfferingMdcContainersImageAssessmentSerializer(
+      : defenderCspmGcpOfferingMdcContainersImageAssessmentSerializer(
           item["mdcContainersImageAssessment"],
         ),
     mdcContainersAgentlessDiscoveryK8s: !item["mdcContainersAgentlessDiscoveryK8S"]
       ? item["mdcContainersAgentlessDiscoveryK8S"]
-      : securityConnectorsAPIDefenderCspmGcpOfferingMdcContainersAgentlessDiscoveryK8SSerializer(
+      : defenderCspmGcpOfferingMdcContainersAgentlessDiscoveryK8SSerializer(
           item["mdcContainersAgentlessDiscoveryK8S"],
         ),
   };
 }
 
-export function securityConnectorsAPIdefenderCspmGcpOfferingDeserializer(
-  item: any,
-): SecurityConnectorsAPIdefenderCspmGcpOffering {
+export function defenderCspmGcpOfferingDeserializer(item: any): DefenderCspmGcpOffering {
   return {
     offeringType: item["offeringType"],
     description: item["description"],
     ciemDiscovery: !item["ciemDiscovery"]
       ? item["ciemDiscovery"]
-      : securityConnectorsAPIDefenderCspmGcpOfferingCiemDiscoveryDeserializer(
-          item["ciemDiscovery"],
-        ),
+      : defenderCspmGcpOfferingCiemDiscoveryDeserializer(item["ciemDiscovery"]),
     vmScanners: !item["vmScanners"]
       ? item["vmScanners"]
-      : securityConnectorsAPIdefenderCspmGcpOfferingVmScannersDeserializer(item["vmScanners"]),
+      : defenderCspmGcpOfferingVmScannersDeserializer(item["vmScanners"]),
     dataSensitivityDiscovery: !item["dataSensitivityDiscovery"]
       ? item["dataSensitivityDiscovery"]
-      : securityConnectorsAPIDefenderCspmGcpOfferingDataSensitivityDiscoveryDeserializer(
+      : defenderCspmGcpOfferingDataSensitivityDiscoveryDeserializer(
           item["dataSensitivityDiscovery"],
         ),
     mdcContainersImageAssessment: !item["mdcContainersImageAssessment"]
       ? item["mdcContainersImageAssessment"]
-      : securityConnectorsAPIDefenderCspmGcpOfferingMdcContainersImageAssessmentDeserializer(
+      : defenderCspmGcpOfferingMdcContainersImageAssessmentDeserializer(
           item["mdcContainersImageAssessment"],
         ),
     mdcContainersAgentlessDiscoveryK8S: !item["mdcContainersAgentlessDiscoveryK8s"]
       ? item["mdcContainersAgentlessDiscoveryK8s"]
-      : securityConnectorsAPIDefenderCspmGcpOfferingMdcContainersAgentlessDiscoveryK8SDeserializer(
+      : defenderCspmGcpOfferingMdcContainersAgentlessDiscoveryK8SDeserializer(
           item["mdcContainersAgentlessDiscoveryK8s"],
         ),
   };
 }
 
 /** GCP Defenders CSPM Permissions Management OIDC (Open ID connect) connection configurations */
-export interface SecurityConnectorsAPIDefenderCspmGcpOfferingCiemDiscovery {
+export interface DefenderCspmGcpOfferingCiemDiscovery {
   /** The GCP workload identity provider id for Permissions Management offering */
   workloadIdentityProviderId?: string;
   /** The service account email address in GCP for Permissions Management offering */
@@ -2326,8 +2116,8 @@ export interface SecurityConnectorsAPIDefenderCspmGcpOfferingCiemDiscovery {
   azureActiveDirectoryAppName?: string;
 }
 
-export function securityConnectorsAPIDefenderCspmGcpOfferingCiemDiscoverySerializer(
-  item: SecurityConnectorsAPIDefenderCspmGcpOfferingCiemDiscovery,
+export function defenderCspmGcpOfferingCiemDiscoverySerializer(
+  item: DefenderCspmGcpOfferingCiemDiscovery,
 ): any {
   return {
     workloadIdentityProviderId: item["workloadIdentityProviderId"],
@@ -2336,9 +2126,9 @@ export function securityConnectorsAPIDefenderCspmGcpOfferingCiemDiscoverySeriali
   };
 }
 
-export function securityConnectorsAPIDefenderCspmGcpOfferingCiemDiscoveryDeserializer(
+export function defenderCspmGcpOfferingCiemDiscoveryDeserializer(
   item: any,
-): SecurityConnectorsAPIDefenderCspmGcpOfferingCiemDiscovery {
+): DefenderCspmGcpOfferingCiemDiscovery {
   return {
     workloadIdentityProviderId: item["workloadIdentityProviderId"],
     serviceAccountEmailAddress: item["serviceAccountEmailAddress"],
@@ -2347,32 +2137,32 @@ export function securityConnectorsAPIDefenderCspmGcpOfferingCiemDiscoveryDeseria
 }
 
 /** The Microsoft Defender for CSPM VM scanning configuration */
-export interface SecurityConnectorsAPIdefenderCspmGcpOfferingVmScanners extends SecurityConnectorsAPIvmScannersGcp {}
+export interface DefenderCspmGcpOfferingVmScanners extends VmScannersGcp {}
 
-export function securityConnectorsAPIdefenderCspmGcpOfferingVmScannersSerializer(
-  item: SecurityConnectorsAPIdefenderCspmGcpOfferingVmScanners,
+export function defenderCspmGcpOfferingVmScannersSerializer(
+  item: DefenderCspmGcpOfferingVmScanners,
 ): any {
   return {
     enabled: item["enabled"],
     configuration: !item["configuration"]
       ? item["configuration"]
-      : securityConnectorsAPIVmScannersBaseConfigurationSerializer(item["configuration"]),
+      : vmScannersBaseConfigurationSerializer(item["configuration"]),
   };
 }
 
-export function securityConnectorsAPIdefenderCspmGcpOfferingVmScannersDeserializer(
+export function defenderCspmGcpOfferingVmScannersDeserializer(
   item: any,
-): SecurityConnectorsAPIdefenderCspmGcpOfferingVmScanners {
+): DefenderCspmGcpOfferingVmScanners {
   return {
     enabled: item["enabled"],
     configuration: !item["configuration"]
       ? item["configuration"]
-      : securityConnectorsAPIVmScannersBaseConfigurationDeserializer(item["configuration"]),
+      : vmScannersBaseConfigurationDeserializer(item["configuration"]),
   };
 }
 
 /** The Microsoft Defender Data Sensitivity discovery configuration */
-export interface SecurityConnectorsAPIDefenderCspmGcpOfferingDataSensitivityDiscovery {
+export interface DefenderCspmGcpOfferingDataSensitivityDiscovery {
   /** Is Microsoft Defender Data Sensitivity discovery enabled */
   enabled?: boolean;
   /** The workload identity provider id in GCP for this feature */
@@ -2381,8 +2171,8 @@ export interface SecurityConnectorsAPIDefenderCspmGcpOfferingDataSensitivityDisc
   serviceAccountEmailAddress?: string;
 }
 
-export function securityConnectorsAPIDefenderCspmGcpOfferingDataSensitivityDiscoverySerializer(
-  item: SecurityConnectorsAPIDefenderCspmGcpOfferingDataSensitivityDiscovery,
+export function defenderCspmGcpOfferingDataSensitivityDiscoverySerializer(
+  item: DefenderCspmGcpOfferingDataSensitivityDiscovery,
 ): any {
   return {
     enabled: item["enabled"],
@@ -2391,9 +2181,9 @@ export function securityConnectorsAPIDefenderCspmGcpOfferingDataSensitivityDisco
   };
 }
 
-export function securityConnectorsAPIDefenderCspmGcpOfferingDataSensitivityDiscoveryDeserializer(
+export function defenderCspmGcpOfferingDataSensitivityDiscoveryDeserializer(
   item: any,
-): SecurityConnectorsAPIDefenderCspmGcpOfferingDataSensitivityDiscovery {
+): DefenderCspmGcpOfferingDataSensitivityDiscovery {
   return {
     enabled: item["enabled"],
     workloadIdentityProviderId: item["workloadIdentityProviderId"],
@@ -2402,7 +2192,7 @@ export function securityConnectorsAPIDefenderCspmGcpOfferingDataSensitivityDisco
 }
 
 /** The Microsoft Defender Container image assessment configuration */
-export interface SecurityConnectorsAPIDefenderCspmGcpOfferingMdcContainersImageAssessment {
+export interface DefenderCspmGcpOfferingMdcContainersImageAssessment {
   /** Is Microsoft Defender container image assessment enabled */
   enabled?: boolean;
   /** The workload identity provider id in GCP for this feature */
@@ -2411,8 +2201,8 @@ export interface SecurityConnectorsAPIDefenderCspmGcpOfferingMdcContainersImageA
   serviceAccountEmailAddress?: string;
 }
 
-export function securityConnectorsAPIDefenderCspmGcpOfferingMdcContainersImageAssessmentSerializer(
-  item: SecurityConnectorsAPIDefenderCspmGcpOfferingMdcContainersImageAssessment,
+export function defenderCspmGcpOfferingMdcContainersImageAssessmentSerializer(
+  item: DefenderCspmGcpOfferingMdcContainersImageAssessment,
 ): any {
   return {
     enabled: item["enabled"],
@@ -2421,9 +2211,9 @@ export function securityConnectorsAPIDefenderCspmGcpOfferingMdcContainersImageAs
   };
 }
 
-export function securityConnectorsAPIDefenderCspmGcpOfferingMdcContainersImageAssessmentDeserializer(
+export function defenderCspmGcpOfferingMdcContainersImageAssessmentDeserializer(
   item: any,
-): SecurityConnectorsAPIDefenderCspmGcpOfferingMdcContainersImageAssessment {
+): DefenderCspmGcpOfferingMdcContainersImageAssessment {
   return {
     enabled: item["enabled"],
     workloadIdentityProviderId: item["workloadIdentityProviderId"],
@@ -2432,7 +2222,7 @@ export function securityConnectorsAPIDefenderCspmGcpOfferingMdcContainersImageAs
 }
 
 /** The Microsoft Defender Container agentless discovery configuration */
-export interface SecurityConnectorsAPIDefenderCspmGcpOfferingMdcContainersAgentlessDiscoveryK8S {
+export interface DefenderCspmGcpOfferingMdcContainersAgentlessDiscoveryK8S {
   /** Is Microsoft Defender container agentless discovery enabled */
   enabled?: boolean;
   /** The workload identity provider id in GCP for this feature */
@@ -2441,8 +2231,8 @@ export interface SecurityConnectorsAPIDefenderCspmGcpOfferingMdcContainersAgentl
   serviceAccountEmailAddress?: string;
 }
 
-export function securityConnectorsAPIDefenderCspmGcpOfferingMdcContainersAgentlessDiscoveryK8SSerializer(
-  item: SecurityConnectorsAPIDefenderCspmGcpOfferingMdcContainersAgentlessDiscoveryK8S,
+export function defenderCspmGcpOfferingMdcContainersAgentlessDiscoveryK8SSerializer(
+  item: DefenderCspmGcpOfferingMdcContainersAgentlessDiscoveryK8S,
 ): any {
   return {
     enabled: item["enabled"],
@@ -2451,9 +2241,9 @@ export function securityConnectorsAPIDefenderCspmGcpOfferingMdcContainersAgentle
   };
 }
 
-export function securityConnectorsAPIDefenderCspmGcpOfferingMdcContainersAgentlessDiscoveryK8SDeserializer(
+export function defenderCspmGcpOfferingMdcContainersAgentlessDiscoveryK8SDeserializer(
   item: any,
-): SecurityConnectorsAPIDefenderCspmGcpOfferingMdcContainersAgentlessDiscoveryK8S {
+): DefenderCspmGcpOfferingMdcContainersAgentlessDiscoveryK8S {
   return {
     enabled: item["enabled"],
     workloadIdentityProviderId: item["workloadIdentityProviderId"],
@@ -2462,20 +2252,16 @@ export function securityConnectorsAPIDefenderCspmGcpOfferingMdcContainersAgentle
 }
 
 /** The CSPM (Cloud security posture management) monitoring for gitlab offering */
-export interface SecurityConnectorsAPIcspmMonitorGitLabOffering extends SecurityConnectorsAPIcloudOffering {
+export interface CspmMonitorGitLabOffering extends CloudOffering {
   /** The type of the security offering. */
   offeringType: "CspmMonitorGitLab";
 }
 
-export function securityConnectorsAPIcspmMonitorGitLabOfferingSerializer(
-  item: SecurityConnectorsAPIcspmMonitorGitLabOffering,
-): any {
+export function cspmMonitorGitLabOfferingSerializer(item: CspmMonitorGitLabOffering): any {
   return { offeringType: item["offeringType"] };
 }
 
-export function securityConnectorsAPIcspmMonitorGitLabOfferingDeserializer(
-  item: any,
-): SecurityConnectorsAPIcspmMonitorGitLabOffering {
+export function cspmMonitorGitLabOfferingDeserializer(item: any): CspmMonitorGitLabOffering {
   return {
     offeringType: item["offeringType"],
     description: item["description"],
@@ -2483,20 +2269,16 @@ export function securityConnectorsAPIcspmMonitorGitLabOfferingDeserializer(
 }
 
 /** The CSPM (Cloud security posture management) monitoring for Docker Hub offering */
-export interface SecurityConnectorsAPIcspmMonitorDockerHubOffering extends SecurityConnectorsAPIcloudOffering {
+export interface CspmMonitorDockerHubOffering extends CloudOffering {
   /** The type of the security offering. */
   offeringType: "CspmMonitorDockerHub";
 }
 
-export function securityConnectorsAPIcspmMonitorDockerHubOfferingSerializer(
-  item: SecurityConnectorsAPIcspmMonitorDockerHubOffering,
-): any {
+export function cspmMonitorDockerHubOfferingSerializer(item: CspmMonitorDockerHubOffering): any {
   return { offeringType: item["offeringType"] };
 }
 
-export function securityConnectorsAPIcspmMonitorDockerHubOfferingDeserializer(
-  item: any,
-): SecurityConnectorsAPIcspmMonitorDockerHubOffering {
+export function cspmMonitorDockerHubOfferingDeserializer(item: any): CspmMonitorDockerHubOffering {
   return {
     offeringType: item["offeringType"],
     description: item["description"],
@@ -2504,20 +2286,20 @@ export function securityConnectorsAPIcspmMonitorDockerHubOfferingDeserializer(
 }
 
 /** The Defender for containers Docker Hub offering configurations */
-export interface SecurityConnectorsAPIdefenderForContainersDockerHubOffering extends SecurityConnectorsAPIcloudOffering {
+export interface DefenderForContainersDockerHubOffering extends CloudOffering {
   /** The type of the security offering. */
   offeringType: "DefenderForContainersDockerHub";
 }
 
-export function securityConnectorsAPIdefenderForContainersDockerHubOfferingSerializer(
-  item: SecurityConnectorsAPIdefenderForContainersDockerHubOffering,
+export function defenderForContainersDockerHubOfferingSerializer(
+  item: DefenderForContainersDockerHubOffering,
 ): any {
   return { offeringType: item["offeringType"] };
 }
 
-export function securityConnectorsAPIdefenderForContainersDockerHubOfferingDeserializer(
+export function defenderForContainersDockerHubOfferingDeserializer(
   item: any,
-): SecurityConnectorsAPIdefenderForContainersDockerHubOffering {
+): DefenderForContainersDockerHubOffering {
   return {
     offeringType: item["offeringType"],
     description: item["description"],
@@ -2525,20 +2307,18 @@ export function securityConnectorsAPIdefenderForContainersDockerHubOfferingDeser
 }
 
 /** The Defender for CSPM Docker Hub offering configurations */
-export interface SecurityConnectorsAPIdefenderCspmDockerHubOffering extends SecurityConnectorsAPIcloudOffering {
+export interface DefenderCspmDockerHubOffering extends CloudOffering {
   /** The type of the security offering. */
   offeringType: "DefenderCspmDockerHub";
 }
 
-export function securityConnectorsAPIdefenderCspmDockerHubOfferingSerializer(
-  item: SecurityConnectorsAPIdefenderCspmDockerHubOffering,
-): any {
+export function defenderCspmDockerHubOfferingSerializer(item: DefenderCspmDockerHubOffering): any {
   return { offeringType: item["offeringType"] };
 }
 
-export function securityConnectorsAPIdefenderCspmDockerHubOfferingDeserializer(
+export function defenderCspmDockerHubOfferingDeserializer(
   item: any,
-): SecurityConnectorsAPIdefenderCspmDockerHubOffering {
+): DefenderCspmDockerHubOffering {
   return {
     offeringType: item["offeringType"],
     description: item["description"],
@@ -2546,20 +2326,16 @@ export function securityConnectorsAPIdefenderCspmDockerHubOfferingDeserializer(
 }
 
 /** The CSPM (Cloud security posture management) monitoring for JFrog Artifactory offering */
-export interface SecurityConnectorsAPIcspmMonitorJFrogOffering extends SecurityConnectorsAPIcloudOffering {
+export interface CspmMonitorJFrogOffering extends CloudOffering {
   /** The type of the security offering. */
   offeringType: "CspmMonitorJFrog";
 }
 
-export function securityConnectorsAPIcspmMonitorJFrogOfferingSerializer(
-  item: SecurityConnectorsAPIcspmMonitorJFrogOffering,
-): any {
+export function cspmMonitorJFrogOfferingSerializer(item: CspmMonitorJFrogOffering): any {
   return { offeringType: item["offeringType"] };
 }
 
-export function securityConnectorsAPIcspmMonitorJFrogOfferingDeserializer(
-  item: any,
-): SecurityConnectorsAPIcspmMonitorJFrogOffering {
+export function cspmMonitorJFrogOfferingDeserializer(item: any): CspmMonitorJFrogOffering {
   return {
     offeringType: item["offeringType"],
     description: item["description"],
@@ -2567,20 +2343,20 @@ export function securityConnectorsAPIcspmMonitorJFrogOfferingDeserializer(
 }
 
 /** The Defender for Containers for JFrog Artifactory offering */
-export interface SecurityConnectorsAPIdefenderForContainersJFrogOffering extends SecurityConnectorsAPIcloudOffering {
+export interface DefenderForContainersJFrogOffering extends CloudOffering {
   /** The type of the security offering. */
   offeringType: "DefenderForContainersJFrog";
 }
 
-export function securityConnectorsAPIdefenderForContainersJFrogOfferingSerializer(
-  item: SecurityConnectorsAPIdefenderForContainersJFrogOffering,
+export function defenderForContainersJFrogOfferingSerializer(
+  item: DefenderForContainersJFrogOffering,
 ): any {
   return { offeringType: item["offeringType"] };
 }
 
-export function securityConnectorsAPIdefenderForContainersJFrogOfferingDeserializer(
+export function defenderForContainersJFrogOfferingDeserializer(
   item: any,
-): SecurityConnectorsAPIdefenderForContainersJFrogOffering {
+): DefenderForContainersJFrogOffering {
   return {
     offeringType: item["offeringType"],
     description: item["description"],
@@ -2588,182 +2364,142 @@ export function securityConnectorsAPIdefenderForContainersJFrogOfferingDeseriali
 }
 
 /** The CSPM P1 for JFrog Artifactory offering */
-export interface SecurityConnectorsAPIdefenderCspmJFrogOffering extends SecurityConnectorsAPIcloudOffering {
+export interface DefenderCspmJFrogOffering extends CloudOffering {
   /** The Microsoft Defender Container image assessment configuration */
-  mdcContainersImageAssessment?: SecurityConnectorsAPIDefenderCspmJFrogOfferingMdcContainersImageAssessment;
+  mdcContainersImageAssessment?: DefenderCspmJFrogOfferingMdcContainersImageAssessment;
   /** The type of the security offering. */
   offeringType: "DefenderCspmJFrog";
 }
 
-export function securityConnectorsAPIdefenderCspmJFrogOfferingSerializer(
-  item: SecurityConnectorsAPIdefenderCspmJFrogOffering,
-): any {
+export function defenderCspmJFrogOfferingSerializer(item: DefenderCspmJFrogOffering): any {
   return {
     offeringType: item["offeringType"],
     mdcContainersImageAssessment: !item["mdcContainersImageAssessment"]
       ? item["mdcContainersImageAssessment"]
-      : securityConnectorsAPIDefenderCspmJFrogOfferingMdcContainersImageAssessmentSerializer(
+      : defenderCspmJFrogOfferingMdcContainersImageAssessmentSerializer(
           item["mdcContainersImageAssessment"],
         ),
   };
 }
 
-export function securityConnectorsAPIdefenderCspmJFrogOfferingDeserializer(
-  item: any,
-): SecurityConnectorsAPIdefenderCspmJFrogOffering {
+export function defenderCspmJFrogOfferingDeserializer(item: any): DefenderCspmJFrogOffering {
   return {
     offeringType: item["offeringType"],
     description: item["description"],
     mdcContainersImageAssessment: !item["mdcContainersImageAssessment"]
       ? item["mdcContainersImageAssessment"]
-      : securityConnectorsAPIDefenderCspmJFrogOfferingMdcContainersImageAssessmentDeserializer(
+      : defenderCspmJFrogOfferingMdcContainersImageAssessmentDeserializer(
           item["mdcContainersImageAssessment"],
         ),
   };
 }
 
 /** The Microsoft Defender Container image assessment configuration */
-export interface SecurityConnectorsAPIDefenderCspmJFrogOfferingMdcContainersImageAssessment {
+export interface DefenderCspmJFrogOfferingMdcContainersImageAssessment {
   /** Is Microsoft Defender container image assessment enabled */
   enabled?: boolean;
 }
 
-export function securityConnectorsAPIDefenderCspmJFrogOfferingMdcContainersImageAssessmentSerializer(
-  item: SecurityConnectorsAPIDefenderCspmJFrogOfferingMdcContainersImageAssessment,
+export function defenderCspmJFrogOfferingMdcContainersImageAssessmentSerializer(
+  item: DefenderCspmJFrogOfferingMdcContainersImageAssessment,
 ): any {
   return { enabled: item["enabled"] };
 }
 
-export function securityConnectorsAPIDefenderCspmJFrogOfferingMdcContainersImageAssessmentDeserializer(
+export function defenderCspmJFrogOfferingMdcContainersImageAssessmentDeserializer(
   item: any,
-): SecurityConnectorsAPIDefenderCspmJFrogOfferingMdcContainersImageAssessment {
+): DefenderCspmJFrogOfferingMdcContainersImageAssessment {
   return {
     enabled: item["enabled"],
   };
 }
 
 /** The security connector environment data. */
-export interface SecurityConnectorsAPIEnvironmentData {
+export interface EnvironmentData {
   /** The type of the environment data. */
   /** The discriminator possible values: AwsAccount, GcpProject, GithubScope, AzureDevOpsScope, GitlabScope, DockerHubOrganization, JFrogArtifactory */
-  environmentType: SecurityConnectorsAPIEnvironmentType;
+  environmentType: EnvironmentType;
 }
 
-export function securityConnectorsAPIEnvironmentDataSerializer(
-  item: SecurityConnectorsAPIEnvironmentData,
-): any {
+export function environmentDataSerializer(item: EnvironmentData): any {
   return { environmentType: item["environmentType"] };
 }
 
-export function securityConnectorsAPIEnvironmentDataDeserializer(
-  item: any,
-): SecurityConnectorsAPIEnvironmentData {
+export function environmentDataDeserializer(item: any): EnvironmentData {
   return {
     environmentType: item["environmentType"],
   };
 }
 
-/** Alias for SecurityConnectorsAPIEnvironmentDataUnion */
-export type SecurityConnectorsAPIEnvironmentDataUnion =
-  | SecurityConnectorsAPIAwsEnvironmentData
-  | SecurityConnectorsAPIGcpProjectEnvironmentData
-  | SecurityConnectorsAPIGithubScopeEnvironmentData
-  | SecurityConnectorsAPIAzureDevOpsScopeEnvironmentData
-  | SecurityConnectorsAPIGitlabScopeEnvironmentData
-  | SecurityConnectorsAPIDockerHubEnvironmentData
-  | SecurityConnectorsApijFrogEnvironmentData
-  | SecurityConnectorsAPIEnvironmentData;
+/** Alias for EnvironmentDataUnion */
+export type EnvironmentDataUnion =
+  | AwsEnvironmentData
+  | GcpProjectEnvironmentData
+  | GithubScopeEnvironmentData
+  | AzureDevOpsScopeEnvironmentData
+  | GitlabScopeEnvironmentData
+  | DockerHubEnvironmentData
+  | JFrogEnvironmentData
+  | EnvironmentData;
 
-export function securityConnectorsAPIEnvironmentDataUnionSerializer(
-  item: SecurityConnectorsAPIEnvironmentDataUnion,
-): any {
+export function environmentDataUnionSerializer(item: EnvironmentDataUnion): any {
   switch (item.environmentType) {
     case "AwsAccount":
-      return securityConnectorsAPIAwsEnvironmentDataSerializer(
-        item as SecurityConnectorsAPIAwsEnvironmentData,
-      );
+      return awsEnvironmentDataSerializer(item as AwsEnvironmentData);
 
     case "GcpProject":
-      return securityConnectorsAPIGcpProjectEnvironmentDataSerializer(
-        item as SecurityConnectorsAPIGcpProjectEnvironmentData,
-      );
+      return gcpProjectEnvironmentDataSerializer(item as GcpProjectEnvironmentData);
 
     case "GithubScope":
-      return securityConnectorsAPIGithubScopeEnvironmentDataSerializer(
-        item as SecurityConnectorsAPIGithubScopeEnvironmentData,
-      );
+      return githubScopeEnvironmentDataSerializer(item as GithubScopeEnvironmentData);
 
     case "AzureDevOpsScope":
-      return securityConnectorsAPIAzureDevOpsScopeEnvironmentDataSerializer(
-        item as SecurityConnectorsAPIAzureDevOpsScopeEnvironmentData,
-      );
+      return azureDevOpsScopeEnvironmentDataSerializer(item as AzureDevOpsScopeEnvironmentData);
 
     case "GitlabScope":
-      return securityConnectorsAPIGitlabScopeEnvironmentDataSerializer(
-        item as SecurityConnectorsAPIGitlabScopeEnvironmentData,
-      );
+      return gitlabScopeEnvironmentDataSerializer(item as GitlabScopeEnvironmentData);
 
     case "DockerHubOrganization":
-      return securityConnectorsAPIDockerHubEnvironmentDataSerializer(
-        item as SecurityConnectorsAPIDockerHubEnvironmentData,
-      );
+      return dockerHubEnvironmentDataSerializer(item as DockerHubEnvironmentData);
 
     case "JFrogArtifactory":
-      return securityConnectorsApijFrogEnvironmentDataSerializer(
-        item as SecurityConnectorsApijFrogEnvironmentData,
-      );
+      return jFrogEnvironmentDataSerializer(item as JFrogEnvironmentData);
 
     default:
-      return securityConnectorsAPIEnvironmentDataSerializer(item);
+      return environmentDataSerializer(item);
   }
 }
 
-export function securityConnectorsAPIEnvironmentDataUnionDeserializer(
-  item: any,
-): SecurityConnectorsAPIEnvironmentDataUnion {
+export function environmentDataUnionDeserializer(item: any): EnvironmentDataUnion {
   switch (item["environmentType"]) {
     case "AwsAccount":
-      return securityConnectorsAPIAwsEnvironmentDataDeserializer(
-        item as SecurityConnectorsAPIAwsEnvironmentData,
-      );
+      return awsEnvironmentDataDeserializer(item as AwsEnvironmentData);
 
     case "GcpProject":
-      return securityConnectorsAPIGcpProjectEnvironmentDataDeserializer(
-        item as SecurityConnectorsAPIGcpProjectEnvironmentData,
-      );
+      return gcpProjectEnvironmentDataDeserializer(item as GcpProjectEnvironmentData);
 
     case "GithubScope":
-      return securityConnectorsAPIGithubScopeEnvironmentDataDeserializer(
-        item as SecurityConnectorsAPIGithubScopeEnvironmentData,
-      );
+      return githubScopeEnvironmentDataDeserializer(item as GithubScopeEnvironmentData);
 
     case "AzureDevOpsScope":
-      return securityConnectorsAPIAzureDevOpsScopeEnvironmentDataDeserializer(
-        item as SecurityConnectorsAPIAzureDevOpsScopeEnvironmentData,
-      );
+      return azureDevOpsScopeEnvironmentDataDeserializer(item as AzureDevOpsScopeEnvironmentData);
 
     case "GitlabScope":
-      return securityConnectorsAPIGitlabScopeEnvironmentDataDeserializer(
-        item as SecurityConnectorsAPIGitlabScopeEnvironmentData,
-      );
+      return gitlabScopeEnvironmentDataDeserializer(item as GitlabScopeEnvironmentData);
 
     case "DockerHubOrganization":
-      return securityConnectorsAPIDockerHubEnvironmentDataDeserializer(
-        item as SecurityConnectorsAPIDockerHubEnvironmentData,
-      );
+      return dockerHubEnvironmentDataDeserializer(item as DockerHubEnvironmentData);
 
     case "JFrogArtifactory":
-      return securityConnectorsApijFrogEnvironmentDataDeserializer(
-        item as SecurityConnectorsApijFrogEnvironmentData,
-      );
+      return jFrogEnvironmentDataDeserializer(item as JFrogEnvironmentData);
 
     default:
-      return securityConnectorsAPIEnvironmentDataDeserializer(item);
+      return environmentDataDeserializer(item);
   }
 }
 
 /** The type of the environment data. */
-export enum KnownSecurityConnectorsAPIEnvironmentType {
+export enum KnownEnvironmentType {
   /** AwsAccount */
   AwsAccount = "AwsAccount",
   /** GcpProject */
@@ -2782,7 +2518,7 @@ export enum KnownSecurityConnectorsAPIEnvironmentType {
 
 /**
  * The type of the environment data. \
- * {@link KnownSecurityConnectorsAPIEnvironmentType} can be used interchangeably with SecurityConnectorsAPIEnvironmentType,
+ * {@link KnownEnvironmentType} can be used interchangeably with EnvironmentType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **AwsAccount**: AwsAccount \
@@ -2793,12 +2529,12 @@ export enum KnownSecurityConnectorsAPIEnvironmentType {
  * **DockerHubOrganization**: DockerHubOrganization \
  * **JFrogArtifactory**: JFrogArtifactory
  */
-export type SecurityConnectorsAPIEnvironmentType = string;
+export type EnvironmentType = string;
 
 /** The AWS connector environment data */
-export interface SecurityConnectorsAPIAwsEnvironmentData extends SecurityConnectorsAPIEnvironmentData {
+export interface AwsEnvironmentData extends EnvironmentData {
   /** The AWS account's organizational data */
-  organizationalData?: SecurityConnectorsAPIAwsOrganizationalDataUnion;
+  organizationalData?: AwsOrganizationalDataUnion;
   /** list of regions to scan */
   regions?: string[];
   /** The AWS account name */
@@ -2809,14 +2545,12 @@ export interface SecurityConnectorsAPIAwsEnvironmentData extends SecurityConnect
   environmentType: "AwsAccount";
 }
 
-export function securityConnectorsAPIAwsEnvironmentDataSerializer(
-  item: SecurityConnectorsAPIAwsEnvironmentData,
-): any {
+export function awsEnvironmentDataSerializer(item: AwsEnvironmentData): any {
   return {
     environmentType: item["environmentType"],
     organizationalData: !item["organizationalData"]
       ? item["organizationalData"]
-      : securityConnectorsAPIAwsOrganizationalDataUnionSerializer(item["organizationalData"]),
+      : awsOrganizationalDataUnionSerializer(item["organizationalData"]),
     regions: !item["regions"]
       ? item["regions"]
       : item["regions"].map((p: any) => {
@@ -2826,14 +2560,12 @@ export function securityConnectorsAPIAwsEnvironmentDataSerializer(
   };
 }
 
-export function securityConnectorsAPIAwsEnvironmentDataDeserializer(
-  item: any,
-): SecurityConnectorsAPIAwsEnvironmentData {
+export function awsEnvironmentDataDeserializer(item: any): AwsEnvironmentData {
   return {
     environmentType: item["environmentType"],
     organizationalData: !item["organizationalData"]
       ? item["organizationalData"]
-      : securityConnectorsAPIAwsOrganizationalDataUnionDeserializer(item["organizationalData"]),
+      : awsOrganizationalDataUnionDeserializer(item["organizationalData"]),
     regions: !item["regions"]
       ? item["regions"]
       : item["regions"].map((p: any) => {
@@ -2845,72 +2577,56 @@ export function securityConnectorsAPIAwsEnvironmentDataDeserializer(
 }
 
 /** The AWS organization data */
-export interface SecurityConnectorsAPIAwsOrganizationalData {
+export interface AwsOrganizationalData {
   /** The multi cloud account's membership type in the organization */
   /** The discriminator possible values: Organization, Member */
-  organizationMembershipType: SecurityConnectorsAPIOrganizationMembershipType;
+  organizationMembershipType: OrganizationMembershipType;
 }
 
-export function securityConnectorsAPIAwsOrganizationalDataSerializer(
-  item: SecurityConnectorsAPIAwsOrganizationalData,
-): any {
+export function awsOrganizationalDataSerializer(item: AwsOrganizationalData): any {
   return { organizationMembershipType: item["organizationMembershipType"] };
 }
 
-export function securityConnectorsAPIAwsOrganizationalDataDeserializer(
-  item: any,
-): SecurityConnectorsAPIAwsOrganizationalData {
+export function awsOrganizationalDataDeserializer(item: any): AwsOrganizationalData {
   return {
     organizationMembershipType: item["organizationMembershipType"],
   };
 }
 
-/** Alias for SecurityConnectorsAPIAwsOrganizationalDataUnion */
-export type SecurityConnectorsAPIAwsOrganizationalDataUnion =
-  | SecurityConnectorsAPIAwsOrganizationalDataMaster
-  | SecurityConnectorsAPIAwsOrganizationalDataMember
-  | SecurityConnectorsAPIAwsOrganizationalData;
+/** Alias for AwsOrganizationalDataUnion */
+export type AwsOrganizationalDataUnion =
+  | AwsOrganizationalDataMaster
+  | AwsOrganizationalDataMember
+  | AwsOrganizationalData;
 
-export function securityConnectorsAPIAwsOrganizationalDataUnionSerializer(
-  item: SecurityConnectorsAPIAwsOrganizationalDataUnion,
-): any {
+export function awsOrganizationalDataUnionSerializer(item: AwsOrganizationalDataUnion): any {
   switch (item.organizationMembershipType) {
     case "Organization":
-      return securityConnectorsAPIAwsOrganizationalDataMasterSerializer(
-        item as SecurityConnectorsAPIAwsOrganizationalDataMaster,
-      );
+      return awsOrganizationalDataMasterSerializer(item as AwsOrganizationalDataMaster);
 
     case "Member":
-      return securityConnectorsAPIAwsOrganizationalDataMemberSerializer(
-        item as SecurityConnectorsAPIAwsOrganizationalDataMember,
-      );
+      return awsOrganizationalDataMemberSerializer(item as AwsOrganizationalDataMember);
 
     default:
-      return securityConnectorsAPIAwsOrganizationalDataSerializer(item);
+      return awsOrganizationalDataSerializer(item);
   }
 }
 
-export function securityConnectorsAPIAwsOrganizationalDataUnionDeserializer(
-  item: any,
-): SecurityConnectorsAPIAwsOrganizationalDataUnion {
+export function awsOrganizationalDataUnionDeserializer(item: any): AwsOrganizationalDataUnion {
   switch (item["organizationMembershipType"]) {
     case "Organization":
-      return securityConnectorsAPIAwsOrganizationalDataMasterDeserializer(
-        item as SecurityConnectorsAPIAwsOrganizationalDataMaster,
-      );
+      return awsOrganizationalDataMasterDeserializer(item as AwsOrganizationalDataMaster);
 
     case "Member":
-      return securityConnectorsAPIAwsOrganizationalDataMemberDeserializer(
-        item as SecurityConnectorsAPIAwsOrganizationalDataMember,
-      );
+      return awsOrganizationalDataMemberDeserializer(item as AwsOrganizationalDataMember);
 
     default:
-      return securityConnectorsAPIAwsOrganizationalDataDeserializer(item);
+      return awsOrganizationalDataDeserializer(item);
   }
 }
 
 /** The multi cloud account's membership type in the organization */
-export enum KnownSecurityConnectorsAPIOrganizationMembershipType {
+export enum KnownOrganizationMembershipType {
   /** Member */
   Member = "Member",
   /** Organization */
@@ -2919,16 +2635,16 @@ export enum KnownSecurityConnectorsAPIOrganizationMembershipType {
 
 /**
  * The multi cloud account's membership type in the organization \
- * {@link KnownSecurityConnectorsAPIOrganizationMembershipType} can be used interchangeably with SecurityConnectorsAPIOrganizationMembershipType,
+ * {@link KnownOrganizationMembershipType} can be used interchangeably with OrganizationMembershipType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Member**: Member \
  * **Organization**: Organization
  */
-export type SecurityConnectorsAPIOrganizationMembershipType = string;
+export type OrganizationMembershipType = string;
 
 /** The AWS organization data for the master account */
-export interface SecurityConnectorsAPIAwsOrganizationalDataMaster extends SecurityConnectorsAPIAwsOrganizationalData {
+export interface AwsOrganizationalDataMaster extends AwsOrganizationalData {
   /** If the multi cloud account is of membership type organization, this will be the name of the onboarding stackset */
   stacksetName?: string;
   /** If the multi cloud account is of membership type organization, list of accounts excluded from offering */
@@ -2937,9 +2653,7 @@ export interface SecurityConnectorsAPIAwsOrganizationalDataMaster extends Securi
   organizationMembershipType: "Organization";
 }
 
-export function securityConnectorsAPIAwsOrganizationalDataMasterSerializer(
-  item: SecurityConnectorsAPIAwsOrganizationalDataMaster,
-): any {
+export function awsOrganizationalDataMasterSerializer(item: AwsOrganizationalDataMaster): any {
   return {
     organizationMembershipType: item["organizationMembershipType"],
     stacksetName: item["stacksetName"],
@@ -2951,9 +2665,7 @@ export function securityConnectorsAPIAwsOrganizationalDataMasterSerializer(
   };
 }
 
-export function securityConnectorsAPIAwsOrganizationalDataMasterDeserializer(
-  item: any,
-): SecurityConnectorsAPIAwsOrganizationalDataMaster {
+export function awsOrganizationalDataMasterDeserializer(item: any): AwsOrganizationalDataMaster {
   return {
     organizationMembershipType: item["organizationMembershipType"],
     stacksetName: item["stacksetName"],
@@ -2966,25 +2678,21 @@ export function securityConnectorsAPIAwsOrganizationalDataMasterDeserializer(
 }
 
 /** The AWS organization data for the member account */
-export interface SecurityConnectorsAPIAwsOrganizationalDataMember extends SecurityConnectorsAPIAwsOrganizationalData {
+export interface AwsOrganizationalDataMember extends AwsOrganizationalData {
   /** If the multi cloud account is not of membership type organization, this will be the ID of the account's parent */
   parentHierarchyId?: string;
   /** The multi cloud account's membership type in the organization */
   organizationMembershipType: "Member";
 }
 
-export function securityConnectorsAPIAwsOrganizationalDataMemberSerializer(
-  item: SecurityConnectorsAPIAwsOrganizationalDataMember,
-): any {
+export function awsOrganizationalDataMemberSerializer(item: AwsOrganizationalDataMember): any {
   return {
     organizationMembershipType: item["organizationMembershipType"],
     parentHierarchyId: item["parentHierarchyId"],
   };
 }
 
-export function securityConnectorsAPIAwsOrganizationalDataMemberDeserializer(
-  item: any,
-): SecurityConnectorsAPIAwsOrganizationalDataMember {
+export function awsOrganizationalDataMemberDeserializer(item: any): AwsOrganizationalDataMember {
   return {
     organizationMembershipType: item["organizationMembershipType"],
     parentHierarchyId: item["parentHierarchyId"],
@@ -2992,114 +2700,96 @@ export function securityConnectorsAPIAwsOrganizationalDataMemberDeserializer(
 }
 
 /** The GCP project connector environment data */
-export interface SecurityConnectorsAPIGcpProjectEnvironmentData extends SecurityConnectorsAPIEnvironmentData {
+export interface GcpProjectEnvironmentData extends EnvironmentData {
   /** The Gcp project's organizational data */
-  organizationalData?: SecurityConnectorsAPIGcpOrganizationalDataUnion;
+  organizationalData?: GcpOrganizationalDataUnion;
   /** The Gcp project's details */
-  projectDetails?: SecurityConnectorsAPIGcpProjectDetails;
+  projectDetails?: GcpProjectDetails;
   /** Scan interval in hours (value should be between 1-hour to 24-hours) */
   scanInterval?: number;
   /** The type of the environment data. */
   environmentType: "GcpProject";
 }
 
-export function securityConnectorsAPIGcpProjectEnvironmentDataSerializer(
-  item: SecurityConnectorsAPIGcpProjectEnvironmentData,
-): any {
+export function gcpProjectEnvironmentDataSerializer(item: GcpProjectEnvironmentData): any {
   return {
     environmentType: item["environmentType"],
     organizationalData: !item["organizationalData"]
       ? item["organizationalData"]
-      : securityConnectorsAPIGcpOrganizationalDataUnionSerializer(item["organizationalData"]),
+      : gcpOrganizationalDataUnionSerializer(item["organizationalData"]),
     projectDetails: !item["projectDetails"]
       ? item["projectDetails"]
-      : securityConnectorsAPIGcpProjectDetailsSerializer(item["projectDetails"]),
+      : gcpProjectDetailsSerializer(item["projectDetails"]),
     scanInterval: item["scanInterval"],
   };
 }
 
-export function securityConnectorsAPIGcpProjectEnvironmentDataDeserializer(
-  item: any,
-): SecurityConnectorsAPIGcpProjectEnvironmentData {
+export function gcpProjectEnvironmentDataDeserializer(item: any): GcpProjectEnvironmentData {
   return {
     environmentType: item["environmentType"],
     organizationalData: !item["organizationalData"]
       ? item["organizationalData"]
-      : securityConnectorsAPIGcpOrganizationalDataUnionDeserializer(item["organizationalData"]),
+      : gcpOrganizationalDataUnionDeserializer(item["organizationalData"]),
     projectDetails: !item["projectDetails"]
       ? item["projectDetails"]
-      : securityConnectorsAPIGcpProjectDetailsDeserializer(item["projectDetails"]),
+      : gcpProjectDetailsDeserializer(item["projectDetails"]),
     scanInterval: item["scanInterval"],
   };
 }
 
 /** The gcpOrganization data */
-export interface SecurityConnectorsAPIGcpOrganizationalData {
+export interface GcpOrganizationalData {
   /** The multi cloud account's membership type in the organization */
   /** The discriminator possible values: Organization, Member */
-  organizationMembershipType: SecurityConnectorsAPIOrganizationMembershipType;
+  organizationMembershipType: OrganizationMembershipType;
 }
 
-export function securityConnectorsAPIGcpOrganizationalDataSerializer(
-  item: SecurityConnectorsAPIGcpOrganizationalData,
-): any {
+export function gcpOrganizationalDataSerializer(item: GcpOrganizationalData): any {
   return { organizationMembershipType: item["organizationMembershipType"] };
 }
 
-export function securityConnectorsAPIGcpOrganizationalDataDeserializer(
-  item: any,
-): SecurityConnectorsAPIGcpOrganizationalData {
+export function gcpOrganizationalDataDeserializer(item: any): GcpOrganizationalData {
   return {
     organizationMembershipType: item["organizationMembershipType"],
   };
 }
 
-/** Alias for SecurityConnectorsAPIGcpOrganizationalDataUnion */
-export type SecurityConnectorsAPIGcpOrganizationalDataUnion =
-  | SecurityConnectorsAPIGcpOrganizationalDataOrganization
-  | SecurityConnectorsAPIGcpOrganizationalDataMember
-  | SecurityConnectorsAPIGcpOrganizationalData;
+/** Alias for GcpOrganizationalDataUnion */
+export type GcpOrganizationalDataUnion =
+  | GcpOrganizationalDataOrganization
+  | GcpOrganizationalDataMember
+  | GcpOrganizationalData;
 
-export function securityConnectorsAPIGcpOrganizationalDataUnionSerializer(
-  item: SecurityConnectorsAPIGcpOrganizationalDataUnion,
-): any {
+export function gcpOrganizationalDataUnionSerializer(item: GcpOrganizationalDataUnion): any {
   switch (item.organizationMembershipType) {
     case "Organization":
-      return securityConnectorsAPIGcpOrganizationalDataOrganizationSerializer(
-        item as SecurityConnectorsAPIGcpOrganizationalDataOrganization,
-      );
+      return gcpOrganizationalDataOrganizationSerializer(item as GcpOrganizationalDataOrganization);
 
     case "Member":
-      return securityConnectorsAPIGcpOrganizationalDataMemberSerializer(
-        item as SecurityConnectorsAPIGcpOrganizationalDataMember,
-      );
+      return gcpOrganizationalDataMemberSerializer(item as GcpOrganizationalDataMember);
 
     default:
-      return securityConnectorsAPIGcpOrganizationalDataSerializer(item);
+      return gcpOrganizationalDataSerializer(item);
   }
 }
 
-export function securityConnectorsAPIGcpOrganizationalDataUnionDeserializer(
-  item: any,
-): SecurityConnectorsAPIGcpOrganizationalDataUnion {
+export function gcpOrganizationalDataUnionDeserializer(item: any): GcpOrganizationalDataUnion {
   switch (item["organizationMembershipType"]) {
     case "Organization":
-      return securityConnectorsAPIGcpOrganizationalDataOrganizationDeserializer(
-        item as SecurityConnectorsAPIGcpOrganizationalDataOrganization,
+      return gcpOrganizationalDataOrganizationDeserializer(
+        item as GcpOrganizationalDataOrganization,
       );
 
     case "Member":
-      return securityConnectorsAPIGcpOrganizationalDataMemberDeserializer(
-        item as SecurityConnectorsAPIGcpOrganizationalDataMember,
-      );
+      return gcpOrganizationalDataMemberDeserializer(item as GcpOrganizationalDataMember);
 
     default:
-      return securityConnectorsAPIGcpOrganizationalDataDeserializer(item);
+      return gcpOrganizationalDataDeserializer(item);
   }
 }
 
 /** The gcpOrganization data for the parent account */
-export interface SecurityConnectorsAPIGcpOrganizationalDataOrganization extends SecurityConnectorsAPIGcpOrganizationalData {
+export interface GcpOrganizationalDataOrganization extends GcpOrganizationalData {
   /** If the multi cloud account is of membership type organization, list of accounts excluded from offering */
   excludedProjectNumbers?: string[];
   /** The service account email address which represents the organization level permissions container. */
@@ -3112,8 +2802,8 @@ export interface SecurityConnectorsAPIGcpOrganizationalDataOrganization extends 
   organizationMembershipType: "Organization";
 }
 
-export function securityConnectorsAPIGcpOrganizationalDataOrganizationSerializer(
-  item: SecurityConnectorsAPIGcpOrganizationalDataOrganization,
+export function gcpOrganizationalDataOrganizationSerializer(
+  item: GcpOrganizationalDataOrganization,
 ): any {
   return {
     organizationMembershipType: item["organizationMembershipType"],
@@ -3127,9 +2817,9 @@ export function securityConnectorsAPIGcpOrganizationalDataOrganizationSerializer
   };
 }
 
-export function securityConnectorsAPIGcpOrganizationalDataOrganizationDeserializer(
+export function gcpOrganizationalDataOrganizationDeserializer(
   item: any,
-): SecurityConnectorsAPIGcpOrganizationalDataOrganization {
+): GcpOrganizationalDataOrganization {
   return {
     organizationMembershipType: item["organizationMembershipType"],
     excludedProjectNumbers: !item["excludedProjectNumbers"]
@@ -3144,7 +2834,7 @@ export function securityConnectorsAPIGcpOrganizationalDataOrganizationDeserializ
 }
 
 /** The gcpOrganization data for the member account */
-export interface SecurityConnectorsAPIGcpOrganizationalDataMember extends SecurityConnectorsAPIGcpOrganizationalData {
+export interface GcpOrganizationalDataMember extends GcpOrganizationalData {
   /** If the multi cloud account is not of membership type organization, this will be the ID of the project's parent */
   parentHierarchyId?: string;
   /** The GCP management project number from organizational onboarding */
@@ -3153,9 +2843,7 @@ export interface SecurityConnectorsAPIGcpOrganizationalDataMember extends Securi
   organizationMembershipType: "Member";
 }
 
-export function securityConnectorsAPIGcpOrganizationalDataMemberSerializer(
-  item: SecurityConnectorsAPIGcpOrganizationalDataMember,
-): any {
+export function gcpOrganizationalDataMemberSerializer(item: GcpOrganizationalDataMember): any {
   return {
     organizationMembershipType: item["organizationMembershipType"],
     parentHierarchyId: item["parentHierarchyId"],
@@ -3163,9 +2851,7 @@ export function securityConnectorsAPIGcpOrganizationalDataMemberSerializer(
   };
 }
 
-export function securityConnectorsAPIGcpOrganizationalDataMemberDeserializer(
-  item: any,
-): SecurityConnectorsAPIGcpOrganizationalDataMember {
+export function gcpOrganizationalDataMemberDeserializer(item: any): GcpOrganizationalDataMember {
   return {
     organizationMembershipType: item["organizationMembershipType"],
     parentHierarchyId: item["parentHierarchyId"],
@@ -3174,7 +2860,7 @@ export function securityConnectorsAPIGcpOrganizationalDataMemberDeserializer(
 }
 
 /** The details about the project represented by the security connector */
-export interface SecurityConnectorsAPIGcpProjectDetails {
+export interface GcpProjectDetails {
   /** The unique GCP Project number */
   projectNumber?: string;
   /** The GCP Project id */
@@ -3185,15 +2871,11 @@ export interface SecurityConnectorsAPIGcpProjectDetails {
   readonly projectName?: string;
 }
 
-export function securityConnectorsAPIGcpProjectDetailsSerializer(
-  item: SecurityConnectorsAPIGcpProjectDetails,
-): any {
+export function gcpProjectDetailsSerializer(item: GcpProjectDetails): any {
   return { projectNumber: item["projectNumber"], projectId: item["projectId"] };
 }
 
-export function securityConnectorsAPIGcpProjectDetailsDeserializer(
-  item: any,
-): SecurityConnectorsAPIGcpProjectDetails {
+export function gcpProjectDetailsDeserializer(item: any): GcpProjectDetails {
   return {
     projectNumber: item["projectNumber"],
     projectId: item["projectId"],
@@ -3203,170 +2885,144 @@ export function securityConnectorsAPIGcpProjectDetailsDeserializer(
 }
 
 /** The github scope connector's environment data */
-export interface SecurityConnectorsAPIGithubScopeEnvironmentData extends SecurityConnectorsAPIEnvironmentData {
+export interface GithubScopeEnvironmentData extends EnvironmentData {
   /** The type of the environment data. */
   environmentType: "GithubScope";
 }
 
-export function securityConnectorsAPIGithubScopeEnvironmentDataSerializer(
-  item: SecurityConnectorsAPIGithubScopeEnvironmentData,
-): any {
+export function githubScopeEnvironmentDataSerializer(item: GithubScopeEnvironmentData): any {
   return { environmentType: item["environmentType"] };
 }
 
-export function securityConnectorsAPIGithubScopeEnvironmentDataDeserializer(
-  item: any,
-): SecurityConnectorsAPIGithubScopeEnvironmentData {
+export function githubScopeEnvironmentDataDeserializer(item: any): GithubScopeEnvironmentData {
   return {
     environmentType: item["environmentType"],
   };
 }
 
 /** The AzureDevOps scope connector's environment data */
-export interface SecurityConnectorsAPIAzureDevOpsScopeEnvironmentData extends SecurityConnectorsAPIEnvironmentData {
+export interface AzureDevOpsScopeEnvironmentData extends EnvironmentData {
   /** The type of the environment data. */
   environmentType: "AzureDevOpsScope";
 }
 
-export function securityConnectorsAPIAzureDevOpsScopeEnvironmentDataSerializer(
-  item: SecurityConnectorsAPIAzureDevOpsScopeEnvironmentData,
+export function azureDevOpsScopeEnvironmentDataSerializer(
+  item: AzureDevOpsScopeEnvironmentData,
 ): any {
   return { environmentType: item["environmentType"] };
 }
 
-export function securityConnectorsAPIAzureDevOpsScopeEnvironmentDataDeserializer(
+export function azureDevOpsScopeEnvironmentDataDeserializer(
   item: any,
-): SecurityConnectorsAPIAzureDevOpsScopeEnvironmentData {
+): AzureDevOpsScopeEnvironmentData {
   return {
     environmentType: item["environmentType"],
   };
 }
 
 /** The GitLab scope connector's environment data */
-export interface SecurityConnectorsAPIGitlabScopeEnvironmentData extends SecurityConnectorsAPIEnvironmentData {
+export interface GitlabScopeEnvironmentData extends EnvironmentData {
   /** The type of the environment data. */
   environmentType: "GitlabScope";
 }
 
-export function securityConnectorsAPIGitlabScopeEnvironmentDataSerializer(
-  item: SecurityConnectorsAPIGitlabScopeEnvironmentData,
-): any {
+export function gitlabScopeEnvironmentDataSerializer(item: GitlabScopeEnvironmentData): any {
   return { environmentType: item["environmentType"] };
 }
 
-export function securityConnectorsAPIGitlabScopeEnvironmentDataDeserializer(
-  item: any,
-): SecurityConnectorsAPIGitlabScopeEnvironmentData {
+export function gitlabScopeEnvironmentDataDeserializer(item: any): GitlabScopeEnvironmentData {
   return {
     environmentType: item["environmentType"],
   };
 }
 
 /** The Docker Hub connector environment data */
-export interface SecurityConnectorsAPIDockerHubEnvironmentData extends SecurityConnectorsAPIEnvironmentData {
+export interface DockerHubEnvironmentData extends EnvironmentData {
   /** The Docker Hub organization authentication details */
-  authentication?: SecurityConnectorsAPIAuthenticationUnion;
+  authentication?: AuthenticationUnion;
   /** Scan interval in hours (value should be between 1-hour to 24-hours) */
   scanInterval?: number;
   /** The type of the environment data. */
   environmentType: "DockerHubOrganization";
 }
 
-export function securityConnectorsAPIDockerHubEnvironmentDataSerializer(
-  item: SecurityConnectorsAPIDockerHubEnvironmentData,
-): any {
+export function dockerHubEnvironmentDataSerializer(item: DockerHubEnvironmentData): any {
   return {
     environmentType: item["environmentType"],
     authentication: !item["authentication"]
       ? item["authentication"]
-      : securityConnectorsAPIAuthenticationUnionSerializer(item["authentication"]),
+      : authenticationUnionSerializer(item["authentication"]),
     scanInterval: item["scanInterval"],
   };
 }
 
-export function securityConnectorsAPIDockerHubEnvironmentDataDeserializer(
-  item: any,
-): SecurityConnectorsAPIDockerHubEnvironmentData {
+export function dockerHubEnvironmentDataDeserializer(item: any): DockerHubEnvironmentData {
   return {
     environmentType: item["environmentType"],
     authentication: !item["authentication"]
       ? item["authentication"]
-      : securityConnectorsAPIAuthenticationUnionDeserializer(item["authentication"]),
+      : authenticationUnionDeserializer(item["authentication"]),
     scanInterval: item["scanInterval"],
   };
 }
 
 /** The environment authentication details */
-export interface SecurityConnectorsAPIAuthentication {
+export interface Authentication {
   /** The authentication type */
   /** The discriminator possible values: AccessToken */
-  authenticationType: SecurityConnectorsAPIAuthenticationType;
+  authenticationType: AuthenticationType;
 }
 
-export function securityConnectorsAPIAuthenticationSerializer(
-  item: SecurityConnectorsAPIAuthentication,
-): any {
+export function authenticationSerializer(item: Authentication): any {
   return { authenticationType: item["authenticationType"] };
 }
 
-export function securityConnectorsAPIAuthenticationDeserializer(
-  item: any,
-): SecurityConnectorsAPIAuthentication {
+export function authenticationDeserializer(item: any): Authentication {
   return {
     authenticationType: item["authenticationType"],
   };
 }
 
-/** Alias for SecurityConnectorsAPIAuthenticationUnion */
-export type SecurityConnectorsAPIAuthenticationUnion =
-  | SecurityConnectorsAPIAccessTokenAuthentication
-  | SecurityConnectorsAPIAuthentication;
+/** Alias for AuthenticationUnion */
+export type AuthenticationUnion = AccessTokenAuthentication | Authentication;
 
-export function securityConnectorsAPIAuthenticationUnionSerializer(
-  item: SecurityConnectorsAPIAuthenticationUnion,
-): any {
+export function authenticationUnionSerializer(item: AuthenticationUnion): any {
   switch (item.authenticationType) {
     case "AccessToken":
-      return securityConnectorsAPIAccessTokenAuthenticationSerializer(
-        item as SecurityConnectorsAPIAccessTokenAuthentication,
-      );
+      return accessTokenAuthenticationSerializer(item as AccessTokenAuthentication);
 
     default:
-      return securityConnectorsAPIAuthenticationSerializer(item);
+      return authenticationSerializer(item);
   }
 }
 
-export function securityConnectorsAPIAuthenticationUnionDeserializer(
-  item: any,
-): SecurityConnectorsAPIAuthenticationUnion {
+export function authenticationUnionDeserializer(item: any): AuthenticationUnion {
   switch (item["authenticationType"]) {
     case "AccessToken":
-      return securityConnectorsAPIAccessTokenAuthenticationDeserializer(
-        item as SecurityConnectorsAPIAccessTokenAuthentication,
-      );
+      return accessTokenAuthenticationDeserializer(item as AccessTokenAuthentication);
 
     default:
-      return securityConnectorsAPIAuthenticationDeserializer(item);
+      return authenticationDeserializer(item);
   }
 }
 
 /** The authentication type */
-export enum KnownSecurityConnectorsAPIAuthenticationType {
+export enum KnownAuthenticationType {
   /** AccessToken */
   AccessToken = "AccessToken",
 }
 
 /**
  * The authentication type \
- * {@link KnownSecurityConnectorsAPIAuthenticationType} can be used interchangeably with SecurityConnectorsAPIAuthenticationType,
+ * {@link KnownAuthenticationType} can be used interchangeably with AuthenticationType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **AccessToken**: AccessToken
  */
-export type SecurityConnectorsAPIAuthenticationType = string;
+export type AuthenticationType = string;
 
 /** The environment authentication details */
-export interface SecurityConnectorsAPIAccessTokenAuthentication extends SecurityConnectorsAPIAuthentication {
+export interface AccessTokenAuthentication extends Authentication {
   /** The user name that will be used while authenticating with the onboarded environment */
   username?: string;
   /** The access token that will be used while authenticating with the onboarded environment */
@@ -3375,9 +3031,7 @@ export interface SecurityConnectorsAPIAccessTokenAuthentication extends Security
   authenticationType: "AccessToken";
 }
 
-export function securityConnectorsAPIAccessTokenAuthenticationSerializer(
-  item: SecurityConnectorsAPIAccessTokenAuthentication,
-): any {
+export function accessTokenAuthenticationSerializer(item: AccessTokenAuthentication): any {
   return {
     authenticationType: item["authenticationType"],
     username: item["username"],
@@ -3385,9 +3039,7 @@ export function securityConnectorsAPIAccessTokenAuthenticationSerializer(
   };
 }
 
-export function securityConnectorsAPIAccessTokenAuthenticationDeserializer(
-  item: any,
-): SecurityConnectorsAPIAccessTokenAuthentication {
+export function accessTokenAuthenticationDeserializer(item: any): AccessTokenAuthentication {
   return {
     authenticationType: item["authenticationType"],
     username: item["username"],
@@ -3396,22 +3048,18 @@ export function securityConnectorsAPIAccessTokenAuthenticationDeserializer(
 }
 
 /** The JFrog Artifactory connector environment data */
-export interface SecurityConnectorsApijFrogEnvironmentData extends SecurityConnectorsAPIEnvironmentData {
+export interface JFrogEnvironmentData extends EnvironmentData {
   /** Scan interval in hours (value should be between 1-hour to 24-hours) */
   scanInterval?: number;
   /** The type of the environment data. */
   environmentType: "JFrogArtifactory";
 }
 
-export function securityConnectorsApijFrogEnvironmentDataSerializer(
-  item: SecurityConnectorsApijFrogEnvironmentData,
-): any {
+export function jFrogEnvironmentDataSerializer(item: JFrogEnvironmentData): any {
   return { environmentType: item["environmentType"], scanInterval: item["scanInterval"] };
 }
 
-export function securityConnectorsApijFrogEnvironmentDataDeserializer(
-  item: any,
-): SecurityConnectorsApijFrogEnvironmentData {
+export function jFrogEnvironmentDataDeserializer(item: any): JFrogEnvironmentData {
   return {
     environmentType: item["environmentType"],
     scanInterval: item["scanInterval"],
@@ -3419,82 +3067,70 @@ export function securityConnectorsApijFrogEnvironmentDataDeserializer(
 }
 
 /** A VM scanning configuration for a security offering of a Aws environment */
-export interface SecurityConnectorsAPIvmScannersAws extends SecurityConnectorsAPIvmScannersBase {
+export interface VmScannersAws extends VmScannersBase {
   /** The cloud role ARN in AWS for this feature */
   cloudRoleArn?: string;
 }
 
-export function securityConnectorsAPIvmScannersAwsSerializer(
-  item: SecurityConnectorsAPIvmScannersAws,
-): any {
+export function vmScannersAwsSerializer(item: VmScannersAws): any {
   return {
     enabled: item["enabled"],
     configuration: !item["configuration"]
       ? item["configuration"]
-      : securityConnectorsAPIVmScannersBaseConfigurationSerializer(item["configuration"]),
+      : vmScannersBaseConfigurationSerializer(item["configuration"]),
     cloudRoleArn: item["cloudRoleArn"],
   };
 }
 
-export function securityConnectorsAPIvmScannersAwsDeserializer(
-  item: any,
-): SecurityConnectorsAPIvmScannersAws {
+export function vmScannersAwsDeserializer(item: any): VmScannersAws {
   return {
     enabled: item["enabled"],
     configuration: !item["configuration"]
       ? item["configuration"]
-      : securityConnectorsAPIVmScannersBaseConfigurationDeserializer(item["configuration"]),
+      : vmScannersBaseConfigurationDeserializer(item["configuration"]),
     cloudRoleArn: item["cloudRoleArn"],
   };
 }
 
 /** A VM scanning configuration for a security offering of a given environment */
-export interface SecurityConnectorsAPIvmScannersBase {
+export interface VmScannersBase {
   /** Is VM scanning enabled */
   enabled?: boolean;
   /** Configuration for VM scanning */
-  configuration?: SecurityConnectorsAPIVmScannersBaseConfiguration;
+  configuration?: VmScannersBaseConfiguration;
 }
 
-export function securityConnectorsAPIvmScannersBaseSerializer(
-  item: SecurityConnectorsAPIvmScannersBase,
-): any {
+export function vmScannersBaseSerializer(item: VmScannersBase): any {
   return {
     enabled: item["enabled"],
     configuration: !item["configuration"]
       ? item["configuration"]
-      : securityConnectorsAPIVmScannersBaseConfigurationSerializer(item["configuration"]),
+      : vmScannersBaseConfigurationSerializer(item["configuration"]),
   };
 }
 
-export function securityConnectorsAPIvmScannersBaseDeserializer(
-  item: any,
-): SecurityConnectorsAPIvmScannersBase {
+export function vmScannersBaseDeserializer(item: any): VmScannersBase {
   return {
     enabled: item["enabled"],
     configuration: !item["configuration"]
       ? item["configuration"]
-      : securityConnectorsAPIVmScannersBaseConfigurationDeserializer(item["configuration"]),
+      : vmScannersBaseConfigurationDeserializer(item["configuration"]),
   };
 }
 
 /** Configuration for VM scanning */
-export interface SecurityConnectorsAPIVmScannersBaseConfiguration {
+export interface VmScannersBaseConfiguration {
   /** The scanning mode for the VM scan. */
-  scanningMode?: SecurityConnectorsAPIScanningMode;
+  scanningMode?: ScanningMode;
   /** Tags that indicates that a resource should not be scanned */
   exclusionTags?: Record<string, string>;
 }
 
-export function securityConnectorsAPIVmScannersBaseConfigurationSerializer(
-  item: SecurityConnectorsAPIVmScannersBaseConfiguration,
-): any {
+export function vmScannersBaseConfigurationSerializer(item: VmScannersBaseConfiguration): any {
   return { scanningMode: item["scanningMode"], exclusionTags: item["exclusionTags"] };
 }
 
-export function securityConnectorsAPIVmScannersBaseConfigurationDeserializer(
-  item: any,
-): SecurityConnectorsAPIVmScannersBaseConfiguration {
+export function vmScannersBaseConfigurationDeserializer(item: any): VmScannersBaseConfiguration {
   return {
     scanningMode: item["scanningMode"],
     exclusionTags: !item["exclusionTags"]
@@ -3506,97 +3142,89 @@ export function securityConnectorsAPIVmScannersBaseConfigurationDeserializer(
 }
 
 /** The scanning mode for the VM scan. */
-export enum KnownSecurityConnectorsAPIScanningMode {
+export enum KnownScanningMode {
   /** Default */
   Default = "Default",
 }
 
 /**
  * The scanning mode for the VM scan. \
- * {@link KnownSecurityConnectorsAPIScanningMode} can be used interchangeably with SecurityConnectorsAPIScanningMode,
+ * {@link KnownScanningMode} can be used interchangeably with ScanningMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Default**: Default
  */
-export type SecurityConnectorsAPIScanningMode = string;
+export type ScanningMode = string;
 
 /** The ARC autoprovisioning configuration for an AWS environment */
-export interface SecurityConnectorsAPIarcAutoProvisioningAws extends SecurityConnectorsAPIarcAutoProvisioning {
+export interface ArcAutoProvisioningAws extends ArcAutoProvisioning {
   /** The cloud role ARN in AWS for this feature */
   cloudRoleArn?: string;
 }
 
-export function securityConnectorsAPIarcAutoProvisioningAwsSerializer(
-  item: SecurityConnectorsAPIarcAutoProvisioningAws,
-): any {
+export function arcAutoProvisioningAwsSerializer(item: ArcAutoProvisioningAws): any {
   return {
     enabled: item["enabled"],
     configuration: !item["configuration"]
       ? item["configuration"]
-      : securityConnectorsAPIArcAutoProvisioningConfigurationSerializer(item["configuration"]),
+      : arcAutoProvisioningConfigurationSerializer(item["configuration"]),
     cloudRoleArn: item["cloudRoleArn"],
   };
 }
 
-export function securityConnectorsAPIarcAutoProvisioningAwsDeserializer(
-  item: any,
-): SecurityConnectorsAPIarcAutoProvisioningAws {
+export function arcAutoProvisioningAwsDeserializer(item: any): ArcAutoProvisioningAws {
   return {
     enabled: item["enabled"],
     configuration: !item["configuration"]
       ? item["configuration"]
-      : securityConnectorsAPIArcAutoProvisioningConfigurationDeserializer(item["configuration"]),
+      : arcAutoProvisioningConfigurationDeserializer(item["configuration"]),
     cloudRoleArn: item["cloudRoleArn"],
   };
 }
 
 /** The ARC autoprovisioning configuration */
-export interface SecurityConnectorsAPIarcAutoProvisioning {
+export interface ArcAutoProvisioning {
   /** Is arc auto provisioning enabled */
   enabled?: boolean;
   /** Configuration for servers Arc auto provisioning for a given environment */
-  configuration?: SecurityConnectorsAPIArcAutoProvisioningConfiguration;
+  configuration?: ArcAutoProvisioningConfiguration;
 }
 
-export function securityConnectorsAPIarcAutoProvisioningSerializer(
-  item: SecurityConnectorsAPIarcAutoProvisioning,
-): any {
+export function arcAutoProvisioningSerializer(item: ArcAutoProvisioning): any {
   return {
     enabled: item["enabled"],
     configuration: !item["configuration"]
       ? item["configuration"]
-      : securityConnectorsAPIArcAutoProvisioningConfigurationSerializer(item["configuration"]),
+      : arcAutoProvisioningConfigurationSerializer(item["configuration"]),
   };
 }
 
-export function securityConnectorsAPIarcAutoProvisioningDeserializer(
-  item: any,
-): SecurityConnectorsAPIarcAutoProvisioning {
+export function arcAutoProvisioningDeserializer(item: any): ArcAutoProvisioning {
   return {
     enabled: item["enabled"],
     configuration: !item["configuration"]
       ? item["configuration"]
-      : securityConnectorsAPIArcAutoProvisioningConfigurationDeserializer(item["configuration"]),
+      : arcAutoProvisioningConfigurationDeserializer(item["configuration"]),
   };
 }
 
 /** Configuration for servers Arc auto provisioning for a given environment */
-export interface SecurityConnectorsAPIArcAutoProvisioningConfiguration {
+export interface ArcAutoProvisioningConfiguration {
   /** Optional HTTP proxy endpoint to use for the Arc agent */
   proxy?: string;
   /** Optional Arc private link scope resource id to link the Arc agent */
   privateLinkScope?: string;
 }
 
-export function securityConnectorsAPIArcAutoProvisioningConfigurationSerializer(
-  item: SecurityConnectorsAPIArcAutoProvisioningConfiguration,
+export function arcAutoProvisioningConfigurationSerializer(
+  item: ArcAutoProvisioningConfiguration,
 ): any {
   return { proxy: item["proxy"], privateLinkScope: item["privateLinkScope"] };
 }
 
-export function securityConnectorsAPIArcAutoProvisioningConfigurationDeserializer(
+export function arcAutoProvisioningConfigurationDeserializer(
   item: any,
-): SecurityConnectorsAPIArcAutoProvisioningConfiguration {
+): ArcAutoProvisioningConfiguration {
   return {
     proxy: item["proxy"],
     privateLinkScope: item["privateLinkScope"],
@@ -3604,100 +3232,84 @@ export function securityConnectorsAPIArcAutoProvisioningConfigurationDeserialize
 }
 
 /** The ARC autoprovisioning configuration for an GCP environment */
-export interface SecurityConnectorsAPIarcAutoProvisioningGcp extends SecurityConnectorsAPIarcAutoProvisioning {}
+export interface ArcAutoProvisioningGcp extends ArcAutoProvisioning {}
 
-export function securityConnectorsAPIarcAutoProvisioningGcpSerializer(
-  item: SecurityConnectorsAPIarcAutoProvisioningGcp,
-): any {
+export function arcAutoProvisioningGcpSerializer(item: ArcAutoProvisioningGcp): any {
   return {
     enabled: item["enabled"],
     configuration: !item["configuration"]
       ? item["configuration"]
-      : securityConnectorsAPIArcAutoProvisioningConfigurationSerializer(item["configuration"]),
+      : arcAutoProvisioningConfigurationSerializer(item["configuration"]),
   };
 }
 
-export function securityConnectorsAPIarcAutoProvisioningGcpDeserializer(
-  item: any,
-): SecurityConnectorsAPIarcAutoProvisioningGcp {
+export function arcAutoProvisioningGcpDeserializer(item: any): ArcAutoProvisioningGcp {
   return {
     enabled: item["enabled"],
     configuration: !item["configuration"]
       ? item["configuration"]
-      : securityConnectorsAPIArcAutoProvisioningConfigurationDeserializer(item["configuration"]),
+      : arcAutoProvisioningConfigurationDeserializer(item["configuration"]),
   };
 }
 
 /** A VM scanning configuration for a security offering of a GCP environment */
-export interface SecurityConnectorsAPIvmScannersGcp extends SecurityConnectorsAPIvmScannersBase {}
+export interface VmScannersGcp extends VmScannersBase {}
 
-export function securityConnectorsAPIvmScannersGcpSerializer(
-  item: SecurityConnectorsAPIvmScannersGcp,
-): any {
+export function vmScannersGcpSerializer(item: VmScannersGcp): any {
   return {
     enabled: item["enabled"],
     configuration: !item["configuration"]
       ? item["configuration"]
-      : securityConnectorsAPIVmScannersBaseConfigurationSerializer(item["configuration"]),
+      : vmScannersBaseConfigurationSerializer(item["configuration"]),
   };
 }
 
-export function securityConnectorsAPIvmScannersGcpDeserializer(
-  item: any,
-): SecurityConnectorsAPIvmScannersGcp {
+export function vmScannersGcpDeserializer(item: any): VmScannersGcp {
   return {
     enabled: item["enabled"],
     configuration: !item["configuration"]
       ? item["configuration"]
-      : securityConnectorsAPIVmScannersBaseConfigurationDeserializer(item["configuration"]),
+      : vmScannersBaseConfigurationDeserializer(item["configuration"]),
   };
 }
 
 /** List of security connectors response. */
-export interface _SecurityConnectorsAPISecurityConnectorsList {
+export interface _SecurityConnectorsList {
   /** The SecurityConnector items on this page */
-  value: SecurityConnectorsAPISecurityConnector[];
+  value: SecurityConnector[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _securityConnectorsAPISecurityConnectorsListDeserializer(
-  item: any,
-): _SecurityConnectorsAPISecurityConnectorsList {
+export function _securityConnectorsListDeserializer(item: any): _SecurityConnectorsList {
   return {
-    value: securityConnectorsAPISecurityConnectorArrayDeserializer(item["value"]),
+    value: securityConnectorArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function securityConnectorsAPISecurityConnectorArraySerializer(
-  result: Array<SecurityConnectorsAPISecurityConnector>,
-): any[] {
+export function securityConnectorArraySerializer(result: Array<SecurityConnector>): any[] {
   return result.map((item) => {
-    return securityConnectorsAPISecurityConnectorSerializer(item);
+    return securityConnectorSerializer(item);
   });
 }
 
-export function securityConnectorsAPISecurityConnectorArrayDeserializer(
-  result: Array<SecurityConnectorsAPISecurityConnector>,
-): any[] {
+export function securityConnectorArrayDeserializer(result: Array<SecurityConnector>): any[] {
   return result.map((item) => {
-    return securityConnectorsAPISecurityConnectorDeserializer(item);
+    return securityConnectorDeserializer(item);
   });
 }
 
-export function _securityConnectorPropertiesSerializer(
-  item: SecurityConnectorsAPISecurityConnector,
-): any {
+export function _securityConnectorPropertiesSerializer(item: SecurityConnector): any {
   return {
     hierarchyIdentifier: item["hierarchyIdentifier"],
     environmentName: item["environmentName"],
     offerings: !item["offerings"]
       ? item["offerings"]
-      : securityConnectorsAPIcloudOfferingUnionArraySerializer(item["offerings"]),
+      : cloudOfferingUnionArraySerializer(item["offerings"]),
     environmentData: !item["environmentData"]
       ? item["environmentData"]
-      : securityConnectorsAPIEnvironmentDataUnionSerializer(item["environmentData"]),
+      : environmentDataUnionSerializer(item["environmentData"]),
   };
 }
 
@@ -3710,9 +3322,9 @@ export function _securityConnectorPropertiesDeserializer(item: any) {
     environmentName: item["environmentName"],
     offerings: !item["offerings"]
       ? item["offerings"]
-      : securityConnectorsAPIcloudOfferingUnionArrayDeserializer(item["offerings"]),
+      : cloudOfferingUnionArrayDeserializer(item["offerings"]),
     environmentData: !item["environmentData"]
       ? item["environmentData"]
-      : securityConnectorsAPIEnvironmentDataUnionDeserializer(item["environmentData"]),
+      : environmentDataUnionDeserializer(item["environmentData"]),
   };
 }

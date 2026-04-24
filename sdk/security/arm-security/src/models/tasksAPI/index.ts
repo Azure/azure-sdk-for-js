@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 export type {
-  TasksAPISecurityTask,
-  TasksAPISecurityTaskProperties,
-  TasksAPISecurityTaskParameters,
-  TasksAPITaskUpdateActionType,
+  SecurityTask,
+  SecurityTaskProperties,
+  SecurityTaskParameters,
+  TaskUpdateActionType,
 } from "./models.js";
-export { KnownTasksAPITaskUpdateActionType } from "./models.js";
+export { KnownTaskUpdateActionType } from "./models.js";

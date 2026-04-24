@@ -1,4 +1,4 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export type { SecurityManagementClientprivateLinkParameters } from "./models.js";
+export type { PrivateLinkParameters } from "./models.js";

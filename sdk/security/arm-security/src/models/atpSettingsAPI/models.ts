@@ -12,13 +12,13 @@ import { systemDataDeserializer } from "../models.js";
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** The Advanced Threat Protection resource. */
-export interface ATPSettingsAPIAdvancedThreatProtectionSetting extends ExtensionResource {
+export interface AdvancedThreatProtectionSetting extends ExtensionResource {
   /** Indicates whether Advanced Threat Protection is enabled. */
   isEnabled?: boolean;
 }
 
-export function atpSettingsAPIAdvancedThreatProtectionSettingSerializer(
-  item: ATPSettingsAPIAdvancedThreatProtectionSetting,
+export function advancedThreatProtectionSettingSerializer(
+  item: AdvancedThreatProtectionSetting,
 ): any {
   return {
     properties: areAllPropsUndefined(item, ["isEnabled"])
@@ -27,9 +27,9 @@ export function atpSettingsAPIAdvancedThreatProtectionSettingSerializer(
   };
 }
 
-export function atpSettingsAPIAdvancedThreatProtectionSettingDeserializer(
+export function advancedThreatProtectionSettingDeserializer(
   item: any,
-): ATPSettingsAPIAdvancedThreatProtectionSetting {
+): AdvancedThreatProtectionSetting {
   return {
     id: item["id"],
     name: item["name"],
@@ -44,27 +44,27 @@ export function atpSettingsAPIAdvancedThreatProtectionSettingDeserializer(
 }
 
 /** The Advanced Threat Protection settings. */
-export interface ATPSettingsAPIAdvancedThreatProtectionProperties {
+export interface AdvancedThreatProtectionProperties {
   /** Indicates whether Advanced Threat Protection is enabled. */
   isEnabled?: boolean;
 }
 
-export function atpSettingsAPIAdvancedThreatProtectionPropertiesSerializer(
-  item: ATPSettingsAPIAdvancedThreatProtectionProperties,
+export function advancedThreatProtectionPropertiesSerializer(
+  item: AdvancedThreatProtectionProperties,
 ): any {
   return { isEnabled: item["isEnabled"] };
 }
 
-export function atpSettingsAPIAdvancedThreatProtectionPropertiesDeserializer(
+export function advancedThreatProtectionPropertiesDeserializer(
   item: any,
-): ATPSettingsAPIAdvancedThreatProtectionProperties {
+): AdvancedThreatProtectionProperties {
   return {
     isEnabled: item["isEnabled"],
   };
 }
 
 export function _advancedThreatProtectionSettingPropertiesSerializer(
-  item: ATPSettingsAPIAdvancedThreatProtectionSetting,
+  item: AdvancedThreatProtectionSetting,
 ): any {
   return { isEnabled: item["isEnabled"] };
 }

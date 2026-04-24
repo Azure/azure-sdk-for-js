@@ -36,10 +36,7 @@ import type {
   AlertsListSubscriptionLevelByRegionOptionalParams,
   AlertsGetSubscriptionLevelOptionalParams,
 } from "../../api/alerts/options.js";
-import type {
-  AlertsAPIAlert,
-  AlertsAPIAlertSimulatorRequestBody,
-} from "../../models/alertsAPI/models.js";
+import type { Alert, AlertSimulatorRequestBody } from "../../models/alertsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
@@ -50,28 +47,28 @@ export interface AlertsOperations {
   /** Simulate security alerts */
   simulate: (
     ascLocation: string,
-    alertSimulatorRequestBody: AlertsAPIAlertSimulatorRequestBody,
+    alertSimulatorRequestBody: AlertSimulatorRequestBody,
     options?: AlertsSimulateOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
   /** @deprecated use simulate instead */
   beginSimulate: (
     ascLocation: string,
-    alertSimulatorRequestBody: AlertsAPIAlertSimulatorRequestBody,
+    alertSimulatorRequestBody: AlertSimulatorRequestBody,
     options?: AlertsSimulateOptionalParams,
   ) => Promise<SimplePollerLike<OperationState<void>, void>>;
   /** @deprecated use simulate instead */
   beginSimulateAndWait: (
     ascLocation: string,
-    alertSimulatorRequestBody: AlertsAPIAlertSimulatorRequestBody,
+    alertSimulatorRequestBody: AlertSimulatorRequestBody,
     options?: AlertsSimulateOptionalParams,
   ) => Promise<void>;
   /** List all the alerts that are associated with the resource group */
   listByResourceGroup: (
     resourceGroupName: string,
     options?: AlertsListByResourceGroupOptionalParams,
-  ) => PagedAsyncIterableIterator<AlertsAPIAlert>;
+  ) => PagedAsyncIterableIterator<Alert>;
   /** List all the alerts that are associated with the subscription */
-  list: (options?: AlertsListOptionalParams) => PagedAsyncIterableIterator<AlertsAPIAlert>;
+  list: (options?: AlertsListOptionalParams) => PagedAsyncIterableIterator<Alert>;
   /** Update the alert's state */
   updateResourceGroupLevelStateToInProgress: (
     resourceGroupName: string,
@@ -105,14 +102,14 @@ export interface AlertsOperations {
     resourceGroupName: string,
     ascLocation: string,
     options?: AlertsListResourceGroupLevelByRegionOptionalParams,
-  ) => PagedAsyncIterableIterator<AlertsAPIAlert>;
+  ) => PagedAsyncIterableIterator<Alert>;
   /** Get an alert that is associated a resource group or a resource in a resource group */
   getResourceGroupLevel: (
     resourceGroupName: string,
     ascLocation: string,
     alertName: string,
     options?: AlertsGetResourceGroupLevelOptionalParams,
-  ) => Promise<AlertsAPIAlert>;
+  ) => Promise<Alert>;
   /** Update the alert's state */
   updateSubscriptionLevelStateToInProgress: (
     ascLocation: string,
@@ -141,25 +138,25 @@ export interface AlertsOperations {
   listSubscriptionLevelByRegion: (
     ascLocation: string,
     options?: AlertsListSubscriptionLevelByRegionOptionalParams,
-  ) => PagedAsyncIterableIterator<AlertsAPIAlert>;
+  ) => PagedAsyncIterableIterator<Alert>;
   /** Get an alert that is associated with a subscription */
   getSubscriptionLevel: (
     ascLocation: string,
     alertName: string,
     options?: AlertsGetSubscriptionLevelOptionalParams,
-  ) => Promise<AlertsAPIAlert>;
+  ) => Promise<Alert>;
 }
 
 function _getAlerts(context: SecurityCenterContext) {
   return {
     simulate: (
       ascLocation: string,
-      alertSimulatorRequestBody: AlertsAPIAlertSimulatorRequestBody,
+      alertSimulatorRequestBody: AlertSimulatorRequestBody,
       options?: AlertsSimulateOptionalParams,
     ) => simulate(context, ascLocation, alertSimulatorRequestBody, options),
     beginSimulate: async (
       ascLocation: string,
-      alertSimulatorRequestBody: AlertsAPIAlertSimulatorRequestBody,
+      alertSimulatorRequestBody: AlertSimulatorRequestBody,
       options?: AlertsSimulateOptionalParams,
     ) => {
       const poller = simulate(context, ascLocation, alertSimulatorRequestBody, options);
@@ -168,7 +165,7 @@ function _getAlerts(context: SecurityCenterContext) {
     },
     beginSimulateAndWait: async (
       ascLocation: string,
-      alertSimulatorRequestBody: AlertsAPIAlertSimulatorRequestBody,
+      alertSimulatorRequestBody: AlertSimulatorRequestBody,
       options?: AlertsSimulateOptionalParams,
     ) => {
       return await simulate(context, ascLocation, alertSimulatorRequestBody, options);

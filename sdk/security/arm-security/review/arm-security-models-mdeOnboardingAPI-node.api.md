@@ -5,13 +5,13 @@
 ```ts
 
 // @public
-export interface MdeOnboardingAPIMdeOnboardingData extends ProxyResource {
+export interface MdeOnboardingData extends ProxyResource {
     onboardingPackageLinux?: Uint8Array;
     onboardingPackageWindows?: Uint8Array;
 }
 
 // @public
-export interface MdeOnboardingAPIMdeOnboardingDataProperties {
+export interface MdeOnboardingDataProperties {
     onboardingPackageLinux?: Uint8Array;
     onboardingPackageWindows?: Uint8Array;
 }

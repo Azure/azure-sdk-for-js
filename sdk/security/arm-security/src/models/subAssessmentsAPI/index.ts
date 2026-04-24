@@ -2,21 +2,18 @@
 // Licensed under the MIT License.
 
 export type {
-  SubAssessmentsAPISecuritySubAssessment,
-  SubAssessmentsAPISecuritySubAssessmentProperties,
-  SubAssessmentsAPISubAssessmentStatus,
-  SubAssessmentsAPISubAssessmentStatusCode,
-  SubAssessmentsAPIAdditionalData,
-  SubAssessmentsAPIAdditionalDataUnion,
-  SubAssessmentsAPIAssessedResourceType,
-  SubAssessmentsAPISqlServerVulnerabilityProperties,
-  SubAssessmentsAPIContainerRegistryVulnerabilityProperties,
-  SubAssessmentsApicvss,
-  SubAssessmentsAPICve,
-  SubAssessmentsAPIVendorReference,
-  SubAssessmentsAPIServerVulnerabilityProperties,
+  SecuritySubAssessment,
+  SecuritySubAssessmentProperties,
+  SubAssessmentStatus,
+  SubAssessmentStatusCode,
+  AdditionalData,
+  AdditionalDataUnion,
+  AssessedResourceType,
+  SqlServerVulnerabilityProperties,
+  ContainerRegistryVulnerabilityProperties,
+  Cvss,
+  Cve,
+  VendorReference,
+  ServerVulnerabilityProperties,
 } from "./models.js";
-export {
-  KnownSubAssessmentsAPISubAssessmentStatusCode,
-  KnownSubAssessmentsAPIAssessedResourceType,
-} from "./models.js";
+export { KnownSubAssessmentStatusCode, KnownAssessedResourceType } from "./models.js";

@@ -2,16 +2,16 @@
 // Licensed under the MIT License.
 
 import type { SecurityCenterContext as Client } from "../index.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
 import type {
-  LegacySettingsAPIInformationProtectionPolicy,
-  LegacySettingsAPIInformationProtectionPolicyName,
-  _LegacySettingsAPIInformationProtectionPolicyList,
+  InformationProtectionPolicy,
+  InformationProtectionPolicyName,
+  _InformationProtectionPolicyList,
 } from "../../models/legacySettingsAPI/models.js";
 import {
-  legacySettingsAPIInformationProtectionPolicySerializer,
-  legacySettingsAPIInformationProtectionPolicyDeserializer,
-  _legacySettingsAPIInformationProtectionPolicyListDeserializer,
+  informationProtectionPolicySerializer,
+  informationProtectionPolicyDeserializer,
+  _informationProtectionPolicyListDeserializer,
 } from "../../models/legacySettingsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -47,16 +47,16 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_LegacySettingsAPIInformationProtectionPolicyList> {
+): Promise<_InformationProtectionPolicyList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _legacySettingsAPIInformationProtectionPolicyListDeserializer(result.body);
+  return _informationProtectionPolicyListDeserializer(result.body);
 }
 
 /** Information protection policies of a specific management group. */
@@ -64,7 +64,7 @@ export function list(
   context: Client,
   scope: string,
   options: InformationProtectionPoliciesListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<LegacySettingsAPIInformationProtectionPolicy> {
+): PagedAsyncIterableIterator<InformationProtectionPolicy> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, scope, options),
@@ -77,8 +77,8 @@ export function list(
 export function _createOrUpdateSend(
   context: Client,
   scope: string,
-  informationProtectionPolicyName: LegacySettingsAPIInformationProtectionPolicyName,
-  informationProtectionPolicy: LegacySettingsAPIInformationProtectionPolicy,
+  informationProtectionPolicyName: InformationProtectionPolicyName,
+  informationProtectionPolicy: InformationProtectionPolicy,
   options: InformationProtectionPoliciesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -96,32 +96,32 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: legacySettingsAPIInformationProtectionPolicySerializer(informationProtectionPolicy),
+    body: informationProtectionPolicySerializer(informationProtectionPolicy),
   });
 }
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
-): Promise<LegacySettingsAPIInformationProtectionPolicy> {
+): Promise<InformationProtectionPolicy> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return legacySettingsAPIInformationProtectionPolicyDeserializer(result.body);
+  return informationProtectionPolicyDeserializer(result.body);
 }
 
 /** Details of the information protection policy. */
 export async function createOrUpdate(
   context: Client,
   scope: string,
-  informationProtectionPolicyName: LegacySettingsAPIInformationProtectionPolicyName,
-  informationProtectionPolicy: LegacySettingsAPIInformationProtectionPolicy,
+  informationProtectionPolicyName: InformationProtectionPolicyName,
+  informationProtectionPolicy: InformationProtectionPolicy,
   options: InformationProtectionPoliciesCreateOrUpdateOptionalParams = { requestOptions: {} },
-): Promise<LegacySettingsAPIInformationProtectionPolicy> {
+): Promise<InformationProtectionPolicy> {
   const result = await _createOrUpdateSend(
     context,
     scope,
@@ -135,7 +135,7 @@ export async function createOrUpdate(
 export function _getSend(
   context: Client,
   scope: string,
-  informationProtectionPolicyName: LegacySettingsAPIInformationProtectionPolicyName,
+  informationProtectionPolicyName: InformationProtectionPolicyName,
   options: InformationProtectionPoliciesGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -157,25 +157,25 @@ export function _getSend(
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<LegacySettingsAPIInformationProtectionPolicy> {
+): Promise<InformationProtectionPolicy> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return legacySettingsAPIInformationProtectionPolicyDeserializer(result.body);
+  return informationProtectionPolicyDeserializer(result.body);
 }
 
 /** Details of the information protection policy. */
 export async function get(
   context: Client,
   scope: string,
-  informationProtectionPolicyName: LegacySettingsAPIInformationProtectionPolicyName,
+  informationProtectionPolicyName: InformationProtectionPolicyName,
   options: InformationProtectionPoliciesGetOptionalParams = { requestOptions: {} },
-): Promise<LegacySettingsAPIInformationProtectionPolicy> {
+): Promise<InformationProtectionPolicy> {
   const result = await _getSend(context, scope, informationProtectionPolicyName, options);
   return _getDeserialize(result);
 }

@@ -19,8 +19,8 @@ import type {
   IotSecuritySolutionGetOptionalParams,
 } from "../../api/iotSecuritySolution/options.js";
 import type {
-  IoTSecurityAPIIoTSecuritySolutionModel,
-  IoTSecurityAPIUpdateIotSecuritySolutionData,
+  IoTSecuritySolutionModel,
+  UpdateIotSecuritySolutionData,
 } from "../../models/ioTSecurityAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
@@ -29,12 +29,12 @@ export interface IotSecuritySolutionOperations {
   /** Use this method to get the list of IoT Security solutions by subscription. */
   listBySubscription: (
     options?: IotSecuritySolutionListBySubscriptionOptionalParams,
-  ) => PagedAsyncIterableIterator<IoTSecurityAPIIoTSecuritySolutionModel>;
+  ) => PagedAsyncIterableIterator<IoTSecuritySolutionModel>;
   /** Use this method to get the list IoT Security solutions organized by resource group. */
   listByResourceGroup: (
     resourceGroupName: string,
     options?: IotSecuritySolutionListByResourceGroupOptionalParams,
-  ) => PagedAsyncIterableIterator<IoTSecurityAPIIoTSecuritySolutionModel>;
+  ) => PagedAsyncIterableIterator<IoTSecuritySolutionModel>;
   /** Use this method to delete yours IoT Security solution */
   delete: (
     resourceGroupName: string,
@@ -45,22 +45,22 @@ export interface IotSecuritySolutionOperations {
   update: (
     resourceGroupName: string,
     solutionName: string,
-    updateIotSecuritySolutionData: IoTSecurityAPIUpdateIotSecuritySolutionData,
+    updateIotSecuritySolutionData: UpdateIotSecuritySolutionData,
     options?: IotSecuritySolutionUpdateOptionalParams,
-  ) => Promise<IoTSecurityAPIIoTSecuritySolutionModel>;
+  ) => Promise<IoTSecuritySolutionModel>;
   /** Use this method to create or update yours IoT Security solution */
   createOrUpdate: (
     resourceGroupName: string,
     solutionName: string,
-    iotSecuritySolutionData: IoTSecurityAPIIoTSecuritySolutionModel,
+    iotSecuritySolutionData: IoTSecuritySolutionModel,
     options?: IotSecuritySolutionCreateOrUpdateOptionalParams,
-  ) => Promise<IoTSecurityAPIIoTSecuritySolutionModel>;
+  ) => Promise<IoTSecuritySolutionModel>;
   /** User this method to get details of a specific IoT Security solution based on solution name */
   get: (
     resourceGroupName: string,
     solutionName: string,
     options?: IotSecuritySolutionGetOptionalParams,
-  ) => Promise<IoTSecurityAPIIoTSecuritySolutionModel>;
+  ) => Promise<IoTSecuritySolutionModel>;
 }
 
 function _getIotSecuritySolution(context: SecurityCenterContext) {
@@ -79,13 +79,13 @@ function _getIotSecuritySolution(context: SecurityCenterContext) {
     update: (
       resourceGroupName: string,
       solutionName: string,
-      updateIotSecuritySolutionData: IoTSecurityAPIUpdateIotSecuritySolutionData,
+      updateIotSecuritySolutionData: UpdateIotSecuritySolutionData,
       options?: IotSecuritySolutionUpdateOptionalParams,
     ) => update(context, resourceGroupName, solutionName, updateIotSecuritySolutionData, options),
     createOrUpdate: (
       resourceGroupName: string,
       solutionName: string,
-      iotSecuritySolutionData: IoTSecurityAPIIoTSecuritySolutionModel,
+      iotSecuritySolutionData: IoTSecuritySolutionModel,
       options?: IotSecuritySolutionCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, solutionName, iotSecuritySolutionData, options),
     get: (

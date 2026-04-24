@@ -5,7 +5,7 @@
 ```ts
 
 // @public
-export enum KnownTasksAPITaskUpdateActionType {
+export enum KnownTaskUpdateActionType {
     Activate = "Activate",
     Close = "Close",
     Dismiss = "Dismiss",
@@ -14,31 +14,31 @@ export enum KnownTasksAPITaskUpdateActionType {
 }
 
 // @public
-export interface TasksAPISecurityTask extends ProxyResource {
+export interface SecurityTask extends ProxyResource {
     readonly creationTimeUtc?: Date;
     readonly lastStateChangeTimeUtc?: Date;
-    securityTaskParameters?: TasksAPISecurityTaskParameters;
+    securityTaskParameters?: SecurityTaskParameters;
     readonly state?: string;
     readonly subState?: string;
 }
 
 // @public
-export interface TasksAPISecurityTaskParameters {
+export interface SecurityTaskParameters {
     additionalProperties?: Record<string, any>;
     readonly name?: string;
 }
 
 // @public
-export interface TasksAPISecurityTaskProperties {
+export interface SecurityTaskProperties {
     readonly creationTimeUtc?: Date;
     readonly lastStateChangeTimeUtc?: Date;
-    securityTaskParameters?: TasksAPISecurityTaskParameters;
+    securityTaskParameters?: SecurityTaskParameters;
     readonly state?: string;
     readonly subState?: string;
 }
 
 // @public
-export type TasksAPITaskUpdateActionType = string;
+export type TaskUpdateActionType = string;
 
 // (No @packageDocumentation comment for this package)
 

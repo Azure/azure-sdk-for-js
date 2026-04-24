@@ -1,9 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export type {
-  ComplianceResultsAPIComplianceResult,
-  ComplianceResultsAPIComplianceResultProperties,
-  ComplianceResultsAPIResourceStatus,
-} from "./models.js";
-export { KnownComplianceResultsAPIResourceStatus } from "./models.js";
+export type { ComplianceResult, ComplianceResultProperties, ResourceStatus } from "./models.js";
+export { KnownResourceStatus } from "./models.js";

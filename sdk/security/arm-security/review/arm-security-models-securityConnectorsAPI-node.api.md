@@ -5,12 +5,574 @@
 ```ts
 
 // @public
-export enum KnownSecurityConnectorsAPIAuthenticationType {
+export interface AccessTokenAuthentication extends Authentication {
+    accessToken?: string;
+    authenticationType: "AccessToken";
+    username?: string;
+}
+
+// @public
+export interface ArcAutoProvisioning {
+    configuration?: ArcAutoProvisioningConfiguration;
+    enabled?: boolean;
+}
+
+// @public
+export interface ArcAutoProvisioningAws extends ArcAutoProvisioning {
+    cloudRoleArn?: string;
+}
+
+// @public
+export interface ArcAutoProvisioningConfiguration {
+    privateLinkScope?: string;
+    proxy?: string;
+}
+
+// @public
+export interface ArcAutoProvisioningGcp extends ArcAutoProvisioning {
+}
+
+// @public
+export interface Authentication {
+    authenticationType: AuthenticationType;
+}
+
+// @public
+export type AuthenticationType = string;
+
+// @public
+export type AuthenticationUnion = AccessTokenAuthentication | Authentication;
+
+// @public
+export interface AwsEnvironmentData extends EnvironmentData {
+    readonly accountName?: string;
+    environmentType: "AwsAccount";
+    organizationalData?: AwsOrganizationalDataUnion;
+    regions?: string[];
+    scanInterval?: number;
+}
+
+// @public
+export interface AwsOrganizationalData {
+    organizationMembershipType: OrganizationMembershipType;
+}
+
+// @public
+export interface AwsOrganizationalDataMaster extends AwsOrganizationalData {
+    excludedAccountIds?: string[];
+    organizationMembershipType: "Organization";
+    stacksetName?: string;
+}
+
+// @public
+export interface AwsOrganizationalDataMember extends AwsOrganizationalData {
+    organizationMembershipType: "Member";
+    parentHierarchyId?: string;
+}
+
+// @public
+export type AwsOrganizationalDataUnion = AwsOrganizationalDataMaster | AwsOrganizationalDataMember | AwsOrganizationalData;
+
+// @public
+export interface AzureDevOpsScopeEnvironmentData extends EnvironmentData {
+    environmentType: "AzureDevOpsScope";
+}
+
+// @public
+export type CloudName = string;
+
+// @public
+export interface CloudOffering {
+    readonly description?: string;
+    offeringType: OfferingType;
+}
+
+// @public
+export type CloudOfferingUnion = CspmMonitorAwsOffering | DefenderForContainersAwsOffering | DefenderForServersAwsOffering | DefenderFoDatabasesAwsOffering | CspmMonitorGcpOffering | DefenderForServersGcpOffering | DefenderForDatabasesGcpOffering | DefenderForContainersGcpOffering | CspmMonitorGithubOffering | CspmMonitorAzureDevOpsOffering | DefenderCspmAwsOffering | DefenderCspmGcpOffering | CspmMonitorGitLabOffering | CspmMonitorDockerHubOffering | DefenderForContainersDockerHubOffering | DefenderCspmDockerHubOffering | CspmMonitorJFrogOffering | DefenderForContainersJFrogOffering | DefenderCspmJFrogOffering | CloudOffering;
+
+// @public
+export interface CspmMonitorAwsOffering extends CloudOffering {
+    nativeCloudConnection?: CspmMonitorAwsOfferingNativeCloudConnection;
+    offeringType: "CspmMonitorAws";
+}
+
+// @public
+export interface CspmMonitorAwsOfferingNativeCloudConnection {
+    cloudRoleArn?: string;
+}
+
+// @public
+export interface CspmMonitorAzureDevOpsOffering extends CloudOffering {
+    offeringType: "CspmMonitorAzureDevOps";
+}
+
+// @public
+export interface CspmMonitorDockerHubOffering extends CloudOffering {
+    offeringType: "CspmMonitorDockerHub";
+}
+
+// @public
+export interface CspmMonitorGcpOffering extends CloudOffering {
+    nativeCloudConnection?: CspmMonitorGcpOfferingNativeCloudConnection;
+    offeringType: "CspmMonitorGcp";
+}
+
+// @public
+export interface CspmMonitorGcpOfferingNativeCloudConnection {
+    serviceAccountEmailAddress?: string;
+    workloadIdentityProviderId?: string;
+}
+
+// @public
+export interface CspmMonitorGithubOffering extends CloudOffering {
+    offeringType: "CspmMonitorGithub";
+}
+
+// @public
+export interface CspmMonitorGitLabOffering extends CloudOffering {
+    offeringType: "CspmMonitorGitLab";
+}
+
+// @public
+export interface CspmMonitorJFrogOffering extends CloudOffering {
+    offeringType: "CspmMonitorJFrog";
+}
+
+// @public
+export interface DefenderCspmAwsOffering extends CloudOffering {
+    ciem?: DefenderCspmAwsOfferingCiem;
+    databasesDspm?: DefenderCspmAwsOfferingDatabasesDspm;
+    dataSensitivityDiscovery?: DefenderCspmAwsOfferingDataSensitivityDiscovery;
+    mdcContainersAgentlessDiscoveryK8S?: DefenderCspmAwsOfferingMdcContainersAgentlessDiscoveryK8S;
+    mdcContainersImageAssessment?: DefenderCspmAwsOfferingMdcContainersImageAssessment;
+    offeringType: "DefenderCspmAws";
+    vmScanners?: DefenderCspmAwsOfferingVmScanners;
+}
+
+// @public
+export interface DefenderCspmAwsOfferingCiem {
+    ciemDiscovery?: DefenderCspmAwsOfferingCiemCiemDiscovery;
+    ciemOidc?: DefenderCspmAwsOfferingCiemCiemOidc;
+}
+
+// @public
+export interface DefenderCspmAwsOfferingCiemCiemDiscovery {
+    cloudRoleArn?: string;
+}
+
+// @public
+export interface DefenderCspmAwsOfferingCiemCiemOidc {
+    azureActiveDirectoryAppName?: string;
+    cloudRoleArn?: string;
+}
+
+// @public
+export interface DefenderCspmAwsOfferingDatabasesDspm {
+    cloudRoleArn?: string;
+    enabled?: boolean;
+}
+
+// @public
+export interface DefenderCspmAwsOfferingDataSensitivityDiscovery {
+    cloudRoleArn?: string;
+    enabled?: boolean;
+}
+
+// @public
+export interface DefenderCspmAwsOfferingMdcContainersAgentlessDiscoveryK8S {
+    cloudRoleArn?: string;
+    enabled?: boolean;
+}
+
+// @public
+export interface DefenderCspmAwsOfferingMdcContainersImageAssessment {
+    cloudRoleArn?: string;
+    enabled?: boolean;
+}
+
+// @public
+export interface DefenderCspmAwsOfferingVmScanners extends VmScannersAws {
+}
+
+// @public
+export interface DefenderCspmDockerHubOffering extends CloudOffering {
+    offeringType: "DefenderCspmDockerHub";
+}
+
+// @public
+export interface DefenderCspmGcpOffering extends CloudOffering {
+    ciemDiscovery?: DefenderCspmGcpOfferingCiemDiscovery;
+    dataSensitivityDiscovery?: DefenderCspmGcpOfferingDataSensitivityDiscovery;
+    mdcContainersAgentlessDiscoveryK8S?: DefenderCspmGcpOfferingMdcContainersAgentlessDiscoveryK8S;
+    mdcContainersImageAssessment?: DefenderCspmGcpOfferingMdcContainersImageAssessment;
+    offeringType: "DefenderCspmGcp";
+    vmScanners?: DefenderCspmGcpOfferingVmScanners;
+}
+
+// @public
+export interface DefenderCspmGcpOfferingCiemDiscovery {
+    azureActiveDirectoryAppName?: string;
+    serviceAccountEmailAddress?: string;
+    workloadIdentityProviderId?: string;
+}
+
+// @public
+export interface DefenderCspmGcpOfferingDataSensitivityDiscovery {
+    enabled?: boolean;
+    serviceAccountEmailAddress?: string;
+    workloadIdentityProviderId?: string;
+}
+
+// @public
+export interface DefenderCspmGcpOfferingMdcContainersAgentlessDiscoveryK8S {
+    enabled?: boolean;
+    serviceAccountEmailAddress?: string;
+    workloadIdentityProviderId?: string;
+}
+
+// @public
+export interface DefenderCspmGcpOfferingMdcContainersImageAssessment {
+    enabled?: boolean;
+    serviceAccountEmailAddress?: string;
+    workloadIdentityProviderId?: string;
+}
+
+// @public
+export interface DefenderCspmGcpOfferingVmScanners extends VmScannersGcp {
+}
+
+// @public
+export interface DefenderCspmJFrogOffering extends CloudOffering {
+    mdcContainersImageAssessment?: DefenderCspmJFrogOfferingMdcContainersImageAssessment;
+    offeringType: "DefenderCspmJFrog";
+}
+
+// @public
+export interface DefenderCspmJFrogOfferingMdcContainersImageAssessment {
+    enabled?: boolean;
+}
+
+// @public
+export interface DefenderFoDatabasesAwsOffering extends CloudOffering {
+    arcAutoProvisioning?: DefenderFoDatabasesAwsOfferingArcAutoProvisioning;
+    databasesDspm?: DefenderFoDatabasesAwsOfferingDatabasesDspm;
+    offeringType: "DefenderForDatabasesAws";
+    rds?: DefenderFoDatabasesAwsOfferingRds;
+}
+
+// @public
+export interface DefenderFoDatabasesAwsOfferingArcAutoProvisioning extends ArcAutoProvisioningAws {
+}
+
+// @public
+export interface DefenderFoDatabasesAwsOfferingDatabasesDspm {
+    cloudRoleArn?: string;
+    enabled?: boolean;
+}
+
+// @public
+export interface DefenderFoDatabasesAwsOfferingRds {
+    cloudRoleArn?: string;
+    enabled?: boolean;
+}
+
+// @public
+export interface DefenderForContainersAwsOffering extends CloudOffering {
+    cloudWatchToKinesis?: DefenderForContainersAwsOfferingCloudWatchToKinesis;
+    dataCollectionExternalId?: string;
+    enableAuditLogsAutoProvisioning?: boolean;
+    enableDefenderAgentAutoProvisioning?: boolean;
+    enablePolicyAgentAutoProvisioning?: boolean;
+    kinesisToS3?: DefenderForContainersAwsOfferingKinesisToS3;
+    kubeAuditRetentionTime?: number;
+    kubernetesDataCollection?: DefenderForContainersAwsOfferingKubernetesDataCollection;
+    kubernetesService?: DefenderForContainersAwsOfferingKubernetesService;
+    mdcContainersAgentlessDiscoveryK8S?: DefenderForContainersAwsOfferingMdcContainersAgentlessDiscoveryK8S;
+    mdcContainersImageAssessment?: DefenderForContainersAwsOfferingMdcContainersImageAssessment;
+    offeringType: "DefenderForContainersAws";
+    vmScanners?: DefenderForContainersAwsOfferingVmScanners;
+}
+
+// @public
+export interface DefenderForContainersAwsOfferingCloudWatchToKinesis {
+    cloudRoleArn?: string;
+}
+
+// @public
+export interface DefenderForContainersAwsOfferingKinesisToS3 {
+    cloudRoleArn?: string;
+}
+
+// @public
+export interface DefenderForContainersAwsOfferingKubernetesDataCollection {
+    cloudRoleArn?: string;
+}
+
+// @public
+export interface DefenderForContainersAwsOfferingKubernetesService {
+    cloudRoleArn?: string;
+}
+
+// @public
+export interface DefenderForContainersAwsOfferingMdcContainersAgentlessDiscoveryK8S {
+    cloudRoleArn?: string;
+    enabled?: boolean;
+}
+
+// @public
+export interface DefenderForContainersAwsOfferingMdcContainersImageAssessment {
+    cloudRoleArn?: string;
+    enabled?: boolean;
+}
+
+// @public
+export interface DefenderForContainersAwsOfferingVmScanners extends VmScannersAws {
+}
+
+// @public
+export interface DefenderForContainersDockerHubOffering extends CloudOffering {
+    offeringType: "DefenderForContainersDockerHub";
+}
+
+// @public
+export interface DefenderForContainersGcpOffering extends CloudOffering {
+    dataPipelineNativeCloudConnection?: DefenderForContainersGcpOfferingDataPipelineNativeCloudConnection;
+    enableAuditLogsAutoProvisioning?: boolean;
+    enableDefenderAgentAutoProvisioning?: boolean;
+    enablePolicyAgentAutoProvisioning?: boolean;
+    mdcContainersAgentlessDiscoveryK8S?: DefenderForContainersGcpOfferingMdcContainersAgentlessDiscoveryK8S;
+    mdcContainersImageAssessment?: DefenderForContainersGcpOfferingMdcContainersImageAssessment;
+    nativeCloudConnection?: DefenderForContainersGcpOfferingNativeCloudConnection;
+    offeringType: "DefenderForContainersGcp";
+    vmScanners?: DefenderForContainersGcpOfferingVmScanners;
+}
+
+// @public
+export interface DefenderForContainersGcpOfferingDataPipelineNativeCloudConnection {
+    serviceAccountEmailAddress?: string;
+    workloadIdentityProviderId?: string;
+}
+
+// @public
+export interface DefenderForContainersGcpOfferingMdcContainersAgentlessDiscoveryK8S {
+    enabled?: boolean;
+    serviceAccountEmailAddress?: string;
+    workloadIdentityProviderId?: string;
+}
+
+// @public
+export interface DefenderForContainersGcpOfferingMdcContainersImageAssessment {
+    enabled?: boolean;
+    serviceAccountEmailAddress?: string;
+    workloadIdentityProviderId?: string;
+}
+
+// @public
+export interface DefenderForContainersGcpOfferingNativeCloudConnection {
+    serviceAccountEmailAddress?: string;
+    workloadIdentityProviderId?: string;
+}
+
+// @public
+export interface DefenderForContainersGcpOfferingVmScanners extends VmScannersGcp {
+}
+
+// @public
+export interface DefenderForContainersJFrogOffering extends CloudOffering {
+    offeringType: "DefenderForContainersJFrog";
+}
+
+// @public
+export interface DefenderForDatabasesGcpOffering extends CloudOffering {
+    arcAutoProvisioning?: DefenderForDatabasesGcpOfferingArcAutoProvisioning;
+    defenderForDatabasesArcAutoProvisioning?: DefenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioning;
+    offeringType: "DefenderForDatabasesGcp";
+}
+
+// @public
+export interface DefenderForDatabasesGcpOfferingArcAutoProvisioning extends ArcAutoProvisioningGcp {
+}
+
+// @public
+export interface DefenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioning {
+    serviceAccountEmailAddress?: string;
+    workloadIdentityProviderId?: string;
+}
+
+// @public
+export interface DefenderForServersAwsOffering extends CloudOffering {
+    arcAutoProvisioning?: DefenderForServersAwsOfferingArcAutoProvisioning;
+    defenderForServers?: DefenderForServersAwsOfferingDefenderForServers;
+    mdeAutoProvisioning?: DefenderForServersAwsOfferingMdeAutoProvisioning;
+    offeringType: "DefenderForServersAws";
+    subPlan?: DefenderForServersAwsOfferingSubPlan;
+    vaAutoProvisioning?: DefenderForServersAwsOfferingVaAutoProvisioning;
+    vmScanners?: DefenderForServersAwsOfferingVmScanners;
+}
+
+// @public
+export interface DefenderForServersAwsOfferingArcAutoProvisioning extends ArcAutoProvisioningAws {
+}
+
+// @public
+export interface DefenderForServersAwsOfferingDefenderForServers {
+    cloudRoleArn?: string;
+}
+
+// @public
+export interface DefenderForServersAwsOfferingMdeAutoProvisioning {
+    configuration?: any;
+    enabled?: boolean;
+}
+
+// @public
+export interface DefenderForServersAwsOfferingSubPlan {
+    type?: SubPlan;
+}
+
+// @public
+export interface DefenderForServersAwsOfferingVaAutoProvisioning {
+    configuration?: DefenderForServersAwsOfferingVaAutoProvisioningConfiguration;
+    enabled?: boolean;
+}
+
+// @public
+export interface DefenderForServersAwsOfferingVaAutoProvisioningConfiguration {
+    type?: Type;
+}
+
+// @public
+export interface DefenderForServersAwsOfferingVmScanners extends VmScannersAws {
+}
+
+// @public
+export interface DefenderForServersGcpOffering extends CloudOffering {
+    arcAutoProvisioning?: DefenderForServersGcpOfferingArcAutoProvisioning;
+    defenderForServers?: DefenderForServersGcpOfferingDefenderForServers;
+    mdeAutoProvisioning?: DefenderForServersGcpOfferingMdeAutoProvisioning;
+    offeringType: "DefenderForServersGcp";
+    subPlan?: DefenderForServersGcpOfferingSubPlan;
+    vaAutoProvisioning?: DefenderForServersGcpOfferingVaAutoProvisioning;
+    vmScanners?: DefenderForServersGcpOfferingVmScanners;
+}
+
+// @public
+export interface DefenderForServersGcpOfferingArcAutoProvisioning extends ArcAutoProvisioningGcp {
+}
+
+// @public
+export interface DefenderForServersGcpOfferingDefenderForServers {
+    serviceAccountEmailAddress?: string;
+    workloadIdentityProviderId?: string;
+}
+
+// @public
+export interface DefenderForServersGcpOfferingMdeAutoProvisioning {
+    configuration?: any;
+    enabled?: boolean;
+}
+
+// @public
+export interface DefenderForServersGcpOfferingSubPlan {
+    type?: SubPlan;
+}
+
+// @public
+export interface DefenderForServersGcpOfferingVaAutoProvisioning {
+    configuration?: DefenderForServersGcpOfferingVaAutoProvisioningConfiguration;
+    enabled?: boolean;
+}
+
+// @public
+export interface DefenderForServersGcpOfferingVaAutoProvisioningConfiguration {
+    type?: Type;
+}
+
+// @public
+export interface DefenderForServersGcpOfferingVmScanners extends VmScannersGcp {
+}
+
+// @public
+export interface DockerHubEnvironmentData extends EnvironmentData {
+    authentication?: AuthenticationUnion;
+    environmentType: "DockerHubOrganization";
+    scanInterval?: number;
+}
+
+// @public
+export interface EnvironmentData {
+    environmentType: EnvironmentType;
+}
+
+// @public
+export type EnvironmentDataUnion = AwsEnvironmentData | GcpProjectEnvironmentData | GithubScopeEnvironmentData | AzureDevOpsScopeEnvironmentData | GitlabScopeEnvironmentData | DockerHubEnvironmentData | JFrogEnvironmentData | EnvironmentData;
+
+// @public
+export type EnvironmentType = string;
+
+// @public
+export interface GcpOrganizationalData {
+    organizationMembershipType: OrganizationMembershipType;
+}
+
+// @public
+export interface GcpOrganizationalDataMember extends GcpOrganizationalData {
+    managementProjectNumber?: string;
+    organizationMembershipType: "Member";
+    parentHierarchyId?: string;
+}
+
+// @public
+export interface GcpOrganizationalDataOrganization extends GcpOrganizationalData {
+    excludedProjectNumbers?: string[];
+    organizationMembershipType: "Organization";
+    readonly organizationName?: string;
+    serviceAccountEmailAddress?: string;
+    workloadIdentityProviderId?: string;
+}
+
+// @public
+export type GcpOrganizationalDataUnion = GcpOrganizationalDataOrganization | GcpOrganizationalDataMember | GcpOrganizationalData;
+
+// @public
+export interface GcpProjectDetails {
+    projectId?: string;
+    readonly projectName?: string;
+    projectNumber?: string;
+    readonly workloadIdentityPoolId?: string;
+}
+
+// @public
+export interface GcpProjectEnvironmentData extends EnvironmentData {
+    environmentType: "GcpProject";
+    organizationalData?: GcpOrganizationalDataUnion;
+    projectDetails?: GcpProjectDetails;
+    scanInterval?: number;
+}
+
+// @public
+export interface GithubScopeEnvironmentData extends EnvironmentData {
+    environmentType: "GithubScope";
+}
+
+// @public
+export interface GitlabScopeEnvironmentData extends EnvironmentData {
+    environmentType: "GitlabScope";
+}
+
+// @public
+export interface JFrogEnvironmentData extends EnvironmentData {
+    environmentType: "JFrogArtifactory";
+    scanInterval?: number;
+}
+
+// @public
+export enum KnownAuthenticationType {
     AccessToken = "AccessToken"
 }
 
 // @public
-export enum KnownSecurityConnectorsAPICloudName {
+export enum KnownCloudName {
     AWS = "AWS",
     Azure = "Azure",
     AzureDevOps = "AzureDevOps",
@@ -22,7 +584,7 @@ export enum KnownSecurityConnectorsAPICloudName {
 }
 
 // @public
-export enum KnownSecurityConnectorsAPIEnvironmentType {
+export enum KnownEnvironmentType {
     AwsAccount = "AwsAccount",
     AzureDevOpsScope = "AzureDevOpsScope",
     DockerHubOrganization = "DockerHubOrganization",
@@ -33,7 +595,7 @@ export enum KnownSecurityConnectorsAPIEnvironmentType {
 }
 
 // @public
-export enum KnownSecurityConnectorsAPIOfferingType {
+export enum KnownOfferingType {
     CspmMonitorAws = "CspmMonitorAws",
     CspmMonitorAzureDevOps = "CspmMonitorAzureDevOps",
     CspmMonitorDockerHub = "CspmMonitorDockerHub",
@@ -56,646 +618,84 @@ export enum KnownSecurityConnectorsAPIOfferingType {
 }
 
 // @public
-export enum KnownSecurityConnectorsAPIOrganizationMembershipType {
+export enum KnownOrganizationMembershipType {
     Member = "Member",
     Organization = "Organization"
 }
 
 // @public
-export enum KnownSecurityConnectorsAPIScanningMode {
+export enum KnownScanningMode {
     Default = "Default"
 }
 
 // @public
-export enum KnownSecurityConnectorsAPISubPlan {
+export enum KnownSubPlan {
     P1 = "P1",
     P2 = "P2"
 }
 
 // @public
-export enum KnownSecurityConnectorsAPIType {
+export enum KnownType {
     Qualys = "Qualys",
     TVM = "TVM"
 }
 
 // @public
-export interface SecurityConnectorsAPIAccessTokenAuthentication extends SecurityConnectorsAPIAuthentication {
-    accessToken?: string;
-    authenticationType: "AccessToken";
-    username?: string;
-}
+export type OfferingType = string;
 
 // @public
-export interface SecurityConnectorsAPIarcAutoProvisioning {
-    configuration?: SecurityConnectorsAPIArcAutoProvisioningConfiguration;
-    enabled?: boolean;
-}
+export type OrganizationMembershipType = string;
 
 // @public
-export interface SecurityConnectorsAPIarcAutoProvisioningAws extends SecurityConnectorsAPIarcAutoProvisioning {
-    cloudRoleArn?: string;
-}
+export type ScanningMode = string;
 
 // @public
-export interface SecurityConnectorsAPIArcAutoProvisioningConfiguration {
-    privateLinkScope?: string;
-    proxy?: string;
-}
-
-// @public
-export interface SecurityConnectorsAPIarcAutoProvisioningGcp extends SecurityConnectorsAPIarcAutoProvisioning {
-}
-
-// @public
-export interface SecurityConnectorsAPIAuthentication {
-    authenticationType: SecurityConnectorsAPIAuthenticationType;
-}
-
-// @public
-export type SecurityConnectorsAPIAuthenticationType = string;
-
-// @public
-export type SecurityConnectorsAPIAuthenticationUnion = SecurityConnectorsAPIAccessTokenAuthentication | SecurityConnectorsAPIAuthentication;
-
-// @public
-export interface SecurityConnectorsAPIAwsEnvironmentData extends SecurityConnectorsAPIEnvironmentData {
-    readonly accountName?: string;
-    environmentType: "AwsAccount";
-    organizationalData?: SecurityConnectorsAPIAwsOrganizationalDataUnion;
-    regions?: string[];
-    scanInterval?: number;
-}
-
-// @public
-export interface SecurityConnectorsAPIAwsOrganizationalData {
-    organizationMembershipType: SecurityConnectorsAPIOrganizationMembershipType;
-}
-
-// @public
-export interface SecurityConnectorsAPIAwsOrganizationalDataMaster extends SecurityConnectorsAPIAwsOrganizationalData {
-    excludedAccountIds?: string[];
-    organizationMembershipType: "Organization";
-    stacksetName?: string;
-}
-
-// @public
-export interface SecurityConnectorsAPIAwsOrganizationalDataMember extends SecurityConnectorsAPIAwsOrganizationalData {
-    organizationMembershipType: "Member";
-    parentHierarchyId?: string;
-}
-
-// @public
-export type SecurityConnectorsAPIAwsOrganizationalDataUnion = SecurityConnectorsAPIAwsOrganizationalDataMaster | SecurityConnectorsAPIAwsOrganizationalDataMember | SecurityConnectorsAPIAwsOrganizationalData;
-
-// @public
-export interface SecurityConnectorsAPIAzureDevOpsScopeEnvironmentData extends SecurityConnectorsAPIEnvironmentData {
-    environmentType: "AzureDevOpsScope";
-}
-
-// @public
-export type SecurityConnectorsAPICloudName = string;
-
-// @public
-export interface SecurityConnectorsAPIcloudOffering {
-    readonly description?: string;
-    offeringType: SecurityConnectorsAPIOfferingType;
-}
-
-// @public
-export type SecurityConnectorsAPIcloudOfferingUnion = SecurityConnectorsAPIcspmMonitorAwsOffering | SecurityConnectorsAPIdefenderForContainersAwsOffering | SecurityConnectorsAPIdefenderForServersAwsOffering | SecurityConnectorsAPIdefenderFoDatabasesAwsOffering | SecurityConnectorsAPIcspmMonitorGcpOffering | SecurityConnectorsAPIdefenderForServersGcpOffering | SecurityConnectorsAPIdefenderForDatabasesGcpOffering | SecurityConnectorsAPIdefenderForContainersGcpOffering | SecurityConnectorsAPIcspmMonitorGithubOffering | SecurityConnectorsAPIcspmMonitorAzureDevOpsOffering | SecurityConnectorsAPIdefenderCspmAwsOffering | SecurityConnectorsAPIdefenderCspmGcpOffering | SecurityConnectorsAPIcspmMonitorGitLabOffering | SecurityConnectorsAPIcspmMonitorDockerHubOffering | SecurityConnectorsAPIdefenderForContainersDockerHubOffering | SecurityConnectorsAPIdefenderCspmDockerHubOffering | SecurityConnectorsAPIcspmMonitorJFrogOffering | SecurityConnectorsAPIdefenderForContainersJFrogOffering | SecurityConnectorsAPIdefenderCspmJFrogOffering | SecurityConnectorsAPIcloudOffering;
-
-// @public
-export interface SecurityConnectorsAPIcspmMonitorAwsOffering extends SecurityConnectorsAPIcloudOffering {
-    nativeCloudConnection?: SecurityConnectorsAPICspmMonitorAwsOfferingNativeCloudConnection;
-    offeringType: "CspmMonitorAws";
-}
-
-// @public
-export interface SecurityConnectorsAPICspmMonitorAwsOfferingNativeCloudConnection {
-    cloudRoleArn?: string;
-}
-
-// @public
-export interface SecurityConnectorsAPIcspmMonitorAzureDevOpsOffering extends SecurityConnectorsAPIcloudOffering {
-    offeringType: "CspmMonitorAzureDevOps";
-}
-
-// @public
-export interface SecurityConnectorsAPIcspmMonitorDockerHubOffering extends SecurityConnectorsAPIcloudOffering {
-    offeringType: "CspmMonitorDockerHub";
-}
-
-// @public
-export interface SecurityConnectorsAPIcspmMonitorGcpOffering extends SecurityConnectorsAPIcloudOffering {
-    nativeCloudConnection?: SecurityConnectorsAPICspmMonitorGcpOfferingNativeCloudConnection;
-    offeringType: "CspmMonitorGcp";
-}
-
-// @public
-export interface SecurityConnectorsAPICspmMonitorGcpOfferingNativeCloudConnection {
-    serviceAccountEmailAddress?: string;
-    workloadIdentityProviderId?: string;
-}
-
-// @public
-export interface SecurityConnectorsAPIcspmMonitorGithubOffering extends SecurityConnectorsAPIcloudOffering {
-    offeringType: "CspmMonitorGithub";
-}
-
-// @public
-export interface SecurityConnectorsAPIcspmMonitorGitLabOffering extends SecurityConnectorsAPIcloudOffering {
-    offeringType: "CspmMonitorGitLab";
-}
-
-// @public
-export interface SecurityConnectorsAPIcspmMonitorJFrogOffering extends SecurityConnectorsAPIcloudOffering {
-    offeringType: "CspmMonitorJFrog";
-}
-
-// @public
-export interface SecurityConnectorsAPIdefenderCspmAwsOffering extends SecurityConnectorsAPIcloudOffering {
-    ciem?: SecurityConnectorsAPIDefenderCspmAwsOfferingCiem;
-    databasesDspm?: SecurityConnectorsAPIDefenderCspmAwsOfferingDatabasesDspm;
-    dataSensitivityDiscovery?: SecurityConnectorsAPIDefenderCspmAwsOfferingDataSensitivityDiscovery;
-    mdcContainersAgentlessDiscoveryK8S?: SecurityConnectorsAPIDefenderCspmAwsOfferingMdcContainersAgentlessDiscoveryK8S;
-    mdcContainersImageAssessment?: SecurityConnectorsAPIDefenderCspmAwsOfferingMdcContainersImageAssessment;
-    offeringType: "DefenderCspmAws";
-    vmScanners?: SecurityConnectorsAPIdefenderCspmAwsOfferingVmScanners;
-}
-
-// @public
-export interface SecurityConnectorsAPIDefenderCspmAwsOfferingCiem {
-    ciemDiscovery?: SecurityConnectorsAPIDefenderCspmAwsOfferingCiemCiemDiscovery;
-    ciemOidc?: SecurityConnectorsAPIDefenderCspmAwsOfferingCiemCiemOidc;
-}
-
-// @public
-export interface SecurityConnectorsAPIDefenderCspmAwsOfferingCiemCiemDiscovery {
-    cloudRoleArn?: string;
-}
-
-// @public
-export interface SecurityConnectorsAPIDefenderCspmAwsOfferingCiemCiemOidc {
-    azureActiveDirectoryAppName?: string;
-    cloudRoleArn?: string;
-}
-
-// @public
-export interface SecurityConnectorsAPIDefenderCspmAwsOfferingDatabasesDspm {
-    cloudRoleArn?: string;
-    enabled?: boolean;
-}
-
-// @public
-export interface SecurityConnectorsAPIDefenderCspmAwsOfferingDataSensitivityDiscovery {
-    cloudRoleArn?: string;
-    enabled?: boolean;
-}
-
-// @public
-export interface SecurityConnectorsAPIDefenderCspmAwsOfferingMdcContainersAgentlessDiscoveryK8S {
-    cloudRoleArn?: string;
-    enabled?: boolean;
-}
-
-// @public
-export interface SecurityConnectorsAPIDefenderCspmAwsOfferingMdcContainersImageAssessment {
-    cloudRoleArn?: string;
-    enabled?: boolean;
-}
-
-// @public
-export interface SecurityConnectorsAPIdefenderCspmAwsOfferingVmScanners extends SecurityConnectorsAPIvmScannersAws {
-}
-
-// @public
-export interface SecurityConnectorsAPIdefenderCspmDockerHubOffering extends SecurityConnectorsAPIcloudOffering {
-    offeringType: "DefenderCspmDockerHub";
-}
-
-// @public
-export interface SecurityConnectorsAPIdefenderCspmGcpOffering extends SecurityConnectorsAPIcloudOffering {
-    ciemDiscovery?: SecurityConnectorsAPIDefenderCspmGcpOfferingCiemDiscovery;
-    dataSensitivityDiscovery?: SecurityConnectorsAPIDefenderCspmGcpOfferingDataSensitivityDiscovery;
-    mdcContainersAgentlessDiscoveryK8S?: SecurityConnectorsAPIDefenderCspmGcpOfferingMdcContainersAgentlessDiscoveryK8S;
-    mdcContainersImageAssessment?: SecurityConnectorsAPIDefenderCspmGcpOfferingMdcContainersImageAssessment;
-    offeringType: "DefenderCspmGcp";
-    vmScanners?: SecurityConnectorsAPIdefenderCspmGcpOfferingVmScanners;
-}
-
-// @public
-export interface SecurityConnectorsAPIDefenderCspmGcpOfferingCiemDiscovery {
-    azureActiveDirectoryAppName?: string;
-    serviceAccountEmailAddress?: string;
-    workloadIdentityProviderId?: string;
-}
-
-// @public
-export interface SecurityConnectorsAPIDefenderCspmGcpOfferingDataSensitivityDiscovery {
-    enabled?: boolean;
-    serviceAccountEmailAddress?: string;
-    workloadIdentityProviderId?: string;
-}
-
-// @public
-export interface SecurityConnectorsAPIDefenderCspmGcpOfferingMdcContainersAgentlessDiscoveryK8S {
-    enabled?: boolean;
-    serviceAccountEmailAddress?: string;
-    workloadIdentityProviderId?: string;
-}
-
-// @public
-export interface SecurityConnectorsAPIDefenderCspmGcpOfferingMdcContainersImageAssessment {
-    enabled?: boolean;
-    serviceAccountEmailAddress?: string;
-    workloadIdentityProviderId?: string;
-}
-
-// @public
-export interface SecurityConnectorsAPIdefenderCspmGcpOfferingVmScanners extends SecurityConnectorsAPIvmScannersGcp {
-}
-
-// @public
-export interface SecurityConnectorsAPIdefenderCspmJFrogOffering extends SecurityConnectorsAPIcloudOffering {
-    mdcContainersImageAssessment?: SecurityConnectorsAPIDefenderCspmJFrogOfferingMdcContainersImageAssessment;
-    offeringType: "DefenderCspmJFrog";
-}
-
-// @public
-export interface SecurityConnectorsAPIDefenderCspmJFrogOfferingMdcContainersImageAssessment {
-    enabled?: boolean;
-}
-
-// @public
-export interface SecurityConnectorsAPIdefenderFoDatabasesAwsOffering extends SecurityConnectorsAPIcloudOffering {
-    arcAutoProvisioning?: SecurityConnectorsAPIDefenderFoDatabasesAwsOfferingArcAutoProvisioning;
-    databasesDspm?: SecurityConnectorsAPIDefenderFoDatabasesAwsOfferingDatabasesDspm;
-    offeringType: "DefenderForDatabasesAws";
-    rds?: SecurityConnectorsAPIDefenderFoDatabasesAwsOfferingRds;
-}
-
-// @public
-export interface SecurityConnectorsAPIDefenderFoDatabasesAwsOfferingArcAutoProvisioning extends SecurityConnectorsAPIarcAutoProvisioningAws {
-}
-
-// @public
-export interface SecurityConnectorsAPIDefenderFoDatabasesAwsOfferingDatabasesDspm {
-    cloudRoleArn?: string;
-    enabled?: boolean;
-}
-
-// @public
-export interface SecurityConnectorsAPIDefenderFoDatabasesAwsOfferingRds {
-    cloudRoleArn?: string;
-    enabled?: boolean;
-}
-
-// @public
-export interface SecurityConnectorsAPIdefenderForContainersAwsOffering extends SecurityConnectorsAPIcloudOffering {
-    cloudWatchToKinesis?: SecurityConnectorsAPIDefenderForContainersAwsOfferingCloudWatchToKinesis;
-    dataCollectionExternalId?: string;
-    enableAuditLogsAutoProvisioning?: boolean;
-    enableDefenderAgentAutoProvisioning?: boolean;
-    enablePolicyAgentAutoProvisioning?: boolean;
-    kinesisToS3?: SecurityConnectorsAPIDefenderForContainersAwsOfferingKinesisToS3;
-    kubeAuditRetentionTime?: number;
-    kubernetesDataCollection?: SecurityConnectorsAPIDefenderForContainersAwsOfferingKubernetesDataCollection;
-    kubernetesService?: SecurityConnectorsAPIDefenderForContainersAwsOfferingKubernetesService;
-    mdcContainersAgentlessDiscoveryK8S?: SecurityConnectorsAPIDefenderForContainersAwsOfferingMdcContainersAgentlessDiscoveryK8S;
-    mdcContainersImageAssessment?: SecurityConnectorsAPIDefenderForContainersAwsOfferingMdcContainersImageAssessment;
-    offeringType: "DefenderForContainersAws";
-    vmScanners?: SecurityConnectorsAPIdefenderForContainersAwsOfferingVmScanners;
-}
-
-// @public
-export interface SecurityConnectorsAPIDefenderForContainersAwsOfferingCloudWatchToKinesis {
-    cloudRoleArn?: string;
-}
-
-// @public
-export interface SecurityConnectorsAPIDefenderForContainersAwsOfferingKinesisToS3 {
-    cloudRoleArn?: string;
-}
-
-// @public
-export interface SecurityConnectorsAPIDefenderForContainersAwsOfferingKubernetesDataCollection {
-    cloudRoleArn?: string;
-}
-
-// @public
-export interface SecurityConnectorsAPIDefenderForContainersAwsOfferingKubernetesService {
-    cloudRoleArn?: string;
-}
-
-// @public
-export interface SecurityConnectorsAPIDefenderForContainersAwsOfferingMdcContainersAgentlessDiscoveryK8S {
-    cloudRoleArn?: string;
-    enabled?: boolean;
-}
-
-// @public
-export interface SecurityConnectorsAPIDefenderForContainersAwsOfferingMdcContainersImageAssessment {
-    cloudRoleArn?: string;
-    enabled?: boolean;
-}
-
-// @public
-export interface SecurityConnectorsAPIdefenderForContainersAwsOfferingVmScanners extends SecurityConnectorsAPIvmScannersAws {
-}
-
-// @public
-export interface SecurityConnectorsAPIdefenderForContainersDockerHubOffering extends SecurityConnectorsAPIcloudOffering {
-    offeringType: "DefenderForContainersDockerHub";
-}
-
-// @public
-export interface SecurityConnectorsAPIdefenderForContainersGcpOffering extends SecurityConnectorsAPIcloudOffering {
-    dataPipelineNativeCloudConnection?: SecurityConnectorsAPIDefenderForContainersGcpOfferingDataPipelineNativeCloudConnection;
-    enableAuditLogsAutoProvisioning?: boolean;
-    enableDefenderAgentAutoProvisioning?: boolean;
-    enablePolicyAgentAutoProvisioning?: boolean;
-    mdcContainersAgentlessDiscoveryK8S?: SecurityConnectorsAPIDefenderForContainersGcpOfferingMdcContainersAgentlessDiscoveryK8S;
-    mdcContainersImageAssessment?: SecurityConnectorsAPIDefenderForContainersGcpOfferingMdcContainersImageAssessment;
-    nativeCloudConnection?: SecurityConnectorsAPIDefenderForContainersGcpOfferingNativeCloudConnection;
-    offeringType: "DefenderForContainersGcp";
-    vmScanners?: SecurityConnectorsAPIdefenderForContainersGcpOfferingVmScanners;
-}
-
-// @public
-export interface SecurityConnectorsAPIDefenderForContainersGcpOfferingDataPipelineNativeCloudConnection {
-    serviceAccountEmailAddress?: string;
-    workloadIdentityProviderId?: string;
-}
-
-// @public
-export interface SecurityConnectorsAPIDefenderForContainersGcpOfferingMdcContainersAgentlessDiscoveryK8S {
-    enabled?: boolean;
-    serviceAccountEmailAddress?: string;
-    workloadIdentityProviderId?: string;
-}
-
-// @public
-export interface SecurityConnectorsAPIDefenderForContainersGcpOfferingMdcContainersImageAssessment {
-    enabled?: boolean;
-    serviceAccountEmailAddress?: string;
-    workloadIdentityProviderId?: string;
-}
-
-// @public
-export interface SecurityConnectorsAPIDefenderForContainersGcpOfferingNativeCloudConnection {
-    serviceAccountEmailAddress?: string;
-    workloadIdentityProviderId?: string;
-}
-
-// @public
-export interface SecurityConnectorsAPIdefenderForContainersGcpOfferingVmScanners extends SecurityConnectorsAPIvmScannersGcp {
-}
-
-// @public
-export interface SecurityConnectorsAPIdefenderForContainersJFrogOffering extends SecurityConnectorsAPIcloudOffering {
-    offeringType: "DefenderForContainersJFrog";
-}
-
-// @public
-export interface SecurityConnectorsAPIdefenderForDatabasesGcpOffering extends SecurityConnectorsAPIcloudOffering {
-    arcAutoProvisioning?: SecurityConnectorsAPIDefenderForDatabasesGcpOfferingArcAutoProvisioning;
-    defenderForDatabasesArcAutoProvisioning?: SecurityConnectorsAPIDefenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioning;
-    offeringType: "DefenderForDatabasesGcp";
-}
-
-// @public
-export interface SecurityConnectorsAPIDefenderForDatabasesGcpOfferingArcAutoProvisioning extends SecurityConnectorsAPIarcAutoProvisioningGcp {
-}
-
-// @public
-export interface SecurityConnectorsAPIDefenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioning {
-    serviceAccountEmailAddress?: string;
-    workloadIdentityProviderId?: string;
-}
-
-// @public
-export interface SecurityConnectorsAPIdefenderForServersAwsOffering extends SecurityConnectorsAPIcloudOffering {
-    arcAutoProvisioning?: SecurityConnectorsAPIDefenderForServersAwsOfferingArcAutoProvisioning;
-    defenderForServers?: SecurityConnectorsAPIDefenderForServersAwsOfferingDefenderForServers;
-    mdeAutoProvisioning?: SecurityConnectorsAPIDefenderForServersAwsOfferingMdeAutoProvisioning;
-    offeringType: "DefenderForServersAws";
-    subPlan?: SecurityConnectorsAPIDefenderForServersAwsOfferingSubPlan;
-    vaAutoProvisioning?: SecurityConnectorsAPIDefenderForServersAwsOfferingVaAutoProvisioning;
-    vmScanners?: SecurityConnectorsAPIdefenderForServersAwsOfferingVmScanners;
-}
-
-// @public
-export interface SecurityConnectorsAPIDefenderForServersAwsOfferingArcAutoProvisioning extends SecurityConnectorsAPIarcAutoProvisioningAws {
-}
-
-// @public
-export interface SecurityConnectorsAPIDefenderForServersAwsOfferingDefenderForServers {
-    cloudRoleArn?: string;
-}
-
-// @public
-export interface SecurityConnectorsAPIDefenderForServersAwsOfferingMdeAutoProvisioning {
-    configuration?: any;
-    enabled?: boolean;
-}
-
-// @public
-export interface SecurityConnectorsAPIDefenderForServersAwsOfferingSubPlan {
-    type?: SecurityConnectorsAPISubPlan;
-}
-
-// @public
-export interface SecurityConnectorsAPIDefenderForServersAwsOfferingVaAutoProvisioning {
-    configuration?: SecurityConnectorsAPIDefenderForServersAwsOfferingVaAutoProvisioningConfiguration;
-    enabled?: boolean;
-}
-
-// @public
-export interface SecurityConnectorsAPIDefenderForServersAwsOfferingVaAutoProvisioningConfiguration {
-    type?: SecurityConnectorsAPIType;
-}
-
-// @public
-export interface SecurityConnectorsAPIdefenderForServersAwsOfferingVmScanners extends SecurityConnectorsAPIvmScannersAws {
-}
-
-// @public
-export interface SecurityConnectorsAPIdefenderForServersGcpOffering extends SecurityConnectorsAPIcloudOffering {
-    arcAutoProvisioning?: SecurityConnectorsAPIDefenderForServersGcpOfferingArcAutoProvisioning;
-    defenderForServers?: SecurityConnectorsAPIDefenderForServersGcpOfferingDefenderForServers;
-    mdeAutoProvisioning?: SecurityConnectorsAPIDefenderForServersGcpOfferingMdeAutoProvisioning;
-    offeringType: "DefenderForServersGcp";
-    subPlan?: SecurityConnectorsAPIDefenderForServersGcpOfferingSubPlan;
-    vaAutoProvisioning?: SecurityConnectorsAPIDefenderForServersGcpOfferingVaAutoProvisioning;
-    vmScanners?: SecurityConnectorsAPIdefenderForServersGcpOfferingVmScanners;
-}
-
-// @public
-export interface SecurityConnectorsAPIDefenderForServersGcpOfferingArcAutoProvisioning extends SecurityConnectorsAPIarcAutoProvisioningGcp {
-}
-
-// @public
-export interface SecurityConnectorsAPIDefenderForServersGcpOfferingDefenderForServers {
-    serviceAccountEmailAddress?: string;
-    workloadIdentityProviderId?: string;
-}
-
-// @public
-export interface SecurityConnectorsAPIDefenderForServersGcpOfferingMdeAutoProvisioning {
-    configuration?: any;
-    enabled?: boolean;
-}
-
-// @public
-export interface SecurityConnectorsAPIDefenderForServersGcpOfferingSubPlan {
-    type?: SecurityConnectorsAPISubPlan;
-}
-
-// @public
-export interface SecurityConnectorsAPIDefenderForServersGcpOfferingVaAutoProvisioning {
-    configuration?: SecurityConnectorsAPIDefenderForServersGcpOfferingVaAutoProvisioningConfiguration;
-    enabled?: boolean;
-}
-
-// @public
-export interface SecurityConnectorsAPIDefenderForServersGcpOfferingVaAutoProvisioningConfiguration {
-    type?: SecurityConnectorsAPIType;
-}
-
-// @public
-export interface SecurityConnectorsAPIdefenderForServersGcpOfferingVmScanners extends SecurityConnectorsAPIvmScannersGcp {
-}
-
-// @public
-export interface SecurityConnectorsAPIDockerHubEnvironmentData extends SecurityConnectorsAPIEnvironmentData {
-    authentication?: SecurityConnectorsAPIAuthenticationUnion;
-    environmentType: "DockerHubOrganization";
-    scanInterval?: number;
-}
-
-// @public
-export interface SecurityConnectorsAPIEnvironmentData {
-    environmentType: SecurityConnectorsAPIEnvironmentType;
-}
-
-// @public
-export type SecurityConnectorsAPIEnvironmentDataUnion = SecurityConnectorsAPIAwsEnvironmentData | SecurityConnectorsAPIGcpProjectEnvironmentData | SecurityConnectorsAPIGithubScopeEnvironmentData | SecurityConnectorsAPIAzureDevOpsScopeEnvironmentData | SecurityConnectorsAPIGitlabScopeEnvironmentData | SecurityConnectorsAPIDockerHubEnvironmentData | SecurityConnectorsApijFrogEnvironmentData | SecurityConnectorsAPIEnvironmentData;
-
-// @public
-export type SecurityConnectorsAPIEnvironmentType = string;
-
-// @public
-export interface SecurityConnectorsAPIGcpOrganizationalData {
-    organizationMembershipType: SecurityConnectorsAPIOrganizationMembershipType;
-}
-
-// @public
-export interface SecurityConnectorsAPIGcpOrganizationalDataMember extends SecurityConnectorsAPIGcpOrganizationalData {
-    managementProjectNumber?: string;
-    organizationMembershipType: "Member";
-    parentHierarchyId?: string;
-}
-
-// @public
-export interface SecurityConnectorsAPIGcpOrganizationalDataOrganization extends SecurityConnectorsAPIGcpOrganizationalData {
-    excludedProjectNumbers?: string[];
-    organizationMembershipType: "Organization";
-    readonly organizationName?: string;
-    serviceAccountEmailAddress?: string;
-    workloadIdentityProviderId?: string;
-}
-
-// @public
-export type SecurityConnectorsAPIGcpOrganizationalDataUnion = SecurityConnectorsAPIGcpOrganizationalDataOrganization | SecurityConnectorsAPIGcpOrganizationalDataMember | SecurityConnectorsAPIGcpOrganizationalData;
-
-// @public
-export interface SecurityConnectorsAPIGcpProjectDetails {
-    projectId?: string;
-    readonly projectName?: string;
-    projectNumber?: string;
-    readonly workloadIdentityPoolId?: string;
-}
-
-// @public
-export interface SecurityConnectorsAPIGcpProjectEnvironmentData extends SecurityConnectorsAPIEnvironmentData {
-    environmentType: "GcpProject";
-    organizationalData?: SecurityConnectorsAPIGcpOrganizationalDataUnion;
-    projectDetails?: SecurityConnectorsAPIGcpProjectDetails;
-    scanInterval?: number;
-}
-
-// @public
-export interface SecurityConnectorsAPIGithubScopeEnvironmentData extends SecurityConnectorsAPIEnvironmentData {
-    environmentType: "GithubScope";
-}
-
-// @public
-export interface SecurityConnectorsAPIGitlabScopeEnvironmentData extends SecurityConnectorsAPIEnvironmentData {
-    environmentType: "GitlabScope";
-}
-
-// @public
-export interface SecurityConnectorsApijFrogEnvironmentData extends SecurityConnectorsAPIEnvironmentData {
-    environmentType: "JFrogArtifactory";
-    scanInterval?: number;
-}
-
-// @public
-export type SecurityConnectorsAPIOfferingType = string;
-
-// @public
-export type SecurityConnectorsAPIOrganizationMembershipType = string;
-
-// @public
-export type SecurityConnectorsAPIScanningMode = string;
-
-// @public
-export interface SecurityConnectorsAPISecurityConnector extends ProxyResource {
-    environmentData?: SecurityConnectorsAPIEnvironmentDataUnion;
-    environmentName?: SecurityConnectorsAPICloudName;
+export interface SecurityConnector extends ProxyResource {
+    environmentData?: EnvironmentDataUnion;
+    environmentName?: CloudName;
     etag?: string;
     hierarchyIdentifier?: string;
     readonly hierarchyIdentifierTrialEndDate?: Date;
     kind?: string;
     location?: string;
-    offerings?: SecurityConnectorsAPIcloudOfferingUnion[];
+    offerings?: CloudOfferingUnion[];
     tags?: Record<string, string>;
 }
 
 // @public
-export interface SecurityConnectorsAPISecurityConnectorProperties {
-    environmentData?: SecurityConnectorsAPIEnvironmentDataUnion;
-    environmentName?: SecurityConnectorsAPICloudName;
+export interface SecurityConnectorProperties {
+    environmentData?: EnvironmentDataUnion;
+    environmentName?: CloudName;
     hierarchyIdentifier?: string;
     readonly hierarchyIdentifierTrialEndDate?: Date;
-    offerings?: SecurityConnectorsAPIcloudOfferingUnion[];
+    offerings?: CloudOfferingUnion[];
 }
 
 // @public
-export type SecurityConnectorsAPISubPlan = string;
+export type SubPlan = string;
 
 // @public
-export type SecurityConnectorsAPIType = string;
+export type Type = string;
 
 // @public
-export interface SecurityConnectorsAPIvmScannersAws extends SecurityConnectorsAPIvmScannersBase {
+export interface VmScannersAws extends VmScannersBase {
     cloudRoleArn?: string;
 }
 
 // @public
-export interface SecurityConnectorsAPIvmScannersBase {
-    configuration?: SecurityConnectorsAPIVmScannersBaseConfiguration;
+export interface VmScannersBase {
+    configuration?: VmScannersBaseConfiguration;
     enabled?: boolean;
 }
 
 // @public
-export interface SecurityConnectorsAPIVmScannersBaseConfiguration {
+export interface VmScannersBaseConfiguration {
     exclusionTags?: Record<string, string>;
-    scanningMode?: SecurityConnectorsAPIScanningMode;
+    scanningMode?: ScanningMode;
 }
 
 // @public
-export interface SecurityConnectorsAPIvmScannersGcp extends SecurityConnectorsAPIvmScannersBase {
+export interface VmScannersGcp extends VmScannersBase {
 }
 
 // (No @packageDocumentation comment for this package)

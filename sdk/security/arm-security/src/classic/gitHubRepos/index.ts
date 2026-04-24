@@ -7,7 +7,7 @@ import type {
   GitHubReposListOptionalParams,
   GitHubReposGetOptionalParams,
 } from "../../api/gitHubRepos/options.js";
-import type { SecurityConnectorsDevOpsAPIGitHubRepository } from "../../models/securityConnectorsDevOpsAPI/models.js";
+import type { GitHubRepository } from "../../models/securityConnectorsDevOpsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a GitHubRepos operations. */
@@ -18,7 +18,7 @@ export interface GitHubReposOperations {
     securityConnectorName: string,
     ownerName: string,
     options?: GitHubReposListOptionalParams,
-  ) => PagedAsyncIterableIterator<SecurityConnectorsDevOpsAPIGitHubRepository>;
+  ) => PagedAsyncIterableIterator<GitHubRepository>;
   /** Returns a monitored GitHub repository. */
   get: (
     resourceGroupName: string,
@@ -26,7 +26,7 @@ export interface GitHubReposOperations {
     ownerName: string,
     repoName: string,
     options?: GitHubReposGetOptionalParams,
-  ) => Promise<SecurityConnectorsDevOpsAPIGitHubRepository>;
+  ) => Promise<GitHubRepository>;
 }
 
 function _getGitHubRepos(context: SecurityCenterContext) {

@@ -5,7 +5,7 @@
 ```ts
 
 // @public
-export interface ApiCollectionsAPIApiCollection extends ExtensionResource {
+export interface ApiCollection extends ExtensionResource {
     readonly baseUrl?: string;
     readonly discoveredVia?: string;
     readonly displayName?: string;
@@ -14,12 +14,12 @@ export interface ApiCollectionsAPIApiCollection extends ExtensionResource {
     readonly numberOfExternalApiEndpoints?: number;
     readonly numberOfInactiveApiEndpoints?: number;
     readonly numberOfUnauthenticatedApiEndpoints?: number;
-    readonly provisioningState?: CommonProvisioningState;
+    readonly provisioningState?: ProvisioningState;
     readonly sensitivityLabel?: string;
 }
 
 // @public
-export interface ApiCollectionsAPIApiCollectionProperties {
+export interface ApiCollectionProperties {
     readonly baseUrl?: string;
     readonly discoveredVia?: string;
     readonly displayName?: string;
@@ -28,7 +28,7 @@ export interface ApiCollectionsAPIApiCollectionProperties {
     readonly numberOfExternalApiEndpoints?: number;
     readonly numberOfInactiveApiEndpoints?: number;
     readonly numberOfUnauthenticatedApiEndpoints?: number;
-    readonly provisioningState?: CommonProvisioningState;
+    readonly provisioningState?: ProvisioningState;
     readonly sensitivityLabel?: string;
 }
 

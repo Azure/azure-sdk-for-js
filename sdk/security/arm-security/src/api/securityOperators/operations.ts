@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 import type { SecurityCenterContext as Client } from "../index.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
 import type {
-  SecurityOperatorsAPISecurityOperator,
-  _SecurityOperatorsAPISecurityOperatorList,
+  SecurityOperator,
+  _SecurityOperatorList,
 } from "../../models/securityOperatorsAPI/models.js";
 import {
-  securityOperatorsAPISecurityOperatorDeserializer,
-  _securityOperatorsAPISecurityOperatorListDeserializer,
+  securityOperatorDeserializer,
+  _securityOperatorListDeserializer,
 } from "../../models/securityOperatorsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -47,16 +47,16 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_SecurityOperatorsAPISecurityOperatorList> {
+): Promise<_SecurityOperatorList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _securityOperatorsAPISecurityOperatorListDeserializer(result.body);
+  return _securityOperatorListDeserializer(result.body);
 }
 
 /** Lists Microsoft Defender for Cloud securityOperators in the subscription. */
@@ -64,7 +64,7 @@ export function list(
   context: Client,
   pricingName: string,
   options: SecurityOperatorsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<SecurityOperatorsAPISecurityOperator> {
+): PagedAsyncIterableIterator<SecurityOperator> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, pricingName, options),
@@ -99,7 +99,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
@@ -144,16 +144,16 @@ export function _createOrUpdateSend(
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
-): Promise<SecurityOperatorsAPISecurityOperator> {
+): Promise<SecurityOperator> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return securityOperatorsAPISecurityOperatorDeserializer(result.body);
+  return securityOperatorDeserializer(result.body);
 }
 
 /** Creates Microsoft Defender for Cloud security operator on the given scope. */
@@ -162,7 +162,7 @@ export async function createOrUpdate(
   pricingName: string,
   securityOperatorName: string,
   options: SecurityOperatorsCreateOrUpdateOptionalParams = { requestOptions: {} },
-): Promise<SecurityOperatorsAPISecurityOperator> {
+): Promise<SecurityOperator> {
   const result = await _createOrUpdateSend(context, pricingName, securityOperatorName, options);
   return _createOrUpdateDeserialize(result);
 }
@@ -191,18 +191,16 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<SecurityOperatorsAPISecurityOperator> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<SecurityOperator> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return securityOperatorsAPISecurityOperatorDeserializer(result.body);
+  return securityOperatorDeserializer(result.body);
 }
 
 /** Get a specific security operator for the requested scope. */
@@ -211,7 +209,7 @@ export async function get(
   pricingName: string,
   securityOperatorName: string,
   options: SecurityOperatorsGetOptionalParams = { requestOptions: {} },
-): Promise<SecurityOperatorsAPISecurityOperator> {
+): Promise<SecurityOperator> {
   const result = await _getSend(context, pricingName, securityOperatorName, options);
   return _getDeserialize(result);
 }

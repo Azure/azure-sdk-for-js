@@ -7,7 +7,7 @@ import type {
   RegulatoryComplianceControlsListOptionalParams,
   RegulatoryComplianceControlsGetOptionalParams,
 } from "../../api/regulatoryComplianceControls/options.js";
-import type { RegulatoryComplianceAPIRegulatoryComplianceControl } from "../../models/regulatoryComplianceAPI/models.js";
+import type { RegulatoryComplianceControl } from "../../models/regulatoryComplianceAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a RegulatoryComplianceControls operations. */
@@ -16,13 +16,13 @@ export interface RegulatoryComplianceControlsOperations {
   list: (
     regulatoryComplianceStandardName: string,
     options?: RegulatoryComplianceControlsListOptionalParams,
-  ) => PagedAsyncIterableIterator<RegulatoryComplianceAPIRegulatoryComplianceControl>;
+  ) => PagedAsyncIterableIterator<RegulatoryComplianceControl>;
   /** Selected regulatory compliance control details and state */
   get: (
     regulatoryComplianceStandardName: string,
     regulatoryComplianceControlName: string,
     options?: RegulatoryComplianceControlsGetOptionalParams,
-  ) => Promise<RegulatoryComplianceAPIRegulatoryComplianceControl>;
+  ) => Promise<RegulatoryComplianceControl>;
 }
 
 function _getRegulatoryComplianceControls(context: SecurityCenterContext) {

@@ -4,15 +4,15 @@
 import type { SecurityCenterContext as Client } from "../index.js";
 import { errorResponseDeserializer } from "../../models/models.js";
 import type {
-  PrivateLinksAPIPrivateLinkResource,
-  PrivateLinksAPIPrivateLinkUpdate,
-  _PrivateLinksAPIPrivateLinksList,
+  PrivateLinkResource,
+  PrivateLinkUpdate,
+  _PrivateLinksList,
 } from "../../models/privateLinksAPI/models.js";
 import {
-  privateLinksAPIPrivateLinkResourceSerializer,
-  privateLinksAPIPrivateLinkResourceDeserializer,
-  privateLinksAPIPrivateLinkUpdateSerializer,
-  _privateLinksAPIPrivateLinksListDeserializer,
+  privateLinkResourceSerializer,
+  privateLinkResourceDeserializer,
+  privateLinkUpdateSerializer,
+  _privateLinksListDeserializer,
 } from "../../models/privateLinksAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -53,7 +53,7 @@ export function _listBySubscriptionSend(
 
 export async function _listBySubscriptionDeserialize(
   result: PathUncheckedResponse,
-): Promise<_PrivateLinksAPIPrivateLinksList> {
+): Promise<_PrivateLinksList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -62,14 +62,14 @@ export async function _listBySubscriptionDeserialize(
     throw error;
   }
 
-  return _privateLinksAPIPrivateLinksListDeserializer(result.body);
+  return _privateLinksListDeserializer(result.body);
 }
 
 /** Lists all the private links in the specified subscription. private links enable secure, private connectivity to Microsoft Defender for Cloud services without exposing traffic to the public internet. Use the 'nextLink' property in the response to get the next page of private links for the specified subscription. */
 export function listBySubscription(
   context: Client,
   options: PrivateLinksListBySubscriptionOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<PrivateLinksAPIPrivateLinkResource> {
+): PagedAsyncIterableIterator<PrivateLinkResource> {
   return buildPagedAsyncIterator(
     context,
     () => _listBySubscriptionSend(context, options),
@@ -101,9 +101,7 @@ export function _listSend(
   });
 }
 
-export async function _listDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_PrivateLinksAPIPrivateLinksList> {
+export async function _listDeserialize(result: PathUncheckedResponse): Promise<_PrivateLinksList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -112,7 +110,7 @@ export async function _listDeserialize(
     throw error;
   }
 
-  return _privateLinksAPIPrivateLinksListDeserializer(result.body);
+  return _privateLinksListDeserializer(result.body);
 }
 
 /** Lists all the private links in the specified resource group. private links enable secure, private connectivity to Microsoft Defender for Cloud services without exposing traffic to the public internet. Use the 'nextLink' property in the response to get the next page of private links for the specified resource group. */
@@ -120,7 +118,7 @@ export function list(
   context: Client,
   resourceGroupName: string,
   options: PrivateLinksListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<PrivateLinksAPIPrivateLinkResource> {
+): PagedAsyncIterableIterator<PrivateLinkResource> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, resourceGroupName, options),
@@ -180,7 +178,7 @@ export function $delete(
 export function _updateSend(
   context: Client,
   resourceGroupName: string,
-  privateLink: PrivateLinksAPIPrivateLinkUpdate,
+  privateLink: PrivateLinkUpdate,
   options: PrivateLinksUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -199,13 +197,13 @@ export function _updateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: privateLinksAPIPrivateLinkUpdateSerializer(privateLink),
+    body: privateLinkUpdateSerializer(privateLink),
   });
 }
 
 export async function _updateDeserialize(
   result: PathUncheckedResponse,
-): Promise<PrivateLinksAPIPrivateLinkResource> {
+): Promise<PrivateLinkResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -214,16 +212,16 @@ export async function _updateDeserialize(
     throw error;
   }
 
-  return privateLinksAPIPrivateLinkResourceDeserializer(result.body);
+  return privateLinkResourceDeserializer(result.body);
 }
 
 /** Update specific properties of a private link resource. Use this operation to update mutable properties like tags without affecting the entire resource configuration. */
 export async function update(
   context: Client,
   resourceGroupName: string,
-  privateLink: PrivateLinksAPIPrivateLinkUpdate,
+  privateLink: PrivateLinkUpdate,
   options: PrivateLinksUpdateOptionalParams = { requestOptions: {} },
-): Promise<PrivateLinksAPIPrivateLinkResource> {
+): Promise<PrivateLinkResource> {
   const result = await _updateSend(context, resourceGroupName, privateLink, options);
   return _updateDeserialize(result);
 }
@@ -231,7 +229,7 @@ export async function update(
 export function _createSend(
   context: Client,
   resourceGroupName: string,
-  privateLink: PrivateLinksAPIPrivateLinkResource,
+  privateLink: PrivateLinkResource,
   options: PrivateLinksCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -250,13 +248,13 @@ export function _createSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: privateLinksAPIPrivateLinkResourceSerializer(privateLink),
+    body: privateLinkResourceSerializer(privateLink),
   });
 }
 
 export async function _createDeserialize(
   result: PathUncheckedResponse,
-): Promise<PrivateLinksAPIPrivateLinkResource> {
+): Promise<PrivateLinkResource> {
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -265,29 +263,23 @@ export async function _createDeserialize(
     throw error;
   }
 
-  return privateLinksAPIPrivateLinkResourceDeserializer(result.body);
+  return privateLinkResourceDeserializer(result.body);
 }
 
 /** Create a private link resource. This operation creates the necessary infrastructure to enable private endpoint connections to Microsoft Defender for Cloud services. For updates to existing resources, use the PATCH operation. The operation is asynchronous and may take several minutes to complete. */
 export function create(
   context: Client,
   resourceGroupName: string,
-  privateLink: PrivateLinksAPIPrivateLinkResource,
+  privateLink: PrivateLinkResource,
   options: PrivateLinksCreateOptionalParams = { requestOptions: {} },
-): PollerLike<
-  OperationState<PrivateLinksAPIPrivateLinkResource>,
-  PrivateLinksAPIPrivateLinkResource
-> {
+): PollerLike<OperationState<PrivateLinkResource>, PrivateLinkResource> {
   return getLongRunningPoller(context, _createDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _createSend(context, resourceGroupName, privateLink, options),
     resourceLocationConfig: "azure-async-operation",
     apiVersion: "2026-01-01",
-  }) as PollerLike<
-    OperationState<PrivateLinksAPIPrivateLinkResource>,
-    PrivateLinksAPIPrivateLinkResource
-  >;
+  }) as PollerLike<OperationState<PrivateLinkResource>, PrivateLinkResource>;
 }
 
 export function _headSend(
@@ -355,9 +347,7 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<PrivateLinksAPIPrivateLinkResource> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<PrivateLinkResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -366,7 +356,7 @@ export async function _getDeserialize(
     throw error;
   }
 
-  return privateLinksAPIPrivateLinkResourceDeserializer(result.body);
+  return privateLinkResourceDeserializer(result.body);
 }
 
 /** Get a private link resource. Returns the configuration and status of private endpoint connectivity for Microsoft Defender for Cloud services in the specified region. */
@@ -374,7 +364,7 @@ export async function get(
   context: Client,
   resourceGroupName: string,
   options: PrivateLinksGetOptionalParams = { requestOptions: {} },
-): Promise<PrivateLinksAPIPrivateLinkResource> {
+): Promise<PrivateLinkResource> {
   const result = await _getSend(context, resourceGroupName, options);
   return _getDeserialize(result);
 }

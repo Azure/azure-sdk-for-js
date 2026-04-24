@@ -2,14 +2,11 @@
 // Licensed under the MIT License.
 
 import type { SecurityCenterContext as Client } from "../index.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
-import type {
-  SecuritySolutionsAPITopologyResource,
-  _SecuritySolutionsAPITopologyList,
-} from "../../models/securitySolutionsAPI/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
+import type { TopologyResource, _TopologyList } from "../../models/securitySolutionsAPI/models.js";
 import {
-  securitySolutionsAPITopologyResourceDeserializer,
-  _securitySolutionsAPITopologyListDeserializer,
+  topologyResourceDeserializer,
+  _topologyListDeserializer,
 } from "../../models/securitySolutionsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -42,25 +39,23 @@ export function _listSend(
   });
 }
 
-export async function _listDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_SecuritySolutionsAPITopologyList> {
+export async function _listDeserialize(result: PathUncheckedResponse): Promise<_TopologyList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _securitySolutionsAPITopologyListDeserializer(result.body);
+  return _topologyListDeserializer(result.body);
 }
 
 /** Gets a list that allows to build a topology view of a subscription. */
 export function list(
   context: Client,
   options: TopologyListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<SecuritySolutionsAPITopologyResource> {
+): PagedAsyncIterableIterator<TopologyResource> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, options),
@@ -94,16 +89,16 @@ export function _listByHomeRegionSend(
 
 export async function _listByHomeRegionDeserialize(
   result: PathUncheckedResponse,
-): Promise<_SecuritySolutionsAPITopologyList> {
+): Promise<_TopologyList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _securitySolutionsAPITopologyListDeserializer(result.body);
+  return _topologyListDeserializer(result.body);
 }
 
 /** Gets a list that allows to build a topology view of a subscription and location. */
@@ -111,7 +106,7 @@ export function listByHomeRegion(
   context: Client,
   ascLocation: string,
   options: TopologyListByHomeRegionOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<SecuritySolutionsAPITopologyResource> {
+): PagedAsyncIterableIterator<TopologyResource> {
   return buildPagedAsyncIterator(
     context,
     () => _listByHomeRegionSend(context, ascLocation, options),
@@ -147,18 +142,16 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<SecuritySolutionsAPITopologyResource> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<TopologyResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return securitySolutionsAPITopologyResourceDeserializer(result.body);
+  return topologyResourceDeserializer(result.body);
 }
 
 /** Gets a specific topology component. */
@@ -168,7 +161,7 @@ export async function get(
   ascLocation: string,
   topologyResourceName: string,
   options: TopologyGetOptionalParams = { requestOptions: {} },
-): Promise<SecuritySolutionsAPITopologyResource> {
+): Promise<TopologyResource> {
   const result = await _getSend(
     context,
     resourceGroupName,

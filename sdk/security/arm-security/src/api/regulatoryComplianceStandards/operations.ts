@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 import type { SecurityCenterContext as Client } from "../index.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
 import type {
-  RegulatoryComplianceAPIRegulatoryComplianceStandard,
-  _RegulatoryComplianceAPIRegulatoryComplianceStandardList,
+  RegulatoryComplianceStandard,
+  _RegulatoryComplianceStandardList,
 } from "../../models/regulatoryComplianceAPI/models.js";
 import {
-  regulatoryComplianceAPIRegulatoryComplianceStandardDeserializer,
-  _regulatoryComplianceAPIRegulatoryComplianceStandardListDeserializer,
+  regulatoryComplianceStandardDeserializer,
+  _regulatoryComplianceStandardListDeserializer,
 } from "../../models/regulatoryComplianceAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -44,23 +44,23 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_RegulatoryComplianceAPIRegulatoryComplianceStandardList> {
+): Promise<_RegulatoryComplianceStandardList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _regulatoryComplianceAPIRegulatoryComplianceStandardListDeserializer(result.body);
+  return _regulatoryComplianceStandardListDeserializer(result.body);
 }
 
 /** Supported regulatory compliance standards details and state */
 export function list(
   context: Client,
   options: RegulatoryComplianceStandardsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<RegulatoryComplianceAPIRegulatoryComplianceStandard> {
+): PagedAsyncIterableIterator<RegulatoryComplianceStandard> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, options),
@@ -94,16 +94,16 @@ export function _getSend(
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<RegulatoryComplianceAPIRegulatoryComplianceStandard> {
+): Promise<RegulatoryComplianceStandard> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return regulatoryComplianceAPIRegulatoryComplianceStandardDeserializer(result.body);
+  return regulatoryComplianceStandardDeserializer(result.body);
 }
 
 /** Supported regulatory compliance details state for selected standard */
@@ -111,7 +111,7 @@ export async function get(
   context: Client,
   regulatoryComplianceStandardName: string,
   options: RegulatoryComplianceStandardsGetOptionalParams = { requestOptions: {} },
-): Promise<RegulatoryComplianceAPIRegulatoryComplianceStandard> {
+): Promise<RegulatoryComplianceStandard> {
   const result = await _getSend(context, regulatoryComplianceStandardName, options);
   return _getDeserialize(result);
 }

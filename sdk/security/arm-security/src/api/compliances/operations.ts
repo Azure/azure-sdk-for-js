@@ -2,14 +2,11 @@
 // Licensed under the MIT License.
 
 import type { SecurityCenterContext as Client } from "../index.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
-import type {
-  LegacySettingsAPICompliance,
-  _LegacySettingsAPIComplianceList,
-} from "../../models/legacySettingsAPI/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
+import type { Compliance, _ComplianceList } from "../../models/legacySettingsAPI/models.js";
 import {
-  legacySettingsAPIComplianceDeserializer,
-  _legacySettingsAPIComplianceListDeserializer,
+  complianceDeserializer,
+  _complianceListDeserializer,
 } from "../../models/legacySettingsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -39,18 +36,16 @@ export function _listSend(
   });
 }
 
-export async function _listDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_LegacySettingsAPIComplianceList> {
+export async function _listDeserialize(result: PathUncheckedResponse): Promise<_ComplianceList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _legacySettingsAPIComplianceListDeserializer(result.body);
+  return _complianceListDeserializer(result.body);
 }
 
 /** The Compliance scores of the specific management group. */
@@ -58,7 +53,7 @@ export function list(
   context: Client,
   scope: string,
   options: CompliancesListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<LegacySettingsAPICompliance> {
+): PagedAsyncIterableIterator<Compliance> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, scope, options),
@@ -91,18 +86,16 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<LegacySettingsAPICompliance> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<Compliance> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return legacySettingsAPIComplianceDeserializer(result.body);
+  return complianceDeserializer(result.body);
 }
 
 /** Details of a specific Compliance. */
@@ -111,7 +104,7 @@ export async function get(
   scope: string,
   complianceName: string,
   options: CompliancesGetOptionalParams = { requestOptions: {} },
-): Promise<LegacySettingsAPICompliance> {
+): Promise<Compliance> {
   const result = await _getSend(context, scope, complianceName, options);
   return _getDeserialize(result);
 }

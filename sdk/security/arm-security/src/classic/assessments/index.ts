@@ -10,8 +10,8 @@ import type {
   AssessmentsGetOptionalParams,
 } from "../../api/assessments/options.js";
 import type {
-  AssessmentAPISecurityAssessmentResponse,
-  AssessmentAPISecurityAssessment,
+  SecurityAssessmentResponse,
+  SecurityAssessment,
 } from "../../models/assessmentAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
@@ -21,7 +21,7 @@ export interface AssessmentsOperations {
   list: (
     scope: string,
     options?: AssessmentsListOptionalParams,
-  ) => PagedAsyncIterableIterator<AssessmentAPISecurityAssessmentResponse>;
+  ) => PagedAsyncIterableIterator<SecurityAssessmentResponse>;
   /** Delete a security assessment on your resource. An assessment metadata that describes this assessment must be predefined with the same name before inserting the assessment result */
   delete: (
     resourceId: string,
@@ -32,15 +32,15 @@ export interface AssessmentsOperations {
   createOrUpdate: (
     resourceId: string,
     assessmentName: string,
-    assessment: AssessmentAPISecurityAssessment,
+    assessment: SecurityAssessment,
     options?: AssessmentsCreateOrUpdateOptionalParams,
-  ) => Promise<AssessmentAPISecurityAssessmentResponse>;
+  ) => Promise<SecurityAssessmentResponse>;
   /** Get a security assessment on your scanned resource */
   get: (
     resourceId: string,
     assessmentName: string,
     options?: AssessmentsGetOptionalParams,
-  ) => Promise<AssessmentAPISecurityAssessmentResponse>;
+  ) => Promise<SecurityAssessmentResponse>;
 }
 
 function _getAssessments(context: SecurityCenterContext) {
@@ -54,7 +54,7 @@ function _getAssessments(context: SecurityCenterContext) {
     createOrUpdate: (
       resourceId: string,
       assessmentName: string,
-      assessment: AssessmentAPISecurityAssessment,
+      assessment: SecurityAssessment,
       options?: AssessmentsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceId, assessmentName, assessment, options),
     get: (resourceId: string, assessmentName: string, options?: AssessmentsGetOptionalParams) =>

@@ -21,9 +21,9 @@ import type {
   AutomationsGetOptionalParams,
 } from "../../api/automations/options.js";
 import type {
-  AutomationsAPIAutomation,
-  AutomationsAPIAutomationUpdateModel,
-  AutomationsAPIAutomationValidationStatus,
+  Automation,
+  AutomationUpdateModel,
+  AutomationValidationStatus,
 } from "../../models/automationsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
@@ -33,18 +33,16 @@ export interface AutomationsOperations {
   validate: (
     resourceGroupName: string,
     automationName: string,
-    automation: AutomationsAPIAutomation,
+    automation: Automation,
     options?: AutomationsValidateOptionalParams,
-  ) => Promise<AutomationsAPIAutomationValidationStatus>;
+  ) => Promise<AutomationValidationStatus>;
   /** Lists all the security automations in the specified subscription. Use the 'nextLink' property in the response to get the next page of security automations for the specified subscription. */
-  list: (
-    options?: AutomationsListOptionalParams,
-  ) => PagedAsyncIterableIterator<AutomationsAPIAutomation>;
+  list: (options?: AutomationsListOptionalParams) => PagedAsyncIterableIterator<Automation>;
   /** Lists all the security automations in the specified resource group. Use the 'nextLink' property in the response to get the next page of security automations for the specified resource group. */
   listByResourceGroup: (
     resourceGroupName: string,
     options?: AutomationsListByResourceGroupOptionalParams,
-  ) => PagedAsyncIterableIterator<AutomationsAPIAutomation>;
+  ) => PagedAsyncIterableIterator<Automation>;
   /** Deletes a security automation. */
   delete: (
     resourceGroupName: string,
@@ -55,22 +53,22 @@ export interface AutomationsOperations {
   update: (
     resourceGroupName: string,
     automationName: string,
-    automation: AutomationsAPIAutomationUpdateModel,
+    automation: AutomationUpdateModel,
     options?: AutomationsUpdateOptionalParams,
-  ) => Promise<AutomationsAPIAutomation>;
+  ) => Promise<Automation>;
   /** Creates or updates a security automation. If a security automation is already created and a subsequent request is issued for the same automation id, then it will be updated. */
   createOrUpdate: (
     resourceGroupName: string,
     automationName: string,
-    automation: AutomationsAPIAutomation,
+    automation: Automation,
     options?: AutomationsCreateOrUpdateOptionalParams,
-  ) => Promise<AutomationsAPIAutomation>;
+  ) => Promise<Automation>;
   /** Retrieves information about the model of a security automation. */
   get: (
     resourceGroupName: string,
     automationName: string,
     options?: AutomationsGetOptionalParams,
-  ) => Promise<AutomationsAPIAutomation>;
+  ) => Promise<Automation>;
 }
 
 function _getAutomations(context: SecurityCenterContext) {
@@ -78,7 +76,7 @@ function _getAutomations(context: SecurityCenterContext) {
     validate: (
       resourceGroupName: string,
       automationName: string,
-      automation: AutomationsAPIAutomation,
+      automation: Automation,
       options?: AutomationsValidateOptionalParams,
     ) => validate(context, resourceGroupName, automationName, automation, options),
     list: (options?: AutomationsListOptionalParams) => list(context, options),
@@ -94,13 +92,13 @@ function _getAutomations(context: SecurityCenterContext) {
     update: (
       resourceGroupName: string,
       automationName: string,
-      automation: AutomationsAPIAutomationUpdateModel,
+      automation: AutomationUpdateModel,
       options?: AutomationsUpdateOptionalParams,
     ) => update(context, resourceGroupName, automationName, automation, options),
     createOrUpdate: (
       resourceGroupName: string,
       automationName: string,
-      automation: AutomationsAPIAutomation,
+      automation: Automation,
       options?: AutomationsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, automationName, automation, options),
     get: (

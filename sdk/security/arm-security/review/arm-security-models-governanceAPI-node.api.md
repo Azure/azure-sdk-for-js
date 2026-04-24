@@ -5,70 +5,70 @@
 ```ts
 
 // @public
-export interface GovernanceAPIExecuteGovernanceRuleParams {
+export interface ExecuteGovernanceRuleParams {
     override?: boolean;
 }
 
 // @public
-export interface GovernanceAPIGovernanceAssignment extends ExtensionResource {
-    additionalData?: GovernanceAPIGovernanceAssignmentAdditionalData;
-    governanceEmailNotification?: GovernanceAPIGovernanceEmailNotification;
+export interface GovernanceAssignment extends ExtensionResource {
+    additionalData?: GovernanceAssignmentAdditionalData;
+    governanceEmailNotification?: GovernanceEmailNotification;
     isGracePeriod?: boolean;
     owner?: string;
     remediationDueDate?: Date;
-    remediationEta?: GovernanceAPIRemediationEta;
+    remediationEta?: RemediationEta;
 }
 
 // @public
-export interface GovernanceAPIGovernanceAssignmentAdditionalData {
+export interface GovernanceAssignmentAdditionalData {
     ticketLink?: string;
     ticketNumber?: number;
     ticketStatus?: string;
 }
 
 // @public
-export interface GovernanceAPIGovernanceAssignmentProperties {
-    additionalData?: GovernanceAPIGovernanceAssignmentAdditionalData;
-    governanceEmailNotification?: GovernanceAPIGovernanceEmailNotification;
+export interface GovernanceAssignmentProperties {
+    additionalData?: GovernanceAssignmentAdditionalData;
+    governanceEmailNotification?: GovernanceEmailNotification;
     isGracePeriod?: boolean;
     owner?: string;
     remediationDueDate: Date;
-    remediationEta?: GovernanceAPIRemediationEta;
+    remediationEta?: RemediationEta;
 }
 
 // @public
-export interface GovernanceAPIGovernanceEmailNotification {
+export interface GovernanceEmailNotification {
     disableManagerEmailNotification?: boolean;
     disableOwnerEmailNotification?: boolean;
 }
 
 // @public
-export interface GovernanceAPIGovernanceRule extends ExtensionResource {
+export interface GovernanceRule extends ExtensionResource {
     conditionSets?: any[];
     description?: string;
     displayName?: string;
     excludedScopes?: string[];
-    governanceEmailNotification?: GovernanceAPIGovernanceRuleEmailNotification;
+    governanceEmailNotification?: GovernanceRuleEmailNotification;
     includeMemberScopes?: boolean;
     isDisabled?: boolean;
     isGracePeriod?: boolean;
-    metadata?: GovernanceAPIGovernanceRuleMetadata;
-    ownerSource?: GovernanceAPIGovernanceRuleOwnerSource;
+    metadata?: GovernanceRuleMetadata;
+    ownerSource?: GovernanceRuleOwnerSource;
     remediationTimeframe?: string;
     rulePriority?: number;
-    ruleType?: GovernanceAPIGovernanceRuleType;
-    sourceResourceType?: GovernanceAPIGovernanceRuleSourceResourceType;
+    ruleType?: GovernanceRuleType;
+    sourceResourceType?: GovernanceRuleSourceResourceType;
     readonly tenantId?: string;
 }
 
 // @public
-export interface GovernanceAPIGovernanceRuleEmailNotification {
+export interface GovernanceRuleEmailNotification {
     disableManagerEmailNotification?: boolean;
     disableOwnerEmailNotification?: boolean;
 }
 
 // @public
-export interface GovernanceAPIGovernanceRuleMetadata {
+export interface GovernanceRuleMetadata {
     readonly createdBy?: string;
     readonly createdOn?: Date;
     readonly updatedBy?: string;
@@ -76,75 +76,75 @@ export interface GovernanceAPIGovernanceRuleMetadata {
 }
 
 // @public
-export interface GovernanceAPIGovernanceRuleOwnerSource {
-    type?: GovernanceAPIGovernanceRuleOwnerSourceType;
+export interface GovernanceRuleOwnerSource {
+    type?: GovernanceRuleOwnerSourceType;
     value?: string;
 }
 
 // @public
-export type GovernanceAPIGovernanceRuleOwnerSourceType = string;
+export type GovernanceRuleOwnerSourceType = string;
 
 // @public
-export interface GovernanceAPIGovernanceRuleProperties {
+export interface GovernanceRuleProperties {
     conditionSets: any[];
     description?: string;
     displayName: string;
     excludedScopes?: string[];
-    governanceEmailNotification?: GovernanceAPIGovernanceRuleEmailNotification;
+    governanceEmailNotification?: GovernanceRuleEmailNotification;
     includeMemberScopes?: boolean;
     isDisabled?: boolean;
     isGracePeriod?: boolean;
-    metadata?: GovernanceAPIGovernanceRuleMetadata;
-    ownerSource: GovernanceAPIGovernanceRuleOwnerSource;
+    metadata?: GovernanceRuleMetadata;
+    ownerSource: GovernanceRuleOwnerSource;
     remediationTimeframe?: string;
     rulePriority: number;
-    ruleType: GovernanceAPIGovernanceRuleType;
-    sourceResourceType: GovernanceAPIGovernanceRuleSourceResourceType;
+    ruleType: GovernanceRuleType;
+    sourceResourceType: GovernanceRuleSourceResourceType;
     readonly tenantId?: string;
 }
 
 // @public
-export type GovernanceAPIGovernanceRuleSourceResourceType = string;
+export type GovernanceRuleSourceResourceType = string;
 
 // @public
-export type GovernanceAPIGovernanceRuleType = string;
+export type GovernanceRuleType = string;
 
 // @public
-export interface GovernanceAPIOperationResult {
-    readonly status?: GovernanceAPIOperationResultStatus;
-}
-
-// @public
-export type GovernanceAPIOperationResultStatus = string;
-
-// @public
-export interface GovernanceAPIRemediationEta {
-    eta: Date;
-    justification: string;
-}
-
-// @public
-export enum KnownGovernanceAPIGovernanceRuleOwnerSourceType {
+export enum KnownGovernanceRuleOwnerSourceType {
     ByTag = "ByTag",
     Manually = "Manually"
 }
 
 // @public
-export enum KnownGovernanceAPIGovernanceRuleSourceResourceType {
+export enum KnownGovernanceRuleSourceResourceType {
     Assessments = "Assessments"
 }
 
 // @public
-export enum KnownGovernanceAPIGovernanceRuleType {
+export enum KnownGovernanceRuleType {
     Integrated = "Integrated",
     ServiceNow = "ServiceNow"
 }
 
 // @public
-export enum KnownGovernanceAPIOperationResultStatus {
+export enum KnownOperationResultStatus {
     Canceled = "Canceled",
     Failed = "Failed",
     Succeeded = "Succeeded"
+}
+
+// @public
+export interface OperationResult {
+    readonly status?: OperationResultStatus;
+}
+
+// @public
+export type OperationResultStatus = string;
+
+// @public
+export interface RemediationEta {
+    eta: Date;
+    justification: string;
 }
 
 // (No @packageDocumentation comment for this package)

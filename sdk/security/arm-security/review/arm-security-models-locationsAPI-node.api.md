@@ -5,7 +5,7 @@
 ```ts
 
 // @public
-export interface LocationsAPIAscLocation extends ProxyResource {
+export interface AscLocation extends ProxyResource {
     properties?: any;
 }
 

@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 import type { SecurityCenterContext as Client } from "../index.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
 import type {
-  GovernanceAPIGovernanceAssignment,
-  _GovernanceAPIGovernanceAssignmentsList,
+  GovernanceAssignment,
+  _GovernanceAssignmentsList,
 } from "../../models/governanceAPI/models.js";
 import {
-  governanceAPIGovernanceAssignmentSerializer,
-  governanceAPIGovernanceAssignmentDeserializer,
-  _governanceAPIGovernanceAssignmentsListDeserializer,
+  governanceAssignmentSerializer,
+  governanceAssignmentDeserializer,
+  _governanceAssignmentsListDeserializer,
 } from "../../models/governanceAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -49,16 +49,16 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_GovernanceAPIGovernanceAssignmentsList> {
+): Promise<_GovernanceAssignmentsList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _governanceAPIGovernanceAssignmentsListDeserializer(result.body);
+  return _governanceAssignmentsListDeserializer(result.body);
 }
 
 /** Get governance assignments on all of your resources inside a scope */
@@ -67,7 +67,7 @@ export function list(
   scope: string,
   assessmentName: string,
   options: GovernanceAssignmentsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<GovernanceAPIGovernanceAssignment> {
+): PagedAsyncIterableIterator<GovernanceAssignment> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, scope, assessmentName, options),
@@ -103,7 +103,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
@@ -128,7 +128,7 @@ export function _createOrUpdateSend(
   scope: string,
   assessmentName: string,
   assignmentKey: string,
-  governanceAssignment: GovernanceAPIGovernanceAssignment,
+  governanceAssignment: GovernanceAssignment,
   options: GovernanceAssignmentsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -147,22 +147,22 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: governanceAPIGovernanceAssignmentSerializer(governanceAssignment),
+    body: governanceAssignmentSerializer(governanceAssignment),
   });
 }
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
-): Promise<GovernanceAPIGovernanceAssignment> {
+): Promise<GovernanceAssignment> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return governanceAPIGovernanceAssignmentDeserializer(result.body);
+  return governanceAssignmentDeserializer(result.body);
 }
 
 /** Creates or updates a governance assignment on the given subscription. */
@@ -171,9 +171,9 @@ export async function createOrUpdate(
   scope: string,
   assessmentName: string,
   assignmentKey: string,
-  governanceAssignment: GovernanceAPIGovernanceAssignment,
+  governanceAssignment: GovernanceAssignment,
   options: GovernanceAssignmentsCreateOrUpdateOptionalParams = { requestOptions: {} },
-): Promise<GovernanceAPIGovernanceAssignment> {
+): Promise<GovernanceAssignment> {
   const result = await _createOrUpdateSend(
     context,
     scope,
@@ -212,16 +212,16 @@ export function _getSend(
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<GovernanceAPIGovernanceAssignment> {
+): Promise<GovernanceAssignment> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return governanceAPIGovernanceAssignmentDeserializer(result.body);
+  return governanceAssignmentDeserializer(result.body);
 }
 
 /** Get a specific governanceAssignment for the requested scope by AssignmentKey */
@@ -231,7 +231,7 @@ export async function get(
   assessmentName: string,
   assignmentKey: string,
   options: GovernanceAssignmentsGetOptionalParams = { requestOptions: {} },
-): Promise<GovernanceAPIGovernanceAssignment> {
+): Promise<GovernanceAssignment> {
   const result = await _getSend(context, scope, assessmentName, assignmentKey, options);
   return _getDeserialize(result);
 }

@@ -12,20 +12,20 @@ import { systemDataDeserializer } from "../models.js";
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Security task that we recommend to do in order to strengthen security */
-export interface TasksAPISecurityTask extends ProxyResource {
+export interface SecurityTask extends ProxyResource {
   /** State of the task (Active, Resolved etc.) */
   readonly state?: string;
   /** The time this task was discovered in UTC */
   readonly creationTimeUtc?: Date;
   /** Changing set of properties, depending on the task type that is derived from the name field */
-  securityTaskParameters?: TasksAPISecurityTaskParameters;
+  securityTaskParameters?: SecurityTaskParameters;
   /** The time this task's details were last changed in UTC */
   readonly lastStateChangeTimeUtc?: Date;
   /** Additional data on the state of the task */
   readonly subState?: string;
 }
 
-export function tasksAPISecurityTaskDeserializer(item: any): TasksAPISecurityTask {
+export function securityTaskDeserializer(item: any): SecurityTask {
   return {
     id: item["id"],
     name: item["name"],
@@ -40,22 +40,20 @@ export function tasksAPISecurityTaskDeserializer(item: any): TasksAPISecurityTas
 }
 
 /** Describes properties of a task. */
-export interface TasksAPISecurityTaskProperties {
+export interface SecurityTaskProperties {
   /** State of the task (Active, Resolved etc.) */
   readonly state?: string;
   /** The time this task was discovered in UTC */
   readonly creationTimeUtc?: Date;
   /** Changing set of properties, depending on the task type that is derived from the name field */
-  securityTaskParameters?: TasksAPISecurityTaskParameters;
+  securityTaskParameters?: SecurityTaskParameters;
   /** The time this task's details were last changed in UTC */
   readonly lastStateChangeTimeUtc?: Date;
   /** Additional data on the state of the task */
   readonly subState?: string;
 }
 
-export function tasksAPISecurityTaskPropertiesDeserializer(
-  item: any,
-): TasksAPISecurityTaskProperties {
+export function securityTaskPropertiesDeserializer(item: any): SecurityTaskProperties {
   return {
     state: item["state"],
     creationTimeUtc: !item["creationTimeUtc"]
@@ -63,7 +61,7 @@ export function tasksAPISecurityTaskPropertiesDeserializer(
       : new Date(item["creationTimeUtc"]),
     securityTaskParameters: !item["securityTaskParameters"]
       ? item["securityTaskParameters"]
-      : tasksAPISecurityTaskParametersDeserializer(item["securityTaskParameters"]),
+      : securityTaskParametersDeserializer(item["securityTaskParameters"]),
     lastStateChangeTimeUtc: !item["lastStateChangeTimeUtc"]
       ? item["lastStateChangeTimeUtc"]
       : new Date(item["lastStateChangeTimeUtc"]),
@@ -72,16 +70,14 @@ export function tasksAPISecurityTaskPropertiesDeserializer(
 }
 
 /** Changing set of properties, depending on the task type that is derived from the name field */
-export interface TasksAPISecurityTaskParameters {
+export interface SecurityTaskParameters {
   /** Name of the task type */
   readonly name?: string;
   /** Additional properties */
   additionalProperties?: Record<string, any>;
 }
 
-export function tasksAPISecurityTaskParametersDeserializer(
-  item: any,
-): TasksAPISecurityTaskParameters {
+export function securityTaskParametersDeserializer(item: any): SecurityTaskParameters {
   return {
     additionalProperties: serializeRecord(item, ["name"]),
     name: item["name"],
@@ -89,28 +85,28 @@ export function tasksAPISecurityTaskParametersDeserializer(
 }
 
 /** List of security task recommendations */
-export interface _TasksAPISecurityTaskList {
+export interface _SecurityTaskList {
   /** The SecurityTask items on this page */
-  readonly value?: TasksAPISecurityTask[];
+  readonly value?: SecurityTask[];
   /** The URI to fetch the next page. */
   readonly nextLink?: string;
 }
 
-export function _tasksAPISecurityTaskListDeserializer(item: any): _TasksAPISecurityTaskList {
+export function _securityTaskListDeserializer(item: any): _SecurityTaskList {
   return {
-    value: !item["value"] ? item["value"] : tasksAPISecurityTaskArrayDeserializer(item["value"]),
+    value: !item["value"] ? item["value"] : securityTaskArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function tasksAPISecurityTaskArrayDeserializer(result: Array<TasksAPISecurityTask>): any[] {
+export function securityTaskArrayDeserializer(result: Array<SecurityTask>): any[] {
   return result.map((item) => {
-    return tasksAPISecurityTaskDeserializer(item);
+    return securityTaskDeserializer(item);
   });
 }
 
 /** Known values of {@link TaskUpdateActionType} that the service accepts. */
-export enum KnownTasksAPITaskUpdateActionType {
+export enum KnownTaskUpdateActionType {
   /** Activate */
   Activate = "Activate",
   /** Dismiss */
@@ -123,8 +119,8 @@ export enum KnownTasksAPITaskUpdateActionType {
   Close = "Close",
 }
 
-/** Type of TasksAPITaskUpdateActionType */
-export type TasksAPITaskUpdateActionType = string;
+/** Type of TaskUpdateActionType */
+export type TaskUpdateActionType = string;
 
 export function _securityTaskPropertiesDeserializer(item: any) {
   return {
@@ -134,7 +130,7 @@ export function _securityTaskPropertiesDeserializer(item: any) {
       : new Date(item["creationTimeUtc"]),
     securityTaskParameters: !item["securityTaskParameters"]
       ? item["securityTaskParameters"]
-      : tasksAPISecurityTaskParametersDeserializer(item["securityTaskParameters"]),
+      : securityTaskParametersDeserializer(item["securityTaskParameters"]),
     lastStateChangeTimeUtc: !item["lastStateChangeTimeUtc"]
       ? item["lastStateChangeTimeUtc"]
       : new Date(item["lastStateChangeTimeUtc"]),

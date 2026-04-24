@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import type { SecurityCenterContext as Client } from "../index.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
 import type {
-  SecureScoreAPISecureScoreControlDefinitionItem,
-  _SecureScoreAPIsecureScoreControlDefinitionList,
+  SecureScoreControlDefinitionItem,
+  _SecureScoreControlDefinitionList,
 } from "../../models/secureScoreAPI/models.js";
-import { _secureScoreAPIsecureScoreControlDefinitionListDeserializer } from "../../models/secureScoreAPI/models.js";
+import { _secureScoreControlDefinitionListDeserializer } from "../../models/secureScoreAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -40,23 +40,23 @@ export function _listBySubscriptionSend(
 
 export async function _listBySubscriptionDeserialize(
   result: PathUncheckedResponse,
-): Promise<_SecureScoreAPIsecureScoreControlDefinitionList> {
+): Promise<_SecureScoreControlDefinitionList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _secureScoreAPIsecureScoreControlDefinitionListDeserializer(result.body);
+  return _secureScoreControlDefinitionListDeserializer(result.body);
 }
 
 /** For a specified subscription, list the available security controls, their assessments, and the max score */
 export function listBySubscription(
   context: Client,
   options: SecureScoreControlDefinitionsListBySubscriptionOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<SecureScoreAPISecureScoreControlDefinitionItem> {
+): PagedAsyncIterableIterator<SecureScoreControlDefinitionItem> {
   return buildPagedAsyncIterator(
     context,
     () => _listBySubscriptionSend(context, options),
@@ -87,23 +87,23 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_SecureScoreAPIsecureScoreControlDefinitionList> {
+): Promise<_SecureScoreControlDefinitionList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _secureScoreAPIsecureScoreControlDefinitionListDeserializer(result.body);
+  return _secureScoreControlDefinitionListDeserializer(result.body);
 }
 
 /** List the available security controls, their assessments, and the max score */
 export function list(
   context: Client,
   options: SecureScoreControlDefinitionsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<SecureScoreAPISecureScoreControlDefinitionItem> {
+): PagedAsyncIterableIterator<SecureScoreControlDefinitionItem> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, options),

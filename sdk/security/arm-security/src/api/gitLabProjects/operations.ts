@@ -4,12 +4,12 @@
 import type { SecurityCenterContext as Client } from "../index.js";
 import { errorResponseDeserializer } from "../../models/models.js";
 import type {
-  SecurityConnectorsDevOpsAPIGitLabProject,
-  _SecurityConnectorsDevOpsAPIGitLabProjectListResponse,
+  GitLabProject,
+  _GitLabProjectListResponse,
 } from "../../models/securityConnectorsDevOpsAPI/models.js";
 import {
-  securityConnectorsDevOpsAPIGitLabProjectDeserializer,
-  _securityConnectorsDevOpsAPIGitLabProjectListResponseDeserializer,
+  gitLabProjectDeserializer,
+  _gitLabProjectListResponseDeserializer,
 } from "../../models/securityConnectorsDevOpsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -49,7 +49,7 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_SecurityConnectorsDevOpsAPIGitLabProjectListResponse> {
+): Promise<_GitLabProjectListResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -58,7 +58,7 @@ export async function _listDeserialize(
     throw error;
   }
 
-  return _securityConnectorsDevOpsAPIGitLabProjectListResponseDeserializer(result.body);
+  return _gitLabProjectListResponseDeserializer(result.body);
 }
 
 /** Gets a list of GitLab projects that are directly owned by given group and onboarded to the connector. */
@@ -68,7 +68,7 @@ export function list(
   securityConnectorName: string,
   groupFQName: string,
   options: GitLabProjectsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<SecurityConnectorsDevOpsAPIGitLabProject> {
+): PagedAsyncIterableIterator<GitLabProject> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, resourceGroupName, securityConnectorName, groupFQName, options),
@@ -106,9 +106,7 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<SecurityConnectorsDevOpsAPIGitLabProject> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<GitLabProject> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -117,7 +115,7 @@ export async function _getDeserialize(
     throw error;
   }
 
-  return securityConnectorsDevOpsAPIGitLabProjectDeserializer(result.body);
+  return gitLabProjectDeserializer(result.body);
 }
 
 /** Returns a monitored GitLab Project resource for a given fully-qualified group name and project name. */
@@ -128,7 +126,7 @@ export async function get(
   groupFQName: string,
   projectName: string,
   options: GitLabProjectsGetOptionalParams = { requestOptions: {} },
-): Promise<SecurityConnectorsDevOpsAPIGitLabProject> {
+): Promise<GitLabProject> {
   const result = await _getSend(
     context,
     resourceGroupName,

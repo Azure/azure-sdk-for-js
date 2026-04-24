@@ -7,7 +7,7 @@ import type {
   IotSecuritySolutionsAnalyticsRecommendationListOptionalParams,
   IotSecuritySolutionsAnalyticsRecommendationGetOptionalParams,
 } from "../../api/iotSecuritySolutionsAnalyticsRecommendation/options.js";
-import type { IoTSecurityAPIIoTSecurityAggregatedRecommendation } from "../../models/ioTSecurityAPI/models.js";
+import type { IoTSecurityAggregatedRecommendation } from "../../models/ioTSecurityAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a IotSecuritySolutionsAnalyticsRecommendation operations. */
@@ -17,14 +17,14 @@ export interface IotSecuritySolutionsAnalyticsRecommendationOperations {
     resourceGroupName: string,
     solutionName: string,
     options?: IotSecuritySolutionsAnalyticsRecommendationListOptionalParams,
-  ) => PagedAsyncIterableIterator<IoTSecurityAPIIoTSecurityAggregatedRecommendation>;
+  ) => PagedAsyncIterableIterator<IoTSecurityAggregatedRecommendation>;
   /** Use this method to get the aggregated security analytics recommendation of yours IoT Security solution. This aggregation is performed by recommendation name. */
   get: (
     resourceGroupName: string,
     solutionName: string,
     aggregatedRecommendationName: string,
     options?: IotSecuritySolutionsAnalyticsRecommendationGetOptionalParams,
-  ) => Promise<IoTSecurityAPIIoTSecurityAggregatedRecommendation>;
+  ) => Promise<IoTSecurityAggregatedRecommendation>;
 }
 
 function _getIotSecuritySolutionsAnalyticsRecommendation(context: SecurityCenterContext) {

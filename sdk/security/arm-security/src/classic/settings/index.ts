@@ -8,38 +8,33 @@ import type {
   SettingsUpdateOptionalParams,
   SettingsGetOptionalParams,
 } from "../../api/settings/options.js";
-import type { CommonSettingName } from "../../models/common/models.js";
-import type { SettingsAPISettingUnion } from "../../models/settingsAPI/models.js";
+import type { SettingName } from "../../models/common/models.js";
+import type { SettingUnion } from "../../models/settingsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Settings operations. */
 export interface SettingsOperations {
   /** Settings about different configurations in Microsoft Defender for Cloud */
-  list: (
-    options?: SettingsListOptionalParams,
-  ) => PagedAsyncIterableIterator<SettingsAPISettingUnion>;
+  list: (options?: SettingsListOptionalParams) => PagedAsyncIterableIterator<SettingUnion>;
   /** updating settings about different configurations in Microsoft Defender for Cloud */
   update: (
-    settingName: CommonSettingName,
-    setting: SettingsAPISettingUnion,
+    settingName: SettingName,
+    setting: SettingUnion,
     options?: SettingsUpdateOptionalParams,
-  ) => Promise<SettingsAPISettingUnion>;
+  ) => Promise<SettingUnion>;
   /** Settings of different configurations in Microsoft Defender for Cloud */
-  get: (
-    settingName: CommonSettingName,
-    options?: SettingsGetOptionalParams,
-  ) => Promise<SettingsAPISettingUnion>;
+  get: (settingName: SettingName, options?: SettingsGetOptionalParams) => Promise<SettingUnion>;
 }
 
 function _getSettings(context: SecurityCenterContext) {
   return {
     list: (options?: SettingsListOptionalParams) => list(context, options),
     update: (
-      settingName: CommonSettingName,
-      setting: SettingsAPISettingUnion,
+      settingName: SettingName,
+      setting: SettingUnion,
       options?: SettingsUpdateOptionalParams,
     ) => update(context, settingName, setting, options),
-    get: (settingName: CommonSettingName, options?: SettingsGetOptionalParams) =>
+    get: (settingName: SettingName, options?: SettingsGetOptionalParams) =>
       get(context, settingName, options),
   };
 }

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { serializeRecord } from "../../static-helpers/serialization/serialize-record.js";
-import type { CommonProvisioningState } from "../common/models.js";
+import type { ProvisioningState } from "../common/models.js";
 import type { ProxyResource, SystemData } from "../models.js";
 import { systemDataDeserializer } from "../models.js";
 
@@ -13,11 +13,11 @@ import { systemDataDeserializer } from "../models.js";
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
-export interface SecuritySolutionsAPIDiscoveredSecuritySolution extends ProxyResource {
+export interface DiscoveredSecuritySolution extends ProxyResource {
   /** Location where the resource is stored */
   readonly location: string;
   /** The security family of the discovered solution */
-  securityFamily: SecuritySolutionsAPISecurityFamily;
+  securityFamily: SecurityFamily;
   /** The security solutions' image offer */
   offer: string;
   /** The security solutions' image publisher */
@@ -26,9 +26,7 @@ export interface SecuritySolutionsAPIDiscoveredSecuritySolution extends ProxyRes
   sku: string;
 }
 
-export function securitySolutionsAPIDiscoveredSecuritySolutionDeserializer(
-  item: any,
-): SecuritySolutionsAPIDiscoveredSecuritySolution {
+export function discoveredSecuritySolutionDeserializer(item: any): DiscoveredSecuritySolution {
   return {
     id: item["id"],
     name: item["name"],
@@ -41,10 +39,10 @@ export function securitySolutionsAPIDiscoveredSecuritySolutionDeserializer(
   };
 }
 
-/** model interface SecuritySolutionsAPIDiscoveredSecuritySolutionProperties */
-export interface SecuritySolutionsAPIDiscoveredSecuritySolutionProperties {
+/** model interface DiscoveredSecuritySolutionProperties */
+export interface DiscoveredSecuritySolutionProperties {
   /** The security family of the discovered solution */
-  securityFamily: SecuritySolutionsAPISecurityFamily;
+  securityFamily: SecurityFamily;
   /** The security solutions' image offer */
   offer: string;
   /** The security solutions' image publisher */
@@ -53,9 +51,9 @@ export interface SecuritySolutionsAPIDiscoveredSecuritySolutionProperties {
   sku: string;
 }
 
-export function securitySolutionsAPIDiscoveredSecuritySolutionPropertiesDeserializer(
+export function discoveredSecuritySolutionPropertiesDeserializer(
   item: any,
-): SecuritySolutionsAPIDiscoveredSecuritySolutionProperties {
+): DiscoveredSecuritySolutionProperties {
   return {
     securityFamily: item["securityFamily"],
     offer: item["offer"],
@@ -65,7 +63,7 @@ export function securitySolutionsAPIDiscoveredSecuritySolutionPropertiesDeserial
 }
 
 /** The security family of the discovered solution */
-export enum KnownSecuritySolutionsAPISecurityFamily {
+export enum KnownSecurityFamily {
   /** Waf */
   Waf = "Waf",
   /** Ngfw */
@@ -78,7 +76,7 @@ export enum KnownSecuritySolutionsAPISecurityFamily {
 
 /**
  * The security family of the discovered solution \
- * {@link KnownSecuritySolutionsAPISecurityFamily} can be used interchangeably with SecuritySolutionsAPISecurityFamily,
+ * {@link KnownSecurityFamily} can be used interchangeably with SecurityFamily,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Waf**: Waf \
@@ -86,48 +84,46 @@ export enum KnownSecuritySolutionsAPISecurityFamily {
  * **SaasWaf**: SaasWaf \
  * **Va**: Va
  */
-export type SecuritySolutionsAPISecurityFamily = string;
+export type SecurityFamily = string;
 
-/** model interface _SecuritySolutionsAPIDiscoveredSecuritySolutionList */
-export interface _SecuritySolutionsAPIDiscoveredSecuritySolutionList {
-  value?: SecuritySolutionsAPIDiscoveredSecuritySolution[];
+/** model interface _DiscoveredSecuritySolutionList */
+export interface _DiscoveredSecuritySolutionList {
+  value?: DiscoveredSecuritySolution[];
   /** The URI to fetch the next page. */
   readonly nextLink?: string;
 }
 
-export function _securitySolutionsAPIDiscoveredSecuritySolutionListDeserializer(
+export function _discoveredSecuritySolutionListDeserializer(
   item: any,
-): _SecuritySolutionsAPIDiscoveredSecuritySolutionList {
+): _DiscoveredSecuritySolutionList {
   return {
     value: !item["value"]
       ? item["value"]
-      : securitySolutionsAPIDiscoveredSecuritySolutionArrayDeserializer(item["value"]),
+      : discoveredSecuritySolutionArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function securitySolutionsAPIDiscoveredSecuritySolutionArrayDeserializer(
-  result: Array<SecuritySolutionsAPIDiscoveredSecuritySolution>,
+export function discoveredSecuritySolutionArrayDeserializer(
+  result: Array<DiscoveredSecuritySolution>,
 ): any[] {
   return result.map((item) => {
-    return securitySolutionsAPIDiscoveredSecuritySolutionDeserializer(item);
+    return discoveredSecuritySolutionDeserializer(item);
   });
 }
 
 /** Represents a security solution external to Microsoft Defender for Cloud which sends information to an OMS workspace and whose data is displayed by Microsoft Defender for Cloud. */
-export interface SecuritySolutionsAPIExternalSecuritySolution extends ProxyResource {
+export interface ExternalSecuritySolution extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: Record<string, any>;
   /** The kind of the external solution */
   /** The discriminator possible values: CEF, ATA, AAD */
-  kind?: SecuritySolutionsAPIExternalSecuritySolutionKind;
+  kind?: ExternalSecuritySolutionKind;
   /** Location where the resource is stored */
   readonly location: string;
 }
 
-export function securitySolutionsAPIExternalSecuritySolutionDeserializer(
-  item: any,
-): SecuritySolutionsAPIExternalSecuritySolution {
+export function externalSecuritySolutionDeserializer(item: any): ExternalSecuritySolution {
   return {
     id: item["id"],
     name: item["name"],
@@ -137,54 +133,48 @@ export function securitySolutionsAPIExternalSecuritySolutionDeserializer(
       : systemDataDeserializer(item["systemData"]),
     properties: !item["properties"]
       ? item["properties"]
-      : _securitySolutionsAPIExternalSecuritySolutionProperties1Deserializer(item["properties"]),
+      : _externalSecuritySolutionProperties1Deserializer(item["properties"]),
     kind: item["kind"],
     location: item["location"],
   };
 }
 
-/** Alias for SecuritySolutionsAPIExternalSecuritySolutionUnion */
-export type SecuritySolutionsAPIExternalSecuritySolutionUnion =
-  | SecuritySolutionsAPICefExternalSecuritySolution
-  | SecuritySolutionsAPIAtaExternalSecuritySolution
-  | SecuritySolutionsAPIAadExternalSecuritySolution
-  | SecuritySolutionsAPIExternalSecuritySolution;
+/** Alias for ExternalSecuritySolutionUnion */
+export type ExternalSecuritySolutionUnion =
+  | CefExternalSecuritySolution
+  | AtaExternalSecuritySolution
+  | AadExternalSecuritySolution
+  | ExternalSecuritySolution;
 
-export function securitySolutionsAPIExternalSecuritySolutionUnionDeserializer(
+export function externalSecuritySolutionUnionDeserializer(
   item: any,
-): SecuritySolutionsAPIExternalSecuritySolutionUnion {
+): ExternalSecuritySolutionUnion {
   switch (item["kind"]) {
     case "CEF":
-      return securitySolutionsAPICefExternalSecuritySolutionDeserializer(
-        item as SecuritySolutionsAPICefExternalSecuritySolution,
-      );
+      return cefExternalSecuritySolutionDeserializer(item as CefExternalSecuritySolution);
 
     case "ATA":
-      return securitySolutionsAPIAtaExternalSecuritySolutionDeserializer(
-        item as SecuritySolutionsAPIAtaExternalSecuritySolution,
-      );
+      return ataExternalSecuritySolutionDeserializer(item as AtaExternalSecuritySolution);
 
     case "AAD":
-      return securitySolutionsAPIAadExternalSecuritySolutionDeserializer(
-        item as SecuritySolutionsAPIAadExternalSecuritySolution,
-      );
+      return aadExternalSecuritySolutionDeserializer(item as AadExternalSecuritySolution);
 
     default:
-      return securitySolutionsAPIExternalSecuritySolutionDeserializer(item);
+      return externalSecuritySolutionDeserializer(item);
   }
 }
 
-/** model interface _SecuritySolutionsAPIExternalSecuritySolutionProperties1 */
-export interface _SecuritySolutionsAPIExternalSecuritySolutionProperties1 {}
+/** model interface _ExternalSecuritySolutionProperties1 */
+export interface _ExternalSecuritySolutionProperties1 {}
 
-export function _securitySolutionsAPIExternalSecuritySolutionProperties1Deserializer(
+export function _externalSecuritySolutionProperties1Deserializer(
   item: any,
-): _SecuritySolutionsAPIExternalSecuritySolutionProperties1 {
+): _ExternalSecuritySolutionProperties1 {
   return item;
 }
 
 /** The kind of the external solution */
-export enum KnownSecuritySolutionsAPIExternalSecuritySolutionKind {
+export enum KnownExternalSecuritySolutionKind {
   /** CEF */
   CEF = "CEF",
   /** ATA */
@@ -195,29 +185,27 @@ export enum KnownSecuritySolutionsAPIExternalSecuritySolutionKind {
 
 /**
  * The kind of the external solution \
- * {@link KnownSecuritySolutionsAPIExternalSecuritySolutionKind} can be used interchangeably with SecuritySolutionsAPIExternalSecuritySolutionKind,
+ * {@link KnownExternalSecuritySolutionKind} can be used interchangeably with ExternalSecuritySolutionKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **CEF**: CEF \
  * **ATA**: ATA \
  * **AAD**: AAD
  */
-export type SecuritySolutionsAPIExternalSecuritySolutionKind = string;
+export type ExternalSecuritySolutionKind = string;
 
 /** Represents a security solution which sends CEF logs to an OMS workspace */
-export interface SecuritySolutionsAPICefExternalSecuritySolution extends SecuritySolutionsAPIExternalSecuritySolution {
+export interface CefExternalSecuritySolution extends ExternalSecuritySolution {
   /** The external security solution properties for CEF solutions */
-  properties?: SecuritySolutionsAPICefSolutionProperties;
+  properties?: CefSolutionProperties;
   kind: "CEF";
 }
 
-export function securitySolutionsAPICefExternalSecuritySolutionDeserializer(
-  item: any,
-): SecuritySolutionsAPICefExternalSecuritySolution {
+export function cefExternalSecuritySolutionDeserializer(item: any): CefExternalSecuritySolution {
   return {
     properties: !item["properties"]
       ? item["properties"]
-      : securitySolutionsAPICefSolutionPropertiesDeserializer(item["properties"]),
+      : cefSolutionPropertiesDeserializer(item["properties"]),
     kind: item["kind"],
     location: item["location"],
     id: item["id"],
@@ -230,15 +218,13 @@ export function securitySolutionsAPICefExternalSecuritySolutionDeserializer(
 }
 
 /** The external security solution properties for CEF solutions */
-export interface SecuritySolutionsAPICefSolutionProperties extends SecuritySolutionsAPIExternalSecuritySolutionProperties {
+export interface CefSolutionProperties extends ExternalSecuritySolutionProperties {
   hostname?: string;
   agent?: string;
   lastEventReceived?: string;
 }
 
-export function securitySolutionsAPICefSolutionPropertiesDeserializer(
-  item: any,
-): SecuritySolutionsAPICefSolutionProperties {
+export function cefSolutionPropertiesDeserializer(item: any): CefSolutionProperties {
   return {
     additionalProperties: serializeRecord(item, [
       "deviceVendor",
@@ -252,7 +238,7 @@ export function securitySolutionsAPICefSolutionPropertiesDeserializer(
     deviceType: item["deviceType"],
     workspace: !item["workspace"]
       ? item["workspace"]
-      : securitySolutionsAPIConnectedWorkspaceDeserializer(item["workspace"]),
+      : connectedWorkspaceDeserializer(item["workspace"]),
     hostname: item["hostname"],
     agent: item["agent"],
     lastEventReceived: item["lastEventReceived"],
@@ -260,19 +246,17 @@ export function securitySolutionsAPICefSolutionPropertiesDeserializer(
 }
 
 /** Represents an ATA security solution which sends logs to an OMS workspace */
-export interface SecuritySolutionsAPIAtaExternalSecuritySolution extends SecuritySolutionsAPIExternalSecuritySolution {
+export interface AtaExternalSecuritySolution extends ExternalSecuritySolution {
   /** The external security solution properties for ATA solutions */
-  properties?: SecuritySolutionsAPIAtaSolutionProperties;
+  properties?: AtaSolutionProperties;
   kind: "ATA";
 }
 
-export function securitySolutionsAPIAtaExternalSecuritySolutionDeserializer(
-  item: any,
-): SecuritySolutionsAPIAtaExternalSecuritySolution {
+export function ataExternalSecuritySolutionDeserializer(item: any): AtaExternalSecuritySolution {
   return {
     properties: !item["properties"]
       ? item["properties"]
-      : securitySolutionsAPIAtaSolutionPropertiesDeserializer(item["properties"]),
+      : ataSolutionPropertiesDeserializer(item["properties"]),
     kind: item["kind"],
     location: item["location"],
     id: item["id"],
@@ -285,13 +269,11 @@ export function securitySolutionsAPIAtaExternalSecuritySolutionDeserializer(
 }
 
 /** The external security solution properties for ATA solutions */
-export interface SecuritySolutionsAPIAtaSolutionProperties extends SecuritySolutionsAPIExternalSecuritySolutionProperties {
+export interface AtaSolutionProperties extends ExternalSecuritySolutionProperties {
   lastEventReceived?: string;
 }
 
-export function securitySolutionsAPIAtaSolutionPropertiesDeserializer(
-  item: any,
-): SecuritySolutionsAPIAtaSolutionProperties {
+export function ataSolutionPropertiesDeserializer(item: any): AtaSolutionProperties {
   return {
     additionalProperties: serializeRecord(item, [
       "deviceVendor",
@@ -303,25 +285,23 @@ export function securitySolutionsAPIAtaSolutionPropertiesDeserializer(
     deviceType: item["deviceType"],
     workspace: !item["workspace"]
       ? item["workspace"]
-      : securitySolutionsAPIConnectedWorkspaceDeserializer(item["workspace"]),
+      : connectedWorkspaceDeserializer(item["workspace"]),
     lastEventReceived: item["lastEventReceived"],
   };
 }
 
 /** Represents an AAD identity protection solution which sends logs to an OMS workspace. */
-export interface SecuritySolutionsAPIAadExternalSecuritySolution extends SecuritySolutionsAPIExternalSecuritySolution {
+export interface AadExternalSecuritySolution extends ExternalSecuritySolution {
   /** The external security solution properties for AAD solutions */
-  properties?: SecuritySolutionsAPIAadSolutionProperties;
+  properties?: AadSolutionProperties;
   kind: "AAD";
 }
 
-export function securitySolutionsAPIAadExternalSecuritySolutionDeserializer(
-  item: any,
-): SecuritySolutionsAPIAadExternalSecuritySolution {
+export function aadExternalSecuritySolutionDeserializer(item: any): AadExternalSecuritySolution {
   return {
     properties: !item["properties"]
       ? item["properties"]
-      : securitySolutionsAPIAadSolutionPropertiesDeserializer(item["properties"]),
+      : aadSolutionPropertiesDeserializer(item["properties"]),
     kind: item["kind"],
     location: item["location"],
     id: item["id"],
@@ -334,20 +314,18 @@ export function securitySolutionsAPIAadExternalSecuritySolutionDeserializer(
 }
 
 /** The external security solution properties for AAD solutions */
-export interface SecuritySolutionsAPIAadSolutionProperties {
+export interface AadSolutionProperties {
   deviceVendor?: string;
   deviceType?: string;
   /** Represents an OMS workspace to which the solution is connected */
-  workspace?: SecuritySolutionsAPIConnectedWorkspace;
+  workspace?: ConnectedWorkspace;
   /** The connectivity state of the external AAD solution */
-  connectivityState?: SecuritySolutionsAPIAadConnectivityState;
+  connectivityState?: AadConnectivityState;
   /** Additional properties */
   additionalProperties?: Record<string, any>;
 }
 
-export function securitySolutionsAPIAadSolutionPropertiesDeserializer(
-  item: any,
-): SecuritySolutionsAPIAadSolutionProperties {
+export function aadSolutionPropertiesDeserializer(item: any): AadSolutionProperties {
   return {
     additionalProperties: serializeRecord(item, [
       "deviceVendor",
@@ -359,27 +337,25 @@ export function securitySolutionsAPIAadSolutionPropertiesDeserializer(
     deviceType: item["deviceType"],
     workspace: !item["workspace"]
       ? item["workspace"]
-      : securitySolutionsAPIConnectedWorkspaceDeserializer(item["workspace"]),
+      : connectedWorkspaceDeserializer(item["workspace"]),
     connectivityState: item["connectivityState"],
   };
 }
 
 /** Represents an OMS workspace to which the solution is connected */
-export interface SecuritySolutionsAPIConnectedWorkspace {
+export interface ConnectedWorkspace {
   /** Azure resource ID of the connected OMS workspace */
   id?: string;
 }
 
-export function securitySolutionsAPIConnectedWorkspaceDeserializer(
-  item: any,
-): SecuritySolutionsAPIConnectedWorkspace {
+export function connectedWorkspaceDeserializer(item: any): ConnectedWorkspace {
   return {
     id: item["id"],
   };
 }
 
 /** The connectivity state of the external AAD solution */
-export enum KnownSecuritySolutionsAPIAadConnectivityState {
+export enum KnownAadConnectivityState {
   /** Discovered */
   Discovered = "Discovered",
   /** NotLicensed */
@@ -390,85 +366,81 @@ export enum KnownSecuritySolutionsAPIAadConnectivityState {
 
 /**
  * The connectivity state of the external AAD solution \
- * {@link KnownSecuritySolutionsAPIAadConnectivityState} can be used interchangeably with SecuritySolutionsAPIAadConnectivityState,
+ * {@link KnownAadConnectivityState} can be used interchangeably with AadConnectivityState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Discovered**: Discovered \
  * **NotLicensed**: NotLicensed \
  * **Connected**: Connected
  */
-export type SecuritySolutionsAPIAadConnectivityState = string;
+export type AadConnectivityState = string;
 
 /** The solution properties (correspond to the solution kind) */
-export interface SecuritySolutionsAPIExternalSecuritySolutionProperties {
+export interface ExternalSecuritySolutionProperties {
   deviceVendor?: string;
   deviceType?: string;
   /** Represents an OMS workspace to which the solution is connected */
-  workspace?: SecuritySolutionsAPIConnectedWorkspace;
+  workspace?: ConnectedWorkspace;
   /** Additional properties */
   additionalProperties?: Record<string, any>;
 }
 
-export function securitySolutionsAPIExternalSecuritySolutionPropertiesDeserializer(
+export function externalSecuritySolutionPropertiesDeserializer(
   item: any,
-): SecuritySolutionsAPIExternalSecuritySolutionProperties {
+): ExternalSecuritySolutionProperties {
   return {
     additionalProperties: serializeRecord(item, ["deviceVendor", "deviceType", "workspace"]),
     deviceVendor: item["deviceVendor"],
     deviceType: item["deviceType"],
     workspace: !item["workspace"]
       ? item["workspace"]
-      : securitySolutionsAPIConnectedWorkspaceDeserializer(item["workspace"]),
+      : connectedWorkspaceDeserializer(item["workspace"]),
   };
 }
 
-/** model interface _SecuritySolutionsAPIExternalSecuritySolutionList */
-export interface _SecuritySolutionsAPIExternalSecuritySolutionList {
-  value?: SecuritySolutionsAPIExternalSecuritySolutionUnion[];
+/** model interface _ExternalSecuritySolutionList */
+export interface _ExternalSecuritySolutionList {
+  value?: ExternalSecuritySolutionUnion[];
   readonly nextLink?: string;
 }
 
-export function _securitySolutionsAPIExternalSecuritySolutionListDeserializer(
+export function _externalSecuritySolutionListDeserializer(
   item: any,
-): _SecuritySolutionsAPIExternalSecuritySolutionList {
+): _ExternalSecuritySolutionList {
   return {
     value: !item["value"]
       ? item["value"]
-      : securitySolutionsAPIExternalSecuritySolutionUnionArrayDeserializer(item["value"]),
+      : externalSecuritySolutionUnionArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function securitySolutionsAPIExternalSecuritySolutionUnionArrayDeserializer(
-  result: Array<SecuritySolutionsAPIExternalSecuritySolutionUnion>,
+export function externalSecuritySolutionUnionArrayDeserializer(
+  result: Array<ExternalSecuritySolutionUnion>,
 ): any[] {
   return result.map((item) => {
-    return securitySolutionsAPIExternalSecuritySolutionUnionDeserializer(item);
+    return externalSecuritySolutionUnionDeserializer(item);
   });
 }
 
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
-export interface SecuritySolutionsAPIJitNetworkAccessPolicy extends ProxyResource {
+export interface JitNetworkAccessPolicy extends ProxyResource {
   /** Kind of the resource */
   kind?: string;
   /** Location where the resource is stored */
   readonly location: string;
   /** Configurations for Microsoft.Compute/virtualMachines resource type. */
-  virtualMachines: SecuritySolutionsAPIJitNetworkAccessPolicyVirtualMachine[];
-  requests?: SecuritySolutionsAPIJitNetworkAccessRequest[];
+  virtualMachines: JitNetworkAccessPolicyVirtualMachine[];
+  requests?: JitNetworkAccessRequest[];
   /** Gets the provisioning state of the Just-in-Time policy. */
   readonly provisioningState?: string;
 }
 
-export function securitySolutionsAPIJitNetworkAccessPolicySerializer(
-  item: SecuritySolutionsAPIJitNetworkAccessPolicy,
-): any {
+export function jitNetworkAccessPolicySerializer(item: JitNetworkAccessPolicy): any {
   return { properties: _jitNetworkAccessPolicyPropertiesSerializer(item), kind: item["kind"] };
 }
 
-export function securitySolutionsAPIJitNetworkAccessPolicyDeserializer(
-  item: any,
-): SecuritySolutionsAPIJitNetworkAccessPolicy {
+export function jitNetworkAccessPolicyDeserializer(item: any): JitNetworkAccessPolicy {
   return {
     id: item["id"],
     name: item["name"],
@@ -482,108 +454,104 @@ export function securitySolutionsAPIJitNetworkAccessPolicyDeserializer(
   };
 }
 
-/** model interface SecuritySolutionsAPIJitNetworkAccessPolicyProperties */
-export interface SecuritySolutionsAPIJitNetworkAccessPolicyProperties {
+/** model interface JitNetworkAccessPolicyProperties */
+export interface JitNetworkAccessPolicyProperties {
   /** Configurations for Microsoft.Compute/virtualMachines resource type. */
-  virtualMachines: SecuritySolutionsAPIJitNetworkAccessPolicyVirtualMachine[];
-  requests?: SecuritySolutionsAPIJitNetworkAccessRequest[];
+  virtualMachines: JitNetworkAccessPolicyVirtualMachine[];
+  requests?: JitNetworkAccessRequest[];
   /** Gets the provisioning state of the Just-in-Time policy. */
   readonly provisioningState?: string;
 }
 
-export function securitySolutionsAPIJitNetworkAccessPolicyPropertiesSerializer(
-  item: SecuritySolutionsAPIJitNetworkAccessPolicyProperties,
+export function jitNetworkAccessPolicyPropertiesSerializer(
+  item: JitNetworkAccessPolicyProperties,
 ): any {
   return {
-    virtualMachines: securitySolutionsAPIJitNetworkAccessPolicyVirtualMachineArraySerializer(
-      item["virtualMachines"],
-    ),
+    virtualMachines: jitNetworkAccessPolicyVirtualMachineArraySerializer(item["virtualMachines"]),
     requests: !item["requests"]
       ? item["requests"]
-      : securitySolutionsAPIJitNetworkAccessRequestArraySerializer(item["requests"]),
+      : jitNetworkAccessRequestArraySerializer(item["requests"]),
   };
 }
 
-export function securitySolutionsAPIJitNetworkAccessPolicyPropertiesDeserializer(
+export function jitNetworkAccessPolicyPropertiesDeserializer(
   item: any,
-): SecuritySolutionsAPIJitNetworkAccessPolicyProperties {
+): JitNetworkAccessPolicyProperties {
   return {
-    virtualMachines: securitySolutionsAPIJitNetworkAccessPolicyVirtualMachineArrayDeserializer(
-      item["virtualMachines"],
-    ),
+    virtualMachines: jitNetworkAccessPolicyVirtualMachineArrayDeserializer(item["virtualMachines"]),
     requests: !item["requests"]
       ? item["requests"]
-      : securitySolutionsAPIJitNetworkAccessRequestArrayDeserializer(item["requests"]),
+      : jitNetworkAccessRequestArrayDeserializer(item["requests"]),
     provisioningState: item["provisioningState"],
   };
 }
 
-export function securitySolutionsAPIJitNetworkAccessPolicyVirtualMachineArraySerializer(
-  result: Array<SecuritySolutionsAPIJitNetworkAccessPolicyVirtualMachine>,
+export function jitNetworkAccessPolicyVirtualMachineArraySerializer(
+  result: Array<JitNetworkAccessPolicyVirtualMachine>,
 ): any[] {
   return result.map((item) => {
-    return securitySolutionsAPIJitNetworkAccessPolicyVirtualMachineSerializer(item);
+    return jitNetworkAccessPolicyVirtualMachineSerializer(item);
   });
 }
 
-export function securitySolutionsAPIJitNetworkAccessPolicyVirtualMachineArrayDeserializer(
-  result: Array<SecuritySolutionsAPIJitNetworkAccessPolicyVirtualMachine>,
+export function jitNetworkAccessPolicyVirtualMachineArrayDeserializer(
+  result: Array<JitNetworkAccessPolicyVirtualMachine>,
 ): any[] {
   return result.map((item) => {
-    return securitySolutionsAPIJitNetworkAccessPolicyVirtualMachineDeserializer(item);
+    return jitNetworkAccessPolicyVirtualMachineDeserializer(item);
   });
 }
 
-/** model interface SecuritySolutionsAPIJitNetworkAccessPolicyVirtualMachine */
-export interface SecuritySolutionsAPIJitNetworkAccessPolicyVirtualMachine {
+/** model interface JitNetworkAccessPolicyVirtualMachine */
+export interface JitNetworkAccessPolicyVirtualMachine {
   /** Resource ID of the virtual machine that is linked to this policy */
   id: string;
   /** Port configurations for the virtual machine */
-  ports: SecuritySolutionsAPIJitNetworkAccessPortRule[];
+  ports: JitNetworkAccessPortRule[];
   /** Public IP address of the Azure Firewall that is linked to this policy, if applicable */
   publicIpAddress?: string;
 }
 
-export function securitySolutionsAPIJitNetworkAccessPolicyVirtualMachineSerializer(
-  item: SecuritySolutionsAPIJitNetworkAccessPolicyVirtualMachine,
+export function jitNetworkAccessPolicyVirtualMachineSerializer(
+  item: JitNetworkAccessPolicyVirtualMachine,
 ): any {
   return {
     id: item["id"],
-    ports: securitySolutionsAPIJitNetworkAccessPortRuleArraySerializer(item["ports"]),
+    ports: jitNetworkAccessPortRuleArraySerializer(item["ports"]),
     publicIpAddress: item["publicIpAddress"],
   };
 }
 
-export function securitySolutionsAPIJitNetworkAccessPolicyVirtualMachineDeserializer(
+export function jitNetworkAccessPolicyVirtualMachineDeserializer(
   item: any,
-): SecuritySolutionsAPIJitNetworkAccessPolicyVirtualMachine {
+): JitNetworkAccessPolicyVirtualMachine {
   return {
     id: item["id"],
-    ports: securitySolutionsAPIJitNetworkAccessPortRuleArrayDeserializer(item["ports"]),
+    ports: jitNetworkAccessPortRuleArrayDeserializer(item["ports"]),
     publicIpAddress: item["publicIpAddress"],
   };
 }
 
-export function securitySolutionsAPIJitNetworkAccessPortRuleArraySerializer(
-  result: Array<SecuritySolutionsAPIJitNetworkAccessPortRule>,
+export function jitNetworkAccessPortRuleArraySerializer(
+  result: Array<JitNetworkAccessPortRule>,
 ): any[] {
   return result.map((item) => {
-    return securitySolutionsAPIJitNetworkAccessPortRuleSerializer(item);
+    return jitNetworkAccessPortRuleSerializer(item);
   });
 }
 
-export function securitySolutionsAPIJitNetworkAccessPortRuleArrayDeserializer(
-  result: Array<SecuritySolutionsAPIJitNetworkAccessPortRule>,
+export function jitNetworkAccessPortRuleArrayDeserializer(
+  result: Array<JitNetworkAccessPortRule>,
 ): any[] {
   return result.map((item) => {
-    return securitySolutionsAPIJitNetworkAccessPortRuleDeserializer(item);
+    return jitNetworkAccessPortRuleDeserializer(item);
   });
 }
 
-/** model interface SecuritySolutionsAPIJitNetworkAccessPortRule */
-export interface SecuritySolutionsAPIJitNetworkAccessPortRule {
+/** model interface JitNetworkAccessPortRule */
+export interface JitNetworkAccessPortRule {
   number: number;
-  protocol: SecuritySolutionsAPIProtocol;
+  protocol: Protocol;
   /** Mutually exclusive with the "allowedSourceAddressPrefixes" parameter. Should be an IP address or CIDR, for example "192.168.0.3" or "192.168.0.0/16". */
   allowedSourceAddressPrefix?: string;
   /** Mutually exclusive with the "allowedSourceAddressPrefix" parameter. */
@@ -592,9 +560,7 @@ export interface SecuritySolutionsAPIJitNetworkAccessPortRule {
   maxRequestAccessDuration: string;
 }
 
-export function securitySolutionsAPIJitNetworkAccessPortRuleSerializer(
-  item: SecuritySolutionsAPIJitNetworkAccessPortRule,
-): any {
+export function jitNetworkAccessPortRuleSerializer(item: JitNetworkAccessPortRule): any {
   return {
     number: item["number"],
     protocol: item["protocol"],
@@ -608,9 +574,7 @@ export function securitySolutionsAPIJitNetworkAccessPortRuleSerializer(
   };
 }
 
-export function securitySolutionsAPIJitNetworkAccessPortRuleDeserializer(
-  item: any,
-): SecuritySolutionsAPIJitNetworkAccessPortRule {
+export function jitNetworkAccessPortRuleDeserializer(item: any): JitNetworkAccessPortRule {
   return {
     number: item["number"],
     protocol: item["protocol"],
@@ -625,7 +589,7 @@ export function securitySolutionsAPIJitNetworkAccessPortRuleDeserializer(
 }
 
 /** Known values of {@link Protocol} that the service accepts. */
-export enum KnownSecuritySolutionsAPIProtocol {
+export enum KnownProtocol {
   /** TCP */
   TCP = "TCP",
   /** UDP */
@@ -634,28 +598,28 @@ export enum KnownSecuritySolutionsAPIProtocol {
   All = "*",
 }
 
-/** Type of SecuritySolutionsAPIProtocol */
-export type SecuritySolutionsAPIProtocol = string;
+/** Type of Protocol */
+export type Protocol = string;
 
-export function securitySolutionsAPIJitNetworkAccessRequestArraySerializer(
-  result: Array<SecuritySolutionsAPIJitNetworkAccessRequest>,
+export function jitNetworkAccessRequestArraySerializer(
+  result: Array<JitNetworkAccessRequest>,
 ): any[] {
   return result.map((item) => {
-    return securitySolutionsAPIJitNetworkAccessRequestSerializer(item);
+    return jitNetworkAccessRequestSerializer(item);
   });
 }
 
-export function securitySolutionsAPIJitNetworkAccessRequestArrayDeserializer(
-  result: Array<SecuritySolutionsAPIJitNetworkAccessRequest>,
+export function jitNetworkAccessRequestArrayDeserializer(
+  result: Array<JitNetworkAccessRequest>,
 ): any[] {
   return result.map((item) => {
-    return securitySolutionsAPIJitNetworkAccessRequestDeserializer(item);
+    return jitNetworkAccessRequestDeserializer(item);
   });
 }
 
-/** model interface SecuritySolutionsAPIJitNetworkAccessRequest */
-export interface SecuritySolutionsAPIJitNetworkAccessRequest {
-  virtualMachines: SecuritySolutionsAPIJitNetworkAccessRequestVirtualMachine[];
+/** model interface JitNetworkAccessRequest */
+export interface JitNetworkAccessRequest {
+  virtualMachines: JitNetworkAccessRequestVirtualMachine[];
   /** The start time of the request in UTC */
   startTimeUtc: Date;
   /** The identity of the person who made the request */
@@ -664,24 +628,18 @@ export interface SecuritySolutionsAPIJitNetworkAccessRequest {
   justification?: string;
 }
 
-export function securitySolutionsAPIJitNetworkAccessRequestSerializer(
-  item: SecuritySolutionsAPIJitNetworkAccessRequest,
-): any {
+export function jitNetworkAccessRequestSerializer(item: JitNetworkAccessRequest): any {
   return {
-    virtualMachines: securitySolutionsAPIJitNetworkAccessRequestVirtualMachineArraySerializer(
-      item["virtualMachines"],
-    ),
+    virtualMachines: jitNetworkAccessRequestVirtualMachineArraySerializer(item["virtualMachines"]),
     startTimeUtc: item["startTimeUtc"].toISOString(),
     requestor: item["requestor"],
     justification: item["justification"],
   };
 }
 
-export function securitySolutionsAPIJitNetworkAccessRequestDeserializer(
-  item: any,
-): SecuritySolutionsAPIJitNetworkAccessRequest {
+export function jitNetworkAccessRequestDeserializer(item: any): JitNetworkAccessRequest {
   return {
-    virtualMachines: securitySolutionsAPIJitNetworkAccessRequestVirtualMachineArrayDeserializer(
+    virtualMachines: jitNetworkAccessRequestVirtualMachineArrayDeserializer(
       item["virtualMachines"],
     ),
     startTimeUtc: new Date(item["startTimeUtc"]),
@@ -690,66 +648,63 @@ export function securitySolutionsAPIJitNetworkAccessRequestDeserializer(
   };
 }
 
-export function securitySolutionsAPIJitNetworkAccessRequestVirtualMachineArraySerializer(
-  result: Array<SecuritySolutionsAPIJitNetworkAccessRequestVirtualMachine>,
+export function jitNetworkAccessRequestVirtualMachineArraySerializer(
+  result: Array<JitNetworkAccessRequestVirtualMachine>,
 ): any[] {
   return result.map((item) => {
-    return securitySolutionsAPIJitNetworkAccessRequestVirtualMachineSerializer(item);
+    return jitNetworkAccessRequestVirtualMachineSerializer(item);
   });
 }
 
-export function securitySolutionsAPIJitNetworkAccessRequestVirtualMachineArrayDeserializer(
-  result: Array<SecuritySolutionsAPIJitNetworkAccessRequestVirtualMachine>,
+export function jitNetworkAccessRequestVirtualMachineArrayDeserializer(
+  result: Array<JitNetworkAccessRequestVirtualMachine>,
 ): any[] {
   return result.map((item) => {
-    return securitySolutionsAPIJitNetworkAccessRequestVirtualMachineDeserializer(item);
+    return jitNetworkAccessRequestVirtualMachineDeserializer(item);
   });
 }
 
-/** model interface SecuritySolutionsAPIJitNetworkAccessRequestVirtualMachine */
-export interface SecuritySolutionsAPIJitNetworkAccessRequestVirtualMachine {
+/** model interface JitNetworkAccessRequestVirtualMachine */
+export interface JitNetworkAccessRequestVirtualMachine {
   /** Resource ID of the virtual machine that is linked to this policy */
   id: string;
   /** The ports that were opened for the virtual machine */
-  ports: SecuritySolutionsAPIJitNetworkAccessRequestPort[];
+  ports: JitNetworkAccessRequestPort[];
 }
 
-export function securitySolutionsAPIJitNetworkAccessRequestVirtualMachineSerializer(
-  item: SecuritySolutionsAPIJitNetworkAccessRequestVirtualMachine,
+export function jitNetworkAccessRequestVirtualMachineSerializer(
+  item: JitNetworkAccessRequestVirtualMachine,
 ): any {
-  return {
-    id: item["id"],
-    ports: securitySolutionsAPIJitNetworkAccessRequestPortArraySerializer(item["ports"]),
-  };
+  return { id: item["id"], ports: jitNetworkAccessRequestPortArraySerializer(item["ports"]) };
 }
 
-export function securitySolutionsAPIJitNetworkAccessRequestVirtualMachineDeserializer(
+export function jitNetworkAccessRequestVirtualMachineDeserializer(
   item: any,
-): SecuritySolutionsAPIJitNetworkAccessRequestVirtualMachine {
+): JitNetworkAccessRequestVirtualMachine {
   return {
     id: item["id"],
-    ports: securitySolutionsAPIJitNetworkAccessRequestPortArrayDeserializer(item["ports"]),
+    ports: jitNetworkAccessRequestPortArrayDeserializer(item["ports"]),
   };
 }
 
-export function securitySolutionsAPIJitNetworkAccessRequestPortArraySerializer(
-  result: Array<SecuritySolutionsAPIJitNetworkAccessRequestPort>,
+export function jitNetworkAccessRequestPortArraySerializer(
+  result: Array<JitNetworkAccessRequestPort>,
 ): any[] {
   return result.map((item) => {
-    return securitySolutionsAPIJitNetworkAccessRequestPortSerializer(item);
+    return jitNetworkAccessRequestPortSerializer(item);
   });
 }
 
-export function securitySolutionsAPIJitNetworkAccessRequestPortArrayDeserializer(
-  result: Array<SecuritySolutionsAPIJitNetworkAccessRequestPort>,
+export function jitNetworkAccessRequestPortArrayDeserializer(
+  result: Array<JitNetworkAccessRequestPort>,
 ): any[] {
   return result.map((item) => {
-    return securitySolutionsAPIJitNetworkAccessRequestPortDeserializer(item);
+    return jitNetworkAccessRequestPortDeserializer(item);
   });
 }
 
-/** model interface SecuritySolutionsAPIJitNetworkAccessRequestPort */
-export interface SecuritySolutionsAPIJitNetworkAccessRequestPort {
+/** model interface JitNetworkAccessRequestPort */
+export interface JitNetworkAccessRequestPort {
   number: number;
   /** Mutually exclusive with the "allowedSourceAddressPrefixes" parameter. Should be an IP address or CIDR, for example "192.168.0.3" or "192.168.0.0/16". */
   allowedSourceAddressPrefix?: string;
@@ -758,16 +713,14 @@ export interface SecuritySolutionsAPIJitNetworkAccessRequestPort {
   /** The date & time at which the request ends in UTC */
   endTimeUtc: Date;
   /** The status of the port */
-  status: SecuritySolutionsAPIStatus;
+  status: Status;
   /** A description of why the `status` has its value */
-  statusReason: SecuritySolutionsAPIStatusReason;
+  statusReason: StatusReason;
   /** The port which is mapped to this port's `number` in the Azure Firewall, if applicable */
   mappedPort?: number;
 }
 
-export function securitySolutionsAPIJitNetworkAccessRequestPortSerializer(
-  item: SecuritySolutionsAPIJitNetworkAccessRequestPort,
-): any {
+export function jitNetworkAccessRequestPortSerializer(item: JitNetworkAccessRequestPort): any {
   return {
     number: item["number"],
     allowedSourceAddressPrefix: item["allowedSourceAddressPrefix"],
@@ -783,9 +736,7 @@ export function securitySolutionsAPIJitNetworkAccessRequestPortSerializer(
   };
 }
 
-export function securitySolutionsAPIJitNetworkAccessRequestPortDeserializer(
-  item: any,
-): SecuritySolutionsAPIJitNetworkAccessRequestPort {
+export function jitNetworkAccessRequestPortDeserializer(item: any): JitNetworkAccessRequestPort {
   return {
     number: item["number"],
     allowedSourceAddressPrefix: item["allowedSourceAddressPrefix"],
@@ -802,7 +753,7 @@ export function securitySolutionsAPIJitNetworkAccessRequestPortDeserializer(
 }
 
 /** The status of the port */
-export enum KnownSecuritySolutionsAPIStatus {
+export enum KnownStatus {
   /** Revoked */
   Revoked = "Revoked",
   /** Initiated */
@@ -811,16 +762,16 @@ export enum KnownSecuritySolutionsAPIStatus {
 
 /**
  * The status of the port \
- * {@link KnownSecuritySolutionsAPIStatus} can be used interchangeably with SecuritySolutionsAPIStatus,
+ * {@link KnownStatus} can be used interchangeably with Status,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Revoked**: Revoked \
  * **Initiated**: Initiated
  */
-export type SecuritySolutionsAPIStatus = string;
+export type Status = string;
 
 /** A description of why the `status` has its value */
-export enum KnownSecuritySolutionsAPIStatusReason {
+export enum KnownStatusReason {
   /** Expired */
   Expired = "Expired",
   /** UserRequested */
@@ -831,103 +782,100 @@ export enum KnownSecuritySolutionsAPIStatusReason {
 
 /**
  * A description of why the `status` has its value \
- * {@link KnownSecuritySolutionsAPIStatusReason} can be used interchangeably with SecuritySolutionsAPIStatusReason,
+ * {@link KnownStatusReason} can be used interchangeably with StatusReason,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Expired**: Expired \
  * **UserRequested**: UserRequested \
  * **NewerRequestInitiated**: NewerRequestInitiated
  */
-export type SecuritySolutionsAPIStatusReason = string;
+export type StatusReason = string;
 
-/** model interface _SecuritySolutionsAPIJitNetworkAccessPoliciesList */
-export interface _SecuritySolutionsAPIJitNetworkAccessPoliciesList {
-  value?: SecuritySolutionsAPIJitNetworkAccessPolicy[];
+/** model interface _JitNetworkAccessPoliciesList */
+export interface _JitNetworkAccessPoliciesList {
+  value?: JitNetworkAccessPolicy[];
   readonly nextLink?: string;
 }
 
-export function _securitySolutionsAPIJitNetworkAccessPoliciesListDeserializer(
+export function _jitNetworkAccessPoliciesListDeserializer(
   item: any,
-): _SecuritySolutionsAPIJitNetworkAccessPoliciesList {
+): _JitNetworkAccessPoliciesList {
   return {
-    value: !item["value"]
-      ? item["value"]
-      : securitySolutionsAPIJitNetworkAccessPolicyArrayDeserializer(item["value"]),
+    value: !item["value"] ? item["value"] : jitNetworkAccessPolicyArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function securitySolutionsAPIJitNetworkAccessPolicyArraySerializer(
-  result: Array<SecuritySolutionsAPIJitNetworkAccessPolicy>,
+export function jitNetworkAccessPolicyArraySerializer(
+  result: Array<JitNetworkAccessPolicy>,
 ): any[] {
   return result.map((item) => {
-    return securitySolutionsAPIJitNetworkAccessPolicySerializer(item);
+    return jitNetworkAccessPolicySerializer(item);
   });
 }
 
-export function securitySolutionsAPIJitNetworkAccessPolicyArrayDeserializer(
-  result: Array<SecuritySolutionsAPIJitNetworkAccessPolicy>,
+export function jitNetworkAccessPolicyArrayDeserializer(
+  result: Array<JitNetworkAccessPolicy>,
 ): any[] {
   return result.map((item) => {
-    return securitySolutionsAPIJitNetworkAccessPolicyDeserializer(item);
+    return jitNetworkAccessPolicyDeserializer(item);
   });
 }
 
-/** model interface SecuritySolutionsAPIJitNetworkAccessPolicyInitiateRequest */
-export interface SecuritySolutionsAPIJitNetworkAccessPolicyInitiateRequest {
+/** model interface JitNetworkAccessPolicyInitiateRequest */
+export interface JitNetworkAccessPolicyInitiateRequest {
   /** A list of virtual machines & ports to open access for */
-  virtualMachines: SecuritySolutionsAPIJitNetworkAccessPolicyInitiateVirtualMachine[];
+  virtualMachines: JitNetworkAccessPolicyInitiateVirtualMachine[];
   /** The justification for making the initiate request */
   justification?: string;
 }
 
-export function securitySolutionsAPIJitNetworkAccessPolicyInitiateRequestSerializer(
-  item: SecuritySolutionsAPIJitNetworkAccessPolicyInitiateRequest,
+export function jitNetworkAccessPolicyInitiateRequestSerializer(
+  item: JitNetworkAccessPolicyInitiateRequest,
 ): any {
   return {
-    virtualMachines:
-      securitySolutionsAPIJitNetworkAccessPolicyInitiateVirtualMachineArraySerializer(
-        item["virtualMachines"],
-      ),
+    virtualMachines: jitNetworkAccessPolicyInitiateVirtualMachineArraySerializer(
+      item["virtualMachines"],
+    ),
     justification: item["justification"],
   };
 }
 
-export function securitySolutionsAPIJitNetworkAccessPolicyInitiateVirtualMachineArraySerializer(
-  result: Array<SecuritySolutionsAPIJitNetworkAccessPolicyInitiateVirtualMachine>,
+export function jitNetworkAccessPolicyInitiateVirtualMachineArraySerializer(
+  result: Array<JitNetworkAccessPolicyInitiateVirtualMachine>,
 ): any[] {
   return result.map((item) => {
-    return securitySolutionsAPIJitNetworkAccessPolicyInitiateVirtualMachineSerializer(item);
+    return jitNetworkAccessPolicyInitiateVirtualMachineSerializer(item);
   });
 }
 
-/** model interface SecuritySolutionsAPIJitNetworkAccessPolicyInitiateVirtualMachine */
-export interface SecuritySolutionsAPIJitNetworkAccessPolicyInitiateVirtualMachine {
+/** model interface JitNetworkAccessPolicyInitiateVirtualMachine */
+export interface JitNetworkAccessPolicyInitiateVirtualMachine {
   /** Resource ID of the virtual machine that is linked to this policy */
   id: string;
   /** The ports to open for the resource with the `id` */
-  ports: SecuritySolutionsAPIJitNetworkAccessPolicyInitiatePort[];
+  ports: JitNetworkAccessPolicyInitiatePort[];
 }
 
-export function securitySolutionsAPIJitNetworkAccessPolicyInitiateVirtualMachineSerializer(
-  item: SecuritySolutionsAPIJitNetworkAccessPolicyInitiateVirtualMachine,
+export function jitNetworkAccessPolicyInitiateVirtualMachineSerializer(
+  item: JitNetworkAccessPolicyInitiateVirtualMachine,
 ): any {
   return {
     id: item["id"],
-    ports: securitySolutionsAPIJitNetworkAccessPolicyInitiatePortArraySerializer(item["ports"]),
+    ports: jitNetworkAccessPolicyInitiatePortArraySerializer(item["ports"]),
   };
 }
 
-export function securitySolutionsAPIJitNetworkAccessPolicyInitiatePortArraySerializer(
-  result: Array<SecuritySolutionsAPIJitNetworkAccessPolicyInitiatePort>,
+export function jitNetworkAccessPolicyInitiatePortArraySerializer(
+  result: Array<JitNetworkAccessPolicyInitiatePort>,
 ): any[] {
   return result.map((item) => {
-    return securitySolutionsAPIJitNetworkAccessPolicyInitiatePortSerializer(item);
+    return jitNetworkAccessPolicyInitiatePortSerializer(item);
   });
 }
 
-/** model interface SecuritySolutionsAPIJitNetworkAccessPolicyInitiatePort */
-export interface SecuritySolutionsAPIJitNetworkAccessPolicyInitiatePort {
+/** model interface JitNetworkAccessPolicyInitiatePort */
+export interface JitNetworkAccessPolicyInitiatePort {
   number: number;
   /** Source of the allowed traffic. If omitted, the request will be for the source IP address of the initiate request. */
   allowedSourceAddressPrefix?: string;
@@ -935,8 +883,8 @@ export interface SecuritySolutionsAPIJitNetworkAccessPolicyInitiatePort {
   endTimeUtc: Date;
 }
 
-export function securitySolutionsAPIJitNetworkAccessPolicyInitiatePortSerializer(
-  item: SecuritySolutionsAPIJitNetworkAccessPolicyInitiatePort,
+export function jitNetworkAccessPolicyInitiatePortSerializer(
+  item: JitNetworkAccessPolicyInitiatePort,
 ): any {
   return {
     number: item["number"],
@@ -946,22 +894,20 @@ export function securitySolutionsAPIJitNetworkAccessPolicyInitiatePortSerializer
 }
 
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
-export interface SecuritySolutionsAPISecuritySolution extends ProxyResource {
+export interface SecuritySolution extends ProxyResource {
   /** Location where the resource is stored */
   readonly location: string;
   /** The security family of the security solution */
-  securityFamily?: SecuritySolutionsAPISecurityFamily;
+  securityFamily?: SecurityFamily;
   /** The security family provisioning State */
-  provisioningState?: CommonProvisioningState;
+  provisioningState?: ProvisioningState;
   /** The security solutions' template */
   template?: string;
   /** The security solutions' status */
   protectionStatus?: string;
 }
 
-export function securitySolutionsAPISecuritySolutionDeserializer(
-  item: any,
-): SecuritySolutionsAPISecuritySolution {
+export function securitySolutionDeserializer(item: any): SecuritySolution {
   return {
     id: item["id"],
     name: item["name"],
@@ -976,21 +922,19 @@ export function securitySolutionsAPISecuritySolutionDeserializer(
   };
 }
 
-/** model interface SecuritySolutionsAPISecuritySolutionProperties */
-export interface SecuritySolutionsAPISecuritySolutionProperties {
+/** model interface SecuritySolutionProperties */
+export interface SecuritySolutionProperties {
   /** The security family of the security solution */
-  securityFamily: SecuritySolutionsAPISecurityFamily;
+  securityFamily: SecurityFamily;
   /** The security family provisioning State */
-  provisioningState: CommonProvisioningState;
+  provisioningState: ProvisioningState;
   /** The security solutions' template */
   template: string;
   /** The security solutions' status */
   protectionStatus: string;
 }
 
-export function securitySolutionsAPISecuritySolutionPropertiesDeserializer(
-  item: any,
-): SecuritySolutionsAPISecuritySolutionProperties {
+export function securitySolutionPropertiesDeserializer(item: any): SecuritySolutionProperties {
   return {
     securityFamily: item["securityFamily"],
     provisioningState: item["provisioningState"],
@@ -999,44 +943,36 @@ export function securitySolutionsAPISecuritySolutionPropertiesDeserializer(
   };
 }
 
-/** model interface _SecuritySolutionsAPISecuritySolutionList */
-export interface _SecuritySolutionsAPISecuritySolutionList {
-  value?: SecuritySolutionsAPISecuritySolution[];
+/** model interface _SecuritySolutionList */
+export interface _SecuritySolutionList {
+  value?: SecuritySolution[];
   readonly nextLink?: string;
 }
 
-export function _securitySolutionsAPISecuritySolutionListDeserializer(
-  item: any,
-): _SecuritySolutionsAPISecuritySolutionList {
+export function _securitySolutionListDeserializer(item: any): _SecuritySolutionList {
   return {
-    value: !item["value"]
-      ? item["value"]
-      : securitySolutionsAPISecuritySolutionArrayDeserializer(item["value"]),
+    value: !item["value"] ? item["value"] : securitySolutionArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function securitySolutionsAPISecuritySolutionArrayDeserializer(
-  result: Array<SecuritySolutionsAPISecuritySolution>,
-): any[] {
+export function securitySolutionArrayDeserializer(result: Array<SecuritySolution>): any[] {
   return result.map((item) => {
-    return securitySolutionsAPISecuritySolutionDeserializer(item);
+    return securitySolutionDeserializer(item);
   });
 }
 
 /** The resource whose properties describes the allowed traffic between Azure resources */
-export interface SecuritySolutionsAPIAllowedConnectionsResource extends ProxyResource {
+export interface AllowedConnectionsResource extends ProxyResource {
   /** Location where the resource is stored */
   readonly location: string;
   /** The UTC time on which the allowed connections resource was calculated */
   readonly calculatedDateTime?: Date;
   /** List of connectable resources */
-  readonly connectableResources?: SecuritySolutionsAPIConnectableResource[];
+  readonly connectableResources?: ConnectableResource[];
 }
 
-export function securitySolutionsAPIAllowedConnectionsResourceDeserializer(
-  item: any,
-): SecuritySolutionsAPIAllowedConnectionsResource {
+export function allowedConnectionsResourceDeserializer(item: any): AllowedConnectionsResource {
   return {
     id: item["id"],
     name: item["name"],
@@ -1052,68 +988,62 @@ export function securitySolutionsAPIAllowedConnectionsResourceDeserializer(
 }
 
 /** Describes the allowed traffic between Azure resources */
-export interface SecuritySolutionsAPIAllowedConnectionsResourceProperties {
+export interface AllowedConnectionsResourceProperties {
   /** The UTC time on which the allowed connections resource was calculated */
   readonly calculatedDateTime?: Date;
   /** List of connectable resources */
-  readonly connectableResources?: SecuritySolutionsAPIConnectableResource[];
+  readonly connectableResources?: ConnectableResource[];
 }
 
-export function securitySolutionsAPIAllowedConnectionsResourcePropertiesDeserializer(
+export function allowedConnectionsResourcePropertiesDeserializer(
   item: any,
-): SecuritySolutionsAPIAllowedConnectionsResourceProperties {
+): AllowedConnectionsResourceProperties {
   return {
     calculatedDateTime: !item["calculatedDateTime"]
       ? item["calculatedDateTime"]
       : new Date(item["calculatedDateTime"]),
     connectableResources: !item["connectableResources"]
       ? item["connectableResources"]
-      : securitySolutionsAPIConnectableResourceArrayDeserializer(item["connectableResources"]),
+      : connectableResourceArrayDeserializer(item["connectableResources"]),
   };
 }
 
-export function securitySolutionsAPIConnectableResourceArrayDeserializer(
-  result: Array<SecuritySolutionsAPIConnectableResource>,
-): any[] {
+export function connectableResourceArrayDeserializer(result: Array<ConnectableResource>): any[] {
   return result.map((item) => {
-    return securitySolutionsAPIConnectableResourceDeserializer(item);
+    return connectableResourceDeserializer(item);
   });
 }
 
 /** Describes the allowed inbound and outbound traffic of an Azure resource */
-export interface SecuritySolutionsAPIConnectableResource {
+export interface ConnectableResource {
   /** The Azure resource id */
   readonly id?: string;
   /** The list of Azure resources that the resource has inbound allowed connection from */
-  readonly inboundConnectedResources?: SecuritySolutionsAPIConnectedResource[];
+  readonly inboundConnectedResources?: ConnectedResource[];
   /** The list of Azure resources that the resource has outbound allowed connection to */
-  readonly outboundConnectedResources?: SecuritySolutionsAPIConnectedResource[];
+  readonly outboundConnectedResources?: ConnectedResource[];
 }
 
-export function securitySolutionsAPIConnectableResourceDeserializer(
-  item: any,
-): SecuritySolutionsAPIConnectableResource {
+export function connectableResourceDeserializer(item: any): ConnectableResource {
   return {
     id: item["id"],
     inboundConnectedResources: !item["inboundConnectedResources"]
       ? item["inboundConnectedResources"]
-      : securitySolutionsAPIConnectedResourceArrayDeserializer(item["inboundConnectedResources"]),
+      : connectedResourceArrayDeserializer(item["inboundConnectedResources"]),
     outboundConnectedResources: !item["outboundConnectedResources"]
       ? item["outboundConnectedResources"]
-      : securitySolutionsAPIConnectedResourceArrayDeserializer(item["outboundConnectedResources"]),
+      : connectedResourceArrayDeserializer(item["outboundConnectedResources"]),
   };
 }
 
-export function securitySolutionsAPIConnectedResourceArrayDeserializer(
-  result: Array<SecuritySolutionsAPIConnectedResource>,
-): any[] {
+export function connectedResourceArrayDeserializer(result: Array<ConnectedResource>): any[] {
   return result.map((item) => {
-    return securitySolutionsAPIConnectedResourceDeserializer(item);
+    return connectedResourceDeserializer(item);
   });
 }
 
 /** Describes properties of a connected resource */
-export interface SecuritySolutionsAPIConnectedResource {
+export interface ConnectedResource {
   /** The Azure resource id of the connected resource */
   readonly connectedResourceId?: string;
   /** The allowed tcp ports */
@@ -1122,9 +1052,7 @@ export interface SecuritySolutionsAPIConnectedResource {
   readonly udpPorts?: string;
 }
 
-export function securitySolutionsAPIConnectedResourceDeserializer(
-  item: any,
-): SecuritySolutionsAPIConnectedResource {
+export function connectedResourceDeserializer(item: any): ConnectedResource {
   return {
     connectedResourceId: item["connectedResourceId"],
     tcpPorts: item["tcpPorts"],
@@ -1133,51 +1061,49 @@ export function securitySolutionsAPIConnectedResourceDeserializer(
 }
 
 /** Known values of {@link ConnectionType} that the service accepts. */
-export enum KnownSecuritySolutionsAPIConnectionType {
+export enum KnownConnectionType {
   /** Internal */
   Internal = "Internal",
   /** External */
   External = "External",
 }
 
-/** Type of SecuritySolutionsAPIConnectionType */
-export type SecuritySolutionsAPIConnectionType = string;
+/** Type of ConnectionType */
+export type ConnectionType = string;
 
 /** List of all possible traffic between Azure resources */
-export interface _SecuritySolutionsAPIAllowedConnectionsList {
-  readonly value?: SecuritySolutionsAPIAllowedConnectionsResource[];
+export interface _AllowedConnectionsList {
+  readonly value?: AllowedConnectionsResource[];
   /** The URI to fetch the next page. */
   readonly nextLink?: string;
 }
 
-export function _securitySolutionsAPIAllowedConnectionsListDeserializer(
-  item: any,
-): _SecuritySolutionsAPIAllowedConnectionsList {
+export function _allowedConnectionsListDeserializer(item: any): _AllowedConnectionsList {
   return {
     value: !item["value"]
       ? item["value"]
-      : securitySolutionsAPIAllowedConnectionsResourceArrayDeserializer(item["value"]),
+      : allowedConnectionsResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function securitySolutionsAPIAllowedConnectionsResourceArrayDeserializer(
-  result: Array<SecuritySolutionsAPIAllowedConnectionsResource>,
+export function allowedConnectionsResourceArrayDeserializer(
+  result: Array<AllowedConnectionsResource>,
 ): any[] {
   return result.map((item) => {
-    return securitySolutionsAPIAllowedConnectionsResourceDeserializer(item);
+    return allowedConnectionsResourceDeserializer(item);
   });
 }
 
 /** Describes the server vulnerability assessment details on a resource */
-export interface SecuritySolutionsAPIServerVulnerabilityAssessment extends ProxyResource {
+export interface ServerVulnerabilityAssessment extends ProxyResource {
   /** The provisioningState of the vulnerability assessment capability on the VM */
-  readonly provisioningState?: SecuritySolutionsAPIServerVulnerabilityAssessmentPropertiesProvisioningState;
+  readonly provisioningState?: ServerVulnerabilityAssessmentPropertiesProvisioningState;
 }
 
-export function securitySolutionsAPIServerVulnerabilityAssessmentDeserializer(
+export function serverVulnerabilityAssessmentDeserializer(
   item: any,
-): SecuritySolutionsAPIServerVulnerabilityAssessment {
+): ServerVulnerabilityAssessment {
   return {
     id: item["id"],
     name: item["name"],
@@ -1192,21 +1118,21 @@ export function securitySolutionsAPIServerVulnerabilityAssessmentDeserializer(
 }
 
 /** describes ServerVulnerabilityAssessment properties. */
-export interface SecuritySolutionsAPIServerVulnerabilityAssessmentProperties {
+export interface ServerVulnerabilityAssessmentProperties {
   /** The provisioningState of the vulnerability assessment capability on the VM */
-  readonly provisioningState?: SecuritySolutionsAPIServerVulnerabilityAssessmentPropertiesProvisioningState;
+  readonly provisioningState?: ServerVulnerabilityAssessmentPropertiesProvisioningState;
 }
 
-export function securitySolutionsAPIServerVulnerabilityAssessmentPropertiesDeserializer(
+export function serverVulnerabilityAssessmentPropertiesDeserializer(
   item: any,
-): SecuritySolutionsAPIServerVulnerabilityAssessmentProperties {
+): ServerVulnerabilityAssessmentProperties {
   return {
     provisioningState: item["provisioningState"],
   };
 }
 
 /** The provisioningState of the vulnerability assessment capability on the VM */
-export enum KnownSecuritySolutionsAPIServerVulnerabilityAssessmentPropertiesProvisioningState {
+export enum KnownServerVulnerabilityAssessmentPropertiesProvisioningState {
   /** Succeeded */
   Succeeded = "Succeeded",
   /** Failed */
@@ -1221,7 +1147,7 @@ export enum KnownSecuritySolutionsAPIServerVulnerabilityAssessmentPropertiesProv
 
 /**
  * The provisioningState of the vulnerability assessment capability on the VM \
- * {@link KnownSecuritySolutionsAPIServerVulnerabilityAssessmentPropertiesProvisioningState} can be used interchangeably with SecuritySolutionsAPIServerVulnerabilityAssessmentPropertiesProvisioningState,
+ * {@link KnownServerVulnerabilityAssessmentPropertiesProvisioningState} can be used interchangeably with ServerVulnerabilityAssessmentPropertiesProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Succeeded**: Succeeded \
@@ -1230,44 +1156,42 @@ export enum KnownSecuritySolutionsAPIServerVulnerabilityAssessmentPropertiesProv
  * **Provisioning**: Provisioning \
  * **Deprovisioning**: Deprovisioning
  */
-export type SecuritySolutionsAPIServerVulnerabilityAssessmentPropertiesProvisioningState = string;
+export type ServerVulnerabilityAssessmentPropertiesProvisioningState = string;
 
 /** List of server vulnerability assessments */
-export interface _SecuritySolutionsAPIServerVulnerabilityAssessmentsList {
-  value?: SecuritySolutionsAPIServerVulnerabilityAssessment[];
+export interface _ServerVulnerabilityAssessmentsList {
+  value?: ServerVulnerabilityAssessment[];
 }
 
-export function _securitySolutionsAPIServerVulnerabilityAssessmentsListDeserializer(
+export function _serverVulnerabilityAssessmentsListDeserializer(
   item: any,
-): _SecuritySolutionsAPIServerVulnerabilityAssessmentsList {
+): _ServerVulnerabilityAssessmentsList {
   return {
     value: !item["value"]
       ? item["value"]
-      : securitySolutionsAPIServerVulnerabilityAssessmentArrayDeserializer(item["value"]),
+      : serverVulnerabilityAssessmentArrayDeserializer(item["value"]),
   };
 }
 
-export function securitySolutionsAPIServerVulnerabilityAssessmentArrayDeserializer(
-  result: Array<SecuritySolutionsAPIServerVulnerabilityAssessment>,
+export function serverVulnerabilityAssessmentArrayDeserializer(
+  result: Array<ServerVulnerabilityAssessment>,
 ): any[] {
   return result.map((item) => {
-    return securitySolutionsAPIServerVulnerabilityAssessmentDeserializer(item);
+    return serverVulnerabilityAssessmentDeserializer(item);
   });
 }
 
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
-export interface SecuritySolutionsAPITopologyResource extends ProxyResource {
+export interface TopologyResource extends ProxyResource {
   /** Location where the resource is stored */
   readonly location: string;
   /** The UTC time on which the topology was calculated */
   readonly calculatedDateTime?: Date;
   /** Azure resources which are part of this topology resource */
-  readonly topologyResources?: SecuritySolutionsAPITopologySingleResource[];
+  readonly topologyResources?: TopologySingleResource[];
 }
 
-export function securitySolutionsAPITopologyResourceDeserializer(
-  item: any,
-): SecuritySolutionsAPITopologyResource {
+export function topologyResourceDeserializer(item: any): TopologyResource {
   return {
     id: item["id"],
     name: item["name"],
@@ -1282,37 +1206,35 @@ export function securitySolutionsAPITopologyResourceDeserializer(
   };
 }
 
-/** model interface SecuritySolutionsAPITopologyResourceProperties */
-export interface SecuritySolutionsAPITopologyResourceProperties {
+/** model interface TopologyResourceProperties */
+export interface TopologyResourceProperties {
   /** The UTC time on which the topology was calculated */
   readonly calculatedDateTime?: Date;
   /** Azure resources which are part of this topology resource */
-  readonly topologyResources?: SecuritySolutionsAPITopologySingleResource[];
+  readonly topologyResources?: TopologySingleResource[];
 }
 
-export function securitySolutionsAPITopologyResourcePropertiesDeserializer(
-  item: any,
-): SecuritySolutionsAPITopologyResourceProperties {
+export function topologyResourcePropertiesDeserializer(item: any): TopologyResourceProperties {
   return {
     calculatedDateTime: !item["calculatedDateTime"]
       ? item["calculatedDateTime"]
       : new Date(item["calculatedDateTime"]),
     topologyResources: !item["topologyResources"]
       ? item["topologyResources"]
-      : securitySolutionsAPITopologySingleResourceArrayDeserializer(item["topologyResources"]),
+      : topologySingleResourceArrayDeserializer(item["topologyResources"]),
   };
 }
 
-export function securitySolutionsAPITopologySingleResourceArrayDeserializer(
-  result: Array<SecuritySolutionsAPITopologySingleResource>,
+export function topologySingleResourceArrayDeserializer(
+  result: Array<TopologySingleResource>,
 ): any[] {
   return result.map((item) => {
-    return securitySolutionsAPITopologySingleResourceDeserializer(item);
+    return topologySingleResourceDeserializer(item);
   });
 }
 
-/** model interface SecuritySolutionsAPITopologySingleResource */
-export interface SecuritySolutionsAPITopologySingleResource {
+/** model interface TopologySingleResource */
+export interface TopologySingleResource {
   /** Azure resource id */
   readonly resourceId?: string;
   /** The security severity of the resource */
@@ -1326,14 +1248,12 @@ export interface SecuritySolutionsAPITopologySingleResource {
   /** The location of this resource */
   readonly location?: string;
   /** Azure resources connected to this resource which are in higher level in the topology view */
-  readonly parents?: SecuritySolutionsAPITopologySingleResourceParent[];
+  readonly parents?: TopologySingleResourceParent[];
   /** Azure resources connected to this resource which are in lower level in the topology view */
-  readonly children?: SecuritySolutionsAPITopologySingleResourceChild[];
+  readonly children?: TopologySingleResourceChild[];
 }
 
-export function securitySolutionsAPITopologySingleResourceDeserializer(
-  item: any,
-): SecuritySolutionsAPITopologySingleResource {
+export function topologySingleResourceDeserializer(item: any): TopologySingleResource {
   return {
     resourceId: item["resourceId"],
     severity: item["severity"],
@@ -1343,107 +1263,97 @@ export function securitySolutionsAPITopologySingleResourceDeserializer(
     location: item["location"],
     parents: !item["parents"]
       ? item["parents"]
-      : securitySolutionsAPITopologySingleResourceParentArrayDeserializer(item["parents"]),
+      : topologySingleResourceParentArrayDeserializer(item["parents"]),
     children: !item["children"]
       ? item["children"]
-      : securitySolutionsAPITopologySingleResourceChildArrayDeserializer(item["children"]),
+      : topologySingleResourceChildArrayDeserializer(item["children"]),
   };
 }
 
-export function securitySolutionsAPITopologySingleResourceParentArrayDeserializer(
-  result: Array<SecuritySolutionsAPITopologySingleResourceParent>,
+export function topologySingleResourceParentArrayDeserializer(
+  result: Array<TopologySingleResourceParent>,
 ): any[] {
   return result.map((item) => {
-    return securitySolutionsAPITopologySingleResourceParentDeserializer(item);
+    return topologySingleResourceParentDeserializer(item);
   });
 }
 
-/** model interface SecuritySolutionsAPITopologySingleResourceParent */
-export interface SecuritySolutionsAPITopologySingleResourceParent {
+/** model interface TopologySingleResourceParent */
+export interface TopologySingleResourceParent {
   /** Azure resource id which serves as parent resource in topology view */
   readonly resourceId?: string;
 }
 
-export function securitySolutionsAPITopologySingleResourceParentDeserializer(
-  item: any,
-): SecuritySolutionsAPITopologySingleResourceParent {
+export function topologySingleResourceParentDeserializer(item: any): TopologySingleResourceParent {
   return {
     resourceId: item["resourceId"],
   };
 }
 
-export function securitySolutionsAPITopologySingleResourceChildArrayDeserializer(
-  result: Array<SecuritySolutionsAPITopologySingleResourceChild>,
+export function topologySingleResourceChildArrayDeserializer(
+  result: Array<TopologySingleResourceChild>,
 ): any[] {
   return result.map((item) => {
-    return securitySolutionsAPITopologySingleResourceChildDeserializer(item);
+    return topologySingleResourceChildDeserializer(item);
   });
 }
 
-/** model interface SecuritySolutionsAPITopologySingleResourceChild */
-export interface SecuritySolutionsAPITopologySingleResourceChild {
+/** model interface TopologySingleResourceChild */
+export interface TopologySingleResourceChild {
   /** Azure resource id which serves as child resource in topology view */
   readonly resourceId?: string;
 }
 
-export function securitySolutionsAPITopologySingleResourceChildDeserializer(
-  item: any,
-): SecuritySolutionsAPITopologySingleResourceChild {
+export function topologySingleResourceChildDeserializer(item: any): TopologySingleResourceChild {
   return {
     resourceId: item["resourceId"],
   };
 }
 
-/** model interface _SecuritySolutionsAPITopologyList */
-export interface _SecuritySolutionsAPITopologyList {
-  readonly value?: SecuritySolutionsAPITopologyResource[];
+/** model interface _TopologyList */
+export interface _TopologyList {
+  readonly value?: TopologyResource[];
   readonly nextLink?: string;
 }
 
-export function _securitySolutionsAPITopologyListDeserializer(
-  item: any,
-): _SecuritySolutionsAPITopologyList {
+export function _topologyListDeserializer(item: any): _TopologyList {
   return {
-    value: !item["value"]
-      ? item["value"]
-      : securitySolutionsAPITopologyResourceArrayDeserializer(item["value"]),
+    value: !item["value"] ? item["value"] : topologyResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function securitySolutionsAPITopologyResourceArrayDeserializer(
-  result: Array<SecuritySolutionsAPITopologyResource>,
-): any[] {
+export function topologyResourceArrayDeserializer(result: Array<TopologyResource>): any[] {
   return result.map((item) => {
-    return securitySolutionsAPITopologyResourceDeserializer(item);
+    return topologyResourceDeserializer(item);
   });
 }
 
-/** model interface SecuritySolutionsAPIsecuritySolutionsReferenceDataList */
-export interface SecuritySolutionsAPIsecuritySolutionsReferenceDataList {
-  value?: SecuritySolutionsAPIsecuritySolutionsReferenceData[];
+/** model interface SecuritySolutionsReferenceDataList */
+export interface SecuritySolutionsReferenceDataList {
+  value?: SecuritySolutionsReferenceData[];
 }
 
-export function securitySolutionsAPIsecuritySolutionsReferenceDataListDeserializer(
+export function securitySolutionsReferenceDataListDeserializer(
   item: any,
-): SecuritySolutionsAPIsecuritySolutionsReferenceDataList {
+): SecuritySolutionsReferenceDataList {
   return {
     value: !item["value"]
       ? item["value"]
-      : securitySolutionsAPIsecuritySolutionsReferenceDataArrayDeserializer(item["value"]),
+      : securitySolutionsReferenceDataArrayDeserializer(item["value"]),
   };
 }
 
-export function securitySolutionsAPIsecuritySolutionsReferenceDataArrayDeserializer(
-  result: Array<SecuritySolutionsAPIsecuritySolutionsReferenceData>,
+export function securitySolutionsReferenceDataArrayDeserializer(
+  result: Array<SecuritySolutionsReferenceData>,
 ): any[] {
   return result.map((item) => {
-    return securitySolutionsAPIsecuritySolutionsReferenceDataDeserializer(item);
+    return securitySolutionsReferenceDataDeserializer(item);
   });
 }
 
-/** model interface SecuritySolutionsAPIsecuritySolutionsReferenceData */
-export interface SecuritySolutionsAPIsecuritySolutionsReferenceData {
+/** model interface SecuritySolutionsReferenceData */
+export interface SecuritySolutionsReferenceData {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
   readonly id?: string;
   /** The name of the resource */
@@ -1455,7 +1365,7 @@ export interface SecuritySolutionsAPIsecuritySolutionsReferenceData {
   /** Location where the resource is stored */
   readonly location?: string;
   /** The security family of the security solution */
-  securityFamily: SecuritySolutionsAPISecurityFamily;
+  securityFamily: SecurityFamily;
   /** The security solutions' vendor name */
   alertVendorName: string;
   /** The security solutions' package info url */
@@ -1470,9 +1380,9 @@ export interface SecuritySolutionsAPIsecuritySolutionsReferenceData {
   template: string;
 }
 
-export function securitySolutionsAPIsecuritySolutionsReferenceDataDeserializer(
+export function securitySolutionsReferenceDataDeserializer(
   item: any,
-): SecuritySolutionsAPIsecuritySolutionsReferenceData {
+): SecuritySolutionsReferenceData {
   return {
     id: item["id"],
     name: item["name"],
@@ -1485,10 +1395,10 @@ export function securitySolutionsAPIsecuritySolutionsReferenceDataDeserializer(
   };
 }
 
-/** model interface SecuritySolutionsAPIsecuritySolutionsReferenceDataProperties */
-export interface SecuritySolutionsAPIsecuritySolutionsReferenceDataProperties {
+/** model interface SecuritySolutionsReferenceDataProperties */
+export interface SecuritySolutionsReferenceDataProperties {
   /** The security family of the security solution */
-  securityFamily: SecuritySolutionsAPISecurityFamily;
+  securityFamily: SecurityFamily;
   /** The security solutions' vendor name */
   alertVendorName: string;
   /** The security solutions' package info url */
@@ -1503,9 +1413,9 @@ export interface SecuritySolutionsAPIsecuritySolutionsReferenceDataProperties {
   template: string;
 }
 
-export function securitySolutionsAPIsecuritySolutionsReferenceDataPropertiesDeserializer(
+export function securitySolutionsReferenceDataPropertiesDeserializer(
   item: any,
-): SecuritySolutionsAPIsecuritySolutionsReferenceDataProperties {
+): SecuritySolutionsReferenceDataProperties {
   return {
     securityFamily: item["securityFamily"],
     alertVendorName: item["alertVendorName"],
@@ -1526,27 +1436,21 @@ export function _discoveredSecuritySolutionPropertiesDeserializer(item: any) {
   };
 }
 
-export function _jitNetworkAccessPolicyPropertiesSerializer(
-  item: SecuritySolutionsAPIJitNetworkAccessPolicy,
-): any {
+export function _jitNetworkAccessPolicyPropertiesSerializer(item: JitNetworkAccessPolicy): any {
   return {
-    virtualMachines: securitySolutionsAPIJitNetworkAccessPolicyVirtualMachineArraySerializer(
-      item["virtualMachines"],
-    ),
+    virtualMachines: jitNetworkAccessPolicyVirtualMachineArraySerializer(item["virtualMachines"]),
     requests: !item["requests"]
       ? item["requests"]
-      : securitySolutionsAPIJitNetworkAccessRequestArraySerializer(item["requests"]),
+      : jitNetworkAccessRequestArraySerializer(item["requests"]),
   };
 }
 
 export function _jitNetworkAccessPolicyPropertiesDeserializer(item: any) {
   return {
-    virtualMachines: securitySolutionsAPIJitNetworkAccessPolicyVirtualMachineArrayDeserializer(
-      item["virtualMachines"],
-    ),
+    virtualMachines: jitNetworkAccessPolicyVirtualMachineArrayDeserializer(item["virtualMachines"]),
     requests: !item["requests"]
       ? item["requests"]
-      : securitySolutionsAPIJitNetworkAccessRequestArrayDeserializer(item["requests"]),
+      : jitNetworkAccessRequestArrayDeserializer(item["requests"]),
     provisioningState: item["provisioningState"],
   };
 }
@@ -1567,7 +1471,7 @@ export function _allowedConnectionsResourcePropertiesDeserializer(item: any) {
       : new Date(item["calculatedDateTime"]),
     connectableResources: !item["connectableResources"]
       ? item["connectableResources"]
-      : securitySolutionsAPIConnectableResourceArrayDeserializer(item["connectableResources"]),
+      : connectableResourceArrayDeserializer(item["connectableResources"]),
   };
 }
 
@@ -1584,7 +1488,7 @@ export function _topologyResourcePropertiesDeserializer(item: any) {
       : new Date(item["calculatedDateTime"]),
     topologyResources: !item["topologyResources"]
       ? item["topologyResources"]
-      : securitySolutionsAPITopologySingleResourceArrayDeserializer(item["topologyResources"]),
+      : topologySingleResourceArrayDeserializer(item["topologyResources"]),
   };
 }
 

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CommonOperationStatus } from "../common/models.js";
-import { commonOperationStatusDeserializer } from "../common/models.js";
+import type { OperationStatus } from "../common/models.js";
+import { operationStatusDeserializer } from "../common/models.js";
 import type { ExtensionResource } from "../models.js";
 import { systemDataDeserializer } from "../models.js";
 
@@ -13,24 +13,20 @@ import { systemDataDeserializer } from "../models.js";
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** The Defender for Storage resource. */
-export interface DefenderForStorageAPIDefenderForStorageSetting extends ExtensionResource {
+export interface DefenderForStorageSetting extends ExtensionResource {
   /** Defender for Storage resource properties. */
-  properties?: DefenderForStorageAPIDefenderForStorageSettingProperties;
+  properties?: DefenderForStorageSettingProperties;
 }
 
-export function defenderForStorageAPIDefenderForStorageSettingSerializer(
-  item: DefenderForStorageAPIDefenderForStorageSetting,
-): any {
+export function defenderForStorageSettingSerializer(item: DefenderForStorageSetting): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
-      : defenderForStorageAPIDefenderForStorageSettingPropertiesSerializer(item["properties"]),
+      : defenderForStorageSettingPropertiesSerializer(item["properties"]),
   };
 }
 
-export function defenderForStorageAPIDefenderForStorageSettingDeserializer(
-  item: any,
-): DefenderForStorageAPIDefenderForStorageSetting {
+export function defenderForStorageSettingDeserializer(item: any): DefenderForStorageSetting {
   return {
     id: item["id"],
     name: item["name"],
@@ -40,135 +36,117 @@ export function defenderForStorageAPIDefenderForStorageSettingDeserializer(
       : systemDataDeserializer(item["systemData"]),
     properties: !item["properties"]
       ? item["properties"]
-      : defenderForStorageAPIDefenderForStorageSettingPropertiesDeserializer(item["properties"]),
+      : defenderForStorageSettingPropertiesDeserializer(item["properties"]),
   };
 }
 
 /** Defender for Storage resource properties. */
-export interface DefenderForStorageAPIDefenderForStorageSettingProperties {
+export interface DefenderForStorageSettingProperties {
   /** Indicates whether Defender for Storage is enabled on this storage account. */
   isEnabled?: boolean;
   /** Properties of Malware Scanning. */
-  malwareScanning?: DefenderForStorageAPIMalwareScanningProperties;
+  malwareScanning?: MalwareScanningProperties;
   /** Properties of Sensitive Data Discovery. */
-  sensitiveDataDiscovery?: DefenderForStorageAPISensitiveDataDiscoveryProperties;
+  sensitiveDataDiscovery?: SensitiveDataDiscoveryProperties;
   /** Indicates whether the settings defined for this storage account should override the settings defined for the subscription. */
   overrideSubscriptionLevelSettings?: boolean;
 }
 
-export function defenderForStorageAPIDefenderForStorageSettingPropertiesSerializer(
-  item: DefenderForStorageAPIDefenderForStorageSettingProperties,
+export function defenderForStorageSettingPropertiesSerializer(
+  item: DefenderForStorageSettingProperties,
 ): any {
   return {
     isEnabled: item["isEnabled"],
     malwareScanning: !item["malwareScanning"]
       ? item["malwareScanning"]
-      : defenderForStorageAPIMalwareScanningPropertiesSerializer(item["malwareScanning"]),
+      : malwareScanningPropertiesSerializer(item["malwareScanning"]),
     sensitiveDataDiscovery: !item["sensitiveDataDiscovery"]
       ? item["sensitiveDataDiscovery"]
-      : defenderForStorageAPISensitiveDataDiscoveryPropertiesSerializer(
-          item["sensitiveDataDiscovery"],
-        ),
+      : sensitiveDataDiscoveryPropertiesSerializer(item["sensitiveDataDiscovery"]),
     overrideSubscriptionLevelSettings: item["overrideSubscriptionLevelSettings"],
   };
 }
 
-export function defenderForStorageAPIDefenderForStorageSettingPropertiesDeserializer(
+export function defenderForStorageSettingPropertiesDeserializer(
   item: any,
-): DefenderForStorageAPIDefenderForStorageSettingProperties {
+): DefenderForStorageSettingProperties {
   return {
     isEnabled: item["isEnabled"],
     malwareScanning: !item["malwareScanning"]
       ? item["malwareScanning"]
-      : defenderForStorageAPIMalwareScanningPropertiesDeserializer(item["malwareScanning"]),
+      : malwareScanningPropertiesDeserializer(item["malwareScanning"]),
     sensitiveDataDiscovery: !item["sensitiveDataDiscovery"]
       ? item["sensitiveDataDiscovery"]
-      : defenderForStorageAPISensitiveDataDiscoveryPropertiesDeserializer(
-          item["sensitiveDataDiscovery"],
-        ),
+      : sensitiveDataDiscoveryPropertiesDeserializer(item["sensitiveDataDiscovery"]),
     overrideSubscriptionLevelSettings: item["overrideSubscriptionLevelSettings"],
   };
 }
 
 /** Properties of Malware Scanning. */
-export interface DefenderForStorageAPIMalwareScanningProperties {
+export interface MalwareScanningProperties {
   /** Properties of On Upload malware scanning. */
-  onUpload?: DefenderForStorageAPIOnUploadProperties;
+  onUpload?: OnUploadProperties;
   /** Optional. Resource id of an Event Grid Topic to send scan results to. */
   scanResultsEventGridTopicResourceId?: string;
   /** Optional. Write scan result on BlobIndexTags by default. */
-  blobScanResultsOptions?: DefenderForStorageAPIBlobScanResultsOptions;
+  blobScanResultsOptions?: BlobScanResultsOptions;
   /** Optional. Specifies the automated response action to take when malware is detected. */
-  automatedResponse?: DefenderForStorageAPIAutomatedResponseType;
+  automatedResponse?: AutomatedResponseType;
   /** Upon failure or partial success. Additional data describing Malware Scanning enable/disable operation. */
-  readonly operationStatus?: CommonOperationStatus;
+  readonly operationStatus?: OperationStatus;
 }
 
-export function defenderForStorageAPIMalwareScanningPropertiesSerializer(
-  item: DefenderForStorageAPIMalwareScanningProperties,
-): any {
+export function malwareScanningPropertiesSerializer(item: MalwareScanningProperties): any {
   return {
-    onUpload: !item["onUpload"]
-      ? item["onUpload"]
-      : defenderForStorageAPIOnUploadPropertiesSerializer(item["onUpload"]),
+    onUpload: !item["onUpload"] ? item["onUpload"] : onUploadPropertiesSerializer(item["onUpload"]),
     scanResultsEventGridTopicResourceId: item["scanResultsEventGridTopicResourceId"],
     blobScanResultsOptions: item["blobScanResultsOptions"],
     automatedResponse: item["automatedResponse"],
   };
 }
 
-export function defenderForStorageAPIMalwareScanningPropertiesDeserializer(
-  item: any,
-): DefenderForStorageAPIMalwareScanningProperties {
+export function malwareScanningPropertiesDeserializer(item: any): MalwareScanningProperties {
   return {
     onUpload: !item["onUpload"]
       ? item["onUpload"]
-      : defenderForStorageAPIOnUploadPropertiesDeserializer(item["onUpload"]),
+      : onUploadPropertiesDeserializer(item["onUpload"]),
     scanResultsEventGridTopicResourceId: item["scanResultsEventGridTopicResourceId"],
     blobScanResultsOptions: item["blobScanResultsOptions"],
     automatedResponse: item["automatedResponse"],
     operationStatus: !item["operationStatus"]
       ? item["operationStatus"]
-      : commonOperationStatusDeserializer(item["operationStatus"]),
+      : operationStatusDeserializer(item["operationStatus"]),
   };
 }
 
 /** Properties of On Upload malware scanning. */
-export interface DefenderForStorageAPIOnUploadProperties {
+export interface OnUploadProperties {
   /** Indicates whether On Upload malware scanning should be enabled. */
   isEnabled?: boolean;
   /** Defines the max GB to be scanned per Month. Set to -1 if no capping is needed. If not specified, the default value is -1. */
   capGBPerMonth?: number;
   /** Optional. Determine which blobs get scanned by On Upload malware scanning. An Or operation is performed between each filter type. */
-  filters?: DefenderForStorageAPIOnUploadFilters;
+  filters?: OnUploadFilters;
 }
 
-export function defenderForStorageAPIOnUploadPropertiesSerializer(
-  item: DefenderForStorageAPIOnUploadProperties,
-): any {
+export function onUploadPropertiesSerializer(item: OnUploadProperties): any {
   return {
     isEnabled: item["isEnabled"],
     capGBPerMonth: item["capGBPerMonth"],
-    filters: !item["filters"]
-      ? item["filters"]
-      : defenderForStorageAPIOnUploadFiltersSerializer(item["filters"]),
+    filters: !item["filters"] ? item["filters"] : onUploadFiltersSerializer(item["filters"]),
   };
 }
 
-export function defenderForStorageAPIOnUploadPropertiesDeserializer(
-  item: any,
-): DefenderForStorageAPIOnUploadProperties {
+export function onUploadPropertiesDeserializer(item: any): OnUploadProperties {
   return {
     isEnabled: item["isEnabled"],
     capGBPerMonth: item["capGBPerMonth"],
-    filters: !item["filters"]
-      ? item["filters"]
-      : defenderForStorageAPIOnUploadFiltersDeserializer(item["filters"]),
+    filters: !item["filters"] ? item["filters"] : onUploadFiltersDeserializer(item["filters"]),
   };
 }
 
 /** Optional. Determine which blobs get scanned by On Upload malware scanning. An Or operation is performed between each filter type. */
-export interface DefenderForStorageAPIOnUploadFilters {
+export interface OnUploadFilters {
   /**
    * Optional. A list of prefixes to exclude from on-upload malware scanning.
    * Format: `container-name/blob-name` (start with the container name; do not include the storage account name).
@@ -182,9 +160,7 @@ export interface DefenderForStorageAPIOnUploadFilters {
   excludeBlobsLargerThan?: any;
 }
 
-export function defenderForStorageAPIOnUploadFiltersSerializer(
-  item: DefenderForStorageAPIOnUploadFilters,
-): any {
+export function onUploadFiltersSerializer(item: OnUploadFilters): any {
   return {
     excludeBlobsWithPrefix: !item["excludeBlobsWithPrefix"]
       ? item["excludeBlobsWithPrefix"]
@@ -200,9 +176,7 @@ export function defenderForStorageAPIOnUploadFiltersSerializer(
   };
 }
 
-export function defenderForStorageAPIOnUploadFiltersDeserializer(
-  item: any,
-): DefenderForStorageAPIOnUploadFilters {
+export function onUploadFiltersDeserializer(item: any): OnUploadFilters {
   return {
     excludeBlobsWithPrefix: !item["excludeBlobsWithPrefix"]
       ? item["excludeBlobsWithPrefix"]
@@ -219,7 +193,7 @@ export function defenderForStorageAPIOnUploadFiltersDeserializer(
 }
 
 /** Optional. Write scan result on BlobIndexTags by default. */
-export enum KnownDefenderForStorageAPIBlobScanResultsOptions {
+export enum KnownBlobScanResultsOptions {
   /** Write scan results on the blobs index tags. */
   BlobIndexTags = "BlobIndexTags",
   /** Do not write scan results on the blobs index tags. */
@@ -228,16 +202,16 @@ export enum KnownDefenderForStorageAPIBlobScanResultsOptions {
 
 /**
  * Optional. Write scan result on BlobIndexTags by default. \
- * {@link KnownDefenderForStorageAPIBlobScanResultsOptions} can be used interchangeably with DefenderForStorageAPIBlobScanResultsOptions,
+ * {@link KnownBlobScanResultsOptions} can be used interchangeably with BlobScanResultsOptions,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **BlobIndexTags**: Write scan results on the blobs index tags. \
  * **None**: Do not write scan results on the blobs index tags.
  */
-export type DefenderForStorageAPIBlobScanResultsOptions = string;
+export type BlobScanResultsOptions = string;
 
 /** Optional. Specifies the automated response action to take when malware is detected. */
-export enum KnownDefenderForStorageAPIAutomatedResponseType {
+export enum KnownAutomatedResponseType {
   /** No automated response will be taken when malware is detected. */
   None = "None",
   /** The blob will be soft deleted when malware is detected. */
@@ -246,91 +220,89 @@ export enum KnownDefenderForStorageAPIAutomatedResponseType {
 
 /**
  * Optional. Specifies the automated response action to take when malware is detected. \
- * {@link KnownDefenderForStorageAPIAutomatedResponseType} can be used interchangeably with DefenderForStorageAPIAutomatedResponseType,
+ * {@link KnownAutomatedResponseType} can be used interchangeably with AutomatedResponseType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **None**: No automated response will be taken when malware is detected. \
  * **BlobSoftDelete**: The blob will be soft deleted when malware is detected.
  */
-export type DefenderForStorageAPIAutomatedResponseType = string;
+export type AutomatedResponseType = string;
 
 /** Properties of Sensitive Data Discovery. */
-export interface DefenderForStorageAPISensitiveDataDiscoveryProperties {
+export interface SensitiveDataDiscoveryProperties {
   /** Indicates whether Sensitive Data Discovery should be enabled. */
   isEnabled?: boolean;
   /** Upon failure or partial success. Additional data describing Sensitive Data Discovery enable/disable operation. */
-  readonly operationStatus?: CommonOperationStatus;
+  readonly operationStatus?: OperationStatus;
 }
 
-export function defenderForStorageAPISensitiveDataDiscoveryPropertiesSerializer(
-  item: DefenderForStorageAPISensitiveDataDiscoveryProperties,
+export function sensitiveDataDiscoveryPropertiesSerializer(
+  item: SensitiveDataDiscoveryProperties,
 ): any {
   return { isEnabled: item["isEnabled"] };
 }
 
-export function defenderForStorageAPISensitiveDataDiscoveryPropertiesDeserializer(
+export function sensitiveDataDiscoveryPropertiesDeserializer(
   item: any,
-): DefenderForStorageAPISensitiveDataDiscoveryProperties {
+): SensitiveDataDiscoveryProperties {
   return {
     isEnabled: item["isEnabled"],
     operationStatus: !item["operationStatus"]
       ? item["operationStatus"]
-      : commonOperationStatusDeserializer(item["operationStatus"]),
+      : operationStatusDeserializer(item["operationStatus"]),
   };
 }
 
 /** List of Defender for Storage settings. */
-export interface _DefenderForStorageAPIDefenderForStorageSettingList {
+export interface _DefenderForStorageSettingList {
   /** List of Defender for Storage settings. */
-  readonly value?: DefenderForStorageAPIDefenderForStorageSetting[];
+  readonly value?: DefenderForStorageSetting[];
   /** The URI to fetch the next page. */
   nextLink?: string;
 }
 
-export function _defenderForStorageAPIDefenderForStorageSettingListDeserializer(
+export function _defenderForStorageSettingListDeserializer(
   item: any,
-): _DefenderForStorageAPIDefenderForStorageSettingList {
+): _DefenderForStorageSettingList {
   return {
     value: !item["value"]
       ? item["value"]
-      : defenderForStorageAPIDefenderForStorageSettingArrayDeserializer(item["value"]),
+      : defenderForStorageSettingArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function defenderForStorageAPIDefenderForStorageSettingArraySerializer(
-  result: Array<DefenderForStorageAPIDefenderForStorageSetting>,
+export function defenderForStorageSettingArraySerializer(
+  result: Array<DefenderForStorageSetting>,
 ): any[] {
   return result.map((item) => {
-    return defenderForStorageAPIDefenderForStorageSettingSerializer(item);
+    return defenderForStorageSettingSerializer(item);
   });
 }
 
-export function defenderForStorageAPIDefenderForStorageSettingArrayDeserializer(
-  result: Array<DefenderForStorageAPIDefenderForStorageSetting>,
+export function defenderForStorageSettingArrayDeserializer(
+  result: Array<DefenderForStorageSetting>,
 ): any[] {
   return result.map((item) => {
-    return defenderForStorageAPIDefenderForStorageSettingDeserializer(item);
+    return defenderForStorageSettingDeserializer(item);
   });
 }
 
 /** Describes the state of a malware scan operation. */
-export interface DefenderForStorageAPIMalwareScan {
-  properties?: DefenderForStorageAPIMalwareScanProperties;
+export interface MalwareScan {
+  properties?: MalwareScanProperties;
 }
 
-export function defenderForStorageAPIMalwareScanDeserializer(
-  item: any,
-): DefenderForStorageAPIMalwareScan {
+export function malwareScanDeserializer(item: any): MalwareScan {
   return {
     properties: !item["properties"]
       ? item["properties"]
-      : defenderForStorageAPIMalwareScanPropertiesDeserializer(item["properties"]),
+      : malwareScanPropertiesDeserializer(item["properties"]),
   };
 }
 
-/** model interface DefenderForStorageAPIMalwareScanProperties */
-export interface DefenderForStorageAPIMalwareScanProperties {
+/** model interface MalwareScanProperties */
+export interface MalwareScanProperties {
   /** The identifier of the scan. */
   scanId?: string;
   /** A status code of the scan operation. */
@@ -342,12 +314,10 @@ export interface DefenderForStorageAPIMalwareScanProperties {
   /** The time at which the scan has ended. Only available for a scan which has terminated. */
   scanEndTime?: string;
   /** A summary of the scan results. */
-  scanSummary?: DefenderForStorageAPIScanSummary;
+  scanSummary?: ScanSummary;
 }
 
-export function defenderForStorageAPIMalwareScanPropertiesDeserializer(
-  item: any,
-): DefenderForStorageAPIMalwareScanProperties {
+export function malwareScanPropertiesDeserializer(item: any): MalwareScanProperties {
   return {
     scanId: item["scanId"],
     scanStatus: item["scanStatus"],
@@ -356,36 +326,30 @@ export function defenderForStorageAPIMalwareScanPropertiesDeserializer(
     scanEndTime: item["scanEndTime"],
     scanSummary: !item["scanSummary"]
       ? item["scanSummary"]
-      : defenderForStorageAPIScanSummaryDeserializer(item["scanSummary"]),
+      : scanSummaryDeserializer(item["scanSummary"]),
   };
 }
 
 /** A summary of the scan results. */
-export interface DefenderForStorageAPIScanSummary {
+export interface ScanSummary {
   /** A summary of the scan results of the blobs that were scanned. */
-  blobs?: DefenderForStorageAPIBlobsScanSummary;
+  blobs?: BlobsScanSummary;
   /** A summary of the scan results of the files that were scanned. */
-  files?: DefenderForStorageAPIFilesScanSummary;
+  files?: FilesScanSummary;
   /** The estimated cost of the scan. Only available for a scan which has terminated. */
   estimatedScanCostUSD?: number;
 }
 
-export function defenderForStorageAPIScanSummaryDeserializer(
-  item: any,
-): DefenderForStorageAPIScanSummary {
+export function scanSummaryDeserializer(item: any): ScanSummary {
   return {
-    blobs: !item["blobs"]
-      ? item["blobs"]
-      : defenderForStorageAPIBlobsScanSummaryDeserializer(item["blobs"]),
-    files: !item["files"]
-      ? item["files"]
-      : defenderForStorageAPIFilesScanSummaryDeserializer(item["files"]),
+    blobs: !item["blobs"] ? item["blobs"] : blobsScanSummaryDeserializer(item["blobs"]),
+    files: !item["files"] ? item["files"] : filesScanSummaryDeserializer(item["files"]),
     estimatedScanCostUSD: item["estimatedScanCostUSD"],
   };
 }
 
 /** A summary of the scan results of the blobs that were scanned. */
-export interface DefenderForStorageAPIBlobsScanSummary {
+export interface BlobsScanSummary {
   /** The total number of blobs that were scanned. */
   totalBlobsScanned?: number;
   /** The number of malicious blobs that were detected during the scan. */
@@ -398,9 +362,7 @@ export interface DefenderForStorageAPIBlobsScanSummary {
   scannedBlobsInGB?: number;
 }
 
-export function defenderForStorageAPIBlobsScanSummaryDeserializer(
-  item: any,
-): DefenderForStorageAPIBlobsScanSummary {
+export function blobsScanSummaryDeserializer(item: any): BlobsScanSummary {
   return {
     totalBlobsScanned: item["totalBlobsScanned"],
     maliciousBlobsCount: item["maliciousBlobsCount"],
@@ -411,7 +373,7 @@ export function defenderForStorageAPIBlobsScanSummaryDeserializer(
 }
 
 /** A summary of the scan results of the files that were scanned. */
-export interface DefenderForStorageAPIFilesScanSummary {
+export interface FilesScanSummary {
   /** The total number of files that were scanned. */
   totalFilesScanned?: number;
   /** The number of malicious files that were detected during the scan. */
@@ -424,9 +386,7 @@ export interface DefenderForStorageAPIFilesScanSummary {
   scannedFilesInGB?: number;
 }
 
-export function defenderForStorageAPIFilesScanSummaryDeserializer(
-  item: any,
-): DefenderForStorageAPIFilesScanSummary {
+export function filesScanSummaryDeserializer(item: any): FilesScanSummary {
   return {
     totalFilesScanned: item["totalFilesScanned"],
     maliciousFilesCount: item["maliciousFilesCount"],

@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 import type { SecurityCenterContext as Client } from "../index.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
 import type {
-  LegacySettingsAPIWorkspaceSetting,
-  _LegacySettingsAPIWorkspaceSettingList,
+  WorkspaceSetting,
+  _WorkspaceSettingList,
 } from "../../models/legacySettingsAPI/models.js";
 import {
-  legacySettingsAPIWorkspaceSettingSerializer,
-  legacySettingsAPIWorkspaceSettingDeserializer,
-  _legacySettingsAPIWorkspaceSettingListDeserializer,
+  workspaceSettingSerializer,
+  workspaceSettingDeserializer,
+  _workspaceSettingListDeserializer,
 } from "../../models/legacySettingsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -47,23 +47,23 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_LegacySettingsAPIWorkspaceSettingList> {
+): Promise<_WorkspaceSettingList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _legacySettingsAPIWorkspaceSettingListDeserializer(result.body);
+  return _workspaceSettingListDeserializer(result.body);
 }
 
 /** Settings about where we should store your security data and logs. If the result is empty, it means that no custom-workspace configuration was set */
 export function list(
   context: Client,
   options: WorkspaceSettingsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<LegacySettingsAPIWorkspaceSetting> {
+): PagedAsyncIterableIterator<WorkspaceSetting> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, options),
@@ -96,7 +96,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
@@ -117,7 +117,7 @@ export async function $delete(
 export function _updateSend(
   context: Client,
   workspaceSettingName: string,
-  workspaceSetting: LegacySettingsAPIWorkspaceSetting,
+  workspaceSetting: WorkspaceSetting,
   options: WorkspaceSettingsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -135,31 +135,29 @@ export function _updateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: legacySettingsAPIWorkspaceSettingSerializer(workspaceSetting),
+    body: workspaceSettingSerializer(workspaceSetting),
   });
 }
 
-export async function _updateDeserialize(
-  result: PathUncheckedResponse,
-): Promise<LegacySettingsAPIWorkspaceSetting> {
+export async function _updateDeserialize(result: PathUncheckedResponse): Promise<WorkspaceSetting> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return legacySettingsAPIWorkspaceSettingDeserializer(result.body);
+  return workspaceSettingDeserializer(result.body);
 }
 
 /** Settings about where we should store your security data and logs */
 export async function update(
   context: Client,
   workspaceSettingName: string,
-  workspaceSetting: LegacySettingsAPIWorkspaceSetting,
+  workspaceSetting: WorkspaceSetting,
   options: WorkspaceSettingsUpdateOptionalParams = { requestOptions: {} },
-): Promise<LegacySettingsAPIWorkspaceSetting> {
+): Promise<WorkspaceSetting> {
   const result = await _updateSend(context, workspaceSettingName, workspaceSetting, options);
   return _updateDeserialize(result);
 }
@@ -167,7 +165,7 @@ export async function update(
 export function _createSend(
   context: Client,
   workspaceSettingName: string,
-  workspaceSetting: LegacySettingsAPIWorkspaceSetting,
+  workspaceSetting: WorkspaceSetting,
   options: WorkspaceSettingsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -185,31 +183,29 @@ export function _createSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: legacySettingsAPIWorkspaceSettingSerializer(workspaceSetting),
+    body: workspaceSettingSerializer(workspaceSetting),
   });
 }
 
-export async function _createDeserialize(
-  result: PathUncheckedResponse,
-): Promise<LegacySettingsAPIWorkspaceSetting> {
+export async function _createDeserialize(result: PathUncheckedResponse): Promise<WorkspaceSetting> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return legacySettingsAPIWorkspaceSettingDeserializer(result.body);
+  return workspaceSettingDeserializer(result.body);
 }
 
 /** creating settings about where we should store your security data and logs */
 export async function create(
   context: Client,
   workspaceSettingName: string,
-  workspaceSetting: LegacySettingsAPIWorkspaceSetting,
+  workspaceSetting: WorkspaceSetting,
   options: WorkspaceSettingsCreateOptionalParams = { requestOptions: {} },
-): Promise<LegacySettingsAPIWorkspaceSetting> {
+): Promise<WorkspaceSetting> {
   const result = await _createSend(context, workspaceSettingName, workspaceSetting, options);
   return _createDeserialize(result);
 }
@@ -236,18 +232,16 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<LegacySettingsAPIWorkspaceSetting> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<WorkspaceSetting> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return legacySettingsAPIWorkspaceSettingDeserializer(result.body);
+  return workspaceSettingDeserializer(result.body);
 }
 
 /** Settings about where we should store your security data and logs. If the result is empty, it means that no custom-workspace configuration was set */
@@ -255,7 +249,7 @@ export async function get(
   context: Client,
   workspaceSettingName: string,
   options: WorkspaceSettingsGetOptionalParams = { requestOptions: {} },
-): Promise<LegacySettingsAPIWorkspaceSetting> {
+): Promise<WorkspaceSetting> {
   const result = await _getSend(context, workspaceSettingName, options);
   return _getDeserialize(result);
 }

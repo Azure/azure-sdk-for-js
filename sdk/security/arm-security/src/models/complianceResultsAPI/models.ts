@@ -11,14 +11,12 @@ import { systemDataDeserializer } from "../models.js";
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** a compliance result */
-export interface ComplianceResultsAPIComplianceResult extends ExtensionResource {
+export interface ComplianceResult extends ExtensionResource {
   /** The status of the resource regarding a single assessment */
-  readonly resourceStatus?: ComplianceResultsAPIResourceStatus;
+  readonly resourceStatus?: ResourceStatus;
 }
 
-export function complianceResultsAPIComplianceResultDeserializer(
-  item: any,
-): ComplianceResultsAPIComplianceResult {
+export function complianceResultDeserializer(item: any): ComplianceResult {
   return {
     id: item["id"],
     name: item["name"],
@@ -33,21 +31,19 @@ export function complianceResultsAPIComplianceResultDeserializer(
 }
 
 /** Compliance result data */
-export interface ComplianceResultsAPIComplianceResultProperties {
+export interface ComplianceResultProperties {
   /** The status of the resource regarding a single assessment */
-  readonly resourceStatus?: ComplianceResultsAPIResourceStatus;
+  readonly resourceStatus?: ResourceStatus;
 }
 
-export function complianceResultsAPIComplianceResultPropertiesDeserializer(
-  item: any,
-): ComplianceResultsAPIComplianceResultProperties {
+export function complianceResultPropertiesDeserializer(item: any): ComplianceResultProperties {
   return {
     resourceStatus: item["resourceStatus"],
   };
 }
 
 /** The status of the resource regarding a single assessment */
-export enum KnownComplianceResultsAPIResourceStatus {
+export enum KnownResourceStatus {
   /** This assessment on the resource is healthy */
   Healthy = "Healthy",
   /** This assessment is not applicable to this resource */
@@ -60,7 +56,7 @@ export enum KnownComplianceResultsAPIResourceStatus {
 
 /**
  * The status of the resource regarding a single assessment \
- * {@link KnownComplianceResultsAPIResourceStatus} can be used interchangeably with ComplianceResultsAPIResourceStatus,
+ * {@link KnownResourceStatus} can be used interchangeably with ResourceStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Healthy**: This assessment on the resource is healthy \
@@ -68,30 +64,26 @@ export enum KnownComplianceResultsAPIResourceStatus {
  * **OffByPolicy**: This assessment is turned off by policy on this subscription \
  * **NotHealthy**: This assessment on the resource is not healthy
  */
-export type ComplianceResultsAPIResourceStatus = string;
+export type ResourceStatus = string;
 
 /** List of compliance results response */
-export interface _ComplianceResultsAPIComplianceResultList {
+export interface _ComplianceResultList {
   /** The ComplianceResult items on this page */
-  value: ComplianceResultsAPIComplianceResult[];
+  value: ComplianceResult[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _complianceResultsAPIComplianceResultListDeserializer(
-  item: any,
-): _ComplianceResultsAPIComplianceResultList {
+export function _complianceResultListDeserializer(item: any): _ComplianceResultList {
   return {
-    value: complianceResultsAPIComplianceResultArrayDeserializer(item["value"]),
+    value: complianceResultArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function complianceResultsAPIComplianceResultArrayDeserializer(
-  result: Array<ComplianceResultsAPIComplianceResult>,
-): any[] {
+export function complianceResultArrayDeserializer(result: Array<ComplianceResult>): any[] {
   return result.map((item) => {
-    return complianceResultsAPIComplianceResultDeserializer(item);
+    return complianceResultDeserializer(item);
   });
 }
 

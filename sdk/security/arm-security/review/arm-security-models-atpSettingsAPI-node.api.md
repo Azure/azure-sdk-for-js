@@ -5,12 +5,12 @@
 ```ts
 
 // @public
-export interface ATPSettingsAPIAdvancedThreatProtectionProperties {
+export interface AdvancedThreatProtectionProperties {
     isEnabled?: boolean;
 }
 
 // @public
-export interface ATPSettingsAPIAdvancedThreatProtectionSetting extends ExtensionResource {
+export interface AdvancedThreatProtectionSetting extends ExtensionResource {
     isEnabled?: boolean;
 }
 

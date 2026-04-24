@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 import type { SecurityCenterContext as Client } from "../index.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
 import type {
-  MdeOnboardingAPIMdeOnboardingData,
-  _MdeOnboardingAPIMdeOnboardingDataList,
+  MdeOnboardingData,
+  _MdeOnboardingDataList,
 } from "../../models/mdeOnboardingAPI/models.js";
 import {
-  mdeOnboardingAPIMdeOnboardingDataDeserializer,
-  _mdeOnboardingAPIMdeOnboardingDataListDeserializer,
+  mdeOnboardingDataDeserializer,
+  _mdeOnboardingDataListDeserializer,
 } from "../../models/mdeOnboardingAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -43,23 +43,23 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_MdeOnboardingAPIMdeOnboardingDataList> {
+): Promise<_MdeOnboardingDataList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _mdeOnboardingAPIMdeOnboardingDataListDeserializer(result.body);
+  return _mdeOnboardingDataListDeserializer(result.body);
 }
 
 /** The configuration or data needed to onboard the machine to MDE */
 export function list(
   context: Client,
   options: MdeOnboardingsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<MdeOnboardingAPIMdeOnboardingData> {
+): PagedAsyncIterableIterator<MdeOnboardingData> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, options),
@@ -89,25 +89,23 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<MdeOnboardingAPIMdeOnboardingData> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<MdeOnboardingData> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return mdeOnboardingAPIMdeOnboardingDataDeserializer(result.body);
+  return mdeOnboardingDataDeserializer(result.body);
 }
 
 /** The default configuration or data needed to onboard the machine to MDE */
 export async function get(
   context: Client,
   options: MdeOnboardingsGetOptionalParams = { requestOptions: {} },
-): Promise<MdeOnboardingAPIMdeOnboardingData> {
+): Promise<MdeOnboardingData> {
   const result = await _getSend(context, options);
   return _getDeserialize(result);
 }

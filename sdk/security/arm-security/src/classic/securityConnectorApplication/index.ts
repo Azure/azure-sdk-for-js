@@ -8,7 +8,7 @@ import type {
   SecurityConnectorApplicationCreateOrUpdateOptionalParams,
   SecurityConnectorApplicationGetOptionalParams,
 } from "../../api/securityConnectorApplication/options.js";
-import type { ApplicationsAPIApplication } from "../../models/applicationsAPI/models.js";
+import type { Application } from "../../models/applicationsAPI/models.js";
 
 /** Interface representing a SecurityConnectorApplication operations. */
 export interface SecurityConnectorApplicationOperations {
@@ -24,16 +24,16 @@ export interface SecurityConnectorApplicationOperations {
     resourceGroupName: string,
     securityConnectorName: string,
     applicationId: string,
-    application: ApplicationsAPIApplication,
+    application: Application,
     options?: SecurityConnectorApplicationCreateOrUpdateOptionalParams,
-  ) => Promise<ApplicationsAPIApplication>;
+  ) => Promise<Application>;
   /** Get a specific application for the requested scope by applicationId */
   get: (
     resourceGroupName: string,
     securityConnectorName: string,
     applicationId: string,
     options?: SecurityConnectorApplicationGetOptionalParams,
-  ) => Promise<ApplicationsAPIApplication>;
+  ) => Promise<Application>;
 }
 
 function _getSecurityConnectorApplication(context: SecurityCenterContext) {
@@ -48,7 +48,7 @@ function _getSecurityConnectorApplication(context: SecurityCenterContext) {
       resourceGroupName: string,
       securityConnectorName: string,
       applicationId: string,
-      application: ApplicationsAPIApplication,
+      application: Application,
       options?: SecurityConnectorApplicationCreateOrUpdateOptionalParams,
     ) =>
       createOrUpdate(

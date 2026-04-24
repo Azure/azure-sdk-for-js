@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 import type { SecurityCenterContext as Client } from "../index.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
 import type {
-  ComplianceResultsAPIComplianceResult,
-  _ComplianceResultsAPIComplianceResultList,
+  ComplianceResult,
+  _ComplianceResultList,
 } from "../../models/complianceResultsAPI/models.js";
 import {
-  complianceResultsAPIComplianceResultDeserializer,
-  _complianceResultsAPIComplianceResultListDeserializer,
+  complianceResultDeserializer,
+  _complianceResultListDeserializer,
 } from "../../models/complianceResultsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -44,16 +44,16 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_ComplianceResultsAPIComplianceResultList> {
+): Promise<_ComplianceResultList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _complianceResultsAPIComplianceResultListDeserializer(result.body);
+  return _complianceResultListDeserializer(result.body);
 }
 
 /** Security compliance results in the subscription */
@@ -61,7 +61,7 @@ export function list(
   context: Client,
   scope: string,
   options: ComplianceResultsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<ComplianceResultsAPIComplianceResult> {
+): PagedAsyncIterableIterator<ComplianceResult> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, scope, options),
@@ -94,18 +94,16 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<ComplianceResultsAPIComplianceResult> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<ComplianceResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return complianceResultsAPIComplianceResultDeserializer(result.body);
+  return complianceResultDeserializer(result.body);
 }
 
 /** Security Compliance Result */
@@ -114,7 +112,7 @@ export async function get(
   resourceId: string,
   complianceResultName: string,
   options: ComplianceResultsGetOptionalParams = { requestOptions: {} },
-): Promise<ComplianceResultsAPIComplianceResult> {
+): Promise<ComplianceResult> {
   const result = await _getSend(context, resourceId, complianceResultName, options);
   return _getDeserialize(result);
 }

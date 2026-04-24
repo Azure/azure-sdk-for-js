@@ -23,9 +23,9 @@ import type {
   JitNetworkAccessPoliciesGetOptionalParams,
 } from "../../api/jitNetworkAccessPolicies/options.js";
 import type {
-  SecuritySolutionsAPIJitNetworkAccessPolicy,
-  SecuritySolutionsAPIJitNetworkAccessRequest,
-  SecuritySolutionsAPIJitNetworkAccessPolicyInitiateRequest,
+  JitNetworkAccessPolicy,
+  JitNetworkAccessRequest,
+  JitNetworkAccessPolicyInitiateRequest,
 } from "../../models/securitySolutionsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
@@ -35,30 +35,30 @@ export interface JitNetworkAccessPoliciesOperations {
   listByResourceGroup: (
     resourceGroupName: string,
     options?: JitNetworkAccessPoliciesListByResourceGroupOptionalParams,
-  ) => PagedAsyncIterableIterator<SecuritySolutionsAPIJitNetworkAccessPolicy>;
+  ) => PagedAsyncIterableIterator<JitNetworkAccessPolicy>;
   /** Policies for protecting resources using Just-in-Time access control. */
   list: (
     options?: JitNetworkAccessPoliciesListOptionalParams,
-  ) => PagedAsyncIterableIterator<SecuritySolutionsAPIJitNetworkAccessPolicy>;
+  ) => PagedAsyncIterableIterator<JitNetworkAccessPolicy>;
   /** Initiate a JIT access from a specific Just-in-Time policy configuration. */
   initiate: (
     resourceGroupName: string,
     ascLocation: string,
     jitNetworkAccessPolicyName: string,
-    body: SecuritySolutionsAPIJitNetworkAccessPolicyInitiateRequest,
+    body: JitNetworkAccessPolicyInitiateRequest,
     options?: JitNetworkAccessPoliciesInitiateOptionalParams,
-  ) => Promise<SecuritySolutionsAPIJitNetworkAccessRequest>;
+  ) => Promise<JitNetworkAccessRequest>;
   /** Policies for protecting resources using Just-in-Time access control for the subscription, location */
   listByRegion: (
     ascLocation: string,
     options?: JitNetworkAccessPoliciesListByRegionOptionalParams,
-  ) => PagedAsyncIterableIterator<SecuritySolutionsAPIJitNetworkAccessPolicy>;
+  ) => PagedAsyncIterableIterator<JitNetworkAccessPolicy>;
   /** Policies for protecting resources using Just-in-Time access control for the subscription, location */
   listByResourceGroupAndRegion: (
     resourceGroupName: string,
     ascLocation: string,
     options?: JitNetworkAccessPoliciesListByResourceGroupAndRegionOptionalParams,
-  ) => PagedAsyncIterableIterator<SecuritySolutionsAPIJitNetworkAccessPolicy>;
+  ) => PagedAsyncIterableIterator<JitNetworkAccessPolicy>;
   /** Delete a Just-in-Time access control policy. */
   delete: (
     resourceGroupName: string,
@@ -71,16 +71,16 @@ export interface JitNetworkAccessPoliciesOperations {
     resourceGroupName: string,
     ascLocation: string,
     jitNetworkAccessPolicyName: string,
-    body: SecuritySolutionsAPIJitNetworkAccessPolicy,
+    body: JitNetworkAccessPolicy,
     options?: JitNetworkAccessPoliciesCreateOrUpdateOptionalParams,
-  ) => Promise<SecuritySolutionsAPIJitNetworkAccessPolicy>;
+  ) => Promise<JitNetworkAccessPolicy>;
   /** Policies for protecting resources using Just-in-Time access control for the subscription, location */
   get: (
     resourceGroupName: string,
     ascLocation: string,
     jitNetworkAccessPolicyName: string,
     options?: JitNetworkAccessPoliciesGetOptionalParams,
-  ) => Promise<SecuritySolutionsAPIJitNetworkAccessPolicy>;
+  ) => Promise<JitNetworkAccessPolicy>;
 }
 
 function _getJitNetworkAccessPolicies(context: SecurityCenterContext) {
@@ -94,7 +94,7 @@ function _getJitNetworkAccessPolicies(context: SecurityCenterContext) {
       resourceGroupName: string,
       ascLocation: string,
       jitNetworkAccessPolicyName: string,
-      body: SecuritySolutionsAPIJitNetworkAccessPolicyInitiateRequest,
+      body: JitNetworkAccessPolicyInitiateRequest,
       options?: JitNetworkAccessPoliciesInitiateOptionalParams,
     ) =>
       initiate(context, resourceGroupName, ascLocation, jitNetworkAccessPolicyName, body, options),
@@ -117,7 +117,7 @@ function _getJitNetworkAccessPolicies(context: SecurityCenterContext) {
       resourceGroupName: string,
       ascLocation: string,
       jitNetworkAccessPolicyName: string,
-      body: SecuritySolutionsAPIJitNetworkAccessPolicy,
+      body: JitNetworkAccessPolicy,
       options?: JitNetworkAccessPoliciesCreateOrUpdateOptionalParams,
     ) =>
       createOrUpdate(

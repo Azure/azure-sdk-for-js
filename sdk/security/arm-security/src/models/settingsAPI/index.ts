@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 export type {
-  SettingsAPISetting,
-  SettingsAPISettingUnion,
-  SettingsAPISettingKind,
-  SettingsAPIDataExportSettings,
-  SettingsAPIDataExportSettingProperties,
-  SettingsAPIAlertSyncSettings,
-  SettingsAPIAlertSyncSettingProperties,
+  Setting,
+  SettingUnion,
+  SettingKind,
+  DataExportSettings,
+  DataExportSettingProperties,
+  AlertSyncSettings,
+  AlertSyncSettingProperties,
 } from "./models.js";
-export { KnownSettingsAPISettingKind } from "./models.js";
+export { KnownSettingKind } from "./models.js";

@@ -7,7 +7,7 @@ import type {
   SecureScoreControlsListOptionalParams,
   SecureScoreControlsListBySecureScoreOptionalParams,
 } from "../../api/secureScoreControls/options.js";
-import type { SecureScoreAPISecureScoreControlDetails } from "../../models/secureScoreAPI/models.js";
+import type { SecureScoreControlDetails } from "../../models/secureScoreAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a SecureScoreControls operations. */
@@ -15,12 +15,12 @@ export interface SecureScoreControlsOperations {
   /** Get all security controls within a scope */
   list: (
     options?: SecureScoreControlsListOptionalParams,
-  ) => PagedAsyncIterableIterator<SecureScoreAPISecureScoreControlDetails>;
+  ) => PagedAsyncIterableIterator<SecureScoreControlDetails>;
   /** Get all security controls for a specific initiative within a scope */
   listBySecureScore: (
     secureScoreName: string,
     options?: SecureScoreControlsListBySecureScoreOptionalParams,
-  ) => PagedAsyncIterableIterator<SecureScoreAPISecureScoreControlDetails>;
+  ) => PagedAsyncIterableIterator<SecureScoreControlDetails>;
 }
 
 function _getSecureScoreControls(context: SecurityCenterContext) {

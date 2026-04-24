@@ -7,7 +7,7 @@ import type {
   GitLabProjectsListOptionalParams,
   GitLabProjectsGetOptionalParams,
 } from "../../api/gitLabProjects/options.js";
-import type { SecurityConnectorsDevOpsAPIGitLabProject } from "../../models/securityConnectorsDevOpsAPI/models.js";
+import type { GitLabProject } from "../../models/securityConnectorsDevOpsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a GitLabProjects operations. */
@@ -18,7 +18,7 @@ export interface GitLabProjectsOperations {
     securityConnectorName: string,
     groupFQName: string,
     options?: GitLabProjectsListOptionalParams,
-  ) => PagedAsyncIterableIterator<SecurityConnectorsDevOpsAPIGitLabProject>;
+  ) => PagedAsyncIterableIterator<GitLabProject>;
   /** Returns a monitored GitLab Project resource for a given fully-qualified group name and project name. */
   get: (
     resourceGroupName: string,
@@ -26,7 +26,7 @@ export interface GitLabProjectsOperations {
     groupFQName: string,
     projectName: string,
     options?: GitLabProjectsGetOptionalParams,
-  ) => Promise<SecurityConnectorsDevOpsAPIGitLabProject>;
+  ) => Promise<GitLabProject>;
 }
 
 function _getGitLabProjects(context: SecurityCenterContext) {

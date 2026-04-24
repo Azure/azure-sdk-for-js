@@ -10,7 +10,7 @@ import type {
   WorkspaceSettingsCreateOptionalParams,
   WorkspaceSettingsGetOptionalParams,
 } from "../../api/workspaceSettings/options.js";
-import type { LegacySettingsAPIWorkspaceSetting } from "../../models/legacySettingsAPI/models.js";
+import type { WorkspaceSetting } from "../../models/legacySettingsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a WorkspaceSettings operations. */
@@ -18,7 +18,7 @@ export interface WorkspaceSettingsOperations {
   /** Settings about where we should store your security data and logs. If the result is empty, it means that no custom-workspace configuration was set */
   list: (
     options?: WorkspaceSettingsListOptionalParams,
-  ) => PagedAsyncIterableIterator<LegacySettingsAPIWorkspaceSetting>;
+  ) => PagedAsyncIterableIterator<WorkspaceSetting>;
   /** Deletes the custom workspace settings for this subscription. new VMs will report to the default workspace */
   delete: (
     workspaceSettingName: string,
@@ -27,20 +27,20 @@ export interface WorkspaceSettingsOperations {
   /** Settings about where we should store your security data and logs */
   update: (
     workspaceSettingName: string,
-    workspaceSetting: LegacySettingsAPIWorkspaceSetting,
+    workspaceSetting: WorkspaceSetting,
     options?: WorkspaceSettingsUpdateOptionalParams,
-  ) => Promise<LegacySettingsAPIWorkspaceSetting>;
+  ) => Promise<WorkspaceSetting>;
   /** creating settings about where we should store your security data and logs */
   create: (
     workspaceSettingName: string,
-    workspaceSetting: LegacySettingsAPIWorkspaceSetting,
+    workspaceSetting: WorkspaceSetting,
     options?: WorkspaceSettingsCreateOptionalParams,
-  ) => Promise<LegacySettingsAPIWorkspaceSetting>;
+  ) => Promise<WorkspaceSetting>;
   /** Settings about where we should store your security data and logs. If the result is empty, it means that no custom-workspace configuration was set */
   get: (
     workspaceSettingName: string,
     options?: WorkspaceSettingsGetOptionalParams,
-  ) => Promise<LegacySettingsAPIWorkspaceSetting>;
+  ) => Promise<WorkspaceSetting>;
 }
 
 function _getWorkspaceSettings(context: SecurityCenterContext) {
@@ -50,12 +50,12 @@ function _getWorkspaceSettings(context: SecurityCenterContext) {
       $delete(context, workspaceSettingName, options),
     update: (
       workspaceSettingName: string,
-      workspaceSetting: LegacySettingsAPIWorkspaceSetting,
+      workspaceSetting: WorkspaceSetting,
       options?: WorkspaceSettingsUpdateOptionalParams,
     ) => update(context, workspaceSettingName, workspaceSetting, options),
     create: (
       workspaceSettingName: string,
-      workspaceSetting: LegacySettingsAPIWorkspaceSetting,
+      workspaceSetting: WorkspaceSetting,
       options?: WorkspaceSettingsCreateOptionalParams,
     ) => create(context, workspaceSettingName, workspaceSetting, options),
     get: (workspaceSettingName: string, options?: WorkspaceSettingsGetOptionalParams) =>

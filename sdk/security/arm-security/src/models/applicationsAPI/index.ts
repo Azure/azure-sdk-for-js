@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 export type {
-  ApplicationsAPIApplication,
-  ApplicationsAPIApplicationProperties,
-  ApplicationsAPIApplicationSourceResourceType,
+  Application,
+  ApplicationProperties,
+  ApplicationSourceResourceType,
 } from "./models.js";
-export { KnownApplicationsAPIApplicationSourceResourceType } from "./models.js";
+export { KnownApplicationSourceResourceType } from "./models.js";

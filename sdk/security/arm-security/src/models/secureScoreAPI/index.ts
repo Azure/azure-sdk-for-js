@@ -2,16 +2,16 @@
 // Licensed under the MIT License.
 
 export type {
-  SecureScoreAPISecureScoreItem,
-  SecureScoreAPISecureScoreItemProperties,
-  SecureScoreAPIScoreDetails,
-  SecureScoreAPISecureScoreControlDetails,
-  SecureScoreAPISecureScoreControlScoreDetails,
-  SecureScoreAPISecureScoreControlDefinitionItem,
-  SecureScoreAPISecureScoreControlDefinitionItemProperties,
-  SecureScoreAPISecureScoreControlDefinitionSource,
-  SecureScoreAPIControlType,
-  SecureScoreAPIAzureResourceLink,
-  SecureScoreAPIExpandControlsEnum,
+  SecureScoreItem,
+  SecureScoreItemProperties,
+  ScoreDetails,
+  SecureScoreControlDetails,
+  SecureScoreControlScoreDetails,
+  SecureScoreControlDefinitionItem,
+  SecureScoreControlDefinitionItemProperties,
+  SecureScoreControlDefinitionSource,
+  ControlType,
+  AzureResourceLink,
+  ExpandControlsEnum,
 } from "./models.js";
-export { KnownSecureScoreAPIControlType, KnownSecureScoreAPIExpandControlsEnum } from "./models.js";
+export { KnownControlType, KnownExpandControlsEnum } from "./models.js";

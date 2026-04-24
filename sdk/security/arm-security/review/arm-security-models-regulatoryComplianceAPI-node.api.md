@@ -5,62 +5,62 @@
 ```ts
 
 // @public
-export interface RegulatoryComplianceAPIRegulatoryComplianceAssessment extends ProxyResource {
+export interface RegulatoryComplianceAssessment extends ProxyResource {
     readonly assessmentDetailsLink?: string;
     readonly assessmentType?: string;
     readonly description?: string;
     readonly failedResources?: number;
     readonly passedResources?: number;
     readonly skippedResources?: number;
-    state?: CommonState;
+    state?: State;
     readonly unsupportedResources?: number;
 }
 
 // @public
-export interface RegulatoryComplianceAPIRegulatoryComplianceAssessmentProperties {
+export interface RegulatoryComplianceAssessmentProperties {
     readonly assessmentDetailsLink?: string;
     readonly assessmentType?: string;
     readonly description?: string;
     readonly failedResources?: number;
     readonly passedResources?: number;
     readonly skippedResources?: number;
-    state?: CommonState;
+    state?: State;
     readonly unsupportedResources?: number;
 }
 
 // @public
-export interface RegulatoryComplianceAPIRegulatoryComplianceControl extends ProxyResource {
+export interface RegulatoryComplianceControl extends ProxyResource {
     readonly description?: string;
     readonly failedAssessments?: number;
     readonly passedAssessments?: number;
     readonly skippedAssessments?: number;
-    state?: CommonState;
+    state?: State;
 }
 
 // @public
-export interface RegulatoryComplianceAPIRegulatoryComplianceControlProperties {
+export interface RegulatoryComplianceControlProperties {
     readonly description?: string;
     readonly failedAssessments?: number;
     readonly passedAssessments?: number;
     readonly skippedAssessments?: number;
-    state?: CommonState;
+    state?: State;
 }
 
 // @public
-export interface RegulatoryComplianceAPIRegulatoryComplianceStandard extends ProxyResource {
+export interface RegulatoryComplianceStandard extends ProxyResource {
     readonly failedControls?: number;
     readonly passedControls?: number;
     readonly skippedControls?: number;
-    state?: CommonState;
+    state?: State;
     readonly unsupportedControls?: number;
 }
 
 // @public
-export interface RegulatoryComplianceAPIRegulatoryComplianceStandardProperties {
+export interface RegulatoryComplianceStandardProperties {
     readonly failedControls?: number;
     readonly passedControls?: number;
     readonly skippedControls?: number;
-    state?: CommonState;
+    state?: State;
     readonly unsupportedControls?: number;
 }
 

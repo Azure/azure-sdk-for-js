@@ -4,13 +4,13 @@
 import type { SecurityCenterContext as Client } from "../index.js";
 import { errorResponseDeserializer } from "../../models/models.js";
 import type {
-  SecurityConnectorsDevOpsAPIAzureDevOpsProject,
-  _SecurityConnectorsDevOpsAPIAzureDevOpsProjectListResponse,
+  AzureDevOpsProject,
+  _AzureDevOpsProjectListResponse,
 } from "../../models/securityConnectorsDevOpsAPI/models.js";
 import {
-  securityConnectorsDevOpsAPIAzureDevOpsProjectSerializer,
-  securityConnectorsDevOpsAPIAzureDevOpsProjectDeserializer,
-  _securityConnectorsDevOpsAPIAzureDevOpsProjectListResponseDeserializer,
+  azureDevOpsProjectSerializer,
+  azureDevOpsProjectDeserializer,
+  _azureDevOpsProjectListResponseDeserializer,
 } from "../../models/securityConnectorsDevOpsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -54,7 +54,7 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_SecurityConnectorsDevOpsAPIAzureDevOpsProjectListResponse> {
+): Promise<_AzureDevOpsProjectListResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -63,7 +63,7 @@ export async function _listDeserialize(
     throw error;
   }
 
-  return _securityConnectorsDevOpsAPIAzureDevOpsProjectListResponseDeserializer(result.body);
+  return _azureDevOpsProjectListResponseDeserializer(result.body);
 }
 
 /** Returns a list of Azure DevOps projects onboarded to the connector. */
@@ -73,7 +73,7 @@ export function list(
   securityConnectorName: string,
   orgName: string,
   options: AzureDevOpsProjectsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<SecurityConnectorsDevOpsAPIAzureDevOpsProject> {
+): PagedAsyncIterableIterator<AzureDevOpsProject> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, resourceGroupName, securityConnectorName, orgName, options),
@@ -89,7 +89,7 @@ export function _updateSend(
   securityConnectorName: string,
   orgName: string,
   projectName: string,
-  azureDevOpsProject: SecurityConnectorsDevOpsAPIAzureDevOpsProject,
+  azureDevOpsProject: AzureDevOpsProject,
   options: AzureDevOpsProjectsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -110,13 +110,13 @@ export function _updateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: securityConnectorsDevOpsAPIAzureDevOpsProjectSerializer(azureDevOpsProject),
+    body: azureDevOpsProjectSerializer(azureDevOpsProject),
   });
 }
 
 export async function _updateDeserialize(
   result: PathUncheckedResponse,
-): Promise<SecurityConnectorsDevOpsAPIAzureDevOpsProject> {
+): Promise<AzureDevOpsProject> {
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -125,7 +125,7 @@ export async function _updateDeserialize(
     throw error;
   }
 
-  return securityConnectorsDevOpsAPIAzureDevOpsProjectDeserializer(result.body);
+  return azureDevOpsProjectDeserializer(result.body);
 }
 
 /** Updates a monitored Azure DevOps project resource. */
@@ -135,12 +135,9 @@ export function update(
   securityConnectorName: string,
   orgName: string,
   projectName: string,
-  azureDevOpsProject: SecurityConnectorsDevOpsAPIAzureDevOpsProject,
+  azureDevOpsProject: AzureDevOpsProject,
   options: AzureDevOpsProjectsUpdateOptionalParams = { requestOptions: {} },
-): PollerLike<
-  OperationState<SecurityConnectorsDevOpsAPIAzureDevOpsProject>,
-  SecurityConnectorsDevOpsAPIAzureDevOpsProject
-> {
+): PollerLike<OperationState<AzureDevOpsProject>, AzureDevOpsProject> {
   return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
@@ -156,10 +153,7 @@ export function update(
       ),
     resourceLocationConfig: "azure-async-operation",
     apiVersion: "2025-11-01-preview",
-  }) as PollerLike<
-    OperationState<SecurityConnectorsDevOpsAPIAzureDevOpsProject>,
-    SecurityConnectorsDevOpsAPIAzureDevOpsProject
-  >;
+  }) as PollerLike<OperationState<AzureDevOpsProject>, AzureDevOpsProject>;
 }
 
 export function _createOrUpdateSend(
@@ -168,7 +162,7 @@ export function _createOrUpdateSend(
   securityConnectorName: string,
   orgName: string,
   projectName: string,
-  azureDevOpsProject: SecurityConnectorsDevOpsAPIAzureDevOpsProject,
+  azureDevOpsProject: AzureDevOpsProject,
   options: AzureDevOpsProjectsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -189,13 +183,13 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: securityConnectorsDevOpsAPIAzureDevOpsProjectSerializer(azureDevOpsProject),
+    body: azureDevOpsProjectSerializer(azureDevOpsProject),
   });
 }
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
-): Promise<SecurityConnectorsDevOpsAPIAzureDevOpsProject> {
+): Promise<AzureDevOpsProject> {
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -204,7 +198,7 @@ export async function _createOrUpdateDeserialize(
     throw error;
   }
 
-  return securityConnectorsDevOpsAPIAzureDevOpsProjectDeserializer(result.body);
+  return azureDevOpsProjectDeserializer(result.body);
 }
 
 /** Creates or updates a monitored Azure DevOps project resource. */
@@ -214,12 +208,9 @@ export function createOrUpdate(
   securityConnectorName: string,
   orgName: string,
   projectName: string,
-  azureDevOpsProject: SecurityConnectorsDevOpsAPIAzureDevOpsProject,
+  azureDevOpsProject: AzureDevOpsProject,
   options: AzureDevOpsProjectsCreateOrUpdateOptionalParams = { requestOptions: {} },
-): PollerLike<
-  OperationState<SecurityConnectorsDevOpsAPIAzureDevOpsProject>,
-  SecurityConnectorsDevOpsAPIAzureDevOpsProject
-> {
+): PollerLike<OperationState<AzureDevOpsProject>, AzureDevOpsProject> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
@@ -235,10 +226,7 @@ export function createOrUpdate(
       ),
     resourceLocationConfig: "azure-async-operation",
     apiVersion: "2025-11-01-preview",
-  }) as PollerLike<
-    OperationState<SecurityConnectorsDevOpsAPIAzureDevOpsProject>,
-    SecurityConnectorsDevOpsAPIAzureDevOpsProject
-  >;
+  }) as PollerLike<OperationState<AzureDevOpsProject>, AzureDevOpsProject>;
 }
 
 export function _getSend(
@@ -269,9 +257,7 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<SecurityConnectorsDevOpsAPIAzureDevOpsProject> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<AzureDevOpsProject> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -280,7 +266,7 @@ export async function _getDeserialize(
     throw error;
   }
 
-  return securityConnectorsDevOpsAPIAzureDevOpsProjectDeserializer(result.body);
+  return azureDevOpsProjectDeserializer(result.body);
 }
 
 /** Returns a monitored Azure DevOps project resource. */
@@ -291,7 +277,7 @@ export async function get(
   orgName: string,
   projectName: string,
   options: AzureDevOpsProjectsGetOptionalParams = { requestOptions: {} },
-): Promise<SecurityConnectorsDevOpsAPIAzureDevOpsProject> {
+): Promise<AzureDevOpsProject> {
   const result = await _getSend(
     context,
     resourceGroupName,

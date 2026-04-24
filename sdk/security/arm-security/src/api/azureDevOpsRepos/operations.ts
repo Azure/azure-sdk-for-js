@@ -4,13 +4,13 @@
 import type { SecurityCenterContext as Client } from "../index.js";
 import { errorResponseDeserializer } from "../../models/models.js";
 import type {
-  SecurityConnectorsDevOpsAPIAzureDevOpsRepository,
-  _SecurityConnectorsDevOpsAPIAzureDevOpsRepositoryListResponse,
+  AzureDevOpsRepository,
+  _AzureDevOpsRepositoryListResponse,
 } from "../../models/securityConnectorsDevOpsAPI/models.js";
 import {
-  securityConnectorsDevOpsAPIAzureDevOpsRepositorySerializer,
-  securityConnectorsDevOpsAPIAzureDevOpsRepositoryDeserializer,
-  _securityConnectorsDevOpsAPIAzureDevOpsRepositoryListResponseDeserializer,
+  azureDevOpsRepositorySerializer,
+  azureDevOpsRepositoryDeserializer,
+  _azureDevOpsRepositoryListResponseDeserializer,
 } from "../../models/securityConnectorsDevOpsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -56,7 +56,7 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_SecurityConnectorsDevOpsAPIAzureDevOpsRepositoryListResponse> {
+): Promise<_AzureDevOpsRepositoryListResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -65,7 +65,7 @@ export async function _listDeserialize(
     throw error;
   }
 
-  return _securityConnectorsDevOpsAPIAzureDevOpsRepositoryListResponseDeserializer(result.body);
+  return _azureDevOpsRepositoryListResponseDeserializer(result.body);
 }
 
 /** Returns a list of Azure DevOps repositories onboarded to the connector. */
@@ -76,7 +76,7 @@ export function list(
   orgName: string,
   projectName: string,
   options: AzureDevOpsReposListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<SecurityConnectorsDevOpsAPIAzureDevOpsRepository> {
+): PagedAsyncIterableIterator<AzureDevOpsRepository> {
   return buildPagedAsyncIterator(
     context,
     () =>
@@ -94,7 +94,7 @@ export function _updateSend(
   orgName: string,
   projectName: string,
   repoName: string,
-  azureDevOpsRepository: SecurityConnectorsDevOpsAPIAzureDevOpsRepository,
+  azureDevOpsRepository: AzureDevOpsRepository,
   options: AzureDevOpsReposUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -116,13 +116,13 @@ export function _updateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: securityConnectorsDevOpsAPIAzureDevOpsRepositorySerializer(azureDevOpsRepository),
+    body: azureDevOpsRepositorySerializer(azureDevOpsRepository),
   });
 }
 
 export async function _updateDeserialize(
   result: PathUncheckedResponse,
-): Promise<SecurityConnectorsDevOpsAPIAzureDevOpsRepository> {
+): Promise<AzureDevOpsRepository> {
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -131,7 +131,7 @@ export async function _updateDeserialize(
     throw error;
   }
 
-  return securityConnectorsDevOpsAPIAzureDevOpsRepositoryDeserializer(result.body);
+  return azureDevOpsRepositoryDeserializer(result.body);
 }
 
 /** Updates a monitored Azure DevOps repository resource. */
@@ -142,12 +142,9 @@ export function update(
   orgName: string,
   projectName: string,
   repoName: string,
-  azureDevOpsRepository: SecurityConnectorsDevOpsAPIAzureDevOpsRepository,
+  azureDevOpsRepository: AzureDevOpsRepository,
   options: AzureDevOpsReposUpdateOptionalParams = { requestOptions: {} },
-): PollerLike<
-  OperationState<SecurityConnectorsDevOpsAPIAzureDevOpsRepository>,
-  SecurityConnectorsDevOpsAPIAzureDevOpsRepository
-> {
+): PollerLike<OperationState<AzureDevOpsRepository>, AzureDevOpsRepository> {
   return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
@@ -164,10 +161,7 @@ export function update(
       ),
     resourceLocationConfig: "azure-async-operation",
     apiVersion: "2025-11-01-preview",
-  }) as PollerLike<
-    OperationState<SecurityConnectorsDevOpsAPIAzureDevOpsRepository>,
-    SecurityConnectorsDevOpsAPIAzureDevOpsRepository
-  >;
+  }) as PollerLike<OperationState<AzureDevOpsRepository>, AzureDevOpsRepository>;
 }
 
 export function _createOrUpdateSend(
@@ -177,7 +171,7 @@ export function _createOrUpdateSend(
   orgName: string,
   projectName: string,
   repoName: string,
-  azureDevOpsRepository: SecurityConnectorsDevOpsAPIAzureDevOpsRepository,
+  azureDevOpsRepository: AzureDevOpsRepository,
   options: AzureDevOpsReposCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -199,13 +193,13 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: securityConnectorsDevOpsAPIAzureDevOpsRepositorySerializer(azureDevOpsRepository),
+    body: azureDevOpsRepositorySerializer(azureDevOpsRepository),
   });
 }
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
-): Promise<SecurityConnectorsDevOpsAPIAzureDevOpsRepository> {
+): Promise<AzureDevOpsRepository> {
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -214,7 +208,7 @@ export async function _createOrUpdateDeserialize(
     throw error;
   }
 
-  return securityConnectorsDevOpsAPIAzureDevOpsRepositoryDeserializer(result.body);
+  return azureDevOpsRepositoryDeserializer(result.body);
 }
 
 /** Creates or updates a monitored Azure DevOps repository resource. */
@@ -225,12 +219,9 @@ export function createOrUpdate(
   orgName: string,
   projectName: string,
   repoName: string,
-  azureDevOpsRepository: SecurityConnectorsDevOpsAPIAzureDevOpsRepository,
+  azureDevOpsRepository: AzureDevOpsRepository,
   options: AzureDevOpsReposCreateOrUpdateOptionalParams = { requestOptions: {} },
-): PollerLike<
-  OperationState<SecurityConnectorsDevOpsAPIAzureDevOpsRepository>,
-  SecurityConnectorsDevOpsAPIAzureDevOpsRepository
-> {
+): PollerLike<OperationState<AzureDevOpsRepository>, AzureDevOpsRepository> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
@@ -247,10 +238,7 @@ export function createOrUpdate(
       ),
     resourceLocationConfig: "azure-async-operation",
     apiVersion: "2025-11-01-preview",
-  }) as PollerLike<
-    OperationState<SecurityConnectorsDevOpsAPIAzureDevOpsRepository>,
-    SecurityConnectorsDevOpsAPIAzureDevOpsRepository
-  >;
+  }) as PollerLike<OperationState<AzureDevOpsRepository>, AzureDevOpsRepository>;
 }
 
 export function _getSend(
@@ -285,7 +273,7 @@ export function _getSend(
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<SecurityConnectorsDevOpsAPIAzureDevOpsRepository> {
+): Promise<AzureDevOpsRepository> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -294,7 +282,7 @@ export async function _getDeserialize(
     throw error;
   }
 
-  return securityConnectorsDevOpsAPIAzureDevOpsRepositoryDeserializer(result.body);
+  return azureDevOpsRepositoryDeserializer(result.body);
 }
 
 /** Returns a monitored Azure DevOps repository resource. */
@@ -306,7 +294,7 @@ export async function get(
   projectName: string,
   repoName: string,
   options: AzureDevOpsReposGetOptionalParams = { requestOptions: {} },
-): Promise<SecurityConnectorsDevOpsAPIAzureDevOpsRepository> {
+): Promise<AzureDevOpsRepository> {
   const result = await _getSend(
     context,
     resourceGroupName,

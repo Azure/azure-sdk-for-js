@@ -11,14 +11,14 @@ import { systemDataDeserializer } from "../models.js";
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Data sensitivity settings for sensitive data discovery */
-export interface SensitivitySettingsAPIGetSensitivitySettingsResponse extends ProxyResource {
+export interface GetSensitivitySettingsResponse extends ProxyResource {
   /** The sensitivity settings properties */
-  properties?: SensitivitySettingsAPIGetSensitivitySettingsResponseProperties;
+  properties?: GetSensitivitySettingsResponseProperties;
 }
 
-export function sensitivitySettingsAPIGetSensitivitySettingsResponseDeserializer(
+export function getSensitivitySettingsResponseDeserializer(
   item: any,
-): SensitivitySettingsAPIGetSensitivitySettingsResponse {
+): GetSensitivitySettingsResponse {
   return {
     id: item["id"],
     name: item["name"],
@@ -28,14 +28,12 @@ export function sensitivitySettingsAPIGetSensitivitySettingsResponseDeserializer
       : systemDataDeserializer(item["systemData"]),
     properties: !item["properties"]
       ? item["properties"]
-      : sensitivitySettingsAPIGetSensitivitySettingsResponsePropertiesDeserializer(
-          item["properties"],
-        ),
+      : getSensitivitySettingsResponsePropertiesDeserializer(item["properties"]),
   };
 }
 
 /** The sensitivity settings properties */
-export interface SensitivitySettingsAPIGetSensitivitySettingsResponseProperties {
+export interface GetSensitivitySettingsResponseProperties {
   /** List of selected sensitive info types' IDs. */
   sensitiveInfoTypesIds?: string[];
   /** The order of the sensitivity threshold label. Any label at or above this order will be considered sensitive. If set to -1, sensitivity by labels is turned off */
@@ -43,12 +41,12 @@ export interface SensitivitySettingsAPIGetSensitivitySettingsResponseProperties 
   /** The id of the sensitivity threshold label. Any label at or above this rank will be considered sensitive. */
   sensitivityThresholdLabelId?: string;
   /** Microsoft information protection built-in and custom information types, labels, and integration status. */
-  mipInformation?: SensitivitySettingsAPIGetSensitivitySettingsResponsePropertiesMipInformation;
+  mipInformation?: GetSensitivitySettingsResponsePropertiesMipInformation;
 }
 
-export function sensitivitySettingsAPIGetSensitivitySettingsResponsePropertiesDeserializer(
+export function getSensitivitySettingsResponsePropertiesDeserializer(
   item: any,
-): SensitivitySettingsAPIGetSensitivitySettingsResponseProperties {
+): GetSensitivitySettingsResponseProperties {
   return {
     sensitiveInfoTypesIds: !item["sensitiveInfoTypesIds"]
       ? item["sensitiveInfoTypesIds"]
@@ -59,43 +57,39 @@ export function sensitivitySettingsAPIGetSensitivitySettingsResponsePropertiesDe
     sensitivityThresholdLabelId: item["sensitivityThresholdLabelId"],
     mipInformation: !item["mipInformation"]
       ? item["mipInformation"]
-      : sensitivitySettingsAPIGetSensitivitySettingsResponsePropertiesMipInformationDeserializer(
-          item["mipInformation"],
-        ),
+      : getSensitivitySettingsResponsePropertiesMipInformationDeserializer(item["mipInformation"]),
   };
 }
 
 /** Microsoft information protection built-in and custom information types, labels, and integration status. */
-export interface SensitivitySettingsAPIGetSensitivitySettingsResponsePropertiesMipInformation {
+export interface GetSensitivitySettingsResponsePropertiesMipInformation {
   /** Microsoft information protection integration status */
-  mipIntegrationStatus?: SensitivitySettingsAPIMipIntegrationStatus;
+  mipIntegrationStatus?: MipIntegrationStatus;
   /** List of Microsoft information protection sensitivity labels */
-  labels?: SensitivitySettingsAPILabel[];
+  labels?: Label[];
   /** List of custom user-defined information types */
-  customInfoTypes?: SensitivitySettingsAPIInfoType[];
+  customInfoTypes?: InfoType[];
   /** List of pre-configured sensitive information types */
-  builtInInfoTypes?: SensitivitySettingsAPIBuiltInInfoType[];
+  builtInInfoTypes?: BuiltInInfoType[];
 }
 
-export function sensitivitySettingsAPIGetSensitivitySettingsResponsePropertiesMipInformationDeserializer(
+export function getSensitivitySettingsResponsePropertiesMipInformationDeserializer(
   item: any,
-): SensitivitySettingsAPIGetSensitivitySettingsResponsePropertiesMipInformation {
+): GetSensitivitySettingsResponsePropertiesMipInformation {
   return {
     mipIntegrationStatus: item["mipIntegrationStatus"],
-    labels: !item["labels"]
-      ? item["labels"]
-      : sensitivitySettingsAPILabelArrayDeserializer(item["labels"]),
+    labels: !item["labels"] ? item["labels"] : labelArrayDeserializer(item["labels"]),
     customInfoTypes: !item["customInfoTypes"]
       ? item["customInfoTypes"]
-      : sensitivitySettingsAPIInfoTypeArrayDeserializer(item["customInfoTypes"]),
+      : infoTypeArrayDeserializer(item["customInfoTypes"]),
     builtInInfoTypes: !item["builtInInfoTypes"]
       ? item["builtInInfoTypes"]
-      : sensitivitySettingsAPIBuiltInInfoTypeArrayDeserializer(item["builtInInfoTypes"]),
+      : builtInInfoTypeArrayDeserializer(item["builtInInfoTypes"]),
   };
 }
 
 /** Microsoft information protection integration status */
-export enum KnownSensitivitySettingsAPIMipIntegrationStatus {
+export enum KnownMipIntegrationStatus {
   /** Ok */
   Ok = "Ok",
   /** noConsent */
@@ -108,7 +102,7 @@ export enum KnownSensitivitySettingsAPIMipIntegrationStatus {
 
 /**
  * Microsoft information protection integration status \
- * {@link KnownSensitivitySettingsAPIMipIntegrationStatus} can be used interchangeably with SensitivitySettingsAPIMipIntegrationStatus,
+ * {@link KnownMipIntegrationStatus} can be used interchangeably with MipIntegrationStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Ok**: Ok \
@@ -116,18 +110,16 @@ export enum KnownSensitivitySettingsAPIMipIntegrationStatus {
  * **noAutoLabelingRules**: noAutoLabelingRules \
  * **noMipLabels**: noMipLabels
  */
-export type SensitivitySettingsAPIMipIntegrationStatus = string;
+export type MipIntegrationStatus = string;
 
-export function sensitivitySettingsAPILabelArrayDeserializer(
-  result: Array<SensitivitySettingsAPILabel>,
-): any[] {
+export function labelArrayDeserializer(result: Array<Label>): any[] {
   return result.map((item) => {
-    return sensitivitySettingsAPILabelDeserializer(item);
+    return labelDeserializer(item);
   });
 }
 
 /** Microsoft information protection sensitivity label */
-export interface SensitivitySettingsAPILabel {
+export interface Label {
   /** The display name of the label */
   name?: string;
   /** The ID of the label */
@@ -136,7 +128,7 @@ export interface SensitivitySettingsAPILabel {
   order?: number;
 }
 
-export function sensitivitySettingsAPILabelDeserializer(item: any): SensitivitySettingsAPILabel {
+export function labelDeserializer(item: any): Label {
   return {
     name: item["name"],
     id: item["id"],
@@ -144,16 +136,14 @@ export function sensitivitySettingsAPILabelDeserializer(item: any): SensitivityS
   };
 }
 
-export function sensitivitySettingsAPIInfoTypeArrayDeserializer(
-  result: Array<SensitivitySettingsAPIInfoType>,
-): any[] {
+export function infoTypeArrayDeserializer(result: Array<InfoType>): any[] {
   return result.map((item) => {
-    return sensitivitySettingsAPIInfoTypeDeserializer(item);
+    return infoTypeDeserializer(item);
   });
 }
 
 /** Custom user-defined information type */
-export interface SensitivitySettingsAPIInfoType {
+export interface InfoType {
   /** Display name of the info type */
   name?: string;
   /** Id of the info type */
@@ -162,9 +152,7 @@ export interface SensitivitySettingsAPIInfoType {
   description?: string;
 }
 
-export function sensitivitySettingsAPIInfoTypeDeserializer(
-  item: any,
-): SensitivitySettingsAPIInfoType {
+export function infoTypeDeserializer(item: any): InfoType {
   return {
     name: item["name"],
     id: item["id"],
@@ -172,16 +160,14 @@ export function sensitivitySettingsAPIInfoTypeDeserializer(
   };
 }
 
-export function sensitivitySettingsAPIBuiltInInfoTypeArrayDeserializer(
-  result: Array<SensitivitySettingsAPIBuiltInInfoType>,
-): any[] {
+export function builtInInfoTypeArrayDeserializer(result: Array<BuiltInInfoType>): any[] {
   return result.map((item) => {
-    return sensitivitySettingsAPIBuiltInInfoTypeDeserializer(item);
+    return builtInInfoTypeDeserializer(item);
   });
 }
 
 /** Pre-configured sensitive information type */
-export interface SensitivitySettingsAPIBuiltInInfoType {
+export interface BuiltInInfoType {
   /** Display name of the info type */
   name?: string;
   /** Id of the info type */
@@ -190,9 +176,7 @@ export interface SensitivitySettingsAPIBuiltInInfoType {
   type?: string;
 }
 
-export function sensitivitySettingsAPIBuiltInInfoTypeDeserializer(
-  item: any,
-): SensitivitySettingsAPIBuiltInInfoType {
+export function builtInInfoTypeDeserializer(item: any): BuiltInInfoType {
   return {
     name: item["name"],
     id: item["id"],
@@ -201,7 +185,7 @@ export function sensitivitySettingsAPIBuiltInInfoTypeDeserializer(
 }
 
 /** Request to update data sensitivity settings for sensitive data discovery */
-export interface SensitivitySettingsAPIUpdateSensitivitySettingsRequest {
+export interface UpdateSensitivitySettingsRequest {
   /** List of selected sensitive info types' IDs. */
   sensitiveInfoTypesIds: string[];
   /** The order of the sensitivity threshold label. Any label at or above this order will be considered sensitive. If set to -1, sensitivity by labels is turned off */
@@ -210,8 +194,8 @@ export interface SensitivitySettingsAPIUpdateSensitivitySettingsRequest {
   sensitivityThresholdLabelId?: string;
 }
 
-export function sensitivitySettingsAPIUpdateSensitivitySettingsRequestSerializer(
-  item: SensitivitySettingsAPIUpdateSensitivitySettingsRequest,
+export function updateSensitivitySettingsRequestSerializer(
+  item: UpdateSensitivitySettingsRequest,
 ): any {
   return {
     sensitiveInfoTypesIds: item["sensitiveInfoTypesIds"].map((p: any) => {
@@ -223,24 +207,24 @@ export function sensitivitySettingsAPIUpdateSensitivitySettingsRequestSerializer
 }
 
 /** A list with a single sensitivity settings resource */
-export interface _SensitivitySettingsAPIGetSensitivitySettingsListResponse {
-  value?: SensitivitySettingsAPIGetSensitivitySettingsResponse[];
+export interface _GetSensitivitySettingsListResponse {
+  value?: GetSensitivitySettingsResponse[];
 }
 
-export function _sensitivitySettingsAPIGetSensitivitySettingsListResponseDeserializer(
+export function _getSensitivitySettingsListResponseDeserializer(
   item: any,
-): _SensitivitySettingsAPIGetSensitivitySettingsListResponse {
+): _GetSensitivitySettingsListResponse {
   return {
     value: !item["value"]
       ? item["value"]
-      : sensitivitySettingsAPIGetSensitivitySettingsResponseArrayDeserializer(item["value"]),
+      : getSensitivitySettingsResponseArrayDeserializer(item["value"]),
   };
 }
 
-export function sensitivitySettingsAPIGetSensitivitySettingsResponseArrayDeserializer(
-  result: Array<SensitivitySettingsAPIGetSensitivitySettingsResponse>,
+export function getSensitivitySettingsResponseArrayDeserializer(
+  result: Array<GetSensitivitySettingsResponse>,
 ): any[] {
   return result.map((item) => {
-    return sensitivitySettingsAPIGetSensitivitySettingsResponseDeserializer(item);
+    return getSensitivitySettingsResponseDeserializer(item);
   });
 }

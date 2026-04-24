@@ -3,15 +3,15 @@
 
 import type { SecurityCenterContext as Client } from "../index.js";
 import type {
-  AssessmentAPISecurityAssessmentMetadataResponse,
-  _AssessmentAPISecurityAssessmentMetadataResponseList,
+  SecurityAssessmentMetadataResponse,
+  _SecurityAssessmentMetadataResponseList,
 } from "../../models/assessmentAPI/models.js";
 import {
-  assessmentAPISecurityAssessmentMetadataResponseSerializer,
-  assessmentAPISecurityAssessmentMetadataResponseDeserializer,
-  _assessmentAPISecurityAssessmentMetadataResponseListDeserializer,
+  securityAssessmentMetadataResponseSerializer,
+  securityAssessmentMetadataResponseDeserializer,
+  _securityAssessmentMetadataResponseListDeserializer,
 } from "../../models/assessmentAPI/models.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -47,23 +47,23 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_AssessmentAPISecurityAssessmentMetadataResponseList> {
+): Promise<_SecurityAssessmentMetadataResponseList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _assessmentAPISecurityAssessmentMetadataResponseListDeserializer(result.body);
+  return _securityAssessmentMetadataResponseListDeserializer(result.body);
 }
 
 /** Get metadata information on all assessment types */
 export function list(
   context: Client,
   options: AssessmentsMetadataListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<AssessmentAPISecurityAssessmentMetadataResponse> {
+): PagedAsyncIterableIterator<SecurityAssessmentMetadataResponse> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, options),
@@ -96,16 +96,16 @@ export function _getSend(
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<AssessmentAPISecurityAssessmentMetadataResponse> {
+): Promise<SecurityAssessmentMetadataResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return assessmentAPISecurityAssessmentMetadataResponseDeserializer(result.body);
+  return securityAssessmentMetadataResponseDeserializer(result.body);
 }
 
 /** Get metadata information on an assessment type */
@@ -113,7 +113,7 @@ export async function get(
   context: Client,
   assessmentMetadataName: string,
   options: AssessmentsMetadataGetOptionalParams = { requestOptions: {} },
-): Promise<AssessmentAPISecurityAssessmentMetadataResponse> {
+): Promise<SecurityAssessmentMetadataResponse> {
   const result = await _getSend(context, assessmentMetadataName, options);
   return _getDeserialize(result);
 }
@@ -140,23 +140,23 @@ export function _listBySubscriptionSend(
 
 export async function _listBySubscriptionDeserialize(
   result: PathUncheckedResponse,
-): Promise<_AssessmentAPISecurityAssessmentMetadataResponseList> {
+): Promise<_SecurityAssessmentMetadataResponseList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _assessmentAPISecurityAssessmentMetadataResponseListDeserializer(result.body);
+  return _securityAssessmentMetadataResponseListDeserializer(result.body);
 }
 
 /** Get metadata information on all assessment types in a specific subscription */
 export function listBySubscription(
   context: Client,
   options: AssessmentsMetadataListBySubscriptionOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<AssessmentAPISecurityAssessmentMetadataResponse> {
+): PagedAsyncIterableIterator<SecurityAssessmentMetadataResponse> {
   return buildPagedAsyncIterator(
     context,
     () => _listBySubscriptionSend(context, options),
@@ -191,7 +191,7 @@ export async function _deleteInSubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
@@ -212,7 +212,7 @@ export async function deleteInSubscription(
 export function _createInSubscriptionSend(
   context: Client,
   assessmentMetadataName: string,
-  assessmentMetadata: AssessmentAPISecurityAssessmentMetadataResponse,
+  assessmentMetadata: SecurityAssessmentMetadataResponse,
   options: AssessmentsMetadataCreateInSubscriptionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -230,31 +230,31 @@ export function _createInSubscriptionSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: assessmentAPISecurityAssessmentMetadataResponseSerializer(assessmentMetadata),
+    body: securityAssessmentMetadataResponseSerializer(assessmentMetadata),
   });
 }
 
 export async function _createInSubscriptionDeserialize(
   result: PathUncheckedResponse,
-): Promise<AssessmentAPISecurityAssessmentMetadataResponse> {
+): Promise<SecurityAssessmentMetadataResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return assessmentAPISecurityAssessmentMetadataResponseDeserializer(result.body);
+  return securityAssessmentMetadataResponseDeserializer(result.body);
 }
 
 /** Create metadata information on an assessment type in a specific subscription */
 export async function createInSubscription(
   context: Client,
   assessmentMetadataName: string,
-  assessmentMetadata: AssessmentAPISecurityAssessmentMetadataResponse,
+  assessmentMetadata: SecurityAssessmentMetadataResponse,
   options: AssessmentsMetadataCreateInSubscriptionOptionalParams = { requestOptions: {} },
-): Promise<AssessmentAPISecurityAssessmentMetadataResponse> {
+): Promise<SecurityAssessmentMetadataResponse> {
   const result = await _createInSubscriptionSend(
     context,
     assessmentMetadataName,
@@ -288,16 +288,16 @@ export function _getInSubscriptionSend(
 
 export async function _getInSubscriptionDeserialize(
   result: PathUncheckedResponse,
-): Promise<AssessmentAPISecurityAssessmentMetadataResponse> {
+): Promise<SecurityAssessmentMetadataResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return assessmentAPISecurityAssessmentMetadataResponseDeserializer(result.body);
+  return securityAssessmentMetadataResponseDeserializer(result.body);
 }
 
 /** Get metadata information on an assessment type in a specific subscription */
@@ -305,7 +305,7 @@ export async function getInSubscription(
   context: Client,
   assessmentMetadataName: string,
   options: AssessmentsMetadataGetInSubscriptionOptionalParams = { requestOptions: {} },
-): Promise<AssessmentAPISecurityAssessmentMetadataResponse> {
+): Promise<SecurityAssessmentMetadataResponse> {
   const result = await _getInSubscriptionSend(context, assessmentMetadataName, options);
   return _getInSubscriptionDeserialize(result);
 }

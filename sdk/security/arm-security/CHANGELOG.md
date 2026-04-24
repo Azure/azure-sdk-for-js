@@ -49,228 +49,307 @@ Compared with version 5.0.0
   - Added operation SqlVulnerabilityAssessmentScansOperations.beginInitiateScanAndWait
   - Added operation SqlVulnerabilityAssessmentScansOperations.getScanOperationResult
   - Added operation SqlVulnerabilityAssessmentScansOperations.initiateScan
-  - Added Interface AlertsAPIAlert
-  - Added Interface AlertsAPIAlertEntity
-  - Added Interface AlertsAPIAlertProperties
-  - Added Interface AlertsAPIAlertPropertiesSupportingEvidence
-  - Added Interface AlertsAPIAlertSimulatorBundlesRequestProperties
-  - Added Interface AlertsAPIAlertSimulatorRequestBody
-  - Added Interface AlertsAPIAlertSimulatorRequestProperties
-  - Added Interface AlertsAPIAzureResourceIdentifier
-  - Added Interface AlertsAPILogAnalyticsIdentifier
-  - Added Interface AlertsAPIResourceIdentifier
-  - Added Interface AlertsSuppressionRulesAPIAlertsSuppressionRule
-  - Added Interface AlertsSuppressionRulesAPIAlertsSuppressionRuleProperties
-  - Added Interface AlertsSuppressionRulesAPIScopeElement
-  - Added Interface AlertsSuppressionRulesAPISuppressionAlertsScope
+  - Added Interface AadExternalSecuritySolution
+  - Added Interface AadSolutionProperties
+  - Added Interface AccessTokenAuthentication
+  - Added Interface ActionableRemediation
+  - Added Interface AdvancedThreatProtectionProperties
+  - Added Interface AdvancedThreatProtectionSetting
+  - Added Interface AgentlessConfiguration
+  - Added Interface Alert
+  - Added Interface AlertProperties
+  - Added Interface AlertPropertiesSupportingEvidence
+  - Added Interface AlertSimulatorBundlesRequestProperties
+  - Added Interface AlertsSuppressionRule
+  - Added Interface AlertsSuppressionRuleProperties
   - Added Interface AlertsUpdateResourceGroupLevelStateToInProgressOptionalParams
   - Added Interface AlertsUpdateSubscriptionLevelStateToInProgressOptionalParams
-  - Added Interface ApiCollectionsAPIApiCollection
-  - Added Interface ApiCollectionsAPIApiCollectionProperties
+  - Added Interface AlertSyncSettingProperties
+  - Added Interface AlertSyncSettings
+  - Added Interface AllowedConnectionsResource
+  - Added Interface AllowedConnectionsResourceProperties
+  - Added Interface AllowlistCustomAlertRule
+  - Added Interface ApiCollection
+  - Added Interface ApiCollectionProperties
   - Added Interface APICollectionsGetByAzureApiManagementServiceOptionalParams
   - Added Interface APICollectionsListByAzureApiManagementServiceOptionalParams
   - Added Interface APICollectionsListByResourceGroupOptionalParams
   - Added Interface APICollectionsListBySubscriptionOptionalParams
   - Added Interface APICollectionsOffboardAzureApiManagementApiOptionalParams
   - Added Interface APICollectionsOnboardAzureApiManagementApiOptionalParams
+  - Added Interface Application
   - Added Interface ApplicationCreateOrUpdateOptionalParams
   - Added Interface ApplicationDeleteOptionalParams
   - Added Interface ApplicationGetOptionalParams
-  - Added Interface ApplicationsAPIApplication
-  - Added Interface ApplicationsAPIApplicationProperties
+  - Added Interface ApplicationProperties
   - Added Interface ApplicationsListOptionalParams
-  - Added Interface AssessmentAPIAssessmentLinks
-  - Added Interface AssessmentAPIAssessmentStatus
-  - Added Interface AssessmentAPIAssessmentStatusResponse
-  - Added Interface AssessmentAPIAzureResourceDetails
-  - Added Interface AssessmentAPISecurityAssessment
-  - Added Interface AssessmentAPISecurityAssessmentMetadataPartnerData
-  - Added Interface AssessmentAPISecurityAssessmentMetadataProperties
-  - Added Interface AssessmentAPISecurityAssessmentMetadataPropertiesResponse
-  - Added Interface AssessmentAPISecurityAssessmentMetadataPropertiesResponsePublishDates
-  - Added Interface AssessmentAPISecurityAssessmentMetadataResponse
-  - Added Interface AssessmentAPISecurityAssessmentPartnerData
-  - Added Interface AssessmentAPISecurityAssessmentProperties
-  - Added Interface AssessmentAPISecurityAssessmentPropertiesBase
-  - Added Interface AssessmentAPISecurityAssessmentPropertiesBaseRisk
-  - Added Interface AssessmentAPISecurityAssessmentPropertiesBaseRiskPathsItem
-  - Added Interface AssessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemEdgeItem
-  - Added Interface AssessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemNodesItem
-  - Added Interface AssessmentAPISecurityAssessmentPropertiesResponse
-  - Added Interface AssessmentAPISecurityAssessmentResponse
+  - Added Interface ArcAutoProvisioning
+  - Added Interface ArcAutoProvisioningAws
+  - Added Interface ArcAutoProvisioningConfiguration
+  - Added Interface ArcAutoProvisioningGcp
+  - Added Interface ArmPrivateEndpointConnection
+  - Added Interface AscLocation
+  - Added Interface AssessmentStatusResponse
+  - Added Interface AssignedAssessmentItem
+  - Added Interface AssignedComponentItem
+  - Added Interface AssignedStandardItem
+  - Added Interface Assignment
+  - Added Interface AssignmentProperties
+  - Added Interface AssignmentPropertiesAdditionalData
   - Added Interface AssignmentsCreateOrUpdateOptionalParams
   - Added Interface AssignmentsDeleteOptionalParams
   - Added Interface AssignmentsGetOptionalParams
   - Added Interface AssignmentsListBySubscriptionOptionalParams
   - Added Interface AssignmentsListOptionalParams
-  - Added Interface ATPSettingsAPIAdvancedThreatProtectionProperties
-  - Added Interface ATPSettingsAPIAdvancedThreatProtectionSetting
-  - Added Interface AutomationsAPIAutomation
-  - Added Interface AutomationsAPIAutomationAction
-  - Added Interface AutomationsAPIAutomationActionEventHub
-  - Added Interface AutomationsAPIAutomationActionLogicApp
-  - Added Interface AutomationsAPIAutomationActionWorkspace
-  - Added Interface AutomationsAPIAutomationProperties
-  - Added Interface AutomationsAPIAutomationRuleSet
-  - Added Interface AutomationsAPIAutomationScope
-  - Added Interface AutomationsAPIAutomationSource
-  - Added Interface AutomationsAPIAutomationTriggeringRule
-  - Added Interface AutomationsAPIAutomationUpdateModel
-  - Added Interface AutomationsAPIAutomationValidationStatus
-  - Added Interface AutomationsAPINotificationsSource
-  - Added Interface AutomationsAPINotificationsSourceAlert
-  - Added Interface AutomationsAPINotificationsSourceAttackPath
-  - Added Interface AutomationsAPISecurityContact
-  - Added Interface AutomationsAPISecurityContactProperties
-  - Added Interface AutomationsAPISecurityContactPropertiesNotificationsByRole
+  - Added Interface AtaExternalSecuritySolution
+  - Added Interface AtaSolutionProperties
+  - Added Interface AttestationEvidence
+  - Added Interface Authentication
+  - Added Interface Authorization
+  - Added Interface Automation
+  - Added Interface AutomationActionEventHub
+  - Added Interface AutomationActionLogicApp
+  - Added Interface AutomationActionWorkspace
+  - Added Interface AutomationProperties
   - Added Interface AutomationsUpdateOptionalParams
+  - Added Interface AutomationUpdateModel
+  - Added Interface AutoProvisioningSetting
+  - Added Interface AutoProvisioningSettingProperties
+  - Added Interface AwsEnvironmentData
+  - Added Interface AwsOrganizationalData
+  - Added Interface AwsOrganizationalDataMaster
+  - Added Interface AwsOrganizationalDataMember
+  - Added Interface AzureDevOpsOrg
+  - Added Interface AzureDevOpsOrgListResponse
+  - Added Interface AzureDevOpsOrgProperties
   - Added Interface AzureDevOpsOrgsCreateOrUpdateOptionalParams
   - Added Interface AzureDevOpsOrgsGetOptionalParams
   - Added Interface AzureDevOpsOrgsListAvailableOptionalParams
   - Added Interface AzureDevOpsOrgsListOptionalParams
   - Added Interface AzureDevOpsOrgsUpdateOptionalParams
+  - Added Interface AzureDevOpsProject
+  - Added Interface AzureDevOpsProjectProperties
   - Added Interface AzureDevOpsProjectsCreateOrUpdateOptionalParams
   - Added Interface AzureDevOpsProjectsGetOptionalParams
   - Added Interface AzureDevOpsProjectsListOptionalParams
   - Added Interface AzureDevOpsProjectsUpdateOptionalParams
   - Added Interface AzureDevOpsReposCreateOrUpdateOptionalParams
   - Added Interface AzureDevOpsReposGetOptionalParams
+  - Added Interface AzureDevOpsRepository
+  - Added Interface AzureDevOpsRepositoryProperties
   - Added Interface AzureDevOpsReposListOptionalParams
   - Added Interface AzureDevOpsReposUpdateOptionalParams
-  - Added Interface CommonAssignedStandardItem
-  - Added Interface CommonCloudError
-  - Added Interface CommonCloudErrorBody
-  - Added Interface CommonOperationStatus
-  - Added Interface CommonResourceDetails
-  - Added Interface CommonTags
-  - Added Interface ComplianceResultsAPIComplianceResult
-  - Added Interface ComplianceResultsAPIComplianceResultProperties
+  - Added Interface AzureDevOpsScopeEnvironmentData
+  - Added Interface AzureResourceDetails
+  - Added Interface AzureResourceIdentifier
+  - Added Interface AzureServersSetting
+  - Added Interface BlobsScanSummary
+  - Added Interface BuiltInInfoType
+  - Added Interface CategoryConfiguration
+  - Added Interface CefExternalSecuritySolution
+  - Added Interface CefSolutionProperties
+  - Added Interface Compliance
+  - Added Interface ComplianceProperties
+  - Added Interface ComplianceResult
+  - Added Interface ComplianceResultProperties
+  - Added Interface ContainerRegistryVulnerabilityProperties
+  - Added Interface CspmMonitorAwsOffering
+  - Added Interface CspmMonitorAzureDevOpsOffering
+  - Added Interface CspmMonitorDockerHubOffering
+  - Added Interface CspmMonitorGcpOffering
+  - Added Interface CspmMonitorGcpOfferingNativeCloudConnection
+  - Added Interface CspmMonitorGithubOffering
+  - Added Interface CspmMonitorGitLabOffering
+  - Added Interface CspmMonitorJFrogOffering
+  - Added Interface CustomRecommendation
+  - Added Interface CustomRecommendationProperties
   - Added Interface CustomRecommendationsCreateOrUpdateOptionalParams
   - Added Interface CustomRecommendationsDeleteOptionalParams
   - Added Interface CustomRecommendationsGetOptionalParams
   - Added Interface CustomRecommendationsListOptionalParams
-  - Added Interface DefenderForStorageAPIBlobsScanSummary
-  - Added Interface DefenderForStorageAPIDefenderForStorageSetting
-  - Added Interface DefenderForStorageAPIDefenderForStorageSettingProperties
-  - Added Interface DefenderForStorageAPIFilesScanSummary
-  - Added Interface DefenderForStorageAPIMalwareScan
-  - Added Interface DefenderForStorageAPIMalwareScanningProperties
-  - Added Interface DefenderForStorageAPIMalwareScanProperties
-  - Added Interface DefenderForStorageAPIOnUploadFilters
-  - Added Interface DefenderForStorageAPIOnUploadProperties
-  - Added Interface DefenderForStorageAPIScanSummary
-  - Added Interface DefenderForStorageAPISensitiveDataDiscoveryProperties
+  - Added Interface DataExportSettingProperties
+  - Added Interface DataExportSettings
+  - Added Interface DefenderCspmAwsOffering
+  - Added Interface DefenderCspmAwsOfferingCiem
+  - Added Interface DefenderCspmAwsOfferingCiemCiemDiscovery
+  - Added Interface DefenderCspmAwsOfferingCiemCiemOidc
+  - Added Interface DefenderCspmAwsOfferingDatabasesDspm
+  - Added Interface DefenderCspmAwsOfferingDataSensitivityDiscovery
+  - Added Interface DefenderCspmAwsOfferingMdcContainersAgentlessDiscoveryK8S
+  - Added Interface DefenderCspmAwsOfferingMdcContainersImageAssessment
+  - Added Interface DefenderCspmAwsOfferingVmScanners
+  - Added Interface DefenderCspmDockerHubOffering
+  - Added Interface DefenderCspmGcpOffering
+  - Added Interface DefenderCspmGcpOfferingCiemDiscovery
+  - Added Interface DefenderCspmGcpOfferingDataSensitivityDiscovery
+  - Added Interface DefenderCspmGcpOfferingMdcContainersAgentlessDiscoveryK8S
+  - Added Interface DefenderCspmGcpOfferingMdcContainersImageAssessment
+  - Added Interface DefenderCspmGcpOfferingVmScanners
+  - Added Interface DefenderCspmJFrogOffering
+  - Added Interface DefenderCspmJFrogOfferingMdcContainersImageAssessment
+  - Added Interface DefenderFoDatabasesAwsOffering
+  - Added Interface DefenderFoDatabasesAwsOfferingArcAutoProvisioning
+  - Added Interface DefenderFoDatabasesAwsOfferingDatabasesDspm
+  - Added Interface DefenderFoDatabasesAwsOfferingRds
+  - Added Interface DefenderForContainersAwsOffering
+  - Added Interface DefenderForContainersAwsOfferingKubernetesDataCollection
+  - Added Interface DefenderForContainersAwsOfferingMdcContainersAgentlessDiscoveryK8S
+  - Added Interface DefenderForContainersAwsOfferingMdcContainersImageAssessment
+  - Added Interface DefenderForContainersAwsOfferingVmScanners
+  - Added Interface DefenderForContainersDockerHubOffering
+  - Added Interface DefenderForContainersGcpOffering
+  - Added Interface DefenderForContainersGcpOfferingDataPipelineNativeCloudConnection
+  - Added Interface DefenderForContainersGcpOfferingMdcContainersAgentlessDiscoveryK8S
+  - Added Interface DefenderForContainersGcpOfferingMdcContainersImageAssessment
+  - Added Interface DefenderForContainersGcpOfferingNativeCloudConnection
+  - Added Interface DefenderForContainersGcpOfferingVmScanners
+  - Added Interface DefenderForContainersJFrogOffering
+  - Added Interface DefenderForDatabasesGcpOffering
+  - Added Interface DefenderForDatabasesGcpOfferingArcAutoProvisioning
+  - Added Interface DefenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioning
+  - Added Interface DefenderForServersAwsOffering
+  - Added Interface DefenderForServersAwsOfferingMdeAutoProvisioning
+  - Added Interface DefenderForServersAwsOfferingSubPlan
+  - Added Interface DefenderForServersAwsOfferingVaAutoProvisioning
+  - Added Interface DefenderForServersAwsOfferingVaAutoProvisioningConfiguration
+  - Added Interface DefenderForServersAwsOfferingVmScanners
+  - Added Interface DefenderForServersGcpOffering
+  - Added Interface DefenderForServersGcpOfferingArcAutoProvisioning
+  - Added Interface DefenderForServersGcpOfferingDefenderForServers
+  - Added Interface DefenderForServersGcpOfferingMdeAutoProvisioning
+  - Added Interface DefenderForServersGcpOfferingSubPlan
+  - Added Interface DefenderForServersGcpOfferingVaAutoProvisioning
+  - Added Interface DefenderForServersGcpOfferingVaAutoProvisioningConfiguration
+  - Added Interface DefenderForServersGcpOfferingVmScanners
   - Added Interface DefenderForStorageCancelMalwareScanOptionalParams
   - Added Interface DefenderForStorageCreateOptionalParams
   - Added Interface DefenderForStorageGetMalwareScanOptionalParams
   - Added Interface DefenderForStorageGetOptionalParams
   - Added Interface DefenderForStorageListOptionalParams
+  - Added Interface DefenderForStorageSetting
+  - Added Interface DefenderForStorageSettingProperties
   - Added Interface DefenderForStorageStartMalwareScanOptionalParams
+  - Added Interface DenylistCustomAlertRule
+  - Added Interface DeviceSecurityGroup
+  - Added Interface DeviceSecurityGroupProperties
+  - Added Interface DevOpsCapability
+  - Added Interface DevOpsConfiguration
+  - Added Interface DevOpsConfigurationProperties
   - Added Interface DevOpsConfigurationsCreateOrUpdateOptionalParams
   - Added Interface DevOpsConfigurationsDeleteOptionalParams
   - Added Interface DevOpsConfigurationsGetOptionalParams
   - Added Interface DevOpsConfigurationsListOptionalParams
   - Added Interface DevOpsConfigurationsUpdateOptionalParams
   - Added Interface DevOpsOperationResultsGetOptionalParams
+  - Added Interface DiscoveredSecuritySolution
+  - Added Interface DiscoveredSecuritySolutionProperties
+  - Added Interface DockerHubEnvironmentData
+  - Added Interface EnvironmentData
+  - Added Interface EnvironmentDetails
   - Added Interface ErrorDetail
   - Added Interface ErrorResponse
+  - Added Interface ExecuteGovernanceRuleParams
+  - Added Interface Extension
   - Added Interface ExtensionResource
+  - Added Interface ExternalSecuritySolution
+  - Added Interface FilesScanSummary
+  - Added Interface GcpOrganizationalData
+  - Added Interface GcpOrganizationalDataMember
+  - Added Interface GcpOrganizationalDataOrganization
+  - Added Interface GcpProjectDetails
+  - Added Interface GcpProjectEnvironmentData
+  - Added Interface GetSensitivitySettingsResponse
+  - Added Interface GetSensitivitySettingsResponseProperties
+  - Added Interface GetSensitivitySettingsResponsePropertiesMipInformation
   - Added Interface GitHubIssuesCreateOptionalParams
+  - Added Interface GitHubOwner
+  - Added Interface GitHubOwnerListResponse
+  - Added Interface GitHubOwnerProperties
   - Added Interface GitHubOwnersGetOptionalParams
   - Added Interface GitHubOwnersListAvailableOptionalParams
   - Added Interface GitHubOwnersListOptionalParams
   - Added Interface GitHubReposGetOptionalParams
+  - Added Interface GitHubRepository
+  - Added Interface GitHubRepositoryProperties
   - Added Interface GitHubReposListOptionalParams
+  - Added Interface GithubScopeEnvironmentData
+  - Added Interface GitLabGroup
+  - Added Interface GitLabGroupListResponse
+  - Added Interface GitLabGroupProperties
   - Added Interface GitLabGroupsGetOptionalParams
   - Added Interface GitLabGroupsListAvailableOptionalParams
   - Added Interface GitLabGroupsListOptionalParams
+  - Added Interface GitLabProject
+  - Added Interface GitLabProjectProperties
   - Added Interface GitLabProjectsGetOptionalParams
   - Added Interface GitLabProjectsListOptionalParams
+  - Added Interface GitlabScopeEnvironmentData
   - Added Interface GitLabSubgroupsListOptionalParams
-  - Added Interface GovernanceAPIExecuteGovernanceRuleParams
-  - Added Interface GovernanceAPIGovernanceAssignment
-  - Added Interface GovernanceAPIGovernanceAssignmentAdditionalData
-  - Added Interface GovernanceAPIGovernanceAssignmentProperties
-  - Added Interface GovernanceAPIGovernanceEmailNotification
-  - Added Interface GovernanceAPIGovernanceRule
-  - Added Interface GovernanceAPIGovernanceRuleEmailNotification
-  - Added Interface GovernanceAPIGovernanceRuleMetadata
-  - Added Interface GovernanceAPIGovernanceRuleOwnerSource
-  - Added Interface GovernanceAPIGovernanceRuleProperties
-  - Added Interface GovernanceAPIOperationResult
-  - Added Interface GovernanceAPIRemediationEta
+  - Added Interface GovernanceAssignment
+  - Added Interface GovernanceAssignmentAdditionalData
+  - Added Interface GovernanceAssignmentProperties
   - Added Interface GovernanceAssignmentsCreateOrUpdateOptionalParams
   - Added Interface GovernanceAssignmentsDeleteOptionalParams
   - Added Interface GovernanceAssignmentsGetOptionalParams
   - Added Interface GovernanceAssignmentsListOptionalParams
+  - Added Interface GovernanceEmailNotification
+  - Added Interface GovernanceRule
+  - Added Interface GovernanceRuleEmailNotification
+  - Added Interface GovernanceRuleMetadata
+  - Added Interface GovernanceRuleOwnerSource
+  - Added Interface GovernanceRuleProperties
   - Added Interface GovernanceRulesCreateOrUpdateOptionalParams
   - Added Interface GovernanceRulesDeleteOptionalParams
   - Added Interface GovernanceRulesExecuteOptionalParams
   - Added Interface GovernanceRulesGetOptionalParams
   - Added Interface GovernanceRulesListOptionalParams
   - Added Interface GovernanceRulesOperationResultsOptionalParams
-  - Added Interface HealthReportsAPIenvironmentDetails
-  - Added Interface HealthReportsAPIhealthDataClassification
-  - Added Interface HealthReportsAPIHealthReport
-  - Added Interface HealthReportsAPIHealthReportProperties
-  - Added Interface HealthReportsAPIissue
-  - Added Interface HealthReportsAPIresourceDetails
-  - Added Interface HealthReportsAPIstatus
+  - Added Interface HealthDataClassification
+  - Added Interface HealthReport
+  - Added Interface HealthReportProperties
   - Added Interface HealthReportsGetOptionalParams
   - Added Interface HealthReportsListOptionalParams
   - Added Interface Identity
-  - Added Interface IoTSecurityAPIAdditionalWorkspacesProperties
-  - Added Interface IoTSecurityAPIAllowlistCustomAlertRule
-  - Added Interface IoTSecurityAPICustomAlertRule
-  - Added Interface IoTSecurityAPIDenylistCustomAlertRule
-  - Added Interface IoTSecurityAPIDeviceSecurityGroup
-  - Added Interface IoTSecurityAPIDeviceSecurityGroupProperties
-  - Added Interface IoTSecurityAPIIoTSecurityAggregatedAlert
-  - Added Interface IoTSecurityAPIIoTSecurityAggregatedAlertProperties
-  - Added Interface IoTSecurityAPIIoTSecurityAggregatedAlertPropertiesTopDevicesListItem
-  - Added Interface IoTSecurityAPIIoTSecurityAggregatedRecommendation
-  - Added Interface IoTSecurityAPIIoTSecurityAggregatedRecommendationProperties
-  - Added Interface IoTSecurityAPIIoTSecurityAlertedDevice
-  - Added Interface IoTSecurityAPIIoTSecurityDeviceAlert
-  - Added Interface IoTSecurityAPIIoTSecurityDeviceRecommendation
-  - Added Interface IoTSecurityAPIIoTSecuritySolutionAnalyticsModel
-  - Added Interface IoTSecurityAPIIoTSecuritySolutionAnalyticsModelList
-  - Added Interface IoTSecurityAPIIoTSecuritySolutionAnalyticsModelProperties
-  - Added Interface IoTSecurityAPIIoTSecuritySolutionAnalyticsModelPropertiesDevicesMetricsItem
-  - Added Interface IoTSecurityAPIIoTSecuritySolutionModel
-  - Added Interface IoTSecurityAPIIoTSecuritySolutionProperties
-  - Added Interface IoTSecurityAPIIoTSeverityMetrics
-  - Added Interface IoTSecurityAPIListCustomAlertRule
-  - Added Interface IoTSecurityAPIRecommendationConfigurationProperties
-  - Added Interface IoTSecurityAPITagsResource
-  - Added Interface IoTSecurityAPIThresholdCustomAlertRule
-  - Added Interface IoTSecurityAPITimeWindowCustomAlertRule
-  - Added Interface IoTSecurityAPIUpdateIotSecuritySolutionData
-  - Added Interface IoTSecurityAPIUpdateIoTSecuritySolutionProperties
-  - Added Interface IoTSecurityAPIUserDefinedResourcesProperties
-  - Added Interface LegacySettingsAPIAutoProvisioningSetting
-  - Added Interface LegacySettingsAPIAutoProvisioningSettingProperties
-  - Added Interface LegacySettingsAPICompliance
-  - Added Interface LegacySettingsAPIComplianceProperties
-  - Added Interface LegacySettingsAPIComplianceSegment
-  - Added Interface LegacySettingsAPIInformationProtectionKeyword
-  - Added Interface LegacySettingsAPIInformationProtectionPolicy
-  - Added Interface LegacySettingsAPIInformationProtectionPolicyProperties
-  - Added Interface LegacySettingsAPIInformationType
-  - Added Interface LegacySettingsAPISensitivityLabel
-  - Added Interface LegacySettingsAPIWorkspaceSetting
-  - Added Interface LegacySettingsAPIWorkspaceSettingProperties
-  - Added Interface LocationsAPIAscLocation
-  - Added Interface MdeOnboardingAPIMdeOnboardingData
-  - Added Interface MdeOnboardingAPIMdeOnboardingDataProperties
+  - Added Interface InformationProtectionPolicy
+  - Added Interface InformationProtectionPolicyProperties
+  - Added Interface InfoType
+  - Added Interface InventoryList
+  - Added Interface IoTSecurityAggregatedAlert
+  - Added Interface IoTSecurityAggregatedAlertProperties
+  - Added Interface IoTSecurityAggregatedRecommendation
+  - Added Interface IoTSecurityAggregatedRecommendationProperties
+  - Added Interface IoTSecuritySolutionAnalyticsModel
+  - Added Interface IoTSecuritySolutionAnalyticsModelProperties
+  - Added Interface IoTSecuritySolutionModel
+  - Added Interface IoTSecuritySolutionProperties
+  - Added Interface Issue
+  - Added Interface IssueCreationRequest
+  - Added Interface JFrogEnvironmentData
+  - Added Interface JitNetworkAccessPolicy
+  - Added Interface JitNetworkAccessPolicyProperties
+  - Added Interface Label
+  - Added Interface ListCustomAlertRule
+  - Added Interface LogAnalyticsIdentifier
+  - Added Interface MalwareScan
+  - Added Interface MalwareScanningProperties
+  - Added Interface MalwareScanProperties
+  - Added Interface MdeOnboardingData
+  - Added Interface MdeOnboardingDataProperties
+  - Added Interface NotificationsSource
+  - Added Interface NotificationsSourceAlert
+  - Added Interface NotificationsSourceAttackPath
+  - Added Interface OnUploadFilters
+  - Added Interface OnUploadProperties
+  - Added Interface OperationResult
   - Added Interface OperationResultsGetOptionalParams
+  - Added Interface OperationStatus
   - Added Interface OperationStatusesGetOptionalParams
   - Added Interface OperationStatusResult
   - Added Interface PagedAsyncIterableIterator
   - Added Interface PageSettings
-  - Added Interface PricingsAPIExtension
-  - Added Interface PricingsAPIPricing
-  - Added Interface PricingsAPIPricingProperties
+  - Added Interface PartialAssessmentProperties
+  - Added Interface Pricing
+  - Added Interface PricingProperties
   - Added Interface PricingsDeleteOptionalParams
   - Added Interface PrivateEndpoint
   - Added Interface PrivateEndpointConnection
@@ -279,14 +358,13 @@ Compared with version 5.0.0
   - Added Interface PrivateEndpointConnectionsDeleteOptionalParams
   - Added Interface PrivateEndpointConnectionsGetOptionalParams
   - Added Interface PrivateEndpointConnectionsListOptionalParams
+  - Added Interface PrivateLinkGroupResource
+  - Added Interface PrivateLinkParameters
+  - Added Interface PrivateLinkProperties
+  - Added Interface PrivateLinkResource
   - Added Interface PrivateLinkResourceProperties
   - Added Interface PrivateLinkResourcesGetOptionalParams
   - Added Interface PrivateLinkResourcesListOptionalParams
-  - Added Interface PrivateLinksAPIPrivateEndpointConnection
-  - Added Interface PrivateLinksAPIPrivateLinkGroupResource
-  - Added Interface PrivateLinksAPIPrivateLinkProperties
-  - Added Interface PrivateLinksAPIPrivateLinkResource
-  - Added Interface PrivateLinksAPIPrivateLinkUpdate
   - Added Interface PrivateLinksCreateOptionalParams
   - Added Interface PrivateLinksDeleteOptionalParams
   - Added Interface PrivateLinkServiceConnectionState
@@ -295,542 +373,310 @@ Compared with version 5.0.0
   - Added Interface PrivateLinksListBySubscriptionOptionalParams
   - Added Interface PrivateLinksListOptionalParams
   - Added Interface PrivateLinksUpdateOptionalParams
+  - Added Interface PrivateLinkUpdate
   - Added Interface ProxyResource
-  - Added Interface RegulatoryComplianceAPIRegulatoryComplianceAssessment
-  - Added Interface RegulatoryComplianceAPIRegulatoryComplianceAssessmentProperties
-  - Added Interface RegulatoryComplianceAPIRegulatoryComplianceControl
-  - Added Interface RegulatoryComplianceAPIRegulatoryComplianceControlProperties
-  - Added Interface RegulatoryComplianceAPIRegulatoryComplianceStandard
-  - Added Interface RegulatoryComplianceAPIRegulatoryComplianceStandardProperties
+  - Added Interface RegulatoryComplianceAssessment
+  - Added Interface RegulatoryComplianceAssessmentProperties
+  - Added Interface RegulatoryComplianceControl
+  - Added Interface RegulatoryComplianceControlProperties
+  - Added Interface RegulatoryComplianceStandard
+  - Added Interface RegulatoryComplianceStandardProperties
+  - Added Interface RemediationEta
   - Added Interface RestorePollerOptions
-  - Added Interface SecureScoreAPIAzureResourceLink
-  - Added Interface SecureScoreAPIScoreDetails
-  - Added Interface SecureScoreAPISecureScoreControlDefinitionItem
-  - Added Interface SecureScoreAPISecureScoreControlDefinitionItemProperties
-  - Added Interface SecureScoreAPISecureScoreControlDefinitionSource
-  - Added Interface SecureScoreAPISecureScoreControlDetails
-  - Added Interface SecureScoreAPISecureScoreControlScoreDetails
-  - Added Interface SecureScoreAPISecureScoreItem
-  - Added Interface SecureScoreAPISecureScoreItemProperties
+  - Added Interface RuleResults
+  - Added Interface ScanPropertiesV2
+  - Added Interface ScanResult
+  - Added Interface ScanSummary
+  - Added Interface ScanV2
+  - Added Interface ScoreDetails
+  - Added Interface SecureScoreControlDefinitionItem
+  - Added Interface SecureScoreControlDefinitionItemProperties
+  - Added Interface SecureScoreControlDetails
+  - Added Interface SecureScoreControlScoreDetails
+  - Added Interface SecureScoreItem
+  - Added Interface SecureScoreItemProperties
+  - Added Interface SecurityAssessment
+  - Added Interface SecurityAssessmentMetadataPropertiesResponse
+  - Added Interface SecurityAssessmentMetadataResponse
+  - Added Interface SecurityAssessmentProperties
+  - Added Interface SecurityAssessmentPropertiesBaseRisk
+  - Added Interface SecurityAssessmentPropertiesBaseRiskPathsItem
+  - Added Interface SecurityAssessmentPropertiesBaseRiskPathsItemEdgeItem
+  - Added Interface SecurityAssessmentPropertiesBaseRiskPathsItemNodesItem
+  - Added Interface SecurityAssessmentPropertiesResponse
+  - Added Interface SecurityAssessmentResponse
+  - Added Interface SecurityCenterResourceDetails
+  - Added Interface SecurityConnector
   - Added Interface SecurityConnectorApplicationCreateOrUpdateOptionalParams
   - Added Interface SecurityConnectorApplicationDeleteOptionalParams
   - Added Interface SecurityConnectorApplicationGetOptionalParams
   - Added Interface SecurityConnectorApplicationsListOptionalParams
-  - Added Interface SecurityConnectorsAPIAccessTokenAuthentication
-  - Added Interface SecurityConnectorsAPIarcAutoProvisioning
-  - Added Interface SecurityConnectorsAPIarcAutoProvisioningAws
-  - Added Interface SecurityConnectorsAPIArcAutoProvisioningConfiguration
-  - Added Interface SecurityConnectorsAPIarcAutoProvisioningGcp
-  - Added Interface SecurityConnectorsAPIAuthentication
-  - Added Interface SecurityConnectorsAPIAwsEnvironmentData
-  - Added Interface SecurityConnectorsAPIAwsOrganizationalData
-  - Added Interface SecurityConnectorsAPIAwsOrganizationalDataMaster
-  - Added Interface SecurityConnectorsAPIAwsOrganizationalDataMember
-  - Added Interface SecurityConnectorsAPIAzureDevOpsScopeEnvironmentData
-  - Added Interface SecurityConnectorsAPIcloudOffering
-  - Added Interface SecurityConnectorsAPIcspmMonitorAwsOffering
-  - Added Interface SecurityConnectorsAPICspmMonitorAwsOfferingNativeCloudConnection
-  - Added Interface SecurityConnectorsAPIcspmMonitorAzureDevOpsOffering
-  - Added Interface SecurityConnectorsAPIcspmMonitorDockerHubOffering
-  - Added Interface SecurityConnectorsAPIcspmMonitorGcpOffering
-  - Added Interface SecurityConnectorsAPICspmMonitorGcpOfferingNativeCloudConnection
-  - Added Interface SecurityConnectorsAPIcspmMonitorGithubOffering
-  - Added Interface SecurityConnectorsAPIcspmMonitorGitLabOffering
-  - Added Interface SecurityConnectorsAPIcspmMonitorJFrogOffering
-  - Added Interface SecurityConnectorsAPIdefenderCspmAwsOffering
-  - Added Interface SecurityConnectorsAPIDefenderCspmAwsOfferingCiem
-  - Added Interface SecurityConnectorsAPIDefenderCspmAwsOfferingCiemCiemDiscovery
-  - Added Interface SecurityConnectorsAPIDefenderCspmAwsOfferingCiemCiemOidc
-  - Added Interface SecurityConnectorsAPIDefenderCspmAwsOfferingDatabasesDspm
-  - Added Interface SecurityConnectorsAPIDefenderCspmAwsOfferingDataSensitivityDiscovery
-  - Added Interface SecurityConnectorsAPIDefenderCspmAwsOfferingMdcContainersAgentlessDiscoveryK8S
-  - Added Interface SecurityConnectorsAPIDefenderCspmAwsOfferingMdcContainersImageAssessment
-  - Added Interface SecurityConnectorsAPIdefenderCspmAwsOfferingVmScanners
-  - Added Interface SecurityConnectorsAPIdefenderCspmDockerHubOffering
-  - Added Interface SecurityConnectorsAPIdefenderCspmGcpOffering
-  - Added Interface SecurityConnectorsAPIDefenderCspmGcpOfferingCiemDiscovery
-  - Added Interface SecurityConnectorsAPIDefenderCspmGcpOfferingDataSensitivityDiscovery
-  - Added Interface SecurityConnectorsAPIDefenderCspmGcpOfferingMdcContainersAgentlessDiscoveryK8S
-  - Added Interface SecurityConnectorsAPIDefenderCspmGcpOfferingMdcContainersImageAssessment
-  - Added Interface SecurityConnectorsAPIdefenderCspmGcpOfferingVmScanners
-  - Added Interface SecurityConnectorsAPIdefenderCspmJFrogOffering
-  - Added Interface SecurityConnectorsAPIDefenderCspmJFrogOfferingMdcContainersImageAssessment
-  - Added Interface SecurityConnectorsAPIdefenderFoDatabasesAwsOffering
-  - Added Interface SecurityConnectorsAPIDefenderFoDatabasesAwsOfferingArcAutoProvisioning
-  - Added Interface SecurityConnectorsAPIDefenderFoDatabasesAwsOfferingDatabasesDspm
-  - Added Interface SecurityConnectorsAPIDefenderFoDatabasesAwsOfferingRds
-  - Added Interface SecurityConnectorsAPIdefenderForContainersAwsOffering
-  - Added Interface SecurityConnectorsAPIDefenderForContainersAwsOfferingCloudWatchToKinesis
-  - Added Interface SecurityConnectorsAPIDefenderForContainersAwsOfferingKinesisToS3
-  - Added Interface SecurityConnectorsAPIDefenderForContainersAwsOfferingKubernetesDataCollection
-  - Added Interface SecurityConnectorsAPIDefenderForContainersAwsOfferingKubernetesService
-  - Added Interface SecurityConnectorsAPIDefenderForContainersAwsOfferingMdcContainersAgentlessDiscoveryK8S
-  - Added Interface SecurityConnectorsAPIDefenderForContainersAwsOfferingMdcContainersImageAssessment
-  - Added Interface SecurityConnectorsAPIdefenderForContainersAwsOfferingVmScanners
-  - Added Interface SecurityConnectorsAPIdefenderForContainersDockerHubOffering
-  - Added Interface SecurityConnectorsAPIdefenderForContainersGcpOffering
-  - Added Interface SecurityConnectorsAPIDefenderForContainersGcpOfferingDataPipelineNativeCloudConnection
-  - Added Interface SecurityConnectorsAPIDefenderForContainersGcpOfferingMdcContainersAgentlessDiscoveryK8S
-  - Added Interface SecurityConnectorsAPIDefenderForContainersGcpOfferingMdcContainersImageAssessment
-  - Added Interface SecurityConnectorsAPIDefenderForContainersGcpOfferingNativeCloudConnection
-  - Added Interface SecurityConnectorsAPIdefenderForContainersGcpOfferingVmScanners
-  - Added Interface SecurityConnectorsAPIdefenderForContainersJFrogOffering
-  - Added Interface SecurityConnectorsAPIdefenderForDatabasesGcpOffering
-  - Added Interface SecurityConnectorsAPIDefenderForDatabasesGcpOfferingArcAutoProvisioning
-  - Added Interface SecurityConnectorsAPIDefenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioning
-  - Added Interface SecurityConnectorsAPIdefenderForServersAwsOffering
-  - Added Interface SecurityConnectorsAPIDefenderForServersAwsOfferingArcAutoProvisioning
-  - Added Interface SecurityConnectorsAPIDefenderForServersAwsOfferingDefenderForServers
-  - Added Interface SecurityConnectorsAPIDefenderForServersAwsOfferingMdeAutoProvisioning
-  - Added Interface SecurityConnectorsAPIDefenderForServersAwsOfferingSubPlan
-  - Added Interface SecurityConnectorsAPIDefenderForServersAwsOfferingVaAutoProvisioning
-  - Added Interface SecurityConnectorsAPIDefenderForServersAwsOfferingVaAutoProvisioningConfiguration
-  - Added Interface SecurityConnectorsAPIdefenderForServersAwsOfferingVmScanners
-  - Added Interface SecurityConnectorsAPIdefenderForServersGcpOffering
-  - Added Interface SecurityConnectorsAPIDefenderForServersGcpOfferingArcAutoProvisioning
-  - Added Interface SecurityConnectorsAPIDefenderForServersGcpOfferingDefenderForServers
-  - Added Interface SecurityConnectorsAPIDefenderForServersGcpOfferingMdeAutoProvisioning
-  - Added Interface SecurityConnectorsAPIDefenderForServersGcpOfferingSubPlan
-  - Added Interface SecurityConnectorsAPIDefenderForServersGcpOfferingVaAutoProvisioning
-  - Added Interface SecurityConnectorsAPIDefenderForServersGcpOfferingVaAutoProvisioningConfiguration
-  - Added Interface SecurityConnectorsAPIdefenderForServersGcpOfferingVmScanners
-  - Added Interface SecurityConnectorsAPIDockerHubEnvironmentData
-  - Added Interface SecurityConnectorsAPIEnvironmentData
-  - Added Interface SecurityConnectorsAPIGcpOrganizationalData
-  - Added Interface SecurityConnectorsAPIGcpOrganizationalDataMember
-  - Added Interface SecurityConnectorsAPIGcpOrganizationalDataOrganization
-  - Added Interface SecurityConnectorsAPIGcpProjectDetails
-  - Added Interface SecurityConnectorsAPIGcpProjectEnvironmentData
-  - Added Interface SecurityConnectorsAPIGithubScopeEnvironmentData
-  - Added Interface SecurityConnectorsAPIGitlabScopeEnvironmentData
-  - Added Interface SecurityConnectorsApijFrogEnvironmentData
-  - Added Interface SecurityConnectorsAPISecurityConnector
-  - Added Interface SecurityConnectorsAPISecurityConnectorProperties
-  - Added Interface SecurityConnectorsAPIvmScannersAws
-  - Added Interface SecurityConnectorsAPIvmScannersBase
-  - Added Interface SecurityConnectorsAPIVmScannersBaseConfiguration
-  - Added Interface SecurityConnectorsAPIvmScannersGcp
-  - Added Interface SecurityConnectorsDevOpsAPIActionableRemediation
-  - Added Interface SecurityConnectorsDevOpsAPIAgentlessConfiguration
-  - Added Interface SecurityConnectorsDevOpsAPIAuthorization
-  - Added Interface SecurityConnectorsDevOpsAPIAzureDevOpsOrg
-  - Added Interface SecurityConnectorsDevOpsAPIAzureDevOpsOrgListResponse
-  - Added Interface SecurityConnectorsDevOpsAPIAzureDevOpsOrgProperties
-  - Added Interface SecurityConnectorsDevOpsAPIAzureDevOpsProject
-  - Added Interface SecurityConnectorsDevOpsAPIAzureDevOpsProjectProperties
-  - Added Interface SecurityConnectorsDevOpsAPIAzureDevOpsRepository
-  - Added Interface SecurityConnectorsDevOpsAPIAzureDevOpsRepositoryProperties
-  - Added Interface SecurityConnectorsDevOpsAPICategoryConfiguration
-  - Added Interface SecurityConnectorsDevOpsAPIDevOpsCapability
-  - Added Interface SecurityConnectorsDevOpsAPIDevOpsConfiguration
-  - Added Interface SecurityConnectorsDevOpsAPIDevOpsConfigurationProperties
-  - Added Interface SecurityConnectorsDevOpsAPIGitHubOwner
-  - Added Interface SecurityConnectorsDevOpsAPIGitHubOwnerListResponse
-  - Added Interface SecurityConnectorsDevOpsAPIGitHubOwnerProperties
-  - Added Interface SecurityConnectorsDevOpsAPIGitHubRepository
-  - Added Interface SecurityConnectorsDevOpsAPIGitHubRepositoryProperties
-  - Added Interface SecurityConnectorsDevOpsAPIGitLabGroup
-  - Added Interface SecurityConnectorsDevOpsAPIGitLabGroupListResponse
-  - Added Interface SecurityConnectorsDevOpsAPIGitLabGroupProperties
-  - Added Interface SecurityConnectorsDevOpsAPIGitLabProject
-  - Added Interface SecurityConnectorsDevOpsAPIGitLabProjectProperties
-  - Added Interface SecurityConnectorsDevOpsAPIInventoryList
-  - Added Interface SecurityConnectorsDevOpsAPIIssueCreationRequest
-  - Added Interface SecurityConnectorsDevOpsAPITargetBranchConfiguration
-  - Added Interface SecurityManagementClientprivateLinkParameters
-  - Added Interface SecurityOperatorsAPISecurityOperator
+  - Added Interface SecurityConnectorProperties
+  - Added Interface SecurityContact
+  - Added Interface SecurityContactProperties
+  - Added Interface SecurityContactPropertiesNotificationsByRole
+  - Added Interface SecurityOperator
   - Added Interface SecurityOperatorsCreateOrUpdateOptionalParams
   - Added Interface SecurityOperatorsDeleteOptionalParams
   - Added Interface SecurityOperatorsGetOptionalParams
   - Added Interface SecurityOperatorsListOptionalParams
-  - Added Interface SecuritySolutionsAPIAadExternalSecuritySolution
-  - Added Interface SecuritySolutionsAPIAadSolutionProperties
-  - Added Interface SecuritySolutionsAPIAllowedConnectionsResource
-  - Added Interface SecuritySolutionsAPIAllowedConnectionsResourceProperties
-  - Added Interface SecuritySolutionsAPIAtaExternalSecuritySolution
-  - Added Interface SecuritySolutionsAPIAtaSolutionProperties
-  - Added Interface SecuritySolutionsAPICefExternalSecuritySolution
-  - Added Interface SecuritySolutionsAPICefSolutionProperties
-  - Added Interface SecuritySolutionsAPIConnectableResource
-  - Added Interface SecuritySolutionsAPIConnectedResource
-  - Added Interface SecuritySolutionsAPIConnectedWorkspace
-  - Added Interface SecuritySolutionsAPIDiscoveredSecuritySolution
-  - Added Interface SecuritySolutionsAPIDiscoveredSecuritySolutionProperties
-  - Added Interface SecuritySolutionsAPIExternalSecuritySolution
-  - Added Interface SecuritySolutionsAPIExternalSecuritySolutionProperties
-  - Added Interface SecuritySolutionsAPIJitNetworkAccessPolicy
-  - Added Interface SecuritySolutionsAPIJitNetworkAccessPolicyInitiatePort
-  - Added Interface SecuritySolutionsAPIJitNetworkAccessPolicyInitiateRequest
-  - Added Interface SecuritySolutionsAPIJitNetworkAccessPolicyInitiateVirtualMachine
-  - Added Interface SecuritySolutionsAPIJitNetworkAccessPolicyProperties
-  - Added Interface SecuritySolutionsAPIJitNetworkAccessPolicyVirtualMachine
-  - Added Interface SecuritySolutionsAPIJitNetworkAccessPortRule
-  - Added Interface SecuritySolutionsAPIJitNetworkAccessRequest
-  - Added Interface SecuritySolutionsAPIJitNetworkAccessRequestPort
-  - Added Interface SecuritySolutionsAPIJitNetworkAccessRequestVirtualMachine
-  - Added Interface SecuritySolutionsAPISecuritySolution
-  - Added Interface SecuritySolutionsAPISecuritySolutionProperties
-  - Added Interface SecuritySolutionsAPIsecuritySolutionsReferenceData
-  - Added Interface SecuritySolutionsAPIsecuritySolutionsReferenceDataList
-  - Added Interface SecuritySolutionsAPIsecuritySolutionsReferenceDataProperties
-  - Added Interface SecuritySolutionsAPIServerVulnerabilityAssessment
-  - Added Interface SecuritySolutionsAPIServerVulnerabilityAssessmentProperties
-  - Added Interface SecuritySolutionsAPITopologyResource
-  - Added Interface SecuritySolutionsAPITopologyResourceProperties
-  - Added Interface SecuritySolutionsAPITopologySingleResource
-  - Added Interface SecuritySolutionsAPITopologySingleResourceChild
-  - Added Interface SecuritySolutionsAPITopologySingleResourceParent
-  - Added Interface SecurityStandardsAPIAssignedAssessmentItem
-  - Added Interface SecurityStandardsAPIAttestationEvidence
-  - Added Interface SecurityStandardsAPICustomRecommendation
-  - Added Interface SecurityStandardsAPICustomRecommendationProperties
-  - Added Interface SecurityStandardsAPIPartialAssessmentProperties
-  - Added Interface SecurityStandardsAPISecurityStandard
-  - Added Interface SecurityStandardsAPISecurityStandardProperties
-  - Added Interface SecurityStandardsAPIStandardAssignment
-  - Added Interface SecurityStandardsAPIStandardAssignmentMetadata
-  - Added Interface SecurityStandardsAPIStandardAssignmentProperties
-  - Added Interface SecurityStandardsAPIStandardAssignmentPropertiesAttestationData
-  - Added Interface SecurityStandardsAPIStandardAssignmentPropertiesExemptionData
-  - Added Interface SecurityStandardsAPIStandardMetadata
+  - Added Interface SecuritySolution
+  - Added Interface SecuritySolutionProperties
+  - Added Interface SecuritySolutionsReferenceData
+  - Added Interface SecuritySolutionsReferenceDataProperties
+  - Added Interface SecurityStandard
+  - Added Interface SecurityStandardProperties
   - Added Interface SecurityStandardsCreateOrUpdateOptionalParams
   - Added Interface SecurityStandardsDeleteOptionalParams
   - Added Interface SecurityStandardsGetOptionalParams
   - Added Interface SecurityStandardsListOptionalParams
-  - Added Interface SensitivitySettingsAPIBuiltInInfoType
-  - Added Interface SensitivitySettingsAPIGetSensitivitySettingsResponse
-  - Added Interface SensitivitySettingsAPIGetSensitivitySettingsResponseProperties
-  - Added Interface SensitivitySettingsAPIGetSensitivitySettingsResponsePropertiesMipInformation
-  - Added Interface SensitivitySettingsAPIInfoType
-  - Added Interface SensitivitySettingsAPILabel
-  - Added Interface SensitivitySettingsAPIUpdateSensitivitySettingsRequest
+  - Added Interface SecuritySubAssessment
+  - Added Interface SecuritySubAssessmentProperties
+  - Added Interface SecurityTask
+  - Added Interface SecurityTaskProperties
+  - Added Interface SensitiveDataDiscoveryProperties
   - Added Interface SensitivitySettingsCreateOrUpdateOptionalParams
   - Added Interface SensitivitySettingsGetOptionalParams
   - Added Interface SensitivitySettingsListOptionalParams
-  - Added Interface ServerVulnerabilityAssessmentsSettingsAPIAzureServersSetting
-  - Added Interface ServerVulnerabilityAssessmentsSettingsAPIServerVulnerabilityAssessmentsAzureSettingProperties
-  - Added Interface ServerVulnerabilityAssessmentsSettingsAPIServerVulnerabilityAssessmentsSetting
+  - Added Interface ServerVulnerabilityAssessment
+  - Added Interface ServerVulnerabilityAssessmentProperties
+  - Added Interface ServerVulnerabilityAssessmentsAzureSettingProperties
+  - Added Interface ServerVulnerabilityAssessmentsSetting
   - Added Interface ServerVulnerabilityAssessmentsSettingsCreateOrUpdateOptionalParams
   - Added Interface ServerVulnerabilityAssessmentsSettingsDeleteOptionalParams
   - Added Interface ServerVulnerabilityAssessmentsSettingsGetOptionalParams
   - Added Interface ServerVulnerabilityAssessmentsSettingsListBySubscriptionOptionalParams
-  - Added Interface SettingsAPIAlertSyncSettingProperties
-  - Added Interface SettingsAPIAlertSyncSettings
-  - Added Interface SettingsAPIDataExportSettingProperties
-  - Added Interface SettingsAPIDataExportSettings
-  - Added Interface SettingsAPISetting
+  - Added Interface ServerVulnerabilityProperties
+  - Added Interface Setting
   - Added Interface SimplePollerLike
-  - Added Interface SqlVulnerabilityAssessmentsAPIBaseline
-  - Added Interface SqlVulnerabilityAssessmentsAPIBaselineAdjustedResult
-  - Added Interface SqlVulnerabilityAssessmentsAPIBenchmarkReference
-  - Added Interface SqlVulnerabilityAssessmentsAPIQueryCheck
-  - Added Interface SqlVulnerabilityAssessmentsAPIRemediation
-  - Added Interface SqlVulnerabilityAssessmentsAPIRuleResults
-  - Added Interface SqlVulnerabilityAssessmentsAPIRuleResultsInput
-  - Added Interface SqlVulnerabilityAssessmentsAPIRuleResultsProperties
-  - Added Interface SqlVulnerabilityAssessmentsAPIRulesResults
-  - Added Interface SqlVulnerabilityAssessmentsAPIRulesResultsInput
-  - Added Interface SqlVulnerabilityAssessmentsAPIScanPropertiesV2
-  - Added Interface SqlVulnerabilityAssessmentsAPIScanResult
-  - Added Interface SqlVulnerabilityAssessmentsAPIScanResultProperties
-  - Added Interface SqlVulnerabilityAssessmentsAPIScanV2
-  - Added Interface SqlVulnerabilityAssessmentsAPISqlVulnerabilityAssessmentScanOperationResult
-  - Added Interface SqlVulnerabilityAssessmentsAPISqlVulnerabilityAssessmentScanOperationResultProperties
-  - Added Interface SqlVulnerabilityAssessmentsAPISqlVulnerabilityAssessmentSettings
-  - Added Interface SqlVulnerabilityAssessmentsAPISqlVulnerabilityAssessmentSettingsProperties
-  - Added Interface SqlVulnerabilityAssessmentsAPIVaRule
+  - Added Interface SqlServerVulnerabilityProperties
+  - Added Interface SqlVulnerabilityAssessmentScanOperationResult
+  - Added Interface SqlVulnerabilityAssessmentScanOperationResultProperties
   - Added Interface SqlVulnerabilityAssessmentScansGetScanOperationResultOptionalParams
   - Added Interface SqlVulnerabilityAssessmentScansInitiateScanOptionalParams
+  - Added Interface SqlVulnerabilityAssessmentSettings
   - Added Interface SqlVulnerabilityAssessmentSettingsCreateOrUpdateOptionalParams
   - Added Interface SqlVulnerabilityAssessmentSettingsDeleteOptionalParams
   - Added Interface SqlVulnerabilityAssessmentSettingsGetOptionalParams
+  - Added Interface SqlVulnerabilityAssessmentSettingsProperties
+  - Added Interface Standard
+  - Added Interface StandardAssignment
+  - Added Interface StandardAssignmentMetadata
+  - Added Interface StandardAssignmentProperties
+  - Added Interface StandardAssignmentPropertiesAttestationData
+  - Added Interface StandardAssignmentPropertiesExemptionData
   - Added Interface StandardAssignmentsCreateOptionalParams
   - Added Interface StandardAssignmentsDeleteOptionalParams
   - Added Interface StandardAssignmentsGetOptionalParams
   - Added Interface StandardAssignmentsListOptionalParams
-  - Added Interface StandardsAPIAssignedComponentItem
-  - Added Interface StandardsAPIAssignment
-  - Added Interface StandardsAPIAssignmentProperties
-  - Added Interface StandardsAPIAssignmentPropertiesAdditionalData
-  - Added Interface StandardsAPIStandard
-  - Added Interface StandardsAPIStandardComponentProperties
-  - Added Interface StandardsAPIStandardProperties
+  - Added Interface StandardComponentProperties
+  - Added Interface StandardMetadata
+  - Added Interface StandardProperties
   - Added Interface StandardsCreateOrUpdateOptionalParams
   - Added Interface StandardsDeleteOptionalParams
   - Added Interface StandardsGetOptionalParams
   - Added Interface StandardsListBySubscriptionOptionalParams
   - Added Interface StandardsListOptionalParams
-  - Added Interface SubAssessmentsAPIAdditionalData
-  - Added Interface SubAssessmentsAPIContainerRegistryVulnerabilityProperties
-  - Added Interface SubAssessmentsAPICve
-  - Added Interface SubAssessmentsApicvss
-  - Added Interface SubAssessmentsAPISecuritySubAssessment
-  - Added Interface SubAssessmentsAPISecuritySubAssessmentProperties
-  - Added Interface SubAssessmentsAPIServerVulnerabilityProperties
-  - Added Interface SubAssessmentsAPISqlServerVulnerabilityProperties
-  - Added Interface SubAssessmentsAPISubAssessmentStatus
-  - Added Interface SubAssessmentsAPIVendorReference
-  - Added Interface TasksAPISecurityTask
-  - Added Interface TasksAPISecurityTaskParameters
-  - Added Interface TasksAPISecurityTaskProperties
+  - Added Interface Status
+  - Added Interface TargetBranchConfiguration
+  - Added Interface ThresholdCustomAlertRule
+  - Added Interface TimeWindowCustomAlertRule
+  - Added Interface TopologyResource
+  - Added Interface TopologyResourceProperties
   - Added Interface TrackedResource
+  - Added Interface UpdateIotSecuritySolutionData
+  - Added Interface UpdateIoTSecuritySolutionProperties
+  - Added Interface UpdateSensitivitySettingsRequest
+  - Added Interface VmScannersAws
+  - Added Interface VmScannersBase
+  - Added Interface VmScannersBaseConfiguration
+  - Added Interface VmScannersGcp
+  - Added Interface WorkspaceSetting
+  - Added Interface WorkspaceSettingProperties
+  - Interface AlertEntity has a new optional parameter additionalProperties
+  - Interface AlertSimulatorRequestProperties has a new optional parameter additionalProperties
   - Interface AlertsSimulateOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface DefenderForServersAwsOfferingArcAutoProvisioning has a new optional parameter cloudRoleArn
+  - Interface DefenderForServersAwsOfferingArcAutoProvisioning has a new optional parameter configuration
+  - Interface ExternalSecuritySolutionProperties has a new optional parameter additionalProperties
   - Interface Operation has a new optional parameter actionType
   - Interface Operation has a new optional parameter isDataAction
   - Interface PricingsListOptionalParams has a new optional parameter filter
   - Interface Resource has a new optional parameter systemData
+  - Interface RuleResultsProperties has a new optional parameter latestScan
+  - Interface RulesResults has a new optional parameter nextLink
+  - Interface ScopeElement has a new optional parameter additionalProperties
+  - Interface SecurityAssessmentPropertiesBase has a new optional parameter risk
+  - Interface SecurityTaskParameters has a new optional parameter additionalProperties
   - Interface SqlVulnerabilityAssessmentBaselineRulesAddOptionalParams has a new optional parameter databaseName
   - Interface SqlVulnerabilityAssessmentBaselineRulesCreateOrUpdateOptionalParams has a new optional parameter databaseName
   - Interface SqlVulnerabilityAssessmentBaselineRulesDeleteOptionalParams has a new optional parameter databaseName
   - Interface SqlVulnerabilityAssessmentBaselineRulesGetOptionalParams has a new optional parameter databaseName
   - Interface SqlVulnerabilityAssessmentBaselineRulesListOptionalParams has a new optional parameter databaseName
+  - Interface SqlVulnerabilityAssessmentScanResultsGetOptionalParams has a new optional parameter databaseName
+  - Interface SqlVulnerabilityAssessmentScanResultsListOptionalParams has a new optional parameter databaseName
+  - Interface SqlVulnerabilityAssessmentScansGetOptionalParams has a new optional parameter databaseName
   - Interface SqlVulnerabilityAssessmentScansListOptionalParams has a new optional parameter databaseName
-  - Added Type Alias AlertsAPIAlertSeverity
-  - Added Type Alias AlertsAPIAlertSimulatorRequestPropertiesUnion
-  - Added Type Alias AlertsAPIAlertStatus
-  - Added Type Alias AlertsAPIBundleType
-  - Added Type Alias AlertsAPIIntent
-  - Added Type Alias AlertsAPIKind
-  - Added Type Alias AlertsAPIResourceIdentifierType
-  - Added Type Alias AlertsAPIResourceIdentifierUnion
-  - Added Type Alias AlertsSuppressionRulesAPIRuleState
-  - Added Type Alias ApplicationsAPIApplicationSourceResourceType
+  - Added Type Alias ActionableRemediationState
+  - Added Type Alias AgentlessEnablement
+  - Added Type Alias AnnotateDefaultBranchState
+  - Added Type Alias ApplicationSourceResourceType
   - Added Type Alias ArmActionType
-  - Added Type Alias AssessmentAPIAssessmentStatusCode
-  - Added Type Alias AssessmentAPIAssessmentType
-  - Added Type Alias AssessmentAPICategories
-  - Added Type Alias AssessmentAPIExpandEnum
-  - Added Type Alias AssessmentAPIImplementationEffort
-  - Added Type Alias AssessmentAPIRiskLevel
-  - Added Type Alias AssessmentAPITactics
-  - Added Type Alias AssessmentAPITechniques
-  - Added Type Alias AssessmentAPIThreats
-  - Added Type Alias AssessmentAPIUserImpact
-  - Added Type Alias AutomationsAPIAutomationActionUnion
-  - Added Type Alias AutomationsAPIEventSource
-  - Added Type Alias AutomationsAPIMinimalRiskLevel
-  - Added Type Alias AutomationsAPIMinimalSeverity
-  - Added Type Alias AutomationsAPINotificationsSourceUnion
-  - Added Type Alias AutomationsAPIOperator
-  - Added Type Alias AutomationsAPIPropertyType
-  - Added Type Alias AutomationsAPISecurityContactName
-  - Added Type Alias AutomationsAPISecurityContactRole
-  - Added Type Alias AutomationsAPISourceType
+  - Added Type Alias AttestationComplianceState
+  - Added Type Alias AuthenticationUnion
+  - Added Type Alias AutoDiscovery
+  - Added Type Alias AutomatedResponseType
+  - Added Type Alias AwsOrganizationalDataUnion
   - Added Type Alias AzureSupportedClouds
-  - Added Type Alias CommonActionType
-  - Added Type Alias CommonProvisioningState
-  - Added Type Alias CommonResourceDetailsUnion
-  - Added Type Alias CommonSettingName
-  - Added Type Alias CommonSeverity
-  - Added Type Alias CommonSource
-  - Added Type Alias CommonState
-  - Added Type Alias ComplianceResultsAPIResourceStatus
-  - Added Type Alias DefenderForStorageAPIAutomatedResponseType
-  - Added Type Alias DefenderForStorageAPIBlobScanResultsOptions
-  - Added Type Alias GovernanceAPIGovernanceRuleOwnerSourceType
-  - Added Type Alias GovernanceAPIGovernanceRuleSourceResourceType
-  - Added Type Alias GovernanceAPIGovernanceRuleType
-  - Added Type Alias GovernanceAPIOperationResultStatus
-  - Added Type Alias HealthReportsAPIStatusName
-  - Added Type Alias IoTSecurityAPIAdditionalWorkspaceDataType
-  - Added Type Alias IoTSecurityAPIAdditionalWorkspaceType
-  - Added Type Alias IoTSecurityAPICustomAlertRuleUnion
-  - Added Type Alias IoTSecurityAPIDataSource
-  - Added Type Alias IoTSecurityAPIExportData
-  - Added Type Alias IoTSecurityAPIListCustomAlertRuleUnion
-  - Added Type Alias IoTSecurityAPIRecommendationConfigStatus
-  - Added Type Alias IoTSecurityAPIRecommendationType
-  - Added Type Alias IoTSecurityAPIReportedSeverity
-  - Added Type Alias IoTSecurityAPISecuritySolutionStatus
-  - Added Type Alias IoTSecurityAPIUnmaskedIpLoggingStatus
-  - Added Type Alias IoTSecurityAPIValueType
-  - Added Type Alias LegacySettingsAPIAutoProvision
-  - Added Type Alias LegacySettingsAPIInformationProtectionPolicyName
-  - Added Type Alias LegacySettingsAPIRank
+  - Added Type Alias BlobScanResultsOptions
+  - Added Type Alias ConnectionType
+  - Added Type Alias DevOpsProvisioningState
+  - Added Type Alias Effect
+  - Added Type Alias Enforce
+  - Added Type Alias EnvironmentDataUnion
+  - Added Type Alias EnvironmentType
+  - Added Type Alias ExemptionCategory
+  - Added Type Alias GcpOrganizationalDataUnion
+  - Added Type Alias GovernanceRuleOwnerSourceType
+  - Added Type Alias GovernanceRuleSourceResourceType
+  - Added Type Alias GovernanceRuleType
+  - Added Type Alias Inherited
+  - Added Type Alias InheritFromParentState
+  - Added Type Alias InventoryKind
+  - Added Type Alias InventoryListKind
+  - Added Type Alias IsEnabled
+  - Added Type Alias MinimalRiskLevel
+  - Added Type Alias MinimalSeverity
+  - Added Type Alias MipIntegrationStatus
+  - Added Type Alias NotificationsSourceUnion
+  - Added Type Alias OnboardingState
+  - Added Type Alias OperationResultStatus
   - Added Type Alias Origin
-  - Added Type Alias PricingsAPIEnforce
-  - Added Type Alias PricingsAPIInherited
-  - Added Type Alias PricingsApiisEnabled
-  - Added Type Alias PricingsAPIPricingTier
-  - Added Type Alias PricingsAPIResourcesCoverageStatus
   - Added Type Alias PrivateEndpointConnectionProvisioningState
   - Added Type Alias PrivateEndpointServiceConnectionStatus
-  - Added Type Alias PrivateLinksAPIPublicNetworkAccess
+  - Added Type Alias PublicNetworkAccess
+  - Added Type Alias RecommendationSupportedClouds
   - Added Type Alias ResourceIdentityType
-  - Added Type Alias SecureScoreAPIControlType
-  - Added Type Alias SecureScoreAPIExpandControlsEnum
-  - Added Type Alias SecurityConnectorsAPIAuthenticationType
-  - Added Type Alias SecurityConnectorsAPIAuthenticationUnion
-  - Added Type Alias SecurityConnectorsAPIAwsOrganizationalDataUnion
-  - Added Type Alias SecurityConnectorsAPICloudName
-  - Added Type Alias SecurityConnectorsAPIcloudOfferingUnion
-  - Added Type Alias SecurityConnectorsAPIEnvironmentDataUnion
-  - Added Type Alias SecurityConnectorsAPIEnvironmentType
-  - Added Type Alias SecurityConnectorsAPIGcpOrganizationalDataUnion
-  - Added Type Alias SecurityConnectorsAPIOfferingType
-  - Added Type Alias SecurityConnectorsAPIOrganizationMembershipType
-  - Added Type Alias SecurityConnectorsAPIScanningMode
-  - Added Type Alias SecurityConnectorsAPISubPlan
-  - Added Type Alias SecurityConnectorsAPIType
-  - Added Type Alias SecurityConnectorsDevOpsAPIActionableRemediationState
-  - Added Type Alias SecurityConnectorsDevOpsAPIAgentlessEnablement
-  - Added Type Alias SecurityConnectorsDevOpsAPIAnnotateDefaultBranchState
-  - Added Type Alias SecurityConnectorsDevOpsAPIAutoDiscovery
-  - Added Type Alias SecurityConnectorsDevOpsAPIDevOpsProvisioningState
-  - Added Type Alias SecurityConnectorsDevOpsAPIInheritFromParentState
-  - Added Type Alias SecurityConnectorsDevOpsAPIInventoryKind
-  - Added Type Alias SecurityConnectorsDevOpsAPIInventoryListKind
-  - Added Type Alias SecurityConnectorsDevOpsAPIOnboardingState
-  - Added Type Alias SecurityConnectorsDevOpsAPIRuleCategory
-  - Added Type Alias SecuritySolutionsAPIAadConnectivityState
-  - Added Type Alias SecuritySolutionsAPIConnectionType
-  - Added Type Alias SecuritySolutionsAPIExternalSecuritySolutionKind
-  - Added Type Alias SecuritySolutionsAPIExternalSecuritySolutionUnion
-  - Added Type Alias SecuritySolutionsAPIProtocol
-  - Added Type Alias SecuritySolutionsAPISecurityFamily
-  - Added Type Alias SecuritySolutionsAPIServerVulnerabilityAssessmentPropertiesProvisioningState
-  - Added Type Alias SecuritySolutionsAPIStatus
-  - Added Type Alias SecuritySolutionsAPIStatusReason
-  - Added Type Alias SecurityStandardsAPIattestationComplianceState
-  - Added Type Alias SecurityStandardsAPIEffect
-  - Added Type Alias SecurityStandardsAPIExemptionCategory
-  - Added Type Alias SecurityStandardsAPIRecommendationSupportedClouds
-  - Added Type Alias SecurityStandardsAPISecurityIssue
-  - Added Type Alias SecurityStandardsAPISeverityEnum
-  - Added Type Alias SecurityStandardsAPIStandardSupportedCloud
-  - Added Type Alias SecurityStandardsAPIStandardType
-  - Added Type Alias SensitivitySettingsAPIMipIntegrationStatus
-  - Added Type Alias ServerVulnerabilityAssessmentsSettingsAPIServerVulnerabilityAssessmentsAzureSettingSelectedProvider
-  - Added Type Alias ServerVulnerabilityAssessmentsSettingsAPIServerVulnerabilityAssessmentsSettingKind
-  - Added Type Alias ServerVulnerabilityAssessmentsSettingsAPIServerVulnerabilityAssessmentsSettingKindName
-  - Added Type Alias ServerVulnerabilityAssessmentsSettingsAPIServerVulnerabilityAssessmentsSettingUnion
-  - Added Type Alias SettingsAPISettingKind
-  - Added Type Alias SettingsAPISettingUnion
-  - Added Type Alias SqlVulnerabilityAssessmentsAPIRuleSeverity
-  - Added Type Alias SqlVulnerabilityAssessmentsAPIRuleStatus
-  - Added Type Alias SqlVulnerabilityAssessmentsAPIRuleType
-  - Added Type Alias SqlVulnerabilityAssessmentsAPIScanOperationStatus
-  - Added Type Alias SqlVulnerabilityAssessmentsAPIScanState
-  - Added Type Alias SqlVulnerabilityAssessmentsAPIScanTriggerType
-  - Added Type Alias SqlVulnerabilityAssessmentsAPISqlVulnerabilityAssessmentState
-  - Added Type Alias StandardsAPIStandardSupportedClouds
-  - Added Type Alias SubAssessmentsAPIAdditionalDataUnion
-  - Added Type Alias SubAssessmentsAPIAssessedResourceType
-  - Added Type Alias SubAssessmentsAPISubAssessmentStatusCode
-  - Added Type Alias TasksAPITaskUpdateActionType
+  - Added Type Alias ResourcesCoverageStatus
+  - Added Type Alias RiskLevel
+  - Added Type Alias RuleCategory
+  - Added Type Alias ScanningMode
+  - Added Type Alias ScanOperationStatus
+  - Added Type Alias SecurityCenterStatus
+  - Added Type Alias SecurityContactName
+  - Added Type Alias SecurityContactRole
+  - Added Type Alias SecurityIssue
+  - Added Type Alias ServerVulnerabilityAssessmentsAzureSettingSelectedProvider
+  - Added Type Alias ServerVulnerabilityAssessmentsSettingKind
+  - Added Type Alias ServerVulnerabilityAssessmentsSettingKindName
+  - Added Type Alias ServerVulnerabilityAssessmentsSettingUnion
+  - Added Type Alias SourceType
+  - Added Type Alias SqlVulnerabilityAssessmentState
+  - Added Type Alias StandardSupportedCloud
+  - Added Type Alias StandardSupportedClouds
+  - Added Type Alias StandardType
+  - Added Type Alias StatusName
+  - Added Type Alias SubPlan
+  - Added Type Alias Type
   - Added Enum AzureClouds
-  - Added Enum KnownAlertsAPIAlertSeverity
-  - Added Enum KnownAlertsAPIAlertStatus
-  - Added Enum KnownAlertsAPIBundleType
-  - Added Enum KnownAlertsAPIIntent
-  - Added Enum KnownAlertsAPIKind
-  - Added Enum KnownAlertsAPIResourceIdentifierType
-  - Added Enum KnownApplicationsAPIApplicationSourceResourceType
+  - Added Enum KnownActionableRemediationState
+  - Added Enum KnownAgentlessEnablement
+  - Added Enum KnownAnnotateDefaultBranchState
+  - Added Enum KnownApplicationSourceResourceType
   - Added Enum KnownArmActionType
-  - Added Enum KnownAssessmentAPIAssessmentStatusCode
-  - Added Enum KnownAssessmentAPIAssessmentType
-  - Added Enum KnownAssessmentAPICategories
-  - Added Enum KnownAssessmentAPIExpandEnum
-  - Added Enum KnownAssessmentAPIImplementationEffort
-  - Added Enum KnownAssessmentAPIRiskLevel
-  - Added Enum KnownAssessmentAPITactics
-  - Added Enum KnownAssessmentAPITechniques
-  - Added Enum KnownAssessmentAPIThreats
-  - Added Enum KnownAssessmentAPIUserImpact
-  - Added Enum KnownAutomationsAPIEventSource
-  - Added Enum KnownAutomationsAPIMinimalRiskLevel
-  - Added Enum KnownAutomationsAPIMinimalSeverity
-  - Added Enum KnownAutomationsAPIOperator
-  - Added Enum KnownAutomationsAPIPropertyType
-  - Added Enum KnownAutomationsAPISecurityContactName
-  - Added Enum KnownAutomationsAPISecurityContactRole
-  - Added Enum KnownAutomationsAPISourceType
-  - Added Enum KnownCommonActionType
-  - Added Enum KnownCommonProvisioningState
-  - Added Enum KnownCommonSettingName
-  - Added Enum KnownCommonSeverity
-  - Added Enum KnownCommonSource
-  - Added Enum KnownCommonState
-  - Added Enum KnownComplianceResultsAPIResourceStatus
-  - Added Enum KnownDefenderForStorageAPIAutomatedResponseType
-  - Added Enum KnownDefenderForStorageAPIBlobScanResultsOptions
-  - Added Enum KnownGovernanceAPIGovernanceRuleOwnerSourceType
-  - Added Enum KnownGovernanceAPIGovernanceRuleSourceResourceType
-  - Added Enum KnownGovernanceAPIGovernanceRuleType
-  - Added Enum KnownGovernanceAPIOperationResultStatus
-  - Added Enum KnownHealthReportsAPIStatusName
-  - Added Enum KnownIoTSecurityAPIAdditionalWorkspaceDataType
-  - Added Enum KnownIoTSecurityAPIAdditionalWorkspaceType
-  - Added Enum KnownIoTSecurityAPIDataSource
-  - Added Enum KnownIoTSecurityAPIExportData
-  - Added Enum KnownIoTSecurityAPIRecommendationConfigStatus
-  - Added Enum KnownIoTSecurityAPIRecommendationType
-  - Added Enum KnownIoTSecurityAPIReportedSeverity
-  - Added Enum KnownIoTSecurityAPISecuritySolutionStatus
-  - Added Enum KnownIoTSecurityAPIUnmaskedIpLoggingStatus
-  - Added Enum KnownIoTSecurityAPIValueType
-  - Added Enum KnownLegacySettingsAPIAutoProvision
-  - Added Enum KnownLegacySettingsAPIInformationProtectionPolicyName
+  - Added Enum KnownAttestationComplianceState
+  - Added Enum KnownAutoDiscovery
+  - Added Enum KnownAutomatedResponseType
+  - Added Enum KnownBlobScanResultsOptions
+  - Added Enum KnownDevOpsProvisioningState
+  - Added Enum KnownEffect
+  - Added Enum KnownEnforce
+  - Added Enum KnownEnvironmentType
+  - Added Enum KnownExemptionCategory
+  - Added Enum KnownGovernanceRuleOwnerSourceType
+  - Added Enum KnownGovernanceRuleSourceResourceType
+  - Added Enum KnownGovernanceRuleType
+  - Added Enum KnownInherited
+  - Added Enum KnownInheritFromParentState
+  - Added Enum KnownInventoryKind
+  - Added Enum KnownInventoryListKind
+  - Added Enum KnownIsEnabled
+  - Added Enum KnownMinimalRiskLevel
+  - Added Enum KnownMinimalSeverity
+  - Added Enum KnownMipIntegrationStatus
+  - Added Enum KnownOnboardingState
+  - Added Enum KnownOperationResultStatus
   - Added Enum KnownOrigin
-  - Added Enum KnownPricingsAPIEnforce
-  - Added Enum KnownPricingsAPIInherited
-  - Added Enum KnownPricingsApiisEnabled
-  - Added Enum KnownPricingsAPIPricingTier
-  - Added Enum KnownPricingsAPIResourcesCoverageStatus
   - Added Enum KnownPrivateEndpointConnectionProvisioningState
   - Added Enum KnownPrivateEndpointServiceConnectionStatus
-  - Added Enum KnownPrivateLinksAPIPublicNetworkAccess
-  - Added Enum KnownSecureScoreAPIControlType
-  - Added Enum KnownSecureScoreAPIExpandControlsEnum
-  - Added Enum KnownSecurityConnectorsAPIAuthenticationType
-  - Added Enum KnownSecurityConnectorsAPICloudName
-  - Added Enum KnownSecurityConnectorsAPIEnvironmentType
-  - Added Enum KnownSecurityConnectorsAPIOfferingType
-  - Added Enum KnownSecurityConnectorsAPIOrganizationMembershipType
-  - Added Enum KnownSecurityConnectorsAPIScanningMode
-  - Added Enum KnownSecurityConnectorsAPISubPlan
-  - Added Enum KnownSecurityConnectorsAPIType
-  - Added Enum KnownSecurityConnectorsDevOpsAPIActionableRemediationState
-  - Added Enum KnownSecurityConnectorsDevOpsAPIAgentlessEnablement
-  - Added Enum KnownSecurityConnectorsDevOpsAPIAnnotateDefaultBranchState
-  - Added Enum KnownSecurityConnectorsDevOpsAPIAutoDiscovery
-  - Added Enum KnownSecurityConnectorsDevOpsAPIDevOpsProvisioningState
-  - Added Enum KnownSecurityConnectorsDevOpsAPIInheritFromParentState
-  - Added Enum KnownSecurityConnectorsDevOpsAPIInventoryKind
-  - Added Enum KnownSecurityConnectorsDevOpsAPIInventoryListKind
-  - Added Enum KnownSecurityConnectorsDevOpsAPIOnboardingState
-  - Added Enum KnownSecurityConnectorsDevOpsAPIRuleCategory
-  - Added Enum KnownSecuritySolutionsAPIAadConnectivityState
-  - Added Enum KnownSecuritySolutionsAPIConnectionType
-  - Added Enum KnownSecuritySolutionsAPIExternalSecuritySolutionKind
-  - Added Enum KnownSecuritySolutionsAPIProtocol
-  - Added Enum KnownSecuritySolutionsAPISecurityFamily
-  - Added Enum KnownSecuritySolutionsAPIServerVulnerabilityAssessmentPropertiesProvisioningState
-  - Added Enum KnownSecuritySolutionsAPIStatus
-  - Added Enum KnownSecuritySolutionsAPIStatusReason
-  - Added Enum KnownSecurityStandardsAPIattestationComplianceState
-  - Added Enum KnownSecurityStandardsAPIEffect
-  - Added Enum KnownSecurityStandardsAPIExemptionCategory
-  - Added Enum KnownSecurityStandardsAPIRecommendationSupportedClouds
-  - Added Enum KnownSecurityStandardsAPISecurityIssue
-  - Added Enum KnownSecurityStandardsAPISeverityEnum
-  - Added Enum KnownSecurityStandardsAPIStandardSupportedCloud
-  - Added Enum KnownSecurityStandardsAPIStandardType
-  - Added Enum KnownSensitivitySettingsAPIMipIntegrationStatus
-  - Added Enum KnownServerVulnerabilityAssessmentsSettingsAPIServerVulnerabilityAssessmentsAzureSettingSelectedProvider
-  - Added Enum KnownServerVulnerabilityAssessmentsSettingsAPIServerVulnerabilityAssessmentsSettingKind
-  - Added Enum KnownServerVulnerabilityAssessmentsSettingsAPIServerVulnerabilityAssessmentsSettingKindName
-  - Added Enum KnownSettingsAPISettingKind
-  - Added Enum KnownSqlVulnerabilityAssessmentsAPIRuleSeverity
-  - Added Enum KnownSqlVulnerabilityAssessmentsAPIRuleStatus
-  - Added Enum KnownSqlVulnerabilityAssessmentsAPIRuleType
-  - Added Enum KnownSqlVulnerabilityAssessmentsAPIScanOperationStatus
-  - Added Enum KnownSqlVulnerabilityAssessmentsAPIScanState
-  - Added Enum KnownSqlVulnerabilityAssessmentsAPIScanTriggerType
-  - Added Enum KnownSqlVulnerabilityAssessmentsAPISqlVulnerabilityAssessmentState
-  - Added Enum KnownSubAssessmentsAPIAssessedResourceType
-  - Added Enum KnownSubAssessmentsAPISubAssessmentStatusCode
-  - Added Enum KnownTasksAPITaskUpdateActionType
+  - Added Enum KnownPublicNetworkAccess
+  - Added Enum KnownRecommendationSupportedClouds
+  - Added Enum KnownResourcesCoverageStatus
+  - Added Enum KnownRiskLevel
+  - Added Enum KnownRuleCategory
+  - Added Enum KnownScanningMode
+  - Added Enum KnownScanOperationStatus
+  - Added Enum KnownSecurityContactName
+  - Added Enum KnownSecurityContactRole
+  - Added Enum KnownSecurityIssue
+  - Added Enum KnownServerVulnerabilityAssessmentsAzureSettingSelectedProvider
+  - Added Enum KnownServerVulnerabilityAssessmentsSettingKind
+  - Added Enum KnownServerVulnerabilityAssessmentsSettingKindName
+  - Added Enum KnownSourceType
+  - Added Enum KnownSqlVulnerabilityAssessmentState
+  - Added Enum KnownStandardSupportedCloud
+  - Added Enum KnownStandardType
+  - Added Enum KnownStatusName
+  - Added Enum KnownSubPlan
+  - Added Enum KnownType
+  - Enum KnownActionType has a new value Internal
+  - Enum KnownAlertStatus has a new value InProgress
+  - Enum KnownAssessmentType has a new value BuiltInPolicy
+  - Enum KnownAssessmentType has a new value Custom
+  - Enum KnownAssessmentType has a new value DynamicBuiltIn
+  - Enum KnownAssessmentType has a new value ManualBuiltIn
+  - Enum KnownAssessmentType has a new value ManualBuiltInPolicy
+  - Enum KnownAssessmentType has a new value ManualCustomPolicy
+  - Enum KnownAssessmentType has a new value Unknown
+  - Enum KnownAuthenticationType has a new value AccessToken
+  - Enum KnownBundleType has a new value CosmosDbs
+  - Enum KnownCategories has a new value AppServices
+  - Enum KnownCategories has a new value Container
+  - Enum KnownCloudName has a new value AzureDevOps
+  - Enum KnownCloudName has a new value DockerHub
+  - Enum KnownCloudName has a new value Github
+  - Enum KnownCloudName has a new value GitLab
+  - Enum KnownCloudName has a new value JFrog
+  - Enum KnownEventSource has a new value AttackPaths
+  - Enum KnownEventSource has a new value AttackPathsSnapshot
+  - Enum KnownOfferingType has a new value CspmMonitorAzureDevOps
+  - Enum KnownOfferingType has a new value CspmMonitorDockerHub
+  - Enum KnownOfferingType has a new value CspmMonitorGcp
+  - Enum KnownOfferingType has a new value CspmMonitorGithub
+  - Enum KnownOfferingType has a new value CspmMonitorGitLab
+  - Enum KnownOfferingType has a new value CspmMonitorJFrog
+  - Enum KnownOfferingType has a new value DefenderCspmAws
+  - Enum KnownOfferingType has a new value DefenderCspmDockerHub
+  - Enum KnownOfferingType has a new value DefenderCspmGcp
+  - Enum KnownOfferingType has a new value DefenderCspmJFrog
+  - Enum KnownOfferingType has a new value DefenderForContainersDockerHub
+  - Enum KnownOfferingType has a new value DefenderForContainersGcp
+  - Enum KnownOfferingType has a new value DefenderForContainersJFrog
+  - Enum KnownOfferingType has a new value DefenderForDatabasesAws
+  - Enum KnownOfferingType has a new value DefenderForDatabasesGcp
+  - Enum KnownOfferingType has a new value DefenderForServersGcp
+  - Enum KnownProvisioningState has a new value Canceled
+  - Enum KnownProvisioningState has a new value Creating
+  - Enum KnownProvisioningState has a new value Deleting
+  - Enum KnownProvisioningState has a new value InProgress
+  - Enum KnownRuleStatus has a new value NotApplicable
+  - Enum KnownSettingName has a new value Current
+  - Enum KnownSettingName has a new value WdatpUnifiedSolution
+  - Enum KnownSeverity has a new value Critical
+  - Enum KnownSource has a new value Aws
+  - Enum KnownSource has a new value Gcp
+  - Enum KnownState has a new value Off
+  - Enum KnownState has a new value On
 
 ### Breaking Changes
   - Removed operation SecurityContacts.update
@@ -855,7 +701,9 @@ Compared with version 5.0.0
   - Operation SqlVulnerabilityAssessmentBaselineRules.delete has a new signature
   - Operation SqlVulnerabilityAssessmentBaselineRules.get has a new signature
   - Operation SqlVulnerabilityAssessmentBaselineRules.list has a new signature
+  - Operation SqlVulnerabilityAssessmentScanResults.get has a new signature
   - Operation SqlVulnerabilityAssessmentScanResults.list has a new signature
+  - Operation SqlVulnerabilityAssessmentScans.get has a new signature
   - Operation SqlVulnerabilityAssessmentScans.list has a new signature
   - Operation SubAssessments.get has a new signature
   - Removed Interface AadConnectivityStateAutoGenerated
@@ -872,39 +720,16 @@ Compared with version 5.0.0
   - Removed Interface AdaptiveNetworkHardeningsGetOptionalParams
   - Removed Interface AdaptiveNetworkHardeningsList
   - Removed Interface AdaptiveNetworkHardeningsListByExtendedResourceOptionalParams
-  - Removed Interface AdditionalData
-  - Removed Interface AdditionalWorkspacesProperties
-  - Removed Interface AlertEntity
   - Removed Interface AlertList
-  - Removed Interface AlertSimulatorRequestBody
-  - Removed Interface AlertSimulatorRequestProperties
   - Removed Interface AlertsSuppressionRulesList
   - Removed Interface AllowedConnectionsList
   - Removed Interface AscLocationList
-  - Removed Interface AssessmentLinks
-  - Removed Interface AssessmentStatus
   - Removed Interface AuthenticationDetailsProperties
-  - Removed Interface AutomationAction
   - Removed Interface AutomationList
-  - Removed Interface AutomationRuleSet
-  - Removed Interface AutomationScope
-  - Removed Interface AutomationSource
-  - Removed Interface AutomationTriggeringRule
-  - Removed Interface AutomationValidationStatus
   - Removed Interface AutoProvisioningSettingList
-  - Removed Interface AzureResourceLink
   - Removed Interface AzureTrackedResourceLocation
-  - Removed Interface Baseline
-  - Removed Interface BenchmarkReference
-  - Removed Interface CloudError
-  - Removed Interface CloudErrorBody
-  - Removed Interface CloudOffering
   - Removed Interface ComplianceList
   - Removed Interface ComplianceResultList
-  - Removed Interface ComplianceSegment
-  - Removed Interface ConnectableResource
-  - Removed Interface ConnectedResource
-  - Removed Interface ConnectedWorkspace
   - Removed Interface ConnectionStrings
   - Removed Interface Connectors
   - Removed Interface ConnectorsCreateOrUpdateOptionalParams
@@ -912,8 +737,6 @@ Compared with version 5.0.0
   - Removed Interface ConnectorSettingList
   - Removed Interface ConnectorsGetOptionalParams
   - Removed Interface ConnectorsListOptionalParams
-  - Removed Interface CspmMonitorAwsOfferingNativeCloudConnection
-  - Removed Interface CustomAlertRule
   - Removed Interface CustomAssessmentAutomations
   - Removed Interface CustomAssessmentAutomationsCreateOptionalParams
   - Removed Interface CustomAssessmentAutomationsDeleteOptionalParams
@@ -927,27 +750,17 @@ Compared with version 5.0.0
   - Removed Interface CustomEntityStoreAssignmentsGetOptionalParams
   - Removed Interface CustomEntityStoreAssignmentsListByResourceGroupOptionalParams
   - Removed Interface CustomEntityStoreAssignmentsListBySubscriptionOptionalParams
-  - Removed Interface Cve
-  - Removed Interface Cvss
-  - Removed Interface DefenderForContainersAwsOfferingCloudWatchToKinesis
-  - Removed Interface DefenderForContainersAwsOfferingKinesisToS3
   - Removed Interface DefenderForContainersAwsOfferingKubernetesScubaReader
-  - Removed Interface DefenderForContainersAwsOfferingKubernetesService
-  - Removed Interface DefenderForServersAwsOfferingArcAutoProvisioning
   - Removed Interface DefenderForServersAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata
-  - Removed Interface DefenderForServersAwsOfferingDefenderForServers
   - Removed Interface DeviceSecurityGroupList
   - Removed Interface DiscoveredSecuritySolutionList
   - Removed Interface EffectiveNetworkSecurityGroups
   - Removed Interface ETag
   - Removed Interface ExternalSecuritySolutionKindAutoGenerated
   - Removed Interface ExternalSecuritySolutionList
-  - Removed Interface ExternalSecuritySolutionProperties
   - Removed Interface HybridComputeSettingsProperties
   - Removed Interface InformationProtectionAwsOfferingInformationProtection
-  - Removed Interface InformationProtectionKeyword
   - Removed Interface InformationProtectionPolicyList
-  - Removed Interface InformationType
   - Removed Interface IngestionConnectionString
   - Removed Interface IngestionSettingList
   - Removed Interface IngestionSettings
@@ -959,24 +772,9 @@ Compared with version 5.0.0
   - Removed Interface IngestionSettingsListTokensOptionalParams
   - Removed Interface IngestionSettingToken
   - Removed Interface IoTSecurityAggregatedAlertList
-  - Removed Interface IoTSecurityAggregatedAlertPropertiesTopDevicesListItem
   - Removed Interface IoTSecurityAggregatedRecommendationList
-  - Removed Interface IoTSecurityAlertedDevice
-  - Removed Interface IoTSecurityDeviceAlert
-  - Removed Interface IoTSecurityDeviceRecommendation
-  - Removed Interface IoTSecuritySolutionAnalyticsModelList
-  - Removed Interface IoTSecuritySolutionAnalyticsModelPropertiesDevicesMetricsItem
   - Removed Interface IoTSecuritySolutionsList
-  - Removed Interface IoTSeverityMetrics
   - Removed Interface JitNetworkAccessPoliciesList
-  - Removed Interface JitNetworkAccessPolicyInitiatePort
-  - Removed Interface JitNetworkAccessPolicyInitiateRequest
-  - Removed Interface JitNetworkAccessPolicyInitiateVirtualMachine
-  - Removed Interface JitNetworkAccessPolicyVirtualMachine
-  - Removed Interface JitNetworkAccessPortRule
-  - Removed Interface JitNetworkAccessRequest
-  - Removed Interface JitNetworkAccessRequestPort
-  - Removed Interface JitNetworkAccessRequestVirtualMachine
   - Removed Interface KindAutoGenerated
   - Removed Interface Location_2
   - Removed Interface MdeOnboardingDataList
@@ -986,46 +784,26 @@ Compared with version 5.0.0
   - Removed Interface ProtectionMode
   - Removed Interface ProxyServerProperties
   - Removed Interface PublisherInfo
-  - Removed Interface QueryCheck
-  - Removed Interface RecommendationConfigurationProperties
   - Removed Interface RegulatoryComplianceAssessmentList
   - Removed Interface RegulatoryComplianceControlList
   - Removed Interface RegulatoryComplianceStandardList
-  - Removed Interface Remediation
-  - Removed Interface ResourceDetails
-  - Removed Interface ResourceIdentifier
   - Removed Interface Rule
-  - Removed Interface RuleResultsInput
-  - Removed Interface RuleResultsProperties
-  - Removed Interface RulesResults
-  - Removed Interface RulesResultsInput
   - Removed Interface ScanProperties
-  - Removed Interface ScanResultProperties
   - Removed Interface ScanResults
   - Removed Interface Scans
-  - Removed Interface ScopeElement
   - Removed Interface SecureScoreControlDefinitionList
-  - Removed Interface SecureScoreControlDefinitionSource
   - Removed Interface SecureScoreControlList
   - Removed Interface SecureScoreControlScore
   - Removed Interface SecureScoresList
   - Removed Interface SecurityAssessmentList
-  - Removed Interface SecurityAssessmentMetadataPartnerData
-  - Removed Interface SecurityAssessmentMetadataProperties
-  - Removed Interface SecurityAssessmentMetadataPropertiesResponsePublishDates
   - Removed Interface SecurityAssessmentMetadataResponseList
-  - Removed Interface SecurityAssessmentPartnerData
-  - Removed Interface SecurityAssessmentPropertiesBase
   - Removed Interface SecurityConnectorPropertiesOrganizationalData
   - Removed Interface SecurityConnectorsList
   - Removed Interface SecurityContactList
   - Removed Interface SecurityContactsUpdateOptionalParams
   - Removed Interface SecuritySolutionList
-  - Removed Interface SecuritySolutionsReferenceDataList
   - Removed Interface SecuritySubAssessmentList
   - Removed Interface SecurityTaskList
-  - Removed Interface SecurityTaskParameters
-  - Removed Interface SensitivityLabel
   - Removed Interface ServerVulnerabilityAssessmentsList
   - Removed Interface ServicePrincipalProperties
   - Removed Interface SettingsList
@@ -1034,39 +812,29 @@ Compared with version 5.0.0
   - Removed Interface SoftwareInventoriesListByExtendedResourceOptionalParams
   - Removed Interface SoftwareInventoriesListBySubscriptionOptionalParams
   - Removed Interface SoftwaresList
-  - Removed Interface SubAssessmentStatus
-  - Removed Interface SuppressionAlertsScope
-  - Removed Interface Tags
-  - Removed Interface TagsResource
   - Removed Interface TopologyList
-  - Removed Interface TopologySingleResource
-  - Removed Interface TopologySingleResourceChild
-  - Removed Interface TopologySingleResourceParent
-  - Removed Interface UserDefinedResourcesProperties
   - Removed Interface UserRecommendation
-  - Removed Interface VaRule
-  - Removed Interface VendorReference
   - Removed Interface VmRecommendation
   - Removed Interface WorkspaceSettingList
-  - Removed Type Alias AadConnectivityState
+  - Type of parameter assessedResourceType of interface AdditionalData is changed from "SqlServerVulnerability" | "ContainerRegistryVulnerability" | "ServerVulnerabilityAssessment" to AssessedResourceType
+  - Type of parameter kind of interface AlertSimulatorRequestProperties is changed from "Bundles" to Kind
+  - Type of parameter actionType of interface AutomationAction is changed from "LogicApp" | "EventHub" | "Workspace" to ActionType
+  - Type of parameter offeringType of interface CloudOffering is changed from "CspmMonitorAws" | "DefenderForContainersAws" | "DefenderForServersAws" | "InformationProtectionAws" to OfferingType
+  - Type of parameter ruleType of interface CustomAlertRule is changed from "ThresholdCustomAlertRule" | "TimeWindowCustomAlertRule" | "ListCustomAlertRule" | "AllowlistCustomAlertRule" | "DenylistCustomAlertRule" | "ConnectionToIpNotAllowed" | "ConnectionFromIpNotAllowed" | "LocalUserNotAllowed" | "ProcessNotAllowed" | "ActiveConnectionsNotInAllowedRange" | "AmqpC2DMessagesNotInAllowedRange" | "MqttC2DMessagesNotInAllowedRange" | "HttpC2DMessagesNotInAllowedRange" | "AmqpC2DRejectedMessagesNotInAllowedRange" | "MqttC2DRejectedMessagesNotInAllowedRange" | "HttpC2DRejectedMessagesNotInAllowedRange" | "AmqpD2CMessagesNotInAllowedRange" | "MqttD2CMessagesNotInAllowedRange" | "HttpD2CMessagesNotInAllowedRange" | "DirectMethodInvokesNotInAllowedRange" | "FailedLocalLoginsNotInAllowedRange" | "FileUploadsNotInAllowedRange" | "QueuePurgesNotInAllowedRange" | "TwinUpdatesNotInAllowedRange" | "UnauthorizedOperationsNotInAllowedRange" to string
+  - Type of parameter source of interface ResourceDetails is changed from "Azure" | "OnPremise" | "OnPremiseSql" to Source
+  - Type of parameter type of interface ResourceIdentifier is changed from "AzureResource" | "LogAnalytics" to ResourceIdentifierType
+  - Interface DefenderForServersAwsOfferingArcAutoProvisioning no longer has parameter servicePrincipalSecretMetadata
   - Removed Type Alias AadExternalSecuritySolution
   - Removed Type Alias AadSolutionProperties
-  - Removed Type Alias ActionType
   - Removed Type Alias ActiveConnectionsNotInAllowedRange
   - Removed Type Alias AdaptiveApplicationControlGroup
   - Removed Type Alias AdaptiveApplicationControlIssue
   - Removed Type Alias AdaptiveNetworkHardening
-  - Removed Type Alias AdditionalDataUnion
-  - Removed Type Alias AdditionalWorkspaceDataType
-  - Removed Type Alias AdditionalWorkspaceType
   - Removed Type Alias AdvancedThreatProtectionSetting
   - Removed Type Alias Alert
   - Removed Type Alias AlertNotifications
-  - Removed Type Alias AlertSeverity
   - Removed Type Alias AlertSimulatorBundlesRequestProperties
-  - Removed Type Alias AlertSimulatorRequestPropertiesUnion
   - Removed Type Alias AlertsSuppressionRule
-  - Removed Type Alias AlertStatus
   - Removed Type Alias AlertsToAdmins
   - Removed Type Alias AlertSyncSettings
   - Removed Type Alias AllowedConnectionsResource
@@ -1076,31 +844,21 @@ Compared with version 5.0.0
   - Removed Type Alias AmqpC2DRejectedMessagesNotInAllowedRange
   - Removed Type Alias AmqpD2CMessagesNotInAllowedRange
   - Removed Type Alias AscLocation
-  - Removed Type Alias AssessedResourceType
-  - Removed Type Alias AssessmentStatusCode
-  - Removed Type Alias AssessmentType
   - Removed Type Alias AtaExternalSecuritySolution
   - Removed Type Alias AtaSolutionProperties
   - Removed Type Alias AuthenticationDetailsPropertiesUnion
   - Removed Type Alias AuthenticationProvisioningState
-  - Removed Type Alias AuthenticationType
   - Removed Type Alias Automation
   - Removed Type Alias AutomationActionEventHub
   - Removed Type Alias AutomationActionLogicApp
-  - Removed Type Alias AutomationActionUnion
   - Removed Type Alias AutomationActionWorkspace
-  - Removed Type Alias AutoProvision
   - Removed Type Alias AutoProvisioningSetting
   - Removed Type Alias AwAssumeRoleAuthenticationDetailsProperties
   - Removed Type Alias AwsCredsAuthenticationDetailsProperties
   - Removed Type Alias AzureResourceDetails
   - Removed Type Alias AzureResourceIdentifier
-  - Removed Type Alias BundleType
-  - Removed Type Alias Categories
   - Removed Type Alias CefExternalSecuritySolution
   - Removed Type Alias CefSolutionProperties
-  - Removed Type Alias CloudName
-  - Removed Type Alias CloudOfferingUnion
   - Removed Type Alias Compliance
   - Removed Type Alias ComplianceResult
   - Removed Type Alias ConfigurationStatus
@@ -1109,14 +867,11 @@ Compared with version 5.0.0
   - Removed Type Alias ConnectionType_2
   - Removed Type Alias ConnectorSetting
   - Removed Type Alias ContainerRegistryVulnerabilityProperties
-  - Removed Type Alias ControlType
   - Removed Type Alias CspmMonitorAwsOffering
-  - Removed Type Alias CustomAlertRuleUnion
   - Removed Type Alias CustomAssessmentAutomation
   - Removed Type Alias CustomAssessmentAutomationRequest
   - Removed Type Alias CustomEntityStoreAssignment
   - Removed Type Alias DataExportSettings
-  - Removed Type Alias DataSource
   - Removed Type Alias DefenderForContainersAwsOffering
   - Removed Type Alias DefenderForServersAwsOffering
   - Removed Type Alias DenylistCustomAlertRule
@@ -1127,13 +882,7 @@ Compared with version 5.0.0
   - Removed Type Alias EndOfSupportStatus
   - Removed Type Alias EnforcementMode
   - Removed Type Alias EnforcementSupport
-  - Removed Type Alias EventSource_2
-  - Removed Type Alias ExpandControlsEnum
-  - Removed Type Alias ExpandEnum
-  - Removed Type Alias ExportData
   - Removed Type Alias ExternalSecuritySolution
-  - Removed Type Alias ExternalSecuritySolutionKind
-  - Removed Type Alias ExternalSecuritySolutionUnion
   - Removed Type Alias FailedLocalLoginsNotInAllowedRange
   - Removed Type Alias FileType
   - Removed Type Alias FileUploadsNotInAllowedRange
@@ -1142,62 +891,36 @@ Compared with version 5.0.0
   - Removed Type Alias HttpC2DRejectedMessagesNotInAllowedRange
   - Removed Type Alias HttpD2CMessagesNotInAllowedRange
   - Removed Type Alias HybridComputeProvisioningState
-  - Removed Type Alias ImplementationEffort
   - Removed Type Alias InformationProtectionAwsOffering
   - Removed Type Alias InformationProtectionPolicy
-  - Removed Type Alias InformationProtectionPolicyName
   - Removed Type Alias IngestionSetting
-  - Removed Type Alias Intent
   - Removed Type Alias IoTSecurityAggregatedAlert
   - Removed Type Alias IoTSecurityAggregatedRecommendation
   - Removed Type Alias IoTSecuritySolutionAnalyticsModel
   - Removed Type Alias IoTSecuritySolutionModel
   - Removed Type Alias JitNetworkAccessPolicy
-  - Removed Type Alias Kind
   - Removed Type Alias ListCustomAlertRule
-  - Removed Type Alias ListCustomAlertRuleUnion
   - Removed Type Alias LocalUserNotAllowed
   - Removed Type Alias LogAnalyticsIdentifier
   - Removed Type Alias MdeOnboardingData
   - Removed Type Alias MqttC2DMessagesNotInAllowedRange
   - Removed Type Alias MqttC2DRejectedMessagesNotInAllowedRange
   - Removed Type Alias MqttD2CMessagesNotInAllowedRange
-  - Removed Type Alias OfferingType
   - Removed Type Alias OnPremiseResourceDetails
   - Removed Type Alias OnPremiseResourceDetailsUnion
   - Removed Type Alias OnPremiseSqlResourceDetails
-  - Removed Type Alias Operator
-  - Removed Type Alias OrganizationMembershipType
   - Removed Type Alias PermissionProperty
   - Removed Type Alias Pricing
-  - Removed Type Alias PricingTier
   - Removed Type Alias ProcessNotAllowed
-  - Removed Type Alias PropertyType
-  - Removed Type Alias Protocol
-  - Removed Type Alias ProvisioningState
   - Removed Type Alias QueuePurgesNotInAllowedRange
-  - Removed Type Alias Rank
   - Removed Type Alias RecommendationAction
-  - Removed Type Alias RecommendationConfigStatus
   - Removed Type Alias RecommendationStatus
-  - Removed Type Alias RecommendationType
   - Removed Type Alias RegulatoryComplianceAssessment
   - Removed Type Alias RegulatoryComplianceControl
   - Removed Type Alias RegulatoryComplianceStandard
-  - Removed Type Alias ReportedSeverity
-  - Removed Type Alias ResourceDetailsUnion
-  - Removed Type Alias ResourceIdentifierType
-  - Removed Type Alias ResourceIdentifierUnion
-  - Removed Type Alias ResourceStatus
   - Removed Type Alias RuleResults
-  - Removed Type Alias RuleSeverity
-  - Removed Type Alias RuleState
-  - Removed Type Alias RuleStatus
-  - Removed Type Alias RuleType
   - Removed Type Alias Scan
   - Removed Type Alias ScanResult
-  - Removed Type Alias ScanState
-  - Removed Type Alias ScanTriggerType
   - Removed Type Alias SecureScoreControlDefinitionItem
   - Removed Type Alias SecureScoreControlDetails
   - Removed Type Alias SecureScoreItem
@@ -1206,36 +929,19 @@ Compared with version 5.0.0
   - Removed Type Alias SecurityAssessmentProperties
   - Removed Type Alias SecurityConnector
   - Removed Type Alias SecurityContact
-  - Removed Type Alias SecurityFamily
   - Removed Type Alias SecuritySolution
   - Removed Type Alias SecuritySolutionsReferenceData
-  - Removed Type Alias SecuritySolutionStatus
   - Removed Type Alias SecuritySubAssessment
   - Removed Type Alias SecurityTask
   - Removed Type Alias ServerVulnerabilityAssessment
-  - Removed Type Alias ServerVulnerabilityAssessmentPropertiesProvisioningState
   - Removed Type Alias ServerVulnerabilityProperties
   - Removed Type Alias Setting
-  - Removed Type Alias SettingKind
-  - Removed Type Alias SettingName
-  - Removed Type Alias SettingUnion
-  - Removed Type Alias Severity
-  - Removed Type Alias SeverityEnum
   - Removed Type Alias Software
-  - Removed Type Alias Source
   - Removed Type Alias SourceSystem
   - Removed Type Alias SqlServerVulnerabilityProperties
-  - Removed Type Alias State
   - Removed Type Alias Status
-  - Removed Type Alias StatusReason
-  - Removed Type Alias SubAssessmentStatusCode
   - Removed Type Alias SupportedCloudEnum
-  - Removed Type Alias Tactics
-  - Removed Type Alias TaskUpdateActionType
-  - Removed Type Alias Techniques
-  - Removed Type Alias Threats
   - Removed Type Alias ThresholdCustomAlertRule
-  - Removed Type Alias ThresholdCustomAlertRuleUnion
   - Removed Type Alias TimeWindowCustomAlertRule
   - Removed Type Alias TimeWindowCustomAlertRuleUnion
   - Removed Type Alias TopologyResource
@@ -1243,90 +949,39 @@ Compared with version 5.0.0
   - Removed Type Alias TransportProtocol
   - Removed Type Alias TwinUpdatesNotInAllowedRange
   - Removed Type Alias UnauthorizedOperationsNotInAllowedRange
-  - Removed Type Alias UnmaskedIpLoggingStatus
   - Removed Type Alias UpdateIotSecuritySolutionData
-  - Removed Type Alias UserImpact
-  - Removed Type Alias ValueType
   - Removed Type Alias WorkspaceSetting
-  - Removed Enum KnownAadConnectivityState
-  - Removed Enum KnownActionType
+  - Type alias "AdditionalDataUnion" has been changed
+  - Type alias "AlertSimulatorRequestPropertiesUnion" has been changed
+  - Type alias "AutomationActionUnion" has been changed
+  - Type alias "CloudOfferingUnion" has been changed
+  - Type alias "CustomAlertRuleUnion" has been changed
+  - Type alias "ExternalSecuritySolutionUnion" has been changed
+  - Type alias "ListCustomAlertRuleUnion" has been changed
+  - Type alias "ResourceDetailsUnion" has been changed
+  - Type alias "ResourceIdentifierUnion" has been changed
+  - Type alias "ThresholdCustomAlertRuleUnion" has been changed
   - Removed Enum KnownAdaptiveApplicationControlIssue
-  - Removed Enum KnownAdditionalWorkspaceDataType
-  - Removed Enum KnownAdditionalWorkspaceType
   - Removed Enum KnownAlertNotifications
-  - Removed Enum KnownAlertSeverity
-  - Removed Enum KnownAlertStatus
   - Removed Enum KnownAlertsToAdmins
-  - Removed Enum KnownAssessedResourceType
-  - Removed Enum KnownAssessmentStatusCode
-  - Removed Enum KnownAssessmentType
   - Removed Enum KnownAuthenticationProvisioningState
-  - Removed Enum KnownAuthenticationType
-  - Removed Enum KnownAutoProvision
-  - Removed Enum KnownBundleType
-  - Removed Enum KnownCategories
-  - Removed Enum KnownCloudName
   - Removed Enum KnownConfigurationStatus
-  - Removed Enum KnownConnectionType
-  - Removed Enum KnownControlType
-  - Removed Enum KnownDataSource
   - Removed Enum KnownDirection
   - Removed Enum KnownEndOfSupportStatus
   - Removed Enum KnownEnforcementMode
   - Removed Enum KnownEnforcementSupport
-  - Removed Enum KnownEventSource
-  - Removed Enum KnownExpandControlsEnum
-  - Removed Enum KnownExpandEnum
-  - Removed Enum KnownExportData
-  - Removed Enum KnownExternalSecuritySolutionKind
   - Removed Enum KnownFileType
   - Removed Enum KnownHybridComputeProvisioningState
-  - Removed Enum KnownImplementationEffort
-  - Removed Enum KnownInformationProtectionPolicyName
-  - Removed Enum KnownIntent
-  - Removed Enum KnownKind
-  - Removed Enum KnownOfferingType
-  - Removed Enum KnownOperator
-  - Removed Enum KnownOrganizationMembershipType
   - Removed Enum KnownPermissionProperty
-  - Removed Enum KnownPricingTier
-  - Removed Enum KnownPropertyType
-  - Removed Enum KnownProtocol
-  - Removed Enum KnownProvisioningState
   - Removed Enum KnownRecommendationAction
-  - Removed Enum KnownRecommendationConfigStatus
   - Removed Enum KnownRecommendationStatus
-  - Removed Enum KnownRecommendationType
-  - Removed Enum KnownReportedSeverity
-  - Removed Enum KnownResourceIdentifierType
-  - Removed Enum KnownResourceStatus
-  - Removed Enum KnownRuleSeverity
-  - Removed Enum KnownRuleStatus
-  - Removed Enum KnownRuleType
-  - Removed Enum KnownScanState
-  - Removed Enum KnownScanTriggerType
-  - Removed Enum KnownSecurityFamily
-  - Removed Enum KnownSecuritySolutionStatus
-  - Removed Enum KnownServerVulnerabilityAssessmentPropertiesProvisioningState
-  - Removed Enum KnownSettingKind
-  - Removed Enum KnownSettingName
-  - Removed Enum KnownSeverity
-  - Removed Enum KnownSeverityEnum
-  - Removed Enum KnownSource
   - Removed Enum KnownSourceSystem
-  - Removed Enum KnownState
-  - Removed Enum KnownStatus
-  - Removed Enum KnownStatusReason
-  - Removed Enum KnownSubAssessmentStatusCode
   - Removed Enum KnownSupportedCloudEnum
-  - Removed Enum KnownTactics
-  - Removed Enum KnownTaskUpdateActionType
-  - Removed Enum KnownTechniques
-  - Removed Enum KnownThreats
   - Removed Enum KnownTransportProtocol
-  - Removed Enum KnownUnmaskedIpLoggingStatus
-  - Removed Enum KnownUserImpact
-  - Removed Enum KnownValueType
+  - Enum KnownAuthenticationType no longer has value AwsAssumeRole
+  - Enum KnownAuthenticationType no longer has value AwsCreds
+  - Enum KnownAuthenticationType no longer has value GcpCredentials
+  - Enum KnownOfferingType no longer has value InformationProtectionAws
 
     
 ## 6.0.0-beta.5 (2024-05-16)

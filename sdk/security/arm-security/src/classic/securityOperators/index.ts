@@ -9,7 +9,7 @@ import type {
   SecurityOperatorsCreateOrUpdateOptionalParams,
   SecurityOperatorsGetOptionalParams,
 } from "../../api/securityOperators/options.js";
-import type { SecurityOperatorsAPISecurityOperator } from "../../models/securityOperatorsAPI/models.js";
+import type { SecurityOperator } from "../../models/securityOperatorsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a SecurityOperators operations. */
@@ -18,7 +18,7 @@ export interface SecurityOperatorsOperations {
   list: (
     pricingName: string,
     options?: SecurityOperatorsListOptionalParams,
-  ) => PagedAsyncIterableIterator<SecurityOperatorsAPISecurityOperator>;
+  ) => PagedAsyncIterableIterator<SecurityOperator>;
   /** Delete Microsoft Defender for Cloud securityOperator in the subscription. */
   delete: (
     pricingName: string,
@@ -30,13 +30,13 @@ export interface SecurityOperatorsOperations {
     pricingName: string,
     securityOperatorName: string,
     options?: SecurityOperatorsCreateOrUpdateOptionalParams,
-  ) => Promise<SecurityOperatorsAPISecurityOperator>;
+  ) => Promise<SecurityOperator>;
   /** Get a specific security operator for the requested scope. */
   get: (
     pricingName: string,
     securityOperatorName: string,
     options?: SecurityOperatorsGetOptionalParams,
-  ) => Promise<SecurityOperatorsAPISecurityOperator>;
+  ) => Promise<SecurityOperator>;
 }
 
 function _getSecurityOperators(context: SecurityCenterContext) {

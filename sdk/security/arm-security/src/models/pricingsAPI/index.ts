@@ -2,19 +2,19 @@
 // Licensed under the MIT License.
 
 export type {
-  PricingsAPIPricing,
-  PricingsAPIPricingProperties,
-  PricingsAPIPricingTier,
-  PricingsAPIEnforce,
-  PricingsAPIInherited,
-  PricingsAPIResourcesCoverageStatus,
-  PricingsAPIExtension,
-  PricingsApiisEnabled,
+  Pricing,
+  PricingProperties,
+  PricingTier,
+  Enforce,
+  Inherited,
+  ResourcesCoverageStatus,
+  Extension,
+  IsEnabled,
 } from "./models.js";
 export {
-  KnownPricingsAPIPricingTier,
-  KnownPricingsAPIEnforce,
-  KnownPricingsAPIInherited,
-  KnownPricingsAPIResourcesCoverageStatus,
-  KnownPricingsApiisEnabled,
+  KnownPricingTier,
+  KnownEnforce,
+  KnownInherited,
+  KnownResourcesCoverageStatus,
+  KnownIsEnabled,
 } from "./models.js";

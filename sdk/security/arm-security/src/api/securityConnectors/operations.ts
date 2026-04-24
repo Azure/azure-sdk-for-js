@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 import type { SecurityCenterContext as Client } from "../index.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
 import type {
-  SecurityConnectorsAPISecurityConnector,
-  _SecurityConnectorsAPISecurityConnectorsList,
+  SecurityConnector,
+  _SecurityConnectorsList,
 } from "../../models/securityConnectorsAPI/models.js";
 import {
-  securityConnectorsAPISecurityConnectorSerializer,
-  securityConnectorsAPISecurityConnectorDeserializer,
-  _securityConnectorsAPISecurityConnectorsListDeserializer,
+  securityConnectorSerializer,
+  securityConnectorDeserializer,
+  _securityConnectorsListDeserializer,
 } from "../../models/securityConnectorsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -48,23 +48,23 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_SecurityConnectorsAPISecurityConnectorsList> {
+): Promise<_SecurityConnectorsList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _securityConnectorsAPISecurityConnectorsListDeserializer(result.body);
+  return _securityConnectorsListDeserializer(result.body);
 }
 
 /** Lists all the security connectors in the specified subscription. Use the 'nextLink' property in the response to get the next page of security connectors for the specified subscription. */
 export function list(
   context: Client,
   options: SecurityConnectorsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<SecurityConnectorsAPISecurityConnector> {
+): PagedAsyncIterableIterator<SecurityConnector> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, options),
@@ -98,16 +98,16 @@ export function _listByResourceGroupSend(
 
 export async function _listByResourceGroupDeserialize(
   result: PathUncheckedResponse,
-): Promise<_SecurityConnectorsAPISecurityConnectorsList> {
+): Promise<_SecurityConnectorsList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _securityConnectorsAPISecurityConnectorsListDeserializer(result.body);
+  return _securityConnectorsListDeserializer(result.body);
 }
 
 /** Lists all the security connectors in the specified resource group. Use the 'nextLink' property in the response to get the next page of security connectors for the specified resource group. */
@@ -115,7 +115,7 @@ export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
   options: SecurityConnectorsListByResourceGroupOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<SecurityConnectorsAPISecurityConnector> {
+): PagedAsyncIterableIterator<SecurityConnector> {
   return buildPagedAsyncIterator(
     context,
     () => _listByResourceGroupSend(context, resourceGroupName, options),
@@ -150,7 +150,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
@@ -173,7 +173,7 @@ export function _updateSend(
   context: Client,
   resourceGroupName: string,
   securityConnectorName: string,
-  securityConnector: SecurityConnectorsAPISecurityConnector,
+  securityConnector: SecurityConnector,
   options: SecurityConnectorsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -192,22 +192,22 @@ export function _updateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: securityConnectorsAPISecurityConnectorSerializer(securityConnector),
+    body: securityConnectorSerializer(securityConnector),
   });
 }
 
 export async function _updateDeserialize(
   result: PathUncheckedResponse,
-): Promise<SecurityConnectorsAPISecurityConnector> {
+): Promise<SecurityConnector> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return securityConnectorsAPISecurityConnectorDeserializer(result.body);
+  return securityConnectorDeserializer(result.body);
 }
 
 /** Updates a security connector */
@@ -215,9 +215,9 @@ export async function update(
   context: Client,
   resourceGroupName: string,
   securityConnectorName: string,
-  securityConnector: SecurityConnectorsAPISecurityConnector,
+  securityConnector: SecurityConnector,
   options: SecurityConnectorsUpdateOptionalParams = { requestOptions: {} },
-): Promise<SecurityConnectorsAPISecurityConnector> {
+): Promise<SecurityConnector> {
   const result = await _updateSend(
     context,
     resourceGroupName,
@@ -232,7 +232,7 @@ export function _createOrUpdateSend(
   context: Client,
   resourceGroupName: string,
   securityConnectorName: string,
-  securityConnector: SecurityConnectorsAPISecurityConnector,
+  securityConnector: SecurityConnector,
   options: SecurityConnectorsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -251,22 +251,22 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: securityConnectorsAPISecurityConnectorSerializer(securityConnector),
+    body: securityConnectorSerializer(securityConnector),
   });
 }
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
-): Promise<SecurityConnectorsAPISecurityConnector> {
+): Promise<SecurityConnector> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return securityConnectorsAPISecurityConnectorDeserializer(result.body);
+  return securityConnectorDeserializer(result.body);
 }
 
 /** Creates or updates a security connector. If a security connector is already created and a subsequent request is issued for the same security connector id, then it will be updated. */
@@ -274,9 +274,9 @@ export async function createOrUpdate(
   context: Client,
   resourceGroupName: string,
   securityConnectorName: string,
-  securityConnector: SecurityConnectorsAPISecurityConnector,
+  securityConnector: SecurityConnector,
   options: SecurityConnectorsCreateOrUpdateOptionalParams = { requestOptions: {} },
-): Promise<SecurityConnectorsAPISecurityConnector> {
+): Promise<SecurityConnector> {
   const result = await _createOrUpdateSend(
     context,
     resourceGroupName,
@@ -311,18 +311,16 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<SecurityConnectorsAPISecurityConnector> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<SecurityConnector> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return securityConnectorsAPISecurityConnectorDeserializer(result.body);
+  return securityConnectorDeserializer(result.body);
 }
 
 /** Retrieves details of a specific security connector */
@@ -331,7 +329,7 @@ export async function get(
   resourceGroupName: string,
   securityConnectorName: string,
   options: SecurityConnectorsGetOptionalParams = { requestOptions: {} },
-): Promise<SecurityConnectorsAPISecurityConnector> {
+): Promise<SecurityConnector> {
   const result = await _getSend(context, resourceGroupName, securityConnectorName, options);
   return _getDeserialize(result);
 }

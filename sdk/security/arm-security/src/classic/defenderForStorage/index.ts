@@ -18,10 +18,10 @@ import type {
   DefenderForStorageCreateOptionalParams,
   DefenderForStorageGetOptionalParams,
 } from "../../api/defenderForStorage/options.js";
-import type { CommonSettingName } from "../../models/common/models.js";
+import type { SettingName } from "../../models/common/models.js";
 import type {
-  DefenderForStorageAPIDefenderForStorageSetting,
-  DefenderForStorageAPIMalwareScan,
+  DefenderForStorageSetting,
+  MalwareScan,
 } from "../../models/defenderForStorageAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
@@ -30,73 +30,73 @@ export interface DefenderForStorageOperations {
   /** Gets the Defender for Storage malware scan for the specified storage resource. */
   getMalwareScan: (
     resourceId: string,
-    settingName: CommonSettingName,
+    settingName: SettingName,
     scanId: string,
     options?: DefenderForStorageGetMalwareScanOptionalParams,
-  ) => Promise<DefenderForStorageAPIMalwareScan>;
+  ) => Promise<MalwareScan>;
   /** Cancels a Defender for Storage malware scan for the specified storage account. */
   cancelMalwareScan: (
     resourceId: string,
-    settingName: CommonSettingName,
+    settingName: SettingName,
     scanId: string,
     options?: DefenderForStorageCancelMalwareScanOptionalParams,
-  ) => Promise<DefenderForStorageAPIMalwareScan>;
+  ) => Promise<MalwareScan>;
   /** Initiate a Defender for Storage malware scan for the specified storage account. Blobs and Files will be scanned for malware. */
   startMalwareScan: (
     resourceId: string,
-    settingName: CommonSettingName,
+    settingName: SettingName,
     options?: DefenderForStorageStartMalwareScanOptionalParams,
-  ) => Promise<DefenderForStorageAPIMalwareScan>;
+  ) => Promise<MalwareScan>;
   /** Lists the Defender for Storage settings for the specified storage account. */
   list: (
     resourceId: string,
     options?: DefenderForStorageListOptionalParams,
-  ) => PagedAsyncIterableIterator<DefenderForStorageAPIDefenderForStorageSetting>;
+  ) => PagedAsyncIterableIterator<DefenderForStorageSetting>;
   /** Creates or updates the Defender for Storage settings on a specified storage account. */
   create: (
     resourceId: string,
-    settingName: CommonSettingName,
-    defenderForStorageSetting: DefenderForStorageAPIDefenderForStorageSetting,
+    settingName: SettingName,
+    defenderForStorageSetting: DefenderForStorageSetting,
     options?: DefenderForStorageCreateOptionalParams,
-  ) => Promise<DefenderForStorageAPIDefenderForStorageSetting>;
+  ) => Promise<DefenderForStorageSetting>;
   /** Gets the Defender for Storage settings for the specified storage account. */
   get: (
     resourceId: string,
-    settingName: CommonSettingName,
+    settingName: SettingName,
     options?: DefenderForStorageGetOptionalParams,
-  ) => Promise<DefenderForStorageAPIDefenderForStorageSetting>;
+  ) => Promise<DefenderForStorageSetting>;
 }
 
 function _getDefenderForStorage(context: SecurityCenterContext) {
   return {
     getMalwareScan: (
       resourceId: string,
-      settingName: CommonSettingName,
+      settingName: SettingName,
       scanId: string,
       options?: DefenderForStorageGetMalwareScanOptionalParams,
     ) => getMalwareScan(context, resourceId, settingName, scanId, options),
     cancelMalwareScan: (
       resourceId: string,
-      settingName: CommonSettingName,
+      settingName: SettingName,
       scanId: string,
       options?: DefenderForStorageCancelMalwareScanOptionalParams,
     ) => cancelMalwareScan(context, resourceId, settingName, scanId, options),
     startMalwareScan: (
       resourceId: string,
-      settingName: CommonSettingName,
+      settingName: SettingName,
       options?: DefenderForStorageStartMalwareScanOptionalParams,
     ) => startMalwareScan(context, resourceId, settingName, options),
     list: (resourceId: string, options?: DefenderForStorageListOptionalParams) =>
       list(context, resourceId, options),
     create: (
       resourceId: string,
-      settingName: CommonSettingName,
-      defenderForStorageSetting: DefenderForStorageAPIDefenderForStorageSetting,
+      settingName: SettingName,
+      defenderForStorageSetting: DefenderForStorageSetting,
       options?: DefenderForStorageCreateOptionalParams,
     ) => create(context, resourceId, settingName, defenderForStorageSetting, options),
     get: (
       resourceId: string,
-      settingName: CommonSettingName,
+      settingName: SettingName,
       options?: DefenderForStorageGetOptionalParams,
     ) => get(context, resourceId, settingName, options),
   };

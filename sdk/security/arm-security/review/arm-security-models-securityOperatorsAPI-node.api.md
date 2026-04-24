@@ -5,7 +5,7 @@
 ```ts
 
 // @public
-export interface SecurityOperatorsAPISecurityOperator extends ProxyResource {
+export interface SecurityOperator extends ProxyResource {
     identity?: Identity;
 }
 

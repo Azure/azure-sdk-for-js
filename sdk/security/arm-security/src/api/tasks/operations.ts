@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 import type { SecurityCenterContext as Client } from "../index.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
 import type {
-  TasksAPISecurityTask,
-  _TasksAPISecurityTaskList,
-  TasksAPITaskUpdateActionType,
+  SecurityTask,
+  _SecurityTaskList,
+  TaskUpdateActionType,
 } from "../../models/tasksAPI/models.js";
 import {
-  tasksAPISecurityTaskDeserializer,
-  _tasksAPISecurityTaskListDeserializer,
+  securityTaskDeserializer,
+  _securityTaskListDeserializer,
 } from "../../models/tasksAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -48,25 +48,23 @@ export function _listSend(
   });
 }
 
-export async function _listDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_TasksAPISecurityTaskList> {
+export async function _listDeserialize(result: PathUncheckedResponse): Promise<_SecurityTaskList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _tasksAPISecurityTaskListDeserializer(result.body);
+  return _securityTaskListDeserializer(result.body);
 }
 
 /** Recommended tasks that will help improve the security of the subscription proactively */
 export function list(
   context: Client,
   options: TasksListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<TasksAPISecurityTask> {
+): PagedAsyncIterableIterator<SecurityTask> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, options),
@@ -80,7 +78,7 @@ export function _updateSubscriptionLevelTaskStateSend(
   context: Client,
   ascLocation: string,
   taskName: string,
-  taskUpdateActionType: TasksAPITaskUpdateActionType,
+  taskUpdateActionType: TaskUpdateActionType,
   options: TasksUpdateSubscriptionLevelTaskStateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -105,7 +103,7 @@ export async function _updateSubscriptionLevelTaskStateDeserialize(
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
@@ -118,7 +116,7 @@ export async function updateSubscriptionLevelTaskState(
   context: Client,
   ascLocation: string,
   taskName: string,
-  taskUpdateActionType: TasksAPITaskUpdateActionType,
+  taskUpdateActionType: TaskUpdateActionType,
   options: TasksUpdateSubscriptionLevelTaskStateOptionalParams = { requestOptions: {} },
 ): Promise<void> {
   const result = await _updateSubscriptionLevelTaskStateSend(
@@ -156,16 +154,16 @@ export function _listByHomeRegionSend(
 
 export async function _listByHomeRegionDeserialize(
   result: PathUncheckedResponse,
-): Promise<_TasksAPISecurityTaskList> {
+): Promise<_SecurityTaskList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _tasksAPISecurityTaskListDeserializer(result.body);
+  return _securityTaskListDeserializer(result.body);
 }
 
 /** Recommended tasks that will help improve the security of the subscription proactively */
@@ -173,7 +171,7 @@ export function listByHomeRegion(
   context: Client,
   ascLocation: string,
   options: TasksListByHomeRegionOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<TasksAPISecurityTask> {
+): PagedAsyncIterableIterator<SecurityTask> {
   return buildPagedAsyncIterator(
     context,
     () => _listByHomeRegionSend(context, ascLocation, options),
@@ -209,16 +207,16 @@ export function _getSubscriptionLevelTaskSend(
 
 export async function _getSubscriptionLevelTaskDeserialize(
   result: PathUncheckedResponse,
-): Promise<TasksAPISecurityTask> {
+): Promise<SecurityTask> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return tasksAPISecurityTaskDeserializer(result.body);
+  return securityTaskDeserializer(result.body);
 }
 
 /** Recommended tasks that will help improve the security of the subscription proactively */
@@ -227,7 +225,7 @@ export async function getSubscriptionLevelTask(
   ascLocation: string,
   taskName: string,
   options: TasksGetSubscriptionLevelTaskOptionalParams = { requestOptions: {} },
-): Promise<TasksAPISecurityTask> {
+): Promise<SecurityTask> {
   const result = await _getSubscriptionLevelTaskSend(context, ascLocation, taskName, options);
   return _getSubscriptionLevelTaskDeserialize(result);
 }
@@ -237,7 +235,7 @@ export function _updateResourceGroupLevelTaskStateSend(
   resourceGroupName: string,
   ascLocation: string,
   taskName: string,
-  taskUpdateActionType: TasksAPITaskUpdateActionType,
+  taskUpdateActionType: TaskUpdateActionType,
   options: TasksUpdateResourceGroupLevelTaskStateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -263,7 +261,7 @@ export async function _updateResourceGroupLevelTaskStateDeserialize(
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
@@ -277,7 +275,7 @@ export async function updateResourceGroupLevelTaskState(
   resourceGroupName: string,
   ascLocation: string,
   taskName: string,
-  taskUpdateActionType: TasksAPITaskUpdateActionType,
+  taskUpdateActionType: TaskUpdateActionType,
   options: TasksUpdateResourceGroupLevelTaskStateOptionalParams = { requestOptions: {} },
 ): Promise<void> {
   const result = await _updateResourceGroupLevelTaskStateSend(
@@ -318,16 +316,16 @@ export function _listByResourceGroupSend(
 
 export async function _listByResourceGroupDeserialize(
   result: PathUncheckedResponse,
-): Promise<_TasksAPISecurityTaskList> {
+): Promise<_SecurityTaskList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _tasksAPISecurityTaskListDeserializer(result.body);
+  return _securityTaskListDeserializer(result.body);
 }
 
 /** Recommended tasks that will help improve the security of the subscription proactively */
@@ -336,7 +334,7 @@ export function listByResourceGroup(
   resourceGroupName: string,
   ascLocation: string,
   options: TasksListByResourceGroupOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<TasksAPISecurityTask> {
+): PagedAsyncIterableIterator<SecurityTask> {
   return buildPagedAsyncIterator(
     context,
     () => _listByResourceGroupSend(context, resourceGroupName, ascLocation, options),
@@ -374,16 +372,16 @@ export function _getResourceGroupLevelTaskSend(
 
 export async function _getResourceGroupLevelTaskDeserialize(
   result: PathUncheckedResponse,
-): Promise<TasksAPISecurityTask> {
+): Promise<SecurityTask> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return tasksAPISecurityTaskDeserializer(result.body);
+  return securityTaskDeserializer(result.body);
 }
 
 /** Recommended tasks that will help improve the security of the subscription proactively */
@@ -393,7 +391,7 @@ export async function getResourceGroupLevelTask(
   ascLocation: string,
   taskName: string,
   options: TasksGetResourceGroupLevelTaskOptionalParams = { requestOptions: {} },
-): Promise<TasksAPISecurityTask> {
+): Promise<SecurityTask> {
   const result = await _getResourceGroupLevelTaskSend(
     context,
     resourceGroupName,

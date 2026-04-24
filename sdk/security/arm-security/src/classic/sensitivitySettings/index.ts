@@ -9,8 +9,8 @@ import type {
   SensitivitySettingsGetOptionalParams,
 } from "../../api/sensitivitySettings/options.js";
 import type {
-  SensitivitySettingsAPIGetSensitivitySettingsResponse,
-  SensitivitySettingsAPIUpdateSensitivitySettingsRequest,
+  GetSensitivitySettingsResponse,
+  UpdateSensitivitySettingsRequest,
 } from "../../models/sensitivitySettingsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
@@ -19,23 +19,21 @@ export interface SensitivitySettingsOperations {
   /** Gets a list with a single sensitivity settings resource */
   list: (
     options?: SensitivitySettingsListOptionalParams,
-  ) => PagedAsyncIterableIterator<SensitivitySettingsAPIGetSensitivitySettingsResponse>;
+  ) => PagedAsyncIterableIterator<GetSensitivitySettingsResponse>;
   /** Create or update data sensitivity settings for sensitive data discovery */
   createOrUpdate: (
-    sensitivitySettings: SensitivitySettingsAPIUpdateSensitivitySettingsRequest,
+    sensitivitySettings: UpdateSensitivitySettingsRequest,
     options?: SensitivitySettingsCreateOrUpdateOptionalParams,
-  ) => Promise<SensitivitySettingsAPIGetSensitivitySettingsResponse>;
+  ) => Promise<GetSensitivitySettingsResponse>;
   /** Gets data sensitivity settings for sensitive data discovery */
-  get: (
-    options?: SensitivitySettingsGetOptionalParams,
-  ) => Promise<SensitivitySettingsAPIGetSensitivitySettingsResponse>;
+  get: (options?: SensitivitySettingsGetOptionalParams) => Promise<GetSensitivitySettingsResponse>;
 }
 
 function _getSensitivitySettings(context: SecurityCenterContext) {
   return {
     list: (options?: SensitivitySettingsListOptionalParams) => list(context, options),
     createOrUpdate: (
-      sensitivitySettings: SensitivitySettingsAPIUpdateSensitivitySettingsRequest,
+      sensitivitySettings: UpdateSensitivitySettingsRequest,
       options?: SensitivitySettingsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, sensitivitySettings, options),
     get: (options?: SensitivitySettingsGetOptionalParams) => get(context, options),

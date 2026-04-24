@@ -9,7 +9,7 @@ import type {
   DeviceSecurityGroupsCreateOrUpdateOptionalParams,
   DeviceSecurityGroupsGetOptionalParams,
 } from "../../api/deviceSecurityGroups/options.js";
-import type { IoTSecurityAPIDeviceSecurityGroup } from "../../models/ioTSecurityAPI/models.js";
+import type { DeviceSecurityGroup } from "../../models/ioTSecurityAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DeviceSecurityGroups operations. */
@@ -18,7 +18,7 @@ export interface DeviceSecurityGroupsOperations {
   list: (
     resourceId: string,
     options?: DeviceSecurityGroupsListOptionalParams,
-  ) => PagedAsyncIterableIterator<IoTSecurityAPIDeviceSecurityGroup>;
+  ) => PagedAsyncIterableIterator<DeviceSecurityGroup>;
   /** User this method to deletes the device security group. */
   delete: (
     resourceId: string,
@@ -29,15 +29,15 @@ export interface DeviceSecurityGroupsOperations {
   createOrUpdate: (
     resourceId: string,
     deviceSecurityGroupName: string,
-    deviceSecurityGroup: IoTSecurityAPIDeviceSecurityGroup,
+    deviceSecurityGroup: DeviceSecurityGroup,
     options?: DeviceSecurityGroupsCreateOrUpdateOptionalParams,
-  ) => Promise<IoTSecurityAPIDeviceSecurityGroup>;
+  ) => Promise<DeviceSecurityGroup>;
   /** Use this method to get the device security group for the specified IoT Hub resource. */
   get: (
     resourceId: string,
     deviceSecurityGroupName: string,
     options?: DeviceSecurityGroupsGetOptionalParams,
-  ) => Promise<IoTSecurityAPIDeviceSecurityGroup>;
+  ) => Promise<DeviceSecurityGroup>;
 }
 
 function _getDeviceSecurityGroups(context: SecurityCenterContext) {
@@ -52,7 +52,7 @@ function _getDeviceSecurityGroups(context: SecurityCenterContext) {
     createOrUpdate: (
       resourceId: string,
       deviceSecurityGroupName: string,
-      deviceSecurityGroup: IoTSecurityAPIDeviceSecurityGroup,
+      deviceSecurityGroup: DeviceSecurityGroup,
       options?: DeviceSecurityGroupsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceId, deviceSecurityGroupName, deviceSecurityGroup, options),
     get: (

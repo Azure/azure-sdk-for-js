@@ -4,13 +4,13 @@
 import type { SecurityCenterContext as Client } from "../index.js";
 import { errorResponseDeserializer } from "../../models/models.js";
 import type {
-  SecurityStandardsAPICustomRecommendation,
-  _SecurityStandardsAPICustomRecommendationsList,
+  CustomRecommendation,
+  _CustomRecommendationsList,
 } from "../../models/securityStandardsAPI/models.js";
 import {
-  securityStandardsAPICustomRecommendationSerializer,
-  securityStandardsAPICustomRecommendationDeserializer,
-  _securityStandardsAPICustomRecommendationsListDeserializer,
+  customRecommendationSerializer,
+  customRecommendationDeserializer,
+  _customRecommendationsListDeserializer,
 } from "../../models/securityStandardsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -47,7 +47,7 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_SecurityStandardsAPICustomRecommendationsList> {
+): Promise<_CustomRecommendationsList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -56,7 +56,7 @@ export async function _listDeserialize(
     throw error;
   }
 
-  return _securityStandardsAPICustomRecommendationsListDeserializer(result.body);
+  return _customRecommendationsListDeserializer(result.body);
 }
 
 /** Get a list of all relevant custom recommendations over a scope */
@@ -64,7 +64,7 @@ export function list(
   context: Client,
   scope: string,
   options: CustomRecommendationsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<SecurityStandardsAPICustomRecommendation> {
+): PagedAsyncIterableIterator<CustomRecommendation> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, scope, options),
@@ -121,7 +121,7 @@ export function _createOrUpdateSend(
   context: Client,
   scope: string,
   customRecommendationName: string,
-  customRecommendationBody: SecurityStandardsAPICustomRecommendation,
+  customRecommendationBody: CustomRecommendation,
   options: CustomRecommendationsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -139,13 +139,13 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: securityStandardsAPICustomRecommendationSerializer(customRecommendationBody),
+    body: customRecommendationSerializer(customRecommendationBody),
   });
 }
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
-): Promise<SecurityStandardsAPICustomRecommendation> {
+): Promise<CustomRecommendation> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -154,7 +154,7 @@ export async function _createOrUpdateDeserialize(
     throw error;
   }
 
-  return securityStandardsAPICustomRecommendationDeserializer(result.body);
+  return customRecommendationDeserializer(result.body);
 }
 
 /** Creates or updates a custom recommendation over a given scope */
@@ -162,9 +162,9 @@ export async function createOrUpdate(
   context: Client,
   scope: string,
   customRecommendationName: string,
-  customRecommendationBody: SecurityStandardsAPICustomRecommendation,
+  customRecommendationBody: CustomRecommendation,
   options: CustomRecommendationsCreateOrUpdateOptionalParams = { requestOptions: {} },
-): Promise<SecurityStandardsAPICustomRecommendation> {
+): Promise<CustomRecommendation> {
   const result = await _createOrUpdateSend(
     context,
     scope,
@@ -200,7 +200,7 @@ export function _getSend(
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<SecurityStandardsAPICustomRecommendation> {
+): Promise<CustomRecommendation> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -209,7 +209,7 @@ export async function _getDeserialize(
     throw error;
   }
 
-  return securityStandardsAPICustomRecommendationDeserializer(result.body);
+  return customRecommendationDeserializer(result.body);
 }
 
 /** Get a specific custom recommendation for the requested scope by customRecommendationName */
@@ -218,7 +218,7 @@ export async function get(
   scope: string,
   customRecommendationName: string,
   options: CustomRecommendationsGetOptionalParams = { requestOptions: {} },
-): Promise<SecurityStandardsAPICustomRecommendation> {
+): Promise<CustomRecommendation> {
   const result = await _getSend(context, scope, customRecommendationName, options);
   return _getDeserialize(result);
 }

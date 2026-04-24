@@ -3,7 +3,7 @@
 
 import type { SecurityCenterContext as Client } from "../index.js";
 import { errorResponseDeserializer } from "../../models/models.js";
-import { securityConnectorsDevOpsAPIIssueCreationRequestSerializer } from "../../models/securityConnectorsDevOpsAPI/models.js";
+import { issueCreationRequestSerializer } from "../../models/securityConnectorsDevOpsAPI/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type { GitHubIssuesCreateOptionalParams } from "./options.js";
@@ -38,7 +38,7 @@ export function _createSend(
     contentType: "application/json",
     body: !options["createIssueRequest"]
       ? options["createIssueRequest"]
-      : securityConnectorsDevOpsAPIIssueCreationRequestSerializer(options["createIssueRequest"]),
+      : issueCreationRequestSerializer(options["createIssueRequest"]),
   });
 }
 

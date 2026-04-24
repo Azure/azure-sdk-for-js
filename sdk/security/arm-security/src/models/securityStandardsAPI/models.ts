@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
-import type { CommonAssignedStandardItem } from "../common/models.js";
+import type { AssignedStandardItem } from "../common/models.js";
 import {
-  commonAssignedStandardItemSerializer,
-  commonAssignedStandardItemDeserializer,
+  assignedStandardItemSerializer,
+  assignedStandardItemDeserializer,
 } from "../common/models.js";
 import type { ExtensionResource } from "../models.js";
 import { systemDataDeserializer } from "../models.js";
@@ -17,26 +17,24 @@ import { systemDataDeserializer } from "../models.js";
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Security Standard on a resource */
-export interface SecurityStandardsAPISecurityStandard extends ExtensionResource {
+export interface SecurityStandard extends ExtensionResource {
   /** Display name of the standard, equivalent to the standardId */
   displayName?: string;
   /** Standard type (Custom or Default or Compliance only currently) */
-  readonly standardType?: SecurityStandardsAPIStandardType;
+  readonly standardType?: StandardType;
   /** Description of the standard */
   description?: string;
   /** List of assessment keys to apply to standard scope. */
-  assessments?: SecurityStandardsAPIPartialAssessmentProperties[];
+  assessments?: PartialAssessmentProperties[];
   /** List of all standard supported clouds. */
-  cloudProviders?: SecurityStandardsAPIStandardSupportedCloud[];
+  cloudProviders?: StandardSupportedCloud[];
   /** The policy set definition id associated with the standard. */
   policySetDefinitionId?: string;
   /** The security standard metadata. */
-  metadata?: SecurityStandardsAPIStandardMetadata;
+  metadata?: StandardMetadata;
 }
 
-export function securityStandardsAPISecurityStandardSerializer(
-  item: SecurityStandardsAPISecurityStandard,
-): any {
+export function securityStandardSerializer(item: SecurityStandard): any {
   return {
     properties: areAllPropsUndefined(item, [
       "displayName",
@@ -51,9 +49,7 @@ export function securityStandardsAPISecurityStandardSerializer(
   };
 }
 
-export function securityStandardsAPISecurityStandardDeserializer(
-  item: any,
-): SecurityStandardsAPISecurityStandard {
+export function securityStandardDeserializer(item: any): SecurityStandard {
   return {
     id: item["id"],
     name: item["name"],
@@ -68,68 +64,60 @@ export function securityStandardsAPISecurityStandardDeserializer(
 }
 
 /** Describes properties of a standard. */
-export interface SecurityStandardsAPISecurityStandardProperties {
+export interface SecurityStandardProperties {
   /** Display name of the standard, equivalent to the standardId */
   displayName?: string;
   /** Standard type (Custom or Default or Compliance only currently) */
-  readonly standardType?: SecurityStandardsAPIStandardType;
+  readonly standardType?: StandardType;
   /** Description of the standard */
   description?: string;
   /** List of assessment keys to apply to standard scope. */
-  assessments?: SecurityStandardsAPIPartialAssessmentProperties[];
+  assessments?: PartialAssessmentProperties[];
   /** List of all standard supported clouds. */
-  cloudProviders?: SecurityStandardsAPIStandardSupportedCloud[];
+  cloudProviders?: StandardSupportedCloud[];
   /** The policy set definition id associated with the standard. */
   policySetDefinitionId?: string;
   /** The security standard metadata. */
-  metadata?: SecurityStandardsAPIStandardMetadata;
+  metadata?: StandardMetadata;
 }
 
-export function securityStandardsAPISecurityStandardPropertiesSerializer(
-  item: SecurityStandardsAPISecurityStandardProperties,
-): any {
+export function securityStandardPropertiesSerializer(item: SecurityStandardProperties): any {
   return {
     displayName: item["displayName"],
     description: item["description"],
     assessments: !item["assessments"]
       ? item["assessments"]
-      : securityStandardsAPIPartialAssessmentPropertiesArraySerializer(item["assessments"]),
+      : partialAssessmentPropertiesArraySerializer(item["assessments"]),
     cloudProviders: !item["cloudProviders"]
       ? item["cloudProviders"]
       : item["cloudProviders"].map((p: any) => {
           return p;
         }),
     policySetDefinitionId: item["policySetDefinitionId"],
-    metadata: !item["metadata"]
-      ? item["metadata"]
-      : securityStandardsAPIStandardMetadataSerializer(item["metadata"]),
+    metadata: !item["metadata"] ? item["metadata"] : standardMetadataSerializer(item["metadata"]),
   };
 }
 
-export function securityStandardsAPISecurityStandardPropertiesDeserializer(
-  item: any,
-): SecurityStandardsAPISecurityStandardProperties {
+export function securityStandardPropertiesDeserializer(item: any): SecurityStandardProperties {
   return {
     displayName: item["displayName"],
     standardType: item["standardType"],
     description: item["description"],
     assessments: !item["assessments"]
       ? item["assessments"]
-      : securityStandardsAPIPartialAssessmentPropertiesArrayDeserializer(item["assessments"]),
+      : partialAssessmentPropertiesArrayDeserializer(item["assessments"]),
     cloudProviders: !item["cloudProviders"]
       ? item["cloudProviders"]
       : item["cloudProviders"].map((p: any) => {
           return p;
         }),
     policySetDefinitionId: item["policySetDefinitionId"],
-    metadata: !item["metadata"]
-      ? item["metadata"]
-      : securityStandardsAPIStandardMetadataDeserializer(item["metadata"]),
+    metadata: !item["metadata"] ? item["metadata"] : standardMetadataDeserializer(item["metadata"]),
   };
 }
 
 /** Standard type (Custom or Default or Compliance only currently) */
-export enum KnownSecurityStandardsAPIStandardType {
+export enum KnownStandardType {
   /** Custom */
   Custom = "Custom",
   /** Default */
@@ -140,53 +128,49 @@ export enum KnownSecurityStandardsAPIStandardType {
 
 /**
  * Standard type (Custom or Default or Compliance only currently) \
- * {@link KnownSecurityStandardsAPIStandardType} can be used interchangeably with SecurityStandardsAPIStandardType,
+ * {@link KnownStandardType} can be used interchangeably with StandardType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Custom**: Custom \
  * **Default**: Default \
  * **Compliance**: Compliance
  */
-export type SecurityStandardsAPIStandardType = string;
+export type StandardType = string;
 
-export function securityStandardsAPIPartialAssessmentPropertiesArraySerializer(
-  result: Array<SecurityStandardsAPIPartialAssessmentProperties>,
+export function partialAssessmentPropertiesArraySerializer(
+  result: Array<PartialAssessmentProperties>,
 ): any[] {
   return result.map((item) => {
-    return securityStandardsAPIPartialAssessmentPropertiesSerializer(item);
+    return partialAssessmentPropertiesSerializer(item);
   });
 }
 
-export function securityStandardsAPIPartialAssessmentPropertiesArrayDeserializer(
-  result: Array<SecurityStandardsAPIPartialAssessmentProperties>,
+export function partialAssessmentPropertiesArrayDeserializer(
+  result: Array<PartialAssessmentProperties>,
 ): any[] {
   return result.map((item) => {
-    return securityStandardsAPIPartialAssessmentPropertiesDeserializer(item);
+    return partialAssessmentPropertiesDeserializer(item);
   });
 }
 
 /** Describes properties of an assessment as related to the standard */
-export interface SecurityStandardsAPIPartialAssessmentProperties {
+export interface PartialAssessmentProperties {
   /** The assessment key */
   assessmentKey?: string;
 }
 
-export function securityStandardsAPIPartialAssessmentPropertiesSerializer(
-  item: SecurityStandardsAPIPartialAssessmentProperties,
-): any {
+export function partialAssessmentPropertiesSerializer(item: PartialAssessmentProperties): any {
   return { assessmentKey: item["assessmentKey"] };
 }
 
-export function securityStandardsAPIPartialAssessmentPropertiesDeserializer(
-  item: any,
-): SecurityStandardsAPIPartialAssessmentProperties {
+export function partialAssessmentPropertiesDeserializer(item: any): PartialAssessmentProperties {
   return {
     assessmentKey: item["assessmentKey"],
   };
 }
 
 /** The cloud that the standard is supported on. */
-export enum KnownSecurityStandardsAPIStandardSupportedCloud {
+export enum KnownStandardSupportedCloud {
   /** Azure */
   Azure = "Azure",
   /** AWS */
@@ -197,17 +181,17 @@ export enum KnownSecurityStandardsAPIStandardSupportedCloud {
 
 /**
  * The cloud that the standard is supported on. \
- * {@link KnownSecurityStandardsAPIStandardSupportedCloud} can be used interchangeably with SecurityStandardsAPIStandardSupportedCloud,
+ * {@link KnownStandardSupportedCloud} can be used interchangeably with StandardSupportedCloud,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Azure**: Azure \
  * **AWS**: AWS \
  * **GCP**: GCP
  */
-export type SecurityStandardsAPIStandardSupportedCloud = string;
+export type StandardSupportedCloud = string;
 
 /** The standard metadata */
-export interface SecurityStandardsAPIStandardMetadata {
+export interface StandardMetadata {
   /** Standard Created by object id (GUID) */
   readonly createdBy?: string;
   /** Standard creation date */
@@ -218,15 +202,11 @@ export interface SecurityStandardsAPIStandardMetadata {
   readonly lastUpdatedOn?: Date;
 }
 
-export function securityStandardsAPIStandardMetadataSerializer(
-  _item: SecurityStandardsAPIStandardMetadata,
-): any {
+export function standardMetadataSerializer(_item: StandardMetadata): any {
   return {};
 }
 
-export function securityStandardsAPIStandardMetadataDeserializer(
-  item: any,
-): SecurityStandardsAPIStandardMetadata {
+export function standardMetadataDeserializer(item: any): StandardMetadata {
   return {
     createdBy: item["createdBy"],
     createdOn: !item["createdOn"] ? item["createdOn"] : new Date(item["createdOn"]),
@@ -236,63 +216,55 @@ export function securityStandardsAPIStandardMetadataDeserializer(
 }
 
 /** Page of a Standard list */
-export interface _SecurityStandardsAPISecurityStandardList {
+export interface _SecurityStandardList {
   /** Collection of standards in this page */
-  readonly value: SecurityStandardsAPISecurityStandard[];
+  readonly value: SecurityStandard[];
   /** The URI to fetch the next page */
   readonly nextLink?: string;
 }
 
-export function _securityStandardsAPISecurityStandardListDeserializer(
-  item: any,
-): _SecurityStandardsAPISecurityStandardList {
+export function _securityStandardListDeserializer(item: any): _SecurityStandardList {
   return {
-    value: securityStandardsAPISecurityStandardArrayDeserializer(item["value"]),
+    value: securityStandardArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function securityStandardsAPISecurityStandardArraySerializer(
-  result: Array<SecurityStandardsAPISecurityStandard>,
-): any[] {
+export function securityStandardArraySerializer(result: Array<SecurityStandard>): any[] {
   return result.map((item) => {
-    return securityStandardsAPISecurityStandardSerializer(item);
+    return securityStandardSerializer(item);
   });
 }
 
-export function securityStandardsAPISecurityStandardArrayDeserializer(
-  result: Array<SecurityStandardsAPISecurityStandard>,
-): any[] {
+export function securityStandardArrayDeserializer(result: Array<SecurityStandard>): any[] {
   return result.map((item) => {
-    return securityStandardsAPISecurityStandardDeserializer(item);
+    return securityStandardDeserializer(item);
   });
 }
 
 /** Security Assignment on a resource group over a given scope */
-export interface SecurityStandardsAPIStandardAssignment extends ExtensionResource {
+export interface StandardAssignment extends ExtensionResource {
   /** Display name of the standardAssignment */
   displayName?: string;
   /** Description of the standardAssignment */
   description?: string;
   /** Standard item with key as applied to this standard assignment over the given scope */
-  assignedStandard?: CommonAssignedStandardItem;
+  assignedStandard?: AssignedStandardItem;
   /** Expected effect of this assignment (Audit/Exempt/Attest) */
-  effect?: SecurityStandardsAPIEffect;
+  effect?: Effect;
   /** Excluded scopes, filter out the descendants of the scope (on management scopes) */
   excludedScopes?: string[];
   /** Expiration date of this assignment as a full ISO date */
   expiresOn?: Date;
   /** Additional data about assignment that has Exempt effect */
-  exemptionData?: SecurityStandardsAPIStandardAssignmentPropertiesExemptionData;
+  exemptionData?: StandardAssignmentPropertiesExemptionData;
   /** Additional data about assignment that has Attest effect */
-  attestationData?: SecurityStandardsAPIStandardAssignmentPropertiesAttestationData;
+  attestationData?: StandardAssignmentPropertiesAttestationData;
   /** The standard assignment metadata. */
-  metadata?: SecurityStandardsAPIStandardAssignmentMetadata;
+  metadata?: StandardAssignmentMetadata;
 }
 
-export function securityStandardsAPIStandardAssignmentSerializer(
-  item: SecurityStandardsAPIStandardAssignment,
-): any {
+export function standardAssignmentSerializer(item: StandardAssignment): any {
   return {
     properties: areAllPropsUndefined(item, [
       "displayName",
@@ -310,9 +282,7 @@ export function securityStandardsAPIStandardAssignmentSerializer(
   };
 }
 
-export function securityStandardsAPIStandardAssignmentDeserializer(
-  item: any,
-): SecurityStandardsAPIStandardAssignment {
+export function standardAssignmentDeserializer(item: any): StandardAssignment {
   return {
     id: item["id"],
     name: item["name"],
@@ -327,36 +297,34 @@ export function securityStandardsAPIStandardAssignmentDeserializer(
 }
 
 /** Describes the properties of a standardAssignment */
-export interface SecurityStandardsAPIStandardAssignmentProperties {
+export interface StandardAssignmentProperties {
   /** Display name of the standardAssignment */
   displayName?: string;
   /** Description of the standardAssignment */
   description?: string;
   /** Standard item with key as applied to this standard assignment over the given scope */
-  assignedStandard?: CommonAssignedStandardItem;
+  assignedStandard?: AssignedStandardItem;
   /** Expected effect of this assignment (Audit/Exempt/Attest) */
-  effect?: SecurityStandardsAPIEffect;
+  effect?: Effect;
   /** Excluded scopes, filter out the descendants of the scope (on management scopes) */
   excludedScopes?: string[];
   /** Expiration date of this assignment as a full ISO date */
   expiresOn?: Date;
   /** Additional data about assignment that has Exempt effect */
-  exemptionData?: SecurityStandardsAPIStandardAssignmentPropertiesExemptionData;
+  exemptionData?: StandardAssignmentPropertiesExemptionData;
   /** Additional data about assignment that has Attest effect */
-  attestationData?: SecurityStandardsAPIStandardAssignmentPropertiesAttestationData;
+  attestationData?: StandardAssignmentPropertiesAttestationData;
   /** The standard assignment metadata. */
-  metadata?: SecurityStandardsAPIStandardAssignmentMetadata;
+  metadata?: StandardAssignmentMetadata;
 }
 
-export function securityStandardsAPIStandardAssignmentPropertiesSerializer(
-  item: SecurityStandardsAPIStandardAssignmentProperties,
-): any {
+export function standardAssignmentPropertiesSerializer(item: StandardAssignmentProperties): any {
   return {
     displayName: item["displayName"],
     description: item["description"],
     assignedStandard: !item["assignedStandard"]
       ? item["assignedStandard"]
-      : commonAssignedStandardItemSerializer(item["assignedStandard"]),
+      : assignedStandardItemSerializer(item["assignedStandard"]),
     effect: item["effect"],
     excludedScopes: !item["excludedScopes"]
       ? item["excludedScopes"]
@@ -366,29 +334,23 @@ export function securityStandardsAPIStandardAssignmentPropertiesSerializer(
     expiresOn: !item["expiresOn"] ? item["expiresOn"] : item["expiresOn"].toISOString(),
     exemptionData: !item["exemptionData"]
       ? item["exemptionData"]
-      : securityStandardsAPIStandardAssignmentPropertiesExemptionDataSerializer(
-          item["exemptionData"],
-        ),
+      : standardAssignmentPropertiesExemptionDataSerializer(item["exemptionData"]),
     attestationData: !item["attestationData"]
       ? item["attestationData"]
-      : securityStandardsAPIStandardAssignmentPropertiesAttestationDataSerializer(
-          item["attestationData"],
-        ),
+      : standardAssignmentPropertiesAttestationDataSerializer(item["attestationData"]),
     metadata: !item["metadata"]
       ? item["metadata"]
-      : securityStandardsAPIStandardAssignmentMetadataSerializer(item["metadata"]),
+      : standardAssignmentMetadataSerializer(item["metadata"]),
   };
 }
 
-export function securityStandardsAPIStandardAssignmentPropertiesDeserializer(
-  item: any,
-): SecurityStandardsAPIStandardAssignmentProperties {
+export function standardAssignmentPropertiesDeserializer(item: any): StandardAssignmentProperties {
   return {
     displayName: item["displayName"],
     description: item["description"],
     assignedStandard: !item["assignedStandard"]
       ? item["assignedStandard"]
-      : commonAssignedStandardItemDeserializer(item["assignedStandard"]),
+      : assignedStandardItemDeserializer(item["assignedStandard"]),
     effect: item["effect"],
     excludedScopes: !item["excludedScopes"]
       ? item["excludedScopes"]
@@ -398,22 +360,18 @@ export function securityStandardsAPIStandardAssignmentPropertiesDeserializer(
     expiresOn: !item["expiresOn"] ? item["expiresOn"] : new Date(item["expiresOn"]),
     exemptionData: !item["exemptionData"]
       ? item["exemptionData"]
-      : securityStandardsAPIStandardAssignmentPropertiesExemptionDataDeserializer(
-          item["exemptionData"],
-        ),
+      : standardAssignmentPropertiesExemptionDataDeserializer(item["exemptionData"]),
     attestationData: !item["attestationData"]
       ? item["attestationData"]
-      : securityStandardsAPIStandardAssignmentPropertiesAttestationDataDeserializer(
-          item["attestationData"],
-        ),
+      : standardAssignmentPropertiesAttestationDataDeserializer(item["attestationData"]),
     metadata: !item["metadata"]
       ? item["metadata"]
-      : securityStandardsAPIStandardAssignmentMetadataDeserializer(item["metadata"]),
+      : standardAssignmentMetadataDeserializer(item["metadata"]),
   };
 }
 
 /** Expected effect of this assignment (Audit/Exempt/Attest) */
-export enum KnownSecurityStandardsAPIEffect {
+export enum KnownEffect {
   /** Audit */
   Audit = "Audit",
   /** Exempt */
@@ -424,47 +382,47 @@ export enum KnownSecurityStandardsAPIEffect {
 
 /**
  * Expected effect of this assignment (Audit/Exempt/Attest) \
- * {@link KnownSecurityStandardsAPIEffect} can be used interchangeably with SecurityStandardsAPIEffect,
+ * {@link KnownEffect} can be used interchangeably with Effect,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Audit**: Audit \
  * **Exempt**: Exempt \
  * **Attest**: Attest
  */
-export type SecurityStandardsAPIEffect = string;
+export type Effect = string;
 
 /** Additional data about assignment that has Exempt effect */
-export interface SecurityStandardsAPIStandardAssignmentPropertiesExemptionData {
+export interface StandardAssignmentPropertiesExemptionData {
   /** Exemption category of this assignment */
-  exemptionCategory?: SecurityStandardsAPIExemptionCategory;
+  exemptionCategory?: ExemptionCategory;
   /** Component item with key as applied to this standard assignment over the given scope */
-  assignedAssessment?: SecurityStandardsAPIAssignedAssessmentItem;
+  assignedAssessment?: AssignedAssessmentItem;
 }
 
-export function securityStandardsAPIStandardAssignmentPropertiesExemptionDataSerializer(
-  item: SecurityStandardsAPIStandardAssignmentPropertiesExemptionData,
+export function standardAssignmentPropertiesExemptionDataSerializer(
+  item: StandardAssignmentPropertiesExemptionData,
 ): any {
   return {
     exemptionCategory: item["exemptionCategory"],
     assignedAssessment: !item["assignedAssessment"]
       ? item["assignedAssessment"]
-      : securityStandardsAPIAssignedAssessmentItemSerializer(item["assignedAssessment"]),
+      : assignedAssessmentItemSerializer(item["assignedAssessment"]),
   };
 }
 
-export function securityStandardsAPIStandardAssignmentPropertiesExemptionDataDeserializer(
+export function standardAssignmentPropertiesExemptionDataDeserializer(
   item: any,
-): SecurityStandardsAPIStandardAssignmentPropertiesExemptionData {
+): StandardAssignmentPropertiesExemptionData {
   return {
     exemptionCategory: item["exemptionCategory"],
     assignedAssessment: !item["assignedAssessment"]
       ? item["assignedAssessment"]
-      : securityStandardsAPIAssignedAssessmentItemDeserializer(item["assignedAssessment"]),
+      : assignedAssessmentItemDeserializer(item["assignedAssessment"]),
   };
 }
 
 /** Exemption category of this assignment */
-export enum KnownSecurityStandardsAPIExemptionCategory {
+export enum KnownExemptionCategory {
   /** waiver */
   Waiver = "waiver",
   /** mitigated */
@@ -473,79 +431,75 @@ export enum KnownSecurityStandardsAPIExemptionCategory {
 
 /**
  * Exemption category of this assignment \
- * {@link KnownSecurityStandardsAPIExemptionCategory} can be used interchangeably with SecurityStandardsAPIExemptionCategory,
+ * {@link KnownExemptionCategory} can be used interchangeably with ExemptionCategory,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **waiver**: waiver \
  * **mitigated**: mitigated
  */
-export type SecurityStandardsAPIExemptionCategory = string;
+export type ExemptionCategory = string;
 
 /** Describe the properties of a security assessment object reference (by key) */
-export interface SecurityStandardsAPIAssignedAssessmentItem {
+export interface AssignedAssessmentItem {
   /** Unique key to a security assessment object */
   assessmentKey?: string;
 }
 
-export function securityStandardsAPIAssignedAssessmentItemSerializer(
-  item: SecurityStandardsAPIAssignedAssessmentItem,
-): any {
+export function assignedAssessmentItemSerializer(item: AssignedAssessmentItem): any {
   return { assessmentKey: item["assessmentKey"] };
 }
 
-export function securityStandardsAPIAssignedAssessmentItemDeserializer(
-  item: any,
-): SecurityStandardsAPIAssignedAssessmentItem {
+export function assignedAssessmentItemDeserializer(item: any): AssignedAssessmentItem {
   return {
     assessmentKey: item["assessmentKey"],
   };
 }
 
 /** Additional data about assignment that has Attest effect */
-export interface SecurityStandardsAPIStandardAssignmentPropertiesAttestationData {
+export interface StandardAssignmentPropertiesAttestationData {
   /** Attest category of this assignment */
-  complianceState?: SecurityStandardsAPIattestationComplianceState;
+  complianceState?: AttestationComplianceState;
   /** Component item with key as applied to this standard assignment over the given scope */
-  assignedAssessment?: SecurityStandardsAPIAssignedAssessmentItem;
+  assignedAssessment?: AssignedAssessmentItem;
   /** Attestation compliance date */
   readonly complianceDate?: Date;
   /** Array of links to attestation evidence */
-  evidence?: SecurityStandardsAPIAttestationEvidence[];
+  evidence?: AttestationEvidence[];
 }
 
-export function securityStandardsAPIStandardAssignmentPropertiesAttestationDataSerializer(
-  item: SecurityStandardsAPIStandardAssignmentPropertiesAttestationData,
+export function standardAssignmentPropertiesAttestationDataSerializer(
+  item: StandardAssignmentPropertiesAttestationData,
 ): any {
   return {
     complianceState: item["complianceState"],
     assignedAssessment: !item["assignedAssessment"]
       ? item["assignedAssessment"]
-      : securityStandardsAPIAssignedAssessmentItemSerializer(item["assignedAssessment"]),
+      : assignedAssessmentItemSerializer(item["assignedAssessment"]),
     evidence: !item["evidence"]
       ? item["evidence"]
-      : securityStandardsAPIAttestationEvidenceArraySerializer(item["evidence"]),
+      : attestationEvidenceArraySerializer(item["evidence"]),
   };
 }
 
-export function securityStandardsAPIStandardAssignmentPropertiesAttestationDataDeserializer(
+export function standardAssignmentPropertiesAttestationDataDeserializer(
   item: any,
-): SecurityStandardsAPIStandardAssignmentPropertiesAttestationData {
+): StandardAssignmentPropertiesAttestationData {
   return {
     complianceState: item["complianceState"],
     assignedAssessment: !item["assignedAssessment"]
       ? item["assignedAssessment"]
-      : securityStandardsAPIAssignedAssessmentItemDeserializer(item["assignedAssessment"]),
+      : assignedAssessmentItemDeserializer(item["assignedAssessment"]),
     complianceDate: !item["complianceDate"]
       ? item["complianceDate"]
       : new Date(item["complianceDate"]),
     evidence: !item["evidence"]
       ? item["evidence"]
-      : securityStandardsAPIAttestationEvidenceArrayDeserializer(item["evidence"]),
+      : attestationEvidenceArrayDeserializer(item["evidence"]),
   };
 }
 
 /** Attest category of this assignment */
-export enum KnownSecurityStandardsAPIattestationComplianceState {
+export enum KnownAttestationComplianceState {
   /** unknown */
   Unknown = "unknown",
   /** compliant */
@@ -556,48 +510,40 @@ export enum KnownSecurityStandardsAPIattestationComplianceState {
 
 /**
  * Attest category of this assignment \
- * {@link KnownSecurityStandardsAPIattestationComplianceState} can be used interchangeably with SecurityStandardsAPIattestationComplianceState,
+ * {@link KnownAttestationComplianceState} can be used interchangeably with AttestationComplianceState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **unknown**: unknown \
  * **compliant**: compliant \
  * **nonCompliant**: nonCompliant
  */
-export type SecurityStandardsAPIattestationComplianceState = string;
+export type AttestationComplianceState = string;
 
-export function securityStandardsAPIAttestationEvidenceArraySerializer(
-  result: Array<SecurityStandardsAPIAttestationEvidence>,
-): any[] {
+export function attestationEvidenceArraySerializer(result: Array<AttestationEvidence>): any[] {
   return result.map((item) => {
-    return securityStandardsAPIAttestationEvidenceSerializer(item);
+    return attestationEvidenceSerializer(item);
   });
 }
 
-export function securityStandardsAPIAttestationEvidenceArrayDeserializer(
-  result: Array<SecurityStandardsAPIAttestationEvidence>,
-): any[] {
+export function attestationEvidenceArrayDeserializer(result: Array<AttestationEvidence>): any[] {
   return result.map((item) => {
-    return securityStandardsAPIAttestationEvidenceDeserializer(item);
+    return attestationEvidenceDeserializer(item);
   });
 }
 
 /** Describe the properties of a assignment attestation */
-export interface SecurityStandardsAPIAttestationEvidence {
+export interface AttestationEvidence {
   /** The description of the evidence */
   description?: string;
   /** The source url of the evidence */
   sourceUrl?: string;
 }
 
-export function securityStandardsAPIAttestationEvidenceSerializer(
-  item: SecurityStandardsAPIAttestationEvidence,
-): any {
+export function attestationEvidenceSerializer(item: AttestationEvidence): any {
   return { description: item["description"], sourceUrl: item["sourceUrl"] };
 }
 
-export function securityStandardsAPIAttestationEvidenceDeserializer(
-  item: any,
-): SecurityStandardsAPIAttestationEvidence {
+export function attestationEvidenceDeserializer(item: any): AttestationEvidence {
   return {
     description: item["description"],
     sourceUrl: item["sourceUrl"],
@@ -605,7 +551,7 @@ export function securityStandardsAPIAttestationEvidenceDeserializer(
 }
 
 /** The standard assignment metadata */
-export interface SecurityStandardsAPIStandardAssignmentMetadata {
+export interface StandardAssignmentMetadata {
   /** Standard assignment Created by object id (GUID) */
   readonly createdBy?: string;
   /** Standard assignment creation date */
@@ -616,15 +562,11 @@ export interface SecurityStandardsAPIStandardAssignmentMetadata {
   readonly lastUpdatedOn?: Date;
 }
 
-export function securityStandardsAPIStandardAssignmentMetadataSerializer(
-  _item: SecurityStandardsAPIStandardAssignmentMetadata,
-): any {
+export function standardAssignmentMetadataSerializer(_item: StandardAssignmentMetadata): any {
   return {};
 }
 
-export function securityStandardsAPIStandardAssignmentMetadataDeserializer(
-  item: any,
-): SecurityStandardsAPIStandardAssignmentMetadata {
+export function standardAssignmentMetadataDeserializer(item: any): StandardAssignmentMetadata {
   return {
     createdBy: item["createdBy"],
     createdOn: !item["createdOn"] ? item["createdOn"] : new Date(item["createdOn"]),
@@ -634,48 +576,42 @@ export function securityStandardsAPIStandardAssignmentMetadataDeserializer(
 }
 
 /** Page of a standard assignment list */
-export interface _SecurityStandardsAPIStandardAssignmentsList {
+export interface _StandardAssignmentsList {
   /** Collection of standardAssignments in this page */
-  readonly value: SecurityStandardsAPIStandardAssignment[];
+  readonly value: StandardAssignment[];
   /** The URI to fetch the next page */
   readonly nextLink?: string;
 }
 
-export function _securityStandardsAPIStandardAssignmentsListDeserializer(
-  item: any,
-): _SecurityStandardsAPIStandardAssignmentsList {
+export function _standardAssignmentsListDeserializer(item: any): _StandardAssignmentsList {
   return {
-    value: securityStandardsAPIStandardAssignmentArrayDeserializer(item["value"]),
+    value: standardAssignmentArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function securityStandardsAPIStandardAssignmentArraySerializer(
-  result: Array<SecurityStandardsAPIStandardAssignment>,
-): any[] {
+export function standardAssignmentArraySerializer(result: Array<StandardAssignment>): any[] {
   return result.map((item) => {
-    return securityStandardsAPIStandardAssignmentSerializer(item);
+    return standardAssignmentSerializer(item);
   });
 }
 
-export function securityStandardsAPIStandardAssignmentArrayDeserializer(
-  result: Array<SecurityStandardsAPIStandardAssignment>,
-): any[] {
+export function standardAssignmentArrayDeserializer(result: Array<StandardAssignment>): any[] {
   return result.map((item) => {
-    return securityStandardsAPIStandardAssignmentDeserializer(item);
+    return standardAssignmentDeserializer(item);
   });
 }
 
 /** Custom Recommendation */
-export interface SecurityStandardsAPICustomRecommendation extends ExtensionResource {
+export interface CustomRecommendation extends ExtensionResource {
   /** KQL query representing the Recommendation results required. */
   query?: string;
   /** List of all standard supported clouds. */
-  cloudProviders?: SecurityStandardsAPIRecommendationSupportedClouds[];
+  cloudProviders?: RecommendationSupportedClouds[];
   /** The severity to relate to the assessments generated by this Recommendation. */
-  severity?: SecurityStandardsAPISeverityEnum;
+  severity?: SeverityEnum;
   /** The severity to relate to the assessments generated by this Recommendation. */
-  securityIssue?: SecurityStandardsAPISecurityIssue;
+  securityIssue?: SecurityIssue;
   /** The display name of the assessments generated by this Recommendation. */
   displayName?: string;
   /** The description to relate to the assessments generated by this Recommendation. */
@@ -686,9 +622,7 @@ export interface SecurityStandardsAPICustomRecommendation extends ExtensionResou
   readonly assessmentKey?: string;
 }
 
-export function securityStandardsAPICustomRecommendationSerializer(
-  item: SecurityStandardsAPICustomRecommendation,
-): any {
+export function customRecommendationSerializer(item: CustomRecommendation): any {
   return {
     properties: areAllPropsUndefined(item, [
       "query",
@@ -704,9 +638,7 @@ export function securityStandardsAPICustomRecommendationSerializer(
   };
 }
 
-export function securityStandardsAPICustomRecommendationDeserializer(
-  item: any,
-): SecurityStandardsAPICustomRecommendation {
+export function customRecommendationDeserializer(item: any): CustomRecommendation {
   return {
     id: item["id"],
     name: item["name"],
@@ -721,15 +653,15 @@ export function securityStandardsAPICustomRecommendationDeserializer(
 }
 
 /** describes the Custom Recommendation properties */
-export interface SecurityStandardsAPICustomRecommendationProperties {
+export interface CustomRecommendationProperties {
   /** KQL query representing the Recommendation results required. */
   query?: string;
   /** List of all standard supported clouds. */
-  cloudProviders?: SecurityStandardsAPIRecommendationSupportedClouds[];
+  cloudProviders?: RecommendationSupportedClouds[];
   /** The severity to relate to the assessments generated by this Recommendation. */
-  severity?: SecurityStandardsAPISeverityEnum;
+  severity?: SeverityEnum;
   /** The severity to relate to the assessments generated by this Recommendation. */
-  securityIssue?: SecurityStandardsAPISecurityIssue;
+  securityIssue?: SecurityIssue;
   /** The display name of the assessments generated by this Recommendation. */
   displayName?: string;
   /** The description to relate to the assessments generated by this Recommendation. */
@@ -740,8 +672,8 @@ export interface SecurityStandardsAPICustomRecommendationProperties {
   readonly assessmentKey?: string;
 }
 
-export function securityStandardsAPICustomRecommendationPropertiesSerializer(
-  item: SecurityStandardsAPICustomRecommendationProperties,
+export function customRecommendationPropertiesSerializer(
+  item: CustomRecommendationProperties,
 ): any {
   return {
     query: item["query"],
@@ -758,9 +690,9 @@ export function securityStandardsAPICustomRecommendationPropertiesSerializer(
   };
 }
 
-export function securityStandardsAPICustomRecommendationPropertiesDeserializer(
+export function customRecommendationPropertiesDeserializer(
   item: any,
-): SecurityStandardsAPICustomRecommendationProperties {
+): CustomRecommendationProperties {
   return {
     query: item["query"],
     cloudProviders: !item["cloudProviders"]
@@ -778,7 +710,7 @@ export function securityStandardsAPICustomRecommendationPropertiesDeserializer(
 }
 
 /** The cloud that the recommendation is supported on. */
-export enum KnownSecurityStandardsAPIRecommendationSupportedClouds {
+export enum KnownRecommendationSupportedClouds {
   /** Azure */
   Azure = "Azure",
   /** AWS */
@@ -789,17 +721,17 @@ export enum KnownSecurityStandardsAPIRecommendationSupportedClouds {
 
 /**
  * The cloud that the recommendation is supported on. \
- * {@link KnownSecurityStandardsAPIRecommendationSupportedClouds} can be used interchangeably with SecurityStandardsAPIRecommendationSupportedClouds,
+ * {@link KnownRecommendationSupportedClouds} can be used interchangeably with RecommendationSupportedClouds,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Azure**: Azure \
  * **AWS**: AWS \
  * **GCP**: GCP
  */
-export type SecurityStandardsAPIRecommendationSupportedClouds = string;
+export type RecommendationSupportedClouds = string;
 
 /** The severity to relate to the assessments generated by this Recommendation. */
-export enum KnownSecurityStandardsAPISeverityEnum {
+export enum KnownSeverityEnum {
   /** High */
   High = "High",
   /** Medium */
@@ -810,17 +742,17 @@ export enum KnownSecurityStandardsAPISeverityEnum {
 
 /**
  * The severity to relate to the assessments generated by this Recommendation. \
- * {@link KnownSecurityStandardsAPISeverityEnum} can be used interchangeably with SecurityStandardsAPISeverityEnum,
+ * {@link KnownSeverityEnum} can be used interchangeably with SeverityEnum,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **High**: High \
  * **Medium**: Medium \
  * **Low**: Low
  */
-export type SecurityStandardsAPISeverityEnum = string;
+export type SeverityEnum = string;
 
 /** The severity to relate to the assessments generated by this Recommendation. */
-export enum KnownSecurityStandardsAPISecurityIssue {
+export enum KnownSecurityIssue {
   /** Vulnerability */
   Vulnerability = "Vulnerability",
   /** ExcessivePermissions */
@@ -837,7 +769,7 @@ export enum KnownSecurityStandardsAPISecurityIssue {
 
 /**
  * The severity to relate to the assessments generated by this Recommendation. \
- * {@link KnownSecurityStandardsAPISecurityIssue} can be used interchangeably with SecurityStandardsAPISecurityIssue,
+ * {@link KnownSecurityIssue} can be used interchangeably with SecurityIssue,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Vulnerability**: Vulnerability \
@@ -847,59 +779,49 @@ export enum KnownSecurityStandardsAPISecurityIssue {
  * **TrafficEncryption**: TrafficEncryption \
  * **BestPractices**: BestPractices
  */
-export type SecurityStandardsAPISecurityIssue = string;
+export type SecurityIssue = string;
 
 /** A list of Custom Recommendations */
-export interface _SecurityStandardsAPICustomRecommendationsList {
+export interface _CustomRecommendationsList {
   /** Collection of Custom Recommendations */
-  readonly value: SecurityStandardsAPICustomRecommendation[];
+  readonly value: CustomRecommendation[];
   /** The link used to get the next page of operations. */
   nextLink?: string;
 }
 
-export function _securityStandardsAPICustomRecommendationsListDeserializer(
-  item: any,
-): _SecurityStandardsAPICustomRecommendationsList {
+export function _customRecommendationsListDeserializer(item: any): _CustomRecommendationsList {
   return {
-    value: securityStandardsAPICustomRecommendationArrayDeserializer(item["value"]),
+    value: customRecommendationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function securityStandardsAPICustomRecommendationArraySerializer(
-  result: Array<SecurityStandardsAPICustomRecommendation>,
-): any[] {
+export function customRecommendationArraySerializer(result: Array<CustomRecommendation>): any[] {
   return result.map((item) => {
-    return securityStandardsAPICustomRecommendationSerializer(item);
+    return customRecommendationSerializer(item);
   });
 }
 
-export function securityStandardsAPICustomRecommendationArrayDeserializer(
-  result: Array<SecurityStandardsAPICustomRecommendation>,
-): any[] {
+export function customRecommendationArrayDeserializer(result: Array<CustomRecommendation>): any[] {
   return result.map((item) => {
-    return securityStandardsAPICustomRecommendationDeserializer(item);
+    return customRecommendationDeserializer(item);
   });
 }
 
-export function _securityStandardPropertiesSerializer(
-  item: SecurityStandardsAPISecurityStandard,
-): any {
+export function _securityStandardPropertiesSerializer(item: SecurityStandard): any {
   return {
     displayName: item["displayName"],
     description: item["description"],
     assessments: !item["assessments"]
       ? item["assessments"]
-      : securityStandardsAPIPartialAssessmentPropertiesArraySerializer(item["assessments"]),
+      : partialAssessmentPropertiesArraySerializer(item["assessments"]),
     cloudProviders: !item["cloudProviders"]
       ? item["cloudProviders"]
       : item["cloudProviders"].map((p: any) => {
           return p;
         }),
     policySetDefinitionId: item["policySetDefinitionId"],
-    metadata: !item["metadata"]
-      ? item["metadata"]
-      : securityStandardsAPIStandardMetadataSerializer(item["metadata"]),
+    metadata: !item["metadata"] ? item["metadata"] : standardMetadataSerializer(item["metadata"]),
   };
 }
 
@@ -910,28 +832,24 @@ export function _securityStandardPropertiesDeserializer(item: any) {
     description: item["description"],
     assessments: !item["assessments"]
       ? item["assessments"]
-      : securityStandardsAPIPartialAssessmentPropertiesArrayDeserializer(item["assessments"]),
+      : partialAssessmentPropertiesArrayDeserializer(item["assessments"]),
     cloudProviders: !item["cloudProviders"]
       ? item["cloudProviders"]
       : item["cloudProviders"].map((p: any) => {
           return p;
         }),
     policySetDefinitionId: item["policySetDefinitionId"],
-    metadata: !item["metadata"]
-      ? item["metadata"]
-      : securityStandardsAPIStandardMetadataDeserializer(item["metadata"]),
+    metadata: !item["metadata"] ? item["metadata"] : standardMetadataDeserializer(item["metadata"]),
   };
 }
 
-export function _standardAssignmentPropertiesSerializer(
-  item: SecurityStandardsAPIStandardAssignment,
-): any {
+export function _standardAssignmentPropertiesSerializer(item: StandardAssignment): any {
   return {
     displayName: item["displayName"],
     description: item["description"],
     assignedStandard: !item["assignedStandard"]
       ? item["assignedStandard"]
-      : commonAssignedStandardItemSerializer(item["assignedStandard"]),
+      : assignedStandardItemSerializer(item["assignedStandard"]),
     effect: item["effect"],
     excludedScopes: !item["excludedScopes"]
       ? item["excludedScopes"]
@@ -941,17 +859,13 @@ export function _standardAssignmentPropertiesSerializer(
     expiresOn: !item["expiresOn"] ? item["expiresOn"] : item["expiresOn"].toISOString(),
     exemptionData: !item["exemptionData"]
       ? item["exemptionData"]
-      : securityStandardsAPIStandardAssignmentPropertiesExemptionDataSerializer(
-          item["exemptionData"],
-        ),
+      : standardAssignmentPropertiesExemptionDataSerializer(item["exemptionData"]),
     attestationData: !item["attestationData"]
       ? item["attestationData"]
-      : securityStandardsAPIStandardAssignmentPropertiesAttestationDataSerializer(
-          item["attestationData"],
-        ),
+      : standardAssignmentPropertiesAttestationDataSerializer(item["attestationData"]),
     metadata: !item["metadata"]
       ? item["metadata"]
-      : securityStandardsAPIStandardAssignmentMetadataSerializer(item["metadata"]),
+      : standardAssignmentMetadataSerializer(item["metadata"]),
   };
 }
 
@@ -961,7 +875,7 @@ export function _standardAssignmentPropertiesDeserializer(item: any) {
     description: item["description"],
     assignedStandard: !item["assignedStandard"]
       ? item["assignedStandard"]
-      : commonAssignedStandardItemDeserializer(item["assignedStandard"]),
+      : assignedStandardItemDeserializer(item["assignedStandard"]),
     effect: item["effect"],
     excludedScopes: !item["excludedScopes"]
       ? item["excludedScopes"]
@@ -971,23 +885,17 @@ export function _standardAssignmentPropertiesDeserializer(item: any) {
     expiresOn: !item["expiresOn"] ? item["expiresOn"] : new Date(item["expiresOn"]),
     exemptionData: !item["exemptionData"]
       ? item["exemptionData"]
-      : securityStandardsAPIStandardAssignmentPropertiesExemptionDataDeserializer(
-          item["exemptionData"],
-        ),
+      : standardAssignmentPropertiesExemptionDataDeserializer(item["exemptionData"]),
     attestationData: !item["attestationData"]
       ? item["attestationData"]
-      : securityStandardsAPIStandardAssignmentPropertiesAttestationDataDeserializer(
-          item["attestationData"],
-        ),
+      : standardAssignmentPropertiesAttestationDataDeserializer(item["attestationData"]),
     metadata: !item["metadata"]
       ? item["metadata"]
-      : securityStandardsAPIStandardAssignmentMetadataDeserializer(item["metadata"]),
+      : standardAssignmentMetadataDeserializer(item["metadata"]),
   };
 }
 
-export function _customRecommendationPropertiesSerializer(
-  item: SecurityStandardsAPICustomRecommendation,
-): any {
+export function _customRecommendationPropertiesSerializer(item: CustomRecommendation): any {
   return {
     query: item["query"],
     cloudProviders: !item["cloudProviders"]

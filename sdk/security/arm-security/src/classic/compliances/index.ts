@@ -7,7 +7,7 @@ import type {
   CompliancesListOptionalParams,
   CompliancesGetOptionalParams,
 } from "../../api/compliances/options.js";
-import type { LegacySettingsAPICompliance } from "../../models/legacySettingsAPI/models.js";
+import type { Compliance } from "../../models/legacySettingsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Compliances operations. */
@@ -16,13 +16,13 @@ export interface CompliancesOperations {
   list: (
     scope: string,
     options?: CompliancesListOptionalParams,
-  ) => PagedAsyncIterableIterator<LegacySettingsAPICompliance>;
+  ) => PagedAsyncIterableIterator<Compliance>;
   /** Details of a specific Compliance. */
   get: (
     scope: string,
     complianceName: string,
     options?: CompliancesGetOptionalParams,
-  ) => Promise<LegacySettingsAPICompliance>;
+  ) => Promise<Compliance>;
 }
 
 function _getCompliances(context: SecurityCenterContext) {

@@ -5,52 +5,40 @@
 ```ts
 
 // @public
-export enum KnownLegacySettingsAPIAutoProvision {
-    Off = "Off",
-    On = "On"
+export type AutoProvision = string;
+
+// @public
+export interface AutoProvisioningSetting extends ProxyResource {
+    autoProvision?: AutoProvision;
 }
 
 // @public
-export enum KnownLegacySettingsAPIInformationProtectionPolicyName {
-    Custom = "custom",
-    Effective = "effective"
+export interface AutoProvisioningSettingProperties {
+    autoProvision: AutoProvision;
 }
 
 // @public
-export type LegacySettingsAPIAutoProvision = string;
-
-// @public
-export interface LegacySettingsAPIAutoProvisioningSetting extends ProxyResource {
-    autoProvision?: LegacySettingsAPIAutoProvision;
-}
-
-// @public
-export interface LegacySettingsAPIAutoProvisioningSettingProperties {
-    autoProvision: LegacySettingsAPIAutoProvision;
-}
-
-// @public
-export interface LegacySettingsAPICompliance extends ExtensionResource {
-    readonly assessmentResult?: LegacySettingsAPIComplianceSegment[];
+export interface Compliance extends ExtensionResource {
+    readonly assessmentResult?: ComplianceSegment[];
     readonly assessmentTimestampUtcDate?: Date;
     readonly resourceCount?: number;
 }
 
 // @public
-export interface LegacySettingsAPIComplianceProperties {
-    readonly assessmentResult?: LegacySettingsAPIComplianceSegment[];
+export interface ComplianceProperties {
+    readonly assessmentResult?: ComplianceSegment[];
     readonly assessmentTimestampUtcDate?: Date;
     readonly resourceCount?: number;
 }
 
 // @public
-export interface LegacySettingsAPIComplianceSegment {
+export interface ComplianceSegment {
     readonly percentage?: number;
     readonly segmentType?: string;
 }
 
 // @public
-export interface LegacySettingsAPIInformationProtectionKeyword {
+export interface InformationProtectionKeyword {
     canBeNumeric?: boolean;
     custom?: boolean;
     excluded?: boolean;
@@ -58,55 +46,67 @@ export interface LegacySettingsAPIInformationProtectionKeyword {
 }
 
 // @public
-export interface LegacySettingsAPIInformationProtectionPolicy extends ExtensionResource {
-    informationTypes?: Record<string, LegacySettingsAPIInformationType>;
-    labels?: Record<string, LegacySettingsAPISensitivityLabel>;
+export interface InformationProtectionPolicy extends ExtensionResource {
+    informationTypes?: Record<string, InformationType>;
+    labels?: Record<string, SensitivityLabel>;
     readonly lastModifiedUtc?: Date;
     readonly version?: string;
 }
 
 // @public
-export type LegacySettingsAPIInformationProtectionPolicyName = string;
+export type InformationProtectionPolicyName = string;
 
 // @public
-export interface LegacySettingsAPIInformationProtectionPolicyProperties {
-    informationTypes?: Record<string, LegacySettingsAPIInformationType>;
-    labels?: Record<string, LegacySettingsAPISensitivityLabel>;
+export interface InformationProtectionPolicyProperties {
+    informationTypes?: Record<string, InformationType>;
+    labels?: Record<string, SensitivityLabel>;
     readonly lastModifiedUtc?: Date;
     readonly version?: string;
 }
 
 // @public
-export interface LegacySettingsAPIInformationType {
+export interface InformationType {
     custom?: boolean;
     description?: string;
     displayName?: string;
     enabled?: boolean;
-    keywords?: LegacySettingsAPIInformationProtectionKeyword[];
+    keywords?: InformationProtectionKeyword[];
     order?: number;
     recommendedLabelId?: string;
 }
 
 // @public
-export type LegacySettingsAPIRank = "None" | "Low" | "Medium" | "High" | "Critical";
+export enum KnownAutoProvision {
+    Off = "Off",
+    On = "On"
+}
 
 // @public
-export interface LegacySettingsAPISensitivityLabel {
+export enum KnownInformationProtectionPolicyName {
+    Custom = "custom",
+    Effective = "effective"
+}
+
+// @public
+export type Rank = "None" | "Low" | "Medium" | "High" | "Critical";
+
+// @public
+export interface SensitivityLabel {
     description?: string;
     displayName?: string;
     enabled?: boolean;
     order?: number;
-    rank?: LegacySettingsAPIRank;
+    rank?: Rank;
 }
 
 // @public
-export interface LegacySettingsAPIWorkspaceSetting extends ProxyResource {
+export interface WorkspaceSetting extends ProxyResource {
     scope?: string;
     workspaceId?: string;
 }
 
 // @public
-export interface LegacySettingsAPIWorkspaceSettingProperties {
+export interface WorkspaceSettingProperties {
     scope: string;
     workspaceId: string;
 }

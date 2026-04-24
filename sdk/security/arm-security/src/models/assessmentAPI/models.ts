@@ -2,14 +2,10 @@
 // Licensed under the MIT License.
 
 import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
-import type {
-  CommonSeverity,
-  CommonResourceDetails,
-  CommonResourceDetailsUnion,
-} from "../common/models.js";
+import type { Severity, ResourceDetails, ResourceDetailsUnion } from "../common/models.js";
 import {
-  commonResourceDetailsUnionSerializer,
-  commonResourceDetailsUnionDeserializer,
+  resourceDetailsUnionSerializer,
+  resourceDetailsUnionDeserializer,
 } from "../common/models.js";
 import type { ProxyResource, Resource, ExtensionResource } from "../models.js";
 import { systemDataDeserializer } from "../models.js";
@@ -21,7 +17,7 @@ import { systemDataDeserializer } from "../models.js";
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Security assessment metadata response */
-export interface AssessmentAPISecurityAssessmentMetadataResponse extends ProxyResource {
+export interface SecurityAssessmentMetadataResponse extends ProxyResource {
   /** User friendly display name of the assessment */
   displayName?: string;
   /** Azure resource ID of the policy definition that turns this assessment calculation on */
@@ -30,28 +26,28 @@ export interface AssessmentAPISecurityAssessmentMetadataResponse extends ProxyRe
   description?: string;
   /** Human readable description of what you should do to mitigate this security issue */
   remediationDescription?: string;
-  categories?: AssessmentAPICategories[];
+  categories?: Categories[];
   /** The severity level of the assessment */
-  severity?: CommonSeverity;
+  severity?: Severity;
   /** The user impact of the assessment */
-  userImpact?: AssessmentAPIUserImpact;
+  userImpact?: UserImpact;
   /** The implementation effort required to remediate this assessment */
-  implementationEffort?: AssessmentAPIImplementationEffort;
-  threats?: AssessmentAPIThreats[];
+  implementationEffort?: ImplementationEffort;
+  threats?: Threats[];
   /** True if this assessment is in preview release status */
   preview?: boolean;
   /** BuiltIn if the assessment based on built-in Azure Policy definition, Custom if the assessment based on custom Azure Policy definition */
-  assessmentType?: AssessmentAPIAssessmentType;
+  assessmentType?: AssessmentType;
   /** Describes the partner that created the assessment */
-  partnerData?: AssessmentAPISecurityAssessmentMetadataPartnerData;
-  publishDates?: AssessmentAPISecurityAssessmentMetadataPropertiesResponsePublishDates;
+  partnerData?: SecurityAssessmentMetadataPartnerData;
+  publishDates?: SecurityAssessmentMetadataPropertiesResponsePublishDates;
   plannedDeprecationDate?: string;
-  tactics?: AssessmentAPITactics[];
-  techniques?: AssessmentAPITechniques[];
+  tactics?: Tactics[];
+  techniques?: Techniques[];
 }
 
-export function assessmentAPISecurityAssessmentMetadataResponseSerializer(
-  item: AssessmentAPISecurityAssessmentMetadataResponse,
+export function securityAssessmentMetadataResponseSerializer(
+  item: SecurityAssessmentMetadataResponse,
 ): any {
   return {
     properties: areAllPropsUndefined(item, [
@@ -76,9 +72,9 @@ export function assessmentAPISecurityAssessmentMetadataResponseSerializer(
   };
 }
 
-export function assessmentAPISecurityAssessmentMetadataResponseDeserializer(
+export function securityAssessmentMetadataResponseDeserializer(
   item: any,
-): AssessmentAPISecurityAssessmentMetadataResponse {
+): SecurityAssessmentMetadataResponse {
   return {
     id: item["id"],
     name: item["name"],
@@ -93,15 +89,15 @@ export function assessmentAPISecurityAssessmentMetadataResponseDeserializer(
 }
 
 /** Describes properties of an assessment metadata response. */
-export interface AssessmentAPISecurityAssessmentMetadataPropertiesResponse extends AssessmentAPISecurityAssessmentMetadataProperties {
-  publishDates?: AssessmentAPISecurityAssessmentMetadataPropertiesResponsePublishDates;
+export interface SecurityAssessmentMetadataPropertiesResponse extends SecurityAssessmentMetadataProperties {
+  publishDates?: SecurityAssessmentMetadataPropertiesResponsePublishDates;
   plannedDeprecationDate?: string;
-  tactics?: AssessmentAPITactics[];
-  techniques?: AssessmentAPITechniques[];
+  tactics?: Tactics[];
+  techniques?: Techniques[];
 }
 
-export function assessmentAPISecurityAssessmentMetadataPropertiesResponseSerializer(
-  item: AssessmentAPISecurityAssessmentMetadataPropertiesResponse,
+export function securityAssessmentMetadataPropertiesResponseSerializer(
+  item: SecurityAssessmentMetadataPropertiesResponse,
 ): any {
   return {
     displayName: item["displayName"],
@@ -124,12 +120,10 @@ export function assessmentAPISecurityAssessmentMetadataPropertiesResponseSeriali
     assessmentType: item["assessmentType"],
     partnerData: !item["partnerData"]
       ? item["partnerData"]
-      : assessmentAPISecurityAssessmentMetadataPartnerDataSerializer(item["partnerData"]),
+      : securityAssessmentMetadataPartnerDataSerializer(item["partnerData"]),
     publishDates: !item["publishDates"]
       ? item["publishDates"]
-      : assessmentAPISecurityAssessmentMetadataPropertiesResponsePublishDatesSerializer(
-          item["publishDates"],
-        ),
+      : securityAssessmentMetadataPropertiesResponsePublishDatesSerializer(item["publishDates"]),
     plannedDeprecationDate: item["plannedDeprecationDate"],
     tactics: !item["tactics"]
       ? item["tactics"]
@@ -144,9 +138,9 @@ export function assessmentAPISecurityAssessmentMetadataPropertiesResponseSeriali
   };
 }
 
-export function assessmentAPISecurityAssessmentMetadataPropertiesResponseDeserializer(
+export function securityAssessmentMetadataPropertiesResponseDeserializer(
   item: any,
-): AssessmentAPISecurityAssessmentMetadataPropertiesResponse {
+): SecurityAssessmentMetadataPropertiesResponse {
   return {
     displayName: item["displayName"],
     policyDefinitionId: item["policyDefinitionId"],
@@ -169,12 +163,10 @@ export function assessmentAPISecurityAssessmentMetadataPropertiesResponseDeseria
     assessmentType: item["assessmentType"],
     partnerData: !item["partnerData"]
       ? item["partnerData"]
-      : assessmentAPISecurityAssessmentMetadataPartnerDataDeserializer(item["partnerData"]),
+      : securityAssessmentMetadataPartnerDataDeserializer(item["partnerData"]),
     publishDates: !item["publishDates"]
       ? item["publishDates"]
-      : assessmentAPISecurityAssessmentMetadataPropertiesResponsePublishDatesDeserializer(
-          item["publishDates"],
-        ),
+      : securityAssessmentMetadataPropertiesResponsePublishDatesDeserializer(item["publishDates"]),
     plannedDeprecationDate: item["plannedDeprecationDate"],
     tactics: !item["tactics"]
       ? item["tactics"]
@@ -189,21 +181,21 @@ export function assessmentAPISecurityAssessmentMetadataPropertiesResponseDeseria
   };
 }
 
-/** model interface AssessmentAPISecurityAssessmentMetadataPropertiesResponsePublishDates */
-export interface AssessmentAPISecurityAssessmentMetadataPropertiesResponsePublishDates {
+/** model interface SecurityAssessmentMetadataPropertiesResponsePublishDates */
+export interface SecurityAssessmentMetadataPropertiesResponsePublishDates {
   ga?: string;
   public: string;
 }
 
-export function assessmentAPISecurityAssessmentMetadataPropertiesResponsePublishDatesSerializer(
-  item: AssessmentAPISecurityAssessmentMetadataPropertiesResponsePublishDates,
+export function securityAssessmentMetadataPropertiesResponsePublishDatesSerializer(
+  item: SecurityAssessmentMetadataPropertiesResponsePublishDates,
 ): any {
   return { GA: item["ga"], public: item["public"] };
 }
 
-export function assessmentAPISecurityAssessmentMetadataPropertiesResponsePublishDatesDeserializer(
+export function securityAssessmentMetadataPropertiesResponsePublishDatesDeserializer(
   item: any,
-): AssessmentAPISecurityAssessmentMetadataPropertiesResponsePublishDates {
+): SecurityAssessmentMetadataPropertiesResponsePublishDates {
   return {
     ga: item["GA"],
     public: item["public"],
@@ -211,7 +203,7 @@ export function assessmentAPISecurityAssessmentMetadataPropertiesResponsePublish
 }
 
 /** Tactic of the assessment */
-export enum KnownAssessmentAPITactics {
+export enum KnownTactics {
   /** Reconnaissance */
   Reconnaissance = "Reconnaissance",
   /** Resource Development */
@@ -244,7 +236,7 @@ export enum KnownAssessmentAPITactics {
 
 /**
  * Tactic of the assessment \
- * {@link KnownAssessmentAPITactics} can be used interchangeably with AssessmentAPITactics,
+ * {@link KnownTactics} can be used interchangeably with Tactics,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Reconnaissance**: Reconnaissance \
@@ -262,10 +254,10 @@ export enum KnownAssessmentAPITactics {
  * **Exfiltration**: Exfiltration \
  * **Impact**: Impact
  */
-export type AssessmentAPITactics = string;
+export type Tactics = string;
 
 /** Techniques of the assessment */
-export enum KnownAssessmentAPITechniques {
+export enum KnownTechniques {
   /** Abuse Elevation Control Mechanism */
   AbuseElevationControlMechanism = "Abuse Elevation Control Mechanism",
   /** Access Token Manipulation */
@@ -478,7 +470,7 @@ export enum KnownAssessmentAPITechniques {
 
 /**
  * Techniques of the assessment \
- * {@link KnownAssessmentAPITechniques} can be used interchangeably with AssessmentAPITechniques,
+ * {@link KnownTechniques} can be used interchangeably with Techniques,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Abuse Elevation Control Mechanism**: Abuse Elevation Control Mechanism \
@@ -586,10 +578,10 @@ export enum KnownAssessmentAPITechniques {
  * **Windows Management Instrumentation**: Windows Management Instrumentation \
  * **File and Directory Permissions Modification**: File and Directory Permissions Modification
  */
-export type AssessmentAPITechniques = string;
+export type Techniques = string;
 
 /** Describes properties of an assessment metadata. */
-export interface AssessmentAPISecurityAssessmentMetadataProperties {
+export interface SecurityAssessmentMetadataProperties {
   /** User friendly display name of the assessment */
   displayName: string;
   /** Azure resource ID of the policy definition that turns this assessment calculation on */
@@ -598,24 +590,24 @@ export interface AssessmentAPISecurityAssessmentMetadataProperties {
   description?: string;
   /** Human readable description of what you should do to mitigate this security issue */
   remediationDescription?: string;
-  categories?: AssessmentAPICategories[];
+  categories?: Categories[];
   /** The severity level of the assessment */
-  severity: CommonSeverity;
+  severity: Severity;
   /** The user impact of the assessment */
-  userImpact?: AssessmentAPIUserImpact;
+  userImpact?: UserImpact;
   /** The implementation effort required to remediate this assessment */
-  implementationEffort?: AssessmentAPIImplementationEffort;
-  threats?: AssessmentAPIThreats[];
+  implementationEffort?: ImplementationEffort;
+  threats?: Threats[];
   /** True if this assessment is in preview release status */
   preview?: boolean;
   /** BuiltIn if the assessment based on built-in Azure Policy definition, Custom if the assessment based on custom Azure Policy definition */
-  assessmentType: AssessmentAPIAssessmentType;
+  assessmentType: AssessmentType;
   /** Describes the partner that created the assessment */
-  partnerData?: AssessmentAPISecurityAssessmentMetadataPartnerData;
+  partnerData?: SecurityAssessmentMetadataPartnerData;
 }
 
-export function assessmentAPISecurityAssessmentMetadataPropertiesSerializer(
-  item: AssessmentAPISecurityAssessmentMetadataProperties,
+export function securityAssessmentMetadataPropertiesSerializer(
+  item: SecurityAssessmentMetadataProperties,
 ): any {
   return {
     displayName: item["displayName"],
@@ -638,13 +630,13 @@ export function assessmentAPISecurityAssessmentMetadataPropertiesSerializer(
     assessmentType: item["assessmentType"],
     partnerData: !item["partnerData"]
       ? item["partnerData"]
-      : assessmentAPISecurityAssessmentMetadataPartnerDataSerializer(item["partnerData"]),
+      : securityAssessmentMetadataPartnerDataSerializer(item["partnerData"]),
   };
 }
 
-export function assessmentAPISecurityAssessmentMetadataPropertiesDeserializer(
+export function securityAssessmentMetadataPropertiesDeserializer(
   item: any,
-): AssessmentAPISecurityAssessmentMetadataProperties {
+): SecurityAssessmentMetadataProperties {
   return {
     displayName: item["displayName"],
     policyDefinitionId: item["policyDefinitionId"],
@@ -667,12 +659,12 @@ export function assessmentAPISecurityAssessmentMetadataPropertiesDeserializer(
     assessmentType: item["assessmentType"],
     partnerData: !item["partnerData"]
       ? item["partnerData"]
-      : assessmentAPISecurityAssessmentMetadataPartnerDataDeserializer(item["partnerData"]),
+      : securityAssessmentMetadataPartnerDataDeserializer(item["partnerData"]),
   };
 }
 
 /** The categories of resource that is at risk when the assessment is unhealthy */
-export enum KnownAssessmentAPICategories {
+export enum KnownCategories {
   /** Compute */
   Compute = "Compute",
   /** Networking */
@@ -691,7 +683,7 @@ export enum KnownAssessmentAPICategories {
 
 /**
  * The categories of resource that is at risk when the assessment is unhealthy \
- * {@link KnownAssessmentAPICategories} can be used interchangeably with AssessmentAPICategories,
+ * {@link KnownCategories} can be used interchangeably with Categories,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Compute**: Compute \
@@ -702,10 +694,10 @@ export enum KnownAssessmentAPICategories {
  * **Container**: Container \
  * **AppServices**: AppServices
  */
-export type AssessmentAPICategories = string;
+export type Categories = string;
 
 /** The user impact of the assessment */
-export enum KnownAssessmentAPIUserImpact {
+export enum KnownUserImpact {
   /** Low */
   Low = "Low",
   /** Moderate */
@@ -716,17 +708,17 @@ export enum KnownAssessmentAPIUserImpact {
 
 /**
  * The user impact of the assessment \
- * {@link KnownAssessmentAPIUserImpact} can be used interchangeably with AssessmentAPIUserImpact,
+ * {@link KnownUserImpact} can be used interchangeably with UserImpact,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Low**: Low \
  * **Moderate**: Moderate \
  * **High**: High
  */
-export type AssessmentAPIUserImpact = string;
+export type UserImpact = string;
 
 /** The implementation effort required to remediate this assessment */
-export enum KnownAssessmentAPIImplementationEffort {
+export enum KnownImplementationEffort {
   /** Low */
   Low = "Low",
   /** Moderate */
@@ -737,17 +729,17 @@ export enum KnownAssessmentAPIImplementationEffort {
 
 /**
  * The implementation effort required to remediate this assessment \
- * {@link KnownAssessmentAPIImplementationEffort} can be used interchangeably with AssessmentAPIImplementationEffort,
+ * {@link KnownImplementationEffort} can be used interchangeably with ImplementationEffort,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Low**: Low \
  * **Moderate**: Moderate \
  * **High**: High
  */
-export type AssessmentAPIImplementationEffort = string;
+export type ImplementationEffort = string;
 
 /** Threats impact of the assessment */
-export enum KnownAssessmentAPIThreats {
+export enum KnownThreats {
   /** accountBreach */
   AccountBreach = "accountBreach",
   /** dataExfiltration */
@@ -768,7 +760,7 @@ export enum KnownAssessmentAPIThreats {
 
 /**
  * Threats impact of the assessment \
- * {@link KnownAssessmentAPIThreats} can be used interchangeably with AssessmentAPIThreats,
+ * {@link KnownThreats} can be used interchangeably with Threats,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **accountBreach**: accountBreach \
@@ -780,10 +772,10 @@ export enum KnownAssessmentAPIThreats {
  * **missingCoverage**: missingCoverage \
  * **denialOfService**: denialOfService
  */
-export type AssessmentAPIThreats = string;
+export type Threats = string;
 
 /** BuiltIn if the assessment based on built-in Azure Policy definition, Custom if the assessment based on custom Azure Policy definition */
-export enum KnownAssessmentAPIAssessmentType {
+export enum KnownAssessmentType {
   /** Unknown assessment type */
   Unknown = "Unknown",
   /** Microsoft Defender for Cloud managed assessments */
@@ -810,7 +802,7 @@ export enum KnownAssessmentAPIAssessmentType {
 
 /**
  * BuiltIn if the assessment based on built-in Azure Policy definition, Custom if the assessment based on custom Azure Policy definition \
- * {@link KnownAssessmentAPIAssessmentType} can be used interchangeably with AssessmentAPIAssessmentType,
+ * {@link KnownAssessmentType} can be used interchangeably with AssessmentType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Unknown**: Unknown assessment type \
@@ -825,10 +817,10 @@ export enum KnownAssessmentAPIAssessmentType {
  * **ManualCustomPolicy**: User defined policies that are manually created by the user \
  * **DynamicBuiltIn**: Microsoft Defender for Cloud managed assessments that are dynamically created by the system
  */
-export type AssessmentAPIAssessmentType = string;
+export type AssessmentType = string;
 
 /** Describes the partner that created the assessment */
-export interface AssessmentAPISecurityAssessmentMetadataPartnerData {
+export interface SecurityAssessmentMetadataPartnerData {
   /** Name of the company of the partner */
   partnerName: string;
   /** Name of the product of the partner that created the assessment */
@@ -837,8 +829,8 @@ export interface AssessmentAPISecurityAssessmentMetadataPartnerData {
   secret: string;
 }
 
-export function assessmentAPISecurityAssessmentMetadataPartnerDataSerializer(
-  item: AssessmentAPISecurityAssessmentMetadataPartnerData,
+export function securityAssessmentMetadataPartnerDataSerializer(
+  item: SecurityAssessmentMetadataPartnerData,
 ): any {
   return {
     partnerName: item["partnerName"],
@@ -847,9 +839,9 @@ export function assessmentAPISecurityAssessmentMetadataPartnerDataSerializer(
   };
 }
 
-export function assessmentAPISecurityAssessmentMetadataPartnerDataDeserializer(
+export function securityAssessmentMetadataPartnerDataDeserializer(
   item: any,
-): AssessmentAPISecurityAssessmentMetadataPartnerData {
+): SecurityAssessmentMetadataPartnerData {
   return {
     partnerName: item["partnerName"],
     productName: item["productName"],
@@ -858,62 +850,60 @@ export function assessmentAPISecurityAssessmentMetadataPartnerDataDeserializer(
 }
 
 /** List of security assessment metadata */
-export interface _AssessmentAPISecurityAssessmentMetadataResponseList {
-  readonly value?: AssessmentAPISecurityAssessmentMetadataResponse[];
+export interface _SecurityAssessmentMetadataResponseList {
+  readonly value?: SecurityAssessmentMetadataResponse[];
   /** The URI to fetch the next page. */
   nextLink?: string;
 }
 
-export function _assessmentAPISecurityAssessmentMetadataResponseListDeserializer(
+export function _securityAssessmentMetadataResponseListDeserializer(
   item: any,
-): _AssessmentAPISecurityAssessmentMetadataResponseList {
+): _SecurityAssessmentMetadataResponseList {
   return {
     value: !item["value"]
       ? item["value"]
-      : assessmentAPISecurityAssessmentMetadataResponseArrayDeserializer(item["value"]),
+      : securityAssessmentMetadataResponseArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function assessmentAPISecurityAssessmentMetadataResponseArraySerializer(
-  result: Array<AssessmentAPISecurityAssessmentMetadataResponse>,
+export function securityAssessmentMetadataResponseArraySerializer(
+  result: Array<SecurityAssessmentMetadataResponse>,
 ): any[] {
   return result.map((item) => {
-    return assessmentAPISecurityAssessmentMetadataResponseSerializer(item);
+    return securityAssessmentMetadataResponseSerializer(item);
   });
 }
 
-export function assessmentAPISecurityAssessmentMetadataResponseArrayDeserializer(
-  result: Array<AssessmentAPISecurityAssessmentMetadataResponse>,
+export function securityAssessmentMetadataResponseArrayDeserializer(
+  result: Array<SecurityAssessmentMetadataResponse>,
 ): any[] {
   return result.map((item) => {
-    return assessmentAPISecurityAssessmentMetadataResponseDeserializer(item);
+    return securityAssessmentMetadataResponseDeserializer(item);
   });
 }
 
 /** Security assessment on a resource - response format */
-export interface AssessmentAPISecurityAssessmentResponse extends ExtensionResource {
+export interface SecurityAssessmentResponse extends ExtensionResource {
   /** External model of risk result */
-  risk?: AssessmentAPISecurityAssessmentPropertiesBaseRisk;
+  risk?: SecurityAssessmentPropertiesBaseRisk;
   /** Details of the resource that was assessed */
-  resourceDetails?: CommonResourceDetailsUnion;
+  resourceDetails?: ResourceDetailsUnion;
   /** User friendly display name of the assessment */
   readonly displayName?: string;
   /** Additional data regarding the assessment */
   additionalData?: Record<string, string>;
   /** Links relevant to the assessment */
-  readonly links?: AssessmentAPIAssessmentLinks;
+  readonly links?: AssessmentLinks;
   /** Describes properties of an assessment metadata. */
-  metadata?: AssessmentAPISecurityAssessmentMetadataProperties;
+  metadata?: SecurityAssessmentMetadataProperties;
   /** Data regarding 3rd party partner integration */
-  partnersData?: AssessmentAPISecurityAssessmentPartnerData;
+  partnersData?: SecurityAssessmentPartnerData;
   /** The result of the assessment */
-  status?: AssessmentAPIAssessmentStatusResponse;
+  status?: AssessmentStatusResponse;
 }
 
-export function assessmentAPISecurityAssessmentResponseDeserializer(
-  item: any,
-): AssessmentAPISecurityAssessmentResponse {
+export function securityAssessmentResponseDeserializer(item: any): SecurityAssessmentResponse {
   return {
     id: item["id"],
     name: item["name"],
@@ -928,47 +918,45 @@ export function assessmentAPISecurityAssessmentResponseDeserializer(
 }
 
 /** Describes properties of an assessment. */
-export interface AssessmentAPISecurityAssessmentPropertiesResponse extends AssessmentAPISecurityAssessmentPropertiesBase {
+export interface SecurityAssessmentPropertiesResponse extends SecurityAssessmentPropertiesBase {
   /** The result of the assessment */
-  status: AssessmentAPIAssessmentStatusResponse;
+  status: AssessmentStatusResponse;
 }
 
-export function assessmentAPISecurityAssessmentPropertiesResponseDeserializer(
+export function securityAssessmentPropertiesResponseDeserializer(
   item: any,
-): AssessmentAPISecurityAssessmentPropertiesResponse {
+): SecurityAssessmentPropertiesResponse {
   return {
     risk: !item["risk"]
       ? item["risk"]
-      : assessmentAPISecurityAssessmentPropertiesBaseRiskDeserializer(item["risk"]),
-    resourceDetails: commonResourceDetailsUnionDeserializer(item["resourceDetails"]),
+      : securityAssessmentPropertiesBaseRiskDeserializer(item["risk"]),
+    resourceDetails: resourceDetailsUnionDeserializer(item["resourceDetails"]),
     displayName: item["displayName"],
     additionalData: !item["additionalData"]
       ? item["additionalData"]
       : Object.fromEntries(
           Object.entries(item["additionalData"]).map(([k, p]: [string, any]) => [k, p]),
         ),
-    links: !item["links"] ? item["links"] : assessmentAPIAssessmentLinksDeserializer(item["links"]),
+    links: !item["links"] ? item["links"] : assessmentLinksDeserializer(item["links"]),
     metadata: !item["metadata"]
       ? item["metadata"]
-      : assessmentAPISecurityAssessmentMetadataPropertiesDeserializer(item["metadata"]),
+      : securityAssessmentMetadataPropertiesDeserializer(item["metadata"]),
     partnersData: !item["partnersData"]
       ? item["partnersData"]
-      : assessmentAPISecurityAssessmentPartnerDataDeserializer(item["partnersData"]),
-    status: assessmentAPIAssessmentStatusResponseDeserializer(item["status"]),
+      : securityAssessmentPartnerDataDeserializer(item["partnersData"]),
+    status: assessmentStatusResponseDeserializer(item["status"]),
   };
 }
 
 /** The result of the assessment */
-export interface AssessmentAPIAssessmentStatusResponse extends AssessmentAPIAssessmentStatus {
+export interface AssessmentStatusResponse extends AssessmentStatus {
   /** The time that the assessment was created and first evaluated. Returned as UTC time in ISO 8601 format */
   readonly firstEvaluationDate?: Date;
   /** The time that the status of the assessment last changed. Returned as UTC time in ISO 8601 format */
   readonly statusChangeDate?: Date;
 }
 
-export function assessmentAPIAssessmentStatusResponseDeserializer(
-  item: any,
-): AssessmentAPIAssessmentStatusResponse {
+export function assessmentStatusResponseDeserializer(item: any): AssessmentStatusResponse {
   return {
     code: item["code"],
     cause: item["cause"],
@@ -983,22 +971,20 @@ export function assessmentAPIAssessmentStatusResponseDeserializer(
 }
 
 /** The result of the assessment */
-export interface AssessmentAPIAssessmentStatus {
+export interface AssessmentStatus {
   /** Programmatic code for the status of the assessment */
-  code: AssessmentAPIAssessmentStatusCode;
+  code: AssessmentStatusCode;
   /** Programmatic code for the cause of the assessment status */
   cause?: string;
   /** Human readable description of the assessment status */
   description?: string;
 }
 
-export function assessmentAPIAssessmentStatusSerializer(item: AssessmentAPIAssessmentStatus): any {
+export function assessmentStatusSerializer(item: AssessmentStatus): any {
   return { code: item["code"], cause: item["cause"], description: item["description"] };
 }
 
-export function assessmentAPIAssessmentStatusDeserializer(
-  item: any,
-): AssessmentAPIAssessmentStatus {
+export function assessmentStatusDeserializer(item: any): AssessmentStatus {
   return {
     code: item["code"],
     cause: item["cause"],
@@ -1007,7 +993,7 @@ export function assessmentAPIAssessmentStatusDeserializer(
 }
 
 /** Programmatic code for the status of the assessment */
-export enum KnownAssessmentAPIAssessmentStatusCode {
+export enum KnownAssessmentStatusCode {
   /** The resource is healthy */
   Healthy = "Healthy",
   /** The resource has a security issue that needs to be addressed */
@@ -1018,90 +1004,90 @@ export enum KnownAssessmentAPIAssessmentStatusCode {
 
 /**
  * Programmatic code for the status of the assessment \
- * {@link KnownAssessmentAPIAssessmentStatusCode} can be used interchangeably with AssessmentAPIAssessmentStatusCode,
+ * {@link KnownAssessmentStatusCode} can be used interchangeably with AssessmentStatusCode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Healthy**: The resource is healthy \
  * **Unhealthy**: The resource has a security issue that needs to be addressed \
  * **NotApplicable**: Assessment for this resource did not happen
  */
-export type AssessmentAPIAssessmentStatusCode = string;
+export type AssessmentStatusCode = string;
 
 /** Describes properties of an assessment. */
-export interface AssessmentAPISecurityAssessmentPropertiesBase {
+export interface SecurityAssessmentPropertiesBase {
   /** External model of risk result */
-  risk?: AssessmentAPISecurityAssessmentPropertiesBaseRisk;
+  risk?: SecurityAssessmentPropertiesBaseRisk;
   /** Details of the resource that was assessed */
-  resourceDetails: CommonResourceDetailsUnion;
+  resourceDetails: ResourceDetailsUnion;
   /** User friendly display name of the assessment */
   readonly displayName?: string;
   /** Additional data regarding the assessment */
   additionalData?: Record<string, string>;
   /** Links relevant to the assessment */
-  readonly links?: AssessmentAPIAssessmentLinks;
+  readonly links?: AssessmentLinks;
   /** Describes properties of an assessment metadata. */
-  metadata?: AssessmentAPISecurityAssessmentMetadataProperties;
+  metadata?: SecurityAssessmentMetadataProperties;
   /** Data regarding 3rd party partner integration */
-  partnersData?: AssessmentAPISecurityAssessmentPartnerData;
+  partnersData?: SecurityAssessmentPartnerData;
 }
 
-export function assessmentAPISecurityAssessmentPropertiesBaseSerializer(
-  item: AssessmentAPISecurityAssessmentPropertiesBase,
+export function securityAssessmentPropertiesBaseSerializer(
+  item: SecurityAssessmentPropertiesBase,
 ): any {
   return {
     risk: !item["risk"]
       ? item["risk"]
-      : assessmentAPISecurityAssessmentPropertiesBaseRiskSerializer(item["risk"]),
-    resourceDetails: commonResourceDetailsUnionSerializer(item["resourceDetails"]),
+      : securityAssessmentPropertiesBaseRiskSerializer(item["risk"]),
+    resourceDetails: resourceDetailsUnionSerializer(item["resourceDetails"]),
     additionalData: item["additionalData"],
     metadata: !item["metadata"]
       ? item["metadata"]
-      : assessmentAPISecurityAssessmentMetadataPropertiesSerializer(item["metadata"]),
+      : securityAssessmentMetadataPropertiesSerializer(item["metadata"]),
     partnersData: !item["partnersData"]
       ? item["partnersData"]
-      : assessmentAPISecurityAssessmentPartnerDataSerializer(item["partnersData"]),
+      : securityAssessmentPartnerDataSerializer(item["partnersData"]),
   };
 }
 
-export function assessmentAPISecurityAssessmentPropertiesBaseDeserializer(
+export function securityAssessmentPropertiesBaseDeserializer(
   item: any,
-): AssessmentAPISecurityAssessmentPropertiesBase {
+): SecurityAssessmentPropertiesBase {
   return {
     risk: !item["risk"]
       ? item["risk"]
-      : assessmentAPISecurityAssessmentPropertiesBaseRiskDeserializer(item["risk"]),
-    resourceDetails: commonResourceDetailsUnionDeserializer(item["resourceDetails"]),
+      : securityAssessmentPropertiesBaseRiskDeserializer(item["risk"]),
+    resourceDetails: resourceDetailsUnionDeserializer(item["resourceDetails"]),
     displayName: item["displayName"],
     additionalData: !item["additionalData"]
       ? item["additionalData"]
       : Object.fromEntries(
           Object.entries(item["additionalData"]).map(([k, p]: [string, any]) => [k, p]),
         ),
-    links: !item["links"] ? item["links"] : assessmentAPIAssessmentLinksDeserializer(item["links"]),
+    links: !item["links"] ? item["links"] : assessmentLinksDeserializer(item["links"]),
     metadata: !item["metadata"]
       ? item["metadata"]
-      : assessmentAPISecurityAssessmentMetadataPropertiesDeserializer(item["metadata"]),
+      : securityAssessmentMetadataPropertiesDeserializer(item["metadata"]),
     partnersData: !item["partnersData"]
       ? item["partnersData"]
-      : assessmentAPISecurityAssessmentPartnerDataDeserializer(item["partnersData"]),
+      : securityAssessmentPartnerDataDeserializer(item["partnersData"]),
   };
 }
 
 /** External model of risk result */
-export interface AssessmentAPISecurityAssessmentPropertiesBaseRisk {
+export interface SecurityAssessmentPropertiesBaseRisk {
   /** The factors of the risk adding base factor */
   riskFactors?: string[];
   /** The risk level */
-  level?: AssessmentAPIRiskLevel;
+  level?: RiskLevel;
   /** The attack paths references of the risk */
   attackPathsReferences?: string[];
-  paths?: AssessmentAPISecurityAssessmentPropertiesBaseRiskPathsItem[];
+  paths?: SecurityAssessmentPropertiesBaseRiskPathsItem[];
   /** Indicates if the risk is contextual or static */
   isContextualRisk?: boolean;
 }
 
-export function assessmentAPISecurityAssessmentPropertiesBaseRiskSerializer(
-  item: AssessmentAPISecurityAssessmentPropertiesBaseRisk,
+export function securityAssessmentPropertiesBaseRiskSerializer(
+  item: SecurityAssessmentPropertiesBaseRisk,
 ): any {
   return {
     riskFactors: !item["riskFactors"]
@@ -1117,14 +1103,14 @@ export function assessmentAPISecurityAssessmentPropertiesBaseRiskSerializer(
         }),
     paths: !item["paths"]
       ? item["paths"]
-      : assessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemArraySerializer(item["paths"]),
+      : securityAssessmentPropertiesBaseRiskPathsItemArraySerializer(item["paths"]),
     isContextualRisk: item["isContextualRisk"],
   };
 }
 
-export function assessmentAPISecurityAssessmentPropertiesBaseRiskDeserializer(
+export function securityAssessmentPropertiesBaseRiskDeserializer(
   item: any,
-): AssessmentAPISecurityAssessmentPropertiesBaseRisk {
+): SecurityAssessmentPropertiesBaseRisk {
   return {
     riskFactors: !item["riskFactors"]
       ? item["riskFactors"]
@@ -1139,13 +1125,13 @@ export function assessmentAPISecurityAssessmentPropertiesBaseRiskDeserializer(
         }),
     paths: !item["paths"]
       ? item["paths"]
-      : assessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemArrayDeserializer(item["paths"]),
+      : securityAssessmentPropertiesBaseRiskPathsItemArrayDeserializer(item["paths"]),
     isContextualRisk: item["isContextualRisk"],
   };
 }
 
 /** The risk level */
-export enum KnownAssessmentAPIRiskLevel {
+export enum KnownRiskLevel {
   /** None */
   None = "None",
   /** Low */
@@ -1160,7 +1146,7 @@ export enum KnownAssessmentAPIRiskLevel {
 
 /**
  * The risk level \
- * {@link KnownAssessmentAPIRiskLevel} can be used interchangeably with AssessmentAPIRiskLevel,
+ * {@link KnownRiskLevel} can be used interchangeably with RiskLevel,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **None**: None \
@@ -1169,95 +1155,87 @@ export enum KnownAssessmentAPIRiskLevel {
  * **High**: High \
  * **Critical**: Critical
  */
-export type AssessmentAPIRiskLevel = string;
+export type RiskLevel = string;
 
-export function assessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemArraySerializer(
-  result: Array<AssessmentAPISecurityAssessmentPropertiesBaseRiskPathsItem>,
+export function securityAssessmentPropertiesBaseRiskPathsItemArraySerializer(
+  result: Array<SecurityAssessmentPropertiesBaseRiskPathsItem>,
 ): any[] {
   return result.map((item) => {
-    return assessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemSerializer(item);
+    return securityAssessmentPropertiesBaseRiskPathsItemSerializer(item);
   });
 }
 
-export function assessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemArrayDeserializer(
-  result: Array<AssessmentAPISecurityAssessmentPropertiesBaseRiskPathsItem>,
+export function securityAssessmentPropertiesBaseRiskPathsItemArrayDeserializer(
+  result: Array<SecurityAssessmentPropertiesBaseRiskPathsItem>,
 ): any[] {
   return result.map((item) => {
-    return assessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemDeserializer(item);
+    return securityAssessmentPropertiesBaseRiskPathsItemDeserializer(item);
   });
 }
 
-/** model interface AssessmentAPISecurityAssessmentPropertiesBaseRiskPathsItem */
-export interface AssessmentAPISecurityAssessmentPropertiesBaseRiskPathsItem {
+/** model interface SecurityAssessmentPropertiesBaseRiskPathsItem */
+export interface SecurityAssessmentPropertiesBaseRiskPathsItem {
   /** Unique identifier for the path */
   id?: string;
-  nodes?: AssessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemNodesItem[];
+  nodes?: SecurityAssessmentPropertiesBaseRiskPathsItemNodesItem[];
   /** Connections between nodes */
-  edges?: AssessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemEdgeItem[];
+  edges?: SecurityAssessmentPropertiesBaseRiskPathsItemEdgeItem[];
 }
 
-export function assessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemSerializer(
-  item: AssessmentAPISecurityAssessmentPropertiesBaseRiskPathsItem,
+export function securityAssessmentPropertiesBaseRiskPathsItemSerializer(
+  item: SecurityAssessmentPropertiesBaseRiskPathsItem,
 ): any {
   return {
     id: item["id"],
     nodes: !item["nodes"]
       ? item["nodes"]
-      : assessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemNodesItemArraySerializer(
-          item["nodes"],
-        ),
+      : securityAssessmentPropertiesBaseRiskPathsItemNodesItemArraySerializer(item["nodes"]),
     edges: !item["edges"]
       ? item["edges"]
-      : assessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemEdgeItemArraySerializer(
-          item["edges"],
-        ),
+      : securityAssessmentPropertiesBaseRiskPathsItemEdgeItemArraySerializer(item["edges"]),
   };
 }
 
-export function assessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemDeserializer(
+export function securityAssessmentPropertiesBaseRiskPathsItemDeserializer(
   item: any,
-): AssessmentAPISecurityAssessmentPropertiesBaseRiskPathsItem {
+): SecurityAssessmentPropertiesBaseRiskPathsItem {
   return {
     id: item["id"],
     nodes: !item["nodes"]
       ? item["nodes"]
-      : assessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemNodesItemArrayDeserializer(
-          item["nodes"],
-        ),
+      : securityAssessmentPropertiesBaseRiskPathsItemNodesItemArrayDeserializer(item["nodes"]),
     edges: !item["edges"]
       ? item["edges"]
-      : assessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemEdgeItemArrayDeserializer(
-          item["edges"],
-        ),
+      : securityAssessmentPropertiesBaseRiskPathsItemEdgeItemArrayDeserializer(item["edges"]),
   };
 }
 
-export function assessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemNodesItemArraySerializer(
-  result: Array<AssessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemNodesItem>,
+export function securityAssessmentPropertiesBaseRiskPathsItemNodesItemArraySerializer(
+  result: Array<SecurityAssessmentPropertiesBaseRiskPathsItemNodesItem>,
 ): any[] {
   return result.map((item) => {
-    return assessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemNodesItemSerializer(item);
+    return securityAssessmentPropertiesBaseRiskPathsItemNodesItemSerializer(item);
   });
 }
 
-export function assessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemNodesItemArrayDeserializer(
-  result: Array<AssessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemNodesItem>,
+export function securityAssessmentPropertiesBaseRiskPathsItemNodesItemArrayDeserializer(
+  result: Array<SecurityAssessmentPropertiesBaseRiskPathsItemNodesItem>,
 ): any[] {
   return result.map((item) => {
-    return assessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemNodesItemDeserializer(item);
+    return securityAssessmentPropertiesBaseRiskPathsItemNodesItemDeserializer(item);
   });
 }
 
-/** model interface AssessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemNodesItem */
-export interface AssessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemNodesItem {
+/** model interface SecurityAssessmentPropertiesBaseRiskPathsItemNodesItem */
+export interface SecurityAssessmentPropertiesBaseRiskPathsItemNodesItem {
   /** Node identifier */
   id?: string;
   /** Properties associated with the node */
   nodePropertiesLabel?: string[];
 }
 
-export function assessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemNodesItemSerializer(
-  item: AssessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemNodesItem,
+export function securityAssessmentPropertiesBaseRiskPathsItemNodesItemSerializer(
+  item: SecurityAssessmentPropertiesBaseRiskPathsItemNodesItem,
 ): any {
   return {
     id: item["id"],
@@ -1269,9 +1247,9 @@ export function assessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemNodesI
   };
 }
 
-export function assessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemNodesItemDeserializer(
+export function securityAssessmentPropertiesBaseRiskPathsItemNodesItemDeserializer(
   item: any,
-): AssessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemNodesItem {
+): SecurityAssessmentPropertiesBaseRiskPathsItemNodesItem {
   return {
     id: item["id"],
     nodePropertiesLabel: !item["nodePropertiesLabel"]
@@ -1282,24 +1260,24 @@ export function assessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemNodesI
   };
 }
 
-export function assessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemEdgeItemArraySerializer(
-  result: Array<AssessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemEdgeItem>,
+export function securityAssessmentPropertiesBaseRiskPathsItemEdgeItemArraySerializer(
+  result: Array<SecurityAssessmentPropertiesBaseRiskPathsItemEdgeItem>,
 ): any[] {
   return result.map((item) => {
-    return assessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemEdgeItemSerializer(item);
+    return securityAssessmentPropertiesBaseRiskPathsItemEdgeItemSerializer(item);
   });
 }
 
-export function assessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemEdgeItemArrayDeserializer(
-  result: Array<AssessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemEdgeItem>,
+export function securityAssessmentPropertiesBaseRiskPathsItemEdgeItemArrayDeserializer(
+  result: Array<SecurityAssessmentPropertiesBaseRiskPathsItemEdgeItem>,
 ): any[] {
   return result.map((item) => {
-    return assessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemEdgeItemDeserializer(item);
+    return securityAssessmentPropertiesBaseRiskPathsItemEdgeItemDeserializer(item);
   });
 }
 
-/** model interface AssessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemEdgeItem */
-export interface AssessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemEdgeItem {
+/** model interface SecurityAssessmentPropertiesBaseRiskPathsItemEdgeItem */
+export interface SecurityAssessmentPropertiesBaseRiskPathsItemEdgeItem {
   /** Edge identifier */
   id: string;
   /** Target node identifier */
@@ -1308,15 +1286,15 @@ export interface AssessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemEdgeI
   sourceId: string;
 }
 
-export function assessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemEdgeItemSerializer(
-  item: AssessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemEdgeItem,
+export function securityAssessmentPropertiesBaseRiskPathsItemEdgeItemSerializer(
+  item: SecurityAssessmentPropertiesBaseRiskPathsItemEdgeItem,
 ): any {
   return { id: item["id"], targetId: item["targetId"], sourceId: item["sourceId"] };
 }
 
-export function assessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemEdgeItemDeserializer(
+export function securityAssessmentPropertiesBaseRiskPathsItemEdgeItemDeserializer(
   item: any,
-): AssessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemEdgeItem {
+): SecurityAssessmentPropertiesBaseRiskPathsItemEdgeItem {
   return {
     id: item["id"],
     targetId: item["targetId"],
@@ -1325,22 +1303,18 @@ export function assessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemEdgeIt
 }
 
 /** Details of the Azure resource that was assessed */
-export interface AssessmentAPIAzureResourceDetails extends CommonResourceDetails {
+export interface AzureResourceDetails extends ResourceDetails {
   /** Azure resource Id of the assessed resource */
   readonly id?: string;
   /** The platform where the assessed resource resides */
   source: "Azure";
 }
 
-export function assessmentAPIAzureResourceDetailsSerializer(
-  item: AssessmentAPIAzureResourceDetails,
-): any {
+export function azureResourceDetailsSerializer(item: AzureResourceDetails): any {
   return { source: item["source"] };
 }
 
-export function assessmentAPIAzureResourceDetailsDeserializer(
-  item: any,
-): AssessmentAPIAzureResourceDetails {
+export function azureResourceDetailsDeserializer(item: any): AzureResourceDetails {
   return {
     source: item["source"],
     id: item["id"],
@@ -1348,34 +1322,32 @@ export function assessmentAPIAzureResourceDetailsDeserializer(
 }
 
 /** Links relevant to the assessment */
-export interface AssessmentAPIAssessmentLinks {
+export interface AssessmentLinks {
   /** Link to assessment in Azure Portal */
   readonly azurePortalUri?: string;
 }
 
-export function assessmentAPIAssessmentLinksDeserializer(item: any): AssessmentAPIAssessmentLinks {
+export function assessmentLinksDeserializer(item: any): AssessmentLinks {
   return {
     azurePortalUri: item["azurePortalUri"],
   };
 }
 
 /** Data regarding 3rd party partner integration */
-export interface AssessmentAPISecurityAssessmentPartnerData {
+export interface SecurityAssessmentPartnerData {
   /** Name of the company of the partner */
   partnerName: string;
   /** secret to authenticate the partner - write only */
   secret: string;
 }
 
-export function assessmentAPISecurityAssessmentPartnerDataSerializer(
-  item: AssessmentAPISecurityAssessmentPartnerData,
-): any {
+export function securityAssessmentPartnerDataSerializer(item: SecurityAssessmentPartnerData): any {
   return { partnerName: item["partnerName"], secret: item["secret"] };
 }
 
-export function assessmentAPISecurityAssessmentPartnerDataDeserializer(
+export function securityAssessmentPartnerDataDeserializer(
   item: any,
-): AssessmentAPISecurityAssessmentPartnerData {
+): SecurityAssessmentPartnerData {
   return {
     partnerName: item["partnerName"],
     secret: item["secret"],
@@ -1383,28 +1355,26 @@ export function assessmentAPISecurityAssessmentPartnerDataDeserializer(
 }
 
 /** Security assessment on a resource */
-export interface AssessmentAPISecurityAssessment extends Resource {
+export interface SecurityAssessment extends Resource {
   /** External model of risk result */
-  risk?: AssessmentAPISecurityAssessmentPropertiesBaseRisk;
+  risk?: SecurityAssessmentPropertiesBaseRisk;
   /** Details of the resource that was assessed */
-  resourceDetails?: CommonResourceDetailsUnion;
+  resourceDetails?: ResourceDetailsUnion;
   /** User friendly display name of the assessment */
   readonly displayName?: string;
   /** Additional data regarding the assessment */
   additionalData?: Record<string, string>;
   /** Links relevant to the assessment */
-  readonly links?: AssessmentAPIAssessmentLinks;
+  readonly links?: AssessmentLinks;
   /** Describes properties of an assessment metadata. */
-  metadata?: AssessmentAPISecurityAssessmentMetadataProperties;
+  metadata?: SecurityAssessmentMetadataProperties;
   /** Data regarding 3rd party partner integration */
-  partnersData?: AssessmentAPISecurityAssessmentPartnerData;
+  partnersData?: SecurityAssessmentPartnerData;
   /** The result of the assessment */
-  status?: AssessmentAPIAssessmentStatus;
+  status?: AssessmentStatus;
 }
 
-export function assessmentAPISecurityAssessmentSerializer(
-  item: AssessmentAPISecurityAssessment,
-): any {
+export function securityAssessmentSerializer(item: SecurityAssessment): any {
   return {
     properties: areAllPropsUndefined(item, [
       "risk",
@@ -1420,70 +1390,66 @@ export function assessmentAPISecurityAssessmentSerializer(
 }
 
 /** Describes properties of an assessment. */
-export interface AssessmentAPISecurityAssessmentProperties extends AssessmentAPISecurityAssessmentPropertiesBase {
+export interface SecurityAssessmentProperties extends SecurityAssessmentPropertiesBase {
   /** The result of the assessment */
-  status: AssessmentAPIAssessmentStatus;
+  status: AssessmentStatus;
 }
 
-export function assessmentAPISecurityAssessmentPropertiesSerializer(
-  item: AssessmentAPISecurityAssessmentProperties,
-): any {
+export function securityAssessmentPropertiesSerializer(item: SecurityAssessmentProperties): any {
   return {
     risk: !item["risk"]
       ? item["risk"]
-      : assessmentAPISecurityAssessmentPropertiesBaseRiskSerializer(item["risk"]),
-    resourceDetails: commonResourceDetailsUnionSerializer(item["resourceDetails"]),
+      : securityAssessmentPropertiesBaseRiskSerializer(item["risk"]),
+    resourceDetails: resourceDetailsUnionSerializer(item["resourceDetails"]),
     additionalData: item["additionalData"],
     metadata: !item["metadata"]
       ? item["metadata"]
-      : assessmentAPISecurityAssessmentMetadataPropertiesSerializer(item["metadata"]),
+      : securityAssessmentMetadataPropertiesSerializer(item["metadata"]),
     partnersData: !item["partnersData"]
       ? item["partnersData"]
-      : assessmentAPISecurityAssessmentPartnerDataSerializer(item["partnersData"]),
-    status: assessmentAPIAssessmentStatusSerializer(item["status"]),
+      : securityAssessmentPartnerDataSerializer(item["partnersData"]),
+    status: assessmentStatusSerializer(item["status"]),
   };
 }
 
 /** Page of a security assessments list */
-export interface _AssessmentAPISecurityAssessmentList {
+export interface _SecurityAssessmentList {
   /** Collection of security assessments in this page */
-  readonly value?: AssessmentAPISecurityAssessmentResponse[];
+  readonly value?: SecurityAssessmentResponse[];
   /** The URI to fetch the next page. */
   nextLink?: string;
 }
 
-export function _assessmentAPISecurityAssessmentListDeserializer(
-  item: any,
-): _AssessmentAPISecurityAssessmentList {
+export function _securityAssessmentListDeserializer(item: any): _SecurityAssessmentList {
   return {
     value: !item["value"]
       ? item["value"]
-      : assessmentAPISecurityAssessmentResponseArrayDeserializer(item["value"]),
+      : securityAssessmentResponseArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function assessmentAPISecurityAssessmentResponseArrayDeserializer(
-  result: Array<AssessmentAPISecurityAssessmentResponse>,
+export function securityAssessmentResponseArrayDeserializer(
+  result: Array<SecurityAssessmentResponse>,
 ): any[] {
   return result.map((item) => {
-    return assessmentAPISecurityAssessmentResponseDeserializer(item);
+    return securityAssessmentResponseDeserializer(item);
   });
 }
 
 /** Known values of {@link ExpandEnum} that the service accepts. */
-export enum KnownAssessmentAPIExpandEnum {
+export enum KnownExpandEnum {
   /** All links associated with an assessment */
   Links = "links",
   /** Assessment metadata */
   Metadata = "metadata",
 }
 
-/** Type of AssessmentAPIExpandEnum */
-export type AssessmentAPIExpandEnum = string;
+/** Type of ExpandEnum */
+export type ExpandEnum = string;
 
 export function _securityAssessmentMetadataResponsePropertiesSerializer(
-  item: AssessmentAPISecurityAssessmentMetadataResponse,
+  item: SecurityAssessmentMetadataResponse,
 ): any {
   return {
     displayName: item["displayName"],
@@ -1506,12 +1472,10 @@ export function _securityAssessmentMetadataResponsePropertiesSerializer(
     assessmentType: item["assessmentType"],
     partnerData: !item["partnerData"]
       ? item["partnerData"]
-      : assessmentAPISecurityAssessmentMetadataPartnerDataSerializer(item["partnerData"]),
+      : securityAssessmentMetadataPartnerDataSerializer(item["partnerData"]),
     publishDates: !item["publishDates"]
       ? item["publishDates"]
-      : assessmentAPISecurityAssessmentMetadataPropertiesResponsePublishDatesSerializer(
-          item["publishDates"],
-        ),
+      : securityAssessmentMetadataPropertiesResponsePublishDatesSerializer(item["publishDates"]),
     plannedDeprecationDate: item["plannedDeprecationDate"],
     tactics: !item["tactics"]
       ? item["tactics"]
@@ -1549,12 +1513,10 @@ export function _securityAssessmentMetadataResponsePropertiesDeserializer(item: 
     assessmentType: item["assessmentType"],
     partnerData: !item["partnerData"]
       ? item["partnerData"]
-      : assessmentAPISecurityAssessmentMetadataPartnerDataDeserializer(item["partnerData"]),
+      : securityAssessmentMetadataPartnerDataDeserializer(item["partnerData"]),
     publishDates: !item["publishDates"]
       ? item["publishDates"]
-      : assessmentAPISecurityAssessmentMetadataPropertiesResponsePublishDatesDeserializer(
-          item["publishDates"],
-        ),
+      : securityAssessmentMetadataPropertiesResponsePublishDatesDeserializer(item["publishDates"]),
     plannedDeprecationDate: item["plannedDeprecationDate"],
     tactics: !item["tactics"]
       ? item["tactics"]
@@ -1573,48 +1535,42 @@ export function _securityAssessmentResponsePropertiesDeserializer(item: any) {
   return {
     risk: !item["risk"]
       ? item["risk"]
-      : assessmentAPISecurityAssessmentPropertiesBaseRiskDeserializer(item["risk"]),
+      : securityAssessmentPropertiesBaseRiskDeserializer(item["risk"]),
     resourceDetails: !item["resourceDetails"]
       ? item["resourceDetails"]
-      : commonResourceDetailsUnionDeserializer(item["resourceDetails"]),
+      : resourceDetailsUnionDeserializer(item["resourceDetails"]),
     displayName: item["displayName"],
     additionalData: !item["additionalData"]
       ? item["additionalData"]
       : Object.fromEntries(
           Object.entries(item["additionalData"]).map(([k, p]: [string, any]) => [k, p]),
         ),
-    links: !item["links"] ? item["links"] : assessmentAPIAssessmentLinksDeserializer(item["links"]),
+    links: !item["links"] ? item["links"] : assessmentLinksDeserializer(item["links"]),
     metadata: !item["metadata"]
       ? item["metadata"]
-      : assessmentAPISecurityAssessmentMetadataPropertiesDeserializer(item["metadata"]),
+      : securityAssessmentMetadataPropertiesDeserializer(item["metadata"]),
     partnersData: !item["partnersData"]
       ? item["partnersData"]
-      : assessmentAPISecurityAssessmentPartnerDataDeserializer(item["partnersData"]),
-    status: !item["status"]
-      ? item["status"]
-      : assessmentAPIAssessmentStatusResponseDeserializer(item["status"]),
+      : securityAssessmentPartnerDataDeserializer(item["partnersData"]),
+    status: !item["status"] ? item["status"] : assessmentStatusResponseDeserializer(item["status"]),
   };
 }
 
-export function _securityAssessmentPropertiesSerializer(
-  item: AssessmentAPISecurityAssessment,
-): any {
+export function _securityAssessmentPropertiesSerializer(item: SecurityAssessment): any {
   return {
     risk: !item["risk"]
       ? item["risk"]
-      : assessmentAPISecurityAssessmentPropertiesBaseRiskSerializer(item["risk"]),
+      : securityAssessmentPropertiesBaseRiskSerializer(item["risk"]),
     resourceDetails: !item["resourceDetails"]
       ? item["resourceDetails"]
-      : commonResourceDetailsUnionSerializer(item["resourceDetails"]),
+      : resourceDetailsUnionSerializer(item["resourceDetails"]),
     additionalData: item["additionalData"],
     metadata: !item["metadata"]
       ? item["metadata"]
-      : assessmentAPISecurityAssessmentMetadataPropertiesSerializer(item["metadata"]),
+      : securityAssessmentMetadataPropertiesSerializer(item["metadata"]),
     partnersData: !item["partnersData"]
       ? item["partnersData"]
-      : assessmentAPISecurityAssessmentPartnerDataSerializer(item["partnersData"]),
-    status: !item["status"]
-      ? item["status"]
-      : assessmentAPIAssessmentStatusSerializer(item["status"]),
+      : securityAssessmentPartnerDataSerializer(item["partnersData"]),
+    status: !item["status"] ? item["status"] : assessmentStatusSerializer(item["status"]),
   };
 }

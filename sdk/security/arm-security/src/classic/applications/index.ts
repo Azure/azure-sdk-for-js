@@ -4,15 +4,13 @@
 import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import { list } from "../../api/applications/operations.js";
 import type { ApplicationsListOptionalParams } from "../../api/applications/options.js";
-import type { ApplicationsAPIApplication } from "../../models/applicationsAPI/models.js";
+import type { Application } from "../../models/applicationsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Applications operations. */
 export interface ApplicationsOperations {
   /** Get a list of all relevant applications over a subscription level scope */
-  list: (
-    options?: ApplicationsListOptionalParams,
-  ) => PagedAsyncIterableIterator<ApplicationsAPIApplication>;
+  list: (options?: ApplicationsListOptionalParams) => PagedAsyncIterableIterator<Application>;
 }
 
 function _getApplications(context: SecurityCenterContext) {

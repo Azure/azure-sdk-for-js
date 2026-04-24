@@ -5,7 +5,42 @@
 ```ts
 
 // @public
-export enum KnownSensitivitySettingsAPIMipIntegrationStatus {
+export interface BuiltInInfoType {
+    id?: string;
+    name?: string;
+    type?: string;
+}
+
+// @public
+export interface GetSensitivitySettingsResponse extends ProxyResource {
+    properties?: GetSensitivitySettingsResponseProperties;
+}
+
+// @public
+export interface GetSensitivitySettingsResponseProperties {
+    mipInformation?: GetSensitivitySettingsResponsePropertiesMipInformation;
+    sensitiveInfoTypesIds?: string[];
+    sensitivityThresholdLabelId?: string;
+    sensitivityThresholdLabelOrder?: number;
+}
+
+// @public
+export interface GetSensitivitySettingsResponsePropertiesMipInformation {
+    builtInInfoTypes?: BuiltInInfoType[];
+    customInfoTypes?: InfoType[];
+    labels?: Label[];
+    mipIntegrationStatus?: MipIntegrationStatus;
+}
+
+// @public
+export interface InfoType {
+    description?: string;
+    id?: string;
+    name?: string;
+}
+
+// @public
+export enum KnownMipIntegrationStatus {
     NoAutoLabelingRules = "noAutoLabelingRules",
     NoConsent = "noConsent",
     NoMipLabels = "noMipLabels",
@@ -13,52 +48,17 @@ export enum KnownSensitivitySettingsAPIMipIntegrationStatus {
 }
 
 // @public
-export interface SensitivitySettingsAPIBuiltInInfoType {
-    id?: string;
-    name?: string;
-    type?: string;
-}
-
-// @public
-export interface SensitivitySettingsAPIGetSensitivitySettingsResponse extends ProxyResource {
-    properties?: SensitivitySettingsAPIGetSensitivitySettingsResponseProperties;
-}
-
-// @public
-export interface SensitivitySettingsAPIGetSensitivitySettingsResponseProperties {
-    mipInformation?: SensitivitySettingsAPIGetSensitivitySettingsResponsePropertiesMipInformation;
-    sensitiveInfoTypesIds?: string[];
-    sensitivityThresholdLabelId?: string;
-    sensitivityThresholdLabelOrder?: number;
-}
-
-// @public
-export interface SensitivitySettingsAPIGetSensitivitySettingsResponsePropertiesMipInformation {
-    builtInInfoTypes?: SensitivitySettingsAPIBuiltInInfoType[];
-    customInfoTypes?: SensitivitySettingsAPIInfoType[];
-    labels?: SensitivitySettingsAPILabel[];
-    mipIntegrationStatus?: SensitivitySettingsAPIMipIntegrationStatus;
-}
-
-// @public
-export interface SensitivitySettingsAPIInfoType {
-    description?: string;
-    id?: string;
-    name?: string;
-}
-
-// @public
-export interface SensitivitySettingsAPILabel {
+export interface Label {
     id?: string;
     name?: string;
     order?: number;
 }
 
 // @public
-export type SensitivitySettingsAPIMipIntegrationStatus = string;
+export type MipIntegrationStatus = string;
 
 // @public
-export interface SensitivitySettingsAPIUpdateSensitivitySettingsRequest {
+export interface UpdateSensitivitySettingsRequest {
     sensitiveInfoTypesIds: string[];
     sensitivityThresholdLabelId?: string;
     sensitivityThresholdLabelOrder?: number;

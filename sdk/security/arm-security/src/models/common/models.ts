@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AssessmentAPIAzureResourceDetails } from "../assessmentAPI/models.js";
+import type { AzureResourceDetails } from "../assessmentAPI/models.js";
 import {
-  assessmentAPIAzureResourceDetailsSerializer,
-  assessmentAPIAzureResourceDetailsDeserializer,
+  azureResourceDetailsSerializer,
+  azureResourceDetailsDeserializer,
 } from "../assessmentAPI/models.js";
 import type { ErrorAdditionalInfo } from "../models.js";
 import { errorAdditionalInfoArrayDeserializer } from "../models.js";
@@ -16,7 +16,7 @@ import { errorAdditionalInfoArrayDeserializer } from "../models.js";
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
-export interface CommonCloudError {
+export interface CloudError {
   /** The error code. */
   readonly code?: string;
   /** The error message. */
@@ -24,19 +24,19 @@ export interface CommonCloudError {
   /** The error target. */
   readonly target?: string;
   /** The error details. */
-  readonly details?: CommonCloudErrorBody[];
+  readonly details?: CloudErrorBody[];
   /** The error additional info. */
   readonly additionalInfo?: ErrorAdditionalInfo[];
 }
 
-export function commonCloudErrorDeserializer(item: any): CommonCloudError {
+export function cloudErrorDeserializer(item: any): CloudError {
   return {
     ...(!item["error"] ? item["error"] : _cloudErrorErrorDeserializer(item["error"])),
   };
 }
 
 /** The error detail. */
-export interface CommonCloudErrorBody {
+export interface CloudErrorBody {
   /** The error code. */
   readonly code?: string;
   /** The error message. */
@@ -44,33 +44,31 @@ export interface CommonCloudErrorBody {
   /** The error target. */
   readonly target?: string;
   /** The error details. */
-  readonly details?: CommonCloudErrorBody[];
+  readonly details?: CloudErrorBody[];
   /** The error additional info. */
   readonly additionalInfo?: ErrorAdditionalInfo[];
 }
 
-export function commonCloudErrorBodyDeserializer(item: any): CommonCloudErrorBody {
+export function cloudErrorBodyDeserializer(item: any): CloudErrorBody {
   return {
     code: item["code"],
     message: item["message"],
     target: item["target"],
-    details: !item["details"]
-      ? item["details"]
-      : commonCloudErrorBodyArrayDeserializer(item["details"]),
+    details: !item["details"] ? item["details"] : cloudErrorBodyArrayDeserializer(item["details"]),
     additionalInfo: !item["additionalInfo"]
       ? item["additionalInfo"]
       : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
   };
 }
 
-export function commonCloudErrorBodyArrayDeserializer(result: Array<CommonCloudErrorBody>): any[] {
+export function cloudErrorBodyArrayDeserializer(result: Array<CloudErrorBody>): any[] {
   return result.map((item) => {
-    return commonCloudErrorBodyDeserializer(item);
+    return cloudErrorBodyDeserializer(item);
   });
 }
 
 /** The severity level of the assessment */
-export enum KnownCommonSeverity {
+export enum KnownSeverity {
   /** Low */
   Low = "Low",
   /** Medium */
@@ -83,7 +81,7 @@ export enum KnownCommonSeverity {
 
 /**
  * The severity level of the assessment \
- * {@link KnownCommonSeverity} can be used interchangeably with CommonSeverity,
+ * {@link KnownSeverity} can be used interchangeably with Severity,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Low**: Low \
@@ -91,10 +89,10 @@ export enum KnownCommonSeverity {
  * **High**: High \
  * **Critical**: Critical
  */
-export type CommonSeverity = string;
+export type Severity = string;
 
 /** Enum. Indicates the action type. */
-export enum KnownCommonActionType {
+export enum KnownActionType {
   /** LogicApp */
   LogicApp = "LogicApp",
   /** EventHub */
@@ -107,7 +105,7 @@ export enum KnownCommonActionType {
 
 /**
  * Enum. Indicates the action type. \
- * {@link KnownCommonActionType} can be used interchangeably with CommonActionType,
+ * {@link KnownActionType} can be used interchangeably with ActionType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **LogicApp**: LogicApp \
@@ -115,20 +113,20 @@ export enum KnownCommonActionType {
  * **Workspace**: Workspace \
  * **Internal**: Internal
  */
-export type CommonActionType = string;
+export type ActionType = string;
 
 /** A list of key value pairs that describe the resource. */
-export interface CommonTags {
+export interface Tags {
   /** A list of key value pairs that describe the resource. */
   tags?: Record<string, string>;
 }
 
-export function commonTagsSerializer(item: CommonTags): any {
+export function tagsSerializer(item: Tags): any {
   return { tags: item["tags"] };
 }
 
 /** Aggregative state based on the standard's supported controls states */
-export enum KnownCommonState {
+export enum KnownState {
   /** All supported regulatory compliance controls in the given standard have a passed state */
   Passed = "Passed",
   /** At least one supported regulatory compliance control in the given standard has a state of failed */
@@ -145,7 +143,7 @@ export enum KnownCommonState {
 
 /**
  * Aggregative state based on the standard's supported controls states \
- * {@link KnownCommonState} can be used interchangeably with CommonState,
+ * {@link KnownState} can be used interchangeably with State,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Passed**: All supported regulatory compliance controls in the given standard have a passed state \
@@ -155,10 +153,10 @@ export enum KnownCommonState {
  * **On**: Send notification on new alerts to the subscription's admins \
  * **Off**: Don't send notification on new alerts to the subscription's admins
  */
-export type CommonState = string;
+export type State = string;
 
 /** The platform where the assessed resource resides */
-export enum KnownCommonSource {
+export enum KnownSource {
   /** Resource is in Azure */
   Azure = "Azure",
   /** Resource in an on premise machine connected to Azure cloud */
@@ -173,7 +171,7 @@ export enum KnownCommonSource {
 
 /**
  * The platform where the assessed resource resides \
- * {@link KnownCommonSource} can be used interchangeably with CommonSource,
+ * {@link KnownSource} can be used interchangeably with Source,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Azure**: Resource is in Azure \
@@ -182,17 +180,17 @@ export enum KnownCommonSource {
  * **Aws**: Aws \
  * **Gcp**: Gcp
  */
-export type CommonSource = string;
+export type Source = string;
 
 /** A status describing the success/failure of the enablement/disablement operation. */
-export interface CommonOperationStatus {
+export interface OperationStatus {
   /** The operation status code. */
   code?: string;
   /** Additional information regarding the success/failure of the operation. */
   message?: string;
 }
 
-export function commonOperationStatusDeserializer(item: any): CommonOperationStatus {
+export function operationStatusDeserializer(item: any): OperationStatus {
   return {
     code: item["code"],
     message: item["message"],
@@ -200,7 +198,7 @@ export function commonOperationStatusDeserializer(item: any): CommonOperationSta
 }
 
 /** The current provisioning state of the resource. Indicates the status of the last operation performed on the resource. */
-export enum KnownCommonProvisioningState {
+export enum KnownProvisioningState {
   /** The resource has been successfully provisioned and is ready for use. */
   Succeeded = "Succeeded",
   /** The resource is being created. This is a transitional state. */
@@ -219,7 +217,7 @@ export enum KnownCommonProvisioningState {
 
 /**
  * The current provisioning state of the resource. Indicates the status of the last operation performed on the resource. \
- * {@link KnownCommonProvisioningState} can be used interchangeably with CommonProvisioningState,
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Succeeded**: The resource has been successfully provisioned and is ready for use. \
@@ -230,26 +228,26 @@ export enum KnownCommonProvisioningState {
  * **Canceled**: The operation was canceled before completion. \
  * **InProgress**: InProgress
  */
-export type CommonProvisioningState = string;
+export type ProvisioningState = string;
 
 /** Describe the properties of a of a standard assignments object reference */
-export interface CommonAssignedStandardItem {
+export interface AssignedStandardItem {
   /** Full resourceId of the Microsoft.Security/standard object */
   id?: string;
 }
 
-export function commonAssignedStandardItemSerializer(item: CommonAssignedStandardItem): any {
+export function assignedStandardItemSerializer(item: AssignedStandardItem): any {
   return { id: item["id"] };
 }
 
-export function commonAssignedStandardItemDeserializer(item: any): CommonAssignedStandardItem {
+export function assignedStandardItemDeserializer(item: any): AssignedStandardItem {
   return {
     id: item["id"],
   };
 }
 
 /** Known values of {@link SettingName} that the service accepts. */
-export enum KnownCommonSettingName {
+export enum KnownSettingName {
   /** MCAS */
   Mcas = "MCAS",
   /** WDATP */
@@ -264,48 +262,46 @@ export enum KnownCommonSettingName {
   Current = "current",
 }
 
-/** Type of CommonSettingName */
-export type CommonSettingName = string;
+/** Type of SettingName */
+export type SettingName = string;
 
 /** Details of the resource that was assessed */
-export interface CommonResourceDetails {
+export interface ResourceDetails {
   /** The platform where the assessed resource resides */
   /** The discriminator possible values: Azure */
-  source: CommonSource;
+  source: Source;
 }
 
-export function commonResourceDetailsSerializer(item: CommonResourceDetails): any {
+export function resourceDetailsSerializer(item: ResourceDetails): any {
   return { source: item["source"] };
 }
 
-export function commonResourceDetailsDeserializer(item: any): CommonResourceDetails {
+export function resourceDetailsDeserializer(item: any): ResourceDetails {
   return {
     source: item["source"],
   };
 }
 
-/** Alias for CommonResourceDetailsUnion */
-export type CommonResourceDetailsUnion = AssessmentAPIAzureResourceDetails | CommonResourceDetails;
+/** Alias for ResourceDetailsUnion */
+export type ResourceDetailsUnion = AzureResourceDetails | ResourceDetails;
 
-export function commonResourceDetailsUnionSerializer(item: CommonResourceDetailsUnion): any {
+export function resourceDetailsUnionSerializer(item: ResourceDetailsUnion): any {
   switch (item.source) {
     case "Azure":
-      return assessmentAPIAzureResourceDetailsSerializer(item as AssessmentAPIAzureResourceDetails);
+      return azureResourceDetailsSerializer(item as AzureResourceDetails);
 
     default:
-      return commonResourceDetailsSerializer(item);
+      return resourceDetailsSerializer(item);
   }
 }
 
-export function commonResourceDetailsUnionDeserializer(item: any): CommonResourceDetailsUnion {
+export function resourceDetailsUnionDeserializer(item: any): ResourceDetailsUnion {
   switch (item["source"]) {
     case "Azure":
-      return assessmentAPIAzureResourceDetailsDeserializer(
-        item as AssessmentAPIAzureResourceDetails,
-      );
+      return azureResourceDetailsDeserializer(item as AzureResourceDetails);
 
     default:
-      return commonResourceDetailsDeserializer(item);
+      return resourceDetailsDeserializer(item);
   }
 }
 
@@ -314,9 +310,7 @@ export function _cloudErrorErrorDeserializer(item: any) {
     code: item["code"],
     message: item["message"],
     target: item["target"],
-    details: !item["details"]
-      ? item["details"]
-      : commonCloudErrorBodyArrayDeserializer(item["details"]),
+    details: !item["details"] ? item["details"] : cloudErrorBodyArrayDeserializer(item["details"]),
     additionalInfo: !item["additionalInfo"]
       ? item["additionalInfo"]
       : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),

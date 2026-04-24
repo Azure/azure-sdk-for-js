@@ -9,7 +9,7 @@ import type {
   AzureDevOpsReposCreateOrUpdateOptionalParams,
   AzureDevOpsReposGetOptionalParams,
 } from "../../api/azureDevOpsRepos/options.js";
-import type { SecurityConnectorsDevOpsAPIAzureDevOpsRepository } from "../../models/securityConnectorsDevOpsAPI/models.js";
+import type { AzureDevOpsRepository } from "../../models/securityConnectorsDevOpsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
@@ -24,7 +24,7 @@ export interface AzureDevOpsReposOperations {
     orgName: string,
     projectName: string,
     options?: AzureDevOpsReposListOptionalParams,
-  ) => PagedAsyncIterableIterator<SecurityConnectorsDevOpsAPIAzureDevOpsRepository>;
+  ) => PagedAsyncIterableIterator<AzureDevOpsRepository>;
   /** Updates a monitored Azure DevOps repository resource. */
   update: (
     resourceGroupName: string,
@@ -32,12 +32,9 @@ export interface AzureDevOpsReposOperations {
     orgName: string,
     projectName: string,
     repoName: string,
-    azureDevOpsRepository: SecurityConnectorsDevOpsAPIAzureDevOpsRepository,
+    azureDevOpsRepository: AzureDevOpsRepository,
     options?: AzureDevOpsReposUpdateOptionalParams,
-  ) => PollerLike<
-    OperationState<SecurityConnectorsDevOpsAPIAzureDevOpsRepository>,
-    SecurityConnectorsDevOpsAPIAzureDevOpsRepository
-  >;
+  ) => PollerLike<OperationState<AzureDevOpsRepository>, AzureDevOpsRepository>;
   /** @deprecated use update instead */
   beginUpdate: (
     resourceGroupName: string,
@@ -45,14 +42,9 @@ export interface AzureDevOpsReposOperations {
     orgName: string,
     projectName: string,
     repoName: string,
-    azureDevOpsRepository: SecurityConnectorsDevOpsAPIAzureDevOpsRepository,
+    azureDevOpsRepository: AzureDevOpsRepository,
     options?: AzureDevOpsReposUpdateOptionalParams,
-  ) => Promise<
-    SimplePollerLike<
-      OperationState<SecurityConnectorsDevOpsAPIAzureDevOpsRepository>,
-      SecurityConnectorsDevOpsAPIAzureDevOpsRepository
-    >
-  >;
+  ) => Promise<SimplePollerLike<OperationState<AzureDevOpsRepository>, AzureDevOpsRepository>>;
   /** @deprecated use update instead */
   beginUpdateAndWait: (
     resourceGroupName: string,
@@ -60,9 +52,9 @@ export interface AzureDevOpsReposOperations {
     orgName: string,
     projectName: string,
     repoName: string,
-    azureDevOpsRepository: SecurityConnectorsDevOpsAPIAzureDevOpsRepository,
+    azureDevOpsRepository: AzureDevOpsRepository,
     options?: AzureDevOpsReposUpdateOptionalParams,
-  ) => Promise<SecurityConnectorsDevOpsAPIAzureDevOpsRepository>;
+  ) => Promise<AzureDevOpsRepository>;
   /** Creates or updates a monitored Azure DevOps repository resource. */
   createOrUpdate: (
     resourceGroupName: string,
@@ -70,12 +62,9 @@ export interface AzureDevOpsReposOperations {
     orgName: string,
     projectName: string,
     repoName: string,
-    azureDevOpsRepository: SecurityConnectorsDevOpsAPIAzureDevOpsRepository,
+    azureDevOpsRepository: AzureDevOpsRepository,
     options?: AzureDevOpsReposCreateOrUpdateOptionalParams,
-  ) => PollerLike<
-    OperationState<SecurityConnectorsDevOpsAPIAzureDevOpsRepository>,
-    SecurityConnectorsDevOpsAPIAzureDevOpsRepository
-  >;
+  ) => PollerLike<OperationState<AzureDevOpsRepository>, AzureDevOpsRepository>;
   /** @deprecated use createOrUpdate instead */
   beginCreateOrUpdate: (
     resourceGroupName: string,
@@ -83,14 +72,9 @@ export interface AzureDevOpsReposOperations {
     orgName: string,
     projectName: string,
     repoName: string,
-    azureDevOpsRepository: SecurityConnectorsDevOpsAPIAzureDevOpsRepository,
+    azureDevOpsRepository: AzureDevOpsRepository,
     options?: AzureDevOpsReposCreateOrUpdateOptionalParams,
-  ) => Promise<
-    SimplePollerLike<
-      OperationState<SecurityConnectorsDevOpsAPIAzureDevOpsRepository>,
-      SecurityConnectorsDevOpsAPIAzureDevOpsRepository
-    >
-  >;
+  ) => Promise<SimplePollerLike<OperationState<AzureDevOpsRepository>, AzureDevOpsRepository>>;
   /** @deprecated use createOrUpdate instead */
   beginCreateOrUpdateAndWait: (
     resourceGroupName: string,
@@ -98,9 +82,9 @@ export interface AzureDevOpsReposOperations {
     orgName: string,
     projectName: string,
     repoName: string,
-    azureDevOpsRepository: SecurityConnectorsDevOpsAPIAzureDevOpsRepository,
+    azureDevOpsRepository: AzureDevOpsRepository,
     options?: AzureDevOpsReposCreateOrUpdateOptionalParams,
-  ) => Promise<SecurityConnectorsDevOpsAPIAzureDevOpsRepository>;
+  ) => Promise<AzureDevOpsRepository>;
   /** Returns a monitored Azure DevOps repository resource. */
   get: (
     resourceGroupName: string,
@@ -109,7 +93,7 @@ export interface AzureDevOpsReposOperations {
     projectName: string,
     repoName: string,
     options?: AzureDevOpsReposGetOptionalParams,
-  ) => Promise<SecurityConnectorsDevOpsAPIAzureDevOpsRepository>;
+  ) => Promise<AzureDevOpsRepository>;
 }
 
 function _getAzureDevOpsRepos(context: SecurityCenterContext) {
@@ -127,7 +111,7 @@ function _getAzureDevOpsRepos(context: SecurityCenterContext) {
       orgName: string,
       projectName: string,
       repoName: string,
-      azureDevOpsRepository: SecurityConnectorsDevOpsAPIAzureDevOpsRepository,
+      azureDevOpsRepository: AzureDevOpsRepository,
       options?: AzureDevOpsReposUpdateOptionalParams,
     ) =>
       update(
@@ -146,7 +130,7 @@ function _getAzureDevOpsRepos(context: SecurityCenterContext) {
       orgName: string,
       projectName: string,
       repoName: string,
-      azureDevOpsRepository: SecurityConnectorsDevOpsAPIAzureDevOpsRepository,
+      azureDevOpsRepository: AzureDevOpsRepository,
       options?: AzureDevOpsReposUpdateOptionalParams,
     ) => {
       const poller = update(
@@ -168,7 +152,7 @@ function _getAzureDevOpsRepos(context: SecurityCenterContext) {
       orgName: string,
       projectName: string,
       repoName: string,
-      azureDevOpsRepository: SecurityConnectorsDevOpsAPIAzureDevOpsRepository,
+      azureDevOpsRepository: AzureDevOpsRepository,
       options?: AzureDevOpsReposUpdateOptionalParams,
     ) => {
       return await update(
@@ -188,7 +172,7 @@ function _getAzureDevOpsRepos(context: SecurityCenterContext) {
       orgName: string,
       projectName: string,
       repoName: string,
-      azureDevOpsRepository: SecurityConnectorsDevOpsAPIAzureDevOpsRepository,
+      azureDevOpsRepository: AzureDevOpsRepository,
       options?: AzureDevOpsReposCreateOrUpdateOptionalParams,
     ) =>
       createOrUpdate(
@@ -207,7 +191,7 @@ function _getAzureDevOpsRepos(context: SecurityCenterContext) {
       orgName: string,
       projectName: string,
       repoName: string,
-      azureDevOpsRepository: SecurityConnectorsDevOpsAPIAzureDevOpsRepository,
+      azureDevOpsRepository: AzureDevOpsRepository,
       options?: AzureDevOpsReposCreateOrUpdateOptionalParams,
     ) => {
       const poller = createOrUpdate(
@@ -229,7 +213,7 @@ function _getAzureDevOpsRepos(context: SecurityCenterContext) {
       orgName: string,
       projectName: string,
       repoName: string,
-      azureDevOpsRepository: SecurityConnectorsDevOpsAPIAzureDevOpsRepository,
+      azureDevOpsRepository: AzureDevOpsRepository,
       options?: AzureDevOpsReposCreateOrUpdateOptionalParams,
     ) => {
       return await createOrUpdate(

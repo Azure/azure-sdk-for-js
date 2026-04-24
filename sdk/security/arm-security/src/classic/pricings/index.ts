@@ -9,7 +9,7 @@ import type {
   PricingsUpdateOptionalParams,
   PricingsGetOptionalParams,
 } from "../../api/pricings/options.js";
-import type { PricingsAPIPricing } from "../../models/pricingsAPI/models.js";
+import type { Pricing } from "../../models/pricingsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Pricings operations. */
@@ -18,7 +18,7 @@ export interface PricingsOperations {
   list: (
     scopeId: string,
     options?: PricingsListOptionalParams,
-  ) => PagedAsyncIterableIterator<PricingsAPIPricing>;
+  ) => PagedAsyncIterableIterator<Pricing>;
   /** Deletes a provided Microsoft Defender for Cloud pricing configuration in a specific resource. Valid only for resource scope (Supported resources are: 'VirtualMachines, VMSS, ARC Machines, and Containers'). */
   delete: (
     scopeId: string,
@@ -29,15 +29,15 @@ export interface PricingsOperations {
   update: (
     scopeId: string,
     pricingName: string,
-    pricing: PricingsAPIPricing,
+    pricing: Pricing,
     options?: PricingsUpdateOptionalParams,
-  ) => Promise<PricingsAPIPricing>;
+  ) => Promise<Pricing>;
   /** Get the Defender plans pricing configurations of the selected scope (valid scopes are resource id or a subscription id). At the resource level, supported resource types are 'VirtualMachines, VMSS and ARC Machines'. */
   get: (
     scopeId: string,
     pricingName: string,
     options?: PricingsGetOptionalParams,
-  ) => Promise<PricingsAPIPricing>;
+  ) => Promise<Pricing>;
 }
 
 function _getPricings(context: SecurityCenterContext) {
@@ -49,7 +49,7 @@ function _getPricings(context: SecurityCenterContext) {
     update: (
       scopeId: string,
       pricingName: string,
-      pricing: PricingsAPIPricing,
+      pricing: Pricing,
       options?: PricingsUpdateOptionalParams,
     ) => update(context, scopeId, pricingName, pricing, options),
     get: (scopeId: string, pricingName: string, options?: PricingsGetOptionalParams) =>

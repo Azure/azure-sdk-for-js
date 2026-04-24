@@ -5,119 +5,61 @@
 ```ts
 
 // @public
-export enum KnownSecuritySolutionsAPIAadConnectivityState {
-    Connected = "Connected",
-    Discovered = "Discovered",
-    NotLicensed = "NotLicensed"
-}
+export type AadConnectivityState = string;
 
 // @public
-export enum KnownSecuritySolutionsAPIConnectionType {
-    External = "External",
-    Internal = "Internal"
-}
-
-// @public
-export enum KnownSecuritySolutionsAPIExternalSecuritySolutionKind {
-    AAD = "AAD",
-    ATA = "ATA",
-    CEF = "CEF"
-}
-
-// @public
-export enum KnownSecuritySolutionsAPIProtocol {
-    // (undocumented)
-    All = "*",
-    TCP = "TCP",
-    UDP = "UDP"
-}
-
-// @public
-export enum KnownSecuritySolutionsAPISecurityFamily {
-    Ngfw = "Ngfw",
-    SaasWaf = "SaasWaf",
-    Va = "Va",
-    Waf = "Waf"
-}
-
-// @public
-export enum KnownSecuritySolutionsAPIServerVulnerabilityAssessmentPropertiesProvisioningState {
-    Canceled = "Canceled",
-    Deprovisioning = "Deprovisioning",
-    Failed = "Failed",
-    Provisioning = "Provisioning",
-    Succeeded = "Succeeded"
-}
-
-// @public
-export enum KnownSecuritySolutionsAPIStatus {
-    Initiated = "Initiated",
-    Revoked = "Revoked"
-}
-
-// @public
-export enum KnownSecuritySolutionsAPIStatusReason {
-    Expired = "Expired",
-    NewerRequestInitiated = "NewerRequestInitiated",
-    UserRequested = "UserRequested"
-}
-
-// @public
-export type SecuritySolutionsAPIAadConnectivityState = string;
-
-// @public
-export interface SecuritySolutionsAPIAadExternalSecuritySolution extends SecuritySolutionsAPIExternalSecuritySolution {
+export interface AadExternalSecuritySolution extends ExternalSecuritySolution {
     // (undocumented)
     kind: "AAD";
-    properties?: SecuritySolutionsAPIAadSolutionProperties;
+    properties?: AadSolutionProperties;
 }
 
 // @public
-export interface SecuritySolutionsAPIAadSolutionProperties {
+export interface AadSolutionProperties {
     additionalProperties?: Record<string, any>;
-    connectivityState?: SecuritySolutionsAPIAadConnectivityState;
+    connectivityState?: AadConnectivityState;
     // (undocumented)
     deviceType?: string;
     // (undocumented)
     deviceVendor?: string;
-    workspace?: SecuritySolutionsAPIConnectedWorkspace;
+    workspace?: ConnectedWorkspace;
 }
 
 // @public
-export interface SecuritySolutionsAPIAllowedConnectionsResource extends ProxyResource {
+export interface AllowedConnectionsResource extends ProxyResource {
     readonly calculatedDateTime?: Date;
-    readonly connectableResources?: SecuritySolutionsAPIConnectableResource[];
+    readonly connectableResources?: ConnectableResource[];
     readonly location: string;
 }
 
 // @public
-export interface SecuritySolutionsAPIAllowedConnectionsResourceProperties {
+export interface AllowedConnectionsResourceProperties {
     readonly calculatedDateTime?: Date;
-    readonly connectableResources?: SecuritySolutionsAPIConnectableResource[];
+    readonly connectableResources?: ConnectableResource[];
 }
 
 // @public
-export interface SecuritySolutionsAPIAtaExternalSecuritySolution extends SecuritySolutionsAPIExternalSecuritySolution {
+export interface AtaExternalSecuritySolution extends ExternalSecuritySolution {
     // (undocumented)
     kind: "ATA";
-    properties?: SecuritySolutionsAPIAtaSolutionProperties;
+    properties?: AtaSolutionProperties;
 }
 
 // @public
-export interface SecuritySolutionsAPIAtaSolutionProperties extends SecuritySolutionsAPIExternalSecuritySolutionProperties {
+export interface AtaSolutionProperties extends ExternalSecuritySolutionProperties {
     // (undocumented)
     lastEventReceived?: string;
 }
 
 // @public
-export interface SecuritySolutionsAPICefExternalSecuritySolution extends SecuritySolutionsAPIExternalSecuritySolution {
+export interface CefExternalSecuritySolution extends ExternalSecuritySolution {
     // (undocumented)
     kind: "CEF";
-    properties?: SecuritySolutionsAPICefSolutionProperties;
+    properties?: CefSolutionProperties;
 }
 
 // @public
-export interface SecuritySolutionsAPICefSolutionProperties extends SecuritySolutionsAPIExternalSecuritySolutionProperties {
+export interface CefSolutionProperties extends ExternalSecuritySolutionProperties {
     // (undocumented)
     agent?: string;
     // (undocumented)
@@ -127,79 +69,79 @@ export interface SecuritySolutionsAPICefSolutionProperties extends SecuritySolut
 }
 
 // @public
-export interface SecuritySolutionsAPIConnectableResource {
+export interface ConnectableResource {
     readonly id?: string;
-    readonly inboundConnectedResources?: SecuritySolutionsAPIConnectedResource[];
-    readonly outboundConnectedResources?: SecuritySolutionsAPIConnectedResource[];
+    readonly inboundConnectedResources?: ConnectedResource[];
+    readonly outboundConnectedResources?: ConnectedResource[];
 }
 
 // @public
-export interface SecuritySolutionsAPIConnectedResource {
+export interface ConnectedResource {
     readonly connectedResourceId?: string;
     readonly tcpPorts?: string;
     readonly udpPorts?: string;
 }
 
 // @public
-export interface SecuritySolutionsAPIConnectedWorkspace {
+export interface ConnectedWorkspace {
     id?: string;
 }
 
 // @public
-export type SecuritySolutionsAPIConnectionType = string;
+export type ConnectionType = string;
 
 // @public
-export interface SecuritySolutionsAPIDiscoveredSecuritySolution extends ProxyResource {
+export interface DiscoveredSecuritySolution extends ProxyResource {
     readonly location: string;
     offer: string;
     publisher: string;
-    securityFamily: SecuritySolutionsAPISecurityFamily;
+    securityFamily: SecurityFamily;
     sku: string;
 }
 
 // @public
-export interface SecuritySolutionsAPIDiscoveredSecuritySolutionProperties {
+export interface DiscoveredSecuritySolutionProperties {
     offer: string;
     publisher: string;
-    securityFamily: SecuritySolutionsAPISecurityFamily;
+    securityFamily: SecurityFamily;
     sku: string;
 }
 
 // @public
-export interface SecuritySolutionsAPIExternalSecuritySolution extends ProxyResource {
-    kind?: SecuritySolutionsAPIExternalSecuritySolutionKind;
+export interface ExternalSecuritySolution extends ProxyResource {
+    kind?: ExternalSecuritySolutionKind;
     readonly location: string;
     properties?: Record<string, any>;
 }
 
 // @public
-export type SecuritySolutionsAPIExternalSecuritySolutionKind = string;
+export type ExternalSecuritySolutionKind = string;
 
 // @public
-export interface SecuritySolutionsAPIExternalSecuritySolutionProperties {
+export interface ExternalSecuritySolutionProperties {
     additionalProperties?: Record<string, any>;
     // (undocumented)
     deviceType?: string;
     // (undocumented)
     deviceVendor?: string;
-    workspace?: SecuritySolutionsAPIConnectedWorkspace;
+    workspace?: ConnectedWorkspace;
 }
 
 // @public
-export type SecuritySolutionsAPIExternalSecuritySolutionUnion = SecuritySolutionsAPICefExternalSecuritySolution | SecuritySolutionsAPIAtaExternalSecuritySolution | SecuritySolutionsAPIAadExternalSecuritySolution | SecuritySolutionsAPIExternalSecuritySolution;
+export type ExternalSecuritySolutionUnion = CefExternalSecuritySolution | AtaExternalSecuritySolution | AadExternalSecuritySolution | ExternalSecuritySolution;
 
 // @public
-export interface SecuritySolutionsAPIJitNetworkAccessPolicy extends ProxyResource {
+export interface JitNetworkAccessPolicy extends ProxyResource {
     kind?: string;
     readonly location: string;
     readonly provisioningState?: string;
     // (undocumented)
-    requests?: SecuritySolutionsAPIJitNetworkAccessRequest[];
-    virtualMachines: SecuritySolutionsAPIJitNetworkAccessPolicyVirtualMachine[];
+    requests?: JitNetworkAccessRequest[];
+    virtualMachines: JitNetworkAccessPolicyVirtualMachine[];
 }
 
 // @public
-export interface SecuritySolutionsAPIJitNetworkAccessPolicyInitiatePort {
+export interface JitNetworkAccessPolicyInitiatePort {
     allowedSourceAddressPrefix?: string;
     endTimeUtc: Date;
     // (undocumented)
@@ -207,95 +149,153 @@ export interface SecuritySolutionsAPIJitNetworkAccessPolicyInitiatePort {
 }
 
 // @public
-export interface SecuritySolutionsAPIJitNetworkAccessPolicyInitiateRequest {
+export interface JitNetworkAccessPolicyInitiateRequest {
     justification?: string;
-    virtualMachines: SecuritySolutionsAPIJitNetworkAccessPolicyInitiateVirtualMachine[];
+    virtualMachines: JitNetworkAccessPolicyInitiateVirtualMachine[];
 }
 
 // @public
-export interface SecuritySolutionsAPIJitNetworkAccessPolicyInitiateVirtualMachine {
+export interface JitNetworkAccessPolicyInitiateVirtualMachine {
     id: string;
-    ports: SecuritySolutionsAPIJitNetworkAccessPolicyInitiatePort[];
+    ports: JitNetworkAccessPolicyInitiatePort[];
 }
 
 // @public
-export interface SecuritySolutionsAPIJitNetworkAccessPolicyProperties {
+export interface JitNetworkAccessPolicyProperties {
     readonly provisioningState?: string;
     // (undocumented)
-    requests?: SecuritySolutionsAPIJitNetworkAccessRequest[];
-    virtualMachines: SecuritySolutionsAPIJitNetworkAccessPolicyVirtualMachine[];
+    requests?: JitNetworkAccessRequest[];
+    virtualMachines: JitNetworkAccessPolicyVirtualMachine[];
 }
 
 // @public
-export interface SecuritySolutionsAPIJitNetworkAccessPolicyVirtualMachine {
+export interface JitNetworkAccessPolicyVirtualMachine {
     id: string;
-    ports: SecuritySolutionsAPIJitNetworkAccessPortRule[];
+    ports: JitNetworkAccessPortRule[];
     publicIpAddress?: string;
 }
 
 // @public
-export interface SecuritySolutionsAPIJitNetworkAccessPortRule {
+export interface JitNetworkAccessPortRule {
     allowedSourceAddressPrefix?: string;
     allowedSourceAddressPrefixes?: string[];
     maxRequestAccessDuration: string;
     // (undocumented)
     number: number;
     // (undocumented)
-    protocol: SecuritySolutionsAPIProtocol;
+    protocol: Protocol;
 }
 
 // @public
-export interface SecuritySolutionsAPIJitNetworkAccessRequest {
+export interface JitNetworkAccessRequest {
     justification?: string;
     requestor: string;
     startTimeUtc: Date;
     // (undocumented)
-    virtualMachines: SecuritySolutionsAPIJitNetworkAccessRequestVirtualMachine[];
+    virtualMachines: JitNetworkAccessRequestVirtualMachine[];
 }
 
 // @public
-export interface SecuritySolutionsAPIJitNetworkAccessRequestPort {
+export interface JitNetworkAccessRequestPort {
     allowedSourceAddressPrefix?: string;
     allowedSourceAddressPrefixes?: string[];
     endTimeUtc: Date;
     mappedPort?: number;
     // (undocumented)
     number: number;
-    status: SecuritySolutionsAPIStatus;
-    statusReason: SecuritySolutionsAPIStatusReason;
+    status: Status;
+    statusReason: StatusReason;
 }
 
 // @public
-export interface SecuritySolutionsAPIJitNetworkAccessRequestVirtualMachine {
+export interface JitNetworkAccessRequestVirtualMachine {
     id: string;
-    ports: SecuritySolutionsAPIJitNetworkAccessRequestPort[];
+    ports: JitNetworkAccessRequestPort[];
 }
 
 // @public
-export type SecuritySolutionsAPIProtocol = string;
+export enum KnownAadConnectivityState {
+    Connected = "Connected",
+    Discovered = "Discovered",
+    NotLicensed = "NotLicensed"
+}
 
 // @public
-export type SecuritySolutionsAPISecurityFamily = string;
+export enum KnownConnectionType {
+    External = "External",
+    Internal = "Internal"
+}
 
 // @public
-export interface SecuritySolutionsAPISecuritySolution extends ProxyResource {
+export enum KnownExternalSecuritySolutionKind {
+    AAD = "AAD",
+    ATA = "ATA",
+    CEF = "CEF"
+}
+
+// @public
+export enum KnownProtocol {
+    // (undocumented)
+    All = "*",
+    TCP = "TCP",
+    UDP = "UDP"
+}
+
+// @public
+export enum KnownSecurityFamily {
+    Ngfw = "Ngfw",
+    SaasWaf = "SaasWaf",
+    Va = "Va",
+    Waf = "Waf"
+}
+
+// @public
+export enum KnownServerVulnerabilityAssessmentPropertiesProvisioningState {
+    Canceled = "Canceled",
+    Deprovisioning = "Deprovisioning",
+    Failed = "Failed",
+    Provisioning = "Provisioning",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownStatus {
+    Initiated = "Initiated",
+    Revoked = "Revoked"
+}
+
+// @public
+export enum KnownStatusReason {
+    Expired = "Expired",
+    NewerRequestInitiated = "NewerRequestInitiated",
+    UserRequested = "UserRequested"
+}
+
+// @public
+export type Protocol = string;
+
+// @public
+export type SecurityFamily = string;
+
+// @public
+export interface SecuritySolution extends ProxyResource {
     readonly location: string;
     protectionStatus?: string;
-    provisioningState?: CommonProvisioningState;
-    securityFamily?: SecuritySolutionsAPISecurityFamily;
+    provisioningState?: ProvisioningState;
+    securityFamily?: SecurityFamily;
     template?: string;
 }
 
 // @public
-export interface SecuritySolutionsAPISecuritySolutionProperties {
+export interface SecuritySolutionProperties {
     protectionStatus: string;
-    provisioningState: CommonProvisioningState;
-    securityFamily: SecuritySolutionsAPISecurityFamily;
+    provisioningState: ProvisioningState;
+    securityFamily: SecurityFamily;
     template: string;
 }
 
 // @public
-export interface SecuritySolutionsAPIsecuritySolutionsReferenceData {
+export interface SecuritySolutionsReferenceData {
     alertVendorName: string;
     readonly id?: string;
     readonly location?: string;
@@ -304,67 +304,67 @@ export interface SecuritySolutionsAPIsecuritySolutionsReferenceData {
     productName: string;
     publisher: string;
     publisherDisplayName: string;
-    securityFamily: SecuritySolutionsAPISecurityFamily;
+    securityFamily: SecurityFamily;
     readonly systemData?: SystemData;
     template: string;
     readonly type?: string;
 }
 
 // @public
-export interface SecuritySolutionsAPIsecuritySolutionsReferenceDataList {
+export interface SecuritySolutionsReferenceDataList {
     // (undocumented)
-    value?: SecuritySolutionsAPIsecuritySolutionsReferenceData[];
+    value?: SecuritySolutionsReferenceData[];
 }
 
 // @public
-export interface SecuritySolutionsAPIsecuritySolutionsReferenceDataProperties {
+export interface SecuritySolutionsReferenceDataProperties {
     alertVendorName: string;
     packageInfoUrl: string;
     productName: string;
     publisher: string;
     publisherDisplayName: string;
-    securityFamily: SecuritySolutionsAPISecurityFamily;
+    securityFamily: SecurityFamily;
     template: string;
 }
 
 // @public
-export interface SecuritySolutionsAPIServerVulnerabilityAssessment extends ProxyResource {
-    readonly provisioningState?: SecuritySolutionsAPIServerVulnerabilityAssessmentPropertiesProvisioningState;
+export interface ServerVulnerabilityAssessment extends ProxyResource {
+    readonly provisioningState?: ServerVulnerabilityAssessmentPropertiesProvisioningState;
 }
 
 // @public
-export interface SecuritySolutionsAPIServerVulnerabilityAssessmentProperties {
-    readonly provisioningState?: SecuritySolutionsAPIServerVulnerabilityAssessmentPropertiesProvisioningState;
+export interface ServerVulnerabilityAssessmentProperties {
+    readonly provisioningState?: ServerVulnerabilityAssessmentPropertiesProvisioningState;
 }
 
 // @public
-export type SecuritySolutionsAPIServerVulnerabilityAssessmentPropertiesProvisioningState = string;
+export type ServerVulnerabilityAssessmentPropertiesProvisioningState = string;
 
 // @public
-export type SecuritySolutionsAPIStatus = string;
+export type Status = string;
 
 // @public
-export type SecuritySolutionsAPIStatusReason = string;
+export type StatusReason = string;
 
 // @public
-export interface SecuritySolutionsAPITopologyResource extends ProxyResource {
+export interface TopologyResource extends ProxyResource {
     readonly calculatedDateTime?: Date;
     readonly location: string;
-    readonly topologyResources?: SecuritySolutionsAPITopologySingleResource[];
+    readonly topologyResources?: TopologySingleResource[];
 }
 
 // @public
-export interface SecuritySolutionsAPITopologyResourceProperties {
+export interface TopologyResourceProperties {
     readonly calculatedDateTime?: Date;
-    readonly topologyResources?: SecuritySolutionsAPITopologySingleResource[];
+    readonly topologyResources?: TopologySingleResource[];
 }
 
 // @public
-export interface SecuritySolutionsAPITopologySingleResource {
-    readonly children?: SecuritySolutionsAPITopologySingleResourceChild[];
+export interface TopologySingleResource {
+    readonly children?: TopologySingleResourceChild[];
     readonly location?: string;
     readonly networkZones?: string;
-    readonly parents?: SecuritySolutionsAPITopologySingleResourceParent[];
+    readonly parents?: TopologySingleResourceParent[];
     readonly recommendationsExist?: boolean;
     readonly resourceId?: string;
     readonly severity?: string;
@@ -372,12 +372,12 @@ export interface SecuritySolutionsAPITopologySingleResource {
 }
 
 // @public
-export interface SecuritySolutionsAPITopologySingleResourceChild {
+export interface TopologySingleResourceChild {
     readonly resourceId?: string;
 }
 
 // @public
-export interface SecuritySolutionsAPITopologySingleResourceParent {
+export interface TopologySingleResourceParent {
     readonly resourceId?: string;
 }
 

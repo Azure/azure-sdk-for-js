@@ -7,8 +7,8 @@ import {
   errorResponseDeserializer,
   _privateLinkGroupResourceListResultDeserializer,
 } from "../../models/models.js";
-import type { PrivateLinksAPIPrivateLinkGroupResource } from "../../models/privateLinksAPI/models.js";
-import { privateLinksAPIPrivateLinkGroupResourceDeserializer } from "../../models/privateLinksAPI/models.js";
+import type { PrivateLinkGroupResource } from "../../models/privateLinksAPI/models.js";
+import { privateLinkGroupResourceDeserializer } from "../../models/privateLinksAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -61,7 +61,7 @@ export function list(
   context: Client,
   resourceGroupName: string,
   options: PrivateLinkResourcesListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<PrivateLinksAPIPrivateLinkGroupResource> {
+): PagedAsyncIterableIterator<PrivateLinkGroupResource> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, resourceGroupName, options),
@@ -98,7 +98,7 @@ export function _getSend(
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<PrivateLinksAPIPrivateLinkGroupResource> {
+): Promise<PrivateLinkGroupResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -107,7 +107,7 @@ export async function _getDeserialize(
     throw error;
   }
 
-  return privateLinksAPIPrivateLinkGroupResourceDeserializer(result.body);
+  return privateLinkGroupResourceDeserializer(result.body);
 }
 
 /** Get the specified private link resource associated with the private link. */
@@ -116,7 +116,7 @@ export async function get(
   resourceGroupName: string,
   groupId: string,
   options: PrivateLinkResourcesGetOptionalParams = { requestOptions: {} },
-): Promise<PrivateLinksAPIPrivateLinkGroupResource> {
+): Promise<PrivateLinkGroupResource> {
   const result = await _getSend(context, resourceGroupName, groupId, options);
   return _getDeserialize(result);
 }

@@ -4,12 +4,12 @@
 import type { SecurityCenterContext as Client } from "../index.js";
 import { errorResponseDeserializer } from "../../models/models.js";
 import type {
-  SecurityConnectorsDevOpsAPIGitHubOwner,
-  SecurityConnectorsDevOpsAPIGitHubOwnerListResponse,
+  GitHubOwner,
+  GitHubOwnerListResponse,
 } from "../../models/securityConnectorsDevOpsAPI/models.js";
 import {
-  securityConnectorsDevOpsAPIGitHubOwnerDeserializer,
-  securityConnectorsDevOpsAPIGitHubOwnerListResponseDeserializer,
+  gitHubOwnerDeserializer,
+  gitHubOwnerListResponseDeserializer,
 } from "../../models/securityConnectorsDevOpsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -48,7 +48,7 @@ export function _listAvailableSend(
 
 export async function _listAvailableDeserialize(
   result: PathUncheckedResponse,
-): Promise<SecurityConnectorsDevOpsAPIGitHubOwnerListResponse> {
+): Promise<GitHubOwnerListResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -57,7 +57,7 @@ export async function _listAvailableDeserialize(
     throw error;
   }
 
-  return securityConnectorsDevOpsAPIGitHubOwnerListResponseDeserializer(result.body);
+  return gitHubOwnerListResponseDeserializer(result.body);
 }
 
 /** Returns a list of all GitHub owners accessible by the user token consumed by the connector. */
@@ -66,7 +66,7 @@ export async function listAvailable(
   resourceGroupName: string,
   securityConnectorName: string,
   options: GitHubOwnersListAvailableOptionalParams = { requestOptions: {} },
-): Promise<SecurityConnectorsDevOpsAPIGitHubOwnerListResponse> {
+): Promise<GitHubOwnerListResponse> {
   const result = await _listAvailableSend(
     context,
     resourceGroupName,
@@ -102,7 +102,7 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<SecurityConnectorsDevOpsAPIGitHubOwnerListResponse> {
+): Promise<GitHubOwnerListResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -111,7 +111,7 @@ export async function _listDeserialize(
     throw error;
   }
 
-  return securityConnectorsDevOpsAPIGitHubOwnerListResponseDeserializer(result.body);
+  return gitHubOwnerListResponseDeserializer(result.body);
 }
 
 /** Returns a list of GitHub owners onboarded to the connector. */
@@ -120,7 +120,7 @@ export function list(
   resourceGroupName: string,
   securityConnectorName: string,
   options: GitHubOwnersListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<SecurityConnectorsDevOpsAPIGitHubOwner> {
+): PagedAsyncIterableIterator<GitHubOwner> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, resourceGroupName, securityConnectorName, options),
@@ -156,9 +156,7 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<SecurityConnectorsDevOpsAPIGitHubOwner> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<GitHubOwner> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -167,7 +165,7 @@ export async function _getDeserialize(
     throw error;
   }
 
-  return securityConnectorsDevOpsAPIGitHubOwnerDeserializer(result.body);
+  return gitHubOwnerDeserializer(result.body);
 }
 
 /** Returns a monitored GitHub owner. */
@@ -177,7 +175,7 @@ export async function get(
   securityConnectorName: string,
   ownerName: string,
   options: GitHubOwnersGetOptionalParams = { requestOptions: {} },
-): Promise<SecurityConnectorsDevOpsAPIGitHubOwner> {
+): Promise<GitHubOwner> {
   const result = await _getSend(
     context,
     resourceGroupName,

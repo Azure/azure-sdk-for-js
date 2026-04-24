@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 import type { SecurityCenterContext as Client } from "../index.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
 import type {
-  SecuritySolutionsAPIAllowedConnectionsResource,
-  SecuritySolutionsAPIConnectionType,
-  _SecuritySolutionsAPIAllowedConnectionsList,
+  AllowedConnectionsResource,
+  ConnectionType,
+  _AllowedConnectionsList,
 } from "../../models/securitySolutionsAPI/models.js";
 import {
-  securitySolutionsAPIAllowedConnectionsResourceDeserializer,
-  _securitySolutionsAPIAllowedConnectionsListDeserializer,
+  allowedConnectionsResourceDeserializer,
+  _allowedConnectionsListDeserializer,
 } from "../../models/securitySolutionsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -45,23 +45,23 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_SecuritySolutionsAPIAllowedConnectionsList> {
+): Promise<_AllowedConnectionsList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _securitySolutionsAPIAllowedConnectionsListDeserializer(result.body);
+  return _allowedConnectionsListDeserializer(result.body);
 }
 
 /** Gets the list of all possible traffic between resources for the subscription */
 export function list(
   context: Client,
   options: AllowedConnectionsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<SecuritySolutionsAPIAllowedConnectionsResource> {
+): PagedAsyncIterableIterator<AllowedConnectionsResource> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, options),
@@ -95,16 +95,16 @@ export function _listByHomeRegionSend(
 
 export async function _listByHomeRegionDeserialize(
   result: PathUncheckedResponse,
-): Promise<_SecuritySolutionsAPIAllowedConnectionsList> {
+): Promise<_AllowedConnectionsList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _securitySolutionsAPIAllowedConnectionsListDeserializer(result.body);
+  return _allowedConnectionsListDeserializer(result.body);
 }
 
 /** Gets the list of all possible traffic between resources for the subscription and location. */
@@ -112,7 +112,7 @@ export function listByHomeRegion(
   context: Client,
   ascLocation: string,
   options: AllowedConnectionsListByHomeRegionOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<SecuritySolutionsAPIAllowedConnectionsResource> {
+): PagedAsyncIterableIterator<AllowedConnectionsResource> {
   return buildPagedAsyncIterator(
     context,
     () => _listByHomeRegionSend(context, ascLocation, options),
@@ -126,7 +126,7 @@ export function _getSend(
   context: Client,
   resourceGroupName: string,
   ascLocation: string,
-  connectionType: SecuritySolutionsAPIConnectionType,
+  connectionType: ConnectionType,
   options: AllowedConnectionsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -150,16 +150,16 @@ export function _getSend(
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<SecuritySolutionsAPIAllowedConnectionsResource> {
+): Promise<AllowedConnectionsResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return securitySolutionsAPIAllowedConnectionsResourceDeserializer(result.body);
+  return allowedConnectionsResourceDeserializer(result.body);
 }
 
 /** Gets the list of all possible traffic between resources for the subscription and location, based on connection type. */
@@ -167,9 +167,9 @@ export async function get(
   context: Client,
   resourceGroupName: string,
   ascLocation: string,
-  connectionType: SecuritySolutionsAPIConnectionType,
+  connectionType: ConnectionType,
   options: AllowedConnectionsGetOptionalParams = { requestOptions: {} },
-): Promise<SecuritySolutionsAPIAllowedConnectionsResource> {
+): Promise<AllowedConnectionsResource> {
   const result = await _getSend(context, resourceGroupName, ascLocation, connectionType, options);
   return _getDeserialize(result);
 }

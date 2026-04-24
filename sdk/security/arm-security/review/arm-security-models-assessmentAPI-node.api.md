@@ -5,221 +5,53 @@
 ```ts
 
 // @public
-export interface AssessmentAPIAssessmentLinks {
+export interface AssessmentLinks {
     readonly azurePortalUri?: string;
 }
 
 // @public
-export interface AssessmentAPIAssessmentStatus {
+export interface AssessmentStatus {
     cause?: string;
-    code: AssessmentAPIAssessmentStatusCode;
+    code: AssessmentStatusCode;
     description?: string;
 }
 
 // @public
-export type AssessmentAPIAssessmentStatusCode = string;
+export type AssessmentStatusCode = string;
 
 // @public
-export interface AssessmentAPIAssessmentStatusResponse extends AssessmentAPIAssessmentStatus {
+export interface AssessmentStatusResponse extends AssessmentStatus {
     readonly firstEvaluationDate?: Date;
     readonly statusChangeDate?: Date;
 }
 
 // @public
-export type AssessmentAPIAssessmentType = string;
+export type AssessmentType = string;
 
 // @public
-export interface AssessmentAPIAzureResourceDetails extends CommonResourceDetails {
+export interface AzureResourceDetails extends ResourceDetails {
     readonly id?: string;
     source: "Azure";
 }
 
 // @public
-export type AssessmentAPICategories = string;
+export type Categories = string;
 
 // @public
-export type AssessmentAPIExpandEnum = string;
+export type ExpandEnum = string;
 
 // @public
-export type AssessmentAPIImplementationEffort = string;
+export type ImplementationEffort = string;
 
 // @public
-export type AssessmentAPIRiskLevel = string;
-
-// @public
-export interface AssessmentAPISecurityAssessment extends Resource {
-    additionalData?: Record<string, string>;
-    readonly displayName?: string;
-    readonly links?: AssessmentAPIAssessmentLinks;
-    metadata?: AssessmentAPISecurityAssessmentMetadataProperties;
-    partnersData?: AssessmentAPISecurityAssessmentPartnerData;
-    resourceDetails?: CommonResourceDetailsUnion;
-    risk?: AssessmentAPISecurityAssessmentPropertiesBaseRisk;
-    status?: AssessmentAPIAssessmentStatus;
-}
-
-// @public
-export interface AssessmentAPISecurityAssessmentMetadataPartnerData {
-    partnerName: string;
-    productName?: string;
-    secret: string;
-}
-
-// @public
-export interface AssessmentAPISecurityAssessmentMetadataProperties {
-    assessmentType: AssessmentAPIAssessmentType;
-    // (undocumented)
-    categories?: AssessmentAPICategories[];
-    description?: string;
-    displayName: string;
-    implementationEffort?: AssessmentAPIImplementationEffort;
-    partnerData?: AssessmentAPISecurityAssessmentMetadataPartnerData;
-    readonly policyDefinitionId?: string;
-    preview?: boolean;
-    remediationDescription?: string;
-    severity: CommonSeverity;
-    // (undocumented)
-    threats?: AssessmentAPIThreats[];
-    userImpact?: AssessmentAPIUserImpact;
-}
-
-// @public
-export interface AssessmentAPISecurityAssessmentMetadataPropertiesResponse extends AssessmentAPISecurityAssessmentMetadataProperties {
-    // (undocumented)
-    plannedDeprecationDate?: string;
-    // (undocumented)
-    publishDates?: AssessmentAPISecurityAssessmentMetadataPropertiesResponsePublishDates;
-    // (undocumented)
-    tactics?: AssessmentAPITactics[];
-    // (undocumented)
-    techniques?: AssessmentAPITechniques[];
-}
-
-// @public
-export interface AssessmentAPISecurityAssessmentMetadataPropertiesResponsePublishDates {
-    // (undocumented)
-    ga?: string;
-    // (undocumented)
-    public: string;
-}
-
-// @public
-export interface AssessmentAPISecurityAssessmentMetadataResponse extends ProxyResource {
-    assessmentType?: AssessmentAPIAssessmentType;
-    // (undocumented)
-    categories?: AssessmentAPICategories[];
-    description?: string;
-    displayName?: string;
-    implementationEffort?: AssessmentAPIImplementationEffort;
-    partnerData?: AssessmentAPISecurityAssessmentMetadataPartnerData;
-    // (undocumented)
-    plannedDeprecationDate?: string;
-    readonly policyDefinitionId?: string;
-    preview?: boolean;
-    // (undocumented)
-    publishDates?: AssessmentAPISecurityAssessmentMetadataPropertiesResponsePublishDates;
-    remediationDescription?: string;
-    severity?: CommonSeverity;
-    // (undocumented)
-    tactics?: AssessmentAPITactics[];
-    // (undocumented)
-    techniques?: AssessmentAPITechniques[];
-    // (undocumented)
-    threats?: AssessmentAPIThreats[];
-    userImpact?: AssessmentAPIUserImpact;
-}
-
-// @public
-export interface AssessmentAPISecurityAssessmentPartnerData {
-    partnerName: string;
-    secret: string;
-}
-
-// @public
-export interface AssessmentAPISecurityAssessmentProperties extends AssessmentAPISecurityAssessmentPropertiesBase {
-    status: AssessmentAPIAssessmentStatus;
-}
-
-// @public
-export interface AssessmentAPISecurityAssessmentPropertiesBase {
-    additionalData?: Record<string, string>;
-    readonly displayName?: string;
-    readonly links?: AssessmentAPIAssessmentLinks;
-    metadata?: AssessmentAPISecurityAssessmentMetadataProperties;
-    partnersData?: AssessmentAPISecurityAssessmentPartnerData;
-    resourceDetails: CommonResourceDetailsUnion;
-    risk?: AssessmentAPISecurityAssessmentPropertiesBaseRisk;
-}
-
-// @public
-export interface AssessmentAPISecurityAssessmentPropertiesBaseRisk {
-    attackPathsReferences?: string[];
-    isContextualRisk?: boolean;
-    level?: AssessmentAPIRiskLevel;
-    // (undocumented)
-    paths?: AssessmentAPISecurityAssessmentPropertiesBaseRiskPathsItem[];
-    riskFactors?: string[];
-}
-
-// @public
-export interface AssessmentAPISecurityAssessmentPropertiesBaseRiskPathsItem {
-    edges?: AssessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemEdgeItem[];
-    id?: string;
-    // (undocumented)
-    nodes?: AssessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemNodesItem[];
-}
-
-// @public
-export interface AssessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemEdgeItem {
-    id: string;
-    sourceId: string;
-    targetId: string;
-}
-
-// @public
-export interface AssessmentAPISecurityAssessmentPropertiesBaseRiskPathsItemNodesItem {
-    id?: string;
-    nodePropertiesLabel?: string[];
-}
-
-// @public
-export interface AssessmentAPISecurityAssessmentPropertiesResponse extends AssessmentAPISecurityAssessmentPropertiesBase {
-    status: AssessmentAPIAssessmentStatusResponse;
-}
-
-// @public
-export interface AssessmentAPISecurityAssessmentResponse extends ExtensionResource {
-    additionalData?: Record<string, string>;
-    readonly displayName?: string;
-    readonly links?: AssessmentAPIAssessmentLinks;
-    metadata?: AssessmentAPISecurityAssessmentMetadataProperties;
-    partnersData?: AssessmentAPISecurityAssessmentPartnerData;
-    resourceDetails?: CommonResourceDetailsUnion;
-    risk?: AssessmentAPISecurityAssessmentPropertiesBaseRisk;
-    status?: AssessmentAPIAssessmentStatusResponse;
-}
-
-// @public
-export type AssessmentAPITactics = string;
-
-// @public
-export type AssessmentAPITechniques = string;
-
-// @public
-export type AssessmentAPIThreats = string;
-
-// @public
-export type AssessmentAPIUserImpact = string;
-
-// @public
-export enum KnownAssessmentAPIAssessmentStatusCode {
+export enum KnownAssessmentStatusCode {
     Healthy = "Healthy",
     NotApplicable = "NotApplicable",
     Unhealthy = "Unhealthy"
 }
 
 // @public
-export enum KnownAssessmentAPIAssessmentType {
+export enum KnownAssessmentType {
     BuiltIn = "BuiltIn",
     BuiltInPolicy = "BuiltInPolicy",
     Custom = "Custom",
@@ -234,7 +66,7 @@ export enum KnownAssessmentAPIAssessmentType {
 }
 
 // @public
-export enum KnownAssessmentAPICategories {
+export enum KnownCategories {
     AppServices = "AppServices",
     Compute = "Compute",
     Container = "Container",
@@ -245,20 +77,20 @@ export enum KnownAssessmentAPICategories {
 }
 
 // @public
-export enum KnownAssessmentAPIExpandEnum {
+export enum KnownExpandEnum {
     Links = "links",
     Metadata = "metadata"
 }
 
 // @public
-export enum KnownAssessmentAPIImplementationEffort {
+export enum KnownImplementationEffort {
     High = "High",
     Low = "Low",
     Moderate = "Moderate"
 }
 
 // @public
-export enum KnownAssessmentAPIRiskLevel {
+export enum KnownRiskLevel {
     Critical = "Critical",
     High = "High",
     Low = "Low",
@@ -267,7 +99,7 @@ export enum KnownAssessmentAPIRiskLevel {
 }
 
 // @public
-export enum KnownAssessmentAPITactics {
+export enum KnownTactics {
     Collection = "Collection",
     CommandAndControl = "Command and Control",
     CredentialAccess = "Credential Access",
@@ -285,7 +117,7 @@ export enum KnownAssessmentAPITactics {
 }
 
 // @public
-export enum KnownAssessmentAPITechniques {
+export enum KnownTechniques {
     AbuseElevationControlMechanism = "Abuse Elevation Control Mechanism",
     AccessTokenManipulation = "Access Token Manipulation",
     AccountDiscovery = "Account Discovery",
@@ -393,7 +225,7 @@ export enum KnownAssessmentAPITechniques {
 }
 
 // @public
-export enum KnownAssessmentAPIThreats {
+export enum KnownThreats {
     AccountBreach = "accountBreach",
     DataExfiltration = "dataExfiltration",
     DataSpillage = "dataSpillage",
@@ -405,11 +237,179 @@ export enum KnownAssessmentAPIThreats {
 }
 
 // @public
-export enum KnownAssessmentAPIUserImpact {
+export enum KnownUserImpact {
     High = "High",
     Low = "Low",
     Moderate = "Moderate"
 }
+
+// @public
+export type RiskLevel = string;
+
+// @public
+export interface SecurityAssessment extends Resource {
+    additionalData?: Record<string, string>;
+    readonly displayName?: string;
+    readonly links?: AssessmentLinks;
+    metadata?: SecurityAssessmentMetadataProperties;
+    partnersData?: SecurityAssessmentPartnerData;
+    resourceDetails?: ResourceDetailsUnion;
+    risk?: SecurityAssessmentPropertiesBaseRisk;
+    status?: AssessmentStatus;
+}
+
+// @public
+export interface SecurityAssessmentMetadataPartnerData {
+    partnerName: string;
+    productName?: string;
+    secret: string;
+}
+
+// @public
+export interface SecurityAssessmentMetadataProperties {
+    assessmentType: AssessmentType;
+    // (undocumented)
+    categories?: Categories[];
+    description?: string;
+    displayName: string;
+    implementationEffort?: ImplementationEffort;
+    partnerData?: SecurityAssessmentMetadataPartnerData;
+    readonly policyDefinitionId?: string;
+    preview?: boolean;
+    remediationDescription?: string;
+    severity: Severity;
+    // (undocumented)
+    threats?: Threats[];
+    userImpact?: UserImpact;
+}
+
+// @public
+export interface SecurityAssessmentMetadataPropertiesResponse extends SecurityAssessmentMetadataProperties {
+    // (undocumented)
+    plannedDeprecationDate?: string;
+    // (undocumented)
+    publishDates?: SecurityAssessmentMetadataPropertiesResponsePublishDates;
+    // (undocumented)
+    tactics?: Tactics[];
+    // (undocumented)
+    techniques?: Techniques[];
+}
+
+// @public
+export interface SecurityAssessmentMetadataPropertiesResponsePublishDates {
+    // (undocumented)
+    ga?: string;
+    // (undocumented)
+    public: string;
+}
+
+// @public
+export interface SecurityAssessmentMetadataResponse extends ProxyResource {
+    assessmentType?: AssessmentType;
+    // (undocumented)
+    categories?: Categories[];
+    description?: string;
+    displayName?: string;
+    implementationEffort?: ImplementationEffort;
+    partnerData?: SecurityAssessmentMetadataPartnerData;
+    // (undocumented)
+    plannedDeprecationDate?: string;
+    readonly policyDefinitionId?: string;
+    preview?: boolean;
+    // (undocumented)
+    publishDates?: SecurityAssessmentMetadataPropertiesResponsePublishDates;
+    remediationDescription?: string;
+    severity?: Severity;
+    // (undocumented)
+    tactics?: Tactics[];
+    // (undocumented)
+    techniques?: Techniques[];
+    // (undocumented)
+    threats?: Threats[];
+    userImpact?: UserImpact;
+}
+
+// @public
+export interface SecurityAssessmentPartnerData {
+    partnerName: string;
+    secret: string;
+}
+
+// @public
+export interface SecurityAssessmentProperties extends SecurityAssessmentPropertiesBase {
+    status: AssessmentStatus;
+}
+
+// @public
+export interface SecurityAssessmentPropertiesBase {
+    additionalData?: Record<string, string>;
+    readonly displayName?: string;
+    readonly links?: AssessmentLinks;
+    metadata?: SecurityAssessmentMetadataProperties;
+    partnersData?: SecurityAssessmentPartnerData;
+    resourceDetails: ResourceDetailsUnion;
+    risk?: SecurityAssessmentPropertiesBaseRisk;
+}
+
+// @public
+export interface SecurityAssessmentPropertiesBaseRisk {
+    attackPathsReferences?: string[];
+    isContextualRisk?: boolean;
+    level?: RiskLevel;
+    // (undocumented)
+    paths?: SecurityAssessmentPropertiesBaseRiskPathsItem[];
+    riskFactors?: string[];
+}
+
+// @public
+export interface SecurityAssessmentPropertiesBaseRiskPathsItem {
+    edges?: SecurityAssessmentPropertiesBaseRiskPathsItemEdgeItem[];
+    id?: string;
+    // (undocumented)
+    nodes?: SecurityAssessmentPropertiesBaseRiskPathsItemNodesItem[];
+}
+
+// @public
+export interface SecurityAssessmentPropertiesBaseRiskPathsItemEdgeItem {
+    id: string;
+    sourceId: string;
+    targetId: string;
+}
+
+// @public
+export interface SecurityAssessmentPropertiesBaseRiskPathsItemNodesItem {
+    id?: string;
+    nodePropertiesLabel?: string[];
+}
+
+// @public
+export interface SecurityAssessmentPropertiesResponse extends SecurityAssessmentPropertiesBase {
+    status: AssessmentStatusResponse;
+}
+
+// @public
+export interface SecurityAssessmentResponse extends ExtensionResource {
+    additionalData?: Record<string, string>;
+    readonly displayName?: string;
+    readonly links?: AssessmentLinks;
+    metadata?: SecurityAssessmentMetadataProperties;
+    partnersData?: SecurityAssessmentPartnerData;
+    resourceDetails?: ResourceDetailsUnion;
+    risk?: SecurityAssessmentPropertiesBaseRisk;
+    status?: AssessmentStatusResponse;
+}
+
+// @public
+export type Tactics = string;
+
+// @public
+export type Techniques = string;
+
+// @public
+export type Threats = string;
+
+// @public
+export type UserImpact = string;
 
 // (No @packageDocumentation comment for this package)
 

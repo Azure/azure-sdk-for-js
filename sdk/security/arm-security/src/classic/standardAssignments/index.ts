@@ -9,7 +9,7 @@ import type {
   StandardAssignmentsCreateOptionalParams,
   StandardAssignmentsGetOptionalParams,
 } from "../../api/standardAssignments/options.js";
-import type { SecurityStandardsAPIStandardAssignment } from "../../models/securityStandardsAPI/models.js";
+import type { StandardAssignment } from "../../models/securityStandardsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a StandardAssignments operations. */
@@ -18,7 +18,7 @@ export interface StandardAssignmentsOperations {
   list: (
     scope: string,
     options?: StandardAssignmentsListOptionalParams,
-  ) => PagedAsyncIterableIterator<SecurityStandardsAPIStandardAssignment>;
+  ) => PagedAsyncIterableIterator<StandardAssignment>;
   /** This operation deletes a standard assignment, given its name and the scope it was created in. The scope of a standard assignment is the part of its ID preceding '/providers/Microsoft.Security/standardAssignments/{standardAssignmentName}'. */
   delete: (
     resourceId: string,
@@ -29,15 +29,15 @@ export interface StandardAssignmentsOperations {
   create: (
     resourceId: string,
     standardAssignmentName: string,
-    standardAssignment: SecurityStandardsAPIStandardAssignment,
+    standardAssignment: StandardAssignment,
     options?: StandardAssignmentsCreateOptionalParams,
-  ) => Promise<SecurityStandardsAPIStandardAssignment>;
+  ) => Promise<StandardAssignment>;
   /** This operation retrieves a single standard assignment, given its name and the scope it was created at. */
   get: (
     resourceId: string,
     standardAssignmentName: string,
     options?: StandardAssignmentsGetOptionalParams,
-  ) => Promise<SecurityStandardsAPIStandardAssignment>;
+  ) => Promise<StandardAssignment>;
 }
 
 function _getStandardAssignments(context: SecurityCenterContext) {
@@ -52,7 +52,7 @@ function _getStandardAssignments(context: SecurityCenterContext) {
     create: (
       resourceId: string,
       standardAssignmentName: string,
-      standardAssignment: SecurityStandardsAPIStandardAssignment,
+      standardAssignment: StandardAssignment,
       options?: StandardAssignmentsCreateOptionalParams,
     ) => create(context, resourceId, standardAssignmentName, standardAssignment, options),
     get: (

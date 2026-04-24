@@ -5,7 +5,7 @@
 ```ts
 
 // @public
-export interface HealthReportsAPIenvironmentDetails {
+export interface EnvironmentDetails {
     environmentHierarchyId?: string;
     nativeResourceId?: string;
     organizationalHierarchyId?: string;
@@ -14,38 +14,38 @@ export interface HealthReportsAPIenvironmentDetails {
 }
 
 // @public
-export interface HealthReportsAPIhealthDataClassification {
+export interface HealthDataClassification {
     component?: string;
     scenario?: string;
     scope?: string;
 }
 
 // @public
-export interface HealthReportsAPIHealthReport extends ExtensionResource {
+export interface HealthReport extends ExtensionResource {
     affectedDefendersPlans?: string[];
     affectedDefendersSubPlans?: string[];
-    environmentDetails?: HealthReportsAPIenvironmentDetails;
-    healthDataClassification?: HealthReportsAPIhealthDataClassification;
-    issues?: HealthReportsAPIissue[];
+    environmentDetails?: EnvironmentDetails;
+    healthDataClassification?: HealthDataClassification;
+    issues?: Issue[];
     readonly reportAdditionalData?: Record<string, string>;
-    resourceDetails?: HealthReportsAPIresourceDetails;
-    status?: HealthReportsAPIstatus;
+    resourceDetails?: ResourceDetails;
+    status?: Status;
 }
 
 // @public
-export interface HealthReportsAPIHealthReportProperties {
+export interface HealthReportProperties {
     affectedDefendersPlans?: string[];
     affectedDefendersSubPlans?: string[];
-    environmentDetails?: HealthReportsAPIenvironmentDetails;
-    healthDataClassification?: HealthReportsAPIhealthDataClassification;
-    issues?: HealthReportsAPIissue[];
+    environmentDetails?: EnvironmentDetails;
+    healthDataClassification?: HealthDataClassification;
+    issues?: Issue[];
     readonly reportAdditionalData?: Record<string, string>;
-    resourceDetails?: HealthReportsAPIresourceDetails;
-    status?: HealthReportsAPIstatus;
+    resourceDetails?: ResourceDetails;
+    status?: Status;
 }
 
 // @public
-export interface HealthReportsAPIissue {
+export interface Issue {
     issueAdditionalData?: Record<string, string>;
     issueDescription?: string;
     issueKey: string;
@@ -56,15 +56,22 @@ export interface HealthReportsAPIissue {
 }
 
 // @public
-export interface HealthReportsAPIresourceDetails {
-    readonly connectorId?: string;
-    readonly id?: string;
-    source?: CommonSource;
+export enum KnownStatusName {
+    Healthy = "Healthy",
+    NotApplicable = "NotApplicable",
+    NotHealthy = "NotHealthy"
 }
 
 // @public
-export interface HealthReportsAPIstatus {
-    code?: HealthReportsAPIStatusName;
+export interface ResourceDetails {
+    readonly connectorId?: string;
+    readonly id?: string;
+    source?: Source;
+}
+
+// @public
+export interface Status {
+    code?: StatusName;
     readonly firstEvaluationDate?: Date;
     readonly lastScannedDate?: Date;
     readonly reason?: string;
@@ -72,14 +79,7 @@ export interface HealthReportsAPIstatus {
 }
 
 // @public
-export type HealthReportsAPIStatusName = string;
-
-// @public
-export enum KnownHealthReportsAPIStatusName {
-    Healthy = "Healthy",
-    NotApplicable = "NotApplicable",
-    NotHealthy = "NotHealthy"
-}
+export type StatusName = string;
 
 // (No @packageDocumentation comment for this package)
 

@@ -9,7 +9,7 @@ import type {
   AlertsSuppressionRulesUpdateOptionalParams,
   AlertsSuppressionRulesGetOptionalParams,
 } from "../../api/alertsSuppressionRules/options.js";
-import type { AlertsSuppressionRulesAPIAlertsSuppressionRule } from "../../models/alertsSuppressionRulesAPI/models.js";
+import type { AlertsSuppressionRule } from "../../models/alertsSuppressionRulesAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AlertsSuppressionRules operations. */
@@ -17,7 +17,7 @@ export interface AlertsSuppressionRulesOperations {
   /** List of all the dismiss rules for the given subscription */
   list: (
     options?: AlertsSuppressionRulesListOptionalParams,
-  ) => PagedAsyncIterableIterator<AlertsSuppressionRulesAPIAlertsSuppressionRule>;
+  ) => PagedAsyncIterableIterator<AlertsSuppressionRule>;
   /** Delete dismiss alert rule for this subscription. */
   delete: (
     alertsSuppressionRuleName: string,
@@ -26,14 +26,14 @@ export interface AlertsSuppressionRulesOperations {
   /** Update existing rule or create new rule if it doesn't exist */
   update: (
     alertsSuppressionRuleName: string,
-    alertsSuppressionRule: AlertsSuppressionRulesAPIAlertsSuppressionRule,
+    alertsSuppressionRule: AlertsSuppressionRule,
     options?: AlertsSuppressionRulesUpdateOptionalParams,
-  ) => Promise<AlertsSuppressionRulesAPIAlertsSuppressionRule>;
+  ) => Promise<AlertsSuppressionRule>;
   /** Get dismiss rule, with name: {alertsSuppressionRuleName}, for the given subscription */
   get: (
     alertsSuppressionRuleName: string,
     options?: AlertsSuppressionRulesGetOptionalParams,
-  ) => Promise<AlertsSuppressionRulesAPIAlertsSuppressionRule>;
+  ) => Promise<AlertsSuppressionRule>;
 }
 
 function _getAlertsSuppressionRules(context: SecurityCenterContext) {
@@ -45,7 +45,7 @@ function _getAlertsSuppressionRules(context: SecurityCenterContext) {
     ) => $delete(context, alertsSuppressionRuleName, options),
     update: (
       alertsSuppressionRuleName: string,
-      alertsSuppressionRule: AlertsSuppressionRulesAPIAlertsSuppressionRule,
+      alertsSuppressionRule: AlertsSuppressionRule,
       options?: AlertsSuppressionRulesUpdateOptionalParams,
     ) => update(context, alertsSuppressionRuleName, alertsSuppressionRule, options),
     get: (alertsSuppressionRuleName: string, options?: AlertsSuppressionRulesGetOptionalParams) =>

@@ -5,13 +5,13 @@
 ```ts
 
 // @public
-export type DefenderForStorageAPIAutomatedResponseType = string;
+export type AutomatedResponseType = string;
 
 // @public
-export type DefenderForStorageAPIBlobScanResultsOptions = string;
+export type BlobScanResultsOptions = string;
 
 // @public
-export interface DefenderForStorageAPIBlobsScanSummary {
+export interface BlobsScanSummary {
     failedBlobsCount?: number;
     maliciousBlobsCount?: number;
     scannedBlobsInGB?: number;
@@ -20,20 +20,20 @@ export interface DefenderForStorageAPIBlobsScanSummary {
 }
 
 // @public
-export interface DefenderForStorageAPIDefenderForStorageSetting extends ExtensionResource {
-    properties?: DefenderForStorageAPIDefenderForStorageSettingProperties;
+export interface DefenderForStorageSetting extends ExtensionResource {
+    properties?: DefenderForStorageSettingProperties;
 }
 
 // @public
-export interface DefenderForStorageAPIDefenderForStorageSettingProperties {
+export interface DefenderForStorageSettingProperties {
     isEnabled?: boolean;
-    malwareScanning?: DefenderForStorageAPIMalwareScanningProperties;
+    malwareScanning?: MalwareScanningProperties;
     overrideSubscriptionLevelSettings?: boolean;
-    sensitiveDataDiscovery?: DefenderForStorageAPISensitiveDataDiscoveryProperties;
+    sensitiveDataDiscovery?: SensitiveDataDiscoveryProperties;
 }
 
 // @public
-export interface DefenderForStorageAPIFilesScanSummary {
+export interface FilesScanSummary {
     failedFilesCount?: number;
     maliciousFilesCount?: number;
     scannedFilesInGB?: number;
@@ -42,67 +42,67 @@ export interface DefenderForStorageAPIFilesScanSummary {
 }
 
 // @public
-export interface DefenderForStorageAPIMalwareScan {
-    // (undocumented)
-    properties?: DefenderForStorageAPIMalwareScanProperties;
+export enum KnownAutomatedResponseType {
+    BlobSoftDelete = "BlobSoftDelete",
+    None = "None"
 }
 
 // @public
-export interface DefenderForStorageAPIMalwareScanningProperties {
-    automatedResponse?: DefenderForStorageAPIAutomatedResponseType;
-    blobScanResultsOptions?: DefenderForStorageAPIBlobScanResultsOptions;
-    onUpload?: DefenderForStorageAPIOnUploadProperties;
-    readonly operationStatus?: CommonOperationStatus;
+export enum KnownBlobScanResultsOptions {
+    BlobIndexTags = "BlobIndexTags",
+    None = "None"
+}
+
+// @public
+export interface MalwareScan {
+    // (undocumented)
+    properties?: MalwareScanProperties;
+}
+
+// @public
+export interface MalwareScanningProperties {
+    automatedResponse?: AutomatedResponseType;
+    blobScanResultsOptions?: BlobScanResultsOptions;
+    onUpload?: OnUploadProperties;
+    readonly operationStatus?: OperationStatus;
     scanResultsEventGridTopicResourceId?: string;
 }
 
 // @public
-export interface DefenderForStorageAPIMalwareScanProperties {
+export interface MalwareScanProperties {
     scanEndTime?: string;
     scanId?: string;
     scanStartTime?: string;
     scanStatus?: string;
     scanStatusMessage?: string;
-    scanSummary?: DefenderForStorageAPIScanSummary;
+    scanSummary?: ScanSummary;
 }
 
 // @public
-export interface DefenderForStorageAPIOnUploadFilters {
+export interface OnUploadFilters {
     excludeBlobsLargerThan?: any;
     excludeBlobsWithPrefix?: string[];
     excludeBlobsWithSuffix?: string[];
 }
 
 // @public
-export interface DefenderForStorageAPIOnUploadProperties {
+export interface OnUploadProperties {
     capGBPerMonth?: number;
-    filters?: DefenderForStorageAPIOnUploadFilters;
+    filters?: OnUploadFilters;
     isEnabled?: boolean;
 }
 
 // @public
-export interface DefenderForStorageAPIScanSummary {
-    blobs?: DefenderForStorageAPIBlobsScanSummary;
+export interface ScanSummary {
+    blobs?: BlobsScanSummary;
     estimatedScanCostUSD?: number;
-    files?: DefenderForStorageAPIFilesScanSummary;
+    files?: FilesScanSummary;
 }
 
 // @public
-export interface DefenderForStorageAPISensitiveDataDiscoveryProperties {
+export interface SensitiveDataDiscoveryProperties {
     isEnabled?: boolean;
-    readonly operationStatus?: CommonOperationStatus;
-}
-
-// @public
-export enum KnownDefenderForStorageAPIAutomatedResponseType {
-    BlobSoftDelete = "BlobSoftDelete",
-    None = "None"
-}
-
-// @public
-export enum KnownDefenderForStorageAPIBlobScanResultsOptions {
-    BlobIndexTags = "BlobIndexTags",
-    None = "None"
+    readonly operationStatus?: OperationStatus;
 }
 
 // (No @packageDocumentation comment for this package)

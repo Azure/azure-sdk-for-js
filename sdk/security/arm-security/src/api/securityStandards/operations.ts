@@ -4,13 +4,13 @@
 import type { SecurityCenterContext as Client } from "../index.js";
 import { errorResponseDeserializer } from "../../models/models.js";
 import type {
-  SecurityStandardsAPISecurityStandard,
-  _SecurityStandardsAPISecurityStandardList,
+  SecurityStandard,
+  _SecurityStandardList,
 } from "../../models/securityStandardsAPI/models.js";
 import {
-  securityStandardsAPISecurityStandardSerializer,
-  securityStandardsAPISecurityStandardDeserializer,
-  _securityStandardsAPISecurityStandardListDeserializer,
+  securityStandardSerializer,
+  securityStandardDeserializer,
+  _securityStandardListDeserializer,
 } from "../../models/securityStandardsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -47,7 +47,7 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_SecurityStandardsAPISecurityStandardList> {
+): Promise<_SecurityStandardList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -56,7 +56,7 @@ export async function _listDeserialize(
     throw error;
   }
 
-  return _securityStandardsAPISecurityStandardListDeserializer(result.body);
+  return _securityStandardListDeserializer(result.body);
 }
 
 /** Get a list of all relevant security standards over a scope */
@@ -64,7 +64,7 @@ export function list(
   context: Client,
   scope: string,
   options: SecurityStandardsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<SecurityStandardsAPISecurityStandard> {
+): PagedAsyncIterableIterator<SecurityStandard> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, scope, options),
@@ -121,7 +121,7 @@ export function _createOrUpdateSend(
   context: Client,
   scope: string,
   standardId: string,
-  standard: SecurityStandardsAPISecurityStandard,
+  standard: SecurityStandard,
   options: SecurityStandardsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -139,13 +139,13 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: securityStandardsAPISecurityStandardSerializer(standard),
+    body: securityStandardSerializer(standard),
   });
 }
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
-): Promise<SecurityStandardsAPISecurityStandard> {
+): Promise<SecurityStandard> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -154,7 +154,7 @@ export async function _createOrUpdateDeserialize(
     throw error;
   }
 
-  return securityStandardsAPISecurityStandardDeserializer(result.body);
+  return securityStandardDeserializer(result.body);
 }
 
 /** Creates or updates a security standard over a given scope */
@@ -162,9 +162,9 @@ export async function createOrUpdate(
   context: Client,
   scope: string,
   standardId: string,
-  standard: SecurityStandardsAPISecurityStandard,
+  standard: SecurityStandard,
   options: SecurityStandardsCreateOrUpdateOptionalParams = { requestOptions: {} },
-): Promise<SecurityStandardsAPISecurityStandard> {
+): Promise<SecurityStandard> {
   const result = await _createOrUpdateSend(context, scope, standardId, standard, options);
   return _createOrUpdateDeserialize(result);
 }
@@ -192,9 +192,7 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<SecurityStandardsAPISecurityStandard> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<SecurityStandard> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -203,7 +201,7 @@ export async function _getDeserialize(
     throw error;
   }
 
-  return securityStandardsAPISecurityStandardDeserializer(result.body);
+  return securityStandardDeserializer(result.body);
 }
 
 /** Get a specific security standard for the requested scope by standardId */
@@ -212,7 +210,7 @@ export async function get(
   scope: string,
   standardId: string,
   options: SecurityStandardsGetOptionalParams = { requestOptions: {} },
-): Promise<SecurityStandardsAPISecurityStandard> {
+): Promise<SecurityStandard> {
   const result = await _getSend(context, scope, standardId, options);
   return _getDeserialize(result);
 }

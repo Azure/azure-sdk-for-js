@@ -5,34 +5,78 @@
 ```ts
 
 // @public
-export enum KnownSecurityStandardsAPIattestationComplianceState {
+export interface AssignedAssessmentItem {
+    assessmentKey?: string;
+}
+
+// @public
+export type AttestationComplianceState = string;
+
+// @public
+export interface AttestationEvidence {
+    description?: string;
+    sourceUrl?: string;
+}
+
+// @public
+export interface CustomRecommendation extends ExtensionResource {
+    readonly assessmentKey?: string;
+    cloudProviders?: RecommendationSupportedClouds[];
+    description?: string;
+    displayName?: string;
+    query?: string;
+    remediationDescription?: string;
+    securityIssue?: SecurityIssue;
+    severity?: SeverityEnum;
+}
+
+// @public
+export interface CustomRecommendationProperties {
+    readonly assessmentKey?: string;
+    cloudProviders?: RecommendationSupportedClouds[];
+    description?: string;
+    displayName?: string;
+    query?: string;
+    remediationDescription?: string;
+    securityIssue?: SecurityIssue;
+    severity?: SeverityEnum;
+}
+
+// @public
+export type Effect = string;
+
+// @public
+export type ExemptionCategory = string;
+
+// @public
+export enum KnownAttestationComplianceState {
     Compliant = "compliant",
     NonCompliant = "nonCompliant",
     Unknown = "unknown"
 }
 
 // @public
-export enum KnownSecurityStandardsAPIEffect {
+export enum KnownEffect {
     Attest = "Attest",
     Audit = "Audit",
     Exempt = "Exempt"
 }
 
 // @public
-export enum KnownSecurityStandardsAPIExemptionCategory {
+export enum KnownExemptionCategory {
     Mitigated = "mitigated",
     Waiver = "waiver"
 }
 
 // @public
-export enum KnownSecurityStandardsAPIRecommendationSupportedClouds {
+export enum KnownRecommendationSupportedClouds {
     AWS = "AWS",
     Azure = "Azure",
     GCP = "GCP"
 }
 
 // @public
-export enum KnownSecurityStandardsAPISecurityIssue {
+export enum KnownSecurityIssue {
     AnonymousAccess = "AnonymousAccess",
     BestPractices = "BestPractices",
     ExcessivePermissions = "ExcessivePermissions",
@@ -42,121 +86,77 @@ export enum KnownSecurityStandardsAPISecurityIssue {
 }
 
 // @public
-export enum KnownSecurityStandardsAPISeverityEnum {
+export enum KnownSeverityEnum {
     High = "High",
     Low = "Low",
     Medium = "Medium"
 }
 
 // @public
-export enum KnownSecurityStandardsAPIStandardSupportedCloud {
+export enum KnownStandardSupportedCloud {
     AWS = "AWS",
     Azure = "Azure",
     GCP = "GCP"
 }
 
 // @public
-export enum KnownSecurityStandardsAPIStandardType {
+export enum KnownStandardType {
     Compliance = "Compliance",
     Custom = "Custom",
     Default = "Default"
 }
 
 // @public
-export interface SecurityStandardsAPIAssignedAssessmentItem {
+export interface PartialAssessmentProperties {
     assessmentKey?: string;
 }
 
 // @public
-export type SecurityStandardsAPIattestationComplianceState = string;
+export type RecommendationSupportedClouds = string;
 
 // @public
-export interface SecurityStandardsAPIAttestationEvidence {
-    description?: string;
-    sourceUrl?: string;
-}
+export type SecurityIssue = string;
 
 // @public
-export interface SecurityStandardsAPICustomRecommendation extends ExtensionResource {
-    readonly assessmentKey?: string;
-    cloudProviders?: SecurityStandardsAPIRecommendationSupportedClouds[];
+export interface SecurityStandard extends ExtensionResource {
+    assessments?: PartialAssessmentProperties[];
+    cloudProviders?: StandardSupportedCloud[];
     description?: string;
     displayName?: string;
-    query?: string;
-    remediationDescription?: string;
-    securityIssue?: SecurityStandardsAPISecurityIssue;
-    severity?: SecurityStandardsAPISeverityEnum;
-}
-
-// @public
-export interface SecurityStandardsAPICustomRecommendationProperties {
-    readonly assessmentKey?: string;
-    cloudProviders?: SecurityStandardsAPIRecommendationSupportedClouds[];
-    description?: string;
-    displayName?: string;
-    query?: string;
-    remediationDescription?: string;
-    securityIssue?: SecurityStandardsAPISecurityIssue;
-    severity?: SecurityStandardsAPISeverityEnum;
-}
-
-// @public
-export type SecurityStandardsAPIEffect = string;
-
-// @public
-export type SecurityStandardsAPIExemptionCategory = string;
-
-// @public
-export interface SecurityStandardsAPIPartialAssessmentProperties {
-    assessmentKey?: string;
-}
-
-// @public
-export type SecurityStandardsAPIRecommendationSupportedClouds = string;
-
-// @public
-export type SecurityStandardsAPISecurityIssue = string;
-
-// @public
-export interface SecurityStandardsAPISecurityStandard extends ExtensionResource {
-    assessments?: SecurityStandardsAPIPartialAssessmentProperties[];
-    cloudProviders?: SecurityStandardsAPIStandardSupportedCloud[];
-    description?: string;
-    displayName?: string;
-    metadata?: SecurityStandardsAPIStandardMetadata;
+    metadata?: StandardMetadata;
     policySetDefinitionId?: string;
-    readonly standardType?: SecurityStandardsAPIStandardType;
+    readonly standardType?: StandardType;
 }
 
 // @public
-export interface SecurityStandardsAPISecurityStandardProperties {
-    assessments?: SecurityStandardsAPIPartialAssessmentProperties[];
-    cloudProviders?: SecurityStandardsAPIStandardSupportedCloud[];
+export interface SecurityStandardProperties {
+    assessments?: PartialAssessmentProperties[];
+    cloudProviders?: StandardSupportedCloud[];
     description?: string;
     displayName?: string;
-    metadata?: SecurityStandardsAPIStandardMetadata;
+    metadata?: StandardMetadata;
     policySetDefinitionId?: string;
-    readonly standardType?: SecurityStandardsAPIStandardType;
+    readonly standardType?: StandardType;
 }
 
 // @public
-export type SecurityStandardsAPISeverityEnum = string;
+export type SeverityEnum = string;
 
 // @public
-export interface SecurityStandardsAPIStandardAssignment extends ExtensionResource {
-    assignedStandard?: CommonAssignedStandardItem;
-    attestationData?: SecurityStandardsAPIStandardAssignmentPropertiesAttestationData;
+export interface StandardAssignment extends ExtensionResource {
+    assignedStandard?: AssignedStandardItem;
+    attestationData?: StandardAssignmentPropertiesAttestationData;
     description?: string;
     displayName?: string;
-    effect?: SecurityStandardsAPIEffect;
+    effect?: Effect;
     excludedScopes?: string[];
-    exemptionData?: SecurityStandardsAPIStandardAssignmentPropertiesExemptionData;
+    exemptionData?: StandardAssignmentPropertiesExemptionData;
     expiresOn?: Date;
-    metadata?: SecurityStandardsAPIStandardAssignmentMetadata;
+    metadata?: StandardAssignmentMetadata;
 }
 
 // @public
-export interface SecurityStandardsAPIStandardAssignmentMetadata {
+export interface StandardAssignmentMetadata {
     readonly createdBy?: string;
     readonly createdOn?: Date;
     readonly lastUpdatedBy?: string;
@@ -164,34 +164,34 @@ export interface SecurityStandardsAPIStandardAssignmentMetadata {
 }
 
 // @public
-export interface SecurityStandardsAPIStandardAssignmentProperties {
-    assignedStandard?: CommonAssignedStandardItem;
-    attestationData?: SecurityStandardsAPIStandardAssignmentPropertiesAttestationData;
+export interface StandardAssignmentProperties {
+    assignedStandard?: AssignedStandardItem;
+    attestationData?: StandardAssignmentPropertiesAttestationData;
     description?: string;
     displayName?: string;
-    effect?: SecurityStandardsAPIEffect;
+    effect?: Effect;
     excludedScopes?: string[];
-    exemptionData?: SecurityStandardsAPIStandardAssignmentPropertiesExemptionData;
+    exemptionData?: StandardAssignmentPropertiesExemptionData;
     expiresOn?: Date;
-    metadata?: SecurityStandardsAPIStandardAssignmentMetadata;
+    metadata?: StandardAssignmentMetadata;
 }
 
 // @public
-export interface SecurityStandardsAPIStandardAssignmentPropertiesAttestationData {
-    assignedAssessment?: SecurityStandardsAPIAssignedAssessmentItem;
+export interface StandardAssignmentPropertiesAttestationData {
+    assignedAssessment?: AssignedAssessmentItem;
     readonly complianceDate?: Date;
-    complianceState?: SecurityStandardsAPIattestationComplianceState;
-    evidence?: SecurityStandardsAPIAttestationEvidence[];
+    complianceState?: AttestationComplianceState;
+    evidence?: AttestationEvidence[];
 }
 
 // @public
-export interface SecurityStandardsAPIStandardAssignmentPropertiesExemptionData {
-    assignedAssessment?: SecurityStandardsAPIAssignedAssessmentItem;
-    exemptionCategory?: SecurityStandardsAPIExemptionCategory;
+export interface StandardAssignmentPropertiesExemptionData {
+    assignedAssessment?: AssignedAssessmentItem;
+    exemptionCategory?: ExemptionCategory;
 }
 
 // @public
-export interface SecurityStandardsAPIStandardMetadata {
+export interface StandardMetadata {
     readonly createdBy?: string;
     readonly createdOn?: Date;
     readonly lastUpdatedBy?: string;
@@ -199,10 +199,10 @@ export interface SecurityStandardsAPIStandardMetadata {
 }
 
 // @public
-export type SecurityStandardsAPIStandardSupportedCloud = string;
+export type StandardSupportedCloud = string;
 
 // @public
-export type SecurityStandardsAPIStandardType = string;
+export type StandardType = string;
 
 // (No @packageDocumentation comment for this package)
 

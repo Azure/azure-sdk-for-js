@@ -2,16 +2,16 @@
 // Licensed under the MIT License.
 
 import type { SecurityCenterContext as Client } from "../index.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
 import type {
-  SensitivitySettingsAPIGetSensitivitySettingsResponse,
-  SensitivitySettingsAPIUpdateSensitivitySettingsRequest,
-  _SensitivitySettingsAPIGetSensitivitySettingsListResponse,
+  GetSensitivitySettingsResponse,
+  UpdateSensitivitySettingsRequest,
+  _GetSensitivitySettingsListResponse,
 } from "../../models/sensitivitySettingsAPI/models.js";
 import {
-  sensitivitySettingsAPIGetSensitivitySettingsResponseDeserializer,
-  sensitivitySettingsAPIUpdateSensitivitySettingsRequestSerializer,
-  _sensitivitySettingsAPIGetSensitivitySettingsListResponseDeserializer,
+  getSensitivitySettingsResponseDeserializer,
+  updateSensitivitySettingsRequestSerializer,
+  _getSensitivitySettingsListResponseDeserializer,
 } from "../../models/sensitivitySettingsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -45,23 +45,23 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_SensitivitySettingsAPIGetSensitivitySettingsListResponse> {
+): Promise<_GetSensitivitySettingsListResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _sensitivitySettingsAPIGetSensitivitySettingsListResponseDeserializer(result.body);
+  return _getSensitivitySettingsListResponseDeserializer(result.body);
 }
 
 /** Gets a list with a single sensitivity settings resource */
 export function list(
   context: Client,
   options: SensitivitySettingsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<SensitivitySettingsAPIGetSensitivitySettingsResponse> {
+): PagedAsyncIterableIterator<GetSensitivitySettingsResponse> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, options),
@@ -73,7 +73,7 @@ export function list(
 
 export function _createOrUpdateSend(
   context: Client,
-  sensitivitySettings: SensitivitySettingsAPIUpdateSensitivitySettingsRequest,
+  sensitivitySettings: UpdateSensitivitySettingsRequest,
   options: SensitivitySettingsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -89,30 +89,30 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: sensitivitySettingsAPIUpdateSensitivitySettingsRequestSerializer(sensitivitySettings),
+    body: updateSensitivitySettingsRequestSerializer(sensitivitySettings),
   });
 }
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
-): Promise<SensitivitySettingsAPIGetSensitivitySettingsResponse> {
+): Promise<GetSensitivitySettingsResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return sensitivitySettingsAPIGetSensitivitySettingsResponseDeserializer(result.body);
+  return getSensitivitySettingsResponseDeserializer(result.body);
 }
 
 /** Create or update data sensitivity settings for sensitive data discovery */
 export async function createOrUpdate(
   context: Client,
-  sensitivitySettings: SensitivitySettingsAPIUpdateSensitivitySettingsRequest,
+  sensitivitySettings: UpdateSensitivitySettingsRequest,
   options: SensitivitySettingsCreateOrUpdateOptionalParams = { requestOptions: {} },
-): Promise<SensitivitySettingsAPIGetSensitivitySettingsResponse> {
+): Promise<GetSensitivitySettingsResponse> {
   const result = await _createOrUpdateSend(context, sensitivitySettings, options);
   return _createOrUpdateDeserialize(result);
 }
@@ -138,23 +138,23 @@ export function _getSend(
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<SensitivitySettingsAPIGetSensitivitySettingsResponse> {
+): Promise<GetSensitivitySettingsResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return sensitivitySettingsAPIGetSensitivitySettingsResponseDeserializer(result.body);
+  return getSensitivitySettingsResponseDeserializer(result.body);
 }
 
 /** Gets data sensitivity settings for sensitive data discovery */
 export async function get(
   context: Client,
   options: SensitivitySettingsGetOptionalParams = { requestOptions: {} },
-): Promise<SensitivitySettingsAPIGetSensitivitySettingsResponse> {
+): Promise<GetSensitivitySettingsResponse> {
   const result = await _getSend(context, options);
   return _getDeserialize(result);
 }

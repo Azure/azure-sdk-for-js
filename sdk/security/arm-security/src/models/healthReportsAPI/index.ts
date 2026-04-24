@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 export type {
-  HealthReportsAPIHealthReport,
-  HealthReportsAPIHealthReportProperties,
-  HealthReportsAPIresourceDetails,
-  HealthReportsAPIenvironmentDetails,
-  HealthReportsAPIhealthDataClassification,
-  HealthReportsAPIstatus,
-  HealthReportsAPIStatusName,
-  HealthReportsAPIissue,
+  HealthReport,
+  HealthReportProperties,
+  ResourceDetails,
+  EnvironmentDetails,
+  HealthDataClassification,
+  Status,
+  StatusName,
+  Issue,
 } from "./models.js";
-export { KnownHealthReportsAPIStatusName } from "./models.js";
+export { KnownStatusName } from "./models.js";

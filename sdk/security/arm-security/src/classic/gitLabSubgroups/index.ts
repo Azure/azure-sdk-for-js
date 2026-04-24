@@ -4,7 +4,7 @@
 import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import { list } from "../../api/gitLabSubgroups/operations.js";
 import type { GitLabSubgroupsListOptionalParams } from "../../api/gitLabSubgroups/options.js";
-import type { SecurityConnectorsDevOpsAPIGitLabGroupListResponse } from "../../models/securityConnectorsDevOpsAPI/models.js";
+import type { GitLabGroupListResponse } from "../../models/securityConnectorsDevOpsAPI/models.js";
 
 /** Interface representing a GitLabSubgroups operations. */
 export interface GitLabSubgroupsOperations {
@@ -14,7 +14,7 @@ export interface GitLabSubgroupsOperations {
     securityConnectorName: string,
     groupFQName: string,
     options?: GitLabSubgroupsListOptionalParams,
-  ) => Promise<SecurityConnectorsDevOpsAPIGitLabGroupListResponse>;
+  ) => Promise<GitLabGroupListResponse>;
 }
 
 function _getGitLabSubgroups(context: SecurityCenterContext) {

@@ -2,16 +2,13 @@
 // Licensed under the MIT License.
 
 import type { SecurityCenterContext as Client } from "../index.js";
-import type { CommonSettingName } from "../../models/common/models.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
-import type {
-  SettingsAPISettingUnion,
-  _SettingsAPISettingsList,
-} from "../../models/settingsAPI/models.js";
+import type { SettingName } from "../../models/common/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
+import type { SettingUnion, _SettingsList } from "../../models/settingsAPI/models.js";
 import {
-  settingsAPISettingUnionSerializer,
-  settingsAPISettingUnionDeserializer,
-  _settingsAPISettingsListDeserializer,
+  settingUnionSerializer,
+  settingUnionDeserializer,
+  _settingsListDeserializer,
 } from "../../models/settingsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -44,25 +41,23 @@ export function _listSend(
   });
 }
 
-export async function _listDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_SettingsAPISettingsList> {
+export async function _listDeserialize(result: PathUncheckedResponse): Promise<_SettingsList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _settingsAPISettingsListDeserializer(result.body);
+  return _settingsListDeserializer(result.body);
 }
 
 /** Settings about different configurations in Microsoft Defender for Cloud */
 export function list(
   context: Client,
   options: SettingsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<SettingsAPISettingUnion> {
+): PagedAsyncIterableIterator<SettingUnion> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, options),
@@ -74,8 +69,8 @@ export function list(
 
 export function _updateSend(
   context: Client,
-  settingName: CommonSettingName,
-  setting: SettingsAPISettingUnion,
+  settingName: SettingName,
+  setting: SettingUnion,
   options: SettingsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -93,38 +88,36 @@ export function _updateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: settingsAPISettingUnionSerializer(setting),
+    body: settingUnionSerializer(setting),
   });
 }
 
-export async function _updateDeserialize(
-  result: PathUncheckedResponse,
-): Promise<SettingsAPISettingUnion> {
+export async function _updateDeserialize(result: PathUncheckedResponse): Promise<SettingUnion> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return settingsAPISettingUnionDeserializer(result.body);
+  return settingUnionDeserializer(result.body);
 }
 
 /** updating settings about different configurations in Microsoft Defender for Cloud */
 export async function update(
   context: Client,
-  settingName: CommonSettingName,
-  setting: SettingsAPISettingUnion,
+  settingName: SettingName,
+  setting: SettingUnion,
   options: SettingsUpdateOptionalParams = { requestOptions: {} },
-): Promise<SettingsAPISettingUnion> {
+): Promise<SettingUnion> {
   const result = await _updateSend(context, settingName, setting, options);
   return _updateDeserialize(result);
 }
 
 export function _getSend(
   context: Client,
-  settingName: CommonSettingName,
+  settingName: SettingName,
   options: SettingsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -144,26 +137,24 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<SettingsAPISettingUnion> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<SettingUnion> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return settingsAPISettingUnionDeserializer(result.body);
+  return settingUnionDeserializer(result.body);
 }
 
 /** Settings of different configurations in Microsoft Defender for Cloud */
 export async function get(
   context: Client,
-  settingName: CommonSettingName,
+  settingName: SettingName,
   options: SettingsGetOptionalParams = { requestOptions: {} },
-): Promise<SettingsAPISettingUnion> {
+): Promise<SettingUnion> {
   const result = await _getSend(context, settingName, options);
   return _getDeserialize(result);
 }

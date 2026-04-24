@@ -7,7 +7,7 @@ import type {
   ComplianceResultsListOptionalParams,
   ComplianceResultsGetOptionalParams,
 } from "../../api/complianceResults/options.js";
-import type { ComplianceResultsAPIComplianceResult } from "../../models/complianceResultsAPI/models.js";
+import type { ComplianceResult } from "../../models/complianceResultsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ComplianceResults operations. */
@@ -16,13 +16,13 @@ export interface ComplianceResultsOperations {
   list: (
     scope: string,
     options?: ComplianceResultsListOptionalParams,
-  ) => PagedAsyncIterableIterator<ComplianceResultsAPIComplianceResult>;
+  ) => PagedAsyncIterableIterator<ComplianceResult>;
   /** Security Compliance Result */
   get: (
     resourceId: string,
     complianceResultName: string,
     options?: ComplianceResultsGetOptionalParams,
-  ) => Promise<ComplianceResultsAPIComplianceResult>;
+  ) => Promise<ComplianceResult>;
 }
 
 function _getComplianceResults(context: SecurityCenterContext) {

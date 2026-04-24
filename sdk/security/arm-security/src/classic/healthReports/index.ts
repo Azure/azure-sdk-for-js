@@ -7,7 +7,7 @@ import type {
   HealthReportsListOptionalParams,
   HealthReportsGetOptionalParams,
 } from "../../api/healthReports/options.js";
-import type { HealthReportsAPIHealthReport } from "../../models/healthReportsAPI/models.js";
+import type { HealthReport } from "../../models/healthReportsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a HealthReports operations. */
@@ -16,13 +16,13 @@ export interface HealthReportsOperations {
   list: (
     scope: string,
     options?: HealthReportsListOptionalParams,
-  ) => PagedAsyncIterableIterator<HealthReportsAPIHealthReport>;
+  ) => PagedAsyncIterableIterator<HealthReport>;
   /** Get health report of resource */
   get: (
     resourceId: string,
     healthReportName: string,
     options?: HealthReportsGetOptionalParams,
-  ) => Promise<HealthReportsAPIHealthReport>;
+  ) => Promise<HealthReport>;
 }
 
 function _getHealthReports(context: SecurityCenterContext) {

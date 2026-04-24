@@ -2,14 +2,11 @@
 // Licensed under the MIT License.
 
 import type { SecurityCenterContext as Client } from "../index.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
-import type {
-  SecureScoreAPISecureScoreItem,
-  _SecureScoreAPISecureScoresList,
-} from "../../models/secureScoreAPI/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
+import type { SecureScoreItem, _SecureScoresList } from "../../models/secureScoreAPI/models.js";
 import {
-  secureScoreAPISecureScoreItemDeserializer,
-  _secureScoreAPISecureScoresListDeserializer,
+  secureScoreItemDeserializer,
+  _secureScoresListDeserializer,
 } from "../../models/secureScoreAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -38,25 +35,23 @@ export function _listSend(
   });
 }
 
-export async function _listDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_SecureScoreAPISecureScoresList> {
+export async function _listDeserialize(result: PathUncheckedResponse): Promise<_SecureScoresList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _secureScoreAPISecureScoresListDeserializer(result.body);
+  return _secureScoresListDeserializer(result.body);
 }
 
 /** List secure scores for all your Microsoft Defender for Cloud initiatives within your current scope. */
 export function list(
   context: Client,
   options: SecureScoresListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<SecureScoreAPISecureScoreItem> {
+): PagedAsyncIterableIterator<SecureScoreItem> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, options),
@@ -88,18 +83,16 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<SecureScoreAPISecureScoreItem> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<SecureScoreItem> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return secureScoreAPISecureScoreItemDeserializer(result.body);
+  return secureScoreItemDeserializer(result.body);
 }
 
 /** Get secure score for a specific Microsoft Defender for Cloud initiative within your current scope. For the ASC Default initiative, use 'ascScore'. */
@@ -107,7 +100,7 @@ export async function get(
   context: Client,
   secureScoreName: string,
   options: SecureScoresGetOptionalParams = { requestOptions: {} },
-): Promise<SecureScoreAPISecureScoreItem> {
+): Promise<SecureScoreItem> {
   const result = await _getSend(context, secureScoreName, options);
   return _getDeserialize(result);
 }

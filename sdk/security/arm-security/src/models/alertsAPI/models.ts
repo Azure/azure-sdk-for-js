@@ -12,7 +12,7 @@ import { systemDataDeserializer } from "../models.js";
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Security alert */
-export interface AlertsAPIAlert extends ProxyResource {
+export interface Alert extends ProxyResource {
   /** Schema version. */
   readonly version?: string;
   /** Unique identifier for the detection logic (all alert instances from the same detection logic will have the same alertType). */
@@ -26,21 +26,21 @@ export interface AlertsAPIAlert extends ProxyResource {
   /** Description of the suspicious activity that was detected. */
   readonly description?: string;
   /** The risk level of the threat that was detected. Learn more: https://docs.microsoft.com/en-us/azure/security-center/security-center-alerts-overview#how-are-alerts-classified. */
-  readonly severity?: AlertsAPIAlertSeverity;
+  readonly severity?: AlertSeverity;
   /** The kill chain related intent behind the alert. For list of supported values, and explanations of Azure Security Center's supported kill chain intents. */
-  readonly intent?: AlertsAPIIntent;
+  readonly intent?: Intent;
   /** The UTC time of the first event or activity included in the alert in ISO8601 format. */
   readonly startTimeUtc?: Date;
   /** The UTC time of the last event or activity included in the alert in ISO8601 format. */
   readonly endTimeUtc?: Date;
   /** The resource identifiers that can be used to direct the alert to the right product exposure group (tenant, workspace, subscription etc.). There can be multiple identifiers of different type per alert. */
-  readonly resourceIdentifiers?: AlertsAPIResourceIdentifierUnion[];
+  readonly resourceIdentifiers?: ResourceIdentifierUnion[];
   /** Manual action items to take to remediate the alert. */
   readonly remediationSteps?: string[];
   /** The name of the vendor that raises the alert. */
   readonly vendorName?: string;
   /** The life cycle status of the alert. */
-  readonly status?: AlertsAPIAlertStatus;
+  readonly status?: AlertStatus;
   /** Links related to the alert */
   readonly extendedLinks?: Record<string, string>[];
   /** A direct link to the alert page in Azure Portal. */
@@ -52,7 +52,7 @@ export interface AlertsAPIAlert extends ProxyResource {
   /** The UTC processing end time of the alert in ISO8601 format. */
   readonly processingEndTimeUtc?: Date;
   /** A list of entities related to the alert. */
-  readonly entities?: AlertsAPIAlertEntity[];
+  readonly entities?: AlertEntity[];
   /** This field determines whether the alert is an incident (a compound grouping of several alerts) or a single alert. */
   readonly isIncident?: boolean;
   /** Key for corelating related alerts. Alerts with the same correlation key considered to be related. */
@@ -66,10 +66,10 @@ export interface AlertsAPIAlert extends ProxyResource {
   /** Kill chain related sub-techniques behind the alert. */
   readonly subTechniques?: string[];
   /** Changing set of properties depending on the supportingEvidence type. */
-  supportingEvidence?: AlertsAPIAlertPropertiesSupportingEvidence;
+  supportingEvidence?: AlertPropertiesSupportingEvidence;
 }
 
-export function alertsAPIAlertDeserializer(item: any): AlertsAPIAlert {
+export function alertDeserializer(item: any): Alert {
   return {
     id: item["id"],
     name: item["name"],
@@ -84,7 +84,7 @@ export function alertsAPIAlertDeserializer(item: any): AlertsAPIAlert {
 }
 
 /** describes security alert properties. */
-export interface AlertsAPIAlertProperties {
+export interface AlertProperties {
   /** Schema version. */
   readonly version?: string;
   /** Unique identifier for the detection logic (all alert instances from the same detection logic will have the same alertType). */
@@ -98,21 +98,21 @@ export interface AlertsAPIAlertProperties {
   /** Description of the suspicious activity that was detected. */
   readonly description?: string;
   /** The risk level of the threat that was detected. Learn more: https://docs.microsoft.com/en-us/azure/security-center/security-center-alerts-overview#how-are-alerts-classified. */
-  readonly severity?: AlertsAPIAlertSeverity;
+  readonly severity?: AlertSeverity;
   /** The kill chain related intent behind the alert. For list of supported values, and explanations of Azure Security Center's supported kill chain intents. */
-  readonly intent?: AlertsAPIIntent;
+  readonly intent?: Intent;
   /** The UTC time of the first event or activity included in the alert in ISO8601 format. */
   readonly startTimeUtc?: Date;
   /** The UTC time of the last event or activity included in the alert in ISO8601 format. */
   readonly endTimeUtc?: Date;
   /** The resource identifiers that can be used to direct the alert to the right product exposure group (tenant, workspace, subscription etc.). There can be multiple identifiers of different type per alert. */
-  readonly resourceIdentifiers?: AlertsAPIResourceIdentifierUnion[];
+  readonly resourceIdentifiers?: ResourceIdentifierUnion[];
   /** Manual action items to take to remediate the alert. */
   readonly remediationSteps?: string[];
   /** The name of the vendor that raises the alert. */
   readonly vendorName?: string;
   /** The life cycle status of the alert. */
-  readonly status?: AlertsAPIAlertStatus;
+  readonly status?: AlertStatus;
   /** Links related to the alert */
   readonly extendedLinks?: Record<string, string>[];
   /** A direct link to the alert page in Azure Portal. */
@@ -124,7 +124,7 @@ export interface AlertsAPIAlertProperties {
   /** The UTC processing end time of the alert in ISO8601 format. */
   readonly processingEndTimeUtc?: Date;
   /** A list of entities related to the alert. */
-  readonly entities?: AlertsAPIAlertEntity[];
+  readonly entities?: AlertEntity[];
   /** This field determines whether the alert is an incident (a compound grouping of several alerts) or a single alert. */
   readonly isIncident?: boolean;
   /** Key for corelating related alerts. Alerts with the same correlation key considered to be related. */
@@ -138,10 +138,10 @@ export interface AlertsAPIAlertProperties {
   /** Kill chain related sub-techniques behind the alert. */
   readonly subTechniques?: string[];
   /** Changing set of properties depending on the supportingEvidence type. */
-  supportingEvidence?: AlertsAPIAlertPropertiesSupportingEvidence;
+  supportingEvidence?: AlertPropertiesSupportingEvidence;
 }
 
-export function alertsAPIAlertPropertiesDeserializer(item: any): AlertsAPIAlertProperties {
+export function alertPropertiesDeserializer(item: any): AlertProperties {
   return {
     version: item["version"],
     alertType: item["alertType"],
@@ -155,7 +155,7 @@ export function alertsAPIAlertPropertiesDeserializer(item: any): AlertsAPIAlertP
     endTimeUtc: !item["endTimeUtc"] ? item["endTimeUtc"] : new Date(item["endTimeUtc"]),
     resourceIdentifiers: !item["resourceIdentifiers"]
       ? item["resourceIdentifiers"]
-      : alertsAPIResourceIdentifierUnionArrayDeserializer(item["resourceIdentifiers"]),
+      : resourceIdentifierUnionArrayDeserializer(item["resourceIdentifiers"]),
     remediationSteps: !item["remediationSteps"]
       ? item["remediationSteps"]
       : item["remediationSteps"].map((p: any) => {
@@ -176,9 +176,7 @@ export function alertsAPIAlertPropertiesDeserializer(item: any): AlertsAPIAlertP
     processingEndTimeUtc: !item["processingEndTimeUtc"]
       ? item["processingEndTimeUtc"]
       : new Date(item["processingEndTimeUtc"]),
-    entities: !item["entities"]
-      ? item["entities"]
-      : alertsAPIAlertEntityArrayDeserializer(item["entities"]),
+    entities: !item["entities"] ? item["entities"] : alertEntityArrayDeserializer(item["entities"]),
     isIncident: item["isIncident"],
     correlationKey: item["correlationKey"],
     extendedProperties: !item["extendedProperties"]
@@ -199,12 +197,12 @@ export function alertsAPIAlertPropertiesDeserializer(item: any): AlertsAPIAlertP
         }),
     supportingEvidence: !item["supportingEvidence"]
       ? item["supportingEvidence"]
-      : alertsAPIAlertPropertiesSupportingEvidenceDeserializer(item["supportingEvidence"]),
+      : alertPropertiesSupportingEvidenceDeserializer(item["supportingEvidence"]),
   };
 }
 
 /** The risk level of the threat that was detected. Learn more: https://docs.microsoft.com/en-us/azure/security-center/security-center-alerts-overview#how-are-alerts-classified. */
-export enum KnownAlertsAPIAlertSeverity {
+export enum KnownAlertSeverity {
   /** Informational */
   Informational = "Informational",
   /** Low */
@@ -217,7 +215,7 @@ export enum KnownAlertsAPIAlertSeverity {
 
 /**
  * The risk level of the threat that was detected. Learn more: https://docs.microsoft.com/en-us/azure/security-center/security-center-alerts-overview#how-are-alerts-classified. \
- * {@link KnownAlertsAPIAlertSeverity} can be used interchangeably with AlertsAPIAlertSeverity,
+ * {@link KnownAlertSeverity} can be used interchangeably with AlertSeverity,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Informational**: Informational \
@@ -225,10 +223,10 @@ export enum KnownAlertsAPIAlertSeverity {
  * **Medium**: Medium \
  * **High**: High
  */
-export type AlertsAPIAlertSeverity = string;
+export type AlertSeverity = string;
 
 /** The kill chain related intent behind the alert. For list of supported values, and explanations of Azure Security Center's supported kill chain intents. */
-export enum KnownAlertsAPIIntent {
+export enum KnownIntent {
   /** Unknown */
   Unknown = "Unknown",
   /** PreAttack could be either an attempt to access a certain resource regardless of a malicious intent, or a failed attempt to gain access to a target system to gather information prior to exploitation. This step is usually detected as an attempt, originating from outside the network, to scan the target system and find a way in.  Further details on the PreAttack stage can be read in [MITRE Pre-Att&ck matrix](https://attack.mitre.org/matrices/pre/). */
@@ -265,7 +263,7 @@ export enum KnownAlertsAPIIntent {
 
 /**
  * The kill chain related intent behind the alert. For list of supported values, and explanations of Azure Security Center's supported kill chain intents. \
- * {@link KnownAlertsAPIIntent} can be used interchangeably with AlertsAPIIntent,
+ * {@link KnownIntent} can be used interchangeably with Intent,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Unknown**: Unknown \
@@ -285,52 +283,50 @@ export enum KnownAlertsAPIIntent {
  * **Probing**: Probing could be either an attempt to access a certain resource regardless of a malicious intent, or a failed attempt to gain access to a target system to gather information prior to exploitation. \
  * **Exploitation**: Exploitation is the stage where an attacker manages to get a foothold on the attacked resource. This stage is relevant for compute hosts and resources such as user accounts, certificates etc.
  */
-export type AlertsAPIIntent = string;
+export type Intent = string;
 
-export function alertsAPIResourceIdentifierUnionArrayDeserializer(
-  result: Array<AlertsAPIResourceIdentifierUnion>,
+export function resourceIdentifierUnionArrayDeserializer(
+  result: Array<ResourceIdentifierUnion>,
 ): any[] {
   return result.map((item) => {
-    return alertsAPIResourceIdentifierUnionDeserializer(item);
+    return resourceIdentifierUnionDeserializer(item);
   });
 }
 
 /** A resource identifier for an alert which can be used to direct the alert to the right product exposure group (tenant, workspace, subscription etc.). */
-export interface AlertsAPIResourceIdentifier {
+export interface ResourceIdentifier {
   /** There can be multiple identifiers of different type per alert, this field specify the identifier type. */
   /** The discriminator possible values: AzureResource, LogAnalytics */
-  type: AlertsAPIResourceIdentifierType;
+  type: ResourceIdentifierType;
 }
 
-export function alertsAPIResourceIdentifierDeserializer(item: any): AlertsAPIResourceIdentifier {
+export function resourceIdentifierDeserializer(item: any): ResourceIdentifier {
   return {
     type: item["type"],
   };
 }
 
-/** Alias for AlertsAPIResourceIdentifierUnion */
-export type AlertsAPIResourceIdentifierUnion =
-  | AlertsAPIAzureResourceIdentifier
-  | AlertsAPILogAnalyticsIdentifier
-  | AlertsAPIResourceIdentifier;
+/** Alias for ResourceIdentifierUnion */
+export type ResourceIdentifierUnion =
+  | AzureResourceIdentifier
+  | LogAnalyticsIdentifier
+  | ResourceIdentifier;
 
-export function alertsAPIResourceIdentifierUnionDeserializer(
-  item: any,
-): AlertsAPIResourceIdentifierUnion {
+export function resourceIdentifierUnionDeserializer(item: any): ResourceIdentifierUnion {
   switch (item["type"]) {
     case "AzureResource":
-      return alertsAPIAzureResourceIdentifierDeserializer(item as AlertsAPIAzureResourceIdentifier);
+      return azureResourceIdentifierDeserializer(item as AzureResourceIdentifier);
 
     case "LogAnalytics":
-      return alertsAPILogAnalyticsIdentifierDeserializer(item as AlertsAPILogAnalyticsIdentifier);
+      return logAnalyticsIdentifierDeserializer(item as LogAnalyticsIdentifier);
 
     default:
-      return alertsAPIResourceIdentifierDeserializer(item);
+      return resourceIdentifierDeserializer(item);
   }
 }
 
 /** There can be multiple identifiers of different type per alert, this field specify the identifier type. */
-export enum KnownAlertsAPIResourceIdentifierType {
+export enum KnownResourceIdentifierType {
   /** AzureResource */
   AzureResource = "AzureResource",
   /** LogAnalytics */
@@ -339,25 +335,23 @@ export enum KnownAlertsAPIResourceIdentifierType {
 
 /**
  * There can be multiple identifiers of different type per alert, this field specify the identifier type. \
- * {@link KnownAlertsAPIResourceIdentifierType} can be used interchangeably with AlertsAPIResourceIdentifierType,
+ * {@link KnownResourceIdentifierType} can be used interchangeably with ResourceIdentifierType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **AzureResource**: AzureResource \
  * **LogAnalytics**: LogAnalytics
  */
-export type AlertsAPIResourceIdentifierType = string;
+export type ResourceIdentifierType = string;
 
 /** Azure resource identifier. */
-export interface AlertsAPIAzureResourceIdentifier extends AlertsAPIResourceIdentifier {
+export interface AzureResourceIdentifier extends ResourceIdentifier {
   /** ARM resource identifier for the cloud resource being alerted on */
   readonly azureResourceId?: string;
   /** There can be multiple identifiers of different type per alert, this field specify the identifier type. */
   type: "AzureResource";
 }
 
-export function alertsAPIAzureResourceIdentifierDeserializer(
-  item: any,
-): AlertsAPIAzureResourceIdentifier {
+export function azureResourceIdentifierDeserializer(item: any): AzureResourceIdentifier {
   return {
     type: item["type"],
     azureResourceId: item["azureResourceId"],
@@ -365,7 +359,7 @@ export function alertsAPIAzureResourceIdentifierDeserializer(
 }
 
 /** Represents a Log Analytics workspace scope identifier. */
-export interface AlertsAPILogAnalyticsIdentifier extends AlertsAPIResourceIdentifier {
+export interface LogAnalyticsIdentifier extends ResourceIdentifier {
   /** The LogAnalytics workspace id that stores this alert. */
   readonly workspaceId?: string;
   /** The azure subscription id for the LogAnalytics workspace storing this alert. */
@@ -378,9 +372,7 @@ export interface AlertsAPILogAnalyticsIdentifier extends AlertsAPIResourceIdenti
   type: "LogAnalytics";
 }
 
-export function alertsAPILogAnalyticsIdentifierDeserializer(
-  item: any,
-): AlertsAPILogAnalyticsIdentifier {
+export function logAnalyticsIdentifierDeserializer(item: any): LogAnalyticsIdentifier {
   return {
     type: item["type"],
     workspaceId: item["workspaceId"],
@@ -391,7 +383,7 @@ export function alertsAPILogAnalyticsIdentifierDeserializer(
 }
 
 /** The life cycle status of the alert. */
-export enum KnownAlertsAPIAlertStatus {
+export enum KnownAlertStatus {
   /** An alert which doesn't specify a value is assigned the status 'Active' */
   Active = "Active",
   /** An alert which is in handling state */
@@ -404,7 +396,7 @@ export enum KnownAlertsAPIAlertStatus {
 
 /**
  * The life cycle status of the alert. \
- * {@link KnownAlertsAPIAlertStatus} can be used interchangeably with AlertsAPIAlertStatus,
+ * {@link KnownAlertStatus} can be used interchangeably with AlertStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Active**: An alert which doesn't specify a value is assigned the status 'Active' \
@@ -412,23 +404,23 @@ export enum KnownAlertsAPIAlertStatus {
  * **Resolved**: Alert closed after handling \
  * **Dismissed**: Alert dismissed as false positive
  */
-export type AlertsAPIAlertStatus = string;
+export type AlertStatus = string;
 
-export function alertsAPIAlertEntityArrayDeserializer(result: Array<AlertsAPIAlertEntity>): any[] {
+export function alertEntityArrayDeserializer(result: Array<AlertEntity>): any[] {
   return result.map((item) => {
-    return alertsAPIAlertEntityDeserializer(item);
+    return alertEntityDeserializer(item);
   });
 }
 
 /** Changing set of properties depending on the entity type. */
-export interface AlertsAPIAlertEntity {
+export interface AlertEntity {
   /** Type of entity */
   readonly type?: string;
   /** Additional properties */
   additionalProperties?: Record<string, any>;
 }
 
-export function alertsAPIAlertEntityDeserializer(item: any): AlertsAPIAlertEntity {
+export function alertEntityDeserializer(item: any): AlertEntity {
   return {
     additionalProperties: serializeRecord(item, ["type"]),
     type: item["type"],
@@ -436,16 +428,16 @@ export function alertsAPIAlertEntityDeserializer(item: any): AlertsAPIAlertEntit
 }
 
 /** Changing set of properties depending on the supportingEvidence type. */
-export interface AlertsAPIAlertPropertiesSupportingEvidence {
+export interface AlertPropertiesSupportingEvidence {
   /** Type of the supportingEvidence */
   readonly type?: string;
   /** Additional properties */
   additionalProperties?: Record<string, any>;
 }
 
-export function alertsAPIAlertPropertiesSupportingEvidenceDeserializer(
+export function alertPropertiesSupportingEvidenceDeserializer(
   item: any,
-): AlertsAPIAlertPropertiesSupportingEvidence {
+): AlertPropertiesSupportingEvidence {
   return {
     additionalProperties: serializeRecord(item, ["type"]),
     type: item["type"],
@@ -453,101 +445,99 @@ export function alertsAPIAlertPropertiesSupportingEvidenceDeserializer(
 }
 
 /** List of security alerts */
-export interface _AlertsAPIAlertList {
+export interface _AlertList {
   /** The Alert items on this page */
-  value?: AlertsAPIAlert[];
+  value?: Alert[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _alertsAPIAlertListDeserializer(item: any): _AlertsAPIAlertList {
+export function _alertListDeserializer(item: any): _AlertList {
   return {
-    value: !item["value"] ? item["value"] : alertsAPIAlertArrayDeserializer(item["value"]),
+    value: !item["value"] ? item["value"] : alertArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function alertsAPIAlertArrayDeserializer(result: Array<AlertsAPIAlert>): any[] {
+export function alertArrayDeserializer(result: Array<Alert>): any[] {
   return result.map((item) => {
-    return alertsAPIAlertDeserializer(item);
+    return alertDeserializer(item);
   });
 }
 
 /** Alert Simulator request body. */
-export interface AlertsAPIAlertSimulatorRequestBody {
+export interface AlertSimulatorRequestBody {
   /** Alert Simulator request body data. */
-  properties?: AlertsAPIAlertSimulatorRequestPropertiesUnion;
+  properties?: AlertSimulatorRequestPropertiesUnion;
 }
 
-export function alertsAPIAlertSimulatorRequestBodySerializer(
-  item: AlertsAPIAlertSimulatorRequestBody,
-): any {
+export function alertSimulatorRequestBodySerializer(item: AlertSimulatorRequestBody): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
-      : alertsAPIAlertSimulatorRequestPropertiesUnionSerializer(item["properties"]),
+      : alertSimulatorRequestPropertiesUnionSerializer(item["properties"]),
   };
 }
 
 /** Describes properties of an alert simulation request */
-export interface AlertsAPIAlertSimulatorRequestProperties {
+export interface AlertSimulatorRequestProperties {
   /** The kind of alert simulation. */
   /** The discriminator possible values: Bundles */
-  kind: AlertsAPIKind;
+  kind: Kind;
   /** Additional properties */
   additionalProperties?: Record<string, any>;
 }
 
-export function alertsAPIAlertSimulatorRequestPropertiesSerializer(
-  item: AlertsAPIAlertSimulatorRequestProperties,
+export function alertSimulatorRequestPropertiesSerializer(
+  item: AlertSimulatorRequestProperties,
 ): any {
   return { ...serializeRecord(item.additionalProperties ?? {}), kind: item["kind"] };
 }
 
-/** Alias for AlertsAPIAlertSimulatorRequestPropertiesUnion */
-export type AlertsAPIAlertSimulatorRequestPropertiesUnion =
-  | AlertsAPIAlertSimulatorBundlesRequestProperties
-  | AlertsAPIAlertSimulatorRequestProperties;
+/** Alias for AlertSimulatorRequestPropertiesUnion */
+export type AlertSimulatorRequestPropertiesUnion =
+  | AlertSimulatorBundlesRequestProperties
+  | AlertSimulatorRequestProperties;
 
-export function alertsAPIAlertSimulatorRequestPropertiesUnionSerializer(
-  item: AlertsAPIAlertSimulatorRequestPropertiesUnion,
+export function alertSimulatorRequestPropertiesUnionSerializer(
+  item: AlertSimulatorRequestPropertiesUnion,
 ): any {
   switch (item.kind) {
     case "Bundles":
-      return alertsAPIAlertSimulatorBundlesRequestPropertiesSerializer(
-        item as AlertsAPIAlertSimulatorBundlesRequestProperties,
+      return alertSimulatorBundlesRequestPropertiesSerializer(
+        item as AlertSimulatorBundlesRequestProperties,
       );
 
     default:
-      return alertsAPIAlertSimulatorRequestPropertiesSerializer(item);
+      return alertSimulatorRequestPropertiesSerializer(item);
   }
 }
 
 /** The kind of alert simulation. */
-export enum KnownAlertsAPIKind {
+export enum KnownKind {
   /** Simulate alerts according to bundles */
   Bundles = "Bundles",
 }
 
 /**
  * The kind of alert simulation. \
- * {@link KnownAlertsAPIKind} can be used interchangeably with AlertsAPIKind,
+ * {@link KnownKind} can be used interchangeably with Kind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Bundles**: Simulate alerts according to bundles
  */
-export type AlertsAPIKind = string;
+export type Kind = string;
 
 /** Simulate alerts according to this bundles. */
-export interface AlertsAPIAlertSimulatorBundlesRequestProperties extends AlertsAPIAlertSimulatorRequestProperties {
+export interface AlertSimulatorBundlesRequestProperties extends AlertSimulatorRequestProperties {
   /** Bundles list. */
-  bundles?: AlertsAPIBundleType[];
+  bundles?: BundleType[];
   /** The kind of alert simulation. */
   kind: "Bundles";
 }
 
-export function alertsAPIAlertSimulatorBundlesRequestPropertiesSerializer(
-  item: AlertsAPIAlertSimulatorBundlesRequestProperties,
+export function alertSimulatorBundlesRequestPropertiesSerializer(
+  item: AlertSimulatorBundlesRequestProperties,
 ): any {
   return {
     ...serializeRecord(item.additionalProperties ?? {}),
@@ -561,7 +551,7 @@ export function alertsAPIAlertSimulatorBundlesRequestPropertiesSerializer(
 }
 
 /** Alert Simulator supported bundles. */
-export enum KnownAlertsAPIBundleType {
+export enum KnownBundleType {
   /** AppServices */
   AppServices = "AppServices",
   /** DNS */
@@ -584,7 +574,7 @@ export enum KnownAlertsAPIBundleType {
 
 /**
  * Alert Simulator supported bundles. \
- * {@link KnownAlertsAPIBundleType} can be used interchangeably with AlertsAPIBundleType,
+ * {@link KnownBundleType} can be used interchangeably with BundleType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **AppServices**: AppServices \
@@ -597,7 +587,7 @@ export enum KnownAlertsAPIBundleType {
  * **VirtualMachines**: VirtualMachines \
  * **CosmosDbs**: CosmosDbs
  */
-export type AlertsAPIBundleType = string;
+export type BundleType = string;
 
 export function _alertPropertiesDeserializer(item: any) {
   return {
@@ -613,7 +603,7 @@ export function _alertPropertiesDeserializer(item: any) {
     endTimeUtc: !item["endTimeUtc"] ? item["endTimeUtc"] : new Date(item["endTimeUtc"]),
     resourceIdentifiers: !item["resourceIdentifiers"]
       ? item["resourceIdentifiers"]
-      : alertsAPIResourceIdentifierUnionArrayDeserializer(item["resourceIdentifiers"]),
+      : resourceIdentifierUnionArrayDeserializer(item["resourceIdentifiers"]),
     remediationSteps: !item["remediationSteps"]
       ? item["remediationSteps"]
       : item["remediationSteps"].map((p: any) => {
@@ -634,9 +624,7 @@ export function _alertPropertiesDeserializer(item: any) {
     processingEndTimeUtc: !item["processingEndTimeUtc"]
       ? item["processingEndTimeUtc"]
       : new Date(item["processingEndTimeUtc"]),
-    entities: !item["entities"]
-      ? item["entities"]
-      : alertsAPIAlertEntityArrayDeserializer(item["entities"]),
+    entities: !item["entities"] ? item["entities"] : alertEntityArrayDeserializer(item["entities"]),
     isIncident: item["isIncident"],
     correlationKey: item["correlationKey"],
     extendedProperties: !item["extendedProperties"]
@@ -657,6 +645,6 @@ export function _alertPropertiesDeserializer(item: any) {
         }),
     supportingEvidence: !item["supportingEvidence"]
       ? item["supportingEvidence"]
-      : alertsAPIAlertPropertiesSupportingEvidenceDeserializer(item["supportingEvidence"]),
+      : alertPropertiesSupportingEvidenceDeserializer(item["supportingEvidence"]),
   };
 }

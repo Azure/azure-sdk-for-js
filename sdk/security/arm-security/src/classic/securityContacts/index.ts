@@ -9,10 +9,7 @@ import type {
   SecurityContactsCreateOptionalParams,
   SecurityContactsGetOptionalParams,
 } from "../../api/securityContacts/options.js";
-import type {
-  AutomationsAPISecurityContact,
-  AutomationsAPISecurityContactName,
-} from "../../models/automationsAPI/models.js";
+import type { SecurityContact, SecurityContactName } from "../../models/automationsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a SecurityContacts operations. */
@@ -20,41 +17,39 @@ export interface SecurityContactsOperations {
   /** List all security contact configurations for the subscription */
   list: (
     options?: SecurityContactsListOptionalParams,
-  ) => PagedAsyncIterableIterator<AutomationsAPISecurityContact>;
+  ) => PagedAsyncIterableIterator<SecurityContact>;
   /** Delete security contact configurations for the subscription */
   delete: (
-    securityContactName: AutomationsAPISecurityContactName,
+    securityContactName: SecurityContactName,
     options?: SecurityContactsDeleteOptionalParams,
   ) => Promise<void>;
   /** Create security contact configurations for the subscription */
   create: (
-    securityContactName: AutomationsAPISecurityContactName,
-    securityContact: AutomationsAPISecurityContact,
+    securityContactName: SecurityContactName,
+    securityContact: SecurityContact,
     options?: SecurityContactsCreateOptionalParams,
-  ) => Promise<AutomationsAPISecurityContact>;
+  ) => Promise<SecurityContact>;
   /** Get Default Security contact configurations for the subscription */
   get: (
-    securityContactName: AutomationsAPISecurityContactName,
+    securityContactName: SecurityContactName,
     options?: SecurityContactsGetOptionalParams,
-  ) => Promise<AutomationsAPISecurityContact>;
+  ) => Promise<SecurityContact>;
 }
 
 function _getSecurityContacts(context: SecurityCenterContext) {
   return {
     list: (options?: SecurityContactsListOptionalParams) => list(context, options),
     delete: (
-      securityContactName: AutomationsAPISecurityContactName,
+      securityContactName: SecurityContactName,
       options?: SecurityContactsDeleteOptionalParams,
     ) => $delete(context, securityContactName, options),
     create: (
-      securityContactName: AutomationsAPISecurityContactName,
-      securityContact: AutomationsAPISecurityContact,
+      securityContactName: SecurityContactName,
+      securityContact: SecurityContact,
       options?: SecurityContactsCreateOptionalParams,
     ) => create(context, securityContactName, securityContact, options),
-    get: (
-      securityContactName: AutomationsAPISecurityContactName,
-      options?: SecurityContactsGetOptionalParams,
-    ) => get(context, securityContactName, options),
+    get: (securityContactName: SecurityContactName, options?: SecurityContactsGetOptionalParams) =>
+      get(context, securityContactName, options),
   };
 }
 

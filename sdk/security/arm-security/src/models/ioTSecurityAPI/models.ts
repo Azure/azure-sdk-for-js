@@ -12,20 +12,18 @@ import { systemDataDeserializer } from "../models.js";
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** The device security group resource */
-export interface IoTSecurityAPIDeviceSecurityGroup extends ExtensionResource {
+export interface DeviceSecurityGroup extends ExtensionResource {
   /** The list of custom alert threshold rules. */
-  thresholdRules?: IoTSecurityAPIThresholdCustomAlertRule[];
+  thresholdRules?: ThresholdCustomAlertRuleUnion[];
   /** The list of custom alert time-window rules. */
-  timeWindowRules?: IoTSecurityAPITimeWindowCustomAlertRule[];
+  timeWindowRules?: TimeWindowCustomAlertRule[];
   /** The allow-list custom alert rules. */
-  allowlistRules?: IoTSecurityAPIAllowlistCustomAlertRule[];
+  allowlistRules?: AllowlistCustomAlertRule[];
   /** The deny-list custom alert rules. */
-  denylistRules?: IoTSecurityAPIDenylistCustomAlertRule[];
+  denylistRules?: DenylistCustomAlertRule[];
 }
 
-export function ioTSecurityAPIDeviceSecurityGroupSerializer(
-  item: IoTSecurityAPIDeviceSecurityGroup,
-): any {
+export function deviceSecurityGroupSerializer(item: DeviceSecurityGroup): any {
   return {
     properties: areAllPropsUndefined(item, [
       "thresholdRules",
@@ -38,9 +36,7 @@ export function ioTSecurityAPIDeviceSecurityGroupSerializer(
   };
 }
 
-export function ioTSecurityAPIDeviceSecurityGroupDeserializer(
-  item: any,
-): IoTSecurityAPIDeviceSecurityGroup {
+export function deviceSecurityGroupDeserializer(item: any): DeviceSecurityGroup {
   return {
     id: item["id"],
     name: item["name"],
@@ -55,83 +51,79 @@ export function ioTSecurityAPIDeviceSecurityGroupDeserializer(
 }
 
 /** describes properties of a security group. */
-export interface IoTSecurityAPIDeviceSecurityGroupProperties {
+export interface DeviceSecurityGroupProperties {
   /** The list of custom alert threshold rules. */
-  thresholdRules?: IoTSecurityAPIThresholdCustomAlertRule[];
+  thresholdRules?: ThresholdCustomAlertRuleUnion[];
   /** The list of custom alert time-window rules. */
-  timeWindowRules?: IoTSecurityAPITimeWindowCustomAlertRule[];
+  timeWindowRules?: TimeWindowCustomAlertRule[];
   /** The allow-list custom alert rules. */
-  allowlistRules?: IoTSecurityAPIAllowlistCustomAlertRule[];
+  allowlistRules?: AllowlistCustomAlertRule[];
   /** The deny-list custom alert rules. */
-  denylistRules?: IoTSecurityAPIDenylistCustomAlertRule[];
+  denylistRules?: DenylistCustomAlertRule[];
 }
 
-export function ioTSecurityAPIDeviceSecurityGroupPropertiesSerializer(
-  item: IoTSecurityAPIDeviceSecurityGroupProperties,
-): any {
+export function deviceSecurityGroupPropertiesSerializer(item: DeviceSecurityGroupProperties): any {
   return {
     thresholdRules: !item["thresholdRules"]
       ? item["thresholdRules"]
-      : ioTSecurityAPIThresholdCustomAlertRuleArraySerializer(item["thresholdRules"]),
+      : thresholdCustomAlertRuleUnionArraySerializer(item["thresholdRules"]),
     timeWindowRules: !item["timeWindowRules"]
       ? item["timeWindowRules"]
-      : ioTSecurityAPITimeWindowCustomAlertRuleArraySerializer(item["timeWindowRules"]),
+      : timeWindowCustomAlertRuleArraySerializer(item["timeWindowRules"]),
     allowlistRules: !item["allowlistRules"]
       ? item["allowlistRules"]
-      : ioTSecurityAPIAllowlistCustomAlertRuleArraySerializer(item["allowlistRules"]),
+      : allowlistCustomAlertRuleArraySerializer(item["allowlistRules"]),
     denylistRules: !item["denylistRules"]
       ? item["denylistRules"]
-      : ioTSecurityAPIDenylistCustomAlertRuleArraySerializer(item["denylistRules"]),
+      : denylistCustomAlertRuleArraySerializer(item["denylistRules"]),
   };
 }
 
-export function ioTSecurityAPIDeviceSecurityGroupPropertiesDeserializer(
+export function deviceSecurityGroupPropertiesDeserializer(
   item: any,
-): IoTSecurityAPIDeviceSecurityGroupProperties {
+): DeviceSecurityGroupProperties {
   return {
     thresholdRules: !item["thresholdRules"]
       ? item["thresholdRules"]
-      : ioTSecurityAPIThresholdCustomAlertRuleArrayDeserializer(item["thresholdRules"]),
+      : thresholdCustomAlertRuleUnionArrayDeserializer(item["thresholdRules"]),
     timeWindowRules: !item["timeWindowRules"]
       ? item["timeWindowRules"]
-      : ioTSecurityAPITimeWindowCustomAlertRuleArrayDeserializer(item["timeWindowRules"]),
+      : timeWindowCustomAlertRuleArrayDeserializer(item["timeWindowRules"]),
     allowlistRules: !item["allowlistRules"]
       ? item["allowlistRules"]
-      : ioTSecurityAPIAllowlistCustomAlertRuleArrayDeserializer(item["allowlistRules"]),
+      : allowlistCustomAlertRuleArrayDeserializer(item["allowlistRules"]),
     denylistRules: !item["denylistRules"]
       ? item["denylistRules"]
-      : ioTSecurityAPIDenylistCustomAlertRuleArrayDeserializer(item["denylistRules"]),
+      : denylistCustomAlertRuleArrayDeserializer(item["denylistRules"]),
   };
 }
 
-export function ioTSecurityAPIThresholdCustomAlertRuleArraySerializer(
-  result: Array<IoTSecurityAPIThresholdCustomAlertRule>,
+export function thresholdCustomAlertRuleUnionArraySerializer(
+  result: Array<ThresholdCustomAlertRuleUnion>,
 ): any[] {
   return result.map((item) => {
-    return ioTSecurityAPIThresholdCustomAlertRuleSerializer(item);
+    return thresholdCustomAlertRuleUnionSerializer(item);
   });
 }
 
-export function ioTSecurityAPIThresholdCustomAlertRuleArrayDeserializer(
-  result: Array<IoTSecurityAPIThresholdCustomAlertRule>,
+export function thresholdCustomAlertRuleUnionArrayDeserializer(
+  result: Array<ThresholdCustomAlertRuleUnion>,
 ): any[] {
   return result.map((item) => {
-    return ioTSecurityAPIThresholdCustomAlertRuleDeserializer(item);
+    return thresholdCustomAlertRuleUnionDeserializer(item);
   });
 }
 
 /** A custom alert rule that checks if a value (depends on the custom alert type) is within the given range. */
-export interface IoTSecurityAPIThresholdCustomAlertRule extends IoTSecurityAPICustomAlertRule {
+export interface ThresholdCustomAlertRule extends CustomAlertRule {
   /** The minimum threshold. */
   minThreshold: number;
   /** The maximum threshold. */
   maxThreshold: number;
-  ruleType: "ThresholdCustomAlertRule";
+  ruleType: "ThresholdCustomAlertRule" | "TimeWindowCustomAlertRule";
 }
 
-export function ioTSecurityAPIThresholdCustomAlertRuleSerializer(
-  item: IoTSecurityAPIThresholdCustomAlertRule,
-): any {
+export function thresholdCustomAlertRuleSerializer(item: ThresholdCustomAlertRule): any {
   return {
     isEnabled: item["isEnabled"],
     ruleType: item["ruleType"],
@@ -140,9 +132,7 @@ export function ioTSecurityAPIThresholdCustomAlertRuleSerializer(
   };
 }
 
-export function ioTSecurityAPIThresholdCustomAlertRuleDeserializer(
-  item: any,
-): IoTSecurityAPIThresholdCustomAlertRule {
+export function thresholdCustomAlertRuleDeserializer(item: any): ThresholdCustomAlertRule {
   return {
     displayName: item["displayName"],
     description: item["description"],
@@ -153,85 +143,100 @@ export function ioTSecurityAPIThresholdCustomAlertRuleDeserializer(
   };
 }
 
-export function ioTSecurityAPITimeWindowCustomAlertRuleArraySerializer(
-  result: Array<IoTSecurityAPITimeWindowCustomAlertRule>,
-): any[] {
-  return result.map((item) => {
-    return ioTSecurityAPITimeWindowCustomAlertRuleSerializer(item);
-  });
+/** Alias for ThresholdCustomAlertRuleUnion */
+export type ThresholdCustomAlertRuleUnion = TimeWindowCustomAlertRule | ThresholdCustomAlertRule;
+
+export function thresholdCustomAlertRuleUnionSerializer(item: ThresholdCustomAlertRuleUnion): any {
+  switch (item.ruleType) {
+    case "TimeWindowCustomAlertRule":
+      return timeWindowCustomAlertRuleSerializer(item as TimeWindowCustomAlertRule);
+
+    default:
+      return thresholdCustomAlertRuleSerializer(item);
+  }
 }
 
-export function ioTSecurityAPITimeWindowCustomAlertRuleArrayDeserializer(
-  result: Array<IoTSecurityAPITimeWindowCustomAlertRule>,
-): any[] {
-  return result.map((item) => {
-    return ioTSecurityAPITimeWindowCustomAlertRuleDeserializer(item);
-  });
+export function thresholdCustomAlertRuleUnionDeserializer(
+  item: any,
+): ThresholdCustomAlertRuleUnion {
+  switch (item["ruleType"]) {
+    case "TimeWindowCustomAlertRule":
+      return timeWindowCustomAlertRuleDeserializer(item as TimeWindowCustomAlertRule);
+
+    default:
+      return thresholdCustomAlertRuleDeserializer(item);
+  }
 }
 
 /** A custom alert rule that checks if the number of activities (depends on the custom alert type) in a time window is within the given range. */
-export interface IoTSecurityAPITimeWindowCustomAlertRule extends IoTSecurityAPICustomAlertRule {
-  /** The minimum threshold. */
-  minThreshold: number;
-  /** The maximum threshold. */
-  maxThreshold: number;
+export interface TimeWindowCustomAlertRule extends ThresholdCustomAlertRule {
   /** The time window size in iso8601 format. */
   timeWindowSize: string;
   ruleType: "TimeWindowCustomAlertRule";
 }
 
-export function ioTSecurityAPITimeWindowCustomAlertRuleSerializer(
-  item: IoTSecurityAPITimeWindowCustomAlertRule,
-): any {
+export function timeWindowCustomAlertRuleSerializer(item: TimeWindowCustomAlertRule): any {
   return {
-    isEnabled: item["isEnabled"],
-    ruleType: item["ruleType"],
     minThreshold: item["minThreshold"],
     maxThreshold: item["maxThreshold"],
+    ruleType: item["ruleType"],
+    isEnabled: item["isEnabled"],
     timeWindowSize: item["timeWindowSize"],
   };
 }
 
-export function ioTSecurityAPITimeWindowCustomAlertRuleDeserializer(
-  item: any,
-): IoTSecurityAPITimeWindowCustomAlertRule {
+export function timeWindowCustomAlertRuleDeserializer(item: any): TimeWindowCustomAlertRule {
   return {
+    minThreshold: item["minThreshold"],
+    maxThreshold: item["maxThreshold"],
+    ruleType: item["ruleType"],
     displayName: item["displayName"],
     description: item["description"],
     isEnabled: item["isEnabled"],
-    ruleType: item["ruleType"],
-    minThreshold: item["minThreshold"],
-    maxThreshold: item["maxThreshold"],
     timeWindowSize: item["timeWindowSize"],
   };
 }
 
-export function ioTSecurityAPIAllowlistCustomAlertRuleArraySerializer(
-  result: Array<IoTSecurityAPIAllowlistCustomAlertRule>,
+export function timeWindowCustomAlertRuleArraySerializer(
+  result: Array<TimeWindowCustomAlertRule>,
 ): any[] {
   return result.map((item) => {
-    return ioTSecurityAPIAllowlistCustomAlertRuleSerializer(item);
+    return timeWindowCustomAlertRuleSerializer(item);
   });
 }
 
-export function ioTSecurityAPIAllowlistCustomAlertRuleArrayDeserializer(
-  result: Array<IoTSecurityAPIAllowlistCustomAlertRule>,
+export function timeWindowCustomAlertRuleArrayDeserializer(
+  result: Array<TimeWindowCustomAlertRule>,
 ): any[] {
   return result.map((item) => {
-    return ioTSecurityAPIAllowlistCustomAlertRuleDeserializer(item);
+    return timeWindowCustomAlertRuleDeserializer(item);
+  });
+}
+
+export function allowlistCustomAlertRuleArraySerializer(
+  result: Array<AllowlistCustomAlertRule>,
+): any[] {
+  return result.map((item) => {
+    return allowlistCustomAlertRuleSerializer(item);
+  });
+}
+
+export function allowlistCustomAlertRuleArrayDeserializer(
+  result: Array<AllowlistCustomAlertRule>,
+): any[] {
+  return result.map((item) => {
+    return allowlistCustomAlertRuleDeserializer(item);
   });
 }
 
 /** A custom alert rule that checks if a value (depends on the custom alert type) is allowed. */
-export interface IoTSecurityAPIAllowlistCustomAlertRule extends IoTSecurityAPIListCustomAlertRule {
+export interface AllowlistCustomAlertRule extends ListCustomAlertRule {
   /** The values to allow. The format of the values depends on the rule type. */
   allowlistValues: string[];
   ruleType: "AllowlistCustomAlertRule";
 }
 
-export function ioTSecurityAPIAllowlistCustomAlertRuleSerializer(
-  item: IoTSecurityAPIAllowlistCustomAlertRule,
-): any {
+export function allowlistCustomAlertRuleSerializer(item: AllowlistCustomAlertRule): any {
   return {
     ruleType: item["ruleType"],
     isEnabled: item["isEnabled"],
@@ -241,9 +246,7 @@ export function ioTSecurityAPIAllowlistCustomAlertRuleSerializer(
   };
 }
 
-export function ioTSecurityAPIAllowlistCustomAlertRuleDeserializer(
-  item: any,
-): IoTSecurityAPIAllowlistCustomAlertRule {
+export function allowlistCustomAlertRuleDeserializer(item: any): AllowlistCustomAlertRule {
   return {
     valueType: item["valueType"],
     ruleType: item["ruleType"],
@@ -256,32 +259,30 @@ export function ioTSecurityAPIAllowlistCustomAlertRuleDeserializer(
   };
 }
 
-export function ioTSecurityAPIDenylistCustomAlertRuleArraySerializer(
-  result: Array<IoTSecurityAPIDenylistCustomAlertRule>,
+export function denylistCustomAlertRuleArraySerializer(
+  result: Array<DenylistCustomAlertRule>,
 ): any[] {
   return result.map((item) => {
-    return ioTSecurityAPIDenylistCustomAlertRuleSerializer(item);
+    return denylistCustomAlertRuleSerializer(item);
   });
 }
 
-export function ioTSecurityAPIDenylistCustomAlertRuleArrayDeserializer(
-  result: Array<IoTSecurityAPIDenylistCustomAlertRule>,
+export function denylistCustomAlertRuleArrayDeserializer(
+  result: Array<DenylistCustomAlertRule>,
 ): any[] {
   return result.map((item) => {
-    return ioTSecurityAPIDenylistCustomAlertRuleDeserializer(item);
+    return denylistCustomAlertRuleDeserializer(item);
   });
 }
 
 /** A custom alert rule that checks if a value (depends on the custom alert type) is denied. */
-export interface IoTSecurityAPIDenylistCustomAlertRule extends IoTSecurityAPIListCustomAlertRule {
+export interface DenylistCustomAlertRule extends ListCustomAlertRule {
   /** The values to deny. The format of the values depends on the rule type. */
   denylistValues: string[];
   ruleType: "DenylistCustomAlertRule";
 }
 
-export function ioTSecurityAPIDenylistCustomAlertRuleSerializer(
-  item: IoTSecurityAPIDenylistCustomAlertRule,
-): any {
+export function denylistCustomAlertRuleSerializer(item: DenylistCustomAlertRule): any {
   return {
     ruleType: item["ruleType"],
     isEnabled: item["isEnabled"],
@@ -291,9 +292,7 @@ export function ioTSecurityAPIDenylistCustomAlertRuleSerializer(
   };
 }
 
-export function ioTSecurityAPIDenylistCustomAlertRuleDeserializer(
-  item: any,
-): IoTSecurityAPIDenylistCustomAlertRule {
+export function denylistCustomAlertRuleDeserializer(item: any): DenylistCustomAlertRule {
   return {
     valueType: item["valueType"],
     ruleType: item["ruleType"],
@@ -307,7 +306,7 @@ export function ioTSecurityAPIDenylistCustomAlertRuleDeserializer(
 }
 
 /** A custom alert rule. */
-export interface IoTSecurityAPICustomAlertRule {
+export interface CustomAlertRule {
   /** The display name of the custom alert. */
   readonly displayName?: string;
   /** The description of the custom alert. */
@@ -319,13 +318,11 @@ export interface IoTSecurityAPICustomAlertRule {
   ruleType: string;
 }
 
-export function ioTSecurityAPICustomAlertRuleSerializer(item: IoTSecurityAPICustomAlertRule): any {
+export function customAlertRuleSerializer(item: CustomAlertRule): any {
   return { isEnabled: item["isEnabled"], ruleType: item["ruleType"] };
 }
 
-export function ioTSecurityAPICustomAlertRuleDeserializer(
-  item: any,
-): IoTSecurityAPICustomAlertRule {
+export function customAlertRuleDeserializer(item: any): CustomAlertRule {
   return {
     displayName: item["displayName"],
     description: item["description"],
@@ -334,81 +331,56 @@ export function ioTSecurityAPICustomAlertRuleDeserializer(
   };
 }
 
-/** Alias for IoTSecurityAPICustomAlertRuleUnion */
-export type IoTSecurityAPICustomAlertRuleUnion =
-  | IoTSecurityAPIThresholdCustomAlertRule
-  | IoTSecurityAPITimeWindowCustomAlertRule
-  | IoTSecurityAPIListCustomAlertRuleUnion
-  | IoTSecurityAPICustomAlertRule;
+/** Alias for CustomAlertRuleUnion */
+export type CustomAlertRuleUnion =
+  | ThresholdCustomAlertRuleUnion
+  | ListCustomAlertRuleUnion
+  | CustomAlertRule;
 
-export function ioTSecurityAPICustomAlertRuleUnionSerializer(
-  item: IoTSecurityAPICustomAlertRuleUnion,
-): any {
+export function customAlertRuleUnionSerializer(item: CustomAlertRuleUnion): any {
   switch (item.ruleType) {
     case "ThresholdCustomAlertRule":
-      return ioTSecurityAPIThresholdCustomAlertRuleSerializer(
-        item as IoTSecurityAPIThresholdCustomAlertRule,
-      );
-
     case "TimeWindowCustomAlertRule":
-      return ioTSecurityAPITimeWindowCustomAlertRuleSerializer(
-        item as IoTSecurityAPITimeWindowCustomAlertRule,
-      );
+      return thresholdCustomAlertRuleUnionSerializer(item as ThresholdCustomAlertRuleUnion);
 
     case "ListCustomAlertRule":
     case "AllowlistCustomAlertRule":
     case "DenylistCustomAlertRule":
-      return ioTSecurityAPIListCustomAlertRuleUnionSerializer(
-        item as IoTSecurityAPIListCustomAlertRuleUnion,
-      );
+      return listCustomAlertRuleUnionSerializer(item as ListCustomAlertRuleUnion);
 
     default:
-      return ioTSecurityAPICustomAlertRuleSerializer(item);
+      return customAlertRuleSerializer(item);
   }
 }
 
-export function ioTSecurityAPICustomAlertRuleUnionDeserializer(
-  item: any,
-): IoTSecurityAPICustomAlertRuleUnion {
+export function customAlertRuleUnionDeserializer(item: any): CustomAlertRuleUnion {
   switch (item["ruleType"]) {
     case "ThresholdCustomAlertRule":
-      return ioTSecurityAPIThresholdCustomAlertRuleDeserializer(
-        item as IoTSecurityAPIThresholdCustomAlertRule,
-      );
-
     case "TimeWindowCustomAlertRule":
-      return ioTSecurityAPITimeWindowCustomAlertRuleDeserializer(
-        item as IoTSecurityAPITimeWindowCustomAlertRule,
-      );
+      return thresholdCustomAlertRuleUnionDeserializer(item as ThresholdCustomAlertRuleUnion);
 
     case "ListCustomAlertRule":
     case "AllowlistCustomAlertRule":
     case "DenylistCustomAlertRule":
-      return ioTSecurityAPIListCustomAlertRuleUnionDeserializer(
-        item as IoTSecurityAPIListCustomAlertRuleUnion,
-      );
+      return listCustomAlertRuleUnionDeserializer(item as ListCustomAlertRuleUnion);
 
     default:
-      return ioTSecurityAPICustomAlertRuleDeserializer(item);
+      return customAlertRuleDeserializer(item);
   }
 }
 
 /** A List custom alert rule. */
-export interface IoTSecurityAPIListCustomAlertRule extends IoTSecurityAPICustomAlertRule {
+export interface ListCustomAlertRule extends CustomAlertRule {
   /** The value type of the items in the list. */
-  readonly valueType?: IoTSecurityAPIValueType;
+  readonly valueType?: ValueType;
   ruleType: "ListCustomAlertRule" | "AllowlistCustomAlertRule" | "DenylistCustomAlertRule";
 }
 
-export function ioTSecurityAPIListCustomAlertRuleSerializer(
-  item: IoTSecurityAPIListCustomAlertRule,
-): any {
+export function listCustomAlertRuleSerializer(item: ListCustomAlertRule): any {
   return { isEnabled: item["isEnabled"], ruleType: item["ruleType"] };
 }
 
-export function ioTSecurityAPIListCustomAlertRuleDeserializer(
-  item: any,
-): IoTSecurityAPIListCustomAlertRule {
+export function listCustomAlertRuleDeserializer(item: any): ListCustomAlertRule {
   return {
     displayName: item["displayName"],
     description: item["description"],
@@ -418,52 +390,40 @@ export function ioTSecurityAPIListCustomAlertRuleDeserializer(
   };
 }
 
-/** Alias for IoTSecurityAPIListCustomAlertRuleUnion */
-export type IoTSecurityAPIListCustomAlertRuleUnion =
-  | IoTSecurityAPIAllowlistCustomAlertRule
-  | IoTSecurityAPIDenylistCustomAlertRule
-  | IoTSecurityAPIListCustomAlertRule;
+/** Alias for ListCustomAlertRuleUnion */
+export type ListCustomAlertRuleUnion =
+  | AllowlistCustomAlertRule
+  | DenylistCustomAlertRule
+  | ListCustomAlertRule;
 
-export function ioTSecurityAPIListCustomAlertRuleUnionSerializer(
-  item: IoTSecurityAPIListCustomAlertRuleUnion,
-): any {
+export function listCustomAlertRuleUnionSerializer(item: ListCustomAlertRuleUnion): any {
   switch (item.ruleType) {
     case "AllowlistCustomAlertRule":
-      return ioTSecurityAPIAllowlistCustomAlertRuleSerializer(
-        item as IoTSecurityAPIAllowlistCustomAlertRule,
-      );
+      return allowlistCustomAlertRuleSerializer(item as AllowlistCustomAlertRule);
 
     case "DenylistCustomAlertRule":
-      return ioTSecurityAPIDenylistCustomAlertRuleSerializer(
-        item as IoTSecurityAPIDenylistCustomAlertRule,
-      );
+      return denylistCustomAlertRuleSerializer(item as DenylistCustomAlertRule);
 
     default:
-      return ioTSecurityAPIListCustomAlertRuleSerializer(item);
+      return listCustomAlertRuleSerializer(item);
   }
 }
 
-export function ioTSecurityAPIListCustomAlertRuleUnionDeserializer(
-  item: any,
-): IoTSecurityAPIListCustomAlertRuleUnion {
+export function listCustomAlertRuleUnionDeserializer(item: any): ListCustomAlertRuleUnion {
   switch (item["ruleType"]) {
     case "AllowlistCustomAlertRule":
-      return ioTSecurityAPIAllowlistCustomAlertRuleDeserializer(
-        item as IoTSecurityAPIAllowlistCustomAlertRule,
-      );
+      return allowlistCustomAlertRuleDeserializer(item as AllowlistCustomAlertRule);
 
     case "DenylistCustomAlertRule":
-      return ioTSecurityAPIDenylistCustomAlertRuleDeserializer(
-        item as IoTSecurityAPIDenylistCustomAlertRule,
-      );
+      return denylistCustomAlertRuleDeserializer(item as DenylistCustomAlertRule);
 
     default:
-      return ioTSecurityAPIListCustomAlertRuleDeserializer(item);
+      return listCustomAlertRuleDeserializer(item);
   }
 }
 
 /** The value type of the items in the list. */
-export enum KnownIoTSecurityAPIValueType {
+export enum KnownValueType {
   /** An IP range in CIDR format (e.g. '192.168.0.1/8'). */
   IpCidr = "IpCidr",
   /** Any string value. */
@@ -472,68 +432,60 @@ export enum KnownIoTSecurityAPIValueType {
 
 /**
  * The value type of the items in the list. \
- * {@link KnownIoTSecurityAPIValueType} can be used interchangeably with IoTSecurityAPIValueType,
+ * {@link KnownValueType} can be used interchangeably with ValueType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **IpCidr**: An IP range in CIDR format (e.g. '192.168.0.1\/8'). \
  * **String**: Any string value.
  */
-export type IoTSecurityAPIValueType = string;
+export type ValueType = string;
 
 /** List of device security groups */
-export interface _IoTSecurityAPIDeviceSecurityGroupList {
+export interface _DeviceSecurityGroupList {
   /** List of device security group objects */
-  value?: IoTSecurityAPIDeviceSecurityGroup[];
+  value?: DeviceSecurityGroup[];
   /** The URI to fetch the next page. */
   readonly nextLink?: string;
 }
 
-export function _ioTSecurityAPIDeviceSecurityGroupListDeserializer(
-  item: any,
-): _IoTSecurityAPIDeviceSecurityGroupList {
+export function _deviceSecurityGroupListDeserializer(item: any): _DeviceSecurityGroupList {
   return {
-    value: !item["value"]
-      ? item["value"]
-      : ioTSecurityAPIDeviceSecurityGroupArrayDeserializer(item["value"]),
+    value: !item["value"] ? item["value"] : deviceSecurityGroupArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function ioTSecurityAPIDeviceSecurityGroupArraySerializer(
-  result: Array<IoTSecurityAPIDeviceSecurityGroup>,
-): any[] {
+export function deviceSecurityGroupArraySerializer(result: Array<DeviceSecurityGroup>): any[] {
   return result.map((item) => {
-    return ioTSecurityAPIDeviceSecurityGroupSerializer(item);
+    return deviceSecurityGroupSerializer(item);
   });
 }
 
-export function ioTSecurityAPIDeviceSecurityGroupArrayDeserializer(
-  result: Array<IoTSecurityAPIDeviceSecurityGroup>,
-): any[] {
+export function deviceSecurityGroupArrayDeserializer(result: Array<DeviceSecurityGroup>): any[] {
   return result.map((item) => {
-    return ioTSecurityAPIDeviceSecurityGroupDeserializer(item);
+    return deviceSecurityGroupDeserializer(item);
   });
 }
 
 /** Security analytics of your IoT Security solution */
-export interface IoTSecurityAPIIoTSecuritySolutionAnalyticsModel extends ProxyResource {
+export interface IoTSecuritySolutionAnalyticsModel extends ProxyResource {
   /** Security analytics of your IoT Security solution. */
-  readonly metrics?: IoTSecurityAPIIoTSeverityMetrics;
+  readonly metrics?: IoTSeverityMetrics;
   /** Number of unhealthy devices within your IoT Security solution. */
   readonly unhealthyDeviceCount?: number;
   /** List of device metrics by the aggregation date. */
-  readonly devicesMetrics?: IoTSecurityAPIIoTSecuritySolutionAnalyticsModelPropertiesDevicesMetricsItem[];
+  readonly devicesMetrics?: IoTSecuritySolutionAnalyticsModelPropertiesDevicesMetricsItem[];
   /** List of the 3 devices with the most alerts. */
-  topAlertedDevices?: IoTSecurityAPIIoTSecurityAlertedDevice[];
+  topAlertedDevices?: IoTSecurityAlertedDevice[];
   /** List of the 3 most prevalent device alerts. */
-  mostPrevalentDeviceAlerts?: IoTSecurityAPIIoTSecurityDeviceAlert[];
+  mostPrevalentDeviceAlerts?: IoTSecurityDeviceAlert[];
   /** List of the 3 most prevalent device recommendations. */
-  mostPrevalentDeviceRecommendations?: IoTSecurityAPIIoTSecurityDeviceRecommendation[];
+  mostPrevalentDeviceRecommendations?: IoTSecurityDeviceRecommendation[];
 }
 
-export function ioTSecurityAPIIoTSecuritySolutionAnalyticsModelDeserializer(
+export function ioTSecuritySolutionAnalyticsModelDeserializer(
   item: any,
-): IoTSecurityAPIIoTSecuritySolutionAnalyticsModel {
+): IoTSecuritySolutionAnalyticsModel {
   return {
     id: item["id"],
     name: item["name"],
@@ -548,50 +500,48 @@ export function ioTSecurityAPIIoTSecuritySolutionAnalyticsModelDeserializer(
 }
 
 /** Security analytics properties of your IoT Security solution */
-export interface IoTSecurityAPIIoTSecuritySolutionAnalyticsModelProperties {
+export interface IoTSecuritySolutionAnalyticsModelProperties {
   /** Security analytics of your IoT Security solution. */
-  readonly metrics?: IoTSecurityAPIIoTSeverityMetrics;
+  readonly metrics?: IoTSeverityMetrics;
   /** Number of unhealthy devices within your IoT Security solution. */
   readonly unhealthyDeviceCount?: number;
   /** List of device metrics by the aggregation date. */
-  readonly devicesMetrics?: IoTSecurityAPIIoTSecuritySolutionAnalyticsModelPropertiesDevicesMetricsItem[];
+  readonly devicesMetrics?: IoTSecuritySolutionAnalyticsModelPropertiesDevicesMetricsItem[];
   /** List of the 3 devices with the most alerts. */
-  topAlertedDevices?: IoTSecurityAPIIoTSecurityAlertedDevice[];
+  topAlertedDevices?: IoTSecurityAlertedDevice[];
   /** List of the 3 most prevalent device alerts. */
-  mostPrevalentDeviceAlerts?: IoTSecurityAPIIoTSecurityDeviceAlert[];
+  mostPrevalentDeviceAlerts?: IoTSecurityDeviceAlert[];
   /** List of the 3 most prevalent device recommendations. */
-  mostPrevalentDeviceRecommendations?: IoTSecurityAPIIoTSecurityDeviceRecommendation[];
+  mostPrevalentDeviceRecommendations?: IoTSecurityDeviceRecommendation[];
 }
 
-export function ioTSecurityAPIIoTSecuritySolutionAnalyticsModelPropertiesDeserializer(
+export function ioTSecuritySolutionAnalyticsModelPropertiesDeserializer(
   item: any,
-): IoTSecurityAPIIoTSecuritySolutionAnalyticsModelProperties {
+): IoTSecuritySolutionAnalyticsModelProperties {
   return {
-    metrics: !item["metrics"]
-      ? item["metrics"]
-      : ioTSecurityAPIIoTSeverityMetricsDeserializer(item["metrics"]),
+    metrics: !item["metrics"] ? item["metrics"] : ioTSeverityMetricsDeserializer(item["metrics"]),
     unhealthyDeviceCount: item["unhealthyDeviceCount"],
     devicesMetrics: !item["devicesMetrics"]
       ? item["devicesMetrics"]
-      : ioTSecurityAPIIoTSecuritySolutionAnalyticsModelPropertiesDevicesMetricsItemArrayDeserializer(
+      : ioTSecuritySolutionAnalyticsModelPropertiesDevicesMetricsItemArrayDeserializer(
           item["devicesMetrics"],
         ),
     topAlertedDevices: !item["topAlertedDevices"]
       ? item["topAlertedDevices"]
-      : ioTSecurityAPIIoTSecurityAlertedDeviceArrayDeserializer(item["topAlertedDevices"]),
+      : ioTSecurityAlertedDeviceArrayDeserializer(item["topAlertedDevices"]),
     mostPrevalentDeviceAlerts: !item["mostPrevalentDeviceAlerts"]
       ? item["mostPrevalentDeviceAlerts"]
-      : ioTSecurityAPIIoTSecurityDeviceAlertArrayDeserializer(item["mostPrevalentDeviceAlerts"]),
+      : ioTSecurityDeviceAlertArrayDeserializer(item["mostPrevalentDeviceAlerts"]),
     mostPrevalentDeviceRecommendations: !item["mostPrevalentDeviceRecommendations"]
       ? item["mostPrevalentDeviceRecommendations"]
-      : ioTSecurityAPIIoTSecurityDeviceRecommendationArrayDeserializer(
+      : ioTSecurityDeviceRecommendationArrayDeserializer(
           item["mostPrevalentDeviceRecommendations"],
         ),
   };
 }
 
 /** IoT Security solution analytics severity metrics. */
-export interface IoTSecurityAPIIoTSeverityMetrics {
+export interface IoTSeverityMetrics {
   /** Count of high severity alerts/recommendations. */
   high?: number;
   /** Count of medium severity alerts/recommendations. */
@@ -600,9 +550,7 @@ export interface IoTSecurityAPIIoTSeverityMetrics {
   low?: number;
 }
 
-export function ioTSecurityAPIIoTSeverityMetricsDeserializer(
-  item: any,
-): IoTSecurityAPIIoTSeverityMetrics {
+export function ioTSeverityMetricsDeserializer(item: any): IoTSeverityMetrics {
   return {
     high: item["high"],
     medium: item["medium"],
@@ -610,81 +558,75 @@ export function ioTSecurityAPIIoTSeverityMetricsDeserializer(
   };
 }
 
-export function ioTSecurityAPIIoTSecuritySolutionAnalyticsModelPropertiesDevicesMetricsItemArrayDeserializer(
-  result: Array<IoTSecurityAPIIoTSecuritySolutionAnalyticsModelPropertiesDevicesMetricsItem>,
+export function ioTSecuritySolutionAnalyticsModelPropertiesDevicesMetricsItemArrayDeserializer(
+  result: Array<IoTSecuritySolutionAnalyticsModelPropertiesDevicesMetricsItem>,
 ): any[] {
   return result.map((item) => {
-    return ioTSecurityAPIIoTSecuritySolutionAnalyticsModelPropertiesDevicesMetricsItemDeserializer(
-      item,
-    );
+    return ioTSecuritySolutionAnalyticsModelPropertiesDevicesMetricsItemDeserializer(item);
   });
 }
 
-/** model interface IoTSecurityAPIIoTSecuritySolutionAnalyticsModelPropertiesDevicesMetricsItem */
-export interface IoTSecurityAPIIoTSecuritySolutionAnalyticsModelPropertiesDevicesMetricsItem {
+/** model interface IoTSecuritySolutionAnalyticsModelPropertiesDevicesMetricsItem */
+export interface IoTSecuritySolutionAnalyticsModelPropertiesDevicesMetricsItem {
   /** Aggregation of IoT Security solution device alert metrics by date. */
   date?: Date;
   /** Device alert count by severity. */
-  devicesMetrics?: IoTSecurityAPIIoTSeverityMetrics;
+  devicesMetrics?: IoTSeverityMetrics;
 }
 
-export function ioTSecurityAPIIoTSecuritySolutionAnalyticsModelPropertiesDevicesMetricsItemDeserializer(
+export function ioTSecuritySolutionAnalyticsModelPropertiesDevicesMetricsItemDeserializer(
   item: any,
-): IoTSecurityAPIIoTSecuritySolutionAnalyticsModelPropertiesDevicesMetricsItem {
+): IoTSecuritySolutionAnalyticsModelPropertiesDevicesMetricsItem {
   return {
     date: !item["date"] ? item["date"] : new Date(item["date"]),
     devicesMetrics: !item["devicesMetrics"]
       ? item["devicesMetrics"]
-      : ioTSecurityAPIIoTSeverityMetricsDeserializer(item["devicesMetrics"]),
+      : ioTSeverityMetricsDeserializer(item["devicesMetrics"]),
   };
 }
 
-export function ioTSecurityAPIIoTSecurityAlertedDeviceArrayDeserializer(
-  result: Array<IoTSecurityAPIIoTSecurityAlertedDevice>,
+export function ioTSecurityAlertedDeviceArrayDeserializer(
+  result: Array<IoTSecurityAlertedDevice>,
 ): any[] {
   return result.map((item) => {
-    return ioTSecurityAPIIoTSecurityAlertedDeviceDeserializer(item);
+    return ioTSecurityAlertedDeviceDeserializer(item);
   });
 }
 
 /** Statistical information about the number of alerts per device during last set number of days. */
-export interface IoTSecurityAPIIoTSecurityAlertedDevice {
+export interface IoTSecurityAlertedDevice {
   /** Device identifier. */
   readonly deviceId?: string;
   /** Number of alerts raised for this device. */
   readonly alertsCount?: number;
 }
 
-export function ioTSecurityAPIIoTSecurityAlertedDeviceDeserializer(
-  item: any,
-): IoTSecurityAPIIoTSecurityAlertedDevice {
+export function ioTSecurityAlertedDeviceDeserializer(item: any): IoTSecurityAlertedDevice {
   return {
     deviceId: item["deviceId"],
     alertsCount: item["alertsCount"],
   };
 }
 
-export function ioTSecurityAPIIoTSecurityDeviceAlertArrayDeserializer(
-  result: Array<IoTSecurityAPIIoTSecurityDeviceAlert>,
+export function ioTSecurityDeviceAlertArrayDeserializer(
+  result: Array<IoTSecurityDeviceAlert>,
 ): any[] {
   return result.map((item) => {
-    return ioTSecurityAPIIoTSecurityDeviceAlertDeserializer(item);
+    return ioTSecurityDeviceAlertDeserializer(item);
   });
 }
 
 /** Statistical information about the number of alerts per alert type during last set number of days */
-export interface IoTSecurityAPIIoTSecurityDeviceAlert {
+export interface IoTSecurityDeviceAlert {
   /** Display name of the alert */
   readonly alertDisplayName?: string;
   /** Assessed Alert severity. */
-  readonly reportedSeverity?: IoTSecurityAPIReportedSeverity;
+  readonly reportedSeverity?: ReportedSeverity;
   /** Number of alerts raised for this alert type. */
   readonly alertsCount?: number;
 }
 
-export function ioTSecurityAPIIoTSecurityDeviceAlertDeserializer(
-  item: any,
-): IoTSecurityAPIIoTSecurityDeviceAlert {
+export function ioTSecurityDeviceAlertDeserializer(item: any): IoTSecurityDeviceAlert {
   return {
     alertDisplayName: item["alertDisplayName"],
     reportedSeverity: item["reportedSeverity"],
@@ -693,7 +635,7 @@ export function ioTSecurityAPIIoTSecurityDeviceAlertDeserializer(
 }
 
 /** Assessed alert severity. */
-export enum KnownIoTSecurityAPIReportedSeverity {
+export enum KnownReportedSeverity {
   /** Informational */
   Informational = "Informational",
   /** Low */
@@ -706,7 +648,7 @@ export enum KnownIoTSecurityAPIReportedSeverity {
 
 /**
  * Assessed alert severity. \
- * {@link KnownIoTSecurityAPIReportedSeverity} can be used interchangeably with IoTSecurityAPIReportedSeverity,
+ * {@link KnownReportedSeverity} can be used interchangeably with ReportedSeverity,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Informational**: Informational \
@@ -714,29 +656,29 @@ export enum KnownIoTSecurityAPIReportedSeverity {
  * **Medium**: Medium \
  * **High**: High
  */
-export type IoTSecurityAPIReportedSeverity = string;
+export type ReportedSeverity = string;
 
-export function ioTSecurityAPIIoTSecurityDeviceRecommendationArrayDeserializer(
-  result: Array<IoTSecurityAPIIoTSecurityDeviceRecommendation>,
+export function ioTSecurityDeviceRecommendationArrayDeserializer(
+  result: Array<IoTSecurityDeviceRecommendation>,
 ): any[] {
   return result.map((item) => {
-    return ioTSecurityAPIIoTSecurityDeviceRecommendationDeserializer(item);
+    return ioTSecurityDeviceRecommendationDeserializer(item);
   });
 }
 
 /** Statistical information about the number of recommendations per device, per recommendation type. */
-export interface IoTSecurityAPIIoTSecurityDeviceRecommendation {
+export interface IoTSecurityDeviceRecommendation {
   /** Display name of the recommendation. */
   readonly recommendationDisplayName?: string;
   /** Assessed recommendation severity. */
-  readonly reportedSeverity?: IoTSecurityAPIReportedSeverity;
+  readonly reportedSeverity?: ReportedSeverity;
   /** Number of devices with this recommendation. */
   readonly devicesCount?: number;
 }
 
-export function ioTSecurityAPIIoTSecurityDeviceRecommendationDeserializer(
+export function ioTSecurityDeviceRecommendationDeserializer(
   item: any,
-): IoTSecurityAPIIoTSecurityDeviceRecommendation {
+): IoTSecurityDeviceRecommendation {
   return {
     recommendationDisplayName: item["recommendationDisplayName"],
     reportedSeverity: item["reportedSeverity"],
@@ -745,32 +687,32 @@ export function ioTSecurityAPIIoTSecurityDeviceRecommendationDeserializer(
 }
 
 /** List of Security analytics of your IoT Security solution */
-export interface IoTSecurityAPIIoTSecuritySolutionAnalyticsModelList {
+export interface IoTSecuritySolutionAnalyticsModelList {
   /** The IoTSecuritySolutionAnalyticsModel items on this page */
-  value: IoTSecurityAPIIoTSecuritySolutionAnalyticsModel[];
+  value: IoTSecuritySolutionAnalyticsModel[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function ioTSecurityAPIIoTSecuritySolutionAnalyticsModelListDeserializer(
+export function ioTSecuritySolutionAnalyticsModelListDeserializer(
   item: any,
-): IoTSecurityAPIIoTSecuritySolutionAnalyticsModelList {
+): IoTSecuritySolutionAnalyticsModelList {
   return {
-    value: ioTSecurityAPIIoTSecuritySolutionAnalyticsModelArrayDeserializer(item["value"]),
+    value: ioTSecuritySolutionAnalyticsModelArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function ioTSecurityAPIIoTSecuritySolutionAnalyticsModelArrayDeserializer(
-  result: Array<IoTSecurityAPIIoTSecuritySolutionAnalyticsModel>,
+export function ioTSecuritySolutionAnalyticsModelArrayDeserializer(
+  result: Array<IoTSecuritySolutionAnalyticsModel>,
 ): any[] {
   return result.map((item) => {
-    return ioTSecurityAPIIoTSecuritySolutionAnalyticsModelDeserializer(item);
+    return ioTSecuritySolutionAnalyticsModelDeserializer(item);
   });
 }
 
 /** IoT Security solution configuration and resource information. */
-export interface IoTSecurityAPIIoTSecuritySolutionModel extends ProxyResource {
+export interface IoTSecuritySolutionModel extends ProxyResource {
   /** Resource tags. */
   tags?: Record<string, string>;
   /** The geo-location where the resource lives */
@@ -780,28 +722,26 @@ export interface IoTSecurityAPIIoTSecuritySolutionModel extends ProxyResource {
   /** Resource display name. */
   displayName?: string;
   /** Status of the IoT Security solution. */
-  status?: IoTSecurityAPISecuritySolutionStatus;
+  status?: SecuritySolutionStatus;
   /** List of additional options for exporting to workspace data. */
-  export?: IoTSecurityAPIExportData[];
+  export?: ExportData[];
   /** Disabled data sources. Disabling these data sources compromises the system. */
-  disabledDataSources?: IoTSecurityAPIDataSource[];
+  disabledDataSources?: DataSource[];
   /** IoT Hub resource IDs */
   iotHubs?: string[];
   /** Properties of the IoT Security solution's user defined resources. */
-  userDefinedResources?: IoTSecurityAPIUserDefinedResourcesProperties;
+  userDefinedResources?: UserDefinedResourcesProperties;
   /** List of resources that were automatically discovered as relevant to the security solution. */
   readonly autoDiscoveredResources?: string[];
   /** List of the configuration status for each recommendation type. */
-  recommendationsConfiguration?: IoTSecurityAPIRecommendationConfigurationProperties[];
+  recommendationsConfiguration?: RecommendationConfigurationProperties[];
   /** Unmasked IP address logging status */
-  unmaskedIpLoggingStatus?: IoTSecurityAPIUnmaskedIpLoggingStatus;
+  unmaskedIpLoggingStatus?: UnmaskedIpLoggingStatus;
   /** List of additional workspaces */
-  additionalWorkspaces?: IoTSecurityAPIAdditionalWorkspacesProperties[];
+  additionalWorkspaces?: AdditionalWorkspacesProperties[];
 }
 
-export function ioTSecurityAPIIoTSecuritySolutionModelSerializer(
-  item: IoTSecurityAPIIoTSecuritySolutionModel,
-): any {
+export function ioTSecuritySolutionModelSerializer(item: IoTSecuritySolutionModel): any {
   return {
     properties: areAllPropsUndefined(item, [
       "workspace",
@@ -822,9 +762,7 @@ export function ioTSecurityAPIIoTSecuritySolutionModelSerializer(
   };
 }
 
-export function ioTSecurityAPIIoTSecuritySolutionModelDeserializer(
-  item: any,
-): IoTSecurityAPIIoTSecuritySolutionModel {
+export function ioTSecuritySolutionModelDeserializer(item: any): IoTSecuritySolutionModel {
   return {
     id: item["id"],
     name: item["name"],
@@ -843,34 +781,32 @@ export function ioTSecurityAPIIoTSecuritySolutionModelDeserializer(
 }
 
 /** Security Solution setting data */
-export interface IoTSecurityAPIIoTSecuritySolutionProperties {
+export interface IoTSecuritySolutionProperties {
   /** Workspace resource ID */
   workspace?: string;
   /** Resource display name. */
   displayName: string;
   /** Status of the IoT Security solution. */
-  status?: IoTSecurityAPISecuritySolutionStatus;
+  status?: SecuritySolutionStatus;
   /** List of additional options for exporting to workspace data. */
-  export?: IoTSecurityAPIExportData[];
+  export?: ExportData[];
   /** Disabled data sources. Disabling these data sources compromises the system. */
-  disabledDataSources?: IoTSecurityAPIDataSource[];
+  disabledDataSources?: DataSource[];
   /** IoT Hub resource IDs */
   iotHubs: string[];
   /** Properties of the IoT Security solution's user defined resources. */
-  userDefinedResources?: IoTSecurityAPIUserDefinedResourcesProperties;
+  userDefinedResources?: UserDefinedResourcesProperties;
   /** List of resources that were automatically discovered as relevant to the security solution. */
   readonly autoDiscoveredResources?: string[];
   /** List of the configuration status for each recommendation type. */
-  recommendationsConfiguration?: IoTSecurityAPIRecommendationConfigurationProperties[];
+  recommendationsConfiguration?: RecommendationConfigurationProperties[];
   /** Unmasked IP address logging status */
-  unmaskedIpLoggingStatus?: IoTSecurityAPIUnmaskedIpLoggingStatus;
+  unmaskedIpLoggingStatus?: UnmaskedIpLoggingStatus;
   /** List of additional workspaces */
-  additionalWorkspaces?: IoTSecurityAPIAdditionalWorkspacesProperties[];
+  additionalWorkspaces?: AdditionalWorkspacesProperties[];
 }
 
-export function ioTSecurityAPIIoTSecuritySolutionPropertiesSerializer(
-  item: IoTSecurityAPIIoTSecuritySolutionProperties,
-): any {
+export function ioTSecuritySolutionPropertiesSerializer(item: IoTSecuritySolutionProperties): any {
   return {
     workspace: item["workspace"],
     displayName: item["displayName"],
@@ -890,22 +826,20 @@ export function ioTSecurityAPIIoTSecuritySolutionPropertiesSerializer(
     }),
     userDefinedResources: !item["userDefinedResources"]
       ? item["userDefinedResources"]
-      : ioTSecurityAPIUserDefinedResourcesPropertiesSerializer(item["userDefinedResources"]),
+      : userDefinedResourcesPropertiesSerializer(item["userDefinedResources"]),
     recommendationsConfiguration: !item["recommendationsConfiguration"]
       ? item["recommendationsConfiguration"]
-      : ioTSecurityAPIRecommendationConfigurationPropertiesArraySerializer(
-          item["recommendationsConfiguration"],
-        ),
+      : recommendationConfigurationPropertiesArraySerializer(item["recommendationsConfiguration"]),
     unmaskedIpLoggingStatus: item["unmaskedIpLoggingStatus"],
     additionalWorkspaces: !item["additionalWorkspaces"]
       ? item["additionalWorkspaces"]
-      : ioTSecurityAPIAdditionalWorkspacesPropertiesArraySerializer(item["additionalWorkspaces"]),
+      : additionalWorkspacesPropertiesArraySerializer(item["additionalWorkspaces"]),
   };
 }
 
-export function ioTSecurityAPIIoTSecuritySolutionPropertiesDeserializer(
+export function ioTSecuritySolutionPropertiesDeserializer(
   item: any,
-): IoTSecurityAPIIoTSecuritySolutionProperties {
+): IoTSecuritySolutionProperties {
   return {
     workspace: item["workspace"],
     displayName: item["displayName"],
@@ -925,7 +859,7 @@ export function ioTSecurityAPIIoTSecuritySolutionPropertiesDeserializer(
     }),
     userDefinedResources: !item["userDefinedResources"]
       ? item["userDefinedResources"]
-      : ioTSecurityAPIUserDefinedResourcesPropertiesDeserializer(item["userDefinedResources"]),
+      : userDefinedResourcesPropertiesDeserializer(item["userDefinedResources"]),
     autoDiscoveredResources: !item["autoDiscoveredResources"]
       ? item["autoDiscoveredResources"]
       : item["autoDiscoveredResources"].map((p: any) => {
@@ -933,18 +867,18 @@ export function ioTSecurityAPIIoTSecuritySolutionPropertiesDeserializer(
         }),
     recommendationsConfiguration: !item["recommendationsConfiguration"]
       ? item["recommendationsConfiguration"]
-      : ioTSecurityAPIRecommendationConfigurationPropertiesArrayDeserializer(
+      : recommendationConfigurationPropertiesArrayDeserializer(
           item["recommendationsConfiguration"],
         ),
     unmaskedIpLoggingStatus: item["unmaskedIpLoggingStatus"],
     additionalWorkspaces: !item["additionalWorkspaces"]
       ? item["additionalWorkspaces"]
-      : ioTSecurityAPIAdditionalWorkspacesPropertiesArrayDeserializer(item["additionalWorkspaces"]),
+      : additionalWorkspacesPropertiesArrayDeserializer(item["additionalWorkspaces"]),
   };
 }
 
 /** Status of the IoT Security solution. */
-export enum KnownIoTSecurityAPISecuritySolutionStatus {
+export enum KnownSecuritySolutionStatus {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
@@ -953,42 +887,42 @@ export enum KnownIoTSecurityAPISecuritySolutionStatus {
 
 /**
  * Status of the IoT Security solution. \
- * {@link KnownIoTSecurityAPISecuritySolutionStatus} can be used interchangeably with IoTSecurityAPISecuritySolutionStatus,
+ * {@link KnownSecuritySolutionStatus} can be used interchangeably with SecuritySolutionStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Enabled**: Enabled \
  * **Disabled**: Disabled
  */
-export type IoTSecurityAPISecuritySolutionStatus = string;
+export type SecuritySolutionStatus = string;
 
 /** Known values of {@link ExportData} that the service accepts. */
-export enum KnownIoTSecurityAPIExportData {
+export enum KnownExportData {
   /** Agent raw events */
   RawEvents = "RawEvents",
 }
 
-/** Type of IoTSecurityAPIExportData */
-export type IoTSecurityAPIExportData = string;
+/** Type of ExportData */
+export type ExportData = string;
 
 /** Known values of {@link DataSource} that the service accepts. */
-export enum KnownIoTSecurityAPIDataSource {
+export enum KnownDataSource {
   /** Devices twin data */
   TwinData = "TwinData",
 }
 
-/** Type of IoTSecurityAPIDataSource */
-export type IoTSecurityAPIDataSource = string;
+/** Type of DataSource */
+export type DataSource = string;
 
 /** Properties of the IoT Security solution's user defined resources. */
-export interface IoTSecurityAPIUserDefinedResourcesProperties {
+export interface UserDefinedResourcesProperties {
   /** Azure Resource Graph query which represents the security solution's user defined resources. Required to start with "where type != "Microsoft.Devices/IotHubs"" */
   query: string | null;
   /** List of Azure subscription ids on which the user defined resources query should be executed. */
   querySubscriptions: string[] | null;
 }
 
-export function ioTSecurityAPIUserDefinedResourcesPropertiesSerializer(
-  item: IoTSecurityAPIUserDefinedResourcesProperties,
+export function userDefinedResourcesPropertiesSerializer(
+  item: UserDefinedResourcesProperties,
 ): any {
   return {
     query: item["query"],
@@ -1000,9 +934,9 @@ export function ioTSecurityAPIUserDefinedResourcesPropertiesSerializer(
   };
 }
 
-export function ioTSecurityAPIUserDefinedResourcesPropertiesDeserializer(
+export function userDefinedResourcesPropertiesDeserializer(
   item: any,
-): IoTSecurityAPIUserDefinedResourcesProperties {
+): UserDefinedResourcesProperties {
   return {
     query: item["query"],
     querySubscriptions: !item["querySubscriptions"]
@@ -1013,40 +947,40 @@ export function ioTSecurityAPIUserDefinedResourcesPropertiesDeserializer(
   };
 }
 
-export function ioTSecurityAPIRecommendationConfigurationPropertiesArraySerializer(
-  result: Array<IoTSecurityAPIRecommendationConfigurationProperties>,
+export function recommendationConfigurationPropertiesArraySerializer(
+  result: Array<RecommendationConfigurationProperties>,
 ): any[] {
   return result.map((item) => {
-    return ioTSecurityAPIRecommendationConfigurationPropertiesSerializer(item);
+    return recommendationConfigurationPropertiesSerializer(item);
   });
 }
 
-export function ioTSecurityAPIRecommendationConfigurationPropertiesArrayDeserializer(
-  result: Array<IoTSecurityAPIRecommendationConfigurationProperties>,
+export function recommendationConfigurationPropertiesArrayDeserializer(
+  result: Array<RecommendationConfigurationProperties>,
 ): any[] {
   return result.map((item) => {
-    return ioTSecurityAPIRecommendationConfigurationPropertiesDeserializer(item);
+    return recommendationConfigurationPropertiesDeserializer(item);
   });
 }
 
 /** The type of IoT Security recommendation. */
-export interface IoTSecurityAPIRecommendationConfigurationProperties {
+export interface RecommendationConfigurationProperties {
   /** The type of IoT Security recommendation. */
-  recommendationType: IoTSecurityAPIRecommendationType;
+  recommendationType: RecommendationType;
   readonly name?: string;
   /** Recommendation status. When the recommendation status is disabled recommendations are not generated. */
-  status: IoTSecurityAPIRecommendationConfigStatus;
+  status: RecommendationConfigStatus;
 }
 
-export function ioTSecurityAPIRecommendationConfigurationPropertiesSerializer(
-  item: IoTSecurityAPIRecommendationConfigurationProperties,
+export function recommendationConfigurationPropertiesSerializer(
+  item: RecommendationConfigurationProperties,
 ): any {
   return { recommendationType: item["recommendationType"], status: item["status"] };
 }
 
-export function ioTSecurityAPIRecommendationConfigurationPropertiesDeserializer(
+export function recommendationConfigurationPropertiesDeserializer(
   item: any,
-): IoTSecurityAPIRecommendationConfigurationProperties {
+): RecommendationConfigurationProperties {
   return {
     recommendationType: item["recommendationType"],
     name: item["name"],
@@ -1055,7 +989,7 @@ export function ioTSecurityAPIRecommendationConfigurationPropertiesDeserializer(
 }
 
 /** The type of IoT Security recommendation. */
-export enum KnownIoTSecurityAPIRecommendationType {
+export enum KnownRecommendationType {
   /** Authentication schema used for pull an edge module from an ACR repository does not use Service Principal Authentication. */
   IoTAcrauthentication = "IoT_ACRAuthentication",
   /** IoT agent message size capacity is currently underutilized, causing an increase in the number of sent messages. Adjust message intervals for better utilization. */
@@ -1092,7 +1026,7 @@ export enum KnownIoTSecurityAPIRecommendationType {
 
 /**
  * The type of IoT Security recommendation. \
- * {@link KnownIoTSecurityAPIRecommendationType} can be used interchangeably with IoTSecurityAPIRecommendationType,
+ * {@link KnownRecommendationType} can be used interchangeably with RecommendationType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **IoT_ACRAuthentication**: Authentication schema used for pull an edge module from an ACR repository does not use Service Principal Authentication. \
@@ -1112,10 +1046,10 @@ export enum KnownIoTSecurityAPIRecommendationType {
  * **IoT_SharedCredentials**: Same authentication credentials to the IoT Hub used by multiple devices. This could indicate an illegitimate device impersonating a legitimate device. It also exposes the risk of device impersonation by an attacker. \
  * **IoT_VulnerableTLSCipherSuite**: Insecure TLS configurations detected. Immediate upgrade recommended.
  */
-export type IoTSecurityAPIRecommendationType = string;
+export type RecommendationType = string;
 
 /** Recommendation status. When the recommendation status is disabled recommendations are not generated. */
-export enum KnownIoTSecurityAPIRecommendationConfigStatus {
+export enum KnownRecommendationConfigStatus {
   /** Disabled */
   Disabled = "Disabled",
   /** Enabled */
@@ -1124,16 +1058,16 @@ export enum KnownIoTSecurityAPIRecommendationConfigStatus {
 
 /**
  * Recommendation status. When the recommendation status is disabled recommendations are not generated. \
- * {@link KnownIoTSecurityAPIRecommendationConfigStatus} can be used interchangeably with IoTSecurityAPIRecommendationConfigStatus,
+ * {@link KnownRecommendationConfigStatus} can be used interchangeably with RecommendationConfigStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Disabled**: Disabled \
  * **Enabled**: Enabled
  */
-export type IoTSecurityAPIRecommendationConfigStatus = string;
+export type RecommendationConfigStatus = string;
 
 /** Unmasked IP address logging status */
-export enum KnownIoTSecurityAPIUnmaskedIpLoggingStatus {
+export enum KnownUnmaskedIpLoggingStatus {
   /** Unmasked IP logging is disabled */
   Disabled = "Disabled",
   /** Unmasked IP logging is enabled */
@@ -1142,42 +1076,42 @@ export enum KnownIoTSecurityAPIUnmaskedIpLoggingStatus {
 
 /**
  * Unmasked IP address logging status \
- * {@link KnownIoTSecurityAPIUnmaskedIpLoggingStatus} can be used interchangeably with IoTSecurityAPIUnmaskedIpLoggingStatus,
+ * {@link KnownUnmaskedIpLoggingStatus} can be used interchangeably with UnmaskedIpLoggingStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Disabled**: Unmasked IP logging is disabled \
  * **Enabled**: Unmasked IP logging is enabled
  */
-export type IoTSecurityAPIUnmaskedIpLoggingStatus = string;
+export type UnmaskedIpLoggingStatus = string;
 
-export function ioTSecurityAPIAdditionalWorkspacesPropertiesArraySerializer(
-  result: Array<IoTSecurityAPIAdditionalWorkspacesProperties>,
+export function additionalWorkspacesPropertiesArraySerializer(
+  result: Array<AdditionalWorkspacesProperties>,
 ): any[] {
   return result.map((item) => {
-    return ioTSecurityAPIAdditionalWorkspacesPropertiesSerializer(item);
+    return additionalWorkspacesPropertiesSerializer(item);
   });
 }
 
-export function ioTSecurityAPIAdditionalWorkspacesPropertiesArrayDeserializer(
-  result: Array<IoTSecurityAPIAdditionalWorkspacesProperties>,
+export function additionalWorkspacesPropertiesArrayDeserializer(
+  result: Array<AdditionalWorkspacesProperties>,
 ): any[] {
   return result.map((item) => {
-    return ioTSecurityAPIAdditionalWorkspacesPropertiesDeserializer(item);
+    return additionalWorkspacesPropertiesDeserializer(item);
   });
 }
 
 /** Properties of the additional workspaces. */
-export interface IoTSecurityAPIAdditionalWorkspacesProperties {
+export interface AdditionalWorkspacesProperties {
   /** Workspace resource id */
   workspace?: string;
   /** Workspace type. */
-  type?: IoTSecurityAPIAdditionalWorkspaceType;
+  type?: AdditionalWorkspaceType;
   /** List of data types sent to workspace */
-  dataTypes?: IoTSecurityAPIAdditionalWorkspaceDataType[];
+  dataTypes?: AdditionalWorkspaceDataType[];
 }
 
-export function ioTSecurityAPIAdditionalWorkspacesPropertiesSerializer(
-  item: IoTSecurityAPIAdditionalWorkspacesProperties,
+export function additionalWorkspacesPropertiesSerializer(
+  item: AdditionalWorkspacesProperties,
 ): any {
   return {
     workspace: item["workspace"],
@@ -1190,9 +1124,9 @@ export function ioTSecurityAPIAdditionalWorkspacesPropertiesSerializer(
   };
 }
 
-export function ioTSecurityAPIAdditionalWorkspacesPropertiesDeserializer(
+export function additionalWorkspacesPropertiesDeserializer(
   item: any,
-): IoTSecurityAPIAdditionalWorkspacesProperties {
+): AdditionalWorkspacesProperties {
   return {
     workspace: item["workspace"],
     type: item["type"],
@@ -1205,22 +1139,22 @@ export function ioTSecurityAPIAdditionalWorkspacesPropertiesDeserializer(
 }
 
 /** Workspace type. */
-export enum KnownIoTSecurityAPIAdditionalWorkspaceType {
+export enum KnownAdditionalWorkspaceType {
   /** Sentinel */
   Sentinel = "Sentinel",
 }
 
 /**
  * Workspace type. \
- * {@link KnownIoTSecurityAPIAdditionalWorkspaceType} can be used interchangeably with IoTSecurityAPIAdditionalWorkspaceType,
+ * {@link KnownAdditionalWorkspaceType} can be used interchangeably with AdditionalWorkspaceType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Sentinel**: Sentinel
  */
-export type IoTSecurityAPIAdditionalWorkspaceType = string;
+export type AdditionalWorkspaceType = string;
 
 /** Data types sent to workspace. */
-export enum KnownIoTSecurityAPIAdditionalWorkspaceDataType {
+export enum KnownAdditionalWorkspaceDataType {
   /** Alerts */
   Alerts = "Alerts",
   /** RawEvents */
@@ -1229,25 +1163,23 @@ export enum KnownIoTSecurityAPIAdditionalWorkspaceDataType {
 
 /**
  * Data types sent to workspace. \
- * {@link KnownIoTSecurityAPIAdditionalWorkspaceDataType} can be used interchangeably with IoTSecurityAPIAdditionalWorkspaceDataType,
+ * {@link KnownAdditionalWorkspaceDataType} can be used interchangeably with AdditionalWorkspaceDataType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Alerts**: Alerts \
  * **RawEvents**: RawEvents
  */
-export type IoTSecurityAPIAdditionalWorkspaceDataType = string;
+export type AdditionalWorkspaceDataType = string;
 
-/** model interface IoTSecurityAPIUpdateIotSecuritySolutionData */
-export interface IoTSecurityAPIUpdateIotSecuritySolutionData extends IoTSecurityAPITagsResource {
+/** model interface UpdateIotSecuritySolutionData */
+export interface UpdateIotSecuritySolutionData extends TagsResource {
   /** Properties of the IoT Security solution's user defined resources. */
-  userDefinedResources?: IoTSecurityAPIUserDefinedResourcesProperties;
+  userDefinedResources?: UserDefinedResourcesProperties;
   /** List of the configuration status for each recommendation type. */
-  recommendationsConfiguration?: IoTSecurityAPIRecommendationConfigurationProperties[];
+  recommendationsConfiguration?: RecommendationConfigurationProperties[];
 }
 
-export function ioTSecurityAPIUpdateIotSecuritySolutionDataSerializer(
-  item: IoTSecurityAPIUpdateIotSecuritySolutionData,
-): any {
+export function updateIotSecuritySolutionDataSerializer(item: UpdateIotSecuritySolutionData): any {
   return {
     tags: item["tags"],
     properties: areAllPropsUndefined(item, ["userDefinedResources", "recommendationsConfiguration"])
@@ -1257,73 +1189,69 @@ export function ioTSecurityAPIUpdateIotSecuritySolutionDataSerializer(
 }
 
 /** Update Security Solution setting data */
-export interface IoTSecurityAPIUpdateIoTSecuritySolutionProperties {
+export interface UpdateIoTSecuritySolutionProperties {
   /** Properties of the IoT Security solution's user defined resources. */
-  userDefinedResources?: IoTSecurityAPIUserDefinedResourcesProperties;
+  userDefinedResources?: UserDefinedResourcesProperties;
   /** List of the configuration status for each recommendation type. */
-  recommendationsConfiguration?: IoTSecurityAPIRecommendationConfigurationProperties[];
+  recommendationsConfiguration?: RecommendationConfigurationProperties[];
 }
 
-export function ioTSecurityAPIUpdateIoTSecuritySolutionPropertiesSerializer(
-  item: IoTSecurityAPIUpdateIoTSecuritySolutionProperties,
+export function updateIoTSecuritySolutionPropertiesSerializer(
+  item: UpdateIoTSecuritySolutionProperties,
 ): any {
   return {
     userDefinedResources: !item["userDefinedResources"]
       ? item["userDefinedResources"]
-      : ioTSecurityAPIUserDefinedResourcesPropertiesSerializer(item["userDefinedResources"]),
+      : userDefinedResourcesPropertiesSerializer(item["userDefinedResources"]),
     recommendationsConfiguration: !item["recommendationsConfiguration"]
       ? item["recommendationsConfiguration"]
-      : ioTSecurityAPIRecommendationConfigurationPropertiesArraySerializer(
-          item["recommendationsConfiguration"],
-        ),
+      : recommendationConfigurationPropertiesArraySerializer(item["recommendationsConfiguration"]),
   };
 }
 
 /** A container holding only the Tags for a resource, allowing the user to update the tags. */
-export interface IoTSecurityAPITagsResource {
+export interface TagsResource {
   /** Resource tags */
   tags?: Record<string, string>;
 }
 
-export function ioTSecurityAPITagsResourceSerializer(item: IoTSecurityAPITagsResource): any {
+export function tagsResourceSerializer(item: TagsResource): any {
   return { tags: item["tags"] };
 }
 
 /** List of IoT Security solutions. */
-export interface _IoTSecurityAPIIoTSecuritySolutionsList {
+export interface _IoTSecuritySolutionsList {
   /** The IoTSecuritySolutionModel items on this page */
-  value: IoTSecurityAPIIoTSecuritySolutionModel[];
+  value: IoTSecuritySolutionModel[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _ioTSecurityAPIIoTSecuritySolutionsListDeserializer(
-  item: any,
-): _IoTSecurityAPIIoTSecuritySolutionsList {
+export function _ioTSecuritySolutionsListDeserializer(item: any): _IoTSecuritySolutionsList {
   return {
-    value: ioTSecurityAPIIoTSecuritySolutionModelArrayDeserializer(item["value"]),
+    value: ioTSecuritySolutionModelArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function ioTSecurityAPIIoTSecuritySolutionModelArraySerializer(
-  result: Array<IoTSecurityAPIIoTSecuritySolutionModel>,
+export function ioTSecuritySolutionModelArraySerializer(
+  result: Array<IoTSecuritySolutionModel>,
 ): any[] {
   return result.map((item) => {
-    return ioTSecurityAPIIoTSecuritySolutionModelSerializer(item);
+    return ioTSecuritySolutionModelSerializer(item);
   });
 }
 
-export function ioTSecurityAPIIoTSecuritySolutionModelArrayDeserializer(
-  result: Array<IoTSecurityAPIIoTSecuritySolutionModel>,
+export function ioTSecuritySolutionModelArrayDeserializer(
+  result: Array<IoTSecuritySolutionModel>,
 ): any[] {
   return result.map((item) => {
-    return ioTSecurityAPIIoTSecuritySolutionModelDeserializer(item);
+    return ioTSecuritySolutionModelDeserializer(item);
   });
 }
 
 /** Security Solution Aggregated Alert information */
-export interface IoTSecurityAPIIoTSecurityAggregatedAlert extends ProxyResource {
+export interface IoTSecurityAggregatedAlert extends ProxyResource {
   /** Resource tags */
   tags?: Record<string, string>;
   /** Name of the alert type. */
@@ -1335,7 +1263,7 @@ export interface IoTSecurityAPIIoTSecurityAggregatedAlert extends ProxyResource 
   /** Name of the organization that raised the alert. */
   readonly vendorName?: string;
   /** Assessed alert severity. */
-  readonly reportedSeverity?: IoTSecurityAPIReportedSeverity;
+  readonly reportedSeverity?: ReportedSeverity;
   /** Recommended steps for remediation. */
   readonly remediationSteps?: string;
   /** Description of the suspected vulnerability and meaning. */
@@ -1351,12 +1279,10 @@ export interface IoTSecurityAPIIoTSecurityAggregatedAlert extends ProxyResource 
   /** Log analytics query for getting the list of affected devices/alerts. */
   readonly logAnalyticsQuery?: string;
   /** 10 devices with the highest number of occurrences of this alert type, on this day. */
-  readonly topDevicesList?: IoTSecurityAPIIoTSecurityAggregatedAlertPropertiesTopDevicesListItem[];
+  readonly topDevicesList?: IoTSecurityAggregatedAlertPropertiesTopDevicesListItem[];
 }
 
-export function ioTSecurityAPIIoTSecurityAggregatedAlertDeserializer(
-  item: any,
-): IoTSecurityAPIIoTSecurityAggregatedAlert {
+export function ioTSecurityAggregatedAlertDeserializer(item: any): IoTSecurityAggregatedAlert {
   return {
     id: item["id"],
     name: item["name"],
@@ -1374,7 +1300,7 @@ export function ioTSecurityAPIIoTSecurityAggregatedAlertDeserializer(
 }
 
 /** IoT Security solution aggregated alert details. */
-export interface IoTSecurityAPIIoTSecurityAggregatedAlertProperties {
+export interface IoTSecurityAggregatedAlertProperties {
   /** Name of the alert type. */
   readonly alertType?: string;
   /** Display name of the alert type. */
@@ -1384,7 +1310,7 @@ export interface IoTSecurityAPIIoTSecurityAggregatedAlertProperties {
   /** Name of the organization that raised the alert. */
   readonly vendorName?: string;
   /** Assessed alert severity. */
-  readonly reportedSeverity?: IoTSecurityAPIReportedSeverity;
+  readonly reportedSeverity?: ReportedSeverity;
   /** Recommended steps for remediation. */
   readonly remediationSteps?: string;
   /** Description of the suspected vulnerability and meaning. */
@@ -1400,12 +1326,12 @@ export interface IoTSecurityAPIIoTSecurityAggregatedAlertProperties {
   /** Log analytics query for getting the list of affected devices/alerts. */
   readonly logAnalyticsQuery?: string;
   /** 10 devices with the highest number of occurrences of this alert type, on this day. */
-  readonly topDevicesList?: IoTSecurityAPIIoTSecurityAggregatedAlertPropertiesTopDevicesListItem[];
+  readonly topDevicesList?: IoTSecurityAggregatedAlertPropertiesTopDevicesListItem[];
 }
 
-export function ioTSecurityAPIIoTSecurityAggregatedAlertPropertiesDeserializer(
+export function ioTSecurityAggregatedAlertPropertiesDeserializer(
   item: any,
-): IoTSecurityAPIIoTSecurityAggregatedAlertProperties {
+): IoTSecurityAggregatedAlertProperties {
   return {
     alertType: item["alertType"],
     alertDisplayName: item["alertDisplayName"],
@@ -1423,22 +1349,22 @@ export function ioTSecurityAPIIoTSecurityAggregatedAlertPropertiesDeserializer(
     logAnalyticsQuery: item["logAnalyticsQuery"],
     topDevicesList: !item["topDevicesList"]
       ? item["topDevicesList"]
-      : ioTSecurityAPIIoTSecurityAggregatedAlertPropertiesTopDevicesListItemArrayDeserializer(
+      : ioTSecurityAggregatedAlertPropertiesTopDevicesListItemArrayDeserializer(
           item["topDevicesList"],
         ),
   };
 }
 
-export function ioTSecurityAPIIoTSecurityAggregatedAlertPropertiesTopDevicesListItemArrayDeserializer(
-  result: Array<IoTSecurityAPIIoTSecurityAggregatedAlertPropertiesTopDevicesListItem>,
+export function ioTSecurityAggregatedAlertPropertiesTopDevicesListItemArrayDeserializer(
+  result: Array<IoTSecurityAggregatedAlertPropertiesTopDevicesListItem>,
 ): any[] {
   return result.map((item) => {
-    return ioTSecurityAPIIoTSecurityAggregatedAlertPropertiesTopDevicesListItemDeserializer(item);
+    return ioTSecurityAggregatedAlertPropertiesTopDevicesListItemDeserializer(item);
   });
 }
 
-/** model interface IoTSecurityAPIIoTSecurityAggregatedAlertPropertiesTopDevicesListItem */
-export interface IoTSecurityAPIIoTSecurityAggregatedAlertPropertiesTopDevicesListItem {
+/** model interface IoTSecurityAggregatedAlertPropertiesTopDevicesListItem */
+export interface IoTSecurityAggregatedAlertPropertiesTopDevicesListItem {
   /** Name of the device. */
   readonly deviceId?: string;
   /** Number of alerts raised for this device. */
@@ -1447,9 +1373,9 @@ export interface IoTSecurityAPIIoTSecurityAggregatedAlertPropertiesTopDevicesLis
   readonly lastOccurrence?: string;
 }
 
-export function ioTSecurityAPIIoTSecurityAggregatedAlertPropertiesTopDevicesListItemDeserializer(
+export function ioTSecurityAggregatedAlertPropertiesTopDevicesListItemDeserializer(
   item: any,
-): IoTSecurityAPIIoTSecurityAggregatedAlertPropertiesTopDevicesListItem {
+): IoTSecurityAggregatedAlertPropertiesTopDevicesListItem {
   return {
     deviceId: item["deviceId"],
     alertsCount: item["alertsCount"],
@@ -1458,32 +1384,32 @@ export function ioTSecurityAPIIoTSecurityAggregatedAlertPropertiesTopDevicesList
 }
 
 /** List of IoT Security solution aggregated alert data. */
-export interface _IoTSecurityAPIIoTSecurityAggregatedAlertList {
+export interface _IoTSecurityAggregatedAlertList {
   /** The IoTSecurityAggregatedAlert items on this page */
-  value: IoTSecurityAPIIoTSecurityAggregatedAlert[];
+  value: IoTSecurityAggregatedAlert[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _ioTSecurityAPIIoTSecurityAggregatedAlertListDeserializer(
+export function _ioTSecurityAggregatedAlertListDeserializer(
   item: any,
-): _IoTSecurityAPIIoTSecurityAggregatedAlertList {
+): _IoTSecurityAggregatedAlertList {
   return {
-    value: ioTSecurityAPIIoTSecurityAggregatedAlertArrayDeserializer(item["value"]),
+    value: ioTSecurityAggregatedAlertArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function ioTSecurityAPIIoTSecurityAggregatedAlertArrayDeserializer(
-  result: Array<IoTSecurityAPIIoTSecurityAggregatedAlert>,
+export function ioTSecurityAggregatedAlertArrayDeserializer(
+  result: Array<IoTSecurityAggregatedAlert>,
 ): any[] {
   return result.map((item) => {
-    return ioTSecurityAPIIoTSecurityAggregatedAlertDeserializer(item);
+    return ioTSecurityAggregatedAlertDeserializer(item);
   });
 }
 
 /** IoT Security solution recommendation information. */
-export interface IoTSecurityAPIIoTSecurityAggregatedRecommendation extends ProxyResource {
+export interface IoTSecurityAggregatedRecommendation extends ProxyResource {
   /** Resource tags */
   tags?: Record<string, string>;
   /** Name of the recommendation. */
@@ -1499,7 +1425,7 @@ export interface IoTSecurityAPIIoTSecurityAggregatedRecommendation extends Proxy
   /** Recommended steps for remediation */
   readonly remediationSteps?: string;
   /** Assessed recommendation severity. */
-  readonly reportedSeverity?: IoTSecurityAPIReportedSeverity;
+  readonly reportedSeverity?: ReportedSeverity;
   /** Number of healthy devices within the IoT Security solution. */
   readonly healthyDevices?: number;
   /** Number of unhealthy devices within the IoT Security solution. */
@@ -1508,9 +1434,9 @@ export interface IoTSecurityAPIIoTSecurityAggregatedRecommendation extends Proxy
   readonly logAnalyticsQuery?: string;
 }
 
-export function ioTSecurityAPIIoTSecurityAggregatedRecommendationDeserializer(
+export function ioTSecurityAggregatedRecommendationDeserializer(
   item: any,
-): IoTSecurityAPIIoTSecurityAggregatedRecommendation {
+): IoTSecurityAggregatedRecommendation {
   return {
     id: item["id"],
     name: item["name"],
@@ -1528,7 +1454,7 @@ export function ioTSecurityAPIIoTSecurityAggregatedRecommendationDeserializer(
 }
 
 /** IoT Security solution aggregated recommendation information */
-export interface IoTSecurityAPIIoTSecurityAggregatedRecommendationProperties {
+export interface IoTSecurityAggregatedRecommendationProperties {
   /** Name of the recommendation. */
   recommendationName?: string;
   /** Display name of the recommendation type. */
@@ -1542,7 +1468,7 @@ export interface IoTSecurityAPIIoTSecurityAggregatedRecommendationProperties {
   /** Recommended steps for remediation */
   readonly remediationSteps?: string;
   /** Assessed recommendation severity. */
-  readonly reportedSeverity?: IoTSecurityAPIReportedSeverity;
+  readonly reportedSeverity?: ReportedSeverity;
   /** Number of healthy devices within the IoT Security solution. */
   readonly healthyDevices?: number;
   /** Number of unhealthy devices within the IoT Security solution. */
@@ -1551,9 +1477,9 @@ export interface IoTSecurityAPIIoTSecurityAggregatedRecommendationProperties {
   readonly logAnalyticsQuery?: string;
 }
 
-export function ioTSecurityAPIIoTSecurityAggregatedRecommendationPropertiesDeserializer(
+export function ioTSecurityAggregatedRecommendationPropertiesDeserializer(
   item: any,
-): IoTSecurityAPIIoTSecurityAggregatedRecommendationProperties {
+): IoTSecurityAggregatedRecommendationProperties {
   return {
     recommendationName: item["recommendationName"],
     recommendationDisplayName: item["recommendationDisplayName"],
@@ -1569,46 +1495,44 @@ export function ioTSecurityAPIIoTSecurityAggregatedRecommendationPropertiesDeser
 }
 
 /** List of IoT Security solution aggregated recommendations. */
-export interface _IoTSecurityAPIIoTSecurityAggregatedRecommendationList {
+export interface _IoTSecurityAggregatedRecommendationList {
   /** The IoTSecurityAggregatedRecommendation items on this page */
-  value: IoTSecurityAPIIoTSecurityAggregatedRecommendation[];
+  value: IoTSecurityAggregatedRecommendation[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _ioTSecurityAPIIoTSecurityAggregatedRecommendationListDeserializer(
+export function _ioTSecurityAggregatedRecommendationListDeserializer(
   item: any,
-): _IoTSecurityAPIIoTSecurityAggregatedRecommendationList {
+): _IoTSecurityAggregatedRecommendationList {
   return {
-    value: ioTSecurityAPIIoTSecurityAggregatedRecommendationArrayDeserializer(item["value"]),
+    value: ioTSecurityAggregatedRecommendationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function ioTSecurityAPIIoTSecurityAggregatedRecommendationArrayDeserializer(
-  result: Array<IoTSecurityAPIIoTSecurityAggregatedRecommendation>,
+export function ioTSecurityAggregatedRecommendationArrayDeserializer(
+  result: Array<IoTSecurityAggregatedRecommendation>,
 ): any[] {
   return result.map((item) => {
-    return ioTSecurityAPIIoTSecurityAggregatedRecommendationDeserializer(item);
+    return ioTSecurityAggregatedRecommendationDeserializer(item);
   });
 }
 
-export function _deviceSecurityGroupPropertiesSerializer(
-  item: IoTSecurityAPIDeviceSecurityGroup,
-): any {
+export function _deviceSecurityGroupPropertiesSerializer(item: DeviceSecurityGroup): any {
   return {
     thresholdRules: !item["thresholdRules"]
       ? item["thresholdRules"]
-      : ioTSecurityAPIThresholdCustomAlertRuleArraySerializer(item["thresholdRules"]),
+      : thresholdCustomAlertRuleUnionArraySerializer(item["thresholdRules"]),
     timeWindowRules: !item["timeWindowRules"]
       ? item["timeWindowRules"]
-      : ioTSecurityAPITimeWindowCustomAlertRuleArraySerializer(item["timeWindowRules"]),
+      : timeWindowCustomAlertRuleArraySerializer(item["timeWindowRules"]),
     allowlistRules: !item["allowlistRules"]
       ? item["allowlistRules"]
-      : ioTSecurityAPIAllowlistCustomAlertRuleArraySerializer(item["allowlistRules"]),
+      : allowlistCustomAlertRuleArraySerializer(item["allowlistRules"]),
     denylistRules: !item["denylistRules"]
       ? item["denylistRules"]
-      : ioTSecurityAPIDenylistCustomAlertRuleArraySerializer(item["denylistRules"]),
+      : denylistCustomAlertRuleArraySerializer(item["denylistRules"]),
   };
 }
 
@@ -1616,47 +1540,43 @@ export function _deviceSecurityGroupPropertiesDeserializer(item: any) {
   return {
     thresholdRules: !item["thresholdRules"]
       ? item["thresholdRules"]
-      : ioTSecurityAPIThresholdCustomAlertRuleArrayDeserializer(item["thresholdRules"]),
+      : thresholdCustomAlertRuleUnionArrayDeserializer(item["thresholdRules"]),
     timeWindowRules: !item["timeWindowRules"]
       ? item["timeWindowRules"]
-      : ioTSecurityAPITimeWindowCustomAlertRuleArrayDeserializer(item["timeWindowRules"]),
+      : timeWindowCustomAlertRuleArrayDeserializer(item["timeWindowRules"]),
     allowlistRules: !item["allowlistRules"]
       ? item["allowlistRules"]
-      : ioTSecurityAPIAllowlistCustomAlertRuleArrayDeserializer(item["allowlistRules"]),
+      : allowlistCustomAlertRuleArrayDeserializer(item["allowlistRules"]),
     denylistRules: !item["denylistRules"]
       ? item["denylistRules"]
-      : ioTSecurityAPIDenylistCustomAlertRuleArrayDeserializer(item["denylistRules"]),
+      : denylistCustomAlertRuleArrayDeserializer(item["denylistRules"]),
   };
 }
 
 export function _ioTSecuritySolutionAnalyticsModelPropertiesDeserializer(item: any) {
   return {
-    metrics: !item["metrics"]
-      ? item["metrics"]
-      : ioTSecurityAPIIoTSeverityMetricsDeserializer(item["metrics"]),
+    metrics: !item["metrics"] ? item["metrics"] : ioTSeverityMetricsDeserializer(item["metrics"]),
     unhealthyDeviceCount: item["unhealthyDeviceCount"],
     devicesMetrics: !item["devicesMetrics"]
       ? item["devicesMetrics"]
-      : ioTSecurityAPIIoTSecuritySolutionAnalyticsModelPropertiesDevicesMetricsItemArrayDeserializer(
+      : ioTSecuritySolutionAnalyticsModelPropertiesDevicesMetricsItemArrayDeserializer(
           item["devicesMetrics"],
         ),
     topAlertedDevices: !item["topAlertedDevices"]
       ? item["topAlertedDevices"]
-      : ioTSecurityAPIIoTSecurityAlertedDeviceArrayDeserializer(item["topAlertedDevices"]),
+      : ioTSecurityAlertedDeviceArrayDeserializer(item["topAlertedDevices"]),
     mostPrevalentDeviceAlerts: !item["mostPrevalentDeviceAlerts"]
       ? item["mostPrevalentDeviceAlerts"]
-      : ioTSecurityAPIIoTSecurityDeviceAlertArrayDeserializer(item["mostPrevalentDeviceAlerts"]),
+      : ioTSecurityDeviceAlertArrayDeserializer(item["mostPrevalentDeviceAlerts"]),
     mostPrevalentDeviceRecommendations: !item["mostPrevalentDeviceRecommendations"]
       ? item["mostPrevalentDeviceRecommendations"]
-      : ioTSecurityAPIIoTSecurityDeviceRecommendationArrayDeserializer(
+      : ioTSecurityDeviceRecommendationArrayDeserializer(
           item["mostPrevalentDeviceRecommendations"],
         ),
   };
 }
 
-export function _ioTSecuritySolutionModelPropertiesSerializer(
-  item: IoTSecurityAPIIoTSecuritySolutionModel,
-): any {
+export function _ioTSecuritySolutionModelPropertiesSerializer(item: IoTSecuritySolutionModel): any {
   return {
     workspace: item["workspace"],
     displayName: item["displayName"],
@@ -1678,16 +1598,14 @@ export function _ioTSecuritySolutionModelPropertiesSerializer(
         }),
     userDefinedResources: !item["userDefinedResources"]
       ? item["userDefinedResources"]
-      : ioTSecurityAPIUserDefinedResourcesPropertiesSerializer(item["userDefinedResources"]),
+      : userDefinedResourcesPropertiesSerializer(item["userDefinedResources"]),
     recommendationsConfiguration: !item["recommendationsConfiguration"]
       ? item["recommendationsConfiguration"]
-      : ioTSecurityAPIRecommendationConfigurationPropertiesArraySerializer(
-          item["recommendationsConfiguration"],
-        ),
+      : recommendationConfigurationPropertiesArraySerializer(item["recommendationsConfiguration"]),
     unmaskedIpLoggingStatus: item["unmaskedIpLoggingStatus"],
     additionalWorkspaces: !item["additionalWorkspaces"]
       ? item["additionalWorkspaces"]
-      : ioTSecurityAPIAdditionalWorkspacesPropertiesArraySerializer(item["additionalWorkspaces"]),
+      : additionalWorkspacesPropertiesArraySerializer(item["additionalWorkspaces"]),
   };
 }
 
@@ -1713,7 +1631,7 @@ export function _ioTSecuritySolutionModelPropertiesDeserializer(item: any) {
         }),
     userDefinedResources: !item["userDefinedResources"]
       ? item["userDefinedResources"]
-      : ioTSecurityAPIUserDefinedResourcesPropertiesDeserializer(item["userDefinedResources"]),
+      : userDefinedResourcesPropertiesDeserializer(item["userDefinedResources"]),
     autoDiscoveredResources: !item["autoDiscoveredResources"]
       ? item["autoDiscoveredResources"]
       : item["autoDiscoveredResources"].map((p: any) => {
@@ -1721,28 +1639,26 @@ export function _ioTSecuritySolutionModelPropertiesDeserializer(item: any) {
         }),
     recommendationsConfiguration: !item["recommendationsConfiguration"]
       ? item["recommendationsConfiguration"]
-      : ioTSecurityAPIRecommendationConfigurationPropertiesArrayDeserializer(
+      : recommendationConfigurationPropertiesArrayDeserializer(
           item["recommendationsConfiguration"],
         ),
     unmaskedIpLoggingStatus: item["unmaskedIpLoggingStatus"],
     additionalWorkspaces: !item["additionalWorkspaces"]
       ? item["additionalWorkspaces"]
-      : ioTSecurityAPIAdditionalWorkspacesPropertiesArrayDeserializer(item["additionalWorkspaces"]),
+      : additionalWorkspacesPropertiesArrayDeserializer(item["additionalWorkspaces"]),
   };
 }
 
 export function _updateIotSecuritySolutionDataPropertiesSerializer(
-  item: IoTSecurityAPIUpdateIotSecuritySolutionData,
+  item: UpdateIotSecuritySolutionData,
 ): any {
   return {
     userDefinedResources: !item["userDefinedResources"]
       ? item["userDefinedResources"]
-      : ioTSecurityAPIUserDefinedResourcesPropertiesSerializer(item["userDefinedResources"]),
+      : userDefinedResourcesPropertiesSerializer(item["userDefinedResources"]),
     recommendationsConfiguration: !item["recommendationsConfiguration"]
       ? item["recommendationsConfiguration"]
-      : ioTSecurityAPIRecommendationConfigurationPropertiesArraySerializer(
-          item["recommendationsConfiguration"],
-        ),
+      : recommendationConfigurationPropertiesArraySerializer(item["recommendationsConfiguration"]),
   };
 }
 
@@ -1764,7 +1680,7 @@ export function _ioTSecurityAggregatedAlertPropertiesDeserializer(item: any) {
     logAnalyticsQuery: item["logAnalyticsQuery"],
     topDevicesList: !item["topDevicesList"]
       ? item["topDevicesList"]
-      : ioTSecurityAPIIoTSecurityAggregatedAlertPropertiesTopDevicesListItemArrayDeserializer(
+      : ioTSecurityAggregatedAlertPropertiesTopDevicesListItemArrayDeserializer(
           item["topDevicesList"],
         ),
   };

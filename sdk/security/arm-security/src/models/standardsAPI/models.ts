@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
-import type { CommonAssignedStandardItem } from "../common/models.js";
+import type { AssignedStandardItem } from "../common/models.js";
 import {
-  commonAssignedStandardItemSerializer,
-  commonAssignedStandardItemDeserializer,
+  assignedStandardItemSerializer,
+  assignedStandardItemDeserializer,
 } from "../common/models.js";
 import type { ProxyResource } from "../models.js";
 import { systemDataDeserializer } from "../models.js";
@@ -17,7 +17,7 @@ import { systemDataDeserializer } from "../models.js";
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Security Standard on a resource */
-export interface StandardsAPIStandard extends ProxyResource {
+export interface Standard extends ProxyResource {
   /** Resource tags. */
   tags?: Record<string, string>;
   /** The geo-location where the resource lives */
@@ -35,12 +35,12 @@ export interface StandardsAPIStandard extends ProxyResource {
   /** category of the standard provided */
   category?: string;
   /** List of component objects containing component unique keys (such as assessment keys) to apply to standard scope.  Currently only supports assessment keys. */
-  components?: StandardsAPIStandardComponentProperties[];
+  components?: StandardComponentProperties[];
   /** List of all standard supported clouds. */
-  supportedClouds?: StandardsAPIStandardSupportedClouds[];
+  supportedClouds?: StandardSupportedClouds[];
 }
 
-export function standardsAPIStandardSerializer(item: StandardsAPIStandard): any {
+export function standardSerializer(item: Standard): any {
   return {
     properties: areAllPropsUndefined(item, [
       "displayName",
@@ -58,7 +58,7 @@ export function standardsAPIStandardSerializer(item: StandardsAPIStandard): any 
   };
 }
 
-export function standardsAPIStandardDeserializer(item: any): StandardsAPIStandard {
+export function standardDeserializer(item: any): Standard {
   return {
     id: item["id"],
     name: item["name"],
@@ -79,7 +79,7 @@ export function standardsAPIStandardDeserializer(item: any): StandardsAPIStandar
 }
 
 /** Describes properties of a standard. */
-export interface StandardsAPIStandardProperties {
+export interface StandardProperties {
   /** display name of the standard, equivalent to the standardId */
   displayName?: string;
   /** standard type (Custom or BuiltIn only currently) */
@@ -89,21 +89,19 @@ export interface StandardsAPIStandardProperties {
   /** category of the standard provided */
   category?: string;
   /** List of component objects containing component unique keys (such as assessment keys) to apply to standard scope.  Currently only supports assessment keys. */
-  components?: StandardsAPIStandardComponentProperties[];
+  components?: StandardComponentProperties[];
   /** List of all standard supported clouds. */
-  supportedClouds?: StandardsAPIStandardSupportedClouds[];
+  supportedClouds?: StandardSupportedClouds[];
 }
 
-export function standardsAPIStandardPropertiesSerializer(
-  item: StandardsAPIStandardProperties,
-): any {
+export function standardPropertiesSerializer(item: StandardProperties): any {
   return {
     displayName: item["displayName"],
     description: item["description"],
     category: item["category"],
     components: !item["components"]
       ? item["components"]
-      : standardsAPIStandardComponentPropertiesArraySerializer(item["components"]),
+      : standardComponentPropertiesArraySerializer(item["components"]),
     supportedClouds: !item["supportedClouds"]
       ? item["supportedClouds"]
       : item["supportedClouds"].map((p: any) => {
@@ -112,9 +110,7 @@ export function standardsAPIStandardPropertiesSerializer(
   };
 }
 
-export function standardsAPIStandardPropertiesDeserializer(
-  item: any,
-): StandardsAPIStandardProperties {
+export function standardPropertiesDeserializer(item: any): StandardProperties {
   return {
     displayName: item["displayName"],
     standardType: item["standardType"],
@@ -122,7 +118,7 @@ export function standardsAPIStandardPropertiesDeserializer(
     category: item["category"],
     components: !item["components"]
       ? item["components"]
-      : standardsAPIStandardComponentPropertiesArrayDeserializer(item["components"]),
+      : standardComponentPropertiesArrayDeserializer(item["components"]),
     supportedClouds: !item["supportedClouds"]
       ? item["supportedClouds"]
       : item["supportedClouds"].map((p: any) => {
@@ -131,74 +127,70 @@ export function standardsAPIStandardPropertiesDeserializer(
   };
 }
 
-export function standardsAPIStandardComponentPropertiesArraySerializer(
-  result: Array<StandardsAPIStandardComponentProperties>,
+export function standardComponentPropertiesArraySerializer(
+  result: Array<StandardComponentProperties>,
 ): any[] {
   return result.map((item) => {
-    return standardsAPIStandardComponentPropertiesSerializer(item);
+    return standardComponentPropertiesSerializer(item);
   });
 }
 
-export function standardsAPIStandardComponentPropertiesArrayDeserializer(
-  result: Array<StandardsAPIStandardComponentProperties>,
+export function standardComponentPropertiesArrayDeserializer(
+  result: Array<StandardComponentProperties>,
 ): any[] {
   return result.map((item) => {
-    return standardsAPIStandardComponentPropertiesDeserializer(item);
+    return standardComponentPropertiesDeserializer(item);
   });
 }
 
 /** Describes properties of an component as related to the standard */
-export interface StandardsAPIStandardComponentProperties {
+export interface StandardComponentProperties {
   /** Component Key matching componentMetadata */
   key?: string;
 }
 
-export function standardsAPIStandardComponentPropertiesSerializer(
-  item: StandardsAPIStandardComponentProperties,
-): any {
+export function standardComponentPropertiesSerializer(item: StandardComponentProperties): any {
   return { key: item["key"] };
 }
 
-export function standardsAPIStandardComponentPropertiesDeserializer(
-  item: any,
-): StandardsAPIStandardComponentProperties {
+export function standardComponentPropertiesDeserializer(item: any): StandardComponentProperties {
   return {
     key: item["key"],
   };
 }
 
 /** The cloud that the standard is supported on. */
-export type StandardsAPIStandardSupportedClouds = "AWS" | "GCP";
+export type StandardSupportedClouds = "AWS" | "GCP";
 
 /** Page of a Standard list */
-export interface _StandardsAPIStandardList {
+export interface _StandardList {
   /** Collection of standards in this page */
-  readonly value?: StandardsAPIStandard[];
+  readonly value?: Standard[];
   /** The URI to fetch the next page */
   readonly nextLink?: string;
 }
 
-export function _standardsAPIStandardListDeserializer(item: any): _StandardsAPIStandardList {
+export function _standardListDeserializer(item: any): _StandardList {
   return {
-    value: !item["value"] ? item["value"] : standardsAPIStandardArrayDeserializer(item["value"]),
+    value: !item["value"] ? item["value"] : standardArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function standardsAPIStandardArraySerializer(result: Array<StandardsAPIStandard>): any[] {
+export function standardArraySerializer(result: Array<Standard>): any[] {
   return result.map((item) => {
-    return standardsAPIStandardSerializer(item);
+    return standardSerializer(item);
   });
 }
 
-export function standardsAPIStandardArrayDeserializer(result: Array<StandardsAPIStandard>): any[] {
+export function standardArrayDeserializer(result: Array<Standard>): any[] {
   return result.map((item) => {
-    return standardsAPIStandardDeserializer(item);
+    return standardDeserializer(item);
   });
 }
 
 /** Security Assignment on a resource group over a given scope */
-export interface StandardsAPIAssignment extends ProxyResource {
+export interface Assignment extends ProxyResource {
   /** Resource tags. */
   tags?: Record<string, string>;
   /** The geo-location where the resource lives */
@@ -212,9 +204,9 @@ export interface StandardsAPIAssignment extends ProxyResource {
   /** description of the standardAssignment */
   description?: string;
   /** Standard item with key as applied to this standard assignment over the given scope */
-  assignedStandard?: CommonAssignedStandardItem;
+  assignedStandard?: AssignedStandardItem;
   /** Component item with key as applied to this standard assignment over the given scope */
-  assignedComponent?: StandardsAPIAssignedComponentItem;
+  assignedComponent?: AssignedComponentItem;
   /** Scope to which the standardAssignment applies - can be a subscription path or a resource group under that subscription */
   scope?: string;
   /** expected effect of this assignment (Disable/Exempt/etc) */
@@ -222,12 +214,12 @@ export interface StandardsAPIAssignment extends ProxyResource {
   /** Expiration date of this assignment as a full ISO date */
   expiresOn?: Date;
   /** Additional data about the assignment */
-  additionalData?: StandardsAPIAssignmentPropertiesAdditionalData;
+  additionalData?: AssignmentPropertiesAdditionalData;
   /** The assignment metadata. Metadata is an open ended object and is typically a collection of key value pairs. */
   metadata?: any;
 }
 
-export function standardsAPIAssignmentSerializer(item: StandardsAPIAssignment): any {
+export function assignmentSerializer(item: Assignment): any {
   return {
     properties: areAllPropsUndefined(item, [
       "displayName",
@@ -249,7 +241,7 @@ export function standardsAPIAssignmentSerializer(item: StandardsAPIAssignment): 
   };
 }
 
-export function standardsAPIAssignmentDeserializer(item: any): StandardsAPIAssignment {
+export function assignmentDeserializer(item: any): Assignment {
   return {
     id: item["id"],
     name: item["name"],
@@ -270,15 +262,15 @@ export function standardsAPIAssignmentDeserializer(item: any): StandardsAPIAssig
 }
 
 /** Describes the properties of a standardAssignment */
-export interface StandardsAPIAssignmentProperties {
+export interface AssignmentProperties {
   /** display name of the standardAssignment */
   displayName?: string;
   /** description of the standardAssignment */
   description?: string;
   /** Standard item with key as applied to this standard assignment over the given scope */
-  assignedStandard?: CommonAssignedStandardItem;
+  assignedStandard?: AssignedStandardItem;
   /** Component item with key as applied to this standard assignment over the given scope */
-  assignedComponent?: StandardsAPIAssignedComponentItem;
+  assignedComponent?: AssignedComponentItem;
   /** Scope to which the standardAssignment applies - can be a subscription path or a resource group under that subscription */
   scope?: string;
   /** expected effect of this assignment (Disable/Exempt/etc) */
@@ -286,134 +278,122 @@ export interface StandardsAPIAssignmentProperties {
   /** Expiration date of this assignment as a full ISO date */
   expiresOn?: Date;
   /** Additional data about the assignment */
-  additionalData?: StandardsAPIAssignmentPropertiesAdditionalData;
+  additionalData?: AssignmentPropertiesAdditionalData;
   /** The assignment metadata. Metadata is an open ended object and is typically a collection of key value pairs. */
   metadata?: any;
 }
 
-export function standardsAPIAssignmentPropertiesSerializer(
-  item: StandardsAPIAssignmentProperties,
-): any {
+export function assignmentPropertiesSerializer(item: AssignmentProperties): any {
   return {
     displayName: item["displayName"],
     description: item["description"],
     assignedStandard: !item["assignedStandard"]
       ? item["assignedStandard"]
-      : commonAssignedStandardItemSerializer(item["assignedStandard"]),
+      : assignedStandardItemSerializer(item["assignedStandard"]),
     assignedComponent: !item["assignedComponent"]
       ? item["assignedComponent"]
-      : standardsAPIAssignedComponentItemSerializer(item["assignedComponent"]),
+      : assignedComponentItemSerializer(item["assignedComponent"]),
     scope: item["scope"],
     effect: item["effect"],
     expiresOn: !item["expiresOn"] ? item["expiresOn"] : item["expiresOn"].toISOString(),
     additionalData: !item["additionalData"]
       ? item["additionalData"]
-      : standardsAPIAssignmentPropertiesAdditionalDataSerializer(item["additionalData"]),
+      : assignmentPropertiesAdditionalDataSerializer(item["additionalData"]),
     metadata: item["metadata"],
   };
 }
 
-export function standardsAPIAssignmentPropertiesDeserializer(
-  item: any,
-): StandardsAPIAssignmentProperties {
+export function assignmentPropertiesDeserializer(item: any): AssignmentProperties {
   return {
     displayName: item["displayName"],
     description: item["description"],
     assignedStandard: !item["assignedStandard"]
       ? item["assignedStandard"]
-      : commonAssignedStandardItemDeserializer(item["assignedStandard"]),
+      : assignedStandardItemDeserializer(item["assignedStandard"]),
     assignedComponent: !item["assignedComponent"]
       ? item["assignedComponent"]
-      : standardsAPIAssignedComponentItemDeserializer(item["assignedComponent"]),
+      : assignedComponentItemDeserializer(item["assignedComponent"]),
     scope: item["scope"],
     effect: item["effect"],
     expiresOn: !item["expiresOn"] ? item["expiresOn"] : new Date(item["expiresOn"]),
     additionalData: !item["additionalData"]
       ? item["additionalData"]
-      : standardsAPIAssignmentPropertiesAdditionalDataDeserializer(item["additionalData"]),
+      : assignmentPropertiesAdditionalDataDeserializer(item["additionalData"]),
     metadata: item["metadata"],
   };
 }
 
 /** describe the properties of a security assessment object reference (by key) */
-export interface StandardsAPIAssignedComponentItem {
+export interface AssignedComponentItem {
   /** unique key to a security assessment object */
   key?: string;
 }
 
-export function standardsAPIAssignedComponentItemSerializer(
-  item: StandardsAPIAssignedComponentItem,
-): any {
+export function assignedComponentItemSerializer(item: AssignedComponentItem): any {
   return { key: item["key"] };
 }
 
-export function standardsAPIAssignedComponentItemDeserializer(
-  item: any,
-): StandardsAPIAssignedComponentItem {
+export function assignedComponentItemDeserializer(item: any): AssignedComponentItem {
   return {
     key: item["key"],
   };
 }
 
 /** Additional data about the assignment */
-export interface StandardsAPIAssignmentPropertiesAdditionalData {
+export interface AssignmentPropertiesAdditionalData {
   /** Exemption category of this assignment */
   exemptionCategory?: string;
 }
 
-export function standardsAPIAssignmentPropertiesAdditionalDataSerializer(
-  item: StandardsAPIAssignmentPropertiesAdditionalData,
+export function assignmentPropertiesAdditionalDataSerializer(
+  item: AssignmentPropertiesAdditionalData,
 ): any {
   return { exemptionCategory: item["exemptionCategory"] };
 }
 
-export function standardsAPIAssignmentPropertiesAdditionalDataDeserializer(
+export function assignmentPropertiesAdditionalDataDeserializer(
   item: any,
-): StandardsAPIAssignmentPropertiesAdditionalData {
+): AssignmentPropertiesAdditionalData {
   return {
     exemptionCategory: item["exemptionCategory"],
   };
 }
 
 /** Page of a standard assignment list */
-export interface _StandardsAPIAssignmentList {
+export interface _AssignmentList {
   /** Collection of standardAssignments in this page */
-  readonly value?: StandardsAPIAssignment[];
+  readonly value?: Assignment[];
   /** The URI to fetch the next page */
   readonly nextLink?: string;
 }
 
-export function _standardsAPIAssignmentListDeserializer(item: any): _StandardsAPIAssignmentList {
+export function _assignmentListDeserializer(item: any): _AssignmentList {
   return {
-    value: !item["value"] ? item["value"] : standardsAPIAssignmentArrayDeserializer(item["value"]),
+    value: !item["value"] ? item["value"] : assignmentArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function standardsAPIAssignmentArraySerializer(
-  result: Array<StandardsAPIAssignment>,
-): any[] {
+export function assignmentArraySerializer(result: Array<Assignment>): any[] {
   return result.map((item) => {
-    return standardsAPIAssignmentSerializer(item);
+    return assignmentSerializer(item);
   });
 }
 
-export function standardsAPIAssignmentArrayDeserializer(
-  result: Array<StandardsAPIAssignment>,
-): any[] {
+export function assignmentArrayDeserializer(result: Array<Assignment>): any[] {
   return result.map((item) => {
-    return standardsAPIAssignmentDeserializer(item);
+    return assignmentDeserializer(item);
   });
 }
 
-export function _standardPropertiesSerializer(item: StandardsAPIStandard): any {
+export function _standardPropertiesSerializer(item: Standard): any {
   return {
     displayName: item["displayName"],
     description: item["description"],
     category: item["category"],
     components: !item["components"]
       ? item["components"]
-      : standardsAPIStandardComponentPropertiesArraySerializer(item["components"]),
+      : standardComponentPropertiesArraySerializer(item["components"]),
     supportedClouds: !item["supportedClouds"]
       ? item["supportedClouds"]
       : item["supportedClouds"].map((p: any) => {
@@ -430,7 +410,7 @@ export function _standardPropertiesDeserializer(item: any) {
     category: item["category"],
     components: !item["components"]
       ? item["components"]
-      : standardsAPIStandardComponentPropertiesArrayDeserializer(item["components"]),
+      : standardComponentPropertiesArrayDeserializer(item["components"]),
     supportedClouds: !item["supportedClouds"]
       ? item["supportedClouds"]
       : item["supportedClouds"].map((p: any) => {
@@ -439,22 +419,22 @@ export function _standardPropertiesDeserializer(item: any) {
   };
 }
 
-export function _assignmentPropertiesSerializer(item: StandardsAPIAssignment): any {
+export function _assignmentPropertiesSerializer(item: Assignment): any {
   return {
     displayName: item["displayName"],
     description: item["description"],
     assignedStandard: !item["assignedStandard"]
       ? item["assignedStandard"]
-      : commonAssignedStandardItemSerializer(item["assignedStandard"]),
+      : assignedStandardItemSerializer(item["assignedStandard"]),
     assignedComponent: !item["assignedComponent"]
       ? item["assignedComponent"]
-      : standardsAPIAssignedComponentItemSerializer(item["assignedComponent"]),
+      : assignedComponentItemSerializer(item["assignedComponent"]),
     scope: item["scope"],
     effect: item["effect"],
     expiresOn: !item["expiresOn"] ? item["expiresOn"] : item["expiresOn"].toISOString(),
     additionalData: !item["additionalData"]
       ? item["additionalData"]
-      : standardsAPIAssignmentPropertiesAdditionalDataSerializer(item["additionalData"]),
+      : assignmentPropertiesAdditionalDataSerializer(item["additionalData"]),
     metadata: item["metadata"],
   };
 }
@@ -465,16 +445,16 @@ export function _assignmentPropertiesDeserializer(item: any) {
     description: item["description"],
     assignedStandard: !item["assignedStandard"]
       ? item["assignedStandard"]
-      : commonAssignedStandardItemDeserializer(item["assignedStandard"]),
+      : assignedStandardItemDeserializer(item["assignedStandard"]),
     assignedComponent: !item["assignedComponent"]
       ? item["assignedComponent"]
-      : standardsAPIAssignedComponentItemDeserializer(item["assignedComponent"]),
+      : assignedComponentItemDeserializer(item["assignedComponent"]),
     scope: item["scope"],
     effect: item["effect"],
     expiresOn: !item["expiresOn"] ? item["expiresOn"] : new Date(item["expiresOn"]),
     additionalData: !item["additionalData"]
       ? item["additionalData"]
-      : standardsAPIAssignmentPropertiesAdditionalDataDeserializer(item["additionalData"]),
+      : assignmentPropertiesAdditionalDataDeserializer(item["additionalData"]),
     metadata: item["metadata"],
   };
 }

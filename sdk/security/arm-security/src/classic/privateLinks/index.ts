@@ -21,8 +21,8 @@ import type {
   PrivateLinksGetOptionalParams,
 } from "../../api/privateLinks/options.js";
 import type {
-  PrivateLinksAPIPrivateLinkResource,
-  PrivateLinksAPIPrivateLinkUpdate,
+  PrivateLinkResource,
+  PrivateLinkUpdate,
 } from "../../models/privateLinksAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
@@ -34,12 +34,12 @@ export interface PrivateLinksOperations {
   /** Lists all the private links in the specified subscription. private links enable secure, private connectivity to Microsoft Defender for Cloud services without exposing traffic to the public internet. Use the 'nextLink' property in the response to get the next page of private links for the specified subscription. */
   listBySubscription: (
     options?: PrivateLinksListBySubscriptionOptionalParams,
-  ) => PagedAsyncIterableIterator<PrivateLinksAPIPrivateLinkResource>;
+  ) => PagedAsyncIterableIterator<PrivateLinkResource>;
   /** Lists all the private links in the specified resource group. private links enable secure, private connectivity to Microsoft Defender for Cloud services without exposing traffic to the public internet. Use the 'nextLink' property in the response to get the next page of private links for the specified resource group. */
   list: (
     resourceGroupName: string,
     options?: PrivateLinksListOptionalParams,
-  ) => PagedAsyncIterableIterator<PrivateLinksAPIPrivateLinkResource>;
+  ) => PagedAsyncIterableIterator<PrivateLinkResource>;
   /** Delete a private link resource. This operation will remove the private link infrastructure and disconnect all associated private endpoints. This operation is asynchronous and may take several minutes to complete. */
   delete: (
     resourceGroupName: string,
@@ -58,42 +58,34 @@ export interface PrivateLinksOperations {
   /** Update specific properties of a private link resource. Use this operation to update mutable properties like tags without affecting the entire resource configuration. */
   update: (
     resourceGroupName: string,
-    privateLink: PrivateLinksAPIPrivateLinkUpdate,
+    privateLink: PrivateLinkUpdate,
     options?: PrivateLinksUpdateOptionalParams,
-  ) => Promise<PrivateLinksAPIPrivateLinkResource>;
+  ) => Promise<PrivateLinkResource>;
   /** Create a private link resource. This operation creates the necessary infrastructure to enable private endpoint connections to Microsoft Defender for Cloud services. For updates to existing resources, use the PATCH operation. The operation is asynchronous and may take several minutes to complete. */
   create: (
     resourceGroupName: string,
-    privateLink: PrivateLinksAPIPrivateLinkResource,
+    privateLink: PrivateLinkResource,
     options?: PrivateLinksCreateOptionalParams,
-  ) => PollerLike<
-    OperationState<PrivateLinksAPIPrivateLinkResource>,
-    PrivateLinksAPIPrivateLinkResource
-  >;
+  ) => PollerLike<OperationState<PrivateLinkResource>, PrivateLinkResource>;
   /** @deprecated use create instead */
   beginCreate: (
     resourceGroupName: string,
-    privateLink: PrivateLinksAPIPrivateLinkResource,
+    privateLink: PrivateLinkResource,
     options?: PrivateLinksCreateOptionalParams,
-  ) => Promise<
-    SimplePollerLike<
-      OperationState<PrivateLinksAPIPrivateLinkResource>,
-      PrivateLinksAPIPrivateLinkResource
-    >
-  >;
+  ) => Promise<SimplePollerLike<OperationState<PrivateLinkResource>, PrivateLinkResource>>;
   /** @deprecated use create instead */
   beginCreateAndWait: (
     resourceGroupName: string,
-    privateLink: PrivateLinksAPIPrivateLinkResource,
+    privateLink: PrivateLinkResource,
     options?: PrivateLinksCreateOptionalParams,
-  ) => Promise<PrivateLinksAPIPrivateLinkResource>;
+  ) => Promise<PrivateLinkResource>;
   /** Checks whether private link exists. */
   head: (resourceGroupName: string, options?: PrivateLinksHeadOptionalParams) => Promise<void>;
   /** Get a private link resource. Returns the configuration and status of private endpoint connectivity for Microsoft Defender for Cloud services in the specified region. */
   get: (
     resourceGroupName: string,
     options?: PrivateLinksGetOptionalParams,
-  ) => Promise<PrivateLinksAPIPrivateLinkResource>;
+  ) => Promise<PrivateLinkResource>;
 }
 
 function _getPrivateLinks(context: SecurityCenterContext) {
@@ -117,17 +109,17 @@ function _getPrivateLinks(context: SecurityCenterContext) {
     },
     update: (
       resourceGroupName: string,
-      privateLink: PrivateLinksAPIPrivateLinkUpdate,
+      privateLink: PrivateLinkUpdate,
       options?: PrivateLinksUpdateOptionalParams,
     ) => update(context, resourceGroupName, privateLink, options),
     create: (
       resourceGroupName: string,
-      privateLink: PrivateLinksAPIPrivateLinkResource,
+      privateLink: PrivateLinkResource,
       options?: PrivateLinksCreateOptionalParams,
     ) => create(context, resourceGroupName, privateLink, options),
     beginCreate: async (
       resourceGroupName: string,
-      privateLink: PrivateLinksAPIPrivateLinkResource,
+      privateLink: PrivateLinkResource,
       options?: PrivateLinksCreateOptionalParams,
     ) => {
       const poller = create(context, resourceGroupName, privateLink, options);
@@ -136,7 +128,7 @@ function _getPrivateLinks(context: SecurityCenterContext) {
     },
     beginCreateAndWait: async (
       resourceGroupName: string,
-      privateLink: PrivateLinksAPIPrivateLinkResource,
+      privateLink: PrivateLinkResource,
       options?: PrivateLinksCreateOptionalParams,
     ) => {
       return await create(context, resourceGroupName, privateLink, options);

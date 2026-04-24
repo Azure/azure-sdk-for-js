@@ -7,7 +7,7 @@ import type {
   SecuritySolutionsReferenceDataListByHomeRegionOptionalParams,
   SecuritySolutionsReferenceDataListOptionalParams,
 } from "../../api/securitySolutionsReferenceData/options.js";
-import type { SecuritySolutionsAPIsecuritySolutionsReferenceDataList } from "../../models/securitySolutionsAPI/models.js";
+import type { SecuritySolutionsReferenceDataList } from "../../models/securitySolutionsAPI/models.js";
 
 /** Interface representing a SecuritySolutionsReferenceData operations. */
 export interface SecuritySolutionsReferenceDataOperations {
@@ -15,11 +15,11 @@ export interface SecuritySolutionsReferenceDataOperations {
   listByHomeRegion: (
     ascLocation: string,
     options?: SecuritySolutionsReferenceDataListByHomeRegionOptionalParams,
-  ) => Promise<SecuritySolutionsAPIsecuritySolutionsReferenceDataList>;
+  ) => Promise<SecuritySolutionsReferenceDataList>;
   /** Gets a list of all supported Security Solutions for the subscription. */
   list: (
     options?: SecuritySolutionsReferenceDataListOptionalParams,
-  ) => Promise<SecuritySolutionsAPIsecuritySolutionsReferenceDataList>;
+  ) => Promise<SecuritySolutionsReferenceDataList>;
 }
 
 function _getSecuritySolutionsReferenceData(context: SecurityCenterContext) {

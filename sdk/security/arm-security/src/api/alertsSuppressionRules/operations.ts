@@ -3,15 +3,15 @@
 
 import type { SecurityCenterContext as Client } from "../index.js";
 import type {
-  AlertsSuppressionRulesAPIAlertsSuppressionRule,
-  _AlertsSuppressionRulesAPIAlertsSuppressionRulesList,
+  AlertsSuppressionRule,
+  _AlertsSuppressionRulesList,
 } from "../../models/alertsSuppressionRulesAPI/models.js";
 import {
-  alertsSuppressionRulesAPIAlertsSuppressionRuleSerializer,
-  alertsSuppressionRulesAPIAlertsSuppressionRuleDeserializer,
-  _alertsSuppressionRulesAPIAlertsSuppressionRulesListDeserializer,
+  alertsSuppressionRuleSerializer,
+  alertsSuppressionRuleDeserializer,
+  _alertsSuppressionRulesListDeserializer,
 } from "../../models/alertsSuppressionRulesAPI/models.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -47,23 +47,23 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_AlertsSuppressionRulesAPIAlertsSuppressionRulesList> {
+): Promise<_AlertsSuppressionRulesList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _alertsSuppressionRulesAPIAlertsSuppressionRulesListDeserializer(result.body);
+  return _alertsSuppressionRulesListDeserializer(result.body);
 }
 
 /** List of all the dismiss rules for the given subscription */
 export function list(
   context: Client,
   options: AlertsSuppressionRulesListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<AlertsSuppressionRulesAPIAlertsSuppressionRule> {
+): PagedAsyncIterableIterator<AlertsSuppressionRule> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, options),
@@ -96,7 +96,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
@@ -117,7 +117,7 @@ export async function $delete(
 export function _updateSend(
   context: Client,
   alertsSuppressionRuleName: string,
-  alertsSuppressionRule: AlertsSuppressionRulesAPIAlertsSuppressionRule,
+  alertsSuppressionRule: AlertsSuppressionRule,
   options: AlertsSuppressionRulesUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -135,31 +135,31 @@ export function _updateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: alertsSuppressionRulesAPIAlertsSuppressionRuleSerializer(alertsSuppressionRule),
+    body: alertsSuppressionRuleSerializer(alertsSuppressionRule),
   });
 }
 
 export async function _updateDeserialize(
   result: PathUncheckedResponse,
-): Promise<AlertsSuppressionRulesAPIAlertsSuppressionRule> {
+): Promise<AlertsSuppressionRule> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return alertsSuppressionRulesAPIAlertsSuppressionRuleDeserializer(result.body);
+  return alertsSuppressionRuleDeserializer(result.body);
 }
 
 /** Update existing rule or create new rule if it doesn't exist */
 export async function update(
   context: Client,
   alertsSuppressionRuleName: string,
-  alertsSuppressionRule: AlertsSuppressionRulesAPIAlertsSuppressionRule,
+  alertsSuppressionRule: AlertsSuppressionRule,
   options: AlertsSuppressionRulesUpdateOptionalParams = { requestOptions: {} },
-): Promise<AlertsSuppressionRulesAPIAlertsSuppressionRule> {
+): Promise<AlertsSuppressionRule> {
   const result = await _updateSend(
     context,
     alertsSuppressionRuleName,
@@ -193,16 +193,16 @@ export function _getSend(
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<AlertsSuppressionRulesAPIAlertsSuppressionRule> {
+): Promise<AlertsSuppressionRule> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return alertsSuppressionRulesAPIAlertsSuppressionRuleDeserializer(result.body);
+  return alertsSuppressionRuleDeserializer(result.body);
 }
 
 /** Get dismiss rule, with name: {alertsSuppressionRuleName}, for the given subscription */
@@ -210,7 +210,7 @@ export async function get(
   context: Client,
   alertsSuppressionRuleName: string,
   options: AlertsSuppressionRulesGetOptionalParams = { requestOptions: {} },
-): Promise<AlertsSuppressionRulesAPIAlertsSuppressionRule> {
+): Promise<AlertsSuppressionRule> {
   const result = await _getSend(context, alertsSuppressionRuleName, options);
   return _getDeserialize(result);
 }

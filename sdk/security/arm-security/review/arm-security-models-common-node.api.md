@@ -5,67 +5,33 @@
 ```ts
 
 // @public
-export type CommonActionType = string;
+export type ActionType = string;
 
 // @public
-export interface CommonAssignedStandardItem {
+export interface AssignedStandardItem {
     id?: string;
 }
 
 // @public
-export interface CommonCloudError {
+export interface CloudError {
     readonly additionalInfo?: ErrorAdditionalInfo[];
     readonly code?: string;
-    readonly details?: CommonCloudErrorBody[];
+    readonly details?: CloudErrorBody[];
     readonly message?: string;
     readonly target?: string;
 }
 
 // @public
-export interface CommonCloudErrorBody {
+export interface CloudErrorBody {
     readonly additionalInfo?: ErrorAdditionalInfo[];
     readonly code?: string;
-    readonly details?: CommonCloudErrorBody[];
+    readonly details?: CloudErrorBody[];
     readonly message?: string;
     readonly target?: string;
 }
 
 // @public
-export interface CommonOperationStatus {
-    code?: string;
-    message?: string;
-}
-
-// @public
-export type CommonProvisioningState = string;
-
-// @public
-export interface CommonResourceDetails {
-    source: CommonSource;
-}
-
-// @public
-export type CommonResourceDetailsUnion = AssessmentAPIAzureResourceDetails | CommonResourceDetails;
-
-// @public
-export type CommonSettingName = string;
-
-// @public
-export type CommonSeverity = string;
-
-// @public
-export type CommonSource = string;
-
-// @public
-export type CommonState = string;
-
-// @public
-export interface CommonTags {
-    tags?: Record<string, string>;
-}
-
-// @public
-export enum KnownCommonActionType {
+export enum KnownActionType {
     EventHub = "EventHub",
     Internal = "Internal",
     LogicApp = "LogicApp",
@@ -73,7 +39,7 @@ export enum KnownCommonActionType {
 }
 
 // @public
-export enum KnownCommonProvisioningState {
+export enum KnownProvisioningState {
     Canceled = "Canceled",
     Creating = "Creating",
     Deleting = "Deleting",
@@ -84,7 +50,7 @@ export enum KnownCommonProvisioningState {
 }
 
 // @public
-export enum KnownCommonSettingName {
+export enum KnownSettingName {
     Current = "current",
     Mcas = "MCAS",
     Sentinel = "Sentinel",
@@ -94,7 +60,7 @@ export enum KnownCommonSettingName {
 }
 
 // @public
-export enum KnownCommonSeverity {
+export enum KnownSeverity {
     Critical = "Critical",
     High = "High",
     Low = "Low",
@@ -102,7 +68,7 @@ export enum KnownCommonSeverity {
 }
 
 // @public
-export enum KnownCommonSource {
+export enum KnownSource {
     Aws = "Aws",
     Azure = "Azure",
     Gcp = "Gcp",
@@ -111,13 +77,47 @@ export enum KnownCommonSource {
 }
 
 // @public
-export enum KnownCommonState {
+export enum KnownState {
     Failed = "Failed",
     Off = "Off",
     On = "On",
     Passed = "Passed",
     Skipped = "Skipped",
     Unsupported = "Unsupported"
+}
+
+// @public
+export interface OperationStatus {
+    code?: string;
+    message?: string;
+}
+
+// @public
+export type ProvisioningState = string;
+
+// @public
+export interface ResourceDetails {
+    source: Source;
+}
+
+// @public
+export type ResourceDetailsUnion = AzureResourceDetails | ResourceDetails;
+
+// @public
+export type SettingName = string;
+
+// @public
+export type Severity = string;
+
+// @public
+export type Source = string;
+
+// @public
+export type State = string;
+
+// @public
+export interface Tags {
+    tags?: Record<string, string>;
 }
 
 // (No @packageDocumentation comment for this package)

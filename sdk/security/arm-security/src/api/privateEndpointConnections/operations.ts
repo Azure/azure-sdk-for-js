@@ -3,17 +3,17 @@
 
 import type { SecurityCenterContext as Client } from "../index.js";
 import type {
-  PrivateEndpointConnection,
+  ArmPrivateEndpointConnection,
   _PrivateEndpointConnectionListResult,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
   _privateEndpointConnectionListResultDeserializer,
 } from "../../models/models.js";
-import type { PrivateLinksAPIPrivateEndpointConnection } from "../../models/privateLinksAPI/models.js";
+import type { PrivateEndpointConnection } from "../../models/privateLinksAPI/models.js";
 import {
-  privateLinksAPIPrivateEndpointConnectionSerializer,
-  privateLinksAPIPrivateEndpointConnectionDeserializer,
+  privateEndpointConnectionSerializer,
+  privateEndpointConnectionDeserializer,
 } from "../../models/privateLinksAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -71,7 +71,7 @@ export function list(
   context: Client,
   resourceGroupName: string,
   options: PrivateEndpointConnectionsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<PrivateLinksAPIPrivateEndpointConnection> {
+): PagedAsyncIterableIterator<PrivateEndpointConnection> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, resourceGroupName, options),
@@ -136,7 +136,7 @@ export function _createOrUpdateSend(
   context: Client,
   resourceGroupName: string,
   privateEndpointConnectionName: string,
-  privateEndpointConnection: PrivateEndpointConnection,
+  privateEndpointConnection: ArmPrivateEndpointConnection,
   options: PrivateEndpointConnectionsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -144,7 +144,7 @@ export function _createOrUpdateSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      privateLinkName: options?.params?.privateLinkName,
+      privateLinkName: options?.privateLinkName?.privateLinkName,
       privateEndpointConnectionName: privateEndpointConnectionName,
       "api%2Dversion": "2026-01-01",
     },
@@ -156,13 +156,13 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: privateLinksAPIPrivateEndpointConnectionSerializer(privateEndpointConnection),
+    body: privateEndpointConnectionSerializer(privateEndpointConnection),
   });
 }
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
-): Promise<PrivateLinksAPIPrivateEndpointConnection> {
+): Promise<PrivateEndpointConnection> {
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -171,7 +171,7 @@ export async function _createOrUpdateDeserialize(
     throw error;
   }
 
-  return privateLinksAPIPrivateEndpointConnectionDeserializer(result.body);
+  return privateEndpointConnectionDeserializer(result.body);
 }
 
 /** Update the state of specified private endpoint connection associated with the private link. This operation is typically used to approve or reject pending private endpoint connections. */
@@ -179,12 +179,9 @@ export function createOrUpdate(
   context: Client,
   resourceGroupName: string,
   privateEndpointConnectionName: string,
-  privateEndpointConnection: PrivateEndpointConnection,
+  privateEndpointConnection: ArmPrivateEndpointConnection,
   options: PrivateEndpointConnectionsCreateOrUpdateOptionalParams = { requestOptions: {} },
-): PollerLike<
-  OperationState<PrivateLinksAPIPrivateEndpointConnection>,
-  PrivateLinksAPIPrivateEndpointConnection
-> {
+): PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
@@ -198,10 +195,7 @@ export function createOrUpdate(
       ),
     resourceLocationConfig: "azure-async-operation",
     apiVersion: "2026-01-01",
-  }) as PollerLike<
-    OperationState<PrivateLinksAPIPrivateEndpointConnection>,
-    PrivateLinksAPIPrivateEndpointConnection
-  >;
+  }) as PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
 }
 
 export function _getSend(
@@ -231,7 +225,7 @@ export function _getSend(
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<PrivateLinksAPIPrivateEndpointConnection> {
+): Promise<PrivateEndpointConnection> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -240,7 +234,7 @@ export async function _getDeserialize(
     throw error;
   }
 
-  return privateLinksAPIPrivateEndpointConnectionDeserializer(result.body);
+  return privateEndpointConnectionDeserializer(result.body);
 }
 
 /** Gets the specified private endpoint connection associated with the private link. Returns the connection details, status, and configuration for a specific private endpoint. */
@@ -249,7 +243,7 @@ export async function get(
   resourceGroupName: string,
   privateEndpointConnectionName: string,
   options: PrivateEndpointConnectionsGetOptionalParams = { requestOptions: {} },
-): Promise<PrivateLinksAPIPrivateEndpointConnection> {
+): Promise<PrivateEndpointConnection> {
   const result = await _getSend(context, resourceGroupName, privateEndpointConnectionName, options);
   return _getDeserialize(result);
 }

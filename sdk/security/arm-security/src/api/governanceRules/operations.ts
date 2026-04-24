@@ -2,18 +2,18 @@
 // Licensed under the MIT License.
 
 import type { SecurityCenterContext as Client } from "../index.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
 import type {
-  GovernanceAPIGovernanceRule,
-  _GovernanceAPIGovernanceRuleList,
-  GovernanceAPIOperationResult,
+  GovernanceRule,
+  _GovernanceRuleList,
+  OperationResult,
 } from "../../models/governanceAPI/models.js";
 import {
-  governanceAPIGovernanceRuleSerializer,
-  governanceAPIGovernanceRuleDeserializer,
-  _governanceAPIGovernanceRuleListDeserializer,
-  governanceAPIExecuteGovernanceRuleParamsSerializer,
-  governanceAPIOperationResultDeserializer,
+  governanceRuleSerializer,
+  governanceRuleDeserializer,
+  _governanceRuleListDeserializer,
+  executeGovernanceRuleParamsSerializer,
+  operationResultDeserializer,
 } from "../../models/governanceAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -58,16 +58,16 @@ export function _operationResultsSend(
 
 export async function _operationResultsDeserialize(
   result: PathUncheckedResponse,
-): Promise<GovernanceAPIOperationResult> {
+): Promise<OperationResult> {
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return governanceAPIOperationResultDeserializer(result.body);
+  return operationResultDeserializer(result.body);
 }
 
 /** Get governance rules long run operation result for the requested scope by ruleId and operationId */
@@ -77,7 +77,7 @@ export async function operationResults(
   ruleId: string,
   operationId: string,
   options: GovernanceRulesOperationResultsOptionalParams = { requestOptions: {} },
-): Promise<GovernanceAPIOperationResult> {
+): Promise<OperationResult> {
   const result = await _operationResultsSend(context, scope, ruleId, operationId, options);
   return _operationResultsDeserialize(result);
 }
@@ -104,7 +104,7 @@ export function _executeSend(
     contentType: "application/json",
     body: !options["executeGovernanceRuleParams"]
       ? options["executeGovernanceRuleParams"]
-      : governanceAPIExecuteGovernanceRuleParamsSerializer(options["executeGovernanceRuleParams"]),
+      : executeGovernanceRuleParamsSerializer(options["executeGovernanceRuleParams"]),
   });
 }
 
@@ -112,7 +112,7 @@ export async function _executeDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
@@ -159,16 +159,16 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_GovernanceAPIGovernanceRuleList> {
+): Promise<_GovernanceRuleList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _governanceAPIGovernanceRuleListDeserializer(result.body);
+  return _governanceRuleListDeserializer(result.body);
 }
 
 /** Get a list of all relevant governance rules over a scope */
@@ -176,7 +176,7 @@ export function list(
   context: Client,
   scope: string,
   options: GovernanceRulesListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<GovernanceAPIGovernanceRule> {
+): PagedAsyncIterableIterator<GovernanceRule> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, scope, options),
@@ -210,7 +210,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
@@ -238,7 +238,7 @@ export function _createOrUpdateSend(
   context: Client,
   scope: string,
   ruleId: string,
-  governanceRule: GovernanceAPIGovernanceRule,
+  governanceRule: GovernanceRule,
   options: GovernanceRulesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -256,22 +256,22 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: governanceAPIGovernanceRuleSerializer(governanceRule),
+    body: governanceRuleSerializer(governanceRule),
   });
 }
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
-): Promise<GovernanceAPIGovernanceRule> {
+): Promise<GovernanceRule> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return governanceAPIGovernanceRuleDeserializer(result.body);
+  return governanceRuleDeserializer(result.body);
 }
 
 /** Creates or updates a governance rule over a given scope */
@@ -279,9 +279,9 @@ export async function createOrUpdate(
   context: Client,
   scope: string,
   ruleId: string,
-  governanceRule: GovernanceAPIGovernanceRule,
+  governanceRule: GovernanceRule,
   options: GovernanceRulesCreateOrUpdateOptionalParams = { requestOptions: {} },
-): Promise<GovernanceAPIGovernanceRule> {
+): Promise<GovernanceRule> {
   const result = await _createOrUpdateSend(context, scope, ruleId, governanceRule, options);
   return _createOrUpdateDeserialize(result);
 }
@@ -309,18 +309,16 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<GovernanceAPIGovernanceRule> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<GovernanceRule> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return governanceAPIGovernanceRuleDeserializer(result.body);
+  return governanceRuleDeserializer(result.body);
 }
 
 /** Get a specific governance rule for the requested scope by ruleId */
@@ -329,7 +327,7 @@ export async function get(
   scope: string,
   ruleId: string,
   options: GovernanceRulesGetOptionalParams = { requestOptions: {} },
-): Promise<GovernanceAPIGovernanceRule> {
+): Promise<GovernanceRule> {
   const result = await _getSend(context, scope, ruleId, options);
   return _getDeserialize(result);
 }

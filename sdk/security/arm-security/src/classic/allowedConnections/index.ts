@@ -9,8 +9,8 @@ import type {
   AllowedConnectionsGetOptionalParams,
 } from "../../api/allowedConnections/options.js";
 import type {
-  SecuritySolutionsAPIAllowedConnectionsResource,
-  SecuritySolutionsAPIConnectionType,
+  AllowedConnectionsResource,
+  ConnectionType,
 } from "../../models/securitySolutionsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
@@ -19,19 +19,19 @@ export interface AllowedConnectionsOperations {
   /** Gets the list of all possible traffic between resources for the subscription */
   list: (
     options?: AllowedConnectionsListOptionalParams,
-  ) => PagedAsyncIterableIterator<SecuritySolutionsAPIAllowedConnectionsResource>;
+  ) => PagedAsyncIterableIterator<AllowedConnectionsResource>;
   /** Gets the list of all possible traffic between resources for the subscription and location. */
   listByHomeRegion: (
     ascLocation: string,
     options?: AllowedConnectionsListByHomeRegionOptionalParams,
-  ) => PagedAsyncIterableIterator<SecuritySolutionsAPIAllowedConnectionsResource>;
+  ) => PagedAsyncIterableIterator<AllowedConnectionsResource>;
   /** Gets the list of all possible traffic between resources for the subscription and location, based on connection type. */
   get: (
     resourceGroupName: string,
     ascLocation: string,
-    connectionType: SecuritySolutionsAPIConnectionType,
+    connectionType: ConnectionType,
     options?: AllowedConnectionsGetOptionalParams,
-  ) => Promise<SecuritySolutionsAPIAllowedConnectionsResource>;
+  ) => Promise<AllowedConnectionsResource>;
 }
 
 function _getAllowedConnections(context: SecurityCenterContext) {
@@ -44,7 +44,7 @@ function _getAllowedConnections(context: SecurityCenterContext) {
     get: (
       resourceGroupName: string,
       ascLocation: string,
-      connectionType: SecuritySolutionsAPIConnectionType,
+      connectionType: ConnectionType,
       options?: AllowedConnectionsGetOptionalParams,
     ) => get(context, resourceGroupName, ascLocation, connectionType, options),
   };

@@ -5,15 +5,15 @@
 ```ts
 
 // @public
-export interface StandardsAPIAssignedComponentItem {
+export interface AssignedComponentItem {
     key?: string;
 }
 
 // @public
-export interface StandardsAPIAssignment extends ProxyResource {
-    additionalData?: StandardsAPIAssignmentPropertiesAdditionalData;
-    assignedComponent?: StandardsAPIAssignedComponentItem;
-    assignedStandard?: CommonAssignedStandardItem;
+export interface Assignment extends ProxyResource {
+    additionalData?: AssignmentPropertiesAdditionalData;
+    assignedComponent?: AssignedComponentItem;
+    assignedStandard?: AssignedStandardItem;
     description?: string;
     displayName?: string;
     effect?: string;
@@ -27,10 +27,10 @@ export interface StandardsAPIAssignment extends ProxyResource {
 }
 
 // @public
-export interface StandardsAPIAssignmentProperties {
-    additionalData?: StandardsAPIAssignmentPropertiesAdditionalData;
-    assignedComponent?: StandardsAPIAssignedComponentItem;
-    assignedStandard?: CommonAssignedStandardItem;
+export interface AssignmentProperties {
+    additionalData?: AssignmentPropertiesAdditionalData;
+    assignedComponent?: AssignedComponentItem;
+    assignedStandard?: AssignedStandardItem;
     description?: string;
     displayName?: string;
     effect?: string;
@@ -40,41 +40,41 @@ export interface StandardsAPIAssignmentProperties {
 }
 
 // @public
-export interface StandardsAPIAssignmentPropertiesAdditionalData {
+export interface AssignmentPropertiesAdditionalData {
     exemptionCategory?: string;
 }
 
 // @public
-export interface StandardsAPIStandard extends ProxyResource {
+export interface Standard extends ProxyResource {
     category?: string;
-    components?: StandardsAPIStandardComponentProperties[];
+    components?: StandardComponentProperties[];
     description?: string;
     displayName?: string;
     etag?: string;
     kind?: string;
     location?: string;
     readonly standardType?: string;
-    supportedClouds?: StandardsAPIStandardSupportedClouds[];
+    supportedClouds?: StandardSupportedClouds[];
     tags?: Record<string, string>;
 }
 
 // @public
-export interface StandardsAPIStandardComponentProperties {
+export interface StandardComponentProperties {
     key?: string;
 }
 
 // @public
-export interface StandardsAPIStandardProperties {
+export interface StandardProperties {
     category?: string;
-    components?: StandardsAPIStandardComponentProperties[];
+    components?: StandardComponentProperties[];
     description?: string;
     displayName?: string;
     readonly standardType?: string;
-    supportedClouds?: StandardsAPIStandardSupportedClouds[];
+    supportedClouds?: StandardSupportedClouds[];
 }
 
 // @public
-export type StandardsAPIStandardSupportedClouds = "AWS" | "GCP";
+export type StandardSupportedClouds = "AWS" | "GCP";
 
 // (No @packageDocumentation comment for this package)
 

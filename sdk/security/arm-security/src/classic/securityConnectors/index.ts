@@ -18,7 +18,7 @@ import type {
   SecurityConnectorsCreateOrUpdateOptionalParams,
   SecurityConnectorsGetOptionalParams,
 } from "../../api/securityConnectors/options.js";
-import type { SecurityConnectorsAPISecurityConnector } from "../../models/securityConnectorsAPI/models.js";
+import type { SecurityConnector } from "../../models/securityConnectorsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a SecurityConnectors operations. */
@@ -26,12 +26,12 @@ export interface SecurityConnectorsOperations {
   /** Lists all the security connectors in the specified subscription. Use the 'nextLink' property in the response to get the next page of security connectors for the specified subscription. */
   list: (
     options?: SecurityConnectorsListOptionalParams,
-  ) => PagedAsyncIterableIterator<SecurityConnectorsAPISecurityConnector>;
+  ) => PagedAsyncIterableIterator<SecurityConnector>;
   /** Lists all the security connectors in the specified resource group. Use the 'nextLink' property in the response to get the next page of security connectors for the specified resource group. */
   listByResourceGroup: (
     resourceGroupName: string,
     options?: SecurityConnectorsListByResourceGroupOptionalParams,
-  ) => PagedAsyncIterableIterator<SecurityConnectorsAPISecurityConnector>;
+  ) => PagedAsyncIterableIterator<SecurityConnector>;
   /** Deletes a security connector. */
   delete: (
     resourceGroupName: string,
@@ -42,22 +42,22 @@ export interface SecurityConnectorsOperations {
   update: (
     resourceGroupName: string,
     securityConnectorName: string,
-    securityConnector: SecurityConnectorsAPISecurityConnector,
+    securityConnector: SecurityConnector,
     options?: SecurityConnectorsUpdateOptionalParams,
-  ) => Promise<SecurityConnectorsAPISecurityConnector>;
+  ) => Promise<SecurityConnector>;
   /** Creates or updates a security connector. If a security connector is already created and a subsequent request is issued for the same security connector id, then it will be updated. */
   createOrUpdate: (
     resourceGroupName: string,
     securityConnectorName: string,
-    securityConnector: SecurityConnectorsAPISecurityConnector,
+    securityConnector: SecurityConnector,
     options?: SecurityConnectorsCreateOrUpdateOptionalParams,
-  ) => Promise<SecurityConnectorsAPISecurityConnector>;
+  ) => Promise<SecurityConnector>;
   /** Retrieves details of a specific security connector */
   get: (
     resourceGroupName: string,
     securityConnectorName: string,
     options?: SecurityConnectorsGetOptionalParams,
-  ) => Promise<SecurityConnectorsAPISecurityConnector>;
+  ) => Promise<SecurityConnector>;
 }
 
 function _getSecurityConnectors(context: SecurityCenterContext) {
@@ -75,13 +75,13 @@ function _getSecurityConnectors(context: SecurityCenterContext) {
     update: (
       resourceGroupName: string,
       securityConnectorName: string,
-      securityConnector: SecurityConnectorsAPISecurityConnector,
+      securityConnector: SecurityConnector,
       options?: SecurityConnectorsUpdateOptionalParams,
     ) => update(context, resourceGroupName, securityConnectorName, securityConnector, options),
     createOrUpdate: (
       resourceGroupName: string,
       securityConnectorName: string,
-      securityConnector: SecurityConnectorsAPISecurityConnector,
+      securityConnector: SecurityConnector,
       options?: SecurityConnectorsCreateOrUpdateOptionalParams,
     ) =>
       createOrUpdate(context, resourceGroupName, securityConnectorName, securityConnector, options),

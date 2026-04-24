@@ -5,34 +5,253 @@
 ```ts
 
 // @public
-export enum KnownSecurityConnectorsDevOpsAPIActionableRemediationState {
+export interface ActionableRemediation {
+    branchConfiguration?: TargetBranchConfiguration;
+    categoryConfigurations?: CategoryConfiguration[];
+    inheritFromParentState?: InheritFromParentState;
+    state?: ActionableRemediationState;
+}
+
+// @public
+export type ActionableRemediationState = string;
+
+// @public
+export interface AgentlessConfiguration {
+    agentlessAutoDiscovery?: AutoDiscovery;
+    agentlessEnabled?: AgentlessEnablement;
+    inventoryList?: InventoryList[];
+    inventoryListType?: InventoryListKind;
+    scanners?: string[];
+}
+
+// @public
+export type AgentlessEnablement = string;
+
+// @public
+export type AnnotateDefaultBranchState = string;
+
+// @public
+export interface Authorization {
+    code?: string;
+}
+
+// @public
+export type AutoDiscovery = string;
+
+// @public
+export interface AzureDevOpsOrg extends ProxyResource {
+    properties?: AzureDevOpsOrgProperties;
+}
+
+// @public
+export interface AzureDevOpsOrgListResponse {
+    nextLink?: string;
+    value?: AzureDevOpsOrg[];
+}
+
+// @public
+export interface AzureDevOpsOrgProperties {
+    actionableRemediation?: ActionableRemediation;
+    onboardingState?: OnboardingState;
+    readonly provisioningState?: DevOpsProvisioningState;
+    readonly provisioningStatusMessage?: string;
+    readonly provisioningStatusUpdateTimeUtc?: Date;
+}
+
+// @public
+export interface AzureDevOpsProject extends ProxyResource {
+    properties?: AzureDevOpsProjectProperties;
+}
+
+// @public
+export interface AzureDevOpsProjectProperties {
+    actionableRemediation?: ActionableRemediation;
+    onboardingState?: OnboardingState;
+    parentOrgName?: string;
+    readonly projectId?: string;
+    readonly provisioningState?: DevOpsProvisioningState;
+    readonly provisioningStatusMessage?: string;
+    readonly provisioningStatusUpdateTimeUtc?: Date;
+}
+
+// @public
+export interface AzureDevOpsRepository extends ProxyResource {
+    properties?: AzureDevOpsRepositoryProperties;
+}
+
+// @public
+export interface AzureDevOpsRepositoryProperties {
+    actionableRemediation?: ActionableRemediation;
+    onboardingState?: OnboardingState;
+    parentOrgName?: string;
+    parentProjectName?: string;
+    readonly provisioningState?: DevOpsProvisioningState;
+    readonly provisioningStatusMessage?: string;
+    readonly provisioningStatusUpdateTimeUtc?: Date;
+    readonly repoId?: string;
+    readonly repoUrl?: string;
+    readonly visibility?: string;
+}
+
+// @public
+export interface CategoryConfiguration {
+    category?: RuleCategory;
+    minimumSeverityLevel?: string;
+}
+
+// @public
+export interface DevOpsCapability {
+    readonly name?: string;
+    readonly value?: string;
+}
+
+// @public
+export interface DevOpsConfiguration extends ProxyResource {
+    properties?: DevOpsConfigurationProperties;
+}
+
+// @public
+export interface DevOpsConfigurationProperties {
+    agentlessConfiguration?: AgentlessConfiguration;
+    authorization?: Authorization;
+    autoDiscovery?: AutoDiscovery;
+    readonly capabilities?: DevOpsCapability[];
+    readonly provisioningState?: DevOpsProvisioningState;
+    readonly provisioningStatusMessage?: string;
+    readonly provisioningStatusUpdateTimeUtc?: Date;
+    topLevelInventoryList?: string[];
+}
+
+// @public
+export type DevOpsProvisioningState = string;
+
+// @public
+export interface GitHubOwner extends ProxyResource {
+    properties?: GitHubOwnerProperties;
+}
+
+// @public
+export interface GitHubOwnerListResponse {
+    nextLink?: string;
+    value?: GitHubOwner[];
+}
+
+// @public
+export interface GitHubOwnerProperties {
+    readonly gitHubInternalId?: string;
+    onboardingState?: OnboardingState;
+    readonly ownerUrl?: string;
+    readonly provisioningState?: DevOpsProvisioningState;
+    readonly provisioningStatusMessage?: string;
+    readonly provisioningStatusUpdateTimeUtc?: Date;
+}
+
+// @public
+export interface GitHubRepository extends ProxyResource {
+    properties?: GitHubRepositoryProperties;
+}
+
+// @public
+export interface GitHubRepositoryProperties {
+    onboardingState?: OnboardingState;
+    parentOwnerName?: string;
+    readonly provisioningState?: DevOpsProvisioningState;
+    readonly provisioningStatusMessage?: string;
+    readonly provisioningStatusUpdateTimeUtc?: Date;
+    readonly repoFullName?: string;
+    readonly repoId?: string;
+    readonly repoName?: string;
+    readonly repoUrl?: string;
+}
+
+// @public
+export interface GitLabGroup extends ProxyResource {
+    properties?: GitLabGroupProperties;
+}
+
+// @public
+export interface GitLabGroupListResponse {
+    nextLink?: string;
+    value?: GitLabGroup[];
+}
+
+// @public
+export interface GitLabGroupProperties {
+    readonly fullyQualifiedFriendlyName?: string;
+    readonly fullyQualifiedName?: string;
+    onboardingState?: OnboardingState;
+    readonly provisioningState?: DevOpsProvisioningState;
+    readonly provisioningStatusMessage?: string;
+    readonly provisioningStatusUpdateTimeUtc?: Date;
+    readonly url?: string;
+}
+
+// @public
+export interface GitLabProject extends ProxyResource {
+    properties?: GitLabProjectProperties;
+}
+
+// @public
+export interface GitLabProjectProperties {
+    readonly fullyQualifiedFriendlyName?: string;
+    readonly fullyQualifiedName?: string;
+    readonly fullyQualifiedParentGroupName?: string;
+    onboardingState?: OnboardingState;
+    readonly provisioningState?: DevOpsProvisioningState;
+    readonly provisioningStatusMessage?: string;
+    readonly provisioningStatusUpdateTimeUtc?: Date;
+    readonly url?: string;
+}
+
+// @public
+export type InheritFromParentState = string;
+
+// @public
+export type InventoryKind = string;
+
+// @public
+export interface InventoryList {
+    inventoryKind?: InventoryKind;
+    value?: string;
+}
+
+// @public
+export type InventoryListKind = string;
+
+// @public
+export interface IssueCreationRequest {
+    securityAssessmentResourceId?: string;
+}
+
+// @public
+export enum KnownActionableRemediationState {
     Disabled = "Disabled",
     Enabled = "Enabled",
     None = "None"
 }
 
 // @public
-export enum KnownSecurityConnectorsDevOpsAPIAgentlessEnablement {
+export enum KnownAgentlessEnablement {
     Disabled = "Disabled",
     Enabled = "Enabled",
     NotApplicable = "NotApplicable"
 }
 
 // @public
-export enum KnownSecurityConnectorsDevOpsAPIAnnotateDefaultBranchState {
+export enum KnownAnnotateDefaultBranchState {
     Disabled = "Disabled",
     Enabled = "Enabled"
 }
 
 // @public
-export enum KnownSecurityConnectorsDevOpsAPIAutoDiscovery {
+export enum KnownAutoDiscovery {
     Disabled = "Disabled",
     Enabled = "Enabled",
     NotApplicable = "NotApplicable"
 }
 
 // @public
-export enum KnownSecurityConnectorsDevOpsAPIDevOpsProvisioningState {
+export enum KnownDevOpsProvisioningState {
     Canceled = "Canceled",
     DeletionFailure = "DeletionFailure",
     DeletionSuccess = "DeletionSuccess",
@@ -43,13 +262,13 @@ export enum KnownSecurityConnectorsDevOpsAPIDevOpsProvisioningState {
 }
 
 // @public
-export enum KnownSecurityConnectorsDevOpsAPIInheritFromParentState {
+export enum KnownInheritFromParentState {
     Disabled = "Disabled",
     Enabled = "Enabled"
 }
 
 // @public
-export enum KnownSecurityConnectorsDevOpsAPIInventoryKind {
+export enum KnownInventoryKind {
     AzureDevOpsOrganization = "AzureDevOpsOrganization",
     AzureDevOpsProject = "AzureDevOpsProject",
     AzureDevOpsRepository = "AzureDevOpsRepository",
@@ -58,13 +277,13 @@ export enum KnownSecurityConnectorsDevOpsAPIInventoryKind {
 }
 
 // @public
-export enum KnownSecurityConnectorsDevOpsAPIInventoryListKind {
+export enum KnownInventoryListKind {
     Exclusion = "Exclusion",
     Inclusion = "Inclusion"
 }
 
 // @public
-export enum KnownSecurityConnectorsDevOpsAPIOnboardingState {
+export enum KnownOnboardingState {
     NotApplicable = "NotApplicable",
     NotOnboarded = "NotOnboarded",
     Onboarded = "Onboarded",
@@ -72,7 +291,7 @@ export enum KnownSecurityConnectorsDevOpsAPIOnboardingState {
 }
 
 // @public
-export enum KnownSecurityConnectorsDevOpsAPIRuleCategory {
+export enum KnownRuleCategory {
     Artifacts = "Artifacts",
     Code = "Code",
     Containers = "Containers",
@@ -82,233 +301,14 @@ export enum KnownSecurityConnectorsDevOpsAPIRuleCategory {
 }
 
 // @public
-export interface SecurityConnectorsDevOpsAPIActionableRemediation {
-    branchConfiguration?: SecurityConnectorsDevOpsAPITargetBranchConfiguration;
-    categoryConfigurations?: SecurityConnectorsDevOpsAPICategoryConfiguration[];
-    inheritFromParentState?: SecurityConnectorsDevOpsAPIInheritFromParentState;
-    state?: SecurityConnectorsDevOpsAPIActionableRemediationState;
-}
+export type OnboardingState = string;
 
 // @public
-export type SecurityConnectorsDevOpsAPIActionableRemediationState = string;
+export type RuleCategory = string;
 
 // @public
-export interface SecurityConnectorsDevOpsAPIAgentlessConfiguration {
-    agentlessAutoDiscovery?: SecurityConnectorsDevOpsAPIAutoDiscovery;
-    agentlessEnabled?: SecurityConnectorsDevOpsAPIAgentlessEnablement;
-    inventoryList?: SecurityConnectorsDevOpsAPIInventoryList[];
-    inventoryListType?: SecurityConnectorsDevOpsAPIInventoryListKind;
-    scanners?: string[];
-}
-
-// @public
-export type SecurityConnectorsDevOpsAPIAgentlessEnablement = string;
-
-// @public
-export type SecurityConnectorsDevOpsAPIAnnotateDefaultBranchState = string;
-
-// @public
-export interface SecurityConnectorsDevOpsAPIAuthorization {
-    code?: string;
-}
-
-// @public
-export type SecurityConnectorsDevOpsAPIAutoDiscovery = string;
-
-// @public
-export interface SecurityConnectorsDevOpsAPIAzureDevOpsOrg extends ProxyResource {
-    properties?: SecurityConnectorsDevOpsAPIAzureDevOpsOrgProperties;
-}
-
-// @public
-export interface SecurityConnectorsDevOpsAPIAzureDevOpsOrgListResponse {
-    nextLink?: string;
-    value?: SecurityConnectorsDevOpsAPIAzureDevOpsOrg[];
-}
-
-// @public
-export interface SecurityConnectorsDevOpsAPIAzureDevOpsOrgProperties {
-    actionableRemediation?: SecurityConnectorsDevOpsAPIActionableRemediation;
-    onboardingState?: SecurityConnectorsDevOpsAPIOnboardingState;
-    readonly provisioningState?: SecurityConnectorsDevOpsAPIDevOpsProvisioningState;
-    readonly provisioningStatusMessage?: string;
-    readonly provisioningStatusUpdateTimeUtc?: Date;
-}
-
-// @public
-export interface SecurityConnectorsDevOpsAPIAzureDevOpsProject extends ProxyResource {
-    properties?: SecurityConnectorsDevOpsAPIAzureDevOpsProjectProperties;
-}
-
-// @public
-export interface SecurityConnectorsDevOpsAPIAzureDevOpsProjectProperties {
-    actionableRemediation?: SecurityConnectorsDevOpsAPIActionableRemediation;
-    onboardingState?: SecurityConnectorsDevOpsAPIOnboardingState;
-    parentOrgName?: string;
-    readonly projectId?: string;
-    readonly provisioningState?: SecurityConnectorsDevOpsAPIDevOpsProvisioningState;
-    readonly provisioningStatusMessage?: string;
-    readonly provisioningStatusUpdateTimeUtc?: Date;
-}
-
-// @public
-export interface SecurityConnectorsDevOpsAPIAzureDevOpsRepository extends ProxyResource {
-    properties?: SecurityConnectorsDevOpsAPIAzureDevOpsRepositoryProperties;
-}
-
-// @public
-export interface SecurityConnectorsDevOpsAPIAzureDevOpsRepositoryProperties {
-    actionableRemediation?: SecurityConnectorsDevOpsAPIActionableRemediation;
-    onboardingState?: SecurityConnectorsDevOpsAPIOnboardingState;
-    parentOrgName?: string;
-    parentProjectName?: string;
-    readonly provisioningState?: SecurityConnectorsDevOpsAPIDevOpsProvisioningState;
-    readonly provisioningStatusMessage?: string;
-    readonly provisioningStatusUpdateTimeUtc?: Date;
-    readonly repoId?: string;
-    readonly repoUrl?: string;
-    readonly visibility?: string;
-}
-
-// @public
-export interface SecurityConnectorsDevOpsAPICategoryConfiguration {
-    category?: SecurityConnectorsDevOpsAPIRuleCategory;
-    minimumSeverityLevel?: string;
-}
-
-// @public
-export interface SecurityConnectorsDevOpsAPIDevOpsCapability {
-    readonly name?: string;
-    readonly value?: string;
-}
-
-// @public
-export interface SecurityConnectorsDevOpsAPIDevOpsConfiguration extends ProxyResource {
-    properties?: SecurityConnectorsDevOpsAPIDevOpsConfigurationProperties;
-}
-
-// @public
-export interface SecurityConnectorsDevOpsAPIDevOpsConfigurationProperties {
-    agentlessConfiguration?: SecurityConnectorsDevOpsAPIAgentlessConfiguration;
-    authorization?: SecurityConnectorsDevOpsAPIAuthorization;
-    autoDiscovery?: SecurityConnectorsDevOpsAPIAutoDiscovery;
-    readonly capabilities?: SecurityConnectorsDevOpsAPIDevOpsCapability[];
-    readonly provisioningState?: SecurityConnectorsDevOpsAPIDevOpsProvisioningState;
-    readonly provisioningStatusMessage?: string;
-    readonly provisioningStatusUpdateTimeUtc?: Date;
-    topLevelInventoryList?: string[];
-}
-
-// @public
-export type SecurityConnectorsDevOpsAPIDevOpsProvisioningState = string;
-
-// @public
-export interface SecurityConnectorsDevOpsAPIGitHubOwner extends ProxyResource {
-    properties?: SecurityConnectorsDevOpsAPIGitHubOwnerProperties;
-}
-
-// @public
-export interface SecurityConnectorsDevOpsAPIGitHubOwnerListResponse {
-    nextLink?: string;
-    value?: SecurityConnectorsDevOpsAPIGitHubOwner[];
-}
-
-// @public
-export interface SecurityConnectorsDevOpsAPIGitHubOwnerProperties {
-    readonly gitHubInternalId?: string;
-    onboardingState?: SecurityConnectorsDevOpsAPIOnboardingState;
-    readonly ownerUrl?: string;
-    readonly provisioningState?: SecurityConnectorsDevOpsAPIDevOpsProvisioningState;
-    readonly provisioningStatusMessage?: string;
-    readonly provisioningStatusUpdateTimeUtc?: Date;
-}
-
-// @public
-export interface SecurityConnectorsDevOpsAPIGitHubRepository extends ProxyResource {
-    properties?: SecurityConnectorsDevOpsAPIGitHubRepositoryProperties;
-}
-
-// @public
-export interface SecurityConnectorsDevOpsAPIGitHubRepositoryProperties {
-    onboardingState?: SecurityConnectorsDevOpsAPIOnboardingState;
-    parentOwnerName?: string;
-    readonly provisioningState?: SecurityConnectorsDevOpsAPIDevOpsProvisioningState;
-    readonly provisioningStatusMessage?: string;
-    readonly provisioningStatusUpdateTimeUtc?: Date;
-    readonly repoFullName?: string;
-    readonly repoId?: string;
-    readonly repoName?: string;
-    readonly repoUrl?: string;
-}
-
-// @public
-export interface SecurityConnectorsDevOpsAPIGitLabGroup extends ProxyResource {
-    properties?: SecurityConnectorsDevOpsAPIGitLabGroupProperties;
-}
-
-// @public
-export interface SecurityConnectorsDevOpsAPIGitLabGroupListResponse {
-    nextLink?: string;
-    value?: SecurityConnectorsDevOpsAPIGitLabGroup[];
-}
-
-// @public
-export interface SecurityConnectorsDevOpsAPIGitLabGroupProperties {
-    readonly fullyQualifiedFriendlyName?: string;
-    readonly fullyQualifiedName?: string;
-    onboardingState?: SecurityConnectorsDevOpsAPIOnboardingState;
-    readonly provisioningState?: SecurityConnectorsDevOpsAPIDevOpsProvisioningState;
-    readonly provisioningStatusMessage?: string;
-    readonly provisioningStatusUpdateTimeUtc?: Date;
-    readonly url?: string;
-}
-
-// @public
-export interface SecurityConnectorsDevOpsAPIGitLabProject extends ProxyResource {
-    properties?: SecurityConnectorsDevOpsAPIGitLabProjectProperties;
-}
-
-// @public
-export interface SecurityConnectorsDevOpsAPIGitLabProjectProperties {
-    readonly fullyQualifiedFriendlyName?: string;
-    readonly fullyQualifiedName?: string;
-    readonly fullyQualifiedParentGroupName?: string;
-    onboardingState?: SecurityConnectorsDevOpsAPIOnboardingState;
-    readonly provisioningState?: SecurityConnectorsDevOpsAPIDevOpsProvisioningState;
-    readonly provisioningStatusMessage?: string;
-    readonly provisioningStatusUpdateTimeUtc?: Date;
-    readonly url?: string;
-}
-
-// @public
-export type SecurityConnectorsDevOpsAPIInheritFromParentState = string;
-
-// @public
-export type SecurityConnectorsDevOpsAPIInventoryKind = string;
-
-// @public
-export interface SecurityConnectorsDevOpsAPIInventoryList {
-    inventoryKind?: SecurityConnectorsDevOpsAPIInventoryKind;
-    value?: string;
-}
-
-// @public
-export type SecurityConnectorsDevOpsAPIInventoryListKind = string;
-
-// @public
-export interface SecurityConnectorsDevOpsAPIIssueCreationRequest {
-    securityAssessmentResourceId?: string;
-}
-
-// @public
-export type SecurityConnectorsDevOpsAPIOnboardingState = string;
-
-// @public
-export type SecurityConnectorsDevOpsAPIRuleCategory = string;
-
-// @public
-export interface SecurityConnectorsDevOpsAPITargetBranchConfiguration {
-    annotateDefaultBranch?: SecurityConnectorsDevOpsAPIAnnotateDefaultBranchState;
+export interface TargetBranchConfiguration {
+    annotateDefaultBranch?: AnnotateDefaultBranchState;
     branchNames?: string[];
 }
 

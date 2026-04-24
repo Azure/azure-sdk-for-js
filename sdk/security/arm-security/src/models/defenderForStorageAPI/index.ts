@@ -2,21 +2,18 @@
 // Licensed under the MIT License.
 
 export type {
-  DefenderForStorageAPIDefenderForStorageSetting,
-  DefenderForStorageAPIDefenderForStorageSettingProperties,
-  DefenderForStorageAPIMalwareScanningProperties,
-  DefenderForStorageAPIOnUploadProperties,
-  DefenderForStorageAPIOnUploadFilters,
-  DefenderForStorageAPIBlobScanResultsOptions,
-  DefenderForStorageAPIAutomatedResponseType,
-  DefenderForStorageAPISensitiveDataDiscoveryProperties,
-  DefenderForStorageAPIMalwareScan,
-  DefenderForStorageAPIMalwareScanProperties,
-  DefenderForStorageAPIScanSummary,
-  DefenderForStorageAPIBlobsScanSummary,
-  DefenderForStorageAPIFilesScanSummary,
+  DefenderForStorageSetting,
+  DefenderForStorageSettingProperties,
+  MalwareScanningProperties,
+  OnUploadProperties,
+  OnUploadFilters,
+  BlobScanResultsOptions,
+  AutomatedResponseType,
+  SensitiveDataDiscoveryProperties,
+  MalwareScan,
+  MalwareScanProperties,
+  ScanSummary,
+  BlobsScanSummary,
+  FilesScanSummary,
 } from "./models.js";
-export {
-  KnownDefenderForStorageAPIBlobScanResultsOptions,
-  KnownDefenderForStorageAPIAutomatedResponseType,
-} from "./models.js";
+export { KnownBlobScanResultsOptions, KnownAutomatedResponseType } from "./models.js";

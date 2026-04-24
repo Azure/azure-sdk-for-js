@@ -16,7 +16,7 @@ import type {
   StandardsCreateOrUpdateOptionalParams,
   StandardsGetOptionalParams,
 } from "../../api/standards/options.js";
-import type { StandardsAPIStandard } from "../../models/standardsAPI/models.js";
+import type { Standard } from "../../models/standardsAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Standards operations. */
@@ -24,12 +24,12 @@ export interface StandardsOperations {
   /** Get a list of all relevant security standards over a subscription level scope. */
   listBySubscription: (
     options?: StandardsListBySubscriptionOptionalParams,
-  ) => PagedAsyncIterableIterator<StandardsAPIStandard>;
+  ) => PagedAsyncIterableIterator<Standard>;
   /** Get security standards on all your resources inside a scope */
   list: (
     resourceGroupName: string,
     options?: StandardsListOptionalParams,
-  ) => PagedAsyncIterableIterator<StandardsAPIStandard>;
+  ) => PagedAsyncIterableIterator<Standard>;
   /** Delete a security standard on a scope. */
   delete: (
     resourceGroupName: string,
@@ -40,15 +40,15 @@ export interface StandardsOperations {
   createOrUpdate: (
     resourceGroupName: string,
     standardId: string,
-    standard: StandardsAPIStandard,
+    standard: Standard,
     options?: StandardsCreateOrUpdateOptionalParams,
-  ) => Promise<StandardsAPIStandard>;
+  ) => Promise<Standard>;
   /** Get a specific security standard for the requested scope */
   get: (
     resourceGroupName: string,
     standardId: string,
     options?: StandardsGetOptionalParams,
-  ) => Promise<StandardsAPIStandard>;
+  ) => Promise<Standard>;
 }
 
 function _getStandards(context: SecurityCenterContext) {
@@ -65,7 +65,7 @@ function _getStandards(context: SecurityCenterContext) {
     createOrUpdate: (
       resourceGroupName: string,
       standardId: string,
-      standard: StandardsAPIStandard,
+      standard: Standard,
       options?: StandardsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, standardId, standard, options),
     get: (resourceGroupName: string, standardId: string, options?: StandardsGetOptionalParams) =>

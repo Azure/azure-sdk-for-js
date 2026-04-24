@@ -9,7 +9,7 @@ import type {
   GovernanceAssignmentsCreateOrUpdateOptionalParams,
   GovernanceAssignmentsGetOptionalParams,
 } from "../../api/governanceAssignments/options.js";
-import type { GovernanceAPIGovernanceAssignment } from "../../models/governanceAPI/models.js";
+import type { GovernanceAssignment } from "../../models/governanceAPI/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a GovernanceAssignments operations. */
@@ -19,7 +19,7 @@ export interface GovernanceAssignmentsOperations {
     scope: string,
     assessmentName: string,
     options?: GovernanceAssignmentsListOptionalParams,
-  ) => PagedAsyncIterableIterator<GovernanceAPIGovernanceAssignment>;
+  ) => PagedAsyncIterableIterator<GovernanceAssignment>;
   /** Delete a GovernanceAssignment over a given scope */
   delete: (
     scope: string,
@@ -32,16 +32,16 @@ export interface GovernanceAssignmentsOperations {
     scope: string,
     assessmentName: string,
     assignmentKey: string,
-    governanceAssignment: GovernanceAPIGovernanceAssignment,
+    governanceAssignment: GovernanceAssignment,
     options?: GovernanceAssignmentsCreateOrUpdateOptionalParams,
-  ) => Promise<GovernanceAPIGovernanceAssignment>;
+  ) => Promise<GovernanceAssignment>;
   /** Get a specific governanceAssignment for the requested scope by AssignmentKey */
   get: (
     scope: string,
     assessmentName: string,
     assignmentKey: string,
     options?: GovernanceAssignmentsGetOptionalParams,
-  ) => Promise<GovernanceAPIGovernanceAssignment>;
+  ) => Promise<GovernanceAssignment>;
 }
 
 function _getGovernanceAssignments(context: SecurityCenterContext) {
@@ -61,7 +61,7 @@ function _getGovernanceAssignments(context: SecurityCenterContext) {
       scope: string,
       assessmentName: string,
       assignmentKey: string,
-      governanceAssignment: GovernanceAPIGovernanceAssignment,
+      governanceAssignment: GovernanceAssignment,
       options?: GovernanceAssignmentsCreateOrUpdateOptionalParams,
     ) =>
       createOrUpdate(context, scope, assessmentName, assignmentKey, governanceAssignment, options),

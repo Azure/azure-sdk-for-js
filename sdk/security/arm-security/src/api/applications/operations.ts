@@ -2,12 +2,9 @@
 // Licensed under the MIT License.
 
 import type { SecurityCenterContext as Client } from "../index.js";
-import type {
-  _ApplicationsAPIApplicationsList,
-  ApplicationsAPIApplication,
-} from "../../models/applicationsAPI/models.js";
-import { _applicationsAPIApplicationsListDeserializer } from "../../models/applicationsAPI/models.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
+import type { _ApplicationsList, Application } from "../../models/applicationsAPI/models.js";
+import { _applicationsListDeserializer } from "../../models/applicationsAPI/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -35,25 +32,23 @@ export function _listSend(
   });
 }
 
-export async function _listDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_ApplicationsAPIApplicationsList> {
+export async function _listDeserialize(result: PathUncheckedResponse): Promise<_ApplicationsList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _applicationsAPIApplicationsListDeserializer(result.body);
+  return _applicationsListDeserializer(result.body);
 }
 
 /** Get a list of all relevant applications over a subscription level scope */
 export function list(
   context: Client,
   options: ApplicationsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<ApplicationsAPIApplication> {
+): PagedAsyncIterableIterator<Application> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, options),

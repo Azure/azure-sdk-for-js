@@ -3,16 +3,16 @@
 
 import type { SecurityCenterContext as Client } from "../index.js";
 import type {
-  AssessmentAPISecurityAssessmentResponse,
-  AssessmentAPISecurityAssessment,
-  _AssessmentAPISecurityAssessmentList,
+  SecurityAssessmentResponse,
+  SecurityAssessment,
+  _SecurityAssessmentList,
 } from "../../models/assessmentAPI/models.js";
 import {
-  assessmentAPISecurityAssessmentResponseDeserializer,
-  assessmentAPISecurityAssessmentSerializer,
-  _assessmentAPISecurityAssessmentListDeserializer,
+  securityAssessmentResponseDeserializer,
+  securityAssessmentSerializer,
+  _securityAssessmentListDeserializer,
 } from "../../models/assessmentAPI/models.js";
-import { commonCloudErrorDeserializer } from "../../models/common/models.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -48,16 +48,16 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_AssessmentAPISecurityAssessmentList> {
+): Promise<_SecurityAssessmentList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return _assessmentAPISecurityAssessmentListDeserializer(result.body);
+  return _securityAssessmentListDeserializer(result.body);
 }
 
 /** Get security assessments on all your scanned resources inside a scope */
@@ -65,7 +65,7 @@ export function list(
   context: Client,
   scope: string,
   options: AssessmentsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<AssessmentAPISecurityAssessmentResponse> {
+): PagedAsyncIterableIterator<SecurityAssessmentResponse> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, scope, options),
@@ -99,7 +99,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
@@ -122,7 +122,7 @@ export function _createOrUpdateSend(
   context: Client,
   resourceId: string,
   assessmentName: string,
-  assessment: AssessmentAPISecurityAssessment,
+  assessment: SecurityAssessment,
   options: AssessmentsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -140,22 +140,22 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: assessmentAPISecurityAssessmentSerializer(assessment),
+    body: securityAssessmentSerializer(assessment),
   });
 }
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
-): Promise<AssessmentAPISecurityAssessmentResponse> {
+): Promise<SecurityAssessmentResponse> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return assessmentAPISecurityAssessmentResponseDeserializer(result.body);
+  return securityAssessmentResponseDeserializer(result.body);
 }
 
 /** Create a security assessment on your resource. An assessment metadata that describes this assessment must be predefined with the same name before inserting the assessment result */
@@ -163,9 +163,9 @@ export async function createOrUpdate(
   context: Client,
   resourceId: string,
   assessmentName: string,
-  assessment: AssessmentAPISecurityAssessment,
+  assessment: SecurityAssessment,
   options: AssessmentsCreateOrUpdateOptionalParams = { requestOptions: {} },
-): Promise<AssessmentAPISecurityAssessmentResponse> {
+): Promise<SecurityAssessmentResponse> {
   const result = await _createOrUpdateSend(
     context,
     resourceId,
@@ -202,16 +202,16 @@ export function _getSend(
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<AssessmentAPISecurityAssessmentResponse> {
+): Promise<SecurityAssessmentResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = commonCloudErrorDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }
 
-  return assessmentAPISecurityAssessmentResponseDeserializer(result.body);
+  return securityAssessmentResponseDeserializer(result.body);
 }
 
 /** Get a security assessment on your scanned resource */
@@ -220,7 +220,7 @@ export async function get(
   resourceId: string,
   assessmentName: string,
   options: AssessmentsGetOptionalParams = { requestOptions: {} },
-): Promise<AssessmentAPISecurityAssessmentResponse> {
+): Promise<SecurityAssessmentResponse> {
   const result = await _getSend(context, resourceId, assessmentName, options);
   return _getDeserialize(result);
 }
