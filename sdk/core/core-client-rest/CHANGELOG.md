@@ -8,7 +8,7 @@
 
 ### Bugs Fixed
 
-- Fix `operationOptionsToRequestParameters` to correctly preserve `tracingOptions` in the returned `RequestParameters`.
+- Fix `operationOptionsToRequestParameters` to correctly preserve `tracingOptions` in the returned `RequestParameters`. [PR #38285](https://github.com/Azure/azure-sdk-for-js/pull/38285)
 
 ### Other Changes
 
