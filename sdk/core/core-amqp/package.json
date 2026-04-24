@@ -61,9 +61,13 @@
   "engines": {
     "node": ">=20.0.0"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-amqp/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-amqp/README.md",
   "sideEffects": false,
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/core/core-amqp"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },

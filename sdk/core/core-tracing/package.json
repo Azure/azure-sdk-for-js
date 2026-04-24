@@ -35,7 +35,11 @@
     "README.md",
     "LICENSE"
   ],
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/core/core-tracing"
+  },
   "keywords": [
     "azure",
     "tracing",
@@ -49,7 +53,7 @@
   "engines": {
     "node": ">=20.0.0"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-tracing/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-tracing/README.md",
   "sideEffects": false,
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
