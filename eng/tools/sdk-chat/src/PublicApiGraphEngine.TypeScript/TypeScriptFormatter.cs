@@ -306,7 +306,9 @@ public static class TypeScriptFormatter
         }
 
         var libs = new List<string> { "ES2023" };
-        if (needsDomLib)
+        // react-native provides its own DOM-like globals that conflict with lib.dom.d.ts,
+        // so never add DOM lib for the react-native target.
+        if (needsDomLib && !string.Equals(targetCondition, "react-native", StringComparison.OrdinalIgnoreCase))
         {
             libs.Add("DOM");
             libs.Add("DOM.Iterable");

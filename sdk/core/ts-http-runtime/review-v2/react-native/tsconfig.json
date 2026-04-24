@@ -3,7 +3,7 @@
     "noEmit": true,
     "types": ["react-native"],
     "composite": true,
-    "lib": ["ES2023", "DOM", "DOM.Iterable"]
+    "lib": ["ES2023"]
   },
   "include": ["./*.d.ts"]
 }
