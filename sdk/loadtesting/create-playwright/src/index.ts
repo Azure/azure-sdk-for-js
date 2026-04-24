@@ -4,10 +4,11 @@
 // Licensed under the MIT License.
 
 import { init } from "./bin/init.js";
+import { writeUnknownError } from "./stdio.js";
 
 (async () => {
   await init();
 })().catch((err) => {
-  console.error(err);
+  writeUnknownError(err);
   process.exit(1);
 });

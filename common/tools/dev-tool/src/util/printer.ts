@@ -5,6 +5,7 @@
 
 import chalk from "chalk";
 import path from "node:path";
+import { writeStderr, writeStdout } from "./stdio.js";
 
 const printModes = ["info", "warn", "error", "success", "debug"] as const;
 
@@ -45,11 +46,11 @@ export interface PrinterBackend {
  * The object that is used to write output.
  */
 let backend: PrinterBackend = {
-  error: console.error,
-  log: console.log,
-  info: console.info,
-  warn: console.warn,
-  trace: console.trace,
+  error: (...args: any[]) => writeStderr(args.join(" ")),
+  log: (...args: any[]) => writeStdout(args.join(" ")),
+  info: (...args: any[]) => writeStdout(args.join(" ")),
+  warn: (...args: any[]) => writeStderr(args.join(" ")),
+  trace: (...args: any[]) => writeStderr(args.join(" ")),
 };
 
 /**
@@ -121,7 +122,7 @@ const finalLogger: ModeMap<Fn> = {
       backend.error(values[0], colors.debug(callerInfo), ...values.slice(1));
     }
   },
-  success: console.info,
+  success: (...values) => backend.info(...values),
 };
 
 /**
@@ -149,7 +150,7 @@ const finalLogger: ModeMap<Fn> = {
 export function createPrinter(name: string): Printer {
   const prefix = "[" + name + "]";
   const base = ((...values: string[]) => {
-    console.log(chalk.reset(prefix, ...values));
+    writeStdout(chalk.reset(prefix, ...values));
   }) as Printer;
 
   for (const mode of printModes) {

@@ -10,6 +10,7 @@ import { ServiceErrorMessageConstants } from "../common/messages.js";
 import { HttpService } from "../common/httpService.js";
 import type { TestRunCreatePayload, WorkspaceMetaData } from "../common/types.js";
 import { Constants, InternalEnvironmentVariables } from "../common/constants.js";
+import { writeStdout, writeStderr } from "../common/stdio.js";
 
 export class PlaywrightServiceClient {
   private httpService: HttpService;
@@ -44,7 +45,7 @@ export class PlaywrightServiceClient {
       if (response.status !== 200) {
         const errorMessage = extractErrorMessage(response?.bodyAsText ?? "");
         process.env[InternalEnvironmentVariables.TEST_RUN_CREATION_SUCCESS] = "false";
-        console.error(
+        writeStderr(
           ServiceErrorMessageConstants.TEST_RUN_CREATION_FAILED.formatWithErrorDetails(
             errorMessage || "Unknown error",
           ),
@@ -52,13 +53,13 @@ export class PlaywrightServiceClient {
         return;
       }
 
-      console.log("Test run created successfully.");
+      writeStdout("Test run created successfully.");
       process.env[InternalEnvironmentVariables.TEST_RUN_CREATION_SUCCESS] = "true";
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : "Unknown error occurred during test run creation";
       process.env[InternalEnvironmentVariables.TEST_RUN_CREATION_SUCCESS] = "false";
-      console.error(
+      writeStderr(
         ServiceErrorMessageConstants.TEST_RUN_CREATION_FAILED.formatWithErrorDetails(errorMessage),
       );
     }

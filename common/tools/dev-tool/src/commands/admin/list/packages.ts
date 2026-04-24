@@ -5,6 +5,7 @@ import { leafCommand, makeCommandInfo } from "../../../framework/command";
 import path from "node:path";
 import { resolveRoot } from "../../../util/resolveProject";
 import { getRushJson, type RushJsonProject } from "../../../util/synthesizedRushJson";
+import { writeStdout } from "../../../util/stdio.js";
 
 export const commandInfo = makeCommandInfo("packages", "list packages defined in the monorepo", {
   paths: {
@@ -38,9 +39,9 @@ export async function getProjects(service?: string): Promise<RushJsonProject[]> 
 
 async function echoPackage(project: RushJsonProject, paths: boolean, cwd: string, root: string) {
   if (paths) {
-    console.log(path.relative(cwd, path.resolve(root, project.projectFolder)) || ".");
+    writeStdout(path.relative(cwd, path.resolve(root, project.projectFolder)) || ".");
   } else {
-    console.log(project.packageName);
+    writeStdout(project.packageName);
   }
 }
 

@@ -12,6 +12,7 @@ import type {
 } from "./types.js";
 import { executeCommand, getFileReferenceForImport } from "./utils.js";
 import { getPackageManager } from "./packageManager.js";
+import { writeStdout } from "./stdio.js";
 
 const questions: PromptObject[] = [
   {
@@ -53,7 +54,7 @@ export class PlaywrightServiceInitialize {
     if (response.canOverride) return true;
     if (!response.confirmationForExit) return this.checkIfServiceConfigCanBeAdded();
 
-    console.log(`\n${Messages.SETUP_PROCESS_EXIT_MESSAGE}`);
+    writeStdout(`\n${Messages.SETUP_PROCESS_EXIT_MESSAGE}`);
     return false;
   };
 
@@ -71,12 +72,12 @@ export class PlaywrightServiceInitialize {
       `test -c ${this.createAzurePlaywrightConfigFileName()} --workers=20`,
     );
 
-    console.log(`\n\nTo run playwrights tests using Playwright Workspaces\n`);
-    console.log(`\t${runCommandParallelWorkers}\n`);
+    writeStdout(`\n\nTo run playwrights tests using Playwright Workspaces\n`);
+    writeStdout(`\t${runCommandParallelWorkers}\n`);
 
-    console.log("Getting Started - https://aka.ms/pww/docs/quickstart\n");
+    writeStdout("Getting Started - https://aka.ms/pww/docs/quickstart\n");
 
-    console.log(
+    writeStdout(
       "If you're already using the Playwright Workspaces, please review the quickstart guide [https://aka.ms/pww/docs/quickstart] to ensure your tests continue running smoothly.",
     );
   };
@@ -85,7 +86,7 @@ export class PlaywrightServiceInitialize {
     const command = this._packageManager.installDevDependencyCommand(
       "@azure/playwright @azure/identity",
     );
-    console.log(`Installing Service package (${command})`);
+    writeStdout(`Installing Service package (${command})`);
     await executeCommand(command);
   };
 
@@ -93,7 +94,7 @@ export class PlaywrightServiceInitialize {
     const serviceConfigFile = this.createAzurePlaywrightConfigFileName();
     const serviceConfigFileContent = this.createAzurePlaywrightConfigContent();
     await fs.promises.writeFile(serviceConfigFile, serviceConfigFileContent);
-    console.log(`Success! Created service configuration file - ${serviceConfigFile}`);
+    writeStdout(`Success! Created service configuration file - ${serviceConfigFile}`);
   };
 
   private createAzurePlaywrightConfigContent = (): string => {

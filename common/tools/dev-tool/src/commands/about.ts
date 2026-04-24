@@ -8,6 +8,7 @@ import { createPrinter } from "../util/printer";
 import { leafCommand, makeCommandInfo } from "../framework/command";
 import { printCommandUsage } from "../framework/printCommandUsage";
 import * as pwsh from "../util/pwsh";
+import { writeStdout } from "../util/stdio.js";
 
 const log = createPrinter("about");
 
@@ -24,13 +25,13 @@ Developer quality-of-life command for the Azure SDK for JS
 export const commandInfo = makeCommandInfo("about", "display command help and information");
 
 export default leafCommand(commandInfo, async (options) => {
-  console.log(chalk.blueBright(banner));
+  writeStdout(chalk.blueBright(banner));
 
   try {
     const packageInfo = await resolveProject(__dirname);
-    console.log(chalk.blueBright(`  Name/Version:\t${packageInfo.name}@${packageInfo.version}`));
-    console.log(chalk.blueBright(`  Location:\t${packageInfo.path}`));
-    console.log();
+    writeStdout(chalk.blueBright(`  Name/Version:\t${packageInfo.name}@${packageInfo.version}`));
+    writeStdout(chalk.blueBright(`  Location:\t${packageInfo.path}`));
+    writeStdout("");
   } catch (error: unknown) {
     log.error("Could not locate dev-tool package.");
     log.error("Unable to display dev-tool version information.");
@@ -39,22 +40,22 @@ export default leafCommand(commandInfo, async (options) => {
   const hasPowerShell = await pwsh.hasPowerShell();
 
   if (hasPowerShell) {
-    console.log(chalk.blueBright("  PowerShell: Found"));
+    writeStdout(chalk.blueBright("  PowerShell: Found"));
   } else {
-    console.log(chalk.yellow("  PowerShell: Not found"));
+    writeStdout(chalk.yellow("  PowerShell: Not found"));
   }
-  console.log();
+  writeStdout("");
 
   if (options.args.length || options["--"]?.length) {
-    console.log();
+    writeStdout("");
     log.warn("Warning, unused options:", JSON.stringify(options, null, 2));
   }
 
   await printCommandUsage(baseCommandInfo, baseCommands);
 
-  console.log("For more information about a given command, try `dev-tool COMMAND --help`");
+  writeStdout("For more information about a given command, try `dev-tool COMMAND --help`");
 
-  console.log();
+  writeStdout("");
 
   return true;
 });

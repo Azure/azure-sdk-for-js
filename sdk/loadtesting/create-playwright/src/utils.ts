@@ -6,6 +6,7 @@ import fs from "node:fs";
 import path, { extname } from "node:path";
 import type { CLIArguments, PlaywrightServiceInitConfig } from "./types.js";
 import { ErrorMessages, Extensions, Languages } from "./constants.js";
+import { writeStdout } from "./stdio.js";
 
 export const executeCommand = (command: string): Promise<string> => {
   return new Promise<string>((resolve, reject) => {
@@ -86,7 +87,7 @@ export const parseCLIArguments = (): CLIArguments => {
     if (args[i] === "-c" || args[i] === "--config") {
       cliArguments.config = args[i + 1];
     } else if (args[i] === "-h" || args[i] === "--help") {
-      console.log(showHelpForCLI());
+      writeStdout(showHelpForCLI());
       process.exit(0);
     }
   }

@@ -3,6 +3,7 @@
 
 import { Session } from "node:inspector";
 import { mkdirSync, writeFileSync } from "node:fs";
+import { writeStdout, writeUnknownError } from "./stdio.js";
 
 export async function runWithCpuProfile(
   functionToProfile: () => Promise<void>,
@@ -22,9 +23,9 @@ export async function runWithCpuProfile(
             recursive: true,
           });
           writeFileSync(profileFilePath, JSON.stringify(profile));
-          console.log(`...CPUProfile saved to ${profileFilePath}...`);
+          writeStdout(`...CPUProfile saved to ${profileFilePath}...`);
         } else {
-          console.log(err);
+          writeUnknownError(err);
         }
       });
     });

@@ -8,6 +8,7 @@ import {
   getVersionInfo,
 } from "../utils/utils.js";
 import { coreLogger } from "../common/logger.js";
+import { writeStdout, writeStderr } from "../common/stdio.js";
 import { PlaywrightServiceConfig } from "../common/playwrightServiceConfig.js";
 import { ServiceAuth, InternalEnvironmentVariables } from "../common/constants.js";
 import { ServiceErrorMessageConstants } from "../common/messages.js";
@@ -46,7 +47,7 @@ export default class PlaywrightReporter implements Reporter {
         (playwrightVersionInfo.major === 1 && playwrightVersionInfo.minor >= 57);
 
       if (!isReportingSupportedVersion) {
-        console.error(
+        writeStderr(
           ServiceErrorMessageConstants.PLAYWRIGHT_VERSION_TOO_OLD_FOR_REPORTING.message,
         );
         this.isReportingEnabled = false;
@@ -54,7 +55,7 @@ export default class PlaywrightReporter implements Reporter {
       }
     } catch (error) {
       coreLogger.error(`Failed to get Playwright version: ${error}`);
-      console.error(ServiceErrorMessageConstants.PLAYWRIGHT_VERSION_TOO_OLD_FOR_REPORTING.message);
+      writeStderr(ServiceErrorMessageConstants.PLAYWRIGHT_VERSION_TOO_OLD_FOR_REPORTING.message);
       this.isReportingEnabled = false;
       return;
     }
@@ -64,7 +65,7 @@ export default class PlaywrightReporter implements Reporter {
       process.env[InternalEnvironmentVariables.USING_SERVICE_CONFIG] === "true";
     coreLogger.info(`Using service config: ${usingServiceConfig}`);
     if (!usingServiceConfig) {
-      console.error(ServiceErrorMessageConstants.REPORTER_REQUIRES_SERVICE_CONFIG.message);
+      writeStderr(ServiceErrorMessageConstants.REPORTER_REQUIRES_SERVICE_CONFIG.message);
       this.isReportingEnabled = false;
       return;
     }
@@ -73,8 +74,8 @@ export default class PlaywrightReporter implements Reporter {
     const testRunCreationSuccess =
       process.env[InternalEnvironmentVariables.TEST_RUN_CREATION_SUCCESS] === "true";
     if (!testRunCreationSuccess) {
-      console.error(ServiceErrorMessageConstants.REPORTING_STATUS_FAILED.message);
-      console.error(ServiceErrorMessageConstants.REPORTING_TEST_RUN_FAILED.message);
+      writeStderr(ServiceErrorMessageConstants.REPORTING_STATUS_FAILED.message);
+      writeStderr(ServiceErrorMessageConstants.REPORTING_TEST_RUN_FAILED.message);
       this.isReportingEnabled = false;
       return;
     }
@@ -84,7 +85,7 @@ export default class PlaywrightReporter implements Reporter {
     coreLogger.info(`Current authentication type: ${playwrightServiceConfig.serviceAuthType}`);
     const isUsingAccessToken = playwrightServiceConfig.serviceAuthType === ServiceAuth.ACCESS_TOKEN;
     if (isUsingAccessToken) {
-      console.error(ServiceErrorMessageConstants.REPORTER_REQUIRES_ENTRA_AUTH.message);
+      writeStderr(ServiceErrorMessageConstants.REPORTER_REQUIRES_ENTRA_AUTH.message);
       this.isReportingEnabled = false;
       return;
     }
@@ -108,10 +109,10 @@ export default class PlaywrightReporter implements Reporter {
       }
 
       this.isReportingEnabled = true;
-      console.log(ServiceErrorMessageConstants.REPORTING_ENABLED.message);
+      writeStdout(ServiceErrorMessageConstants.REPORTING_ENABLED.message);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : String(error);
-      console.error(
+      writeStderr(
         `${ServiceErrorMessageConstants.WORKSPACE_METADATA_FETCH_FAILED.message}Error: ${errorMessage} `,
       );
     }
@@ -123,7 +124,7 @@ export default class PlaywrightReporter implements Reporter {
 
   async onEnd(): Promise<void> {
     if (this.isReportingEnabled) {
-      console.log(ServiceErrorMessageConstants.COLLECTING_ARTIFACTS.message);
+      writeStdout(ServiceErrorMessageConstants.COLLECTING_ARTIFACTS.message);
       const uploadResult = await this.uploadHtmlReport();
 
       if (uploadResult.success) {
@@ -132,23 +133,23 @@ export default class PlaywrightReporter implements Reporter {
           uploadResult.failedFileDetails &&
           uploadResult.failedFileDetails.length > 0
         ) {
-          console.log("Warning: Failed to upload the following files:");
+          writeStdout("Warning: Failed to upload the following files:");
           uploadResult.failedFileDetails.forEach((fileDetail) => {
-            console.log(`  - ${fileDetail.fileName}, ERROR: ${fileDetail.error}`);
+            writeStdout(`  - ${fileDetail.fileName}, ERROR: ${fileDetail.error}`);
           });
-          console.log(ServiceErrorMessageConstants.REPORTING_STATUS_PARTIAL.message);
+          writeStdout(ServiceErrorMessageConstants.REPORTING_STATUS_PARTIAL.message);
         } else {
-          console.log(ServiceErrorMessageConstants.REPORTING_STATUS_SUCCESS.message);
+          writeStdout(ServiceErrorMessageConstants.REPORTING_STATUS_SUCCESS.message);
         }
         // Display portal URL for both full and partial success
         if (this.workspaceMetadata?.resourceId) {
           const portalUrl = getPortalTestRunUrl(this.workspaceMetadata.resourceId);
-          console.log(ServiceErrorMessageConstants.TEST_REPORT_VIEW_URL.formatWithUrl(portalUrl));
+          writeStdout(ServiceErrorMessageConstants.TEST_REPORT_VIEW_URL.formatWithUrl(portalUrl));
         }
       } else {
-        console.error(ServiceErrorMessageConstants.REPORTING_STATUS_FAILED.message);
+        writeStderr(ServiceErrorMessageConstants.REPORTING_STATUS_FAILED.message);
         if (uploadResult.errorMessage) {
-          console.error(`Error: ${uploadResult.errorMessage}`);
+          writeStderr(`Error: ${uploadResult.errorMessage}`);
         }
       }
     }
@@ -178,7 +179,7 @@ export default class PlaywrightReporter implements Reporter {
 
   private validateHtmlReporterConfiguration(config: FullConfig): boolean {
     if (!config.reporter || !Array.isArray(config.reporter)) {
-      console.error(ServiceErrorMessageConstants.HTML_REPORTER_REQUIRED.message);
+      writeStderr(ServiceErrorMessageConstants.HTML_REPORTER_REQUIRED.message);
       return false;
     }
 
@@ -198,13 +199,13 @@ export default class PlaywrightReporter implements Reporter {
 
     // Validate HTML reporter exists
     if (htmlReporterIndex === -1) {
-      console.error(ServiceErrorMessageConstants.HTML_REPORTER_REQUIRED.message);
+      writeStderr(ServiceErrorMessageConstants.HTML_REPORTER_REQUIRED.message);
       return false;
     }
 
     // Validate HTML reporter comes before Azure reporter (if Azure reporter exists)
     if (azureReporterIndex !== -1 && htmlReporterIndex > azureReporterIndex) {
-      console.error(ServiceErrorMessageConstants.HTML_REPORTER_REQUIRED.message);
+      writeStderr(ServiceErrorMessageConstants.HTML_REPORTER_REQUIRED.message);
       return false;
     }
 
@@ -221,7 +222,7 @@ export default class PlaywrightReporter implements Reporter {
    */
   private isReportingAllowed(workspaceMetadata: WorkspaceMetaData | null): boolean {
     if (!workspaceMetadata) {
-      console.error(ServiceErrorMessageConstants.FAILED_TO_GET_WORKSPACE_METADATA.message);
+      writeStderr(ServiceErrorMessageConstants.FAILED_TO_GET_WORKSPACE_METADATA.message);
       return false;
     }
 
@@ -233,14 +234,14 @@ export default class PlaywrightReporter implements Reporter {
         typeof reporting === "string" ? reporting.toLowerCase() : reporting;
 
       if (normalizedReporting === "disabled") {
-        console.error(ServiceErrorMessageConstants.WORKSPACE_REPORTING_DISABLED.message);
+        writeStderr(ServiceErrorMessageConstants.WORKSPACE_REPORTING_DISABLED.message);
         coreLogger.info("Reporting disabled via workspace metadata configuration");
         return false;
       }
 
       if (normalizedReporting === "enabled") {
         if (!storageUri) {
-          console.error(
+          writeStderr(
             ServiceErrorMessageConstants.WORKSPACE_REPORTING_STORAGE_NOT_LINKED.message,
           );
           coreLogger.info("Reporting enabled in metadata but storage URI not configured");
@@ -258,7 +259,7 @@ export default class PlaywrightReporter implements Reporter {
 
     // Fallback to current logic: check only storageUri (when reporting field is not present or has unexpected value)
     if (!storageUri) {
-      console.error(ServiceErrorMessageConstants.WORKSPACE_REPORTING_DISABLED.message);
+      writeStderr(ServiceErrorMessageConstants.WORKSPACE_REPORTING_DISABLED.message);
       coreLogger.info("Storage URI not configured in workspace metadata");
       return false;
     }
