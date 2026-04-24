@@ -26,7 +26,7 @@ import type {
   CachesResetSmbPasswordOptionalParams,
   CachesPoolChangeOptionalParams,
   CachesListPeeringPassphrasesOptionalParams,
-  CachesListByCapacityPoolsOptionalParams,
+  CachesListOptionalParams,
   CachesDeleteOptionalParams,
   CachesUpdateOptionalParams,
   CachesCreateOrUpdateOptionalParams,
@@ -52,7 +52,7 @@ export function _resetSmbPasswordSend(
       accountName: accountName,
       poolName: poolName,
       cacheName: cacheName,
-      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -91,7 +91,7 @@ export function resetSmbPassword(
     getInitialResponse: () =>
       _resetSmbPasswordSend(context, resourceGroupName, accountName, poolName, cacheName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-12-15-preview",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -112,7 +112,7 @@ export function _poolChangeSend(
       accountName: accountName,
       poolName: poolName,
       cacheName: cacheName,
-      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -154,7 +154,7 @@ export function poolChange(
     getInitialResponse: () =>
       _poolChangeSend(context, resourceGroupName, accountName, poolName, cacheName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-12-15-preview",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -174,7 +174,7 @@ export function _listPeeringPassphrasesSend(
       accountName: accountName,
       poolName: poolName,
       cacheName: cacheName,
-      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -220,12 +220,12 @@ export async function listPeeringPassphrases(
   return _listPeeringPassphrasesDeserialize(result);
 }
 
-export function _listByCapacityPoolsSend(
+export function _listSend(
   context: Client,
   resourceGroupName: string,
   accountName: string,
   poolName: string,
-  options: CachesListByCapacityPoolsOptionalParams = { requestOptions: {} },
+  options: CachesListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/caches{?api%2Dversion}",
@@ -234,7 +234,7 @@ export function _listByCapacityPoolsSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       poolName: poolName,
-      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -246,9 +246,7 @@ export function _listByCapacityPoolsSend(
   });
 }
 
-export async function _listByCapacityPoolsDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_CacheList> {
+export async function _listDeserialize(result: PathUncheckedResponse): Promise<_CacheList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -261,23 +259,19 @@ export async function _listByCapacityPoolsDeserialize(
 }
 
 /** List all Caches within the Capacity Pool */
-export function listByCapacityPools(
+export function list(
   context: Client,
   resourceGroupName: string,
   accountName: string,
   poolName: string,
-  options: CachesListByCapacityPoolsOptionalParams = { requestOptions: {} },
+  options: CachesListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<Cache> {
   return buildPagedAsyncIterator(
     context,
-    () => _listByCapacityPoolsSend(context, resourceGroupName, accountName, poolName, options),
-    _listByCapacityPoolsDeserialize,
+    () => _listSend(context, resourceGroupName, accountName, poolName, options),
+    _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-12-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
   );
 }
 
@@ -297,7 +291,7 @@ export function _$deleteSend(
       accountName: accountName,
       poolName: poolName,
       cacheName: cacheName,
-      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -338,7 +332,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, accountName, poolName, cacheName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-12-15-preview",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -359,7 +353,7 @@ export function _updateSend(
       accountName: accountName,
       poolName: poolName,
       cacheName: cacheName,
-      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -401,7 +395,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, accountName, poolName, cacheName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-12-15-preview",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<Cache>, Cache>;
 }
 
@@ -422,7 +416,7 @@ export function _createOrUpdateSend(
       accountName: accountName,
       poolName: poolName,
       cacheName: cacheName,
-      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -472,7 +466,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-12-15-preview",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<Cache>, Cache>;
 }
 
@@ -492,7 +486,7 @@ export function _getSend(
       accountName: accountName,
       poolName: poolName,
       cacheName: cacheName,
-      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

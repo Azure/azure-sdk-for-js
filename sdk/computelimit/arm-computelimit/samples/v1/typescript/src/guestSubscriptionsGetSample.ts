@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the properties of a guest subscription.
  *
  * @summary gets the properties of a guest subscription.
- * x-ms-original-file: 2026-03-20/GuestSubscriptions_Get.json
+ * x-ms-original-file: 2026-04-30/GuestSubscriptions_Get.json
  */
 async function getAGuestSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -12,7 +12,7 @@ export interface ExportJobsOperationResultGetOptionalParams extends OperationOpt
 }
 
 // @public
-export function get(context: DataProtectionContext, resourceGroupName: string, vaultName: string, operationId: string, options?: ExportJobsOperationResultGetOptionalParams): Promise<ExportJobsResult | null>;
+export function get(context: DataProtectionContext, resourceGroupName: string, vaultName: string, operationId: string, options?: ExportJobsOperationResultGetOptionalParams): Promise<ExportJobsResult>;
 
 // (No @packageDocumentation comment for this package)
 
