@@ -29,12 +29,16 @@ stages:
               ServiceDirectory: core
 
           - script: |
-              npm install -g pnpm --userconfig=$(CommonNpmrcPath)
+              npm install -g pnpm
             displayName: "Install Pnpm"
+            env:
+              npm_config_userconfig: $(CommonNpmrcPath)
 
           - script: |
-              pnpm install --userconfig=$(CommonNpmrcPath)
+              pnpm install
             displayName: "Install library dependencies"
+            env:
+              npm_config_userconfig: $(CommonNpmrcPath)
 
           - script: |
               pnpm build --filter @azure/eslint-plugin-azure-sdk...
