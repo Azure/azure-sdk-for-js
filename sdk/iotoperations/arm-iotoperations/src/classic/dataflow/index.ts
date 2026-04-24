@@ -1,33 +1,45 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { IoTOperationsContext } from "../../api/ioTOperationsContext.js";
+import type { IoTOperationsContext } from "../../api/ioTOperationsContext.js";
 import {
-  dataflowGet,
-  dataflowCreateOrUpdate,
-  dataflowDelete,
-  dataflowListByResourceGroup,
-} from "../../api/dataflow/index.js";
-import { DataflowResource } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
-import {
-  DataflowGetOptionalParams,
-  DataflowCreateOrUpdateOptionalParams,
-  DataflowDeleteOptionalParams,
+  listByResourceGroup,
+  $delete,
+  createOrUpdate,
+  get,
+} from "../../api/dataflow/operations.js";
+import type {
   DataflowListByResourceGroupOptionalParams,
-} from "../../api/options.js";
+  DataflowDeleteOptionalParams,
+  DataflowCreateOrUpdateOptionalParams,
+  DataflowGetOptionalParams,
+} from "../../api/dataflow/options.js";
+import type { DataflowResource } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Dataflow operations. */
 export interface DataflowOperations {
-  /** Get a DataflowResource */
-  get: (
+  /** List DataflowResource resources by DataflowProfileResource */
+  listByResourceGroup: (
+    resourceGroupName: string,
+    instanceName: string,
+    dataflowProfileName: string,
+    options?: DataflowListByResourceGroupOptionalParams,
+  ) => PagedAsyncIterableIterator<DataflowResource>;
+  /** Delete a DataflowResource */
+  /**
+   *  @fixme delete is a reserved word that cannot be used as an operation name.
+   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+   *         to the operation to override the generated name.
+   */
+  delete: (
     resourceGroupName: string,
     instanceName: string,
     dataflowProfileName: string,
     dataflowName: string,
-    options?: DataflowGetOptionalParams,
-  ) => Promise<DataflowResource>;
+    options?: DataflowDeleteOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
   /** Create a DataflowResource */
   createOrUpdate: (
     resourceGroupName: string,
@@ -37,41 +49,33 @@ export interface DataflowOperations {
     resource: DataflowResource,
     options?: DataflowCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<DataflowResource>, DataflowResource>;
-  /** Delete a DataflowResource */
-  delete: (
+  /** Get a DataflowResource */
+  get: (
     resourceGroupName: string,
     instanceName: string,
     dataflowProfileName: string,
     dataflowName: string,
-    options?: DataflowDeleteOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
-  /** List DataflowResource resources by DataflowProfileResource */
-  listByResourceGroup: (
-    resourceGroupName: string,
-    instanceName: string,
-    dataflowProfileName: string,
-    options?: DataflowListByResourceGroupOptionalParams,
-  ) => PagedAsyncIterableIterator<DataflowResource>;
+    options?: DataflowGetOptionalParams,
+  ) => Promise<DataflowResource>;
 }
 
-export function getDataflow(context: IoTOperationsContext, subscriptionId: string) {
+function _getDataflow(context: IoTOperationsContext) {
   return {
-    get: (
+    listByResourceGroup: (
+      resourceGroupName: string,
+      instanceName: string,
+      dataflowProfileName: string,
+      options?: DataflowListByResourceGroupOptionalParams,
+    ) =>
+      listByResourceGroup(context, resourceGroupName, instanceName, dataflowProfileName, options),
+    delete: (
       resourceGroupName: string,
       instanceName: string,
       dataflowProfileName: string,
       dataflowName: string,
-      options?: DataflowGetOptionalParams,
+      options?: DataflowDeleteOptionalParams,
     ) =>
-      dataflowGet(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        instanceName,
-        dataflowProfileName,
-        dataflowName,
-        options,
-      ),
+      $delete(context, resourceGroupName, instanceName, dataflowProfileName, dataflowName, options),
     createOrUpdate: (
       resourceGroupName: string,
       instanceName: string,
@@ -80,9 +84,8 @@ export function getDataflow(context: IoTOperationsContext, subscriptionId: strin
       resource: DataflowResource,
       options?: DataflowCreateOrUpdateOptionalParams,
     ) =>
-      dataflowCreateOrUpdate(
+      createOrUpdate(
         context,
-        subscriptionId,
         resourceGroupName,
         instanceName,
         dataflowProfileName,
@@ -90,44 +93,18 @@ export function getDataflow(context: IoTOperationsContext, subscriptionId: strin
         resource,
         options,
       ),
-    delete: (
+    get: (
       resourceGroupName: string,
       instanceName: string,
       dataflowProfileName: string,
       dataflowName: string,
-      options?: DataflowDeleteOptionalParams,
-    ) =>
-      dataflowDelete(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        instanceName,
-        dataflowProfileName,
-        dataflowName,
-        options,
-      ),
-    listByResourceGroup: (
-      resourceGroupName: string,
-      instanceName: string,
-      dataflowProfileName: string,
-      options?: DataflowListByResourceGroupOptionalParams,
-    ) =>
-      dataflowListByResourceGroup(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        instanceName,
-        dataflowProfileName,
-        options,
-      ),
+      options?: DataflowGetOptionalParams,
+    ) => get(context, resourceGroupName, instanceName, dataflowProfileName, dataflowName, options),
   };
 }
 
-export function getDataflowOperations(
-  context: IoTOperationsContext,
-  subscriptionId: string,
-): DataflowOperations {
+export function _getDataflowOperations(context: IoTOperationsContext): DataflowOperations {
   return {
-    ...getDataflow(context, subscriptionId),
+    ..._getDataflow(context),
   };
 }

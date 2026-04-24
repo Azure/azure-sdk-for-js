@@ -3,28 +3,23 @@
 
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Completes a Data Transfer Online Job.
+ * This sample demonstrates how to completes a Data Transfer Online Job.
  *
- * @summary Completes a Data Transfer Online Job.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/data-transfer-service/CosmosDBDataTransferJobComplete.json
+ * @summary completes a Data Transfer Online Job.
+ * x-ms-original-file: 2025-11-01-preview/data-transfer-service/CosmosDBDataTransferJobComplete.json
  */
-async function cosmosDbDataTransferJobComplete() {
-  const subscriptionId =
-    process.env["COSMOSDB_SUBSCRIPTION_ID"] || "e35cc6eb-c8e3-447b-8de6-b83328cd0098";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const accountName = "ddb1";
-  const jobName = "j1";
+async function cosmosDBDataTransferJobComplete() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "e35cc6eb-c8e3-447b-8de6-b83328cd0098";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.dataTransferJobs.complete(resourceGroupName, accountName, jobName);
+  const result = await client.dataTransferJobs.complete("rg1", "ddb1", "j1");
   console.log(result);
 }
 
 async function main() {
-  await cosmosDbDataTransferJobComplete();
+  await cosmosDBDataTransferJobComplete();
 }
 
 main().catch(console.error);

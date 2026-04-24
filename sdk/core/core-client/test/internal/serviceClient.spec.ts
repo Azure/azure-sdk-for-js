@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, expect } from "vitest";
 import type {
   CompositeMapper,
   DictionaryMapper,
@@ -25,7 +25,6 @@ import type {
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
-  RestError,
   SendRequest,
 } from "@azure/core-rest-pipeline";
 import {
@@ -69,7 +68,7 @@ describe("ServiceClient", function () {
               },
             },
             headerCollectionPrefix: "foo-bar-",
-          } as DictionaryMapper,
+          } satisfies DictionaryMapper,
         },
         {
           parameterPath: "unrelated",
@@ -92,9 +91,9 @@ describe("ServiceClient", function () {
           return { token: "testToken", expiresOnTimestamp: 11111 };
         },
       };
-      try {
+      expect(() => {
         let request: OperationRequest;
-        const client = new ServiceClient({
+        new ServiceClient({
           httpClient: {
             sendRequest: (req) => {
               request = req;
@@ -103,15 +102,9 @@ describe("ServiceClient", function () {
           },
           credential,
         });
-
-        await client.sendOperationRequest(testOperationArgs, testOperationSpec);
-        assert.fail();
-      } catch (error: any) {
-        assert.equal(
-          error.message,
-          `When using credentials, the ServiceClientOptions must contain either a endpoint or a credentialScopes. Unable to create a bearerTokenAuthenticationPolicy`,
-        );
-      }
+      }).toThrow(
+        `When using credentials, the ServiceClientOptions must contain either a endpoint or a credentialScopes. Unable to create a bearerTokenAuthenticationPolicy`,
+      );
     });
 
     it("should use baseUrl to build scope", async function () {
@@ -138,7 +131,7 @@ describe("ServiceClient", function () {
       await client.sendOperationRequest(testOperationArgs, testOperationSpec);
 
       assert(request!);
-      assert.deepEqual(request!.headers.get("authorization"), "Bearer testToken");
+      assert.strictEqual(request!.headers.get("authorization"), "Bearer testToken");
     });
 
     it("should use endpoint to build scope", async function () {
@@ -165,7 +158,7 @@ describe("ServiceClient", function () {
       await client.sendOperationRequest(testOperationArgs, testOperationSpec);
 
       assert(request!);
-      assert.deepEqual(request!.headers.get("authorization"), "Bearer testToken");
+      assert.strictEqual(request!.headers.get("authorization"), "Bearer testToken");
     });
 
     it("should use the provided scope", async function () {
@@ -192,7 +185,7 @@ describe("ServiceClient", function () {
       await client.sendOperationRequest(testOperationArgs, testOperationSpec);
 
       assert(request!);
-      assert.deepEqual(request!.headers.get("authorization"), "Bearer testToken");
+      assert.strictEqual(request!.headers.get("authorization"), "Bearer testToken");
     });
   });
 
@@ -242,7 +235,7 @@ describe("ServiceClient", function () {
                 },
               },
               headerCollectionPrefix: "foo-bar-",
-            } as DictionaryMapper,
+            } satisfies DictionaryMapper,
           },
           {
             parameterPath: "unrelated",
@@ -303,7 +296,7 @@ describe("ServiceClient", function () {
   });
 
   it("should call onResponse with the full response when encountering an unknown status", async function () {
-    let request: OperationRequest;
+    let request: OperationRequest | undefined;
 
     const pipeline = createEmptyPipeline();
     pipeline.addPolicy(deserializationPolicy());
@@ -322,13 +315,11 @@ describe("ServiceClient", function () {
     });
 
     let rawResponse: FullOperationResponse | undefined;
-    let requestFailed = false;
-    let caughtError: RestError | undefined;
     let flatResponse: any;
     let onResponseError: unknown;
 
-    try {
-      await client.sendOperationRequest(
+    await expect(
+      client.sendOperationRequest(
         {
           options: {
             onResponse: (response, flat, error) => {
@@ -347,19 +338,14 @@ describe("ServiceClient", function () {
             200: {},
           },
         },
-      );
-    } catch (e: any) {
-      caughtError = e;
-      requestFailed = true;
-      assert.strictEqual(e.name, "RestError");
-    }
+      ),
+    ).rejects.toMatchObject({ name: "RestError" });
 
-    assert(requestFailed, "Request should fail with unknown status");
-    assert(request!);
+    assert.isDefined(request);
     assert.strictEqual(rawResponse?.status, 500);
     assert.strictEqual(rawResponse?.request, request!);
     assert.deepStrictEqual(flatResponse, { body: undefined });
-    assert.strictEqual(caughtError, onResponseError);
+    assert.isDefined(onResponseError);
   });
 
   it("should serialize collection:csv query parameters", async function () {
@@ -1077,13 +1063,12 @@ describe("ServiceClient", function () {
       pipeline,
     });
 
-    try {
-      await client.sendOperationRequest({}, operationSpec);
-      assert.fail();
-    } catch (ex: any) {
-      assert.strictEqual(ex.details.errorCode, "InvalidResourceNameHeader");
-      assert.strictEqual(ex.details.message, "InvalidResourceNameBody");
-    }
+    await expect(client.sendOperationRequest({}, operationSpec)).rejects.toMatchObject({
+      details: {
+        errorCode: "InvalidResourceNameHeader",
+        message: "InvalidResourceNameBody",
+      },
+    });
   });
 
   it("should deserialize non-streaming default response", async function () {
@@ -1157,13 +1142,10 @@ describe("ServiceClient", function () {
       pipeline,
     });
 
-    try {
-      await client.sendOperationRequest({}, operationSpec);
-      assert.fail();
-    } catch (ex: any) {
-      assert.strictEqual(ex.code, "BlobNotFound");
-      assert.strictEqual(ex.message, "The specified blob does not exist.");
-    }
+    await expect(client.sendOperationRequest({}, operationSpec)).rejects.toMatchObject({
+      code: "BlobNotFound",
+      message: "The specified blob does not exist.",
+    });
   });
 
   it("should re-use the common instance of DefaultHttpClient", function () {
@@ -1264,7 +1246,7 @@ describe("ServiceClient", function () {
       },
     });
     const response = await client.sendOperationRequest<{ body: Date }>({}, operationSpec);
-    assert.isDefined(response.body);
+    assert.instanceOf(response.body, Date);
   });
 
   it("should catch the mandatory parameter missing error", async function () {
@@ -1336,17 +1318,14 @@ describe("ServiceClient", function () {
       pipeline,
     });
 
-    try {
-      await client.sendOperationRequest(
+    await expect(
+      client.sendOperationRequest(
         {
           options: undefined,
         },
         operationSpec,
-      );
-      assert.fail("Expected client to throw");
-    } catch (error: any) {
-      assert.include(error.message, "cannot be null or undefined");
-    }
+      ),
+    ).rejects.toThrow(/cannot be null or undefined/);
   });
 
   it("should catch the mandatory parameter missing error in the query", async function () {
@@ -1420,17 +1399,14 @@ describe("ServiceClient", function () {
       pipeline,
     });
 
-    try {
-      await client.sendOperationRequest(
+    await expect(
+      client.sendOperationRequest(
         {
           options: undefined,
         },
         operationSpec,
-      );
-      assert.fail("Expected client to throw");
-    } catch (error: any) {
-      assert.include(error.message, "cannot be null or undefined");
-    }
+      ),
+    ).rejects.toThrow(/cannot be null or undefined/);
   });
 
   it("should not replace existing queries in request URLs", async function () {

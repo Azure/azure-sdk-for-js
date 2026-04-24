@@ -77,4 +77,18 @@ describe("setClientRequestIdPolicy", function () {
     assert.isFalse(pipelineRequest.headers.has(customHeaderName));
     await pipeline.sendRequest(httpClient, pipelineRequest);
   });
+
+  it("does not overwrite an existing header", async function () {
+    const policy = setClientRequestIdPolicy();
+    const request = createPipelineRequest({ url: "https://example.com" });
+    request.headers.set("x-ms-client-request-id", "custom-id");
+    const next = vi.fn<SendRequest>();
+    next.mockImplementation(async (req) => ({
+      headers: createHttpHeaders(),
+      request: req,
+      status: 200,
+    }));
+    await policy.sendRequest(request, next);
+    assert.equal(request.headers.get("x-ms-client-request-id"), "custom-id");
+  });
 });

@@ -37,7 +37,7 @@ export {
   StorageRetryPolicyType,
   StorageRetryPolicyFactory,
   AnonymousCredential,
-  UserDelegationKey,
+  type UserDelegationKey,
 } from "@azure/storage-common";
 export {
   type BlobServiceProperties as DataLakeServiceProperties,

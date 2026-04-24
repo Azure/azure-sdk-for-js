@@ -1,44 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  CommandAsyncPostBody} from "@azure/arm-cosmosdb";
-import {
-  CosmosDBManagementClient,
-} from "@azure/arm-cosmosdb";
+import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Invoke a command like nodetool for cassandra maintenance asynchronously
+ * This sample demonstrates how to invoke a command like nodetool for cassandra maintenance asynchronously
  *
- * @summary Invoke a command like nodetool for cassandra maintenance asynchronously
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBManagedCassandraCommandAsync.json
+ * @summary invoke a command like nodetool for cassandra maintenance asynchronously
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBManagedCassandraCommandAsync.json
  */
-async function cosmosDbManagedCassandraCommandAsync(): Promise<void> {
-  const subscriptionId =
-    process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["COSMOSDB_RESOURCE_GROUP"] || "cassandra-prod-rg";
-  const clusterName = "cassandra-prod";
-  const body: CommandAsyncPostBody = {
-    arguments: { status: "" },
-    command: "nodetool",
-    host: "10.0.1.12",
-  };
+async function cosmosDBManagedCassandraCommandAsync(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.cassandraClusters.beginInvokeCommandAsyncAndWait(
-    resourceGroupName,
-    clusterName,
-    body,
+  const result = await client.cassandraClusters.invokeCommandAsync(
+    "cassandra-prod-rg",
+    "cassandra-prod",
+    { arguments: { status: "" }, command: "nodetool", host: "10.0.1.12" },
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await cosmosDbManagedCassandraCommandAsync();
+  await cosmosDBManagedCassandraCommandAsync();
 }
 
 main().catch(console.error);
