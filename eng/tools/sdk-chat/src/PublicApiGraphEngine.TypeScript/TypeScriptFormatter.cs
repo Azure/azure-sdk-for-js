@@ -565,13 +565,15 @@ public static class TypeScriptFormatter
                 foreach (var f in module.Functions ?? []) Track(f.Name);
             }
 
-            // Deduplicate: keep only the first instance of each type name
-            allClasses = DeduplicateByName(allClasses, c => c.Name);
-            allInterfaces = DeduplicateByName(allInterfaces, i => i.Name);
-            allEnums = DeduplicateByName(allEnums, e => e.Name);
-            allTypes = DeduplicateByName(allTypes, t => t.Name);
-            allFunctions = DeduplicateByName(allFunctions, f => f.Name);
         }
+
+        // Deduplicate: keep only the first instance of each type name.
+        // Types can appear in multiple modules (re-exports) even within a single condition.
+        allClasses = DeduplicateByName(allClasses, c => c.Name);
+        allInterfaces = DeduplicateByName(allInterfaces, i => i.Name);
+        allEnums = DeduplicateByName(allEnums, e => e.Name);
+        allTypes = DeduplicateByName(allTypes, t => t.Name);
+        allFunctions = DeduplicateByName(allFunctions, f => f.Name);
 
         // Pre-build dictionaries for O(1) lookups instead of O(n) FirstOrDefault
         var interfacesByName = SafeToDictionary(allInterfaces, i => i.Name);

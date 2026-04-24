@@ -1707,4 +1707,3 @@ declare module "@typespec/ts-http-runtime/internal/util" { // 0.3.6
 
 }
 
-// ... truncated (95 items omitted)
