@@ -1664,6 +1664,9 @@ sdk/previewalertrule/arm-previewalertrule/ @qiaozha @MaryGao @JialinHuang803
 sdk/appnetwork/arm-appnetwork/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
+sdk/horizondb/arm-horizondb/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt
 sdk/servicegroups/arm-servicegroups/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
