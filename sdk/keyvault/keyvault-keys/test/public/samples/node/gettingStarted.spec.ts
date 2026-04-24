@@ -34,7 +34,7 @@ describe("gettingStarted", () => {
     // @ts-preserve-whitespace
     // Change the Azure Key Vault service API version being used via the `serviceVersion` option
     const client = new KeyClient(url, credential, {
-      serviceVersion: "7.0", // Supported versions: 7.0 through 7.6
+      serviceVersion: "7.0", // Supported versions: 7.0 through 7.6 (default: 7.6)
     });
     console.log("KeyClient vault URL:", client.vaultUrl);
     // @snippet-end ReadmeSampleCreateClientWithVersion
@@ -51,7 +51,7 @@ describe("gettingStarted", () => {
     const client = new KeyClient(url, credential);
     // @ts-preserve-whitespace
     // Create or retrieve a key from the keyvault
-    const myKey = await client.createKey("MyKey", "RSA");
+    const myKey = await client.createKey(`MyCryptoKey-${Date.now()}`, "RSA");
     // @ts-preserve-whitespace
     // Lastly, create our cryptography client and connect to the service
     const cryptographyClient = new CryptographyClient(myKey, credential);
@@ -79,6 +79,7 @@ describe("gettingStarted", () => {
     };
     const client = new CryptographyClient(jsonWebKey);
     console.log("CryptographyClient key ID:", client.keyID);
+    console.log("NOTE: Crypto operations on this illustrative key will fail. Replace with a real JWK.");
     // @snippet-end ReadmeSampleCreateCryptographyClientLocal
   });
 
@@ -87,6 +88,7 @@ describe("gettingStarted", () => {
   it("set the log level", async () => {
     // @snippet SetLogLevel
     setLogLevel("info");
+    console.log("Log level set to 'info'. SDK HTTP request/response details will appear in the console.");
     // @snippet-end SetLogLevel
   });
 });

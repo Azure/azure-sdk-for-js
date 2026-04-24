@@ -73,7 +73,7 @@ describe("helloWorld", () => {
   });
 
   it("list keys", async () => {
-    // Or list the keys we have
+    // List all non-deleted keys in the vault
     for await (const keyProperties of client.listPropertiesOfKeys()) {
       const innerKey = await client.getKey(keyProperties.name);
       console.log("key: ", innerKey);
@@ -138,7 +138,7 @@ describe("helloWorld", () => {
     // @snippet ReadmeSampleImportKey
     const keyName = forPublishing(
       recorder.variable("importKeyName", `sample-import-key-${Date.now()}`),
-      () => "MyKey",
+      () => `MyImportedKey-${Date.now()}`,
     );
     const jsonWebKey = createRsaKey();
     // @ts-preserve-whitespace
@@ -149,9 +149,16 @@ describe("helloWorld", () => {
 
   it("get a cryptography client", async () => {
     // @snippet ReadmeSampleGetCryptographyClient
+    const keyName = forPublishing(
+      recorder.variable("cryptoClientKeyName", `sample-crypto-client-key-${Date.now()}`),
+      () => `MyCryptoClientKey-${Date.now()}`,
+    );
+    // @ts-preserve-whitespace
+    await client.createKey(keyName, "RSA");
+    // @ts-preserve-whitespace
     // Get a cryptography client for a given key
-    const cryptographyClient = client.getCryptographyClient("MyKey");
-    console.log("cryptographyClient: ", cryptographyClient.keyID);
+    const cryptographyClient = client.getCryptographyClient(keyName);
+    console.log("CryptographyClient key ID:", cryptographyClient.keyID);
     // @snippet-end ReadmeSampleGetCryptographyClient
   });
 
@@ -159,7 +166,7 @@ describe("helloWorld", () => {
     // @snippet ReadmeSampleGetKey
     const keyName = forPublishing(
       recorder.variable("getKeyName", `sample-get-key-${Date.now()}`),
-      () => "MyGetKeyName",
+      () => `MyGetKeyName-${Date.now()}`,
     );
     // @ts-preserve-whitespace
     await client.createKey(keyName, "RSA");
@@ -295,7 +302,8 @@ describe("helloWorld", () => {
     // @ts-preserve-whitespace
     await client.purgeDeletedKey(keyName);
     // @ts-preserve-whitespace
-    await retryWithBackoff(() => client.restoreKeyBackup(backupContents!));
+    const restoredKey = await retryWithBackoff(() => client.restoreKeyBackup(backupContents!));
+    console.log("restoredKey: ", restoredKey);
     // @snippet-end ReadmeSampleRestoreKeyBackup
   });
 
@@ -318,7 +326,8 @@ describe("helloWorld", () => {
     await poller.pollUntilDone();
     // @ts-preserve-whitespace
     // You can also get the deleted key this way:
-    await client.getDeletedKey(keyName);
+    const fetchedDeleted = await client.getDeletedKey(keyName);
+    console.log("fetchedDeleted: ", fetchedDeleted);
     // @ts-preserve-whitespace
     // Deleted keys can also be recovered or purged:
     // @ts-preserve-whitespace

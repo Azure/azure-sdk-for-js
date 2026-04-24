@@ -12,7 +12,7 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { forPublishing } from "@azure-tools/test-publishing";
 import { describe, it, beforeEach, afterEach } from "vitest";
-import { createHash } from "node:crypto";
+import { createHash, randomBytes } from "node:crypto";
 // Load the .env file if it exists
 import "dotenv/config";
 
@@ -53,8 +53,8 @@ describe("cryptography", () => {
 
   it("encrypt and decrypt", async () => {
     const keyName = forPublishing(
-      recorder.variable("cryptoKeyName", `crypto-sample-key${Date.now()}`),
-      () => `crypto-sample-key${Date.now()}`,
+      recorder.variable("cryptoKeyName", `crypto-sample-key-${Date.now()}`),
+      () => `crypto-sample-key-${Date.now()}`,
     );
 
     // Connection to Azure Key Vault Cryptography functionality
@@ -83,8 +83,8 @@ describe("cryptography", () => {
 
   it("sign and verify", async () => {
     const keyName = forPublishing(
-      recorder.variable("signKeyName", `crypto-sign-key${Date.now()}`),
-      () => `crypto-sample-key${Date.now()}`,
+      recorder.variable("signKeyName", `crypto-sign-key-${Date.now()}`),
+      () => `crypto-sample-key-${Date.now()}`,
     );
 
     // Connection to Azure Key Vault Cryptography functionality
@@ -113,8 +113,8 @@ describe("cryptography", () => {
 
   it("wrap and unwrap key", async () => {
     const keyName = forPublishing(
-      recorder.variable("wrapKeyName", `crypto-wrap-key${Date.now()}`),
-      () => `crypto-sample-key${Date.now()}`,
+      recorder.variable("wrapKeyName", `crypto-wrap-key-${Date.now()}`),
+      () => `crypto-sample-key-${Date.now()}`,
     );
 
     const myWorkKey = await client.createKey(keyName, "RSA");
@@ -152,7 +152,7 @@ describe("cryptography", () => {
 
     // @snippet ReadmeSampleEncrypt
     const encryptResult = await cryptographyClient.encrypt({
-      algorithm: "RSA1_5",
+      algorithm: "RSA-OAEP",
       plaintext: Buffer.from("My Message"),
     });
     console.log("encrypt result: ", encryptResult.result);
@@ -176,13 +176,13 @@ describe("cryptography", () => {
 
     // @snippet ReadmeSampleDecrypt
     const encryptResult = await cryptographyClient.encrypt({
-      algorithm: "RSA1_5",
+      algorithm: "RSA-OAEP",
       plaintext: Buffer.from("My Message"),
     });
     console.log("encrypt result: ", encryptResult.result);
     // @ts-preserve-whitespace
     const decryptResult = await cryptographyClient.decrypt({
-      algorithm: "RSA1_5",
+      algorithm: "RSA-OAEP",
       ciphertext: encryptResult.result,
     });
     console.log("decrypt result: ", decryptResult.result.toString());
@@ -307,7 +307,8 @@ describe("cryptography", () => {
     );
 
     // @snippet ReadmeSampleWrapKey
-    const wrapResult = await cryptographyClient.wrapKey("RSA-OAEP", Buffer.from("My Key"));
+    const keyMaterial = randomBytes(32); // 256-bit symmetric key material
+    const wrapResult = await cryptographyClient.wrapKey("RSA-OAEP", keyMaterial);
     console.log("wrap result:", wrapResult.result);
     // @snippet-end ReadmeSampleWrapKey
   });
@@ -328,7 +329,8 @@ describe("cryptography", () => {
     );
 
     // @snippet ReadmeSampleUnwrapKey
-    const wrapResult = await cryptographyClient.wrapKey("RSA-OAEP", Buffer.from("My Key"));
+    const keyMaterial = randomBytes(32); // 256-bit symmetric key material
+    const wrapResult = await cryptographyClient.wrapKey("RSA-OAEP", keyMaterial);
     console.log("wrap result:", wrapResult.result);
     // @ts-preserve-whitespace
     const unwrapResult = await cryptographyClient.unwrapKey("RSA-OAEP", wrapResult.result);

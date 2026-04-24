@@ -38,7 +38,7 @@ Key links:
 
 ### Currently supported environments
 
-- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
+- [LTS versions of Node.js](https://nodejs.org/en/about/previous-releases)
 
 ### Prerequisites
 
@@ -115,7 +115,7 @@ console.log("KeyClient vault URL:", client.vaultUrl);
 
 ## Specifying the Azure Key Vault service API version
 
-By default, this package uses the latest Azure Key Vault service version which is `7.2`. You can change the service version being used by setting the option `serviceVersion` in the client constructor as shown below:
+By default, this package uses the latest Azure Key Vault service version which is `7.6`. You can change the service version being used by setting the option `serviceVersion` in the client constructor as shown below:
 
 ```ts snippet:ReadmeSampleCreateClientWithVersion
 import { DefaultAzureCredential } from "@azure/identity";
@@ -127,7 +127,7 @@ const url = process.env["KEYVAULT_URI"]!;
 
 // Change the Azure Key Vault service API version being used via the `serviceVersion` option
 const client = new KeyClient(url, credential, {
-  serviceVersion: "7.0", // Supported versions: 7.0 through 7.6
+  serviceVersion: "7.0", // Supported versions: 7.0 through 7.6 (default: 7.6)
 });
 console.log("KeyClient vault URL:", client.vaultUrl);
 ```
@@ -165,7 +165,7 @@ parameters.
 `getKey` retrieves a key previous stores in the Key Vault.
 
 ```ts snippet:ReadmeSampleGetKey
-const keyName = "MyGetKeyName";
+const keyName = `MyGetKeyName-${Date.now()}`;
 
 await client.createKey(keyName, "RSA");
 
@@ -250,7 +250,8 @@ console.log("deletedKey: ", deletedKey);
 await poller.pollUntilDone();
 
 // You can also get the deleted key this way:
-await client.getDeletedKey(keyName);
+const fetchedDeleted = await client.getDeletedKey(keyName);
+console.log("fetchedDeleted: ", fetchedDeleted);
 
 // Deleted keys can also be recovered or purged:
 
@@ -315,7 +316,7 @@ Using the KeyClient, you can configure automatic key rotation for a key by speci
 In addition, KeyClient provides a method to rotate a key on-demand by creating a new version of the given key.
 
 ```ts snippet:ReadmeSampleKeyRotation
-const keyName = "MyKeyNameRotate";
+const keyName = `MyKeyNameRotate-${Date.now()}`;
 
 await client.createKey(keyName, "EC");
 
@@ -427,7 +428,7 @@ const url = process.env["KEYVAULT_URI"]!;
 const client = new KeyClient(url, credential);
 
 // Create or retrieve a key from the keyvault
-const myKey = await client.createKey("MyKey", "RSA");
+const myKey = await client.createKey(`MyCryptoKey-${Date.now()}`, "RSA");
 
 // Lastly, create our cryptography client and connect to the service
 const cryptographyClient = new CryptographyClient(myKey, credential);
@@ -440,7 +441,7 @@ console.log("CryptographyClient key ID:", cryptographyClient.keyID);
 
 ```ts snippet:ReadmeSampleEncrypt
 const encryptResult = await cryptographyClient.encrypt({
-  algorithm: "RSA1_5",
+  algorithm: "RSA-OAEP",
   plaintext: Buffer.from("My Message"),
 });
 console.log("encrypt result: ", encryptResult.result);
@@ -452,13 +453,13 @@ console.log("encrypt result: ", encryptResult.result);
 
 ```ts snippet:ReadmeSampleDecrypt
 const encryptResult = await cryptographyClient.encrypt({
-  algorithm: "RSA1_5",
+  algorithm: "RSA-OAEP",
   plaintext: Buffer.from("My Message"),
 });
 console.log("encrypt result: ", encryptResult.result);
 
 const decryptResult = await cryptographyClient.decrypt({
-  algorithm: "RSA1_5",
+  algorithm: "RSA-OAEP",
   ciphertext: encryptResult.result,
 });
 console.log("decrypt result: ", decryptResult.result.toString());
@@ -527,7 +528,10 @@ console.log("verify result: ", verifyResult.result);
 `wrapKey` will wrap a key with an encryption layer.
 
 ```ts snippet:ReadmeSampleWrapKey
-const wrapResult = await cryptographyClient.wrapKey("RSA-OAEP", Buffer.from("My Key"));
+import { randomBytes } from "node:crypto";
+
+const keyMaterial = randomBytes(32); // 256-bit symmetric key material
+const wrapResult = await cryptographyClient.wrapKey("RSA-OAEP", keyMaterial);
 console.log("wrap result:", wrapResult.result);
 ```
 
@@ -536,7 +540,10 @@ console.log("wrap result:", wrapResult.result);
 `unwrapKey` will unwrap a wrapped key.
 
 ```ts snippet:ReadmeSampleUnwrapKey
-const wrapResult = await cryptographyClient.wrapKey("RSA-OAEP", Buffer.from("My Key"));
+import { randomBytes } from "node:crypto";
+
+const keyMaterial = randomBytes(32); // 256-bit symmetric key material
+const wrapResult = await cryptographyClient.wrapKey("RSA-OAEP", keyMaterial);
 console.log("wrap result:", wrapResult.result);
 
 const unwrapResult = await cryptographyClient.unwrapKey("RSA-OAEP", wrapResult.result);
@@ -553,6 +560,9 @@ Enabling logging may help uncover useful information about failures. In order to
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
+console.log(
+  "Log level set to 'info'. SDK HTTP request/response details will appear in the console.",
+);
 ```
 
 ## Next steps

@@ -95,10 +95,16 @@ describe("keyRotation", () => {
     // @snippet ReadmeSampleGetKeyRotationPolicy
     const keyName = forPublishing(
       recorder.variable("getRotPolicyKeyName", `key-getrotpol-${Date.now()}`),
-      () => "MyKeyNameGetRotPolicy",
+      () => `MyKeyNameGetRotPolicy-${Date.now()}`,
     );
     // @ts-preserve-whitespace
     await client.createKey(keyName, "EC");
+    // @ts-preserve-whitespace
+    // Set a rotation policy first so the result is meaningful
+    await client.updateKeyRotationPolicy(keyName, {
+      lifetimeActions: [{ action: "Notify", timeBeforeExpiry: "P30D" }],
+      expiresIn: "P90D",
+    });
     // @ts-preserve-whitespace
     const result = await client.getKeyRotationPolicy(keyName);
     console.log("result: ", result);
@@ -109,14 +115,16 @@ describe("keyRotation", () => {
     // @snippet ReadmeSampleUpdateKeyRotationPolicy
     const keyName = forPublishing(
       recorder.variable("updRotPolicyKeyName", `key-updrotpol-${Date.now()}`),
-      () => "MyKeyNameUpdateRotPolicy",
+      () => `MyKeyNameUpdateRotPolicy-${Date.now()}`,
     );
     // @ts-preserve-whitespace
     await client.createKey(keyName, "EC");
     // @ts-preserve-whitespace
-    const myPolicy = await client.getKeyRotationPolicy(keyName);
-    // @ts-preserve-whitespace
-    const setPolicy = await client.updateKeyRotationPolicy(keyName, myPolicy);
+    // Update the rotation policy with meaningful lifetime actions
+    const setPolicy = await client.updateKeyRotationPolicy(keyName, {
+      lifetimeActions: [{ action: "Notify", timeBeforeExpiry: "P10D" }],
+      expiresIn: "P60D",
+    });
     console.log("setPolicy: ", setPolicy);
     // @snippet-end ReadmeSampleUpdateKeyRotationPolicy
   });
@@ -125,7 +133,7 @@ describe("keyRotation", () => {
     // @snippet ReadmeSampleKeyRotation
     const keyName = forPublishing(
       recorder.variable("keyRotationKeyName", `key-rotation-${Date.now()}`),
-      () => "MyKeyNameRotate",
+      () => `MyKeyNameRotate-${Date.now()}`,
     );
     // @ts-preserve-whitespace
     await client.createKey(keyName, "EC");

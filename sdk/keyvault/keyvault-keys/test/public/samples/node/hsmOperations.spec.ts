@@ -63,7 +63,7 @@ describe("hsmOperations", () => {
     // @snippet ReadmeSampleCreateOctKey
     const keyName = forPublishing(
       recorder.variable("octKeyName", `sample-oct-key-${Date.now()}`),
-      () => "MyOctKeyName",
+      () => `MyOctKeyName-${Date.now()}`,
     );
     const result = await hsmClient.createOctKey(keyName, { hsm: true });
     console.log("result: ", result);
@@ -73,7 +73,7 @@ describe("hsmOperations", () => {
   it("get key attestation", async () => {
     const keyName = forPublishing(
       recorder.variable("attestKeyName", `sample-attest-key-${Date.now()}`),
-      () => "MyAttestKeyName",
+      () => `MyAttestKeyName-${Date.now()}`,
     );
     await hsmClient.createRsaKey(keyName, { hsm: true });
 
@@ -94,7 +94,7 @@ describe("hsmOperations", () => {
   it("release a key", async () => {
     const keyName = forPublishing(
       recorder.variable("releaseKeyName", `sample-release-key-${Date.now()}`),
-      () => "myKey",
+      () => `MyReleaseKey-${Date.now()}`,
     );
     const attestationProviderUrl = forPublishing(
       assertEnvironmentVariable("AZURE_KEYVAULT_ATTESTATION_URI"),
@@ -131,7 +131,7 @@ describe("hsmOperations", () => {
       })(),
       () =>
         getAttestationToken(
-          process.env["AZURE_KEYVAULT_ATTESTATION_PROVIDER_URL"]!,
+          attestationProviderUrl,
           new DefaultAzureCredential(),
           decodeBase64Url(openEnclaveReport),
         ),

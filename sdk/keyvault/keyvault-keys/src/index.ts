@@ -379,7 +379,7 @@ export class KeyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleCreateOctKey
-   * const keyName = "MyOctKeyName";
+   * const keyName = `MyOctKeyName-${Date.now()}`;
    * const result = await hsmClient.createOctKey(keyName, { hsm: true });
    * console.log("result: ", result);
    * ```
@@ -401,7 +401,7 @@ export class KeyClient {
    * ```ts snippet:ReadmeSampleImportKey
    * import { createRsaKey } from "./crypto.js";
    *
-   * const keyName = "MyKey";
+   * const keyName = `MyImportedKey-${Date.now()}`;
    * const jsonWebKey = createRsaKey();
    *
    * const result = await client.importKey(keyName, jsonWebKey);
@@ -443,9 +443,13 @@ export class KeyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleGetCryptographyClient
+   * const keyName = `MyCryptoClientKey-${Date.now()}`;
+   *
+   * await client.createKey(keyName, "RSA");
+   *
    * // Get a cryptography client for a given key
-   * const cryptographyClient = client.getCryptographyClient("MyKey");
-   * console.log("cryptographyClient: ", cryptographyClient.keyID);
+   * const cryptographyClient = client.getCryptographyClient(keyName);
+   * console.log("CryptographyClient key ID:", cryptographyClient.keyID);
    * ```
    * @param name - The name of the key used to perform cryptographic operations.
    * @param version - Optional version of the key used to perform cryptographic operations.
@@ -616,7 +620,7 @@ export class KeyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleGetKey
-   * const keyName = "MyGetKeyName";
+   * const keyName = `MyGetKeyName-${Date.now()}`;
    *
    * await client.createKey(keyName, "RSA");
    *
@@ -811,7 +815,8 @@ export class KeyClient {
    *
    * await client.purgeDeletedKey(keyName);
    *
-   * await retryWithBackoff(() => client.restoreKeyBackup(backupContents!));
+   * const restoredKey = await retryWithBackoff(() => client.restoreKeyBackup(backupContents!));
+   * console.log("restoredKey: ", restoredKey);
    * ```
    * Restores a backed up key to a vault.
    * @param backup - The backup blob associated with a key bundle.
@@ -851,7 +856,7 @@ export class KeyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleKeyRotation
-   * const keyName = "MyKeyNameRotate";
+   * const keyName = `MyKeyNameRotate-${Date.now()}`;
    *
    * await client.createKey(keyName, "EC");
    *
@@ -932,9 +937,15 @@ export class KeyClient {
    * This operation requires the keys/get permission.
    * Example usage:
    * ```ts snippet:ReadmeSampleGetKeyRotationPolicy
-   * const keyName = "MyKeyNameGetRotPolicy";
+   * const keyName = `MyKeyNameGetRotPolicy-${Date.now()}`;
    *
    * await client.createKey(keyName, "EC");
+   *
+   * // Set a rotation policy first so the result is meaningful
+   * await client.updateKeyRotationPolicy(keyName, {
+   *   lifetimeActions: [{ action: "Notify", timeBeforeExpiry: "P30D" }],
+   *   expiresIn: "P90D",
+   * });
    *
    * const result = await client.getKeyRotationPolicy(keyName);
    * console.log("result: ", result);
@@ -959,13 +970,15 @@ export class KeyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleUpdateKeyRotationPolicy
-   * const keyName = "MyKeyNameUpdateRotPolicy";
+   * const keyName = `MyKeyNameUpdateRotPolicy-${Date.now()}`;
    *
    * await client.createKey(keyName, "EC");
    *
-   * const myPolicy = await client.getKeyRotationPolicy(keyName);
-   *
-   * const setPolicy = await client.updateKeyRotationPolicy(keyName, myPolicy);
+   * // Update the rotation policy with meaningful lifetime actions
+   * const setPolicy = await client.updateKeyRotationPolicy(keyName, {
+   *   lifetimeActions: [{ action: "Notify", timeBeforeExpiry: "P10D" }],
+   *   expiresIn: "P60D",
+   * });
    * console.log("setPolicy: ", setPolicy);
    * ```
    *

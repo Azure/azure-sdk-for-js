@@ -72,7 +72,7 @@ export class CryptographyClient {
    * const client = new KeyClient(url, credential);
    *
    * // Create or retrieve a key from the keyvault
-   * const myKey = await client.createKey("MyKey", "RSA");
+   * const myKey = await client.createKey(`MyCryptoKey-${Date.now()}`, "RSA");
    *
    * // Lastly, create our cryptography client and connect to the service
    * const cryptographyClient = new CryptographyClient(myKey, credential);
@@ -113,6 +113,7 @@ export class CryptographyClient {
    * };
    * const client = new CryptographyClient(jsonWebKey);
    * console.log("CryptographyClient key ID:", client.keyID);
+   * console.log("NOTE: Crypto operations on this illustrative key will fail. Replace with a real JWK.");
    * ```
    * @param key - The JsonWebKey to use during cryptography operations.
    */
@@ -177,7 +178,7 @@ export class CryptographyClient {
    * Example usage:
    * ```ts snippet:ReadmeSampleEncrypt
    * const encryptResult = await cryptographyClient.encrypt({
-   *   algorithm: "RSA1_5",
+   *   algorithm: "RSA-OAEP",
    *   plaintext: Buffer.from("My Message"),
    * });
    * console.log("encrypt result: ", encryptResult.result);
@@ -195,7 +196,7 @@ export class CryptographyClient {
    * Example usage:
    * ```ts snippet:ReadmeSampleEncrypt
    * const encryptResult = await cryptographyClient.encrypt({
-   *   algorithm: "RSA1_5",
+   *   algorithm: "RSA-OAEP",
    *   plaintext: Buffer.from("My Message"),
    * });
    * console.log("encrypt result: ", encryptResult.result);
@@ -287,13 +288,13 @@ export class CryptographyClient {
    * Example usage:
    * ```ts snippet:ReadmeSampleDecrypt
    * const encryptResult = await cryptographyClient.encrypt({
-   *   algorithm: "RSA1_5",
+   *   algorithm: "RSA-OAEP",
    *   plaintext: Buffer.from("My Message"),
    * });
    * console.log("encrypt result: ", encryptResult.result);
    *
    * const decryptResult = await cryptographyClient.decrypt({
-   *   algorithm: "RSA1_5",
+   *   algorithm: "RSA-OAEP",
    *   ciphertext: encryptResult.result,
    * });
    * console.log("decrypt result: ", decryptResult.result.toString());
@@ -311,13 +312,13 @@ export class CryptographyClient {
    * Example usage:
    * ```ts snippet:ReadmeSampleDecrypt
    * const encryptResult = await cryptographyClient.encrypt({
-   *   algorithm: "RSA1_5",
+   *   algorithm: "RSA-OAEP",
    *   plaintext: Buffer.from("My Message"),
    * });
    * console.log("encrypt result: ", encryptResult.result);
    *
    * const decryptResult = await cryptographyClient.decrypt({
-   *   algorithm: "RSA1_5",
+   *   algorithm: "RSA-OAEP",
    *   ciphertext: encryptResult.result,
    * });
    * console.log("decrypt result: ", decryptResult.result.toString());
@@ -383,7 +384,10 @@ export class CryptographyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleWrapKey
-   * const wrapResult = await cryptographyClient.wrapKey("RSA-OAEP", Buffer.from("My Key"));
+   * import { randomBytes } from "node:crypto";
+   *
+   * const keyMaterial = randomBytes(32); // 256-bit symmetric key material
+   * const wrapResult = await cryptographyClient.wrapKey("RSA-OAEP", keyMaterial);
    * console.log("wrap result:", wrapResult.result);
    * ```
    * @param algorithm - The encryption algorithm to use to wrap the given key.
@@ -414,7 +418,10 @@ export class CryptographyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleUnwrapKey
-   * const wrapResult = await cryptographyClient.wrapKey("RSA-OAEP", Buffer.from("My Key"));
+   * import { randomBytes } from "node:crypto";
+   *
+   * const keyMaterial = randomBytes(32); // 256-bit symmetric key material
+   * const wrapResult = await cryptographyClient.wrapKey("RSA-OAEP", keyMaterial);
    * console.log("wrap result:", wrapResult.result);
    *
    * const unwrapResult = await cryptographyClient.unwrapKey("RSA-OAEP", wrapResult.result);
