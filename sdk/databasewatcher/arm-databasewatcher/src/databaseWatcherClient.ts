@@ -24,7 +24,7 @@ import {
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
-export { DatabaseWatcherClientOptionalParams } from "./api/databaseWatcherContext.js";
+export { type DatabaseWatcherClientOptionalParams } from "./api/databaseWatcherContext.js";
 
 export class DatabaseWatcherClient {
   private _client: DatabaseWatcherContext;

@@ -23,9 +23,10 @@ import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
+  CachesResetSmbPasswordOptionalParams,
   CachesPoolChangeOptionalParams,
   CachesListPeeringPassphrasesOptionalParams,
-  CachesListByCapacityPoolsOptionalParams,
+  CachesListOptionalParams,
   CachesDeleteOptionalParams,
   CachesUpdateOptionalParams,
   CachesCreateOrUpdateOptionalParams,
@@ -34,6 +35,65 @@ import type {
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { PollerLike, OperationState } from "@azure/core-lro";
+
+export function _resetSmbPasswordSend(
+  context: Client,
+  resourceGroupName: string,
+  accountName: string,
+  poolName: string,
+  cacheName: string,
+  options: CachesResetSmbPasswordOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/caches/{cacheName}/resetSmbPassword{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      accountName: accountName,
+      poolName: poolName,
+      cacheName: cacheName,
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _resetSmbPasswordDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["202", "200", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return;
+}
+
+/** Resets the SMB password for the cache */
+export function resetSmbPassword(
+  context: Client,
+  resourceGroupName: string,
+  accountName: string,
+  poolName: string,
+  cacheName: string,
+  options: CachesResetSmbPasswordOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(context, _resetSmbPasswordDeserialize, ["202", "200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _resetSmbPasswordSend(context, resourceGroupName, accountName, poolName, cacheName, options),
+    resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-01-01",
+  }) as PollerLike<OperationState<void>, void>;
+}
 
 export function _poolChangeSend(
   context: Client,
@@ -52,7 +112,7 @@ export function _poolChangeSend(
       accountName: accountName,
       poolName: poolName,
       cacheName: cacheName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -61,10 +121,7 @@ export function _poolChangeSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: poolChangeRequestSerializer(body),
   });
 }
@@ -74,6 +131,7 @@ export async function _poolChangeDeserialize(result: PathUncheckedResponse): Pro
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -96,6 +154,7 @@ export function poolChange(
     getInitialResponse: () =>
       _poolChangeSend(context, resourceGroupName, accountName, poolName, cacheName, body, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -115,7 +174,7 @@ export function _listPeeringPassphrasesSend(
       accountName: accountName,
       poolName: poolName,
       cacheName: cacheName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -123,10 +182,7 @@ export function _listPeeringPassphrasesSend(
   );
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -137,6 +193,7 @@ export async function _listPeeringPassphrasesDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -163,12 +220,12 @@ export async function listPeeringPassphrases(
   return _listPeeringPassphrasesDeserialize(result);
 }
 
-export function _listByCapacityPoolsSend(
+export function _listSend(
   context: Client,
   resourceGroupName: string,
   accountName: string,
   poolName: string,
-  options: CachesListByCapacityPoolsOptionalParams = { requestOptions: {} },
+  options: CachesListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/caches{?api%2Dversion}",
@@ -177,7 +234,7 @@ export function _listByCapacityPoolsSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       poolName: poolName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -185,20 +242,16 @@ export function _listByCapacityPoolsSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
-export async function _listByCapacityPoolsDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_CacheList> {
+export async function _listDeserialize(result: PathUncheckedResponse): Promise<_CacheList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -206,19 +259,19 @@ export async function _listByCapacityPoolsDeserialize(
 }
 
 /** List all Caches within the Capacity Pool */
-export function listByCapacityPools(
+export function list(
   context: Client,
   resourceGroupName: string,
   accountName: string,
   poolName: string,
-  options: CachesListByCapacityPoolsOptionalParams = { requestOptions: {} },
+  options: CachesListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<Cache> {
   return buildPagedAsyncIterator(
     context,
-    () => _listByCapacityPoolsSend(context, resourceGroupName, accountName, poolName, options),
-    _listByCapacityPoolsDeserialize,
+    () => _listSend(context, resourceGroupName, accountName, poolName, options),
+    _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
   );
 }
 
@@ -238,7 +291,7 @@ export function _$deleteSend(
       accountName: accountName,
       poolName: poolName,
       cacheName: cacheName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -248,10 +301,11 @@ export function _$deleteSend(
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "204", "200", "201"];
+  const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -272,12 +326,13 @@ export function $delete(
   cacheName: string,
   options: CachesDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200", "201"], {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, accountName, poolName, cacheName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -298,7 +353,7 @@ export function _updateSend(
       accountName: accountName,
       poolName: poolName,
       cacheName: cacheName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -307,10 +362,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: cacheUpdateSerializer(body),
   });
 }
@@ -320,6 +372,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -342,6 +395,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, accountName, poolName, cacheName, body, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<Cache>, Cache>;
 }
 
@@ -362,7 +416,7 @@ export function _createOrUpdateSend(
       accountName: accountName,
       poolName: poolName,
       cacheName: cacheName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -371,10 +425,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: cacheSerializer(body),
   });
 }
@@ -384,6 +435,7 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -414,6 +466,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<Cache>, Cache>;
 }
 
@@ -433,7 +486,7 @@ export function _getSend(
       accountName: accountName,
       poolName: poolName,
       cacheName: cacheName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -441,10 +494,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -453,6 +503,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ca
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 

@@ -3,8 +3,8 @@
 
 export { listByConfigurationStore, $delete, create, get } from "./operations.js";
 export {
-  ReplicasListByConfigurationStoreOptionalParams,
-  ReplicasDeleteOptionalParams,
-  ReplicasCreateOptionalParams,
-  ReplicasGetOptionalParams,
+  type ReplicasListByConfigurationStoreOptionalParams,
+  type ReplicasDeleteOptionalParams,
+  type ReplicasCreateOptionalParams,
+  type ReplicasGetOptionalParams,
 } from "./options.js";

@@ -3,8 +3,8 @@
 
 export { listByMongoCluster, $delete, createOrUpdate, get } from "./operations.js";
 export {
-  FirewallRulesListByMongoClusterOptionalParams,
-  FirewallRulesDeleteOptionalParams,
-  FirewallRulesCreateOrUpdateOptionalParams,
-  FirewallRulesGetOptionalParams,
+  type FirewallRulesListByMongoClusterOptionalParams,
+  type FirewallRulesDeleteOptionalParams,
+  type FirewallRulesCreateOrUpdateOptionalParams,
+  type FirewallRulesGetOptionalParams,
 } from "./options.js";

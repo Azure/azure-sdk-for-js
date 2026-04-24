@@ -3,10 +3,10 @@
 
 export { list, $delete, update, create, get, refresh } from "./operations.js";
 export {
-  ManagedPrivateEndpointsListOptionalParams,
-  ManagedPrivateEndpointsDeleteOptionalParams,
-  ManagedPrivateEndpointsUpdateOptionalParams,
-  ManagedPrivateEndpointsCreateOptionalParams,
-  ManagedPrivateEndpointsGetOptionalParams,
-  ManagedPrivateEndpointsRefreshOptionalParams,
+  type ManagedPrivateEndpointsListOptionalParams,
+  type ManagedPrivateEndpointsDeleteOptionalParams,
+  type ManagedPrivateEndpointsUpdateOptionalParams,
+  type ManagedPrivateEndpointsCreateOptionalParams,
+  type ManagedPrivateEndpointsGetOptionalParams,
+  type ManagedPrivateEndpointsRefreshOptionalParams,
 } from "./options.js";

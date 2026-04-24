@@ -83,6 +83,7 @@
     "@azure/logger": "^1.1.4",
     "@types/express": "^5.0.3",
     "@types/node": "catalog:",
+    "@types/react": "catalog:testing",
     "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "cross-env": "catalog:",
@@ -91,8 +92,8 @@
     "express": "catalog:internal",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "tsx": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
@@ -108,22 +109,6 @@
         "azure"
       ]
     }
-  },
-  "tshy": {
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false,
-    "project": "../../../tsconfig.src.build.json"
   },
   "module": "./dist/esm/index.js"
 }

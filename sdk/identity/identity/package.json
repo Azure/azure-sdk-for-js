@@ -1,7 +1,7 @@
 {
   "name": "@azure/identity",
   "sdk-type": "client",
-  "version": "4.14.0-beta.2",
+  "version": "4.14.0-beta.3",
   "description": "Provides credential implementations for Azure SDK libraries that can authenticate with Microsoft Entra ID",
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
@@ -33,7 +33,7 @@
     "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion] --ignore-pattern 'test/integration/**'",
     "pack": "pnpm pack 2>&1",
     "test": "npm run test:node && npm run test:browser",
-    "test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
+    "test:browser": "npm run clean && dev-tool run build-package --target browser && dev-tool run build-test && dev-tool run test:vitest --browser",
     "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest",
     "test:node:managed-identity": "dev-tool run test:vitest -- --config ./vitest.managed-identity.config.ts",
     "test:node:no-timeouts": "dev-tool run test:vitest -- --test-timeout=0",
@@ -82,8 +82,8 @@
     "@azure/core-tracing": "^1.0.0",
     "@azure/core-util": "^1.11.0",
     "@azure/logger": "^1.0.0",
-    "@azure/msal-browser": "^4.2.0",
-    "@azure/msal-node": "^3.5.0",
+    "@azure/msal-browser": "^5.5.0",
+    "@azure/msal-node": "^5.1.0",
     "open": "^11.0.0",
     "tslib": "^2.2.0"
   },
@@ -107,27 +107,10 @@
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
   "type": "module",
-  "tshy": {
-    "project": "../../../tsconfig.src.build.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "workerd",
-      "browser"
-    ],
-    "selfLink": false
-  },
   "exports": {
     "./package.json": "./package.json",
     ".": {

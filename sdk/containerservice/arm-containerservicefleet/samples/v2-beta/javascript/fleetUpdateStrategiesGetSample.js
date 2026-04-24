@@ -8,21 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a FleetUpdateStrategy
  *
  * @summary get a FleetUpdateStrategy
- * x-ms-original-file: 2025-08-01-preview/FleetUpdateStrategies_Get_MaximumSet_Gen.json
- */
-async function getAFleetUpdateStrategyResourceGeneratedByMaximumSetRule() {
-  const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new ContainerServiceFleetClient(credential, subscriptionId);
-  const result = await client.fleetUpdateStrategies.get("rgfleets", "fleet1", "fleet1");
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to get a FleetUpdateStrategy
- *
- * @summary get a FleetUpdateStrategy
- * x-ms-original-file: 2025-08-01-preview/UpdateStrategies_Get.json
+ * x-ms-original-file: 2026-02-01-preview/UpdateStrategies_Get.json
  */
 async function getAFleetUpdateStrategyResource() {
   const credential = new DefaultAzureCredential();
@@ -33,7 +19,6 @@ async function getAFleetUpdateStrategyResource() {
 }
 
 async function main() {
-  await getAFleetUpdateStrategyResourceGeneratedByMaximumSetRule();
   await getAFleetUpdateStrategyResource();
 }
 

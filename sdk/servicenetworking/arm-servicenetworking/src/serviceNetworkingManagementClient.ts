@@ -26,7 +26,7 @@ import {
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
-export { ServiceNetworkingManagementClientOptionalParams } from "./api/serviceNetworkingManagementContext.js";
+export { type ServiceNetworkingManagementClientOptionalParams } from "./api/serviceNetworkingManagementContext.js";
 
 export class ServiceNetworkingManagementClient {
   private _client: ServiceNetworkingManagementContext;

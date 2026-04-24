@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { ContainerRepositoryProperties, ArtifactTagProperties } from "./generated/index.js";
+export type { ContainerRepositoryProperties, ArtifactTagProperties } from "./generated/index.js";
 
 import type { ArtifactTagProperties } from "./generated/index.js";
 

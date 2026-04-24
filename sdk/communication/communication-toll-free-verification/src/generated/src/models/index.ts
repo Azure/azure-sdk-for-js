@@ -37,6 +37,12 @@ export interface CampaignBrief {
   attachments?: CampaignBriefAttachmentSummary[];
   optInDetails?: OptInDetails;
   multipleNumbersJustification?: string;
+  /** URL to the privacy policy for the campaign. */
+  privacyPolicyUrl?: string;
+  /** URL to the terms and conditions for the campaign. */
+  termsAndConditionsUrl?: string;
+  /** Business registration details for Toll-Free Verification compliance. */
+  businessRegistrationDetails?: BusinessRegistrationDetails;
 }
 
 /** Holds a note about a Campaign Brief that has gone thru stages of review process. */
@@ -115,6 +121,18 @@ export interface OptInDetails {
 export interface Option {
   type: Type;
   imageUrls?: string[];
+}
+
+/** Business registration details for Toll-Free Verification compliance. */
+export interface BusinessRegistrationDetails {
+  /** Business registration number (e.g. EIN, VAT number). Max 500 chars. */
+  businessRegistrationNumber?: string;
+  /** Type of business entity. */
+  businessEntityType?: BusinessEntityType;
+  /** Type of business registration. */
+  businessRegistrationType?: BusinessRegistrationType;
+  /** Country where the business is registered. ISO 3166-1 Alpha-2 format. */
+  businessRegistrationCountry?: string;
 }
 
 /** The Communication Services error. */
@@ -293,6 +311,33 @@ export type Type =
   | "pointOfSale"
   | "paperForm"
   | "other";
+/** Defines values for BusinessEntityType. */
+export type BusinessEntityType =
+  | "SOLE_PROPRIETOR"
+  | "PRIVATE_PROFIT"
+  | "PUBLIC_PROFIT"
+  | "NON_PROFIT"
+  | "GOVERNMENT";
+/** Defines values for BusinessRegistrationType. */
+export type BusinessRegistrationType =
+  | "EIN"
+  | "CBN"
+  | "NEQ"
+  | "PROVINCIAL_NUMBER"
+  | "CRN"
+  | "VAT"
+  | "ACN"
+  | "ABN"
+  | "BRN"
+  | "SIREN"
+  | "SIRET"
+  | "NZBN"
+  | "UST_IDNR"
+  | "CIF"
+  | "NIF"
+  | "CNPJ"
+  | "UID"
+  | "OTHER";
 /** Defines values for FileType. */
 export type FileType = "png" | "jpg" | "jpeg" | "pdf";
 

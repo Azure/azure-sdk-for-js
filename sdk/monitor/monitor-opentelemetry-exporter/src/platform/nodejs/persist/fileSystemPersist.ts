@@ -117,9 +117,9 @@ export class FileSystemPersist implements PersistentStorage {
       const stats = await stat(this._tempDirectory);
       if (stats.isDirectory()) {
         const origFiles = await readdir(this._tempDirectory);
-        const files = origFiles.filter((f) =>
-          basename(f).includes(FileSystemPersist.FILENAME_SUFFIX),
-        );
+        const files = origFiles
+          .filter((f) => basename(f).includes(FileSystemPersist.FILENAME_SUFFIX))
+          .sort();
         if (files.length === 0) {
           return null;
         } else {
@@ -211,6 +211,12 @@ export class FileSystemPersist implements PersistentStorage {
       return false;
     }
     return true;
+  }
+
+  async cleanExpiredFiles(): Promise<void> {
+    if (this._enabled) {
+      await this._fileCleanupTask();
+    }
   }
 
   private async _fileCleanupTask(): Promise<boolean> {

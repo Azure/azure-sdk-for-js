@@ -34,6 +34,9 @@ export interface FleetMembersGetOptionalParams extends OperationOptions {
 
 // @public
 export interface FleetMembersListByFleetOptionalParams extends OperationOptions {
+    filter?: string;
+    skipToken?: string;
+    top?: number;
 }
 
 // @public

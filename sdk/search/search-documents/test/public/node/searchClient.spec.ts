@@ -9,7 +9,6 @@ import type {
   SearchFieldArray,
   SearchIndex,
   SearchIndexClient,
-  SelectArray,
   SelectFields,
 } from "../../../src/index.js";
 import { AzureKeyCredential, IndexDocumentsBatch, SearchClient } from "../../../src/index.js";
@@ -129,7 +128,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
       for await (const result of searchResults.results) {
         resultIds.push(result.document.hotelId);
       }
-      assert.deepEqual(["1", "9", "3"], resultIds);
+      assert.deepEqual(resultIds, ["1", "9", "3"]);
     });
 
     it("count returns the correct document count", async () => {
@@ -210,7 +209,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
         "tags",
       ];
 
-      const select: SelectArray<SelectFields<Hotel>> = ["hotelId", "address/city", "rooms/type"];
+      const select: SelectFields<Hotel>[] = ["hotelId", "address/city", "rooms/type"];
       const selectNarrowed = ["hotelId", "address/city", "rooms/type"] as const;
 
       const selectPromises = [
@@ -270,8 +269,8 @@ describe("SearchClient", { timeout: 20_000 }, () => {
           if (!city) {
             assert.fail();
           }
-          assert.hasAllKeys(result.document, hotelKeys);
-          assert.hasAllKeys(result.document.address, addressKeys);
+          assert.containsAllKeys(result.document, hotelKeys);
+          assert.containsAllKeys(result.document.address, addressKeys);
         }
       });
 
@@ -466,7 +465,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
       for await (const result of searchResults.results) {
         resultIds.push(result.document.hotelId);
       }
-      assert.deepEqual(["1"], resultIds);
+      assert.deepEqual(resultIds, ["1"]);
     });
 
     it("search with vector", async () => {

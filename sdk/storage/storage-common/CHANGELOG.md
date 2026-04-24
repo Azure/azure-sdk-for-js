@@ -1,14 +1,11 @@
 # Release History
 
-## 12.3.1 (Unreleased)
+## 12.4.0-beta.1 (2026-03-05)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Added functions `structuredMessageDecodingStream` and `structuredMessageEncoding` to parsing and construct structured message with CRC64 checksum for content validation.
+- Added property of `signedDelegatedUserTid` in `UserDelegationKey`
 
 ## 12.3.0 (2026-02-03)
 

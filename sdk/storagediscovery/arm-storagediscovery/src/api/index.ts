@@ -3,6 +3,6 @@
 
 export {
   createStorageDiscovery,
-  StorageDiscoveryContext,
-  StorageDiscoveryClientOptionalParams,
+  type StorageDiscoveryContext,
+  type StorageDiscoveryClientOptionalParams,
 } from "./storageDiscoveryContext.js";

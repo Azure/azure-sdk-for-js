@@ -3,6 +3,6 @@
 
 export {
   createMongoClusterManagement,
-  MongoClusterManagementContext,
-  MongoClusterManagementClientOptionalParams,
+  type MongoClusterManagementContext,
+  type MongoClusterManagementClientOptionalParams,
 } from "./mongoClusterManagementContext.js";

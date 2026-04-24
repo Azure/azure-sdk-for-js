@@ -7,47 +7,6 @@
   },
   "sideEffects": false,
   "autoPublish": false,
-  "tshy": {
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts",
-      "./api": "./src/api/index.ts",
-      "./api/workloadNetworks": "./src/api/workloadNetworks/index.ts",
-      "./api/virtualMachines": "./src/api/virtualMachines/index.ts",
-      "./api/skus": "./src/api/skus/index.ts",
-      "./api/scriptPackages": "./src/api/scriptPackages/index.ts",
-      "./api/scriptExecutions": "./src/api/scriptExecutions/index.ts",
-      "./api/scriptCmdlets": "./src/api/scriptCmdlets/index.ts",
-      "./api/pureStoragePolicies": "./src/api/pureStoragePolicies/index.ts",
-      "./api/provisionedNetworks": "./src/api/provisionedNetworks/index.ts",
-      "./api/privateClouds": "./src/api/privateClouds/index.ts",
-      "./api/placementPolicies": "./src/api/placementPolicies/index.ts",
-      "./api/maintenances": "./src/api/maintenances/index.ts",
-      "./api/locations": "./src/api/locations/index.ts",
-      "./api/licenses": "./src/api/licenses/index.ts",
-      "./api/iscsiPaths": "./src/api/iscsiPaths/index.ts",
-      "./api/hosts": "./src/api/hosts/index.ts",
-      "./api/hcxEnterpriseSites": "./src/api/hcxEnterpriseSites/index.ts",
-      "./api/globalReachConnections": "./src/api/globalReachConnections/index.ts",
-      "./api/datastores": "./src/api/datastores/index.ts",
-      "./api/clusters": "./src/api/clusters/index.ts",
-      "./api/cloudLinks": "./src/api/cloudLinks/index.ts",
-      "./api/authorizations": "./src/api/authorizations/index.ts",
-      "./api/addons": "./src/api/addons/index.ts",
-      "./api/operations": "./src/api/operations/index.ts",
-      "./models": "./src/models/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false,
-    "project": "../../../tsconfig.src.build.json"
-  },
   "type": "module",
   "keywords": [
     "node",
@@ -107,7 +66,6 @@
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },

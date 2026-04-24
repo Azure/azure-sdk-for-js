@@ -1,56 +1,81 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { ComputeLimitClient } from "./computeLimitClient.js";
-export {
+export type { RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller } from "./restorePollerHelpers.js";
+export type {
   Operation,
   OperationDisplay,
-  KnownOrigin,
   Origin,
-  KnownActionType,
   ActionType,
   ErrorResponse,
   ErrorDetail,
   ErrorAdditionalInfo,
   GuestSubscription,
   GuestSubscriptionProperties,
-  KnownResourceProvisioningState,
   ResourceProvisioningState,
   ProxyResource,
   Resource,
   SystemData,
-  KnownCreatedByType,
   CreatedByType,
   SharedLimit,
   SharedLimitProperties,
   LimitName,
+  Feature,
+  FeatureProperties,
+  FeatureState,
+  OperationStatusResult,
+  VmFamily,
+  VmFamilyProperties,
+} from "./models/index.js";
+export {
+  KnownOrigin,
+  KnownActionType,
+  KnownResourceProvisioningState,
+  KnownCreatedByType,
+  KnownFeatureState,
   KnownVersions,
 } from "./models/index.js";
-export { ComputeLimitClientOptionalParams } from "./api/index.js";
-export {
+export type { ComputeLimitClientOptionalParams } from "./api/index.js";
+export type {
+  FeaturesDisableOptionalParams,
+  FeaturesEnableOptionalParams,
+  FeaturesListBySubscriptionLocationResourceOptionalParams,
+  FeaturesGetOptionalParams,
+} from "./api/features/index.js";
+export type {
   GuestSubscriptionsListBySubscriptionLocationResourceOptionalParams,
   GuestSubscriptionsDeleteOptionalParams,
   GuestSubscriptionsCreateOptionalParams,
   GuestSubscriptionsGetOptionalParams,
 } from "./api/guestSubscriptions/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
-export {
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type {
   SharedLimitsListBySubscriptionLocationResourceOptionalParams,
   SharedLimitsDeleteOptionalParams,
   SharedLimitsCreateOptionalParams,
   SharedLimitsGetOptionalParams,
 } from "./api/sharedLimits/index.js";
-export {
+export type {
+  VmFamiliesListBySubscriptionLocationResourceOptionalParams,
+  VmFamiliesGetOptionalParams,
+} from "./api/vmFamilies/index.js";
+export type {
+  FeaturesOperations,
   GuestSubscriptionsOperations,
   OperationsOperations,
   SharedLimitsOperations,
+  VmFamiliesOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export { AzureClouds, AzureSupportedClouds };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds };
+export type { AzureSupportedClouds };

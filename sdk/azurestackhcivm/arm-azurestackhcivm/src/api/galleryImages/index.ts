@@ -10,10 +10,10 @@ export {
   get,
 } from "./operations.js";
 export {
-  GalleryImagesListAllOptionalParams,
-  GalleryImagesListByResourceGroupOptionalParams,
-  GalleryImagesDeleteOptionalParams,
-  GalleryImagesUpdateOptionalParams,
-  GalleryImagesCreateOrUpdateOptionalParams,
-  GalleryImagesGetOptionalParams,
+  type GalleryImagesListAllOptionalParams,
+  type GalleryImagesListByResourceGroupOptionalParams,
+  type GalleryImagesDeleteOptionalParams,
+  type GalleryImagesUpdateOptionalParams,
+  type GalleryImagesCreateOrUpdateOptionalParams,
+  type GalleryImagesGetOptionalParams,
 } from "./options.js";

@@ -13,13 +13,13 @@ export {
   get,
 } from "./operations.js";
 export {
-  FleetsCancelOptionalParams,
-  FleetsListVirtualMachinesOptionalParams,
-  FleetsListVirtualMachineScaleSetsOptionalParams,
-  FleetsListBySubscriptionOptionalParams,
-  FleetsListByResourceGroupOptionalParams,
-  FleetsDeleteOptionalParams,
-  FleetsUpdateOptionalParams,
-  FleetsCreateOrUpdateOptionalParams,
-  FleetsGetOptionalParams,
+  type FleetsCancelOptionalParams,
+  type FleetsListVirtualMachinesOptionalParams,
+  type FleetsListVirtualMachineScaleSetsOptionalParams,
+  type FleetsListBySubscriptionOptionalParams,
+  type FleetsListByResourceGroupOptionalParams,
+  type FleetsDeleteOptionalParams,
+  type FleetsUpdateOptionalParams,
+  type FleetsCreateOrUpdateOptionalParams,
+  type FleetsGetOptionalParams,
 } from "./options.js";

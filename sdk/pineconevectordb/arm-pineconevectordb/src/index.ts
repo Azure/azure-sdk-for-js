@@ -8,53 +8,53 @@ import {
 } from "./static-helpers/pagingHelpers.js";
 
 export { VectorDbClient } from "./vectorDbClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller, type RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  OrganizationResource,
-  OrganizationProperties,
-  MarketplaceDetails,
+  type OrganizationResource,
+  type OrganizationProperties,
+  type MarketplaceDetails,
   KnownMarketplaceSubscriptionStatus,
-  MarketplaceSubscriptionStatus,
-  OfferDetails,
-  UserDetails,
+  type MarketplaceSubscriptionStatus,
+  type OfferDetails,
+  type UserDetails,
   KnownResourceProvisioningState,
-  ResourceProvisioningState,
-  PartnerProperties,
-  SingleSignOnPropertiesV2,
+  type ResourceProvisioningState,
+  type PartnerProperties,
+  type SingleSignOnPropertiesV2,
   KnownSingleSignOnType,
-  SingleSignOnType,
+  type SingleSignOnType,
   KnownSingleSignOnStates,
-  SingleSignOnStates,
-  ManagedServiceIdentity,
+  type SingleSignOnStates,
+  type ManagedServiceIdentity,
   KnownManagedServiceIdentityType,
-  ManagedServiceIdentityType,
-  UserAssignedIdentity,
-  TrackedResource,
-  Resource,
-  SystemData,
+  type ManagedServiceIdentityType,
+  type UserAssignedIdentity,
+  type TrackedResource,
+  type Resource,
+  type SystemData,
   KnownCreatedByType,
-  CreatedByType,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
-  OrganizationResourceUpdate,
-  Operation,
-  OperationDisplay,
+  type CreatedByType,
+  type ErrorResponse,
+  type ErrorDetail,
+  type ErrorAdditionalInfo,
+  type OrganizationResourceUpdate,
+  type Operation,
+  type OperationDisplay,
   KnownOrigin,
-  Origin,
+  type Origin,
   KnownActionType,
-  ActionType,
+  type ActionType,
   KnownVersions,
 } from "./models/index.js";
-export { VectorDbClientOptionalParams } from "./api/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
+export { type VectorDbClientOptionalParams } from "./api/index.js";
+export { type OperationsListOptionalParams } from "./api/operations/index.js";
 export {
-  OrganizationsListBySubscriptionOptionalParams,
-  OrganizationsListByResourceGroupOptionalParams,
-  OrganizationsDeleteOptionalParams,
-  OrganizationsUpdateOptionalParams,
-  OrganizationsCreateOrUpdateOptionalParams,
-  OrganizationsGetOptionalParams,
+  type OrganizationsListBySubscriptionOptionalParams,
+  type OrganizationsListByResourceGroupOptionalParams,
+  type OrganizationsDeleteOptionalParams,
+  type OrganizationsUpdateOptionalParams,
+  type OrganizationsCreateOrUpdateOptionalParams,
+  type OrganizationsGetOptionalParams,
 } from "./api/organizations/index.js";
-export { OperationsOperations, OrganizationsOperations } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { type OperationsOperations, type OrganizationsOperations } from "./classic/index.js";
+export { type PageSettings, type ContinuablePage, type PagedAsyncIterableIterator };

@@ -3,29 +3,27 @@
 
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Gets the status of service.
+ * This sample demonstrates how to gets the status of service.
  *
- * @summary Gets the status of service.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBServicesList.json
+ * @summary gets the status of service.
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBServicesList.json
  */
-async function cosmosDbServicesList() {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const accountName = "ddb1";
+async function cosmosDBServicesList() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.service.list(resourceGroupName, accountName)) {
+  for await (const item of client.service.list("rg1", "ddb1")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main() {
-  await cosmosDbServicesList();
+  await cosmosDBServicesList();
 }
 
 main().catch(console.error);

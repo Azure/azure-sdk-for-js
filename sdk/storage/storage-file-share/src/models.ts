@@ -347,6 +347,11 @@ export interface ShareProtocols {
   nfsEnabled?: boolean;
 }
 
+/**
+ * To indicate check sum algorithm used in content validation.
+ */
+export type StorageChecksumAlgorithm = "Auto" | "None" | "Customized" | "StorageCrc64";
+
 export interface ShareClientConfig {
   /**
    * The Files OAuth over REST feature requires special permissions to be included in the role definition to use
@@ -363,6 +368,14 @@ export interface ShareClientConfig {
   allowTrailingDot?: boolean;
   /** If true, the trailing dot will not be trimmed from the source URI. */
   allowSourceTrailingDot?: boolean;
+  /**
+   * Options to indication which algorithm to use for content validation in uploading.
+   */
+  uploadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
+  /**
+   * Options to indication which algorithm to use for content validation in downloading.
+   */
+  downloadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
 }
 
 export type ShareClientOptions = StoragePipelineOptions & ShareClientConfig;

@@ -1,33 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  SqlRoleDefinitionCreateUpdateParameters} from "@azure/arm-cosmosdb";
-import {
-  CosmosDBManagementClient,
-} from "@azure/arm-cosmosdb";
+import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates or updates an Azure Cosmos DB SQL Role Definition.
+ * This sample demonstrates how to creates or updates an Azure Cosmos DB SQL Role Definition.
  *
- * @summary Creates or updates an Azure Cosmos DB SQL Role Definition.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBSqlRoleDefinitionCreateUpdate.json
+ * @summary creates or updates an Azure Cosmos DB SQL Role Definition.
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBSqlRoleDefinitionCreateUpdate.json
  */
-async function cosmosDbSqlRoleDefinitionCreateUpdate(): Promise<void> {
-  const subscriptionId =
-    process.env["COSMOSDB_SUBSCRIPTION_ID"] || "mySubscriptionId";
-  const roleDefinitionId = "myRoleDefinitionId";
-  const resourceGroupName =
-    process.env["COSMOSDB_RESOURCE_GROUP"] || "myResourceGroupName";
-  const accountName = "myAccountName";
-  const createUpdateSqlRoleDefinitionParameters: SqlRoleDefinitionCreateUpdateParameters =
+async function cosmosDBSqlRoleDefinitionCreateUpdate(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new CosmosDBManagementClient(credential, subscriptionId);
+  const result = await client.sqlResources.createUpdateSqlRoleDefinition(
+    "myResourceGroupName",
+    "myAccountName",
+    "myRoleDefinitionId",
     {
       type: "CustomRole",
       assignableScopes: [
-        "/subscriptions/mySubscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.DocumentDB/databaseAccounts/myAccountName/dbs/sales",
-        "/subscriptions/mySubscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.DocumentDB/databaseAccounts/myAccountName/dbs/purchases",
+        "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myResourceGroupName/providers/Microsoft.DocumentDB/databaseAccounts/myAccountName/dbs/sales",
+        "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myResourceGroupName/providers/Microsoft.DocumentDB/databaseAccounts/myAccountName/dbs/purchases",
       ],
       permissions: [
         {
@@ -39,21 +34,13 @@ async function cosmosDbSqlRoleDefinitionCreateUpdate(): Promise<void> {
         },
       ],
       roleName: "myRoleName",
-    };
-  const credential = new DefaultAzureCredential();
-  const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result =
-    await client.sqlResources.beginCreateUpdateSqlRoleDefinitionAndWait(
-      roleDefinitionId,
-      resourceGroupName,
-      accountName,
-      createUpdateSqlRoleDefinitionParameters,
-    );
+    },
+  );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await cosmosDbSqlRoleDefinitionCreateUpdate();
+  await cosmosDBSqlRoleDefinitionCreateUpdate();
 }
 
 main().catch(console.error);

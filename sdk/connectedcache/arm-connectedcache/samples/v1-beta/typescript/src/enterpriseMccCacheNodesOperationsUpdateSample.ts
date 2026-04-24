@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this api updates an existing ispCacheNode resource
  *
  * @summary this api updates an existing ispCacheNode resource
- * x-ms-original-file: 2023-05-01-preview/EnterpriseMccCacheNodesOperations_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-11-30-preview/EnterpriseMccCacheNodesOperations_Update_MaximumSet_Gen.json
  */
 async function enterpriseMccCacheNodesOperationsUpdateGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function enterpriseMccCacheNodesOperationsUpdateGeneratedByMaximumSetRule(
 }
 
 async function main(): Promise<void> {
-  enterpriseMccCacheNodesOperationsUpdateGeneratedByMaximumSetRule();
+  await enterpriseMccCacheNodesOperationsUpdateGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

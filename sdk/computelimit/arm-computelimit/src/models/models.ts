@@ -2,9 +2,10 @@
 // Licensed under the MIT License.
 
 /**
- * This file contains only generated model types and (de)serializers.
- * Disable this rule for deserializer functions which require 'any' for raw JSON input.
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
@@ -51,7 +52,7 @@ export function operationDeserializer(item: any): Operation {
   };
 }
 
-/** Localized display information for and operation. */
+/** Localized display information for an operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
   readonly provider?: string;
@@ -207,8 +208,8 @@ export interface GuestSubscriptionProperties {
   readonly provisioningState?: ResourceProvisioningState;
 }
 
-export function guestSubscriptionPropertiesSerializer(item: GuestSubscriptionProperties): any {
-  return item;
+export function guestSubscriptionPropertiesSerializer(_item: GuestSubscriptionProperties): any {
+  return {};
 }
 
 export function guestSubscriptionPropertiesDeserializer(item: any): GuestSubscriptionProperties {
@@ -241,8 +242,8 @@ export type ResourceProvisioningState = string;
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -268,8 +269,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -403,8 +404,8 @@ export interface SharedLimitProperties {
   readonly provisioningState?: ResourceProvisioningState;
 }
 
-export function sharedLimitPropertiesSerializer(item: SharedLimitProperties): any {
-  return item;
+export function sharedLimitPropertiesSerializer(_item: SharedLimitProperties): any {
+  return {};
 }
 
 export function sharedLimitPropertiesDeserializer(item: any): SharedLimitProperties {
@@ -460,8 +461,188 @@ export function sharedLimitArrayDeserializer(result: Array<SharedLimit>): any[] 
   });
 }
 
+/** Compute limit feature. */
+export interface Feature extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: FeatureProperties;
+}
+
+export function featureDeserializer(item: any): Feature {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : featurePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of the compute limit feature. */
+export interface FeatureProperties {
+  /** The current state of the feature (for example, Enabled, Disabled). */
+  state?: FeatureState;
+  /** The provisioning state of the resource. */
+  readonly provisioningState?: ResourceProvisioningState;
+}
+
+export function featurePropertiesDeserializer(item: any): FeatureProperties {
+  return {
+    state: item["state"],
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** The allowed states for a compute limit feature. */
+export enum KnownFeatureState {
+  /** The feature is enabled. */
+  Enabled = "Enabled",
+  /** The feature is disabled. */
+  Disabled = "Disabled",
+}
+
+/**
+ * The allowed states for a compute limit feature. \
+ * {@link KnownFeatureState} can be used interchangeably with FeatureState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: The feature is enabled. \
+ * **Disabled**: The feature is disabled.
+ */
+export type FeatureState = string;
+
+/** The response of a Feature list operation. */
+export interface _FeatureListResult {
+  /** The Feature items on this page */
+  value: Feature[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _featureListResultDeserializer(item: any): _FeatureListResult {
+  return {
+    value: featureArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function featureArrayDeserializer(result: Array<Feature>): any[] {
+  return result.map((item) => {
+    return featureDeserializer(item);
+  });
+}
+
+/** The current status of an async operation. */
+export interface OperationStatusResult {
+  /** Fully qualified ID for the async operation. */
+  id?: string;
+  /** Name of the async operation. */
+  name?: string;
+  /** Operation status. */
+  status: string;
+  /** Percent of the operation that is complete. */
+  percentComplete?: number;
+  /** The start time of the operation. */
+  startTime?: Date;
+  /** The end time of the operation. */
+  endTime?: Date;
+  /** The operations list. */
+  operations?: OperationStatusResult[];
+  /** If present, details of the operation error. */
+  error?: ErrorDetail;
+  /** Fully qualified ID of the resource against which the original async operation was started. */
+  readonly resourceId?: string;
+}
+
+export function operationStatusResultDeserializer(item: any): OperationStatusResult {
+  return {
+    id: item["id"],
+    name: item["name"],
+    status: item["status"],
+    percentComplete: item["percentComplete"],
+    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
+    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
+    operations: !item["operations"]
+      ? item["operations"]
+      : operationStatusResultArrayDeserializer(item["operations"]),
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    resourceId: item["resourceId"],
+  };
+}
+
+export function operationStatusResultArrayDeserializer(
+  result: Array<OperationStatusResult>,
+): any[] {
+  return result.map((item) => {
+    return operationStatusResultDeserializer(item);
+  });
+}
+
+/** VM family resource representing a virtual machine family and its category. */
+export interface VmFamily extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: VmFamilyProperties;
+}
+
+export function vmFamilyDeserializer(item: any): VmFamily {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : vmFamilyPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of a VM family resource. */
+export interface VmFamilyProperties {
+  /** The category of the VM family (for example, GeneralPurpose, ComputeOptimized). */
+  category?: string;
+  /** The provisioning state of the resource. */
+  readonly provisioningState?: ResourceProvisioningState;
+}
+
+export function vmFamilyPropertiesDeserializer(item: any): VmFamilyProperties {
+  return {
+    category: item["category"],
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** The response of a VmFamily list operation. */
+export interface _VmFamilyListResult {
+  /** The VmFamily items on this page */
+  value: VmFamily[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _vmFamilyListResultDeserializer(item: any): _VmFamilyListResult {
+  return {
+    value: vmFamilyArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function vmFamilyArrayDeserializer(result: Array<VmFamily>): any[] {
+  return result.map((item) => {
+    return vmFamilyDeserializer(item);
+  });
+}
+
 /** The available API versions. */
 export enum KnownVersions {
   /** The 2025-08-15 API version. */
   V20250815 = "2025-08-15",
+  /** The 2026-03-20 API version. */
+  V20260320 = "2026-03-20",
+  /** The 2026-04-30 API version. */
+  V20260430 = "2026-04-30",
 }

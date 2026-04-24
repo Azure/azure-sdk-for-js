@@ -3,6 +3,6 @@
 
 export {
   createCloudHealth,
-  CloudHealthContext,
-  CloudHealthClientOptionalParams,
+  type CloudHealthContext,
+  type CloudHealthClientOptionalParams,
 } from "./cloudHealthContext.js";

@@ -3,6 +3,8 @@
 
 import type { NetAppManagementContext } from "../../api/netAppManagementContext.js";
 import {
+  refreshCertificate,
+  generateAkvCredentials,
   generateCredentials,
   list,
   $delete,
@@ -11,6 +13,8 @@ import {
   get,
 } from "../../api/buckets/operations.js";
 import type {
+  BucketsRefreshCertificateOptionalParams,
+  BucketsGenerateAkvCredentialsOptionalParams,
   BucketsGenerateCredentialsOptionalParams,
   BucketsListOptionalParams,
   BucketsDeleteOptionalParams,
@@ -29,6 +33,25 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Buckets operations. */
 export interface BucketsOperations {
+  /** This operation will fetch the certificate from Azure Key Vault and install it on the bucket server. */
+  refreshCertificate: (
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    bucketName: string,
+    options?: BucketsRefreshCertificateOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
+  /** Generate the access key and secret key used for accessing the specified volume bucket and store in Azure Key Vault. */
+  generateAkvCredentials: (
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    bucketName: string,
+    body: BucketCredentialsExpiry,
+    options?: BucketsGenerateAkvCredentialsOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
   /** Generate the access key and secret key used for accessing the specified volume bucket. Also return expiry date and time of key pair (in UTC). */
   generateCredentials: (
     resourceGroupName: string,
@@ -94,6 +117,42 @@ export interface BucketsOperations {
 
 function _getBuckets(context: NetAppManagementContext) {
   return {
+    refreshCertificate: (
+      resourceGroupName: string,
+      accountName: string,
+      poolName: string,
+      volumeName: string,
+      bucketName: string,
+      options?: BucketsRefreshCertificateOptionalParams,
+    ) =>
+      refreshCertificate(
+        context,
+        resourceGroupName,
+        accountName,
+        poolName,
+        volumeName,
+        bucketName,
+        options,
+      ),
+    generateAkvCredentials: (
+      resourceGroupName: string,
+      accountName: string,
+      poolName: string,
+      volumeName: string,
+      bucketName: string,
+      body: BucketCredentialsExpiry,
+      options?: BucketsGenerateAkvCredentialsOptionalParams,
+    ) =>
+      generateAkvCredentials(
+        context,
+        resourceGroupName,
+        accountName,
+        poolName,
+        volumeName,
+        bucketName,
+        body,
+        options,
+      ),
     generateCredentials: (
       resourceGroupName: string,
       accountName: string,

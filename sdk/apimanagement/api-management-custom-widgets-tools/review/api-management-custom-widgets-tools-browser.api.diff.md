@@ -15,7 +15,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 -// @public
 -export function deployNodeJS(serviceInformation: ServiceInformation, name: string, fallbackConfigPath?: string, input?: DeployConfig): Promise<void>;
 +// @public (undocumented)
-+export function deployNodeJS(_serviceInformation: unknown, _name: string, _fallbackConfigPath: string): Promise<void>;
++export function deployNodeJS(_serviceInformation: ServiceInformation, _name: string, _fallbackConfigPath?: string, _config?: DeployConfig): Promise<void>;
  
  // @public
  export interface EditorData<Values extends ValuesCommon> extends PortalData {

@@ -3,6 +3,6 @@
 
 export { listByConfigurationStore, get } from "./operations.js";
 export {
-  PrivateLinkResourcesListByConfigurationStoreOptionalParams,
-  PrivateLinkResourcesGetOptionalParams,
+  type PrivateLinkResourcesListByConfigurationStoreOptionalParams,
+  type PrivateLinkResourcesGetOptionalParams,
 } from "./options.js";

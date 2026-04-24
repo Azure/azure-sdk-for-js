@@ -2,22 +2,22 @@
 // Licensed under the MIT License.
 export {
   ErrorResponse,
-  ErrorBody,
-  PartitionedQueryExecutionInfo,
-  QueryInfo,
-  QueryRange,
-  AggregateType,
-  GroupByExpressions,
-  GroupByAliasToAggregateType,
-  HybridSearchQueryInfo,
+  type ErrorBody,
+  type PartitionedQueryExecutionInfo,
+  type QueryInfo,
+  type QueryRange,
+  type AggregateType,
+  type GroupByExpressions,
+  type GroupByAliasToAggregateType,
+  type HybridSearchQueryInfo,
 } from "./ErrorResponse.js";
-export { FeedOptions } from "./FeedOptions.js";
-export { RequestOptions } from "./RequestOptions.js";
-export { Response } from "./Response.js";
+export type { FeedOptions } from "./FeedOptions.js";
+export type { RequestOptions } from "./RequestOptions.js";
+export type { Response } from "./Response.js";
 export { ResourceResponse } from "./ResourceResponse.js";
-export { SharedOptions } from "./SharedOptions.js";
-export { StatusCode, SubStatusCode } from "./StatusCodes.js";
+export type { SharedOptions } from "./SharedOptions.js";
+export type { StatusCode, SubStatusCode } from "./StatusCodes.js";
 export { FeedResponse } from "./FeedResponse.js";
-export { RequestContext } from "./RequestContext.js";
+export type { RequestContext } from "./RequestContext.js";
 export { TimeoutError } from "./TimeoutError.js";
-export * from "./globalStatistics.js";
+export type * from "./globalStatistics.js";

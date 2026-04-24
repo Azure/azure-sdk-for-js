@@ -15,14 +15,14 @@ import * as fs from "fs";
 import * as path from "path";
 import "dotenv/config";
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint string>";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint string>";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const filePath = path.join(__dirname, "data", "training_set.jsonl");
 
 export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
 
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
   console.log("Created OpenAI client.");
 
   // 1) Create (upload) a file, wait until processed

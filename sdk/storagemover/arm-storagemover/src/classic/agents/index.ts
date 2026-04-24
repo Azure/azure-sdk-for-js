@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageMoverContext } from "../../api/storageMoverContext.js";
+import type { StorageMoverContext } from "../../api/storageMoverContext.js";
 import { list, $delete, update, createOrUpdate, get } from "../../api/agents/operations.js";
-import {
+import type {
   AgentsListOptionalParams,
   AgentsDeleteOptionalParams,
   AgentsUpdateOptionalParams,
   AgentsCreateOrUpdateOptionalParams,
   AgentsGetOptionalParams,
 } from "../../api/agents/options.js";
-import { Agent, AgentUpdateParameters } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { Agent, AgentUpdateParameters } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Agents operations. */
 export interface AgentsOperations {

@@ -1,37 +1,12 @@
 {
   "name": "@azure/arm-storagemover",
-  "version": "3.0.1",
+  "version": "3.1.0",
   "description": "A generated SDK for StorageMoverClient.",
   "engines": {
     "node": ">=20.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,
-  "tshy": {
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts",
-      "./api": "./src/api/index.ts",
-      "./api/jobRuns": "./src/api/jobRuns/index.ts",
-      "./api/jobDefinitions": "./src/api/jobDefinitions/index.ts",
-      "./api/projects": "./src/api/projects/index.ts",
-      "./api/endpoints": "./src/api/endpoints/index.ts",
-      "./api/agents": "./src/api/agents/index.ts",
-      "./api/storageMovers": "./src/api/storageMovers/index.ts",
-      "./api/operations": "./src/api/operations/index.ts",
-      "./models": "./src/models/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false,
-    "project": "../../../tsconfig.src.build.json"
-  },
   "type": "module",
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
@@ -93,7 +68,6 @@
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
@@ -121,7 +95,7 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-storagemover?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-storagemover"
   },
   "exports": {
     "./package.json": "./package.json",
@@ -177,6 +151,24 @@
       "require": {
         "types": "./dist/commonjs/api/jobRuns/index.d.ts",
         "default": "./dist/commonjs/api/jobRuns/index.js"
+      }
+    },
+    "./api/connections": {
+      "browser": {
+        "types": "./dist/browser/api/connections/index.d.ts",
+        "default": "./dist/browser/api/connections/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/connections/index.d.ts",
+        "default": "./dist/react-native/api/connections/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/connections/index.d.ts",
+        "default": "./dist/esm/api/connections/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/connections/index.d.ts",
+        "default": "./dist/commonjs/api/connections/index.js"
       }
     },
     "./api/jobDefinitions": {

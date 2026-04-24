@@ -3,6 +3,6 @@
 
 export { listByLocation, get } from "./operations.js";
 export {
-  DnsPrivateViewsListByLocationOptionalParams,
-  DnsPrivateViewsGetOptionalParams,
+  type DnsPrivateViewsListByLocationOptionalParams,
+  type DnsPrivateViewsGetOptionalParams,
 } from "./options.js";

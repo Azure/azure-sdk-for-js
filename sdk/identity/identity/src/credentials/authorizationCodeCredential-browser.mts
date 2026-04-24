@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AccessToken, TokenCredential } from "@azure/core-auth";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { credentialLogger, formatError } from "../util/logging.js";
 import type { AuthorizationCodeCredentialOptions } from "./authorizationCodeCredentialOptions.js";
 
@@ -34,7 +34,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
     throw BrowserNotSupportedError;
   }
 
-  public getToken(): Promise<AccessToken | null> {
+  public getToken(_scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken | null> {
     logger.getToken.info(formatError("", BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }

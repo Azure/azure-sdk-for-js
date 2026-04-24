@@ -1,6 +1,6 @@
 {
   "name": "@azure/digital-twins-core",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "An isomorphic client library for Azure Digital Twins",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
@@ -77,7 +77,6 @@
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
@@ -85,8 +84,8 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/azureDigitalTwinsAPIContext.ts",
-        "prefix": "packageVersion"
+        "path": "src/generated/azureDigitalTwinsAPI.ts",
+        "prefix": "packageDetails"
       },
       {
         "path": "src/constants.ts",
@@ -116,22 +115,6 @@
     "skipFolder": true
   },
   "type": "module",
-  "tshy": {
-    "project": "../../../tsconfig.src.build.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false
-  },
   "browser": "./dist/browser/index.js",
   "exports": {
     "./package.json": "./package.json",

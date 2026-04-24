@@ -27,7 +27,7 @@ export interface CachesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface CachesListByCapacityPoolsOptionalParams extends OperationOptions {
+export interface CachesListOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -36,6 +36,11 @@ export interface CachesListPeeringPassphrasesOptionalParams extends OperationOpt
 
 // @public
 export interface CachesPoolChangeOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface CachesResetSmbPasswordOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -51,13 +56,16 @@ export function createOrUpdate(context: NetAppManagementContext, resourceGroupNa
 export function get(context: NetAppManagementContext, resourceGroupName: string, accountName: string, poolName: string, cacheName: string, options?: CachesGetOptionalParams): Promise<Cache>;
 
 // @public
-export function listByCapacityPools(context: NetAppManagementContext, resourceGroupName: string, accountName: string, poolName: string, options?: CachesListByCapacityPoolsOptionalParams): PagedAsyncIterableIterator<Cache>;
+export function list(context: NetAppManagementContext, resourceGroupName: string, accountName: string, poolName: string, options?: CachesListOptionalParams): PagedAsyncIterableIterator<Cache>;
 
 // @public
 export function listPeeringPassphrases(context: NetAppManagementContext, resourceGroupName: string, accountName: string, poolName: string, cacheName: string, options?: CachesListPeeringPassphrasesOptionalParams): Promise<PeeringPassphrases>;
 
 // @public
 export function poolChange(context: NetAppManagementContext, resourceGroupName: string, accountName: string, poolName: string, cacheName: string, body: PoolChangeRequest, options?: CachesPoolChangeOptionalParams): PollerLike<OperationState<void>, void>;
+
+// @public
+export function resetSmbPassword(context: NetAppManagementContext, resourceGroupName: string, accountName: string, poolName: string, cacheName: string, options?: CachesResetSmbPasswordOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export function update(context: NetAppManagementContext, resourceGroupName: string, accountName: string, poolName: string, cacheName: string, body: CacheUpdate, options?: CachesUpdateOptionalParams): PollerLike<OperationState<Cache>, Cache>;

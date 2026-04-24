@@ -1,5 +1,5 @@
 {
-  "extends": "./.tshy/build.json",
+  "extends": "../../../tsconfig.src.build.json",
   "include": [
     "./runAllTests.ts",
     "./src/**/*.ts",

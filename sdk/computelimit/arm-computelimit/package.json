@@ -1,33 +1,12 @@
 {
   "name": "@azure/arm-computelimit",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0",
   "description": "A generated SDK for ComputeLimitClient.",
   "engines": {
     "node": ">=20.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,
-  "tshy": {
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts",
-      "./api": "./src/api/index.ts",
-      "./api/sharedLimits": "./src/api/sharedLimits/index.ts",
-      "./api/guestSubscriptions": "./src/api/guestSubscriptions/index.ts",
-      "./api/operations": "./src/api/operations/index.ts",
-      "./models": "./src/models/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false,
-    "project": "../../../tsconfig.src.build.json"
-  },
   "type": "module",
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
@@ -68,25 +47,26 @@
     "@azure/core-auth": "^1.9.0",
     "@azure/core-rest-pipeline": "^1.20.0",
     "@azure/logger": "^1.2.0",
-    "tslib": "^2.8.1"
+    "tslib": "^2.8.1",
+    "@azure/core-lro": "^3.1.0",
+    "@azure/abort-controller": "^2.1.2"
   },
   "devDependencies": {
     "@azure-tools/test-credential": "workspace:^",
     "@azure-tools/test-recorder": "workspace:^",
     "@azure-tools/test-utils-vitest": "workspace:^",
     "@azure/dev-tool": "workspace:^",
-    "tshy": "catalog:",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/identity": "catalog:internal",
     "@types/node": "catalog:",
-    "cross-env": "catalog:",
-    "eslint": "catalog:",
-    "prettier": "catalog:",
-    "rimraf": "catalog:",
     "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
+    "cross-env": "catalog:",
     "dotenv": "catalog:testing",
+    "eslint": "catalog:",
     "playwright": "catalog:testing",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
@@ -114,7 +94,7 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-computelimit?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-computelimit"
   },
   "exports": {
     "./package.json": "./package.json",
@@ -152,6 +132,42 @@
       "require": {
         "types": "./dist/commonjs/api/index.d.ts",
         "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./api/vmFamilies": {
+      "browser": {
+        "types": "./dist/browser/api/vmFamilies/index.d.ts",
+        "default": "./dist/browser/api/vmFamilies/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/vmFamilies/index.d.ts",
+        "default": "./dist/react-native/api/vmFamilies/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/vmFamilies/index.d.ts",
+        "default": "./dist/esm/api/vmFamilies/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/vmFamilies/index.d.ts",
+        "default": "./dist/commonjs/api/vmFamilies/index.js"
+      }
+    },
+    "./api/features": {
+      "browser": {
+        "types": "./dist/browser/api/features/index.d.ts",
+        "default": "./dist/browser/api/features/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/features/index.d.ts",
+        "default": "./dist/react-native/api/features/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/features/index.d.ts",
+        "default": "./dist/esm/api/features/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/features/index.d.ts",
+        "default": "./dist/commonjs/api/features/index.js"
       }
     },
     "./api/sharedLimits": {

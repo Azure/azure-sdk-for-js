@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list StandbyContainerGroupPoolRuntimeViewResource resources by StandbyContainerGroupPoolResource
  *
  * @summary list StandbyContainerGroupPoolRuntimeViewResource resources by StandbyContainerGroupPoolResource
- * x-ms-original-file: 2025-03-01/StandbyContainerGroupPoolRuntimeViews_ListByStandbyPool.json
+ * x-ms-original-file: 2025-10-01/StandbyContainerGroupPoolRuntimeViews_ListByStandbyPool.json
  */
 async function standbyContainerGroupPoolRuntimeViewsListByStandbyPool() {
   const credential = new DefaultAzureCredential();

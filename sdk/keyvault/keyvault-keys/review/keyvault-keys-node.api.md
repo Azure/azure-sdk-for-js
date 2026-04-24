@@ -7,10 +7,10 @@
 import { AzureLogger } from '@azure/logger';
 import type * as coreClient from '@azure-rest/core-client';
 import type { ExtendedCommonClientOptions } from '@azure/keyvault-common';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PageSettings } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { PageSettings } from '@azure/core-paging';
+import type { PollerLike } from '@azure/core-lro';
+import type { PollOperationState } from '@azure/core-lro';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public

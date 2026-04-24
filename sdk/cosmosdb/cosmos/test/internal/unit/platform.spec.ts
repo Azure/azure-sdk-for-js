@@ -5,7 +5,7 @@ import { Constants } from "../../../src/common/constants.js";
 import { getUserAgent } from "../../../src/common/platform.js";
 import { describe, it, assert } from "vitest";
 import packageJson from "../../../package.json" with { type: "json" };
-import { CosmosClientOptions } from "../../../src/index.js";
+import type { CosmosClientOptions } from "../../../src/index.js";
 
 const packageVersion = packageJson["version"];
 const constantVersion = Constants.SDKVersion;

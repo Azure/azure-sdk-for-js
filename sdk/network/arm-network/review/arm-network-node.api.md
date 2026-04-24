@@ -126,6 +126,9 @@ export interface AddressSpace {
 export type AddressSpaceAggregationOption = string;
 
 // @public
+export type AddressUpdateAction = string;
+
+// @public
 export interface AdminRule extends BaseAdminRule {
     access?: SecurityConfigurationRuleAccess;
     description?: string;
@@ -5804,6 +5807,18 @@ export interface GetOutboundRoutesParameters {
 }
 
 // @public
+export interface GetServiceGatewayAddressLocationsResult {
+    readonly nextLink?: string;
+    value?: ServiceGatewayAddressLocationResponse[];
+}
+
+// @public
+export interface GetServiceGatewayServicesResult {
+    readonly nextLink?: string;
+    value?: ServiceGatewayService[];
+}
+
+// @public
 export interface GetVpnSitesConfigurationRequest {
     outputBlobSasUrl: string;
     vpnSites?: string[];
@@ -6675,6 +6690,7 @@ export enum KnownActionType {
     Allow = "Allow",
     AnomalyScoring = "AnomalyScoring",
     Block = "Block",
+    Captcha = "CAPTCHA",
     JSChallenge = "JSChallenge",
     Log = "Log"
 }
@@ -6690,6 +6706,12 @@ export enum KnownAddressPrefixType {
 export enum KnownAddressSpaceAggregationOption {
     Manual = "Manual",
     None = "None"
+}
+
+// @public
+export enum KnownAddressUpdateAction {
+    FullUpdate = "FullUpdate",
+    PartialUpdate = "PartialUpdate"
 }
 
 // @public
@@ -7479,10 +7501,10 @@ export enum KnownFirewallPolicyIdpsQuerySortOrder {
 
 // @public
 export enum KnownFirewallPolicyIntrusionDetectionProfileType {
-    Advanced = "Advanced",
-    Basic = "Basic",
+    Core = "Core",
+    Emerging = "Emerging",
     Extended = "Extended",
-    Standard = "Standard"
+    Off = "Off"
 }
 
 // @public
@@ -8269,11 +8291,34 @@ export enum KnownSensitivityType {
 }
 
 // @public
+export enum KnownServiceGatewaySkuName {
+    Standard = "Standard"
+}
+
+// @public
+export enum KnownServiceGatewaySkuTier {
+    Regional = "Regional"
+}
+
+// @public
 export enum KnownServiceProviderProvisioningState {
     Deprovisioning = "Deprovisioning",
     NotProvisioned = "NotProvisioned",
     Provisioned = "Provisioned",
     Provisioning = "Provisioning"
+}
+
+// @public
+export enum KnownServiceType {
+    Inbound = "Inbound",
+    InboundOutbound = "InboundOutbound",
+    Outbound = "Outbound"
+}
+
+// @public
+export enum KnownServiceUpdateAction {
+    FullUpdate = "FullUpdate",
+    PartialUpdate = "PartialUpdate"
 }
 
 // @public
@@ -8313,6 +8358,12 @@ export enum KnownTunnelConnectionStatus {
     Connecting = "Connecting",
     NotConnected = "NotConnected",
     Unknown = "Unknown"
+}
+
+// @public
+export enum KnownUpdateAction {
+    FullUpdate = "FullUpdate",
+    PartialUpdate = "PartialUpdate"
 }
 
 // @public
@@ -8557,6 +8608,7 @@ export enum KnownVpnType {
 export enum KnownWebApplicationFirewallAction {
     Allow = "Allow",
     Block = "Block",
+    Captcha = "CAPTCHA",
     JSChallenge = "JSChallenge",
     Log = "Log"
 }
@@ -9437,6 +9489,7 @@ export interface NatGateway extends Resource {
     publicIpPrefixes?: SubResource[];
     publicIpPrefixesV6?: SubResource[];
     readonly resourceGuid?: string;
+    serviceGateway?: SubResource;
     sku?: NatGatewaySku;
     sourceVirtualNetwork?: SubResource;
     readonly subnets?: SubResource[];
@@ -10374,6 +10427,8 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     serviceEndpointPolicyDefinitions: ServiceEndpointPolicyDefinitions;
     // (undocumented)
+    serviceGateways: ServiceGateways;
+    // (undocumented)
     serviceTagInformationOperations: ServiceTagInformationOperations;
     // (undocumented)
     serviceTags: ServiceTags;
@@ -10408,6 +10463,8 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     virtualHubRouteTableV2S: VirtualHubRouteTableV2S;
     // (undocumented)
     virtualHubs: VirtualHubs;
+    // (undocumented)
+    virtualNetworkAppliances: VirtualNetworkAppliances;
     // (undocumented)
     virtualNetworkGatewayConnections: VirtualNetworkGatewayConnections;
     // (undocumented)
@@ -12584,6 +12641,7 @@ export type PfsGroup = string;
 
 // @public
 export interface PolicySettings {
+    captchaCookieExpirationInMins?: number;
     customBlockResponseBody?: string;
     customBlockResponseStatusCode?: number;
     fileUploadEnforcement?: boolean;
@@ -14195,6 +14253,13 @@ export type RouteTablesUpdateTagsResponse = RouteTable;
 export type RouteTableUsageMode = string;
 
 // @public
+export interface RouteTargetAddressPropertiesFormat {
+    privateIPAddress?: string;
+    privateIPAllocationMethod?: IPAllocationMethod;
+    subnet?: Subnet;
+}
+
+// @public
 export interface RoutingConfiguration {
     associatedRouteTable?: SubResource;
     inboundRouteMap?: SubResource;
@@ -15185,6 +15250,221 @@ export interface ServiceEndpointPropertiesFormat {
 }
 
 // @public
+export interface ServiceGateway extends TrackedResource {
+    readonly etag?: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
+    routeTargetAddress?: RouteTargetAddressPropertiesFormat;
+    routeTargetAddressV6?: RouteTargetAddressPropertiesFormat;
+    sku?: ServiceGatewaySku;
+    virtualNetwork?: VirtualNetwork;
+    zones?: string[];
+}
+
+// @public
+export interface ServiceGatewayAddress {
+    address?: string;
+    services?: string[];
+}
+
+// @public
+export interface ServiceGatewayAddressLocation {
+    addresses?: ServiceGatewayAddress[];
+    addressLocation?: string;
+    addressUpdateAction?: AddressUpdateAction;
+}
+
+// @public
+export interface ServiceGatewayAddressLocationResponse {
+    addresses?: ServiceGatewayAddress[];
+    addressLocation?: string;
+}
+
+// @public
+export interface ServiceGatewayListResult {
+    readonly nextLink?: string;
+    value?: ServiceGateway[];
+}
+
+// @public
+export interface ServiceGateways {
+    beginCreateOrUpdate(resourceGroupName: string, serviceGatewayName: string, parameters: ServiceGateway, options?: ServiceGatewaysCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ServiceGatewaysCreateOrUpdateResponse>, ServiceGatewaysCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, serviceGatewayName: string, parameters: ServiceGateway, options?: ServiceGatewaysCreateOrUpdateOptionalParams): Promise<ServiceGatewaysCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, serviceGatewayName: string, options?: ServiceGatewaysDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ServiceGatewaysDeleteResponse>, ServiceGatewaysDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, serviceGatewayName: string, options?: ServiceGatewaysDeleteOptionalParams): Promise<ServiceGatewaysDeleteResponse>;
+    beginUpdateAddressLocations(resourceGroupName: string, serviceGatewayName: string, parameters: ServiceGatewayUpdateAddressLocationsRequest, options?: ServiceGatewaysUpdateAddressLocationsOptionalParams): Promise<SimplePollerLike<OperationState<ServiceGatewaysUpdateAddressLocationsResponse>, ServiceGatewaysUpdateAddressLocationsResponse>>;
+    beginUpdateAddressLocationsAndWait(resourceGroupName: string, serviceGatewayName: string, parameters: ServiceGatewayUpdateAddressLocationsRequest, options?: ServiceGatewaysUpdateAddressLocationsOptionalParams): Promise<ServiceGatewaysUpdateAddressLocationsResponse>;
+    beginUpdateServices(resourceGroupName: string, serviceGatewayName: string, parameters: ServiceGatewayUpdateServicesRequest, options?: ServiceGatewaysUpdateServicesOptionalParams): Promise<SimplePollerLike<OperationState<ServiceGatewaysUpdateServicesResponse>, ServiceGatewaysUpdateServicesResponse>>;
+    beginUpdateServicesAndWait(resourceGroupName: string, serviceGatewayName: string, parameters: ServiceGatewayUpdateServicesRequest, options?: ServiceGatewaysUpdateServicesOptionalParams): Promise<ServiceGatewaysUpdateServicesResponse>;
+    get(resourceGroupName: string, serviceGatewayName: string, options?: ServiceGatewaysGetOptionalParams): Promise<ServiceGatewaysGetResponse>;
+    list(resourceGroupName: string, options?: ServiceGatewaysListOptionalParams): PagedAsyncIterableIterator<ServiceGateway>;
+    listAddressLocations(resourceGroupName: string, serviceGatewayName: string, options?: ServiceGatewaysGetAddressLocationsOptionalParams): PagedAsyncIterableIterator<ServiceGatewayAddressLocationResponse>;
+    listAll(options?: ServiceGatewaysListAllOptionalParams): PagedAsyncIterableIterator<ServiceGateway>;
+    listServices(resourceGroupName: string, serviceGatewayName: string, options?: ServiceGatewaysGetServicesOptionalParams): PagedAsyncIterableIterator<ServiceGatewayService>;
+    updateTags(resourceGroupName: string, serviceGatewayName: string, parameters: TagsObject, options?: ServiceGatewaysUpdateTagsOptionalParams): Promise<ServiceGatewaysUpdateTagsResponse>;
+}
+
+// @public
+export interface ServiceGatewaysCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ServiceGatewaysCreateOrUpdateResponse = ServiceGateway;
+
+// @public
+export interface ServiceGatewaysDeleteHeaders {
+    location?: string;
+}
+
+// @public
+export interface ServiceGatewaysDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ServiceGatewaysDeleteResponse = ServiceGatewaysDeleteHeaders;
+
+// @public
+export interface ServiceGatewayService {
+    isDefault?: boolean;
+    loadBalancerBackendPools?: BackendAddressPool[];
+    name?: string;
+    publicNatGatewayId?: string;
+    serviceType?: ServiceType;
+}
+
+// @public
+export interface ServiceGatewayServiceRequest {
+    isDelete?: boolean;
+    service?: ServiceGatewayService;
+}
+
+// @public
+export interface ServiceGatewaysGetAddressLocationsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServiceGatewaysGetAddressLocationsNextResponse = GetServiceGatewayAddressLocationsResult;
+
+// @public
+export interface ServiceGatewaysGetAddressLocationsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServiceGatewaysGetAddressLocationsResponse = GetServiceGatewayAddressLocationsResult;
+
+// @public
+export interface ServiceGatewaysGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServiceGatewaysGetResponse = ServiceGateway;
+
+// @public
+export interface ServiceGatewaysGetServicesNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServiceGatewaysGetServicesNextResponse = GetServiceGatewayServicesResult;
+
+// @public
+export interface ServiceGatewaysGetServicesOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServiceGatewaysGetServicesResponse = GetServiceGatewayServicesResult;
+
+// @public
+export interface ServiceGatewaySku {
+    name?: ServiceGatewaySkuName;
+    tier?: ServiceGatewaySkuTier;
+}
+
+// @public
+export type ServiceGatewaySkuName = string;
+
+// @public
+export type ServiceGatewaySkuTier = string;
+
+// @public
+export interface ServiceGatewaysListAllNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServiceGatewaysListAllNextResponse = ServiceGatewayListResult;
+
+// @public
+export interface ServiceGatewaysListAllOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServiceGatewaysListAllResponse = ServiceGatewayListResult;
+
+// @public
+export interface ServiceGatewaysListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServiceGatewaysListNextResponse = ServiceGatewayListResult;
+
+// @public
+export interface ServiceGatewaysListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServiceGatewaysListResponse = ServiceGatewayListResult;
+
+// @public
+export interface ServiceGatewaysUpdateAddressLocationsHeaders {
+    location?: string;
+}
+
+// @public
+export interface ServiceGatewaysUpdateAddressLocationsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ServiceGatewaysUpdateAddressLocationsResponse = ServiceGatewaysUpdateAddressLocationsHeaders;
+
+// @public
+export interface ServiceGatewaysUpdateServicesHeaders {
+    location?: string;
+}
+
+// @public
+export interface ServiceGatewaysUpdateServicesOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ServiceGatewaysUpdateServicesResponse = ServiceGatewaysUpdateServicesHeaders;
+
+// @public
+export interface ServiceGatewaysUpdateTagsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServiceGatewaysUpdateTagsResponse = ServiceGateway;
+
+// @public
+export interface ServiceGatewayUpdateAddressLocationsRequest {
+    action?: UpdateAction;
+    addressLocations?: ServiceGatewayAddressLocation[];
+}
+
+// @public
+export interface ServiceGatewayUpdateServicesRequest {
+    action?: ServiceUpdateAction;
+    serviceRequests?: ServiceGatewayServiceRequest[];
+}
+
+// @public
 export type ServiceProviderProvisioningState = string;
 
 // @public
@@ -15253,6 +15533,12 @@ export interface ServiceTagsListResult {
     readonly type?: string;
     readonly values?: ServiceTagInformation[];
 }
+
+// @public
+export type ServiceType = string;
+
+// @public
+export type ServiceUpdateAction = string;
 
 // @public
 export interface SessionIds {
@@ -15499,6 +15785,7 @@ export interface Subnet extends SubResource {
     readonly serviceAssociationLinks?: ServiceAssociationLink[];
     serviceEndpointPolicies?: ServiceEndpointPolicy[];
     serviceEndpoints?: ServiceEndpointPropertiesFormat[];
+    serviceGateway?: SubResource;
     sharingScope?: SharingScope;
     type?: string;
 }
@@ -15794,6 +16081,9 @@ export type TunnelConnectionStatus = string;
 export interface UnprepareNetworkPoliciesRequest {
     serviceName?: string;
 }
+
+// @public
+export type UpdateAction = string;
 
 // @public
 export interface UpdateTagsRequest {
@@ -16494,6 +16784,112 @@ export interface VirtualNetwork extends Resource {
     subnets?: Subnet[];
     virtualNetworkPeerings?: VirtualNetworkPeering[];
 }
+
+// @public
+export interface VirtualNetworkAppliance extends Resource {
+    bandwidthInGbps?: string;
+    readonly etag?: string;
+    readonly ipConfigurations?: VirtualNetworkApplianceIpConfiguration[];
+    readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
+    subnet?: Subnet;
+}
+
+// @public
+export interface VirtualNetworkApplianceIpConfiguration extends SubResource {
+    readonly etag?: string;
+    name?: string;
+    primary?: boolean;
+    privateIPAddress?: string;
+    privateIPAddressVersion?: IPVersion;
+    privateIPAllocationMethod?: IPAllocationMethod;
+    readonly provisioningState?: ProvisioningState;
+    readonly type?: string;
+}
+
+// @public
+export interface VirtualNetworkApplianceListResult {
+    readonly nextLink?: string;
+    value?: VirtualNetworkAppliance[];
+}
+
+// @public
+export interface VirtualNetworkAppliances {
+    beginCreateOrUpdate(resourceGroupName: string, virtualNetworkApplianceName: string, parameters: VirtualNetworkAppliance, options?: VirtualNetworkAppliancesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworkAppliancesCreateOrUpdateResponse>, VirtualNetworkAppliancesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, virtualNetworkApplianceName: string, parameters: VirtualNetworkAppliance, options?: VirtualNetworkAppliancesCreateOrUpdateOptionalParams): Promise<VirtualNetworkAppliancesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, virtualNetworkApplianceName: string, options?: VirtualNetworkAppliancesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworkAppliancesDeleteResponse>, VirtualNetworkAppliancesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, virtualNetworkApplianceName: string, options?: VirtualNetworkAppliancesDeleteOptionalParams): Promise<VirtualNetworkAppliancesDeleteResponse>;
+    get(resourceGroupName: string, virtualNetworkApplianceName: string, options?: VirtualNetworkAppliancesGetOptionalParams): Promise<VirtualNetworkAppliancesGetResponse>;
+    list(resourceGroupName: string, options?: VirtualNetworkAppliancesListOptionalParams): PagedAsyncIterableIterator<VirtualNetworkAppliance>;
+    listAll(options?: VirtualNetworkAppliancesListAllOptionalParams): PagedAsyncIterableIterator<VirtualNetworkAppliance>;
+    updateTags(resourceGroupName: string, virtualNetworkApplianceName: string, parameters: TagsObject, options?: VirtualNetworkAppliancesUpdateTagsOptionalParams): Promise<VirtualNetworkAppliancesUpdateTagsResponse>;
+}
+
+// @public
+export interface VirtualNetworkAppliancesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VirtualNetworkAppliancesCreateOrUpdateResponse = VirtualNetworkAppliance;
+
+// @public
+export interface VirtualNetworkAppliancesDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface VirtualNetworkAppliancesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VirtualNetworkAppliancesDeleteResponse = VirtualNetworkAppliancesDeleteHeaders;
+
+// @public
+export interface VirtualNetworkAppliancesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VirtualNetworkAppliancesGetResponse = VirtualNetworkAppliance;
+
+// @public
+export interface VirtualNetworkAppliancesListAllNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VirtualNetworkAppliancesListAllNextResponse = VirtualNetworkApplianceListResult;
+
+// @public
+export interface VirtualNetworkAppliancesListAllOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VirtualNetworkAppliancesListAllResponse = VirtualNetworkApplianceListResult;
+
+// @public
+export interface VirtualNetworkAppliancesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VirtualNetworkAppliancesListNextResponse = VirtualNetworkApplianceListResult;
+
+// @public
+export interface VirtualNetworkAppliancesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VirtualNetworkAppliancesListResponse = VirtualNetworkApplianceListResult;
+
+// @public
+export interface VirtualNetworkAppliancesUpdateTagsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VirtualNetworkAppliancesUpdateTagsResponse = VirtualNetworkAppliance;
 
 // @public
 export interface VirtualNetworkBgpCommunities {

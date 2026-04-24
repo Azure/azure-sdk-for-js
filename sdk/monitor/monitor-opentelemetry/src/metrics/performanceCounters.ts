@@ -18,10 +18,12 @@ import type {
 import { MeterProvider, PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
 import type { ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace-base";
 import { PerformanceCounterMetricNames } from "./types.js";
+import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import type { AzureMonitorOpenTelemetryOptions } from "../types.js";
 import { getLogData, isExceptionData } from "./quickpulse/utils.js";
 import type { ExceptionData, TraceData } from "./quickpulse/types.js";
 import { Logger } from "../shared/logging/logger.js";
+import { readAvailableMemory } from "./utils.js";
 import process from "node:process";
 
 /**
@@ -197,7 +199,7 @@ export class PerformanceCounterMetrics {
       return;
     }
     this.totalCount++;
-    const durationMs = span.duration[0];
+    const durationMs = hrTimeToMilliseconds(span.duration);
     this.intervalExecutionTime += durationMs;
     this.requestDurationHistogram.record(durationMs);
     if (span.events) {
@@ -246,7 +248,7 @@ export class PerformanceCounterMetrics {
   }
 
   private getAvailableMemory(observableResult: ObservableResult): void {
-    observableResult.observe(os.freemem());
+    observableResult.observe(readAvailableMemory());
   }
 
   private getTotalCombinedCpu(cpus: os.CpuInfo[], lastCpus: os.CpuInfo[]) {

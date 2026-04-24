@@ -10,10 +10,10 @@ export {
   listBySubscription,
 } from "./operations.js";
 export {
-  NetworkAnchorsListByResourceGroupOptionalParams,
-  NetworkAnchorsDeleteOptionalParams,
-  NetworkAnchorsUpdateOptionalParams,
-  NetworkAnchorsGetOptionalParams,
-  NetworkAnchorsCreateOrUpdateOptionalParams,
-  NetworkAnchorsListBySubscriptionOptionalParams,
+  type NetworkAnchorsListByResourceGroupOptionalParams,
+  type NetworkAnchorsDeleteOptionalParams,
+  type NetworkAnchorsUpdateOptionalParams,
+  type NetworkAnchorsGetOptionalParams,
+  type NetworkAnchorsCreateOrUpdateOptionalParams,
+  type NetworkAnchorsListBySubscriptionOptionalParams,
 } from "./options.js";

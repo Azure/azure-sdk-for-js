@@ -3,9 +3,9 @@
 
 export { getProperties, $delete, createOrUpdate, get, list } from "./operations.js";
 export {
-  LicensesGetPropertiesOptionalParams,
-  LicensesDeleteOptionalParams,
-  LicensesCreateOrUpdateOptionalParams,
-  LicensesGetOptionalParams,
-  LicensesListOptionalParams,
+  type LicensesGetPropertiesOptionalParams,
+  type LicensesDeleteOptionalParams,
+  type LicensesCreateOrUpdateOptionalParams,
+  type LicensesGetOptionalParams,
+  type LicensesListOptionalParams,
 } from "./options.js";

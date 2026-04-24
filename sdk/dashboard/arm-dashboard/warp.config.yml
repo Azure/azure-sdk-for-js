@@ -1,0 +1,11 @@
+extends: ../../../warp.base.config.yml
+exports:
+  "./api": "./src/api/index.ts"
+  "./api/managedPrivateEndpoints": "./src/api/managedPrivateEndpoints/index.ts"
+  "./api/grafana": "./src/api/grafana/index.ts"
+  "./api/managedDashboards": "./src/api/managedDashboards/index.ts"
+  "./api/integrationFabrics": "./src/api/integrationFabrics/index.ts"
+  "./api/privateLinkResources": "./src/api/privateLinkResources/index.ts"
+  "./api/privateEndpointConnections": "./src/api/privateEndpointConnections/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"

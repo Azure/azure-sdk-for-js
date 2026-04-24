@@ -3,6 +3,6 @@
 
 export { checkQuotaAvailability, checkTrialAvailability } from "./operations.js";
 export {
-  LocationsCheckQuotaAvailabilityOptionalParams,
-  LocationsCheckTrialAvailabilityOptionalParams,
+  type LocationsCheckQuotaAvailabilityOptionalParams,
+  type LocationsCheckTrialAvailabilityOptionalParams,
 } from "./options.js";

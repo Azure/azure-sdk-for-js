@@ -6,5 +6,5 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./roleAssignments.js";
-export * from "./roleDefinitions.js";
+export type * from "./roleAssignments.js";
+export type * from "./roleDefinitions.js";

@@ -139,8 +139,17 @@ function Get-PackageInfoNameOverride {
 function IsNPMPackageVersionPublished ($pkgId, $pkgVersion) {
   Confirm-NodeInstallation
   $packageAndVersion = $pkgId + "@" + $pkgVersion
-  $npmVersion = (npm show $packageAndVersion version)
-  if ($LastExitCode -ne 0) {
+  $npmShowOutput = (npm show $packageAndVersion version 2>&1)
+  $showExitCode = $LastExitCode
+  if ($showExitCode -ne 0) {
+    $outputText = ($npmShowOutput | Out-String)
+    # A 404 response proves the registry is reachable; the package/version
+    # simply doesn't exist. Skip 'npm ping' which is unsupported by some
+    # registries (e.g. Azure DevOps feeds).
+    if ($outputText -match "E404") {
+      $global:LASTEXITCODE = 0
+      return $False
+    }
     npm ping
     if ($LastExitCode -eq 0) {
       return $False
@@ -148,7 +157,9 @@ function IsNPMPackageVersionPublished ($pkgId, $pkgVersion) {
     Write-Host "Could not find a deployed version of $pkgId, and NPM connectivity check failed."
     exit(1)
   }
-  return $npmVersion -eq $pkgVersion
+  # With 2>&1, filter to stdout strings only (stderr becomes ErrorRecord objects)
+  $npmVersion = $npmShowOutput | Where-Object { $_ -is [string] } | Select-Object -Last 1
+  return "$npmVersion".Trim() -eq $pkgVersion
 }
 
 function Get-PackageJsonContentFromPackage($package, $workingDirectory) {
@@ -285,14 +296,26 @@ function Get-javascript-DocsMsMetadataForPackage($PackageInfo) {
 # may not have been published if the code is identical to the code already
 # published at the "dev" tag. To prevent using a version which does not exist in
 # NPM, use the "dev" tag instead.
-function Get-javascript-DocsMsDevLanguageSpecificPackageInfo($packageInfo) {
+function Get-javascript-DocsMsDevLanguageSpecificPackageInfo($packageInfo, $packageSourceOverride) {
   if ($packageInfo.DevVersion) {
     try {
-      $npmPackageInfo = Invoke-RestMethod -Uri "https://registry.npmjs.com/$($packageInfo.Name)"
+      Confirm-NodeInstallation
 
-      if ($npmPackageInfo.'dist-tags'.dev) {
-        Write-Host "Using published version at 'dev' tag: '$($npmPackageInfo.'dist-tags'.dev)'"
-        $packageInfo.DevVersion = $npmPackageInfo.'dist-tags'.dev
+      $resolvedRegistryUrl = $packageSourceOverride
+      if ([string]::IsNullOrWhiteSpace($resolvedRegistryUrl)) {
+        $resolvedRegistryUrl = "https://registry.npmjs.org/"
+      }
+
+      $distTagsJson = npm view $packageInfo.Name dist-tags --json --registry $resolvedRegistryUrl
+      if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($distTagsJson)) {
+        throw "Failed to fetch dist-tags for '$($packageInfo.Name)' from registry '$resolvedRegistryUrl'."
+      }
+
+      $distTags = $distTagsJson | ConvertFrom-Json
+
+      if ($distTags.dev) {
+        Write-Host "Using published version at 'dev' tag from '$resolvedRegistryUrl': '$($distTags.dev)'"
+        $packageInfo.DevVersion = $distTags.dev
       }
       else {
         LogWarning "No 'dev' dist-tag available for '$($packageInfo.Name)'. Keeping current version '$($packageInfo.Version)'"

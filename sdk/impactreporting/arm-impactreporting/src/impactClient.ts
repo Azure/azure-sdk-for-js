@@ -16,7 +16,7 @@ import { createImpact, ImpactContext, ImpactClientOptionalParams } from "./api/i
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
-export { ImpactClientOptionalParams } from "./api/impactContext.js";
+export { type ImpactClientOptionalParams } from "./api/impactContext.js";
 
 export class ImpactClient {
   private _client: ImpactContext;

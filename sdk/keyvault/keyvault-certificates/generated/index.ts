@@ -8,24 +8,20 @@ import {
 } from "./static-helpers/pagingHelpers.js";
 
 export { KeyVaultClient } from "./keyVaultClient.js";
-export {
+export type {
   CertificateItem,
   CertificateAttributes,
-  KnownDeletionRecoveryLevel,
   DeletionRecoveryLevel,
   KeyVaultError,
   ErrorModel,
   DeletedCertificateBundle,
   CertificatePolicy,
   KeyProperties,
-  KnownJsonWebKeyType,
   JsonWebKeyType,
-  KnownJsonWebKeyCurveName,
   JsonWebKeyCurveName,
   SecretProperties,
   X509CertificateProperties,
   SubjectAlternativeNames,
-  KnownKeyUsageType,
   KeyUsageType,
   LifetimeAction,
   Trigger,
@@ -52,9 +48,15 @@ export {
   BackupCertificateResult,
   CertificateRestoreParameters,
   DeletedCertificateItem,
-  KnownVersions,
 } from "./models/index.js";
 export {
+  KnownDeletionRecoveryLevel,
+  KnownJsonWebKeyType,
+  KnownJsonWebKeyCurveName,
+  KnownKeyUsageType,
+  KnownVersions,
+} from "./models/index.js";
+export type {
   KeyVaultClientOptionalParams,
   RecoverDeletedCertificateOptionalParams,
   PurgeDeletedCertificateOptionalParams,
@@ -84,4 +86,4 @@ export {
   DeleteCertificateOptionalParams,
   GetCertificatesOptionalParams,
 } from "./api/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

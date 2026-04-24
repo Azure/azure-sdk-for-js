@@ -20,7 +20,13 @@ export const TIME_SINCE_ENQUEUED = "timeSinceEnqueued";
  * AzureMonitorTraceExporter version.
  * @internal
  */
-export const packageVersion = "1.0.0-beta.38";
+export const packageVersion = "1.0.0-beta.40";
+
+/**
+ * Telemetry base data version.
+ * @internal
+ */
+export const DEFAULT_BREEZE_DATA_VERSION = 2;
 
 export enum DependencyTypes {
   InProc = "InProc",

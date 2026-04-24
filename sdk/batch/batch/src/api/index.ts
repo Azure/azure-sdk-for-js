@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { createBatch, BatchContext, BatchClientOptionalParams } from "./batchContext.js";
+export { createBatch, type BatchContext, type BatchClientOptionalParams } from "./batchContext.js";
 export {
   listNodeFiles,
   getNodeFileProperties,
@@ -76,7 +76,7 @@ export {
   getApplication,
   listApplications,
 } from "./operations.js";
-export {
+export type {
   ListNodeFilesOptionalParams,
   GetNodeFilePropertiesOptionalParams,
   GetNodeFileOptionalParams,

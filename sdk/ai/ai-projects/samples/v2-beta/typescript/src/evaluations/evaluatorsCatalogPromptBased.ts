@@ -51,34 +51,36 @@
  * npm install @azure/ai-projects @azure/identity dotenv
  *
  * Set these environment variables with your own values:
- * 1) AZURE_AI_PROJECT_ENDPOINT - Required. The Azure AI Project endpoint, as found in the overview page of your
+ * 1) FOUNDRY_PROJECT_ENDPOINT - Required. The Azure AI Project endpoint, as found in the overview page of your
  *    Microsoft Foundry project. It has the form: https://<account_name>.services.ai.azure.com/api/projects/<project_name>.
- * 2) MODEL_DEPLOYMENT_NAME - Optional. The name of the model deployment to use for evaluation.
+ * 2) FOUNDRY_MODEL_NAME - Optional. The name of the model deployment to use for evaluation.
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
 import "dotenv/config";
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
-const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+const modelDeploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
 
 export async function main(): Promise<void> {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   // Create a prompt-based custom evaluator
   console.log("Creating a single evaluator version - Prompt based (json style)");
-  const promptEvaluator = await project.evaluators.createVersion("my_custom_evaluator_prompt", {
-    name: "my_custom_evaluator_prompt",
-    categories: ["quality"],
-    display_name: "my_custom_evaluator_prompt",
-    evaluator_type: "custom",
-    description: "Custom evaluator for groundedness",
-    definition: {
-      type: "prompt",
-      prompt_text: `
+  const promptEvaluator = await project.beta.evaluators.createVersion(
+    "my_custom_evaluator_prompt",
+    {
+      name: "my_custom_evaluator_prompt",
+      categories: ["quality"],
+      display_name: "my_custom_evaluator_prompt",
+      evaluator_type: "custom",
+      description: "Custom evaluator for groundedness",
+      definition: {
+        type: "prompt",
+        prompt_text: `
 You are a Groundedness Evaluator.
 
 Your task is to evaluate how well the given response is grounded in the provided ground truth.
@@ -113,33 +115,34 @@ Ground Truth:
     "reason": "<brief explanation for the score>"
 }
 `,
-      init_parameters: {
-        type: "object",
-        properties: {
-          deployment_name: { type: "string" },
-          threshold: { type: "number" },
+        init_parameters: {
+          type: "object",
+          properties: {
+            deployment_name: { type: "string" },
+            threshold: { type: "number" },
+          },
+          required: ["deployment_name", "threshold"],
         },
-        required: ["deployment_name", "threshold"],
-      },
-      data_schema: {
-        type: "object",
-        properties: {
-          query: { type: "string" },
-          response: { type: "string" },
-          ground_truth: { type: "string" },
+        data_schema: {
+          type: "object",
+          properties: {
+            query: { type: "string" },
+            response: { type: "string" },
+            ground_truth: { type: "string" },
+          },
+          required: ["query", "response", "ground_truth"],
         },
-        required: ["query", "response", "ground_truth"],
-      },
-      metrics: {
-        custom_prompt: {
-          type: "ordinal",
-          desirable_direction: "increase",
-          min_value: 1,
-          max_value: 5,
+        metrics: {
+          custom_prompt: {
+            type: "ordinal",
+            desirable_direction: "increase",
+            min_value: 1,
+            max_value: 5,
+          },
         },
       },
     },
-  });
+  );
   console.log(
     `Prompt evaluator created (name: ${promptEvaluator.name}, version: ${promptEvaluator.version})`,
   );
@@ -274,7 +277,7 @@ Ground Truth:
 
   // Clean up
   console.log("\nDeleting the created evaluator version");
-  await project.evaluators.deleteVersion(promptEvaluator.name, promptEvaluator.version ?? "");
+  await project.beta.evaluators.deleteVersion(promptEvaluator.name, promptEvaluator.version ?? "");
   console.log("Evaluator version deleted");
 
   await openAIClient.evals.delete(evalObject.id);

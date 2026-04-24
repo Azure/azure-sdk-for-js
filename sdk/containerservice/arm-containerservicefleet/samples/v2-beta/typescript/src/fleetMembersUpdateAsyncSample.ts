@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a FleetMember
  *
  * @summary update a FleetMember
- * x-ms-original-file: 2025-08-01-preview/FleetMembers_Update.json
+ * x-ms-original-file: 2026-02-01-preview/FleetMembers_Update.json
  */
 async function updatesAFleetMemberResourceSynchronously(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -20,29 +20,8 @@ async function updatesAFleetMemberResourceSynchronously(): Promise<void> {
   console.log(result);
 }
 
-/**
- * This sample demonstrates how to update a FleetMember
- *
- * @summary update a FleetMember
- * x-ms-original-file: 2025-08-01-preview/FleetMembers_Update_MaximumSet_Gen.json
- */
-async function updatesAFleetMemberResourceSynchronouslyGeneratedByMaximumSetRule(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new ContainerServiceFleetClient(credential, subscriptionId);
-  const result = await client.fleetMembers.updateAsync(
-    "rgfleets",
-    "fleet1",
-    "fleet1",
-    { properties: { group: "staging" } },
-    { ifMatch: "bjyjzzxvbs" },
-  );
-  console.log(result);
-}
-
 async function main(): Promise<void> {
   await updatesAFleetMemberResourceSynchronously();
-  await updatesAFleetMemberResourceSynchronouslyGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

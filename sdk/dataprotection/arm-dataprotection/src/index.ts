@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { DataProtectionClient } from "./dataProtectionClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
-export {
+export type { RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller } from "./restorePollerHelpers.js";
+export type {
   Operation,
   OperationDisplay,
-  KnownOrigin,
   Origin,
-  KnownActionType,
   ActionType,
   ErrorResponse,
   ErrorDetail,
@@ -25,7 +25,6 @@ export {
   Datasource,
   BaseResourceProperties,
   BaseResourcePropertiesUnion,
-  KnownResourcePropertiesObjectType,
   ResourcePropertiesObjectType,
   DefaultResourceProperties,
   DatasourceSet,
@@ -33,38 +32,39 @@ export {
   PolicyParameters,
   DataStoreParameters,
   DataStoreParametersUnion,
-  KnownDataStoreTypes,
   DataStoreTypes,
   AzureOperationalStoreParameters,
   BackupDatasourceParameters,
   BackupDatasourceParametersUnion,
   KubernetesClusterBackupDatasourceParameters,
-  KnownAKSVolumeTypes,
   AKSVolumeTypes,
   NamespacedNameResource,
   BlobBackupDatasourceParameters,
   BlobBackupDatasourceParametersUnion,
   AdlsBlobBackupDatasourceParameters,
+  BlobBackupDatasourceParametersForAutoProtection,
+  BlobBackupRuleBasedAutoProtectionSettings,
+  BlobBackupAutoProtectionRule,
+  BlobBackupRuleMode,
+  BlobBackupPatternType,
+  AdlsBlobBackupDatasourceParametersForAutoProtection,
   ProtectionStatusDetails,
   UserFacingError,
   InnerError,
-  KnownStatus,
   Status,
-  KnownCurrentProtectionState,
   CurrentProtectionState,
   AuthCredentials,
   AuthCredentialsUnion,
   SecretStoreBasedAuthCredentials,
   SecretStoreResource,
-  KnownSecretStoreType,
   SecretStoreType,
-  KnownValidationType,
   ValidationType,
   IdentityDetails,
+  BlobBackupAutoProtectionSettings,
+  BlobBackupAutoProtectionSettingsUnion,
   ProxyResource,
   Resource,
   SystemData,
-  KnownCreatedByType,
   CreatedByType,
   CloudError,
   ErrorModel,
@@ -78,13 +78,11 @@ export {
   AdhocBackupTriggerOption,
   ValidateForModifyBackupRequest,
   AzureBackupRehydrationRequest,
-  KnownRehydrationPriority,
   RehydrationPriority,
   AzureBackupRestoreRequest,
   AzureBackupRestoreRequestUnion,
   RestoreTargetInfoBase,
   RestoreTargetInfoBaseUnion,
-  KnownRecoveryOption,
   RecoveryOption,
   ItemLevelRestoreTargetInfo,
   ItemLevelRestoreCriteria,
@@ -94,17 +92,13 @@ export {
   KubernetesStorageClassRestoreCriteria,
   KubernetesPVRestoreCriteria,
   KubernetesClusterRestoreCriteria,
-  KnownPersistentVolumeRestoreMode,
   PersistentVolumeRestoreMode,
-  KnownExistingResourcePolicy,
   ExistingResourcePolicy,
   KubernetesClusterVaultTierRestoreCriteria,
   RestoreFilesTargetInfo,
   TargetDetails,
-  KnownRestoreTargetLocationType,
   RestoreTargetLocationType,
   RestoreTargetInfo,
-  KnownSourceDataStoreType,
   SourceDataStoreType,
   AzureBackupRecoveryPointBasedRestoreRequest,
   AzureBackupRecoveryPointBasedRestoreRequestUnion,
@@ -113,7 +107,6 @@ export {
   StopProtectionRequest,
   SuspendBackupRequest,
   SyncBackupInstanceRequest,
-  KnownSyncType,
   SyncType,
   ValidateRestoreRequestObject,
   CrossRegionRestoreRequestObject,
@@ -123,48 +116,37 @@ export {
   BackupVault,
   MonitoringSettings,
   AzureMonitorAlertSettings,
-  KnownAlertsState,
   AlertsState,
-  KnownProvisioningState,
   ProvisioningState,
-  KnownResourceMoveState,
   ResourceMoveState,
   ResourceMoveDetails,
   SecuritySettings,
   SoftDeleteSettings,
-  KnownSoftDeleteState,
   SoftDeleteState,
   ImmutabilitySettings,
-  KnownImmutabilityState,
   ImmutabilityState,
   EncryptionSettings,
-  KnownEncryptionState,
   EncryptionState,
   CmkKeyVaultProperties,
   CmkKekIdentity,
-  KnownIdentityType,
   IdentityType,
-  KnownInfrastructureEncryptionState,
   InfrastructureEncryptionState,
   StorageSetting,
-  KnownStorageSettingStoreTypes,
   StorageSettingStoreTypes,
-  KnownStorageSettingTypes,
   StorageSettingTypes,
   FeatureSettings,
   CrossSubscriptionRestoreSettings,
-  KnownCrossSubscriptionRestoreState,
   CrossSubscriptionRestoreState,
   CrossRegionRestoreSettings,
-  KnownCrossRegionRestoreState,
   CrossRegionRestoreState,
-  KnownSecureScoreLevel,
   SecureScoreLevel,
-  KnownBcdrSecurityLevel,
   BcdrSecurityLevel,
   DppIdentityDetails,
   UserAssignedIdentity,
   TrackedResource,
+  DeletedBackupVaultResource,
+  DeletedBackupVault,
+  ResourceDeletionInfo,
   DppBaseResource,
   ResourceGuardResource,
   ResourceGuard,
@@ -199,14 +181,10 @@ export {
   BackupCriteria,
   BackupCriteriaUnion,
   ScheduleBasedBackupCriteria,
-  KnownAbsoluteMarker,
   AbsoluteMarker,
   Day,
-  KnownDayOfWeek,
   DayOfWeek,
-  KnownMonth,
   Month,
-  KnownWeekNumber,
   WeekNumber,
   AzureRetentionRule,
   SourceLifeCycle,
@@ -220,7 +198,6 @@ export {
   CustomCopyOption,
   ImmediateCopyOption,
   AzureBackupFindRestorableTimeRangesRequest,
-  KnownRestoreSourceDataStoreType,
   RestoreSourceDataStoreType,
   AzureBackupFindRestorableTimeRangesResponseResource,
   AzureBackupFindRestorableTimeRangesResponse,
@@ -231,9 +208,7 @@ export {
   AzureBackupRecoveryPointUnion,
   AzureBackupDiscreteRecoveryPoint,
   RecoveryPointDataStoreDetails,
-  KnownRehydrationStatus,
   RehydrationStatus,
-  KnownRecoveryPointCompletionState,
   RecoveryPointCompletionState,
   AzureBackupJobResource,
   AzureBackupJob,
@@ -252,21 +227,63 @@ export {
   FeatureValidationRequestBase,
   FeatureValidationRequestBaseUnion,
   FeatureValidationRequest,
-  KnownFeatureType,
   FeatureType,
   FeatureValidationResponseBase,
   FeatureValidationResponseBaseUnion,
   FeatureValidationResponse,
   SupportedFeature,
-  KnownFeatureSupportStatus,
   FeatureSupportStatus,
   FetchSecondaryRPsRequestParameters,
   CrossRegionRestoreJobRequest,
   CrossRegionRestoreJobsRequest,
+} from "./models/index.js";
+export {
+  KnownOrigin,
+  KnownActionType,
+  KnownResourcePropertiesObjectType,
+  KnownDataStoreTypes,
+  KnownAKSVolumeTypes,
+  KnownBlobBackupRuleMode,
+  KnownBlobBackupPatternType,
+  KnownStatus,
+  KnownCurrentProtectionState,
+  KnownSecretStoreType,
+  KnownValidationType,
+  KnownCreatedByType,
+  KnownRehydrationPriority,
+  KnownRecoveryOption,
+  KnownPersistentVolumeRestoreMode,
+  KnownExistingResourcePolicy,
+  KnownRestoreTargetLocationType,
+  KnownSourceDataStoreType,
+  KnownSyncType,
+  KnownAlertsState,
+  KnownProvisioningState,
+  KnownResourceMoveState,
+  KnownSoftDeleteState,
+  KnownImmutabilityState,
+  KnownEncryptionState,
+  KnownIdentityType,
+  KnownInfrastructureEncryptionState,
+  KnownStorageSettingStoreTypes,
+  KnownStorageSettingTypes,
+  KnownCrossSubscriptionRestoreState,
+  KnownCrossRegionRestoreState,
+  KnownSecureScoreLevel,
+  KnownBcdrSecurityLevel,
+  KnownAbsoluteMarker,
+  KnownDayOfWeek,
+  KnownMonth,
+  KnownWeekNumber,
+  KnownRestoreSourceDataStoreType,
+  KnownRehydrationStatus,
+  KnownRecoveryPointCompletionState,
+  KnownFeatureType,
+  KnownFeatureSupportStatus,
   KnownVersions,
 } from "./models/index.js";
-export { DataProtectionClientOptionalParams } from "./api/index.js";
-export {
+export type { DataProtectionClientOptionalParams } from "./api/index.js";
+export type {
   BackupInstancesValidateCrossRegionRestoreOptionalParams,
   BackupInstancesTriggerCrossRegionRestoreOptionalParams,
   BackupInstancesValidateForRestoreOptionalParams,
@@ -286,15 +303,15 @@ export {
   BackupInstancesListOptionalParams,
   BackupInstancesGetBackupInstanceOperationResultOptionalParams,
 } from "./api/backupInstances/index.js";
-export { BackupInstancesExtensionRoutingListOptionalParams } from "./api/backupInstancesExtensionRouting/index.js";
-export {
+export type { BackupInstancesExtensionRoutingListOptionalParams } from "./api/backupInstancesExtensionRouting/index.js";
+export type {
   BackupPoliciesListOptionalParams,
   BackupPoliciesDeleteOptionalParams,
   BackupPoliciesCreateOrUpdateOptionalParams,
   BackupPoliciesGetOptionalParams,
 } from "./api/backupPolicies/index.js";
-export { BackupVaultOperationResultsGetOptionalParams } from "./api/backupVaultOperationResults/index.js";
-export {
+export type { BackupVaultOperationResultsGetOptionalParams } from "./api/backupVaultOperationResults/index.js";
+export type {
   BackupVaultsCheckNameAvailabilityOptionalParams,
   BackupVaultsListInResourceGroupOptionalParams,
   BackupVaultsListInSubscriptionOptionalParams,
@@ -303,35 +320,39 @@ export {
   BackupVaultsCreateOrUpdateOptionalParams,
   BackupVaultsGetOptionalParams,
 } from "./api/backupVaults/index.js";
-export { DataProtectionCheckFeatureSupportOptionalParams } from "./api/dataProtection/index.js";
-export { DataProtectionOperationsListOptionalParams } from "./api/dataProtectionOperations/index.js";
-export {
+export type { DataProtectionCheckFeatureSupportOptionalParams } from "./api/dataProtection/index.js";
+export type { DataProtectionOperationsListOptionalParams } from "./api/dataProtectionOperations/index.js";
+export type {
   DeletedBackupInstancesUndeleteOptionalParams,
   DeletedBackupInstancesListOptionalParams,
   DeletedBackupInstancesGetOptionalParams,
 } from "./api/deletedBackupInstances/index.js";
-export {
+export type {
+  DeletedBackupVaultsListByLocationOptionalParams,
+  DeletedBackupVaultsGetOptionalParams,
+} from "./api/deletedBackupVaults/index.js";
+export type {
   DppResourceGuardProxyUnlockDeleteOptionalParams,
   DppResourceGuardProxyListOptionalParams,
   DppResourceGuardProxyDeleteOptionalParams,
   DppResourceGuardProxyCreateOrUpdateOptionalParams,
   DppResourceGuardProxyGetOptionalParams,
 } from "./api/dppResourceGuardProxy/index.js";
-export { ExportJobsTriggerOptionalParams } from "./api/exportJobs/index.js";
-export { ExportJobsOperationResultGetOptionalParams } from "./api/exportJobsOperationResult/index.js";
-export { FetchCrossRegionRestoreJobGetOptionalParams } from "./api/fetchCrossRegionRestoreJob/index.js";
-export { FetchCrossRegionRestoreJobsListOptionalParams } from "./api/fetchCrossRegionRestoreJobs/index.js";
-export { FetchSecondaryRecoveryPointsListOptionalParams } from "./api/fetchSecondaryRecoveryPoints/index.js";
-export { JobsListOptionalParams, JobsGetOptionalParams } from "./api/jobs/index.js";
-export { OperationResultGetOptionalParams } from "./api/operationResult/index.js";
-export { OperationStatusGetOptionalParams } from "./api/operationStatus/index.js";
-export { OperationStatusBackupVaultContextGetOptionalParams } from "./api/operationStatusBackupVaultContext/index.js";
-export { OperationStatusResourceGroupContextGetOptionalParams } from "./api/operationStatusResourceGroupContext/index.js";
-export {
+export type { ExportJobsTriggerOptionalParams } from "./api/exportJobs/index.js";
+export type { ExportJobsOperationResultGetOptionalParams } from "./api/exportJobsOperationResult/index.js";
+export type { FetchCrossRegionRestoreJobGetOptionalParams } from "./api/fetchCrossRegionRestoreJob/index.js";
+export type { FetchCrossRegionRestoreJobsListOptionalParams } from "./api/fetchCrossRegionRestoreJobs/index.js";
+export type { FetchSecondaryRecoveryPointsListOptionalParams } from "./api/fetchSecondaryRecoveryPoints/index.js";
+export type { JobsListOptionalParams, JobsGetOptionalParams } from "./api/jobs/index.js";
+export type { OperationResultGetOptionalParams } from "./api/operationResult/index.js";
+export type { OperationStatusGetOptionalParams } from "./api/operationStatus/index.js";
+export type { OperationStatusBackupVaultContextGetOptionalParams } from "./api/operationStatusBackupVaultContext/index.js";
+export type { OperationStatusResourceGroupContextGetOptionalParams } from "./api/operationStatusResourceGroupContext/index.js";
+export type {
   RecoveryPointsListOptionalParams,
   RecoveryPointsGetOptionalParams,
 } from "./api/recoveryPoints/index.js";
-export {
+export type {
   ResourceGuardsListBackupSecurityPINRequestsObjectsOptionalParams,
   ResourceGuardsGetDefaultBackupSecurityPINRequestsObjectOptionalParams,
   ResourceGuardsListDeleteProtectedItemRequestsObjectsOptionalParams,
@@ -351,8 +372,8 @@ export {
   ResourceGuardsListDeleteResourceGuardProxyRequestsObjectsOptionalParams,
   ResourceGuardsGetDefaultDeleteResourceGuardProxyRequestsObjectOptionalParams,
 } from "./api/resourceGuards/index.js";
-export { RestorableTimeRangesFindOptionalParams } from "./api/restorableTimeRanges/index.js";
-export {
+export type { RestorableTimeRangesFindOptionalParams } from "./api/restorableTimeRanges/index.js";
+export type {
   BackupInstancesOperations,
   BackupInstancesExtensionRoutingOperations,
   BackupPoliciesOperations,
@@ -361,6 +382,7 @@ export {
   DataProtectionOperations,
   DataProtectionOperationsOperations,
   DeletedBackupInstancesOperations,
+  DeletedBackupVaultsOperations,
   DppResourceGuardProxyOperations,
   ExportJobsOperations,
   ExportJobsOperationResultOperations,
@@ -376,5 +398,6 @@ export {
   ResourceGuardsOperations,
   RestorableTimeRangesOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export { AzureClouds, AzureSupportedClouds };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds };
+export type { AzureSupportedClouds };

@@ -10,10 +10,10 @@ export {
   get,
 } from "./operations.js";
 export {
-  DiagnosticsListBySubscriptionOptionalParams,
-  DiagnosticsListByResourceGroupOptionalParams,
-  DiagnosticsDeleteOptionalParams,
-  DiagnosticsUpdateOptionalParams,
-  DiagnosticsCreateOrUpdateOptionalParams,
-  DiagnosticsGetOptionalParams,
+  type DiagnosticsListBySubscriptionOptionalParams,
+  type DiagnosticsListByResourceGroupOptionalParams,
+  type DiagnosticsDeleteOptionalParams,
+  type DiagnosticsUpdateOptionalParams,
+  type DiagnosticsCreateOrUpdateOptionalParams,
+  type DiagnosticsGetOptionalParams,
 } from "./options.js";

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { listByStandbyVirtualMachinePoolResource, get } from "./operations.js";
-export {
+export type {
   StandbyVirtualMachinesListByStandbyVirtualMachinePoolResourceOptionalParams,
   StandbyVirtualMachinesGetOptionalParams,
 } from "./options.js";

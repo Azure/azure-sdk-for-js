@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
     "target": "ES2023",
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "outDir": "./dist",
+    "module": "preserve",
+    "moduleResolution": "bundler",
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
     "esModuleInterop": true,
 
     "lib": ["ES2023"],

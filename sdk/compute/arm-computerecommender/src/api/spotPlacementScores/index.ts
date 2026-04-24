@@ -3,6 +3,6 @@
 
 export { post, get } from "./operations.js";
 export {
-  SpotPlacementScoresPostOptionalParams,
-  SpotPlacementScoresGetOptionalParams,
+  type SpotPlacementScoresPostOptionalParams,
+  type SpotPlacementScoresGetOptionalParams,
 } from "./options.js";

@@ -14,7 +14,7 @@
       "program": "${file}",
       "cwd": "${fileDirname}",
       "outFiles": [
-        "${workspaceFolder}/dist/**/*.js"
+        "${workspaceFolder}/dist/**/*.js",
       ]
     }
   ]

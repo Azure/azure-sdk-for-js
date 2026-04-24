@@ -5105,6 +5105,169 @@ export interface ServiceEndpointPolicyDefinitionListResult {
   nextLink?: string;
 }
 
+/** AddressSpace contains an array of IP address ranges that can be used by subnets of the virtual network. */
+export interface AddressSpace {
+  /** A list of address blocks reserved for this virtual network in CIDR notation. */
+  addressPrefixes?: string[];
+  /** A list of IPAM Pools allocating IP address prefixes. */
+  ipamPoolPrefixAllocations?: IpamPoolPrefixAllocation[];
+}
+
+/** DhcpOptions contains an array of DNS servers available to VMs deployed in the virtual network. Standard DHCP option for a subnet overrides VNET DHCP options. */
+export interface DhcpOptions {
+  /** The list of DNS servers IP addresses. */
+  dnsServers?: string[];
+}
+
+/** Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET. */
+export interface VirtualNetworkBgpCommunities {
+  /** The BGP community associated with the virtual network. */
+  virtualNetworkCommunity: string;
+  /**
+   * The BGP community associated with the region of the virtual network.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly regionalCommunity?: string;
+}
+
+/** Indicates if encryption is enabled on virtual network and if VM without encryption is allowed in encrypted VNet. */
+export interface VirtualNetworkEncryption {
+  /** Indicates if encryption is enabled on the virtual network. */
+  enabled: boolean;
+  /** If the encrypted VNet allows VM that does not support encryption. This field is for future support, AllowUnencrypted is the only supported value at general availability. */
+  enforcement?: VirtualNetworkEncryptionEnforcement;
+}
+
+/** Properties of route target address */
+export interface RouteTargetAddressPropertiesFormat {
+  /** The reference to the subnet resource. */
+  subnet?: Subnet;
+  /** The private IPv4 or IPv6 address of the service gateway route target address. */
+  privateIPAddress?: string;
+  /** The Private IP allocation method. */
+  privateIPAllocationMethod?: IPAllocationMethod;
+}
+
+/** SKU of a service gateway. */
+export interface ServiceGatewaySku {
+  /** Name of a service gateway SKU. */
+  name?: ServiceGatewaySkuName;
+  /** Tier of a service gateway SKU. */
+  tier?: ServiceGatewaySkuTier;
+}
+
+/** Response for ListServiceGateways API service call. */
+export interface ServiceGatewayListResult {
+  /** A list of service gateway in a resource group. */
+  value?: ServiceGateway[];
+  /**
+   * The URL to get the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Properties of the service gateway update address locations request. */
+export interface ServiceGatewayUpdateAddressLocationsRequest {
+  /**
+   * Specifies the type of update operation to perform on address locations within the service gateway.
+   *
+   * - FullUpdate: Replaces all existing address location data with the new list provided in the request. Any previously defined locations not included will be removed.
+   * - PartialUpdate: Updates only the specified address locations.
+   */
+  action?: UpdateAction;
+  /** An array of address locations to create or update. */
+  addressLocations?: ServiceGatewayAddressLocation[];
+}
+
+/** Properties of the service gateway address location. */
+export interface ServiceGatewayAddressLocation {
+  /** Location to update */
+  addressLocation?: string;
+  /**
+   * Specifies the type of update operation to perform on addresses within the address location of service gateway.
+   *
+   * - FullUpdate: Replaces all existing address data with the new list provided in the request. Any previously defined addresses not included will be removed.
+   * - PartialUpdate: Updates only the specified addresses.
+   */
+  addressUpdateAction?: AddressUpdateAction;
+  /** An array of addresses to create or update in locations. */
+  addresses?: ServiceGatewayAddress[];
+}
+
+/** Properties of the service gateway address. */
+export interface ServiceGatewayAddress {
+  /** Address to update */
+  address?: string;
+  /** Collection of services in address. */
+  services?: string[];
+}
+
+/** Properties of the service gateway update services request. */
+export interface ServiceGatewayUpdateServicesRequest {
+  /**
+   * Specifies the type of update operation to perform on services within the service gateway.
+   *
+   * - FullUpdate: Replaces all existing services with the new list provided in the request. Any previously defined services not included will be removed.
+   * - PartialUpdate: Updates only the specified services.
+   */
+  action?: ServiceUpdateAction;
+  /** Collection of service updates. */
+  serviceRequests?: ServiceGatewayServiceRequest[];
+}
+
+/** Properties of the service gateway services request. */
+export interface ServiceGatewayServiceRequest {
+  /** Set to true to mark the service for deletion. */
+  isDelete?: boolean;
+  /** Service of service gateway. */
+  service?: ServiceGatewayService;
+}
+
+/** Properties of the service gateway service. */
+export interface ServiceGatewayService {
+  /** Name of the service */
+  name?: string;
+  /** Name of the service. */
+  serviceType?: ServiceType;
+  /** Set to true to mark default service for inbound or outbound. */
+  isDefault?: boolean;
+  /** An array of load balancer backend address pools. */
+  loadBalancerBackendPools?: BackendAddressPool[];
+  /** Azure Resource Id of public natgateway. */
+  publicNatGatewayId?: string;
+}
+
+/** Response for get service gateway address locations. */
+export interface GetServiceGatewayAddressLocationsResult {
+  /** A list of address locations of service gateway. */
+  value?: ServiceGatewayAddressLocationResponse[];
+  /**
+   * The URL to get the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Properties of the service gateway address location. */
+export interface ServiceGatewayAddressLocationResponse {
+  /** Location to update */
+  addressLocation?: string;
+  /** An array of addresses to create or update in locations. */
+  addresses?: ServiceGatewayAddress[];
+}
+
+/** Response for get service gateway services. */
+export interface GetServiceGatewayServicesResult {
+  /** A list of services of service gateway. */
+  value?: ServiceGatewayService[];
+  /**
+   * The URL to get the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
 /** Response for the ListServiceTags API service call. */
 export interface ServiceTagsListResult {
   /**
@@ -5239,39 +5402,6 @@ export interface UsageName {
   value?: string;
   /** A localized string describing the resource name. */
   localizedValue?: string;
-}
-
-/** AddressSpace contains an array of IP address ranges that can be used by subnets of the virtual network. */
-export interface AddressSpace {
-  /** A list of address blocks reserved for this virtual network in CIDR notation. */
-  addressPrefixes?: string[];
-  /** A list of IPAM Pools allocating IP address prefixes. */
-  ipamPoolPrefixAllocations?: IpamPoolPrefixAllocation[];
-}
-
-/** DhcpOptions contains an array of DNS servers available to VMs deployed in the virtual network. Standard DHCP option for a subnet overrides VNET DHCP options. */
-export interface DhcpOptions {
-  /** The list of DNS servers IP addresses. */
-  dnsServers?: string[];
-}
-
-/** Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET. */
-export interface VirtualNetworkBgpCommunities {
-  /** The BGP community associated with the virtual network. */
-  virtualNetworkCommunity: string;
-  /**
-   * The BGP community associated with the region of the virtual network.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly regionalCommunity?: string;
-}
-
-/** Indicates if encryption is enabled on virtual network and if VM without encryption is allowed in encrypted VNet. */
-export interface VirtualNetworkEncryption {
-  /** Indicates if encryption is enabled on the virtual network. */
-  enabled: boolean;
-  /** If the encrypted VNet allows VM that does not support encryption. This field is for future support, AllowUnencrypted is the only supported value at general availability. */
-  enforcement?: VirtualNetworkEncryptionEnforcement;
 }
 
 /** Response for the ListVirtualNetworks API service call. */
@@ -5412,6 +5542,17 @@ export interface VirtualNetworkDdosProtectionStatusResult {
   value?: PublicIpDdosProtectionStatusResult[];
   /** The URL to get the next set of results. */
   nextLink?: string;
+}
+
+/** Response for the ListVirtualNetworkAppliance API service call. */
+export interface VirtualNetworkApplianceListResult {
+  /** A list of virtual network appliances in a resource group. */
+  value?: VirtualNetworkAppliance[];
+  /**
+   * The URL to get the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
 /** Virtual Network Gateway Autoscale Configuration details */
@@ -6853,6 +6994,8 @@ export interface PolicySettings {
   logScrubbing?: PolicySettingsLogScrubbing;
   /** Web Application Firewall JavaScript Challenge Cookie Expiration time in minutes. */
   jsChallengeCookieExpirationInMins?: number;
+  /** Web Application Firewall CAPTCHA Cookie Expiration time in minutes. */
+  captchaCookieExpirationInMins?: number;
 }
 
 /** To scrub sensitive log fields */
@@ -7820,6 +7963,8 @@ export interface Subnet extends SubResource {
   defaultOutboundAccess?: boolean;
   /** A list of IPAM Pools for allocating IP address prefixes. */
   ipamPoolPrefixAllocations?: IpamPoolPrefixAllocation[];
+  /** Reference to an existing service gateway. */
+  serviceGateway?: SubResource;
 }
 
 /** Frontend IP address of the load balancer. */
@@ -9528,6 +9673,35 @@ export interface VirtualNetworkPeering extends SubResource {
   remoteSubnetNames?: string[];
 }
 
+/** The virtual network appliance ip configuration. */
+export interface VirtualNetworkApplianceIpConfiguration extends SubResource {
+  /** The name of virtual network appliance ip configuration. */
+  name?: string;
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /**
+   * The resource type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** The private IP address of the IP configuration. */
+  privateIPAddress?: string;
+  /** The private IP address allocation method. */
+  privateIPAllocationMethod?: IPAllocationMethod;
+  /** Whether the ip configuration is primary or not. */
+  primary?: boolean;
+  /**
+   * The provisioning state of the private link service IP configuration resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** Whether the specific IP configuration is IPv4 or IPv6. Default is IPv4. */
+  privateIPAddressVersion?: IPVersion;
+}
+
 /** IP configuration for virtual network gateway. */
 export interface VirtualNetworkGatewayIPConfiguration extends SubResource {
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
@@ -10641,6 +10815,8 @@ export interface NatGateway extends Resource {
   readonly subnets?: SubResource[];
   /** A reference to the source virtual network using this nat gateway resource. */
   sourceVirtualNetwork?: SubResource;
+  /** Reference to an existing service gateway. */
+  serviceGateway?: SubResource;
   /**
    * The resource GUID property of the NAT gateway resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -11844,6 +12020,34 @@ export interface NetworkIntentPolicy extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly etag?: string;
+}
+
+/** A virtual network appliance in a resource group. */
+export interface VirtualNetworkAppliance extends Resource {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** Bandwidth of the VirtualNetworkAppliance resource in Gbps. */
+  bandwidthInGbps?: string;
+  /**
+   * A list of IPConfigurations of the virtual network appliance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ipConfigurations?: VirtualNetworkApplianceIpConfiguration[];
+  /**
+   * The provisioning state of the virtual network appliance resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The resource GUID property of the virtual network appliance resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
+  /** The reference to the subnet resource. */
+  subnet?: Subnet;
 }
 
 /** A common class for general resource information. */
@@ -13287,6 +13491,39 @@ export interface NetworkSecurityPerimeter extends TrackedResource {
   readonly perimeterGuid?: string;
 }
 
+/** ServiceGateway resource. */
+export interface ServiceGateway extends TrackedResource {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** The service gateway SKU. */
+  sku?: ServiceGatewaySku;
+  /**
+   * A list of availability zones denoting the zone in which service gateway should be deployed.
+   *
+   * - The zone values must be provided as strings representing numeric identifiers like "1", "2", "3" etc.
+   */
+  zones?: string[];
+  /** Reference to an existing virtual network. */
+  virtualNetwork?: VirtualNetwork;
+  /** Route Target address of Service gateway */
+  routeTargetAddress?: RouteTargetAddressPropertiesFormat;
+  /** Route Target address V6 of Service gateway */
+  routeTargetAddressV6?: RouteTargetAddressPropertiesFormat;
+  /**
+   * The resource GUID property of the service gateway resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
+  /**
+   * The provisioning state of the service gateway resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
 /** The network security perimeter profile resource */
 export interface NspProfile extends SecurityPerimeterProxyResource {
   /**
@@ -13783,6 +14020,29 @@ export interface RouteFilterRulesDeleteHeaders {
    * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#asynchronous-operations
    */
   azureAsyncOperation?: string;
+}
+
+/** Defines headers for ServiceGateways_delete operation. */
+export interface ServiceGatewaysDeleteHeaders {
+  /** URL for determining when an operation has completed. Send a GET request to the URL in Location header. */
+  location?: string;
+}
+
+/** Defines headers for ServiceGateways_updateAddressLocations operation. */
+export interface ServiceGatewaysUpdateAddressLocationsHeaders {
+  /** URL for determining when an operation has completed. Send a GET request to the URL in Location header. */
+  location?: string;
+}
+
+/** Defines headers for ServiceGateways_updateServices operation. */
+export interface ServiceGatewaysUpdateServicesHeaders {
+  /** URL for determining when an operation has completed. Send a GET request to the URL in Location header. */
+  location?: string;
+}
+
+/** Defines headers for VirtualNetworkAppliances_delete operation. */
+export interface VirtualNetworkAppliancesDeleteHeaders {
+  location?: string;
 }
 
 /** Defines headers for VirtualNetworkGateways_getResiliencyInformation operation. */
@@ -15931,12 +16191,12 @@ export type FirewallPolicyIntrusionDetectionStateType = string;
 
 /** Known values of {@link FirewallPolicyIntrusionDetectionProfileType} that the service accepts. */
 export enum KnownFirewallPolicyIntrusionDetectionProfileType {
-  /** Basic */
-  Basic = "Basic",
-  /** Standard */
-  Standard = "Standard",
-  /** Advanced */
-  Advanced = "Advanced",
+  /** Off */
+  Off = "Off",
+  /** Emerging */
+  Emerging = "Emerging",
+  /** Core */
+  Core = "Core",
   /** Extended */
   Extended = "Extended",
 }
@@ -15946,9 +16206,9 @@ export enum KnownFirewallPolicyIntrusionDetectionProfileType {
  * {@link KnownFirewallPolicyIntrusionDetectionProfileType} can be used interchangeably with FirewallPolicyIntrusionDetectionProfileType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Basic** \
- * **Standard** \
- * **Advanced** \
+ * **Off** \
+ * **Emerging** \
+ * **Core** \
  * **Extended**
  */
 export type FirewallPolicyIntrusionDetectionProfileType = string;
@@ -17684,21 +17944,6 @@ export enum KnownSecurityPartnerProviderConnectionStatus {
  */
 export type SecurityPartnerProviderConnectionStatus = string;
 
-/** Known values of {@link UsageUnit} that the service accepts. */
-export enum KnownUsageUnit {
-  /** Count */
-  Count = "Count",
-}
-
-/**
- * Defines values for UsageUnit. \
- * {@link KnownUsageUnit} can be used interchangeably with UsageUnit,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Count**
- */
-export type UsageUnit = string;
-
 /** Known values of {@link VirtualNetworkEncryptionEnforcement} that the service accepts. */
 export enum KnownVirtualNetworkEncryptionEnforcement {
   /** DropUnencrypted */
@@ -17779,6 +18024,126 @@ export enum KnownPrivateEndpointVNetPolicies {
  * **Basic**
  */
 export type PrivateEndpointVNetPolicies = string;
+
+/** Known values of {@link ServiceGatewaySkuName} that the service accepts. */
+export enum KnownServiceGatewaySkuName {
+  /** Standard */
+  Standard = "Standard",
+}
+
+/**
+ * Defines values for ServiceGatewaySkuName. \
+ * {@link KnownServiceGatewaySkuName} can be used interchangeably with ServiceGatewaySkuName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Standard**
+ */
+export type ServiceGatewaySkuName = string;
+
+/** Known values of {@link ServiceGatewaySkuTier} that the service accepts. */
+export enum KnownServiceGatewaySkuTier {
+  /** Regional */
+  Regional = "Regional",
+}
+
+/**
+ * Defines values for ServiceGatewaySkuTier. \
+ * {@link KnownServiceGatewaySkuTier} can be used interchangeably with ServiceGatewaySkuTier,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Regional**
+ */
+export type ServiceGatewaySkuTier = string;
+
+/** Known values of {@link UpdateAction} that the service accepts. */
+export enum KnownUpdateAction {
+  /** FullUpdate */
+  FullUpdate = "FullUpdate",
+  /** PartialUpdate */
+  PartialUpdate = "PartialUpdate",
+}
+
+/**
+ * Defines values for UpdateAction. \
+ * {@link KnownUpdateAction} can be used interchangeably with UpdateAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **FullUpdate** \
+ * **PartialUpdate**
+ */
+export type UpdateAction = string;
+
+/** Known values of {@link AddressUpdateAction} that the service accepts. */
+export enum KnownAddressUpdateAction {
+  /** FullUpdate */
+  FullUpdate = "FullUpdate",
+  /** PartialUpdate */
+  PartialUpdate = "PartialUpdate",
+}
+
+/**
+ * Defines values for AddressUpdateAction. \
+ * {@link KnownAddressUpdateAction} can be used interchangeably with AddressUpdateAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **FullUpdate** \
+ * **PartialUpdate**
+ */
+export type AddressUpdateAction = string;
+
+/** Known values of {@link ServiceUpdateAction} that the service accepts. */
+export enum KnownServiceUpdateAction {
+  /** FullUpdate */
+  FullUpdate = "FullUpdate",
+  /** PartialUpdate */
+  PartialUpdate = "PartialUpdate",
+}
+
+/**
+ * Defines values for ServiceUpdateAction. \
+ * {@link KnownServiceUpdateAction} can be used interchangeably with ServiceUpdateAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **FullUpdate** \
+ * **PartialUpdate**
+ */
+export type ServiceUpdateAction = string;
+
+/** Known values of {@link ServiceType} that the service accepts. */
+export enum KnownServiceType {
+  /** Inbound */
+  Inbound = "Inbound",
+  /** Outbound */
+  Outbound = "Outbound",
+  /** InboundOutbound */
+  InboundOutbound = "InboundOutbound",
+}
+
+/**
+ * Defines values for ServiceType. \
+ * {@link KnownServiceType} can be used interchangeably with ServiceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Inbound** \
+ * **Outbound** \
+ * **InboundOutbound**
+ */
+export type ServiceType = string;
+
+/** Known values of {@link UsageUnit} that the service accepts. */
+export enum KnownUsageUnit {
+  /** Count */
+  Count = "Count",
+}
+
+/**
+ * Defines values for UsageUnit. \
+ * {@link KnownUsageUnit} can be used interchangeably with UsageUnit,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Count**
+ */
+export type UsageUnit = string;
 
 /** Known values of {@link SyncRemoteAddressSpace} that the service accepts. */
 export enum KnownSyncRemoteAddressSpace {
@@ -19311,6 +19676,8 @@ export enum KnownWebApplicationFirewallAction {
   Log = "Log",
   /** JSChallenge */
   JSChallenge = "JSChallenge",
+  /** Captcha */
+  Captcha = "CAPTCHA",
 }
 
 /**
@@ -19321,7 +19688,8 @@ export enum KnownWebApplicationFirewallAction {
  * **Allow** \
  * **Block** \
  * **Log** \
- * **JSChallenge**
+ * **JSChallenge** \
+ * **CAPTCHA**
  */
 export type WebApplicationFirewallAction = string;
 
@@ -19523,6 +19891,8 @@ export enum KnownActionType {
   Log = "Log",
   /** JSChallenge */
   JSChallenge = "JSChallenge",
+  /** Captcha */
+  Captcha = "CAPTCHA",
 }
 
 /**
@@ -19534,7 +19904,8 @@ export enum KnownActionType {
  * **Allow** \
  * **Block** \
  * **Log** \
- * **JSChallenge**
+ * **JSChallenge** \
+ * **CAPTCHA**
  */
 export type ActionType = string;
 
@@ -25150,6 +25521,115 @@ export type ServiceEndpointPolicyDefinitionsListByResourceGroupNextResponse =
   ServiceEndpointPolicyDefinitionListResult;
 
 /** Optional parameters. */
+export interface ServiceGatewaysDeleteOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type ServiceGatewaysDeleteResponse = ServiceGatewaysDeleteHeaders;
+
+/** Optional parameters. */
+export interface ServiceGatewaysGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ServiceGatewaysGetResponse = ServiceGateway;
+
+/** Optional parameters. */
+export interface ServiceGatewaysCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ServiceGatewaysCreateOrUpdateResponse = ServiceGateway;
+
+/** Optional parameters. */
+export interface ServiceGatewaysUpdateTagsOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the updateTags operation. */
+export type ServiceGatewaysUpdateTagsResponse = ServiceGateway;
+
+/** Optional parameters. */
+export interface ServiceGatewaysListAllOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAll operation. */
+export type ServiceGatewaysListAllResponse = ServiceGatewayListResult;
+
+/** Optional parameters. */
+export interface ServiceGatewaysListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ServiceGatewaysListResponse = ServiceGatewayListResult;
+
+/** Optional parameters. */
+export interface ServiceGatewaysUpdateAddressLocationsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the updateAddressLocations operation. */
+export type ServiceGatewaysUpdateAddressLocationsResponse =
+  ServiceGatewaysUpdateAddressLocationsHeaders;
+
+/** Optional parameters. */
+export interface ServiceGatewaysUpdateServicesOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the updateServices operation. */
+export type ServiceGatewaysUpdateServicesResponse = ServiceGatewaysUpdateServicesHeaders;
+
+/** Optional parameters. */
+export interface ServiceGatewaysGetAddressLocationsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAddressLocations operation. */
+export type ServiceGatewaysGetAddressLocationsResponse = GetServiceGatewayAddressLocationsResult;
+
+/** Optional parameters. */
+export interface ServiceGatewaysGetServicesOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the getServices operation. */
+export type ServiceGatewaysGetServicesResponse = GetServiceGatewayServicesResult;
+
+/** Optional parameters. */
+export interface ServiceGatewaysListAllNextOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAllNext operation. */
+export type ServiceGatewaysListAllNextResponse = ServiceGatewayListResult;
+
+/** Optional parameters. */
+export interface ServiceGatewaysListNextOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ServiceGatewaysListNextResponse = ServiceGatewayListResult;
+
+/** Optional parameters. */
+export interface ServiceGatewaysGetAddressLocationsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAddressLocationsNext operation. */
+export type ServiceGatewaysGetAddressLocationsNextResponse =
+  GetServiceGatewayAddressLocationsResult;
+
+/** Optional parameters. */
+export interface ServiceGatewaysGetServicesNextOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the getServicesNext operation. */
+export type ServiceGatewaysGetServicesNextResponse = GetServiceGatewayServicesResult;
+
+/** Optional parameters. */
 export interface ServiceTagsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
@@ -25393,6 +25873,69 @@ export interface VirtualNetworkPeeringsListNextOptionalParams extends coreClient
 
 /** Contains response data for the listNext operation. */
 export type VirtualNetworkPeeringsListNextResponse = VirtualNetworkPeeringListResult;
+
+/** Optional parameters. */
+export interface VirtualNetworkAppliancesDeleteOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type VirtualNetworkAppliancesDeleteResponse = VirtualNetworkAppliancesDeleteHeaders;
+
+/** Optional parameters. */
+export interface VirtualNetworkAppliancesGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type VirtualNetworkAppliancesGetResponse = VirtualNetworkAppliance;
+
+/** Optional parameters. */
+export interface VirtualNetworkAppliancesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type VirtualNetworkAppliancesCreateOrUpdateResponse = VirtualNetworkAppliance;
+
+/** Optional parameters. */
+export interface VirtualNetworkAppliancesUpdateTagsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the updateTags operation. */
+export type VirtualNetworkAppliancesUpdateTagsResponse = VirtualNetworkAppliance;
+
+/** Optional parameters. */
+export interface VirtualNetworkAppliancesListAllOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAll operation. */
+export type VirtualNetworkAppliancesListAllResponse = VirtualNetworkApplianceListResult;
+
+/** Optional parameters. */
+export interface VirtualNetworkAppliancesListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type VirtualNetworkAppliancesListResponse = VirtualNetworkApplianceListResult;
+
+/** Optional parameters. */
+export interface VirtualNetworkAppliancesListAllNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAllNext operation. */
+export type VirtualNetworkAppliancesListAllNextResponse = VirtualNetworkApplianceListResult;
+
+/** Optional parameters. */
+export interface VirtualNetworkAppliancesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type VirtualNetworkAppliancesListNextResponse = VirtualNetworkApplianceListResult;
 
 /** Optional parameters. */
 export interface VirtualNetworkGatewaysCreateOrUpdateOptionalParams

@@ -452,6 +452,10 @@ export interface SubjectAlternativeNames {
   dnsNames?: string[];
   /** User principal names. */
   upns?: string[];
+  /** URIs. */
+  uris?: string[];
+  /** IP addresses; supports IPv4 and IPv6. */
+  ipAddresses?: string[];
 }
 
 export function subjectAlternativeNamesSerializer(item: SubjectAlternativeNames): any {
@@ -469,6 +473,16 @@ export function subjectAlternativeNamesSerializer(item: SubjectAlternativeNames)
     upns: !item["upns"]
       ? item["upns"]
       : item["upns"].map((p: any) => {
+          return p;
+        }),
+    uris: !item["uris"]
+      ? item["uris"]
+      : item["uris"].map((p: any) => {
+          return p;
+        }),
+    ipAddresses: !item["ipAddresses"]
+      ? item["ipAddresses"]
+      : item["ipAddresses"].map((p: any) => {
           return p;
         }),
   };
@@ -489,6 +503,16 @@ export function subjectAlternativeNamesDeserializer(item: any): SubjectAlternati
     upns: !item["upns"]
       ? item["upns"]
       : item["upns"].map((p: any) => {
+          return p;
+        }),
+    uris: !item["uris"]
+      ? item["uris"]
+      : item["uris"].map((p: any) => {
+          return p;
+        }),
+    ipAddresses: !item["ipAddresses"]
+      ? item["ipAddresses"]
+      : item["ipAddresses"].map((p: any) => {
           return p;
         }),
   };
@@ -1235,4 +1259,6 @@ export enum KnownVersions {
   V76Preview2 = "7.6-preview.2",
   /** The 7.6 API version. */
   V76 = "7.6",
+  /** The 2025-07-01 API version. */
+  V20250701 = "2025-07-01",
 }

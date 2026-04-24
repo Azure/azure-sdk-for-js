@@ -1,0 +1,6 @@
+{
+  "extends": "../../../tsconfig.src.esm.json",
+  "compilerOptions": {
+    "noFallthroughCasesInSwitch": false
+  }
+}

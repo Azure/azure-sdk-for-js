@@ -4,7 +4,7 @@
 import type { BodyPart, MultipartRequestBody, RawHttpHeadersInput } from "../interfaces.js";
 import { RestError } from "../restError.js";
 import { createHttpHeaders } from "../httpHeaders.js";
-import { stringToUint8Array } from "../util/bytesEncoding.js";
+import { stringToUint8Array } from "#platform/bytesEncoding";
 import { isBinaryBody } from "../util/typeGuards.js";
 
 /**
@@ -140,7 +140,7 @@ function getContentDisposition(descriptor: PartDescriptor): HeaderValue | undefi
   if (descriptor.filename) {
     filename = descriptor.filename;
   } else if (typeof File !== "undefined" && descriptor.body instanceof File) {
-    const filenameFromFile = (descriptor.body as File).name;
+    const filenameFromFile = descriptor.body.name;
     if (filenameFromFile !== "") {
       filename = filenameFromFile;
     }

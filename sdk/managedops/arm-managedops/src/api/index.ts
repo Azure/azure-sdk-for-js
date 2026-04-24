@@ -3,6 +3,6 @@
 
 export {
   createManagedOps,
-  ManagedOpsContext,
-  ManagedOpsClientOptionalParams,
+  type ManagedOpsContext,
+  type ManagedOpsClientOptionalParams,
 } from "./managedOpsContext.js";

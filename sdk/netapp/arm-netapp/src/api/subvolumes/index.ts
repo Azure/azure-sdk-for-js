@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { getMetadata, listByVolume, $delete, update, create, get } from "./operations.js";
-export {
+export type {
   SubvolumesGetMetadataOptionalParams,
   SubvolumesListByVolumeOptionalParams,
   SubvolumesDeleteOptionalParams,
