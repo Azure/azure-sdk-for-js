@@ -36,31 +36,24 @@ const parser = new DOMParser();
  * @param opts - Options that govern the parsing of given xml string
  * `includeRoot` indicates whether the root element is to be included or not in the output
  */
-export function parseXML(str: string, opts: XmlOptions = {}): Promise<any> {
-  try {
-    const updatedOptions: Required<XmlOptions> = {
-      rootName: opts.rootName ?? "",
-      includeRoot: opts.includeRoot ?? false,
-      xmlCharKey: opts.xmlCharKey ?? XML_CHARKEY,
-      cdataPropName: opts.cdataPropName ?? "__cdata",
-      stopNodes: opts.stopNodes ?? [],
-    };
-    const dom = parser.parseFromString(
-      (ttPolicy?.createHTML(str) ?? str) as string,
-      "application/xml",
-    );
-    throwIfError(dom);
+export async function parseXML(str: string, opts: XmlOptions = {}): Promise<any> {
+  const updatedOptions: Required<XmlOptions> = {
+    rootName: opts.rootName ?? "",
+    includeRoot: opts.includeRoot ?? false,
+    xmlCharKey: opts.xmlCharKey ?? XML_CHARKEY,
+    cdataPropName: opts.cdataPropName ?? "__cdata",
+    stopNodes: opts.stopNodes ?? [],
+  };
+  const dom = parser.parseFromString(
+    (ttPolicy?.createHTML(str) ?? str) as string,
+    "application/xml",
+  );
+  throwIfError(dom);
 
-    let obj;
-    if (updatedOptions.includeRoot) {
-      obj = domToObject(dom, updatedOptions);
-    } else {
-      obj = domToObject(dom.childNodes[0], updatedOptions);
-    }
-
-    return Promise.resolve(obj);
-  } catch (err: any) {
-    return Promise.reject(err);
+  if (updatedOptions.includeRoot) {
+    return domToObject(dom, updatedOptions);
+  } else {
+    return domToObject(dom.childNodes[0], updatedOptions);
   }
 }
 
@@ -73,7 +66,7 @@ function getErrorNamespace(): string {
       errorNS =
         parser.parseFromString(invalidXML, "text/xml").getElementsByTagName("parsererror")[0]
           .namespaceURI! ?? "";
-    } catch (ignored: any) {
+    } catch {
       // Most browsers will return a document containing <parsererror>, but IE will throw.
       errorNS = "";
     }
