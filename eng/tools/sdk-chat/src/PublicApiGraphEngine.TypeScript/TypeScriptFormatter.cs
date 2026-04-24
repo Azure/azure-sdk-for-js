@@ -1987,7 +1987,8 @@ public static class TypeScriptFormatter
                 }
             }
 
-            var allNamespaces = index.Modules.SelectMany(m => m.Namespaces ?? []).ToList();
+            var allNamespaces = DeduplicateByName(
+                index.Modules.SelectMany(m => m.Namespaces ?? []).ToList(), n => n.Name);
             foreach (var ns in allNamespaces)
             {
                 if (mainSb.Length >= maxLength) break;
@@ -2000,7 +2001,8 @@ public static class TypeScriptFormatter
             }
 
             // Include remaining variables if space permits
-            var allVariables = index.Modules.SelectMany(m => m.Variables ?? []).ToList();
+            var allVariables = DeduplicateByName(
+                index.Modules.SelectMany(m => m.Variables ?? []).ToList(), v => v.Name);
             foreach (var v in allVariables.Where(v => NormalizeExportPath(v.ExportPath) == "."))
             {
                 if (mainSb.Length >= maxLength) break;

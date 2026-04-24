@@ -13,6 +13,7 @@ using TsFunctionInfo = PublicApiGraphEngine.TypeScript.FunctionInfo;
 using TsPropertyInfo = PublicApiGraphEngine.TypeScript.PropertyInfo;
 using TsMethodInfo = PublicApiGraphEngine.TypeScript.MethodInfo;
 using TsEnumInfo = PublicApiGraphEngine.TypeScript.EnumInfo;
+using TsVariableInfo = PublicApiGraphEngine.TypeScript.VariableInfo;
 using TypeScriptFormatter = PublicApiGraphEngine.TypeScript.TypeScriptFormatter;
 
 namespace PublicApiGraphEngine.Tests;
@@ -1981,5 +1982,431 @@ public class TypeScriptFormatterFixTests
         Assert.NotNull(depBlock);
         Assert.DoesNotContain("type Pipeline", depBlock);
         Assert.Contains("type ValidType", depBlock);
+    }
+
+    // =========================================================================
+    // Deduplication: types re-exported from multiple modules (single condition)
+    // =========================================================================
+
+    /// <summary>
+    /// When the same class is re-exported from multiple modules within a single
+    /// condition (common in packages with barrel files), the formatter should
+    /// deduplicate and emit the class exactly once. Regression test for the
+    /// AIProjectClient duplicate emission bug.
+    /// </summary>
+    [Fact]
+    public void Dedup_SingleCondition_ClassReExportedFromMultipleModules()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@test/reexport-dedup",
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "src/client",
+                    Condition = "import",
+                    ExportPath = ".",
+                    Classes = [new TsClassInfo { Name = "MyClient", ExportPath = ".", EntryPoint = true, Methods = [new TsMethodInfo { Name = "connect", Sig = "(): void" }] }]
+                },
+                new TsModuleInfo
+                {
+                    Name = "src/index",
+                    Condition = "import",
+                    ExportPath = ".",
+                    Classes = [new TsClassInfo { Name = "MyClient", ExportPath = ".", EntryPoint = true, Methods = [new TsMethodInfo { Name = "connect", Sig = "(): void" }] }]
+                },
+                new TsModuleInfo
+                {
+                    Name = "src/barrel",
+                    Condition = "import",
+                    ExportPath = ".",
+                    Classes = [new TsClassInfo { Name = "MyClient", ExportPath = ".", EntryPoint = true, Methods = [new TsMethodInfo { Name = "connect", Sig = "(): void" }] }]
+                }
+            ]
+        };
+
+        var result = TypeScriptFormatter.FormatPerTarget(api);
+        Assert.True(result.ContainsKey("import"));
+        var (dts, _) = result["import"];
+
+        // Class should appear exactly once
+        Assert.Equal(1, CountOccurrences(dts, "class MyClient"));
+    }
+
+    /// <summary>
+    /// Interfaces re-exported from multiple modules should also be deduplicated.
+    /// </summary>
+    [Fact]
+    public void Dedup_SingleCondition_InterfaceReExportedFromMultipleModules()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@test/iface-dedup",
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "src/models",
+                    Condition = "import",
+                    ExportPath = ".",
+                    Interfaces = [new TsInterfaceInfo { Name = "Options", ExportPath = "." }]
+                },
+                new TsModuleInfo
+                {
+                    Name = "src/index",
+                    Condition = "import",
+                    ExportPath = ".",
+                    Interfaces = [new TsInterfaceInfo { Name = "Options", ExportPath = "." }]
+                }
+            ]
+        };
+
+        var result = TypeScriptFormatter.FormatPerTarget(api);
+        var (dts, _) = result["import"];
+
+        Assert.Equal(1, CountOccurrences(dts, "interface Options"));
+    }
+
+    // =========================================================================
+    // Tsconfig: Node types added when API uses Node.js globals (e.g. Buffer)
+    // =========================================================================
+
+    /// <summary>
+    /// When a browser target's rendered output contains Node.js-only types
+    /// like Buffer in type positions, the tsconfig should include @types/node
+    /// even though the target is non-node.
+    /// </summary>
+    [Fact]
+    public void Tsconfig_BrowserWithBufferInTypes_IncludesNodeTypes()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@test/buffer-browser",
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "main",
+                    Condition = "browser",
+                    ExportPath = ".",
+                    Interfaces =
+                    [
+                        new TsInterfaceInfo
+                        {
+                            Name = "FileContent",
+                            ExportPath = ".",
+                            Properties =
+                            [
+                                new TsPropertyInfo { Name = "data", Type = "Buffer | Uint8Array" },
+                                new TsPropertyInfo { Name = "name", Type = "string" }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        };
+
+        var result = TypeScriptFormatter.FormatPerTarget(api);
+        var (_, tsconfig) = result["browser"];
+
+        Assert.Contains("\"node\"", tsconfig);
+    }
+
+    /// <summary>
+    /// When Buffer only appears in a comment (not in a type position), the
+    /// tsconfig should NOT include @types/node — avoids false positives.
+    /// </summary>
+    [Fact]
+    public void Tsconfig_BrowserWithBufferOnlyInComment_NoNodeTypes()
+    {
+        // Create an interface whose doc comment mentions Buffer but doesn't use it as a type
+        var api = new TsApiIndex
+        {
+            Package = "@test/buffer-comment",
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "main",
+                    Condition = "browser",
+                    ExportPath = ".",
+                    Interfaces =
+                    [
+                        new TsInterfaceInfo
+                        {
+                            Name = "StreamOptions",
+                            ExportPath = ".",
+                            Doc = "Buffer is not available in the browser. Use Uint8Array instead.",
+                            Properties =
+                            [
+                                new TsPropertyInfo { Name = "data", Type = "Uint8Array" }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        };
+
+        var result = TypeScriptFormatter.FormatPerTarget(api);
+        var (_, tsconfig) = result["browser"];
+
+        // Should NOT include node types — Buffer only appeared in a comment
+        Assert.Contains("\"types\": []", tsconfig);
+    }
+
+    // =========================================================================
+    // Tsconfig: react-native skips DOM lib
+    // =========================================================================
+
+    /// <summary>
+    /// react-native target should never include DOM lib even when the API uses
+    /// DOM-like types, because react-native provides its own globals.
+    /// </summary>
+    [Fact]
+    public void Tsconfig_ReactNative_NoDomLib()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@test/rn-no-dom",
+            AmbientTypes = new Dictionary<string, List<string>>
+            {
+                ["dom"] = ["AbortSignal", "FormData"]
+            },
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "main",
+                    Condition = "react-native",
+                    ExportPath = ".",
+                    Classes = [new TsClassInfo { Name = "Client", ExportPath = "." }]
+                }
+            ]
+        };
+
+        var result = TypeScriptFormatter.FormatPerTarget(api);
+        var (_, tsconfig) = result["react-native"];
+
+        Assert.DoesNotContain("\"DOM\"", tsconfig);
+        Assert.Contains("\"react-native\"", tsconfig);
+    }
+
+    /// <summary>
+    /// react-native target should include both node and react-native types
+    /// when the API uses Node.js globals.
+    /// </summary>
+    [Fact]
+    public void Tsconfig_ReactNative_WithNodeGlobals_IncludesBothTypes()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@test/rn-buffer",
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "main",
+                    Condition = "react-native",
+                    ExportPath = ".",
+                    Interfaces =
+                    [
+                        new TsInterfaceInfo
+                        {
+                            Name = "FileContent",
+                            ExportPath = ".",
+                            Properties =
+                            [
+                                new TsPropertyInfo { Name = "data", Type = "Buffer" }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        };
+
+        var result = TypeScriptFormatter.FormatPerTarget(api);
+        var (_, tsconfig) = result["react-native"];
+
+        Assert.Contains("\"node\"", tsconfig);
+        Assert.Contains("\"react-native\"", tsconfig);
+    }
+
+    // =========================================================================
+    // Subpath exports: rendered as separate declare module blocks
+    // =========================================================================
+
+    /// <summary>
+    /// Types with different ExportPaths should be rendered in separate
+    /// declare module blocks (main "." and subpath) in per-target mode.
+    /// </summary>
+    [Fact]
+    public void SubpathExports_RenderedAsSeparateDeclareModuleBlocks()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@test/subpaths",
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "main",
+                    Condition = "import",
+                    ExportPath = ".",
+                    Classes = [new TsClassInfo { Name = "MainClient", ExportPath = "." }]
+                },
+                new TsModuleInfo
+                {
+                    Name = "internal/logger",
+                    Condition = "import",
+                    ExportPath = "./internal/logger",
+                    Interfaces = [new TsInterfaceInfo { Name = "LoggerOptions", ExportPath = "./internal/logger" }],
+                    Functions = [new TsFunctionInfo { Name = "createLogger", ExportPath = "./internal/logger", Sig = "(opts: LoggerOptions): Logger" }]
+                }
+            ]
+        };
+
+        var result = TypeScriptFormatter.FormatPerTarget(api);
+        var (dts, _) = result["import"];
+
+        // Main module block
+        Assert.Contains("declare module \"@test/subpaths\"", dts);
+        var mainBlock = ExtractDeclareModuleBlock(dts, "@test/subpaths");
+        Assert.NotNull(mainBlock);
+        Assert.Contains("class MainClient", mainBlock);
+        // Main block should NOT contain subpath types
+        Assert.DoesNotContain("LoggerOptions", mainBlock);
+
+        // Subpath module block
+        Assert.Contains("declare module \"@test/subpaths/internal/logger\"", dts);
+        var subBlock = ExtractDeclareModuleBlock(dts, "@test/subpaths/internal/logger");
+        Assert.NotNull(subBlock);
+        Assert.Contains("interface LoggerOptions", subBlock);
+        Assert.Contains("function createLogger", subBlock);
+        // Subpath should NOT contain main types
+        Assert.DoesNotContain("MainClient", subBlock);
+    }
+
+    /// <summary>
+    /// In per-target mode, subpath exports should also produce separate
+    /// declare module blocks within each condition's output.
+    /// </summary>
+    [Fact]
+    public void SubpathExports_PerTarget_SeparateDeclareModuleBlocks()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@test/subpaths-pt",
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "main",
+                    Condition = "import",
+                    ExportPath = ".",
+                    Classes = [new TsClassInfo { Name = "Client", ExportPath = "." }]
+                },
+                new TsModuleInfo
+                {
+                    Name = "utils",
+                    Condition = "import",
+                    ExportPath = "./utils",
+                    Functions = [new TsFunctionInfo { Name = "parse", ExportPath = "./utils", Sig = "(input: string): object" }]
+                }
+            ]
+        };
+
+        var result = TypeScriptFormatter.FormatPerTarget(api);
+        var (dts, _) = result["import"];
+
+        // Both modules should appear
+        Assert.Contains("declare module \"@test/subpaths-pt\"", dts);
+        Assert.Contains("declare module \"@test/subpaths-pt/utils\"", dts);
+
+        var mainBlock = ExtractDeclareModuleBlock(dts, "@test/subpaths-pt");
+        Assert.NotNull(mainBlock);
+        Assert.Contains("class Client", mainBlock);
+
+        var utilsBlock = ExtractDeclareModuleBlock(dts, "@test/subpaths-pt/utils");
+        Assert.NotNull(utilsBlock);
+        Assert.Contains("function parse", utilsBlock);
+    }
+
+    // =========================================================================
+    // Variables: rendered correctly in output
+    // =========================================================================
+
+    /// <summary>
+    /// Variables should be rendered as export const declarations in per-target output.
+    /// </summary>
+    [Fact]
+    public void Variables_RenderedInPerTargetOutput()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@test/variables",
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "main",
+                    Condition = "import",
+                    ExportPath = ".",
+                    Classes = [new TsClassInfo { Name = "Client", ExportPath = ".", EntryPoint = true }],
+                    Variables =
+                    [
+                        new TsVariableInfo { Name = "DEFAULT_TIMEOUT", Type = "number", IsConst = true, ExportPath = ".", EntryPoint = true },
+                        new TsVariableInfo { Name = "VERSION", Type = "string", IsConst = true, ExportPath = ".", EntryPoint = true }
+                    ]
+                }
+            ]
+        };
+
+        var result = TypeScriptFormatter.FormatPerTarget(api);
+        var (dts, _) = result["import"];
+
+        Assert.Contains("DEFAULT_TIMEOUT", dts);
+        Assert.Contains("VERSION", dts);
+    }
+
+    /// <summary>
+    /// Variables re-exported from multiple modules should be deduplicated.
+    /// </summary>
+    [Fact]
+    public void Variables_Dedup_SingleCondition()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@test/var-dedup",
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "src/constants",
+                    Condition = "import",
+                    ExportPath = ".",
+                    Variables =
+                    [
+                        new TsVariableInfo { Name = "MAX_RETRIES", Type = "number", IsConst = true, ExportPath = "." }
+                    ]
+                },
+                new TsModuleInfo
+                {
+                    Name = "src/index",
+                    Condition = "import",
+                    ExportPath = ".",
+                    Variables =
+                    [
+                        new TsVariableInfo { Name = "MAX_RETRIES", Type = "number", IsConst = true, ExportPath = "." }
+                    ]
+                }
+            ]
+        };
+
+        var result = TypeScriptFormatter.FormatPerTarget(api);
+        var (dts, _) = result["import"];
+
+        // Should appear exactly once
+        Assert.Equal(1, CountOccurrences(dts, "MAX_RETRIES"));
     }
 }
