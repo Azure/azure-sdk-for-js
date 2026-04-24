@@ -321,7 +321,7 @@ export class ContentUnderstandingClient {
         };
       },
       enumerable: true,
-      configurable: true,
+      configurable: false,
     });
 
     // Backward compatibility: keep operationId directly on the poller (deprecated).
@@ -396,7 +396,7 @@ export class ContentUnderstandingClient {
         };
       },
       enumerable: true,
-      configurable: true,
+      configurable: false,
     });
 
     // Backward compatibility: keep operationId directly on the poller (deprecated).
