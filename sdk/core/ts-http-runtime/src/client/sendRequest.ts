@@ -155,7 +155,7 @@ function buildPipelineRequest(
   });
 
   return options.tracingOptions
-    ? { ...request, ...{ tracingOptions: options.tracingOptions } }
+    ? { ...request, tracingOptions: options.tracingOptions }
     : request;
 }
 
