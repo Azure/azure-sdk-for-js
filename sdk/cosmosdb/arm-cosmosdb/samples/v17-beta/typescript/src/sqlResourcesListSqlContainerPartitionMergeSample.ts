@@ -1,39 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MergeParameters} from "@azure/arm-cosmosdb";
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Merges the partitions of a SQL Container
+ * This sample demonstrates how to merges the partitions of a SQL Container
  *
- * @summary Merges the partitions of a SQL Container
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBSqlContainerPartitionMerge.json
+ * @summary merges the partitions of a SQL Container
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBSqlContainerPartitionMerge.json
  */
-async function cosmosDbSqlContainerPartitionMerge(): Promise<void> {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rgName";
-  const accountName = "ddb1";
-  const databaseName = "databaseName";
-  const containerName = "containerName";
-  const mergeParameters: MergeParameters = { isDryRun: false };
+async function cosmosDBSqlContainerPartitionMerge(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result =
-    await client.sqlResources.beginListSqlContainerPartitionMergeAndWait(
-      resourceGroupName,
-      accountName,
-      databaseName,
-      containerName,
-      mergeParameters,
-    );
+  const result = await client.sqlResources.listSqlContainerPartitionMerge(
+    "rgName",
+    "ddb1",
+    "databaseName",
+    "containerName",
+    { isDryRun: false },
+  );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await cosmosDbSqlContainerPartitionMerge();
+  await cosmosDBSqlContainerPartitionMerge();
 }
 
 main().catch(console.error);

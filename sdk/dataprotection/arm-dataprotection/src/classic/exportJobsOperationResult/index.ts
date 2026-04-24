@@ -14,7 +14,7 @@ export interface ExportJobsOperationResultOperations {
     vaultName: string,
     operationId: string,
     options?: ExportJobsOperationResultGetOptionalParams,
-  ) => Promise<ExportJobsResult | null>;
+  ) => Promise<ExportJobsResult>;
 }
 
 function _getExportJobsOperationResult(context: DataProtectionContext) {

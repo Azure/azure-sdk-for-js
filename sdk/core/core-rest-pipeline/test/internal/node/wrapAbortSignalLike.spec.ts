@@ -27,7 +27,7 @@ describe("wrapAbortSignalLike", () => {
     const signalLike = {
       aborted: false,
       reason: undefined as Error | undefined,
-      addEventListener: vi.fn((_, handler) => {
+      addEventListener: vi.fn((_: string, handler: () => void) => {
         registeredHandler = handler;
       }),
       removeEventListener: vi.fn(),

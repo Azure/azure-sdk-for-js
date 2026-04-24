@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/azurestackhci/arm-azurestackhci)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-azurestackhci)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-azurestackhci)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-azurestackhci?view=azure-node-preview)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/azurestackhci/arm-azurestackhci/samples)
 
 ## Getting started
