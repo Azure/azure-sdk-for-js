@@ -3100,7 +3100,7 @@ export enum KnownDiskSecurityTypes {
     ConfidentialVMDiskEncryptedWithCustomerKey = "ConfidentialVM_DiskEncryptedWithCustomerKey",
     ConfidentialVMDiskEncryptedWithPlatformKey = "ConfidentialVM_DiskEncryptedWithPlatformKey",
     ConfidentialVMNonPersistedTPM = "ConfidentialVM_NonPersistedTPM",
-    ConfidentialVMVMGuestStateOnlyEncryptedWithPlatformKey = "ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey",
+    ConfidentialVMVmguestStateOnlyEncryptedWithPlatformKey = "ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey",
     TrustedLaunch = "TrustedLaunch"
 }
 
@@ -3345,8 +3345,8 @@ export enum KnownNetworkAccessPolicy {
 
 // @public
 export enum KnownNetworkApiVersion {
-    NetworkApiVersion20201101 = "2020-11-01",
-    NetworkApiVersion20221101 = "2022-11-01"
+    TwoThousandTwenty1101 = "2020-11-01",
+    TwoThousandTwentyTwo1101 = "2022-11-01"
 }
 
 // @public

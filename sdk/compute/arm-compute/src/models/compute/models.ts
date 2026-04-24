@@ -2760,9 +2760,9 @@ export type NetworkInterfaceAuxiliarySku = string;
 /** specifies the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations */
 export enum KnownNetworkApiVersion {
   /** 2020-11-01 */
-  NetworkApiVersion20201101 = "2020-11-01",
+  TwoThousandTwenty1101 = "2020-11-01",
   /** 2022-11-01 */
-  NetworkApiVersion20221101 = "2022-11-01",
+  TwoThousandTwentyTwo1101 = "2022-11-01",
 }
 
 /**

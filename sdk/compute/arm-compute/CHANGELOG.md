@@ -1,6 +1,6 @@
 # Release History
 
-## 24.0.0 (2026-04-21)
+## 24.0.0 (2026-04-24)
 
 ### Features Added
   - Added operation group VirtualMachineScaleSetLifeCycleHookEventsOperations
@@ -244,9 +244,6 @@
   - Added Enum KnownStorageFaultDomainAlignmentType
   - Added Enum KnownVMScaleSetLifecycleHookEventState
   - Added Enum KnownVMScaleSetLifecycleHookEventType
-  - Enum KnownDiskSecurityTypes has a new value ConfidentialVMVMGuestStateOnlyEncryptedWithPlatformKey
-  - Enum KnownNetworkApiVersion has a new value NetworkApiVersion20201101
-  - Enum KnownNetworkApiVersion has a new value NetworkApiVersion20221101
   - Enum KnownSecurityTypes has a new value Standard
   - Enum KnownZonalPlatformFaultDomainAlignMode has a new value BestEffortAligned
 
@@ -362,9 +359,6 @@
   - Removed Enum KnownAvailabilitySetSkuTypes
   - Removed Enum KnownCloudServiceSlotType
   - Removed Enum KnownCloudServiceUpgradeMode
-  - Enum KnownDiskSecurityTypes no longer has value ConfidentialVMVmguestStateOnlyEncryptedWithPlatformKey
-  - Enum KnownNetworkApiVersion no longer has value TwoThousandTwenty1101
-  - Enum KnownNetworkApiVersion no longer has value TwoThousandTwentyTwo1101
 
 ## 23.3.0 (2026-01-07)
 
