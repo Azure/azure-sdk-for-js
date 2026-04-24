@@ -1,0 +1,43 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export type {
+  AutomationsAPIAutomation,
+  AutomationsAPIAutomationProperties,
+  AutomationsAPIAutomationScope,
+  AutomationsAPIAutomationSource,
+  AutomationsAPIEventSource,
+  AutomationsAPIAutomationRuleSet,
+  AutomationsAPIAutomationTriggeringRule,
+  AutomationsAPIPropertyType,
+  AutomationsAPIOperator,
+  AutomationsAPIAutomationAction,
+  AutomationsAPIAutomationActionUnion,
+  AutomationsAPIAutomationActionLogicApp,
+  AutomationsAPIAutomationActionEventHub,
+  AutomationsAPIAutomationActionWorkspace,
+  AutomationsAPIAutomationUpdateModel,
+  AutomationsAPIAutomationValidationStatus,
+  AutomationsAPISecurityContact,
+  AutomationsAPISecurityContactProperties,
+  AutomationsAPINotificationsSource,
+  AutomationsAPINotificationsSourceUnion,
+  AutomationsAPISourceType,
+  AutomationsAPINotificationsSourceAlert,
+  AutomationsAPIMinimalSeverity,
+  AutomationsAPINotificationsSourceAttackPath,
+  AutomationsAPIMinimalRiskLevel,
+  AutomationsAPISecurityContactPropertiesNotificationsByRole,
+  AutomationsAPISecurityContactRole,
+  AutomationsAPISecurityContactName,
+} from "./models.js";
+export {
+  KnownAutomationsAPIEventSource,
+  KnownAutomationsAPIPropertyType,
+  KnownAutomationsAPIOperator,
+  KnownAutomationsAPISourceType,
+  KnownAutomationsAPIMinimalSeverity,
+  KnownAutomationsAPIMinimalRiskLevel,
+  KnownAutomationsAPISecurityContactRole,
+  KnownAutomationsAPISecurityContactName,
+} from "./models.js";
