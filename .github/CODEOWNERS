@@ -397,7 +397,7 @@
 # PRLabel: %Mgmt
 /sdk/azurestack/arm-azurestack/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/azurestackhci/arm-azurestackhci/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -655,7 +655,7 @@
 # PRLabel: %Mgmt
 /sdk/iotfirmwaredefense/arm-iotfirmwaredefense @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/iotoperations/arm-iotoperations/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -790,7 +790,7 @@
 # PRLabel: %Mgmt
 /sdk/mysql/arm-mysql-flexible/      @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/netapp/arm-netapp/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -1668,6 +1668,9 @@ sdk/servicegroups/arm-servicegroups/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 sdk/relationships/arm-relationships/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
+sdk/alertprocessingrules/arm-alertprocessingrules/ @qiaozha @MaryGao @JialinHuang803
 
 ###########
 # Config

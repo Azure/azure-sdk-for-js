@@ -14,6 +14,7 @@ import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
+  UpdatesPrepareOptionalParams,
   UpdatesPostOptionalParams,
   UpdatesListOptionalParams,
   UpdatesDeleteOptionalParams,
@@ -23,6 +24,59 @@ import type {
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { PollerLike, OperationState } from "@azure/core-lro";
+
+export function _prepareSend(
+  context: Client,
+  resourceGroupName: string,
+  clusterName: string,
+  updateName: string,
+  options: UpdatesPrepareOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/updates/{updateName}/prepare{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      clusterName: clusterName,
+      updateName: updateName,
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
+}
+
+export async function _prepareDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["202", "204", "200", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return;
+}
+
+/** Prepare Update */
+export function prepare(
+  context: Client,
+  resourceGroupName: string,
+  clusterName: string,
+  updateName: string,
+  options: UpdatesPrepareOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(context, _prepareDeserialize, ["202", "204", "200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _prepareSend(context, resourceGroupName, clusterName, updateName, options),
+    resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
+  }) as PollerLike<OperationState<void>, void>;
+}
 
 export function _postSend(
   context: Client,
@@ -38,7 +92,7 @@ export function _postSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       updateName: updateName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -73,7 +127,7 @@ export function post(
     getInitialResponse: () =>
       _postSend(context, resourceGroupName, clusterName, updateName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-02-01",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -89,7 +143,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -125,7 +179,11 @@ export function list(
     () => _listSend(context, resourceGroupName, clusterName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-02-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    },
   );
 }
 
@@ -143,7 +201,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       updateName: updateName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -183,7 +241,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, clusterName, updateName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-02-01",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -202,7 +260,7 @@ export function _putSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       updateName: updateName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -262,7 +320,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       updateName: updateName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
