@@ -220,7 +220,6 @@ export interface Client {
 import type { NodeJSReadableStream } from "#platform/types";
 import type { WebReadableStream } from "@typespec/ts-http-runtime";
 export type { NodeJSReadableStream } from "#platform/types";
-export type { WebReadableStream } from "@typespec/ts-http-runtime";
 
 /**
  * Http Response which body is a NodeJS stream object

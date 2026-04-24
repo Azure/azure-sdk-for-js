@@ -20,7 +20,7 @@ import type { RequestBodyType } from '@azure/core-rest-pipeline';
 import type { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 import type { TransferProgressEvent } from '@azure/core-rest-pipeline';
-import { WebReadableStream } from '@typespec/ts-http-runtime';
+import type { WebReadableStream } from '@typespec/ts-http-runtime';
 
 // @public
 export function addCredentialPipelinePolicy(pipeline: Pipeline, endpoint: string, options?: AddCredentialPipelinePolicyOptions): void;
@@ -202,7 +202,5 @@ export type StreamableMethod<TResponse = PathUncheckedResponse> = PromiseLike<TR
     asNodeStream: () => Promise<HttpNodeStreamResponse>;
     asBrowserStream: () => Promise<HttpBrowserStreamResponse>;
 };
-
-export { WebReadableStream }
 
 ```
