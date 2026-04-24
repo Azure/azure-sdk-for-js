@@ -1,4 +1,6 @@
 {
-  "apiVersion": "2025-10-01-preview",
-  "emitterVersion": "0.47.0"
+  "apiVersions": {
+    "TextTranslation": "2025-10-01-preview"
+  },
+  "emitterVersion": "0.52.2"
 }

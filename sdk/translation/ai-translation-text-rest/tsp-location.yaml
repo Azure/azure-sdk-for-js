@@ -1,4 +1,4 @@
 directory: specification/translation/data-plane/TextTranslation
-commit: 90d45385f572aaf6354fa8b18b0125e7b99d6785
+commit: 9afcf60589206355cc4778293354f2848a8f38f1
 repo: Azure/azure-rest-api-specs
 additionalDirectories: 
