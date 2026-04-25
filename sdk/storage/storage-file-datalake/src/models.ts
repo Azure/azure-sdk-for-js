@@ -52,7 +52,7 @@ import type {
   PathSetAccessControlHeaders,
   PathSetExpiryHeaders,
   PathUndeleteHeaders,
-} from "./generated/src/models/index.js";
+} from "./generated-classic-models.js";
 import type { DataLakeSASPermissions } from "./sas/DataLakeSASPermissions.js";
 import type { DirectorySASPermissions } from "./sas/DirectorySASPermissions.js";
 import type { FileSystemSASPermissions } from "./sas/FileSystemSASPermissions.js";
@@ -96,7 +96,7 @@ export type {
   PathRenameMode as PathRenameModeModel,
   PathExpiryOptions as FileExpiryMode,
   PathSetExpiryHeaders as FileSetExpiryHeaders,
-} from "./generated/src/models/index.js";
+} from "./generated-classic-models.js";
 
 export type PathCreateResponse = WithResponse<PathCreateHeaders, PathCreateHeaders>;
 export type PathDeleteResponse = WithResponse<PathDeleteHeaders, PathDeleteHeaders>;
