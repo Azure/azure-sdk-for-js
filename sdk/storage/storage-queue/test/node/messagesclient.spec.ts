@@ -4,8 +4,8 @@
 import {
   getQSU,
   getConnectionStringFromEnvironment,
+  createAndStartRecorder,
   getUniqueName,
-  recorderEnvSetup,
   configureStorageClient,
 } from "../utils/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
@@ -23,8 +23,7 @@ describe("QueueClient message methods, Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     const queueServiceClient = getQSU(recorder);
     queueName = recorder.variable("queue", getUniqueName("queue"));
     queueClient = queueServiceClient.getQueueClient(queueName);
@@ -104,7 +103,7 @@ describe("QueueClient message methods, Node.js only", () => {
     }
     assert.isDefined(error);
     assert.include(
-      error.message,
+      error.details.message,
       "The request body is too large and exceeds the maximum permissible limit.",
     );
   });
