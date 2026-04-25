@@ -26,7 +26,7 @@ export function createFilePartDescriptor(
   } else {
     return {
       name: partName,
-      body: fileInput,
+      body: fileInput as FileContents,
       contentType: defaultContentType,
     };
   }
