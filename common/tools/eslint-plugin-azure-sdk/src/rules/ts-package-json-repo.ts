@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @file Rule to force package.json's repository value to be set to github:Azure/azure-sdk-for-js.
+ * @file Rule to force package.json's repository value to be set to type "git" and url "git+https://github.com/Azure/azure-sdk-for-js".
  *
  */
 
@@ -17,7 +17,7 @@ export default createRule({
   meta: {
     type: "suggestion",
     docs: {
-      description: "force package.json's repository value to be 'github:Azure/azure-sdk-for-js'",
+      description: "force package.json's repository value to be type 'git' and url 'git+https://github.com/Azure/azure-sdk-for-js'",
     },
     messages: {
       ...VerifierMessages,
@@ -27,9 +27,15 @@ export default createRule({
   },
   defaultOptions: [],
   create(context) {
-    const verifiers = getVerifiers(context, {
+    const typeVerifiers = getVerifiers(context, {
       outer: "repository",
-      expected: "github:Azure/azure-sdk-for-js",
+      inner: "type",
+      expected: "git",
+    });
+    const urlVerifiers = getVerifiers(context, {
+      outer: "repository",
+      inner: "url",
+      expected: "git+https://github.com/Azure/azure-sdk-for-js",
     });
 
     if (stripPath(context.filename) !== "package.json") {
@@ -37,11 +43,21 @@ export default createRule({
     }
     return {
       // check to see if repository exists at the outermost level
-      "ExpressionStatement > ObjectExpression": verifiers.existsInFile,
+      "ExpressionStatement > ObjectExpression": typeVerifiers.existsInFile,
 
-      // check the node corresponding to repository to see if its value is github:Azure/azure-sdk-for-js
-      "ExpressionStatement > ObjectExpression > Property[key.value='repository']":
-        verifiers.outerMatchesExpected,
+      // check that type and url are members of repository
+      "ExpressionStatement > ObjectExpression > Property[key.value='repository']": (node) => {
+        typeVerifiers.isMemberOf(node);
+        urlVerifiers.isMemberOf(node);
+      },
+
+      // check the node corresponding to repository.type to see if it is set to "git"
+      "ExpressionStatement > ObjectExpression > Property[key.value='repository'] > ObjectExpression > Property[key.value='type']":
+        typeVerifiers.innerMatchesExpected,
+
+      // check the node corresponding to repository.url to see if it is set to "git+https://github.com/Azure/azure-sdk-for-js"
+      "ExpressionStatement > ObjectExpression > Property[key.value='repository'] > ObjectExpression > Property[key.value='url']":
+        urlVerifiers.innerMatchesExpected,
     };
   },
 });

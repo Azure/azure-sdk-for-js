@@ -48,7 +48,11 @@
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/appcontainers/arm-appcontainers"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -85,7 +89,7 @@
   "autoPublish": true,
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appcontainers/arm-appcontainers",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appcontainers/arm-appcontainers/README.md",
   "//sampleConfiguration": {
     "productName": "",
     "productSlugs": [

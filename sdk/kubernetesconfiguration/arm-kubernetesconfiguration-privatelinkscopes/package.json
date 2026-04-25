@@ -141,7 +141,11 @@
     "LICENSE"
   ],
   "sdk-type": "mgmt",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/kubernetesconfiguration/arm-kubernetesconfiguration-privatelinkscopes"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },

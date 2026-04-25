@@ -11,8 +11,8 @@ export default mergeConfig(
     test: {
       alias: [
         {
-          find: "../commonjs/state.js",
-          replacement: resolve("./dist/commonjs/state.js"),
+          find: "../commonjs/state-cjs.js",
+          replacement: resolve("./dist/commonjs/state-cjs.js"),
         },
       ],
     },

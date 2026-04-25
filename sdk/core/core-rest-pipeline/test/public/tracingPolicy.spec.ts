@@ -18,8 +18,28 @@ import {
   type TracingContext,
   type TracingSpan,
   type TracingSpanOptions,
+  createTracingClient,
   useInstrumenter,
 } from "@azure/core-tracing";
+import { getUserAgentValue } from "../../src/util/userAgent.js";
+
+// Mock createTracingClient for testing the error path
+vi.mock("@azure/core-tracing", async (importOriginal) => {
+  const original = await importOriginal<typeof import("@azure/core-tracing")>();
+  return {
+    ...original,
+    createTracingClient: vi.fn(original.createTracingClient),
+  };
+});
+
+// Mock getUserAgentValue so we can control the user agent string
+vi.mock("../../src/util/userAgent.js", async (importOriginal) => {
+  const original = await importOriginal<typeof import("../../src/util/userAgent.js")>();
+  return {
+    ...original,
+    getUserAgentValue: vi.fn(original.getUserAgentValue),
+  };
+});
 
 class MockSpan implements TracingSpan {
   spanAttributes: Record<string, unknown> = {};
@@ -186,7 +206,9 @@ describe("tracingPolicy", function () {
       assert.fail("expected span to be created");
     }
 
-    const spanUrlValue = new URL(createdSpan.getAttribute("http.url") as string);
+    const httpUrlAttr = createdSpan.getAttribute("http.url");
+    assert.isString(httpUrlAttr, "expected http.url attribute to be a string");
+    const spanUrlValue = new URL(httpUrlAttr as string);
     assert.equal(spanUrlValue.searchParams.get("redactedParam"), "REDACTED");
     assert.equal(spanUrlValue.searchParams.get("allowedQueryParam"), "allowedValue");
   });
@@ -296,7 +318,7 @@ describe("tracingPolicy", function () {
       const { request, next } = createTestRequest();
       const policy = tracingPolicy();
 
-      await expect(policy.sendRequest(request, next)).resolves;
+      await expect(policy.sendRequest(request, next)).resolves.toMatchObject({ status: 200 });
     });
 
     it("will not fail the request when post-processing success fails", async () => {
@@ -308,7 +330,7 @@ describe("tracingPolicy", function () {
       const { request, next } = createTestRequest();
       const policy = tracingPolicy();
 
-      await expect(policy.sendRequest(request, next)).resolves;
+      await expect(policy.sendRequest(request, next)).resolves.toMatchObject({ status: 200 });
     });
 
     it("will not fail the request when post-processing error fails", async () => {
@@ -323,6 +345,172 @@ describe("tracingPolicy", function () {
 
       // Expect the pipeline request error, _not_ the error that is thrown when ending a span.
       await expect(policy.sendRequest(request, next)).rejects.toThrow(expectedError);
+    });
+  });
+
+  class NonRecordingSpan extends MockSpan {
+    isRecording(): boolean {
+      return false;
+    }
+  }
+
+  describe("additional branch coverage", function () {
+    beforeEach(() => {
+      vi.mocked(createTracingClient).mockRestore();
+    });
+
+    it("passes through when tracingClient creation fails", async () => {
+      // Make createTracingClient throw to exercise tryCreateTracingClient error path
+      vi.mocked(createTracingClient).mockImplementation(() => {
+        throw new Error("tracing not available");
+      });
+
+      const policy = tracingPolicy();
+      const request = createPipelineRequest({
+        url: "https://example.com",
+        tracingOptions: { tracingContext: noopTracingContext },
+      });
+      const next = vi.fn<SendRequest>();
+      const response: PipelineResponse = {
+        headers: createHttpHeaders(),
+        request,
+        status: 200,
+      };
+      next.mockResolvedValue(response);
+
+      const result = await policy.sendRequest(request, next);
+      assert.equal(result.status, 200);
+      // next should have been called directly (skipping tracing)
+      expect(next).toHaveBeenCalledOnce();
+    });
+
+    it("skips tracing when span is not recording", async () => {
+      const nonRecordingSpan = new NonRecordingSpan("non-recording");
+      activeInstrumenter.setStaticSpan(nonRecordingSpan);
+
+      const policy = tracingPolicy();
+      const request = createPipelineRequest({
+        url: "https://example.com",
+        tracingOptions: { tracingContext: noopTracingContext },
+      });
+      const next = vi.fn<SendRequest>();
+      const response: PipelineResponse = {
+        headers: createHttpHeaders(),
+        request,
+        status: 200,
+      };
+      next.mockResolvedValue(response);
+
+      await policy.sendRequest(request, next);
+      assert.isTrue(nonRecordingSpan.endCalled, "non-recording span should be ended");
+      // No http.status_code attribute since tryProcessResponse is never called
+      assert.isUndefined(nonRecordingSpan.getAttribute("http.status_code"));
+    });
+
+    it("sets serviceRequestId attribute when x-ms-request-id header is present", async () => {
+      const policy = tracingPolicy();
+      const request = createPipelineRequest({
+        url: "https://example.com",
+        tracingOptions: { tracingContext: noopTracingContext },
+      });
+
+      const response: PipelineResponse = {
+        headers: createHttpHeaders({ "x-ms-request-id": "test-request-id" }),
+        request,
+        status: 200,
+      };
+      const next = vi.fn<SendRequest>();
+      next.mockResolvedValue(response);
+
+      await policy.sendRequest(request, next);
+
+      assert.isDefined(activeInstrumenter.lastSpanCreated, "Expected span to be created");
+      const span = activeInstrumenter.lastSpanCreated;
+      assert.equal(span?.getAttribute("serviceRequestId"), "test-request-id");
+      assert.equal(span?.getAttribute("http.status_code"), 200);
+    });
+
+    it("handles error thrown by span.setStatus in tryProcessError", async () => {
+      const mockSpan = new MockSpan("mock");
+      vi.spyOn(mockSpan, "setStatus").mockImplementation(() => {
+        throw new Error("setStatus failed");
+      });
+      activeInstrumenter.setStaticSpan(mockSpan);
+
+      const policy = tracingPolicy();
+      const request = createPipelineRequest({
+        url: "https://example.com",
+        tracingOptions: { tracingContext: noopTracingContext },
+      });
+      const next = vi.fn<SendRequest>();
+      const expectedError = new RestError("Bad Request.", { statusCode: 400 });
+      next.mockRejectedValue(expectedError);
+
+      // The pipeline error should propagate, not the span processing error
+      await expect(policy.sendRequest(request, next)).rejects.toThrow(expectedError);
+    });
+
+    it("handles error that is not a RestError (no statusCode attribute)", async () => {
+      const policy = tracingPolicy();
+      const request = createPipelineRequest({
+        url: "https://example.com",
+        tracingOptions: { tracingContext: noopTracingContext },
+      });
+
+      const next = vi.fn<SendRequest>();
+      const genericError = new Error("generic error");
+      next.mockRejectedValue(genericError);
+
+      await expect(policy.sendRequest(request, next)).rejects.toThrow("generic error");
+      assert.isDefined(activeInstrumenter.lastSpanCreated, "Expected span to be created");
+      const span = activeInstrumenter.lastSpanCreated;
+      assert.equal(span?.status?.status, "error");
+      assert.isTrue(span?.endCalled);
+      assert.isUndefined(span?.getAttribute("http.status_code"));
+    });
+
+    it("handles non-Error thrown values in tryProcessError", async () => {
+      const policy = tracingPolicy();
+      const request = createPipelineRequest({
+        url: "https://example.com",
+        tracingOptions: { tracingContext: noopTracingContext },
+      });
+
+      const next = vi.fn<SendRequest>();
+      next.mockRejectedValue("string error");
+
+      await expect(policy.sendRequest(request, next)).rejects.toEqual("string error");
+      assert.isDefined(activeInstrumenter.lastSpanCreated, "Expected span to be created");
+      const span = activeInstrumenter.lastSpanCreated;
+      assert.equal(span?.status?.status, "error");
+      if (span?.status?.status === "error") {
+        assert.isUndefined(span.status.error);
+      }
+      assert.isTrue(span?.endCalled);
+    });
+
+    it("does not overwrite http.user_agent when userAgent is empty", async () => {
+      vi.mocked(getUserAgentValue).mockResolvedValue("");
+
+      const policy = tracingPolicy();
+      const request = createPipelineRequest({
+        url: "https://example.com",
+        tracingOptions: { tracingContext: noopTracingContext },
+      });
+      const next = vi.fn<SendRequest>();
+      const response: PipelineResponse = {
+        headers: createHttpHeaders(),
+        request,
+        status: 200,
+      };
+      next.mockResolvedValue(response);
+
+      await policy.sendRequest(request, next);
+      assert.isDefined(activeInstrumenter.lastSpanCreated, "Expected span to be created");
+      const span = activeInstrumenter.lastSpanCreated;
+      // userAgent is "" — the initial spanAttributes object sets http.user_agent to "",
+      // and the if(userAgent) guard skips the redundant overwrite
+      assert.equal(span?.getAttribute("http.user_agent"), "");
     });
   });
 });

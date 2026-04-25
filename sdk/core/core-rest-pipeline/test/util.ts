@@ -3,6 +3,7 @@
 
 import type { RequestBodyType } from "../src/interfaces.js";
 import { assert } from "vitest";
+import { stringToUint8Array } from "@azure/core-util";
 
 function isAsyncIterable(value: unknown): value is AsyncIterable<Uint8Array> {
   return Symbol.asyncIterator in Object(value);
@@ -35,7 +36,7 @@ export async function assertBodyMatches(
     // ReadableStream or NodeJS.ReadableStream — collect chunks via async iteration.
     const chunks: Uint8Array[] = [];
     for await (const chunk of actual) {
-      chunks.push(chunk instanceof Uint8Array ? chunk : new TextEncoder().encode(String(chunk)));
+      chunks.push(chunk instanceof Uint8Array ? chunk : stringToUint8Array(String(chunk), "utf-8"));
     }
     const totalLength = chunks.reduce((sum, c) => sum + c.byteLength, 0);
     actualBytes = new Uint8Array(totalLength);
