@@ -180,20 +180,29 @@ export async function compileSampleTests(
   try {
     for (const filePath of testFiles) {
       const relativePath = path.relative(testPublicPath, filePath);
-      const baseName = path.basename(relativePath, ".spec.ts") + ".ts";
-      const outputPath = path.join(stagingDir, baseName);
+
+      // Preserve subdirectory structure: samples/node/foo.spec.ts → node/foo.ts
+      // Strip the leading "samples/" prefix if present, then change extension
+      const pathWithinSamples = relativePath.startsWith("samples" + path.sep)
+        ? relativePath.slice(("samples" + path.sep).length)
+        : relativePath;
+      const outputRelative = pathWithinSamples.replace(/\.spec\.ts$/, ".ts");
+      const outputPath = path.join(stagingDir, outputRelative);
 
       // Detect platform from subdirectory: samples/node/ → node, samples/browser/ → browser
       const segments = relativePath.split(path.sep);
-      const platform =
-        segments.includes("browser") ? "browser" : segments.includes("node") ? "node" : undefined;
+      const platform = segments.includes("browser")
+        ? "browser"
+        : segments.includes("node")
+          ? "node"
+          : undefined;
 
       log.info(`  Compiling: ${relativePath}${platform ? ` (${platform})` : ""}`);
 
       const sourceText = readFileSync(filePath, "utf-8");
       const result = compileSampleTest(sourceText, {
         packageName,
-        fileName: relativePath,
+        fileName: filePath, // Absolute path needed for helper path computation
         resolveHelper,
         platform,
       });
@@ -212,27 +221,33 @@ export async function compileSampleTests(
       writeFileSync(outputPath, result.outputText, "utf-8");
       compiledCount++;
 
-      // Write compiled helper files to staging dir
+      // Write compiled helper files to staging dir (preserve relative structure)
       for (const [helperSpecifier, helperText] of result.helperFiles) {
-        // Resolve helper path relative to spec file's directory
-        const helperRelative = path.normalize(
-          path.join(path.dirname(relativePath), helperSpecifier.replace(/\.js$/, ".ts")),
-        );
-        const helperBaseName = path.basename(helperRelative);
-        const existingSource = writtenHelpers.get(helperBaseName);
+        // helperSpecifier is relative to the spec file's directory (e.g., "./utils.ts")
+        // Resolve to absolute, then back to relative to testPublicPath
+        const helperAbsolute = path.resolve(path.dirname(filePath), helperSpecifier);
+        const helperRelative = path.relative(testPublicPath, helperAbsolute);
+
+        // Strip samples/ prefix for output path
+        const helperWithinSamples = helperRelative.startsWith("samples" + path.sep)
+          ? helperRelative.slice(("samples" + path.sep).length)
+          : helperRelative;
+        const helperOutputPath = path.join(stagingDir, helperWithinSamples);
+
+        const existingSource = writtenHelpers.get(helperWithinSamples);
         if (existingSource !== undefined) {
           if (existingSource !== helperRelative) {
             log.warn(
-              `    Helper basename collision: "${helperBaseName}" from "${helperRelative}" ` +
+              `    Helper path collision: "${helperWithinSamples}" from "${helperRelative}" ` +
                 `conflicts with "${existingSource}". Skipping — rename one to avoid ambiguity.`,
             );
           }
           // Same source or collision — skip
         } else {
-          const helperOutputPath = path.join(stagingDir, helperBaseName);
+          mkdirSync(path.dirname(helperOutputPath), { recursive: true });
           writeFileSync(helperOutputPath, helperText, "utf-8");
-          writtenHelpers.set(helperBaseName, helperRelative);
-          log.info(`    Helper: ${helperBaseName}`);
+          writtenHelpers.set(helperWithinSamples, helperRelative);
+          log.info(`    Helper: ${helperWithinSamples}`);
         }
       }
     }
