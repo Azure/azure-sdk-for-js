@@ -1,0 +1,41 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export {
+  restore,
+  getStatistics,
+  setAccessPolicy,
+  getAccessPolicy,
+  setMetadata,
+  setProperties,
+  getPermission,
+  createPermission,
+  createSnapshot,
+  breakLease,
+  renewLease,
+  changeLease,
+  releaseLease,
+  acquireLease,
+  $delete,
+  getProperties,
+  create,
+} from "./operations.js";
+export type {
+  ShareRestoreOptionalParams,
+  ShareGetStatisticsOptionalParams,
+  ShareSetAccessPolicyOptionalParams,
+  ShareGetAccessPolicyOptionalParams,
+  ShareSetMetadataOptionalParams,
+  ShareSetPropertiesOptionalParams,
+  ShareGetPermissionOptionalParams,
+  ShareCreatePermissionOptionalParams,
+  ShareCreateSnapshotOptionalParams,
+  ShareBreakLeaseOptionalParams,
+  ShareRenewLeaseOptionalParams,
+  ShareChangeLeaseOptionalParams,
+  ShareReleaseLeaseOptionalParams,
+  ShareAcquireLeaseOptionalParams,
+  ShareDeleteOptionalParams,
+  ShareGetPropertiesOptionalParams,
+  ShareCreateOptionalParams,
+} from "./options.js";

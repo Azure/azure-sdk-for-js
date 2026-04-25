@@ -1,21 +1,51 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageClient as StorageClientContext } from "./generated/src/index.js";
-import { StorageContextClient } from "./StorageContextClient.js";
-import type { Pipeline } from "./Pipeline.js";
+import type {
+  DirectoryOperations,
+  FileOperations,
+  ServiceOperations,
+  ShareOperations,
+} from "./generated/index.js";
+import { FileClient } from "./generated/index.js";
+import { Pipeline } from "./Pipeline.js";
 import { getCoreClientOptions, getCredentialFromPipeline } from "./Pipeline.js";
 import { escapeURLPath, getAccountNameFromUrl } from "./utils/utils.common.js";
 import type { OperationTracingOptions } from "@azure/core-tracing";
 import type { AnonymousCredential } from "@azure/storage-common";
 import type { StorageSharedKeyCredential } from "@azure/storage-common";
 import type { TokenCredential } from "@azure/core-auth";
+import type { ExtendedServiceClientOptions } from "@azure/core-http-compat";
 
 /**
  * An interface for options common to every remote operation.
  */
 export interface CommonOptions {
   tracingOptions?: OperationTracingOptions;
+}
+
+export class StorageClientContext {
+  client: FileClient;
+
+  service: ServiceOperations;
+  share: ShareOperations;
+  directory: DirectoryOperations;
+  file: FileOperations;
+
+  constructor(url: string, options: ExtendedServiceClientOptions = {}) {
+    const placeholderCredential: TokenCredential = {
+      async getToken() {
+        throw new Error(
+          "Placeholder TokenCredential was used. Authentication must be configured via the HTTP pipeline.",
+        );
+      },
+    };
+    this.client = new FileClient(url, placeholderCredential, options);
+    this.service = this.client.service;
+    this.share = this.client.share;
+    this.directory = this.client.directory;
+    this.file = this.client.file;
+  }
 }
 
 /**
@@ -59,15 +89,34 @@ export abstract class StorageClient {
     this.url = escapeURLPath(url);
     this.accountName = getAccountNameFromUrl(url);
 
-    this.pipeline = pipeline;
-    this.storageClientContext = new StorageContextClient(this.url, getCoreClientOptions(pipeline));
-    // Remove the default content-type in generated code of StorageClientContext
-    const storageClientContext = this.storageClientContext as any;
-    if (storageClientContext.requestContentType) {
-      storageClientContext.requestContentType = undefined;
-    }
+    this.credential = getCredentialFromPipeline(pipeline);
 
-    const credential = getCredentialFromPipeline(pipeline);
-    this.credential = credential;
+    const coreClientOptions = getCoreClientOptions(pipeline);
+
+    const { pipeline: _corePipeline, httpClient, ...rest } = coreClientOptions;
+
+    // Handle two different kinds of pipelines
+    //   1. core pipeline from typespec-based version which can be used as-is
+    //   2. core pipeline from autorest-based version which include serializationPolicy and deserializationPolicy.
+    //      In this case we cannot reuse/mutate the pipeline so clone then remove the two.
+    if (
+      _corePipeline?.getOrderedPolicies().some((policy) => policy.name === "serializationPolicy")
+    ) {
+      const clonedCorePipeline = _corePipeline!.clone();
+      clonedCorePipeline.removePolicy({ name: "deserializationPolicy" });
+      clonedCorePipeline.removePolicy({ name: "serializationPolicy" });
+      const clonedPipeline = new Pipeline(pipeline.factories);
+      (clonedPipeline as any)._corePipeline = clonedCorePipeline;
+      (clonedPipeline as any)._coreHttpClient = httpClient;
+      (clonedPipeline as any)._credential = (pipeline as any)._credential;
+      this.pipeline = clonedPipeline;
+      this.storageClientContext = new StorageClientContext(this.url, {
+        ...rest,
+        pipeline: clonedCorePipeline,
+      });
+    } else {
+      this.pipeline = pipeline;
+      this.storageClientContext = new StorageClientContext(this.url, coreClientOptions);
+    }
   }
 }

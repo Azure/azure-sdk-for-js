@@ -42,7 +42,7 @@ import type {
   ShareSetPropertiesHeaders,
   ServiceGetUserDelegationKeyHeaders,
   UserDelegationKey as UserDelegationKeyModel,
-} from "./generated/src/models/index.js";
+} from "./generated-classic-models.js";
 import type {
   FileDownloadResponse,
   FilePosixProperties,
@@ -653,7 +653,7 @@ export type {
   ShareAccessTier,
   ShareRootSquash,
   UserDelegationKey as UserDelegationKeyModel,
-} from "./generated/src/models/index.js";
+} from "./generated-classic-models.js";
 
 export type {
   FileDownloadResponse as RawFileDownloadResponse,

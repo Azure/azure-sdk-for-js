@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  Recorder,
-  RecorderStartOptions,
-  FindReplaceSanitizer,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions, FindReplaceSanitizer } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 import { isBrowser } from "@azure/core-util";
 import type { StorageClient } from "../../src/StorageClient.js";
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import type { TestContext } from "vitest";
 
 type UriSanitizers = Required<RecorderStartOptions>["sanitizerOptions"]["uriSanitizers"];
 
 export function configureStorageClient(recorder: Recorder, client: StorageClient): void {
   const options = recorder.configureClientOptions({});
 
-  const pipeline: Pipeline = client["storageClientContext"].pipeline;
+  const pipeline: Pipeline =
+    (client["storageClientContext"] as any).pipeline ??
+    client["storageClientContext"].client.pipeline;
   for (const { policy } of options.additionalPolicies ?? []) {
     pipeline.addPolicy(policy, { afterPhase: "Sign", afterPolicies: ["injectorPolicy"] });
   }
@@ -90,6 +90,17 @@ export const recorderEnvSetup: RecorderStartOptions = {
     uriSanitizers,
   },
 };
+
+export async function createAndStartRecorder(testContext?: TestContext): Promise<Recorder> {
+  const recorder = new Recorder(testContext);
+  await recorder.start(recorderEnvSetup);
+  await recorder.addSanitizers({ uriSanitizers: uriSanitizers }, ["record", "playback"]);
+  await recorder.setMatcher("CustomDefaultMatcher", {
+    excludedHeaders: ["Accept"],
+    ignoreQueryOrdering: true,
+  });
+  return recorder;
+}
 
 export function getUniqueName(prefix: string): string {
   return `${prefix}${new Date().getTime()}${Math.floor(Math.random() * 10000)

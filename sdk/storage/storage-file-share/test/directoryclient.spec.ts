@@ -6,12 +6,12 @@ import {
   getGenericBSU,
   getTokenBSU,
   getUniqueName,
-  recorderEnvSetup,
-  uriSanitizers,
+  createAndStartRecorder,
 } from "./utils/index.js";
 import type { FilePosixProperties, ShareClient, ShareServiceClient } from "../src/index.js";
 import { ShareDirectoryClient, FileSystemAttributes } from "../src/index.js";
-import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
+import { isLiveMode } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import type { DirectoryCreateResponse } from "../src/generatedModels.js";
 import { truncatedISO8061Date } from "../src/utils/utils.common.js";
 import { getYieldedValue } from "@azure-tools/test-utils-vitest";
@@ -42,14 +42,12 @@ describe("DirectoryClient", () => {
     "AQAUhGwAAACIAAAAAAAAABQAAAACAFgAAwAAAAAAFAD/AR8AAQEAAAAAAAUSAAAAAAAYAP8BHwABAgAAAAAABSAAAAAgAgAAAAAkAKkAEgABBQAAAAAABRUAAABZUbgXZnJdJWRjOwuMmS4AAQUAAAAAAAUVAAAAoGXPfnhLm1/nfIdwr/1IAQEFAAAAAAAFFQAAAKBlz354S5tf53yHcAECAAA=";
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     await recorder.addSanitizers(
       {
         removeHeaderSanitizer: {
           headersForRemoval: ["x-ms-file-rename-source", "x-ms-copy-source"],
         },
-        uriSanitizers,
       },
       ["record", "playback"],
     );
@@ -1658,14 +1656,12 @@ describe("DirectoryClient - OAuth", () => {
   fullDirAttributes.noScrubData = true;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     await recorder.addSanitizers(
       {
         removeHeaderSanitizer: {
           headersForRemoval: ["x-ms-file-rename-source", "x-ms-copy-source"],
         },
-        uriSanitizers,
       },
       ["record", "playback"],
     );
@@ -1964,14 +1960,12 @@ describe("DirectoryClient - AllowingTrailingDots - True", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     await recorder.addSanitizers(
       {
         removeHeaderSanitizer: {
           headersForRemoval: ["x-ms-file-rename-source", "x-ms-copy-source"],
         },
-        uriSanitizers,
       },
       ["record", "playback"],
     );
@@ -2208,14 +2202,12 @@ describe("DirectoryClient - AllowingTrailingDots - False", () => {
   let defaultDirCreateResp: DirectoryCreateResponse;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     await recorder.addSanitizers(
       {
         removeHeaderSanitizer: {
           headersForRemoval: ["x-ms-file-rename-source", "x-ms-copy-source"],
         },
-        uriSanitizers,
       },
       ["record", "playback"],
     );
@@ -2482,14 +2474,12 @@ describe("DirectoryClient - AllowingTrailingDots - Default", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     await recorder.addSanitizers(
       {
         removeHeaderSanitizer: {
           headersForRemoval: ["x-ms-file-rename-source", "x-ms-copy-source"],
         },
-        uriSanitizers,
       },
       ["record", "playback"],
     );
@@ -2539,9 +2529,7 @@ describe("DirectoryClient - NFS", () => {
   let dirClient: ShareDirectoryClient;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     let serviceClient: ShareServiceClient;
     try {
       serviceClient = getGenericBSU(recorder, "PREMIUM_FILE_");

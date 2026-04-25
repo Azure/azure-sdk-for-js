@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import type { ShareClient } from "../src/index.js";
 import { ShareFileClient } from "../src/index.js";
 import {
@@ -9,8 +9,7 @@ import {
   // compareBodyWithUint8Array,
   getBSU,
   getUniqueName,
-  recorderEnvSetup,
-  uriSanitizers,
+  createAndStartRecorder,
 } from "./utils/index.js";
 import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
@@ -25,14 +24,12 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     await recorder.addSanitizers(
       {
         removeHeaderSanitizer: {
           headersForRemoval: ["x-ms-file-rename-source", "x-ms-copy-source"],
         },
-        uriSanitizers,
       },
       ["record", "playback"],
     );
@@ -108,14 +105,12 @@ describe("ContentChecksumValidation with client config - None", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     await recorder.addSanitizers(
       {
         removeHeaderSanitizer: {
           headersForRemoval: ["x-ms-file-rename-source", "x-ms-copy-source"],
         },
-        uriSanitizers,
       },
       ["record", "playback"],
     );
