@@ -154,7 +154,7 @@ export interface SubscriptionEventHandlers {
    * instances of your application running and have passed the `CheckpointStore` to the client to load balance.
    *
    * If the `CloseReason` is `Shutdown`, this indicates that either `subscription.close()` was called, or an
-   * error occured. Unless the subscription was explicitly closed via `subscription.close()`, the subscription
+   * error occurred. Unless the subscription was explicitly closed via `subscription.close()`, the subscription
    * will attempt to resume reading events from the last checkpoint for the partition.
    */
   processClose?: ProcessCloseHandler;

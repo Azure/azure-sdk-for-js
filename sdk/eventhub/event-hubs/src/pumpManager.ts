@@ -131,7 +131,7 @@ export class PumpManagerImpl implements PumpManager {
       await pump.start();
     } catch (err: any) {
       logger.verbose(
-        `[${this._eventProcessorName}] [${partitionId}] An error occured while adding/updating a pump: ${err}`,
+        `[${this._eventProcessorName}] [${partitionId}] An error occurred while adding/updating a pump: ${err}`,
       );
       logErrorStackTrace(err);
     }
@@ -156,7 +156,7 @@ export class PumpManagerImpl implements PumpManager {
       }
     } catch (err: any) {
       logger.verbose(
-        `[${this._eventProcessorName}] [${partitionId}] An error occured while removing a pump: ${err}`,
+        `[${this._eventProcessorName}] [${partitionId}] An error occurred while removing a pump: ${err}`,
       );
       logErrorStackTrace(err);
     }
@@ -183,7 +183,7 @@ export class PumpManagerImpl implements PumpManager {
       await Promise.all(tasks);
     } catch (err: any) {
       logger.verbose(
-        `[${this._eventProcessorName}] An error occured while removing all pumps: ${err}`,
+        `[${this._eventProcessorName}] An error occurred while removing all pumps: ${err}`,
       );
       logErrorStackTrace(err);
     } finally {
