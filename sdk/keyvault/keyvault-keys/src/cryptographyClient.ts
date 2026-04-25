@@ -67,16 +67,16 @@ export class CryptographyClient {
    *
    * const credential = new DefaultAzureCredential();
    *
-   * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`;
+   * const url = process.env["KEYVAULT_URI"]!;
    *
    * const client = new KeyClient(url, credential);
    *
    * // Create or retrieve a key from the keyvault
-   * const myKey = await client.createKey("MyKey", "RSA");
+   * const myKey = await client.createKey(`MyCryptoKey-${Date.now()}`, "RSA");
    *
    * // Lastly, create our cryptography client and connect to the service
    * const cryptographyClient = new CryptographyClient(myKey, credential);
+   * console.log("CryptographyClient key ID:", cryptographyClient.keyID);
    * ```
    * @param key - The key to use during cryptography tasks. You can also pass the identifier of the key i.e its url here.
    * @param credential - An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the \@azure/identity package to create a credential that suits your needs.
@@ -95,6 +95,8 @@ export class CryptographyClient {
    * ```ts snippet:ReadmeSampleCreateCryptographyClientLocal
    * import { CryptographyClient } from "@azure/keyvault-keys";
    *
+   * // NOTE: The key material below is illustrative only. Replace with a real JWK from your
+   * // key management system. Using these placeholder values for actual cryptographic operations will fail.
    * const jsonWebKey = {
    *   kty: "RSA",
    *   kid: "test-key-123",
@@ -110,6 +112,8 @@ export class CryptographyClient {
    *   qi: new Uint8Array([78, 90, 45, 201, 34, 67, 120, 55]),
    * };
    * const client = new CryptographyClient(jsonWebKey);
+   * console.log("CryptographyClient key ID:", client.keyID);
+   * console.log("NOTE: Crypto operations on this illustrative key will fail. Replace with a real JWK.");
    * ```
    * @param key - The JsonWebKey to use during cryptography operations.
    */
@@ -173,21 +177,8 @@ export class CryptographyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleEncrypt
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
-   *
-   * const credential = new DefaultAzureCredential();
-   *
-   * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`;
-   *
-   * const client = new KeyClient(url, credential);
-   *
-   * const myKey = await client.createKey("MyKey", "RSA");
-   * const cryptographyClient = new CryptographyClient(myKey.id, credential);
-   *
    * const encryptResult = await cryptographyClient.encrypt({
-   *   algorithm: "RSA1_5",
+   *   algorithm: "RSA-OAEP",
    *   plaintext: Buffer.from("My Message"),
    * });
    * console.log("encrypt result: ", encryptResult.result);
@@ -204,21 +195,8 @@ export class CryptographyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleEncrypt
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
-   *
-   * const credential = new DefaultAzureCredential();
-   *
-   * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`;
-   *
-   * const client = new KeyClient(url, credential);
-   *
-   * const myKey = await client.createKey("MyKey", "RSA");
-   * const cryptographyClient = new CryptographyClient(myKey.id, credential);
-   *
    * const encryptResult = await cryptographyClient.encrypt({
-   *   algorithm: "RSA1_5",
+   *   algorithm: "RSA-OAEP",
    *   plaintext: Buffer.from("My Message"),
    * });
    * console.log("encrypt result: ", encryptResult.result);
@@ -309,27 +287,14 @@ export class CryptographyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleDecrypt
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
-   *
-   * const credential = new DefaultAzureCredential();
-   *
-   * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`;
-   *
-   * const client = new KeyClient(url, credential);
-   *
-   * const myKey = await client.createKey("MyKey", "RSA");
-   * const cryptographyClient = new CryptographyClient(myKey.id, credential);
-   *
    * const encryptResult = await cryptographyClient.encrypt({
-   *   algorithm: "RSA1_5",
+   *   algorithm: "RSA-OAEP",
    *   plaintext: Buffer.from("My Message"),
    * });
    * console.log("encrypt result: ", encryptResult.result);
    *
    * const decryptResult = await cryptographyClient.decrypt({
-   *   algorithm: "RSA1_5",
+   *   algorithm: "RSA-OAEP",
    *   ciphertext: encryptResult.result,
    * });
    * console.log("decrypt result: ", decryptResult.result.toString());
@@ -346,27 +311,14 @@ export class CryptographyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleDecrypt
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
-   *
-   * const credential = new DefaultAzureCredential();
-   *
-   * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`;
-   *
-   * const client = new KeyClient(url, credential);
-   *
-   * const myKey = await client.createKey("MyKey", "RSA");
-   * const cryptographyClient = new CryptographyClient(myKey.id, credential);
-   *
    * const encryptResult = await cryptographyClient.encrypt({
-   *   algorithm: "RSA1_5",
+   *   algorithm: "RSA-OAEP",
    *   plaintext: Buffer.from("My Message"),
    * });
    * console.log("encrypt result: ", encryptResult.result);
    *
    * const decryptResult = await cryptographyClient.decrypt({
-   *   algorithm: "RSA1_5",
+   *   algorithm: "RSA-OAEP",
    *   ciphertext: encryptResult.result,
    * });
    * console.log("decrypt result: ", decryptResult.result.toString());
@@ -432,20 +384,10 @@ export class CryptographyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleWrapKey
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
+   * import { randomBytes } from "node:crypto";
    *
-   * const credential = new DefaultAzureCredential();
-   *
-   * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`;
-   *
-   * const client = new KeyClient(url, credential);
-   *
-   * const myKey = await client.createKey("MyKey", "RSA");
-   * const cryptographyClient = new CryptographyClient(myKey, credential);
-   *
-   * const wrapResult = await cryptographyClient.wrapKey("RSA-OAEP", Buffer.from("My Key"));
+   * const keyMaterial = randomBytes(32); // 256-bit symmetric key material
+   * const wrapResult = await cryptographyClient.wrapKey("RSA-OAEP", keyMaterial);
    * console.log("wrap result:", wrapResult.result);
    * ```
    * @param algorithm - The encryption algorithm to use to wrap the given key.
@@ -476,20 +418,10 @@ export class CryptographyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleUnwrapKey
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
+   * import { randomBytes } from "node:crypto";
    *
-   * const credential = new DefaultAzureCredential();
-   *
-   * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`;
-   *
-   * const client = new KeyClient(url, credential);
-   *
-   * const myKey = await client.createKey("MyKey", "RSA");
-   * const cryptographyClient = new CryptographyClient(myKey, credential);
-   *
-   * const wrapResult = await cryptographyClient.wrapKey("RSA-OAEP", Buffer.from("My Key"));
+   * const keyMaterial = randomBytes(32); // 256-bit symmetric key material
+   * const wrapResult = await cryptographyClient.wrapKey("RSA-OAEP", keyMaterial);
    * console.log("wrap result:", wrapResult.result);
    *
    * const unwrapResult = await cryptographyClient.unwrapKey("RSA-OAEP", wrapResult.result);
@@ -527,24 +459,12 @@ export class CryptographyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleSign
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
    * import { createHash } from "node:crypto";
    *
-   * const credential = new DefaultAzureCredential();
-   *
-   * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`;
-   *
-   * const client = new KeyClient(url, credential);
-   *
-   * let myKey = await client.createKey("MyKey", "RSA");
-   * const cryptographyClient = new CryptographyClient(myKey, credential);
-   *
-   * const signatureValue = "MySignature";
+   * const message = "MyMessage";
    * const hash = createHash("sha256");
    *
-   * const digest = hash.update(signatureValue).digest();
+   * const digest = hash.update(message).digest();
    * console.log("digest: ", digest);
    *
    * const signResult = await cryptographyClient.sign("RS256", digest);
@@ -578,19 +498,7 @@ export class CryptographyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleVerify
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
    * import { createHash } from "node:crypto";
-   *
-   * const credential = new DefaultAzureCredential();
-   *
-   * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`;
-   *
-   * const client = new KeyClient(url, credential);
-   *
-   * const myKey = await client.createKey("MyKey", "RSA");
-   * const cryptographyClient = new CryptographyClient(myKey, credential);
    *
    * const hash = createHash("sha256");
    * hash.update("My Message");
@@ -632,19 +540,6 @@ export class CryptographyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleSignData
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
-   *
-   * const credential = new DefaultAzureCredential();
-   *
-   * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`;
-   *
-   * const client = new KeyClient(url, credential);
-   *
-   * const myKey = await client.createKey("MyKey", "RSA");
-   * const cryptographyClient = new CryptographyClient(myKey, credential);
-   *
    * const signResult = await cryptographyClient.signData("RS256", Buffer.from("My Message"));
    * console.log("sign result: ", signResult.result);
    * ```
@@ -681,19 +576,6 @@ export class CryptographyClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleVerifyData
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
-   *
-   * const credential = new DefaultAzureCredential();
-   *
-   * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`;
-   *
-   * const client = new KeyClient(url, credential);
-   *
-   * const myKey = await client.createKey("MyKey", "RSA");
-   * const cryptographyClient = new CryptographyClient(myKey, credential);
-   *
    * const buffer = Buffer.from("My Message");
    *
    * const signResult = await cryptographyClient.signData("RS256", buffer);

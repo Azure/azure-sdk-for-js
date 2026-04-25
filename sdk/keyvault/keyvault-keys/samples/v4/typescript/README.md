@@ -12,11 +12,13 @@ urlFragment: keyvault-keys-typescript
 
 These sample programs show how to use the TypeScript client libraries for Azure Key Vault Keys in some common scenarios.
 
-| **File Name**                   | **Description**                                                                     |
-| ------------------------------- | ----------------------------------------------------------------------------------- |
-| [cryptography.ts][cryptography] | Uses an Azure Key Vault key to sign/verify, encrypt/decrypt, and wrap/unwrap data.  |
-| [helloWorld.ts][helloworld]     | Creates, reads, lists, and deletes keys.                                            |
-| [keyRotation.ts][keyrotation]   | Creates and updates a key's automated rotation policy, and rotates a key on-demand. |
+| **File Name**                       | **Description**                                                                                                                                                                                |
+| ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [cryptography.ts][cryptography]     | Uses an Azure Key Vault key to sign/verify, encrypt/decrypt, and wrap/unwrap data.                                                                                                             |
+| [gettingStarted.ts][gettingstarted] | Authenticates with Azure Key Vault and creates a KeyClient and CryptographyClient.                                                                                                             |
+| [helloWorld.ts][helloworld]         | Creates, reads, lists, and deletes keys.                                                                                                                                                       |
+| [hsmOperations.ts][hsmoperations]   | Shows key operations that require a Managed HSM endpoint: creating OCT keys, getting key attestation, releasing keys, and getting random bytes. Set AZURE_MANAGEDHSM_URI to run these samples. |
+| [keyRotation.ts][keyrotation]       | Creates and updates a key's automated rotation policy, and rotates a key on-demand.                                                                                                            |
 
 ## Prerequisites
 
@@ -31,12 +33,6 @@ npm install -g typescript
 You need [an Azure subscription][freesub] and the following Azure resources to run these sample programs:
 
 - [Azure Key Vault][createinstance_azurekeyvault]
-
-To quickly create the needed Key Vault resources in Azure and to receive a connection string for them, you can deploy our sample template by clicking:
-
-[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Ftest-resources.json)
-
-If creating the Key Vault manually using the Azure Portal, be aware that the samples require that the soft-delete feature be enabled. Our template above will enable this feature automatically, but it is possible to enable it manually using the Azure CLI. See [the documentation for enabling soft-delete in Key Vault](https://learn.microsoft.com/azure/key-vault/key-vault-soft-delete-cli) for more information.
 
 Samples retrieve credentials to access the service endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
 
@@ -66,10 +62,10 @@ npm run build
 node dist/cryptography.js
 ```
 
-Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env KEYVAULT_URI="<keyvault uri>" node dist/cryptography.js
+npx cross-env KEYVAULT_URI="<keyvault uri>" node dist/cryptography.js
 ```
 
 ## Next Steps
@@ -77,7 +73,9 @@ cross-env KEYVAULT_URI="<keyvault uri>" node dist/cryptography.js
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [cryptography]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v4/typescript/src/cryptography.ts
+[gettingstarted]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v4/typescript/src/gettingStarted.ts
 [helloworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v4/typescript/src/helloWorld.ts
+[hsmoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v4/typescript/src/hsmOperations.ts
 [keyrotation]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v4/typescript/src/keyRotation.ts
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/keyvault-keys
 [freesub]: https://azure.microsoft.com/free/

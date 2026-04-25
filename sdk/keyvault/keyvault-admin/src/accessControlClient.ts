@@ -48,9 +48,9 @@ export class KeyVaultAccessControlClient {
    * import { DefaultAzureCredential } from "@azure/identity";
    * import { KeyVaultAccessControlClient } from "@azure/keyvault-admin";
    *
-   * const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
+   * const url = process.env["AZURE_MANAGEDHSM_URI"] || "<managedhsm-url>";
    * const credentials = new DefaultAzureCredential();
-   * const client = new KeyVaultAccessControlClient(vaultUrl, credentials);
+   * const client = new KeyVaultAccessControlClient(url, credentials);
    * ```
    * @param vaultUrl - the URL of the Key Vault. It should have this shape: `https://${your-key-vault-name}.vault.azure.net`. You should validate that this URL references a valid Key Vault or Managed HSM resource. See https://aka.ms/azsdk/blog/vault-uri for details.
    * @param credential - An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the \@azure/identity package to create a credential that suits your needs.
@@ -72,13 +72,6 @@ export class KeyVaultAccessControlClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleCreateRoleAssignment
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { KeyVaultAccessControlClient } from "@azure/keyvault-admin";
-   *
-   * const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
-   * const credentials = new DefaultAzureCredential();
-   * const client = new KeyVaultAccessControlClient(vaultUrl, credentials);
-   *
    * const { value: roleDefinition } = await client.listRoleDefinitions("/").next();
    *
    * const principalId = "4871f6a6-374f-4b6b-8b0c-f5d84db823f6";
@@ -128,13 +121,6 @@ export class KeyVaultAccessControlClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleDeleteRoleAssignment
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { KeyVaultAccessControlClient } from "@azure/keyvault-admin";
-   *
-   * const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
-   * const credentials = new DefaultAzureCredential();
-   * const client = new KeyVaultAccessControlClient(vaultUrl, credentials);
-   *
    * const { value: roleDefinition } = await client.listRoleDefinitions("/").next();
    * const principalId = "4871f6a6-374f-4b6b-8b0c-f5d84db823f6";
    *
@@ -178,13 +164,6 @@ export class KeyVaultAccessControlClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleGetRoleAssignment
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { KeyVaultAccessControlClient } from "@azure/keyvault-admin";
-   *
-   * const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
-   * const credentials = new DefaultAzureCredential();
-   * const client = new KeyVaultAccessControlClient(vaultUrl, credentials);
-   *
    * const { value: roleDefinition } = await client.listRoleDefinitions("/").next();
    * const principalId = "4871f6a6-374f-4b6b-8b0c-f5d84db823f6";
    *
@@ -226,13 +205,6 @@ export class KeyVaultAccessControlClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleListRoleAssignments
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { KeyVaultAccessControlClient } from "@azure/keyvault-admin";
-   *
-   * const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
-   * const credentials = new DefaultAzureCredential();
-   * const client = new KeyVaultAccessControlClient(vaultUrl, credentials);
-   *
    * for await (const roleAssignment of client.listRoleAssignments("/")) {
    *   console.log("Role assignment: ", roleAssignment);
    * }
@@ -257,13 +229,6 @@ export class KeyVaultAccessControlClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleListRoleDefinitions
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { KeyVaultAccessControlClient } from "@azure/keyvault-admin";
-   *
-   * const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
-   * const credentials = new DefaultAzureCredential();
-   * const client = new KeyVaultAccessControlClient(vaultUrl, credentials);
-   *
    * for await (const roleDefinitions of client.listRoleDefinitions("/")) {
    *   console.log("Role definition: ", roleDefinitions);
    * }
@@ -288,13 +253,6 @@ export class KeyVaultAccessControlClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleGetRoleDefinition
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { KeyVaultAccessControlClient } from "@azure/keyvault-admin";
-   *
-   * const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
-   * const credentials = new DefaultAzureCredential();
-   * const client = new KeyVaultAccessControlClient(vaultUrl, credentials);
-   *
    * const roleDefinition = await client.getRoleDefinition("/", "b86a8fe4-44ce-4948-aee5-eccb2c155cd7");
    * console.log(roleDefinition);
    * ```
@@ -322,16 +280,7 @@ export class KeyVaultAccessControlClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleSetRoleDefinition
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import {
-   *   KeyVaultAccessControlClient,
-   *   KnownKeyVaultDataAction,
-   *   KnownKeyVaultRoleScope,
-   * } from "@azure/keyvault-admin";
-   *
-   * const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
-   * const credentials = new DefaultAzureCredential();
-   * const client = new KeyVaultAccessControlClient(vaultUrl, credentials);
+   * import { KnownKeyVaultDataAction, KnownKeyVaultRoleScope } from "@azure/keyvault-admin";
    *
    * const permissions = [{ dataActions: [KnownKeyVaultDataAction.BackupHsmKeys] }];
    * const roleDefinitionName = "23b8bb1a-39c0-4c89-a85b-dd3c99273a8a";
@@ -376,16 +325,7 @@ export class KeyVaultAccessControlClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleDeleteRoleDefinition
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import {
-   *   KeyVaultAccessControlClient,
-   *   KnownKeyVaultDataAction,
-   *   KnownKeyVaultRoleScope,
-   * } from "@azure/keyvault-admin";
-   *
-   * const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
-   * const credentials = new DefaultAzureCredential();
-   * const client = new KeyVaultAccessControlClient(vaultUrl, credentials);
+   * import { KnownKeyVaultDataAction, KnownKeyVaultRoleScope } from "@azure/keyvault-admin";
    *
    * const permissions = [{ dataActions: [KnownKeyVaultDataAction.BackupHsmKeys] }];
    * const roleDefinitionName = "23b8bb1a-39c0-4c89-a85b-dd3c99273a8a";
