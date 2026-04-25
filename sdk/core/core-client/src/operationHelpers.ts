@@ -10,7 +10,7 @@ import type {
   OperationRequestInfo,
 } from "./interfaces.js";
 
-import { state } from "./state.js";
+import { state } from "#platform/state";
 
 /**
  * @internal
