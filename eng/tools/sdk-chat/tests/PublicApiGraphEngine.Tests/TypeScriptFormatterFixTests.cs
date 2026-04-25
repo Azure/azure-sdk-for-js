@@ -14,6 +14,8 @@ using TsPropertyInfo = PublicApiGraphEngine.TypeScript.PropertyInfo;
 using TsMethodInfo = PublicApiGraphEngine.TypeScript.MethodInfo;
 using TsEnumInfo = PublicApiGraphEngine.TypeScript.EnumInfo;
 using TsVariableInfo = PublicApiGraphEngine.TypeScript.VariableInfo;
+using TsNamespaceInfo = PublicApiGraphEngine.TypeScript.NamespaceInfo;
+using TsIndexSignatureInfo = PublicApiGraphEngine.TypeScript.IndexSignatureInfo;
 using TypeScriptFormatter = PublicApiGraphEngine.TypeScript.TypeScriptFormatter;
 
 namespace PublicApiGraphEngine.Tests;
@@ -2408,5 +2410,578 @@ public class TypeScriptFormatterFixTests
 
         // Should appear exactly once
         Assert.Equal(1, CountOccurrences(dts, "MAX_RETRIES"));
+    }
+
+    // =========================================================================
+    // Fix: Function dedup preserves overloads (DeduplicateFunctions by name+sig)
+    // =========================================================================
+
+    /// <summary>
+    /// Function overloads (same name, different signatures) must be preserved
+    /// after deduplication. Previously DeduplicateByName dropped all but the first.
+    /// </summary>
+    [Fact]
+    public void FunctionDedup_PreservesOverloads()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@test/func-overloads",
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "main",
+                    Condition = "import",
+                    ExportPath = ".",
+                    Functions =
+                    [
+                        new TsFunctionInfo { Name = "parse", Sig = "(input: string): number", ExportPath = "." },
+                        new TsFunctionInfo { Name = "parse", Sig = "(input: Buffer): number", ExportPath = "." },
+                        new TsFunctionInfo { Name = "parse", Sig = "(input: ArrayBuffer): number", ExportPath = "." }
+                    ]
+                }
+            ]
+        };
+
+        var result = TypeScriptFormatter.FormatPerTarget(api);
+        var (dts, _) = result["import"];
+
+        // All 3 overloads should be present
+        Assert.Equal(3, CountOccurrences(dts, "function parse("));
+        Assert.Contains("input: string", dts);
+        Assert.Contains("input: Buffer", dts);
+        Assert.Contains("input: ArrayBuffer", dts);
+    }
+
+    /// <summary>
+    /// Exact duplicate functions (same name AND sig) across re-export modules
+    /// should still be deduplicated to one copy.
+    /// </summary>
+    [Fact]
+    public void FunctionDedup_RemovesExactDuplicates()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@test/func-exact-dedup",
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "src/parse",
+                    Condition = "import",
+                    ExportPath = ".",
+                    Functions =
+                    [
+                        new TsFunctionInfo { Name = "parse", Sig = "(input: string): number", ExportPath = "." }
+                    ]
+                },
+                new TsModuleInfo
+                {
+                    Name = "src/index",
+                    Condition = "import",
+                    ExportPath = ".",
+                    Functions =
+                    [
+                        new TsFunctionInfo { Name = "parse", Sig = "(input: string): number", ExportPath = "." }
+                    ]
+                }
+            ]
+        };
+
+        var result = TypeScriptFormatter.FormatPerTarget(api);
+        var (dts, _) = result["import"];
+
+        Assert.Equal(1, CountOccurrences(dts, "function parse("));
+    }
+
+    // =========================================================================
+    // Fix: CollectAllReferencedTypes includes variables and namespaces
+    // =========================================================================
+
+    /// <summary>
+    /// A variable whose type references a dependency type should cause
+    /// that dependency to generate an import type statement.
+    /// </summary>
+    [Fact]
+    public void VariableReferencedTypes_GenerateImports()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@test/var-refs",
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "main",
+                    Condition = "import",
+                    ExportPath = ".",
+                    Variables =
+                    [
+                        new TsVariableInfo
+                        {
+                            Name = "defaultClient",
+                            Type = "HttpClient",
+                            IsConst = true,
+                            ExportPath = ".",
+                            EntryPoint = true,
+                            ReferencedTypes = ["HttpClient"]
+                        }
+                    ]
+                }
+            ],
+            Dependencies =
+            [
+                new TsDependencyInfo
+                {
+                    Package = "@azure/core-rest-pipeline",
+                    Classes = [new TsClassInfo { Name = "HttpClient" }]
+                }
+            ]
+        };
+
+        var result = TypeScriptFormatter.FormatPerTarget(api);
+        var (dts, _) = result["import"];
+
+        // The variable should appear
+        Assert.Contains("defaultClient", dts);
+        // And the dep module should be rendered with HttpClient
+        Assert.Contains("@azure/core-rest-pipeline", dts);
+        Assert.Contains("HttpClient", dts);
+    }
+
+    // =========================================================================
+    // Fix: Compound condition handling (react-native|import)
+    // =========================================================================
+
+    /// <summary>
+    /// A compound react-native|import condition should NOT get DOM lib
+    /// (react-native types conflict with DOM). Previously the exact-string check
+    /// missed compound conditions.
+    /// </summary>
+    [Fact]
+    public void CompoundCondition_ReactNativeImport_SkipsDom()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@test/rn-compound",
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "main",
+                    Condition = "react-native|import",
+                    ExportPath = ".",
+                    Classes = [new TsClassInfo { Name = "MyClient", ExportPath = ".", EntryPoint = true }]
+                }
+            ],
+            AmbientTypes = new Dictionary<string, List<string>>
+            {
+                ["dom"] = ["Blob", "URL"]
+            }
+        };
+
+        var result = TypeScriptFormatter.FormatPerTarget(api);
+        var (_, tsconfig) = result["react-native|import"];
+
+        // Should NOT contain DOM lib (RN conflicts with DOM)
+        Assert.DoesNotContain("\"DOM\"", tsconfig);
+        // Should contain react-native types
+        Assert.Contains("\"react-native\"", tsconfig);
+    }
+
+    /// <summary>
+    /// A compound react-native|import condition with Node globals in the output
+    /// should get both node and react-native types.
+    /// </summary>
+    [Fact]
+    public void CompoundCondition_ReactNativeImport_GetsNodeTypes_WhenBufferUsed()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@test/rn-node",
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "main",
+                    Condition = "react-native|import",
+                    ExportPath = ".",
+                    Classes = [new TsClassInfo
+                    {
+                        Name = "StreamClient",
+                        ExportPath = ".",
+                        EntryPoint = true,
+                        Methods = [new TsMethodInfo { Name = "send", Sig = "(data: Buffer): void" }]
+                    }]
+                }
+            ]
+        };
+
+        var result = TypeScriptFormatter.FormatPerTarget(api);
+        var (_, tsconfig) = result["react-native|import"];
+
+        // Should have node types (for Buffer) AND react-native types
+        Assert.Contains("\"node\"", tsconfig);
+        Assert.Contains("\"react-native\"", tsconfig);
+    }
+
+    // =========================================================================
+    // Fix: needsSections path emits main module first
+    // =========================================================================
+
+    /// <summary>
+    /// In the needsSections path (multi-condition packages with subpath exports),
+    /// the main package module should appear before dependency modules.
+    /// </summary>
+    [Fact]
+    public void SectionedPath_MainModuleFirst()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@test/main-first",
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "main",
+                    Condition = "import",
+                    ExportPath = ".",
+                    Classes = [new TsClassInfo
+                    {
+                        Name = "Client",
+                        ExportPath = ".",
+                        EntryPoint = true,
+                        ReferencedTypes = ["ExternalType"]
+                    }]
+                },
+                new TsModuleInfo
+                {
+                    Name = "sub",
+                    Condition = "import",
+                    ExportPath = "./utils",
+                    Functions = [new TsFunctionInfo { Name = "helper", Sig = "(): void", ExportPath = "./utils" }]
+                }
+            ],
+            Dependencies =
+            [
+                new TsDependencyInfo
+                {
+                    Package = "@external/dep",
+                    Classes = [new TsClassInfo { Name = "ExternalType" }]
+                }
+            ],
+            ResolvedDependencies =
+            [
+                new TsApiIndex
+                {
+                    Package = "@external/dep",
+                    Modules =
+                    [
+                        new TsModuleInfo
+                        {
+                            Name = "dep-main",
+                            Condition = "import",
+                            Classes = [new TsClassInfo { Name = "ExternalType" }]
+                        }
+                    ]
+                }
+            ]
+        };
+
+        var result = TypeScriptFormatter.FormatPerTarget(api);
+        var (dts, _) = result["import"];
+
+        // Main module should appear before dep module
+        var mainIdx = dts.IndexOf("declare module \"@test/main-first\"", StringComparison.Ordinal);
+        var depIdx = dts.IndexOf("declare module \"@external/dep\"", StringComparison.Ordinal);
+
+        Assert.True(mainIdx >= 0, "Main module should be present");
+        Assert.True(depIdx >= 0, "Dep module should be present");
+        Assert.True(mainIdx < depIdx, $"Main module (pos {mainIdx}) should appear before dep module (pos {depIdx})");
+    }
+
+    // =========================================================================
+    // Fix: No .Take(20) function cap
+    // =========================================================================
+
+    /// <summary>
+    /// More than 20 functions should all be emitted (previously capped at 20).
+    /// </summary>
+    [Fact]
+    public void SimplePath_NoFunctionCap()
+    {
+        var functions = new List<TsFunctionInfo>();
+        for (int i = 0; i < 30; i++)
+        {
+            functions.Add(new TsFunctionInfo
+            {
+                Name = $"func{i:D2}",
+                Sig = $"(): void",
+                ExportPath = "."
+            });
+        }
+
+        var api = new TsApiIndex
+        {
+            Package = "@test/many-funcs",
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "main",
+                    Condition = "import",
+                    ExportPath = ".",
+                    Functions = functions
+                }
+            ]
+        };
+
+        var result = TypeScriptFormatter.FormatPerTarget(api);
+        var (dts, _) = result["import"];
+
+        // All 30 functions should be present
+        for (int i = 0; i < 30; i++)
+        {
+            Assert.Contains($"func{i:D2}", dts);
+        }
+    }
+
+    // =========================================================================
+    // Fix: Empty class with index signatures is NOT empty
+    // =========================================================================
+
+    /// <summary>
+    /// A class with only index signatures should NOT be marked "// empty".
+    /// Previously the emptiness check didn't consider IndexSignatures.
+    /// </summary>
+    [Fact]
+    public void EmptyClass_IndexSignaturesNotEmpty()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@test/idx-sig",
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "main",
+                    Condition = "import",
+                    ExportPath = ".",
+                    Classes = [new TsClassInfo
+                    {
+                        Name = "DynamicMap",
+                        ExportPath = ".",
+                        EntryPoint = true,
+                        IndexSignatures =
+                        [
+                            new TsIndexSignatureInfo { KeyName = "key", KeyType = "string", ValueType = "unknown" }
+                        ]
+                    }]
+                }
+            ]
+        };
+
+        var result = TypeScriptFormatter.FormatPerTarget(api);
+        var (dts, _) = result["import"];
+
+        Assert.Contains("DynamicMap", dts);
+        Assert.Contains("[key: string]: unknown", dts);
+        Assert.DoesNotContain("// empty", dts);
+    }
+
+    // =========================================================================
+    // Fix: tsconfig module/moduleResolution settings
+    // =========================================================================
+
+    /// <summary>
+    /// ESM targets (import, browser, react-native) should get ESNext module
+    /// and bundler moduleResolution.
+    /// </summary>
+    [Fact]
+    public void Tsconfig_ESM_ModuleSettings()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@test/tsconfig-esm",
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "main",
+                    Condition = "import",
+                    ExportPath = ".",
+                    Classes = [new TsClassInfo { Name = "Client", ExportPath = ".", EntryPoint = true }]
+                }
+            ]
+        };
+
+        var result = TypeScriptFormatter.FormatPerTarget(api);
+        var (_, tsconfig) = result["import"];
+
+        Assert.Contains("\"module\": \"ESNext\"", tsconfig);
+        Assert.Contains("\"moduleResolution\": \"bundler\"", tsconfig);
+    }
+
+    /// <summary>
+    /// CJS targets (require) should get commonjs module and node10 moduleResolution.
+    /// </summary>
+    [Fact]
+    public void Tsconfig_CJS_ModuleSettings()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@test/tsconfig-cjs",
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "main-import",
+                    Condition = "import",
+                    ExportPath = ".",
+                    Classes = [new TsClassInfo { Name = "Client", ExportPath = ".", EntryPoint = true }]
+                },
+                new TsModuleInfo
+                {
+                    Name = "main-require",
+                    Condition = "require",
+                    ExportPath = ".",
+                    Classes = [new TsClassInfo { Name = "Client", ExportPath = ".", EntryPoint = true }]
+                }
+            ]
+        };
+
+        var result = TypeScriptFormatter.FormatPerTarget(api);
+        var (_, requireTsconfig) = result["require"];
+
+        Assert.Contains("\"module\": \"commonjs\"", requireTsconfig);
+        Assert.Contains("\"moduleResolution\": \"node10\"", requireTsconfig);
+    }
+
+    /// <summary>
+    /// Compound CJS condition (node|require) should get CJS settings.
+    /// </summary>
+    [Fact]
+    public void Tsconfig_CompoundCJS_ModuleSettings()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@test/tsconfig-compound-cjs",
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "main",
+                    Condition = "node|require",
+                    ExportPath = ".",
+                    Classes = [new TsClassInfo { Name = "Client", ExportPath = ".", EntryPoint = true }]
+                }
+            ]
+        };
+
+        var result = TypeScriptFormatter.FormatPerTarget(api);
+        var (_, tsconfig) = result["node|require"];
+
+        Assert.Contains("\"module\": \"commonjs\"", tsconfig);
+        Assert.Contains("\"moduleResolution\": \"node10\"", tsconfig);
+    }
+
+    // =========================================================================
+    // Fix: Namespace variables appear in output
+    // =========================================================================
+
+    /// <summary>
+    /// Variables inside namespaces should be rendered in the output.
+    /// (This tests the C# formatter's handling — the TS extractor fix
+    /// ensures the data is populated.)
+    /// </summary>
+    [Fact]
+    public void NamespaceVariables_Rendered()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@test/ns-vars",
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "main",
+                    Condition = "import",
+                    ExportPath = ".",
+                    Namespaces =
+                    [
+                        new TsNamespaceInfo
+                        {
+                            Name = "Config",
+                            ExportPath = ".",
+                            Variables =
+                            [
+                                new TsVariableInfo { Name = "DEFAULT_TIMEOUT", Type = "number", IsConst = true },
+                                new TsVariableInfo { Name = "MAX_RETRIES", Type = "number", IsConst = true }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        };
+
+        var result = TypeScriptFormatter.FormatPerTarget(api);
+        var (dts, _) = result["import"];
+
+        Assert.Contains("namespace Config", dts);
+        Assert.Contains("DEFAULT_TIMEOUT", dts);
+        Assert.Contains("MAX_RETRIES", dts);
+    }
+
+    // =========================================================================
+    // Fix: Namespace referenced types contribute to import generation
+    // =========================================================================
+
+    /// <summary>
+    /// A namespace containing types with referencedTypes should cause
+    /// dependency imports to be generated.
+    /// </summary>
+    [Fact]
+    public void NamespaceReferencedTypes_GenerateImports()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@test/ns-refs",
+            Modules =
+            [
+                new TsModuleInfo
+                {
+                    Name = "main",
+                    Condition = "import",
+                    ExportPath = ".",
+                    Namespaces =
+                    [
+                        new TsNamespaceInfo
+                        {
+                            Name = "Helpers",
+                            ExportPath = ".",
+                            Interfaces = [new TsInterfaceInfo
+                            {
+                                Name = "Config",
+                                ReferencedTypes = ["PipelineOptions"]
+                            }]
+                        }
+                    ]
+                }
+            ],
+            Dependencies =
+            [
+                new TsDependencyInfo
+                {
+                    Package = "@azure/core-rest-pipeline",
+                    Interfaces = [new TsInterfaceInfo { Name = "PipelineOptions" }]
+                }
+            ]
+        };
+
+        var result = TypeScriptFormatter.FormatPerTarget(api);
+        var (dts, _) = result["import"];
+
+        Assert.Contains("namespace Helpers", dts);
+        Assert.Contains("@azure/core-rest-pipeline", dts);
     }
 }

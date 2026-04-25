@@ -210,7 +210,9 @@ public static class TypeScriptFormatter
         IEnumerable<InterfaceInfo> interfaces,
         IEnumerable<EnumInfo> enums,
         IEnumerable<TypeAliasInfo> types,
-        IEnumerable<FunctionInfo> functions)
+        IEnumerable<FunctionInfo> functions,
+        IEnumerable<VariableInfo>? variables = null,
+        IEnumerable<NamespaceInfo>? namespaces = null)
     {
         var refs = new HashSet<string>(StringComparer.Ordinal);
         foreach (var c in classes)
@@ -221,7 +223,27 @@ public static class TypeScriptFormatter
             foreach (var r in t.ReferencedTypes ?? []) refs.Add(r);
         foreach (var f in functions)
             foreach (var r in f.ReferencedTypes ?? []) refs.Add(r);
+        foreach (var v in variables ?? [])
+            foreach (var r in v.ReferencedTypes ?? []) refs.Add(r);
+        foreach (var ns in namespaces ?? [])
+            CollectNamespaceReferencedTypes(ns, refs);
         return refs;
+    }
+
+    private static void CollectNamespaceReferencedTypes(NamespaceInfo ns, HashSet<string> refs)
+    {
+        foreach (var c in ns.Classes ?? [])
+            foreach (var r in c.ReferencedTypes ?? []) refs.Add(r);
+        foreach (var i in ns.Interfaces ?? [])
+            foreach (var r in i.ReferencedTypes ?? []) refs.Add(r);
+        foreach (var t in ns.Types ?? [])
+            foreach (var r in t.ReferencedTypes ?? []) refs.Add(r);
+        foreach (var f in ns.Functions ?? [])
+            foreach (var r in f.ReferencedTypes ?? []) refs.Add(r);
+        foreach (var v in ns.Variables ?? [])
+            foreach (var r in v.ReferencedTypes ?? []) refs.Add(r);
+        foreach (var sub in ns.Namespaces ?? [])
+            CollectNamespaceReferencedTypes(sub, refs);
     }
 
 
@@ -333,7 +355,8 @@ public static class TypeScriptFormatter
         var libs = new List<string> { "ES2023" };
         // react-native provides its own DOM-like globals that conflict with lib.dom.d.ts,
         // so never add DOM lib for the react-native target.
-        if (needsDomLib && !string.Equals(targetCondition, "react-native", StringComparison.OrdinalIgnoreCase))
+        var condTarget = targetCondition is not null ? GetConditionTarget(targetCondition) : null;
+        if (needsDomLib && !string.Equals(condTarget, "react-native", StringComparison.OrdinalIgnoreCase))
         {
             libs.Add("DOM");
             libs.Add("DOM.Iterable");
@@ -344,15 +367,32 @@ public static class TypeScriptFormatter
         sb.AppendLine("  \"compilerOptions\": {");
         sb.AppendLine("    \"noEmit\": true,");
 
+        // Handle compound format: "node|require" → format is "require"
+        var condFormat = targetCondition is not null && targetCondition.Contains('|')
+            ? targetCondition.Split('|')[1] : condTarget;
+        var isCjs = string.Equals(condFormat, "require", StringComparison.OrdinalIgnoreCase)
+            || string.Equals(condTarget, "require", StringComparison.OrdinalIgnoreCase);
+
+        if (isCjs)
+        {
+            sb.AppendLine("    \"module\": \"commonjs\",");
+            sb.AppendLine("    \"moduleResolution\": \"node10\",");
+        }
+        else
+        {
+            sb.AppendLine("    \"module\": \"ESNext\",");
+            sb.AppendLine("    \"moduleResolution\": \"bundler\",");
+        }
+
         var types = new List<string>();
         if (needsNodeTypes)
             types.Add("node");
-        if (string.Equals(targetCondition, "react-native", StringComparison.OrdinalIgnoreCase))
+        if (string.Equals(condTarget, "react-native", StringComparison.OrdinalIgnoreCase))
             types.Add("react-native");
 
         if (needsNodeTypes)
             sb.AppendLine($"    \"types\": [{string.Join(", ", types.Select(t => $"\"{t}\""))}],");
-        else if (string.Equals(targetCondition, "react-native", StringComparison.OrdinalIgnoreCase))
+        else if (string.Equals(condTarget, "react-native", StringComparison.OrdinalIgnoreCase))
             sb.AppendLine("    \"types\": [\"react-native\"],");
         else
             sb.AppendLine("    \"types\": [],");
@@ -604,7 +644,7 @@ public static class TypeScriptFormatter
         allInterfaces = DeduplicateByName(allInterfaces, i => i.Name);
         allEnums = DeduplicateByName(allEnums, e => e.Name);
         allTypes = DeduplicateByName(allTypes, t => t.Name);
-        allFunctions = DeduplicateByName(allFunctions, f => f.Name);
+        allFunctions = DeduplicateFunctions(allFunctions);
 
         // Pre-build dictionaries for O(1) lookups instead of O(n) FirstOrDefault
         var interfacesByName = SafeToDictionary(allInterfaces, i => i.Name);
@@ -1510,9 +1550,9 @@ public static class TypeScriptFormatter
             }
         }
 
-        // Render modules grouped by condition: for each condition, emit dependency
-        // modules first, then the main package module with import statements.
-        // This keeps related modules together and ensures deps are declared before imports.
+        // Render modules grouped by condition: for each condition, emit the main
+        // package module first, then dependency modules with import statements.
+        // This keeps the main library prominent and related modules together.
 
         // Pre-build main module type → module name mapping so dep modules can
         // import types defined in the main package modules (e.g., re-exports).
@@ -1538,88 +1578,8 @@ public static class TypeScriptFormatter
 
                 string moduleName = ComputeGroupModuleName(exportPath, condition);
 
-                // Render dependency modules for this condition first.
-                // Track emitted modules to avoid duplicates when flat deps are shared
-                // across conditions (same module name for all conditions).
-                if (depsByCondition.TryGetValue(condition, out var depsForThisCondition))
-                {
-                    // Build a map of typeName → depModuleName for cross-dep imports
-                    var typeToDepModule = new Dictionary<string, string>(StringComparer.Ordinal);
-                    foreach (var (dmn, dcs, dis, des, dts, dfs, _) in depsForThisCondition)
-                    {
-                        foreach (var c in dcs) typeToDepModule.TryAdd(c.Name, dmn);
-                        foreach (var i in dis) typeToDepModule.TryAdd(i.Name, dmn);
-                        foreach (var e in des) typeToDepModule.TryAdd(e.Name, dmn);
-                        foreach (var t in dts) typeToDepModule.TryAdd(t.Name, dmn);
-                        foreach (var f in dfs) if (f.Name is not null) typeToDepModule.TryAdd(f.Name, dmn);
-                    }
-
-                    // Build a reverse map from node type name → node module for efficient lookups
-                    var nodeTypeToModule = new Dictionary<string, string>(StringComparer.Ordinal);
-                    foreach (var (nodeModule, nodeTypes) in nodeImports)
-                        foreach (var nt in nodeTypes)
-                            nodeTypeToModule.TryAdd(nt, nodeModule);
-
-                    foreach (var (depModuleName, depClasses, depInterfaces, depEnums, depTypes, depFunctions, depNamespaces) in depsForThisCondition)
-                    {
-                        if (sb.Length >= maxLength) break;
-                        if (!emittedDepModules.Add(depModuleName)) continue;
-
-                        // Collect type names defined in THIS dep module
-                        var ownTypeNames = new HashSet<string>(StringComparer.Ordinal);
-                        foreach (var c in depClasses) ownTypeNames.Add(c.Name);
-                        foreach (var i in depInterfaces) ownTypeNames.Add(i.Name);
-                        foreach (var e in depEnums) ownTypeNames.Add(e.Name);
-                        foreach (var t in depTypes) ownTypeNames.Add(t.Name);
-
-                        // Find cross-module imports using structured referencedTypes data
-                        var moduleRefs = CollectAllReferencedTypes(depClasses, depInterfaces, depEnums, depTypes, depFunctions);
-                        var crossImports = new Dictionary<string, List<string>>(StringComparer.Ordinal);
-                        foreach (var refType in moduleRefs)
-                        {
-                            if (ownTypeNames.Contains(refType)) continue;
-
-                            // Check other dep modules
-                            if (typeToDepModule.TryGetValue(refType, out var sourceModule) && sourceModule != depModuleName)
-                            {
-                                if (!crossImports.TryGetValue(sourceModule, out var list))
-                                    crossImports[sourceModule] = list = [];
-                                list.Add(refType);
-                                continue;
-                            }
-
-                            // Check node type imports
-                            if (nodeTypeToModule.TryGetValue(refType, out var nm))
-                            {
-                                if (!crossImports.TryGetValue(nm, out var list))
-                                    crossImports[nm] = list = [];
-                                list.Add(refType);
-                                continue;
-                            }
-
-                            // Check main module types (re-exported types used in dep signatures)
-                            if (mainTypeToModule.TryGetValue(refType, out var mainModule))
-                            {
-                                if (!crossImports.TryGetValue(mainModule, out var list))
-                                    crossImports[mainModule] = list = [];
-                                list.Add(refType);
-                            }
-                        }
-
-                        sb.AppendLine($"declare module \"{depModuleName}\" {{");
-                        sb.AppendLine();
-
-                        // Emit cross-dep import statements
-                        foreach (var (importModule, importTypes) in crossImports.OrderBy(kv => kv.Key))
-                            sb.AppendLine($"    import type {{ {string.Join(", ", importTypes)} }} from \"{importModule}\";");
-                        if (crossImports.Count > 0) sb.AppendLine();
-
-                        // Render body
-                        RenderModuleTypes(sb, depClasses, depInterfaces, depEnums, depTypes, depFunctions, depNamespaces);
-                        sb.AppendLine("}");
-                        sb.AppendLine();
-                    }
-                }
+                // Extract depsForThisCondition before both blocks so it's available to both
+                depsByCondition.TryGetValue(condition, out var depsForThisCondition);
 
                 // Collect own type names for this main module
                 var mainOwnTypes = new HashSet<string>(StringComparer.Ordinal);
@@ -1630,7 +1590,7 @@ public static class TypeScriptFormatter
 
                 // Find cross-condition imports using structured referencedTypes data
                 var mainModuleRefs = CollectAllReferencedTypes(
-                    group.Classes, group.Interfaces, group.Enums, group.Types, group.Functions);
+                    group.Classes, group.Interfaces, group.Enums, group.Types, group.Functions, group.Variables, group.Namespaces);
                 var mainCrossImports = new Dictionary<string, List<string>>(StringComparer.Ordinal);
                 foreach (var refType in mainModuleRefs)
                 {
@@ -1805,6 +1765,89 @@ public static class TypeScriptFormatter
                     sb.AppendLine("}");
                     sb.AppendLine();
                 }
+
+                // Render dependency modules for this condition after the main module.
+                // Track emitted modules to avoid duplicates when flat deps are shared
+                // across conditions (same module name for all conditions).
+                if (depsForThisCondition is not null)
+                {
+                    // Build a map of typeName → depModuleName for cross-dep imports
+                    var typeToDepModule = new Dictionary<string, string>(StringComparer.Ordinal);
+                    foreach (var (dmn, dcs, dis, des, dts, dfs, _) in depsForThisCondition)
+                    {
+                        foreach (var c in dcs) typeToDepModule.TryAdd(c.Name, dmn);
+                        foreach (var i in dis) typeToDepModule.TryAdd(i.Name, dmn);
+                        foreach (var e in des) typeToDepModule.TryAdd(e.Name, dmn);
+                        foreach (var t in dts) typeToDepModule.TryAdd(t.Name, dmn);
+                        foreach (var f in dfs) if (f.Name is not null) typeToDepModule.TryAdd(f.Name, dmn);
+                    }
+
+                    // Build a reverse map from node type name → node module for efficient lookups
+                    var nodeTypeToModule = new Dictionary<string, string>(StringComparer.Ordinal);
+                    foreach (var (nodeModule, nodeTypes) in nodeImports)
+                        foreach (var nt in nodeTypes)
+                            nodeTypeToModule.TryAdd(nt, nodeModule);
+
+                    foreach (var (depModuleName, depClasses, depInterfaces, depEnums, depTypes, depFunctions, depNamespaces) in depsForThisCondition)
+                    {
+                        if (sb.Length >= maxLength) break;
+                        if (!emittedDepModules.Add(depModuleName)) continue;
+
+                        // Collect type names defined in THIS dep module
+                        var ownTypeNames = new HashSet<string>(StringComparer.Ordinal);
+                        foreach (var c in depClasses) ownTypeNames.Add(c.Name);
+                        foreach (var i in depInterfaces) ownTypeNames.Add(i.Name);
+                        foreach (var e in depEnums) ownTypeNames.Add(e.Name);
+                        foreach (var t in depTypes) ownTypeNames.Add(t.Name);
+
+                        // Find cross-module imports using structured referencedTypes data
+                        var moduleRefs = CollectAllReferencedTypes(depClasses, depInterfaces, depEnums, depTypes, depFunctions, namespaces: depNamespaces);
+                        var crossImports = new Dictionary<string, List<string>>(StringComparer.Ordinal);
+                        foreach (var refType in moduleRefs)
+                        {
+                            if (ownTypeNames.Contains(refType)) continue;
+
+                            // Check other dep modules
+                            if (typeToDepModule.TryGetValue(refType, out var sourceModule) && sourceModule != depModuleName)
+                            {
+                                if (!crossImports.TryGetValue(sourceModule, out var list))
+                                    crossImports[sourceModule] = list = [];
+                                list.Add(refType);
+                                continue;
+                            }
+
+                            // Check node type imports
+                            if (nodeTypeToModule.TryGetValue(refType, out var nm))
+                            {
+                                if (!crossImports.TryGetValue(nm, out var list))
+                                    crossImports[nm] = list = [];
+                                list.Add(refType);
+                                continue;
+                            }
+
+                            // Check main module types (re-exported types used in dep signatures)
+                            if (mainTypeToModule.TryGetValue(refType, out var mainModule))
+                            {
+                                if (!crossImports.TryGetValue(mainModule, out var list))
+                                    crossImports[mainModule] = list = [];
+                                list.Add(refType);
+                            }
+                        }
+
+                        sb.AppendLine($"declare module \"{depModuleName}\" {{");
+                        sb.AppendLine();
+
+                        // Emit cross-dep import statements
+                        foreach (var (importModule, importTypes) in crossImports.OrderBy(kv => kv.Key))
+                            sb.AppendLine($"    import type {{ {string.Join(", ", importTypes)} }} from \"{importModule}\";");
+                        if (crossImports.Count > 0) sb.AppendLine();
+
+                        // Render body
+                        RenderModuleTypes(sb, depClasses, depInterfaces, depEnums, depTypes, depFunctions, depNamespaces);
+                        sb.AppendLine("}");
+                        sb.AppendLine();
+                    }
+                }
             }
         }
         else
@@ -1975,7 +2018,7 @@ public static class TypeScriptFormatter
 
             // Include remaining functions and namespaces if space permits.
             int funcCount = 0;
-            foreach (var fn in allFunctions.Where(f => NormalizeExportPath(f.ExportPath) == ".").Take(20))
+            foreach (var fn in allFunctions.Where(f => NormalizeExportPath(f.ExportPath) == "."))
             {
                 if (mainSb.Length >= maxLength) break;
                 var fnStr = FormatReachabilityComment(fn.Name, reachabilityChains) + FormatFunction(fn);
@@ -2128,7 +2171,7 @@ public static class TypeScriptFormatter
                 var depSpec = BuildDepSpecifier(dep);
 
                 // Collect cross-module imports using referencedTypes
-                var moduleRefs = CollectAllReferencedTypes(classes, interfaces, enums, types, functions);
+                var moduleRefs = CollectAllReferencedTypes(classes, interfaces, enums, types, functions, namespaces: namespaces);
                 var crossImports = new Dictionary<string, List<string>>(StringComparer.Ordinal);
                 var depNodeImports = new Dictionary<string, List<string>>(StringComparer.Ordinal);
 
@@ -2288,7 +2331,7 @@ public static class TypeScriptFormatter
             sb.AppendLine($"    {abs}{stat}{m.Name}{mTypeParams}({m.Sig}){ret};");
         }
 
-        if ((cls.Properties?.Count ?? 0) == 0 && (cls.Constructors?.Count ?? 0) == 0 && (cls.Methods?.Count ?? 0) == 0)
+        if ((cls.Properties?.Count ?? 0) == 0 && (cls.Constructors?.Count ?? 0) == 0 && (cls.Methods?.Count ?? 0) == 0 && (cls.IndexSignatures is null or { Count: 0 }))
         {
             sb.AppendLine("    // empty");
         }
@@ -2457,6 +2500,19 @@ public static class TypeScriptFormatter
         {
             if (seen.Add(getName(item)))
                 result.Add(item);
+        }
+        return result;
+    }
+
+    /// <summary>Deduplicates functions by (Name, Sig) to preserve overloads.</summary>
+    private static List<FunctionInfo> DeduplicateFunctions(List<FunctionInfo> functions)
+    {
+        var seen = new HashSet<(string Name, string? Sig)>();
+        var result = new List<FunctionInfo>();
+        foreach (var f in functions)
+        {
+            if (seen.Add((f.Name, f.Sig)))
+                result.Add(f);
         }
         return result;
     }

@@ -897,8 +897,12 @@ export function extractVariable(varStmt: VariableStatement, ctx: ExtractionConte
         const inferredType = decl.getType();
         if (typeNode) {
             typeText = stripImportPrefix(typeNode.getText());
+            ctx.typeRefs.collectFromTypeNode(typeNode);
         } else {
             typeText = stripImportPrefix(displayType(undefined, inferredType, decl, ctx.namespaceAliases));
+            if (inferredType) {
+                ctx.typeRefs.collectFromType(inferredType);
+            }
         }
 
         const info: VariableInfo = { name, type: typeText };
@@ -986,6 +990,13 @@ export function extractNamespace(mod: ModuleDeclaration, ctx: ExtractionContext)
         .filter((f): f is FunctionInfo => f !== undefined);
     if (functions.length) result.functions = functions;
 
+    const variables: VariableInfo[] = [];
+    for (const varStmt of mod.getVariableStatements()) {
+        if (!isVisible(varStmt) || hasInternalOrHiddenTag(varStmt)) continue;
+        variables.push(...extractVariable(varStmt, ctx));
+    }
+    if (variables.length) result.variables = variables;
+
     const nested = mod.getModules()
         .filter(m => isVisible(m) && !hasInternalOrHiddenTag(m))
         .map(m => extractNamespace(m, ctx))
@@ -997,7 +1008,7 @@ export function extractNamespace(mod: ModuleDeclaration, ctx: ExtractionContext)
     // has no direct declarations. Use getExportedDeclarations() to resolve
     // the re-exported types.
     if (!result.classes && !result.interfaces && !result.enums &&
-        !result.types && !result.functions && !result.namespaces) {
+        !result.types && !result.functions && !result.variables && !result.namespaces) {
         const seen = new Set<string>();
         for (const [exportName, decls] of mod.getExportedDeclarations()) {
             if (seen.has(exportName)) continue;
@@ -1023,7 +1034,8 @@ export function extractNamespace(mod: ModuleDeclaration, ctx: ExtractionContext)
     }
 
     if (!result.classes && !result.interfaces && !result.enums &&
-        !result.types && !result.functions && !result.namespaces) {
+        !result.types && !result.functions && !result.namespaces &&
+        !result.variables) {
         ctx.typeRefs.popContext();
         return null;
     }
@@ -1239,6 +1251,15 @@ export function extractModule(sourceFile: SourceFile, moduleName: string, ctx: E
                 }
             }
         }
+    }
+
+    // Re-merge interfaces and namespaces after re-export aggregation
+    // to handle the same declarations appearing in multiple re-exported files
+    if (result.interfaces && result.interfaces.length > 1) {
+        result.interfaces = mergeInterfaces(result.interfaces);
+    }
+    if (result.namespaces && result.namespaces.length > 1) {
+        result.namespaces = mergeNamespaces(result.namespaces);
     }
 
     // Check if anything was graphed
