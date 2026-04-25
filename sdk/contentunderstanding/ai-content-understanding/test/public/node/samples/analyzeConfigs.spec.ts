@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Sample test for analyzeConfigs.ts - Extract additional features like charts, formulas.
+ * Sample test for analyzeConfigs.ts - Extract additional features like charts, formulas.
  */
 
 import type { Recorder } from "@azure-tools/test-recorder";

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Sample test for updateDefaults.ts - Configure and retrieve default model deployments.
+ * Sample test for updateDefaults.ts - Configure and retrieve default model deployments.
  */
 
 import type { Recorder } from "@azure-tools/test-recorder";
