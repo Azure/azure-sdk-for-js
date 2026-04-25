@@ -53,11 +53,11 @@
   "engines": {
     "node": ">=20.0.0"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-tracing/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-tracing/README.md",
   "sideEffects": false,
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "build:samples": "tsc -p tsconfig.samples.json",
+    "build:samples": "tsc -p config/tsconfig.samples.json",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
     "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
     "execute:samples": "echo skipped",
@@ -66,9 +66,9 @@
     "lint": "eslint package.json src test",
     "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
     "pack": "pnpm pack 2>&1",
-    "test": "npm run test:node && npm run test:browser",
-    "test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser",
-    "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest --no-test-proxy",
+    "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
+    "test:browser": "dev-tool run test:vitest --no-test-proxy --browser",
+    "test:node": "dev-tool run test:vitest --no-test-proxy",
     "update-snippets": "dev-tool run update-snippets"
   },
   "dependencies": {
@@ -101,5 +101,13 @@
     },
     "migrationDate": "2023-03-08T18:36:03.000Z"
   },
-  "module": "./dist/esm/index.js"
+  "module": "./dist/esm/index.js",
+  "imports": {
+    "#platform/state": {
+      "browser": "./src/state-web.mts",
+      "react-native": "./src/state-web.mts",
+      "require": "./src/state-cjs.ts",
+      "default": "./src/state.ts"
+    }
+  }
 }
