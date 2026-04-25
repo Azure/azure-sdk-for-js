@@ -81,7 +81,10 @@ describe("accessControlHelloWorld", () => {
   it("set role definition", async () => {
     // @snippet ReadmeSampleSetRoleDefinition
     const permissions = [{ dataActions: [KnownKeyVaultDataAction.BackupHsmKeys] }];
-    const roleDefinitionName = forPublishing(randomUUID(), () => randomUUID());
+    const roleDefinitionName = forPublishing(
+      recorder.variable("setRoleDefName", randomUUID()),
+      () => randomUUID(),
+    );
     const roleDefinition = await client.setRoleDefinition(KnownKeyVaultRoleScope.Global, {
       permissions,
       roleDefinitionName,
@@ -96,7 +99,10 @@ describe("accessControlHelloWorld", () => {
   it("delete role definition", async () => {
     // @snippet ReadmeSampleDeleteRoleDefinition
     const permissions = [{ dataActions: [KnownKeyVaultDataAction.BackupHsmKeys] }];
-    const roleDefinitionName = forPublishing(randomUUID(), () => randomUUID());
+    const roleDefinitionName = forPublishing(
+      recorder.variable("deleteRoleDefName", randomUUID()),
+      () => randomUUID(),
+    );
     const roleDefinition = await client.setRoleDefinition(KnownKeyVaultRoleScope.Global, {
       permissions,
       roleDefinitionName,
@@ -117,7 +123,7 @@ describe("accessControlHelloWorld", () => {
     );
     const result = await client.createRoleAssignment(
       "/",
-      forPublishing(randomUUID(), () => randomUUID()),
+      forPublishing(recorder.variable("createAssignmentName", randomUUID()), () => randomUUID()),
       roleDefinition.id,
       principalId,
     );
@@ -136,7 +142,7 @@ describe("accessControlHelloWorld", () => {
     // @ts-preserve-whitespace
     let roleAssignment = await client.createRoleAssignment(
       "/",
-      forPublishing(randomUUID(), () => randomUUID()),
+      forPublishing(recorder.variable("getAssignmentName", randomUUID()), () => randomUUID()),
       roleDefinition.id,
       principalId,
     );
@@ -161,7 +167,7 @@ describe("accessControlHelloWorld", () => {
     // @ts-preserve-whitespace
     const roleAssignment = await client.createRoleAssignment(
       "/",
-      forPublishing(randomUUID(), () => randomUUID()),
+      forPublishing(recorder.variable("deleteAssignmentName", randomUUID()), () => randomUUID()),
       roleDefinition.id,
       principalId,
     );
@@ -172,7 +178,7 @@ describe("accessControlHelloWorld", () => {
 
   it("create and manage role definition (integration)", async () => {
     const globalScope = KnownKeyVaultRoleScope.Global;
-    const roleDefinitionName = randomUUID();
+    const roleDefinitionName = recorder.variable("roleDefNameInt", randomUUID());
     const permissions: KeyVaultPermission[] = [
       {
         dataActions: [
@@ -197,7 +203,7 @@ describe("accessControlHelloWorld", () => {
     const globalScope = KnownKeyVaultRoleScope.Global;
 
     // First create a role definition to assign
-    const roleDefinitionName = randomUUID();
+    const roleDefinitionName = recorder.variable("roleDefAssignInt", randomUUID());
     const permissions: KeyVaultPermission[] = [
       {
         dataActions: [
@@ -215,7 +221,7 @@ describe("accessControlHelloWorld", () => {
 
     // This sample uses a custom role but you may assign one of the many built-in roles.
     // Please refer to https://learn.microsoft.com/azure/key-vault/managed-hsm/built-in-roles for more information.
-    const roleAssignmentName = randomUUID();
+    const roleAssignmentName = recorder.variable("roleAssignNameInt", randomUUID());
     const clientObjectId = forPublishing(
       assertEnvironmentVariable("CLIENT_OBJECT_ID"),
       () => process.env["CLIENT_OBJECT_ID"]!,
