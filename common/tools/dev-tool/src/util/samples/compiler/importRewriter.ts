@@ -279,8 +279,10 @@ export function rewriteImports(
         for (const spec of clause.namedBindings.elements) {
           const sym = analyzer.getSymbol(spec.name);
           const isDead = sym ? deadSymbols.has(sym) : false;
-          if (!isDead) {
-            const localName = spec.name.text;
+          // Also check referencedNames - import may be stale after substitution
+          const localName = spec.name.text;
+          const isUnreferenced = referencedNames && !referencedNames.has(localName);
+          if (!isDead && !isUnreferenced) {
             const key = spec.propertyName
               ? `${spec.propertyName.text} as ${localName}`
               : localName;
@@ -302,15 +304,19 @@ export function rewriteImports(
       // Default or namespace imports
       if (clause.name || (clause.namedBindings && ts.isNamespaceImport(clause.namedBindings))) {
         const defaultName = clause.name;
-        const defaultDead = defaultName
+        let defaultDead = defaultName
           ? (() => {
               const sym = analyzer.getSymbol(defaultName);
               return sym ? deadSymbols.has(sym) : false;
             })()
           : false;
+        // Also check referencedNames for default import
+        if (!defaultDead && defaultName && referencedNames && !referencedNames.has(defaultName.text)) {
+          defaultDead = true;
+        }
         const keepDefault = defaultName && !defaultDead;
         const hasNs = clause.namedBindings && ts.isNamespaceImport(clause.namedBindings);
-        const nsDead = hasNs
+        let nsDead = hasNs
           ? (() => {
               const sym = analyzer.getSymbol(
                 (clause.namedBindings as ts.NamespaceImport).name,
@@ -318,6 +324,13 @@ export function rewriteImports(
               return sym ? deadSymbols.has(sym) : false;
             })()
           : true;
+        // Also check referencedNames for namespace import
+        if (!nsDead && hasNs && referencedNames) {
+          const nsName = (clause.namedBindings as ts.NamespaceImport).name.text;
+          if (!referencedNames.has(nsName)) {
+            nsDead = true;
+          }
+        }
 
         if (keepDefault && !hasNs) {
           if (sourceDefaultName !== undefined) {

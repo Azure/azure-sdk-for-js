@@ -413,6 +413,61 @@ describe("x", () => {
         /Nested snippet.*Inner.*inside.*Outer/,
       );
     });
+
+    it("throws on stray @snippet-end without matching @snippet", () => {
+      const input = `\
+/** @summary stray snippet-end */
+import { describe, it } from "vitest";
+describe("x", () => {
+  it("y", async () => {
+    const x = 1;
+    // @snippet-end Orphan
+    const y = 2;
+  });
+});
+`;
+      expect(() => compileSampleTest(input, { packageName: "@azure/test" })).toThrow(
+        /Stray.*@snippet-end Orphan.*without matching/,
+      );
+    });
+
+    it("throws on mismatched @snippet-end name", () => {
+      const input = `\
+/** @summary mismatched snippet-end */
+import { describe, it } from "vitest";
+describe("x", () => {
+  it("y", async () => {
+    // @snippet Alpha
+    const x = 1;
+    // @snippet-end Beta
+    const y = 2;
+  });
+});
+`;
+      expect(() => compileSampleTest(input, { packageName: "@azure/test" })).toThrow(
+        /Mismatched snippet end.*@snippet-end Beta.*does not match.*@snippet Alpha/,
+      );
+    });
+
+    it("throws on duplicate snippet names", () => {
+      const input = `\
+/** @summary duplicate snippets */
+import { describe, it } from "vitest";
+describe("x", () => {
+  it("y", async () => {
+    // @snippet Dup
+    const x = 1;
+    // @snippet-end Dup
+    // @snippet Dup
+    const y = 2;
+    // @snippet-end Dup
+  });
+});
+`;
+      expect(() => compileSampleTest(input, { packageName: "@azure/test" })).toThrow(
+        /Duplicate snippet name.*Dup/,
+      );
+    });
   });
 
   // ── Test 5b: @ts-preserve-whitespace handling ─────────────────────
@@ -846,6 +901,64 @@ describe("sample", () => {
       const result = compileSampleTest(input, { packageName: "@azure/client" });
       expect(result.outputText).toContain("Formatter");
       expect(result.outputText).toContain("new Formatter()");
+    });
+
+    it("eliminates helper call when helper signature references dead type", () => {
+      const input = `\
+/** @summary helper with dead param type */
+import { Recorder } from "@azure-tools/test-recorder";
+import { describe, it, beforeEach } from "vitest";
+
+describe("sample", () => {
+  let recorder: Recorder;
+  beforeEach(() => {
+    recorder = new Recorder(undefined);
+  });
+  function logRecorder(r: Recorder) { console.log(r); }
+  it("test", async () => {
+    logRecorder(recorder);
+    console.log("hello");
+  });
+});
+`;
+      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      // Both recorder and logRecorder should be eliminated since logRecorder references Recorder type
+      expect(result.outputText).not.toContain("recorder");
+      expect(result.outputText).not.toContain("logRecorder");
+      expect(result.outputText).not.toContain("Recorder");
+      expect(result.outputText).toContain('console.log("hello")');
+    });
+
+    it("preserves helper call when helper uses untyped parameter (any)", () => {
+      // This tests an edge case: helper takes `any` but the call passes a dead binding
+      // Currently, the compiler keeps the call because:
+      // 1. logThing has no type dependencies → survives
+      // 2. logThing(recorder) has root logThing which is alive → survives
+      // Note: This produces output with a reference to undefined `recorder`.
+      // In practice, test helpers should have typed parameters which causes proper cascade.
+      const input = `\
+/** @summary helper with any param */
+import { Recorder } from "@azure-tools/test-recorder";
+import { describe, it, beforeEach } from "vitest";
+
+describe("sample", () => {
+  let recorder: Recorder;
+  beforeEach(() => {
+    recorder = new Recorder(undefined);
+  });
+  function logThing(r: any) { console.log("thing:", r); }
+  it("test", async () => {
+    logThing(recorder);
+    console.log("hello");
+  });
+});
+`;
+      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      // Recorder import is eliminated
+      expect(result.outputText).not.toContain("Recorder");
+      // logThing survives and so does its call (current behavior - root-based liveness)
+      expect(result.outputText).toContain("logThing");
+      expect(result.outputText).toContain('console.log("hello")');
     });
   });
 

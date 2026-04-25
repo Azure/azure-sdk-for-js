@@ -4,11 +4,13 @@
 import { describe, it, expect } from "vitest";
 import {
   substituteForPublishing,
+  substituteSampleOnly,
   collectFreeVariables,
 } from "../../../src/util/samples/compiler/substitutor.js";
 import ts from "typescript";
 import { parseSource, normalizeWhitespace } from "./helpers.js";
 import { CompilerError } from "../../../src/util/samples/compiler/types.js";
+import { createAnalyzer } from "../../../src/util/samples/compiler/bindingAnalyzer.js";
 
 function printFile(sourceFile: ts.SourceFile): string {
   const printer = ts.createPrinter({ newLine: ts.NewLineKind.LineFeed });
@@ -253,5 +255,80 @@ describe("collectFreeVariables", () => {
     const result = collectFreeVariables(exprFrom("(function(a) { return a + b; })"));
     expect(result).toContain("b");
     expect(result).not.toContain("a");
+  });
+});
+
+// ── substituteSampleOnly unit tests ─────────────────────────────────
+
+describe("substituteSampleOnly", () => {
+  /** Helper: apply sampleOnly substitution to a source string. */
+  function substituteSO(source: string, fileName = "test.ts") {
+    const sourceWithImport = source.includes("import")
+      ? source
+      : `import { sampleOnly } from "@azure-tools/test-publishing";\n${source}`;
+    const analyzer = createAnalyzer(sourceWithImport, fileName);
+    const result = substituteSampleOnly(analyzer.sourceFile, analyzer.checker, fileName);
+    const output = normalizeWhitespace(printFile(result.transformedFile))
+      .replace(/import\s*\{\s*sampleOnly\s*\}\s*from\s*"@azure-tools\/test-publishing";\s*/g, "")
+      .trim();
+    return { output, replacementCount: result.replacementCount };
+  }
+
+  it("simple string substitution", () => {
+    const { output, replacementCount } = substituteSO(
+      `const msg = sampleOnly(() => "Hello, world!");`,
+    );
+    expect(output).toBe(`const msg = "Hello, world!";`);
+    expect(replacementCount).toBe(1);
+  });
+
+  it("constructor substitution", () => {
+    const { output, replacementCount } = substituteSO(
+      `const obj = sampleOnly(() => new MyClass());`,
+    );
+    expect(output).toBe(`const obj = new MyClass();`);
+    expect(replacementCount).toBe(1);
+  });
+
+  it("multiple sampleOnly calls", () => {
+    const { output, replacementCount } = substituteSO(
+      `const a = sampleOnly(() => 1);\nconst b = sampleOnly(() => 2);`,
+    );
+    expect(output).toContain("const a = 1;");
+    expect(output).toContain("const b = 2;");
+    expect(replacementCount).toBe(2);
+  });
+
+  it("returns undefined result when arrow returns undefined", () => {
+    const { output } = substituteSO(
+      `const x = sampleOnly(() => undefined);`,
+    );
+    expect(output).toBe(`const x = undefined;`);
+  });
+
+  it("does nothing when no sampleOnly import", () => {
+    const input = `
+function sampleOnly(fn: () => any) { return fn(); }
+const x = sampleOnly(() => "value");
+`;
+    const analyzer = createAnalyzer(input, "test.ts");
+    const result = substituteSampleOnly(analyzer.sourceFile, analyzer.checker, "test.ts");
+    expect(result.replacementCount).toBe(0);
+  });
+
+  it("throws CompilerError for block-bodied arrow", () => {
+    expect(() => substituteSO(`sampleOnly(() => { return 1; });`)).toThrow(CompilerError);
+  });
+
+  it("throws CompilerError for arrow with parameters", () => {
+    expect(() => substituteSO(`sampleOnly((x) => x);`)).toThrow(CompilerError);
+  });
+
+  it("throws CompilerError for wrong arg count (0 args)", () => {
+    expect(() => substituteSO(`sampleOnly();`)).toThrow(CompilerError);
+  });
+
+  it("throws CompilerError for wrong arg count (2 args)", () => {
+    expect(() => substituteSO(`sampleOnly(() => 1, () => 2);`)).toThrow(CompilerError);
   });
 });

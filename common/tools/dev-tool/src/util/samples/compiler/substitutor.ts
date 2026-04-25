@@ -16,6 +16,16 @@ export interface SubstitutionResult {
 }
 
 /**
+ * Result of the sampleOnly substitution pass.
+ */
+export interface SampleOnlyResult {
+  /** The transformed source file with sampleOnly calls replaced */
+  transformedFile: ts.SourceFile;
+  /** Count of sampleOnly calls replaced */
+  replacementCount: number;
+}
+
+/**
  * Collect all identifier names referenced in an expression.
  * For property access chains like `process.env.X`, collects all identifiers
  * (`process`, `env`, `X`).
@@ -224,4 +234,131 @@ export function substituteForPublishing(
   result.dispose();
 
   return { transformedFile, substitutions };
+}
+
+/**
+ * Validate a `sampleOnly(...)` call expression and extract the sample expression.
+ *
+ * sampleOnly takes a single argument: an arrow function returning the sample-only value.
+ * At runtime it returns undefined; the compiler replaces the call with the arrow body.
+ */
+function validateAndExtractSampleOnly(
+  node: ts.CallExpression,
+  fileName: string,
+  sourceFile: ts.SourceFile,
+): ts.Expression {
+  const args = node.arguments;
+
+  if (args.length !== 1) {
+    const { line } = sourceFile.getLineAndCharacterOfPosition(node.getStart(sourceFile));
+    throw new CompilerError(
+      `sampleOnly expects exactly 1 argument, got ${args.length}`,
+      fileName,
+      line + 1,
+    );
+  }
+
+  const arg = args[0];
+
+  if (!ts.isArrowFunction(arg)) {
+    const { line } = sourceFile.getLineAndCharacterOfPosition(arg.getStart(sourceFile));
+    throw new CompilerError(
+      "Argument to sampleOnly must be an arrow function",
+      fileName,
+      line + 1,
+    );
+  }
+
+  if (arg.parameters.length > 0) {
+    const { line } = sourceFile.getLineAndCharacterOfPosition(arg.getStart(sourceFile));
+    throw new CompilerError(
+      "Arrow function in sampleOnly must take no parameters (use a thunk: () => expr)",
+      fileName,
+      line + 1,
+    );
+  }
+
+  const body = arg.body;
+
+  if (ts.isBlock(body)) {
+    const { line } = sourceFile.getLineAndCharacterOfPosition(body.getStart(sourceFile));
+    throw new CompilerError(
+      "Arrow function in sampleOnly must have an expression body, not a block body",
+      fileName,
+      line + 1,
+    );
+  }
+
+  return body as ts.Expression;
+}
+
+/**
+ * Substitute `sampleOnly(() => expr)` calls with the arrow body expression.
+ *
+ * sampleOnly is simpler than forPublishing — there are no free variables to collect,
+ * and the entire call is always replaced with the arrow body.
+ */
+export function substituteSampleOnly(
+  sourceFile: ts.SourceFile,
+  checker: ts.TypeChecker,
+  fileName: string,
+): SampleOnlyResult {
+  // Find the sampleOnly import symbol
+  let sampleOnlySymbol: ts.Symbol | undefined;
+
+  for (const stmt of sourceFile.statements) {
+    if (!ts.isImportDeclaration(stmt)) continue;
+    const spec = stmt.moduleSpecifier;
+    if (!ts.isStringLiteral(spec)) continue;
+    // Only look in test-publishing imports
+    if (!spec.text.includes("test-publishing")) continue;
+
+    const clause = stmt.importClause;
+    if (!clause?.namedBindings) continue;
+    if (!ts.isNamedImports(clause.namedBindings)) continue;
+
+    for (const el of clause.namedBindings.elements) {
+      const importedName = el.propertyName?.text ?? el.name.text;
+      if (importedName === "sampleOnly") {
+        sampleOnlySymbol = checker.getSymbolAtLocation(el.name);
+        break;
+      }
+    }
+    if (sampleOnlySymbol) break;
+  }
+
+  // No sampleOnly import → nothing to substitute
+  if (!sampleOnlySymbol) {
+    return { transformedFile: sourceFile, replacementCount: 0 };
+  }
+
+  let replacementCount = 0;
+
+  const transformer: ts.TransformerFactory<ts.SourceFile> = (context) => {
+    return (sf) => {
+      function visitor(node: ts.Node): ts.Node {
+        if (
+          ts.isCallExpression(node) &&
+          ts.isIdentifier(node.expression) &&
+          checker.getSymbolAtLocation(node.expression) === sampleOnlySymbol
+        ) {
+          const sampleExpr = validateAndExtractSampleOnly(node, fileName, sf);
+          replacementCount++;
+
+          // TypeScript printer handles precedence automatically - just return the expression
+          return sampleExpr;
+        }
+
+        return ts.visitEachChild(node, visitor, context);
+      }
+
+      return ts.visitEachChild(sf, visitor, context);
+    };
+  };
+
+  const result = ts.transform(sourceFile, [transformer]);
+  const transformedFile = result.transformed[0];
+  result.dispose();
+
+  return { transformedFile, replacementCount };
 }

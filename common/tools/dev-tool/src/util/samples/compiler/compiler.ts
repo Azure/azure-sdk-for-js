@@ -14,7 +14,7 @@ import type { CompiledSample, ClassifiedImport, SampleMetadata } from "./types.j
 import { CompilerError } from "./types.js";
 import { parseSampleTestFile } from "./parser.js";
 import { classifyImports } from "./importClassifier.js";
-import { substituteForPublishing } from "./substitutor.js";
+import { substituteForPublishing, substituteSampleOnly } from "./substitutor.js";
 import { eliminateDeadStatements } from "./deadBindingEliminator.js";
 import { createAnalyzer, resolveNamesToSymbols, type BindingAnalyzer } from "./bindingAnalyzer.js";
 import { descriptionToFunctionName } from "./codeGenerator.js";
@@ -72,8 +72,17 @@ export function compileSampleTest(
   // Step 3: Substitute forPublishing calls across the entire source
   const { transformedFile, substitutions } = substituteForPublishing(sourceFile, fileName);
 
+  // Step 3b: Substitute sampleOnly calls (requires re-parse after forPublishing)
+  const step3Text = printer.printFile(transformedFile);
+  const step3File = createSourceFile(fileName, step3Text);
+  const step3Analyzer = createAnalyzer(step3Text, fileName);
+  const { transformedFile: postSampleOnlyFile, replacementCount: sampleOnlyCount } =
+    substituteSampleOnly(step3File, step3Analyzer.checker, fileName);
+
   // Step 4: Print and re-parse to get a clean AST with substitutions applied
-  const substitutedText = printer.printFile(transformedFile);
+  const substitutedText = sampleOnlyCount > 0
+    ? printer.printFile(postSampleOnlyFile)
+    : step3Text;
 
   // Step 4b: Create ONE analyzer for the full substituted file (scope-aware symbol resolution)
   const analyzer = createAnalyzer(substitutedText, fileName);
@@ -496,6 +505,12 @@ function postProcessOutput(text: string): string {
 
 /**
  * Extract snippet regions delimited by `// @snippet Name` and `// @snippet-end Name`.
+ *
+ * Validates:
+ * - No nested snippet markers
+ * - No unclosed snippet markers
+ * - No stray @snippet-end without matching @snippet
+ * - No duplicate snippet names
  */
 function extractSnippets(text: string, fileName?: string): Map<string, string> {
   const snippets = new Map<string, string>();
@@ -509,10 +524,33 @@ function extractSnippets(text: string, fileName?: string): Map<string, string> {
     const startMatch = line.match(startRegex);
     const endMatch = line.match(endRegex);
 
-    if (endMatch && current && endMatch[1] === current.name) {
+    if (endMatch) {
+      const endName = endMatch[1];
+      if (!current) {
+        throw new CompilerError(
+          `Stray "@snippet-end ${endName}" without matching "@snippet ${endName}"`,
+          fileName ?? "<unknown>",
+          i + 1,
+        );
+      }
+      if (endName !== current.name) {
+        throw new CompilerError(
+          `Mismatched snippet end: "@snippet-end ${endName}" does not match "@snippet ${current.name}" (opened at line ${current.lineNumber})`,
+          fileName ?? "<unknown>",
+          i + 1,
+        );
+      }
+      // Check for duplicate before storing
+      if (snippets.has(current.name)) {
+        throw new CompilerError(
+          `Duplicate snippet name "${current.name}" — a snippet with this name was already defined`,
+          fileName ?? "<unknown>",
+          current.lineNumber,
+        );
+      }
       snippets.set(current.name, current.lines.join("\n"));
       current = null;
-    } else if (startMatch && !endMatch) {
+    } else if (startMatch) {
       if (current) {
         throw new CompilerError(
           `Nested snippet marker "@snippet ${startMatch[1]}" found inside "@snippet ${current.name}" (opened at line ${current.lineNumber})`,
