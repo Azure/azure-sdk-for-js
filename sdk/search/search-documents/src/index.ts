@@ -32,6 +32,11 @@ export {
 } from "./models/azure/search/documents/index.js";
 
 export {
+  type ContentUnderstandingSkillChunkingMethod,
+  KnownContentUnderstandingSkillChunkingMethod,
+} from "./models/index.js";
+
+export {
   type AIServices,
   type AzureBlobKnowledgeSourceParams,
   type KnowledgeBaseActivityRecord as BaseKnowledgeBaseActivityRecord,
@@ -71,10 +76,30 @@ export {
   type KnowledgeBaseWebReference,
   type KnowledgeRetrievalIntent,
   type KnowledgeRetrievalMinimalReasoningEffort,
+  type KnowledgeRetrievalLowReasoningEffort,
+  type KnowledgeRetrievalMediumReasoningEffort,
+  type KnowledgeRetrievalOutputMode,
+  KnownKnowledgeRetrievalOutputMode,
+  KnownKnowledgeRetrievalReasoningEffortKind,
   type KnowledgeRetrievalSemanticIntent,
   type KnowledgeSourceParamsUnion as KnowledgeSourceParams,
   type SearchIndexKnowledgeSourceParams,
   type WebKnowledgeSourceParams,
+  type IndexedSharePointKnowledgeSourceParams,
+  type RemoteSharePointKnowledgeSourceParams,
+  type WorkIQKnowledgeSourceParams,
+  type FabricDataAgentKnowledgeSourceParams,
+  type FabricOntologyKnowledgeSourceParams,
+  type PurviewSensitivityLabelInfo,
+  type KnowledgeBaseIndexedSharePointReference,
+  type KnowledgeBaseRemoteSharePointReference,
+  type KnowledgeBaseWorkIQReference,
+  type WorkIQAttribution,
+  type KnowledgeBaseFabricDataAgentReference,
+  type KnowledgeBaseFabricOntologyReference,
+  type KnowledgeBaseModelQueryPlanningActivityRecord,
+  type KnowledgeBaseModelAnswerSynthesisActivityRecord,
+  type KnowledgeBaseModelWebSummarizationActivityRecord,
 } from "./models/azure/search/documents/knowledgeBases/index.js";
 export {
   type AIFoundryModelCatalogName,
@@ -148,6 +173,12 @@ export {
   type HighWaterMarkChangeDetectionPolicy,
   type IndexerExecutionResult,
   type IndexerExecutionStatus,
+  type IndexerExecutionStatusDetail,
+  KnownIndexerExecutionStatusDetail,
+  type IndexerCurrentState,
+  type IndexerRuntime,
+  type IndexingMode,
+  KnownIndexingMode,
   type IndexerResyncOption,
   type IndexerStatus,
   type IndexingSchedule,

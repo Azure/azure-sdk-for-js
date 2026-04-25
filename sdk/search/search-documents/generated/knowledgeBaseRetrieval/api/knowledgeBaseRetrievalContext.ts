@@ -7,6 +7,8 @@ import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 
 export interface KnowledgeBaseRetrievalContext extends Client {
+  /** The name of the knowledge base. */
+  knowledgeBaseName: string;
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion?: string;
@@ -22,6 +24,7 @@ export interface KnowledgeBaseRetrievalClientOptionalParams extends ClientOption
 export function createKnowledgeBaseRetrieval(
   endpointParam: string,
   credential: KeyCredential | TokenCredential,
+  knowledgeBaseName: string,
   options: KnowledgeBaseRetrievalClientOptionalParams = {},
 ): KnowledgeBaseRetrievalContext {
   const endpointUrl = options.endpoint ?? String(endpointParam);
@@ -41,5 +44,5 @@ export function createKnowledgeBaseRetrieval(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   const apiVersion = options.apiVersion;
-  return { ...clientContext, apiVersion } as KnowledgeBaseRetrievalContext;
+  return { ...clientContext, apiVersion, knowledgeBaseName } as KnowledgeBaseRetrievalContext;
 }
