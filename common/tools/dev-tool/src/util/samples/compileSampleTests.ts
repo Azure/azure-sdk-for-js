@@ -18,6 +18,7 @@ import { findMatchingFiles } from "../findMatchingFiles.js";
 import { createPrinter } from "../printer.js";
 import { compileSampleTest, type HelperCache } from "./compiler/compiler.js";
 import type { HelperResolver, ResolvedHelper } from "./compiler/helperCompiler.js";
+import type { SourceImportPredicate } from "./compiler/importClassifier.js";
 
 const log = createPrinter("sample-tests");
 
@@ -184,6 +185,26 @@ export async function compileSampleTests(
   const testPublicPath = path.join(projectPath, "test", "public");
   const resolveHelper = createHelperResolver(testPublicPath);
 
+  // Create a robust source import predicate based on actual path resolution.
+  // A relative import is "source code" if it resolves outside test/public/ (e.g., into src/).
+  // This replaces the fragile "/src/" substring heuristic.
+  const isSourceImport: SourceImportPredicate = (specifier: string): boolean => {
+    // For now, sample tests are always in test/public/samples/node or test/public/samples/browser.
+    // We approximate: if the path goes above test/public/ (enough ../ segments), it's source.
+    // The sample files are 2 levels deep: samples/node/foo.spec.ts
+    // So ../../../../src/index.js (4 levels up) goes above test/public/.
+    // Count the leading "../" segments
+    let remaining = specifier;
+    let upCount = 0;
+    while (remaining.startsWith("../")) {
+      upCount++;
+      remaining = remaining.slice(3);
+    }
+    // From samples/node/, 2 "../" gets to test/public, 3 gets to test/, 4 gets to project root
+    // If upCount >= 3, the path escapes test/public/ and is likely source code
+    return upCount >= 3;
+  };
+
   let compiledCount = 0;
   const allEnvVars = new Set<string>();
   const writtenHelpers = new Map<string, string>();
@@ -220,6 +241,7 @@ export async function compileSampleTests(
         platform,
         helperCache: sharedHelperCache,
         strict: true, // Fatal on unresolved helpers in production path
+        isSourceImport, // Path-based classification instead of "/src/" heuristic
       });
 
       if (result.warnings.length > 0) {

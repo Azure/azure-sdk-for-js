@@ -13,7 +13,7 @@
  */
 
 import ts from "typescript";
-import { classifyImports } from "./importClassifier.js";
+import { classifyImports, type SourceImportPredicate } from "./importClassifier.js";
 import { eliminateDeadStatements } from "./deadBindingEliminator.js";
 import { createAnalyzer } from "./bindingAnalyzer.js";
 import { rewriteImports } from "./importRewriter.js";
@@ -137,6 +137,7 @@ function collectSurvivingExportsFromStatements(statements: readonly ts.Statement
  * @param recursionStack - Set of canonical paths in the current call chain (cycle detection)
  * @param helperCache - Cache of previously compiled helper results
  * @param strict - When true, unresolved nested helpers throw instead of warning
+ * @param isSourceImport - Optional predicate to classify source vs helper imports
  */
 export function compileHelper(
   sourceText: string,
@@ -146,6 +147,7 @@ export function compileHelper(
   recursionStack?: Set<string>,
   helperCache?: Map<string, CompiledHelper>,
   strict?: boolean,
+  isSourceImport?: SourceImportPredicate,
 ): CompiledHelper {
   const currentStack = recursionStack ?? new Set<string>();
   const currentCache = helperCache ?? new Map<string, CompiledHelper>();
@@ -154,8 +156,8 @@ export function compileHelper(
   // Create ONE analyzer for the full helper file (scope-aware symbol resolution)
   const analyzer = createAnalyzer(sourceText, fileName);
 
-  // Classify imports
-  const classified = classifyImports(analyzer.sourceFile);
+  // Classify imports using same predicate as parent
+  const classified = classifyImports(analyzer.sourceFile, isSourceImport);
 
   // Collect dead symbols from test imports
   const deadSymbols = new Set<ts.Symbol>();
@@ -248,9 +250,10 @@ export function compileHelper(
 
       const specifier = stmt.moduleSpecifier.text;
 
-      // Apply same local-helper heuristic as importClassifier's categorize()
+      // Skip non-relative, source-code, and data-file specifiers (only recurse into helpers)
       if (!specifier.startsWith("./") && !specifier.startsWith("../")) continue;
-      if (specifier.includes("/src/") || specifier.endsWith(".json")) continue;
+      const checkSource = isSourceImport ?? ((s: string) => s.includes("/src/"));
+      if (checkSource(specifier) || specifier.endsWith(".json")) continue;
 
       const resolved = resolveHelper(fileName, specifier);
       if (!resolved) {
@@ -284,6 +287,7 @@ export function compileHelper(
             currentStack,
             currentCache,
             strict,
+            isSourceImport,
           );
           currentCache.set(resolved.canonicalPath, nested);
         } finally {

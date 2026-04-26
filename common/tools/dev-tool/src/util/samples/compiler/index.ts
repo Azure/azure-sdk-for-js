@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 export { classifyImport, classifyImports } from "./importClassifier.js";
+export type { SourceImportPredicate } from "./importClassifier.js";
 export { substituteForPublishing } from "./substitutor.js";
 export { parseSampleTestFile } from "./parser.js";
 export { eliminateDeadBindings, eliminateDeadStatements } from "./deadBindingEliminator.js";

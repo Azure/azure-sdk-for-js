@@ -5,9 +5,26 @@ import ts from "typescript";
 import { TEST_PACKAGES, type ImportCategory, type ClassifiedImport } from "./types.js";
 
 /**
+ * Callback to determine if a relative import specifier points to source code.
+ * Source code imports are rewritten to use the package name.
+ */
+export type SourceImportPredicate = (specifier: string) => boolean;
+
+/**
+ * Default heuristic: treat imports containing "/src/" as source code.
+ * This works for Azure SDK's standard layout where tests are in test/ and source in src/.
+ */
+function defaultIsSourceImport(specifier: string): boolean {
+  return specifier.includes("/src/");
+}
+
+/**
  * Determine the category of a module specifier string.
  */
-function categorize(specifier: string): ImportCategory {
+function categorize(
+  specifier: string,
+  isSourceImport: SourceImportPredicate = defaultIsSourceImport,
+): ImportCategory {
   // Test packages: exact match or @azure-tools/test-* prefix
   if (TEST_PACKAGES.has(specifier) || specifier.startsWith("@azure-tools/test-")) {
     return "test";
@@ -15,8 +32,8 @@ function categorize(specifier: string): ImportCategory {
 
   // Relative paths
   if (specifier.startsWith("./") || specifier.startsWith("../")) {
-    // Source code: relative path containing /src/
-    if (specifier.includes("/src/")) {
+    // Source code: caller-defined predicate (default: /src/ heuristic)
+    if (isSourceImport(specifier)) {
       return "sourceCode";
     }
     // Data file: .json extension
@@ -31,16 +48,24 @@ function categorize(specifier: string): ImportCategory {
 }
 
 /** Classify a single import declaration. */
-export function classifyImport(node: ts.ImportDeclaration): ClassifiedImport {
+export function classifyImport(
+  node: ts.ImportDeclaration,
+  isSourceImport?: SourceImportPredicate,
+): ClassifiedImport {
   const moduleSpecifier = (node.moduleSpecifier as ts.StringLiteral).text;
   return {
     node,
-    category: categorize(moduleSpecifier),
+    category: categorize(moduleSpecifier, isSourceImport),
     moduleSpecifier,
   };
 }
 
 /** Classify all imports in a source file. */
-export function classifyImports(sourceFile: ts.SourceFile): ClassifiedImport[] {
-  return sourceFile.statements.filter(ts.isImportDeclaration).map(classifyImport);
+export function classifyImports(
+  sourceFile: ts.SourceFile,
+  isSourceImport?: SourceImportPredicate,
+): ClassifiedImport[] {
+  return sourceFile.statements
+    .filter(ts.isImportDeclaration)
+    .map((node) => classifyImport(node, isSourceImport));
 }

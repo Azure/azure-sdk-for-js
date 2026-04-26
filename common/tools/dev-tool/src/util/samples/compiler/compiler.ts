@@ -39,6 +39,13 @@ export interface CompileOptions {
    */
   resolveHelper?: HelperResolver;
   /**
+   * Determine if a relative import specifier points to source code (vs local helper).
+   * When provided, this replaces the default `/src/` heuristic.
+   * Source code imports are rewritten to use the package name.
+   * Helper imports are compiled and bundled with the sample.
+   */
+  isSourceImport?: (specifier: string) => boolean;
+  /**
    * Target platform for this sample. When "browser", the sample is marked
    * with @azsdk-skip-javascript automatically (browser samples are TypeScript-only
    * in published output since they require a bundler).
@@ -66,6 +73,7 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
     packageName,
     fileName = "<sample-test>",
     resolveHelper,
+    isSourceImport,
     platform,
     helperCache,
     strict,
@@ -108,7 +116,7 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
   }
 
   // Step 5: Classify imports and collect dead binding symbols from test imports
-  const classified = classifyImports(analyzer.sourceFile);
+  const classified = classifyImports(analyzer.sourceFile, isSourceImport);
   const deadSymbols = collectDeadSymbols(classified, analyzer);
 
   // Step 5a: Resolve local helper imports (import graph following)
@@ -164,6 +172,7 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
           visited,
           effectiveCache, // Pass cache for nested helper reuse
           strict, // Propagate strict mode to nested helpers
+          isSourceImport, // Propagate source import predicate
         );
         effectiveCache.set(resolved.canonicalPath, helper);
 
