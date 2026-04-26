@@ -134,7 +134,7 @@ function pruneAndRebuild(
   deadSymbols: Set<ts.Symbol>,
   analyzer: BindingAnalyzer,
   attrs?: ts.ImportAttributes,
-  referencedNames?: Set<string>,
+  referencedSymbols?: Set<ts.Symbol>,
 ): ts.ImportDeclaration | undefined {
   const clause = node.importClause;
   if (!clause) {
@@ -152,8 +152,8 @@ function pruneAndRebuild(
   if (defaultName) {
     const sym = analyzer.getSymbol(defaultName);
     defaultDead = sym ? deadSymbols.has(sym) : false;
-    // Also treat as dead if not referenced in surviving body text
-    if (!defaultDead && referencedNames && !referencedNames.has(defaultName.text)) {
+    // Also treat as dead if not referenced in surviving AST
+    if (!defaultDead && sym && referencedSymbols && !referencedSymbols.has(sym)) {
       defaultDead = true;
     }
   }
@@ -184,8 +184,8 @@ function pruneAndRebuild(
     const liveSpecifiers = clause.namedBindings.elements.filter((s) => {
       const sym = analyzer.getSymbol(s.name);
       if (sym && deadSymbols.has(sym)) return false;
-      // Also remove if not referenced in surviving body text (stale after substitution)
-      if (referencedNames && !referencedNames.has(s.name.text)) return false;
+      // Also remove if not referenced in surviving AST (stale after substitution)
+      if (sym && referencedSymbols && !referencedSymbols.has(sym)) return false;
       return true;
     });
     if (liveSpecifiers.length === 0 && !keepDefault) return undefined;
@@ -226,7 +226,7 @@ export function rewriteImports(
   packageName: string,
   deadSymbols: Set<ts.Symbol>,
   analyzer: BindingAnalyzer,
-  referencedNames?: Set<string>,
+  referencedSymbols?: Set<ts.Symbol>,
 ): RewriteResult {
   const packageImports: ts.ImportDeclaration[] = [];
   const localImports: ts.ImportDeclaration[] = [];
@@ -268,9 +268,9 @@ export function rewriteImports(
         for (const spec of clause.namedBindings.elements) {
           const sym = analyzer.getSymbol(spec.name);
           const isDead = sym ? deadSymbols.has(sym) : false;
-          // Also check referencedNames - import may be stale after substitution
+          // Also check referencedSymbols - import may be stale after substitution
           const localName = spec.name.text;
-          const isUnreferenced = referencedNames && !referencedNames.has(localName);
+          const isUnreferenced = sym && referencedSymbols && !referencedSymbols.has(sym);
           if (!isDead && !isUnreferenced) {
             const key = spec.propertyName ? `${spec.propertyName.text} as ${localName}` : localName;
             if (isTypeOnlyImport || spec.isTypeOnly) {
@@ -291,35 +291,21 @@ export function rewriteImports(
       // Default or namespace imports
       if (clause.name || (clause.namedBindings && ts.isNamespaceImport(clause.namedBindings))) {
         const defaultName = clause.name;
-        let defaultDead = defaultName
-          ? (() => {
-              const sym = analyzer.getSymbol(defaultName);
-              return sym ? deadSymbols.has(sym) : false;
-            })()
-          : false;
-        // Also check referencedNames for default import
-        if (
-          !defaultDead &&
-          defaultName &&
-          referencedNames &&
-          !referencedNames.has(defaultName.text)
-        ) {
+        const defaultSym = defaultName ? analyzer.getSymbol(defaultName) : undefined;
+        let defaultDead = defaultSym ? deadSymbols.has(defaultSym) : false;
+        // Also check referencedSymbols for default import
+        if (!defaultDead && defaultSym && referencedSymbols && !referencedSymbols.has(defaultSym)) {
           defaultDead = true;
         }
         const keepDefault = defaultName && !defaultDead;
         const hasNs = clause.namedBindings && ts.isNamespaceImport(clause.namedBindings);
-        let nsDead = hasNs
-          ? (() => {
-              const sym = analyzer.getSymbol((clause.namedBindings as ts.NamespaceImport).name);
-              return sym ? deadSymbols.has(sym) : false;
-            })()
-          : true;
-        // Also check referencedNames for namespace import
-        if (!nsDead && hasNs && referencedNames) {
-          const nsName = (clause.namedBindings as ts.NamespaceImport).name.text;
-          if (!referencedNames.has(nsName)) {
-            nsDead = true;
-          }
+        const nsSym = hasNs
+          ? analyzer.getSymbol((clause.namedBindings as ts.NamespaceImport).name)
+          : undefined;
+        let nsDead = nsSym ? deadSymbols.has(nsSym) : !hasNs;
+        // Also check referencedSymbols for namespace import
+        if (!nsDead && nsSym && referencedSymbols && !referencedSymbols.has(nsSym)) {
+          nsDead = true;
         }
 
         if (keepDefault && !hasNs) {
@@ -365,7 +351,7 @@ export function rewriteImports(
       deadSymbols,
       analyzer,
       attrs,
-      referencedNames,
+      referencedSymbols,
     );
     if (!rebuilt) continue;
 

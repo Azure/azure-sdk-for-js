@@ -256,6 +256,9 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
     ...describeResult.survivingStatements,
   ];
 
+  // Collect all surviving AST nodes for symbol extraction (before printing to text)
+  const allSurvivingNodes: ts.Statement[] = [...allSurvivingDescribeStatements];
+
   // Keep all surviving describe statements in original order AND extract var-only subset for
   // let→const promotion. The ordered list is used during assembly so that non-var statements
   // (expression statements, function declarations, etc.) stay in their original positions.
@@ -292,6 +295,7 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
       deadSymbols.add(sym);
     }
     for (const s of hookResult.survivingStatements) {
+      allSurvivingNodes.push(s);
       beforeAllTexts.push(printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile));
     }
     if (hook.trailingComments) {
@@ -307,6 +311,7 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
       deadSymbols.add(sym);
     }
     for (const s of hookResult.survivingStatements) {
+      allSurvivingNodes.push(s);
       beforeEachTexts.push(printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile));
     }
     if (hook.trailingComments) {
@@ -321,9 +326,11 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
     for (const sym of itResult.newlyDeadSymbols) {
       deadSymbols.add(sym);
     }
-    const texts = itResult.survivingStatements.map((s) =>
-      printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile),
-    );
+    const texts: string[] = [];
+    for (const s of itResult.survivingStatements) {
+      allSurvivingNodes.push(s);
+      texts.push(printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile));
+    }
     if (itBlock.trailingComments) {
       texts.push(itBlock.trailingComments);
     }
@@ -338,6 +345,7 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
       deadSymbols.add(sym);
     }
     for (const s of hookResult.survivingStatements) {
+      allSurvivingNodes.push(s);
       afterEachTexts.push(printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile));
     }
     if (hook.trailingComments) {
@@ -353,6 +361,7 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
       deadSymbols.add(sym);
     }
     for (const s of hookResult.survivingStatements) {
+      allSurvivingNodes.push(s);
       afterAllTexts.push(printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile));
     }
     if (hook.trailingComments) {
@@ -375,25 +384,22 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
 
   // Step 7: Rewrite imports
   const dummyFile = createSourceFile("output.ts", "");
-  // Collect all identifier names referenced in surviving body text for stale-import pruning.
-  // Any external/localHelper import specifier whose local name does not appear in these texts
+  // Collect all symbols referenced in surviving AST nodes for stale-import pruning.
+  // Any external/localHelper import binding that is not referenced in the surviving AST
   // was eliminated by substitution and should be dropped from the output.
-  const allBodyText = [
-    ...survivingDescribeTexts,
-    ...survivingVarTexts,
-    ...itBlockTexts.flat(),
-    ...beforeAllTexts,
-    ...beforeEachTexts,
-    ...afterEachTexts,
-    ...afterAllTexts,
-  ].join("\n");
-  const referencedNames = new Set<string>(allBodyText.match(/\b[A-Za-z_$][A-Za-z0-9_$]*\b/g) ?? []);
+  // Uses AST-based symbol extraction instead of regex on text for precision.
+  const referencedSymbols = new Set<ts.Symbol>();
+  for (const node of allSurvivingNodes) {
+    for (const sym of analyzer.getReferencedSymbols(node)) {
+      referencedSymbols.add(sym);
+    }
+  }
   const { imports: rewrittenImports } = rewriteImports(
     filteredClassified,
     packageName,
     deadSymbols,
     analyzer,
-    referencedNames,
+    referencedSymbols,
   );
   const importTexts = rewrittenImports.map((imp) =>
     printer.printNode(ts.EmitHint.Unspecified, imp, dummyFile),
