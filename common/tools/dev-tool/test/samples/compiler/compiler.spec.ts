@@ -5,6 +5,13 @@ import { describe, it, expect } from "vitest";
 import { compileSampleTest } from "../../../src/util/samples/compiler/compiler.js";
 import { CompilerError } from "../../../src/util/samples/compiler/types.js";
 
+/**
+ * Test predicate: classify paths containing "/src/" as source code.
+ * In tests, we use synthetic file paths, so specifiers like "../src/index.js"
+ * resolve to paths containing "/src/".
+ */
+const testIsSourceImport = (resolvedPath: string): boolean => resolvedPath.includes("/src/");
+
 // ── Test 1: Minimal sample-test ──────────────────────────────────────
 
 const minimalInput = `\
@@ -24,17 +31,26 @@ describe("hello", () => {
 describe("compileSampleTest", () => {
   describe("minimal sample-test", () => {
     it("rewrites source import to package name", () => {
-      const result = compileSampleTest(minimalInput, { packageName: "@azure/greeter" });
+      const result = compileSampleTest(minimalInput, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/greeter",
+      });
       expect(result.outputText).toContain('import { GreeterClient } from "@azure/greeter"');
     });
 
     it("does not auto-inject dotenv/config import", () => {
-      const result = compileSampleTest(minimalInput, { packageName: "@azure/greeter" });
+      const result = compileSampleTest(minimalInput, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/greeter",
+      });
       expect(result.outputText).not.toContain('import "dotenv/config"');
     });
 
     it("inlines single it-block body directly into main()", () => {
-      const result = compileSampleTest(minimalInput, { packageName: "@azure/greeter" });
+      const result = compileSampleTest(minimalInput, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/greeter",
+      });
       // Single-it: no sub-function, body is inlined into main()
       expect(result.outputText).not.toContain("async function sayHello()");
       expect(result.outputText).not.toContain("await sayHello()");
@@ -44,43 +60,64 @@ describe("compileSampleTest", () => {
     });
 
     it("generates main().catch handler", () => {
-      const result = compileSampleTest(minimalInput, { packageName: "@azure/greeter" });
+      const result = compileSampleTest(minimalInput, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/greeter",
+      });
       expect(result.outputText).toContain("main().catch(");
       expect(result.outputText).toContain("console.error(error)");
       expect(result.outputText).toContain("process.exit(1)");
     });
 
     it("includes copyright header", () => {
-      const result = compileSampleTest(minimalInput, { packageName: "@azure/greeter" });
+      const result = compileSampleTest(minimalInput, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/greeter",
+      });
       expect(result.outputText).toContain("Copyright (c) Microsoft Corporation");
       expect(result.outputText).toContain("Licensed under the MIT License");
     });
 
     it("includes @summary comment", () => {
-      const result = compileSampleTest(minimalInput, { packageName: "@azure/greeter" });
+      const result = compileSampleTest(minimalInput, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/greeter",
+      });
       expect(result.outputText).toContain("@summary say hello to the service");
     });
 
     it("removes vitest imports", () => {
-      const result = compileSampleTest(minimalInput, { packageName: "@azure/greeter" });
+      const result = compileSampleTest(minimalInput, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/greeter",
+      });
       expect(result.outputText).not.toContain("vitest");
     });
 
     it("removes describe/it scaffolding", () => {
-      const result = compileSampleTest(minimalInput, { packageName: "@azure/greeter" });
+      const result = compileSampleTest(minimalInput, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/greeter",
+      });
       expect(result.outputText).not.toContain("describe(");
       expect(result.outputText).not.toContain('it("');
     });
 
     it("preserves the function body statements", () => {
-      const result = compileSampleTest(minimalInput, { packageName: "@azure/greeter" });
+      const result = compileSampleTest(minimalInput, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/greeter",
+      });
       expect(result.outputText).toContain("new GreeterClient");
       expect(result.outputText).toContain("client.sayHello");
       expect(result.outputText).toContain("console.log(result.message)");
     });
 
     it("returns correct metadata", () => {
-      const result = compileSampleTest(minimalInput, { packageName: "@azure/greeter" });
+      const result = compileSampleTest(minimalInput, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/greeter",
+      });
       expect(result.metadata.summary).toBe("say hello to the service");
     });
   });
@@ -108,27 +145,42 @@ describe("listItems", () => {
 `;
 
     it("substitutes forPublishing with the published expression", () => {
-      const result = compileSampleTest(authInput, { packageName: "@azure/greeter" });
+      const result = compileSampleTest(authInput, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/greeter",
+      });
       expect(result.outputText).toContain("new DefaultAzureCredential()");
     });
 
     it("removes test credential import", () => {
-      const result = compileSampleTest(authInput, { packageName: "@azure/greeter" });
+      const result = compileSampleTest(authInput, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/greeter",
+      });
       expect(result.outputText).not.toContain("createTestCredential");
     });
 
     it("removes forPublishing import", () => {
-      const result = compileSampleTest(authInput, { packageName: "@azure/greeter" });
+      const result = compileSampleTest(authInput, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/greeter",
+      });
       expect(result.outputText).not.toContain("forPublishing");
     });
 
     it("keeps @azure/identity import", () => {
-      const result = compileSampleTest(authInput, { packageName: "@azure/greeter" });
+      const result = compileSampleTest(authInput, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/greeter",
+      });
       expect(result.outputText).toContain("@azure/identity");
     });
 
     it("rewrites source import to package name", () => {
-      const result = compileSampleTest(authInput, { packageName: "@azure/greeter" });
+      const result = compileSampleTest(authInput, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/greeter",
+      });
       expect(result.outputText).toContain("@azure/greeter");
     });
   });
@@ -162,13 +214,19 @@ describe("backup", () => {
 `;
 
     it("promotes let to const inside main()", () => {
-      const result = compileSampleTest(singleItWithLet, { packageName: "@azure/keyvault-secrets" });
+      const result = compileSampleTest(singleItWithLet, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/keyvault-secrets",
+      });
       expect(result.outputText).toContain("const client: SecretClient =");
       expect(result.outputText).not.toContain("let client: SecretClient;");
     });
 
     it("inlines body directly into main() without sub-function", () => {
-      const result = compileSampleTest(singleItWithLet, { packageName: "@azure/keyvault-secrets" });
+      const result = compileSampleTest(singleItWithLet, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/keyvault-secrets",
+      });
       expect(result.outputText).not.toContain("async function backupAndRestoreASecret()");
       expect(result.outputText).not.toContain("await backupAndRestoreASecret()");
       expect(result.outputText).toContain('await client.setSecret("mySecret", "value")');
@@ -200,14 +258,20 @@ describe("operations", () => {
 `;
 
     it("generates three named functions", () => {
-      const result = compileSampleTest(multiInput, { packageName: "@azure/my-client" });
+      const result = compileSampleTest(multiInput, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/my-client",
+      });
       expect(result.outputText).toContain("async function createItem()");
       expect(result.outputText).toContain("async function readItem()");
       expect(result.outputText).toContain("async function deleteItem()");
     });
 
     it("main() calls all three functions in order", () => {
-      const result = compileSampleTest(multiInput, { packageName: "@azure/my-client" });
+      const result = compileSampleTest(multiInput, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/my-client",
+      });
       const mainMatch = result.outputText.match(/async function main\(\)[^}]*\{([\s\S]*?)\n\}/);
       expect(mainMatch).toBeTruthy();
       const mainBody = mainMatch![1];
@@ -268,17 +332,26 @@ describe("widget lifecycle", () => {
 `;
 
     it("keeps surviving describe variable (client)", () => {
-      const result = compileSampleTest(fullInput, { packageName: "@azure/widget" });
+      const result = compileSampleTest(fullInput, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/widget",
+      });
       expect(result.outputText).toContain("let client: WidgetClient");
     });
 
     it("eliminates dead describe variable (recorder)", () => {
-      const result = compileSampleTest(fullInput, { packageName: "@azure/widget" });
+      const result = compileSampleTest(fullInput, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/widget",
+      });
       expect(result.outputText).not.toContain("let recorder");
     });
 
     it("generates three named functions", () => {
-      const result = compileSampleTest(fullInput, { packageName: "@azure/widget" });
+      const result = compileSampleTest(fullInput, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/widget",
+      });
       expect(result.outputText).toContain("async function createAWidget()");
       expect(result.outputText).toContain("async function updateTheWidget()");
       expect(result.outputText).toContain("async function deleteTheWidget()");
@@ -299,19 +372,28 @@ describe("test", () => {
   });
 });
 `;
-      const result = compileSampleTest(dupeInput, { packageName: "@azure/client" });
+      const result = compileSampleTest(dupeInput, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/client",
+      });
       expect(result.outputText).toContain("async function doThing()");
       expect(result.outputText).toContain("async function doThing2()");
     });
 
     it("includes surviving beforeEach statements in main()", () => {
-      const result = compileSampleTest(fullInput, { packageName: "@azure/widget" });
+      const result = compileSampleTest(fullInput, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/widget",
+      });
       expect(result.outputText).toContain("new DefaultAzureCredential()");
       expect(result.outputText).toContain("process.env.ENDPOINT");
     });
 
     it("removes test artifacts", () => {
-      const result = compileSampleTest(fullInput, { packageName: "@azure/widget" });
+      const result = compileSampleTest(fullInput, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/widget",
+      });
       expect(result.outputText).not.toContain("Recorder");
       expect(result.outputText).not.toContain("expect(");
       // recorder references are eliminated
@@ -319,18 +401,27 @@ describe("test", () => {
     });
 
     it("removes forPublishing calls (substituted)", () => {
-      const result = compileSampleTest(fullInput, { packageName: "@azure/widget" });
+      const result = compileSampleTest(fullInput, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/widget",
+      });
       expect(result.outputText).not.toContain("forPublishing");
       expect(result.outputText).not.toContain("createTestCredential");
     });
 
     it("removes afterEach body (all dead)", () => {
-      const result = compileSampleTest(fullInput, { packageName: "@azure/widget" });
+      const result = compileSampleTest(fullInput, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/widget",
+      });
       expect(result.outputText).not.toContain("recorder.stop");
     });
 
     it("extracts ENDPOINT env var", () => {
-      const result = compileSampleTest(fullInput, { packageName: "@azure/widget" });
+      const result = compileSampleTest(fullInput, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/widget",
+      });
       expect(result.envVars).toContain("ENDPOINT");
     });
   });
@@ -355,20 +446,29 @@ describe("snippets", () => {
 `;
 
     it("extracts named snippet region", () => {
-      const result = compileSampleTest(snippetInput, { packageName: "@azure/client" });
+      const result = compileSampleTest(snippetInput, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/client",
+      });
       expect(result.snippets.size).toBe(1);
       expect(result.snippets.has("MySnippet")).toBe(true);
     });
 
     it("snippet content contains the code between markers", () => {
-      const result = compileSampleTest(snippetInput, { packageName: "@azure/client" });
+      const result = compileSampleTest(snippetInput, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/client",
+      });
       const snippet = result.snippets.get("MySnippet")!;
       expect(snippet).toContain("new Client()");
       expect(snippet).toContain("doSomething()");
     });
 
     it("snippet markers are stripped from the output text", () => {
-      const result = compileSampleTest(snippetInput, { packageName: "@azure/client" });
+      const result = compileSampleTest(snippetInput, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/client",
+      });
       expect(result.outputText).not.toContain("// @snippet MySnippet");
       expect(result.outputText).not.toContain("// @snippet-end MySnippet");
       // But the code between markers is still present
@@ -387,9 +487,12 @@ describe("x", () => {
   });
 });
 `;
-      expect(() => compileSampleTest(input, { packageName: "@azure/test" })).toThrow(
-        /Unclosed snippet.*Dangling/,
-      );
+      expect(() =>
+        compileSampleTest(input, {
+          isSourceImport: testIsSourceImport,
+          packageName: "@azure/test",
+        }),
+      ).toThrow(/Unclosed snippet.*Dangling/);
     });
 
     it("throws on nested snippet markers", () => {
@@ -407,9 +510,12 @@ describe("x", () => {
   });
 });
 `;
-      expect(() => compileSampleTest(input, { packageName: "@azure/test" })).toThrow(
-        /Nested snippet.*Inner.*inside.*Outer/,
-      );
+      expect(() =>
+        compileSampleTest(input, {
+          isSourceImport: testIsSourceImport,
+          packageName: "@azure/test",
+        }),
+      ).toThrow(/Nested snippet.*Inner.*inside.*Outer/);
     });
 
     it("throws on stray @snippet-end without matching @snippet", () => {
@@ -424,9 +530,12 @@ describe("x", () => {
   });
 });
 `;
-      expect(() => compileSampleTest(input, { packageName: "@azure/test" })).toThrow(
-        /Stray.*@snippet-end Orphan.*without matching/,
-      );
+      expect(() =>
+        compileSampleTest(input, {
+          isSourceImport: testIsSourceImport,
+          packageName: "@azure/test",
+        }),
+      ).toThrow(/Stray.*@snippet-end Orphan.*without matching/);
     });
 
     it("throws on mismatched @snippet-end name", () => {
@@ -442,9 +551,12 @@ describe("x", () => {
   });
 });
 `;
-      expect(() => compileSampleTest(input, { packageName: "@azure/test" })).toThrow(
-        /Mismatched snippet end.*@snippet-end Beta.*does not match.*@snippet Alpha/,
-      );
+      expect(() =>
+        compileSampleTest(input, {
+          isSourceImport: testIsSourceImport,
+          packageName: "@azure/test",
+        }),
+      ).toThrow(/Mismatched snippet end.*@snippet-end Beta.*does not match.*@snippet Alpha/);
     });
 
     it("throws on duplicate snippet names", () => {
@@ -462,9 +574,12 @@ describe("x", () => {
   });
 });
 `;
-      expect(() => compileSampleTest(input, { packageName: "@azure/test" })).toThrow(
-        /Duplicate snippet name.*Dup/,
-      );
+      expect(() =>
+        compileSampleTest(input, {
+          isSourceImport: testIsSourceImport,
+          packageName: "@azure/test",
+        }),
+      ).toThrow(/Duplicate snippet name.*Dup/);
     });
 
     it("throws on multiple top-level describe blocks", () => {
@@ -482,9 +597,12 @@ describe("second", () => {
   });
 });
 `;
-      expect(() => compileSampleTest(input, { packageName: "@azure/test" })).toThrow(
-        /Multiple top-level describe blocks/,
-      );
+      expect(() =>
+        compileSampleTest(input, {
+          isSourceImport: testIsSourceImport,
+          packageName: "@azure/test",
+        }),
+      ).toThrow(/Multiple top-level describe blocks/);
     });
 
     it("throws on top-level statements outside describe", () => {
@@ -500,9 +618,12 @@ describe("test", () => {
   });
 });
 `;
-      expect(() => compileSampleTest(input, { packageName: "@azure/test" })).toThrow(
-        /statement\(s\) outside describe block.*function at line 3/s,
-      );
+      expect(() =>
+        compileSampleTest(input, {
+          isSourceImport: testIsSourceImport,
+          packageName: "@azure/test",
+        }),
+      ).toThrow(/statement\(s\) outside describe block.*function at line 3/s);
     });
   });
 
@@ -526,7 +647,10 @@ describe("ws", () => {
 `;
 
     it("converts @ts-preserve-whitespace comments to blank lines", () => {
-      const result = compileSampleTest(whitespaceInput, { packageName: "@azure/client" });
+      const result = compileSampleTest(whitespaceInput, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/client",
+      });
       expect(result.outputText).not.toContain("@ts-preserve-whitespace");
       // The surrounding code should still be present
       expect(result.outputText).toContain("new Client()");
@@ -557,7 +681,10 @@ describe("types", () => {
   });
 });
 `;
-      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      const result = compileSampleTest(input, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/client",
+      });
       expect(result.outputText).toContain("interface Options");
       expect(result.outputText).toContain("timeout: number");
       expect(result.outputText).toContain("const options: Options");
@@ -579,7 +706,10 @@ describe("types", () => {
   });
 });
 `;
-      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      const result = compileSampleTest(input, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/client",
+      });
       expect(result.outputText).toContain("type Config");
       expect(result.outputText).toContain("url: string");
       expect(result.outputText).toContain("const config: Config");
@@ -605,13 +735,19 @@ describe("env", () => {
 `;
 
     it("extracts dot-notation env vars", () => {
-      const result = compileSampleTest(envInput, { packageName: "@azure/client" });
+      const result = compileSampleTest(envInput, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/client",
+      });
       expect(result.envVars).toContain("ENDPOINT");
       expect(result.envVars).toContain("API_KEY");
     });
 
     it("returns env vars sorted", () => {
-      const result = compileSampleTest(envInput, { packageName: "@azure/client" });
+      const result = compileSampleTest(envInput, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/client",
+      });
       const sorted = [...result.envVars].sort();
       expect(result.envVars).toEqual(sorted);
     });
@@ -629,7 +765,10 @@ describe("env", () => {
   });
 });
 `;
-      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      const result = compileSampleTest(input, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/client",
+      });
       expect(result.envVars).toContain("MY_VAR");
     });
 
@@ -646,7 +785,10 @@ describe("env", () => {
   });
 });
 `;
-      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      const result = compileSampleTest(input, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/client",
+      });
       expect(result.envVars).toContain("ENDPOINT");
       expect(result.envVars).toContain("API_KEY");
     });
@@ -665,7 +807,10 @@ describe("env", () => {
   });
 });
 `;
-      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      const result = compileSampleTest(input, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/client",
+      });
       expect(result.envVars).toContain("URL");
       expect(result.envVars).toContain("KEY");
       expect(result.envVars).toHaveLength(2);
@@ -684,7 +829,10 @@ describe("env", () => {
   });
 });
 `;
-      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      const result = compileSampleTest(input, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/client",
+      });
       expect(result.envVars).toContain("ENDPOINT");
       expect(result.envVars).toHaveLength(1);
     });
@@ -702,7 +850,10 @@ describe("env", () => {
   });
 });
 `;
-      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      const result = compileSampleTest(input, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/client",
+      });
       expect(result.envVars).toContain("ENDPOINT");
       expect(result.envVars).toContain("API_KEY");
       expect(result.envVars).toHaveLength(2);
@@ -722,9 +873,12 @@ describe("test", () => {
   });
 });
 `;
-      expect(() => compileSampleTest(noSummary, { packageName: "@azure/client" })).toThrow(
-        CompilerError,
-      );
+      expect(() =>
+        compileSampleTest(noSummary, {
+          isSourceImport: testIsSourceImport,
+          packageName: "@azure/client",
+        }),
+      ).toThrow(CompilerError);
     });
 
     it("accepts plain JSDoc description without @summary tag", () => {
@@ -738,7 +892,10 @@ describe("hello", () => {
   });
 });
 `;
-      const result = compileSampleTest(plainDescription, { packageName: "@azure/client" });
+      const result = compileSampleTest(plainDescription, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/client",
+      });
       expect(result.metadata.summary).toBe("Demonstrates how to say hello without @summary.");
       expect(result.outputText).toContain(
         "@summary Demonstrates how to say hello without @summary.",
@@ -797,9 +954,12 @@ describe("test", () => {
   });
 });
 `;
-      expect(() => compileSampleTest(blockBody, { packageName: "@azure/client" })).toThrow(
-        CompilerError,
-      );
+      expect(() =>
+        compileSampleTest(blockBody, {
+          isSourceImport: testIsSourceImport,
+          packageName: "@azure/client",
+        }),
+      ).toThrow(CompilerError);
     });
   });
 
@@ -821,7 +981,10 @@ describe("test", () => {
   });
 });
 `;
-      const result = compileSampleTest(input, { packageName: "@azure/foo" });
+      const result = compileSampleTest(input, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/foo",
+      });
       expect(result.outputText).toContain("@azsdk-weight 40");
     });
 
@@ -840,7 +1003,10 @@ describe("test", () => {
   });
 });
 `;
-      const result = compileSampleTest(input, { packageName: "@azure/foo" });
+      const result = compileSampleTest(input, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/foo",
+      });
       expect(result.outputText).toContain("@azsdk-skip-javascript");
     });
   });
@@ -865,7 +1031,10 @@ describe("test", () => {
   });
 });
 `;
-      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      const result = compileSampleTest(input, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/client",
+      });
       expect(result.outputText).toContain("new DefaultAzureCredential()");
     });
 
@@ -884,12 +1053,18 @@ describe("test", () => {
   });
 });
 `;
-      expect(() => compileSampleTest(input, { packageName: "@azure/client" })).toThrow(
-        CompilerError,
-      );
-      expect(() => compileSampleTest(input, { packageName: "@azure/client" })).toThrow(
-        /Recorder.*not available after cleanup/,
-      );
+      expect(() =>
+        compileSampleTest(input, {
+          isSourceImport: testIsSourceImport,
+          packageName: "@azure/client",
+        }),
+      ).toThrow(CompilerError);
+      expect(() =>
+        compileSampleTest(input, {
+          isSourceImport: testIsSourceImport,
+          packageName: "@azure/client",
+        }),
+      ).toThrow(/Recorder.*not available after cleanup/);
     });
 
     it("does not error when forPublishing arrow uses parameter that shadows a dead binding", () => {
@@ -911,7 +1086,10 @@ describe("test", () => {
 });
 `;
       // "mock" in the arrow param shadows the dead describe-scope mock — should not false-positive
-      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      const result = compileSampleTest(input, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/client",
+      });
       expect(result.outputText).toContain("items.map((mock) => mock * 2)");
     });
 
@@ -931,7 +1109,10 @@ describe("test", () => {
   });
 });
 `;
-      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      const result = compileSampleTest(input, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/client",
+      });
       expect(result.outputText).toContain("process.env.URL");
     });
   });
@@ -952,7 +1133,10 @@ describe("sample", () => {
   });
 });
 `;
-      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      const result = compileSampleTest(input, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/client",
+      });
       expect(result.outputText).toContain("formatKey");
     });
 
@@ -969,7 +1153,10 @@ describe("sample", () => {
   });
 });
 `;
-      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      const result = compileSampleTest(input, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/client",
+      });
       expect(result.outputText).not.toContain("createRecorder");
       expect(result.outputText).not.toContain("Recorder");
     });
@@ -987,7 +1174,10 @@ describe("sample", () => {
   });
 });
 `;
-      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      const result = compileSampleTest(input, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/client",
+      });
       expect(result.outputText).toContain("Formatter");
       expect(result.outputText).toContain("new Formatter()");
     });
@@ -1010,7 +1200,10 @@ describe("sample", () => {
   });
 });
 `;
-      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      const result = compileSampleTest(input, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/client",
+      });
       // Both recorder and logRecorder should be eliminated since logRecorder references Recorder type
       expect(result.outputText).not.toContain("recorder");
       expect(result.outputText).not.toContain("logRecorder");
@@ -1042,7 +1235,12 @@ describe("sample", () => {
   });
 });
 `;
-      expect(() => compileSampleTest(input, { packageName: "@azure/client" })).toThrow(/tangled/i);
+      expect(() =>
+        compileSampleTest(input, {
+          isSourceImport: testIsSourceImport,
+          packageName: "@azure/client",
+        }),
+      ).toThrow(/tangled/i);
     });
   });
 
@@ -1067,7 +1265,10 @@ describe("sample", () => {
   });
 });
 `;
-      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      const result = compileSampleTest(input, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/client",
+      });
       // Both should be promoted to const inside main()
       expect(result.outputText).toContain("const endpoint");
       expect(result.outputText).toContain("const client");
@@ -1097,7 +1298,10 @@ describe("test", () => {
   });
 });
 `;
-      const result = compileSampleTest(input, { packageName: "@azure/foo" });
+      const result = compileSampleTest(input, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/foo",
+      });
       expect(result.outputText).toContain('import type { MyType } from "@azure/foo"');
       expect(result.outputText).toContain('import { MyClient } from "@azure/foo"');
     });
@@ -1118,6 +1322,7 @@ describe("sample", () => {
 });
 `;
       const result = compileSampleTest(input, {
+        isSourceImport: testIsSourceImport,
         packageName: "@azure/foo",
         platform: "browser",
       });
@@ -1138,6 +1343,7 @@ describe("sample", () => {
 });
 `;
       const result = compileSampleTest(input, {
+        isSourceImport: testIsSourceImport,
         packageName: "@azure/foo",
         platform: "node",
       });
@@ -1155,7 +1361,10 @@ describe("sample", () => {
   });
 });
 `;
-      const result = compileSampleTest(input, { packageName: "@azure/foo" });
+      const result = compileSampleTest(input, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/foo",
+      });
       expect(result.outputText).toContain("process.exit(1)");
     });
   });
@@ -1180,7 +1389,10 @@ describe("sample", () => {
   });
 });
 `;
-      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      const result = compileSampleTest(input, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/client",
+      });
       expect(result.outputText).toContain("try {");
       expect(result.outputText).toContain("} finally {");
       expect(result.outputText).toContain("await client.close()");
@@ -1202,7 +1414,10 @@ describe("sample", () => {
   });
 });
 `;
-      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      const result = compileSampleTest(input, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/client",
+      });
       expect(result.outputText).toContain("try {");
       expect(result.outputText).toContain("} finally {");
       expect(result.outputText).toContain("await pool.dispose()");
@@ -1228,7 +1443,10 @@ describe("sample", () => {
   });
 });
 `;
-      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      const result = compileSampleTest(input, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/client",
+      });
       // Each function call should be wrapped
       expect(result.outputText).toContain("await first()");
       expect(result.outputText).toContain("await second()");
@@ -1256,7 +1474,10 @@ describe("sample", () => {
   });
 });
 `;
-      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      const result = compileSampleTest(input, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/client",
+      });
       expect(result.outputText).toContain("try {");
       expect(result.outputText).toContain("} finally {");
       expect(result.outputText).toContain("await pool.dispose()");
@@ -1280,7 +1501,10 @@ describe("sample", () => {
   });
 });
 `;
-      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      const result = compileSampleTest(input, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/client",
+      });
       // Dead cleanup should be eliminated, no try/finally needed
       expect(result.outputText).not.toContain("try {");
       expect(result.outputText).not.toContain("recorder.stop");
@@ -1301,7 +1525,10 @@ describe("sample", () => {
   });
 });
 `;
-      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      const result = compileSampleTest(input, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/client",
+      });
       // Import used only in afterAll must survive
       expect(result.outputText).toContain("cleanupHelper");
       expect(result.outputText).toContain('import { cleanupHelper } from "./helpers.js"');
@@ -1350,6 +1577,7 @@ describe("test", () => {
 });
 `;
     const result = compileSampleTest(input, {
+      isSourceImport: testIsSourceImport,
       packageName: "@azure/test",
       fileName: sampleFileName,
       resolveHelper: makeResolver({ "./helpers.ts": helperSource }),
@@ -1387,6 +1615,7 @@ describe("test", () => {
 });
 `;
     const result = compileSampleTest(input, {
+      isSourceImport: testIsSourceImport,
       packageName: "@azure/test",
       fileName: sampleFileName,
       resolveHelper: makeResolver({ "./testUtils.ts": testHelperSource }),
@@ -1421,6 +1650,7 @@ describe("test", () => {
 });
 `;
     const result = compileSampleTest(input, {
+      isSourceImport: testIsSourceImport,
       packageName: "@azure/test",
       fileName: sampleFileName,
       resolveHelper: makeResolver({ "./testUtils.ts": testHelperSource }),
@@ -1445,6 +1675,7 @@ describe("test", () => {
 });
 `;
     const result = compileSampleTest(input, {
+      isSourceImport: testIsSourceImport,
       packageName: "@azure/test",
       fileName: sampleFileName,
       resolveHelper: () => undefined,
@@ -1468,7 +1699,10 @@ describe("test", () => {
   });
 });
 `;
-    const result = compileSampleTest(input, { packageName: "@azure/test" });
+    const result = compileSampleTest(input, {
+      isSourceImport: testIsSourceImport,
+      packageName: "@azure/test",
+    });
 
     // Import kept as-is (no resolver)
     expect(result.outputText).toContain("./helpers.js");
@@ -1498,6 +1732,7 @@ describe("test", () => {
 });
 `;
     const result = compileSampleTest(input, {
+      isSourceImport: testIsSourceImport,
       packageName: "@azure/test",
       fileName: sampleFileName,
       resolveHelper: makeResolver({ "./testUtils.ts": testHelperSource }),
@@ -1530,6 +1765,7 @@ describe("test", () => {
 });
 `;
     const result = compileSampleTest(input, {
+      isSourceImport: testIsSourceImport,
       packageName: "@azure/test",
       fileName: sampleFileName,
       resolveHelper: makeResolver({ "./utils.ts": helperSource }),
@@ -1566,6 +1802,7 @@ describe("test", () => {
       return undefined;
     };
     const result = compileSampleTest(input, {
+      isSourceImport: testIsSourceImport,
       packageName: "@azure/test",
       fileName: sampleFileName,
       resolveHelper: resolver,
@@ -1599,7 +1836,10 @@ describe("test", () => {
   });
 });
 `;
-    const result = compileSampleTest(input, { packageName: "@azure/test" });
+    const result = compileSampleTest(input, {
+      isSourceImport: testIsSourceImport,
+      packageName: "@azure/test",
+    });
     // Both preamble items should appear in output
     expect(result.outputText).toContain("globalConn");
     expect(result.outputText).toContain("localSetup");
@@ -1628,7 +1868,10 @@ describe("test", () => {
   });
 });
 `;
-    const result = compileSampleTest(input, { packageName: "@azure/test" });
+    const result = compileSampleTest(input, {
+      isSourceImport: testIsSourceImport,
+      packageName: "@azure/test",
+    });
     // afterAll body should appear in output (now supported)
     expect(result.outputText).toContain("await client.close()");
     // Should use try/finally pattern
@@ -1718,7 +1961,10 @@ describe("test", () => {
   });
 });
 `;
-    const result = compileSampleTest(input, { packageName: "@azure/client" });
+    const result = compileSampleTest(input, {
+      isSourceImport: testIsSourceImport,
+      packageName: "@azure/client",
+    });
     // Should NOT be promoted to const since it's reassigned in the body
     expect(result.outputText).toContain("let client");
     expect(result.outputText).not.toContain("const client");
@@ -1739,7 +1985,10 @@ describe("test", () => {
   });
 });
 `;
-    const result = compileSampleTest(input, { packageName: "@azure/client" });
+    const result = compileSampleTest(input, {
+      isSourceImport: testIsSourceImport,
+      packageName: "@azure/client",
+    });
     // Statement order must be preserved: config → console.log → client
     const configIdx = result.outputText.indexOf("config");
     const logIdx = result.outputText.indexOf('"initializing"');

@@ -9,12 +9,19 @@ import {
 import { parseSource, getImports } from "./helpers.js";
 import type { ImportCategory } from "../../../src/util/samples/compiler/types.js";
 
+/**
+ * Test predicate: classify paths containing "/src/" as source code.
+ * In tests, we use simple file paths like "/test/foo.ts", so specifiers
+ * like "../src/index.js" resolve to paths containing "/src/".
+ */
+const testIsSourceImport = (resolvedPath: string): boolean => resolvedPath.includes("/src/");
+
 /** Helper: parse a single import statement and classify it. */
 function classify(importStr: string): { category: ImportCategory; moduleSpecifier: string } {
   const sf = parseSource(importStr);
   const imports = getImports(sf);
   expect(imports).toHaveLength(1);
-  const result = classifyImport(imports[0]);
+  const result = classifyImport(imports[0], sf.fileName, testIsSourceImport);
   return { category: result.category, moduleSpecifier: result.moduleSpecifier };
 }
 
@@ -141,7 +148,7 @@ import data from "./data.json";
 import { DefaultAzureCredential } from "@azure/identity";
 `;
       const sf = parseSource(source);
-      const results = classifyImports(sf);
+      const results = classifyImports(sf, testIsSourceImport);
       expect(results).toHaveLength(5);
       expect(results[0].category).toBe("test");
       expect(results[1].category).toBe("sourceCode");
@@ -156,7 +163,7 @@ import { describe } from "vitest";
 import { it, expect } from "vitest";
 `;
       const sf = parseSource(source);
-      const results = classifyImports(sf);
+      const results = classifyImports(sf, testIsSourceImport);
       expect(results).toHaveLength(2);
       expect(results[0].category).toBe("test");
       expect(results[1].category).toBe("test");

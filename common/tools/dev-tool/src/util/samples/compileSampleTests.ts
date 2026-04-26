@@ -185,24 +185,14 @@ export async function compileSampleTests(
   const testPublicPath = path.join(projectPath, "test", "public");
   const resolveHelper = createHelperResolver(testPublicPath);
 
-  // Create a robust source import predicate based on actual path resolution.
-  // A relative import is "source code" if it resolves outside test/public/ (e.g., into src/).
-  // This replaces the fragile "/src/" substring heuristic.
-  const isSourceImport: SourceImportPredicate = (specifier: string): boolean => {
-    // For now, sample tests are always in test/public/samples/node or test/public/samples/browser.
-    // We approximate: if the path goes above test/public/ (enough ../ segments), it's source.
-    // The sample files are 2 levels deep: samples/node/foo.spec.ts
-    // So ../../../../src/index.js (4 levels up) goes above test/public/.
-    // Count the leading "../" segments
-    let remaining = specifier;
-    let upCount = 0;
-    while (remaining.startsWith("../")) {
-      upCount++;
-      remaining = remaining.slice(3);
-    }
-    // From samples/node/, 2 "../" gets to test/public, 3 gets to test/, 4 gets to project root
-    // If upCount >= 3, the path escapes test/public/ and is likely source code
-    return upCount >= 3;
+  // Source import predicate based on resolved absolute path.
+  // An import is "source code" if it resolves into src/ (the package's source directory).
+  // All other relative imports within test/ are helpers to be compiled and bundled.
+  const srcDir = path.join(projectPath, "src");
+  const isSourceImport: SourceImportPredicate = (resolvedPath: string): boolean => {
+    // Normalize path separators for comparison
+    const normalized = path.normalize(resolvedPath);
+    return normalized.startsWith(srcDir + path.sep) || normalized === srcDir;
   };
 
   let compiledCount = 0;

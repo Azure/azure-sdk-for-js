@@ -13,7 +13,7 @@ import ts from "typescript";
 import type { CompiledSample, ClassifiedImport, SampleMetadata } from "./types.js";
 import { CompilerError } from "./types.js";
 import { parseSampleTestFile } from "./parser.js";
-import { classifyImports } from "./importClassifier.js";
+import { classifyImports, type SourceImportPredicate } from "./importClassifier.js";
 import { substituteForPublishing, substituteSampleOnly } from "./substitutor.js";
 import { eliminateDeadStatements } from "./deadBindingEliminator.js";
 import { createAnalyzer, resolveNamesToSymbols, type BindingAnalyzer } from "./bindingAnalyzer.js";
@@ -39,12 +39,15 @@ export interface CompileOptions {
    */
   resolveHelper?: HelperResolver;
   /**
-   * Determine if a relative import specifier points to source code (vs local helper).
-   * When provided, this replaces the default `/src/` heuristic.
+   * Determine if a resolved import path points to source code (vs local helper).
+   * Receives the fully resolved absolute path of the import target.
    * Source code imports are rewritten to use the package name.
    * Helper imports are compiled and bundled with the sample.
+   *
+   * Required for sample compilation. Typically checks if the resolved path
+   * is under the project's src/ directory.
    */
-  isSourceImport?: (specifier: string) => boolean;
+  isSourceImport: (resolvedPath: string) => boolean;
   /**
    * Target platform for this sample. When "browser", the sample is marked
    * with @azsdk-skip-javascript automatically (browser samples are TypeScript-only
@@ -168,11 +171,11 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
           resolved.sourceText,
           packageName,
           resolved.canonicalPath,
+          isSourceImport,
           resolveHelper,
           visited,
           effectiveCache, // Pass cache for nested helper reuse
           strict, // Propagate strict mode to nested helpers
-          isSourceImport, // Propagate source import predicate
         );
         effectiveCache.set(resolved.canonicalPath, helper);
 

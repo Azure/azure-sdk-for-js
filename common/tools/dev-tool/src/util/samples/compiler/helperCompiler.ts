@@ -12,6 +12,7 @@
  * compiler can mark their import bindings as dead.
  */
 
+import path from "node:path";
 import ts from "typescript";
 import { classifyImports, type SourceImportPredicate } from "./importClassifier.js";
 import { eliminateDeadStatements } from "./deadBindingEliminator.js";
@@ -19,6 +20,14 @@ import { createAnalyzer } from "./bindingAnalyzer.js";
 import { rewriteImports } from "./importRewriter.js";
 import { extractEnvVarNames } from "./envVarExtractor.js";
 import { CompilerError } from "./types.js";
+
+/**
+ * Resolve a relative import specifier to an absolute path.
+ */
+function resolveImportPath(specifier: string, importingFilePath: string): string {
+  const importingDir = path.dirname(importingFilePath);
+  return path.resolve(importingDir, specifier);
+}
 
 /** Resolved helper file returned by the resolver callback. */
 export interface ResolvedHelper {
@@ -133,21 +142,21 @@ function collectSurvivingExportsFromStatements(statements: readonly ts.Statement
  * @param sourceText - The helper file's source text
  * @param packageName - Package name for source-code import rewriting
  * @param fileName - File name for error messages and cycle detection
+ * @param isSourceImport - Predicate to classify resolved paths as source vs helper imports
  * @param resolveHelper - Optional callback to resolve nested helper imports
  * @param recursionStack - Set of canonical paths in the current call chain (cycle detection)
  * @param helperCache - Cache of previously compiled helper results
  * @param strict - When true, unresolved nested helpers throw instead of warning
- * @param isSourceImport - Optional predicate to classify source vs helper imports
  */
 export function compileHelper(
   sourceText: string,
   packageName: string,
   fileName: string,
+  isSourceImport: SourceImportPredicate,
   resolveHelper?: HelperResolver,
   recursionStack?: Set<string>,
   helperCache?: Map<string, CompiledHelper>,
   strict?: boolean,
-  isSourceImport?: SourceImportPredicate,
 ): CompiledHelper {
   const currentStack = recursionStack ?? new Set<string>();
   const currentCache = helperCache ?? new Map<string, CompiledHelper>();
@@ -205,6 +214,7 @@ export function compileHelper(
             resolved.sourceText,
             packageName,
             resolved.canonicalPath,
+            isSourceImport,
             resolveHelper,
             currentStack,
             currentCache,
@@ -250,10 +260,15 @@ export function compileHelper(
 
       const specifier = stmt.moduleSpecifier.text;
 
-      // Skip non-relative, source-code, and data-file specifiers (only recurse into helpers)
+      // Skip non-relative specifiers (only recurse into local helpers)
       if (!specifier.startsWith("./") && !specifier.startsWith("../")) continue;
-      const checkSource = isSourceImport ?? ((s: string) => s.includes("/src/"));
-      if (checkSource(specifier) || specifier.endsWith(".json")) continue;
+
+      // Skip data files
+      if (specifier.endsWith(".json")) continue;
+
+      // Check if this is a source-code import (resolve path and use predicate)
+      const resolvedPath = resolveImportPath(specifier, fileName);
+      if (isSourceImport(resolvedPath)) continue;
 
       const resolved = resolveHelper(fileName, specifier);
       if (!resolved) {
@@ -283,11 +298,11 @@ export function compileHelper(
             resolved.sourceText,
             packageName,
             resolved.canonicalPath,
+            isSourceImport,
             resolveHelper,
             currentStack,
             currentCache,
             strict,
-            isSourceImport,
           );
           currentCache.set(resolved.canonicalPath, nested);
         } finally {
