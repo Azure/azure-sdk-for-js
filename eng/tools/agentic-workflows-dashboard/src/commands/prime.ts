@@ -95,7 +95,8 @@ async function auditRun(
   verbose: boolean,
 ): Promise<{ data: AuditResult | null; error?: string }> {
   return new Promise((resolve) => {
-    const args = ["aw", "audit", "--repo", repo, "--run-id", String(runId), "--json"];
+    // gh aw audit <run-id> --repo <repo> --json
+    const args = ["aw", "audit", String(runId), "--repo", repo, "--json"];
     const proc = spawn("gh", args, { stdio: ["ignore", "pipe", "pipe"] });
 
     let stdout = "";

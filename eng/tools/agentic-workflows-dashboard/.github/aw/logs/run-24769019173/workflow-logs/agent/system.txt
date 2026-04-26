@@ -1,8 +1,0 @@
-2026-04-22T08:45:02.9390000Z Evaluating agent.if
-2026-04-22T08:45:02.9390000Z Evaluating: success()
-2026-04-22T08:45:02.9390000Z Result: true
-2026-04-22T08:45:02.9400000Z Requested labels: ubuntu-latest
-2026-04-22T08:45:02.9400000Z Job defined at: Azure/azure-sdk-for-js/.github/workflows/issue-triage.lock.yml@refs/heads/main
-2026-04-22T08:45:02.9400000Z Waiting for a runner to pick up this job...
-2026-04-22T08:45:16.1620000Z Job is waiting for a hosted runner to come online.
-2026-04-22T08:45:16.1630000Z Job is about to start running on the hosted runner: GitHub Actions 1031844405

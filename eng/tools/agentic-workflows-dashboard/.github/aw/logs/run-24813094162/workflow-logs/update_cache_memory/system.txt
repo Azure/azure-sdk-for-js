@@ -1,9 +1,0 @@
-2026-04-23T02:25:01.7710000Z Requested labels: ubuntu-slim
-2026-04-23T02:25:01.7710000Z Job defined at: Azure/azure-sdk-for-js/.github/workflows/mgmt-review.lock.yml@refs/heads/main
-2026-04-23T02:25:01.7710000Z Waiting for a runner to pick up this job...
-2026-04-23T02:25:01.7670000Z Evaluating update_cache_memory.if
-2026-04-23T02:25:01.7670000Z Evaluating: (always() && (((needs.detection.result == 'success') || (needs.detection.result == 'skipped'))) && (needs.agent.result == 'success'))
-2026-04-23T02:25:01.7670000Z Expanded: (true && (('success' == 'success') || (needs.detection.result == 'skipped')) && ('success' == 'success'))
-2026-04-23T02:25:01.7670000Z Result: true
-2026-04-23T02:25:03.7590000Z Job is about to start running on the hosted runner: GitHub Actions 1032002848
-2026-04-23T02:25:03.7590000Z Job is waiting for a hosted runner to come online.

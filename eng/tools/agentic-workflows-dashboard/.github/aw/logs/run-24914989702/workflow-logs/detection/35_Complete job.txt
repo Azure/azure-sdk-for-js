@@ -1,4 +1,0 @@
-﻿2026-04-24T22:41:07.9978727Z Evaluate and set job outputs
-2026-04-24T22:41:07.9984581Z Set output 'detection_conclusion'
-2026-04-24T22:41:07.9986246Z Set output 'detection_success'
-2026-04-24T22:41:07.9987361Z Cleaning up orphan processes

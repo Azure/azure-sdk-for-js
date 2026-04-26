@@ -1,8 +1,0 @@
-2026-04-10T10:29:26.8370000Z Requested labels: ubuntu-latest
-2026-04-10T10:29:26.8370000Z Job defined at: Azure/azure-sdk-for-js/.github/workflows/fix-test-failures.lock.yml@refs/heads/main
-2026-04-10T10:29:26.8370000Z Waiting for a runner to pick up this job...
-2026-04-10T10:29:26.8320000Z Evaluating agent.if
-2026-04-10T10:29:26.8320000Z Evaluating: success()
-2026-04-10T10:29:26.8320000Z Result: true
-2026-04-10T10:33:26.6220000Z Job is waiting for a hosted runner to come online.
-2026-04-10T10:33:26.6220000Z Job is about to start running on the hosted runner: GitHub Actions 1029962805

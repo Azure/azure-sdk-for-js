@@ -1,9 +1,0 @@
-2026-04-15T11:34:05.6830000Z Evaluating safe_outputs.if
-2026-04-15T11:34:05.6830000Z Evaluating: ((!cancelled()) && (needs.agent.result != 'skipped') && (needs.detection.result == 'success'))
-2026-04-15T11:34:05.6830000Z Expanded: (!false && ('success' != 'skipped') && ('success' == 'success'))
-2026-04-15T11:34:05.6830000Z Result: true
-2026-04-15T11:34:05.9730000Z Requested labels: ubuntu-slim
-2026-04-15T11:34:05.9730000Z Job defined at: Azure/azure-sdk-for-js/.github/workflows/fix-test-failures.lock.yml@refs/heads/main
-2026-04-15T11:34:05.9730000Z Waiting for a runner to pick up this job...
-2026-04-15T12:20:41.7910000Z Job is waiting for a hosted runner to come online.
-2026-04-15T12:20:41.7920000Z Job is about to start running on the hosted runner: GitHub Actions 1030720537

@@ -1,8 +1,0 @@
-2026-02-27T17:16:54.1630000Z Evaluating agent.if
-2026-02-27T17:16:54.1630000Z Evaluating: success()
-2026-02-27T17:16:54.1630000Z Result: true
-2026-02-27T17:16:54.1640000Z Requested labels: ubuntu-latest
-2026-02-27T17:16:54.1640000Z Job defined at: Azure/azure-sdk-for-js/.github/workflows/docs-consistency-check.lock.yml@refs/heads/aw/issue-instead-of-pr
-2026-02-27T17:16:54.1640000Z Waiting for a runner to pick up this job...
-2026-02-27T17:16:56.1570000Z Job is waiting for a hosted runner to come online.
-2026-02-27T17:16:56.1580000Z Job is about to start running on the hosted runner: GitHub Actions 1024065171

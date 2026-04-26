@@ -1,4 +1,0 @@
-﻿2026-04-24T23:15:53.7116780Z Post job cleanup.
-2026-04-24T23:15:53.7772815Z [otlp] OTEL_EXPORTER_OTLP_ENDPOINT not set, skipping OTLP export (will attempt JSONL mirror)
-2026-04-24T23:15:53.7774638Z Cleaning up /tmp/gh-aw...
-2026-04-24T23:15:53.7775174Z Cleaned up /tmp/gh-aw

@@ -1,9 +1,0 @@
-{
-  "pr": 37890,
-  "package": "@azure/arm-horizondb",
-  "version": "1.0.0-beta.1",
-  "apiVersion": "2026-01-20-preview",
-  "outcome": "clean",
-  "summary": "New package initial release. No API design or tooling issues found. All CI checks passing. PR blocked pending required reviewer approvals from @MaryGao and/or @qiaozha. @JialinHuang803 approved on 2026-04-24.",
-  "reviewedAt": "2026-04-24"
-}

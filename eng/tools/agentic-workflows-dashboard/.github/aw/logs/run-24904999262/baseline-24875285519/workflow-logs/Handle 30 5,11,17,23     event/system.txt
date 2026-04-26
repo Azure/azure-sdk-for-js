@@ -1,8 +1,0 @@
-2026-04-24T06:15:47.3060000Z Requested labels: ubuntu-latest
-2026-04-24T06:15:47.3060000Z Job defined at: Azure/azure-sdk-for-rust/.github/workflows/scheduled-event-processor.yml@refs/heads/main
-2026-04-24T06:15:47.3060000Z Waiting for a runner to pick up this job...
-2026-04-24T06:15:47.3050000Z Evaluating event-handler.if
-2026-04-24T06:15:47.3050000Z Evaluating: success()
-2026-04-24T06:15:47.3050000Z Result: true
-2026-04-24T06:15:59.0770000Z Job is waiting for a hosted runner to come online.
-2026-04-24T06:15:59.0830000Z Job is about to start running on the hosted runner: GitHub Actions 1032235274

@@ -1,6 +1,0 @@
-﻿2026-04-24T18:32:14.6250084Z ##[group]Run dotnet tool install Azure.Sdk.Tools.GitHubEventProcessor --version 1.0.0-dev.20260403.1 --add-source https://pkgs.dev.azure.com/azure-sdk/public/_packaging/azure-sdk-for-net/nuget/v3/index.json --global
-2026-04-24T18:32:14.6252953Z [36;1mdotnet tool install Azure.Sdk.Tools.GitHubEventProcessor --version 1.0.0-dev.20260403.1 --add-source https://pkgs.dev.azure.com/azure-sdk/public/_packaging/azure-sdk-for-net/nuget/v3/index.json --global[0m
-2026-04-24T18:32:14.6280420Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
-2026-04-24T18:32:14.6281399Z ##[endgroup]
-2026-04-24T18:32:17.9433074Z You can invoke the tool using the following command: github-event-processor
-2026-04-24T18:32:17.9433950Z Tool 'azure.sdk.tools.githubeventprocessor' (version '1.0.0-dev.20260403.1') was successfully installed.

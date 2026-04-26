@@ -1,3 +1,0 @@
-2026-02-27T19:02:20.6050000Z Evaluating get_github_token.if
-2026-02-27T19:02:20.6050000Z Evaluating: success()
-2026-02-27T19:02:20.6050000Z Result: false

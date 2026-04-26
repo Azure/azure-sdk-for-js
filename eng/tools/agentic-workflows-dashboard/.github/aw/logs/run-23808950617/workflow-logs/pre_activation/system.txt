@@ -1,9 +1,0 @@
-2026-03-31T16:46:03.4970000Z Evaluating pre_activation.if
-2026-03-31T16:46:03.4970000Z Evaluating: (success() && (((github.event_name != 'pull_request') || (github.event.pull_request.head.repo.id == github.repository_id))))
-2026-03-31T16:46:03.4970000Z Expanded: (true && (('pull_request' != 'pull_request') || (108311273 == '108311273')))
-2026-03-31T16:46:03.4970000Z Result: true
-2026-03-31T16:46:03.5000000Z Requested labels: ubuntu-slim
-2026-03-31T16:46:03.5000000Z Job defined at: Azure/azure-sdk-for-js/.github/workflows/pnpm-lock-conflict-resolver.lock.yml@refs/pull/37911/merge
-2026-03-31T16:46:03.5000000Z Waiting for a runner to pick up this job...
-2026-03-31T16:47:32.9070000Z Job is about to start running on the hosted runner: GitHub Actions 1028375788
-2026-03-31T16:47:32.9070000Z Job is waiting for a hosted runner to come online.

@@ -1,9 +1,0 @@
-2026-03-25T21:58:23.3290000Z Requested labels: ubuntu-slim
-2026-03-25T21:58:23.3290000Z Job defined at: Azure/azure-sdk-for-js/.github/workflows/docs-consistency-check.lock.yml@refs/heads/action/try-create-pr
-2026-03-25T21:58:23.3290000Z Waiting for a runner to pick up this job...
-2026-03-25T21:58:23.3180000Z Evaluating safe_outputs.if
-2026-03-25T21:58:23.3180000Z Evaluating: ((!cancelled()) && (needs.agent.result != 'skipped') && (needs.agent.outputs.detection_success == 'true'))
-2026-03-25T21:58:23.3180000Z Expanded: (!false && ('success' != 'skipped') && ('true' == 'true'))
-2026-03-25T21:58:23.3180000Z Result: true
-2026-03-25T21:58:34.2460000Z Job is about to start running on the hosted runner: GitHub Actions 1027525635
-2026-03-25T21:58:34.2480000Z Job is waiting for a hosted runner to come online.

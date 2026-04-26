@@ -1,9 +1,0 @@
-{
-  "pr": 37890,
-  "package": "@azure/arm-horizondb",
-  "version": "1.0.0-beta.1",
-  "apiVersion": "2026-01-20-preview",
-  "outcome": "clean",
-  "summary": "New package initial release. No API design or tooling issues found. pnpm-lock conflict fixed twice by Copilot: first in commit 0ad95c1d (2026-04-22T02:42Z), then again in commit 8527a603 (2026-04-22T07:55Z) to fix missing @types/node@20.19.37 entry. All CI failures were due to broken lockfile.",
-  "reviewedAt": "2026-04-22"
-}
