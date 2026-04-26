@@ -1,0 +1,16 @@
+# Build output
+dist/
+
+# Dependencies
+node_modules/
+
+# gh aw audit logs (downloaded during prime/audit commands)
+.github/aw/
+
+# Environment files
+.env
+.env.local
+
+# Editor
+.vscode/
+*.swp
