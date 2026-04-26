@@ -2,7 +2,7 @@
  * Deploy command - Collect workflow runs and audit data, push to Azure Monitor
  */
 
-import { DefaultAzureCredential } from "@azure/identity";
+import { DefaultAzureCredential, AzureCliCredential } from "@azure/identity";
 import { LogsIngestionClient } from "@azure/monitor-ingestion";
 import { LogsQueryClient, LogsQueryResultStatus } from "@azure/monitor-query";
 import { spawn } from "node:child_process";
@@ -28,6 +28,26 @@ import {
   EXIT_DATA_ERROR,
   EXIT_INGESTION_ERROR,
 } from "../cli.js";
+import type { AggregateLogsUploadError } from "@azure/monitor-ingestion";
+
+/** Extract meaningful message from Azure Monitor ingestion errors */
+function extractIngestionError(err: unknown): string {
+  // Check for AggregateLogsUploadError with nested errors
+  if (err && typeof err === "object" && "errors" in err) {
+    const aggErr = err as AggregateLogsUploadError;
+    if (Array.isArray(aggErr.errors) && aggErr.errors.length > 0) {
+      const firstError = aggErr.errors[0];
+      if (firstError?.cause && typeof firstError.cause === "object" && "message" in firstError.cause) {
+        return String(firstError.cause.message);
+      }
+    }
+  }
+  // Fall back to standard Error handling
+  if (err instanceof Error) {
+    return err.message;
+  }
+  return String(err);
+}
 
 // Audit version for schema tracking
 const AUDIT_VERSION = "24";
@@ -178,7 +198,10 @@ export async function deployCommand(options: DeployOptions): Promise<void> {
 
   let ingestionClient: LogsIngestionClient | null = null;
   if (!dryRun && azureConfig.dceEndpoint && azureConfig.dcrId) {
-    const credential = new DefaultAzureCredential();
+    // Try AzureCliCredential first (more reliable for local dev), fall back to DefaultAzureCredential
+    const credential = process.env["AZURE_CREDENTIAL_TYPE"] === "default"
+      ? new DefaultAzureCredential()
+      : new AzureCliCredential();
     ingestionClient = new LogsIngestionClient(azureConfig.dceEndpoint, credential);
   }
 
@@ -262,7 +285,7 @@ export async function deployCommand(options: DeployOptions): Promise<void> {
           summary.runsIngested += allRecords.length;
           if (verbose) console.log(`  ✓ Ingested ${allRecords.length} run records`);
         } catch (err) {
-          const msg = err instanceof Error ? err.message : String(err);
+          const msg = extractIngestionError(err);
           console.error(`  ❌ Ingestion failed: ${msg}`);
           summary.errors.push(`Ingestion: ${msg}`);
         }

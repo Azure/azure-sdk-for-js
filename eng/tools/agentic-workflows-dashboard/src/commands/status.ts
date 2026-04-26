@@ -113,11 +113,11 @@ async function queryMetrics(
     | summarize 
         Total = count(),
         WithTokenData = countif(HasTokenData == true),
-        TotalInput = sum(TotalInputTokens),
-        TotalOutput = sum(TotalOutputTokens),
-        TotalCacheRead = sum(TotalCacheReadTokens),
+        TotalInput = sum(InputTokens),
+        TotalOutput = sum(OutputTokens),
+        TotalCacheRead = sum(CacheReadTokens),
         TotalCost = sum(EstimatedCostUSD),
-        TotalSavings = sum(CacheSavingsUSD)
+        TotalSavings = sum(EstimatedSavingsUSD)
   `;
 
   // Query 3: By repo breakdown
