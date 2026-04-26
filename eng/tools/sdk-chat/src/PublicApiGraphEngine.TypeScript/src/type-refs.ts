@@ -736,6 +736,49 @@ export function collectTypeRefsFromTypeNode(
             return;
         }
 
+        // ImportType nodes: `import("pkg").Type` — common in .d.ts files
+        // that inline external type references.
+        if (Node.isImportTypeNode(node)) {
+            // Get the qualifier (e.g., `Type` in `import("pkg").Type`)
+            const qualifier = node.getQualifier();
+            if (qualifier) {
+                // For simple identifiers: import("pkg").Foo
+                const qualifierName = Node.isQualifiedName(qualifier)
+                    ? qualifier.getRight().getText()
+                    : qualifier.getText();
+
+                if (!PRIMITIVE_TYPES.has(qualifierName) && !ctx.isBuiltinType(qualifierName)) {
+                    try {
+                        // Resolve via the type checker to find the actual declaration
+                        const type = node.getType();
+                        const symbol = type.getSymbol() || type.getAliasSymbol();
+                        if (symbol) {
+                            const decls = symbol.getDeclarations();
+                            if (decls && decls.length > 0) {
+                                const decl = decls[0];
+                                const sf = decl.getSourceFile();
+                                if (!isDefaultLibFile(ctx.project, sf)) {
+                                    const fp = sf.getFilePath();
+                                    refs.add({
+                                        name: qualifierName,
+                                        fullName: symbol.getFullyQualifiedName?.() ?? qualifierName,
+                                        declarationPath: fp,
+                                        packageName: resolvePackageNameFromPath(fp, ctx),
+                                    });
+                                }
+                            }
+                        }
+                    } catch { /* non-fatal */ }
+                }
+            }
+
+            // Recurse into type arguments: import("pkg").Foo<Bar> → visit Bar
+            for (const typeArg of node.getTypeArguments()) {
+                collectTypeRefsFromTypeNode(typeArg, ctx, refs);
+            }
+            return;
+        }
+
         // For compound type nodes (union, intersection, tuple, array, function, etc.)
         // recurse into all child nodes
         for (const child of node.forEachChildAsArray()) {

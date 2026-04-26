@@ -2984,4 +2984,369 @@ public class TypeScriptFormatterFixTests
         Assert.Contains("namespace Helpers", dts);
         Assert.Contains("@azure/core-rest-pipeline", dts);
     }
+
+    [Fact]
+    public void DepVariables_AreRendered()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@azure/test-pkg",
+            Version = "1.0.0",
+            Modules = [
+                new TsModuleInfo {
+                    Name = "@azure/test-pkg",
+                    ExportPath = ".",
+                    Condition = "import",
+                    Classes = [new TsClassInfo { Name = "TestClient" }]
+                }
+            ],
+            Dependencies = [
+                new TsDependencyInfo {
+                    Package = "@azure/core-util",
+                    Version = "1.0.0",
+                    Functions = [new TsFunctionInfo { Name = "delay", Sig = "ms: number", Ret = "Promise<void>" }]
+                }
+            ]
+        };
+
+        var result = TypeScriptFormatter.FormatPerTarget(api);
+        var (dts, _) = result["import"];
+
+        Assert.Contains("delay", dts);
+        Assert.Contains("@azure/core-util", dts);
+    }
+
+    [Fact]
+    public void DepVariables_ReferencedTypesGenerateImports()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@azure/test-pkg",
+            Version = "1.0.0",
+            Modules = [
+                new TsModuleInfo {
+                    Name = "@azure/test-pkg",
+                    ExportPath = ".",
+                    Condition = "import",
+                    Interfaces = [new TsInterfaceInfo { Name = "Config", ReferencedTypes = ["PipelinePolicy"] }]
+                }
+            ],
+            Dependencies = [
+                new TsDependencyInfo {
+                    Package = "@azure/core-rest-pipeline",
+                    Interfaces = [new TsInterfaceInfo { Name = "PipelinePolicy" }]
+                }
+            ]
+        };
+
+        var result = TypeScriptFormatter.FormatPerTarget(api);
+        var (dts, _) = result["import"];
+
+        // Verify import line exists with actual type
+        Assert.Contains("import type { PipelinePolicy }", dts);
+        Assert.Contains("@azure/core-rest-pipeline", dts);
+    }
+
+    [Fact]
+    public void EnumTypeAliasCollision_EnumWins()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@azure/test-pkg",
+            Version = "1.0.0",
+            Modules = [
+                new TsModuleInfo {
+                    Name = "@azure/test-pkg",
+                    ExportPath = ".",
+                    Condition = "import",
+                    Enums = [new TsEnumInfo { Name = "KnownStatus", Values = ["Running"] }],
+                    Types = [new TsTypeAliasInfo { Name = "KnownStatus", Type = "string" }]
+                }
+            ]
+        };
+
+        var result = TypeScriptFormatter.FormatPerTarget(api);
+        var (dts, _) = result["import"];
+
+        // Enum should be present
+        Assert.Contains("enum KnownStatus", dts);
+        // Type alias should be suppressed
+        Assert.DoesNotContain("type KnownStatus", dts);
+    }
+
+    [Fact]
+    public void EnumTypeAliasCollision_ReverseOrder_EnumStillWins()
+    {
+        // Use two modules with the same condition to force merging
+        // where the type alias arrives first and the enum second
+        var api = new TsApiIndex
+        {
+            Package = "@azure/test-pkg",
+            Version = "1.0.0",
+            Modules = [
+                new TsModuleInfo {
+                    Name = "@azure/test-pkg",
+                    ExportPath = ".",
+                    Condition = "import",
+                    Types = [new TsTypeAliasInfo { Name = "Priority", Type = "string" }]
+                },
+                new TsModuleInfo {
+                    Name = "@azure/test-pkg",
+                    ExportPath = ".",
+                    Condition = "import",
+                    Enums = [new TsEnumInfo { Name = "Priority", Values = ["High = \"high\"", "Low = \"low\""] }]
+                }
+            ]
+        };
+
+        var result = TypeScriptFormatter.FormatPerTarget(api);
+        var (dts, _) = result["import"];
+
+        Assert.Contains("enum Priority", dts);
+        Assert.DoesNotContain("type Priority", dts);
+    }
+
+    [Fact]
+    public void SimplePathOrdering_VariablesBeforeNamespaces()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@azure/test-pkg",
+            Version = "1.0.0",
+            Modules = [
+                new TsModuleInfo {
+                    Name = "@azure/test-pkg",
+                    ExportPath = ".",
+                    Condition = "import",
+                    Variables = [new TsVariableInfo { Name = "VERSION", Type = "string", IsConst = true }],
+                    Namespaces = [new TsNamespaceInfo {
+                        Name = "Helpers",
+                        Interfaces = [new TsInterfaceInfo { Name = "Config" }]
+                    }],
+                    Functions = [new TsFunctionInfo { Name = "create", Sig = "", Ret = "void" }]
+                }
+            ]
+        };
+
+        var result = TypeScriptFormatter.FormatPerTarget(api);
+        var (dts, _) = result["import"];
+
+        var varIdx = dts.IndexOf("VERSION");
+        var nsIdx = dts.IndexOf("namespace Helpers");
+        Assert.True(varIdx > -1, "Variable should be in output");
+        Assert.True(nsIdx > -1, "Namespace should be in output");
+        Assert.True(varIdx < nsIdx, "Variable should appear before namespace");
+    }
+
+    [Fact]
+    public void WorkerTarget_GetsWebWorkerLib()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@azure/test-pkg",
+            Version = "1.0.0",
+            Modules = [
+                new TsModuleInfo {
+                    Name = "@azure/test-pkg",
+                    ExportPath = ".",
+                    Condition = "worker",
+                    Interfaces = [new TsInterfaceInfo { Name = "WorkerClient", Properties = [
+                        new TsPropertyInfo { Name = "response", Type = "Response" }
+                    ]}]
+                }
+            ]
+        };
+
+        var result = TypeScriptFormatter.FormatPerTarget(api);
+        var (_, tsconfig) = result["worker"];
+
+        Assert.Contains("\"WebWorker\"", tsconfig);
+        Assert.DoesNotContain("\"DOM\"", tsconfig);
+        Assert.DoesNotContain("\"DOM.Iterable\"", tsconfig);
+    }
+
+    [Fact]
+    public void WorkerdTarget_GetsWebWorkerLib()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@azure/test-pkg",
+            Version = "1.0.0",
+            Modules = [
+                new TsModuleInfo {
+                    Name = "@azure/test-pkg",
+                    ExportPath = ".",
+                    Condition = "workerd",
+                    Interfaces = [new TsInterfaceInfo { Name = "CfClient", Properties = [
+                        new TsPropertyInfo { Name = "request", Type = "Request" }
+                    ]}]
+                }
+            ]
+        };
+
+        var result = TypeScriptFormatter.FormatPerTarget(api);
+        var (_, tsconfig) = result["workerd"];
+
+        Assert.Contains("\"WebWorker\"", tsconfig);
+        Assert.DoesNotContain("\"DOM\"", tsconfig);
+    }
+
+    [Fact]
+    public void BrowserTarget_StillGetsDOMLib()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@azure/test-pkg",
+            Version = "1.0.0",
+            Modules = [
+                new TsModuleInfo {
+                    Name = "@azure/test-pkg",
+                    ExportPath = ".",
+                    Condition = "browser",
+                    Interfaces = [new TsInterfaceInfo { Name = "BrowserClient", Properties = [
+                        new TsPropertyInfo { Name = "response", Type = "Response" }
+                    ]}]
+                }
+            ]
+        };
+
+        var result = TypeScriptFormatter.FormatPerTarget(api);
+        var (_, tsconfig) = result["browser"];
+
+        Assert.Contains("\"DOM\"", tsconfig);
+        Assert.DoesNotContain("\"WebWorker\"", tsconfig);
+    }
+
+    [Fact]
+    public void ExpandedNodeTypes_InNonNodeTarget()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@azure/test-pkg",
+            Version = "1.0.0",
+            Modules = [
+                new TsModuleInfo {
+                    Name = "@azure/test-pkg",
+                    ExportPath = ".",
+                    Condition = "browser",
+                    Interfaces = [new TsInterfaceInfo { Name = "StreamClient", Properties = [
+                        new TsPropertyInfo { Name = "stream", Type = "Readable" }
+                    ]}]
+                }
+            ]
+        };
+
+        var result = TypeScriptFormatter.FormatPerTarget(api);
+        var (_, tsconfig) = result["browser"];
+
+        // Readable is a Node.js type — should trigger @types/node even in browser
+        Assert.Contains("\"node\"", tsconfig);
+    }
+
+    [Fact]
+    public void VariableReferencedTypes_GenerateActualImportLine()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@azure/test-pkg",
+            Version = "1.0.0",
+            Modules = [
+                new TsModuleInfo {
+                    Name = "@azure/test-pkg",
+                    ExportPath = ".",
+                    Condition = "import",
+                    Variables = [new TsVariableInfo {
+                        Name = "client",
+                        Type = "ServiceClient",
+                        ReferencedTypes = ["ServiceClient"]
+                    }]
+                }
+            ],
+            Dependencies = [
+                new TsDependencyInfo {
+                    Package = "@azure/core-client",
+                    Classes = [new TsClassInfo { Name = "ServiceClient" }]
+                }
+            ]
+        };
+
+        var result = TypeScriptFormatter.FormatPerTarget(api);
+        var (dts, _) = result["import"];
+
+        // Must have the actual import type line
+        Assert.Contains("import type { ServiceClient } from \"@azure/core-client\"", dts);
+    }
+
+    [Fact]
+    public void NamespaceReferencedTypes_GenerateActualImportLine()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@azure/test-pkg",
+            Version = "1.0.0",
+            Modules = [
+                new TsModuleInfo {
+                    Name = "@azure/test-pkg",
+                    ExportPath = ".",
+                    Condition = "import",
+                    Namespaces = [new TsNamespaceInfo {
+                        Name = "Helpers",
+                        Interfaces = [new TsInterfaceInfo {
+                            Name = "Config",
+                            ReferencedTypes = ["PipelineOptions"]
+                        }]
+                    }]
+                }
+            ],
+            Dependencies = [
+                new TsDependencyInfo {
+                    Package = "@azure/core-rest-pipeline",
+                    Interfaces = [new TsInterfaceInfo { Name = "PipelineOptions" }]
+                }
+            ]
+        };
+
+        var result = TypeScriptFormatter.FormatPerTarget(api);
+        var (dts, _) = result["import"];
+
+        Assert.Contains("import type { PipelineOptions } from \"@azure/core-rest-pipeline\"", dts);
+    }
+
+    [Fact]
+    public void MultiConditionDeps_VariablesRendered()
+    {
+        var api = new TsApiIndex
+        {
+            Package = "@azure/test-pkg",
+            Version = "1.0.0",
+            Modules = [
+                new TsModuleInfo {
+                    Name = "@azure/test-pkg",
+                    ExportPath = ".",
+                    Condition = "import",
+                    Classes = [new TsClassInfo { Name = "MyClient" }]
+                },
+                new TsModuleInfo {
+                    Name = "@azure/test-pkg",
+                    ExportPath = ".",
+                    Condition = "require",
+                    Classes = [new TsClassInfo { Name = "MyClient" }]
+                }
+            ],
+            Dependencies = [
+                new TsDependencyInfo {
+                    Package = "@azure/core-util",
+                    Conditions = ["import", "require"],
+                    Functions = [new TsFunctionInfo { Name = "delay", Sig = "ms: number", Ret = "Promise<void>" }]
+                }
+            ]
+        };
+
+        var result = TypeScriptFormatter.FormatPerTarget(api);
+        var (importDts, _) = result["import"];
+        var (requireDts, _) = result["require"];
+
+        Assert.Contains("delay", importDts);
+        Assert.Contains("delay", requireDts);
+    }
 }

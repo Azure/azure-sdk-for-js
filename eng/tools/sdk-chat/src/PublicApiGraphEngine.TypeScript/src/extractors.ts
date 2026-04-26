@@ -1103,6 +1103,7 @@ function mergeNamespaces(namespaces: NamespaceInfo[]): NamespaceInfo[] {
         if (ns.enums?.length) existing.enums = [...(existing.enums ?? []), ...ns.enums];
         if (ns.types?.length) existing.types = [...(existing.types ?? []), ...ns.types];
         if (ns.functions?.length) existing.functions = [...(existing.functions ?? []), ...ns.functions];
+        if (ns.variables?.length) existing.variables = [...(existing.variables ?? []), ...ns.variables];
         if (ns.namespaces?.length) {
             existing.namespaces = mergeNamespaces([...(existing.namespaces ?? []), ...ns.namespaces]);
         }
@@ -1261,6 +1262,45 @@ export function extractModule(sourceFile: SourceFile, moduleName: string, ctx: E
     if (result.namespaces && result.namespaces.length > 1) {
         result.namespaces = mergeNamespaces(result.namespaces);
     }
+
+    // Handle default export assignments: `export default identifier` or `export = identifier`
+    // These are ExportAssignment nodes that reference a declaration by name.
+    try {
+        const defaultExportSymbol = sourceFile.getDefaultExportSymbol();
+        if (defaultExportSymbol) {
+            const aliasedSymbol = defaultExportSymbol.getAliasedSymbol?.() ?? defaultExportSymbol;
+            const decls = aliasedSymbol.getDeclarations();
+            if (decls && decls.length > 0) {
+                const decl = decls[0];
+                const declName = aliasedSymbol.getName();
+                // Only process if we don't already have this symbol AND it's a real declaration name
+                if (declName && declName !== "default" && declName !== "__export") {
+                    const alreadyHas =
+                        result.classes?.some(c => c.name === declName) ||
+                        result.interfaces?.some(i => i.name === declName) ||
+                        result.enums?.some(e => e.name === declName) ||
+                        result.types?.some(t => t.name === declName) ||
+                        result.functions?.some(f => f.name === declName) ||
+                        result.variables?.some(v => v.name === declName);
+
+                    if (!alreadyHas && !hasInternalOrHiddenTag(decl as any)) {
+                        if (Node.isClassDeclaration(decl)) {
+                            (result.classes ??= []).push(extractClass(decl, ctx));
+                        } else if (Node.isInterfaceDeclaration(decl)) {
+                            (result.interfaces ??= []).push(extractInterface(decl, ctx));
+                        } else if (Node.isEnumDeclaration(decl)) {
+                            (result.enums ??= []).push(extractEnum(decl, ctx));
+                        } else if (Node.isTypeAliasDeclaration(decl)) {
+                            (result.types ??= []).push(extractTypeAlias(decl, ctx));
+                        } else if (Node.isFunctionDeclaration(decl)) {
+                            const extracted = extractFunction(decl, ctx);
+                            if (extracted) (result.functions ??= []).push(extracted);
+                        }
+                    }
+                }
+            }
+        }
+    } catch { /* non-fatal: default export handling is best-effort */ }
 
     // Check if anything was graphed
     if (

@@ -304,6 +304,9 @@ public static class TypeScriptFormatter
     private static readonly string[] NodeGlobalTypes =
     [
         "Buffer", "ReadStream", "WriteStream",
+        "Readable", "Writable", "Duplex", "Transform",
+        "EventEmitter", "IncomingMessage", "ServerResponse",
+        "Socket", "Process", "ChildProcess",
     ];
 
     private static string GenerateTsconfig(bool hasNodeDependency, Dictionary<string, List<string>>? ambientTypes, string? targetCondition = null, string? dtsContent = null)
@@ -358,8 +361,16 @@ public static class TypeScriptFormatter
         var condTarget = targetCondition is not null ? GetConditionTarget(targetCondition) : null;
         if (needsDomLib && !string.Equals(condTarget, "react-native", StringComparison.OrdinalIgnoreCase))
         {
-            libs.Add("DOM");
-            libs.Add("DOM.Iterable");
+            if (string.Equals(condTarget, "worker", StringComparison.OrdinalIgnoreCase)
+                || string.Equals(condTarget, "workerd", StringComparison.OrdinalIgnoreCase))
+            {
+                libs.Add("WebWorker");
+            }
+            else
+            {
+                libs.Add("DOM");
+                libs.Add("DOM.Iterable");
+            }
         }
 
         var sb = new StringBuilder();
@@ -890,12 +901,19 @@ public static class TypeScriptFormatter
                         g.Types.RemoveAll(x => x.Name == cls.Name);
                 }
                 if (iface is not null && names.Interfaces.Add(iface.Name)) g.Interfaces.Add(iface);
-                if (en is not null && names.Enums.Add(en.Name)) g.Enums.Add(en);
-                // Skip type aliases that collide with a class or interface in the same scope
+                if (en is not null && names.Enums.Add(en.Name))
+                {
+                    g.Enums.Add(en);
+                    // Evict type alias with same name (enum takes precedence)
+                    if (names.Types.Remove(en.Name))
+                        g.Types.RemoveAll(x => x.Name == en.Name);
+                }
+                // Skip type aliases that collide with a class, interface, or enum in the same scope
                 // (type aliases don't participate in declaration merging → TS2300)
                 if (ta is not null && !names.Types.Contains(ta.Name)
                     && !names.Classes.Contains(ta.Name)
-                    && !names.Interfaces.Contains(ta.Name))
+                    && !names.Interfaces.Contains(ta.Name)
+                    && !names.Enums.Contains(ta.Name))
                 {
                     names.Types.Add(ta.Name);
                     g.Types.Add(ta);
@@ -1084,7 +1102,7 @@ public static class TypeScriptFormatter
         // Maps condition → list of (depModuleName, types) for rendering nested declare modules.
         var depsByCondition = new Dictionary<string, List<(string ModuleName, List<ClassInfo> Classes,
             List<InterfaceInfo> Interfaces, List<EnumInfo> Enums, List<TypeAliasInfo> Types,
-            List<FunctionInfo> Functions, List<NamespaceInfo> Namespaces)>>();
+            List<FunctionInfo> Functions, List<NamespaceInfo> Namespaces, List<VariableInfo> Variables)>>();
 
         if (index.ResolvedDependencies is not null)
         {
@@ -1096,7 +1114,7 @@ public static class TypeScriptFormatter
             var allResolvedDeps = new List<(string ModuleName, List<ClassInfo> Classes,
                 List<InterfaceInfo> Interfaces, List<EnumInfo> Enums, List<TypeAliasInfo> Types,
                 List<FunctionInfo> Functions, List<NamespaceInfo> Namespaces,
-                HashSet<string> DepConditions)>();
+                List<VariableInfo> Variables, HashSet<string> DepConditions)>();
 
             foreach (var dep in index.ResolvedDependencies)
             {
@@ -1147,11 +1165,18 @@ public static class TypeScriptFormatter
                             if (names.Types.Remove(iface.Name))
                                 sg.Types.RemoveAll(x => x.Name == iface.Name);
                         }
-                        if (en is not null && names.Enums.Add(en.Name)) sg.Enums.Add(en);
+                        if (en is not null && names.Enums.Add(en.Name))
+                        {
+                            sg.Enums.Add(en);
+                            // Evict type alias with same name (enum takes precedence)
+                            if (names.Types.Remove(en.Name))
+                                sg.Types.RemoveAll(x => x.Name == en.Name);
+                        }
                         if (ta is not null && ta.Type != "unresolved" && !IsSelfReferentialAlias(ta)
                             && !names.Types.Contains(ta.Name)
                             && !names.Classes.Contains(ta.Name)
-                            && !names.Interfaces.Contains(ta.Name))
+                            && !names.Interfaces.Contains(ta.Name)
+                            && !names.Enums.Contains(ta.Name))
                         {
                             names.Types.Add(ta.Name);
                             sg.Types.Add(ta);
@@ -1288,11 +1313,17 @@ public static class TypeScriptFormatter
                                     existing.Types.RemoveAll(t => t.Name == i.Name);
                             }
                         foreach (var e in group.Enums)
-                            if (names.Enums.Add(e.Name)) existing.Enums.Add(e);
+                            if (names.Enums.Add(e.Name))
+                            {
+                                existing.Enums.Add(e);
+                                if (names.Types.Remove(e.Name))
+                                    existing.Types.RemoveAll(t => t.Name == e.Name);
+                            }
                         foreach (var t in group.Types)
                             if (!names.Types.Contains(t.Name)
                                 && !names.Classes.Contains(t.Name)
-                                && !names.Interfaces.Contains(t.Name))
+                                && !names.Interfaces.Contains(t.Name)
+                                && !names.Enums.Contains(t.Name))
                             {
                                 names.Types.Add(t.Name);
                                 existing.Types.Add(t);
@@ -1323,7 +1354,7 @@ public static class TypeScriptFormatter
                         continue;
 
                     var entryConditions = depMergedConditions.TryGetValue(depModuleName, out var cs) ? cs : new(StringComparer.Ordinal);
-                    allResolvedDeps.Add((depModuleName, sg.Classes, sg.Interfaces, sg.Enums, sg.Types, sg.Functions, sg.Namespaces, entryConditions));
+                    allResolvedDeps.Add((depModuleName, sg.Classes, sg.Interfaces, sg.Enums, sg.Types, sg.Functions, sg.Namespaces, [], entryConditions));
                 }
             }
 
@@ -1360,7 +1391,7 @@ public static class TypeScriptFormatter
                     var filtered = allResolvedDeps
                         .Where(d => d.DepConditions.Count == 0
                             || d.DepConditions.Any(dc => DepConditionMatchesMain(dc, mainCond)))
-                        .Select(d => (d.ModuleName, d.Classes, d.Interfaces, d.Enums, d.Types, d.Functions, d.Namespaces))
+                        .Select(d => (d.ModuleName, d.Classes, d.Interfaces, d.Enums, d.Types, d.Functions, d.Namespaces, d.Variables))
                         .ToList();
                     if (filtered.Count > 0)
                         depsByCondition[mainCond] = filtered;
@@ -1393,7 +1424,7 @@ public static class TypeScriptFormatter
             {
                 var depsForCond = new List<(string ModuleName, List<ClassInfo> Classes,
                     List<InterfaceInfo> Interfaces, List<EnumInfo> Enums, List<TypeAliasInfo> Types,
-                    List<FunctionInfo> Functions, List<NamespaceInfo> Namespaces)>();
+                    List<FunctionInfo> Functions, List<NamespaceInfo> Namespaces, List<VariableInfo> Variables)>();
 
                 foreach (var dep in index.Dependencies)
                 {
@@ -1440,22 +1471,22 @@ public static class TypeScriptFormatter
                     // Group by ExportPath to produce separate declare module blocks per subpath
                     var epGroups = new Dictionary<string, (List<ClassInfo> Classes, List<InterfaceInfo> Interfaces,
                         List<EnumInfo> Enums, List<TypeAliasInfo> Types, List<FunctionInfo> Functions,
-                        List<NamespaceInfo> Namespaces)>(StringComparer.Ordinal);
+                        List<NamespaceInfo> Namespaces, List<VariableInfo> Variables)>(StringComparer.Ordinal);
                     var epGroupNames = new Dictionary<string, (HashSet<string> Classes, HashSet<string> Interfaces,
-                        HashSet<string> Enums, HashSet<string> Types, HashSet<string> FuncSigs)>(StringComparer.Ordinal);
+                        HashSet<string> Enums, HashSet<string> Types, HashSet<string> FuncSigs, HashSet<string> VarNames)>(StringComparer.Ordinal);
 
                     void AddToEpGroup(string ep, ClassInfo? cls = null, InterfaceInfo? iface = null,
-                        EnumInfo? en = null, TypeAliasInfo? ta = null, FunctionInfo? fn = null, NamespaceInfo? ns = null)
+                        EnumInfo? en = null, TypeAliasInfo? ta = null, FunctionInfo? fn = null, NamespaceInfo? ns = null, VariableInfo? v = null)
                     {
                         if (!epGroups.TryGetValue(ep, out var sg))
                         {
-                            sg = ([], [], [], [], [], []);
+                            sg = ([], [], [], [], [], [], []);
                             epGroups[ep] = sg;
                         }
                         if (!epGroupNames.TryGetValue(ep, out var names))
                         {
                             names = (new(StringComparer.Ordinal), new(StringComparer.Ordinal), new(StringComparer.Ordinal),
-                                     new(StringComparer.Ordinal), new(StringComparer.Ordinal));
+                                     new(StringComparer.Ordinal), new(StringComparer.Ordinal), new(StringComparer.Ordinal));
                             epGroupNames[ep] = names;
                         }
                         if (cls is not null && names.Classes.Add(cls.Name))
@@ -1470,10 +1501,17 @@ public static class TypeScriptFormatter
                             if (names.Types.Remove(iface.Name))
                                 sg.Types.RemoveAll(x => x.Name == iface.Name);
                         }
-                        if (en is not null && names.Enums.Add(en.Name)) sg.Enums.Add(en);
+                        if (en is not null && names.Enums.Add(en.Name))
+                        {
+                            sg.Enums.Add(en);
+                            // Evict type alias with same name (enum takes precedence)
+                            if (names.Types.Remove(en.Name))
+                                sg.Types.RemoveAll(x => x.Name == en.Name);
+                        }
                         if (ta is not null && !names.Types.Contains(ta.Name)
                             && !names.Classes.Contains(ta.Name)
-                            && !names.Interfaces.Contains(ta.Name))
+                            && !names.Interfaces.Contains(ta.Name)
+                            && !names.Enums.Contains(ta.Name))
                         {
                             names.Types.Add(ta.Name);
                             sg.Types.Add(ta);
@@ -1491,6 +1529,7 @@ public static class TypeScriptFormatter
                             else
                                 sg.Namespaces.Add(ns);
                         }
+                        if (v is not null && names.VarNames.Add(v.Name)) sg.Variables.Add(v);
                     }
 
                     foreach (var c in classes) AddToEpGroup(NormalizeExportPath(c.ExportPath), cls: c);
@@ -1505,7 +1544,7 @@ public static class TypeScriptFormatter
 
                     foreach (var (ep, sg) in epGroups)
                     {
-                        if (sg.Classes.Count + sg.Interfaces.Count + sg.Enums.Count + sg.Types.Count + sg.Functions.Count + sg.Namespaces.Count == 0)
+                        if (sg.Classes.Count + sg.Interfaces.Count + sg.Enums.Count + sg.Types.Count + sg.Functions.Count + sg.Namespaces.Count + sg.Variables.Count == 0)
                             continue;
 
                         // Compute module name with collision avoidance (mirrors ComputeGroupModuleName)
@@ -1541,7 +1580,7 @@ public static class TypeScriptFormatter
                             }
                         }
 
-                        depsForCond.Add((depModuleName, sg.Classes, sg.Interfaces, sg.Enums, sg.Types, sg.Functions, sg.Namespaces));
+                        depsForCond.Add((depModuleName, sg.Classes, sg.Interfaces, sg.Enums, sg.Types, sg.Functions, sg.Namespaces, sg.Variables));
                     }
                 }
 
@@ -1632,7 +1671,7 @@ public static class TypeScriptFormatter
                         // depModuleName may include a condition suffix (e.g., "pkg/import"),
                         // so we need to map back to the bare package name.
                         var depModuleToPackage = new Dictionary<string, string>(StringComparer.Ordinal);
-                        foreach (var (dmn, dcs, dis, des, dts, dfs, _) in depsForThisCondition)
+                        foreach (var (dmn, dcs, dis, des, dts, dfs, _, _) in depsForThisCondition)
                         {
                             // Package name is the module name without any condition suffix
                             var pkgName = dmn;
@@ -1670,7 +1709,7 @@ public static class TypeScriptFormatter
                         var depsByPkg = new Dictionary<string, List<(string DepModuleName, List<ClassInfo> Classes,
                             List<InterfaceInfo> Interfaces, List<EnumInfo> Enums, List<TypeAliasInfo> Types)>>(StringComparer.Ordinal);
 
-                        foreach (var (depModuleName, depClasses, depInterfaces, depEnums, depTypes, _, _) in depsForThisCondition)
+                        foreach (var (depModuleName, depClasses, depInterfaces, depEnums, depTypes, _, _, _) in depsForThisCondition)
                         {
                             var pkgName = depModuleToPackage.GetValueOrDefault(depModuleName, depModuleName);
                             specifierPkgMap.TryAdd(depModuleName, pkgName);
@@ -1773,13 +1812,14 @@ public static class TypeScriptFormatter
                 {
                     // Build a map of typeName → depModuleName for cross-dep imports
                     var typeToDepModule = new Dictionary<string, string>(StringComparer.Ordinal);
-                    foreach (var (dmn, dcs, dis, des, dts, dfs, _) in depsForThisCondition)
+                    foreach (var (dmn, dcs, dis, des, dts, dfs, _, dvs) in depsForThisCondition)
                     {
                         foreach (var c in dcs) typeToDepModule.TryAdd(c.Name, dmn);
                         foreach (var i in dis) typeToDepModule.TryAdd(i.Name, dmn);
                         foreach (var e in des) typeToDepModule.TryAdd(e.Name, dmn);
                         foreach (var t in dts) typeToDepModule.TryAdd(t.Name, dmn);
                         foreach (var f in dfs) if (f.Name is not null) typeToDepModule.TryAdd(f.Name, dmn);
+                        foreach (var v in dvs) typeToDepModule.TryAdd(v.Name, dmn);
                     }
 
                     // Build a reverse map from node type name → node module for efficient lookups
@@ -1788,7 +1828,7 @@ public static class TypeScriptFormatter
                         foreach (var nt in nodeTypes)
                             nodeTypeToModule.TryAdd(nt, nodeModule);
 
-                    foreach (var (depModuleName, depClasses, depInterfaces, depEnums, depTypes, depFunctions, depNamespaces) in depsForThisCondition)
+                    foreach (var (depModuleName, depClasses, depInterfaces, depEnums, depTypes, depFunctions, depNamespaces, depVariables) in depsForThisCondition)
                     {
                         if (sb.Length >= maxLength) break;
                         if (!emittedDepModules.Add(depModuleName)) continue;
@@ -1801,7 +1841,7 @@ public static class TypeScriptFormatter
                         foreach (var t in depTypes) ownTypeNames.Add(t.Name);
 
                         // Find cross-module imports using structured referencedTypes data
-                        var moduleRefs = CollectAllReferencedTypes(depClasses, depInterfaces, depEnums, depTypes, depFunctions, namespaces: depNamespaces);
+                        var moduleRefs = CollectAllReferencedTypes(depClasses, depInterfaces, depEnums, depTypes, depFunctions, variables: depVariables, namespaces: depNamespaces);
                         var crossImports = new Dictionary<string, List<string>>(StringComparer.Ordinal);
                         foreach (var refType in moduleRefs)
                         {
@@ -1843,7 +1883,7 @@ public static class TypeScriptFormatter
                         if (crossImports.Count > 0) sb.AppendLine();
 
                         // Render body
-                        RenderModuleTypes(sb, depClasses, depInterfaces, depEnums, depTypes, depFunctions, depNamespaces);
+                        RenderModuleTypes(sb, depClasses, depInterfaces, depEnums, depTypes, depFunctions, depNamespaces, variables: depVariables);
                         sb.AppendLine("}");
                         sb.AppendLine();
                     }
@@ -2016,7 +2056,7 @@ public static class TypeScriptFormatter
                 }
             }
 
-            // Include remaining functions and namespaces if space permits.
+            // Include remaining functions, variables, and namespaces if space permits.
             int funcCount = 0;
             foreach (var fn in allFunctions.Where(f => NormalizeExportPath(f.ExportPath) == "."))
             {
@@ -2030,19 +2070,6 @@ public static class TypeScriptFormatter
                 }
             }
 
-            var allNamespaces = DeduplicateByName(
-                index.Modules.SelectMany(m => m.Namespaces ?? []).ToList(), n => n.Name);
-            foreach (var ns in allNamespaces)
-            {
-                if (mainSb.Length >= maxLength) break;
-                var nsStr = FormatNamespace(ns);
-                if (mainSb.Length + nsStr.Length <= maxLength)
-                {
-                    mainSb.Append(nsStr);
-                    includedItems++;
-                }
-            }
-
             // Include remaining variables if space permits
             var allVariables = DeduplicateByName(
                 index.Modules.SelectMany(m => m.Variables ?? []).ToList(), v => v.Name);
@@ -2053,6 +2080,19 @@ public static class TypeScriptFormatter
                 if (mainSb.Length + varStr.Length <= maxLength)
                 {
                     mainSb.Append(varStr);
+                    includedItems++;
+                }
+            }
+
+            var allNamespaces = DeduplicateByName(
+                index.Modules.SelectMany(m => m.Namespaces ?? []).ToList(), n => n.Name);
+            foreach (var ns in allNamespaces)
+            {
+                if (mainSb.Length >= maxLength) break;
+                var nsStr = FormatNamespace(ns);
+                if (mainSb.Length + nsStr.Length <= maxLength)
+                {
+                    mainSb.Append(nsStr);
                     includedItems++;
                 }
             }
