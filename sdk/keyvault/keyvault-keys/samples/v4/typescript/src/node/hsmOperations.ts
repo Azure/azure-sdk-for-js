@@ -39,7 +39,7 @@ async function getKeyAttestation() {
 async function releaseAKey() {
   const keyName = `MyReleaseKey-${Date.now()}`;
   const attestationProviderUrl =
-    process.env["AZURE_KEYVAULT_ATTESTATION_PROVIDER_URL"] ??
+    process.env["AZURE_KEYVAULT_ATTESTATION_PROVIDER_URL"]! ??
     (() => {
       throw new Error("AZURE_KEYVAULT_ATTESTATION_PROVIDER_URL environment variable is required.");
     })();
@@ -76,7 +76,7 @@ async function getRandomBytes() {
 export async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const hsmUri =
-    process.env["AZURE_MANAGEDHSM_URI"] ??
+    process.env["AZURE_MANAGEDHSM_URI"]! ??
     (() => {
       throw new Error("AZURE_MANAGEDHSM_URI environment variable is required.");
     })();

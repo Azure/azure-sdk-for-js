@@ -139,7 +139,7 @@ export async function main(): Promise<void> {
   // about DefaultAzureCredential and the other credentials that are available for use.
   credential = new DefaultAzureCredential();
   // Connection to Azure Key Vault
-  client = new KeyClient(process.env["KEYVAULT_URI"]!, credential);
+  client = new KeyClient(process.env["KEYVAULT_URI"]!!, credential);
   await encryptData();
   await decryptData();
   await signADigest();

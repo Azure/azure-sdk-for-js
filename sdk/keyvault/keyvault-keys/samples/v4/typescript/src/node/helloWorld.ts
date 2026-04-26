@@ -13,6 +13,8 @@ import { createRsaKey } from "./crypto.js";
 import { retryWithBackoff } from "./utils.js";
 
 let client: KeyClient;
+// Test-only: track keys to clean up after each test (not compiled into samples)
+let keysToCleanup: string[] = [];
 
 async function createAndGetAKey() {
   // Create unique names for keys we will use in this sample
@@ -318,29 +320,318 @@ export async function main(): Promise<void> {
   // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
   // about DefaultAzureCredential and the other credentials that are available for use.
   const credential = new DefaultAzureCredential();
-  client = new KeyClient(process.env["KEYVAULT_URI"]!, credential);
-  await createAndGetAKey();
-  await listKeys();
-  await updateAndDeleteKeys();
-  await createAKey();
-  await createAnEcKey();
-  await createAnRsaKey();
-  await importAKey();
-  await getACryptographyClient();
-  await getAKey();
-  await createAKeyWithAttributes();
-  await updateKeyProperties();
-  await deleteAKey();
-  await getADeletedKey();
-  await purgeADeletedKey();
-  await recoverADeletedKey();
-  await backUpAKey();
-  await restoreAKeyFromBackup();
-  await deleteAKeyWithSoftDelete();
-  await deleteAKeyAndWaitForCompletion();
-  await deleteAKeyAndPollIndividually();
-  await listAllKeys();
-  await listKeysByPage();
+  client = new KeyClient(process.env["KEYVAULT_URI"]!!, credential);
+  try {
+    try {
+      await createAndGetAKey();
+    } finally {
+      for (const keyName of keysToCleanup) {
+        try {
+          const poller = await client.beginDeleteKey(keyName);
+          await poller.pollUntilDone();
+          await client.purgeDeletedKey(keyName);
+        } catch {
+          // Key may already be deleted/purged by the test itself
+        }
+      }
+      keysToCleanup = [];
+    }
+    try {
+      await listKeys();
+    } finally {
+      for (const keyName of keysToCleanup) {
+        try {
+          const poller = await client.beginDeleteKey(keyName);
+          await poller.pollUntilDone();
+          await client.purgeDeletedKey(keyName);
+        } catch {
+          // Key may already be deleted/purged by the test itself
+        }
+      }
+      keysToCleanup = [];
+    }
+    try {
+      await updateAndDeleteKeys();
+    } finally {
+      for (const keyName of keysToCleanup) {
+        try {
+          const poller = await client.beginDeleteKey(keyName);
+          await poller.pollUntilDone();
+          await client.purgeDeletedKey(keyName);
+        } catch {
+          // Key may already be deleted/purged by the test itself
+        }
+      }
+      keysToCleanup = [];
+    }
+    try {
+      await createAKey();
+    } finally {
+      for (const keyName of keysToCleanup) {
+        try {
+          const poller = await client.beginDeleteKey(keyName);
+          await poller.pollUntilDone();
+          await client.purgeDeletedKey(keyName);
+        } catch {
+          // Key may already be deleted/purged by the test itself
+        }
+      }
+      keysToCleanup = [];
+    }
+    try {
+      await createAnEcKey();
+    } finally {
+      for (const keyName of keysToCleanup) {
+        try {
+          const poller = await client.beginDeleteKey(keyName);
+          await poller.pollUntilDone();
+          await client.purgeDeletedKey(keyName);
+        } catch {
+          // Key may already be deleted/purged by the test itself
+        }
+      }
+      keysToCleanup = [];
+    }
+    try {
+      await createAnRsaKey();
+    } finally {
+      for (const keyName of keysToCleanup) {
+        try {
+          const poller = await client.beginDeleteKey(keyName);
+          await poller.pollUntilDone();
+          await client.purgeDeletedKey(keyName);
+        } catch {
+          // Key may already be deleted/purged by the test itself
+        }
+      }
+      keysToCleanup = [];
+    }
+    try {
+      await importAKey();
+    } finally {
+      for (const keyName of keysToCleanup) {
+        try {
+          const poller = await client.beginDeleteKey(keyName);
+          await poller.pollUntilDone();
+          await client.purgeDeletedKey(keyName);
+        } catch {
+          // Key may already be deleted/purged by the test itself
+        }
+      }
+      keysToCleanup = [];
+    }
+    try {
+      await getACryptographyClient();
+    } finally {
+      for (const keyName of keysToCleanup) {
+        try {
+          const poller = await client.beginDeleteKey(keyName);
+          await poller.pollUntilDone();
+          await client.purgeDeletedKey(keyName);
+        } catch {
+          // Key may already be deleted/purged by the test itself
+        }
+      }
+      keysToCleanup = [];
+    }
+    try {
+      await getAKey();
+    } finally {
+      for (const keyName of keysToCleanup) {
+        try {
+          const poller = await client.beginDeleteKey(keyName);
+          await poller.pollUntilDone();
+          await client.purgeDeletedKey(keyName);
+        } catch {
+          // Key may already be deleted/purged by the test itself
+        }
+      }
+      keysToCleanup = [];
+    }
+    try {
+      await createAKeyWithAttributes();
+    } finally {
+      for (const keyName of keysToCleanup) {
+        try {
+          const poller = await client.beginDeleteKey(keyName);
+          await poller.pollUntilDone();
+          await client.purgeDeletedKey(keyName);
+        } catch {
+          // Key may already be deleted/purged by the test itself
+        }
+      }
+      keysToCleanup = [];
+    }
+    try {
+      await updateKeyProperties();
+    } finally {
+      for (const keyName of keysToCleanup) {
+        try {
+          const poller = await client.beginDeleteKey(keyName);
+          await poller.pollUntilDone();
+          await client.purgeDeletedKey(keyName);
+        } catch {
+          // Key may already be deleted/purged by the test itself
+        }
+      }
+      keysToCleanup = [];
+    }
+    try {
+      await deleteAKey();
+    } finally {
+      for (const keyName of keysToCleanup) {
+        try {
+          const poller = await client.beginDeleteKey(keyName);
+          await poller.pollUntilDone();
+          await client.purgeDeletedKey(keyName);
+        } catch {
+          // Key may already be deleted/purged by the test itself
+        }
+      }
+      keysToCleanup = [];
+    }
+    try {
+      await getADeletedKey();
+    } finally {
+      for (const keyName of keysToCleanup) {
+        try {
+          const poller = await client.beginDeleteKey(keyName);
+          await poller.pollUntilDone();
+          await client.purgeDeletedKey(keyName);
+        } catch {
+          // Key may already be deleted/purged by the test itself
+        }
+      }
+      keysToCleanup = [];
+    }
+    try {
+      await purgeADeletedKey();
+    } finally {
+      for (const keyName of keysToCleanup) {
+        try {
+          const poller = await client.beginDeleteKey(keyName);
+          await poller.pollUntilDone();
+          await client.purgeDeletedKey(keyName);
+        } catch {
+          // Key may already be deleted/purged by the test itself
+        }
+      }
+      keysToCleanup = [];
+    }
+    try {
+      await recoverADeletedKey();
+    } finally {
+      for (const keyName of keysToCleanup) {
+        try {
+          const poller = await client.beginDeleteKey(keyName);
+          await poller.pollUntilDone();
+          await client.purgeDeletedKey(keyName);
+        } catch {
+          // Key may already be deleted/purged by the test itself
+        }
+      }
+      keysToCleanup = [];
+    }
+    try {
+      await backUpAKey();
+    } finally {
+      for (const keyName of keysToCleanup) {
+        try {
+          const poller = await client.beginDeleteKey(keyName);
+          await poller.pollUntilDone();
+          await client.purgeDeletedKey(keyName);
+        } catch {
+          // Key may already be deleted/purged by the test itself
+        }
+      }
+      keysToCleanup = [];
+    }
+    try {
+      await restoreAKeyFromBackup();
+    } finally {
+      for (const keyName of keysToCleanup) {
+        try {
+          const poller = await client.beginDeleteKey(keyName);
+          await poller.pollUntilDone();
+          await client.purgeDeletedKey(keyName);
+        } catch {
+          // Key may already be deleted/purged by the test itself
+        }
+      }
+      keysToCleanup = [];
+    }
+    try {
+      await deleteAKeyWithSoftDelete();
+    } finally {
+      for (const keyName of keysToCleanup) {
+        try {
+          const poller = await client.beginDeleteKey(keyName);
+          await poller.pollUntilDone();
+          await client.purgeDeletedKey(keyName);
+        } catch {
+          // Key may already be deleted/purged by the test itself
+        }
+      }
+      keysToCleanup = [];
+    }
+    try {
+      await deleteAKeyAndWaitForCompletion();
+    } finally {
+      for (const keyName of keysToCleanup) {
+        try {
+          const poller = await client.beginDeleteKey(keyName);
+          await poller.pollUntilDone();
+          await client.purgeDeletedKey(keyName);
+        } catch {
+          // Key may already be deleted/purged by the test itself
+        }
+      }
+      keysToCleanup = [];
+    }
+    try {
+      await deleteAKeyAndPollIndividually();
+    } finally {
+      for (const keyName of keysToCleanup) {
+        try {
+          const poller = await client.beginDeleteKey(keyName);
+          await poller.pollUntilDone();
+          await client.purgeDeletedKey(keyName);
+        } catch {
+          // Key may already be deleted/purged by the test itself
+        }
+      }
+      keysToCleanup = [];
+    }
+    try {
+      await listAllKeys();
+    } finally {
+      for (const keyName of keysToCleanup) {
+        try {
+          const poller = await client.beginDeleteKey(keyName);
+          await poller.pollUntilDone();
+          await client.purgeDeletedKey(keyName);
+        } catch {
+          // Key may already be deleted/purged by the test itself
+        }
+      }
+      keysToCleanup = [];
+    }
+    try {
+      await listKeysByPage();
+    } finally {
+      for (const keyName of keysToCleanup) {
+        try {
+          const poller = await client.beginDeleteKey(keyName);
+          await poller.pollUntilDone();
+          await client.purgeDeletedKey(keyName);
+        } catch {
+          // Key may already be deleted/purged by the test itself
+        }
+      }
+      keysToCleanup = [];
+    }
+  } finally {
+  }
 }
 
 main().catch((error) => {
